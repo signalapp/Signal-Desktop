@@ -16,7 +16,7 @@ import {
   GroupCallRemoteParticipantType,
 } from '../types/Calling';
 import { ConversationType } from '../state/ducks/conversations';
-import { Colors } from '../types/Colors';
+import { AvatarColors } from '../types/Colors';
 import { CallScreen, PropsType } from './CallScreen';
 import { setup as setupI18n } from '../../js/modules/i18n';
 import { missingCaseError } from '../util/missingCaseError';
@@ -28,18 +28,15 @@ const MAX_PARTICIPANTS = 32;
 
 const i18n = setupI18n('en', enMessages);
 
-const conversation = {
+const conversation = getDefaultConversation({
   id: '3051234567',
   avatarPath: undefined,
-  color: Colors[0],
+  color: AvatarColors[0],
   title: 'Rick Sanchez',
   name: 'Rick Sanchez',
   phoneNumber: '3051234567',
   profileName: 'Rick Sanchez',
-  markedUnread: false,
-  type: 'direct' as const,
-  lastUpdated: Date.now(),
-};
+});
 
 type OverridePropsBase = {
   hasLocalAudio?: boolean;
@@ -77,10 +74,14 @@ const createActiveDirectCallProp = (
         'hasRemoteVideo',
         Boolean(overrideProps.hasRemoteVideo)
       ),
+      presenting: false,
+      title: 'test',
     },
   ] as [
     {
       hasRemoteVideo: boolean;
+      presenting: boolean;
+      title: string;
     }
   ],
 });
@@ -140,22 +141,28 @@ const createProps = (
 ): PropsType => ({
   activeCall: createActiveCallProp(overrideProps),
   getGroupCallVideoFrameSource: fakeGetGroupCallVideoFrameSource,
+  getPresentingSources: action('get-presenting-sources'),
   hangUp: action('hang-up'),
   i18n,
   me: {
-    color: Colors[1],
+    color: AvatarColors[1],
     name: 'Morty Smith',
     profileName: 'Morty Smith',
     title: 'Morty Smith',
   },
+  openSystemPreferencesAction: action('open-system-preferences-action'),
   setGroupCallVideoRequest: action('set-group-call-video-request'),
   setLocalAudio: action('set-local-audio'),
   setLocalPreview: action('set-local-preview'),
   setLocalVideo: action('set-local-video'),
+  setPresenting: action('toggle-presenting'),
   setRendererCanvas: action('set-renderer-canvas'),
   stickyControls: boolean('stickyControls', false),
   toggleParticipants: action('toggle-participants'),
   togglePip: action('toggle-pip'),
+  toggleScreenRecordingPermissionsDialog: action(
+    'toggle-screen-recording-permissions-dialog'
+  ),
   toggleSettings: action('toggle-settings'),
   toggleSpeakerView: action('toggle-speaker-view'),
 });
@@ -252,6 +259,8 @@ story.add('Group call - 1', () => (
           demuxId: 0,
           hasRemoteAudio: true,
           hasRemoteVideo: true,
+          presenting: false,
+          sharingScreen: false,
           videoAspectRatio: 1.3,
           ...getDefaultConversation({
             isBlocked: false,
@@ -269,6 +278,8 @@ const allRemoteParticipants = times(MAX_PARTICIPANTS).map(index => ({
   demuxId: index,
   hasRemoteAudio: index % 3 !== 0,
   hasRemoteVideo: index % 4 !== 0,
+  presenting: false,
+  sharingScreen: false,
   videoAspectRatio: 1.3,
   ...getDefaultConversation({
     isBlocked: index === 10 || index === MAX_PARTICIPANTS - 1,
@@ -306,6 +317,8 @@ story.add('Group call - reconnecting', () => (
           demuxId: 0,
           hasRemoteAudio: true,
           hasRemoteVideo: true,
+          presenting: false,
+          sharingScreen: false,
           videoAspectRatio: 1.3,
           ...getDefaultConversation({
             isBlocked: false,
@@ -326,3 +339,37 @@ story.add('Group call - 0', () => (
     })}
   />
 ));
+
+story.add('Group call - someone is sharing screen', () => (
+  <CallScreen
+    {...createProps({
+      callMode: CallMode.Group,
+      remoteParticipants: allRemoteParticipants
+        .slice(0, 5)
+        .map((participant, index) => ({
+          ...participant,
+          presenting: index === 1,
+          sharingScreen: index === 1,
+        })),
+    })}
+  />
+));
+
+story.add(
+  "Group call - someone is sharing screen and you're reconnecting",
+  () => (
+    <CallScreen
+      {...createProps({
+        callMode: CallMode.Group,
+        connectionState: GroupCallConnectionState.Reconnecting,
+        remoteParticipants: allRemoteParticipants
+          .slice(0, 5)
+          .map((participant, index) => ({
+            ...participant,
+            presenting: index === 1,
+            sharingScreen: index === 1,
+          })),
+      })}
+    />
+  )
+);

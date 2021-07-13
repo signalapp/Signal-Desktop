@@ -30,18 +30,22 @@ import {
   toGroupV2Record,
 } from './storageRecordOps';
 import { ConversationModel } from '../models/conversations';
+import { BackOff } from '../util/BackOff';
 import { storageJobQueue } from '../util/JobQueue';
 import { sleep } from '../util/sleep';
 import { isMoreRecentThan } from '../util/timestamp';
 import { isStorageWriteFeatureEnabled } from '../storage/isFeatureEnabled';
+import { ourProfileKeyService } from './ourProfileKey';
+import {
+  ConversationTypes,
+  typeofConversation,
+} from '../util/whatTypeOfConversation';
 
 const {
   eraseStorageServiceStateFromConversations,
   updateConversation,
 } = dataInterface;
 
-let consecutiveStops = 0;
-let consecutiveConflicts = 0;
 const uploadBucket: Array<number> = [];
 
 const validRecordTypes = new Set([
@@ -52,24 +56,18 @@ const validRecordTypes = new Set([
   4, // ACCOUNT
 ]);
 
-type BackoffType = {
-  [key: number]: number | undefined;
-  max: number;
-};
 const SECOND = 1000;
 const MINUTE = 60 * SECOND;
-const BACKOFF: BackoffType = {
-  0: SECOND,
-  1: 5 * SECOND,
-  2: 30 * SECOND,
-  3: 2 * MINUTE,
-  max: 5 * MINUTE,
-};
 
-function backOff(count: number) {
-  const ms = BACKOFF[count] || BACKOFF.max;
-  return sleep(ms);
-}
+const backOff = new BackOff([
+  SECOND,
+  5 * SECOND,
+  30 * SECOND,
+  2 * MINUTE,
+  5 * MINUTE,
+]);
+
+const conflictBackOff = new BackOff([SECOND, 5 * SECOND, 30 * SECOND]);
 
 function redactStorageID(storageID: string): string {
   return storageID.substring(0, 3);
@@ -93,6 +91,9 @@ async function encryptRecord(
     : generateStorageID();
 
   const storageKeyBase64 = window.storage.get('storageKey');
+  if (!storageKeyBase64) {
+    throw new Error('No storage key');
+  }
   const storageKey = base64ToArrayBuffer(storageKeyBase64);
   const storageItemKey = await deriveStorageItemKey(
     storageKey,
@@ -151,22 +152,24 @@ async function generateManifest(
     const identifier = new window.textsecure.protobuf.ManifestRecord.Identifier();
 
     let storageRecord;
-    if (conversation.isMe()) {
+
+    const conversationType = typeofConversation(conversation.attributes);
+    if (conversationType === ConversationTypes.Me) {
       storageRecord = new window.textsecure.protobuf.StorageRecord();
       // eslint-disable-next-line no-await-in-loop
       storageRecord.account = await toAccountRecord(conversation);
       identifier.type = ITEM_TYPE.ACCOUNT;
-    } else if (conversation.isPrivate()) {
+    } else if (conversationType === ConversationTypes.Direct) {
       storageRecord = new window.textsecure.protobuf.StorageRecord();
       // eslint-disable-next-line no-await-in-loop
       storageRecord.contact = await toContactRecord(conversation);
       identifier.type = ITEM_TYPE.CONTACT;
-    } else if (conversation.isGroupV2()) {
+    } else if (conversationType === ConversationTypes.GroupV2) {
       storageRecord = new window.textsecure.protobuf.StorageRecord();
       // eslint-disable-next-line no-await-in-loop
       storageRecord.groupV2 = await toGroupV2Record(conversation);
       identifier.type = ITEM_TYPE.GROUPV2;
-    } else if (conversation.isGroupV1()) {
+    } else if (conversationType === ConversationTypes.GroupV1) {
       storageRecord = new window.textsecure.protobuf.StorageRecord();
       // eslint-disable-next-line no-await-in-loop
       storageRecord.groupV1 = await toGroupV1Record(conversation);
@@ -260,8 +263,10 @@ async function generateManifest(
     manifestRecordKeys.add(identifier);
   });
 
-  const recordsWithErrors: ReadonlyArray<UnknownRecord> =
-    window.storage.get('storage-service-error-records') || [];
+  const recordsWithErrors: ReadonlyArray<UnknownRecord> = window.storage.get(
+    'storage-service-error-records',
+    new Array<UnknownRecord>()
+  );
 
   window.log.info(
     'storageService.generateManifest: adding records that had errors in the previous merge',
@@ -406,6 +411,9 @@ async function generateManifest(
   manifestRecord.keys = Array.from(manifestRecordKeys);
 
   const storageKeyBase64 = window.storage.get('storageKey');
+  if (!storageKeyBase64) {
+    throw new Error('No storage key');
+  }
   const storageKey = base64ToArrayBuffer(storageKeyBase64);
   const storageManifestKey = await deriveStorageManifestKey(
     storageKey,
@@ -487,16 +495,15 @@ async function uploadManifest(
     );
 
     if (err.code === 409) {
-      if (consecutiveConflicts > 3) {
+      if (conflictBackOff.isFull()) {
         window.log.error(
           'storageService.uploadManifest: Exceeded maximum consecutive conflicts'
         );
         return;
       }
-      consecutiveConflicts += 1;
 
       window.log.info(
-        `storageService.uploadManifest: Conflict found with v${version}, running sync job times(${consecutiveConflicts})`
+        `storageService.uploadManifest: Conflict found with v${version}, running sync job times(${conflictBackOff.getIndex()})`
       );
 
       throw err;
@@ -510,8 +517,8 @@ async function uploadManifest(
     version
   );
   window.storage.put('manifestVersion', version);
-  consecutiveConflicts = 0;
-  consecutiveStops = 0;
+  conflictBackOff.reset();
+  backOff.reset();
   await window.textsecure.messaging.sendFetchManifestSyncMessage();
 }
 
@@ -520,27 +527,27 @@ async function stopStorageServiceSync() {
 
   await window.storage.remove('storageKey');
 
-  if (consecutiveStops < 5) {
-    await backOff(consecutiveStops);
+  if (backOff.isFull()) {
     window.log.info(
-      'storageService.stopStorageServiceSync: requesting new keys'
+      'storageService.stopStorageServiceSync: too many consecutive stops'
     );
-    consecutiveStops += 1;
-    setTimeout(() => {
-      if (!window.textsecure.messaging) {
-        throw new Error(
-          'storageService.stopStorageServiceSync: We are offline!'
-        );
-      }
-      window.textsecure.messaging.sendRequestKeySyncMessage();
-    });
+    return;
   }
+
+  await sleep(backOff.getAndIncrement());
+  window.log.info('storageService.stopStorageServiceSync: requesting new keys');
+  setTimeout(() => {
+    if (!window.textsecure.messaging) {
+      throw new Error('storageService.stopStorageServiceSync: We are offline!');
+    }
+    window.textsecure.messaging.sendRequestKeySyncMessage();
+  });
 }
 
 async function createNewManifest() {
   window.log.info('storageService.createNewManifest: creating new manifest');
 
-  const version = window.storage.get('manifestVersion') || 0;
+  const version = window.storage.get('manifestVersion', 0);
 
   const {
     conversationsToUpdate,
@@ -563,6 +570,9 @@ async function decryptManifest(
   const { version, value } = encryptedManifest;
 
   const storageKeyBase64 = window.storage.get('storageKey');
+  if (!storageKeyBase64) {
+    throw new Error('No storage key');
+  }
   const storageKey = base64ToArrayBuffer(storageKeyBase64);
   const storageManifestKey = await deriveStorageManifestKey(
     storageKey,
@@ -578,7 +588,7 @@ async function decryptManifest(
 }
 
 async function fetchManifest(
-  manifestVersion: string
+  manifestVersion: number
 ): Promise<ManifestRecordClass | undefined> {
   window.log.info('storageService.fetchManifest');
 
@@ -800,6 +810,9 @@ async function processRemoteRecords(
   remoteOnlyRecords: Map<string, RemoteRecord>
 ): Promise<number> {
   const storageKeyBase64 = window.storage.get('storageKey');
+  if (!storageKeyBase64) {
+    throw new Error('No storage key');
+  }
   const storageKey = base64ToArrayBuffer(storageKeyBase64);
 
   window.log.info(
@@ -912,8 +925,10 @@ async function processRemoteRecords(
     // Collect full map of previously and currently unknown records
     const unknownRecords: Map<string, UnknownRecord> = new Map();
 
-    const unknownRecordsArray: ReadonlyArray<UnknownRecord> =
-      window.storage.get('storage-service-unknown-records') || [];
+    const unknownRecordsArray: ReadonlyArray<UnknownRecord> = window.storage.get(
+      'storage-service-unknown-records',
+      new Array<UnknownRecord>()
+    );
     unknownRecordsArray.forEach((record: UnknownRecord) => {
       unknownRecords.set(record.storageID, record);
     });
@@ -969,7 +984,7 @@ async function processRemoteRecords(
       return conflictCount;
     }
 
-    consecutiveConflicts = 0;
+    conflictBackOff.reset();
   } catch (err) {
     window.log.error(
       'storageService.processRemoteRecords: failed!',
@@ -1075,7 +1090,7 @@ async function upload(fromSync = false): Promise<void> {
     window.log.info(
       'storageService.upload: no storageKey, requesting new keys'
     );
-    consecutiveStops = 0;
+    backOff.reset();
     await window.textsecure.messaging.sendRequestKeySyncMessage();
     return;
   }
@@ -1088,7 +1103,7 @@ async function upload(fromSync = false): Promise<void> {
     previousManifest = await sync();
   }
 
-  const localManifestVersion = window.storage.get('manifestVersion') || 0;
+  const localManifestVersion = window.storage.get('manifestVersion', 0);
   const version = Number(localManifestVersion) + 1;
 
   window.log.info(
@@ -1101,7 +1116,7 @@ async function upload(fromSync = false): Promise<void> {
     await uploadManifest(version, generatedManifest);
   } catch (err) {
     if (err.code === 409) {
-      await backOff(consecutiveConflicts);
+      await sleep(conflictBackOff.getAndIncrement());
       window.log.info('storageService.upload: pushing sync on the queue');
       // The sync job will check for conflicts and as part of that conflict
       // check if an item needs sync and doesn't match with the remote record
@@ -1156,7 +1171,9 @@ export const runStorageServiceSyncJob = debounce(() => {
     return;
   }
 
-  storageJobQueue(async () => {
-    await sync();
-  }, `sync v${window.storage.get('manifestVersion')}`);
+  ourProfileKeyService.blockGetWithPromise(
+    storageJobQueue(async () => {
+      await sync();
+    }, `sync v${window.storage.get('manifestVersion')}`)
+  );
 }, 500);

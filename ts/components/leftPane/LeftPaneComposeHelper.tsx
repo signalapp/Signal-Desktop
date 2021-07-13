@@ -8,6 +8,7 @@ import { LeftPaneHelper } from './LeftPaneHelper';
 import { Row, RowType } from '../ConversationList';
 import { PropsDataType as ContactListItemPropsType } from '../conversationList/ContactListItem';
 import { PropsData as ConversationListItemPropsType } from '../conversationList/ConversationListItem';
+import { SearchInput } from '../SearchInput';
 import { LocalizerType } from '../../types/Util';
 import {
   instance as phoneNumberInstance,
@@ -32,9 +33,7 @@ enum TopButton {
 
 /* eslint-disable class-methods-use-this */
 
-export class LeftPaneComposeHelper extends LeftPaneHelper<
-  LeftPaneComposePropsType
-> {
+export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsType> {
   private readonly composeContacts: ReadonlyArray<ContactListItemPropsType>;
 
   private readonly composeGroups: ReadonlyArray<ConversationListItemPropsType>;
@@ -95,17 +94,13 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<
   }>): ReactChild {
     return (
       <>
-        <div className="module-left-pane__compose-search-form">
-          <input
-            type="text"
-            ref={focusRef}
-            className="module-left-pane__compose-search-form__input"
-            placeholder={i18n('contactSearchPlaceholder')}
-            dir="auto"
-            value={this.searchTerm}
-            onChange={onChangeComposeSearchTerm}
-          />
-        </div>
+        <SearchInput
+          moduleClassName="module-left-pane__compose-search-form"
+          onChange={onChangeComposeSearchTerm}
+          placeholder={i18n('contactSearchPlaceholder')}
+          ref={focusRef}
+          value={this.searchTerm}
+        />
 
         {this.getRowCount() ? null : (
           <div className="module-left-pane__compose-no-contacts">

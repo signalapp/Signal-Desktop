@@ -3,45 +3,51 @@
 
 // Captures the globals put in place by preload.js, background.js and others
 
+import { DeepPartial, Store } from 'redux';
 import * as Backbone from 'backbone';
 import * as Underscore from 'underscore';
 import moment from 'moment';
 import PQueue from 'p-queue/dist';
 import { Ref } from 'react';
-import { bindActionCreators } from 'redux';
 import { imageToBlurHash } from './util/imageToBlurHash';
-import * as LinkPreviews from '../js/modules/link_previews.d';
 import * as Util from './util';
 import {
   ConversationModelCollectionType,
   MessageModelCollectionType,
   MessageAttributesType,
+  ReactionAttributesType,
+  ReactionModelType,
 } from './model-types.d';
 import {
-  LibSignalType,
-  SignalProtocolAddressClass,
-  StorageType,
-} from './libsignal.d';
-import { ContactRecordIdentityState, TextSecureType } from './textsecure.d';
+  ContactRecordIdentityState,
+  TextSecureType,
+  DownloadAttachmentType,
+} from './textsecure.d';
+import { Storage } from './textsecure/Storage';
+import {
+  ChallengeHandler,
+  IPCRequest as IPCChallengeRequest,
+} from './challenge';
 import { WebAPIConnectType } from './textsecure/WebAPI';
 import { uploadDebugLogs } from './logging/debuglogs';
 import { CallingClass } from './services/calling';
 import * as Groups from './groups';
 import * as Crypto from './Crypto';
+import * as Curve from './Curve';
 import * as RemoteConfig from './RemoteConfig';
 import * as OS from './OS';
 import { getEnvironment } from './environment';
 import * as zkgroup from './util/zkgroup';
 import { LocalizerType, BodyRangesType, BodyRangeType } from './types/Util';
 import * as Attachment from './types/Attachment';
-import { ColorType } from './types/Colors';
 import * as MIME from './types/MIME';
 import * as Contact from './types/Contact';
 import * as Errors from '../js/modules/types/errors';
 import { ConversationController } from './ConversationController';
 import { ReduxActions } from './state/types';
 import { createStore } from './state/createStore';
-import { createCallManager } from './state/roots/createCallManager';
+import { createApp } from './state/roots/createApp';
+import { createChatColorPicker } from './state/roots/createChatColorPicker';
 import { createCompositionArea } from './state/roots/createCompositionArea';
 import { createContactModal } from './state/roots/createContactModal';
 import { createConversationDetails } from './state/roots/createConversationDetails';
@@ -59,6 +65,7 @@ import { createShortcutGuideModal } from './state/roots/createShortcutGuideModal
 import { createStickerManager } from './state/roots/createStickerManager';
 import { createStickerPreviewModal } from './state/roots/createStickerPreviewModal';
 import { createTimeline } from './state/roots/createTimeline';
+import * as appDuck from './state/ducks/app';
 import * as callingDuck from './state/ducks/calling';
 import * as conversationsDuck from './state/ducks/conversations';
 import * as emojisDuck from './state/ducks/emojis';
@@ -82,7 +89,12 @@ import { ConversationModel } from './models/conversations';
 import { combineNames } from './util';
 import { BatcherType } from './util/batcher';
 import { AttachmentList } from './components/conversation/AttachmentList';
+import {
+  CallingScreenSharingController,
+  PropsType as CallingScreenSharingControllerProps,
+} from './components/CallingScreenSharingController';
 import { CaptionEditor } from './components/CaptionEditor';
+import { ChatColorPicker } from './components/ChatColorPicker';
 import { ConfirmationDialog } from './components/ConfirmationDialog';
 import { ContactDetail } from './components/conversation/ContactDetail';
 import { ContactModal } from './components/conversation/ContactModal';
@@ -94,12 +106,21 @@ import { MessageDetail } from './components/conversation/MessageDetail';
 import { ProgressModal } from './components/ProgressModal';
 import { Quote } from './components/conversation/Quote';
 import { StagedLinkPreview } from './components/conversation/StagedLinkPreview';
+import { DisappearingTimeDialog } from './components/DisappearingTimeDialog';
 import { MIMEType } from './types/MIME';
+import { AttachmentType } from './types/Attachment';
 import { ElectronLocaleType } from './util/mapToSupportLocale';
-import { SignalProtocolStore } from './LibSignalStore';
+import { SignalProtocolStore } from './SignalProtocolStore';
+import { Context as SignalContext } from './context';
 import { StartupQueue } from './util/StartupQueue';
 import * as synchronousCrypto from './util/synchronousCrypto';
+import { SocketStatus } from './types/SocketStatus';
 import SyncRequest from './textsecure/SyncRequest';
+import { ConversationColorType, CustomColorType } from './types/Colors';
+import { MessageController } from './util/MessageController';
+import { isValidGuid } from './util/isValidGuid';
+import { StateType } from './state/reducer';
+import { SystemTraySetting } from './types/SystemTraySetting';
 
 export { Long } from 'long';
 
@@ -129,10 +150,10 @@ declare global {
 
     moment: typeof moment;
     imageToBlurHash: typeof imageToBlurHash;
-    autoOrientImage: any;
-    dataURLToBlobSync: any;
     loadImage: any;
     isBehindProxy: () => boolean;
+    getAutoLaunch: () => boolean;
+    setAutoLaunch: (value: boolean) => void;
 
     PQueue: typeof PQueue;
     PQueueType: PQueue;
@@ -143,6 +164,14 @@ declare global {
 
     WhatIsThis: WhatIsThis;
 
+    registerScreenShareControllerRenderer: (
+      f: (
+        component: typeof CallingScreenSharingController,
+        props: CallingScreenSharingControllerProps
+      ) => void
+    ) => void;
+
+    addSetupMenuItems: () => void;
     attachmentDownloadQueue: Array<MessageModel> | undefined;
     startupProcessingQueue: StartupQueue | undefined;
     baseAttachmentsPath: string;
@@ -154,7 +183,7 @@ declare global {
     enterMouseMode: () => void;
     getAccountManager: () => AccountManager | undefined;
     getAlwaysRelayCalls: () => Promise<boolean>;
-    getBuiltInImages: () => Promise<Array<WhatIsThis>>;
+    getBuiltInImages: () => Promise<Array<string>>;
     getCallRingtoneNotification: () => Promise<boolean>;
     getCallSystemNotification: () => Promise<boolean>;
     getConversations: () => ConversationModelCollectionType;
@@ -171,7 +200,7 @@ declare global {
     getNodeVersion: () => string;
     getServerPublicParams: () => string;
     getSfuUrl: () => string;
-    getSocketStatus: () => number;
+    getSocketStatus: () => SocketStatus;
     getSyncRequest: (timeoutMillis?: number) => SyncRequest;
     getTitle: () => string;
     waitForEmptyEventQueue: () => Promise<void>;
@@ -179,77 +208,53 @@ declare global {
     showCallingPermissionsPopup: (forCamera: boolean) => Promise<void>;
     i18n: LocalizerType;
     isActive: () => boolean;
-    isAfterVersion: (version: WhatIsThis, anotherVersion: string) => boolean;
-    isBeforeVersion: (version: WhatIsThis, anotherVersion: string) => boolean;
+    isAfterVersion: (version: string, anotherVersion: string) => boolean;
+    isBeforeVersion: (version: string, anotherVersion: string) => boolean;
     isFullScreen: () => boolean;
-    isValidGuid: (maybeGuid: string | null) => boolean;
+    isValidGuid: typeof isValidGuid;
     isValidE164: (maybeE164: unknown) => boolean;
     libphonenumber: {
       util: {
         getRegionCodeForNumber: (number: string) => string;
         parseNumber: (
           e164: string,
-          regionCode: string
-        ) => typeof window.Signal.Types.PhoneNumber;
+          defaultRegionCode?: string
+        ) =>
+          | { isValidNumber: false; error: unknown }
+          | {
+              isValidNumber: true;
+              regionCode: string | undefined;
+              countryCode: string;
+              nationalNumber: string;
+              e164: string;
+            };
       };
       parse: (number: string) => string;
       getRegionCodeForNumber: (number: string) => string;
       format: (number: string, format: PhoneNumberFormat) => string;
     };
-    libsignal: LibSignalType;
-    log: {
-      fatal: LoggerType;
-      info: LoggerType;
-      warn: LoggerType;
-      error: LoggerType;
-      debug: LoggerType;
-      trace: LoggerType;
-      fetch: () => Promise<string>;
-      publish: typeof uploadDebugLogs;
-    };
+    log: LoggerType;
     nodeSetImmediate: typeof setImmediate;
     normalizeUuids: (obj: any, paths: Array<string>, context: string) => void;
     onFullScreenChange: (fullScreen: boolean) => void;
-    owsDesktopApp: WhatIsThis;
     platform: string;
     preloadedImages: Array<WhatIsThis>;
     reduxActions: ReduxActions;
-    reduxStore: WhatIsThis;
+    reduxStore: Store<StateType>;
     registerForActive: (handler: () => void) => void;
     restart: () => void;
     setImmediate: typeof setImmediate;
     showWindow: () => void;
     showSettings: () => void;
     shutdown: () => void;
+    sendChallengeRequest: (request: IPCChallengeRequest) => void;
     setAutoHideMenuBar: (value: WhatIsThis) => void;
     setBadgeCount: (count: number) => void;
     setMenuBarVisibility: (value: WhatIsThis) => void;
+    updateSystemTraySetting: (value: SystemTraySetting) => void;
     showConfirmationDialog: (options: ConfirmationDialogViewProps) => void;
     showKeyboardShortcuts: () => void;
-    storage: {
-      addBlockedGroup: (group: string) => void;
-      addBlockedNumber: (number: string) => void;
-      addBlockedUuid: (uuid: string) => void;
-      fetch: () => void;
-      get: {
-        <T = any>(key: string): T | undefined;
-        <T>(key: string, defaultValue: T): T;
-      };
-      getBlockedGroups: () => Array<string>;
-      getBlockedNumbers: () => Array<string>;
-      getBlockedUuids: () => Array<string>;
-      getItemsState: () => WhatIsThis;
-      isBlocked: (number: string) => boolean;
-      isGroupBlocked: (group: unknown) => boolean;
-      isUuidBlocked: (uuid: string) => boolean;
-      onready: (callback: () => unknown) => void;
-      put: (key: string, value: any) => Promise<void>;
-      remove: (key: string) => Promise<void>;
-      removeBlockedGroup: (group: string) => void;
-      removeBlockedNumber: (number: string) => void;
-      removeBlockedUuid: (uuid: string) => void;
-      reset: () => void;
-    };
+    storage: Storage;
     systemTheme: WhatIsThis;
     textsecure: TextSecureType;
     synchronousCrypto: typeof synchronousCrypto;
@@ -258,7 +263,7 @@ declare global {
     updateTrayIcon: (count: number) => void;
     sqlInitializer: {
       initialize: () => Promise<void>;
-      goBackToMainProcess: () => void;
+      goBackToMainProcess: () => Promise<void>;
     };
 
     Backbone: typeof Backbone;
@@ -268,25 +273,15 @@ declare global {
           deviceName: string;
         }
       | undefined;
+    Accessibility: {
+      reducedMotionSetting: boolean;
+    };
     Signal: {
       Backbone: any;
-      AttachmentDownloads: {
-        addJob: <T = unknown>(
-          attachment: unknown,
-          options: unknown
-        ) => Promise<T>;
-        start: (options: WhatIsThis) => void;
-        stop: () => void;
-      };
       Crypto: typeof Crypto;
+      Curve: typeof Curve;
       Data: typeof Data;
       Groups: typeof Groups;
-      Metadata: {
-        SecretSessionCipher: typeof SecretSessionCipherClass;
-        createCertificateValidator: (
-          trustRoot: ArrayBuffer
-        ) => CertificateValidatorType;
-      };
       RemoteConfig: typeof RemoteConfig;
       Services: {
         calling: CallingClass;
@@ -300,6 +295,7 @@ declare global {
         ) => void;
         onTimeout: (timestamp: number, cb: () => void, id?: string) => string;
         removeTimeout: (uuid: string) => void;
+        retryPlaceholders?: Util.RetryPlaceholders;
         runStorageServiceSyncJob: () => Promise<void>;
         storageServiceUploadJob: () => void;
       };
@@ -316,6 +312,9 @@ declare global {
         loadStickerData: (sticker: unknown) => WhatIsThis;
         readStickerData: (path: string) => Promise<ArrayBuffer>;
         upgradeMessageSchema: (attributes: unknown) => WhatIsThis;
+        processNewAttachment: (
+          attachment: DownloadAttachmentType
+        ) => Promise<AttachmentType>;
 
         copyIntoTempDirectory: any;
         deleteDraftFile: any;
@@ -335,10 +334,7 @@ declare global {
           stickerId: number
         ) => Promise<typeof window.Signal.Types.Sticker>;
         deletePackReference: (id: string, packId: string) => Promise<void>;
-        downloadEphemeralPack: (
-          packId: string,
-          key: WhatIsThis
-        ) => Promise<void>;
+        downloadEphemeralPack: (packId: string, key: string) => Promise<void>;
         downloadQueuedPacks: () => void;
         downloadStickerPack: (
           id: string,
@@ -386,6 +382,7 @@ declare global {
 
           isVoiceMessage: (attachments: unknown) => boolean;
           isImage: typeof Attachment.isImage;
+          isGIF: typeof Attachment.isGIF;
           isVideo: typeof Attachment.isVideo;
           isAudio: typeof Attachment.isAudio;
 
@@ -409,20 +406,6 @@ declare global {
             data: unknown,
             options: unknown
           ) => Promise<WhatIsThis>;
-        };
-        PhoneNumber: {
-          format: (
-            identifier: string,
-            options: Record<string, unknown>
-          ) => string;
-          isValidNumber(
-            phoneNumber: string,
-            options?: {
-              regionCode?: string;
-            }
-          ): boolean;
-          e164: string;
-          error: string;
         };
         Errors: typeof Errors;
         Message: {
@@ -455,13 +438,13 @@ declare global {
         VisualAttachment: any;
       };
       Util: typeof Util;
-      LinkPreviews: typeof LinkPreviews;
       GroupChange: {
         renderChange: (change: unknown, things: unknown) => Array<string>;
       };
       Components: {
         AttachmentList: typeof AttachmentList;
         CaptionEditor: typeof CaptionEditor;
+        ChatColorPicker: typeof ChatColorPicker;
         ConfirmationDialog: typeof ConfirmationDialog;
         ContactDetail: typeof ContactDetail;
         ContactModal: typeof ContactModal;
@@ -473,6 +456,7 @@ declare global {
         ProgressModal: typeof ProgressModal;
         Quote: typeof Quote;
         StagedLinkPreview: typeof StagedLinkPreview;
+        DisappearingTimeDialog: typeof DisappearingTimeDialog;
       };
       OS: typeof OS;
       Workflow: {
@@ -485,10 +469,10 @@ declare global {
       };
       Views: WhatIsThis;
       State: {
-        bindActionCreators: typeof bindActionCreators;
         createStore: typeof createStore;
         Roots: {
-          createCallManager: typeof createCallManager;
+          createApp: typeof createApp;
+          createChatColorPicker: typeof createChatColorPicker;
           createCompositionArea: typeof createCompositionArea;
           createContactModal: typeof createContactModal;
           createConversationDetails: typeof createConversationDetails;
@@ -508,6 +492,7 @@ declare global {
           createTimeline: typeof createTimeline;
         };
         Ducks: {
+          app: typeof appDuck;
           calling: typeof callingDuck;
           conversations: typeof conversationsDuck;
           emojis: typeof emojisDuck;
@@ -531,22 +516,17 @@ declare global {
         getInitialState: () => WhatIsThis;
         load: () => void;
       };
+      challengeHandler: ChallengeHandler;
     };
+    SignalContext: SignalContext;
 
     ConversationController: ConversationController;
     Events: WhatIsThis;
-    MessageController: MessageControllerType;
+    MessageController: MessageController;
     SignalProtocolStore: typeof SignalProtocolStore;
     WebAPI: WebAPIConnectType;
     Whisper: WhisperType;
 
-    AccountCache: Record<string, boolean>;
-    AccountJobs: Record<string, Promise<void>>;
-
-    doesAccountCheckJobExist: (number: string) => boolean;
-    checkForSignalAccount: (number: string) => Promise<void>;
-    isSignalAccountCheckComplete: (number: string) => boolean;
-    hasSignalAccount: (number: string) => boolean;
     getServerTrustRoot: () => WhatIsThis;
     readyForUpdates: () => void;
     logAppLoadedEvent: (options: { processedCount?: number }) => void;
@@ -569,6 +549,20 @@ declare global {
   interface Error {
     originalError?: Event;
   }
+
+  // Uint8Array and ArrayBuffer are type-compatible in TypeScript's covariant
+  // type checker, but in reality they are not. Let's assert correct use!
+  interface Uint8Array {
+    __uint8array: never;
+  }
+
+  interface ArrayBuffer {
+    __array_buffer: never;
+  }
+
+  interface SharedArrayBuffer {
+    __array_buffer: never;
+  }
 }
 
 export type DCodeIOType = {
@@ -588,44 +582,8 @@ export type DCodeIOType = {
   ProtoBuf: WhatIsThis;
 };
 
-type MessageControllerType = {
-  findBySender: (sender: string) => MessageModel | null;
-  findBySentAt: (sentAt: number) => MessageModel | null;
-  register: (id: string, model: MessageModel) => MessageModel;
-  unregister: (id: string) => void;
-};
-
 export class CertificateValidatorType {
   validate: (cerficate: any, certificateTime: number) => Promise<void>;
-}
-
-export class SecretSessionCipherClass {
-  constructor(
-    storage: StorageType,
-    options?: { messageKeysLimit?: number | boolean }
-  );
-  decrypt: (
-    validator: CertificateValidatorType,
-    ciphertext: ArrayBuffer,
-    serverTimestamp: number,
-    me: any
-  ) => Promise<{
-    isMe: boolean;
-    sender: SignalProtocolAddressClass;
-    senderUuid: SignalProtocolAddressClass;
-    content: ArrayBuffer;
-  }>;
-  getRemoteRegistrationId: (
-    address: SignalProtocolAddressClass
-  ) => Promise<number>;
-  closeOpenSessionForDevice: (
-    address: SignalProtocolAddressClass
-  ) => Promise<void>;
-  encrypt: (
-    address: SignalProtocolAddressClass,
-    senderCertificate: any,
-    plaintext: ArrayBuffer | Uint8Array
-  ) => Promise<ArrayBuffer>;
 }
 
 export class ByteBufferClass {
@@ -647,6 +605,7 @@ export class ByteBufferClass {
   readLong: (offset: number) => Long;
   readShort: (offset: number) => number;
   readVarint32: () => number;
+  reset: () => void;
   writeLong: (l: Long) => void;
   skip: (length: number) => void;
 }
@@ -664,7 +623,18 @@ export class CanvasVideoRenderer {
   constructor(canvas: Ref<HTMLCanvasElement>);
 }
 
-export type LoggerType = (...args: Array<unknown>) => void;
+export type LoggerType = {
+  fatal: LogFunctionType;
+  info: LogFunctionType;
+  warn: LogFunctionType;
+  error: LogFunctionType;
+  debug: LogFunctionType;
+  trace: LogFunctionType;
+  fetch: () => Promise<string>;
+  publish: typeof uploadDebugLogs;
+};
+
+export type LogFunctionType = (...args: Array<unknown>) => void;
 
 export type WhisperType = {
   events: {
@@ -679,7 +649,6 @@ export type WhisperType = {
       reject: Function
     ) => void;
   };
-  GroupConversationCollection: typeof ConversationModelCollectionType;
   ConversationCollection: typeof ConversationModelCollectionType;
   ConversationCollectionType: ConversationModelCollectionType;
   Conversation: typeof ConversationModel;
@@ -700,13 +669,14 @@ export type WhisperType = {
   ConversationArchivedToast: WhatIsThis;
   ConversationUnarchivedToast: WhatIsThis;
   ConversationMarkedUnreadToast: WhatIsThis;
-  AppView: WhatIsThis;
   WallClockListener: WhatIsThis;
-  MessageRequests: WhatIsThis;
   BannerView: any;
   RecorderView: any;
   GroupMemberList: any;
   GroupLinkCopiedToast: typeof Backbone.View;
+  InboxView: typeof window.Whisper.View;
+  InstallView: typeof window.Whisper.View;
+  StandaloneRegistrationView: typeof window.Whisper.View;
   KeyVerificationPanelView: any;
   SafetyNumberChangeDialogView: any;
   BodyRangesType: BodyRangesType;
@@ -726,42 +696,6 @@ export type WhisperType = {
     ) => void;
   };
 
-  DeliveryReceipts: {
-    add: (receipt: WhatIsThis) => void;
-    forMessage: (conversation: unknown, message: unknown) => Array<WhatIsThis>;
-    onReceipt: (receipt: WhatIsThis) => void;
-  };
-
-  ReadReceipts: {
-    add: (receipt: WhatIsThis) => WhatIsThis;
-    forMessage: (conversation: unknown, message: unknown) => Array<WhatIsThis>;
-    onReceipt: (receipt: WhatIsThis) => void;
-  };
-
-  ReadSyncs: {
-    add: (sync: WhatIsThis) => WhatIsThis;
-    forMessage: (message: unknown) => WhatIsThis;
-    onReceipt: (receipt: WhatIsThis) => WhatIsThis;
-  };
-
-  ViewSyncs: {
-    add: (sync: WhatIsThis) => WhatIsThis;
-    forMessage: (message: unknown) => Array<WhatIsThis>;
-    onSync: (sync: WhatIsThis) => WhatIsThis;
-  };
-
-  Reactions: {
-    forMessage: (message: unknown) => Array<WhatIsThis>;
-    add: (reaction: unknown) => WhatIsThis;
-    onReaction: (reactionModel: unknown) => unknown;
-  };
-
-  Deletes: {
-    add: (model: WhatIsThis) => WhatIsThis;
-    forMessage: (message: unknown) => Array<WhatIsThis>;
-    onDelete: (model: WhatIsThis) => void;
-  };
-
   IdenticonSVGView: WhatIsThis;
 
   ExpiringMessagesListener: WhatIsThis;
@@ -776,6 +710,8 @@ export type WhisperType = {
   BlockedGroupToast: typeof window.Whisper.ToastView;
   BlockedToast: typeof window.Whisper.ToastView;
   CannotMixImageAndNonImageAttachmentsToast: typeof window.Whisper.ToastView;
+  CaptchaSolvedToast: typeof window.Whisper.ToastView;
+  CaptchaFailedToast: typeof window.Whisper.ToastView;
   DangerousFileTypeToast: typeof window.Whisper.ToastView;
   ExpiredToast: typeof window.Whisper.ToastView;
   FileSavedToast: typeof window.Whisper.ToastView;
@@ -790,6 +726,7 @@ export type WhisperType = {
   OriginalNotFoundToast: typeof window.Whisper.ToastView;
   PinnedConversationsFullToast: typeof window.Whisper.ToastView;
   ReactionFailedToast: typeof window.Whisper.ToastView;
+  DeleteForEveryoneFailedToast: typeof window.Whisper.ToastView;
   TapToViewExpiredIncomingToast: typeof window.Whisper.ToastView;
   TapToViewExpiredOutgoingToast: typeof window.Whisper.ToastView;
   TimerConflictToast: typeof window.Whisper.ToastView;
@@ -803,4 +740,5 @@ export type WhisperType = {
   View: typeof Backbone.View & {
     Templates: Record<string, string>;
   };
+  DisappearingTimeDialog: typeof window.Whisper.View | undefined;
 };

@@ -1,6 +1,6 @@
 {
     "softwareAcknowledgments": {
-        "message": "Software Acknowledgments",
+        "message": "คำขอบคุณสำหรับซอฟต์แวร์",
         "description": "Shown in the about box for the link to software acknowledgments"
     },
     "privacyPolicy": {
@@ -12,7 +12,7 @@
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
     },
     "unknownContact": {
-        "message": "Unknown contact",
+        "message": "ผู้ที่ติดต่อที่ไม่รู้จัก",
         "description": "Shown as the name of a contact if we don't have any displayable information about them"
     },
     "unknownGroup": {
@@ -28,7 +28,7 @@
         "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
     },
     "mainMenuFile": {
-        "message": "ไ&ฟล์",
+        "message": "แ&ฟ้ม",
         "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuCreateStickers": {
@@ -48,19 +48,23 @@
         "description": "The label that is used for the Window menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuHelp": {
-        "message": "&ความช่วยเหลือ",
+        "message": "&ช่วยเหลือ",
         "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuSettings": {
         "message": "การกำหนด...",
         "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
     },
+    "appMenuServices": {
+        "message": "Services",
+        "description": "Application menu item for macOS 'Services'"
+    },
     "appMenuHide": {
         "message": "ซ่อน",
         "description": "Application menu command to hide the window"
     },
     "appMenuHideOthers": {
-        "message": "ซ่อนหน้าต่างอื่นๆ",
+        "message": "ซ่อนหน้าต่างอื่น",
         "description": "Application menu command to hide all other windows"
     },
     "appMenuUnhide": {
@@ -152,7 +156,7 @@
         "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
     },
     "menuSetupAsStandalone": {
-        "message": "ตั้งค่าเป็นอุปกรณ์สแตนด์อโลน",
+        "message": "ตั้งค่าเป็นอุปกรณ์เอกเทศ",
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
     },
     "messageContextMenuButton": {
@@ -173,6 +177,10 @@
     },
     "avatarMenuViewArchive": {
         "message": "ดูที่เก็บถาวร",
+        "description": "One of the menu options available in the Avatar Popup menu"
+    },
+    "avatarMenuChatColors": {
+        "message": "สีแชต",
         "description": "One of the menu options available in the Avatar Popup menu"
     },
     "loading": {
@@ -198,11 +206,11 @@
         "description": "Shown in place of the search box when showing archived conversation list"
     },
     "LeftPane--pinned": {
-        "message": "Pinned",
+        "message": "ปักหมุด",
         "description": "Shown as a header for pinned conversations in the left pane"
     },
     "LeftPane--chats": {
-        "message": "การพูดคุย",
+        "message": "การสนทนา",
         "description": "Shown as a header for non-pinned conversations in the left pane"
     },
     "archiveHelperText": {
@@ -230,7 +238,7 @@
         "description": "Undoes Archive Conversation action, and unpins the conversation from the top of the conversation list"
     },
     "pinnedConversationsFull": {
-        "message": "You can only pin up to 4 chats",
+        "message": "คุณปักหมุดแชตได้ 4 อันเท่านั้น",
         "description": ""
     },
     "chooseDirectory": {
@@ -258,7 +266,7 @@
         "description": "Header of the error screen after a failed import"
     },
     "importingHeader": {
-        "message": "กำลังโหลดรายชื่อติดต่อและข้อความ",
+        "message": "กำลังเรียกรายชื่อติดต่อและข้อความ",
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
@@ -266,7 +274,7 @@
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
-        "message": "หากทำตามขั้นตอนเหล่านี้แล้วไม่สำเร็จ โปรดส่งบันทึกดีบัก (ดู -> บันทึกดีบัก) เพื่อให้เราช่วยเหลือคุณในการโอนย้าย",
+        "message": "หากทำตามขั้นตอนเหล่านี้แล้วไม่สำเร็จ โปรดส่งปูมดีบัก (ดู -> ปูมดีบัก) เพื่อให้เราช่วยเหลือคุณในการโอนย้าย",
         "description": "Message shown if the import went wrong; second paragraph"
     },
     "importAgain": {
@@ -308,11 +316,11 @@
         "description": "Used as a label on a button allowing user to see more information"
     },
     "youLeftTheGroup": {
-        "message": "You are no longer a member of the group.",
+        "message": "คุณไม่ได้เป็นสมาชิกของกลุ่มดังกล่าวแล้ว",
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "invalidConversation": {
-        "message": "This group is invalid. Please create a new group.",
+        "message": "กลุ่มนี้ใช้งานไม่ได้ กรุณาสร้างกลุ่มใหม่",
         "description": "Displayed when a user can't send a message because something has gone wrong in the conversation."
     },
     "scrollDown": {
@@ -386,7 +394,7 @@
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedRightAfterVerify": {
-        "message": "The safety number you are trying to verify has changed. Please review your new safety number with $name1$. Remember, this change could mean that someone is trying to intercept your communication or that $name2$ has simply reinstalled Signal.",
+        "message": "หมายเลขความปลอดภัยที่คุณพยายามตรวจยืนยันได้มีการเปลี่ยนแปลง กรุณาตรวจสอบหมายเลขความปลอดภัยของคุณใหม่อีกครั้งกับ $name1$ โปรดจำไว้ว่า การเปลี่ยนแปลงนี้อาจหมายความว่ามีใครพยายามขัดขวางการสื่อสารของคุณหรืออาจเป็นเพราะ $name2$ ได้ติดตั้งแอป Signal ใหม่",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name1": {
@@ -400,11 +408,11 @@
         }
     },
     "changedVerificationWarning": {
-        "message": "The following people may have reinstalled or changed devices. Verify your safety number with them to ensure privacy.",
+        "message": "บุคคลดังต่อไปนี้อาจติดตั้งแอปใหม่หรือเปลี่ยนอุปกรณ์ กรุณาตรวจยืนยันหมายเลฃความปลอดภัยของคุณกับเขาเพื่อให้แน่ใจถึงความเป็นส่วนตัว",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "identityKeyErrorOnSend": {
-        "message": "Your safety number with $name1$ has changed. This could either mean that someone is trying to intercept your communication or that $name2$ has simply reinstalled Signal. You may wish to verify your safety number with this contact.",
+        "message": "หมายเลขความปลอดภัยของคุณกับ $name1$ มีการเปลี่ยนแปลง นี่อาจหมายความว่ามีใครพยายามขัดขวางการสื่อสารของคุณ หรืออาจเป็นเพราะ $name2$ ได้ติดตั้งแอป Signal ใหม่ คุณอาจต้องการตรวจยืนยันหมายเลขความปลอดภัยของคุณกับผู้ติดต่อรายนี้อีกครั้ง",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name1": {
@@ -426,7 +434,7 @@
         "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
     },
     "continueCall": {
-        "message": "Continue Call",
+        "message": "ดำเนินการโทรต่อ",
         "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
     },
     "noLongerVerified": {
@@ -560,7 +568,7 @@
         "description": "Section header in the media gallery"
     },
     "unsupportedAttachment": {
-        "message": "ประเภทไฟล์แนบที่ไม่รองรับ คลิกเพื่อบันทึก",
+        "message": "ประเภทแฟ้มแนบที่ไม่รองรับ คลิกเพื่อบันทึก",
         "description": "Displayed for incoming unsupported attachment"
     },
     "clickToSave": {
@@ -568,7 +576,7 @@
         "description": "Hover text for attachment filenames"
     },
     "unnamedFile": {
-        "message": "ไฟล์ที่ไม่มีชื่อ",
+        "message": "แฟ้มไม่มีชื่อ",
         "description": "Hover text for attachment filenames"
     },
     "voiceMessage": {
@@ -584,7 +592,7 @@
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
     },
     "stagedPreviewThumbnail": {
-        "message": "ร่างของรูปย่อตัวอย่างลิงก์สำหรับ  $domain$",
+        "message": "ร่างภาพย่อตัวอย่างลิงก์ของ $domain$",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
@@ -594,7 +602,7 @@
         }
     },
     "previewThumbnail": {
-        "message": "รูปย่อตัวอย่างลิงก์สำหรับ  $domain$",
+        "message": "ภาพย่อตัวอย่างลิงก์ของ $domain$",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
@@ -626,7 +634,7 @@
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "fileSizeWarning": {
-        "message": "ขออภัย ไฟล์ที่เลือกมีขนาดเกินจากที่จำกัด",
+        "message": "ขออภัย แฟ้มที่เลือกมีขนาดเกินจากที่จำกัด",
         "description": ""
     },
     "unableToLoadAttachment": {
@@ -686,7 +694,7 @@
         "description": "Item under the Help menu, takes you to the support page"
     },
     "joinTheBeta": {
-        "message": "Join the Beta",
+        "message": "ร่วมทดสอบซอฟต์แวร์",
         "description": "Item under the Help menu, takes you to an article describing how to install the beta release of Signal Desktop"
     },
     "signalDesktopPreferences": {
@@ -700,6 +708,10 @@
     "aboutSignalDesktop": {
         "message": "เกี่ยวกับ Signal Desktop",
         "description": "Item under the Help menu, which opens a small about window"
+    },
+    "screenShareWindow": {
+        "message": "Sharing screen",
+        "description": "Title for screen sharing window"
     },
     "speech": {
         "message": "การพูด",
@@ -740,7 +752,7 @@
         }
     },
     "noSearchResults": {
-        "message": "ไม่มีผลลัพธ์สำหรับ \";$searchTerm$\"",
+        "message": "ไม่มีผลลัพธ์สำหรับ \"$searchTerm$\"",
         "description": "Shown in the search left pane when no results were found",
         "placeholders": {
             "searchTerm": {
@@ -749,8 +761,12 @@
             }
         }
     },
+    "noSearchResults--sms-only": {
+        "message": "SMS/MMS contacts are not available on Desktop.",
+        "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
+    },
     "noSearchResultsInConversation": {
-        "message": "ไม่มีผลลัพ์สำหรับ \";$searchTerm$\" ใน  $conversationName$",
+        "message": "ไม่มีผลลัพ์สำหรับ \"$searchTerm$\" ใน  $conversationName$",
         "description": "Shown in the search left pane when no results were found",
         "placeholders": {
             "searchTerm": {
@@ -771,6 +787,10 @@
         "message": "ผู้ติดต่อ",
         "description": "Shown to separate the types of search results"
     },
+    "groupsHeader": {
+        "message": "กลุ่ม",
+        "description": "Shown to separate the types of search results"
+    },
     "messagesHeader": {
         "message": "ข้อความ",
         "description": "Shown to separate the types of search results"
@@ -780,7 +800,7 @@
         "description": ""
     },
     "selectAContact": {
-        "message": "เลือกผู้ติดต่อหรือกลุ่มเพื่อเริ่มต้นการแชต",
+        "message": "เลือกผู้ติดต่อหรือกลุ่มเพื่อเริ่มคุย",
         "description": ""
     },
     "typingAlt": {
@@ -788,11 +808,11 @@
         "description": "Used as the 'title' attribute for the typing animation"
     },
     "contactInAddressBook": {
-        "message": "This person is in your contacts.",
+        "message": "บุคคลนี้อยู่ในรายชื่อผู้ติดต่อของคุณ",
         "description": "Description of icon denoting that contact is from your address book"
     },
     "contactAvatarAlt": {
-        "message": "ภาพบุคคลที่ติดต่อ",
+        "message": "ภาพสำหรับผู้ติดต่อ $name$",
         "description": "Used in the alt tag for the image avatar of a contact",
         "placeholders": {
             "name": {
@@ -830,7 +850,7 @@
         "description": "Generic label shown if contact address has custom type but no label"
     },
     "poBox": {
-        "message": "ตู้ไปรษณีย์",
+        "message": "ตู้ปณ.",
         "description": "When rendering an address, used to provide context to a post office box"
     },
     "downloading": {
@@ -906,11 +926,11 @@
         "description": "Shown if the user attempts to send an audio message without audio permissions turned on"
     },
     "audioCallingPermissionNeeded": {
-        "message": "For calling, you must allow Signal Desktop to access your microphone.",
+        "message": "สำหรับการโทรออก คุณต้องอนุญาตให้ Signal Desktop เข้าถึงไมโครโฟนของคุณ",
         "description": "Shown if the user attempts access the microphone for calling without audio permissions turned on"
     },
     "videoCallingPermissionNeeded": {
-        "message": "For video calling, you must allow Signal Desktop to access your camera.",
+        "message": "สำหรับการโทรวิดีโอ คุณต้องอนุญาตให้ Signal Desktop เข้าถึงกล้องของคุณ",
         "description": "Shown if the user attempts access the camera for video calling without video permissions turned on"
     },
     "allowAccess": {
@@ -1002,11 +1022,11 @@
         "description": "Label for when something is turned off"
     },
     "deleteWarning": {
-        "message": "Clicking 'delete' will permanently remove this message from your devices only.",
+        "message": "ข้อความนี้จะถูกลบออกจากอุปกรณ์นี้",
         "description": "Text shown in the confirmation dialog for deleting a message locally"
     },
     "deleteForEveryoneWarning": {
-        "message": "ข้อความนี้จะถูกลบสำหรับทุกคนที่อยู่ในบทสนทนาถ้าทุกคนได้อัพเดทเวอร์ชันล่าสุดของ Signal พวกเขาจะเห็นว่าคุณลบข้อความ",
+        "message": "หากพวกเขากำลังใช้ Signal รุ่นที่เพิ่งปรับปรุงไม่นานนี้ ข้อความนี้จะถูกลบจากทุกคนที่อยู่ในบทสนทนา พวกเขาจะเห็นว่าคุณลบข้อความ",
         "description": "Text shown in the confirmation dialog for deleting a message for everyone"
     },
     "deleteThisMessage": {
@@ -1046,7 +1066,7 @@
         "description": ""
     },
     "resetSession": {
-        "message": "ตั้งค่าเซสชันใหม่",
+        "message": "เริ่มสมัยสนทนาใหม่",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "showSafetyNumber": {
@@ -1054,7 +1074,7 @@
         "description": ""
     },
     "viewRecentMedia": {
-        "message": "View recent media",
+        "message": "ดูสื่อครั้งล่าสุด",
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
@@ -1071,8 +1091,12 @@
         "message": "คุณยังไม่ได้แลกเปลี่ยนข้อความใดๆ กับผู้ติดต่อรายนี้ หมายเลขความปลอดภัยของคุณกับเขาจะมีให้หลังส่งข้อความแรก",
         "description": ""
     },
+    "back": {
+        "message": "กลับ",
+        "description": "Generic label for back"
+    },
     "goBack": {
-        "message": "Go back",
+        "message": "ถอย",
         "description": "Label for back button in a conversation"
     },
     "moreInfo": {
@@ -1082,6 +1106,10 @@
     "retrySend": {
         "message": "ลองส่งใหม่",
         "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
+    },
+    "forwardMessage": {
+        "message": "ส่งต่อข้อความ",
+        "description": "Shown on the drop-down menu for an individual message, forwards a message"
     },
     "deleteMessage": {
         "message": "ลบข้อความสำหรับฉัน",
@@ -1100,8 +1128,56 @@
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "sessionEnded": {
-        "message": "เซสชันที่ปลอดภัยถูกรีเซ็ตแล้ว",
+        "message": "สมัยสนทนาที่ปลอดภัยถูกล้างเริ่มใหม่",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
+    },
+    "ChatRefresh--notification": {
+        "message": "สมัยสนทนาถูกเรียกขึ้นใหม่",
+        "description": "Shown in timeline when a error happened, and the session was automatically reset."
+    },
+    "ChatRefresh--learnMore": {
+        "message": "เรียนรู้เพิ่มเติม",
+        "description": "Shown in timeline when session is automatically reset, to provide access to a popup info dialog"
+    },
+    "ChatRefresh--summary": {
+        "message": "Signal เข้ารหัสลับจากต้นทางถึงปลายทางและมันอาจต้องเรียกสมัยการสนทนาของคุณใหม่เป็นบางครั้ง สิ่งนี้ไม่ส่งผลต่อความปลอดภัยของการสนทนา แต่เป็นได้ว่าคุณอาจพลาดข้อความหนึ่งข้อความจากผู้ติดต่อรายนี้ คุณสามารถขอให้เขาส่งข้อความอีกครั้งได้",
+        "description": "Shown on explainer dialog available from chat session refreshed timeline events"
+    },
+    "ChatRefresh--contactSupport": {
+        "message": "ติดต่อการสนับสนุน",
+        "description": "Shown on explainer dialog available from chat session refreshed timeline events"
+    },
+    "DeliveryIssue--preview": {
+        "message": "Delivery issue",
+        "description": "Shown in left pane preview when message delivery issue happens"
+    },
+    "DeliveryIssue--notification": {
+        "message": "A message from $sender$ couldn’t be delivered",
+        "description": "Shown in timeline when message delivery issue happens",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "DeliveryIssue--learnMore": {
+        "message": "เรียนรู้เพิ่มเติม",
+        "description": "Shown in timeline when message delivery issue happens, to provide access to a popup info dialog"
+    },
+    "DeliveryIssue--title": {
+        "message": "Delivery Issue",
+        "description": "Shown on explainer dialog available from delivery issue timeline events"
+    },
+    "DeliveryIssue--summary": {
+        "message": "A message, sticker, reaction, read receipt or media couldn’t be delivered to you from $sender$. They may have tried sending it to you directly, or in a group.",
+        "description": "Shown on explainer dialog available from delivery issue timeline events",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
     },
     "quoteThumbnailAlt": {
         "message": "รูปย่อของภาพในข้อความที่ยกมา",
@@ -1132,7 +1208,7 @@
         "description": "Used as a 'commit changes' button in the Caption Editor for outgoing image attachments"
     },
     "fileIconAlt": {
-        "message": "ไอคอนไฟล์",
+        "message": "ไอคอนแฟ้ม",
         "description": "Used in the media gallery documents tab to visually represent a file"
     },
     "installWelcome": {
@@ -1208,23 +1284,23 @@
         "description": "Header for calling options on the settings screen"
     },
     "calling__start": {
-        "message": "Start Call",
+        "message": "เริ่มโทร",
         "description": "Button label in the call lobby for starting a call"
     },
     "calling__join": {
-        "message": "เข้าร่วมการโทร",
+        "message": "เข้าร่วมสาย",
         "description": "Button label in the call lobby for joining a call"
     },
     "calling__return": {
-        "message": "Return to Call",
+        "message": "กลับไปที่สาย",
         "description": "Button label in the call lobby for returning to a call"
     },
     "calling__call-is-full": {
-        "message": "Call is full",
+        "message": "ห้องเต็ม",
         "description": "Button label in the call lobby when you can't join because the call is full"
     },
     "calling__button--video-disabled": {
-        "message": "Camera disabled",
+        "message": "ใช้กล้องไม่ได้",
         "description": "Button tooltip label when the camera is disabled"
     },
     "calling__button--video-off": {
@@ -1236,27 +1312,39 @@
         "description": "Button tooltip label for turning on the camera"
     },
     "calling__button--audio-disabled": {
-        "message": "Microphone disabled",
+        "message": "ใช้ไมโครโฟนไม่ได้",
         "description": "Button tooltip label when the microphone is disabled"
     },
     "calling__button--audio-off": {
-        "message": "Mute mic",
+        "message": "ปิดเสียงไมค์",
         "description": "Button tooltip label for turning off the microphone"
     },
     "calling__button--audio-on": {
-        "message": "Unmute mic",
+        "message": "เปิดเสียงไมค์",
         "description": "Button tooltip label for turning on the microphone"
+    },
+    "calling__button--presenting-disabled": {
+        "message": "Presenting disabled",
+        "description": "Button tooltip label for when screen sharing is disabled"
+    },
+    "calling__button--presenting-on": {
+        "message": "Start presenting",
+        "description": "Button tooltip label for starting to share screen"
+    },
+    "calling__button--presenting-off": {
+        "message": "Stop presenting",
+        "description": "Button tooltip label for stopping screen sharing"
     },
     "calling__your-video-is-off": {
         "message": "กล้องของคุณปิดอยู่",
         "description": "Label in the calling lobby indicating that your camera is off"
     },
     "calling__lobby-summary--zero": {
-        "message": "No one else is here",
+        "message": "ไม่มีคนอื่นที่นี่",
         "description": "Shown in the calling lobby to describe who is in the call"
     },
     "calling__lobby-summary--single": {
-        "message": "$first$ อยู่ในการโทรนี้",
+        "message": "$first$ อยู่ในสายนี้",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
@@ -1266,11 +1354,11 @@
         }
     },
     "calling__lobby-summary--self": {
-        "message": "One of your other devices is in this call",
+        "message": "มีอุปกรณ์ของคุณเครื่องหนึ่งที่อยู่ในสายนี้",
         "description": "Shown in the calling lobby to describe when it is just you"
     },
     "calling__lobby-summary--double": {
-        "message": "$first$ and $second$ are in this call",
+        "message": "$first$ และ $second$ อยู่ในสายนี้",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
@@ -1284,7 +1372,7 @@
         }
     },
     "calling__lobby-summary--triple": {
-        "message": "$first$, $second$, and $third$ are in this call",
+        "message": "$first$ $second$ และ $third$ อยู่ในสายนี้",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
@@ -1302,7 +1390,7 @@
         }
     },
     "calling__lobby-summary--many": {
-        "message": "$first$, $second$, and $others$ others are in this call",
+        "message": "$first$ $second$ และคนอื่นๆ อีก $others$ คนอยู่ในสายนี้",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
@@ -1320,15 +1408,15 @@
         }
     },
     "calling__in-this-call--zero": {
-        "message": "No one else is here",
+        "message": "ไม่มีใครที่นี่",
         "description": "Shown in the participants list to describe how many people are in the call"
     },
     "calling__in-this-call--one": {
-        "message": "In this call · 1 person",
+        "message": "ในสายนี้ · 1 คน",
         "description": "Shown in the participants list to describe how many people are in the call"
     },
     "calling__in-this-call--many": {
-        "message": "In this call · $people$ people",
+        "message": "ในสายนี้ · $people$ คน",
         "description": "Shown in the participants list to describe how many people are in the call",
         "placeholders": {
             "people": {
@@ -1338,7 +1426,7 @@
         }
     },
     "calling__you-have-blocked": {
-        "message": "You have blocked $name$",
+        "message": "คุณได้ปิดกั้น $name$",
         "description": "when you block someone and cannot view their video",
         "placeholders": {
             "name": {
@@ -1352,12 +1440,86 @@
         "description": "Shown in the modal dialog to describe how blocking works in a gorup call"
     },
     "calling__overflow__scroll-up": {
-        "message": "Scroll up",
+        "message": "เลื่อนขึ้น",
         "description": "Label for the \"scroll up\" button in a call's overflow area"
     },
     "calling__overflow__scroll-down": {
-        "message": "Scroll down",
+        "message": "เลื่อนลง",
         "description": "Label for the \"scroll down\" button in a call's overflow area"
+    },
+    "calling__presenting--notification-title": {
+        "message": "You're presenting to everyone.",
+        "description": "Title for the share screen notification"
+    },
+    "calling__presenting--notification-body": {
+        "message": "Click here to return to the call when you're ready to stop presenting.",
+        "description": "Body text for the share screen notification"
+    },
+    "calling__presenting--info": {
+        "message": "Signal is sharing $window$.",
+        "description": "Text that appears in the screen sharing controller to inform person that they are presenting",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Application"
+            }
+        }
+    },
+    "calling__presenting--stop": {
+        "message": "Stop sharing",
+        "description": "Button for stopping screen sharing"
+    },
+    "calling__presenting--you-stopped": {
+        "message": "You stopped presenting",
+        "description": "Toast that appears when someone stops presenting"
+    },
+    "calling__presenting--person-ongoing": {
+        "message": "$name$ is presenting",
+        "description": "Title of call when someone is presenting",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Maddie"
+            }
+        }
+    },
+    "calling__presenting--person-stopped": {
+        "message": "$name$ stopped presenting",
+        "description": "Toast that appears when someone stops presenting",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Maddie"
+            }
+        }
+    },
+    "calling__presenting--permission-title": {
+        "message": "Permission needed",
+        "description": "Shown as the title for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--macos-permission-description": {
+        "message": "Signal needs permission to access your computer's screen recording.",
+        "description": "Shown as the description for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--permission-instruction-step1": {
+        "message": "Go to System Preferences.",
+        "description": "Shown as the description for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--permission-instruction-step2": {
+        "message": "Click on the lock icon on the bottom left and enter your computer’s password.",
+        "description": "Shown as the description for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--permission-instruction-step3": {
+        "message": "On the right, check the box next to Signal. If you don’t see Signal in the list, click the + to add it.",
+        "description": "Shown as the description for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--permission-open": {
+        "message": "Open System Preferences",
+        "description": "The button that opens your system preferences for the needs screen record permissions modal"
+    },
+    "calling__presenting--permission-cancel": {
+        "message": "เลิกกัน",
+        "description": "The cancel button for the needs screen record permissions modal"
     },
     "alwaysRelayCallsDescription": {
         "message": "ส่งต่อการโทรเสมอ",
@@ -1372,11 +1534,11 @@
         "description": "Header for permissions section of settings"
     },
     "mediaPermissionsDescription": {
-        "message": "Allow access to the microphone",
+        "message": "อนุญาตให้เข้าถึงไมโครโฟน",
         "description": "Description of the media permission description"
     },
     "mediaCameraPermissionsDescription": {
-        "message": "Allow access to the camera",
+        "message": "อนุญาตให้เข้าถึงกล้อง",
         "description": "Description of the media permission description"
     },
     "general": {
@@ -1384,8 +1546,8 @@
         "description": "Header for general options on the settings screen"
     },
     "spellCheckDescription": {
-        "message": "เปิดใช้การตรวจตัวสะกดสำหรับข้อความที่พิมพ์ลงในกล่องเขียนข้อความ",
-        "description": "Description of the media permission description"
+        "message": "เปิดใช้การตรวจตัวสะกด",
+        "description": "Description of the spell check setting"
     },
     "spellCheckWillBeEnabled": {
         "message": "การตรวจตัวสะกดจะถูกเปิดใช้ในครั้งต่อไปที่ Signal ถูกปิดและเปิดใหม่",
@@ -1394,6 +1556,10 @@
     "spellCheckWillBeDisabled": {
         "message": "การตรวจตัวสะกดจะถูกปิดในครั้งต่อไปที่ Signal ถูกปิดและเปิดใหม่",
         "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
+    },
+    "autoLaunchDescription": {
+        "message": "เปิดเมื่อลงชื่อเข้าใช้คอมพิวเตอร์",
+        "description": "Description for the automatic launch setting"
     },
     "clearDataHeader": {
         "message": "ล้างข้อมูล",
@@ -1444,11 +1610,11 @@
         "description": "Label for disabling notifications"
     },
     "nameAndMessage": {
-        "message": "Name, content, and actions",
+        "message": "ชื่อ เนื้อหา และการกระทำ",
         "description": "Label for setting notifications to display name and message text"
     },
     "noNameOrMessage": {
-        "message": "No name or content",
+        "message": "ไม่มีชื่อหรือเนื้อหา",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "nameOnly": {
@@ -1460,7 +1626,7 @@
         "description": "Displayed in notifications for only 1 message"
     },
     "notificationSenderInGroup": {
-        "message": "$sender$ in $group$",
+        "message": "$sender$ ใน $group$",
         "description": "Displayed in notifications for messages in a group",
         "placeholders": {
             "sender": {
@@ -1488,7 +1654,7 @@
         }
     },
     "notificationReactionMessage": {
-        "message": "$sender$ ตอบ  $emoji$ กลับให้กับ:  $message$",
+        "message": "$sender$ ตอบกลับ  $emoji$ ถึง:  $message$",
         "description": "",
         "placeholders": {
             "sender": {
@@ -1509,8 +1675,12 @@
         "message": "การส่งล้มเหลว",
         "description": "Shown on outgoing message if it fails to send"
     },
+    "sendPaused": {
+        "message": "การส่งถูกหยุดชั่วคราว",
+        "description": "Shown on outgoing message if it cannot be sent immediately"
+    },
     "partiallySent": {
-        "message": "Partially sent, click for details",
+        "message": "ส่งแล้วบางส่วน คลิกเพื่อดูรายละเอียด",
         "description": "Shown on outgoing message if it is partially sent"
     },
     "showMore": {
@@ -1526,7 +1696,7 @@
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "Signal Desktop เวอร์ชันนี้หมดอายุแล้ว โปรดอัพเกรดไปเป็นเวอร์ชันล่าสุดเพื่อดำเนินการส่งข้อความต่อ",
+        "message": "Signal Desktop รุ่นนี้หมดอายุแล้ว โปรดปรับรุ่นเป็นรุ่นล่าสุดเพื่อรับส่งข้อความต่อ",
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
@@ -1562,7 +1732,7 @@
         "description": "Label for a disabled sync button while sync is in progress."
     },
     "syncFailed": {
-        "message": "การนำเข้าล้มเหลว แน่ใจว่าคอมพิวเตอร์และโทรศัพท์ของคุณเชื่อมต่อกับอินเตอร์เน็ตแล้ว",
+        "message": "การนำเข้าล้มเหลว โปรดทำให้แน่ใจว่าคอมพิวเตอร์และโทรศัพท์ของคุณเชื่อมต่อกับอินเทอร์เน็ตแล้ว",
         "description": "Informational text displayed if a sync operation times out."
     },
     "timestamp_s": {
@@ -1618,7 +1788,7 @@
         "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
-        "message": "You set the disappearing message time to $time$.",
+        "message": "คุณได้ตั้งเวลาให้ข้อความลบตัวเองไว้ที่ $time$",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -1628,7 +1798,7 @@
         }
     },
     "timerSetOnSync": {
-        "message": "Updated the disappearing message time to $time$.",
+        "message": "ตั้งเวลาให้ข้อความลบตัวเองไว้ที่ $time$",
         "description": "Message displayed when timer is set on initial link of desktop device.",
         "placeholders": {
             "time": {
@@ -1638,7 +1808,7 @@
         }
     },
     "timerSetByMember": {
-        "message": "A member set the disappearing message time to $time$.",
+        "message": "สมาชิกได้ตั้งเวลาให้ข้อความลบตัวเองไว้ที่ $time$",
         "description": "Message displayed when timer is by an unknown group member.",
         "placeholders": {
             "time": {
@@ -1648,7 +1818,7 @@
         }
     },
     "theyChangedTheTimer": {
-        "message": "$name$ set the disappearing message time to $time$.",
+        "message": "$name$ ได้ตั้งเวลาให้ข้อความลบตัวเองไว้ที่ $time$",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -1661,116 +1831,24 @@
             }
         }
     },
-    "timerOption_0_seconds": {
+    "disappearingMessages__off": {
         "message": "ปิด",
         "description": "Label for option to turn off message expiration in the timer menu"
     },
-    "timerOption_5_seconds": {
-        "message": "5 วินาที",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_10_seconds": {
-        "message": "10 วินาที",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_30_seconds": {
-        "message": "30 วินาที",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_1_minute": {
-        "message": "1 นาที",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_5_minutes": {
-        "message": "5 นาที",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_30_minutes": {
-        "message": "30 นาที",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_1_hour": {
-        "message": "1 ชั่วโมง",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_6_hours": {
-        "message": "6 ชั่วโมง",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_12_hours": {
-        "message": "12 ชั่วโมง",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_1_day": {
-        "message": "1 วัน",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_1_week": {
-        "message": "1 สัปดาห์",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
     "disappearingMessages": {
         "message": "ข้อความที่ลบตัวเอง",
-        "description": "Conversation menu option to enable disappearing messages"
-    },
-    "timerOption_0_seconds_abbreviated": {
-        "message": "ปิด",
-        "description": "Short format indicating current timer setting in the conversation list snippet"
-    },
-    "timerOption_5_seconds_abbreviated": {
-        "message": "5 วิ",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_10_seconds_abbreviated": {
-        "message": "10 วิ",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_30_seconds_abbreviated": {
-        "message": "30 วิ",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_1_minute_abbreviated": {
-        "message": "1 นา",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_5_minutes_abbreviated": {
-        "message": "5 นา",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_30_minutes_abbreviated": {
-        "message": "30 นา",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_1_hour_abbreviated": {
-        "message": "1 ชม.",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_6_hours_abbreviated": {
-        "message": "6 ชม.",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_12_hours_abbreviated": {
-        "message": "12 ชม.",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_1_day_abbreviated": {
-        "message": "1 วัน",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_1_week_abbreviated": {
-        "message": "1 สัป",
-        "description": "Very short format indicating current timer setting in the conversation header"
+        "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages"
     },
     "disappearingMessagesDisabled": {
-        "message": "ข้อความหายตัวไม่ได้ถูกเปิดใช้",
+        "message": "ข้อความที่ลบตัวเองไม่ได้ถูกเปิดใช้",
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disappearingMessagesDisabledByMember": {
-        "message": "A member disabled disappearing messages.",
+        "message": "สมาชิกได้ปิดการตั้งเวลาให้ข้อความลบตัวอง",
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disabledDisappearingMessages": {
-        "message": "$name$ disabled disappearing messages.",
+        "message": "$name$ ได้ปิดการใช้งานข้อความที่ลบตัวเอง",
         "description": "Displayed in the conversation list when the timer is turned off",
         "placeholders": {
             "name": {
@@ -1798,19 +1876,19 @@
         "description": "Description for audio notification setting"
     },
     "callRingtoneNotificationDescription": {
-        "message": "Play calling sounds",
+        "message": "เล่นเสียงเรียกเข้า",
         "description": "Description for call ringtone notification setting"
     },
     "callSystemNotificationDescription": {
-        "message": "Show notifications for calls",
+        "message": "แสดงการแจ้งเตือนสำหรับการโทร",
         "description": "Description for call notification setting"
     },
     "incomingCallNotificationDescription": {
-        "message": "Enable incoming calls",
+        "message": "เปิดใช้งานสายเรียกเข้า",
         "description": "Description for incoming calls setting"
     },
     "contactChangedProfileName": {
-        "message": "$sender$ changed their profile name from $oldProfile$ to $newProfile$.",
+        "message": "$sender$ ได้เปลี่ยนชื่อโปรไฟล์จาก $oldProfile$ เป็น$newProfile$",
         "description": "Description for incoming calls setting",
         "placeholders": {
             "sender": {
@@ -1828,7 +1906,7 @@
         }
     },
     "changedProfileName": {
-        "message": "$oldProfile$ changed their profile name to $newProfile$.",
+        "message": "$oldProfile$ เปลี่ยนชื่อโปรไฟล์เป็น$newProfile$",
         "description": "Shown when a contact not in your address book changes their profile name",
         "placeholders": {
             "oldProfile": {
@@ -1846,7 +1924,7 @@
         "description": "A notification shown in the conversation when a contact reinstalls"
     },
     "safetyNumberChanges": {
-        "message": "Safety Number Changes",
+        "message": "การเปลี่ยนแปลงหมายเลขความปลอดภัย",
         "description": "Title for safety number changed modal"
     },
     "safetyNumberChangedGroup": {
@@ -1868,7 +1946,7 @@
         "description": "Shown on the safety number screen if you have never exchanged messages with that contact"
     },
     "yourSafetyNumberWith": {
-        "message": "Your safety number with $name1$:",
+        "message": "หมายเลขความปลอดภัยของคุณกับ $name1$:",
         "description": "Heading for safety number view",
         "placeholders": {
             "name1": {
@@ -1898,7 +1976,7 @@
         "description": "Description for the Note to Self conversation"
     },
     "notificationDrawAttention": {
-        "message": "Draw attention to this window when a notification arrives",
+        "message": "ดึงความสนใจมาที่หน้าต่างนี้เมื่อมีการแจ้งเตือนมาถึง",
         "description": "Label text for the setting that controls whether new notifications draw attention to the window"
     },
     "hideMenuBar": {
@@ -1909,6 +1987,116 @@
         "message": "เริ่มการสนทนาใหม่...",
         "description": "Label underneath number a user enters that is not an existing contact"
     },
+    "newConversation": {
+        "message": "การสนทนาใหม่",
+        "description": "Label for header when starting a new conversation"
+    },
+    "contactSearchPlaceholder": {
+        "message": "ค้นหาโดยชื่อหรือหมายเลขโทรศัพท์",
+        "description": "Placeholder to use when searching for contacts in the composer"
+    },
+    "noContactsFound": {
+        "message": "ไม่พบรายชื่อผู้ติดต่อ",
+        "description": "Label shown when there are no contacts to compose to"
+    },
+    "noConversationsFound": {
+        "message": "ไม่พบบทสนทนา",
+        "description": "Label shown when there are no conversations to compose to"
+    },
+    "chooseGroupMembers__title": {
+        "message": "เลือกสมาชิก",
+        "description": "The title for the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__back-button": {
+        "message": "กลับ",
+        "description": "Used as alt-text of the back button on the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__skip": {
+        "message": "ข้าม",
+        "description": "The 'skip' button text in the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__next": {
+        "message": "ถัดไป",
+        "description": "The 'next' button text in the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__maximum-group-size__title": {
+        "message": "จำนวนสมาชิกในกลุ่มถึงขีดจำกัดแล้ว",
+        "description": "Shown in the alert when you add the maximum number of group members"
+    },
+    "chooseGroupMembers__maximum-group-size__body": {
+        "message": "กลุ่ม Signal มีสมาชิกได้สูงสุด $max$ คน",
+        "description": "Shown in the alert when you add the maximum number of group members",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "1000"
+            }
+        }
+    },
+    "chooseGroupMembers__maximum-recommended-group-size__title": {
+        "message": "จำนวนสมาชิกถึงขีดที่แนะนำแล้ว",
+        "description": "Shown in the alert when you add the maximum recommended number of group members"
+    },
+    "chooseGroupMembers__maximum-recommended-group-size__body": {
+        "message": "กลุ่มของ Signal ทำงานได้ดีที่สุดเมื่อมีสมาชิกไม่เกิน $max$ คน การเพิ่มสมาชิกอีกจะทำให้การรับและส่งข้อความล่าช้า",
+        "description": "Shown in the alert when you add the maximum recommended number of group members",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "150"
+            }
+        }
+    },
+    "chooseGroupMembers__cant-add-member__title": {
+        "message": "ไม่สามารถเพิ่มสมาชิกได้",
+        "description": "Shown in the alert when you try to add someone who can't be added to a group"
+    },
+    "chooseGroupMembers__cant-add-member__body": {
+        "message": "ไม่สามารถเพิ่ม \"$name$\" เข้ากลุ่มได้ เนื่องจากเธอกําลังใช้ Signal รุ่นเก่า คุณสามารถเพิ่มเธอเข้ากลุ่มได้หลังจากที่เธอปรับรุ่น Signal แล้ว",
+        "description": "Shown in the alert when you try to add someone who can't be added to a group",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "Jane Doe"
+            }
+        }
+    },
+    "setGroupMetadata__title": {
+        "message": "ตั้งชื่อกลุ่มนี้",
+        "description": "The title for the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__back-button": {
+        "message": "กลับไปที่การเลือกสมาชิก",
+        "description": "Used as alt-text of the back button on the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__group-name-placeholder": {
+        "message": "ชื่อกลุ่ม (ต้องมี)",
+        "description": "The placeholder for the group name placeholder"
+    },
+    "setGroupMetadata__group-description-placeholder": {
+        "message": "Description",
+        "description": "The placeholder for the group description"
+    },
+    "setGroupMetadata__create-group": {
+        "message": "สร้าง",
+        "description": "The 'create group' button text in the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__members-header": {
+        "message": "สมาชิก",
+        "description": "The header for the members list in the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__error-message": {
+        "message": "ไม่สามารถสร้างกลุ่มนี้ได้ ตรวจสอบการเชื่อมต่ออินเทอร์เน็ตของคุณและลองอีกครั้ง",
+        "description": "Shown in the modal when we can't create a group"
+    },
+    "updateGroupAttributes__title": {
+        "message": "แก้ไขกลุ่ม",
+        "description": "Shown in the modal when we want to update a group"
+    },
+    "updateGroupAttributes__error-message": {
+        "message": "การปรับปรุงกลุ่มล้มเหลว ตรวจสอบการเชื่อมต่อของคุณและลองอีกครั้ง",
+        "description": "Shown in the modal when we can't update a group"
+    },
     "notSupportedSMS": {
         "message": "ไม่รองรับข้อความ SMS/MMS",
         "description": "Label underneath number informing user that SMS is not supported on desktop"
@@ -1918,7 +2106,7 @@
         "description": "Placeholder for adding a new number to a contact"
     },
     "invalidNumberError": {
-        "message": "หมายเลขไม่ถูกต้อง",
+        "message": "หมายเลขไม่ถูกรูปแบบ",
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
@@ -1934,7 +2122,7 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "มีการอัพเดทสำหรับ Signal",
+        "message": "มีการปรับปรุงสำหรับ Signal",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
@@ -2081,15 +2269,15 @@
     },
     "message--getDescription--disappearing-media": {
         "message": "สื่อที่ดูได้ครั้งเดียว",
-        "description": "Shown in notifications and in the left pane after view-once message is deleted."
+        "description": "Shown in notifications and in the left pane after view-once message is deleted. Also shown when quoting a view once media."
     },
     "message--getDescription--disappearing-photo": {
         "message": "ภาพที่ดูได้ครั้งเดียว",
-        "description": "Shown in notifications and in the left pane when a message is a view once photo."
+        "description": "Shown in notifications and in the left pane when a message is a view once photo. Also shown when quoting a view once photo."
     },
     "message--getDescription--disappearing-video": {
         "message": "วิดีโอที่ดูได้ครั้งเดียว",
-        "description": "Shown in notifications and in the left pane when a message is a view once video."
+        "description": "Shown in notifications and in the left pane when a message is a view once video. Also shown when quoting a view once video."
     },
     "message--deletedForEveryone": {
         "message": "ข้อความนี้ถูกลบ",
@@ -2112,7 +2300,7 @@
         "description": "Shown in the sticker pack manager above the default sticker packs."
     },
     "stickers--StickerManager--BlessedPacks--Empty": {
-        "message": "ไม่มีสติกเกอร์โดย Signal Artist ที่ใช้ได้",
+        "message": "ไม่มีสติกเกอร์โดยศิลปิน Signal ที่ใช้ได้",
         "description": "Shown in the sticker pack manager when there are no blessed sticker packs available."
     },
     "stickers--StickerManager--ReceivedPacks": {
@@ -2148,23 +2336,23 @@
         "description": "Shown as the body on a tooltip when the user upgrades to a version of Signal supporting stickers."
     },
     "stickers--StickerPicker--Open": {
-        "message": "Open the sticker picker",
+        "message": "เปิดชุดสติกเกอร์",
         "description": "Label for the open button for the sticker picker"
     },
     "stickers--StickerPicker--AddPack": {
-        "message": "Add a sticker pack",
+        "message": "เพิ่มชุดสติกเกอร์",
         "description": "Label for the add pack button in the sticker picker"
     },
     "stickers--StickerPicker--NextPage": {
-        "message": "Next Page",
+        "message": "หน้าถัดไป",
         "description": "Label for the next page button in the sticker picker"
     },
     "stickers--StickerPicker--PrevPage": {
-        "message": "Previous Page",
+        "message": "หน้าก่อนหน้า",
         "description": "Label for the previous page button in the sticker picker"
     },
     "stickers--StickerPicker--Recents": {
-        "message": "Recent Sticker",
+        "message": "สติกเกอร์ล่าสุด",
         "description": "Label for the recent stickers button in the sticker picker"
     },
     "stickers--StickerPicker--DownloadError": {
@@ -2222,11 +2410,11 @@
         "description": "Label for recents emoji picker button"
     },
     "EmojiPicker__button--emoji": {
-        "message": "Emoji",
+        "message": "อีโมจิ",
         "description": "Label for emoji emoji picker button"
     },
     "EmojiPicker__button--animal": {
-        "message": "Animal",
+        "message": "สัตว์",
         "description": "Label for animal emoji picker button"
     },
     "EmojiPicker__button--food": {
@@ -2234,23 +2422,23 @@
         "description": "Label for food emoji picker button"
     },
     "EmojiPicker__button--activity": {
-        "message": "Activity",
+        "message": "กิจกรรม",
         "description": "Label for activity emoji picker button"
     },
     "EmojiPicker__button--travel": {
-        "message": "Travel",
+        "message": "การเดินทาง",
         "description": "Label for travel emoji picker button"
     },
     "EmojiPicker__button--object": {
-        "message": "Object",
+        "message": "วัตถุ",
         "description": "Label for object emoji picker button"
     },
     "EmojiPicker__button--symbol": {
-        "message": "Symbol",
+        "message": "สัญลักษณ์",
         "description": "Label for symbol emoji picker button"
     },
     "EmojiPicker__button--flag": {
-        "message": "Flag",
+        "message": "ธง",
         "description": "Label for flag emoji picker button"
     },
     "confirmation-dialog--Cancel": {
@@ -2268,7 +2456,7 @@
         }
     },
     "Message--unsupported-message-ask-to-resend": {
-        "message": "ตอนนี้คุณสามารถขอให้  $contact$ ส่งข้อความนี้ให้คุณใหม่ในตอนนี้ เนื่องจากคุณได้ใช้รุ่นที่ทันสมัยของ Signal แล้ว",
+        "message": "ตอนนี้ คุณสามารถขอให้  $contact$ ส่งข้อความนี้ให้คุณอีกครั้ง เนื่องจากคุณได้ใช้รุ่นที่ทันสมัยของ Signal แล้ว",
         "description": "",
         "placeholders": {
             "contact": {
@@ -2282,7 +2470,7 @@
         "description": ""
     },
     "Message--from-me-unsupported-message-ask-to-resend": {
-        "message": "ตอนนี้ข้อความแบบนี้ในอนาคตจะถูกปรับประสานถึงกัน เนื่องจากคุณได้ใช้รุ่นที่ทันสมัยของ Signal แล้ว",
+        "message": "จากนี้ ข้อความแบบนี้ในอนาคตจะถูกปรับประสานถึงกัน เนื่องจากคุณใช้รุ่นที่ทันสมัยของ Signal แล้ว",
         "description": ""
     },
     "Message--update-signal": {
@@ -2326,7 +2514,7 @@
         "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
     },
     "Keyboard--navigate-by-section": {
-        "message": "ป้ายบอกทางแยกตามส่วน",
+        "message": "นำทางทีละส่วน",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--previous-conversation": {
@@ -2351,6 +2539,10 @@
     },
     "Keyboard--open-conversation-menu": {
         "message": "เปิดเมนูการสนทนา",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--new-conversation": {
+        "message": "เริ่มการสนทนาใหม่",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--archive-conversation": {
@@ -2402,7 +2594,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-reaction-picker": {
-        "message": "Toggle emoji-reaction picker for selected message",
+        "message": "เปิดปิดตัวเลือกการตอบอีโมจิสำหรับข้อความที่เลือก",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--save-attachment": {
@@ -2422,7 +2614,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--send-in-expanded-composer": {
-        "message": "ส่ง (ในช่องเขียนแบบกว้าง)",
+        "message": "ส่ง (ในช่องเขียนแบบขยาย)",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--attach-file": {
@@ -2430,11 +2622,11 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--remove-draft-link-preview": {
-        "message": "เอาภาพตัวอย่างร่างลิงก์ออก",
+        "message": "ลบร่างภาพตัวอย่างลิงก์",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--remove-draft-attachments": {
-        "message": "ลบร่างแฟ้มแนบทั้งหมด",
+        "message": "เอาร่างแฟ้มแนบออกทั้งหมด",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--conversation-by-index": {
@@ -2446,7 +2638,7 @@
         "description": "Key shown in shortcut combination in shortcuts guide"
     },
     "Keyboard--Key--option": {
-        "message": "ตัวเลือก",
+        "message": "Option",
         "description": "Key shown in shortcut combination in shortcuts guide"
     },
     "Keyboard--Key--alt": {
@@ -2462,7 +2654,7 @@
         "description": "Key shown in shortcut combination in shortcuts guide"
     },
     "Keyboard--Key--tab": {
-        "message": "แท็บ",
+        "message": "Tab",
         "description": "Key shown in shortcut combination in shortcuts guide"
     },
     "Keyboard--Key--one-to-nine-range": {
@@ -2502,11 +2694,11 @@
         "description": "Header of the keyboard shortcuts guide - calling section"
     },
     "Keyboard--toggle-audio": {
-        "message": "Toggle mute on and off",
+        "message": "ตัวเลือกเปิดและปิดเสียง",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-video": {
-        "message": "Toggle video on and off",
+        "message": "ตัวเลือกเปิดและปิดวิดีโอ",
         "description": "Shown in the shortcuts guide"
     },
     "close-popup": {
@@ -2534,7 +2726,7 @@
         "description": "A toast that shows up when the user unarchives a conversation"
     },
     "conversationMarkedUnread": {
-        "message": "Conversation marked unread",
+        "message": "การสนทนาถูกทำเครื่องหมายว่ายังไม่อ่าน",
         "description": "A toast that shows up when user marks a conversation as unread"
     },
     "StickerCreator--title": {
@@ -2590,7 +2782,7 @@
         "description": "Title for the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--help": {
-        "message": "Stickers must be in PNG, APNG, or WebP format with a transparent background and 512x512 pixels. Recommended margin is 16px.",
+        "message": "สติกเกอร์ต้องอยู่ในรูปแบบ PNG, APNG หรือ WebP ที่มีพื้นหลังโปร่งใส และมีขนาด 512x512 พิกเซล ระยะเว้นขอบที่แนะนำคือ 16 พิกเซล",
         "description": "Help text for the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--showMargins": {
@@ -2722,19 +2914,19 @@
         "description": "Text for the toast when an image cannot be processed was dropped on the sticker creator with a generic error"
     },
     "StickerCreator--Toasts--APNG--notSquare": {
-        "message": "Animated PNG stickers must be square",
+        "message": "สติกเกอร์ PNG แบบเคลื่อนไหวต้องเป็นสี่เหลี่ยมจัตุรัส",
         "description": "Text for the toast when someone tries to upload a non-square APNG"
     },
     "StickerCreator--Toasts--mustLoopForever": {
-        "message": "Animated stickers must loop forever",
+        "message": "สติกเกอร์แบบเคลื่อนไหวต้องวนไม่รู้จบ",
         "description": "Text for the toast when an image in the sticker creator does not animate forever"
     },
     "StickerCreator--Toasts--APNG--dimensionsTooLarge": {
-        "message": "Animated PNG sticker dimensions are too large",
+        "message": "ขนาดสติกเกอร์ PNG แบบเคลื่อนไหวใหญ่เกินไป",
         "description": "Text for the toast when an APNG image in the sticker creator is too large"
     },
     "StickerCreator--Toasts--APNG--dimensionsTooSmall": {
-        "message": "Animated PNG sticker dimensions are too small",
+        "message": "ขนาดสติกเกอร์ PNG แบบเคลื่อนไหวเล็กเกินไป ",
         "description": "Text for the toast when an APNG image in the sticker creator is too small"
     },
     "StickerCreator--Toasts--errorUploading": {
@@ -2768,7 +2960,7 @@
         "description": "Shown when a reaction fails to send"
     },
     "ReactionsViewer--more": {
-        "message": "มากกว่า",
+        "message": "ดูเพิ่ม",
         "description": "Use in the reaction picker as the alt text for the 'more' button"
     },
     "ReactionsViewer--all": {
@@ -2776,7 +2968,7 @@
         "description": "Shown in reaction viewer as the title for the 'all' category"
     },
     "MessageRequests--message-direct": {
-        "message": "Let $name$ message you and share your name and photo with them? They won’t know you’ve seen their messages until you accept.",
+        "message": "อนุญาตให้ $name$ ส่งข้อความถึงคุณและเปิดเผยชื่อของคุณและรูปภาพกับพวกเขาหรือไม่ ? พวกเขาจะไม่ทราบว่าคุณได้เห็นข้อความของพวกเขาจนกว่าคุณจะตอบรับ",
         "description": "Shown as the message for a message request in a direct message",
         "placeholders": {
             "name": {
@@ -2786,7 +2978,7 @@
         }
     },
     "MessageRequests--message-direct-blocked": {
-        "message": "Let $name$ message you and share your name and photo with them? You won't receive any messages until you unblock them.",
+        "message": "อนุญาตให้ $name$ ส่งข้อความถึงคุณและเปิดเผยชื่อของคุณและรูปภาพกับพวกเขาหรือไม่? คุณจะไม่ได้รับข้อความใดจนกว่าคุณจะเลิกปิดกั้นพวกเขา",
         "description": "Shown as the message for a message request in a direct message with a blocked account",
         "placeholders": {
             "name": {
@@ -2796,7 +2988,7 @@
         }
     },
     "MessageRequests--message-group": {
-        "message": "Join this group and share your name and photo with its members? They won’t know you’ve seen their messages until you accept.",
+        "message": "เข้าร่วมกลุ่มนี้และเปิดเผยชื่อและรูปถ่ายของคุณให้สมาชิกในกลุ่มเห็นหรือไม่? พวกเขาจะไม่รู้ว่าคุณเห็นข้อความของพวกเขาจนกว่าคุณจะตอบรับ",
         "description": "Shown as the message for a message request in a group",
         "placeholders": {
             "name": {
@@ -2806,7 +2998,7 @@
         }
     },
     "MessageRequests--message-group-blocked": {
-        "message": "Unblock this group and share your name and photo with its members? You won't receive any messages until you unblock them.",
+        "message": "เลิกปิดกั้นกลุ่มนี้ และเปิดเผยชื่อและรูปภาพของคุณให้สมาชิกในกลุ่มเห็นหรือไม่? คุณจะไม่ได้รับข้อความใดจนกว่าคุณจะเลิกปิดกั้นพวกเขา",
         "description": "Shown as the message for a message request in a blocked group"
     },
     "MessageRequests--block": {
@@ -2818,7 +3010,7 @@
         "description": "Shown as a button to let the user unblock a message request"
     },
     "MessageRequests--unblock-confirm-title": {
-        "message": "Unblock $name$?",
+        "message": "เลิกปิดกั้น $name$ หรือไม่?",
         "description": "Shown as a button to let the user unblock a message request",
         "placeholders": {
             "name": {
@@ -2847,12 +3039,16 @@
             }
         }
     },
-    "MessageRequests--block-and-delete": {
-        "message": "ปิดกั้นและลบ",
-        "description": "Shown as a button to let the user block and delete a message request"
+    "MessageRequests--block-and-report-spam": {
+        "message": "Report Spam and Block",
+        "description": "Shown as a button to let the user block a message request and report spam"
+    },
+    "MessageRequests--block-and-report-spam-success-toast": {
+        "message": "ถูกรายงานว่าเป็นสแปมและถูกปิดกั้นแล้ว",
+        "description": "Shown in a toast when you successfully block a user and report them as spam"
     },
     "MessageRequests--block-direct-confirm-title": {
-        "message": "Block $name$?",
+        "message": "ปิดกั้น $name$ หรือไม่?",
         "description": "Shown as the title in the confirmation modal for blocking a private message request",
         "placeholders": {
             "name": {
@@ -2866,7 +3062,7 @@
         "description": "Shown as the body in the confirmation modal for blocking a private message request"
     },
     "MessageRequests--block-group-confirm-title": {
-        "message": "Block and Leave $group$?",
+        "message": "ปิดกั้นและออกจากกลุ่ม $group$ หรือไม่?",
         "description": "Shown as the title in the confirmation modal for blocking a group message request",
         "placeholders": {
             "group": {
@@ -2876,7 +3072,7 @@
         }
     },
     "MessageRequests--block-group-confirm-body": {
-        "message": "You will no longer receive messages or updates from this group and members won't be able to add you to this group again.",
+        "message": "คุณจะไม่ได้รับข้อความหรือข่าวสารจากกลุ่มนี้อีกต่อไป และสมาชิกจะไม่สามารถเพิ่มคุณกลับเข้ามาในกลุ่มนี้ได้อีก",
         "description": "Shown as the body in the confirmation modal for blocking a group message request"
     },
     "MessageRequests--delete": {
@@ -2892,7 +3088,7 @@
         "description": "Shown as the body in the confirmation modal for deleting a private message request"
     },
     "MessageRequests--delete-group-confirm-title": {
-        "message": "Delete and Leave $group$?",
+        "message": "ลบและออกจากกลุ่ม $group$ หรือไม่?",
         "description": "Shown as the title in the confirmation modal for deleting a group message request",
         "placeholders": {
             "group": {
@@ -2914,7 +3110,7 @@
         "description": "Shown as the body in the confirmation modal for deleting a group message request"
     },
     "MessageRequests--accept": {
-        "message": "ยอมรับ",
+        "message": "ตอบรับ",
         "description": "Shown as a button to let the user accept a message request"
     },
     "MessageRequests--continue": {
@@ -2922,7 +3118,7 @@
         "description": "Shown as a button to share your profile, necessary to continue messaging in a conversation"
     },
     "MessageRequests--profile-sharing--group": {
-        "message": "Continue your conversation with this group and share your name and photo with its members? $learnMore$",
+        "message": "สนทนากับกลุ่มนี้ต่อ และเปิดเผยชื่อและรูปภาพของคุณกับสมาชิกในกลุ่มหรือไม่? $learnMore$",
         "description": "Shown when user hasn't shared their profile in a group yet",
         "placeholders": {
             "learnMore": {
@@ -2932,7 +3128,7 @@
         }
     },
     "MessageRequests--profile-sharing--direct": {
-        "message": "Continue this conversation with $firstName$ and share your name and photo with them? $learnMore$",
+        "message": "คุยต่อกับ $firstName$ และเปิดเผยชื่อและรูปภาพของคุณกับเขาหรือไม่? $learnMore$",
         "description": "Shown when user hasn't shared their profile in a 1:1 conversation yet",
         "placeholders": {
             "firstName": {
@@ -2946,11 +3142,11 @@
         }
     },
     "MessageRequests--learn-more": {
-        "message": "Learn more.",
+        "message": "เรียนรู้เพิ่มเติม",
         "description": "Shown at the end of profile sharing messages as a link."
     },
     "ConversationHero--members": {
-        "message": "$count$ members",
+        "message": "$count$ สมาชิก",
         "description": "Specifies the number of members in a group conversation",
         "placeholders": {
             "count": {
@@ -2960,7 +3156,7 @@
         }
     },
     "ConversationHero--members-1": {
-        "message": "สมาชิก 1 คน ",
+        "message": "1 สมาชิก",
         "description": "Specifies the number of members in a group conversation when there is one member",
         "placeholders": {
             "count": {
@@ -2969,8 +3165,8 @@
             }
         }
     },
-    "ConversationHero--membership-1": {
-        "message": "Member of $group$.",
+    "member-of-1-group": {
+        "message": "สมาชิกของ $group$",
         "description": "Shown in the conversation hero to indicate this user is a member of a mutual group",
         "placeholders": {
             "group": {
@@ -2979,8 +3175,8 @@
             }
         }
     },
-    "ConversationHero--membership-2": {
-        "message": "Member of $group1$ and $group2$.",
+    "member-of-2-groups": {
+        "message": "สมาชิกของ $group1$ และ $group2$",
         "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups",
         "placeholders": {
             "group1": {
@@ -2993,8 +3189,8 @@
             }
         }
     },
-    "ConversationHero--membership-3": {
-        "message": "Member of $group1$, $group2$, and $group3$.",
+    "member-of-3-groups": {
+        "message": "สมาชิกของ $group1$ $group2$ และ $group3$",
         "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
         "placeholders": {
             "group1": {
@@ -3011,8 +3207,8 @@
             }
         }
     },
-    "ConversationHero--membership-extra": {
-        "message": "Member of $group1$, $group2$, $group3$ and $remainingCount$ more.",
+    "member-of-more-than-3-groups": {
+        "message": "สมาชิกของ$group1$ $group2$ $group3$ และอีก $remainingCount$ กลุ่ม",
         "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
         "placeholders": {
             "group1": {
@@ -3034,7 +3230,7 @@
         }
     },
     "ConversationHero--membership-added": {
-        "message": "$name$ added you to the group.",
+        "message": "$name$ ได้เพิ่มคุณเข้ากลุ่ม",
         "description": "Shown Indicates that you were added to a group by a given individual.",
         "placeholders": {
             "name": {
@@ -3042,6 +3238,14 @@
                 "example": "Jeff Smith"
             }
         }
+    },
+    "no-groups-in-common": {
+        "message": "ไม่มีกลุ่มร่วมกัน",
+        "description": "Shown to indicate this user is not a member of any groups"
+    },
+    "no-groups-in-common-warning": {
+        "message": "ไม่มีกลุ่มที่เหมือนกันเลย โปรดพิจารณาคำขออย่างระวัง",
+        "description": "When a user has no common groups, show this warning"
     },
     "acceptCall": {
         "message": "รับสาย",
@@ -3056,67 +3260,67 @@
         "description": "Shown in tooltip for the button to decline a call (audio or video)"
     },
     "declinedIncomingAudioCall": {
-        "message": "You declined an audio call",
+        "message": "คุณได้ปฏิเสธการโทรเสียง",
         "description": "Shown in conversation history when you declined an incoming audio call"
     },
     "declinedIncomingVideoCall": {
-        "message": "You declined a video call",
+        "message": "คุณได้ปฏิเสธการโทรวิดีโอ",
         "description": "Shown in conversation history when you declined an incoming video call"
     },
     "acceptedIncomingAudioCall": {
-        "message": "Incoming audio call",
+        "message": "สายเรียกเข้า",
         "description": "Shown in conversation history when you accepted an incoming audio call"
     },
     "acceptedIncomingVideoCall": {
-        "message": "Incoming video call",
+        "message": "สายวิดีโอเรียกเข้า",
         "description": "Shown in conversation history when you accepted an incoming video call"
     },
     "missedIncomingAudioCall": {
-        "message": "Missed audio call",
+        "message": "โทรเสียงที่พลาด",
         "description": "Shown in conversation history when you missed an incoming audio call"
     },
     "missedIncomingVideoCall": {
-        "message": "โทรเห็นหน้าที่ไม่ได้รับ",
+        "message": "โทรวิดีโอที่พลาด",
         "description": "Shown in conversation history when you missed an incoming video call"
     },
     "acceptedOutgoingAudioCall": {
-        "message": "Outgoing audio call",
+        "message": "สายโทรออก",
         "description": "Shown in conversation history when you made an outgoing audio call"
     },
     "acceptedOutgoingVideoCall": {
-        "message": "Outgoing video call",
+        "message": "สายวิดีโอโทรออก",
         "description": "Shown in conversation history when you made an outgoing video call"
     },
     "missedOrDeclinedOutgoingAudioCall": {
-        "message": "Unanswered audio call",
+        "message": "โทรเสียงที่ไม่ได้รับ",
         "description": "Shown in conversation history when your audio call is missed or declined"
     },
     "missedOrDeclinedOutgoingVideoCall": {
-        "message": "Unanswered video call",
+        "message": "โทรวิดีโอที่ไม่ได้รับ",
         "description": "Shown in conversation history when your video call is missed or declined"
     },
     "incomingAudioCall": {
-        "message": "Incoming audio call...",
+        "message": "สายเรียกเข้า...",
         "description": "Shown in both the incoming call bar and notification for an incoming audio call"
     },
     "incomingVideoCall": {
-        "message": "Incoming video call...",
+        "message": "สายวิดีโอเรียกเข้า...",
         "description": "Shown in both the incoming call bar and notification for an incoming video call"
     },
     "outgoingCallPrering": {
-        "message": "Calling...",
+        "message": "กำลังโทร…",
         "description": "Shown in the call screen when placing an outgoing call that isn't ringing yet"
     },
     "outgoingCallRinging": {
-        "message": "Ringing...",
+        "message": "กำลังเรียกสาย…",
         "description": "Shown in the call screen when placing an outgoing call that is now ringing"
     },
     "makeOutgoingCall": {
-        "message": "Start a call",
+        "message": "เริ่มโทร",
         "description": "Title for the call button in a conversation"
     },
     "makeOutgoingVideoCall": {
-        "message": "Start a video call",
+        "message": "เริ่มโทรวิดีโอ",
         "description": "Title for the video call button in a conversation"
     },
     "joinOngoingCall": {
@@ -3124,7 +3328,7 @@
         "description": "Text that appears in a group when a call is active"
     },
     "callNeedPermission": {
-        "message": "$title$ will get a message request from you. You can call once your message request has been accepted.",
+        "message": "$title$ จะได้รับคำขอส่งข้อความจากคุณ  คุณสามารถโทรหาเขาได้เมื่อคำขอส่งข้อความของคุณได้รับการตอบรับ",
         "description": "Shown when a call is rejected because the other party hasn't approved the message/call request",
         "placeholders": {
             "title": {
@@ -3134,7 +3338,7 @@
         }
     },
     "callReconnecting": {
-        "message": "Reconnecting...",
+        "message": "กำลังเชื่อมต่อใหม่...",
         "description": "Shown in the call screen when the call is reconnecting due to network issues"
     },
     "callDuration": {
@@ -3152,7 +3356,7 @@
         "description": "Title for device selection settings"
     },
     "calling__participants": {
-        "message": "$people$ in call",
+        "message": "$people$ อยู่ในสาย",
         "description": "Title for participants list toggle",
         "placeholders": {
             "people": {
@@ -3162,19 +3366,19 @@
         }
     },
     "calling__call-notification__ended": {
-        "message": "The group call has ended",
+        "message": "การโทรกลุ่มสิ้นสุดแล้ว",
         "description": "Notification message when a group call has ended"
     },
     "calling__call-notification__started-by-someone": {
-        "message": "A group call was started",
+        "message": "การโทรกลุ่มเริ่มแล้ว",
         "description": "Notification message when a group call has started, but we don't know who started it"
     },
     "calling__call-notification__started-by-you": {
-        "message": "คุณได้เริ่มการโทรแบบกลุ่ม",
+        "message": "คุณได้เริ่มโทรแบบกลุ่ม",
         "description": "Notification message when a group call has started by you"
     },
     "calling__call-notification__started": {
-        "message": "$name$ started a group call",
+        "message": "$name$ ได้เริ่มการโทรกลุ่ม",
         "description": "Notification message when a group call has started",
         "placeholders": {
             "name": {
@@ -3184,11 +3388,11 @@
         }
     },
     "calling__call-notification__button__in-another-call-tooltip": {
-        "message": "You are already in a call",
+        "message": "คุณอยู่ในสายแล้ว",
         "description": "Tooltip in disabled notification button when you're on another call"
     },
     "calling__call-notification__button__call-full-tooltip": {
-        "message": "Call has reached capacity of $max$ participants",
+        "message": "การโทรนี้มีผู้เข้าร่วมเต็มจำนวนที่ $max$ คนแล้ว",
         "description": "Tooltip in disabled notification button when the call is full",
         "placeholders": {
             "max": {
@@ -3198,39 +3402,65 @@
         }
     },
     "calling__pip--on": {
-        "message": "Minimize call",
+        "message": "โทรจอเล็ก",
         "description": "Title for picture-in-picture toggle"
     },
     "calling__pip--off": {
-        "message": "Fullscreen call",
+        "message": "โทรเต็มจอ",
         "description": "Title for picture-in-picture toggle"
     },
     "calling__switch-view--to-grid": {
-        "message": "Switch to grid view",
+        "message": "สลับเป็นมุมมองตาราง",
         "description": "Title for grid/speaker view toggle when on a call"
     },
     "calling__switch-view--to-speaker": {
-        "message": "Switch to speaker view",
+        "message": "สลับเป็นมุมมองผู้พูด",
         "description": "Title for grid/speaker view toggle when on a call"
     },
     "calling__hangup": {
-        "message": "Leave call",
+        "message": "ออกจากสาย",
         "description": "Title for hang up button"
+    },
+    "calling__SelectPresentingSourcesModal--title": {
+        "message": "Share your screen",
+        "description": "Title for the select your screen sharing sources modal"
+    },
+    "calling__SelectPresentingSourcesModal--confirm": {
+        "message": "Share screen",
+        "description": "Confirm button for sharing screen modal"
+    },
+    "calling__SelectPresentingSourcesModal--entireScreen": {
+        "message": "Entire screen",
+        "description": "Title for the select your screen sharing sources modal and 'Entire Screen' source"
+    },
+    "calling__SelectPresentingSourcesModal--screen": {
+        "message": "Screen $id$",
+        "description": "Title for `Screen #N` source in screen sharing sources modal and overlay",
+        "placeholders": {
+            "id": {
+                "content": "$1",
+                "example": "1"
+            }
+        }
+    },
+    "calling__SelectPresentingSourcesModal--window": {
+        "message": "A window",
+        "description": "Title for the select your screen sharing sources modal"
     },
     "callingDeviceSelection__label--video": {
         "message": "วิดีโอ",
         "description": "Label for video input selector"
     },
     "callingDeviceSelection__label--audio-input": {
-        "message": "Microphone",
+        "message": "ไมโครโฟน",
         "description": "Label for audio input selector"
     },
     "callingDeviceSelection__label--audio-output": {
-        "message": "Speakers",
+        "message": "ลำโพง",
         "description": "Label for audio output selector"
     },
     "callingDeviceSelection__select--no-device": {
-        "message": "No devices available",
+        "message": "ไม่มีอุปกรณ์ที่ใช้ได้",
         "description": "Message for when there are no available devices to select for input/output audio or video"
     },
     "callingDeviceSelection__select--default": {
@@ -3245,6 +3475,10 @@
         "message": "ปิดเสียงหนึ่งชั่วโมง",
         "description": "Label for muting the conversation"
     },
+    "muteEightHours": {
+        "message": "ปิดเสียง 8 ชั่วโมง",
+        "description": "Label for muting the conversation"
+    },
     "muteDay": {
         "message": "ปิดเสียงหนึ่งวัน",
         "description": "Label for muting the conversation"
@@ -3253,16 +3487,20 @@
         "message": "ปิดเสียงหนึ่งสัปดาห์",
         "description": "Label for muting the conversation"
     },
-    "muteYear": {
-        "message": "ปิดเสียงหนึ่งปี",
+    "muteAlways": {
+        "message": "ปิดเสียงตลอด",
         "description": "Label for muting the conversation"
     },
     "unmute": {
         "message": "เปิดเสียง",
         "description": "Label for unmuting the conversation"
     },
+    "muteExpirationLabelAlways": {
+        "message": "ปิดเสียงตลอดอยู่",
+        "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
+    },
     "muteExpirationLabel": {
-        "message": "Muted until $duration$",
+        "message": "ปิดเสียงจนกระทั่ง $duration$",
         "description": "Shown in the mute notifications submenu whenever a conversation has been muted",
         "placeholders": {
             "duration": {
@@ -3272,7 +3510,7 @@
         }
     },
     "EmojiButton__label": {
-        "message": "Emoji",
+        "message": "อีโมจิ",
         "description": "Label for emoji button"
     },
     "ErrorModal--title": {
@@ -3280,7 +3518,7 @@
         "description": "Title of pop-up dialog when user-initiated task has gone wrong"
     },
     "ErrorModal--description": {
-        "message": "Please try again or contact support.",
+        "message": "กรุณาลองอีกครั้งหรือติดต่อฝ่ายสนับสนุน",
         "description": "Description text in pop-up dialog when user-initiated task has gone wrong"
     },
     "Confirmation--confirm": {
@@ -3288,47 +3526,47 @@
         "description": "Button to dismiss pop-up dialog when user-initiated task has gone wrong"
     },
     "unknown-sgnl-link": {
-        "message": "Sorry, that sgnl:// link didn't make sense!",
+        "message": "ขออภัยลิงก์ sgnl: // นั้นไม่สมเหตุสมผล!",
         "description": "Shown if you click on a sgnl:// link not currently supported by Desktop"
     },
     "GroupV2--join--invalid-link--title": {
-        "message": "ลิงก์ไม่ถูกต้อง",
+        "message": "ลิงก์ไม่ถูกรูปแบบ",
         "description": "Shown if we are unable to parse a group link"
     },
     "GroupV2--join--invalid-link": {
-        "message": "This is not a valid group link. Make sure the entire link is intact and correct before attempting to join.",
+        "message": "นี่ไม่ใช่ลิงก์กลุ่มที่ถูกต้อง ตรวจสอบให้แน่ใจว่าลิงก์ทั้งหมดไม่เสียหายและถูกต้องก่อนที่จะพยายามเข้าร่วม",
         "description": "Shown if we are unable to parse a group link"
     },
     "GroupV2--join--prompt": {
-        "message": "Do you want to join this group and share your name and photo with its members?",
+        "message": "คุณต้องการเข้าร่วมกลุ่มและเปิดเผยชื่อกับรูปภาพให้สมาชิกในกลุ่มเห็นหรือไม่?",
         "description": "Shown when you click on a group link to confirm"
     },
     "GroupV2--join--already-in-group": {
-        "message": "You're already in this group.",
+        "message": "คุณอยู่ในกลุ่มนี้เรียบร้อยแล้ว",
         "description": "Shown if you click a group link for a group where you're already a member"
     },
     "GroupV2--join--already-awaiting-approval": {
-        "message": "You have already requested approval to join this group.",
+        "message": "คุณส่งคำขออนุมัติเข้าร่วมกลุ่มนี้เรียบร้อยแล้ว",
         "description": "Shown if you click a group link for a group where you've already requested approval'"
     },
     "GroupV2--join--unknown-link-version--title": {
-        "message": "Unknown link version",
+        "message": "รุ่นลิงก์ที่ไม่รู้จัก",
         "description": "This group link is no longer valid."
     },
     "GroupV2--join--unknown-link-version": {
-        "message": "This link is not supported by this version of Signal Desktop.",
+        "message": "ลิงก์นี้ใช้กับ Signal Desktop รุ่นนี้ไม่ได้",
         "description": "Shown if you click a group link and we can't get information about it"
     },
     "GroupV2--join--link-revoked--title": {
-        "message": "Can’t Join Group",
+        "message": "ไม่สามารถเข้าร่วมกลุ่มได้",
         "description": "Shown if you click a group link and we can't get information about it"
     },
     "GroupV2--join--link-revoked": {
-        "message": "This group link is no longer valid.",
+        "message": "ลิงก์กลุ่มนี้ใช้ไม่ได้แล้ว",
         "description": "Shown if you click a group link and we can't get information about it"
     },
     "GroupV2--join--prompt-with-approval": {
-        "message": "An admin of this group must approve your request before you can join this group. If approved, your name and photo will be shared with its members.",
+        "message": "ผู้ดูแลระบบของกลุ่มนี้ต้องอนุมัติคำขอเข้าร่วมของคุณก่อนจึงจะสามารถเข้าร่วมกลุ่มนี้ได้ หากได้รับการอนุมัติชื่อและรูปถ่ายของคุณจะถูกเปิดเผยกับสมาชิกในกลุ่ม",
         "description": "Shown when you click on a group link to confirm, if it requires admin approval"
     },
     "GroupV2--join--join-button": {
@@ -3336,7 +3574,7 @@
         "description": "The button to join the group"
     },
     "GroupV2--join--request-to-join-button": {
-        "message": "Request to Join",
+        "message": "ขอเข้ากลุ่ม",
         "description": "The button to join the group, if approval is required"
     },
     "GroupV2--join--cancel-request-to-join": {
@@ -3344,7 +3582,7 @@
         "description": "The button to cancel request to join the group"
     },
     "GroupV2--join--cancel-request-to-join--confirmation": {
-        "message": "Cancel your request to join this group?",
+        "message": "ต้องการยกเลิกคำขอเข้ากลุ่มนี้หรือไม่?",
         "description": "A confirmation message that shows after you click the button"
     },
     "GroupV2--join--cancel-request-to-join--yes": {
@@ -3356,11 +3594,11 @@
         "description": "Choosing not to continue in the cancel join confirmation dialog"
     },
     "GroupV2--join--member-count--single": {
-        "message": "สมาชิก 1 คน ",
+        "message": "1 สมาชิก",
         "description": "Shown in the metadata section if group has just one member"
     },
     "GroupV2--join--member-count--multiple": {
-        "message": "$count$ members",
+        "message": "$count$ สมาชิก",
         "description": "Shown in the metadata section if group has more than one member",
         "placeholders": {
             "count": {
@@ -3370,7 +3608,7 @@
         }
     },
     "GroupV2--join--group-metadata": {
-        "message": "Group · $memberCount$",
+        "message": "กลุ่ม · $memberCount$",
         "description": "A holder for two pieces of information - the type of conversation, and the member count",
         "placeholders": {
             "memberCount": {
@@ -3380,27 +3618,31 @@
         }
     },
     "GroupV2--join--requested": {
-        "message": "Your request to join has been sent to the group admin. You’ll be notified when they take action.",
+        "message": "คําขอเข้ากลุ่มของคุณถูกส่งไปยังผู้ดูแลกลุ่มแล้ว คุณจะได้รับแจ้งเมื่อพวกเขาดําเนินการ",
         "description": "Shown in composition area when you've requested to join a group"
     },
     "GroupV2--join--general-join-failure--title": {
-        "message": "Link Error",
+        "message": " ลิงก์เกิดข้อผิดพลาด",
         "description": "Shown if something went wrong when you try to join via a group link"
     },
     "GroupV2--join--general-join-failure": {
-        "message": "Joining via this link failed. Try joining again later.",
+        "message": "การเข้าร่วมผ่านลิงก์นี้ล้มเหลว ลองเข้าร่วมอีกครั้งในภายหลัง",
         "description": "Shown if something went wrong when you try to join via a group link"
     },
     "GroupV2--admin": {
         "message": "ผู้ดูแล",
         "description": "Label for a group administrator"
     },
+    "GroupV2--only-admins": {
+        "message": "เฉพาะผู้ดูแล",
+        "description": "Label for group administrators -- used in drop-downs to select permissions that apply to admins"
+    },
     "GroupV2--all-members": {
         "message": "สมาชิกทุกคน",
         "description": "Label for describing the general non-privileged members of a group"
     },
     "updating": {
-        "message": "Updating...",
+        "message": "กำลังปรับปรุง...",
         "description": "Shown along with a spinner when an update operation takes longer than one second"
     },
     "GroupV2--create--you": {
@@ -3408,7 +3650,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--create--other": {
-        "message": "$memberName$ created the group.",
+        "message": "$memberName$ ได้สร้างกลุ่มแล้ว",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3418,11 +3660,11 @@
         }
     },
     "GroupV2--create--unknown": {
-        "message": "The group was created.",
+        "message": "กลุ่มถูกสร้างแล้ว",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--title--change--other": {
-        "message": "$memberName$ changed the group name to \"$newTitle$\".",
+        "message": "$memberName$ ได้เปลี่ยนชื่อกลุ่มเป็น \"$newTitle$\" ",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3436,7 +3678,7 @@
         }
     },
     "GroupV2--title--change--you": {
-        "message": "You changed the group name to \"$newTitle$\".",
+        "message": "คุณได้เปลี่ยนชื่อกลุ่มเป็น \"$newTitle$\" ",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "newTitle": {
@@ -3446,7 +3688,7 @@
         }
     },
     "GroupV2--title--change--unknown": {
-        "message": "A member changed the group name to \"$newTitle$\".",
+        "message": "สมาชิกได้เปลี่ยนชื่อกลุ่มเป็น \"$newTitle$\" ",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "newTitle": {
@@ -3456,7 +3698,7 @@
         }
     },
     "GroupV2--title--remove--other": {
-        "message": "$memberName$ removed the group name.",
+        "message": "$memberName$ ได้ลบชื่อกลุ่มออก",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3470,11 +3712,11 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--title--remove--unknown": {
-        "message": "A member removed the group name.",
+        "message": "สมาชิกได้ลบชื่อกลุ่มออก",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--change--other": {
-        "message": "$memberName$ changed the group avatar.",
+        "message": "$memberName$ ได้เปลี่ยนภาพประจำตัวกลุ่ม",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3488,11 +3730,11 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--change--unknown": {
-        "message": "A member changed the group avatar.",
+        "message": "สมาชิกได้เปลี่ยนภาพประจำตัวกลุ่ม",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--remove--other": {
-        "message": "$memberName$ removed the group avatar.",
+        "message": "$memberName$ ได้ลบภาพประจำตัวกลุ่ม",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3502,15 +3744,15 @@
         }
     },
     "GroupV2--avatar--remove--you": {
-        "message": "You removed the group avatar.",
+        "message": "คุณได้ลบภาพประจำตัวกลุ่ม",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--remove--unknown": {
-        "message": "A member removed the group avatar.",
+        "message": "สมาชิกได้ลบภาพประจำตัวกลุ่ม",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--admins--other": {
-        "message": "$adminName$ changed who can edit group info to \"Only admins.\"",
+        "message": "$adminName$ ได้เปลี่ยนคนที่สามารถแก้ไขข้อมูลในกลุ่มเป็น \"เฉพาะผู้ดูแล\"",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3520,15 +3762,15 @@
         }
     },
     "GroupV2--access-attributes--admins--you": {
-        "message": "You changed who can edit group info to \"Only admins.\"",
+        "message": "คุณได้เปลี่ยนคนที่สามารถแก้ไขข้อมูลในกลุ่มเป็น \"เฉพาะผู้ดูแล\"",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--admins--unknown": {
-        "message": "An admin changed who can edit group info to \"Only admins.\"",
+        "message": "ผู้ดูแลได้เปลี่ยนคนที่สามารถแก้ไขข้อมูลในกลุ่มเป็น \"เฉพาะผู้ดูแล\"",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--all--other": {
-        "message": "$adminName$ changed who can edit group info to \"All members.\"",
+        "message": "$adminName$ ได้เปลี่ยนคนที่สามารถแก้ไขข้อมูลในกลุ่มเป็น \"สมาชิกทุกคน\"",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3538,15 +3780,15 @@
         }
     },
     "GroupV2--access-attributes--all--you": {
-        "message": "You changed who can edit group info to \"All members.\"",
+        "message": "คุณได้เปลี่ยนคนที่สามารถแก้ไขข้อมูลในกลุ่มเป็น \"สมาชิกทุกคน\"",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--all--unknown": {
-        "message": "An admin changed who can edit group info to \"All members.\"",
+        "message": "ผู้ดูแลได้เปลี่ยนคนที่สามารถแก้ไขข้อมูลในกลุ่มเป็น \"สมาชิกทุกคน\"",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--admins--other": {
-        "message": "$adminName$ changed who can edit group membership to \"Only admins.\"",
+        "message": "$adminName$ ได้เปลี่ยนคนที่สามารถแก้ไขการเป็นสมาชิกในกลุ่มเป็น  \"เฉพาะผู้ดูแล\"",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3556,15 +3798,15 @@
         }
     },
     "GroupV2--access-members--admins--you": {
-        "message": "You changed who can edit group membership to \"Only admins.\"",
+        "message": " คุณได้เปลี่ยนคนที่สามารถแก้ไขการเป็นสมาชิกในกลุ่มเป็น \"เฉพาะผู้ดูแล\"",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--admins--unknown": {
-        "message": "An admin changed who can edit group membership to \"Only admins.\"",
+        "message": " ผู้ดูแลได้เปลี่ยนคนที่สามารถแก้ไขการเป็นสมาชิกในกลุ่มเป็น \"เฉพาะผู้ดูแล\"",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--all--other": {
-        "message": "$adminName$ changed who can edit group membership to \"All members.\"",
+        "message": "$adminName$  ได้เปลี่ยนคนที่สามารถแก้ไขการเป็นสมาชิกในกลุ่มเป็น \"สมาชิกทุกคน\"",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3574,19 +3816,19 @@
         }
     },
     "GroupV2--access-members--all--you": {
-        "message": "You changed who can edit group membership to \"All members.\"",
+        "message": " คุณได้เปลี่ยนคนที่สามารถแก้ไขการเป็นสมาชิกในกลุ่มเป็น \"สมาชิกทุกคน\"",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--all--unknown": {
-        "message": "An admin changed who can edit group membership to \"All members.\"",
+        "message": " ผู้ดูแลได้เปลี่ยนคนที่สามารถแก้ไขการเป็นสมาชิกในกลุ่มเป็น \"สมาชิกทุกคน\"",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-invite-link--disabled--you": {
-        "message": "You disabled admin approval for the group link.",
+        "message": "คุณได้ปิดใช้การอนุมัติของผู้ดูแลสำหรับลิงก์กลุ่ม",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-invite-link--disabled--other": {
-        "message": "$adminName$ disabled admin approval for the group link.",
+        "message": "$adminName$ได้ปิดใช้การอนุมัติของผู้ดูแลสำหรับลิงก์กลุ่ม",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3596,15 +3838,15 @@
         }
     },
     "GroupV2--access-invite-link--disabled--unknown": {
-        "message": "Admin approval for the group link has been disabled.",
+        "message": "การอนุมัติของผู้ดูแลสำหรับลิงก์กลุ่มถูกปิดใช้งาน",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-invite-link--enabled--you": {
-        "message": "You enabled admin approval for the group link.",
+        "message": "คุณได้เปิดใช้งานการอนุมัติของผู้ดูแลสำหรับลิงก์กลุ่ม",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-invite-link--enabled--other": {
-        "message": "$adminName$ enabled admin approval for the group link.",
+        "message": "$adminName$ได้เปิดใช้การอนุมัติของผู้ดูแลสำหรับลิงก์กลุ่ม",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3614,11 +3856,11 @@
         }
     },
     "GroupV2--access-invite-link--enabled--unknown": {
-        "message": "Admin approval for the group link has been enabled.",
+        "message": "การอนุมัติของผู้ดูแลสำหรับลิงก์กลุ่มถูกเปิดใช้งาน",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add--invited--you": {
-        "message": "You added invited member $inviteeName$.",
+        "message": "คุณได้เพิ่มสมาชิกที่ถูกเชิญ $inviteeName$",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3628,7 +3870,7 @@
         }
     },
     "GroupV2--member-add--invited--other": {
-        "message": "$memberName$ added invited member $inviteeName$.",
+        "message": "$memberName$ ได้เพิ่มสมาชิกที่ถูกเชิญ $inviteeName$",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3642,7 +3884,7 @@
         }
     },
     "GroupV2--member-add--invited--unknown": {
-        "message": "A member added invited member $inviteeName$.",
+        "message": "สมาชิกได้เพิ่มสมาชิกที่ถูกเชิญ $inviteeName$",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3652,7 +3894,7 @@
         }
     },
     "GroupV2--member-add--from-invite--other": {
-        "message": "$inviteeName$ accepted an invitation to the group from $inviterName$.",
+        "message": "$inviteeName$ ได้ตอบรับคำเชิญเข้ากลุ่มจาก $inviterName$",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3666,7 +3908,7 @@
         }
     },
     "GroupV2--member-add--from-invite--other-no-from": {
-        "message": "$inviteeName$ accepted an invitation to the group.",
+        "message": "$inviteeName$ ได้ตอบรับคำเชิญเข้ากลุ่ม",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3676,7 +3918,7 @@
         }
     },
     "GroupV2--member-add--from-invite--you": {
-        "message": "You accepted an invitation to the group from $inviterName$.",
+        "message": "คุณได้ตอบรับคำเชิญเข้ากลุ่มจาก $inviterName$",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviterName": {
@@ -3690,7 +3932,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add--from-invite--from-you": {
-        "message": "$inviteeName$ accepted your invitation to the group.",
+        "message": "$inviteeName$ได้ตอบรับคำเชิญเข้ากลุ่มของคุณ ",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3700,7 +3942,7 @@
         }
     },
     "GroupV2--member-add--other--other": {
-        "message": "$adderName$ added $addeeName$.",
+        "message": "$adderName$ ได้เพิ่ม $addeeName$",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adderName": {
@@ -3714,7 +3956,7 @@
         }
     },
     "GroupV2--member-add--other--you": {
-        "message": "You added $memberName$.",
+        "message": "คุณได้เพิ่ม $memberName$",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3724,7 +3966,7 @@
         }
     },
     "GroupV2--member-add--other--unknown": {
-        "message": "A member added $memberName$.",
+        "message": "สมาชิกได้เพิ่ม $memberName$",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3734,7 +3976,7 @@
         }
     },
     "GroupV2--member-add--you--other": {
-        "message": "$memberName$ added you to the group.",
+        "message": "$memberName$ ได้เพิ่มคุณเข้ากลุ่ม",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3748,15 +3990,15 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add--you--unknown": {
-        "message": "You were added to the group.",
+        "message": "คุณถูกเพิ่มเข้ากลุ่ม",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add-from-link--you--you": {
-        "message": "You joined the group via the group link.",
+        "message": "คุณได้เข้าร่วมกลุ่มผ่านลิงก์กลุ่ม",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add-from-link--other": {
-        "message": "$memberName$ joined the group via the group link.",
+        "message": "$memberName$ ได้เข้าร่วมกลุ่มผ่านลิงก์กลุ่ม",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3766,7 +4008,7 @@
         }
     },
     "GroupV2--member-add-from-admin-approval--you--other": {
-        "message": "$adminName$ approved your request to join the group.",
+        "message": "$adminName$ ได้อนุมัติคำขอของคุณเพื่อเข้าร่วมกลุ่ม",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3776,11 +4018,11 @@
         }
     },
     "GroupV2--member-add-from-admin-approval--you--unknown": {
-        "message": "Your request to join the group has been approved.",
+        "message": "คำขอเข้ากลุ่มของคุณได้รับอนุมัติ",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add-from-admin-approval--other--you": {
-        "message": "You approved a request to join the group from $joinerName$.",
+        "message": "คุณได้อนุมัติคำขอเข้ากลุ่มจาก $joinerName$",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -3790,7 +4032,7 @@
         }
     },
     "GroupV2--member-add-from-admin-approval--other--other": {
-        "message": "$adminName$ approved a request to join the group from $joinerName$.",
+        "message": "$adminName$ ได้อนุมัติคำขอเข้ากลุ่มจาก $joinerName$",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3804,7 +4046,7 @@
         }
     },
     "GroupV2--member-add-from-admin-approval--other--unknown": {
-        "message": "A request to join the group from $joinerName$ has been approved.",
+        "message": "คำขอเข้ากลุ่มจาก $joinerName$ ได้รับอนุมัติแล้ว",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -3814,7 +4056,7 @@
         }
     },
     "GroupV2--member-remove--other--other": {
-        "message": "$adminName$ removed $memberName$.",
+        "message": "$adminName$ ได้ลบ $memberName$ ออก",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3828,7 +4070,7 @@
         }
     },
     "GroupV2--member-remove--other--self": {
-        "message": "$memberName$ left the group.",
+        "message": "$memberName$ ออกจากกลุ่ม",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3838,7 +4080,7 @@
         }
     },
     "GroupV2--member-remove--other--you": {
-        "message": "You removed $memberName$.",
+        "message": "คุณได้ลบ $memberName$ ออก",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3848,7 +4090,7 @@
         }
     },
     "GroupV2--member-remove--other--unknown": {
-        "message": "A member removed $memberName$.",
+        "message": "สมาชิกได้ลบ $memberName$ ออก",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3858,7 +4100,7 @@
         }
     },
     "GroupV2--member-remove--you--other": {
-        "message": "$adminName$ removed you.",
+        "message": "$adminName$ ได้ลบคุณออก",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3872,11 +4114,11 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-remove--you--unknown": {
-        "message": "คุณถูกนำออกจากกลุ่ม",
+        "message": "คุณถูกลบออกจากกลุ่ม",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-privilege--promote--other--other": {
-        "message": "$adminName$ made $memberName$ an admin.",
+        "message": "$adminName$ ตั้ง $memberName$ เป็นผู้ดูแล",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3890,7 +4132,7 @@
         }
     },
     "GroupV2--member-privilege--promote--other--you": {
-        "message": "You made $memberName$ an admin.",
+        "message": "คุณตั้ง $memberName$ เป็นผู้ดูแล",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3900,7 +4142,7 @@
         }
     },
     "GroupV2--member-privilege--promote--other--unknown": {
-        "message": "An admin made $memberName$ an admin.",
+        "message": "ผู้ดูแลคนหนึ่งตั้ง $memberName$ เป็นผู้ดูแล",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3910,7 +4152,7 @@
         }
     },
     "GroupV2--member-privilege--promote--you--other": {
-        "message": "$adminName$ made you an admin.",
+        "message": "$adminName$ ตั้งคุณเป็นผู้ดูแล",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3920,11 +4162,11 @@
         }
     },
     "GroupV2--member-privilege--promote--you--unknown": {
-        "message": "An admin made you an admin.",
+        "message": "ผู้ดูแลคนหนึ่งตั้งคุณเป็นผู้ดูแล",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-privilege--demote--other--other": {
-        "message": "$adminName$ revoked admin privileges from $memberName$.",
+        "message": "$adminName$ ได้เพิกถอนสิทธิ์ผู้ดูแลจาก $memberName$",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3938,7 +4180,7 @@
         }
     },
     "GroupV2--member-privilege--demote--other--you": {
-        "message": "You revoked admin privileges from $memberName$.",
+        "message": "คุณได้เพิกถอนสิทธิ์ผู้ดูแลจาก $memberName$",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3948,11 +4190,11 @@
         }
     },
     "GroupV2--member-privilege--demote--other--unknown": {
-        "message": "An admin revoked admin privileges from $memberName$.",
+        "message": "ผู้ดูแลได้เพิกถอนสิทธิ์ผู้ดูแลจาก $memberName$",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-privilege--demote--you--other": {
-        "message": "$adminName$ revoked your admin privileges.",
+        "message": "$adminName$ ได้เพิกถอนสิทธิ์ผู้ดูแลของคุณ",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3962,11 +4204,11 @@
         }
     },
     "GroupV2--member-privilege--demote--you--unknown": {
-        "message": "An admin revoked your admin privileges.",
+        "message": "ผู้ดูแลได้เพิกถอนสิทธิ์ผู้ดูแลของคุณ",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--pending-add--one--other--other": {
-        "message": "$memberName$ invited 1 person to the group.",
+        "message": "$memberName$ ได้เชิญ 1 คน เข้าร่วมกลุ่ม",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3976,7 +4218,7 @@
         }
     },
     "GroupV2--pending-add--one--other--you": {
-        "message": "You invited $inviteeName$ to the group.",
+        "message": "คุณได้เชิญ $inviteeName$ เข้าร่วมกลุ่ม",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3986,7 +4228,7 @@
         }
     },
     "GroupV2--pending-add--one--other--unknown": {
-        "message": "One person was invited to the group.",
+        "message": "มีคนถูกเชิญให้เข้าร่วมกลุ่มหนึ่งคน",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3996,7 +4238,7 @@
         }
     },
     "GroupV2--pending-add--one--you--other": {
-        "message": "$memberName$ invited you to the group.",
+        "message": "$memberName$ ได้เชิญคุณเข้ากลุ่ม",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4010,7 +4252,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--pending-add--many--other": {
-        "message": "$memberName$ invited $count$ people to the group.",
+        "message": "$memberName$ ได้เชิญ $count$ คนเข้ากลุ่ม",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4024,7 +4266,7 @@
         }
     },
     "GroupV2--pending-add--many--you": {
-        "message": "You invited $count$ people to the group.",
+        "message": "คุณได้เชิญ $count$ คนเข้ากลุ่ม",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -4034,7 +4276,7 @@
         }
     },
     "GroupV2--pending-add--many--unknown": {
-        "message": "$count$ people were invited to the group.",
+        "message": "$count$ คนถูกเชิญเข้ากลุ่ม",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -4044,7 +4286,7 @@
         }
     },
     "GroupV2--pending-remove--decline--other": {
-        "message": "1 person invited by $memberName$ declined the invitation to the group.",
+        "message": "มี 1 คน ถูกเชิญโดย $memberName$ ได้ปฏิเสธคำเชิญเข้ากลุ่ม",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4054,7 +4296,7 @@
         }
     },
     "GroupV2--pending-remove--decline--you": {
-        "message": "$inviteeName$ declined your invitation to the group.",
+        "message": "$inviteeName$ ได้ปฏิเสธคำเชิญเข้ากลุ่มของคุณ",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -4068,11 +4310,11 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--pending-remove--decline--unknown": {
-        "message": "1 person declined their invitation to the group.",
+        "message": "มี 1 คน ปฏิเสธคำเชิญเข้ากลุ่มของเขา",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--pending-remove--revoke--one--other": {
-        "message": "$memberName$ revoked an invitation to the group for 1 person.",
+        "message": "$memberName$ ได้เพิกถอนคำเชิญเข้ากลุ่มสำหรับคน 1 คน",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4082,7 +4324,7 @@
         }
     },
     "GroupV2--pending-remove--revoke--one--you": {
-        "message": "You revoked an invitation to the group for 1 person.",
+        "message": "คุณได้เพิกถอนคำเชิญเข้ากลุ่มสำหรับคน 1 คน ",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -4092,7 +4334,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-own--to-you": {
-        "message": "$inviterName$ revoked their invitation to you.",
+        "message": "$inviterName$ ได้เพิกถอนคำเชิญที่ส่งถึงคุณ",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviterName": {
@@ -4102,7 +4344,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-own--unknown": {
-        "message": "$inviterName$ revoked their invitation to 1 person.",
+        "message": "$inviterName$ ได้เพิกถอนคําเชิญของพวกเขาที่ส่งถึงคน 1 คน",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviterName": {
@@ -4112,7 +4354,7 @@
         }
     },
     "GroupV2--pending-remove--revoke--one--unknown": {
-        "message": "An admin revoked an invitation to the group for 1 person.",
+        "message": "ผู้ดูแลได้เพิกถอนคําเชิญเข้ากลุ่มสำหรับ 1 คน",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -4122,7 +4364,7 @@
         }
     },
     "GroupV2--pending-remove--revoke--many--other": {
-        "message": "$memberName$ revoked invitations to the group for $count$ people.",
+        "message": "$memberName$ ได้เพิกถอนคำเชิญเข้ากลุ่มสำหรับ $count$ คน",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -4136,7 +4378,7 @@
         }
     },
     "GroupV2--pending-remove--revoke--many--you": {
-        "message": "You revoked invitations to the group for $count$ people.",
+        "message": "คุณได้เพิกถอนคำเชิญเข้ากลุ่มสำหรับ $count$ คน",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -4146,7 +4388,7 @@
         }
     },
     "GroupV2--pending-remove--revoke--many--unknown": {
-        "message": "An admin revoked invitations to the group for $count$ people.",
+        "message": "ผู้ดูแลได้เพิกถอนคำเชิญเข้ากลุ่มสำหรับ $count$ คน",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -4156,7 +4398,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--one--other": {
-        "message": "$adminName$ revoked an invitation to the group for 1 person invited by $memberName$.",
+        "message": "$adminName$ ได้เพิกถอนคำเชิญเข้าร่สมกลุ่มแก่คน 1 คนที่ถูกเชิญโดย $memberName$",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4170,7 +4412,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--one--you": {
-        "message": "You revoked an invitation to the group for 1 person invited by $memberName$.",
+        "message": "คุณได้เพิกถอนคำเชิญเข้ากลุ่มแก่คน 1 คน ที่ถูกเชิญโดย $memberName$",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4180,7 +4422,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--one--unknown": {
-        "message": "An admin revoked an invitation to the group for 1 person invited by $memberName$.",
+        "message": "ผู้ดูแลได้เพิกถอนคำเชิญเข้ากลุ่มแก่คน 1 คน ที่ถูกเชิญโดย $memberName$",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4190,7 +4432,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--one--other": {
-        "message": "$adminName$ revoked the invitation to the group you sent to $inviteeName$.",
+        "message": "$adminName$ ได้เพิกถอนคำเชิญเข้ากลุ่มที่คุณส่งถึง $inviteeName$",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4200,7 +4442,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--one--you": {
-        "message": "You rescinded your invitation to $inviteeName$.",
+        "message": "คุณได้เพิกถอนคำเชิญของคุณที่ส่งไปยัง $inviteeName$",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -4210,7 +4452,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--one--unknown": {
-        "message": "An admin revoked the invitation to the group you sent to $inviteeName$.",
+        "message": "ผู้ดูแลได้เพิกถอนคำเชิญเข้ากลุ่มที่คุณส่งไปยัง $inviteeName$",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -4220,7 +4462,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--many--other": {
-        "message": "$adminName$ revoked invitations to the group for $count$ people invited by $memberName$.",
+        "message": "$adminName$ ได้เพิกถอนคำเชิญเข้ากลุ่มแก่คน $count$ คน ที่ถูกเชิญโดย $memberName$",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4234,7 +4476,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--many--you": {
-        "message": "You revoked invitations to the group for $count$ people invited by $memberName$.",
+        "message": "คุณได้เพิกถอนคำเชิญเข้ากลุ่มแก่คน $count$ คน ที่ถูกเชิญโดย $memberName$",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -4248,7 +4490,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--many--unknown": {
-        "message": "An admin revoked invitations to the group for $count$ people invited by $memberName$.",
+        "message": "ผู้ดูแลได้เพิกถอนคำเชิญเข้ากลุ่มแก่คน $count$ คน ที่ถูกเชิญโดย $memberName$",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -4262,7 +4504,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--many--other": {
-        "message": "$adminName$ revoked the invitations to the group you sent to $count$ people.",
+        "message": "$adminName$ได้เพิกถอนคำเชิญเข้ากลุ่มที่คุณส่งไปยังคน $count$ คน",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4276,7 +4518,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--many--you": {
-        "message": "You rescinded your invitation to $count$ people.",
+        "message": "คุณได้เพิกถอนคำเชิญของคุณที่ส่งไปยังคน $count$ คน",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -4286,7 +4528,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--many--unknown": {
-        "message": "An admin revoked the invitations to the group you sent to $count$ people.",
+        "message": "ผู้ดูแลได้เพิกถอนคำเชิญเข้ากลุ่มที่คุณส่งไปยังคน $count$ คน",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -4296,11 +4538,11 @@
         }
     },
     "GroupV2--admin-approval-add-one--you": {
-        "message": "You sent a request to join the group.",
+        "message": "คุณได้ส่งคำร้องขอเข้าร่วมกลุ่ม",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--admin-approval-add-one--other": {
-        "message": "$joinerName$ requested to join via the group link.",
+        "message": "$joinerName$ ได้ส่งคำขอเข้าร่วมผ่านลิงก์กลุ่ม",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -4310,15 +4552,15 @@
         }
     },
     "GroupV2--admin-approval-remove-one--you--you": {
-        "message": "You canceled your request to join the group.",
+        "message": "คุณได้ยกเลิกคำขอเข้ากลุ่มนี้",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--admin-approval-remove-one--you--unknown": {
-        "message": "Your request to join the group has been denied by an admin.",
+        "message": "คำขอเข้ากลุ่มของคุณถูกปฏิเสธโดยผู้ดูแล",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--admin-approval-remove-one--other--you": {
-        "message": "You denied a request to join the group from $joinerName$.",
+        "message": "คุณปฏิเสธคำขอเข้ากลุ่มจาก $joinerName$",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -4328,7 +4570,7 @@
         }
     },
     "GroupV2--admin-approval-remove-one--other--own": {
-        "message": "$joinerName$ canceled their request to join the group.",
+        "message": "$joinerName$ ได้ยกเลิกคำขอเข้ากลุ่มของพวกเขา",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -4338,7 +4580,7 @@
         }
     },
     "GroupV2--admin-approval-remove-one--other--other": {
-        "message": "$adminName$ denied a request to join the group from $joinerName$.",
+        "message": "$adminName$ ปฏิเสธคำขอเข้ากลุ่มจาก $joinerName$",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4352,11 +4594,11 @@
         }
     },
     "GroupV2--group-link-add--disabled--you": {
-        "message": "You turned on the group link with admin approval disabled.",
+        "message": "คุณได้เปิดลิงก์กลุ่ม โดยการอนุมัติโดยผู้ดูแลปิดอยู่",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-add--disabled--other": {
-        "message": "$adminName$ turned on the group link with admin approval disabled.",
+        "message": "$adminName$ ได้เปิดลิงก์กลุ่ม โดยการอนุมัติโดยผู้ดูแลปิดอยู่",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4366,15 +4608,15 @@
         }
     },
     "GroupV2--group-link-add--disabled--unknown": {
-        "message": "The group link has been turned on with admin approval disabled.",
+        "message": "ลิงก์กลุ่มถูกเปิด โดยการอนุมัติโดยผู้ดูแลปิดอยู่",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-add--enabled--you": {
-        "message": "You turned on the group link with admin approval enabled.",
+        "message": "คุณได้เปิดลิงก์กลุ่ม โดยการอนุมัติโดยผู้ดูแลเปิดอยู่",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-add--enabled--other": {
-        "message": "$adminName$ turned on the group link with admin approval enabled.",
+        "message": "$adminName$ ได้เปิดลิงก์กลุ่ม โดยการอนุมัติโดยผู้ดูแลเปิดอยู่",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4384,7 +4626,7 @@
         }
     },
     "GroupV2--group-link-add--enabled--unknown": {
-        "message": "The group link has been turned on with admin approval enabled.",
+        "message": "ลิงก์กลุ่มถูกเปิด โดยการอนุมัติโดยผู้ดูแลเปิดอยู่",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-remove--you": {
@@ -4392,7 +4634,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-remove--other": {
-        "message": "$adminName$ turned off the group link.",
+        "message": "$adminName$ ได้ปิดลิงก์กลุ่ม",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4402,15 +4644,15 @@
         }
     },
     "GroupV2--group-link-remove--unknown": {
-        "message": "The group link has been turned off.",
+        "message": "ลิงก์กลุ่มได้ถูกปิดแล้ว",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-reset--you": {
-        "message": "You reset the group link.",
+        "message": "คุณได้ล้างค่าตั้งใหม่ให้ลิงก์กลุ่ม",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-reset--other": {
-        "message": "$adminName$ reset the group link.",
+        "message": "$adminName$ ได้ล้างค่าตั้งใหม่ให้ลิงก์กลุ่ม",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4420,11 +4662,47 @@
         }
     },
     "GroupV2--group-link-reset--unknown": {
-        "message": "The group link has been reset.",
+        "message": "ลิงก์กลุ่มได้ถูกล้างค่าตั้งใหม่",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--description--remove--you": {
+        "message": "You removed the group description.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--description--remove--other": {
+        "message": "$memberName$ removed the group description.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--description--remove--unknown": {
+        "message": "The group description was removed.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--description--change--you": {
+        "message": "คุณได้เปลี่ยนคำอธิบายกลุ่ม",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--description--change--other": {
+        "message": "$memberName$ changed the group description.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--description--change--unknown": {
+        "message": "The group description was changed.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV1--Migration--disabled": {
-        "message": "Upgrade this group to activate new features like @mentions and admins. Members who have not shared their name or photo in this group will be invited to join. $learnMore$",
+        "message": "ปรับรุ่นกลุ่มนี้เพื่อเปิดใช้ความสามารถใหม่ เช่น @กล่าวถึง และระบบผู้ดูแล สมาชิกที่ไม่ได้เปิดเผยชื่อหรือรูปภาพในกลุ่มนี้จะได้รับคำเชิญให้เข้าร่วม $learnMore$ ",
         "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1).",
         "placeholders": {
             "learnMore": {
@@ -4434,7 +4712,7 @@
         }
     },
     "GroupV1--Migration--was-upgraded": {
-        "message": "This group was upgraded to a New Group.",
+        "message": "กลุ่มนี้ได้ปรับรุ่นเป็นกลุ่มแบบใหม่แล้ว",
         "description": "Shown in timeline when a legacy group (GV1) is upgraded to a new group (GV2)"
     },
     "GroupV1--Migration--learn-more": {
@@ -4446,59 +4724,59 @@
         "description": "Shown on Migrate dialog to kick off the process"
     },
     "GroupV1--Migration--info--title": {
-        "message": "อะไรคือกลุ่มใหม่",
+        "message": "อะไรคือกลุ่มแบบใหม่?",
         "description": "Shown on Learn More popup after GV1 migration"
     },
     "GroupV1--Migration--migrate--title": {
-        "message": "ปรับรุ่นเป็นกลุ่มใหม่",
+        "message": "ปรับรุ่นเป็นกลุ่มแบบใหม่",
         "description": "Shown on Migration popup after choosing to migrate group"
     },
     "GroupV1--Migration--info--summary": {
-        "message": "กลุ่มใหม่มีคุณลักษณะเช่นการ @mentions และผู้ดูแลกลุ่ม และจะการสนับสนุนคุณลักษณะเพิ่มเติมในอนาคต",
+        "message": "กลุ่มแบบใหม่มีความสามารถเช่นการ @กล่าวถึง และระบบผู้ดูแลกลุ่ม และจะมีความสามารถเพิ่มเติมในอนาคต:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--keep-history": {
-        "message": "ข้อความใน history ทั้งหมดและสื่อถูกเก็บก่อนการอัปเกรด",
+        "message": "ประวัติข้อความและสื่อทั้งหมดได้ถูกรักษาไว้ก่อนการปรับรุ่น",
         "description": "Shown on Learn More popup after GV1 migration"
     },
     "GroupV1--Migration--migrate--keep-history": {
-        "message": "ประวัติข้อความและสื่อทั้งหมดถูกเก็บก่อนการอัปเกรด",
+        "message": "ประวัติข้อความและสื่อทั้งหมดจะถูกรักษาไว้ก่อนการปรับรุ่น",
         "description": "Shown on Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--invited--you": {
-        "message": "คุณต้องยอมรับการเชิญเข้ากลุ่มนี้อีกครั้ง และจะไม่ได้รับข้อความในกลุ่มจนกว่าคุณจะยอมรับคำเชิญ",
+        "message": "คุณต้องตอบรับคำเชิญเข้ากลุ่มนี้อีกครั้ง และคุณจะไม่ได้รับข้อความในกลุ่มจนกว่าคุณจะตอบรับ",
         "description": "Shown on Learn More popup after GV1 migration"
     },
     "GroupV1--Migration--info--invited--many": {
-        "message": "These members will need to accept an invite to join this group again, and will not receive group messages until they accept:",
+        "message": "สมาชิกเหล่านี้จะต้องตอบรับคำเชิญเพื่อเข้าร่วมกลุ่มนี้อีกครั้ง และพวกเขาจะไม่ได้รับข้อความในกลุ่มจนกว่าพวกเขาจะตอบรับ:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--invited--one": {
-        "message": "This member will need to accept an invite to join this group again, and will not receive group messages until they accept:",
+        "message": "สมาชิกรายนี้จะต้องตอบรับคำเชิญเพื่อเข้าร่วมกลุ่มนี้อีกครั้ง และเขาจะไม่ได้รับข้อความในกลุ่มจนกว่าเขาจะตอบรับ:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--before--many": {
-        "message": "สมาชิกเหล่านี้ไม่สามารถเข้าร่วมกลุ่มใหม่ได้ และจะถูกนำออกจากกลุ่ม",
+        "message": "สมาชิกเหล่านี้ไม่สามารถร่วมกลุ่มแบบใหม่ได้ และจะถูกนำออกจากกลุ่ม:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--before--one": {
-        "message": "This member is not capable of joining New Groups, and will be removed from the group:",
+        "message": "สมาชิกรายนี้ไม่สามารถเข้าร่วมกลุ่มแบบใหม่ได้ และจะถูกนำออกจากกลุ่ม:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--after--many": {
-        "message": "These members were not capable of joining New Groups, and were removed from the group:",
+        "message": "สมาชิกเหล่านี้ไม่สามารถเข้าร่วมกลุ่มแบบใหม่ได้ และถูกนำออกจากกลุ่มแล้ว:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--after--one": {
-        "message": "This member was not capable of joining New Groups, and was removed from the group:",
+        "message": "สมาชิกรายนี้ไม่สามารถเข้าร่วมกลุ่มแบบใหม่ได้ และถูกนำออกจากกลุ่มแล้ว:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--invited--you": {
-        "message": "You couldn't be added to the New Group and have been invited to join.",
+        "message": "คุณไม่สามารถถูกเพิ่มไปยังกลุ่มแบบใหม่ได้ และได้ถูกเชิญให้เข้าร่วม",
         "description": "Shown in timeline when a group is upgraded and you were invited instead of added"
     },
     "GroupV1--Migration--invited--one": {
-        "message": "$contact$ couldn’t be added to the New Group and has been invited to join.",
+        "message": "$contact$ ไม่สามารถถูกเพิ่มไปยังกลุ่มแบบใหม่ได้ และได้ถูกเชิญให้เข้าร่วม",
         "description": "Shown in timeline when a group is upgraded and one person was invited, instead of added",
         "placeholders": {
             "contact": {
@@ -4508,7 +4786,7 @@
         }
     },
     "GroupV1--Migration--invited--many": {
-        "message": "$count$ members couldn’t be added to the New Group and have been invited to join.",
+        "message": "สมาชิก $count$ คน ไม่สามารถถูกเพิ่มไปยังกลุ่มแบบใหม่ได้ และได้ถูกเชิญให้เข้าร่วม",
         "description": "Shown in timeline when a group is upgraded and some people were invited, instead of added",
         "placeholders": {
             "contact": {
@@ -4518,7 +4796,7 @@
         }
     },
     "GroupV1--Migration--removed--one": {
-        "message": "$contact$ was removed from the group.",
+        "message": "$contact$ ถูกลบออกจากกลุ่มแล้ว",
         "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade",
         "placeholders": {
             "contact": {
@@ -4528,7 +4806,7 @@
         }
     },
     "GroupV1--Migration--removed--many": {
-        "message": "$count$ members were removed from the group.",
+        "message": "สมาชิก $count$ คน ถูกลบออกจากกลุ่มแล้ว",
         "description": "Shown in timeline when a group is upgraded and some people were removed entirely during the upgrade",
         "placeholders": {
             "contact": {
@@ -4542,23 +4820,35 @@
         "description": "Generic close label"
     },
     "previous": {
-        "message": "previous",
+        "message": "ก่อนหน้า",
         "description": "Generic previous label"
     },
     "next": {
-        "message": "next",
+        "message": "ถ้ดไป",
         "description": "Generic next label"
     },
     "CompositionArea--expand": {
-        "message": "Expand",
+        "message": "ขยาย",
         "description": "Aria label for expanding composition area"
     },
     "CompositionArea--attach-file": {
         "message": "แนบแฟ้ม",
         "description": "Aria label for file attachment button in composition area"
     },
+    "CompositionArea--sms-only__title": {
+        "message": "This person isn’t using Signal",
+        "description": "Title for the composition area for the SMS-only contact"
+    },
+    "CompositionArea--sms-only__body": {
+        "message": "Signal Desktop does not support messaging non-Signal contacts. Ask this person to install Signal for a more secure messaging experience.",
+        "description": "Body for the composition area for the SMS-only contact"
+    },
+    "CompositionArea--sms-only__spinner-label": {
+        "message": "Checking contact's registration status",
+        "description": "Displayed while checking if the contact is SMS-only"
+    },
     "countMutedConversationsDescription": {
-        "message": "Count muted conversations in badge count",
+        "message": "นับจํานวนการสนทนาที่ปิดเสียงด้วยในตัวเลขแจ้งเตือน",
         "description": "Description for counting muted conversations in badge setting"
     },
     "ContactModal--message": {
@@ -4566,15 +4856,15 @@
         "description": "Button text for send message button in Group Contact Details modal"
     },
     "ContactModal--rm-admin": {
-        "message": "ลบจากการเป็นผู้ดูแล",
+        "message": "ปลดจากการเป็นผู้ดูแล",
         "description": "Button text for removing as admin button in Group Contact Details modal"
     },
     "ContactModal--make-admin": {
-        "message": "Make admin",
+        "message": "แต่งตั้งเป็นผู้ดูแล",
         "description": "Button text for make admin button in Group Contact Details modal"
     },
     "ContactModal--make-admin-info": {
-        "message": "$contact$ will be able to edit this group and its members.",
+        "message": "$contact$ จะสามารถแก้ไขกลุ่มและสมาชิกของกลุ่มนี้ได้",
         "description": "Shown in a confirmation dialog when you are about to grant admin privileges to someone",
         "placeholders": {
             "contact": {
@@ -4584,7 +4874,7 @@
         }
     },
     "ContactModal--rm-admin-info": {
-        "message": "Remove $contact$ as group admin",
+        "message": "ได้ปลด $contact$ จากการเป็นผู้ดูแลกลุ่ม",
         "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone",
         "placeholders": {
             "contact": {
@@ -4594,8 +4884,12 @@
         }
     },
     "ContactModal--remove-from-group": {
-        "message": "ลบจากลุ่ม",
+        "message": "ลบจากกลุ่ม",
         "description": "Button text for remove from group button in Group Contact Details modal"
+    },
+    "showChatColorEditor": {
+        "message": "สีแชต",
+        "description": "This is a button in the conversation context menu to show the chat color editor"
     },
     "showConversationDetails": {
         "message": "การตั้งค่ากลุ่ม",
@@ -4610,7 +4904,7 @@
         "description": "This is the label for the disappearing messages setting panel"
     },
     "ConversationDetails--disappearing-messages-info": {
-        "message": "When enabled, messages sent and received in this group will disappear after they've been seen.",
+        "message": "เมื่อเปิดใช้งาน ข้อความที่รับและส่งในกลุ่มนี้จะหายไปหลังจากที่พวกเขาเห็นข้อความแล้ว",
         "description": "This is the info about the disappearing messages setting"
     },
     "ConversationDetails--group-info-label": {
@@ -4618,19 +4912,19 @@
         "description": "This is the label for the 'who can edit the group' panel"
     },
     "ConversationDetails--group-info-info": {
-        "message": "Choose who can edit group name, avatar, and disappearing messages timer.",
+        "message": "Choose who can edit group name, photo, description, and disappearing messages timer.",
         "description": "This is the additional info for the 'who can edit the group' panel"
     },
     "ConversationDetails--add-members-label": {
-        "message": "Who can add members",
+        "message": "ใครสามารถเพิ่มสมาชิกได้",
         "description": "This is the label for the 'who can add members' panel"
     },
     "ConversationDetails--add-members-info": {
-        "message": "Choose who can add members to this group.",
+        "message": "เลือกว่าใครสามารถเพิ่มสามารถเข้ามาในกลุ่มนี้ได้",
         "description": "This is the additional info for the 'who can add members' panel"
     },
     "ConversationDetails--requests-and-invites": {
-        "message": "Requests & Invites",
+        "message": "คำขอและคำเชิญ",
         "description": "This is a button to display which members have been invited but have not joined yet"
     },
     "ConversationDetailsActions--leave-group": {
@@ -4641,8 +4935,12 @@
         "message": "ปิดกั้นกลุ่ม",
         "description": "This is a button to block a group"
     },
+    "ConversationDetailsActions--leave-group-must-choose-new-admin": {
+        "message": "ก่อนออกจากกลุ่ม คุณต้องเลือกผู้ดูแลกลุ่มคนใหม่อย่างน้อยหนึ่งคน",
+        "description": "Shown if, before leaving a group, you need to choose an admin"
+    },
     "ConversationDetailsActions--leave-group-modal-title": {
-        "message": "คุณต้องการจะออกใช่หรือไม่",
+        "message": "คุณต้องการจะออกใช่หรือไม่?",
         "description": "This is the modal title for confirming leaving a group"
     },
     "ConversationDetailsActions--leave-group-modal-content": {
@@ -4654,7 +4952,7 @@
         "description": "This is the modal button to confirm leaving a group"
     },
     "ConversationDetailsActions--block-group-modal-title": {
-        "message": "Block and Leave the \"$groupName$\" Group?",
+        "message": "ต้องการปิดกั้นและออกจากกลุ่ม $groupName$ หรือไม่?",
         "description": "This is the modal title for confirming blocking a group",
         "placeholders": {
             "groupName": {
@@ -4672,7 +4970,7 @@
         "description": "This is the modal button to confirm blocking a group"
     },
     "ConversationDetailsHeader--members": {
-        "message": "$number$ members",
+        "message": "สมาขิก $number$ คน",
         "description": "This is the number of members in a group",
         "placeholders": {
             "number": {
@@ -4690,7 +4988,7 @@
         "description": "This is a button on the conversation details to show all media"
     },
     "ConversationDetailsMembershipList--title": {
-        "message": "$number$ members",
+        "message": "สมาขิก $number$ คน",
         "description": "The title of the membership list panel",
         "placeholders": {
             "number": {
@@ -4699,20 +4997,24 @@
             }
         }
     },
+    "ConversationDetailsMembershipList--add-members": {
+        "message": "เพิ่มสมาชิก",
+        "description": "The button that you can click to add new members"
+    },
     "ConversationDetailsMembershipList--show-all": {
         "message": "ดูทั้งหมด",
         "description": "This is a button on the conversation details to show all members"
     },
     "GroupLinkManagement--clipboard": {
-        "message": "Group link copied.",
+        "message": "คัดลอกลิงก์กลุ่ม",
         "description": "Shown in a toast when a user selects to copy group link"
     },
     "GroupLinkManagement--share": {
-        "message": "Copy link",
+        "message": "คัดลอกลิงก์",
         "description": "This lets users share their group link"
     },
     "GroupLinkManagement--confirm-reset": {
-        "message": "Are you sure you want to reset the group link? People will no longer be able to join the group using the current link.",
+        "message": "คุณแน่ใจหรือไม่ว่าต้องการตั้งค่าลิงก์กลุ่มนี้ใหม่? คนจะไม่สามารถเข้าร่วมกลุ่มด้วยลิงก์ปัจจุบันได้อีกต่อไป",
         "description": "Shown in the confirmation dialog when an admin is about to reset the group link"
     },
     "GroupLinkManagement--reset": {
@@ -4724,11 +5026,11 @@
         "description": "Title for the approve new members select area"
     },
     "GroupLinkManagement--approve-info": {
-        "message": "Require an admin to approve new members joining via the group link",
+        "message": "กําหนดให้ผู้ดูแลอนุมัติให้สมาชิกใหม่เข้าร่วมกลุ่มผ่านลิงก์กลุ่ม",
         "description": "Description for the approve new members select area"
     },
     "PendingInvites--tab-requests": {
-        "message": "Requests ($count$)",
+        "message": "คำขอ ($count$)",
         "description": "Label for the tab to view pending requests",
         "placeholders": {
             "name": {
@@ -4738,7 +5040,7 @@
         }
     },
     "PendingInvites--tab-invites": {
-        "message": "Invites ($count$)",
+        "message": "คำเชิญ ($count$)",
         "description": "Label for the tab to view pending invites",
         "placeholders": {
             "name": {
@@ -4748,7 +5050,7 @@
         }
     },
     "PendingRequests--approve-for": {
-        "message": "Approve request from \"$name$\"?",
+        "message": "ต้องการอนุมัติคำขอจาก $name$ หรือไม่?",
         "description": "This is the modal content when confirming approving a group request to join",
         "placeholders": {
             "name": {
@@ -4758,7 +5060,7 @@
         }
     },
     "PendingRequests--deny-for": {
-        "message": "Deny request from \"$name$\"?",
+        "message": "ต้องการปฏิเสธคำขอจาก $name$ หรือไม่?",
         "description": "This is the modal content when confirming denying a group request to join",
         "placeholders": {
             "name": {
@@ -4768,19 +5070,19 @@
         }
     },
     "PendingInvites--invites": {
-        "message": "Invited by you",
+        "message": "ถูกเชิญโดยคุณ",
         "description": "This is the title list of all invites"
     },
     "PendingInvites--invited-by-you": {
-        "message": "Invited by you",
+        "message": "ถูกเชิญโดยคุณ",
         "description": "This is the title for the list of members you have invited"
     },
     "PendingInvites--invited-by-others": {
-        "message": "Invited by others",
+        "message": "ถูกเชิญโดยคนอื่น",
         "description": "This is the title for the list of members who have invited other people"
     },
     "PendingInvites--invited-count": {
-        "message": "Invited $number$",
+        "message": "ได้เชิญ $number$ คน",
         "description": "This is the label for the number of members someone has invited",
         "placeholders": {
             "number": {
@@ -4790,11 +5092,11 @@
         }
     },
     "PendingInvites--revoke-for-label": {
-        "message": "Revoke group invite",
+        "message": "เพิกถอนคำเชิญเข้ากลุ่ม",
         "description": "This is aria label for revoking a group invite icon"
     },
     "PendingInvites--revoke-for": {
-        "message": "Revoke group invite for \"$name$\"?",
+        "message": "ต้องการเพิกถอนคำเชิญเข้ากลุ่มสำหรับ \"$name$\" หรือไม่?",
         "description": "This is the modal content when confirming revoking a single invite",
         "placeholders": {
             "number": {
@@ -4808,7 +5110,7 @@
         }
     },
     "PendingInvites--revoke-from-singular": {
-        "message": "Revoke 1 invite sent by \"$name$\"?",
+        "message": "ต้องการเพิกถอน 1 คำเชิญ ที่ส่งโดย \"$name$\" หรือไม่?",
         "description": "This is the modal content when confirming revoking a single invite",
         "placeholders": {
             "name": {
@@ -4818,7 +5120,7 @@
         }
     },
     "PendingInvites--revoke-from-plural": {
-        "message": "Revoke $number$ invites sent by \"$name$\"",
+        "message": "เพิกถอน $number$ คำเชิญที่ถูกส่งโดย \"$name$\"",
         "description": "This is the modal content when confirming revoking multiple invites",
         "placeholders": {
             "number": {
@@ -4832,19 +5134,19 @@
         }
     },
     "PendingInvites--revoke": {
-        "message": "Revoke",
+        "message": "เพิกถอน",
         "description": "This is the modal button to confirm revoking invites"
     },
     "PendingRequests--approve": {
-        "message": "Approve Request",
+        "message": "อนุมัติคำขอ",
         "description": "This is the modal button to approve group request to join"
     },
     "PendingRequests--deny": {
-        "message": "Deny Request",
+        "message": "ปฏิเสธคำขอ",
         "description": "This is the modal button to deny group request to join"
     },
     "PendingRequests--info": {
-        "message": "People on this list are attempting to join \"$name$\" via the group link.",
+        "message": "ผู้คนในรายชื่อกำลังพยายามเข้าร่วมกลุ่ม $name$ ผ่านลิงก์กลุ่ม",
         "description": "Inforamtion shown below the pending admin approval list",
         "placeholders": {
             "name": {
@@ -4854,7 +5156,469 @@
         }
     },
     "PendingInvites--info": {
-        "message": "Details about people invited to this group aren’t shown until they join. Invitees will only see messages after they join the group.",
+        "message": "รายละเอียดเกี่ยวกับบุคคลที่ถูกเชิญให้เข้าร่วมกลุ่มนี้จะไม่แสดงจนกว่าจะเข้าร่วมกลุ่ม ผู้ได้รับเชิญจะเห็นข้อความหลังจากเข้าร่วมกลุ่มแล้วเท่านั้น",
         "description": "Information shown below the invite list"
+    },
+    "AvatarInput--no-photo-label--group": {
+        "message": "เพิ่มรูปภาพกลุ่ม",
+        "description": "The label for the avatar uploader when no group photo is selected"
+    },
+    "AvatarInput--change-photo-label": {
+        "message": "เปลี่ยนรูปภาพ",
+        "description": "The label for the avatar uploader when a photo is selected"
+    },
+    "AvatarInput--upload-photo-choice": {
+        "message": "อัปโหลดรูปภาพ",
+        "description": "The button text when you click on an uploaded avatar and want to upload a new one"
+    },
+    "AvatarInput--remove-photo-choice": {
+        "message": "ลบรูป",
+        "description": "The button text when you click on an uploaded avatar and want to remove it"
+    },
+    "ContactPill--remove": {
+        "message": "ลบรายชื่อผู้ติดต่อ",
+        "description": "The label for the 'remove' button on the contact pill"
+    },
+    "ComposeErrorDialog--close": {
+        "message": "ตกลง",
+        "description": "The text on the button when there's an error in the composer"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--title--one": {
+        "message": "ส่งคำเชิญแล้ว",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--title--many": {
+        "message": "ส่ง $count$ คำเชิญแล้ว",
+        "description": "When creating a new group and inviting users, this is shown in the dialog",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--one": {
+        "message": "คุณไม่สามารถเพิ่ม $name$ เข้ากลุ่มนี้ได้โดยอัตโนมัติ",
+        "description": "When creating a new group and inviting users, this is shown in the dialog",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Jane Doe"
+            }
+        }
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--many": {
+        "message": "คุณไม่สามารถเพิ่มผู้ใช้เหล่านี้เข้ากลุ่มนี้ได้โดยอัตโนมัติ",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--info-paragraph": {
+        "message": "พวกเขาถูกเชิญให้เข้าร่วม และจะไม่เห็นข้อความกลุ่มใดๆ จนกว่าพวกเขาจะตอบรับ",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--learn-more": {
+        "message": "เรียนรู้เพิ่มเติม",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "AddGroupMembersModal--title": {
+        "message": "เพิ่มสมาชิก",
+        "description": "When adding new members to an existing group, this is shown in the dialog"
+    },
+    "AddGroupMembersModal--continue-to-confirm": {
+        "message": "ปรับปรุง",
+        "description": "When adding new members to an existing group, this is shown in the dialog"
+    },
+    "AddGroupMembersModal--confirm-title--one": {
+        "message": "ต้องการเพิ่ม $person$ ไปยังกลุ่ม $group$ หรือไม่?",
+        "description": "When adding new members to an existing group, this is shown in the confirmation dialog",
+        "placeholders": {
+            "person": {
+                "content": "$1",
+                "example": "Jane Doe"
+            },
+            "group": {
+                "content": "$2",
+                "example": "Tahoe Trip"
+            }
+        }
+    },
+    "AddGroupMembersModal--confirm-title--many": {
+        "message": "ต้องการเพิ่มสมาชิก $count$ คน ไปยังกลุ่ม $group$ หรือไม่?",
+        "description": "When adding new members to an existing group, this is shown in the confirmation dialog",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "5"
+            },
+            "group": {
+                "content": "$2",
+                "example": "Tahoe Trip"
+            }
+        }
+    },
+    "AddGroupMembersModal--confirm-button--one": {
+        "message": "เพิ่มสมาชิก",
+        "description": "When adding new members to an existing group, this is shown on the confirmation dialog button"
+    },
+    "AddGroupMembersModal--confirm-button--many": {
+        "message": "เพิ่มสมาชิก",
+        "description": "When adding new members to an existing group, this is shown on the confirmation dialog button"
+    },
+    "createNewGroupButton": {
+        "message": "กลุ่มใหม่",
+        "description": "The text of the button to create new groups"
+    },
+    "selectContact": {
+        "message": "เลือกผู้ติดต่อ",
+        "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)"
+    },
+    "deselectContact": {
+        "message": "ยกเลิกการเลือกผู้ติดต่อ",
+        "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)"
+    },
+    "cannotSelectContact": {
+        "message": "ไม่สามารถเลือกผู้ติดต่อได้",
+        "description": "The label for contact checkboxes that are disabled"
+    },
+    "alreadyAMember": {
+        "message": "เป็นสมาชิกแล้ว",
+        "description": "The label for contact checkboxes that are disabled because they're already a member"
+    },
+    "MessageAudio--play": {
+        "message": "เล่นแฟ้มแนบเสียง",
+        "description": "Aria label for audio attachment's Play button"
+    },
+    "MessageAudio--pause": {
+        "message": "หยุดเล่นแฟ้มแนบเสียงชั่วคราว",
+        "description": "Aria label for audio attachment's Pause button"
+    },
+    "MessageAudio--download": {
+        "message": "ดาวน์โหลดแฟ้มแนบเสียง",
+        "description": "Aria label for audio attachment's Download button"
+    },
+    "MessageAudio--pending": {
+        "message": "กำลังดาวน์โหลดแฟ้มแนบเสียง",
+        "description": "Aria label for pending audio attachment spinner"
+    },
+    "MessageAudio--slider": {
+        "message": "เวลาการเล่นของแฟ้มแนบเสียง",
+        "description": "Aria label for audio attachment's playback time slider"
+    },
+    "emptyInboxMessage": {
+        "message": "คลิก $composeIcon$ ด้านบน และค้นหาผู้ติดต่อหรือกลุ่มของคุณเพื่อส่งข้อความ",
+        "description": "Shown in the left-pane when the inbox is empty",
+        "placeholders": {
+            "composeIcon": {
+                "content": "$1",
+                "example": "compose button"
+            }
+        }
+    },
+    "composeIcon": {
+        "message": "ปุ่มเขียนข้อความ",
+        "description": "Shown in the left-pane when the inbox is empty. Describes the button that composes a new message."
+    },
+    "ForwardMessageModal--continue": {
+        "message": "ทำต่อ",
+        "description": "aria-label for the 'next' button in the forward a message modal dialog"
+    },
+    "MessageRequestWarning__learn-more": {
+        "message": "เรียนรู้เพิ่มเติม",
+        "description": "Shown on the message request warning. Clicking this button will open a dialog with more information"
+    },
+    "MessageRequestWarning__dialog__details": {
+        "message": "คุณไม่ได้อยู่ในกลุ่มใดที่เหมือนกับบุคคลนี้เลย โปรดพิจารณาคำขออย่างถี่ถ้วน ก่อนจะยอมรับ เพื่อเลี่ยงข้อความไม่พึงประสงค์",
+        "description": "Shown in the message request warning dialog. Gives more information about message requests"
+    },
+    "MessageRequestWarning__dialog__learn-even-more": {
+        "message": "เกี่ยวกับคำขอส่งข้อความ",
+        "description": "Shown in the message request warning dialog. Clicking this button will open a page on Signal's support site"
+    },
+    "ContactSpoofing__same-name": {
+        "message": "โปรดพิจารณาคำขออย่างระวังถี่ถ้วน Signal พบผู้ติดต่ออีกรายการที่มีชื่อเหมือนกัน $link$",
+        "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else",
+        "placeholders": {
+            "link": {
+                "content": "$1",
+                "example": "Review request"
+            }
+        }
+    },
+    "ContactSpoofing__same-name-in-group": {
+        "message": "$count$ group members have the same name. $link$",
+        "description": "Shown in the timeline warning when you multiple group members have the same name",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "3"
+            },
+            "link": {
+                "content": "$2",
+                "example": "Tap to review"
+            }
+        }
+    },
+    "ContactSpoofing__same-name__link": {
+        "message": "พิจารณาคำขอ",
+        "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else"
+    },
+    "ContactSpoofing__same-name-in-group__link": {
+        "message": "Click to review",
+        "description": "Shown in the timeline warning when you multiple group members have the same name"
+    },
+    "ContactSpoofingReviewDialog__title": {
+        "message": "พิจารณาคำขอ",
+        "description": "Title for the contact name spoofing review dialog"
+    },
+    "ContactSpoofingReviewDialog__description": {
+        "message": "หากคุณไม่มั่นใจว่าคำขอมาจากใคร คุณสามารถพิจารณาได้จากรายชื่อผู้ติดต่อด้านล่างแล้วเลือกตัดสินใจ",
+        "description": "Description for the contact spoofing review dialog"
+    },
+    "ContactSpoofingReviewDialog__possibly-unsafe-title": {
+        "message": "คำขอ",
+        "description": "Header in the contact spoofing review dialog, shown above the potentially-unsafe user"
+    },
+    "ContactSpoofingReviewDialog__safe-title": {
+        "message": "ผู้ติดต่อของคุณ",
+        "description": "Header in the contact spoofing review dialog, shown above the \"safe\" user"
+    },
+    "ContactSpoofingReviewDialog__group__title": {
+        "message": "Review members",
+        "description": "Title for the contact name spoofing review dialog in groups"
+    },
+    "ContactSpoofingReviewDialog__group__description": {
+        "message": "$count$ group members have similar names. Review the members below or choose to take action.",
+        "description": "Description for the group contact spoofing review dialog"
+    },
+    "ContactSpoofingReviewDialog__group__members-header": {
+        "message": "สมาชิก",
+        "description": "Header in the group contact spoofing review dialog. After this header, there will be a list of members"
+    },
+    "ContactSpoofingReviewDialog__group__name-change-info": {
+        "message": "Recently changed their profile name from $oldName$ to $newName$",
+        "description": "In the group contact spoofing review dialog, this text is shown when someone has changed their name recently",
+        "placeholders": {
+            "oldName": {
+                "content": "$1",
+                "example": "Jane Doe"
+            },
+            "newName": {
+                "content": "$2",
+                "example": "Doe Jane"
+            }
+        }
+    },
+    "RemoveGroupMemberConfirmation__remove-button": {
+        "message": "ลบจากกลุ่ม",
+        "description": "When confirming the removal of a group member, show this text in the button"
+    },
+    "RemoveGroupMemberConfirmation__description": {
+        "message": "Remove \"$name$\" from the group?",
+        "description": "When confirming the removal of a group member, show this text in the dialog",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Jane Doe"
+            }
+        }
+    },
+    "CaptchaDialog__title": {
+        "message": "ตรวจยืนยันเพื่อรับส่งข้อความต่อ",
+        "description": "Header in the captcha dialog"
+    },
+    "CaptchaDialog__first-paragraph": {
+        "message": "เพื่อช่วยป้องกันสแปมบน Signal โปรดตรวจยืนยันให้สำเร็จ",
+        "description": "First paragraph in the captcha dialog"
+    },
+    "CaptchaDialog__second-paragraph": {
+        "message": "หลังตรวจยืนยัน คุณจะรับส่งข้อความได้ต่อ ข้อความใดๆ ที่ถูกหยุดอยู่ชั่วคราว จะถูกส่งโดยอัตโนมัติ",
+        "description": "First paragraph in the captcha dialog"
+    },
+    "CaptchaDialog--can-close__title": {
+        "message": "ทำต่อโดยไม่ตรวจยืนยันหรือไม่?",
+        "description": "Header in the captcha dialog that can be closed"
+    },
+    "CaptchaDialog--can-close__body": {
+        "message": "ถ้าคุณเลือกที่จะข้ามการตรวจยืนยัน คุณอาจพลาดข้อความจากคนอื่น และข้อความของคุณอาจส่งไม่ได้",
+        "description": "Body of the captcha dialog that can be closed"
+    },
+    "CaptchaDialog--can_close__skip-verification": {
+        "message": "ข้ามการตรวจยืนยัน",
+        "description": "Skip button of the captcha dialog that can be closed"
+    },
+    "verificationComplete": {
+        "message": "การตรวจยืนยันเสร็จสิ้น",
+        "description": "Displayed after successful captcha"
+    },
+    "verificationFailed": {
+        "message": "การตรวจยืนยันล้มเหลว กรุณาลองใหม่ภายหลัง",
+        "description": "Displayed after unsuccessful captcha"
+    },
+    "deleteForEveryoneFailed": {
+        "message": "การลบข้อความสำหรับทุกคนไม่สำเร็จ กรุณาลองใหม่ภายหลัง",
+        "description": "Displayed when delete-for-everyone has failed to send to all recepients"
+    },
+    "ChatColorPicker__delete--title": {
+        "message": "ลบสี",
+        "description": "Confirm title for deleting custom color"
+    },
+    "ChatColorPicker__delete--message": {
+        "message": "This custom color is used in $num$ chats. Do you want to delete it for all chats?",
+        "description": "Confirm message for deleting custom color",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "ChatColorPicker__global-chat-color": {
+        "message": "Global Chat Color",
+        "description": "Modal title for the chat color picker and editor for all conversations"
+    },
+    "ChatColorPicker__menu-title": {
+        "message": "สีแชต",
+        "description": "View title for the chat color picker and editor"
+    },
+    "ChatColorPicker__reset": {
+        "message": "Reset chat color",
+        "description": "Button label for resetting chat colors"
+    },
+    "ChatColorPicker__resetDefault": {
+        "message": "Reset Chat Colors",
+        "description": "Confirmation dialog title for resetting all chat colors or only the global default one"
+    },
+    "ChatColorPicker__resetAll": {
+        "message": "Reset all chat colors",
+        "description": "Button label for resetting all chat colors"
+    },
+    "ChatColorPicker__confirm-reset-default": {
+        "message": "Reset default",
+        "description": "Button label for resetting only global chat color"
+    },
+    "ChatColorPicker__confirm-reset": {
+        "message": "รีเซ็ต",
+        "description": "Confirm button label for resetting chat colors"
+    },
+    "ChatColorPicker__confirm-reset-message": {
+        "message": "Would you like to override all chat colors?",
+        "description": "Modal message text for confirming resetting of chat colors"
+    },
+    "ChatColorPicker__custom-color--label": {
+        "message": "Show custom color editor",
+        "description": "aria-label for custom color editor button"
+    },
+    "ChatColorPicker__sampleBubble1": {
+        "message": "Here's a preview of the chat color.",
+        "description": "An example message bubble for selecting the chat color"
+    },
+    "ChatColorPicker__sampleBubble2": {
+        "message": "Another bubble.",
+        "description": "An example message bubble for selecting the chat color"
+    },
+    "ChatColorPicker__sampleBubble3": {
+        "message": "The color is visible to only you.",
+        "description": "An example message bubble for selecting the chat color"
+    },
+    "ChatColorPicker__context--edit": {
+        "message": "แก้สี",
+        "description": "Option in the custom color bubble context menu"
+    },
+    "ChatColorPicker__context--duplicate": {
+        "message": "ทำซ้ำ",
+        "description": "Option in the custom color bubble context menu"
+    },
+    "ChatColorPicker__context--delete": {
+        "message": "ลบ",
+        "description": "Option in the custom color bubble context menu"
+    },
+    "CustomColorEditor__solid": {
+        "message": "ทึบ",
+        "description": "Tab label for selecting solid colors"
+    },
+    "CustomColorEditor__gradient": {
+        "message": "ไล่สี",
+        "description": "Tab label for selecting a gradient"
+    },
+    "CustomColorEditor__hue": {
+        "message": "Hue",
+        "description": "Label for the hue slider"
+    },
+    "CustomColorEditor__saturation": {
+        "message": "Saturation",
+        "description": "Label for the saturation slider"
+    },
+    "CustomColorEditor__title": {
+        "message": "Custom Color",
+        "description": "Modal title for the custom color editor"
+    },
+    "customDisappearingTimeOption": {
+        "message": "Custom time...",
+        "description": "Text for an option in Disappearing Messages menu and Conversation Details Disappearing Messages setting when no user value is available"
+    },
+    "selectedCustomDisappearingTimeOption": {
+        "message": "เวลากำหนดเอง",
+        "description": "Text for an option in Conversation Details Disappearing Messages setting when user previously selected custom time"
+    },
+    "DisappearingTimeDialog__title": {
+        "message": "เวลากำหนดเอง",
+        "description": "Title for the custom disappearing message timeout dialog"
+    },
+    "DisappearingTimeDialog__body": {
+        "message": "Choose a custom time for disappearing messages.",
+        "description": "Body for the custom disappearing message timeout dialog"
+    },
+    "DisappearingTimeDialog__set": {
+        "message": "ตั้ง",
+        "description": "Text for the dialog button confirming the custom disappearing message timeout"
+    },
+    "DisappearingTimeDialog__seconds": {
+        "message": "Seconds",
+        "description": "Name of the 'seconds' unit select for the custom disappearing message timeout dialog"
+    },
+    "DisappearingTimeDialog__minutes": {
+        "message": "Minutes",
+        "description": "Name of the 'minutes' unit select for the custom disappearing message timeout dialog"
+    },
+    "DisappearingTimeDialog__hours": {
+        "message": "Hours",
+        "description": "Name of the 'hours' unit select for the custom disappearing message timeout dialog"
+    },
+    "DisappearingTimeDialog__days": {
+        "message": "Days",
+        "description": "Name of the 'days' unit select for the custom disappearing message timeout dialog"
+    },
+    "DisappearingTimeDialog__weeks": {
+        "message": "Weeks",
+        "description": "Name of the 'weeks' unit select for the custom disappearing message timeout dialog"
+    },
+    "settings__DisappearingMessages__footer": {
+        "message": "Set a default disappearing message timer for all new chats started by you.",
+        "description": "Footer for the Disappearing Messages settings section"
+    },
+    "settings__DisappearingMessages__timer__label": {
+        "message": "Default timer for new chats",
+        "description": "Label for the Disapearring Messages default timer setting"
+    },
+    "UniversalTimerNotification__text": {
+        "message": "The disappearing message time will be set to $timeValue$ when you message them.",
+        "description": "A message displayed when default disappearing message timeout is about to be applied",
+        "placeholders": {
+            "timeValue": {
+                "content": "$1",
+                "example": "1 week"
+            }
+        }
+    },
+    "GroupDescription__read-more": {
+        "message": "read more",
+        "description": "Button text when the group description is too long"
+    },
+    "EditConversationAttributesModal__description-warning": {
+        "message": "Group descriptions will be visible to members of this group and people who have been invited.",
+        "description": "Label text shown when editing group description"
+    },
+    "ConversationDetailsHeader--add-group-description": {
+        "message": "Add group description...",
+        "description": "Placeholder text in the details header for those that can edit the group description"
     }
 }

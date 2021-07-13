@@ -7,6 +7,7 @@ import { createPortal } from 'react-dom';
 import { Theme, themeClassName } from '../util/theme';
 
 export type PropsType = {
+  readonly noMouseClose?: boolean;
   readonly onEscape?: () => unknown;
   readonly onClose: () => unknown;
   readonly children: React.ReactElement;
@@ -14,7 +15,7 @@ export type PropsType = {
 };
 
 export const ModalHost = React.memo(
-  ({ onEscape, onClose, children, theme }: PropsType) => {
+  ({ onEscape, onClose, children, noMouseClose, theme }: PropsType) => {
     const [root, setRoot] = React.useState<HTMLElement | null>(null);
 
     useEffect(() => {
@@ -67,7 +68,7 @@ export const ModalHost = React.memo(
               'module-modal-host__overlay',
               theme ? themeClassName(theme) : undefined
             )}
-            onClick={handleCancel}
+            onClick={noMouseClose ? undefined : handleCancel}
           >
             {children}
           </div>,

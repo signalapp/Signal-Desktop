@@ -1,4 +1,4 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable camelcase */
@@ -56,7 +56,6 @@ export type OutgoingMessage = Readonly<
 
     // Optional
     body?: string;
-    expires_at?: number;
     expireTimer?: number;
     messageTimer?: number; // deprecated
     isViewOnce?: number;

@@ -6,6 +6,7 @@ import React, { ReactChild } from 'react';
 import { LeftPaneHelper } from './LeftPaneHelper';
 import { Row, RowType } from '../ConversationList';
 import { PropsDataType as ContactListItemPropsType } from '../conversationList/ContactListItem';
+import { DisappearingTimerSelect } from '../DisappearingTimerSelect';
 import { LocalizerType } from '../../types/Util';
 import { AvatarInput } from '../AvatarInput';
 import { Alert } from '../Alert';
@@ -16,6 +17,7 @@ import { GroupTitleInput } from '../GroupTitleInput';
 export type LeftPaneSetGroupMetadataPropsType = {
   groupAvatar: undefined | ArrayBuffer;
   groupName: string;
+  groupExpireTimer: number;
   hasError: boolean;
   isCreating: boolean;
   selectedContacts: ReadonlyArray<ContactListItemPropsType>;
@@ -23,12 +25,12 @@ export type LeftPaneSetGroupMetadataPropsType = {
 
 /* eslint-disable class-methods-use-this */
 
-export class LeftPaneSetGroupMetadataHelper extends LeftPaneHelper<
-  LeftPaneSetGroupMetadataPropsType
-> {
+export class LeftPaneSetGroupMetadataHelper extends LeftPaneHelper<LeftPaneSetGroupMetadataPropsType> {
   private readonly groupAvatar: undefined | ArrayBuffer;
 
   private readonly groupName: string;
+
+  private readonly groupExpireTimer: number;
 
   private readonly hasError: boolean;
 
@@ -39,6 +41,7 @@ export class LeftPaneSetGroupMetadataHelper extends LeftPaneHelper<
   constructor({
     groupAvatar,
     groupName,
+    groupExpireTimer,
     isCreating,
     hasError,
     selectedContacts,
@@ -47,6 +50,7 @@ export class LeftPaneSetGroupMetadataHelper extends LeftPaneHelper<
 
     this.groupAvatar = groupAvatar;
     this.groupName = groupName;
+    this.groupExpireTimer = groupExpireTimer;
     this.hasError = hasError;
     this.isCreating = isCreating;
     this.selectedContacts = selectedContacts;
@@ -91,12 +95,14 @@ export class LeftPaneSetGroupMetadataHelper extends LeftPaneHelper<
     createGroup,
     i18n,
     setComposeGroupAvatar,
+    setComposeGroupExpireTimer,
     setComposeGroupName,
   }: Readonly<{
     clearGroupCreationError: () => unknown;
     createGroup: () => unknown;
     i18n: LocalizerType;
     setComposeGroupAvatar: (_: undefined | ArrayBuffer) => unknown;
+    setComposeGroupExpireTimer: (_: number) => void;
     setComposeGroupName: (_: string) => unknown;
   }>): ReactChild {
     const disabled = this.isCreating;
@@ -129,6 +135,17 @@ export class LeftPaneSetGroupMetadataHelper extends LeftPaneHelper<
           ref={focusRef}
           value={this.groupName}
         />
+
+        <section className="module-left-pane__header__form__expire-timer">
+          <div className="module-left-pane__header__form__expire-timer__label">
+            {i18n('disappearingMessages')}
+          </div>
+          <DisappearingTimerSelect
+            i18n={i18n}
+            value={this.groupExpireTimer}
+            onChange={setComposeGroupExpireTimer}
+          />
+        </section>
 
         {this.hasError && (
           <Alert

@@ -2,12 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
+import { noop } from 'lodash';
 
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import { setup as setupI18n } from '../../js/modules/i18n';
 import enMessages from '../../_locales/en/messages.json';
+import { Button } from './Button';
 import { Modal } from './Modal';
 
 const i18n = setupI18n('en', enMessages);
@@ -30,10 +32,31 @@ story.add('Bare bones, long', () => (
   </Modal>
 ));
 
-story.add('Title, X button, body, and footer', () => (
+story.add('Title, X button, body, and button footer', () => (
   <Modal i18n={i18n} title="Hello world" onClose={onClose} hasXButton>
     {LOREM_IPSUM}
-    <Modal.Footer>Footer</Modal.Footer>
+    <Modal.ButtonFooter>
+      <Button onClick={noop}>Okay</Button>
+    </Modal.ButtonFooter>
+  </Modal>
+));
+
+story.add('Lots of buttons in the footer', () => (
+  <Modal i18n={i18n} onClose={onClose}>
+    Hello world!
+    <Modal.ButtonFooter>
+      <Button onClick={noop}>Okay</Button>
+      <Button onClick={noop}>Okay</Button>
+      <Button onClick={noop}>Okay</Button>
+      <Button onClick={noop}>
+        This is a button with a fairly large amount of text
+      </Button>
+      <Button onClick={noop}>Okay</Button>
+      <Button onClick={noop}>
+        This is a button with a fairly large amount of text
+      </Button>
+      <Button onClick={noop}>Okay</Button>
+    </Modal.ButtonFooter>
   </Modal>
 ));
 

@@ -44,7 +44,7 @@
         "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuWindow": {
-        "message": "Παρά&θυρο",
+        "message": "&Παράθυρο",
         "description": "The label that is used for the Window menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuHelp": {
@@ -54,6 +54,10 @@
     "mainMenuSettings": {
         "message": "Επιλογές...",
         "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
+    },
+    "appMenuServices": {
+        "message": "Services",
+        "description": "Application menu item for macOS 'Services'"
     },
     "appMenuHide": {
         "message": "Απόκρυψη",
@@ -108,7 +112,7 @@
         "description": "Edit menu item under 'speech' to start dictation"
     },
     "editMenuStopSpeaking": {
-        "message": "Τερματισμός ομιλίας",
+        "message": "Λήξη ομιλίας",
         "description": "Edit menu item under 'speech' to stop dictation"
     },
     "windowMenuClose": {
@@ -173,6 +177,10 @@
     },
     "avatarMenuViewArchive": {
         "message": "Προβολή αρχείου",
+        "description": "One of the menu options available in the Avatar Popup menu"
+    },
+    "avatarMenuChatColors": {
+        "message": "Χρώμα συνομιλίας",
         "description": "One of the menu options available in the Avatar Popup menu"
     },
     "loading": {
@@ -242,7 +250,7 @@
         "description": "Button to allow the user to find a file on disk"
     },
     "loadDataHeader": {
-        "message": "Φόρτωσε τα δεδομένων σου",
+        "message": "Φόρτωση των δεδομένων σου",
         "description": "Header shown on the first screen in the data import process"
     },
     "loadDataDescription": {
@@ -701,6 +709,10 @@
         "message": "Σχετικά με το Signal Desktop",
         "description": "Item under the Help menu, which opens a small about window"
     },
+    "screenShareWindow": {
+        "message": "Διαμοιρασμός οθόνης",
+        "description": "Title for screen sharing window"
+    },
     "speech": {
         "message": "Ομιλία",
         "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
@@ -740,7 +752,7 @@
         }
     },
     "noSearchResults": {
-        "message": "Δευ υπάρχουν αποτελέσματα για \"$searchTerm$\"",
+        "message": "Δεν υπάρχουν αποτελέσματα για \"$searchTerm$\"",
         "description": "Shown in the search left pane when no results were found",
         "placeholders": {
             "searchTerm": {
@@ -748,6 +760,10 @@
                 "example": "dog"
             }
         }
+    },
+    "noSearchResults--sms-only": {
+        "message": "Οι επαφές SMS/MMS δεν είναι διαθέσιμες στο Desktop.",
+        "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
     },
     "noSearchResultsInConversation": {
         "message": "Δεν βρέθηκαν αποτελέσματα για \"$searchTerm$\" στο  $conversationName$",
@@ -769,6 +785,10 @@
     },
     "contactsHeader": {
         "message": "Επαφές",
+        "description": "Shown to separate the types of search results"
+    },
+    "groupsHeader": {
+        "message": "Ομάδες",
         "description": "Shown to separate the types of search results"
     },
     "messagesHeader": {
@@ -846,7 +866,7 @@
         "description": "Shown in triple-dot menu next to message to allow user to react to the associated message"
     },
     "replyToMessage": {
-        "message": "Απάντησε στο μήνυμα ",
+        "message": "Απάντηση στο μήνυμα ",
         "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
     },
     "originalMessageNotFound": {
@@ -1002,7 +1022,7 @@
         "description": "Label for when something is turned off"
     },
     "deleteWarning": {
-        "message": "Πατώντας \"διαγραφή\", το μήνυμα αυτό θα σβηστεί μόνο από τις συσκευές σου.",
+        "message": "Αυτό το μήνυμα θα διαγραφτεί από αυτή τη συσκευή.",
         "description": "Text shown in the confirmation dialog for deleting a message locally"
     },
     "deleteForEveryoneWarning": {
@@ -1071,6 +1091,10 @@
         "message": "Δεν έχεις ανταλλάξει ακόμα μηνύματα με αυτήν την επαφή. Ο αριθμός ασφαλείας σου με αυτή θα είναι διαθέσιμος μετά το πρώτο μήνυμα.",
         "description": ""
     },
+    "back": {
+        "message": "Πίσω",
+        "description": "Generic label for back"
+    },
     "goBack": {
         "message": "Πίσω",
         "description": "Label for back button in a conversation"
@@ -1082,6 +1106,10 @@
     "retrySend": {
         "message": "Επανάληψη αποστολής",
         "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
+    },
+    "forwardMessage": {
+        "message": "Προώθηση μηνύματος",
+        "description": "Shown on the drop-down menu for an individual message, forwards a message"
     },
     "deleteMessage": {
         "message": "Διαγραφή μηνύματος για εμένα",
@@ -1102,6 +1130,54 @@
     "sessionEnded": {
         "message": "Η ασφαλής σύνδεση επανεκκινήθηκε",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
+    },
+    "ChatRefresh--notification": {
+        "message": "Η συνομιλία ανανεώθηκε",
+        "description": "Shown in timeline when a error happened, and the session was automatically reset."
+    },
+    "ChatRefresh--learnMore": {
+        "message": "Μάθε περισσότερα",
+        "description": "Shown in timeline when session is automatically reset, to provide access to a popup info dialog"
+    },
+    "ChatRefresh--summary": {
+        "message": "Το Signal χρησιμοποιεί κρυπτογράφηση από την πηγή μέχρι τον προορισμό (end to end) και έτσι ίσως χρειαστεί να ανανεώσει τις συνομιλίες σου ανά διαστήματα. Αυτό δεν επηρεάζει την ασφάλεια των συνομιλιών σου, αλλά ίσως δεν λάβεις κάποιο μήνυμα από τη συγκεκριμένη συνομιλία. Σε αυτή την περίπτωση μπορείς να ζητήσεις να σου ξαναστείλουν το μήνυμα.",
+        "description": "Shown on explainer dialog available from chat session refreshed timeline events"
+    },
+    "ChatRefresh--contactSupport": {
+        "message": "Επικοινωνία με την υποστήριξη",
+        "description": "Shown on explainer dialog available from chat session refreshed timeline events"
+    },
+    "DeliveryIssue--preview": {
+        "message": "Θέμα κατά τη παράδοση",
+        "description": "Shown in left pane preview when message delivery issue happens"
+    },
+    "DeliveryIssue--notification": {
+        "message": "Ένα μήνυμα από τον/την $sender$ δεν μπόρεσε να παραδοθεί",
+        "description": "Shown in timeline when message delivery issue happens",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "DeliveryIssue--learnMore": {
+        "message": "Μάθε περισσότερα",
+        "description": "Shown in timeline when message delivery issue happens, to provide access to a popup info dialog"
+    },
+    "DeliveryIssue--title": {
+        "message": "Θέμα κατά τη παράδοση",
+        "description": "Shown on explainer dialog available from delivery issue timeline events"
+    },
+    "DeliveryIssue--summary": {
+        "message": "Κάποιο μήνυμα, αντίδραση, αποδεικτικό ανάγνωσης ή πολυμέσο από τον/την $sender$ δεν μπόρεσε να σου παραδοθεί. Προσπάθησε να στο στείλει σε σένα απ' ευθείας ή σε κάποια ομάδα.",
+        "description": "Shown on explainer dialog available from delivery issue timeline events",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
     },
     "quoteThumbnailAlt": {
         "message": "Μικρογραφία της εικόνας από το αναφερόμενο μήνυμα",
@@ -1247,6 +1323,18 @@
         "message": "Ενεργοποίηση μικροφώνου",
         "description": "Button tooltip label for turning on the microphone"
     },
+    "calling__button--presenting-disabled": {
+        "message": "Η παρουσίαση είναι απενεργοποιημένη",
+        "description": "Button tooltip label for when screen sharing is disabled"
+    },
+    "calling__button--presenting-on": {
+        "message": "Έναρξη παρουσίασης",
+        "description": "Button tooltip label for starting to share screen"
+    },
+    "calling__button--presenting-off": {
+        "message": "Λήξη παρουσίασης",
+        "description": "Button tooltip label for stopping screen sharing"
+    },
     "calling__your-video-is-off": {
         "message": "Η κάμερά σου είναι απενεργοποιημένη",
         "description": "Label in the calling lobby indicating that your camera is off"
@@ -1359,6 +1447,80 @@
         "message": "Κύλιση κάτω",
         "description": "Label for the \"scroll down\" button in a call's overflow area"
     },
+    "calling__presenting--notification-title": {
+        "message": "Παρουσιάζεις σε όλους/ες.",
+        "description": "Title for the share screen notification"
+    },
+    "calling__presenting--notification-body": {
+        "message": "Πάτα εδώ για να επιστρέψεις στην κλήση όταν είσαι έτοιμος/η να σταματήσεις να παρουσιάζεις.",
+        "description": "Body text for the share screen notification"
+    },
+    "calling__presenting--info": {
+        "message": "Το Signal διαμοιράζεται το $window$.",
+        "description": "Text that appears in the screen sharing controller to inform person that they are presenting",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Application"
+            }
+        }
+    },
+    "calling__presenting--stop": {
+        "message": "Λήξη διαμοιρασμού",
+        "description": "Button for stopping screen sharing"
+    },
+    "calling__presenting--you-stopped": {
+        "message": "Σταμάτησες να παρουσιάζεις",
+        "description": "Toast that appears when someone stops presenting"
+    },
+    "calling__presenting--person-ongoing": {
+        "message": "Ο/Η $name$ παρουσιάζει",
+        "description": "Title of call when someone is presenting",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Maddie"
+            }
+        }
+    },
+    "calling__presenting--person-stopped": {
+        "message": "Ο/Η $name$ σταμάτησε να παρουσιάζει",
+        "description": "Toast that appears when someone stops presenting",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Maddie"
+            }
+        }
+    },
+    "calling__presenting--permission-title": {
+        "message": "Απαιτείται άδεια",
+        "description": "Shown as the title for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--macos-permission-description": {
+        "message": "Το Signal χρειάζεται άδεια για να αποκτήσει πρόσβαση στην καταγραφή οθόνης του υπολογιστή σου.",
+        "description": "Shown as the description for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--permission-instruction-step1": {
+        "message": "Πήγαινε στις Ρυθμίσεις συστήματος.",
+        "description": "Shown as the description for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--permission-instruction-step2": {
+        "message": "Πάτα στο εικονίδιο κλειδώματος κάτω αριστερά και γράψε τον κωδικό του υπολογιστή σου.",
+        "description": "Shown as the description for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--permission-instruction-step3": {
+        "message": "Στα δεξιά, επέλεξε το κουτί του Signal. Αν δεν βλέπεις το Signal στη λίστα, πάτα + για να το προσθέσεις.",
+        "description": "Shown as the description for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--permission-open": {
+        "message": "Άνοιξε τις Ρυθμίσεις συστήματος.",
+        "description": "The button that opens your system preferences for the needs screen record permissions modal"
+    },
+    "calling__presenting--permission-cancel": {
+        "message": "Απόρριψη",
+        "description": "The cancel button for the needs screen record permissions modal"
+    },
     "alwaysRelayCallsDescription": {
         "message": "Αναμετάδοση κλήσεων πάντα",
         "description": "Description of the always relay calls setting"
@@ -1384,8 +1546,8 @@
         "description": "Header for general options on the settings screen"
     },
     "spellCheckDescription": {
-        "message": "Ενεργοποίηση ορθογραφικού ελέγχου του κειμένου που εισάγεται στο παράθυρο σύνθεσης μηνύματος",
-        "description": "Description of the media permission description"
+        "message": "Ενεργοποίηση ορθογραφικού ελέγχου",
+        "description": "Description of the spell check setting"
     },
     "spellCheckWillBeEnabled": {
         "message": "Ο ορθογραφικός έλεγχος θα ενεργοποιηθεί κατά την επόμενη εκκίνηση του Signal.",
@@ -1394,6 +1556,10 @@
     "spellCheckWillBeDisabled": {
         "message": "Ο ορθογραφικός έλεγχος θα απενεργοποιηθεί κατά την επόμενη εκκίνηση του Signal.",
         "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
+    },
+    "autoLaunchDescription": {
+        "message": "Άνοιγμα με το άνοιγμα του υπολογιστή",
+        "description": "Description for the automatic launch setting"
     },
     "clearDataHeader": {
         "message": "Εκκαθάριση δεδομένων",
@@ -1508,6 +1674,10 @@
     "sendFailed": {
         "message": "Αποτυχία αποστολής",
         "description": "Shown on outgoing message if it fails to send"
+    },
+    "sendPaused": {
+        "message": "Η αποστολή βρίσκεται σε αναμονή",
+        "description": "Shown on outgoing message if it cannot be sent immediately"
     },
     "partiallySent": {
         "message": "Στάλθηκε εν μέρει, κλικ για λεπτομέρειες",
@@ -1661,105 +1831,13 @@
             }
         }
     },
-    "timerOption_0_seconds": {
-        "message": "απενεργοποιημένο",
+    "disappearingMessages__off": {
+        "message": "ανενεργό",
         "description": "Label for option to turn off message expiration in the timer menu"
-    },
-    "timerOption_5_seconds": {
-        "message": "5 δευτερόλεπτα",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_10_seconds": {
-        "message": "10 δευτερόλεπτα",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_30_seconds": {
-        "message": "30 δευτερόλεπτα",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_1_minute": {
-        "message": "1 λεπτό",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_5_minutes": {
-        "message": "5 λεπτά",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_30_minutes": {
-        "message": "30 λεπτά",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_1_hour": {
-        "message": "1 ώρα",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_6_hours": {
-        "message": "6 ώρες",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_12_hours": {
-        "message": "12 ώρες",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_1_day": {
-        "message": "1 ημέρα",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_1_week": {
-        "message": "1 εβδομάδα",
-        "description": "Label for a selectable option in the message expiration timer menu"
     },
     "disappearingMessages": {
         "message": "Μηνύματα που εξαφανίζονται",
-        "description": "Conversation menu option to enable disappearing messages"
-    },
-    "timerOption_0_seconds_abbreviated": {
-        "message": "κλειστό",
-        "description": "Short format indicating current timer setting in the conversation list snippet"
-    },
-    "timerOption_5_seconds_abbreviated": {
-        "message": "5δ",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_10_seconds_abbreviated": {
-        "message": "10δ",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_30_seconds_abbreviated": {
-        "message": "30δ",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_1_minute_abbreviated": {
-        "message": "1λ",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_5_minutes_abbreviated": {
-        "message": "5λ",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_30_minutes_abbreviated": {
-        "message": "30λ",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_1_hour_abbreviated": {
-        "message": "1ω",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_6_hours_abbreviated": {
-        "message": "6ω",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_12_hours_abbreviated": {
-        "message": "12ω",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_1_day_abbreviated": {
-        "message": "1ημ",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_1_week_abbreviated": {
-        "message": "1εβ",
-        "description": "Very short format indicating current timer setting in the conversation header"
+        "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages"
     },
     "disappearingMessagesDisabled": {
         "message": "Απενεργοποιήθηκαν τα μηνύματα που εξαφανίζονται",
@@ -1908,6 +1986,116 @@
     "startConversation": {
         "message": "Εκκίνηση νέας συνομιλίας...",
         "description": "Label underneath number a user enters that is not an existing contact"
+    },
+    "newConversation": {
+        "message": "Νέα συνομιλία",
+        "description": "Label for header when starting a new conversation"
+    },
+    "contactSearchPlaceholder": {
+        "message": "Αναζήτηση με όνομα ή αριθμό τηλεφώνου",
+        "description": "Placeholder to use when searching for contacts in the composer"
+    },
+    "noContactsFound": {
+        "message": "Δεν βρέθηκαν επαφές",
+        "description": "Label shown when there are no contacts to compose to"
+    },
+    "noConversationsFound": {
+        "message": "Δεν βρέθηκαν συνομιλίες",
+        "description": "Label shown when there are no conversations to compose to"
+    },
+    "chooseGroupMembers__title": {
+        "message": "Επιλογή μελών",
+        "description": "The title for the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__back-button": {
+        "message": "Πίσω",
+        "description": "Used as alt-text of the back button on the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__skip": {
+        "message": "Παράλειψη",
+        "description": "The 'skip' button text in the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__next": {
+        "message": "Επόμενο",
+        "description": "The 'next' button text in the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__maximum-group-size__title": {
+        "message": "Έφτασες το μέγιστο όριο μεγέθους ομάδας",
+        "description": "Shown in the alert when you add the maximum number of group members"
+    },
+    "chooseGroupMembers__maximum-group-size__body": {
+        "message": "Οι ομάδες του Signal μπορούν να έχουν μέχρι $max$ μέλη.",
+        "description": "Shown in the alert when you add the maximum number of group members",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "1000"
+            }
+        }
+    },
+    "chooseGroupMembers__maximum-recommended-group-size__title": {
+        "message": "Έφτασες το προτεινόμενο όριο μελών",
+        "description": "Shown in the alert when you add the maximum recommended number of group members"
+    },
+    "chooseGroupMembers__maximum-recommended-group-size__body": {
+        "message": "Οι ομάδες του Signal λειτουργούν καλύτερα με $max$ μέλη ή λιγότερα. Αν προσθέσεις παραπάνω μέλη, θα υπάρξουν καθυστερήσεις στην αποστολή και λήψη μηνυμάτων.",
+        "description": "Shown in the alert when you add the maximum recommended number of group members",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "150"
+            }
+        }
+    },
+    "chooseGroupMembers__cant-add-member__title": {
+        "message": "Αδυναμία προσθήκη μέλους",
+        "description": "Shown in the alert when you try to add someone who can't be added to a group"
+    },
+    "chooseGroupMembers__cant-add-member__body": {
+        "message": "Ο/Η \"$name$\" δεν μπορεί να προστεθεί στην ομάδα επειδή χρησιμοποιεί μια παλιά έκδοση του Signal. Μπορείς να τον/την προσθέσεις στην ομάδα αφού αναβαθμίσει το Signal. ",
+        "description": "Shown in the alert when you try to add someone who can't be added to a group",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "Jane Doe"
+            }
+        }
+    },
+    "setGroupMetadata__title": {
+        "message": "Ονομασία ομάδας",
+        "description": "The title for the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__back-button": {
+        "message": "Πίσω στην επιλογή μελών",
+        "description": "Used as alt-text of the back button on the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__group-name-placeholder": {
+        "message": "Όνομα ομάδας (απαιτείται)",
+        "description": "The placeholder for the group name placeholder"
+    },
+    "setGroupMetadata__group-description-placeholder": {
+        "message": "Περιγραφή",
+        "description": "The placeholder for the group description"
+    },
+    "setGroupMetadata__create-group": {
+        "message": "Δημιουργία",
+        "description": "The 'create group' button text in the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__members-header": {
+        "message": "Μέλη",
+        "description": "The header for the members list in the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__error-message": {
+        "message": "Η ομάδα δεν μπόρεσε να δημιουργηθεί. Έλεγξε τη σύνδεσή σου και ξαναπροσπάθησε.",
+        "description": "Shown in the modal when we can't create a group"
+    },
+    "updateGroupAttributes__title": {
+        "message": "Επεξεργασία ομάδας",
+        "description": "Shown in the modal when we want to update a group"
+    },
+    "updateGroupAttributes__error-message": {
+        "message": "Αδυναμία ενημέρωσης της ομάδας. Έλεγξε τη σύνδεσή σου και ξαναπροσπάθησε.",
+        "description": "Shown in the modal when we can't update a group"
     },
     "notSupportedSMS": {
         "message": "Τα μηνύματα SMS/MMS δεν υποστηρίζονται.",
@@ -2081,15 +2269,15 @@
     },
     "message--getDescription--disappearing-media": {
         "message": "Πολυμέσο μιας μόνο προβολής",
-        "description": "Shown in notifications and in the left pane after view-once message is deleted."
+        "description": "Shown in notifications and in the left pane after view-once message is deleted. Also shown when quoting a view once media."
     },
     "message--getDescription--disappearing-photo": {
         "message": "Φωτογραφία μιας μόνο προβολής",
-        "description": "Shown in notifications and in the left pane when a message is a view once photo."
+        "description": "Shown in notifications and in the left pane when a message is a view once photo. Also shown when quoting a view once photo."
     },
     "message--getDescription--disappearing-video": {
         "message": "Βίντεο μιας μόνο προβολής",
-        "description": "Shown in notifications and in the left pane when a message is a view once video."
+        "description": "Shown in notifications and in the left pane when a message is a view once video. Also shown when quoting a view once video."
     },
     "message--deletedForEveryone": {
         "message": "Αυτο το μήνυμα διαγράφτηκε.",
@@ -2351,6 +2539,10 @@
     },
     "Keyboard--open-conversation-menu": {
         "message": "Άνοιγμα μενού συνομιλίας",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--new-conversation": {
+        "message": "Εκκίνηση νέας συνομιλίας",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--archive-conversation": {
@@ -2847,9 +3039,13 @@
             }
         }
     },
-    "MessageRequests--block-and-delete": {
-        "message": "Φραγή και διαγραφή",
-        "description": "Shown as a button to let the user block and delete a message request"
+    "MessageRequests--block-and-report-spam": {
+        "message": "Αναφορά ως ανεπιθύμητο και φραγή",
+        "description": "Shown as a button to let the user block a message request and report spam"
+    },
+    "MessageRequests--block-and-report-spam-success-toast": {
+        "message": "Αναφέρθηκε ως ανεπιθύμητο και είναι σε φραγή.",
+        "description": "Shown in a toast when you successfully block a user and report them as spam"
     },
     "MessageRequests--block-direct-confirm-title": {
         "message": "Φραγή του/της $name$;",
@@ -2969,8 +3165,8 @@
             }
         }
     },
-    "ConversationHero--membership-1": {
-        "message": "Μέλος του $group$.",
+    "member-of-1-group": {
+        "message": "Μέλος του $group$",
         "description": "Shown in the conversation hero to indicate this user is a member of a mutual group",
         "placeholders": {
             "group": {
@@ -2979,8 +3175,8 @@
             }
         }
     },
-    "ConversationHero--membership-2": {
-        "message": "Μέλος του $group1$ και $group2$.",
+    "member-of-2-groups": {
+        "message": "Μέλος του $group1$ και $group2$",
         "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups",
         "placeholders": {
             "group1": {
@@ -2993,8 +3189,8 @@
             }
         }
     },
-    "ConversationHero--membership-3": {
-        "message": "Μέλος του $group1$, $group2$, και $group3$. ",
+    "member-of-3-groups": {
+        "message": "Μέλος του $group1$, $group2$, και $group3$",
         "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
         "placeholders": {
             "group1": {
@@ -3011,8 +3207,8 @@
             }
         }
     },
-    "ConversationHero--membership-extra": {
-        "message": "Μέλος του $group1$, $group2$, $group3$ και $remainingCount$ ακόμα.",
+    "member-of-more-than-3-groups": {
+        "message": "Μέλος του $group1$, $group2$, $group3$ και $remainingCount$ ακόμα",
         "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
         "placeholders": {
             "group1": {
@@ -3042,6 +3238,14 @@
                 "example": "Jeff Smith"
             }
         }
+    },
+    "no-groups-in-common": {
+        "message": "Καμία κοινή ομάδα",
+        "description": "Shown to indicate this user is not a member of any groups"
+    },
+    "no-groups-in-common-warning": {
+        "message": "Χωρίς κοινές ομάδες. Εξέτασε τα αιτήματα προσεκτικά.",
+        "description": "When a user has no common groups, show this warning"
     },
     "acceptCall": {
         "message": "Απάντηση",
@@ -3217,6 +3421,32 @@
         "message": "Αποχώρηση από την κλήση",
         "description": "Title for hang up button"
     },
+    "calling__SelectPresentingSourcesModal--title": {
+        "message": "Διαμοιρασμός οθόνης",
+        "description": "Title for the select your screen sharing sources modal"
+    },
+    "calling__SelectPresentingSourcesModal--confirm": {
+        "message": "Διαμοιρασμός οθόνης",
+        "description": "Confirm button for sharing screen modal"
+    },
+    "calling__SelectPresentingSourcesModal--entireScreen": {
+        "message": "Όλη την οθόνη",
+        "description": "Title for the select your screen sharing sources modal and 'Entire Screen' source"
+    },
+    "calling__SelectPresentingSourcesModal--screen": {
+        "message": "Οθόνη $id$",
+        "description": "Title for `Screen #N` source in screen sharing sources modal and overlay",
+        "placeholders": {
+            "id": {
+                "content": "$1",
+                "example": "1"
+            }
+        }
+    },
+    "calling__SelectPresentingSourcesModal--window": {
+        "message": "Ενα παράθυρο",
+        "description": "Title for the select your screen sharing sources modal"
+    },
     "callingDeviceSelection__label--video": {
         "message": "Βίντεο",
         "description": "Label for video input selector"
@@ -3245,6 +3475,10 @@
         "message": "Σίγαση για μια ώρα",
         "description": "Label for muting the conversation"
     },
+    "muteEightHours": {
+        "message": "Σίγαση για οκτώ ώρες",
+        "description": "Label for muting the conversation"
+    },
     "muteDay": {
         "message": "Σίγαση για μια ημέρα",
         "description": "Label for muting the conversation"
@@ -3253,13 +3487,17 @@
         "message": "Σίγαση για μια εβδομάδα",
         "description": "Label for muting the conversation"
     },
-    "muteYear": {
-        "message": "Σίγαση για ένα έτος",
+    "muteAlways": {
+        "message": "Σίγαση πάντα",
         "description": "Label for muting the conversation"
     },
     "unmute": {
         "message": "Αναίρεση σίγασης",
         "description": "Label for unmuting the conversation"
+    },
+    "muteExpirationLabelAlways": {
+        "message": "Πάντα σε σίγαση",
+        "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
     },
     "muteExpirationLabel": {
         "message": "Σε σίγαση μέχρι $duration$",
@@ -3394,6 +3632,10 @@
     "GroupV2--admin": {
         "message": "Διαχειριστής/τρια",
         "description": "Label for a group administrator"
+    },
+    "GroupV2--only-admins": {
+        "message": "Μόνο διαχειριστές",
+        "description": "Label for group administrators -- used in drop-downs to select permissions that apply to admins"
     },
     "GroupV2--all-members": {
         "message": "Όλα τα μέλη",
@@ -4423,6 +4665,42 @@
         "message": "Ο σύνδεσμος της ομάδας επαναφέρθηκε.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
+    "GroupV2--description--remove--you": {
+        "message": "Αφαίρεσες την περιγραφή της ομάδας.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--description--remove--other": {
+        "message": "Ο/Η $memberName$ αφαίρεσε την περιγραφή της ομάδας.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--description--remove--unknown": {
+        "message": "Η περιγραφή ομάδας αφαιρέθηκε.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--description--change--you": {
+        "message": "Άλλαξες την περιγραφή της ομάδας.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--description--change--other": {
+        "message": "Ο/Η $memberName$ άλλαξε την περιγραφή της ομάδας.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--description--change--unknown": {
+        "message": "Η περιγραφή της ομάδας άλλαξε.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
     "GroupV1--Migration--disabled": {
         "message": "Αναβάθμισε αυτή την ομάδα για να ενεργοποιήσεις νέες δυνατότητες όπως οι @αναφορές και οι διαχειριστές. Τα μέλη που δεν έχουν μοιραστεί το όνομα ή τη φωτογραφία τους με την ομάδα θα προσκληθούν να ξαναμπούν. $learnMore$",
         "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1).",
@@ -4557,6 +4835,18 @@
         "message": "Επισύναψη αρχείου",
         "description": "Aria label for file attachment button in composition area"
     },
+    "CompositionArea--sms-only__title": {
+        "message": "Αυτό το άτομο δεν χρησιμοποιεί Signal",
+        "description": "Title for the composition area for the SMS-only contact"
+    },
+    "CompositionArea--sms-only__body": {
+        "message": "Το Signal Desktop δεν υποστηρίζει την αποστολή μηνυμάτων σε επαφές εκτός Signal. Ζήτα από αυτό το άτομο να εγκαταστήσει το Signal για μια πιο ασφαλή εμπειρία επικοινωνίας.",
+        "description": "Body for the composition area for the SMS-only contact"
+    },
+    "CompositionArea--sms-only__spinner-label": {
+        "message": "Έλεγχος της κατάστασης εγγραφής της επαφής",
+        "description": "Displayed while checking if the contact is SMS-only"
+    },
     "countMutedConversationsDescription": {
         "message": "Να προσμετρώνται οι σιγασμένες συνομιλίες στο μετρητή ειδοποιήσεων",
         "description": "Description for counting muted conversations in badge setting"
@@ -4597,6 +4887,10 @@
         "message": "Αφαίρεση απ' την ομάδα",
         "description": "Button text for remove from group button in Group Contact Details modal"
     },
+    "showChatColorEditor": {
+        "message": "Χρώμα συνομιλίας",
+        "description": "This is a button in the conversation context menu to show the chat color editor"
+    },
     "showConversationDetails": {
         "message": "Ρυθμίσεις ομάδας",
         "description": "This is a button in the conversation context menu to show group settings"
@@ -4618,7 +4912,7 @@
         "description": "This is the label for the 'who can edit the group' panel"
     },
     "ConversationDetails--group-info-info": {
-        "message": "Διάλεξε ποιοί θα μπορούν να επεξεργάζονται το όνομα της ομάδας, τη φωτογραφία, και το χρόνο εξαφάνισης μηνυμάτων.",
+        "message": "Επέλεξε ποιοι θα μπορούν να επεξεργαστούν το όνομα της ομάδας, την περιγραφή της και το χρόνο εξαφάνισης μηνυμάτων.",
         "description": "This is the additional info for the 'who can edit the group' panel"
     },
     "ConversationDetails--add-members-label": {
@@ -4640,6 +4934,10 @@
     "ConversationDetailsActions--block-group": {
         "message": "Φραγή ομάδας",
         "description": "This is a button to block a group"
+    },
+    "ConversationDetailsActions--leave-group-must-choose-new-admin": {
+        "message": "Πριν αποχωρήσεις, θα πρέπει να επιλέξεις τουλάχιστον έναν νέο διαχειριστή ή διαχειρίστρια για την ομάδα.",
+        "description": "Shown if, before leaving a group, you need to choose an admin"
     },
     "ConversationDetailsActions--leave-group-modal-title": {
         "message": "Θέλεις όντως να αποχωρήσεις;",
@@ -4698,6 +4996,10 @@
                 "example": "10"
             }
         }
+    },
+    "ConversationDetailsMembershipList--add-members": {
+        "message": "Προσθήκη μελών",
+        "description": "The button that you can click to add new members"
     },
     "ConversationDetailsMembershipList--show-all": {
         "message": "Προβολή όλων",
@@ -4856,5 +5158,467 @@
     "PendingInvites--info": {
         "message": "Οι λεπτομέρειες των ατόμων που προσκλήθηκαν στην ομάδα δεν εμφανίζονται μέχρι να μπουν. Οι προσκεκλημένοι/ες θα μπορούν να δουν τα μηνύματα μόνο από τη στιγμή που μπουν στην ομάδα.",
         "description": "Information shown below the invite list"
+    },
+    "AvatarInput--no-photo-label--group": {
+        "message": "Προσθήκη φωτογραφίας ομάδας",
+        "description": "The label for the avatar uploader when no group photo is selected"
+    },
+    "AvatarInput--change-photo-label": {
+        "message": "Αλλαγή φωτογραφίας",
+        "description": "The label for the avatar uploader when a photo is selected"
+    },
+    "AvatarInput--upload-photo-choice": {
+        "message": "Ανέβασμα φωτογραφίας",
+        "description": "The button text when you click on an uploaded avatar and want to upload a new one"
+    },
+    "AvatarInput--remove-photo-choice": {
+        "message": "Αφαίρεση φωτογραφίας",
+        "description": "The button text when you click on an uploaded avatar and want to remove it"
+    },
+    "ContactPill--remove": {
+        "message": "Αφαίρεση επαφής",
+        "description": "The label for the 'remove' button on the contact pill"
+    },
+    "ComposeErrorDialog--close": {
+        "message": "Εντάξει",
+        "description": "The text on the button when there's an error in the composer"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--title--one": {
+        "message": "Η πρόσκληση στάλθηκε",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--title--many": {
+        "message": "Στάλθηκαν $count$ προσκλήσεις",
+        "description": "When creating a new group and inviting users, this is shown in the dialog",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--one": {
+        "message": "Δεν μπορείς να προσθέσεις $name$ άτομα αυτόματα στην ομάδα.",
+        "description": "When creating a new group and inviting users, this is shown in the dialog",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Jane Doe"
+            }
+        }
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--many": {
+        "message": "Δεν μπορείς να προσθέσεις αυτούς τους χρήστες αυτόματα στην ομάδα.",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--info-paragraph": {
+        "message": "Έχουν προσκληθεί να μπουν, και δεν θα βλέπουν τα μηνύματα της ομάδας μέχρι να αποδεχτούν.",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--learn-more": {
+        "message": "Μάθε περισσότερα",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "AddGroupMembersModal--title": {
+        "message": "Προσθήκη μελών",
+        "description": "When adding new members to an existing group, this is shown in the dialog"
+    },
+    "AddGroupMembersModal--continue-to-confirm": {
+        "message": "Ενημέρωση",
+        "description": "When adding new members to an existing group, this is shown in the dialog"
+    },
+    "AddGroupMembersModal--confirm-title--one": {
+        "message": "Προσθήκη του/της $person$ στο \"$group$\";",
+        "description": "When adding new members to an existing group, this is shown in the confirmation dialog",
+        "placeholders": {
+            "person": {
+                "content": "$1",
+                "example": "Jane Doe"
+            },
+            "group": {
+                "content": "$2",
+                "example": "Tahoe Trip"
+            }
+        }
+    },
+    "AddGroupMembersModal--confirm-title--many": {
+        "message": "Προσθήκη $count$ μελών στο \"$group$\"; ",
+        "description": "When adding new members to an existing group, this is shown in the confirmation dialog",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "5"
+            },
+            "group": {
+                "content": "$2",
+                "example": "Tahoe Trip"
+            }
+        }
+    },
+    "AddGroupMembersModal--confirm-button--one": {
+        "message": "Προσθήκη μέλους",
+        "description": "When adding new members to an existing group, this is shown on the confirmation dialog button"
+    },
+    "AddGroupMembersModal--confirm-button--many": {
+        "message": "Προσθήκη μελών",
+        "description": "When adding new members to an existing group, this is shown on the confirmation dialog button"
+    },
+    "createNewGroupButton": {
+        "message": "Νέα ομάδα",
+        "description": "The text of the button to create new groups"
+    },
+    "selectContact": {
+        "message": "Επιλογή επαφής",
+        "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)"
+    },
+    "deselectContact": {
+        "message": "Αποεπιλογή επαφής",
+        "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)"
+    },
+    "cannotSelectContact": {
+        "message": "Αδυναμία επιλογής επαφής",
+        "description": "The label for contact checkboxes that are disabled"
+    },
+    "alreadyAMember": {
+        "message": "Ήδη μέλος",
+        "description": "The label for contact checkboxes that are disabled because they're already a member"
+    },
+    "MessageAudio--play": {
+        "message": "Αναπαραγωγή συνημμένου ήχου",
+        "description": "Aria label for audio attachment's Play button"
+    },
+    "MessageAudio--pause": {
+        "message": "Παύση συνημμένου ήχου",
+        "description": "Aria label for audio attachment's Pause button"
+    },
+    "MessageAudio--download": {
+        "message": "Λήψη συνημμένου ήχου",
+        "description": "Aria label for audio attachment's Download button"
+    },
+    "MessageAudio--pending": {
+        "message": "Το συνημμένο ήχου κατεβαίνει...",
+        "description": "Aria label for pending audio attachment spinner"
+    },
+    "MessageAudio--slider": {
+        "message": "Χρόνος αναπαραγωγής του συνημμένου ήχου",
+        "description": "Aria label for audio attachment's playback time slider"
+    },
+    "emptyInboxMessage": {
+        "message": "Κάντε κλικ στο $composeIcon$ παραπάνω και αναζητήστε τις επαφές ή τις ομάδες σας για αποστολή μηνύματος.",
+        "description": "Shown in the left-pane when the inbox is empty",
+        "placeholders": {
+            "composeIcon": {
+                "content": "$1",
+                "example": "compose button"
+            }
+        }
+    },
+    "composeIcon": {
+        "message": "κουμπί σύνθεσης",
+        "description": "Shown in the left-pane when the inbox is empty. Describes the button that composes a new message."
+    },
+    "ForwardMessageModal--continue": {
+        "message": "Συνέχεια",
+        "description": "aria-label for the 'next' button in the forward a message modal dialog"
+    },
+    "MessageRequestWarning__learn-more": {
+        "message": "Μάθε περισσότερα",
+        "description": "Shown on the message request warning. Clicking this button will open a dialog with more information"
+    },
+    "MessageRequestWarning__dialog__details": {
+        "message": "Δεν είσαι σε κοινές ομάδες με αυτό το άτομο. Εξέτασε τα αιτήματα προσεκτικά πριν αποδεχτείς, για να γλιτώσεις ανεπιθύμητα μηνύματα.",
+        "description": "Shown in the message request warning dialog. Gives more information about message requests"
+    },
+    "MessageRequestWarning__dialog__learn-even-more": {
+        "message": "Σχετικά με τα αιτήματα μηνυμάτων",
+        "description": "Shown in the message request warning dialog. Clicking this button will open a page on Signal's support site"
+    },
+    "ContactSpoofing__same-name": {
+        "message": "Εξέτασε τα αιτήματα προσεκτικά. Το Signal βρήκε μια άλλη επαφή με το ίδιο όνομα. $link$",
+        "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else",
+        "placeholders": {
+            "link": {
+                "content": "$1",
+                "example": "Review request"
+            }
+        }
+    },
+    "ContactSpoofing__same-name-in-group": {
+        "message": "$count$ μέλη της ομάδας έχουν το ίδιο όνομα. $link$",
+        "description": "Shown in the timeline warning when you multiple group members have the same name",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "3"
+            },
+            "link": {
+                "content": "$2",
+                "example": "Tap to review"
+            }
+        }
+    },
+    "ContactSpoofing__same-name__link": {
+        "message": "Εξέταση αιτήματος",
+        "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else"
+    },
+    "ContactSpoofing__same-name-in-group__link": {
+        "message": "Πάτα για εξέταση",
+        "description": "Shown in the timeline warning when you multiple group members have the same name"
+    },
+    "ContactSpoofingReviewDialog__title": {
+        "message": "Εξέταση αιτήματος",
+        "description": "Title for the contact name spoofing review dialog"
+    },
+    "ContactSpoofingReviewDialog__description": {
+        "message": "Αν δεν είσαι σίγουρος/η από ποιόν είναι το αίτημα, εξέτασε τις παρακάτω επαφές, και κάνε κάποια ενέργεια.",
+        "description": "Description for the contact spoofing review dialog"
+    },
+    "ContactSpoofingReviewDialog__possibly-unsafe-title": {
+        "message": "Αίτημα",
+        "description": "Header in the contact spoofing review dialog, shown above the potentially-unsafe user"
+    },
+    "ContactSpoofingReviewDialog__safe-title": {
+        "message": "Επαφή σου",
+        "description": "Header in the contact spoofing review dialog, shown above the \"safe\" user"
+    },
+    "ContactSpoofingReviewDialog__group__title": {
+        "message": "Ανασκόπηση μελών",
+        "description": "Title for the contact name spoofing review dialog in groups"
+    },
+    "ContactSpoofingReviewDialog__group__description": {
+        "message": "$count$ μέλη της ομάδας έχουν παρόμοια ονόματα. Έλεγξε τα μέλη παρακάτω ή επέλεξε ενέργεια.",
+        "description": "Description for the group contact spoofing review dialog"
+    },
+    "ContactSpoofingReviewDialog__group__members-header": {
+        "message": "Μέλη",
+        "description": "Header in the group contact spoofing review dialog. After this header, there will be a list of members"
+    },
+    "ContactSpoofingReviewDialog__group__name-change-info": {
+        "message": "Άλλαξε πρόσφατα το όνομα προφίλ του/της από $oldName$ σε $newName$",
+        "description": "In the group contact spoofing review dialog, this text is shown when someone has changed their name recently",
+        "placeholders": {
+            "oldName": {
+                "content": "$1",
+                "example": "Jane Doe"
+            },
+            "newName": {
+                "content": "$2",
+                "example": "Doe Jane"
+            }
+        }
+    },
+    "RemoveGroupMemberConfirmation__remove-button": {
+        "message": "Αφαίρεση απ' την ομάδα",
+        "description": "When confirming the removal of a group member, show this text in the button"
+    },
+    "RemoveGroupMemberConfirmation__description": {
+        "message": "Αφαίρεση του/της \"$name$\" από την ομάδα;",
+        "description": "When confirming the removal of a group member, show this text in the dialog",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Jane Doe"
+            }
+        }
+    },
+    "CaptchaDialog__title": {
+        "message": "Επιβεβαίωσε για να συνεχίσεις να συνομιλείς",
+        "description": "Header in the captcha dialog"
+    },
+    "CaptchaDialog__first-paragraph": {
+        "message": "Για να περιορίσουμε το spam στο Signal, παρακαλούμε ολοκλήρωσε την επιβεβαίωση.",
+        "description": "First paragraph in the captcha dialog"
+    },
+    "CaptchaDialog__second-paragraph": {
+        "message": "Αφού επιβεβαιώσεις, θα μπορέσεις να συνεχίσεις να στέλνεις μηνύματα. Όσα μηνύματα βρίσκονται σε αναμονή θα αποσταλλούν αυτόματα.",
+        "description": "First paragraph in the captcha dialog"
+    },
+    "CaptchaDialog--can-close__title": {
+        "message": "Συνέχεια χωρίς επιβεβαίωση;",
+        "description": "Header in the captcha dialog that can be closed"
+    },
+    "CaptchaDialog--can-close__body": {
+        "message": "If you choose to skip verification, you may miss messages from other people and your messages may fail to send.",
+        "description": "Body of the captcha dialog that can be closed"
+    },
+    "CaptchaDialog--can_close__skip-verification": {
+        "message": "Παράλειψη επιβεβαίωσης",
+        "description": "Skip button of the captcha dialog that can be closed"
+    },
+    "verificationComplete": {
+        "message": "Η επιβεβαίωση ολοκληρώθηκε.",
+        "description": "Displayed after successful captcha"
+    },
+    "verificationFailed": {
+        "message": "Η επιβεβαίωση απέτυχε. Παρακαλώ προσπάθησε ξανά αργότερα.",
+        "description": "Displayed after unsuccessful captcha"
+    },
+    "deleteForEveryoneFailed": {
+        "message": "Αποτυχία διαγραφής του μηνύματος για όλους. Παρακαλώ προσπάθησε ξανά αργότερα.",
+        "description": "Displayed when delete-for-everyone has failed to send to all recepients"
+    },
+    "ChatColorPicker__delete--title": {
+        "message": "Διαγραφή χρώματος",
+        "description": "Confirm title for deleting custom color"
+    },
+    "ChatColorPicker__delete--message": {
+        "message": "Αυτό το προσαρμοσμένο χρώμα χρησιμοποιείται σε $num$ συνομιλίες. Θέλεις να το διαγράψεις για όλες τις συνομιλίες;",
+        "description": "Confirm message for deleting custom color",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "ChatColorPicker__global-chat-color": {
+        "message": "Καθολικό χρώμα συνομιλιών",
+        "description": "Modal title for the chat color picker and editor for all conversations"
+    },
+    "ChatColorPicker__menu-title": {
+        "message": "Χρώμα συνομιλίας",
+        "description": "View title for the chat color picker and editor"
+    },
+    "ChatColorPicker__reset": {
+        "message": "Επαναφορά χρώματος συνομιλίας",
+        "description": "Button label for resetting chat colors"
+    },
+    "ChatColorPicker__resetDefault": {
+        "message": "Επαναφορά χρωμάτων συνομιλιών",
+        "description": "Confirmation dialog title for resetting all chat colors or only the global default one"
+    },
+    "ChatColorPicker__resetAll": {
+        "message": "Επαναφορά όλων των χρωμάτων συνομιλιών",
+        "description": "Button label for resetting all chat colors"
+    },
+    "ChatColorPicker__confirm-reset-default": {
+        "message": "Επαναφορά προκαθορισμένου",
+        "description": "Button label for resetting only global chat color"
+    },
+    "ChatColorPicker__confirm-reset": {
+        "message": "Επαναφορά",
+        "description": "Confirm button label for resetting chat colors"
+    },
+    "ChatColorPicker__confirm-reset-message": {
+        "message": "Θέλεις να παρακάμψεις όλα τα χρώματα συνομιλιών;",
+        "description": "Modal message text for confirming resetting of chat colors"
+    },
+    "ChatColorPicker__custom-color--label": {
+        "message": "Εμφάνιση του επεξεργαστή προσαρμοσμένου χρώματος",
+        "description": "aria-label for custom color editor button"
+    },
+    "ChatColorPicker__sampleBubble1": {
+        "message": "Να μια προεπισκόπηση του χρώματος της συνομιλίας.",
+        "description": "An example message bubble for selecting the chat color"
+    },
+    "ChatColorPicker__sampleBubble2": {
+        "message": "Ένα άλλο μήνυμα.",
+        "description": "An example message bubble for selecting the chat color"
+    },
+    "ChatColorPicker__sampleBubble3": {
+        "message": "Μόνο εσύ βλέπεις αυτό το χρώμα.",
+        "description": "An example message bubble for selecting the chat color"
+    },
+    "ChatColorPicker__context--edit": {
+        "message": "Επεξεργασία χρώματος",
+        "description": "Option in the custom color bubble context menu"
+    },
+    "ChatColorPicker__context--duplicate": {
+        "message": "Δημιουργία αντιγράφου",
+        "description": "Option in the custom color bubble context menu"
+    },
+    "ChatColorPicker__context--delete": {
+        "message": "Διαγραφή",
+        "description": "Option in the custom color bubble context menu"
+    },
+    "CustomColorEditor__solid": {
+        "message": "Μονόχρωμο",
+        "description": "Tab label for selecting solid colors"
+    },
+    "CustomColorEditor__gradient": {
+        "message": "Διαβάθμιση",
+        "description": "Tab label for selecting a gradient"
+    },
+    "CustomColorEditor__hue": {
+        "message": "Απόχρωση",
+        "description": "Label for the hue slider"
+    },
+    "CustomColorEditor__saturation": {
+        "message": "Saturation",
+        "description": "Label for the saturation slider"
+    },
+    "CustomColorEditor__title": {
+        "message": "Προσαρμοσμένο χρώμα",
+        "description": "Modal title for the custom color editor"
+    },
+    "customDisappearingTimeOption": {
+        "message": "Προσαρμοσμένος χρόνος...",
+        "description": "Text for an option in Disappearing Messages menu and Conversation Details Disappearing Messages setting when no user value is available"
+    },
+    "selectedCustomDisappearingTimeOption": {
+        "message": "Προσαρμοσμένος χρόνος",
+        "description": "Text for an option in Conversation Details Disappearing Messages setting when user previously selected custom time"
+    },
+    "DisappearingTimeDialog__title": {
+        "message": "Προσαρμοσμένος χρόνος",
+        "description": "Title for the custom disappearing message timeout dialog"
+    },
+    "DisappearingTimeDialog__body": {
+        "message": "Επέλεξε έναν προσαρμοσμένο χρόνο για την εξαφάνιση των μηνυμάτων.",
+        "description": "Body for the custom disappearing message timeout dialog"
+    },
+    "DisappearingTimeDialog__set": {
+        "message": "Ορισμός",
+        "description": "Text for the dialog button confirming the custom disappearing message timeout"
+    },
+    "DisappearingTimeDialog__seconds": {
+        "message": "Δευτερόλεπτα",
+        "description": "Name of the 'seconds' unit select for the custom disappearing message timeout dialog"
+    },
+    "DisappearingTimeDialog__minutes": {
+        "message": "Λεπτά",
+        "description": "Name of the 'minutes' unit select for the custom disappearing message timeout dialog"
+    },
+    "DisappearingTimeDialog__hours": {
+        "message": "Ώρες",
+        "description": "Name of the 'hours' unit select for the custom disappearing message timeout dialog"
+    },
+    "DisappearingTimeDialog__days": {
+        "message": "Ημέρες",
+        "description": "Name of the 'days' unit select for the custom disappearing message timeout dialog"
+    },
+    "DisappearingTimeDialog__weeks": {
+        "message": "Εβδομάδες",
+        "description": "Name of the 'weeks' unit select for the custom disappearing message timeout dialog"
+    },
+    "settings__DisappearingMessages__footer": {
+        "message": "Ορισμός ενός προκαθορισμένου χρόνου εξαφάνισης μηνυμάτων για όλες τις συνομιλίες που ξεκινάς εσύ.",
+        "description": "Footer for the Disappearing Messages settings section"
+    },
+    "settings__DisappearingMessages__timer__label": {
+        "message": "Προκαθορισμένο χρονόμετρο για νέες συνομιλίες",
+        "description": "Label for the Disapearring Messages default timer setting"
+    },
+    "UniversalTimerNotification__text": {
+        "message": "Ο χρόνος εξαφάνισης μηνυμάτων θα οριστεί σε $timeValue$ όταν του/της στείλεις μήνυμα.",
+        "description": "A message displayed when default disappearing message timeout is about to be applied",
+        "placeholders": {
+            "timeValue": {
+                "content": "$1",
+                "example": "1 week"
+            }
+        }
+    },
+    "GroupDescription__read-more": {
+        "message": "διάβασε περισσότερα",
+        "description": "Button text when the group description is too long"
+    },
+    "EditConversationAttributesModal__description-warning": {
+        "message": "Οι περιγραφές ομάδας θα είναι ορατές στα μέλη της ομάδας και στα άτομα που έχουν προσκληθεί.",
+        "description": "Label text shown when editing group description"
+    },
+    "ConversationDetailsHeader--add-group-description": {
+        "message": "Προσθήκη περιγραφής ομάδας...",
+        "description": "Placeholder text in the details header for those that can edit the group description"
     }
 }

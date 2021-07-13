@@ -1,4 +1,4 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import os from 'os';
@@ -102,6 +102,24 @@ describe('Settings', () => {
     });
   });
 
+  describe('isAutoLaunchSupported', () => {
+    it('returns true on Windows', () => {
+      sandbox.stub(process, 'platform').value('win32');
+      sandbox.stub(os, 'release').returns('8.0.0');
+      assert.isTrue(Settings.isAutoLaunchSupported());
+    });
+
+    it('returns true on macOS', () => {
+      sandbox.stub(process, 'platform').value('darwin');
+      assert.isTrue(Settings.isAutoLaunchSupported());
+    });
+
+    it('returns false on Linux', () => {
+      sandbox.stub(process, 'platform').value('linux');
+      assert.isFalse(Settings.isAutoLaunchSupported());
+    });
+  });
+
   describe('isHideMenuBarSupported', () => {
     it('returns false on macOS', () => {
       sandbox.stub(process, 'platform').value('darwin');
@@ -147,6 +165,29 @@ describe('Settings', () => {
     it('returns true on Linux', () => {
       sandbox.stub(process, 'platform').value('linux');
       assert.isTrue(Settings.isDrawAttentionSupported());
+    });
+  });
+
+  describe('isSystemTraySupported', () => {
+    it('returns false on macOS', () => {
+      sandbox.stub(process, 'platform').value('darwin');
+      assert.isFalse(Settings.isSystemTraySupported('1.2.3'));
+    });
+
+    it('returns true on Windows 8', () => {
+      sandbox.stub(process, 'platform').value('win32');
+      sandbox.stub(os, 'release').returns('8.0.0');
+      assert.isTrue(Settings.isSystemTraySupported('1.2.3'));
+    });
+
+    it('returns false on Linux production', () => {
+      sandbox.stub(process, 'platform').value('linux');
+      assert.isFalse(Settings.isSystemTraySupported('1.2.3'));
+    });
+
+    it('returns true on Linux beta', () => {
+      sandbox.stub(process, 'platform').value('linux');
+      assert.isTrue(Settings.isSystemTraySupported('1.2.3-beta.4'));
     });
   });
 });

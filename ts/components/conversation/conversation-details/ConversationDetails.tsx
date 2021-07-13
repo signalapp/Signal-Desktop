@@ -5,13 +5,12 @@ import React, { useState, ReactNode } from 'react';
 
 import { ConversationType } from '../../../state/ducks/conversations';
 import { assert } from '../../../util/assert';
-import {
-  ExpirationTimerOptions,
-  TimerOption,
-} from '../../../util/ExpirationTimerOptions';
+
 import { LocalizerType } from '../../../types/Util';
 import { MediaItemType } from '../../LightboxGallery';
 import { missingCaseError } from '../../../util/missingCaseError';
+
+import { DisappearingTimerSelect } from '../../DisappearingTimerSelect';
 
 import { PanelRow } from './PanelRow';
 import { PanelSection } from './PanelSection';
@@ -20,13 +19,22 @@ import { ConversationDetailsActions } from './ConversationDetailsActions';
 import { ConversationDetailsHeader } from './ConversationDetailsHeader';
 import { ConversationDetailsIcon } from './ConversationDetailsIcon';
 import { ConversationDetailsMediaList } from './ConversationDetailsMediaList';
-import { ConversationDetailsMembershipList } from './ConversationDetailsMembershipList';
+import {
+  ConversationDetailsMembershipList,
+  GroupV2Membership,
+} from './ConversationDetailsMembershipList';
+import {
+  GroupV2PendingMembership,
+  GroupV2RequestingMembership,
+} from './PendingInvites';
 import { EditConversationAttributesModal } from './EditConversationAttributesModal';
 import { RequestState } from './util';
+import { getCustomColorStyle } from '../../../util/getCustomColorStyle';
 
 enum ModalState {
   NothingOpen,
-  EditingGroupAttributes,
+  EditingGroupDescription,
+  EditingGroupTitle,
   AddingGroupMembers,
 }
 
@@ -39,9 +47,13 @@ export type StateProps = {
   i18n: LocalizerType;
   isAdmin: boolean;
   loadRecentMediaItems: (limit: number) => void;
+  memberships: Array<GroupV2Membership>;
+  pendingApprovalMemberships: ReadonlyArray<GroupV2RequestingMembership>;
+  pendingMemberships: ReadonlyArray<GroupV2PendingMembership>;
   setDisappearingMessages: (seconds: number) => void;
   showAllMedia: () => void;
   showContactModal: (conversationId: string) => void;
+  showGroupChatColorEditor: () => void;
   showGroupLinkManagement: () => void;
   showGroupV2Permissions: () => void;
   showPendingInvites: () => void;
@@ -52,6 +64,7 @@ export type StateProps = {
   updateGroupAttributes: (
     _: Readonly<{
       avatar?: undefined | ArrayBuffer;
+      description?: string;
       title?: string;
     }>
   ) => Promise<void>;
@@ -70,9 +83,13 @@ export const ConversationDetails: React.ComponentType<Props> = ({
   i18n,
   isAdmin,
   loadRecentMediaItems,
+  memberships,
+  pendingApprovalMemberships,
+  pendingMemberships,
   setDisappearingMessages,
   showAllMedia,
   showContactModal,
+  showGroupChatColorEditor,
   showGroupLinkManagement,
   showGroupV2Permissions,
   showPendingInvites,
@@ -93,18 +110,10 @@ export const ConversationDetails: React.ComponentType<Props> = ({
     setAddGroupMembersRequestState,
   ] = useState<RequestState>(RequestState.Inactive);
 
-  const updateExpireTimer = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setDisappearingMessages(parseInt(event.target.value, 10));
-  };
-
   if (conversation === undefined) {
     throw new Error('ConversationDetails rendered without a conversation');
   }
 
-  const memberships = conversation.memberships || [];
-  const pendingMemberships = conversation.pendingMemberships || [];
-  const pendingApprovalMemberships =
-    conversation.pendingApprovalMemberships || [];
   const invitesCount =
     pendingMemberships.length + pendingApprovalMemberships.length;
 
@@ -121,14 +130,20 @@ export const ConversationDetails: React.ComponentType<Props> = ({
     case ModalState.NothingOpen:
       modalNode = undefined;
       break;
-    case ModalState.EditingGroupAttributes:
+    case ModalState.EditingGroupDescription:
+    case ModalState.EditingGroupTitle:
       modalNode = (
         <EditConversationAttributesModal
           avatarPath={conversation.avatarPath}
+          groupDescription={conversation.groupDescription}
           i18n={i18n}
+          initiallyFocusDescription={
+            modalState === ModalState.EditingGroupDescription
+          }
           makeRequest={async (
             options: Readonly<{
               avatar?: undefined | ArrayBuffer;
+              description?: string;
               title?: string;
             }>
           ) => {
@@ -200,13 +215,18 @@ export const ConversationDetails: React.ComponentType<Props> = ({
         canEdit={canEditGroupInfo}
         conversation={conversation}
         i18n={i18n}
-        startEditing={() => {
-          setModalState(ModalState.EditingGroupAttributes);
+        memberships={memberships}
+        startEditing={(isGroupTitle: boolean) => {
+          setModalState(
+            isGroupTitle
+              ? ModalState.EditingGroupTitle
+              : ModalState.EditingGroupDescription
+          );
         }}
       />
 
-      {canEditGroupInfo ? (
-        <PanelSection>
+      <PanelSection>
+        {canEditGroupInfo ? (
           <PanelRow
             icon={
               <ConversationDetailsIcon
@@ -219,26 +239,33 @@ export const ConversationDetails: React.ComponentType<Props> = ({
             info={i18n('ConversationDetails--disappearing-messages-info')}
             label={i18n('ConversationDetails--disappearing-messages-label')}
             right={
-              <div className="module-conversation-details-select">
-                <select
-                  onChange={updateExpireTimer}
-                  value={conversation.expireTimer || 0}
-                >
-                  {ExpirationTimerOptions.map((item: typeof TimerOption) => (
-                    <option
-                      value={item.get('seconds')}
-                      key={item.get('seconds')}
-                      aria-label={item.getName(i18n)}
-                    >
-                      {item.getName(i18n)}
-                    </option>
-                  ))}
-                </select>
-              </div>
+              <DisappearingTimerSelect
+                i18n={i18n}
+                value={conversation.expireTimer || 0}
+                onChange={setDisappearingMessages}
+              />
             }
           />
-        </PanelSection>
-      ) : null}
+        ) : null}
+        <PanelRow
+          icon={
+            <ConversationDetailsIcon
+              ariaLabel={i18n('showChatColorEditor')}
+              icon="color"
+            />
+          }
+          label={i18n('showChatColorEditor')}
+          onClick={showGroupChatColorEditor}
+          right={
+            <div
+              className={`module-conversation-details__chat-color module-conversation-details__chat-color--${conversation.conversationColor}`}
+              style={{
+                ...getCustomColorStyle(conversation.customColor),
+              }}
+            />
+          }
+        />
+      </PanelSection>
 
       <ConversationDetailsMembershipList
         canAddNewMembers={canEditGroupInfo}

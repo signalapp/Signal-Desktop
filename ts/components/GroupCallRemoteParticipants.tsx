@@ -105,7 +105,8 @@ export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
   // 2. Split participants into two groups: ones in the main grid and ones in the overflow
   //   sidebar.
   //
-  // We start by sorting by `speakerTime` so that the most recent speakers are first in
+  // We start by sorting by `presenting` first since presenters should be on the main grid
+  //   then we sort by `speakerTime` so that the most recent speakers are next in
   //   line for the main grid. Then we split the list in two: one for the grid and one for
   //   the overflow area.
   //
@@ -119,7 +120,9 @@ export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
       remoteParticipants
         .concat()
         .sort(
-          (a, b) => (b.speakerTime || -Infinity) - (a.speakerTime || -Infinity)
+          (a, b) =>
+            Number(b.presenting || 0) - Number(a.presenting || 0) ||
+            (b.speakerTime || -Infinity) - (a.speakerTime || -Infinity)
         ),
     [remoteParticipants]
   );
@@ -275,18 +278,23 @@ export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
     if (isPageVisible) {
       setGroupCallVideoRequest([
         ...gridParticipants.map(participant => {
-          if (participant.hasRemoteVideo) {
-            return {
-              demuxId: participant.demuxId,
-              width: Math.floor(
-                gridParticipantHeight *
-                  participant.videoAspectRatio *
-                  VIDEO_REQUEST_SCALAR
-              ),
-              height: Math.floor(gridParticipantHeight * VIDEO_REQUEST_SCALAR),
-            };
+          let scalar: number;
+          if (participant.sharingScreen) {
+            // We want best-resolution video if someone is sharing their screen. This code
+            //   is extra-defensive against strange devicePixelRatios.
+            scalar = Math.max(window.devicePixelRatio || 1, 1);
+          } else if (participant.hasRemoteVideo) {
+            scalar = VIDEO_REQUEST_SCALAR;
+          } else {
+            scalar = 0;
           }
-          return nonRenderedRemoteParticipant(participant);
+          return {
+            demuxId: participant.demuxId,
+            width: Math.floor(
+              gridParticipantHeight * participant.videoAspectRatio * scalar
+            ),
+            height: Math.floor(gridParticipantHeight * scalar),
+          };
         }),
         ...overflowedParticipants.map(participant => {
           if (participant.hasRemoteVideo) {

@@ -7,7 +7,10 @@ import {
   ConversationHeader,
   OutgoingCallButtonStyle,
 } from '../../components/conversation/ConversationHeader';
-import { getConversationSelector } from '../selectors/conversations';
+import {
+  getConversationSelector,
+  isMissingRequiredProfileSharing,
+} from '../selectors/conversations';
 import { StateType } from '../reducer';
 import { CallMode } from '../../types/Calling';
 import {
@@ -18,6 +21,7 @@ import { getActiveCall, isAnybodyElseInGroupCall } from '../ducks/calling';
 import { getUserConversationId, getIntl } from '../selectors/user';
 import { getOwn } from '../../util/getOwn';
 import { missingCaseError } from '../../util/missingCaseError';
+import { isConversationSMSOnly } from '../../util/isConversationSMSOnly';
 import { isGroupCallingEnabled } from '../../util/isGroupCallingEnabled';
 
 export type OwnProps = {
@@ -33,6 +37,7 @@ export type OwnProps = {
   onSetMuteNotifications: (seconds: number) => void;
   onSetPin: (value: boolean) => void;
   onShowAllMedia: () => void;
+  onShowChatColorEditor: () => void;
   onShowContactModal: (contactId: string) => void;
   onShowGroupMembers: () => void;
 
@@ -105,16 +110,14 @@ const mapStateToProps = (state: StateType, ownProps: OwnProps) => {
       'title',
       'type',
       'groupVersion',
+      'sharedGroupNames',
+      'unblurredAvatarPath',
     ]),
     conversationTitle: state.conversations.selectedConversationTitle,
-    isMissingMandatoryProfileSharing: Boolean(
-      !conversation.profileSharing &&
-        window.Signal.RemoteConfig.isEnabled(
-          'desktop.mandatoryProfileSharing'
-        ) &&
-        conversation.messageCount &&
-        conversation.messageCount > 0
+    isMissingMandatoryProfileSharing: isMissingRequiredProfileSharing(
+      conversation
     ),
+    isSMSOnly: isConversationSMSOnly(conversation),
     i18n: getIntl(state),
     showBackButton: state.conversations.selectedConversationPanelDepth > 0,
     outgoingCallButtonStyle: getOutgoingCallButtonStyle(conversation, state),

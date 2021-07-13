@@ -17,6 +17,7 @@ import { read as readLastLines } from 'read-last-lines';
 import rimraf from 'rimraf';
 import { createStream } from 'rotating-file-stream';
 
+import { setLogAtLevel } from './log';
 import { Environment, getEnvironment } from '../environment';
 
 import {
@@ -38,6 +39,7 @@ declare global {
 }
 
 let globalLogger: undefined | pinoms.Logger;
+let shouldRestart = false;
 
 const isRunningFromConsole =
   Boolean(process.stdout.isTTY) ||
@@ -74,13 +76,16 @@ export async function initialize(): Promise<pinoms.Logger> {
     rotate: 3,
   });
 
-  stream.on('close', () => {
+  const onClose = () => {
     globalLogger = undefined;
-  });
 
-  stream.on('error', () => {
-    globalLogger = undefined;
-  });
+    if (shouldRestart) {
+      initialize();
+    }
+  };
+
+  stream.on('close', onClose);
+  stream.on('error', onClose);
 
   const streams: pinoms.Streams = [];
   streams.push({ stream });
@@ -100,7 +105,26 @@ export async function initialize(): Promise<pinoms.Logger> {
   ipc.on('fetch-log', event => {
     fetch(logPath).then(
       data => {
-        event.sender.send('fetched-log', data);
+        try {
+          event.sender.send('fetched-log', data);
+        } catch (err: unknown) {
+          // NOTE(evanhahn): We don't want to send a message to a window that's closed.
+          //   I wanted to use `event.sender.isDestroyed()` but that seems to fail.
+          //   Instead, we attempt the send and catch the failure as best we can.
+          const hasUserClosedWindow = isProbablyObjectHasBeenDestroyedError(
+            err
+          );
+          if (hasUserClosedWindow) {
+            logger.info(
+              'Logs were requested, but it seems the window was closed'
+            );
+          } else {
+            logger.error(
+              'Problem replying with fetched logs',
+              err instanceof Error && err.stack ? err.stack : err
+            );
+          }
+        }
       },
       error => {
         logger.error(`Problem loading log from disk: ${error.stack}`);
@@ -109,6 +133,9 @@ export async function initialize(): Promise<pinoms.Logger> {
   });
 
   ipc.on('delete-all-logs', async event => {
+    // Restart logging when the streams will close
+    shouldRestart = true;
+
     try {
       await deleteAllLogs(logPath);
     } catch (error) {
@@ -295,8 +322,14 @@ function logAtLevel(level: LogLevel, ...args: ReadonlyArray<unknown>) {
   }
 }
 
+function isProbablyObjectHasBeenDestroyedError(err: unknown): boolean {
+  return err instanceof Error && err.message === 'Object has been destroyed';
+}
+
 // This blows up using mocha --watch, so we ensure it is run just once
 if (!console._log) {
+  setLogAtLevel(logAtLevel);
+
   console._log = console.log;
   console.log = _.partial(logAtLevel, LogLevel.Info);
   console._error = console.error;

@@ -79,6 +79,8 @@ export type PropsType = {
   selectedConversationId: undefined | string;
   selectedMessageId: undefined | string;
   regionCode: string;
+  challengeStatus: 'idle' | 'required' | 'pending';
+  setChallengeStatus: (status: 'idle') => void;
 
   // Action Creators
   cantAddContactToGroup: (conversationId: string) => void;
@@ -96,6 +98,7 @@ export type PropsType = {
   setComposeSearchTerm: (composeSearchTerm: string) => void;
   setComposeGroupAvatar: (_: undefined | ArrayBuffer) => void;
   setComposeGroupName: (_: string) => void;
+  setComposeGroupExpireTimer: (_: number) => void;
   showArchivedConversations: () => void;
   showInbox: () => void;
   startComposing: () => void;
@@ -110,6 +113,7 @@ export type PropsType = {
   renderNetworkStatus: () => JSX.Element;
   renderRelinkDialog: () => JSX.Element;
   renderUpdateDialog: () => JSX.Element;
+  renderCaptchaDialog: (props: { onSkip(): void }) => JSX.Element;
 };
 
 export const LeftPane: React.FC<PropsType> = ({
@@ -121,6 +125,8 @@ export const LeftPane: React.FC<PropsType> = ({
   createGroup,
   i18n,
   modeSpecificProps,
+  challengeStatus,
+  setChallengeStatus,
   openConversationInternal,
   renderExpiredBuildDialog,
   renderMainHeader,
@@ -128,11 +134,13 @@ export const LeftPane: React.FC<PropsType> = ({
   renderNetworkStatus,
   renderRelinkDialog,
   renderUpdateDialog,
+  renderCaptchaDialog,
   selectedConversationId,
   selectedMessageId,
   setComposeSearchTerm,
   setComposeGroupAvatar,
   setComposeGroupName,
+  setComposeGroupExpireTimer,
   showArchivedConversations,
   showInbox,
   startComposing,
@@ -238,6 +246,20 @@ export const LeftPane: React.FC<PropsType> = ({
       const { ctrlKey, shiftKey, altKey, metaKey, key } = event;
       const commandOrCtrl = OS.isMacOS() ? metaKey : ctrlKey;
 
+      if (event.key === 'Escape') {
+        const backAction = helper.getBackAction({
+          showInbox,
+          startComposing,
+          showChooseGroupMembers,
+        });
+        if (backAction) {
+          event.preventDefault();
+          event.stopPropagation();
+          backAction();
+          return;
+        }
+      }
+
       if (
         commandOrCtrl &&
         !shiftKey &&
@@ -308,6 +330,8 @@ export const LeftPane: React.FC<PropsType> = ({
     openConversationInternal,
     selectedConversationId,
     selectedMessageId,
+    showChooseGroupMembers,
+    showInbox,
     startComposing,
   ]);
 
@@ -320,6 +344,7 @@ export const LeftPane: React.FC<PropsType> = ({
     i18n,
     setComposeGroupAvatar,
     setComposeGroupName,
+    setComposeGroupExpireTimer,
     onChangeComposeSearchTerm: event => {
       setComposeSearchTerm(event.target.value);
     },
@@ -365,23 +390,7 @@ export const LeftPane: React.FC<PropsType> = ({
   // [0]: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/645900a0e296ca7053dbf6cd9e12cc85849de2d5/docs/rules/no-static-element-interactions.md#case-the-event-handler-is-only-being-used-to-capture-bubbled-events
   /* eslint-disable jsx-a11y/no-static-element-interactions */
   return (
-    <div
-      className="module-left-pane"
-      onKeyDown={event => {
-        if (event.key === 'Escape') {
-          const backAction = helper.getBackAction({
-            showInbox,
-            startComposing,
-            showChooseGroupMembers,
-          });
-          if (backAction) {
-            event.preventDefault();
-            event.stopPropagation();
-            backAction();
-          }
-        }
-      }}
-    >
+    <div className="module-left-pane">
       {/* eslint-enable jsx-a11y/no-static-element-interactions */}
       <div className="module-left-pane__header">
         {helper.getHeaderContents({
@@ -393,12 +402,8 @@ export const LeftPane: React.FC<PropsType> = ({
       </div>
       {renderExpiredBuildDialog()}
       {renderRelinkDialog()}
-      {helper.shouldRenderNetworkStatusAndUpdateDialog() && (
-        <>
-          {renderNetworkStatus()}
-          {renderUpdateDialog()}
-        </>
-      )}
+      {renderNetworkStatus()}
+      {renderUpdateDialog()}
       {preRowsNode && <React.Fragment key={0}>{preRowsNode}</React.Fragment>}
       <Measure bounds>
         {({ contentRect, measureRef }: MeasuredComponentProps) => (
@@ -464,6 +469,12 @@ export const LeftPane: React.FC<PropsType> = ({
       {footerContents && (
         <div className="module-left-pane__footer">{footerContents}</div>
       )}
+      {challengeStatus !== 'idle' &&
+        renderCaptchaDialog({
+          onSkip() {
+            setChallengeStatus('idle');
+          },
+        })}
     </div>
   );
 };

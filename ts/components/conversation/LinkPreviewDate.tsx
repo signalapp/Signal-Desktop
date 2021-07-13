@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -6,7 +6,7 @@ import moment, { Moment } from 'moment';
 import { isLinkPreviewDateValid } from '../../linkPreviews/isLinkPreviewDateValid';
 
 type Props = {
-  date: null | number;
+  date?: null | number;
   className?: string;
 };
 

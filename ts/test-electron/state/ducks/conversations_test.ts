@@ -23,14 +23,17 @@ import {
   reducer,
   updateConversationLookups,
 } from '../../../state/ducks/conversations';
+import { ContactSpoofingType } from '../../../util/contactSpoofing';
 import { CallMode } from '../../../types/Calling';
 import * as groups from '../../../groups';
+import { getDefaultConversation } from '../../../test-both/helpers/getDefaultConversation';
 
 const {
   cantAddContactToGroup,
   clearGroupCreationError,
   clearInvitedConversationsForNewlyCreatedGroup,
   closeCantAddContactToGroupModal,
+  closeContactSpoofingReview,
   closeMaximumGroupSizeModal,
   closeRecommendedGroupSizeModal,
   createGroup,
@@ -47,6 +50,9 @@ const {
   startComposing,
   showChooseGroupMembers,
   startSettingGroupMetadata,
+  resetAllChatColors,
+  reviewGroupMemberNameCollision,
+  reviewMessageRequestNameCollision,
   toggleConversationInChooseMembers,
 } = actions;
 
@@ -70,31 +76,7 @@ describe('both/state/ducks/conversations', () => {
 
   describe('helpers', () => {
     describe('getConversationCallMode', () => {
-      const fakeConversation: ConversationType = {
-        id: 'id1',
-        e164: '+18005551111',
-        activeAt: Date.now(),
-        name: 'No timestamp',
-        timestamp: 0,
-        inboxPosition: 0,
-        phoneNumber: 'notused',
-        isArchived: false,
-        markedUnread: false,
-
-        type: 'direct',
-        isMe: false,
-        lastUpdated: Date.now(),
-        title: 'No timestamp',
-        unreadCount: 1,
-        isSelected: false,
-        typingContact: {
-          name: 'Someone There',
-          color: 'blue',
-          phoneNumber: '+18005551111',
-        },
-
-        acceptedMessageRequest: true,
-      };
+      const fakeConversation: ConversationType = getDefaultConversation();
 
       it("returns CallMode.None if you've left the conversation", () => {
         assert.strictEqual(
@@ -142,6 +124,7 @@ describe('both/state/ducks/conversations', () => {
             ...fakeConversation,
             type: 'group',
             groupVersion: 1,
+            sharedGroupNames: [],
           }),
           CallMode.None
         );
@@ -150,6 +133,7 @@ describe('both/state/ducks/conversations', () => {
           getConversationCallMode({
             ...fakeConversation,
             type: 'group',
+            sharedGroupNames: [],
           }),
           CallMode.None
         );
@@ -168,6 +152,7 @@ describe('both/state/ducks/conversations', () => {
             ...fakeConversation,
             type: 'group',
             groupVersion: 2,
+            sharedGroupNames: [],
           }),
           CallMode.Group
         );
@@ -175,14 +160,6 @@ describe('both/state/ducks/conversations', () => {
     });
 
     describe('updateConversationLookups', () => {
-      function getDefaultConversation(id: string): ConversationType {
-        return {
-          id,
-          type: 'direct',
-          title: `${id} title`,
-        };
-      }
-
       it('does not change lookups if no conversations provided', () => {
         const state = getEmptyState();
         const result = updateConversationLookups(undefined, undefined, state);
@@ -202,24 +179,26 @@ describe('both/state/ducks/conversations', () => {
       });
 
       it('adds and removes e164-only contact', () => {
-        const removed = {
-          ...getDefaultConversation('id-removed'),
+        const removed = getDefaultConversation({
+          id: 'id-removed',
           e164: 'e164-removed',
-        };
+          uuid: undefined,
+        });
 
         const state = {
           ...getEmptyState(),
           conversationsByE164: {
-            [removed.e164]: removed,
+            'e164-removed': removed,
           },
         };
-        const added = {
-          ...getDefaultConversation('id-added'),
+        const added = getDefaultConversation({
+          id: 'id-added',
           e164: 'e164-added',
-        };
+          uuid: undefined,
+        });
 
         const expected = {
-          [added.e164]: added,
+          'e164-added': added,
         };
 
         const actual = updateConversationLookups(added, removed, state);
@@ -236,24 +215,26 @@ describe('both/state/ducks/conversations', () => {
       });
 
       it('adds and removes uuid-only contact', () => {
-        const removed = {
-          ...getDefaultConversation('id-removed'),
+        const removed = getDefaultConversation({
+          id: 'id-removed',
           uuid: 'uuid-removed',
-        };
+          e164: undefined,
+        });
 
         const state = {
           ...getEmptyState(),
           conversationsByuuid: {
-            [removed.uuid]: removed,
+            'uuid-removed': removed,
           },
         };
-        const added = {
-          ...getDefaultConversation('id-added'),
+        const added = getDefaultConversation({
+          id: 'id-added',
           uuid: 'uuid-added',
-        };
+          e164: undefined,
+        });
 
         const expected = {
-          [added.uuid]: added,
+          'uuid-added': added,
         };
 
         const actual = updateConversationLookups(added, removed, state);
@@ -270,24 +251,28 @@ describe('both/state/ducks/conversations', () => {
       });
 
       it('adds and removes groupId-only contact', () => {
-        const removed = {
-          ...getDefaultConversation('id-removed'),
+        const removed = getDefaultConversation({
+          id: 'id-removed',
           groupId: 'groupId-removed',
-        };
+          e164: undefined,
+          uuid: undefined,
+        });
 
         const state = {
           ...getEmptyState(),
           conversationsBygroupId: {
-            [removed.groupId]: removed,
+            'groupId-removed': removed,
           },
         };
-        const added = {
-          ...getDefaultConversation('id-added'),
+        const added = getDefaultConversation({
+          id: 'id-added',
           groupId: 'groupId-added',
-        };
+          e164: undefined,
+          uuid: undefined,
+        });
 
         const expected = {
-          [added.groupId]: added,
+          'groupId-added': added,
         };
 
         const actual = updateConversationLookups(added, removed, state);
@@ -307,6 +292,7 @@ describe('both/state/ducks/conversations', () => {
 
   describe('reducer', () => {
     const time = Date.now();
+    const previousTime = time - 1;
     const conversationId = 'conversation-guid-1';
     const messageId = 'message-guid-1';
     const messageIdTwo = 'message-guid-2';
@@ -314,14 +300,15 @@ describe('both/state/ducks/conversations', () => {
 
     function getDefaultMessage(id: string): MessageType {
       return {
-        id,
+        attachments: [],
         conversationId: 'conversationId',
+        id,
+        received_at: previousTime,
+        sent_at: previousTime,
         source: 'source',
         sourceUuid: 'sourceUuid',
+        timestamp: previousTime,
         type: 'incoming' as const,
-        received_at: Date.now(),
-        attachments: [],
-        sticker: {},
         unread: false,
       };
     }
@@ -418,14 +405,13 @@ describe('both/state/ducks/conversations', () => {
         });
 
         it('shows the inbox if the conversation is not archived', () => {
+          const conversation = getDefaultConversation({
+            id: 'fake-conversation-id',
+          });
           const state = {
             ...getEmptyState(),
             conversationLookup: {
-              'fake-conversation-id': {
-                id: 'fake-conversation-id',
-                type: 'direct' as const,
-                title: 'Foo Bar',
-              },
+              [conversation.id]: conversation,
             },
           };
           const result = reducer(state, action);
@@ -435,15 +421,14 @@ describe('both/state/ducks/conversations', () => {
         });
 
         it('shows the archive if the conversation is archived', () => {
+          const conversation = getDefaultConversation({
+            id: 'fake-conversation-id',
+            isArchived: true,
+          });
           const state = {
             ...getEmptyState(),
             conversationLookup: {
-              'fake-conversation-id': {
-                id: 'fake-conversation-id',
-                type: 'group' as const,
-                title: 'Baz Qux',
-                isArchived: true,
-              },
+              [conversation.id]: conversation,
             },
           };
           const result = reducer(state, action);
@@ -469,6 +454,7 @@ describe('both/state/ducks/conversations', () => {
             cantAddContactIdForModal: undefined,
             searchTerm: '',
             groupAvatar: undefined,
+            groupExpireTimer: 0,
             groupName: '',
             maximumGroupSizeModalState: OneTimeModalState.NeverShown,
             recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
@@ -497,6 +483,7 @@ describe('both/state/ducks/conversations', () => {
             maximumGroupSizeModalState: OneTimeModalState.NeverShown,
             groupName: '',
             groupAvatar: undefined,
+            groupExpireTimer: 0,
             isCreating: false as const,
             hasError: true as const,
           },
@@ -532,6 +519,7 @@ describe('both/state/ducks/conversations', () => {
             cantAddContactIdForModal: 'abc123',
             searchTerm: '',
             groupAvatar: undefined,
+            groupExpireTimer: 0,
             groupName: '',
             maximumGroupSizeModalState: OneTimeModalState.NeverShown,
             recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
@@ -550,6 +538,30 @@ describe('both/state/ducks/conversations', () => {
       });
     });
 
+    describe('CLOSE_CONTACT_SPOOFING_REVIEW', () => {
+      it('closes the contact spoofing review modal if it was open', () => {
+        const state = {
+          ...getEmptyState(),
+          contactSpoofingReview: {
+            type: ContactSpoofingType.DirectConversationWithSameTitle as const,
+            safeConversationId: 'abc123',
+          },
+        };
+        const action = closeContactSpoofingReview();
+        const actual = reducer(state, action);
+
+        assert.isUndefined(actual.contactSpoofingReview);
+      });
+
+      it("does nothing if the modal wasn't already open", () => {
+        const state = getEmptyState();
+        const action = closeContactSpoofingReview();
+        const actual = reducer(state, action);
+
+        assert.deepEqual(actual, state);
+      });
+    });
+
     describe('CLOSE_MAXIMUM_GROUP_SIZE_MODAL', () => {
       it('closes the maximum group size modal if it was open', () => {
         const state = {
@@ -558,6 +570,7 @@ describe('both/state/ducks/conversations', () => {
             cantAddContactIdForModal: 'abc123',
             searchTerm: '',
             groupAvatar: undefined,
+            groupExpireTimer: 0,
             groupName: '',
             maximumGroupSizeModalState: OneTimeModalState.Showing,
             recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
@@ -583,6 +596,7 @@ describe('both/state/ducks/conversations', () => {
             cantAddContactIdForModal: 'abc123',
             searchTerm: '',
             groupAvatar: undefined,
+            groupExpireTimer: 0,
             groupName: '',
             maximumGroupSizeModalState: OneTimeModalState.NeverShown,
             recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
@@ -603,6 +617,7 @@ describe('both/state/ducks/conversations', () => {
             cantAddContactIdForModal: 'abc123',
             searchTerm: '',
             groupAvatar: undefined,
+            groupExpireTimer: 0,
             groupName: '',
             maximumGroupSizeModalState: OneTimeModalState.Shown,
             recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
@@ -625,6 +640,7 @@ describe('both/state/ducks/conversations', () => {
             cantAddContactIdForModal: 'abc123',
             searchTerm: '',
             groupAvatar: undefined,
+            groupExpireTimer: 0,
             groupName: '',
             maximumGroupSizeModalState: OneTimeModalState.NeverShown,
             recommendedGroupSizeModalState: OneTimeModalState.Showing,
@@ -650,6 +666,7 @@ describe('both/state/ducks/conversations', () => {
             cantAddContactIdForModal: 'abc123',
             searchTerm: '',
             groupAvatar: undefined,
+            groupExpireTimer: 0,
             groupName: '',
             maximumGroupSizeModalState: OneTimeModalState.NeverShown,
             recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
@@ -670,6 +687,7 @@ describe('both/state/ducks/conversations', () => {
             cantAddContactIdForModal: 'abc123',
             searchTerm: '',
             groupAvatar: undefined,
+            groupExpireTimer: 0,
             groupName: '',
             maximumGroupSizeModalState: OneTimeModalState.NeverShown,
             recommendedGroupSizeModalState: OneTimeModalState.Shown,
@@ -694,6 +712,7 @@ describe('both/state/ducks/conversations', () => {
           maximumGroupSizeModalState: OneTimeModalState.NeverShown,
           groupName: 'Foo Bar Group',
           groupAvatar: new Uint8Array([1, 2, 3]).buffer,
+          groupExpireTimer: 0,
           isCreating: false as const,
           hasError: true as const,
         },
@@ -739,6 +758,7 @@ describe('both/state/ducks/conversations', () => {
         sinon.assert.calledWith(createGroupStub, {
           name: 'Foo Bar Group',
           avatar: new Uint8Array([1, 2, 3]).buffer,
+          expireTimer: 0,
           conversationIds: ['abc123'],
         });
       });
@@ -946,6 +966,7 @@ describe('both/state/ducks/conversations', () => {
             [messageId]: {
               ...getDefaultMessage(messageId),
               received_at: time,
+              sent_at: time,
             },
           },
           messagesByConversation: {
@@ -965,6 +986,7 @@ describe('both/state/ducks/conversations', () => {
             [messageId]: {
               ...getDefaultMessage(messageId),
               received_at: time,
+              sent_at: time,
             },
           },
           messagesByConversation: {
@@ -976,6 +998,7 @@ describe('both/state/ducks/conversations', () => {
                 newest: {
                   id: messageId,
                   received_at: time,
+                  sent_at: time,
                 },
               },
             },
@@ -1053,6 +1076,7 @@ describe('both/state/ducks/conversations', () => {
             [messageId]: {
               ...getDefaultMessage(messageId),
               received_at: time,
+              sent_at: time,
             },
           },
           messagesByConversation: {
@@ -1072,6 +1096,7 @@ describe('both/state/ducks/conversations', () => {
             [messageId]: {
               ...getDefaultMessage(messageId),
               received_at: time,
+              sent_at: time,
             },
           },
           messagesByConversation: {
@@ -1083,6 +1108,7 @@ describe('both/state/ducks/conversations', () => {
                 oldest: {
                   id: messageId,
                   received_at: time,
+                  sent_at: time,
                 },
               },
             },
@@ -1151,6 +1177,34 @@ describe('both/state/ducks/conversations', () => {
       });
     });
 
+    describe('REVIEW_GROUP_MEMBER_NAME_COLLISION', () => {
+      it('starts reviewing a group member name collision', () => {
+        const state = getEmptyState();
+        const action = reviewGroupMemberNameCollision('abc123');
+        const actual = reducer(state, action);
+
+        assert.deepEqual(actual.contactSpoofingReview, {
+          type: ContactSpoofingType.MultipleGroupMembersWithSameTitle as const,
+          groupConversationId: 'abc123',
+        });
+      });
+    });
+
+    describe('REVIEW_MESSAGE_REQUEST_NAME_COLLISION', () => {
+      it('starts reviewing a message request name collision', () => {
+        const state = getEmptyState();
+        const action = reviewMessageRequestNameCollision({
+          safeConversationId: 'def',
+        });
+        const actual = reducer(state, action);
+
+        assert.deepEqual(actual.contactSpoofingReview, {
+          type: ContactSpoofingType.DirectConversationWithSameTitle as const,
+          safeConversationId: 'def',
+        });
+      });
+    });
+
     describe('SET_COMPOSE_GROUP_AVATAR', () => {
       it("can clear the composer's group avatar", () => {
         const state = {
@@ -1162,6 +1216,7 @@ describe('both/state/ducks/conversations', () => {
             maximumGroupSizeModalState: OneTimeModalState.NeverShown,
             groupName: 'foo',
             groupAvatar: new ArrayBuffer(2),
+            groupExpireTimer: 0,
             isCreating: false as const,
             hasError: false as const,
           },
@@ -1187,6 +1242,7 @@ describe('both/state/ducks/conversations', () => {
             maximumGroupSizeModalState: OneTimeModalState.NeverShown,
             groupName: 'foo',
             groupAvatar: undefined,
+            groupExpireTimer: 0,
             isCreating: false as const,
             hasError: false as const,
           },
@@ -1212,6 +1268,7 @@ describe('both/state/ducks/conversations', () => {
             maximumGroupSizeModalState: OneTimeModalState.NeverShown,
             groupName: '',
             groupAvatar: undefined,
+            groupExpireTimer: 0,
             isCreating: false as const,
             hasError: false as const,
           },
@@ -1381,6 +1438,7 @@ describe('both/state/ducks/conversations', () => {
             cantAddContactIdForModal: undefined,
             searchTerm: 'to be cleared',
             groupAvatar: undefined,
+            groupExpireTimer: 0,
             groupName: '',
             maximumGroupSizeModalState: OneTimeModalState.NeverShown,
             recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
@@ -1408,6 +1466,7 @@ describe('both/state/ducks/conversations', () => {
             maximumGroupSizeModalState: OneTimeModalState.NeverShown,
             groupName: '',
             groupAvatar: undefined,
+            groupExpireTimer: 0,
             isCreating: false,
             hasError: false as const,
           },
@@ -1472,6 +1531,7 @@ describe('both/state/ducks/conversations', () => {
           maximumGroupSizeModalState: OneTimeModalState.NeverShown,
           groupName: '',
           groupAvatar: undefined,
+          groupExpireTimer: 0,
         });
       });
 
@@ -1487,6 +1547,7 @@ describe('both/state/ducks/conversations', () => {
             maximumGroupSizeModalState: OneTimeModalState.NeverShown,
             groupName: '',
             groupAvatar: undefined,
+            groupExpireTimer: 0,
           },
         };
         const action = showChooseGroupMembers();
@@ -1506,6 +1567,7 @@ describe('both/state/ducks/conversations', () => {
             maximumGroupSizeModalState: OneTimeModalState.NeverShown,
             groupName: 'Foo Bar Group',
             groupAvatar: new Uint8Array([4, 2]).buffer,
+            groupExpireTimer: 0,
             isCreating: false,
             hasError: false as const,
           },
@@ -1523,6 +1585,7 @@ describe('both/state/ducks/conversations', () => {
           maximumGroupSizeModalState: OneTimeModalState.NeverShown,
           groupName: 'Foo Bar Group',
           groupAvatar: new Uint8Array([4, 2]).buffer,
+          groupExpireTimer: 0,
         });
       });
 
@@ -1541,6 +1604,7 @@ describe('both/state/ducks/conversations', () => {
           maximumGroupSizeModalState: OneTimeModalState.NeverShown,
           groupName: '',
           groupAvatar: undefined,
+          groupExpireTimer: 0,
         });
       });
 
@@ -1562,6 +1626,7 @@ describe('both/state/ducks/conversations', () => {
           maximumGroupSizeModalState: OneTimeModalState.NeverShown,
           groupName: '',
           groupAvatar: undefined,
+          groupExpireTimer: 0,
         });
       });
     });
@@ -1579,6 +1644,7 @@ describe('both/state/ducks/conversations', () => {
             maximumGroupSizeModalState: OneTimeModalState.NeverShown,
             groupName: '',
             groupAvatar: undefined,
+            groupExpireTimer: 0,
           },
         };
         const action = startSettingGroupMetadata();
@@ -1591,6 +1657,7 @@ describe('both/state/ducks/conversations', () => {
           maximumGroupSizeModalState: OneTimeModalState.NeverShown,
           groupName: '',
           groupAvatar: undefined,
+          groupExpireTimer: 0,
           isCreating: false,
           hasError: false,
         });
@@ -1608,6 +1675,7 @@ describe('both/state/ducks/conversations', () => {
             maximumGroupSizeModalState: OneTimeModalState.NeverShown,
             groupName: 'Foo Bar Group',
             groupAvatar: new Uint8Array([6, 9]).buffer,
+            groupExpireTimer: 0,
           },
         };
         const action = startSettingGroupMetadata();
@@ -1620,6 +1688,7 @@ describe('both/state/ducks/conversations', () => {
           maximumGroupSizeModalState: OneTimeModalState.NeverShown,
           groupName: 'Foo Bar Group',
           groupAvatar: new Uint8Array([6, 9]).buffer,
+          groupExpireTimer: 0,
           isCreating: false,
           hasError: false as const,
         });
@@ -1635,6 +1704,7 @@ describe('both/state/ducks/conversations', () => {
             maximumGroupSizeModalState: OneTimeModalState.NeverShown,
             groupName: 'Foo Bar Group',
             groupAvatar: new Uint8Array([4, 2]).buffer,
+            groupExpireTimer: 0,
             isCreating: false,
             hasError: false as const,
           },
@@ -1688,6 +1758,7 @@ describe('both/state/ducks/conversations', () => {
             maximumGroupSizeModalState: OneTimeModalState.NeverShown,
             groupName: '',
             groupAvatar: undefined,
+            groupExpireTimer: 0,
           },
         };
         const one = reducer(zero, getAction('abc', zero));
@@ -1702,6 +1773,7 @@ describe('both/state/ducks/conversations', () => {
           maximumGroupSizeModalState: OneTimeModalState.NeverShown,
           groupName: '',
           groupAvatar: undefined,
+          groupExpireTimer: 0,
         });
       });
 
@@ -1717,6 +1789,7 @@ describe('both/state/ducks/conversations', () => {
             maximumGroupSizeModalState: OneTimeModalState.NeverShown,
             groupName: '',
             groupAvatar: undefined,
+            groupExpireTimer: 0,
           },
         };
         const action = getAction('abc', state);
@@ -1731,6 +1804,7 @@ describe('both/state/ducks/conversations', () => {
           maximumGroupSizeModalState: OneTimeModalState.NeverShown,
           groupName: '',
           groupAvatar: undefined,
+          groupExpireTimer: 0,
         });
       });
 
@@ -1749,6 +1823,7 @@ describe('both/state/ducks/conversations', () => {
             maximumGroupSizeModalState: OneTimeModalState.NeverShown,
             groupName: '',
             groupAvatar: undefined,
+            groupExpireTimer: 0,
           },
         };
         const action = getAction(newUuid, state);
@@ -1763,6 +1838,7 @@ describe('both/state/ducks/conversations', () => {
           maximumGroupSizeModalState: OneTimeModalState.NeverShown,
           groupName: '',
           groupAvatar: undefined,
+          groupExpireTimer: 0,
         });
       });
 
@@ -1781,6 +1857,7 @@ describe('both/state/ducks/conversations', () => {
             maximumGroupSizeModalState: OneTimeModalState.NeverShown,
             groupName: '',
             groupAvatar: undefined,
+            groupExpireTimer: 0,
           },
         };
         const action = getAction(newUuid, state);
@@ -1795,6 +1872,7 @@ describe('both/state/ducks/conversations', () => {
           maximumGroupSizeModalState: OneTimeModalState.NeverShown,
           groupName: '',
           groupAvatar: undefined,
+          groupExpireTimer: 0,
         });
       });
 
@@ -1815,6 +1893,7 @@ describe('both/state/ducks/conversations', () => {
               maximumGroupSizeModalState: OneTimeModalState.NeverShown,
               groupName: '',
               groupAvatar: undefined,
+              groupExpireTimer: 0,
             },
           };
           const action = getAction(uuid(), state);
@@ -1838,6 +1917,7 @@ describe('both/state/ducks/conversations', () => {
             maximumGroupSizeModalState: OneTimeModalState.NeverShown,
             groupName: '',
             groupAvatar: undefined,
+            groupExpireTimer: 0,
           },
         };
         const action = getAction(newUuid, state);
@@ -1852,6 +1932,7 @@ describe('both/state/ducks/conversations', () => {
           maximumGroupSizeModalState: OneTimeModalState.Showing,
           groupName: '',
           groupAvatar: undefined,
+          groupExpireTimer: 0,
         });
       });
 
@@ -1870,6 +1951,7 @@ describe('both/state/ducks/conversations', () => {
             maximumGroupSizeModalState: OneTimeModalState.Shown,
             groupName: '',
             groupAvatar: undefined,
+            groupExpireTimer: 0,
           },
         };
         const action = getAction(newUuid, state);
@@ -1884,6 +1966,7 @@ describe('both/state/ducks/conversations', () => {
           maximumGroupSizeModalState: OneTimeModalState.Shown,
           groupName: '',
           groupAvatar: undefined,
+          groupExpireTimer: 0,
         });
       });
 
@@ -1899,6 +1982,7 @@ describe('both/state/ducks/conversations', () => {
             maximumGroupSizeModalState: OneTimeModalState.NeverShown,
             groupName: '',
             groupAvatar: undefined,
+            groupExpireTimer: 0,
           },
         };
         const action = getAction(uuid(), state);
@@ -1926,6 +2010,7 @@ describe('both/state/ducks/conversations', () => {
               maximumGroupSizeModalState: OneTimeModalState.NeverShown,
               groupName: '',
               groupAvatar: undefined,
+              groupExpireTimer: 0,
             },
           };
           const action = getAction(uuid(), state);
@@ -1952,12 +2037,104 @@ describe('both/state/ducks/conversations', () => {
             maximumGroupSizeModalState: OneTimeModalState.NeverShown,
             groupName: '',
             groupAvatar: undefined,
+            groupExpireTimer: 0,
           },
         };
         const action = getAction(uuid(), state);
 
         assert.strictEqual(action.payload.maxGroupSize, 1235);
       });
+    });
+  });
+
+  describe('COLORS_CHANGED', () => {
+    const abc = getDefaultConversation({
+      id: 'abc',
+      uuid: 'abc',
+      conversationColor: 'wintergreen',
+    });
+    const def = getDefaultConversation({
+      id: 'def',
+      uuid: 'def',
+      conversationColor: 'infrared',
+    });
+    const ghi = getDefaultConversation({
+      id: 'ghi',
+      e164: 'ghi',
+      conversationColor: 'ember',
+    });
+    const jkl = getDefaultConversation({
+      id: 'jkl',
+      groupId: 'jkl',
+      conversationColor: 'plum',
+    });
+    const getState = () => ({
+      ...getEmptyRootState(),
+      conversations: {
+        ...getEmptyState(),
+        conversationLookup: {
+          abc,
+          def,
+          ghi,
+          jkl,
+        },
+        conversationsByUuid: {
+          abc,
+          def,
+        },
+        conversationsByE164: {
+          ghi,
+        },
+        conversationsByGroupId: {
+          jkl,
+        },
+      },
+    });
+
+    it('resetAllChatColors', async () => {
+      window.storage.put('defaultConversationColor', {
+        color: 'crimson',
+      });
+      const dispatch = sinon.spy();
+      await resetAllChatColors()(dispatch, getState, null);
+
+      const [action] = dispatch.getCall(0).args;
+      const nextState = reducer(getState().conversations, action);
+
+      sinon.assert.calledOnce(dispatch);
+      assert.equal(
+        nextState.conversationLookup.abc.conversationColor,
+        'crimson'
+      );
+      assert.equal(
+        nextState.conversationLookup.def.conversationColor,
+        'crimson'
+      );
+      assert.equal(
+        nextState.conversationLookup.ghi.conversationColor,
+        'crimson'
+      );
+      assert.equal(
+        nextState.conversationLookup.jkl.conversationColor,
+        'crimson'
+      );
+      assert.equal(
+        nextState.conversationsByUuid.abc.conversationColor,
+        'crimson'
+      );
+      assert.equal(
+        nextState.conversationsByUuid.def.conversationColor,
+        'crimson'
+      );
+      assert.equal(
+        nextState.conversationsByE164.ghi.conversationColor,
+        'crimson'
+      );
+      assert.equal(
+        nextState.conversationsByGroupId.jkl.conversationColor,
+        'crimson'
+      );
+      window.storage.remove('defaultConversationColor');
     });
   });
 });

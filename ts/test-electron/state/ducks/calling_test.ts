@@ -86,6 +86,8 @@ describe('calling duck', () => {
             demuxId: 123,
             hasRemoteAudio: true,
             hasRemoteVideo: true,
+            presenting: false,
+            sharingScreen: false,
             videoAspectRatio: 4 / 3,
           },
         ],
@@ -129,6 +131,188 @@ describe('calling duck', () => {
   });
 
   describe('actions', () => {
+    describe('getPresentingSources', () => {
+      beforeEach(function beforeEach() {
+        this.callingServiceGetPresentingSources = this.sandbox
+          .stub(callingService, 'getPresentingSources')
+          .resolves([
+            {
+              id: 'foo.bar',
+              name: 'Foo Bar',
+              thumbnail: 'xyz',
+            },
+          ]);
+      });
+
+      it('retrieves sources from the calling service', async function test() {
+        const { getPresentingSources } = actions;
+        const dispatch = sinon.spy();
+        await getPresentingSources()(dispatch, getEmptyRootState, null);
+
+        sinon.assert.calledOnce(this.callingServiceGetPresentingSources);
+      });
+
+      it('dispatches SET_PRESENTING_SOURCES', async function test() {
+        const { getPresentingSources } = actions;
+        const dispatch = sinon.spy();
+        await getPresentingSources()(dispatch, getEmptyRootState, null);
+
+        sinon.assert.calledOnce(dispatch);
+        sinon.assert.calledWith(dispatch, {
+          type: 'calling/SET_PRESENTING_SOURCES',
+          payload: [
+            {
+              id: 'foo.bar',
+              name: 'Foo Bar',
+              thumbnail: 'xyz',
+            },
+          ],
+        });
+      });
+    });
+
+    describe('remoteSharingScreenChange', () => {
+      it("updates whether someone's screen is being shared", () => {
+        const { remoteSharingScreenChange } = actions;
+
+        const payload = {
+          conversationId: 'fake-direct-call-conversation-id',
+          isSharingScreen: true,
+        };
+
+        const state = {
+          ...stateWithActiveDirectCall,
+        };
+        const nextState = reducer(state, remoteSharingScreenChange(payload));
+
+        const expectedState = {
+          ...stateWithActiveDirectCall,
+          callsByConversation: {
+            'fake-direct-call-conversation-id': {
+              ...stateWithActiveDirectCall.callsByConversation[
+                'fake-direct-call-conversation-id'
+              ],
+              isSharingScreen: true,
+            },
+          },
+        };
+
+        assert.deepEqual(nextState, expectedState);
+      });
+    });
+
+    describe('setPresenting', () => {
+      beforeEach(function beforeEach() {
+        this.callingServiceSetPresenting = this.sandbox.stub(
+          callingService,
+          'setPresenting'
+        );
+      });
+
+      it('calls setPresenting on the calling service', function test() {
+        const { setPresenting } = actions;
+        const dispatch = sinon.spy();
+        const presentedSource = {
+          id: 'window:786',
+          name: 'Application',
+        };
+        const getState = () => ({
+          ...getEmptyRootState(),
+          calling: {
+            ...stateWithActiveGroupCall,
+          },
+        });
+
+        setPresenting(presentedSource)(dispatch, getState, null);
+
+        sinon.assert.calledOnce(this.callingServiceSetPresenting);
+        sinon.assert.calledWith(
+          this.callingServiceSetPresenting,
+          'fake-group-call-conversation-id',
+          false,
+          presentedSource
+        );
+      });
+
+      it('dispatches SET_PRESENTING', () => {
+        const { setPresenting } = actions;
+        const dispatch = sinon.spy();
+        const presentedSource = {
+          id: 'window:786',
+          name: 'Application',
+        };
+        const getState = () => ({
+          ...getEmptyRootState(),
+          calling: {
+            ...stateWithActiveGroupCall,
+          },
+        });
+
+        setPresenting(presentedSource)(dispatch, getState, null);
+
+        sinon.assert.calledOnce(dispatch);
+        sinon.assert.calledWith(dispatch, {
+          type: 'calling/SET_PRESENTING',
+          payload: presentedSource,
+        });
+      });
+
+      it('turns off presenting when no value is passed in', () => {
+        const dispatch = sinon.spy();
+        const { setPresenting } = actions;
+        const presentedSource = {
+          id: 'window:786',
+          name: 'Application',
+        };
+
+        const getState = () => ({
+          ...getEmptyRootState(),
+          calling: {
+            ...stateWithActiveGroupCall,
+          },
+        });
+
+        setPresenting(presentedSource)(dispatch, getState, null);
+
+        const action = dispatch.getCall(0).args[0];
+
+        const nextState = reducer(getState().calling, action);
+
+        assert.isDefined(nextState.activeCallState);
+        assert.equal(
+          nextState.activeCallState?.presentingSource,
+          presentedSource
+        );
+        assert.isUndefined(
+          nextState.activeCallState?.presentingSourcesAvailable
+        );
+      });
+
+      it('sets the presenting value when one is passed in', () => {
+        const dispatch = sinon.spy();
+        const { setPresenting } = actions;
+
+        const getState = () => ({
+          ...getEmptyRootState(),
+          calling: {
+            ...stateWithActiveGroupCall,
+          },
+        });
+
+        setPresenting()(dispatch, getState, null);
+
+        const action = dispatch.getCall(0).args[0];
+
+        const nextState = reducer(getState().calling, action);
+
+        assert.isDefined(nextState.activeCallState);
+        assert.isUndefined(nextState.activeCallState?.presentingSource);
+        assert.isUndefined(
+          nextState.activeCallState?.presentingSourcesAvailable
+        );
+      });
+    });
+
     describe('acceptCall', () => {
       const { acceptCall } = actions;
 
@@ -403,6 +587,8 @@ describe('calling duck', () => {
                 demuxId: 123,
                 hasRemoteAudio: true,
                 hasRemoteVideo: true,
+                presenting: false,
+                sharingScreen: false,
                 videoAspectRatio: 4 / 3,
               },
             ],
@@ -429,6 +615,8 @@ describe('calling duck', () => {
                 demuxId: 123,
                 hasRemoteAudio: true,
                 hasRemoteVideo: true,
+                presenting: false,
+                sharingScreen: false,
                 videoAspectRatio: 4 / 3,
               },
             ],
@@ -491,6 +679,8 @@ describe('calling duck', () => {
                 demuxId: 456,
                 hasRemoteAudio: false,
                 hasRemoteVideo: true,
+                presenting: false,
+                sharingScreen: false,
                 videoAspectRatio: 16 / 9,
               },
             ],
@@ -515,6 +705,8 @@ describe('calling duck', () => {
                 demuxId: 456,
                 hasRemoteAudio: false,
                 hasRemoteVideo: true,
+                presenting: false,
+                sharingScreen: false,
                 videoAspectRatio: 16 / 9,
               },
             ],
@@ -542,6 +734,8 @@ describe('calling duck', () => {
                 demuxId: 456,
                 hasRemoteAudio: false,
                 hasRemoteVideo: true,
+                presenting: false,
+                sharingScreen: false,
                 videoAspectRatio: 16 / 9,
               },
             ],
@@ -571,6 +765,8 @@ describe('calling duck', () => {
                 demuxId: 456,
                 hasRemoteAudio: false,
                 hasRemoteVideo: true,
+                presenting: false,
+                sharingScreen: false,
                 videoAspectRatio: 16 / 9,
               },
             ],
@@ -609,6 +805,8 @@ describe('calling duck', () => {
                 demuxId: 456,
                 hasRemoteAudio: false,
                 hasRemoteVideo: true,
+                presenting: false,
+                sharingScreen: false,
                 videoAspectRatio: 16 / 9,
               },
             ],
@@ -850,6 +1048,8 @@ describe('calling duck', () => {
                 demuxId: 123,
                 hasRemoteAudio: true,
                 hasRemoteVideo: true,
+                presenting: false,
+                sharingScreen: false,
                 videoAspectRatio: 4 / 3,
               },
             ],
@@ -874,6 +1074,8 @@ describe('calling duck', () => {
               demuxId: 123,
               hasRemoteAudio: true,
               hasRemoteVideo: true,
+              presenting: false,
+              sharingScreen: false,
               videoAspectRatio: 4 / 3,
             },
           ],
@@ -925,6 +1127,8 @@ describe('calling duck', () => {
                 demuxId: 123,
                 hasRemoteAudio: true,
                 hasRemoteVideo: true,
+                presenting: false,
+                sharingScreen: false,
                 videoAspectRatio: 4 / 3,
               },
             ],
@@ -965,6 +1169,8 @@ describe('calling duck', () => {
                 demuxId: 123,
                 hasRemoteAudio: true,
                 hasRemoteVideo: true,
+                presenting: false,
+                sharingScreen: false,
                 videoAspectRatio: 4 / 3,
               },
             ],

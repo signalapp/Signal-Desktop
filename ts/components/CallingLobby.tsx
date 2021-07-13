@@ -14,7 +14,7 @@ import { TooltipPlacement } from './Tooltip';
 import { CallBackgroundBlur } from './CallBackgroundBlur';
 import { CallingHeader } from './CallingHeader';
 import { Spinner } from './Spinner';
-import { ColorType } from '../types/Colors';
+import { AvatarColorType } from '../types/Colors';
 import { LocalizerType } from '../types/Util';
 import { ConversationType } from '../state/ducks/conversations';
 import {
@@ -39,7 +39,7 @@ export type PropsType = {
   isCallFull?: boolean;
   me: {
     avatarPath?: string;
-    color?: ColorType;
+    color?: AvatarColorType;
     uuid: string;
   };
   onCallCanceled: () => void;

@@ -15,7 +15,7 @@ import {
   GroupCallJoinState,
 } from '../types/Calling';
 import { ConversationTypeType } from '../state/ducks/conversations';
-import { Colors, ColorType } from '../types/Colors';
+import { AvatarColors, AvatarColorType } from '../types/Colors';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import { fakeGetGroupCallVideoFrameSource } from '../test-both/helpers/fakeGetGroupCallVideoFrameSource';
 import { setup as setupI18n } from '../../js/modules/i18n';
@@ -24,18 +24,23 @@ import enMessages from '../../_locales/en/messages.json';
 
 const i18n = setupI18n('en', enMessages);
 
-const getConversation = () => ({
-  id: '3051234567',
-  avatarPath: undefined,
-  color: select('Callee color', Colors, 'ultramarine' as ColorType),
-  title: text('Callee Title', 'Rick Sanchez'),
-  name: text('Callee Name', 'Rick Sanchez'),
-  phoneNumber: '3051234567',
-  profileName: 'Rick Sanchez',
-  markedUnread: false,
-  type: 'direct' as ConversationTypeType,
-  lastUpdated: Date.now(),
-});
+const getConversation = () =>
+  getDefaultConversation({
+    id: '3051234567',
+    avatarPath: undefined,
+    color: select(
+      'Callee color',
+      AvatarColors,
+      'ultramarine' as AvatarColorType
+    ),
+    title: text('Callee Title', 'Rick Sanchez'),
+    name: text('Callee Name', 'Rick Sanchez'),
+    phoneNumber: '3051234567',
+    profileName: 'Rick Sanchez',
+    markedUnread: false,
+    type: 'direct' as ConversationTypeType,
+    lastUpdated: Date.now(),
+  });
 
 const getCommonActiveCallData = () => ({
   conversation: getConversation(),
@@ -67,26 +72,36 @@ const createProps = (storyProps: Partial<PropsType> = {}): PropsType => ({
   declineCall: action('decline-call'),
   getGroupCallVideoFrameSource: (_: string, demuxId: number) =>
     fakeGetGroupCallVideoFrameSource(demuxId),
+  getPresentingSources: action('get-presenting-sources'),
   hangUp: action('hang-up'),
   i18n,
   keyChangeOk: action('key-change-ok'),
   me: {
     ...getDefaultConversation({
-      color: select('Caller color', Colors, 'ultramarine' as ColorType),
+      color: select(
+        'Caller color',
+        AvatarColors,
+        'ultramarine' as AvatarColorType
+      ),
       title: text('Caller Title', 'Morty Smith'),
     }),
     uuid: 'cb0dd0c8-7393-41e9-a0aa-d631c4109541',
   },
+  openSystemPreferencesAction: action('open-system-preferences-action'),
   renderDeviceSelection: () => <div />,
   renderSafetyNumberViewer: (_: SafetyNumberViewerProps) => <div />,
   setGroupCallVideoRequest: action('set-group-call-video-request'),
   setLocalAudio: action('set-local-audio'),
   setLocalPreview: action('set-local-preview'),
   setLocalVideo: action('set-local-video'),
+  setPresenting: action('toggle-presenting'),
   setRendererCanvas: action('set-renderer-canvas'),
   startCall: action('start-call'),
   toggleParticipants: action('toggle-participants'),
   togglePip: action('toggle-pip'),
+  toggleScreenRecordingPermissionsDialog: action(
+    'toggle-screen-recording-permissions-dialog'
+  ),
   toggleSettings: action('toggle-settings'),
   toggleSpeakerView: action('toggle-speaker-view'),
 });
@@ -103,7 +118,9 @@ story.add('Ongoing Direct Call', () => (
         callMode: CallMode.Direct,
         callState: CallState.Accepted,
         peekedParticipants: [],
-        remoteParticipants: [{ hasRemoteVideo: true }],
+        remoteParticipants: [
+          { hasRemoteVideo: true, presenting: false, title: 'Remy' },
+        ],
       },
     })}
   />
@@ -147,7 +164,9 @@ story.add('Call Request Needed', () => (
         callMode: CallMode.Direct,
         callState: CallState.Accepted,
         peekedParticipants: [],
-        remoteParticipants: [{ hasRemoteVideo: true }],
+        remoteParticipants: [
+          { hasRemoteVideo: true, presenting: false, title: 'Mike' },
+        ],
       },
     })}
   />

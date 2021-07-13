@@ -30,7 +30,7 @@ export const MessageRequestActions = ({
   name,
   onAccept,
   onBlock,
-  onBlockAndDelete,
+  onBlockAndReportSpam,
   onDelete,
   onUnblock,
   phoneNumber,
@@ -45,7 +45,7 @@ export const MessageRequestActions = ({
         <MessageRequestActionsConfirmation
           i18n={i18n}
           onBlock={onBlock}
-          onBlockAndDelete={onBlockAndDelete}
+          onBlockAndReportSpam={onBlockAndReportSpam}
           onUnblock={onUnblock}
           onDelete={onDelete}
           name={name}

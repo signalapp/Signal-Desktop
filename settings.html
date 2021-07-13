@@ -1,10 +1,11 @@
-<!-- Copyright 2018-2020 Signal Messenger, LLC -->
+<!-- Copyright 2018-2021 Signal Messenger, LLC -->
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <html>
-<head>
-  <meta http-equiv="Content-Security-Policy"
-    content="default-src 'none';
+  <head>
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none';
             child-src 'self';
             connect-src 'self' https: wss:;
             font-src 'self';
@@ -15,15 +16,17 @@
             object-src 'none';
             script-src 'self';
             style-src 'self' 'unsafe-inline';"
-  >
-  <link href="node_modules/sanitize.css/sanitize.css" rel="stylesheet" type="text/css" />
-  <link href="stylesheets/manifest.css" rel="stylesheet" type="text/css" />
-<style>
-</style>
-</head>
-<body>
-</body>
-<script type='text/x-tmpl-mustache' id='syncSettings'>
+    />
+    <link
+      href="node_modules/sanitize.css/sanitize.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link href="stylesheets/manifest.css" rel="stylesheet" type="text/css" />
+    <style></style>
+  </head>
+  <body></body>
+  <script type="text/x-tmpl-mustache" id="syncSettings">
     <hr>
     <h3>{{ sync }}</h3>
     <div>
@@ -37,137 +40,184 @@
         <div class='clearfix'></div>
       </p>
     </div>
-</script>
-<script type='text/x-tmpl-mustache' id='settings'>
-  <div class='content'>
-    <a class='x close' alt='close settings' href='#'></a>
-    <h2>{{ settings }}</h2>
-    <div class='device-name-settings'>
-      <b>{{ deviceNameLabel }}:</b> {{ deviceName }}
-    </div>
-    <hr>
-    <div class='theme-settings'>
-      <h3>{{ theme }}</h3>
-      {{#hasSystemTheme}}
-        <div>
-          <input type='radio' name='theme' id='theme-setting-system' value='system'>
-          <label for='theme-setting-system'>{{ themeSystem }}</label>
+  </script>
+  <script type="text/x-tmpl-mustache" id="disappearingMessagesSettings">
+    <h3>{{ title }}</h3>
+    <div class="disappearing-messages-setting__timer {{#customInfo}}disappearing-messages-setting__timer--with-info{{/customInfo}}">
+      <label
+        class="disappearing-messages-setting__timer__label"
+        for='disappearing-messages-timer'
+      >
+        {{ timerLabel }}
+      </label>
+      <div class="disappearing-messages-setting__timer__right">
+        <div class="module-select">
+          <select
+            name='disappearing-messages-timer'
+            id='disappearing-messages-timer'
+          >
+            {{#timerValues}}
+              <option value="{{value}}" {{selected}}>
+                {{ text }}
+              </option>
+            {{/timerValues}}
+            <option value="-1" {{customSelected}}>
+              {{customText}}
+            </option>
+          </select>
         </div>
-      {{/hasSystemTheme}}
-      <div>
-        <input type='radio' name='theme' id='theme-setting-light' value='light'>
-        <label for='theme-setting-light'>{{ themeLight }}</label>
-      </div>
-      <div>
-        <input type='radio' name='theme' id='theme-setting-dark' value='dark'>
-        <label for='theme-setting-dark'>{{ themeDark }}</label>
-      </div>
-    </div>
-    <br />
-    {{ #isHideMenuBarSupported }}
-    <div class='menu-bar-setting'>
-      <input type='checkbox' name='hide-menu-bar' id='hide-menu-bar'/>
-      <label for='hide-menu-bar'>{{ hideMenuBar }}</label>
-    </div>
-    {{ /isHideMenuBarSupported }}
-    <hr>
-    <div class='notification-settings'>
-      <h3>{{ notifications }}</h3>
-      <p>{{ notificationSettingsDialog }}</p>
-      <div>
-        <input type='radio' name='notifications' id='notification-setting-message' value='message'>
-        <label for='notification-setting-message'>{{ nameAndMessage }} </label>
-      </div>
-      <div>
-        <input type='radio' name='notifications' id='notification-setting-name'  value='name'/>
-        <label for='notification-setting-name'>{{ nameOnly }} </label>
-      </div>
-      <div>
-        <input type='radio' name='notifications' id='notification-setting-count' value='count'/>
-        <label for='notification-setting-count'>{{ noNameOrMessage }} </label>
-      </div>
-      <div>
-        <input type='radio' name='notifications' id='notification-setting-off' value='off'/>
-        <label for='notification-setting-off'>{{ disableNotifications }} </label>
-      </div>
-    </div>
-    {{ #isDrawAttentionSupported }}
-    <br />
-    <div class='draw-attention-setting'>
-      <input type='checkbox' name='notification-draw-attention' id='notification-draw-attention'/>
-      <label for='notification-draw-attention'>{{ notificationDrawAttention }}</label>
-    </div>
-    {{ /isDrawAttentionSupported }}
-    <br />
-    {{ #isAudioNotificationSupported }}
-    <div class='audio-notification-setting'>
-      <input type='checkbox' name='audio-notification' id='audio-notification'/>
-      <label for='audio-notification'>{{ audioNotificationDescription }}</label>
-    </div>
-    {{ /isAudioNotificationSupported }}
-    <div class='badge-count-muted-conversations-setting'>
-      <input type='checkbox' name='badge-count-muted-conversations' id='badge-count-muted-conversations'/>
-      <label for='badge-count-muted-conversations'>{{ countMutedConversationsDescription }}</label>
-    </div>
-    <hr>
-      <h3>{{ generalHeader }}</h3>
-      <div class='spell-check-setting'>
-        <input type='checkbox' name='spell-check-setting' id='spell-check-setting' />
-        <label for='spell-check-setting'>{{ spellCheckDescription }}</label>
-        <p class='spell-check-setting-message' style='display: {{ spellCheckDisplay }};' aria-hidden='{{ spellCheckHidden }}'>
-          {{ spellCheckDirtyText }}
-        </p>
-      </div>
-    <hr>
-    <div class='calling-setting'>
-      <h3>{{ calling }}</h3>
-      <div class='always-relay-calls-setting'>
-        <input type='checkbox' name='always-relay-calls' id='always-relay-calls' />
-        <label for='always-relay-calls'>{{ alwaysRelayCallsDescription }}</label>
-        <p>
-          <div class='detail'>
-            {{ alwaysRelayCallsDetail }}
+        {{#customInfo}}
+          <div class="disappearing-messages-setting__timer__right__info">
+            {{text}}
           </div>
-        </p>
-      </div>
-      <div class='call-ringtone-notification-setting'>
-        <input type='checkbox' name='call-ringtone-notification' id='call-ringtone-notification'/>
-        <label for='call-ringtone-notification'>{{ callRingtoneNotificationDescription }}</label>
-      </div>
-      <div class='call-system-notification-setting'>
-        <input type='checkbox' name='call-system-notification' id='call-system-notification'/>
-        <label for='call-system-notification'>{{ callSystemNotificationDescription }}</label>
-      </div>
-      <div class='incoming-call-notification-setting'>
-        <input type='checkbox' name='incoming-call-notification' id='incoming-call-notification'/>
-        <label for='incoming-call-notification'>{{ incomingCallNotificationDescription }}</label>
+        {{/customInfo}}
       </div>
     </div>
-    <hr>
-    <div class='permissions-setting'>
-      <h3>{{ permissions }}</h3>
-      <div class='media-permissions'>
-        <input type='checkbox' name='media-permissions' id='media-permissions' />
-        <label for='media-permissions'>{{ mediaPermissionsDescription }}</label>
+    <div class='disappearing-messages-setting__footer'>
+      {{ footer }}
+    </div>
+  </script>
+  <script type="text/x-tmpl-mustache" id="settings">
+    <div class='content'>
+      <a class='x close' alt='close settings' href='#'></a>
+      <h2>{{ settings }}</h2>
+      <div class='device-name-settings'>
+        <b>{{ deviceNameLabel }}:</b> {{ deviceName }}
       </div>
-      <div class='media-camera-permissions'>
-        <input type='checkbox' name='media-camera-permissions' id='media-camera-permissions' />
-        <label for='media-camera-permissions'>{{ mediaCameraPermissionsDescription }}</label>
+      <hr>
+      <div class='theme-settings'>
+        <h3>{{ theme }}</h3>
+        {{#hasSystemTheme}}
+          <div>
+            <input type='radio' name='theme' id='theme-setting-system' value='system'>
+            <label for='theme-setting-system'>{{ themeSystem }}</label>
+          </div>
+        {{/hasSystemTheme}}
+        <div>
+          <input type='radio' name='theme' id='theme-setting-light' value='light'>
+          <label for='theme-setting-light'>{{ themeLight }}</label>
+        </div>
+        <div>
+          <input type='radio' name='theme' id='theme-setting-dark' value='dark'>
+          <label for='theme-setting-dark'>{{ themeDark }}</label>
+        </div>
+      </div>
+      <br />
+      {{ #isHideMenuBarSupported }}
+      <div class='menu-bar-setting'>
+        <input type='checkbox' name='hide-menu-bar' id='hide-menu-bar'/>
+        <label for='hide-menu-bar'>{{ hideMenuBar }}</label>
+      </div>
+      {{ /isHideMenuBarSupported }}
+      <hr>
+      <div class='notification-settings'>
+        <h3>{{ notifications }}</h3>
+        <p>{{ notificationSettingsDialog }}</p>
+        <div>
+          <input type='radio' name='notifications' id='notification-setting-message' value='message'>
+          <label for='notification-setting-message'>{{ nameAndMessage }} </label>
+        </div>
+        <div>
+          <input type='radio' name='notifications' id='notification-setting-name'  value='name'/>
+          <label for='notification-setting-name'>{{ nameOnly }} </label>
+        </div>
+        <div>
+          <input type='radio' name='notifications' id='notification-setting-count' value='count'/>
+          <label for='notification-setting-count'>{{ noNameOrMessage }} </label>
+        </div>
+        <div>
+          <input type='radio' name='notifications' id='notification-setting-off' value='off'/>
+          <label for='notification-setting-off'>{{ disableNotifications }} </label>
+        </div>
+      </div>
+      {{ #isDrawAttentionSupported }}
+      <br />
+      <div class='draw-attention-setting'>
+        <input type='checkbox' name='notification-draw-attention' id='notification-draw-attention'/>
+        <label for='notification-draw-attention'>{{ notificationDrawAttention }}</label>
+      </div>
+      {{ /isDrawAttentionSupported }}
+      <br />
+      {{ #isAudioNotificationSupported }}
+      <div class='audio-notification-setting'>
+        <input type='checkbox' name='audio-notification' id='audio-notification'/>
+        <label for='audio-notification'>{{ audioNotificationDescription }}</label>
+      </div>
+      {{ /isAudioNotificationSupported }}
+      <div class='badge-count-muted-conversations-setting'>
+        <input type='checkbox' name='badge-count-muted-conversations' id='badge-count-muted-conversations'/>
+        <label for='badge-count-muted-conversations'>{{ countMutedConversationsDescription }}</label>
+      </div>
+      <hr>
+        <h3>{{ generalHeader }}</h3>
+        <div class='spell-check-setting'>
+          <input type='checkbox' name='spell-check-setting' id='spell-check-setting' />
+          <label for='spell-check-setting'>{{ spellCheckDescription }}</label>
+          <p class='spell-check-setting-message' style='display: {{ spellCheckDisplay }};' aria-hidden='{{ spellCheckHidden }}'>
+            {{ spellCheckDirtyText }}
+          </p>
+        </div>
+        <div class="system-tray-setting-container"></div>
+        {{ #isAutoLaunchSupported }}
+        <div class='auto-launch-setting'>
+          <input type='checkbox' name='auto-launch-setting' id='auto-launch-setting' />
+          <label for='auto-launch-setting'>{{ autoLaunchDescription }}</label>
+        </div>
+        {{ /isAutoLaunchSupported }}
+      <hr>
+      <div class='calling-setting'>
+        <h3>{{ calling }}</h3>
+        <div class='always-relay-calls-setting'>
+          <input type='checkbox' name='always-relay-calls' id='always-relay-calls' />
+          <label for='always-relay-calls'>{{ alwaysRelayCallsDescription }}</label>
+          <p>
+            <div class='detail'>
+              {{ alwaysRelayCallsDetail }}
+            </div>
+          </p>
+        </div>
+        <div class='call-ringtone-notification-setting'>
+          <input type='checkbox' name='call-ringtone-notification' id='call-ringtone-notification'/>
+          <label for='call-ringtone-notification'>{{ callRingtoneNotificationDescription }}</label>
+        </div>
+        <div class='call-system-notification-setting'>
+          <input type='checkbox' name='call-system-notification' id='call-system-notification'/>
+          <label for='call-system-notification'>{{ callSystemNotificationDescription }}</label>
+        </div>
+        <div class='incoming-call-notification-setting'>
+          <input type='checkbox' name='incoming-call-notification' id='incoming-call-notification'/>
+          <label for='incoming-call-notification'>{{ incomingCallNotificationDescription }}</label>
+        </div>
+      </div>
+      <hr>
+      <div class='permissions-setting'>
+        <h3>{{ permissions }}</h3>
+        <div class='media-permissions'>
+          <input type='checkbox' name='media-permissions' id='media-permissions' />
+          <label for='media-permissions'>{{ mediaPermissionsDescription }}</label>
+        </div>
+        <div class='media-camera-permissions'>
+          <input type='checkbox' name='media-camera-permissions' id='media-camera-permissions' />
+          <label for='media-camera-permissions'>{{ mediaCameraPermissionsDescription }}</label>
+        </div>
+      </div>
+      <div class='sync-setting'></div>
+      <hr>
+      <div class='disappearing-messages-setting'>
+      </div>
+      <hr>
+      <div class='clear-data-settings'>
+        <h3>{{ clearDataHeader }}</h3>
+        <div>
+          <button class='grey destructive clear-data'>{{ clearDataButton }}</button>
+          <p>{{ clearDataExplanation }}</p>
+        </div>
       </div>
     </div>
-    <div class='sync-setting'></div>
-    <hr>
-    <div class='clear-data-settings'>
-      <h3>{{ clearDataHeader }}</h3>
-      <div>
-        <button class='grey destructive clear-data'>{{ clearDataButton }}</button>
-        <p>{{ clearDataExplanation }}</p>
-      </div>
-    </div>
-  </div>
-</script>
-<script type='text/javascript' src='js/components.js'></script>
-<script type='text/javascript' src='ts/backboneJquery.js'></script>
-<script type='text/javascript' src='js/views/settings_view.js'></script>
-<script type='text/javascript' src='js/settings_start.js'></script>
+  </script>
+  <script type="text/javascript" src="js/components.js"></script>
+  <script type="text/javascript" src="ts/backboneJquery.js"></script>
+  <script type="text/javascript" src="js/views/react_wrapper_view.js"></script>
+  <script type="text/javascript" src="js/views/settings_view.js"></script>
+  <script type="text/javascript" src="js/settings_start.js"></script>
 </html>

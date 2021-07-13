@@ -9,6 +9,7 @@ import { storiesOf } from '@storybook/react';
 
 import { PropsData as MessageDataPropsType } from './Message';
 import { MessageDetail, Props } from './MessageDetail';
+import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
 import { setup as setupI18n } from '../../../js/modules/i18n';
 import enMessages from '../../../_locales/en/messages.json';
 
@@ -17,15 +18,19 @@ const i18n = setupI18n('en', enMessages);
 const story = storiesOf('Components/Conversation/MessageDetail', module);
 
 const defaultMessage: MessageDataPropsType = {
-  authorId: 'some-id',
-  authorTitle: 'Max',
+  author: getDefaultConversation({
+    id: 'some-id',
+    title: 'Max',
+  }),
   canReply: true,
   canDeleteForEveryone: true,
   canDownload: true,
+  conversationColor: 'crimson',
   conversationId: 'my-convo',
   conversationType: 'direct',
   direction: 'incoming',
   id: 'my-message',
+  renderingContext: 'storybook',
   isBlocked: false,
   isMessageRequestAccepted: true,
   previews: [],
@@ -37,13 +42,13 @@ const defaultMessage: MessageDataPropsType = {
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   contacts: overrideProps.contacts || [
     {
-      color: 'green',
+      ...getDefaultConversation({
+        color: 'indigo',
+        title: 'Just Max',
+      }),
       isOutgoingKeyError: false,
       isUnidentifiedDelivery: false,
-      onSendAnyway: action('onSendAnyway'),
-      onShowSafetyNumber: action('onShowSafetyNumber'),
       status: 'delivered',
-      title: 'Just Max',
     },
   ],
   errors: overrideProps.errors || [],
@@ -54,26 +59,35 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   i18n,
   interactionMode: 'keyboard',
 
-  clearSelectedMessage: () => null,
+  sendAnyway: action('onSendAnyway'),
+  showSafetyNumber: action('onShowSafetyNumber'),
+
+  checkForAccount: action('checkForAccount'),
+  clearSelectedMessage: action('clearSelectedMessage'),
   deleteMessage: action('deleteMessage'),
   deleteMessageForEveryone: action('deleteMessageForEveryone'),
-  displayTapToViewMessage: () => null,
-  downloadAttachment: () => null,
+  displayTapToViewMessage: action('displayTapToViewMessage'),
+  downloadAttachment: action('downloadAttachment'),
+  doubleCheckMissingQuoteReference: action('doubleCheckMissingQuoteReference'),
   kickOffAttachmentDownload: action('kickOffAttachmentDownload'),
   markAttachmentAsCorrupted: action('markAttachmentAsCorrupted'),
-  openConversation: () => null,
-  openLink: () => null,
-  reactToMessage: () => null,
+  openConversation: action('openConversation'),
+  openLink: action('openLink'),
+  reactToMessage: action('reactToMessage'),
   renderAudioAttachment: () => <div>*AudioAttachment*</div>,
   renderEmojiPicker: () => <div />,
-  replyToMessage: () => null,
-  retrySend: () => null,
-  showContactDetail: () => null,
-  showContactModal: () => null,
-  showExpiredIncomingTapToViewToast: () => null,
-  showExpiredOutgoingTapToViewToast: () => null,
-  showForwardMessageModal: () => null,
-  showVisualAttachment: () => null,
+  replyToMessage: action('replyToMessage'),
+  retrySend: action('retrySend'),
+  showContactDetail: action('showContactDetail'),
+  showContactModal: action('showContactModal'),
+  showExpiredIncomingTapToViewToast: action(
+    'showExpiredIncomingTapToViewToast'
+  ),
+  showExpiredOutgoingTapToViewToast: action(
+    'showExpiredOutgoingTapToViewToast'
+  ),
+  showForwardMessageModal: action('showForwardMessageModal'),
+  showVisualAttachment: action('showVisualAttachment'),
 });
 
 story.add('Delivered Incoming', () => {
@@ -96,49 +110,49 @@ story.add('Message Statuses', () => {
   const props = createProps({
     contacts: [
       {
-        color: 'green',
+        ...getDefaultConversation({
+          color: 'forest',
+          title: 'Max',
+        }),
         isOutgoingKeyError: false,
         isUnidentifiedDelivery: false,
-        onSendAnyway: action('onSendAnyway'),
-        onShowSafetyNumber: action('onShowSafetyNumber'),
         status: 'sent',
-        title: 'Max',
       },
       {
-        color: 'blue',
+        ...getDefaultConversation({
+          color: 'blue',
+          title: 'Sally',
+        }),
         isOutgoingKeyError: false,
         isUnidentifiedDelivery: false,
-        onSendAnyway: action('onSendAnyway'),
-        onShowSafetyNumber: action('onShowSafetyNumber'),
         status: 'sending',
-        title: 'Sally',
       },
       {
-        color: 'brown',
+        ...getDefaultConversation({
+          color: 'burlap',
+          title: 'Terry',
+        }),
         isOutgoingKeyError: false,
         isUnidentifiedDelivery: false,
-        onSendAnyway: action('onSendAnyway'),
-        onShowSafetyNumber: action('onShowSafetyNumber'),
         status: 'partial-sent',
-        title: 'Terry',
       },
       {
-        color: 'light_green',
+        ...getDefaultConversation({
+          color: 'wintergreen',
+          title: 'Theo',
+        }),
         isOutgoingKeyError: false,
         isUnidentifiedDelivery: false,
-        onSendAnyway: action('onSendAnyway'),
-        onShowSafetyNumber: action('onShowSafetyNumber'),
         status: 'delivered',
-        title: 'Theo',
       },
       {
-        color: 'blue_grey',
+        ...getDefaultConversation({
+          color: 'steel',
+          title: 'Nikki',
+        }),
         isOutgoingKeyError: false,
         isUnidentifiedDelivery: false,
-        onSendAnyway: action('onSendAnyway'),
-        onShowSafetyNumber: action('onShowSafetyNumber'),
         status: 'read',
-        title: 'Nikki',
       },
     ],
     message: {
@@ -189,16 +203,19 @@ story.add('All Errors', () => {
     },
     contacts: [
       {
-        color: 'green',
+        ...getDefaultConversation({
+          color: 'forest',
+          title: 'Max',
+        }),
         isOutgoingKeyError: true,
         isUnidentifiedDelivery: false,
-        onSendAnyway: action('onSendAnyway'),
-        onShowSafetyNumber: action('onShowSafetyNumber'),
         status: 'error',
-        title: 'Max',
       },
       {
-        color: 'blue',
+        ...getDefaultConversation({
+          color: 'blue',
+          title: 'Sally',
+        }),
         errors: [
           {
             name: 'Big Error',
@@ -207,19 +224,16 @@ story.add('All Errors', () => {
         ],
         isOutgoingKeyError: false,
         isUnidentifiedDelivery: true,
-        onSendAnyway: action('onSendAnyway'),
-        onShowSafetyNumber: action('onShowSafetyNumber'),
         status: 'error',
-        title: 'Sally',
       },
       {
-        color: 'brown',
+        ...getDefaultConversation({
+          color: 'taupe',
+          title: 'Terry',
+        }),
         isOutgoingKeyError: true,
         isUnidentifiedDelivery: true,
-        onSendAnyway: action('onSendAnyway'),
-        onShowSafetyNumber: action('onShowSafetyNumber'),
         status: 'error',
-        title: 'Terry',
       },
     ],
   });

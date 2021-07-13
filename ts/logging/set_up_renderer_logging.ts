@@ -11,8 +11,13 @@ import * as path from 'path';
 import pino from 'pino';
 import { createStream } from 'rotating-file-stream';
 
+import {
+  initLogger,
+  LogLevel as SignalClientLogLevel,
+} from '@signalapp/signal-client';
+
 import { uploadDebugLogs } from './debuglogs';
-import { redactAll } from '../../js/modules/privacy';
+import { redactAll } from '../util/privacy';
 import {
   LogEntryType,
   LogLevel,
@@ -99,6 +104,11 @@ function fetch(): Promise<string> {
 }
 
 let globalLogger: undefined | pino.Logger;
+let shouldRestart = false;
+
+export function beforeRestart(): void {
+  shouldRestart = true;
+}
 
 export function initialize(): void {
   if (globalLogger) {
@@ -112,13 +122,16 @@ export function initialize(): void {
     rotate: 3,
   });
 
-  stream.on('close', () => {
+  const onClose = () => {
     globalLogger = undefined;
-  });
 
-  stream.on('error', () => {
-    globalLogger = undefined;
-  });
+    if (shouldRestart) {
+      initialize();
+    }
+  };
+
+  stream.on('close', onClose);
+  stream.on('error', onClose);
 
   globalLogger = pino(
     {
@@ -178,3 +191,36 @@ window.addEventListener('unhandledrejection', rejectionEvent => {
     error && error.stack ? error.stack : JSON.stringify(error);
   window.log.error(`Top-level unhandled promise rejection: ${errorString}`);
 });
+
+initLogger(
+  SignalClientLogLevel.Warn,
+  (
+    level: unknown,
+    target: string,
+    file: string | null,
+    line: number | null,
+    message: string
+  ) => {
+    let fileString = '';
+    if (file && line) {
+      fileString = ` ${file}:${line}`;
+    } else if (file) {
+      fileString = ` ${file}`;
+    }
+    const logString = `@signalapp/signal-client ${message} ${target}${fileString}`;
+
+    if (level === SignalClientLogLevel.Trace) {
+      log.trace(logString);
+    } else if (level === SignalClientLogLevel.Debug) {
+      log.debug(logString);
+    } else if (level === SignalClientLogLevel.Info) {
+      log.info(logString);
+    } else if (level === SignalClientLogLevel.Warn) {
+      log.warn(logString);
+    } else if (level === SignalClientLogLevel.Error) {
+      log.error(logString);
+    } else {
+      log.error(`${logString} (unknown log level ${level})`);
+    }
+  }
+);

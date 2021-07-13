@@ -8,20 +8,28 @@ import { noop } from 'lodash';
 import { LocalizerType } from '../types/Util';
 import { ModalHost } from './ModalHost';
 import { Theme } from '../util/theme';
+import { getClassNamesFor } from '../util/getClassNamesFor';
+import { useHasWrapped } from '../util/hooks';
 
 type PropsType = {
   children: ReactNode;
   hasXButton?: boolean;
   i18n: LocalizerType;
+  moduleClassName?: string;
+  noMouseClose?: boolean;
   onClose?: () => void;
   title?: ReactNode;
   theme?: Theme;
 };
 
+const BASE_CLASS_NAME = 'module-Modal';
+
 export function Modal({
   children,
   hasXButton,
   i18n,
+  moduleClassName,
+  noMouseClose,
   onClose = noop,
   title,
   theme,
@@ -29,34 +37,46 @@ export function Modal({
   const [scrolled, setScrolled] = useState(false);
 
   const hasHeader = Boolean(hasXButton || title);
+  const getClassName = getClassNamesFor(BASE_CLASS_NAME, moduleClassName);
 
   return (
-    <ModalHost onClose={onClose} theme={theme}>
+    <ModalHost noMouseClose={noMouseClose} onClose={onClose} theme={theme}>
       <div
         className={classNames(
-          'module-Modal',
-          hasHeader ? 'module-Modal--has-header' : 'module-Modal--no-header'
+          getClassName(''),
+          getClassName(hasHeader ? '--has-header' : '--no-header')
         )}
       >
         {hasHeader && (
-          <div className="module-Modal__header">
+          <div className={getClassName('__header')}>
             {hasXButton && (
               <button
                 aria-label={i18n('close')}
                 type="button"
-                className="module-Modal__close-button"
+                className={getClassName('__close-button')}
+                tabIndex={0}
                 onClick={() => {
                   onClose();
                 }}
               />
             )}
-            {title && <h1 className="module-Modal__title">{title}</h1>}
+            {title && (
+              <h1
+                className={classNames(
+                  getClassName('__title'),
+                  hasXButton ? getClassName('__title--with-x-button') : null
+                )}
+              >
+                {title}
+              </h1>
+            )}
           </div>
         )}
         <div
-          className={classNames('module-Modal__body', {
-            'module-Modal__body--scrolled': scrolled,
-          })}
+          className={classNames(
+            getClassName('__body'),
+            scrolled ? getClassName('__body--scrolled') : null
+          )}
           onScroll={event => {
             setScrolled((event.target as HTMLDivElement).scrollTop > 2);
           }}
@@ -68,8 +88,29 @@ export function Modal({
   );
 }
 
-Modal.Footer = ({
+Modal.ButtonFooter = function ButtonFooter({
   children,
-}: Readonly<{ children: ReactNode }>): ReactElement => (
-  <div className="module-Modal__footer">{children}</div>
-);
+  moduleClassName,
+}: Readonly<{
+  children: ReactNode;
+  moduleClassName?: string;
+}>): ReactElement {
+  const [ref, hasWrapped] = useHasWrapped<HTMLDivElement>();
+
+  const className = getClassNamesFor(
+    BASE_CLASS_NAME,
+    moduleClassName
+  )('__button-footer');
+
+  return (
+    <div
+      className={classNames(
+        className,
+        hasWrapped ? `${className}--one-button-per-line` : undefined
+      )}
+      ref={ref}
+    >
+      {children}
+    </div>
+  );
+};

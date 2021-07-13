@@ -3,16 +3,11 @@
 
 const is = require('@sindresorhus/is');
 
-const {
-  arrayBufferToBlob,
-  blobToArrayBuffer,
-  dataURLToBlob,
-} = require('blob-util');
+const { arrayBufferToBlob, blobToArrayBuffer } = require('blob-util');
 const AttachmentTS = require('../../../ts/types/Attachment');
 const GoogleChrome = require('../../../ts/util/GoogleChrome');
-const MIME = require('../../../ts/types/MIME');
 const { toLogFormat } = require('./errors');
-const { autoOrientImage } = require('../auto_orient_image');
+const { scaleImageToLevel } = require('../../../ts/util/scaleImageToLevel');
 const {
   migrateDataToFileSystem,
 } = require('./attachment/migrate_data_to_file_system');
@@ -54,8 +49,8 @@ exports.isValid = rawAttachment => {
 // Upgrade steps
 // NOTE: This step strips all EXIF metadata from JPEG images as
 // part of re-encoding the image:
-exports.autoOrientJPEG = async attachment => {
-  if (!MIME.isJPEG(attachment.contentType)) {
+exports.autoOrientJPEG = async (attachment, _, message) => {
+  if (!AttachmentTS.canBeTranscoded(attachment)) {
     return attachment;
   }
 
@@ -68,24 +63,27 @@ exports.autoOrientJPEG = async attachment => {
     attachment.data,
     attachment.contentType
   );
-  const newDataBlob = await dataURLToBlob(await autoOrientImage(dataBlob));
-  const newDataArrayBuffer = await blobToArrayBuffer(newDataBlob);
+  const xcodedDataBlob = await scaleImageToLevel(
+    dataBlob,
+    message ? message.sendHQImages : false
+  );
+  const xcodedDataArrayBuffer = await blobToArrayBuffer(xcodedDataBlob);
 
   // IMPORTANT: We overwrite the existing `data` `ArrayBuffer` losing the original
   // image data. Ideally, we’d preserve the original image data for users who want to
   // retain it but due to reports of data loss, we don’t want to overburden IndexedDB
   // by potentially doubling stored image data.
   // See: https://github.com/signalapp/Signal-Desktop/issues/1589
-  const newAttachment = {
+  const xcodedAttachment = {
     ...attachment,
-    data: newDataArrayBuffer,
-    size: newDataArrayBuffer.byteLength,
+    data: xcodedDataArrayBuffer,
+    size: xcodedDataArrayBuffer.byteLength,
   };
 
   // `digest` is no longer valid for auto-oriented image data, so we discard it:
-  delete newAttachment.digest;
+  delete xcodedAttachment.digest;
 
-  return newAttachment;
+  return xcodedAttachment;
 };
 
 const UNICODE_LEFT_TO_RIGHT_OVERRIDE = '\u202D';
@@ -215,6 +213,7 @@ exports.deleteData = deleteOnDisk => {
 
 exports.isImage = AttachmentTS.isImage;
 exports.isVideo = AttachmentTS.isVideo;
+exports.isGIF = AttachmentTS.isGIF;
 exports.isAudio = AttachmentTS.isAudio;
 exports.isVoiceMessage = AttachmentTS.isVoiceMessage;
 exports.getUploadSizeLimitKb = AttachmentTS.getUploadSizeLimitKb;

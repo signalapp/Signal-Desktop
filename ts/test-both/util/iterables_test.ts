@@ -4,7 +4,17 @@
 import { assert } from 'chai';
 import * as sinon from 'sinon';
 
-import { isIterable, size, map, take } from '../../util/iterables';
+import {
+  concat,
+  filter,
+  find,
+  groupBy,
+  isIterable,
+  map,
+  reduce,
+  size,
+  take,
+} from '../../util/iterables';
 
 describe('iterable utilities', () => {
   describe('isIterable', () => {
@@ -82,6 +92,175 @@ describe('iterable utilities', () => {
     });
   });
 
+  describe('concat', () => {
+    it('returns an empty iterable when passed nothing', () => {
+      assert.deepEqual([...concat()], []);
+    });
+
+    it('returns an empty iterable when passed empty iterables', () => {
+      assert.deepEqual([...concat([])], []);
+      assert.deepEqual([...concat(new Set())], []);
+      assert.deepEqual([...concat(new Set(), [], new Map())], []);
+    });
+
+    it('concatenates multiple iterables', () => {
+      const everyNumber = {
+        *[Symbol.iterator]() {
+          for (let i = 4; true; i += 1) {
+            yield i;
+          }
+        },
+      };
+
+      const result = concat([1, 2], new Set([3]), [], everyNumber);
+      const iterator = result[Symbol.iterator]();
+
+      assert.deepEqual(iterator.next(), { value: 1, done: false });
+      assert.deepEqual(iterator.next(), { value: 2, done: false });
+      assert.deepEqual(iterator.next(), { value: 3, done: false });
+      assert.deepEqual(iterator.next(), { value: 4, done: false });
+      assert.deepEqual(iterator.next(), { value: 5, done: false });
+      assert.deepEqual(iterator.next(), { value: 6, done: false });
+      assert.deepEqual(iterator.next(), { value: 7, done: false });
+    });
+
+    it("doesn't start the iterable until the last minute", () => {
+      const oneTwoThree = {
+        [Symbol.iterator]: sinon.fake(() => {
+          let n = 0;
+          return {
+            next() {
+              if (n > 3) {
+                return { done: true };
+              }
+              n += 1;
+              return { value: n, done: false };
+            },
+          };
+        }),
+      };
+
+      const result = concat([1, 2], oneTwoThree);
+      const iterator = result[Symbol.iterator]();
+
+      sinon.assert.notCalled(oneTwoThree[Symbol.iterator]);
+
+      iterator.next();
+      sinon.assert.notCalled(oneTwoThree[Symbol.iterator]);
+      iterator.next();
+      sinon.assert.notCalled(oneTwoThree[Symbol.iterator]);
+
+      iterator.next();
+      sinon.assert.calledOnce(oneTwoThree[Symbol.iterator]);
+
+      iterator.next();
+      sinon.assert.calledOnce(oneTwoThree[Symbol.iterator]);
+    });
+  });
+
+  describe('filter', () => {
+    it('returns an empty iterable when passed an empty iterable', () => {
+      const fn = sinon.fake();
+
+      assert.deepEqual([...filter([], fn)], []);
+      assert.deepEqual([...filter(new Set(), fn)], []);
+      assert.deepEqual([...filter(new Map(), fn)], []);
+
+      sinon.assert.notCalled(fn);
+    });
+
+    it('returns a new iterator with some values removed', () => {
+      const isOdd = sinon.fake((n: number) => Boolean(n % 2));
+      const result = filter([1, 2, 3, 4], isOdd);
+
+      sinon.assert.notCalled(isOdd);
+
+      assert.deepEqual([...result], [1, 3]);
+      assert.notInstanceOf(result, Array);
+
+      sinon.assert.callCount(isOdd, 4);
+    });
+
+    it('can filter an infinite iterable', () => {
+      const everyNumber = {
+        *[Symbol.iterator]() {
+          for (let i = 0; true; i += 1) {
+            yield i;
+          }
+        },
+      };
+
+      const isOdd = (n: number) => Boolean(n % 2);
+      const result = filter(everyNumber, isOdd);
+      const iterator = result[Symbol.iterator]();
+
+      assert.deepEqual(iterator.next(), { value: 1, done: false });
+      assert.deepEqual(iterator.next(), { value: 3, done: false });
+      assert.deepEqual(iterator.next(), { value: 5, done: false });
+      assert.deepEqual(iterator.next(), { value: 7, done: false });
+    });
+
+    it('respects TypeScript type assertion signatures', () => {
+      // This tests TypeScript, not the actual runtime behavior.
+      function isString(value: unknown): value is string {
+        return typeof value === 'string';
+      }
+
+      const input: Array<unknown> = [1, 'two', 3, 'four'];
+      const result: Iterable<string> = filter(input, isString);
+
+      assert.deepEqual([...result], ['two', 'four']);
+    });
+  });
+
+  describe('find', () => {
+    const isOdd = (n: number) => Boolean(n % 2);
+
+    it('returns undefined if the value is not found', () => {
+      assert.isUndefined(find([], isOdd));
+      assert.isUndefined(find([2, 4], isOdd));
+    });
+
+    it('returns the first matching value', () => {
+      assert.strictEqual(find([0, 1, 2, 3], isOdd), 1);
+    });
+
+    it('only iterates until a value is found', () => {
+      function* numbers() {
+        yield 2;
+        yield 3;
+        throw new Error('this should never happen');
+      }
+
+      find(numbers(), isOdd);
+    });
+  });
+
+  describe('groupBy', () => {
+    it('returns an empty object if passed an empty iterable', () => {
+      const fn = sinon.fake();
+
+      assert.deepEqual(groupBy([], fn), {});
+      assert.deepEqual(groupBy(new Set(), fn), {});
+
+      sinon.assert.notCalled(fn);
+    });
+
+    it('returns a map of groups', () => {
+      assert.deepEqual(
+        groupBy(
+          ['apple', 'aardvark', 'orange', 'orange', 'zebra'],
+          str => str[0]
+        ),
+        {
+          a: ['apple', 'aardvark'],
+          o: ['orange', 'orange'],
+          z: ['zebra'],
+        }
+      );
+    });
+  });
+
   describe('map', () => {
     it('returns an empty iterable when passed an empty iterable', () => {
       const fn = sinon.fake();
@@ -130,6 +309,23 @@ describe('iterable utilities', () => {
       assert.deepEqual(iterator.next(), { value: 1, done: false });
       assert.deepEqual(iterator.next(), { value: 4, done: false });
       assert.deepEqual(iterator.next(), { value: 9, done: false });
+    });
+  });
+
+  describe('reduce', () => {
+    it('returns the accumulator when passed an empty iterable', () => {
+      const fn = sinon.fake();
+
+      assert.strictEqual(reduce([], fn, 123), 123);
+
+      sinon.assert.notCalled(fn);
+    });
+
+    it('iterates over the iterable, ultimately returning a result', () => {
+      assert.strictEqual(
+        reduce(new Set([1, 2, 3, 4]), (result, n) => result + n, 89),
+        99
+      );
     });
   });
 

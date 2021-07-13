@@ -10,14 +10,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import fetch, { Response } from 'node-fetch';
-import { AbortSignal } from 'abort-controller';
 import ProxyAgent from 'proxy-agent';
-import { Agent } from 'https';
+import { Agent, RequestOptions } from 'https';
 import pProps from 'p-props';
 import {
   compact,
   Dictionary,
   escapeRegExp,
+  isNumber,
   mapValues,
   zipObject,
 } from 'lodash';
@@ -26,8 +26,11 @@ import { pki } from 'node-forge';
 import is from '@sindresorhus/is';
 import PQueue from 'p-queue';
 import { v4 as getGuid } from 'uuid';
+import { client as WebSocketClient, connection as WebSocket } from 'websocket';
+import { z } from 'zod';
 
 import { Long } from '../window.d';
+import { assert } from '../util/assert';
 import { getUserAgent } from '../util/getUserAgent';
 import { toWebSafeBase64 } from '../util/webSafeBase64';
 import { isPackIdValid, redactPackId } from '../../js/modules/stickers';
@@ -39,26 +42,28 @@ import {
   concatenateBytes,
   constantTimeEqual,
   decryptAesGcm,
+  deriveSecrets,
   encryptCdsDiscoveryRequest,
   getBytes,
   getRandomValue,
   splitUuids,
+  typedArrayToArrayBuffer,
 } from '../Crypto';
+import { calculateAgreement, generateKeyPair } from '../Curve';
 import * as linkPreviewFetch from '../linkPreviews/linkPreviewFetch';
 
 import {
   AvatarUploadAttributesClass,
-  GroupChangeClass,
-  GroupChangesClass,
-  GroupClass,
-  GroupJoinInfoClass,
-  GroupExternalCredentialClass,
   StorageServiceCallOptionsType,
   StorageServiceCredentials,
 } from '../textsecure.d';
+import { SignalService as Proto } from '../protobuf';
 
-import { WebSocket } from './WebSocket';
+import { ConnectTimeoutError } from './Errors';
 import MessageSender from './SendMessage';
+
+// TODO: remove once we move away from ArrayBuffers
+const FIXMEU8 = Uint8Array;
 
 // Note: this will break some code that expects to be able to use err.response when a
 //   web request fails, because it will force it to text. But it is very useful for
@@ -259,30 +264,93 @@ function _validateResponse(response: any, schema: any) {
   return true;
 }
 
-function _createSocket(
+export type ConnectSocketOptions = Readonly<{
+  certificateAuthority: string;
+  proxyUrl?: string;
+  version: string;
+  timeout?: number;
+}>;
+
+const TEN_SECONDS = 1000 * 10;
+
+async function _connectSocket(
   url: string,
   {
     certificateAuthority,
     proxyUrl,
     version,
-  }: { certificateAuthority: string; proxyUrl?: string; version: string }
-) {
-  let requestOptions;
+    timeout = TEN_SECONDS,
+  }: ConnectSocketOptions
+): Promise<WebSocket> {
+  let tlsOptions: RequestOptions = {
+    ca: certificateAuthority,
+  };
   if (proxyUrl) {
-    requestOptions = {
-      ca: certificateAuthority,
+    tlsOptions = {
+      ...tlsOptions,
       agent: new ProxyAgent(proxyUrl),
     };
-  } else {
-    requestOptions = {
-      ca: certificateAuthority,
-    };
   }
+
   const headers = {
     'User-Agent': getUserAgent(version),
   };
-  return new WebSocket(url, undefined, undefined, headers, requestOptions, {
+  const client = new WebSocketClient({
+    tlsOptions,
     maxReceivedFrameSize: 0x210000,
+  });
+
+  client.connect(url, undefined, undefined, headers);
+
+  const { stack } = new Error();
+
+  return new Promise((resolve, reject) => {
+    const timer = setTimeout(() => {
+      reject(new ConnectTimeoutError('Connection timed out'));
+
+      client.abort();
+    }, timeout);
+
+    client.on('connect', socket => {
+      clearTimeout(timer);
+      resolve(socket);
+    });
+
+    client.on('httpResponse', async response => {
+      clearTimeout(timer);
+
+      const statusCode = response.statusCode || -1;
+      await _handleStatusCode(statusCode);
+
+      const error = makeHTTPError(
+        '_connectSocket: invalid websocket response',
+        statusCode || -1,
+        {}, // headers
+        undefined,
+        stack
+      );
+
+      const translatedError = _translateError(error);
+      assert(
+        translatedError,
+        '`httpResponse` event cannot be emitted with 200 status code'
+      );
+
+      reject(translatedError);
+    });
+    client.on('connectFailed', e => {
+      clearTimeout(timer);
+
+      reject(
+        makeHTTPError(
+          '_connectSocket: connectFailed',
+          -1,
+          {},
+          e.toString(),
+          stack
+        )
+      );
+    });
   });
 }
 
@@ -304,7 +372,8 @@ function getContentType(response: Response) {
   return null;
 }
 
-type HeaderListType = { [name: string]: string };
+type FetchHeaderListType = { [name: string]: string };
+type HeaderListType = { [name: string]: string | ReadonlyArray<string> };
 type HTTPCodeType = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
 
 type RedactUrl = (url: string) => string;
@@ -327,6 +396,7 @@ type PromiseAjaxOptionsType = {
     | 'jsonwithdetails'
     | 'arraybuffer'
     | 'arraybufferwithdetails';
+  serverUrl?: string;
   stack?: string;
   timeout?: number;
   type: HTTPCodeType;
@@ -347,8 +417,106 @@ type ArrayBufferWithDetailsType = {
   response: Response;
 };
 
+export const multiRecipient200ResponseSchema = z
+  .object({
+    uuids404: z.array(z.string()).optional(),
+    needsSync: z.boolean().optional(),
+  })
+  .passthrough();
+export type MultiRecipient200ResponseType = z.infer<
+  typeof multiRecipient200ResponseSchema
+>;
+
+export const multiRecipient409ResponseSchema = z.array(
+  z
+    .object({
+      uuid: z.string(),
+      devices: z
+        .object({
+          missingDevices: z.array(z.number()).optional(),
+          extraDevices: z.array(z.number()).optional(),
+        })
+        .passthrough(),
+    })
+    .passthrough()
+);
+export type MultiRecipient409ResponseType = z.infer<
+  typeof multiRecipient409ResponseSchema
+>;
+
+export const multiRecipient410ResponseSchema = z.array(
+  z
+    .object({
+      uuid: z.string(),
+      devices: z
+        .object({
+          staleDevices: z.array(z.number()).optional(),
+        })
+        .passthrough(),
+    })
+    .passthrough()
+);
+export type MultiRecipient410ResponseType = z.infer<
+  typeof multiRecipient410ResponseSchema
+>;
+
 function isSuccess(status: number): boolean {
   return status >= 0 && status < 400;
+}
+
+function getHostname(url: string): string {
+  const urlObject = new URL(url);
+  return urlObject.hostname;
+}
+
+async function _handleStatusCode(
+  status: number,
+  unauthenticated = false
+): Promise<void> {
+  if (status === 499) {
+    window.log.error('Got 499 from Signal Server. Build is expired.');
+    await window.storage.put('remoteBuildExpiration', Date.now());
+    window.reduxActions.expiration.hydrateExpirationStatus(true);
+  }
+  if (!unauthenticated && status === 401) {
+    window.log.error('Got 401 from Signal Server. We might be unlinked.');
+    window.Whisper.events.trigger('mightBeUnlinked');
+  }
+}
+
+function _translateError(error: Error): Error | undefined {
+  const { code } = error;
+  if (code === 200) {
+    // Happens sometimes when we get no response. Might be nice to get 204 instead.
+    return undefined;
+  }
+  let message: string;
+  switch (code) {
+    case -1:
+      message =
+        'Failed to connect to the server, please check your network connection.';
+      break;
+    case 413:
+      message = 'Rate limit exceeded, please try again later.';
+      break;
+    case 403:
+      message = 'Invalid code, please try again.';
+      break;
+    case 417:
+      message = 'Number already registered.';
+      break;
+    case 401:
+      message =
+        'Invalid authentication, most likely someone re-registered and invalidated our registration.';
+      break;
+    case 404:
+      message = 'Number is not registered.';
+      break;
+    default:
+      message = 'The server rejected our query, please file a bug report.';
+  }
+  error.message = `${message} (original: ${error.message})`;
+  return error;
 }
 
 async function _promiseAjax(
@@ -395,7 +563,7 @@ async function _promiseAjax(
         'User-Agent': getUserAgent(options.version),
         'X-Signal-Agent': 'OWD',
         ...options.headers,
-      } as HeaderListType,
+      } as FetchHeaderListType,
       redirect: options.redirect,
       agent,
       ca: options.certificateAuthority,
@@ -435,11 +603,11 @@ async function _promiseAjax(
 
     fetch(url, fetchOptions)
       .then(async response => {
-        // Build expired!
-        if (response.status === 499) {
-          window.log.error('Error: build expired');
-          await window.storage.put('remoteBuildExpiration', Date.now());
-          window.reduxActions.expiration.hydrateExpirationStatus(true);
+        if (
+          options.serverUrl &&
+          getHostname(options.serverUrl) === getHostname(url)
+        ) {
+          await _handleStatusCode(response.status, unauthenticated);
         }
 
         let resultPromise;
@@ -498,6 +666,7 @@ async function _promiseAjax(
                     makeHTTPError(
                       'promiseAjax: invalid response',
                       response.status,
+                      response.headers.raw(),
                       result,
                       options.stack
                     )
@@ -561,6 +730,7 @@ async function _promiseAjax(
             makeHTTPError(
               'promiseAjax: error response',
               response.status,
+              response.headers.raw(),
               result,
               options.stack
             )
@@ -574,7 +744,7 @@ async function _promiseAjax(
           window.log.error(options.type, url, 0, 'Error');
         }
         const stack = `${e.stack}\nInitial stack:\n${options.stack}`;
-        reject(makeHTTPError('promiseAjax catch', 0, e.toString(), stack));
+        reject(makeHTTPError('promiseAjax catch', 0, {}, e.toString(), stack));
       });
   });
 }
@@ -612,6 +782,7 @@ declare global {
   interface Error {
     code?: number | string;
     response?: any;
+    responseHeaders?: HeaderListType;
     warn?: boolean;
   }
 }
@@ -619,6 +790,7 @@ declare global {
 function makeHTTPError(
   message: string,
   providedCode: number,
+  headers: HeaderListType,
   response: any,
   stack?: string
 ) {
@@ -626,6 +798,7 @@ function makeHTTPError(
   const e = new Error(`${message}; code: ${code}`);
   e.name = 'HTTPError';
   e.code = code;
+  e.responseHeaders = headers;
   if (DEBUG && response) {
     e.stack += `\nresponse: ${response}`;
   }
@@ -657,9 +830,11 @@ const URL_CALLS = {
   groupToken: 'v1/groups/token',
   keys: 'v2/keys',
   messages: 'v1/messages',
+  multiRecipient: 'v1/messages/multi_recipient',
   profile: 'v1/profile',
   registerCapabilities: 'v1/devices/capabilities',
   removeSignalingKey: 'v1/accounts/signaling_key',
+  reportMessage: 'v1/messages/report',
   signed: 'v2/keys/signed',
   storageManifest: 'v1/storage/manifest',
   storageModify: 'v1/storage/',
@@ -668,6 +843,7 @@ const URL_CALLS = {
   supportUnauthenticatedDelivery: 'v1/devices/unauthenticated_delivery',
   updateDeviceName: 'v1/accounts/name',
   whoami: 'v1/accounts/whoami',
+  challenge: 'v1/challenge',
 };
 
 type InitializeOptionsType = {
@@ -698,7 +874,8 @@ type AjaxOptionsType = {
   basicAuth?: string;
   call: keyof typeof URL_CALLS;
   contentType?: string;
-  data?: ArrayBuffer | Buffer | string;
+  data?: ArrayBuffer | Buffer | Uint8Array | string;
+  headers?: HeaderListType;
   host?: string;
   httpType: HTTPCodeType;
   jsonData?: any;
@@ -720,10 +897,12 @@ export type WebAPIConnectType = {
 export type CapabilitiesType = {
   gv2: boolean;
   'gv1-migration': boolean;
+  senderKey: boolean;
 };
 export type CapabilitiesUploadType = {
   'gv2-3': boolean;
   'gv1-migration': boolean;
+  senderKey: boolean;
 };
 
 type StickerPackManifestType = any;
@@ -740,7 +919,7 @@ export type GroupLogResponseType = {
   currentRevision?: number;
   start?: number;
   end?: number;
-  changes: GroupChangesClass;
+  changes: Proto.GroupChanges;
 };
 
 export type WebAPIType = {
@@ -753,17 +932,17 @@ export type WebAPIType = {
     options?: { accessKey?: ArrayBuffer }
   ) => Promise<any>;
   createGroup: (
-    group: GroupClass,
+    group: Proto.IGroup,
     options: GroupCredentialsType
   ) => Promise<void>;
-  getAttachment: (cdnKey: string, cdnNumber: number) => Promise<any>;
+  getAttachment: (cdnKey: string, cdnNumber?: number) => Promise<any>;
   getAvatar: (path: string) => Promise<any>;
   getDevices: () => Promise<any>;
-  getGroup: (options: GroupCredentialsType) => Promise<GroupClass>;
+  getGroup: (options: GroupCredentialsType) => Promise<Proto.Group>;
   getGroupFromLink: (
     inviteLinkPassword: string,
     auth: GroupCredentialsType
-  ) => Promise<GroupJoinInfoClass>;
+  ) => Promise<Proto.GroupJoinInfo>;
   getGroupAvatar: (key: string) => Promise<ArrayBuffer>;
   getGroupCredentials: (
     startDay: number,
@@ -771,7 +950,7 @@ export type WebAPIType = {
   ) => Promise<Array<GroupCredentialType>>;
   getGroupExternalCredential: (
     options: GroupCredentialsType
-  ) => Promise<GroupExternalCredentialClass>;
+  ) => Promise<Proto.GroupExternalCredential>;
   getGroupLog: (
     startVersion: number,
     options: GroupCredentialsType
@@ -786,7 +965,7 @@ export type WebAPIType = {
     deviceId?: number,
     options?: { accessKey?: string }
   ) => Promise<ServerKeysType>;
-  getMessageSocket: () => WebSocket;
+  getMessageSocket: () => Promise<WebSocket>;
   getMyKeys: () => Promise<number>;
   getProfile: (
     identifier: string,
@@ -803,7 +982,7 @@ export type WebAPIType = {
       profileKeyCredentialRequest?: string;
     }
   ) => Promise<any>;
-  getProvisioningSocket: () => WebSocket;
+  getProvisioningSocket: () => Promise<WebSocket>;
   getSenderCertificate: (
     withUuid?: boolean
   ) => Promise<{ certificate: string }>;
@@ -834,10 +1013,10 @@ export type WebAPIType = {
     body: ArrayBuffer | undefined
   ) => Promise<ArrayBufferWithDetailsType>;
   modifyGroup: (
-    changes: GroupChangeClass.Actions,
+    changes: Proto.GroupChange.IActions,
     options: GroupCredentialsType,
     inviteLinkBase64?: string
-  ) => Promise<GroupChangeClass>;
+  ) => Promise<Proto.IGroupChange>;
   modifyStorageRecords: MessageSender['modifyStorageRecords'];
   putAttachment: (encryptedBin: ArrayBuffer) => Promise<any>;
   registerCapabilities: (capabilities: CapabilitiesUploadType) => Promise<void>;
@@ -849,30 +1028,36 @@ export type WebAPIType = {
   registerKeys: (genKeys: KeysType) => Promise<void>;
   registerSupportForUnauthenticatedDelivery: () => Promise<any>;
   removeSignalingKey: () => Promise<void>;
+  reportMessage: (senderE164: string, serverGuid: string) => Promise<void>;
   requestVerificationSMS: (number: string) => Promise<any>;
   requestVerificationVoice: (number: string) => Promise<any>;
   sendMessages: (
     destination: string,
     messageArray: Array<MessageType>,
     timestamp: number,
-    silent?: boolean,
     online?: boolean
   ) => Promise<void>;
   sendMessagesUnauth: (
     destination: string,
     messageArray: Array<MessageType>,
     timestamp: number,
-    silent?: boolean,
     online?: boolean,
     options?: { accessKey?: string }
   ) => Promise<void>;
+  sendWithSenderKey: (
+    payload: ArrayBuffer,
+    accessKeys: ArrayBuffer,
+    timestamp: number,
+    online?: boolean
+  ) => Promise<MultiRecipient200ResponseType>;
   setSignedPreKey: (signedPreKey: SignedPreKeyType) => Promise<void>;
   updateDeviceName: (deviceName: string) => Promise<void>;
   uploadGroupAvatar: (
-    avatarData: ArrayBuffer,
+    avatarData: Uint8Array,
     options: GroupCredentialsType
   ) => Promise<string>;
   whoami: () => Promise<any>;
+  sendChallengeResponse: (challengeResponse: ChallengeType) => Promise<any>;
   getConfig: () => Promise<
     Array<{ name: string; enabled: boolean; value: string | null }>
   >;
@@ -908,6 +1093,12 @@ export type ServerKeysType = {
     };
   }>;
   identityKey: ArrayBuffer;
+};
+
+export type ChallengeType = {
+  readonly type: 'recaptcha';
+  readonly token: string;
+  readonly captcha: string;
 };
 
 export type ProxiedRequestOptionsType = {
@@ -1025,14 +1216,17 @@ export function initialize({
       registerKeys,
       registerSupportForUnauthenticatedDelivery,
       removeSignalingKey,
+      reportMessage,
       requestVerificationSMS,
       requestVerificationVoice,
       sendMessages,
       sendMessagesUnauth,
+      sendWithSenderKey,
       setSignedPreKey,
       updateDeviceName,
       uploadGroupAvatar,
       whoami,
+      sendChallengeResponse,
     };
 
     async function _ajax(param: AjaxOptionsType): Promise<any> {
@@ -1045,6 +1239,7 @@ export function initialize({
         certificateAuthority,
         contentType: param.contentType || 'application/json; charset=utf-8',
         data: param.data || (param.jsonData && _jsonThing(param.jsonData)),
+        headers: param.headers,
         host: param.host || url,
         password: param.password || password,
         path: URL_CALLS[param.call] + param.urlParameters,
@@ -1054,44 +1249,16 @@ export function initialize({
         type: param.httpType,
         user: param.username || username,
         redactUrl: param.redactUrl,
+        serverUrl: url,
         validateResponse: param.validateResponse,
         version,
         unauthenticated: param.unauthenticated,
         accessKey: param.accessKey,
       }).catch((e: Error) => {
-        const { code } = e;
-        if (code === 200) {
-          // Happens sometimes when we get no response. Might be nice to get 204 instead.
-          return null;
+        const translatedError = _translateError(e);
+        if (translatedError) {
+          throw translatedError;
         }
-        let message;
-        switch (code) {
-          case -1:
-            message =
-              'Failed to connect to the server, please check your network connection.';
-            break;
-          case 413:
-            message = 'Rate limit exceeded, please try again later.';
-            break;
-          case 403:
-            message = 'Invalid code, please try again.';
-            break;
-          case 417:
-            message = 'Number already registered.';
-            break;
-          case 401:
-            message =
-              'Invalid authentication, most likely someone re-registered and invalidated our registration.';
-            break;
-          case 404:
-            message = 'Number is not registered.';
-            break;
-          default:
-            message =
-              'The server rejected our query, please file a bug report.';
-        }
-        e.message = `${message} (original: ${e.message})`;
-        throw e;
       });
     }
 
@@ -1100,6 +1267,14 @@ export function initialize({
         call: 'whoami',
         httpType: 'GET',
         responseType: 'json',
+      });
+    }
+
+    async function sendChallengeResponse(challengeResponse: ChallengeType) {
+      return _ajax({
+        call: 'challenge',
+        httpType: 'PUT',
+        jsonData: challengeResponse,
       });
     }
 
@@ -1302,6 +1477,18 @@ export function initialize({
       });
     }
 
+    async function reportMessage(
+      senderE164: string,
+      serverGuid: string
+    ): Promise<void> {
+      await _ajax({
+        call: 'reportMessage',
+        httpType: 'POST',
+        urlParameters: `/${senderE164}/${serverGuid}`,
+        responseType: 'arraybuffer',
+      });
+    }
+
     async function requestVerificationSMS(number: string) {
       return _ajax({
         call: 'accounts',
@@ -1329,6 +1516,7 @@ export function initialize({
       const capabilities: CapabilitiesUploadType = {
         'gv2-3': true,
         'gv1-migration': true,
+        senderKey: false,
       };
 
       const { accessKey } = options;
@@ -1566,15 +1754,11 @@ export function initialize({
       destination: string,
       messageArray: Array<MessageType>,
       timestamp: number,
-      silent?: boolean,
       online?: boolean,
       { accessKey }: { accessKey?: string } = {}
     ) {
       const jsonData: any = { messages: messageArray, timestamp };
 
-      if (silent) {
-        jsonData.silent = true;
-      }
       if (online) {
         jsonData.online = true;
       }
@@ -1594,14 +1778,10 @@ export function initialize({
       destination: string,
       messageArray: Array<MessageType>,
       timestamp: number,
-      silent?: boolean,
       online?: boolean
     ) {
       const jsonData: any = { messages: messageArray, timestamp };
 
-      if (silent) {
-        jsonData.silent = true;
-      }
       if (online) {
         jsonData.online = true;
       }
@@ -1612,6 +1792,25 @@ export function initialize({
         urlParameters: `/${destination}`,
         jsonData,
         responseType: 'json',
+      });
+    }
+
+    async function sendWithSenderKey(
+      data: ArrayBuffer,
+      accessKeys: ArrayBuffer,
+      timestamp: number,
+      online?: boolean
+    ): Promise<MultiRecipient200ResponseType> {
+      return _ajax({
+        call: 'multiRecipient',
+        httpType: 'PUT',
+        contentType: 'application/vnd.signal-messenger.mrm',
+        data,
+        urlParameters: `?ts=${timestamp}&online=${online ? 'true' : 'false'}`,
+        responseType: 'json',
+        headers: {
+          'Unidentified-Access-Key': arrayBufferToBase64(accessKeys),
+        },
       });
     }
 
@@ -1779,8 +1978,10 @@ export function initialize({
       return packId;
     }
 
-    async function getAttachment(cdnKey: string, cdnNumber: number) {
-      const cdnUrl = cdnUrlObject[cdnNumber] || cdnUrlObject['0'];
+    async function getAttachment(cdnKey: string, cdnNumber?: number) {
+      const cdnUrl = isNumber(cdnNumber)
+        ? cdnUrlObject[cdnNumber] || cdnUrlObject['0']
+        : cdnUrlObject['0'];
       // This is going to the CDN, not the service, so we use _outerAjax
       return _outerAjax(`${cdnUrl}/attachments/${cdnKey}`, {
         certificateAuthority,
@@ -1942,7 +2143,7 @@ export function initialize({
 
     async function getGroupExternalCredential(
       options: GroupCredentialsType
-    ): Promise<GroupExternalCredentialClass> {
+    ): Promise<Proto.GroupExternalCredential> {
       const basicAuth = generateGroupAuth(
         options.groupPublicParamsHex,
         options.authCredentialPresentationHex
@@ -1957,9 +2158,7 @@ export function initialize({
         host: storageUrl,
       });
 
-      return window.textsecure.protobuf.GroupExternalCredential.decode(
-        response
-      );
+      return Proto.GroupExternalCredential.decode(new FIXMEU8(response));
     }
 
     function verifyAttributes(attributes: AvatarUploadAttributesClass) {
@@ -1999,7 +2198,7 @@ export function initialize({
     }
 
     async function uploadGroupAvatar(
-      avatarData: ArrayBuffer,
+      avatarData: Uint8Array,
       options: GroupCredentialsType
     ): Promise<string> {
       const basicAuth = generateGroupAuth(
@@ -2021,7 +2220,10 @@ export function initialize({
       const verified = verifyAttributes(attributes);
       const { key } = verified;
 
-      const manifestParams = makePutParams(verified, avatarData);
+      const manifestParams = makePutParams(
+        verified,
+        typedArrayToArrayBuffer(avatarData)
+      );
 
       await _outerAjax(`${cdnUrlObject['0']}/`, {
         ...manifestParams,
@@ -2047,14 +2249,14 @@ export function initialize({
     }
 
     async function createGroup(
-      group: GroupClass,
+      group: Proto.IGroup,
       options: GroupCredentialsType
     ): Promise<void> {
       const basicAuth = generateGroupAuth(
         options.groupPublicParamsHex,
         options.authCredentialPresentationHex
       );
-      const data = group.toArrayBuffer();
+      const data = Proto.Group.encode(group).finish();
 
       await _ajax({
         basicAuth,
@@ -2068,7 +2270,7 @@ export function initialize({
 
     async function getGroup(
       options: GroupCredentialsType
-    ): Promise<GroupClass> {
+    ): Promise<Proto.Group> {
       const basicAuth = generateGroupAuth(
         options.groupPublicParamsHex,
         options.authCredentialPresentationHex
@@ -2083,17 +2285,18 @@ export function initialize({
         responseType: 'arraybuffer',
       });
 
-      return window.textsecure.protobuf.Group.decode(response);
+      return Proto.Group.decode(new FIXMEU8(response));
     }
 
     async function getGroupFromLink(
       inviteLinkPassword: string,
       auth: GroupCredentialsType
-    ): Promise<GroupJoinInfoClass> {
+    ): Promise<Proto.GroupJoinInfo> {
       const basicAuth = generateGroupAuth(
         auth.groupPublicParamsHex,
         auth.authCredentialPresentationHex
       );
+      const safeInviteLinkPassword = toWebSafeBase64(inviteLinkPassword);
 
       const response: ArrayBuffer = await _ajax({
         basicAuth,
@@ -2102,22 +2305,26 @@ export function initialize({
         host: storageUrl,
         httpType: 'GET',
         responseType: 'arraybuffer',
-        urlParameters: `/${toWebSafeBase64(inviteLinkPassword)}`,
+        urlParameters: `/${safeInviteLinkPassword}`,
+        redactUrl: _createRedactor(safeInviteLinkPassword),
       });
 
-      return window.textsecure.protobuf.GroupJoinInfo.decode(response);
+      return Proto.GroupJoinInfo.decode(new FIXMEU8(response));
     }
 
     async function modifyGroup(
-      changes: GroupChangeClass.Actions,
+      changes: Proto.GroupChange.IActions,
       options: GroupCredentialsType,
       inviteLinkBase64?: string
-    ): Promise<GroupChangeClass> {
+    ): Promise<Proto.IGroupChange> {
       const basicAuth = generateGroupAuth(
         options.groupPublicParamsHex,
         options.authCredentialPresentationHex
       );
-      const data = changes.toArrayBuffer();
+      const data = Proto.GroupChange.Actions.encode(changes).finish();
+      const safeInviteLinkPassword = inviteLinkBase64
+        ? toWebSafeBase64(inviteLinkBase64)
+        : undefined;
 
       const response: ArrayBuffer = await _ajax({
         basicAuth,
@@ -2127,12 +2334,15 @@ export function initialize({
         host: storageUrl,
         httpType: 'PATCH',
         responseType: 'arraybuffer',
-        urlParameters: inviteLinkBase64
-          ? `?inviteLinkPassword=${toWebSafeBase64(inviteLinkBase64)}`
+        urlParameters: safeInviteLinkPassword
+          ? `?inviteLinkPassword=${safeInviteLinkPassword}`
+          : undefined,
+        redactUrl: safeInviteLinkPassword
+          ? _createRedactor(safeInviteLinkPassword)
           : undefined,
       });
 
-      return window.textsecure.protobuf.GroupChange.decode(response);
+      return Proto.GroupChange.decode(new FIXMEU8(response));
     }
 
     async function getGroupLog(
@@ -2154,7 +2364,7 @@ export function initialize({
         urlParameters: `/${startVersion}`,
       });
       const { data, response } = withDetails;
-      const changes = window.textsecure.protobuf.GroupChanges.decode(data);
+      const changes = Proto.GroupChanges.decode(new FIXMEU8(data));
 
       if (response && response.status === 206) {
         const range = response.headers.get('Content-Range');
@@ -2184,7 +2394,7 @@ export function initialize({
       };
     }
 
-    function getMessageSocket() {
+    function getMessageSocket(): Promise<WebSocket> {
       window.log.info('opening message socket', url);
       const fixedScheme = url
         .replace('https://', 'wss://')
@@ -2193,20 +2403,20 @@ export function initialize({
       const pass = encodeURIComponent(password);
       const clientVersion = encodeURIComponent(version);
 
-      return _createSocket(
+      return _connectSocket(
         `${fixedScheme}/v1/websocket/?login=${login}&password=${pass}&agent=OWD&version=${clientVersion}`,
         { certificateAuthority, proxyUrl, version }
       );
     }
 
-    function getProvisioningSocket() {
+    function getProvisioningSocket(): Promise<WebSocket> {
       window.log.info('opening provisioning socket', url);
       const fixedScheme = url
         .replace('https://', 'wss://')
         .replace('http://', 'ws://');
       const clientVersion = encodeURIComponent(version);
 
-      return _createSocket(
+      return _connectSocket(
         `${fixedScheme}/v1/websocket/provisioning/?agent=OWD&version=${clientVersion}`,
         { certificateAuthority, proxyUrl, version }
       );
@@ -2406,7 +2616,7 @@ export function initialize({
       username: string;
       password: string;
     }) {
-      const keyPair = await window.libsignal.externalCurveAsync.generateKeyPair();
+      const keyPair = generateKeyPair();
       const { privKey, pubKey } = keyPair;
       // Remove first "key type" byte from public key
       const slicedPubKey = pubKey.slice(1);
@@ -2476,11 +2686,11 @@ export function initialize({
             );
 
             // Derive key
-            const ephemeralToEphemeral = await window.libsignal.externalCurveAsync.calculateAgreement(
+            const ephemeralToEphemeral = calculateAgreement(
               decoded.serverEphemeralPublic,
               privKey
             );
-            const ephemeralToStatic = await window.libsignal.externalCurveAsync.calculateAgreement(
+            const ephemeralToStatic = calculateAgreement(
               decoded.serverStaticPublic,
               privKey
             );
@@ -2493,10 +2703,7 @@ export function initialize({
               decoded.serverEphemeralPublic,
               decoded.serverStaticPublic
             );
-            const [
-              clientKey,
-              serverKey,
-            ] = await window.libsignal.HKDF.deriveSecrets(
+            const [clientKey, serverKey] = await deriveSecrets(
               masterSecret,
               publicKeys,
               new ArrayBuffer(0)

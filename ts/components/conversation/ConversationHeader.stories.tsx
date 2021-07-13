@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { ComponentProps } from 'react';
@@ -6,6 +6,7 @@ import React, { ComponentProps } from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
+import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
 import { setup as setupI18n } from '../../../js/modules/i18n';
 import enMessages from '../../../_locales/en/messages.json';
 import {
@@ -27,9 +28,10 @@ type ConversationHeaderStory = {
 };
 
 const commonProps = {
+  ...getDefaultConversation(),
+
   showBackButton: false,
   outgoingCallButtonStyle: OutgoingCallButtonStyle.Both,
-  markedUnread: false,
 
   i18n,
 
@@ -46,6 +48,7 @@ const commonProps = {
     'onOutgoingVideoCallInConversation'
   ),
 
+  onShowChatColorEditor: action('onShowChatColorEditor'),
   onShowSafetyNumber: action('onShowSafetyNumber'),
   onShowAllMedia: action('onShowAllMedia'),
   onShowContactModal: action('onShowContactModal'),
@@ -68,7 +71,7 @@ const stories: Array<ConversationHeaderStory> = [
         title: 'With name and profile, verified',
         props: {
           ...commonProps,
-          color: 'red',
+          color: 'crimson',
           isVerified: true,
           avatarPath: gifUrl,
           title: 'Someone 🔥 Somewhere',
@@ -104,7 +107,7 @@ const stories: Array<ConversationHeaderStory> = [
           name: 'Joyrey 🔥 Leppey',
           phoneNumber: '(202) 555-0002',
           type: 'direct',
-          id: '2',
+          id: '3',
           acceptedMessageRequest: true,
         },
       },
@@ -112,11 +115,11 @@ const stories: Array<ConversationHeaderStory> = [
         title: 'Profile, no name',
         props: {
           ...commonProps,
-          color: 'teal',
+          color: 'wintergreen',
           isVerified: false,
           phoneNumber: '(202) 555-0003',
           type: 'direct',
-          id: '3',
+          id: '4',
           title: '🔥Flames🔥',
           profileName: '🔥Flames🔥',
           acceptedMessageRequest: true,
@@ -129,7 +132,7 @@ const stories: Array<ConversationHeaderStory> = [
           title: '(202) 555-0011',
           phoneNumber: '(202) 555-0011',
           type: 'direct',
-          id: '11',
+          id: '5',
           acceptedMessageRequest: true,
         },
       },
@@ -138,11 +141,11 @@ const stories: Array<ConversationHeaderStory> = [
         props: {
           ...commonProps,
           showBackButton: true,
-          color: 'deep_orange',
+          color: 'vermilion',
           phoneNumber: '(202) 555-0004',
           title: '(202) 555-0004',
           type: 'direct',
-          id: '4',
+          id: '6',
           acceptedMessageRequest: true,
         },
       },
@@ -154,7 +157,7 @@ const stories: Array<ConversationHeaderStory> = [
           title: '(202) 555-0005',
           phoneNumber: '(202) 555-0005',
           type: 'direct',
-          id: '5',
+          id: '7',
           expireTimer: 10,
           acceptedMessageRequest: true,
         },
@@ -167,10 +170,11 @@ const stories: Array<ConversationHeaderStory> = [
           title: '(202) 555-0005',
           phoneNumber: '(202) 555-0005',
           type: 'direct',
-          id: '5',
-          expireTimer: 60,
+          id: '8',
+          expireTimer: 300,
           acceptedMessageRequest: true,
           isVerified: true,
+          canChangeTimer: true,
         },
       },
       {
@@ -181,9 +185,22 @@ const stories: Array<ConversationHeaderStory> = [
           title: '(202) 555-0006',
           phoneNumber: '(202) 555-0006',
           type: 'direct',
-          id: '6',
+          id: '9',
           acceptedMessageRequest: true,
           muteExpiresAt: new Date('3000-10-18T11:11:11Z').valueOf(),
+        },
+      },
+      {
+        title: 'SMS-only conversation',
+        props: {
+          ...commonProps,
+          color: 'ultramarine',
+          title: '(202) 555-0006',
+          phoneNumber: '(202) 555-0006',
+          type: 'direct',
+          id: '10',
+          acceptedMessageRequest: true,
+          isSMSOnly: true,
         },
       },
     ],
@@ -197,11 +214,11 @@ const stories: Array<ConversationHeaderStory> = [
         title: 'Basic',
         props: {
           ...commonProps,
-          color: 'signal-blue',
+          color: 'ultramarine',
           title: 'Typescript support group',
           name: 'Typescript support group',
           phoneNumber: '',
-          id: '1',
+          id: '11',
           type: 'group',
           expireTimer: 10,
           acceptedMessageRequest: true,
@@ -212,11 +229,11 @@ const stories: Array<ConversationHeaderStory> = [
         title: 'In a group you left - no disappearing messages',
         props: {
           ...commonProps,
-          color: 'signal-blue',
+          color: 'ultramarine',
           title: 'Typescript support group',
           name: 'Typescript support group',
           phoneNumber: '',
-          id: '2',
+          id: '12',
           type: 'group',
           left: true,
           expireTimer: 10,
@@ -228,11 +245,11 @@ const stories: Array<ConversationHeaderStory> = [
         title: 'In a group with an active group call',
         props: {
           ...commonProps,
-          color: 'signal-blue',
+          color: 'ultramarine',
           title: 'Typescript support group',
           name: 'Typescript support group',
           phoneNumber: '',
-          id: '1',
+          id: '13',
           type: 'group',
           expireTimer: 10,
           acceptedMessageRequest: true,
@@ -243,11 +260,11 @@ const stories: Array<ConversationHeaderStory> = [
         title: 'In a forever muted group',
         props: {
           ...commonProps,
-          color: 'signal-blue',
+          color: 'ultramarine',
           title: 'Way too many messages',
           name: 'Way too many messages',
           phoneNumber: '',
-          id: '1',
+          id: '14',
           type: 'group',
           expireTimer: 10,
           acceptedMessageRequest: true,
@@ -268,7 +285,7 @@ const stories: Array<ConversationHeaderStory> = [
           color: 'blue',
           title: '(202) 555-0007',
           phoneNumber: '(202) 555-0007',
-          id: '7',
+          id: '15',
           type: 'direct',
           isMe: true,
           acceptedMessageRequest: true,
@@ -288,7 +305,7 @@ const stories: Array<ConversationHeaderStory> = [
           color: 'blue',
           title: '(202) 555-0007',
           phoneNumber: '(202) 555-0007',
-          id: '7',
+          id: '16',
           type: 'direct',
           isMe: false,
           acceptedMessageRequest: false,

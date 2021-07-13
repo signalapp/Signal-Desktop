@@ -12,7 +12,7 @@
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
     },
     "unknownContact": {
-        "message": "ໍບໍສາມາດເຊື່ອມຕໍ່",
+        "message": "ບໍສາມາດເຊື່ອມຕໍ່",
         "description": "Shown as the name of a contact if we don't have any displayable information about them"
     },
     "unknownGroup": {
@@ -54,6 +54,10 @@
     "mainMenuSettings": {
         "message": "ການຕັ້ງຄ່າ…",
         "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
+    },
+    "appMenuServices": {
+        "message": "Services",
+        "description": "Application menu item for macOS 'Services'"
     },
     "appMenuHide": {
         "message": "ເຊື່ອງ",
@@ -173,6 +177,10 @@
     },
     "avatarMenuViewArchive": {
         "message": "ເບີງສີງທີເກັບໄວ້ເບືອງຫລັງ",
+        "description": "One of the menu options available in the Avatar Popup menu"
+    },
+    "avatarMenuChatColors": {
+        "message": "Chat Color",
         "description": "One of the menu options available in the Avatar Popup menu"
     },
     "loading": {
@@ -532,7 +540,7 @@
         "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
     },
     "allMedia": {
-        "message": "All Media",
+        "message": "ສື່ທັງໝົດ",
         "description": "Header for the media gallery"
     },
     "documents": {
@@ -701,6 +709,10 @@
         "message": "ກ່ຽວກັບສີກຫນໍແດັດທອບ",
         "description": "Item under the Help menu, which opens a small about window"
     },
+    "screenShareWindow": {
+        "message": "Sharing screen",
+        "description": "Title for screen sharing window"
+    },
     "speech": {
         "message": "ຄວາມໄວ",
         "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
@@ -749,6 +761,10 @@
             }
         }
     },
+    "noSearchResults--sms-only": {
+        "message": "SMS/MMS contacts are not available on Desktop.",
+        "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
+    },
     "noSearchResultsInConversation": {
         "message": "ບໍ່ໄດ້ຜົນສຳລັບ\"1$searchTerm$\"ໄນ $conversationName$",
         "description": "Shown in the search left pane when no results were found",
@@ -769,6 +785,10 @@
     },
     "contactsHeader": {
         "message": "ຕິດຕໍ່",
+        "description": "Shown to separate the types of search results"
+    },
+    "groupsHeader": {
+        "message": "Groups",
         "description": "Shown to separate the types of search results"
     },
     "messagesHeader": {
@@ -866,11 +886,11 @@
         "description": "Confirmation dialog message for when the voice recording is interrupted due to max time limit"
     },
     "voiceRecordingInterruptedBlur": {
-        "message": "Voice message recording stopped because you switched to another app.",
+        "message": "ການບັນທືກ ຂໍ້ຄວາມສຽງ ໄດ້ຢຸດ ເພາະວ່າ ທ່ານໄດ້ປຽ່ນ ໄປແອັບອື່ນ.",
         "description": "Confirmation dialog message for when the voice recording is interrupted due to app losing focus"
     },
     "voiceNoteLimit": {
-        "message": "Voice messages are limited to five minutes. Recording will stop if you switch to another app.",
+        "message": "ຂໍ້ຄວາມສຽງ ຖືກຈຳກັດ 5ນາທີ ຂອງການບັນທືກສຽງ ຈະຢຸດ ຖ້າທ່ານປຽ່ນໄປແອັບອື່ນ.",
         "description": "Shown in toast to warn user about limited time and that window must be in focus"
     },
     "voiceNoteMustBeOnlyAttachment": {
@@ -902,11 +922,11 @@
         }
     },
     "audioPermissionNeeded": {
-        "message": "To send audio messages, allow Signal Desktop to access your microphone.",
+        "message": "ສົ່ງຂໍ້ຄວາມສຽງ, ສີກຫນໍແດັດທັອບ ອານຸໄຫ້ ເຂົ້າເຖີງ ໄມຄໍຣໂຟນຂອງທ່ານ.",
         "description": "Shown if the user attempts to send an audio message without audio permissions turned on"
     },
     "audioCallingPermissionNeeded": {
-        "message": "For calling, you must allow Signal Desktop to access your microphone.",
+        "message": "ສຳລັບໂທ, ທ່ານຕ້ອງໄດ້ ຮັບອານຸຍາດ ສີກຫນໍແດັດທັອບ ເຂົ້າເຖີງໄມຄໍຣໂຟນຂອງທ່ານ.",
         "description": "Shown if the user attempts access the microphone for calling without audio permissions turned on"
     },
     "videoCallingPermissionNeeded": {
@@ -994,15 +1014,15 @@
         "description": ""
     },
     "on": {
-        "message": "On",
+        "message": "ເປີດ",
         "description": "Label for when something is turned on"
     },
     "off": {
-        "message": "Off",
+        "message": "ປີດ",
         "description": "Label for when something is turned off"
     },
     "deleteWarning": {
-        "message": "Clicking 'delete' will permanently remove this message from your devices only.",
+        "message": "This message will be deleted from this device.",
         "description": "Text shown in the confirmation dialog for deleting a message locally"
     },
     "deleteForEveryoneWarning": {
@@ -1071,6 +1091,10 @@
         "message": "You haven't exchanged any messages with this contact yet. Your safety number with them will be available after the first message.",
         "description": ""
     },
+    "back": {
+        "message": "ກັບຫຼັງ",
+        "description": "Generic label for back"
+    },
     "goBack": {
         "message": "ຍ້ອນກັບ",
         "description": "Label for back button in a conversation"
@@ -1082,6 +1106,10 @@
     "retrySend": {
         "message": "ລອງສົ່ງໄໝ່",
         "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
+    },
+    "forwardMessage": {
+        "message": "Forward message",
+        "description": "Shown on the drop-down menu for an individual message, forwards a message"
     },
     "deleteMessage": {
         "message": "ລົບຂໍ້ຄວາມສຳລັບຂ້ອຍ",
@@ -1102,6 +1130,54 @@
     "sessionEnded": {
         "message": "ການຕັ້ງຄ່າຄືນໄໝ່ທີ່ປອດໄພ",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
+    },
+    "ChatRefresh--notification": {
+        "message": "Chat session refreshed",
+        "description": "Shown in timeline when a error happened, and the session was automatically reset."
+    },
+    "ChatRefresh--learnMore": {
+        "message": "ຮຽນຮູ້ເພີມເຕິມ",
+        "description": "Shown in timeline when session is automatically reset, to provide access to a popup info dialog"
+    },
+    "ChatRefresh--summary": {
+        "message": "Signal uses end-to-end encryption and it may need to refresh your chat session sometimes. This doesn’t affect your chat’s security but you may have missed a message from this contact and you can ask them to resend it.",
+        "description": "Shown on explainer dialog available from chat session refreshed timeline events"
+    },
+    "ChatRefresh--contactSupport": {
+        "message": "Contact Support",
+        "description": "Shown on explainer dialog available from chat session refreshed timeline events"
+    },
+    "DeliveryIssue--preview": {
+        "message": "Delivery issue",
+        "description": "Shown in left pane preview when message delivery issue happens"
+    },
+    "DeliveryIssue--notification": {
+        "message": "A message from $sender$ couldn’t be delivered",
+        "description": "Shown in timeline when message delivery issue happens",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "DeliveryIssue--learnMore": {
+        "message": "ຮຽນຮູ້ເພີມເຕິມ",
+        "description": "Shown in timeline when message delivery issue happens, to provide access to a popup info dialog"
+    },
+    "DeliveryIssue--title": {
+        "message": "Delivery Issue",
+        "description": "Shown on explainer dialog available from delivery issue timeline events"
+    },
+    "DeliveryIssue--summary": {
+        "message": "A message, sticker, reaction, read receipt or media couldn’t be delivered to you from $sender$. They may have tried sending it to you directly, or in a group.",
+        "description": "Shown on explainer dialog available from delivery issue timeline events",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
     },
     "quoteThumbnailAlt": {
         "message": "Thumbnail of image from quoted message",
@@ -1140,7 +1216,7 @@
         "description": "Welcome title on the install page"
     },
     "installTagline": {
-        "message": "Privacy is possible. Signal makes it easy.",
+        "message": "ມີຄວາມເປັນສວ່ນໄດ້. ສີກຫນໍໄດ້ໄຫ້ ຄວາມສະໂດກສະບາຍ.",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
     "linkYourPhone": {
@@ -1247,6 +1323,18 @@
         "message": "ປິດສຽງໄມ",
         "description": "Button tooltip label for turning on the microphone"
     },
+    "calling__button--presenting-disabled": {
+        "message": "Presenting disabled",
+        "description": "Button tooltip label for when screen sharing is disabled"
+    },
+    "calling__button--presenting-on": {
+        "message": "Start presenting",
+        "description": "Button tooltip label for starting to share screen"
+    },
+    "calling__button--presenting-off": {
+        "message": "Stop presenting",
+        "description": "Button tooltip label for stopping screen sharing"
+    },
     "calling__your-video-is-off": {
         "message": "ກ້ອງຖ່າຍຮູບຂອງເຈົ້າປິດ",
         "description": "Label in the calling lobby indicating that your camera is off"
@@ -1352,12 +1440,86 @@
         "description": "Shown in the modal dialog to describe how blocking works in a gorup call"
     },
     "calling__overflow__scroll-up": {
-        "message": "Scroll up",
+        "message": "ເລື່ອນຂື້ນ",
         "description": "Label for the \"scroll up\" button in a call's overflow area"
     },
     "calling__overflow__scroll-down": {
-        "message": "Scroll down",
+        "message": "ເລື່ອນລົງ",
         "description": "Label for the \"scroll down\" button in a call's overflow area"
+    },
+    "calling__presenting--notification-title": {
+        "message": "You're presenting to everyone.",
+        "description": "Title for the share screen notification"
+    },
+    "calling__presenting--notification-body": {
+        "message": "Click here to return to the call when you're ready to stop presenting.",
+        "description": "Body text for the share screen notification"
+    },
+    "calling__presenting--info": {
+        "message": "Signal is sharing $window$.",
+        "description": "Text that appears in the screen sharing controller to inform person that they are presenting",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Application"
+            }
+        }
+    },
+    "calling__presenting--stop": {
+        "message": "Stop sharing",
+        "description": "Button for stopping screen sharing"
+    },
+    "calling__presenting--you-stopped": {
+        "message": "You stopped presenting",
+        "description": "Toast that appears when someone stops presenting"
+    },
+    "calling__presenting--person-ongoing": {
+        "message": "$name$ is presenting",
+        "description": "Title of call when someone is presenting",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Maddie"
+            }
+        }
+    },
+    "calling__presenting--person-stopped": {
+        "message": "$name$ stopped presenting",
+        "description": "Toast that appears when someone stops presenting",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Maddie"
+            }
+        }
+    },
+    "calling__presenting--permission-title": {
+        "message": "Permission needed",
+        "description": "Shown as the title for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--macos-permission-description": {
+        "message": "Signal needs permission to access your computer's screen recording.",
+        "description": "Shown as the description for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--permission-instruction-step1": {
+        "message": "Go to System Preferences.",
+        "description": "Shown as the description for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--permission-instruction-step2": {
+        "message": "Click on the lock icon on the bottom left and enter your computer’s password.",
+        "description": "Shown as the description for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--permission-instruction-step3": {
+        "message": "On the right, check the box next to Signal. If you don’t see Signal in the list, click the + to add it.",
+        "description": "Shown as the description for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--permission-open": {
+        "message": "Open System Preferences",
+        "description": "The button that opens your system preferences for the needs screen record permissions modal"
+    },
+    "calling__presenting--permission-cancel": {
+        "message": "Dismiss",
+        "description": "The cancel button for the needs screen record permissions modal"
     },
     "alwaysRelayCallsDescription": {
         "message": "ການໂທຈະມີການປຽ່ນແປງຕະຫຼອດເວລາ",
@@ -1384,8 +1546,8 @@
         "description": "Header for general options on the settings screen"
     },
     "spellCheckDescription": {
-        "message": "Enable spell check of text entered in message composition box",
-        "description": "Description of the media permission description"
+        "message": "Enable spell check",
+        "description": "Description of the spell check setting"
     },
     "spellCheckWillBeEnabled": {
         "message": "ກວດກາ ການສະແປວ ເພືອຈະບໍມີບັນຫາ ໂອການຫນ້າ ເມື່ອສີກຫນໍເລີມທຳງານ.",
@@ -1394,6 +1556,10 @@
     "spellCheckWillBeDisabled": {
         "message": "ການກວດສອບ ການສະກົດຄຳຈະຖືກປິດໄຊ້ງານ ເວລາສີກຫນໍເລີມມີການເຊື່ອມຕໍ່",
         "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
+    },
+    "autoLaunchDescription": {
+        "message": "Open at computer login",
+        "description": "Description for the automatic launch setting"
     },
     "clearDataHeader": {
         "message": "ຈັດແຈ້ງຂໍ້ມູນດາຕ່າ",
@@ -1509,6 +1675,10 @@
         "message": "ການສົ່ງລົ້ມເຫລວ",
         "description": "Shown on outgoing message if it fails to send"
     },
+    "sendPaused": {
+        "message": "Send paused",
+        "description": "Shown on outgoing message if it cannot be sent immediately"
+    },
     "partiallySent": {
         "message": "ກົດສົ່ງບາງສວ່ນ ສຳລັບລາຍລະອຽດ",
         "description": "Shown on outgoing message if it is partially sent"
@@ -1546,7 +1716,7 @@
         "description": "Label for contact and group sync settings"
     },
     "syncExplanation": {
-        "message": "Import all Signal groups and contacts from your mobile device.",
+        "message": "ນຳເຂົ້າທັງໝົດ ກຸ່ມສີກຫນໍ ແລະ ການຕິດຕໍ່ ຈາກໂທລະສັບ ຂອງທ່ານ.",
         "description": "Explanatory text for sync settings"
     },
     "lastSynced": {
@@ -1562,7 +1732,7 @@
         "description": "Label for a disabled sync button while sync is in progress."
     },
     "syncFailed": {
-        "message": "Import failed. Make sure your computer and your phone are connected to the internet.",
+        "message": "ການນຳເຂົ້າມີບັນຫາ. ຕ້ອງແນ່ໄຈວາ ຄອມພີວເຕີຂອງທ່ານ ແລະ ໂທລະສັບ ຂອງທ່ານໄດ້ ເຊື່ອມຕໍ່ກັບ ອີນເຕີເນັດ.",
         "description": "Informational text displayed if a sync operation times out."
     },
     "timestamp_s": {
@@ -1602,7 +1772,7 @@
         "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
-        "message": "MMM D",
+        "message": "ວັນທີ ເດືອນ ປີ",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
     "messageBodyTooLong": {
@@ -1661,105 +1831,13 @@
             }
         }
     },
-    "timerOption_0_seconds": {
+    "disappearingMessages__off": {
         "message": "ປິດ",
         "description": "Label for option to turn off message expiration in the timer menu"
     },
-    "timerOption_5_seconds": {
-        "message": "5 ວິນາທີ",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_10_seconds": {
-        "message": "10 ວິນາທີ",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_30_seconds": {
-        "message": "30 ວິນາທີ",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_1_minute": {
-        "message": "1 ນາທີ",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_5_minutes": {
-        "message": "5 ນາທີ",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_30_minutes": {
-        "message": "30 ນາທີ",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_1_hour": {
-        "message": "1 ຊົ່ວ​ໂມງ",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_6_hours": {
-        "message": "6 ຊົ່ວ​ໂມງ",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_12_hours": {
-        "message": "12 ຊົ່ວ​ໂມງ",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_1_day": {
-        "message": "1 ມື້",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_1_week": {
-        "message": "1 ອາທິດ",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
     "disappearingMessages": {
         "message": "ຂໍ້ຄວາມທີຫາຍໄປ",
-        "description": "Conversation menu option to enable disappearing messages"
-    },
-    "timerOption_0_seconds_abbreviated": {
-        "message": "ປິດ",
-        "description": "Short format indicating current timer setting in the conversation list snippet"
-    },
-    "timerOption_5_seconds_abbreviated": {
-        "message": "5 ວິນາທີ",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_10_seconds_abbreviated": {
-        "message": "10 ວິນາທີ",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_30_seconds_abbreviated": {
-        "message": "30 ວິນາທີ",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_1_minute_abbreviated": {
-        "message": "1 ນາທີ",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_5_minutes_abbreviated": {
-        "message": "5 ນາທີ",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_30_minutes_abbreviated": {
-        "message": "30 ນາທີ",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_1_hour_abbreviated": {
-        "message": "1 ຊົ່ວໂມງ",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_6_hours_abbreviated": {
-        "message": "6 ຊົ່ວໂມງ",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_12_hours_abbreviated": {
-        "message": "12 ຊົ່ວໂມງ",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_1_day_abbreviated": {
-        "message": "1 ມື້",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_1_week_abbreviated": {
-        "message": "1 ອາທິດ",
-        "description": "Very short format indicating current timer setting in the conversation header"
+        "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages"
     },
     "disappearingMessagesDisabled": {
         "message": "ປີດການໄຊ້ງານຂໍ້ຄວາມທີຫາຍໄປ",
@@ -1909,6 +1987,116 @@
         "message": "ເລີມການສົນທະນາໄໝ່",
         "description": "Label underneath number a user enters that is not an existing contact"
     },
+    "newConversation": {
+        "message": "New conversation",
+        "description": "Label for header when starting a new conversation"
+    },
+    "contactSearchPlaceholder": {
+        "message": "Search by name or phone number",
+        "description": "Placeholder to use when searching for contacts in the composer"
+    },
+    "noContactsFound": {
+        "message": "No contacts found",
+        "description": "Label shown when there are no contacts to compose to"
+    },
+    "noConversationsFound": {
+        "message": "No conversations found",
+        "description": "Label shown when there are no conversations to compose to"
+    },
+    "chooseGroupMembers__title": {
+        "message": "Choose members",
+        "description": "The title for the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__back-button": {
+        "message": "ກັບຫຼັງ",
+        "description": "Used as alt-text of the back button on the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__skip": {
+        "message": "Skip",
+        "description": "The 'skip' button text in the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__next": {
+        "message": "ຕໍ່ໄປ",
+        "description": "The 'next' button text in the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__maximum-group-size__title": {
+        "message": "Maximum group size reached",
+        "description": "Shown in the alert when you add the maximum number of group members"
+    },
+    "chooseGroupMembers__maximum-group-size__body": {
+        "message": "Signal groups can have a maximum of $max$ members.",
+        "description": "Shown in the alert when you add the maximum number of group members",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "1000"
+            }
+        }
+    },
+    "chooseGroupMembers__maximum-recommended-group-size__title": {
+        "message": "Recommended member limit reached",
+        "description": "Shown in the alert when you add the maximum recommended number of group members"
+    },
+    "chooseGroupMembers__maximum-recommended-group-size__body": {
+        "message": "Signal groups perform best with $max$ members or less. Adding more members will cause delays sending and receiving messages.",
+        "description": "Shown in the alert when you add the maximum recommended number of group members",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "150"
+            }
+        }
+    },
+    "chooseGroupMembers__cant-add-member__title": {
+        "message": "Can’t add member",
+        "description": "Shown in the alert when you try to add someone who can't be added to a group"
+    },
+    "chooseGroupMembers__cant-add-member__body": {
+        "message": "\"$name$\" can’t be added to the group because they’re using an old version of Signal. You can add them to the group after they’ve updated Signal.",
+        "description": "Shown in the alert when you try to add someone who can't be added to a group",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "Jane Doe"
+            }
+        }
+    },
+    "setGroupMetadata__title": {
+        "message": "Name this group",
+        "description": "The title for the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__back-button": {
+        "message": "Back to member selection",
+        "description": "Used as alt-text of the back button on the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__group-name-placeholder": {
+        "message": "Group name (required)",
+        "description": "The placeholder for the group name placeholder"
+    },
+    "setGroupMetadata__group-description-placeholder": {
+        "message": "Description",
+        "description": "The placeholder for the group description"
+    },
+    "setGroupMetadata__create-group": {
+        "message": "Create",
+        "description": "The 'create group' button text in the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__members-header": {
+        "message": "Members",
+        "description": "The header for the members list in the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__error-message": {
+        "message": "This group couldn’t be created. Check your connection and try again.",
+        "description": "Shown in the modal when we can't create a group"
+    },
+    "updateGroupAttributes__title": {
+        "message": "Edit group",
+        "description": "Shown in the modal when we want to update a group"
+    },
+    "updateGroupAttributes__error-message": {
+        "message": "Failed to update the group. Check your connection and try again.",
+        "description": "Shown in the modal when we can't update a group"
+    },
     "notSupportedSMS": {
         "message": "SMS/MMS ບໍ່ໄດ້ສະຫນັບສະຫນູນຂໍ້ຄວາມ.",
         "description": "Label underneath number informing user that SMS is not supported on desktop"
@@ -1922,7 +2110,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "Relink Signal Desktop to your mobile device to continue messaging.",
+        "message": "ກັບຄືນລີ້ງ ສີກຫນໍແດັດທັອບ ມືຖືຂອງທ່ານ ແບ່ງສ່ວນ ທີສືບຕໍ່ຂໍ້ຄວາມ.",
         "description": ""
     },
     "unlinked": {
@@ -2081,15 +2269,15 @@
     },
     "message--getDescription--disappearing-media": {
         "message": "ເບິງສື່ມວນຊົນຄືນອີກຄັ້ງຫນື່ງ",
-        "description": "Shown in notifications and in the left pane after view-once message is deleted."
+        "description": "Shown in notifications and in the left pane after view-once message is deleted. Also shown when quoting a view once media."
     },
     "message--getDescription--disappearing-photo": {
         "message": "ເບີງຮູບພາບຄືນອີກຄັ້ງຫນື່ງ",
-        "description": "Shown in notifications and in the left pane when a message is a view once photo."
+        "description": "Shown in notifications and in the left pane when a message is a view once photo. Also shown when quoting a view once photo."
     },
     "message--getDescription--disappearing-video": {
         "message": "ເບີງວິດີໂອຄືນອີກຄັ້ງຫນື່ງ",
-        "description": "Shown in notifications and in the left pane when a message is a view once video."
+        "description": "Shown in notifications and in the left pane when a message is a view once video. Also shown when quoting a view once video."
     },
     "message--deletedForEveryone": {
         "message": "ຂໍ້ຄວາມນີ້ຖືກລົບແລ້ວ",
@@ -2268,7 +2456,7 @@
         }
     },
     "Message--unsupported-message-ask-to-resend": {
-        "message": "You can ask $contact$ to re-send this message now that you are using an up-to-date version of Signal.",
+        "message": "ທ່ານສາມາສອບຖາມ $contact$ ໄນການສົ່ງຕໍ່ ຂໍ້ຄວາມນີ້ ທ່າານສາມາດໄຊ້ ການອັບເດດ ສະບັບ ຂອງສີກຫນໍ.",
         "description": "",
         "placeholders": {
             "contact": {
@@ -2353,6 +2541,10 @@
         "message": "ເປີດເມຫນູສົນທະນາ",
         "description": "Shown in the shortcuts guide"
     },
+    "Keyboard--new-conversation": {
+        "message": "Start new conversation",
+        "description": "Shown in the shortcuts guide"
+    },
     "Keyboard--archive-conversation": {
         "message": "ຮອບຮ່ວມການສົນທະນາ",
         "description": "Shown in the shortcuts guide"
@@ -2390,7 +2582,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--default-message-action": {
-        "message": "Default action for selected message",
+        "message": "ເລືອກຂໍ້ຄວາມ ການປະຕິບັດ ໄນເບືອງຕົນ",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--view-details-for-selected-message": {
@@ -2402,11 +2594,11 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-reaction-picker": {
-        "message": "Toggle emoji-reaction picker for selected message",
+        "message": "Toggle emoji-ການຈັບຫົວຂໍ ຂໍ້ຄວາມທີເລືອກ",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--save-attachment": {
-        "message": "Save attachment from selected message",
+        "message": "ເລືອກເຊັບ ຂໍ້ຄວາມຈາກ ການພູກພັນ",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--delete-message": {
@@ -2422,7 +2614,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--send-in-expanded-composer": {
-        "message": "Send (in expanded composer)",
+        "message": "ສົ່ງ(ໄນການຂະຫຍາຍ ຂີ່ລັດ)",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--attach-file": {
@@ -2570,7 +2762,7 @@
         "description": "Title for Twitter button"
     },
     "StickerCreator--ShareButtons--pinterest": {
-        "message": "Pinterest",
+        "message": "ປີນເຕີເລຣທ",
         "description": "Title for Pinterest button"
     },
     "StickerCreator--ShareButtons--whatsapp": {
@@ -2644,7 +2836,7 @@
         "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--ConfirmDialog--text": {
-        "message": "You will no longer be able to make edits or delete after creating a sticker pack.",
+        "message": "ການດັດແກ້ ຂອງທ່ານຈະບໍສາມາດ ນຳໄຊ້ໄດ້ດົນ ຫຼື ຫຼັງຈາກໄດ້ລົບ ຊອງສະຕີກເກີ ທີສ້າງຂື້ນ.",
         "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--UploadStage--title": {
@@ -2670,7 +2862,7 @@
         "description": "Title for the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--help": {
-        "message": "Access your new stickers through the sticker icon, or share with your friends using the link below.",
+        "message": "ສະຕີກເກີໄໝ່ຂອງທ່ານ ໄດ້ເຂົ້າເຖີງ ສະຕີກເກີອີຄອນ, ຫຼື ທ່ານສາມາດໄຊ້ລີ່ງທາງລຸ່ມນີ້ ແຊຣກັບຫມູ່ເພືອນ. ",
         "description": "Help text for the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--callToAction": {
@@ -2696,7 +2888,7 @@
         "description": "Text for the create another sticker pack button on the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--socialMessage": {
-        "message": "Check out this new sticker pack I created for Signal. #makeprivacystick",
+        "message": "ກວດເບີງ ຊອງສະຕີກເກີໄໝ່ນີ້ ຂ້າພະເຈົ້າ ໄດ້ສ້າງສຳລັບ ສີກຫນໍ. #makeprivacystick",
         "description": "Text which is shared to social media platforms for sticker packs"
     },
     "StickerCreator--Toasts--imagesAdded": {
@@ -2710,7 +2902,7 @@
         }
     },
     "StickerCreator--Toasts--animated": {
-        "message": "Animated stickers are not currently supported",
+        "message": "ຮູບເງົາສະຕິກເກີ ບໍຕອບສະໜອງ ໄນປັດຈຸບັນ",
         "description": "Text for the toast when an image that is animated was dropped on the sticker creator"
     },
     "StickerCreator--Toasts--tooLarge": {
@@ -2722,19 +2914,19 @@
         "description": "Text for the toast when an image cannot be processed was dropped on the sticker creator with a generic error"
     },
     "StickerCreator--Toasts--APNG--notSquare": {
-        "message": "Animated PNG stickers must be square",
+        "message": "ຮູບເງົາ PNG ທີມີຊີວິດຊີວາ ຕ້ອງເປັນຮູບ ສີ່ຫຼຽ່ມມົນ",
         "description": "Text for the toast when someone tries to upload a non-square APNG"
     },
     "StickerCreator--Toasts--mustLoopForever": {
-        "message": "Animated stickers must loop forever",
+        "message": "ຮູບເງົາ ຕ້ອງເປັນວົງກົມ ຕະຫລອດໄປ",
         "description": "Text for the toast when an image in the sticker creator does not animate forever"
     },
     "StickerCreator--Toasts--APNG--dimensionsTooLarge": {
-        "message": "Animated PNG sticker dimensions are too large",
+        "message": "ຮູບເງົາ PNG ມິຕິ ມີຂະໜາດໄຫຍ່ເກີນໄປ",
         "description": "Text for the toast when an APNG image in the sticker creator is too large"
     },
     "StickerCreator--Toasts--APNG--dimensionsTooSmall": {
-        "message": "Animated PNG sticker dimensions are too small",
+        "message": "ຮູບເງົາ PNG ມິຕິ ມີຂະໜາດ ນ້ອຍເກີນໄປ",
         "description": "Text for the toast when an APNG image in the sticker creator is too small"
     },
     "StickerCreator--Toasts--errorUploading": {
@@ -2847,9 +3039,13 @@
             }
         }
     },
-    "MessageRequests--block-and-delete": {
-        "message": "ບ໋ອກ ແລະ ລົບ",
-        "description": "Shown as a button to let the user block and delete a message request"
+    "MessageRequests--block-and-report-spam": {
+        "message": "Report Spam and Block",
+        "description": "Shown as a button to let the user block a message request and report spam"
+    },
+    "MessageRequests--block-and-report-spam-success-toast": {
+        "message": "Reported as spam and blocked.",
+        "description": "Shown in a toast when you successfully block a user and report them as spam"
     },
     "MessageRequests--block-direct-confirm-title": {
         "message": "ບ໋ອກ $name$ ?",
@@ -2969,7 +3165,7 @@
             }
         }
     },
-    "ConversationHero--membership-1": {
+    "member-of-1-group": {
         "message": "ສຳມະຊີກຂອງ  $group$",
         "description": "Shown in the conversation hero to indicate this user is a member of a mutual group",
         "placeholders": {
@@ -2979,7 +3175,7 @@
             }
         }
     },
-    "ConversationHero--membership-2": {
+    "member-of-2-groups": {
         "message": "ສຳມະຊີກຂອງ $group1$ ແລະ $group2$",
         "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups",
         "placeholders": {
@@ -2993,8 +3189,8 @@
             }
         }
     },
-    "ConversationHero--membership-3": {
-        "message": "ສຳມະຊີກຂອງ $group1$, $group2$, ແລະ $group3$.",
+    "member-of-3-groups": {
+        "message": "ສຳມະຊີກຂອງ $group1$, $group2$, ແລະ $group3$",
         "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
         "placeholders": {
             "group1": {
@@ -3011,8 +3207,8 @@
             }
         }
     },
-    "ConversationHero--membership-extra": {
-        "message": "ສຳມະຊີກຂອງ $group1$, $group2$, $group3$ ແລະ $remainingCount$ ຕື່ມອີກ.",
+    "member-of-more-than-3-groups": {
+        "message": "ສຳມະຊີກຂອງ $group1$, $group2$, $group3$ ແລະ $remainingCount$ ຕື່ມອີກ",
         "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
         "placeholders": {
             "group1": {
@@ -3042,6 +3238,14 @@
                 "example": "Jeff Smith"
             }
         }
+    },
+    "no-groups-in-common": {
+        "message": "No groups in common",
+        "description": "Shown to indicate this user is not a member of any groups"
+    },
+    "no-groups-in-common-warning": {
+        "message": "No groups in common. Review requests carefully.",
+        "description": "When a user has no common groups, show this warning"
     },
     "acceptCall": {
         "message": "ຄຳຕອບ",
@@ -3206,16 +3410,42 @@
         "description": "Title for picture-in-picture toggle"
     },
     "calling__switch-view--to-grid": {
-        "message": "Switch to grid view",
+        "message": "ປຽ່ນມູນມອງ ການເບີງ ຕະຂ່າຍ",
         "description": "Title for grid/speaker view toggle when on a call"
     },
     "calling__switch-view--to-speaker": {
-        "message": "Switch to speaker view",
+        "message": "ປຽ່ນໄປເບີງແບບ ລຳໂພງ",
         "description": "Title for grid/speaker view toggle when on a call"
     },
     "calling__hangup": {
         "message": "ອອກຈາກການໂທ",
         "description": "Title for hang up button"
+    },
+    "calling__SelectPresentingSourcesModal--title": {
+        "message": "Share your screen",
+        "description": "Title for the select your screen sharing sources modal"
+    },
+    "calling__SelectPresentingSourcesModal--confirm": {
+        "message": "Share screen",
+        "description": "Confirm button for sharing screen modal"
+    },
+    "calling__SelectPresentingSourcesModal--entireScreen": {
+        "message": "Entire screen",
+        "description": "Title for the select your screen sharing sources modal and 'Entire Screen' source"
+    },
+    "calling__SelectPresentingSourcesModal--screen": {
+        "message": "Screen $id$",
+        "description": "Title for `Screen #N` source in screen sharing sources modal and overlay",
+        "placeholders": {
+            "id": {
+                "content": "$1",
+                "example": "1"
+            }
+        }
+    },
+    "calling__SelectPresentingSourcesModal--window": {
+        "message": "A window",
+        "description": "Title for the select your screen sharing sources modal"
     },
     "callingDeviceSelection__label--video": {
         "message": "ວີດີໂອ",
@@ -3245,6 +3475,10 @@
         "message": "ປິດເປັນເວລາ ໝື່ງ ຊົ່ວໂມງ",
         "description": "Label for muting the conversation"
     },
+    "muteEightHours": {
+        "message": "Mute for eight hours",
+        "description": "Label for muting the conversation"
+    },
     "muteDay": {
         "message": "ປິດເປັນ ເວລາໝື່ງ ມື້",
         "description": "Label for muting the conversation"
@@ -3253,13 +3487,17 @@
         "message": "ປິດເປັນ ເວລາ ໝື່ງອາທິດ",
         "description": "Label for muting the conversation"
     },
-    "muteYear": {
-        "message": "ປິດເປັນ ເວລາໝື່ງ ປີ",
+    "muteAlways": {
+        "message": "Mute always",
         "description": "Label for muting the conversation"
     },
     "unmute": {
         "message": "ບໍ່ປິດສຽງ",
         "description": "Label for unmuting the conversation"
+    },
+    "muteExpirationLabelAlways": {
+        "message": "Muted always",
+        "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
     },
     "muteExpirationLabel": {
         "message": "ປິດສຽງ ຈົນກວ່າ $duration$",
@@ -3288,11 +3526,11 @@
         "description": "Button to dismiss pop-up dialog when user-initiated task has gone wrong"
     },
     "unknown-sgnl-link": {
-        "message": "Sorry, that sgnl:// link didn't make sense!",
+        "message": "ຂໍໂທດ, sgnl:// link ນັນບໍມີຄວາມໝາຍ!",
         "description": "Shown if you click on a sgnl:// link not currently supported by Desktop"
     },
     "GroupV2--join--invalid-link--title": {
-        "message": "Invalid Link",
+        "message": "ລີ່ງບໍຖືກຕ້ອງ",
         "description": "Shown if we are unable to parse a group link"
     },
     "GroupV2--join--invalid-link": {
@@ -3300,31 +3538,31 @@
         "description": "Shown if we are unable to parse a group link"
     },
     "GroupV2--join--prompt": {
-        "message": "Do you want to join this group and share your name and photo with its members?",
+        "message": "ທ່ານຕ້ອງການ ຈະເຂົ້າຮ່ວມກຸ່ມນີ້ ແລະ ແຊຣຊື່ ແລະ ຮູບຂອງທ່ານ ກັບສາມະຊີກນີບໍ?",
         "description": "Shown when you click on a group link to confirm"
     },
     "GroupV2--join--already-in-group": {
-        "message": "You're already in this group.",
+        "message": "ທ່ານຢູ່ໄນກຸ່ມນີ້ແລ້ວ.",
         "description": "Shown if you click a group link for a group where you're already a member"
     },
     "GroupV2--join--already-awaiting-approval": {
-        "message": "You have already requested approval to join this group.",
+        "message": "ທ່ານໄດ້ຮັບ ອານຸຍາດ ເຂົ້າຮ່ວມກຸ່ມນີ້ແລ້ວ.",
         "description": "Shown if you click a group link for a group where you've already requested approval'"
     },
     "GroupV2--join--unknown-link-version--title": {
-        "message": "Unknown link version",
+        "message": "ບໍຮູ້ຮຸ່ນ ຂອງລີ່ງ",
         "description": "This group link is no longer valid."
     },
     "GroupV2--join--unknown-link-version": {
-        "message": "This link is not supported by this version of Signal Desktop.",
+        "message": "ລີ້ງນີ ບໍ່ສະນັບສະໜູນ ຈາກສະບັບ ຂອງສີກຫນໍ ແດັດທັອບ",
         "description": "Shown if you click a group link and we can't get information about it"
     },
     "GroupV2--join--link-revoked--title": {
-        "message": "Can’t Join Group",
+        "message": "ບໍ່ສາມາດ ເຂົ້າຮ່ວມກຸ່ມ",
         "description": "Shown if you click a group link and we can't get information about it"
     },
     "GroupV2--join--link-revoked": {
-        "message": "This group link is no longer valid.",
+        "message": "ລີ່ງກຸ່ມນີ້ ບໍຖືກຕ້ອງອີກໄປ.",
         "description": "Shown if you click a group link and we can't get information about it"
     },
     "GroupV2--join--prompt-with-approval": {
@@ -3336,23 +3574,23 @@
         "description": "The button to join the group"
     },
     "GroupV2--join--request-to-join-button": {
-        "message": "Request to Join",
+        "message": "ຄຳຂໍຮ້ອງ ເຂົ້າຮ່ວມ",
         "description": "The button to join the group, if approval is required"
     },
     "GroupV2--join--cancel-request-to-join": {
-        "message": "Cancel Request",
+        "message": "ຍົກເລີກ ຄຳຂໍຮ້ອງ",
         "description": "The button to cancel request to join the group"
     },
     "GroupV2--join--cancel-request-to-join--confirmation": {
-        "message": "Cancel your request to join this group?",
+        "message": "ທ່ານຈະຍົກເລີກ ຄຳຂໍຮ້ອງ ການເຂົ້າຮ່ວມ ກຸ່ມນີ້ບໍ?",
         "description": "A confirmation message that shows after you click the button"
     },
     "GroupV2--join--cancel-request-to-join--yes": {
-        "message": "Yes",
+        "message": "ຕົກລົງ",
         "description": "Choosing to continue in the cancel join confirmation dialog"
     },
     "GroupV2--join--cancel-request-to-join--no": {
-        "message": "No",
+        "message": "ບໍ່ຕົກລົງ",
         "description": "Choosing not to continue in the cancel join confirmation dialog"
     },
     "GroupV2--join--member-count--single": {
@@ -3370,7 +3608,7 @@
         }
     },
     "GroupV2--join--group-metadata": {
-        "message": "Group · $memberCount$",
+        "message": "ກຸ່ມ. $memberCount$",
         "description": "A holder for two pieces of information - the type of conversation, and the member count",
         "placeholders": {
             "memberCount": {
@@ -3384,19 +3622,23 @@
         "description": "Shown in composition area when you've requested to join a group"
     },
     "GroupV2--join--general-join-failure--title": {
-        "message": "Link Error",
+        "message": "ລິ່ງມີການ ຜິດພາດ",
         "description": "Shown if something went wrong when you try to join via a group link"
     },
     "GroupV2--join--general-join-failure": {
-        "message": "Joining via this link failed. Try joining again later.",
+        "message": "ທາງລີ່ງມີບັນຫາ ການເຂົ້າຮ່ວມ. ກາລຸນາ ລອງໄໝ່ອີກຄັ້ງ.",
         "description": "Shown if something went wrong when you try to join via a group link"
     },
     "GroupV2--admin": {
         "message": "ບໍລີຫານ",
         "description": "Label for a group administrator"
     },
+    "GroupV2--only-admins": {
+        "message": "Only Admins",
+        "description": "Label for group administrators -- used in drop-downs to select permissions that apply to admins"
+    },
     "GroupV2--all-members": {
-        "message": "All members",
+        "message": "ສະມາຊິກ ທັງຫມົດ",
         "description": "Label for describing the general non-privileged members of a group"
     },
     "updating": {
@@ -3582,11 +3824,11 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-invite-link--disabled--you": {
-        "message": "You disabled admin approval for the group link.",
+        "message": "ຜູ້ບໍລິຫານ ບໍອານຸຍາດທ່ານ ສຳລັບລີ່ງຂອງກຸ່ມນີ້. ",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-invite-link--disabled--other": {
-        "message": "$adminName$ disabled admin approval for the group link.",
+        "message": "$adminName$ ຜູ້ບໍລິຫານ ບໍອານຸຍາດ ສຳລັບລີ່ງຂອງກຸ່ມ.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3596,15 +3838,15 @@
         }
     },
     "GroupV2--access-invite-link--disabled--unknown": {
-        "message": "Admin approval for the group link has been disabled.",
+        "message": "ຜູ້ບໍລິຫານ ໄດ້ອານຸຍາດ ສຳລັບລີ່ງຂອງກຸ່ມ ບໍ່ສາມາດ ນຳໄຊ້.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-invite-link--enabled--you": {
-        "message": "You enabled admin approval for the group link.",
+        "message": "ທ່ານໄດ້ຮັບ ອານຸຍາດ ຈາກຜູ້ບໍລິຫານ ສຳລັບລີ່ງຂອງກຸ່ມ.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-invite-link--enabled--other": {
-        "message": "$adminName$ enabled admin approval for the group link.",
+        "message": "$adminName$ ໄດ້ຮັບອານຸຍາດ ຈາກຜູ້ບໍລິຫານ ສຳລັບລີ່ງຂອງກຸ່ມ.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3614,7 +3856,7 @@
         }
     },
     "GroupV2--access-invite-link--enabled--unknown": {
-        "message": "Admin approval for the group link has been disabled.",
+        "message": "ຜູ້ບໍລີຫານ ໄດ້ອານຸຍາດ ສຳລັບລີ່ງກຸ່ມ ມີການນຳໄຊ້ງານ.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add--invited--you": {
@@ -3752,11 +3994,11 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add-from-link--you--you": {
-        "message": "You joined the group via the group link.",
+        "message": "ທ່ານສາມາດ ເຂົ້າຮ່ວມກຸ່ມ ທາງລີ່ງຂອງກຸ່ມ.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add-from-link--other": {
-        "message": "$memberName$ joined the group via the group link.",
+        "message": "$memberName$ ເຂົ້າຮ່ວມກຸ່ມ ທາງລີ່ງຂອງກຸ່ມ.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3766,7 +4008,7 @@
         }
     },
     "GroupV2--member-add-from-admin-approval--you--other": {
-        "message": "$adminName$ approved your request to join the group.",
+        "message": "$adminName$ ຄຳຂໍຮ້ອງຂອງທ່ານ ໄດ້ຮັບອານຸຍາດ ເຂົ້າຮ່ວມໃນກຸ່ມ.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3776,11 +4018,11 @@
         }
     },
     "GroupV2--member-add-from-admin-approval--you--unknown": {
-        "message": "Your request to join the group has been approved.",
+        "message": "ຄຳຂໍຮ້ອງຂອງທ່ານ ໄນກຸ່ມ ໄດ້ຮັບອານຸຍາດແລ້ວ.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add-from-admin-approval--other--you": {
-        "message": "You approved a request to join the group from $joinerName$.",
+        "message": "ຄຳຂໍຮ້ອງຂອງ ທ່ານໄດ້ຮັບອານຸຍາດ ເຂົ້າຮ່ວມກຸ່ມຈາກ $joinerName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -3790,7 +4032,7 @@
         }
     },
     "GroupV2--member-add-from-admin-approval--other--other": {
-        "message": "$adminName$ approved a request to join the group from $joinerName$.",
+        "message": "$adminName$ ຄຳຂໍຮ້ອງ ໄດ້ຮັບອານຸຍາດ ເຂົ້າຮ່ວມກຸ່ມຈາກ $joinerName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3804,7 +4046,7 @@
         }
     },
     "GroupV2--member-add-from-admin-approval--other--unknown": {
-        "message": "A request to join the group from $joinerName$ has been approved.",
+        "message": "ຄຳຂໍຮ້ອງ ເຂົ້າຮ່ວມຈາກກຸ່ມ $joinerName$ ໄດ້ຮັບການອານຸຍາດ. ",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -4296,11 +4538,11 @@
         }
     },
     "GroupV2--admin-approval-add-one--you": {
-        "message": "You sent a request to join the group.",
+        "message": "ທ່ານໄດ້ສົ່ງ ຄຳຂໍຮ້ອງ ເຂົ້າຮ່ວມກຸ່ມ.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--admin-approval-add-one--other": {
-        "message": "$joinerName$ requested to join via the group link.",
+        "message": "$joinerName$ ຄຳຂໍຮ້ອງ ເປັນວີທີທາງ ເຂົ້າຮ່ວມກຸ່ມຂອງລີ່ງ.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -4310,15 +4552,15 @@
         }
     },
     "GroupV2--admin-approval-remove-one--you--you": {
-        "message": "You canceled your request to join the group.",
+        "message": "ທ່ານໄດ້ຍົກເລີກ ຄຳຂໍຮ້ອງ ເຂົ້າຮ່ວມກຸ່ມຂອງທ່ານ.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--admin-approval-remove-one--you--unknown": {
-        "message": "Your request to join the group has been denied by an admin.",
+        "message": "ຄຳຂໍຮ້ອງ ຂອງທ່ານ ເຂົ້າຮ່ວມກຸ່ມ ໄດ້ປະຕິເສດ ຈາກຜູ້ບໍລິຫານ.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--admin-approval-remove-one--other--you": {
-        "message": "You denied a request to join the group from $joinerName$.",
+        "message": "ຄຳຂໍຮ້ອງຂອງທ່ານ ໄດ້ປະຕິເສດ ການເຂົ້າຮ່ວມຈາກກຸ່ມ $joinerName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -4328,7 +4570,7 @@
         }
     },
     "GroupV2--admin-approval-remove-one--other--own": {
-        "message": "$joinerName$ canceled their request to join the group.",
+        "message": "$joinerName$ ຄຳຂໍຮ້ອງຂອງເຂົາເຈົ້າ ໄດ້ຖືກຍົກເລີກ ເຂົ້າຮ່ວມກຸ່ມ.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -4338,7 +4580,7 @@
         }
     },
     "GroupV2--admin-approval-remove-one--other--other": {
-        "message": "$adminName$ denied a request to join the group from $joinerName$.",
+        "message": "$adminName$ ຄຳຂໍຮ້ອງ ໄດ້ປະຕິເສດ ເຂົ້າຮ່ວມຈາກກຸ່ມ $joinerName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4352,11 +4594,11 @@
         }
     },
     "GroupV2--group-link-add--disabled--you": {
-        "message": "You turned on the group link with admin approval disabled.",
+        "message": "ລີ່ງກຸ່ມຂອງທ່ານ ໄດ້ເປິດໄຊ້ງານ ກັບ ຜູ້ບໍລີຫານ ໄດ້ຮັບອານຸຍາດປີດໄຊ້ງານ.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-add--disabled--other": {
-        "message": "$adminName$ turned on the group link with admin approval disabled.",
+        "message": "$adminName$ ລີ່ງກຸ່ມໄດ້ ເປີດໄຊ້ງານ ກັບ ຜູ້ບໍລິຫານ ໄດ້ອານຸຍາດ ປິດໄຊ້ງານ.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4366,15 +4608,15 @@
         }
     },
     "GroupV2--group-link-add--disabled--unknown": {
-        "message": "The group link has been turned on with admin approval disabled.",
+        "message": "ລີ່ງຂອງກຸ່ມ ໄດ້ມີການເປີດ ນຳໄຊ້ງານ ກັບ ຜູ້ບໍລີຫານ ໄດ້ອານຸຍາດ ປີດໄຊ້ງານ.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-add--enabled--you": {
-        "message": "You turned on the group link with admin approval enabled.",
+        "message": "ລີ່ງກຸ່ມຂອງທ່ານ ໄດ້ເປີດໄຊ້ງານ ກັບ ຜູ້ບໍລີຫານ ໄດ້ອານຸຍາດ ນຳໄຊ້ງານ.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-add--enabled--other": {
-        "message": "$adminName$ turned on the group link with admin approval enabled.",
+        "message": "$adminName$ ເປີດລີ່ງຂອງກຸ່ມ ກັບ ຜູ້ບໍລີຫານ ໄດ້ອານຸຍາດ ນຳໄຊ້ງານ.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4384,15 +4626,15 @@
         }
     },
     "GroupV2--group-link-add--enabled--unknown": {
-        "message": "The group link has been turned on with admin approval enabled.",
+        "message": "ລີ່ງຂອງກຸ່ມ ໄດ້ມີການເປີດ ນຳໄຊ້ງານ ກັບ ຜູ້ບໍລີຫານ ໄດ້ອານຸຍາດ ນຳໄຊ້ງານ.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-remove--you": {
-        "message": "You turned off the group link.",
+        "message": "ທ່ານປິດການ ນຳໄຊ້ລີ່ງກຸ່ມ.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-remove--other": {
-        "message": "$adminName$ turned off the group link.",
+        "message": "$adminName$ ປີດການນຳໄຊ້ລີ່ງກຸ່ມ.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4402,15 +4644,15 @@
         }
     },
     "GroupV2--group-link-remove--unknown": {
-        "message": "The group link has been turned off.",
+        "message": "ລີ່ງກຸ່ມນີ້ໄດ້ ປີດການນຳໄຊ້ງານ.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-reset--you": {
-        "message": "You reset the group link.",
+        "message": "ທ່ານຕິດຕັ້ງເຄືອງ ກຸ່ມລີ່ງໄຫມ່.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-reset--other": {
-        "message": "$adminName$ reset the group link.",
+        "message": "$adminName$ ຕິດຕັ້ງເຄືອງກຸ່ມລີ່ງໄຫມ່.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4420,7 +4662,43 @@
         }
     },
     "GroupV2--group-link-reset--unknown": {
-        "message": "The group link has been reset.",
+        "message": "ລີ່ງຂອງກຸ່ມໄດ້ມີການ ຕິດຕັ້ງເຄືອງໄຫມ່.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--description--remove--you": {
+        "message": "You removed the group description.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--description--remove--other": {
+        "message": "$memberName$ removed the group description.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--description--remove--unknown": {
+        "message": "The group description was removed.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--description--change--you": {
+        "message": "You changed the group description.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--description--change--other": {
+        "message": "$memberName$ changed the group description.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--description--change--unknown": {
+        "message": "The group description was changed.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV1--Migration--disabled": {
@@ -4557,6 +4835,18 @@
         "message": "ຕີດຕັ້ງໄຟຮ",
         "description": "Aria label for file attachment button in composition area"
     },
+    "CompositionArea--sms-only__title": {
+        "message": "This person isn’t using Signal",
+        "description": "Title for the composition area for the SMS-only contact"
+    },
+    "CompositionArea--sms-only__body": {
+        "message": "Signal Desktop does not support messaging non-Signal contacts. Ask this person to install Signal for a more secure messaging experience.",
+        "description": "Body for the composition area for the SMS-only contact"
+    },
+    "CompositionArea--sms-only__spinner-label": {
+        "message": "Checking contact's registration status",
+        "description": "Displayed while checking if the contact is SMS-only"
+    },
     "countMutedConversationsDescription": {
         "message": "ນັບການສົນທະນາ ທີ່ຖືກປິດສຽງໄນປ້າຍຊື່",
         "description": "Description for counting muted conversations in badge setting"
@@ -4566,7 +4856,7 @@
         "description": "Button text for send message button in Group Contact Details modal"
     },
     "ContactModal--rm-admin": {
-        "message": "Remove as admin",
+        "message": "ຍ້າຍຜູ້ບໍລິຫານ",
         "description": "Button text for removing as admin button in Group Contact Details modal"
     },
     "ContactModal--make-admin": {
@@ -4574,7 +4864,7 @@
         "description": "Button text for make admin button in Group Contact Details modal"
     },
     "ContactModal--make-admin-info": {
-        "message": "$contact$ will be able to edit this group and its members.",
+        "message": " $contact$ ຈະສາມາດ ແກ້ໄຂ ກຸ່ມນີ້ ແລະ ສະມາຊີກຂອງມັນ.",
         "description": "Shown in a confirmation dialog when you are about to grant admin privileges to someone",
         "placeholders": {
             "contact": {
@@ -4584,7 +4874,7 @@
         }
     },
     "ContactModal--rm-admin-info": {
-        "message": "Remove $contact$ as group admin",
+        "message": "ຍ້າຍ $contact$ ກຸ່ມຜູ້ບໍລີຫານ",
         "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone",
         "placeholders": {
             "contact": {
@@ -4597,12 +4887,16 @@
         "message": "ຍ້າຍອອກຈາກກຸ່ມ",
         "description": "Button text for remove from group button in Group Contact Details modal"
     },
+    "showChatColorEditor": {
+        "message": "Chat color",
+        "description": "This is a button in the conversation context menu to show the chat color editor"
+    },
     "showConversationDetails": {
-        "message": "Group settings",
+        "message": "ຕິດຕັ້ງກຸ່ມ",
         "description": "This is a button in the conversation context menu to show group settings"
     },
     "ConversationDetails--group-link": {
-        "message": "Group link",
+        "message": "ລີ່ງກຸ່ມ",
         "description": "This is the label for the group link management panel"
     },
     "ConversationDetails--disappearing-messages-label": {
@@ -4614,47 +4908,51 @@
         "description": "This is the info about the disappearing messages setting"
     },
     "ConversationDetails--group-info-label": {
-        "message": "Who can edit group info",
+        "message": "ໄຜສາມາດ ແກ້ໄຂ ຂໍ້ມູນກຸ່ມ",
         "description": "This is the label for the 'who can edit the group' panel"
     },
     "ConversationDetails--group-info-info": {
-        "message": "Choose who can edit group name, avatar, and disappearing messages timer.",
+        "message": "Choose who can edit group name, photo, description, and disappearing messages timer.",
         "description": "This is the additional info for the 'who can edit the group' panel"
     },
     "ConversationDetails--add-members-label": {
-        "message": "Who can add members",
+        "message": "ໄຜສາມາດ ເພີ່ມສະມາຊີກ",
         "description": "This is the label for the 'who can add members' panel"
     },
     "ConversationDetails--add-members-info": {
-        "message": "Choose who can add members to this group.",
+        "message": "ເລືອກໄຜ ສາມາດເພີ່ມ ສະມາຊີກ ເຂົ້າໄນກຸ່ມນີ້",
         "description": "This is the additional info for the 'who can add members' panel"
     },
     "ConversationDetails--requests-and-invites": {
-        "message": "Requests & Invites",
+        "message": "ຄຳຂໍຮ້ອງ ແລະ ການເຊືອເຊີນ",
         "description": "This is a button to display which members have been invited but have not joined yet"
     },
     "ConversationDetailsActions--leave-group": {
-        "message": "Leave group",
+        "message": "ອອກຈາກກຸ່ມ",
         "description": "This is a button to leave a group"
     },
     "ConversationDetailsActions--block-group": {
-        "message": "Block group",
+        "message": "ບ໋ອກກຸ່ມ",
         "description": "This is a button to block a group"
     },
+    "ConversationDetailsActions--leave-group-must-choose-new-admin": {
+        "message": "Before you leave, you must choose at least one new admin for this group.",
+        "description": "Shown if, before leaving a group, you need to choose an admin"
+    },
     "ConversationDetailsActions--leave-group-modal-title": {
-        "message": "Do you really want to leave?",
+        "message": "ທ່ານຕ້ອງການທີ ຈະອອກຈາກກຸ່ມບໍ່?",
         "description": "This is the modal title for confirming leaving a group"
     },
     "ConversationDetailsActions--leave-group-modal-content": {
-        "message": "You will no longer be able to send or receive messages in this group.",
+        "message": "ທ່ານຈະບໍ່ສາມາດ ສົ່ງ ຫຼື ຈົນກວ່າ ຈະໄດ້ຮັບຂໍ້ຄວາມ ໃນກຸ່ມນີ້.",
         "description": "This is the modal content for confirming leaving a group"
     },
     "ConversationDetailsActions--leave-group-modal-confirm": {
-        "message": "Leave",
+        "message": "ອອກຈາກ",
         "description": "This is the modal button to confirm leaving a group"
     },
     "ConversationDetailsActions--block-group-modal-title": {
-        "message": "Block and Leave the \"$groupName$\" Group?",
+        "message": "ບ໋ອກ ແລະ ອອກຈາກ \"$groupName$\" ກຸ່ມ?",
         "description": "This is the modal title for confirming blocking a group",
         "placeholders": {
             "groupName": {
@@ -4664,7 +4962,7 @@
         }
     },
     "ConversationDetailsActions--block-group-modal-content": {
-        "message": "You will no longer receive messages or updates from this group.",
+        "message": "ທ່ານຈະບໍ່ໄດ້ຮັບ ຂໍ້ຄວາມ ຫຼື ການອັບ ຈາກກຸ່ມນີ້.",
         "description": "This is the modal content for confirming blocking a group"
     },
     "ConversationDetailsActions--block-group-modal-confirm": {
@@ -4672,7 +4970,7 @@
         "description": "This is the modal button to confirm blocking a group"
     },
     "ConversationDetailsHeader--members": {
-        "message": "$number$ members",
+        "message": "$number$ ສະມາຊີກ",
         "description": "This is the number of members in a group",
         "placeholders": {
             "number": {
@@ -4682,15 +4980,15 @@
         }
     },
     "ConversationDetailsMediaList--shared-media": {
-        "message": "Shared media",
+        "message": "ການແບ່ງປັນ ຂໍມູນຂາວສານ",
         "description": "Title for the media thumbnails in the conversation details screen"
     },
     "ConversationDetailsMediaList--show-all": {
-        "message": "See all",
+        "message": "ເຫັນທັງໝົດ",
         "description": "This is a button on the conversation details to show all media"
     },
     "ConversationDetailsMembershipList--title": {
-        "message": "$number$ members",
+        "message": "$number$ ສະມາຊີກ",
         "description": "The title of the membership list panel",
         "placeholders": {
             "number": {
@@ -4699,36 +4997,40 @@
             }
         }
     },
+    "ConversationDetailsMembershipList--add-members": {
+        "message": "Add members",
+        "description": "The button that you can click to add new members"
+    },
     "ConversationDetailsMembershipList--show-all": {
-        "message": "See all",
+        "message": "ເຫັນທັງໝົດ",
         "description": "This is a button on the conversation details to show all members"
     },
     "GroupLinkManagement--clipboard": {
-        "message": "Group link copied.",
+        "message": "ກ໋ອບປີ້ ລີ່ງກຸ່ມ",
         "description": "Shown in a toast when a user selects to copy group link"
     },
     "GroupLinkManagement--share": {
-        "message": "Copy link",
+        "message": "ກ໋ອບປິ້ລີ່ງ",
         "description": "This lets users share their group link"
     },
     "GroupLinkManagement--confirm-reset": {
-        "message": "Are you sure you want to reset the group link? People will no longer be able to join the group using the current link.",
+        "message": "ທ່ານແນ່ໄຈ ແລ້ວບໍວ່າ ທ່ານຕ້ອງການຕັ້ງ ກຸ່ມລີ່ງນີ້ຄືນໄໝ່? ຜູ້ຄົນຈະບໍສາມາດ ເຂົ້າຮ່ວມ ໂດຍການໄຊ້ລີ້ງ ເຊື່ອມຕໍ່",
         "description": "Shown in the confirmation dialog when an admin is about to reset the group link"
     },
     "GroupLinkManagement--reset": {
-        "message": "Reset link",
+        "message": "ຕິດຕັ້ງເຄືອງ ລີ່ງໄໝ່",
         "description": "This lets users generate a new group link"
     },
     "GroupLinkManagement--approve-label": {
-        "message": "Approve new members",
+        "message": "ອານຸຍາດ ໄຫ້ສະມາຊີກໄໝ່",
         "description": "Title for the approve new members select area"
     },
     "GroupLinkManagement--approve-info": {
-        "message": "Require an admin to approve new members joining via the group link",
+        "message": "ຜູ້ບໍລີຫານ ໄດ້ອານຸຍາດ ໄຫ້ສຳມະຊີກໄໝ່ ເຂົ້າຮ່ວມທາງ ກຸ່ມຂອງລີ່ງ",
         "description": "Description for the approve new members select area"
     },
     "PendingInvites--tab-requests": {
-        "message": "Requests ($count$)",
+        "message": "ຄຳຂໍຮ້ອງ ($count$)",
         "description": "Label for the tab to view pending requests",
         "placeholders": {
             "name": {
@@ -4738,7 +5040,7 @@
         }
     },
     "PendingInvites--tab-invites": {
-        "message": "Invites ($count$)",
+        "message": "ການເຊືອເຊີນ ($count$)",
         "description": "Label for the tab to view pending invites",
         "placeholders": {
             "name": {
@@ -4748,7 +5050,7 @@
         }
     },
     "PendingRequests--approve-for": {
-        "message": "Approve request from \"$name$\"?",
+        "message": "ຄຳຂໍຮ້ອງ ໄດ້ອານຸຍາດຈາກ \"$name$\"?",
         "description": "This is the modal content when confirming approving a group request to join",
         "placeholders": {
             "name": {
@@ -4758,7 +5060,7 @@
         }
     },
     "PendingRequests--deny-for": {
-        "message": "Deny request from \"$name$\"?",
+        "message": "ຄຳຂໍຮ້ອງ ໄດ້ປະຕິເສດ ຈາກ\"$name$\"?",
         "description": "This is the modal content when confirming denying a group request to join",
         "placeholders": {
             "name": {
@@ -4768,19 +5070,19 @@
         }
     },
     "PendingInvites--invites": {
-        "message": "Invited by you",
+        "message": "ໄດ້ເຊືອເຊີນ ຈາກທ່ານ",
         "description": "This is the title list of all invites"
     },
     "PendingInvites--invited-by-you": {
-        "message": "Invited by you",
+        "message": "ໄດ້ເຊືອເຊີນ ຈາກທ່ານ",
         "description": "This is the title for the list of members you have invited"
     },
     "PendingInvites--invited-by-others": {
-        "message": "Invited by others",
+        "message": "ໄດ້ເຊືອເຊີນ ຈາກຄົນອື່ນ",
         "description": "This is the title for the list of members who have invited other people"
     },
     "PendingInvites--invited-count": {
-        "message": "Invited $number$",
+        "message": "ເຊືອເຊີນ $number$",
         "description": "This is the label for the number of members someone has invited",
         "placeholders": {
             "number": {
@@ -4790,11 +5092,11 @@
         }
     },
     "PendingInvites--revoke-for-label": {
-        "message": "Revoke group invite",
+        "message": "ຖອນຕົວ ຈາກການເຊືອເຊີນ ກຸ່ມ",
         "description": "This is aria label for revoking a group invite icon"
     },
     "PendingInvites--revoke-for": {
-        "message": "Revoke group invite for \"$name$\"?",
+        "message": "ຖອນຕົວຈາກການ ເຊືອເຊີນກຸ່ມ ສຳລັບ \"$name$\"?",
         "description": "This is the modal content when confirming revoking a single invite",
         "placeholders": {
             "number": {
@@ -4808,7 +5110,7 @@
         }
     },
     "PendingInvites--revoke-from-singular": {
-        "message": "Revoke 1 invite sent by \"$name$\"?",
+        "message": "ຖອນຕົວ 1 ການເຊືອເຊີນ ສົ່ງຈາກ \"$name$\"?",
         "description": "This is the modal content when confirming revoking a single invite",
         "placeholders": {
             "name": {
@@ -4818,7 +5120,7 @@
         }
     },
     "PendingInvites--revoke-from-plural": {
-        "message": "Revoke $number$ invites sent by \"$name$\"",
+        "message": "ຖອນຕົວ $number$ ການເຊືອເຊີນຈາກ \"$name$\"",
         "description": "This is the modal content when confirming revoking multiple invites",
         "placeholders": {
             "number": {
@@ -4832,19 +5134,19 @@
         }
     },
     "PendingInvites--revoke": {
-        "message": "Revoke",
+        "message": "ຖອນຕົວ",
         "description": "This is the modal button to confirm revoking invites"
     },
     "PendingRequests--approve": {
-        "message": "Approve Request",
+        "message": "ຄຳຂໍຮ້ອງ ການອານຸຍາດ ",
         "description": "This is the modal button to approve group request to join"
     },
     "PendingRequests--deny": {
-        "message": "Deny Request",
+        "message": "ປະຕິເສດ ຄຳຂໍຮ້ອງ",
         "description": "This is the modal button to deny group request to join"
     },
     "PendingRequests--info": {
-        "message": "People on this list are attempting to join \"$name$\" via the group link.",
+        "message": "ຜູ້ຢູ່ໄນລາຍຊື່ ແມ່ນພາຍາຍາມ ເຂົ້າຮ່ວມ \" $name$\" ທາງຂອງກຸ່ມລີ່ງ.",
         "description": "Inforamtion shown below the pending admin approval list",
         "placeholders": {
             "name": {
@@ -4856,5 +5158,467 @@
     "PendingInvites--info": {
         "message": "Details about people invited to this group aren’t shown until they join. Invitees will only see messages after they join the group.",
         "description": "Information shown below the invite list"
+    },
+    "AvatarInput--no-photo-label--group": {
+        "message": "Add a group photo",
+        "description": "The label for the avatar uploader when no group photo is selected"
+    },
+    "AvatarInput--change-photo-label": {
+        "message": "Change photo",
+        "description": "The label for the avatar uploader when a photo is selected"
+    },
+    "AvatarInput--upload-photo-choice": {
+        "message": "Upload photo",
+        "description": "The button text when you click on an uploaded avatar and want to upload a new one"
+    },
+    "AvatarInput--remove-photo-choice": {
+        "message": "Remove photo",
+        "description": "The button text when you click on an uploaded avatar and want to remove it"
+    },
+    "ContactPill--remove": {
+        "message": "Remove contact",
+        "description": "The label for the 'remove' button on the contact pill"
+    },
+    "ComposeErrorDialog--close": {
+        "message": "ໂອເຄ",
+        "description": "The text on the button when there's an error in the composer"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--title--one": {
+        "message": "Invitation sent",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--title--many": {
+        "message": "$count$ invitations sent",
+        "description": "When creating a new group and inviting users, this is shown in the dialog",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--one": {
+        "message": "$name$ can’t be automatically added to this group by you.",
+        "description": "When creating a new group and inviting users, this is shown in the dialog",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Jane Doe"
+            }
+        }
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--many": {
+        "message": "These users can’t be automatically added to this group by you.",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--info-paragraph": {
+        "message": "They’ve been invited to join, and won’t see any group messages until they accept.",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--learn-more": {
+        "message": "Learn more",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "AddGroupMembersModal--title": {
+        "message": "Add members",
+        "description": "When adding new members to an existing group, this is shown in the dialog"
+    },
+    "AddGroupMembersModal--continue-to-confirm": {
+        "message": "Update",
+        "description": "When adding new members to an existing group, this is shown in the dialog"
+    },
+    "AddGroupMembersModal--confirm-title--one": {
+        "message": "Add $person$ to \"$group$\"?",
+        "description": "When adding new members to an existing group, this is shown in the confirmation dialog",
+        "placeholders": {
+            "person": {
+                "content": "$1",
+                "example": "Jane Doe"
+            },
+            "group": {
+                "content": "$2",
+                "example": "Tahoe Trip"
+            }
+        }
+    },
+    "AddGroupMembersModal--confirm-title--many": {
+        "message": "Add $count$ members to \"$group$\"?",
+        "description": "When adding new members to an existing group, this is shown in the confirmation dialog",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "5"
+            },
+            "group": {
+                "content": "$2",
+                "example": "Tahoe Trip"
+            }
+        }
+    },
+    "AddGroupMembersModal--confirm-button--one": {
+        "message": "Add member",
+        "description": "When adding new members to an existing group, this is shown on the confirmation dialog button"
+    },
+    "AddGroupMembersModal--confirm-button--many": {
+        "message": "Add members",
+        "description": "When adding new members to an existing group, this is shown on the confirmation dialog button"
+    },
+    "createNewGroupButton": {
+        "message": "New group",
+        "description": "The text of the button to create new groups"
+    },
+    "selectContact": {
+        "message": "Select contact",
+        "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)"
+    },
+    "deselectContact": {
+        "message": "De-select contact",
+        "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)"
+    },
+    "cannotSelectContact": {
+        "message": "Cannot select contact",
+        "description": "The label for contact checkboxes that are disabled"
+    },
+    "alreadyAMember": {
+        "message": "Already a member",
+        "description": "The label for contact checkboxes that are disabled because they're already a member"
+    },
+    "MessageAudio--play": {
+        "message": "Play audio attachment",
+        "description": "Aria label for audio attachment's Play button"
+    },
+    "MessageAudio--pause": {
+        "message": "Pause audio attachment",
+        "description": "Aria label for audio attachment's Pause button"
+    },
+    "MessageAudio--download": {
+        "message": "Download audio attachment",
+        "description": "Aria label for audio attachment's Download button"
+    },
+    "MessageAudio--pending": {
+        "message": "Downloading audio attachment...",
+        "description": "Aria label for pending audio attachment spinner"
+    },
+    "MessageAudio--slider": {
+        "message": "Playback time of audio attachment",
+        "description": "Aria label for audio attachment's playback time slider"
+    },
+    "emptyInboxMessage": {
+        "message": "Click the $composeIcon$ above and search for your contacts or groups to message.",
+        "description": "Shown in the left-pane when the inbox is empty",
+        "placeholders": {
+            "composeIcon": {
+                "content": "$1",
+                "example": "compose button"
+            }
+        }
+    },
+    "composeIcon": {
+        "message": "compose button",
+        "description": "Shown in the left-pane when the inbox is empty. Describes the button that composes a new message."
+    },
+    "ForwardMessageModal--continue": {
+        "message": "ສືບຕໍ່",
+        "description": "aria-label for the 'next' button in the forward a message modal dialog"
+    },
+    "MessageRequestWarning__learn-more": {
+        "message": "Learn more",
+        "description": "Shown on the message request warning. Clicking this button will open a dialog with more information"
+    },
+    "MessageRequestWarning__dialog__details": {
+        "message": "You have no groups in common with this person. Review requests carefully before accepting to avoid unwanted messages.",
+        "description": "Shown in the message request warning dialog. Gives more information about message requests"
+    },
+    "MessageRequestWarning__dialog__learn-even-more": {
+        "message": "About Message Requests",
+        "description": "Shown in the message request warning dialog. Clicking this button will open a page on Signal's support site"
+    },
+    "ContactSpoofing__same-name": {
+        "message": "Review requests carefully. Signal found another contact with the same name. $link$",
+        "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else",
+        "placeholders": {
+            "link": {
+                "content": "$1",
+                "example": "Review request"
+            }
+        }
+    },
+    "ContactSpoofing__same-name-in-group": {
+        "message": "$count$ group members have the same name. $link$",
+        "description": "Shown in the timeline warning when you multiple group members have the same name",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "3"
+            },
+            "link": {
+                "content": "$2",
+                "example": "Tap to review"
+            }
+        }
+    },
+    "ContactSpoofing__same-name__link": {
+        "message": "Review request",
+        "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else"
+    },
+    "ContactSpoofing__same-name-in-group__link": {
+        "message": "Click to review",
+        "description": "Shown in the timeline warning when you multiple group members have the same name"
+    },
+    "ContactSpoofingReviewDialog__title": {
+        "message": "Review request",
+        "description": "Title for the contact name spoofing review dialog"
+    },
+    "ContactSpoofingReviewDialog__description": {
+        "message": "If you're not sure who the request is from, review the contacts below and take action.",
+        "description": "Description for the contact spoofing review dialog"
+    },
+    "ContactSpoofingReviewDialog__possibly-unsafe-title": {
+        "message": "Request",
+        "description": "Header in the contact spoofing review dialog, shown above the potentially-unsafe user"
+    },
+    "ContactSpoofingReviewDialog__safe-title": {
+        "message": "Your contact",
+        "description": "Header in the contact spoofing review dialog, shown above the \"safe\" user"
+    },
+    "ContactSpoofingReviewDialog__group__title": {
+        "message": "Review members",
+        "description": "Title for the contact name spoofing review dialog in groups"
+    },
+    "ContactSpoofingReviewDialog__group__description": {
+        "message": "$count$ group members have similar names. Review the members below or choose to take action.",
+        "description": "Description for the group contact spoofing review dialog"
+    },
+    "ContactSpoofingReviewDialog__group__members-header": {
+        "message": "Members",
+        "description": "Header in the group contact spoofing review dialog. After this header, there will be a list of members"
+    },
+    "ContactSpoofingReviewDialog__group__name-change-info": {
+        "message": "Recently changed their profile name from $oldName$ to $newName$",
+        "description": "In the group contact spoofing review dialog, this text is shown when someone has changed their name recently",
+        "placeholders": {
+            "oldName": {
+                "content": "$1",
+                "example": "Jane Doe"
+            },
+            "newName": {
+                "content": "$2",
+                "example": "Doe Jane"
+            }
+        }
+    },
+    "RemoveGroupMemberConfirmation__remove-button": {
+        "message": "ຍ້າຍອອກຈາກກຸ່ມ",
+        "description": "When confirming the removal of a group member, show this text in the button"
+    },
+    "RemoveGroupMemberConfirmation__description": {
+        "message": "Remove \"$name$\" from the group?",
+        "description": "When confirming the removal of a group member, show this text in the dialog",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Jane Doe"
+            }
+        }
+    },
+    "CaptchaDialog__title": {
+        "message": "Verify to continue messaging",
+        "description": "Header in the captcha dialog"
+    },
+    "CaptchaDialog__first-paragraph": {
+        "message": "To help prevent spam on Signal, please complete verification.",
+        "description": "First paragraph in the captcha dialog"
+    },
+    "CaptchaDialog__second-paragraph": {
+        "message": "After verifying, you can continue messaging. Any paused messages will automatically be sent.",
+        "description": "First paragraph in the captcha dialog"
+    },
+    "CaptchaDialog--can-close__title": {
+        "message": "Continue Without Verifying?",
+        "description": "Header in the captcha dialog that can be closed"
+    },
+    "CaptchaDialog--can-close__body": {
+        "message": "If you choose to skip verification, you may miss messages from other people and your messages may fail to send.",
+        "description": "Body of the captcha dialog that can be closed"
+    },
+    "CaptchaDialog--can_close__skip-verification": {
+        "message": "Skip verification",
+        "description": "Skip button of the captcha dialog that can be closed"
+    },
+    "verificationComplete": {
+        "message": "Verification complete.",
+        "description": "Displayed after successful captcha"
+    },
+    "verificationFailed": {
+        "message": "Verification failed. Please retry later.",
+        "description": "Displayed after unsuccessful captcha"
+    },
+    "deleteForEveryoneFailed": {
+        "message": "Failed to delete message for everyone. Please retry later.",
+        "description": "Displayed when delete-for-everyone has failed to send to all recepients"
+    },
+    "ChatColorPicker__delete--title": {
+        "message": "Delete color",
+        "description": "Confirm title for deleting custom color"
+    },
+    "ChatColorPicker__delete--message": {
+        "message": "This custom color is used in $num$ chats. Do you want to delete it for all chats?",
+        "description": "Confirm message for deleting custom color",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "ChatColorPicker__global-chat-color": {
+        "message": "Global Chat Color",
+        "description": "Modal title for the chat color picker and editor for all conversations"
+    },
+    "ChatColorPicker__menu-title": {
+        "message": "Chat Color",
+        "description": "View title for the chat color picker and editor"
+    },
+    "ChatColorPicker__reset": {
+        "message": "Reset chat color",
+        "description": "Button label for resetting chat colors"
+    },
+    "ChatColorPicker__resetDefault": {
+        "message": "Reset Chat Colors",
+        "description": "Confirmation dialog title for resetting all chat colors or only the global default one"
+    },
+    "ChatColorPicker__resetAll": {
+        "message": "Reset all chat colors",
+        "description": "Button label for resetting all chat colors"
+    },
+    "ChatColorPicker__confirm-reset-default": {
+        "message": "Reset default",
+        "description": "Button label for resetting only global chat color"
+    },
+    "ChatColorPicker__confirm-reset": {
+        "message": "Reset",
+        "description": "Confirm button label for resetting chat colors"
+    },
+    "ChatColorPicker__confirm-reset-message": {
+        "message": "Would you like to override all chat colors?",
+        "description": "Modal message text for confirming resetting of chat colors"
+    },
+    "ChatColorPicker__custom-color--label": {
+        "message": "Show custom color editor",
+        "description": "aria-label for custom color editor button"
+    },
+    "ChatColorPicker__sampleBubble1": {
+        "message": "Here's a preview of the chat color.",
+        "description": "An example message bubble for selecting the chat color"
+    },
+    "ChatColorPicker__sampleBubble2": {
+        "message": "Another bubble.",
+        "description": "An example message bubble for selecting the chat color"
+    },
+    "ChatColorPicker__sampleBubble3": {
+        "message": "The color is visible to only you.",
+        "description": "An example message bubble for selecting the chat color"
+    },
+    "ChatColorPicker__context--edit": {
+        "message": "Edit color",
+        "description": "Option in the custom color bubble context menu"
+    },
+    "ChatColorPicker__context--duplicate": {
+        "message": "Duplicate",
+        "description": "Option in the custom color bubble context menu"
+    },
+    "ChatColorPicker__context--delete": {
+        "message": "ລົບ",
+        "description": "Option in the custom color bubble context menu"
+    },
+    "CustomColorEditor__solid": {
+        "message": "Solid",
+        "description": "Tab label for selecting solid colors"
+    },
+    "CustomColorEditor__gradient": {
+        "message": "Gradient",
+        "description": "Tab label for selecting a gradient"
+    },
+    "CustomColorEditor__hue": {
+        "message": "Hue",
+        "description": "Label for the hue slider"
+    },
+    "CustomColorEditor__saturation": {
+        "message": "Saturation",
+        "description": "Label for the saturation slider"
+    },
+    "CustomColorEditor__title": {
+        "message": "Custom Color",
+        "description": "Modal title for the custom color editor"
+    },
+    "customDisappearingTimeOption": {
+        "message": "Custom time...",
+        "description": "Text for an option in Disappearing Messages menu and Conversation Details Disappearing Messages setting when no user value is available"
+    },
+    "selectedCustomDisappearingTimeOption": {
+        "message": "Custom time",
+        "description": "Text for an option in Conversation Details Disappearing Messages setting when user previously selected custom time"
+    },
+    "DisappearingTimeDialog__title": {
+        "message": "Custom Time",
+        "description": "Title for the custom disappearing message timeout dialog"
+    },
+    "DisappearingTimeDialog__body": {
+        "message": "Choose a custom time for disappearing messages.",
+        "description": "Body for the custom disappearing message timeout dialog"
+    },
+    "DisappearingTimeDialog__set": {
+        "message": "Set",
+        "description": "Text for the dialog button confirming the custom disappearing message timeout"
+    },
+    "DisappearingTimeDialog__seconds": {
+        "message": "Seconds",
+        "description": "Name of the 'seconds' unit select for the custom disappearing message timeout dialog"
+    },
+    "DisappearingTimeDialog__minutes": {
+        "message": "Minutes",
+        "description": "Name of the 'minutes' unit select for the custom disappearing message timeout dialog"
+    },
+    "DisappearingTimeDialog__hours": {
+        "message": "Hours",
+        "description": "Name of the 'hours' unit select for the custom disappearing message timeout dialog"
+    },
+    "DisappearingTimeDialog__days": {
+        "message": "Days",
+        "description": "Name of the 'days' unit select for the custom disappearing message timeout dialog"
+    },
+    "DisappearingTimeDialog__weeks": {
+        "message": "Weeks",
+        "description": "Name of the 'weeks' unit select for the custom disappearing message timeout dialog"
+    },
+    "settings__DisappearingMessages__footer": {
+        "message": "Set a default disappearing message timer for all new chats started by you.",
+        "description": "Footer for the Disappearing Messages settings section"
+    },
+    "settings__DisappearingMessages__timer__label": {
+        "message": "Default timer for new chats",
+        "description": "Label for the Disapearring Messages default timer setting"
+    },
+    "UniversalTimerNotification__text": {
+        "message": "The disappearing message time will be set to $timeValue$ when you message them.",
+        "description": "A message displayed when default disappearing message timeout is about to be applied",
+        "placeholders": {
+            "timeValue": {
+                "content": "$1",
+                "example": "1 week"
+            }
+        }
+    },
+    "GroupDescription__read-more": {
+        "message": "read more",
+        "description": "Button text when the group description is too long"
+    },
+    "EditConversationAttributesModal__description-warning": {
+        "message": "Group descriptions will be visible to members of this group and people who have been invited.",
+        "description": "Label text shown when editing group description"
+    },
+    "ConversationDetailsHeader--add-group-description": {
+        "message": "Add group description...",
+        "description": "Placeholder text in the details header for those that can edit the group description"
     }
 }

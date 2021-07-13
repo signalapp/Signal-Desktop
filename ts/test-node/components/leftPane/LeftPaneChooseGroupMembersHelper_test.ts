@@ -4,10 +4,10 @@
 import { assert } from 'chai';
 import * as sinon from 'sinon';
 import { times } from 'lodash';
-import { v4 as uuid } from 'uuid';
 import { RowType } from '../../../components/ConversationList';
 import * as remoteConfig from '../../../RemoteConfig';
 import { ContactCheckboxDisabledReason } from '../../../components/conversationList/ContactCheckbox';
+import { getDefaultConversation } from '../../../test-both/helpers/getDefaultConversation';
 
 import { LeftPaneChooseGroupMembersHelper } from '../../../components/leftPane/LeftPaneChooseGroupMembersHelper';
 
@@ -20,13 +20,6 @@ describe('LeftPaneChooseGroupMembersHelper', () => {
     searchTerm: '',
     selectedContacts: [],
   };
-
-  const fakeContact = () => ({
-    id: uuid(),
-    isGroupV2Capable: true,
-    title: uuid(),
-    type: 'direct' as const,
-  });
 
   let sinonSandbox: sinon.SinonSandbox;
 
@@ -64,7 +57,7 @@ describe('LeftPaneChooseGroupMembersHelper', () => {
           ...defaults,
           candidateContacts: [],
           searchTerm: '',
-          selectedContacts: [fakeContact()],
+          selectedContacts: [getDefaultConversation()],
         }).getRowCount(),
         0
       );
@@ -73,7 +66,7 @@ describe('LeftPaneChooseGroupMembersHelper', () => {
           ...defaults,
           candidateContacts: [],
           searchTerm: 'foo bar',
-          selectedContacts: [fakeContact()],
+          selectedContacts: [getDefaultConversation()],
         }).getRowCount(),
         0
       );
@@ -83,9 +76,12 @@ describe('LeftPaneChooseGroupMembersHelper', () => {
       assert.strictEqual(
         new LeftPaneChooseGroupMembersHelper({
           ...defaults,
-          candidateContacts: [fakeContact(), fakeContact()],
+          candidateContacts: [
+            getDefaultConversation(),
+            getDefaultConversation(),
+          ],
           searchTerm: '',
-          selectedContacts: [fakeContact()],
+          selectedContacts: [getDefaultConversation()],
         }).getRowCount(),
         4
       );
@@ -99,7 +95,7 @@ describe('LeftPaneChooseGroupMembersHelper', () => {
           ...defaults,
           candidateContacts: [],
           searchTerm: '',
-          selectedContacts: [fakeContact()],
+          selectedContacts: [getDefaultConversation()],
         }).getRow(0)
       );
       assert.isUndefined(
@@ -107,7 +103,7 @@ describe('LeftPaneChooseGroupMembersHelper', () => {
           ...defaults,
           candidateContacts: [],
           searchTerm: '',
-          selectedContacts: [fakeContact()],
+          selectedContacts: [getDefaultConversation()],
         }).getRow(99)
       );
       assert.isUndefined(
@@ -115,13 +111,16 @@ describe('LeftPaneChooseGroupMembersHelper', () => {
           ...defaults,
           candidateContacts: [],
           searchTerm: 'foo bar',
-          selectedContacts: [fakeContact()],
+          selectedContacts: [getDefaultConversation()],
         }).getRow(0)
       );
     });
 
     it('returns a header, then the contacts, then a blank space if there are contacts', () => {
-      const candidateContacts = [fakeContact(), fakeContact()];
+      const candidateContacts = [
+        getDefaultConversation(),
+        getDefaultConversation(),
+      ];
       const helper = new LeftPaneChooseGroupMembersHelper({
         ...defaults,
         candidateContacts,
@@ -149,7 +148,7 @@ describe('LeftPaneChooseGroupMembersHelper', () => {
     });
 
     it("disables non-selected contact checkboxes if you've selected the maximum number of contacts", () => {
-      const candidateContacts = times(50, () => fakeContact());
+      const candidateContacts = times(50, () => getDefaultConversation());
       const helper = new LeftPaneChooseGroupMembersHelper({
         ...defaults,
         candidateContacts,
@@ -173,9 +172,9 @@ describe('LeftPaneChooseGroupMembersHelper', () => {
 
     it("disables contacts that aren't GV2-capable, unless they are already selected somehow", () => {
       const candidateContacts = [
-        { ...fakeContact(), isGroupV2Capable: false },
-        { ...fakeContact(), isGroupV2Capable: undefined },
-        { ...fakeContact(), isGroupV2Capable: false },
+        { ...getDefaultConversation(), isGroupV2Capable: false },
+        { ...getDefaultConversation(), isGroupV2Capable: undefined },
+        { ...getDefaultConversation(), isGroupV2Capable: false },
       ];
 
       const helper = new LeftPaneChooseGroupMembersHelper({

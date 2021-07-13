@@ -40,61 +40,63 @@ export const GroupTitleInput = forwardRef<HTMLInputElement, PropsType>(
     const selectionStartOnKeydownRef = useRef<number>(value.length);
 
     return (
-      <input
-        disabled={disabled}
-        className="module-GroupTitleInput"
-        onKeyDown={() => {
-          const inputEl = innerRef.current;
-          if (!inputEl) {
-            return;
-          }
+      <div className="module-GroupInput--container">
+        <input
+          disabled={disabled}
+          className="module-GroupInput"
+          onKeyDown={() => {
+            const inputEl = innerRef.current;
+            if (!inputEl) {
+              return;
+            }
 
-          valueOnKeydownRef.current = inputEl.value;
-          selectionStartOnKeydownRef.current = inputEl.selectionStart || 0;
-        }}
-        onChange={() => {
-          const inputEl = innerRef.current;
-          if (!inputEl) {
-            return;
-          }
+            valueOnKeydownRef.current = inputEl.value;
+            selectionStartOnKeydownRef.current = inputEl.selectionStart || 0;
+          }}
+          onChange={() => {
+            const inputEl = innerRef.current;
+            if (!inputEl) {
+              return;
+            }
 
-          const newValue = inputEl.value;
-          if (grapheme.count(newValue) <= MAX_GRAPHEME_COUNT) {
-            onChangeValue(newValue);
-          } else {
-            inputEl.value = valueOnKeydownRef.current;
-            inputEl.selectionStart = selectionStartOnKeydownRef.current;
-            inputEl.selectionEnd = selectionStartOnKeydownRef.current;
-          }
-        }}
-        onPaste={(event: ClipboardEvent<HTMLInputElement>) => {
-          const inputEl = innerRef.current;
-          if (!inputEl) {
-            return;
-          }
+            const newValue = inputEl.value;
+            if (grapheme.count(newValue) <= MAX_GRAPHEME_COUNT) {
+              onChangeValue(newValue);
+            } else {
+              inputEl.value = valueOnKeydownRef.current;
+              inputEl.selectionStart = selectionStartOnKeydownRef.current;
+              inputEl.selectionEnd = selectionStartOnKeydownRef.current;
+            }
+          }}
+          onPaste={(event: ClipboardEvent<HTMLInputElement>) => {
+            const inputEl = innerRef.current;
+            if (!inputEl) {
+              return;
+            }
 
-          const selectionStart = inputEl.selectionStart || 0;
-          const selectionEnd =
-            inputEl.selectionEnd || inputEl.selectionStart || 0;
-          const textBeforeSelection = value.slice(0, selectionStart);
-          const textAfterSelection = value.slice(selectionEnd);
+            const selectionStart = inputEl.selectionStart || 0;
+            const selectionEnd =
+              inputEl.selectionEnd || inputEl.selectionStart || 0;
+            const textBeforeSelection = value.slice(0, selectionStart);
+            const textAfterSelection = value.slice(selectionEnd);
 
-          const pastedText = event.clipboardData.getData('Text');
+            const pastedText = event.clipboardData.getData('Text');
 
-          const newGraphemeCount =
-            grapheme.count(textBeforeSelection) +
-            grapheme.count(pastedText) +
-            grapheme.count(textAfterSelection);
+            const newGraphemeCount =
+              grapheme.count(textBeforeSelection) +
+              grapheme.count(pastedText) +
+              grapheme.count(textAfterSelection);
 
-          if (newGraphemeCount > MAX_GRAPHEME_COUNT) {
-            event.preventDefault();
-          }
-        }}
-        placeholder={i18n('setGroupMetadata__group-name-placeholder')}
-        ref={multiRef<HTMLInputElement>(ref, innerRef)}
-        type="text"
-        value={value}
-      />
+            if (newGraphemeCount > MAX_GRAPHEME_COUNT) {
+              event.preventDefault();
+            }
+          }}
+          placeholder={i18n('setGroupMetadata__group-name-placeholder')}
+          ref={multiRef<HTMLInputElement>(ref, innerRef)}
+          type="text"
+          value={value}
+        />
+      </div>
     );
   }
 );

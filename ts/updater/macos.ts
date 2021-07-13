@@ -21,6 +21,7 @@ import {
   setUpdateListener,
   showCannotUpdateDialog,
   showUpdateDialog,
+  UpdaterInterface,
 } from './common';
 import { LocaleType } from '../types/I18N';
 import { LoggerType } from '../types/Logging';
@@ -36,7 +37,7 @@ export async function start(
   getMainWindow: () => BrowserWindow,
   locale: LocaleType,
   logger: LoggerType
-): Promise<void> {
+): Promise<UpdaterInterface> {
   logger.info('macos/start: starting checks...');
 
   loggerForQuitHandler = logger;
@@ -53,6 +54,12 @@ export async function start(
   setUpdateListener(createUpdater(logger));
 
   await checkDownloadAndInstall(getMainWindow, locale, logger);
+
+  return {
+    async force(): Promise<void> {
+      return checkDownloadAndInstall(getMainWindow, locale, logger, true);
+    },
+  };
 }
 
 let fileName: string;
@@ -63,11 +70,12 @@ let loggerForQuitHandler: LoggerType;
 async function checkDownloadAndInstall(
   getMainWindow: () => BrowserWindow,
   locale: LocaleType,
-  logger: LoggerType
+  logger: LoggerType,
+  force = false
 ) {
   logger.info('checkDownloadAndInstall: checking for update...');
   try {
-    const result = await checkForUpdates(logger);
+    const result = await checkForUpdates(logger, force);
     if (!result) {
       return;
     }
@@ -193,8 +201,10 @@ async function handToAutoUpdate(
       try {
         serverUrl = getServerUrl(server);
 
-        autoUpdater.on('error', (error: Error) => {
-          logger.error('autoUpdater: error', getPrintableError(error));
+        autoUpdater.on('error', (...args) => {
+          logger.error('autoUpdater: error', ...args.map(getPrintableError));
+
+          const [error] = args;
           reject(error);
         });
         autoUpdater.on('update-downloaded', () => {

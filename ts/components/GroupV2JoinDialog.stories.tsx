@@ -20,6 +20,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
     'approvalRequired',
     overrideProps.approvalRequired || false
   ),
+  groupDescription: overrideProps.groupDescription,
   join: action('join'),
   onClose: action('onClose'),
   i18n,
@@ -74,6 +75,21 @@ stories.add('Avatar loading state', () => {
           loading: true,
         },
         title: 'Avatar loading!',
+      })}
+    />
+  );
+});
+
+stories.add('Full', () => {
+  return (
+    <GroupV2JoinDialog
+      {...createProps({
+        avatar: {
+          url: '/fixtures/giphy-GVNvOUpeYmI7e.gif',
+        },
+        memberCount: 16,
+        groupDescription: 'Discuss meets, events, training, and recruiting.',
+        title: 'Underwater basket weavers (LA)',
       })}
     />
   );

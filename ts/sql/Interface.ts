@@ -4,7 +4,6 @@
 /* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable camelcase */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
 import {
   ConversationAttributesType,
   ConversationModelCollectionType,
@@ -13,12 +12,29 @@ import {
 } from '../model-types.d';
 import { MessageModel } from '../models/messages';
 import { ConversationModel } from '../models/conversations';
+import { StoredJob } from '../jobs/types';
+import { ReactionType } from '../types/Reactions';
+import { ConversationColorType, CustomColorType } from '../types/Colors';
+import { StorageAccessType } from '../types/Storage.d';
+import { AttachmentType } from '../types/Attachment';
+
+export type AttachmentDownloadJobTypeType =
+  | 'long-message'
+  | 'attachment'
+  | 'preview'
+  | 'contact'
+  | 'quote'
+  | 'sticker';
 
 export type AttachmentDownloadJobType = {
-  id: string;
-  timestamp: number;
-  pending: number;
+  attachment: AttachmentType;
   attempts: number;
+  id: string;
+  index: number;
+  messageId: string;
+  pending: number;
+  timestamp: number;
+  type: AttachmentDownloadJobTypeType;
 };
 export type MessageMetricsType = {
   id: string;
@@ -46,7 +62,12 @@ export type IdentityKeyType = {
   timestamp: number;
   verified: number;
 };
-export type ItemType = any;
+export type ItemKeyType = keyof StorageAccessType;
+export type AllItemsType = Partial<StorageAccessType>;
+export type ItemType<K extends ItemKeyType> = {
+  id: K;
+  value: StorageAccessType[K];
+};
 export type MessageType = MessageAttributesType;
 export type MessageTypeUnhydrated = {
   json: string;
@@ -65,11 +86,22 @@ export type ClientSearchResultMessageType = MessageType & {
   bodyRanges: [];
   snippet: string;
 };
+export type SenderKeyType = {
+  // Primary key
+  id: string;
+  // These two are combined into one string to give us the final id
+  senderId: string;
+  distributionId: string;
+  // Raw data to serialize/deserialize into signal-client SenderKeyRecord
+  data: Buffer;
+  lastUpdatedDate: number;
+};
 export type SessionType = {
   id: string;
   conversationId: string;
   deviceId: number;
   record: string;
+  version?: number;
 };
 export type SignedPreKeyType = {
   confirmed: boolean;
@@ -119,11 +151,21 @@ export type UnprocessedType = {
   timestamp: number;
   version: number;
   attempts: number;
-  envelope: string;
+  envelope?: string;
 
   source?: string;
   sourceUuid?: string;
+  sourceDevice?: number;
+  serverGuid?: string;
+  serverTimestamp?: number;
+  decrypted?: string;
+};
+
+export type UnprocessedUpdateType = {
+  source?: string;
+  sourceUuid?: string;
   sourceDevice?: string;
+  serverGuid?: string;
   serverTimestamp?: number;
   decrypted?: string;
 };
@@ -154,17 +196,24 @@ export type DataInterface = {
   removeAllSignedPreKeys: () => Promise<void>;
   getAllSignedPreKeys: () => Promise<Array<SignedPreKeyType>>;
 
-  createOrUpdateItem: (data: ItemType) => Promise<void>;
-  getItemById: (id: string) => Promise<ItemType | undefined>;
-  bulkAddItems: (array: Array<ItemType>) => Promise<void>;
-  removeItemById: (id: string) => Promise<void>;
+  createOrUpdateItem<K extends ItemKeyType>(data: ItemType<K>): Promise<void>;
+  getItemById<K extends ItemKeyType>(id: K): Promise<ItemType<K> | undefined>;
+  removeItemById: (id: ItemKeyType) => Promise<void>;
   removeAllItems: () => Promise<void>;
-  getAllItems: () => Promise<Array<ItemType>>;
+  getAllItems: () => Promise<AllItemsType>;
+
+  createOrUpdateSenderKey: (key: SenderKeyType) => Promise<void>;
+  getSenderKeyById: (id: string) => Promise<SenderKeyType | undefined>;
+  removeAllSenderKeys: () => Promise<void>;
+  getAllSenderKeys: () => Promise<Array<SenderKeyType>>;
+  removeSenderKeyById: (id: string) => Promise<void>;
 
   createOrUpdateSession: (data: SessionType) => Promise<void>;
   createOrUpdateSessions: (array: Array<SessionType>) => Promise<void>;
-  getSessionById: (id: string) => Promise<SessionType | undefined>;
-  getSessionsById: (conversationId: string) => Promise<Array<SessionType>>;
+  commitSessionsAndUnprocessed(options: {
+    sessions: Array<SessionType>;
+    unprocessed: Array<UnprocessedType>;
+  }): Promise<void>;
   bulkAddSessions: (array: Array<SessionType>) => Promise<void>;
   removeSessionById: (id: string) => Promise<void>;
   removeSessionsByConversation: (conversationId: string) => Promise<void>;
@@ -184,10 +233,7 @@ export type DataInterface = {
   ) => Promise<Array<ConversationType>>;
 
   getMessageCount: (conversationId?: string) => Promise<number>;
-  saveMessages: (
-    arrayOfMessages: Array<MessageType>,
-    options: { forceSave?: boolean }
-  ) => Promise<void>;
+  hasUserInitiatedMessages: (conversationId: string) => Promise<boolean>;
   getAllMessageIds: () => Promise<Array<string>>;
   getMessageMetricsForConversation: (
     conversationId: string
@@ -200,26 +246,19 @@ export type DataInterface = {
     obsoleteId: string,
     currentId: string
   ) => Promise<void>;
+  getNextTapToViewMessageTimestampToAgeOut: () => Promise<undefined | number>;
 
   getUnprocessedCount: () => Promise<number>;
   getAllUnprocessed: () => Promise<Array<UnprocessedType>>;
-  saveUnprocessed: (
-    data: UnprocessedType,
-    options?: { forceSave?: boolean }
-  ) => Promise<string>;
   updateUnprocessedAttempts: (id: string, attempts: number) => Promise<void>;
   updateUnprocessedWithData: (
     id: string,
-    data: UnprocessedType
+    data: UnprocessedUpdateType
   ) => Promise<void>;
   updateUnprocessedsWithData: (
-    array: Array<{ id: string; data: UnprocessedType }>
+    array: Array<{ id: string; data: UnprocessedUpdateType }>
   ) => Promise<void>;
   getUnprocessedById: (id: string) => Promise<UnprocessedType | undefined>;
-  saveUnprocesseds: (
-    arrayOfUnprocessed: Array<UnprocessedType>,
-    options?: { forceSave?: boolean }
-  ) => Promise<void>;
   removeUnprocessed: (id: string | Array<string>) => Promise<void>;
   removeAllUnprocessed: () => Promise<void>;
 
@@ -280,6 +319,25 @@ export type DataInterface = {
     conversationId: string,
     options: { limit: number }
   ) => Promise<Array<MessageType>>;
+  getMessageServerGuidsForSpam: (
+    conversationId: string
+  ) => Promise<Array<string>>;
+  getMessagesUnexpectedlyMissingExpirationStartTimestamp: () => Promise<
+    Array<MessageType>
+  >;
+  getSoonestMessageExpiry: () => Promise<undefined | number>;
+
+  getJobsInQueue(queueType: string): Promise<Array<StoredJob>>;
+  insertJob(job: Readonly<StoredJob>): Promise<void>;
+  deleteJob(id: string): Promise<void>;
+
+  updateAllConversationColors: (
+    conversationColor?: ConversationColorType,
+    customColorData?: {
+      id: string;
+      value: CustomColorType;
+    }
+  ) => Promise<void>;
 };
 
 // The reason for client/server divergence is the need to inject Backbone models and
@@ -325,13 +383,34 @@ export type ServerInterface = DataInterface & {
     conversationId: string;
     ourConversationId: string;
   }) => Promise<MessageType | undefined>;
-  getNextExpiringMessage: () => Promise<MessageType | undefined>;
-  getNextTapToViewMessageToAgeOut: () => Promise<MessageType | undefined>;
-  getOutgoingWithoutExpiresAt: () => Promise<Array<MessageType>>;
   getTapToViewMessagesNeedingErase: () => Promise<Array<MessageType>>;
-  getUnreadByConversation: (
-    conversationId: string
-  ) => Promise<Array<MessageType>>;
+  getUnreadCountForConversation: (conversationId: string) => Promise<number>;
+  getUnreadByConversationAndMarkRead: (
+    conversationId: string,
+    newestUnreadId: number,
+    readAt?: number
+  ) => Promise<
+    Array<
+      Pick<MessageType, 'id' | 'source' | 'sourceUuid' | 'sent_at' | 'type'>
+    >
+  >;
+  getUnreadReactionsAndMarkRead: (
+    conversationId: string,
+    newestUnreadId: number
+  ) => Promise<
+    Array<Pick<ReactionType, 'targetAuthorUuid' | 'targetTimestamp'>>
+  >;
+  markReactionAsRead: (
+    targetAuthorUuid: string,
+    targetTimestamp: number
+  ) => Promise<ReactionType | undefined>;
+  removeReactionFromConversation: (reaction: {
+    emoji: string;
+    fromId: string;
+    targetAuthorUuid: string;
+    targetTimestamp: number;
+  }) => Promise<void>;
+  addReaction: (reactionObj: ReactionType) => Promise<void>;
   removeConversation: (id: Array<string> | string) => Promise<void>;
   removeMessage: (id: string) => Promise<void>;
   removeMessages: (ids: Array<string>) => Promise<void>;
@@ -348,6 +427,10 @@ export type ServerInterface = DataInterface & {
     data: MessageType,
     options: { forceSave?: boolean }
   ) => Promise<string>;
+  saveMessages: (
+    arrayOfMessages: Array<MessageType>,
+    options: { forceSave?: boolean }
+  ) => Promise<void>;
   updateConversation: (data: ConversationType) => Promise<void>;
 
   // For testing only
@@ -437,22 +520,36 @@ export type ClientInterface = DataInterface & {
     ourConversationId: string;
     Message: typeof MessageModel;
   }) => Promise<MessageModel | undefined>;
-  getNextExpiringMessage: (options: {
-    Message: typeof MessageModel;
-  }) => Promise<MessageModel | null>;
-  getNextTapToViewMessageToAgeOut: (options: {
-    Message: typeof MessageModel;
-  }) => Promise<MessageModel | null>;
-  getOutgoingWithoutExpiresAt: (options: {
-    MessageCollection: typeof MessageModelCollectionType;
-  }) => Promise<MessageModelCollectionType>;
   getTapToViewMessagesNeedingErase: (options: {
     MessageCollection: typeof MessageModelCollectionType;
   }) => Promise<MessageModelCollectionType>;
-  getUnreadByConversation: (
+  getUnreadCountForConversation: (conversationId: string) => Promise<number>;
+  getUnreadByConversationAndMarkRead: (
     conversationId: string,
-    options: { MessageCollection: typeof MessageModelCollectionType }
-  ) => Promise<MessageModelCollectionType>;
+    newestUnreadId: number,
+    readAt?: number
+  ) => Promise<
+    Array<
+      Pick<MessageType, 'id' | 'source' | 'sourceUuid' | 'sent_at' | 'type'>
+    >
+  >;
+  getUnreadReactionsAndMarkRead: (
+    conversationId: string,
+    newestUnreadId: number
+  ) => Promise<
+    Array<Pick<ReactionType, 'targetAuthorUuid' | 'targetTimestamp'>>
+  >;
+  markReactionAsRead: (
+    targetAuthorUuid: string,
+    targetTimestamp: number
+  ) => Promise<ReactionType | undefined>;
+  removeReactionFromConversation: (reaction: {
+    emoji: string;
+    fromId: string;
+    targetAuthorUuid: string;
+    targetTimestamp: number;
+  }) => Promise<void>;
+  addReaction: (reactionObj: ReactionType) => Promise<void>;
   removeConversation: (
     id: string,
     options: { Conversation: typeof ConversationModel }
@@ -469,6 +566,10 @@ export type ClientInterface = DataInterface & {
     data: MessageType,
     options: { forceSave?: boolean; Message: typeof MessageModel }
   ) => Promise<string>;
+  saveMessages: (
+    arrayOfMessages: Array<MessageType>,
+    options: { forceSave?: boolean; Message: typeof MessageModel }
+  ) => Promise<void>;
   searchMessages: (
     query: string,
     options?: { limit?: number }
@@ -508,7 +609,7 @@ export type ClientInterface = DataInterface & {
   // These are defined on the server-only and used in the client to determine
   // whether we should use IPC to use the database in the main process or
   // use the db already running in the renderer.
-  goBackToMainProcess: () => void;
+  goBackToMainProcess: () => Promise<void>;
 };
 
 export type ClientJobType = {

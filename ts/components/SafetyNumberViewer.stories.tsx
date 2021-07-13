@@ -22,7 +22,7 @@ const contactWithAllData = {
 
 const contactWithJustProfile = {
   avatarPath: undefined,
-  color: 'signal-blue',
+  color: 'ultramarine',
   title: '-*Smartest Dude*-',
   profileName: '-*Smartest Dude*-',
   name: undefined,
@@ -31,7 +31,7 @@ const contactWithJustProfile = {
 
 const contactWithJustNumber = {
   avatarPath: undefined,
-  color: 'signal-blue',
+  color: 'ultramarine',
   profileName: undefined,
   name: undefined,
   title: '(305) 123-4567',
@@ -41,7 +41,7 @@ const contactWithJustNumber = {
 const contactWithNothing = {
   id: 'some-guid',
   avatarPath: undefined,
-  color: 'signal-blue',
+  color: 'ultramarine',
   profileName: undefined,
   title: 'Unknown contact',
   name: undefined,

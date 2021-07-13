@@ -24,15 +24,18 @@ import {
   keyBy,
   last,
   map,
-  pick,
   omit,
+  pick,
 } from 'lodash';
 
-import { assert } from '../util/assert';
-import { isNormalNumber } from '../util/isNormalNumber';
-import { combineNames } from '../util/combineNames';
-
 import { GroupV2MemberType } from '../model-types.d';
+import { ReactionType } from '../types/Reactions';
+import { StoredJob } from '../jobs/types';
+import { assert } from '../util/assert';
+import { combineNames } from '../util/combineNames';
+import { isNormalNumber } from '../util/isNormalNumber';
+import { isNotNil } from '../util/isNotNil';
+import { ConversationColorType, CustomColorType } from '../types/Colors';
 
 import {
   AttachmentDownloadJobType,
@@ -40,12 +43,15 @@ import {
   ConversationType,
   EmojiType,
   IdentityKeyType,
+  AllItemsType,
+  ItemKeyType,
   ItemType,
   MessageType,
   MessageTypeUnhydrated,
   MessageMetricsType,
   PreKeyType,
   SearchResultMessageType,
+  SenderKeyType,
   ServerInterface,
   SessionType,
   SignedPreKeyType,
@@ -53,6 +59,7 @@ import {
   StickerPackType,
   StickerType,
   UnprocessedType,
+  UnprocessedUpdateType,
 } from './Interface';
 
 declare global {
@@ -82,7 +89,10 @@ type StickerRow = Readonly<{
 
 type EmptyQuery = [];
 type ArrayQuery = Array<Array<null | number | string>>;
-type Query = { [key: string]: null | number | string };
+type Query = { [key: string]: null | number | string | Buffer };
+
+// This value needs to be below SQLITE_MAX_VARIABLE_NUMBER.
+const MAX_VARIABLE_COUNT = 100;
 
 // Because we can't force this module to conform to an interface, we narrow our exports
 //   to this one default export, which does conform to the interface.
@@ -117,14 +127,18 @@ const dataInterface: ServerInterface = {
   createOrUpdateItem,
   getItemById,
   getAllItems,
-  bulkAddItems,
   removeItemById,
   removeAllItems,
 
+  createOrUpdateSenderKey,
+  getSenderKeyById,
+  removeAllSenderKeys,
+  getAllSenderKeys,
+  removeSenderKeyById,
+
   createOrUpdateSession,
   createOrUpdateSessions,
-  getSessionById,
-  getSessionsById,
+  commitSessionsAndUnprocessed,
   bulkAddSessions,
   removeSessionById,
   removeSessionsByConversation,
@@ -143,26 +157,33 @@ const dataInterface: ServerInterface = {
   getAllConversationIds,
   getAllPrivateConversations,
   getAllGroupsInvolvingId,
+  updateAllConversationColors,
 
   searchConversations,
   searchMessages,
   searchMessagesInConversation,
 
   getMessageCount,
+  hasUserInitiatedMessages,
   saveMessage,
   saveMessages,
   removeMessage,
   removeMessages,
-  getUnreadByConversation,
+  getUnreadCountForConversation,
+  getUnreadByConversationAndMarkRead,
+  getUnreadReactionsAndMarkRead,
+  markReactionAsRead,
+  addReaction,
+  removeReactionFromConversation,
   getMessageBySender,
   getMessageById,
   _getAllMessages,
   getAllMessageIds,
   getMessagesBySentAt,
   getExpiredMessages,
-  getOutgoingWithoutExpiresAt,
-  getNextExpiringMessage,
-  getNextTapToViewMessageToAgeOut,
+  getMessagesUnexpectedlyMissingExpirationStartTimestamp,
+  getSoonestMessageExpiry,
+  getNextTapToViewMessageTimestampToAgeOut,
   getTapToViewMessagesNeedingErase,
   getOlderMessagesByConversation,
   getNewerMessagesByConversation,
@@ -174,12 +195,10 @@ const dataInterface: ServerInterface = {
 
   getUnprocessedCount,
   getAllUnprocessed,
-  saveUnprocessed,
   updateUnprocessedAttempts,
   updateUnprocessedWithData,
   updateUnprocessedsWithData,
   getUnprocessedById,
-  saveUnprocesseds,
   removeUnprocessed,
   removeAllUnprocessed,
 
@@ -212,6 +231,11 @@ const dataInterface: ServerInterface = {
   getMessagesNeedingUpgrade,
   getMessagesWithVisualMediaAttachments,
   getMessagesWithFileAttachments,
+  getMessageServerGuidsForSpam,
+
+  getJobsInQueue,
+  insertJob,
+  deleteJob,
 
   // Server-only
 
@@ -242,6 +266,10 @@ function prepare(db: Database, query: string): Statement<Query> {
   }
 
   return result;
+}
+
+function assertSync<T, X>(value: T extends Promise<X> ? never : T): T {
+  return value;
 }
 
 function objectToJSON(data: any) {
@@ -305,10 +333,11 @@ function setUserVersion(db: Database, version: number): void {
 function keyDatabase(db: Database, key: string): void {
   // https://www.zetetic.net/sqlcipher/sqlcipher-api/#key
   db.pragma(`key = "x'${key}'"`);
-
+}
+function switchToWAL(db: Database): void {
   // https://sqlite.org/wal.html
   db.pragma('journal_mode = WAL');
-  db.pragma('synchronous = NORMAL');
+  db.pragma('synchronous = FULL');
 }
 function getUserVersion(db: Database): number {
   return db.pragma('user_version', { simple: true });
@@ -360,6 +389,7 @@ function openAndMigrateDatabase(filePath: string, key: string) {
   try {
     db = new SQL(filePath);
     keyDatabase(db, key);
+    switchToWAL(db);
     migrateSchemaVersion(db);
 
     return db;
@@ -386,6 +416,7 @@ function openAndMigrateDatabase(filePath: string, key: string) {
   keyDatabase(db, key);
 
   db.pragma('cipher_migrate');
+  switchToWAL(db);
 
   return db;
 }
@@ -1612,6 +1643,7 @@ async function updateToSchemaVersion25(currentVersion: number, db: Database) {
 
     db.pragma('user_version = 25');
   })();
+  console.log('updateToSchemaVersion25: success!');
 }
 
 async function updateToSchemaVersion26(currentVersion: number, db: Database) {
@@ -1647,6 +1679,7 @@ async function updateToSchemaVersion26(currentVersion: number, db: Database) {
 
     db.pragma('user_version = 26');
   })();
+  console.log('updateToSchemaVersion26: success!');
 }
 
 async function updateToSchemaVersion27(currentVersion: number, db: Database) {
@@ -1684,6 +1717,222 @@ async function updateToSchemaVersion27(currentVersion: number, db: Database) {
 
     db.pragma('user_version = 27');
   })();
+  console.log('updateToSchemaVersion27: success!');
+}
+
+function updateToSchemaVersion28(currentVersion: number, db: Database) {
+  if (currentVersion >= 28) {
+    return;
+  }
+
+  db.transaction(() => {
+    db.exec(`
+      CREATE TABLE jobs(
+        id TEXT PRIMARY KEY,
+        queueType TEXT STRING NOT NULL,
+        timestamp INTEGER NOT NULL,
+        data STRING TEXT
+      );
+
+      CREATE INDEX jobs_timestamp ON jobs (timestamp);
+    `);
+
+    db.pragma('user_version = 28');
+  })();
+  console.log('updateToSchemaVersion28: success!');
+}
+
+function updateToSchemaVersion29(currentVersion: number, db: Database) {
+  if (currentVersion >= 29) {
+    return;
+  }
+
+  db.transaction(() => {
+    db.exec(`
+      CREATE TABLE reactions(
+        conversationId STRING,
+        emoji STRING,
+        fromId STRING,
+        messageReceivedAt INTEGER,
+        targetAuthorUuid STRING,
+        targetTimestamp INTEGER,
+        unread INTEGER
+      );
+
+      CREATE INDEX reactions_unread ON reactions (
+        unread,
+        conversationId
+      );
+
+      CREATE INDEX reaction_identifier ON reactions (
+        emoji,
+        targetAuthorUuid,
+        targetTimestamp
+      );
+    `);
+
+    db.pragma('user_version = 29');
+  })();
+  console.log('updateToSchemaVersion29: success!');
+}
+
+function updateToSchemaVersion30(currentVersion: number, db: Database) {
+  if (currentVersion >= 30) {
+    return;
+  }
+
+  db.transaction(() => {
+    db.exec(`
+      CREATE TABLE senderKeys(
+        id TEXT PRIMARY KEY NOT NULL,
+        senderId TEXT NOT NULL,
+        distributionId TEXT NOT NULL,
+        data BLOB NOT NULL,
+        lastUpdatedDate NUMBER NOT NULL
+      );
+    `);
+
+    db.pragma('user_version = 30');
+  })();
+  console.log('updateToSchemaVersion30: success!');
+}
+
+function updateToSchemaVersion31(currentVersion: number, db: Database): void {
+  if (currentVersion >= 31) {
+    return;
+  }
+  console.log('updateToSchemaVersion31: starting...');
+  db.transaction(() => {
+    db.exec(`
+      DROP INDEX unprocessed_id;
+      DROP INDEX unprocessed_timestamp;
+      ALTER TABLE unprocessed RENAME TO unprocessed_old;
+
+      CREATE TABLE unprocessed(
+        id STRING PRIMARY KEY ASC,
+        timestamp INTEGER,
+        version INTEGER,
+        attempts INTEGER,
+        envelope TEXT,
+        decrypted TEXT,
+        source TEXT,
+        sourceDevice TEXT,
+        serverTimestamp INTEGER,
+        sourceUuid STRING
+      );
+
+      CREATE INDEX unprocessed_timestamp ON unprocessed (
+        timestamp
+      );
+
+      INSERT OR REPLACE INTO unprocessed
+        (id, timestamp, version, attempts, envelope, decrypted, source,
+         sourceDevice, serverTimestamp, sourceUuid)
+      SELECT
+        id, timestamp, version, attempts, envelope, decrypted, source,
+         sourceDevice, serverTimestamp, sourceUuid
+      FROM unprocessed_old;
+
+      DROP TABLE unprocessed_old;
+    `);
+
+    db.pragma('user_version = 31');
+  })();
+  console.log('updateToSchemaVersion31: success!');
+}
+
+function updateToSchemaVersion32(currentVersion: number, db: Database) {
+  if (currentVersion >= 32) {
+    return;
+  }
+
+  db.transaction(() => {
+    db.exec(`
+      ALTER TABLE messages
+      ADD COLUMN serverGuid STRING NULL;
+
+      ALTER TABLE unprocessed
+      ADD COLUMN serverGuid STRING NULL;
+    `);
+
+    db.pragma('user_version = 32');
+  })();
+  console.log('updateToSchemaVersion32: success!');
+}
+
+function updateToSchemaVersion33(currentVersion: number, db: Database) {
+  if (currentVersion >= 33) {
+    return;
+  }
+
+  db.transaction(() => {
+    db.exec(`
+      -- These indexes should exist, but we add "IF EXISTS" for safety.
+      DROP INDEX IF EXISTS messages_expires_at;
+      DROP INDEX IF EXISTS messages_without_timer;
+
+      ALTER TABLE messages
+      ADD COLUMN
+      expiresAt INT
+      GENERATED ALWAYS
+      AS (expirationStartTimestamp + (expireTimer * 1000));
+
+      CREATE INDEX message_expires_at ON messages (
+        expiresAt
+      );
+
+      CREATE INDEX outgoing_messages_without_expiration_start_timestamp ON messages (
+        expireTimer, expirationStartTimestamp, type
+      )
+      WHERE expireTimer IS NOT NULL AND expirationStartTimestamp IS NULL;
+    `);
+
+    db.pragma('user_version = 33');
+  })();
+  console.log('updateToSchemaVersion33: success!');
+}
+
+function updateToSchemaVersion34(currentVersion: number, db: Database) {
+  if (currentVersion >= 34) {
+    return;
+  }
+
+  db.transaction(() => {
+    db.exec(`
+      -- This index should exist, but we add "IF EXISTS" for safety.
+      DROP INDEX IF EXISTS outgoing_messages_without_expiration_start_timestamp;
+
+      CREATE INDEX messages_unexpectedly_missing_expiration_start_timestamp ON messages (
+        expireTimer, expirationStartTimestamp, type
+      )
+      WHERE expireTimer IS NOT NULL AND expirationStartTimestamp IS NULL;
+    `);
+
+    db.pragma('user_version = 34');
+  })();
+  console.log('updateToSchemaVersion34: success!');
+}
+
+function updateToSchemaVersion35(currentVersion: number, db: Database) {
+  if (currentVersion >= 35) {
+    return;
+  }
+
+  db.transaction(() => {
+    db.exec(`
+      CREATE INDEX expiring_message_by_conversation_and_received_at
+      ON messages
+      (
+        expirationStartTimestamp,
+        expireTimer,
+        conversationId,
+        received_at
+      );
+    `);
+
+    db.pragma('user_version = 35');
+  })();
+  console.log('updateToSchemaVersion35: success!');
 }
 
 const SCHEMA_VERSIONS = [
@@ -1714,6 +1963,14 @@ const SCHEMA_VERSIONS = [
   updateToSchemaVersion25,
   updateToSchemaVersion26,
   updateToSchemaVersion27,
+  updateToSchemaVersion28,
+  updateToSchemaVersion29,
+  updateToSchemaVersion30,
+  updateToSchemaVersion31,
+  updateToSchemaVersion32,
+  updateToSchemaVersion33,
+  updateToSchemaVersion34,
+  updateToSchemaVersion35,
 ];
 
 function updateSchema(db: Database): void {
@@ -1920,6 +2177,24 @@ function getInstance(): Database {
   return globalInstance;
 }
 
+function batchMultiVarQuery<T>(
+  values: Array<T>,
+  query: (batch: Array<T>) => void
+): void {
+  const db = getInstance();
+  if (values.length > MAX_VARIABLE_COUNT) {
+    db.transaction(() => {
+      for (let i = 0; i < values.length; i += MAX_VARIABLE_COUNT) {
+        const batch = values.slice(i, i + MAX_VARIABLE_COUNT);
+        query(batch);
+      }
+    })();
+    return;
+  }
+
+  query(values);
+}
+
 const IDENTITY_KEYS_TABLE = 'identityKeys';
 function createOrUpdateIdentityKey(data: IdentityKeyType): Promise<void> {
   return createOrUpdate(IDENTITY_KEYS_TABLE, data);
@@ -1994,32 +2269,89 @@ async function getAllSignedPreKeys(): Promise<Array<SignedPreKeyType>> {
 }
 
 const ITEMS_TABLE = 'items';
-function createOrUpdateItem(data: ItemType): Promise<void> {
+function createOrUpdateItem<K extends ItemKeyType>(
+  data: ItemType<K>
+): Promise<void> {
   return createOrUpdate(ITEMS_TABLE, data);
 }
-function getItemById(id: string): Promise<ItemType> {
+function getItemById<K extends ItemKeyType>(
+  id: K
+): Promise<ItemType<K> | undefined> {
   return getById(ITEMS_TABLE, id);
 }
-async function getAllItems(): Promise<Array<ItemType>> {
+async function getAllItems(): Promise<AllItemsType> {
   const db = getInstance();
   const rows: JSONRows = db
     .prepare<EmptyQuery>('SELECT json FROM items ORDER BY id ASC;')
     .all();
 
-  return rows.map(row => jsonToObject(row.json));
+  const items = rows.map(row => jsonToObject(row.json));
+
+  const result: AllItemsType = Object.create(null);
+
+  for (const { id, value } of items) {
+    const key = id as ItemKeyType;
+    result[key] = value;
+  }
+
+  return result;
 }
-function bulkAddItems(array: Array<ItemType>): Promise<void> {
-  return bulkAdd(ITEMS_TABLE, array);
-}
-function removeItemById(id: string): Promise<void> {
+function removeItemById(id: ItemKeyType): Promise<void> {
   return removeById(ITEMS_TABLE, id);
 }
 function removeAllItems(): Promise<void> {
   return removeAllFromTable(ITEMS_TABLE);
 }
 
+async function createOrUpdateSenderKey(key: SenderKeyType): Promise<void> {
+  const db = getInstance();
+
+  prepare(
+    db,
+    `
+    INSERT OR REPLACE INTO senderKeys (
+      id,
+      senderId,
+      distributionId,
+      data,
+      lastUpdatedDate
+    ) values (
+      $id,
+      $senderId,
+      $distributionId,
+      $data,
+      $lastUpdatedDate
+    )
+    `
+  ).run(key);
+}
+async function getSenderKeyById(
+  id: string
+): Promise<SenderKeyType | undefined> {
+  const db = getInstance();
+  const row = prepare(db, 'SELECT * FROM senderKeys WHERE id = $id').get({
+    id,
+  });
+
+  return row;
+}
+async function removeAllSenderKeys(): Promise<void> {
+  const db = getInstance();
+  prepare(db, 'DELETE FROM senderKeys').run({});
+}
+async function getAllSenderKeys(): Promise<Array<SenderKeyType>> {
+  const db = getInstance();
+  const rows = prepare(db, 'SELECT * FROM senderKeys').all({});
+
+  return rows;
+}
+async function removeSenderKeyById(id: string): Promise<void> {
+  const db = getInstance();
+  prepare(db, 'DELETE FROM senderKeys WHERE id = $id').run({ id });
+}
+
 const SESSIONS_TABLE = 'sessions';
-async function createOrUpdateSession(data: SessionType): Promise<void> {
+function createOrUpdateSessionSync(data: SessionType): void {
   const db = getInstance();
   const { id, conversationId } = data;
   if (!id) {
@@ -2052,6 +2384,10 @@ async function createOrUpdateSession(data: SessionType): Promise<void> {
     json: objectToJSON(data),
   });
 }
+async function createOrUpdateSession(data: SessionType): Promise<void> {
+  return createOrUpdateSessionSync(data);
+}
+
 async function createOrUpdateSessions(
   array: Array<SessionType>
 ): Promise<void> {
@@ -2059,32 +2395,31 @@ async function createOrUpdateSessions(
 
   db.transaction(() => {
     for (const item of array) {
-      createOrUpdateSession(item);
+      assertSync(createOrUpdateSessionSync(item));
     }
   })();
 }
 
-async function getSessionById(id: string): Promise<SessionType | undefined> {
-  return getById(SESSIONS_TABLE, id);
-}
-async function getSessionsById(
-  conversationId: string
-): Promise<Array<SessionType>> {
+async function commitSessionsAndUnprocessed({
+  sessions,
+  unprocessed,
+}: {
+  sessions: Array<SessionType>;
+  unprocessed: Array<UnprocessedType>;
+}): Promise<void> {
   const db = getInstance();
-  const rows: JSONRows = db
-    .prepare<Query>(
-      `
-      SELECT json
-      FROM sessions
-      WHERE conversationId = $conversationId;
-      `
-    )
-    .all({
-      conversationId,
-    });
 
-  return rows.map(row => jsonToObject(row.json));
+  db.transaction(() => {
+    for (const item of sessions) {
+      assertSync(createOrUpdateSessionSync(item));
+    }
+
+    for (const item of unprocessed) {
+      assertSync(saveUnprocessedSync(item));
+    }
+  })();
 }
+
 function bulkAddSessions(array: Array<SessionType>): Promise<void> {
   return bulkAdd(SESSIONS_TABLE, array);
 }
@@ -2111,10 +2446,10 @@ function getAllSessions(): Promise<Array<SessionType>> {
   return getAllFromTable(SESSIONS_TABLE);
 }
 
-async function createOrUpdate(
+function createOrUpdateSync(
   table: string,
   data: Record<string, unknown> & { id: string | number }
-): Promise<void> {
+): void {
   const db = getInstance();
   const { id } = data;
   if (!id) {
@@ -2137,6 +2472,13 @@ async function createOrUpdate(
   });
 }
 
+async function createOrUpdate(
+  table: string,
+  data: Record<string, unknown> & { id: string | number }
+): Promise<void> {
+  return createOrUpdateSync(table, data);
+}
+
 async function bulkAdd(
   table: string,
   array: Array<Record<string, unknown> & { id: string | number }>
@@ -2145,7 +2487,7 @@ async function bulkAdd(
 
   db.transaction(() => {
     for (const data of array) {
-      createOrUpdate(table, data);
+      assertSync(createOrUpdateSync(table, data));
     }
   })();
 }
@@ -2179,6 +2521,7 @@ async function removeById(
   id: string | number | Array<string | number>
 ): Promise<void> {
   const db = getInstance();
+
   if (!Array.isArray(id)) {
     db.prepare<Query>(
       `
@@ -2193,13 +2536,16 @@ async function removeById(
     throw new Error('removeById: No ids to delete!');
   }
 
-  // Our node interface doesn't seem to allow you to replace one single ? with an array
-  db.prepare<ArrayQuery>(
-    `
-    DELETE FROM ${table}
-    WHERE id IN ( ${id.map(() => '?').join(', ')} );
-    `
-  ).run(id);
+  const removeByIdsSync = (ids: Array<string | number>): void => {
+    db.prepare<ArrayQuery>(
+      `
+      DELETE FROM ${table}
+      WHERE id IN ( ${id.map(() => '?').join(', ')} );
+      `
+    ).run(ids);
+  };
+
+  batchMultiVarQuery(id, removeByIdsSync);
 }
 
 async function removeAllFromTable(table: string): Promise<void> {
@@ -2233,10 +2579,10 @@ async function getConversationCount(): Promise<number> {
   return row['count(*)'];
 }
 
-async function saveConversation(
+function saveConversationSync(
   data: ConversationType,
   db = getInstance()
-): Promise<void> {
+): void {
   const {
     active_at,
     e164,
@@ -2297,7 +2643,9 @@ async function saveConversation(
     `
   ).run({
     id,
-    json: objectToJSON(omit(data, ['profileLastFetchedAt'])),
+    json: objectToJSON(
+      omit(data, ['profileLastFetchedAt', 'unblurredAvatarPath'])
+    ),
 
     e164: e164 || null,
     uuid: uuid || null,
@@ -2314,6 +2662,13 @@ async function saveConversation(
   });
 }
 
+async function saveConversation(
+  data: ConversationType,
+  db = getInstance()
+): Promise<void> {
+  return saveConversationSync(data, db);
+}
+
 async function saveConversations(
   arrayOfConversations: Array<ConversationType>
 ): Promise<void> {
@@ -2321,12 +2676,12 @@ async function saveConversations(
 
   db.transaction(() => {
     for (const conversation of arrayOfConversations) {
-      saveConversation(conversation);
+      assertSync(saveConversationSync(conversation));
     }
   })();
 }
 
-async function updateConversation(data: ConversationType): Promise<void> {
+function updateConversationSync(data: ConversationType): void {
   const db = getInstance();
   const {
     id,
@@ -2370,7 +2725,9 @@ async function updateConversation(data: ConversationType): Promise<void> {
     `
   ).run({
     id,
-    json: objectToJSON(omit(data, ['profileLastFetchedAt'])),
+    json: objectToJSON(
+      omit(data, ['profileLastFetchedAt', 'unblurredAvatarPath'])
+    ),
 
     e164: e164 || null,
     uuid: uuid || null,
@@ -2386,6 +2743,10 @@ async function updateConversation(data: ConversationType): Promise<void> {
   });
 }
 
+async function updateConversation(data: ConversationType): Promise<void> {
+  return updateConversationSync(data);
+}
+
 async function updateConversations(
   array: Array<ConversationType>
 ): Promise<void> {
@@ -2393,14 +2754,26 @@ async function updateConversations(
 
   db.transaction(() => {
     for (const item of array) {
-      updateConversation(item);
+      assertSync(updateConversationSync(item));
     }
   })();
 }
 
-async function removeConversation(id: Array<string> | string): Promise<void> {
+function removeConversationsSync(ids: Array<string>): void {
   const db = getInstance();
+
+  // Our node interface doesn't seem to allow you to replace one single ? with an array
+  db.prepare<ArrayQuery>(
+    `
+    DELETE FROM conversations
+    WHERE id IN ( ${ids.map(() => '?').join(', ')} );
+    `
+  ).run(ids);
+}
+
+async function removeConversation(id: Array<string> | string): Promise<void> {
   if (!Array.isArray(id)) {
+    const db = getInstance();
     db.prepare<Query>('DELETE FROM conversations WHERE id = $id;').run({
       id,
     });
@@ -2412,13 +2785,7 @@ async function removeConversation(id: Array<string> | string): Promise<void> {
     throw new Error('removeConversation: No ids to delete!');
   }
 
-  // Our node interface doesn't seem to allow you to replace one single ? with an array
-  db.prepare<ArrayQuery>(
-    `
-    DELETE FROM conversations
-    WHERE id IN ( ${id.map(() => '?').join(', ')} );
-    `
-  ).run(id);
+  batchMultiVarQuery(id, removeConversationsSync);
 }
 
 async function getConversationById(
@@ -2678,27 +3045,65 @@ async function getMessageCount(conversationId?: string): Promise<number> {
   return row['count(*)'];
 }
 
-async function saveMessage(
+// Called only for private conversations
+async function hasUserInitiatedMessages(
+  conversationId: string
+): Promise<boolean> {
+  const db = getInstance();
+
+  // We apply the limit in the sub-query so that `json_extract` wouldn't run
+  // for additional messages.
+  const row: { count: number } = db
+    .prepare<Query>(
+      `
+      SELECT COUNT(*) as count FROM
+        (
+          SELECT 1 FROM messages
+          WHERE
+            conversationId = $conversationId AND
+            (type IS NULL
+              OR
+              type NOT IN (
+                'profile-change',
+                'verified-change',
+                'message-history-unsynced',
+                'keychange',
+                'group-v1-migration',
+                'universal-timer-notification'
+              )
+            ) AND
+            json_extract(json, '$.expirationTimerUpdate') IS NULL
+          LIMIT 1
+        );
+      `
+    )
+    .get({ conversationId });
+
+  return row.count !== 0;
+}
+
+function saveMessageSync(
   data: MessageType,
   options: { forceSave?: boolean; alreadyInTransaction?: boolean } = {}
-): Promise<string> {
+): string {
   const db = getInstance();
 
   const { forceSave, alreadyInTransaction } = options;
 
   if (!alreadyInTransaction) {
     return db.transaction(() => {
-      return saveMessage(data, {
-        ...options,
-        alreadyInTransaction: true,
-      });
+      return assertSync(
+        saveMessageSync(data, {
+          ...options,
+          alreadyInTransaction: true,
+        })
+      );
     })();
   }
 
   const {
     body,
     conversationId,
-    expires_at,
     hasAttachments,
     hasFileAttachments,
     hasVisualMediaAttachments,
@@ -2708,6 +3113,7 @@ async function saveMessage(
     received_at,
     schemaVersion,
     sent_at,
+    serverGuid,
     source,
     sourceUuid,
     sourceDevice,
@@ -2724,7 +3130,6 @@ async function saveMessage(
     body: body || null,
     conversationId,
     expirationStartTimestamp: expirationStartTimestamp || null,
-    expires_at: expires_at || null,
     expireTimer: expireTimer || null,
     hasAttachments: hasAttachments ? 1 : 0,
     hasFileAttachments: hasFileAttachments ? 1 : 0,
@@ -2732,7 +3137,8 @@ async function saveMessage(
     isErased: isErased ? 1 : 0,
     isViewOnce: isViewOnce ? 1 : 0,
     received_at: received_at || null,
-    schemaVersion,
+    schemaVersion: schemaVersion || 0,
+    serverGuid: serverGuid || null,
     sent_at: sent_at || null,
     source: source || null,
     sourceUuid: sourceUuid || null,
@@ -2752,7 +3158,6 @@ async function saveMessage(
         body = $body,
         conversationId = $conversationId,
         expirationStartTimestamp = $expirationStartTimestamp,
-        expires_at = $expires_at,
         expireTimer = $expireTimer,
         hasAttachments = $hasAttachments,
         hasFileAttachments = $hasFileAttachments,
@@ -2761,6 +3166,7 @@ async function saveMessage(
         isViewOnce = $isViewOnce,
         received_at = $received_at,
         schemaVersion = $schemaVersion,
+        serverGuid = $serverGuid,
         sent_at = $sent_at,
         source = $source,
         sourceUuid = $sourceUuid,
@@ -2789,7 +3195,6 @@ async function saveMessage(
       body,
       conversationId,
       expirationStartTimestamp,
-      expires_at,
       expireTimer,
       hasAttachments,
       hasFileAttachments,
@@ -2798,6 +3203,7 @@ async function saveMessage(
       isViewOnce,
       received_at,
       schemaVersion,
+      serverGuid,
       sent_at,
       source,
       sourceUuid,
@@ -2811,7 +3217,6 @@ async function saveMessage(
       $body,
       $conversationId,
       $expirationStartTimestamp,
-      $expires_at,
       $expireTimer,
       $hasAttachments,
       $hasFileAttachments,
@@ -2820,6 +3225,7 @@ async function saveMessage(
       $isViewOnce,
       $received_at,
       $schemaVersion,
+      $serverGuid,
       $sent_at,
       $source,
       $sourceUuid,
@@ -2837,6 +3243,13 @@ async function saveMessage(
   return toCreate.id;
 }
 
+async function saveMessage(
+  data: MessageType,
+  options: { forceSave?: boolean; alreadyInTransaction?: boolean }
+): Promise<string> {
+  return saveMessageSync(data, options);
+}
+
 async function saveMessages(
   arrayOfMessages: Array<MessageType>,
   { forceSave }: { forceSave?: boolean } = {}
@@ -2845,7 +3258,9 @@ async function saveMessages(
 
   db.transaction(() => {
     for (const message of arrayOfMessages) {
-      saveMessage(message, { forceSave, alreadyInTransaction: true });
+      assertSync(
+        saveMessageSync(message, { forceSave, alreadyInTransaction: true })
+      );
     }
   })();
 }
@@ -2856,7 +3271,7 @@ async function removeMessage(id: string): Promise<void> {
   db.prepare<Query>('DELETE FROM messages WHERE id = $id;').run({ id });
 }
 
-async function removeMessages(ids: Array<string>): Promise<void> {
+function removeMessagesSync(ids: Array<string>): void {
   const db = getInstance();
 
   db.prepare<ArrayQuery>(
@@ -2867,11 +3282,17 @@ async function removeMessages(ids: Array<string>): Promise<void> {
   ).run(ids);
 }
 
+async function removeMessages(ids: Array<string>): Promise<void> {
+  batchMultiVarQuery(ids, removeMessagesSync);
+}
+
 async function getMessageById(id: string): Promise<MessageType | undefined> {
   const db = getInstance();
-  const row = db.prepare<Query>('SELECT * FROM messages WHERE id = $id;').get({
-    id,
-  });
+  const row = db
+    .prepare<Query>('SELECT json FROM messages WHERE id = $id;')
+    .get({
+      id,
+    });
 
   if (!row) {
     return undefined;
@@ -2928,25 +3349,254 @@ async function getMessageBySender({
   return rows.map(row => jsonToObject(row.json));
 }
 
-async function getUnreadByConversation(
+async function getUnreadCountForConversation(
   conversationId: string
-): Promise<Array<MessageType>> {
+): Promise<number> {
   const db = getInstance();
-  const rows: JSONRows = db
+  const row = db
     .prepare<Query>(
       `
-      SELECT json FROM messages WHERE
-        unread = $unread AND
-        conversationId = $conversationId
-      ORDER BY received_at DESC, sent_at DESC;
+      SELECT COUNT(*) AS unreadCount FROM messages
+      WHERE unread = 1 AND
+      conversationId = $conversationId AND
+      type = 'incoming';
       `
     )
-    .all({
-      unread: 1,
+    .get({
       conversationId,
     });
+  return row.unreadCount;
+}
 
-  return rows.map(row => jsonToObject(row.json));
+async function getUnreadByConversationAndMarkRead(
+  conversationId: string,
+  newestUnreadId: number,
+  readAt?: number
+): Promise<
+  Array<Pick<MessageType, 'id' | 'source' | 'sourceUuid' | 'sent_at' | 'type'>>
+> {
+  const db = getInstance();
+  return db.transaction(() => {
+    const expirationStartTimestamp = Math.min(Date.now(), readAt ?? Infinity);
+    db.prepare<Query>(
+      `
+      UPDATE messages
+      INDEXED BY expiring_message_by_conversation_and_received_at
+      SET
+        expirationStartTimestamp = $expirationStartTimestamp,
+        json = json_patch(json, $jsonPatch)
+      WHERE
+        (
+          expirationStartTimestamp IS NULL OR
+          expirationStartTimestamp > $expirationStartTimestamp
+        ) AND
+        expireTimer IS NOT NULL AND
+        conversationId = $conversationId AND
+        received_at <= $newestUnreadId;
+      `
+    ).run({
+      conversationId,
+      expirationStartTimestamp,
+      jsonPatch: JSON.stringify({ expirationStartTimestamp }),
+      newestUnreadId,
+    });
+
+    const rows = db
+      .prepare<Query>(
+        `
+        SELECT id, json FROM messages
+        INDEXED BY messages_unread
+        WHERE
+          unread = $unread AND
+          conversationId = $conversationId AND
+          received_at <= $newestUnreadId
+        ORDER BY received_at DESC, sent_at DESC;
+        `
+      )
+      .all({
+        unread: 1,
+        conversationId,
+        newestUnreadId,
+      });
+
+    db.prepare<Query>(
+      `
+        UPDATE messages
+        SET
+          unread = 0,
+          json = json_patch(json, $jsonPatch)
+        WHERE
+          unread = $unread AND
+          conversationId = $conversationId AND
+          received_at <= $newestUnreadId;
+        `
+    ).run({
+      conversationId,
+      jsonPatch: JSON.stringify({ unread: 0 }),
+      newestUnreadId,
+      unread: 1,
+    });
+
+    return rows.map(row => {
+      const json = jsonToObject(row.json);
+      return {
+        unread: false,
+        ...pick(json, [
+          'expirationStartTimestamp',
+          'id',
+          'sent_at',
+          'source',
+          'sourceUuid',
+          'type',
+        ]),
+      };
+    });
+  })();
+}
+
+async function getUnreadReactionsAndMarkRead(
+  conversationId: string,
+  newestUnreadId: number
+): Promise<Array<Pick<ReactionType, 'targetAuthorUuid' | 'targetTimestamp'>>> {
+  const db = getInstance();
+  return db.transaction(() => {
+    const unreadMessages = db
+      .prepare<Query>(
+        `
+        SELECT targetAuthorUuid, targetTimestamp
+        FROM reactions WHERE
+          unread = 1 AND
+          conversationId = $conversationId AND
+          messageReceivedAt <= $newestUnreadId;
+      `
+      )
+      .all({
+        conversationId,
+        newestUnreadId,
+      });
+
+    db.prepare(
+      `
+      UPDATE reactions SET
+      unread = 0 WHERE
+      conversationId = $conversationId AND
+      messageReceivedAt <= $newestUnreadId;
+    `
+    ).run({
+      conversationId,
+      newestUnreadId,
+    });
+
+    return unreadMessages;
+  })();
+}
+
+async function markReactionAsRead(
+  targetAuthorUuid: string,
+  targetTimestamp: number
+): Promise<ReactionType | undefined> {
+  const db = getInstance();
+  return db.transaction(() => {
+    const readReaction = db
+      .prepare(
+        `
+          SELECT *
+          FROM reactions
+          WHERE
+            targetAuthorUuid = $targetAuthorUuid AND
+            targetTimestamp = $targetTimestamp AND
+            unread = 1
+          ORDER BY rowId DESC
+          LIMIT 1;
+        `
+      )
+      .get({
+        targetAuthorUuid,
+        targetTimestamp,
+      });
+
+    db.prepare(
+      `
+        UPDATE reactions SET
+        unread = 0 WHERE
+        targetAuthorUuid = $targetAuthorUuid AND
+        targetTimestamp = $targetTimestamp;
+      `
+    ).run({
+      targetAuthorUuid,
+      targetTimestamp,
+    });
+
+    return readReaction;
+  })();
+}
+
+async function addReaction({
+  conversationId,
+  emoji,
+  fromId,
+  messageReceivedAt,
+  targetAuthorUuid,
+  targetTimestamp,
+}: ReactionType): Promise<void> {
+  const db = getInstance();
+  await db
+    .prepare(
+      `INSERT INTO reactions (
+      conversationId,
+      emoji,
+      fromId,
+      messageReceivedAt,
+      targetAuthorUuid,
+      targetTimestamp,
+      unread
+    ) VALUES (
+      $conversationId,
+      $emoji,
+      $fromId,
+      $messageReceivedAt,
+      $targetAuthorUuid,
+      $targetTimestamp,
+      $unread
+    );`
+    )
+    .run({
+      conversationId,
+      emoji,
+      fromId,
+      messageReceivedAt,
+      targetAuthorUuid,
+      targetTimestamp,
+      unread: 1,
+    });
+}
+
+async function removeReactionFromConversation({
+  emoji,
+  fromId,
+  targetAuthorUuid,
+  targetTimestamp,
+}: {
+  emoji: string;
+  fromId: string;
+  targetAuthorUuid: string;
+  targetTimestamp: number;
+}): Promise<void> {
+  const db = getInstance();
+  await db
+    .prepare(
+      `DELETE FROM reactions WHERE
+      emoji = $emoji AND
+      fromId = $fromId AND
+      targetAuthorUuid = $targetAuthorUuid AND
+      targetTimestamp = $targetTimestamp;`
+    )
+    .run({
+      emoji,
+      fromId,
+      targetAuthorUuid,
+      targetTimestamp,
+    });
 }
 
 async function getOlderMessagesByConversation(
@@ -3112,7 +3762,8 @@ async function getLastConversationActivity({
             'verified-change',
             'message-history-unsynced',
             'keychange',
-            'group-v1-migration'
+            'group-v1-migration',
+            'universal-timer-notification'
           )
         ) AND
         (
@@ -3162,7 +3813,8 @@ async function getLastConversationPreview({
             'profile-change',
             'verified-change',
             'message-history-unsynced',
-            'group-v1-migration'
+            'group-v1-migration',
+            'universal-timer-notification'
           )
         ) AND NOT
         (
@@ -3326,64 +3978,64 @@ async function getExpiredMessages(): Promise<Array<MessageType>> {
     .prepare<Query>(
       `
       SELECT json FROM messages WHERE
-        expires_at IS NOT NULL AND
-        expires_at <= $expires_at
-      ORDER BY expires_at ASC;
+        expiresAt IS NOT NULL AND
+        expiresAt <= $now
+      ORDER BY expiresAt ASC;
       `
     )
-    .all({
-      expires_at: now,
-    });
+    .all({ now });
 
   return rows.map(row => jsonToObject(row.json));
 }
 
-async function getOutgoingWithoutExpiresAt(): Promise<Array<MessageType>> {
-  const db = getInstance();
-  const rows: JSONRows = db
-    .prepare<EmptyQuery>(
-      `
-      SELECT json FROM messages
-      INDEXED BY messages_without_timer
-      WHERE
-        expireTimer > 0 AND
-        expires_at IS NULL AND
-        type IS 'outgoing'
-      ORDER BY expires_at ASC;
-      `
-    )
-    .all();
-
-  return rows.map(row => jsonToObject(row.json));
-}
-
-async function getNextExpiringMessage(): Promise<MessageType | undefined> {
-  const db = getInstance();
-
-  // Note: we avoid 'IS NOT NULL' here because it does seem to bypass our index
-  const rows: JSONRows = db
-    .prepare<EmptyQuery>(
-      `
-      SELECT json FROM messages
-      WHERE expires_at > 0
-      ORDER BY expires_at ASC
-      LIMIT 1;
-      `
-    )
-    .all();
-
-  if (!rows || rows.length < 1) {
-    return undefined;
-  }
-
-  return jsonToObject(rows[0].json);
-}
-
-async function getNextTapToViewMessageToAgeOut(): Promise<
-  MessageType | undefined
+async function getMessagesUnexpectedlyMissingExpirationStartTimestamp(): Promise<
+  Array<MessageType>
 > {
   const db = getInstance();
-  const rows = db
+  const rows: JSONRows = db
+    .prepare<EmptyQuery>(
+      `
+      SELECT json FROM messages
+      INDEXED BY messages_unexpectedly_missing_expiration_start_timestamp
+      WHERE
+        expireTimer > 0 AND
+        expirationStartTimestamp IS NULL AND
+        (
+          type IS 'outgoing' OR
+          (type IS 'incoming' AND (
+            unread = 0 OR
+            unread IS NULL
+          ))
+        );
+      `
+    )
+    .all();
+
+  return rows.map(row => jsonToObject(row.json));
+}
+
+async function getSoonestMessageExpiry(): Promise<undefined | number> {
+  const db = getInstance();
+
+  // Note: we use `pluck` to only get the first column.
+  const result: null | number = db
+    .prepare<EmptyQuery>(
+      `
+      SELECT MIN(expiresAt)
+      FROM messages;
+      `
+    )
+    .pluck(true)
+    .get();
+
+  return result || undefined;
+}
+
+async function getNextTapToViewMessageTimestampToAgeOut(): Promise<
+  undefined | number
+> {
+  const db = getInstance();
+  const row = db
     .prepare<EmptyQuery>(
       `
       SELECT json FROM messages
@@ -3394,13 +4046,15 @@ async function getNextTapToViewMessageToAgeOut(): Promise<
       LIMIT 1;
       `
     )
-    .all();
+    .get();
 
-  if (!rows || rows.length < 1) {
+  if (!row) {
     return undefined;
   }
 
-  return jsonToObject(rows[0].json);
+  const data = jsonToObject(row.json);
+  const result = data.received_at_ms || data.received_at;
+  return isNormalNumber(result) ? result : undefined;
 }
 
 async function getTapToViewMessagesNeedingErase(): Promise<Array<MessageType>> {
@@ -3426,77 +4080,69 @@ async function getTapToViewMessagesNeedingErase(): Promise<Array<MessageType>> {
   return rows.map(row => jsonToObject(row.json));
 }
 
-async function saveUnprocessed(
-  data: UnprocessedType,
-  { forceSave }: { forceSave?: boolean } = {}
-): Promise<string> {
+function saveUnprocessedSync(data: UnprocessedType): string {
   const db = getInstance();
-  const { id, timestamp, version, attempts, envelope } = data;
+  const {
+    id,
+    timestamp,
+    version,
+    attempts,
+    envelope,
+    source,
+    sourceUuid,
+    sourceDevice,
+    serverGuid,
+    serverTimestamp,
+    decrypted,
+  } = data;
   if (!id) {
-    throw new Error('saveUnprocessed: id was falsey');
-  }
-
-  if (forceSave) {
-    prepare(
-      db,
-      `
-      INSERT INTO unprocessed (
-        id,
-        timestamp,
-        version,
-        attempts,
-        envelope
-      ) values (
-        $id,
-        $timestamp,
-        $version,
-        $attempts,
-        $envelope
-      );
-      `
-    ).run({
-      id,
-      timestamp,
-      version,
-      attempts,
-      envelope,
-    });
-
-    return id;
+    throw new Error('saveUnprocessedSync: id was falsey');
   }
 
   prepare(
     db,
     `
-    UPDATE unprocessed SET
-      timestamp = $timestamp,
-      version = $version,
-      attempts = $attempts,
-      envelope = $envelope
-    WHERE id = $id;
+    INSERT OR REPLACE INTO unprocessed (
+      id,
+      timestamp,
+      version,
+      attempts,
+      envelope,
+      source,
+      sourceUuid,
+      sourceDevice,
+      serverGuid,
+      serverTimestamp,
+      decrypted
+    ) values (
+      $id,
+      $timestamp,
+      $version,
+      $attempts,
+      $envelope,
+      $source,
+      $sourceUuid,
+      $sourceDevice,
+      $serverGuid,
+      $serverTimestamp,
+      $decrypted
+    );
     `
   ).run({
     id,
     timestamp,
     version,
     attempts,
-    envelope,
+    envelope: envelope || null,
+    source: source || null,
+    sourceUuid: sourceUuid || null,
+    sourceDevice: sourceDevice || null,
+    serverGuid: serverGuid || null,
+    serverTimestamp: serverTimestamp || null,
+    decrypted: decrypted || null,
   });
 
   return id;
-}
-
-async function saveUnprocesseds(
-  arrayOfUnprocessed: Array<UnprocessedType>,
-  { forceSave }: { forceSave?: boolean } = {}
-): Promise<void> {
-  const db = getInstance();
-
-  db.transaction(() => {
-    for (const unprocessed of arrayOfUnprocessed) {
-      saveUnprocessed(unprocessed, { forceSave });
-    }
-  })();
 }
 
 async function updateUnprocessedAttempts(
@@ -3515,12 +4161,20 @@ async function updateUnprocessedAttempts(
     attempts,
   });
 }
-async function updateUnprocessedWithData(
+
+function updateUnprocessedWithDataSync(
   id: string,
-  data: UnprocessedType
-): Promise<void> {
+  data: UnprocessedUpdateType
+): void {
   const db = getInstance();
-  const { source, sourceUuid, sourceDevice, serverTimestamp, decrypted } = data;
+  const {
+    source,
+    sourceUuid,
+    sourceDevice,
+    serverGuid,
+    serverTimestamp,
+    decrypted,
+  } = data;
 
   prepare(
     db,
@@ -3529,6 +4183,7 @@ async function updateUnprocessedWithData(
       source = $source,
       sourceUuid = $sourceUuid,
       sourceDevice = $sourceDevice,
+      serverGuid = $serverGuid,
       serverTimestamp = $serverTimestamp,
       decrypted = $decrypted
     WHERE id = $id;
@@ -3538,18 +4193,27 @@ async function updateUnprocessedWithData(
     source: source || null,
     sourceUuid: sourceUuid || null,
     sourceDevice: sourceDevice || null,
+    serverGuid: serverGuid || null,
     serverTimestamp: serverTimestamp || null,
     decrypted: decrypted || null,
   });
 }
+
+async function updateUnprocessedWithData(
+  id: string,
+  data: UnprocessedUpdateType
+): Promise<void> {
+  return updateUnprocessedWithDataSync(id, data);
+}
+
 async function updateUnprocessedsWithData(
-  arrayOfUnprocessed: Array<{ id: string; data: UnprocessedType }>
+  arrayOfUnprocessed: Array<{ id: string; data: UnprocessedUpdateType }>
 ): Promise<void> {
   const db = getInstance();
 
   db.transaction(() => {
     for (const { id, data } of arrayOfUnprocessed) {
-      updateUnprocessedWithData(id, data);
+      assertSync(updateUnprocessedWithDataSync(id, data));
     }
   })();
 }
@@ -3593,10 +4257,21 @@ async function getAllUnprocessed(): Promise<Array<UnprocessedType>> {
   return rows;
 }
 
-async function removeUnprocessed(id: string | Array<string>): Promise<void> {
+function removeUnprocessedsSync(ids: Array<string>): void {
   const db = getInstance();
 
+  db.prepare<ArrayQuery>(
+    `
+    DELETE FROM unprocessed
+    WHERE id IN ( ${ids.map(() => '?').join(', ')} );
+    `
+  ).run(ids);
+}
+
+async function removeUnprocessed(id: string | Array<string>): Promise<void> {
   if (!Array.isArray(id)) {
+    const db = getInstance();
+
     prepare(db, 'DELETE FROM unprocessed WHERE id = $id;').run({ id });
 
     return;
@@ -3606,13 +4281,7 @@ async function removeUnprocessed(id: string | Array<string>): Promise<void> {
     throw new Error('removeUnprocessed: No ids to delete!');
   }
 
-  // Our node interface doesn't seem to allow you to replace one single ? with an array
-  db.prepare<ArrayQuery>(
-    `
-    DELETE FROM unprocessed
-    WHERE id IN ( ${id.map(() => '?').join(', ')} );
-    `
-  ).run(id);
+  batchMultiVarQuery(id, removeUnprocessedsSync);
 }
 
 async function removeAllUnprocessed(): Promise<void> {
@@ -3636,7 +4305,7 @@ async function getNextAttachmentDownloadJobs(
       `
       SELECT json
       FROM attachment_downloads
-      WHERE pending = 0 AND timestamp < $timestamp
+      WHERE pending = 0 AND timestamp <= $timestamp
       ORDER BY timestamp DESC
       LIMIT $limit;
       `
@@ -4232,6 +4901,7 @@ async function removeAll(): Promise<void> {
       DELETE FROM items;
       DELETE FROM messages;
       DELETE FROM preKeys;
+      DELETE FROM senderKeys;
       DELETE FROM sessions;
       DELETE FROM signedPreKeys;
       DELETE FROM unprocessed;
@@ -4240,6 +4910,7 @@ async function removeAll(): Promise<void> {
       DELETE FROM stickers;
       DELETE FROM sticker_packs;
       DELETE FROM sticker_references;
+      DELETE FROM jobs;
     `);
   })();
 }
@@ -4247,16 +4918,26 @@ async function removeAll(): Promise<void> {
 // Anything that isn't user-visible data
 async function removeAllConfiguration(): Promise<void> {
   const db = getInstance();
+  const patch: Partial<ConversationType> = { senderKeyInfo: undefined };
 
   db.transaction(() => {
-    db.exec(`
+    db.exec(
+      `
       DELETE FROM identityKeys;
       DELETE FROM items;
       DELETE FROM preKeys;
+      DELETE FROM senderKeys;
       DELETE FROM sessions;
       DELETE FROM signedPreKeys;
       DELETE FROM unprocessed;
-    `);
+      DELETE FROM jobs;
+    `
+    );
+    db.prepare('UPDATE conversations SET json = json_patch(json, $patch);').run(
+      {
+        patch: JSON.stringify(patch),
+      }
+    );
   })();
 }
 
@@ -4326,6 +5007,29 @@ async function getMessagesWithFileAttachments(
     });
 
   return map(rows, row => jsonToObject(row.json));
+}
+
+async function getMessageServerGuidsForSpam(
+  conversationId: string
+): Promise<Array<string>> {
+  const db = getInstance();
+
+  // The server's maximum is 3, which is why you see `LIMIT 3` in this query. Note that we
+  //   use `pluck` here to only get the first column!
+  return db
+    .prepare<Query>(
+      `
+      SELECT serverGuid
+      FROM messages
+      WHERE conversationId = $conversationId
+      AND type = 'incoming'
+      AND serverGuid IS NOT NULL
+      ORDER BY received_at DESC, sent_at DESC
+      LIMIT 3;
+      `
+    )
+    .pluck(true)
+    .all({ conversationId });
 }
 
 function getExternalFilesForMessage(message: MessageType): Array<string> {
@@ -4636,4 +5340,72 @@ async function removeKnownDraftAttachments(
   );
 
   return Object.keys(lookup);
+}
+
+async function getJobsInQueue(queueType: string): Promise<Array<StoredJob>> {
+  const db = getInstance();
+
+  return db
+    .prepare<Query>(
+      `
+      SELECT id, timestamp, data
+      FROM jobs
+      WHERE queueType = $queueType
+      ORDER BY timestamp;
+      `
+    )
+    .all({ queueType })
+    .map(row => ({
+      id: row.id,
+      queueType,
+      timestamp: row.timestamp,
+      data: isNotNil(row.data) ? JSON.parse(row.data) : undefined,
+    }));
+}
+
+async function insertJob(job: Readonly<StoredJob>): Promise<void> {
+  const db = getInstance();
+
+  db.prepare<Query>(
+    `
+      INSERT INTO jobs
+      (id, queueType, timestamp, data)
+      VALUES
+      ($id, $queueType, $timestamp, $data);
+    `
+  ).run({
+    id: job.id,
+    queueType: job.queueType,
+    timestamp: job.timestamp,
+    data: isNotNil(job.data) ? JSON.stringify(job.data) : null,
+  });
+}
+
+async function deleteJob(id: string): Promise<void> {
+  const db = getInstance();
+
+  db.prepare<Query>('DELETE FROM jobs WHERE id = $id').run({ id });
+}
+
+async function updateAllConversationColors(
+  conversationColor?: ConversationColorType,
+  customColorData?: {
+    id: string;
+    value: CustomColorType;
+  }
+): Promise<void> {
+  const db = getInstance();
+
+  db.prepare<Query>(
+    `
+    UPDATE conversations
+    SET json = JSON_PATCH(json, $patch);
+    `
+  ).run({
+    patch: JSON.stringify({
+      conversationColor: conversationColor || null,
+      customColor: customColorData?.value || null,
+      customColorId: customColorData?.id || null,
+    }),
+  });
 }

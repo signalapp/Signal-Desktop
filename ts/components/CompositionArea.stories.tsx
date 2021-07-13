@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -7,6 +7,7 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { boolean } from '@storybook/addon-knobs';
 
+import { IMAGE_JPEG } from '../types/MIME';
 import { CompositionArea, Props } from './CompositionArea';
 import { setup as setupI18n } from '../../js/modules/i18n';
 import enMessages from '../../_locales/en/messages.json';
@@ -32,6 +33,25 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   i18n,
   micCellEl,
   onChooseAttachment: action('onChooseAttachment'),
+  // AttachmentList
+  draftAttachments: overrideProps.draftAttachments || [],
+  onAddAttachment: action('onAddAttachment'),
+  onClearAttachments: action('onClearAttachments'),
+  onClickAttachment: action('onClickAttachment'),
+  onCloseAttachment: action('onCloseAttachment'),
+  // StagedLinkPreview
+  linkPreviewLoading: Boolean(overrideProps.linkPreviewLoading),
+  linkPreviewResult: overrideProps.linkPreviewResult,
+  onCloseLinkPreview: action('onCloseLinkPreview'),
+  // Quote
+  quotedMessageProps: overrideProps.quotedMessageProps,
+  onClickQuotedMessage: action('onClickQuotedMessage'),
+  setQuotedMessage: action('setQuotedMessage'),
+  // MediaQualitySelector
+  onSelectMediaQuality: action('onSelectMediaQuality'),
+  shouldSendHighQualityAttachments: Boolean(
+    overrideProps.shouldSendHighQualityAttachments
+  ),
   // CompositionInput
   onSubmit: action('onSubmit'),
   onEditorStateChange: action('onEditorStateChange'),
@@ -61,7 +81,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   conversationType: 'direct',
   onAccept: action('onAccept'),
   onBlock: action('onBlock'),
-  onBlockAndDelete: action('onBlockAndDelete'),
+  onBlockAndReportSpam: action('onBlockAndReportSpam'),
   onDelete: action('onDelete'),
   onUnblock: action('onUnblock'),
   messageRequestsEnabled: boolean(
@@ -73,6 +93,9 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   onStartGroupMigration: action('onStartGroupMigration'),
   // GroupV2 Pending Approval Actions
   onCancelJoinRequest: action('onCancelJoinRequest'),
+  // SMS-only
+  isSMSOnly: overrideProps.isSMSOnly || false,
+  isFetchingUUID: overrideProps.isFetchingUUID || false,
 });
 
 story.add('Default', () => {
@@ -101,6 +124,35 @@ story.add('Sticker Button', () => {
 story.add('Message Request', () => {
   const props = createProps({
     messageRequestsEnabled: true,
+  });
+
+  return <CompositionArea {...props} />;
+});
+
+story.add('SMS-only fetching UUID', () => {
+  const props = createProps({
+    isSMSOnly: true,
+    isFetchingUUID: true,
+  });
+
+  return <CompositionArea {...props} />;
+});
+
+story.add('SMS-only', () => {
+  const props = createProps({
+    isSMSOnly: true,
+  });
+
+  return <CompositionArea {...props} />;
+});
+
+story.add('Attachments', () => {
+  const props = createProps({
+    draftAttachments: [
+      {
+        contentType: IMAGE_JPEG,
+      },
+    ],
   });
 
   return <CompositionArea {...props} />;

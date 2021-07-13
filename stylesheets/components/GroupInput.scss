@@ -1,0 +1,73 @@
+// Copyright 2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.module-GroupInput {
+  @include font-body-1;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border-width: 2px;
+  border-style: solid;
+  width: 100%;
+
+  @include light-theme {
+    background: $color-white;
+    color: $color-black;
+    border-color: $color-gray-15;
+
+    &:disabled {
+      background: $color-gray-02;
+      border-color: $color-gray-05;
+      color: $color-gray-90;
+    }
+  }
+
+  @include dark-theme {
+    background: $color-gray-80;
+    color: $color-gray-05;
+    border-color: $color-gray-45;
+
+    &:disabled {
+      background: $color-gray-95;
+      border-color: $color-gray-60;
+      color: $color-gray-20;
+    }
+  }
+
+  &:focus {
+    outline: none;
+
+    @include light-theme {
+      border-color: $color-ultramarine;
+    }
+    @include dark-theme {
+      border-color: $color-ultramarine-light;
+    }
+  }
+
+  &__description {
+    resize: none;
+
+    &--container {
+      margin-bottom: 12px;
+      margin-top: 0;
+    }
+
+    &--remaining {
+      @include font-subtitle;
+      bottom: 0;
+      color: $color-gray-45;
+      margin: 12px;
+      position: absolute;
+      right: 0;
+    }
+
+    &--large {
+      height: 280px;
+    }
+  }
+
+  &--container {
+    position: relative;
+    margin: 16px;
+  }
+}

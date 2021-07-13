@@ -44,9 +44,9 @@ describe('synchronousCrypto', () => {
 
   describe('encrypt+decrypt', () => {
     it('returns original input', () => {
-      const iv = crypto.randomBytes(16);
-      const key = crypto.randomBytes(32);
-      const input = Buffer.from('plaintext');
+      const iv = toArrayBuffer(crypto.randomBytes(16));
+      const key = toArrayBuffer(crypto.randomBytes(32));
+      const input = toArrayBuffer(Buffer.from('plaintext'));
 
       const ciphertext = encrypt(key, input, iv);
       const plaintext = decrypt(key, ciphertext, iv);

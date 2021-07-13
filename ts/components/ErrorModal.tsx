@@ -35,7 +35,7 @@ export const ErrorModal = (props: PropsType): JSX.Element => {
         <div className="module-error-modal__description">
           {description || i18n('ErrorModal--description')}
         </div>
-        <Modal.Footer>
+        <Modal.ButtonFooter>
           <Button
             onClick={onClose}
             ref={focusRef}
@@ -43,7 +43,7 @@ export const ErrorModal = (props: PropsType): JSX.Element => {
           >
             {buttonText || i18n('Confirmation--confirm')}
           </Button>
-        </Modal.Footer>
+        </Modal.ButtonFooter>
       </>
     </Modal>
   );

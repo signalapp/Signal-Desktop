@@ -1,4 +1,4 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* global $, Whisper */
@@ -20,7 +20,7 @@ async function applyTheme() {
 
 applyTheme();
 
-window.subscribeToSystemThemeChange(() => {
+window.SignalContext.nativeThemeListener.subscribe(() => {
   applyTheme();
 });
 
@@ -29,6 +29,7 @@ const getInitialData = async () => ({
 
   themeSetting: await window.getThemeSetting(),
   hideMenuBar: await window.getHideMenuBar(),
+  systemTray: await window.getSystemTraySetting(),
 
   notificationSetting: await window.getNotificationSetting(),
   audioNotification: await window.getAudioNotification(),
@@ -36,6 +37,7 @@ const getInitialData = async () => ({
   countMutedConversations: await window.getCountMutedConversations(),
 
   spellCheck: await window.getSpellCheck(),
+  autoLaunch: await window.getAutoLaunch(),
 
   incomingCallNotification: await window.getIncomingCallNotification(),
   callRingtoneNotification: await window.getCallRingtoneNotification(),
@@ -47,6 +49,7 @@ const getInitialData = async () => ({
 
   isPrimary: await window.isPrimary(),
   lastSyncTime: await window.getLastSyncTime(),
+  universalExpireTimer: await window.getUniversalExpireTimer(),
 });
 
 window.initialRequest = getInitialData();

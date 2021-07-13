@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -14,11 +14,9 @@ import enMessages from '../../_locales/en/messages.json';
 const i18n = setupI18n('en', enMessages);
 
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
-  buttonType: select(
-    'buttonType',
-    CallingButtonType,
-    overrideProps.buttonType || CallingButtonType.HANG_UP
-  ),
+  buttonType:
+    overrideProps.buttonType ||
+    select('buttonType', CallingButtonType, CallingButtonType.HANG_UP),
   i18n,
   onClick: action('on-click'),
   tooltipDirection: select(
@@ -30,9 +28,16 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
 
 const story = storiesOf('Components/CallingButton', module);
 
-story.add('Default', () => {
-  const props = createProps();
-  return <CallingButton {...props} />;
+story.add('Kitchen Sink', () => {
+  return (
+    <>
+      {Object.keys(CallingButtonType).map(buttonType => (
+        <CallingButton
+          {...createProps({ buttonType: buttonType as CallingButtonType })}
+        />
+      ))}
+    </>
+  );
 });
 
 story.add('Audio On', () => {
@@ -80,6 +85,20 @@ story.add('Video Disabled', () => {
 story.add('Tooltip right', () => {
   const props = createProps({
     tooltipDirection: TooltipPlacement.Right,
+  });
+  return <CallingButton {...props} />;
+});
+
+story.add('Presenting On', () => {
+  const props = createProps({
+    buttonType: CallingButtonType.PRESENTING_ON,
+  });
+  return <CallingButton {...props} />;
+});
+
+story.add('Presenting Off', () => {
+  const props = createProps({
+    buttonType: CallingButtonType.PRESENTING_OFF,
   });
   return <CallingButton {...props} />;
 });

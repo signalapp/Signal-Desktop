@@ -61,6 +61,15 @@ describe('cleanDataForIpc', () => {
     });
   });
 
+  it('keeps Buffers in a field', () => {
+    const buffer = Buffer.from('AABBCC', 'hex');
+
+    assert.deepEqual(cleanDataForIpc(buffer), {
+      cleaned: buffer,
+      pathsChanged: [],
+    });
+  });
+
   it('converts valid dates to ISO strings', () => {
     assert.deepEqual(cleanDataForIpc(new Date(924588548000)), {
       cleaned: '1999-04-20T06:09:08.000Z',

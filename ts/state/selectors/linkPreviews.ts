@@ -3,15 +3,21 @@
 
 import { createSelector } from 'reselect';
 
+import { assert } from '../../util/assert';
+import { getDomain } from '../../types/LinkPreview';
+
 import { StateType } from '../reducer';
 
 export const getLinkPreview = createSelector(
   ({ linkPreviews }: StateType) => linkPreviews.linkPreview,
   linkPreview => {
     if (linkPreview) {
+      const domain = getDomain(linkPreview.url);
+      assert(domain !== undefined, "Domain of linkPreview can't be undefined");
+
       return {
         ...linkPreview,
-        domain: window.Signal.LinkPreviews.getDomain(linkPreview.url),
+        domain,
         isLoaded: true,
       };
     }

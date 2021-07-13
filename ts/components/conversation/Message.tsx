@@ -8,11 +8,17 @@ import { drop, groupBy, orderBy, take } from 'lodash';
 import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
 import { Manager, Popper, Reference } from 'react-popper';
 
+import {
+  ConversationType,
+  ConversationTypeType,
+  InteractionModeType,
+} from '../../state/ducks/conversations';
 import { Avatar } from '../Avatar';
 import { Spinner } from '../Spinner';
 import { MessageBody } from './MessageBody';
 import { ExpireTimer } from './ExpireTimer';
 import { ImageGrid } from './ImageGrid';
+import { GIF } from './GIF';
 import { Image } from './Image';
 import { Timestamp } from './Timestamp';
 import { ContactName } from './ContactName';
@@ -41,28 +47,36 @@ import {
   isImage,
   isImageAttachment,
   isVideo,
+  isGIF,
 } from '../../types/Attachment';
 import { ContactType } from '../../types/Contact';
 
 import { getIncrement } from '../../util/timer';
 import { isFileDangerous } from '../../util/isFileDangerous';
 import { BodyRangesType, LocalizerType, ThemeType } from '../../types/Util';
-import { ColorType } from '../../types/Colors';
+import {
+  ContactNameColorType,
+  ConversationColorType,
+  CustomColorType,
+} from '../../types/Colors';
 import { createRefMerger } from '../_util';
 import { emojiToData } from '../emoji/lib';
 import { SmartReactionPicker } from '../../state/smart/ReactionPicker';
+import { getCustomColorStyle } from '../../util/getCustomColorStyle';
 
 type Trigger = {
   handleContextClick: (event: React.MouseEvent<HTMLDivElement>) => void;
 };
 
 const STICKER_SIZE = 200;
+const GIF_SIZE = 300;
 const SELECTED_TIMEOUT = 1000;
 const THREE_HOURS = 3 * 60 * 60 * 1000;
 
 export const MessageStatuses = [
   'delivered',
   'error',
+  'paused',
   'partial-sent',
   'read',
   'sending',
@@ -70,17 +84,12 @@ export const MessageStatuses = [
 ] as const;
 export type MessageStatusType = typeof MessageStatuses[number];
 
-export const InteractionModes = ['mouse', 'keyboard'] as const;
-export type InteractionModeType = typeof InteractionModes[number];
-
 export const Directions = ['incoming', 'outgoing'] as const;
 export type DirectionType = typeof Directions[number];
 
-export const ConversationTypes = ['direct', 'group'] as const;
-export type ConversationTypesType = typeof ConversationTypes[number];
-
 export type AudioAttachmentProps = {
   id: string;
+  renderingContext: string;
   i18n: LocalizerType;
   buttonRef: React.RefObject<HTMLButtonElement>;
   direction: DirectionType;
@@ -95,6 +104,10 @@ export type AudioAttachmentProps = {
 
 export type PropsData = {
   id: string;
+  renderingContext: string;
+  contactNameColor?: ContactNameColorType;
+  conversationColor: ConversationColorType;
+  customColor?: CustomColorType;
   conversationId: string;
   text?: string;
   textPending?: boolean;
@@ -105,15 +118,26 @@ export type PropsData = {
   timestamp: number;
   status?: MessageStatusType;
   contact?: ContactType;
-  authorId: string;
-  authorTitle: string;
-  authorName?: string;
-  authorProfileName?: string;
-  authorPhoneNumber?: string;
-  authorColor?: ColorType;
-  conversationType: ConversationTypesType;
+  author: Pick<
+    ConversationType,
+    | 'acceptedMessageRequest'
+    | 'avatarPath'
+    | 'color'
+    | 'id'
+    | 'isMe'
+    | 'name'
+    | 'phoneNumber'
+    | 'profileName'
+    | 'sharedGroupNames'
+    | 'title'
+    | 'unblurredAvatarPath'
+  >;
+  reducedMotion?: boolean;
+  conversationType: ConversationTypeType;
   attachments?: Array<AttachmentType>;
   quote?: {
+    conversationColor: ConversationColorType;
+    customColor?: CustomColorType;
     text: string;
     rawAttachment?: QuotedAttachmentType;
     isFromMe: boolean;
@@ -123,13 +147,11 @@ export type PropsData = {
     authorProfileName?: string;
     authorTitle: string;
     authorName?: string;
-    authorColor?: ColorType;
     bodyRanges?: BodyRangesType;
     referencedMessageNotFound: boolean;
+    isViewOnce: boolean;
   };
   previews: Array<LinkPreviewType>;
-  authorAvatarPath?: string;
-  isExpired?: boolean;
 
   isTapToView?: boolean;
   isTapToViewExpired?: boolean;
@@ -163,6 +185,9 @@ export type PropsHousekeeping = {
 
 export type PropsActions = {
   clearSelectedMessage: () => unknown;
+  doubleCheckMissingQuoteReference: (messageId: string) => unknown;
+  onHeightChange: () => unknown;
+  checkForAccount: (identifier: string) => unknown;
 
   reactToMessage: (
     id: string,
@@ -236,16 +261,14 @@ type State = {
 const EXPIRATION_CHECK_MINIMUM = 2000;
 const EXPIRED_DELAY = 600;
 
-export class Message extends React.PureComponent<Props, State> {
+export class Message extends React.Component<Props, State> {
   public menuTriggerRef: Trigger | undefined;
 
   public focusRef: React.RefObject<HTMLDivElement> = React.createRef();
 
   public audioButtonRef: React.RefObject<HTMLButtonElement> = React.createRef();
 
-  public reactionsContainerRef: React.RefObject<
-    HTMLDivElement
-  > = React.createRef();
+  public reactionsContainerRef: React.RefObject<HTMLDivElement> = React.createRef();
 
   public reactionsContainerRefMerger = createRefMerger();
 
@@ -330,6 +353,17 @@ export class Message extends React.PureComponent<Props, State> {
     }
   };
 
+  public showContextMenu = (event: React.MouseEvent<HTMLDivElement>): void => {
+    const selection = window.getSelection();
+    if (selection && !selection.isCollapsed) {
+      return;
+    }
+    if (event.target instanceof HTMLAnchorElement) {
+      return;
+    }
+    this.showMenu(event);
+  };
+
   public handleImageError = (): void => {
     const { id } = this.props;
     window.log.info(
@@ -374,18 +408,21 @@ export class Message extends React.PureComponent<Props, State> {
     }
 
     const { expirationLength } = this.props;
-    if (!expirationLength) {
-      return;
+    if (expirationLength) {
+      const increment = getIncrement(expirationLength);
+      const checkFrequency = Math.max(EXPIRATION_CHECK_MINIMUM, increment);
+
+      this.checkExpired();
+
+      this.expirationCheckInterval = setInterval(() => {
+        this.checkExpired();
+      }, checkFrequency);
     }
 
-    const increment = getIncrement(expirationLength);
-    const checkFrequency = Math.max(EXPIRATION_CHECK_MINIMUM, increment);
-
-    this.checkExpired();
-
-    this.expirationCheckInterval = setInterval(() => {
-      this.checkExpired();
-    }, checkFrequency);
+    const { contact, checkForAccount } = this.props;
+    if (contact && contact.firstNumber && !contact.isNumberOnSignal) {
+      checkForAccount(contact.firstNumber);
+    }
   }
 
   public componentWillUnmount(): void {
@@ -417,9 +454,28 @@ export class Message extends React.PureComponent<Props, State> {
     }
 
     this.checkExpired();
+    this.checkForHeightChange(prevProps);
 
     if (canDeleteForEveryone !== prevProps.canDeleteForEveryone) {
       this.startDeleteForEveryoneTimer();
+    }
+  }
+
+  public checkForHeightChange(prevProps: Props): void {
+    const { contact, onHeightChange } = this.props;
+    const willRenderSendMessageButton = Boolean(
+      contact && contact.firstNumber && contact.isNumberOnSignal
+    );
+
+    const { contact: previousContact } = prevProps;
+    const previouslyRenderedSendMessageButton = Boolean(
+      previousContact &&
+        previousContact.firstNumber &&
+        previousContact.isNumberOnSignal
+    );
+
+    if (willRenderSendMessageButton !== previouslyRenderedSendMessageButton) {
+      onHeightChange();
     }
   }
 
@@ -465,7 +521,7 @@ export class Message extends React.PureComponent<Props, State> {
 
   public checkExpired(): void {
     const now = Date.now();
-    const { isExpired, expirationTimestamp, expirationLength } = this.props;
+    const { expirationTimestamp, expirationLength } = this.props;
 
     if (!expirationTimestamp || !expirationLength) {
       return;
@@ -474,7 +530,7 @@ export class Message extends React.PureComponent<Props, State> {
       return;
     }
 
-    if (isExpired || now >= expirationTimestamp) {
+    if (now >= expirationTimestamp) {
       this.setState({
         expiring: true,
       });
@@ -512,8 +568,31 @@ export class Message extends React.PureComponent<Props, State> {
     const isError = status === 'error' && direction === 'outgoing';
     const isPartiallySent =
       status === 'partial-sent' && direction === 'outgoing';
+    const isPaused = status === 'paused';
 
-    if (isError || isPartiallySent) {
+    if (isError || isPartiallySent || isPaused) {
+      let statusInfo: React.ReactChild;
+      if (isError) {
+        statusInfo = i18n('sendFailed');
+      } else if (isPaused) {
+        statusInfo = i18n('sendPaused');
+      } else {
+        statusInfo = (
+          <button
+            type="button"
+            className="module-message__metadata__tapable"
+            onClick={(event: React.MouseEvent) => {
+              event.stopPropagation();
+              event.preventDefault();
+
+              showMessageDetail(id);
+            }}
+          >
+            {i18n('partiallySent')}
+          </button>
+        );
+      }
+
       return (
         <span
           className={classNames({
@@ -523,22 +602,7 @@ export class Message extends React.PureComponent<Props, State> {
             'module-message__metadata__date--with-image-no-caption': withImageNoCaption,
           })}
         >
-          {isError ? (
-            i18n('sendFailed')
-          ) : (
-            <button
-              type="button"
-              className="module-message__metadata__tapable"
-              onClick={(event: React.MouseEvent) => {
-                event.stopPropagation();
-                event.preventDefault();
-
-                showMessageDetail(id);
-              }}
-            >
-              {i18n('partiallySent')}
-            </button>
-          )}
+          {statusInfo}
         </span>
       );
     }
@@ -635,11 +699,9 @@ export class Message extends React.PureComponent<Props, State> {
 
   public renderAuthor(): JSX.Element | null {
     const {
-      authorTitle,
-      authorName,
-      authorPhoneNumber,
-      authorProfileName,
+      author,
       collapseMetadata,
+      contactNameColor,
       conversationType,
       direction,
       i18n,
@@ -655,7 +717,7 @@ export class Message extends React.PureComponent<Props, State> {
     if (
       direction !== 'incoming' ||
       conversationType !== 'group' ||
-      !authorTitle
+      !author.title
     ) {
       return null;
     }
@@ -671,10 +733,11 @@ export class Message extends React.PureComponent<Props, State> {
     return (
       <div className={moduleName}>
         <ContactName
-          title={authorTitle}
-          phoneNumber={authorPhoneNumber}
-          name={authorName}
-          profileName={authorProfileName}
+          contactNameColor={contactNameColor}
+          title={author.title}
+          phoneNumber={author.phoneNumber}
+          name={author.name}
+          profileName={author.profileName}
           module={moduleName}
           i18n={i18n}
         />
@@ -690,6 +753,7 @@ export class Message extends React.PureComponent<Props, State> {
       direction,
       i18n,
       id,
+      renderingContext,
       kickOffAttachmentDownload,
       markAttachmentAsCorrupted,
       quote,
@@ -697,6 +761,7 @@ export class Message extends React.PureComponent<Props, State> {
       isSticker,
       text,
       theme,
+      reducedMotion,
 
       renderAudioAttachment,
     } = this.props;
@@ -715,58 +780,79 @@ export class Message extends React.PureComponent<Props, State> {
       (conversationType === 'group' && direction === 'incoming');
     const displayImage = canDisplayImage(attachments);
 
-    if (
-      displayImage &&
-      !imageBroken &&
-      (isImage(attachments) || isVideo(attachments))
-    ) {
+    if (displayImage && !imageBroken) {
       const prefix = isSticker ? 'sticker' : 'attachment';
-      const bottomOverlay = !isSticker && !collapseMetadata;
-      // We only want users to tab into this if there's more than one
-      const tabIndex = attachments.length > 1 ? 0 : -1;
-
-      return (
-        <div
-          className={classNames(
-            `module-message__${prefix}-container`,
-            withContentAbove
-              ? `module-message__${prefix}-container--with-content-above`
-              : null,
-            withContentBelow
-              ? 'module-message__attachment-container--with-content-below'
-              : null,
-            isSticker && !collapseMetadata
-              ? 'module-message__sticker-container--with-content-below'
-              : null
-          )}
-        >
-          <ImageGrid
-            attachments={attachments}
-            withContentAbove={isSticker || withContentAbove}
-            withContentBelow={isSticker || withContentBelow}
-            isSticker={isSticker}
-            stickerSize={STICKER_SIZE}
-            bottomOverlay={bottomOverlay}
-            i18n={i18n}
-            theme={theme}
-            onError={this.handleImageError}
-            tabIndex={tabIndex}
-            onClick={attachment => {
-              if (hasNotDownloaded(attachment)) {
-                kickOffAttachmentDownload({ attachment, messageId: id });
-              } else {
-                showVisualAttachment({ attachment, messageId: id });
-              }
-            }}
-          />
-        </div>
+      const containerClassName = classNames(
+        `module-message__${prefix}-container`,
+        withContentAbove
+          ? `module-message__${prefix}-container--with-content-above`
+          : null,
+        withContentBelow
+          ? 'module-message__attachment-container--with-content-below'
+          : null,
+        isSticker && !collapseMetadata
+          ? 'module-message__sticker-container--with-content-below'
+          : null
       );
+
+      if (isGIF(attachments)) {
+        return (
+          <div className={containerClassName}>
+            <GIF
+              attachment={firstAttachment}
+              size={GIF_SIZE}
+              theme={theme}
+              i18n={i18n}
+              tabIndex={0}
+              reducedMotion={reducedMotion}
+              onError={this.handleImageError}
+              kickOffAttachmentDownload={() => {
+                kickOffAttachmentDownload({
+                  attachment: firstAttachment,
+                  messageId: id,
+                });
+              }}
+            />
+          </div>
+        );
+      }
+
+      if (isImage(attachments) || isVideo(attachments)) {
+        const bottomOverlay = !isSticker && !collapseMetadata;
+        // We only want users to tab into this if there's more than one
+        const tabIndex = attachments.length > 1 ? 0 : -1;
+
+        return (
+          <div className={containerClassName}>
+            <ImageGrid
+              attachments={attachments}
+              withContentAbove={isSticker || withContentAbove}
+              withContentBelow={isSticker || withContentBelow}
+              isSticker={isSticker}
+              stickerSize={STICKER_SIZE}
+              bottomOverlay={bottomOverlay}
+              i18n={i18n}
+              theme={theme}
+              onError={this.handleImageError}
+              tabIndex={tabIndex}
+              onClick={attachment => {
+                if (hasNotDownloaded(attachment)) {
+                  kickOffAttachmentDownload({ attachment, messageId: id });
+                } else {
+                  showVisualAttachment({ attachment, messageId: id });
+                }
+              }}
+            />
+          </div>
+        );
+      }
     }
     if (isAudio(attachments)) {
       return renderAudioAttachment({
         i18n,
         buttonRef: this.audioButtonRef,
         id,
+        renderingContext,
         direction,
         theme,
         attachment: firstAttachment,
@@ -905,7 +991,9 @@ export class Message extends React.PureComponent<Props, State> {
           attachment: first.image,
           messageId: id,
         });
+        return;
       }
+      openLink(first.url);
     };
     const contents = (
       <>
@@ -998,11 +1086,14 @@ export class Message extends React.PureComponent<Props, State> {
 
   public renderQuote(): JSX.Element | null {
     const {
+      conversationColor,
       conversationType,
-      authorColor,
+      customColor,
       direction,
       disableScroll,
+      doubleCheckMissingQuoteReference,
       i18n,
+      id,
       quote,
       scrollToQuotedMessage,
     } = this.props;
@@ -1013,9 +1104,7 @@ export class Message extends React.PureComponent<Props, State> {
 
     const withContentAbove =
       conversationType === 'group' && direction === 'incoming';
-    const quoteColor =
-      direction === 'incoming' ? authorColor : quote.authorColor;
-    const { referencedMessageNotFound } = quote;
+    const { isViewOnce, referencedMessageNotFound } = quote;
 
     const clickHandler = disableScroll
       ? undefined
@@ -1036,12 +1125,17 @@ export class Message extends React.PureComponent<Props, State> {
         authorPhoneNumber={quote.authorPhoneNumber}
         authorProfileName={quote.authorProfileName}
         authorName={quote.authorName}
-        authorColor={quoteColor}
         authorTitle={quote.authorTitle}
         bodyRanges={quote.bodyRanges}
+        conversationColor={conversationColor}
+        customColor={customColor}
+        isViewOnce={isViewOnce}
         referencedMessageNotFound={referencedMessageNotFound}
         isFromMe={quote.isFromMe}
         withContentAbove={withContentAbove}
+        doubleCheckMissingQuoteReference={() =>
+          doubleCheckMissingQuoteReference(id)
+        }
       />
     );
   }
@@ -1065,7 +1159,9 @@ export class Message extends React.PureComponent<Props, State> {
       conversationType === 'group' && direction === 'incoming';
     const withContentBelow = withCaption || !collapseMetadata;
 
-    const otherContent = (contact && contact.signalAccount) || withCaption;
+    const otherContent =
+      (contact && contact.firstNumber && contact.isNumberOnSignal) ||
+      withCaption;
     const tabIndex = otherContent ? 0 : -1;
 
     return (
@@ -1074,7 +1170,7 @@ export class Message extends React.PureComponent<Props, State> {
         isIncoming={direction === 'incoming'}
         i18n={i18n}
         onClick={() => {
-          showContactDetail({ contact, signalAccount: contact.signalAccount });
+          showContactDetail({ contact, signalAccount: contact.firstNumber });
         }}
         withContentAbove={withContentAbove}
         withContentBelow={withContentBelow}
@@ -1085,18 +1181,18 @@ export class Message extends React.PureComponent<Props, State> {
 
   public renderSendMessageButton(): JSX.Element | null {
     const { contact, openConversation, i18n } = this.props;
-    if (!contact || !contact.signalAccount) {
+    if (!contact) {
+      return null;
+    }
+    const { firstNumber, isNumberOnSignal } = contact;
+    if (!firstNumber || !isNumberOnSignal) {
       return null;
     }
 
     return (
       <button
         type="button"
-        onClick={() => {
-          if (contact.signalAccount) {
-            openConversation(contact.signalAccount);
-          }
-        }}
+        onClick={() => openConversation(firstNumber)}
         className="module-message__send-message-button"
       >
         {i18n('sendMessageToContact')}
@@ -1106,14 +1202,8 @@ export class Message extends React.PureComponent<Props, State> {
 
   public renderAvatar(): JSX.Element | undefined {
     const {
-      authorAvatarPath,
-      authorId,
-      authorName,
-      authorPhoneNumber,
-      authorProfileName,
-      authorTitle,
+      author,
       collapseMetadata,
-      authorColor,
       conversationType,
       direction,
       i18n,
@@ -1137,19 +1227,23 @@ export class Message extends React.PureComponent<Props, State> {
         <button
           type="button"
           className="module-message__author-avatar"
-          onClick={() => showContactModal(authorId)}
+          onClick={() => showContactModal(author.id)}
           tabIndex={0}
         >
           <Avatar
-            avatarPath={authorAvatarPath}
-            color={authorColor}
+            acceptedMessageRequest={author.acceptedMessageRequest}
+            avatarPath={author.avatarPath}
+            color={author.color}
             conversationType="direct"
             i18n={i18n}
-            name={authorName}
-            phoneNumber={authorPhoneNumber}
-            profileName={authorProfileName}
-            title={authorTitle}
+            isMe={author.isMe}
+            name={author.name}
+            phoneNumber={author.phoneNumber}
+            profileName={author.profileName}
+            sharedGroupNames={author.sharedGroupNames}
             size={28}
+            title={author.title}
+            unblurredAvatarPath={author.unblurredAvatarPath}
           />
         </button>
       </div>
@@ -1206,7 +1300,15 @@ export class Message extends React.PureComponent<Props, State> {
   public renderError(isCorrectSide: boolean): JSX.Element | null {
     const { status, direction } = this.props;
 
-    if (!isCorrectSide || (status !== 'error' && status !== 'partial-sent')) {
+    if (!isCorrectSide) {
+      return null;
+    }
+
+    if (
+      status !== 'paused' &&
+      status !== 'error' &&
+      status !== 'partial-sent'
+    ) {
       return null;
     }
 
@@ -1215,7 +1317,8 @@ export class Message extends React.PureComponent<Props, State> {
         <div
           className={classNames(
             'module-message__error',
-            `module-message__error--${direction}`
+            `module-message__error--${direction}`,
+            `module-message__error--${status}`
           )}
         />
       </div>
@@ -1420,7 +1523,9 @@ export class Message extends React.PureComponent<Props, State> {
     const { canDeleteForEveryone } = this.state;
 
     const showRetry =
-      (status === 'error' || status === 'partial-sent') &&
+      (status === 'paused' ||
+        status === 'error' ||
+        status === 'partial-sent') &&
       direction === 'outgoing';
     const multipleAttachments = attachments && attachments.length > 1;
 
@@ -1560,6 +1665,11 @@ export class Message extends React.PureComponent<Props, State> {
     const { attachments, isSticker, previews } = this.props;
 
     if (attachments && attachments.length) {
+      if (isGIF(attachments)) {
+        // Message container border
+        return GIF_SIZE + 2;
+      }
+
       if (isSticker) {
         // Padding is 8px, on both sides, plus two for 1px border
         return STICKER_SIZE + 8 * 2 + 2;
@@ -2016,6 +2126,11 @@ export class Message extends React.PureComponent<Props, State> {
 
     const isAttachmentPending = this.isAttachmentPending();
 
+    // Don't show lightbox for GIFs
+    if (isGIF(attachments)) {
+      return;
+    }
+
     if (isTapToView) {
       if (isAttachmentPending) {
         return;
@@ -2100,15 +2215,15 @@ export class Message extends React.PureComponent<Props, State> {
       this.audioButtonRef.current.click();
     }
 
-    if (contact && contact.signalAccount) {
-      openConversation(contact.signalAccount);
+    if (contact && contact.firstNumber && contact.isNumberOnSignal) {
+      openConversation(contact.firstNumber);
 
       event.preventDefault();
       event.stopPropagation();
     }
 
     if (contact) {
-      showContactDetail({ contact, signalAccount: contact.signalAccount });
+      showContactDetail({ contact, signalAccount: contact.firstNumber });
 
       event.preventDefault();
       event.stopPropagation();
@@ -2193,7 +2308,9 @@ export class Message extends React.PureComponent<Props, State> {
 
   public renderContainer(): JSX.Element {
     const {
-      authorColor,
+      attachments,
+      conversationColor,
+      customColor,
       deletedForEveryone,
       direction,
       isSticker,
@@ -2210,6 +2327,7 @@ export class Message extends React.PureComponent<Props, State> {
 
     const containerClassnames = classNames(
       'module-message__container',
+      isGIF(attachments) ? 'module-message__container--gif' : null,
       isSelected && !isSticker ? 'module-message__container--selected' : null,
       isSticker ? 'module-message__container--with-sticker' : null,
       !isSticker ? `module-message__container--${direction}` : null,
@@ -2217,14 +2335,14 @@ export class Message extends React.PureComponent<Props, State> {
       isTapToView && isTapToViewExpired
         ? 'module-message__container--with-tap-to-view-expired'
         : null,
-      !isSticker && direction === 'incoming'
-        ? `module-message__container--incoming-${authorColor}`
+      !isSticker && direction === 'outgoing'
+        ? `module-message__container--outgoing-${conversationColor}`
         : null,
       isTapToView && isAttachmentPending && !isTapToViewExpired
         ? 'module-message__container--with-tap-to-view-pending'
         : null,
       isTapToView && isAttachmentPending && !isTapToViewExpired
-        ? `module-message__container--${direction}-${authorColor}-tap-to-view-pending`
+        ? `module-message__container--${direction}-${conversationColor}-tap-to-view-pending`
         : null,
       isTapToViewError
         ? 'module-message__container--with-tap-to-view-error'
@@ -2237,10 +2355,17 @@ export class Message extends React.PureComponent<Props, State> {
     const containerStyles = {
       width: isShowingImage ? width : undefined,
     };
+    if (!isSticker && direction === 'outgoing') {
+      Object.assign(containerStyles, getCustomColorStyle(customColor));
+    }
 
     return (
       <div className="module-message__container-outer">
-        <div className={containerClassnames} style={containerStyles}>
+        <div
+          className={containerClassnames}
+          style={containerStyles}
+          onContextMenu={this.showContextMenu}
+        >
           {this.renderAuthor()}
           {this.renderContents()}
         </div>
@@ -2251,7 +2376,7 @@ export class Message extends React.PureComponent<Props, State> {
 
   public render(): JSX.Element | null {
     const {
-      authorId,
+      author,
       attachments,
       direction,
       id,
@@ -2262,7 +2387,7 @@ export class Message extends React.PureComponent<Props, State> {
 
     // This id is what connects our triple-dot click with our associated pop-up menu.
     //   It needs to be unique.
-    const triggerId = String(id || `${authorId}-${timestamp}`);
+    const triggerId = String(id || `${author.id}-${timestamp}`);
 
     if (expired) {
       return null;

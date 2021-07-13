@@ -4,6 +4,7 @@
 import React from 'react';
 
 import { LocalizerType } from '../types/Util';
+import { SocketStatus } from '../types/SocketStatus';
 import { NetworkStateType } from '../state/ducks/network';
 
 const FIVE_SECONDS = 5 * 1000;
@@ -100,12 +101,12 @@ export const NetworkStatus = ({
   let renderActionableButton;
 
   switch (socketStatus) {
-    case WebSocket.CONNECTING:
+    case SocketStatus.CONNECTING:
       subtext = i18n('connectingHangOn');
       title = i18n('connecting');
       break;
-    case WebSocket.CLOSED:
-    case WebSocket.CLOSING:
+    case SocketStatus.CLOSED:
+    case SocketStatus.CLOSING:
     default:
       renderActionableButton = manualReconnectButton;
       title = i18n('disconnected');

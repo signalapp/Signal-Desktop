@@ -32,6 +32,14 @@ story.add('Links with Text', () => {
   return <Linkify {...props} />;
 });
 
+story.add('Links with Emoji without space', () => {
+  const props = createProps({
+    text: '👍https://www.signal.org😎',
+  });
+
+  return <Linkify {...props} />;
+});
+
 story.add('No Link', () => {
   const props = createProps({
     text: 'I am fond of cats',

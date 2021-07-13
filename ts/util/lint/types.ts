@@ -1,4 +1,4 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 // Tool requirements:
@@ -59,7 +59,6 @@ export type ExceptionType = {
   rule: string;
   path: string;
   line?: string;
-  lineNumber: number;
   reasonCategory: string;
   updated: string;
   reasonDetail: string;

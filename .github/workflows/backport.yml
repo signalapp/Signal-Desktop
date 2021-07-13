@@ -1,0 +1,29 @@
+
+# Copyright 2021 Signal Messenger, LLC
+# SPDX-License-Identifier: AGPL-3.0-only
+
+name: Backport
+on:
+  issue_comment:
+    types: [created]
+  pull_request:
+    types: [closed]
+
+jobs:
+  backport:
+    name: Apply labels and open backport pull requests
+    if: ${{ github.repository == 'signalapp/Signal-Desktop-Private' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.AUTOMATED_GITHUB_PAT }}
+          repository: signalapp/Signal-Backport-Action-Private
+          path: ./.github/actions/backport
+      - name: Run action
+        uses: ./.github/actions/backport
+        with:
+          token: ${{ secrets.AUTOMATED_GITHUB_PAT }}
+          git-email: backport-bot@signal.org
+          git-name: Backport Bot

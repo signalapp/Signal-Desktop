@@ -1,10 +1,11 @@
-<!-- Copyright 2018-2020 Signal Messenger, LLC -->
+<!-- Copyright 2018-2021 Signal Messenger, LLC -->
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <html>
-<head>
-  <meta http-equiv="Content-Security-Policy"
-    content="default-src 'none';
+  <head>
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none';
             child-src 'self';
             connect-src 'self' https: wss:;
             font-src 'self';
@@ -15,16 +16,21 @@
             object-src 'none';
             script-src 'self';
             style-src 'self' 'unsafe-inline';"
-  >
-  <link href="node_modules/sanitize.css/sanitize.css" rel="stylesheet" type="text/css" />
-  <link href="stylesheets/manifest.css" rel="stylesheet" type="text/css" />
-<style>
-</style>
-</head>
-<body class='permissions-popup'>
-</body>
-<script type='text/javascript' src='js/components.js'></script>
-<script type='text/javascript' src='ts/backboneJquery.js'></script>
-<script type='text/javascript' src='ts/shims/showConfirmationDialog.js'></script>
-<script type='text/javascript' src='js/permissions_popup_start.js'></script>
+    />
+    <link
+      href="node_modules/sanitize.css/sanitize.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link href="stylesheets/manifest.css" rel="stylesheet" type="text/css" />
+    <style></style>
+  </head>
+  <body class="permissions-popup"></body>
+  <script type="text/javascript" src="js/components.js"></script>
+  <script type="text/javascript" src="ts/backboneJquery.js"></script>
+  <script
+    type="text/javascript"
+    src="ts/shims/showConfirmationDialog.js"
+  ></script>
+  <script type="text/javascript" src="js/permissions_popup_start.js"></script>
 </html>

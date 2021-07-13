@@ -4,10 +4,12 @@ coverage/**
 dist/**
 release/**
 
+# Github workflows
+.github/**
+
 # Generated files
 js/curve/*
 js/components.js
-js/libtextsecure.js
 js/util_worker.js
 libtextsecure/components.js
 libtextsecure/test/test.js
@@ -18,11 +20,11 @@ sticker-creator/dist/**
 js/Mp3LameEncoder.min.js
 js/WebAudioRecorderMp3.js
 js/libphonenumber-util.js
-libtextsecure/libsignal-protocol.js
 libtextsecure/test/blanket_mocha.js
 test/blanket_mocha.js
 
 # TypeScript generated files
+app/**/*.js
 ts/**/*.js
 sticker-creator/**/*.js
 !sticker-creator/preload.js

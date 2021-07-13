@@ -1,8 +1,6 @@
 // Copyright 2017-2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* global libsignal */
-
 describe('AccountManager', () => {
   let accountManager;
 
@@ -16,7 +14,7 @@ describe('AccountManager', () => {
     const DAY = 1000 * 60 * 60 * 24;
 
     beforeEach(async () => {
-      const identityKey = await libsignal.KeyHelper.generateIdentityKeyPair();
+      const identityKey = window.Signal.Curve.generateKeyPair();
 
       originalProtocolStorage = window.textsecure.storage.protocol;
       window.textsecure.storage.protocol = {

@@ -4,7 +4,6 @@
 import React, { useRef, useEffect } from 'react';
 import { SetRendererCanvasType } from '../state/ducks/calling';
 import { ConversationType } from '../state/ducks/conversations';
-import { ColorType } from '../types/Colors';
 import { LocalizerType } from '../types/Util';
 import { Avatar } from './Avatar';
 
@@ -43,33 +42,43 @@ export const DirectCallRemoteParticipant: React.FC<PropsType> = ({
 function renderAvatar(
   i18n: LocalizerType,
   {
+    acceptedMessageRequest,
     avatarPath,
     color,
+    isMe,
     name,
     phoneNumber,
     profileName,
+    sharedGroupNames,
     title,
-  }: {
-    avatarPath?: string;
-    color?: ColorType;
-    title: string;
-    name?: string;
-    phoneNumber?: string;
-    profileName?: string;
-  }
+  }: Pick<
+    ConversationType,
+    | 'acceptedMessageRequest'
+    | 'avatarPath'
+    | 'color'
+    | 'isMe'
+    | 'name'
+    | 'phoneNumber'
+    | 'profileName'
+    | 'sharedGroupNames'
+    | 'title'
+  >
 ): JSX.Element {
   return (
     <div className="module-ongoing-call__remote-video-disabled">
       <Avatar
+        acceptedMessageRequest={acceptedMessageRequest}
         avatarPath={avatarPath}
         color={color || 'ultramarine'}
         noteToSelf={false}
         conversationType="direct"
         i18n={i18n}
+        isMe={isMe}
         name={name}
         phoneNumber={phoneNumber}
         profileName={profileName}
         title={title}
+        sharedGroupNames={sharedGroupNames}
         size={112}
       />
     </div>

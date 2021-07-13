@@ -18,12 +18,15 @@ export const CreateNewGroupButton: FunctionComponent<PropsType> = React.memo(
 
     return (
       <BaseConversationListItem
-        color="grey"
+        acceptedMessageRequest={false}
+        color="steel"
         conversationType="group"
         headerName={title}
         i18n={i18n}
+        isMe={false}
         isSelected={false}
         onClick={onClick}
+        sharedGroupNames={[]}
         style={style}
         title={title}
       />

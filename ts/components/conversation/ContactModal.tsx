@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { ReactPortal } from 'react';
@@ -7,6 +7,7 @@ import { createPortal } from 'react-dom';
 import { ConversationType } from '../../state/ducks/conversations';
 import { About } from './About';
 import { Avatar } from '../Avatar';
+import { SharedGroupNames } from '../SharedGroupNames';
 import { LocalizerType } from '../../types/Util';
 
 export type PropsType = {
@@ -20,6 +21,7 @@ export type PropsType = {
   removeMember: (conversationId: string) => void;
   showSafetyNumber: (conversationId: string) => void;
   toggleAdmin: (conversationId: string) => void;
+  updateSharedGroups: () => void;
 };
 
 export const ContactModal = ({
@@ -33,6 +35,7 @@ export const ContactModal = ({
   removeMember,
   showSafetyNumber,
   toggleAdmin,
+  updateSharedGroups,
 }: PropsType): ReactPortal | null => {
   if (!contact) {
     throw new Error('Contact modal opened without a matching contact');
@@ -52,6 +55,11 @@ export const ContactModal = ({
       setRoot(null);
     };
   }, []);
+
+  React.useEffect(() => {
+    // Kick off the expensive hydration of the current sharedGroupNames
+    updateSharedGroups();
+  }, [updateSharedGroups]);
 
   React.useEffect(() => {
     if (root !== null && closeButtonRef.current) {
@@ -105,24 +113,34 @@ export const ContactModal = ({
               aria-label={i18n('close')}
             />
             <Avatar
+              acceptedMessageRequest={contact.acceptedMessageRequest}
               avatarPath={contact.avatarPath}
               color={contact.color}
               conversationType="direct"
               i18n={i18n}
+              isMe={contact.isMe}
               name={contact.name}
               profileName={contact.profileName}
+              sharedGroupNames={contact.sharedGroupNames}
               size={96}
               title={contact.title}
+              unblurredAvatarPath={contact.unblurredAvatarPath}
             />
             <div className="module-contact-modal__name">{contact.title}</div>
             <div className="module-about__container">
               <About text={contact.about} />
             </div>
             {contact.phoneNumber && (
-              <div className="module-contact-modal__profile-and-number">
+              <div className="module-contact-modal__info">
                 {contact.phoneNumber}
               </div>
             )}
+            <div className="module-contact-modal__info">
+              <SharedGroupNames
+                i18n={i18n}
+                sharedGroupNames={contact.sharedGroupNames || []}
+              />
+            </div>
             <div className="module-contact-modal__button-container">
               <button
                 type="button"

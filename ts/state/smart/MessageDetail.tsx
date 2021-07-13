@@ -15,22 +15,30 @@ import { StateType } from '../reducer';
 import { getIntl, getInteractionMode } from '../selectors/user';
 import { renderAudioAttachment } from './renderAudioAttachment';
 import { renderEmojiPicker } from './renderEmojiPicker';
+import { getContactNameColorSelector } from '../selectors/conversations';
 
 type MessageDetailProps = ComponentProps<typeof MessageDetail>;
+
+export { Contact } from '../../components/conversation/MessageDetail';
 
 export type OwnProps = {
   contacts: Array<Contact>;
   errors: Array<Error>;
-  message: MessagePropsDataType;
+  message: Omit<MessagePropsDataType, 'renderingContext'>;
   receivedAt: number;
   sentAt: number;
+
+  sendAnyway: (contactId: string, messageId: string) => unknown;
+  showSafetyNumber: (contactId: string) => void;
 } & Pick<
   MessageDetailProps,
   | 'clearSelectedMessage'
+  | 'checkForAccount'
   | 'deleteMessage'
   | 'deleteMessageForEveryone'
   | 'displayTapToViewMessage'
   | 'downloadAttachment'
+  | 'doubleCheckMissingQuoteReference'
   | 'kickOffAttachmentDownload'
   | 'markAttachmentAsCorrupted'
   | 'openConversation'
@@ -57,11 +65,16 @@ const mapStateToProps = (
     receivedAt,
     sentAt,
 
+    sendAnyway,
+    showSafetyNumber,
+
+    checkForAccount,
     clearSelectedMessage,
     deleteMessage,
     deleteMessageForEveryone,
     displayTapToViewMessage,
     downloadAttachment,
+    doubleCheckMissingQuoteReference,
     kickOffAttachmentDownload,
     markAttachmentAsCorrupted,
     openConversation,
@@ -77,8 +90,17 @@ const mapStateToProps = (
     showVisualAttachment,
   } = props;
 
+  const contactNameColor =
+    message.conversationType === 'group'
+      ? getContactNameColorSelector(state)(
+          message.conversationId,
+          message.author.id
+        )
+      : undefined;
+
   return {
     contacts,
+    contactNameColor,
     errors,
     message,
     receivedAt,
@@ -87,11 +109,16 @@ const mapStateToProps = (
     i18n: getIntl(state),
     interactionMode: getInteractionMode(state),
 
+    sendAnyway,
+    showSafetyNumber,
+
+    checkForAccount,
     clearSelectedMessage,
     deleteMessage,
     deleteMessageForEveryone,
     displayTapToViewMessage,
     downloadAttachment,
+    doubleCheckMissingQuoteReference,
     kickOffAttachmentDownload,
     markAttachmentAsCorrupted,
     openConversation,

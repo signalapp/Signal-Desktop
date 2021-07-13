@@ -24,32 +24,21 @@ const i18n = setupI18n('en', enMessages);
 const story = storiesOf('Components/ConversationList', module);
 
 const defaultConversations: Array<ConversationListItemPropsType> = [
-  {
+  getDefaultConversation({
     id: 'fred-convo',
-    isSelected: false,
-    lastUpdated: Date.now(),
-    markedUnread: false,
     title: 'Fred Willard',
-    type: 'direct',
-  },
-  {
+  }),
+  getDefaultConversation({
     id: 'marc-convo',
     isSelected: true,
-    lastUpdated: Date.now(),
-    markedUnread: false,
     unreadCount: 12,
     title: 'Marc Barraca',
-    type: 'direct',
-  },
-  {
+  }),
+  getDefaultConversation({
     id: 'long-name-convo',
-    isSelected: false,
-    lastUpdated: Date.now(),
-    markedUnread: false,
     title:
       'Pablo Diego José Francisco de Paula Juan Nepomuceno María de los Remedios Cipriano de la Santísima Trinidad Ruiz y Picasso',
-    type: 'direct',
-  },
+  }),
   getDefaultConversation(),
 ];
 
@@ -247,6 +236,7 @@ story.add('Contact checkboxes: disabled', () => (
       'lastUpdated',
       new Date(overrideProps.lastUpdated || Date.now() - 5 * 60 * 1000)
     ),
+    sharedGroupNames: [],
   });
 
   const renderConversation = (

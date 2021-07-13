@@ -2,6 +2,30 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 .module-ConversationHeader {
+  @mixin icon-element($icon, $margin-right: 4px) {
+    display: flex;
+    align-items: center;
+    user-select: none;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      width: 13px;
+      height: 13px;
+      display: block;
+      margin-right: $margin-right;
+
+      @include light-theme {
+        @include color-svg($icon, $color-gray-60);
+      }
+      @include dark-theme {
+        @include color-svg($icon, $color-gray-25);
+      }
+    }
+  }
+
   --button-spacing: 24px;
 
   &.module-ConversationHeader--narrow {
@@ -87,12 +111,12 @@
 
       @include keyboard-mode {
         &:focus {
-          color: $ultramarine-ui-light;
+          color: $color-ultramarine;
         }
       }
       @include dark-keyboard-mode {
         &:focus {
-          color: $ultramarine-ui-dark;
+          color: $color-ultramarine-light;
         }
       }
     }
@@ -133,37 +157,13 @@
           color: $color-gray-25;
         }
 
-        @mixin subtitle-element($icon) {
-          display: flex;
-          align-items: center;
-          user-select: none;
-          white-space: nowrap;
-          text-overflow: ellipsis;
-          overflow: hidden;
-
-          &::before {
-            content: '';
-            width: 13px;
-            height: 13px;
-            display: block;
-            margin-right: 4px;
-
-            @include light-theme {
-              @include color-svg($icon, $color-gray-60);
-            }
-            @include dark-theme {
-              @include color-svg($icon, $color-gray-25);
-            }
-          }
-        }
-
         &__expiration {
-          @include subtitle-element('../images/icons/v2/timer-24.svg');
+          @include icon-element('../images/icons/v2/timer-24.svg');
           margin-right: 12px;
         }
 
         &__verified {
-          @include subtitle-element('../images/icons/v2/check-24.svg');
+          @include icon-element('../images/icons/v2/check-24.svg');
         }
       }
     }
@@ -216,12 +216,12 @@
 
     @include keyboard-mode {
       &:focus {
-        border-color: $ultramarine-ui-light;
+        border-color: $color-ultramarine;
       }
     }
     @include dark-keyboard-mode {
       &:focus {
-        border-color: $ultramarine-ui-dark;
+        border-color: $color-ultramarine-light;
       }
     }
 
@@ -279,9 +279,9 @@
 
     &--join-call {
       @include font-body-1;
+      @include rounded-corners;
       align-items: center;
       background-color: $color-accent-green;
-      border-radius: 9999px; // This ensures the borders are completely rounded. (A value like 100% would make it an ellipse.)
       color: $color-white;
       display: flex;
       outline: none;
@@ -306,6 +306,15 @@
         min-width: $icon-size;
         width: $icon-size;
       }
+    }
+  }
+
+  &__disappearing-timer__item {
+    padding-left: 25px;
+
+    &--active {
+      padding-left: 0px;
+      @include icon-element('../images/icons/v2/check-24.svg', 12px);
     }
   }
 }

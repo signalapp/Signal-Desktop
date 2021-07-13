@@ -3,35 +3,45 @@
 
 import React, { FunctionComponent } from 'react';
 
-import { ColorType } from '../types/Colors';
+import { ConversationType } from '../state/ducks/conversations';
 import { LocalizerType } from '../types/Util';
 import { ContactName } from './conversation/ContactName';
 import { Avatar, AvatarSize } from './Avatar';
 
 export type PropsType = {
-  avatarPath?: string;
-  color?: ColorType;
-  firstName?: string;
   i18n: LocalizerType;
-  id: string;
-  isMe?: boolean;
-  name?: string;
   onClickRemove: (id: string) => void;
-  phoneNumber?: string;
-  profileName?: string;
-  title: string;
-};
+} & Pick<
+  ConversationType,
+  | 'about'
+  | 'acceptedMessageRequest'
+  | 'avatarPath'
+  | 'color'
+  | 'firstName'
+  | 'id'
+  | 'isMe'
+  | 'name'
+  | 'phoneNumber'
+  | 'profileName'
+  | 'sharedGroupNames'
+  | 'title'
+  | 'unblurredAvatarPath'
+>;
 
 export const ContactPill: FunctionComponent<PropsType> = ({
+  acceptedMessageRequest,
   avatarPath,
   color,
   firstName,
   i18n,
+  isMe,
   id,
   name,
   phoneNumber,
   profileName,
+  sharedGroupNames,
   title,
+  unblurredAvatarPath,
   onClickRemove,
 }) => {
   const removeLabel = i18n('ContactPill--remove');
@@ -39,16 +49,20 @@ export const ContactPill: FunctionComponent<PropsType> = ({
   return (
     <div className="module-ContactPill">
       <Avatar
+        acceptedMessageRequest={acceptedMessageRequest}
         avatarPath={avatarPath}
         color={color}
         noteToSelf={false}
         conversationType="direct"
         i18n={i18n}
+        isMe={isMe}
         name={name}
         phoneNumber={phoneNumber}
         profileName={profileName}
         title={title}
+        sharedGroupNames={sharedGroupNames}
         size={AvatarSize.TWENTY_EIGHT}
+        unblurredAvatarPath={unblurredAvatarPath}
       />
       <ContactName
         firstName={firstName}

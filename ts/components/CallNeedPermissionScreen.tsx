@@ -6,17 +6,22 @@ import { LocalizerType } from '../types/Util';
 import { Avatar } from './Avatar';
 import { Intl } from './Intl';
 import { ContactName } from './conversation/ContactName';
-import { ColorType } from '../types/Colors';
+import { ConversationType } from '../state/ducks/conversations';
 
 type Props = {
-  conversation: {
-    avatarPath?: string;
-    color?: ColorType;
-    name?: string;
-    phoneNumber?: string;
-    profileName?: string;
-    title: string;
-  };
+  conversation: Pick<
+    ConversationType,
+    | 'acceptedMessageRequest'
+    | 'avatarPath'
+    | 'color'
+    | 'isMe'
+    | 'name'
+    | 'phoneNumber'
+    | 'profileName'
+    | 'sharedGroupNames'
+    | 'title'
+    | 'unblurredAvatarPath'
+  >;
   i18n: LocalizerType;
   close: () => void;
 };
@@ -39,15 +44,18 @@ export const CallNeedPermissionScreen: React.FC<Props> = ({
   return (
     <div className="module-call-need-permission-screen">
       <Avatar
+        acceptedMessageRequest={conversation.acceptedMessageRequest}
         avatarPath={conversation.avatarPath}
         color={conversation.color || 'ultramarine'}
         noteToSelf={false}
         conversationType="direct"
         i18n={i18n}
+        isMe={conversation.isMe}
         name={conversation.name}
         phoneNumber={conversation.phoneNumber}
         profileName={conversation.profileName}
         title={conversation.title}
+        sharedGroupNames={conversation.sharedGroupNames}
         size={112}
       />
 

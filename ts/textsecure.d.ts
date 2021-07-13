@@ -1,12 +1,8 @@
 // Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import {
-  KeyPairType,
-  SessionRecordType,
-  SignedPreKeyType,
-  StorageType,
-} from './libsignal.d';
+import { UnidentifiedSenderMessageContent } from '@signalapp/signal-client';
+
 import Crypto from './textsecure/Crypto';
 import MessageReceiver from './textsecure/MessageReceiver';
 import MessageSender from './textsecure/SendMessage';
@@ -18,6 +14,11 @@ import { WebAPIType } from './textsecure/WebAPI';
 import utils from './textsecure/Helpers';
 import { CallingMessage as CallingMessageClass } from 'ringrtc';
 import { WhatIsThis } from './window.d';
+import { Storage } from './textsecure/Storage';
+import {
+  StorageServiceCallOptionsType,
+  StorageServiceCredentials,
+} from './textsecure/Types.d';
 
 export type UnprocessedType = {
   attempts: number;
@@ -25,6 +26,7 @@ export type UnprocessedType = {
   envelope?: string;
   id: string;
   timestamp: number;
+  serverGuid?: string;
   serverTimestamp?: number;
   source?: string;
   sourceDevice?: number;
@@ -32,15 +34,7 @@ export type UnprocessedType = {
   version: number;
 };
 
-export type StorageServiceCallOptionsType = {
-  credentials?: StorageServiceCredentials;
-  greaterThanVersion?: string;
-};
-
-export type StorageServiceCredentials = {
-  username: string;
-  password: string;
-};
+export { StorageServiceCallOptionsType, StorageServiceCredentials };
 
 export type TextSecureType = {
   createTaskWithTimeout: (
@@ -49,38 +43,7 @@ export type TextSecureType = {
     options?: { timeout?: number }
   ) => () => Promise<any>;
   crypto: typeof Crypto;
-  storage: {
-    user: {
-      getNumber: () => string;
-      getUuid: () => string | undefined;
-      getDeviceId: () => number | string;
-      getDeviceName: () => string;
-      getDeviceNameEncrypted: () => boolean;
-      setDeviceNameEncrypted: () => Promise<void>;
-      getSignalingKey: () => ArrayBuffer;
-      setNumberAndDeviceId: (
-        number: string,
-        deviceId: number,
-        deviceName?: string | null
-      ) => Promise<void>;
-      setUuidAndDeviceId: (uuid: string, deviceId: number) => Promise<void>;
-    };
-    unprocessed: {
-      batchAdd: (dataArray: Array<UnprocessedType>) => Promise<void>;
-      remove: (id: string | Array<string>) => Promise<void>;
-      getCount: () => Promise<number>;
-      removeAll: () => Promise<void>;
-      getAll: () => Promise<Array<UnprocessedType>>;
-      updateAttempts: (id: string, attempts: number) => Promise<void>;
-      addDecryptedDataToList: (
-        array: Array<Partial<UnprocessedType>>
-      ) => Promise<void>;
-    };
-    get: (key: string, defaultValue?: any) => any;
-    put: (key: string, value: any) => Promise<void>;
-    remove: (key: string | Array<string>) => Promise<void>;
-    protocol: StorageProtocolType;
-  };
+  storage: Storage;
   messageReceiver: MessageReceiver;
   messageSender: MessageSender;
   messaging: SendMessage;
@@ -90,69 +53,8 @@ export type TextSecureType = {
   EventTarget: typeof EventTarget;
   MessageReceiver: typeof MessageReceiver;
   AccountManager: WhatIsThis;
-  MessageSender: WhatIsThis;
+  MessageSender: typeof MessageSender;
   SyncRequest: typeof SyncRequest;
-};
-
-type StoredSignedPreKeyType = SignedPreKeyType & {
-  confirmed?: boolean;
-  created_at: number;
-};
-
-type IdentityKeyRecord = {
-  publicKey: ArrayBuffer;
-  firstUse: boolean;
-  timestamp: number;
-  verified: number;
-  nonblockingApproval: boolean;
-};
-
-export type StorageProtocolType = StorageType & {
-  VerifiedStatus: {
-    DEFAULT: number;
-    VERIFIED: number;
-    UNVERIFIED: number;
-  };
-  archiveSiblingSessions: (identifier: string) => Promise<void>;
-  removeSession: (identifier: string) => Promise<void>;
-  getDeviceIds: (identifier: string) => Promise<Array<number>>;
-  getIdentityRecord: (identifier: string) => IdentityKeyRecord | undefined;
-  getVerified: (id: string) => Promise<number>;
-  hydrateCaches: () => Promise<void>;
-  clearPreKeyStore: () => Promise<void>;
-  clearSignedPreKeysStore: () => Promise<void>;
-  clearSessionStore: () => Promise<void>;
-  isTrustedIdentity: () => void;
-  isUntrusted: (id: string) => boolean;
-  storePreKey: (keyId: number, keyPair: KeyPairType) => Promise<void>;
-  storeSignedPreKey: (
-    keyId: number,
-    keyPair: KeyPairType,
-    confirmed?: boolean
-  ) => Promise<void>;
-  loadIdentityKey: (identifier: string) => Promise<ArrayBuffer | undefined>;
-  loadSignedPreKeys: () => Promise<Array<StoredSignedPreKeyType>>;
-  processVerifiedMessage: (
-    identifier: string,
-    verifiedStatus: number,
-    publicKey: ArrayBuffer
-  ) => Promise<boolean>;
-  removeIdentityKey: (identifier: string) => Promise<void>;
-  saveIdentityWithAttributes: (
-    number: string,
-    options: IdentityKeyRecord
-  ) => Promise<void>;
-  setApproval: (id: string, something: boolean) => void;
-  setVerified: (
-    encodedAddress: string,
-    verifiedStatus: number,
-    publicKey?: ArrayBuffer
-  ) => Promise<void>;
-  removeSignedPreKey: (keyId: number) => Promise<void>;
-  removeAllSessions: (identifier: string) => Promise<void>;
-  removeAllData: () => Promise<void>;
-  on: (key: string, callback: () => void) => WhatIsThis;
-  removeAllConfiguration: () => Promise<void>;
 };
 
 // Protobufs
@@ -347,6 +249,7 @@ export declare class GroupClass {
   membersPendingProfileKey?: Array<MemberPendingProfileKeyClass>;
   membersPendingAdminApproval?: Array<MemberPendingAdminApprovalClass>;
   inviteLinkPassword?: ProtoBinaryType;
+  descriptionBytes?: ProtoBinaryType;
 }
 
 export declare class GroupChangeClass {
@@ -375,34 +278,21 @@ export declare namespace GroupChangeClass {
     addMembers?: Array<GroupChangeClass.Actions.AddMemberAction>;
     deleteMembers?: Array<GroupChangeClass.Actions.DeleteMemberAction>;
     modifyMemberRoles?: Array<GroupChangeClass.Actions.ModifyMemberRoleAction>;
-    modifyMemberProfileKeys?: Array<
-      GroupChangeClass.Actions.ModifyMemberProfileKeyAction
-    >;
-    addPendingMembers?: Array<
-      GroupChangeClass.Actions.AddMemberPendingProfileKeyAction
-    >;
-    deletePendingMembers?: Array<
-      GroupChangeClass.Actions.DeleteMemberPendingProfileKeyAction
-    >;
-    promotePendingMembers?: Array<
-      GroupChangeClass.Actions.PromoteMemberPendingProfileKeyAction
-    >;
+    modifyMemberProfileKeys?: Array<GroupChangeClass.Actions.ModifyMemberProfileKeyAction>;
+    addPendingMembers?: Array<GroupChangeClass.Actions.AddMemberPendingProfileKeyAction>;
+    deletePendingMembers?: Array<GroupChangeClass.Actions.DeleteMemberPendingProfileKeyAction>;
+    promotePendingMembers?: Array<GroupChangeClass.Actions.PromoteMemberPendingProfileKeyAction>;
     modifyTitle?: GroupChangeClass.Actions.ModifyTitleAction;
     modifyAvatar?: GroupChangeClass.Actions.ModifyAvatarAction;
     modifyDisappearingMessagesTimer?: GroupChangeClass.Actions.ModifyDisappearingMessagesTimerAction;
     modifyAttributesAccess?: GroupChangeClass.Actions.ModifyAttributesAccessControlAction;
     modifyMemberAccess?: GroupChangeClass.Actions.ModifyMembersAccessControlAction;
     modifyAddFromInviteLinkAccess?: GroupChangeClass.Actions.ModifyAddFromInviteLinkAccessControlAction;
-    addMemberPendingAdminApprovals?: Array<
-      GroupChangeClass.Actions.AddMemberPendingAdminApprovalAction
-    >;
-    deleteMemberPendingAdminApprovals?: Array<
-      GroupChangeClass.Actions.DeleteMemberPendingAdminApprovalAction
-    >;
-    promoteMemberPendingAdminApprovals?: Array<
-      GroupChangeClass.Actions.PromoteMemberPendingAdminApprovalAction
-    >;
+    addMemberPendingAdminApprovals?: Array<GroupChangeClass.Actions.AddMemberPendingAdminApprovalAction>;
+    deleteMemberPendingAdminApprovals?: Array<GroupChangeClass.Actions.DeleteMemberPendingAdminApprovalAction>;
+    promoteMemberPendingAdminApprovals?: Array<GroupChangeClass.Actions.PromoteMemberPendingAdminApprovalAction>;
     modifyInviteLinkPassword?: GroupChangeClass.Actions.ModifyInviteLinkPasswordAction;
+    modifyDescription?: GroupChangeClass.Actions.ModifyDescriptionAction;
   }
 }
 
@@ -486,6 +376,10 @@ export declare namespace GroupChangeClass.Actions {
   class ModifyInviteLinkPasswordAction {
     inviteLinkPassword?: ProtoBinaryType;
   }
+
+  class ModifyDescriptionAction {
+    descriptionBytes?: ProtoBinaryType;
+  }
 }
 
 export declare class GroupChangesClass {
@@ -515,10 +409,15 @@ export declare class GroupAttributeBlobClass {
   title?: string;
   avatar?: ProtoBinaryType;
   disappearingMessagesDuration?: number;
+  descriptionText?: string;
 
   // Note: this isn't part of the proto, but our protobuf library tells us which
   //   field has been set with this prop.
-  content: 'title' | 'avatar' | 'disappearingMessagesDuration';
+  content:
+    | 'title'
+    | 'avatar'
+    | 'disappearingMessagesDuration'
+    | 'descriptionText';
 }
 
 export declare class GroupExternalCredentialClass {
@@ -564,6 +463,7 @@ export declare class GroupJoinInfoClass {
   addFromInviteLink?: AccessControlClass.AccessRequired;
   version?: number;
   pendingAdminApproval?: boolean;
+  descriptionBytes?: ProtoBinaryType;
 }
 
 // Previous protos
@@ -653,6 +553,8 @@ export declare class ContentClass {
   nullMessage?: NullMessageClass;
   receiptMessage?: ReceiptMessageClass;
   typingMessage?: TypingMessageClass;
+  senderKeyDistributionMessage?: ByteBufferClass;
+  decryptionErrorMessage?: ByteBufferClass;
 }
 
 export declare class DataMessageClass {
@@ -720,14 +622,15 @@ export declare namespace DataMessageClass {
 
   // Note: deep nesting
   class Quote {
-    id: ProtoBigNumberType | null;
-    authorUuid: string | null;
-    text: string | null;
+    id?: ProtoBigNumberType | null;
+    authorUuid?: string | null;
+    text?: string | null;
     attachments?: Array<DataMessageClass.Quote.QuotedAttachment>;
     bodyRanges?: Array<DataMessageClass.BodyRange>;
 
     // Added later during processing
     referencedMessageNotFound?: boolean;
+    isViewOnce?: boolean;
   }
 
   class BodyRange {
@@ -804,6 +707,9 @@ export declare class EnvelopeClass {
   receivedAtDate: number;
   unidentifiedDeliveryReceived?: boolean;
   messageAgeSec?: number;
+  contentHint?: number;
+  groupId?: string;
+  usmc?: UnidentifiedSenderMessageContent;
 }
 
 // Note: we need to use namespaces to express nested classes in Typescript
@@ -813,6 +719,7 @@ export declare namespace EnvelopeClass {
     static PREKEY_BUNDLE: number;
     static RECEIPT: number;
     static UNIDENTIFIED_SENDER: number;
+    static PLAINTEXT_CONTENT: number;
   }
 }
 
@@ -986,6 +893,7 @@ export declare namespace ReceiptMessageClass {
   class Type {
     static DELIVERY: number;
     static READ: number;
+    static VIEWED: number;
   }
 }
 
@@ -1142,6 +1050,8 @@ export declare class AccountRecordClass {
   notDiscoverableByPhoneNumber?: boolean;
   pinnedConversations?: PinnedConversationClass[];
   noteToSelfMarkedUnread?: boolean;
+  universalExpireTimer?: number;
+  primarySendsSms?: boolean;
 
   __unknownFields?: ArrayBuffer;
 }
@@ -1189,6 +1099,7 @@ export declare class SyncMessageClass {
   messageRequestResponse?: SyncMessageClass.MessageRequestResponse;
   fetchLatest?: SyncMessageClass.FetchLatest;
   keys?: SyncMessageClass.Keys;
+  viewed?: Array<SyncMessageClass.Viewed>;
 }
 
 // Note: we need to use namespaces to express nested classes in Typescript
@@ -1217,6 +1128,11 @@ export declare namespace SyncMessageClass {
     senderUuid: string | null;
     timestamp?: ProtoBigNumberType;
   }
+  class Viewed {
+    sender: string | null;
+    senderUuid: string | null;
+    timestamp?: ProtoBigNumberType;
+  }
   class Request {
     type?: number;
   }
@@ -1226,9 +1142,7 @@ export declare namespace SyncMessageClass {
     timestamp?: ProtoBigNumberType;
     message?: DataMessageClass;
     expirationStartTimestamp?: ProtoBigNumberType;
-    unidentifiedStatus?: Array<
-      SyncMessageClass.Sent.UnidentifiedDeliveryStatus
-    >;
+    unidentifiedStatus?: Array<SyncMessageClass.Sent.UnidentifiedDeliveryStatus>;
     isRecipientUpdate?: boolean;
   }
   class StickerPackOperation {
@@ -1237,9 +1151,9 @@ export declare namespace SyncMessageClass {
     type?: number;
   }
   class ViewOnceOpen {
-    sender?: string;
-    senderUuid?: string;
-    timestamp?: ProtoBinaryType;
+    sender: string | null;
+    senderUuid: string | null;
+    timestamp?: ProtoBinaryType | null;
   }
   class FetchLatest {
     static Type: {
@@ -1427,7 +1341,7 @@ export declare namespace SenderCertificateClass {
     ) => Certificate;
     toArrayBuffer: () => ArrayBuffer;
 
-    sender?: string;
+    senderE164?: string;
     senderUuid?: string;
     senderDevice?: number;
     expires?: ProtoBigNumberType;
@@ -1459,6 +1373,8 @@ export declare namespace UnidentifiedSenderMessageClass {
     type?: number;
     senderCertificate?: SenderCertificateClass;
     content?: ProtoBinaryType;
+    contentHint?: number;
+    groupId?: ProtoBinaryType;
   }
 }
 
@@ -1466,5 +1382,13 @@ export declare namespace UnidentifiedSenderMessageClass.Message {
   class Type {
     static PREKEY_MESSAGE: number;
     static MESSAGE: number;
+    static SENDERKEY_MESSAGE: number;
+    static PLAINTEXT_CONTENT: number;
+  }
+
+  class ContentHint {
+    static DEFAULT: number;
+    static RESENDABLE: number;
+    static IMPLICIT: number;
   }
 }

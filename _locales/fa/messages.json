@@ -4,7 +4,7 @@
         "description": "Shown in the about box for the link to software acknowledgments"
     },
     "privacyPolicy": {
-        "message": "شرایط و سیاست‌های حریم خصوصی",
+        "message": "شرایط و خط مشی حریم خصوصی",
         "description": "Shown in the about box for the link to https://signal.org/legal"
     },
     "copyErrorAndQuit": {
@@ -24,7 +24,7 @@
         "description": "Shown in a popup if the database cannot start up properly"
     },
     "deleteAndRestart": {
-        "message": "حذف تمام داده‌ها و راه‌اندازی مجدد",
+        "message": "حذف تمام داده‌ها و راه‌اندازی دوباره",
         "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
     },
     "mainMenuFile": {
@@ -54,6 +54,10 @@
     "mainMenuSettings": {
         "message": "تنظیمات",
         "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
+    },
+    "appMenuServices": {
+        "message": "Services",
+        "description": "Application menu item for macOS 'Services'"
     },
     "appMenuHide": {
         "message": "مخفی‌سازی",
@@ -104,7 +108,7 @@
         "description": "Edit menu command to select all of the text in selected text box"
     },
     "editMenuStartSpeaking": {
-        "message": "شروع صحبت",
+        "message": "صحبت را آغاز کنید",
         "description": "Edit menu item under 'speech' to start dictation"
     },
     "editMenuStopSpeaking": {
@@ -173,6 +177,10 @@
     },
     "avatarMenuViewArchive": {
         "message": "مشاهده بایگانی",
+        "description": "One of the menu options available in the Avatar Popup menu"
+    },
+    "avatarMenuChatColors": {
+        "message": "رنگ گفتگو",
         "description": "One of the menu options available in the Avatar Popup menu"
     },
     "loading": {
@@ -262,7 +270,7 @@
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
-        "message": "مطمئن شوید که دایرکتوری صحیح را که شامل داده های ذخیره شده Signal شما می باشد را انتخاب کرده اید. نام آن باید با 'Signal Export' آغاز شده باشد. شما همچنین میتوانید یک کپی جدید از داده های خود را از برنامه کروم ذخیره کنید.",
+        "message": "مطمئن شوید که دایرکتوری صحیح را که شامل داده های ذخیره شده سیگنال شما می باشد را انتخاب کرده اید. نام آن باید با 'سیگنال Export' آغاز شده باشد. شما همچنین میتوانید یک کپی جدید از داده های خود را از برنامه کروم ذخیره کنید.",
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
@@ -278,7 +286,7 @@
         "description": "Header shown on the screen at the end of a successful import process"
     },
     "importCompleteStartButton": {
-        "message": "شروع به استفاده از Signal Desktop",
+        "message": "شروع به استفاده از سیگنال Desktop",
         "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "importCompleteLinkButton": {
@@ -516,7 +524,7 @@
         "description": "Header for a key change dialog"
     },
     "identityChanged": {
-        "message": "شماره‌ی امنیتی این مخاطب تغییر کرده‌ است. این می‌تواند به این معنی باشد که کسی در حال نفوذ به ارتباط شما است و یا اینکه مخاطب شما Signal را از نو نصب کرده و حالا شماره‌ی امنیتی جدیدی دارد.",
+        "message": "شماره‌ی امنیتی این مخاطب تغییر کرده‌ است. این می‌تواند به این معنی باشد که کسی در حال نفوذ به ارتباط شما است و یا اینکه مخاطب شما سیگنال را از نو نصب کرده و حالا شماره‌ی امنیتی جدیدی دارد.",
         "description": ""
     },
     "incomingError": {
@@ -690,7 +698,7 @@
         "description": "Item under the Help menu, takes you to an article describing how to install the beta release of Signal Desktop"
     },
     "signalDesktopPreferences": {
-        "message": "ترجیحات Signal Desktop",
+        "message": "ترجیحات سیگنال Desktop",
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "signalDesktopStickerCreator": {
@@ -698,8 +706,12 @@
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "aboutSignalDesktop": {
-        "message": "درباره Signal Desktop",
+        "message": "درباره سیگنال Desktop",
         "description": "Item under the Help menu, which opens a small about window"
+    },
+    "screenShareWindow": {
+        "message": "Sharing screen",
+        "description": "Title for screen sharing window"
     },
     "speech": {
         "message": "صحبت",
@@ -718,7 +730,7 @@
         "description": "Command in the tray icon menu, to quit the application"
     },
     "signalDesktop": {
-        "message": "Signal Desktop",
+        "message": "سیگنال Desktop",
         "description": "Tooltip for the tray icon"
     },
     "search": {
@@ -749,6 +761,10 @@
             }
         }
     },
+    "noSearchResults--sms-only": {
+        "message": "SMS/MMS contacts are not available on Desktop.",
+        "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
+    },
     "noSearchResultsInConversation": {
         "message": "هیچ نتیجه ای برای$searchTerm$در $conversationName$",
         "description": "Shown in the search left pane when no results were found",
@@ -771,12 +787,16 @@
         "message": "مخاطبین",
         "description": "Shown to separate the types of search results"
     },
+    "groupsHeader": {
+        "message": "گروه‌ها‌",
+        "description": "Shown to separate the types of search results"
+    },
     "messagesHeader": {
         "message": "پیام‌ها",
         "description": "Shown to separate the types of search results"
     },
     "welcomeToSignal": {
-        "message": "به Signal خوش‌آمدید",
+        "message": "به سیگنال خوش‌آمدید",
         "description": ""
     },
     "selectAContact": {
@@ -902,7 +922,7 @@
         }
     },
     "audioPermissionNeeded": {
-        "message": "برای فرستادن پیام های صوتی، به Signal Desktop اجازه دسترسی به میکروفون خود را بدهید.",
+        "message": "برای فرستادن پیام های صوتی، به سیگنال Desktop اجازه دسترسی به میکروفون خود را بدهید.",
         "description": "Shown if the user attempts to send an audio message without audio permissions turned on"
     },
     "audioCallingPermissionNeeded": {
@@ -1002,11 +1022,11 @@
         "description": "Label for when something is turned off"
     },
     "deleteWarning": {
-        "message": " کلیک روی دکمه 'حذف' باعث میشود این پیام فقط از روی دستگاه شما بطور دائمی از بین برود",
+        "message": "این پیام از روی این دستگها پاک خواهد شد.",
         "description": "Text shown in the confirmation dialog for deleting a message locally"
     },
     "deleteForEveryoneWarning": {
-        "message": "این پیام برای همه در این مکالمه حذف خواهد شد اگر آن‌ها از نسخه‌های اخیر Signal استفاده کنند. آن‌ها قادر خواهند بود ببینند که شما پیامی را پاک کردید.",
+        "message": "این پیام برای همه در این مکالمه حذف خواهد شد اگر آن‌ها از نسخه‌های اخیر سیگنال استفاده کنند. آن‌ها قادر خواهند بود ببینند که شما پیامی را پاک کردید.",
         "description": "Text shown in the confirmation dialog for deleting a message for everyone"
     },
     "deleteThisMessage": {
@@ -1071,6 +1091,10 @@
         "message": "شما هنوز هیچ پیامی با این مخاطب تبادل نکرده‌اید. شماره‌ی امنیتی پس از ارسال و یا دریافت اولین پیام در دسترس خواهد بود.",
         "description": ""
     },
+    "back": {
+        "message": "بازگشت",
+        "description": "Generic label for back"
+    },
     "goBack": {
         "message": "برگرد",
         "description": "Label for back button in a conversation"
@@ -1083,12 +1107,16 @@
         "message": "ارسال دوباره",
         "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
     },
+    "forwardMessage": {
+        "message": "بازارسال پیام",
+        "description": "Shown on the drop-down menu for an individual message, forwards a message"
+    },
     "deleteMessage": {
-        "message": "پیام را برای من حذف کن",
+        "message": "حذف پیام برای من",
         "description": "Shown on the drop-down menu for an individual message, deletes single message"
     },
     "deleteMessageForEveryone": {
-        "message": "پیام را برای همه حذف کن",
+        "message": "حذف پیام برای همه",
         "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
     },
     "deleteMessages": {
@@ -1102,6 +1130,54 @@
     "sessionEnded": {
         "message": "جلسه‌ی امن از نو ایجاد شد",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
+    },
+    "ChatRefresh--notification": {
+        "message": "نشست گفتگو تازه‌سازی شد",
+        "description": "Shown in timeline when a error happened, and the session was automatically reset."
+    },
+    "ChatRefresh--learnMore": {
+        "message": "اطلاعات بیشتر",
+        "description": "Shown in timeline when session is automatically reset, to provide access to a popup info dialog"
+    },
+    "ChatRefresh--summary": {
+        "message": "Signal uses end-to-end encryption and it may need to refresh your chat session sometimes. This doesn’t affect your chat’s security but you may have missed a message from this contact and you can ask them to resend it.",
+        "description": "Shown on explainer dialog available from chat session refreshed timeline events"
+    },
+    "ChatRefresh--contactSupport": {
+        "message": "تماس با پشتیبانی",
+        "description": "Shown on explainer dialog available from chat session refreshed timeline events"
+    },
+    "DeliveryIssue--preview": {
+        "message": "اشکال تحویل",
+        "description": "Shown in left pane preview when message delivery issue happens"
+    },
+    "DeliveryIssue--notification": {
+        "message": "A message from $sender$ couldn’t be delivered",
+        "description": "Shown in timeline when message delivery issue happens",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "DeliveryIssue--learnMore": {
+        "message": "اطلاعات بیشتر",
+        "description": "Shown in timeline when message delivery issue happens, to provide access to a popup info dialog"
+    },
+    "DeliveryIssue--title": {
+        "message": "اشکال تحویل",
+        "description": "Shown on explainer dialog available from delivery issue timeline events"
+    },
+    "DeliveryIssue--summary": {
+        "message": "A message, sticker, reaction, read receipt or media couldn’t be delivered to you from $sender$. They may have tried sending it to you directly, or in a group.",
+        "description": "Shown on explainer dialog available from delivery issue timeline events",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
     },
     "quoteThumbnailAlt": {
         "message": "تامبنیل تصویر از پیام نقل قول شده",
@@ -1136,19 +1212,19 @@
         "description": "Used in the media gallery documents tab to visually represent a file"
     },
     "installWelcome": {
-        "message": "به Signal Desktop خوش‌آمدید",
+        "message": "به سیگنال Desktop خوش‌آمدید",
         "description": "Welcome title on the install page"
     },
     "installTagline": {
-        "message": "حفظ حریم خصوصی ممکن است. Signal این کار را راحت‌تر میکند.",
+        "message": "حفظ حریم خصوصی ممکن است. سیگنال این کار را راحت‌تر میکند.",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
     "linkYourPhone": {
-        "message": "موبایل خود را به Signal Desktop لینک کنید",
+        "message": "موبایل خود را به سیگنال Desktop لینک کنید",
         "description": "Shown on the front page when the application first starts, above the QR code"
     },
     "signalSettings": {
-        "message": "تنظیمات Signal",
+        "message": "تنظیمات سیگنال",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "linkedDevices": {
@@ -1246,6 +1322,18 @@
     "calling__button--audio-on": {
         "message": "باز کردن صدا",
         "description": "Button tooltip label for turning on the microphone"
+    },
+    "calling__button--presenting-disabled": {
+        "message": "Presenting disabled",
+        "description": "Button tooltip label for when screen sharing is disabled"
+    },
+    "calling__button--presenting-on": {
+        "message": "Start presenting",
+        "description": "Button tooltip label for starting to share screen"
+    },
+    "calling__button--presenting-off": {
+        "message": "Stop presenting",
+        "description": "Button tooltip label for stopping screen sharing"
     },
     "calling__your-video-is-off": {
         "message": "دوربین شما خاموش است",
@@ -1359,12 +1447,86 @@
         "message": "پایین بکشید",
         "description": "Label for the \"scroll down\" button in a call's overflow area"
     },
+    "calling__presenting--notification-title": {
+        "message": "You're presenting to everyone.",
+        "description": "Title for the share screen notification"
+    },
+    "calling__presenting--notification-body": {
+        "message": "Click here to return to the call when you're ready to stop presenting.",
+        "description": "Body text for the share screen notification"
+    },
+    "calling__presenting--info": {
+        "message": "Signal is sharing $window$.",
+        "description": "Text that appears in the screen sharing controller to inform person that they are presenting",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Application"
+            }
+        }
+    },
+    "calling__presenting--stop": {
+        "message": "Stop sharing",
+        "description": "Button for stopping screen sharing"
+    },
+    "calling__presenting--you-stopped": {
+        "message": "You stopped presenting",
+        "description": "Toast that appears when someone stops presenting"
+    },
+    "calling__presenting--person-ongoing": {
+        "message": "$name$ is presenting",
+        "description": "Title of call when someone is presenting",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Maddie"
+            }
+        }
+    },
+    "calling__presenting--person-stopped": {
+        "message": "$name$ stopped presenting",
+        "description": "Toast that appears when someone stops presenting",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Maddie"
+            }
+        }
+    },
+    "calling__presenting--permission-title": {
+        "message": "Permission needed",
+        "description": "Shown as the title for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--macos-permission-description": {
+        "message": "Signal needs permission to access your computer's screen recording.",
+        "description": "Shown as the description for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--permission-instruction-step1": {
+        "message": "Go to System Preferences.",
+        "description": "Shown as the description for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--permission-instruction-step2": {
+        "message": "Click on the lock icon on the bottom left and enter your computer’s password.",
+        "description": "Shown as the description for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--permission-instruction-step3": {
+        "message": "On the right, check the box next to Signal. If you don’t see Signal in the list, click the + to add it.",
+        "description": "Shown as the description for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--permission-open": {
+        "message": "Open System Preferences",
+        "description": "The button that opens your system preferences for the needs screen record permissions modal"
+    },
+    "calling__presenting--permission-cancel": {
+        "message": "رد",
+        "description": "The cancel button for the needs screen record permissions modal"
+    },
     "alwaysRelayCallsDescription": {
-        "message": "عبور تمامی تماس‌ها از سرور Signal",
+        "message": "عبور تمامی تماس‌ها از سرور سیگنال",
         "description": "Description of the always relay calls setting"
     },
     "alwaysRelayCallsDetail": {
-        "message": "گذراندن تمامی تماس‌ها از سرور Signal به منظور جلوگیری از آشکار شدن نشانی اینترنتی شما برای مخاطبانتان. فعال‌سازی این گزینه باعث کاهش کیفیت تماس می‌گردد.",
+        "message": "گذراندن تمامی تماس‌ها از سرور سیگنال به منظور جلوگیری از آشکار شدن نشانی اینترنتی شما برای مخاطبانتان. فعال‌سازی این گزینه باعث کاهش کیفیت تماس می‌گردد.",
         "description": "Details describing the always relay calls setting"
     },
     "permissions": {
@@ -1384,8 +1546,8 @@
         "description": "Header for general options on the settings screen"
     },
     "spellCheckDescription": {
-        "message": "فعال سازی کنترل املاء متن وارد شده در باکس پیام نویسی",
-        "description": "Description of the media permission description"
+        "message": "Enable spell check",
+        "description": "Description of the spell check setting"
     },
     "spellCheckWillBeEnabled": {
         "message": "در اجرای بعدی سیگنال بررسی املائی فعال خواهد شد",
@@ -1394,6 +1556,10 @@
     "spellCheckWillBeDisabled": {
         "message": "در اجرای بعدی سیگنال بررسی املائی غیرفعال خواهد شد",
         "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
+    },
+    "autoLaunchDescription": {
+        "message": "Open at computer login",
+        "description": "Description for the automatic launch setting"
     },
     "clearDataHeader": {
         "message": "پاک سازی داده",
@@ -1412,7 +1578,7 @@
         "description": "Header of the full-screen delete data confirmation screen"
     },
     "deleteAllDataBody": {
-        "message": "شما در حال پاک کردن تمام اطلاعات ذخیره شده این حساب کاربری میباشید، این اطلاعات شامل تمام مخاطبین و پیام ها می باشد. شما همیشه میتوانید با موبایل خود آن را لینک کنید، اما این پیام های پاک شده را برنمی گرداند.",
+        "message": "شما در حال پاک کردن تمامی اطلاعات حساب کاربری ذخیره شده در این برنامه، شامل همهٔ مخاطبین و کل پیام‌ها، هستید. شما همیشه می‌توانید برنامه را دوباره با دستگاه تلفن همراه خود پیوند دهید، اما این کار پیام‌های پاک شده را بازگردانی نمی‌کند.",
         "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
     },
     "deleteAllDataButton": {
@@ -1509,6 +1675,10 @@
         "message": "ارسال ناموفق بود",
         "description": "Shown on outgoing message if it fails to send"
     },
+    "sendPaused": {
+        "message": "ارسال متوقف شد",
+        "description": "Shown on outgoing message if it cannot be sent immediately"
+    },
     "partiallySent": {
         "message": "به صورت ناقص ارسال شد، برای جزئیات کلیک کنید",
         "description": "Shown on outgoing message if it is partially sent"
@@ -1526,7 +1696,7 @@
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "این نسخه‌ی Signal قدیمی است. برای ارسال پیام لطفا آن را به آخرین نسخه ارتقاء دهید.",
+        "message": "این نسخه‌ی سیگنال قدیمی است. برای ارسال پیام لطفا آن را به آخرین نسخه ارتقاء دهید.",
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
@@ -1546,7 +1716,7 @@
         "description": "Label for contact and group sync settings"
     },
     "syncExplanation": {
-        "message": "واردسازی لیست تمام گروه‌ها و مخاطب‌های Signal از گوشی موبایل شما.",
+        "message": "واردسازی لیست تمام گروه‌ها و مخاطب‌های سیگنال از گوشی موبایل شما.",
         "description": "Explanatory text for sync settings"
     },
     "lastSynced": {
@@ -1661,105 +1831,13 @@
             }
         }
     },
-    "timerOption_0_seconds": {
+    "disappearingMessages__off": {
         "message": "خاموش",
         "description": "Label for option to turn off message expiration in the timer menu"
     },
-    "timerOption_5_seconds": {
-        "message": "5 ثانیه",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_10_seconds": {
-        "message": "10 ثانیه",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_30_seconds": {
-        "message": "30 ثانیه",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_1_minute": {
-        "message": "1 دقیقه",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_5_minutes": {
-        "message": "5 دقیقه",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_30_minutes": {
-        "message": "30 دقیقه",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_1_hour": {
-        "message": "1 ساعت",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_6_hours": {
-        "message": "6 ساعت",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_12_hours": {
-        "message": "12 ساعت",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_1_day": {
-        "message": "1 روز",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_1_week": {
-        "message": "1 هفته",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
     "disappearingMessages": {
         "message": "پیام‌های نابود شونده",
-        "description": "Conversation menu option to enable disappearing messages"
-    },
-    "timerOption_0_seconds_abbreviated": {
-        "message": "خاموش",
-        "description": "Short format indicating current timer setting in the conversation list snippet"
-    },
-    "timerOption_5_seconds_abbreviated": {
-        "message": "5 ثانیه",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_10_seconds_abbreviated": {
-        "message": "10 ثانیه",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_30_seconds_abbreviated": {
-        "message": "30 ثانیه",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_1_minute_abbreviated": {
-        "message": "1 دقیقه",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_5_minutes_abbreviated": {
-        "message": "5 دقیقه",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_30_minutes_abbreviated": {
-        "message": "30 دقیقه",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_1_hour_abbreviated": {
-        "message": "1 ساعت",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_6_hours_abbreviated": {
-        "message": "6 ساعت",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_12_hours_abbreviated": {
-        "message": "12 ساعت",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_1_day_abbreviated": {
-        "message": "1 روز",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_1_week_abbreviated": {
-        "message": "1 هفته",
-        "description": "Very short format indicating current timer setting in the conversation header"
+        "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages"
     },
     "disappearingMessagesDisabled": {
         "message": "پیام های نابود شونده غیر فعال شدند",
@@ -1909,6 +1987,116 @@
         "message": "شروع یک مکالمه جدید...",
         "description": "Label underneath number a user enters that is not an existing contact"
     },
+    "newConversation": {
+        "message": "مکالمهٔ جدید",
+        "description": "Label for header when starting a new conversation"
+    },
+    "contactSearchPlaceholder": {
+        "message": "جستجو از طریق نام یا شماره تلفن",
+        "description": "Placeholder to use when searching for contacts in the composer"
+    },
+    "noContactsFound": {
+        "message": "هیچ مخاطبی یافت نشد",
+        "description": "Label shown when there are no contacts to compose to"
+    },
+    "noConversationsFound": {
+        "message": "No conversations found",
+        "description": "Label shown when there are no conversations to compose to"
+    },
+    "chooseGroupMembers__title": {
+        "message": "انتخاب اعضا",
+        "description": "The title for the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__back-button": {
+        "message": "بازگشت",
+        "description": "Used as alt-text of the back button on the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__skip": {
+        "message": "رد کردن",
+        "description": "The 'skip' button text in the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__next": {
+        "message": "بعدی",
+        "description": "The 'next' button text in the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__maximum-group-size__title": {
+        "message": "به حداکثر اندازهٔ گروه رسیدید",
+        "description": "Shown in the alert when you add the maximum number of group members"
+    },
+    "chooseGroupMembers__maximum-group-size__body": {
+        "message": "گروه های سیگنال می توانند حداکثر $max$ عضو داشته باشند.",
+        "description": "Shown in the alert when you add the maximum number of group members",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "1000"
+            }
+        }
+    },
+    "chooseGroupMembers__maximum-recommended-group-size__title": {
+        "message": "تعداد اعضا به انتها رسیده است",
+        "description": "Shown in the alert when you add the maximum recommended number of group members"
+    },
+    "chooseGroupMembers__maximum-recommended-group-size__body": {
+        "message": "Signal groups perform best with $max$ members or less. Adding more members will cause delays sending and receiving messages.",
+        "description": "Shown in the alert when you add the maximum recommended number of group members",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "150"
+            }
+        }
+    },
+    "chooseGroupMembers__cant-add-member__title": {
+        "message": "Can’t add member",
+        "description": "Shown in the alert when you try to add someone who can't be added to a group"
+    },
+    "chooseGroupMembers__cant-add-member__body": {
+        "message": "\"$name$\" can’t be added to the group because they’re using an old version of Signal. You can add them to the group after they’ve updated Signal.",
+        "description": "Shown in the alert when you try to add someone who can't be added to a group",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "Jane Doe"
+            }
+        }
+    },
+    "setGroupMetadata__title": {
+        "message": "نامی برای گروه انتخاب کنید",
+        "description": "The title for the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__back-button": {
+        "message": "برگشت به انتخاب اعضا",
+        "description": "Used as alt-text of the back button on the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__group-name-placeholder": {
+        "message": "نام گروه (ضروری)",
+        "description": "The placeholder for the group name placeholder"
+    },
+    "setGroupMetadata__group-description-placeholder": {
+        "message": "Description",
+        "description": "The placeholder for the group description"
+    },
+    "setGroupMetadata__create-group": {
+        "message": "ایجاد",
+        "description": "The 'create group' button text in the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__members-header": {
+        "message": "اعضا",
+        "description": "The header for the members list in the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__error-message": {
+        "message": "ایجاد این گروه ممکن نبود. اتصال خود را بررسی و دوباره تلاش کنید.",
+        "description": "Shown in the modal when we can't create a group"
+    },
+    "updateGroupAttributes__title": {
+        "message": "ویرایش گروه",
+        "description": "Shown in the modal when we want to update a group"
+    },
+    "updateGroupAttributes__error-message": {
+        "message": "Failed to update the group. Check your connection and try again.",
+        "description": "Shown in the modal when we can't update a group"
+    },
     "notSupportedSMS": {
         "message": "پیامک/فراپیام پشتیبانی نمی شود.",
         "description": "Label underneath number informing user that SMS is not supported on desktop"
@@ -1922,7 +2110,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "برای ادامه‌ی استفاده از ‌Signal Desktop، دوباره این برنامه را به Signal موبایل خود متصل نمایید.",
+        "message": "برای ادامه‌ی استفاده از ‌سیگنال Desktop، دوباره این برنامه را به سیگنال موبایل خود متصل نمایید.",
         "description": ""
     },
     "unlinked": {
@@ -1934,19 +2122,19 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "به‌روزرسانی Signal در دسترس است",
+        "message": "به‌روزرسانی سیگنال در دسترس است",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "نسخه جدیدی از Signal در دسترس است.",
+        "message": "نسخه جدیدی از سیگنال در دسترس است.",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "برای اعمال آپدیت ها Signal را ری استارت کنید.",
+        "message": "برای اعمال آپدیت ها سیگنال را ری استارت کنید.",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "راه اندازی مجدد Signal",
+        "message": "راه اندازی مجدد سیگنال",
         "description": ""
     },
     "autoUpdateLaterButtonLabel": {
@@ -2081,15 +2269,15 @@
     },
     "message--getDescription--disappearing-media": {
         "message": "رسانه یکبار مصرف",
-        "description": "Shown in notifications and in the left pane after view-once message is deleted."
+        "description": "Shown in notifications and in the left pane after view-once message is deleted. Also shown when quoting a view once media."
     },
     "message--getDescription--disappearing-photo": {
         "message": "تصویر یکبار مصرف ",
-        "description": "Shown in notifications and in the left pane when a message is a view once photo."
+        "description": "Shown in notifications and in the left pane when a message is a view once photo. Also shown when quoting a view once photo."
     },
     "message--getDescription--disappearing-video": {
         "message": "ویدئو یکبار مصرف",
-        "description": "Shown in notifications and in the left pane when a message is a view once video."
+        "description": "Shown in notifications and in the left pane when a message is a view once video. Also shown when quoting a view once video."
     },
     "message--deletedForEveryone": {
         "message": "این پیام حذف شد",
@@ -2108,11 +2296,11 @@
         "description": "Shown in the sticker pack manager when you don't have any installed sticker packs."
     },
     "stickers--StickerManager--BlessedPacks": {
-        "message": "سری های هنرمند Signal",
+        "message": "سری های هنرمند سیگنال",
         "description": "Shown in the sticker pack manager above the default sticker packs."
     },
     "stickers--StickerManager--BlessedPacks--Empty": {
-        "message": "هیچ استیکر هنرمند Signal موجود نمی باشد",
+        "message": "هیچ استیکر هنرمند سیگنال موجود نمی باشد",
         "description": "Shown in the sticker pack manager when there are no blessed sticker packs available."
     },
     "stickers--StickerManager--ReceivedPacks": {
@@ -2278,15 +2466,15 @@
         }
     },
     "Message--from-me-unsupported-message": {
-        "message": "پیامی که دریافت کرده‌اید قابل نمایش یا قابل پردازش نیست چون که به یک ویژگی جدید Signal نیاز دارد.",
+        "message": "پیامی که دریافت کرده‌اید قابل نمایش یا قابل پردازش نیست چون که به یک ویژگی جدید سیگنال نیاز دارد.",
         "description": ""
     },
     "Message--from-me-unsupported-message-ask-to-resend": {
-        "message": "حالا که از یک نسخه‌ی به‌روز Signal استفاده می‌کنید می‌توانید از %@ بخواهید که این پیام را دوباره برایتان بفرستد.",
+        "message": "حالا که از یک نسخه‌ی به‌روز سیگنال استفاده می‌کنید می‌توانید از %@ بخواهید که این پیام را دوباره برایتان بفرستد.",
         "description": ""
     },
     "Message--update-signal": {
-        "message": "به‌روزرسانی Signal",
+        "message": "به‌روزرسانی سیگنال",
         "description": "Text for a button which will take user to Signal download page"
     },
     "Message--tap-to-view-expired": {
@@ -2326,7 +2514,7 @@
         "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
     },
     "Keyboard--navigate-by-section": {
-        "message": "Navigate by section",
+        "message": "حرکت به بخش‌های مختلف",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--previous-conversation": {
@@ -2350,7 +2538,11 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-conversation-menu": {
-        "message": "Open conversation menu",
+        "message": "باز کردن منوی مکالمه‌ها",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--new-conversation": {
+        "message": "شروع مکالمه جدید",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--archive-conversation": {
@@ -2370,11 +2562,11 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--focus-composer": {
-        "message": "Focus composer",
+        "message": "تمرکز روی پیام‌نگار",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-all-media-view": {
-        "message": "Open All Media view",
+        "message": "باز کردن نمای همهٔ رسانه‌ها",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-emoji-chooser": {
@@ -2386,27 +2578,27 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--begin-recording-voice-note": {
-        "message": "Begin recording voice note",
+        "message": "آغاز ضبط کردن پیام صوتی",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--default-message-action": {
-        "message": "Default action for selected message",
+        "message": "عمل پیش‌فرض برای پیام انتخاب شده",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--view-details-for-selected-message": {
-        "message": "View selected message details",
+        "message": "مشاهدهٔ جزئیات پیام انتخاب شده",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-reply": {
-        "message": "Toggle reply to selected message",
+        "message": "باز و بسته کردن پاسخ به پیام انتخاب شده",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-reaction-picker": {
-        "message": "Toggle emoji-reaction picker for selected message",
+        "message": "باز و بسته کردن گزینشگر ایموجی برای پیام انتخاب شده",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--save-attachment": {
-        "message": "Save attachment from selected message",
+        "message": "ذخیرهٔ پیوست از پیام انتخاب انتخاب شده",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--delete-message": {
@@ -2414,15 +2606,15 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--add-newline": {
-        "message": "Add newline to message",
+        "message": "افزودن سطر جدید به پیام",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--expand-composer": {
-        "message": "Expand composer",
+        "message": "گسترش پیام‌نگار",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--send-in-expanded-composer": {
-        "message": "Send (in expanded composer)",
+        "message": "ارسال (در پیام‌نگار گسترش یافته)",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--attach-file": {
@@ -2430,15 +2622,15 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--remove-draft-link-preview": {
-        "message": "Remove draft link preview",
+        "message": "حذف کردن پیش‌نمایش پیوند پیش‌نویس",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--remove-draft-attachments": {
-        "message": "Remove all draft attachments",
+        "message": "حذف کردن همهٔ پیوست‌ها‌ی پیش‌نویس",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--conversation-by-index": {
-        "message": "Jump to conversation",
+        "message": "پرش به مکالمه",
         "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
     },
     "Keyboard--Key--ctrl": {
@@ -2486,15 +2678,15 @@
         "description": "Header of the keyboard shortcuts guide - composer section"
     },
     "Keyboard--scroll-to-top": {
-        "message": "Scroll to top of list",
+        "message": "حرکت به بالای فهرست",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--scroll-to-bottom": {
-        "message": "Scroll to bottom of list",
+        "message": "حرکت به انتهای فهرست",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--close-curent-conversation": {
-        "message": "Close current conversation",
+        "message": "بستن مکالمهٔ فعلی",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--calling-header": {
@@ -2502,11 +2694,11 @@
         "description": "Header of the keyboard shortcuts guide - calling section"
     },
     "Keyboard--toggle-audio": {
-        "message": "Toggle mute on and off",
+        "message": "باز و بسته کردن صدا",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-video": {
-        "message": "Toggle video on and off",
+        "message": "خاموش و روشن کردن ویدئو",
         "description": "Shown in the shortcuts guide"
     },
     "close-popup": {
@@ -2652,7 +2844,7 @@
         "description": "Title for the upload stage of the sticker creator"
     },
     "StickerCreator--UploadStage-uploaded": {
-        "message": "$count$ of $total$ uploaded",
+        "message": "$count$ از $total$ آپلود شد ",
         "description": "Title for the upload stage of the sticker creator",
         "placeholders": {
             "count": {
@@ -2666,7 +2858,7 @@
         }
     },
     "StickerCreator--ShareStage--title": {
-        "message": "تبریک! شما یک بسته استیکر ساختید.",
+        "message": "تبریک! شما یک بستهٔ استیکر ایجاد کردید.",
         "description": "Title for the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--help": {
@@ -2718,7 +2910,7 @@
         "description": "Text for the toast when an image that is too large was dropped on the sticker creator"
     },
     "StickerCreator--Toasts--errorProcessing": {
-        "message": "Error processing image",
+        "message": "خطا در پردازش تصویر",
         "description": "Text for the toast when an image cannot be processed was dropped on the sticker creator with a generic error"
     },
     "StickerCreator--Toasts--APNG--notSquare": {
@@ -2764,7 +2956,7 @@
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
     "Reactions--error": {
-        "message": "Failed to send reaction. Please try again.",
+        "message": "ناموفقیت در ارسال واکنش. لطفاً دوباره تلاش کنید.",
         "description": "Shown when a reaction fails to send"
     },
     "ReactionsViewer--more": {
@@ -2847,9 +3039,13 @@
             }
         }
     },
-    "MessageRequests--block-and-delete": {
-        "message": "مسدود کردن و حذف",
-        "description": "Shown as a button to let the user block and delete a message request"
+    "MessageRequests--block-and-report-spam": {
+        "message": "Report Spam and Block",
+        "description": "Shown as a button to let the user block a message request and report spam"
+    },
+    "MessageRequests--block-and-report-spam-success-toast": {
+        "message": "اسپم گزارش داده و مسدود شد.",
+        "description": "Shown in a toast when you successfully block a user and report them as spam"
     },
     "MessageRequests--block-direct-confirm-title": {
         "message": "مسدودسازی $name$؟",
@@ -2969,8 +3165,8 @@
             }
         }
     },
-    "ConversationHero--membership-1": {
-        "message": "عضو از $group$.",
+    "member-of-1-group": {
+        "message": "عضو $group$",
         "description": "Shown in the conversation hero to indicate this user is a member of a mutual group",
         "placeholders": {
             "group": {
@@ -2979,8 +3175,8 @@
             }
         }
     },
-    "ConversationHero--membership-2": {
-        "message": "عضو از $group1$ و $group2$.",
+    "member-of-2-groups": {
+        "message": "عضو $group1$ و $group2$",
         "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups",
         "placeholders": {
             "group1": {
@@ -2993,8 +3189,8 @@
             }
         }
     },
-    "ConversationHero--membership-3": {
-        "message": "عضو از $group1$، $group2$ و $group3$.",
+    "member-of-3-groups": {
+        "message": "عضو $group1$، $group2$ و $group3$",
         "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
         "placeholders": {
             "group1": {
@@ -3011,8 +3207,8 @@
             }
         }
     },
-    "ConversationHero--membership-extra": {
-        "message": "Member of $group1$, $group2$, $group3$ and $remainingCount$ more.",
+    "member-of-more-than-3-groups": {
+        "message": "Member of $group1$, $group2$, $group3$ and $remainingCount$ more",
         "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
         "placeholders": {
             "group1": {
@@ -3042,6 +3238,14 @@
                 "example": "Jeff Smith"
             }
         }
+    },
+    "no-groups-in-common": {
+        "message": "هیچ گروه مشترکی وجود ندارد",
+        "description": "Shown to indicate this user is not a member of any groups"
+    },
+    "no-groups-in-common-warning": {
+        "message": "هیچ گروه مشترکی وجود ندارد. درخواست‌ها را با دقت بازبینی کنید.",
+        "description": "When a user has no common groups, show this warning"
     },
     "acceptCall": {
         "message": "پاسخ دهید",
@@ -3080,11 +3284,11 @@
         "description": "Shown in conversation history when you missed an incoming video call"
     },
     "acceptedOutgoingAudioCall": {
-        "message": "Outgoing audio call",
+        "message": "تماس صوتی خروجی",
         "description": "Shown in conversation history when you made an outgoing audio call"
     },
     "acceptedOutgoingVideoCall": {
-        "message": "Outgoing video call",
+        "message": "تماس تصویری خروجی",
         "description": "Shown in conversation history when you made an outgoing video call"
     },
     "missedOrDeclinedOutgoingAudioCall": {
@@ -3096,7 +3300,7 @@
         "description": "Shown in conversation history when your video call is missed or declined"
     },
     "incomingAudioCall": {
-        "message": "Incoming audio call...",
+        "message": "تماس صوتی دریافتی...",
         "description": "Shown in both the incoming call bar and notification for an incoming audio call"
     },
     "incomingVideoCall": {
@@ -3138,7 +3342,7 @@
         "description": "Shown in the call screen when the call is reconnecting due to network issues"
     },
     "callDuration": {
-        "message": "Signal $duration$",
+        "message": "سیگنال $duration$",
         "description": "Shown in the call screen to indicate how long the call has been connected",
         "placeholders": {
             "duration": {
@@ -3217,6 +3421,32 @@
         "message": "ترک کردن تماس",
         "description": "Title for hang up button"
     },
+    "calling__SelectPresentingSourcesModal--title": {
+        "message": "Share your screen",
+        "description": "Title for the select your screen sharing sources modal"
+    },
+    "calling__SelectPresentingSourcesModal--confirm": {
+        "message": "Share screen",
+        "description": "Confirm button for sharing screen modal"
+    },
+    "calling__SelectPresentingSourcesModal--entireScreen": {
+        "message": "Entire screen",
+        "description": "Title for the select your screen sharing sources modal and 'Entire Screen' source"
+    },
+    "calling__SelectPresentingSourcesModal--screen": {
+        "message": "Screen $id$",
+        "description": "Title for `Screen #N` source in screen sharing sources modal and overlay",
+        "placeholders": {
+            "id": {
+                "content": "$1",
+                "example": "1"
+            }
+        }
+    },
+    "calling__SelectPresentingSourcesModal--window": {
+        "message": "A window",
+        "description": "Title for the select your screen sharing sources modal"
+    },
     "callingDeviceSelection__label--video": {
         "message": "ویدئو",
         "description": "Label for video input selector"
@@ -3230,7 +3460,7 @@
         "description": "Label for audio output selector"
     },
     "callingDeviceSelection__select--no-device": {
-        "message": "No devices available",
+        "message": "هیچ دستگاهی موجود نیست",
         "description": "Message for when there are no available devices to select for input/output audio or video"
     },
     "callingDeviceSelection__select--default": {
@@ -3245,6 +3475,10 @@
         "message": "حالت سکوت برای یک ساعت",
         "description": "Label for muting the conversation"
     },
+    "muteEightHours": {
+        "message": "Mute for eight hours",
+        "description": "Label for muting the conversation"
+    },
     "muteDay": {
         "message": "حالت سکوت برای یک روز",
         "description": "Label for muting the conversation"
@@ -3253,13 +3487,17 @@
         "message": "حالت سکوت برای یک هفته",
         "description": "Label for muting the conversation"
     },
-    "muteYear": {
-        "message": "حالت سکوت برای یک سال",
+    "muteAlways": {
+        "message": "Mute always",
         "description": "Label for muting the conversation"
     },
     "unmute": {
         "message": "باز کردن صدا",
         "description": "Label for unmuting the conversation"
+    },
+    "muteExpirationLabelAlways": {
+        "message": "Muted always",
+        "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
     },
     "muteExpirationLabel": {
         "message": "Muted until $duration$",
@@ -3280,7 +3518,7 @@
         "description": "Title of pop-up dialog when user-initiated task has gone wrong"
     },
     "ErrorModal--description": {
-        "message": "Please try again or contact support.",
+        "message": "لطفاً دوباره تلاش کنید یا با پشتیبانی تماس بگیرید.",
         "description": "Description text in pop-up dialog when user-initiated task has gone wrong"
     },
     "Confirmation--confirm": {
@@ -3304,7 +3542,7 @@
         "description": "Shown when you click on a group link to confirm"
     },
     "GroupV2--join--already-in-group": {
-        "message": "You're already in this group.",
+        "message": "شما هم اکنون بخشی از این گروه هستید.",
         "description": "Shown if you click a group link for a group where you're already a member"
     },
     "GroupV2--join--already-awaiting-approval": {
@@ -3312,7 +3550,7 @@
         "description": "Shown if you click a group link for a group where you've already requested approval'"
     },
     "GroupV2--join--unknown-link-version--title": {
-        "message": "Unknown link version",
+        "message": "نسخه پیوند ناشناخته",
         "description": "This group link is no longer valid."
     },
     "GroupV2--join--unknown-link-version": {
@@ -3324,7 +3562,7 @@
         "description": "Shown if you click a group link and we can't get information about it"
     },
     "GroupV2--join--link-revoked": {
-        "message": "This group link is no longer valid.",
+        "message": "این پیوند گروه دیگر معتبر نیست.",
         "description": "Shown if you click a group link and we can't get information about it"
     },
     "GroupV2--join--prompt-with-approval": {
@@ -3336,7 +3574,7 @@
         "description": "The button to join the group"
     },
     "GroupV2--join--request-to-join-button": {
-        "message": "Request to Join",
+        "message": "درخواست برای عضویت",
         "description": "The button to join the group, if approval is required"
     },
     "GroupV2--join--cancel-request-to-join": {
@@ -3370,7 +3608,7 @@
         }
     },
     "GroupV2--join--group-metadata": {
-        "message": "Group · $memberCount$",
+        "message": "گروه · $memberCount$",
         "description": "A holder for two pieces of information - the type of conversation, and the member count",
         "placeholders": {
             "memberCount": {
@@ -3384,7 +3622,7 @@
         "description": "Shown in composition area when you've requested to join a group"
     },
     "GroupV2--join--general-join-failure--title": {
-        "message": "Link Error",
+        "message": "خطا پیوند",
         "description": "Shown if something went wrong when you try to join via a group link"
     },
     "GroupV2--join--general-join-failure": {
@@ -3395,6 +3633,10 @@
         "message": "مدیر",
         "description": "Label for a group administrator"
     },
+    "GroupV2--only-admins": {
+        "message": "فقط مدیرها",
+        "description": "Label for group administrators -- used in drop-downs to select permissions that apply to admins"
+    },
     "GroupV2--all-members": {
         "message": "همه اعضا",
         "description": "Label for describing the general non-privileged members of a group"
@@ -3404,7 +3646,7 @@
         "description": "Shown along with a spinner when an update operation takes longer than one second"
     },
     "GroupV2--create--you": {
-        "message": "شما گروه رو خلق کردی",
+        "message": "شما گروه را ایجاد کردید.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--create--other": {
@@ -3506,7 +3748,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--remove--unknown": {
-        "message": "A member removed the group avatar.",
+        "message": "یک عضو نمایه گروه را حذف کرد.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--admins--other": {
@@ -3614,7 +3856,7 @@
         }
     },
     "GroupV2--access-invite-link--enabled--unknown": {
-        "message": "Admin approval for the group link has been disabled.",
+        "message": "Admin approval for the group link has been enabled.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add--invited--you": {
@@ -3714,7 +3956,7 @@
         }
     },
     "GroupV2--member-add--other--you": {
-        "message": "You added $memberName$.",
+        "message": "شما $memberName$ را اضافه کردید.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3724,7 +3966,7 @@
         }
     },
     "GroupV2--member-add--other--unknown": {
-        "message": "A member added $memberName$.",
+        "message": "یک عضو $memberName$ را اضافه کرد.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3734,7 +3976,7 @@
         }
     },
     "GroupV2--member-add--you--other": {
-        "message": "$memberName$ added you to the group.",
+        "message": "$memberName$ شما را به گروه اضافه کرد.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3848,7 +4090,7 @@
         }
     },
     "GroupV2--member-remove--other--unknown": {
-        "message": "A member removed $memberName$.",
+        "message": "یک عضو $memberName$ را حذف کرد.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3890,7 +4132,7 @@
         }
     },
     "GroupV2--member-privilege--promote--other--you": {
-        "message": "You made $memberName$ an admin.",
+        "message": "شما $memberName$ را مدیر کردید.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3910,7 +4152,7 @@
         }
     },
     "GroupV2--member-privilege--promote--you--other": {
-        "message": "$adminName$ made you an admin.",
+        "message": "$adminName$ شما را مدیر کرد.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4423,6 +4665,42 @@
         "message": "پیوند گروه بازنشانی شد.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
+    "GroupV2--description--remove--you": {
+        "message": "You removed the group description.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--description--remove--other": {
+        "message": "$memberName$ removed the group description.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--description--remove--unknown": {
+        "message": "The group description was removed.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--description--change--you": {
+        "message": "شما توضیحات گروه را تغییر دادید.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--description--change--other": {
+        "message": "$memberName$ changed the group description.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--description--change--unknown": {
+        "message": "The group description was changed.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
     "GroupV1--Migration--disabled": {
         "message": "Upgrade this group to activate new features like @mentions and admins. Members who have not shared their name or photo in this group will be invited to join. $learnMore$",
         "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1).",
@@ -4557,6 +4835,18 @@
         "message": "پیوست فایل",
         "description": "Aria label for file attachment button in composition area"
     },
+    "CompositionArea--sms-only__title": {
+        "message": "This person isn’t using Signal",
+        "description": "Title for the composition area for the SMS-only contact"
+    },
+    "CompositionArea--sms-only__body": {
+        "message": "Signal Desktop does not support messaging non-Signal contacts. Ask this person to install Signal for a more secure messaging experience.",
+        "description": "Body for the composition area for the SMS-only contact"
+    },
+    "CompositionArea--sms-only__spinner-label": {
+        "message": "Checking contact's registration status",
+        "description": "Displayed while checking if the contact is SMS-only"
+    },
     "countMutedConversationsDescription": {
         "message": "Count muted conversations in badge count",
         "description": "Description for counting muted conversations in badge setting"
@@ -4597,6 +4887,10 @@
         "message": "حذف از گروه",
         "description": "Button text for remove from group button in Group Contact Details modal"
     },
+    "showChatColorEditor": {
+        "message": "رنگ گفتگو",
+        "description": "This is a button in the conversation context menu to show the chat color editor"
+    },
     "showConversationDetails": {
         "message": "تنظیمات گروه",
         "description": "This is a button in the conversation context menu to show group settings"
@@ -4618,7 +4912,7 @@
         "description": "This is the label for the 'who can edit the group' panel"
     },
     "ConversationDetails--group-info-info": {
-        "message": "Choose who can edit group name, avatar, and disappearing messages timer.",
+        "message": "Choose who can edit group name, photo, description, and disappearing messages timer.",
         "description": "This is the additional info for the 'who can edit the group' panel"
     },
     "ConversationDetails--add-members-label": {
@@ -4630,7 +4924,7 @@
         "description": "This is the additional info for the 'who can add members' panel"
     },
     "ConversationDetails--requests-and-invites": {
-        "message": "Requests & Invites",
+        "message": "درخواست‌ها و دعوتنامه‌ها",
         "description": "This is a button to display which members have been invited but have not joined yet"
     },
     "ConversationDetailsActions--leave-group": {
@@ -4640,6 +4934,10 @@
     "ConversationDetailsActions--block-group": {
         "message": "مسدود کردن گروه",
         "description": "This is a button to block a group"
+    },
+    "ConversationDetailsActions--leave-group-must-choose-new-admin": {
+        "message": "قبل از ترک کردن، باید حداقل یک مدیر جدید برای این گروه انتخاب کنید.",
+        "description": "Shown if, before leaving a group, you need to choose an admin"
     },
     "ConversationDetailsActions--leave-group-modal-title": {
         "message": "آیا واقعا قصد ترک کردن دارید؟",
@@ -4698,6 +4996,10 @@
                 "example": "10"
             }
         }
+    },
+    "ConversationDetailsMembershipList--add-members": {
+        "message": "افزودن اعضا",
+        "description": "The button that you can click to add new members"
     },
     "ConversationDetailsMembershipList--show-all": {
         "message": "مشاهدهٔ همه",
@@ -4856,5 +5158,467 @@
     "PendingInvites--info": {
         "message": "Details about people invited to this group aren’t shown until they join. Invitees will only see messages after they join the group.",
         "description": "Information shown below the invite list"
+    },
+    "AvatarInput--no-photo-label--group": {
+        "message": "Add a group photo",
+        "description": "The label for the avatar uploader when no group photo is selected"
+    },
+    "AvatarInput--change-photo-label": {
+        "message": "Change photo",
+        "description": "The label for the avatar uploader when a photo is selected"
+    },
+    "AvatarInput--upload-photo-choice": {
+        "message": "Upload photo",
+        "description": "The button text when you click on an uploaded avatar and want to upload a new one"
+    },
+    "AvatarInput--remove-photo-choice": {
+        "message": "حذف عکس",
+        "description": "The button text when you click on an uploaded avatar and want to remove it"
+    },
+    "ContactPill--remove": {
+        "message": "Remove contact",
+        "description": "The label for the 'remove' button on the contact pill"
+    },
+    "ComposeErrorDialog--close": {
+        "message": "خوب",
+        "description": "The text on the button when there's an error in the composer"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--title--one": {
+        "message": "Invitation sent",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--title--many": {
+        "message": "$count$ invitations sent",
+        "description": "When creating a new group and inviting users, this is shown in the dialog",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--one": {
+        "message": "$name$ can’t be automatically added to this group by you.",
+        "description": "When creating a new group and inviting users, this is shown in the dialog",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Jane Doe"
+            }
+        }
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--many": {
+        "message": "These users can’t be automatically added to this group by you.",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--info-paragraph": {
+        "message": "They’ve been invited to join, and won’t see any group messages until they accept.",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--learn-more": {
+        "message": "بیشتر یاد بگیرید",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "AddGroupMembersModal--title": {
+        "message": "افزودن اعضا",
+        "description": "When adding new members to an existing group, this is shown in the dialog"
+    },
+    "AddGroupMembersModal--continue-to-confirm": {
+        "message": "به‌روزرسانی",
+        "description": "When adding new members to an existing group, this is shown in the dialog"
+    },
+    "AddGroupMembersModal--confirm-title--one": {
+        "message": "Add $person$ to \"$group$\"?",
+        "description": "When adding new members to an existing group, this is shown in the confirmation dialog",
+        "placeholders": {
+            "person": {
+                "content": "$1",
+                "example": "Jane Doe"
+            },
+            "group": {
+                "content": "$2",
+                "example": "Tahoe Trip"
+            }
+        }
+    },
+    "AddGroupMembersModal--confirm-title--many": {
+        "message": "Add $count$ members to \"$group$\"?",
+        "description": "When adding new members to an existing group, this is shown in the confirmation dialog",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "5"
+            },
+            "group": {
+                "content": "$2",
+                "example": "Tahoe Trip"
+            }
+        }
+    },
+    "AddGroupMembersModal--confirm-button--one": {
+        "message": "اضافه کردن کاربر",
+        "description": "When adding new members to an existing group, this is shown on the confirmation dialog button"
+    },
+    "AddGroupMembersModal--confirm-button--many": {
+        "message": "افزودن اعضا",
+        "description": "When adding new members to an existing group, this is shown on the confirmation dialog button"
+    },
+    "createNewGroupButton": {
+        "message": "گروه جدید",
+        "description": "The text of the button to create new groups"
+    },
+    "selectContact": {
+        "message": "Select contact",
+        "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)"
+    },
+    "deselectContact": {
+        "message": "De-select contact",
+        "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)"
+    },
+    "cannotSelectContact": {
+        "message": "Cannot select contact",
+        "description": "The label for contact checkboxes that are disabled"
+    },
+    "alreadyAMember": {
+        "message": "از پیش عضو است",
+        "description": "The label for contact checkboxes that are disabled because they're already a member"
+    },
+    "MessageAudio--play": {
+        "message": "Play audio attachment",
+        "description": "Aria label for audio attachment's Play button"
+    },
+    "MessageAudio--pause": {
+        "message": "Pause audio attachment",
+        "description": "Aria label for audio attachment's Pause button"
+    },
+    "MessageAudio--download": {
+        "message": "Download audio attachment",
+        "description": "Aria label for audio attachment's Download button"
+    },
+    "MessageAudio--pending": {
+        "message": "Downloading audio attachment...",
+        "description": "Aria label for pending audio attachment spinner"
+    },
+    "MessageAudio--slider": {
+        "message": "Playback time of audio attachment",
+        "description": "Aria label for audio attachment's playback time slider"
+    },
+    "emptyInboxMessage": {
+        "message": "Click the $composeIcon$ above and search for your contacts or groups to message.",
+        "description": "Shown in the left-pane when the inbox is empty",
+        "placeholders": {
+            "composeIcon": {
+                "content": "$1",
+                "example": "compose button"
+            }
+        }
+    },
+    "composeIcon": {
+        "message": "compose button",
+        "description": "Shown in the left-pane when the inbox is empty. Describes the button that composes a new message."
+    },
+    "ForwardMessageModal--continue": {
+        "message": "ادامه",
+        "description": "aria-label for the 'next' button in the forward a message modal dialog"
+    },
+    "MessageRequestWarning__learn-more": {
+        "message": "بیشتر یاد بگیرید",
+        "description": "Shown on the message request warning. Clicking this button will open a dialog with more information"
+    },
+    "MessageRequestWarning__dialog__details": {
+        "message": "شما هیچ گروه مشترکی با این فرد ندارید. پرای جلوگیری از پیام‌های ناخواسته، پیش از قبول درخواست‌ها، آن‌ها را با دقت بررسی کنید.",
+        "description": "Shown in the message request warning dialog. Gives more information about message requests"
+    },
+    "MessageRequestWarning__dialog__learn-even-more": {
+        "message": "درباره درخواست‌های تبادل پیام",
+        "description": "Shown in the message request warning dialog. Clicking this button will open a page on Signal's support site"
+    },
+    "ContactSpoofing__same-name": {
+        "message": "Review requests carefully. Signal found another contact with the same name. $link$",
+        "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else",
+        "placeholders": {
+            "link": {
+                "content": "$1",
+                "example": "Review request"
+            }
+        }
+    },
+    "ContactSpoofing__same-name-in-group": {
+        "message": "$count$ group members have the same name. $link$",
+        "description": "Shown in the timeline warning when you multiple group members have the same name",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "3"
+            },
+            "link": {
+                "content": "$2",
+                "example": "Tap to review"
+            }
+        }
+    },
+    "ContactSpoofing__same-name__link": {
+        "message": "Review request",
+        "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else"
+    },
+    "ContactSpoofing__same-name-in-group__link": {
+        "message": "Click to review",
+        "description": "Shown in the timeline warning when you multiple group members have the same name"
+    },
+    "ContactSpoofingReviewDialog__title": {
+        "message": "Review request",
+        "description": "Title for the contact name spoofing review dialog"
+    },
+    "ContactSpoofingReviewDialog__description": {
+        "message": "اگر مطمئن نیستید که فرستندهٔ درخواست چه کسی است، مخاطبین را در پایین مرور کنید و اقدام لازم را انجام دهید.",
+        "description": "Description for the contact spoofing review dialog"
+    },
+    "ContactSpoofingReviewDialog__possibly-unsafe-title": {
+        "message": "درخواست",
+        "description": "Header in the contact spoofing review dialog, shown above the potentially-unsafe user"
+    },
+    "ContactSpoofingReviewDialog__safe-title": {
+        "message": "مخاطب شما",
+        "description": "Header in the contact spoofing review dialog, shown above the \"safe\" user"
+    },
+    "ContactSpoofingReviewDialog__group__title": {
+        "message": "Review members",
+        "description": "Title for the contact name spoofing review dialog in groups"
+    },
+    "ContactSpoofingReviewDialog__group__description": {
+        "message": "$count$ group members have similar names. Review the members below or choose to take action.",
+        "description": "Description for the group contact spoofing review dialog"
+    },
+    "ContactSpoofingReviewDialog__group__members-header": {
+        "message": "اعضا",
+        "description": "Header in the group contact spoofing review dialog. After this header, there will be a list of members"
+    },
+    "ContactSpoofingReviewDialog__group__name-change-info": {
+        "message": "Recently changed their profile name from $oldName$ to $newName$",
+        "description": "In the group contact spoofing review dialog, this text is shown when someone has changed their name recently",
+        "placeholders": {
+            "oldName": {
+                "content": "$1",
+                "example": "Jane Doe"
+            },
+            "newName": {
+                "content": "$2",
+                "example": "Doe Jane"
+            }
+        }
+    },
+    "RemoveGroupMemberConfirmation__remove-button": {
+        "message": "حذف از گروه",
+        "description": "When confirming the removal of a group member, show this text in the button"
+    },
+    "RemoveGroupMemberConfirmation__description": {
+        "message": "Remove \"$name$\" from the group?",
+        "description": "When confirming the removal of a group member, show this text in the dialog",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Jane Doe"
+            }
+        }
+    },
+    "CaptchaDialog__title": {
+        "message": "برای ادامهٔ پیام‌‌رسانی تأیید کنید",
+        "description": "Header in the captcha dialog"
+    },
+    "CaptchaDialog__first-paragraph": {
+        "message": "برای کمک به جلوگیری از هرزنگاری یا اسپم در سیگنال، لطفاً تأیید را کامل کنید.",
+        "description": "First paragraph in the captcha dialog"
+    },
+    "CaptchaDialog__second-paragraph": {
+        "message": "پس از تأیید کردن، می‌توانید به پیام‌رسانی ادامه دهید. هر پیام متوقف شده‌ای به صورت خودکار ارسال خواهد شد.",
+        "description": "First paragraph in the captcha dialog"
+    },
+    "CaptchaDialog--can-close__title": {
+        "message": "ادامه بدون تأیید کردن؟",
+        "description": "Header in the captcha dialog that can be closed"
+    },
+    "CaptchaDialog--can-close__body": {
+        "message": "اگر رد کردن مرحلهٔ تأیید را انتخاب کنید، ممکن است پیام‌ها را از افراد دیگر از دست بدهید و پیام‌های شما موفق به ارسال نشوند.",
+        "description": "Body of the captcha dialog that can be closed"
+    },
+    "CaptchaDialog--can_close__skip-verification": {
+        "message": "رد کردن مرحلهٔ تأیید",
+        "description": "Skip button of the captcha dialog that can be closed"
+    },
+    "verificationComplete": {
+        "message": "Verification complete.",
+        "description": "Displayed after successful captcha"
+    },
+    "verificationFailed": {
+        "message": "Verification failed. Please retry later.",
+        "description": "Displayed after unsuccessful captcha"
+    },
+    "deleteForEveryoneFailed": {
+        "message": "Failed to delete message for everyone. Please retry later.",
+        "description": "Displayed when delete-for-everyone has failed to send to all recepients"
+    },
+    "ChatColorPicker__delete--title": {
+        "message": "حذف رنگ",
+        "description": "Confirm title for deleting custom color"
+    },
+    "ChatColorPicker__delete--message": {
+        "message": "This custom color is used in $num$ chats. Do you want to delete it for all chats?",
+        "description": "Confirm message for deleting custom color",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "ChatColorPicker__global-chat-color": {
+        "message": "Global Chat Color",
+        "description": "Modal title for the chat color picker and editor for all conversations"
+    },
+    "ChatColorPicker__menu-title": {
+        "message": "رنگ گفتگو",
+        "description": "View title for the chat color picker and editor"
+    },
+    "ChatColorPicker__reset": {
+        "message": "بازنشانی رنگ گفتگو",
+        "description": "Button label for resetting chat colors"
+    },
+    "ChatColorPicker__resetDefault": {
+        "message": "Reset Chat Colors",
+        "description": "Confirmation dialog title for resetting all chat colors or only the global default one"
+    },
+    "ChatColorPicker__resetAll": {
+        "message": "Reset all chat colors",
+        "description": "Button label for resetting all chat colors"
+    },
+    "ChatColorPicker__confirm-reset-default": {
+        "message": "Reset default",
+        "description": "Button label for resetting only global chat color"
+    },
+    "ChatColorPicker__confirm-reset": {
+        "message": "بازنشانی",
+        "description": "Confirm button label for resetting chat colors"
+    },
+    "ChatColorPicker__confirm-reset-message": {
+        "message": "می‌خواهید همهٔ رنگ‌های گفتگو را نادیده بگیرید؟",
+        "description": "Modal message text for confirming resetting of chat colors"
+    },
+    "ChatColorPicker__custom-color--label": {
+        "message": "Show custom color editor",
+        "description": "aria-label for custom color editor button"
+    },
+    "ChatColorPicker__sampleBubble1": {
+        "message": "این یک پیش‌نمایش رنگ گفتگو است.",
+        "description": "An example message bubble for selecting the chat color"
+    },
+    "ChatColorPicker__sampleBubble2": {
+        "message": "Another bubble.",
+        "description": "An example message bubble for selecting the chat color"
+    },
+    "ChatColorPicker__sampleBubble3": {
+        "message": "این رنگ فقط برای شما قابل رؤیت است.",
+        "description": "An example message bubble for selecting the chat color"
+    },
+    "ChatColorPicker__context--edit": {
+        "message": "ویرایش رنگ",
+        "description": "Option in the custom color bubble context menu"
+    },
+    "ChatColorPicker__context--duplicate": {
+        "message": "تکثیر",
+        "description": "Option in the custom color bubble context menu"
+    },
+    "ChatColorPicker__context--delete": {
+        "message": "حذف",
+        "description": "Option in the custom color bubble context menu"
+    },
+    "CustomColorEditor__solid": {
+        "message": "یک‌دست",
+        "description": "Tab label for selecting solid colors"
+    },
+    "CustomColorEditor__gradient": {
+        "message": "گرادیان",
+        "description": "Tab label for selecting a gradient"
+    },
+    "CustomColorEditor__hue": {
+        "message": "فام",
+        "description": "Label for the hue slider"
+    },
+    "CustomColorEditor__saturation": {
+        "message": "اشباع",
+        "description": "Label for the saturation slider"
+    },
+    "CustomColorEditor__title": {
+        "message": "Custom Color",
+        "description": "Modal title for the custom color editor"
+    },
+    "customDisappearingTimeOption": {
+        "message": "Custom time...",
+        "description": "Text for an option in Disappearing Messages menu and Conversation Details Disappearing Messages setting when no user value is available"
+    },
+    "selectedCustomDisappearingTimeOption": {
+        "message": "زمان سفارشی",
+        "description": "Text for an option in Conversation Details Disappearing Messages setting when user previously selected custom time"
+    },
+    "DisappearingTimeDialog__title": {
+        "message": "Custom Time",
+        "description": "Title for the custom disappearing message timeout dialog"
+    },
+    "DisappearingTimeDialog__body": {
+        "message": "Choose a custom time for disappearing messages.",
+        "description": "Body for the custom disappearing message timeout dialog"
+    },
+    "DisappearingTimeDialog__set": {
+        "message": "تنظیم",
+        "description": "Text for the dialog button confirming the custom disappearing message timeout"
+    },
+    "DisappearingTimeDialog__seconds": {
+        "message": "Seconds",
+        "description": "Name of the 'seconds' unit select for the custom disappearing message timeout dialog"
+    },
+    "DisappearingTimeDialog__minutes": {
+        "message": "Minutes",
+        "description": "Name of the 'minutes' unit select for the custom disappearing message timeout dialog"
+    },
+    "DisappearingTimeDialog__hours": {
+        "message": "Hours",
+        "description": "Name of the 'hours' unit select for the custom disappearing message timeout dialog"
+    },
+    "DisappearingTimeDialog__days": {
+        "message": "Days",
+        "description": "Name of the 'days' unit select for the custom disappearing message timeout dialog"
+    },
+    "DisappearingTimeDialog__weeks": {
+        "message": "Weeks",
+        "description": "Name of the 'weeks' unit select for the custom disappearing message timeout dialog"
+    },
+    "settings__DisappearingMessages__footer": {
+        "message": "یک زمان‌سنج پیام ناپدید شونده پیش‌فرض برای همهٔ گفتگوهایی که شما آغاز می‌کنید تنظیم کنید.",
+        "description": "Footer for the Disappearing Messages settings section"
+    },
+    "settings__DisappearingMessages__timer__label": {
+        "message": "زمان‌سنج پیش‌فرض برای گفتگوهای جدید",
+        "description": "Label for the Disapearring Messages default timer setting"
+    },
+    "UniversalTimerNotification__text": {
+        "message": "The disappearing message time will be set to $timeValue$ when you message them.",
+        "description": "A message displayed when default disappearing message timeout is about to be applied",
+        "placeholders": {
+            "timeValue": {
+                "content": "$1",
+                "example": "1 week"
+            }
+        }
+    },
+    "GroupDescription__read-more": {
+        "message": "read more",
+        "description": "Button text when the group description is too long"
+    },
+    "EditConversationAttributesModal__description-warning": {
+        "message": "توضیحات گروه برای اعضای این گروه و کسانی که دعوت شده‌اند قابل رؤیت خواهد بود.",
+        "description": "Label text shown when editing group description"
+    },
+    "ConversationDetailsHeader--add-group-description": {
+        "message": "Add group description...",
+        "description": "Placeholder text in the details header for those that can edit the group description"
     }
 }

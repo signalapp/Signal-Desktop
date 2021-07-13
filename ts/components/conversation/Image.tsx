@@ -7,7 +7,11 @@ import { Blurhash } from 'react-blurhash';
 
 import { Spinner } from '../Spinner';
 import { LocalizerType, ThemeType } from '../../types/Util';
-import { AttachmentType, hasNotDownloaded } from '../../types/Attachment';
+import {
+  AttachmentType,
+  hasNotDownloaded,
+  defaultBlurHash,
+} from '../../types/Attachment';
 
 export type Props = {
   alt: string;
@@ -16,6 +20,8 @@ export type Props = {
 
   height?: number;
   width?: number;
+  cropWidth?: number;
+  cropHeight?: number;
   tabIndex?: number;
 
   overlayText?: string;
@@ -154,17 +160,15 @@ export class Image extends React.Component<Props> {
       theme,
       url,
       width = 0,
+      cropWidth = 0,
+      cropHeight = 0,
     } = this.props;
 
     const { caption, pending } = attachment || { caption: null, pending: true };
     const canClick = this.canClick();
     const imgNotDownloaded = hasNotDownloaded(attachment);
 
-    const defaulBlurHash =
-      theme === ThemeType.dark
-        ? 'L05OQnoffQofoffQfQfQfQfQfQfQ'
-        : 'L1Q]+w-;fQ-;~qfQfQfQfQfQfQfQ';
-    const resolvedBlurHash = blurHash || defaulBlurHash;
+    const resolvedBlurHash = blurHash || defaultBlurHash(theme);
 
     const overlayClassName = classNames('module-image__border-overlay', {
       'module-image__border-overlay--with-border': !noBorder,
@@ -189,7 +193,7 @@ export class Image extends React.Component<Props> {
         onKeyDown={this.handleKeyDown}
         tabIndex={tabIndex}
       >
-        {imgNotDownloaded ? <i /> : null}
+        {imgNotDownloaded ? <span /> : null}
       </button>
     ) : null;
 
@@ -204,8 +208,10 @@ export class Image extends React.Component<Props> {
           curveTopLeft ? 'module-image--curved-top-left' : null,
           curveTopRight ? 'module-image--curved-top-right' : null,
           smallCurveTopLeft ? 'module-image--small-curved-top-left' : null,
-          softCorners ? 'module-image--soft-corners' : null
+          softCorners ? 'module-image--soft-corners' : null,
+          cropWidth || cropHeight ? 'module-image--cropped' : null
         )}
+        style={{ width: width - cropWidth, height: height - cropHeight }}
       >
         {pending ? (
           this.renderPending()

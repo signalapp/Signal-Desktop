@@ -26,15 +26,15 @@ body {
     --title-bar-drag-area-height: 28px;
     --draggable-app-region: drag;
   }
-}
 
-body.light-theme {
-  background-color: $color-white;
-  color: $color-gray-90;
-}
-body.dark-theme {
-  background-color: $color-gray-95;
-  color: $color-gray-05;
+  &.light-theme {
+    background-color: $color-white;
+    color: $color-gray-90;
+  }
+  &.dark-theme {
+    background-color: $color-gray-95;
+    color: $color-gray-05;
+  }
 }
 
 ::-webkit-scrollbar {
@@ -156,7 +156,7 @@ button.grey {
 }
 
 a {
-  color: $ultramarine-ui-light;
+  color: $color-ultramarine;
 }
 
 .file-input {
@@ -318,7 +318,7 @@ $loading-height: 16px;
   right: 0;
   top: 0;
   bottom: 0;
-  background-color: $ultramarine-brand-light;
+  background-color: $color-ultramarine-icon;
   color: $color-white;
   display: flex;
   flex-direction: column;
@@ -336,7 +336,6 @@ $loading-height: 16px;
     height: 22px;
   }
   .message {
-    -webkit-user-select: text;
     max-width: 35em;
     margin-left: auto;
     margin-right: auto;
@@ -375,7 +374,7 @@ $loading-height: 16px;
 
   color: $color-black;
   a {
-    color: $ultramarine-ui-light;
+    color: $color-ultramarine;
   }
   background: linear-gradient(
     to bottom,
@@ -394,7 +393,7 @@ $loading-height: 16px;
   input {
     margin-top: 1em;
     font-size: 12pt;
-    border: 2px solid $ultramarine-ui-light;
+    border: 2px solid $color-ultramarine;
     padding: 0.5em;
     text-align: center;
     width: 20em;
@@ -412,7 +411,7 @@ $loading-height: 16px;
     display: inline-block;
 
     &.ready {
-      border: 5px solid $ultramarine-ui-light;
+      border: 5px solid $color-ultramarine;
       box-shadow: 2px 2px 4px $color-black-alpha-40;
     }
 
@@ -431,7 +430,7 @@ $loading-height: 16px;
     .dot {
       width: 14px;
       height: 14px;
-      border: 3px solid $ultramarine-ui-light;
+      border: 3px solid $color-ultramarine;
       border-radius: 50%;
       float: left;
       margin: 0 6px;
@@ -599,7 +598,7 @@ $loading-height: 16px;
     margin-left: 0.5em;
     margin-right: 0.5em;
     color: $color-white;
-    background: $ultramarine-ui-light;
+    background: $color-ultramarine;
     box-shadow: 2px 2px 4px $color-black-alpha-40;
 
     font-size: 12pt;
@@ -621,7 +620,7 @@ $loading-height: 16px;
     cursor: pointer;
     text-decoration: underline;
     margin: 0.5em;
-    color: $ultramarine-ui-light;
+    color: $color-ultramarine;
   }
 
   .progress {

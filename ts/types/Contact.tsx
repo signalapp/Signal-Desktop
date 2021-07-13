@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { format as formatPhoneNumber } from './PhoneNumber';
+import { AttachmentType } from './Attachment';
 
 export type ContactType = {
   name?: Name;
@@ -10,7 +11,10 @@ export type ContactType = {
   address?: Array<PostalAddress>;
   avatar?: Avatar;
   organization?: string;
-  signalAccount?: string;
+
+  // Populated by selector
+  firstNumber?: string;
+  isNumberOnSignal?: boolean;
 };
 
 type Name = {
@@ -60,25 +64,25 @@ export type PostalAddress = {
 };
 
 type Avatar = {
-  avatar: Attachment;
+  avatar: AttachmentType;
   isProfile: boolean;
-};
-
-type Attachment = {
-  path?: string;
-  error?: boolean;
-  pending?: boolean;
 };
 
 export function contactSelector(
   contact: ContactType,
   options: {
     regionCode: string;
-    signalAccount?: string;
+    firstNumber?: string;
+    isNumberOnSignal?: boolean;
     getAbsoluteAttachmentPath: (path: string) => string;
   }
 ): ContactType {
-  const { getAbsoluteAttachmentPath, signalAccount, regionCode } = options;
+  const {
+    getAbsoluteAttachmentPath,
+    firstNumber,
+    isNumberOnSignal,
+    regionCode,
+  } = options;
 
   let { avatar } = contact;
   if (avatar && avatar.avatar) {
@@ -99,7 +103,8 @@ export function contactSelector(
 
   return {
     ...contact,
-    signalAccount,
+    firstNumber,
+    isNumberOnSignal,
     avatar,
     number:
       contact.number &&

@@ -12,6 +12,7 @@ import { LocalizerType } from '../types/Util';
 export type Props = {
   readonly i18n: LocalizerType;
 
+  onSetChatColor: () => unknown;
   onViewPreferences: () => unknown;
   onViewArchive: () => unknown;
 
@@ -28,6 +29,7 @@ export const AvatarPopup = (props: Props): JSX.Element => {
     profileName,
     phoneNumber,
     title,
+    onSetChatColor,
     onViewPreferences,
     onViewArchive,
     style,
@@ -70,6 +72,21 @@ export const AvatarPopup = (props: Props): JSX.Element => {
         />
         <div className="module-avatar-popup__item__text">
           {i18n('mainMenuSettings')}
+        </div>
+      </button>
+      <button
+        type="button"
+        className="module-avatar-popup__item"
+        onClick={onSetChatColor}
+      >
+        <div
+          className={classNames(
+            'module-avatar-popup__item__icon',
+            'module-avatar-popup__item__icon-colors'
+          )}
+        />
+        <div className="module-avatar-popup__item__text">
+          {i18n('avatarMenuChatColors')}
         </div>
       </button>
       <button

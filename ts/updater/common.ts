@@ -40,8 +40,13 @@ const { platform } = process;
 
 export const ACK_RENDER_TIMEOUT = 10000;
 
+export type UpdaterInterface = {
+  force(): Promise<void>;
+};
+
 export async function checkForUpdates(
-  logger: LoggerType
+  logger: LoggerType,
+  forceUpdate = false
 ): Promise<{
   fileName: string;
   version: string;
@@ -55,8 +60,11 @@ export async function checkForUpdates(
     return null;
   }
 
-  if (isVersionNewer(version)) {
-    logger.info(`checkForUpdates: found newer version ${version}`);
+  if (forceUpdate || isVersionNewer(version)) {
+    logger.info(
+      `checkForUpdates: found newer version ${version} ` +
+        `forceUpdate=${forceUpdate}`
+    );
 
     return {
       fileName: getUpdateFileName(yaml),
@@ -364,7 +372,10 @@ export async function deleteTempDir(targetDir: string): Promise<void> {
   await rimrafPromise(targetDir);
 }
 
-export function getPrintableError(error: Error): Error | string {
+export function getPrintableError(error: Error | string): Error | string {
+  if (typeof error === 'string') {
+    return error;
+  }
   return error && error.stack ? error.stack : error;
 }
 

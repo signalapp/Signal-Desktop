@@ -10,16 +10,32 @@ export enum CallMode {
   Group = 'Group',
 }
 
+export type PresentableSource = {
+  appIcon?: string;
+  id: string;
+  name: string;
+  isScreen: boolean;
+  thumbnail: string;
+};
+
+export type PresentedSource = {
+  id: string;
+  name: string;
+};
+
 type ActiveCallBaseType = {
   conversation: ConversationType;
   hasLocalAudio: boolean;
   hasLocalVideo: boolean;
   isInSpeakerView: boolean;
+  isSharingScreen?: boolean;
   joinedAt?: number;
   pip: boolean;
+  presentingSource?: PresentedSource;
+  presentingSourcesAvailable?: Array<PresentableSource>;
   settingsDialogOpen: boolean;
+  showNeedsScreenRecordingPermissionsWarning?: boolean;
   showParticipantsList: boolean;
-  showSafetyNumberDialog?: boolean;
 };
 
 type ActiveDirectCallType = ActiveCallBaseType & {
@@ -30,6 +46,9 @@ type ActiveDirectCallType = ActiveCallBaseType & {
   remoteParticipants: [
     {
       hasRemoteVideo: boolean;
+      presenting: boolean;
+      title: string;
+      uuid?: string;
     }
   ];
 };
@@ -100,6 +119,8 @@ export type GroupCallRemoteParticipantType = ConversationType & {
   demuxId: number;
   hasRemoteAudio: boolean;
   hasRemoteVideo: boolean;
+  presenting: boolean;
+  sharingScreen: boolean;
   speakerTime?: number;
   videoAspectRatio: number;
 };
@@ -113,7 +134,7 @@ export type GroupCallVideoRequest = {
 
 // Should match RingRTC's VideoFrameSource
 export type VideoFrameSource = {
-  receiveVideoFrame(buffer: ArrayBuffer): [number, number] | undefined;
+  receiveVideoFrame(buffer: Buffer): [number, number] | undefined;
 };
 
 // Must be kept in sync with RingRTC.AudioDevice

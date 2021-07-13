@@ -8,6 +8,8 @@ import * as path from 'path';
 import AbortController from 'abort-controller';
 import { MIMEType, IMAGE_JPEG } from '../../types/MIME';
 
+import { typedArrayToArrayBuffer } from '../../Crypto';
+
 import {
   fetchLinkPreviewImage,
   fetchLinkPreviewMetadata,
@@ -1155,7 +1157,7 @@ describe('link preview fetching', () => {
             new AbortController().signal
           ),
           {
-            data: fixture.buffer,
+            data: typedArrayToArrayBuffer(fixture),
             contentType: contentType as MIMEType,
           }
         );
@@ -1240,7 +1242,7 @@ describe('link preview fetching', () => {
           new AbortController().signal
         ),
         {
-          data: fixture.buffer,
+          data: typedArrayToArrayBuffer(fixture),
           contentType: IMAGE_JPEG,
         }
       );
@@ -1352,6 +1354,71 @@ describe('link preview fetching', () => {
             'User-Agent': 'WhatsApp/2',
           },
         })
+      );
+    });
+
+    it("doesn't read the image if the request was aborted before reading started", async () => {
+      const abortController = new AbortController();
+
+      const fixture = await readFixture('kitten-1-64-64.jpg');
+
+      const fakeFetch = stub().callsFake(() => {
+        const response = new Response(fixture, {
+          headers: {
+            'Content-Type': 'image/jpeg',
+            'Content-Length': fixture.length.toString(),
+          },
+        });
+        sinon
+          .stub(response, 'arrayBuffer')
+          .rejects(new Error('Should not be called'));
+        sinon.stub(response, 'blob').rejects(new Error('Should not be called'));
+        sinon.stub(response, 'text').rejects(new Error('Should not be called'));
+        sinon.stub(response, 'body').get(() => {
+          throw new Error('Should not be accessed');
+        });
+
+        abortController.abort();
+
+        return response;
+      });
+
+      assert.isNull(
+        await fetchLinkPreviewImage(
+          fakeFetch,
+          'https://example.com/img',
+          abortController.signal
+        )
+      );
+    });
+
+    it('returns null if the request was aborted after the image was read', async () => {
+      const abortController = new AbortController();
+
+      const fixture = await readFixture('kitten-1-64-64.jpg');
+
+      const fakeFetch = stub().callsFake(() => {
+        const response = new Response(fixture, {
+          headers: {
+            'Content-Type': 'image/jpeg',
+            'Content-Length': fixture.length.toString(),
+          },
+        });
+        const oldArrayBufferMethod = response.arrayBuffer.bind(response);
+        sinon.stub(response, 'arrayBuffer').callsFake(async () => {
+          const data = await oldArrayBufferMethod();
+          abortController.abort();
+          return data;
+        });
+        return response;
+      });
+
+      assert.isNull(
+        await fetchLinkPreviewImage(
+          fakeFetch,
+          'https://example.com/img',
+          abortController.signal
+        )
       );
     });
   });

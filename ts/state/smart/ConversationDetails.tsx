@@ -9,11 +9,13 @@ import {
   StateProps,
 } from '../../components/conversation/conversation-details/ConversationDetails';
 import {
-  getComposableContacts,
-  getConversationSelector,
+  getCandidateContactsForNewGroup,
+  getConversationByIdSelector,
 } from '../selectors/conversations';
+import { getGroupMemberships } from '../../util/getGroupMemberships';
 import { getIntl } from '../selectors/user';
 import { MediaItemType } from '../../components/LightboxGallery';
+import { assert } from '../../util/assert';
 
 export type SmartConversationDetailsProps = {
   addMembers: (conversationIds: ReadonlyArray<string>) => Promise<void>;
@@ -23,6 +25,7 @@ export type SmartConversationDetailsProps = {
   setDisappearingMessages: (seconds: number) => void;
   showAllMedia: () => void;
   showContactModal: (conversationId: string) => void;
+  showGroupChatColorEditor: () => void;
   showGroupLinkManagement: () => void;
   showGroupV2Permissions: () => void;
   showPendingInvites: () => void;
@@ -44,13 +47,20 @@ const mapStateToProps = (
   state: StateType,
   props: SmartConversationDetailsProps
 ): StateProps => {
-  const conversation = getConversationSelector(state)(props.conversationId);
+  const conversationSelector = getConversationByIdSelector(state);
+  const conversation = conversationSelector(props.conversationId);
+  assert(
+    conversation,
+    '<SmartConversationDetails> expected a conversation to be found'
+  );
+
   const canEditGroupInfo =
     conversation && conversation.canEditGroupInfo
       ? conversation.canEditGroupInfo
       : false;
+
   const isAdmin = Boolean(conversation?.areWeAdmin);
-  const candidateContactsToAdd = getComposableContacts(state);
+  const candidateContactsToAdd = getCandidateContactsForNewGroup(state);
 
   return {
     ...props,
@@ -59,6 +69,7 @@ const mapStateToProps = (
     conversation,
     i18n: getIntl(state),
     isAdmin,
+    ...getGroupMemberships(conversation, conversationSelector),
   };
 };
 

@@ -40,10 +40,6 @@ export abstract class LeftPaneHelper<T> {
     return undefined;
   }
 
-  shouldRenderNetworkStatusAndUpdateDialog(): boolean {
-    return false;
-  }
-
   getPreRowsNode(
     _: Readonly<{
       clearGroupCreationError: () => void;
@@ -54,6 +50,7 @@ export abstract class LeftPaneHelper<T> {
       i18n: LocalizerType;
       setComposeGroupAvatar: (_: undefined | ArrayBuffer) => unknown;
       setComposeGroupName: (_: string) => unknown;
+      setComposeGroupExpireTimer: (_: number) => void;
       onChangeComposeSearchTerm: (
         event: ChangeEvent<HTMLInputElement>
       ) => unknown;

@@ -5,28 +5,26 @@ import React from 'react';
 
 import { LocalizerType } from '../../../types/Util';
 import { Avatar } from '../../Avatar';
+import { Emojify } from '../Emojify';
 
 import { ConversationDetailsIcon } from './ConversationDetailsIcon';
 import { ConversationType } from '../../../state/ducks/conversations';
-import { GroupV2MemberType } from '../../../model-types.d';
 import { PanelRow } from './PanelRow';
 import { PanelSection } from './PanelSection';
 
 export type GroupV2Membership = {
   isAdmin: boolean;
-  metadata: GroupV2MemberType;
   member: ConversationType;
 };
 
 export type Props = {
   canAddNewMembers: boolean;
+  i18n: LocalizerType;
+  maxShownMemberCount?: number;
   memberships: Array<GroupV2Membership>;
   showContactModal: (conversationId: string) => void;
-  startAddingNewMembers: () => void;
-  i18n: LocalizerType;
+  startAddingNewMembers?: () => void;
 };
-
-const MAX_MEMBER_COUNT = 5;
 
 const collator = new Intl.Collator(undefined, { sensitivity: 'base' });
 function sortConversationTitles(
@@ -69,18 +67,20 @@ function sortMemberships(
 
 export const ConversationDetailsMembershipList: React.ComponentType<Props> = ({
   canAddNewMembers,
+  i18n,
+  maxShownMemberCount = 5,
   memberships,
   showContactModal,
   startAddingNewMembers,
-  i18n,
 }) => {
   const [showAllMembers, setShowAllMembers] = React.useState<boolean>(false);
   const sortedMemberships = sortMemberships(memberships);
 
-  const shouldHideRestMembers = sortedMemberships.length - MAX_MEMBER_COUNT > 1;
+  const shouldHideRestMembers =
+    sortedMemberships.length - maxShownMemberCount > 1;
   const membersToShow =
     shouldHideRestMembers && !showAllMembers
-      ? MAX_MEMBER_COUNT
+      ? maxShownMemberCount
       : sortedMemberships.length;
 
   return (
@@ -95,7 +95,7 @@ export const ConversationDetailsMembershipList: React.ComponentType<Props> = ({
             <div className="module-conversation-details-membership-list__add-members-icon" />
           }
           label={i18n('ConversationDetailsMembershipList--add-members')}
-          onClick={startAddingNewMembers}
+          onClick={() => startAddingNewMembers?.()}
         />
       )}
       {sortedMemberships.slice(0, membersToShow).map(({ isAdmin, member }) => (
@@ -110,7 +110,7 @@ export const ConversationDetailsMembershipList: React.ComponentType<Props> = ({
               {...member}
             />
           }
-          label={member.isMe ? i18n('you') : member.title}
+          label={<Emojify text={member.isMe ? i18n('you') : member.title} />}
           right={isAdmin ? i18n('GroupV2--admin') : ''}
         />
       ))}

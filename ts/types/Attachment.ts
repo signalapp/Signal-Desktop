@@ -11,7 +11,7 @@ import {
   isImageTypeSupported,
   isVideoTypeSupported,
 } from '../util/GoogleChrome';
-import { LocalizerType } from './Util';
+import { LocalizerType, ThemeType } from './Util';
 
 const MAX_WIDTH = 300;
 const MAX_HEIGHT = MAX_WIDTH * 1.5;
@@ -21,10 +21,11 @@ const MIN_HEIGHT = 50;
 // Used for display
 
 export type AttachmentType = {
+  error?: boolean;
   blurHash?: string;
   caption?: string;
   contentType: MIME.MIMEType;
-  fileName: string;
+  fileName?: string;
   /** Not included in protobuf, needs to be pulled from flags */
   isVoiceMessage?: boolean;
   /** For messages not already on disk, this will be a data url */
@@ -40,16 +41,49 @@ export type AttachmentType = {
     width: number;
     url: string;
     contentType: MIME.MIMEType;
-  };
-  flags?: number;
-  thumbnail?: {
-    height: number;
-    width: number;
-    url: string;
-    contentType: MIME.MIMEType;
     path: string;
   };
+  screenshotPath?: string;
+  flags?: number;
+  thumbnail?: ThumbnailType;
   isCorrupted?: boolean;
+  downloadJobId?: string;
+  cdnNumber?: number;
+  cdnId?: string;
+  cdnKey?: string;
+};
+
+type BaseAttachmentDraftType = {
+  blurHash?: string;
+  contentType: MIME.MIMEType;
+  fileName: string;
+  screenshotContentType?: string;
+  screenshotSize?: number;
+  size: number;
+};
+
+export type InMemoryAttachmentDraftType = {
+  data?: ArrayBuffer;
+  screenshotData?: ArrayBuffer;
+} & BaseAttachmentDraftType;
+
+export type OnDiskAttachmentDraftType = {
+  path?: string;
+  screenshotPath?: string;
+} & BaseAttachmentDraftType;
+
+export type AttachmentDraftType = {
+  url: string;
+} & BaseAttachmentDraftType;
+
+export type ThumbnailType = {
+  height: number;
+  width: number;
+  url: string;
+  contentType: MIME.MIMEType;
+  path: string;
+  // Only used when quote needed to make an in-memory thumbnail
+  objectUrl?: string;
 };
 
 // UI-focused functions
@@ -58,7 +92,7 @@ export function getExtensionForDisplay({
   fileName,
   contentType,
 }: {
-  fileName: string;
+  fileName?: string;
   contentType: MIME.MIMEType;
 }): string | undefined {
   if (fileName && fileName.indexOf('.') >= 0) {
@@ -147,6 +181,15 @@ export function isImageAttachment(
       isImageTypeSupported(attachment.contentType)
   );
 }
+
+export function canBeTranscoded(
+  attachment?: AttachmentType
+): attachment is AttachmentType {
+  return Boolean(
+    isImageAttachment(attachment) && !MIME.isGif(attachment.contentType)
+  );
+}
+
 export function hasImage(
   attachments?: Array<AttachmentType>
 ): string | boolean | undefined {
@@ -157,20 +200,33 @@ export function hasImage(
   );
 }
 
-export function isVideo(
-  attachments?: Array<AttachmentType>
-): boolean | undefined {
-  return attachments && isVideoAttachment(attachments[0]);
+export function isVideo(attachments?: Array<AttachmentType>): boolean {
+  if (!attachments || attachments.length === 0) {
+    return false;
+  }
+  return isVideoAttachment(attachments[0]);
 }
 
-export function isVideoAttachment(
-  attachment?: AttachmentType
-): boolean | undefined {
-  return (
-    attachment &&
-    attachment.contentType &&
-    isVideoTypeSupported(attachment.contentType)
-  );
+export function isVideoAttachment(attachment?: AttachmentType): boolean {
+  if (!attachment || !attachment.contentType) {
+    return false;
+  }
+  return isVideoTypeSupported(attachment.contentType);
+}
+
+export function isGIF(attachments?: ReadonlyArray<AttachmentType>): boolean {
+  if (!attachments || attachments.length !== 1) {
+    return false;
+  }
+
+  const [attachment] = attachments;
+
+  const flag = SignalService.AttachmentPointer.Flags.GIF;
+  const hasFlag =
+    // eslint-disable-next-line no-bitwise
+    !is.undefined(attachment.flags) && (attachment.flags & flag) === flag;
+
+  return hasFlag && isVideoAttachment(attachment);
 }
 
 export function hasNotDownloaded(attachment?: AttachmentType): boolean {
@@ -257,21 +313,38 @@ export function getGridDimensions(
   }
 
   if (attachments.length === 2) {
+    // A B
     return {
       height: 150,
       width: 300,
     };
   }
 
+  if (attachments.length === 3) {
+    // A A B
+    // A A C
+    return {
+      height: 200,
+      width: 300,
+    };
+  }
+
   if (attachments.length === 4) {
+    // A B
+    // C D
     return {
       height: 300,
       width: 300,
     };
   }
 
+  // A A A B B B
+  // A A A B B B
+  // A A A B B B
+  // C C D D E E
+  // C C D D E E
   return {
-    height: 200,
+    height: 250,
     width: 300,
   };
 }
@@ -280,9 +353,10 @@ export function getAlt(
   attachment: AttachmentType,
   i18n: LocalizerType
 ): string {
-  return isVideoAttachment(attachment)
-    ? i18n('videoAttachmentAlt')
-    : i18n('imageAttachmentAlt');
+  if (isVideoAttachment(attachment)) {
+    return i18n('videoAttachmentAlt');
+  }
+  return i18n('imageAttachmentAlt');
 }
 
 // Migration-related attachment stuff
@@ -340,7 +414,9 @@ export const isFile = (attachment: Attachment): boolean => {
   return true;
 };
 
-export const isVoiceMessage = (attachment: Attachment): boolean => {
+export const isVoiceMessage = (
+  attachment: Attachment | AttachmentType
+): boolean => {
   const flag = SignalService.AttachmentPointer.Flags.VOICE_MESSAGE;
   const hasFlag =
     // eslint-disable-next-line no-bitwise
@@ -444,4 +520,11 @@ export const getUploadSizeLimitKb = (contentType: MIME.MIMEType): number => {
     return 6000;
   }
   return 100000;
+};
+
+export const defaultBlurHash = (theme: ThemeType = ThemeType.light): string => {
+  if (theme === ThemeType.dark) {
+    return 'L05OQnoffQofoffQfQfQfQfQfQfQ';
+  }
+  return 'L1Q]+w-;fQ-;~qfQfQfQfQfQfQfQ';
 };

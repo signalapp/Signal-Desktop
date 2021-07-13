@@ -1,12 +1,13 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
 
 import { ConversationType } from '../../state/ducks/conversations';
 import { MemberRepository } from '../../quill/memberRepository';
+import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
 
-const memberMahershala: ConversationType = {
+const memberMahershala: ConversationType = getDefaultConversation({
   id: '555444',
   uuid: 'abcdefg',
   title: 'Pal',
@@ -17,9 +18,9 @@ const memberMahershala: ConversationType = {
   lastUpdated: Date.now(),
   markedUnread: false,
   areWeAdmin: false,
-};
+});
 
-const memberShia: ConversationType = {
+const memberShia: ConversationType = getDefaultConversation({
   id: '333222',
   uuid: 'hijklmno',
   title: 'Buddy',
@@ -30,11 +31,11 @@ const memberShia: ConversationType = {
   lastUpdated: Date.now(),
   markedUnread: false,
   areWeAdmin: false,
-};
+});
 
 const members: Array<ConversationType> = [memberMahershala, memberShia];
 
-const singleMember: ConversationType = {
+const singleMember: ConversationType = getDefaultConversation({
   id: '666777',
   uuid: 'pqrstuv',
   title: 'The Guy',
@@ -45,7 +46,7 @@ const singleMember: ConversationType = {
   lastUpdated: Date.now(),
   markedUnread: false,
   areWeAdmin: false,
-};
+});
 
 describe('MemberRepository', () => {
   describe('#updateMembers', () => {

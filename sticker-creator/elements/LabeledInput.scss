@@ -1,4 +1,4 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 @import '../../stylesheets/variables';
@@ -48,11 +48,11 @@
     padding: 0 11px;
 
     @include light-theme() {
-      border: 2px solid $ultramarine-ui-light;
+      border: 2px solid $color-ultramarine;
     }
 
     @include dark-theme() {
-      border: 2px solid $ultramarine-ui-dark;
+      border: 2px solid $color-ultramarine-light;
     }
   }
 }

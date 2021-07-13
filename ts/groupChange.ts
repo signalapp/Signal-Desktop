@@ -828,6 +828,29 @@ export function renderChangeDetail(
     }
     return renderString('GroupV2--group-link-remove--unknown', i18n);
   }
+  if (detail.type === 'description') {
+    if (detail.removed) {
+      if (fromYou) {
+        return renderString('GroupV2--description--remove--you', i18n);
+      }
+      if (from) {
+        return renderString('GroupV2--description--remove--other', i18n, [
+          renderContact(from),
+        ]);
+      }
+      return renderString('GroupV2--description--remove--unknown', i18n);
+    }
+
+    if (fromYou) {
+      return renderString('GroupV2--description--change--you', i18n);
+    }
+    if (from) {
+      return renderString('GroupV2--description--change--other', i18n, [
+        renderContact(from),
+      ]);
+    }
+    return renderString('GroupV2--description--change--unknown', i18n);
+  }
 
   throw missingCaseError(detail);
 }

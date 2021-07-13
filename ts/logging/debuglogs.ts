@@ -1,12 +1,13 @@
 // Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as z from 'zod';
+import { z } from 'zod';
 import FormData from 'form-data';
 import { gzip } from 'zlib';
 import pify from 'pify';
 import got, { Response } from 'got';
 import { getUserAgent } from '../util/getUserAgent';
+import { maybeParseUrl } from '../util/url';
 
 const BASE_URL = 'https://debuglogs.org';
 
@@ -22,10 +23,8 @@ const parseTokenBody = (
 ): { fields: Record<string, unknown>; url: string } => {
   const body = tokenBodySchema.parse(rawBody);
 
-  let parsedUrl: URL;
-  try {
-    parsedUrl = new URL(body.url);
-  } catch (err) {
+  const parsedUrl = maybeParseUrl(body.url);
+  if (!parsedUrl) {
     throw new Error("Token body's URL was not a valid URL");
   }
   if (parsedUrl.protocol !== 'https:') {
@@ -44,9 +43,11 @@ export const uploadDebugLogs = async (
   const signedForm = await got.get(BASE_URL, { json: true, headers });
   const { fields, url } = parseTokenBody(signedForm.body);
 
+  const uploadKey = `${fields.key}.gz`;
+
   const form = new FormData();
   // The API expects `key` to be the first field:
-  form.append('key', fields.key);
+  form.append('key', uploadKey);
   Object.entries(fields)
     .filter(([key]) => key !== 'key')
     .forEach(([key, value]) => {
@@ -77,5 +78,5 @@ export const uploadDebugLogs = async (
   }
   window.log.info('Debug log upload complete.');
 
-  return `${BASE_URL}/${fields.key}`;
+  return `${BASE_URL}/${uploadKey}`;
 };

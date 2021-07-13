@@ -3,19 +3,13 @@
 
 import { assert } from 'chai';
 import * as sinon from 'sinon';
-import { v4 as uuid } from 'uuid';
 import { RowType } from '../../../components/ConversationList';
 import { FindDirection } from '../../../components/leftPane/LeftPaneHelper';
+import { getDefaultConversation } from '../../../test-both/helpers/getDefaultConversation';
 
 import { LeftPaneInboxHelper } from '../../../components/leftPane/LeftPaneInboxHelper';
 
 describe('LeftPaneInboxHelper', () => {
-  const fakeConversation = () => ({
-    id: uuid(),
-    title: uuid(),
-    type: 'direct' as const,
-  });
-
   describe('getBackAction', () => {
     it("returns undefined; you can't go back from the main inbox", () => {
       const helper = new LeftPaneInboxHelper({
@@ -49,7 +43,7 @@ describe('LeftPaneInboxHelper', () => {
       const helper = new LeftPaneInboxHelper({
         conversations: [],
         pinnedConversations: [],
-        archivedConversations: [fakeConversation()],
+        archivedConversations: [getDefaultConversation()],
       });
 
       assert.strictEqual(helper.getRowCount(), 1);
@@ -58,9 +52,9 @@ describe('LeftPaneInboxHelper', () => {
     it("returns the number of non-pinned conversations if that's all there is", () => {
       const helper = new LeftPaneInboxHelper({
         conversations: [
-          fakeConversation(),
-          fakeConversation(),
-          fakeConversation(),
+          getDefaultConversation(),
+          getDefaultConversation(),
+          getDefaultConversation(),
         ],
         pinnedConversations: [],
         archivedConversations: [],
@@ -73,9 +67,9 @@ describe('LeftPaneInboxHelper', () => {
       const helper = new LeftPaneInboxHelper({
         conversations: [],
         pinnedConversations: [
-          fakeConversation(),
-          fakeConversation(),
-          fakeConversation(),
+          getDefaultConversation(),
+          getDefaultConversation(),
+          getDefaultConversation(),
         ],
         archivedConversations: [],
       });
@@ -86,11 +80,11 @@ describe('LeftPaneInboxHelper', () => {
     it('adds 2 rows for each header if there are pinned and non-pinned conversations,', () => {
       const helper = new LeftPaneInboxHelper({
         conversations: [
-          fakeConversation(),
-          fakeConversation(),
-          fakeConversation(),
+          getDefaultConversation(),
+          getDefaultConversation(),
+          getDefaultConversation(),
         ],
-        pinnedConversations: [fakeConversation()],
+        pinnedConversations: [getDefaultConversation()],
         archivedConversations: [],
       });
 
@@ -100,12 +94,12 @@ describe('LeftPaneInboxHelper', () => {
     it('adds 1 row for the archive button if there are any archived conversations', () => {
       const helper = new LeftPaneInboxHelper({
         conversations: [
-          fakeConversation(),
-          fakeConversation(),
-          fakeConversation(),
+          getDefaultConversation(),
+          getDefaultConversation(),
+          getDefaultConversation(),
         ],
         pinnedConversations: [],
-        archivedConversations: [fakeConversation()],
+        archivedConversations: [getDefaultConversation()],
       });
 
       assert.strictEqual(helper.getRowCount(), 4);
@@ -115,8 +109,8 @@ describe('LeftPaneInboxHelper', () => {
   describe('getRowIndexToScrollTo', () => {
     it('returns undefined if no conversation is selected', () => {
       const helper = new LeftPaneInboxHelper({
-        conversations: [fakeConversation(), fakeConversation()],
-        pinnedConversations: [fakeConversation()],
+        conversations: [getDefaultConversation(), getDefaultConversation()],
+        pinnedConversations: [getDefaultConversation()],
         archivedConversations: [],
       });
 
@@ -124,10 +118,10 @@ describe('LeftPaneInboxHelper', () => {
     });
 
     it('returns undefined if the selected conversation is not pinned or non-pinned', () => {
-      const archivedConversations = [fakeConversation()];
+      const archivedConversations = [getDefaultConversation()];
       const helper = new LeftPaneInboxHelper({
-        conversations: [fakeConversation(), fakeConversation()],
-        pinnedConversations: [fakeConversation()],
+        conversations: [getDefaultConversation(), getDefaultConversation()],
+        pinnedConversations: [getDefaultConversation()],
         archivedConversations,
       });
 
@@ -137,7 +131,10 @@ describe('LeftPaneInboxHelper', () => {
     });
 
     it("returns the pinned conversation's index if there are only pinned conversations", () => {
-      const pinnedConversations = [fakeConversation(), fakeConversation()];
+      const pinnedConversations = [
+        getDefaultConversation(),
+        getDefaultConversation(),
+      ];
       const helper = new LeftPaneInboxHelper({
         conversations: [],
         pinnedConversations,
@@ -155,7 +152,10 @@ describe('LeftPaneInboxHelper', () => {
     });
 
     it("returns the conversation's index if there are only non-pinned conversations", () => {
-      const conversations = [fakeConversation(), fakeConversation()];
+      const conversations = [
+        getDefaultConversation(),
+        getDefaultConversation(),
+      ];
       const helper = new LeftPaneInboxHelper({
         conversations,
         pinnedConversations: [],
@@ -167,9 +167,12 @@ describe('LeftPaneInboxHelper', () => {
     });
 
     it("returns the pinned conversation's index + 1 (for the header) if there are both pinned and non-pinned conversations", () => {
-      const pinnedConversations = [fakeConversation(), fakeConversation()];
+      const pinnedConversations = [
+        getDefaultConversation(),
+        getDefaultConversation(),
+      ];
       const helper = new LeftPaneInboxHelper({
-        conversations: [fakeConversation()],
+        conversations: [getDefaultConversation()],
         pinnedConversations,
         archivedConversations: [],
       });
@@ -185,13 +188,16 @@ describe('LeftPaneInboxHelper', () => {
     });
 
     it("returns the non-pinned conversation's index + pinnedConversations.length + 2 (for the headers) if there are both pinned and non-pinned conversations", () => {
-      const conversations = [fakeConversation(), fakeConversation()];
+      const conversations = [
+        getDefaultConversation(),
+        getDefaultConversation(),
+      ];
       const helper = new LeftPaneInboxHelper({
         conversations,
         pinnedConversations: [
-          fakeConversation(),
-          fakeConversation(),
-          fakeConversation(),
+          getDefaultConversation(),
+          getDefaultConversation(),
+          getDefaultConversation(),
         ],
         archivedConversations: [],
       });
@@ -206,7 +212,10 @@ describe('LeftPaneInboxHelper', () => {
       const helper = new LeftPaneInboxHelper({
         conversations: [],
         pinnedConversations: [],
-        archivedConversations: [fakeConversation(), fakeConversation()],
+        archivedConversations: [
+          getDefaultConversation(),
+          getDefaultConversation(),
+        ],
       });
 
       assert.deepEqual(helper.getRow(0), {
@@ -217,7 +226,10 @@ describe('LeftPaneInboxHelper', () => {
     });
 
     it("returns pinned conversations if that's all there are", () => {
-      const pinnedConversations = [fakeConversation(), fakeConversation()];
+      const pinnedConversations = [
+        getDefaultConversation(),
+        getDefaultConversation(),
+      ];
 
       const helper = new LeftPaneInboxHelper({
         conversations: [],
@@ -237,12 +249,15 @@ describe('LeftPaneInboxHelper', () => {
     });
 
     it('returns pinned conversations and an archive button if there are no non-pinned conversations', () => {
-      const pinnedConversations = [fakeConversation(), fakeConversation()];
+      const pinnedConversations = [
+        getDefaultConversation(),
+        getDefaultConversation(),
+      ];
 
       const helper = new LeftPaneInboxHelper({
         conversations: [],
         pinnedConversations,
-        archivedConversations: [fakeConversation()],
+        archivedConversations: [getDefaultConversation()],
       });
 
       assert.deepEqual(helper.getRow(0), {
@@ -261,7 +276,10 @@ describe('LeftPaneInboxHelper', () => {
     });
 
     it("returns non-pinned conversations if that's all there are", () => {
-      const conversations = [fakeConversation(), fakeConversation()];
+      const conversations = [
+        getDefaultConversation(),
+        getDefaultConversation(),
+      ];
 
       const helper = new LeftPaneInboxHelper({
         conversations,
@@ -281,12 +299,15 @@ describe('LeftPaneInboxHelper', () => {
     });
 
     it('returns non-pinned conversations and an archive button if there are no pinned conversations', () => {
-      const conversations = [fakeConversation(), fakeConversation()];
+      const conversations = [
+        getDefaultConversation(),
+        getDefaultConversation(),
+      ];
 
       const helper = new LeftPaneInboxHelper({
         conversations,
         pinnedConversations: [],
-        archivedConversations: [fakeConversation()],
+        archivedConversations: [getDefaultConversation()],
       });
 
       assert.deepEqual(helper.getRow(0), {
@@ -306,11 +327,14 @@ describe('LeftPaneInboxHelper', () => {
 
     it('returns headers if there are both pinned and non-pinned conversations', () => {
       const conversations = [
-        fakeConversation(),
-        fakeConversation(),
-        fakeConversation(),
+        getDefaultConversation(),
+        getDefaultConversation(),
+        getDefaultConversation(),
       ];
-      const pinnedConversations = [fakeConversation(), fakeConversation()];
+      const pinnedConversations = [
+        getDefaultConversation(),
+        getDefaultConversation(),
+      ];
 
       const helper = new LeftPaneInboxHelper({
         conversations,
@@ -351,16 +375,19 @@ describe('LeftPaneInboxHelper', () => {
 
     it('returns headers if there are both pinned and non-pinned conversations, and an archive button', () => {
       const conversations = [
-        fakeConversation(),
-        fakeConversation(),
-        fakeConversation(),
+        getDefaultConversation(),
+        getDefaultConversation(),
+        getDefaultConversation(),
       ];
-      const pinnedConversations = [fakeConversation(), fakeConversation()];
+      const pinnedConversations = [
+        getDefaultConversation(),
+        getDefaultConversation(),
+      ];
 
       const helper = new LeftPaneInboxHelper({
         conversations,
         pinnedConversations,
-        archivedConversations: [fakeConversation()],
+        archivedConversations: [getDefaultConversation()],
       });
 
       assert.deepEqual(helper.getRow(0), {
@@ -402,11 +429,14 @@ describe('LeftPaneInboxHelper', () => {
   describe('getConversationAndMessageAtIndex', () => {
     it('returns pinned converastions, then non-pinned conversations', () => {
       const conversations = [
-        fakeConversation(),
-        fakeConversation(),
-        fakeConversation(),
+        getDefaultConversation(),
+        getDefaultConversation(),
+        getDefaultConversation(),
       ];
-      const pinnedConversations = [fakeConversation(), fakeConversation()];
+      const pinnedConversations = [
+        getDefaultConversation(),
+        getDefaultConversation(),
+      ];
 
       const helper = new LeftPaneInboxHelper({
         conversations,
@@ -437,7 +467,10 @@ describe('LeftPaneInboxHelper', () => {
     });
 
     it("when requesting an index out of bounds, returns the last pinned conversation when that's all there is", () => {
-      const pinnedConversations = [fakeConversation(), fakeConversation()];
+      const pinnedConversations = [
+        getDefaultConversation(),
+        getDefaultConversation(),
+      ];
 
       const helper = new LeftPaneInboxHelper({
         conversations: [],
@@ -462,7 +495,10 @@ describe('LeftPaneInboxHelper', () => {
     });
 
     it("when requesting an index out of bounds, returns the last non-pinned conversation when that's all there is", () => {
-      const conversations = [fakeConversation(), fakeConversation()];
+      const conversations = [
+        getDefaultConversation(),
+        getDefaultConversation(),
+      ];
 
       const helper = new LeftPaneInboxHelper({
         conversations,
@@ -487,8 +523,14 @@ describe('LeftPaneInboxHelper', () => {
     });
 
     it('when requesting an index out of bounds, returns the last non-pinned conversation when there are both pinned and non-pinned conversations', () => {
-      const conversations = [fakeConversation(), fakeConversation()];
-      const pinnedConversations = [fakeConversation(), fakeConversation()];
+      const conversations = [
+        getDefaultConversation(),
+        getDefaultConversation(),
+      ];
+      const pinnedConversations = [
+        getDefaultConversation(),
+        getDefaultConversation(),
+      ];
 
       const helper = new LeftPaneInboxHelper({
         conversations,
@@ -516,7 +558,7 @@ describe('LeftPaneInboxHelper', () => {
       const helper = new LeftPaneInboxHelper({
         conversations: [],
         pinnedConversations: [],
-        archivedConversations: [fakeConversation()],
+        archivedConversations: [getDefaultConversation()],
       });
 
       assert.isUndefined(helper.getConversationAndMessageAtIndex(0));
@@ -527,8 +569,11 @@ describe('LeftPaneInboxHelper', () => {
 
   describe('getConversationAndMessageInDirection', () => {
     it('returns the next conversation when searching downward', () => {
-      const pinnedConversations = [fakeConversation(), fakeConversation()];
-      const conversations = [fakeConversation()];
+      const pinnedConversations = [
+        getDefaultConversation(),
+        getDefaultConversation(),
+      ];
+      const conversations = [getDefaultConversation()];
       const helper = new LeftPaneInboxHelper({
         conversations,
         pinnedConversations,
@@ -552,23 +597,32 @@ describe('LeftPaneInboxHelper', () => {
     it("returns false if the number of conversations in each section doesn't change", () => {
       const helper = new LeftPaneInboxHelper({
         conversations: [
-          fakeConversation(),
-          fakeConversation(),
-          fakeConversation(),
+          getDefaultConversation(),
+          getDefaultConversation(),
+          getDefaultConversation(),
         ],
-        pinnedConversations: [fakeConversation(), fakeConversation()],
-        archivedConversations: [fakeConversation()],
+        pinnedConversations: [
+          getDefaultConversation(),
+          getDefaultConversation(),
+        ],
+        archivedConversations: [getDefaultConversation()],
       });
 
       assert.isFalse(
         helper.shouldRecomputeRowHeights({
           conversations: [
-            fakeConversation(),
-            fakeConversation(),
-            fakeConversation(),
+            getDefaultConversation(),
+            getDefaultConversation(),
+            getDefaultConversation(),
           ],
-          pinnedConversations: [fakeConversation(), fakeConversation()],
-          archivedConversations: [fakeConversation(), fakeConversation()],
+          pinnedConversations: [
+            getDefaultConversation(),
+            getDefaultConversation(),
+          ],
+          archivedConversations: [
+            getDefaultConversation(),
+            getDefaultConversation(),
+          ],
         })
       );
     });
@@ -576,22 +630,28 @@ describe('LeftPaneInboxHelper', () => {
     it('returns false if the only thing changed is whether conversations are archived', () => {
       const helper = new LeftPaneInboxHelper({
         conversations: [
-          fakeConversation(),
-          fakeConversation(),
-          fakeConversation(),
+          getDefaultConversation(),
+          getDefaultConversation(),
+          getDefaultConversation(),
         ],
-        pinnedConversations: [fakeConversation(), fakeConversation()],
-        archivedConversations: [fakeConversation()],
+        pinnedConversations: [
+          getDefaultConversation(),
+          getDefaultConversation(),
+        ],
+        archivedConversations: [getDefaultConversation()],
       });
 
       assert.isFalse(
         helper.shouldRecomputeRowHeights({
           conversations: [
-            fakeConversation(),
-            fakeConversation(),
-            fakeConversation(),
+            getDefaultConversation(),
+            getDefaultConversation(),
+            getDefaultConversation(),
           ],
-          pinnedConversations: [fakeConversation(), fakeConversation()],
+          pinnedConversations: [
+            getDefaultConversation(),
+            getDefaultConversation(),
+          ],
           archivedConversations: [],
         })
       );
@@ -600,53 +660,65 @@ describe('LeftPaneInboxHelper', () => {
     it('returns false if the only thing changed is the number of non-pinned conversations', () => {
       const helper = new LeftPaneInboxHelper({
         conversations: [
-          fakeConversation(),
-          fakeConversation(),
-          fakeConversation(),
+          getDefaultConversation(),
+          getDefaultConversation(),
+          getDefaultConversation(),
         ],
-        pinnedConversations: [fakeConversation(), fakeConversation()],
-        archivedConversations: [fakeConversation()],
+        pinnedConversations: [
+          getDefaultConversation(),
+          getDefaultConversation(),
+        ],
+        archivedConversations: [getDefaultConversation()],
       });
 
       assert.isFalse(
         helper.shouldRecomputeRowHeights({
-          conversations: [fakeConversation()],
-          pinnedConversations: [fakeConversation(), fakeConversation()],
-          archivedConversations: [fakeConversation(), fakeConversation()],
+          conversations: [getDefaultConversation()],
+          pinnedConversations: [
+            getDefaultConversation(),
+            getDefaultConversation(),
+          ],
+          archivedConversations: [
+            getDefaultConversation(),
+            getDefaultConversation(),
+          ],
         })
       );
     });
 
     it('returns true if the number of pinned conversations changes', () => {
       const helper = new LeftPaneInboxHelper({
-        conversations: [fakeConversation()],
-        pinnedConversations: [fakeConversation(), fakeConversation()],
-        archivedConversations: [fakeConversation()],
+        conversations: [getDefaultConversation()],
+        pinnedConversations: [
+          getDefaultConversation(),
+          getDefaultConversation(),
+        ],
+        archivedConversations: [getDefaultConversation()],
       });
 
       assert.isTrue(
         helper.shouldRecomputeRowHeights({
-          conversations: [fakeConversation()],
+          conversations: [getDefaultConversation()],
           pinnedConversations: [
-            fakeConversation(),
-            fakeConversation(),
-            fakeConversation(),
+            getDefaultConversation(),
+            getDefaultConversation(),
+            getDefaultConversation(),
           ],
-          archivedConversations: [fakeConversation()],
+          archivedConversations: [getDefaultConversation()],
         })
       );
       assert.isTrue(
         helper.shouldRecomputeRowHeights({
-          conversations: [fakeConversation()],
-          pinnedConversations: [fakeConversation()],
-          archivedConversations: [fakeConversation()],
+          conversations: [getDefaultConversation()],
+          pinnedConversations: [getDefaultConversation()],
+          archivedConversations: [getDefaultConversation()],
         })
       );
       assert.isTrue(
         helper.shouldRecomputeRowHeights({
-          conversations: [fakeConversation()],
+          conversations: [getDefaultConversation()],
           pinnedConversations: [],
-          archivedConversations: [fakeConversation()],
+          archivedConversations: [getDefaultConversation()],
         })
       );
     });

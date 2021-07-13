@@ -60,8 +60,14 @@
     // Remove the last notification if both conditions hold:
     //
     // 1. Either `conversationId` or `messageId` matches (if present)
-    // 2. `reactionFromId` matches (if present)
-    removeBy({ conversationId, messageId, reactionFromId }) {
+    // 2. `emoji`, `targetAuthorUuid`, `targetTimestamp` matches (if present)
+    removeBy({
+      conversationId,
+      messageId,
+      emoji,
+      targetAuthorUuid,
+      targetTimestamp,
+    }) {
       if (!this.notificationData) {
         return;
       }
@@ -81,10 +87,15 @@
         return;
       }
 
+      const { reaction } = this.notificationData;
       if (
-        reactionFromId &&
-        this.notificationData.reaction &&
-        this.notificationData.reaction.fromId !== reactionFromId
+        reaction &&
+        emoji &&
+        targetAuthorUuid &&
+        targetTimestamp &&
+        (reaction.emoji !== emoji ||
+          reaction.targetAuthorUuid !== targetAuthorUuid ||
+          reaction.targetTimestamp !== targetTimestamp)
       ) {
         return;
       }
@@ -149,7 +160,7 @@
         ({ notificationIconUrl } = this.notificationData);
 
         const shouldHideExpiringMessageBody =
-          isExpiringMessage && Signal.OS.isMacOS();
+          isExpiringMessage && (Signal.OS.isMacOS() || Signal.OS.isWindows());
         if (shouldHideExpiringMessageBody) {
           notificationMessage = i18n('newMessage');
         } else if (userSetting === SettingNames.NAME_ONLY) {

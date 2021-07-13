@@ -6,8 +6,8 @@ import { storiesOf } from '@storybook/react';
 import { boolean } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
-import { ColorType } from '../types/Colors';
-import { ConversationTypeType } from '../state/ducks/conversations';
+import { AvatarColors } from '../types/Colors';
+import { ConversationType } from '../state/ducks/conversations';
 import { CallingPip, PropsType } from './CallingPip';
 import {
   ActiveCallType,
@@ -16,24 +16,22 @@ import {
   GroupCallConnectionState,
   GroupCallJoinState,
 } from '../types/Calling';
+import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import { fakeGetGroupCallVideoFrameSource } from '../test-both/helpers/fakeGetGroupCallVideoFrameSource';
 import { setup as setupI18n } from '../../js/modules/i18n';
 import enMessages from '../../_locales/en/messages.json';
 
 const i18n = setupI18n('en', enMessages);
 
-const conversation = {
+const conversation: ConversationType = getDefaultConversation({
   id: '3051234567',
   avatarPath: undefined,
-  color: 'ultramarine' as ColorType,
+  color: AvatarColors[0],
   title: 'Rick Sanchez',
   name: 'Rick Sanchez',
   phoneNumber: '3051234567',
   profileName: 'Rick Sanchez',
-  markedUnread: false,
-  type: 'direct' as ConversationTypeType,
-  lastUpdated: Date.now(),
-};
+});
 
 const getCommonActiveCallData = () => ({
   conversation,
@@ -51,7 +49,9 @@ const defaultCall: ActiveCallType = {
   callMode: CallMode.Direct as CallMode.Direct,
   callState: CallState.Accepted,
   peekedParticipants: [],
-  remoteParticipants: [{ hasRemoteVideo: true }],
+  remoteParticipants: [
+    { hasRemoteVideo: true, presenting: false, title: 'Arsene' },
+  ],
 };
 
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
@@ -73,7 +73,7 @@ story.add('Default', () => {
   return <CallingPip {...props} />;
 });
 
-story.add('Contact (with avatar)', () => {
+story.add('Contact (with avatar and no video)', () => {
   const props = createProps({
     activeCall: {
       ...defaultCall,
@@ -81,6 +81,9 @@ story.add('Contact (with avatar)', () => {
         ...conversation,
         avatarPath: 'https://www.fillmurray.com/64/64',
       },
+      remoteParticipants: [
+        { hasRemoteVideo: false, presenting: false, title: 'Julian' },
+      ],
     },
   });
   return <CallingPip {...props} />;

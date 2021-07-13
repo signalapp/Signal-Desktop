@@ -1,9 +1,9 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
-import { boolean, date, text, withKnobs } from '@storybook/addon-knobs';
+import { date, text, withKnobs } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
 import { AttachmentType } from '../../types/Attachment';
@@ -36,7 +36,6 @@ const createAttachment = (
 });
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
-  isLoaded: boolean('isLoaded', overrideProps.isLoaded !== false),
   title: text(
     'title',
     typeof overrideProps.title === 'string'
@@ -57,9 +56,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
 });
 
 story.add('Loading', () => {
-  const props = createProps({
-    isLoaded: false,
-  });
+  const props = createProps({ domain: '' });
 
   return <StagedLinkPreview {...props} />;
 });

@@ -22,8 +22,8 @@ export const Alert: FunctionComponent<PropsType> = ({
 }) => (
   <Modal i18n={i18n} onClose={onClose} title={title}>
     {body}
-    <Modal.Footer>
+    <Modal.ButtonFooter>
       <Button onClick={onClose}>{i18n('Confirmation--confirm')}</Button>
-    </Modal.Footer>
+    </Modal.ButtonFooter>
   </Modal>
 );

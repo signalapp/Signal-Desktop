@@ -260,6 +260,7 @@ story.add('Mixed Content Types', () => {
           width: 112,
           url: '/fixtures/kitten-4-112-112.jpg',
           contentType: IMAGE_JPEG,
+          path: 'originalpath',
         },
         url: '/fixtures/pixabay-Soap-Bubble-7141.mp4',
         width: 112,

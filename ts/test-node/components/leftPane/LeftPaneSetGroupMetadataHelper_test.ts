@@ -3,23 +3,18 @@
 
 import { assert } from 'chai';
 import * as sinon from 'sinon';
-import { v4 as uuid } from 'uuid';
 import { RowType } from '../../../components/ConversationList';
+import { getDefaultConversation } from '../../../test-both/helpers/getDefaultConversation';
 
 import { LeftPaneSetGroupMetadataHelper } from '../../../components/leftPane/LeftPaneSetGroupMetadataHelper';
 
 describe('LeftPaneSetGroupMetadataHelper', () => {
-  const fakeContact = () => ({
-    id: uuid(),
-    title: uuid(),
-    type: 'direct' as const,
-  });
-
   describe('getBackAction', () => {
     it('returns the "show composer" action if a request is not active', () => {
       const showChooseGroupMembers = sinon.fake();
       const helper = new LeftPaneSetGroupMetadataHelper({
         groupAvatar: undefined,
+        groupExpireTimer: 0,
         groupName: '',
         hasError: false,
         isCreating: false,
@@ -35,6 +30,7 @@ describe('LeftPaneSetGroupMetadataHelper', () => {
     it("returns undefined (i.e., you can't go back) if a request is active", () => {
       const helper = new LeftPaneSetGroupMetadataHelper({
         groupAvatar: undefined,
+        groupExpireTimer: 0,
         groupName: 'Foo Bar',
         hasError: false,
         isCreating: true,
@@ -52,6 +48,7 @@ describe('LeftPaneSetGroupMetadataHelper', () => {
       assert.strictEqual(
         new LeftPaneSetGroupMetadataHelper({
           groupAvatar: undefined,
+          groupExpireTimer: 0,
           groupName: '',
           hasError: false,
           isCreating: false,
@@ -65,10 +62,14 @@ describe('LeftPaneSetGroupMetadataHelper', () => {
       assert.strictEqual(
         new LeftPaneSetGroupMetadataHelper({
           groupAvatar: undefined,
+          groupExpireTimer: 0,
           groupName: '',
           hasError: false,
           isCreating: false,
-          selectedContacts: [fakeContact(), fakeContact()],
+          selectedContacts: [
+            getDefaultConversation(),
+            getDefaultConversation(),
+          ],
         }).getRowCount(),
         4
       );
@@ -80,6 +81,7 @@ describe('LeftPaneSetGroupMetadataHelper', () => {
       assert.isUndefined(
         new LeftPaneSetGroupMetadataHelper({
           groupAvatar: undefined,
+          groupExpireTimer: 0,
           groupName: '',
           hasError: false,
           isCreating: false,
@@ -89,9 +91,13 @@ describe('LeftPaneSetGroupMetadataHelper', () => {
     });
 
     it('returns a header, then the contacts, then a blank space if there are contacts', () => {
-      const selectedContacts = [fakeContact(), fakeContact()];
+      const selectedContacts = [
+        getDefaultConversation(),
+        getDefaultConversation(),
+      ];
       const helper = new LeftPaneSetGroupMetadataHelper({
         groupAvatar: undefined,
+        groupExpireTimer: 0,
         groupName: '',
         hasError: false,
         isCreating: false,

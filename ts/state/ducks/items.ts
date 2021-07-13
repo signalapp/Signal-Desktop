@@ -1,14 +1,33 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { omit } from 'lodash';
+import { v4 as getGuid } from 'uuid';
+import { ThunkAction } from 'redux-thunk';
+import { StateType as RootStateType } from '../reducer';
 import * as storageShim from '../../shims/storage';
 import { useBoundActions } from '../../util/hooks';
+import {
+  ConversationColors,
+  ConversationColorType,
+  CustomColorType,
+  CustomColorsItemType,
+  DefaultConversationColorType,
+} from '../../types/Colors';
+import { reloadSelectedConversation } from '../../shims/reloadSelectedConversation';
+import { StorageAccessType } from '../../types/Storage.d';
 
 // State
 
 export type ItemsStateType = {
+  readonly universalExpireTimer?: number;
+
   readonly [key: string]: unknown;
+
+  // This property should always be set and this is ensured in background.ts
+  readonly defaultConversationColor?: DefaultConversationColorType;
+
+  readonly customColors?: CustomColorsItemType;
 };
 
 // Actions
@@ -50,6 +69,11 @@ export type ItemsActionType =
 // Action Creators
 
 export const actions = {
+  addCustomColor,
+  editCustomColor,
+  removeCustomColor,
+  resetDefaultChatColor,
+  setGlobalDefaultConversationColor,
   onSetSkinTone,
   putItem,
   putItemExternal,
@@ -60,7 +84,10 @@ export const actions = {
 
 export const useActions = (): typeof actions => useBoundActions(actions);
 
-function putItem(key: string, value: unknown): ItemPutAction {
+function putItem<K extends keyof StorageAccessType>(
+  key: K,
+  value: StorageAccessType[K]
+): ItemPutAction {
   storageShim.put(key, value);
 
   return {
@@ -83,7 +110,7 @@ function putItemExternal(key: string, value: unknown): ItemPutExternalAction {
   };
 }
 
-function removeItem(key: string): ItemRemoveAction {
+function removeItem(key: keyof StorageAccessType): ItemRemoveAction {
   storageShim.remove(key);
 
   return {
@@ -103,10 +130,118 @@ function resetItems(): ItemsResetAction {
   return { type: 'items/RESET' };
 }
 
+function getDefaultCustomColorData() {
+  return {
+    colors: {},
+    version: 1,
+  };
+}
+
+function addCustomColor(
+  customColor: CustomColorType,
+  nextAction: (uuid: string) => unknown
+): ThunkAction<void, RootStateType, unknown, ItemPutAction> {
+  return (dispatch, getState) => {
+    const { customColors = getDefaultCustomColorData() } = getState().items;
+
+    let uuid = getGuid();
+    while (customColors.colors[uuid]) {
+      uuid = getGuid();
+    }
+
+    const nextCustomColors = {
+      ...customColors,
+      colors: {
+        ...customColors.colors,
+        [uuid]: customColor,
+      },
+    };
+
+    dispatch(putItem('customColors', nextCustomColors));
+    nextAction(uuid);
+  };
+}
+
+function editCustomColor(
+  colorId: string,
+  color: CustomColorType
+): ThunkAction<void, RootStateType, unknown, ItemPutAction> {
+  return (dispatch, getState) => {
+    const { customColors = getDefaultCustomColorData() } = getState().items;
+
+    if (!customColors.colors[colorId]) {
+      return;
+    }
+
+    const nextCustomColors = {
+      ...customColors,
+      colors: {
+        ...customColors.colors,
+        [colorId]: color,
+      },
+    };
+
+    dispatch(putItem('customColors', nextCustomColors));
+  };
+}
+
+function removeCustomColor(
+  payload: string
+): ThunkAction<void, RootStateType, unknown, ItemPutAction> {
+  return (dispatch, getState) => {
+    const { customColors = getDefaultCustomColorData() } = getState().items;
+
+    const nextCustomColors = {
+      ...customColors,
+      colors: omit(customColors.colors, payload),
+    };
+
+    dispatch(putItem('customColors', nextCustomColors));
+  };
+}
+
+function resetDefaultChatColor(): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  ItemPutAction
+> {
+  return dispatch => {
+    dispatch(
+      putItem('defaultConversationColor', {
+        color: ConversationColors[0],
+      })
+    );
+    reloadSelectedConversation();
+  };
+}
+
+function setGlobalDefaultConversationColor(
+  color: ConversationColorType,
+  customColorData?: {
+    id: string;
+    value: CustomColorType;
+  }
+): ThunkAction<void, RootStateType, unknown, ItemPutAction> {
+  return dispatch => {
+    dispatch(
+      putItem('defaultConversationColor', {
+        color,
+        customColorData,
+      })
+    );
+    reloadSelectedConversation();
+  };
+}
+
 // Reducer
 
 function getEmptyState(): ItemsStateType {
-  return {};
+  return {
+    defaultConversationColor: {
+      color: ConversationColors[0],
+    },
+  };
 }
 
 export function reducer(

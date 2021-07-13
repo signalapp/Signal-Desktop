@@ -1,8 +1,10 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { PublicKey, Fingerprint } from 'libsignal-client';
+import { PublicKey, Fingerprint } from '@signalapp/signal-client';
 import { ConversationType } from '../state/ducks/conversations';
+
+import { assert } from './assert';
 
 export async function generateSecurityNumber(
   ourNumber: string,
@@ -35,7 +37,7 @@ export async function generateSecurityNumberBlock(
   const ourUuid = window.textsecure.storage.user.getUuid();
 
   const us = window.textsecure.storage.protocol.getIdentityRecord(
-    ourUuid || ourNumber
+    ourUuid || ourNumber || ''
   );
   const ourKey = us ? us.publicKey : null;
 
@@ -57,6 +59,7 @@ export async function generateSecurityNumberBlock(
     return [];
   }
 
+  assert(ourNumber, 'Should have our number');
   const securityNumber = await generateSecurityNumber(
     ourNumber,
     ourKey,

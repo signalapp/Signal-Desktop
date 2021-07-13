@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable-next-line max-classes-per-file */
@@ -46,10 +46,11 @@ const renderContact: SmartContactRendererType = (conversationId: string) => (
   </React.Fragment>
 );
 
-const renderChange = (change: GroupV2ChangeType) => (
+const renderChange = (change: GroupV2ChangeType, groupName?: string) => (
   <GroupV2Change
     AccessControlEnum={AccessControlEnum}
     change={change}
+    groupName={groupName}
     i18n={i18n}
     ourConversationId={OUR_ID}
     renderContact={renderContact}
@@ -1322,6 +1323,82 @@ storiesOf('Components/Conversation/GroupV2Change', module)
             },
           ],
         })}
+      </>
+    );
+  })
+  .add('Description (Remove)', () => {
+    return (
+      <>
+        {renderChange({
+          from: OUR_ID,
+          details: [
+            {
+              removed: true,
+              type: 'description',
+            },
+          ],
+        })}
+        {renderChange({
+          from: ADMIN_A,
+          details: [
+            {
+              removed: true,
+              type: 'description',
+            },
+          ],
+        })}
+        {renderChange({
+          details: [
+            {
+              removed: true,
+              type: 'description',
+            },
+          ],
+        })}
+      </>
+    );
+  })
+  .add('Description (Change)', () => {
+    return (
+      <>
+        {renderChange(
+          {
+            from: OUR_ID,
+            details: [
+              {
+                type: 'description',
+                description:
+                  'This is a long description.\n\nWe need a dialog to view it all!\n\nIt has a link to https://example.com',
+              },
+            ],
+          },
+          'We do hikes 🌲'
+        )}
+        {renderChange(
+          {
+            from: ADMIN_A,
+            details: [
+              {
+                type: 'description',
+                description:
+                  'This is a long description.\n\nWe need a dialog to view it all!\n\nIt has a link to https://example.com',
+              },
+            ],
+          },
+          'We do hikes 🌲'
+        )}
+        {renderChange(
+          {
+            details: [
+              {
+                type: 'description',
+                description:
+                  'This is a long description.\n\nWe need a dialog to view it all!\n\nIt has a link to https://example.com',
+              },
+            ],
+          },
+          'We do hikes 🌲'
+        )}
       </>
     );
   });

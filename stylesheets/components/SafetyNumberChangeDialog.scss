@@ -62,16 +62,16 @@
 
       @include keyboard-mode {
         &:focus {
-          box-shadow: 0px 0px 0px 2px $ultramarine-ui-light;
+          box-shadow: 0px 0px 0px 2px $color-ultramarine;
         }
       }
 
       @include light-theme {
-        color: $ultramarine-ui-light;
+        color: $color-ultramarine;
       }
 
       @include dark-theme {
-        color: $ultramarine-ui-dark;
+        color: $color-ultramarine-light;
       }
     }
   }

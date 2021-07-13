@@ -10,54 +10,78 @@ import { Emojify } from './conversation/Emojify';
 import { InContactsIcon } from './InContactsIcon';
 
 import { LocalizerType } from '../types/Util';
-import { ColorType } from '../types/Colors';
+import { ConversationType } from '../state/ducks/conversations';
+import { isInSystemContacts } from '../util/isInSystemContacts';
 
 type Props = {
-  about?: string;
-  avatarPath?: string;
-  color?: ColorType;
   i18n: LocalizerType;
   isAdmin?: boolean;
-  isMe?: boolean;
-  name?: string;
   onClick?: () => void;
-  phoneNumber?: string;
-  profileName?: string;
-  title: string;
-};
+} & Pick<
+  ConversationType,
+  | 'about'
+  | 'acceptedMessageRequest'
+  | 'avatarPath'
+  | 'color'
+  | 'isMe'
+  | 'name'
+  | 'phoneNumber'
+  | 'profileName'
+  | 'sharedGroupNames'
+  | 'title'
+  | 'type'
+  | 'unblurredAvatarPath'
+>;
 
 export class ContactListItem extends React.Component<Props> {
   public renderAvatar(): JSX.Element {
     const {
+      acceptedMessageRequest,
       avatarPath,
-      i18n,
       color,
+      i18n,
+      isMe,
       name,
       phoneNumber,
       profileName,
+      sharedGroupNames,
       title,
+      type,
+      unblurredAvatarPath,
     } = this.props;
 
     return (
       <Avatar
+        acceptedMessageRequest={acceptedMessageRequest}
         avatarPath={avatarPath}
         color={color}
-        conversationType="direct"
+        conversationType={type}
         i18n={i18n}
+        isMe={isMe}
         name={name}
         phoneNumber={phoneNumber}
         profileName={profileName}
         title={title}
+        sharedGroupNames={sharedGroupNames}
         size={52}
+        unblurredAvatarPath={unblurredAvatarPath}
       />
     );
   }
 
   public render(): JSX.Element {
-    const { about, i18n, isAdmin, isMe, name, onClick, title } = this.props;
+    const {
+      about,
+      i18n,
+      isAdmin,
+      isMe,
+      name,
+      onClick,
+      title,
+      type,
+    } = this.props;
 
     const displayName = isMe ? i18n('you') : title;
-    const shouldShowIcon = Boolean(name);
 
     return (
       <button
@@ -73,7 +97,7 @@ export class ContactListItem extends React.Component<Props> {
           <div className="module-contact-list-item__left">
             <div className="module-contact-list-item__text__name">
               <Emojify text={displayName} />
-              {shouldShowIcon ? (
+              {isInSystemContacts({ name, type }) ? (
                 <span>
                   {' '}
                   <InContactsIcon i18n={i18n} />

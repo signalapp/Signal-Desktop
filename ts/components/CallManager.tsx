@@ -6,6 +6,7 @@ import { CallNeedPermissionScreen } from './CallNeedPermissionScreen';
 import { CallScreen } from './CallScreen';
 import { CallingLobby } from './CallingLobby';
 import { CallingParticipantsList } from './CallingParticipantsList';
+import { CallingSelectPresentingSourcesModal } from './CallingSelectPresentingSourcesModal';
 import { CallingPip } from './CallingPip';
 import { IncomingCallBar } from './IncomingCallBar';
 import {
@@ -19,6 +20,7 @@ import {
   CallState,
   GroupCallJoinState,
   GroupCallVideoRequest,
+  PresentedSource,
   VideoFrameSource,
 } from '../types/Calling';
 import { ConversationType } from '../state/ducks/conversations';
@@ -52,6 +54,7 @@ export type PropsType = {
     conversationId: string,
     demuxId: number
   ) => VideoFrameSource;
+  getPresentingSources: () => void;
   incomingCall?: {
     call: DirectCallStateType;
     conversation: ConversationType;
@@ -65,13 +68,16 @@ export type PropsType = {
   declineCall: (_: DeclineCallType) => void;
   i18n: LocalizerType;
   me: MeType;
+  openSystemPreferencesAction: () => unknown;
   setGroupCallVideoRequest: (_: SetGroupCallVideoRequestType) => void;
   setLocalAudio: (_: SetLocalAudioType) => void;
   setLocalVideo: (_: SetLocalVideoType) => void;
   setLocalPreview: (_: SetLocalPreviewType) => void;
+  setPresenting: (_?: PresentedSource) => void;
   setRendererCanvas: (_: SetRendererCanvasType) => void;
   hangUp: (_: HangUpType) => void;
   togglePip: () => void;
+  toggleScreenRecordingPermissionsDialog: () => unknown;
   toggleSettings: () => void;
   toggleSpeakerView: () => void;
 };
@@ -89,17 +95,21 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
   i18n,
   keyChangeOk,
   getGroupCallVideoFrameSource,
+  getPresentingSources,
   me,
+  openSystemPreferencesAction,
   renderDeviceSelection,
   renderSafetyNumberViewer,
   setGroupCallVideoRequest,
   setLocalAudio,
   setLocalPreview,
   setLocalVideo,
+  setPresenting,
   setRendererCanvas,
   startCall,
   toggleParticipants,
   togglePip,
+  toggleScreenRecordingPermissionsDialog,
   toggleSettings,
   toggleSpeakerView,
 }) => {
@@ -110,6 +120,7 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
     joinedAt,
     peekedParticipants,
     pip,
+    presentingSourcesAvailable,
     settingsDialogOpen,
     showParticipantsList,
   } = activeCall;
@@ -238,13 +249,15 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
       ? [
           ...activeCall.remoteParticipants.map(participant => ({
             ...participant,
-            hasAudio: participant.hasRemoteAudio,
-            hasVideo: participant.hasRemoteVideo,
+            hasRemoteAudio: participant.hasRemoteAudio,
+            hasRemoteVideo: participant.hasRemoteVideo,
+            presenting: participant.presenting,
           })),
           {
             ...me,
-            hasAudio: hasLocalAudio,
-            hasVideo: hasLocalVideo,
+            hasRemoteAudio: hasLocalAudio,
+            hasRemoteVideo: hasLocalVideo,
+            presenting: Boolean(activeCall.presentingSource),
           },
         ]
       : [];
@@ -253,22 +266,35 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
     <>
       <CallScreen
         activeCall={activeCall}
+        getPresentingSources={getPresentingSources}
         getGroupCallVideoFrameSource={getGroupCallVideoFrameSourceForActiveCall}
         hangUp={hangUp}
         i18n={i18n}
         joinedAt={joinedAt}
         me={me}
+        openSystemPreferencesAction={openSystemPreferencesAction}
         setGroupCallVideoRequest={setGroupCallVideoRequestForConversation}
         setLocalPreview={setLocalPreview}
         setRendererCanvas={setRendererCanvas}
         setLocalAudio={setLocalAudio}
         setLocalVideo={setLocalVideo}
+        setPresenting={setPresenting}
         stickyControls={showParticipantsList}
+        toggleScreenRecordingPermissionsDialog={
+          toggleScreenRecordingPermissionsDialog
+        }
         toggleParticipants={toggleParticipants}
         togglePip={togglePip}
         toggleSettings={toggleSettings}
         toggleSpeakerView={toggleSpeakerView}
       />
+      {presentingSourcesAvailable && presentingSourcesAvailable.length ? (
+        <CallingSelectPresentingSourcesModal
+          i18n={i18n}
+          presentingSourcesAvailable={presentingSourcesAvailable}
+          setPresenting={setPresenting}
+        />
+      ) : null}
       {settingsDialogOpen && renderDeviceSelection()}
       {showParticipantsList && activeCall.callMode === CallMode.Group ? (
         <CallingParticipantsList

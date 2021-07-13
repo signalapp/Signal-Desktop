@@ -4,8 +4,8 @@
 import React from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
+import { noop } from 'lodash';
 
-import { GlobalAudioProvider } from '../GlobalAudioContext';
 import { Avatar } from '../Avatar';
 import { ContactName } from './ContactName';
 import {
@@ -15,42 +15,52 @@ import {
   PropsData as MessagePropsDataType,
 } from './Message';
 import { LocalizerType } from '../../types/Util';
-import { ColorType } from '../../types/Colors';
+import { ConversationType } from '../../state/ducks/conversations';
 import { assert } from '../../util/assert';
+import { ContactNameColorType } from '../../types/Colors';
 
-export type Contact = {
+export type Contact = Pick<
+  ConversationType,
+  | 'acceptedMessageRequest'
+  | 'avatarPath'
+  | 'color'
+  | 'id'
+  | 'isMe'
+  | 'name'
+  | 'phoneNumber'
+  | 'profileName'
+  | 'sharedGroupNames'
+  | 'title'
+  | 'unblurredAvatarPath'
+> & {
   status: MessageStatusType | null;
 
-  title: string;
-  phoneNumber?: string;
-  name?: string;
-  profileName?: string;
-  avatarPath?: string;
-  color?: ColorType;
   isOutgoingKeyError: boolean;
   isUnidentifiedDelivery: boolean;
 
   errors?: Array<Error>;
-
-  onSendAnyway: () => void;
-  onShowSafetyNumber: () => void;
 };
 
 export type Props = {
   contacts: Array<Contact>;
+  contactNameColor?: ContactNameColorType;
   errors: Array<Error>;
-  message: MessagePropsDataType;
+  message: Omit<MessagePropsDataType, 'renderingContext'>;
   receivedAt: number;
   sentAt: number;
 
+  sendAnyway: (contactId: string, messageId: string) => unknown;
+  showSafetyNumber: (contactId: string) => void;
   i18n: LocalizerType;
 } & Pick<
   MessagePropsType,
+  | 'checkForAccount'
   | 'clearSelectedMessage'
   | 'deleteMessage'
   | 'deleteMessageForEveryone'
   | 'displayTapToViewMessage'
   | 'downloadAttachment'
+  | 'doubleCheckMissingQuoteReference'
   | 'interactionMode'
   | 'kickOffAttachmentDownload'
   | 'markAttachmentAsCorrupted'
@@ -89,25 +99,33 @@ export class MessageDetail extends React.Component<Props> {
   public renderAvatar(contact: Contact): JSX.Element {
     const { i18n } = this.props;
     const {
+      acceptedMessageRequest,
       avatarPath,
       color,
-      phoneNumber,
+      isMe,
       name,
+      phoneNumber,
       profileName,
+      sharedGroupNames,
       title,
+      unblurredAvatarPath,
     } = contact;
 
     return (
       <Avatar
+        acceptedMessageRequest={acceptedMessageRequest}
         avatarPath={avatarPath}
         color={color}
         conversationType="direct"
         i18n={i18n}
+        isMe={isMe}
         name={name}
         phoneNumber={phoneNumber}
         profileName={profileName}
         title={title}
+        sharedGroupNames={sharedGroupNames}
         size={52}
+        unblurredAvatarPath={unblurredAvatarPath}
       />
     );
   }
@@ -131,7 +149,7 @@ export class MessageDetail extends React.Component<Props> {
   }
 
   public renderContact(contact: Contact): JSX.Element {
-    const { i18n } = this.props;
+    const { i18n, message, showSafetyNumber, sendAnyway } = this.props;
     const errors = contact.errors || [];
 
     const errorComponent = contact.isOutgoingKeyError ? (
@@ -139,14 +157,14 @@ export class MessageDetail extends React.Component<Props> {
         <button
           type="button"
           className="module-message-detail__contact__show-safety-number"
-          onClick={contact.onShowSafetyNumber}
+          onClick={() => showSafetyNumber(contact.id)}
         >
           {i18n('showSafetyNumber')}
         </button>
         <button
           type="button"
           className="module-message-detail__contact__send-anyway"
-          onClick={contact.onSendAnyway}
+          onClick={() => sendAnyway(contact.id, message.id)}
         >
           {i18n('sendAnyway')}
         </button>
@@ -216,11 +234,14 @@ export class MessageDetail extends React.Component<Props> {
       receivedAt,
       sentAt,
 
+      checkForAccount,
       clearSelectedMessage,
+      contactNameColor,
       deleteMessage,
       deleteMessageForEveryone,
       displayTapToViewMessage,
       downloadAttachment,
+      doubleCheckMissingQuoteReference,
       i18n,
       interactionMode,
       kickOffAttachmentDownload,
@@ -244,51 +265,54 @@ export class MessageDetail extends React.Component<Props> {
       // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
       <div className="module-message-detail" tabIndex={0} ref={this.focusRef}>
         <div className="module-message-detail__message-container">
-          <GlobalAudioProvider conversationId={message.conversationId}>
-            <Message
-              {...message}
-              clearSelectedMessage={clearSelectedMessage}
-              deleteMessage={deleteMessage}
-              deleteMessageForEveryone={deleteMessageForEveryone}
-              disableMenu
-              disableScroll
-              displayTapToViewMessage={displayTapToViewMessage}
-              downloadAttachment={downloadAttachment}
-              i18n={i18n}
-              interactionMode={interactionMode}
-              kickOffAttachmentDownload={kickOffAttachmentDownload}
-              markAttachmentAsCorrupted={markAttachmentAsCorrupted}
-              openConversation={openConversation}
-              openLink={openLink}
-              reactToMessage={reactToMessage}
-              renderAudioAttachment={renderAudioAttachment}
-              renderEmojiPicker={renderEmojiPicker}
-              replyToMessage={replyToMessage}
-              retrySend={retrySend}
-              showForwardMessageModal={showForwardMessageModal}
-              scrollToQuotedMessage={() => {
-                assert(
-                  false,
-                  'scrollToQuotedMessage should never be called because scrolling is disabled'
-                );
-              }}
-              showContactDetail={showContactDetail}
-              showContactModal={showContactModal}
-              showExpiredIncomingTapToViewToast={
-                showExpiredIncomingTapToViewToast
-              }
-              showExpiredOutgoingTapToViewToast={
-                showExpiredOutgoingTapToViewToast
-              }
-              showMessageDetail={() => {
-                assert(
-                  false,
-                  "showMessageDetail should never be called because the menu is disabled (and we're already in the message detail!)"
-                );
-              }}
-              showVisualAttachment={showVisualAttachment}
-            />
-          </GlobalAudioProvider>
+          <Message
+            {...message}
+            renderingContext="conversation/MessageDetail"
+            checkForAccount={checkForAccount}
+            clearSelectedMessage={clearSelectedMessage}
+            contactNameColor={contactNameColor}
+            deleteMessage={deleteMessage}
+            deleteMessageForEveryone={deleteMessageForEveryone}
+            disableMenu
+            disableScroll
+            displayTapToViewMessage={displayTapToViewMessage}
+            downloadAttachment={downloadAttachment}
+            doubleCheckMissingQuoteReference={doubleCheckMissingQuoteReference}
+            i18n={i18n}
+            interactionMode={interactionMode}
+            kickOffAttachmentDownload={kickOffAttachmentDownload}
+            markAttachmentAsCorrupted={markAttachmentAsCorrupted}
+            onHeightChange={noop}
+            openConversation={openConversation}
+            openLink={openLink}
+            reactToMessage={reactToMessage}
+            renderAudioAttachment={renderAudioAttachment}
+            renderEmojiPicker={renderEmojiPicker}
+            replyToMessage={replyToMessage}
+            retrySend={retrySend}
+            showForwardMessageModal={showForwardMessageModal}
+            scrollToQuotedMessage={() => {
+              assert(
+                false,
+                'scrollToQuotedMessage should never be called because scrolling is disabled'
+              );
+            }}
+            showContactDetail={showContactDetail}
+            showContactModal={showContactModal}
+            showExpiredIncomingTapToViewToast={
+              showExpiredIncomingTapToViewToast
+            }
+            showExpiredOutgoingTapToViewToast={
+              showExpiredOutgoingTapToViewToast
+            }
+            showMessageDetail={() => {
+              assert(
+                false,
+                "showMessageDetail should never be called because the menu is disabled (and we're already in the message detail!)"
+              );
+            }}
+            showVisualAttachment={showVisualAttachment}
+          />
         </div>
         <table className="module-message-detail__info">
           <tbody>

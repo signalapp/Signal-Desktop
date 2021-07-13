@@ -10,6 +10,7 @@ const context = __dirname;
 const { NODE_ENV: mode = 'development' } = process.env;
 
 const EXTERNAL_MODULE = new Set([
+  '@signalapp/signal-client',
   'backbone',
   'better-sqlite3',
   'ffi-napi',
@@ -17,7 +18,7 @@ const EXTERNAL_MODULE = new Set([
   'fsevents',
   'got',
   'jquery',
-  'libsignal-client',
+  'mac-screen-capture-permissions',
   'node-fetch',
   'node-sass',
   'pino',

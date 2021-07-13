@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
@@ -37,8 +37,8 @@ describe('Message', () => {
   });
 
   after(async () => {
-    window.textsecure.storage.put('number_id', null);
-    window.textsecure.storage.put('uuid_id', null);
+    window.textsecure.storage.remove('number_id');
+    window.textsecure.storage.remove('uuid_id');
 
     await window.Signal.Data.removeAll();
     await window.storage.fetch();
@@ -73,42 +73,6 @@ describe('Message', () => {
       await message.send(Promise.resolve({}));
 
       assert.isTrue(message.get('sent'));
-    });
-
-    it("triggers the 'done' event on success", async () => {
-      const message = createMessage({ type: 'outgoing', source });
-
-      let callCount = 0;
-      message.on('done', () => {
-        callCount += 1;
-      });
-
-      await message.send(Promise.resolve({}));
-
-      assert.strictEqual(callCount, 1);
-    });
-
-    it("triggers the 'sent' event on success", async () => {
-      const message = createMessage({ type: 'outgoing', source });
-
-      const listener = sinon.spy();
-      message.on('sent', listener);
-
-      await message.send(Promise.resolve({}));
-
-      sinon.assert.calledOnce(listener);
-      sinon.assert.calledWith(listener, message);
-    });
-
-    it("triggers the 'done' event on failure", async () => {
-      const message = createMessage({ type: 'outgoing', source });
-
-      const listener = sinon.spy();
-      message.on('done', listener);
-
-      await message.send(Promise.reject(new Error('something went wrong!')));
-
-      sinon.assert.calledOnce(listener);
     });
 
     it('saves errors from promise rejections with errors', async () => {
@@ -151,37 +115,6 @@ describe('Message', () => {
         source,
       });
       message.getContact();
-    });
-  });
-
-  describe('isIncoming', () => {
-    it('checks if is incoming message', () => {
-      const messages = new window.Whisper.MessageCollection();
-      let message = messages.add(attributes);
-      assert.notOk(message.isIncoming());
-      message = messages.add({ type: 'incoming' });
-      assert.ok(message.isIncoming());
-    });
-  });
-
-  describe('isOutgoing', () => {
-    it('checks if is outgoing message', () => {
-      const messages = new window.Whisper.MessageCollection();
-      let message = messages.add(attributes);
-      assert.ok(message.isOutgoing());
-      message = messages.add({ type: 'incoming' });
-      assert.notOk(message.isOutgoing());
-    });
-  });
-
-  describe('isGroupUpdate', () => {
-    it('checks if is group update', () => {
-      const messages = new window.Whisper.MessageCollection();
-      let message = messages.add(attributes);
-      assert.notOk(message.isGroupUpdate());
-
-      message = messages.add({ group_update: true });
-      assert.ok(message.isGroupUpdate());
     });
   });
 
@@ -582,17 +515,6 @@ describe('Message', () => {
         }).getNotificationText(),
         'Photo'
       );
-    });
-  });
-
-  describe('isEndSession', () => {
-    it('checks if it is end of the session', () => {
-      const messages = new window.Whisper.MessageCollection();
-      let message = messages.add(attributes);
-      assert.notOk(message.isEndSession());
-
-      message = messages.add({ type: 'incoming', source, flags: true });
-      assert.ok(message.isEndSession());
     });
   });
 });
