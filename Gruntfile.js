@@ -29,6 +29,9 @@ module.exports = grunt => {
     'node_modules/bytebuffer/dist/bytebuffer.js',
     'js/curve/curve25519_compiled.js',
     'js/curve/curve25519_wrapper.js',
+    'node_modules/libsodium/dist/modules/libsodium.js',
+    'node_modules/libsodium-wrappers/dist/modules/libsodium-wrappers.js',
+
     'libtextsecure/libsignal-protocol.js',
     'js/util_worker_tasks.js',
   ];

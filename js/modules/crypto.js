@@ -1,5 +1,5 @@
 /* eslint-env browser */
-/* global dcodeIO, libsignal */
+/* global dcodeIO */
 
 /* eslint-disable camelcase, no-bitwise */
 

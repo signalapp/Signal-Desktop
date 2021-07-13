@@ -75,13 +75,6 @@ const { createTemplate } = require('./app/menu');
 const { installFileHandler, installWebHandler } = require('./app/protocol_filter');
 const { installPermissionsHandler } = require('./app/permissions');
 
-const _sodium = require('libsodium-wrappers');
-
-async function getSodium() {
-  await _sodium.ready;
-  return _sodium;
-}
-
 let appStartInitialSpellcheckSetting = true;
 
 async function getSpellCheckSetting() {
