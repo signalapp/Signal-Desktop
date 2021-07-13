@@ -5,8 +5,12 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { getConversationController } from '../../session/conversations';
 import { MessageModel } from '../../models/message';
 import { getMessagesByConversation } from '../../data/data';
-import { ConversationTypeEnum } from '../../models/conversation';
+import {
+  ConversationNotificationSettingType,
+  ConversationTypeEnum,
+} from '../../models/conversation';
 import { MessageDeliveryStatus } from '../../models/messageType';
+import { NotificationForConvoOption } from '../../components/conversation/ConversationHeader';
 
 // State
 
@@ -83,6 +87,8 @@ export interface ConversationType {
   groupAdmins?: Array<string>; // admins for closed groups and moderators for open groups
   members?: Array<string>; // members for closed groups only
   isPinned: boolean;
+  notificationForConvo: Array<NotificationForConvoOption>;
+  currentNotificationSetting: ConversationNotificationSettingType;
 }
 
 export type ConversationLookupType = {

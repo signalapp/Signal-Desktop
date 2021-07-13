@@ -408,6 +408,13 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       groupAdmins,
       members,
       isPinned: this.isPinned(),
+      notificationForConvo: ConversationNotificationSetting.filter(n =>
+        this.isPrivate() ? n !== 'mentions_only' : true
+      ).map((n: ConversationNotificationSettingType) => {
+        // this link to the notificationForConvo_all, notificationForConvo_mentions_only, ...
+        return { value: n, name: window.i18n(`notificationForConvo_${n}`) };
+      }),
+      currentNotificationSetting: this.get('triggerNotificationsFor'),
     };
   }
 
