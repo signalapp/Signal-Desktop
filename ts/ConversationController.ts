@@ -13,6 +13,7 @@ import { SendOptionsType, CallbackResultType } from './textsecure/SendMessage';
 import { ConversationModel } from './models/conversations';
 import { maybeDeriveGroupV2Id } from './groups';
 import { assert } from './util/assert';
+import { isValidGuid } from './util/isValidGuid';
 import { map, reduce } from './util/iterables';
 import { isGroupV1, isGroupV2 } from './util/whatTypeOfConversation';
 import { deprecated } from './util/deprecated';
@@ -842,6 +843,18 @@ export class ConversationController {
                   draft: draft.slice(0, MAX_MESSAGE_BODY_LENGTH),
                 });
                 updateConversation(conversation.attributes);
+              }
+
+              // Clean up the conversations that have UUID as their e164.
+              const e164 = conversation.get('e164');
+              const uuid = conversation.get('uuid');
+              if (isValidGuid(e164) && uuid) {
+                conversation.set({ e164: undefined });
+                updateConversation(conversation.attributes);
+
+                window.log.info(
+                  `Cleaning up conversation(${uuid}) with invalid e164`
+                );
               }
             } catch (error) {
               window.log.error(

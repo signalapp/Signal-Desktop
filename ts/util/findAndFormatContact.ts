@@ -3,7 +3,6 @@
 
 import { ConversationType } from '../state/ducks/conversations';
 import { format, isValidNumber } from '../types/PhoneNumber';
-import { normalizeUuid } from './normalizeUuid';
 
 type FormattedContact = Partial<ConversationType> &
   Pick<
@@ -32,7 +31,7 @@ export function findAndFormatContact(identifier?: string): FormattedContact {
   }
 
   const contactModel = window.ConversationController.get(
-    normalizeUuid(identifier, 'findAndFormatContact')
+    identifier.toLowerCase()
   );
   if (contactModel) {
     return contactModel.format();

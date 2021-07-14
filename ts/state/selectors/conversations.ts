@@ -619,13 +619,13 @@ export const getConversationSelector = createSelector(
         return selector(undefined);
       }
 
-      const onE164 = getOwn(byE164, id);
-      if (onE164) {
-        return selector(onE164);
-      }
       const onUuid = getOwn(byUuid, id.toLowerCase ? id.toLowerCase() : id);
       if (onUuid) {
         return selector(onUuid);
+      }
+      const onE164 = getOwn(byE164, id);
+      if (onE164) {
+        return selector(onE164);
       }
       const onGroupId = getOwn(byGroupId, id);
       if (onGroupId) {
