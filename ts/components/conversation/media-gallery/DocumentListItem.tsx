@@ -4,6 +4,10 @@ import classNames from 'classnames';
 import moment from 'moment';
 // tslint:disable-next-line:match-default-export-name
 import formatFileSize from 'filesize';
+import { getDecryptedMediaUrl } from '../../../session/crypto/DecryptedAttachmentsManager';
+import { sendDataExtractionNotification } from '../../../session/messages/outgoing/controlMessage/DataExtractionNotificationMessage';
+import { AttachmentTypeWithPath, save } from '../../../types/Attachment';
+import { MediaItemType } from '../../LightboxGallery';
 
 type Props = {
   // Required
@@ -12,8 +16,31 @@ type Props = {
   // Optional
   fileName?: string;
   fileSize?: number | null;
-  onClick?: () => void;
   shouldShowSeparator?: boolean;
+  mediaItem: MediaItemType;
+  conversationId: string;
+};
+
+const saveAttachment = async ({
+  attachment,
+  messageTimestamp,
+  messageSender,
+  conversationId,
+}: {
+  attachment: AttachmentTypeWithPath;
+  messageTimestamp: number;
+  messageSender: string;
+  conversationId: string;
+}) => {
+  const timestamp = messageTimestamp;
+  attachment.url = await getDecryptedMediaUrl(attachment.url, attachment.contentType);
+  save({
+    attachment,
+    document,
+    getAbsolutePath: window.Signal.Migrations.getAbsoluteAttachmentPath,
+    timestamp,
+  });
+  await sendDataExtractionNotification(conversationId, messageSender, timestamp);
 };
 
 export const DocumentListItem = (props: Props) => {
@@ -28,7 +55,18 @@ export const DocumentListItem = (props: Props) => {
         defaultShowSeparator ? 'module-document-list-item--with-separator' : null
       )}
     >
-      <div className="module-document-list-item__content" role="button" onClick={props.onClick}>
+      <div
+        className="module-document-list-item__content"
+        role="button"
+        onClick={() => {
+          void saveAttachment({
+            messageSender: props.mediaItem.messageSender,
+            messageTimestamp: props.mediaItem.messageTimestamp,
+            attachment: props.mediaItem.attachment,
+            conversationId: props.conversationId,
+          });
+        }}
+      >
         <div className="module-document-list-item__icon" />
         <div className="module-document-list-item__metadata">
           <span className="module-document-list-item__file-name">{fileName}</span>

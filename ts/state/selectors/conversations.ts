@@ -17,6 +17,7 @@ import {
   ConversationHeaderProps,
   ConversationHeaderTitleProps,
 } from '../../components/conversation/ConversationHeader';
+import { LightBoxOptions } from '../../components/session/conversation/SessionConversation';
 
 export const getConversations = (state: StateType): ConversationsStateType => state.conversations;
 
@@ -282,4 +283,9 @@ export const isMessageSelectionMode = createSelector(
 export const getSelectedMessageIds = createSelector(
   getConversations,
   (state: ConversationsStateType): Array<string> => state.selectedMessageIds
+);
+
+export const getLightBoxOptions = createSelector(
+  getConversations,
+  (state: ConversationsStateType): LightBoxOptions | undefined => state.lightBox
 );

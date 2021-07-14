@@ -23,6 +23,7 @@ import {
   PropsForMessage,
   ReduxConversationType,
   resetSelectedMessageIds,
+  showLightBox,
   SortedMessageModelProps,
 } from '../../../state/ducks/conversations';
 import { MessageView } from '../../MainViewController';
@@ -47,9 +48,6 @@ interface State {
   // quoted message
   quotedMessageTimestamp?: number;
   quotedMessageProps?: any;
-
-  // lightbox options
-  lightBoxOptions?: LightBoxOptions;
 }
 
 export interface LightBoxOptions {
@@ -66,6 +64,9 @@ interface Props {
   selectedMessages: Array<string>;
   showMessageDetails: boolean;
   isRightPanelShowing: boolean;
+
+  // lightbox options
+  lightBoxOptions?: LightBoxOptions;
 }
 
 export class SessionConversation extends React.Component<Props, State> {
@@ -175,13 +176,7 @@ export class SessionConversation extends React.Component<Props, State> {
   // ~~~~~~~~~~~~~~ RENDER METHODS ~~~~~~~~~~~~~~
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   public render() {
-    const {
-      showRecordingView,
-      quotedMessageProps,
-      lightBoxOptions,
-      isDraggingFile,
-      stagedAttachments,
-    } = this.state;
+    const { showRecordingView, quotedMessageProps, isDraggingFile, stagedAttachments } = this.state;
 
     const {
       selectedConversation,
@@ -190,6 +185,7 @@ export class SessionConversation extends React.Component<Props, State> {
       showMessageDetails,
       selectedMessages,
       isRightPanelShowing,
+      lightBoxOptions,
     } = this.props;
 
     if (!selectedConversation || !messagesProps) {
@@ -269,7 +265,7 @@ export class SessionConversation extends React.Component<Props, State> {
         <div
           className={classNames('conversation-item__options-pane', isRightPanelShowing && 'show')}
         >
-          <SessionRightPanelWithDetails {...this.getRightPanelProps()} />
+          <SessionRightPanelWithDetails />
         </div>
       </SessionTheme>
     );
@@ -308,15 +304,6 @@ export class SessionConversation extends React.Component<Props, State> {
       replyToMessage: this.replyToMessage,
       onClickAttachment: this.onClickAttachment,
       onDownloadAttachment: this.saveAttachment,
-    };
-  }
-
-  // tslint:disable-next-line: max-func-body-length
-  public getRightPanelProps() {
-    return {
-      onShowLightBox: (lightBoxOptions?: LightBoxOptions) => {
-        this.setState({ lightBoxOptions });
-      },
     };
   }
 
@@ -390,7 +377,7 @@ export class SessionConversation extends React.Component<Props, State> {
       media: media as any,
       attachment,
     };
-    this.setState({ lightBoxOptions });
+    window.inboxStore?.dispatch(showLightBox(lightBoxOptions));
   }
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -484,14 +471,7 @@ export class SessionConversation extends React.Component<Props, State> {
         : 0;
     console.warn('renderLightBox', { media, attachment });
     return (
-      <LightboxGallery
-        media={media}
-        close={() => {
-          this.setState({ lightBoxOptions: undefined });
-        }}
-        selectedIndex={selectedIndex}
-        onSave={this.saveAttachment}
-      />
+      <LightboxGallery media={media} selectedIndex={selectedIndex} onSave={this.saveAttachment} />
     );
   }
 

@@ -4,23 +4,15 @@ import { Avatar, AvatarSize } from '../../Avatar';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../SessionButton';
 import { SessionDropdown } from '../SessionDropdown';
 import { MediaGallery } from '../../conversation/media-gallery/MediaGallery';
-import _, { noop } from 'lodash';
-import { TimerOption } from '../../conversation/ConversationHeader';
+import _ from 'lodash';
 import { Constants } from '../../../session';
-import {
-  ConversationAvatar,
-  usingClosedConversationDetails,
-} from '../usingClosedConversationDetails';
-import { AttachmentTypeWithPath, save } from '../../../types/Attachment';
-import { DefaultTheme, useTheme, withTheme } from 'styled-components';
+import { ConversationAvatar } from '../usingClosedConversationDetails';
+import { AttachmentTypeWithPath } from '../../../types/Attachment';
+import { useTheme } from 'styled-components';
 import {
   getMessagesWithFileAttachments,
   getMessagesWithVisualMediaAttachments,
 } from '../../../data/data';
-import { getDecryptedMediaUrl } from '../../../session/crypto/DecryptedAttachmentsManager';
-import { LightBoxOptions } from './SessionConversation';
-import { UserUtils } from '../../../session/utils';
-import { sendDataExtractionNotification } from '../../../session/messages/outgoing/controlMessage/DataExtractionNotificationMessage';
 import { SpacerLG } from '../../basic/Text';
 import {
   deleteMessagesByConvoIdWithConfirmation,
@@ -32,30 +24,23 @@ import {
   showUpdateGroupMembersByConvoId,
   showUpdateGroupNameByConvoId,
 } from '../../../interactions/conversationInteractions';
-import { ItemClickEvent } from '../../conversation/media-gallery/types/ItemClickEvent';
 import { MediaItemType } from '../../LightboxGallery';
 // tslint:disable-next-line: no-submodule-imports
 import useInterval from 'react-use/lib/useInterval';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTimerOptions } from '../../../state/selectors/timerOptions';
-import { getSelectedConversation, isRightPanelShowing } from '../../../state/selectors/conversations';
+import {
+  getSelectedConversation,
+  isRightPanelShowing,
+} from '../../../state/selectors/conversations';
 import { useMembersAvatars } from '../../../hooks/useMembersAvatar';
 import { closeRightPanel } from '../../../state/ducks/conversations';
 
-type Props = {
-  memberAvatars?: Array<ConversationAvatar>; // this is added by usingClosedConversationDetails
-
-  onShowLightBox: (lightboxOptions?: LightBoxOptions) => void;
-};
-
 async function getMediaGalleryProps(
-  conversationId: string,
-  medias: Array<MediaItemType>,
-  onShowLightBox: (lightboxOptions?: LightBoxOptions) => void
+  conversationId: string
 ): Promise<{
   documents: Array<MediaItemType>;
   media: Array<MediaItemType>;
-  onItemClick: any;
 }> {
   // We fetch more documents than media as they don’t require to be loaded
   // into memory right away. Revisit this once we have infinite scrolling:
@@ -118,61 +103,9 @@ async function getMediaGalleryProps(
     };
   });
 
-  const saveAttachment = async ({
-    attachment,
-    messageTimestamp,
-    messageSender,
-  }: {
-    attachment: AttachmentTypeWithPath;
-    messageTimestamp: number;
-    messageSender: string;
-  }) => {
-    const timestamp = messageTimestamp;
-    attachment.url = await getDecryptedMediaUrl(attachment.url, attachment.contentType);
-    save({
-      attachment,
-      document,
-      getAbsolutePath: window.Signal.Migrations.getAbsoluteAttachmentPath,
-      timestamp,
-    });
-    await sendDataExtractionNotification(conversationId, messageSender, timestamp);
-  };
-
-  const onItemClick = (event: ItemClickEvent) => {
-    if (!event) {
-      console.warn('no event');
-      return;
-    }
-    const { mediaItem, type } = event;
-    switch (type) {
-      case 'documents': {
-        void saveAttachment({
-          messageSender: mediaItem.messageSender,
-          messageTimestamp: mediaItem.messageTimestamp,
-          attachment: mediaItem.attachment,
-        });
-        break;
-      }
-
-      case 'media': {
-        const lightBoxOptions: LightBoxOptions = {
-          media: medias,
-          attachment: mediaItem.attachment,
-        };
-
-        onShowLightBox(lightBoxOptions);
-        break;
-      }
-
-      default:
-        throw new TypeError(`Unknown attachment type: '${type}'`);
-    }
-  };
-
   return {
     media,
     documents: _.compact(documents), // remove null
-    onItemClick,
   };
 }
 
@@ -239,31 +172,30 @@ const HeaderItem = () => {
 
 // tslint:disable: cyclomatic-complexity
 // tslint:disable: max-func-body-length
-export const SessionRightPanelWithDetails = (props: Props) => {
+export const SessionRightPanelWithDetails = () => {
   const [documents, setDocuments] = useState<Array<MediaItemType>>([]);
   const [media, setMedia] = useState<Array<MediaItemType>>([]);
-  const [onItemClick, setOnItemClick] = useState<any>(undefined);
 
   const selectedConversation = useSelector(getSelectedConversation);
   const isShowing = useSelector(isRightPanelShowing);
-
-  console.warn('props', props);
 
   useEffect(() => {
     let isRunning = true;
 
     if (isShowing && selectedConversation) {
-      void getMediaGalleryProps(selectedConversation.id, media, props.onShowLightBox).then(
-        results => {
-          console.warn('results2', results);
+      void getMediaGalleryProps(selectedConversation.id).then(results => {
+        console.warn('results2', results);
 
-          if (isRunning) {
+        if (isRunning) {
+          if (!_.isEqual(documents, results.documents)) {
             setDocuments(results.documents);
+          }
+
+          if (!_.isEqual(media, results.media)) {
             setMedia(results.media);
-            setOnItemClick(results.onItemClick);
           }
         }
-      );
+      });
     }
 
     return () => {
@@ -274,16 +206,10 @@ export const SessionRightPanelWithDetails = (props: Props) => {
 
   useInterval(async () => {
     if (isShowing && selectedConversation) {
-      const results = await getMediaGalleryProps(
-        selectedConversation.id,
-        media,
-        props.onShowLightBox
-      );
-      console.warn('results', results);
+      const results = await getMediaGalleryProps(selectedConversation.id);
       if (results.documents.length !== documents.length || results.media.length !== media.length) {
         setDocuments(results.documents);
         setMedia(results.media);
-        setOnItemClick(results.onItemClick);
       }
     }
   }, 10000);
@@ -319,8 +245,8 @@ export const SessionRightPanelWithDetails = (props: Props) => {
   const disappearingMessagesOptions = timerOptions.map(option => {
     return {
       content: option.name,
-      onClick: async () => {
-        await setDisappearingMessagesByConvoId(id, option.value);
+      onClick: () => {
+        void setDisappearingMessagesByConvoId(id, option.value);
       },
     };
   });
@@ -337,7 +263,6 @@ export const SessionRightPanelWithDetails = (props: Props) => {
     : () => {
         showLeaveGroupByConvoId(id);
       };
-  console.warn('onItemClick', onItemClick);
   return (
     <div className="group-settings">
       <HeaderItem />
@@ -404,7 +329,7 @@ export const SessionRightPanelWithDetails = (props: Props) => {
         />
       )}
 
-      <MediaGallery documents={documents} media={media} onItemClick={onItemClick} />
+      <MediaGallery documents={documents} media={media} />
       {isGroup && (
         // tslint:disable-next-line: use-simple-attributes
         <SessionButton

@@ -15,6 +15,7 @@ import {
   PropsForDataExtractionNotification,
 } from '../../models/messageType';
 import { NotificationForConvoOption } from '../../components/conversation/ConversationHeader';
+import { LightBoxOptions } from '../../components/session/conversation/SessionConversation';
 
 export type MessageModelProps = {
   propsForMessage: PropsForMessage;
@@ -233,6 +234,7 @@ export type ConversationsStateType = {
   messageDetailProps: MessagePropsDetails | undefined;
   showRightPanel: boolean;
   selectedMessageIds: Array<string>;
+  lightBox?: LightBoxOptions;
 };
 
 async function getMessages(
@@ -708,6 +710,13 @@ const conversationsSlice = createSlice({
       state.messages = [];
       return state;
     },
+    showLightBox(
+      state: ConversationsStateType,
+      action: PayloadAction<LightBoxOptions | undefined>
+    ) {
+      state.lightBox = action.payload;
+      return state;
+    },
   },
   extraReducers: (builder: any) => {
     // Add reducers for additional action types here, and handle loading state as needed
@@ -752,4 +761,5 @@ export const {
   addMessageIdToSelection,
   resetSelectedMessageIds,
   toggleSelectedMessageId,
+  showLightBox,
 } = actions;

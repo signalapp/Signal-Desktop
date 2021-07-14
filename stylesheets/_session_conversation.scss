@@ -32,14 +32,15 @@
   height: 100%;
   right: 0vw;
 
-  transition: transform 1.5 * $session-transition-duration ease-in-out;
+  transition: transform 0.3s ease-in-out;
   transform: translateX(100%);
   will-change: transform;
   width: 25vw;
+  z-index: 1;
 
   &.show {
     transform: none;
-    transition: transform $session-transition-duration ease-in-out;
+    transition: transform 0.3s ease-in-out;
     z-index: 2;
   }
 }

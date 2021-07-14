@@ -9,6 +9,8 @@ import { Lightbox } from './Lightbox';
 import { AttachmentTypeWithPath } from '../types/Attachment';
 // tslint:disable-next-line: no-submodule-imports
 import useKey from 'react-use/lib/useKey';
+import { showLightBox } from '../state/ducks/conversations';
+import { useDispatch } from 'react-redux';
 
 export interface MediaItemType {
   objectURL?: string;
@@ -22,15 +24,16 @@ export interface MediaItemType {
 }
 
 type Props = {
-  close: () => void;
   media: Array<MediaItemType>;
   onSave?: (saveData: MediaItemType) => void;
   selectedIndex: number;
 };
 
 export const LightboxGallery = (props: Props) => {
-  const { close, media, onSave } = props;
+  const { media, onSave } = props;
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  const dispatch = useDispatch();
 
   // just run once, when the component is mounted. It's to show the lightbox on the specified index at start.
   useEffect(() => {
@@ -86,12 +89,11 @@ export const LightboxGallery = (props: Props) => {
   );
 
   useKey('Escape', () => {
-    props.close?.();
+    dispatch(showLightBox(undefined));
   });
 
   return (
     <Lightbox
-      close={close}
       onPrevious={onPrevious}
       onNext={onNext}
       onSave={saveCallback}

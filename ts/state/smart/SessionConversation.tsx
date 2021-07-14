@@ -4,6 +4,7 @@ import { SessionConversation } from '../../components/session/conversation/Sessi
 import { StateType } from '../reducer';
 import { getTheme } from '../selectors/theme';
 import {
+  getLightBoxOptions,
   getMessagesOfSelectedConversation,
   getSelectedConversation,
   getSelectedConversationKey,
@@ -23,6 +24,7 @@ const mapStateToProps = (state: StateType) => {
     showMessageDetails: isMessageDetailView(state),
     isRightPanelShowing: isRightPanelShowing(state),
     selectedMessages: getSelectedMessageIds(state),
+    lightBoxOptions: getLightBoxOptions(state),
   };
 };
 
