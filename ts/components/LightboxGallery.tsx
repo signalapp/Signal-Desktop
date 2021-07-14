@@ -1,7 +1,7 @@
 /**
  * @prettier
  */
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import * as MIME from '../types/MIME';
 import { Lightbox } from './Lightbox';
@@ -31,7 +31,7 @@ type Props = {
 
 export const LightboxGallery = (props: Props) => {
   const { media, onSave } = props;
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(-1);
 
   const dispatch = useDispatch();
 
@@ -43,33 +43,26 @@ export const LightboxGallery = (props: Props) => {
   const selectedMedia = media[currentIndex];
   const firstIndex = 0;
   const lastIndex = media.length - 1;
-  const onPrevious =
-    currentIndex > firstIndex
-      ? () => {
-          setCurrentIndex(Math.max(currentIndex - 1, 0));
-        }
-      : undefined;
-  const onNext =
-    currentIndex < lastIndex
-      ? () => {
-          setCurrentIndex(Math.min(currentIndex + 1, lastIndex));
-        }
-      : undefined;
 
-  const handleSave = () => {
+  const hasPrevious = currentIndex > firstIndex;
+  const hasNext = currentIndex < lastIndex;
+
+  const onPrevious = useCallback(() => {
+    setCurrentIndex(Math.max(currentIndex - 1, 0));
+  }, [currentIndex]);
+
+  const onNext = useCallback(() => {
+    setCurrentIndex(Math.min(currentIndex + 1, lastIndex));
+  }, [currentIndex, lastIndex]);
+
+  const handleSave = useCallback(() => {
     if (!onSave) {
       return;
     }
 
     const mediaItem = media[currentIndex];
     onSave(mediaItem);
-  };
-
-  const objectURL = selectedMedia?.objectURL || 'images/alert-outline.svg';
-  const { attachment } = selectedMedia;
-
-  const saveCallback = onSave ? handleSave : undefined;
-  const captionCallback = attachment ? attachment.caption : undefined;
+  }, [currentIndex, media]);
 
   useKey(
     'ArrowRight',
@@ -88,17 +81,31 @@ export const LightboxGallery = (props: Props) => {
     [currentIndex]
   );
 
-  useKey('Escape', () => {
-    dispatch(showLightBox(undefined));
-  });
+  useKey(
+    'Escape',
+    () => {
+      dispatch(showLightBox(undefined));
+    },
+    undefined,
+    [currentIndex]
+  );
+  // just to avoid to render the first element during the first render when the user selected another item
+  if (currentIndex === -1) {
+    return null;
+  }
+  const objectURL = selectedMedia?.objectURL || 'images/alert-outline.svg';
+  const { attachment } = selectedMedia;
 
+  const saveCallback = onSave ? handleSave : undefined;
+  const caption = attachment?.caption;
   return (
+    // tslint:disable: use-simple-attributes
     <Lightbox
-      onPrevious={onPrevious}
-      onNext={onNext}
+      onPrevious={hasPrevious ? onPrevious : undefined}
+      onNext={hasNext ? onNext : undefined}
       onSave={saveCallback}
       objectURL={objectURL}
-      caption={captionCallback}
+      caption={caption}
       contentType={selectedMedia.contentType}
     />
   );

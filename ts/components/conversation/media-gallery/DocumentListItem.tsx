@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import classNames from 'classnames';
 
 import moment from 'moment';
@@ -8,6 +8,8 @@ import { getDecryptedMediaUrl } from '../../../session/crypto/DecryptedAttachmen
 import { sendDataExtractionNotification } from '../../../session/messages/outgoing/controlMessage/DataExtractionNotificationMessage';
 import { AttachmentTypeWithPath, save } from '../../../types/Attachment';
 import { MediaItemType } from '../../LightboxGallery';
+import { useSelector } from 'react-redux';
+import { getSelectedConversationKey } from '../../../state/selectors/conversations';
 
 type Props = {
   // Required
@@ -18,7 +20,6 @@ type Props = {
   fileSize?: number | null;
   shouldShowSeparator?: boolean;
   mediaItem: MediaItemType;
-  conversationId: string;
 };
 
 const saveAttachment = async ({
@@ -32,21 +33,35 @@ const saveAttachment = async ({
   messageSender: string;
   conversationId: string;
 }) => {
-  const timestamp = messageTimestamp;
   attachment.url = await getDecryptedMediaUrl(attachment.url, attachment.contentType);
   save({
     attachment,
     document,
     getAbsolutePath: window.Signal.Migrations.getAbsoluteAttachmentPath,
-    timestamp,
+    timestamp: messageTimestamp,
   });
-  await sendDataExtractionNotification(conversationId, messageSender, timestamp);
+  await sendDataExtractionNotification(conversationId, messageSender, messageTimestamp);
 };
 
 export const DocumentListItem = (props: Props) => {
   const { shouldShowSeparator, fileName, fileSize, timestamp } = props;
 
   const defaultShowSeparator = shouldShowSeparator === undefined ? true : shouldShowSeparator;
+  const selectedConversationKey = useSelector(getSelectedConversationKey) as string;
+
+  const saveAttachmentCallback = useCallback(() => {
+    void saveAttachment({
+      messageSender: props.mediaItem.messageSender,
+      messageTimestamp: props.mediaItem.messageTimestamp,
+      attachment: props.mediaItem.attachment,
+      conversationId: selectedConversationKey,
+    });
+  }, [
+    selectedConversationKey,
+    props.mediaItem.messageSender,
+    props.mediaItem.messageTimestamp,
+    props.mediaItem.attachment,
+  ]);
 
   return (
     <div
@@ -58,14 +73,7 @@ export const DocumentListItem = (props: Props) => {
       <div
         className="module-document-list-item__content"
         role="button"
-        onClick={() => {
-          void saveAttachment({
-            messageSender: props.mediaItem.messageSender,
-            messageTimestamp: props.mediaItem.messageTimestamp,
-            attachment: props.mediaItem.attachment,
-            conversationId: props.conversationId,
-          });
-        }}
+        onClick={saveAttachmentCallback}
       >
         <div className="module-document-list-item__icon" />
         <div className="module-document-list-item__metadata">

@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import classNames from 'classnames';
 
 import { AttachmentSection } from './AttachmentSection';
 import { EmptyState } from './EmptyState';
-import { missingCaseError } from '../../../util/missingCaseError';
 
 import { MediaItemType } from '../../LightboxGallery';
 type Props = {
@@ -17,12 +16,10 @@ const Tab = ({
   isSelected,
   label,
   onSelect,
-  type,
 }: {
   isSelected: boolean;
   label: string;
   onSelect: () => void;
-  type: TabType;
 }) => {
   return (
     <div
@@ -45,18 +42,8 @@ const Sections = (props: Props & { selectedTab: TabType }) => {
   const type = selectedTab;
 
   if (!mediaItems || mediaItems.length === 0) {
-    const label = (() => {
-      switch (type) {
-        case 'media':
-          return window.i18n('mediaEmptyState');
-
-        case 'documents':
-          return window.i18n('documentsEmptyState');
-
-        default:
-          throw missingCaseError(type);
-      }
-    })();
+    const label =
+      type === 'media' ? window.i18n('mediaEmptyState') : window.i18n('documentsEmptyState');
 
     return <EmptyState data-test="EmptyState" label={label} />;
   }
@@ -74,24 +61,22 @@ export const MediaGallery = (props: Props) => {
   const isDocumentSelected = selectedTab === 'documents';
   const isMediaSelected = selectedTab === 'media';
 
+  const setMediaTab = useCallback(() => {
+    setSelectedTab('media');
+  }, []);
+
+  const setDocumentsTab = useCallback(() => {
+    setSelectedTab('documents');
+  }, []);
+
   return (
     <div className="module-media-gallery">
       <div className="module-media-gallery__tab-container">
-        <Tab
-          label={window.i18n('media')}
-          type="media"
-          isSelected={isMediaSelected}
-          onSelect={() => {
-            setSelectedTab('media');
-          }}
-        />
+        <Tab label={window.i18n('media')} isSelected={isMediaSelected} onSelect={setMediaTab} />
         <Tab
           label={window.i18n('documents')}
-          type="documents"
           isSelected={isDocumentSelected}
-          onSelect={() => {
-            setSelectedTab('documents');
-          }}
+          onSelect={setDocumentsTab}
         />
       </div>
       <div className="module-media-gallery__content">

@@ -14,7 +14,6 @@ type Props = {
 
 const Items = (props: Props): JSX.Element => {
   const { mediaItems, type } = props;
-  const selectedConversationKey = useSelector(getSelectedConversationKey);
 
   return (
     <>
@@ -40,7 +39,6 @@ const Items = (props: Props): JSX.Element => {
                 shouldShowSeparator={shouldShowSeparator}
                 timestamp={messageTimestamp}
                 mediaItem={mediaItem}
-                conversationId={selectedConversationKey as string}
               />
             );
           default:
