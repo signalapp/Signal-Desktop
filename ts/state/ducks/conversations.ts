@@ -275,23 +275,27 @@ async function getMessages(
   if (conversation.isPrivate()) {
     return sortedMessageProps;
   }
-  return updateFirstMessageOfSeries(sortedMessageProps);
+  return updateFirstMessageOfSeriesAndUnread(sortedMessageProps);
 }
 
 export type SortedMessageModelProps = MessageModelProps & {
   firstMessageOfSeries: boolean;
+  firstUnread?: boolean;
 };
 
-const updateFirstMessageOfSeries = (
-  messageModelsProps: Array<MessageModelProps>
+const updateFirstMessageOfSeriesAndUnread = (
+  messageModelsProps: Array<SortedMessageModelProps>
 ): Array<SortedMessageModelProps> => {
   // messages are got from the more recent to the oldest, so we need to check if
   // the next messages in the list is still the same author.
   // The message is the first of the series if the next message is not from the same author
   const sortedMessageProps: Array<SortedMessageModelProps> = [];
+  const firstUnreadIndex = getFirstMessageUnreadIndex(messageModelsProps);
+
   for (let i = 0; i < messageModelsProps.length; i++) {
     // Handle firstMessageOfSeries for conditional avatar rendering
     let firstMessageOfSeries = true;
+    let firstUnread = false;
     const currentSender = messageModelsProps[i].propsForMessage?.authorPhoneNumber;
     const nextSender =
       i < messageModelsProps.length - 1
@@ -300,8 +304,11 @@ const updateFirstMessageOfSeries = (
     if (i >= 0 && currentSender === nextSender) {
       firstMessageOfSeries = false;
     }
+    if (i === firstUnreadIndex) {
+      firstUnread = true;
+    }
 
-    sortedMessageProps.push({ ...messageModelsProps[i], firstMessageOfSeries });
+    sortedMessageProps.push({ ...messageModelsProps[i], firstMessageOfSeries, firstUnread });
   }
   return sortedMessageProps;
 };
@@ -309,6 +316,27 @@ const updateFirstMessageOfSeries = (
 type FetchedMessageResults = {
   conversationKey: string;
   messagesProps: Array<SortedMessageModelProps>;
+};
+
+const getFirstMessageUnreadIndex = (messages: Array<SortedMessageModelProps>) => {
+  if (!messages || messages.length === 0) {
+    return -1;
+  }
+
+  // iterate over the incoming messages from the oldest one. the first one with isUnread !== undefined is our first unread
+  for (let index = messages.length - 1; index > 0; index--) {
+    const message = messages[index];
+    if (
+      message.propsForMessage.direction === 'incoming' &&
+      message.propsForMessage.isUnread === true
+    ) {
+      console.warn('message.propsForMessage', message.propsForMessage);
+
+      return index;
+    }
+  }
+
+  return -1;
 };
 
 export const fetchMessagesForConversation = createAsyncThunk(
@@ -322,15 +350,25 @@ export const fetchMessagesForConversation = createAsyncThunk(
   }): Promise<FetchedMessageResults> => {
     const beforeTimestamp = Date.now();
     const messagesProps = await getMessages(conversationKey, count);
+    const firstUnreadIndex = getFirstMessageUnreadIndex(messagesProps);
     const afterTimestamp = Date.now();
 
     const time = afterTimestamp - beforeTimestamp;
     window?.log?.info(`Loading ${messagesProps.length} messages took ${time}ms to load.`);
 
-    const mapped = messagesProps.map(m => {
+    const mapped = messagesProps.map((m, index) => {
+      if (index === firstUnreadIndex) {
+        console.warn('fullfuled firstUnreadIndex', firstUnreadIndex);
+        return {
+          ...m,
+          firstMessageOfSeries: true,
+          firstUnread: true,
+        };
+      }
       return {
         ...m,
         firstMessageOfSeries: true,
+        firstUnread: false,
       };
     });
     return {
@@ -397,7 +435,7 @@ function handleMessageAdded(
 
     if (convo) {
       const sortedMessage = sortMessages(messagesWithNewMessage, isPublic);
-      const updatedWithFirstMessageOfSeries = updateFirstMessageOfSeries(sortedMessage);
+      const updatedWithFirstMessageOfSeries = updateFirstMessageOfSeriesAndUnread(sortedMessage);
 
       return {
         ...state,
@@ -425,7 +463,7 @@ function handleMessageChanged(state: ConversationsStateType, payload: MessageMod
     const isPublic = convo?.isPublic || false;
     // reorder the messages depending on the timestamp (we might have an updated serverTimestamp now)
     const sortedMessage = sortMessages(editedMessages, isPublic);
-    const updatedWithFirstMessageOfSeries = updateFirstMessageOfSeries(sortedMessage);
+    const updatedWithFirstMessageOfSeries = updateFirstMessageOfSeriesAndUnread(sortedMessage);
 
     return {
       ...state,
@@ -465,7 +503,7 @@ function handleMessageExpiredOrDeleted(
         ...state.messages.slice(messageInStoreIndex + 1),
       ];
 
-      const updatedWithFirstMessageOfSeries = updateFirstMessageOfSeries(editedMessages);
+      const updatedWithFirstMessageOfSeries = updateFirstMessageOfSeriesAndUnread(editedMessages);
 
       // FIXME two other thing we have to do:
       // * update the last message text if the message deleted was the last one
@@ -534,9 +572,12 @@ const conversationsSlice = createSlice({
       const index = state.selectedMessageIds.findIndex(id => id === action.payload);
 
       if (index === -1) {
-        return { ...state, selectedMessageIds: [...state.selectedMessageIds, action.payload] };
+        state.selectedMessageIds = [...state.selectedMessageIds, action.payload];
+      } else {
+        state.selectedMessageIds.splice(index, 1);
       }
-      return { ...state, selectedMessageIds: state.selectedMessageIds.splice(index, 1) };
+
+      return state;
     },
     resetSelectedMessageIds(state: ConversationsStateType) {
       return { ...state, selectedMessageIds: [] };
@@ -710,4 +751,5 @@ export const {
   closeRightPanel,
   addMessageIdToSelection,
   resetSelectedMessageIds,
+  toggleSelectedMessageId,
 } = actions;

@@ -47,7 +47,7 @@ import { getSelectedMessage } from '../../state/selectors/search';
 import { connect } from 'react-redux';
 import { StateType } from '../../state/reducer';
 import { getSelectedMessageIds } from '../../state/selectors/conversations';
-import { showMessageDetailsView } from '../../state/ducks/conversations';
+import { showMessageDetailsView, toggleSelectedMessageId } from '../../state/ducks/conversations';
 
 // Same as MIN_WIDTH in ImageGrid.tsx
 const MINIMUM_LINK_PREVIEW_IMAGE_WIDTH = 200;
@@ -812,10 +812,6 @@ class MessageInner extends React.PureComponent<Props, State> {
               const target = event.target as HTMLDivElement;
               if (target.className === 'text-selectable' || window.contextMenuShown) {
                 return;
-              }
-
-              if (id) {
-                window.inboxStore?.dispatch(toggleSelectedMessageId(id));
               }
             }}
           >

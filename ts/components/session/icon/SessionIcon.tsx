@@ -104,10 +104,6 @@ const animation = (props: {
     return css``;
   }
 
-  if (props.glowDuration === 10) {
-    console.warn('scake', props);
-  }
-
   if (props.glowDuration !== undefined && props.glowStartDelay !== undefined && props.iconColor) {
     return css`
       ${glow(

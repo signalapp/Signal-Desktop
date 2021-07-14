@@ -170,53 +170,10 @@ class SessionMessagesListInner extends React.Component<Props, State> {
     );
   }
 
-  private displayUnreadBannerIndex(messages: Array<SortedMessageModelProps>) {
-    const { conversation } = this.props;
-    if (!conversation) {
-      return -1;
-    }
-    if (conversation.unreadCount === 0) {
-      return -1;
-    }
-    // conversation.unreadCount is the number of messages we incoming we did not read yet.
-    // also, unreacCount is updated only when the conversation is marked as read.
-    // So we can have an unreadCount for the conversation not correct based on the real number of unread messages.
-    // some of the messages we have in "messages" are ones we sent ourself (or from another device).
-    // those messages should not be counted to display the unread banner.
-
-    let findFirstUnreadIndex = -1;
-    let incomingMessagesSoFar = 0;
-    const { unreadCount } = conversation;
-
-    // Basically, count the number of incoming messages from the most recent one.
-    for (let index = 0; index <= messages.length - 1; index++) {
-      const message = messages[index];
-      if (message.propsForMessage.direction === 'incoming') {
-        incomingMessagesSoFar++;
-        // message.attributes.unread is !== undefined if the message is unread.
-        if (
-          message.propsForMessage.isUnread !== undefined &&
-          incomingMessagesSoFar >= unreadCount
-        ) {
-          findFirstUnreadIndex = index;
-          break;
-        }
-      }
-    }
-
-    //
-    if (findFirstUnreadIndex === -1 && conversation.unreadCount >= 0) {
-      return conversation.unreadCount - 1;
-    }
-    return findFirstUnreadIndex;
-  }
-
   private renderMessages() {
     const { selectedMessages, messagesProps } = this.props;
     const multiSelectMode = Boolean(selectedMessages.length);
-    let currentMessageIndex = 0;
     let playableMessageIndex = 0;
-    const displayUnreadBannerIndex = this.displayUnreadBannerIndex(messagesProps);
 
     return (
       <>
@@ -228,27 +185,25 @@ class SessionMessagesListInner extends React.Component<Props, State> {
 
           const groupNotificationProps = messageProps.propsForGroupNotification;
 
-          // IF there are some unread messages
-          // AND we found the last read message
+          // IF we found the last read message
           // AND we are not scrolled all the way to the bottom
           // THEN, show the unread banner for the current message
           const showUnreadIndicator =
-            displayUnreadBannerIndex >= 0 &&
-            currentMessageIndex === displayUnreadBannerIndex &&
-            this.getScrollOffsetBottomPx() !== 0;
+            Boolean(messageProps.firstUnread) && this.getScrollOffsetBottomPx() !== 0;
           const unreadIndicator = (
             <SessionLastSeenIndicator
-              count={displayUnreadBannerIndex + 1} // count is used for the 118n of the string
               show={showUnreadIndicator}
               key={`unread-indicator-${messageProps.propsForMessage.id}`}
             />
           );
-          currentMessageIndex = currentMessageIndex + 1;
 
           if (groupNotificationProps) {
             return (
-              <React.Fragment key={messageProps.propsForMessage.id}>
-                <GroupNotification {...groupNotificationProps} />
+              <React.Fragment>
+                <GroupNotification
+                  key={messageProps.propsForMessage.id}
+                  {...groupNotificationProps}
+                />
                 {unreadIndicator}
               </React.Fragment>
             );
