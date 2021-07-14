@@ -907,9 +907,6 @@ class MessageInner extends React.PureComponent<Props, State> {
     await removeSenderFromModerator(this.props.authorPhoneNumber, this.props.convoId);
   }
 }
-function toggleSelectedMessageId(id: string): any {
-  throw new Error('Function not implemented.');
-}
 
 const mapStateToProps = (state: StateType) => {
   return {

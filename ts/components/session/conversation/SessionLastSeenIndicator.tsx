@@ -31,9 +31,9 @@ const LastSeenText = styled.div`
   color: ${props => props.theme.colors.lastSeenIndicatorTextColor};
 `;
 
-export const SessionLastSeenIndicator = ({ count, show }: { count: number; show: boolean }) => {
+export const SessionLastSeenIndicator = ({ show }: { show: boolean }) => {
   const { i18n } = window;
-  const text = count > 1 ? i18n('unreadMessages', count) : i18n('unreadMessage', count);
+  const text = i18n('unreadMessages');
   return (
     <LastSeenBarContainer show={show}>
       <LastSeenBar>
