@@ -5,6 +5,9 @@ on:
   push:
     branches:
       - clearnet
+  pull_request:
+    branches:
+      - clearnet
 
 jobs:
   build:
