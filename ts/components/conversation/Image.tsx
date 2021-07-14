@@ -2,12 +2,12 @@ import React from 'react';
 import classNames from 'classnames';
 
 import { Spinner } from '../basic/Spinner';
-import { AttachmentType } from '../../types/Attachment';
+import { AttachmentTypeWithPath } from '../../types/Attachment';
 import { useEncryptedFileFetch } from '../../hooks/useEncryptedFileFetch';
 
 type Props = {
   alt: string;
-  attachment: AttachmentType;
+  attachment: AttachmentTypeWithPath;
   url: string;
 
   height?: number;
@@ -28,8 +28,8 @@ type Props = {
   playIconOverlay?: boolean;
   softCorners?: boolean;
 
-  onClick?: (attachment: AttachmentType) => void;
-  onClickClose?: (attachment: AttachmentType) => void;
+  onClick?: (attachment: AttachmentTypeWithPath) => void;
+  onClickClose?: (attachment: AttachmentTypeWithPath) => void;
   onError?: () => void;
 };
 

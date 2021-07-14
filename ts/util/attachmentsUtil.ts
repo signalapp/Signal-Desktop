@@ -2,6 +2,9 @@ import { StagedAttachmentType } from '../components/session/conversation/Session
 import { SignalService } from '../protobuf';
 import { Constants } from '../session';
 import loadImage from 'blueimp-load-image';
+import { getDecryptedMediaUrl } from '../session/crypto/DecryptedAttachmentsManager';
+import { sendDataExtractionNotification } from '../session/messages/outgoing/controlMessage/DataExtractionNotificationMessage';
+import { AttachmentType, AttachmentTypeWithPath, save } from '../types/Attachment';
 export interface MaxScaleSize {
   maxSize?: number;
   maxHeight?: number;
@@ -135,3 +138,24 @@ export async function readFile(attachment: any): Promise<AttachmentFileType> {
     FR.readAsArrayBuffer(attachment.file);
   });
 }
+
+export const saveAttachmentToDisk = async ({
+  attachment,
+  messageTimestamp,
+  messageSender,
+  conversationId,
+}: {
+  attachment: AttachmentType;
+  messageTimestamp: number;
+  messageSender: string;
+  conversationId: string;
+}) => {
+  const decryptedUrl = await getDecryptedMediaUrl(attachment.url, attachment.contentType);
+  save({
+    attachment: { ...attachment, url: decryptedUrl },
+    document,
+    getAbsolutePath: window.Signal.Migrations.getAbsoluteAttachmentPath,
+    timestamp: messageTimestamp,
+  });
+  await sendDataExtractionNotification(conversationId, messageSender, messageTimestamp);
+};

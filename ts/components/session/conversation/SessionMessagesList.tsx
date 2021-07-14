@@ -7,11 +7,15 @@ import { SessionScrollButton } from '../SessionScrollButton';
 import { Constants } from '../../../session';
 import _ from 'lodash';
 import { contextMenu } from 'react-contexify';
-import { AttachmentType } from '../../../types/Attachment';
+import { AttachmentType, AttachmentTypeWithPath } from '../../../types/Attachment';
 import { GroupNotification } from '../../conversation/GroupNotification';
 import { GroupInvitation } from '../../conversation/GroupInvitation';
 import {
   fetchMessagesForConversation,
+  PropsForExpirationTimer,
+  PropsForGroupInvitation,
+  PropsForGroupUpdate,
+  PropsForMessage,
   ReduxConversationType,
   SortedMessageModelProps,
 } from '../../../state/ducks/conversations';
@@ -20,18 +24,25 @@ import { ToastUtils } from '../../../session/utils';
 import { TypingBubble } from '../../conversation/TypingBubble';
 import { getConversationController } from '../../../session/conversations';
 import { MessageModel } from '../../../models/message';
-import { MessageRegularProps, QuoteClickOptions } from '../../../models/messageType';
+import {
+  MessageRegularProps,
+  PropsForDataExtractionNotification,
+  QuoteClickOptions,
+} from '../../../models/messageType';
 import { getMessagesBySentAt } from '../../../data/data';
 import autoBind from 'auto-bind';
 import { ConversationTypeEnum } from '../../../models/conversation';
 import { DataExtractionNotification } from '../../conversation/DataExtractionNotification';
 import { StateType } from '../../../state/reducer';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import {
+  getMessagesOfSelectedConversation,
   getSelectedConversation,
   getSelectedConversationKey,
   getSelectedMessageIds,
+  isMessageSelectionMode,
 } from '../../../state/selectors/conversations';
+import { saveAttachmentToDisk } from '../../../util/attachmentsUtil';
 
 interface State {
   showScrollButton: boolean;
@@ -39,24 +50,125 @@ interface State {
   nextMessageToPlay: number | undefined;
 }
 
+export type SessionMessageListProps = {
+  messageContainerRef: React.RefObject<any>;
+
+  replyToMessage: (messageId: number) => Promise<void>;
+};
+
 type Props = SessionMessageListProps & {
   conversationKey?: string;
-  selectedMessages: Array<string>;
+  messagesProps: Array<SortedMessageModelProps>;
 
   conversation?: ReduxConversationType;
 };
 
-export type SessionMessageListProps = {
-  messagesProps: Array<SortedMessageModelProps>;
-  messageContainerRef: React.RefObject<any>;
+const UnreadIndicator = (props: { messageId: string; show: boolean }) => (
+  <SessionLastSeenIndicator show={props.show} key={`unread-indicator-${props.messageId}`} />
+);
 
-  replyToMessage: (messageId: number) => Promise<void>;
-  onClickAttachment: (attachment: any, message: any) => void;
-  onDownloadAttachment: (toDownload: {
-    attachment: any;
-    messageTimestamp: number;
-    messageSender: string;
-  }) => void;
+const GroupUpdateItem = (props: {
+  messageId: string;
+  groupNotificationProps: PropsForGroupUpdate;
+  showUnreadIndicator: boolean;
+}) => {
+  return (
+    <React.Fragment key={props.messageId}>
+      <GroupNotification key={props.messageId} {...props.groupNotificationProps} />
+      <UnreadIndicator messageId={props.messageId} show={props.showUnreadIndicator} />
+    </React.Fragment>
+  );
+};
+
+const GroupInvitationItem = (props: {
+  messageId: string;
+  propsForGroupInvitation: PropsForGroupInvitation;
+  showUnreadIndicator: boolean;
+}) => {
+  return (
+    <React.Fragment key={props.messageId}>
+      <GroupInvitation key={props.messageId} {...props.propsForGroupInvitation} />
+
+      <UnreadIndicator messageId={props.messageId} show={props.showUnreadIndicator} />
+    </React.Fragment>
+  );
+};
+
+const DataExtractionNotificationItem = (props: {
+  messageId: string;
+  propsForDataExtractionNotification: PropsForDataExtractionNotification;
+  showUnreadIndicator: boolean;
+}) => {
+  return (
+    <React.Fragment key={props.messageId}>
+      <DataExtractionNotification
+        key={props.messageId}
+        {...props.propsForDataExtractionNotification}
+      />
+
+      <UnreadIndicator messageId={props.messageId} show={props.showUnreadIndicator} />
+    </React.Fragment>
+  );
+};
+
+const TimerNotificationItem = (props: {
+  messageId: string;
+  timerProps: PropsForExpirationTimer;
+  showUnreadIndicator: boolean;
+}) => {
+  return (
+    <React.Fragment key={props.messageId}>
+      <TimerNotification key={props.messageId} {...props.timerProps} />
+
+      <UnreadIndicator messageId={props.messageId} show={props.showUnreadIndicator} />
+    </React.Fragment>
+  );
+};
+
+const GenericMessageItem = (props: {
+  messageId: string;
+  messageProps: SortedMessageModelProps;
+  playableMessageIndex?: number;
+  showUnreadIndicator: boolean;
+}) => {
+  const multiSelectMode = useSelector(isMessageSelectionMode);
+  // const selectedConversation = useSelector(getSelectedConversationKey) as string;
+
+  const messageId = props.messageId;
+
+  console.warn('FIXME audric');
+
+  if (!props.messageProps) {
+    debugger;
+  }
+
+  // const onQuoteClick = props.messageProps.propsForMessage.quote
+  //   ? this.scrollToQuoteMessage
+  //   : async () => {};
+
+  const regularProps: MessageRegularProps = {
+    ...props.messageProps.propsForMessage,
+    // firstMessageOfSeries,
+    multiSelectMode,
+    // isQuotedMessageToAnimate: messageId === this.state.animateQuotedMessageId,
+    // nextMessageToPlay: this.state.nextMessageToPlay,
+    onReply: props.replyToMessage,
+    // playNextMessage: this.playNextMessage,
+    // onQuoteClick,
+  };
+
+  return (
+    <React.Fragment key={props.messageId}>
+      <Message
+        {...regularProps}
+        playableMessageIndex={props.playableMessageIndex}
+        multiSelectMode={multiSelectMode}
+        // onQuoteClick={onQuoteClick}
+        key={messageId}
+      />
+      <UnreadIndicator messageId={props.messageId} show={props.showUnreadIndicator} />
+    </React.Fragment>
+  );
 };
 
 class SessionMessagesListInner extends React.Component<Props, State> {
@@ -171,8 +283,7 @@ class SessionMessagesListInner extends React.Component<Props, State> {
   }
 
   private renderMessages() {
-    const { selectedMessages, messagesProps } = this.props;
-    const multiSelectMode = Boolean(selectedMessages.length);
+    const { messagesProps } = this.props;
     let playableMessageIndex = 0;
 
     return (
@@ -185,62 +296,56 @@ class SessionMessagesListInner extends React.Component<Props, State> {
 
           const groupNotificationProps = messageProps.propsForGroupNotification;
 
-          // IF we found the last read message
+          // IF we found the first unread message
           // AND we are not scrolled all the way to the bottom
           // THEN, show the unread banner for the current message
           const showUnreadIndicator =
             Boolean(messageProps.firstUnread) && this.getScrollOffsetBottomPx() !== 0;
-          const unreadIndicator = (
-            <SessionLastSeenIndicator
-              show={showUnreadIndicator}
-              key={`unread-indicator-${messageProps.propsForMessage.id}`}
-            />
-          );
 
           if (groupNotificationProps) {
             return (
-              <React.Fragment>
-                <GroupNotification
-                  key={messageProps.propsForMessage.id}
-                  {...groupNotificationProps}
-                />
-                {unreadIndicator}
-              </React.Fragment>
+              <GroupUpdateItem
+                key={messageProps.propsForMessage.id}
+                groupNotificationProps={groupNotificationProps}
+                messageId={messageProps.propsForMessage.id}
+                showUnreadIndicator={showUnreadIndicator}
+              />
             );
           }
 
           if (propsForGroupInvitation) {
             return (
-              <React.Fragment key={messageProps.propsForMessage.id}>
-                <GroupInvitation
-                  {...propsForGroupInvitation}
-                  key={messageProps.propsForMessage.id}
-                />
-                {unreadIndicator}
-              </React.Fragment>
+              <GroupInvitationItem
+                key={messageProps.propsForMessage.id}
+                propsForGroupInvitation={propsForGroupInvitation}
+                messageId={messageProps.propsForMessage.id}
+                showUnreadIndicator={showUnreadIndicator}
+              />
             );
           }
 
           if (propsForDataExtractionNotification) {
             return (
-              <React.Fragment key={messageProps.propsForMessage.id}>
-                <DataExtractionNotification
-                  {...propsForDataExtractionNotification}
-                  key={messageProps.propsForMessage.id}
-                />
-                {unreadIndicator}
-              </React.Fragment>
+              <DataExtractionNotificationItem
+                key={messageProps.propsForMessage.id}
+                propsForDataExtractionNotification={propsForDataExtractionNotification}
+                messageId={messageProps.propsForMessage.id}
+                showUnreadIndicator={showUnreadIndicator}
+              />
             );
           }
 
           if (timerProps) {
             return (
-              <React.Fragment key={messageProps.propsForMessage.id}>
-                <TimerNotification {...timerProps} key={messageProps.propsForMessage.id} />
-                {unreadIndicator}
-              </React.Fragment>
+              <TimerNotificationItem
+                key={messageProps.propsForMessage.id}
+                timerProps={timerProps}
+                messageId={messageProps.propsForMessage.id}
+                showUnreadIndicator={showUnreadIndicator}
+              />
             );
           }
+
           if (!messageProps) {
             return;
           }
@@ -250,66 +355,17 @@ class SessionMessagesListInner extends React.Component<Props, State> {
           // firstMessageOfSeries tells us to render the avatar only for the first message
           // in a series of messages from the same user
           return (
-            <React.Fragment key={messageProps.propsForMessage.id}>
-              {this.renderMessage(
-                messageProps,
-                messageProps.firstMessageOfSeries,
-                multiSelectMode,
-                playableMessageIndex
-              )}
-              {unreadIndicator}
-            </React.Fragment>
+            <GenericMessageItem
+              key={messageProps.propsForMessage.id}
+              playableMessageIndex={playableMessageIndex}
+              messageId={messageProps.propsForMessage.id}
+              messageProps={messageProps}
+              showUnreadIndicator={showUnreadIndicator}
+            />
           );
         })}
       </>
     );
-  }
-
-  private renderMessage(
-    messageProps: SortedMessageModelProps,
-    firstMessageOfSeries: boolean,
-    multiSelectMode: boolean,
-    playableMessageIndex: number
-  ) {
-    const messageId = messageProps.propsForMessage.id;
-
-    const onClickAttachment = (attachment: AttachmentType) => {
-      this.props.onClickAttachment(attachment, messageProps.propsForMessage);
-    };
-
-    // tslint:disable-next-line: no-async-without-await
-    const onQuoteClick = messageProps.propsForMessage.quote
-      ? this.scrollToQuoteMessage
-      : async () => {};
-
-    const onDownload = (attachment: AttachmentType) => {
-      const messageTimestamp =
-        messageProps.propsForMessage.timestamp ||
-        messageProps.propsForMessage.serverTimestamp ||
-        messageProps.propsForMessage.receivedAt ||
-        0;
-      this.props.onDownloadAttachment({
-        attachment,
-        messageTimestamp,
-        messageSender: messageProps.propsForMessage.authorPhoneNumber,
-      });
-    };
-
-    const regularProps: MessageRegularProps = {
-      ...messageProps.propsForMessage,
-      firstMessageOfSeries,
-      multiSelectMode,
-      isQuotedMessageToAnimate: messageId === this.state.animateQuotedMessageId,
-      nextMessageToPlay: this.state.nextMessageToPlay,
-      playableMessageIndex,
-      onReply: this.props.replyToMessage,
-      onClickAttachment,
-      onDownload,
-      playNextMessage: this.playNextMessage,
-      onQuoteClick,
-    };
-
-    return <Message {...regularProps} onQuoteClick={onQuoteClick} key={messageId} />;
   }
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -586,9 +642,9 @@ class SessionMessagesListInner extends React.Component<Props, State> {
 
 const mapStateToProps = (state: StateType) => {
   return {
-    selectedMessages: getSelectedMessageIds(state),
     conversationKey: getSelectedConversationKey(state),
     conversation: getSelectedConversation(state),
+    messagesProps: getMessagesOfSelectedConversation(state),
   };
 };
 

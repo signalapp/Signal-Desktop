@@ -70,7 +70,6 @@ interface Props {
 }
 
 export class SessionConversation extends React.Component<Props, State> {
-  private readonly compositionBoxRef: React.RefObject<HTMLDivElement>;
   private readonly messageContainerRef: React.RefObject<HTMLDivElement>;
   private dragCounter: number;
   private publicMembersRefreshTimeout?: NodeJS.Timeout;
@@ -87,7 +86,6 @@ export class SessionConversation extends React.Component<Props, State> {
       stagedAttachments: [],
       isDraggingFile: false,
     };
-    this.compositionBoxRef = React.createRef();
     this.messageContainerRef = React.createRef();
     this.dragCounter = 0;
     this.updateMemberList = _.debounce(this.updateMemberListBouncy.bind(this), 1000);
@@ -255,7 +253,6 @@ export class SessionConversation extends React.Component<Props, State> {
             removeQuotedMessage={() => {
               void this.replyToMessage(undefined);
             }}
-            textarea={this.compositionBoxRef}
             clearAttachments={this.clearAttachments}
             removeAttachment={this.removeAttachment}
             onChoseAttachments={this.onChoseAttachments}
@@ -296,14 +293,9 @@ export class SessionConversation extends React.Component<Props, State> {
   }
 
   public getMessagesListProps(): SessionMessageListProps {
-    const { messagesProps } = this.props;
-
     return {
-      messagesProps,
       messageContainerRef: this.messageContainerRef,
       replyToMessage: this.replyToMessage,
-      onClickAttachment: this.onClickAttachment,
-      onDownloadAttachment: this.saveAttachment,
     };
   }
 
@@ -350,34 +342,8 @@ export class SessionConversation extends React.Component<Props, State> {
           }
         }
       }
-      this.setState({ quotedMessageTimestamp, quotedMessageProps }, () => {
-        this.compositionBoxRef.current?.focus();
-      });
+      this.setState({ quotedMessageTimestamp, quotedMessageProps });
     }
-  }
-
-  private onClickAttachment(attachment: AttachmentTypeWithPath, propsForMessage: PropsForMessage) {
-    let index = -1;
-    const media = (propsForMessage.attachments || []).map(attachmentForMedia => {
-      index++;
-      const messageTimestamp =
-        propsForMessage.timestamp || propsForMessage.serverTimestamp || propsForMessage.receivedAt;
-
-      return {
-        index: _.clone(index),
-        objectURL: attachmentForMedia.url || undefined,
-        contentType: attachmentForMedia.contentType,
-        attachment: attachmentForMedia,
-        messageSender: propsForMessage.authorPhoneNumber,
-        messageTimestamp,
-        messageId: propsForMessage.id,
-      };
-    });
-    const lightBoxOptions: LightBoxOptions = {
-      media: media as any,
-      attachment,
-    };
-    window.inboxStore?.dispatch(showLightBox(lightBoxOptions));
   }
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -470,35 +436,7 @@ export class SessionConversation extends React.Component<Props, State> {
         ? media.findIndex(mediaMessage => mediaMessage.attachment.path === attachment.path)
         : 0;
     console.warn('renderLightBox', { media, attachment });
-    return (
-      <LightboxGallery media={media} selectedIndex={selectedIndex} onSave={this.saveAttachment} />
-    );
-  }
-
-  // THIS DOES NOT DOWNLOAD ANYTHING! it just saves it where the user wants
-  private async saveAttachment({
-    attachment,
-    messageTimestamp,
-    messageSender,
-  }: {
-    attachment: AttachmentType;
-    messageTimestamp: number;
-    messageSender: string;
-  }) {
-    const { getAbsoluteAttachmentPath } = window.Signal.Migrations;
-    attachment.url = await getDecryptedMediaUrl(attachment.url, attachment.contentType);
-    save({
-      attachment,
-      document,
-      getAbsolutePath: getAbsoluteAttachmentPath,
-      timestamp: messageTimestamp,
-    });
-
-    await sendDataExtractionNotification(
-      this.props.selectedConversationKey,
-      messageSender,
-      messageTimestamp
-    );
+    return <LightboxGallery media={media} selectedIndex={selectedIndex} />;
   }
 
   private async onChoseAttachments(attachmentsFileList: Array<File>) {

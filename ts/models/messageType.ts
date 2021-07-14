@@ -2,7 +2,7 @@ import { DefaultTheme } from 'styled-components';
 import _ from 'underscore';
 import { v4 as uuidv4 } from 'uuid';
 import { QuotedAttachmentType } from '../components/conversation/Quote';
-import { AttachmentType } from '../types/Attachment';
+import { AttachmentType, AttachmentTypeWithPath } from '../types/Attachment';
 import { Contact } from '../types/Contact';
 import { ConversationTypeEnum } from './conversation';
 
@@ -219,7 +219,7 @@ export interface MessageRegularProps {
   /** Note: this should be formatted for display */
   authorPhoneNumber: string;
   conversationType: ConversationTypeEnum;
-  attachments?: Array<AttachmentType>;
+  attachments?: Array<AttachmentTypeWithPath>;
   quote?: {
     text: string;
     attachment?: QuotedAttachmentType;
@@ -246,9 +246,7 @@ export interface MessageRegularProps {
   isQuotedMessageToAnimate?: boolean;
   isTrustedForAttachmentDownload: boolean;
 
-  onClickAttachment: (attachment: AttachmentType) => void;
   onReply: (messagId: number) => void;
-  onDownload: (attachment: AttachmentType) => void;
   onQuoteClick: (options: QuoteClickOptions) => Promise<void>;
 
   playableMessageIndex?: number;

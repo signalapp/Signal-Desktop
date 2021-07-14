@@ -10,7 +10,9 @@ import { AttachmentTypeWithPath } from '../types/Attachment';
 // tslint:disable-next-line: no-submodule-imports
 import useKey from 'react-use/lib/useKey';
 import { showLightBox } from '../state/ducks/conversations';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { saveAttachmentToDisk } from '../util/attachmentsUtil';
+import { getSelectedConversationKey } from '../state/selectors/conversations';
 
 export interface MediaItemType {
   objectURL?: string;
@@ -25,13 +27,13 @@ export interface MediaItemType {
 
 type Props = {
   media: Array<MediaItemType>;
-  onSave?: (saveData: MediaItemType) => void;
   selectedIndex: number;
 };
 
 export const LightboxGallery = (props: Props) => {
-  const { media, onSave } = props;
+  const { media } = props;
   const [currentIndex, setCurrentIndex] = useState(-1);
+  const selectedConversation = useSelector(getSelectedConversationKey) as string;
 
   const dispatch = useDispatch();
 
@@ -56,12 +58,8 @@ export const LightboxGallery = (props: Props) => {
   }, [currentIndex, lastIndex]);
 
   const handleSave = useCallback(() => {
-    if (!onSave) {
-      return;
-    }
-
     const mediaItem = media[currentIndex];
-    onSave(mediaItem);
+    void saveAttachmentToDisk({ ...mediaItem, conversationId: selectedConversation });
   }, [currentIndex, media]);
 
   useKey(
@@ -96,14 +94,13 @@ export const LightboxGallery = (props: Props) => {
   const objectURL = selectedMedia?.objectURL || 'images/alert-outline.svg';
   const { attachment } = selectedMedia;
 
-  const saveCallback = onSave ? handleSave : undefined;
   const caption = attachment?.caption;
   return (
     // tslint:disable: use-simple-attributes
     <Lightbox
       onPrevious={hasPrevious ? onPrevious : undefined}
       onNext={hasNext ? onNext : undefined}
-      onSave={saveCallback}
+      onSave={handleSave}
       objectURL={objectURL}
       caption={caption}
       contentType={selectedMedia.contentType}

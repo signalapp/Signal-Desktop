@@ -10,6 +10,7 @@ import { AttachmentTypeWithPath, save } from '../../../types/Attachment';
 import { MediaItemType } from '../../LightboxGallery';
 import { useSelector } from 'react-redux';
 import { getSelectedConversationKey } from '../../../state/selectors/conversations';
+import { saveAttachmentToDisk } from '../../../util/attachmentsUtil';
 
 type Props = {
   // Required
@@ -22,27 +23,6 @@ type Props = {
   mediaItem: MediaItemType;
 };
 
-const saveAttachment = async ({
-  attachment,
-  messageTimestamp,
-  messageSender,
-  conversationId,
-}: {
-  attachment: AttachmentTypeWithPath;
-  messageTimestamp: number;
-  messageSender: string;
-  conversationId: string;
-}) => {
-  attachment.url = await getDecryptedMediaUrl(attachment.url, attachment.contentType);
-  save({
-    attachment,
-    document,
-    getAbsolutePath: window.Signal.Migrations.getAbsoluteAttachmentPath,
-    timestamp: messageTimestamp,
-  });
-  await sendDataExtractionNotification(conversationId, messageSender, messageTimestamp);
-};
-
 export const DocumentListItem = (props: Props) => {
   const { shouldShowSeparator, fileName, fileSize, timestamp } = props;
 
@@ -50,7 +30,7 @@ export const DocumentListItem = (props: Props) => {
   const selectedConversationKey = useSelector(getSelectedConversationKey) as string;
 
   const saveAttachmentCallback = useCallback(() => {
-    void saveAttachment({
+    void saveAttachmentToDisk({
       messageSender: props.mediaItem.messageSender,
       messageTimestamp: props.mediaItem.messageTimestamp,
       attachment: props.mediaItem.attachment,

@@ -10,6 +10,7 @@ import { ContactName } from './ContactName';
 import { Quote } from './Quote';
 
 import {
+  AttachmentTypeWithPath,
   canDisplayImage,
   getExtensionForDisplay,
   getGridDimensions,
@@ -43,11 +44,18 @@ import { AudioPlayerWithEncryptedFile } from './H5AudioPlayer';
 import { ClickToTrustSender } from './message/ClickToTrustSender';
 import { getMessageById } from '../../data/data';
 import { deleteMessagesById } from '../../interactions/conversationInteractions';
-import { getSelectedMessage } from '../../state/selectors/search';
 import { connect } from 'react-redux';
 import { StateType } from '../../state/reducer';
 import { getSelectedMessageIds } from '../../state/selectors/conversations';
-import { showMessageDetailsView, toggleSelectedMessageId } from '../../state/ducks/conversations';
+import {
+  PropsForAttachment,
+  PropsForMessage,
+  showLightBox,
+  showMessageDetailsView,
+  toggleSelectedMessageId,
+} from '../../state/ducks/conversations';
+import { saveAttachmentToDisk } from '../../util/attachmentsUtil';
+import { LightBoxOptions } from '../session/conversation/SessionConversation';
 
 // Same as MIN_WIDTH in ImageGrid.tsx
 const MINIMUM_LINK_PREVIEW_IMAGE_WIDTH = 200;
@@ -62,6 +70,41 @@ const EXPIRATION_CHECK_MINIMUM = 2000;
 const EXPIRED_DELAY = 600;
 
 type Props = MessageRegularProps & { selectedMessages: Array<string> };
+
+const onClickAttachment = async (onClickProps: {
+  attachment: AttachmentTypeWithPath;
+  messageId: string;
+}) => {
+  let index = -1;
+
+  const found = await getMessageById(onClickProps.messageId);
+  if (!found) {
+    window.log.warn('Such message not found');
+    return;
+  }
+  const msgAttachments = found.getPropsForMessage().attachments;
+
+  const media = (msgAttachments || []).map(attachmentForMedia => {
+    index++;
+    const messageTimestamp =
+      found.get('timestamp') || found.get('serverTimestamp') || found.get('received_at');
+
+    return {
+      index: _.clone(index),
+      objectURL: attachmentForMedia.url || undefined,
+      contentType: attachmentForMedia.contentType,
+      attachment: attachmentForMedia,
+      messageSender: found.getSource(),
+      messageTimestamp,
+      messageId: onClickProps.messageId,
+    };
+  });
+  const lightBoxOptions: LightBoxOptions = {
+    media: media as any,
+    attachment: onClickProps.attachment,
+  };
+  window.inboxStore?.dispatch(showLightBox(lightBoxOptions));
+};
 
 class MessageInner extends React.PureComponent<Props, State> {
   public expirationCheckInterval: any;
@@ -150,7 +193,6 @@ class MessageInner extends React.PureComponent<Props, State> {
       conversationType,
       direction,
       quote,
-      onClickAttachment,
       multiSelectMode,
       isTrustedForAttachmentDownload,
     } = this.props;
@@ -191,11 +233,14 @@ class MessageInner extends React.PureComponent<Props, State> {
             withContentBelow={withContentBelow}
             bottomOverlay={!collapseMetadata}
             onError={this.handleImageError}
-            onClickAttachment={(attachment: AttachmentType) => {
+            onClickAttachment={(attachment: AttachmentTypeWithPath) => {
               if (multiSelectMode) {
                 window.inboxStore?.dispatch(toggleSelectedMessageId(id));
-              } else if (onClickAttachment) {
-                onClickAttachment(attachment);
+              } else {
+                void onClickAttachment({
+                  attachment,
+                  messageId: id,
+                });
               }
             }}
           />
@@ -241,10 +286,15 @@ class MessageInner extends React.PureComponent<Props, State> {
                 role="button"
                 className="module-message__generic-attachment__icon"
                 onClick={(e: any) => {
-                  if (this.props?.onDownload) {
-                    e.stopPropagation();
-                    this.props.onDownload(firstAttachment);
-                  }
+                  e.stopPropagation();
+
+                  const messageTimestamp = this.props.timestamp || this.props.serverTimestamp || 0;
+                  void saveAttachmentToDisk({
+                    attachment: firstAttachment,
+                    messageTimestamp,
+                    messageSender: this.props.authorPhoneNumber,
+                    conversationId: this.props.convoId,
+                  });
                 }}
               >
                 {extension ? (
@@ -520,7 +570,6 @@ class MessageInner extends React.PureComponent<Props, State> {
       status,
       isDeletable,
       id,
-      onDownload,
       isPublic,
       isOpenGroupV2,
       weAreAdmin,
@@ -567,9 +616,14 @@ class MessageInner extends React.PureComponent<Props, State> {
         {!multipleAttachments && attachments && attachments[0] ? (
           <Item
             onClick={(e: any) => {
-              if (onDownload) {
-                onDownload(attachments[0]);
-              }
+              e.stopPropagation();
+              const messageTimestamp = this.props.timestamp || this.props.serverTimestamp || 0;
+              void saveAttachmentToDisk({
+                attachment: attachments[0],
+                messageTimestamp,
+                messageSender: this.props.authorPhoneNumber,
+                conversationId: this.props.convoId,
+              });
             }}
           >
             {window.i18n('downloadAttachment')}

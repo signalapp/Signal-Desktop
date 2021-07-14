@@ -774,9 +774,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         conversationType: ConversationTypeEnum.PRIVATE,
         multiSelectMode: false,
         firstMessageOfSeries: false,
-        onClickAttachment: noop,
         onReply: noop,
-        onDownload: noop,
         // tslint:disable-next-line: no-async-without-await  no-empty
         onQuoteClick: async () => {},
       },

@@ -84,7 +84,6 @@ interface Props {
   quotedMessageProps?: ReplyingToMessageProps;
   removeQuotedMessage: () => void;
 
-  textarea: React.RefObject<HTMLDivElement>;
   stagedAttachments: Array<StagedAttachmentType>;
   clearAttachments: () => any;
   removeAttachment: (toRemove: AttachmentType) => void;
@@ -149,7 +148,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     super(props);
     this.state = getDefaultState();
 
-    this.textarea = props.textarea;
+    this.textarea = React.createRef();
     this.fileInput = React.createRef();
 
     // Emojis
