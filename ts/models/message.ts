@@ -529,6 +529,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     const conversation = this.getConversation();
 
     const isGroup = !!conversation && !conversation.isPrivate();
+    const isBlocked = conversation?.isBlocked() || false;
     const isPublic = !!this.get('isPublic');
     const isPublicOpenGroupV2 = isOpenGroupV2(this.getConversation()?.id || '');
 
@@ -568,6 +569,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       expirationLength,
       expirationTimestamp,
       isPublic,
+      isBlocked,
       isOpenGroupV2: isPublicOpenGroupV2,
       isKickedFromGroup: conversation?.get('isKickedFromGroup'),
       isTrustedForAttachmentDownload,
@@ -774,9 +776,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         conversationType: ConversationTypeEnum.PRIVATE,
         multiSelectMode: false,
         firstMessageOfSeries: false,
-        onReply: noop,
-        // tslint:disable-next-line: no-async-without-await  no-empty
-        onQuoteClick: async () => {},
       },
       errors,
       contacts: sortedContacts || [],

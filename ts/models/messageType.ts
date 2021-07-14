@@ -237,6 +237,7 @@ export interface MessageRegularProps {
   expirationTimestamp?: number;
   convoId: string;
   isPublic?: boolean;
+  isBlocked: boolean;
   isOpenGroupV2?: boolean;
   isKickedFromGroup: boolean;
   // whether or not to show check boxes
@@ -245,8 +246,6 @@ export interface MessageRegularProps {
   isUnread: boolean;
   isQuotedMessageToAnimate?: boolean;
   isTrustedForAttachmentDownload: boolean;
-
-  onReply: (messagId: number) => void;
   onQuoteClick: (options: QuoteClickOptions) => Promise<void>;
 
   playableMessageIndex?: number;

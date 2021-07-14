@@ -16,6 +16,7 @@ import {
 } from '../../models/messageType';
 import { NotificationForConvoOption } from '../../components/conversation/ConversationHeader';
 import { LightBoxOptions } from '../../components/session/conversation/SessionConversation';
+import { ReplyingToMessageProps } from '../../components/session/conversation/SessionCompositionBox';
 
 export type MessageModelProps = {
   propsForMessage: PropsForMessage;
@@ -181,6 +182,7 @@ export type PropsForMessage = {
   isSenderAdmin: boolean;
   isDeletable: boolean;
   isExpired: boolean;
+  isBlocked: boolean;
 };
 
 export type LastMessageType = {
@@ -235,6 +237,7 @@ export type ConversationsStateType = {
   showRightPanel: boolean;
   selectedMessageIds: Array<string>;
   lightBox?: LightBoxOptions;
+  quotedMessage?: ReplyingToMessageProps;
 };
 
 async function getMessages(
@@ -708,6 +711,8 @@ const conversationsSlice = createSlice({
       state.selectedMessageIds = [];
       state.selectedConversation = action.payload.id;
       state.messages = [];
+      state.quotedMessage = undefined;
+      state.lightBox = undefined;
       return state;
     },
     showLightBox(
@@ -715,6 +720,13 @@ const conversationsSlice = createSlice({
       action: PayloadAction<LightBoxOptions | undefined>
     ) {
       state.lightBox = action.payload;
+      return state;
+    },
+    quoteMessage(
+      state: ConversationsStateType,
+      action: PayloadAction<ReplyingToMessageProps | undefined>
+    ) {
+      state.quotedMessage = action.payload;
       return state;
     },
   },
@@ -762,4 +774,5 @@ export const {
   resetSelectedMessageIds,
   toggleSelectedMessageId,
   showLightBox,
+  quoteMessage,
 } = actions;

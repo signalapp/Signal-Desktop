@@ -52,8 +52,6 @@ interface State {
 
 export type SessionMessageListProps = {
   messageContainerRef: React.RefObject<any>;
-
-  replyToMessage: (messageId: number) => Promise<void>;
 };
 
 type Props = SessionMessageListProps & {
@@ -138,10 +136,6 @@ const GenericMessageItem = (props: {
 
   console.warn('FIXME audric');
 
-  if (!props.messageProps) {
-    debugger;
-  }
-
   // const onQuoteClick = props.messageProps.propsForMessage.quote
   //   ? this.scrollToQuoteMessage
   //   : async () => {};
@@ -152,7 +146,6 @@ const GenericMessageItem = (props: {
     multiSelectMode,
     // isQuotedMessageToAnimate: messageId === this.state.animateQuotedMessageId,
     // nextMessageToPlay: this.state.nextMessageToPlay,
-    onReply: props.replyToMessage,
     // playNextMessage: this.playNextMessage,
     // onQuoteClick,
   };

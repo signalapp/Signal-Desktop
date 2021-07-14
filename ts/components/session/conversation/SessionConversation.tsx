@@ -21,6 +21,7 @@ import { SessionFileDropzone } from './SessionFileDropzone';
 import {
   fetchMessagesForConversation,
   PropsForMessage,
+  quoteMessage,
   ReduxConversationType,
   resetSelectedMessageIds,
   showLightBox,
@@ -44,10 +45,6 @@ interface State {
 
   stagedAttachments: Array<StagedAttachmentType>;
   isDraggingFile: boolean;
-
-  // quoted message
-  quotedMessageTimestamp?: number;
-  quotedMessageProps?: any;
 }
 
 export interface LightBoxOptions {
@@ -151,8 +148,6 @@ export class SessionConversation extends React.Component<Props, State> {
         showRecordingView: false,
         stagedAttachments: [],
         isDraggingFile: false,
-        quotedMessageProps: undefined,
-        quotedMessageTimestamp: undefined,
       });
     }
   }
@@ -174,7 +169,7 @@ export class SessionConversation extends React.Component<Props, State> {
   // ~~~~~~~~~~~~~~ RENDER METHODS ~~~~~~~~~~~~~~
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   public render() {
-    const { showRecordingView, quotedMessageProps, isDraggingFile, stagedAttachments } = this.state;
+    const { showRecordingView, isDraggingFile, stagedAttachments } = this.state;
 
     const {
       selectedConversation,
@@ -210,6 +205,8 @@ export class SessionConversation extends React.Component<Props, State> {
         (this.messageContainerRef
           .current as any).scrollTop = this.messageContainerRef.current?.scrollHeight;
       }
+
+      window.inboxStore?.dispatch(quoteMessage(undefined));
     };
 
     return (
@@ -231,7 +228,7 @@ export class SessionConversation extends React.Component<Props, State> {
           {lightBoxOptions?.media && this.renderLightBox(lightBoxOptions)}
 
           <div className="conversation-messages">
-            <SessionMessagesList {...this.getMessagesListProps()} />
+            <SessionMessagesList messageContainerRef={this.messageContainerRef} />
 
             {showRecordingView && <div className="conversation-messages__blocking-overlay" />}
             {isDraggingFile && <SessionFileDropzone />}
@@ -249,10 +246,6 @@ export class SessionConversation extends React.Component<Props, State> {
             stagedAttachments={stagedAttachments}
             onLoadVoiceNoteView={this.onLoadVoiceNoteView}
             onExitVoiceNoteView={this.onExitVoiceNoteView}
-            quotedMessageProps={quotedMessageProps}
-            removeQuotedMessage={() => {
-              void this.replyToMessage(undefined);
-            }}
             clearAttachments={this.clearAttachments}
             removeAttachment={this.removeAttachment}
             onChoseAttachments={this.onChoseAttachments}
@@ -292,13 +285,6 @@ export class SessionConversation extends React.Component<Props, State> {
     );
   }
 
-  public getMessagesListProps(): SessionMessageListProps {
-    return {
-      messageContainerRef: this.messageContainerRef,
-      replyToMessage: this.replyToMessage,
-    };
-  }
-
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   // ~~~~~~~~~~~~ MICROPHONE METHODS ~~~~~~~~~~~~
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -313,37 +299,6 @@ export class SessionConversation extends React.Component<Props, State> {
     this.setState({
       showRecordingView: false,
     });
-  }
-
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  // ~~~~~~~~~~~~~~ MESSAGE QUOTE ~~~~~~~~~~~~~~~
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  private async replyToMessage(quotedMessageTimestamp?: number) {
-    if (this.props.selectedConversation?.isBlocked) {
-      pushUnblockToSend();
-      return;
-    }
-    if (!_.isEqual(this.state.quotedMessageTimestamp, quotedMessageTimestamp)) {
-      const { messagesProps, selectedConversationKey } = this.props;
-      const conversationModel = getConversationController().getOrThrow(selectedConversationKey);
-
-      let quotedMessageProps = null;
-      if (quotedMessageTimestamp) {
-        const quotedMessage = messagesProps.find(
-          m =>
-            m.propsForMessage.timestamp === quotedMessageTimestamp ||
-            m.propsForMessage.serverTimestamp === quotedMessageTimestamp
-        );
-
-        if (quotedMessage) {
-          const quotedMessageModel = await getMessageById(quotedMessage.propsForMessage.id);
-          if (quotedMessageModel) {
-            quotedMessageProps = await conversationModel.makeQuote(quotedMessageModel);
-          }
-        }
-      }
-      this.setState({ quotedMessageTimestamp, quotedMessageProps });
-    }
   }
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

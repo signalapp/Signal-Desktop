@@ -45,6 +45,9 @@ import {
   getItemById,
   hasLinkPreviewPopupBeenDisplayed,
 } from '../../../data/data';
+import { getQuotedMessage } from '../../../state/selectors/conversations';
+import { connect } from 'react-redux';
+import { StateType } from '../../../state/reducer';
 
 export interface ReplyingToMessageProps {
   convoId: string;
@@ -80,10 +83,7 @@ interface Props {
   selectedConversationKey: string;
   selectedConversation: ReduxConversationType | undefined;
   isPublic: boolean;
-
   quotedMessageProps?: ReplyingToMessageProps;
-  removeQuotedMessage: () => void;
-
   stagedAttachments: Array<StagedAttachmentType>;
   clearAttachments: () => any;
   removeAttachment: (toRemove: AttachmentType) => void;
@@ -135,7 +135,7 @@ const getDefaultState = () => {
   };
 };
 
-export class SessionCompositionBox extends React.Component<Props, State> {
+class SessionCompositionBoxInner extends React.Component<Props, State> {
   private readonly textarea: React.RefObject<any>;
   private readonly fileInput: React.RefObject<HTMLInputElement>;
   private emojiPanel: any;
@@ -188,7 +188,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
 
     return (
       <Flex flexDirection="column">
-        {this.renderQuotedMessage()}
+        <SessionQuotedMessageComposition />
         {this.renderStagedLinkPreview()}
         {this.renderAttachmentsStaged()}
         <div className="composition-container">
@@ -665,19 +665,6 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       });
   }
 
-  private renderQuotedMessage() {
-    const { quotedMessageProps, removeQuotedMessage } = this.props;
-    if (quotedMessageProps?.id) {
-      return (
-        <SessionQuotedMessageComposition
-          quotedMessageProps={quotedMessageProps}
-          removeQuotedMessage={removeQuotedMessage}
-        />
-      );
-    }
-    return <></>;
-  }
-
   private onClickAttachment(attachment: AttachmentType) {
     this.setState({ showCaptionEditor: attachment });
   }
@@ -839,6 +826,8 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     }
 
     const { quotedMessageProps } = this.props;
+
+    console.warn('quotedMessageProps', quotedMessageProps);
     const { stagedLinkPreview } = this.state;
 
     // Send message
@@ -999,3 +988,13 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     this.linkPreviewAbortController?.abort();
   }
 }
+
+const mapStateToProps = (state: StateType) => {
+  return {
+    quotedMessageProps: getQuotedMessage(state),
+  };
+};
+
+const smart = connect(mapStateToProps);
+
+export const SessionCompositionBox = smart(SessionCompositionBoxInner);

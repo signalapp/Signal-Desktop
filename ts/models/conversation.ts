@@ -43,6 +43,7 @@ import { OpenGroupRequestCommonType } from '../opengroup/opengroupV2/ApiUtil';
 import { getOpenGroupV2FromConversationId } from '../opengroup/utils/OpenGroupUtils';
 import { createTaskWithTimeout } from '../session/utils/TaskWithTimeout';
 import { perfEnd, perfStart } from '../session/utils/Performance';
+import { ReplyingToMessageProps } from '../components/session/conversation/SessionCompositionBox';
 
 export enum ConversationTypeEnum {
   GROUP = 'group',
@@ -566,17 +567,24 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     return [];
   }
 
-  public async makeQuote(quotedMessage: MessageModel) {
+  public async makeQuote(quotedMessage: MessageModel): Promise<ReplyingToMessageProps | null> {
     const attachments = quotedMessage.get('attachments');
     const preview = quotedMessage.get('preview');
 
     const body = quotedMessage.get('body');
     const quotedAttachments = await this.getQuoteAttachment(attachments, preview);
+
+    if (!quotedMessage.get('sent_at')) {
+      window.log.warn('tried to make a quote without a sent_at timestamp');
+      return null;
+    }
     return {
       author: quotedMessage.getSource(),
-      id: quotedMessage.get('sent_at'),
+      id: `${quotedMessage.get('sent_at')}` || '',
       text: body,
       attachments: quotedAttachments,
+      timestamp: quotedMessage.get('sent_at') || 0,
+      convoId: this.id,
     };
   }
 

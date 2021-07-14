@@ -34,6 +34,7 @@ import {
 } from '../data/data';
 import {
   conversationReset,
+  quoteMessage,
   resetSelectedMessageIds,
   SortedMessageModelProps,
 } from '../state/ducks/conversations';
@@ -43,6 +44,7 @@ import { FSv2 } from '../fileserver';
 import { fromBase64ToArray, toHex } from '../session/utils/String';
 import { SessionButtonColor } from '../components/session/SessionButton';
 import { perfEnd, perfStart } from '../session/utils/Performance';
+import { ReplyingToMessageProps } from '../components/session/conversation/SessionCompositionBox';
 
 export const getCompleteUrlForV2ConvoId = async (convoId: string) => {
   if (convoId.match(openGroupV2ConversationIdRegex)) {
@@ -530,5 +532,24 @@ export async function deleteMessagesById(
     );
   } else {
     void doDelete();
+  }
+}
+
+export async function replyToMessage(messageId: string) {
+  const quotedMessageModel = await getMessageById(messageId);
+  if (!quotedMessageModel) {
+    window.log.warn('Failed to find message to reply to');
+    return;
+  }
+  const conversationModel = getConversationController().getOrThrow(
+    quotedMessageModel.get('conversationId')
+  );
+
+  const quotedMessageProps = await conversationModel.makeQuote(quotedMessageModel);
+
+  if (quotedMessageProps) {
+    window.inboxStore?.dispatch(quoteMessage(quotedMessageProps));
+  } else {
+    window.inboxStore?.dispatch(quoteMessage(undefined));
   }
 }

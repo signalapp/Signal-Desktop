@@ -43,7 +43,7 @@ import autoBind from 'auto-bind';
 import { AudioPlayerWithEncryptedFile } from './H5AudioPlayer';
 import { ClickToTrustSender } from './message/ClickToTrustSender';
 import { getMessageById } from '../../data/data';
-import { deleteMessagesById } from '../../interactions/conversationInteractions';
+import { deleteMessagesById, replyToMessage } from '../../interactions/conversationInteractions';
 import { connect } from 'react-redux';
 import { StateType } from '../../state/reducer';
 import { getSelectedMessageIds } from '../../state/selectors/conversations';
@@ -56,6 +56,7 @@ import {
 } from '../../state/ducks/conversations';
 import { saveAttachmentToDisk } from '../../util/attachmentsUtil';
 import { LightBoxOptions } from '../session/conversation/SessionConversation';
+import { pushUnblockToSend } from '../../session/utils/Toast';
 
 // Same as MIN_WIDTH in ImageGrid.tsx
 const MINIMUM_LINK_PREVIEW_IMAGE_WIDTH = 200;
@@ -944,9 +945,12 @@ class MessageInner extends React.PureComponent<Props, State> {
   }
 
   private onReplyPrivate(e: any) {
-    if (this.props && this.props.onReply) {
-      this.props.onReply(this.props.timestamp);
+    if (this.props.isBlocked) {
+      pushUnblockToSend();
+      return;
     }
+
+    void replyToMessage(this.props.id);
   }
 
   private async onAddModerator() {
