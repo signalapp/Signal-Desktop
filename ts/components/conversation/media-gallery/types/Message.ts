@@ -1,11 +1,11 @@
 // Copyright 2018-2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { Attachment } from '../../../../types/Attachment';
+import { AttachmentType } from '../../../../types/Attachment';
 
 export type Message = {
   id: string;
-  attachments: Array<Attachment>;
+  attachments: Array<AttachmentType>;
   // Assuming this is for the API
   // eslint-disable-next-line camelcase
   received_at: number;

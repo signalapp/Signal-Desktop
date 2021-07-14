@@ -78,7 +78,7 @@
     "axe-core": "4.1.4",
     "backbone": "1.4.0",
     "better-sqlite3": "https://github.com/signalapp/better-sqlite3#2fa02d2484e9f9a10df5ac7ea4617fb2dff30006",
-    "blob-util": "1.3.0",
+    "blob-util": "2.0.2",
     "blueimp-load-image": "5.14.0",
     "blurhash": "1.1.3",
     "classnames": "2.2.5",

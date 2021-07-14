@@ -3,7 +3,7 @@
 
 /* eslint-disable camelcase */
 
-import { Attachment } from './Attachment';
+import { AttachmentType } from './Attachment';
 import { ContactType } from './Contact';
 import { IndexableBoolean, IndexablePresence } from './IndexedDB';
 
@@ -19,7 +19,7 @@ export type IncomingMessage = Readonly<
   {
     type: 'incoming';
     // Required
-    attachments: Array<Attachment>;
+    attachments: Array<AttachmentType>;
     id: string;
     received_at: number;
 
@@ -44,7 +44,7 @@ export type OutgoingMessage = Readonly<
     type: 'outgoing';
 
     // Required
-    attachments: Array<Attachment>;
+    attachments: Array<AttachmentType>;
     delivered: number;
     delivered_to: Array<string>;
     destination: string; // PhoneNumber

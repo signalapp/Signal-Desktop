@@ -131,11 +131,11 @@ const conversationsSelectors = require('../../ts/state/selectors/conversations')
 const searchSelectors = require('../../ts/state/selectors/search');
 
 // Types
-const AttachmentType = require('./types/attachment');
+const AttachmentType = require('../../ts/types/Attachment');
 const VisualAttachment = require('./types/visual_attachment');
 const Contact = require('../../ts/types/Contact');
 const Conversation = require('./types/conversation');
-const Errors = require('./types/errors');
+const Errors = require('../../ts/types/errors');
 const MediaGalleryMessage = require('../../ts/components/conversation/media-gallery/types/Message');
 const MessageType = require('./types/message');
 const MIME = require('../../ts/types/MIME');

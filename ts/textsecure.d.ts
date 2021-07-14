@@ -37,13 +37,6 @@ export type UnprocessedType = {
 
 export { StorageServiceCallOptionsType, StorageServiceCredentials };
 
-export type DownloadAttachmentType = Omit<
-  ProcessedAttachment,
-  'digest' | 'key'
-> & {
-  data: ArrayBuffer;
-};
-
 export type TextSecureType = {
   createTaskWithTimeout: (
     task: () => Promise<any> | any,

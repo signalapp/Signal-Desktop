@@ -29,6 +29,7 @@ export type Props = {
   readonly reducedMotion?: boolean;
 
   onError(): void;
+  showVisualAttachment(): void;
   kickOffAttachmentDownload(): void;
 };
 
@@ -48,6 +49,7 @@ export const GIF: React.FC<Props> = props => {
     ),
 
     onError,
+    showVisualAttachment,
     kickOffAttachmentDownload,
   } = props;
 
@@ -191,6 +193,12 @@ export const GIF: React.FC<Props> = props => {
         onTimeUpdate={onTimeUpdate}
         onEnded={onEnded}
         onError={onError}
+        onClick={(event: React.MouseEvent): void => {
+          event.preventDefault();
+          event.stopPropagation();
+
+          showVisualAttachment();
+        }}
         className="module-image--gif__video"
         autoPlay
         playsInline

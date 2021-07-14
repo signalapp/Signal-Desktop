@@ -8,6 +8,7 @@ import {
   AttachmentType,
   InMemoryAttachmentDraftType,
   OnDiskAttachmentDraftType,
+  isGIF,
 } from '../types/Attachment';
 import type { StickerPackType as StickerPackDBType } from '../sql/Interface';
 import * as Stickers from '../types/Stickers';
@@ -63,7 +64,7 @@ const LINK_PREVIEW_TIMEOUT = 60 * 1000;
 window.Whisper = window.Whisper || {};
 
 const { Whisper } = window;
-const { Message, MIME, VisualAttachment, Attachment } = window.Signal.Types;
+const { Message, MIME, VisualAttachment } = window.Signal.Types;
 
 const {
   copyIntoTempDirectory,
@@ -783,7 +784,7 @@ Whisper.ConversationView = Whisper.View.extend({
       message.markAttachmentAsCorrupted(options.attachment);
     };
     const showVisualAttachment = (options: {
-      attachment: typeof Attachment;
+      attachment: AttachmentType;
       messageId: string;
       showSingle?: boolean;
     }) => {
@@ -2803,8 +2804,8 @@ Whisper.ConversationView = Whisper.View.extend({
     timestamp,
     isDangerous,
   }: {
-    attachment: typeof Attachment;
-    timestamp: string;
+    attachment: AttachmentType;
+    timestamp: number;
     isDangerous: boolean;
   }) {
     if (isDangerous) {
@@ -3012,7 +3013,7 @@ Whisper.ConversationView = Whisper.View.extend({
     attachment,
     messageId,
   }: {
-    attachment: typeof Attachment;
+    attachment: AttachmentType;
     messageId: string;
     showSingle?: boolean;
   }) {
@@ -3037,14 +3038,17 @@ Whisper.ConversationView = Whisper.View.extend({
       return;
     }
 
-    const attachments = message.get('attachments') || [];
+    const attachments: Array<AttachmentType> = message.get('attachments') || [];
+
+    const loop = isGIF(attachments);
 
     const media = attachments
-      .filter((item: any) => item.thumbnail && !item.pending && !item.error)
-      .map((item: any, index: number) => ({
-        objectURL: getAbsoluteAttachmentPath(item.path),
+      .filter(item => item.thumbnail && !item.pending && !item.error)
+      .map((item, index) => ({
+        objectURL: getAbsoluteAttachmentPath(item.path ?? ''),
         path: item.path,
         contentType: item.contentType,
+        loop,
         index,
         message,
         attachment: item,
@@ -3052,9 +3056,10 @@ Whisper.ConversationView = Whisper.View.extend({
 
     if (media.length === 1) {
       const props = {
-        objectURL: getAbsoluteAttachmentPath(path),
+        objectURL: getAbsoluteAttachmentPath(path ?? ''),
         contentType,
         caption: attachment.caption,
+        loop,
         onSave: () => {
           const timestamp = message.get('sent_at');
           this.downloadAttachment({ attachment, timestamp, message });
@@ -3095,6 +3100,7 @@ Whisper.ConversationView = Whisper.View.extend({
 
     const props = {
       media,
+      loop,
       selectedIndex: selectedIndex >= 0 ? selectedIndex : 0,
       onSave,
     };

@@ -31,6 +31,7 @@ export type Props = {
   objectURL: string;
   caption?: string;
   isViewOnce: boolean;
+  loop?: boolean;
   onNext?: () => void;
   onPrevious?: () => void;
   onSave?: () => void;
@@ -300,6 +301,7 @@ export class Lightbox extends React.Component<Props, State> {
       contentType,
       i18n,
       isViewOnce,
+      loop = false,
       objectURL,
       onNext,
       onPrevious,
@@ -320,7 +322,13 @@ export class Lightbox extends React.Component<Props, State> {
           <div style={styles.controlsOffsetPlaceholder} />
           <div style={styles.objectContainer}>
             {!is.undefined(contentType)
-              ? this.renderObject({ objectURL, contentType, i18n, isViewOnce })
+              ? this.renderObject({
+                  objectURL,
+                  contentType,
+                  i18n,
+                  isViewOnce,
+                  loop,
+                })
               : null}
             {caption ? <div style={styles.caption}>{caption}</div> : null}
           </div>
@@ -363,11 +371,13 @@ export class Lightbox extends React.Component<Props, State> {
     contentType,
     i18n,
     isViewOnce,
+    loop,
   }: {
     objectURL: string;
     contentType: MIME.MIMEType;
     i18n: LocalizerType;
     isViewOnce: boolean;
+    loop: boolean;
   }) => {
     const isImageTypeSupported = GoogleChrome.isImageTypeSupported(contentType);
     if (isImageTypeSupported) {
@@ -392,8 +402,8 @@ export class Lightbox extends React.Component<Props, State> {
       return (
         <video
           ref={this.videoRef}
-          loop={isViewOnce}
-          controls={!isViewOnce}
+          loop={loop || isViewOnce}
+          controls={!loop && !isViewOnce}
           style={styles.object}
           key={objectURL}
         >

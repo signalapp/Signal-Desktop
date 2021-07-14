@@ -1,11 +1,9 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-const Path = require('path');
-
-const { assert } = require('chai');
-
-const Errors = require('../../../js/modules/types/errors');
+import * as Path from 'path';
+import { assert } from 'chai';
+import * as Errors from '../../types/errors';
 
 const APP_ROOT_PATH = Path.join(__dirname, '..', '..', '..');
 
@@ -26,9 +24,9 @@ describe('Errors', () => {
 
     it('should return error string representation if stack is missing', () => {
       const error = new Error('boom');
-      error.stack = null;
+      error.stack = undefined;
       assert.typeOf(error, 'Error');
-      assert.isNull(error.stack);
+      assert.isUndefined(error.stack);
 
       const formattedError = Errors.toLogFormat(error);
       assert.strictEqual(formattedError, 'Error: boom');
@@ -37,7 +35,7 @@ describe('Errors', () => {
     [0, false, null, undefined].forEach(value => {
       it(`should return \`${value}\` argument`, () => {
         const formattedNonError = Errors.toLogFormat(value);
-        assert.strictEqual(formattedNonError, value);
+        assert.strictEqual(formattedNonError, String(value));
       });
     });
   });

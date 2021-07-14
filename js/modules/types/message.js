@@ -4,8 +4,8 @@
 const { isFunction, isObject, isString, omit } = require('lodash');
 
 const Contact = require('./contact');
-const Attachment = require('./attachment');
-const Errors = require('./errors');
+const Attachment = require('../../../ts/types/Attachment');
+const Errors = require('../../../ts/types/errors');
 const SchemaVersion = require('./schema_version');
 const {
   initializeAttachmentMetadata,

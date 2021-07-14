@@ -1,13 +1,11 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { DownloadAttachmentType } from '../textsecure.d';
-
-import { AttachmentType } from '../types/Attachment';
+import { AttachmentType, DownloadedAttachmentType } from '../types/Attachment';
 
 export async function downloadAttachment(
   attachmentData: AttachmentType
-): Promise<DownloadAttachmentType | null> {
+): Promise<DownloadedAttachmentType | null> {
   let migratedAttachment: AttachmentType;
 
   const { id: legacyId } = attachmentData;

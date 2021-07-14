@@ -18,7 +18,7 @@ import {
   ReactionAttributesType,
   ReactionModelType,
 } from './model-types.d';
-import { TextSecureType, DownloadAttachmentType } from './textsecure.d';
+import { TextSecureType } from './textsecure.d';
 import { Storage } from './textsecure/Storage';
 import {
   ChallengeHandler,
@@ -38,7 +38,7 @@ import { LocalizerType, BodyRangesType, BodyRangeType } from './types/Util';
 import * as Attachment from './types/Attachment';
 import * as MIME from './types/MIME';
 import * as Contact from './types/Contact';
-import * as Errors from '../js/modules/types/errors';
+import * as Errors from './types/errors';
 import { ConversationController } from './ConversationController';
 import { ReduxActions } from './state/types';
 import { createStore } from './state/createStore';
@@ -104,7 +104,7 @@ import { Quote } from './components/conversation/Quote';
 import { StagedLinkPreview } from './components/conversation/StagedLinkPreview';
 import { DisappearingTimeDialog } from './components/DisappearingTimeDialog';
 import { MIMEType } from './types/MIME';
-import { AttachmentType } from './types/Attachment';
+import { DownloadedAttachmentType } from './types/Attachment';
 import { ElectronLocaleType } from './util/mapToSupportLocale';
 import { SignalProtocolStore } from './SignalProtocolStore';
 import { Context as SignalContext } from './context';
@@ -324,8 +324,8 @@ declare global {
         copyIntoAttachmentsDirectory: (path: string) => Promise<string>;
         upgradeMessageSchema: (attributes: unknown) => WhatIsThis;
         processNewAttachment: (
-          attachment: DownloadAttachmentType
-        ) => Promise<AttachmentType>;
+          attachment: DownloadedAttachmentType
+        ) => Promise<DownloadedAttachmentType>;
 
         copyIntoTempDirectory: any;
         deleteDraftFile: (path: string) => Promise<void>;
@@ -339,36 +339,7 @@ declare global {
         writeNewDraftData: any;
       };
       Types: {
-        Attachment: {
-          save: any;
-          path: string;
-          pending: boolean;
-          flags: number;
-          size: number;
-          screenshot: {
-            path: string;
-          };
-          thumbnail: {
-            path: string;
-            objectUrl: string;
-          };
-          contentType: MIMEType;
-          error: unknown;
-          caption: string;
-
-          migrateDataToFileSystem: (
-            attachment: WhatIsThis,
-            options: unknown
-          ) => WhatIsThis;
-
-          isVoiceMessage: (attachments: unknown) => boolean;
-          isImage: typeof Attachment.isImage;
-          isGIF: typeof Attachment.isGIF;
-          isVideo: typeof Attachment.isVideo;
-          isAudio: typeof Attachment.isAudio;
-
-          getUploadSizeLimitKb: typeof Attachment.getUploadSizeLimitKb;
-        };
+        Attachment: typeof Attachment;
         MIME: typeof MIME;
         Contact: typeof Contact;
         Conversation: {

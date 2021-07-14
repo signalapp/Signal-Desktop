@@ -4084,6 +4084,10 @@ button.module-conversation-details__action-button {
     line-height: 14px;
     user-select: none;
   }
+
+  video {
+    cursor: pointer;
+  }
 }
 
 // Only if it's a sticker do we put the outline inside it

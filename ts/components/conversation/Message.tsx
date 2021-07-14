@@ -716,6 +716,12 @@ export class Message extends React.Component<Props, State> {
               tabIndex={0}
               reducedMotion={reducedMotion}
               onError={this.handleImageError}
+              showVisualAttachment={() => {
+                showVisualAttachment({
+                  attachment: firstAttachment,
+                  messageId: id,
+                });
+              }}
               kickOffAttachmentDownload={() => {
                 kickOffAttachmentDownload({
                   attachment: firstAttachment,

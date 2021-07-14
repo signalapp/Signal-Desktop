@@ -1896,21 +1896,28 @@
   },
   {
     "rule": "jQuery-append(",
-    "path": "node_modules/blob-util/dist/blob-util.js",
-    "line": "    bb.append(ary[i]);",
+    "path": "node_modules/blob-util/dist/blob-util.cjs.js",
+    "line": "            builder.append(parts[i]);",
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
+    "updated": "2021-07-14T23:12:47.258Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/blob-util/dist/blob-util.es.js",
+    "line": "            builder.append(parts[i]);",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-07-14T23:12:47.258Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/blob-util/dist/blob-util.js",
+    "line": "                builder.append(parts[i]);",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-07-14T23:12:47.258Z"
   },
   {
     "rule": "jQuery-append(",
     "path": "node_modules/blob-util/dist/blob-util.min.js",
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/blob/index.js",
-    "line": "    bb.append(ary[i]);",
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
   },

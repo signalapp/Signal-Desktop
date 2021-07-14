@@ -62,11 +62,13 @@ import * as Bytes from '../Bytes';
 import Crypto from './Crypto';
 import { deriveMasterKeyFromGroupV1, typedArrayToArrayBuffer } from '../Crypto';
 import { ContactBuffer, GroupBuffer } from './ContactsParser';
+import { DownloadedAttachmentType } from '../types/Attachment';
+import * as MIME from '../types/MIME';
 import { SocketStatus } from '../types/SocketStatus';
 
 import { SignalService as Proto } from '../protobuf';
 
-import { DownloadAttachmentType, UnprocessedType } from '../textsecure.d';
+import { UnprocessedType } from '../textsecure.d';
 import {
   ProcessedAttachment,
   ProcessedDataMessage,
@@ -2441,7 +2443,7 @@ class MessageReceiverInner extends EventTarget {
 
   async downloadAttachment(
     attachment: ProcessedAttachment
-  ): Promise<DownloadAttachmentType> {
+  ): Promise<DownloadedAttachmentType> {
     const cdnId = attachment.cdnId || attachment.cdnKey;
     const { cdnNumber } = attachment;
 
@@ -2454,7 +2456,7 @@ class MessageReceiverInner extends EventTarget {
       cdnId,
       dropNull(cdnNumber)
     );
-    const { key, digest, size } = attachment;
+    const { key, digest, size, contentType } = attachment;
 
     if (!digest) {
       throw new Error('Failure: Ask sender to update Signal and resend.');
@@ -2479,13 +2481,17 @@ class MessageReceiverInner extends EventTarget {
 
     return {
       ...omit(attachment, 'digest', 'key'),
+
+      contentType: contentType
+        ? MIME.fromString(contentType)
+        : MIME.APPLICATION_OCTET_STREAM,
       data,
     };
   }
 
   async handleAttachment(
     attachment: Proto.IAttachmentPointer
-  ): Promise<DownloadAttachmentType> {
+  ): Promise<DownloadedAttachmentType> {
     const cleaned = processAttachment(attachment);
     return this.downloadAttachment(cleaned);
   }
@@ -2661,7 +2667,7 @@ export default class MessageReceiver {
 
   downloadAttachment: (
     attachment: ProcessedAttachment
-  ) => Promise<DownloadAttachmentType>;
+  ) => Promise<DownloadedAttachmentType>;
 
   getStatus: () => SocketStatus;
 

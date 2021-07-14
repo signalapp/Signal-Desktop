@@ -5,7 +5,7 @@
 
 const loadImage = require('blueimp-load-image');
 const { blobToArrayBuffer } = require('blob-util');
-const { toLogFormat } = require('./errors');
+const { toLogFormat } = require('../../../ts/types/errors');
 const {
   arrayBufferToObjectURL,
 } = require('../../../ts/util/arrayBufferToObjectURL');
