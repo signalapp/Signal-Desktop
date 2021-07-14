@@ -489,9 +489,11 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
     return (
       <ContextMenu id={triggerId}>
         {disableTimerChanges ? null : (
-          <SubMenu title={disappearingTitle}>{expireDurations}</SubMenu>
+          <SubMenu hoverDelay={1} title={disappearingTitle}>
+            {expireDurations}
+          </SubMenu>
         )}
-        <SubMenu title={muteTitle}>
+        <SubMenu hoverDelay={1} title={muteTitle}>
           {muteOptions.map(item => (
             <MenuItem
               key={item.name}
