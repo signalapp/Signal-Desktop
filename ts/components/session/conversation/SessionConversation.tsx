@@ -22,6 +22,7 @@ import {
   fetchMessagesForConversation,
   PropsForMessage,
   ReduxConversationType,
+  resetSelectedMessageIds,
   SortedMessageModelProps,
 } from '../../../state/ducks/conversations';
 import { MessageView } from '../../MainViewController';
@@ -34,7 +35,6 @@ import { getDecryptedMediaUrl } from '../../../session/crypto/DecryptedAttachmen
 import { updateMentionsMembers } from '../../../state/ducks/mentionsInput';
 import { sendDataExtractionNotification } from '../../../session/messages/outgoing/controlMessage/DataExtractionNotificationMessage';
 
-import { resetSelectedMessageIds } from '../../../state/ducks/conversationScreen';
 interface State {
   unreadCount: number;
 

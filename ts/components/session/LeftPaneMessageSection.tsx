@@ -319,7 +319,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
         pubkeyorOns,
         ConversationTypeEnum.PRIVATE
       );
-      window.inboxStore?.dispatch(openConversationExternal(pubkeyorOns));
+      window.inboxStore?.dispatch(openConversationExternal({ id: pubkeyorOns }));
       this.handleToggleOverlay(undefined);
     } else {
       // this might be an ONS, validate the regex first
@@ -339,7 +339,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
           resolvedSessionID,
           ConversationTypeEnum.PRIVATE
         );
-        window.inboxStore?.dispatch(openConversationExternal(resolvedSessionID));
+        window.inboxStore?.dispatch(openConversationExternal({ id: resolvedSessionID }));
         this.handleToggleOverlay(undefined);
       } catch (e) {
         window?.log?.warn('failed to resolve ons name', pubkeyorOns, e);

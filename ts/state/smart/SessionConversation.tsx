@@ -7,13 +7,11 @@ import {
   getMessagesOfSelectedConversation,
   getSelectedConversation,
   getSelectedConversationKey,
-} from '../selectors/conversations';
-import { getOurNumber } from '../selectors/user';
-import {
   getSelectedMessageIds,
   isMessageDetailView,
   isRightPanelShowing,
-} from '../selectors/conversationScreen';
+} from '../selectors/conversations';
+import { getOurNumber } from '../selectors/user';
 
 const mapStateToProps = (state: StateType) => {
   return {

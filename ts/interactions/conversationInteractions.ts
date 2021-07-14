@@ -32,14 +32,17 @@ import {
   lastAvatarUploadTimestamp,
   removeAllMessagesInConversation,
 } from '../data/data';
-import { conversationReset, SortedMessageModelProps } from '../state/ducks/conversations';
+import {
+  conversationReset,
+  resetSelectedMessageIds,
+  SortedMessageModelProps,
+} from '../state/ducks/conversations';
 import { getDecryptedMediaUrl } from '../session/crypto/DecryptedAttachmentsManager';
 import { IMAGE_JPEG } from '../types/MIME';
 import { FSv2 } from '../fileserver';
 import { fromBase64ToArray, toHex } from '../session/utils/String';
 import { SessionButtonColor } from '../components/session/SessionButton';
 import { perfEnd, perfStart } from '../session/utils/Performance';
-import { resetSelectedMessageIds } from '../state/ducks/conversationScreen';
 
 export const getCompleteUrlForV2ConvoId = async (convoId: string) => {
   if (convoId.match(openGroupV2ConversationIdRegex)) {
@@ -286,11 +289,7 @@ export function showChangeNickNameByConvoId(conversationId: string) {
 export async function deleteMessagesByConvoIdNoConfirmation(conversationId: string) {
   const conversation = getConversationController().get(conversationId);
   await removeAllMessagesInConversation(conversationId);
-  window.inboxStore?.dispatch(
-    conversationReset({
-      conversationKey: conversationId,
-    })
-  );
+  window.inboxStore?.dispatch(conversationReset(conversationId));
 
   // destroy message keeps the active timestamp set so the
   // conversation still appears on the conversation list but is empty

@@ -42,12 +42,12 @@ import autoBind from 'auto-bind';
 import { AudioPlayerWithEncryptedFile } from './H5AudioPlayer';
 import { ClickToTrustSender } from './message/ClickToTrustSender';
 import { getMessageById } from '../../data/data';
-import { showMessageDetailsView } from '../../state/ducks/conversationScreen';
 import { deleteMessagesById } from '../../interactions/conversationInteractions';
 import { getSelectedMessage } from '../../state/selectors/search';
 import { connect } from 'react-redux';
 import { StateType } from '../../state/reducer';
-import { getSelectedMessageIds, isMessageSelected } from '../../state/selectors/conversationScreen';
+import { getSelectedMessageIds } from '../../state/selectors/conversations';
+import { showMessageDetailsView } from '../../state/ducks/conversations';
 
 // Same as MIN_WIDTH in ImageGrid.tsx
 const MINIMUM_LINK_PREVIEW_IMAGE_WIDTH = 200;

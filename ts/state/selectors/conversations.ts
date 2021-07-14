@@ -4,6 +4,7 @@ import { StateType } from '../reducer';
 import {
   ConversationLookupType,
   ConversationsStateType,
+  MessagePropsDetails,
   ReduxConversationType,
   SortedMessageModelProps,
 } from '../ducks/conversations';
@@ -257,3 +258,28 @@ export const getNumberOfPinnedConversations = createSelector(getConversations, (
   const values = Object.values(state.conversationLookup);
   return values.filter(conversation => conversation.isPinned).length;
 });
+
+export const isMessageDetailView = createSelector(
+  getConversations,
+  (state: ConversationsStateType): boolean => state.messageDetailProps !== undefined
+);
+
+export const getMessageDetailsViewProps = createSelector(
+  getConversations,
+  (state: ConversationsStateType): MessagePropsDetails | undefined => state.messageDetailProps
+);
+
+export const isRightPanelShowing = createSelector(
+  getConversations,
+  (state: ConversationsStateType): boolean => state.showRightPanel
+);
+
+export const isMessageSelectionMode = createSelector(
+  getConversations,
+  (state: ConversationsStateType): boolean => state.selectedMessageIds.length > 0
+);
+
+export const getSelectedMessageIds = createSelector(
+  getConversations,
+  (state: ConversationsStateType): Array<string> => state.selectedMessageIds
+);

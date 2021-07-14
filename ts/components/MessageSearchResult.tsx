@@ -82,7 +82,7 @@ const AvatarItem = (props: { from: FindAndFormatContactType }) => {
   );
 };
 export const MessageSearchResult = (props: Props) => {
-  const { from, id, isSelected, conversationId, receivedAt, snippet, to } = props;
+  const { from, id: messageId, isSelected, conversationId, receivedAt, snippet, to } = props;
 
   const dispatch = useDispatch();
 
@@ -94,7 +94,7 @@ export const MessageSearchResult = (props: Props) => {
     <div
       role="button"
       onClick={() => {
-        dispatch(openConversationExternal(conversationId, id));
+        dispatch(openConversationExternal({ id: conversationId, messageId }));
       }}
       className={classNames(
         'module-message-search-result',

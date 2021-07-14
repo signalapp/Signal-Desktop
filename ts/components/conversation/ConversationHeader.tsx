@@ -14,20 +14,19 @@ import {
   getConversationHeaderProps,
   getConversationHeaderTitleProps,
   getSelectedConversation,
+  getSelectedMessageIds,
+  isMessageDetailView,
+  isMessageSelectionMode,
 } from '../../state/selectors/conversations';
 import { useDispatch, useSelector } from 'react-redux';
 import { useMembersAvatars } from '../../hooks/useMembersAvatar';
+
+import { deleteMessagesById } from '../../interactions/conversationInteractions';
 import {
   closeMessageDetailsView,
   openRightPanel,
   resetSelectedMessageIds,
-} from '../../state/ducks/conversationScreen';
-import {
-  getSelectedMessageIds,
-  isMessageDetailView,
-  isMessageSelectionMode,
-} from '../../state/selectors/conversationScreen';
-import { deleteMessagesById } from '../../interactions/conversationInteractions';
+} from '../../state/ducks/conversations';
 
 export interface TimerOption {
   name: string;

@@ -1,7 +1,7 @@
 import promise from 'redux-promise-middleware';
 import { createLogger } from 'redux-logger';
 import { configureStore } from '@reduxjs/toolkit';
-import { reducer as allReducers } from './reducer';
+import { rootReducer } from './reducer';
 import { persistReducer } from 'redux-persist';
 
 // tslint:disable-next-line: no-submodule-imports match-default-export-name
@@ -32,7 +32,7 @@ export const persistConfig = {
   whitelist: ['userConfig'],
 };
 
-const persistedReducer = persistReducer(persistConfig, allReducers);
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 // Exclude logger if we're in production mode
 const disableLogging = env === 'production' || true; // ALWAYS TURNED OFF

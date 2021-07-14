@@ -26,11 +26,11 @@ import autoBind from 'auto-bind';
 import { ConversationTypeEnum } from '../../../models/conversation';
 import { DataExtractionNotification } from '../../conversation/DataExtractionNotification';
 import { StateType } from '../../../state/reducer';
-import { getSelectedMessageIds } from '../../../state/selectors/conversationScreen';
 import { connect } from 'react-redux';
 import {
   getSelectedConversation,
   getSelectedConversationKey,
+  getSelectedMessageIds,
 } from '../../../state/selectors/conversations';
 
 interface State {

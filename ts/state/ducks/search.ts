@@ -6,11 +6,9 @@ import { searchConversations, searchMessages } from '../../../ts/data/data';
 import { makeLookup } from '../../util/makeLookup';
 
 import {
-  MessageExpiredActionType,
+  openConversationExternal,
   PropsForSearchResults,
   ReduxConversationType,
-  RemoveAllConversationsActionType,
-  SelectedConversationChangedActionType,
 } from './conversations';
 import { PubKey } from '../../session/types';
 import { MessageModel } from '../../models/message';
@@ -64,10 +62,7 @@ type ClearSearchActionType = {
 export type SEARCH_TYPES =
   | SearchResultsFulfilledActionType
   | UpdateSearchTermActionType
-  | ClearSearchActionType
-  | MessageExpiredActionType
-  | RemoveAllConversationsActionType
-  | SelectedConversationChangedActionType;
+  | ClearSearchActionType;
 
 // Action Creators
 
@@ -332,39 +327,39 @@ export function reducer(state: SearchStateType | undefined, action: SEARCH_TYPES
     };
   }
 
-  if (action.type === 'CONVERSATIONS_REMOVE_ALL') {
-    return getEmptyState();
-  }
+  // if (action.type === 'CONVERSATIONS_REMOVE_ALL') {
+  //   return getEmptyState();
+  // }
 
-  if (action.type === 'SELECTED_CONVERSATION_CHANGED') {
-    const { payload } = action;
-    const { messageId } = payload;
+  // if (action.type === openConversationExternal.name) {
+  //   const { payload } = action;
+  //   const { messageId } = payload;
 
-    if (!messageId) {
-      return state;
-    }
+  //   if (!messageId) {
+  //     return state;
+  //   }
 
-    return {
-      ...state,
-      selectedMessage: messageId,
-    };
-  }
+  //   return {
+  //     ...state,
+  //     selectedMessage: messageId,
+  //   };
+  // }
 
-  if (action.type === 'MESSAGE_EXPIRED') {
-    const { messages, messageLookup } = state;
-    if (!messages.length) {
-      return state;
-    }
+  // if (action.type === 'MESSAGE_EXPIRED') {
+  //   const { messages, messageLookup } = state;
+  //   if (!messages.length) {
+  //     return state;
+  //   }
 
-    const { payload } = action;
-    const { messageId } = payload;
+  //   const { payload } = action;
+  //   const { messageId } = payload;
 
-    return {
-      ...state,
-      messages: reject(messages, message => messageId === message.id),
-      messageLookup: omit(messageLookup, ['id']),
-    };
-  }
+  //   return {
+  //     ...state,
+  //     messages: reject(messages, message => messageId === message.id),
+  //     messageLookup: omit(messageLookup, ['id']),
+  //   };
+  // }
 
   return state;
 }

@@ -23,6 +23,7 @@ import {
 import { fromArrayBufferToBase64, fromBase64ToArrayBuffer } from '../session/utils/String';
 import {
   actions as conversationActions,
+  conversationChanged,
   LastMessageStatusType,
   MessageModelProps,
   ReduxConversationType,
@@ -202,7 +203,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     this.typingRefreshTimer = null;
     this.typingPauseTimer = null;
 
-    window.inboxStore?.dispatch(conversationActions.conversationChanged(this.id, this.getProps()));
+    window.inboxStore?.dispatch(conversationChanged({ id: this.id, data: this.getProps() }));
   }
 
   public idForLogging() {
@@ -885,9 +886,12 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
   public triggerUIRefresh() {
     window.inboxStore?.dispatch(
-      conversationActions.conversationChanged(this.id, {
-        ...this.getProps(),
-        isSelected: false,
+      conversationChanged({
+        id: this.id,
+        data: {
+          ...this.getProps(),
+          isSelected: false,
+        },
       })
     );
   }

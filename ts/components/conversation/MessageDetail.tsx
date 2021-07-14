@@ -8,8 +8,8 @@ import { Message } from './Message';
 import { MessageRegularProps } from '../../models/messageType';
 import { deleteMessagesById } from '../../interactions/conversationInteractions';
 import { useSelector } from 'react-redux';
-import { getMessageDetailsViewProps } from '../../state/selectors/conversationScreen';
 import { ContactPropsMessageDetail } from '../../state/ducks/conversations';
+import { getMessageDetailsViewProps } from '../../state/selectors/conversations';
 
 const AvatarItem = (props: { contact: ContactPropsMessageDetail }) => {
   const { avatarPath, phoneNumber, name, profileName } = props.contact;

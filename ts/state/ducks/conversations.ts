@@ -1,9 +1,8 @@
 import _, { omit } from 'lodash';
 
 import { Constants } from '../../session';
-import { createAsyncThunk } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { getConversationController } from '../../session/conversations';
-import { MessageModel } from '../../models/message';
 import { getMessagesByConversation } from '../../data/data';
 import {
   ConversationNotificationSettingType,
@@ -231,6 +230,9 @@ export type ConversationsStateType = {
   conversationLookup: ConversationLookupType;
   selectedConversation?: string;
   messages: Array<SortedMessageModelProps>;
+  messageDetailProps: MessagePropsDetails | undefined;
+  showRightPanel: boolean;
+  selectedMessageIds: Array<string>;
 };
 
 async function getMessages(
@@ -338,246 +340,15 @@ export const fetchMessagesForConversation = createAsyncThunk(
   }
 );
 
-// Actions
-
-type ConversationAddedActionType = {
-  type: 'CONVERSATION_ADDED';
-  payload: {
-    id: string;
-    data: ReduxConversationType;
-  };
-};
-type ConversationChangedActionType = {
-  type: 'CONVERSATION_CHANGED';
-  payload: {
-    id: string;
-    data: ReduxConversationType;
-  };
-};
-type ConversationRemovedActionType = {
-  type: 'CONVERSATION_REMOVED';
-  payload: {
-    id: string;
-  };
-};
-export type RemoveAllConversationsActionType = {
-  type: 'CONVERSATIONS_REMOVE_ALL';
-  payload: null;
-};
-export type MessageExpiredActionType = {
-  type: 'MESSAGE_EXPIRED';
-  payload: {
-    messageId: string;
-    conversationKey: string;
-  };
-};
-export type MessageChangedActionType = {
-  type: 'MESSAGE_CHANGED';
-  payload: MessageModelProps;
-};
-export type MessagesChangedActionType = {
-  type: 'MESSAGES_CHANGED';
-  payload: Array<MessageModelProps>;
-};
-export type MessageAddedActionType = {
-  type: 'MESSAGE_ADDED';
-  payload: {
-    conversationKey: string;
-    messageModelProps: MessageModelProps;
-  };
-};
-export type MessageDeletedActionType = {
-  type: 'MESSAGE_DELETED';
-  payload: {
-    conversationKey: string;
-    messageId: string;
-  };
-};
-export type ConversationResetActionType = {
-  type: 'CONVERSATION_RESET';
-  payload: {
-    conversationKey: string;
-  };
-};
-export type SelectedConversationChangedActionType = {
-  type: 'SELECTED_CONVERSATION_CHANGED';
-  payload: {
-    id: string;
-    messageId?: string;
-  };
-};
-
-export type FetchMessagesForConversationType = {
-  type: 'messages/fetchByConversationKey/fulfilled';
-  payload: {
-    conversationKey: string;
-    messages: Array<MessageModelProps>;
-  };
-};
-
-export type ConversationActionType =
-  | ConversationAddedActionType
-  | ConversationChangedActionType
-  | ConversationRemovedActionType
-  | ConversationResetActionType
-  | RemoveAllConversationsActionType
-  | MessageExpiredActionType
-  | MessageAddedActionType
-  | MessageDeletedActionType
-  | MessageChangedActionType
-  | MessagesChangedActionType
-  | SelectedConversationChangedActionType
-  | SelectedConversationChangedActionType
-  | FetchMessagesForConversationType;
-
-// Action Creators
-
-export const actions = {
-  conversationAdded,
-  conversationChanged,
-  conversationRemoved,
-  removeAllConversations,
-  messageExpired,
-  messageAdded,
-  messageDeleted,
-  conversationReset,
-  messageChanged,
-  messagesChanged,
-  fetchMessagesForConversation,
-  openConversationExternal,
-};
-
-function conversationAdded(id: string, data: ReduxConversationType): ConversationAddedActionType {
-  return {
-    type: 'CONVERSATION_ADDED',
-    payload: {
-      id,
-      data,
-    },
-  };
-}
-function conversationChanged(
-  id: string,
-  data: ReduxConversationType
-): ConversationChangedActionType {
-  return {
-    type: 'CONVERSATION_CHANGED',
-    payload: {
-      id,
-      data,
-    },
-  };
-}
-function conversationRemoved(id: string): ConversationRemovedActionType {
-  return {
-    type: 'CONVERSATION_REMOVED',
-    payload: {
-      id,
-    },
-  };
-}
-function removeAllConversations(): RemoveAllConversationsActionType {
-  return {
-    type: 'CONVERSATIONS_REMOVE_ALL',
-    payload: null,
-  };
-}
-
-function messageExpired({
-  conversationKey,
-  messageId,
-}: {
-  conversationKey: string;
-  messageId: string;
-}): MessageExpiredActionType {
-  return {
-    type: 'MESSAGE_EXPIRED',
-    payload: {
-      conversationKey,
-      messageId,
-    },
-  };
-}
-
-function messageChanged(messageModelProps: MessageModelProps): MessageChangedActionType {
-  return {
-    type: 'MESSAGE_CHANGED',
-    payload: messageModelProps,
-  };
-}
-
-function messagesChanged(messageModelsProps: Array<MessageModelProps>): MessagesChangedActionType {
-  return {
-    type: 'MESSAGES_CHANGED',
-    payload: messageModelsProps,
-  };
-}
-
-function messageAdded({
-  conversationKey,
-  messageModelProps,
-}: {
-  conversationKey: string;
-  messageModelProps: MessageModelProps;
-}): MessageAddedActionType {
-  return {
-    type: 'MESSAGE_ADDED',
-    payload: {
-      conversationKey,
-      messageModelProps,
-    },
-  };
-}
-
-function messageDeleted({
-  conversationKey,
-  messageId,
-}: {
-  conversationKey: string;
-  messageId: string;
-}): MessageDeletedActionType {
-  return {
-    type: 'MESSAGE_DELETED',
-    payload: {
-      conversationKey,
-      messageId,
-    },
-  };
-}
-
-export function conversationReset({
-  conversationKey,
-}: {
-  conversationKey: string;
-}): ConversationResetActionType {
-  return {
-    type: 'CONVERSATION_RESET',
-    payload: {
-      conversationKey,
-    },
-  };
-}
-
-export function openConversationExternal(
-  id: string,
-  messageId?: string
-): SelectedConversationChangedActionType {
-  window?.log?.info(`openConversationExternal with convoId: ${id}; messageId: ${messageId}`);
-  return {
-    type: 'SELECTED_CONVERSATION_CHANGED',
-    payload: {
-      id,
-      messageId,
-    },
-  };
-}
-
 // Reducer
 
 function getEmptyState(): ConversationsStateType {
   return {
     conversationLookup: {},
     messages: [],
+    messageDetailProps: undefined,
+    showRightPanel: false,
+    selectedMessageIds: [],
   };
 }
 
@@ -607,7 +378,13 @@ function sortMessages(
   return messagesSorted;
 }
 
-function handleMessageAdded(state: ConversationsStateType, action: MessageAddedActionType) {
+function handleMessageAdded(
+  state: ConversationsStateType,
+  action: PayloadAction<{
+    conversationKey: string;
+    messageModelProps: MessageModelProps;
+  }>
+) {
   const { messages } = state;
   const { conversationKey, messageModelProps: addedMessageProps } = action.payload;
   if (conversationKey === state.selectedConversation) {
@@ -631,9 +408,7 @@ function handleMessageAdded(state: ConversationsStateType, action: MessageAddedA
   return state;
 }
 
-function handleMessageChanged(state: ConversationsStateType, action: MessageChangedActionType) {
-  const { payload } = action;
-
+function handleMessageChanged(state: ConversationsStateType, payload: MessageModelProps) {
   const messageInStoreIndex = state?.messages?.findIndex(
     m => m.propsForMessage.id === payload.propsForMessage.id
   );
@@ -661,15 +436,10 @@ function handleMessageChanged(state: ConversationsStateType, action: MessageChan
   return state;
 }
 
-function handleMessagesChanged(state: ConversationsStateType, action: MessagesChangedActionType) {
-  const { payload } = action;
-
+function handleMessagesChanged(state: ConversationsStateType, payload: Array<MessageModelProps>) {
   payload.forEach(element => {
     // tslint:disable-next-line: no-parameter-reassignment
-    state = handleMessageChanged(state, {
-      payload: element,
-      type: 'MESSAGE_CHANGED',
-    });
+    state = handleMessageChanged(state, element);
   });
 
   return state;
@@ -677,7 +447,10 @@ function handleMessagesChanged(state: ConversationsStateType, action: MessagesCh
 
 function handleMessageExpiredOrDeleted(
   state: ConversationsStateType,
-  action: MessageDeletedActionType | MessageExpiredActionType
+  action: PayloadAction<{
+    messageId: string;
+    conversationKey: string;
+  }>
 ) {
   const { conversationKey, messageId } = action.payload;
   if (conversationKey === state.selectedConversation) {
@@ -709,11 +482,8 @@ function handleMessageExpiredOrDeleted(
   return state;
 }
 
-function handleConversationReset(
-  state: ConversationsStateType,
-  action: ConversationResetActionType
-) {
-  const { conversationKey } = action.payload;
+function handleConversationReset(state: ConversationsStateType, action: PayloadAction<string>) {
+  const conversationKey = action.payload;
   if (conversationKey === state.selectedConversation) {
     // just empty the list of messages
     return {
@@ -724,110 +494,220 @@ function handleConversationReset(
   return state;
 }
 
-// tslint:disable: cyclomatic-complexity
-// tslint:disable: max-func-body-length
-export function reducer(
-  state: ConversationsStateType = getEmptyState(),
-  action: ConversationActionType
-): ConversationsStateType {
-  if (action.type === 'CONVERSATION_ADDED') {
-    const { payload } = action;
-    const { id, data } = payload;
-    const { conversationLookup } = state;
+const conversationsSlice = createSlice({
+  name: 'conversations',
+  initialState: getEmptyState(),
+  reducers: {
+    showMessageDetailsView(
+      state: ConversationsStateType,
+      action: PayloadAction<MessagePropsDetails>
+    ) {
+      // force the right panel to be hidden when showing message detail view
+      return { ...state, messageDetailProps: action.payload, showRightPanel: false };
+    },
 
-    return {
-      ...state,
-      conversationLookup: {
-        ...conversationLookup,
-        [id]: data,
-      },
-    };
-  }
-  if (action.type === 'CONVERSATION_CHANGED') {
-    const { payload } = action;
-    const { id, data } = payload;
-    const { conversationLookup, selectedConversation } = state;
+    closeMessageDetailsView(state: ConversationsStateType) {
+      return { ...state, messageDetailProps: undefined };
+    },
 
-    const existing = conversationLookup[id];
-    // In the change case we only modify the lookup if we already had that conversation
-    if (!existing) {
+    openRightPanel(state: ConversationsStateType) {
+      return { ...state, showRightPanel: true };
+    },
+    closeRightPanel(state: ConversationsStateType) {
+      return { ...state, showRightPanel: false };
+    },
+    addMessageIdToSelection(state: ConversationsStateType, action: PayloadAction<string>) {
+      if (state.selectedMessageIds.some(id => id === action.payload)) {
+        return state;
+      }
+      return { ...state, selectedMessageIds: [...state.selectedMessageIds, action.payload] };
+    },
+    removeMessageIdFromSelection(state: ConversationsStateType, action: PayloadAction<string>) {
+      const index = state.selectedMessageIds.findIndex(id => id === action.payload);
+
+      if (index === -1) {
+        return state;
+      }
+      return { ...state, selectedMessageIds: state.selectedMessageIds.splice(index, 1) };
+    },
+    toggleSelectedMessageId(state: ConversationsStateType, action: PayloadAction<string>) {
+      const index = state.selectedMessageIds.findIndex(id => id === action.payload);
+
+      if (index === -1) {
+        return { ...state, selectedMessageIds: [...state.selectedMessageIds, action.payload] };
+      }
+      return { ...state, selectedMessageIds: state.selectedMessageIds.splice(index, 1) };
+    },
+    resetSelectedMessageIds(state: ConversationsStateType) {
+      return { ...state, selectedMessageIds: [] };
+    },
+
+    conversationAdded(
+      state: ConversationsStateType,
+      action: PayloadAction<{
+        id: string;
+        data: ReduxConversationType;
+      }>
+    ) {
+      const { conversationLookup } = state;
+
+      return {
+        ...state,
+        conversationLookup: {
+          ...conversationLookup,
+          [action.payload.id]: action.payload.data,
+        },
+      };
+    },
+    conversationChanged(
+      state: ConversationsStateType,
+      action: PayloadAction<{
+        id: string;
+        data: ReduxConversationType;
+      }>
+    ) {
+      const { payload } = action;
+      const { id, data } = payload;
+      const { conversationLookup, selectedConversation } = state;
+
+      const existing = conversationLookup[id];
+      // In the change case we only modify the lookup if we already had that conversation
+      if (!existing) {
+        return state;
+      }
+
+      return {
+        ...state,
+        selectedConversation,
+        conversationLookup: {
+          ...conversationLookup,
+          [id]: data,
+        },
+      };
+    },
+
+    conversationRemoved(
+      state: ConversationsStateType,
+      action: PayloadAction<{
+        id: string;
+      }>
+    ) {
+      const { payload } = action;
+      const { id } = payload;
+      const { conversationLookup, selectedConversation } = state;
+      return {
+        ...state,
+        conversationLookup: omit(conversationLookup, [id]),
+        selectedConversation: selectedConversation === id ? undefined : selectedConversation,
+      };
+    },
+
+    removeAllConversations() {
+      return getEmptyState();
+    },
+
+    messageAdded(
+      state: ConversationsStateType,
+      action: PayloadAction<{
+        conversationKey: string;
+        messageModelProps: MessageModelProps;
+      }>
+    ) {
+      return handleMessageAdded(state, action);
+    },
+
+    messageChanged(state: ConversationsStateType, action: PayloadAction<MessageModelProps>) {
+      return handleMessageChanged(state, action.payload);
+    },
+    messagesChanged(
+      state: ConversationsStateType,
+      action: PayloadAction<Array<MessageModelProps>>
+    ) {
+      return handleMessagesChanged(state, action.payload);
+    },
+
+    messageExpired(
+      state: ConversationsStateType,
+      action: PayloadAction<{
+        messageId: string;
+        conversationKey: string;
+      }>
+    ) {
+      return handleMessageExpiredOrDeleted(state, action);
+    },
+
+    messageDeleted(
+      state: ConversationsStateType,
+      action: PayloadAction<{
+        messageId: string;
+        conversationKey: string;
+      }>
+    ) {
+      return handleMessageExpiredOrDeleted(state, action);
+    },
+
+    conversationReset(state: ConversationsStateType, action: PayloadAction<string>) {
+      return handleConversationReset(state, action);
+    },
+
+    openConversationExternal(
+      state: ConversationsStateType,
+      action: PayloadAction<{
+        id: string;
+        messageId?: string;
+      }>
+    ) {
+      if (state.selectedConversation === action.payload.id) {
+        return state;
+      }
+      state.showRightPanel = false;
+      state.messageDetailProps = undefined;
+      state.selectedMessageIds = [];
+      state.selectedConversation = action.payload.id;
+      state.messages = [];
       return state;
-    }
+    },
+  },
+  extraReducers: (builder: any) => {
+    // Add reducers for additional action types here, and handle loading state as needed
+    builder.addCase(
+      fetchMessagesForConversation.fulfilled,
+      (state: ConversationsStateType, action: any) => {
+        // this is called once the messages are loaded from the db for the currently selected conversation
+        const { messagesProps, conversationKey } = action.payload as FetchedMessageResults;
+        // double check that this update is for the shown convo
+        if (conversationKey === state.selectedConversation) {
+          return {
+            ...state,
+            messages: messagesProps,
+          };
+        }
+        return state;
+      }
+    );
+  },
+});
 
-    return {
-      ...state,
-      selectedConversation,
-      conversationLookup: {
-        ...conversationLookup,
-        [id]: data,
-      },
-    };
-  }
-  if (action.type === 'CONVERSATION_REMOVED') {
-    const { payload } = action;
-    const { id } = payload;
-    const { conversationLookup, selectedConversation } = state;
-    return {
-      ...state,
-      conversationLookup: omit(conversationLookup, [id]),
-      selectedConversation: selectedConversation === id ? undefined : selectedConversation,
-    };
-  }
-  if (action.type === 'CONVERSATIONS_REMOVE_ALL') {
-    return getEmptyState();
-  }
-
-  if (action.type === 'SELECTED_CONVERSATION_CHANGED') {
-    const { payload } = action;
-    const { id } = payload;
-    const oldSelectedConversation = state.selectedConversation;
-    const newSelectedConversation = id;
-
-    if (newSelectedConversation !== oldSelectedConversation) {
-      // empty the message list
-      return {
-        ...state,
-        messages: [],
-        selectedConversation: id,
-      };
-    }
-    return {
-      ...state,
-      selectedConversation: id,
-    };
-  }
-
-  // this is called once the messages are loaded from the db for the currently selected conversation
-  if (action.type === fetchMessagesForConversation.fulfilled.type) {
-    const { messagesProps, conversationKey } = action.payload as FetchedMessageResults;
-    // double check that this update is for the shown convo
-    if (conversationKey === state.selectedConversation) {
-      return {
-        ...state,
-        messages: messagesProps,
-      };
-    }
-    return state;
-  }
-
-  if (action.type === 'MESSAGE_CHANGED') {
-    return handleMessageChanged(state, action);
-  }
-
-  if (action.type === 'MESSAGES_CHANGED') {
-    return handleMessagesChanged(state, action);
-  }
-
-  if (action.type === 'MESSAGE_ADDED') {
-    return handleMessageAdded(state, action);
-  }
-  if (action.type === 'MESSAGE_EXPIRED' || action.type === 'MESSAGE_DELETED') {
-    return handleMessageExpiredOrDeleted(state, action);
-  }
-
-  if (action.type === 'CONVERSATION_RESET') {
-    return handleConversationReset(state, action);
-  }
-
-  return state;
-}
+// destructures
+export const { actions, reducer } = conversationsSlice;
+export const {
+  // conversation and messages list
+  conversationAdded,
+  conversationChanged,
+  conversationRemoved,
+  removeAllConversations,
+  messageExpired,
+  messageAdded,
+  messageDeleted,
+  conversationReset,
+  messageChanged,
+  messagesChanged,
+  openConversationExternal,
+  // layout stuff
+  showMessageDetailsView,
+  closeMessageDetailsView,
+  openRightPanel,
+  closeRightPanel,
+  addMessageIdToSelection,
+  resetSelectedMessageIds,
+} = actions;

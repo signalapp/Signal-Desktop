@@ -38,10 +38,9 @@ import { MediaItemType } from '../../LightboxGallery';
 import useInterval from 'react-use/lib/useInterval';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTimerOptions } from '../../../state/selectors/timerOptions';
-import { closeRightPanel } from '../../../state/ducks/conversationScreen';
-import { isRightPanelShowing } from '../../../state/selectors/conversationScreen';
-import { getSelectedConversation } from '../../../state/selectors/conversations';
+import { getSelectedConversation, isRightPanelShowing } from '../../../state/selectors/conversations';
 import { useMembersAvatars } from '../../../hooks/useMembersAvatar';
+import { closeRightPanel } from '../../../state/ducks/conversations';
 
 type Props = {
   memberAvatars?: Array<ConversationAvatar>; // this is added by usingClosedConversationDetails

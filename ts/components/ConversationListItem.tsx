@@ -243,7 +243,7 @@ const ConversationListItem = (props: Props) => {
       <div
         role="button"
         onClick={() => {
-          dispatch(openConversationExternal(conversationId));
+          dispatch(openConversationExternal({ id: conversationId }));
         }}
         onContextMenu={(e: any) => {
           contextMenu.show({
