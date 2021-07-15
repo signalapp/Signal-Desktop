@@ -78,7 +78,7 @@ export type CallbackResultType = {
 type PreviewType = {
   url: string;
   title: string;
-  image: AttachmentType;
+  image?: AttachmentType;
 };
 
 type QuoteAttachmentType = {
@@ -573,7 +573,9 @@ export default class MessageSender {
       const preview = await Promise.all(
         (message.preview || []).map(async (item: PreviewType) => ({
           ...item,
-          image: await this.makeAttachmentPointer(item.image),
+          image: item.image
+            ? await this.makeAttachmentPointer(item.image)
+            : undefined,
         }))
       );
       // eslint-disable-next-line no-param-reassign
