@@ -92,7 +92,6 @@ export interface ConversationAttributes {
   triggerNotificationsFor: ConversationNotificationSettingType;
   isTrustedForAttachmentDownload: boolean;
   isPinned: boolean;
-  lastReadTimestamp: number;
 }
 
 export interface ConversationAttributesOptionals {
@@ -161,7 +160,6 @@ export const fillConvoAttributesWithDefaults = (
     triggerNotificationsFor: 'all', // if the settings is not set in the db, this is the default
     isTrustedForAttachmentDownload: false, // we don't trust a contact until we say so
     isPinned: false,
-    lastReadTimestamp: 0,
   });
 };
 
@@ -190,13 +188,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     this.updateLastMessage = _.throttle(this.bouncyUpdateLastMessage.bind(this), 1000);
     this.throttledNotify = _.debounce(this.notify, 500, { maxWait: 1000 });
     //start right away the function is called, and wait 1sec before calling it again
-    this.markRead = (readAt: number) => {
-      const lastReadTimestamp = this.get('lastReadTimestamp');
-      if (readAt > lastReadTimestamp) {
-        this.set('lastReadTimestamp', readAt);
-      }
-      _.debounce(this.markReadBouncy, 1000, { leading: true });
-    }
+    this.markRead = _.debounce(this.markReadBouncy, 1000, { leading: true });
     // Listening for out-of-band data updates
 
     this.typingRefreshTimer = null;
@@ -910,9 +902,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   public async markReadBouncy(newestUnreadDate: number, providedOptions: any = {}) {
-    if (this.get('lastReadTimestamp') >= 0) {
-      return;
-    }
 
     const options = providedOptions || {};
     _.defaults(options, { sendReadReceipts: true });

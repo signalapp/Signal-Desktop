@@ -1,6 +1,6 @@
 import React from 'react';
 import { useFocus } from '../../hooks/useFocus';
-import { InView } from 'react-intersection-observer';
+import { InView, useInView } from 'react-intersection-observer';
 
 type ReadableMessageProps = {
   children: React.ReactNode;
@@ -11,6 +11,22 @@ type ReadableMessageProps = {
 };
 
 export const ReadableMessage = (props: ReadableMessageProps) => {
+  /*const { ref, inView, entry } = useInView({
+    threshold: 1,
+    delay: 200,
+    triggerOnce: true,
+    trackVisibility: true,
+  });
+
+  const { onChange } = props;
+  useFocus(() => onChange(inView));
+
+  return (
+    <div ref={ref} id={props.id} onContextMenu={props.onContextMenu} className={props.className} onChange={onChange}>
+      {props.children}
+    </div>
+  )*/
+
   const { onChange } = props;
   useFocus(onChange);
 

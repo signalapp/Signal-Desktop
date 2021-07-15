@@ -729,8 +729,8 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
       divClasses.push('flash-green-once');
     }
 
-    const onVisible = (inView: boolean) => {
-      if (inView && shouldMarkReadWhenVisible && window.isFocused()) {
+    const onVisible = (inView: boolean | Object) => {
+      if (inView === true && shouldMarkReadWhenVisible && window.isFocused()) {
         // mark the message as read.
         // this will trigger the expire timer.
         void markRead(Date.now());
