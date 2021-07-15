@@ -2441,30 +2441,24 @@ export function initialize({
       const SGX_CONSTANTS = getSgxConstants();
       const quote = Buffer.from(quoteArrayBuffer);
 
-      let off = 0;
-
-      const quoteVersion = quote.readInt32LE(off) & 0xffff;
-      off += 4;
+      const quoteVersion = quote.readInt16LE(0) & 0xffff;
       if (quoteVersion < 0 || quoteVersion > 2) {
         throw new Error(`Unknown version ${quoteVersion}`);
       }
 
-      const miscSelect = quote.slice(off, off + 64);
-      off += 64;
+      const miscSelect = quote.slice(64, 64 + 4);
       if (!miscSelect.every(byte => byte === 0)) {
         throw new Error('Quote miscSelect invalid!');
       }
 
-      const reserved1 = quote.slice(off, off + 28);
-      off += 28;
+      const reserved1 = quote.slice(68, 68 + 28);
       if (!reserved1.every(byte => byte === 0)) {
         throw new Error('Quote reserved1 invalid!');
       }
 
       const flags = Long.fromBytesLE(
-        Array.from(quote.slice(off, off + 8).values())
+        Array.from(quote.slice(96, 96 + 8).values())
       );
-      off += 8;
       if (
         flags.and(SGX_CONSTANTS.SGX_FLAGS_RESERVED).notEquals(0) ||
         flags.and(SGX_CONSTANTS.SGX_FLAGS_INITTED).equals(0) ||
@@ -2474,28 +2468,24 @@ export function initialize({
       }
 
       const xfrm = Long.fromBytesLE(
-        Array.from(quote.slice(off, off + 8).values())
+        Array.from(quote.slice(104, 104 + 8).values())
       );
-      off += 8;
       if (xfrm.and(SGX_CONSTANTS.SGX_XFRM_RESERVED).notEquals(0)) {
         throw new Error(`Quote xfrm invalid ${xfrm}`);
       }
 
-      const mrenclave = quote.slice(off, off + 32);
-      off += 32;
+      const mrenclave = quote.slice(112, 112 + 32);
       const enclaveIdBytes = Bytes.fromHex(directoryEnclaveId);
       if (mrenclave.compare(enclaveIdBytes) !== 0) {
         throw new Error('Quote mrenclave invalid!');
       }
 
-      const reserved2 = quote.slice(off, off + 32);
-      off += 32;
+      const reserved2 = quote.slice(144, 144 + 32);
       if (!reserved2.every(byte => byte === 0)) {
         throw new Error('Quote reserved2 invalid!');
       }
 
-      const reportData = quote.slice(off, off + 64);
-      off += 64;
+      const reportData = quote.slice(368, 368 + 64);
       const serverStaticPublicBytes = new Uint8Array(serverStaticPublic);
       if (
         !reportData.every((byte, index) => {
@@ -2508,26 +2498,22 @@ export function initialize({
         throw new Error('Quote report_data invalid!');
       }
 
-      const reserved3 = quote.slice(off, off + 96);
-      off += 96;
+      const reserved3 = quote.slice(208, 208 + 96);
       if (!reserved3.every(byte => byte === 0)) {
         throw new Error('Quote reserved3 invalid!');
       }
 
-      const reserved4 = quote.slice(off, off + 60);
-      off += 60;
+      const reserved4 = quote.slice(308, 308 + 60);
       if (!reserved4.every(byte => byte === 0)) {
         throw new Error('Quote reserved4 invalid!');
       }
 
       const signatureLength = quote.readInt32LE(432) >>> 0;
-      off += 4;
       if (signatureLength !== quote.byteLength - 436) {
         throw new Error(`Bad signatureLength ${signatureLength}`);
       }
 
-      // const signature = quote.slice(off, signatureLength);
-      // off += signatureLength
+      // const signature = quote.slice(436, 436 + signatureLength);
     }
 
     function validateAttestationSignatureBody(
