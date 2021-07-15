@@ -19,6 +19,7 @@ import {
 } from '../../components/conversation/ConversationHeader';
 import { LightBoxOptions } from '../../components/session/conversation/SessionConversation';
 import { ReplyingToMessageProps } from '../../components/session/conversation/SessionCompositionBox';
+import { createSlice } from '@reduxjs/toolkit';
 
 export const getConversations = (state: StateType): ConversationsStateType => state.conversations;
 
@@ -294,4 +295,9 @@ export const getLightBoxOptions = createSelector(
 export const getQuotedMessage = createSelector(
   getConversations,
   (state: ConversationsStateType): ReplyingToMessageProps | undefined => state.quotedMessage
+);
+
+
+export const areMoreMessagesLoading = createSlice(getConversations,
+  (state: ConversationsStateType): boolean => state.
 );

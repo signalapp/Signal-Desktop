@@ -7,7 +7,6 @@ import { SessionScrollButton } from '../SessionScrollButton';
 import { Constants } from '../../../session';
 import _ from 'lodash';
 import { contextMenu } from 'react-contexify';
-import { AttachmentType, AttachmentTypeWithPath } from '../../../types/Attachment';
 import { GroupNotification } from '../../conversation/GroupNotification';
 import { GroupInvitation } from '../../conversation/GroupInvitation';
 import {
@@ -15,7 +14,6 @@ import {
   PropsForExpirationTimer,
   PropsForGroupInvitation,
   PropsForGroupUpdate,
-  PropsForMessage,
   ReduxConversationType,
   SortedMessageModelProps,
 } from '../../../state/ducks/conversations';
@@ -39,10 +37,8 @@ import {
   getMessagesOfSelectedConversation,
   getSelectedConversation,
   getSelectedConversationKey,
-  getSelectedMessageIds,
   isMessageSelectionMode,
 } from '../../../state/selectors/conversations';
-import { saveAttachmentToDisk } from '../../../util/attachmentsUtil';
 
 interface State {
   showScrollButton: boolean;
@@ -164,6 +160,91 @@ const GenericMessageItem = (props: {
   );
 };
 
+const MessageList = ({ hasNextPage: boolean, isNextPageLoading, list, loadNextPage }) => {
+  const messagesProps = useSelector(getMessagesOfSelectedConversation);
+  let playableMessageIndex = 0;
+
+  return (
+    <>
+      {messagesProps.map((messageProps: SortedMessageModelProps) => {
+        const timerProps = messageProps.propsForTimerNotification;
+        const propsForGroupInvitation = messageProps.propsForGroupInvitation;
+        const propsForDataExtractionNotification = messageProps.propsForDataExtractionNotification;
+
+        const groupNotificationProps = messageProps.propsForGroupNotification;
+
+        // IF we found the first unread message
+        // AND we are not scrolled all the way to the bottom
+        // THEN, show the unread banner for the current message
+        const showUnreadIndicator = Boolean(messageProps.firstUnread);
+        console.warn('&& this.getScrollOffsetBottomPx() !== 0');
+
+        if (groupNotificationProps) {
+          return (
+            <GroupUpdateItem
+              key={messageProps.propsForMessage.id}
+              groupNotificationProps={groupNotificationProps}
+              messageId={messageProps.propsForMessage.id}
+              showUnreadIndicator={showUnreadIndicator}
+            />
+          );
+        }
+
+        if (propsForGroupInvitation) {
+          return (
+            <GroupInvitationItem
+              key={messageProps.propsForMessage.id}
+              propsForGroupInvitation={propsForGroupInvitation}
+              messageId={messageProps.propsForMessage.id}
+              showUnreadIndicator={showUnreadIndicator}
+            />
+          );
+        }
+
+        if (propsForDataExtractionNotification) {
+          return (
+            <DataExtractionNotificationItem
+              key={messageProps.propsForMessage.id}
+              propsForDataExtractionNotification={propsForDataExtractionNotification}
+              messageId={messageProps.propsForMessage.id}
+              showUnreadIndicator={showUnreadIndicator}
+            />
+          );
+        }
+
+        if (timerProps) {
+          return (
+            <TimerNotificationItem
+              key={messageProps.propsForMessage.id}
+              timerProps={timerProps}
+              messageId={messageProps.propsForMessage.id}
+              showUnreadIndicator={showUnreadIndicator}
+            />
+          );
+        }
+
+        if (!messageProps) {
+          return;
+        }
+
+        playableMessageIndex++;
+
+        // firstMessageOfSeries tells us to render the avatar only for the first message
+        // in a series of messages from the same user
+        return (
+          <GenericMessageItem
+            key={messageProps.propsForMessage.id}
+            playableMessageIndex={playableMessageIndex}
+            messageId={messageProps.propsForMessage.id}
+            messageProps={messageProps}
+            showUnreadIndicator={showUnreadIndicator}
+          />
+        );
+      })}
+    </>
+  );
+};
+
 class SessionMessagesListInner extends React.Component<Props, State> {
   private scrollOffsetBottomPx: number = Number.MAX_VALUE;
   private ignoreScrollEvents: boolean;
@@ -264,7 +345,7 @@ class SessionMessagesListInner extends React.Component<Props, State> {
           key="typing-bubble"
         />
 
-        {this.renderMessages()}
+        <MessageList />
 
         <SessionScrollButton
           show={showScrollButton}
@@ -272,92 +353,6 @@ class SessionMessagesListInner extends React.Component<Props, State> {
           key="scroll-down-button"
         />
       </div>
-    );
-  }
-
-  private renderMessages() {
-    const { messagesProps } = this.props;
-    let playableMessageIndex = 0;
-
-    return (
-      <>
-        {messagesProps.map((messageProps: SortedMessageModelProps) => {
-          const timerProps = messageProps.propsForTimerNotification;
-          const propsForGroupInvitation = messageProps.propsForGroupInvitation;
-          const propsForDataExtractionNotification =
-            messageProps.propsForDataExtractionNotification;
-
-          const groupNotificationProps = messageProps.propsForGroupNotification;
-
-          // IF we found the first unread message
-          // AND we are not scrolled all the way to the bottom
-          // THEN, show the unread banner for the current message
-          const showUnreadIndicator =
-            Boolean(messageProps.firstUnread) && this.getScrollOffsetBottomPx() !== 0;
-
-          if (groupNotificationProps) {
-            return (
-              <GroupUpdateItem
-                key={messageProps.propsForMessage.id}
-                groupNotificationProps={groupNotificationProps}
-                messageId={messageProps.propsForMessage.id}
-                showUnreadIndicator={showUnreadIndicator}
-              />
-            );
-          }
-
-          if (propsForGroupInvitation) {
-            return (
-              <GroupInvitationItem
-                key={messageProps.propsForMessage.id}
-                propsForGroupInvitation={propsForGroupInvitation}
-                messageId={messageProps.propsForMessage.id}
-                showUnreadIndicator={showUnreadIndicator}
-              />
-            );
-          }
-
-          if (propsForDataExtractionNotification) {
-            return (
-              <DataExtractionNotificationItem
-                key={messageProps.propsForMessage.id}
-                propsForDataExtractionNotification={propsForDataExtractionNotification}
-                messageId={messageProps.propsForMessage.id}
-                showUnreadIndicator={showUnreadIndicator}
-              />
-            );
-          }
-
-          if (timerProps) {
-            return (
-              <TimerNotificationItem
-                key={messageProps.propsForMessage.id}
-                timerProps={timerProps}
-                messageId={messageProps.propsForMessage.id}
-                showUnreadIndicator={showUnreadIndicator}
-              />
-            );
-          }
-
-          if (!messageProps) {
-            return;
-          }
-
-          playableMessageIndex++;
-
-          // firstMessageOfSeries tells us to render the avatar only for the first message
-          // in a series of messages from the same user
-          return (
-            <GenericMessageItem
-              key={messageProps.propsForMessage.id}
-              playableMessageIndex={playableMessageIndex}
-              messageId={messageProps.propsForMessage.id}
-              messageProps={messageProps}
-              showUnreadIndicator={showUnreadIndicator}
-            />
-          );
-        })}
-      </>
     );
   }
 

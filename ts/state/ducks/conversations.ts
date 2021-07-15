@@ -238,6 +238,7 @@ export type ConversationsStateType = {
   selectedMessageIds: Array<string>;
   lightBox?: LightBoxOptions;
   quotedMessage?: ReplyingToMessageProps;
+  areMoreMessagesBeingFetched: boolean;
 };
 
 async function getMessages(
@@ -392,6 +393,7 @@ function getEmptyState(): ConversationsStateType {
     messageDetailProps: undefined,
     showRightPanel: false,
     selectedMessageIds: [],
+    areMoreMessagesBeingFetched: false,
   };
 }
 
@@ -742,11 +744,34 @@ const conversationsSlice = createSlice({
           return {
             ...state,
             messages: messagesProps,
+            areMoreMessagesBeingFetched: false,
           };
         }
         return state;
       }
     );
+    builder.addCase(
+      fetchMessagesForConversation.fulfilled,
+      (state: ConversationsStateType, action: any) => {
+        // this is called once the messages are loaded from the db for the currently selected conversation
+        const { messagesProps, conversationKey } = action.payload as FetchedMessageResults;
+        // double check that this update is for the shown convo
+        if (conversationKey === state.selectedConversation) {
+          return {
+            ...state,
+            messages: messagesProps,
+            areMoreMessagesBeingFetched: false,
+          };
+        }
+        return state;
+      }
+    );
+    builder.addCase(fetchMessagesForConversation.pending, (state: ConversationsStateType) => {
+      state.areMoreMessagesBeingFetched = true;
+    });
+    builder.addCase(fetchMessagesForConversation.rejected, (state: ConversationsStateType) => {
+      state.areMoreMessagesBeingFetched = false;
+    });
   },
 });
 
