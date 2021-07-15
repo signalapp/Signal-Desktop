@@ -17,6 +17,7 @@ import type { ReactionType } from '../types/Reactions';
 import type { ConversationColorType, CustomColorType } from '../types/Colors';
 import { StorageAccessType } from '../types/Storage.d';
 import type { AttachmentType } from '../types/Attachment';
+import { BodyRangesType } from '../types/Util';
 
 export type AttachmentDownloadJobTypeType =
   | 'long-message'
@@ -83,9 +84,32 @@ export type SearchResultMessageType = {
 };
 export type ClientSearchResultMessageType = MessageType & {
   json: string;
-  bodyRanges: [];
+  bodyRanges: BodyRangesType;
   snippet: string;
 };
+
+export type SentProtoType = {
+  contentHint: number;
+  proto: Buffer;
+  timestamp: number;
+};
+export type SentProtoWithMessageIdsType = SentProtoType & {
+  messageIds: Array<string>;
+};
+export type SentRecipientsType = Record<string, Array<number>>;
+export type SentMessagesType = Array<string>;
+
+// These two are for test only
+export type SentRecipientsDBType = {
+  payloadId: number;
+  recipientUuid: string;
+  deviceId: number;
+};
+export type SentMessageDBType = {
+  payloadId: number;
+  messageId: string;
+};
+
 export type SenderKeyType = {
   // Primary key
   id: string;
@@ -215,6 +239,36 @@ export type DataInterface = {
   getAllSenderKeys: () => Promise<Array<SenderKeyType>>;
   removeSenderKeyById: (id: string) => Promise<void>;
 
+  insertSentProto: (
+    proto: SentProtoType,
+    options: {
+      recipients: SentRecipientsType;
+      messageIds: SentMessagesType;
+    }
+  ) => Promise<number>;
+  deleteSentProtosOlderThan: (timestamp: number) => Promise<void>;
+  deleteSentProtoByMessageId: (messageId: string) => Promise<void>;
+  insertProtoRecipients: (options: {
+    id: number;
+    recipientUuid: string;
+    deviceIds: Array<number>;
+  }) => Promise<void>;
+  deleteSentProtoRecipient: (options: {
+    timestamp: number;
+    recipientUuid: string;
+    deviceId: number;
+  }) => Promise<void>;
+  getSentProtoByRecipient: (options: {
+    now: number;
+    recipientUuid: string;
+    timestamp: number;
+  }) => Promise<SentProtoWithMessageIdsType | undefined>;
+  removeAllSentProtos: () => Promise<void>;
+  getAllSentProtos: () => Promise<Array<SentProtoType>>;
+  // Test-only
+  _getAllSentProtoRecipients: () => Promise<Array<SentRecipientsDBType>>;
+  _getAllSentProtoMessageIds: () => Promise<Array<SentMessageDBType>>;
+
   createOrUpdateSession: (data: SessionType) => Promise<void>;
   createOrUpdateSessions: (array: Array<SessionType>) => Promise<void>;
   commitSessionsAndUnprocessed(options: {
@@ -254,6 +308,36 @@ export type DataInterface = {
     currentId: string
   ) => Promise<void>;
   getNextTapToViewMessageTimestampToAgeOut: () => Promise<undefined | number>;
+
+  getUnreadCountForConversation: (conversationId: string) => Promise<number>;
+  getUnreadByConversationAndMarkRead: (
+    conversationId: string,
+    newestUnreadId: number,
+    readAt?: number
+  ) => Promise<
+    Array<
+      Pick<MessageType, 'id' | 'source' | 'sourceUuid' | 'sent_at' | 'type'>
+    >
+  >;
+  getUnreadReactionsAndMarkRead: (
+    conversationId: string,
+    newestUnreadId: number
+  ) => Promise<
+    Array<
+      Pick<ReactionType, 'targetAuthorUuid' | 'targetTimestamp' | 'messageId'>
+    >
+  >;
+  markReactionAsRead: (
+    targetAuthorUuid: string,
+    targetTimestamp: number
+  ) => Promise<ReactionType | undefined>;
+  removeReactionFromConversation: (reaction: {
+    emoji: string;
+    fromId: string;
+    targetAuthorUuid: string;
+    targetTimestamp: number;
+  }) => Promise<void>;
+  addReaction: (reactionObj: ReactionType) => Promise<void>;
 
   getUnprocessedCount: () => Promise<number>;
   getAllUnprocessed: () => Promise<Array<UnprocessedType>>;
@@ -391,33 +475,6 @@ export type ServerInterface = DataInterface & {
     ourConversationId: string;
   }) => Promise<MessageType | undefined>;
   getTapToViewMessagesNeedingErase: () => Promise<Array<MessageType>>;
-  getUnreadCountForConversation: (conversationId: string) => Promise<number>;
-  getUnreadByConversationAndMarkRead: (
-    conversationId: string,
-    newestUnreadId: number,
-    readAt?: number
-  ) => Promise<
-    Array<
-      Pick<MessageType, 'id' | 'source' | 'sourceUuid' | 'sent_at' | 'type'>
-    >
-  >;
-  getUnreadReactionsAndMarkRead: (
-    conversationId: string,
-    newestUnreadId: number
-  ) => Promise<
-    Array<Pick<ReactionType, 'targetAuthorUuid' | 'targetTimestamp'>>
-  >;
-  markReactionAsRead: (
-    targetAuthorUuid: string,
-    targetTimestamp: number
-  ) => Promise<ReactionType | undefined>;
-  removeReactionFromConversation: (reaction: {
-    emoji: string;
-    fromId: string;
-    targetAuthorUuid: string;
-    targetTimestamp: number;
-  }) => Promise<void>;
-  addReaction: (reactionObj: ReactionType) => Promise<void>;
   removeConversation: (id: Array<string> | string) => Promise<void>;
   removeMessage: (id: string) => Promise<void>;
   removeMessages: (ids: Array<string>) => Promise<void>;
@@ -530,33 +587,6 @@ export type ClientInterface = DataInterface & {
   getTapToViewMessagesNeedingErase: (options: {
     MessageCollection: typeof MessageModelCollectionType;
   }) => Promise<MessageModelCollectionType>;
-  getUnreadCountForConversation: (conversationId: string) => Promise<number>;
-  getUnreadByConversationAndMarkRead: (
-    conversationId: string,
-    newestUnreadId: number,
-    readAt?: number
-  ) => Promise<
-    Array<
-      Pick<MessageType, 'id' | 'source' | 'sourceUuid' | 'sent_at' | 'type'>
-    >
-  >;
-  getUnreadReactionsAndMarkRead: (
-    conversationId: string,
-    newestUnreadId: number
-  ) => Promise<
-    Array<Pick<ReactionType, 'targetAuthorUuid' | 'targetTimestamp'>>
-  >;
-  markReactionAsRead: (
-    targetAuthorUuid: string,
-    targetTimestamp: number
-  ) => Promise<ReactionType | undefined>;
-  removeReactionFromConversation: (reaction: {
-    emoji: string;
-    fromId: string;
-    targetAuthorUuid: string;
-    targetTimestamp: number;
-  }) => Promise<void>;
-  addReaction: (reactionObj: ReactionType) => Promise<void>;
   removeConversation: (
     id: string,
     options: { Conversation: typeof ConversationModel }

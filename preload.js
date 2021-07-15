@@ -50,6 +50,8 @@ try {
   window.GV2_MIGRATION_DISABLE_ADD = false;
   window.GV2_MIGRATION_DISABLE_INVITE = false;
 
+  window.RETRY_DELAY = false;
+
   window.platform = process.platform;
   window.getTitle = () => title;
   window.getLocale = () => config.locale;
@@ -155,6 +157,10 @@ try {
   window.shutdown = () => {
     window.log.info('shutdown');
     ipc.send('shutdown');
+  };
+  window.showDebugLog = () => {
+    window.log.info('showDebugLog');
+    ipc.send('show-debug-log');
   };
 
   window.closeAbout = () => ipc.send('close-about');

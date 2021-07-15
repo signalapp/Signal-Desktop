@@ -9,16 +9,12 @@ import {
   ConversationModelCollectionType,
   ConversationAttributesTypeType,
 } from './model-types.d';
-import { SendOptionsType, CallbackResultType } from './textsecure/SendMessage';
 import { ConversationModel } from './models/conversations';
 import { maybeDeriveGroupV2Id } from './groups';
 import { assert } from './util/assert';
 import { isValidGuid } from './util/isValidGuid';
 import { map, reduce } from './util/iterables';
 import { isGroupV1, isGroupV2 } from './util/whatTypeOfConversation';
-import { deprecated } from './util/deprecated';
-import { getSendOptions } from './util/getSendOptions';
-import { handleMessageSend } from './util/handleMessageSend';
 
 const MAX_MESSAGE_BODY_LENGTH = 64 * 1024;
 
@@ -311,6 +307,25 @@ export class ConversationController {
       );
     }
     return conversationId;
+  }
+
+  getOurConversationOrThrow(): ConversationModel {
+    const conversationId = this.getOurConversationIdOrThrow();
+    const conversation = this.get(conversationId);
+    if (!conversation) {
+      throw new Error(
+        'getOurConversationOrThrow: Failed to fetch our own conversation'
+      );
+    }
+
+    return conversation;
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  areWePrimaryDevice(): boolean {
+    const ourDeviceId = window.textsecure.storage.user.getDeviceId();
+
+    return ourDeviceId === 1;
   }
 
   /**
@@ -728,25 +743,6 @@ export class ConversationController {
     }
 
     return null;
-  }
-
-  async prepareForSend(
-    id: string | undefined,
-    options?: { syncMessage?: boolean }
-  ): Promise<{
-    wrap: (
-      promise: Promise<CallbackResultType | void | null>
-    ) => Promise<CallbackResultType | void | null>;
-    sendOptions: SendOptionsType | undefined;
-  }> {
-    deprecated('prepareForSend');
-    // id is any valid conversation identifier
-    const conversation = this.get(id);
-    const sendOptions = conversation
-      ? await getSendOptions(conversation.attributes, options)
-      : undefined;
-
-    return { wrap: handleMessageSend, sendOptions };
   }
 
   async getAllGroupsInvolvingId(

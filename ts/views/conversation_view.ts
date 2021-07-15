@@ -202,6 +202,24 @@ Whisper.TapToViewExpiredOutgoingToast = Whisper.ToastView.extend({
   },
 });
 
+Whisper.DecryptionErrorToast = Whisper.ToastView.extend({
+  className: 'toast toast-clickable',
+  initialize() {
+    this.timeout = 10000;
+  },
+  events: {
+    click: 'onClick',
+  },
+  render_attributes() {
+    return {
+      toastMessage: window.i18n('decryptionErrorToast'),
+    };
+  },
+  onClick() {
+    window.showDebugLog();
+  },
+});
+
 Whisper.FileSavedToast = Whisper.ToastView.extend({
   className: 'toast toast-clickable',
   initialize(options: any) {
@@ -2939,7 +2957,10 @@ Whisper.ConversationView = Whisper.View.extend({
       okText: window.i18n('delete'),
       resolve: async () => {
         try {
-          await this.model.sendDeleteForEveryoneMessage(message.get('sent_at'));
+          await this.model.sendDeleteForEveryoneMessage({
+            id: message.id,
+            timestamp: message.get('sent_at'),
+          });
         } catch (error) {
           window.log.error(
             'Error sending delete-for-everyone',
@@ -3673,6 +3694,7 @@ Whisper.ConversationView = Whisper.View.extend({
       }
 
       await this.model.sendReactionMessage(reaction, {
+        messageId,
         targetAuthorUuid: messageModel.getSourceUuid(),
         targetTimestamp: messageModel.get('sent_at'),
       });

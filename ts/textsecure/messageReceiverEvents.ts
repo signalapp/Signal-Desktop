@@ -219,6 +219,7 @@ export type ReadEventData = Readonly<{
   envelopeTimestamp: number;
   source?: string;
   sourceUuid?: string;
+  sourceDevice?: number;
 }>;
 
 export class ReadEvent extends ConfirmableEvent {

@@ -167,7 +167,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
   isSelected?: boolean;
 
-  syncPromise?: Promise<unknown>;
+  syncPromise?: Promise<CallbackResultType | void>;
 
   initialize(attributes: unknown): void {
     if (_.isObject(attributes)) {
@@ -774,8 +774,10 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   }
 
   async cleanup(): Promise<void> {
-    const { messageDeleted } = window.reduxActions.conversations;
-    messageDeleted(this.id, this.get('conversationId'));
+    window.reduxActions?.conversations?.messageDeleted(
+      this.id,
+      this.get('conversationId')
+    );
 
     this.getConversation()?.debouncedUpdateLastMessage?.();
 
@@ -868,26 +870,26 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       }
 
       const timestamp = this.get('sent_at');
-      const ourNumber = window.textsecure.storage.user.getNumber();
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const ourUuid = window.textsecure.storage.user.getUuid()!;
-      const {
-        wrap,
-        sendOptions,
-      } = await window.ConversationController.prepareForSend(
-        ourNumber || ourUuid,
-        {
-          syncMessage: true,
-        }
-      );
+      const ourConversation = window.ConversationController.getOurConversationOrThrow();
+      const sendOptions = await getSendOptions(ourConversation.attributes, {
+        syncMessage: true,
+      });
 
-      await wrap(
+      if (window.ConversationController.areWePrimaryDevice()) {
+        window.log.warn(
+          'markViewed: We are primary device; not sending view sync'
+        );
+        return;
+      }
+
+      await handleMessageSend(
         window.textsecure.messaging.syncViewOnceOpen(
           sender,
           senderUuid,
           timestamp,
           sendOptions
-        )
+        ),
+        { messageIds: [this.id], sendType: 'viewOnceSync' }
       );
     }
   }
@@ -987,6 +989,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         Message: window.Whisper.Message,
       });
     }
+
+    await window.Signal.Data.deleteSentProtoByMessageId(this.id);
   }
 
   isEmpty(): boolean {
@@ -1346,11 +1350,18 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         // Important to ensure that we don't consider this recipient list to be the
         //   entire member list.
         isPartialSend: true,
+        messageId: this.id,
         sendOptions: options,
+        sendType: 'messageRetry',
       });
     }
 
-    return this.send(handleMessageSend(promise));
+    return this.send(
+      handleMessageSend(promise, {
+        messageIds: [this.id],
+        sendType: 'messageRetry',
+      })
+    );
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -1429,10 +1440,11 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
     const parentConversation = this.getConversation();
     const groupId = parentConversation?.get('groupId');
-    const {
-      wrap,
-      sendOptions,
-    } = await window.ConversationController.prepareForSend(identifier);
+
+    const recipientConversation = window.ConversationController.get(identifier);
+    const sendOptions = recipientConversation
+      ? await getSendOptions(recipientConversation.attributes)
+      : undefined;
     const group =
       groupId && isGroupV1(parentConversation?.attributes)
         ? {
@@ -1479,7 +1491,12 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       options: sendOptions,
     });
 
-    return this.send(wrap(promise));
+    return this.send(
+      handleMessageSend(promise, {
+        messageIds: [this.id],
+        sendType: 'messageRetry',
+      })
+    );
   }
 
   removeOutgoingErrors(incomingIdentifier: string): CustomError {
@@ -1689,18 +1706,13 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       //    possible.
       await this.send(
         handleMessageSend(
-          // TODO: DESKTOP-724
-          // resetSession returns `Array<void>` which is incompatible with the
-          // expected promise return values. `[]` is truthy and handleMessageSend
-          // assumes it's a valid callback result type
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
           window.textsecure.messaging.resetSession(
             options.uuid,
             options.e164,
             options.now,
             sendOptions
-          )
+          ),
+          { messageIds: [], sendType: 'resetSession' }
         )
       );
 
@@ -1725,10 +1737,13 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         sent: true,
         expirationStartTimestamp: Date.now(),
       });
-      const result: typeof window.WhatIsThis = await this.sendSyncMessage();
+      const result = await this.sendSyncMessage();
       this.set({
         // We have to do this afterward, since we didn't have a previous send!
-        unidentifiedDeliveries: result ? result.unidentifiedDeliveries : null,
+        unidentifiedDeliveries:
+          result && result.unidentifiedDeliveries
+            ? result.unidentifiedDeliveries
+            : undefined,
 
         // These are unique to a Note to Self message - immediately read/delivered
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -1751,30 +1766,31 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     }
   }
 
-  async sendSyncMessage(): Promise<WhatIsThis> {
-    const ourNumber = window.textsecure.storage.user.getNumber();
-    const ourUuid = window.textsecure.storage.user.getUuid();
-    const {
-      wrap,
-      sendOptions,
-    } = await window.ConversationController.prepareForSend(
-      ourUuid || ourNumber,
-      {
-        syncMessage: true,
-      }
-    );
+  async sendSyncMessage(): Promise<CallbackResultType | void> {
+    const ourConversation = window.ConversationController.getOurConversationOrThrow();
+    const sendOptions = await getSendOptions(ourConversation.attributes, {
+      syncMessage: true,
+    });
+
+    if (window.ConversationController.areWePrimaryDevice()) {
+      window.log.warn(
+        'sendSyncMessage: We are primary device; not sending sync message'
+      );
+      this.set({ dataMessage: undefined });
+      return;
+    }
 
     this.syncPromise = this.syncPromise || Promise.resolve();
     const next = async () => {
       const dataMessage = this.get('dataMessage');
       if (!dataMessage) {
-        return Promise.resolve();
+        return;
       }
       const isUpdate = Boolean(this.get('synced'));
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const conv = this.getConversation()!;
 
-      return wrap(
+      return handleMessageSend(
         window.textsecure.messaging.sendSyncMessage({
           encodedDataMessage: dataMessage,
           timestamp: this.get('sent_at'),
@@ -1786,8 +1802,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           unidentifiedDeliveries: this.get('unidentifiedDeliveries') || [],
           isUpdate,
           options: sendOptions,
-        })
-      ).then(async (result: unknown) => {
+        }),
+        { messageIds: [this.id], sendType: 'sentSync' }
+      ).then(async result => {
         this.set({
           synced: true,
           dataMessage: null,
@@ -2504,28 +2521,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         }
       }
 
-      // Now check for decryption error placeholders
-      const { retryPlaceholders } = window.Signal.Services;
-      if (retryPlaceholders) {
-        const item = await retryPlaceholders.findByMessageAndRemove(
-          conversationId,
-          message.get('sent_at')
-        );
-        if (item && item.wasOpened) {
-          window.log.info(
-            `handleDataMessage: found retry placeholder for ${message.idForLogging()}, but conversation was opened. No updates made.`
-          );
-        } else if (item) {
-          window.log.info(
-            `handleDataMessage: found retry placeholder for ${message.idForLogging()}. Updating received_at/received_at_ms`
-          );
-          message.set({
-            received_at: item.receivedAtCounter,
-            received_at_ms: item.receivedAt,
-          });
-        }
-      }
-
       // GroupV2
 
       if (initialMessage.groupV2) {
@@ -2640,6 +2635,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         return;
       }
 
+      const messageId = window.getGuid();
+
       // Send delivery receipts, but only for incoming sealed sender messages
       // and not for messages from unaccepted conversations
       if (
@@ -2653,6 +2650,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         //   The queue can be paused easily.
         window.Whisper.deliveryReceiptQueue.add(() => {
           window.Whisper.deliveryReceiptBatcher.add({
+            messageId,
             source,
             sourceUuid,
             timestamp: this.get('sent_at'),
@@ -2689,7 +2687,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         }
 
         message.set({
-          id: window.getGuid(),
+          id: messageId,
           attachments: dataMessage.attachments,
           body: dataMessage.body,
           bodyRanges: dataMessage.bodyRanges,
@@ -3270,6 +3268,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         conversationId: this.get('conversationId'),
         emoji: reaction.get('emoji'),
         fromId: reaction.get('fromId'),
+        messageId: this.id,
         messageReceivedAt: this.get('received_at'),
         targetAuthorUuid: reaction.get('targetAuthorUuid'),
         targetTimestamp: reaction.get('targetTimestamp'),

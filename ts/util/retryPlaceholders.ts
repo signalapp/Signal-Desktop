@@ -63,14 +63,14 @@ export class RetryPlaceholders {
     }
 
     this.items = parsed.success ? parsed.data : [];
-    window.log.info(
-      `RetryPlaceholders.constructor: Started with ${this.items.length} items`
-    );
-
     this.sortByExpiresAtAsc();
     this.byConversation = this.makeByConversationLookup();
     this.byMessage = this.makeByMessageLookup();
     this.retryReceiptLifespan = options.retryReceiptLifespan || HOUR;
+
+    window.log.info(
+      `RetryPlaceholders.constructor: Started with ${this.items.length} items, lifespan of ${this.retryReceiptLifespan}`
+    );
   }
 
   // Arranging local data for efficiency

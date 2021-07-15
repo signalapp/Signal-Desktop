@@ -11,6 +11,8 @@ import MessageReceiver from './MessageReceiver';
 import { ContactSyncEvent, GroupSyncEvent } from './messageReceiverEvents';
 import MessageSender from './SendMessage';
 import { assert } from '../util/assert';
+import { getSendOptions } from '../util/getSendOptions';
+import { handleMessageSend } from '../util/handleMessageSend';
 
 class SyncRequestInner extends EventTarget {
   private started = false;
@@ -61,25 +63,41 @@ class SyncRequestInner extends EventTarget {
 
     const { sender } = this;
 
-    const ourNumber = window.textsecure.storage.user.getNumber();
-    const {
-      wrap,
-      sendOptions,
-    } = await window.ConversationController.prepareForSend(ourNumber, {
+    const ourConversation = window.ConversationController.getOurConversationOrThrow();
+    const sendOptions = await getSendOptions(ourConversation.attributes, {
       syncMessage: true,
     });
 
+    if (window.ConversationController.areWePrimaryDevice()) {
+      window.log.warn(
+        'SyncRequest.start: We are primary device; returning early'
+      );
+      return;
+    }
+
     window.log.info('SyncRequest created. Sending config sync request...');
-    wrap(sender.sendRequestConfigurationSyncMessage(sendOptions));
+    handleMessageSend(sender.sendRequestConfigurationSyncMessage(sendOptions), {
+      messageIds: [],
+      sendType: 'otherSync',
+    });
 
     window.log.info('SyncRequest now sending block sync request...');
-    wrap(sender.sendRequestBlockSyncMessage(sendOptions));
+    handleMessageSend(sender.sendRequestBlockSyncMessage(sendOptions), {
+      messageIds: [],
+      sendType: 'otherSync',
+    });
 
     window.log.info('SyncRequest now sending contact sync message...');
-    wrap(sender.sendRequestContactSyncMessage(sendOptions))
+    handleMessageSend(sender.sendRequestContactSyncMessage(sendOptions), {
+      messageIds: [],
+      sendType: 'otherSync',
+    })
       .then(() => {
         window.log.info('SyncRequest now sending group sync message...');
-        return wrap(sender.sendRequestGroupSyncMessage(sendOptions));
+        return handleMessageSend(
+          sender.sendRequestGroupSyncMessage(sendOptions),
+          { messageIds: [], sendType: 'otherSync' }
+        );
       })
       .catch((error: Error) => {
         window.log.error(

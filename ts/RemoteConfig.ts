@@ -9,18 +9,19 @@ export type ConfigKeyType =
   | 'desktop.disableGV1'
   | 'desktop.groupCalling'
   | 'desktop.gv2'
+  | 'desktop.internalUser'
   | 'desktop.mandatoryProfileSharing'
   | 'desktop.mediaQuality.levels'
   | 'desktop.messageRequests'
   | 'desktop.retryReceiptLifespan'
   | 'desktop.retryRespondMaxAge'
   | 'desktop.screensharing2'
-  | 'desktop.sendSenderKey'
+  | 'desktop.sendSenderKey2'
   | 'desktop.storage'
   | 'desktop.storageWrite3'
   | 'desktop.worksAtSignal'
-  | 'global.groupsv2.maxGroupSize'
-  | 'global.groupsv2.groupSizeHardLimit';
+  | 'global.groupsv2.groupSizeHardLimit'
+  | 'global.groupsv2.maxGroupSize';
 type ConfigValueType = {
   name: ConfigKeyType;
   enabled: boolean;

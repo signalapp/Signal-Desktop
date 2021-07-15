@@ -10,10 +10,15 @@ import { ConversationModel } from '../models/conversations';
 import { MessageModel } from '../models/messages';
 import { MessageModelCollectionType } from '../model-types.d';
 import { isIncoming } from '../state/selectors/message';
+import { isDirectConversation } from '../util/whatTypeOfConversation';
+import dataInterface from '../sql/Client';
+
+const { deleteSentProtoRecipient } = dataInterface;
 
 type DeliveryReceiptAttributesType = {
   timestamp: number;
   deliveredTo: string;
+  deliveredToDevice: number;
 };
 
 class DeliveryReceiptModel extends Model<DeliveryReceiptAttributesType> {}
@@ -67,7 +72,7 @@ export class DeliveryReceipts extends Collection<DeliveryReceiptModel> {
     message: MessageModel
   ): Array<DeliveryReceiptModel> {
     let recipients: Array<string>;
-    if (conversation.isPrivate()) {
+    if (isDirectConversation(conversation.attributes)) {
       recipients = [conversation.id];
     } else {
       recipients = conversation.getMemberIds();
@@ -82,32 +87,29 @@ export class DeliveryReceipts extends Collection<DeliveryReceiptModel> {
   }
 
   async onReceipt(receipt: DeliveryReceiptModel): Promise<void> {
-    try {
-      const messages = await window.Signal.Data.getMessagesBySentAt(
-        receipt.get('timestamp'),
-        {
-          MessageCollection: window.Whisper.MessageCollection,
-        }
-      );
+    const timestamp = receipt.get('timestamp');
+    const deliveredTo = receipt.get('deliveredTo');
 
-      const message = await getTargetMessage(
-        receipt.get('deliveredTo'),
-        messages
-      );
+    try {
+      const messages = await window.Signal.Data.getMessagesBySentAt(timestamp, {
+        MessageCollection: window.Whisper.MessageCollection,
+      });
+
+      const message = await getTargetMessage(deliveredTo, messages);
       if (!message) {
         window.log.info(
           'No message for delivery receipt',
-          receipt.get('deliveredTo'),
-          receipt.get('timestamp')
+          deliveredTo,
+          timestamp
         );
         return;
       }
 
       const deliveries = message.get('delivered') || 0;
-      const deliveredTo = message.get('delivered_to') || [];
+      const originalDeliveredTo = message.get('delivered_to') || [];
       const expirationStartTimestamp = message.get('expirationStartTimestamp');
       message.set({
-        delivered_to: union(deliveredTo, [receipt.get('deliveredTo')]),
+        delivered_to: union(originalDeliveredTo, [deliveredTo]),
         delivered: deliveries + 1,
         expirationStartTimestamp: expirationStartTimestamp || Date.now(),
         sent: true,
@@ -124,6 +126,33 @@ export class DeliveryReceipts extends Collection<DeliveryReceiptModel> {
         : undefined;
       if (updateLeftPane) {
         updateLeftPane();
+      }
+
+      const unidentifiedLookup = (
+        message.get('unidentifiedDeliveries') || []
+      ).reduce((accumulator: Record<string, boolean>, identifier: string) => {
+        const id = window.ConversationController.getConversationId(identifier);
+        if (id) {
+          accumulator[id] = true;
+        }
+        return accumulator;
+      }, Object.create(null) as Record<string, boolean>);
+      const recipient = window.ConversationController.get(deliveredTo);
+      if (recipient && unidentifiedLookup[recipient.id]) {
+        const recipientUuid = recipient?.get('uuid');
+        const deviceId = receipt.get('deliveredToDevice');
+
+        if (recipientUuid && deviceId) {
+          await deleteSentProtoRecipient({
+            timestamp,
+            recipientUuid,
+            deviceId,
+          });
+        } else {
+          window.log.warn(
+            `DeliveryReceipts.onReceipt: Missing uuid or deviceId for deliveredTo ${deliveredTo}`
+          );
+        }
       }
 
       this.remove(receipt);

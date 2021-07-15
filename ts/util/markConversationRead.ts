@@ -3,8 +3,10 @@
 
 import { ConversationAttributesType } from '../model-types.d';
 import { handleMessageSend } from './handleMessageSend';
+import { getSendOptions } from './getSendOptions';
 import { sendReadReceiptsFor } from './sendReadReceiptsFor';
 import { hasErrors } from '../state/selectors/message';
+import { isNotNil } from './isNotNil';
 
 export async function markConversationRead(
   conversationAttrs: ConversationAttributesType,
@@ -43,6 +45,7 @@ export async function markConversationRead(
   const unreadReactionSyncData = new Map<
     string,
     {
+      messageId?: string;
       senderUuid?: string;
       senderE164?: string;
       timestamp: number;
@@ -54,6 +57,7 @@ export async function markConversationRead(
       return;
     }
     unreadReactionSyncData.set(targetKey, {
+      messageId: reaction.messageId,
       senderE164: undefined,
       senderUuid: reaction.targetAuthorUuid,
       timestamp: reaction.targetTimestamp,
@@ -68,6 +72,7 @@ export async function markConversationRead(
     }
 
     return {
+      messageId: messageSyncData.id,
       senderE164: messageSyncData.source,
       senderUuid: messageSyncData.sourceUuid,
       senderId: window.ConversationController.ensureContactIds({
@@ -89,25 +94,39 @@ export async function markConversationRead(
     item => Boolean(item.senderId) && !item.hasErrors
   );
 
-  const readSyncs = [
+  const readSyncs: Array<{
+    messageId?: string;
+    senderE164?: string;
+    senderUuid?: string;
+    senderId?: string;
+    timestamp: number;
+    hasErrors?: string;
+  }> = [
     ...unreadMessagesSyncData,
     ...Array.from(unreadReactionSyncData.values()),
   ];
+  const messageIds = readSyncs.map(item => item.messageId).filter(isNotNil);
 
   if (readSyncs.length && options.sendReadReceipts) {
     window.log.info(`Sending ${readSyncs.length} read syncs`);
     // Because syncReadMessages sends to our other devices, and sendReadReceipts goes
     //   to a contact, we need accessKeys for both.
-    const {
-      sendOptions,
-    } = await window.ConversationController.prepareForSend(
-      window.ConversationController.getOurConversationId(),
-      { syncMessage: true }
-    );
+    const ourConversation = window.ConversationController.getOurConversationOrThrow();
+    const sendOptions = await getSendOptions(ourConversation.attributes, {
+      syncMessage: true,
+    });
 
-    await handleMessageSend(
-      window.textsecure.messaging.syncReadMessages(readSyncs, sendOptions)
-    );
+    if (window.ConversationController.areWePrimaryDevice()) {
+      window.log.warn(
+        'markConversationRead: We are primary device; not sending read syncs'
+      );
+    } else {
+      await handleMessageSend(
+        window.textsecure.messaging.syncReadMessages(readSyncs, sendOptions),
+        { messageIds, sendType: 'readSync' }
+      );
+    }
+
     await sendReadReceiptsFor(conversationAttrs, unreadMessagesSyncData);
   }
 

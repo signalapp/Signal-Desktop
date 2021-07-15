@@ -16,7 +16,6 @@ import {
   MessageModelCollectionType,
   MessageAttributesType,
   ReactionAttributesType,
-  ReactionModelType,
 } from './model-types.d';
 import { TextSecureType } from './textsecure.d';
 import { Storage } from './textsecure/Storage';
@@ -241,6 +240,7 @@ declare global {
     showWindow: () => void;
     showSettings: () => void;
     shutdown: () => void;
+    showDebugLog: () => void;
     sendChallengeRequest: (request: IPCChallengeRequest) => void;
     setAutoHideMenuBar: (value: WhatIsThis) => void;
     setBadgeCount: (count: number) => void;
@@ -290,6 +290,7 @@ declare global {
         onTimeout: (timestamp: number, cb: () => void, id?: string) => string;
         removeTimeout: (uuid: string) => void;
         retryPlaceholders?: Util.RetryPlaceholders;
+        lightSessionResetQueue?: PQueue;
         runStorageServiceSyncJob: () => Promise<void>;
         storageServiceUploadJob: () => void;
       };
@@ -494,6 +495,7 @@ declare global {
     GV2_ENABLE_STATE_PROCESSING: boolean;
     GV2_MIGRATION_DISABLE_ADD: boolean;
     GV2_MIGRATION_DISABLE_INVITE: boolean;
+    RETRY_DELAY: boolean;
   }
 
   // We want to extend `Error`, so we need an interface.
@@ -535,6 +537,13 @@ export class GumVideoCapturer {
 export class CanvasVideoRenderer {
   constructor(canvas: Ref<HTMLCanvasElement>);
 }
+
+export type DeliveryReceiptBatcherItemType = {
+  messageId: string;
+  source?: string;
+  sourceUuid?: string;
+  timestamp: number;
+};
 
 export type LoggerType = {
   fatal: LogFunctionType;
@@ -614,12 +623,8 @@ export type WhisperType = {
   ExpiringMessagesListener: WhatIsThis;
   TapToViewMessagesListener: WhatIsThis;
 
-  deliveryReceiptQueue: PQueue<WhatIsThis>;
-  deliveryReceiptBatcher: BatcherType<{
-    source?: string;
-    sourceUuid?: string;
-    timestamp: number;
-  }>;
+  deliveryReceiptQueue: PQueue;
+  deliveryReceiptBatcher: BatcherType<DeliveryReceiptBatcherItemType>;
   RotateSignedPreKeyListener: WhatIsThis;
 
   AlreadyGroupMemberToast: typeof window.Whisper.ToastView;
@@ -630,6 +635,7 @@ export type WhisperType = {
   CaptchaSolvedToast: typeof window.Whisper.ToastView;
   CaptchaFailedToast: typeof window.Whisper.ToastView;
   DangerousFileTypeToast: typeof window.Whisper.ToastView;
+  DecryptionErrorToast: typeof window.Whisper.ToastView;
   ExpiredToast: typeof window.Whisper.ToastView;
   FileSavedToast: typeof window.Whisper.ToastView;
   FileSizeToast: any;

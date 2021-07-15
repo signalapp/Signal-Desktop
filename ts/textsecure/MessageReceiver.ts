@@ -1028,7 +1028,7 @@ class MessageReceiverInner extends EventTarget {
     } catch (error) {
       const args = [
         'queueEncryptedEnvelope error handling envelope',
-        this.getEnvelopeId(envelope),
+        this.getEnvelopeId(error.envelope || envelope),
         ':',
         error && error.extra ? JSON.stringify(error.extra) : '',
         error && error.stack ? error.stack : error,
@@ -1587,7 +1587,10 @@ class MessageReceiverInner extends EventTarget {
         });
 
         // Avoid deadlocks by scheduling processing on decrypted queue
-        this.addToQueue(() => this.dispatchAndWait(event), TaskType.Decrypted);
+        this.addToQueue(
+          async () => this.dispatchEvent(event),
+          TaskType.Decrypted
+        );
       } else {
         const envelopeId = this.getEnvelopeId(newEnvelope);
         window.log.error(
@@ -1803,38 +1806,97 @@ class MessageReceiverInner extends EventTarget {
     );
     assert(envelope.content, 'Should have `content` field');
     const result = await this.decrypt(stores, envelope, envelope.content);
+
     if (!result.plaintext) {
       window.log.warn('decryptContentMessage: plaintext was falsey');
+      return result;
     }
 
-    return result;
-  }
-
-  async innerHandleContentMessage(
-    envelope: ProcessedEnvelope,
-    plaintext: Uint8Array
-  ): Promise<void> {
-    const content = Proto.Content.decode(plaintext);
-
-    // Note: a distribution message can be tacked on to any other message, so we
-    //   make sure to process it first. If that fails, we still try to process
-    //   the rest of the message.
+    // Note: we need to process this as part of decryption, because we might need this
+    //   sender key to decrypt the next message in the queue!
     try {
+      const content = Proto.Content.decode(result.plaintext);
+
       if (
         content.senderKeyDistributionMessage &&
         Bytes.isNotEmpty(content.senderKeyDistributionMessage)
       ) {
         await this.handleSenderKeyDistributionMessage(
-          envelope,
+          stores,
+          result.envelope,
           content.senderKeyDistributionMessage
         );
       }
     } catch (error) {
       const errorString = error && error.stack ? error.stack : error;
       window.log.error(
-        `innerHandleContentMessage: Failed to process sender key distribution message: ${errorString}`
+        `decryptContentMessage: Failed to process sender key distribution message: ${errorString}`
       );
     }
+
+    return result;
+  }
+
+  async maybeUpdateTimestamp(
+    envelope: ProcessedEnvelope
+  ): Promise<ProcessedEnvelope> {
+    const { retryPlaceholders } = window.Signal.Services;
+    if (!retryPlaceholders) {
+      window.log.warn(
+        'maybeUpdateTimestamp: retry placeholders not available!'
+      );
+      return envelope;
+    }
+
+    const { timestamp } = envelope;
+    const identifier =
+      envelope.groupId || envelope.sourceUuid || envelope.source;
+    const conversation = window.ConversationController.get(identifier);
+
+    try {
+      if (!conversation) {
+        window.log.info(
+          `maybeUpdateTimestamp/${timestamp}: No conversation found for identifier ${identifier}`
+        );
+        return envelope;
+      }
+
+      const logId = `${conversation.idForLogging()}/${timestamp}`;
+      const item = await retryPlaceholders.findByMessageAndRemove(
+        conversation.id,
+        timestamp
+      );
+      if (item && item.wasOpened) {
+        window.log.info(
+          `maybeUpdateTimestamp/${logId}: found retry placeholder, but conversation was opened. No updates made.`
+        );
+      } else if (item) {
+        window.log.info(
+          `maybeUpdateTimestamp/${logId}: found retry placeholder. Updating receivedAtCounter/receivedAtDate`
+        );
+
+        return {
+          ...envelope,
+          receivedAtCounter: item.receivedAtCounter,
+          receivedAtDate: item.receivedAt,
+        };
+      }
+    } catch (error) {
+      const errorString = error && error.stack ? error.stack : error;
+      window.log.error(
+        `maybeUpdateTimestamp/${timestamp}: Failed to process sender key distribution message: ${errorString}`
+      );
+    }
+
+    return envelope;
+  }
+
+  async innerHandleContentMessage(
+    incomingEnvelope: ProcessedEnvelope,
+    plaintext: Uint8Array
+  ): Promise<void> {
+    const content = Proto.Content.decode(plaintext);
+    const envelope = await this.maybeUpdateTimestamp(incomingEnvelope);
 
     if (
       content.decryptionErrorMessage &&
@@ -1908,10 +1970,11 @@ class MessageReceiverInner extends EventTarget {
       senderDevice: request.deviceId(),
       sentAt: request.timestamp(),
     });
-    await this.dispatchAndWait(event);
+    await this.dispatchEvent(event);
   }
 
   async handleSenderKeyDistributionMessage(
+    stores: LockedStores,
     envelope: ProcessedEnvelope,
     distributionMessage: Uint8Array
   ): Promise<void> {
@@ -1941,12 +2004,15 @@ class MessageReceiverInner extends EventTarget {
     const senderKeyStore = new SenderKeys();
     const address = `${identifier}.${sourceDevice}`;
 
-    await window.textsecure.storage.protocol.enqueueSenderKeyJob(address, () =>
-      processSenderKeyDistributionMessage(
-        sender,
-        senderKeyDistributionMessage,
-        senderKeyStore
-      )
+    await window.textsecure.storage.protocol.enqueueSenderKeyJob(
+      address,
+      () =>
+        processSenderKeyDistributionMessage(
+          sender,
+          senderKeyDistributionMessage,
+          senderKeyStore
+        ),
+      stores.zone
     );
   }
 
@@ -1989,6 +2055,7 @@ class MessageReceiverInner extends EventTarget {
             envelopeTimestamp: envelope.timestamp,
             source: envelope.source,
             sourceUuid: envelope.sourceUuid,
+            sourceDevice: envelope.sourceDevice,
           },
           this.removeFromCache.bind(this, envelope)
         );

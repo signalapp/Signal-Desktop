@@ -14106,20 +14106,6 @@
     "reasonDetail": "Doesn't manipulate the DOM."
   },
   {
-    "rule": "jQuery-wrap(",
-    "path": "ts/shims/textsecure.js",
-    "line": "    wrap(textsecure.messaging.sendStickerPackSync([",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-02-07T19:52:28.522Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "ts/shims/textsecure.ts",
-    "line": "  wrap(",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-02-07T19:52:28.522Z"
-  },
-  {
     "rule": "jQuery-load(",
     "path": "ts/types/Stickers.js",
     "line": "async function load() {",

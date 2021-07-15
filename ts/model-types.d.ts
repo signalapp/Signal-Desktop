@@ -371,5 +371,3 @@ export type ReactionAttributesType = {
   timestamp: number;
   fromSync?: boolean;
 };
-
-export declare class ReactionModelType extends Backbone.Model<ReactionAttributesType> {}

@@ -5,6 +5,7 @@ export type ReactionType = Readonly<{
   conversationId: string;
   emoji: string;
   fromId: string;
+  messageId: string | undefined;
   messageReceivedAt: number;
   targetAuthorUuid: string;
   targetTimestamp: number;

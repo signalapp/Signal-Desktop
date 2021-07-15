@@ -9,9 +9,14 @@ import { ConversationModel } from '../models/conversations';
 import { MessageModel } from '../models/messages';
 import { MessageModelCollectionType } from '../model-types.d';
 import { isOutgoing } from '../state/selectors/message';
+import { isDirectConversation } from '../util/whatTypeOfConversation';
+import dataInterface from '../sql/Client';
+
+const { deleteSentProtoRecipient } = dataInterface;
 
 type ReadReceiptAttributesType = {
   reader: string;
+  readerDevice: number;
   timestamp: number;
   readAt: number;
 };
@@ -68,7 +73,7 @@ export class ReadReceipts extends Collection<ReadReceiptModel> {
       return [];
     }
     let ids: Array<string>;
-    if (conversation.isPrivate()) {
+    if (isDirectConversation(conversation.attributes)) {
       ids = [conversation.id];
     } else {
       ids = conversation.getMemberIds();
@@ -86,29 +91,25 @@ export class ReadReceipts extends Collection<ReadReceiptModel> {
   }
 
   async onReceipt(receipt: ReadReceiptModel): Promise<void> {
-    try {
-      const messages = await window.Signal.Data.getMessagesBySentAt(
-        receipt.get('timestamp'),
-        {
-          MessageCollection: window.Whisper.MessageCollection,
-        }
-      );
+    const timestamp = receipt.get('timestamp');
+    const reader = receipt.get('reader');
 
-      const message = await getTargetMessage(receipt.get('reader'), messages);
+    try {
+      const messages = await window.Signal.Data.getMessagesBySentAt(timestamp, {
+        MessageCollection: window.Whisper.MessageCollection,
+      });
+
+      const message = await getTargetMessage(reader, messages);
 
       if (!message) {
-        window.log.info(
-          'No message for read receipt',
-          receipt.get('reader'),
-          receipt.get('timestamp')
-        );
+        window.log.info('No message for read receipt', reader, timestamp);
         return;
       }
 
       const readBy = message.get('read_by') || [];
       const expirationStartTimestamp = message.get('expirationStartTimestamp');
 
-      readBy.push(receipt.get('reader'));
+      readBy.push(reader);
       message.set({
         read_by: readBy,
         expirationStartTimestamp: expirationStartTimestamp || Date.now(),
@@ -126,6 +127,22 @@ export class ReadReceipts extends Collection<ReadReceiptModel> {
         : undefined;
       if (updateLeftPane) {
         updateLeftPane();
+      }
+
+      const deviceId = receipt.get('readerDevice');
+      const recipient = window.ConversationController.get(reader);
+      const recipientUuid = recipient?.get('uuid');
+
+      if (recipientUuid && deviceId) {
+        await deleteSentProtoRecipient({
+          timestamp,
+          recipientUuid,
+          deviceId,
+        });
+      } else {
+        window.log.warn(
+          `ReadReceipts.onReceipt: Missing uuid or deviceId for reader ${reader}`
+        );
       }
 
       this.remove(receipt);

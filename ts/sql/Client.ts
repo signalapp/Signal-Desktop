@@ -14,7 +14,6 @@ import {
   cloneDeep,
   compact,
   fromPairs,
-  toPairs,
   get,
   groupBy,
   isFunction,
@@ -22,6 +21,8 @@ import {
   map,
   omit,
   set,
+  toPairs,
+  uniq,
 } from 'lodash';
 
 import { arrayBufferToBase64, base64ToArrayBuffer } from '../Crypto';
@@ -41,8 +42,8 @@ import { StoredJob } from '../jobs/types';
 import {
   AttachmentDownloadJobType,
   ClientInterface,
-  ClientSearchResultMessageType,
   ClientJobType,
+  ClientSearchResultMessageType,
   ConversationType,
   IdentityKeyType,
   ItemKeyType,
@@ -52,6 +53,12 @@ import {
   PreKeyType,
   SearchResultMessageType,
   SenderKeyType,
+  SentMessageDBType,
+  SentMessagesType,
+  SentProtoType,
+  SentProtoWithMessageIdsType,
+  SentRecipientsDBType,
+  SentRecipientsType,
   ServerInterface,
   SessionType,
   SignedPreKeyType,
@@ -142,6 +149,17 @@ const dataInterface: ClientInterface = {
   removeAllSenderKeys,
   getAllSenderKeys,
   removeSenderKeyById,
+
+  insertSentProto,
+  deleteSentProtosOlderThan,
+  deleteSentProtoByMessageId,
+  insertProtoRecipients,
+  deleteSentProtoRecipient,
+  getSentProtoByRecipient,
+  removeAllSentProtos,
+  getAllSentProtos,
+  _getAllSentProtoRecipients,
+  _getAllSentProtoMessageIds,
 
   createOrUpdateSession,
   createOrUpdateSessions,
@@ -769,6 +787,66 @@ async function getAllSenderKeys(): Promise<Array<SenderKeyType>> {
 }
 async function removeSenderKeyById(id: string): Promise<void> {
   return channels.removeSenderKeyById(id);
+}
+
+// Sent Protos
+
+async function insertSentProto(
+  proto: SentProtoType,
+  options: {
+    messageIds: SentMessagesType;
+    recipients: SentRecipientsType;
+  }
+): Promise<number> {
+  return channels.insertSentProto(proto, {
+    ...options,
+    messageIds: uniq(options.messageIds),
+  });
+}
+async function deleteSentProtosOlderThan(timestamp: number): Promise<void> {
+  await channels.deleteSentProtosOlderThan(timestamp);
+}
+async function deleteSentProtoByMessageId(messageId: string): Promise<void> {
+  await channels.deleteSentProtoByMessageId(messageId);
+}
+
+async function insertProtoRecipients(options: {
+  id: number;
+  recipientUuid: string;
+  deviceIds: Array<number>;
+}): Promise<void> {
+  await channels.insertProtoRecipients(options);
+}
+async function deleteSentProtoRecipient(options: {
+  timestamp: number;
+  recipientUuid: string;
+  deviceId: number;
+}): Promise<void> {
+  await channels.deleteSentProtoRecipient(options);
+}
+
+async function getSentProtoByRecipient(options: {
+  now: number;
+  recipientUuid: string;
+  timestamp: number;
+}): Promise<SentProtoWithMessageIdsType | undefined> {
+  return channels.getSentProtoByRecipient(options);
+}
+async function removeAllSentProtos(): Promise<void> {
+  await channels.removeAllSentProtos();
+}
+async function getAllSentProtos(): Promise<Array<SentProtoType>> {
+  return channels.getAllSentProtos();
+}
+
+// Test-only:
+async function _getAllSentProtoRecipients(): Promise<
+  Array<SentRecipientsDBType>
+> {
+  return channels._getAllSentProtoRecipients();
+}
+async function _getAllSentProtoMessageIds(): Promise<Array<SentMessageDBType>> {
+  return channels._getAllSentProtoMessageIds();
 }
 
 // Sessions

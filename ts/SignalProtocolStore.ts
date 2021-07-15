@@ -24,6 +24,7 @@ import {
   typedArrayToArrayBuffer,
 } from './Crypto';
 import { assert } from './util/assert';
+import { handleMessageSend } from './util/handleMessageSend';
 import { isNotNil } from './util/isNotNil';
 import { Zone } from './util/Zone';
 import { isMoreRecentThan } from './util/timestamp';
@@ -588,6 +589,13 @@ export class SignalProtocolStore extends EventsMixin {
         `removeSenderKey: failed to remove senderKey ${encodedAddress}/${distributionId}: ${errorString}`
       );
     }
+  }
+
+  async clearSenderKeyStore(): Promise<void> {
+    if (this.senderKeys) {
+      this.senderKeys.clear();
+    }
+    await window.Signal.Data.removeAllSenderKeys();
   }
 
   // Session Queue
@@ -1231,7 +1239,14 @@ export class SignalProtocolStore extends EventsMixin {
 
       // Send a null message with newly-created session
       const sendOptions = await getSendOptions(conversation.attributes);
-      await window.textsecure.messaging.sendNullMessage({ uuid }, sendOptions);
+      const result = await handleMessageSend(
+        window.textsecure.messaging.sendNullMessage({ uuid }, sendOptions),
+        { messageIds: [], sendType: 'nullMessage' }
+      );
+
+      if (result && result.errors && result.errors.length) {
+        throw result.errors[0];
+      }
     } catch (error) {
       // If we failed to do the session reset, then we'll allow another attempt sooner
       //   than one hour from now.

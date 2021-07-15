@@ -1,7 +1,11 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { isNumber } from 'lodash';
 import { CallbackResultType } from '../textsecure/SendMessage';
+import dataInterface from '../sql/Client';
+
+const { insertSentProto } = dataInterface;
 
 export const SEALED_SENDER = {
   UNKNOWN: 0,
@@ -10,17 +14,71 @@ export const SEALED_SENDER = {
   UNRESTRICTED: 3,
 };
 
+export type SendTypesType =
+  | 'callingMessage' // excluded from send log
+  | 'deleteForEveryone'
+  | 'deliveryReceipt'
+  | 'expirationTimerUpdate'
+  | 'groupChange'
+  | 'legacyGroupChange'
+  | 'message'
+  | 'messageRetry'
+  | 'nullMessage' // excluded from send log
+  | 'otherSync'
+  | 'profileKeyUpdate'
+  | 'reaction'
+  | 'readReceipt'
+  | 'readSync'
+  | 'resendFromLog' // excluded from send log
+  | 'resetSession'
+  | 'retryRequest' // excluded from send log
+  | 'senderKeyDistributionMessage'
+  | 'sentSync'
+  | 'typing' // excluded from send log
+  | 'verificationSync'
+  | 'viewOnceSync';
+
+export function shouldSaveProto(sendType: SendTypesType): boolean {
+  if (sendType === 'callingMessage') {
+    return false;
+  }
+
+  if (sendType === 'nullMessage') {
+    return false;
+  }
+
+  if (sendType === 'resendFromLog') {
+    return false;
+  }
+
+  if (sendType === 'retryRequest') {
+    return false;
+  }
+
+  if (sendType === 'typing') {
+    return false;
+  }
+
+  return true;
+}
+
 export async function handleMessageSend(
-  promise: Promise<CallbackResultType | void | null>
-): Promise<CallbackResultType | void | null> {
+  promise: Promise<CallbackResultType>,
+  options: {
+    messageIds: Array<string>;
+    sendType: SendTypesType;
+  }
+): Promise<CallbackResultType> {
   try {
     const result = await promise;
-    if (result) {
-      await handleMessageSendResult(
-        result.failoverIdentifiers,
-        result.unidentifiedDeliveries
-      );
-    }
+
+    await maybeSaveToSendLog(result, options);
+
+    await handleMessageSendResult(
+      result.failoverIdentifiers,
+      result.unidentifiedDeliveries
+    );
+
     return result;
   } catch (err) {
     if (err) {
@@ -82,5 +140,54 @@ async function handleMessageSendResult(
         window.Signal.Data.updateConversation(conversation.attributes);
       }
     })
+  );
+}
+
+async function maybeSaveToSendLog(
+  result: CallbackResultType,
+  {
+    messageIds,
+    sendType,
+  }: {
+    messageIds: Array<string>;
+    sendType: SendTypesType;
+  }
+): Promise<void> {
+  const { contentHint, contentProto, recipients, timestamp } = result;
+
+  if (!shouldSaveProto(sendType)) {
+    return;
+  }
+
+  if (!isNumber(contentHint) || !contentProto || !recipients || !timestamp) {
+    window.log.warn(
+      `handleMessageSend: Missing necessary information to save to log for ${sendType} message ${timestamp}`
+    );
+    return;
+  }
+
+  const identifiers = Object.keys(recipients);
+  if (identifiers.length === 0) {
+    window.log.warn(
+      `handleMessageSend: ${sendType} message ${timestamp} had no recipients`
+    );
+    return;
+  }
+
+  // If the identifier count is greater than one, we've done the save elsewhere
+  if (identifiers.length > 1) {
+    return;
+  }
+
+  await insertSentProto(
+    {
+      timestamp,
+      proto: Buffer.from(contentProto),
+      contentHint,
+    },
+    {
+      messageIds,
+      recipients,
+    }
   );
 }

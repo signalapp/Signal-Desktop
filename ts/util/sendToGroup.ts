@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { differenceWith, partition } from 'lodash';
+import { differenceWith, omit, partition } from 'lodash';
 import PQueue from 'p-queue';
 
 import {
@@ -16,6 +16,7 @@ import { senderCertificateService } from '../services/senderCertificate';
 import {
   padMessage,
   SenderCertificateMode,
+  SendLogCallbackType,
 } from '../textsecure/OutgoingMessage';
 import { isEnabled } from '../RemoteConfig';
 
@@ -30,7 +31,12 @@ import { ConversationModel } from '../models/conversations';
 import { DeviceType } from '../textsecure/Types.d';
 import { getKeysForIdentifier } from '../textsecure/getKeysForIdentifier';
 import { ConversationAttributesType } from '../model-types.d';
-import { SEALED_SENDER } from './handleMessageSend';
+import {
+  handleMessageSend,
+  SEALED_SENDER,
+  SendTypesType,
+  shouldSaveProto,
+} from './handleMessageSend';
 import { parseIntOrThrow } from './parseIntOrThrow';
 import {
   multiRecipient200ResponseSchema,
@@ -59,17 +65,21 @@ const FIXMEU8 = Uint8Array;
 // Public API:
 
 export async function sendToGroup({
-  groupSendOptions,
-  conversation,
   contentHint,
-  sendOptions,
+  conversation,
+  groupSendOptions,
+  messageId,
   isPartialSend,
+  sendOptions,
+  sendType,
 }: {
-  groupSendOptions: GroupSendOptionsType;
-  conversation: ConversationModel;
   contentHint: number;
-  sendOptions?: SendOptionsType;
+  conversation: ConversationModel;
+  groupSendOptions: GroupSendOptionsType;
   isPartialSend?: boolean;
+  messageId: string | undefined;
+  sendOptions?: SendOptionsType;
+  sendType: SendTypesType;
 }): Promise<CallbackResultType> {
   assert(
     window.textsecure.messaging,
@@ -92,8 +102,10 @@ export async function sendToGroup({
     contentMessage,
     conversation,
     isPartialSend,
+    messageId,
     recipients,
     sendOptions,
+    sendType,
     timestamp,
   });
 }
@@ -103,18 +115,22 @@ export async function sendContentMessageToGroup({
   contentMessage,
   conversation,
   isPartialSend,
+  messageId,
   online,
   recipients,
   sendOptions,
+  sendType,
   timestamp,
 }: {
   contentHint: number;
   contentMessage: Proto.Content;
   conversation: ConversationModel;
   isPartialSend?: boolean;
+  messageId: string | undefined;
   online?: boolean;
   recipients: Array<string>;
   sendOptions?: SendOptionsType;
+  sendType: SendTypesType;
   timestamp: number;
 }): Promise<CallbackResultType> {
   const logId = conversation.idForLogging();
@@ -127,7 +143,7 @@ export async function sendContentMessageToGroup({
   const ourConversation = window.ConversationController.get(ourConversationId);
 
   if (
-    isEnabled('desktop.sendSenderKey') &&
+    isEnabled('desktop.sendSenderKey2') &&
     ourConversation?.get('capabilities')?.senderKey &&
     isGroupV2(conversation.attributes)
   ) {
@@ -137,10 +153,12 @@ export async function sendContentMessageToGroup({
         contentMessage,
         conversation,
         isPartialSend,
+        messageId,
         online,
         recipients,
         recursionCount: 0,
         sendOptions,
+        sendType,
         timestamp,
       });
     } catch (error) {
@@ -151,16 +169,24 @@ export async function sendContentMessageToGroup({
     }
   }
 
+  const sendLogCallback = window.textsecure.messaging.makeSendLogCallback({
+    contentHint,
+    messageId,
+    proto: Buffer.from(Proto.Content.encode(contentMessage).finish()),
+    sendType,
+    timestamp,
+  });
   const groupId = isGroupV2(conversation.attributes)
     ? conversation.get('groupId')
     : undefined;
   return window.textsecure.messaging.sendGroupProto({
-    recipients,
-    proto: contentMessage,
-    timestamp,
     contentHint,
     groupId,
     options: { ...sendOptions, online },
+    proto: contentMessage,
+    recipients,
+    sendLogCallback,
+    timestamp,
   });
 }
 
@@ -171,10 +197,12 @@ export async function sendToGroupViaSenderKey(options: {
   contentMessage: Proto.Content;
   conversation: ConversationModel;
   isPartialSend?: boolean;
+  messageId: string | undefined;
   online?: boolean;
   recipients: Array<string>;
   recursionCount: number;
   sendOptions?: SendOptionsType;
+  sendType: SendTypesType;
   timestamp: number;
 }): Promise<CallbackResultType> {
   const {
@@ -182,10 +210,12 @@ export async function sendToGroupViaSenderKey(options: {
     contentMessage,
     conversation,
     isPartialSend,
+    messageId,
     online,
     recursionCount,
     recipients,
     sendOptions,
+    sendType,
     timestamp,
   } = options;
   const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
@@ -287,12 +317,16 @@ export async function sendToGroupViaSenderKey(options: {
     currentDevices,
     device => isValidSenderKeyRecipient(conversation, device.identifier)
   );
+
+  const senderKeyRecipients = getUuidsFromDevices(devicesForSenderKey);
+  const normalSendRecipients = getUuidsFromDevices(devicesForNormalSend);
   window.log.info(
-    `sendToGroupViaSenderKey/${logId}: ${devicesForSenderKey.length} devices for sender key, ${devicesForNormalSend.length} devices for normal send`
+    `sendToGroupViaSenderKey/${logId}:` +
+      ` ${senderKeyRecipients.length} accounts for sender key (${devicesForSenderKey.length} devices),` +
+      ` ${normalSendRecipients.length} accounts for normal send (${devicesForNormalSend.length} devices)`
   );
 
   // 5. Ensure we have enough recipients
-  const senderKeyRecipients = getUuidsFromDevices(devicesForSenderKey);
   if (senderKeyRecipients.length < 2) {
     throw new Error(
       `sendToGroupViaSenderKey/${logId}: Not enough recipients for Sender Key message. Failing over.`
@@ -335,14 +369,17 @@ export async function sendToGroupViaSenderKey(options: {
         newToMemberUuids.length
       } members: ${JSON.stringify(newToMemberUuids)}`
     );
-    await window.textsecure.messaging.sendSenderKeyDistributionMessage(
-      {
-        contentHint: ContentHint.DEFAULT,
-        distributionId,
-        groupId,
-        identifiers: newToMemberUuids,
-      },
-      sendOptions
+    await handleMessageSend(
+      window.textsecure.messaging.sendSenderKeyDistributionMessage(
+        {
+          contentHint: ContentHint.RESENDABLE,
+          distributionId,
+          groupId,
+          identifiers: newToMemberUuids,
+        },
+        sendOptions
+      ),
+      { messageIds: [], sendType: 'senderKeyDistributionMessage' }
     );
   }
 
@@ -368,6 +405,14 @@ export async function sendToGroupViaSenderKey(options: {
   }
 
   // 10. Send the Sender Key message!
+  let sendLogId: number;
+  let senderKeyRecipientsWithDevices: Record<string, Array<number>> = {};
+  devicesForSenderKey.forEach(item => {
+    const { id, identifier } = item;
+    senderKeyRecipientsWithDevices[identifier] ||= [];
+    senderKeyRecipientsWithDevices[identifier].push(id);
+  });
+
   try {
     const messageBuffer = await encryptForSenderKey({
       contentHint,
@@ -397,11 +442,30 @@ export async function sendToGroupViaSenderKey(options: {
           ),
         });
       }
+
+      senderKeyRecipientsWithDevices = omit(
+        senderKeyRecipientsWithDevices,
+        uuids404 || []
+      );
     } else {
       window.log.error(
         `sendToGroupViaSenderKey/${logId}: Server returned unexpected 200 response ${JSON.stringify(
           parsed.error.flatten()
         )}`
+      );
+    }
+
+    if (shouldSaveProto(sendType)) {
+      sendLogId = await window.Signal.Data.insertSentProto(
+        {
+          contentHint,
+          proto: Buffer.from(Proto.Content.encode(contentMessage).finish()),
+          timestamp,
+        },
+        {
+          recipients: senderKeyRecipientsWithDevices,
+          messageIds: messageId ? [messageId] : [],
+        }
       );
     }
   } catch (error) {
@@ -426,13 +490,14 @@ export async function sendToGroupViaSenderKey(options: {
     }
 
     throw new Error(
-      `sendToGroupViaSenderKey/${logId}: Returned unexpected error ${error.code}. Failing over.`
+      `sendToGroupViaSenderKey/${logId}: Returned unexpected error ${
+        error.code
+      }. Failing over. ${error.stack || error}`
     );
   }
 
   // 11. Return early if there are no normal send recipients
-  const normalRecipients = getUuidsFromDevices(devicesForNormalSend);
-  if (normalRecipients.length === 0) {
+  if (normalSendRecipients.length === 0) {
     return {
       dataMessage: contentMessage.dataMessage
         ? toArrayBuffer(
@@ -441,18 +506,59 @@ export async function sendToGroupViaSenderKey(options: {
         : undefined,
       successfulIdentifiers: senderKeyRecipients,
       unidentifiedDeliveries: senderKeyRecipients,
+
+      contentHint,
+      timestamp,
+      contentProto: Buffer.from(Proto.Content.encode(contentMessage).finish()),
+      recipients: senderKeyRecipientsWithDevices,
     };
   }
 
   // 12. Send normal message to the leftover normal recipients. Then combine normal send
   //    result with result from sender key send for final return value.
+
+  // We don't want to use a normal send log callback here, because the proto has already
+  //   been saved as part of the Sender Key send. We're just adding recipients here.
+  const sendLogCallback: SendLogCallbackType = async ({
+    identifier,
+    deviceIds,
+  }: {
+    identifier: string;
+    deviceIds: Array<number>;
+  }) => {
+    if (!shouldSaveProto(sendType)) {
+      return;
+    }
+
+    const sentToConversation = window.ConversationController.get(identifier);
+    if (!sentToConversation) {
+      window.log.warn(
+        `sendToGroupViaSenderKey/callback: Unable to find conversation for identifier ${identifier}`
+      );
+      return;
+    }
+    const recipientUuid = sentToConversation.get('uuid');
+    if (!recipientUuid) {
+      window.log.warn(
+        `sendToGroupViaSenderKey/callback: Conversation ${conversation.idForLogging()} had no UUID`
+      );
+      return;
+    }
+
+    await window.Signal.Data.insertProtoRecipients({
+      id: sendLogId,
+      recipientUuid,
+      deviceIds,
+    });
+  };
   const normalSendResult = await window.textsecure.messaging.sendGroupProto({
-    recipients: normalRecipients,
-    proto: contentMessage,
-    timestamp,
     contentHint,
     groupId,
     options: { ...sendOptions, online },
+    proto: contentMessage,
+    recipients: normalSendRecipients,
+    sendLogCallback,
+    timestamp,
   });
 
   return {
@@ -471,6 +577,14 @@ export async function sendToGroupViaSenderKey(options: {
       ...(normalSendResult.unidentifiedDeliveries || []),
       ...senderKeyRecipients,
     ],
+
+    contentHint,
+    timestamp,
+    contentProto: Buffer.from(Proto.Content.encode(contentMessage).finish()),
+    recipients: {
+      ...normalSendResult.recipients,
+      ...senderKeyRecipientsWithDevices,
+    },
   };
 }
 

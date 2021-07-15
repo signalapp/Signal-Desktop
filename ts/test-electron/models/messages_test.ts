@@ -5,6 +5,7 @@ import { assert } from 'chai';
 import * as sinon from 'sinon';
 import { setup as setupI18n } from '../../../js/modules/i18n';
 import enMessages from '../../../_locales/en/messages.json';
+import { CallbackResultType } from '../../textsecure/SendMessage';
 import { SignalService as Proto } from '../../protobuf';
 
 describe('Message', () => {
@@ -71,7 +72,16 @@ describe('Message', () => {
     it('updates the `sent` attribute', async () => {
       const message = createMessage({ type: 'outgoing', source, sent: false });
 
-      await message.send(Promise.resolve({}));
+      const promise: Promise<CallbackResultType> = Promise.resolve({
+        successfulIdentifiers: [window.getGuid(), window.getGuid()],
+        errors: [
+          Object.assign(new Error('failed'), {
+            identifier: window.getGuid(),
+          }),
+        ],
+      });
+
+      await message.send(promise);
 
       assert.isTrue(message.get('sent'));
     });

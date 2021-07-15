@@ -27,6 +27,7 @@ import {
 import { ConversationModel } from '../models/conversations';
 import { strictAssert } from '../util/assert';
 import { BackOff } from '../util/BackOff';
+import { handleMessageSend } from '../util/handleMessageSend';
 import { storageJobQueue } from '../util/JobQueue';
 import { sleep } from '../util/sleep';
 import { isMoreRecentThan } from '../util/timestamp';
@@ -531,7 +532,18 @@ async function uploadManifest(
   window.storage.put('manifestVersion', version);
   conflictBackOff.reset();
   backOff.reset();
-  await window.textsecure.messaging.sendFetchManifestSyncMessage();
+
+  if (window.ConversationController.areWePrimaryDevice()) {
+    window.log.warn(
+      'uploadManifest: We are primary device; not sending sync manifest'
+    );
+    return;
+  }
+
+  await handleMessageSend(
+    window.textsecure.messaging.sendFetchManifestSyncMessage(),
+    { messageIds: [], sendType: 'otherSync' }
+  );
 }
 
 async function stopStorageServiceSync() {
@@ -552,7 +564,18 @@ async function stopStorageServiceSync() {
     if (!window.textsecure.messaging) {
       throw new Error('storageService.stopStorageServiceSync: We are offline!');
     }
-    window.textsecure.messaging.sendRequestKeySyncMessage();
+
+    if (window.ConversationController.areWePrimaryDevice()) {
+      window.log.warn(
+        'stopStorageServiceSync: We are primary device; not sending key sync request'
+      );
+      return;
+    }
+
+    handleMessageSend(window.textsecure.messaging.sendRequestKeySyncMessage(), {
+      messageIds: [],
+      sendType: 'otherSync',
+    });
   });
 }
 
@@ -1106,7 +1129,18 @@ async function upload(fromSync = false): Promise<void> {
       'storageService.upload: no storageKey, requesting new keys'
     );
     backOff.reset();
-    await window.textsecure.messaging.sendRequestKeySyncMessage();
+
+    if (window.ConversationController.areWePrimaryDevice()) {
+      window.log.warn(
+        'upload: We are primary device; not sending key sync request'
+      );
+      return;
+    }
+
+    await handleMessageSend(
+      window.textsecure.messaging.sendRequestKeySyncMessage(),
+      { messageIds: [], sendType: 'otherSync' }
+    );
     return;
   }
 

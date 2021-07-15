@@ -57,6 +57,7 @@ import {
 import { assert } from '../util/assert';
 import { dropNull, shallowDropNull } from '../util/dropNull';
 import { getOwn } from '../util/getOwn';
+import { handleMessageSend } from '../util/handleMessageSend';
 import {
   fetchMembershipProof,
   getMembershipList,
@@ -937,13 +938,17 @@ export class CallingClass {
     wrapWithSyncMessageSend({
       conversation,
       logId: `sendToGroup/groupCallUpdate/${conversationId}-${eraId}`,
+      messageIds: [],
       send: () =>
         window.Signal.Util.sendToGroup({
           groupSendOptions: { groupCallUpdate: { eraId }, groupV2, timestamp },
           conversation,
           contentHint: ContentHint.DEFAULT,
+          messageId: undefined,
           sendOptions,
+          sendType: 'callingMessage',
         }),
+      sendType: 'callingMessage',
       timestamp,
     }).catch(err => {
       window.log.error(
@@ -1559,11 +1564,18 @@ export class CallingClass {
     }
 
     try {
-      await window.textsecure.messaging.sendCallingMessage(
-        remoteUserId,
-        callingMessageToProto(message),
-        sendOptions
+      const result = await handleMessageSend(
+        window.textsecure.messaging.sendCallingMessage(
+          remoteUserId,
+          callingMessageToProto(message),
+          sendOptions
+        ),
+        { messageIds: [], sendType: 'callingMessage' }
       );
+
+      if (result && result.errors && result.errors.length) {
+        throw result.errors[0];
+      }
 
       window.log.info('handleOutgoingSignaling() completed successfully');
       return true;

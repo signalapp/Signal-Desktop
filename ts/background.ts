@@ -4,10 +4,6 @@
 import { isNumber, noop } from 'lodash';
 import { bindActionCreators } from 'redux';
 import { render } from 'react-dom';
-import {
-  DecryptionErrorMessage,
-  PlaintextContent,
-} from '@signalapp/signal-client';
 
 import MessageReceiver from './textsecure/MessageReceiver';
 import { SessionResetsType, ProcessedDataMessage } from './textsecure/Types.d';
@@ -17,7 +13,7 @@ import {
 } from './model-types.d';
 import * as Bytes from './Bytes';
 import { typedArrayToArrayBuffer } from './Crypto';
-import { WhatIsThis } from './window.d';
+import { WhatIsThis, DeliveryReceiptBatcherItemType } from './window.d';
 import { getTitleBarVisibility, TitleBarVisibility } from './types/Settings';
 import { SocketStatus } from './types/SocketStatus';
 import { DEFAULT_CONVERSATION_COLOR } from './types/Colors';
@@ -46,15 +42,11 @@ import {
   TypingEvent,
   ErrorEvent,
   DeliveryEvent,
-  DecryptionErrorEvent,
-  DecryptionErrorEventData,
   SentEvent,
   SentEventData,
   ProfileKeyUpdateEvent,
   MessageEvent,
   MessageEventData,
-  RetryRequestEvent,
-  RetryRequestEventData,
   ReadEvent,
   ConfigurationEvent,
   ViewSyncEvent,
@@ -72,6 +64,7 @@ import * as universalExpireTimer from './util/universalExpireTimer';
 import { isDirectConversation, isGroupV2 } from './util/whatTypeOfConversation';
 import { getSendOptions } from './util/getSendOptions';
 import { BackOff, FIBONACCI_TIMEOUTS } from './util/BackOff';
+import { handleMessageSend } from './util/handleMessageSend';
 import { AppViewType } from './state/ducks/app';
 import { isIncoming } from './state/selectors/message';
 import { actionCreators } from './state/actions';
@@ -89,6 +82,7 @@ import {
 } from './types/SystemTraySetting';
 import * as Stickers from './types/Stickers';
 import { SignalService as Proto } from './protobuf';
+import { onRetryRequest, onDecryptionError } from './util/handleRetry';
 
 const MAX_ATTACHMENT_DOWNLOAD_AGE = 3600 * 72 * 1000;
 
@@ -167,6 +161,7 @@ export async function startApp(): Promise<void> {
   profileKeyResponseQueue.pause();
 
   const lightSessionResetQueue = new window.PQueue();
+  window.Signal.Services.lightSessionResetQueue = lightSessionResetQueue;
   lightSessionResetQueue.pause();
 
   window.Whisper.deliveryReceiptQueue = new window.PQueue({
@@ -174,57 +169,63 @@ export async function startApp(): Promise<void> {
     timeout: 1000 * 60 * 2,
   });
   window.Whisper.deliveryReceiptQueue.pause();
-  window.Whisper.deliveryReceiptBatcher = window.Signal.Util.createBatcher({
-    name: 'Whisper.deliveryReceiptBatcher',
-    wait: 500,
-    maxSize: 500,
-    processBatch: async items => {
-      const byConversationId = window._.groupBy(items, item =>
-        window.ConversationController.ensureContactIds({
-          e164: item.source,
-          uuid: item.sourceUuid,
-        })
-      );
-      const ids = Object.keys(byConversationId);
-
-      for (let i = 0, max = ids.length; i < max; i += 1) {
-        const conversationId = ids[i];
-        const timestamps = byConversationId[conversationId].map(
-          item => item.timestamp
+  window.Whisper.deliveryReceiptBatcher = window.Signal.Util.createBatcher<DeliveryReceiptBatcherItemType>(
+    {
+      name: 'Whisper.deliveryReceiptBatcher',
+      wait: 500,
+      maxSize: 500,
+      processBatch: async items => {
+        const byConversationId = window._.groupBy(items, item =>
+          window.ConversationController.ensureContactIds({
+            e164: item.source,
+            uuid: item.sourceUuid,
+          })
         );
+        const ids = Object.keys(byConversationId);
 
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        const c = window.ConversationController.get(conversationId)!;
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        const uuid = c.get('uuid')!;
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        const e164 = c.get('e164')!;
+        for (let i = 0, max = ids.length; i < max; i += 1) {
+          const conversationId = ids[i];
+          const ourItems = byConversationId[conversationId];
+          const timestamps = ourItems.map(item => item.timestamp);
+          const messageIds = ourItems.map(item => item.messageId);
 
-        c.queueJob('sendDeliveryReceipt', async () => {
-          try {
-            const {
-              wrap,
-              sendOptions,
-            } = await window.ConversationController.prepareForSend(c.get('id'));
-            // eslint-disable-next-line no-await-in-loop
-            await wrap(
-              window.textsecure.messaging.sendDeliveryReceipt({
-                e164,
-                uuid,
-                timestamps,
-                options: sendOptions,
-              })
+          const c = window.ConversationController.get(conversationId);
+          if (!c) {
+            window.log.warn(
+              `deliveryReceiptBatcher: Conversation ${conversationId} does not exist! ` +
+                `Will not send delivery receipts for timestamps ${timestamps}`
             );
-          } catch (error) {
-            window.log.error(
-              `Failed to send delivery receipt to ${e164}/${uuid} for timestamps ${timestamps}:`,
-              error && error.stack ? error.stack : error
-            );
+            continue;
           }
-        });
-      }
-    },
-  });
+
+          const uuid = c.get('uuid');
+          const e164 = c.get('e164');
+
+          c.queueJob('sendDeliveryReceipt', async () => {
+            try {
+              const sendOptions = await getSendOptions(c.attributes);
+
+              // eslint-disable-next-line no-await-in-loop
+              await handleMessageSend(
+                window.textsecure.messaging.sendDeliveryReceipt({
+                  e164,
+                  uuid,
+                  timestamps,
+                  options: sendOptions,
+                }),
+                { messageIds, sendType: 'deliveryReceipt' }
+              );
+            } catch (error) {
+              window.log.error(
+                `Failed to send delivery receipt to ${e164}/${uuid} for timestamps ${timestamps}:`,
+                error && error.stack ? error.stack : error
+              );
+            }
+          });
+        }
+      },
+    }
+  );
 
   if (getTitleBarVisibility() === TitleBarVisibility.Hidden) {
     window.addEventListener('dblclick', (event: Event) => {
@@ -899,25 +900,47 @@ export async function startApp(): Promise<void> {
     window.Signal.Services.retryPlaceholders = retryPlaceholders;
 
     setInterval(async () => {
-      const expired = await retryPlaceholders.getExpiredAndRemove();
-      window.log.info(
-        `retryPlaceholders/interval: Found ${expired.length} expired items`
-      );
-      expired.forEach(item => {
-        const { conversationId, senderUuid } = item;
-        const conversation = window.ConversationController.get(conversationId);
-        if (conversation) {
-          const receivedAt = Date.now();
-          const receivedAtCounter = window.Signal.Util.incrementMessageCounter();
-          conversation.queueJob('addDeliveryIssue', () =>
-            conversation.addDeliveryIssue({
-              receivedAt,
-              receivedAtCounter,
-              senderUuid,
-            })
+      const now = Date.now();
+      const HOUR = 1000 * 60 * 60;
+      const DAY = 24 * HOUR;
+      const oneDayAgo = now - DAY;
+      try {
+        await window.Signal.Data.deleteSentProtosOlderThan(oneDayAgo);
+      } catch (error) {
+        window.log.error(
+          'background/onready/setInterval: Error deleting sent protos: ',
+          error && error.stack ? error.stack : error
+        );
+      }
+
+      try {
+        const expired = await retryPlaceholders.getExpiredAndRemove();
+        window.log.info(
+          `retryPlaceholders/interval: Found ${expired.length} expired items`
+        );
+        expired.forEach(item => {
+          const { conversationId, senderUuid } = item;
+          const conversation = window.ConversationController.get(
+            conversationId
           );
-        }
-      });
+          if (conversation) {
+            const receivedAt = Date.now();
+            const receivedAtCounter = window.Signal.Util.incrementMessageCounter();
+            conversation.queueJob('addDeliveryIssue', () =>
+              conversation.addDeliveryIssue({
+                receivedAt,
+                receivedAtCounter,
+                senderUuid,
+              })
+            );
+          }
+        });
+      } catch (error) {
+        window.log.error(
+          'background/onready/setInterval: Error getting expired retry placeholders: ',
+          error && error.stack ? error.stack : error
+        );
+      }
     }, FIVE_MINUTES);
 
     try {
@@ -1640,7 +1663,18 @@ export async function startApp(): Promise<void> {
 
   function runStorageService() {
     window.Signal.Services.enableStorageService();
-    window.textsecure.messaging.sendRequestKeySyncMessage();
+
+    if (window.ConversationController.areWePrimaryDevice()) {
+      window.log.warn(
+        'background/runStorageService: We are primary device; not sending key sync request'
+      );
+      return;
+    }
+
+    handleMessageSend(window.textsecure.messaging.sendRequestKeySyncMessage(), {
+      messageIds: [],
+      sendType: 'otherSync',
+    });
   }
 
   let challengeHandler: ChallengeHandler | undefined;
@@ -1868,7 +1902,18 @@ export async function startApp(): Promise<void> {
         }
 
         await window.storage.remove('manifestVersion');
-        await window.textsecure.messaging.sendRequestKeySyncMessage();
+
+        if (window.ConversationController.areWePrimaryDevice()) {
+          window.log.warn(
+            'onChange/desktop.storage: We are primary device; not sending key sync request'
+          );
+          return;
+        }
+
+        await handleMessageSend(
+          window.textsecure.messaging.sendRequestKeySyncMessage(),
+          { messageIds: [], sendType: 'otherSync' }
+        );
       }
     );
 
@@ -2275,7 +2320,7 @@ export async function startApp(): Promise<void> {
             'gv2-3': true,
             'gv1-migration': true,
             senderKey: window.Signal.RemoteConfig.isEnabled(
-              'desktop.sendSenderKey'
+              'desktop.sendSenderKey2'
             ),
           });
         } catch (error) {
@@ -2312,11 +2357,8 @@ export async function startApp(): Promise<void> {
           runStorageService();
         });
 
-        const ourId = window.ConversationController.getOurConversationId();
-        const {
-          wrap,
-          sendOptions,
-        } = await window.ConversationController.prepareForSend(ourId, {
+        const ourConversation = window.ConversationController.getOurConversationOrThrow();
+        const sendOptions = await getSendOptions(ourConversation.attributes, {
           syncMessage: true,
         });
 
@@ -2328,11 +2370,19 @@ export async function startApp(): Promise<void> {
             installed: true,
           }));
 
-          wrap(
+          if (window.ConversationController.areWePrimaryDevice()) {
+            window.log.warn(
+              'background/connect: We are primary device; not sending sticker pack sync'
+            );
+            return;
+          }
+
+          handleMessageSend(
             window.textsecure.messaging.sendStickerPackSync(
               operations,
               sendOptions
-            )
+            ),
+            { messageIds: [], sendType: 'otherSync' }
           ).catch(error => {
             window.log.error(
               'Failed to send installed sticker packs via sync message',
@@ -3559,382 +3609,6 @@ export async function startApp(): Promise<void> {
     window.log.warn('background onError: Doing nothing with incoming error');
   }
 
-  function isInList(
-    conversation: ConversationModel,
-    list: Array<string | undefined | null> | undefined
-  ): boolean {
-    const uuid = conversation.get('uuid');
-    const e164 = conversation.get('e164');
-    const id = conversation.get('id');
-
-    if (!list) {
-      return false;
-    }
-
-    if (list.includes(id)) {
-      return true;
-    }
-
-    if (uuid && list.includes(uuid)) {
-      return true;
-    }
-
-    if (e164 && list.includes(e164)) {
-      return true;
-    }
-
-    return false;
-  }
-
-  async function archiveSessionOnMatch({
-    requesterUuid,
-    requesterDevice,
-    senderDevice,
-  }: RetryRequestEventData): Promise<void> {
-    const ourDeviceId = parseIntOrThrow(
-      window.textsecure.storage.user.getDeviceId(),
-      'archiveSessionOnMatch/getDeviceId'
-    );
-    if (ourDeviceId === senderDevice) {
-      const address = `${requesterUuid}.${requesterDevice}`;
-      window.log.info(
-        'archiveSessionOnMatch: Devices match, archiving session'
-      );
-      await window.textsecure.storage.protocol.archiveSession(address);
-    }
-  }
-
-  async function sendDistributionMessageOrNullMessage(
-    options: RetryRequestEventData
-  ): Promise<void> {
-    const { groupId, requesterUuid } = options;
-    let sentDistributionMessage = false;
-    window.log.info('sendDistributionMessageOrNullMessage: Starting', {
-      groupId: groupId ? `groupv2(${groupId})` : undefined,
-      requesterUuid,
-    });
-
-    await archiveSessionOnMatch(options);
-
-    const conversation = window.ConversationController.getOrCreate(
-      requesterUuid,
-      'private'
-    );
-
-    if (groupId) {
-      const group = window.ConversationController.get(groupId);
-      const distributionId = group?.get('senderKeyInfo')?.distributionId;
-
-      if (group && distributionId) {
-        window.log.info(
-          'sendDistributionMessageOrNullMessage: Found matching group, sending sender key distribution message'
-        );
-
-        try {
-          const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
-
-          const result = await window.textsecure.messaging.sendSenderKeyDistributionMessage(
-            {
-              contentHint: ContentHint.DEFAULT,
-              distributionId,
-              groupId,
-              identifiers: [requesterUuid],
-            }
-          );
-          if (result.errors && result.errors.length > 0) {
-            throw result.errors[0];
-          }
-          sentDistributionMessage = true;
-        } catch (error) {
-          window.log.error(
-            'sendDistributionMessageOrNullMessage: Failed to send sender key distribution message',
-            error && error.stack ? error.stack : error
-          );
-        }
-      }
-    }
-
-    if (!sentDistributionMessage) {
-      window.log.info(
-        'sendDistributionMessageOrNullMessage: Did not send distribution message, sending null message'
-      );
-
-      try {
-        const sendOptions = await getSendOptions(conversation.attributes);
-        const result = await window.textsecure.messaging.sendNullMessage(
-          { uuid: requesterUuid },
-          sendOptions
-        );
-        if (result.errors && result.errors.length > 0) {
-          throw result.errors[0];
-        }
-      } catch (error) {
-        window.log.error(
-          'maybeSendDistributionMessage: Failed to send null message',
-          error && error.stack ? error.stack : error
-        );
-      }
-    }
-  }
-
-  async function onRetryRequest(event: RetryRequestEvent) {
-    const { retryRequest } = event;
-    const {
-      requesterDevice,
-      requesterUuid,
-      senderDevice,
-      sentAt,
-    } = retryRequest;
-    const logId = `${requesterUuid}.${requesterDevice} ${sentAt}-${senderDevice}`;
-
-    window.log.info(`onRetryRequest/${logId}: Starting...`);
-
-    const requesterConversation = window.ConversationController.getOrCreate(
-      requesterUuid,
-      'private'
-    );
-
-    const messages = await window.Signal.Data.getMessagesBySentAt(sentAt, {
-      MessageCollection: window.Whisper.MessageCollection,
-    });
-
-    const targetMessage = messages.find(message => {
-      if (message.get('sent_at') !== sentAt) {
-        return false;
-      }
-
-      if (message.get('type') !== 'outgoing') {
-        return false;
-      }
-
-      if (!isInList(requesterConversation, message.get('sent_to'))) {
-        return false;
-      }
-
-      return true;
-    });
-
-    if (!targetMessage) {
-      window.log.info(`onRetryRequest/${logId}: Did not find message`);
-      await sendDistributionMessageOrNullMessage(retryRequest);
-      return;
-    }
-
-    if (targetMessage.isErased()) {
-      window.log.info(
-        `onRetryRequest/${logId}: Message is erased, refusing to send again.`
-      );
-      await sendDistributionMessageOrNullMessage(retryRequest);
-      return;
-    }
-
-    const HOUR = 60 * 60 * 1000;
-    const ONE_DAY = 24 * HOUR;
-    let retryRespondMaxAge = ONE_DAY;
-    try {
-      retryRespondMaxAge = parseIntOrThrow(
-        window.Signal.RemoteConfig.getValue('desktop.retryRespondMaxAge'),
-        'retryRespondMaxAge'
-      );
-    } catch (error) {
-      window.log.warn(
-        `onRetryRequest/${logId}: Failed to parse integer from desktop.retryRespondMaxAge feature flag`,
-        error && error.stack ? error.stack : error
-      );
-    }
-
-    if (isOlderThan(sentAt, retryRespondMaxAge)) {
-      window.log.info(
-        `onRetryRequest/${logId}: Message is too old, refusing to send again.`
-      );
-      await sendDistributionMessageOrNullMessage(retryRequest);
-      return;
-    }
-
-    window.log.info(`onRetryRequest/${logId}: Resending message`);
-    await archiveSessionOnMatch(retryRequest);
-    await targetMessage.resend(requesterUuid);
-  }
-
-  async function onDecryptionError(event: DecryptionErrorEvent) {
-    const { decryptionError } = event;
-    const { senderUuid, senderDevice, timestamp } = decryptionError;
-    const logId = `${senderUuid}.${senderDevice} ${timestamp}`;
-
-    window.log.info(`onDecryptionError/${logId}: Starting...`);
-
-    const conversation = window.ConversationController.getOrCreate(
-      senderUuid,
-      'private'
-    );
-    const capabilities = conversation.get('capabilities');
-    if (!capabilities) {
-      await conversation.getProfiles();
-    }
-
-    if (conversation.get('capabilities')?.senderKey) {
-      await requestResend(decryptionError);
-    } else {
-      await startAutomaticSessionReset(decryptionError);
-    }
-
-    window.log.info(`onDecryptionError/${logId}: ...complete`);
-  }
-
-  async function requestResend(decryptionError: DecryptionErrorEventData) {
-    const {
-      cipherTextBytes,
-      cipherTextType,
-      contentHint,
-      groupId,
-      receivedAtCounter,
-      receivedAtDate,
-      senderDevice,
-      senderUuid,
-      timestamp,
-    } = decryptionError;
-    const logId = `${senderUuid}.${senderDevice} ${timestamp}`;
-
-    window.log.info(`requestResend/${logId}: Starting...`, {
-      cipherTextBytesLength: cipherTextBytes?.byteLength,
-      cipherTextType,
-      contentHint,
-      groupId: groupId ? `groupv2(${groupId})` : undefined,
-    });
-
-    // 1. Find the target conversation
-
-    const group = groupId
-      ? window.ConversationController.get(groupId)
-      : undefined;
-    const sender = window.ConversationController.getOrCreate(
-      senderUuid,
-      'private'
-    );
-    const conversation = group || sender;
-
-    // 2. Send resend request
-
-    if (!cipherTextBytes || !isNumber(cipherTextType)) {
-      window.log.warn(
-        `requestResend/${logId}: Missing cipherText information, failing over to automatic reset`
-      );
-      startAutomaticSessionReset(decryptionError);
-      return;
-    }
-
-    try {
-      const message = DecryptionErrorMessage.forOriginal(
-        Buffer.from(cipherTextBytes),
-        cipherTextType,
-        timestamp,
-        senderDevice
-      );
-
-      const plaintext = PlaintextContent.from(message);
-      const options = await getSendOptions(conversation.attributes);
-      const result = await window.textsecure.messaging.sendRetryRequest({
-        plaintext,
-        options,
-        uuid: senderUuid,
-      });
-      if (result.errors && result.errors.length > 0) {
-        throw result.errors[0];
-      }
-    } catch (error) {
-      window.log.error(
-        `requestResend/${logId}: Failed to send retry request, failing over to automatic reset`,
-        error && error.stack ? error.stack : error
-      );
-      startAutomaticSessionReset(decryptionError);
-      return;
-    }
-
-    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
-
-    // 3. Determine how to represent this to the user. Three different options.
-
-    // We believe that it could be successfully re-sent, so we'll add a placeholder.
-    if (contentHint === ContentHint.RESENDABLE) {
-      const { retryPlaceholders } = window.Signal.Services;
-      assert(retryPlaceholders, 'requestResend: adding placeholder');
-
-      window.log.info(`requestResend/${logId}: Adding placeholder`);
-      await retryPlaceholders.add({
-        conversationId: conversation.get('id'),
-        receivedAt: receivedAtDate,
-        receivedAtCounter,
-        sentAt: timestamp,
-        senderUuid,
-      });
-
-      return;
-    }
-
-    // This message cannot be resent. We'll show no error and trust the other side to
-    //   reset their session.
-    if (contentHint === ContentHint.IMPLICIT) {
-      return;
-    }
-
-    window.log.warn(
-      `requestResend/${logId}: No content hint, adding error immediately`
-    );
-    conversation.queueJob('addDeliveryIssue', async () => {
-      conversation.addDeliveryIssue({
-        receivedAt: receivedAtDate,
-        receivedAtCounter,
-        senderUuid,
-      });
-    });
-  }
-
-  function scheduleSessionReset(senderUuid: string, senderDevice: number) {
-    // Postpone sending light session resets until the queue is empty
-    lightSessionResetQueue.add(() => {
-      window.textsecure.storage.protocol.lightSessionReset(
-        senderUuid,
-        senderDevice
-      );
-    });
-  }
-
-  function startAutomaticSessionReset(
-    decryptionError: DecryptionErrorEventData
-  ) {
-    const { senderUuid, senderDevice, timestamp } = decryptionError;
-    const logId = `${senderUuid}.${senderDevice} ${timestamp}`;
-
-    window.log.info(`startAutomaticSessionReset/${logId}: Starting...`);
-
-    scheduleSessionReset(senderUuid, senderDevice);
-
-    const conversationId = window.ConversationController.ensureContactIds({
-      uuid: senderUuid,
-    });
-
-    if (!conversationId) {
-      window.log.warn(
-        'onLightSessionReset: No conversation id, cannot add message to timeline'
-      );
-      return;
-    }
-    const conversation = window.ConversationController.get(conversationId);
-
-    if (!conversation) {
-      window.log.warn(
-        'onLightSessionReset: No conversation, cannot add message to timeline'
-      );
-      return;
-    }
-
-    const receivedAt = Date.now();
-    const receivedAtCounter = window.Signal.Util.incrementMessageCounter();
-    conversation.queueJob('addChatSessionRefreshed', async () => {
-      conversation.addChatSessionRefreshed({ receivedAt, receivedAtCounter });
-    });
-  }
-
   async function onViewSync(ev: ViewSyncEvent) {
     ev.confirm();
 
@@ -4025,7 +3699,13 @@ export async function startApp(): Promise<void> {
   }
 
   function onReadReceipt(ev: ReadEvent) {
-    const { envelopeTimestamp, timestamp, source, sourceUuid } = ev.read;
+    const {
+      envelopeTimestamp,
+      timestamp,
+      source,
+      sourceUuid,
+      sourceDevice,
+    } = ev.read;
     const readAt = envelopeTimestamp;
     const reader = window.ConversationController.ensureContactIds({
       e164: source,
@@ -4036,6 +3716,7 @@ export async function startApp(): Promise<void> {
       'read receipt',
       source,
       sourceUuid,
+      sourceDevice,
       envelopeTimestamp,
       reader,
       'for sent message',
@@ -4050,6 +3731,7 @@ export async function startApp(): Promise<void> {
 
     const receipt = ReadReceipts.getSingleton().add({
       reader,
+      readerDevice: sourceDevice,
       timestamp,
       readAt,
     });
@@ -4198,6 +3880,7 @@ export async function startApp(): Promise<void> {
     const receipt = DeliveryReceipts.getSingleton().add({
       timestamp,
       deliveredTo,
+      deliveredToDevice: sourceDevice,
     });
 
     // Note: We don't wait for completion here

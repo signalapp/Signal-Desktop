@@ -69,7 +69,7 @@ import {
   isGroupV2 as getIsGroupV2,
   isMe,
 } from './util/whatTypeOfConversation';
-import { handleMessageSend } from './util/handleMessageSend';
+import { handleMessageSend, SendTypesType } from './util/handleMessageSend';
 import { getSendOptions } from './util/getSendOptions';
 import * as Bytes from './Bytes';
 import { SignalService as Proto } from './protobuf';
@@ -1309,9 +1309,12 @@ export async function modifyGroupV2({
               profileKey,
             },
             conversation,
-            contentHint: ContentHint.DEFAULT,
+            contentHint: ContentHint.RESENDABLE,
+            messageId: undefined,
             sendOptions,
-          })
+            sendType: 'groupChange',
+          }),
+          { messageIds: [], sendType: 'groupChange' }
         );
 
         // We don't save this message; we just use it to ensure that a sync message is
@@ -1682,6 +1685,7 @@ export async function createGroupV2({
   await wrapWithSyncMessageSend({
     conversation,
     logId: `sendToGroup/${logId}`,
+    messageIds: [],
     send: async () =>
       window.Signal.Util.sendToGroup({
         groupSendOptions: {
@@ -1690,9 +1694,12 @@ export async function createGroupV2({
           profileKey,
         },
         conversation,
-        contentHint: ContentHint.DEFAULT,
+        contentHint: ContentHint.RESENDABLE,
+        messageId: undefined,
         sendOptions,
+        sendType: 'groupChange',
       }),
+    sendType: 'groupChange',
     timestamp,
   });
 
@@ -2212,6 +2219,7 @@ export async function initiateMigrationToGroupV2(
   await wrapWithSyncMessageSend({
     conversation,
     logId: `sendToGroup/${logId}`,
+    messageIds: [],
     send: async () =>
       // Minimal message to notify group members about migration
       window.Signal.Util.sendToGroup({
@@ -2223,9 +2231,12 @@ export async function initiateMigrationToGroupV2(
           profileKey: ourProfileKey,
         },
         conversation,
-        contentHint: ContentHint.DEFAULT,
+        contentHint: ContentHint.RESENDABLE,
+        messageId: undefined,
         sendOptions,
+        sendType: 'groupChange',
       }),
+    sendType: 'groupChange',
     timestamp,
   });
 }
@@ -2233,12 +2244,16 @@ export async function initiateMigrationToGroupV2(
 export async function wrapWithSyncMessageSend({
   conversation,
   logId,
+  messageIds,
   send,
+  sendType,
   timestamp,
 }: {
   conversation: ConversationModel;
   logId: string;
-  send: (sender: MessageSender) => Promise<CallbackResultType | undefined>;
+  messageIds: Array<string>;
+  send: (sender: MessageSender) => Promise<CallbackResultType>;
+  sendType: SendTypesType;
   timestamp: number;
 }): Promise<void> {
   const sender = window.textsecure.messaging;
@@ -2250,7 +2265,7 @@ export async function wrapWithSyncMessageSend({
 
   let response: CallbackResultType | undefined;
   try {
-    response = await send(sender);
+    response = await handleMessageSend(send(sender), { messageIds, sendType });
   } catch (error) {
     if (conversation.processSendResponse(error)) {
       response = error;
@@ -2285,15 +2300,27 @@ export async function wrapWithSyncMessageSend({
     );
   }
 
-  await sender.sendSyncMessage({
-    encodedDataMessage: dataMessage,
-    timestamp,
-    destination: ourConversation.get('e164'),
-    destinationUuid: ourConversation.get('uuid'),
-    expirationStartTimestamp: null,
-    sentTo: [],
-    unidentifiedDeliveries: [],
-  });
+  if (window.ConversationController.areWePrimaryDevice()) {
+    window.log.warn(
+      `wrapWithSyncMessageSend/${logId}: We are primary device; not sync message`
+    );
+    return;
+  }
+
+  const options = await getSendOptions(ourConversation.attributes);
+  await handleMessageSend(
+    sender.sendSyncMessage({
+      destination: ourConversation.get('e164'),
+      destinationUuid: ourConversation.get('uuid'),
+      encodedDataMessage: dataMessage,
+      expirationStartTimestamp: null,
+      options,
+      sentTo: [],
+      timestamp,
+      unidentifiedDeliveries: [],
+    }),
+    { messageIds, sendType }
+  );
 }
 
 export async function waitThenRespondToGroupV2Migration(

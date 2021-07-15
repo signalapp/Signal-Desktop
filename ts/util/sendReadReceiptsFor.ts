@@ -7,9 +7,18 @@ import { getSendOptions } from './getSendOptions';
 import { handleMessageSend } from './handleMessageSend';
 import { isConversationAccepted } from './isConversationAccepted';
 
+type ReceiptSpecType = {
+  messageId: string;
+  senderE164?: string;
+  senderUuid?: string;
+  senderId?: string;
+  timestamp: number;
+  hasErrors: boolean;
+};
+
 export async function sendReadReceiptsFor(
   conversationAttrs: ConversationAttributesType,
-  items: Array<unknown>
+  items: Array<ReceiptSpecType>
 ): Promise<void> {
   // Only send read receipts for accepted conversations
   if (
@@ -22,7 +31,8 @@ export async function sendReadReceiptsFor(
 
     await Promise.all(
       map(receiptsBySender, async (receipts, senderId) => {
-        const timestamps = map(receipts, 'timestamp');
+        const timestamps = map(receipts, item => item.timestamp);
+        const messageIds = map(receipts, item => item.messageId);
         const conversation = window.ConversationController.get(senderId);
 
         if (conversation) {
@@ -34,7 +44,8 @@ export async function sendReadReceiptsFor(
               senderUuid: conversation.get('uuid')!,
               timestamps,
               options: sendOptions,
-            })
+            }),
+            { messageIds, sendType: 'readReceipt' }
           );
         }
       })

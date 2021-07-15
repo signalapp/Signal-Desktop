@@ -75,6 +75,7 @@ export type ProcessedEnvelope = Readonly<{
   content?: Uint8Array;
   serverGuid: string;
   serverTimestamp: number;
+  groupId?: string;
 }>;
 
 export type ProcessedAttachment = {

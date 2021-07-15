@@ -613,6 +613,10 @@
       }
     }
   },
+  "decryptionErrorToast": {
+    "message": "Desktop ran into a decryption error. Click to submit a debug log.",
+    "description": "An error popup when we haven't added an error for decryption error."
+  },
   "oneNonImageAtATimeToast": {
     "message": "When including a non-image attachment, the limit is one attachment per message.",
     "description": "An error popup when the user has attempted to add an attachment"

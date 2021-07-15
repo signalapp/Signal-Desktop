@@ -48,6 +48,11 @@ export const enum SenderCertificateMode {
   WithoutE164,
 }
 
+export type SendLogCallbackType = (options: {
+  identifier: string;
+  deviceIds: Array<number>;
+}) => Promise<void>;
+
 type SendMetadata = {
   type: number;
   destinationDeviceId: number;
@@ -123,11 +128,11 @@ export default class OutgoingMessage {
 
   errors: Array<CustomError>;
 
-  successfulIdentifiers: Array<unknown>;
+  successfulIdentifiers: Array<string>;
 
-  failoverIdentifiers: Array<unknown>;
+  failoverIdentifiers: Array<string>;
 
-  unidentifiedDeliveries: Array<unknown>;
+  unidentifiedDeliveries: Array<string>;
 
   sendMetadata?: SendMetadataType;
 
@@ -137,16 +142,31 @@ export default class OutgoingMessage {
 
   contentHint: number;
 
-  constructor(
-    server: WebAPIType,
-    timestamp: number,
-    identifiers: Array<string>,
-    message: Proto.Content | Proto.DataMessage | PlaintextContent,
-    contentHint: number,
-    groupId: string | undefined,
-    callback: (result: CallbackResultType) => void,
-    options: OutgoingMessageOptionsType = {}
-  ) {
+  recipients: Record<string, Array<number>>;
+
+  sendLogCallback?: SendLogCallbackType;
+
+  constructor({
+    callback,
+    contentHint,
+    groupId,
+    identifiers,
+    message,
+    options,
+    sendLogCallback,
+    server,
+    timestamp,
+  }: {
+    callback: (result: CallbackResultType) => void;
+    contentHint: number;
+    groupId: string | undefined;
+    identifiers: Array<string>;
+    message: Proto.Content | Proto.DataMessage | PlaintextContent;
+    options?: OutgoingMessageOptionsType;
+    sendLogCallback?: SendLogCallbackType;
+    server: WebAPIType;
+    timestamp: number;
+  }) {
     if (message instanceof Proto.DataMessage) {
       const content = new Proto.Content();
       content.dataMessage = message;
@@ -168,20 +188,29 @@ export default class OutgoingMessage {
     this.successfulIdentifiers = [];
     this.failoverIdentifiers = [];
     this.unidentifiedDeliveries = [];
+    this.recipients = {};
+    this.sendLogCallback = sendLogCallback;
 
-    const { sendMetadata, online } = options;
-    this.sendMetadata = sendMetadata;
-    this.online = online;
+    this.sendMetadata = options?.sendMetadata;
+    this.online = options?.online;
   }
 
   numberCompleted(): void {
     this.identifiersCompleted += 1;
     if (this.identifiersCompleted >= this.identifiers.length) {
+      const contentProto = this.getContentProtoBytes();
+      const { timestamp, contentHint, recipients } = this;
+
       this.callback({
         successfulIdentifiers: this.successfulIdentifiers,
         failoverIdentifiers: this.failoverIdentifiers,
         errors: this.errors,
         unidentifiedDeliveries: this.unidentifiedDeliveries,
+
+        contentHint,
+        recipients,
+        contentProto,
+        timestamp,
       });
     }
   }
@@ -311,6 +340,14 @@ export default class OutgoingMessage {
       }
     }
     return toArrayBuffer(this.plaintext);
+  }
+
+  getContentProtoBytes(): Uint8Array | undefined {
+    if (this.message instanceof Proto.Content) {
+      return new Uint8Array(Proto.Content.encode(this.message).finish());
+    }
+
+    return undefined;
   }
 
   async getCiphertextMessage({
@@ -455,9 +492,21 @@ export default class OutgoingMessage {
             accessKey,
           }).then(
             () => {
+              this.recipients[identifier] = deviceIds;
               this.unidentifiedDeliveries.push(identifier);
               this.successfulIdentifiers.push(identifier);
               this.numberCompleted();
+
+              if (this.sendLogCallback) {
+                this.sendLogCallback({
+                  identifier,
+                  deviceIds,
+                });
+              } else if (this.successfulIdentifiers.length > 1) {
+                window.log.warn(
+                  `OutgoingMessage.doSendMessage: no sendLogCallback provided for message ${this.timestamp}, but multiple recipients`
+                );
+              }
             },
             async (error: Error) => {
               if (error.code === 401 || error.code === 403) {
@@ -481,7 +530,19 @@ export default class OutgoingMessage {
         return this.transmitMessage(identifier, jsonData, this.timestamp).then(
           () => {
             this.successfulIdentifiers.push(identifier);
+            this.recipients[identifier] = deviceIds;
             this.numberCompleted();
+
+            if (this.sendLogCallback) {
+              this.sendLogCallback({
+                identifier,
+                deviceIds,
+              });
+            } else if (this.successfulIdentifiers.length > 1) {
+              window.log.warn(
+                `OutgoingMessage.doSendMessage: no sendLogCallback provided for message ${this.timestamp}, but multiple recipients`
+              );
+            }
           }
         );
       })

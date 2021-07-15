@@ -10,7 +10,6 @@ import {
   MessageAttributesType,
   MessageModelCollectionType,
   QuotedMessageType,
-  ReactionModelType,
   VerificationOptions,
   WhatIsThis,
 } from '../model-types.d';
@@ -64,7 +63,6 @@ import {
   isGroupV2,
   isMe,
 } from '../util/whatTypeOfConversation';
-import { deprecated } from '../util/deprecated';
 import { SignalService as Proto } from '../protobuf';
 import {
   hasErrors,
@@ -73,7 +71,7 @@ import {
   getMessagePropStatus,
 } from '../state/selectors/message';
 import { Deletes } from '../messageModifiers/Deletes';
-import { Reactions } from '../messageModifiers/Reactions';
+import { Reactions, ReactionModel } from '../messageModifiers/Reactions';
 
 // TODO: remove once we move away from ArrayBuffers
 const FIXMEU8 = Uint8Array;
@@ -318,11 +316,6 @@ export class ConversationModel extends window.Backbone
       this.set('color', sample(AvatarColors));
       window.Signal.Data.updateConversation(this.attributes);
     }
-  }
-
-  isPrivate(): boolean {
-    deprecated('isPrivate()');
-    return isDirectConversation(this.attributes);
   }
 
   isMemberRequestingToJoin(conversationId: string): boolean {
@@ -1200,7 +1193,8 @@ export class ConversationModel extends window.Backbone
               ...sendOptions,
               online: true,
             },
-          })
+          }),
+          { messageIds: [], sendType: 'typing' }
         );
       } else {
         handleMessageSend(
@@ -1208,11 +1202,14 @@ export class ConversationModel extends window.Backbone
             contentHint: ContentHint.IMPLICIT,
             contentMessage,
             conversation: this,
+            messageId: undefined,
             online: true,
             recipients: groupMembers,
             sendOptions,
+            sendType: 'typing',
             timestamp,
-          })
+          }),
+          { messageIds: [], sendType: 'typing' }
         );
       }
     });
@@ -1577,6 +1574,7 @@ export class ConversationModel extends window.Backbone
         m => !hasErrors(m.attributes) && isIncoming(m.attributes)
       );
       const receiptSpecs = readMessages.map(m => ({
+        messageId: m.id,
         senderE164: m.get('source'),
         senderUuid: m.get('sourceUuid'),
         senderId: window.ConversationController.ensureContactIds({
@@ -1988,22 +1986,22 @@ export class ConversationModel extends window.Backbone
     //   server updates were successful.
     await this.applyMessageRequestResponse(response);
 
-    const { ourNumber, ourUuid } = this;
-    const {
-      wrap,
-      sendOptions,
-    } = await window.ConversationController.prepareForSend(
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      ourNumber || ourUuid!,
-      {
-        syncMessage: true,
-      }
-    );
+    const ourConversation = window.ConversationController.getOurConversationOrThrow();
+    const sendOptions = await getSendOptions(ourConversation.attributes, {
+      syncMessage: true,
+    });
 
     const groupId = this.getGroupIdBuffer();
 
+    if (window.ConversationController.areWePrimaryDevice()) {
+      window.log.warn(
+        'syncMessageRequestResponse: We are primary device; not sending message request sync'
+      );
+      return;
+    }
+
     try {
-      await wrap(
+      await handleMessageSend(
         window.textsecure.messaging.syncMessageRequestResponse(
           {
             threadE164: this.get('e164'),
@@ -2012,7 +2010,8 @@ export class ConversationModel extends window.Backbone
             type: response,
           },
           sendOptions
-        )
+        ),
+        { messageIds: [], sendType: 'otherSync' }
       );
     } catch (result) {
       this.processSendResponse(result);
@@ -2167,10 +2166,8 @@ export class ConversationModel extends window.Backbone
     }
     if (!options.viaSyncMessage) {
       await this.sendVerifySyncMessage(
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        this.get('e164')!,
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        this.get('uuid')!,
+        this.get('e164'),
+        this.get('uuid'),
         verified
       );
     }
@@ -2179,33 +2176,52 @@ export class ConversationModel extends window.Backbone
   }
 
   async sendVerifySyncMessage(
-    e164: string,
-    uuid: string,
+    e164: string | undefined,
+    uuid: string | undefined,
     state: number
-  ): Promise<WhatIsThis> {
+  ): Promise<CallbackResultType | void> {
+    const identifier = uuid || e164;
+    if (!identifier) {
+      throw new Error(
+        'sendVerifySyncMessage: Neither e164 nor UUID were provided'
+      );
+    }
+
+    if (window.ConversationController.areWePrimaryDevice()) {
+      window.log.warn(
+        'sendVerifySyncMessage: We are primary device; not sending sync'
+      );
+      return;
+    }
+
     // Because syncVerification sends a (null) message to the target of the verify and
     //   a sync message to our own devices, we need to send the accessKeys down for both
     //   contacts. So we merge their sendOptions.
-    const { sendOptions } = await window.ConversationController.prepareForSend(
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      this.ourNumber || this.ourUuid!,
-      { syncMessage: true }
-    );
+    const ourConversation = window.ConversationController.getOurConversationOrThrow();
+    const sendOptions = await getSendOptions(ourConversation.attributes, {
+      syncMessage: true,
+    });
     const contactSendOptions = await getSendOptions(this.attributes);
     const options = { ...sendOptions, ...contactSendOptions };
 
-    const promise = window.textsecure.storage.protocol.loadIdentityKey(e164);
-    return promise.then(key =>
-      handleMessageSend(
-        window.textsecure.messaging.syncVerification(
-          e164,
-          uuid,
-          state,
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          key!,
-          options
-        )
-      )
+    const key = await window.textsecure.storage.protocol.loadIdentityKey(
+      identifier
+    );
+    if (!key) {
+      throw new Error(
+        `sendVerifySyncMessage: No identity key found for identifier ${identifier}`
+      );
+    }
+
+    await handleMessageSend(
+      window.textsecure.messaging.syncVerification(
+        e164,
+        uuid,
+        state,
+        key,
+        options
+      ),
+      { messageIds: [], sendType: 'verificationSync' }
     );
   }
 
@@ -2214,13 +2230,12 @@ export class ConversationModel extends window.Backbone
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       return this.get('verified') === this.verifiedEnum!.VERIFIED;
     }
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    if (!this.contactCollection!.length) {
+
+    if (!this.contactCollection?.length) {
       return false;
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    return this.contactCollection!.every(contact => {
+    return this.contactCollection?.every(contact => {
       if (isMe(contact.attributes)) {
         return true;
       }
@@ -2238,16 +2253,12 @@ export class ConversationModel extends window.Backbone
         verified !== this.verifiedEnum!.DEFAULT
       );
     }
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    if (!this.contactCollection!.length) {
+
+    if (!this.contactCollection?.length) {
       return true;
     }
 
-    // Array.any does not exist. This is probably broken.
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    return this.contactCollection!.any(contact => {
+    return this.contactCollection?.some(contact => {
       if (isMe(contact.attributes)) {
         return false;
       }
@@ -2262,8 +2273,7 @@ export class ConversationModel extends window.Backbone
         : new window.Backbone.Collection();
     }
     return new window.Backbone.Collection(
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      this.contactCollection!.filter(contact => {
+      this.contactCollection?.filter(contact => {
         if (isMe(contact.attributes)) {
           return false;
         }
@@ -3158,7 +3168,11 @@ export class ConversationModel extends window.Backbone
     window.reduxActions.stickers.useSticker(packId, stickerId);
   }
 
-  async sendDeleteForEveryoneMessage(targetTimestamp: number): Promise<void> {
+  async sendDeleteForEveryoneMessage(options: {
+    id: string;
+    timestamp: number;
+  }): Promise<void> {
+    const { timestamp: targetTimestamp, id: messageId } = options;
     const timestamp = Date.now();
 
     if (timestamp - targetTimestamp > THREE_HOURS) {
@@ -3224,7 +3238,7 @@ export class ConversationModel extends window.Backbone
             deletedForEveryoneTimestamp: targetTimestamp,
             timestamp,
             expireTimer: undefined,
-            contentHint: ContentHint.DEFAULT,
+            contentHint: ContentHint.RESENDABLE,
             groupId: undefined,
             profileKey,
             options: sendOptions,
@@ -3240,8 +3254,10 @@ export class ConversationModel extends window.Backbone
             profileKey,
           },
           conversation: this,
-          contentHint: ContentHint.DEFAULT,
+          contentHint: ContentHint.RESENDABLE,
+          messageId,
           sendOptions,
+          sendType: 'deleteForEveryone',
         });
       })();
 
@@ -3249,11 +3265,16 @@ export class ConversationModel extends window.Backbone
       //   anything to the database.
       message.doNotSave = true;
 
-      const result = await message.send(handleMessageSend(promise));
+      const result = await message.send(
+        handleMessageSend(promise, {
+          messageIds: [messageId],
+          sendType: 'deleteForEveryone',
+        })
+      );
 
       if (!message.hasSuccessfulDelivery()) {
         // This is handled by `conversation_view` which displays a toast on
-        // send error.
+        //   send error.
         throw new Error('No successful delivery for delete for everyone');
       }
       Deletes.getSingleton().onDelete(deleteModel);
@@ -3274,10 +3295,12 @@ export class ConversationModel extends window.Backbone
   async sendReactionMessage(
     reaction: { emoji: string; remove: boolean },
     target: {
+      messageId: string;
       targetAuthorUuid: string;
       targetTimestamp: number;
     }
   ): Promise<WhatIsThis> {
+    const { messageId } = target;
     const timestamp = Date.now();
     const outgoingReaction = { ...reaction, ...target };
 
@@ -3373,7 +3396,7 @@ export class ConversationModel extends window.Backbone
             deletedForEveryoneTimestamp: undefined,
             timestamp,
             expireTimer,
-            contentHint: ContentHint.DEFAULT,
+            contentHint: ContentHint.RESENDABLE,
             groupId: undefined,
             profileKey,
             options,
@@ -3392,12 +3415,19 @@ export class ConversationModel extends window.Backbone
             profileKey,
           },
           conversation: this,
-          contentHint: ContentHint.DEFAULT,
+          contentHint: ContentHint.RESENDABLE,
+          messageId,
           sendOptions: options,
+          sendType: 'reaction',
         });
       })();
 
-      const result = await message.send(handleMessageSend(promise));
+      const result = await message.send(
+        handleMessageSend(promise, {
+          messageIds: [messageId],
+          sendType: 'reaction',
+        })
+      );
 
       if (!message.hasSuccessfulDelivery()) {
         // This is handled by `conversation_view` which displays a toast on
@@ -3407,7 +3437,7 @@ export class ConversationModel extends window.Backbone
 
       return result;
     }).catch(() => {
-      let reverseReaction: ReactionModelType;
+      let reverseReaction: ReactionModel;
       if (oldReaction) {
         // Either restore old reaction
         reverseReaction = Reactions.getSingleton().add({
@@ -3444,11 +3474,15 @@ export class ConversationModel extends window.Backbone
       );
       return;
     }
-    await window.textsecure.messaging.sendProfileKeyUpdate(
-      profileKey,
-      recipients,
-      await getSendOptions(this.attributes),
-      this.get('groupId')
+
+    await handleMessageSend(
+      window.textsecure.messaging.sendProfileKeyUpdate(
+        profileKey,
+        recipients,
+        await getSendOptions(this.attributes),
+        this.get('groupId')
+      ),
+      { messageIds: [], sendType: 'profileKeyUpdate' }
     );
   }
 
@@ -3537,6 +3571,7 @@ export class ConversationModel extends window.Backbone
         await addStickerPackReference(model.id, sticker.packId);
       }
       const message = window.MessageController.register(model.id, model);
+      const messageId = message.id;
       await window.Signal.Data.saveMessage(message.attributes, {
         forceSave: true,
         Message: window.Whisper.Message,
@@ -3635,7 +3670,9 @@ export class ConversationModel extends window.Backbone
           },
           conversation: this,
           contentHint: ContentHint.RESENDABLE,
+          messageId,
           sendOptions: options,
+          sendType: 'message',
         });
       } else {
         promise = window.textsecure.messaging.sendMessageToIdentifier({
@@ -3656,7 +3693,12 @@ export class ConversationModel extends window.Backbone
         });
       }
 
-      return message.send(handleMessageSend(promise));
+      return message.send(
+        handleMessageSend(promise, {
+          messageIds: [messageId],
+          sendType: 'message',
+        })
+      );
     });
   }
 
@@ -4099,7 +4141,12 @@ export class ConversationModel extends window.Backbone
       );
     }
 
-    await message.send(handleMessageSend(promise));
+    await message.send(
+      handleMessageSend(promise, {
+        messageIds: [],
+        sendType: 'expirationTimerUpdate',
+      })
+    );
 
     return message;
   }
@@ -4220,7 +4267,8 @@ export class ConversationModel extends window.Backbone
             groupId,
             groupIdentifiers,
             options
-          )
+          ),
+          { messageIds: [], sendType: 'legacyGroupChange' }
         )
       );
     }
