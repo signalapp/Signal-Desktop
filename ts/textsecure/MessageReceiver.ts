@@ -39,6 +39,7 @@ import {
   Sessions,
   SignedPreKeys,
 } from '../LibSignalStores';
+import { verifySignature } from '../Curve';
 import { BackOff, FIBONACCI_TIMEOUTS } from '../util/BackOff';
 import { assert, strictAssert } from '../util/assert';
 import { BatcherType, createBatcher } from '../util/batcher';
@@ -1145,7 +1146,10 @@ class MessageReceiverInner extends EventTarget {
     { sessionStore, identityKeyStore, zone }: LockedStores,
     envelope: ProcessedEnvelope,
     ciphertext: Uint8Array
-  ): Promise<DecryptSealedSenderResult> {
+  ): Promise<{
+    error?: Error;
+    result: DecryptSealedSenderResult;
+  }> {
     const buffer = Buffer.from(ciphertext);
 
     const localE164 = window.textsecure.storage.user.getNumber();
@@ -1198,13 +1202,48 @@ class MessageReceiverInner extends EventTarget {
         'MessageReceiver.decryptSealedSender: Dropping blocked message after ' +
           'partial sealed sender decryption'
       );
-      return { isBlocked: true, envelope: newEnvelope };
+      return {
+        result: { isBlocked: true, envelope: newEnvelope },
+      };
     }
 
     if (!newEnvelope.serverTimestamp) {
       throw new Error(
         'MessageReceiver.decryptSealedSender: ' +
           'Sealed sender message was missing serverTimestamp'
+      );
+    }
+
+    const serverCertificate = certificate.serverCertificate();
+
+    if (
+      !verifySignature(
+        typedArrayToArrayBuffer(this.serverTrustRoot),
+        typedArrayToArrayBuffer(serverCertificate.certificateData()),
+        typedArrayToArrayBuffer(serverCertificate.signature())
+      )
+    ) {
+      throw new Error(
+        'MessageReceiver.decryptSealedSender: Server certificate trust root validation failed'
+      );
+    }
+
+    if (
+      !verifySignature(
+        typedArrayToArrayBuffer(serverCertificate.key().serialize()),
+        typedArrayToArrayBuffer(certificate.certificate()),
+        typedArrayToArrayBuffer(certificate.signature())
+      )
+    ) {
+      throw new Error(
+        'MessageReceiver.decryptSealedSender: Server certificate server signature validation failed'
+      );
+    }
+
+    if (newEnvelope.serverTimestamp > certificate.expiration()) {
+      const envelopeId = this.getEnvelopeId(newEnvelope);
+      throw new Error(
+        `MessageReceiver.decryptSealedSender: Sender certificate is expired for envelope ${envelopeId}`
       );
     }
 
@@ -1222,8 +1261,10 @@ class MessageReceiverInner extends EventTarget {
       );
 
       return {
-        plaintext: plaintextContent.body(),
-        envelope: newEnvelope,
+        result: {
+          plaintext: plaintextContent.body(),
+          envelope: newEnvelope,
+        },
       };
     }
 
@@ -1239,24 +1280,34 @@ class MessageReceiverInner extends EventTarget {
 
       const address = `${sealedSenderIdentifier}.${sealedSenderSourceDevice}`;
 
-      const plaintext = await window.textsecure.storage.protocol.enqueueSenderKeyJob(
-        address,
-        () =>
-          groupDecrypt(
-            ProtocolAddress.new(
-              sealedSenderIdentifier,
-              sealedSenderSourceDevice
+      try {
+        const plaintext = await window.textsecure.storage.protocol.enqueueSenderKeyJob(
+          address,
+          () =>
+            groupDecrypt(
+              ProtocolAddress.new(
+                sealedSenderIdentifier,
+                sealedSenderSourceDevice
+              ),
+              senderKeyStore,
+              messageContent.contents()
             ),
-            senderKeyStore,
-            messageContent.contents()
-          ),
-        zone
-      );
-
-      return {
-        plaintext,
-        envelope: newEnvelope,
-      };
+          zone
+        );
+        return {
+          result: {
+            plaintext,
+            envelope: newEnvelope,
+          },
+        };
+      } catch (error) {
+        return {
+          error,
+          result: {
+            envelope: newEnvelope,
+          },
+        };
+      }
     }
 
     window.log.info(
@@ -1268,32 +1319,46 @@ class MessageReceiverInner extends EventTarget {
 
     const sealedSenderIdentifier = newEnvelope.sourceUuid || newEnvelope.source;
     const address = `${sealedSenderIdentifier}.${newEnvelope.sourceDevice}`;
-    const unsealedPlaintext = await window.textsecure.storage.protocol.enqueueSessionJob(
-      address,
-      () =>
-        sealedSenderDecryptMessage(
-          buffer,
-          PublicKey.deserialize(Buffer.from(this.serverTrustRoot)),
-          newEnvelope.serverTimestamp,
-          localE164 || null,
-          localUuid,
-          localDeviceId,
-          sessionStore,
-          identityKeyStore,
-          preKeyStore,
-          signedPreKeyStore
-        ),
-      zone
-    );
+    try {
+      const unsealedPlaintext = await window.textsecure.storage.protocol.enqueueSessionJob(
+        address,
+        () =>
+          sealedSenderDecryptMessage(
+            buffer,
+            PublicKey.deserialize(Buffer.from(this.serverTrustRoot)),
+            newEnvelope.serverTimestamp,
+            localE164 || null,
+            localUuid,
+            localDeviceId,
+            sessionStore,
+            identityKeyStore,
+            preKeyStore,
+            signedPreKeyStore
+          ),
+        zone
+      );
 
-    return { unsealedPlaintext, envelope: newEnvelope };
+      return {
+        result: { unsealedPlaintext, envelope: newEnvelope },
+      };
+    } catch (error) {
+      return {
+        error,
+        result: {
+          envelope: newEnvelope,
+        },
+      };
+    }
   }
 
   private async innerDecrypt(
     stores: LockedStores,
     envelope: ProcessedEnvelope,
     ciphertext: Uint8Array
-  ): Promise<InnerDecryptResult> {
+  ): Promise<{
+    error?: Error;
+    result: InnerDecryptResult;
+  }> {
     const { sessionStore, identityKeyStore, zone } = stores;
 
     const logId = this.getEnvelopeId(envelope);
@@ -1311,8 +1376,10 @@ class MessageReceiverInner extends EventTarget {
       const plaintextContent = PlaintextContent.deserialize(buffer);
 
       return {
-        plaintext: this.unpad(plaintextContent.body()),
-        envelope,
+        result: {
+          plaintext: this.unpad(plaintextContent.body()),
+          envelope,
+        },
       };
     }
     if (envelope.type === envelopeTypeEnum.CIPHERTEXT) {
@@ -1330,21 +1397,24 @@ class MessageReceiverInner extends EventTarget {
       const signalMessage = SignalMessage.deserialize(Buffer.from(ciphertext));
 
       const address = `${identifier}.${sourceDevice}`;
+      const plaintext = await window.textsecure.storage.protocol.enqueueSessionJob(
+        address,
+        async () =>
+          this.unpad(
+            await signalDecrypt(
+              signalMessage,
+              ProtocolAddress.new(identifier, sourceDevice),
+              sessionStore,
+              identityKeyStore
+            )
+          ),
+        zone
+      );
       return {
-        plaintext: await window.textsecure.storage.protocol.enqueueSessionJob(
-          address,
-          async () =>
-            this.unpad(
-              await signalDecrypt(
-                signalMessage,
-                ProtocolAddress.new(identifier, sourceDevice),
-                sessionStore,
-                identityKeyStore
-              )
-            ),
-          zone
-        ),
-        envelope,
+        result: {
+          plaintext,
+          envelope,
+        },
       };
     }
     if (envelope.type === envelopeTypeEnum.PREKEY_BUNDLE) {
@@ -1364,42 +1434,64 @@ class MessageReceiverInner extends EventTarget {
       );
 
       const address = `${identifier}.${sourceDevice}`;
+      const plaintext = await window.textsecure.storage.protocol.enqueueSessionJob(
+        address,
+        async () =>
+          this.unpad(
+            await signalDecryptPreKey(
+              preKeySignalMessage,
+              ProtocolAddress.new(identifier, sourceDevice),
+              sessionStore,
+              identityKeyStore,
+              preKeyStore,
+              signedPreKeyStore
+            )
+          ),
+        zone
+      );
       return {
-        plaintext: await window.textsecure.storage.protocol.enqueueSessionJob(
-          address,
-          async () =>
-            this.unpad(
-              await signalDecryptPreKey(
-                preKeySignalMessage,
-                ProtocolAddress.new(identifier, sourceDevice),
-                sessionStore,
-                identityKeyStore,
-                preKeyStore,
-                signedPreKeyStore
-              )
-            ),
-          zone
-        ),
-        envelope,
+        result: {
+          plaintext,
+          envelope,
+        },
       };
     }
     if (envelope.type === envelopeTypeEnum.UNIDENTIFIED_SENDER) {
       window.log.info(`decrypt/${logId}: unidentified message`);
+      const { result, error } = await this.decryptSealedSender(
+        stores,
+        envelope,
+        ciphertext
+      );
+
+      if (error) {
+        return {
+          error,
+          result,
+        };
+      }
+
       const {
         plaintext,
         unsealedPlaintext,
         isBlocked,
         envelope: newEnvelope,
-      } = await this.decryptSealedSender(stores, envelope, ciphertext);
-
+      } = result;
       if (isBlocked) {
-        return { isBlocked: true, envelope: newEnvelope };
+        return {
+          result: {
+            isBlocked: true,
+            envelope: newEnvelope,
+          },
+        };
       }
 
       if (plaintext) {
         return {
-          plaintext: this.unpad(plaintext),
-          envelope: newEnvelope,
+          result: {
+            plaintext: this.unpad(plaintext),
+            envelope: newEnvelope,
+          },
         };
       }
 
@@ -1415,8 +1507,10 @@ class MessageReceiverInner extends EventTarget {
         // Return just the content because that matches the signature of the other
         //   decrypt methods used above.
         return {
-          plaintext: this.unpad(content),
-          envelope: newEnvelope,
+          result: {
+            plaintext: this.unpad(content),
+            envelope: newEnvelope,
+          },
         };
       }
 
@@ -1432,9 +1526,16 @@ class MessageReceiverInner extends EventTarget {
   ): Promise<DecryptResult> {
     let newEnvelope: DecryptedEnvelope = envelope;
     try {
-      const result = await this.innerDecrypt(stores, envelope, ciphertext);
+      const { result, error } = await this.innerDecrypt(
+        stores,
+        envelope,
+        ciphertext
+      );
 
-      newEnvelope = result.envelope;
+      newEnvelope = result.envelope || envelope;
+      if (error) {
+        throw error;
+      }
 
       const { isBlocked, plaintext } = result;
 
@@ -1447,7 +1548,6 @@ class MessageReceiverInner extends EventTarget {
       return { plaintext: new FIXMEU8(plaintext), envelope: newEnvelope };
     } catch (error) {
       this.removeFromCache(newEnvelope);
-
       const uuid = newEnvelope.sourceUuid;
       const deviceId = newEnvelope.sourceDevice;
 
