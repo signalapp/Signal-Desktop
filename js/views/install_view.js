@@ -29,7 +29,6 @@
     events: {
       'click .try-again': 'connect',
       'click .second': 'shutdown',
-      'click .finish': 'finishLinking',
       // the actual next step happens in confirmNumber() on submit form #link-phone
     },
     initialize(options = {}) {
@@ -179,10 +178,6 @@
 
       this.$(DEVICE_NAME_SELECTOR).val(deviceName || window.getHostName());
       this.$(DEVICE_NAME_SELECTOR).focus();
-    },
-    finishLinking() {
-      // We use a form so we get submit-on-enter behavior
-      this.$('#link-phone').submit();
     },
     confirmNumber() {
       const tsp = textsecure.storage.protocol;

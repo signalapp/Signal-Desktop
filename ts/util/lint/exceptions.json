@@ -576,14 +576,6 @@
   {
     "rule": "jQuery-$(",
     "path": "js/views/install_view.js",
-    "line": "      this.$('#link-phone').submit();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-03-24T19:03:04.861Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/install_view.js",
     "line": "        this.$('#link-phone').submit(e => {",
     "reasonCategory": "usageTrusted",
     "updated": "2020-03-24T19:03:04.861Z",
