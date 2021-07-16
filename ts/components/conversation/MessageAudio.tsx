@@ -201,7 +201,7 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
     state = State.Normal;
   }
 
-  // This effect loads audio file and computes its RMS peak for dispalying the
+  // This effect loads audio file and computes its RMS peak for displaying the
   // waveform.
   useEffect(() => {
     if (state !== State.Computing) {
@@ -273,6 +273,9 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
 
     const onTimeUpdate = () => {
       setCurrentTime(audio.currentTime);
+      if (audio.currentTime > duration) {
+        setDuration(audio.currentTime);
+      }
     };
 
     const onEnded = () => {
@@ -313,7 +316,7 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
       audio.removeEventListener('loadedmetadata', onLoadedMetadata);
       audio.removeEventListener('durationchange', onDurationChange);
     };
-  }, [id, audio, isActive, currentTime]);
+  }, [id, audio, isActive, currentTime, duration]);
 
   // This effect detects `isPlaying` changes and starts/pauses playback when
   // needed (+keeps waveform position and audio position in sync).
@@ -507,7 +510,7 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
     );
   }
 
-  const countDown = duration - currentTime;
+  const countDown = Math.max(0, duration - currentTime);
 
   const metadata = (
     <div className={`${CSS_BASE}__metadata`}>
