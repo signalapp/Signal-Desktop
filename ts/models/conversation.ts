@@ -92,7 +92,6 @@ export interface ConversationAttributes {
   triggerNotificationsFor: ConversationNotificationSettingType;
   isTrustedForAttachmentDownload: boolean;
   isPinned: boolean;
-  lastReadTimestamp: number;
 }
 
 export interface ConversationAttributesOptionals {
@@ -161,7 +160,6 @@ export const fillConvoAttributesWithDefaults = (
     triggerNotificationsFor: 'all', // if the settings is not set in the db, this is the default
     isTrustedForAttachmentDownload: false, // we don't trust a contact until we say so
     isPinned: false,
-    lastReadTimestamp: 0,
   });
 };
 
@@ -175,6 +173,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   private typingRefreshTimer?: NodeJS.Timeout | null;
   private typingPauseTimer?: NodeJS.Timeout | null;
   private typingTimer?: NodeJS.Timeout | null;
+  private lastReadTimestamp: number;
 
   private pending: any;
 
@@ -190,20 +189,19 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     this.updateLastMessage = _.throttle(this.bouncyUpdateLastMessage.bind(this), 1000);
     this.throttledNotify = _.debounce(this.notify, 500, { maxWait: 1000 });
     //start right away the function is called, and wait 1sec before calling it again
-    const markReadBouncy = _.debounce(this.markReadBouncy, 1000, { leading: true });
+    const markReadDebounced = _.debounce(this.markReadBouncy, 1000, { leading: true });
     this.markRead = (newestUnreadDate: number) => {
-      const lastReadTimestamp = this.get('lastReadTimestamp');
+      const lastReadTimestamp = this.lastReadTimestamp;
       if (newestUnreadDate > lastReadTimestamp) {
-        this.set({
-          lastReadTimestamp: newestUnreadDate,
-        });
+        this.lastReadTimestamp = newestUnreadDate;
       }
-      void markReadBouncy(newestUnreadDate);
+      void markReadDebounced(newestUnreadDate);
     };
     // Listening for out-of-band data updates
 
     this.typingRefreshTimer = null;
     this.typingPauseTimer = null;
+    this.lastReadTimestamp = 0;
 
     window.inboxStore?.dispatch(conversationActions.conversationChanged(this.id, this.getProps()));
   }
@@ -925,7 +923,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   public async markReadBouncy(newestUnreadDate: number, providedOptions: any = {}) {
-    const lastReadTimestamp = this.get('lastReadTimestamp');
+    const lastReadTimestamp = this.lastReadTimestamp;
     if (newestUnreadDate < lastReadTimestamp) {
       return;
     }
