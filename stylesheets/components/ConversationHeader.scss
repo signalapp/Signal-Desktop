@@ -278,10 +278,12 @@
     }
 
     &--join-call {
+      $background: $color-accent-green;
+
       @include font-body-1;
       @include rounded-corners;
       align-items: center;
-      background-color: $color-accent-green;
+      background-color: $background;
       color: $color-white;
       display: flex;
       outline: none;
@@ -305,6 +307,12 @@
         margin-right: 5px;
         min-width: $icon-size;
         width: $icon-size;
+      }
+
+      // Override hover state coming from __button above.
+      &:hover,
+      &:focus {
+        background-color: darken($background, 16%);
       }
     }
   }
