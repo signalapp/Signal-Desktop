@@ -39,6 +39,9 @@ const rimrafPromise = pify(rimraf);
 const { platform } = process;
 
 export const ACK_RENDER_TIMEOUT = 10000;
+export const GOT_CONNECT_TIMEOUT = 2 * 60 * 1000;
+export const GOT_LOOKUP_TIMEOUT = 2 * 60 * 1000;
+export const GOT_SOCKET_TIMEOUT = 2 * 60 * 1000;
 
 export type UpdaterInterface = {
   force(): Promise<void>;
@@ -337,6 +340,13 @@ function getGotOptions(): GotOptions<null> {
       'User-Agent': getUserAgent(packageJson.version),
     },
     useElectronNet: false,
+    timeout: {
+      connect: GOT_CONNECT_TIMEOUT,
+      lookup: GOT_LOOKUP_TIMEOUT,
+
+      // This timeout is reset whenever we get new data on the socket
+      socket: GOT_SOCKET_TIMEOUT,
+    },
   };
 }
 

@@ -83,10 +83,21 @@ async function checkDownloadAndInstall(
 
     const { fileName: newFileName, version: newVersion } = result;
     if (fileName !== newFileName || !version || gt(newVersion, version)) {
+      const oldFileName = fileName;
+      const oldVersion = version;
+
       deleteCache(updateFilePath, logger);
       fileName = newFileName;
       version = newVersion;
-      updateFilePath = await downloadUpdate(fileName, logger);
+
+      try {
+        updateFilePath = await downloadUpdate(fileName, logger);
+      } catch (error) {
+        // Restore state in case of download error
+        fileName = oldFileName;
+        version = oldVersion;
+        throw error;
+      }
     }
 
     const publicKey = hexToBinary(getFromConfig('updatesPublicKey'));
