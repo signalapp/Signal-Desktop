@@ -89,6 +89,7 @@ export class MockConversation {
       triggerNotificationsFor: 'all',
       isTrustedForAttachmentDownload: false,
       isPinned: false,
+      lastReadTimestamp: 0,
     };
   }
 

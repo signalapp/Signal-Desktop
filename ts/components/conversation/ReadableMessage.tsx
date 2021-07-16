@@ -31,7 +31,7 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
   useFocus(onChange);
 
   return (
-    <InView {...props} as="div" threshold={1} delay={200} triggerOnce={true}>
+    <InView {...props} as="div" threshold={1} delay={200} triggerOnce={false}>
       {props.children}
     </InView>
   );
