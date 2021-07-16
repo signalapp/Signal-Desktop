@@ -66,6 +66,8 @@ const ConversationListItem = (props: Props) => {
     type,
     lastMessage,
     memberAvatars,
+    notificationForConvo,
+    currentNotificationSetting,
   } = props;
   const triggerId: string = `conversation-item-${phoneNumber}-ctxmenu`;
   const key: string = `conversation-item-${phoneNumber}`;
@@ -119,7 +121,14 @@ const ConversationListItem = (props: Props) => {
         </div>
       </div>
       <Portal>
-        <ConversationListItemContextMenu id={id} triggerId={triggerId} type={type} isMe={isMe} />
+        <ConversationListItemContextMenu
+          id={id}
+          triggerId={triggerId}
+          type={type}
+          isMe={isMe}
+          notificationForConvo={notificationForConvo}
+          currentNotificationSetting={currentNotificationSetting}
+        />
       </Portal>
     </div>
   );

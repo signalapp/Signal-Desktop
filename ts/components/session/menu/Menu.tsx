@@ -2,7 +2,7 @@ import React from 'react';
 
 import { getNumberOfPinnedConversations } from '../../../state/selectors/conversations';
 import { getFocusedSection } from '../../../state/selectors/section';
-import { NotificationForConvoOption, TimerOption } from '../../conversation/ConversationHeader';
+import { TimerOption } from '../../conversation/ConversationHeader';
 import { Item, Submenu } from 'react-contexify';
 import { ConversationNotificationSettingType } from '../../../models/conversation';
 import { useDispatch, useSelector } from 'react-redux';
@@ -26,6 +26,7 @@ import {
 } from '../../../interactions/conversationInteractions';
 import { SessionButtonColor } from '../SessionButton';
 import { ToastUtils } from '../../../session/utils';
+import { NotificationForConvoOption } from '../../../state/ducks/conversations';
 
 const maxNumberOfPinnedConversations = 5;
 

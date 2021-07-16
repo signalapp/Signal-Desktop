@@ -25,6 +25,7 @@ import {
   actions as conversationActions,
   ConversationType as ReduxConversationType,
   LastMessageStatusType,
+  NotificationForConvoOption,
 } from '../state/ducks/conversations';
 import { ExpirationTimerUpdateMessage } from '../session/messages/outgoing/controlMessage/ExpirationTimerUpdateMessage';
 import { TypingMessage } from '../session/messages/outgoing/controlMessage/TypingMessage';
@@ -35,7 +36,6 @@ import {
 import { GroupInvitationMessage } from '../session/messages/outgoing/visibleMessage/GroupInvitationMessage';
 import { ReadReceiptMessage } from '../session/messages/outgoing/controlMessage/receipt/ReadReceiptMessage';
 import { OpenGroupUtils } from '../opengroup/utils';
-import { ConversationInteraction } from '../interactions';
 import { OpenGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
 import { OpenGroupRequestCommonType } from '../opengroup/opengroupV2/ApiUtil';
 import { getOpenGroupV2FromConversationId } from '../opengroup/utils/OpenGroupUtils';
@@ -419,7 +419,19 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       groupAdmins,
       members,
       isPinned: this.isPinned(),
+      notificationForConvo: this.getConversationNotificationSettingType(),
+      currentNotificationSetting: this.get('triggerNotificationsFor'),
     };
+  }
+
+  public getConversationNotificationSettingType(): Array<NotificationForConvoOption> {
+    // exclude mentions_only settings for private chats as this does not make much sense
+    return ConversationNotificationSetting.filter(n =>
+      this.isPrivate() ? n !== 'mentions_only' : true
+    ).map((n: ConversationNotificationSettingType) => {
+      // this link to the notificationForConvo_all, notificationForConvo_mentions_only, ...
+      return { value: n, name: window.i18n(`notificationForConvo_${n}`) };
+    });
   }
 
   public async updateGroupAdmins(groupAdmins: Array<string>) {
