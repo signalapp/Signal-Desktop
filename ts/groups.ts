@@ -2680,14 +2680,20 @@ export async function waitThenMaybeUpdateGroup(
   options: MaybeUpdatePropsType,
   { viaSync = false } = {}
 ): Promise<void> {
+  const { conversation } = options;
+
+  if (conversation.isBlocked()) {
+    window.log.info(
+      `waitThenMaybeUpdateGroup: Group ${conversation.idForLogging()} is blocked, returning early`
+    );
+    return;
+  }
+
   // First wait to process all incoming messages on the websocket
   await window.waitForEmptyEventQueue();
 
-  // Then wait to process all outstanding messages for this conversation
-  const { conversation } = options;
-
+  // Then make sure we haven't fetched this group too recently
   const { lastSuccessfulGroupFetch = 0 } = conversation;
-
   if (isMoreRecentThan(lastSuccessfulGroupFetch, FIVE_MINUTES)) {
     const waitTime = lastSuccessfulGroupFetch + FIVE_MINUTES - Date.now();
     window.log.info(
@@ -2697,6 +2703,7 @@ export async function waitThenMaybeUpdateGroup(
     return;
   }
 
+  // Then wait to process all outstanding messages for this conversation
   await conversation.queueJob('waitThenMaybeUpdateGroup', async () => {
     try {
       // And finally try to update the group
