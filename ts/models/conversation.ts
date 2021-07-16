@@ -191,15 +191,16 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     this.throttledNotify = _.debounce(this.notify, 500, { maxWait: 1000 });
     //start right away the function is called, and wait 1sec before calling it again
     //this.markRead = _.debounce(this.markReadBouncy, 1000, { leading: true });
-    const markReadBouncy = _.debounce(this.markReadBouncy, 1000, { leading: true })
+    const markReadBouncy = _.debounce(this.markReadBouncy, 1000, { leading: true });
     this.markRead = (newestUnreadDate: number) => {
       const lastReadTimestamp = this.get('lastReadTimestamp');
-      if (newestUnreadDate > lastReadTimestamp)
-      this.set({
-        lastReadTimestamp: newestUnreadDate,
-      });
-      markReadBouncy(newestUnreadDate);
-    }
+      if (newestUnreadDate > lastReadTimestamp) {
+        this.set({
+          lastReadTimestamp: newestUnreadDate,
+        });
+      }
+      void markReadBouncy(newestUnreadDate);
+    };
     // Listening for out-of-band data updates
 
     this.typingRefreshTimer = null;
@@ -913,7 +914,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   public async markReadBouncy(newestUnreadDate: number, providedOptions: any = {}) {
-
     const lastReadTimestamp = this.get('lastReadTimestamp');
     if (newestUnreadDate < lastReadTimestamp) {
       return;
