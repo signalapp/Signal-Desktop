@@ -109,7 +109,9 @@ export async function cleanupSessionResets(): Promise<void> {
 }
 
 export async function startApp(): Promise<void> {
+  window.Whisper.events = window._.clone(window.Backbone.Events);
   window.Signal.Util.MessageController.install();
+  window.Signal.conversationControllerStart();
   window.startupProcessingQueue = new window.Signal.Util.StartupQueue();
   window.attachmentDownloadQueue = [];
   try {
@@ -361,7 +363,6 @@ export async function startApp(): Promise<void> {
     }
     return SocketStatus.CLOSED;
   };
-  window.Whisper.events = window._.clone(window.Backbone.Events);
   let accountManager: typeof window.textsecure.AccountManager;
   window.getAccountManager = () => {
     if (!accountManager) {
@@ -741,10 +742,14 @@ export async function startApp(): Promise<void> {
 
     // How long since we were last running?
     const lastHeartbeat = window.storage.get('lastHeartbeat', 0);
+    const previousLastStartup = window.storage.get('lastStartup');
     await window.storage.put('lastStartup', Date.now());
 
     const THIRTY_DAYS = 30 * 24 * 60 * 60 * 1000;
     if (lastHeartbeat > 0 && isOlderThan(lastHeartbeat, THIRTY_DAYS)) {
+      window.log.warn(
+        `This instance has not been used for 30 days. Last heartbeat: ${lastHeartbeat}. Last startup: ${previousLastStartup}.`
+      );
       await unlinkAndDisconnect();
     }
 
@@ -873,8 +878,6 @@ export async function startApp(): Promise<void> {
         idleDetector.stop();
       }
     });
-
-    window.Signal.conversationControllerStart();
 
     // We start this up before window.ConversationController.load() to
     // ensure that our feature flags are represented in the cached props
