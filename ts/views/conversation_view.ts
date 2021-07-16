@@ -823,7 +823,7 @@ Whisper.ConversationView = Whisper.View.extend({
       this.downloadNewVersion();
     };
     const sendAnyway = (contactId: string, messageId: string) => {
-      this.forceSend(contactId, messageId);
+      this.forceSend({ contactId, messageId });
     };
     const showSafetyNumber = (contactId: string) => {
       this.showSafetyNumber(contactId);
