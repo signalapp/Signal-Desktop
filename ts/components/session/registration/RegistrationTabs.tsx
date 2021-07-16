@@ -17,6 +17,7 @@ import {
 import { fromHex } from '../../../session/utils/String';
 import { TaskTimedOutError } from '../../../session/utils/Promise';
 import { mn_decode } from '../../../session/crypto/mnemonic';
+import { SwarmPolling } from '../../../session/snode_api/swarmPolling';
 
 export const MAX_USERNAME_LENGTH = 20;
 // tslint:disable: use-simple-attributes
@@ -190,9 +191,11 @@ export async function signInWithLinking(signInDetails: {
   try {
     await resetRegistration();
     await window.setPassword(password);
-    await signInByLinkingDevice(userRecoveryPhrase, 'english');
+    const pubkeyStr = await signInByLinkingDevice(userRecoveryPhrase, 'english');
 
     let displayNameFromNetwork = '';
+    SwarmPolling.getInstance().addPubkey(pubkeyStr);
+    SwarmPolling.getInstance().start();
 
     await PromiseUtils.waitForTask(done => {
       window.Whisper.events.on('configurationMessageReceived', (displayName: string) => {
