@@ -23,7 +23,7 @@
     try {
       latestVersionWithV = await window.Fsv2.getLatestDesktopReleaseFileToFsV2();
       if (!latestVersionWithV) {
-        throw new Error('Invalid latest version. Shceduling retry...');
+        throw new Error('Invalid latest version. Scheduling retry...');
       }
       const latestVer = semver.clean(latestVersionWithV);
       if (semver.valid(latestVer)) {
