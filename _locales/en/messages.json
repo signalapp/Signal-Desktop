@@ -3601,7 +3601,7 @@
     "description": "Shown if something went wrong when you try to join via a group link"
   },
   "GroupV2--join--general-join-failure": {
-    "message": "Joining via this link failed. Try joining again later.",
+    "message": "Couldn't join group. Try again later.",
     "description": "Shown if something went wrong when you try to join via a group link"
   },
 
