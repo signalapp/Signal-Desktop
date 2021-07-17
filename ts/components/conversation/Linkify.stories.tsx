@@ -65,6 +65,36 @@ story.add('Missing Protocol', () => {
   return <Linkify {...props} />;
 });
 
+story.add('non-ASCII TLD', () => {
+  const props = createProps({
+    // Domain of "Coordination Center for TLD RU".
+    text: 'кц.рф has no ASCII characters',
+  });
+
+  return <Linkify {...props} />;
+});
+
+story.add('Right-to-left TLD', () => {
+  const props = createProps({
+    text:
+      // Domain of "Ministry of equipment, housing and infrastructure" of tunisia.
+      //   "I am slightly confused how RTL text works, but here is a domain:"
+      'أنا مرتبك قليلاً حول كيفية عمل النص من اليمين إلى اليسار ، ولكن هنا مجال: تجهيز.تونس',
+  });
+
+  return <Linkify {...props} />;
+});
+
+story.add('Right-to-left TLD mixed with Left-to-right text', () => {
+  const props = createProps({
+    text:
+      // Domain of "Ministry of equipment, housing and infrastructure" of tunisia.
+      'I am slightly confused how Right-to-left text works, but here is a domain: تجهيز.تونس',
+  });
+
+  return <Linkify {...props} />;
+});
+
 story.add('Custom Text Render', () => {
   const props = createProps({
     text:
