@@ -628,6 +628,9 @@
   "fileSizeWarning": {
     "message": "Sorry, the selected file exceeds message size restrictions."
   },
+  "unableToAttachFileWhileRecording": {
+    "message": "Unable to attach a file while recording."
+  },
   "unableToLoadAttachment": {
     "message": "Unable to load selected attachment."
   },

@@ -340,6 +340,9 @@ Whisper.AlreadyRequestedToJoinToast = Whisper.ToastView.extend({
   template: () => window.i18n('GroupV2--join--already-awaiting-approval'),
 });
 
+Whisper.UnableToAttachFileWhileRecording = Whisper.ToastView.extend({
+  template: () => window.i18n('unableToAttachFileWhileRecording'),
+
 const ReportedSpamAndBlockedToast = Whisper.ToastView.extend({
   template: () =>
     window.i18n('MessageRequests--block-and-report-spam-success-toast'),
@@ -1394,6 +1397,11 @@ Whisper.ConversationView = Whisper.View.extend({
   },
 
   onChooseAttachment() {
+    if (this.captureAudioView.isRecording()) {
+      this.showToast(Whisper.UnableToAttachFileWhileRecording);
+      return;
+    }
+
     this.$('input.file-input').click();
   },
   async onChoseAttachment() {
