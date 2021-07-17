@@ -8,6 +8,6 @@ describe('cleanSearchTerm', () => {
   it('should remove \\ from a search term', () => {
     const searchTerm = '\\search\\term';
     const sanitizedSearchTerm = cleanSearchTerm(searchTerm);
-    assert.strictEqual(sanitizedSearchTerm, 'search* term*');
+    assert.strictEqual(sanitizedSearchTerm, 'search term');
   });
 });
