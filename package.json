@@ -360,7 +360,8 @@
         "node_modules/@signalapp/signal-client/build/*.node"
       ],
       "target": [
-        "deb"
+        "deb",
+        "AppImage"
       ],
       "icon": "build/icons/png"
     },
