@@ -164,7 +164,7 @@ type IconButtonProps = {
   i18n: LocalizerType;
   onClick?: () => void;
   style?: React.CSSProperties;
-  type: 'save' | 'close' | 'previous' | 'next';
+  type: 'save' | 'close' | 'previous' | 'next' | 'rotateLeft' | 'rotateRight';
 };
 
 const IconButton = ({ i18n, onClick, style, type }: IconButtonProps) => {
@@ -219,6 +219,10 @@ export class Lightbox extends React.Component<Props, State> {
   public readonly videoRef = React.createRef<HTMLVideoElement>();
 
   public readonly focusRef = React.createRef<HTMLDivElement>();
+
+  public imageRef = React.createRef<HTMLImageElement>();
+
+  public imageRotation = 0;
 
   public previousFocus: HTMLElement | null = null;
 
@@ -325,6 +329,16 @@ export class Lightbox extends React.Component<Props, State> {
             {caption ? <div style={styles.caption}>{caption}</div> : null}
           </div>
           <div style={styles.controls}>
+            <IconButton
+              i18n={i18n}
+              type="rotateLeft"
+              onClick={this.onRotateLeft}
+            />
+            <IconButton
+              i18n={i18n}
+              type="rotateRight"
+              onClick={this.onRotateRight}
+            />
             <IconButton i18n={i18n} type="close" onClick={this.onClose} />
             {onSave ? (
               <IconButton
@@ -378,6 +392,7 @@ export class Lightbox extends React.Component<Props, State> {
           onClick={this.onObjectClick}
         >
           <img
+            ref={this.imageRef}
             alt={i18n('lightboxImageAlt')}
             style={styles.img}
             src={objectURL}
@@ -433,6 +448,24 @@ export class Lightbox extends React.Component<Props, State> {
       !/image\/jpe?g/g.test(contentType)
     ) {
       event.preventDefault();
+    }
+  };
+
+  private readonly onRotateRight = () => {
+    const t = this.imageRef.current?.style;
+    if (t !== undefined) {
+      this.imageRotation += 90;
+      t.transform = `translate(-50%, -50%) rotate(${this.imageRotation}deg)`;
+      this.imageRef.current?.setAttribute('style', t.cssText);
+    }
+  };
+
+  private readonly onRotateLeft = () => {
+    const t = this.imageRef.current?.style;
+    if (t !== undefined) {
+      this.imageRotation += 90;
+      t.transform = `translate(-50%, -50%) rotate(${this.imageRotation}deg)`;
+      this.imageRef.current?.setAttribute('style', t.cssText);
     }
   };
 
