@@ -37,8 +37,8 @@ Install the [Xcode Command-Line Tools](http://osxdaily.com/2014/02/12/install-co
     - Install Microsoft .NET Framework 4.5.1:
       https://www.microsoft.com/en-us/download/details.aspx?id=40773
     - Install Windows SDK version 8.1: https://developer.microsoft.com/en-us/windows/downloads/sdk-archive
-1.  Install _Windows Build Tools_: Open the [Command Prompt (`cmd.exe`) as Administrator](<https://technet.microsoft.com/en-us/library/cc947813(v=ws.10).aspx>)
-    and run: `npm install --vs2015 --global --production --add-python-to-path windows-build-tools`
+2.  Download _Build Tools for Visual Studio_ from the [Visual Studio download page](https://visualstudio.microsoft.com/downloads/#build-tools-for-visual-studio-2019) and install it including the "Desktop development with C++" option.
+3.  Download and install the latest Python 3 release from https://www.python.org/downloads/windows/ (3.6 or later required).
 
 ### Linux
 
