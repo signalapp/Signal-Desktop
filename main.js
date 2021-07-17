@@ -314,7 +314,7 @@ function handleCommonWindowEvents(window) {
 const DEFAULT_WIDTH = 800;
 const DEFAULT_HEIGHT = 610;
 const MIN_WIDTH = 680;
-const MIN_HEIGHT = 550;
+const MIN_HEIGHT = 400;
 const BOUNDS_BUFFER = 100;
 
 function isVisible(window, bounds) {
