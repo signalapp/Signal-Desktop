@@ -1,4 +1,4 @@
-node_modules
+node_modules/
 .sass-cache
 coverage/*
 build/curve25519_compiled.js
