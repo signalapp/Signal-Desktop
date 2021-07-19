@@ -559,10 +559,7 @@ export type LoggerType = {
 export type LogFunctionType = (...args: Array<unknown>) => void;
 
 export type WhisperType = {
-  events: {
-    on: (name: string, callback: (param1: any, param2?: any) => void) => void;
-    trigger: (name: string, param1?: any, param2?: any) => void;
-  };
+  events: Backbone.Events;
   Database: {
     open: () => Promise<IDBDatabase>;
     handleDOMException: (
@@ -620,8 +617,15 @@ export type WhisperType = {
 
   IdenticonSVGView: WhatIsThis;
 
-  ExpiringMessagesListener: WhatIsThis;
-  TapToViewMessagesListener: WhatIsThis;
+  ExpiringMessagesListener: {
+    init: (events: Backbone.Events) => void;
+    update: () => void;
+  };
+  TapToViewMessagesListener: {
+    nextCheck: null | number;
+    init: (events: Backbone.Events) => void;
+    update: () => void;
+  };
 
   deliveryReceiptQueue: PQueue;
   deliveryReceiptBatcher: BatcherType<DeliveryReceiptBatcherItemType>;

@@ -1601,9 +1601,7 @@ export class ConversationModel extends window.Backbone
           const registered = window.MessageController.register(m.id, m);
           const shouldSave = await registered.queueAttachmentDownloads();
           if (shouldSave) {
-            await window.Signal.Data.saveMessage(registered.attributes, {
-              Message: window.Whisper.Message,
-            });
+            await window.Signal.Data.saveMessage(registered.attributes);
           }
         })
       );
@@ -2414,9 +2412,7 @@ export class ConversationModel extends window.Backbone
       // this type does not fully implement the interface it is expected to
     } as unknown) as typeof window.Whisper.MessageAttributesType;
 
-    const id = await window.Signal.Data.saveMessage(message, {
-      Message: window.Whisper.Message,
-    });
+    const id = await window.Signal.Data.saveMessage(message);
     const model = window.MessageController.register(
       id,
       new window.Whisper.Message({
@@ -2454,9 +2450,7 @@ export class ConversationModel extends window.Backbone
       // this type does not fully implement the interface it is expected to
     } as unknown) as typeof window.Whisper.MessageAttributesType;
 
-    const id = await window.Signal.Data.saveMessage(message, {
-      Message: window.Whisper.Message,
-    });
+    const id = await window.Signal.Data.saveMessage(message);
     const model = window.MessageController.register(
       id,
       new window.Whisper.Message({
@@ -2492,9 +2486,7 @@ export class ConversationModel extends window.Backbone
       // this type does not fully implement the interface it is expected to
     } as unknown) as typeof window.Whisper.MessageAttributesType;
 
-    const id = await window.Signal.Data.saveMessage(message, {
-      Message: window.Whisper.Message,
-    });
+    const id = await window.Signal.Data.saveMessage(message);
     const model = window.MessageController.register(
       id,
       new window.Whisper.Message({
@@ -2552,9 +2544,7 @@ export class ConversationModel extends window.Backbone
       // TODO: DESKTOP-722
     } as unknown) as typeof window.Whisper.MessageAttributesType;
 
-    const id = await window.Signal.Data.saveMessage(message, {
-      Message: window.Whisper.Message,
-    });
+    const id = await window.Signal.Data.saveMessage(message);
     const model = window.MessageController.register(
       id,
       new window.Whisper.Message({
@@ -2613,9 +2603,7 @@ export class ConversationModel extends window.Backbone
       // TODO: DESKTOP-722
     } as unknown) as typeof window.Whisper.MessageAttributesType;
 
-    const id = await window.Signal.Data.saveMessage(message, {
-      Message: window.Whisper.Message,
-    });
+    const id = await window.Signal.Data.saveMessage(message);
     const model = window.MessageController.register(
       id,
       new window.Whisper.Message({
@@ -2666,9 +2654,7 @@ export class ConversationModel extends window.Backbone
       // TODO: DESKTOP-722
     } as unknown) as typeof window.Whisper.MessageAttributesType;
 
-    const id = await window.Signal.Data.saveMessage(message, {
-      Message: window.Whisper.Message,
-    });
+    const id = await window.Signal.Data.saveMessage(message);
     const model = window.MessageController.register(
       id,
       new window.Whisper.Message({
@@ -2702,9 +2688,7 @@ export class ConversationModel extends window.Backbone
       // TODO: DESKTOP-722
     } as unknown) as typeof window.Whisper.MessageAttributesType;
 
-    const id = await window.Signal.Data.saveMessage(message, {
-      Message: window.Whisper.Message,
-    });
+    const id = await window.Signal.Data.saveMessage(message);
     const model = window.MessageController.register(
       id,
       new window.Whisper.Message({
@@ -3579,7 +3563,6 @@ export class ConversationModel extends window.Backbone
       const messageId = message.id;
       await window.Signal.Data.saveMessage(message.attributes, {
         forceSave: true,
-        Message: window.Whisper.Message,
       });
 
       const draftProperties = dontClearDraft
@@ -4082,9 +4065,7 @@ export class ConversationModel extends window.Backbone
     if (isDirectConversation(this.attributes)) {
       model.set({ destination: this.getSendTarget() });
     }
-    const id = await window.Signal.Data.saveMessage(model.attributes, {
-      Message: window.Whisper.Message,
-    });
+    const id = await window.Signal.Data.saveMessage(model.attributes);
 
     model.set({ id });
 
@@ -4182,9 +4163,7 @@ export class ConversationModel extends window.Backbone
     if (isDirectConversation(this.attributes)) {
       model.set({ destination: this.id });
     }
-    const id = await window.Signal.Data.saveMessage(model.attributes, {
-      Message: window.Whisper.Message,
-    });
+    const id = await window.Signal.Data.saveMessage(model.attributes);
 
     model.set({ id });
 
@@ -4212,9 +4191,7 @@ export class ConversationModel extends window.Backbone
         // TODO: DESKTOP-722
       } as unknown) as MessageAttributesType);
 
-      const id = await window.Signal.Data.saveMessage(model.attributes, {
-        Message: window.Whisper.Message,
-      });
+      const id = await window.Signal.Data.saveMessage(model.attributes);
       model.set({ id });
 
       const message = window.MessageController.register(model.id, model);
@@ -4257,9 +4234,7 @@ export class ConversationModel extends window.Backbone
         // TODO: DESKTOP-722
       } as unknown) as MessageAttributesType);
 
-      const id = await window.Signal.Data.saveMessage(model.attributes, {
-        Message: window.Whisper.Message,
-      });
+      const id = await window.Signal.Data.saveMessage(model.attributes);
       model.set({ id });
 
       const message = window.MessageController.register(model.id, model);

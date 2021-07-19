@@ -130,5 +130,8 @@ export async function markConversationRead(
     await sendReadReceiptsFor(conversationAttrs, unreadMessagesSyncData);
   }
 
+  window.Whisper.ExpiringMessagesListener.update();
+  window.Whisper.TapToViewMessagesListener.update();
+
   return true;
 }

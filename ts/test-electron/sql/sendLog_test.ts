@@ -111,7 +111,7 @@ describe('sendLog', () => {
         timestamp,
         type: 'outgoing',
       },
-      { forceSave: true, Message: window.Whisper.Message }
+      { forceSave: true }
     );
 
     const bytes = Buffer.from(getRandomBytes(128));

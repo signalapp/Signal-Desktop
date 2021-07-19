@@ -29,7 +29,7 @@ import { routineProfileRefresh } from './routineProfileRefresh';
 import { isMoreRecentThan, isOlderThan } from './util/timestamp';
 import { isValidReactionEmoji } from './reactions/isValidReactionEmoji';
 import { ConversationModel } from './models/conversations';
-import { getMessageById, MessageModel } from './models/messages';
+import { getMessageById } from './models/messages';
 import { createBatcher } from './util/batcher';
 import { updateConversationsWithUuidLookup } from './updateConversationsWithUuidLookup';
 import { initializeAllJobQueues } from './jobs/initializeAllJobQueues';
@@ -859,7 +859,6 @@ export async function startApp(): Promise<void> {
 
       if (!isMigrationWithIndexComplete) {
         const batchWithIndex = await MessageDataMigrator.processNext({
-          BackboneMessage: window.Whisper.Message,
           BackboneMessageCollection: window.Whisper.MessageCollection,
           numMessagesPerBatch: NUM_MESSAGES_PER_BATCH,
           upgradeMessageSchema,
@@ -1770,9 +1769,7 @@ export async function startApp(): Promise<void> {
         }
       );
 
-      await window.Signal.Data.saveMessages(newMessageAttributes, {
-        Message: MessageModel,
-      });
+      await window.Signal.Data.saveMessages(newMessageAttributes);
     }
     window.log.info('Expiration start timestamp cleanup: complete');
 
@@ -2564,9 +2561,7 @@ export async function startApp(): Promise<void> {
         messagesToSave.push(message.attributes);
       }
     });
-    await window.Signal.Data.saveMessages(messagesToSave, {
-      Message: MessageModel,
-    });
+    await window.Signal.Data.saveMessages(messagesToSave);
   }
   function onReconnect() {
     // We disable notifications on first connect, but the same applies to reconnect. In

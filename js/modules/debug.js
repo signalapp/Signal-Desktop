@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-env node */
-/* global log, Signal, Whisper */
+/* global log, Signal */
 
 const fs = require('fs-extra');
 const path = require('path');
@@ -60,7 +60,7 @@ exports.createConversation = async ({
       await sleep(index * 100);
       log.info(`Create message ${index + 1}`);
       const message = await createRandomMessage({ conversationId });
-      return Signal.Data.saveMessage(message, { Message: Whisper.Message });
+      return Signal.Data.saveMessage(message);
     })
   );
 };
