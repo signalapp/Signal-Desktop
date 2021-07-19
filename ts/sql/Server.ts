@@ -3097,11 +3097,11 @@ async function hasUserInitiatedMessages(
 
 function saveMessageSync(
   data: MessageType,
-  options: { forceSave?: boolean; alreadyInTransaction?: boolean } = {}
+  options?: { forceSave?: boolean; alreadyInTransaction?: boolean }
 ): string {
   const db = getInstance();
 
-  const { forceSave, alreadyInTransaction } = options;
+  const { forceSave, alreadyInTransaction } = options || {};
 
   if (!alreadyInTransaction) {
     return db.transaction(() => {
@@ -3258,16 +3258,17 @@ function saveMessageSync(
 
 async function saveMessage(
   data: MessageType,
-  options: { forceSave?: boolean; alreadyInTransaction?: boolean }
+  options?: { forceSave?: boolean; alreadyInTransaction?: boolean }
 ): Promise<string> {
   return saveMessageSync(data, options);
 }
 
 async function saveMessages(
   arrayOfMessages: Array<MessageType>,
-  { forceSave }: { forceSave?: boolean } = {}
+  options?: { forceSave?: boolean }
 ): Promise<void> {
   const db = getInstance();
+  const { forceSave } = options || {};
 
   db.transaction(() => {
     for (const message of arrayOfMessages) {

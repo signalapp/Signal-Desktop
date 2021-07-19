@@ -1131,9 +1131,7 @@ Whisper.ConversationView = Whisper.View.extend({
         const upgradedMessage = await upgradeMessageSchema(attributes);
         message.set(upgradedMessage);
         // eslint-disable-next-line no-await-in-loop
-        await window.Signal.Data.saveMessage(upgradedMessage, {
-          Message: Whisper.Message,
-        });
+        await window.Signal.Data.saveMessage(upgradedMessage);
       }
     }
 
@@ -2524,9 +2522,7 @@ Whisper.ConversationView = Whisper.View.extend({
           // eslint-disable-next-line no-await-in-loop
           rawMedia[i] = await upgradeMessageSchema(message);
           // eslint-disable-next-line no-await-in-loop
-          await window.Signal.Data.saveMessage(rawMedia[i], {
-            Message: Whisper.Message,
-          });
+          await window.Signal.Data.saveMessage(rawMedia[i]);
         }
       }
 

@@ -147,8 +147,6 @@ export function isQuoteAMatch(
 }
 
 export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
-  static updateTimers: () => void;
-
   static getLongMessageAttachment: (
     attachment: typeof window.WhatIsThis
   ) => typeof window.WhatIsThis;
@@ -983,9 +981,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     this.getConversation()?.debouncedUpdateLastMessage?.();
 
     if (shouldPersist) {
-      await window.Signal.Data.saveMessage(this.attributes, {
-        Message: window.Whisper.Message,
-      });
+      await window.Signal.Data.saveMessage(this.attributes);
     }
   }
 
@@ -1163,9 +1159,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     }
 
     if (!skipSave && !this.doNotSave) {
-      await window.Signal.Data.saveMessage(this.attributes, {
-        Message: window.Whisper.Message,
-      });
+      await window.Signal.Data.saveMessage(this.attributes);
     }
   }
 
@@ -1238,9 +1232,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     if (!recipients.length) {
       window.log.warn('retrySend: Nobody to send to!');
 
-      return window.Signal.Data.saveMessage(this.attributes, {
-        Message: window.Whisper.Message,
-      });
+      return window.Signal.Data.saveMessage(this.attributes);
     }
 
     const attachmentsWithData = await Promise.all(
@@ -1536,9 +1528,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         });
 
         if (!this.doNotSave) {
-          await window.Signal.Data.saveMessage(this.attributes, {
-            Message: window.Whisper.Message,
-          });
+          await window.Signal.Data.saveMessage(this.attributes);
         }
 
         if (updateLeftPane) {
@@ -1741,9 +1731,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       // We don't save because we're about to save below.
       this.saveErrors(errors, { skipSave: true });
     } finally {
-      await window.Signal.Data.saveMessage(this.attributes, {
-        Message: window.Whisper.Message,
-      });
+      await window.Signal.Data.saveMessage(this.attributes);
 
       if (updateLeftPane) {
         updateLeftPane();
@@ -1798,9 +1786,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           return result;
         }
 
-        await window.Signal.Data.saveMessage(this.attributes, {
-          Message: window.Whisper.Message,
-        });
+        await window.Signal.Data.saveMessage(this.attributes);
         return result;
       });
     };
@@ -2343,9 +2329,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           originalMessage.attributes
         );
         originalMessage.set(upgradedMessage);
-        await window.Signal.Data.saveMessage(upgradedMessage, {
-          Message: window.Whisper.Message,
-        });
+        await window.Signal.Data.saveMessage(upgradedMessage);
       }
     } catch (error) {
       window.log.error(
@@ -2479,9 +2463,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
               unidentifiedDeliveries
             ),
           });
-          await window.Signal.Data.saveMessage(toUpdate.attributes, {
-            Message: window.Whisper.Message,
-          });
+          await window.Signal.Data.saveMessage(toUpdate.attributes);
 
           confirm();
           return;
@@ -3188,9 +3170,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       window.log.info(
         `modifyTargetMessage/${this.idForLogging()}: Changes in second run; saving.`
       );
-      await window.Signal.Data.saveMessage(this.attributes, {
-        Message: window.Whisper.Message,
-      });
+      await window.Signal.Data.saveMessage(this.attributes);
     }
   }
 
@@ -3295,9 +3275,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     );
 
     if (shouldPersist) {
-      await window.Signal.Data.saveMessage(this.attributes, {
-        Message: window.Whisper.Message,
-      });
+      await window.Signal.Data.saveMessage(this.attributes);
     }
 
     return oldReaction;
@@ -3389,11 +3367,6 @@ window.Whisper.Message.getLongMessageAttachment = ({
     body: body.slice(0, 2048),
     attachments: [attachment, ...attachments],
   };
-};
-
-window.Whisper.Message.updateTimers = () => {
-  window.Whisper.ExpiringMessagesListener.update();
-  window.Whisper.TapToViewMessagesListener.update();
 };
 
 window.Whisper.MessageCollection = window.Backbone.Collection.extend({

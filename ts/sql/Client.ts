@@ -990,25 +990,27 @@ async function hasUserInitiatedMessages(conversationId: string) {
 
 async function saveMessage(
   data: MessageType,
-  { forceSave, Message }: { forceSave?: boolean; Message: typeof MessageModel }
+  options?: { forceSave?: boolean }
 ) {
-  const id = await channels.saveMessage(_cleanMessageData(data), {
-    forceSave,
-  });
-  Message.updateTimers();
+  const id = await channels.saveMessage(_cleanMessageData(data), options);
+
+  window.Whisper.ExpiringMessagesListener.update();
+  window.Whisper.TapToViewMessagesListener.update();
 
   return id;
 }
 
 async function saveMessages(
   arrayOfMessages: Array<MessageType>,
-  { forceSave, Message }: { forceSave?: boolean; Message: typeof MessageModel }
+  options?: { forceSave?: boolean }
 ) {
   await channels.saveMessages(
     arrayOfMessages.map(message => _cleanMessageData(message)),
-    { forceSave }
+    options
   );
-  Message.updateTimers();
+
+  window.Whisper.ExpiringMessagesListener.update();
+  window.Whisper.TapToViewMessagesListener.update();
 }
 
 async function removeMessage(

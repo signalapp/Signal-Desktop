@@ -1711,7 +1711,6 @@ export async function createGroupV2({
   };
   await window.Signal.Data.saveMessages([createdTheGroupMessage], {
     forceSave: true,
-    Message: window.Whisper.Message,
   });
   const model = new window.Whisper.Message(createdTheGroupMessage);
   window.MessageController.register(model.id, model);
@@ -2837,7 +2836,6 @@ async function updateGroup(
   if (changeMessagesToSave.length > 0) {
     await window.Signal.Data.saveMessages(changeMessagesToSave, {
       forceSave: true,
-      Message: window.Whisper.Message,
     });
     changeMessagesToSave.forEach(changeMessage => {
       const model = new window.Whisper.Message(changeMessage);

@@ -239,6 +239,14 @@ export type DataInterface = {
     options?: { limit?: number }
   ) => Promise<Array<ConversationType>>;
 
+  saveMessage: (
+    data: MessageType,
+    options?: { forceSave?: boolean }
+  ) => Promise<string>;
+  saveMessages: (
+    arrayOfMessages: Array<MessageType>,
+    options?: { forceSave?: boolean }
+  ) => Promise<void>;
   getMessageCount: (conversationId?: string) => Promise<number>;
   hasUserInitiatedMessages: (conversationId: string) => Promise<boolean>;
   getAllMessageIds: () => Promise<Array<string>>;
@@ -430,14 +438,6 @@ export type ServerInterface = DataInterface & {
     conversationId: string,
     options?: { limit?: number }
   ) => Promise<Array<SearchResultMessageType>>;
-  saveMessage: (
-    data: MessageType,
-    options: { forceSave?: boolean }
-  ) => Promise<string>;
-  saveMessages: (
-    arrayOfMessages: Array<MessageType>,
-    options: { forceSave?: boolean }
-  ) => Promise<void>;
   updateConversation: (data: ConversationType) => Promise<void>;
 
   // For testing only
@@ -568,14 +568,6 @@ export type ClientInterface = DataInterface & {
   removeMessages: (
     ids: Array<string>,
     options: { Message: typeof MessageModel }
-  ) => Promise<void>;
-  saveMessage: (
-    data: MessageType,
-    options: { forceSave?: boolean; Message: typeof MessageModel }
-  ) => Promise<string>;
-  saveMessages: (
-    arrayOfMessages: Array<MessageType>,
-    options: { forceSave?: boolean; Message: typeof MessageModel }
   ) => Promise<void>;
   searchMessages: (
     query: string,
