@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useLayoutEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Modal } from '../Modal';
 import { LocalizerType } from '../../types/Util';
 import { GroupDescriptionText } from '../GroupDescriptionText';
@@ -25,7 +25,7 @@ export const GroupDescription = ({
   const [hasReadMore, setHasReadMore] = useState(false);
   const [showFullDescription, setShowFullDescription] = useState(false);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (!textRef || !textRef.current) {
       return;
     }
