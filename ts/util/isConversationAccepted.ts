@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { ConversationAttributesType } from '../model-types.d';
+import { SignalService as Proto } from '../protobuf';
 import { isDirectConversation, isMe } from './whatTypeOfConversation';
 import { isInSystemContacts } from './isInSystemContacts';
 
@@ -24,8 +25,7 @@ export function isConversationAccepted(
     return true;
   }
 
-  const messageRequestEnum =
-    window.textsecure.protobuf.SyncMessage.MessageRequestResponse.Type;
+  const messageRequestEnum = Proto.SyncMessage.MessageRequestResponse.Type;
 
   const { messageRequestResponseType } = conversationAttrs;
   if (messageRequestResponseType === messageRequestEnum.ACCEPT) {

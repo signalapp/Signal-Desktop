@@ -29,20 +29,7 @@ const conversation: ConversationType = getDefaultConversation({
   sharedGroupNames: [],
 });
 
-class AccessEnum {
-  static ANY = 0;
-
-  static UNKNOWN = 1;
-
-  static MEMBER = 2;
-
-  static ADMINISTRATOR = 3;
-
-  static UNSATISFIABLE = 4;
-}
-
 const createProps = (): PropsType => ({
-  accessEnum: AccessEnum,
   conversation,
   i18n,
   setAccessControlAttributesSetting: action(

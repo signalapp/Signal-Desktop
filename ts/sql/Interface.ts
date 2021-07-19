@@ -4,19 +4,19 @@
 /* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable camelcase */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {
+import type {
   ConversationAttributesType,
   ConversationModelCollectionType,
   MessageAttributesType,
   MessageModelCollectionType,
 } from '../model-types.d';
-import { MessageModel } from '../models/messages';
-import { ConversationModel } from '../models/conversations';
-import { StoredJob } from '../jobs/types';
-import { ReactionType } from '../types/Reactions';
-import { ConversationColorType, CustomColorType } from '../types/Colors';
+import type { MessageModel } from '../models/messages';
+import type { ConversationModel } from '../models/conversations';
+import type { StoredJob } from '../jobs/types';
+import type { ReactionType } from '../types/Reactions';
+import type { ConversationColorType, CustomColorType } from '../types/Colors';
 import { StorageAccessType } from '../types/Storage.d';
-import { AttachmentType } from '../types/Attachment';
+import type { AttachmentType } from '../types/Attachment';
 
 export type AttachmentDownloadJobTypeType =
   | 'long-message'
@@ -111,41 +111,48 @@ export type SignedPreKeyType = {
   privateKey: ArrayBuffer;
   publicKey: ArrayBuffer;
 };
-export type StickerPackStatusType =
-  | 'known'
-  | 'ephemeral'
-  | 'downloaded'
-  | 'installed'
-  | 'pending'
-  | 'error';
 
-export type StickerType = {
+export type StickerType = Readonly<{
   id: number;
   packId: string;
 
-  emoji: string | null;
+  emoji?: string;
   isCoverOnly: boolean;
   lastUsed?: number;
   path: string;
+
   width: number;
   height: number;
-};
-export type StickerPackType = {
+}>;
+
+export const StickerPackStatuses = [
+  'known',
+  'ephemeral',
+  'downloaded',
+  'installed',
+  'pending',
+  'error',
+] as const;
+
+export type StickerPackStatusType = typeof StickerPackStatuses[number];
+
+export type StickerPackType = Readonly<{
   id: string;
   key: string;
 
-  attemptedStatus: 'downloaded' | 'installed' | 'ephemeral';
+  attemptedStatus?: 'downloaded' | 'installed' | 'ephemeral';
   author: string;
   coverStickerId: number;
   createdAt: number;
   downloadAttempts: number;
-  installedAt: number | null;
-  lastUsed: number;
+  installedAt?: number;
+  lastUsed?: number;
   status: StickerPackStatusType;
   stickerCount: number;
-  stickers: ReadonlyArray<string>;
+  stickers: Record<string, StickerType>;
   title: string;
-};
+}>;
+
 export type UnprocessedType = {
   id: string;
   timestamp: number;

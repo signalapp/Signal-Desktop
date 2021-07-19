@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
+import Long from 'long';
 
 import {
   getSafeLongFromTimestamp,
@@ -9,8 +10,6 @@ import {
 } from '../../util/timestampLongUtils';
 
 describe('getSafeLongFromTimestamp', () => {
-  const { Long } = window.dcodeIO;
-
   it('returns zero when passed undefined', () => {
     assert(getSafeLongFromTimestamp(undefined).isZero());
   });
@@ -31,8 +30,6 @@ describe('getSafeLongFromTimestamp', () => {
 });
 
 describe('getTimestampFromLong', () => {
-  const { Long } = window.dcodeIO;
-
   it('returns zero when passed 0 Long', () => {
     assert.equal(getTimestampFromLong(Long.fromNumber(0)), 0);
   });

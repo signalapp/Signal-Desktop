@@ -17,7 +17,7 @@ export async function sendReadReceiptsFor(
     isConversationAccepted(conversationAttrs)
   ) {
     window.log.info(`Sending ${items.length} read receipts`);
-    const convoSendOptions = await getSendOptions(conversationAttrs);
+    const sendOptions = await getSendOptions(conversationAttrs);
     const receiptsBySender = groupBy(items, 'senderId');
 
     await Promise.all(
@@ -27,14 +27,14 @@ export async function sendReadReceiptsFor(
 
         if (conversation) {
           await handleMessageSend(
-            window.textsecure.messaging.sendReadReceipts(
+            window.textsecure.messaging.sendReadReceipts({
               // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-              conversation.get('e164')!,
+              senderE164: conversation.get('e164')!,
               // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-              conversation.get('uuid')!,
+              senderUuid: conversation.get('uuid')!,
               timestamps,
-              convoSendOptions
-            )
+              options: sendOptions,
+            })
           );
         }
       })

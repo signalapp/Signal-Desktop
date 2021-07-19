@@ -37,7 +37,7 @@ import {
   multiRecipient409ResponseSchema,
   multiRecipient410ResponseSchema,
 } from '../textsecure/WebAPI';
-import { ContentClass } from '../textsecure.d';
+import { SignalService as Proto } from '../protobuf';
 
 import { assert } from './assert';
 import { isGroupV2 } from './whatTypeOfConversation';
@@ -53,15 +53,24 @@ const MAX_CONCURRENCY = 5;
 // sendWithSenderKey is recursive, but we don't want to loop back too many times.
 const MAX_RECURSION = 5;
 
+// TODO: remove once we move away from ArrayBuffers
+const FIXMEU8 = Uint8Array;
+
 // Public API:
 
-export async function sendToGroup(
-  groupSendOptions: GroupSendOptionsType,
-  conversation: ConversationModel,
-  contentHint: number,
-  sendOptions?: SendOptionsType,
-  isPartialSend?: boolean
-): Promise<CallbackResultType> {
+export async function sendToGroup({
+  groupSendOptions,
+  conversation,
+  contentHint,
+  sendOptions,
+  isPartialSend,
+}: {
+  groupSendOptions: GroupSendOptionsType;
+  conversation: ConversationModel;
+  contentHint: number;
+  sendOptions?: SendOptionsType;
+  isPartialSend?: boolean;
+}): Promise<CallbackResultType> {
   assert(
     window.textsecure.messaging,
     'sendToGroup: textsecure.messaging not available!'
@@ -100,7 +109,7 @@ export async function sendContentMessageToGroup({
   timestamp,
 }: {
   contentHint: number;
-  contentMessage: ContentClass;
+  contentMessage: Proto.Content;
   conversation: ConversationModel;
   isPartialSend?: boolean;
   online?: boolean;
@@ -145,21 +154,21 @@ export async function sendContentMessageToGroup({
   const groupId = isGroupV2(conversation.attributes)
     ? conversation.get('groupId')
     : undefined;
-  return window.textsecure.messaging.sendGroupProto(
+  return window.textsecure.messaging.sendGroupProto({
     recipients,
-    contentMessage,
+    proto: contentMessage,
     timestamp,
     contentHint,
     groupId,
-    { ...sendOptions, online }
-  );
+    options: { ...sendOptions, online },
+  });
 }
 
 // The Primary Sender Key workflow
 
 export async function sendToGroupViaSenderKey(options: {
   contentHint: number;
-  contentMessage: ContentClass;
+  contentMessage: Proto.Content;
   conversation: ConversationModel;
   isPartialSend?: boolean;
   online?: boolean;
@@ -179,9 +188,7 @@ export async function sendToGroupViaSenderKey(options: {
     sendOptions,
     timestamp,
   } = options;
-  const {
-    ContentHint,
-  } = window.textsecure.protobuf.UnidentifiedSenderMessage.Message;
+  const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
   const logId = conversation.idForLogging();
   window.log.info(
@@ -366,7 +373,9 @@ export async function sendToGroupViaSenderKey(options: {
       contentHint,
       devices: devicesForSenderKey,
       distributionId,
-      contentMessage: contentMessage.toArrayBuffer(),
+      contentMessage: toArrayBuffer(
+        Proto.Content.encode(contentMessage).finish()
+      ),
       groupId,
     });
     const accessKeys = getXorOfAccessKeys(devicesForSenderKey);
@@ -425,7 +434,11 @@ export async function sendToGroupViaSenderKey(options: {
   const normalRecipients = getUuidsFromDevices(devicesForNormalSend);
   if (normalRecipients.length === 0) {
     return {
-      dataMessage: contentMessage.dataMessage?.toArrayBuffer(),
+      dataMessage: contentMessage.dataMessage
+        ? toArrayBuffer(
+            Proto.DataMessage.encode(contentMessage.dataMessage).finish()
+          )
+        : undefined,
       successfulIdentifiers: senderKeyRecipients,
       unidentifiedDeliveries: senderKeyRecipients,
     };
@@ -433,17 +446,21 @@ export async function sendToGroupViaSenderKey(options: {
 
   // 12. Send normal message to the leftover normal recipients. Then combine normal send
   //    result with result from sender key send for final return value.
-  const normalSendResult = await window.textsecure.messaging.sendGroupProto(
-    normalRecipients,
-    contentMessage,
+  const normalSendResult = await window.textsecure.messaging.sendGroupProto({
+    recipients: normalRecipients,
+    proto: contentMessage,
     timestamp,
     contentHint,
     groupId,
-    { ...sendOptions, online }
-  );
+    options: { ...sendOptions, online },
+  });
 
   return {
-    dataMessage: contentMessage.dataMessage?.toArrayBuffer(),
+    dataMessage: contentMessage.dataMessage
+      ? toArrayBuffer(
+          Proto.DataMessage.encode(contentMessage.dataMessage).finish()
+        )
+      : undefined,
     errors: normalSendResult.errors,
     failoverIdentifiers: normalSendResult.failoverIdentifiers,
     successfulIdentifiers: [
@@ -663,7 +680,7 @@ async function encryptForSenderKey({
   );
   const ourAddress = getOurAddress();
   const senderKeyStore = new SenderKeys();
-  const message = Buffer.from(padMessage(contentMessage));
+  const message = Buffer.from(padMessage(new FIXMEU8(contentMessage)));
 
   const ciphertextMessage = await window.textsecure.storage.protocol.enqueueSenderKeyJob(
     ourAddress,

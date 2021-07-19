@@ -1,46 +1,51 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { arrayBufferToBase64 } from '../Crypto';
-import { PinnedConversationClass } from '../textsecure.d';
+import * as Bytes from '../Bytes';
+
+import { SignalService as Proto } from '../protobuf';
+
+import PinnedConversation = Proto.AccountRecord.IPinnedConversation;
 
 export function arePinnedConversationsEqual(
-  localValue: Array<PinnedConversationClass>,
-  remoteValue: Array<PinnedConversationClass>
+  localValue: Array<PinnedConversation>,
+  remoteValue: Array<PinnedConversation>
 ): boolean {
   if (localValue.length !== remoteValue.length) {
     return false;
   }
   return localValue.every(
-    (localPinnedConversation: PinnedConversationClass, index: number) => {
+    (localPinnedConversation: PinnedConversation, index: number) => {
       const remotePinnedConversation = remoteValue[index];
-      if (
-        localPinnedConversation.identifier !==
-        remotePinnedConversation.identifier
-      ) {
-        return false;
+
+      const {
+        contact,
+        groupMasterKey,
+        legacyGroupId,
+      } = localPinnedConversation;
+
+      if (contact) {
+        return (
+          remotePinnedConversation.contact &&
+          contact.uuid === remotePinnedConversation.contact.uuid
+        );
       }
-      switch (localPinnedConversation.identifier) {
-        case 'contact':
-          return (
-            localPinnedConversation.contact &&
-            remotePinnedConversation.contact &&
-            localPinnedConversation.contact.uuid ===
-              remotePinnedConversation.contact.uuid
-          );
-        case 'groupMasterKey':
-          return (
-            arrayBufferToBase64(localPinnedConversation.groupMasterKey) ===
-            arrayBufferToBase64(remotePinnedConversation.groupMasterKey)
-          );
-        case 'legacyGroupId':
-          return (
-            arrayBufferToBase64(localPinnedConversation.legacyGroupId) ===
-            arrayBufferToBase64(remotePinnedConversation.legacyGroupId)
-          );
-        default:
-          return false;
+
+      if (groupMasterKey && groupMasterKey.length) {
+        return Bytes.areEqual(
+          groupMasterKey,
+          remotePinnedConversation.groupMasterKey
+        );
       }
+
+      if (legacyGroupId && legacyGroupId.length) {
+        return Bytes.areEqual(
+          legacyGroupId,
+          remotePinnedConversation.legacyGroupId
+        );
+      }
+
+      return false;
     }
   );
 }

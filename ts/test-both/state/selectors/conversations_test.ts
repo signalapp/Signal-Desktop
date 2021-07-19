@@ -102,7 +102,7 @@ describe('both/state/selectors/conversations', () => {
       assert.deepEqual(actual, getPlaceholderContact());
     });
 
-    it('returns conversation by e164 first', () => {
+    it('returns conversation by uuid first', () => {
       const id = 'id';
 
       const conversation = makeConversation(id);
@@ -116,10 +116,10 @@ describe('both/state/selectors/conversations', () => {
             [id]: wrongConversation,
           },
           conversationsByE164: {
-            [id]: conversation,
+            [id]: wrongConversation,
           },
           conversationsByUuid: {
-            [id]: wrongConversation,
+            [id]: conversation,
           },
           conversationsByGroupId: {
             [id]: wrongConversation,
@@ -133,7 +133,7 @@ describe('both/state/selectors/conversations', () => {
 
       assert.strictEqual(actual, conversation);
     });
-    it('returns conversation by uuid', () => {
+    it('returns conversation by e164', () => {
       const id = 'id';
 
       const conversation = makeConversation(id);
@@ -146,7 +146,7 @@ describe('both/state/selectors/conversations', () => {
           conversationLookup: {
             [id]: wrongConversation,
           },
-          conversationsByUuid: {
+          conversationsByE164: {
             [id]: conversation,
           },
           conversationsByGroupId: {

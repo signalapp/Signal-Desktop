@@ -6,6 +6,6 @@ import * as log from '../logging/log';
 
 export function deprecated(message?: string): void {
   if (getEnvironment() === Environment.Development) {
-    log.error(new Error(`This method is deprecated: ${message}`));
+    log.error(`This method is deprecated: ${message}`);
   }
 }

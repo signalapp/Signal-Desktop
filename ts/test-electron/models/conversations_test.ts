@@ -1,7 +1,18 @@
-// Copyright 2014-2020 Signal Messenger, LLC
+// Copyright 2014-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { assert } from 'chai';
+
 describe('Conversations', () => {
+  async function resetConversationController(): Promise<void> {
+    window.ConversationController.reset();
+    await window.ConversationController.load();
+  }
+
+  beforeEach(resetConversationController);
+
+  afterEach(resetConversationController);
+
   it('updates lastMessage even in race conditions with db', async () => {
     const ourNumber = '+15550000000';
     const ourUuid = window.getGuid();
@@ -12,6 +23,14 @@ describe('Conversations', () => {
       e164: '+15551234567',
       uuid: '2f2734aa-f69d-4c1c-98eb-50eb0fc512d7',
       type: 'private',
+      inbox_position: 0,
+      isPinned: false,
+      markedUnread: false,
+      lastMessageDeletedForEveryone: false,
+      messageCount: 0,
+      sentMessageCount: 0,
+      profileSharing: true,
+      version: 0,
     });
 
     const destinationE164 = '+15557654321';
@@ -21,7 +40,7 @@ describe('Conversations', () => {
       'my device'
     );
     window.textsecure.storage.user.setUuidAndDeviceId(ourUuid, 2);
-    window.ConversationController._initialFetchComplete = true;
+    await window.ConversationController.loadPromise();
 
     // Creating a fake message
     const now = Date.now();
@@ -33,9 +52,9 @@ describe('Conversations', () => {
       delivered_to: [destinationE164],
       destination: destinationE164,
       expirationStartTimestamp: now,
-      hasAttachments: 0,
-      hasFileAttachments: 0,
-      hasVisualMediaAttachments: 0,
+      hasAttachments: false,
+      hasFileAttachments: false,
+      hasVisualMediaAttachments: false,
       id: 'd8f2b435-e2ef-46e0-8481-07e68af251c6',
       received_at: now,
       recipients: [destinationE164],
@@ -52,9 +71,7 @@ describe('Conversations', () => {
       Message: window.Whisper.Message,
     });
     message = window.MessageController.register(message.id, message);
-    await window.Signal.Data.saveConversation(conversation.attributes, {
-      Conversation: window.Whisper.Conversation,
-    });
+    await window.Signal.Data.saveConversation(conversation.attributes);
     await conversation.updateLastMessage();
 
     // Should be set to bananas because that's the last message sent.
@@ -66,9 +83,9 @@ describe('Conversations', () => {
       body: '',
       bodyRanges: undefined,
       attachments: [],
-      quote: null,
+      quote: undefined,
       contact: [],
-      sticker: null,
+      sticker: undefined,
       preview: [],
     });
 

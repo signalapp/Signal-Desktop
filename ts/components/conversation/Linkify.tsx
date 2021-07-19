@@ -66,7 +66,7 @@ export class Linkify extends React.Component<Props> {
 
     const chunkData: Array<{
       chunk: string;
-      matchData: LinkifyIt.Match[];
+      matchData: ReadonlyArray<LinkifyIt.Match>;
     }> = splitByEmoji(text).map(({ type, value: chunk }) => {
       if (type === 'text') {
         return { chunk, matchData: linkify.match(chunk) || [] };

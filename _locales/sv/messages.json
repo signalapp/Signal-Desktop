@@ -592,7 +592,7 @@
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
     },
     "stagedPreviewThumbnail": {
-        "message": "Utkast av länkförhandsvisning i miniatyrbild för $domain$",
+        "message": "Utkast av länkförhandsgranskning i miniatyrbild för $domain$",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
@@ -602,7 +602,7 @@
         }
     },
     "previewThumbnail": {
-        "message": "Länkförhandsvisning i miniatyrbild för $domain$",
+        "message": "Länkförhandsgranskning i miniatyrbild för $domain$",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
@@ -672,6 +672,10 @@
     "debugLog": {
         "message": "Felsökningslogg",
         "description": "View menu item to open the debug log (title case)"
+    },
+    "forceUpdate": {
+        "message": "Tvinga uppdatering",
+        "description": "View menu item to force the app to update download and install"
     },
     "helpMenuShowKeyboardShortcuts": {
         "message": "Visa tangentbordsgenvägar",
@@ -1557,6 +1561,14 @@
         "message": "Stavningskontrollen inaktiveras nästa gång Signal startas.",
         "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
     },
+    "SystemTraySetting__minimize-to-system-tray": {
+        "message": "Minimera till systemfältet",
+        "description": "In the settings, shown next to the checkbox option for minimizing to the system tray"
+    },
+    "SystemTraySetting__minimize-to-and-start-in-system-tray": {
+        "message": "Starta minimerad till systemfältet",
+        "description": "In the settings, shown next to the checkbox option for starting in the system tray"
+    },
     "autoLaunchDescription": {
         "message": "Öppna vid datorinloggning",
         "description": "Description for the automatic launch setting"
@@ -1837,7 +1849,7 @@
     },
     "disappearingMessages": {
         "message": "Försvinnande meddelanden",
-        "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages"
+        "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
     },
     "disappearingMessagesDisabled": {
         "message": "Inaktiverat att meddelanden försvinner",
@@ -2650,7 +2662,7 @@
         "description": "Key shown in shortcut combination in shortcuts guide"
     },
     "Keyboard--Key--enter": {
-        "message": "Retur",
+        "message": "Enter",
         "description": "Key shown in shortcut combination in shortcuts guide"
     },
     "Keyboard--Key--tab": {
@@ -5620,5 +5632,29 @@
     "ConversationDetailsHeader--add-group-description": {
         "message": "Lägg till gruppbeskrivning...",
         "description": "Placeholder text in the details header for those that can edit the group description"
+    },
+    "MediaQualitySelector--button": {
+        "message": "Välj mediekvalitet",
+        "description": "aria-label for the media quality selector button"
+    },
+    "MediaQualitySelector--title": {
+        "message": "Mediekvalitet",
+        "description": "Popup selector title"
+    },
+    "MediaQualitySelector--standard-quality-title": {
+        "message": "Standard",
+        "description": "Title for option for standard quality"
+    },
+    "MediaQualitySelector--standard-quality-description": {
+        "message": "Snabbare, mindre data",
+        "description": "Description of standard quality selector"
+    },
+    "MediaQualitySelector--high-quality-title": {
+        "message": "Hög",
+        "description": "Title for option for high quality"
+    },
+    "MediaQualitySelector--high-quality-description": {
+        "message": "Långsammare, mera data",
+        "description": "Description of high quality selector"
     }
 }

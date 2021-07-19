@@ -10,17 +10,18 @@ import PQueue from 'p-queue';
 
 import EventTarget from './EventTarget';
 import { WebAPIType } from './WebAPI';
-import MessageReceiver from './MessageReceiver';
 import { KeyPairType, CompatSignedPreKeyType } from './Types.d';
 import utils from './Helpers';
 import ProvisioningCipher from './ProvisioningCipher';
 import WebSocketResource, {
   IncomingWebSocketRequest,
 } from './WebsocketResources';
+import * as Bytes from '../Bytes';
 import {
   deriveAccessKey,
   generateRegistrationId,
   getRandomBytes,
+  typedArrayToArrayBuffer,
 } from '../Crypto';
 import {
   generateKeyPair,
@@ -29,12 +30,17 @@ import {
 } from '../Curve';
 import { isMoreRecentThan, isOlderThan } from '../util/timestamp';
 import { ourProfileKeyService } from '../services/ourProfileKey';
+import { assert } from '../util/assert';
 import { getProvisioningUrl } from '../util/getProvisioningUrl';
+import { SignalService as Proto } from '../protobuf';
 
 const ARCHIVE_AGE = 30 * 24 * 60 * 60 * 1000;
 const PREKEY_ROTATION_AGE = 24 * 60 * 60 * 1000;
 const PROFILE_KEY_LENGTH = 32;
 const SIGNED_KEY_GEN_BATCH_SIZE = 100;
+
+// TODO: remove once we move away from ArrayBuffers
+const FIXMEU8 = Uint8Array;
 
 function getIdentifier(id: string | undefined) {
   if (!id || !id.length) {
@@ -100,13 +106,13 @@ export default class AccountManager extends EventTarget {
       identityKey.pubKey
     );
 
-    const proto = new window.textsecure.protobuf.DeviceName();
-    proto.ephemeralPublic = encrypted.ephemeralPublic;
-    proto.syntheticIv = encrypted.syntheticIv;
-    proto.ciphertext = encrypted.ciphertext;
+    const proto = new Proto.DeviceName();
+    proto.ephemeralPublic = new FIXMEU8(encrypted.ephemeralPublic);
+    proto.syntheticIv = new FIXMEU8(encrypted.syntheticIv);
+    proto.ciphertext = new FIXMEU8(encrypted.ciphertext);
 
-    const arrayBuffer = proto.encode().toArrayBuffer();
-    return MessageReceiver.arrayBufferToStringBase64(arrayBuffer);
+    const bytes = Proto.DeviceName.encode(proto).finish();
+    return Bytes.toBase64(bytes);
   }
 
   async decryptDeviceName(base64: string) {
@@ -115,12 +121,16 @@ export default class AccountManager extends EventTarget {
       throw new Error('decryptDeviceName: No identity key pair!');
     }
 
-    const arrayBuffer = MessageReceiver.stringToArrayBufferBase64(base64);
-    const proto = window.textsecure.protobuf.DeviceName.decode(arrayBuffer);
+    const bytes = Bytes.fromBase64(base64);
+    const proto = Proto.DeviceName.decode(bytes);
+    assert(
+      proto.ephemeralPublic && proto.syntheticIv && proto.ciphertext,
+      'Missing required fields in DeviceName'
+    );
     const encrypted = {
-      ephemeralPublic: proto.ephemeralPublic.toArrayBuffer(),
-      syntheticIv: proto.syntheticIv.toArrayBuffer(),
-      ciphertext: proto.ciphertext.toArrayBuffer(),
+      ephemeralPublic: typedArrayToArrayBuffer(proto.ephemeralPublic),
+      syntheticIv: typedArrayToArrayBuffer(proto.syntheticIv),
+      ciphertext: typedArrayToArrayBuffer(proto.ciphertext),
     };
 
     const name = await window.Signal.Crypto.decryptDeviceName(
@@ -223,9 +233,7 @@ export default class AccountManager extends EventTarget {
             request.verb === 'PUT' &&
             request.body
           ) {
-            const proto = window.textsecure.protobuf.ProvisioningUuid.decode(
-              request.body
-            );
+            const proto = Proto.ProvisioningUuid.decode(request.body);
             const { uuid } = proto;
             if (!uuid) {
               throw new Error('registerSecondDevice: expected a UUID');
@@ -243,10 +251,7 @@ export default class AccountManager extends EventTarget {
             request.verb === 'PUT' &&
             request.body
           ) {
-            const envelope = window.textsecure.protobuf.ProvisionEnvelope.decode(
-              request.body,
-              'binary'
-            );
+            const envelope = Proto.ProvisionEnvelope.decode(request.body);
             request.respond(200, 'OK');
             gotProvisionEnvelope = true;
             wsr.close();

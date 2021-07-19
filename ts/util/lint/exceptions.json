@@ -199,13 +199,6 @@
     "updated": "2020-07-21T18:34:59.251Z"
   },
   {
-    "rule": "jQuery-load(",
-    "path": "js/modules/stickers.js",
-    "line": "async function load() {",
-    "reasonCategory": "falseMatch",
-    "updated": "2019-04-26T17:48:30.675Z"
-  },
-  {
     "rule": "jQuery-$(",
     "path": "js/permissions_popup_start.js",
     "line": "$(document).on('keydown', e => {",
@@ -8569,13 +8562,6 @@
     "updated": "2021-05-20T20:01:50.505Z"
   },
   {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/make-dir/node_modules/pify/index.js",
-    "line": "\t\t\t\t} else if (opts.multiArgs) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:06:35.446Z"
-  },
-  {
     "rule": "jQuery-html(",
     "path": "node_modules/marked/lib/marked.js",
     "line": "      return this.renderer.html(this.token.text);",
@@ -13004,13 +12990,6 @@
   },
   {
     "rule": "jQuery-$(",
-    "path": "node_modules/update-notifier/index.js",
-    "line": "\t\t\t\t\tchalk().cyan(format(' sudo chown -R $USER:$(id -gn $USER) %s ', xdgBasedir().config));",
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
-  },
-  {
-    "rule": "jQuery-$(",
     "path": "node_modules/uri-js/dist/es5/uri.all.min.js",
     "reasonCategory": "falseMatch",
     "updated": "2020-08-26T00:10:28.628Z",
@@ -14140,6 +14119,20 @@
     "line": "  wrap(",
     "reasonCategory": "falseMatch",
     "updated": "2020-02-07T19:52:28.522Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "ts/types/Stickers.js",
+    "line": "async function load() {",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-07-02T02:57:58.052Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "ts/types/Stickers.ts",
+    "line": "export async function load(): Promise<void> {",
+    "reasonCategory": "falseMatch",
+    "updated": "2019-04-26T17:48:30.675Z"
   },
   {
     "rule": "React-useRef",

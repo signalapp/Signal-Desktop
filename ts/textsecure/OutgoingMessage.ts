@@ -23,7 +23,6 @@ import {
 } from '@signalapp/signal-client';
 
 import { WebAPIType } from './WebAPI';
-import { ContentClass, DataMessageClass } from '../textsecure.d';
 import {
   CallbackResultType,
   SendMetadataType,
@@ -42,6 +41,7 @@ import { Sessions, IdentityKeys } from '../LibSignalStores';
 import { typedArrayToArrayBuffer as toArrayBuffer } from '../Crypto';
 import { updateConversationsWithUuidLookup } from '../updateConversationsWithUuidLookup';
 import { getKeysForIdentifier } from './getKeysForIdentifier';
+import { SignalService as Proto } from '../protobuf';
 
 export const enum SenderCertificateMode {
   WithE164,
@@ -72,13 +72,13 @@ type OutgoingMessageOptionsType = SendOptionsType & {
 
 function ciphertextMessageTypeToEnvelopeType(type: number) {
   if (type === CiphertextMessageType.PreKey) {
-    return window.textsecure.protobuf.Envelope.Type.PREKEY_BUNDLE;
+    return Proto.Envelope.Type.PREKEY_BUNDLE;
   }
   if (type === CiphertextMessageType.Whisper) {
-    return window.textsecure.protobuf.Envelope.Type.CIPHERTEXT;
+    return Proto.Envelope.Type.CIPHERTEXT;
   }
   if (type === CiphertextMessageType.Plaintext) {
-    return window.textsecure.protobuf.Envelope.Type.PLAINTEXT_CONTENT;
+    return Proto.Envelope.Type.PLAINTEXT_CONTENT;
   }
   throw new Error(
     `ciphertextMessageTypeToEnvelopeType: Unrecognized type ${type}`
@@ -96,11 +96,11 @@ function getPaddedMessageLength(messageLength: number): number {
   return messagePartCount * 160;
 }
 
-export function padMessage(messageBuffer: ArrayBuffer): Uint8Array {
+export function padMessage(messageBuffer: Uint8Array): Uint8Array {
   const plaintext = new Uint8Array(
     getPaddedMessageLength(messageBuffer.byteLength + 1) - 1
   );
-  plaintext.set(new Uint8Array(messageBuffer));
+  plaintext.set(messageBuffer);
   plaintext[messageBuffer.byteLength] = 0x80;
 
   return plaintext;
@@ -113,7 +113,7 @@ export default class OutgoingMessage {
 
   identifiers: Array<string>;
 
-  message: ContentClass | PlaintextContent;
+  message: Proto.Content | PlaintextContent;
 
   callback: (result: CallbackResultType) => void;
 
@@ -141,14 +141,14 @@ export default class OutgoingMessage {
     server: WebAPIType,
     timestamp: number,
     identifiers: Array<string>,
-    message: ContentClass | DataMessageClass | PlaintextContent,
+    message: Proto.Content | Proto.DataMessage | PlaintextContent,
     contentHint: number,
     groupId: string | undefined,
     callback: (result: CallbackResultType) => void,
     options: OutgoingMessageOptionsType = {}
   ) {
-    if (message instanceof window.textsecure.protobuf.DataMessage) {
-      const content = new window.textsecure.protobuf.Content();
+    if (message instanceof Proto.DataMessage) {
+      const content = new Proto.Content();
       content.dataMessage = message;
       // eslint-disable-next-line no-param-reassign
       this.message = content;
@@ -304,8 +304,8 @@ export default class OutgoingMessage {
     if (!this.plaintext) {
       const { message } = this;
 
-      if (message instanceof window.textsecure.protobuf.Content) {
-        this.plaintext = padMessage(message.toArrayBuffer());
+      if (message instanceof Proto.Content) {
+        this.plaintext = padMessage(Proto.Content.encode(message).finish());
       } else {
         this.plaintext = message.serialize();
       }
@@ -324,7 +324,7 @@ export default class OutgoingMessage {
   }): Promise<CiphertextMessage> {
     const { message } = this;
 
-    if (message instanceof window.textsecure.protobuf.Content) {
+    if (message instanceof Proto.Content) {
       return signalEncrypt(
         Buffer.from(this.getPlaintext()),
         protocolAddress,
@@ -421,8 +421,7 @@ export default class OutgoingMessage {
               );
 
               return {
-                type:
-                  window.textsecure.protobuf.Envelope.Type.UNIDENTIFIED_SENDER,
+                type: Proto.Envelope.Type.UNIDENTIFIED_SENDER,
                 destinationDeviceId,
                 destinationRegistrationId,
                 content: buffer.toString('base64'),
@@ -438,11 +437,13 @@ export default class OutgoingMessage {
               ciphertextMessage.type()
             );
 
+            const content = ciphertextMessage.serialize().toString('base64');
+
             return {
               type,
               destinationDeviceId,
               destinationRegistrationId,
-              content: ciphertextMessage.serialize().toString('base64'),
+              content,
             };
           }
         );

@@ -5,7 +5,6 @@
 
 mocha.setup('bdd');
 window.assert = chai.assert;
-window.PROTO_ROOT = '../../protos';
 
 const OriginalReporter = mocha._reporter;
 
@@ -59,8 +58,6 @@ window.hexToArrayBuffer = str => {
   }
   return ret;
 };
-
-window.MockSocket.prototype.addEventListener = () => null;
 
 window.Whisper = window.Whisper || {};
 window.Whisper.events = {

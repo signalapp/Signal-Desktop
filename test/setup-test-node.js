@@ -6,8 +6,6 @@
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 
-const ByteBuffer = require('../components/bytebuffer/dist/ByteBufferAB.js');
-const Long = require('../components/long/dist/Long.js');
 const { setEnvironment, Environment } = require('../ts/environment');
 const { Context: SignalContext } = require('../ts/context');
 const { isValidGuid } = require('../ts/util/isValidGuid');
@@ -27,10 +25,6 @@ global.window = {
     error: (...args) => console.error(...args),
   },
   i18n: key => `i18n(${key})`,
-  dcodeIO: {
-    ByteBuffer,
-    Long,
-  },
   storage: {
     get: key => storageMap.get(key),
     put: async (key, value) => storageMap.set(key, value),

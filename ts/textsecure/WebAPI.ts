@@ -28,23 +28,22 @@ import PQueue from 'p-queue';
 import { v4 as getGuid } from 'uuid';
 import { client as WebSocketClient, connection as WebSocket } from 'websocket';
 import { z } from 'zod';
+import Long from 'long';
 
-import { Long } from '../window.d';
 import { assert } from '../util/assert';
 import { getUserAgent } from '../util/getUserAgent';
 import { toWebSafeBase64 } from '../util/webSafeBase64';
-import { isPackIdValid, redactPackId } from '../../js/modules/stickers';
+import { isPackIdValid, redactPackId } from '../types/Stickers';
+import * as Bytes from '../Bytes';
 import {
   arrayBufferToBase64,
   base64ToArrayBuffer,
-  bytesFromHexString,
   bytesFromString,
   concatenateBytes,
   constantTimeEqual,
   decryptAesGcm,
   deriveSecrets,
   encryptCdsDiscoveryRequest,
-  getBytes,
   getRandomValue,
   splitUuids,
   typedArrayToArrayBuffer,
@@ -53,7 +52,6 @@ import { calculateAgreement, generateKeyPair } from '../Curve';
 import * as linkPreviewFetch from '../linkPreviews/linkPreviewFetch';
 
 import {
-  AvatarUploadAttributesClass,
   StorageServiceCallOptionsType,
   StorageServiceCredentials,
 } from '../textsecure.d';
@@ -85,7 +83,7 @@ type SgxConstantsType = {
 let sgxConstantCache: SgxConstantsType | null = null;
 
 function makeLong(value: string): Long {
-  return window.dcodeIO.Long.fromString(value);
+  return Long.fromString(value);
 }
 function getSgxConstants() {
   if (sgxConstantCache) {
@@ -2161,7 +2159,7 @@ export function initialize({
       return Proto.GroupExternalCredential.decode(new FIXMEU8(response));
     }
 
-    function verifyAttributes(attributes: AvatarUploadAttributesClass) {
+    function verifyAttributes(attributes: Proto.IAvatarUploadAttributes) {
       const {
         key,
         credential,
@@ -2213,8 +2211,8 @@ export function initialize({
         responseType: 'arraybuffer',
         host: storageUrl,
       });
-      const attributes = window.textsecure.protobuf.AvatarUploadAttributes.decode(
-        response
+      const attributes = Proto.AvatarUploadAttributes.decode(
+        new FIXMEU8(response)
       );
 
       const verified = verifyAttributes(attributes);
@@ -2435,34 +2433,38 @@ export function initialize({
 
     function validateAttestationQuote({
       serverStaticPublic,
-      quote,
+      quote: quoteArrayBuffer,
     }: {
       serverStaticPublic: ArrayBuffer;
       quote: ArrayBuffer;
     }) {
       const SGX_CONSTANTS = getSgxConstants();
-      const byteBuffer = window.dcodeIO.ByteBuffer.wrap(
-        quote,
-        'binary',
-        window.dcodeIO.ByteBuffer.LITTLE_ENDIAN
-      );
+      const quote = Buffer.from(quoteArrayBuffer);
 
-      const quoteVersion = byteBuffer.readShort(0) & 0xffff;
+      let off = 0;
+
+      const quoteVersion = quote.readInt32LE(off) & 0xffff;
+      off += 4;
       if (quoteVersion < 0 || quoteVersion > 2) {
         throw new Error(`Unknown version ${quoteVersion}`);
       }
 
-      const miscSelect = new Uint8Array(getBytes(quote, 64, 4));
+      const miscSelect = quote.slice(off, off + 64);
+      off += 64;
       if (!miscSelect.every(byte => byte === 0)) {
         throw new Error('Quote miscSelect invalid!');
       }
 
-      const reserved1 = new Uint8Array(getBytes(quote, 68, 28));
+      const reserved1 = quote.slice(off, off + 28);
+      off += 28;
       if (!reserved1.every(byte => byte === 0)) {
         throw new Error('Quote reserved1 invalid!');
       }
 
-      const flags = byteBuffer.readLong(96);
+      const flags = Long.fromBytesLE(
+        Array.from(quote.slice(off, off + 8).values())
+      );
+      off += 8;
       if (
         flags.and(SGX_CONSTANTS.SGX_FLAGS_RESERVED).notEquals(0) ||
         flags.and(SGX_CONSTANTS.SGX_FLAGS_INITTED).equals(0) ||
@@ -2471,25 +2473,29 @@ export function initialize({
         throw new Error(`Quote flags invalid ${flags.toString()}`);
       }
 
-      const xfrm = byteBuffer.readLong(104);
+      const xfrm = Long.fromBytesLE(
+        Array.from(quote.slice(off, off + 8).values())
+      );
+      off += 8;
       if (xfrm.and(SGX_CONSTANTS.SGX_XFRM_RESERVED).notEquals(0)) {
         throw new Error(`Quote xfrm invalid ${xfrm}`);
       }
 
-      const mrenclave = new Uint8Array(getBytes(quote, 112, 32));
-      const enclaveIdBytes = new Uint8Array(
-        bytesFromHexString(directoryEnclaveId)
-      );
-      if (!mrenclave.every((byte, index) => byte === enclaveIdBytes[index])) {
+      const mrenclave = quote.slice(off, off + 32);
+      off += 32;
+      const enclaveIdBytes = Bytes.fromHex(directoryEnclaveId);
+      if (mrenclave.compare(enclaveIdBytes) !== 0) {
         throw new Error('Quote mrenclave invalid!');
       }
 
-      const reserved2 = new Uint8Array(getBytes(quote, 144, 32));
+      const reserved2 = quote.slice(off, off + 32);
+      off += 32;
       if (!reserved2.every(byte => byte === 0)) {
         throw new Error('Quote reserved2 invalid!');
       }
 
-      const reportData = new Uint8Array(getBytes(quote, 368, 64));
+      const reportData = quote.slice(off, off + 64);
+      off += 64;
       const serverStaticPublicBytes = new Uint8Array(serverStaticPublic);
       if (
         !reportData.every((byte, index) => {
@@ -2502,22 +2508,26 @@ export function initialize({
         throw new Error('Quote report_data invalid!');
       }
 
-      const reserved3 = new Uint8Array(getBytes(quote, 208, 96));
+      const reserved3 = quote.slice(off, off + 96);
+      off += 96;
       if (!reserved3.every(byte => byte === 0)) {
         throw new Error('Quote reserved3 invalid!');
       }
 
-      const reserved4 = new Uint8Array(getBytes(quote, 308, 60));
+      const reserved4 = quote.slice(off, off + 60);
+      off += 60;
       if (!reserved4.every(byte => byte === 0)) {
         throw new Error('Quote reserved4 invalid!');
       }
 
-      const signatureLength = byteBuffer.readInt(432) & 0xffff_ffff;
+      const signatureLength = quote.readInt32LE(432) >>> 0;
+      off += 4;
       if (signatureLength !== quote.byteLength - 436) {
         throw new Error(`Bad signatureLength ${signatureLength}`);
       }
 
-      // const signature = Uint8Array.from(getBytes(quote, 436, signatureLength));
+      // const signature = quote.slice(off, signatureLength);
+      // off += signatureLength
     }
 
     function validateAttestationSignatureBody(

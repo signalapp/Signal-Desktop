@@ -10,17 +10,28 @@ import { mapDispatchToProps } from '../actions';
 import { StateType } from '../reducer';
 import { LocalizerType } from '../../types/Util';
 import { AttachmentType } from '../../types/Attachment';
+import type {
+  DirectionType,
+  MessageStatusType,
+} from '../../components/conversation/Message';
 
 export type Props = {
   audio: HTMLAudioElement;
 
-  direction?: 'incoming' | 'outgoing';
-  id: string;
   renderingContext: string;
   i18n: LocalizerType;
   attachment: AttachmentType;
   withContentAbove: boolean;
   withContentBelow: boolean;
+
+  direction: DirectionType;
+  expirationLength?: number;
+  expirationTimestamp?: number;
+  id: string;
+  showMessageDetail: (id: string) => void;
+  status?: MessageStatusType;
+  textPending?: boolean;
+  timestamp: number;
 
   buttonRef: React.RefObject<HTMLButtonElement>;
 

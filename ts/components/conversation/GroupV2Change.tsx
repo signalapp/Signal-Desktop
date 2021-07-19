@@ -14,14 +14,10 @@ import { GroupV2ChangeType, GroupV2DescriptionChangeType } from '../../groups';
 import { renderChange, SmartContactRendererType } from '../../groupChange';
 import { Modal } from '../Modal';
 
-import { AccessControlClass, MemberClass } from '../../textsecure.d';
-
 export type PropsDataType = {
   groupName?: string;
   ourConversationId: string;
   change: GroupV2ChangeType;
-  AccessControlEnum: typeof AccessControlClass.AccessRequired;
-  RoleEnum: typeof MemberClass.Role;
 };
 
 export type PropsHousekeepingType = {
@@ -40,15 +36,7 @@ function renderStringToIntl(
 }
 
 export function GroupV2Change(props: PropsType): ReactElement {
-  const {
-    AccessControlEnum,
-    change,
-    groupName,
-    i18n,
-    ourConversationId,
-    renderContact,
-    RoleEnum,
-  } = props;
+  const { change, groupName, i18n, ourConversationId, renderContact } = props;
 
   const [
     isGroupDescriptionDialogOpen,
@@ -64,12 +52,10 @@ export function GroupV2Change(props: PropsType): ReactElement {
     <div className="module-group-v2-change">
       <div className="module-group-v2-change--icon" />
       {renderChange(change, {
-        AccessControlEnum,
         i18n,
         ourConversationId,
         renderContact,
         renderString: renderStringToIntl,
-        RoleEnum,
       }).map((item: FullJSXType, index: number) => (
         // Difficult to find a unique key for this type
         // eslint-disable-next-line react/no-array-index-key

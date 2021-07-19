@@ -14,7 +14,9 @@ import {
   VerificationOptions,
   WhatIsThis,
 } from '../model-types.d';
+import { AttachmentType } from '../types/Attachment';
 import { CallMode, CallHistoryDetailsType } from '../types/Calling';
+import * as Stickers from '../types/Stickers';
 import { CallbackResultType, GroupV2InfoType } from '../textsecure/SendMessage';
 import { ConversationType } from '../state/ducks/conversations';
 import {
@@ -724,7 +726,7 @@ export class ConversationModel extends window.Backbone
       );
     }
 
-    const MEMBER_ROLES = window.textsecure.protobuf.Member.Role;
+    const MEMBER_ROLES = Proto.Member.Role;
 
     const role = this.isAdmin(conversationId)
       ? MEMBER_ROLES.DEFAULT
@@ -1183,23 +1185,22 @@ export class ConversationModel extends window.Backbone
         }
       );
 
-      const {
-        ContentHint,
-      } = window.textsecure.protobuf.UnidentifiedSenderMessage.Message;
+      const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
+
       const sendOptions = await getSendOptions(this.attributes);
       if (isDirectConversation(this.attributes)) {
         handleMessageSend(
-          window.textsecure.messaging.sendMessageProtoAndWait(
+          window.textsecure.messaging.sendMessageProtoAndWait({
             timestamp,
-            groupMembers,
-            contentMessage,
-            ContentHint.IMPLICIT,
-            undefined,
-            {
+            recipients: groupMembers,
+            proto: contentMessage,
+            contentHint: ContentHint.IMPLICIT,
+            groupId: undefined,
+            options: {
               ...sendOptions,
               online: true,
-            }
-          )
+            },
+          })
         );
       } else {
         handleMessageSend(
@@ -1611,8 +1612,7 @@ export class ConversationModel extends window.Backbone
     { fromSync = false, viaStorageServiceSync = false } = {}
   ): Promise<void> {
     try {
-      const messageRequestEnum =
-        window.textsecure.protobuf.SyncMessage.MessageRequestResponse.Type;
+      const messageRequestEnum = Proto.SyncMessage.MessageRequestResponse.Type;
       const isLocalAction = !fromSync && !viaStorageServiceSync;
       const ourConversationId = window.ConversationController.getOurConversationId();
 
@@ -1792,8 +1792,7 @@ export class ConversationModel extends window.Backbone
       }
     }
 
-    const messageRequestEnum =
-      window.textsecure.protobuf.SyncMessage.MessageRequestResponse.Type;
+    const messageRequestEnum = Proto.SyncMessage.MessageRequestResponse.Type;
 
     // Ensure active_at is set, because this is an event that justifies putting the group
     //   in the left pane.
@@ -2900,7 +2899,7 @@ export class ConversationModel extends window.Backbone
       return false;
     }
 
-    const MEMBER_ROLES = window.textsecure.protobuf.Member.Role;
+    const MEMBER_ROLES = Proto.Member.Role;
 
     return member.role === MEMBER_ROLES.ADMINISTRATOR;
   }
@@ -2915,8 +2914,7 @@ export class ConversationModel extends window.Backbone
 
     const members = this.get('membersV2') || [];
     return members.map(member => ({
-      isAdmin:
-        member.role === window.textsecure.protobuf.Member.Role.ADMINISTRATOR,
+      isAdmin: member.role === Proto.Member.Role.ADMINISTRATOR,
       conversationId: member.conversationId,
     }));
   }
@@ -3104,7 +3102,7 @@ export class ConversationModel extends window.Backbone
         ? [{ contentType: 'image/jpeg', fileName: null }]
         : await this.getQuoteAttachment(attachments, preview, sticker),
       bodyRanges: quotedMessage.get('bodyRanges'),
-      id: String(quotedMessage.get('sent_at')),
+      id: quotedMessage.get('sent_at'),
       isViewOnce: isTapToView(quotedMessage.attributes),
       messageId: quotedMessage.get('id'),
       referencedMessageNotFound: false,
@@ -3113,8 +3111,8 @@ export class ConversationModel extends window.Backbone
   }
 
   async sendStickerMessage(packId: string, stickerId: number): Promise<void> {
-    const packData = window.Signal.Stickers.getStickerPack(packId);
-    const stickerData = window.Signal.Stickers.getSticker(packId, stickerId);
+    const packData = Stickers.getStickerPack(packId);
+    const stickerData = Stickers.getSticker(packId, stickerId);
     if (!stickerData || !packData) {
       window.log.warn(
         `Attempted to send nonexistent (${packId}, ${stickerId}) sticker!`
@@ -3156,7 +3154,7 @@ export class ConversationModel extends window.Backbone
       },
     };
 
-    this.sendMessage(null, [], null, [], sticker);
+    this.sendMessage(undefined, [], undefined, [], sticker);
     window.reduxActions.stickers.useSticker(packId, stickerId);
   }
 
@@ -3204,7 +3202,7 @@ export class ConversationModel extends window.Backbone
         throw new Error('Cannot send DOE while offline!');
       }
 
-      const options = await getSendOptions(this.attributes);
+      const sendOptions = await getSendOptions(this.attributes);
 
       const promise = (async () => {
         let profileKey: ArrayBuffer | undefined;
@@ -3212,41 +3210,39 @@ export class ConversationModel extends window.Backbone
           profileKey = await ourProfileKeyService.get();
         }
 
-        const {
-          ContentHint,
-        } = window.textsecure.protobuf.UnidentifiedSenderMessage.Message;
+        const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
         if (isDirectConversation(this.attributes)) {
-          return window.textsecure.messaging.sendMessageToIdentifier(
-            destination,
-            undefined, // body
-            [], // attachments
-            undefined, // quote
-            [], // preview
-            undefined, // sticker
-            undefined, // reaction
-            targetTimestamp,
+          return window.textsecure.messaging.sendMessageToIdentifier({
+            identifier: destination,
+            messageText: undefined,
+            attachments: [],
+            quote: undefined,
+            preview: [],
+            sticker: undefined,
+            reaction: undefined,
+            deletedForEveryoneTimestamp: targetTimestamp,
             timestamp,
-            undefined, // expireTimer
-            ContentHint.DEFAULT,
-            undefined, // groupId
+            expireTimer: undefined,
+            contentHint: ContentHint.DEFAULT,
+            groupId: undefined,
             profileKey,
-            options
-          );
+            options: sendOptions,
+          });
         }
 
-        return window.Signal.Util.sendToGroup(
-          {
+        return window.Signal.Util.sendToGroup({
+          groupSendOptions: {
             groupV1: this.getGroupV1Info(),
             groupV2: this.getGroupV2Info(),
             deletedForEveryoneTimestamp: targetTimestamp,
             timestamp,
             profileKey,
           },
-          this,
-          ContentHint.DEFAULT,
-          options
-        );
+          conversation: this,
+          contentHint: ContentHint.DEFAULT,
+          sendOptions,
+        });
       })();
 
       // This is to ensure that the functions in send() and sendSyncMessage() don't save
@@ -3341,7 +3337,6 @@ export class ConversationModel extends window.Backbone
       if (this.get('profileSharing')) {
         profileKey = await ourProfileKeyService.get();
       }
-
       // Special-case the self-send case - we send only a sync message
       if (isMe(this.attributes)) {
         const dataMessage = await window.textsecure.messaging.getDataMessage({
@@ -3363,32 +3358,30 @@ export class ConversationModel extends window.Backbone
       }
 
       const options = await getSendOptions(this.attributes);
-      const {
-        ContentHint,
-      } = window.textsecure.protobuf.UnidentifiedSenderMessage.Message;
+      const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
       const promise = (() => {
         if (isDirectConversation(this.attributes)) {
-          return window.textsecure.messaging.sendMessageToIdentifier(
-            destination,
-            undefined, // body
-            [], // attachments
-            undefined, // quote
-            [], // preview
-            undefined, // sticker
-            outgoingReaction,
-            undefined, // deletedForEveryoneTimestamp
+          return window.textsecure.messaging.sendMessageToIdentifier({
+            identifier: destination,
+            messageText: undefined,
+            attachments: [],
+            quote: undefined,
+            preview: [],
+            sticker: undefined,
+            reaction: outgoingReaction,
+            deletedForEveryoneTimestamp: undefined,
             timestamp,
             expireTimer,
-            ContentHint.DEFAULT,
-            undefined, // groupId
+            contentHint: ContentHint.DEFAULT,
+            groupId: undefined,
             profileKey,
-            options
-          );
+            options,
+          });
         }
 
-        return window.Signal.Util.sendToGroup(
-          {
+        return window.Signal.Util.sendToGroup({
+          groupSendOptions: {
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             groupV1: this.getGroupV1Info()!,
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -3398,10 +3391,10 @@ export class ConversationModel extends window.Backbone
             expireTimer,
             profileKey,
           },
-          this,
-          ContentHint.DEFAULT,
-          options
-        );
+          conversation: this,
+          contentHint: ContentHint.DEFAULT,
+          sendOptions: options,
+        });
       })();
 
       const result = await message.send(handleMessageSend(promise));
@@ -3460,10 +3453,10 @@ export class ConversationModel extends window.Backbone
   }
 
   sendMessage(
-    body: string | null,
-    attachments: Array<WhatIsThis>,
-    quote: WhatIsThis,
-    preview: WhatIsThis,
+    body: string | undefined,
+    attachments: Array<AttachmentType>,
+    quote?: QuotedMessageType,
+    preview?: WhatIsThis,
     sticker?: WhatIsThis,
     mentions?: BodyRangesType,
     {
@@ -3512,6 +3505,7 @@ export class ConversationModel extends window.Backbone
 
       // Here we move attachments to disk
       const messageWithSchema = await upgradeMessageSchema({
+        timestamp: now,
         type: 'outgoing',
         body,
         conversationId: this.id,
@@ -3584,7 +3578,7 @@ export class ConversationModel extends window.Backbone
       }
 
       const attachmentsWithData = await Promise.all(
-        messageWithSchema.attachments.map(loadAttachmentData)
+        messageWithSchema.attachments?.map(loadAttachmentData) ?? []
       );
 
       const {
@@ -3621,14 +3615,12 @@ export class ConversationModel extends window.Backbone
 
       const conversationType = this.get('type');
       const options = await getSendOptions(this.attributes);
-      const {
-        ContentHint,
-      } = window.textsecure.protobuf.UnidentifiedSenderMessage.Message;
+      const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
       let promise;
       if (conversationType === Message.GROUP) {
-        promise = window.Signal.Util.sendToGroup(
-          {
+        promise = window.Signal.Util.sendToGroup({
+          groupSendOptions: {
             attachments: finalAttachments,
             expireTimer,
             groupV1: this.getGroupV1Info(),
@@ -3641,27 +3633,27 @@ export class ConversationModel extends window.Backbone
             timestamp: now,
             mentions,
           },
-          this,
-          ContentHint.RESENDABLE,
-          options
-        );
+          conversation: this,
+          contentHint: ContentHint.RESENDABLE,
+          sendOptions: options,
+        });
       } else {
-        promise = window.textsecure.messaging.sendMessageToIdentifier(
-          destination,
-          messageBody,
-          finalAttachments,
+        promise = window.textsecure.messaging.sendMessageToIdentifier({
+          identifier: destination,
+          messageText: messageBody,
+          attachments: finalAttachments,
           quote,
           preview,
           sticker,
-          null, // reaction
-          undefined, // deletedForEveryoneTimestamp
-          now,
+          reaction: null,
+          deletedForEveryoneTimestamp: undefined,
+          timestamp: now,
           expireTimer,
-          ContentHint.RESENDABLE,
-          undefined, // groupId
+          contentHint: ContentHint.RESENDABLE,
+          groupId: undefined,
           profileKey,
-          options
-        );
+          options,
+        });
       }
 
       return message.send(handleMessageSend(promise));
@@ -3845,7 +3837,7 @@ export class ConversationModel extends window.Backbone
       value
     );
 
-    const ACCESS_ENUM = window.textsecure.protobuf.AccessControl.AccessRequired;
+    const ACCESS_ENUM = Proto.AccessControl.AccessRequired;
     const addFromInviteLink = value
       ? ACCESS_ENUM.ANY
       : ACCESS_ENUM.UNSATISFIABLE;
@@ -3889,7 +3881,7 @@ export class ConversationModel extends window.Backbone
       return;
     }
 
-    const ACCESS_ENUM = window.textsecure.protobuf.AccessControl.AccessRequired;
+    const ACCESS_ENUM = Proto.AccessControl.AccessRequired;
 
     const addFromInviteLink = value
       ? ACCESS_ENUM.ADMINISTRATOR
@@ -3927,7 +3919,7 @@ export class ConversationModel extends window.Backbone
         ),
     });
 
-    const ACCESS_ENUM = window.textsecure.protobuf.AccessControl.AccessRequired;
+    const ACCESS_ENUM = Proto.AccessControl.AccessRequired;
     this.set({
       accessControl: {
         addFromInviteLink:
@@ -3952,7 +3944,7 @@ export class ConversationModel extends window.Backbone
         ),
     });
 
-    const ACCESS_ENUM = window.textsecure.protobuf.AccessControl.AccessRequired;
+    const ACCESS_ENUM = Proto.AccessControl.AccessRequired;
     this.set({
       accessControl: {
         addFromInviteLink:
@@ -4030,8 +4022,7 @@ export class ConversationModel extends window.Backbone
       sent_at: timestamp,
       received_at: window.Signal.Util.incrementMessageCounter(),
       received_at_ms: timestamp,
-      flags:
-        window.textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
+      flags: Proto.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
       expirationTimerUpdate: {
         expireTimer,
         source,
@@ -4068,8 +4059,7 @@ export class ConversationModel extends window.Backbone
     let promise;
 
     if (isMe(this.attributes)) {
-      const flags =
-        window.textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
+      const flags = Proto.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
       const dataMessage = await window.textsecure.messaging.getDataMessage({
         attachments: [],
         // body
@@ -4166,7 +4156,7 @@ export class ConversationModel extends window.Backbone
         destination: this.get('e164'),
         destinationUuid: this.get('uuid'),
         recipients: this.getRecipients(),
-        flags: window.textsecure.protobuf.DataMessage.Flags.END_SESSION,
+        flags: Proto.DataMessage.Flags.END_SESSION,
         // TODO: DESKTOP-722
       } as unknown) as MessageAttributesType);
 
@@ -4601,13 +4591,18 @@ export class ConversationModel extends window.Backbone
     }
   }
 
-  async setProfileAvatar(avatarPath: string): Promise<void> {
-    if (!avatarPath) {
-      return;
+  async setProfileAvatar(avatarPath: undefined | null | string): Promise<void> {
+    if (isMe(this.attributes)) {
+      if (avatarPath) {
+        window.storage.put('avatarUrl', avatarPath);
+      } else {
+        window.storage.remove('avatarUrl');
+      }
     }
 
-    if (isMe(this.attributes)) {
-      window.storage.put('avatarUrl', avatarPath);
+    if (!avatarPath) {
+      this.set({ profileAvatar: undefined });
+      return;
     }
 
     const avatar = await window.textsecure.messaging.getAvatar(avatarPath);
@@ -4887,8 +4882,7 @@ export class ConversationModel extends window.Backbone
       return true;
     }
 
-    const accessControlEnum =
-      window.textsecure.protobuf.AccessControl.AccessRequired;
+    const accessControlEnum = Proto.AccessControl.AccessRequired;
     const accessControl = this.get('accessControl');
     const canAnyoneChangeTimer =
       accessControl &&
@@ -4913,7 +4907,7 @@ export class ConversationModel extends window.Backbone
     return (
       this.areWeAdmin() ||
       this.get('accessControl')?.attributes ===
-        window.textsecure.protobuf.AccessControl.AccessRequired.MEMBER
+        Proto.AccessControl.AccessRequired.MEMBER
     );
   }
 
@@ -4922,7 +4916,7 @@ export class ConversationModel extends window.Backbone
       return false;
     }
 
-    const memberEnum = window.textsecure.protobuf.Member.Role;
+    const memberEnum = Proto.Member.Role;
     const members = this.get('membersV2') || [];
     const myId = window.ConversationController.getOurConversationId();
     const me = members.find(item => item.conversationId === myId);
@@ -5095,7 +5089,7 @@ export class ConversationModel extends window.Backbone
     isTyping: boolean;
     senderId: string;
     fromMe: boolean;
-    senderDevice: string;
+    senderDevice: number;
   }): void {
     const { isTyping, senderId, fromMe, senderDevice } = options;
 

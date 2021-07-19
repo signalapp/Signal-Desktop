@@ -1,7 +1,7 @@
 // Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { isNumber } from 'lodash';
+import { isNumber, noop } from 'lodash';
 import { bindActionCreators } from 'redux';
 import { render } from 'react-dom';
 import {
@@ -9,16 +9,23 @@ import {
   PlaintextContent,
 } from '@signalapp/signal-client';
 
-import { DataMessageClass, SyncMessageClass } from './textsecure.d';
-import { SessionResetsType } from './textsecure/Types.d';
-import { MessageAttributesType } from './model-types.d';
+import MessageReceiver from './textsecure/MessageReceiver';
+import { SessionResetsType, ProcessedDataMessage } from './textsecure/Types.d';
+import {
+  MessageAttributesType,
+  ConversationAttributesType,
+} from './model-types.d';
+import * as Bytes from './Bytes';
+import { typedArrayToArrayBuffer } from './Crypto';
 import { WhatIsThis } from './window.d';
 import { getTitleBarVisibility, TitleBarVisibility } from './types/Settings';
 import { SocketStatus } from './types/SocketStatus';
 import { DEFAULT_CONVERSATION_COLOR } from './types/Colors';
 import { ChallengeHandler } from './challenge';
 import { isWindowDragElement } from './util/isWindowDragElement';
-import { assert } from './util/assert';
+import { assert, strictAssert } from './util/assert';
+import { dropNull } from './util/dropNull';
+import { normalizeUuid } from './util/normalizeUuid';
 import { filter } from './util/iterables';
 import { isNotNil } from './util/isNotNil';
 import { senderCertificateService } from './services/senderCertificate';
@@ -36,9 +43,30 @@ import { shouldRespondWithProfileKey } from './util/shouldRespondWithProfileKey'
 import { LatestQueue } from './util/LatestQueue';
 import { parseIntOrThrow } from './util/parseIntOrThrow';
 import {
-  DecryptionErrorType,
-  RetryRequestType,
-} from './textsecure/MessageReceiver';
+  TypingEvent,
+  ErrorEvent,
+  DeliveryEvent,
+  DecryptionErrorEvent,
+  DecryptionErrorEventData,
+  SentEvent,
+  SentEventData,
+  ProfileKeyUpdateEvent,
+  MessageEvent,
+  MessageEventData,
+  RetryRequestEvent,
+  RetryRequestEventData,
+  ReadEvent,
+  ConfigurationEvent,
+  ViewSyncEvent,
+  MessageRequestResponseEvent,
+  FetchLatestEvent,
+  KeysEvent,
+  StickerPackEvent,
+  VerifiedEvent,
+  ReadSyncEvent,
+  ContactEvent,
+  GroupEvent,
+} from './textsecure/messageReceiverEvents';
 import { connectToServerWithStoredCredentials } from './util/connectToServerWithStoredCredentials';
 import * as universalExpireTimer from './util/universalExpireTimer';
 import { isDirectConversation, isGroupV2 } from './util/whatTypeOfConversation';
@@ -59,6 +87,8 @@ import {
   SystemTraySetting,
   parseSystemTraySetting,
 } from './types/SystemTraySetting';
+import * as Stickers from './types/Stickers';
+import { SignalService as Proto } from './protobuf';
 
 const MAX_ATTACHMENT_DOWNLOAD_AGE = 3600 * 72 * 1000;
 
@@ -119,15 +149,12 @@ export async function startApp(): Promise<void> {
 
   const reconnectBackOff = new BackOff(FIBONACCI_TIMEOUTS);
 
-  window.textsecure.protobuf.onLoad(() => {
-    window.storage.onready(() => {
-      senderCertificateService.initialize({
-        WebAPI: window.WebAPI,
-        navigator,
-        onlineEventTarget: window,
-        SenderCertificate: window.textsecure.protobuf.SenderCertificate,
-        storage: window.storage,
-      });
+  window.storage.onready(() => {
+    senderCertificateService.initialize({
+      WebAPI: window.WebAPI,
+      navigator,
+      onlineEventTarget: window,
+      storage: window.storage,
     });
   });
 
@@ -151,7 +178,7 @@ export async function startApp(): Promise<void> {
     name: 'Whisper.deliveryReceiptBatcher',
     wait: 500,
     maxSize: 500,
-    processBatch: async (items: WhatIsThis) => {
+    processBatch: async items => {
       const byConversationId = window._.groupBy(items, item =>
         window.ConversationController.ensureContactIds({
           e164: item.source,
@@ -181,12 +208,12 @@ export async function startApp(): Promise<void> {
             } = await window.ConversationController.prepareForSend(c.get('id'));
             // eslint-disable-next-line no-await-in-loop
             await wrap(
-              window.textsecure.messaging.sendDeliveryReceipt(
+              window.textsecure.messaging.sendDeliveryReceipt({
                 e164,
                 uuid,
                 timestamps,
-                sendOptions
-              )
+                options: sendOptions,
+              })
             );
           } catch (error) {
             window.log.error(
@@ -322,7 +349,7 @@ export async function startApp(): Promise<void> {
     window.getAccountManager()!.refreshPreKeys();
   });
 
-  let messageReceiver: WhatIsThis;
+  let messageReceiver: MessageReceiver | undefined;
   let preMessageReceiverStatus: SocketStatus | undefined;
   window.getSocketStatus = () => {
     if (messageReceiver) {
@@ -591,7 +618,7 @@ export async function startApp(): Promise<void> {
 
         if (messageReceiver) {
           messageReceiver.unregisterBatchers();
-          messageReceiver = null;
+          messageReceiver = undefined;
         }
 
         // A number of still-to-queue database queries might be waiting inside batchers.
@@ -621,14 +648,14 @@ export async function startApp(): Promise<void> {
           window.isShowingModal = true;
 
           // Kick off the download
-          window.Signal.Stickers.downloadEphemeralPack(packId, key);
+          Stickers.downloadEphemeralPack(packId, key);
 
           const props = {
             packId,
             onClose: async () => {
               window.isShowingModal = false;
               stickerPreviewModalView.remove();
-              await window.Signal.Stickers.removeEphemeralPack(packId);
+              await Stickers.removeEphemeralPack(packId);
             },
           };
 
@@ -705,7 +732,7 @@ export async function startApp(): Promise<void> {
       },
 
       installStickerPack: async (packId: string, key: string) => {
-        window.Signal.Stickers.downloadStickerPack(packId, key, {
+        Stickers.downloadStickerPack(packId, key, {
           finalStatus: 'installed',
         });
       },
@@ -896,7 +923,7 @@ export async function startApp(): Promise<void> {
     try {
       await Promise.all([
         window.ConversationController.load(),
-        window.Signal.Stickers.load(),
+        Stickers.load(),
         window.Signal.Emojis.load(),
         window.textsecure.storage.protocol.hydrateCaches(),
       ]);
@@ -965,7 +992,7 @@ export async function startApp(): Promise<void> {
       },
       emojis: window.Signal.Emojis.getInitialState(),
       items: window.storage.getItemsState(),
-      stickers: window.Signal.Stickers.getInitialState(),
+      stickers: Stickers.getInitialState(),
       user: {
         attachmentsPath: window.baseAttachmentsPath,
         stickersPath: window.baseStickersPath,
@@ -1852,6 +1879,8 @@ export async function startApp(): Promise<void> {
   }
 
   window.getSyncRequest = (timeoutMillis?: number) => {
+    strictAssert(messageReceiver, 'MessageReceiver not initialized');
+
     const syncRequest = new window.textsecure.SyncRequest(
       window.textsecure.messaging,
       messageReceiver,
@@ -1861,8 +1890,8 @@ export async function startApp(): Promise<void> {
     return syncRequest;
   };
 
-  let disconnectTimer: WhatIsThis | null = null;
-  let reconnectTimer: WhatIsThis | null = null;
+  let disconnectTimer: NodeJS.Timeout | undefined;
+  let reconnectTimer: number | undefined;
   function onOffline() {
     window.log.info('offline');
 
@@ -1888,12 +1917,12 @@ export async function startApp(): Promise<void> {
     if (disconnectTimer && isSocketOnline()) {
       window.log.warn('Already online. Had a blip in online/offline status.');
       clearTimeout(disconnectTimer);
-      disconnectTimer = null;
+      disconnectTimer = undefined;
       return;
     }
     if (disconnectTimer) {
       clearTimeout(disconnectTimer);
-      disconnectTimer = null;
+      disconnectTimer = undefined;
     }
 
     connect();
@@ -1911,7 +1940,7 @@ export async function startApp(): Promise<void> {
     window.log.info('disconnect');
 
     // Clear timer, since we're only called when the timer is expired
-    disconnectTimer = null;
+    disconnectTimer = undefined;
 
     AttachmentDownloads.stop();
     if (messageReceiver) {
@@ -1936,7 +1965,7 @@ export async function startApp(): Promise<void> {
 
       if (reconnectTimer) {
         clearTimeout(reconnectTimer);
-        reconnectTimer = null;
+        reconnectTimer = undefined;
       }
 
       // Bootstrap our online/offline detection, only the first time we connect
@@ -1966,7 +1995,7 @@ export async function startApp(): Promise<void> {
 
       if (messageReceiver) {
         messageReceiver.unregisterBatchers();
-        messageReceiver = null;
+        messageReceiver = undefined;
       }
 
       const OLD_USERNAME = window.storage.get('number_id', '');
@@ -2045,8 +2074,11 @@ export async function startApp(): Promise<void> {
       preMessageReceiverStatus = undefined;
 
       // eslint-disable-next-line no-inner-declarations
-      function addQueuedEventListener(name: string, handler: WhatIsThis) {
-        messageReceiver.addEventListener(name, (...args: Array<WhatIsThis>) =>
+      function queuedEventListener<Args extends Array<unknown>>(
+        handler: (...args: Args) => Promise<void> | void,
+        track = true
+      ): (...args: Args) => void {
+        return (...args: Args): void => {
           eventHandlerQueue.add(async () => {
             try {
               await handler(...args);
@@ -2054,40 +2086,97 @@ export async function startApp(): Promise<void> {
               // message/sent: Message.handleDataMessage has its own queue and will
               //   trigger this event itself when complete.
               // error: Error processing (below) also has its own queue and self-trigger.
-              if (name !== 'message' && name !== 'sent' && name !== 'error') {
+              if (track) {
                 window.Whisper.events.trigger('incrementProgress');
               }
             }
-          })
-        );
+          });
+        };
       }
 
-      addQueuedEventListener('message', onMessageReceived);
-      addQueuedEventListener('delivery', onDeliveryReceipt);
-      addQueuedEventListener('contact', onContactReceived);
-      addQueuedEventListener('contactsync', onContactSyncComplete);
-      addQueuedEventListener('group', onGroupReceived);
-      addQueuedEventListener('groupsync', onGroupSyncComplete);
-      addQueuedEventListener('sent', onSentMessage);
-      addQueuedEventListener('readSync', onReadSync);
-      addQueuedEventListener('read', onReadReceipt);
-      addQueuedEventListener('verified', onVerified);
-      addQueuedEventListener('error', onError);
-      addQueuedEventListener('decryption-error', onDecryptionError);
-      addQueuedEventListener('retry-request', onRetryRequest);
-      addQueuedEventListener('empty', onEmpty);
-      addQueuedEventListener('reconnect', onReconnect);
-      addQueuedEventListener('configuration', onConfiguration);
-      addQueuedEventListener('typing', onTyping);
-      addQueuedEventListener('sticker-pack', onStickerPack);
-      addQueuedEventListener('viewSync', onViewSync);
-      addQueuedEventListener(
-        'messageRequestResponse',
-        onMessageRequestResponse
+      messageReceiver.addEventListener(
+        'message',
+        queuedEventListener(onMessageReceived, false)
       );
-      addQueuedEventListener('profileKeyUpdate', onProfileKeyUpdate);
-      addQueuedEventListener('fetchLatest', onFetchLatestSync);
-      addQueuedEventListener('keys', onKeysSync);
+      messageReceiver.addEventListener(
+        'delivery',
+        queuedEventListener(onDeliveryReceipt)
+      );
+      messageReceiver.addEventListener(
+        'contact',
+        queuedEventListener(onContactReceived)
+      );
+      messageReceiver.addEventListener(
+        'contactSync',
+        queuedEventListener(onContactSyncComplete)
+      );
+      messageReceiver.addEventListener(
+        'group',
+        queuedEventListener(onGroupReceived)
+      );
+      messageReceiver.addEventListener(
+        'groupSync',
+        queuedEventListener(onGroupSyncComplete)
+      );
+      messageReceiver.addEventListener(
+        'sent',
+        queuedEventListener(onSentMessage, false)
+      );
+      messageReceiver.addEventListener(
+        'readSync',
+        queuedEventListener(onReadSync)
+      );
+      messageReceiver.addEventListener(
+        'read',
+        queuedEventListener(onReadReceipt)
+      );
+      messageReceiver.addEventListener(
+        'verified',
+        queuedEventListener(onVerified)
+      );
+      messageReceiver.addEventListener(
+        'error',
+        queuedEventListener(onError, false)
+      );
+      messageReceiver.addEventListener(
+        'decryption-error',
+        queuedEventListener(onDecryptionError)
+      );
+      messageReceiver.addEventListener(
+        'retry-request',
+        queuedEventListener(onRetryRequest)
+      );
+      messageReceiver.addEventListener('empty', queuedEventListener(onEmpty));
+      messageReceiver.addEventListener(
+        'reconnect',
+        queuedEventListener(onReconnect)
+      );
+      messageReceiver.addEventListener(
+        'configuration',
+        queuedEventListener(onConfiguration)
+      );
+      messageReceiver.addEventListener('typing', queuedEventListener(onTyping));
+      messageReceiver.addEventListener(
+        'sticker-pack',
+        queuedEventListener(onStickerPack)
+      );
+      messageReceiver.addEventListener(
+        'viewSync',
+        queuedEventListener(onViewSync)
+      );
+      messageReceiver.addEventListener(
+        'messageRequestResponse',
+        queuedEventListener(onMessageRequestResponse)
+      );
+      messageReceiver.addEventListener(
+        'profileKeyUpdate',
+        queuedEventListener(onProfileKeyUpdate)
+      );
+      messageReceiver.addEventListener(
+        'fetchLatest',
+        queuedEventListener(onFetchLatestSync)
+      );
+      messageReceiver.addEventListener('keys', queuedEventListener(onKeysSync));
 
       AttachmentDownloads.start({
         getMessageReceiver: () => messageReceiver,
@@ -2095,7 +2184,7 @@ export async function startApp(): Promise<void> {
       });
 
       if (connectCount === 1) {
-        window.Signal.Stickers.downloadQueuedPacks();
+        Stickers.downloadQueuedPacks();
         if (!newVersion) {
           runStorageService();
         }
@@ -2231,9 +2320,9 @@ export async function startApp(): Promise<void> {
           syncMessage: true,
         });
 
-        const installedStickerPacks = window.Signal.Stickers.getInstalledStickerPacks();
+        const installedStickerPacks = Stickers.getInstalledStickerPacks();
         if (installedStickerPacks.length) {
-          const operations = installedStickerPacks.map((pack: WhatIsThis) => ({
+          const operations = installedStickerPacks.map(pack => ({
             packId: pack.id,
             packKey: pack.key,
             installed: true,
@@ -2315,18 +2404,22 @@ export async function startApp(): Promise<void> {
       window.log.info(
         'waitForEmptyEventQueue: Waiting for MessageReceiver empty event...'
       );
-      let resolve: WhatIsThis;
-      let reject: WhatIsThis;
-      const promise = new Promise((innerResolve, innerReject) => {
+      let resolve: undefined | (() => void);
+      let reject: undefined | ((error: Error) => void);
+      const promise = new Promise<void>((innerResolve, innerReject) => {
         resolve = innerResolve;
         reject = innerReject;
       });
 
-      const timeout = setTimeout(reject, FIVE_MINUTES);
+      const timeout = reject && setTimeout(reject, FIVE_MINUTES);
       const onEmptyOnce = () => {
-        messageReceiver.removeEventListener('empty', onEmptyOnce);
+        if (messageReceiver) {
+          messageReceiver.removeEventListener('empty', onEmptyOnce);
+        }
         clearTimeout(timeout);
-        resolve();
+        if (resolve) {
+          resolve();
+        }
       };
       messageReceiver.addEventListener('empty', onEmptyOnce);
 
@@ -2461,7 +2554,7 @@ export async function startApp(): Promise<void> {
     connect();
   }
 
-  function onConfiguration(ev: WhatIsThis) {
+  function onConfiguration(ev: ConfigurationEvent) {
     ev.confirm();
 
     const { configuration } = ev;
@@ -2472,7 +2565,7 @@ export async function startApp(): Promise<void> {
       linkPreviews,
     } = configuration;
 
-    window.storage.put('read-receipt-setting', readReceipts);
+    window.storage.put('read-receipt-setting', Boolean(readReceipts));
 
     if (
       unidentifiedDeliveryIndicators === true ||
@@ -2493,7 +2586,7 @@ export async function startApp(): Promise<void> {
     }
   }
 
-  function onTyping(ev: WhatIsThis) {
+  function onTyping(ev: TypingEvent) {
     // Note: this type of message is automatically removed from cache in MessageReceiver
 
     const { typing, sender, senderUuid, senderDevice } = ev;
@@ -2559,12 +2652,12 @@ export async function startApp(): Promise<void> {
     });
   }
 
-  async function onStickerPack(ev: WhatIsThis) {
+  async function onStickerPack(ev: StickerPackEvent) {
     ev.confirm();
 
-    const packs = ev.stickerPacks || [];
+    const packs = ev.stickerPacks;
 
-    packs.forEach((pack: WhatIsThis) => {
+    packs.forEach(pack => {
       const { id, key, isInstall, isRemove } = pack || {};
 
       if (!id || !key || (!isInstall && !isRemove)) {
@@ -2574,7 +2667,7 @@ export async function startApp(): Promise<void> {
         return;
       }
 
-      const status = window.Signal.Stickers.getStickerPackStatus(id);
+      const status = Stickers.getStickerPackStatus(id);
 
       if (status === 'installed' && isRemove) {
         window.reduxActions.stickers.uninstallStickerPack(id, key, {
@@ -2586,7 +2679,7 @@ export async function startApp(): Promise<void> {
             fromSync: true,
           });
         } else {
-          window.Signal.Stickers.downloadStickerPack(id, key, {
+          Stickers.downloadStickerPack(id, key, {
             finalStatus: 'installed',
             fromSync: true,
           });
@@ -2600,7 +2693,7 @@ export async function startApp(): Promise<void> {
     await window.storage.put('synced_at', Date.now());
   }
 
-  async function onContactReceived(ev: WhatIsThis) {
+  async function onContactReceived(ev: ContactEvent) {
     const details = ev.contactDetails;
 
     if (
@@ -2612,20 +2705,20 @@ export async function startApp(): Promise<void> {
       // special case for syncing details about ourselves
       if (details.profileKey) {
         window.log.info('Got sync message with our own profile key');
-        ourProfileKeyService.set(details.profileKey);
+        ourProfileKeyService.set(typedArrayToArrayBuffer(details.profileKey));
       }
     }
 
-    const c = new window.Whisper.Conversation({
+    const c = new window.Whisper.Conversation(({
       e164: details.number,
       uuid: details.uuid,
       type: 'private',
-    } as WhatIsThis);
+    } as Partial<ConversationAttributesType>) as WhatIsThis);
     const validationError = c.validate();
     if (validationError) {
       window.log.error(
         'Invalid contact received:',
-        Errors.toLogFormat(validationError as WhatIsThis)
+        Errors.toLogFormat(validationError)
       );
       return;
     }
@@ -2640,9 +2733,7 @@ export async function startApp(): Promise<void> {
       const conversation = window.ConversationController.get(detailsId)!;
 
       if (details.profileKey) {
-        const profileKey = window.Signal.Crypto.arrayBufferToBase64(
-          details.profileKey
-        );
+        const profileKey = Bytes.toBase64(details.profileKey);
         conversation.setProfileKey(profileKey);
       }
 
@@ -2700,14 +2791,18 @@ export async function startApp(): Promise<void> {
 
       if (details.verified) {
         const { verified } = details;
-        const verifiedEvent = new Event('verified');
-        verifiedEvent.verified = {
-          state: verified.state,
-          destination: verified.destination,
-          destinationUuid: verified.destinationUuid,
-          identityKey: verified.identityKey.toArrayBuffer(),
-        };
-        (verifiedEvent as WhatIsThis).viaContactSync = true;
+        const verifiedEvent = new VerifiedEvent(
+          {
+            state: dropNull(verified.state),
+            destination: dropNull(verified.destination),
+            destinationUuid: dropNull(verified.destinationUuid),
+            identityKey: verified.identityKey
+              ? typedArrayToArrayBuffer(verified.identityKey)
+              : undefined,
+            viaContactSync: true,
+          },
+          noop
+        );
         await onVerified(verifiedEvent);
       }
 
@@ -2728,11 +2823,11 @@ export async function startApp(): Promise<void> {
   }
 
   // Note: this handler is only for v1 groups received via 'group sync' messages
-  async function onGroupReceived(ev: WhatIsThis) {
+  async function onGroupReceived(ev: GroupEvent) {
     const details = ev.groupDetails;
     const { id } = details;
 
-    const idBuffer = window.Signal.Crypto.fromEncodedBinaryToArrayBuffer(id);
+    const idBuffer = id;
     const idBytes = idBuffer.byteLength;
     if (idBytes !== 16) {
       window.log.error(
@@ -2742,7 +2837,7 @@ export async function startApp(): Promise<void> {
     }
 
     const conversation = await window.ConversationController.getOrCreateAndWait(
-      id,
+      Bytes.toBinary(id),
       'group'
     );
     if (isGroupV2(conversation.attributes)) {
@@ -2753,18 +2848,18 @@ export async function startApp(): Promise<void> {
       return;
     }
 
-    const memberConversations = details.membersE164.map((e164: WhatIsThis) =>
+    const memberConversations = details.membersE164.map(e164 =>
       window.ConversationController.getOrCreate(e164, 'private')
     );
 
-    const members = memberConversations.map((c: WhatIsThis) => c.get('id'));
+    const members = memberConversations.map(c => c.get('id'));
 
-    const updates = {
+    const updates: Partial<ConversationAttributesType> = {
       name: details.name,
       members,
       type: 'group',
       inbox_position: details.inboxPosition,
-    } as WhatIsThis;
+    };
 
     if (details.active) {
       updates.left = false;
@@ -2825,8 +2920,16 @@ export async function startApp(): Promise<void> {
     data,
     confirm,
     messageDescriptor,
-  }: WhatIsThis) {
-    const profileKey = data.message.profileKey.toString('base64');
+  }: {
+    data: MessageEventData;
+    confirm: () => void;
+    messageDescriptor: MessageDescriptor;
+  }) {
+    const { profileKey } = data.message;
+    strictAssert(
+      profileKey !== undefined,
+      'handleMessageReceivedProfileUpdate: missing profileKey'
+    );
     const sender = window.ConversationController.get(messageDescriptor.id);
 
     if (sender) {
@@ -2866,7 +2969,7 @@ export async function startApp(): Promise<void> {
   // Note: We do very little in this function, since everything in handleDataMessage is
   //   inside a conversation-specific queue(). Any code here might run before an earlier
   //   message is processed in handleDataMessage().
-  function onMessageReceived(event: WhatIsThis) {
+  function onMessageReceived(event: MessageEvent) {
     const { data, confirm } = event;
 
     const messageDescriptor = getMessageDescriptor({
@@ -2876,7 +2979,7 @@ export async function startApp(): Promise<void> {
       destinationUuid: data.sourceUuid,
     });
 
-    const { PROFILE_KEY_UPDATE } = window.textsecure.protobuf.DataMessage.Flags;
+    const { PROFILE_KEY_UPDATE } = Proto.DataMessage.Flags;
     // eslint-disable-next-line no-bitwise
     const isProfileUpdate = Boolean(data.message.flags & PROFILE_KEY_UPDATE);
     if (isProfileUpdate) {
@@ -2905,10 +3008,13 @@ export async function startApp(): Promise<void> {
     }
 
     if (data.message.reaction) {
-      window.normalizeUuids(
-        data.message.reaction,
-        ['targetAuthorUuid'],
-        'background::onMessageReceived'
+      strictAssert(
+        data.message.reaction.targetAuthorUuid,
+        'Reaction without targetAuthorUuid'
+      );
+      const targetAuthorUuid = normalizeUuid(
+        data.message.reaction.targetAuthorUuid,
+        'DataMessage.Reaction.targetAuthorUuid'
       );
 
       const { reaction } = data.message;
@@ -2926,7 +3032,7 @@ export async function startApp(): Promise<void> {
       const reactionModel = Reactions.getSingleton().add({
         emoji: reaction.emoji,
         remove: reaction.remove,
-        targetAuthorUuid: reaction.targetAuthorUuid,
+        targetAuthorUuid,
         targetTimestamp: reaction.targetTimestamp,
         timestamp: Date.now(),
         fromId: window.ConversationController.ensureContactIds({
@@ -2967,7 +3073,7 @@ export async function startApp(): Promise<void> {
     return Promise.resolve();
   }
 
-  async function onProfileKeyUpdate({ data, confirm }: WhatIsThis) {
+  async function onProfileKeyUpdate({ data, confirm }: ProfileKeyUpdateEvent) {
     const conversationId = window.ConversationController.ensureContactIds({
       e164: data.source,
       uuid: data.sourceUuid,
@@ -3009,7 +3115,11 @@ export async function startApp(): Promise<void> {
     data,
     confirm,
     messageDescriptor,
-  }: WhatIsThis) {
+  }: {
+    data: SentEventData;
+    confirm: () => void;
+    messageDescriptor: MessageDescriptor;
+  }) {
     // First set profileSharing = true for the conversation we sent to
     const { id } = messageDescriptor;
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -3022,7 +3132,11 @@ export async function startApp(): Promise<void> {
     const ourId = window.ConversationController.getOurConversationId();
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const me = window.ConversationController.get(ourId)!;
-    const profileKey = data.message.profileKey.toString('base64');
+    const { profileKey } = data.message;
+    strictAssert(
+      profileKey !== undefined,
+      'handleMessageSentProfileUpdate: missing profileKey'
+    );
 
     // Will do the save for us if needed
     await me.setProfileKey(profileKey);
@@ -3030,18 +3144,17 @@ export async function startApp(): Promise<void> {
     return confirm();
   }
 
-  function createSentMessage(data: WhatIsThis, descriptor: MessageDescriptor) {
+  function createSentMessage(
+    data: SentEventData,
+    descriptor: MessageDescriptor
+  ) {
     const now = Date.now();
     const timestamp = data.timestamp || now;
 
-    const unidentifiedStatus: Array<SyncMessageClass.Sent.UnidentifiedDeliveryStatus> = Array.isArray(
-      data.unidentifiedStatus
-    )
-      ? data.unidentifiedStatus
-      : [];
-
+    const { unidentifiedStatus = [] } = data;
     let sentTo: Array<string> = [];
 
+    let unidentifiedDeliveries: Array<string> = [];
     if (unidentifiedStatus.length) {
       sentTo = unidentifiedStatus
         .map(item => item.destinationUuid || item.destination)
@@ -3050,13 +3163,12 @@ export async function startApp(): Promise<void> {
       const unidentified = window._.filter(data.unidentifiedStatus, item =>
         Boolean(item.unidentified)
       );
-      // eslint-disable-next-line no-param-reassign
-      data.unidentifiedDeliveries = unidentified.map(
-        item => item.destinationUuid || item.destination
-      );
+      unidentifiedDeliveries = unidentified
+        .map(item => item.destinationUuid || item.destination)
+        .filter(isNotNil);
     }
 
-    return new window.Whisper.Message({
+    return new window.Whisper.Message(({
       source: window.textsecure.storage.user.getNumber(),
       sourceUuid: window.textsecure.storage.user.getUuid(),
       sourceDevice: data.device,
@@ -3069,12 +3181,12 @@ export async function startApp(): Promise<void> {
       timestamp,
       type: 'outgoing',
       sent: true,
-      unidentifiedDeliveries: data.unidentifiedDeliveries || [],
+      unidentifiedDeliveries,
       expirationStartTimestamp: Math.min(
         data.expirationStartTimestamp || timestamp,
         now
       ),
-    } as WhatIsThis);
+    } as Partial<MessageAttributesType>) as WhatIsThis);
   }
 
   // Works with 'sent' and 'message' data sent from MessageReceiver, with a little massage
@@ -3086,11 +3198,11 @@ export async function startApp(): Promise<void> {
     destination,
     destinationUuid,
   }: {
-    message: DataMessageClass;
-    source: string;
-    sourceUuid: string;
-    destination: string;
-    destinationUuid: string;
+    message: ProcessedDataMessage;
+    source?: string;
+    sourceUuid?: string;
+    destination?: string;
+    destinationUuid?: string;
   }): MessageDescriptor => {
     if (message.groupV2) {
       const { id } = message.groupV2;
@@ -3188,17 +3300,22 @@ export async function startApp(): Promise<void> {
   // Note: We do very little in this function, since everything in handleDataMessage is
   //   inside a conversation-specific queue(). Any code here might run before an earlier
   //   message is processed in handleDataMessage().
-  function onSentMessage(event: WhatIsThis) {
+  function onSentMessage(event: SentEvent) {
     const { data, confirm } = event;
+
+    const source = window.textsecure.storage.user.getNumber();
+    const sourceUuid = window.textsecure.storage.user.getUuid();
+    strictAssert(source && sourceUuid, 'Missing user number and uuid');
 
     const messageDescriptor = getMessageDescriptor({
       ...data,
+
       // 'sent' event: the sender is always us!
-      source: window.textsecure.storage.user.getNumber(),
-      sourceUuid: window.textsecure.storage.user.getUuid(),
+      source,
+      sourceUuid,
     });
 
-    const { PROFILE_KEY_UPDATE } = window.textsecure.protobuf.DataMessage.Flags;
+    const { PROFILE_KEY_UPDATE } = Proto.DataMessage.Flags;
     // eslint-disable-next-line no-bitwise
     const isProfileUpdate = Boolean(data.message.flags & PROFILE_KEY_UPDATE);
     if (isProfileUpdate) {
@@ -3212,10 +3329,13 @@ export async function startApp(): Promise<void> {
     const message = createSentMessage(data, messageDescriptor);
 
     if (data.message.reaction) {
-      window.normalizeUuids(
-        data.message.reaction,
-        ['targetAuthorUuid'],
-        'background::onSentMessage'
+      strictAssert(
+        data.message.reaction.targetAuthorUuid,
+        'Reaction without targetAuthorUuid'
+      );
+      const targetAuthorUuid = normalizeUuid(
+        data.message.reaction.targetAuthorUuid,
+        'DataMessage.Reaction.targetAuthorUuid'
       );
 
       const { reaction } = data.message;
@@ -3230,7 +3350,7 @@ export async function startApp(): Promise<void> {
       const reactionModel = Reactions.getSingleton().add({
         emoji: reaction.emoji,
         remove: reaction.remove,
-        targetAuthorUuid: reaction.targetAuthorUuid,
+        targetAuthorUuid,
         targetTimestamp: reaction.targetTimestamp,
         timestamp: Date.now(),
         fromId: window.ConversationController.getOurConversationId(),
@@ -3248,7 +3368,7 @@ export async function startApp(): Promise<void> {
       window.log.info('Queuing sent DOE for', del.targetSentTimestamp);
       const deleteModel = Deletes.getSingleton().add({
         targetSentTimestamp: del.targetSentTimestamp,
-        serverTimestamp: del.serverTimestamp,
+        serverTimestamp: data.serverTimestamp,
         fromId: window.ConversationController.getOurConversationId(),
       });
       // Note: We do not wait for completion here
@@ -3276,14 +3396,14 @@ export async function startApp(): Promise<void> {
   };
 
   function initIncomingMessage(
-    data: WhatIsThis,
+    data: MessageEventData,
     descriptor: MessageDescriptor
   ) {
     assert(
       Boolean(data.receivedAtCounter),
       `Did not receive receivedAtCounter for message: ${data.timestamp}`
     );
-    return new window.Whisper.Message({
+    return new window.Whisper.Message(({
       source: data.source,
       sourceUuid: data.sourceUuid,
       sourceDevice: data.sourceDevice,
@@ -3295,13 +3415,14 @@ export async function startApp(): Promise<void> {
       conversationId: descriptor.id,
       unidentifiedDeliveryReceived: data.unidentifiedDeliveryReceived,
       type: 'incoming',
-      unread: 1,
-    } as WhatIsThis);
+      unread: true,
+      timestamp: data.timestamp,
+    } as Partial<MessageAttributesType>) as WhatIsThis);
   }
 
   // Returns `false` if this message isn't a group call message.
   function handleGroupCallUpdateMessage(
-    message: DataMessageClass,
+    message: ProcessedDataMessage,
     messageDescriptor: MessageDescriptor
   ): boolean {
     if (message.groupCallUpdate) {
@@ -3331,7 +3452,7 @@ export async function startApp(): Promise<void> {
 
     if (messageReceiver) {
       messageReceiver.unregisterBatchers();
-      messageReceiver = null;
+      messageReceiver = undefined;
     }
 
     onEmpty();
@@ -3401,7 +3522,7 @@ export async function startApp(): Promise<void> {
     }
   }
 
-  function onError(ev: WhatIsThis) {
+  function onError(ev: ErrorEvent) {
     const { error } = ev;
     window.log.error('background onError:', Errors.toLogFormat(error));
 
@@ -3438,10 +3559,6 @@ export async function startApp(): Promise<void> {
     window.log.warn('background onError: Doing nothing with incoming error');
   }
 
-  type RetryRequestEventType = Event & {
-    retryRequest: RetryRequestType;
-  };
-
   function isInList(
     conversation: ConversationModel,
     list: Array<string | undefined | null> | undefined
@@ -3473,7 +3590,7 @@ export async function startApp(): Promise<void> {
     requesterUuid,
     requesterDevice,
     senderDevice,
-  }: RetryRequestType): Promise<void> {
+  }: RetryRequestEventData): Promise<void> {
     const ourDeviceId = parseIntOrThrow(
       window.textsecure.storage.user.getDeviceId(),
       'archiveSessionOnMatch/getDeviceId'
@@ -3488,7 +3605,7 @@ export async function startApp(): Promise<void> {
   }
 
   async function sendDistributionMessageOrNullMessage(
-    options: RetryRequestType
+    options: RetryRequestEventData
   ): Promise<void> {
     const { groupId, requesterUuid } = options;
     let sentDistributionMessage = false;
@@ -3514,9 +3631,7 @@ export async function startApp(): Promise<void> {
         );
 
         try {
-          const {
-            ContentHint,
-          } = window.textsecure.protobuf.UnidentifiedSenderMessage.Message;
+          const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
           const result = await window.textsecure.messaging.sendSenderKeyDistributionMessage(
             {
@@ -3562,7 +3677,7 @@ export async function startApp(): Promise<void> {
     }
   }
 
-  async function onRetryRequest(event: RetryRequestEventType) {
+  async function onRetryRequest(event: RetryRequestEvent) {
     const { retryRequest } = event;
     const {
       requesterDevice,
@@ -3641,11 +3756,7 @@ export async function startApp(): Promise<void> {
     await targetMessage.resend(requesterUuid);
   }
 
-  type DecryptionErrorEventType = Event & {
-    decryptionError: DecryptionErrorType;
-  };
-
-  async function onDecryptionError(event: DecryptionErrorEventType) {
+  async function onDecryptionError(event: DecryptionErrorEvent) {
     const { decryptionError } = event;
     const { senderUuid, senderDevice, timestamp } = decryptionError;
     const logId = `${senderUuid}.${senderDevice} ${timestamp}`;
@@ -3670,7 +3781,7 @@ export async function startApp(): Promise<void> {
     window.log.info(`onDecryptionError/${logId}: ...complete`);
   }
 
-  async function requestResend(decryptionError: DecryptionErrorType) {
+  async function requestResend(decryptionError: DecryptionErrorEventData) {
     const {
       cipherTextBytes,
       cipherTextType,
@@ -3739,9 +3850,7 @@ export async function startApp(): Promise<void> {
       return;
     }
 
-    const {
-      ContentHint,
-    } = window.textsecure.protobuf.UnidentifiedSenderMessage.Message;
+    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
     // 3. Determine how to represent this to the user. Three different options.
 
@@ -3790,7 +3899,9 @@ export async function startApp(): Promise<void> {
     });
   }
 
-  function startAutomaticSessionReset(decryptionError: DecryptionErrorType) {
+  function startAutomaticSessionReset(
+    decryptionError: DecryptionErrorEventData
+  ) {
     const { senderUuid, senderDevice, timestamp } = decryptionError;
     const logId = `${senderUuid}.${senderDevice} ${timestamp}`;
 
@@ -3824,7 +3935,7 @@ export async function startApp(): Promise<void> {
     });
   }
 
-  async function onViewSync(ev: WhatIsThis) {
+  async function onViewSync(ev: ViewSyncEvent) {
     ev.confirm();
 
     const { source, sourceUuid, timestamp } = ev;
@@ -3839,13 +3950,12 @@ export async function startApp(): Promise<void> {
     ViewSyncs.getSingleton().onSync(sync);
   }
 
-  async function onFetchLatestSync(ev: WhatIsThis) {
+  async function onFetchLatestSync(ev: FetchLatestEvent) {
     ev.confirm();
 
     const { eventType } = ev;
 
-    const FETCH_LATEST_ENUM =
-      window.textsecure.protobuf.SyncMessage.FetchLatest.Type;
+    const FETCH_LATEST_ENUM = Proto.SyncMessage.FetchLatest.Type;
 
     switch (eventType) {
       case FETCH_LATEST_ENUM.LOCAL_PROFILE:
@@ -3863,7 +3973,7 @@ export async function startApp(): Promise<void> {
     }
   }
 
-  async function onKeysSync(ev: WhatIsThis) {
+  async function onKeysSync(ev: KeysEvent) {
     ev.confirm();
 
     const { storageServiceKey } = ev;
@@ -3884,7 +3994,7 @@ export async function startApp(): Promise<void> {
     }
   }
 
-  async function onMessageRequestResponse(ev: WhatIsThis) {
+  async function onMessageRequestResponse(ev: MessageRequestResponseEvent) {
     ev.confirm();
 
     const {
@@ -3914,9 +4024,9 @@ export async function startApp(): Promise<void> {
     MessageRequests.getSingleton().onResponse(sync);
   }
 
-  function onReadReceipt(ev: WhatIsThis) {
-    const readAt = ev.timestamp;
+  function onReadReceipt(ev: ReadEvent) {
     const { envelopeTimestamp, timestamp, source, sourceUuid } = ev.read;
+    const readAt = envelopeTimestamp;
     const reader = window.ConversationController.ensureContactIds({
       e164: source,
       uuid: sourceUuid,
@@ -3948,9 +4058,9 @@ export async function startApp(): Promise<void> {
     ReadReceipts.getSingleton().onReceipt(receipt);
   }
 
-  function onReadSync(ev: WhatIsThis) {
-    const readAt = ev.timestamp;
+  function onReadSync(ev: ReadSyncEvent) {
     const { envelopeTimestamp, sender, senderUuid, timestamp } = ev.read;
+    const readAt = envelopeTimestamp;
     const senderId = window.ConversationController.ensureContactIds({
       e164: sender,
       uuid: senderUuid,
@@ -3981,7 +4091,7 @@ export async function startApp(): Promise<void> {
     return ReadSyncs.getSingleton().onReceipt(receipt);
   }
 
-  async function onVerified(ev: WhatIsThis) {
+  async function onVerified(ev: VerifiedEvent) {
     const e164 = ev.verified.destination;
     const uuid = ev.verified.destinationUuid;
     const key = ev.verified.identityKey;
@@ -3991,30 +4101,30 @@ export async function startApp(): Promise<void> {
       ev.confirm();
     }
 
-    const c = new window.Whisper.Conversation({
+    const c = new window.Whisper.Conversation(({
       e164,
       uuid,
       type: 'private',
-    } as WhatIsThis);
+    } as Partial<ConversationAttributesType>) as WhatIsThis);
     const error = c.validate();
     if (error) {
       window.log.error(
         'Invalid verified sync received:',
         e164,
         uuid,
-        Errors.toLogFormat(error as WhatIsThis)
+        Errors.toLogFormat(error)
       );
       return;
     }
 
     switch (ev.verified.state) {
-      case window.textsecure.protobuf.Verified.State.DEFAULT:
+      case Proto.Verified.State.DEFAULT:
         state = 'DEFAULT';
         break;
-      case window.textsecure.protobuf.Verified.State.VERIFIED:
+      case Proto.Verified.State.VERIFIED:
         state = 'VERIFIED';
         break;
-      case window.textsecure.protobuf.Verified.State.UNVERIFIED:
+      case Proto.Verified.State.UNVERIFIED:
         state = 'UNVERIFIED';
         break;
       default:
@@ -4026,7 +4136,7 @@ export async function startApp(): Promise<void> {
       e164,
       uuid,
       state,
-      ev.viaContactSync ? 'via contact sync' : ''
+      ev.verified.viaContactSync ? 'via contact sync' : ''
     );
 
     const verifiedId = window.ConversationController.ensureContactIds({
@@ -4038,7 +4148,7 @@ export async function startApp(): Promise<void> {
     const contact = window.ConversationController.get(verifiedId)!;
     const options = {
       viaSyncMessage: true,
-      viaContactSync: ev.viaContactSync,
+      viaContactSync: ev.verified.viaContactSync,
       key,
     };
 
@@ -4051,7 +4161,7 @@ export async function startApp(): Promise<void> {
     }
   }
 
-  function onDeliveryReceipt(ev: WhatIsThis) {
+  function onDeliveryReceipt(ev: DeliveryEvent) {
     const { deliveryReceipt } = ev;
     const {
       envelopeTimestamp,

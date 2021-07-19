@@ -94,7 +94,10 @@ describe('MentionCompletion', () => {
   });
 
   describe('onTextChange', () => {
-    let possiblyShowMemberResultsStub: sinon.SinonStub<[], ConversationType[]>;
+    let possiblyShowMemberResultsStub: sinon.SinonStub<
+      [],
+      Array<ConversationType>
+    >;
 
     beforeEach(() => {
       possiblyShowMemberResultsStub = sinon.stub(

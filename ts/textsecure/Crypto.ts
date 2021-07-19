@@ -4,7 +4,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-bitwise */
 /* eslint-disable more/no-then */
-import { ByteBufferClass } from '../window.d';
 import {
   decryptAes256CbcPkcsPadding,
   encryptAes256CbcPkcsPadding,
@@ -12,6 +11,8 @@ import {
   hmacSha256,
   sha256,
   verifyHmacSha256,
+  base64ToArrayBuffer,
+  typedArrayToArrayBuffer,
 } from '../Crypto';
 
 declare global {
@@ -82,7 +83,7 @@ declare global {
         | DhImportKeyParams
         | AesKeyAlgorithm,
       extractable: boolean,
-      keyUsages: string[]
+      keyUsages: Array<string>
     ): Promise<CryptoKey>;
 
     importKey(
@@ -108,7 +109,7 @@ declare global {
         | DhImportKeyParams
         | AesKeyAlgorithm,
       extractable: boolean,
-      keyUsages: string[]
+      keyUsages: Array<string>
     ): Promise<CryptoKey>;
   }
 }
@@ -145,11 +146,9 @@ async function verifyDigest(
 const Crypto = {
   // Decrypts message into a raw string
   async decryptWebsocketMessage(
-    message: ByteBufferClass,
+    decodedMessage: ArrayBuffer,
     signalingKey: ArrayBuffer
   ): Promise<ArrayBuffer> {
-    const decodedMessage = message.toArrayBuffer();
-
     if (signalingKey.byteLength !== 52) {
       throw new Error('Got invalid length signalingKey');
     }
@@ -187,7 +186,7 @@ const Crypto = {
   async decryptAttachment(
     encryptedBin: ArrayBuffer,
     keys: ArrayBuffer,
-    theirDigest: ArrayBuffer
+    theirDigest?: ArrayBuffer
   ): Promise<ArrayBuffer> {
     if (keys.byteLength !== 64) {
       throw new Error('Got invalid length attachment keys');
@@ -338,10 +337,7 @@ const Crypto = {
     encryptedProfileName: string,
     key: ArrayBuffer
   ): Promise<{ given: ArrayBuffer; family: ArrayBuffer | null }> {
-    const data = window.dcodeIO.ByteBuffer.wrap(
-      encryptedProfileName,
-      'base64'
-    ).toArrayBuffer();
+    const data = base64ToArrayBuffer(encryptedProfileName);
     return Crypto.decryptProfile(data, key).then(decrypted => {
       const padded = new Uint8Array(decrypted);
 
@@ -367,13 +363,9 @@ const Crypto = {
       const foundFamilyName = familyEnd > givenEnd + 1;
 
       return {
-        given: window.dcodeIO.ByteBuffer.wrap(padded)
-          .slice(0, givenEnd)
-          .toArrayBuffer(),
+        given: typedArrayToArrayBuffer(padded.slice(0, givenEnd)),
         family: foundFamilyName
-          ? window.dcodeIO.ByteBuffer.wrap(padded)
-              .slice(givenEnd + 1, familyEnd)
-              .toArrayBuffer()
+          ? typedArrayToArrayBuffer(padded.slice(givenEnd + 1, familyEnd))
           : null,
       };
     });

@@ -19,8 +19,6 @@
       src="in_memory_signal_protocol_store.js"
     ></script>
 
-    <script type="text/javascript" src="../components.js"></script>
-    <script type="text/javascript" src="../protobufs.js" data-cover></script>
     <script
       type="text/javascript"
       src="../protocol_wrapper.js"
@@ -38,12 +36,9 @@
     ></script>
 
     <script type="text/javascript" src="helpers_test.js"></script>
-    <script type="text/javascript" src="crypto_test.js"></script>
-    <script type="text/javascript" src="contacts_parser_test.js"></script>
     <script type="text/javascript" src="generate_keys_test.js"></script>
     <script type="text/javascript" src="task_with_timeout_test.js"></script>
     <script type="text/javascript" src="account_manager_test.js"></script>
-    <script type="text/javascript" src="message_receiver_test.js"></script>
     <script type="text/javascript" src="sendmessage_test.js"></script>
 
     <!-- Comment out to turn off code coverage. Useful for getting real callstacks. -->
@@ -52,10 +47,8 @@
 
     <!-- Uncomment to start tests without code coverage enabled -->
     <script type="text/javascript">
-      window.textsecure.protobuf.onLoad(() => {
-        mocha.run();
-        window.Signal.conversationControllerStart();
-      });
+      mocha.run();
+      window.Signal.conversationControllerStart();
     </script>
   </body>
 </html>

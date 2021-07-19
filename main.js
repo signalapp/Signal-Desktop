@@ -425,7 +425,7 @@ async function createWindow() {
   mainWindow = new BrowserWindow(windowOptions);
   mainWindowCreated = true;
   setupSpellChecker(mainWindow, locale.messages);
-  if (!startInTray && windowConfig) {
+  if (!startInTray && windowConfig && windowConfig.maximized) {
     mainWindow.maximize();
   }
   if (!startInTray && windowConfig && windowConfig.fullscreen) {
@@ -1318,7 +1318,7 @@ app.on('ready', async () => {
         `Database startup error:\n\n${redactAll(sqlError.stack)}`
       );
     } else {
-      await sql.sqlCall('removeDB', []);
+      await sql.removeDB();
       removeUserConfig();
       app.relaunch();
     }

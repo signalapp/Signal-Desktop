@@ -844,8 +844,6 @@ describe('link preview fetching', () => {
     });
 
     it('stops reading bodies after 500 kilobytes', async function test() {
-      this.timeout(10000);
-
       const shouldNeverBeCalled = sinon.stub();
 
       const fakeFetch = stub().resolves(
@@ -854,10 +852,9 @@ describe('link preview fetching', () => {
             yield new TextEncoder().encode(
               '<!doctype html><head><title>foo bar</title>'
             );
-            const spaces = new Uint8Array(1024).fill(32);
-            for (let i = 0; i < 500; i += 1) {
-              yield spaces;
-            }
+            const spaces = new Uint8Array(250 * 1024).fill(32);
+            yield spaces;
+            yield spaces;
             shouldNeverBeCalled();
             yield new TextEncoder().encode(
               '<meta property="og:description" content="should be ignored">'

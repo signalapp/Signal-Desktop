@@ -10,7 +10,9 @@ import {
   InMemoryAttachmentDraftType,
   OnDiskAttachmentDraftType,
 } from '../types/Attachment';
-import { IMAGE_JPEG } from '../types/MIME';
+import type { StickerPackType as StickerPackDBType } from '../sql/Interface';
+import * as Stickers from '../types/Stickers';
+import { IMAGE_JPEG, IMAGE_WEBP } from '../types/MIME';
 import { ConversationModel } from '../models/conversations';
 import {
   GroupV2PendingMemberType,
@@ -49,6 +51,7 @@ import {
   LinkPreviewWithDomain,
 } from '../types/LinkPreview';
 import * as LinkPreview from '../types/LinkPreview';
+import { SignalService as Proto } from '../protobuf';
 
 type AttachmentOptions = {
   messageId: string;
@@ -618,8 +621,7 @@ Whisper.ConversationView = Whisper.View.extend({
         </div>
       `)[0];
 
-    const messageRequestEnum =
-      window.textsecure.protobuf.SyncMessage.MessageRequestResponse.Type;
+    const messageRequestEnum = Proto.SyncMessage.MessageRequestResponse.Type;
 
     const props = {
       id: model.id,
@@ -847,8 +849,7 @@ Whisper.ConversationView = Whisper.View.extend({
     const { model }: { model: ConversationModel } = this;
     const { id } = model;
 
-    const messageRequestEnum =
-      window.textsecure.protobuf.SyncMessage.MessageRequestResponse.Type;
+    const messageRequestEnum = Proto.SyncMessage.MessageRequestResponse.Type;
 
     const contactSupport = () => {
       const baseUrl =
@@ -1575,8 +1576,7 @@ Whisper.ConversationView = Whisper.View.extend({
   },
 
   blockAndReportSpam(model: ConversationModel): Promise<void> {
-    const messageRequestEnum =
-      window.textsecure.protobuf.SyncMessage.MessageRequestResponse.Type;
+    const messageRequestEnum = Proto.SyncMessage.MessageRequestResponse.Type;
 
     return this.longRunningTaskWrapper({
       name: 'blockAndReportSpam',
@@ -2213,7 +2213,7 @@ Whisper.ConversationView = Whisper.View.extend({
       contentType: blob.type,
       data,
       size: data.byteLength,
-      flags: window.textsecure.protobuf.AttachmentPointer.Flags.VOICE_MESSAGE,
+      flags: Proto.AttachmentPointer.Flags.VOICE_MESSAGE,
     };
 
     // Note: The RecorderView removes itself on send
@@ -2454,12 +2454,12 @@ Whisper.ConversationView = Whisper.View.extend({
               : undefined;
 
             conversation.sendMessage(
-              null,
+              undefined, // body
               [],
-              null,
+              undefined, // quote
               [],
               stickerNoPath,
-              undefined,
+              undefined, // BodyRanges
               { ...sendMessageOptions, timestamp }
             );
           } else {
@@ -2480,11 +2480,11 @@ Whisper.ConversationView = Whisper.View.extend({
             );
 
             conversation.sendMessage(
-              messageBody || null,
+              messageBody || undefined,
               attachmentsToSend,
-              null, // quote
+              undefined, // quote
               preview,
-              null, // sticker
+              undefined, // sticker
               undefined, // BodyRanges
               { ...sendMessageOptions, timestamp }
             );
@@ -2964,14 +2964,14 @@ Whisper.ConversationView = Whisper.View.extend({
   },
 
   showStickerPackPreview(packId: string, packKey: string) {
-    window.Signal.Stickers.downloadEphemeralPack(packId, packKey);
+    Stickers.downloadEphemeralPack(packId, packKey);
 
     const props = {
       packId,
       onClose: async () => {
         this.stickerPreviewModalView.remove();
         this.stickerPreviewModalView = null;
-        await window.Signal.Stickers.removeEphemeralPack(packId);
+        await Stickers.removeEphemeralPack(packId);
       },
     };
 
@@ -3210,7 +3210,6 @@ Whisper.ConversationView = Whisper.View.extend({
       JSX: window.Signal.State.Roots.createGroupLinkManagement(
         window.reduxStore,
         {
-          accessEnum: window.textsecure.protobuf.AccessControl.AccessRequired,
           changeHasGroupLink: this.changeHasGroupLink.bind(this),
           conversationId: model.id,
           copyGroupLink: this.copyGroupLink.bind(this),
@@ -3235,7 +3234,6 @@ Whisper.ConversationView = Whisper.View.extend({
       JSX: window.Signal.State.Roots.createGroupV2Permissions(
         window.reduxStore,
         {
-          accessEnum: window.textsecure.protobuf.AccessControl.AccessRequired,
           conversationId: model.id,
           setAccessControlAttributesSetting: this.setAccessControlAttributesSetting.bind(
             this
@@ -3293,8 +3291,7 @@ Whisper.ConversationView = Whisper.View.extend({
   showConversationDetails() {
     const { model }: { model: ConversationModel } = this;
 
-    const messageRequestEnum =
-      window.textsecure.protobuf.SyncMessage.MessageRequestResponse.Type;
+    const messageRequestEnum = Proto.SyncMessage.MessageRequestResponse.Type;
 
     // these methods are used in more than one place and should probably be
     // dried up and hoisted to methods on ConversationView
@@ -3314,7 +3311,7 @@ Whisper.ConversationView = Whisper.View.extend({
       );
     };
 
-    const ACCESS_ENUM = window.textsecure.protobuf.AccessControl.AccessRequired;
+    const ACCESS_ENUM = Proto.AccessControl.AccessRequired;
 
     const hasGroupLink = Boolean(
       model.get('groupInviteLinkPassword') &&
@@ -4040,15 +4037,29 @@ Whisper.ConversationView = Whisper.View.extend({
     url: string,
     abortSignal: Readonly<AbortSignal>
   ): Promise<null | LinkPreviewResult> {
-    const isPackDownloaded = (pack: any) =>
-      pack && (pack.status === 'downloaded' || pack.status === 'installed');
-    const isPackValid = (pack: any) =>
-      pack &&
-      (pack.status === 'ephemeral' ||
-        pack.status === 'downloaded' ||
-        pack.status === 'installed');
+    const isPackDownloaded = (
+      pack?: StickerPackDBType
+    ): pack is StickerPackDBType => {
+      if (!pack) {
+        return false;
+      }
 
-    const dataFromLink = window.Signal.Stickers.getDataFromLink(url);
+      return pack.status === 'downloaded' || pack.status === 'installed';
+    };
+    const isPackValid = (
+      pack?: StickerPackDBType
+    ): pack is StickerPackDBType => {
+      if (!pack) {
+        return false;
+      }
+      return (
+        pack.status === 'ephemeral' ||
+        pack.status === 'downloaded' ||
+        pack.status === 'installed'
+      );
+    };
+
+    const dataFromLink = Stickers.getDataFromLink(url);
     if (!dataFromLink) {
       return null;
     }
@@ -4058,16 +4069,16 @@ Whisper.ConversationView = Whisper.View.extend({
       const keyBytes = window.Signal.Crypto.bytesFromHexString(key);
       const keyBase64 = window.Signal.Crypto.arrayBufferToBase64(keyBytes);
 
-      const existing = window.Signal.Stickers.getStickerPack(id);
+      const existing = Stickers.getStickerPack(id);
       if (!isPackDownloaded(existing)) {
-        await window.Signal.Stickers.downloadEphemeralPack(id, keyBase64);
+        await Stickers.downloadEphemeralPack(id, keyBase64);
       }
 
       if (abortSignal.aborted) {
         return null;
       }
 
-      const pack = window.Signal.Stickers.getStickerPack(id);
+      const pack = Stickers.getStickerPack(id);
 
       if (!isPackValid(pack)) {
         return null;
@@ -4094,7 +4105,7 @@ Whisper.ConversationView = Whisper.View.extend({
           ...sticker,
           data,
           size: data.byteLength,
-          contentType: 'image/webp',
+          contentType: IMAGE_WEBP,
         },
         description: null,
         date: null,
@@ -4107,7 +4118,7 @@ Whisper.ConversationView = Whisper.View.extend({
       return null;
     } finally {
       if (id) {
-        await window.Signal.Stickers.removeEphemeralPack(id);
+        await Stickers.removeEphemeralPack(id);
       }
     }
   },

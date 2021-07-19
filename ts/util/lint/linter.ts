@@ -52,11 +52,11 @@ const excludedFilesRegexps = [
   '^js/components.js',
   '^js/curve/',
   '^js/util_worker.js',
-  '^libtextsecure/components.js',
   '^libtextsecure/test/test.js',
   '^sticker-creator/dist/bundle.js',
   '^test/test.js',
   '^ts/test[^/]*/.+',
+  '^ts/sql/mainWorker.bundle.js',
 
   // Copied from dependency
   '^js/Mp3LameEncoder.min.js',
@@ -243,6 +243,8 @@ const excludedFilesRegexps = [
   '^node_modules/xmldom/.+',
   '^node_modules/yargs-unparser/',
   '^node_modules/yargs/.+',
+  '^node_modules/find-yarn-workspace-root/.+',
+  '^node_modules/update-notifier/.+',
 
   // Used by Storybook
   '^node_modules/@emotion/.+',

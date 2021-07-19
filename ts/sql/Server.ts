@@ -33,6 +33,7 @@ import { ReactionType } from '../types/Reactions';
 import { StoredJob } from '../jobs/types';
 import { assert } from '../util/assert';
 import { combineNames } from '../util/combineNames';
+import { dropNull } from '../util/dropNull';
 import { isNormalNumber } from '../util/isNormalNumber';
 import { isNotNil } from '../util/isNotNil';
 import { ConversationColorType, CustomColorType } from '../types/Colors';
@@ -248,7 +249,7 @@ const dataInterface: ServerInterface = {
 };
 export default dataInterface;
 
-type DatabaseQueryCache = Map<string, Statement<any[]>>;
+type DatabaseQueryCache = Map<string, Statement<Array<any>>>;
 
 const statementCache = new WeakMap<Database, DatabaseQueryCache>();
 
@@ -301,6 +302,7 @@ function rowToSticker(row: StickerRow): StickerType {
   return {
     ...row,
     isCoverOnly: Boolean(row.isCoverOnly),
+    emoji: dropNull(row.emoji),
   };
 }
 
@@ -1935,6 +1937,16 @@ function updateToSchemaVersion35(currentVersion: number, db: Database) {
   console.log('updateToSchemaVersion35: success!');
 }
 
+// Reverted
+function updateToSchemaVersion36(currentVersion: number, db: Database) {
+  if (currentVersion >= 36) {
+    return;
+  }
+
+  db.pragma('user_version = 36');
+  console.log('updateToSchemaVersion36: success!');
+}
+
 const SCHEMA_VERSIONS = [
   updateToSchemaVersion1,
   updateToSchemaVersion2,
@@ -1971,6 +1983,7 @@ const SCHEMA_VERSIONS = [
   updateToSchemaVersion33,
   updateToSchemaVersion34,
   updateToSchemaVersion35,
+  updateToSchemaVersion36,
 ];
 
 function updateSchema(db: Database): void {
@@ -4416,13 +4429,13 @@ async function createOrUpdateStickerPack(pack: StickerPackType): Promise<void> {
     )
     .all({ id });
   const payload = {
-    attemptedStatus,
+    attemptedStatus: attemptedStatus ?? null,
     author,
     coverStickerId,
     createdAt: createdAt || Date.now(),
     downloadAttempts: downloadAttempts || 1,
     id,
-    installedAt,
+    installedAt: installedAt ?? null,
     key,
     lastUsed: lastUsed || null,
     status,
@@ -4563,7 +4576,7 @@ async function createOrUpdateSticker(sticker: StickerType): Promise<void> {
     )
     `
   ).run({
-    emoji,
+    emoji: emoji ?? null,
     height,
     id,
     isCoverOnly: isCoverOnly ? 1 : 0,

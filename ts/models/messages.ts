@@ -12,9 +12,10 @@ import {
   QuotedMessageType,
   WhatIsThis,
 } from '../model-types.d';
+import { strictAssert } from '../util/assert';
+import { dropNull } from '../util/dropNull';
 import { map, filter, find } from '../util/iterables';
 import { isNotNil } from '../util/isNotNil';
-import { DataMessageClass } from '../textsecure.d';
 import { ConversationModel } from './conversations';
 import { MessageStatusType } from '../components/conversation/Message';
 import {
@@ -23,9 +24,17 @@ import {
 } from '../state/smart/MessageDetail';
 import { getCallingNotificationText } from '../util/callingNotification';
 import { CallbackResultType } from '../textsecure/SendMessage';
+import { ProcessedDataMessage, ProcessedQuote } from '../textsecure/Types.d';
 import * as expirationTimer from '../util/expirationTimer';
 
 import { ReactionType } from '../types/Reactions';
+import {
+  copyStickerToAttachments,
+  deletePackReference,
+  savePackMetadata,
+  getStickerPackStatus,
+} from '../types/Stickers';
+import * as Stickers from '../types/Stickers';
 import { AttachmentType, isImage, isVideo } from '../types/Attachment';
 import { MIMEType, IMAGE_WEBP } from '../types/MIME';
 import { ourProfileKeyService } from '../services/ourProfileKey';
@@ -78,6 +87,7 @@ import { ReadSyncs } from '../messageModifiers/ReadSyncs';
 import { ViewSyncs } from '../messageModifiers/ViewSyncs';
 import * as AttachmentDownloads from '../messageModifiers/AttachmentDownloads';
 import * as LinkPreview from '../types/LinkPreview';
+import { SignalService as Proto } from '../protobuf';
 
 /* eslint-disable camelcase */
 /* eslint-disable more/no-then */
@@ -106,12 +116,6 @@ const {
   loadStickerData,
   upgradeMessageSchema,
 } = window.Signal.Migrations;
-const {
-  copyStickerToAttachments,
-  deletePackReference,
-  savePackMetadata,
-  getStickerPackStatus,
-} = window.Signal.Stickers;
 const { getTextWithMentions, GoogleChrome } = window.Signal.Util;
 
 const { addStickerPackReference, getMessageBySender } = window.Signal.Data;
@@ -123,7 +127,7 @@ const includesAny = <T>(haystack: Array<T>, ...needles: Array<T>) =>
 export function isQuoteAMatch(
   message: MessageModel | null | undefined,
   conversationId: string,
-  quote: QuotedMessageType | DataMessageClass.Quote
+  quote: QuotedMessageType
 ): message is MessageModel {
   if (!message) {
     return false;
@@ -175,10 +179,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       );
     }
 
-    this.CURRENT_PROTOCOL_VERSION =
-      window.textsecure.protobuf.DataMessage.ProtocolVersion.CURRENT;
-    this.INITIAL_PROTOCOL_VERSION =
-      window.textsecure.protobuf.DataMessage.ProtocolVersion.INITIAL;
+    this.CURRENT_PROTOCOL_VERSION = Proto.DataMessage.ProtocolVersion.CURRENT;
+    this.INITIAL_PROTOCOL_VERSION = Proto.DataMessage.ProtocolVersion.INITIAL;
     this.OUR_NUMBER = window.textsecure.storage.user.getNumber();
     this.OUR_UUID = window.textsecure.storage.user.getUuid();
 
@@ -439,11 +441,10 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     }
 
     if (isGroupV2Change(attributes)) {
-      const { protobuf } = window.textsecure;
       const change = this.get('groupV2Change');
 
       const lines = window.Signal.GroupChange.renderChange(change, {
-        AccessControlEnum: protobuf.AccessControl.AccessRequired,
+        AccessControlEnum: Proto.AccessControl.AccessRequired,
         i18n: window.i18n,
         ourConversationId: window.ConversationController.getOurConversationId(),
         renderContact: (conversationId: string) => {
@@ -459,7 +460,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           _i18n: unknown,
           placeholders: Array<string>
         ) => window.i18n(key, placeholders),
-        RoleEnum: protobuf.Member.Role,
+        RoleEnum: Proto.Member.Role,
       });
 
       return { text: lines.join(' ') };
@@ -616,7 +617,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
     const stickerData = this.get('sticker');
     if (stickerData) {
-      const sticker = window.Signal.Stickers.getSticker(
+      const sticker = Stickers.getSticker(
         stickerData.packId,
         stickerData.stickerId
       );
@@ -626,7 +627,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       }
       return {
         text: window.i18n('message--getNotificationText--stickers'),
-        emoji,
+        emoji: dropNull(emoji),
       };
     }
 
@@ -1278,34 +1279,34 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         sticker: stickerWithData,
         timestamp: this.get('sent_at'),
       });
+
       return this.sendSyncMessageOnly(dataMessage);
     }
 
     let promise;
     const options = await getSendOptions(conversation.attributes);
 
-    const {
-      ContentHint,
-    } = window.textsecure.protobuf.UnidentifiedSenderMessage.Message;
+    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
     if (isDirectConversation(conversation.attributes)) {
       const [identifier] = recipients;
-      promise = window.textsecure.messaging.sendMessageToIdentifier(
+
+      promise = window.textsecure.messaging.sendMessageToIdentifier({
         identifier,
-        body,
+        messageText: body,
         attachments,
-        quoteWithData,
-        previewWithData,
-        stickerWithData,
-        null,
-        this.get('deletedForEveryoneTimestamp'),
-        this.get('sent_at'),
-        this.get('expireTimer'),
-        ContentHint.RESENDABLE,
-        undefined, // groupId
+        quote: quoteWithData,
+        preview: previewWithData,
+        sticker: stickerWithData,
+        reaction: null,
+        deletedForEveryoneTimestamp: this.get('deletedForEveryoneTimestamp'),
+        timestamp: this.get('sent_at'),
+        expireTimer: this.get('expireTimer'),
+        contentHint: ContentHint.RESENDABLE,
+        groupId: undefined,
         profileKey,
-        options
-      );
+        options,
+      });
     } else {
       const initialGroupV2 = conversation.getGroupV2Info();
       const groupId = conversation.get('groupId');
@@ -1326,12 +1327,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
             members: recipients,
           };
 
-      // Important to ensure that we don't consider this receipient list to be the entire
-      //   member list.
-      const partialSend = true;
-
-      promise = window.Signal.Util.sendToGroup(
-        {
+      promise = window.Signal.Util.sendToGroup({
+        groupSendOptions: {
           messageText: body,
           timestamp: this.get('sent_at'),
           attachments,
@@ -1345,10 +1342,12 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           groupV1,
         },
         conversation,
-        ContentHint.RESENDABLE,
-        options,
-        partialSend
-      );
+        contentHint: ContentHint.RESENDABLE,
+        // Important to ensure that we don't consider this recipient list to be the
+        //   entire member list.
+        isPartialSend: true,
+        sendOptions: options,
+      });
     }
 
     return this.send(handleMessageSend(promise));
@@ -1423,12 +1422,11 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         sticker: stickerWithData,
         timestamp: this.get('sent_at'),
       });
+
       return this.sendSyncMessageOnly(dataMessage);
     }
 
-    const {
-      ContentHint,
-    } = window.textsecure.protobuf.UnidentifiedSenderMessage.Message;
+    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
     const parentConversation = this.getConversation();
     const groupId = parentConversation?.get('groupId');
     const {
@@ -1439,7 +1437,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       groupId && isGroupV1(parentConversation?.attributes)
         ? {
             id: groupId,
-            type: window.textsecure.protobuf.GroupContext.Type.DELIVER,
+            type: Proto.GroupContext.Type.DELIVER,
           }
         : undefined;
 
@@ -1465,24 +1463,21 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           senderKeyInfo.distributionId
         );
 
-        window.dcodeIO.ByteBuffer.wrap(
-          window.Signal.Crypto.typedArrayToArrayBuffer(
-            senderKeyDistributionMessage.serialize()
-          )
-        );
+        contentMessage.senderKeyDistributionMessage = senderKeyDistributionMessage.serialize();
       }
     }
 
-    const promise = window.textsecure.messaging.sendMessageProtoAndWait(
+    const promise = window.textsecure.messaging.sendMessageProtoAndWait({
       timestamp,
-      [identifier],
-      contentMessage,
-      ContentHint.RESENDABLE,
-      groupId && isGroupV2(parentConversation?.attributes)
-        ? groupId
-        : undefined,
-      sendOptions
-    );
+      recipients: [identifier],
+      proto: contentMessage,
+      contentHint: ContentHint.RESENDABLE,
+      groupId:
+        groupId && isGroupV2(parentConversation?.attributes)
+          ? groupId
+          : undefined,
+      options: sendOptions,
+    });
 
     return this.send(wrap(promise));
   }
@@ -1780,18 +1775,18 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       const conv = this.getConversation()!;
 
       return wrap(
-        window.textsecure.messaging.sendSyncMessage(
-          dataMessage,
-          this.get('sent_at'),
-          conv.get('e164'),
-          conv.get('uuid'),
-          this.get('expirationStartTimestamp') || null,
-          this.get('sent_to'),
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          this.get('unidentifiedDeliveries')!,
+        window.textsecure.messaging.sendSyncMessage({
+          encodedDataMessage: dataMessage,
+          timestamp: this.get('sent_at'),
+          destination: conv.get('e164'),
+          destinationUuid: conv.get('uuid'),
+          expirationStartTimestamp:
+            this.get('expirationStartTimestamp') || null,
+          sentTo: this.get('sent_to') || [],
+          unidentifiedDeliveries: this.get('unidentifiedDeliveries') || [],
           isUpdate,
-          sendOptions
-        )
+          options: sendOptions,
+        })
       ).then(async (result: unknown) => {
         this.set({
           synced: true,
@@ -2221,18 +2216,48 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
   // eslint-disable-next-line class-methods-use-this
   async copyFromQuotedMessage(
-    message: DataMessageClass,
+    quote: ProcessedQuote | undefined,
     conversationId: string
-  ): Promise<DataMessageClass> {
-    const { quote } = message;
+  ): Promise<QuotedMessageType | undefined> {
     if (!quote) {
-      return message;
+      return undefined;
     }
 
     const { id } = quote;
+    strictAssert(id, 'Quote must have an id');
+
+    const result: QuotedMessageType = {
+      ...quote,
+
+      id,
+
+      attachments: quote.attachments.slice(),
+      bodyRanges: quote.bodyRanges.map(({ start, length, mentionUuid }) => {
+        strictAssert(
+          start !== undefined && start !== null,
+          'Received quote with a bodyRange.start == null'
+        );
+        strictAssert(
+          length !== undefined && length !== null,
+          'Received quote with a bodyRange.length == null'
+        );
+
+        return {
+          start,
+          length,
+          mentionUuid: dropNull(mentionUuid),
+        };
+      }),
+
+      // Just placeholder values for the fields
+      referencedMessageNotFound: false,
+      isViewOnce: false,
+      messageId: '',
+    };
+
     const inMemoryMessages = window.MessageController.filterBySentAt(id);
     const matchingMessage = find(inMemoryMessages, item =>
-      isQuoteAMatch(item, conversationId, quote)
+      isQuoteAMatch(item, conversationId, result)
     );
 
     let queryMessage: undefined | MessageModel;
@@ -2245,35 +2270,35 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         MessageCollection: window.Whisper.MessageCollection,
       });
       const found = collection.find(item =>
-        isQuoteAMatch(item, conversationId, quote)
+        isQuoteAMatch(item, conversationId, result)
       );
 
       if (!found) {
-        quote.referencedMessageNotFound = true;
-        return message;
+        result.referencedMessageNotFound = true;
+        return result;
       }
 
       queryMessage = window.MessageController.register(found.id, found);
     }
 
     if (queryMessage) {
-      await this.copyQuoteContentFromOriginal(queryMessage, quote);
+      await this.copyQuoteContentFromOriginal(queryMessage, result);
     }
 
-    return message;
+    return result;
   }
 
   // eslint-disable-next-line class-methods-use-this
   async copyQuoteContentFromOriginal(
     originalMessage: MessageModel,
-    quote: QuotedMessageType | DataMessageClass.Quote
+    quote: QuotedMessageType
   ): Promise<void> {
     const { attachments } = quote;
     const firstAttachment = attachments ? attachments[0] : undefined;
 
     if (isTapToView(originalMessage.attributes)) {
       // eslint-disable-next-line no-param-reassign
-      quote.text = null;
+      quote.text = undefined;
       // eslint-disable-next-line no-param-reassign
       quote.attachments = [
         {
@@ -2366,7 +2391,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   }
 
   handleDataMessage(
-    initialMessage: DataMessageClass,
+    initialMessage: ProcessedDataMessage,
     confirm: () => void,
     options: { data?: typeof window.WhatIsThis } = {}
   ): WhatIsThis {
@@ -2383,7 +2408,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     const sourceUuid = message.get('sourceUuid');
     const type = message.get('type');
     const conversationId = message.get('conversationId');
-    const GROUP_TYPES = window.textsecure.protobuf.GroupContext.Type;
+    const GROUP_TYPES = Proto.GroupContext.Type;
 
     const fromContact = this.getContact();
     if (fromContact) {
@@ -2566,8 +2591,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       const hasGroupV2Prop = Boolean(initialMessage.groupV2);
       const isV1GroupUpdate =
         initialMessage.group &&
-        initialMessage.group.type !==
-          window.textsecure.protobuf.GroupContext.Type.DELIVER;
+        initialMessage.group.type !== Proto.GroupContext.Type.DELIVER;
 
       // Drop an incoming GroupV2 message if we or the sender are not part of the group
       //   after applying the message's associated group changes.
@@ -2636,16 +2660,19 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         });
       }
 
-      const withQuoteReference = await this.copyFromQuotedMessage(
-        initialMessage,
-        conversation.id
-      );
+      const withQuoteReference = {
+        ...initialMessage,
+        quote: await this.copyFromQuotedMessage(
+          initialMessage.quote,
+          conversation.id
+        ),
+      };
       const dataMessage = await upgradeMessageSchema(withQuoteReference);
 
       try {
         const now = new Date().getTime();
 
-        const urls = LinkPreview.findLinks(dataMessage.body);
+        const urls = LinkPreview.findLinks(dataMessage.body || '');
         const incomingPreview = dataMessage.preview || [];
         const preview = incomingPreview.filter(
           (item: typeof window.WhatIsThis) =>
@@ -2855,7 +2882,10 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           attributes.active_at = now;
           conversation.set(attributes);
 
-          if (dataMessage.expireTimer) {
+          if (
+            dataMessage.expireTimer &&
+            !isExpirationTimerUpdate(dataMessage)
+          ) {
             message.set({ expireTimer: dataMessage.expireTimer });
           }
 

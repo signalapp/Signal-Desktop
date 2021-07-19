@@ -30,22 +30,16 @@ import {
 import createTaskWithTimeout from './TaskWithTimeout';
 import OutgoingMessage, { SerializedCertificateType } from './OutgoingMessage';
 import Crypto from './Crypto';
+import * as Bytes from '../Bytes';
 import {
-  base64ToArrayBuffer,
   concatenateBytes,
   getRandomBytes,
   getZeroes,
-  hexToArrayBuffer,
   typedArrayToArrayBuffer,
 } from '../Crypto';
 import {
-  AttachmentPointerClass,
-  CallingMessageClass,
-  ContentClass,
-  DataMessageClass,
   StorageServiceCallOptionsType,
   StorageServiceCredentials,
-  SyncMessageClass,
 } from '../textsecure.d';
 import { MessageError, SignedPreKeyRotationError } from './Errors';
 import { BodyRangesType } from '../types/Util';
@@ -55,18 +49,6 @@ import {
 } from '../linkPreviews/linkPreviewFetch';
 import { concat } from '../util/iterables';
 import { SignalService as Proto } from '../protobuf';
-
-function stringToArrayBuffer(str: string): ArrayBuffer {
-  if (typeof str !== 'string') {
-    throw new Error('Passed non-string to stringToArrayBuffer');
-  }
-  const res = new ArrayBuffer(str.length);
-  const uint = new Uint8Array(res);
-  for (let i = 0; i < str.length; i += 1) {
-    uint[i] = str.charCodeAt(i);
-  }
-  return res;
-}
 
 export type SendMetadataType = {
   [identifier: string]: {
@@ -101,7 +83,7 @@ type PreviewType = {
 
 type QuoteAttachmentType = {
   thumbnail?: AttachmentType;
-  attachmentPointer?: AttachmentPointerClass;
+  attachmentPointer?: Proto.IAttachmentPointer;
 };
 
 export type GroupV2InfoType = {
@@ -130,7 +112,7 @@ export type AttachmentType = {
   height: number;
   caption: string;
 
-  attachmentPointer?: AttachmentPointerClass;
+  attachmentPointer?: Proto.IAttachmentPointer;
 
   blurHash?: string;
 };
@@ -173,6 +155,9 @@ export type GroupSendOptionsType = {
   mentions?: BodyRangesType;
   groupCallUpdate?: GroupCallUpdateType;
 };
+
+// TODO: remove once we move away from ArrayBuffers
+const FIXMEU8 = Uint8Array;
 
 class Message {
   attachments: Array<any>;
@@ -219,7 +204,7 @@ class Message {
 
   dataMessage: any;
 
-  attachmentPointers?: Array<any>;
+  attachmentPointers: Array<Proto.IAttachmentPointer> = [];
 
   deletedForEveryoneTimestamp?: number;
 
@@ -301,17 +286,14 @@ class Message {
   }
 
   isEndSession() {
-    return (
-      (this.flags || 0) &
-      window.textsecure.protobuf.DataMessage.Flags.END_SESSION
-    );
+    return (this.flags || 0) & Proto.DataMessage.Flags.END_SESSION;
   }
 
-  toProto(): DataMessageClass {
-    if (this.dataMessage instanceof window.textsecure.protobuf.DataMessage) {
+  toProto(): Proto.DataMessage {
+    if (this.dataMessage instanceof Proto.DataMessage) {
       return this.dataMessage;
     }
-    const proto = new window.textsecure.protobuf.DataMessage();
+    const proto = new Proto.DataMessage();
 
     proto.timestamp = this.timestamp;
     proto.attachments = this.attachmentPointers;
@@ -330,19 +312,19 @@ class Message {
       proto.flags = this.flags;
     }
     if (this.groupV2) {
-      proto.groupV2 = new window.textsecure.protobuf.GroupContextV2();
+      proto.groupV2 = new Proto.GroupContextV2();
       proto.groupV2.masterKey = this.groupV2.masterKey;
       proto.groupV2.revision = this.groupV2.revision;
       proto.groupV2.groupChange = this.groupV2.groupChange || null;
     } else if (this.group) {
-      proto.group = new window.textsecure.protobuf.GroupContext();
-      proto.group.id = stringToArrayBuffer(this.group.id);
+      proto.group = new Proto.GroupContext();
+      proto.group.id = Bytes.fromString(this.group.id);
       proto.group.type = this.group.type;
     }
     if (this.sticker) {
-      proto.sticker = new window.textsecure.protobuf.DataMessage.Sticker();
-      proto.sticker.packId = hexToArrayBuffer(this.sticker.packId);
-      proto.sticker.packKey = base64ToArrayBuffer(this.sticker.packKey);
+      proto.sticker = new Proto.DataMessage.Sticker();
+      proto.sticker.packId = Bytes.fromHex(this.sticker.packId);
+      proto.sticker.packKey = Bytes.fromBase64(this.sticker.packKey);
       proto.sticker.stickerId = this.sticker.stickerId;
 
       if (this.sticker.attachmentPointer) {
@@ -350,7 +332,7 @@ class Message {
       }
     }
     if (this.reaction) {
-      proto.reaction = new window.textsecure.protobuf.DataMessage.Reaction();
+      proto.reaction = new Proto.DataMessage.Reaction();
       proto.reaction.emoji = this.reaction.emoji || null;
       proto.reaction.remove = this.reaction.remove || false;
       proto.reaction.targetAuthorUuid = this.reaction.targetAuthorUuid || null;
@@ -359,7 +341,7 @@ class Message {
 
     if (Array.isArray(this.preview)) {
       proto.preview = this.preview.map(preview => {
-        const item = new window.textsecure.protobuf.DataMessage.Preview();
+        const item = new Proto.DataMessage.Preview();
         item.title = preview.title;
         item.url = preview.url;
         item.description = preview.description || null;
@@ -369,8 +351,8 @@ class Message {
       });
     }
     if (this.quote) {
-      const { QuotedAttachment } = window.textsecure.protobuf.DataMessage.Quote;
-      const { BodyRange, Quote } = window.textsecure.protobuf.DataMessage;
+      const { QuotedAttachment } = Proto.DataMessage.Quote;
+      const { BodyRange, Quote } = Proto.DataMessage;
 
       proto.quote = new Quote();
       const { quote } = proto;
@@ -396,24 +378,26 @@ class Message {
         const bodyRange = new BodyRange();
         bodyRange.start = range.start;
         bodyRange.length = range.length;
-        bodyRange.mentionUuid = range.mentionUuid;
+        if (range.mentionUuid !== undefined) {
+          bodyRange.mentionUuid = range.mentionUuid;
+        }
         return bodyRange;
       });
       if (
         quote.bodyRanges.length &&
         (!proto.requiredProtocolVersion ||
           proto.requiredProtocolVersion <
-            window.textsecure.protobuf.DataMessage.ProtocolVersion.MENTIONS)
+            Proto.DataMessage.ProtocolVersion.MENTIONS)
       ) {
         proto.requiredProtocolVersion =
-          window.textsecure.protobuf.DataMessage.ProtocolVersion.MENTIONS;
+          Proto.DataMessage.ProtocolVersion.MENTIONS;
       }
     }
     if (this.expireTimer) {
       proto.expireTimer = this.expireTimer;
     }
     if (this.profileKey) {
-      proto.profileKey = this.profileKey;
+      proto.profileKey = new FIXMEU8(this.profileKey);
     }
     if (this.deletedForEveryoneTimestamp) {
       proto.delete = {
@@ -422,7 +406,7 @@ class Message {
     }
     if (this.mentions) {
       proto.requiredProtocolVersion =
-        window.textsecure.protobuf.DataMessage.ProtocolVersion.MENTIONS;
+        Proto.DataMessage.ProtocolVersion.MENTIONS;
       proto.bodyRanges = this.mentions.map(
         ({ start, length, mentionUuid }) => ({
           start,
@@ -433,7 +417,7 @@ class Message {
     }
 
     if (this.groupCallUpdate) {
-      const { GroupCallUpdate } = window.textsecure.protobuf.DataMessage;
+      const { GroupCallUpdate } = Proto.DataMessage;
 
       const groupCallUpdate = new GroupCallUpdate();
       groupCallUpdate.eraId = this.groupCallUpdate.eraId;
@@ -446,7 +430,9 @@ class Message {
   }
 
   toArrayBuffer() {
-    return this.toProto().toArrayBuffer();
+    return typedArrayToArrayBuffer(
+      Proto.DataMessage.encode(this.toProto()).finish()
+    );
   }
 }
 
@@ -492,13 +478,13 @@ export default class MessageSender {
     );
   }
 
-  getRandomPadding(): ArrayBuffer {
+  getRandomPadding(): Uint8Array {
     // Generate a random int from 1 and 512
     const buffer = getRandomBytes(2);
     const paddingLength = (new Uint16Array(buffer)[0] & 0x1ff) + 1;
 
     // Generate a random padding buffer of the chosen size
-    return getRandomBytes(paddingLength);
+    return new FIXMEU8(getRandomBytes(paddingLength));
   }
 
   getPaddedAttachment(data: ArrayBuffer): ArrayBuffer {
@@ -511,10 +497,11 @@ export default class MessageSender {
 
   async makeAttachmentPointer(
     attachment: AttachmentType
-  ): Promise<AttachmentPointerClass | undefined> {
-    if (typeof attachment !== 'object' || attachment == null) {
-      return Promise.resolve(undefined);
-    }
+  ): Promise<Proto.IAttachmentPointer> {
+    assert(
+      typeof attachment === 'object' && attachment !== null,
+      'Got null attachment in `makeAttachmentPointer`'
+    );
 
     const { data, size } = attachment;
     if (!(data instanceof ArrayBuffer) && !ArrayBuffer.isView(data)) {
@@ -535,12 +522,12 @@ export default class MessageSender {
     const result = await Crypto.encryptAttachment(padded, key, iv);
     const id = await this.server.putAttachment(result.ciphertext);
 
-    const proto = new window.textsecure.protobuf.AttachmentPointer();
+    const proto = new Proto.AttachmentPointer();
     proto.cdnId = id;
     proto.contentType = attachment.contentType;
-    proto.key = key;
+    proto.key = new FIXMEU8(key);
     proto.size = attachment.size;
-    proto.digest = result.digest;
+    proto.digest = new FIXMEU8(result.digest);
 
     if (attachment.fileName) {
       proto.fileName = attachment.fileName;
@@ -657,11 +644,11 @@ export default class MessageSender {
     return message.toArrayBuffer();
   }
 
-  async getContentMessage(options: MessageOptionsType): Promise<ContentClass> {
+  async getContentMessage(options: MessageOptionsType): Promise<Proto.Content> {
     const message = await this.getHydratedMessage(options);
     const dataMessage = message.toProto();
 
-    const contentMessage = new window.textsecure.protobuf.Content();
+    const contentMessage = new Proto.Content();
     contentMessage.dataMessage = dataMessage;
 
     return contentMessage;
@@ -685,8 +672,8 @@ export default class MessageSender {
     groupMembers: Array<string>;
     isTyping: boolean;
     timestamp?: number;
-  }): ContentClass {
-    const ACTION_ENUM = window.textsecure.protobuf.TypingMessage.Action;
+  }): Proto.Content {
+    const ACTION_ENUM = Proto.TypingMessage.Action;
     const { recipientId, groupId, isTyping, timestamp } = options;
 
     if (!recipientId && !groupId) {
@@ -698,12 +685,14 @@ export default class MessageSender {
     const finalTimestamp = timestamp || Date.now();
     const action = isTyping ? ACTION_ENUM.STARTED : ACTION_ENUM.STOPPED;
 
-    const typingMessage = new window.textsecure.protobuf.TypingMessage();
-    typingMessage.groupId = groupId || null;
+    const typingMessage = new Proto.TypingMessage();
+    if (groupId) {
+      typingMessage.groupId = new FIXMEU8(groupId);
+    }
     typingMessage.action = action;
     typingMessage.timestamp = finalTimestamp;
 
-    const contentMessage = new window.textsecure.protobuf.Content();
+    const contentMessage = new Proto.Content();
     contentMessage.typingMessage = typingMessage;
 
     return contentMessage;
@@ -767,7 +756,7 @@ export default class MessageSender {
       group: groupV1
         ? {
             id: groupV1.id,
-            type: window.textsecure.protobuf.GroupContext.Type.DELIVER,
+            type: Proto.GroupContext.Type.DELIVER,
           }
         : undefined,
       mentions,
@@ -781,8 +770,8 @@ export default class MessageSender {
     };
   }
 
-  createSyncMessage(): SyncMessageClass {
-    const syncMessage = new window.textsecure.protobuf.SyncMessage();
+  createSyncMessage(): Proto.SyncMessage {
+    const syncMessage = new Proto.SyncMessage();
 
     syncMessage.padding = this.getRandomPadding();
 
@@ -791,13 +780,18 @@ export default class MessageSender {
 
   // Low-level sends
 
-  async sendMessage(
-    attrs: MessageOptionsType,
-    contentHint: number,
-    groupId: string | undefined,
-    options?: SendOptionsType
-  ): Promise<CallbackResultType> {
-    const message = new Message(attrs);
+  async sendMessage({
+    messageOptions,
+    contentHint,
+    groupId,
+    options,
+  }: {
+    messageOptions: MessageOptionsType;
+    contentHint: number;
+    groupId: string | undefined;
+    options?: SendOptionsType;
+  }): Promise<CallbackResultType> {
+    const message = new Message(messageOptions);
 
     return Promise.all([
       this.uploadAttachments(message),
@@ -807,13 +801,8 @@ export default class MessageSender {
     ]).then(
       async (): Promise<CallbackResultType> =>
         new Promise((resolve, reject) => {
-          this.sendMessageProto(
-            message.timestamp,
-            message.recipients || [],
-            message.toProto(),
-            contentHint,
-            groupId,
-            (res: CallbackResultType) => {
+          this.sendMessageProto({
+            callback: (res: CallbackResultType) => {
               res.dataMessage = message.toArrayBuffer();
               if (res.errors && res.errors.length > 0) {
                 reject(res);
@@ -821,21 +810,34 @@ export default class MessageSender {
                 resolve(res);
               }
             },
-            options
-          );
+            contentHint,
+            groupId,
+            options,
+            proto: message.toProto(),
+            recipients: message.recipients || [],
+            timestamp: message.timestamp,
+          });
         })
     );
   }
 
-  sendMessageProto(
-    timestamp: number,
-    recipients: Array<string>,
-    messageProto: ContentClass | DataMessageClass | PlaintextContent,
-    contentHint: number,
-    groupId: string | undefined,
-    callback: (result: CallbackResultType) => void,
-    options?: SendOptionsType
-  ): void {
+  sendMessageProto({
+    timestamp,
+    recipients,
+    proto,
+    contentHint,
+    groupId,
+    callback,
+    options,
+  }: {
+    timestamp: number;
+    recipients: Array<string>;
+    proto: Proto.Content | Proto.DataMessage | PlaintextContent;
+    contentHint: number;
+    groupId: string | undefined;
+    callback: (result: CallbackResultType) => void;
+    options?: SendOptionsType;
+  }): void {
     const rejections = window.textsecure.storage.get(
       'signedKeyRotationRejected',
       0
@@ -848,7 +850,7 @@ export default class MessageSender {
       this.server,
       timestamp,
       recipients,
-      messageProto,
+      proto,
       contentHint,
       groupId,
       callback,
@@ -862,14 +864,21 @@ export default class MessageSender {
     });
   }
 
-  async sendMessageProtoAndWait(
-    timestamp: number,
-    identifiers: Array<string>,
-    messageProto: ContentClass | DataMessageClass | PlaintextContent,
-    contentHint: number,
-    groupId: string | undefined,
-    options?: SendOptionsType
-  ): Promise<CallbackResultType> {
+  async sendMessageProtoAndWait({
+    timestamp,
+    recipients,
+    proto,
+    contentHint,
+    groupId,
+    options,
+  }: {
+    timestamp: number;
+    recipients: Array<string>;
+    proto: Proto.Content | Proto.DataMessage | PlaintextContent;
+    contentHint: number;
+    groupId: string | undefined;
+    options?: SendOptionsType;
+  }): Promise<CallbackResultType> {
     return new Promise((resolve, reject) => {
       const callback = (result: CallbackResultType) => {
         if (result && result.errors && result.errors.length > 0) {
@@ -880,25 +889,31 @@ export default class MessageSender {
         resolve(result);
       };
 
-      this.sendMessageProto(
-        timestamp,
-        identifiers,
-        messageProto,
+      this.sendMessageProto({
+        callback,
         contentHint,
         groupId,
-        callback,
-        options
-      );
+        options,
+        proto,
+        recipients,
+        timestamp,
+      });
     });
   }
 
-  async sendIndividualProto(
-    identifier: string | undefined,
-    proto: DataMessageClass | ContentClass | PlaintextContent,
-    timestamp: number,
-    contentHint: number,
-    options?: SendOptionsType
-  ): Promise<CallbackResultType> {
+  async sendIndividualProto({
+    identifier,
+    proto,
+    timestamp,
+    contentHint,
+    options,
+  }: {
+    identifier: string | undefined;
+    proto: Proto.DataMessage | Proto.Content | PlaintextContent;
+    timestamp: number;
+    contentHint: number;
+    options?: SendOptionsType;
+  }): Promise<CallbackResultType> {
     assert(identifier, "Identifier can't be undefined");
     return new Promise((resolve, reject) => {
       const callback = (res: CallbackResultType) => {
@@ -908,38 +923,53 @@ export default class MessageSender {
           resolve(res);
         }
       };
-      this.sendMessageProto(
-        timestamp,
-        [identifier],
-        proto,
-        contentHint,
-        undefined, // groupId
+      this.sendMessageProto({
         callback,
-        options
-      );
+        contentHint,
+        groupId: undefined,
+        options,
+        proto,
+        recipients: [identifier],
+        timestamp,
+      });
     });
   }
 
   // You might wonder why this takes a groupId. models/messages.resend() can send a group
   //   message to just one person.
-  async sendMessageToIdentifier(
-    identifier: string,
-    messageText: string | undefined,
-    attachments: Array<AttachmentType> | undefined,
-    quote: unknown,
-    preview: Array<PreviewType> | undefined,
-    sticker: unknown,
-    reaction: unknown,
-    deletedForEveryoneTimestamp: number | undefined,
-    timestamp: number,
-    expireTimer: number | undefined,
-    contentHint: number,
-    groupId: string | undefined,
-    profileKey?: ArrayBuffer,
-    options?: SendOptionsType
-  ): Promise<CallbackResultType> {
-    return this.sendMessage(
-      {
+  async sendMessageToIdentifier({
+    identifier,
+    messageText,
+    attachments,
+    quote,
+    preview,
+    sticker,
+    reaction,
+    deletedForEveryoneTimestamp,
+    timestamp,
+    expireTimer,
+    contentHint,
+    groupId,
+    profileKey,
+    options,
+  }: {
+    identifier: string;
+    messageText: string | undefined;
+    attachments: Array<AttachmentType> | undefined;
+    quote: unknown;
+    preview: Array<PreviewType> | undefined;
+    sticker: unknown;
+    reaction: unknown;
+    deletedForEveryoneTimestamp: number | undefined;
+    timestamp: number;
+    expireTimer: number | undefined;
+    contentHint: number;
+    groupId: string | undefined;
+    profileKey?: ArrayBuffer;
+    options?: SendOptionsType;
+  }): Promise<CallbackResultType> {
+    return this.sendMessage({
+      messageOptions: {
         recipients: [identifier],
         body: messageText,
         timestamp,
@@ -954,23 +984,33 @@ export default class MessageSender {
       },
       contentHint,
       groupId,
-      options
-    );
+      options,
+    });
   }
 
   // Support for sync messages
 
-  async sendSyncMessage(
-    encodedDataMessage: ArrayBuffer,
-    timestamp: number,
-    destination: string | undefined,
-    destinationUuid: string | null | undefined,
-    expirationStartTimestamp: number | null,
-    sentTo: Array<string> = [],
-    unidentifiedDeliveries: Array<string> = [],
-    isUpdate = false,
-    options?: SendOptionsType
-  ): Promise<CallbackResultType | void> {
+  async sendSyncMessage({
+    encodedDataMessage,
+    timestamp,
+    destination,
+    destinationUuid,
+    expirationStartTimestamp,
+    sentTo,
+    unidentifiedDeliveries,
+    isUpdate,
+    options,
+  }: {
+    encodedDataMessage: ArrayBuffer;
+    timestamp: number;
+    destination: string | undefined;
+    destinationUuid: string | null | undefined;
+    expirationStartTimestamp: number | null;
+    sentTo?: Array<string>;
+    unidentifiedDeliveries?: Array<string>;
+    isUpdate?: boolean;
+    options?: SendOptionsType;
+  }): Promise<CallbackResultType | void> {
     const myNumber = window.textsecure.storage.user.getNumber();
     const myUuid = window.textsecure.storage.user.getUuid();
     const myDevice = window.textsecure.storage.user.getDeviceId();
@@ -979,10 +1019,10 @@ export default class MessageSender {
       return Promise.resolve();
     }
 
-    const dataMessage = window.textsecure.protobuf.DataMessage.decode(
-      encodedDataMessage
+    const dataMessage = Proto.DataMessage.decode(
+      new FIXMEU8(encodedDataMessage)
     );
-    const sentMessage = new window.textsecure.protobuf.SyncMessage.Sent();
+    const sentMessage = new Proto.SyncMessage.Sent();
     sentMessage.timestamp = timestamp;
     sentMessage.message = dataMessage;
     if (destination) {
@@ -995,7 +1035,7 @@ export default class MessageSender {
       sentMessage.expirationStartTimestamp = expirationStartTimestamp;
     }
 
-    const unidentifiedLookup = unidentifiedDeliveries.reduce(
+    const unidentifiedLookup = (unidentifiedDeliveries || []).reduce(
       (accumulator, item) => {
         // eslint-disable-next-line no-param-reassign
         accumulator[item] = true;
@@ -1012,13 +1052,17 @@ export default class MessageSender {
     //   number we sent to.
     if (sentTo && sentTo.length) {
       sentMessage.unidentifiedStatus = sentTo.map(identifier => {
-        const status = new window.textsecure.protobuf.SyncMessage.Sent.UnidentifiedDeliveryStatus();
+        const status = new Proto.SyncMessage.Sent.UnidentifiedDeliveryStatus();
         const conv = window.ConversationController.get(identifier);
-        if (conv && conv.get('e164')) {
-          status.destination = conv.get('e164');
-        }
-        if (conv && conv.get('uuid')) {
-          status.destinationUuid = conv.get('uuid');
+        if (conv) {
+          const e164 = conv.get('e164');
+          if (e164) {
+            status.destination = e164;
+          }
+          const uuid = conv.get('uuid');
+          if (uuid) {
+            status.destinationUuid = uuid;
+          }
         }
         status.unidentified = Boolean(unidentifiedLookup[identifier]);
         return status;
@@ -1027,20 +1071,18 @@ export default class MessageSender {
 
     const syncMessage = this.createSyncMessage();
     syncMessage.sent = sentMessage;
-    const contentMessage = new window.textsecure.protobuf.Content();
+    const contentMessage = new Proto.Content();
     contentMessage.syncMessage = syncMessage;
 
-    const {
-      ContentHint,
-    } = window.textsecure.protobuf.UnidentifiedSenderMessage.Message;
+    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
-    return this.sendIndividualProto(
-      myUuid || myNumber,
-      contentMessage,
+    return this.sendIndividualProto({
+      identifier: myUuid || myNumber,
+      proto: contentMessage,
       timestamp,
-      ContentHint.IMPLICIT,
-      options
-    );
+      contentHint: ContentHint.IMPLICIT,
+      options,
+    });
   }
 
   async sendRequestBlockSyncMessage(
@@ -1050,25 +1092,22 @@ export default class MessageSender {
     const myUuid = window.textsecure.storage.user.getUuid();
     const myDevice = window.textsecure.storage.user.getDeviceId();
     if (myDevice !== 1) {
-      const request = new window.textsecure.protobuf.SyncMessage.Request();
-      request.type =
-        window.textsecure.protobuf.SyncMessage.Request.Type.BLOCKED;
+      const request = new Proto.SyncMessage.Request();
+      request.type = Proto.SyncMessage.Request.Type.BLOCKED;
       const syncMessage = this.createSyncMessage();
       syncMessage.request = request;
-      const contentMessage = new window.textsecure.protobuf.Content();
+      const contentMessage = new Proto.Content();
       contentMessage.syncMessage = syncMessage;
 
-      const {
-        ContentHint,
-      } = window.textsecure.protobuf.UnidentifiedSenderMessage.Message;
+      const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
-      return this.sendIndividualProto(
-        myUuid || myNumber,
-        contentMessage,
-        Date.now(),
-        ContentHint.IMPLICIT,
-        options
-      );
+      return this.sendIndividualProto({
+        identifier: myUuid || myNumber,
+        proto: contentMessage,
+        timestamp: Date.now(),
+        contentHint: ContentHint.IMPLICIT,
+        options,
+      });
     }
 
     return Promise.resolve();
@@ -1081,25 +1120,22 @@ export default class MessageSender {
     const myUuid = window.textsecure.storage.user.getUuid();
     const myDevice = window.textsecure.storage.user.getDeviceId();
     if (myDevice !== 1) {
-      const request = new window.textsecure.protobuf.SyncMessage.Request();
-      request.type =
-        window.textsecure.protobuf.SyncMessage.Request.Type.CONFIGURATION;
+      const request = new Proto.SyncMessage.Request();
+      request.type = Proto.SyncMessage.Request.Type.CONFIGURATION;
       const syncMessage = this.createSyncMessage();
       syncMessage.request = request;
-      const contentMessage = new window.textsecure.protobuf.Content();
+      const contentMessage = new Proto.Content();
       contentMessage.syncMessage = syncMessage;
 
-      const {
-        ContentHint,
-      } = window.textsecure.protobuf.UnidentifiedSenderMessage.Message;
+      const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
-      return this.sendIndividualProto(
-        myUuid || myNumber,
-        contentMessage,
-        Date.now(),
-        ContentHint.IMPLICIT,
-        options
-      );
+      return this.sendIndividualProto({
+        identifier: myUuid || myNumber,
+        proto: contentMessage,
+        timestamp: Date.now(),
+        contentHint: ContentHint.IMPLICIT,
+        options,
+      });
     }
 
     return Promise.resolve();
@@ -1112,24 +1148,22 @@ export default class MessageSender {
     const myUuid = window.textsecure.storage.user.getUuid();
     const myDevice = window.textsecure.storage.user.getDeviceId();
     if (myDevice !== 1) {
-      const request = new window.textsecure.protobuf.SyncMessage.Request();
-      request.type = window.textsecure.protobuf.SyncMessage.Request.Type.GROUPS;
+      const request = new Proto.SyncMessage.Request();
+      request.type = Proto.SyncMessage.Request.Type.GROUPS;
       const syncMessage = this.createSyncMessage();
       syncMessage.request = request;
-      const contentMessage = new window.textsecure.protobuf.Content();
+      const contentMessage = new Proto.Content();
       contentMessage.syncMessage = syncMessage;
 
-      const {
-        ContentHint,
-      } = window.textsecure.protobuf.UnidentifiedSenderMessage.Message;
+      const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
-      return this.sendIndividualProto(
-        myUuid || myNumber,
-        contentMessage,
-        Date.now(),
-        ContentHint.IMPLICIT,
-        options
-      );
+      return this.sendIndividualProto({
+        identifier: myUuid || myNumber,
+        proto: contentMessage,
+        timestamp: Date.now(),
+        contentHint: ContentHint.IMPLICIT,
+        options,
+      });
     }
 
     return Promise.resolve();
@@ -1143,25 +1177,22 @@ export default class MessageSender {
 
     const myDevice = window.textsecure.storage.user.getDeviceId();
     if (myDevice !== 1) {
-      const request = new window.textsecure.protobuf.SyncMessage.Request();
-      request.type =
-        window.textsecure.protobuf.SyncMessage.Request.Type.CONTACTS;
+      const request = new Proto.SyncMessage.Request();
+      request.type = Proto.SyncMessage.Request.Type.CONTACTS;
       const syncMessage = this.createSyncMessage();
       syncMessage.request = request;
-      const contentMessage = new window.textsecure.protobuf.Content();
+      const contentMessage = new Proto.Content();
       contentMessage.syncMessage = syncMessage;
 
-      const {
-        ContentHint,
-      } = window.textsecure.protobuf.UnidentifiedSenderMessage.Message;
+      const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
-      return this.sendIndividualProto(
-        myUuid || myNumber,
-        contentMessage,
-        Date.now(),
-        ContentHint.IMPLICIT,
-        options
-      );
+      return this.sendIndividualProto({
+        identifier: myUuid || myNumber,
+        proto: contentMessage,
+        timestamp: Date.now(),
+        contentHint: ContentHint.IMPLICIT,
+        options,
+      });
     }
 
     return Promise.resolve();
@@ -1178,26 +1209,23 @@ export default class MessageSender {
       return;
     }
 
-    const fetchLatest = new window.textsecure.protobuf.SyncMessage.FetchLatest();
-    fetchLatest.type =
-      window.textsecure.protobuf.SyncMessage.FetchLatest.Type.STORAGE_MANIFEST;
+    const fetchLatest = new Proto.SyncMessage.FetchLatest();
+    fetchLatest.type = Proto.SyncMessage.FetchLatest.Type.STORAGE_MANIFEST;
 
     const syncMessage = this.createSyncMessage();
     syncMessage.fetchLatest = fetchLatest;
-    const contentMessage = new window.textsecure.protobuf.Content();
+    const contentMessage = new Proto.Content();
     contentMessage.syncMessage = syncMessage;
 
-    const {
-      ContentHint,
-    } = window.textsecure.protobuf.UnidentifiedSenderMessage.Message;
+    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
-    await this.sendIndividualProto(
-      myUuid || myNumber,
-      contentMessage,
-      Date.now(),
-      ContentHint.IMPLICIT,
-      options
-    );
+    await this.sendIndividualProto({
+      identifier: myUuid || myNumber,
+      proto: contentMessage,
+      timestamp: Date.now(),
+      contentHint: ContentHint.IMPLICIT,
+      options,
+    });
   }
 
   async sendRequestKeySyncMessage(
@@ -1211,25 +1239,23 @@ export default class MessageSender {
       return;
     }
 
-    const request = new window.textsecure.protobuf.SyncMessage.Request();
-    request.type = window.textsecure.protobuf.SyncMessage.Request.Type.KEYS;
+    const request = new Proto.SyncMessage.Request();
+    request.type = Proto.SyncMessage.Request.Type.KEYS;
 
     const syncMessage = this.createSyncMessage();
     syncMessage.request = request;
-    const contentMessage = new window.textsecure.protobuf.Content();
+    const contentMessage = new Proto.Content();
     contentMessage.syncMessage = syncMessage;
 
-    const {
-      ContentHint,
-    } = window.textsecure.protobuf.UnidentifiedSenderMessage.Message;
+    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
-    await this.sendIndividualProto(
-      myUuid || myNumber,
-      contentMessage,
-      Date.now(),
-      ContentHint.IMPLICIT,
-      options
-    );
+    await this.sendIndividualProto({
+      identifier: myUuid || myNumber,
+      proto: contentMessage,
+      timestamp: Date.now(),
+      contentHint: ContentHint.IMPLICIT,
+      options,
+    });
   }
 
   async syncReadMessages(
@@ -1243,34 +1269,28 @@ export default class MessageSender {
     const myNumber = window.textsecure.storage.user.getNumber();
     const myUuid = window.textsecure.storage.user.getUuid();
     const myDevice = window.textsecure.storage.user.getDeviceId();
-    if (myDevice !== 1) {
-      const syncMessage = this.createSyncMessage();
-      syncMessage.read = [];
-      for (let i = 0; i < reads.length; i += 1) {
-        const read = new window.textsecure.protobuf.SyncMessage.Read();
-        read.timestamp = reads[i].timestamp;
-        read.sender = reads[i].senderE164 || null;
-        read.senderUuid = reads[i].senderUuid || null;
-
-        syncMessage.read.push(read);
-      }
-      const contentMessage = new window.textsecure.protobuf.Content();
-      contentMessage.syncMessage = syncMessage;
-
-      const {
-        ContentHint,
-      } = window.textsecure.protobuf.UnidentifiedSenderMessage.Message;
-
-      return this.sendIndividualProto(
-        myUuid || myNumber,
-        contentMessage,
-        Date.now(),
-        ContentHint.DEFAULT,
-        options
-      );
+    if (myDevice === 1) {
+      return;
     }
+    const syncMessage = this.createSyncMessage();
+    syncMessage.read = [];
+    for (let i = 0; i < reads.length; i += 1) {
+      const proto = new Proto.SyncMessage.Read(reads[i]);
 
-    return Promise.resolve();
+      syncMessage.read.push(proto);
+    }
+    const contentMessage = new Proto.Content();
+    contentMessage.syncMessage = syncMessage;
+
+    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
+
+    return this.sendIndividualProto({
+      identifier: myUuid || myNumber,
+      proto: contentMessage,
+      timestamp: Date.now(),
+      contentHint: ContentHint.IMPLICIT,
+      options,
+    });
   }
 
   async syncViewOnceOpen(
@@ -1288,26 +1308,26 @@ export default class MessageSender {
 
     const syncMessage = this.createSyncMessage();
 
-    const viewOnceOpen = new window.textsecure.protobuf.SyncMessage.ViewOnceOpen();
-    viewOnceOpen.sender = sender || null;
-    viewOnceOpen.senderUuid = senderUuid || null;
-    viewOnceOpen.timestamp = timestamp || null;
+    const viewOnceOpen = new Proto.SyncMessage.ViewOnceOpen();
+    if (sender !== undefined) {
+      viewOnceOpen.sender = sender;
+    }
+    viewOnceOpen.senderUuid = senderUuid;
+    viewOnceOpen.timestamp = timestamp;
     syncMessage.viewOnceOpen = viewOnceOpen;
 
-    const contentMessage = new window.textsecure.protobuf.Content();
+    const contentMessage = new Proto.Content();
     contentMessage.syncMessage = syncMessage;
 
-    const {
-      ContentHint,
-    } = window.textsecure.protobuf.UnidentifiedSenderMessage.Message;
+    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
-    return this.sendIndividualProto(
-      myUuid || myNumber,
-      contentMessage,
-      Date.now(),
-      ContentHint.IMPLICIT,
-      options
-    );
+    return this.sendIndividualProto({
+      identifier: myUuid || myNumber,
+      proto: contentMessage,
+      timestamp: Date.now(),
+      contentHint: ContentHint.IMPLICIT,
+      options,
+    });
   }
 
   async syncMessageRequestResponse(
@@ -1317,7 +1337,7 @@ export default class MessageSender {
       groupId?: ArrayBuffer;
       type: number;
     },
-    sendOptions?: SendOptionsType
+    options?: SendOptionsType
   ): Promise<CallbackResultType | null> {
     const myNumber = window.textsecure.storage.user.getNumber();
     const myUuid = window.textsecure.storage.user.getUuid();
@@ -1328,27 +1348,31 @@ export default class MessageSender {
 
     const syncMessage = this.createSyncMessage();
 
-    const response = new window.textsecure.protobuf.SyncMessage.MessageRequestResponse();
-    response.threadE164 = responseArgs.threadE164 || null;
-    response.threadUuid = responseArgs.threadUuid || null;
-    response.groupId = responseArgs.groupId || null;
+    const response = new Proto.SyncMessage.MessageRequestResponse();
+    if (responseArgs.threadE164 !== undefined) {
+      response.threadE164 = responseArgs.threadE164;
+    }
+    if (responseArgs.threadUuid !== undefined) {
+      response.threadUuid = responseArgs.threadUuid;
+    }
+    if (responseArgs.groupId) {
+      response.groupId = new FIXMEU8(responseArgs.groupId);
+    }
     response.type = responseArgs.type;
     syncMessage.messageRequestResponse = response;
 
-    const contentMessage = new window.textsecure.protobuf.Content();
+    const contentMessage = new Proto.Content();
     contentMessage.syncMessage = syncMessage;
 
-    const {
-      ContentHint,
-    } = window.textsecure.protobuf.UnidentifiedSenderMessage.Message;
+    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
-    return this.sendIndividualProto(
-      myUuid || myNumber,
-      contentMessage,
-      Date.now(),
-      ContentHint.IMPLICIT,
-      sendOptions
-    );
+    return this.sendIndividualProto({
+      identifier: myUuid || myNumber,
+      proto: contentMessage,
+      timestamp: Date.now(),
+      contentHint: ContentHint.IMPLICIT,
+      options,
+    });
   }
 
   async sendStickerPackSync(
@@ -1366,15 +1390,14 @@ export default class MessageSender {
 
     const myNumber = window.textsecure.storage.user.getNumber();
     const myUuid = window.textsecure.storage.user.getUuid();
-    const ENUM =
-      window.textsecure.protobuf.SyncMessage.StickerPackOperation.Type;
+    const ENUM = Proto.SyncMessage.StickerPackOperation.Type;
 
     const packOperations = operations.map(item => {
       const { packId, packKey, installed } = item;
 
-      const operation = new window.textsecure.protobuf.SyncMessage.StickerPackOperation();
-      operation.packId = hexToArrayBuffer(packId);
-      operation.packKey = base64ToArrayBuffer(packKey);
+      const operation = new Proto.SyncMessage.StickerPackOperation();
+      operation.packId = Bytes.fromHex(packId);
+      operation.packKey = Bytes.fromBase64(packKey);
       operation.type = installed ? ENUM.INSTALL : ENUM.REMOVE;
 
       return operation;
@@ -1383,20 +1406,18 @@ export default class MessageSender {
     const syncMessage = this.createSyncMessage();
     syncMessage.stickerPackOperation = packOperations;
 
-    const contentMessage = new window.textsecure.protobuf.Content();
+    const contentMessage = new Proto.Content();
     contentMessage.syncMessage = syncMessage;
 
-    const {
-      ContentHint,
-    } = window.textsecure.protobuf.UnidentifiedSenderMessage.Message;
+    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
-    return this.sendIndividualProto(
-      myUuid || myNumber,
-      contentMessage,
-      Date.now(),
-      ContentHint.IMPLICIT,
-      options
-    );
+    return this.sendIndividualProto({
+      identifier: myUuid || myNumber,
+      proto: contentMessage,
+      timestamp: Date.now(),
+      contentHint: ContentHint.IMPLICIT,
+      options,
+    });
   }
 
   async syncVerification(
@@ -1425,7 +1446,7 @@ export default class MessageSender {
     );
 
     return promise.then(async () => {
-      const verified = new window.textsecure.protobuf.Verified();
+      const verified = new Proto.Verified();
       verified.state = state;
       if (destinationE164) {
         verified.destination = destinationE164;
@@ -1433,26 +1454,24 @@ export default class MessageSender {
       if (destinationUuid) {
         verified.destinationUuid = destinationUuid;
       }
-      verified.identityKey = identityKey;
+      verified.identityKey = new FIXMEU8(identityKey);
       verified.nullMessage = padding;
 
       const syncMessage = this.createSyncMessage();
       syncMessage.verified = verified;
 
-      const secondMessage = new window.textsecure.protobuf.Content();
+      const secondMessage = new Proto.Content();
       secondMessage.syncMessage = syncMessage;
 
-      const {
-        ContentHint,
-      } = window.textsecure.protobuf.UnidentifiedSenderMessage.Message;
+      const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
-      return this.sendIndividualProto(
-        myUuid || myNumber,
-        secondMessage,
-        now,
-        ContentHint.IMPLICIT,
-        options
-      );
+      await this.sendIndividualProto({
+        identifier: myUuid || myNumber,
+        proto: secondMessage,
+        timestamp: now,
+        contentHint: ContentHint.IMPLICIT,
+        options,
+      });
     });
   }
 
@@ -1461,120 +1480,118 @@ export default class MessageSender {
   async sendProfileKeyUpdate(
     profileKey: ArrayBuffer,
     recipients: Array<string>,
-    sendOptions: SendOptionsType,
+    options: SendOptionsType,
     groupId?: string
   ): Promise<CallbackResultType> {
-    const {
-      ContentHint,
-    } = window.textsecure.protobuf.UnidentifiedSenderMessage.Message;
+    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
-    return this.sendMessage(
-      {
+    return this.sendMessage({
+      messageOptions: {
         recipients,
         timestamp: Date.now(),
         profileKey,
-        flags: window.textsecure.protobuf.DataMessage.Flags.PROFILE_KEY_UPDATE,
+        flags: Proto.DataMessage.Flags.PROFILE_KEY_UPDATE,
         ...(groupId
           ? {
               group: {
                 id: groupId,
-                type: window.textsecure.protobuf.GroupContext.Type.DELIVER,
+                type: Proto.GroupContext.Type.DELIVER,
               },
             }
           : {}),
       },
-      ContentHint.IMPLICIT,
-      undefined, // groupId
-      sendOptions
-    );
+      contentHint: ContentHint.IMPLICIT,
+      groupId: undefined,
+      options,
+    });
   }
 
   async sendCallingMessage(
     recipientId: string,
-    callingMessage: CallingMessageClass,
-    sendOptions?: SendOptionsType
+    callingMessage: Proto.ICallingMessage,
+    options?: SendOptionsType
   ): Promise<void> {
     const recipients = [recipientId];
     const finalTimestamp = Date.now();
 
-    const contentMessage = new window.textsecure.protobuf.Content();
+    const contentMessage = new Proto.Content();
     contentMessage.callingMessage = callingMessage;
 
-    const {
-      ContentHint,
-    } = window.textsecure.protobuf.UnidentifiedSenderMessage.Message;
+    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
-    await this.sendMessageProtoAndWait(
-      finalTimestamp,
+    await this.sendMessageProtoAndWait({
+      timestamp: finalTimestamp,
       recipients,
-      contentMessage,
-      ContentHint.DEFAULT,
-      undefined, // groupId
-      sendOptions
-    );
+      proto: contentMessage,
+      contentHint: ContentHint.DEFAULT,
+      groupId: undefined,
+      options,
+    });
   }
 
-  async sendDeliveryReceipt(
-    recipientE164: string,
-    recipientUuid: string,
-    timestamps: Array<number>,
-    options?: SendOptionsType
-  ): Promise<CallbackResultType | void> {
+  async sendDeliveryReceipt({
+    e164,
+    uuid,
+    timestamps,
+    options,
+  }: {
+    e164: string;
+    uuid: string;
+    timestamps: Array<number>;
+    options?: SendOptionsType;
+  }): Promise<CallbackResultType | void> {
     const myNumber = window.textsecure.storage.user.getNumber();
     const myUuid = window.textsecure.storage.user.getUuid();
     const myDevice = window.textsecure.storage.user.getDeviceId();
-    if (
-      (myNumber === recipientE164 || myUuid === recipientUuid) &&
-      myDevice === 1
-    ) {
+    if ((myNumber === e164 || myUuid === uuid) && myDevice === 1) {
       return Promise.resolve();
     }
 
-    const receiptMessage = new window.textsecure.protobuf.ReceiptMessage();
-    receiptMessage.type =
-      window.textsecure.protobuf.ReceiptMessage.Type.DELIVERY;
+    const receiptMessage = new Proto.ReceiptMessage();
+    receiptMessage.type = Proto.ReceiptMessage.Type.DELIVERY;
     receiptMessage.timestamp = timestamps;
 
-    const contentMessage = new window.textsecure.protobuf.Content();
+    const contentMessage = new Proto.Content();
     contentMessage.receiptMessage = receiptMessage;
 
-    const {
-      ContentHint,
-    } = window.textsecure.protobuf.UnidentifiedSenderMessage.Message;
+    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
-    return this.sendIndividualProto(
-      recipientUuid || recipientE164,
-      contentMessage,
-      Date.now(),
-      ContentHint.IMPLICIT,
-      options
-    );
+    return this.sendIndividualProto({
+      identifier: uuid || e164,
+      proto: contentMessage,
+      timestamp: Date.now(),
+      contentHint: ContentHint.IMPLICIT,
+      options,
+    });
   }
 
-  async sendReadReceipts(
-    senderE164: string,
-    senderUuid: string,
-    timestamps: Array<number>,
-    options?: SendOptionsType
-  ): Promise<CallbackResultType> {
-    const receiptMessage = new window.textsecure.protobuf.ReceiptMessage();
-    receiptMessage.type = window.textsecure.protobuf.ReceiptMessage.Type.READ;
+  async sendReadReceipts({
+    senderE164,
+    senderUuid,
+    timestamps,
+    options,
+  }: {
+    senderE164: string;
+    senderUuid: string;
+    timestamps: Array<number>;
+    options?: SendOptionsType;
+  }): Promise<CallbackResultType> {
+    const receiptMessage = new Proto.ReceiptMessage();
+    receiptMessage.type = Proto.ReceiptMessage.Type.READ;
     receiptMessage.timestamp = timestamps;
 
-    const contentMessage = new window.textsecure.protobuf.Content();
+    const contentMessage = new Proto.Content();
     contentMessage.receiptMessage = receiptMessage;
 
-    const {
-      ContentHint,
-    } = window.textsecure.protobuf.UnidentifiedSenderMessage.Message;
+    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
-    return this.sendIndividualProto(
-      senderUuid || senderE164,
-      contentMessage,
-      Date.now(),
-      ContentHint.IMPLICIT,
-      options
-    );
+    return this.sendIndividualProto({
+      identifier: senderUuid || senderE164,
+      proto: contentMessage,
+      timestamp: Date.now(),
+      contentHint: ContentHint.IMPLICIT,
+      options,
+    });
   }
 
   async sendNullMessage(
@@ -1582,10 +1599,10 @@ export default class MessageSender {
       uuid,
       e164,
       padding,
-    }: { uuid?: string; e164?: string; padding?: ArrayBuffer },
+    }: { uuid?: string; e164?: string; padding?: Uint8Array },
     options?: SendOptionsType
   ): Promise<CallbackResultType> {
-    const nullMessage = new window.textsecure.protobuf.NullMessage();
+    const nullMessage = new Proto.NullMessage();
 
     const identifier = uuid || e164;
     if (!identifier) {
@@ -1594,22 +1611,20 @@ export default class MessageSender {
 
     nullMessage.padding = padding || this.getRandomPadding();
 
-    const contentMessage = new window.textsecure.protobuf.Content();
+    const contentMessage = new Proto.Content();
     contentMessage.nullMessage = nullMessage;
 
-    const {
-      ContentHint,
-    } = window.textsecure.protobuf.UnidentifiedSenderMessage.Message;
+    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
     // We want the NullMessage to look like a normal outgoing message
     const timestamp = Date.now();
-    return this.sendIndividualProto(
+    return this.sendIndividualProto({
       identifier,
-      contentMessage,
+      proto: contentMessage,
       timestamp,
-      ContentHint.IMPLICIT,
-      options
-    );
+      contentHint: ContentHint.IMPLICIT,
+      options,
+    });
   }
 
   async resetSession(
@@ -1621,9 +1636,9 @@ export default class MessageSender {
     CallbackResultType | void | Array<CallbackResultType | void | Array<void>>
   > {
     window.log.info('resetSession: start');
-    const proto = new window.textsecure.protobuf.DataMessage();
+    const proto = new Proto.DataMessage();
     proto.body = 'TERMINATE';
-    proto.flags = window.textsecure.protobuf.DataMessage.Flags.END_SESSION;
+    proto.flags = Proto.DataMessage.Flags.END_SESSION;
     proto.timestamp = timestamp;
 
     const identifier = uuid || e164;
@@ -1633,9 +1648,7 @@ export default class MessageSender {
       throw error;
     };
 
-    const {
-      ContentHint,
-    } = window.textsecure.protobuf.UnidentifiedSenderMessage.Message;
+    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
     const sendToContactPromise = window.textsecure.storage.protocol
       .archiveAllSessions(identifier)
@@ -1644,13 +1657,13 @@ export default class MessageSender {
         window.log.info(
           'resetSession: finished closing local sessions, now sending to contact'
         );
-        return this.sendIndividualProto(
+        return this.sendIndividualProto({
           identifier,
           proto,
           timestamp,
-          ContentHint.DEFAULT,
-          options
-        ).catch(logError('resetSession/sendToContact error:'));
+          contentHint: ContentHint.DEFAULT,
+          options,
+        }).catch(logError('resetSession/sendToContact error:'));
       })
       .then(async () =>
         window.textsecure.storage.protocol
@@ -1665,18 +1678,19 @@ export default class MessageSender {
       return sendToContactPromise;
     }
 
-    const buffer = proto.toArrayBuffer();
-    const sendSyncPromise = this.sendSyncMessage(
-      buffer,
+    const buffer = typedArrayToArrayBuffer(
+      Proto.DataMessage.encode(proto).finish()
+    );
+    const sendSyncPromise = this.sendSyncMessage({
+      encodedDataMessage: buffer,
       timestamp,
-      e164,
-      uuid,
-      null,
-      [],
-      [],
-      false,
-      options
-    ).catch(logError('resetSession/sendSync error:'));
+      destination: e164,
+      destinationUuid: uuid,
+      expirationStartTimestamp: null,
+      sentTo: [],
+      unidentifiedDeliveries: [],
+      options,
+    }).catch(logError('resetSession/sendSync error:'));
 
     return Promise.all([sendToContactPromise, sendSyncPromise]);
   }
@@ -1688,23 +1702,20 @@ export default class MessageSender {
     profileKey?: ArrayBuffer,
     options?: SendOptionsType
   ): Promise<CallbackResultType> {
-    const {
-      ContentHint,
-    } = window.textsecure.protobuf.UnidentifiedSenderMessage.Message;
+    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
-    return this.sendMessage(
-      {
+    return this.sendMessage({
+      messageOptions: {
         recipients: [identifier],
         timestamp,
         expireTimer,
         profileKey,
-        flags:
-          window.textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
+        flags: Proto.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
       },
-      ContentHint.DEFAULT,
-      undefined, // groupId
-      options
-    );
+      contentHint: ContentHint.DEFAULT,
+      groupId: undefined,
+      options,
+    });
   }
 
   async sendRetryRequest({
@@ -1716,38 +1727,45 @@ export default class MessageSender {
     plaintext: PlaintextContent;
     uuid: string;
   }): Promise<CallbackResultType> {
-    const {
-      ContentHint,
-    } = window.textsecure.protobuf.UnidentifiedSenderMessage.Message;
+    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
-    return this.sendMessageProtoAndWait(
-      Date.now(),
-      [uuid],
-      plaintext,
-      ContentHint.IMPLICIT,
-      undefined, // groupId
-      options
-    );
+    return this.sendMessageProtoAndWait({
+      timestamp: Date.now(),
+      recipients: [uuid],
+      proto: plaintext,
+      contentHint: ContentHint.IMPLICIT,
+      groupId: undefined,
+      options,
+    });
   }
 
   // Group sends
 
   // No functions should really call this; since most group sends are now via Sender Key
-  async sendGroupProto(
-    providedIdentifiers: Array<string>,
-    proto: ContentClass,
+  async sendGroupProto({
+    recipients,
+    proto,
     timestamp = Date.now(),
-    contentHint: number,
-    groupId: string | undefined,
-    options?: SendOptionsType
-  ): Promise<CallbackResultType> {
-    const dataMessage = proto.dataMessage?.toArrayBuffer();
+    contentHint,
+    groupId,
+    options,
+  }: {
+    recipients: Array<string>;
+    proto: Proto.Content;
+    timestamp: number;
+    contentHint: number;
+    groupId: string | undefined;
+    options?: SendOptionsType;
+  }): Promise<CallbackResultType> {
+    const dataMessage = proto.dataMessage
+      ? typedArrayToArrayBuffer(
+          Proto.DataMessage.encode(proto.dataMessage).finish()
+        )
+      : undefined;
 
     const myE164 = window.textsecure.storage.user.getNumber();
     const myUuid = window.textsecure.storage.user.getUuid();
-    const identifiers = providedIdentifiers.filter(
-      id => id !== myE164 && id !== myUuid
-    );
+    const identifiers = recipients.filter(id => id !== myE164 && id !== myUuid);
 
     if (identifiers.length === 0) {
       return Promise.resolve({
@@ -1769,15 +1787,15 @@ export default class MessageSender {
         }
       };
 
-      this.sendMessageProto(
+      this.sendMessageProto({
         timestamp,
-        providedIdentifiers,
+        recipients: identifiers,
         proto,
         contentHint,
         groupId,
         callback,
-        options
-      );
+        options,
+      });
     });
   }
 
@@ -1825,23 +1843,21 @@ export default class MessageSender {
     },
     options?: SendOptionsType
   ): Promise<CallbackResultType> {
-    const contentMessage = new window.textsecure.protobuf.Content();
+    const contentMessage = new Proto.Content();
 
     const senderKeyDistributionMessage = await this.getSenderKeyDistributionMessage(
       distributionId
     );
-    contentMessage.senderKeyDistributionMessage = window.dcodeIO.ByteBuffer.wrap(
-      typedArrayToArrayBuffer(senderKeyDistributionMessage.serialize())
-    );
+    contentMessage.senderKeyDistributionMessage = senderKeyDistributionMessage.serialize();
 
-    return this.sendGroupProto(
-      identifiers,
-      contentMessage,
-      Date.now(),
+    return this.sendGroupProto({
+      recipients: identifiers,
+      proto: contentMessage,
+      timestamp: Date.now(),
       contentHint,
       groupId,
-      options
-    );
+      options,
+    });
   }
 
   // GroupV1-only functions; not to be used in the future
@@ -1851,22 +1867,24 @@ export default class MessageSender {
     groupIdentifiers: Array<string>,
     options?: SendOptionsType
   ): Promise<CallbackResultType> {
-    const proto = new window.textsecure.protobuf.DataMessage();
-    proto.group = new window.textsecure.protobuf.GroupContext();
-    proto.group.id = stringToArrayBuffer(groupId);
-    proto.group.type = window.textsecure.protobuf.GroupContext.Type.QUIT;
+    const proto = new Proto.Content({
+      dataMessage: {
+        group: {
+          id: Bytes.fromString(groupId),
+          type: Proto.GroupContext.Type.QUIT,
+        },
+      },
+    });
 
-    const {
-      ContentHint,
-    } = window.textsecure.protobuf.UnidentifiedSenderMessage.Message;
-    return this.sendGroupProto(
-      groupIdentifiers,
+    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
+    return this.sendGroupProto({
+      recipients: groupIdentifiers,
       proto,
-      Date.now(),
-      ContentHint.DEFAULT,
-      undefined, // only for GV2 ids
-      options
-    );
+      timestamp: Date.now(),
+      contentHint: ContentHint.DEFAULT,
+      groupId: undefined, // only for GV2 ids
+      options,
+    });
   }
 
   async sendExpirationTimerUpdateToGroup(
@@ -1882,16 +1900,15 @@ export default class MessageSender {
     const recipients = groupIdentifiers.filter(
       identifier => identifier !== myNumber && identifier !== myUuid
     );
-    const attrs = {
+    const messageOptions = {
       recipients,
       timestamp,
       expireTimer,
       profileKey,
-      flags:
-        window.textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
+      flags: Proto.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
       group: {
         id: groupId,
-        type: window.textsecure.protobuf.GroupContext.Type.DELIVER,
+        type: Proto.GroupContext.Type.DELIVER,
       },
     };
 
@@ -1901,19 +1918,17 @@ export default class MessageSender {
         failoverIdentifiers: [],
         errors: [],
         unidentifiedDeliveries: [],
-        dataMessage: await this.getDataMessage(attrs),
+        dataMessage: await this.getDataMessage(messageOptions),
       });
     }
 
-    const {
-      ContentHint,
-    } = window.textsecure.protobuf.UnidentifiedSenderMessage.Message;
-    return this.sendMessage(
-      attrs,
-      ContentHint.DEFAULT,
-      undefined, // only for GV2 ids
-      options
-    );
+    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
+    return this.sendMessage({
+      messageOptions,
+      contentHint: ContentHint.DEFAULT,
+      groupId: undefined, // only for GV2 ids
+      options,
+    });
   }
 
   // Simple pass-throughs

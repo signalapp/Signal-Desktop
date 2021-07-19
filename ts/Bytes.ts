@@ -37,7 +37,7 @@ export function toString(data: Uint8Array): string {
   return bytes.toString(data);
 }
 
-export function concatenate(list: Array<Uint8Array>): Uint8Array {
+export function concatenate(list: ReadonlyArray<Uint8Array>): Uint8Array {
   return bytes.concatenate(list);
 }
 
@@ -49,4 +49,11 @@ export function isNotEmpty(
   data: Uint8Array | null | undefined
 ): data is Uint8Array {
   return !bytes.isEmpty(data);
+}
+
+export function areEqual(
+  a: Uint8Array | null | undefined,
+  b: Uint8Array | null | undefined
+): boolean {
+  return bytes.areEqual(a, b);
 }

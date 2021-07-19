@@ -14,13 +14,15 @@ import {
 } from 'lodash';
 import { createSelector } from 'reselect';
 
+import type { RecentStickerType } from '../../types/Stickers';
+import type {
+  StickerType as StickerDBType,
+  StickerPackType as StickerPackDBType,
+} from '../../sql/Interface';
 import { StateType } from '../reducer';
 import {
-  RecentStickerType,
-  StickerDBType,
-  StickerPackDBType,
-  StickerPackType,
   StickersStateType,
+  StickerPackType,
   StickerType,
 } from '../ducks/stickers';
 import { getStickersPath, getTempPath } from './user';
@@ -95,7 +97,7 @@ export const translatePackFromDB = (
 const filterAndTransformPacks = (
   packs: Dictionary<StickerPackDBType>,
   packFilter: (sticker: StickerPackDBType) => boolean,
-  packSort: (sticker: StickerPackDBType) => number | null,
+  packSort: (sticker: StickerPackDBType) => number | undefined,
   blessedPacks: Dictionary<boolean>,
   stickersPath: string,
   tempPath: string

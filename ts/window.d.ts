@@ -18,11 +18,7 @@ import {
   ReactionAttributesType,
   ReactionModelType,
 } from './model-types.d';
-import {
-  ContactRecordIdentityState,
-  TextSecureType,
-  DownloadAttachmentType,
-} from './textsecure.d';
+import { TextSecureType, DownloadAttachmentType } from './textsecure.d';
 import { Storage } from './textsecure/Storage';
 import {
   ChallengeHandler,
@@ -177,7 +173,6 @@ declare global {
     baseAttachmentsPath: string;
     baseStickersPath: string;
     baseTempPath: string;
-    dcodeIO: DCodeIOType;
     receivedAtCounter: number;
     enterKeyboardMode: () => void;
     enterMouseMode: () => void;
@@ -235,7 +230,6 @@ declare global {
     };
     log: LoggerType;
     nodeSetImmediate: typeof setImmediate;
-    normalizeUuids: (obj: any, paths: Array<string>, context: string) => void;
     onFullScreenChange: (fullScreen: boolean) => void;
     platform: string;
     preloadedImages: Array<WhatIsThis>;
@@ -311,14 +305,31 @@ declare global {
         loadPreviewData: (preview: unknown) => WhatIsThis;
         loadStickerData: (sticker: unknown) => WhatIsThis;
         readStickerData: (path: string) => Promise<ArrayBuffer>;
+        deleteSticker: (path: string) => Promise<void>;
+        getAbsoluteStickerPath: (path: string) => string;
+        processNewEphemeralSticker: (
+          stickerData: ArrayBuffer
+        ) => {
+          path: string;
+          width: number;
+          height: number;
+        };
+        processNewSticker: (
+          stickerData: ArrayBuffer
+        ) => {
+          path: string;
+          width: number;
+          height: number;
+        };
+        copyIntoAttachmentsDirectory: (path: string) => Promise<string>;
         upgradeMessageSchema: (attributes: unknown) => WhatIsThis;
         processNewAttachment: (
           attachment: DownloadAttachmentType
         ) => Promise<AttachmentType>;
 
         copyIntoTempDirectory: any;
-        deleteDraftFile: any;
-        deleteTempFile: any;
+        deleteDraftFile: (path: string) => Promise<void>;
+        deleteTempFile: (path: string) => Promise<void>;
         getAbsoluteDraftPath: any;
         getAbsoluteTempPath: any;
         openFileInFolder: any;
@@ -326,36 +337,6 @@ declare global {
         readDraftData: any;
         saveAttachmentToDisk: any;
         writeNewDraftData: any;
-      };
-      Stickers: {
-        getDataFromLink: any;
-        copyStickerToAttachments: (
-          packId: string,
-          stickerId: number
-        ) => Promise<typeof window.Signal.Types.Sticker>;
-        deletePackReference: (id: string, packId: string) => Promise<void>;
-        downloadEphemeralPack: (packId: string, key: string) => Promise<void>;
-        downloadQueuedPacks: () => void;
-        downloadStickerPack: (
-          id: string,
-          key: string,
-          options: WhatIsThis
-        ) => void;
-        getInitialState: () => WhatIsThis;
-        load: () => void;
-        removeEphemeralPack: (packId: string) => Promise<void>;
-        savePackMetadata: (
-          packId: string,
-          packKey: string,
-          metadata: unknown
-        ) => void;
-        getStickerPackStatus: (packId: string) => 'downloaded' | 'installed';
-        getSticker: (
-          packId: string,
-          stickerId: number
-        ) => typeof window.Signal.Types.Sticker;
-        getStickerPack: (packId: string) => WhatIsThis;
-        getInstalledStickerPacks: () => WhatIsThis;
       };
       Types: {
         Attachment: {
@@ -548,6 +529,8 @@ declare global {
   // eslint-disable-next-line no-restricted-syntax
   interface Error {
     originalError?: Event;
+    reason?: any;
+    stackForLog?: string;
   }
 
   // Uint8Array and ArrayBuffer are type-compatible in TypeScript's covariant
@@ -565,49 +548,8 @@ declare global {
   }
 }
 
-export type DCodeIOType = {
-  ByteBuffer: typeof ByteBufferClass & {
-    BIG_ENDIAN: number;
-    LITTLE_ENDIAN: number;
-    Long: DCodeIOType['Long'];
-  };
-  Long: Long & {
-    MAX_VALUE: Long;
-    equals: (other: Long | number | string) => boolean;
-    fromBits: (low: number, high: number, unsigned: boolean) => number;
-    fromNumber: (value: number, unsigned?: boolean) => Long;
-    fromString: (str: string | null) => Long;
-    isLong: (obj: unknown) => obj is Long;
-  };
-  ProtoBuf: WhatIsThis;
-};
-
 export class CertificateValidatorType {
   validate: (cerficate: any, certificateTime: number) => Promise<void>;
-}
-
-export class ByteBufferClass {
-  constructor(value?: any, littleEndian?: number);
-  static wrap: (
-    value: any,
-    encoding?: string,
-    littleEndian?: number
-  ) => ByteBufferClass;
-  buffer: ArrayBuffer;
-  toString: (type: string) => string;
-  toArrayBuffer: () => ArrayBuffer;
-  toBinary: () => string;
-  slice: (start: number, end?: number) => ByteBufferClass;
-  append: (data: ArrayBuffer) => void;
-  limit: number;
-  offset: 0;
-  readInt: (offset: number) => number;
-  readLong: (offset: number) => Long;
-  readShort: (offset: number) => number;
-  readVarint32: () => number;
-  reset: () => void;
-  writeLong: (l: Long) => void;
-  skip: (length: number) => void;
 }
 
 export class GumVideoCapturer {
@@ -702,7 +644,11 @@ export type WhisperType = {
   TapToViewMessagesListener: WhatIsThis;
 
   deliveryReceiptQueue: PQueue<WhatIsThis>;
-  deliveryReceiptBatcher: BatcherType<WhatIsThis>;
+  deliveryReceiptBatcher: BatcherType<{
+    source?: string;
+    sourceUuid?: string;
+    timestamp: number;
+  }>;
   RotateSignedPreKeyListener: WhatIsThis;
 
   AlreadyGroupMemberToast: typeof window.Whisper.ToastView;

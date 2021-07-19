@@ -20,6 +20,9 @@ function mapStateToProps(state: StateType, ourProps: SmartProps) {
   const { id, style } = ourProps;
 
   const props = getMessageSearchResultSelector(state)(id);
+  if (!props) {
+    throw new Error('SmartMessageSearchResult: no message was found');
+  }
 
   return {
     ...props,

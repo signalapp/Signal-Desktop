@@ -7,6 +7,7 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { boolean } from '@storybook/addon-knobs';
 
+import { IMAGE_JPEG } from '../types/MIME';
 import { CompositionArea, Props } from './CompositionArea';
 import { setup as setupI18n } from '../../js/modules/i18n';
 import enMessages from '../../_locales/en/messages.json';
@@ -33,7 +34,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   micCellEl,
   onChooseAttachment: action('onChooseAttachment'),
   // AttachmentList
-  draftAttachments: [],
+  draftAttachments: overrideProps.draftAttachments || [],
   onAddAttachment: action('onAddAttachment'),
   onClearAttachments: action('onClearAttachments'),
   onClickAttachment: action('onClickAttachment'),
@@ -140,6 +141,18 @@ story.add('SMS-only fetching UUID', () => {
 story.add('SMS-only', () => {
   const props = createProps({
     isSMSOnly: true,
+  });
+
+  return <CompositionArea {...props} />;
+});
+
+story.add('Attachments', () => {
+  const props = createProps({
+    draftAttachments: [
+      {
+        contentType: IMAGE_JPEG,
+      },
+    ],
   });
 
   return <CompositionArea {...props} />;

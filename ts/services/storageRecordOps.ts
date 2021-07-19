@@ -2,28 +2,18 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { isEqual, isNumber } from 'lodash';
+import Long from 'long';
 
-import {
-  arrayBufferToBase64,
-  base64ToArrayBuffer,
-  deriveMasterKeyFromGroupV1,
-  fromEncodedBinaryToArrayBuffer,
-} from '../Crypto';
+import { deriveMasterKeyFromGroupV1, typedArrayToArrayBuffer } from '../Crypto';
 import * as Bytes from '../Bytes';
 import dataInterface from '../sql/Client';
-import {
-  AccountRecordClass,
-  ContactRecordClass,
-  GroupV1RecordClass,
-  GroupV2RecordClass,
-  PinnedConversationClass,
-} from '../textsecure.d';
 import {
   deriveGroupFields,
   waitThenMaybeUpdateGroup,
   waitThenRespondToGroupV2Migration,
 } from '../groups';
 import { assert } from '../util/assert';
+import { normalizeUuid } from '../util/normalizeUuid';
 import { missingCaseError } from '../util/missingCaseError';
 import {
   PhoneNumberSharingMode,
@@ -45,6 +35,7 @@ import {
 } from '../util/universalExpireTimer';
 import { ourProfileKeyService } from './ourProfileKey';
 import { isGroupV1, isGroupV2 } from '../util/whatTypeOfConversation';
+import { SignalService as Proto } from '../protobuf';
 
 const { updateConversation } = dataInterface;
 
@@ -52,14 +43,14 @@ const { updateConversation } = dataInterface;
 const FIXMEU8 = Uint8Array;
 
 type RecordClass =
-  | AccountRecordClass
-  | ContactRecordClass
-  | GroupV1RecordClass
-  | GroupV2RecordClass;
+  | Proto.IAccountRecord
+  | Proto.IContactRecord
+  | Proto.IGroupV1Record
+  | Proto.IGroupV2Record;
 
-function toRecordVerified(verified: number): number {
+function toRecordVerified(verified: number): Proto.ContactRecord.IdentityState {
   const VERIFIED_ENUM = window.textsecure.storage.protocol.VerifiedStatus;
-  const STATE_ENUM = window.textsecure.protobuf.ContactRecord.IdentityState;
+  const STATE_ENUM = Proto.ContactRecord.IdentityState;
 
   switch (verified) {
     case VERIFIED_ENUM.VERIFIED:
@@ -81,7 +72,9 @@ function addUnknownFields(
       conversation.idForLogging()
     );
     conversation.set({
-      storageUnknownFields: arrayBufferToBase64(record.__unknownFields),
+      storageUnknownFields: Bytes.toBase64(
+        Bytes.concatenate(record.__unknownFields)
+      ),
     });
   } else if (conversation.get('storageUnknownFields')) {
     // If the record doesn't have unknown fields attached but we have them
@@ -105,41 +98,43 @@ function applyUnknownFields(
       conversation.get('id')
     );
     // eslint-disable-next-line no-param-reassign
-    record.__unknownFields = base64ToArrayBuffer(storageUnknownFields);
+    record.__unknownFields = [Bytes.fromBase64(storageUnknownFields)];
   }
 }
 
 export async function toContactRecord(
   conversation: ConversationModel
-): Promise<ContactRecordClass> {
-  const contactRecord = new window.textsecure.protobuf.ContactRecord();
-  if (conversation.get('uuid')) {
-    contactRecord.serviceUuid = conversation.get('uuid');
+): Promise<Proto.ContactRecord> {
+  const contactRecord = new Proto.ContactRecord();
+  const uuid = conversation.get('uuid');
+  if (uuid) {
+    contactRecord.serviceUuid = uuid;
   }
-  if (conversation.get('e164')) {
-    contactRecord.serviceE164 = conversation.get('e164');
+  const e164 = conversation.get('e164');
+  if (e164) {
+    contactRecord.serviceE164 = e164;
   }
-  if (conversation.get('profileKey')) {
-    contactRecord.profileKey = base64ToArrayBuffer(
-      String(conversation.get('profileKey'))
-    );
+  const profileKey = conversation.get('profileKey');
+  if (profileKey) {
+    contactRecord.profileKey = Bytes.fromBase64(String(profileKey));
   }
   const identityKey = await window.textsecure.storage.protocol.loadIdentityKey(
     conversation.id
   );
   if (identityKey) {
-    contactRecord.identityKey = identityKey;
+    contactRecord.identityKey = new FIXMEU8(identityKey);
   }
-  if (conversation.get('verified')) {
-    contactRecord.identityState = toRecordVerified(
-      Number(conversation.get('verified'))
-    );
+  const verified = conversation.get('verified');
+  if (verified) {
+    contactRecord.identityState = toRecordVerified(Number(verified));
   }
-  if (conversation.get('profileName')) {
-    contactRecord.givenName = conversation.get('profileName');
+  const profileName = conversation.get('profileName');
+  if (profileName) {
+    contactRecord.givenName = profileName;
   }
-  if (conversation.get('profileFamilyName')) {
-    contactRecord.familyName = conversation.get('profileFamilyName');
+  const profileFamilyName = conversation.get('profileFamilyName');
+  if (profileFamilyName) {
+    contactRecord.familyName = profileFamilyName;
   }
   contactRecord.blocked = conversation.isBlocked();
   contactRecord.whitelisted = Boolean(conversation.get('profileSharing'));
@@ -156,11 +151,11 @@ export async function toContactRecord(
 
 export async function toAccountRecord(
   conversation: ConversationModel
-): Promise<AccountRecordClass> {
-  const accountRecord = new window.textsecure.protobuf.AccountRecord();
+): Promise<Proto.AccountRecord> {
+  const accountRecord = new Proto.AccountRecord();
 
   if (conversation.get('profileKey')) {
-    accountRecord.profileKey = base64ToArrayBuffer(
+    accountRecord.profileKey = Bytes.fromBase64(
       String(conversation.get('profileKey'))
     );
   }
@@ -197,7 +192,7 @@ export async function toAccountRecord(
   }
 
   const PHONE_NUMBER_SHARING_MODE_ENUM =
-    window.textsecure.protobuf.AccountRecord.PhoneNumberSharingMode;
+    Proto.AccountRecord.PhoneNumberSharingMode;
   const phoneNumberSharingMode = parsePhoneNumberSharingMode(
     window.storage.get('phoneNumberSharingMode')
   );
@@ -238,7 +233,7 @@ export async function toAccountRecord(
       const pinnedConversation = window.ConversationController.get(id);
 
       if (pinnedConversation) {
-        const pinnedConversationRecord = new window.textsecure.protobuf.AccountRecord.PinnedConversation();
+        const pinnedConversationRecord = new Proto.AccountRecord.PinnedConversation();
 
         if (pinnedConversation.get('type') === 'private') {
           pinnedConversationRecord.identifier = 'contact';
@@ -254,9 +249,7 @@ export async function toAccountRecord(
               'toAccountRecord: trying to pin a v1 Group without groupId'
             );
           }
-          pinnedConversationRecord.legacyGroupId = fromEncodedBinaryToArrayBuffer(
-            groupId
-          );
+          pinnedConversationRecord.legacyGroupId = Bytes.fromBinary(groupId);
         } else if (isGroupV2(pinnedConversation.attributes)) {
           pinnedConversationRecord.identifier = 'groupMasterKey';
           const masterKey = pinnedConversation.get('masterKey');
@@ -265,9 +258,7 @@ export async function toAccountRecord(
               'toAccountRecord: trying to pin a v2 Group without masterKey'
             );
           }
-          pinnedConversationRecord.groupMasterKey = base64ToArrayBuffer(
-            masterKey
-          );
+          pinnedConversationRecord.groupMasterKey = Bytes.fromBase64(masterKey);
         }
 
         return pinnedConversationRecord;
@@ -278,7 +269,7 @@ export async function toAccountRecord(
     .filter(
       (
         pinnedConversationClass
-      ): pinnedConversationClass is PinnedConversationClass =>
+      ): pinnedConversationClass is Proto.AccountRecord.PinnedConversation =>
         pinnedConversationClass !== undefined
     );
 
@@ -295,12 +286,10 @@ export async function toAccountRecord(
 
 export async function toGroupV1Record(
   conversation: ConversationModel
-): Promise<GroupV1RecordClass> {
-  const groupV1Record = new window.textsecure.protobuf.GroupV1Record();
+): Promise<Proto.GroupV1Record> {
+  const groupV1Record = new Proto.GroupV1Record();
 
-  groupV1Record.id = fromEncodedBinaryToArrayBuffer(
-    String(conversation.get('groupId'))
-  );
+  groupV1Record.id = Bytes.fromBinary(String(conversation.get('groupId')));
   groupV1Record.blocked = conversation.isBlocked();
   groupV1Record.whitelisted = Boolean(conversation.get('profileSharing'));
   groupV1Record.archived = Boolean(conversation.get('isArchived'));
@@ -316,12 +305,12 @@ export async function toGroupV1Record(
 
 export async function toGroupV2Record(
   conversation: ConversationModel
-): Promise<GroupV2RecordClass> {
-  const groupV2Record = new window.textsecure.protobuf.GroupV2Record();
+): Promise<Proto.GroupV2Record> {
+  const groupV2Record = new Proto.GroupV2Record();
 
   const masterKey = conversation.get('masterKey');
   if (masterKey !== undefined) {
-    groupV2Record.masterKey = base64ToArrayBuffer(masterKey);
+    groupV2Record.masterKey = Bytes.fromBase64(masterKey);
   }
   groupV2Record.blocked = conversation.isBlocked();
   groupV2Record.whitelisted = Boolean(conversation.get('profileSharing'));
@@ -336,14 +325,13 @@ export async function toGroupV2Record(
   return groupV2Record;
 }
 
-type MessageRequestCapableRecord = ContactRecordClass | GroupV1RecordClass;
+type MessageRequestCapableRecord = Proto.IContactRecord | Proto.IGroupV1Record;
 
 function applyMessageRequestState(
   record: MessageRequestCapableRecord,
   conversation: ConversationModel
 ): void {
-  const messageRequestEnum =
-    window.textsecure.protobuf.SyncMessage.MessageRequestResponse.Type;
+  const messageRequestEnum = Proto.SyncMessage.MessageRequestResponse.Type;
 
   if (record.blocked) {
     conversation.applyMessageRequestResponse(messageRequestEnum.BLOCK, {
@@ -393,15 +381,14 @@ function doRecordsConflict(
     return true;
   }
 
-  return localKeys.reduce((hasConflict: boolean, key: string): boolean => {
+  return localKeys.some((key: string): boolean => {
     const localValue = localRecord[key];
     const remoteValue = remoteRecord[key];
 
     // Sometimes we have a ByteBuffer and an ArrayBuffer, this ensures that we
     // are comparing them both equally by converting them into base64 string.
-    if (Object.prototype.toString.call(localValue) === '[object ArrayBuffer]') {
-      const areEqual =
-        arrayBufferToBase64(localValue) === arrayBufferToBase64(remoteValue);
+    if (localValue instanceof Uint8Array) {
+      const areEqual = Bytes.areEqual(localValue, remoteValue);
       if (!areEqual) {
         window.log.info(
           'storageService.doRecordsConflict: Conflict found for ArrayBuffer',
@@ -409,15 +396,18 @@ function doRecordsConflict(
           idForLogging
         );
       }
-      return hasConflict || !areEqual;
+      return !areEqual;
     }
 
     // If both types are Long we can use Long's equals to compare them
-    if (
-      window.dcodeIO.Long.isLong(localValue) &&
-      window.dcodeIO.Long.isLong(remoteValue)
-    ) {
-      const areEqual = localValue.equals(remoteValue);
+    if (localValue instanceof Long || typeof localValue === 'number') {
+      if (!(remoteValue instanceof Long) || typeof remoteValue !== 'number') {
+        return true;
+      }
+
+      const areEqual = Long.fromValue(localValue).equals(
+        Long.fromValue(remoteValue)
+      );
       if (!areEqual) {
         window.log.info(
           'storageService.doRecordsConflict: Conflict found for Long',
@@ -425,7 +415,7 @@ function doRecordsConflict(
           idForLogging
         );
       }
-      return hasConflict || !areEqual;
+      return !areEqual;
     }
 
     if (key === 'pinnedConversations') {
@@ -436,11 +426,11 @@ function doRecordsConflict(
           idForLogging
         );
       }
-      return hasConflict || !areEqual;
+      return !areEqual;
     }
 
     if (localValue === remoteValue) {
-      return hasConflict || false;
+      return false;
     }
 
     // Sometimes we get `null` values from Protobuf and they should default to
@@ -451,9 +441,9 @@ function doRecordsConflict(
       (localValue === false ||
         localValue === '' ||
         localValue === 0 ||
-        (window.dcodeIO.Long.isLong(localValue) && localValue.toNumber() === 0))
+        (Long.isLong(localValue) && localValue.toNumber() === 0))
     ) {
-      return hasConflict || false;
+      return false;
     }
 
     const areEqual = isEqual(localValue, remoteValue);
@@ -467,7 +457,7 @@ function doRecordsConflict(
     }
 
     return !areEqual;
-  }, false);
+  });
 }
 
 function doesRecordHavePendingChanges(
@@ -496,13 +486,13 @@ function doesRecordHavePendingChanges(
 
 export async function mergeGroupV1Record(
   storageID: string,
-  groupV1Record: GroupV1RecordClass
+  groupV1Record: Proto.IGroupV1Record
 ): Promise<boolean> {
   if (!groupV1Record.id) {
     throw new Error(`No ID for ${storageID}`);
   }
 
-  const groupId = groupV1Record.id.toBinary();
+  const groupId = Bytes.toBinary(groupV1Record.id);
 
   // Attempt to fetch an existing group pertaining to the `groupId` or create
   // a new group and populate it with the attributes from the record.
@@ -523,7 +513,9 @@ export async function mergeGroupV1Record(
     // It's possible this group was migrated to a GV2 if so we attempt to
     // retrieve the master key and find the conversation locally. If we
     // are successful then we continue setting and applying state.
-    const masterKeyBuffer = await deriveMasterKeyFromGroupV1(groupId);
+    const masterKeyBuffer = await deriveMasterKeyFromGroupV1(
+      typedArrayToArrayBuffer(groupV1Record.id)
+    );
     const fields = deriveGroupFields(new FIXMEU8(masterKeyBuffer));
     const derivedGroupV2Id = Bytes.toBase64(fields.id);
 
@@ -598,12 +590,12 @@ export async function mergeGroupV1Record(
 }
 
 async function getGroupV2Conversation(
-  masterKeyBuffer: ArrayBuffer
+  masterKeyBuffer: Uint8Array
 ): Promise<ConversationModel> {
-  const groupFields = deriveGroupFields(new FIXMEU8(masterKeyBuffer));
+  const groupFields = deriveGroupFields(masterKeyBuffer);
 
   const groupId = Bytes.toBase64(groupFields.id);
-  const masterKey = arrayBufferToBase64(masterKeyBuffer);
+  const masterKey = Bytes.toBase64(masterKeyBuffer);
   const secretParams = Bytes.toBase64(groupFields.secretParams);
   const publicParams = Bytes.toBase64(groupFields.publicParams);
 
@@ -646,13 +638,13 @@ async function getGroupV2Conversation(
 
 export async function mergeGroupV2Record(
   storageID: string,
-  groupV2Record: GroupV2RecordClass
+  groupV2Record: Proto.IGroupV2Record
 ): Promise<boolean> {
   if (!groupV2Record.masterKey) {
     throw new Error(`No master key for ${storageID}`);
   }
 
-  const masterKeyBuffer = groupV2Record.masterKey.toArrayBuffer();
+  const masterKeyBuffer = groupV2Record.masterKey;
   const conversation = await getGroupV2Conversation(masterKeyBuffer);
 
   window.log.info(
@@ -719,13 +711,18 @@ export async function mergeGroupV2Record(
 
 export async function mergeContactRecord(
   storageID: string,
-  contactRecord: ContactRecordClass
+  originalContactRecord: Proto.IContactRecord
 ): Promise<boolean> {
-  window.normalizeUuids(
-    contactRecord,
-    ['serviceUuid'],
-    'storageService.mergeContactRecord'
-  );
+  const contactRecord = {
+    ...originalContactRecord,
+
+    serviceUuid: originalContactRecord.serviceUuid
+      ? normalizeUuid(
+          originalContactRecord.serviceUuid,
+          'ContactRecord.serviceUuid'
+        )
+      : undefined,
+  };
 
   const e164 = contactRecord.serviceE164 || undefined;
   const uuid = contactRecord.serviceUuid || undefined;
@@ -751,10 +748,9 @@ export async function mergeContactRecord(
   );
 
   if (contactRecord.profileKey) {
-    await conversation.setProfileKey(
-      arrayBufferToBase64(contactRecord.profileKey.toArrayBuffer()),
-      { viaStorageServiceSync: true }
-    );
+    await conversation.setProfileKey(Bytes.toBase64(contactRecord.profileKey), {
+      viaStorageServiceSync: true,
+    });
   }
 
   const verified = await conversation.safeGetVerified();
@@ -762,11 +758,11 @@ export async function mergeContactRecord(
   if (verified !== storageServiceVerified) {
     const verifiedOptions = {
       key: contactRecord.identityKey
-        ? contactRecord.identityKey.toArrayBuffer()
+        ? typedArrayToArrayBuffer(contactRecord.identityKey)
         : undefined,
       viaStorageServiceSync: true,
     };
-    const STATE_ENUM = window.textsecure.protobuf.ContactRecord.IdentityState;
+    const STATE_ENUM = Proto.ContactRecord.IdentityState;
 
     switch (storageServiceVerified) {
       case STATE_ENUM.VERIFIED:
@@ -810,7 +806,7 @@ export async function mergeContactRecord(
 
 export async function mergeAccountRecord(
   storageID: string,
-  accountRecord: AccountRecordClass
+  accountRecord: Proto.IAccountRecord
 ): Promise<boolean> {
   const {
     avatarUrl,
@@ -849,7 +845,7 @@ export async function mergeAccountRecord(
   setUniversalExpireTimer(universalExpireTimer || 0);
 
   const PHONE_NUMBER_SHARING_MODE_ENUM =
-    window.textsecure.protobuf.AccountRecord.PhoneNumberSharingMode;
+    Proto.AccountRecord.PhoneNumberSharingMode;
   let phoneNumberSharingModeToStore: PhoneNumberSharingMode;
   switch (phoneNumberSharingMode) {
     case undefined:
@@ -879,7 +875,7 @@ export async function mergeAccountRecord(
   window.storage.put('phoneNumberDiscoverability', discoverability);
 
   if (profileKey) {
-    ourProfileKeyService.set(profileKey.toArrayBuffer());
+    ourProfileKeyService.set(typedArrayToArrayBuffer(profileKey));
   }
 
   if (pinnedConversations) {
@@ -922,48 +918,29 @@ export async function mergeAccountRecord(
     );
 
     const remotelyPinnedConversationPromises = pinnedConversations.map(
-      async pinnedConversation => {
-        let conversationId;
+      async ({ contact, legacyGroupId, groupMasterKey }) => {
+        let conversationId: string | undefined;
 
-        switch (pinnedConversation.identifier) {
-          case 'contact': {
-            if (!pinnedConversation.contact) {
-              throw new Error('mergeAccountRecord: no contact found');
-            }
-            conversationId = window.ConversationController.ensureContactIds(
-              pinnedConversation.contact
-            );
-            break;
-          }
-          case 'legacyGroupId': {
-            if (!pinnedConversation.legacyGroupId) {
-              throw new Error('mergeAccountRecord: no legacyGroupId found');
-            }
-            conversationId = pinnedConversation.legacyGroupId.toBinary();
-            break;
-          }
-          case 'groupMasterKey': {
-            if (!pinnedConversation.groupMasterKey) {
-              throw new Error('mergeAccountRecord: no groupMasterKey found');
-            }
-            const masterKeyBuffer = pinnedConversation.groupMasterKey.toArrayBuffer();
-            const groupFields = deriveGroupFields(masterKeyBuffer);
-            const groupId = Bytes.toBase64(groupFields.id);
+        if (contact) {
+          conversationId = window.ConversationController.ensureContactIds(
+            contact
+          );
+        } else if (legacyGroupId && legacyGroupId.length) {
+          conversationId = Bytes.toBinary(legacyGroupId);
+        } else if (groupMasterKey && groupMasterKey.length) {
+          const groupFields = deriveGroupFields(groupMasterKey);
+          const groupId = Bytes.toBase64(groupFields.id);
 
-            conversationId = groupId;
-            break;
-          }
-          default: {
-            window.log.error(
-              'storageService.mergeAccountRecord: Invalid identifier received'
-            );
-          }
+          conversationId = groupId;
+        } else {
+          window.log.error(
+            'storageService.mergeAccountRecord: Invalid identifier received'
+          );
         }
 
         if (!conversationId) {
           window.log.error(
-            'storageService.mergeAccountRecord: missing conversation id. looking based on',
-            pinnedConversation.identifier
+            'storageService.mergeAccountRecord: missing conversation id.'
           );
           return undefined;
         }
@@ -1030,9 +1007,7 @@ export async function mergeAccountRecord(
   });
 
   if (accountRecord.profileKey) {
-    await conversation.setProfileKey(
-      arrayBufferToBase64(accountRecord.profileKey.toArrayBuffer())
-    );
+    await conversation.setProfileKey(Bytes.toBase64(accountRecord.profileKey));
   }
 
   if (avatarUrl) {

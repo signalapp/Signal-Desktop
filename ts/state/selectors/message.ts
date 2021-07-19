@@ -32,6 +32,7 @@ import { BodyRangesType } from '../../types/Util';
 import { LinkPreviewType } from '../../types/message/LinkPreviews';
 import { ConversationColors } from '../../types/Colors';
 import { CallMode } from '../../types/Calling';
+import { SignalService as Proto } from '../../protobuf';
 import { AttachmentType, isVoiceMessage } from '../../types/Attachment';
 
 import { CallingNotificationType } from '../../util/callingNotification';
@@ -430,8 +431,7 @@ function getPropsForUnsupportedMessage(
   ourNumber: string | undefined,
   ourUuid: string | undefined
 ): PropsForUnsupportedMessage {
-  const CURRENT_PROTOCOL_VERSION =
-    window.textsecure.protobuf.DataMessage.ProtocolVersion.CURRENT;
+  const CURRENT_PROTOCOL_VERSION = Proto.DataMessage.ProtocolVersion.CURRENT;
 
   const requiredVersion = message.requiredProtocolVersion;
   const canProcessNow = Boolean(
@@ -463,9 +463,6 @@ function getPropsForGroupV2Change(
   conversationSelector: GetConversationByIdType,
   ourConversationId: string
 ): GroupsV2Props {
-  const AccessControlEnum =
-    window.textsecure.protobuf.AccessControl.AccessRequired;
-  const RoleEnum = window.textsecure.protobuf.Member.Role;
   const change = message.groupV2Change;
 
   if (!change) {
@@ -476,8 +473,6 @@ function getPropsForGroupV2Change(
 
   return {
     groupName: conversation?.type === 'group' ? conversation?.name : undefined,
-    AccessControlEnum,
-    RoleEnum,
     ourConversationId,
     change,
   };
@@ -545,10 +540,9 @@ export function isMessageHistoryUnsynced(
 // Expiration Timer Update
 
 export function isExpirationTimerUpdate(
-  message: MessageAttributesType
+  message: Pick<MessageAttributesType, 'flags'>
 ): boolean {
-  const flag =
-    window.textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
+  const flag = Proto.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
   // eslint-disable-next-line no-bitwise
   return Boolean(message.flags && message.flags & flag);
 }
@@ -734,7 +728,7 @@ function getPropsForGroupNotification(
 export function isEndSession(
   message: Pick<MessageAttributesType, 'flags'>
 ): boolean {
-  const flag = window.textsecure.protobuf.DataMessage.Flags.END_SESSION;
+  const flag = Proto.DataMessage.Flags.END_SESSION;
   // eslint-disable-next-line no-bitwise
   return Boolean(message.flags && message.flags & flag);
 }
@@ -1070,11 +1064,14 @@ function processQuoteAttachment(
 }
 
 export function canReply(
-  message: MessageAttributesType,
+  message: Pick<
+    MessageAttributesType,
+    'conversationId' | 'deletedForEveryone' | 'sent_to' | 'type'
+  >,
   conversationSelector: GetConversationByIdType
 ): boolean {
   const conversation = getConversation(message, conversationSelector);
-  const { delivered, errors } = message;
+  const { deletedForEveryone, sent_to: sentTo } = message;
 
   if (!conversation) {
     return false;
@@ -1097,17 +1094,17 @@ export function canReply(
   }
 
   // We cannot reply if this message is deleted for everyone
-  if (message.deletedForEveryone) {
+  if (deletedForEveryone) {
     return false;
   }
 
-  // We can reply if this is outgoing and delivered to at least one recipient
-  if (isOutgoing(message) && delivered && delivered > 0) {
-    return true;
+  // We can reply if this is outgoing and sent to at least one recipient
+  if (isOutgoing(message)) {
+    return (sentTo || []).length > 0;
   }
 
-  // We can reply if there are no errors
-  if (!errors || (errors && errors.length === 0)) {
+  // We can reply to incoming messages
+  if (isIncoming(message)) {
     return true;
   }
 
