@@ -2057,6 +2057,16 @@ export class Message extends React.Component<Props, State> {
         return;
       }
 
+      if (attachments && hasNotDownloaded(attachments[0])) {
+        event.preventDefault();
+        event.stopPropagation();
+        kickOffAttachmentDownload({
+          attachment: attachments[0],
+          messageId: id,
+        });
+        return;
+      }
+
       if (isTapToViewExpired) {
         const action =
           direction === 'outgoing'
@@ -2213,15 +2223,6 @@ export class Message extends React.Component<Props, State> {
     const { text } = this.props;
     if (text && text.length > 0) {
       return;
-    }
-
-    // If there an incomplete attachment, do not execute the default action
-    const { attachments } = this.props;
-    if (attachments && attachments.length > 0) {
-      const [firstAttachment] = attachments;
-      if (!firstAttachment.url) {
-        return;
-      }
     }
 
     this.handleOpen(event);
