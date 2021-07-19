@@ -117,7 +117,14 @@ declare global {
 const PROFILE_IV_LENGTH = 12; // bytes
 const PROFILE_KEY_LENGTH = 32; // bytes
 const PROFILE_TAG_LENGTH = 128; // bits
-const PROFILE_NAME_PADDED_LENGTH = 53; // bytes
+
+// bytes
+export const PaddedLengths = {
+  Name: [53, 257],
+  About: [128, 254, 512],
+  AboutEmoji: [32],
+  PaymentAddress: [554],
+};
 
 type EncryptedAttachment = {
   ciphertext: ArrayBuffer;
@@ -324,13 +331,20 @@ const Crypto = {
       );
   },
 
-  async encryptProfileName(
-    name: ArrayBuffer,
-    key: ArrayBuffer
+  async encryptProfileItemWithPadding(
+    item: ArrayBuffer,
+    profileKey: ArrayBuffer,
+    paddedLengths: typeof PaddedLengths[keyof typeof PaddedLengths]
   ): Promise<ArrayBuffer> {
-    const padded = new Uint8Array(PROFILE_NAME_PADDED_LENGTH);
-    padded.set(new Uint8Array(name));
-    return Crypto.encryptProfile(padded.buffer as ArrayBuffer, key);
+    const paddedLength = paddedLengths.find(
+      (length: number) => item.byteLength <= length
+    );
+    if (!paddedLength) {
+      throw new Error('Oversized value');
+    }
+    const padded = new Uint8Array(paddedLength);
+    padded.set(new Uint8Array(item));
+    return Crypto.encryptProfile(padded.buffer as ArrayBuffer, profileKey);
   },
 
   async decryptProfileName(

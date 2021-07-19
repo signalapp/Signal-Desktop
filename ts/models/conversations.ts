@@ -1366,6 +1366,8 @@ export class ConversationModel extends window.Backbone
       e164: this.get('e164'),
 
       about: this.getAboutText(),
+      aboutText: this.get('about'),
+      aboutEmoji: this.get('aboutEmoji'),
       acceptedMessageRequest: this.getAccepted(),
       activeAt: this.get('active_at')!,
       areWePending: Boolean(
@@ -1378,6 +1380,7 @@ export class ConversationModel extends window.Backbone
       canChangeTimer: this.canChangeTimer(),
       canEditGroupInfo: this.canEditGroupInfo(),
       avatarPath: this.getAbsoluteAvatarPath(),
+      avatarHash: this.getAvatarHash(),
       unblurredAvatarPath: this.getAbsoluteUnblurredAvatarPath(),
       color,
       conversationColor: this.getConversationColor(),
@@ -1387,6 +1390,7 @@ export class ConversationModel extends window.Backbone
       draftBodyRanges,
       draftPreview,
       draftText,
+      familyName: this.get('profileFamilyName'),
       firstName: this.get('profileName')!,
       groupDescription: this.get('description'),
       groupVersion,
@@ -1417,6 +1421,7 @@ export class ConversationModel extends window.Backbone
       messageCount: this.get('messageCount') || 0,
       pendingMemberships: this.getPendingMemberships(),
       pendingApprovalMemberships: this.getPendingApprovalMemberships(),
+      profileKey: this.get('profileKey'),
       messageRequestsEnabled,
       accessControlAddFromInviteLink: this.get('accessControl')
         ?.addFromInviteLink,
@@ -4522,6 +4527,10 @@ export class ConversationModel extends window.Backbone
         c.unset('aboutEmoji');
       }
 
+      if (profile.paymentAddress && isMe(c.attributes)) {
+        window.storage.put('paymentAddress', profile.paymentAddress);
+      }
+
       if (profile.capabilities) {
         c.set({ capabilities: profile.capabilities });
       } else {
@@ -4894,6 +4903,13 @@ export class ConversationModel extends window.Backbone
       ? this.get('profileAvatar') || this.get('avatar')
       : this.get('avatar') || this.get('profileAvatar');
     return avatar?.path || undefined;
+  }
+
+  private getAvatarHash(): undefined | string {
+    const avatar = isMe(this.attributes)
+      ? this.get('profileAvatar') || this.get('avatar')
+      : this.get('avatar') || this.get('profileAvatar');
+    return avatar?.hash || undefined;
   }
 
   getAbsoluteAvatarPath(): string | undefined {

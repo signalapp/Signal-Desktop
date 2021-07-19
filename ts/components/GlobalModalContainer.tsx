@@ -7,16 +7,28 @@ import { LocalizerType } from '../types/Util';
 
 type PropsType = {
   i18n: LocalizerType;
+
+  // ChatColorPicker
   isChatColorEditorVisible: boolean;
   renderChatColorPicker: () => JSX.Element;
   toggleChatColorEditor: () => unknown;
+
+  // ProfileEditor
+  isProfileEditorVisible: boolean;
+  renderProfileEditor: () => JSX.Element;
 };
 
 export const GlobalModalContainer = ({
   i18n,
+
+  // ChatColorPicker
   isChatColorEditorVisible,
   renderChatColorPicker,
   toggleChatColorEditor,
+
+  // ProfileEditor
+  isProfileEditorVisible,
+  renderProfileEditor,
 }: PropsType): JSX.Element | null => {
   if (isChatColorEditorVisible) {
     return (
@@ -31,6 +43,10 @@ export const GlobalModalContainer = ({
         {renderChatColorPicker()}
       </Modal>
     );
+  }
+
+  if (isProfileEditorVisible) {
+    return renderProfileEditor();
   }
 
   return null;

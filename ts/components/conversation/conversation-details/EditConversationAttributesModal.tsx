@@ -4,21 +4,18 @@
 import React, {
   FormEventHandler,
   FunctionComponent,
-  useEffect,
   useRef,
   useState,
 } from 'react';
-import { noop } from 'lodash';
 
 import { LocalizerType } from '../../../types/Util';
 import { Modal } from '../../Modal';
-import { AvatarInput, AvatarInputVariant } from '../../AvatarInput';
+import { AvatarInputContainer } from '../../AvatarInputContainer';
+import { AvatarInputVariant } from '../../AvatarInput';
 import { Button, ButtonVariant } from '../../Button';
 import { Spinner } from '../../Spinner';
 import { GroupDescriptionInput } from '../../GroupDescriptionInput';
 import { GroupTitleInput } from '../../GroupTitleInput';
-import * as log from '../../../logging/log';
-import { canvasToArrayBuffer } from '../../../util/canvasToArrayBuffer';
 import { RequestState } from './util';
 
 const TEMPORARY_AVATAR_VALUE = new ArrayBuffer(0);
@@ -77,35 +74,6 @@ export const EditConversationAttributesModal: FunctionComponent<PropsType> = ({
     }
   };
 
-  useEffect(() => {
-    const startingAvatarPath = startingAvatarPathRef.current;
-    if (!startingAvatarPath) {
-      return noop;
-    }
-
-    let shouldCancel = false;
-
-    (async () => {
-      try {
-        const buffer = await imagePathToArrayBuffer(startingAvatarPath);
-        if (shouldCancel) {
-          return;
-        }
-        setAvatar(buffer);
-      } catch (err) {
-        log.warn(
-          `Failed to convert image URL to array buffer. Error message: ${
-            err && err.message
-          }`
-        );
-      }
-    })();
-
-    return () => {
-      shouldCancel = true;
-    };
-  }, []);
-
   const hasChangedExternally =
     startingAvatarPathRef.current !== externalAvatarPath ||
     startingTitleRef.current !== externalTitle;
@@ -154,15 +122,18 @@ export const EditConversationAttributesModal: FunctionComponent<PropsType> = ({
         onSubmit={onSubmit}
         className="module-EditConversationAttributesModal"
       >
-        <AvatarInput
+        <AvatarInputContainer
+          avatarPath={externalAvatarPath}
           contextMenuId="edit conversation attributes avatar input"
           disabled={isRequestActive}
           i18n={i18n}
-          onChange={newAvatar => {
+          onAvatarChanged={newAvatar => {
             setAvatar(newAvatar);
             setHasAvatarChanged(true);
           }}
-          value={avatar}
+          onAvatarLoaded={loadedAvatar => {
+            setAvatar(loadedAvatar);
+          }}
           variant={AvatarInputVariant.Dark}
         />
 
@@ -217,25 +188,3 @@ export const EditConversationAttributesModal: FunctionComponent<PropsType> = ({
     </Modal>
   );
 };
-
-async function imagePathToArrayBuffer(src: string): Promise<ArrayBuffer> {
-  const image = new Image();
-  const canvas = document.createElement('canvas');
-  const context = canvas.getContext('2d');
-  if (!context) {
-    throw new Error(
-      'imagePathToArrayBuffer: could not get canvas rendering context'
-    );
-  }
-
-  image.src = src;
-  await image.decode();
-
-  canvas.width = image.width;
-  canvas.height = image.height;
-
-  context.drawImage(image, 0, 0);
-
-  const result = await canvasToArrayBuffer(canvas);
-  return result;
-}

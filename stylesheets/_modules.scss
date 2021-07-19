@@ -8430,6 +8430,14 @@ button.module-image__border-overlay:focus {
     }
   }
 
+  &--has-emoji {
+    opacity: 1;
+
+    &::after {
+      display: none;
+    }
+  }
+
   &--active {
     @include light-theme() {
       background: $color-gray-05;
@@ -9074,9 +9082,20 @@ button.module-image__border-overlay:focus {
 }
 
 .module-avatar-popup__profile {
+  @include button-reset();
+  align-items: center;
   display: flex;
   flex-direction: row;
-  align-items: center;
+  width: 100%;
+
+  &:hover {
+    @include light-theme {
+      background-color: $color-gray-15;
+    }
+    @include dark-theme {
+      background-color: $color-gray-60;
+    }
+  }
 }
 
 .module-avatar-popup__profile {

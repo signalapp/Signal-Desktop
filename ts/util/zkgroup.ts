@@ -282,3 +282,13 @@ export function handleProfileKeyCredential(
 
   return compatArrayToBase64(credentialArray);
 }
+
+export function deriveProfileKeyCommitment(
+  profileKeyBase64: string,
+  uuid: string
+): string {
+  const profileKeyArray = base64ToCompatArray(profileKeyBase64);
+  const profileKey = new ProfileKey(profileKeyArray);
+
+  return compatArrayToBase64(profileKey.getCommitment(uuid).contents);
+}

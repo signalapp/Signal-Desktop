@@ -65,6 +65,7 @@ export type PropsType = {
   showArchivedConversations: () => void;
   startComposing: () => void;
   toggleChatColorEditor: () => void;
+  toggleProfileEditor: () => void;
 };
 
 type StateType = {
@@ -353,6 +354,7 @@ export class MainHeader extends React.Component<PropsType, StateType> {
       searchTerm,
       showArchivedConversations,
       toggleChatColorEditor,
+      toggleProfileEditor,
     } = this.props;
     const { showingAvatarPopup, popperRoot } = this.state;
 
@@ -410,6 +412,10 @@ export class MainHeader extends React.Component<PropsType, StateType> {
                       size={28}
                       // See the comment above about `sharedGroupNames`.
                       sharedGroupNames={[]}
+                      onEditProfile={() => {
+                        toggleProfileEditor();
+                        this.hideAvatarPopup();
+                      }}
                       onSetChatColor={() => {
                         toggleChatColorEditor();
                         this.hideAvatarPopup();

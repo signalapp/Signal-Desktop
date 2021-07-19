@@ -109,6 +109,7 @@ export type StorageAccessType = {
   'indexeddb-delete-needed': boolean;
   senderCertificate: SerializedCertificateType;
   senderCertificateNoE164: SerializedCertificateType;
+  paymentAddress: string;
 
   // Deprecated
   senderCertificateWithUuid: never;

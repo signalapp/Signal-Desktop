@@ -18,12 +18,13 @@ import { LocalizerType } from '../types/Util';
 import { Spinner } from './Spinner';
 import { canvasToArrayBuffer } from '../util/canvasToArrayBuffer';
 
-type PropsType = {
+export type PropsType = {
   // This ID needs to be globally unique across the app.
   contextMenuId: string;
   disabled?: boolean;
   i18n: LocalizerType;
   onChange: (value: undefined | ArrayBuffer) => unknown;
+  type?: AvatarInputType;
   value: undefined | ArrayBuffer;
   variant?: AvatarInputVariant;
 };
@@ -32,6 +33,11 @@ enum ImageStatus {
   Nothing = 'nothing',
   Loading = 'loading',
   HasImage = 'has-image',
+}
+
+export enum AvatarInputType {
+  Profile = 'Profile',
+  Group = 'Group',
 }
 
 export enum AvatarInputVariant {
@@ -44,6 +50,7 @@ export const AvatarInput: FunctionComponent<PropsType> = ({
   disabled,
   i18n,
   onChange,
+  type,
   value,
   variant = AvatarInputVariant.Light,
 }) => {
@@ -96,9 +103,14 @@ export const AvatarInput: FunctionComponent<PropsType> = ({
     };
   }, [processingFile, onChange]);
 
-  const buttonLabel = value
-    ? i18n('AvatarInput--change-photo-label')
-    : i18n('AvatarInput--no-photo-label--group');
+  let buttonLabel = i18n('AvatarInput--change-photo-label');
+  if (!value) {
+    if (type === AvatarInputType.Profile) {
+      buttonLabel = i18n('AvatarInput--no-photo-label--profile');
+    } else {
+      buttonLabel = i18n('AvatarInput--no-photo-label--group');
+    }
+  }
 
   const startUpload = () => {
     const fileInput = fileInputRef.current;

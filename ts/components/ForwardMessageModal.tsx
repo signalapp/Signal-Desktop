@@ -309,7 +309,6 @@ export const ForwardMessageModal: FunctionComponent<PropsType> = ({
               />
               <div className="module-ForwardMessageModal__emoji">
                 <EmojiButton
-                  doSend={noop}
                   i18n={i18n}
                   onClose={focusTextEditInput}
                   onPickEmoji={insertEmoji}

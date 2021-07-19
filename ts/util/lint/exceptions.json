@@ -13259,6 +13259,13 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/AvatarInputContainer.js",
+    "line": "    const startingAvatarPathRef = react_1.useRef(avatarPath);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-14T00:50:58.330Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/AvatarPopup.js",
     "line": "    const focusRef = React.useRef(null);",
     "reasonCategory": "usageTrusted",
@@ -13546,51 +13553,6 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/GroupDescriptionInput.js",
-    "line": "    const innerRef = react_1.useRef(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-05-29T02:15:39.186Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/GroupDescriptionInput.js",
-    "line": "    const valueOnKeydownRef = react_1.useRef(value);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-05-29T02:15:39.186Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/GroupDescriptionInput.js",
-    "line": "    const selectionStartOnKeydownRef = react_1.useRef(value.length);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-05-29T02:15:39.186Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/GroupTitleInput.js",
-    "line": "    const selectionStartOnKeydownRef = react_1.useRef(value.length);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-03-05T16:51:54.214Z",
-    "reasonDetail": "Only stores a number."
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/GroupTitleInput.js",
-    "line": "    const valueOnKeydownRef = react_1.useRef(value);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-03-05T16:51:54.214Z",
-    "reasonDetail": "Only stores a string."
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/GroupTitleInput.js",
-    "line": "    const innerRef = react_1.useRef(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-03-05T16:51:54.214Z",
-    "reasonDetail": "Used to handle an <input> element. Only updates the value and selection state."
-  },
-  {
-    "rule": "React-useRef",
     "path": "ts/components/Inbox.js",
     "line": "    const hostRef = react_1.useRef(null);",
     "reasonCategory": "usageTrusted",
@@ -13602,6 +13564,27 @@
     "line": "    const viewRef = react_1.useRef(undefined);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-06-08T02:49:25.154Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/Input.js",
+    "line": "    const innerRef = react_1.useRef(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-14T00:50:58.330Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/Input.js",
+    "line": "    const valueOnKeydownRef = react_1.useRef(value);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-14T00:50:58.330Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/Input.js",
+    "line": "    const selectionStartOnKeydownRef = react_1.useRef(value.length);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-14T00:50:58.330Z"
   },
   {
     "rule": "jQuery-$(",
@@ -13655,6 +13638,13 @@
     "reasonCategory": "usageTrusted",
     "updated": "2020-02-14T20:02:37.507Z",
     "reasonDetail": "Used only to set focus"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/ProfileEditor.js",
+    "line": "    const focusInputRef = react_1.useRef(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-14T00:50:58.330Z"
   },
   {
     "rule": "React-createRef",

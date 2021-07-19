@@ -17,11 +17,16 @@ import {
 
 import { StateType as RootStateType } from '../reducer';
 import * as groups from '../../groups';
+import * as log from '../../logging/log';
 import { calling } from '../../services/calling';
 import { getOwn } from '../../util/getOwn';
 import { assert } from '../../util/assert';
 import * as universalExpireTimer from '../../util/universalExpireTimer';
 import { trigger } from '../../shims/events';
+import {
+  TOGGLE_PROFILE_EDITOR_ERROR,
+  ToggleProfileEditorErrorActionType,
+} from './globalModals';
 
 import {
   AvatarColorType,
@@ -45,6 +50,8 @@ import {
 import { toggleSelectedContactForGroupAddition } from '../../groups/toggleSelectedContactForGroupAddition';
 import { GroupNameCollisionsWithIdsByTitle } from '../../util/groupMemberNameCollisions';
 import { ContactSpoofingType } from '../../util/contactSpoofing';
+import { writeProfile } from '../../services/writeProfile';
+import { getMe } from '../selectors/conversations';
 
 import { NoopActionType } from './noop';
 
@@ -72,10 +79,14 @@ export type ConversationType = {
   uuid?: string;
   e164?: string;
   name?: string;
+  familyName?: string;
   firstName?: string;
   profileName?: string;
   about?: string;
+  aboutText?: string;
+  aboutEmoji?: string;
   avatarPath?: string;
+  avatarHash?: string;
   unblurredAvatarPath?: string;
   areWeAdmin?: boolean;
   areWePending?: boolean;
@@ -157,7 +168,12 @@ export type ConversationType = {
   secretParams?: string;
   publicParams?: string;
   acknowledgedGroupNameCollisions?: GroupNameCollisionsWithIdsByTitle;
+  profileKey?: string;
 };
+export type ProfileDataType = {
+  firstName: string;
+} & Pick<ConversationType, 'aboutEmoji' | 'aboutText' | 'familyName'>;
+
 export type ConversationLookupType = {
   [key: string]: ConversationType;
 };
@@ -673,6 +689,7 @@ export const actions = {
   messagesAdded,
   messageSizeChanged,
   messagesReset,
+  myProfileChanged,
   openConversationExternal,
   openConversationInternal,
   removeAllConversations,
@@ -703,6 +720,41 @@ export const actions = {
   startSettingGroupMetadata,
   toggleConversationInChooseMembers,
 };
+
+function myProfileChanged(
+  profileData: ProfileDataType,
+  avatarData?: ArrayBuffer
+): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  NoopActionType | ToggleProfileEditorErrorActionType
+> {
+  return async (dispatch, getState) => {
+    const conversation = getMe(getState());
+
+    try {
+      await writeProfile(
+        {
+          ...conversation,
+          ...profileData,
+        },
+        avatarData
+      );
+
+      // writeProfile above updates the backbone model which in turn updates
+      // redux through it's on:change event listener. Once we lose Backbone
+      // we'll need to manually sync these new changes.
+      dispatch({
+        type: 'NOOP',
+        payload: null,
+      });
+    } catch (err) {
+      log.error('myProfileChanged', err && err.stack ? err.stack : err);
+      dispatch({ type: TOGGLE_PROFILE_EDITOR_ERROR });
+    }
+  };
+}
 
 function removeCustomColorOnConversations(
   colorId: string

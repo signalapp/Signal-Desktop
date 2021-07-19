@@ -6,10 +6,13 @@ import classNames from 'classnames';
 import { get, noop } from 'lodash';
 import { Manager, Popper, Reference } from 'react-popper';
 import { createPortal } from 'react-dom';
+import { Emoji } from './Emoji';
 import { EmojiPicker, Props as EmojiPickerProps } from './EmojiPicker';
 import { LocalizerType } from '../../types/Util';
 
 export type OwnProps = {
+  readonly closeOnPick?: boolean;
+  readonly emoji?: string;
   readonly i18n: LocalizerType;
   readonly onClose?: () => unknown;
 };
@@ -22,6 +25,8 @@ export type Props = OwnProps &
 
 export const EmojiButton = React.memo(
   ({
+    closeOnPick,
+    emoji,
     i18n,
     doSend,
     onClose,
@@ -114,9 +119,12 @@ export const EmojiButton = React.memo(
               className={classNames({
                 'module-emoji-button__button': true,
                 'module-emoji-button__button--active': open,
+                'module-emoji-button__button--has-emoji': Boolean(emoji),
               })}
               aria-label={i18n('EmojiButton__label')}
-            />
+            >
+              {emoji && <Emoji emoji={emoji} size={24} />}
+            </button>
           )}
         </Reference>
         {open && popperRoot
@@ -127,7 +135,12 @@ export const EmojiButton = React.memo(
                     ref={ref}
                     i18n={i18n}
                     style={style}
-                    onPickEmoji={onPickEmoji}
+                    onPickEmoji={ev => {
+                      onPickEmoji(ev);
+                      if (closeOnPick) {
+                        handleClose();
+                      }
+                    }}
                     doSend={doSend}
                     onClose={handleClose}
                     skinTone={skinTone}

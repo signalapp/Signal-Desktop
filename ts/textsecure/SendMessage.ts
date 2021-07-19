@@ -20,12 +20,14 @@ import { assert } from '../util/assert';
 import { parseIntOrThrow } from '../util/parseIntOrThrow';
 import { SenderKeys } from '../LibSignalStores';
 import {
+  ChallengeType,
   GroupCredentialsType,
   GroupLogResponseType,
-  ProxiedRequestOptionsType,
-  ChallengeType,
-  WebAPIType,
   MultiRecipient200ResponseType,
+  ProfileRequestDataType,
+  ProxiedRequestOptionsType,
+  UploadAvatarHeadersType,
+  WebAPIType,
 } from './WebAPI';
 import createTaskWithTimeout from './TaskWithTimeout';
 import OutgoingMessage, {
@@ -2183,5 +2185,18 @@ export default class MessageSender {
     challengeResponse: ChallengeType
   ): Promise<void> {
     return this.server.sendChallengeResponse(challengeResponse);
+  }
+
+  async putProfile(
+    jsonData: ProfileRequestDataType
+  ): Promise<UploadAvatarHeadersType | undefined> {
+    return this.server.putProfile(jsonData);
+  }
+
+  async uploadAvatar(
+    requestHeaders: UploadAvatarHeadersType,
+    avatarData: ArrayBuffer
+  ): Promise<string> {
+    return this.server.uploadAvatar(requestHeaders, avatarData);
   }
 }

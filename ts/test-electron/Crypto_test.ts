@@ -5,7 +5,7 @@ import { assert } from 'chai';
 
 import * as Curve from '../Curve';
 import * as Crypto from '../Crypto';
-import TSCrypto from '../textsecure/Crypto';
+import TSCrypto, { PaddedLengths } from '../textsecure/Crypto';
 
 describe('Crypto', () => {
   describe('encrypting and decrypting profile data', () => {
@@ -16,8 +16,12 @@ describe('Crypto', () => {
         const buffer = Crypto.bytesFromString(name);
         const key = Crypto.getRandomBytes(32);
 
-        const encrypted = await TSCrypto.encryptProfileName(buffer, key);
-        assert(encrypted.byteLength === NAME_PADDED_LENGTH + 16 + 12);
+        const encrypted = await TSCrypto.encryptProfileItemWithPadding(
+          buffer,
+          key,
+          PaddedLengths.Name
+        );
+        assert.equal(encrypted.byteLength, NAME_PADDED_LENGTH + 16 + 12);
 
         const { given, family } = await TSCrypto.decryptProfileName(
           Crypto.arrayBufferToBase64(encrypted),
@@ -32,8 +36,12 @@ describe('Crypto', () => {
         const buffer = Crypto.bytesFromString(name);
         const key = Crypto.getRandomBytes(32);
 
-        const encrypted = await TSCrypto.encryptProfileName(buffer, key);
-        assert(encrypted.byteLength === NAME_PADDED_LENGTH + 16 + 12);
+        const encrypted = await TSCrypto.encryptProfileItemWithPadding(
+          buffer,
+          key,
+          PaddedLengths.Name
+        );
+        assert.equal(encrypted.byteLength, NAME_PADDED_LENGTH + 16 + 12);
         const { given, family } = await TSCrypto.decryptProfileName(
           Crypto.arrayBufferToBase64(encrypted),
           key
@@ -49,8 +57,12 @@ describe('Crypto', () => {
         const buffer = Crypto.bytesFromString(name);
         const key = Crypto.getRandomBytes(32);
 
-        const encrypted = await TSCrypto.encryptProfileName(buffer, key);
-        assert(encrypted.byteLength === NAME_PADDED_LENGTH + 16 + 12);
+        const encrypted = await TSCrypto.encryptProfileItemWithPadding(
+          buffer,
+          key,
+          PaddedLengths.Name
+        );
+        assert.equal(encrypted.byteLength, NAME_PADDED_LENGTH + 16 + 12);
         const { given, family } = await TSCrypto.decryptProfileName(
           Crypto.arrayBufferToBase64(encrypted),
           key
@@ -70,8 +82,12 @@ describe('Crypto', () => {
         const buffer = Crypto.bytesFromString(name);
         const key = Crypto.getRandomBytes(32);
 
-        const encrypted = await TSCrypto.encryptProfileName(buffer, key);
-        assert(encrypted.byteLength === NAME_PADDED_LENGTH + 16 + 12);
+        const encrypted = await TSCrypto.encryptProfileItemWithPadding(
+          buffer,
+          key,
+          PaddedLengths.Name
+        );
+        assert.equal(encrypted.byteLength, NAME_PADDED_LENGTH + 16 + 12);
         const { given, family } = await TSCrypto.decryptProfileName(
           Crypto.arrayBufferToBase64(encrypted),
           key
@@ -84,8 +100,12 @@ describe('Crypto', () => {
         const name = Crypto.bytesFromString('');
         const key = Crypto.getRandomBytes(32);
 
-        const encrypted = await TSCrypto.encryptProfileName(name, key);
-        assert(encrypted.byteLength === NAME_PADDED_LENGTH + 16 + 12);
+        const encrypted = await TSCrypto.encryptProfileItemWithPadding(
+          name,
+          key,
+          PaddedLengths.Name
+        );
+        assert.equal(encrypted.byteLength, NAME_PADDED_LENGTH + 16 + 12);
 
         const { given, family } = await TSCrypto.decryptProfileName(
           Crypto.arrayBufferToBase64(encrypted),

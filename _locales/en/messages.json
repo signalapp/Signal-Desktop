@@ -5161,6 +5161,10 @@
     "message": "Add a group photo",
     "description": "The label for the avatar uploader when no group photo is selected"
   },
+  "AvatarInput--no-photo-label--profile": {
+    "message": "Add a photo",
+    "description": "The label for the avatar uploader when no profile photo is selected"
+  },
   "AvatarInput--change-photo-label": {
     "message": "Change photo",
     "description": "The label for the avatar uploader when a photo is selected"
@@ -5642,5 +5646,75 @@
   "MediaQualitySelector--high-quality-description": {
     "message": "Slower, more data",
     "description": "Description of high quality selector"
+  },
+  "ProfileEditor--about": {
+    "message": "About",
+    "description": "Default text for about field"
+  },
+  "ProfileEditor--about-placeholder": {
+    "message": "Write something about yourself...",
+    "description": "Placeholder text for about input field"
+  },
+  "ProfileEditor--first-name": {
+    "message": "First Name (Required)",
+    "description": "Placeholder text for first name field"
+  },
+  "ProfileEditor--last-name": {
+    "message": "Last Name (Optional)",
+    "description": "Placeholder text for last name field"
+  },
+  "ProfileEditor--discard": {
+    "message": "Would you like to discard these changes?",
+    "description": "ConfirmationDialog text for discarding changes"
+  },
+  "ProfileEditor--info": {
+    "message": "Your profile is encrypted. Your profile and changes to it will be visible to your contacts and when you start or accept new chats. $learnMore$",
+    "description": "Information shown at the bottom of the profile editor section",
+    "placeholders": {
+      "learnMore": {
+        "content": "$1",
+        "example": "Learn More."
+      }
+    }
+  },
+  "ProfileEditor--learnMore": {
+    "message": "Learn More",
+    "description": "Text that links to a support article"
+  },
+  "Bio--speak-freely": {
+    "message": "Speak Freely",
+    "description": "A default bio option"
+  },
+  "Bio--encrypted": {
+    "message": "Encrypted",
+    "description": "A default bio option"
+  },
+  "Bio--free-to-chat": {
+    "message": "Free to chat",
+    "description": "A default bio option"
+  },
+  "Bio--coffee-lover": {
+    "message": "Coffee lover",
+    "description": "A default bio option"
+  },
+  "Bio--taking-break": {
+    "message": "Taking a break",
+    "description": "A default bio option"
+  },
+  "ProfileEditorModal--profile": {
+    "message": "Profile",
+    "description": "Title for profile editing"
+  },
+  "ProfileEditorModal--name": {
+    "message": "Your Name",
+    "description": "Title for editing your name"
+  },
+  "ProfileEditorModal--about": {
+    "message": "About",
+    "description": "Title for about editing"
+  },
+  "ProfileEditorModal--error": {
+    "message": "Your profile could not be updated. Please try again.",
+    "description": "Error message when something goes wrong updating your profile."
   }
 }

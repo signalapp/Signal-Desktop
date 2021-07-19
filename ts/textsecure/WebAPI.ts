@@ -920,6 +920,29 @@ export type GroupLogResponseType = {
   changes: Proto.GroupChanges;
 };
 
+export type ProfileRequestDataType = {
+  about: string | null;
+  aboutEmoji: string | null;
+  avatar: boolean;
+  commitment: string;
+  name: string;
+  paymentAddress: string | null;
+  version: string;
+};
+
+const uploadAvatarHeadersZod = z
+  .object({
+    acl: z.string(),
+    algorithm: z.string(),
+    credential: z.string(),
+    date: z.string(),
+    key: z.string(),
+    policy: z.string(),
+    signature: z.string(),
+  })
+  .passthrough();
+export type UploadAvatarHeadersType = z.infer<typeof uploadAvatarHeadersZod>;
+
 export type WebAPIType = {
   confirmCode: (
     number: string,
@@ -1017,6 +1040,9 @@ export type WebAPIType = {
   ) => Promise<Proto.IGroupChange>;
   modifyStorageRecords: MessageSender['modifyStorageRecords'];
   putAttachment: (encryptedBin: ArrayBuffer) => Promise<any>;
+  putProfile: (
+    jsonData: ProfileRequestDataType
+  ) => Promise<UploadAvatarHeadersType | undefined>;
   registerCapabilities: (capabilities: CapabilitiesUploadType) => Promise<void>;
   putStickers: (
     encryptedManifest: ArrayBuffer,
@@ -1050,6 +1076,10 @@ export type WebAPIType = {
   ) => Promise<MultiRecipient200ResponseType>;
   setSignedPreKey: (signedPreKey: SignedPreKeyType) => Promise<void>;
   updateDeviceName: (deviceName: string) => Promise<void>;
+  uploadAvatar: (
+    uploadAvatarRequestHeaders: UploadAvatarHeadersType,
+    avatarData: ArrayBuffer
+  ) => Promise<string>;
   uploadGroupAvatar: (
     avatarData: Uint8Array,
     options: GroupCredentialsType
@@ -1209,6 +1239,7 @@ export function initialize({
       modifyGroup,
       modifyStorageRecords,
       putAttachment,
+      putProfile,
       putStickers,
       registerCapabilities,
       registerKeys,
@@ -1222,6 +1253,7 @@ export function initialize({
       sendWithSenderKey,
       setSignedPreKey,
       updateDeviceName,
+      uploadAvatar,
       uploadGroupAvatar,
       whoami,
       sendChallengeResponse,
@@ -1422,6 +1454,23 @@ export function initialize({
           profileKeyCredentialRequest
         ),
       });
+    }
+
+    async function putProfile(
+      jsonData: ProfileRequestDataType
+    ): Promise<UploadAvatarHeadersType | undefined> {
+      const res = await _ajax({
+        call: 'profile',
+        httpType: 'PUT',
+        jsonData,
+      });
+
+      if (!res) {
+        return;
+      }
+
+      const parsed = JSON.parse(res);
+      return uploadAvatarHeadersZod.parse(parsed);
     }
 
     async function getProfileUnauth(
@@ -2193,6 +2242,27 @@ export function initialize({
         policy,
         signature,
       };
+    }
+
+    async function uploadAvatar(
+      uploadAvatarRequestHeaders: UploadAvatarHeadersType,
+      avatarData: ArrayBuffer
+    ): Promise<string> {
+      const verified = verifyAttributes(uploadAvatarRequestHeaders);
+      const { key } = verified;
+
+      const manifestParams = makePutParams(verified, avatarData);
+
+      await _outerAjax(`${cdnUrlObject['0']}/`, {
+        ...manifestParams,
+        certificateAuthority,
+        proxyUrl,
+        timeout: 0,
+        type: 'POST',
+        version,
+      });
+
+      return key;
     }
 
     async function uploadGroupAvatar(

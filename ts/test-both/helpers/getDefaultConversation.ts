@@ -311,8 +311,8 @@ const LAST_NAMES = [
   'Jimenez',
 ];
 
-const getFirstName = (): string => sample(FIRST_NAMES) || 'Test';
-const getLastName = (): string => sample(LAST_NAMES) || 'Test';
+export const getFirstName = (): string => sample(FIRST_NAMES) || 'Test';
+export const getLastName = (): string => sample(LAST_NAMES) || 'Test';
 
 export function getDefaultConversation(
   overrideProps: Partial<ConversationType> = {}
