@@ -10,7 +10,6 @@ import { Avatar } from '../Avatar';
 import { ContactName } from './ContactName';
 import {
   Message,
-  MessageStatusType,
   Props as MessagePropsType,
   PropsData as MessagePropsDataType,
 } from './Message';
@@ -18,6 +17,7 @@ import { LocalizerType } from '../../types/Util';
 import { ConversationType } from '../../state/ducks/conversations';
 import { assert } from '../../util/assert';
 import { ContactNameColorType } from '../../types/Colors';
+import { SendStatus } from '../../messages/MessageSendState';
 
 export type Contact = Pick<
   ConversationType,
@@ -33,7 +33,7 @@ export type Contact = Pick<
   | 'title'
   | 'unblurredAvatarPath'
 > & {
-  status: MessageStatusType | null;
+  status: SendStatus | null;
 
   isOutgoingKeyError: boolean;
   isUnidentifiedDelivery: boolean;

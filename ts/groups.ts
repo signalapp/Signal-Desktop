@@ -2314,9 +2314,7 @@ export async function wrapWithSyncMessageSend({
       encodedDataMessage: dataMessage,
       expirationStartTimestamp: null,
       options,
-      sentTo: [],
       timestamp,
-      unidentifiedDeliveries: [],
     }),
     { messageIds, sendType }
   );

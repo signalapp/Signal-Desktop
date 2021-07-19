@@ -9,6 +9,7 @@ import { storiesOf } from '@storybook/react';
 
 import { PropsData as MessageDataPropsType } from './Message';
 import { MessageDetail, Props } from './MessageDetail';
+import { SendStatus } from '../../messages/MessageSendState';
 import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
 import { setup as setupI18n } from '../../../js/modules/i18n';
 import enMessages from '../../../_locales/en/messages.json';
@@ -48,7 +49,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
       }),
       isOutgoingKeyError: false,
       isUnidentifiedDelivery: false,
-      status: 'delivered',
+      status: SendStatus.Delivered,
     },
   ],
   errors: overrideProps.errors || [],
@@ -116,7 +117,7 @@ story.add('Message Statuses', () => {
         }),
         isOutgoingKeyError: false,
         isUnidentifiedDelivery: false,
-        status: 'sent',
+        status: SendStatus.Sent,
       },
       {
         ...getDefaultConversation({
@@ -125,7 +126,7 @@ story.add('Message Statuses', () => {
         }),
         isOutgoingKeyError: false,
         isUnidentifiedDelivery: false,
-        status: 'sending',
+        status: SendStatus.Pending,
       },
       {
         ...getDefaultConversation({
@@ -134,7 +135,7 @@ story.add('Message Statuses', () => {
         }),
         isOutgoingKeyError: false,
         isUnidentifiedDelivery: false,
-        status: 'partial-sent',
+        status: SendStatus.Failed,
       },
       {
         ...getDefaultConversation({
@@ -143,7 +144,7 @@ story.add('Message Statuses', () => {
         }),
         isOutgoingKeyError: false,
         isUnidentifiedDelivery: false,
-        status: 'delivered',
+        status: SendStatus.Delivered,
       },
       {
         ...getDefaultConversation({
@@ -152,7 +153,7 @@ story.add('Message Statuses', () => {
         }),
         isOutgoingKeyError: false,
         isUnidentifiedDelivery: false,
-        status: 'read',
+        status: SendStatus.Read,
       },
     ],
     message: {
@@ -209,7 +210,7 @@ story.add('All Errors', () => {
         }),
         isOutgoingKeyError: true,
         isUnidentifiedDelivery: false,
-        status: 'error',
+        status: SendStatus.Failed,
       },
       {
         ...getDefaultConversation({
@@ -224,7 +225,7 @@ story.add('All Errors', () => {
         ],
         isOutgoingKeyError: false,
         isUnidentifiedDelivery: true,
-        status: 'error',
+        status: SendStatus.Failed,
       },
       {
         ...getDefaultConversation({
@@ -233,7 +234,7 @@ story.add('All Errors', () => {
         }),
         isOutgoingKeyError: true,
         isUnidentifiedDelivery: true,
-        status: 'error',
+        status: SendStatus.Failed,
       },
     ],
   });

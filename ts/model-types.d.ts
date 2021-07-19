@@ -15,6 +15,10 @@ import { MessageModel } from './models/messages';
 import { ConversationModel } from './models/conversations';
 import { ProfileNameChangeType } from './util/getStringForProfileChange';
 import { CapabilitiesType } from './textsecure/WebAPI';
+import {
+  SendState,
+  SendStateByConversationId,
+} from './messages/MessageSendState';
 import { GroupNameCollisionsWithIdsByTitle } from './util/groupMemberNameCollisions';
 import { ConversationColorType } from './types/Colors';
 import { AttachmentType, ThumbnailType } from './types/Attachment';
@@ -87,8 +91,6 @@ export type MessageAttributesType = {
   decrypted_at?: number;
   deletedForEveryone?: boolean;
   deletedForEveryoneTimestamp?: number;
-  delivered?: number;
-  delivered_to?: Array<string | null>;
   errors?: Array<CustomError>;
   expirationStartTimestamp?: number | null;
   expireTimer?: number;
@@ -114,10 +116,8 @@ export type MessageAttributesType = {
     targetTimestamp: number;
     timestamp: number;
   }>;
-  read_by?: Array<string | null>;
   requiredProtocolVersion?: number;
   retryOptions?: RetryOptions;
-  sent?: boolean;
   sourceDevice?: string | number;
   supportedVersionAtReceive?: unknown;
   synced?: boolean;
@@ -151,14 +151,10 @@ export type MessageAttributesType = {
     data?: AttachmentType;
   };
   sent_at: number;
-  sent_to?: Array<string>;
   unidentifiedDeliveries?: Array<string>;
   contact?: Array<ContactType>;
   conversationId: string;
-  recipients?: Array<string>;
   reaction?: WhatIsThis;
-  destination?: WhatIsThis;
-  destinationUuid?: string;
 
   expirationTimerUpdate?: {
     expireTimer: number;
@@ -191,6 +187,9 @@ export type MessageAttributesType = {
   droppedGV2MemberIds?: Array<string>;
 
   sendHQImages?: boolean;
+
+  // Should only be present for outgoing messages
+  sendStateByConversationId?: SendStateByConversationId;
 };
 
 export type ConversationAttributesTypeType = 'private' | 'group';

@@ -3,7 +3,7 @@
 
 /* eslint-disable max-classes-per-file */
 
-import { union } from 'lodash';
+import { isEqual } from 'lodash';
 import { Collection, Model } from 'backbone';
 
 import { ConversationModel } from '../models/conversations';
@@ -11,6 +11,8 @@ import { MessageModel } from '../models/messages';
 import { MessageModelCollectionType } from '../model-types.d';
 import { isIncoming } from '../state/selectors/message';
 import { isDirectConversation } from '../util/whatTypeOfConversation';
+import { getOwn } from '../util/getOwn';
+import { SendActionType, sendStateReducer } from '../messages/MessageSendState';
 import dataInterface from '../sql/Client';
 
 const { deleteSentProtoRecipient } = dataInterface;
@@ -105,27 +107,45 @@ export class DeliveryReceipts extends Collection<DeliveryReceiptModel> {
         return;
       }
 
-      const deliveries = message.get('delivered') || 0;
-      const originalDeliveredTo = message.get('delivered_to') || [];
-      const expirationStartTimestamp = message.get('expirationStartTimestamp');
-      message.set({
-        delivered_to: union(originalDeliveredTo, [deliveredTo]),
-        delivered: deliveries + 1,
-        expirationStartTimestamp: expirationStartTimestamp || Date.now(),
-        sent: true,
-      });
+      const oldSendStateByConversationId =
+        message.get('sendStateByConversationId') || {};
+      const oldSendState = getOwn(oldSendStateByConversationId, deliveredTo);
+      if (oldSendState) {
+        const newSendState = sendStateReducer(oldSendState, {
+          type: SendActionType.GotDeliveryReceipt,
+          updatedAt: timestamp,
+        });
 
-      window.Signal.Util.queueUpdateMessage(message.attributes);
+        // The send state may not change. This can happen if the message was marked read
+        //   before we got the delivery receipt, or if we got double delivery receipts, or
+        //   things like that.
+        if (!isEqual(oldSendState, newSendState)) {
+          message.set('sendStateByConversationId', {
+            ...oldSendStateByConversationId,
+            [deliveredTo]: newSendState,
+          });
 
-      // notify frontend listeners
-      const conversation = window.ConversationController.get(
-        message.get('conversationId')
-      );
-      const updateLeftPane = conversation
-        ? conversation.debouncedUpdateLastMessage
-        : undefined;
-      if (updateLeftPane) {
-        updateLeftPane();
+          window.Signal.Util.queueUpdateMessage(message.attributes);
+
+          // notify frontend listeners
+          const conversation = window.ConversationController.get(
+            message.get('conversationId')
+          );
+          const updateLeftPane = conversation
+            ? conversation.debouncedUpdateLastMessage
+            : undefined;
+          if (updateLeftPane) {
+            updateLeftPane();
+          }
+        }
+      } else {
+        window.log.warn(
+          `Got a delivery receipt from someone (${deliveredTo}), but the message (sent at ${message.get(
+            'sent_at'
+          )}) wasn't sent to them. It was sent to ${
+            Object.keys(oldSendStateByConversationId).length
+          } recipients`
+        );
       }
 
       const unidentifiedLookup = (

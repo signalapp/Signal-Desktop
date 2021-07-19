@@ -3,6 +3,7 @@
 
 /* eslint-disable max-classes-per-file */
 
+import { isEqual } from 'lodash';
 import { Collection, Model } from 'backbone';
 
 import { ConversationModel } from '../models/conversations';
@@ -10,6 +11,8 @@ import { MessageModel } from '../models/messages';
 import { MessageModelCollectionType } from '../model-types.d';
 import { isOutgoing } from '../state/selectors/message';
 import { isDirectConversation } from '../util/whatTypeOfConversation';
+import { getOwn } from '../util/getOwn';
+import { SendActionType, sendStateReducer } from '../messages/MessageSendState';
 import dataInterface from '../sql/Client';
 
 const { deleteSentProtoRecipient } = dataInterface;
@@ -106,27 +109,45 @@ export class ReadReceipts extends Collection<ReadReceiptModel> {
         return;
       }
 
-      const readBy = message.get('read_by') || [];
-      const expirationStartTimestamp = message.get('expirationStartTimestamp');
+      const oldSendStateByConversationId =
+        message.get('sendStateByConversationId') || {};
+      const oldSendState = getOwn(oldSendStateByConversationId, reader);
+      if (oldSendState) {
+        const newSendState = sendStateReducer(oldSendState, {
+          type: SendActionType.GotReadReceipt,
+          updatedAt: timestamp,
+        });
 
-      readBy.push(reader);
-      message.set({
-        read_by: readBy,
-        expirationStartTimestamp: expirationStartTimestamp || Date.now(),
-        sent: true,
-      });
+        // The send state may not change. This can happen if we get read receipts after
+        //   we get viewed receipts, or if we get double read receipts, or things like
+        //   that.
+        if (!isEqual(oldSendState, newSendState)) {
+          message.set('sendStateByConversationId', {
+            ...oldSendStateByConversationId,
+            [reader]: newSendState,
+          });
 
-      window.Signal.Util.queueUpdateMessage(message.attributes);
+          window.Signal.Util.queueUpdateMessage(message.attributes);
 
-      // notify frontend listeners
-      const conversation = window.ConversationController.get(
-        message.get('conversationId')
-      );
-      const updateLeftPane = conversation
-        ? conversation.debouncedUpdateLastMessage
-        : undefined;
-      if (updateLeftPane) {
-        updateLeftPane();
+          // notify frontend listeners
+          const conversation = window.ConversationController.get(
+            message.get('conversationId')
+          );
+          const updateLeftPane = conversation
+            ? conversation.debouncedUpdateLastMessage
+            : undefined;
+          if (updateLeftPane) {
+            updateLeftPane();
+          }
+        }
+      } else {
+        window.log.warn(
+          `Got a read receipt from someone (${reader}), but the message (sent at ${message.get(
+            'sent_at'
+          )}) wasn't sent to them. It was sent to ${
+            Object.keys(oldSendStateByConversationId).length
+          } recipients`
+        );
       }
 
       const deviceId = receipt.get('readerDevice');

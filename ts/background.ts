@@ -75,6 +75,10 @@ import { Reactions } from './messageModifiers/Reactions';
 import { ReadReceipts } from './messageModifiers/ReadReceipts';
 import { ReadSyncs } from './messageModifiers/ReadSyncs';
 import { ViewSyncs } from './messageModifiers/ViewSyncs';
+import {
+  SendStateByConversationId,
+  SendStatus,
+} from './messages/MessageSendState';
 import * as AttachmentDownloads from './messageModifiers/AttachmentDownloads';
 import {
   SystemTraySetting,
@@ -3199,15 +3203,39 @@ export async function startApp(): Promise<void> {
     const now = Date.now();
     const timestamp = data.timestamp || now;
 
+    const ourId = window.ConversationController.getOurConversationIdOrThrow();
+
     const { unidentifiedStatus = [] } = data;
-    let sentTo: Array<string> = [];
+
+    const sendStateByConversationId: SendStateByConversationId = unidentifiedStatus.reduce(
+      (result: SendStateByConversationId, { destinationUuid, destination }) => {
+        const conversationId = window.ConversationController.ensureContactIds({
+          uuid: destinationUuid,
+          e164: destination,
+          highTrust: true,
+        });
+        if (!conversationId || conversationId === ourId) {
+          return result;
+        }
+
+        return {
+          ...result,
+          [conversationId]: {
+            status: SendStatus.Pending,
+            updatedAt: timestamp,
+          },
+        };
+      },
+      {
+        [ourId]: {
+          status: SendStatus.Sent,
+          updatedAt: timestamp,
+        },
+      }
+    );
 
     let unidentifiedDeliveries: Array<string> = [];
     if (unidentifiedStatus.length) {
-      sentTo = unidentifiedStatus
-        .map(item => item.destinationUuid || item.destination)
-        .filter(isNotNil);
-
       const unidentified = window._.filter(data.unidentifiedStatus, item =>
         Boolean(item.unidentified)
       );
@@ -3222,13 +3250,12 @@ export async function startApp(): Promise<void> {
       sourceDevice: data.device,
       sent_at: timestamp,
       serverTimestamp: data.serverTimestamp,
-      sent_to: sentTo,
       received_at: data.receivedAtCounter,
       received_at_ms: data.receivedAtDate,
       conversationId: descriptor.id,
       timestamp,
       type: 'outgoing',
-      sent: true,
+      sendStateByConversationId,
       unidentifiedDeliveries,
       expirationStartTimestamp: Math.min(
         data.expirationStartTimestamp || timestamp,

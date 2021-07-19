@@ -3206,7 +3206,7 @@ button.module-conversation-details__action-button {
   margin-bottom: 2px;
 }
 
-.module-message-detail__contact__status-icon--sending {
+.module-message-detail__contact__status-icon--Pending {
   animation: module-message-detail__contact__status-icon--spinning 4s linear
     infinite;
 
@@ -3225,7 +3225,7 @@ button.module-conversation-details__action-button {
   }
 }
 
-.module-message-detail__contact__status-icon--sent {
+.module-message-detail__contact__status-icon--Sent {
   @include light-theme {
     @include color-svg('../images/check-circle-outline.svg', $color-gray-60);
   }
@@ -3233,7 +3233,7 @@ button.module-conversation-details__action-button {
     @include color-svg('../images/check-circle-outline.svg', $color-gray-25);
   }
 }
-.module-message-detail__contact__status-icon--delivered {
+.module-message-detail__contact__status-icon--Delivered {
   width: 18px;
 
   @include light-theme {
@@ -3243,7 +3243,8 @@ button.module-conversation-details__action-button {
     @include color-svg('../images/double-check.svg', $color-gray-25);
   }
 }
-.module-message-detail__contact__status-icon--read {
+.module-message-detail__contact__status-icon--Read,
+.module-message-detail__contact__status-icon--Viewed {
   width: 18px;
 
   @include light-theme {
@@ -3253,7 +3254,7 @@ button.module-conversation-details__action-button {
     @include color-svg('../images/read.svg', $color-gray-25);
   }
 }
-.module-message-detail__contact__status-icon--error {
+.module-message-detail__contact__status-icon--Failed {
   @include light-theme {
     @include color-svg(
       '../images/icons/v2/error-outline-12.svg',
