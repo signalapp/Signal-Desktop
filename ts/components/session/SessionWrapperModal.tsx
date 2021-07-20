@@ -2,12 +2,11 @@ import React, { useEffect, useRef } from 'react';
 import classNames from 'classnames';
 
 import { SessionIconButton, SessionIconSize, SessionIconType } from './icon/';
-import { SessionButton, SessionButtonColor, SessionButtonType } from './SessionButton';
-import { DefaultTheme, useTheme } from 'styled-components';
+import { SessionButton } from './SessionButton';
+import { useTheme } from 'styled-components';
 
 // tslint:disable-next-line: no-submodule-imports
 import useKey from 'react-use/lib/useKey';
-import { nodeName } from 'jquery';
 
 export type SessionWrapperModalType = {
   title?: string;
@@ -69,10 +68,8 @@ export const SessionWrapperModal = (props: SessionWrapperModalType) => {
   }
 
   useEffect(() => {
-    // on mount
     document.addEventListener("mousedown", handleClick);
 
-    // unmount
     return () => {
       document.removeEventListener("mousedown", handleClick);
     }
