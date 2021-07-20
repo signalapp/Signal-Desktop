@@ -325,17 +325,18 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
       return window.ConversationController.getConversationId(identifier);
     });
-    const finalContacts: Array<SmartMessageDetailContact> = conversationIds.map(
-      (id: string): SmartMessageDetailContact => {
-        const errorsForContact = errorsGroupedById[id];
+
+    const contacts: ReadonlyArray<SmartMessageDetailContact> = conversationIds.map(
+      id => {
+        const errorsForContact = getOwn(errorsGroupedById, id);
         const isOutgoingKeyError = Boolean(
-          _.find(errorsForContact, error => error.name === OUTGOING_KEY_ERROR)
+          errorsForContact?.some(error => error.name === OUTGOING_KEY_ERROR)
         );
         const isUnidentifiedDelivery =
           window.storage.get('unidentifiedDeliveryIndicators', false) &&
           this.isUnidentifiedDelivery(id, unidentifiedDeliveriesSet);
 
-        let status = getOwn(sendStateByConversationId, id)?.status || null;
+        let status = getOwn(sendStateByConversationId, id)?.status;
 
         // If a message was only sent to yourself (Note to Self or a lonely group), it
         //   is shown read.
@@ -350,27 +351,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           isOutgoingKeyError,
           isUnidentifiedDelivery,
         };
-      }
-    );
-    // The prefix created here ensures that contacts with errors are listed
-    //   first; otherwise it's alphabetical
-    const collator = new Intl.Collator();
-    const sortedContacts: Array<SmartMessageDetailContact> = finalContacts.sort(
-      (
-        left: SmartMessageDetailContact,
-        right: SmartMessageDetailContact
-      ): number => {
-        const leftErrors = Boolean(left.errors && left.errors.length);
-        const rightErrors = Boolean(right.errors && right.errors.length);
-
-        if (leftErrors && !rightErrors) {
-          return -1;
-        }
-        if (!leftErrors && rightErrors) {
-          return 1;
-        }
-
-        return collator.compare(left.title, right.title);
       }
     );
 
@@ -394,7 +374,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         }
       ),
       errors,
-      contacts: sortedContacts,
+      contacts,
     };
   }
 

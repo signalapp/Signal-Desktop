@@ -1,12 +1,12 @@
 // Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import React, { ReactChild, ReactNode } from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
 import { noop } from 'lodash';
 
-import { Avatar } from '../Avatar';
+import { Avatar, AvatarSize } from '../Avatar';
 import { ContactName } from './ContactName';
 import {
   Message,
@@ -16,6 +16,7 @@ import {
 import { LocalizerType } from '../../types/Util';
 import { ConversationType } from '../../state/ducks/conversations';
 import { assert } from '../../util/assert';
+import { groupBy } from '../../util/mapUtil';
 import { ContactNameColorType } from '../../types/Colors';
 import { SendStatus } from '../../messages/MessageSendState';
 
@@ -33,7 +34,7 @@ export type Contact = Pick<
   | 'title'
   | 'unblurredAvatarPath'
 > & {
-  status: SendStatus | null;
+  status?: SendStatus;
 
   isOutgoingKeyError: boolean;
   isUnidentifiedDelivery: boolean;
@@ -42,7 +43,11 @@ export type Contact = Pick<
 };
 
 export type Props = {
-  contacts: Array<Contact>;
+  // An undefined status means they were the sender and it's an incoming message. If
+  //   `undefined` is a status, there should be no other items in the array; if there are
+  //   any defined statuses, `undefined` shouldn't be present.
+  contacts: ReadonlyArray<Contact>;
+
   contactNameColor?: ContactNameColorType;
   errors: Array<Error>;
   message: Omit<MessagePropsDataType, 'renderingContext'>;
@@ -78,6 +83,8 @@ export type Props = {
   | 'showForwardMessageModal'
   | 'showVisualAttachment'
 >;
+
+const contactSortCollator = new Intl.Collator();
 
 const _keyForError = (error: Error): string => {
   return `${error.name}-${error.message}`;
@@ -124,7 +131,7 @@ export class MessageDetail extends React.Component<Props> {
         profileName={profileName}
         title={title}
         sharedGroupNames={sharedGroupNames}
-        size={52}
+        size={AvatarSize.THIRTY_SIX}
         unblurredAvatarPath={unblurredAvatarPath}
       />
     );
@@ -152,22 +159,12 @@ export class MessageDetail extends React.Component<Props> {
         </button>
       </div>
     ) : null;
-    const statusComponent = !contact.isOutgoingKeyError ? (
-      <div
-        className={classNames(
-          'module-message-detail__contact__status-icon',
-          contact.status
-            ? `module-message-detail__contact__status-icon--${contact.status}`
-            : undefined
-        )}
-      />
-    ) : null;
     const unidentifiedDeliveryComponent = contact.isUnidentifiedDelivery ? (
       <div className="module-message-detail__contact__unidentified-delivery-icon" />
     ) : null;
 
     return (
-      <div key={contact.phoneNumber} className="module-message-detail__contact">
+      <div key={contact.id} className="module-message-detail__contact">
         {this.renderAvatar(contact)}
         <div className="module-message-detail__contact__text">
           <div className="module-message-detail__contact__name">
@@ -190,21 +187,65 @@ export class MessageDetail extends React.Component<Props> {
         </div>
         {errorComponent}
         {unidentifiedDeliveryComponent}
-        {statusComponent}
       </div>
     );
   }
 
-  public renderContacts(): JSX.Element | null {
-    const { contacts } = this.props;
-
+  private renderContactGroup(
+    sendStatus: undefined | SendStatus,
+    contacts: undefined | ReadonlyArray<Contact>
+  ): ReactNode {
+    const { i18n } = this.props;
     if (!contacts || !contacts.length) {
       return null;
     }
 
+    const i18nKey =
+      sendStatus === undefined ? 'from' : `MessageDetailsHeader--${sendStatus}`;
+
+    const sortedContacts = [...contacts].sort((a, b) =>
+      contactSortCollator.compare(a.title, b.title)
+    );
+
+    return (
+      <div key={i18nKey} className="module-message-detail__contact-group">
+        <div
+          className={classNames(
+            'module-message-detail__contact-group__header',
+            sendStatus &&
+              `module-message-detail__contact-group__header--${sendStatus}`
+          )}
+        >
+          {i18n(i18nKey)}
+        </div>
+        {sortedContacts.map(contact => this.renderContact(contact))}
+      </div>
+    );
+  }
+
+  private renderContacts(): ReactChild {
+    // This assumes that the list either contains one sender (a status of `undefined`) or
+    //   1+ contacts with `SendStatus`es, but it doesn't check that assumption.
+    const { contacts } = this.props;
+
+    const contactsBySendStatus = groupBy(contacts, contact => contact.status);
+
     return (
       <div className="module-message-detail__contact-container">
-        {contacts.map(contact => this.renderContact(contact))}
+        {[
+          undefined,
+          SendStatus.Failed,
+          SendStatus.Viewed,
+          SendStatus.Read,
+          SendStatus.Delivered,
+          SendStatus.Sent,
+          SendStatus.Pending,
+        ].map(sendStatus =>
+          this.renderContactGroup(
+            sendStatus,
+            contactsBySendStatus.get(sendStatus)
+          )
+        )}
       </div>
     );
   }
@@ -331,11 +372,6 @@ export class MessageDetail extends React.Component<Props> {
                 </td>
               </tr>
             ) : null}
-            <tr>
-              <td className="module-message-detail__label">
-                {message.direction === 'incoming' ? i18n('from') : i18n('to')}
-              </td>
-            </tr>
           </tbody>
         </table>
         {this.renderContacts()}

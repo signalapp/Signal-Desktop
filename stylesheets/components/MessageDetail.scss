@@ -1,0 +1,206 @@
+// Copyright 2018-2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.module-message-detail {
+  max-width: 650px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 20px;
+  outline: none;
+}
+
+.module-message-detail__message-container {
+  padding-top: 20px;
+  padding-bottom: 20px;
+
+  &::after {
+    content: '.';
+    visibility: hidden;
+    display: block;
+    height: 0;
+    clear: both;
+  }
+}
+
+.module-message-detail__label {
+  @include font-body-1-bold;
+}
+
+.module-message-detail__unix-timestamp {
+  @include light-theme {
+    color: $color-gray-05;
+  }
+  @include dark-theme {
+    color: $color-gray-45;
+  }
+}
+
+.module-message-detail__contact-container {
+  border-top: 1px solid $color-gray-15;
+  margin-top: 36px;
+
+  @include light-theme {
+    border-top-color: $color-gray-15;
+  }
+  @include dark-theme {
+    border-top-color: $color-gray-75;
+  }
+}
+
+.module-message-detail__contact-group__header {
+  @include font-body-1-bold;
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 24px;
+  padding: 10px 0;
+  user-select: none;
+
+  &:first-child {
+    margin-top: 36px;
+  }
+
+  &--Failed,
+  &--Viewed,
+  &--Read,
+  &--Delivered,
+  &--Sent,
+  &--Pending {
+    &:after {
+      content: '';
+      display: block;
+      flex-shrink: 0;
+      height: 12px;
+      margin-left: 10px;
+    }
+  }
+
+  &--Failed:after {
+    width: 12px;
+    @include light-theme {
+      @include color-svg(
+        '../images/icons/v2/error-outline-12.svg',
+        $color-accent-red
+      );
+    }
+    @include dark-theme {
+      @include color-svg(
+        '../images/icons/v2/error-solid-12.svg',
+        $color-accent-red
+      );
+    }
+  }
+
+  @mixin normal-icon($icon) {
+    @include light-theme {
+      @include color-svg($icon, $color-gray-60);
+    }
+    @include dark-theme {
+      @include color-svg($icon, $color-gray-25);
+    }
+  }
+
+  &--Viewed:after,
+  &--Read:after {
+    // Viewed and read deliberately have the same icon.
+    width: 18px;
+    @include normal-icon('../images/read.svg');
+  }
+
+  &--Delivered:after {
+    width: 18px;
+    @include normal-icon('../images/double-check.svg');
+  }
+
+  &--Sent:after {
+    width: 12px;
+    @include normal-icon('../images/check-circle-outline.svg');
+  }
+
+  &--Pending:after {
+    width: 12px;
+    animation: module-message-detail__contact-group__header--Pending 4s linear
+      infinite;
+    @include normal-icon('../images/sending.svg');
+  }
+}
+
+@keyframes module-message-detail__contact-group__header--Pending {
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+.module-message-detail__contact {
+  margin-bottom: 8px;
+  padding: 8px 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.module-message-detail__contact__text {
+  @include font-body-1;
+  flex-grow: 1;
+  margin-left: 10px;
+}
+
+.module-message-detail__contact__error {
+  color: $color-accent-red;
+  font-weight: bold;
+}
+
+.module-message-detail__contact__unidentified-delivery-icon {
+  margin-left: 6px;
+
+  width: 18px;
+  height: 18px;
+  display: inline-block;
+
+  @include light-theme {
+    @include color-svg(
+      '../images/icons/v2/unidentified-delivery-solid-20.svg',
+      $color-gray-60
+    );
+  }
+  @include dark-theme {
+    @include color-svg(
+      '../images/icons/v2/unidentified-delivery-solid-20.svg',
+      $color-gray-25
+    );
+  }
+}
+
+.module-message-detail__contact__error-buttons {
+  text-align: right;
+}
+
+.module-message-detail__contact__show-safety-number {
+  @include button-reset;
+  padding: 4px;
+  border-radius: 4px;
+
+  color: $color-white;
+
+  @include light-theme {
+    background-color: $color-gray-45;
+  }
+  @include dark-theme {
+    background-color: $color-gray-25;
+  }
+}
+.module-message-detail__contact__send-anyway {
+  @include button-reset;
+  margin-left: 5px;
+  margin-top: 5px;
+  padding: 4px;
+  border-radius: 4px;
+
+  color: $color-white;
+  background-color: $color-accent-red;
+}

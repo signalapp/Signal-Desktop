@@ -28,6 +28,7 @@ export enum AvatarBlur {
 export enum AvatarSize {
   TWENTY_EIGHT = 28,
   THIRTY_TWO = 32,
+  THIRTY_SIX = 36,
   FIFTY_TWO = 52,
   EIGHTY = 80,
   NINETY_SIX = 96,

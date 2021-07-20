@@ -5647,6 +5647,30 @@
     "message": "Slower, more data",
     "description": "Description of high quality selector"
   },
+  "MessageDetailsHeader--Failed": {
+    "message": "Not sent",
+    "description": "In the message details screen, shown above contacts where the message failed to deliver"
+  },
+  "MessageDetailsHeader--Pending": {
+    "message": "Pending",
+    "description": "In the message details screen, shown above contacts where the message is still sending"
+  },
+  "MessageDetailsHeader--Sent": {
+    "message": "Sent to",
+    "description": "In the message details screen, shown above contacts where the message has been sent (but not delivered, read, or viewed)"
+  },
+  "MessageDetailsHeader--Delivered": {
+    "message": "Delivered to",
+    "description": "In the message details screen, shown above contacts who have received your message"
+  },
+  "MessageDetailsHeader--Read": {
+    "message": "Read by",
+    "description": "In the message details screen, shown above contacts who have read this message"
+  },
+  "MessageDetailsHeader--Viewed": {
+    "message": "Viewed by",
+    "description": "In the message details screen, shown above contacts who have viewed this message"
+  },
   "ProfileEditor--about": {
     "message": "About",
     "description": "Default text for about field"

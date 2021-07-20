@@ -92,7 +92,19 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
 });
 
 story.add('Delivered Incoming', () => {
-  const props = createProps({});
+  const props = createProps({
+    contacts: [
+      {
+        ...getDefaultConversation({
+          color: 'forest',
+          title: 'Max',
+        }),
+        status: undefined,
+        isOutgoingKeyError: false,
+        isUnidentifiedDelivery: false,
+      },
+    ],
+  });
   return <MessageDetail {...props} />;
 });
 

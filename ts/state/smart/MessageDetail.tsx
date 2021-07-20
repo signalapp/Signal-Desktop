@@ -4,13 +4,9 @@
 import { ComponentProps } from 'react';
 import { connect } from 'react-redux';
 
-import {
-  MessageDetail,
-  Contact,
-} from '../../components/conversation/MessageDetail';
-import { PropsData as MessagePropsDataType } from '../../components/conversation/Message';
-import { mapDispatchToProps } from '../actions';
+import { MessageDetail } from '../../components/conversation/MessageDetail';
 
+import { mapDispatchToProps } from '../actions';
 import { StateType } from '../reducer';
 import { getIntl, getInteractionMode } from '../selectors/user';
 import { renderAudioAttachment } from './renderAudioAttachment';
@@ -21,36 +17,34 @@ type MessageDetailProps = ComponentProps<typeof MessageDetail>;
 
 export { Contact } from '../../components/conversation/MessageDetail';
 
-export type OwnProps = {
-  contacts: Array<Contact>;
-  errors: Array<Error>;
-  message: Omit<MessagePropsDataType, 'renderingContext'>;
-  receivedAt: number;
-  sentAt: number;
-
-  sendAnyway: (contactId: string, messageId: string) => unknown;
-  showSafetyNumber: (contactId: string) => void;
-} & Pick<
+export type OwnProps = Pick<
   MessageDetailProps,
   | 'clearSelectedMessage'
   | 'checkForAccount'
+  | 'contacts'
   | 'deleteMessage'
   | 'deleteMessageForEveryone'
   | 'displayTapToViewMessage'
   | 'downloadAttachment'
   | 'doubleCheckMissingQuoteReference'
+  | 'errors'
   | 'kickOffAttachmentDownload'
   | 'markAttachmentAsCorrupted'
+  | 'message'
   | 'openConversation'
   | 'openLink'
   | 'reactToMessage'
+  | 'receivedAt'
   | 'replyToMessage'
   | 'retrySend'
+  | 'sendAnyway'
+  | 'sentAt'
   | 'showContactDetail'
   | 'showContactModal'
   | 'showExpiredIncomingTapToViewToast'
   | 'showExpiredOutgoingTapToViewToast'
   | 'showForwardMessageModal'
+  | 'showSafetyNumber'
   | 'showVisualAttachment'
 >;
 
