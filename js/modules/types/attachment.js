@@ -5,6 +5,7 @@ const is = require('@sindresorhus/is');
 
 const { arrayBufferToBlob, blobToArrayBuffer } = require('blob-util');
 const AttachmentTS = require('../../../ts/types/Attachment');
+const MIME = require('../../../ts/types/MIME');
 const GoogleChrome = require('../../../ts/util/GoogleChrome');
 const { toLogFormat } = require('./errors');
 const { scaleImageToLevel } = require('../../../ts/util/scaleImageToLevel');
@@ -49,7 +50,15 @@ exports.isValid = rawAttachment => {
 // Upgrade steps
 // NOTE: This step strips all EXIF metadata from JPEG images as
 // part of re-encoding the image:
-exports.autoOrientJPEG = async (attachment, _, message) => {
+exports.autoOrientJPEG = async (
+  attachment,
+  _,
+  { sendHQImages = false, isIncoming = false } = {}
+) => {
+  if (isIncoming && !MIME.isJPEG(attachment.contentType)) {
+    return attachment;
+  }
+
   if (!AttachmentTS.canBeTranscoded(attachment)) {
     return attachment;
   }
@@ -65,7 +74,7 @@ exports.autoOrientJPEG = async (attachment, _, message) => {
   );
   const xcodedDataBlob = await scaleImageToLevel(
     dataBlob,
-    message ? message.sendHQImages : false
+    sendHQImages || isIncoming
   );
   const xcodedDataArrayBuffer = await blobToArrayBuffer(xcodedDataBlob);
 
