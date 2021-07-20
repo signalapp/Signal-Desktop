@@ -59,7 +59,8 @@ import {
   GroupCredentialsType,
   GroupLogResponseType,
 } from './textsecure/WebAPI';
-import MessageSender, { CallbackResultType } from './textsecure/SendMessage';
+import MessageSender from './textsecure/SendMessage';
+import { CallbackResultType } from './textsecure/Types.d';
 import { CURRENT_SCHEMA_VERSION as MAX_MESSAGE_SCHEMA } from '../js/modules/types/message';
 import { ConversationModel } from './models/conversations';
 import { getGroupSizeHardLimit } from './groups/limits';

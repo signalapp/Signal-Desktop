@@ -23,12 +23,13 @@ import {
   Contact as SmartMessageDetailContact,
 } from '../state/smart/MessageDetail';
 import { getCallingNotificationText } from '../util/callingNotification';
-import { CallbackResultType } from '../textsecure/SendMessage';
 import {
   ProcessedDataMessage,
   ProcessedQuote,
   ProcessedUnidentifiedDeliveryStatus,
+  CallbackResultType,
 } from '../textsecure/Types.d';
+import { SendMessageProtoError } from '../textsecure/Errors';
 import * as expirationTimer from '../util/expirationTimer';
 
 import { ReactionType } from '../types/Reactions';
@@ -1555,7 +1556,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       | { success: true; value: CallbackResultType }
       | {
           success: false;
-          value: CustomError | CallbackResultType;
+          value: CustomError | SendMessageProtoError;
         };
     try {
       const value = await (promise as Promise<CallbackResultType>);

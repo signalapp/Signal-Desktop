@@ -16,7 +16,8 @@ import {
 import { AttachmentType } from '../types/Attachment';
 import { CallMode, CallHistoryDetailsType } from '../types/Calling';
 import * as Stickers from '../types/Stickers';
-import { CallbackResultType, GroupV2InfoType } from '../textsecure/SendMessage';
+import { GroupV2InfoType } from '../textsecure/SendMessage';
+import { CallbackResultType } from '../textsecure/Types.d';
 import { ConversationType } from '../state/ducks/conversations';
 import {
   AvatarColorType,

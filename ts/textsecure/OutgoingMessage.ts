@@ -23,12 +23,7 @@ import {
 } from '@signalapp/signal-client';
 
 import { WebAPIType } from './WebAPI';
-import {
-  CallbackResultType,
-  SendMetadataType,
-  SendOptionsType,
-  CustomError,
-} from './SendMessage';
+import { SendMetadataType, SendOptionsType } from './SendMessage';
 import {
   OutgoingIdentityKeyError,
   OutgoingMessageError,
@@ -36,6 +31,7 @@ import {
   SendMessageChallengeError,
   UnregisteredUserError,
 } from './Errors';
+import { CallbackResultType, CustomError } from './Types.d';
 import { isValidNumber } from '../types/PhoneNumber';
 import { Sessions, IdentityKeys } from '../LibSignalStores';
 import { typedArrayToArrayBuffer as toArrayBuffer } from '../Crypto';

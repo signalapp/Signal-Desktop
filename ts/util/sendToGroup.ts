@@ -22,13 +22,12 @@ import { isEnabled } from '../RemoteConfig';
 
 import { isOlderThan } from './timestamp';
 import {
-  CallbackResultType,
   GroupSendOptionsType,
   SendOptionsType,
 } from '../textsecure/SendMessage';
 import { IdentityKeys, SenderKeys, Sessions } from '../LibSignalStores';
 import { ConversationModel } from '../models/conversations';
-import { DeviceType } from '../textsecure/Types.d';
+import { DeviceType, CallbackResultType } from '../textsecure/Types.d';
 import { getKeysForIdentifier } from '../textsecure/getKeysForIdentifier';
 import { ConversationAttributesType } from '../model-types.d';
 import {

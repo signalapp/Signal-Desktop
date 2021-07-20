@@ -208,3 +208,22 @@ export type ProcessedSent = Omit<
 export type ProcessedSyncMessage = Omit<Proto.ISyncMessage, 'sent'> & {
   sent?: ProcessedSent;
 };
+
+export type CustomError = Error & {
+  identifier?: string;
+  number?: string;
+};
+
+export interface CallbackResultType {
+  successfulIdentifiers?: Array<string>;
+  failoverIdentifiers?: Array<string>;
+  errors?: Array<CustomError>;
+  unidentifiedDeliveries?: Array<string>;
+  dataMessage?: ArrayBuffer;
+
+  // Fields necesary for send log save
+  contentHint?: number;
+  contentProto?: Uint8Array;
+  timestamp?: number;
+  recipients?: Record<string, Array<number>>;
+}

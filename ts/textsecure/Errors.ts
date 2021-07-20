@@ -6,6 +6,8 @@
 
 import { parseRetryAfter } from '../util/parseRetryAfter';
 
+import { CallbackResultType } from './Types.d';
+
 function appendStack(newError: Error, originalError: Error) {
   // eslint-disable-next-line no-param-reassign
   newError.stack += `\nOriginal stack:\n${originalError.stack}`;
@@ -134,6 +136,61 @@ export class SendMessageChallengeError extends ReplayableError {
       Date.now() + parseRetryAfter(headers['retry-after'].toString());
 
     appendStack(this, httpError);
+  }
+}
+
+export class SendMessageProtoError extends Error implements CallbackResultType {
+  public readonly successfulIdentifiers?: Array<string>;
+
+  public readonly failoverIdentifiers?: Array<string>;
+
+  public readonly errors?: CallbackResultType['errors'];
+
+  public readonly unidentifiedDeliveries?: Array<string>;
+
+  public readonly dataMessage?: ArrayBuffer;
+
+  // Fields necesary for send log save
+  public readonly contentHint?: number;
+
+  public readonly contentProto?: Uint8Array;
+
+  public readonly timestamp?: number;
+
+  public readonly recipients?: Record<string, Array<number>>;
+
+  constructor({
+    successfulIdentifiers,
+    failoverIdentifiers,
+    errors,
+    unidentifiedDeliveries,
+    dataMessage,
+    contentHint,
+    contentProto,
+    timestamp,
+    recipients,
+  }: CallbackResultType) {
+    super(`SendMessageProtoError: ${SendMessageProtoError.getMessage(errors)}`);
+
+    this.successfulIdentifiers = successfulIdentifiers;
+    this.failoverIdentifiers = failoverIdentifiers;
+    this.errors = errors;
+    this.unidentifiedDeliveries = unidentifiedDeliveries;
+    this.dataMessage = dataMessage;
+    this.contentHint = contentHint;
+    this.contentProto = contentProto;
+    this.timestamp = timestamp;
+    this.recipients = recipients;
+  }
+
+  protected static getMessage(errors: CallbackResultType['errors']): string {
+    if (!errors) {
+      return 'No errors';
+    }
+
+    return errors
+      .map(error => (error.stackForLog ? error.stackForLog : error.toString()))
+      .join(', ');
   }
 }
 

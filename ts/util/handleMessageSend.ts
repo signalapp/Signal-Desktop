@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { isNumber } from 'lodash';
-import { CallbackResultType } from '../textsecure/SendMessage';
+import { CallbackResultType } from '../textsecure/Types.d';
 import dataInterface from '../sql/Client';
 
 const { insertSentProto } = dataInterface;

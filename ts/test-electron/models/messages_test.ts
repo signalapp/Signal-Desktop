@@ -6,9 +6,8 @@ import * as sinon from 'sinon';
 import { setup as setupI18n } from '../../../js/modules/i18n';
 import enMessages from '../../../_locales/en/messages.json';
 import { SendStatus } from '../../messages/MessageSendState';
-import MessageSender, {
-  CallbackResultType,
-} from '../../textsecure/SendMessage';
+import MessageSender from '../../textsecure/SendMessage';
+import { CallbackResultType } from '../../textsecure/Types.d';
 import type { StorageAccessType } from '../../types/Storage.d';
 import { SignalService as Proto } from '../../protobuf';
 

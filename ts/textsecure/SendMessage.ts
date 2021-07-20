@@ -30,6 +30,7 @@ import {
   WebAPIType,
 } from './WebAPI';
 import createTaskWithTimeout from './TaskWithTimeout';
+import { CallbackResultType } from './Types.d';
 import OutgoingMessage, {
   SerializedCertificateType,
   SendLogCallbackType,
@@ -46,7 +47,11 @@ import {
   StorageServiceCallOptionsType,
   StorageServiceCredentials,
 } from '../textsecure.d';
-import { MessageError, SignedPreKeyRotationError } from './Errors';
+import {
+  MessageError,
+  SignedPreKeyRotationError,
+  SendMessageProtoError,
+} from './Errors';
 import { BodyRangesType } from '../types/Util';
 import {
   LinkPreviewImage,
@@ -70,25 +75,6 @@ export type SendMetadataType = {
 export type SendOptionsType = {
   sendMetadata?: SendMetadataType;
   online?: boolean;
-};
-
-export type CustomError = Error & {
-  identifier?: string;
-  number?: string;
-};
-
-export type CallbackResultType = {
-  successfulIdentifiers?: Array<string>;
-  failoverIdentifiers?: Array<string>;
-  errors?: Array<CustomError>;
-  unidentifiedDeliveries?: Array<string>;
-  dataMessage?: ArrayBuffer;
-
-  // Fields necesary for send log save
-  contentHint?: number;
-  contentProto?: Uint8Array;
-  timestamp?: number;
-  recipients?: Record<string, Array<number>>;
 };
 
 type PreviewType = {
@@ -826,7 +812,7 @@ export default class MessageSender {
             callback: (res: CallbackResultType) => {
               res.dataMessage = message.toArrayBuffer();
               if (res.errors && res.errors.length > 0) {
-                reject(res);
+                reject(new SendMessageProtoError(res));
               } else {
                 resolve(res);
               }
@@ -906,7 +892,7 @@ export default class MessageSender {
     return new Promise((resolve, reject) => {
       const callback = (result: CallbackResultType) => {
         if (result && result.errors && result.errors.length > 0) {
-          reject(result);
+          reject(new SendMessageProtoError(result));
           return;
         }
 
@@ -942,7 +928,7 @@ export default class MessageSender {
     return new Promise((resolve, reject) => {
       const callback = (res: CallbackResultType) => {
         if (res && res.errors && res.errors.length > 0) {
-          reject(res);
+          reject(new SendMessageProtoError(res));
         } else {
           resolve(res);
         }
@@ -1839,7 +1825,7 @@ export default class MessageSender {
       const callback = (res: CallbackResultType) => {
         res.dataMessage = dataMessage;
         if (res.errors && res.errors.length > 0) {
-          reject(res);
+          reject(new SendMessageProtoError(res));
         } else {
           resolve(res);
         }
