@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../session/SessionButton';
 import { PubKey } from '../../session/types';
 import { ToastUtils } from '../../session/utils';
-import { DefaultTheme, useTheme } from 'styled-components';
+import { useTheme } from 'styled-components';
 import { SessionSpinner } from '../session/SessionSpinner';
 import { Flex } from '../basic/Flex';
 import { ApiV2 } from '../../opengroup/opengroupV2';
@@ -19,7 +19,6 @@ type Props = {
 export const AddModeratorsDialog = (props: Props) => {
   const { conversationId } = props;
 
-  const theme = useTheme();
   const dispatch = useDispatch();
   const convo = getConversationController().get(conversationId);
 

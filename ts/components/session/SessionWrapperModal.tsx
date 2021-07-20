@@ -62,7 +62,6 @@ export const SessionWrapperModal = (props: SessionWrapperModalType) => {
 
   const handleClick = (e: any) => {
     if (!modalRef.current?.contains(e.target)) {
-      console.log('clicked outside of modal');
       props.onClose?.();
     }
   }
