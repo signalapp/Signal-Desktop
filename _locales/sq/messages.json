@@ -673,6 +673,10 @@
         "message": "Regjistër Diagnostikimesh",
         "description": "View menu item to open the debug log (title case)"
     },
+    "forceUpdate": {
+        "message": "Detyro Përditësim",
+        "description": "View menu item to force the app to update download and install"
+    },
     "helpMenuShowKeyboardShortcuts": {
         "message": "Shfaq Shkurtore Tastiere",
         "description": "Item under the help menu, pops up a screen showing the application's keyboard shortcuts"
@@ -1028,10 +1032,6 @@
     "deleteForEveryoneWarning": {
         "message": "Ky mesazh do të fshihet për këdo te biseda, nëse gjenden në një version të freskët të Signal-it. Ata do të jenë në gjendje të shohin se fshitë një mesazh.",
         "description": "Text shown in the confirmation dialog for deleting a message for everyone"
-    },
-    "deleteThisMessage": {
-        "message": "Fshije këtë mesazh",
-        "description": ""
     },
     "from": {
         "message": "Nga",
@@ -1557,6 +1557,14 @@
         "message": "Kontrolli i drejtshkrimit do të çaktivizohet herës tjetër që niset Signal-i.",
         "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
     },
+    "SystemTraySetting__minimize-to-system-tray": {
+        "message": "Minimizoje te panel sistemi",
+        "description": "In the settings, shown next to the checkbox option for minimizing to the system tray"
+    },
+    "SystemTraySetting__minimize-to-and-start-in-system-tray": {
+        "message": "Nise të minimizuar në panel",
+        "description": "In the settings, shown next to the checkbox option for starting in the system tray"
+    },
     "autoLaunchDescription": {
         "message": "Hapje gjatë hyrjes në llogarinë e kompjuterit",
         "description": "Description for the automatic launch setting"
@@ -1837,7 +1845,7 @@
     },
     "disappearingMessages": {
         "message": "Zhdukje mesazhesh",
-        "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages"
+        "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
     },
     "disappearingMessagesDisabled": {
         "message": "Zhdukja e mesazheve është e çaktivizuar",
@@ -5620,5 +5628,29 @@
     "ConversationDetailsHeader--add-group-description": {
         "message": "Shtoni përshkrim grupi…",
         "description": "Placeholder text in the details header for those that can edit the group description"
+    },
+    "MediaQualitySelector--button": {
+        "message": "Përzgjidhni cilësi media",
+        "description": "aria-label for the media quality selector button"
+    },
+    "MediaQualitySelector--title": {
+        "message": "Cilësi Media",
+        "description": "Popup selector title"
+    },
+    "MediaQualitySelector--standard-quality-title": {
+        "message": "Standard",
+        "description": "Title for option for standard quality"
+    },
+    "MediaQualitySelector--standard-quality-description": {
+        "message": "Më i shpejtë, më pak të dhëna",
+        "description": "Description of standard quality selector"
+    },
+    "MediaQualitySelector--high-quality-title": {
+        "message": "Lartësi",
+        "description": "Title for option for high quality"
+    },
+    "MediaQualitySelector--high-quality-description": {
+        "message": "Më i ngadaltë, më tepër të dhëna",
+        "description": "Description of high quality selector"
     }
 }

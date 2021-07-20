@@ -576,11 +576,11 @@
         "description": "Hover text for attachment filenames"
     },
     "unnamedFile": {
-        "message": "Nepomenovaný Súbor",
+        "message": "Nepomenovaný súbor",
         "description": "Hover text for attachment filenames"
     },
     "voiceMessage": {
-        "message": "Hlasová Správa",
+        "message": "Hlasová správa",
         "description": "Name for a voice message attachment"
     },
     "dangerousFileType": {
@@ -672,6 +672,10 @@
     "debugLog": {
         "message": "Ladiaci Log",
         "description": "View menu item to open the debug log (title case)"
+    },
+    "forceUpdate": {
+        "message": "Vynútiť aktualizáciu",
+        "description": "View menu item to force the app to update download and install"
     },
     "helpMenuShowKeyboardShortcuts": {
         "message": "Ukázať klávesové skratky",
@@ -1028,10 +1032,6 @@
     "deleteForEveryoneWarning": {
         "message": "Táto správa sa vymaže všetkým v chate, čo používajú modernú verziu aplikácie Signal. Členovia budú vidieť, že ste vymazali správu.",
         "description": "Text shown in the confirmation dialog for deleting a message for everyone"
-    },
-    "deleteThisMessage": {
-        "message": "Vymazať túto správu",
-        "description": ""
     },
     "from": {
         "message": "Od",
@@ -1557,6 +1557,14 @@
         "message": "Kontrola pravopisu bude vypnutá po nasledujúcom štarte Signalu.",
         "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
     },
+    "SystemTraySetting__minimize-to-system-tray": {
+        "message": "Minimalizovať do systémovej lišty",
+        "description": "In the settings, shown next to the checkbox option for minimizing to the system tray"
+    },
+    "SystemTraySetting__minimize-to-and-start-in-system-tray": {
+        "message": "Spustiť minimalizované do systémovej lišty",
+        "description": "In the settings, shown next to the checkbox option for starting in the system tray"
+    },
     "autoLaunchDescription": {
         "message": "Otvoriť pri prihlásení do počítača",
         "description": "Description for the automatic launch setting"
@@ -1837,7 +1845,7 @@
     },
     "disappearingMessages": {
         "message": "Miznúce správy",
-        "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages"
+        "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
     },
     "disappearingMessagesDisabled": {
         "message": "Miznúce správy vypnuté",
@@ -5620,5 +5628,29 @@
     "ConversationDetailsHeader--add-group-description": {
         "message": "Pridať popis skupiny…",
         "description": "Placeholder text in the details header for those that can edit the group description"
+    },
+    "MediaQualitySelector--button": {
+        "message": "Zvoliť kvalitu médií",
+        "description": "aria-label for the media quality selector button"
+    },
+    "MediaQualitySelector--title": {
+        "message": "Kvalita médií",
+        "description": "Popup selector title"
+    },
+    "MediaQualitySelector--standard-quality-title": {
+        "message": "Štandardné",
+        "description": "Title for option for standard quality"
+    },
+    "MediaQualitySelector--standard-quality-description": {
+        "message": "Rýchlejšie, menej dát",
+        "description": "Description of standard quality selector"
+    },
+    "MediaQualitySelector--high-quality-title": {
+        "message": "Vysoká",
+        "description": "Title for option for high quality"
+    },
+    "MediaQualitySelector--high-quality-description": {
+        "message": "Pomalšie, viac dát",
+        "description": "Description of high quality selector"
     }
 }

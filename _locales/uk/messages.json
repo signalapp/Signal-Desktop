@@ -1033,10 +1033,6 @@
         "message": "Це повідомлення буде видалено для усіх у розмові, якщо вони використовують найновішу версію Signal. Вони зможуть побачити, що ви видалили повідомлення.",
         "description": "Text shown in the confirmation dialog for deleting a message for everyone"
     },
-    "deleteThisMessage": {
-        "message": "Видалити це повідомлення",
-        "description": ""
-    },
     "from": {
         "message": "Від",
         "description": "Label for the sender of a message"
