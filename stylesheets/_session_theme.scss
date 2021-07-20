@@ -49,8 +49,14 @@
   }
 
   &__container--outgoing {
-    @include themify($themes) {
-      background: themed('sentMessageBackground');
+    &--opaque {
+      @include themify($themes) {
+        background: themed('sentMessageBackground');
+      }
+    }
+
+    &--transparent {
+      background: none;
     }
 
     .module-message__text {

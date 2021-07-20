@@ -781,7 +781,10 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
           <div
             className={classNames(
               'module-message__container',
-              `module-message__container--${direction}`
+              `module-message__container--${direction}`,
+              isShowingImage
+                ? `module-message__container--${direction}--transparent`
+                : `module-message__container--${direction}--opaque`
             )}
             style={{
               width: isShowingImage ? width : undefined,
