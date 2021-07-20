@@ -3502,6 +3502,18 @@
     "description": "Shown if you click on a sgnl:// link not currently supported by Desktop"
   },
 
+  "GroupV2--cannot-send": {
+    "message": "You cannot send messages to that group.",
+    "description": "Shown in toast when you attempt to forward a message to an announcement only group"
+  },
+  "GroupV2--add--missing-capability": {
+    "message": "These people cannot be added to the group until they upgrade Signal.",
+    "description": "Shown in a confirmation dialog when members who cannot view announcement only group cannot be added"
+  },
+  "GroupV2--cannot-start-group-call": {
+    "message": "Only admins of the group can start a call.",
+    "description": "Shown in toast when a non-admin starts a group call in an announcements only group"
+  },
   "GroupV2--join--invalid-link--title": {
     "message": "Invalid Link",
     "description": "Shown if we are unable to parse a group link"
@@ -4699,6 +4711,43 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
 
+  "GroupV2--announcements--admin--you": {
+    "message": "You changed the group settings to only allow admins to send messages.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "GroupV2--announcements--admin--other": {
+    "message": "$memberName$ changed the group settings to only allow admins to send messages.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "adminName": {
+        "content": "$1",
+        "example": "Alice"
+      }
+    }
+  },
+  "GroupV2--announcements--admin--unknown": {
+    "message": "The group was changed to only allow admins to send messages.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "GroupV2--announcements--member--you": {
+    "message": "You changed the group settings to allow all members to send messages.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "GroupV2--announcements--member--other": {
+    "message": "$memberName$ changed the group settings to allow all members to send messages.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "adminName": {
+        "content": "$1",
+        "example": "Alice"
+      }
+    }
+  },
+  "GroupV2--announcements--member--unknown": {
+    "message": "The group was changed to allow all members to send messages.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+
   "GroupV1--Migration--disabled": {
     "message": "Upgrade this group to activate new features like @mentions and admins. Members who have not shared their name or photo in this group will be invited to join. $learnMore$",
     "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1).",
@@ -4920,6 +4969,14 @@
   "ConversationDetails--add-members-info": {
     "message": "Choose who can add members to this group.",
     "description": "This is the additional info for the 'who can add members' panel"
+  },
+  "ConversationDetails--announcement-label": {
+    "message": "Who can send messages",
+    "description": "This is the additional info for the 'who can send messages' panel"
+  },
+  "ConversationDetails--announcement-info": {
+    "message": "Choose who can send messages to the group.",
+    "description": "This is the additional info for the 'who can send mesages' panel"
   },
   "ConversationDetails--requests-and-invites": {
     "message": "Requests & Invites",
@@ -5740,5 +5797,23 @@
   "ProfileEditorModal--error": {
     "message": "Your profile could not be updated. Please try again.",
     "description": "Error message when something goes wrong updating your profile."
+  },
+  "AnnouncementsOnlyGroupBanner--modal": {
+    "message": "Message an admin",
+    "description": "Modal title for the list of admins in a group"
+  },
+  "AnnouncementsOnlyGroupBanner--announcements-only": {
+    "message": "Only $admins$ can send messages",
+    "description": "Displayed if sending of messages is disabled to non-admins",
+    "placeholders": {
+      "admins": {
+        "content": "$1",
+        "example": "admins"
+      }
+    }
+  },
+  "AnnouncementsOnlyGroupBanner--admins": {
+    "message": "admins",
+    "description": "Clickable text describing administrators of a group, used in the message an admin label"
   }
 }

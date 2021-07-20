@@ -30,6 +30,7 @@ import {
 import { EditConversationAttributesModal } from './EditConversationAttributesModal';
 import { RequestState } from './util';
 import { getCustomColorStyle } from '../../../util/getCustomColorStyle';
+import { ConfirmationDialog } from '../../ConfirmationDialog';
 
 enum ModalState {
   NothingOpen,
@@ -109,6 +110,9 @@ export const ConversationDetails: React.ComponentType<Props> = ({
     addGroupMembersRequestState,
     setAddGroupMembersRequestState,
   ] = useState<RequestState>(RequestState.Inactive);
+  const [membersMissingCapability, setMembersMissingCapability] = useState(
+    false
+  );
 
   if (conversation === undefined) {
     throw new Error('ConversationDetails rendered without a conversation');
@@ -194,7 +198,12 @@ export const ConversationDetails: React.ComponentType<Props> = ({
               setModalState(ModalState.NothingOpen);
               setAddGroupMembersRequestState(RequestState.Inactive);
             } catch (err) {
-              setAddGroupMembersRequestState(RequestState.InactiveWithError);
+              if (err.code === 'E_NO_CAPABILITY') {
+                setMembersMissingCapability(true);
+                setAddGroupMembersRequestState(RequestState.InactiveWithError);
+              } else {
+                setAddGroupMembersRequestState(RequestState.InactiveWithError);
+              }
             }
           }}
           onClose={() => {
@@ -211,6 +220,16 @@ export const ConversationDetails: React.ComponentType<Props> = ({
 
   return (
     <div className="conversation-details-panel">
+      {membersMissingCapability && (
+        <ConfirmationDialog
+          cancelText={i18n('Confirmation--confirm')}
+          i18n={i18n}
+          onClose={() => setMembersMissingCapability(false)}
+        >
+          {i18n('GroupV2--add--missing-capability')}
+        </ConfirmationDialog>
+      )}
+
       <ConversationDetailsHeader
         canEdit={canEditGroupInfo}
         conversation={conversation}

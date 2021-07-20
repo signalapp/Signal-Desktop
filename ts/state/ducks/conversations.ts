@@ -121,6 +121,8 @@ export type ConversationType = {
   accessControlAddFromInviteLink?: number;
   accessControlAttributes?: number;
   accessControlMembers?: number;
+  announcementsOnly?: boolean;
+  announcementsOnlyReady?: boolean;
   expireTimer?: number;
   memberships?: Array<{
     conversationId: string;

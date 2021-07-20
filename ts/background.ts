@@ -1198,7 +1198,7 @@ export async function startApp(): Promise<void> {
             '.module-conversation-list__item--contact-or-conversation'
           ),
           document.querySelector('.module-search-results'),
-          document.querySelector('.module-composition-area .ql-editor'),
+          document.querySelector('.CompositionArea .ql-editor'),
         ];
         const focusedIndex = targets.findIndex(target => {
           if (!target || !focusedElement) {
@@ -2318,6 +2318,7 @@ export async function startApp(): Promise<void> {
           // Note: we always have to register our capabilities all at once, so we do this
           //   after connect on every startup
           await server.registerCapabilities({
+            announcementGroup: true,
             'gv2-3': true,
             'gv1-migration': true,
             senderKey: window.Signal.RemoteConfig.isEnabled(

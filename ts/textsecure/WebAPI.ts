@@ -892,11 +892,13 @@ export type WebAPIConnectType = {
 };
 
 export type CapabilitiesType = {
+  announcementGroup: boolean;
   gv2: boolean;
   'gv1-migration': boolean;
   senderKey: boolean;
 };
 export type CapabilitiesUploadType = {
+  announcementGroup: boolean;
   'gv2-3': boolean;
   'gv1-migration': boolean;
   senderKey: boolean;
@@ -1558,6 +1560,7 @@ export function initialize({
       options: { accessKey?: ArrayBuffer } = {}
     ) {
       const capabilities: CapabilitiesUploadType = {
+        announcementGroup: true,
         'gv2-3': true,
         'gv1-migration': true,
         senderKey: false,

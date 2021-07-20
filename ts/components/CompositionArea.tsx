@@ -37,11 +37,16 @@ import { MediaQualitySelector } from './MediaQualitySelector';
 import { Quote, Props as QuoteProps } from './conversation/Quote';
 import { StagedLinkPreview } from './conversation/StagedLinkPreview';
 import { LinkPreviewWithDomain } from '../types/LinkPreview';
+import { ConversationType } from '../state/ducks/conversations';
+import { AnnouncementsOnlyGroupBanner } from './AnnouncementsOnlyGroupBanner';
 
 export type OwnProps = {
   readonly i18n: LocalizerType;
   readonly areWePending?: boolean;
   readonly areWePendingApproval?: boolean;
+  readonly announcementsOnly?: boolean;
+  readonly areWeAdmin?: boolean;
+  readonly groupAdmins: Array<ConversationType>;
   readonly groupVersion?: 1 | 2;
   readonly isGroupV1AndDisabled?: boolean;
   readonly isMissingMandatoryProfileSharing?: boolean;
@@ -74,6 +79,7 @@ export type OwnProps = {
   linkPreviewLoading: boolean;
   linkPreviewResult?: LinkPreviewWithDomain;
   onCloseLinkPreview(): unknown;
+  openConversation(conversationId: string): unknown;
 };
 
 export type Props = Pick<
@@ -188,8 +194,12 @@ export const CompositionArea = ({
   // GroupV1 Disabled Actions
   isGroupV1AndDisabled,
   onStartGroupMigration,
-  // GroupV2 Pending Approval Actions
+  // GroupV2
+  announcementsOnly,
+  areWeAdmin,
+  groupAdmins,
   onCancelJoinRequest,
+  openConversation,
   // SMS-only contacts
   isSMSOnly,
   isFetchingUUID,
@@ -283,7 +293,7 @@ export const CompositionArea = ({
 
   const leftHandSideButtonsFragment = (
     <>
-      <div className="module-composition-area__button-cell">
+      <div className="CompositionArea__button-cell">
         <EmojiButton
           i18n={i18n}
           doSend={handleForceSend}
@@ -295,7 +305,7 @@ export const CompositionArea = ({
         />
       </div>
       {showMediaQualitySelector ? (
-        <div className="module-composition-area__button-cell">
+        <div className="CompositionArea__button-cell">
           <MediaQualitySelector
             i18n={i18n}
             isHighQuality={shouldSendHighQualityAttachments}
@@ -309,11 +319,11 @@ export const CompositionArea = ({
   const micButtonFragment = showMic ? (
     <div
       className={classNames(
-        'module-composition-area__button-cell',
-        micActive ? 'module-composition-area__button-cell--mic-active' : null,
-        large ? 'module-composition-area__button-cell--large-right' : null,
+        'CompositionArea__button-cell',
+        micActive ? 'CompositionArea__button-cell--mic-active' : null,
+        large ? 'CompositionArea__button-cell--large-right' : null,
         micActive && large
-          ? 'module-composition-area__button-cell--large-right-mic-active'
+          ? 'CompositionArea__button-cell--large-right-mic-active'
           : null
       )}
       ref={micCellRef}
@@ -321,7 +331,7 @@ export const CompositionArea = ({
   ) : null;
 
   const attButton = (
-    <div className="module-composition-area__button-cell">
+    <div className="CompositionArea__button-cell">
       <div className="choose-file">
         <button
           type="button"
@@ -336,13 +346,13 @@ export const CompositionArea = ({
   const sendButtonFragment = (
     <div
       className={classNames(
-        'module-composition-area__button-cell',
-        large ? 'module-composition-area__button-cell--large-right' : null
+        'CompositionArea__button-cell',
+        large ? 'CompositionArea__button-cell--large-right' : null
       )}
     >
       <button
         type="button"
-        className="module-composition-area__send-button"
+        className="CompositionArea__send-button"
         onClick={handleForceSend}
         aria-label={i18n('sendMessageToContact')}
       />
@@ -351,7 +361,7 @@ export const CompositionArea = ({
 
   const stickerButtonPlacement = large ? 'top-start' : 'top-end';
   const stickerButtonFragment = withStickers ? (
-    <div className="module-composition-area__button-cell">
+    <div className="CompositionArea__button-cell">
       <StickerButton
         i18n={i18n}
         knownPacks={knownPacks}
@@ -422,9 +432,9 @@ export const CompositionArea = ({
     return (
       <div
         className={classNames([
-          'module-composition-area',
-          'module-composition-area--sms-only',
-          isFetchingUUID ? 'module-composition-area--pending' : null,
+          'CompositionArea',
+          'CompositionArea--sms-only',
+          isFetchingUUID ? 'CompositionArea--pending' : null,
         ])}
       >
         {isFetchingUUID ? (
@@ -436,10 +446,10 @@ export const CompositionArea = ({
           />
         ) : (
           <>
-            <h2 className="module-composition-area--sms-only__title">
+            <h2 className="CompositionArea--sms-only__title">
               {i18n('CompositionArea--sms-only__title')}
             </h2>
-            <p className="module-composition-area--sms-only__body">
+            <p className="CompositionArea--sms-only__body">
               {i18n('CompositionArea--sms-only__body')}
             </p>
           </>
@@ -490,16 +500,24 @@ export const CompositionArea = ({
     );
   }
 
+  if (announcementsOnly && !areWeAdmin) {
+    return (
+      <AnnouncementsOnlyGroupBanner
+        groupAdmins={groupAdmins}
+        i18n={i18n}
+        openConversation={openConversation}
+      />
+    );
+  }
+
   return (
-    <div className="module-composition-area">
-      <div className="module-composition-area__toggle-large">
+    <div className="CompositionArea">
+      <div className="CompositionArea__toggle-large">
         <button
           type="button"
           className={classNames(
-            'module-composition-area__toggle-large__button',
-            large
-              ? 'module-composition-area__toggle-large__button--large-active'
-              : null
+            'CompositionArea__toggle-large__button',
+            large ? 'CompositionArea__toggle-large__button--large-active' : null
           )}
           // This prevents the user from tabbing here
           tabIndex={-1}
@@ -509,8 +527,8 @@ export const CompositionArea = ({
       </div>
       <div
         className={classNames(
-          'module-composition-area__row',
-          'module-composition-area__row--column'
+          'CompositionArea__row',
+          'CompositionArea__row--column'
         )}
       >
         {quotedMessageProps && (
@@ -539,7 +557,7 @@ export const CompositionArea = ({
           </div>
         )}
         {draftAttachments.length ? (
-          <div className="module-composition-area__attachment-list">
+          <div className="CompositionArea__attachment-list">
             <AttachmentList
               attachments={draftAttachments}
               i18n={i18n}
@@ -553,12 +571,12 @@ export const CompositionArea = ({
       </div>
       <div
         className={classNames(
-          'module-composition-area__row',
-          large ? 'module-composition-area__row--padded' : null
+          'CompositionArea__row',
+          large ? 'CompositionArea__row--padded' : null
         )}
       >
         {!large ? leftHandSideButtonsFragment : null}
-        <div className="module-composition-area__input">
+        <div className="CompositionArea__input">
           <CompositionInput
             i18n={i18n}
             disabled={disabled}
@@ -588,8 +606,8 @@ export const CompositionArea = ({
       {large ? (
         <div
           className={classNames(
-            'module-composition-area__row',
-            'module-composition-area__row--control-row'
+            'CompositionArea__row',
+            'CompositionArea__row--control-row'
           )}
         >
           {leftHandSideButtonsFragment}

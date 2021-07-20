@@ -290,6 +290,7 @@ export type ConversationAttributesType = {
     members: AccessRequiredEnum;
     addFromInviteLink: AccessRequiredEnum;
   };
+  announcementsOnly?: boolean;
   avatar?: {
     url: string;
     path: string;

@@ -1,5 +1,8 @@
 syntax = "proto3";
 
+// Copyright 2020-2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 package signalservice;
 
 option java_package        = "org.whispersystems.signalservice.protos.groups";
@@ -68,6 +71,7 @@ message Group {
   repeated MemberPendingAdminApproval membersPendingAdminApproval = 9;
            bytes                      inviteLinkPassword          = 10;
            bytes                      descriptionBytes            = 11;
+           bool                       announcementsOnly           = 12;
 }
 
 message GroupChange {
@@ -153,6 +157,10 @@ message GroupChange {
         bytes descriptionBytes = 1;
     }
 
+    message ModifyAnnouncementsOnlyAction {
+        bool announcementsOnly = 1;
+    }
+
 
              bytes                                      sourceUuid                         = 1; // Who made the change
              uint32                                     version                            = 2; // The change version number
@@ -174,6 +182,7 @@ message GroupChange {
     repeated PromoteMemberPendingAdminApprovalAction    promoteMemberPendingAdminApprovals = 18; // change epoch = 1
              ModifyInviteLinkPasswordAction             modifyInviteLinkPassword           = 19; // change epoch = 1
              ModifyDescriptionAction                    modifyDescription                  = 20; // change epoch = 2
+             ModifyAnnouncementsOnlyAction              modifyAnnouncementsOnly            = 21; // change epoch = 3
   }
 
   bytes  actions         = 1; // The serialized actions

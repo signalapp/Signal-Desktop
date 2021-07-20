@@ -1133,6 +1133,11 @@ export function canReply(
     return false;
   }
 
+  // Groups where only admins can send messages
+  if (conversation.announcementsOnly && !conversation.areWeAdmin) {
+    return false;
+  }
+
   // We can reply if this is outgoing and sent to at least one recipient
   if (isOutgoing(message)) {
     return (

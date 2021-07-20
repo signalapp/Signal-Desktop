@@ -195,6 +195,10 @@
       opacity: 1;
     }
 
+    &--show-disabled {
+      opacity: 0.5;
+    }
+
     @include light-theme {
       &:hover,
       &:focus {

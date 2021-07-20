@@ -1383,4 +1383,62 @@ storiesOf('Components/Conversation/GroupV2Change', module)
         )}
       </>
     );
+  })
+  .add('Announcement Group (Change)', () => {
+    return (
+      <>
+        {renderChange({
+          from: OUR_ID,
+          details: [
+            {
+              type: 'announcements-only',
+              announcementsOnly: true,
+            },
+          ],
+        })}
+        {renderChange({
+          from: ADMIN_A,
+          details: [
+            {
+              type: 'announcements-only',
+              announcementsOnly: true,
+            },
+          ],
+        })}
+        {renderChange({
+          details: [
+            {
+              type: 'announcements-only',
+              announcementsOnly: true,
+            },
+          ],
+        })}
+        {renderChange({
+          from: OUR_ID,
+          details: [
+            {
+              type: 'announcements-only',
+              announcementsOnly: false,
+            },
+          ],
+        })}
+        {renderChange({
+          from: ADMIN_A,
+          details: [
+            {
+              type: 'announcements-only',
+              announcementsOnly: false,
+            },
+          ],
+        })}
+        {renderChange({
+          details: [
+            {
+              type: 'announcements-only',
+              announcementsOnly: false,
+            },
+          ],
+        })}
+      </>
+    );
   });

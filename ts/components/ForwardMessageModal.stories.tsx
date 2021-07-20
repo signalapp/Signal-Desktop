@@ -118,3 +118,15 @@ story.add('media attachments', () => {
     />
   );
 });
+
+story.add('announcement only groups non-admin', () => (
+  <ForwardMessageModal
+    {...createProps()}
+    candidateConversations={[
+      getDefaultConversation({
+        announcementsOnly: true,
+        areWeAdmin: false,
+      }),
+    ]}
+  />
+));

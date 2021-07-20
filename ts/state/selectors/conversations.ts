@@ -26,6 +26,7 @@ import { isConversationUnregistered } from '../../util/isConversationUnregistere
 import { filterAndSortConversationsByTitle } from '../../util/filterAndSortConversations';
 import { ContactNameColors, ContactNameColorType } from '../../types/Colors';
 import { isInSystemContacts } from '../../util/isInSystemContacts';
+import { isGroupV2 } from '../../util/whatTypeOfConversation';
 
 import {
   getIntl,
@@ -894,3 +895,32 @@ export function isMissingRequiredProfileSharing(
       conversation.messageCount > 0
   );
 }
+
+export const getGroupAdminsSelector = createSelector(
+  getConversationSelector,
+  (conversationSelector: GetConversationByIdType) => {
+    return (conversationId: string): Array<ConversationType> => {
+      const { groupId, groupVersion, memberships = [] } = conversationSelector(
+        conversationId
+      );
+
+      if (
+        !isGroupV2({
+          groupId,
+          groupVersion,
+        })
+      ) {
+        return [];
+      }
+
+      const admins: Array<ConversationType> = [];
+      memberships.forEach(membership => {
+        if (membership.isAdmin) {
+          const admin = conversationSelector(membership.conversationId);
+          admins.push(admin);
+        }
+      });
+      return admins;
+    };
+  }
+);

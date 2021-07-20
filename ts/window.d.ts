@@ -638,6 +638,7 @@ export type WhisperType = {
   CannotMixImageAndNonImageAttachmentsToast: typeof window.Whisper.ToastView;
   CaptchaSolvedToast: typeof window.Whisper.ToastView;
   CaptchaFailedToast: typeof window.Whisper.ToastView;
+  CannotStartGroupCallToast: typeof window.Whisper.ToastView;
   DangerousFileTypeToast: typeof window.Whisper.ToastView;
   DecryptionErrorToast: typeof window.Whisper.ToastView;
   ExpiredToast: typeof window.Whisper.ToastView;

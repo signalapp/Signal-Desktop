@@ -78,98 +78,102 @@ import AccessRequiredEnum = Proto.AccessControl.AccessRequired;
 
 export { joinViaLink } from './groups/joinViaLink';
 
-export type GroupV2AccessCreateChangeType = {
+type GroupV2AccessCreateChangeType = {
   type: 'create';
 };
-export type GroupV2AccessAttributesChangeType = {
+type GroupV2AccessAttributesChangeType = {
   type: 'access-attributes';
   newPrivilege: number;
 };
-export type GroupV2AccessMembersChangeType = {
+type GroupV2AccessMembersChangeType = {
   type: 'access-members';
   newPrivilege: number;
 };
-export type GroupV2AccessInviteLinkChangeType = {
+type GroupV2AccessInviteLinkChangeType = {
   type: 'access-invite-link';
   newPrivilege: number;
 };
-export type GroupV2AvatarChangeType = {
+type GroupV2AnnouncementsOnlyChangeType = {
+  type: 'announcements-only';
+  announcementsOnly: boolean;
+};
+type GroupV2AvatarChangeType = {
   type: 'avatar';
   removed: boolean;
 };
-export type GroupV2TitleChangeType = {
+type GroupV2TitleChangeType = {
   type: 'title';
   // Allow for null, because the title could be removed entirely
   newTitle?: string;
 };
-export type GroupV2GroupLinkAddChangeType = {
+type GroupV2GroupLinkAddChangeType = {
   type: 'group-link-add';
   privilege: number;
 };
-export type GroupV2GroupLinkResetChangeType = {
+type GroupV2GroupLinkResetChangeType = {
   type: 'group-link-reset';
 };
-export type GroupV2GroupLinkRemoveChangeType = {
+type GroupV2GroupLinkRemoveChangeType = {
   type: 'group-link-remove';
 };
 
 // No disappearing messages timer change type - message.expirationTimerUpdate used instead
 
-export type GroupV2MemberAddChangeType = {
+type GroupV2MemberAddChangeType = {
   type: 'member-add';
   conversationId: string;
 };
-export type GroupV2MemberAddFromInviteChangeType = {
+type GroupV2MemberAddFromInviteChangeType = {
   type: 'member-add-from-invite';
   conversationId: string;
   inviter?: string;
 };
-export type GroupV2MemberAddFromLinkChangeType = {
+type GroupV2MemberAddFromLinkChangeType = {
   type: 'member-add-from-link';
   conversationId: string;
 };
-export type GroupV2MemberAddFromAdminApprovalChangeType = {
+type GroupV2MemberAddFromAdminApprovalChangeType = {
   type: 'member-add-from-admin-approval';
   conversationId: string;
 };
-export type GroupV2MemberPrivilegeChangeType = {
+type GroupV2MemberPrivilegeChangeType = {
   type: 'member-privilege';
   conversationId: string;
   newPrivilege: number;
 };
-export type GroupV2MemberRemoveChangeType = {
+type GroupV2MemberRemoveChangeType = {
   type: 'member-remove';
   conversationId: string;
 };
 
-export type GroupV2PendingAddOneChangeType = {
+type GroupV2PendingAddOneChangeType = {
   type: 'pending-add-one';
   conversationId: string;
 };
-export type GroupV2PendingAddManyChangeType = {
+type GroupV2PendingAddManyChangeType = {
   type: 'pending-add-many';
   count: number;
 };
 // Note: pending-remove is only used if user didn't also join the group at the same time
-export type GroupV2PendingRemoveOneChangeType = {
+type GroupV2PendingRemoveOneChangeType = {
   type: 'pending-remove-one';
   conversationId: string;
   inviter?: string;
 };
 // Note: pending-remove is only used if user didn't also join the group at the same time
-export type GroupV2PendingRemoveManyChangeType = {
+type GroupV2PendingRemoveManyChangeType = {
   type: 'pending-remove-many';
   count: number;
   inviter?: string;
 };
 
-export type GroupV2AdminApprovalAddOneChangeType = {
+type GroupV2AdminApprovalAddOneChangeType = {
   type: 'admin-approval-add-one';
   conversationId: string;
 };
 // Note: admin-approval-remove-one is only used if user didn't also join the group at
 //   the same time
-export type GroupV2AdminApprovalRemoveOneChangeType = {
+type GroupV2AdminApprovalRemoveOneChangeType = {
   type: 'admin-approval-remove-one';
   conversationId: string;
   inviter?: string;
@@ -188,6 +192,7 @@ export type GroupV2ChangeDetailType =
   | GroupV2AccessMembersChangeType
   | GroupV2AdminApprovalAddOneChangeType
   | GroupV2AdminApprovalRemoveOneChangeType
+  | GroupV2AnnouncementsOnlyChangeType
   | GroupV2AvatarChangeType
   | GroupV2DescriptionChangeType
   | GroupV2GroupLinkAddChangeType
@@ -897,6 +902,20 @@ export function buildAccessControlAddFromInviteLinkChange(
   const actions = new Proto.GroupChange.Actions();
   actions.version = (group.revision || 0) + 1;
   actions.modifyAddFromInviteLinkAccess = accessControlAction;
+
+  return actions;
+}
+
+export function buildAnnouncementsOnlyChange(
+  group: ConversationAttributesType,
+  value: boolean
+): Proto.GroupChange.Actions {
+  const action = new Proto.GroupChange.Actions.ModifyAnnouncementsOnlyAction();
+  action.announcementsOnly = value;
+
+  const actions = new Proto.GroupChange.Actions();
+  actions.version = (group.revision || 0) + 1;
+  actions.modifyAnnouncementsOnly = action;
 
   return actions;
 }
@@ -3875,6 +3894,15 @@ function extractDiffs({
       conversationId,
     });
   });
+
+  // announcementsOnly
+
+  if (old.announcementsOnly !== current.announcementsOnly) {
+    details.push({
+      type: 'announcements-only',
+      announcementsOnly: Boolean(current.announcementsOnly),
+    });
+  }
 
   // final processing
 

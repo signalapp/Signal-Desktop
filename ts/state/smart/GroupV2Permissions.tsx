@@ -15,6 +15,7 @@ export type SmartGroupV2PermissionsProps = {
   conversationId: string;
   setAccessControlAttributesSetting: (value: number) => void;
   setAccessControlMembersSetting: (value: number) => void;
+  setAnnouncementsOnly: (value: boolean) => void;
 };
 
 const mapStateToProps = (

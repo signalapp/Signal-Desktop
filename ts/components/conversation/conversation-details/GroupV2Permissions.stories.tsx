@@ -27,6 +27,8 @@ const conversation: ConversationType = getDefaultConversation({
   title: 'Some Conversation',
   type: 'group',
   sharedGroupNames: [],
+  announcementsOnlyReady: true,
+  areWeAdmin: true,
 });
 
 const createProps = (): PropsType => ({
@@ -36,6 +38,7 @@ const createProps = (): PropsType => ({
     'setAccessControlAttributesSetting'
   ),
   setAccessControlMembersSetting: action('setAccessControlMembersSetting'),
+  setAnnouncementsOnly: action('setAnnouncementsOnly'),
 });
 
 story.add('Basic', () => {

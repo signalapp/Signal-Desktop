@@ -25,7 +25,7 @@ export function isMe(conversationAttrs: ConversationAttributesType): boolean {
 }
 
 export function isGroupV1(
-  conversationAttrs: ConversationAttributesType
+  conversationAttrs: Pick<ConversationAttributesType, 'groupId'>
 ): boolean {
   const { groupId } = conversationAttrs;
   if (!groupId) {
@@ -37,7 +37,10 @@ export function isGroupV1(
 }
 
 export function isGroupV2(
-  conversationAttrs: ConversationAttributesType
+  conversationAttrs: Pick<
+    ConversationAttributesType,
+    'groupId' | 'groupVersion'
+  >
 ): boolean {
   const { groupId, groupVersion = 0 } = conversationAttrs;
   if (!groupId) {

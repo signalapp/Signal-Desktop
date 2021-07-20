@@ -91,7 +91,14 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   title: '',
   // GroupV1 Disabled Actions
   onStartGroupMigration: action('onStartGroupMigration'),
-  // GroupV2 Pending Approval Actions
+  // GroupV2
+  announcementsOnly: boolean(
+    'announcementsOnly',
+    Boolean(overrideProps.announcementsOnly)
+  ),
+  areWeAdmin: boolean('areWeAdmin', Boolean(overrideProps.areWeAdmin)),
+  groupAdmins: [],
+  openConversation: action('openConversation'),
   onCancelJoinRequest: action('onCancelJoinRequest'),
   // SMS-only
   isSMSOnly: overrideProps.isSMSOnly || false,
@@ -157,3 +164,12 @@ story.add('Attachments', () => {
 
   return <CompositionArea {...props} />;
 });
+
+story.add('Announcements Only group', () => (
+  <CompositionArea
+    {...createProps({
+      announcementsOnly: true,
+      areWeAdmin: false,
+    })}
+  />
+));

@@ -1,3 +1,6 @@
+// Copyright 2018-2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 package signalservice;
 
 option java_package = "org.whispersystems.libsignal.protocol";
@@ -34,10 +37,10 @@ message UnidentifiedSenderMessage {
             PREKEY_MESSAGE         = 1;
             MESSAGE                = 2;
             // Further cases should line up with Envelope.Type, even though old cases don't.
-            
+
             // Our parser does not handle reserved in enums: DESKTOP-1569
             // reserved 3 to 6;
-            
+
             SENDERKEY_MESSAGE      = 7;
             PLAINTEXT_CONTENT      = 8;
         }
@@ -45,7 +48,7 @@ message UnidentifiedSenderMessage {
         enum ContentHint {
             // Show an error immediately; it was important but we can't retry.
             DEFAULT = 0;
-        
+
             // Sender will try to resend; delay any error UI if possible
             RESENDABLE = 1;
 

@@ -6,6 +6,7 @@ import React from 'react';
 import { ConversationType } from '../../../state/ducks/conversations';
 import { LocalizerType } from '../../../types/Util';
 import { getAccessControlOptions } from '../../../util/getAccessControlOptions';
+import { SignalService as Proto } from '../../../protobuf';
 
 import { PanelRow } from './PanelRow';
 import { PanelSection } from './PanelSection';
@@ -16,14 +17,16 @@ export type PropsType = {
   i18n: LocalizerType;
   setAccessControlAttributesSetting: (value: number) => void;
   setAccessControlMembersSetting: (value: number) => void;
+  setAnnouncementsOnly: (value: boolean) => void;
 };
 
-export const GroupV2Permissions: React.ComponentType<PropsType> = ({
+export const GroupV2Permissions = ({
   conversation,
   i18n,
   setAccessControlAttributesSetting,
   setAccessControlMembersSetting,
-}) => {
+  setAnnouncementsOnly,
+}: PropsType): JSX.Element => {
   if (conversation === undefined) {
     throw new Error('GroupV2Permissions rendered without a conversation');
   }
@@ -34,7 +37,16 @@ export const GroupV2Permissions: React.ComponentType<PropsType> = ({
   const updateAccessControlMembers = (value: string) => {
     setAccessControlMembersSetting(Number(value));
   };
+  const AccessControlEnum = Proto.AccessControl.AccessRequired;
+  const updateAnnouncementsOnly = (value: string) => {
+    setAnnouncementsOnly(Number(value) === AccessControlEnum.ADMINISTRATOR);
+  };
   const accessControlOptions = getAccessControlOptions(i18n);
+  const announcementsOnlyValue = String(
+    conversation.announcementsOnly
+      ? AccessControlEnum.ADMINISTRATOR
+      : AccessControlEnum.MEMBER
+  );
 
   return (
     <PanelSection>
@@ -60,6 +72,19 @@ export const GroupV2Permissions: React.ComponentType<PropsType> = ({
           />
         }
       />
+      {conversation.areWeAdmin && conversation.announcementsOnlyReady && (
+        <PanelRow
+          label={i18n('ConversationDetails--announcement-label')}
+          info={i18n('ConversationDetails--announcement-info')}
+          right={
+            <Select
+              onChange={updateAnnouncementsOnly}
+              options={accessControlOptions}
+              value={announcementsOnlyValue}
+            />
+          }
+        />
+      )}
     </PanelSection>
   );
 };

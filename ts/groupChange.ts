@@ -850,6 +850,29 @@ export function renderChangeDetail(
     }
     return renderString('GroupV2--description--change--unknown', i18n);
   }
+  if (detail.type === 'announcements-only') {
+    if (detail.announcementsOnly) {
+      if (fromYou) {
+        return renderString('GroupV2--announcements--admin--you', i18n);
+      }
+      if (from) {
+        return renderString('GroupV2--announcements--admin--other', i18n, [
+          renderContact(from),
+        ]);
+      }
+      return renderString('GroupV2--announcements--admin--unknown', i18n);
+    }
+
+    if (fromYou) {
+      return renderString('GroupV2--announcements--member--you', i18n);
+    }
+    if (from) {
+      return renderString('GroupV2--announcements--member--other', i18n, [
+        renderContact(from),
+      ]);
+    }
+    return renderString('GroupV2--announcements--member--unknown', i18n);
+  }
 
   throw missingCaseError(detail);
 }

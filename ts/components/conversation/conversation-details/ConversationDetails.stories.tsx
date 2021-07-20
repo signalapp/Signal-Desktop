@@ -139,3 +139,15 @@ story.add('Group Links On', () => {
 
   return <ConversationDetails {...props} isAdmin />;
 });
+
+story.add('Group add with missing capabilities', () => (
+  <ConversationDetails
+    {...createProps()}
+    canEditGroupInfo
+    addMembers={async () => {
+      const error = new Error();
+      error.code = 'E_NO_CAPABILITY';
+      throw error;
+    }}
+  />
+));

@@ -41,6 +41,8 @@ export type PropsDataType = {
 } & Pick<
   ConversationType,
   | 'acceptedMessageRequest'
+  | 'announcementsOnly'
+  | 'areWeAdmin'
   | 'avatarPath'
   | 'canChangeTimer'
   | 'color'
@@ -291,6 +293,8 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
 
   private renderOutgoingCallButtons(): ReactNode {
     const {
+      announcementsOnly,
+      areWeAdmin,
       i18n,
       onOutgoingAudioCallInConversation,
       onOutgoingVideoCallInConversation,
@@ -301,15 +305,18 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
 
     const videoButton = (
       <button
-        type="button"
-        onClick={onOutgoingVideoCallInConversation}
+        aria-label={i18n('makeOutgoingVideoCall')}
         className={classNames(
           'module-ConversationHeader__button',
           'module-ConversationHeader__button--video',
-          showBackButton ? null : 'module-ConversationHeader__button--show'
+          showBackButton ? null : 'module-ConversationHeader__button--show',
+          !showBackButton && announcementsOnly && !areWeAdmin
+            ? 'module-ConversationHeader__button--show-disabled'
+            : undefined
         )}
         disabled={showBackButton}
-        aria-label={i18n('makeOutgoingVideoCall')}
+        onClick={onOutgoingVideoCallInConversation}
+        type="button"
       />
     );
 
@@ -341,14 +348,14 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
         return (
           <button
             aria-label={i18n('joinOngoingCall')}
-            type="button"
-            onClick={onOutgoingVideoCallInConversation}
             className={classNames(
               'module-ConversationHeader__button',
               'module-ConversationHeader__button--join-call',
               showBackButton ? null : 'module-ConversationHeader__button--show'
             )}
             disabled={showBackButton}
+            onClick={onOutgoingVideoCallInConversation}
+            type="button"
           >
             {isNarrow ? null : i18n('joinOngoingCall')}
           </button>

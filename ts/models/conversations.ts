@@ -541,6 +541,16 @@ export class ConversationModel extends window.Backbone
       );
     }
 
+    if (
+      this.get('announcementsOnly') &&
+      !toRequest.get('capabilities')?.announcementGroup
+    ) {
+      window.log.warn(
+        `addPendingApprovalRequest/${idLog}: member needs to upgrade.`
+      );
+      return undefined;
+    }
+
     // We need the user's profileKeyCredential, which requires a roundtrip with the
     //   server, and most definitely their profileKey. A getProfiles() call will
     //   ensure that we have as much as we can get with the data we have.
@@ -583,6 +593,16 @@ export class ConversationModel extends window.Backbone
       throw new Error(
         `addMember/${idLog}: No conversation found for conversation ${conversationId}`
       );
+    }
+
+    if (
+      this.get('announcementsOnly') &&
+      !toRequest.get('capabilities')?.announcementGroup
+    ) {
+      window.log.warn(
+        `addMember/${idLog}: ${conversationId} needs to upgrade.`
+      );
+      return undefined;
     }
 
     // We need the user's profileKeyCredential, which requires a roundtrip with the
@@ -1436,6 +1456,8 @@ export class ConversationModel extends window.Backbone
         ?.addFromInviteLink,
       accessControlAttributes: this.get('accessControl')?.attributes,
       accessControlMembers: this.get('accessControl')?.members,
+      announcementsOnly: Boolean(this.get('announcementsOnly')),
+      announcementsOnlyReady: this.canBeAnnouncementGroup(),
       expireTimer: this.get('expireTimer'),
       muteExpiresAt: this.get('muteExpiresAt')!,
       name: this.get('name')!,
@@ -1830,6 +1852,20 @@ export class ConversationModel extends window.Backbone
   }
 
   async addMembersV2(conversationIds: ReadonlyArray<string>): Promise<void> {
+    if (this.get('announcementsOnly')) {
+      const isEveryMemberCapable = conversationIds.every(conversationId => {
+        const model = window.ConversationController.get(conversationId);
+        return Boolean(model?.get('capabilities')?.announcementGroup);
+      });
+      if (!isEveryMemberCapable) {
+        const error = new Error(
+          'addMembersV2: some or all members need to upgrade.'
+        );
+        error.code = 'E_NO_CAPABILITY';
+        throw error;
+      }
+    }
+
     await this.modifyGroupV2({
       name: 'addMembersV2',
       createGroupChange: () =>
@@ -2975,6 +3011,17 @@ export class ConversationModel extends window.Backbone
     );
   }
 
+  canBeAnnouncementGroup(): boolean {
+    if (!isGroupV2(this.attributes)) {
+      return false;
+    }
+
+    const members = getConversationMembers(this.attributes);
+    return members.every(conversationAttrs =>
+      Boolean(conversationAttrs.capabilities?.announcementGroup)
+    );
+  }
+
   getMemberIds(): Array<string> {
     const members = this.getMembers();
     return members.map(member => member.id);
@@ -4002,6 +4049,23 @@ export class ConversationModel extends window.Backbone
         members: value,
       },
     });
+  }
+
+  async updateAnnouncementsOnly(value: boolean): Promise<void> {
+    if (!isGroupV2(this.attributes) || !this.canBeAnnouncementGroup()) {
+      return;
+    }
+
+    await this.modifyGroupV2({
+      name: 'updateAnnouncementsOnly',
+      createGroupChange: async () =>
+        window.Signal.Groups.buildAnnouncementsOnlyChange(
+          this.attributes,
+          value
+        ),
+    });
+
+    this.set({ announcementsOnly: value });
   }
 
   async updateExpirationTimer(
@@ -5147,6 +5211,12 @@ export class ConversationModel extends window.Backbone
 
     // We don't do anything with typing messages from our other devices
     if (fromMe) {
+      return;
+    }
+
+    // Drop typing indicators for announcement only groups where the sender
+    // is not an admin
+    if (this.get('announcementsOnly') && !this.isAdmin(senderId)) {
       return;
     }
 

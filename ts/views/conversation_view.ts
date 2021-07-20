@@ -335,6 +335,10 @@ Whisper.UnableToLoadToast = Whisper.ToastView.extend({
   },
 });
 
+Whisper.CannotStartGroupCallToast = Whisper.ToastView.extend({
+  template: () => window.i18n('GroupV2--cannot-start-group-call'),
+});
+
 Whisper.DangerousFileTypeToast = Whisper.ToastView.extend({
   template: () => window.i18n('dangerousFileType'),
 });
@@ -555,6 +559,11 @@ Whisper.ConversationView = Whisper.View.extend({
             );
             const isVideoCall = true;
 
+            if (model.get('announcementsOnly') && !model.areWeAdmin()) {
+              this.showToast(Whisper.CannotStartGroupCallToast);
+              return;
+            }
+
             if (await this.isCallSafe()) {
               window.log.info(
                 'onOutgoingVideoCallInConversation: call is deemed "safe". Making call'
@@ -722,6 +731,8 @@ Whisper.ConversationView = Whisper.View.extend({
         this.disableLinkPreviews = true;
         this.removeLinkPreview();
       },
+
+      openConversation: this.openConversation.bind(this),
     };
 
     this.compositionAreaView = new Whisper.ReactWrapperView({
@@ -733,7 +744,7 @@ Whisper.ConversationView = Whisper.View.extend({
     });
 
     // Finally, add it to the DOM
-    this.$('.composition-area-placeholder').append(this.compositionAreaView.el);
+    this.$('.CompositionArea__placeholder').append(this.compositionAreaView.el);
   },
 
   async longRunningTaskWrapper<T>({
@@ -2316,17 +2327,24 @@ Whisper.ConversationView = Whisper.View.extend({
             includedAttachments?: Array<AttachmentType>,
             linkPreview?: LinkPreviewType
           ) => {
-            const didForwardSuccessfully = await this.maybeForwardMessage(
-              message,
-              conversationIds,
-              messageBody,
-              includedAttachments,
-              linkPreview
-            );
+            try {
+              const didForwardSuccessfully = await this.maybeForwardMessage(
+                message,
+                conversationIds,
+                messageBody,
+                includedAttachments,
+                linkPreview
+              );
 
-            if (didForwardSuccessfully) {
-              this.forwardMessageModal.remove();
-              this.forwardMessageModal = null;
+              if (didForwardSuccessfully) {
+                this.forwardMessageModal.remove();
+                this.forwardMessageModal = null;
+              }
+            } catch (err) {
+              window.log.warn(
+                'doForwardMessage',
+                err && err.stack ? err.stack : err
+              );
             }
           },
           isSticker: Boolean(message.get('sticker')),
@@ -2379,6 +2397,14 @@ Whisper.ConversationView = Whisper.View.extend({
     const conversations = conversationIds.map(id =>
       window.ConversationController.get(id)
     );
+
+    const cannotSend = conversations.some(
+      conversation =>
+        conversation?.get('announcementsOnly') && !conversation.areWeAdmin()
+    );
+    if (!cannotSend) {
+      throw new Error('Cannot send to group');
+    }
 
     // Verify that all contacts that we're forwarding
     // to are verified and trusted
@@ -3253,6 +3279,7 @@ Whisper.ConversationView = Whisper.View.extend({
           setAccessControlMembersSetting: this.setAccessControlMembersSetting.bind(
             this
           ),
+          setAnnouncementsOnly: this.setAnnouncementsOnly.bind(this),
         }
       ),
     });
@@ -3301,6 +3328,10 @@ Whisper.ConversationView = Whisper.View.extend({
   },
 
   showConversationDetails() {
+    // Run a getProfiles in case member's capabilities have changed
+    // Redux should cover us on the return here so no need to await this.
+    this.model.throttledGetProfiles();
+
     const { model }: { model: ConversationModel } = this;
 
     const messageRequestEnum = Proto.SyncMessage.MessageRequestResponse.Type;
@@ -3593,7 +3624,9 @@ Whisper.ConversationView = Whisper.View.extend({
     });
   },
 
-  async setAccessControlAddFromInviteLinkSetting(value: boolean) {
+  async setAccessControlAddFromInviteLinkSetting(
+    value: boolean
+  ): Promise<void> {
     const { model }: { model: ConversationModel } = this;
 
     await this.longRunningTaskWrapper({
@@ -3602,7 +3635,7 @@ Whisper.ConversationView = Whisper.View.extend({
     });
   },
 
-  async setAccessControlAttributesSetting(value: number) {
+  async setAccessControlAttributesSetting(value: number): Promise<void> {
     const { model }: { model: ConversationModel } = this;
 
     await this.longRunningTaskWrapper({
@@ -3611,12 +3644,21 @@ Whisper.ConversationView = Whisper.View.extend({
     });
   },
 
-  async setAccessControlMembersSetting(value: number) {
+  async setAccessControlMembersSetting(value: number): Promise<void> {
     const { model }: { model: ConversationModel } = this;
 
     await this.longRunningTaskWrapper({
       name: 'updateAccessControlMembers',
       task: async () => model.updateAccessControlMembers(value),
+    });
+  },
+
+  async setAnnouncementsOnly(value: boolean): Promise<void> {
+    const { model }: { model: ConversationModel } = this;
+
+    await this.longRunningTaskWrapper({
+      name: 'updateAnnouncementsOnly',
+      task: async () => model.updateAnnouncementsOnly(value),
     });
   },
 

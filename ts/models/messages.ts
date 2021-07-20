@@ -2737,6 +2737,15 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         return;
       }
 
+      // Drop incoming messages to announcement only groups where sender is not admin
+      if (
+        conversation.get('announcementsOnly') &&
+        !conversation.isAdmin(senderId)
+      ) {
+        confirm();
+        return;
+      }
+
       const messageId = window.getGuid();
 
       // Send delivery receipts, but only for incoming sealed sender messages

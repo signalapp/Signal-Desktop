@@ -12,6 +12,7 @@ import { selectRecentEmojis } from '../selectors/emojis';
 import { getIntl, getUserConversationId } from '../selectors/user';
 import {
   getConversationSelector,
+  getGroupAdminsSelector,
   isMissingRequiredProfileSharing,
 } from '../selectors/conversations';
 import { getPropsForQuote } from '../selectors/message';
@@ -38,7 +39,12 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     throw new Error(`Conversation id ${id} not found!`);
   }
 
-  const { draftText, draftBodyRanges } = conversation;
+  const {
+    announcementsOnly,
+    areWeAdmin,
+    draftText,
+    draftBodyRanges,
+  } = conversation;
 
   const receivedPacks = getReceivedStickerPacks(state);
   const installedPacks = getInstalledStickerPacks(state);
@@ -109,6 +115,10 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     isMissingMandatoryProfileSharing: isMissingRequiredProfileSharing(
       conversation
     ),
+    // Groups
+    announcementsOnly,
+    areWeAdmin,
+    groupAdmins: getGroupAdminsSelector(state)(conversation.id),
   };
 };
 

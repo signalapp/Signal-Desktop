@@ -1,0 +1,24 @@
+// Copyright 2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.AnnouncementsOnlyGroupBanner {
+  &__banner {
+    @include font-subtitle;
+    padding: 16px;
+    text-align: center;
+
+    @include light-theme {
+      border-top: 1px solid $color-gray-05;
+      color: $color-gray-60;
+    }
+    @include dark-theme {
+      border-top: 1px solid $color-gray-05;
+      color: $color-gray-05;
+    }
+
+    &--admins {
+      @include button-reset;
+      color: $color-ultramarine;
+    }
+  }
+}
