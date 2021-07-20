@@ -230,6 +230,8 @@ const ConversationListItem = (props: Props) => {
     type,
     isPublic,
     avatarPath,
+    notificationForConvo,
+    currentNotificationSetting,
   } = props;
   const triggerId = `conversation-item-${conversationId}-ctxmenu`;
   const key = `conversation-item-${conversationId}`;
@@ -292,6 +294,8 @@ const ConversationListItem = (props: Props) => {
           isPublic={isPublic}
           left={left}
           type={type}
+          notificationForConvo={notificationForConvo}
+          currentNotificationSetting={currentNotificationSetting}
         />
       </Portal>
     </div>

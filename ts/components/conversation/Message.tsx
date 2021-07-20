@@ -44,6 +44,7 @@ import { showLightBox, toggleSelectedMessageId } from '../../state/ducks/convers
 import { saveAttachmentToDisk } from '../../util/attachmentsUtil';
 import { LightBoxOptions } from '../session/conversation/SessionConversation';
 import { MessageContextMenu } from './MessageContextMenu';
+import { ReadableMessage } from './ReadableMessage';
 
 // Same as MIN_WIDTH in ImageGrid.tsx
 const MINIMUM_LINK_PREVIEW_IMAGE_WIDTH = 200;
@@ -595,9 +596,10 @@ class MessageInner extends React.PureComponent<Props, State> {
       divClasses.push('flash-green-once');
     }
 
-    const onVisible = async (inView: boolean) => {
-      if (inView && shouldMarkReadWhenVisible) {
+    const onVisible = async (inView: boolean | Object) => {
+      if (inView === true && shouldMarkReadWhenVisible && window.isFocused()) {
         const found = await getMessageById(id);
+
         // mark the message as read.
         // this will trigger the expire timer.
         void found?.markRead(Date.now());
@@ -605,14 +607,10 @@ class MessageInner extends React.PureComponent<Props, State> {
     };
 
     return (
-      <InView
+      <ReadableMessage
         id={id}
-        as="div"
         className={classNames(divClasses)}
         onChange={onVisible}
-        threshold={1}
-        delay={200}
-        triggerOnce={true}
         onContextMenu={this.handleContextMenu}
       >
         {this.renderAvatar()}
@@ -630,7 +628,10 @@ class MessageInner extends React.PureComponent<Props, State> {
           <div
             className={classNames(
               'module-message__container',
-              `module-message__container--${direction}`
+              `module-message__container--${direction}`,
+              isShowingImage
+                ? `module-message__container--${direction}--transparent`
+                : `module-message__container--${direction}--opaque`
             )}
             style={{
               width: isShowingImage ? width : undefined,
@@ -679,7 +680,7 @@ class MessageInner extends React.PureComponent<Props, State> {
             weAreAdmin={this.props.weAreAdmin}
           />
         </div>
-      </InView>
+      </ReadableMessage>
     );
   }
 

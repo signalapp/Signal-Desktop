@@ -59,7 +59,7 @@
         // If message is unread, we mark it read. Otherwise, we update the expiration
         //   timer to the time specified by the read sync if it's earlier than
         //   the previous read time.
-        if (message.isUnread()) {
+        if (message.isUnread() && window.isFocused()) {
           await message.markRead(readAt);
 
           // onReadMessage may result in messages older than this one being

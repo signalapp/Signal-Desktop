@@ -27,15 +27,11 @@ import {
   openRightPanel,
   resetSelectedMessageIds,
 } from '../../state/ducks/conversations';
+import { NotificationForConvoOption } from '../../state/ducks/conversations';
 
 export interface TimerOption {
   name: string;
   value: number;
-}
-
-export interface NotificationForConvoOption {
-  name: string;
-  value: ConversationNotificationSettingType;
 }
 
 export type ConversationHeaderProps = {

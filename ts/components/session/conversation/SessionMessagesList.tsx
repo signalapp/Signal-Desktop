@@ -374,7 +374,7 @@ class SessionMessagesListInner extends React.Component<Props> {
       return;
     }
 
-    if (this.getScrollOffsetBottomPx() === 0) {
+    if (this.getScrollOffsetBottomPx() === 0 && window.isFocused()) {
       void conversation.markRead(messagesProps[0].propsForMessage.receivedAt || 0);
     }
   }

@@ -14,7 +14,6 @@ import {
   MessageRegularProps,
   PropsForDataExtractionNotification,
 } from '../../models/messageType';
-import { NotificationForConvoOption } from '../../components/conversation/ConversationHeader';
 import { LightBoxOptions } from '../../components/session/conversation/SessionConversation';
 import { ReplyingToMessageProps } from '../../components/session/conversation/SessionCompositionBox';
 
@@ -225,6 +224,11 @@ export interface ReduxConversationType {
   isPinned: boolean;
 }
 
+export interface NotificationForConvoOption {
+  name: string;
+  value: ConversationNotificationSettingType;
+}
+
 export type ConversationLookupType = {
   [key: string]: ReduxConversationType;
 };
@@ -347,8 +351,6 @@ const getFirstMessageUnreadIndex = (messages: Array<SortedMessageModelProps>) =>
       message.propsForMessage.direction === 'incoming' &&
       message.propsForMessage.isUnread === true
     ) {
-      console.warn('message.propsForMessage', message.propsForMessage);
-
       return index;
     }
   }
@@ -375,7 +377,6 @@ export const fetchMessagesForConversation = createAsyncThunk(
 
     const mapped = messagesProps.map((m, index) => {
       if (index === firstUnreadIndex) {
-        console.warn('fullfuled firstUnreadIndex', firstUnreadIndex);
         return {
           ...m,
           firstMessageOfSeries: true,

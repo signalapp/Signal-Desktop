@@ -11,7 +11,7 @@ import { ConversationHeaderWithDetails } from '../../conversation/ConversationHe
 import { SessionRightPanelWithDetails } from './SessionRightPanel';
 import { SessionTheme } from '../../../state/ducks/SessionTheme';
 import { DefaultTheme } from 'styled-components';
-import { SessionMessageListProps, SessionMessagesList } from './SessionMessagesList';
+import { SessionMessagesList } from './SessionMessagesList';
 import { LightboxGallery, MediaItemType } from '../../LightboxGallery';
 
 import { AttachmentType, AttachmentTypeWithPath, save } from '../../../types/Attachment';
@@ -20,11 +20,9 @@ import * as MIME from '../../../types/MIME';
 import { SessionFileDropzone } from './SessionFileDropzone';
 import {
   fetchMessagesForConversation,
-  PropsForMessage,
   quoteMessage,
   ReduxConversationType,
   resetSelectedMessageIds,
-  showLightBox,
   SortedMessageModelProps,
   updateMentionsMembers,
 } from '../../../state/ducks/conversations';

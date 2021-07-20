@@ -27,6 +27,7 @@ import {
   LastMessageStatusType,
   MessageModelProps,
   ReduxConversationType,
+  NotificationForConvoOption,
 } from '../state/ducks/conversations';
 import { ExpirationTimerUpdateMessage } from '../session/messages/outgoing/controlMessage/ExpirationTimerUpdateMessage';
 import { TypingMessage } from '../session/messages/outgoing/controlMessage/TypingMessage';
@@ -37,7 +38,6 @@ import {
 import { GroupInvitationMessage } from '../session/messages/outgoing/visibleMessage/GroupInvitationMessage';
 import { ReadReceiptMessage } from '../session/messages/outgoing/controlMessage/receipt/ReadReceiptMessage';
 import { OpenGroupUtils } from '../opengroup/utils';
-import { ConversationInteraction } from '../interactions';
 import { OpenGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
 import { OpenGroupRequestCommonType } from '../opengroup/opengroupV2/ApiUtil';
 import { getOpenGroupV2FromConversationId } from '../opengroup/utils/OpenGroupUtils';
@@ -177,6 +177,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   private typingRefreshTimer?: NodeJS.Timeout | null;
   private typingPauseTimer?: NodeJS.Timeout | null;
   private typingTimer?: NodeJS.Timeout | null;
+  private lastReadTimestamp: number;
 
   private pending: any;
 
@@ -198,11 +199,19 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     });
     this.throttledNotify = _.debounce(this.notify, 500, { maxWait: 1000, trailing: true });
     //start right away the function is called, and wait 1sec before calling it again
-    this.markRead = _.debounce(this.markReadBouncy, 1000, { leading: true });
+    const markReadDebounced = _.debounce(this.markReadBouncy, 1000, { leading: true });
+    this.markRead = async (newestUnreadDate: number) => {
+      const lastReadTimestamp = this.lastReadTimestamp;
+      if (newestUnreadDate > lastReadTimestamp) {
+        this.lastReadTimestamp = newestUnreadDate;
+      }
+      void markReadDebounced(newestUnreadDate);
+    };
     // Listening for out-of-band data updates
 
     this.typingRefreshTimer = null;
     this.typingPauseTimer = null;
+    this.lastReadTimestamp = 0;
 
     window.inboxStore?.dispatch(conversationChanged({ id: this.id, data: this.getProps() }));
   }
@@ -390,16 +399,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
   public getProps(): ReduxConversationType {
     const groupAdmins = this.getGroupAdmins();
-
     const members = this.isGroup() && !this.isPublic() ? this.get('members') : [];
-
-    // exclude mentions_only settings for private chats as this does not make much sense
-    const notificationForConvo = ConversationNotificationSetting.filter(n =>
-      this.isPrivate() ? n !== 'mentions_only' : true
-    ).map((n: ConversationNotificationSettingType) => {
-      // this link to the notificationForConvo_all, notificationForConvo_mentions_only, ...
-      return { value: n, name: window.i18n(`notificationForConvo_${n}`) };
-    });
     const ourNumber = UserUtils.getOurPubKeyStrFromCache();
 
     // isSelected is overriden by redux
@@ -411,9 +411,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       type: this.isPrivate() ? ConversationTypeEnum.PRIVATE : ConversationTypeEnum.GROUP,
       weAreAdmin: this.isAdmin(ourNumber),
       isGroup: !this.isPrivate(),
-      currentNotificationSetting: this.get('triggerNotificationsFor'),
 
-      notificationForConvo,
       isPrivate: this.isPrivate(),
       isMe: this.isMe(),
       isPublic: this.isPublic(),
@@ -437,7 +435,19 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       expireTimer: this.get('expireTimer') || 0,
       subscriberCount: this.get('subscriberCount') || 0,
       isPinned: this.isPinned(),
+      notificationForConvo: this.getConversationNotificationSettingType(),
+      currentNotificationSetting: this.get('triggerNotificationsFor'),
     };
+  }
+
+  public getConversationNotificationSettingType(): Array<NotificationForConvoOption> {
+    // exclude mentions_only settings for private chats as this does not make much sense
+    return ConversationNotificationSetting.filter(n =>
+      this.isPrivate() ? n !== 'mentions_only' : true
+    ).map((n: ConversationNotificationSettingType) => {
+      // this link to the notificationForConvo_all, notificationForConvo_mentions_only, ...
+      return { value: n, name: window.i18n(`notificationForConvo_${n}`) };
+    });
   }
 
   public async updateGroupAdmins(groupAdmins: Array<string>) {
@@ -946,6 +956,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   public async markReadBouncy(newestUnreadDate: number, providedOptions: any = {}) {
+    const lastReadTimestamp = this.lastReadTimestamp;
+    if (newestUnreadDate < lastReadTimestamp) {
+      return;
+    }
+
     const options = providedOptions || {};
     _.defaults(options, { sendReadReceipts: true });
 
@@ -994,7 +1009,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       const cachedUnreadCountOnConvo = this.get('unreadCount');
       if (cachedUnreadCountOnConvo !== read.length) {
         // reset the unreadCount on the convo to the real one coming from markRead messages on the db
-        this.set({ unreadCount: 0 });
+        this.set({ unreadCount: realUnreadCount });
         await this.commit();
       } else {
         // window?.log?.info('markRead(): nothing newly read.');

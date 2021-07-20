@@ -84,6 +84,7 @@ export async function signInByLinkingDevice(mnemonic: string, mnemonicLanguage: 
 
   // await for the first configuration message to come in.
   await registrationDone(pubKeyString, '');
+  return pubKeyString;
 }
 /**
  * This is a signup. User has no recovery and does not try to link a device

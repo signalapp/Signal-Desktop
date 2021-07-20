@@ -7,15 +7,21 @@ export const useEncryptedFileFetch = (url: string, contentType: string) => {
   const [urlToLoad, setUrlToLoad] = useState('');
   const [loading, setLoading] = useState(true);
 
+  let isCancelled = false;
+
   async function fetchUrl() {
     const decryptedUrl = await getDecryptedMediaUrl(url, contentType);
-    setUrlToLoad(decryptedUrl);
+    if (!isCancelled) {
+      setUrlToLoad(decryptedUrl);
 
-    setLoading(false);
+      setLoading(false);
+    }
   }
 
   useEffect(() => {
     void fetchUrl();
+
+    () => (isCancelled = true);
   }, [url]);
 
   return { urlToLoad, loading };

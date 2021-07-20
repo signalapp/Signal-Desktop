@@ -2,7 +2,7 @@ import React from 'react';
 
 import { getNumberOfPinnedConversations } from '../../../state/selectors/conversations';
 import { getFocusedSection } from '../../../state/selectors/section';
-import { NotificationForConvoOption, TimerOption } from '../../conversation/ConversationHeader';
+import { TimerOption } from '../../conversation/ConversationHeader';
 import { Item, Submenu } from 'react-contexify';
 import { ConversationNotificationSettingType } from '../../../models/conversation';
 import { useDispatch, useSelector } from 'react-redux';
@@ -27,6 +27,7 @@ import {
 import { SessionButtonColor } from '../SessionButton';
 import { getTimerOptions } from '../../../state/selectors/timerOptions';
 import { ToastUtils } from '../../../session/utils';
+import { NotificationForConvoOption } from '../../../state/ducks/conversations';
 
 const maxNumberOfPinnedConversations = 5;
 
@@ -131,10 +132,11 @@ export interface PinConversationMenuItemProps {
 
 export const getPinConversationMenuItem = (conversationId: string): JSX.Element | null => {
   const isMessagesSection = useSelector(getFocusedSection) === SectionType.Message;
+  const nbOfAlreadyPinnedConvos = useSelector(getNumberOfPinnedConversations);
+
   if (isMessagesSection && window.lokiFeatureFlags.enablePinConversations) {
     const conversation = getConversationController().get(conversationId);
     const isPinned = conversation.isPinned();
-    const nbOfAlreadyPinnedConvos = useSelector(getNumberOfPinnedConversations);
 
     const togglePinConversation = async () => {
       if ((!isPinned && nbOfAlreadyPinnedConvos < maxNumberOfPinnedConversations) || isPinned) {
@@ -312,6 +314,8 @@ export function getDisappearingMenuItem(
   isBlocked: boolean | undefined,
   conversationId: string
 ): JSX.Element | null {
+  const timerOptions = useSelector(getTimerOptions).timerOptions;
+
   if (
     showTimerOptions(
       Boolean(isPublic),
@@ -321,8 +325,6 @@ export function getDisappearingMenuItem(
     )
   ) {
     const isRtlMode = isRtlBody();
-
-    const timerOptions = useSelector(getTimerOptions).timerOptions;
 
     return (
       // Remove the && false to make context menu work with RTL support

@@ -145,14 +145,6 @@ export const _getLeftPaneLists = (
       continue;
     }
 
-    // Show loading icon while fetching messages
-    if (conversation.isPublic && !conversation.activeAt) {
-      conversation.lastMessage = {
-        status: 'sending',
-        text: '',
-      };
-    }
-
     // Remove all invalid conversations and conversatons of devices associated
     //  with cancelled attempted links
     if (!conversation.isPublic && !conversation.activeAt) {

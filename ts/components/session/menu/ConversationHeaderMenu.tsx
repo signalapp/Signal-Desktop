@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { animation, Menu } from 'react-contexify';
 import {
   getAddModeratorsMenuItem,
@@ -13,12 +13,13 @@ import {
   getLeaveGroupMenuItem,
   getMarkAllReadMenuItem,
   getNotificationForConvoMenuItem,
+  getPinConversationMenuItem,
   getRemoveModeratorsMenuItem,
   getUpdateGroupNameMenuItem,
 } from './Menu';
-import { NotificationForConvoOption } from '../../conversation/ConversationHeader';
-import { ConversationNotificationSettingType } from '../../../models/conversation';
 import _ from 'lodash';
+import { ConversationNotificationSettingType } from '../../../models/conversation';
+import { NotificationForConvoOption } from '../../../state/ducks/conversations';
 
 export type PropsConversationHeaderMenu = {
   conversationId: string;
@@ -64,8 +65,8 @@ const ConversationHeaderMenu = (props: PropsConversationHeaderMenu) => {
         currentNotificationSetting,
         conversationId
       )}
+      {getPinConversationMenuItem(conversationId)}
       {getBlockMenuItem(isMe, isPrivate, isBlocked, conversationId)}
-
       {getCopyMenuItem(isPublic, isGroup, conversationId)}
       {getMarkAllReadMenuItem(conversationId)}
       {getChangeNicknameMenuItem(isMe, isGroup, conversationId)}

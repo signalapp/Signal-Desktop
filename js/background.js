@@ -344,7 +344,9 @@
     Whisper.Notifications.on('click', (id, messageId) => {
       window.showWindow();
       if (id) {
-        window.inboxStore.dispatch(window.actionsCreators.openConversationExternal(id, messageId));
+        window.inboxStore.dispatch(
+          window.actionsCreators.openConversationExternal({ id, messageId })
+        );
       } else {
         appView.openInbox({
           initialLoadComplete,

@@ -1,5 +1,8 @@
 import { assert } from 'chai';
-import { ConversationTypeEnum } from '../../../../models/conversation';
+import {
+  ConversationNotificationSetting,
+  ConversationTypeEnum,
+} from '../../../../models/conversation';
 
 import { ConversationLookupType } from '../../../../state/ducks/conversations';
 import {
@@ -80,7 +83,6 @@ describe('state/selectors/conversations', () => {
           activeAt: 20,
           name: 'C',
           phoneNumber: 'notused',
-
           type: ConversationTypeEnum.PRIVATE,
           isMe: false,
           unreadCount: 1,
