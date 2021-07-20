@@ -3702,7 +3702,7 @@ Whisper.ConversationView = Whisper.View.extend({
     }
   },
 
-  async sendStickerMessage(options: any = {}) {
+  async sendStickerMessage(options: { packId: string; stickerId: number }) {
     const { model }: { model: ConversationModel } = this;
 
     try {

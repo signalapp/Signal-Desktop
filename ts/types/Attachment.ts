@@ -180,8 +180,18 @@ export function isValid(
 export async function autoOrientJPEG(
   attachment: AttachmentType,
   _: unknown,
-  message?: { sendHQImages?: boolean }
+  {
+    sendHQImages = false,
+    isIncoming = false,
+  }: {
+    sendHQImages?: boolean;
+    isIncoming?: boolean;
+  } = {}
 ): Promise<AttachmentType> {
+  if (isIncoming && !MIME.isJPEG(attachment.contentType)) {
+    return attachment;
+  }
+
   if (!canBeTranscoded(attachment)) {
     return attachment;
   }
@@ -197,7 +207,7 @@ export async function autoOrientJPEG(
   );
   const xcodedDataBlob = await scaleImageToLevel(
     dataBlob,
-    message ? message.sendHQImages : false
+    sendHQImages || isIncoming
   );
   const xcodedDataArrayBuffer = await blobToArrayBuffer(xcodedDataBlob);
 
