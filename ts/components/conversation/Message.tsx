@@ -4,7 +4,7 @@
 import React from 'react';
 import ReactDOM, { createPortal } from 'react-dom';
 import classNames from 'classnames';
-import { drop, groupBy, orderBy, take } from 'lodash';
+import { drop, groupBy, orderBy, take, unescape } from 'lodash';
 import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
 import { Manager, Popper, Reference } from 'react-popper';
 
@@ -963,7 +963,7 @@ export class Message extends React.Component<Props, State> {
             </div>
             {first.description && (
               <div className="module-message__link-preview__description">
-                {first.description}
+                {unescape(first.description)}
               </div>
             )}
             <div className="module-message__link-preview__footer">
