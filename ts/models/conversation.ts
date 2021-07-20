@@ -173,6 +173,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   private typingRefreshTimer?: NodeJS.Timeout | null;
   private typingPauseTimer?: NodeJS.Timeout | null;
   private typingTimer?: NodeJS.Timeout | null;
+  private lastReadTimestamp: number;
 
   private pending: any;
 
@@ -188,11 +189,19 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     this.updateLastMessage = _.throttle(this.bouncyUpdateLastMessage.bind(this), 1000);
     this.throttledNotify = _.debounce(this.notify, 500, { maxWait: 1000 });
     //start right away the function is called, and wait 1sec before calling it again
-    this.markRead = _.debounce(this.markReadBouncy, 1000, { leading: true });
+    const markReadDebounced = _.debounce(this.markReadBouncy, 1000, { leading: true });
+    this.markRead = (newestUnreadDate: number) => {
+      const lastReadTimestamp = this.lastReadTimestamp;
+      if (newestUnreadDate > lastReadTimestamp) {
+        this.lastReadTimestamp = newestUnreadDate;
+      }
+      void markReadDebounced(newestUnreadDate);
+    };
     // Listening for out-of-band data updates
 
     this.typingRefreshTimer = null;
     this.typingPauseTimer = null;
+    this.lastReadTimestamp = 0;
 
     window.inboxStore?.dispatch(conversationActions.conversationChanged(this.id, this.getProps()));
   }
@@ -914,6 +923,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   public async markReadBouncy(newestUnreadDate: number, providedOptions: any = {}) {
+    const lastReadTimestamp = this.lastReadTimestamp;
+    if (newestUnreadDate < lastReadTimestamp) {
+      return;
+    }
+
     const options = providedOptions || {};
     _.defaults(options, { sendReadReceipts: true });
 
@@ -959,7 +973,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       const cachedUnreadCountOnConvo = this.get('unreadCount');
       if (cachedUnreadCountOnConvo !== read.length) {
         // reset the unreadCount on the convo to the real one coming from markRead messages on the db
-        this.set({ unreadCount: 0 });
+        this.set({ unreadCount: realUnreadCount });
         await this.commit();
       } else {
         // window?.log?.info('markRead(): nothing newly read.');

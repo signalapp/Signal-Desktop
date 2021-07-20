@@ -1047,6 +1047,8 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   public async markRead(readAt: number) {
     this.markReadNoCommit(readAt);
 
+    this.getConversation()?.markRead(this.attributes.received_at);
+
     await this.commit();
   }
 

@@ -63,6 +63,8 @@ const ConversationListItem = (props: Props) => {
     isMe,
     isPinned,
     isTyping,
+    isPublic,
+    left,
     type,
     lastMessage,
     memberAvatars,
@@ -126,6 +128,8 @@ const ConversationListItem = (props: Props) => {
           triggerId={triggerId}
           type={type}
           isMe={isMe}
+          isPublic={isPublic}
+          left={left}
           notificationForConvo={notificationForConvo}
           currentNotificationSetting={currentNotificationSetting}
         />

@@ -378,7 +378,7 @@ export class SessionMessagesList extends React.Component<Props, State> {
       return;
     }
 
-    if (this.getScrollOffsetBottomPx() === 0) {
+    if (this.getScrollOffsetBottomPx() === 0 && window.isFocused()) {
       void conversation.markRead(messages[0].attributes.received_at);
     }
   }

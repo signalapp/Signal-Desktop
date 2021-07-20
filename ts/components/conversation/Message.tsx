@@ -42,6 +42,7 @@ import { MessageInteraction } from '../../interactions';
 import autoBind from 'auto-bind';
 import { AudioPlayerWithEncryptedFile } from './H5AudioPlayer';
 import { ClickToTrustSender } from './message/ClickToTrustSender';
+import { ReadableMessage } from './ReadableMessage';
 
 // Same as MIN_WIDTH in ImageGrid.tsx
 const MINIMUM_LINK_PREVIEW_IMAGE_WIDTH = 200;
@@ -728,8 +729,8 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
       divClasses.push('flash-green-once');
     }
 
-    const onVisible = (inView: boolean) => {
-      if (inView && shouldMarkReadWhenVisible) {
+    const onVisible = (inView: boolean | Object) => {
+      if (inView === true && shouldMarkReadWhenVisible && window.isFocused()) {
         // mark the message as read.
         // this will trigger the expire timer.
         void markRead(Date.now());
@@ -737,14 +738,10 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
     };
 
     return (
-      <InView
+      <ReadableMessage
         id={id}
-        as="div"
         className={classNames(divClasses)}
         onChange={onVisible}
-        threshold={1}
-        delay={200}
-        triggerOnce={true}
         onContextMenu={this.handleContextMenu}
       >
         {this.renderAvatar()}
@@ -818,7 +815,7 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
           {this.renderError(!isIncoming)}
           {this.renderContextMenu()}
         </div>
-      </InView>
+      </ReadableMessage>
     );
   }
 
