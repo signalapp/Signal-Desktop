@@ -198,8 +198,6 @@ class MessageReceiverInner extends EventTarget {
 
   serverTrustRoot: Uint8Array;
 
-  signalingKey: ArrayBuffer;
-
   socket?: WebSocket;
 
   socketStatus = SocketStatus.CLOSED;
@@ -220,7 +218,6 @@ class MessageReceiverInner extends EventTarget {
     oldUsername: string,
     username: string,
     password: string,
-    signalingKey: ArrayBuffer,
     options: {
       serverTrustRoot: string;
     }
@@ -230,7 +227,6 @@ class MessageReceiverInner extends EventTarget {
     this.count = 0;
     this.processedCount = 0;
 
-    this.signalingKey = signalingKey;
     this.username = oldUsername;
     this.uuid = username;
     this.password = password;
@@ -479,7 +475,6 @@ class MessageReceiverInner extends EventTarget {
     }
 
     const job = async () => {
-      let plaintext: Uint8Array;
       const headers = request.headers || [];
 
       if (!request.body) {
@@ -488,16 +483,7 @@ class MessageReceiverInner extends EventTarget {
         );
       }
 
-      if (headers.includes('X-Signal-Key: true')) {
-        plaintext = new FIXMEU8(
-          await Crypto.decryptWebsocketMessage(
-            typedArrayToArrayBuffer(request.body),
-            this.signalingKey
-          )
-        );
-      } else {
-        plaintext = request.body;
-      }
+      const plaintext = request.body;
 
       try {
         const decoded = Proto.Envelope.decode(plaintext);
@@ -2683,7 +2669,6 @@ export default class MessageReceiver {
     oldUsername: string,
     username: string,
     password: string,
-    signalingKey: ArrayBuffer,
     options: {
       serverTrustRoot: string;
       retryCached?: string;
@@ -2694,7 +2679,6 @@ export default class MessageReceiver {
       oldUsername,
       username,
       password,
-      signalingKey,
       options
     );
     this.inner = inner;

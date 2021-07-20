@@ -98,7 +98,6 @@ export type StorageAccessType = {
   unidentifiedDeliveryIndicators: boolean;
   groupCredentials: Array<GroupCredentialType>;
   lastReceivedAtCounter: number;
-  signaling_key: ArrayBuffer;
   skinTone: number;
   unreadCount: number;
   'challenge:retry-message-ids': ReadonlyArray<{
@@ -113,6 +112,7 @@ export type StorageAccessType = {
 
   // Deprecated
   senderCertificateWithUuid: never;
+  signaling_key: never;
 };
 
 export interface StorageInterface {

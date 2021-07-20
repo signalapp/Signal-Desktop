@@ -831,7 +831,6 @@ const URL_CALLS = {
   multiRecipient: 'v1/messages/multi_recipient',
   profile: 'v1/profile',
   registerCapabilities: 'v1/devices/capabilities',
-  removeSignalingKey: 'v1/accounts/signaling_key',
   reportMessage: 'v1/messages/report',
   signed: 'v2/keys/signed',
   storageManifest: 'v1/storage/manifest',
@@ -1051,7 +1050,6 @@ export type WebAPIType = {
   ) => Promise<string>;
   registerKeys: (genKeys: KeysType) => Promise<void>;
   registerSupportForUnauthenticatedDelivery: () => Promise<any>;
-  removeSignalingKey: () => Promise<void>;
   reportMessage: (senderE164: string, serverGuid: string) => Promise<void>;
   requestVerificationSMS: (number: string) => Promise<any>;
   requestVerificationVoice: (number: string) => Promise<any>;
@@ -1244,7 +1242,6 @@ export function initialize({
       registerCapabilities,
       registerKeys,
       registerSupportForUnauthenticatedDelivery,
-      removeSignalingKey,
       reportMessage,
       requestVerificationSMS,
       requestVerificationVoice,
@@ -1614,13 +1611,6 @@ export function initialize({
       return _ajax({
         call: 'getIceServers',
         httpType: 'GET',
-      });
-    }
-
-    async function removeSignalingKey() {
-      return _ajax({
-        call: 'removeSignalingKey',
-        httpType: 'DELETE',
       });
     }
 

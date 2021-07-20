@@ -151,45 +151,6 @@ async function verifyDigest(
 }
 
 const Crypto = {
-  // Decrypts message into a raw string
-  async decryptWebsocketMessage(
-    decodedMessage: ArrayBuffer,
-    signalingKey: ArrayBuffer
-  ): Promise<ArrayBuffer> {
-    if (signalingKey.byteLength !== 52) {
-      throw new Error('Got invalid length signalingKey');
-    }
-    if (decodedMessage.byteLength < 1 + 16 + 10) {
-      throw new Error('Got invalid length message');
-    }
-    if (new Uint8Array(decodedMessage)[0] !== 1) {
-      throw new Error(
-        `Got bad version number: ${new Uint8Array(decodedMessage)[0]}`
-      );
-    }
-
-    const aesKey = signalingKey.slice(0, 32);
-    const macKey = signalingKey.slice(32, 32 + 20);
-
-    const iv = decodedMessage.slice(1, 1 + 16);
-    const ciphertext = decodedMessage.slice(
-      1 + 16,
-      decodedMessage.byteLength - 10
-    );
-    const ivAndCiphertext = decodedMessage.slice(
-      0,
-      decodedMessage.byteLength - 10
-    );
-    const mac = decodedMessage.slice(
-      decodedMessage.byteLength - 10,
-      decodedMessage.byteLength
-    );
-
-    await verifyHmacSha256(ivAndCiphertext, macKey, mac, 10);
-
-    return decryptAes256CbcPkcsPadding(aesKey, ciphertext, iv);
-  },
-
   async decryptAttachment(
     encryptedBin: ArrayBuffer,
     keys: ArrayBuffer,

@@ -27,7 +27,6 @@ describe('MessageReceiver', () => {
   const number = '+19999999999';
   const uuid = 'aaaaaaaa-bbbb-4ccc-9ddd-eeeeeeeeeeee';
   const deviceId = 1;
-  const signalingKey = Crypto.getRandomBytes(32 + 20);
 
   describe('connecting', () => {
     it('generates decryption-error event when it cannot decrypt', done => {
@@ -37,7 +36,6 @@ describe('MessageReceiver', () => {
         'oldUsername.2',
         'username.2',
         'password',
-        signalingKey,
         {
           serverTrustRoot: 'AAAAAAAA',
           socket: socket as WebSocket,

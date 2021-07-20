@@ -720,7 +720,6 @@ const ITEM_KEYS: Partial<Record<ItemKeyType, Array<string>>> = {
   identityKey: ['value.pubKey', 'value.privKey'],
   senderCertificate: ['value.serialized'],
   senderCertificateNoE164: ['value.serialized'],
-  signaling_key: ['value'],
   profileKey: ['value'],
 };
 async function createOrUpdateItem<K extends ItemKeyType>(data: ItemType<K>) {

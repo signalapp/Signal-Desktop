@@ -158,13 +158,6 @@ export default class AccountManager extends EventTarget {
     await window.textsecure.storage.user.setDeviceNameEncrypted();
   }
 
-  async maybeDeleteSignalingKey() {
-    const key = window.textsecure.storage.user.getSignalingKey();
-    if (key) {
-      await this.server.removeSignalingKey();
-    }
-  }
-
   async registerSingleDevice(number: string, verificationCode: string) {
     return this.queueTask(async () => {
       const identityKeyPair = generateKeyPair();

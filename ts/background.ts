@@ -2050,10 +2050,6 @@ export async function startApp(): Promise<void> {
       const OLD_USERNAME = window.storage.get('number_id', '');
       const USERNAME = window.storage.get('uuid_id', '');
       const PASSWORD = window.storage.get('password', '');
-      const mySignalingKey = window.storage.get(
-        'signaling_key',
-        new ArrayBuffer(0)
-      );
 
       window.textsecure.messaging = new window.textsecure.MessageSender(
         USERNAME || OLD_USERNAME,
@@ -2113,7 +2109,6 @@ export async function startApp(): Promise<void> {
         OLD_USERNAME,
         USERNAME,
         PASSWORD,
-        mySignalingKey,
         messageReceiverOptions
       );
       window.textsecure.messageReceiver = messageReceiver;
@@ -2257,7 +2252,7 @@ export async function startApp(): Promise<void> {
           const manager = window.getAccountManager()!;
           await Promise.all([
             manager.maybeUpdateDeviceName(),
-            manager.maybeDeleteSignalingKey(),
+            window.textsecure.storage.user.removeSignalingKey(),
           ]);
         } catch (e) {
           window.log.error(

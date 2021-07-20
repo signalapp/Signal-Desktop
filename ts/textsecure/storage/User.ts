@@ -58,8 +58,8 @@ export class User {
     return this.storage.get('deviceNameEncrypted');
   }
 
-  public getSignalingKey(): ArrayBuffer | undefined {
-    return this.storage.get('signaling_key');
+  public async removeSignalingKey(): Promise<void> {
+    return this.storage.remove('signaling_key');
   }
 
   private _getDeviceIdFromUuid(): string | undefined {
