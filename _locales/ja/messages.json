@@ -1033,10 +1033,6 @@
         "message": "このメッセージは、チャットの参加者が最新バージョンの Signal を使っている場合、削除されます。参加者は、あなたがメッセージを削除したことは確認できます。",
         "description": "Text shown in the confirmation dialog for deleting a message for everyone"
     },
-    "deleteThisMessage": {
-        "message": "このメッセージを削除する",
-        "description": ""
-    },
     "from": {
         "message": "差出人",
         "description": "Label for the sender of a message"
@@ -5528,7 +5524,7 @@
         "description": "An example message bubble for selecting the chat color"
     },
     "ChatColorPicker__sampleBubble3": {
-        "message": "この色はあなたたけに表示されます。",
+        "message": "この色はあなただけに表示されます。",
         "description": "An example message bubble for selecting the chat color"
     },
     "ChatColorPicker__context--edit": {

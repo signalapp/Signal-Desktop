@@ -673,6 +673,10 @@
         "message": "Доклад (debug log)",
         "description": "View menu item to open the debug log (title case)"
     },
+    "forceUpdate": {
+        "message": "Force Update",
+        "description": "View menu item to force the app to update download and install"
+    },
     "helpMenuShowKeyboardShortcuts": {
         "message": "Покажи бързи клавиши",
         "description": "Item under the help menu, pops up a screen showing the application's keyboard shortcuts"
@@ -1029,10 +1033,6 @@
         "message": "Това съобщение ще бъде изтрито за всички участващи в този разговор, ползващи скорошна версия на Signal. Те ще могат да видят, че сте изтрили съобщение.",
         "description": "Text shown in the confirmation dialog for deleting a message for everyone"
     },
-    "deleteThisMessage": {
-        "message": "Изтрий съобщението",
-        "description": ""
-    },
     "from": {
         "message": "От",
         "description": "Label for the sender of a message"
@@ -1148,7 +1148,7 @@
         "description": "Shown on explainer dialog available from chat session refreshed timeline events"
     },
     "DeliveryIssue--preview": {
-        "message": "Delivery issue",
+        "message": "Грешка при изпращането",
         "description": "Shown in left pane preview when message delivery issue happens"
     },
     "DeliveryIssue--notification": {
@@ -1166,7 +1166,7 @@
         "description": "Shown in timeline when message delivery issue happens, to provide access to a popup info dialog"
     },
     "DeliveryIssue--title": {
-        "message": "Delivery Issue",
+        "message": "Грешка при изпращане",
         "description": "Shown on explainer dialog available from delivery issue timeline events"
     },
     "DeliveryIssue--summary": {
@@ -1557,6 +1557,14 @@
         "message": "Граматическата проверка ще бъде деактивирана при следващото стартиране на Signal.",
         "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
     },
+    "SystemTraySetting__minimize-to-system-tray": {
+        "message": "Minimize to system tray",
+        "description": "In the settings, shown next to the checkbox option for minimizing to the system tray"
+    },
+    "SystemTraySetting__minimize-to-and-start-in-system-tray": {
+        "message": "Start minimized to tray",
+        "description": "In the settings, shown next to the checkbox option for starting in the system tray"
+    },
     "autoLaunchDescription": {
         "message": "Стартирай при включване на компютъра",
         "description": "Description for the automatic launch setting"
@@ -1837,7 +1845,7 @@
     },
     "disappearingMessages": {
         "message": "Изчезващи съобщения",
-        "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages"
+        "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
     },
     "disappearingMessagesDisabled": {
         "message": "Изчезващите съобщения са деактивирани",
@@ -3044,7 +3052,7 @@
         "description": "Shown as a button to let the user block a message request and report spam"
     },
     "MessageRequests--block-and-report-spam-success-toast": {
-        "message": "Reported as spam and blocked.",
+        "message": "Докладван за спам и блокиран",
         "description": "Shown in a toast when you successfully block a user and report them as spam"
     },
     "MessageRequests--block-direct-confirm-title": {
@@ -3244,7 +3252,7 @@
         "description": "Shown to indicate this user is not a member of any groups"
     },
     "no-groups-in-common-warning": {
-        "message": "No groups in common. Review requests carefully.",
+        "message": "Нямате общи групи. Преглеждайте заявките внимателно.",
         "description": "When a user has no common groups, show this warning"
     },
     "acceptCall": {
@@ -4684,7 +4692,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--description--change--you": {
-        "message": "You changed the group description.",
+        "message": "Променихте описанието на групата.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--description--change--other": {
@@ -5422,15 +5430,15 @@
         }
     },
     "CaptchaDialog__title": {
-        "message": "Verify to continue messaging",
+        "message": "Потвърдете, за да продължите да пишете",
         "description": "Header in the captcha dialog"
     },
     "CaptchaDialog__first-paragraph": {
-        "message": "To help prevent spam on Signal, please complete verification.",
+        "message": "С цел да преотвратим спам в Сигнал, моля потвърдете.",
         "description": "First paragraph in the captcha dialog"
     },
     "CaptchaDialog__second-paragraph": {
-        "message": "After verifying, you can continue messaging. Any paused messages will automatically be sent.",
+        "message": "След потвърждение ще можете да продължите да пишете. Всички задържани съобщения ще бъдат автоматично изпратени.",
         "description": "First paragraph in the captcha dialog"
     },
     "CaptchaDialog--can-close__title": {
@@ -5614,11 +5622,35 @@
         "description": "Button text when the group description is too long"
     },
     "EditConversationAttributesModal__description-warning": {
-        "message": "Group descriptions will be visible to members of this group and people who have been invited.",
+        "message": "Описанията на групите ще бъдат видими за членове на тази група и хора, които са поканени.",
         "description": "Label text shown when editing group description"
     },
     "ConversationDetailsHeader--add-group-description": {
         "message": "Add group description...",
         "description": "Placeholder text in the details header for those that can edit the group description"
+    },
+    "MediaQualitySelector--button": {
+        "message": "Select media quality",
+        "description": "aria-label for the media quality selector button"
+    },
+    "MediaQualitySelector--title": {
+        "message": "Media Quality",
+        "description": "Popup selector title"
+    },
+    "MediaQualitySelector--standard-quality-title": {
+        "message": "Standard",
+        "description": "Title for option for standard quality"
+    },
+    "MediaQualitySelector--standard-quality-description": {
+        "message": "Faster, less data",
+        "description": "Description of standard quality selector"
+    },
+    "MediaQualitySelector--high-quality-title": {
+        "message": "Високо",
+        "description": "Title for option for high quality"
+    },
+    "MediaQualitySelector--high-quality-description": {
+        "message": "Slower, more data",
+        "description": "Description of high quality selector"
     }
 }
