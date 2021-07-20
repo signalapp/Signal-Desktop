@@ -8,9 +8,7 @@ import styled, { DefaultTheme, useTheme } from 'styled-components';
 import { MessageDeliveryStatus, MessageModelType } from '../../../models/messageType';
 
 type Props = {
-  disableMenu?: boolean;
   isAdmin?: boolean;
-  isDeletable: boolean;
   text?: string | null;
   id: string;
   collapseMetadata?: boolean;

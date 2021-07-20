@@ -22,41 +22,28 @@ import {
   isImageAttachment,
   isVideo,
 } from '../../../ts/types/Attachment';
-import { AttachmentType } from '../../types/Attachment';
 
 import { getIncrement } from '../../util/timer';
 import { isFileDangerous } from '../../util/isFileDangerous';
 import _ from 'lodash';
-import { animation, contextMenu, Item, Menu } from 'react-contexify';
+import { contextMenu, Menu } from 'react-contexify';
 import uuid from 'uuid';
 import { InView } from 'react-intersection-observer';
 import { MessageMetadata } from './message/MessageMetadata';
 import { PubKey } from '../../session/types';
 import { MessageRegularProps } from '../../models/messageType';
-import {
-  addSenderAsModerator,
-  removeSenderFromModerator,
-} from '../../interactions/messageInteractions';
 import { updateUserDetailsModal } from '../../state/ducks/modalDialog';
-import { MessageInteraction } from '../../interactions';
 import autoBind from 'auto-bind';
 import { AudioPlayerWithEncryptedFile } from './H5AudioPlayer';
 import { ClickToTrustSender } from './message/ClickToTrustSender';
 import { getMessageById } from '../../data/data';
-import { deleteMessagesById, replyToMessage } from '../../interactions/conversationInteractions';
 import { connect } from 'react-redux';
 import { StateType } from '../../state/reducer';
 import { getSelectedMessageIds } from '../../state/selectors/conversations';
-import {
-  PropsForAttachment,
-  PropsForMessage,
-  showLightBox,
-  showMessageDetailsView,
-  toggleSelectedMessageId,
-} from '../../state/ducks/conversations';
+import { showLightBox, toggleSelectedMessageId } from '../../state/ducks/conversations';
 import { saveAttachmentToDisk } from '../../util/attachmentsUtil';
 import { LightBoxOptions } from '../session/conversation/SessionConversation';
-import { pushUnblockToSend } from '../../session/utils/Toast';
+import { MessageContextMenu } from './MessageContextMenu';
 
 // Same as MIN_WIDTH in ImageGrid.tsx
 const MINIMUM_LINK_PREVIEW_IMAGE_WIDTH = 200;
@@ -194,7 +181,6 @@ class MessageInner extends React.PureComponent<Props, State> {
       conversationType,
       direction,
       quote,
-      multiSelectMode,
       isTrustedForAttachmentDownload,
     } = this.props;
     const { imageBroken } = this.state;
@@ -234,16 +220,7 @@ class MessageInner extends React.PureComponent<Props, State> {
             withContentBelow={withContentBelow}
             bottomOverlay={!collapseMetadata}
             onError={this.handleImageError}
-            onClickAttachment={(attachment: AttachmentTypeWithPath) => {
-              if (multiSelectMode) {
-                window.inboxStore?.dispatch(toggleSelectedMessageId(id));
-              } else {
-                void onClickAttachment({
-                  attachment,
-                  messageId: id,
-                });
-              }
-            }}
+            onClickAttachment={this.onClickOnImageGrid}
           />
         </div>
       );
@@ -286,17 +263,7 @@ class MessageInner extends React.PureComponent<Props, State> {
               <div
                 role="button"
                 className="module-message__generic-attachment__icon"
-                onClick={(e: any) => {
-                  e.stopPropagation();
-
-                  const messageTimestamp = this.props.timestamp || this.props.serverTimestamp || 0;
-                  void saveAttachmentToDisk({
-                    attachment: firstAttachment,
-                    messageTimestamp,
-                    messageSender: this.props.authorPhoneNumber,
-                    conversationId: this.props.convoId,
-                  });
-                }}
+                onClick={this.onClickOnGenericAttachment}
               >
                 {extension ? (
                   <div className="module-message__generic-attachment__icon__extension">
@@ -414,22 +381,11 @@ class MessageInner extends React.PureComponent<Props, State> {
   }
 
   public renderQuote() {
-    const {
-      conversationType,
-      direction,
-      quote,
-      isPublic,
-      convoId,
-      id,
-      multiSelectMode,
-    } = this.props;
+    const { conversationType, direction, quote, isPublic, convoId } = this.props;
 
     if (!quote || !quote.authorPhoneNumber || !quote.messageId) {
       return null;
     }
-    const quoteId = _.toNumber(quote.messageId);
-    const { authorPhoneNumber, referencedMessageNotFound } = quote;
-
     const withContentAbove = conversationType === 'group' && direction === 'incoming';
 
     const shortenedPubkey = PubKey.shorten(quote.authorPhoneNumber);
@@ -438,20 +394,7 @@ class MessageInner extends React.PureComponent<Props, State> {
 
     return (
       <Quote
-        onClick={(e: any) => {
-          e.preventDefault();
-          e.stopPropagation();
-          if (multiSelectMode && id) {
-            window.inboxStore?.dispatch(toggleSelectedMessageId(id));
-
-            return;
-          }
-          void this.props.onQuoteClick?.({
-            quoteAuthor: authorPhoneNumber,
-            quoteId,
-            referencedMessageNotFound,
-          });
-        }}
+        onClick={this.onQuoteClick}
         text={quote.text}
         attachment={quote.attachment}
         isIncoming={direction === 'incoming'}
@@ -497,15 +440,7 @@ class MessageInner extends React.PureComponent<Props, State> {
           avatarPath={authorAvatarPath}
           name={userName}
           size={AvatarSize.S}
-          onAvatarClick={() => {
-            window.inboxStore?.dispatch(
-              updateUserDetailsModal({
-                conversationId: authorPhoneNumber,
-                userName,
-                authorAvatarPath,
-              })
-            );
-          }}
+          onAvatarClick={this.onMessageAvatarClick}
           pubkey={authorPhoneNumber}
         />
         {isPublic && isAdmin && (
@@ -559,142 +494,6 @@ class MessageInner extends React.PureComponent<Props, State> {
           className={classNames('module-message__error', `module-message__error--${direction}`)}
         />
       </div>
-    );
-  }
-
-  public renderContextMenu() {
-    const {
-      attachments,
-      authorPhoneNumber,
-      convoId,
-      direction,
-      status,
-      isDeletable,
-      id,
-      isPublic,
-      isOpenGroupV2,
-      weAreAdmin,
-      isAdmin,
-      text,
-    } = this.props;
-
-    const showRetry = status === 'error' && direction === 'outgoing';
-    const multipleAttachments = attachments && attachments.length > 1;
-
-    const onContextMenuShown = () => {
-      window.contextMenuShown = true;
-    };
-
-    const onContextMenuHidden = () => {
-      // This function will called before the click event
-      // on the message would trigger (and I was unable to
-      // prevent propagation in this case), so use a short timeout
-      setTimeout(() => {
-        window.contextMenuShown = false;
-      }, 100);
-    };
-
-    const onShowDetail = async () => {
-      const found = await getMessageById(this.props.id);
-      if (found) {
-        const messageDetailsProps = await found.getPropsForMessageDetail();
-        window.inboxStore?.dispatch(showMessageDetailsView(messageDetailsProps));
-      } else {
-        window.log.warn(`Message ${this.props.id} not found in db`);
-      }
-    };
-
-    const selectMessageText = window.i18n('selectMessage');
-    const deleteMessageText = window.i18n('deleteMessage');
-
-    return (
-      <Menu
-        id={this.ctxMenuID}
-        onShown={onContextMenuShown}
-        onHidden={onContextMenuHidden}
-        animation={animation.fade}
-      >
-        {!multipleAttachments && attachments && attachments[0] ? (
-          <Item
-            onClick={(e: any) => {
-              e.stopPropagation();
-              const messageTimestamp = this.props.timestamp || this.props.serverTimestamp || 0;
-              void saveAttachmentToDisk({
-                attachment: attachments[0],
-                messageTimestamp,
-                messageSender: this.props.authorPhoneNumber,
-                conversationId: this.props.convoId,
-              });
-            }}
-          >
-            {window.i18n('downloadAttachment')}
-          </Item>
-        ) : null}
-
-        <Item
-          onClick={() => {
-            MessageInteraction.copyBodyToClipboard(text);
-          }}
-        >
-          {window.i18n('copyMessage')}
-        </Item>
-        <Item onClick={this.onReplyPrivate}>{window.i18n('replyToMessage')}</Item>
-        <Item onClick={onShowDetail}>{window.i18n('moreInformation')}</Item>
-        {showRetry ? (
-          <Item
-            onClick={async () => {
-              const found = await getMessageById(id);
-              if (found) {
-                await found.retrySend();
-              }
-            }}
-          >
-            {window.i18n('resend')}
-          </Item>
-        ) : null}
-        {isDeletable ? (
-          <>
-            <Item
-              onClick={() => {
-                window.inboxStore?.dispatch(toggleSelectedMessageId(id));
-              }}
-            >
-              {selectMessageText}
-            </Item>
-            <Item
-              onClick={() => {
-                void deleteMessagesById([id], convoId, false);
-              }}
-            >
-              {deleteMessageText}
-            </Item>
-          </>
-        ) : null}
-        {weAreAdmin && isPublic ? (
-          <Item
-            onClick={() => {
-              MessageInteraction.banUser(authorPhoneNumber, convoId);
-            }}
-          >
-            {window.i18n('banUser')}
-          </Item>
-        ) : null}
-        {weAreAdmin && isOpenGroupV2 ? (
-          <Item
-            onClick={() => {
-              MessageInteraction.unbanUser(authorPhoneNumber, convoId);
-            }}
-          >
-            {window.i18n('unbanUser')}
-          </Item>
-        ) : null}
-        {weAreAdmin && isPublic && !isAdmin ? (
-          <Item onClick={this.onAddModerator}>{window.i18n('addAsModerator')}</Item>
-        ) : null}
-        {weAreAdmin && isPublic && isAdmin ? (
-          <Item onClick={this.onRemoveFromModerator}>{window.i18n('removeFromModerators')}</Item>
-        ) : null}
-      </Menu>
     );
   }
 
@@ -824,26 +623,7 @@ class MessageInner extends React.PureComponent<Props, State> {
             expiring ? 'module-message--expired' : null
           )}
           role="button"
-          onClick={event => {
-            const selection = window.getSelection();
-            // Text is being selected
-            if (selection && selection.type === 'Range') {
-              return;
-            }
-
-            // User clicked on message body
-            const target = event.target as HTMLDivElement;
-            if (
-              (!multiSelectMode && target.className === 'text-selectable') ||
-              window.contextMenuShown
-            ) {
-              return;
-            }
-
-            if (id) {
-              window.inboxStore?.dispatch(toggleSelectedMessageId(id));
-            }
-          }}
+          onClick={this.onClickOnMessageOuterContainer}
         >
           {this.renderError(isIncoming)}
 
@@ -856,19 +636,7 @@ class MessageInner extends React.PureComponent<Props, State> {
               width: isShowingImage ? width : undefined,
             }}
             role="button"
-            onClick={event => {
-              const selection = window.getSelection();
-              // Text is being selected
-              if (selection && selection.type === 'Range') {
-                return;
-              }
-
-              // User clicked on message body
-              const target = event.target as HTMLDivElement;
-              if (target.className === 'text-selectable' || window.contextMenuShown) {
-                return;
-              }
-            }}
+            onClick={this.onClickOnMessageInnerContainer}
           >
             {this.renderAuthor()}
             {this.renderQuote()}
@@ -876,19 +644,40 @@ class MessageInner extends React.PureComponent<Props, State> {
             {this.renderPreview()}
             {this.renderText()}
             <MessageMetadata
-              {..._.omit(
-                this.props,
-                'onDeleteMessage',
-                'onReply',
-                'onClickAttachment',
-                'onDownload',
-                'onQuoteClick'
-              )}
+              direction={this.props.direction}
+              id={this.props.id}
+              timestamp={this.props.timestamp}
+              collapseMetadata={this.props.collapseMetadata}
+              expirationLength={this.props.expirationLength}
+              isAdmin={this.props.isAdmin}
+              serverTimestamp={this.props.serverTimestamp}
+              isPublic={this.props.isPublic}
+              status={this.props.status}
+              expirationTimestamp={this.props.expirationTimestamp}
+              text={this.props.text}
               isShowingImage={this.isShowingImage()}
             />
           </div>
           {this.renderError(!isIncoming)}
-          {this.renderContextMenu()}
+
+          <MessageContextMenu
+            authorPhoneNumber={this.props.authorPhoneNumber}
+            convoId={this.props.convoId}
+            contextMenuId={this.ctxMenuID}
+            direction={this.props.direction}
+            isBlocked={this.props.isBlocked}
+            isDeletable={this.props.isDeletable}
+            messageId={this.props.id}
+            text={this.props.text}
+            timestamp={this.props.timestamp}
+            serverTimestamp={this.props.serverTimestamp}
+            attachments={this.props.attachments}
+            isAdmin={this.props.isAdmin}
+            isOpenGroupV2={this.props.isOpenGroupV2}
+            isPublic={this.props.isPublic}
+            status={this.props.status}
+            weAreAdmin={this.props.weAreAdmin}
+          />
         </div>
       </InView>
     );
@@ -908,6 +697,28 @@ class MessageInner extends React.PureComponent<Props, State> {
         event: e,
       });
     }
+  }
+
+  private onQuoteClick(e: any) {
+    const { quote, multiSelectMode, id } = this.props;
+    if (!quote) {
+      window.log.warn('onQuoteClick: quote not valid');
+      return;
+    }
+    const quoteId = _.toNumber(quote.messageId);
+    const { authorPhoneNumber, referencedMessageNotFound } = quote;
+    e.preventDefault();
+    e.stopPropagation();
+    if (multiSelectMode && id) {
+      window.inboxStore?.dispatch(toggleSelectedMessageId(id));
+
+      return;
+    }
+    void this.props.onQuoteClick?.({
+      quoteAuthor: authorPhoneNumber,
+      quoteId,
+      referencedMessageNotFound,
+    });
   }
 
   private renderAuthor() {
@@ -944,21 +755,83 @@ class MessageInner extends React.PureComponent<Props, State> {
     );
   }
 
-  private onReplyPrivate(e: any) {
-    if (this.props.isBlocked) {
-      pushUnblockToSend();
+  private onMessageAvatarClick() {
+    const userName =
+      this.props.authorName || this.props.authorProfileName || this.props.authorPhoneNumber;
+
+    window.inboxStore?.dispatch(
+      updateUserDetailsModal({
+        conversationId: this.props.authorPhoneNumber,
+        userName,
+        authorAvatarPath: this.props.authorAvatarPath,
+      })
+    );
+  }
+
+  private onClickOnImageGrid(attachment: AttachmentTypeWithPath) {
+    const { multiSelectMode, id } = this.props;
+
+    if (multiSelectMode) {
+      window.inboxStore?.dispatch(toggleSelectedMessageId(id));
+    } else {
+      void onClickAttachment({
+        attachment,
+        messageId: id,
+      });
+    }
+  }
+
+  private onClickOnGenericAttachment(e: any) {
+    const { timestamp, serverTimestamp, authorPhoneNumber, attachments, convoId } = this.props;
+
+    e.stopPropagation();
+
+    if (!attachments?.length) {
       return;
     }
 
-    void replyToMessage(this.props.id);
+    const firstAttachment = attachments[0];
+
+    const messageTimestamp = timestamp || serverTimestamp || 0;
+    void saveAttachmentToDisk({
+      attachment: firstAttachment,
+      messageTimestamp,
+      messageSender: authorPhoneNumber,
+      conversationId: convoId,
+    });
   }
 
-  private async onAddModerator() {
-    await addSenderAsModerator(this.props.authorPhoneNumber, this.props.convoId);
+  private onClickOnMessageOuterContainer(event: any) {
+    const { multiSelectMode, id } = this.props;
+    const selection = window.getSelection();
+    // Text is being selected
+    if (selection && selection.type === 'Range') {
+      return;
+    }
+
+    // User clicked on message body
+    const target = event.target as HTMLDivElement;
+    if ((!multiSelectMode && target.className === 'text-selectable') || window.contextMenuShown) {
+      return;
+    }
+
+    if (id) {
+      window.inboxStore?.dispatch(toggleSelectedMessageId(id));
+    }
   }
 
-  private async onRemoveFromModerator() {
-    await removeSenderFromModerator(this.props.authorPhoneNumber, this.props.convoId);
+  private onClickOnMessageInnerContainer(event: any) {
+    const selection = window.getSelection();
+    // Text is being selected
+    if (selection && selection.type === 'Range') {
+      return;
+    }
+
+    // User clicked on message body
+    const target = event.target as HTMLDivElement;
+    if (target.className === 'text-selectable' || window.contextMenuShown) {
+      return;
+    }
   }
 }
 

@@ -233,12 +233,16 @@ export type ConversationsStateType = {
   conversationLookup: ConversationLookupType;
   selectedConversation?: string;
   messages: Array<SortedMessageModelProps>;
-  messageDetailProps: MessagePropsDetails | undefined;
+  messageDetailProps?: MessagePropsDetails;
   showRightPanel: boolean;
   selectedMessageIds: Array<string>;
   lightBox?: LightBoxOptions;
   quotedMessage?: ReplyingToMessageProps;
   areMoreMessagesBeingFetched: boolean;
+
+  showScrollButton: boolean;
+  animateQuotedMessageId?: string;
+  nextMessageToPlay?: number;
 };
 
 async function getMessages(
@@ -394,6 +398,7 @@ function getEmptyState(): ConversationsStateType {
     showRightPanel: false,
     selectedMessageIds: [],
     areMoreMessagesBeingFetched: false,
+    showScrollButton: false,
   };
 }
 
@@ -708,20 +713,31 @@ const conversationsSlice = createSlice({
       if (state.selectedConversation === action.payload.id) {
         return state;
       }
-      state.showRightPanel = false;
-      state.messageDetailProps = undefined;
-      state.selectedMessageIds = [];
-      state.selectedConversation = action.payload.id;
-      state.messages = [];
-      state.quotedMessage = undefined;
-      state.lightBox = undefined;
-      return state;
+      return {
+        conversationLookup: state.conversationLookup,
+        selectedConversation: action.payload.id,
+        areMoreMessagesBeingFetched: false,
+        messages: [],
+        showRightPanel: false,
+        selectedMessageIds: [],
+        lightBox: undefined,
+        messageDetailProps: undefined,
+        quotedMessage: undefined,
+
+        nextMessageToPlay: undefined,
+        showScrollButton: false,
+        animateQuotedMessageId: undefined,
+      };
     },
     showLightBox(
       state: ConversationsStateType,
       action: PayloadAction<LightBoxOptions | undefined>
     ) {
       state.lightBox = action.payload;
+      return state;
+    },
+    showScrollToBottomButton(state: ConversationsStateType, action: PayloadAction<boolean>) {
+      state.showScrollButton = action.payload;
       return state;
     },
     quoteMessage(
@@ -731,25 +747,20 @@ const conversationsSlice = createSlice({
       state.quotedMessage = action.payload;
       return state;
     },
+    quotedMessageToAnimate(
+      state: ConversationsStateType,
+      action: PayloadAction<string | undefined>
+    ) {
+      state.animateQuotedMessageId = action.payload;
+      return state;
+    },
+    setNextMessageToPlay(state: ConversationsStateType, action: PayloadAction<number | undefined>) {
+      state.nextMessageToPlay = action.payload;
+      return state;
+    },
   },
   extraReducers: (builder: any) => {
     // Add reducers for additional action types here, and handle loading state as needed
-    builder.addCase(
-      fetchMessagesForConversation.fulfilled,
-      (state: ConversationsStateType, action: any) => {
-        // this is called once the messages are loaded from the db for the currently selected conversation
-        const { messagesProps, conversationKey } = action.payload as FetchedMessageResults;
-        // double check that this update is for the shown convo
-        if (conversationKey === state.selectedConversation) {
-          return {
-            ...state,
-            messages: messagesProps,
-            areMoreMessagesBeingFetched: false,
-          };
-        }
-        return state;
-      }
-    );
     builder.addCase(
       fetchMessagesForConversation.fulfilled,
       (state: ConversationsStateType, action: any) => {
@@ -800,4 +811,7 @@ export const {
   toggleSelectedMessageId,
   showLightBox,
   quoteMessage,
+  showScrollToBottomButton,
+  quotedMessageToAnimate,
+  setNextMessageToPlay,
 } = actions;

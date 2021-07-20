@@ -49,13 +49,12 @@ import {
   uploadLinkPreviewsV2,
   uploadQuoteThumbnailsV2,
 } from '../session/utils/AttachmentsV2';
-import { acceptOpenGroupInvitation } from '../interactions/messageInteractions';
 import { OpenGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
 import { getV2OpenGroupRoom } from '../data/opengroups';
 import { getMessageController } from '../session/messages';
 import { isUsFromCache } from '../session/utils/User';
 import { perfEnd, perfStart } from '../session/utils/Performance';
-import { AttachmentType, AttachmentTypeWithPath } from '../types/Attachment';
+import { AttachmentTypeWithPath } from '../types/Attachment';
 
 export class MessageModel extends Backbone.Model<MessageAttributes> {
   constructor(attributes: MessageAttributesOptionals) {
@@ -80,6 +79,8 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     void this.setToExpire();
     autoBind(this);
 
+    this.dispatchMessageUpdate = _.debounce(this.dispatchMessageUpdate, 500);
+
     window.contextMenuShown = false;
 
     this.getProps();
@@ -99,12 +100,8 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     return messageProps;
   }
 
-  // Keep props ready
-  public generateProps(): MessageModelProps {
-    const messageProps = this.getProps();
-    window.inboxStore?.dispatch(conversationActions.messageChanged(messageProps));
-
-    return messageProps;
+  private dispatchMessageUpdate() {
+    window.inboxStore?.dispatch(conversationActions.messageChanged(this.getProps()));
   }
 
   public idForLogging() {
@@ -1082,7 +1079,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
     perfStart(`messageCommit-${this.attributes.id}`);
     const id = await saveMessage(this.attributes);
-    this.generateProps();
+    this.dispatchMessageUpdate();
     perfEnd(`messageCommit-${this.attributes.id}`, 'messageCommit');
 
     return id;

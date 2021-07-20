@@ -246,7 +246,7 @@ export interface MessageRegularProps {
   isUnread: boolean;
   isQuotedMessageToAnimate?: boolean;
   isTrustedForAttachmentDownload: boolean;
-  onQuoteClick: (options: QuoteClickOptions) => Promise<void>;
+  onQuoteClick?: (options: QuoteClickOptions) => Promise<void>;
 
   playableMessageIndex?: number;
   nextMessageToPlay?: number;

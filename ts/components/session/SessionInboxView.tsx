@@ -106,6 +106,12 @@ export class SessionInboxView extends React.Component<any, State> {
         messageDetailProps: undefined,
         selectedMessageIds: [],
         selectedConversation: undefined,
+        areMoreMessagesBeingFetched: false,
+        showScrollButton: false,
+        animateQuotedMessageId: undefined,
+        lightBox: undefined,
+        nextMessageToPlay: undefined,
+        quotedMessage: undefined,
       },
       user: {
         ourNumber: UserUtils.getOurPubKeyStrFromCache(),

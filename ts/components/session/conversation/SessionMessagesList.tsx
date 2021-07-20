@@ -14,7 +14,10 @@ import {
   PropsForExpirationTimer,
   PropsForGroupInvitation,
   PropsForGroupUpdate,
+  quotedMessageToAnimate,
   ReduxConversationType,
+  setNextMessageToPlay,
+  showScrollToBottomButton,
   SortedMessageModelProps,
 } from '../../../state/ducks/conversations';
 import { SessionLastSeenIndicator } from './SessionLastSeenIndicator';
@@ -34,17 +37,15 @@ import { DataExtractionNotification } from '../../conversation/DataExtractionNot
 import { StateType } from '../../../state/reducer';
 import { connect, useSelector } from 'react-redux';
 import {
+  areMoreMessagesBeingFetched,
   getMessagesOfSelectedConversation,
+  getNextMessageToPlayIndex,
+  getQuotedMessageToAnimate,
   getSelectedConversation,
   getSelectedConversationKey,
+  getShowScrollButton,
   isMessageSelectionMode,
 } from '../../../state/selectors/conversations';
-
-interface State {
-  showScrollButton: boolean;
-  animateQuotedMessageId?: string;
-  nextMessageToPlay: number | undefined;
-}
 
 export type SessionMessageListProps = {
   messageContainerRef: React.RefObject<any>;
@@ -55,6 +56,8 @@ type Props = SessionMessageListProps & {
   messagesProps: Array<SortedMessageModelProps>;
 
   conversation?: ReduxConversationType;
+  showScrollButton: boolean;
+  animateQuotedMessageId: string | undefined;
 };
 
 const UnreadIndicator = (props: { messageId: string; show: boolean }) => (
@@ -124,26 +127,27 @@ const GenericMessageItem = (props: {
   messageProps: SortedMessageModelProps;
   playableMessageIndex?: number;
   showUnreadIndicator: boolean;
+  scrollToQuoteMessage: (options: QuoteClickOptions) => Promise<void>;
+  playNextMessage?: (value: number) => void;
 }) => {
   const multiSelectMode = useSelector(isMessageSelectionMode);
-  // const selectedConversation = useSelector(getSelectedConversationKey) as string;
+  const quotedMessageToAnimate = useSelector(getQuotedMessageToAnimate);
+  const nextMessageToPlay = useSelector(getNextMessageToPlayIndex);
 
   const messageId = props.messageId;
 
-  console.warn('FIXME audric');
-
-  // const onQuoteClick = props.messageProps.propsForMessage.quote
-  //   ? this.scrollToQuoteMessage
-  //   : async () => {};
+  const onQuoteClick = props.messageProps.propsForMessage.quote
+    ? props.scrollToQuoteMessage
+    : undefined;
 
   const regularProps: MessageRegularProps = {
     ...props.messageProps.propsForMessage,
-    // firstMessageOfSeries,
+    firstMessageOfSeries: props.messageProps.firstMessageOfSeries,
     multiSelectMode,
-    // isQuotedMessageToAnimate: messageId === this.state.animateQuotedMessageId,
-    // nextMessageToPlay: this.state.nextMessageToPlay,
-    // playNextMessage: this.playNextMessage,
-    // onQuoteClick,
+    isQuotedMessageToAnimate: messageId === quotedMessageToAnimate,
+    nextMessageToPlay,
+    playNextMessage: props.playNextMessage,
+    onQuoteClick,
   };
 
   return (
@@ -152,7 +156,6 @@ const GenericMessageItem = (props: {
         {...regularProps}
         playableMessageIndex={props.playableMessageIndex}
         multiSelectMode={multiSelectMode}
-        // onQuoteClick={onQuoteClick}
         key={messageId}
       />
       <UnreadIndicator messageId={props.messageId} show={props.showUnreadIndicator} />
@@ -160,8 +163,13 @@ const GenericMessageItem = (props: {
   );
 };
 
-const MessageList = ({ hasNextPage: boolean, isNextPageLoading, list, loadNextPage }) => {
+const MessageList = (props: {
+  scrollToQuoteMessage: (options: QuoteClickOptions) => Promise<void>;
+  playNextMessage?: (value: number) => void;
+}) => {
   const messagesProps = useSelector(getMessagesOfSelectedConversation);
+  const isFetchingMore = useSelector(areMoreMessagesBeingFetched);
+
   let playableMessageIndex = 0;
 
   return (
@@ -177,7 +185,6 @@ const MessageList = ({ hasNextPage: boolean, isNextPageLoading, list, loadNextPa
         // AND we are not scrolled all the way to the bottom
         // THEN, show the unread banner for the current message
         const showUnreadIndicator = Boolean(messageProps.firstUnread);
-        console.warn('&& this.getScrollOffsetBottomPx() !== 0');
 
         if (groupNotificationProps) {
           return (
@@ -238,6 +245,8 @@ const MessageList = ({ hasNextPage: boolean, isNextPageLoading, list, loadNextPa
             messageId={messageProps.propsForMessage.id}
             messageProps={messageProps}
             showUnreadIndicator={showUnreadIndicator}
+            scrollToQuoteMessage={props.scrollToQuoteMessage}
+            playNextMessage={props.playNextMessage}
           />
         );
       })}
@@ -245,21 +254,18 @@ const MessageList = ({ hasNextPage: boolean, isNextPageLoading, list, loadNextPa
   );
 };
 
-class SessionMessagesListInner extends React.Component<Props, State> {
+class SessionMessagesListInner extends React.Component<Props> {
   private scrollOffsetBottomPx: number = Number.MAX_VALUE;
   private ignoreScrollEvents: boolean;
   private timeoutResetQuotedScroll: NodeJS.Timeout | null = null;
+  private debouncedHandleScroll: any;
 
   public constructor(props: Props) {
     super(props);
-
-    this.state = {
-      showScrollButton: false,
-      nextMessageToPlay: undefined,
-    };
     autoBind(this);
 
     this.ignoreScrollEvents = true;
+    this.debouncedHandleScroll = _.throttle(this.handleScroll, 500);
   }
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -277,7 +283,7 @@ class SessionMessagesListInner extends React.Component<Props, State> {
     }
   }
 
-  public componentDidUpdate(prevProps: Props, _prevState: State) {
+  public componentDidUpdate(prevProps: Props) {
     const isSameConvo = prevProps.conversationKey === this.props.conversationKey;
     const messageLengthChanged = prevProps.messagesProps.length !== this.props.messagesProps.length;
     if (
@@ -288,13 +294,7 @@ class SessionMessagesListInner extends React.Component<Props, State> {
       this.scrollOffsetBottomPx = Number.MAX_VALUE;
       this.ignoreScrollEvents = true;
       this.setupTimeoutResetQuotedHighlightedMessage(true);
-      this.setState(
-        {
-          showScrollButton: false,
-          animateQuotedMessageId: undefined,
-        },
-        this.scrollToUnread
-      );
+      this.scrollToUnread();
     } else {
       // if we got new message for this convo, and we are scrolled to bottom
       if (isSameConvo && messageLengthChanged) {
@@ -318,7 +318,6 @@ class SessionMessagesListInner extends React.Component<Props, State> {
 
   public render() {
     const { conversationKey, conversation } = this.props;
-    const { showScrollButton } = this.state;
 
     if (!conversationKey || !conversation) {
       return null;
@@ -334,7 +333,7 @@ class SessionMessagesListInner extends React.Component<Props, State> {
     return (
       <div
         className="messages-container"
-        onScroll={this.handleScroll}
+        onScroll={this.debouncedHandleScroll}
         ref={this.props.messageContainerRef}
       >
         <TypingBubble
@@ -345,13 +344,12 @@ class SessionMessagesListInner extends React.Component<Props, State> {
           key="typing-bubble"
         />
 
-        <MessageList />
-
-        <SessionScrollButton
-          show={showScrollButton}
-          onClick={this.scrollToBottom}
-          key="scroll-down-button"
+        <MessageList
+          scrollToQuoteMessage={this.scrollToQuoteMessage}
+          playNextMessage={this.playNextMessage}
         />
+
+        <SessionScrollButton onClick={this.scrollToBottom} key="scroll-down-button" />
       </div>
     );
   }
@@ -385,7 +383,7 @@ class SessionMessagesListInner extends React.Component<Props, State> {
    * Sets the targeted index for the next
    * @param index index of message that just completed
    */
-  private readonly playNextMessage = (index: any) => {
+  private playNextMessage(index: any) {
     const { messagesProps } = this.props;
     let nextIndex: number | undefined = index - 1;
 
@@ -393,9 +391,7 @@ class SessionMessagesListInner extends React.Component<Props, State> {
     const latestMessagePlayed = index <= 0 || messagesProps.length < index - 1;
     if (latestMessagePlayed) {
       nextIndex = undefined;
-      this.setState({
-        nextMessageToPlay: nextIndex,
-      });
+      window.inboxStore?.dispatch(setNextMessageToPlay(nextIndex));
       return;
     }
 
@@ -407,10 +403,8 @@ class SessionMessagesListInner extends React.Component<Props, State> {
       nextIndex = undefined;
     }
 
-    this.setState({
-      nextMessageToPlay: nextIndex,
-    });
-  };
+    window.inboxStore?.dispatch(setNextMessageToPlay(nextIndex));
+  }
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   // ~~~~~~~~~~~~ SCROLLING METHODS ~~~~~~~~~~~~~
@@ -438,12 +432,12 @@ class SessionMessagesListInner extends React.Component<Props, State> {
     const scrollOffsetPc = this.scrollOffsetBottomPx / clientHeight;
 
     // Scroll button appears if you're more than 75% scrolled up
-    if (scrollOffsetPc > scrollButtonViewShowLimit && !this.state.showScrollButton) {
-      this.setState({ showScrollButton: true });
+    if (scrollOffsetPc > scrollButtonViewShowLimit && !this.props.showScrollButton) {
+      window.inboxStore?.dispatch(showScrollToBottomButton(true));
     }
     // Scroll button disappears if you're more less than 40% scrolled up
-    if (scrollOffsetPc < scrollButtonViewHideLimit && this.state.showScrollButton) {
-      this.setState({ showScrollButton: false });
+    if (scrollOffsetPc < scrollButtonViewHideLimit && this.props.showScrollButton) {
+      window.inboxStore?.dispatch(showScrollToBottomButton(false));
     }
 
     // Scrolled to bottom
@@ -513,26 +507,24 @@ class SessionMessagesListInner extends React.Component<Props, State> {
     if (clearOnly) {
       return;
     }
-    if (this.state.animateQuotedMessageId !== undefined) {
+    if (this.props.animateQuotedMessageId !== undefined) {
       this.timeoutResetQuotedScroll = global.setTimeout(() => {
-        this.setState({ animateQuotedMessageId: undefined });
+        window.inboxStore?.dispatch(quotedMessageToAnimate(undefined));
       }, 3000);
     }
   }
 
   private scrollToMessage(messageId: string, smooth: boolean = false) {
-    const topUnreadMessage = document.getElementById(messageId);
-    topUnreadMessage?.scrollIntoView({
+    const messageElementDom = document.getElementById(messageId);
+    messageElementDom?.scrollIntoView({
       behavior: smooth ? 'smooth' : 'auto',
       block: 'center',
     });
 
     // we consider that a `smooth` set to true, means it's a quoted message, so highlight this message on the UI
     if (smooth) {
-      this.setState(
-        { animateQuotedMessageId: messageId },
-        this.setupTimeoutResetQuotedHighlightedMessage
-      );
+      window.inboxStore?.dispatch(quotedMessageToAnimate(messageId));
+      this.setupTimeoutResetQuotedHighlightedMessage;
     }
 
     const messageContainer = this.props.messageContainerRef.current;
@@ -633,6 +625,8 @@ const mapStateToProps = (state: StateType) => {
     conversationKey: getSelectedConversationKey(state),
     conversation: getSelectedConversation(state),
     messagesProps: getMessagesOfSelectedConversation(state),
+    showScrollButton: getShowScrollButton(state),
+    animateQuotedMessageId: getQuotedMessageToAnimate(state),
   };
 };
 

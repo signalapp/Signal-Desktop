@@ -235,13 +235,6 @@ export class SessionConversation extends React.Component<Props, State> {
           </div>
 
           <SessionCompositionBox
-            isBlocked={selectedConversation.isBlocked}
-            left={selectedConversation.left}
-            isKickedFromGroup={selectedConversation.isKickedFromGroup}
-            isPrivate={selectedConversation.isPrivate}
-            isPublic={selectedConversation.isPublic}
-            selectedConversationKey={selectedConversationKey}
-            selectedConversation={selectedConversation}
             sendMessage={sendMessageFn}
             stagedAttachments={stagedAttachments}
             onLoadVoiceNoteView={this.onLoadVoiceNoteView}
@@ -249,7 +242,6 @@ export class SessionConversation extends React.Component<Props, State> {
             clearAttachments={this.clearAttachments}
             removeAttachment={this.removeAttachment}
             onChoseAttachments={this.onChoseAttachments}
-            theme={this.props.theme}
           />
         </div>
         <div
@@ -305,15 +297,8 @@ export class SessionConversation extends React.Component<Props, State> {
   // ~~~~~~~~~~~ KEYBOARD NAVIGATION ~~~~~~~~~~~~
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   private onKeyDown(event: any) {
-    const messageContainer = this.messageContainerRef.current;
-    if (!messageContainer) {
-      return;
-    }
     const selectionMode = !!this.props.selectedMessages.length;
     const recordingMode = this.state.showRecordingView;
-    const pageHeight = messageContainer.clientHeight;
-    const arrowScrollPx = 50;
-    const pageScrollPx = pageHeight * 0.8;
     if (event.key === 'Escape') {
       // EXIT MEDIA VIEW
       if (recordingMode) {
@@ -327,19 +312,6 @@ export class SessionConversation extends React.Component<Props, State> {
           if (selectionMode) {
             window.inboxStore?.dispatch(resetSelectedMessageIds());
           }
-          break;
-        // Scrolling
-        case 'ArrowUp':
-          messageContainer.scrollBy(0, -arrowScrollPx);
-          break;
-        case 'ArrowDown':
-          messageContainer.scrollBy(0, arrowScrollPx);
-          break;
-        case 'PageUp':
-          messageContainer.scrollBy(0, -pageScrollPx);
-          break;
-        case 'PageDown':
-          messageContainer.scrollBy(0, pageScrollPx);
           break;
         default:
       }

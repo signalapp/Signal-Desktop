@@ -297,7 +297,22 @@ export const getQuotedMessage = createSelector(
   (state: ConversationsStateType): ReplyingToMessageProps | undefined => state.quotedMessage
 );
 
+export const areMoreMessagesBeingFetched = createSelector(
+  getConversations,
+  (state: ConversationsStateType): boolean => state.areMoreMessagesBeingFetched || false
+);
 
-export const areMoreMessagesLoading = createSlice(getConversations,
-  (state: ConversationsStateType): boolean => state.
+export const getShowScrollButton = createSelector(
+  getConversations,
+  (state: ConversationsStateType): boolean => state.showScrollButton || false
+);
+
+export const getQuotedMessageToAnimate = createSelector(
+  getConversations,
+  (state: ConversationsStateType): string | undefined => state.animateQuotedMessageId || undefined
+);
+
+export const getNextMessageToPlayIndex = createSelector(
+  getConversations,
+  (state: ConversationsStateType): number | undefined => state.nextMessageToPlay || undefined
 );

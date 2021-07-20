@@ -45,9 +45,14 @@ import {
   getItemById,
   hasLinkPreviewPopupBeenDisplayed,
 } from '../../../data/data';
-import { getQuotedMessage } from '../../../state/selectors/conversations';
+import {
+  getQuotedMessage,
+  getSelectedConversation,
+  getSelectedConversationKey,
+} from '../../../state/selectors/conversations';
 import { connect } from 'react-redux';
 import { StateType } from '../../../state/reducer';
+import { getTheme } from '../../../state/selectors/theme';
 
 export interface ReplyingToMessageProps {
   convoId: string;
@@ -76,19 +81,13 @@ interface Props {
 
   onLoadVoiceNoteView: any;
   onExitVoiceNoteView: any;
-  isBlocked: boolean;
-  isPrivate: boolean;
-  isKickedFromGroup: boolean;
-  left: boolean;
   selectedConversationKey: string;
   selectedConversation: ReduxConversationType | undefined;
-  isPublic: boolean;
   quotedMessageProps?: ReplyingToMessageProps;
   stagedAttachments: Array<StagedAttachmentType>;
   clearAttachments: () => any;
   removeAttachment: (toRemove: AttachmentType) => void;
   onChoseAttachments: (newAttachments: Array<File>) => void;
-  theme: DefaultTheme;
 }
 
 interface State {
@@ -304,13 +303,15 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
         sendVoiceMessage={this.sendVoiceMessage}
         onLoadVoiceNoteView={this.onLoadVoiceNoteView}
         onExitVoiceNoteView={this.onExitVoiceNoteView}
-        theme={this.props.theme}
       />
     );
   }
 
   private isTypingEnabled(): boolean {
-    const { isBlocked, isKickedFromGroup, left, isPrivate } = this.props;
+    if (!this.props.selectedConversation) {
+      return false;
+    }
+    const { isBlocked, isKickedFromGroup, left } = this.props.selectedConversation;
 
     return !(isBlocked || isKickedFromGroup || left);
   }
@@ -326,7 +327,6 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
             iconType={SessionIconType.CirclePlus}
             iconSize={SessionIconSize.Large}
             onClick={this.onChooseAttachment}
-            theme={this.props.theme}
           />
         )}
 
@@ -344,7 +344,6 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
             iconType={SessionIconType.Microphone}
             iconSize={SessionIconSize.Huge}
             onClick={this.onLoadVoiceNoteView}
-            theme={this.props.theme}
           />
         )}
 
@@ -364,7 +363,6 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
             iconType={SessionIconType.Emoji}
             iconSize={SessionIconSize.Large}
             onClick={this.toggleEmojiPanel}
-            theme={this.props.theme}
           />
         )}
         <div className="send-message-button">
@@ -373,7 +371,6 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
             iconSize={SessionIconSize.Large}
             iconRotation={90}
             onClick={this.onSendMessage}
-            theme={this.props.theme}
           />
         </div>
 
@@ -391,7 +388,12 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
   private renderTextArea() {
     const { i18n } = window;
     const { message } = this.state;
-    const { isKickedFromGroup, left, isPrivate, isBlocked, theme } = this.props;
+
+    if (!this.props.selectedConversation) {
+      return null;
+    }
+
+    const { isKickedFromGroup, left, isPrivate, isBlocked } = this.props.selectedConversation;
     const messagePlaceHolder = isKickedFromGroup
       ? i18n('youGotKickedFromGroup')
       : left
@@ -471,11 +473,15 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
     if (!query) {
       overridenQuery = '';
     }
-    if (this.props.isPublic) {
+    if (!this.props.selectedConversation) {
+      return;
+    }
+
+    if (this.props.selectedConversation.isPublic) {
       this.fetchUsersForOpenGroup(overridenQuery, callback);
       return;
     }
-    if (!this.props.isPrivate) {
+    if (!this.props.selectedConversation.isPrivate) {
       this.fetchUsersForClosedGroup(overridenQuery, callback);
       return;
     }
@@ -799,13 +805,17 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
 
     const messagePlaintext = cleanMentions(this.parseEmojis(this.state.message));
 
-    const { isBlocked, isPrivate, left, isKickedFromGroup } = this.props;
+    const { selectedConversation } = this.props;
 
-    if (isBlocked && isPrivate) {
+    if (!selectedConversation) {
+      return;
+    }
+
+    if (selectedConversation.isBlocked && selectedConversation.isPrivate) {
       ToastUtils.pushUnblockToSend();
       return;
     }
-    if (isBlocked && !isPrivate) {
+    if (selectedConversation.isBlocked && !selectedConversation.isPrivate) {
       ToastUtils.pushUnblockToSendGroup();
       return;
     }
@@ -816,11 +826,11 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
       return;
     }
 
-    if (!isPrivate && left) {
+    if (!selectedConversation.isPrivate && selectedConversation.left) {
       ToastUtils.pushYouLeftTheGroup();
       return;
     }
-    if (!isPrivate && isKickedFromGroup) {
+    if (!selectedConversation.isPrivate && selectedConversation.isKickedFromGroup) {
       ToastUtils.pushYouLeftTheGroup();
       return;
     }
@@ -992,6 +1002,9 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
 const mapStateToProps = (state: StateType) => {
   return {
     quotedMessageProps: getQuotedMessage(state),
+    selectedConversation: getSelectedConversation(state),
+    selectedConversationKey: getSelectedConversationKey(state),
+    theme: getTheme(state),
   };
 };
 
