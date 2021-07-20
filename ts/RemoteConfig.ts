@@ -5,6 +5,7 @@ import { get, throttle } from 'lodash';
 import { connectToServerWithStoredCredentials } from './util/connectToServerWithStoredCredentials';
 
 export type ConfigKeyType =
+  | 'desktop.announcementGroup'
   | 'desktop.clientExpiration'
   | 'desktop.disableGV1'
   | 'desktop.groupCalling'

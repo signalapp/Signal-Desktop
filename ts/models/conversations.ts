@@ -81,6 +81,7 @@ import {
 } from '../state/selectors/message';
 import { Deletes } from '../messageModifiers/Deletes';
 import { Reactions, ReactionModel } from '../messageModifiers/Reactions';
+import { isAnnouncementGroupReady } from '../util/isAnnouncementGroupReady';
 
 // TODO: remove once we move away from ArrayBuffers
 const FIXMEU8 = Uint8Array;
@@ -3013,6 +3014,10 @@ export class ConversationModel extends window.Backbone
 
   canBeAnnouncementGroup(): boolean {
     if (!isGroupV2(this.attributes)) {
+      return false;
+    }
+
+    if (!isAnnouncementGroupReady()) {
       return false;
     }
 
