@@ -138,18 +138,14 @@
 .module-message--outgoing {
   .module-message__attachment-container--with-content-below,
   .module-message__attachment-container--with-content-above {
-    @include themify($themes) {
-      background: themed('sentMessageBackground');
-    }
+    background: none;
   }
 }
 
 .module-message--incoming {
   .module-message__attachment-container--with-content-below,
   .module-message__attachment-container--with-content-above {
-    @include themify($themes) {
-      background: themed('receivedMessageBackground');
-    }
+    background: none;
   }
 }
 
