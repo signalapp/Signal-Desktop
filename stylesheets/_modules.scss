@@ -1277,8 +1277,7 @@
 
 .module-image {
   overflow: hidden;
-  // background-color: $color-white;
-  background-color: rgba(0, 0, 0, 0);
+  background: none;
   position: relative;
   display: inline-block;
   margin: 1px;
