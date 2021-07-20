@@ -318,6 +318,10 @@ export class SessionMessagesList extends React.Component<Props, State> {
     multiSelectMode: boolean,
     message: MessageModel
   ) {
+    if (messageProps.expirationTimestamp != null && messageProps.expirationTimestamp < Date.now()) {
+      return;
+    }
+
     const selected = !!messageProps?.id && this.props.selectedMessages.includes(messageProps.id);
 
     messageProps.selected = selected;
