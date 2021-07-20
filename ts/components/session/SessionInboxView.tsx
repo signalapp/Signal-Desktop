@@ -7,7 +7,6 @@ import { UserUtils } from '../../session/utils';
 import { createStore } from '../../state/createStore';
 import { actions as conversationActions } from '../../state/ducks/conversations';
 import { initialDefaultRoomState } from '../../state/ducks/defaultRooms';
-import { initialMentionsState } from '../../state/ducks/mentionsInput';
 import { initialModalState } from '../../state/ducks/modalDialog';
 import { initialOnionPathState } from '../../state/ducks/onion';
 import { initialSearchState } from '../../state/ducks/search';
@@ -112,6 +111,7 @@ export class SessionInboxView extends React.Component<any, State> {
         lightBox: undefined,
         nextMessageToPlay: undefined,
         quotedMessage: undefined,
+        mentionMembers: [],
       },
       user: {
         ourNumber: UserUtils.getOurPubKeyStrFromCache(),
@@ -120,7 +120,6 @@ export class SessionInboxView extends React.Component<any, State> {
       defaultRooms: initialDefaultRoomState,
       search: initialSearchState,
       theme: initialThemeState,
-      mentionsInput: initialMentionsState,
       onionPaths: initialOnionPathState,
       modals: initialModalState,
       userConfig: initialUserConfigState,

@@ -983,8 +983,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     for (const nowRead of oldUnreadNowRead) {
       allProps.push(nowRead.getProps());
     }
-    window.inboxStore?.dispatch(conversationActions.messagesChanged(allProps));
 
+    if (allProps.length) {
+      window.inboxStore?.dispatch(conversationActions.messagesChanged(allProps));
+    }
     // Some messages we're marking read are local notifications with no sender
     read = _.filter(read, m => Boolean(m.sender));
     const realUnreadCount = await this.getUnreadCount();

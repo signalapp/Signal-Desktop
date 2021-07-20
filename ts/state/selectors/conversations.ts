@@ -4,6 +4,7 @@ import { StateType } from '../reducer';
 import {
   ConversationLookupType,
   ConversationsStateType,
+  MentionsMembersType,
   MessagePropsDetails,
   ReduxConversationType,
   SortedMessageModelProps,
@@ -315,4 +316,9 @@ export const getQuotedMessageToAnimate = createSelector(
 export const getNextMessageToPlayIndex = createSelector(
   getConversations,
   (state: ConversationsStateType): number | undefined => state.nextMessageToPlay || undefined
+);
+
+export const getMentionsInput = createSelector(
+  getConversations,
+  (state: ConversationsStateType): MentionsMembersType => state.mentionMembers
 );

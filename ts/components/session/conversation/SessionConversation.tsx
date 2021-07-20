@@ -26,16 +26,13 @@ import {
   resetSelectedMessageIds,
   showLightBox,
   SortedMessageModelProps,
+  updateMentionsMembers,
 } from '../../../state/ducks/conversations';
 import { MessageView } from '../../MainViewController';
-import { pushUnblockToSend } from '../../../session/utils/Toast';
 import { MessageDetail } from '../../conversation/MessageDetail';
 import { getConversationController } from '../../../session/conversations';
-import { getMessageById, getPubkeysInPublicConversation } from '../../../data/data';
+import { getPubkeysInPublicConversation } from '../../../data/data';
 import autoBind from 'auto-bind';
-import { getDecryptedMediaUrl } from '../../../session/crypto/DecryptedAttachmentsManager';
-import { updateMentionsMembers } from '../../../state/ducks/mentionsInput';
-import { sendDataExtractionNotification } from '../../../session/messages/outgoing/controlMessage/DataExtractionNotificationMessage';
 
 interface State {
   unreadCount: number;
@@ -117,8 +114,6 @@ export class SessionConversation extends React.Component<Props, State> {
         global.clearInterval(this.publicMembersRefreshTimeout);
         this.publicMembersRefreshTimeout = undefined;
       }
-      // shown convo changed. reset the list of members quotable
-      window?.inboxStore?.dispatch(updateMentionsMembers([]));
       // if the newConversation changed, and is public, start our refresh members list
       if (newConversation.isPublic) {
         // this is a debounced call.
@@ -142,7 +137,6 @@ export class SessionConversation extends React.Component<Props, State> {
     }
     if (newConversationKey !== oldConversationKey) {
       void this.loadInitialMessages();
-      window.inboxStore?.dispatch(resetSelectedMessageIds());
       this.setState({
         showOverlay: false,
         showRecordingView: false,

@@ -243,7 +243,14 @@ export type ConversationsStateType = {
   showScrollButton: boolean;
   animateQuotedMessageId?: string;
   nextMessageToPlay?: number;
+  mentionMembers: MentionsMembersType;
 };
+
+export type MentionsMembersType = Array<{
+  id: string;
+  authorPhoneNumber: string;
+  authorProfileName: string;
+}>;
 
 async function getMessages(
   conversationKey: string,
@@ -399,6 +406,7 @@ function getEmptyState(): ConversationsStateType {
     selectedMessageIds: [],
     areMoreMessagesBeingFetched: false,
     showScrollButton: false,
+    mentionMembers: [],
   };
 }
 
@@ -727,6 +735,7 @@ const conversationsSlice = createSlice({
         nextMessageToPlay: undefined,
         showScrollButton: false,
         animateQuotedMessageId: undefined,
+        mentionMembers: [],
       };
     },
     showLightBox(
@@ -756,6 +765,14 @@ const conversationsSlice = createSlice({
     },
     setNextMessageToPlay(state: ConversationsStateType, action: PayloadAction<number | undefined>) {
       state.nextMessageToPlay = action.payload;
+      return state;
+    },
+    updateMentionsMembers(
+      state: ConversationsStateType,
+      action: PayloadAction<MentionsMembersType>
+    ) {
+      window?.log?.warn('updating mentions input members length', action.payload?.length);
+      state.mentionMembers = action.payload;
       return state;
     },
   },
@@ -814,4 +831,5 @@ export const {
   showScrollToBottomButton,
   quotedMessageToAnimate,
   setNextMessageToPlay,
+  updateMentionsMembers,
 } = actions;

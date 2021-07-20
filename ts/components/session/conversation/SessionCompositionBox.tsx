@@ -32,7 +32,6 @@ import { ReduxConversationType } from '../../../state/ducks/conversations';
 import { SessionMemberListItem } from '../SessionMemberListItem';
 import autoBind from 'auto-bind';
 import { SessionSettingCategory } from '../settings/SessionSettings';
-import { getMentionsInput } from '../../../state/selectors/mentionsInput';
 import { updateConfirmModal } from '../../../state/ducks/modalDialog';
 import {
   SectionType,
@@ -46,6 +45,7 @@ import {
   hasLinkPreviewPopupBeenDisplayed,
 } from '../../../data/data';
 import {
+  getMentionsInput,
   getQuotedMessage,
   getSelectedConversation,
   getSelectedConversationKey,

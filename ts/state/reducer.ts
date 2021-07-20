@@ -6,10 +6,6 @@ import { reducer as user, UserStateType } from './ducks/user';
 import { reducer as theme, ThemeStateType } from './ducks/theme';
 import { reducer as section, SectionStateType } from './ducks/section';
 import { defaultRoomReducer as defaultRooms, DefaultRoomsState } from './ducks/defaultRooms';
-import {
-  defaultMentionsInputReducer as mentionsInput,
-  MentionsInputState,
-} from './ducks/mentionsInput';
 
 import { defaultOnionReducer as onionPaths, OnionState } from './ducks/onion';
 import { modalReducer as modals, ModalState } from './ducks/modalDialog';
@@ -23,7 +19,6 @@ export type StateType = {
   theme: ThemeStateType;
   section: SectionStateType;
   defaultRooms: DefaultRoomsState;
-  mentionsInput: MentionsInputState;
   onionPaths: OnionState;
   modals: ModalState;
   userConfig: UserConfigState;
@@ -37,7 +32,6 @@ export const reducers = {
   theme,
   section,
   defaultRooms,
-  mentionsInput,
   onionPaths,
   modals,
   userConfig,
