@@ -204,9 +204,6 @@ Whisper.TapToViewExpiredOutgoingToast = Whisper.ToastView.extend({
 
 Whisper.DecryptionErrorToast = Whisper.ToastView.extend({
   className: 'toast toast-clickable',
-  initialize() {
-    this.timeout = 10000;
-  },
   events: {
     click: 'onClick',
   },
@@ -215,7 +212,20 @@ Whisper.DecryptionErrorToast = Whisper.ToastView.extend({
       toastMessage: window.i18n('decryptionErrorToast'),
     };
   },
+  // Note: this is the same thing as ToastView, except it's missing the setTimeout, so it
+  //   will stick around until the user interacts with it.
+  render() {
+    this.$el.html(
+      window.Mustache.render(
+        window._.result(this, 'template', ''),
+        window._.result(this, 'render_attributes', '')
+      )
+    );
+    this.$el.attr('tabIndex', 0);
+    this.$el.show();
+  },
   onClick() {
+    this.close();
     window.showDebugLog();
   },
 });
