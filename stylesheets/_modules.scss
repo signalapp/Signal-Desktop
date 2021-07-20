@@ -130,9 +130,6 @@
   border-radius: $session_message-container-border-radius;
   overflow: hidden;
   // no background by default for the attachment container
-  @include themify($themes) {
-    background: themed('inboxBackground');
-  }
 }
 
 .module-message--outgoing {
@@ -1280,7 +1277,8 @@
 
 .module-image {
   overflow: hidden;
-  background-color: $color-white;
+  // background-color: $color-white;
+  background-color: rgba(0, 0, 0, 0);
   position: relative;
   display: inline-block;
   margin: 1px;
