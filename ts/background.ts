@@ -69,10 +69,12 @@ import { AppViewType } from './state/ducks/app';
 import { isIncoming } from './state/selectors/message';
 import { actionCreators } from './state/actions';
 import { Deletes } from './messageModifiers/Deletes';
-import { DeliveryReceipts } from './messageModifiers/DeliveryReceipts';
+import {
+  MessageReceipts,
+  MessageReceiptType,
+} from './messageModifiers/MessageReceipts';
 import { MessageRequests } from './messageModifiers/MessageRequests';
 import { Reactions } from './messageModifiers/Reactions';
-import { ReadReceipts } from './messageModifiers/ReadReceipts';
 import { ReadSyncs } from './messageModifiers/ReadSyncs';
 import { ViewSyncs } from './messageModifiers/ViewSyncs';
 import {
@@ -3726,38 +3728,40 @@ export async function startApp(): Promise<void> {
       sourceUuid,
       sourceDevice,
     } = ev.read;
-    const readAt = envelopeTimestamp;
-    const reader = window.ConversationController.ensureContactIds({
-      e164: source,
-      uuid: sourceUuid,
-      highTrust: true,
-    });
+    const sourceConversationId = window.ConversationController.ensureContactIds(
+      {
+        e164: source,
+        uuid: sourceUuid,
+        highTrust: true,
+      }
+    );
     window.log.info(
       'read receipt',
       source,
       sourceUuid,
       sourceDevice,
       envelopeTimestamp,
-      reader,
+      sourceConversationId,
       'for sent message',
       timestamp
     );
 
     ev.confirm();
 
-    if (!window.storage.get('read-receipt-setting') || !reader) {
+    if (!window.storage.get('read-receipt-setting') || !sourceConversationId) {
       return;
     }
 
-    const receipt = ReadReceipts.getSingleton().add({
-      reader,
-      readerDevice: sourceDevice,
-      timestamp,
-      readAt,
+    const receipt = MessageReceipts.getSingleton().add({
+      messageSentAt: timestamp,
+      receiptTimestamp: envelopeTimestamp,
+      sourceConversationId,
+      sourceDevice,
+      type: MessageReceiptType.Read,
     });
 
     // Note: We do not wait for completion here
-    ReadReceipts.getSingleton().onReceipt(receipt);
+    MessageReceipts.getSingleton().onReceipt(receipt);
   }
 
   function onReadSync(ev: ReadSyncEvent) {
@@ -3875,36 +3879,40 @@ export async function startApp(): Promise<void> {
 
     ev.confirm();
 
-    const deliveredTo = window.ConversationController.ensureContactIds({
-      e164: source,
-      uuid: sourceUuid,
-      highTrust: true,
-    });
+    const sourceConversationId = window.ConversationController.ensureContactIds(
+      {
+        e164: source,
+        uuid: sourceUuid,
+        highTrust: true,
+      }
+    );
 
     window.log.info(
       'delivery receipt from',
       source,
       sourceUuid,
       sourceDevice,
-      deliveredTo,
+      sourceConversationId,
       envelopeTimestamp,
       'for sent message',
       timestamp
     );
 
-    if (!deliveredTo) {
+    if (!sourceConversationId) {
       window.log.info('no conversation for', source, sourceUuid);
       return;
     }
 
-    const receipt = DeliveryReceipts.getSingleton().add({
-      timestamp,
-      deliveredTo,
-      deliveredToDevice: sourceDevice,
+    const receipt = MessageReceipts.getSingleton().add({
+      messageSentAt: timestamp,
+      receiptTimestamp: envelopeTimestamp,
+      sourceConversationId,
+      sourceDevice,
+      type: MessageReceiptType.Delivery,
     });
 
     // Note: We don't wait for completion here
-    DeliveryReceipts.getSingleton().onReceipt(receipt);
+    MessageReceipts.getSingleton().onReceipt(receipt);
   }
 }
 

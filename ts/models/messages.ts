@@ -12,10 +12,11 @@ import {
   QuotedMessageType,
   WhatIsThis,
 } from '../model-types.d';
-import { concat, filter, find, map, reduce } from '../util/iterables';
+import { filter, find, map, reduce } from '../util/iterables';
 import { isNotNil } from '../util/isNotNil';
 import { isNormalNumber } from '../util/isNormalNumber';
 import { strictAssert } from '../util/assert';
+import { missingCaseError } from '../util/missingCaseError';
 import { dropNull } from '../util/dropNull';
 import { ConversationModel } from './conversations';
 import {
@@ -44,7 +45,6 @@ import { AttachmentType, isImage, isVideo } from '../types/Attachment';
 import { MIMEType, IMAGE_WEBP } from '../types/MIME';
 import { ourProfileKeyService } from '../services/ourProfileKey';
 import {
-  SendAction,
   SendActionType,
   SendStateByConversationId,
   SendStatus,
@@ -96,10 +96,12 @@ import {
   getActiveCall,
 } from '../state/selectors/calling';
 import { getAccountSelector } from '../state/selectors/accounts';
-import { DeliveryReceipts } from '../messageModifiers/DeliveryReceipts';
+import {
+  MessageReceipts,
+  MessageReceiptType,
+} from '../messageModifiers/MessageReceipts';
 import { Deletes } from '../messageModifiers/Deletes';
 import { Reactions } from '../messageModifiers/Reactions';
-import { ReadReceipts } from '../messageModifiers/ReadReceipts';
 import { ReadSyncs } from '../messageModifiers/ReadSyncs';
 import { ViewSyncs } from '../messageModifiers/ViewSyncs';
 import * as AttachmentDownloads from '../messageModifiers/AttachmentDownloads';
@@ -3181,29 +3183,30 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     let changed = false;
 
     if (type === 'outgoing') {
-      const sendActions = concat<{
-        destinationConversationId: string;
-        action: SendAction;
-      }>(
-        DeliveryReceipts.getSingleton()
-          .forMessage(conversation, message)
-          .map(receipt => ({
-            destinationConversationId: receipt.get('deliveredTo'),
+      const sendActions = MessageReceipts.getSingleton()
+        .forMessage(conversation, message)
+        .map(receipt => {
+          let sendActionType: SendActionType;
+          const receiptType = receipt.get('type');
+          switch (receiptType) {
+            case MessageReceiptType.Delivery:
+              sendActionType = SendActionType.GotDeliveryReceipt;
+              break;
+            case MessageReceiptType.Read:
+              sendActionType = SendActionType.GotReadReceipt;
+              break;
+            default:
+              throw missingCaseError(receiptType);
+          }
+
+          return {
+            destinationConversationId: receipt.get('sourceConversationId'),
             action: {
-              type: SendActionType.GotDeliveryReceipt,
-              updatedAt: receipt.get('timestamp'),
+              type: sendActionType,
+              updatedAt: receipt.get('receiptTimestamp'),
             },
-          })),
-        ReadReceipts.getSingleton()
-          .forMessage(conversation, message)
-          .map(receipt => ({
-            destinationConversationId: receipt.get('reader'),
-            action: {
-              type: SendActionType.GotReadReceipt,
-              updatedAt: receipt.get('timestamp'),
-            },
-          }))
-      );
+          };
+        });
 
       const oldSendStateByConversationId =
         this.get('sendStateByConversationId') || {};
