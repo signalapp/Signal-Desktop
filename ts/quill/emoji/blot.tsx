@@ -29,6 +29,7 @@ export class EmojiBlot extends Embed {
     node.setAttribute('data-emoji', emoji);
     node.setAttribute('title', emoji);
     node.setAttribute('aria-label', emoji);
+    node.setAttribute('alt', emoji);
 
     return node;
   }

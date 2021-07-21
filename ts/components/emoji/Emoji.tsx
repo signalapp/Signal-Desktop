@@ -52,6 +52,7 @@ export const Emoji = React.memo(
             src={image}
             aria-label={emoji}
             title={emoji}
+            alt={emoji}
           />
         </span>
       );
