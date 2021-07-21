@@ -837,7 +837,6 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
 
     const { quotedMessageProps } = this.props;
 
-    console.warn('quotedMessageProps', quotedMessageProps);
     const { stagedLinkPreview } = this.state;
 
     // Send message

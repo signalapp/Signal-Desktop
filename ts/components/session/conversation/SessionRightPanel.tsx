@@ -184,8 +184,6 @@ export const SessionRightPanelWithDetails = () => {
 
     if (isShowing && selectedConversation) {
       void getMediaGalleryProps(selectedConversation.id).then(results => {
-        console.warn('results2', results);
-
         if (isRunning) {
           if (!_.isEqual(documents, results.documents)) {
             setDocuments(results.documents);

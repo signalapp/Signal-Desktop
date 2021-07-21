@@ -40,11 +40,17 @@ import { getMessageById } from '../../data/data';
 import { connect } from 'react-redux';
 import { StateType } from '../../state/reducer';
 import { getSelectedMessageIds } from '../../state/selectors/conversations';
-import { showLightBox, toggleSelectedMessageId } from '../../state/ducks/conversations';
+import {
+  messageExpired,
+  showLightBox,
+  toggleSelectedMessageId,
+} from '../../state/ducks/conversations';
 import { saveAttachmentToDisk } from '../../util/attachmentsUtil';
 import { LightBoxOptions } from '../session/conversation/SessionConversation';
 import { MessageContextMenu } from './MessageContextMenu';
 import { ReadableMessage } from './ReadableMessage';
+import { remote } from 'electron';
+import { isElectronWindowFocused } from '../../session/utils/WindowUtils';
 
 // Same as MIN_WIDTH in ImageGrid.tsx
 const MINIMUM_LINK_PREVIEW_IMAGE_WIDTH = 200;
@@ -161,6 +167,9 @@ class MessageInner extends React.PureComponent<Props, State> {
         this.setState({
           expired: true,
         });
+        window.inboxStore?.dispatch(
+          messageExpired({ messageId: this.props.id, conversationKey: this.props.convoId })
+        );
       };
       this.expiredTimeout = setTimeout(setExpired, EXPIRED_DELAY);
     }
@@ -597,14 +606,13 @@ class MessageInner extends React.PureComponent<Props, State> {
     }
 
     const onVisible = async (inView: boolean | Object) => {
-      if (inView === true && shouldMarkReadWhenVisible && window.isFocused()) {
+      if (inView === true && shouldMarkReadWhenVisible && isElectronWindowFocused()) {
         const found = await getMessageById(id);
 
         if (found && Boolean(found.get('unread'))) {
-          console.warn('marking as read: ', found.id);
           // mark the message as read.
           // this will trigger the expire timer.
-          void found?.markRead(Date.now());
+          void found.markRead(Date.now());
         }
       }
     };

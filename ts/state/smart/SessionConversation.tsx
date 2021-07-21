@@ -5,7 +5,7 @@ import { StateType } from '../reducer';
 import { getTheme } from '../selectors/theme';
 import {
   getLightBoxOptions,
-  getMessagesOfSelectedConversation,
+  getSortedMessagesOfSelectedConversation,
   getSelectedConversation,
   getSelectedConversationKey,
   getSelectedMessageIds,
@@ -19,7 +19,7 @@ const mapStateToProps = (state: StateType) => {
     selectedConversation: getSelectedConversation(state),
     selectedConversationKey: getSelectedConversationKey(state),
     theme: getTheme(state),
-    messagesProps: getMessagesOfSelectedConversation(state),
+    messagesProps: getSortedMessagesOfSelectedConversation(state),
     ourNumber: getOurNumber(state),
     showMessageDetails: isMessageDetailView(state),
     isRightPanelShowing: isRightPanelShowing(state),

@@ -37,15 +37,17 @@ import { DataExtractionNotification } from '../../conversation/DataExtractionNot
 import { StateType } from '../../../state/reducer';
 import { connect, useSelector } from 'react-redux';
 import {
-  areMoreMessagesBeingFetched,
-  getMessagesOfSelectedConversation,
+  getSortedMessagesOfSelectedConversation,
   getNextMessageToPlayIndex,
   getQuotedMessageToAnimate,
   getSelectedConversation,
   getSelectedConversationKey,
   getShowScrollButton,
   isMessageSelectionMode,
+  getFirstUnreadMessageIndex,
+  areMoreMessagesBeingFetched,
 } from '../../../state/selectors/conversations';
+import { isElectronWindowFocused } from '../../../session/utils/WindowUtils';
 
 export type SessionMessageListProps = {
   messageContainerRef: React.RefObject<any>;
@@ -58,6 +60,7 @@ type Props = SessionMessageListProps & {
   conversation?: ReduxConversationType;
   showScrollButton: boolean;
   animateQuotedMessageId: string | undefined;
+  areMoreMessagesBeingFetched: boolean;
 };
 
 const UnreadIndicator = (props: { messageId: string; show: boolean }) => {
@@ -170,14 +173,13 @@ const MessageList = (props: {
   scrollToQuoteMessage: (options: QuoteClickOptions) => Promise<void>;
   playNextMessage?: (value: number) => void;
 }) => {
-  const messagesProps = useSelector(getMessagesOfSelectedConversation);
-  const isFetchingMore = useSelector(areMoreMessagesBeingFetched);
-
+  const messagesProps = useSelector(getSortedMessagesOfSelectedConversation);
+  const firstUnreadMessageIndex = useSelector(getFirstUnreadMessageIndex);
   let playableMessageIndex = 0;
 
   return (
     <>
-      {messagesProps.map((messageProps: SortedMessageModelProps) => {
+      {messagesProps.map((messageProps: SortedMessageModelProps, index: number) => {
         const timerProps = messageProps.propsForTimerNotification;
         const propsForGroupInvitation = messageProps.propsForGroupInvitation;
         const propsForDataExtractionNotification = messageProps.propsForDataExtractionNotification;
@@ -187,7 +189,8 @@ const MessageList = (props: {
         // IF we found the first unread message
         // AND we are not scrolled all the way to the bottom
         // THEN, show the unread banner for the current message
-        const showUnreadIndicator = Boolean(messageProps.firstUnread);
+        const showUnreadIndicator =
+          Boolean(firstUnreadMessageIndex) && firstUnreadMessageIndex === index;
 
         if (groupNotificationProps) {
           return (
@@ -375,7 +378,7 @@ class SessionMessagesListInner extends React.Component<Props> {
       return;
     }
 
-    if (this.getScrollOffsetBottomPx() === 0 && window.isFocused()) {
+    if (this.getScrollOffsetBottomPx() === 0 && isElectronWindowFocused()) {
       void conversation.markRead(messagesProps[0].propsForMessage.receivedAt || 0);
     }
   }
@@ -449,7 +452,9 @@ class SessionMessagesListInner extends React.Component<Props> {
     }
 
     // Fetch more messages when nearing the top of the message list
-    const shouldFetchMoreMessagesTop = scrollTop <= Constants.UI.MESSAGE_CONTAINER_BUFFER_OFFSET_PX;
+    const shouldFetchMoreMessagesTop =
+      scrollTop <= Constants.UI.MESSAGE_CONTAINER_BUFFER_OFFSET_PX &&
+      !this.props.areMoreMessagesBeingFetched;
 
     if (shouldFetchMoreMessagesTop) {
       const { messagesProps } = this.props;
@@ -475,11 +480,17 @@ class SessionMessagesListInner extends React.Component<Props> {
       return;
     }
     if (conversation.unreadCount > 0 && messagesProps.length) {
-      // just scroll to the middle of the loaded messages list. so the user can chosse to go up or down from there
-
-      const middle = messagesProps.length / 2;
-      messagesProps[middle].propsForMessage.id;
-      this.scrollToMessage(messagesProps[middle].propsForMessage.id);
+      if (conversation.unreadCount < messagesProps.length) {
+        // if we loaded all unread messages, scroll to the first one unread
+        const firstUnread = Math.max(conversation.unreadCount, 0);
+        messagesProps[firstUnread].propsForMessage.id;
+        this.scrollToMessage(messagesProps[firstUnread].propsForMessage.id);
+      } else {
+        // if we did not load all unread messages, just scroll to the middle of the loaded messages list. so the user can choose to go up or down from there
+        const middle = Math.floor(messagesProps.length / 2);
+        messagesProps[middle].propsForMessage.id;
+        this.scrollToMessage(messagesProps[middle].propsForMessage.id);
+      }
     }
 
     if (this.ignoreScrollEvents && messagesProps.length > 0) {
@@ -530,13 +541,6 @@ class SessionMessagesListInner extends React.Component<Props> {
     if (!messageContainer) {
       return;
     }
-
-    const scrollHeight = messageContainer.scrollHeight;
-    const clientHeight = messageContainer.clientHeight;
-
-    if (scrollHeight !== 0 && scrollHeight === clientHeight) {
-      this.updateReadMessages();
-    }
   }
 
   private scrollToBottom() {
@@ -551,8 +555,10 @@ class SessionMessagesListInner extends React.Component<Props> {
       return;
     }
 
-    const conversation = getConversationController().getOrThrow(conversationKey);
-    void conversation.markRead(messagesProps[0].propsForMessage.receivedAt || 0);
+    const conversation = getConversationController().get(conversationKey);
+    if (isElectronWindowFocused()) {
+      void conversation.markRead(messagesProps[0].propsForMessage.receivedAt || 0);
+    }
   }
 
   private async scrollToQuoteMessage(options: QuoteClickOptions) {
@@ -623,9 +629,10 @@ const mapStateToProps = (state: StateType) => {
   return {
     conversationKey: getSelectedConversationKey(state),
     conversation: getSelectedConversation(state),
-    messagesProps: getMessagesOfSelectedConversation(state),
+    messagesProps: getSortedMessagesOfSelectedConversation(state),
     showScrollButton: getShowScrollButton(state),
     animateQuotedMessageId: getQuotedMessageToAnimate(state),
+    areMoreMessagesBeingFetched: areMoreMessagesBeingFetched(state),
   };
 };
 

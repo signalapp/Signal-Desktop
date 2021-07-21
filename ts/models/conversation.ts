@@ -192,7 +192,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     this.throttledBumpTyping = _.throttle(this.bumpTyping, 300);
     this.updateLastMessage = _.throttle(this.bouncyUpdateLastMessage.bind(this), 1000, {
       trailing: true,
-      leading: true,
     });
     this.triggerUIRefresh = _.throttle(this.triggerUIRefresh, 1000, {
       trailing: true,
@@ -212,7 +211,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     this.typingRefreshTimer = null;
     this.typingPauseTimer = null;
     this.lastReadTimestamp = 0;
-
     window.inboxStore?.dispatch(conversationChanged({ id: this.id, data: this.getProps() }));
   }
 

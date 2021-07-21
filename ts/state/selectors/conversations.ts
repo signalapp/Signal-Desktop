@@ -5,6 +5,7 @@ import {
   ConversationLookupType,
   ConversationsStateType,
   MentionsMembersType,
+  MessageModelProps,
   MessagePropsDetails,
   ReduxConversationType,
   SortedMessageModelProps,
@@ -21,6 +22,7 @@ import {
 import { LightBoxOptions } from '../../components/session/conversation/SessionConversation';
 import { ReplyingToMessageProps } from '../../components/session/conversation/SessionCompositionBox';
 import { createSlice } from '@reduxjs/toolkit';
+import { getConversationController } from '../../session/conversations';
 
 export const getConversations = (state: StateType): ConversationsStateType => state.conversations;
 
@@ -53,9 +55,32 @@ export const getOurPrimaryConversation = createSelector(
     state.conversationLookup[window.storage.get('primaryDevicePubKey')]
 );
 
-export const getMessagesOfSelectedConversation = createSelector(
+const getMessagesOfSelectedConversation = createSelector(
   getConversations,
-  (state: ConversationsStateType): Array<SortedMessageModelProps> => state.messages
+  (state: ConversationsStateType): Array<MessageModelProps> => state.messages
+);
+
+// Redux recommends to do filtered and deriving state in a selector rather than ourself
+export const getSortedMessagesOfSelectedConversation = createSelector(
+  getMessagesOfSelectedConversation,
+  (messages: Array<MessageModelProps>): Array<SortedMessageModelProps> => {
+    if (messages.length === 0) {
+      return [];
+    }
+
+    const convoId = messages[0].propsForMessage.convoId;
+    const convo = getConversationController().get(convoId);
+
+    if (!convo) {
+      return [];
+    }
+
+    const isPublic = convo.isPublic() || false;
+    const isPrivate = convo.isPrivate() || false;
+    const sortedMessage = sortMessages(messages, isPublic);
+
+    return updateFirstMessageOfSeries(sortedMessage, { isPublic, isPrivate });
+  }
 );
 
 function getConversationTitle(
@@ -314,3 +339,102 @@ export const getMentionsInput = createSelector(
   getConversations,
   (state: ConversationsStateType): MentionsMembersType => state.mentionMembers
 );
+
+/// Those calls are just related to ordering messages in the redux store.
+
+function updateFirstMessageOfSeries(
+  messageModelsProps: Array<MessageModelProps>,
+  convoOpts: { isPrivate: boolean; isPublic: boolean }
+): Array<SortedMessageModelProps> {
+  // messages are got from the more recent to the oldest, so we need to check if
+  // the next messages in the list is still the same author.
+  // The message is the first of the series if the next message is not from the same author
+  const sortedMessageProps: Array<SortedMessageModelProps> = [];
+
+  if (convoOpts.isPrivate) {
+    // we don't really care do do that logic for private chats
+    return messageModelsProps.map(p => {
+      return { ...p, firstMessageOfSeries: true };
+    });
+  }
+
+  for (let i = 0; i < messageModelsProps.length; i++) {
+    const currentSender = messageModelsProps[i].propsForMessage?.authorPhoneNumber;
+    const nextSender =
+      i < messageModelsProps.length - 1
+        ? messageModelsProps[i + 1].propsForMessage?.authorPhoneNumber
+        : undefined;
+
+    // Handle firstMessageOfSeries for conditional avatar rendering
+
+    if (i >= 0 && currentSender === nextSender) {
+      sortedMessageProps.push({ ...messageModelsProps[i], firstMessageOfSeries: false });
+    } else {
+      sortedMessageProps.push({ ...messageModelsProps[i], firstMessageOfSeries: true });
+    }
+  }
+  return sortedMessageProps;
+}
+
+function sortMessages(
+  messages: Array<MessageModelProps>,
+  isPublic: boolean
+): Array<MessageModelProps> {
+  // we order by serverTimestamp for public convos
+  // be sure to update the sorting order to fetch messages from the DB too at getMessagesByConversation
+  if (isPublic) {
+    return messages.slice().sort((a, b) => {
+      return (b.propsForMessage.serverTimestamp || 0) - (a.propsForMessage.serverTimestamp || 0);
+    });
+  }
+  if (messages.some(n => !n.propsForMessage.timestamp && !n.propsForMessage.receivedAt)) {
+    throw new Error('Found some messages without any timestamp set');
+  }
+
+  // for non public convos, we order by sent_at or received_at timestamp.
+  // we assume that a message has either a sent_at or a received_at field set.
+  const messagesSorted = messages.sort(
+    (a, b) =>
+      (b.propsForMessage.timestamp || b.propsForMessage.receivedAt || 0) -
+      (a.propsForMessage.timestamp || a.propsForMessage.receivedAt || 0)
+  );
+
+  return messagesSorted;
+}
+
+export const getFirstUnreadMessageIndex = createSelector(
+  getSortedMessagesOfSelectedConversation,
+  (messageModelsProps: Array<MessageModelProps>): number | undefined => {
+    const firstUnreadIndex = getFirstMessageUnreadIndex(messageModelsProps);
+    return firstUnreadIndex;
+  }
+);
+
+function getFirstMessageUnreadIndex(messages: Array<MessageModelProps>) {
+  if (!messages || messages.length === 0) {
+    return -1;
+  }
+
+  // this is to handle the case where 50 messages are loaded, some of them are already read at the top, but some  not loaded yet are still unread.
+  if (
+    messages.length <
+    getConversationController()
+      .get(messages[0].propsForMessage.convoId)
+      ?.get('unreadCount')
+  ) {
+    return -2;
+  }
+
+  // iterate over the incoming messages from the oldest one. the first one with isUnread !== undefined is our first unread
+  for (let index = messages.length - 1; index > 0; index--) {
+    const message = messages[index];
+    if (
+      message.propsForMessage.direction === 'incoming' &&
+      message.propsForMessage.isUnread === true
+    ) {
+      return index;
+    }
+  }
+
+  return -1;
+}

@@ -34,7 +34,7 @@ export const UserDetailsDialog = (props: Props) => {
       ConversationTypeEnum.PRIVATE
     );
 
-    window.inboxStore?.dispatch(openConversationExternal(conversation.id));
+    window.inboxStore?.dispatch(openConversationExternal({ id: conversation.id }));
 
     closeDialog();
   }

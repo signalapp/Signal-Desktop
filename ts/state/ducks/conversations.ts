@@ -236,7 +236,7 @@ export type ConversationLookupType = {
 export type ConversationsStateType = {
   conversationLookup: ConversationLookupType;
   selectedConversation?: string;
-  messages: Array<SortedMessageModelProps>;
+  messages: Array<MessageModelProps>;
   messageDetailProps?: MessagePropsDetails;
   showRightPanel: boolean;
   selectedMessageIds: Array<string>;
@@ -258,17 +258,15 @@ export type MentionsMembersType = Array<{
 
 async function getMessages(
   conversationKey: string,
-  numMessages: number
-): Promise<Array<SortedMessageModelProps>> {
+  numMessagesToFetch: number
+): Promise<Array<MessageModelProps>> {
   const conversation = getConversationController().get(conversationKey);
   if (!conversation) {
     // no valid conversation, early return
     window?.log?.error('Failed to get convo on reducer.');
     return [];
   }
-  const unreadCount = await conversation.getUnreadCount();
-  let msgCount =
-    numMessages || Number(Constants.CONVERSATION.DEFAULT_MESSAGE_FETCH_COUNT) + unreadCount;
+  let msgCount = numMessagesToFetch;
   msgCount =
     msgCount > Constants.CONVERSATION.MAX_MESSAGE_FETCH_COUNT
       ? Constants.CONVERSATION.MAX_MESSAGE_FETCH_COUNT
@@ -282,80 +280,17 @@ async function getMessages(
     limit: msgCount,
   });
 
-  // Set first member of series here.
-  const messageModelsProps: Array<SortedMessageModelProps> = [];
-  messageSet.models.forEach(m => {
-    messageModelsProps.push({ ...m.getProps(), firstMessageOfSeries: true });
-  });
-
-  const isPublic = conversation.isPublic();
-
-  const sortedMessageProps = sortMessages(messageModelsProps, isPublic);
-
-  // no need to do that `firstMessageOfSeries` on a private chat
-  if (conversation.isPrivate()) {
-    return sortedMessageProps;
-  }
-  return updateFirstMessageOfSeriesAndUnread(sortedMessageProps);
+  const messageProps: Array<MessageModelProps> = messageSet.models.map(m => m.getProps());
+  return messageProps;
 }
 
 export type SortedMessageModelProps = MessageModelProps & {
   firstMessageOfSeries: boolean;
-  firstUnread?: boolean;
-};
-
-const updateFirstMessageOfSeriesAndUnread = (
-  messageModelsProps: Array<SortedMessageModelProps>
-): Array<SortedMessageModelProps> => {
-  // messages are got from the more recent to the oldest, so we need to check if
-  // the next messages in the list is still the same author.
-  // The message is the first of the series if the next message is not from the same author
-  const sortedMessageProps: Array<SortedMessageModelProps> = [];
-  const firstUnreadIndex = getFirstMessageUnreadIndex(messageModelsProps);
-
-  for (let i = 0; i < messageModelsProps.length; i++) {
-    // Handle firstMessageOfSeries for conditional avatar rendering
-    let firstMessageOfSeries = true;
-    let firstUnread = false;
-    const currentSender = messageModelsProps[i].propsForMessage?.authorPhoneNumber;
-    const nextSender =
-      i < messageModelsProps.length - 1
-        ? messageModelsProps[i + 1].propsForMessage?.authorPhoneNumber
-        : undefined;
-    if (i >= 0 && currentSender === nextSender) {
-      firstMessageOfSeries = false;
-    }
-    if (i === firstUnreadIndex) {
-      firstUnread = true;
-    }
-
-    sortedMessageProps.push({ ...messageModelsProps[i], firstMessageOfSeries, firstUnread });
-  }
-  return sortedMessageProps;
 };
 
 type FetchedMessageResults = {
   conversationKey: string;
-  messagesProps: Array<SortedMessageModelProps>;
-};
-
-const getFirstMessageUnreadIndex = (messages: Array<SortedMessageModelProps>) => {
-  if (!messages || messages.length === 0) {
-    return -1;
-  }
-
-  // iterate over the incoming messages from the oldest one. the first one with isUnread !== undefined is our first unread
-  for (let index = messages.length - 1; index > 0; index--) {
-    const message = messages[index];
-    if (
-      message.propsForMessage.direction === 'incoming' &&
-      message.propsForMessage.isUnread === true
-    ) {
-      return index;
-    }
-  }
-
-  return -1;
+  messagesProps: Array<MessageModelProps>;
 };
 
 export const fetchMessagesForConversation = createAsyncThunk(
@@ -370,30 +305,15 @@ export const fetchMessagesForConversation = createAsyncThunk(
     const beforeTimestamp = Date.now();
     console.time('fetchMessagesForConversation');
     const messagesProps = await getMessages(conversationKey, count);
-    const firstUnreadIndex = getFirstMessageUnreadIndex(messagesProps);
     const afterTimestamp = Date.now();
     console.timeEnd('fetchMessagesForConversation');
 
     const time = afterTimestamp - beforeTimestamp;
     window?.log?.info(`Loading ${messagesProps.length} messages took ${time}ms to load.`);
 
-    const mapped = messagesProps.map((m, index) => {
-      if (index === firstUnreadIndex) {
-        return {
-          ...m,
-          firstMessageOfSeries: true,
-          firstUnread: true,
-        };
-      }
-      return {
-        ...m,
-        firstMessageOfSeries: true,
-        firstUnread: false,
-      };
-    });
     return {
       conversationKey,
-      messagesProps: mapped,
+      messagesProps,
     };
   }
 );
@@ -413,32 +333,6 @@ function getEmptyState(): ConversationsStateType {
   };
 }
 
-function sortMessages(
-  messages: Array<SortedMessageModelProps>,
-  isPublic: boolean
-): Array<SortedMessageModelProps> {
-  // we order by serverTimestamp for public convos
-  // be sure to update the sorting order to fetch messages from the DB too at getMessagesByConversation
-  if (isPublic) {
-    return messages.sort((a, b) => {
-      return (b.propsForMessage.serverTimestamp || 0) - (a.propsForMessage.serverTimestamp || 0);
-    });
-  }
-  if (messages.some(n => !n.propsForMessage.timestamp && !n.propsForMessage.receivedAt)) {
-    throw new Error('Found some messages without any timestamp set');
-  }
-
-  // for non public convos, we order by sent_at or received_at timestamp.
-  // we assume that a message has either a sent_at or a received_at field set.
-  const messagesSorted = messages.sort(
-    (a, b) =>
-      (b.propsForMessage.timestamp || b.propsForMessage.receivedAt || 0) -
-      (a.propsForMessage.timestamp || a.propsForMessage.receivedAt || 0)
-  );
-
-  return messagesSorted;
-}
-
 function handleMessageAdded(
   state: ConversationsStateType,
   action: PayloadAction<{
@@ -449,32 +343,21 @@ function handleMessageAdded(
   const { messages } = state;
   const { conversationKey, messageModelProps: addedMessageProps } = action.payload;
   if (conversationKey === state.selectedConversation) {
-    const messagesWithNewMessage = [
-      ...messages,
-      { ...addedMessageProps, firstMessageOfSeries: true },
-    ];
-    const convo = state.conversationLookup[state.selectedConversation];
-    const isPublic = convo?.isPublic || false;
+    const messagesWithNewMessage = [...messages, addedMessageProps];
 
-    if (convo) {
-      const sortedMessage = sortMessages(messagesWithNewMessage, isPublic);
-      const updatedWithFirstMessageOfSeries = updateFirstMessageOfSeriesAndUnread(sortedMessage);
-
-      return {
-        ...state,
-        messages: updatedWithFirstMessageOfSeries,
-      };
-    }
+    return {
+      ...state,
+      messages: messagesWithNewMessage,
+    };
   }
   return state;
 }
 
-function handleMessageChanged(state: ConversationsStateType, payload: MessageModelProps) {
+function handleMessageChanged(state: ConversationsStateType, changedMessage: MessageModelProps) {
   const messageInStoreIndex = state?.messages?.findIndex(
-    m => m.propsForMessage.id === payload.propsForMessage.id
+    m => m.propsForMessage.id === changedMessage.propsForMessage.id
   );
   if (messageInStoreIndex >= 0) {
-    const changedMessage = { ...payload, firstMessageOfSeries: true };
     // we cannot edit the array directly, so slice the first part, insert our edited message, and slice the second part
     const editedMessages = [
       ...state.messages.slice(0, messageInStoreIndex),
@@ -482,15 +365,9 @@ function handleMessageChanged(state: ConversationsStateType, payload: MessageMod
       ...state.messages.slice(messageInStoreIndex + 1),
     ];
 
-    const convo = state.conversationLookup[payload.propsForMessage.convoId];
-    const isPublic = convo?.isPublic || false;
-    // reorder the messages depending on the timestamp (we might have an updated serverTimestamp now)
-    const sortedMessage = sortMessages(editedMessages, isPublic);
-    const updatedWithFirstMessageOfSeries = updateFirstMessageOfSeriesAndUnread(sortedMessage);
-
     return {
       ...state,
-      messages: updatedWithFirstMessageOfSeries,
+      messages: editedMessages,
     };
   }
 
@@ -526,15 +403,13 @@ function handleMessageExpiredOrDeleted(
         ...state.messages.slice(messageInStoreIndex + 1),
       ];
 
-      const updatedWithFirstMessageOfSeries = updateFirstMessageOfSeriesAndUnread(editedMessages);
-
       // FIXME two other thing we have to do:
       // * update the last message text if the message deleted was the last one
       // * update the unread count of the convo if the message was the one counted as an unread
 
       return {
         ...state,
-        messages: updatedWithFirstMessageOfSeries,
+        messages: editedMessages,
       };
     }
 

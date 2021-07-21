@@ -217,7 +217,7 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
         {descriptionLong && <div className="session-description-long">{descriptionLong}</div>}
         {isMessageView && false && <h4>{window.i18n('or')}</h4>}
         {/* FIXME enable back those two items when they are working */}
-        {isOpenGroupView && <SessionJoinableRooms />}
+        {isOpenGroupView && <SessionJoinableRooms onRoomClicked={this.props.onCloseClick} />}
         {isMessageView && false && (
           <UserSearchDropdown
             searchTerm={searchTerm || ''}

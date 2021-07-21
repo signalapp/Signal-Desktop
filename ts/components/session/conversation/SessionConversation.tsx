@@ -33,11 +33,7 @@ import { getPubkeysInPublicConversation } from '../../../data/data';
 import autoBind from 'auto-bind';
 
 interface State {
-  unreadCount: number;
-
-  showOverlay: boolean;
   showRecordingView: boolean;
-
   stagedAttachments: Array<StagedAttachmentType>;
   isDraggingFile: boolean;
 }
@@ -70,10 +66,7 @@ export class SessionConversation extends React.Component<Props, State> {
   constructor(props: any) {
     super(props);
 
-    const unreadCount = this.props.selectedConversation?.unreadCount || 0;
     this.state = {
-      unreadCount,
-      showOverlay: false,
       showRecordingView: false,
       stagedAttachments: [],
       isDraggingFile: false,
@@ -136,7 +129,6 @@ export class SessionConversation extends React.Component<Props, State> {
     if (newConversationKey !== oldConversationKey) {
       void this.loadInitialMessages();
       this.setState({
-        showOverlay: false,
         showRecordingView: false,
         stagedAttachments: [],
         isDraggingFile: false,
@@ -350,7 +342,6 @@ export class SessionConversation extends React.Component<Props, State> {
       media.length > 1
         ? media.findIndex(mediaMessage => mediaMessage.attachment.path === attachment.path)
         : 0;
-    console.warn('renderLightBox', { media, attachment });
     return <LightboxGallery media={media} selectedIndex={selectedIndex} />;
   }
 

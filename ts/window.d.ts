@@ -41,7 +41,6 @@ declare global {
     getFriendsFromContacts: any;
     getSettingValue: any;
     i18n: LocalizerType;
-    isFocused: () => boolean;
     libsignal: LibsignalProtocol;
     log: any;
     lokiFeatureFlags: {
