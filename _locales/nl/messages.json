@@ -180,7 +180,7 @@
         "description": "One of the menu options available in the Avatar Popup menu"
     },
     "avatarMenuChatColors": {
-        "message": "Gesprekskleur kiezen",
+        "message": "Standaardgesprekskleur kiezen",
         "description": "One of the menu options available in the Avatar Popup menu"
     },
     "loading": {
@@ -621,6 +621,10 @@
             }
         }
     },
+    "decryptionErrorToast": {
+        "message": "Desktop ran into a decryption error. Click to submit a debug log.",
+        "description": "An error popup when we haven't added an error for decryption error."
+    },
     "oneNonImageAtATimeToast": {
         "message": "Wanneer je een bijlage insluit die geen afbeelding is, is de limiet één bijlage per bericht.",
         "description": "An error popup when the user has attempted to add an attachment"
@@ -672,6 +676,10 @@
     "debugLog": {
         "message": "Foutopsporingslog",
         "description": "View menu item to open the debug log (title case)"
+    },
+    "forceUpdate": {
+        "message": "Bijwerken forceren",
+        "description": "View menu item to force the app to update download and install"
     },
     "helpMenuShowKeyboardShortcuts": {
         "message": "Toetsenbord-snelkoppelingen weergeven",
@@ -1029,10 +1037,6 @@
         "message": "Dit bericht wordt voor iedere deelnemer aan dit gesprek die een recente versie van Signal gebruikt gewist. Ze zullen wel een bericht zien waarin staat dat je een bericht hebt gewist.",
         "description": "Text shown in the confirmation dialog for deleting a message for everyone"
     },
-    "deleteThisMessage": {
-        "message": "Dit bericht wissen",
-        "description": ""
-    },
     "from": {
         "message": "Van",
         "description": "Label for the sender of a message"
@@ -1224,7 +1228,7 @@
         "description": "Shown on the front page when the application first starts, above the QR code"
     },
     "signalSettings": {
-        "message": "Signal-instellingen",
+        "message": "Signals instellingen",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "linkedDevices": {
@@ -1557,6 +1561,14 @@
         "message": "De volgende keer dat Signal gestart wordt, wordt de spellingscontrole uitgeschakeld.",
         "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
     },
+    "SystemTraySetting__minimize-to-system-tray": {
+        "message": "Minimaliseren naar systeemvak",
+        "description": "In the settings, shown next to the checkbox option for minimizing to the system tray"
+    },
+    "SystemTraySetting__minimize-to-and-start-in-system-tray": {
+        "message": "Geminimaliseerd naar systeemvak starten",
+        "description": "In the settings, shown next to the checkbox option for starting in the system tray"
+    },
     "autoLaunchDescription": {
         "message": "Signal starten wanneer je inlogt op je computer",
         "description": "Description for the automatic launch setting"
@@ -1837,7 +1849,7 @@
     },
     "disappearingMessages": {
         "message": "Verlopende berichten",
-        "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages"
+        "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
     },
     "disappearingMessagesDisabled": {
         "message": "Verlopende berichten zijn uitgeschakeld",
@@ -3529,6 +3541,18 @@
         "message": "Sorry, die sgnl:// verwijzing klopt niet.",
         "description": "Shown if you click on a sgnl:// link not currently supported by Desktop"
     },
+    "GroupV2--cannot-send": {
+        "message": "You cannot send messages to that group.",
+        "description": "Shown in toast when you attempt to forward a message to an announcement only group"
+    },
+    "GroupV2--add--missing-capability": {
+        "message": "These people cannot be added to the group until they upgrade Signal.",
+        "description": "Shown in a confirmation dialog when members who cannot view announcement only group cannot be added"
+    },
+    "GroupV2--cannot-start-group-call": {
+        "message": "Only admins of the group can start a call.",
+        "description": "Shown in toast when a non-admin starts a group call in an announcements only group"
+    },
     "GroupV2--join--invalid-link--title": {
         "message": "Ongeldige verwijzing",
         "description": "Shown if we are unable to parse a group link"
@@ -3626,7 +3650,7 @@
         "description": "Shown if something went wrong when you try to join via a group link"
     },
     "GroupV2--join--general-join-failure": {
-        "message": "Lid worden via deze verwijzing is mislukt. Probeer het later opnieuw.",
+        "message": "Couldn't join group. Try again later.",
         "description": "Shown if something went wrong when you try to join via a group link"
     },
     "GroupV2--admin": {
@@ -4701,6 +4725,42 @@
         "message": "De groepsomschrijving is aangepast.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
+    "GroupV2--announcements--admin--you": {
+        "message": "Je hebt de groepsinstellingen aangepast om alleen beheerders de mogelijkheid te geven om berichten te verzenden.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--announcements--admin--other": {
+        "message": "$memberName$ heeft de groepsinstellingen aangepast om alleen beheerders de mogelijkheid te geven om berichten te verzenden.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--announcements--admin--unknown": {
+        "message": "De groepsinstellingen zijn aangepast om alleen beheerders de mogelijkheid te geven om berichten te verzenden.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--announcements--member--you": {
+        "message": "Je hebt de groepsinstellingen aangepast om alle groepsleden de mogelijkheid te geven om berichten te verzenden.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--announcements--member--other": {
+        "message": "$memberName$ changed the group settings to allow all members to send messages.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--announcements--member--unknown": {
+        "message": "The group was changed to allow all members to send messages.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
     "GroupV1--Migration--disabled": {
         "message": "Zet deze groep om om nieuwe functionaliteiten te kunnen gebruiken zoals  @vermeldingen en beheerders. Groepsleden die hun profielnaam en -foto niet voor deze groep zichtbaar hebben gemaakt, zullen worden uitgenodigd om tot deze groep toe te treden. $learnMore$",
         "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1).",
@@ -4712,7 +4772,7 @@
         }
     },
     "GroupV1--Migration--was-upgraded": {
-        "message": "Deze groep is omgezet in een nieuwe groep.",
+        "message": "Deze groep is omgezet in een nieuwe-stijl groep.",
         "description": "Shown in timeline when a legacy group (GV1) is upgraded to a new group (GV2)"
     },
     "GroupV1--Migration--learn-more": {
@@ -4724,15 +4784,15 @@
         "description": "Shown on Migrate dialog to kick off the process"
     },
     "GroupV1--Migration--info--title": {
-        "message": "Wat zijn ‘nieuwe’ groepen?",
+        "message": "Wat zijn ‘nieuwe-stijl’ groepen?",
         "description": "Shown on Learn More popup after GV1 migration"
     },
     "GroupV1--Migration--migrate--title": {
-        "message": "Omzetten naar nieuwe groep",
+        "message": "Omzetten naar nieuwe-stijl groep",
         "description": "Shown on Migration popup after choosing to migrate group"
     },
     "GroupV1--Migration--info--summary": {
-        "message": "Nieuwe groepen hebben functionaliteiten waaronder @vermeldingen en groepsbeheer en in de toekomst zullen er meer functionaliteiten aan worden toegevoegd.",
+        "message": "Nieuwe-stijl groepen hebben functionaliteiten waaronder @vermeldingen en groepsbeheer en in de toekomst zullen er meer functionaliteiten aan worden toegevoegd.",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--keep-history": {
@@ -4756,27 +4816,27 @@
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--before--many": {
-        "message": "Deze groepsleden zijn niet in staat om tot nieuwe groepen toe te treden en worden daarom verwijderd uit de groep:",
+        "message": "Deze groepsleden zijn niet in staat om tot nieuwe-stijl groepen toe te treden en worden daarom verwijderd uit de groep:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--before--one": {
-        "message": "Dit groepslid is niet in staat om tot nieuwe groepen toe te treden en wordt daarom verwijderd uit de groep:",
+        "message": "Dit groepslid is niet in staat om tot nieuwe-stijl groepen toe te treden en wordt daarom verwijderd uit de groep:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--after--many": {
-        "message": "Deze groepsleden zijn niet in staat om tot nieuwe groepen toe te treden en worden daarom verwijderd uit de groep:",
+        "message": "Deze groepsleden zijn niet in staat om tot nieuwe-stijl groepen toe te treden en worden daarom verwijderd uit de groep:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--after--one": {
-        "message": "Dit groepslid is niet in staat om tot nieuwe groepen toe te treden en wordt daarom verwijderd uit de groep:",
+        "message": "Dit groepslid is niet in staat om tot nieuwe-stijl groepen toe te treden en wordt daarom verwijderd uit de groep:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--invited--you": {
-        "message": "Je kon niet toegevoegd worden aan de nieuwe groep en je hebt daarom een uitnodiging gekregen om opnieuw lid te worden.",
+        "message": "Je kon niet toegevoegd worden aan de nieuwe-stijl groep en je hebt daarom een uitnodiging gekregen om opnieuw lid te worden.",
         "description": "Shown in timeline when a group is upgraded and you were invited instead of added"
     },
     "GroupV1--Migration--invited--one": {
-        "message": "$contact$ niet toegevoegd worden aan de nieuwe groep en je hebt daarom een uitnodiging gekregen om opnieuw lid te worden.",
+        "message": "$contact$ niet toegevoegd worden aan de nieuwe-stijl groep en je hebt daarom een uitnodiging gekregen om opnieuw lid te worden.",
         "description": "Shown in timeline when a group is upgraded and one person was invited, instead of added",
         "placeholders": {
             "contact": {
@@ -4786,7 +4846,7 @@
         }
     },
     "GroupV1--Migration--invited--many": {
-        "message": "$count$ groepsleden konden niet direct toegevoegd worden aan de nieuwe groep en hebben daarom een uitnodiging gekregen om opnieuw lid te worden.",
+        "message": "$count$ groepsleden konden niet direct toegevoegd worden aan de nieuwe-stijl groep en hebben daarom een uitnodiging gekregen om opnieuw lid te worden.",
         "description": "Shown in timeline when a group is upgraded and some people were invited, instead of added",
         "placeholders": {
             "contact": {
@@ -4904,7 +4964,7 @@
         "description": "This is the label for the disappearing messages setting panel"
     },
     "ConversationDetails--disappearing-messages-info": {
-        "message": "Indien ingeschakeld zal elk nieuwe bericht dat in dit gesprek verzonden of ontvangen wordt voor iedere deelnemer aan het gesprek gewist worden nadat de ingestelde tijd verlopen is. De tijd gaat voor iedere deelnemer pas lopen vanaf het moment dat hij of zij het bericht heeft gezien.  – Gebruik verlopende berichten niet ter beveiliging, want Signal kan niet garanderen dat een bericht op het apparaat van een ander daadwerkelijk wordt gewist.",
+        "message": "Nieuwe berichten in dit gesprek zullen voor iedereen die ze heeft gezien nadat de ingestelde tijd is verlopen worden gewist. — Gebruik dit niet ter beveiliging, want Signal kan niet garanderen dat berichten op het apparaat van een ander ook daadwerkelijk worden gewist.",
         "description": "This is the info about the disappearing messages setting"
     },
     "ConversationDetails--group-info-label": {
@@ -4922,6 +4982,14 @@
     "ConversationDetails--add-members-info": {
         "message": "Kies wie leden mag toevoegen aan deze groep.",
         "description": "This is the additional info for the 'who can add members' panel"
+    },
+    "ConversationDetails--announcement-label": {
+        "message": "Wie berichten kan verzenden",
+        "description": "This is the additional info for the 'who can send messages' panel"
+    },
+    "ConversationDetails--announcement-info": {
+        "message": "Choose who can send messages to the group.",
+        "description": "This is the additional info for the 'who can send mesages' panel"
     },
     "ConversationDetails--requests-and-invites": {
         "message": "Verzoeken & uitnodiging",
@@ -5163,6 +5231,10 @@
         "message": "Een groepsafbeelding toevoegen",
         "description": "The label for the avatar uploader when no group photo is selected"
     },
+    "AvatarInput--no-photo-label--profile": {
+        "message": "Add a photo",
+        "description": "The label for the avatar uploader when no profile photo is selected"
+    },
     "AvatarInput--change-photo-label": {
         "message": "Nieuwe profielfoto uploaden",
         "description": "The label for the avatar uploader when a photo is selected"
@@ -5264,7 +5336,7 @@
         "description": "When adding new members to an existing group, this is shown on the confirmation dialog button"
     },
     "createNewGroupButton": {
-        "message": "Nieuwe groep",
+        "message": "Nieuwe groep aanmaken",
         "description": "The text of the button to create new groups"
     },
     "selectContact": {
@@ -5620,5 +5692,141 @@
     "ConversationDetailsHeader--add-group-description": {
         "message": "Voeg een groepsomschrijving toe …",
         "description": "Placeholder text in the details header for those that can edit the group description"
+    },
+    "MediaQualitySelector--button": {
+        "message": "Mediakwaliteit kiezen",
+        "description": "aria-label for the media quality selector button"
+    },
+    "MediaQualitySelector--title": {
+        "message": "Mediakwaliteit",
+        "description": "Popup selector title"
+    },
+    "MediaQualitySelector--standard-quality-title": {
+        "message": "Standaard",
+        "description": "Title for option for standard quality"
+    },
+    "MediaQualitySelector--standard-quality-description": {
+        "message": "Sneller, minder gegevensoverdracht",
+        "description": "Description of standard quality selector"
+    },
+    "MediaQualitySelector--high-quality-title": {
+        "message": "Hoog",
+        "description": "Title for option for high quality"
+    },
+    "MediaQualitySelector--high-quality-description": {
+        "message": "Langzamer, meer gegevensoverdracht",
+        "description": "Description of high quality selector"
+    },
+    "MessageDetailsHeader--Failed": {
+        "message": "Niet verzonden",
+        "description": "In the message details screen, shown above contacts where the message failed to deliver"
+    },
+    "MessageDetailsHeader--Pending": {
+        "message": "In afwachting",
+        "description": "In the message details screen, shown above contacts where the message is still sending"
+    },
+    "MessageDetailsHeader--Sent": {
+        "message": "Verzonden aan",
+        "description": "In the message details screen, shown above contacts where the message has been sent (but not delivered, read, or viewed)"
+    },
+    "MessageDetailsHeader--Delivered": {
+        "message": "Afgeleverd aan",
+        "description": "In the message details screen, shown above contacts who have received your message"
+    },
+    "MessageDetailsHeader--Read": {
+        "message": "Gelezen door",
+        "description": "In the message details screen, shown above contacts who have read this message"
+    },
+    "MessageDetailsHeader--Viewed": {
+        "message": "Gezien door",
+        "description": "In the message details screen, shown above contacts who have viewed this message"
+    },
+    "ProfileEditor--about": {
+        "message": "Over mij",
+        "description": "Default text for about field"
+    },
+    "ProfileEditor--about-placeholder": {
+        "message": "Schrijf een paar woorden over jezelf ...",
+        "description": "Placeholder text for about input field"
+    },
+    "ProfileEditor--first-name": {
+        "message": "Voornaam (vereist)",
+        "description": "Placeholder text for first name field"
+    },
+    "ProfileEditor--last-name": {
+        "message": "Achternaam (optioneel)",
+        "description": "Placeholder text for last name field"
+    },
+    "ProfileEditor--discard": {
+        "message": "Wil je de wijzigingen verwerpen?",
+        "description": "ConfirmationDialog text for discarding changes"
+    },
+    "ProfileEditor--info": {
+        "message": "Your profile is encrypted. Your profile and changes to it will be visible to your contacts and when you start or accept new chats. $learnMore$",
+        "description": "Information shown at the bottom of the profile editor section",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "Learn More."
+            }
+        }
+    },
+    "ProfileEditor--learnMore": {
+        "message": "Meer lezen",
+        "description": "Text that links to a support article"
+    },
+    "Bio--speak-freely": {
+        "message": "Spreek vrijuit",
+        "description": "A default bio option"
+    },
+    "Bio--encrypted": {
+        "message": "Versleuteld",
+        "description": "A default bio option"
+    },
+    "Bio--free-to-chat": {
+        "message": "Beschikbaar om te spreken",
+        "description": "A default bio option"
+    },
+    "Bio--coffee-lover": {
+        "message": "Koffieliefhebber",
+        "description": "A default bio option"
+    },
+    "Bio--taking-break": {
+        "message": "Ik heb even pauze",
+        "description": "A default bio option"
+    },
+    "ProfileEditorModal--profile": {
+        "message": "Profiel",
+        "description": "Title for profile editing"
+    },
+    "ProfileEditorModal--name": {
+        "message": "Je naam",
+        "description": "Title for editing your name"
+    },
+    "ProfileEditorModal--about": {
+        "message": "Over mij",
+        "description": "Title for about editing"
+    },
+    "ProfileEditorModal--error": {
+        "message": "Je profiel kon niet worden bijgewerkt. Probeer het opnieuw.",
+        "description": "Error message when something goes wrong updating your profile."
+    },
+    "AnnouncementsOnlyGroupBanner--modal": {
+        "message": "Bericht verzenden naar een beheerder",
+        "description": "Modal title for the list of admins in a group"
+    },
+    "AnnouncementsOnlyGroupBanner--announcements-only": {
+        "message": "Only $admins$ can send messages",
+        "description": "Displayed if sending of messages is disabled to non-admins",
+        "placeholders": {
+            "admins": {
+                "content": "$1",
+                "example": "admins"
+            }
+        }
+    },
+    "AnnouncementsOnlyGroupBanner--admins": {
+        "message": "beheerders",
+        "description": "Clickable text describing administrators of a group, used in the message an admin label"
     }
 }

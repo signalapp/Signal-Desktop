@@ -621,6 +621,10 @@
             }
         }
     },
+    "decryptionErrorToast": {
+        "message": "Desktop ran into a decryption error. Click to submit a debug log.",
+        "description": "An error popup when we haven't added an error for decryption error."
+    },
     "oneNonImageAtATimeToast": {
         "message": "เมื่อแนบแฟ้มแนบที่ไม่ใช่รูปภาพ จะสามารถแนบแฟ้มได้เพียงหนึ่งแฟ้มต่อข้อความ",
         "description": "An error popup when the user has attempted to add an attachment"
@@ -672,6 +676,10 @@
     "debugLog": {
         "message": "ปูมดีบัก",
         "description": "View menu item to open the debug log (title case)"
+    },
+    "forceUpdate": {
+        "message": "Force Update",
+        "description": "View menu item to force the app to update download and install"
     },
     "helpMenuShowKeyboardShortcuts": {
         "message": "แสดงปุ่มลัด",
@@ -1028,10 +1036,6 @@
     "deleteForEveryoneWarning": {
         "message": "หากพวกเขากำลังใช้ Signal รุ่นที่เพิ่งปรับปรุงไม่นานนี้ ข้อความนี้จะถูกลบจากทุกคนที่อยู่ในบทสนทนา พวกเขาจะเห็นว่าคุณลบข้อความ",
         "description": "Text shown in the confirmation dialog for deleting a message for everyone"
-    },
-    "deleteThisMessage": {
-        "message": "ลบข้อความนี้",
-        "description": ""
     },
     "from": {
         "message": "จาก",
@@ -1557,6 +1561,14 @@
         "message": "การตรวจตัวสะกดจะถูกปิดในครั้งต่อไปที่ Signal ถูกปิดและเปิดใหม่",
         "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
     },
+    "SystemTraySetting__minimize-to-system-tray": {
+        "message": "Minimize to system tray",
+        "description": "In the settings, shown next to the checkbox option for minimizing to the system tray"
+    },
+    "SystemTraySetting__minimize-to-and-start-in-system-tray": {
+        "message": "Start minimized to tray",
+        "description": "In the settings, shown next to the checkbox option for starting in the system tray"
+    },
     "autoLaunchDescription": {
         "message": "เปิดเมื่อลงชื่อเข้าใช้คอมพิวเตอร์",
         "description": "Description for the automatic launch setting"
@@ -1837,7 +1849,7 @@
     },
     "disappearingMessages": {
         "message": "ข้อความที่ลบตัวเอง",
-        "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages"
+        "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
     },
     "disappearingMessagesDisabled": {
         "message": "ข้อความที่ลบตัวเองไม่ได้ถูกเปิดใช้",
@@ -3529,6 +3541,18 @@
         "message": "ขออภัยลิงก์ sgnl: // นั้นไม่สมเหตุสมผล!",
         "description": "Shown if you click on a sgnl:// link not currently supported by Desktop"
     },
+    "GroupV2--cannot-send": {
+        "message": "You cannot send messages to that group.",
+        "description": "Shown in toast when you attempt to forward a message to an announcement only group"
+    },
+    "GroupV2--add--missing-capability": {
+        "message": "These people cannot be added to the group until they upgrade Signal.",
+        "description": "Shown in a confirmation dialog when members who cannot view announcement only group cannot be added"
+    },
+    "GroupV2--cannot-start-group-call": {
+        "message": "Only admins of the group can start a call.",
+        "description": "Shown in toast when a non-admin starts a group call in an announcements only group"
+    },
     "GroupV2--join--invalid-link--title": {
         "message": "ลิงก์ไม่ถูกรูปแบบ",
         "description": "Shown if we are unable to parse a group link"
@@ -3626,7 +3650,7 @@
         "description": "Shown if something went wrong when you try to join via a group link"
     },
     "GroupV2--join--general-join-failure": {
-        "message": "การเข้าร่วมผ่านลิงก์นี้ล้มเหลว ลองเข้าร่วมอีกครั้งในภายหลัง",
+        "message": "Couldn't join group. Try again later.",
         "description": "Shown if something went wrong when you try to join via a group link"
     },
     "GroupV2--admin": {
@@ -4701,6 +4725,42 @@
         "message": "The group description was changed.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
+    "GroupV2--announcements--admin--you": {
+        "message": "You changed the group settings to only allow admins to send messages.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--announcements--admin--other": {
+        "message": "$memberName$ changed the group settings to only allow admins to send messages.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--announcements--admin--unknown": {
+        "message": "The group was changed to only allow admins to send messages.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--announcements--member--you": {
+        "message": "You changed the group settings to allow all members to send messages.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--announcements--member--other": {
+        "message": "$memberName$ changed the group settings to allow all members to send messages.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--announcements--member--unknown": {
+        "message": "The group was changed to allow all members to send messages.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
     "GroupV1--Migration--disabled": {
         "message": "ปรับรุ่นกลุ่มนี้เพื่อเปิดใช้ความสามารถใหม่ เช่น @กล่าวถึง และระบบผู้ดูแล สมาชิกที่ไม่ได้เปิดเผยชื่อหรือรูปภาพในกลุ่มนี้จะได้รับคำเชิญให้เข้าร่วม $learnMore$ ",
         "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1).",
@@ -4922,6 +4982,14 @@
     "ConversationDetails--add-members-info": {
         "message": "เลือกว่าใครสามารถเพิ่มสามารถเข้ามาในกลุ่มนี้ได้",
         "description": "This is the additional info for the 'who can add members' panel"
+    },
+    "ConversationDetails--announcement-label": {
+        "message": "Who can send messages",
+        "description": "This is the additional info for the 'who can send messages' panel"
+    },
+    "ConversationDetails--announcement-info": {
+        "message": "Choose who can send messages to the group.",
+        "description": "This is the additional info for the 'who can send mesages' panel"
     },
     "ConversationDetails--requests-and-invites": {
         "message": "คำขอและคำเชิญ",
@@ -5162,6 +5230,10 @@
     "AvatarInput--no-photo-label--group": {
         "message": "เพิ่มรูปภาพกลุ่ม",
         "description": "The label for the avatar uploader when no group photo is selected"
+    },
+    "AvatarInput--no-photo-label--profile": {
+        "message": "Add a photo",
+        "description": "The label for the avatar uploader when no profile photo is selected"
     },
     "AvatarInput--change-photo-label": {
         "message": "เปลี่ยนรูปภาพ",
@@ -5620,5 +5692,141 @@
     "ConversationDetailsHeader--add-group-description": {
         "message": "Add group description...",
         "description": "Placeholder text in the details header for those that can edit the group description"
+    },
+    "MediaQualitySelector--button": {
+        "message": "Select media quality",
+        "description": "aria-label for the media quality selector button"
+    },
+    "MediaQualitySelector--title": {
+        "message": "Media Quality",
+        "description": "Popup selector title"
+    },
+    "MediaQualitySelector--standard-quality-title": {
+        "message": "มาตรฐาน",
+        "description": "Title for option for standard quality"
+    },
+    "MediaQualitySelector--standard-quality-description": {
+        "message": "เร็วกว่า ใช้ข้อมูลน้อย",
+        "description": "Description of standard quality selector"
+    },
+    "MediaQualitySelector--high-quality-title": {
+        "message": "สูง",
+        "description": "Title for option for high quality"
+    },
+    "MediaQualitySelector--high-quality-description": {
+        "message": "ช้ากว่า ใช้ข้อมูลมาก",
+        "description": "Description of high quality selector"
+    },
+    "MessageDetailsHeader--Failed": {
+        "message": "ไม่ได้ส่ง",
+        "description": "In the message details screen, shown above contacts where the message failed to deliver"
+    },
+    "MessageDetailsHeader--Pending": {
+        "message": "รอดำเนินการ",
+        "description": "In the message details screen, shown above contacts where the message is still sending"
+    },
+    "MessageDetailsHeader--Sent": {
+        "message": "ส่งถึง",
+        "description": "In the message details screen, shown above contacts where the message has been sent (but not delivered, read, or viewed)"
+    },
+    "MessageDetailsHeader--Delivered": {
+        "message": "ส่งถึงแล้วที่",
+        "description": "In the message details screen, shown above contacts who have received your message"
+    },
+    "MessageDetailsHeader--Read": {
+        "message": "อ่านโดย",
+        "description": "In the message details screen, shown above contacts who have read this message"
+    },
+    "MessageDetailsHeader--Viewed": {
+        "message": "เห็นโดย",
+        "description": "In the message details screen, shown above contacts who have viewed this message"
+    },
+    "ProfileEditor--about": {
+        "message": "เกี่ยวกับ",
+        "description": "Default text for about field"
+    },
+    "ProfileEditor--about-placeholder": {
+        "message": "Write something about yourself...",
+        "description": "Placeholder text for about input field"
+    },
+    "ProfileEditor--first-name": {
+        "message": "ชื่อ (ต้องมี)",
+        "description": "Placeholder text for first name field"
+    },
+    "ProfileEditor--last-name": {
+        "message": "นามสกุล (ไม่จำเป็น)",
+        "description": "Placeholder text for last name field"
+    },
+    "ProfileEditor--discard": {
+        "message": "คุณต้องการจะยกเลิกการเปลี่ยนแปลงเหล่านี้หรือไม่?",
+        "description": "ConfirmationDialog text for discarding changes"
+    },
+    "ProfileEditor--info": {
+        "message": "Your profile is encrypted. Your profile and changes to it will be visible to your contacts and when you start or accept new chats. $learnMore$",
+        "description": "Information shown at the bottom of the profile editor section",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "Learn More."
+            }
+        }
+    },
+    "ProfileEditor--learnMore": {
+        "message": "เรียนรู้เพิ่มเติม",
+        "description": "Text that links to a support article"
+    },
+    "Bio--speak-freely": {
+        "message": "พูดได้อย่างอิสระ",
+        "description": "A default bio option"
+    },
+    "Bio--encrypted": {
+        "message": "เข้ารหัสลับอยู่",
+        "description": "A default bio option"
+    },
+    "Bio--free-to-chat": {
+        "message": "สะดวกคุย",
+        "description": "A default bio option"
+    },
+    "Bio--coffee-lover": {
+        "message": "คอกาแฟ",
+        "description": "A default bio option"
+    },
+    "Bio--taking-break": {
+        "message": "อยู่ระหว่างพัก",
+        "description": "A default bio option"
+    },
+    "ProfileEditorModal--profile": {
+        "message": "โปรไฟล์",
+        "description": "Title for profile editing"
+    },
+    "ProfileEditorModal--name": {
+        "message": "ชื่อของคุณ",
+        "description": "Title for editing your name"
+    },
+    "ProfileEditorModal--about": {
+        "message": "เกี่ยวกับ",
+        "description": "Title for about editing"
+    },
+    "ProfileEditorModal--error": {
+        "message": "Your profile could not be updated. Please try again.",
+        "description": "Error message when something goes wrong updating your profile."
+    },
+    "AnnouncementsOnlyGroupBanner--modal": {
+        "message": "Message an admin",
+        "description": "Modal title for the list of admins in a group"
+    },
+    "AnnouncementsOnlyGroupBanner--announcements-only": {
+        "message": "Only $admins$ can send messages",
+        "description": "Displayed if sending of messages is disabled to non-admins",
+        "placeholders": {
+            "admins": {
+                "content": "$1",
+                "example": "admins"
+            }
+        }
+    },
+    "AnnouncementsOnlyGroupBanner--admins": {
+        "message": "admins",
+        "description": "Clickable text describing administrators of a group, used in the message an admin label"
     }
 }
