@@ -142,11 +142,6 @@ export class ReadSyncs extends Collection {
           Math.min(existingTimestamp || now, readAt || now)
         );
         message.set({ expirationStartTimestamp });
-
-        const conversation = message.getConversation();
-        if (conversation) {
-          conversation.trigger('expiration-change', message);
-        }
       }
 
       window.Signal.Util.queueUpdateMessage(message.attributes);
