@@ -83,7 +83,6 @@ export function getPropsForBubble(
   ourNumber: string | undefined,
   ourUuid: string | undefined,
   regionCode: string,
-  readReceiptSetting: boolean,
   selectedMessageId: string | undefined,
   selectedMessageCounter: number | undefined,
   callSelector: CallSelectorType,
@@ -210,7 +209,6 @@ export function getPropsForBubble(
       ourUuid,
       selectedMessageId,
       selectedMessageCounter,
-      readReceiptSetting,
       regionCode,
       accountSelector
     ),
@@ -322,7 +320,6 @@ export function getPropsForMessage(
   ourUuid: string | undefined,
   selectedMessageId: string | undefined,
   selectedMessageCounter: number | undefined,
-  readReceiptSetting: boolean,
   regionCode: string,
   accountSelector: (identifier?: string) => boolean
 ): Omit<PropsForMessage, 'renderingContext'> {
@@ -393,11 +390,7 @@ export function getPropsForMessage(
     quote: getPropsForQuote(message, conversationSelector, ourConversationId),
     reactions,
     selectedReaction,
-    status: getMessagePropStatus(
-      message,
-      ourConversationId,
-      readReceiptSetting
-    ),
+    status: getMessagePropStatus(message, ourConversationId),
     text: createNonBreakingLastSeparator(message.body),
     textPending: message.bodyPending,
     timestamp: message.sent_at,
@@ -901,8 +894,7 @@ export function getMessagePropStatus(
     MessageAttributesType,
     'type' | 'errors' | 'sendStateByConversationId'
   >,
-  ourConversationId: string,
-  readReceiptSetting: boolean
+  ourConversationId: string
 ): LastMessageStatus | undefined {
   if (!isOutgoing(message)) {
     return undefined;
@@ -936,7 +928,7 @@ export function getMessagePropStatus(
   if (hasErrors(message)) {
     return isSent(highestSuccessfulStatus) ? 'partial-sent' : 'error';
   }
-  if (readReceiptSetting && isRead(highestSuccessfulStatus)) {
+  if (isRead(highestSuccessfulStatus)) {
     return 'read';
   }
   if (isDelivered(highestSuccessfulStatus)) {

@@ -146,9 +146,7 @@ describe('state/selectors/messages', () => {
     it('returns undefined for incoming messages', () => {
       const message = createMessage({ type: 'incoming' });
 
-      assert.isUndefined(
-        getMessagePropStatus(message, ourConversationId, true)
-      );
+      assert.isUndefined(getMessagePropStatus(message, ourConversationId));
     });
 
     it('returns "paused" for messages with challenges', () => {
@@ -163,7 +161,7 @@ describe('state/selectors/messages', () => {
       const message = createMessage({ errors: [challengeError] });
 
       assert.strictEqual(
-        getMessagePropStatus(message, ourConversationId, true),
+        getMessagePropStatus(message, ourConversationId),
         'paused'
       );
     });
@@ -188,7 +186,7 @@ describe('state/selectors/messages', () => {
       });
 
       assert.strictEqual(
-        getMessagePropStatus(message, ourConversationId, true),
+        getMessagePropStatus(message, ourConversationId),
         'partial-sent'
       );
     });
@@ -213,7 +211,7 @@ describe('state/selectors/messages', () => {
       });
 
       assert.strictEqual(
-        getMessagePropStatus(message, ourConversationId, true),
+        getMessagePropStatus(message, ourConversationId),
         'error'
       );
     });
@@ -228,15 +226,13 @@ describe('state/selectors/messages', () => {
         },
       });
 
-      [true, false].forEach(readReceiptSetting => {
-        assert.strictEqual(
-          getMessagePropStatus(message, ourConversationId, readReceiptSetting),
-          'read'
-        );
-      });
+      assert.strictEqual(
+        getMessagePropStatus(message, ourConversationId),
+        'read'
+      );
     });
 
-    it('returns "read" if the message was read by at least one person and you have read receipts enabled', () => {
+    it('returns "read" if the message was read by at least one person', () => {
       const readMessage = createMessage({
         sendStateByConversationId: {
           [ourConversationId]: {
@@ -258,7 +254,7 @@ describe('state/selectors/messages', () => {
         },
       });
       assert.strictEqual(
-        getMessagePropStatus(readMessage, ourConversationId, true),
+        getMessagePropStatus(readMessage, ourConversationId),
         'read'
       );
 
@@ -271,32 +267,8 @@ describe('state/selectors/messages', () => {
         },
       });
       assert.strictEqual(
-        getMessagePropStatus(viewedMessage, ourConversationId, true),
+        getMessagePropStatus(viewedMessage, ourConversationId),
         'read'
-      );
-    });
-
-    it('returns "delivered" if the message was read by at least one person and you have read receipts disabled', () => {
-      const message = createMessage({
-        sendStateByConversationId: {
-          [ourConversationId]: {
-            status: SendStatus.Sent,
-            updatedAt: Date.now(),
-          },
-          [uuid()]: {
-            status: SendStatus.Pending,
-            updatedAt: Date.now(),
-          },
-          [uuid()]: {
-            status: SendStatus.Read,
-            updatedAt: Date.now(),
-          },
-        },
-      });
-
-      assert.strictEqual(
-        getMessagePropStatus(message, ourConversationId, false),
-        'delivered'
       );
     });
 
@@ -323,7 +295,7 @@ describe('state/selectors/messages', () => {
       });
 
       assert.strictEqual(
-        getMessagePropStatus(message, ourConversationId, true),
+        getMessagePropStatus(message, ourConversationId),
         'delivered'
       );
     });
@@ -347,7 +319,7 @@ describe('state/selectors/messages', () => {
       });
 
       assert.strictEqual(
-        getMessagePropStatus(message, ourConversationId, true),
+        getMessagePropStatus(message, ourConversationId),
         'sent'
       );
     });
@@ -371,7 +343,7 @@ describe('state/selectors/messages', () => {
       });
 
       assert.strictEqual(
-        getMessagePropStatus(message, ourConversationId, true),
+        getMessagePropStatus(message, ourConversationId),
         'sending'
       );
     });

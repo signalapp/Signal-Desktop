@@ -35,7 +35,7 @@ import {
   getUserNumber,
   getUserUuid,
 } from './user';
-import { getPinnedConversationIds, getReadReceiptSetting } from './items';
+import { getPinnedConversationIds } from './items';
 import { getPropsForBubble } from './message';
 import {
   CallSelectorType,
@@ -671,7 +671,6 @@ export const getMessageSelector = createSelector(
   getSelectedMessage,
   getConversationSelector,
   getRegionCode,
-  getReadReceiptSetting,
   getUserNumber,
   getUserUuid,
   getUserConversationId,
@@ -684,7 +683,6 @@ export const getMessageSelector = createSelector(
     selectedMessage: SelectedMessageType | undefined,
     conversationSelector: GetConversationByIdType,
     regionCode: string,
-    readReceiptSetting: boolean,
     ourNumber: string,
     ourUuid: string,
     ourConversationId: string,
@@ -705,7 +703,6 @@ export const getMessageSelector = createSelector(
         ourNumber,
         ourUuid,
         regionCode,
-        readReceiptSetting,
         selectedMessage ? selectedMessage.id : undefined,
         selectedMessage ? selectedMessage.counter : undefined,
         callSelector,

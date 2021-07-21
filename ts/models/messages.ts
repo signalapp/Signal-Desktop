@@ -367,7 +367,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         this.OUR_UUID,
         undefined,
         undefined,
-        window.storage.get('read-receipt-setting', false),
         window.storage.get('regionCode', 'ZZ'),
         (identifier?: string) => {
           const state = window.reduxStore.getState();
@@ -3336,8 +3335,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       (isIncoming(attributes) ||
         getMessagePropStatus(
           attributes,
-          window.ConversationController.getOurConversationIdOrThrow(),
-          window.storage.get('read-receipt-setting', false)
+          window.ConversationController.getOurConversationIdOrThrow()
         ) !== 'partial-sent')
     ) {
       return undefined;

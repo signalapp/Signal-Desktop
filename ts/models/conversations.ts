@@ -3850,11 +3850,7 @@ export class ConversationModel extends window.Backbone
         (previewMessage ? previewMessage.getNotificationText() : '') || '',
       lastMessageStatus:
         (previewMessage
-          ? getMessagePropStatus(
-              previewMessage.attributes,
-              ourConversationId,
-              window.storage.get('read-receipt-setting', false)
-            )
+          ? getMessagePropStatus(previewMessage.attributes, ourConversationId)
           : null) || null,
       timestamp,
       lastMessageDeletedForEveryone: previewMessage
