@@ -3897,7 +3897,7 @@ function extractDiffs({
 
   // announcementsOnly
 
-  if (old.announcementsOnly !== current.announcementsOnly) {
+  if (Boolean(old.announcementsOnly) !== Boolean(current.announcementsOnly)) {
     details.push({
       type: 'announcements-only',
       announcementsOnly: Boolean(current.announcementsOnly),
@@ -4525,6 +4525,11 @@ async function applyGroupChange({
     }
   }
 
+  if (actions.modifyAnnouncementsOnly) {
+    const { announcementsOnly } = actions.modifyAnnouncementsOnly;
+    result.announcementsOnly = announcementsOnly;
+  }
+
   if (ourConversationId) {
     result.left = !members[ourConversationId];
   }
@@ -4810,6 +4815,9 @@ async function applyGroupState({
     result.description = undefined;
   }
 
+  // announcementsOnly
+  result.announcementsOnly = groupState.announcementsOnly;
+
   return {
     newAttributes: result,
     newProfileKeys,
@@ -4915,6 +4923,9 @@ type DecryptedGroupChangeActions = {
   };
   modifyDescription?: {
     descriptionBytes?: Proto.GroupAttributeBlob;
+  };
+  modifyAnnouncementsOnly?: {
+    announcementsOnly: boolean;
   };
 } & Pick<
   Proto.GroupChange.IActions,
@@ -5433,6 +5444,14 @@ function decryptGroupChange(
     }
   }
 
+  // modifyAnnouncementsOnly
+  if (actions.modifyAnnouncementsOnly) {
+    const { announcementsOnly } = actions.modifyAnnouncementsOnly;
+    result.modifyAnnouncementsOnly = {
+      announcementsOnly: Boolean(announcementsOnly),
+    };
+  }
+
   return result;
 }
 
@@ -5490,6 +5509,7 @@ type DecryptedGroupState = {
   inviteLinkPassword?: string;
   descriptionBytes?: Proto.GroupAttributeBlob;
   avatar?: string;
+  announcementsOnly?: boolean;
 };
 
 function decryptGroupState(
@@ -5620,6 +5640,10 @@ function decryptGroupState(
       );
     }
   }
+
+  // announcementsOnly
+  const { announcementsOnly } = groupState;
+  result.announcementsOnly = Boolean(announcementsOnly);
 
   result.avatar = dropNull(groupState.avatar);
 
