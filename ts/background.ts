@@ -38,6 +38,7 @@ import { ourProfileKeyService } from './services/ourProfileKey';
 import { shouldRespondWithProfileKey } from './util/shouldRespondWithProfileKey';
 import { LatestQueue } from './util/LatestQueue';
 import { parseIntOrThrow } from './util/parseIntOrThrow';
+import { getProfile } from './util/getProfile';
 import {
   TypingEvent,
   ErrorEvent,
@@ -3655,10 +3656,12 @@ export async function startApp(): Promise<void> {
     const FETCH_LATEST_ENUM = Proto.SyncMessage.FetchLatest.Type;
 
     switch (eventType) {
-      case FETCH_LATEST_ENUM.LOCAL_PROFILE:
-        // Intentionally do nothing since we'll be receiving the
-        // window.storage manifest request and will update local profile along with that.
+      case FETCH_LATEST_ENUM.LOCAL_PROFILE: {
+        const ourUuid = window.textsecure.storage.user.getUuid();
+        const ourE164 = window.textsecure.storage.user.getNumber();
+        await getProfile(ourUuid, ourE164);
         break;
+      }
       case FETCH_LATEST_ENUM.STORAGE_MANIFEST:
         window.log.info('onFetchLatestSync: fetching latest manifest');
         await window.Signal.Services.runStorageServiceSyncJob();

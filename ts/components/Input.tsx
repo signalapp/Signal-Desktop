@@ -15,12 +15,13 @@ import { getClassNamesFor } from '../util/getClassNamesFor';
 import { multiRef } from '../util/multiRef';
 
 export type PropsType = {
+  countLength?: (value: string) => number;
   disabled?: boolean;
   expandable?: boolean;
   hasClearButton?: boolean;
   i18n: LocalizerType;
   icon?: ReactNode;
-  maxGraphemeCount?: number;
+  maxLengthCount?: number;
   moduleClassName?: string;
   onChange: (value: string) => unknown;
   placeholder: string;
@@ -29,7 +30,7 @@ export type PropsType = {
 };
 
 /**
- * Some inputs must have fewer than maxGraphemeCount glyphs. Ideally, we'd use the
+ * Some inputs must have fewer than maxLengthCount glyphs. Ideally, we'd use the
  * `maxLength` property on inputs, but that doesn't account for glyphs that are more than
  * one UTF-16 code units. For example: `'💩💩'.length === 4`.
  *
@@ -51,12 +52,13 @@ export const Input = forwardRef<
 >(
   (
     {
+      countLength = grapheme.count,
       disabled,
       expandable,
       hasClearButton,
       i18n,
       icon,
-      maxGraphemeCount = 0,
+      maxLengthCount = 0,
       moduleClassName,
       onChange,
       placeholder,
@@ -108,9 +110,9 @@ export const Input = forwardRef<
 
       const newValue = inputEl.value;
 
-      const newGraphemeCount = maxGraphemeCount ? grapheme.count(newValue) : 0;
+      const newLengthCount = maxLengthCount ? countLength(newValue) : 0;
 
-      if (newGraphemeCount <= maxGraphemeCount) {
+      if (newLengthCount <= maxLengthCount) {
         onChange(newValue);
       } else {
         inputEl.value = valueOnKeydownRef.current;
@@ -119,12 +121,12 @@ export const Input = forwardRef<
       }
 
       maybeSetLarge();
-    }, [maxGraphemeCount, maybeSetLarge, onChange]);
+    }, [countLength, maxLengthCount, maybeSetLarge, onChange]);
 
     const handlePaste = useCallback(
       (event: ClipboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const inputEl = innerRef.current;
-        if (!inputEl || !maxGraphemeCount) {
+        if (!inputEl || !maxLengthCount) {
           return;
         }
 
@@ -136,25 +138,25 @@ export const Input = forwardRef<
 
         const pastedText = event.clipboardData.getData('Text');
 
-        const newGraphemeCount =
-          grapheme.count(textBeforeSelection) +
-          grapheme.count(pastedText) +
-          grapheme.count(textAfterSelection);
+        const newLengthCount =
+          countLength(textBeforeSelection) +
+          countLength(pastedText) +
+          countLength(textAfterSelection);
 
-        if (newGraphemeCount > maxGraphemeCount) {
+        if (newLengthCount > maxLengthCount) {
           event.preventDefault();
         }
 
         maybeSetLarge();
       },
-      [maxGraphemeCount, maybeSetLarge, value]
+      [countLength, maxLengthCount, maybeSetLarge, value]
     );
 
     useEffect(() => {
       maybeSetLarge();
     }, [maybeSetLarge]);
 
-    const graphemeCount = maxGraphemeCount ? grapheme.count(value) : -1;
+    const lengthCount = maxLengthCount ? countLength(value) : -1;
     const getClassName = getClassNamesFor('Input', moduleClassName);
 
     const inputProps = {
@@ -187,9 +189,9 @@ export const Input = forwardRef<
         />
       ) : null;
 
-    const graphemeCountElement = graphemeCount >= whenToShowRemainingCount && (
+    const lengthCountElement = lengthCount >= whenToShowRemainingCount && (
       <div className={getClassName('__remaining-count')}>
-        {maxGraphemeCount - graphemeCount}
+        {maxLengthCount - lengthCount}
       </div>
     );
 
@@ -208,12 +210,12 @@ export const Input = forwardRef<
               {clearButtonElement}
             </div>
             <div className={getClassName('__remaining-count--large')}>
-              {graphemeCountElement}
+              {lengthCountElement}
             </div>
           </>
         ) : (
           <div className={getClassName('__controls')}>
-            {graphemeCountElement}
+            {lengthCountElement}
             {clearButtonElement}
           </div>
         )}

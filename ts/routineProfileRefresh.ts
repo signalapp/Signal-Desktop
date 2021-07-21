@@ -15,6 +15,8 @@ import { take } from './util/iterables';
 import { isOlderThan } from './util/timestamp';
 import { ConversationModel } from './models/conversations';
 import { StorageInterface } from './types/Storage.d';
+// Imported this way so that sinon.sandbox can stub this properly
+import * as profileGetter from './util/getProfile';
 
 const STORAGE_KEY = 'lastAttemptedToRefreshProfilesAt';
 const MAX_AGE_TO_BE_CONSIDERED_ACTIVE = 30 * 24 * 60 * 60 * 1000;
@@ -60,7 +62,7 @@ export async function routineProfileRefresh({
 
     totalCount += 1;
     try {
-      await conversation.getProfile(
+      await profileGetter.getProfile(
         conversation.get('uuid'),
         conversation.get('e164')
       );

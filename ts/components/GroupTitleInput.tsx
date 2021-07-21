@@ -21,7 +21,7 @@ export const GroupTitleInput = forwardRef<HTMLInputElement, PropsType>(
         i18n={i18n}
         onChange={onChangeValue}
         placeholder={i18n('setGroupMetadata__group-name-placeholder')}
-        maxGraphemeCount={32}
+        maxLengthCount={32}
         ref={ref}
         value={value}
       />

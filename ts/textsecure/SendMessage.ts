@@ -1208,6 +1208,31 @@ export default class MessageSender {
     });
   }
 
+  async sendFetchLocalProfileSyncMessage(
+    options?: SendOptionsType
+  ): Promise<CallbackResultType> {
+    const myUuid = window.textsecure.storage.user.getUuid();
+    const myNumber = window.textsecure.storage.user.getNumber();
+
+    const fetchLatest = new Proto.SyncMessage.FetchLatest();
+    fetchLatest.type = Proto.SyncMessage.FetchLatest.Type.LOCAL_PROFILE;
+
+    const syncMessage = this.createSyncMessage();
+    syncMessage.fetchLatest = fetchLatest;
+    const contentMessage = new Proto.Content();
+    contentMessage.syncMessage = syncMessage;
+
+    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
+
+    return this.sendIndividualProto({
+      identifier: myUuid || myNumber,
+      proto: contentMessage,
+      timestamp: Date.now(),
+      contentHint: ContentHint.IMPLICIT,
+      options,
+    });
+  }
+
   async sendRequestKeySyncMessage(
     options?: SendOptionsType
   ): Promise<CallbackResultType> {

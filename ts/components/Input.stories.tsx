@@ -21,7 +21,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   hasClearButton: Boolean(overrideProps.hasClearButton),
   i18n,
   icon: overrideProps.icon,
-  maxGraphemeCount: overrideProps.maxGraphemeCount,
+  maxLengthCount: overrideProps.maxLengthCount,
   onChange: action('onChange'),
   placeholder: text(
     'placeholder',
@@ -51,7 +51,7 @@ stories.add('hasClearButton', () => (
 stories.add('character count', () => (
   <Controller
     {...createProps({
-      maxGraphemeCount: 10,
+      maxLengthCount: 10,
     })}
   />
 ));
@@ -59,7 +59,7 @@ stories.add('character count', () => (
 stories.add('character count (customizable show)', () => (
   <Controller
     {...createProps({
-      maxGraphemeCount: 64,
+      maxLengthCount: 64,
       whenToShowRemainingCount: 32,
     })}
   />
@@ -78,7 +78,7 @@ stories.add('expandable w/count', () => (
     {...createProps({
       expandable: true,
       hasClearButton: true,
-      maxGraphemeCount: 140,
+      maxLengthCount: 140,
       whenToShowRemainingCount: 0,
     })}
   />
