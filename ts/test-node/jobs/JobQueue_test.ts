@@ -1,11 +1,12 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
+/* eslint-disable max-classes-per-file, class-methods-use-this */
 
 import { assert } from 'chai';
 import * as sinon from 'sinon';
 import EventEmitter, { once } from 'events';
 import { z } from 'zod';
-import { identity, noop, groupBy } from 'lodash';
+import { noop, groupBy } from 'lodash';
 import { v4 as uuid } from 'uuid';
 import { JobError } from '../../jobs/JobError';
 import { TestJobQueueStore } from './TestJobQueueStore';
@@ -28,16 +29,20 @@ describe('JobQueue', () => {
       const results = new Set<unknown>();
       const store = new TestJobQueueStore();
 
-      const addQueue = new JobQueue({
+      class Queue extends JobQueue<TestJobData> {
+        parseData(data: unknown): TestJobData {
+          return testJobSchema.parse(data);
+        }
+
+        async run({ data }: ParsedJob<TestJobData>): Promise<void> {
+          results.add(data.a + data.b);
+        }
+      }
+
+      const addQueue = new Queue({
         store,
         queueType: 'test add queue',
         maxAttempts: 1,
-        parseData(data: unknown): TestJobData {
-          return testJobSchema.parse(data);
-        },
-        async run({ data }: ParsedJob<TestJobData>): Promise<void> {
-          results.add(data.a + data.b);
-        },
       });
 
       assert.deepEqual(results, new Set());
@@ -64,25 +69,25 @@ describe('JobQueue', () => {
     it('writes jobs to the database correctly', async () => {
       const store = new TestJobQueueStore();
 
-      const queue1 = new JobQueue({
+      class TestQueue extends JobQueue<string> {
+        parseData(data: unknown): string {
+          return z.string().parse(data);
+        }
+
+        async run(): Promise<void> {
+          return Promise.resolve();
+        }
+      }
+
+      const queue1 = new TestQueue({
         store,
         queueType: 'test 1',
         maxAttempts: 1,
-        parseData: (data: unknown): string => {
-          return z.string().parse(data);
-        },
-        run: sinon.stub().resolves(),
       });
-      const queue2 = new JobQueue({
+      const queue2 = new TestQueue({
         store,
         queueType: 'test 2',
         maxAttempts: 1,
-        parseData: (data: unknown): string => {
-          return z.string().parse(data);
-        },
-        run(): Promise<void> {
-          return Promise.resolve();
-        },
       });
 
       store.pauseStream('test 1');
@@ -138,16 +143,14 @@ describe('JobQueue', () => {
 
       const store = new TestJobQueueStore();
 
-      const retryQueue = new JobQueue({
-        store,
-        queueType: 'test retry queue',
-        maxAttempts: 5,
+      class RetryQueue extends JobQueue<TestJobData> {
         parseData(data: unknown): TestJobData {
           if (data !== 'foo' && data !== 'bar') {
             throw new Error('Invalid data');
           }
           return data;
-        },
+        }
+
         async run({ data }: ParsedJob<TestJobData>): Promise<void> {
           switch (data) {
             case 'foo':
@@ -166,7 +169,13 @@ describe('JobQueue', () => {
             default:
               throw missingCaseError(data);
           }
-        },
+        }
+      }
+
+      const retryQueue = new RetryQueue({
+        store,
+        queueType: 'test retry queue',
+        maxAttempts: 5,
       });
 
       retryQueue.streamJobs();
@@ -196,17 +205,23 @@ describe('JobQueue', () => {
     });
 
     it('makes job.completion reject if parseData throws', async () => {
-      const queue = new JobQueue({
-        store: new TestJobQueueStore(),
-        queueType: 'test queue',
-        maxAttempts: 999,
-        parseData: (data: unknown): string => {
+      class TestQueue extends JobQueue<string> {
+        parseData(data: unknown): string {
           if (data === 'valid') {
             return data;
           }
           throw new Error('uh oh');
-        },
-        run: sinon.stub().resolves(),
+        }
+
+        async run(): Promise<void> {
+          return Promise.resolve();
+        }
+      }
+
+      const queue = new TestQueue({
+        store: new TestJobQueueStore(),
+        queueType: 'test queue',
+        maxAttempts: 999,
       });
 
       queue.streamJobs();
@@ -234,17 +249,23 @@ describe('JobQueue', () => {
     it("doesn't run the job if parseData throws", async () => {
       const run = sinon.stub().resolves();
 
-      const queue = new JobQueue({
-        store: new TestJobQueueStore(),
-        queueType: 'test queue',
-        maxAttempts: 999,
-        parseData: (data: unknown): string => {
+      class TestQueue extends JobQueue<string> {
+        parseData(data: unknown): string {
           if (data === 'valid') {
             return data;
           }
           throw new Error('invalid data!');
-        },
-        run,
+        }
+
+        run(job: { data: string }): Promise<void> {
+          return run(job);
+        }
+      }
+
+      const queue = new TestQueue({
+        store: new TestJobQueueStore(),
+        queueType: 'test queue',
+        maxAttempts: 999,
       });
 
       queue.streamJobs();
@@ -262,17 +283,23 @@ describe('JobQueue', () => {
     it('keeps jobs in the storage if parseData throws', async () => {
       const store = new TestJobQueueStore();
 
-      const queue = new JobQueue({
-        store,
-        queueType: 'test queue',
-        maxAttempts: 999,
-        parseData: (data: unknown): string => {
+      class TestQueue extends JobQueue<string> {
+        parseData(data: unknown): string {
           if (data === 'valid') {
             return data;
           }
-          throw new Error('uh oh');
-        },
-        run: sinon.stub().resolves(),
+          throw new Error('invalid data!');
+        }
+
+        async run(): Promise<void> {
+          return Promise.resolve();
+        }
+      }
+
+      const queue = new TestQueue({
+        store,
+        queueType: 'test queue',
+        maxAttempts: 999,
       });
 
       queue.streamJobs();
@@ -292,12 +319,20 @@ describe('JobQueue', () => {
         inserted = true;
       });
 
-      const queue = new JobQueue({
+      class TestQueue extends JobQueue<undefined> {
+        parseData(_: unknown): undefined {
+          return undefined;
+        }
+
+        async run(): Promise<void> {
+          return Promise.resolve();
+        }
+      }
+
+      const queue = new TestQueue({
         store,
         queueType: 'test queue',
         maxAttempts: 999,
-        parseData: identity,
-        run: sinon.stub().resolves(),
       });
 
       queue.streamJobs();
@@ -317,17 +352,21 @@ describe('JobQueue', () => {
         events.push('insert');
       });
 
-      const queue = new JobQueue({
+      class TestQueue extends JobQueue<unknown> {
+        parseData(data: unknown): unknown {
+          events.push('parsing data');
+          return data;
+        }
+
+        async run(): Promise<void> {
+          events.push('running');
+        }
+      }
+
+      const queue = new TestQueue({
         store,
         queueType: 'test queue',
         maxAttempts: 999,
-        parseData: (data: unknown): unknown => {
-          events.push('parsing data');
-          return data;
-        },
-        async run() {
-          events.push('running');
-        },
       });
 
       queue.streamJobs();
@@ -345,12 +384,20 @@ describe('JobQueue', () => {
         events.push('delete');
       });
 
-      const queue = new JobQueue({
+      class TestQueue extends JobQueue<undefined> {
+        parseData(_: unknown): undefined {
+          return undefined;
+        }
+
+        async run(): Promise<void> {
+          return Promise.resolve();
+        }
+      }
+
+      const queue = new TestQueue({
         store,
         queueType: 'test queue',
         maxAttempts: 999,
-        parseData: identity,
-        run: sinon.stub().resolves(),
       });
 
       queue.streamJobs();
@@ -378,15 +425,21 @@ describe('JobQueue', () => {
         events.push('delete');
       });
 
-      const queue = new JobQueue({
+      class TestQueue extends JobQueue<undefined> {
+        parseData(_: unknown): undefined {
+          return undefined;
+        }
+
+        async run(): Promise<void> {
+          events.push('running');
+          throw new Error('uh oh');
+        }
+      }
+
+      const queue = new TestQueue({
         store,
         queueType: 'test queue',
         maxAttempts: 5,
-        parseData: identity,
-        async run() {
-          events.push('running');
-          throw new Error('uh oh');
-        },
       });
 
       queue.streamJobs();
@@ -453,16 +506,20 @@ describe('JobQueue', () => {
     it('starts streaming jobs from the store', async () => {
       const eventEmitter = new EventEmitter();
 
-      const noopQueue = new JobQueue({
+      class TestQueue extends JobQueue<number> {
+        parseData(data: unknown): number {
+          return z.number().parse(data);
+        }
+
+        async run({ data }: Readonly<{ data: number }>): Promise<void> {
+          eventEmitter.emit('run', data);
+        }
+      }
+
+      const noopQueue = new TestQueue({
         store: fakeStore,
         queueType: 'test noop queue',
         maxAttempts: 99,
-        parseData(data: unknown): number {
-          return z.number().parse(data);
-        },
-        async run({ data }: Readonly<{ data: number }>) {
-          eventEmitter.emit('run', data);
-        },
       });
 
       sinon.assert.notCalled(fakeStore.stream as sinon.SinonStub);
@@ -492,12 +549,20 @@ describe('JobQueue', () => {
     });
 
     it('rejects when called more than once', async () => {
-      const noopQueue = new JobQueue({
+      class TestQueue extends JobQueue<unknown> {
+        parseData(data: unknown): unknown {
+          return data;
+        }
+
+        async run(): Promise<void> {
+          return Promise.resolve();
+        }
+      }
+
+      const noopQueue = new TestQueue({
         store: fakeStore,
         queueType: 'test noop queue',
         maxAttempts: 99,
-        parseData: identity,
-        run: sinon.stub().resolves(),
       });
 
       noopQueue.streamJobs();
@@ -517,12 +582,20 @@ describe('JobQueue', () => {
         stream: sinon.stub(),
       };
 
-      const noopQueue = new JobQueue({
+      class TestQueue extends JobQueue<undefined> {
+        parseData(_: unknown): undefined {
+          return undefined;
+        }
+
+        async run(): Promise<void> {
+          return Promise.resolve();
+        }
+      }
+
+      const noopQueue = new TestQueue({
         store: fakeStore,
         queueType: 'test noop queue',
         maxAttempts: 99,
-        parseData: identity,
-        run: sinon.stub().resolves(),
       });
 
       await assertRejects(() => noopQueue.add(undefined));

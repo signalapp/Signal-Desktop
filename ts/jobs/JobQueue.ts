@@ -15,7 +15,7 @@ const noopOnCompleteCallbacks = {
   reject: noop,
 };
 
-type JobQueueOptions<T> = {
+type JobQueueOptions = {
   /**
    * The backing store for jobs. Typically a wrapper around the database.
    */
@@ -32,37 +32,12 @@ type JobQueueOptions<T> = {
    * the job to fail; a value of 2 will allow the job to fail once; etc.
    */
   maxAttempts: number;
-
-  /**
-   * `parseData` will be called with the raw data from `store`. For example, if the job
-   * takes a single number, `parseData` should throw if `data` is a number and should
-   * return the number otherwise.
-   *
-   * If it throws, the job will be deleted from the store and the job will not be run.
-   *
-   * Will only be called once per job, even if `maxAttempts > 1`.
-   */
-  parseData: (data: unknown) => T;
-
-  /**
-   * Run the job, given data.
-   *
-   * If it resolves, the job will be deleted from the store.
-   *
-   * If it rejects, the job will be retried up to `maxAttempts - 1` times, after which it
-   * will be deleted from the store.
-   */
-  run: (job: Readonly<ParsedJob<T>>) => Promise<void>;
 };
 
-export class JobQueue<T> {
+export abstract class JobQueue<T> {
   private readonly maxAttempts: number;
 
-  private readonly parseData: (data: unknown) => T;
-
   private readonly queueType: string;
-
-  private readonly run: (job: Readonly<ParsedJob<T>>) => Promise<unknown>;
 
   private readonly store: JobQueueStore;
 
@@ -78,7 +53,7 @@ export class JobQueue<T> {
 
   private started = false;
 
-  constructor(options: Readonly<JobQueueOptions<T>>) {
+  constructor(options: Readonly<JobQueueOptions>) {
     assert(
       Number.isInteger(options.maxAttempts) && options.maxAttempts >= 1,
       'maxAttempts should be a positive integer'
@@ -93,13 +68,32 @@ export class JobQueue<T> {
     );
 
     this.maxAttempts = options.maxAttempts;
-    this.parseData = options.parseData;
     this.queueType = options.queueType;
-    this.run = options.run;
     this.store = options.store;
 
     this.logPrefix = `${this.queueType} job queue:`;
   }
+
+  /**
+   * `parseData` will be called with the raw data from `store`. For example, if the job
+   * takes a single number, `parseData` should throw if `data` is a number and should
+   * return the number otherwise.
+   *
+   * If it throws, the job will be deleted from the store and the job will not be run.
+   *
+   * Will only be called once per job, even if `maxAttempts > 1`.
+   */
+  protected abstract parseData(data: unknown): T;
+
+  /**
+   * Run the job, given data.
+   *
+   * If it resolves, the job will be deleted from the store.
+   *
+   * If it rejects, the job will be retried up to `maxAttempts - 1` times, after which it
+   * will be deleted from the store.
+   */
+  protected abstract run(job: Readonly<ParsedJob<T>>): Promise<void>;
 
   /**
    * Start streaming jobs from the store.

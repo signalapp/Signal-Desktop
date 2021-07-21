@@ -1,5 +1,6 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
+/* eslint-disable class-methods-use-this */
 
 import * as z from 'zod';
 import * as moment from 'moment';
@@ -45,18 +46,14 @@ const reportSpamJobDataSchema = z.object({
 
 export type ReportSpamJobData = z.infer<typeof reportSpamJobDataSchema>;
 
-export const reportSpamJobQueue = new JobQueue<ReportSpamJobData>({
-  store: jobQueueDatabaseStore,
-
-  queueType: 'report spam',
-
-  maxAttempts: 25,
-
-  parseData(data: unknown): ReportSpamJobData {
+export class ReportSpamJobQueue extends JobQueue<ReportSpamJobData> {
+  protected parseData(data: unknown): ReportSpamJobData {
     return reportSpamJobDataSchema.parse(data);
-  },
+  }
 
-  async run({ data }: Readonly<{ data: ReportSpamJobData }>): Promise<void> {
+  protected async run({
+    data,
+  }: Readonly<{ data: ReportSpamJobData }>): Promise<void> {
     const { e164, serverGuids } = data;
 
     await new Promise<void>(resolve => {
@@ -115,5 +112,13 @@ export const reportSpamJobQueue = new JobQueue<ReportSpamJobData>({
 
       throw err;
     }
-  },
+  }
+}
+
+export const reportSpamJobQueue = new ReportSpamJobQueue({
+  store: jobQueueDatabaseStore,
+
+  queueType: 'report spam',
+
+  maxAttempts: 25,
 });

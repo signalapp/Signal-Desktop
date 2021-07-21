@@ -1,5 +1,6 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
+/* eslint-disable class-methods-use-this */
 
 import { z } from 'zod';
 
@@ -12,18 +13,12 @@ const removeStorageKeyJobDataSchema = z.object({
 
 type RemoveStorageKeyJobData = z.infer<typeof removeStorageKeyJobDataSchema>;
 
-export const removeStorageKeyJobQueue = new JobQueue<RemoveStorageKeyJobData>({
-  store: jobQueueDatabaseStore,
-
-  queueType: 'remove storage key',
-
-  maxAttempts: 100,
-
-  parseData(data: unknown): RemoveStorageKeyJobData {
+export class RemoveStorageKeyJobQueue extends JobQueue<RemoveStorageKeyJobData> {
+  protected parseData(data: unknown): RemoveStorageKeyJobData {
     return removeStorageKeyJobDataSchema.parse(data);
-  },
+  }
 
-  async run({
+  protected async run({
     data,
   }: Readonly<{ data: RemoveStorageKeyJobData }>): Promise<void> {
     await new Promise<void>(resolve => {
@@ -31,5 +26,13 @@ export const removeStorageKeyJobQueue = new JobQueue<RemoveStorageKeyJobData>({
     });
 
     await window.storage.remove(data.key);
-  },
+  }
+}
+
+export const removeStorageKeyJobQueue = new RemoveStorageKeyJobQueue({
+  store: jobQueueDatabaseStore,
+
+  queueType: 'remove storage key',
+
+  maxAttempts: 100,
 });
