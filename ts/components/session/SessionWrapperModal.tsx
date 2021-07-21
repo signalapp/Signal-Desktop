@@ -64,27 +64,22 @@ export const SessionWrapperModal = (props: SessionWrapperModalType) => {
     if (!modalRef.current?.contains(e.target)) {
       props.onClose?.();
     }
-  }
+  };
 
   useEffect(() => {
-    document.addEventListener("mousedown", handleClick);
+    document.addEventListener('mousedown', handleClick);
 
     return () => {
-      document.removeEventListener("mousedown", handleClick);
-    }
-  }, [])
+      document.removeEventListener('mousedown', handleClick);
+    };
+  }, []);
 
   return (
     <div
-      className={classNames(
-        `loki-dialog modal`,
-        additionalClassName ? additionalClassName : null
-      )}>
-      <div
-        className="session-confirm-wrapper">
-        <div
-          ref={modalRef}
-          className="session-modal">
+      className={classNames('loki-dialog modal', additionalClassName ? additionalClassName : null)}
+    >
+      <div className="session-confirm-wrapper">
+        <div ref={modalRef} className="session-modal">
           {showHeader ? (
             <div className={classNames('session-modal__header', headerReverse && 'reverse')}>
               <div className="session-modal__header__close">
@@ -101,17 +96,17 @@ export const SessionWrapperModal = (props: SessionWrapperModalType) => {
               <div className="session-modal__header__icons">
                 {headerIconButtons
                   ? headerIconButtons.map((iconItem: any) => {
-                    return (
-                      <SessionIconButton
-                        key={iconItem.iconType}
-                        iconType={iconItem.iconType}
-                        iconSize={SessionIconSize.Large}
-                        iconRotation={iconItem.iconRotation}
-                        onClick={iconItem.onClick}
-                        theme={theme}
-                      />
-                    );
-                  })
+                      return (
+                        <SessionIconButton
+                          key={iconItem.iconType}
+                          iconType={iconItem.iconType}
+                          iconSize={SessionIconSize.Large}
+                          iconRotation={iconItem.iconRotation}
+                          onClick={iconItem.onClick}
+                          theme={theme}
+                        />
+                      );
+                    })
                   : null}
               </div>
             </div>
