@@ -1851,7 +1851,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           isUpdate,
           options: sendOptions,
         }),
-        { messageIds: [this.id], sendType: 'sentSync' }
+        // Note: in some situations, for doNotSave messages, the message has no
+        //   id, so we provide an empty array here.
+        { messageIds: this.id ? [this.id] : [], sendType: 'sentSync' }
       ).then(async result => {
         let newSendStateByConversationId: undefined | SendStateByConversationId;
         const sendStateByConversationId =
