@@ -194,7 +194,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       trailing: true,
       leading: true,
     });
-    this.triggerUIRefresh = _.throttle(this.triggerUIRefresh, 300, {
+    this.triggerUIRefresh = _.throttle(this.triggerUIRefresh, 1000, {
       trailing: true,
     });
     this.throttledNotify = _.debounce(this.notify, 500, { maxWait: 1000, trailing: true });

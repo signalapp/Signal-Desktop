@@ -368,9 +368,11 @@ export const fetchMessagesForConversation = createAsyncThunk(
     count: number;
   }): Promise<FetchedMessageResults> => {
     const beforeTimestamp = Date.now();
+    console.time('fetchMessagesForConversation');
     const messagesProps = await getMessages(conversationKey, count);
     const firstUnreadIndex = getFirstMessageUnreadIndex(messagesProps);
     const afterTimestamp = Date.now();
+    console.timeEnd('fetchMessagesForConversation');
 
     const time = afterTimestamp - beforeTimestamp;
     window?.log?.info(`Loading ${messagesProps.length} messages took ${time}ms to load.`);
@@ -648,19 +650,14 @@ const conversationsSlice = createSlice({
       };
     },
 
-    conversationRemoved(
-      state: ConversationsStateType,
-      action: PayloadAction<{
-        id: string;
-      }>
-    ) {
-      const { payload } = action;
-      const { id } = payload;
+    conversationRemoved(state: ConversationsStateType, action: PayloadAction<string>) {
+      const { payload: conversationId } = action;
       const { conversationLookup, selectedConversation } = state;
       return {
         ...state,
-        conversationLookup: omit(conversationLookup, [id]),
-        selectedConversation: selectedConversation === id ? undefined : selectedConversation,
+        conversationLookup: omit(conversationLookup, [conversationId]),
+        selectedConversation:
+          selectedConversation === conversationId ? undefined : selectedConversation,
       };
     },
 

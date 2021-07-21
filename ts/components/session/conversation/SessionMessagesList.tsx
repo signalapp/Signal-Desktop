@@ -60,9 +60,12 @@ type Props = SessionMessageListProps & {
   animateQuotedMessageId: string | undefined;
 };
 
-const UnreadIndicator = (props: { messageId: string; show: boolean }) => (
-  <SessionLastSeenIndicator show={props.show} key={`unread-indicator-${props.messageId}`} />
-);
+const UnreadIndicator = (props: { messageId: string; show: boolean }) => {
+  if (!props.show) {
+    return null;
+  }
+  return <SessionLastSeenIndicator key={`unread-indicator-${props.messageId}`} />;
+};
 
 const GroupUpdateItem = (props: {
   messageId: string;
@@ -258,14 +261,12 @@ class SessionMessagesListInner extends React.Component<Props> {
   private scrollOffsetBottomPx: number = Number.MAX_VALUE;
   private ignoreScrollEvents: boolean;
   private timeoutResetQuotedScroll: NodeJS.Timeout | null = null;
-  private debouncedHandleScroll: any;
 
   public constructor(props: Props) {
     super(props);
     autoBind(this);
 
     this.ignoreScrollEvents = true;
-    this.debouncedHandleScroll = _.throttle(this.handleScroll, 500);
   }
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -274,7 +275,7 @@ class SessionMessagesListInner extends React.Component<Props> {
 
   public componentDidMount() {
     // Pause thread to wait for rendering to complete
-    setTimeout(this.scrollToUnread, 0);
+    setTimeout(this.initialMessageLoadingPosition, 0);
   }
 
   public componentWillUnmount() {
@@ -294,7 +295,7 @@ class SessionMessagesListInner extends React.Component<Props> {
       this.scrollOffsetBottomPx = Number.MAX_VALUE;
       this.ignoreScrollEvents = true;
       this.setupTimeoutResetQuotedHighlightedMessage(true);
-      this.scrollToUnread();
+      this.initialMessageLoadingPosition();
     } else {
       // if we got new message for this convo, and we are scrolled to bottom
       if (isSameConvo && messageLengthChanged) {
@@ -333,7 +334,7 @@ class SessionMessagesListInner extends React.Component<Props> {
     return (
       <div
         className="messages-container"
-        onScroll={this.debouncedHandleScroll}
+        onScroll={this.handleScroll}
         ref={this.props.messageContainerRef}
       >
         <TypingBubble
@@ -448,9 +449,9 @@ class SessionMessagesListInner extends React.Component<Props> {
     }
 
     // Fetch more messages when nearing the top of the message list
-    const shouldFetchMoreMessages = scrollTop <= Constants.UI.MESSAGE_CONTAINER_BUFFER_OFFSET_PX;
+    const shouldFetchMoreMessagesTop = scrollTop <= Constants.UI.MESSAGE_CONTAINER_BUFFER_OFFSET_PX;
 
-    if (shouldFetchMoreMessages) {
+    if (shouldFetchMoreMessagesTop) {
       const { messagesProps } = this.props;
       const numMessages = messagesProps.length + Constants.CONVERSATION.DEFAULT_MESSAGE_FETCH_COUNT;
       const oldLen = messagesProps.length;
@@ -465,23 +466,20 @@ class SessionMessagesListInner extends React.Component<Props> {
     }
   }
 
-  private scrollToUnread() {
+  /**
+   * Position the list to the middle of the loaded list if the conversation has unread messages and we have some messages loaded
+   */
+  private initialMessageLoadingPosition() {
     const { messagesProps, conversation } = this.props;
     if (!conversation) {
       return;
     }
-    if (conversation.unreadCount > 0) {
-      let message;
-      if (messagesProps.length > conversation.unreadCount) {
-        // if we have enough message to show one more message, show one more to include the unread banner
-        message = messagesProps[conversation.unreadCount - 1];
-      } else {
-        message = messagesProps[conversation.unreadCount - 1];
-      }
+    if (conversation.unreadCount > 0 && messagesProps.length) {
+      // just scroll to the middle of the loaded messages list. so the user can chosse to go up or down from there
 
-      if (message) {
-        this.scrollToMessage(message.propsForMessage.id);
-      }
+      const middle = messagesProps.length / 2;
+      messagesProps[middle].propsForMessage.id;
+      this.scrollToMessage(messagesProps[middle].propsForMessage.id);
     }
 
     if (this.ignoreScrollEvents && messagesProps.length > 0) {
@@ -507,6 +505,7 @@ class SessionMessagesListInner extends React.Component<Props> {
     if (clearOnly) {
       return;
     }
+
     if (this.props.animateQuotedMessageId !== undefined) {
       this.timeoutResetQuotedScroll = global.setTimeout(() => {
         window.inboxStore?.dispatch(quotedMessageToAnimate(undefined));
@@ -517,14 +516,14 @@ class SessionMessagesListInner extends React.Component<Props> {
   private scrollToMessage(messageId: string, smooth: boolean = false) {
     const messageElementDom = document.getElementById(messageId);
     messageElementDom?.scrollIntoView({
-      behavior: smooth ? 'smooth' : 'auto',
+      behavior: 'auto',
       block: 'center',
     });
 
     // we consider that a `smooth` set to true, means it's a quoted message, so highlight this message on the UI
     if (smooth) {
       window.inboxStore?.dispatch(quotedMessageToAnimate(messageId));
-      this.setupTimeoutResetQuotedHighlightedMessage;
+      this.setupTimeoutResetQuotedHighlightedMessage();
     }
 
     const messageContainer = this.props.messageContainerRef.current;

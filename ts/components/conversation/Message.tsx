@@ -432,11 +432,11 @@ class MessageInner extends React.PureComponent<Props, State> {
     const userName = authorName || authorProfileName || authorPhoneNumber;
 
     if (!firstMessageOfSeries) {
-      return <div style={{ marginInlineEnd: '60px' }} />;
+      return <div style={{ marginInlineEnd: '60px' }} key={`msg-avatar-${authorPhoneNumber}`} />;
     }
 
     return (
-      <div className="module-message__author-avatar">
+      <div className="module-message__author-avatar" key={`msg-avatar-${authorPhoneNumber}`}>
         <Avatar
           avatarPath={authorAvatarPath}
           name={userName}
@@ -600,9 +600,12 @@ class MessageInner extends React.PureComponent<Props, State> {
       if (inView === true && shouldMarkReadWhenVisible && window.isFocused()) {
         const found = await getMessageById(id);
 
-        // mark the message as read.
-        // this will trigger the expire timer.
-        void found?.markRead(Date.now());
+        if (found && Boolean(found.get('unread'))) {
+          console.warn('marking as read: ', found.id);
+          // mark the message as read.
+          // this will trigger the expire timer.
+          void found?.markRead(Date.now());
+        }
       }
     };
 
@@ -612,6 +615,7 @@ class MessageInner extends React.PureComponent<Props, State> {
         className={classNames(divClasses)}
         onChange={onVisible}
         onContextMenu={this.handleContextMenu}
+        key={`readable-message-${this.props.id}`}
       >
         {this.renderAvatar()}
         <div

@@ -246,13 +246,13 @@ export class ConversationController {
 
       this.conversations.remove(conversation);
       if (window?.inboxStore) {
-        window.inboxStore?.dispatch(conversationActions.conversationRemoved(conversation.id));
         window.inboxStore?.dispatch(
           conversationActions.conversationChanged({
             id: conversation.id,
             data: conversation.getProps(),
           })
         );
+        window.inboxStore?.dispatch(conversationActions.conversationRemoved(conversation.id));
       }
       window.log.info(`deleteContact !isPrivate, convo removed from store: ${id}`);
     }

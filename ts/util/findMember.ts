@@ -32,7 +32,7 @@ export class FindMember {
     if (thisConvo.isPublic()) {
       const publicMembers = (await window.inboxStore?.getState()
         .mentionsInput) as MentionsMembersType;
-      const memberConversations = publicMembers
+      const memberConversations = (publicMembers || [])
         .map(publicMember => getConversationController().get(publicMember.authorPhoneNumber))
         .filter((c: any) => !!c);
       groupMembers = memberConversations;

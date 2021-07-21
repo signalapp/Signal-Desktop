@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { getDecryptedMediaUrl } from '../session/crypto/DecryptedAttachmentsManager';
 
@@ -7,11 +7,11 @@ export const useEncryptedFileFetch = (url: string, contentType: string) => {
   const [urlToLoad, setUrlToLoad] = useState('');
   const [loading, setLoading] = useState(true);
 
-  let isCancelled = false;
+  const mountedRef = useRef(true);
 
   async function fetchUrl() {
     const decryptedUrl = await getDecryptedMediaUrl(url, contentType);
-    if (!isCancelled) {
+    if (mountedRef.current) {
       setUrlToLoad(decryptedUrl);
 
       setLoading(false);
@@ -21,7 +21,7 @@ export const useEncryptedFileFetch = (url: string, contentType: string) => {
   useEffect(() => {
     void fetchUrl();
 
-    () => (isCancelled = true);
+    () => (mountedRef.current = false);
   }, [url]);
 
   return { urlToLoad, loading };

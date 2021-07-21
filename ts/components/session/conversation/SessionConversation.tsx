@@ -255,16 +255,12 @@ export class SessionConversation extends React.Component<Props, State> {
     if (!selectedConversation) {
       return;
     }
-    const conversationModel = getConversationController().get(selectedConversationKey);
-    const unreadCount = await conversationModel.getUnreadCount();
-    const messagesToFetch = Math.max(
-      Constants.CONVERSATION.DEFAULT_MESSAGE_FETCH_COUNT,
-      unreadCount
-    );
+
+    // lets load only 50 messages and let the user scroll up if he needs more context
     (window.inboxStore?.dispatch as any)(
       fetchMessagesForConversation({
         conversationKey: selectedConversationKey,
-        count: messagesToFetch,
+        count: 30, // first page
       })
     );
   }
