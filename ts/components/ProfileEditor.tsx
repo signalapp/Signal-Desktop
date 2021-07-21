@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import * as grapheme from '../util/grapheme';
 
 import { AvatarInputContainer } from './AvatarInputContainer';
 import { AvatarInputType } from './AvatarInput';
@@ -141,9 +140,19 @@ export const ProfileEditor = ({
     [setAvatarData]
   );
 
-  const calculateGraphemeCount = useCallback((name = '') => {
-    return 256 - grapheme.count(name);
-  }, []);
+  const getTextEncoder = useCallback(() => new TextEncoder(), []);
+
+  const countByteLength = useCallback(
+    (str: string) => getTextEncoder().encode(str).byteLength,
+    [getTextEncoder]
+  );
+
+  const calculateLengthCount = useCallback(
+    (name = '') => {
+      return 256 - countByteLength(name);
+    },
+    [countByteLength]
+  );
 
   useEffect(() => {
     const focusNode = focusInputRef.current;
@@ -155,11 +164,18 @@ export const ProfileEditor = ({
   }, [editState]);
 
   if (editState === EditState.ProfileName) {
+    const shouldDisableSave =
+      !stagedProfile.firstName ||
+      (stagedProfile.firstName === fullName.firstName &&
+        stagedProfile.familyName === fullName.familyName);
+
     content = (
       <>
         <Input
+          countLength={countByteLength}
           i18n={i18n}
-          maxGraphemeCount={calculateGraphemeCount(stagedProfile.familyName)}
+          maxLengthCount={calculateLengthCount(stagedProfile.familyName)}
+          whenToShowRemainingCount={0}
           onChange={newFirstName => {
             setStagedProfile(profileData => ({
               ...profileData,
@@ -171,8 +187,10 @@ export const ProfileEditor = ({
           value={stagedProfile.firstName}
         />
         <Input
+          countLength={countByteLength}
           i18n={i18n}
-          maxGraphemeCount={calculateGraphemeCount(stagedProfile.firstName)}
+          maxLengthCount={calculateLengthCount(stagedProfile.firstName)}
+          whenToShowRemainingCount={0}
           onChange={newFamilyName => {
             setStagedProfile(profileData => ({
               ...profileData,
@@ -208,14 +226,14 @@ export const ProfileEditor = ({
             {i18n('cancel')}
           </Button>
           <Button
-            disabled={!stagedProfile.firstName}
+            disabled={shouldDisableSave}
             onClick={() => {
               if (!stagedProfile.firstName) {
                 return;
               }
               setFullName({
-                firstName,
-                familyName,
+                firstName: stagedProfile.firstName,
+                familyName: stagedProfile.familyName,
               });
 
               onProfileChanged(stagedProfile, avatarData);
@@ -228,6 +246,10 @@ export const ProfileEditor = ({
       </>
     );
   } else if (editState === EditState.Bio) {
+    const shouldDisableSave =
+      stagedProfile.aboutText === fullBio.aboutText &&
+      stagedProfile.aboutEmoji === fullBio.aboutEmoji;
+
     content = (
       <>
         <Input
@@ -247,7 +269,7 @@ export const ProfileEditor = ({
               />
             </div>
           }
-          maxGraphemeCount={140}
+          maxLengthCount={140}
           moduleClassName="ProfileEditor__about-input"
           onChange={value => {
             if (value) {
@@ -317,6 +339,7 @@ export const ProfileEditor = ({
             {i18n('cancel')}
           </Button>
           <Button
+            disabled={shouldDisableSave}
             onClick={() => {
               setFullBio({
                 aboutEmoji: stagedProfile.aboutEmoji,

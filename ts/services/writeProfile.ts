@@ -1,10 +1,12 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { computeHash } from '../Crypto';
 import dataInterface from '../sql/Client';
 import { ConversationType } from '../state/ducks/conversations';
+import { computeHash } from '../Crypto';
 import { encryptProfileData } from '../util/encryptProfileData';
+import { getProfile } from '../util/getProfile';
+import { handleMessageSend } from '../util/handleMessageSend';
 
 export async function writeProfile(
   conversation: ConversationType,
@@ -16,7 +18,7 @@ export async function writeProfile(
   if (!model) {
     return;
   }
-  await model.getProfile(model.get('uuid'), model.get('e164'));
+  await getProfile(model.get('uuid'), model.get('e164'));
 
   // Encrypt the profile data, update profile, and if needed upload the avatar
   const {
@@ -64,25 +66,27 @@ export async function writeProfile(
         hash,
         path,
       };
-    } else {
-      profileAvatar = {
-        hash: String(avatarHash),
-        path: String(avatarPath),
-      };
     }
   } else if (avatarPath) {
     await window.Signal.Migrations.deleteAttachmentData(avatarPath);
   }
 
+  const profileAvatarData = profileAvatar ? { profileAvatar } : {};
+
   // Update backbone, update DB, run storage service upload
   model.set({
     about: aboutText,
     aboutEmoji,
-    profileAvatar,
     profileName: firstName,
     profileFamilyName: familyName,
+    ...profileAvatarData,
   });
 
   dataInterface.updateConversation(model.attributes);
   model.captureChange('writeProfile');
+
+  await handleMessageSend(
+    window.textsecure.messaging.sendFetchLocalProfileSyncMessage(),
+    { messageIds: [], sendType: 'otherSync' }
+  );
 }

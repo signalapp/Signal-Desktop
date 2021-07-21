@@ -2412,7 +2412,7 @@ Whisper.ConversationView = Whisper.View.extend({
       conversation =>
         conversation?.get('announcementsOnly') && !conversation.areWeAdmin()
     );
-    if (!cannotSend) {
+    if (cannotSend) {
       throw new Error('Cannot send to group');
     }
 

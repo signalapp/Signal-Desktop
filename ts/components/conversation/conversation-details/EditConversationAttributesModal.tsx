@@ -4,6 +4,7 @@
 import React, {
   FormEventHandler,
   FunctionComponent,
+  useCallback,
   useRef,
   useState,
 } from 'react';
@@ -111,6 +112,13 @@ export const EditConversationAttributesModal: FunctionComponent<PropsType> = ({
     makeRequest(request);
   };
 
+  const handleAvatarLoaded = useCallback(
+    loadedAvatar => {
+      setAvatar(loadedAvatar);
+    },
+    [setAvatar]
+  );
+
   return (
     <Modal
       hasXButton
@@ -131,9 +139,7 @@ export const EditConversationAttributesModal: FunctionComponent<PropsType> = ({
             setAvatar(newAvatar);
             setHasAvatarChanged(true);
           }}
-          onAvatarLoaded={loadedAvatar => {
-            setAvatar(loadedAvatar);
-          }}
+          onAvatarLoaded={handleAvatarLoaded}
           variant={AvatarInputVariant.Dark}
         />
 
