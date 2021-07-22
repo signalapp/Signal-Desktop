@@ -10,8 +10,8 @@ import { AttachmentUtil, GoogleChrome } from '../../../util';
 import { ConversationHeaderWithDetails } from '../../conversation/ConversationHeader';
 import { SessionRightPanelWithDetails } from './SessionRightPanel';
 import { SessionTheme } from '../../../state/ducks/SessionTheme';
-import { DefaultTheme } from 'styled-components';
-import { SessionMessagesList } from './SessionMessagesList';
+import styled, { DefaultTheme } from 'styled-components';
+import { SessionMessagesListContainer } from './SessionMessagesListContainer';
 import { LightboxGallery, MediaItemType } from '../../LightboxGallery';
 
 import { AttachmentType, AttachmentTypeWithPath, save } from '../../../types/Attachment';
@@ -31,6 +31,11 @@ import { MessageDetail } from '../../conversation/MessageDetail';
 import { getConversationController } from '../../../session/conversations';
 import { getPubkeysInPublicConversation } from '../../../data/data';
 import autoBind from 'auto-bind';
+import { useSelector } from 'react-redux';
+import {
+  isFirstUnreadMessageIdAbove,
+  getFirstUnreadMessageId,
+} from '../../../state/selectors/conversations';
 
 interface State {
   showRecordingView: boolean;
@@ -56,6 +61,30 @@ interface Props {
   // lightbox options
   lightBoxOptions?: LightBoxOptions;
 }
+
+const SessionUnreadAboveIndicator = styled.div`
+  position: sticky;
+  top: 0;
+  margin: 1em;
+  display: flex;
+  justify-content: center;
+  background: ${props => props.theme.colors.sentMessageBackground};
+  color: ${props => props.theme.colors.sentMessageText};
+`;
+
+const UnreadAboveIndicator = () => {
+  const isFirstUnreadAbove = useSelector(isFirstUnreadMessageIdAbove);
+  const firstUnreadMessageId = useSelector(getFirstUnreadMessageId) as string;
+
+  if (!isFirstUnreadAbove) {
+    return null;
+  }
+  return (
+    <SessionUnreadAboveIndicator key={`above-unread-indicator-${firstUnreadMessageId}`}>
+      {window.i18n('latestUnreadIsAbove')}
+    </SessionUnreadAboveIndicator>
+  );
+};
 
 export class SessionConversation extends React.Component<Props, State> {
   private readonly messageContainerRef: React.RefObject<HTMLDivElement>;
@@ -212,7 +241,9 @@ export class SessionConversation extends React.Component<Props, State> {
           {lightBoxOptions?.media && this.renderLightBox(lightBoxOptions)}
 
           <div className="conversation-messages">
-            <SessionMessagesList messageContainerRef={this.messageContainerRef} />
+            <UnreadAboveIndicator />
+
+            <SessionMessagesListContainer messageContainerRef={this.messageContainerRef} />
 
             {showRecordingView && <div className="conversation-messages__blocking-overlay" />}
             {isDraggingFile && <SessionFileDropzone />}

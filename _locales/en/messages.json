@@ -413,5 +413,6 @@
   "pinConversation": "Pin Conversation",
   "unpinConversation": "Unpin Conversation",
   "pinConversationLimitTitle": "Pinned conversations limit",
-  "pinConversationLimitToastDescription": "You can only pin $number$ conversations"
+  "pinConversationLimitToastDescription": "You can only pin $number$ conversations",
+  "latestUnreadIsAbove": "First unread message is above"
 }
