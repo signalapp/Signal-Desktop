@@ -15,7 +15,7 @@ export const GroupInvitation = (props: PropsForGroupInvitation) => {
   const openGroupInvitation = window.i18n('openGroupInvitation');
 
   return (
-    <div className="group-invitation-container">
+    <div className="group-invitation-container" id={props.messageId}>
       <div className={classNames(classes)}>
         <div className="contents">
           <SessionIconButton

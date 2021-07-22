@@ -269,7 +269,6 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
         topTopMessage > containerTop - 10 && !this.props.areMoreMessagesBeingFetched;
 
       if (shouldFetchMore) {
-        console.warn('shouldFetchMore', shouldFetchMore);
         const { messagesProps } = this.props;
 
         const oldLen = messagesProps.length;
@@ -344,22 +343,17 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
     }
   }
 
-  private scrollToMessage(messageId: string, smooth: boolean = false, alignOnTop = false) {
+  private scrollToMessage(messageId: string, scrollIsQuote: boolean = false) {
     const messageElementDom = document.getElementById(messageId);
     messageElementDom?.scrollIntoView({
       behavior: 'auto',
-      block: alignOnTop ? 'start' : 'center',
+      block: 'center',
     });
 
-    // we consider that a `smooth` set to true, means it's a quoted message, so highlight this message on the UI
-    if (smooth) {
+    // we consider that a `scrollIsQuote` set to true, means it's a quoted message, so highlight this message on the UI
+    if (scrollIsQuote) {
       window.inboxStore?.dispatch(quotedMessageToAnimate(messageId));
       this.setupTimeoutResetQuotedHighlightedMessage(messageId);
-    }
-
-    const messageContainer = this.props.messageContainerRef.current;
-    if (!messageContainer) {
-      return;
     }
   }
 

@@ -66,6 +66,7 @@ export type PropsForExpirationTimer = {
   profileName: string | null;
   title: string | null;
   type: 'fromMe' | 'fromSync' | 'fromOther';
+  messageId: string;
 };
 
 export type PropsForGroupUpdateGeneral = {
@@ -105,6 +106,7 @@ export type PropsForGroupUpdateArray = Array<PropsForGroupUpdateType>;
 
 export type PropsForGroupUpdate = {
   changes: PropsForGroupUpdateArray;
+  messageId: string;
 };
 
 export type PropsForGroupInvitation = {
@@ -391,7 +393,7 @@ function handleMessageExpiredOrDeleted(
     messageId: string;
     conversationKey: string;
   }>
-) {
+): ConversationsStateType {
   const { conversationKey, messageId } = action.payload;
   if (conversationKey === state.selectedConversation) {
     // search if we find this message id.
@@ -412,6 +414,8 @@ function handleMessageExpiredOrDeleted(
       return {
         ...state,
         messages: editedMessages,
+        firstUnreadMessageId:
+          state.firstUnreadMessageId === messageId ? undefined : state.firstUnreadMessageId,
       };
     }
 

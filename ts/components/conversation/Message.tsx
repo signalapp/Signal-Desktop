@@ -54,6 +54,7 @@ import { MessageContextMenu } from './MessageContextMenu';
 import { ReadableMessage } from './ReadableMessage';
 import { remote } from 'electron';
 import { isElectronWindowFocused } from '../../session/utils/WindowUtils';
+import { getConversationController } from '../../session/conversations';
 
 // Same as MIN_WIDTH in ImageGrid.tsx
 const MINIMUM_LINK_PREVIEW_IMAGE_WIDTH = 200;
@@ -176,6 +177,9 @@ class MessageInner extends React.PureComponent<Props, State> {
         window.inboxStore?.dispatch(
           messageExpired({ messageId: this.props.id, conversationKey: this.props.convoId })
         );
+        getConversationController()
+          .get(this.props.convoId)
+          ?.updateLastMessage();
       };
       this.expiredTimeout = setTimeout(setExpired, EXPIRED_DELAY);
     }

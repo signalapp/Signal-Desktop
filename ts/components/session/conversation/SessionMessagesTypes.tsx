@@ -31,56 +31,54 @@ export const UnreadIndicator = (props: { messageId: string }) => {
   return <SessionLastSeenIndicator key={`unread-indicator-${props.messageId}`} />;
 };
 
-export const GroupUpdateItem = (props: {
-  messageId: string;
-  groupNotificationProps: PropsForGroupUpdate;
-}) => {
+export const GroupUpdateItem = (props: { groupNotificationProps: PropsForGroupUpdate }) => {
   return (
-    <React.Fragment key={props.messageId}>
-      <GroupNotification key={props.messageId} {...props.groupNotificationProps} />
-      <UnreadIndicator messageId={props.messageId} />
+    <React.Fragment key={props.groupNotificationProps.messageId}>
+      <GroupNotification
+        key={props.groupNotificationProps.messageId}
+        {...props.groupNotificationProps}
+      />
+      <UnreadIndicator messageId={props.groupNotificationProps.messageId} />
     </React.Fragment>
   );
 };
 
 export const GroupInvitationItem = (props: {
-  messageId: string;
   propsForGroupInvitation: PropsForGroupInvitation;
 }) => {
   return (
-    <React.Fragment key={props.messageId}>
-      <GroupInvitation key={props.messageId} {...props.propsForGroupInvitation} />
+    <React.Fragment key={props.propsForGroupInvitation.messageId}>
+      <GroupInvitation
+        key={props.propsForGroupInvitation.messageId}
+        {...props.propsForGroupInvitation}
+      />
 
-      <UnreadIndicator messageId={props.messageId} />
+      <UnreadIndicator messageId={props.propsForGroupInvitation.messageId} />
     </React.Fragment>
   );
 };
 
 export const DataExtractionNotificationItem = (props: {
-  messageId: string;
   propsForDataExtractionNotification: PropsForDataExtractionNotification;
 }) => {
   return (
-    <React.Fragment key={props.messageId}>
+    <React.Fragment key={props.propsForDataExtractionNotification.messageId}>
       <DataExtractionNotification
-        key={props.messageId}
+        key={props.propsForDataExtractionNotification.messageId}
         {...props.propsForDataExtractionNotification}
       />
 
-      <UnreadIndicator messageId={props.messageId} />
+      <UnreadIndicator messageId={props.propsForDataExtractionNotification.messageId} />
     </React.Fragment>
   );
 };
 
-export const TimerNotificationItem = (props: {
-  messageId: string;
-  timerProps: PropsForExpirationTimer;
-}) => {
+export const TimerNotificationItem = (props: { timerProps: PropsForExpirationTimer }) => {
   return (
-    <React.Fragment key={props.messageId}>
-      <TimerNotification key={props.messageId} {...props.timerProps} />
+    <React.Fragment key={props.timerProps.messageId}>
+      <TimerNotification key={props.timerProps.messageId} {...props.timerProps} />
 
-      <UnreadIndicator messageId={props.messageId} />
+      <UnreadIndicator messageId={props.timerProps.messageId} />
     </React.Fragment>
   );
 };

@@ -8,7 +8,7 @@ import { SpacerXS, Text } from '../basic/Text';
 
 export const DataExtractionNotification = (props: PropsForDataExtractionNotification) => {
   const theme = useTheme();
-  const { name, type, source } = props;
+  const { name, type, source, messageId } = props;
 
   let contentText: string;
   if (type === SignalService.DataExtractionNotification.Type.MEDIA_SAVED) {
@@ -23,6 +23,7 @@ export const DataExtractionNotification = (props: PropsForDataExtractionNotifica
       flexDirection="column"
       alignItems="center"
       margin={theme.common.margins.sm}
+      id={messageId}
     >
       <SessionIcon
         iconType={SessionIconType.Upload}

@@ -32,7 +32,6 @@ export const SessionMessagesList = (props: {
             <GroupUpdateItem
               key={messageProps.propsForMessage.id}
               groupNotificationProps={groupNotificationProps}
-              messageId={messageProps.propsForMessage.id}
             />
           );
         }
@@ -42,7 +41,6 @@ export const SessionMessagesList = (props: {
             <GroupInvitationItem
               key={messageProps.propsForMessage.id}
               propsForGroupInvitation={propsForGroupInvitation}
-              messageId={messageProps.propsForMessage.id}
             />
           );
         }
@@ -52,18 +50,13 @@ export const SessionMessagesList = (props: {
             <DataExtractionNotificationItem
               key={messageProps.propsForMessage.id}
               propsForDataExtractionNotification={propsForDataExtractionNotification}
-              messageId={messageProps.propsForMessage.id}
             />
           );
         }
 
         if (timerProps) {
           return (
-            <TimerNotificationItem
-              key={messageProps.propsForMessage.id}
-              timerProps={timerProps}
-              messageId={messageProps.propsForMessage.id}
-            />
+            <TimerNotificationItem key={messageProps.propsForMessage.id} timerProps={timerProps} />
           );
         }
 

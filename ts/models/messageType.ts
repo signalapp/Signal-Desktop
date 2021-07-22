@@ -111,6 +111,7 @@ export interface DataExtractionNotificationMsg {
 
 export type PropsForDataExtractionNotification = DataExtractionNotificationMsg & {
   name: string;
+  messageId: string;
 };
 
 export interface MessageAttributesOptionals {

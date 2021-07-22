@@ -298,6 +298,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       timespan,
       disabled,
       type: fromSync ? 'fromSync' : UserUtils.isUsFromCache(source) ? 'fromMe' : 'fromOther',
+      messageId: this.id,
     };
 
     return basicProps;
@@ -347,6 +348,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     return {
       ...dataExtractionNotification,
       name: contact.profileName || contact.name || dataExtractionNotification.source,
+      messageId: this.id,
     };
   }
 
@@ -462,6 +464,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
     return {
       changes,
+      messageId: this.id,
     };
   }
 
