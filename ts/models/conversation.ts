@@ -947,7 +947,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     // Build the list of updated message models so we can mark them all as read on a single sqlite call
     for (const nowRead of oldUnreadNowRead) {
-      nowRead.markReadNoCommit(options.readAt);
+      await nowRead.markReadNoCommit(options.readAt);
 
       const errors = nowRead.get('errors');
       read.push({
