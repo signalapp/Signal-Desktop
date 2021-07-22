@@ -79,7 +79,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     void this.setToExpire();
     autoBind(this);
 
-    this.dispatchMessageUpdate = _.debounce(this.dispatchMessageUpdate, 500);
+    this.dispatchMessageUpdate = _.throttle(this.dispatchMessageUpdate, 300);
 
     window.contextMenuShown = false;
 
@@ -1093,6 +1093,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
   public markReadNoCommit(readAt: number) {
     this.set({ unread: 0 });
+    console.warn('markReadNoCommit', this.id);
 
     if (this.get('expireTimer') && !this.get('expirationStartTimestamp')) {
       const expirationStartTimestamp = Math.min(Date.now(), readAt || Date.now());

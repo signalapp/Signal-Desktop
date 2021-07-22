@@ -438,3 +438,26 @@ function getFirstMessageUnreadIndex(messages: Array<MessageModelProps>) {
 
   return -1;
 }
+
+export const getFirstUnreadMessageId = createSelector(
+  getConversations,
+  (state: ConversationsStateType): string | undefined => {
+    console.warn('getFirstUnreadMessageId', state.firstUnreadMessageId);
+    return state.firstUnreadMessageId;
+  }
+);
+
+export const isFirstUnreadMessageIdAbove = createSelector(
+  getConversations,
+  (state: ConversationsStateType): boolean => {
+    if (!state.firstUnreadMessageId) {
+      return false;
+    }
+
+    const isNotPresent = !state.messages.some(
+      m => m.propsForMessage.id === state.firstUnreadMessageId
+    );
+
+    return isNotPresent;
+  }
+);

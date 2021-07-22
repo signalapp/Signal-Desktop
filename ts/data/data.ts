@@ -123,6 +123,7 @@ const channelsToMake = {
   getOutgoingWithoutExpiresAt,
   getNextExpiringMessage,
   getMessagesByConversation,
+  getFirstUnreadMessageIdInConversation,
   getSeenMessagesByHashList,
   getLastHashBySnode,
 
@@ -751,6 +752,12 @@ export async function getMessagesByConversation(
     type,
   });
   return new MessageCollection(messages);
+}
+
+export async function getFirstUnreadMessageIdInConversation(
+  conversationId: string
+): Promise<string | undefined> {
+  return channels.getFirstUnreadMessageIdInConversation(conversationId);
 }
 
 export async function getLastHashBySnode(convoId: string, snode: string): Promise<string> {

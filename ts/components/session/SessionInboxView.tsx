@@ -112,6 +112,7 @@ export class SessionInboxView extends React.Component<any, State> {
         nextMessageToPlay: undefined,
         quotedMessage: undefined,
         mentionMembers: [],
+        firstUnreadMessageId: undefined,
       },
       user: {
         ourNumber: UserUtils.getOurPubKeyStrFromCache(),

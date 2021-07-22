@@ -74,6 +74,7 @@ module.exports = {
   getOutgoingWithoutExpiresAt,
   getNextExpiringMessage,
   getMessagesByConversation,
+  getFirstUnreadMessageIdInConversation,
 
   getUnprocessedCount,
   getAllUnprocessed,
@@ -2111,6 +2112,28 @@ function getMessagesByConversation(
       type,
     });
   return map(rows, row => jsonToObject(row.json));
+}
+
+function getFirstUnreadMessageIdInConversation(conversationId) {
+  const rows = globalInstance
+    .prepare(
+      `
+    SELECT id FROM ${MESSAGES_TABLE} WHERE
+      conversationId = $conversationId AND
+      unread = $unread
+      ORDER BY serverTimestamp ASC, serverId ASC, sent_at ASC, received_at ASC
+    LIMIT 1;
+    `
+    )
+    .all({
+      conversationId,
+      unread: 1,
+    });
+
+  if (rows.length === 0) {
+    return undefined;
+  }
+  return rows[0].id;
 }
 
 function getMessagesBySentAt(sentAt) {

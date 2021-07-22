@@ -30,7 +30,7 @@ import {
   PropsForDataExtractionNotification,
   QuoteClickOptions,
 } from '../../../models/messageType';
-import { getMessagesBySentAt } from '../../../data/data';
+import { getFirstUnreadMessageIdInConversation, getMessagesBySentAt } from '../../../data/data';
 import autoBind from 'auto-bind';
 import { ConversationTypeEnum } from '../../../models/conversation';
 import { DataExtractionNotification } from '../../conversation/DataExtractionNotification';
@@ -46,8 +46,10 @@ import {
   isMessageSelectionMode,
   getFirstUnreadMessageIndex,
   areMoreMessagesBeingFetched,
+  isFirstUnreadMessageIdAbove,
 } from '../../../state/selectors/conversations';
 import { isElectronWindowFocused } from '../../../session/utils/WindowUtils';
+import useInterval from 'react-use/lib/useInterval';
 
 export type SessionMessageListProps = {
   messageContainerRef: React.RefObject<any>;
@@ -175,6 +177,9 @@ const MessageList = (props: {
 }) => {
   const messagesProps = useSelector(getSortedMessagesOfSelectedConversation);
   const firstUnreadMessageIndex = useSelector(getFirstUnreadMessageIndex);
+  const isAbove = useSelector(isFirstUnreadMessageIdAbove);
+
+  console.warn('isAbove', isAbove);
   let playableMessageIndex = 0;
 
   return (
@@ -295,7 +300,6 @@ class SessionMessagesListInner extends React.Component<Props> {
       (prevProps.messagesProps.length === 0 && this.props.messagesProps.length !== 0)
     ) {
       // displayed conversation changed. We have a bit of cleaning to do here
-      this.scrollOffsetBottomPx = Number.MAX_VALUE;
       this.ignoreScrollEvents = true;
       this.setupTimeoutResetQuotedHighlightedMessage(true);
       this.initialMessageLoadingPosition();
@@ -305,16 +309,6 @@ class SessionMessagesListInner extends React.Component<Props> {
         // Keep scrolled to bottom unless user scrolls up
         if (this.getScrollOffsetBottomPx() === 0) {
           this.scrollToBottom();
-        } else {
-          const messageContainer = this.props.messageContainerRef?.current;
-
-          if (messageContainer) {
-            const scrollHeight = messageContainer.scrollHeight;
-            const clientHeight = messageContainer.clientHeight;
-            this.ignoreScrollEvents = true;
-            messageContainer.scrollTop = scrollHeight - clientHeight - this.scrollOffsetBottomPx;
-            this.ignoreScrollEvents = false;
-          }
         }
       }
     }
@@ -425,48 +419,68 @@ class SessionMessagesListInner extends React.Component<Props> {
     if (this.ignoreScrollEvents) {
       return;
     }
-
-    const scrollTop = messageContainer.scrollTop;
-    const clientHeight = messageContainer.clientHeight;
-
-    const scrollButtonViewShowLimit = 0.75;
-    const scrollButtonViewHideLimit = 0.4;
-    this.scrollOffsetBottomPx = this.getScrollOffsetBottomPx();
-
-    const scrollOffsetPc = this.scrollOffsetBottomPx / clientHeight;
-
-    // Scroll button appears if you're more than 75% scrolled up
-    if (scrollOffsetPc > scrollButtonViewShowLimit && !this.props.showScrollButton) {
-      window.inboxStore?.dispatch(showScrollToBottomButton(true));
-    }
-    // Scroll button disappears if you're more less than 40% scrolled up
-    if (scrollOffsetPc < scrollButtonViewHideLimit && this.props.showScrollButton) {
-      window.inboxStore?.dispatch(showScrollToBottomButton(false));
+    // nothing to do if there are no message loaded
+    if (!this.props.messagesProps || this.props.messagesProps.length === 0) {
+      return;
     }
 
-    // Scrolled to bottom
-    const isScrolledToBottom = this.getScrollOffsetBottomPx() === 0;
-    if (isScrolledToBottom) {
-      // Mark messages read
-      this.updateReadMessages();
+    //  ---- First lets see if we need to show the scroll to bottom button, without using clientHeight (which generates a full layout recalculation)
+    // get the message the most at the bottom
+    const bottomMessageId = this.props.messagesProps[0].propsForMessage.id;
+    const bottomMessageDomElement = document.getElementById(bottomMessageId);
+
+    // get the message the most at the top
+    const topMessageId = this.props.messagesProps[this.props.messagesProps.length - 1]
+      .propsForMessage.id;
+    const topMessageDomElement = document.getElementById(topMessageId);
+
+    const containerTop = messageContainer.getBoundingClientRect().top;
+    const containerBottom = messageContainer.getBoundingClientRect().bottom;
+
+    // First handle what we gotta handle with the bottom message position
+    // either the showScrollButton or the markRead of all messages
+    if (!bottomMessageDomElement) {
+      window.log.warn('Could not find dom element for handle scroll');
+    } else {
+      const topOfBottomMessage = bottomMessageDomElement.getBoundingClientRect().top;
+      const bottomOfBottomMessage = bottomMessageDomElement.getBoundingClientRect().bottom;
+
+      // this is our limit for the showScrollDownButton.
+      const showScrollButton = topOfBottomMessage > window.innerHeight;
+      window.inboxStore?.dispatch(showScrollToBottomButton(showScrollButton));
+
+      // trigger markRead if we hit the bottom
+      const isScrolledToBottom = bottomOfBottomMessage >= containerBottom - 5;
+      if (isScrolledToBottom) {
+        // Mark messages read
+        this.updateReadMessages();
+      }
     }
 
-    // Fetch more messages when nearing the top of the message list
-    const shouldFetchMoreMessagesTop =
-      scrollTop <= Constants.UI.MESSAGE_CONTAINER_BUFFER_OFFSET_PX &&
-      !this.props.areMoreMessagesBeingFetched;
+    // Then, see if we need to fetch more messages because the top message it
 
-    if (shouldFetchMoreMessagesTop) {
-      const { messagesProps } = this.props;
-      const numMessages = messagesProps.length + Constants.CONVERSATION.DEFAULT_MESSAGE_FETCH_COUNT;
-      const oldLen = messagesProps.length;
-      const previousTopMessage = messagesProps[oldLen - 1]?.propsForMessage.id;
+    if (!topMessageDomElement) {
+      window.log.warn('Could not find dom top element for handle scroll');
+    } else {
+      const topTopMessage = topMessageDomElement.getBoundingClientRect().top;
 
-      (window.inboxStore?.dispatch as any)(
-        fetchMessagesForConversation({ conversationKey, count: numMessages })
-      );
-      if (previousTopMessage && oldLen !== messagesProps.length) {
-        this.scrollToMessage(previousTopMessage);
+      // this is our limit for the showScrollDownButton.
+      const shouldFetchMore =
+        topTopMessage > containerTop - 10 && !this.props.areMoreMessagesBeingFetched;
+
+      if (shouldFetchMore) {
+        const { messagesProps } = this.props;
+        const numMessages =
+          messagesProps.length + Constants.CONVERSATION.DEFAULT_MESSAGE_FETCH_COUNT;
+        const oldLen = messagesProps.length;
+        const previousTopMessage = messagesProps[oldLen - 1]?.propsForMessage.id;
+
+        (window.inboxStore?.dispatch as any)(
+          fetchMessagesForConversation({ conversationKey, count: numMessages })
+        );
+        if (previousTopMessage && oldLen !== messagesProps.length) {
+          this.scrollToMessage(previousTopMessage);
+        }
       }
     }
   }
