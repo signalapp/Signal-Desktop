@@ -20,8 +20,6 @@ sticker-creator/dist/**
 js/Mp3LameEncoder.min.js
 js/WebAudioRecorderMp3.js
 js/libphonenumber-util.js
-libtextsecure/test/blanket_mocha.js
-test/blanket_mocha.js
 
 # TypeScript generated files
 app/**/*.js
