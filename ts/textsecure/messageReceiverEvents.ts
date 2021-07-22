@@ -237,13 +237,13 @@ export class ConfigurationEvent extends ConfirmableEvent {
   }
 }
 
-export type ViewSyncOptions = {
+export type ViewOnceOpenSyncOptions = {
   source?: string;
   sourceUuid?: string;
   timestamp?: number;
 };
 
-export class ViewSyncEvent extends ConfirmableEvent {
+export class ViewOnceOpenSyncEvent extends ConfirmableEvent {
   public readonly source?: string;
 
   public readonly sourceUuid?: string;
@@ -251,10 +251,10 @@ export class ViewSyncEvent extends ConfirmableEvent {
   public readonly timestamp?: number;
 
   constructor(
-    { source, sourceUuid, timestamp }: ViewSyncOptions,
+    { source, sourceUuid, timestamp }: ViewOnceOpenSyncOptions,
     confirm: ConfirmCallback
   ) {
-    super('viewSync', confirm);
+    super('viewOnceOpenSync', confirm);
 
     this.source = source;
     this.sourceUuid = sourceUuid;

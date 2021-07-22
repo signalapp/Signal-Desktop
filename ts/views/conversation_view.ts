@@ -2907,7 +2907,7 @@ Whisper.ConversationView = Whisper.View.extend({
       path: tempPath,
     };
 
-    await message.markViewed();
+    await message.markViewOnceMessageViewed();
 
     const closeLightbox = async () => {
       if (!this.lightboxView) {

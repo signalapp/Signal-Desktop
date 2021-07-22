@@ -91,7 +91,7 @@ import {
   RetryRequestEvent,
   ReadEvent,
   ConfigurationEvent,
-  ViewSyncEvent,
+  ViewOnceOpenSyncEvent,
   MessageRequestResponseEvent,
   FetchLatestEvent,
   KeysEvent,
@@ -2337,7 +2337,7 @@ class MessageReceiverInner extends EventTarget {
   ) {
     window.log.info('got view once open sync message');
 
-    const ev = new ViewSyncEvent(
+    const ev = new ViewOnceOpenSyncEvent(
       {
         source: dropNull(sync.sender),
         sourceUuid: sync.senderUuid
@@ -2755,8 +2755,8 @@ export default class MessageReceiver {
   ): void;
 
   public addEventListener(
-    name: 'viewSync',
-    handler: (ev: ViewSyncEvent) => void
+    name: 'viewOnceOpenSync',
+    handler: (ev: ViewOnceOpenSyncEvent) => void
   ): void;
 
   public addEventListener(

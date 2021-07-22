@@ -103,7 +103,7 @@ import {
 import { Deletes } from '../messageModifiers/Deletes';
 import { Reactions } from '../messageModifiers/Reactions';
 import { ReadSyncs } from '../messageModifiers/ReadSyncs';
-import { ViewSyncs } from '../messageModifiers/ViewSyncs';
+import { ViewOnceOpenSyncs } from '../messageModifiers/ViewOnceOpenSyncs';
 import * as AttachmentDownloads from '../messageModifiers/AttachmentDownloads';
 import * as LinkPreview from '../types/LinkPreview';
 import { SignalService as Proto } from '../protobuf';
@@ -829,18 +829,20 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     return true;
   }
 
-  async markViewed(options?: { fromSync?: boolean }): Promise<void> {
+  async markViewOnceMessageViewed(options?: {
+    fromSync?: boolean;
+  }): Promise<void> {
     const { fromSync } = options || {};
 
     if (!this.isValidTapToView()) {
       window.log.warn(
-        `markViewed: Message ${this.idForLogging()} is not a valid tap to view message!`
+        `markViewOnceMessageViewed: Message ${this.idForLogging()} is not a valid tap to view message!`
       );
       return;
     }
     if (this.isErased()) {
       window.log.warn(
-        `markViewed: Message ${this.idForLogging()} is already erased!`
+        `markViewOnceMessageViewed: Message ${this.idForLogging()} is already erased!`
       );
       return;
     }
@@ -867,7 +869,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
       if (window.ConversationController.areWePrimaryDevice()) {
         window.log.warn(
-          'markViewed: We are primary device; not sending view sync'
+          'markViewOnceMessageViewed: We are primary device; not sending view once open sync'
         );
         return;
       }
@@ -3282,11 +3284,13 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       }
     }
 
-    // Check for out-of-order view syncs
+    // Check for out-of-order view once open syncs
     if (type === 'incoming' && isTapToView(message.attributes)) {
-      const viewSync = ViewSyncs.getSingleton().forMessage(message);
-      if (viewSync) {
-        await message.markViewed({ fromSync: true });
+      const viewOnceOpenSync = ViewOnceOpenSyncs.getSingleton().forMessage(
+        message
+      );
+      if (viewOnceOpenSync) {
+        await message.markViewOnceMessageViewed({ fromSync: true });
         changed = true;
       }
     }

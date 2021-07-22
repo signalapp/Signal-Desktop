@@ -6,26 +6,26 @@
 import { Collection, Model } from 'backbone';
 import { MessageModel } from '../models/messages';
 
-type ViewSyncAttributesType = {
+type ViewOnceOpenSyncAttributesType = {
   source?: string;
   sourceUuid: string;
   timestamp: number;
 };
 
-class ViewSyncModel extends Model<ViewSyncAttributesType> {}
+class ViewOnceOpenSyncModel extends Model<ViewOnceOpenSyncAttributesType> {}
 
-let singleton: ViewSyncs | undefined;
+let singleton: ViewOnceOpenSyncs | undefined;
 
-export class ViewSyncs extends Collection<ViewSyncModel> {
-  static getSingleton(): ViewSyncs {
+export class ViewOnceOpenSyncs extends Collection<ViewOnceOpenSyncModel> {
+  static getSingleton(): ViewOnceOpenSyncs {
     if (!singleton) {
-      singleton = new ViewSyncs();
+      singleton = new ViewOnceOpenSyncs();
     }
 
     return singleton;
   }
 
-  forMessage(message: MessageModel): ViewSyncModel | null {
+  forMessage(message: MessageModel): ViewOnceOpenSyncModel | null {
     const syncBySourceUuid = this.find(item => {
       return (
         item.get('sourceUuid') === message.get('sourceUuid') &&
@@ -33,7 +33,7 @@ export class ViewSyncs extends Collection<ViewSyncModel> {
       );
     });
     if (syncBySourceUuid) {
-      window.log.info('Found early view sync for message');
+      window.log.info('Found early view once open sync for message');
       this.remove(syncBySourceUuid);
       return syncBySourceUuid;
     }
@@ -45,7 +45,7 @@ export class ViewSyncs extends Collection<ViewSyncModel> {
       );
     });
     if (syncBySource) {
-      window.log.info('Found early view sync for message');
+      window.log.info('Found early view once open sync for message');
       this.remove(syncBySource);
       return syncBySource;
     }
@@ -53,7 +53,7 @@ export class ViewSyncs extends Collection<ViewSyncModel> {
     return null;
   }
 
-  async onSync(sync: ViewSyncModel): Promise<void> {
+  async onSync(sync: ViewOnceOpenSyncModel): Promise<void> {
     try {
       const messages = await window.Signal.Data.getMessagesBySentAt(
         sync.get('timestamp'),
@@ -80,7 +80,7 @@ export class ViewSyncs extends Collection<ViewSyncModel> {
       const syncSourceUuid = sync.get('sourceUuid');
       const syncTimestamp = sync.get('timestamp');
       const wasMessageFound = Boolean(found);
-      window.log.info('Receive view sync:', {
+      window.log.info('Receive view once open sync:', {
         syncSource,
         syncSourceUuid,
         syncTimestamp,
@@ -92,12 +92,12 @@ export class ViewSyncs extends Collection<ViewSyncModel> {
       }
 
       const message = window.MessageController.register(found.id, found);
-      await message.markViewed({ fromSync: true });
+      await message.markViewOnceMessageViewed({ fromSync: true });
 
       this.remove(sync);
     } catch (error) {
       window.log.error(
-        'ViewSyncs.onSync error:',
+        'ViewOnceOpenSyncs.onSync error:',
         error && error.stack ? error.stack : error
       );
     }

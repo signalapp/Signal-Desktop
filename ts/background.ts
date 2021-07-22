@@ -50,7 +50,7 @@ import {
   MessageEventData,
   ReadEvent,
   ConfigurationEvent,
-  ViewSyncEvent,
+  ViewOnceOpenSyncEvent,
   MessageRequestResponseEvent,
   FetchLatestEvent,
   KeysEvent,
@@ -77,7 +77,7 @@ import {
 import { MessageRequests } from './messageModifiers/MessageRequests';
 import { Reactions } from './messageModifiers/Reactions';
 import { ReadSyncs } from './messageModifiers/ReadSyncs';
-import { ViewSyncs } from './messageModifiers/ViewSyncs';
+import { ViewOnceOpenSyncs } from './messageModifiers/ViewOnceOpenSyncs';
 import {
   SendStateByConversationId,
   SendStatus,
@@ -2208,8 +2208,8 @@ export async function startApp(): Promise<void> {
         queuedEventListener(onStickerPack)
       );
       messageReceiver.addEventListener(
-        'viewSync',
-        queuedEventListener(onViewSync)
+        'viewOnceOpenSync',
+        queuedEventListener(onViewOnceOpenSync)
       );
       messageReceiver.addEventListener(
         'messageRequestResponse',
@@ -3633,19 +3633,19 @@ export async function startApp(): Promise<void> {
     window.log.warn('background onError: Doing nothing with incoming error');
   }
 
-  async function onViewSync(ev: ViewSyncEvent) {
+  async function onViewOnceOpenSync(ev: ViewOnceOpenSyncEvent) {
     ev.confirm();
 
     const { source, sourceUuid, timestamp } = ev;
-    window.log.info(`view sync ${source} ${timestamp}`);
+    window.log.info(`view once open sync ${source} ${timestamp}`);
 
-    const sync = ViewSyncs.getSingleton().add({
+    const sync = ViewOnceOpenSyncs.getSingleton().add({
       source,
       sourceUuid,
       timestamp,
     });
 
-    ViewSyncs.getSingleton().onSync(sync);
+    ViewOnceOpenSyncs.getSingleton().onSync(sync);
   }
 
   async function onFetchLatestSync(ev: FetchLatestEvent) {
