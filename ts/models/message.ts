@@ -571,7 +571,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       isPublic,
       isBlocked,
       isOpenGroupV2: isPublicOpenGroupV2,
-      isKickedFromGroup: conversation?.get('isKickedFromGroup'),
+      isKickedFromGroup: conversation?.get('isKickedFromGroup') || false,
       isTrustedForAttachmentDownload,
       weAreAdmin,
       isDeletable,
@@ -695,7 +695,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       // tslint:disable-next-line: no-bitwise
       Boolean(flags && flags & SignalService.AttachmentPointer.Flags.VOICE_MESSAGE) || false;
     return {
-      id: id ? `${id}` : undefined,
+      id,
       contentType,
       size: size || 0,
       width: width || 0,
@@ -771,11 +771,8 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       receivedAt: this.get('received_at') || 0,
       message: {
         ...this.getPropsForMessage(),
-        disableMenu: true,
         // To ensure that group avatar doesn't show up
         conversationType: ConversationTypeEnum.PRIVATE,
-        multiSelectMode: false,
-        firstMessageOfSeries: false,
       },
       errors,
       contacts: sortedContacts || [],

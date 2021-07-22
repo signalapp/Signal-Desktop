@@ -33,13 +33,13 @@ export interface AttachmentType {
   screenshot: {
     height: number;
     width: number;
-    url: string;
+    url?: string;
     contentType: MIME.MIMEType;
   } | null;
   thumbnail: {
     height: number;
     width: number;
-    url: string;
+    url?: string;
     contentType: MIME.MIMEType;
   } | null;
 }
@@ -53,14 +53,14 @@ export interface AttachmentTypeWithPath extends AttachmentType {
   screenshot: {
     height: number;
     width: number;
-    url: string;
+    url?: string;
     contentType: MIME.MIMEType;
     path?: string;
   } | null;
   thumbnail: {
     height: number;
     width: number;
-    url: string;
+    url?: string;
     contentType: MIME.MIMEType;
     path?: string;
   } | null;
@@ -111,17 +111,17 @@ export function canDisplayImage(attachments?: Array<AttachmentType>) {
   return height && height > 0 && height <= 4096 && width && width > 0 && width <= 4096;
 }
 
-export function getThumbnailUrl(attachment: AttachmentType) {
-  if (attachment.thumbnail) {
+export function getThumbnailUrl(attachment: AttachmentType): string {
+  if (attachment.thumbnail && attachment.thumbnail.url) {
     return attachment.thumbnail.url;
   }
 
   return getUrl(attachment);
 }
 
-export function getUrl(attachment: AttachmentType) {
-  if (attachment.screenshot) {
-    return attachment.screenshot.url;
+export function getUrl(attachment: AttachmentType): string {
+  if (attachment.screenshot && attachment.screenshot.url) {
+    return attachment.screenshot.url as string;
   }
 
   return attachment.url;

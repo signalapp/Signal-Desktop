@@ -5,7 +5,7 @@ import moment from 'moment';
 import { Avatar, AvatarSize } from '../Avatar';
 import { ContactName } from './ContactName';
 import { Message } from './Message';
-import { MessageRegularProps } from '../../models/messageType';
+import { MessageRenderingProps } from '../../models/messageType';
 import { deleteMessagesById } from '../../interactions/conversationInteractions';
 import { useSelector } from 'react-redux';
 import { ContactPropsMessageDetail } from '../../state/ducks/conversations';
@@ -20,16 +20,14 @@ const AvatarItem = (props: { contact: ContactPropsMessageDetail }) => {
   );
 };
 
-const DeleteButtonItem = (props: { message: MessageRegularProps }) => {
+const DeleteButtonItem = (props: { id: string; convoId: string; isDeletable: boolean }) => {
   const { i18n } = window;
 
-  const { message } = props;
-
-  return message.isDeletable ? (
+  return props.isDeletable ? (
     <div className="module-message-detail__delete-button-container">
       <button
         onClick={() => {
-          void deleteMessagesById([message.id], message.convoId, true);
+          void deleteMessagesById([props.id], props.convoId, true);
         }}
         className="module-message-detail__delete-button"
       >
@@ -106,7 +104,7 @@ export const MessageDetail = () => {
     <div className="message-detail-wrapper">
       <div className="module-message-detail">
         <div className="module-message-detail__message-container">
-          <Message {...message} />
+          <Message {...message} firstMessageOfSeries={true} multiSelectMode={false} />
         </div>
         <table className="module-message-detail__info">
           <tbody>
@@ -143,7 +141,11 @@ export const MessageDetail = () => {
           </tbody>
         </table>
         <ContactsItem contacts={messageDetailProps.contacts} />
-        <DeleteButtonItem message={messageDetailProps.message} />
+        <DeleteButtonItem
+          convoId={messageDetailProps.message.convoId}
+          id={messageDetailProps.message.id}
+          isDeletable={messageDetailProps.message.isDeletable}
+        />
       </div>
     </div>
   );

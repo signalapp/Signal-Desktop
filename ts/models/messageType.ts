@@ -2,6 +2,7 @@ import { DefaultTheme } from 'styled-components';
 import _ from 'underscore';
 import { v4 as uuidv4 } from 'uuid';
 import { QuotedAttachmentType } from '../components/conversation/Quote';
+import { PropsForMessage } from '../state/ducks/conversations';
 import { AttachmentType, AttachmentTypeWithPath } from '../types/Attachment';
 import { Contact } from '../types/Contact';
 import { ConversationTypeEnum } from './conversation';
@@ -198,57 +199,23 @@ export type QuoteClickOptions = {
   quoteId: number;
   referencedMessageNotFound: boolean;
 };
-export interface MessageRegularProps {
+
+/**
+ * Those props are the one generated from a single Message improved by the one by the app itself.
+ * Some of the one added comes from the MessageList, some from redux, etc..
+ */
+export type MessageRenderingProps = PropsForMessage & {
   disableMenu?: boolean;
-  isDeletable: boolean;
-  isAdmin?: boolean;
-  weAreAdmin?: boolean;
-  text: string | null;
-  id: string;
   collapseMetadata?: boolean;
-  direction: MessageModelType;
-  timestamp: number;
-  serverTimestamp?: number;
-  status?: MessageDeliveryStatus | null;
-  // What if changed this over to a single contact like quote, and put the events on it?
-  contact?: Contact & {
-    onSendMessage?: () => void;
-    onClick?: () => void;
-  };
-  authorName?: string | null;
-  authorProfileName?: string | null;
   /** Note: this should be formatted for display */
-  authorPhoneNumber: string;
-  conversationType: ConversationTypeEnum;
-  attachments?: Array<AttachmentTypeWithPath>;
-  quote?: {
-    text: string;
-    attachment?: QuotedAttachmentType;
-    isFromMe: boolean;
-    authorPhoneNumber: string;
-    authorProfileName?: string;
-    authorName?: string;
-    messageId?: string;
-    referencedMessageNotFound: boolean;
-  };
-  previews: Array<any>;
-  authorAvatarPath?: string;
-  isExpired: boolean;
-  expirationLength?: number;
-  expirationTimestamp?: number;
-  convoId: string;
-  isPublic?: boolean;
-  isBlocked: boolean;
-  isOpenGroupV2?: boolean;
-  isKickedFromGroup: boolean;
-  // whether or not to show check boxes
+  attachments?: Array<AttachmentTypeWithPath>; // vs Array<PropsForAttachment>;
+
+  // whether or not to allow selecting the message
   multiSelectMode: boolean;
   firstMessageOfSeries: boolean;
-  isUnread: boolean;
-  isTrustedForAttachmentDownload: boolean;
   onQuoteClick?: (options: QuoteClickOptions) => Promise<void>;
 
   playableMessageIndex?: number;
   nextMessageToPlay?: number;
   playNextMessage?: (value: number) => void;
-}
+};

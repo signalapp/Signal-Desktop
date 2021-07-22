@@ -14,7 +14,7 @@ import useKey from 'react-use/lib/useKey';
 import { getFirstUnreadMessageIdInConversation } from '../data/data';
 type Props = {
   conversationId: string;
-  authorAvatarPath?: string;
+  authorAvatarPath: string | null;
   userName: string;
 };
 

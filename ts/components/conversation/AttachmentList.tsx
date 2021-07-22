@@ -23,7 +23,7 @@ type Props = {
 const IMAGE_WIDTH = 120;
 const IMAGE_HEIGHT = 120;
 
-export const AttachmentList = (props: Props) => {
+export const StagedAttachmentList = (props: Props) => {
   const { attachments, onAddAttachment, onClickAttachment, onCloseAttachment, onClose } = props;
 
   if (!attachments.length) {

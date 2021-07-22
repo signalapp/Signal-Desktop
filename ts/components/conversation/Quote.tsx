@@ -24,7 +24,7 @@ export type QuotePropsWithoutListener = {
   convoId: string;
   isPublic?: boolean;
   withContentAbove: boolean;
-  text: string;
+  text: string | null;
   referencedMessageNotFound: boolean;
 };
 

@@ -3,6 +3,7 @@ import classNames from 'classnames';
 
 import {
   areAllAttachmentsVisual,
+  AttachmentType,
   AttachmentTypeWithPath,
   getAlt,
   getImageDimensions,
@@ -20,7 +21,7 @@ type Props = {
   bottomOverlay?: boolean;
 
   onError: () => void;
-  onClickAttachment?: (attachment: AttachmentTypeWithPath) => void;
+  onClickAttachment?: (attachment: AttachmentTypeWithPath | AttachmentType) => void;
 };
 
 export const ImageGrid = (props: Props) => {

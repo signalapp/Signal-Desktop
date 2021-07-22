@@ -3,7 +3,7 @@ import _, { omit } from 'lodash';
 import { Constants } from '../../session';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { getConversationController } from '../../session/conversations';
-import { getFirstUnreadMessageIdInConversation, getMessagesByConversation } from '../../data/data';
+import { getMessagesByConversation } from '../../data/data';
 import {
   ConversationNotificationSettingType,
   ConversationTypeEnum,
@@ -11,11 +11,11 @@ import {
 import {
   MessageDeliveryStatus,
   MessageModelType,
-  MessageRegularProps,
   PropsForDataExtractionNotification,
 } from '../../models/messageType';
 import { LightBoxOptions } from '../../components/session/conversation/SessionConversation';
 import { ReplyingToMessageProps } from '../../components/session/conversation/SessionCompositionBox';
+import { QuotedAttachmentType } from '../../components/conversation/Quote';
 
 export type MessageModelProps = {
   propsForMessage: PropsForMessage;
@@ -41,7 +41,7 @@ export type MessagePropsDetails = {
   sentAt: number;
   receivedAt: number;
 
-  message: MessageRegularProps;
+  message: PropsForMessage;
   errors: Array<Error>;
   contacts: Array<ContactPropsMessageDetail>;
 };
@@ -127,13 +127,13 @@ export type PropsForSearchResults = {
 };
 
 export type PropsForAttachment = {
-  id?: string;
+  id: number;
   contentType: string;
   size: number;
   width?: number;
   height?: number;
   url: string;
-  path?: string;
+  path: string;
   fileSize: string | null;
   isVoiceMessage: boolean;
   pending: boolean;
@@ -162,22 +162,31 @@ export type PropsForMessage = {
   receivedAt: number | undefined;
   serverTimestamp: number | undefined;
   serverId: number | undefined;
-  status: LastMessageStatusType;
+  status: LastMessageStatusType | null;
   authorName: string | null;
   authorProfileName: string | null;
   authorPhoneNumber: string;
   conversationType: ConversationTypeEnum;
   convoId: string;
   attachments: Array<PropsForAttachment>;
-  previews: any;
-  quote: any;
+  previews: Array<any>;
+  quote?: {
+    text: string | null;
+    attachment?: QuotedAttachmentType;
+    isFromMe: boolean;
+    authorPhoneNumber: string;
+    authorProfileName?: string;
+    authorName?: string;
+    messageId?: string;
+    referencedMessageNotFound: boolean;
+  } | null;
   authorAvatarPath: string | null;
   isUnread: boolean;
   expirationLength: number;
   expirationTimestamp: number | null;
   isPublic: boolean;
   isOpenGroupV2: boolean;
-  isKickedFromGroup: boolean | undefined;
+  isKickedFromGroup: boolean;
   isTrustedForAttachmentDownload: boolean;
   weAreAdmin: boolean;
   isSenderAdmin: boolean;

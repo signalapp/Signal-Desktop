@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import {
   PropsForDataExtractionNotification,
   QuoteClickOptions,
-  MessageRegularProps,
+  MessageRenderingProps,
 } from '../../../models/messageType';
 import {
   PropsForGroupUpdate,
@@ -99,7 +99,7 @@ export const GenericMessageItem = (props: {
     ? props.scrollToQuoteMessage
     : undefined;
 
-  const regularProps: MessageRegularProps = {
+  const regularProps: MessageRenderingProps = {
     ...props.messageProps.propsForMessage,
     firstMessageOfSeries: props.messageProps.firstMessageOfSeries,
     multiSelectMode,

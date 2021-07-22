@@ -14,7 +14,7 @@ import { Constants } from '../../../session';
 
 import { toArray } from 'react-emoji-render';
 import { Flex } from '../../basic/Flex';
-import { AttachmentList } from '../../conversation/AttachmentList';
+import { StagedAttachmentList } from '../../conversation/AttachmentList';
 import { ToastUtils } from '../../../session/utils';
 import { AttachmentUtil } from '../../../util';
 import {
@@ -26,7 +26,6 @@ import { AbortController } from 'abort-controller';
 import { SessionQuotedMessageComposition } from './SessionQuotedMessageComposition';
 import { Mention, MentionsInput } from 'react-mentions';
 import { CaptionEditor } from '../../CaptionEditor';
-import { DefaultTheme } from 'styled-components';
 import { getConversationController } from '../../../session/conversations';
 import { ReduxConversationType } from '../../../state/ducks/conversations';
 import { SessionMemberListItem } from '../SessionMemberListItem';
@@ -711,7 +710,7 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
     if (stagedAttachments && stagedAttachments.length) {
       return (
         <>
-          <AttachmentList
+          <StagedAttachmentList
             attachments={stagedAttachments}
             onClickAttachment={this.onClickAttachment}
             onAddAttachment={this.onChooseAttachment}

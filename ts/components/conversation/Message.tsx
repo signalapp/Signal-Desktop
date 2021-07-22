@@ -10,6 +10,7 @@ import { ContactName } from './ContactName';
 import { Quote } from './Quote';
 
 import {
+  AttachmentType,
   AttachmentTypeWithPath,
   canDisplayImage,
   getExtensionForDisplay,
@@ -26,12 +27,10 @@ import {
 import { getIncrement } from '../../util/timer';
 import { isFileDangerous } from '../../util/isFileDangerous';
 import _ from 'lodash';
-import { contextMenu, Menu } from 'react-contexify';
+import { contextMenu } from 'react-contexify';
 import uuid from 'uuid';
-import { InView } from 'react-intersection-observer';
-import { MessageMetadata } from './message/MessageMetadata';
 import { PubKey } from '../../session/types';
-import { MessageRegularProps } from '../../models/messageType';
+import { MessageRenderingProps } from '../../models/messageType';
 import { updateUserDetailsModal } from '../../state/ducks/modalDialog';
 import autoBind from 'auto-bind';
 import { AudioPlayerWithEncryptedFile } from './H5AudioPlayer';
@@ -52,9 +51,9 @@ import { saveAttachmentToDisk } from '../../util/attachmentsUtil';
 import { LightBoxOptions } from '../session/conversation/SessionConversation';
 import { MessageContextMenu } from './MessageContextMenu';
 import { ReadableMessage } from './ReadableMessage';
-import { remote } from 'electron';
 import { isElectronWindowFocused } from '../../session/utils/WindowUtils';
 import { getConversationController } from '../../session/conversations';
+import { MessageMetadata } from './message/MessageMetadata';
 
 // Same as MIN_WIDTH in ImageGrid.tsx
 const MINIMUM_LINK_PREVIEW_IMAGE_WIDTH = 200;
@@ -68,13 +67,17 @@ interface State {
 const EXPIRATION_CHECK_MINIMUM = 2000;
 const EXPIRED_DELAY = 600;
 
-type Props = MessageRegularProps & {
+type Props = MessageRenderingProps & {
   selectedMessages: Array<string>;
   quotedMessageToAnimate: string | undefined;
 };
 
+function attachmentIsAttachmentTypeWithPath(attac: any): attac is AttachmentTypeWithPath {
+  return attac.path !== undefined;
+}
+
 const onClickAttachment = async (onClickProps: {
-  attachment: AttachmentTypeWithPath;
+  attachment: AttachmentTypeWithPath | AttachmentType;
   messageId: string;
 }) => {
   let index = -1;
@@ -101,11 +104,16 @@ const onClickAttachment = async (onClickProps: {
       messageId: onClickProps.messageId,
     };
   });
-  const lightBoxOptions: LightBoxOptions = {
-    media: media as any,
-    attachment: onClickProps.attachment,
-  };
-  window.inboxStore?.dispatch(showLightBox(lightBoxOptions));
+
+  if (attachmentIsAttachmentTypeWithPath(onClickProps.attachment)) {
+    const lightBoxOptions: LightBoxOptions = {
+      media: media as any,
+      attachment: onClickProps.attachment,
+    };
+    window.inboxStore?.dispatch(showLightBox(lightBoxOptions));
+  } else {
+    window.log.warn('Attachment is not of the right type');
+  }
 };
 
 class MessageInner extends React.PureComponent<Props, State> {
@@ -438,7 +446,7 @@ class MessageInner extends React.PureComponent<Props, State> {
       authorPhoneNumber,
       authorProfileName,
       collapseMetadata,
-      isAdmin,
+      isSenderAdmin,
       conversationType,
       direction,
       isPublic,
@@ -463,7 +471,7 @@ class MessageInner extends React.PureComponent<Props, State> {
           onAvatarClick={this.onMessageAvatarClick}
           pubkey={authorPhoneNumber}
         />
-        {isPublic && isAdmin && (
+        {isPublic && isSenderAdmin && (
           <div className="module-avatar__icon--crown-wrapper">
             <div className="module-avatar__icon--crown" />
           </div>
@@ -665,7 +673,7 @@ class MessageInner extends React.PureComponent<Props, State> {
               timestamp={this.props.timestamp}
               collapseMetadata={this.props.collapseMetadata}
               expirationLength={this.props.expirationLength}
-              isAdmin={this.props.isAdmin}
+              isAdmin={this.props.isSenderAdmin}
               serverTimestamp={this.props.serverTimestamp}
               isPublic={this.props.isPublic}
               status={this.props.status}
@@ -688,7 +696,7 @@ class MessageInner extends React.PureComponent<Props, State> {
             timestamp={this.props.timestamp}
             serverTimestamp={this.props.serverTimestamp}
             attachments={this.props.attachments}
-            isAdmin={this.props.isAdmin}
+            isAdmin={this.props.isSenderAdmin}
             isOpenGroupV2={this.props.isOpenGroupV2}
             isPublic={this.props.isPublic}
             status={this.props.status}
@@ -784,7 +792,7 @@ class MessageInner extends React.PureComponent<Props, State> {
     );
   }
 
-  private onClickOnImageGrid(attachment: AttachmentTypeWithPath) {
+  private onClickOnImageGrid(attachment: AttachmentTypeWithPath | AttachmentType) {
     const { multiSelectMode, id } = this.props;
 
     if (multiSelectMode) {

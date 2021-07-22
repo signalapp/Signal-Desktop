@@ -17,7 +17,7 @@ type Props = {
   serverTimestamp?: number;
   status?: MessageDeliveryStatus | null;
   expirationLength?: number;
-  expirationTimestamp?: number;
+  expirationTimestamp: number | null;
   isPublic?: boolean;
   isShowingImage: boolean;
 };
