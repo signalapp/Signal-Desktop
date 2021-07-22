@@ -39,6 +39,7 @@ import { updateMentionsMembers } from '../../../state/ducks/mentionsInput';
 import { sendDataExtractionNotification } from '../../../session/messages/outgoing/controlMessage/DataExtractionNotificationMessage';
 
 import { SessionButtonColor } from '../SessionButton';
+import { updateConfirmModal } from '../../../state/ducks/modalDialog';
 interface State {
   // Message sending progress
   messageProgressVisible: boolean;
@@ -233,12 +234,35 @@ export class SessionConversation extends React.Component<Props, State> {
       if (!conversationModel) {
         return;
       }
-      void conversationModel.sendMessage(body, attachments, quote, preview, groupInvitation);
-      if (this.messageContainerRef.current) {
-        // force scrolling to bottom on message sent
-        // this will mark all messages as read, and reset the conversation unreadCount
-        (this.messageContainerRef
-          .current as any).scrollTop = this.messageContainerRef.current?.scrollHeight;
+
+      const sendAndScroll = () => {
+        void conversationModel.sendMessage(body, attachments, quote, preview, groupInvitation);
+        if (this.messageContainerRef.current) {
+          (this.messageContainerRef
+            .current as any).scrollTop = this.messageContainerRef.current?.scrollHeight;
+        }
+      };
+
+      // const recoveryPhrase = window.textsecure.storage.get('mnemonic');
+      const recoveryPhrase = UserUtils.getCurrentRecoveryPhrase();
+
+      // string replace to fix case where pasted text contains invis characters causing false negatives
+      if (body.replace(/\s/g, '').includes(recoveryPhrase.replace(/\s/g, ''))) {
+        window.inboxStore?.dispatch(
+          updateConfirmModal({
+            title: window.i18n('sendRecoveryPhraseTitle'),
+            message: window.i18n('sendRecoveryPhraseMessage'),
+            okTheme: SessionButtonColor.Danger,
+            onClickOk: () => {
+              sendAndScroll();
+            },
+            onClickClose: () => {
+              window.inboxStore?.dispatch(updateConfirmModal(null));
+            },
+          })
+        );
+      } else {
+        sendAndScroll();
       }
     };
     const showMessageDetails = !!messageDetailShowProps;
