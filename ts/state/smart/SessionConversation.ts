@@ -5,10 +5,10 @@ import { StateType } from '../reducer';
 import { getTheme } from '../selectors/theme';
 import {
   getLightBoxOptions,
-  getSortedMessagesOfSelectedConversation,
   getSelectedConversation,
   getSelectedConversationKey,
   getSelectedMessageIds,
+  getSortedMessagesOfSelectedConversation,
   isMessageDetailView,
   isRightPanelShowing,
 } from '../selectors/conversations';

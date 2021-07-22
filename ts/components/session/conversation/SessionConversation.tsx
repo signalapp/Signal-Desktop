@@ -33,8 +33,8 @@ import { getPubkeysInPublicConversation } from '../../../data/data';
 import autoBind from 'auto-bind';
 import { useSelector } from 'react-redux';
 import {
-  isFirstUnreadMessageIdAbove,
   getFirstUnreadMessageId,
+  isFirstUnreadMessageIdAbove,
 } from '../../../state/selectors/conversations';
 
 interface State {

@@ -24,6 +24,9 @@ describe('Attachments', () => {
           get: () => '0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef',
         },
       });
+
+      // TestUtils.stubWindow('callWorker', {}),
+      // });
     });
 
     after(async () => {

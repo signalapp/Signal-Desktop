@@ -4,11 +4,11 @@ import { QuoteClickOptions } from '../../../models/messageType';
 import { SortedMessageModelProps } from '../../../state/ducks/conversations';
 import { getSortedMessagesOfSelectedConversation } from '../../../state/selectors/conversations';
 import {
-  GroupUpdateItem,
-  GroupInvitationItem,
   DataExtractionNotificationItem,
-  TimerNotificationItem,
   GenericMessageItem,
+  GroupInvitationItem,
+  GroupUpdateItem,
+  TimerNotificationItem,
 } from './SessionMessagesTypes';
 
 export const SessionMessagesList = (props: {

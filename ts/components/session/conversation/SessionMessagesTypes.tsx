@@ -1,20 +1,20 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import {
+  MessageRenderingProps,
   PropsForDataExtractionNotification,
   QuoteClickOptions,
-  MessageRenderingProps,
 } from '../../../models/messageType';
 import {
-  PropsForGroupUpdate,
-  PropsForGroupInvitation,
   PropsForExpirationTimer,
+  PropsForGroupInvitation,
+  PropsForGroupUpdate,
   SortedMessageModelProps,
 } from '../../../state/ducks/conversations';
 import {
   getFirstUnreadMessageId,
-  isMessageSelectionMode,
   getNextMessageToPlayIndex,
+  isMessageSelectionMode,
 } from '../../../state/selectors/conversations';
 import { DataExtractionNotification } from '../../conversation/DataExtractionNotification';
 import { GroupInvitation } from '../../conversation/GroupInvitation';

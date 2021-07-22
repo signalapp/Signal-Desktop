@@ -315,9 +315,11 @@ export const fetchMessagesForConversation = createAsyncThunk(
     count: number;
   }): Promise<FetchedMessageResults> => {
     const beforeTimestamp = Date.now();
+    // tslint:disable-next-line: no-console
     console.time('fetchMessagesForConversation');
     const messagesProps = await getMessages(conversationKey, count);
     const afterTimestamp = Date.now();
+    // tslint:disable-next-line: no-console
     console.timeEnd('fetchMessagesForConversation');
 
     const time = afterTimestamp - beforeTimestamp;

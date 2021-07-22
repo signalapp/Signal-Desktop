@@ -24,10 +24,10 @@ import { useMembersAvatars } from '../../hooks/useMembersAvatar';
 import { deleteMessagesById } from '../../interactions/conversationInteractions';
 import {
   closeMessageDetailsView,
+  NotificationForConvoOption,
   openRightPanel,
   resetSelectedMessageIds,
 } from '../../state/ducks/conversations';
-import { NotificationForConvoOption } from '../../state/ducks/conversations';
 
 export interface TimerOption {
   name: string;

@@ -100,10 +100,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     return messageProps;
   }
 
-  private dispatchMessageUpdate() {
-    window.inboxStore?.dispatch(conversationActions.messageChanged(this.getProps()));
-  }
-
   public idForLogging() {
     return `${this.get('source')} ${this.get('sent_at')}`;
   }
@@ -1180,6 +1176,9 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       window.log.warn('isTrustedForAttachmentDownload: error; ', e.message);
       return false;
     }
+  }
+  private dispatchMessageUpdate() {
+    window.inboxStore?.dispatch(conversationActions.messageChanged(this.getProps()));
   }
 }
 export class MessageCollection extends Backbone.Collection<MessageModel> {}

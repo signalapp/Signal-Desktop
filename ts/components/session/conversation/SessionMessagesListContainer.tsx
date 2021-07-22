@@ -23,12 +23,12 @@ import { ConversationTypeEnum } from '../../../models/conversation';
 import { StateType } from '../../../state/reducer';
 import { connect } from 'react-redux';
 import {
-  getSortedMessagesOfSelectedConversation,
+  areMoreMessagesBeingFetched,
   getQuotedMessageToAnimate,
   getSelectedConversation,
   getSelectedConversationKey,
   getShowScrollButton,
-  areMoreMessagesBeingFetched,
+  getSortedMessagesOfSelectedConversation,
 } from '../../../state/selectors/conversations';
 import { isElectronWindowFocused } from '../../../session/utils/WindowUtils';
 import { SessionMessagesList } from './SessionMessagesList';
@@ -306,12 +306,10 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
       if (conversation.unreadCount < messagesProps.length) {
         // if we loaded all unread messages, scroll to the first one unread
         const firstUnread = Math.max(conversation.unreadCount, 0);
-        messagesProps[firstUnread].propsForMessage.id;
         this.scrollToMessage(messagesProps[firstUnread].propsForMessage.id);
       } else {
         // if we did not load all unread messages, just scroll to the middle of the loaded messages list. so the user can choose to go up or down from there
         const middle = Math.floor(messagesProps.length / 2);
-        messagesProps[middle].propsForMessage.id;
         this.scrollToMessage(messagesProps[middle].propsForMessage.id);
       }
     }

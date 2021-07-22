@@ -26,8 +26,8 @@ import {
   conversationChanged,
   LastMessageStatusType,
   MessageModelProps,
-  ReduxConversationType,
   NotificationForConvoOption,
+  ReduxConversationType,
 } from '../state/ducks/conversations';
 import { ExpirationTimerUpdateMessage } from '../session/messages/outgoing/controlMessage/ExpirationTimerUpdateMessage';
 import { TypingMessage } from '../session/messages/outgoing/controlMessage/TypingMessage';
@@ -199,6 +199,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     this.throttledNotify = _.debounce(this.notify, 500, { maxWait: 1000, trailing: true });
     //start right away the function is called, and wait 1sec before calling it again
     const markReadDebounced = _.debounce(this.markReadBouncy, 1000, { leading: true });
+    // tslint:disable-next-line: no-async-without-await
     this.markRead = async (newestUnreadDate: number) => {
       const lastReadTimestamp = this.lastReadTimestamp;
       if (newestUnreadDate > lastReadTimestamp) {
