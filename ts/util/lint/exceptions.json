@@ -1434,28 +1434,6 @@
     "reasonDetail": "Test code. Also a false match."
   },
   {
-    "rule": "eval",
-    "path": "node_modules/@sinonjs/fake-timers/fake-timers.js",
-    "line": "            eval(timer.func);",
-    "reasonCategory": "testCode",
-    "updated": "2020-10-09T22:28:48.591Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/@sinonjs/fake-timers/fake-timers.js",
-    "line": "// defaultMsg returns a string which can be supplied to `wrap()` to notify the user that a particular part of the",
-    "reasonCategory": "testCode",
-    "updated": "2020-10-09T22:28:48.591Z",
-    "reasonDetail": "Test code. Also a false match."
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/@sinonjs/fake-timers/src/fake-timers-src.js",
-    "line": "            eval(timer.func);",
-    "reasonCategory": "testCode",
-    "updated": "2020-10-09T22:28:48.591Z"
-  },
-  {
     "rule": "jQuery-prepend(",
     "path": "node_modules/@sinonjs/text-encoding/lib/encoding.js",
     "line": "        stream.prepend(bite);",
