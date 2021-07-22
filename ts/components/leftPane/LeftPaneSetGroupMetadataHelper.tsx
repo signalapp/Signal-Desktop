@@ -128,13 +128,15 @@ export class LeftPaneSetGroupMetadataHelper extends LeftPaneHelper<LeftPaneSetGr
           onChange={setComposeGroupAvatar}
           value={this.groupAvatar}
         />
-        <GroupTitleInput
-          disabled={disabled}
-          i18n={i18n}
-          onChangeValue={setComposeGroupName}
-          ref={focusRef}
-          value={this.groupName}
-        />
+        <div className="module-GroupInput--container">
+          <GroupTitleInput
+            disabled={disabled}
+            i18n={i18n}
+            onChangeValue={setComposeGroupName}
+            ref={focusRef}
+            value={this.groupName}
+          />
+        </div>
 
         <section className="module-left-pane__header__form__expire-timer">
           <div className="module-left-pane__header__form__expire-timer__label">
