@@ -5,11 +5,7 @@ import { cleanSearchTerm } from '../../util/cleanSearchTerm';
 import { searchConversations, searchMessages } from '../../../ts/data/data';
 import { makeLookup } from '../../util/makeLookup';
 
-import {
-  openConversationExternal,
-  PropsForSearchResults,
-  ReduxConversationType,
-} from './conversations';
+import { PropsForSearchResults, ReduxConversationType } from './conversations';
 import { PubKey } from '../../session/types';
 import { MessageModel } from '../../models/message';
 import { MessageModelType } from '../../models/messageType';

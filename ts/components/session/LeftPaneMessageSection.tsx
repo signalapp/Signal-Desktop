@@ -26,6 +26,7 @@ import autoBind from 'auto-bind';
 import { onsNameRegex } from '../../session/snode_api/SNodeAPI';
 import { SNodeAPI } from '../../session/snode_api';
 import { clearSearch, search, updateSearchTerm } from '../../state/ducks/search';
+import { getFirstUnreadMessageIdInConversation } from '../../data/data';
 
 export interface Props {
   searchTerm: string;
@@ -319,7 +320,11 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
         pubkeyorOns,
         ConversationTypeEnum.PRIVATE
       );
-      window.inboxStore?.dispatch(openConversationExternal({ id: pubkeyorOns }));
+      const firstUnreadIdOnOpen = await getFirstUnreadMessageIdInConversation(pubkeyorOns);
+
+      window.inboxStore?.dispatch(
+        openConversationExternal({ id: pubkeyorOns, firstUnreadIdOnOpen })
+      );
       this.handleToggleOverlay(undefined);
     } else {
       // this might be an ONS, validate the regex first
@@ -339,7 +344,12 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
           resolvedSessionID,
           ConversationTypeEnum.PRIVATE
         );
-        window.inboxStore?.dispatch(openConversationExternal({ id: resolvedSessionID }));
+
+        const firstUnreadIdOnOpen = await getFirstUnreadMessageIdInConversation(resolvedSessionID);
+
+        window.inboxStore?.dispatch(
+          openConversationExternal({ id: resolvedSessionID, firstUnreadIdOnOpen })
+        );
         this.handleToggleOverlay(undefined);
       } catch (e) {
         window?.log?.warn('failed to resolve ons name', pubkeyorOns, e);

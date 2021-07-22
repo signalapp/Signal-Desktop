@@ -94,7 +94,13 @@ export const MessageSearchResult = (props: Props) => {
     <div
       role="button"
       onClick={() => {
-        dispatch(openConversationExternal({ id: conversationId, messageId }));
+        dispatch(
+          openConversationExternal({
+            id: conversationId,
+            messageId,
+            firstUnreadIdOnOpen: undefined,
+          })
+        );
       }}
       className={classNames(
         'module-message-search-result',

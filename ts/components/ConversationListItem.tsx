@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import classNames from 'classnames';
 import { isEmpty } from 'lodash';
 import { contextMenu } from 'react-contexify';
@@ -26,6 +26,7 @@ import { SessionIcon, SessionIconSize, SessionIconType } from './session/icon';
 import { useDispatch, useSelector } from 'react-redux';
 import { SectionType } from '../state/ducks/section';
 import { getFocusedSection } from '../state/selectors/section';
+import { getFirstUnreadMessageIdInConversation } from '../data/data';
 
 // tslint:disable-next-line: no-empty-interface
 export interface ConversationListItemProps extends ReduxConversationType {}
@@ -240,13 +241,16 @@ const ConversationListItem = (props: Props) => {
 
   const dispatch = useDispatch();
 
+  const openConvo = useCallback(async () => {
+    const firstUnreadIdOnOpen = await getFirstUnreadMessageIdInConversation(conversationId);
+    dispatch(openConversationExternal({ id: conversationId, firstUnreadIdOnOpen }));
+  }, [conversationId]);
+
   return (
     <div key={key}>
       <div
         role="button"
-        onClick={() => {
-          dispatch(openConversationExternal({ id: conversationId }));
-        }}
+        onClick={openConvo}
         onContextMenu={(e: any) => {
           contextMenu.show({
             id: triggerId,

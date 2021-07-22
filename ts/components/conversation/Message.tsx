@@ -39,7 +39,10 @@ import { ClickToTrustSender } from './message/ClickToTrustSender';
 import { getMessageById } from '../../data/data';
 import { connect } from 'react-redux';
 import { StateType } from '../../state/reducer';
-import { getSelectedMessageIds } from '../../state/selectors/conversations';
+import {
+  getQuotedMessageToAnimate,
+  getSelectedMessageIds,
+} from '../../state/selectors/conversations';
 import {
   messageExpired,
   showLightBox,
@@ -64,7 +67,10 @@ interface State {
 const EXPIRATION_CHECK_MINIMUM = 2000;
 const EXPIRED_DELAY = 600;
 
-type Props = MessageRegularProps & { selectedMessages: Array<string> };
+type Props = MessageRegularProps & {
+  selectedMessages: Array<string>;
+  quotedMessageToAnimate: string | undefined;
+};
 
 const onClickAttachment = async (onClickProps: {
   attachment: AttachmentTypeWithPath;
@@ -570,14 +576,7 @@ class MessageInner extends React.PureComponent<Props, State> {
 
   // tslint:disable-next-line: cyclomatic-complexity
   public render() {
-    const {
-      direction,
-      id,
-      multiSelectMode,
-      conversationType,
-      isUnread,
-      selectedMessages,
-    } = this.props;
+    const { direction, id, conversationType, isUnread, selectedMessages } = this.props;
     const { expired, expiring } = this.state;
 
     if (expired) {
@@ -601,7 +600,7 @@ class MessageInner extends React.PureComponent<Props, State> {
       divClasses.push('public-chat-message-wrapper');
     }
 
-    if (this.props.isQuotedMessageToAnimate) {
+    if (this.props.quotedMessageToAnimate === this.props.id) {
       divClasses.push('flash-green-once');
     }
 
@@ -851,6 +850,7 @@ class MessageInner extends React.PureComponent<Props, State> {
 const mapStateToProps = (state: StateType) => {
   return {
     selectedMessages: getSelectedMessageIds(state),
+    quotedMessageToAnimate: getQuotedMessageToAnimate(state),
   };
 };
 

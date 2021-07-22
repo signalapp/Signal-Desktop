@@ -244,7 +244,6 @@ export interface MessageRegularProps {
   multiSelectMode: boolean;
   firstMessageOfSeries: boolean;
   isUnread: boolean;
-  isQuotedMessageToAnimate?: boolean;
   isTrustedForAttachmentDownload: boolean;
   onQuoteClick?: (options: QuoteClickOptions) => Promise<void>;
 

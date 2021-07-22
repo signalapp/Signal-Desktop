@@ -11,6 +11,7 @@ import { updateUserDetailsModal } from '../state/ducks/modalDialog';
 import { openConversationExternal } from '../state/ducks/conversations';
 // tslint:disable-next-line: no-submodule-imports
 import useKey from 'react-use/lib/useKey';
+import { getFirstUnreadMessageIdInConversation } from '../data/data';
 type Props = {
   conversationId: string;
   authorAvatarPath?: string;
@@ -33,8 +34,11 @@ export const UserDetailsDialog = (props: Props) => {
       convo.id,
       ConversationTypeEnum.PRIVATE
     );
+    const firstUnreadIdOnOpen = await getFirstUnreadMessageIdInConversation(conversation.id);
 
-    window.inboxStore?.dispatch(openConversationExternal({ id: conversation.id }));
+    window.inboxStore?.dispatch(
+      openConversationExternal({ id: conversation.id, firstUnreadIdOnOpen })
+    );
 
     closeDialog();
   }

@@ -31,10 +31,7 @@ import { forceSyncConfigurationNowIfNeeded } from '../session/utils/syncUtils';
 import { getMessageController } from '../session/messages';
 import { ClosedGroupEncryptionPairReplyMessage } from '../session/messages/outgoing/controlMessage/group/ClosedGroupEncryptionPairReplyMessage';
 import { queueAllCachedFromSource } from './receiver';
-import {
-  actions as conversationActions,
-  openConversationExternal,
-} from '../state/ducks/conversations';
+import { openConversationExternal } from '../state/ducks/conversations';
 import { getSwarmPollingInstance } from '../session/snode_api';
 import { MessageModel } from '../models/message';
 
@@ -955,7 +952,9 @@ export async function createClosedGroup(groupName: string, members: Array<string
 
   await forceSyncConfigurationNowIfNeeded();
 
-  window.inboxStore?.dispatch(openConversationExternal({ id: groupPublicKey }));
+  window.inboxStore?.dispatch(
+    openConversationExternal({ id: groupPublicKey, firstUnreadIdOnOpen: undefined })
+  );
 }
 
 /**

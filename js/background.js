@@ -341,11 +341,15 @@
       window.setMediaPermissions(!value);
     };
 
-    Whisper.Notifications.on('click', (id, messageId) => {
+    Whisper.Notifications.on('click', async (id, messageId) => {
       window.showWindow();
       if (id) {
+        const firstUnreadIdOnOpen = await window.Signal.Data.getFirstUnreadMessageIdInConversation(
+          id
+        );
+
         window.inboxStore.dispatch(
-          window.actionsCreators.openConversationExternal({ id, messageId })
+          window.actionsCreators.openConversationExternal({ id, messageId, firstUnreadIdOnOpen })
         );
       } else {
         appView.openInbox({

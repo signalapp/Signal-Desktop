@@ -30,7 +30,7 @@ import {
   PropsForDataExtractionNotification,
   QuoteClickOptions,
 } from '../../../models/messageType';
-import { getFirstUnreadMessageIdInConversation, getMessagesBySentAt } from '../../../data/data';
+import { getMessagesBySentAt } from '../../../data/data';
 import autoBind from 'auto-bind';
 import { ConversationTypeEnum } from '../../../models/conversation';
 import { DataExtractionNotification } from '../../conversation/DataExtractionNotification';
@@ -44,9 +44,9 @@ import {
   getSelectedConversationKey,
   getShowScrollButton,
   isMessageSelectionMode,
-  getFirstUnreadMessageIndex,
   areMoreMessagesBeingFetched,
   isFirstUnreadMessageIdAbove,
+  getFirstUnreadMessageId,
 } from '../../../state/selectors/conversations';
 import { isElectronWindowFocused } from '../../../session/utils/WindowUtils';
 import useInterval from 'react-use/lib/useInterval';
@@ -65,8 +65,9 @@ type Props = SessionMessageListProps & {
   areMoreMessagesBeingFetched: boolean;
 };
 
-const UnreadIndicator = (props: { messageId: string; show: boolean }) => {
-  if (!props.show) {
+const UnreadIndicator = (props: { messageId: string }) => {
+  const isFirstUnreadOnOpen = useSelector(getFirstUnreadMessageId);
+  if (!isFirstUnreadOnOpen || isFirstUnreadOnOpen !== props.messageId) {
     return null;
   }
   return <SessionLastSeenIndicator key={`unread-indicator-${props.messageId}`} />;
@@ -75,12 +76,11 @@ const UnreadIndicator = (props: { messageId: string; show: boolean }) => {
 const GroupUpdateItem = (props: {
   messageId: string;
   groupNotificationProps: PropsForGroupUpdate;
-  showUnreadIndicator: boolean;
 }) => {
   return (
     <React.Fragment key={props.messageId}>
       <GroupNotification key={props.messageId} {...props.groupNotificationProps} />
-      <UnreadIndicator messageId={props.messageId} show={props.showUnreadIndicator} />
+      <UnreadIndicator messageId={props.messageId} />
     </React.Fragment>
   );
 };
@@ -88,13 +88,12 @@ const GroupUpdateItem = (props: {
 const GroupInvitationItem = (props: {
   messageId: string;
   propsForGroupInvitation: PropsForGroupInvitation;
-  showUnreadIndicator: boolean;
 }) => {
   return (
     <React.Fragment key={props.messageId}>
       <GroupInvitation key={props.messageId} {...props.propsForGroupInvitation} />
 
-      <UnreadIndicator messageId={props.messageId} show={props.showUnreadIndicator} />
+      <UnreadIndicator messageId={props.messageId} />
     </React.Fragment>
   );
 };
@@ -102,7 +101,6 @@ const GroupInvitationItem = (props: {
 const DataExtractionNotificationItem = (props: {
   messageId: string;
   propsForDataExtractionNotification: PropsForDataExtractionNotification;
-  showUnreadIndicator: boolean;
 }) => {
   return (
     <React.Fragment key={props.messageId}>
@@ -111,7 +109,7 @@ const DataExtractionNotificationItem = (props: {
         {...props.propsForDataExtractionNotification}
       />
 
-      <UnreadIndicator messageId={props.messageId} show={props.showUnreadIndicator} />
+      <UnreadIndicator messageId={props.messageId} />
     </React.Fragment>
   );
 };
@@ -119,13 +117,12 @@ const DataExtractionNotificationItem = (props: {
 const TimerNotificationItem = (props: {
   messageId: string;
   timerProps: PropsForExpirationTimer;
-  showUnreadIndicator: boolean;
 }) => {
   return (
     <React.Fragment key={props.messageId}>
       <TimerNotification key={props.messageId} {...props.timerProps} />
 
-      <UnreadIndicator messageId={props.messageId} show={props.showUnreadIndicator} />
+      <UnreadIndicator messageId={props.messageId} />
     </React.Fragment>
   );
 };
@@ -134,12 +131,10 @@ const GenericMessageItem = (props: {
   messageId: string;
   messageProps: SortedMessageModelProps;
   playableMessageIndex?: number;
-  showUnreadIndicator: boolean;
   scrollToQuoteMessage: (options: QuoteClickOptions) => Promise<void>;
   playNextMessage?: (value: number) => void;
 }) => {
   const multiSelectMode = useSelector(isMessageSelectionMode);
-  const quotedMessageToAnimate = useSelector(getQuotedMessageToAnimate);
   const nextMessageToPlay = useSelector(getNextMessageToPlayIndex);
 
   const messageId = props.messageId;
@@ -152,7 +147,6 @@ const GenericMessageItem = (props: {
     ...props.messageProps.propsForMessage,
     firstMessageOfSeries: props.messageProps.firstMessageOfSeries,
     multiSelectMode,
-    isQuotedMessageToAnimate: messageId === quotedMessageToAnimate,
     nextMessageToPlay,
     playNextMessage: props.playNextMessage,
     onQuoteClick,
@@ -166,7 +160,7 @@ const GenericMessageItem = (props: {
         multiSelectMode={multiSelectMode}
         key={messageId}
       />
-      <UnreadIndicator messageId={props.messageId} show={props.showUnreadIndicator} />
+      <UnreadIndicator messageId={props.messageId} />
     </React.Fragment>
   );
 };
@@ -176,7 +170,6 @@ const MessageList = (props: {
   playNextMessage?: (value: number) => void;
 }) => {
   const messagesProps = useSelector(getSortedMessagesOfSelectedConversation);
-  const firstUnreadMessageIndex = useSelector(getFirstUnreadMessageIndex);
   const isAbove = useSelector(isFirstUnreadMessageIdAbove);
 
   console.warn('isAbove', isAbove);
@@ -191,19 +184,12 @@ const MessageList = (props: {
 
         const groupNotificationProps = messageProps.propsForGroupNotification;
 
-        // IF we found the first unread message
-        // AND we are not scrolled all the way to the bottom
-        // THEN, show the unread banner for the current message
-        const showUnreadIndicator =
-          Boolean(firstUnreadMessageIndex) && firstUnreadMessageIndex === index;
-
         if (groupNotificationProps) {
           return (
             <GroupUpdateItem
               key={messageProps.propsForMessage.id}
               groupNotificationProps={groupNotificationProps}
               messageId={messageProps.propsForMessage.id}
-              showUnreadIndicator={showUnreadIndicator}
             />
           );
         }
@@ -214,7 +200,6 @@ const MessageList = (props: {
               key={messageProps.propsForMessage.id}
               propsForGroupInvitation={propsForGroupInvitation}
               messageId={messageProps.propsForMessage.id}
-              showUnreadIndicator={showUnreadIndicator}
             />
           );
         }
@@ -225,7 +210,6 @@ const MessageList = (props: {
               key={messageProps.propsForMessage.id}
               propsForDataExtractionNotification={propsForDataExtractionNotification}
               messageId={messageProps.propsForMessage.id}
-              showUnreadIndicator={showUnreadIndicator}
             />
           );
         }
@@ -236,7 +220,6 @@ const MessageList = (props: {
               key={messageProps.propsForMessage.id}
               timerProps={timerProps}
               messageId={messageProps.propsForMessage.id}
-              showUnreadIndicator={showUnreadIndicator}
             />
           );
         }
@@ -255,7 +238,6 @@ const MessageList = (props: {
             playableMessageIndex={playableMessageIndex}
             messageId={messageProps.propsForMessage.id}
             messageProps={messageProps}
-            showUnreadIndicator={showUnreadIndicator}
             scrollToQuoteMessage={props.scrollToQuoteMessage}
             playNextMessage={props.playNextMessage}
           />
@@ -266,7 +248,6 @@ const MessageList = (props: {
 };
 
 class SessionMessagesListInner extends React.Component<Props> {
-  private scrollOffsetBottomPx: number = Number.MAX_VALUE;
   private ignoreScrollEvents: boolean;
   private timeoutResetQuotedScroll: NodeJS.Timeout | null = null;
 
@@ -301,7 +282,7 @@ class SessionMessagesListInner extends React.Component<Props> {
     ) {
       // displayed conversation changed. We have a bit of cleaning to do here
       this.ignoreScrollEvents = true;
-      this.setupTimeoutResetQuotedHighlightedMessage(true);
+      this.setupTimeoutResetQuotedHighlightedMessage(this.props.animateQuotedMessageId);
       this.initialMessageLoadingPosition();
     } else {
       // if we got new message for this convo, and we are scrolled to bottom
@@ -355,7 +336,7 @@ class SessionMessagesListInner extends React.Component<Props> {
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   // ~~~~~~~~~~~~~ MESSAGE HANDLING ~~~~~~~~~~~~~
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  private updateReadMessages() {
+  private updateReadMessages(forceIsOnBottom = false) {
     const { messagesProps, conversationKey } = this.props;
 
     if (!messagesProps || messagesProps.length === 0 || !conversationKey) {
@@ -372,7 +353,7 @@ class SessionMessagesListInner extends React.Component<Props> {
       return;
     }
 
-    if (this.getScrollOffsetBottomPx() === 0 && isElectronWindowFocused()) {
+    if ((forceIsOnBottom || this.getScrollOffsetBottomPx() === 0) && isElectronWindowFocused()) {
       void conversation.markRead(messagesProps[0].propsForMessage.receivedAt || 0);
     }
   }
@@ -450,10 +431,10 @@ class SessionMessagesListInner extends React.Component<Props> {
       window.inboxStore?.dispatch(showScrollToBottomButton(showScrollButton));
 
       // trigger markRead if we hit the bottom
-      const isScrolledToBottom = bottomOfBottomMessage >= containerBottom - 5;
+      const isScrolledToBottom = bottomOfBottomMessage <= containerBottom - 5;
       if (isScrolledToBottom) {
         // Mark messages read
-        this.updateReadMessages();
+        this.updateReadMessages(true);
       }
     }
 
@@ -522,19 +503,15 @@ class SessionMessagesListInner extends React.Component<Props> {
    * So we need to reset the state of of the highlighted message so when the users clicks again,
    * the highlight is shown once again
    */
-  private setupTimeoutResetQuotedHighlightedMessage(clearOnly = false) {
+  private setupTimeoutResetQuotedHighlightedMessage(messageId: string | undefined) {
     if (this.timeoutResetQuotedScroll) {
       clearTimeout(this.timeoutResetQuotedScroll);
     }
-    // only clear the timeout, do not schedule once again
-    if (clearOnly) {
-      return;
-    }
 
-    if (this.props.animateQuotedMessageId !== undefined) {
+    if (messageId !== undefined) {
       this.timeoutResetQuotedScroll = global.setTimeout(() => {
         window.inboxStore?.dispatch(quotedMessageToAnimate(undefined));
-      }, 3000);
+      }, 2000); // should match .flash-green-once
     }
   }
 
@@ -548,7 +525,7 @@ class SessionMessagesListInner extends React.Component<Props> {
     // we consider that a `smooth` set to true, means it's a quoted message, so highlight this message on the UI
     if (smooth) {
       window.inboxStore?.dispatch(quotedMessageToAnimate(messageId));
-      this.setupTimeoutResetQuotedHighlightedMessage();
+      this.setupTimeoutResetQuotedHighlightedMessage(messageId);
     }
 
     const messageContainer = this.props.messageContainerRef.current;

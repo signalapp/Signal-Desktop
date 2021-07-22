@@ -402,14 +402,6 @@ function sortMessages(
   return messagesSorted;
 }
 
-export const getFirstUnreadMessageIndex = createSelector(
-  getSortedMessagesOfSelectedConversation,
-  (messageModelsProps: Array<MessageModelProps>): number | undefined => {
-    const firstUnreadIndex = getFirstMessageUnreadIndex(messageModelsProps);
-    return firstUnreadIndex;
-  }
-);
-
 function getFirstMessageUnreadIndex(messages: Array<MessageModelProps>) {
   if (!messages || messages.length === 0) {
     return -1;
@@ -442,7 +434,6 @@ function getFirstMessageUnreadIndex(messages: Array<MessageModelProps>) {
 export const getFirstUnreadMessageId = createSelector(
   getConversations,
   (state: ConversationsStateType): string | undefined => {
-    console.warn('getFirstUnreadMessageId', state.firstUnreadMessageId);
     return state.firstUnreadMessageId;
   }
 );

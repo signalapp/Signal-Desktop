@@ -1087,8 +1087,17 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
   public async markRead(readAt: number) {
     this.markReadNoCommit(readAt);
-
     await this.commit();
+
+    const convo = this.getConversation();
+    if (convo) {
+      const beforeUnread = convo.get('unreadCount');
+      const unreadCount = await convo.getUnreadCount();
+      if (beforeUnread !== unreadCount) {
+        convo.set({ unreadCount });
+        await convo.commit();
+      }
+    }
   }
 
   public markReadNoCommit(readAt: number) {

@@ -292,7 +292,6 @@ export type SortedMessageModelProps = MessageModelProps & {
 type FetchedMessageResults = {
   conversationKey: string;
   messagesProps: Array<MessageModelProps>;
-  firstUnreadMessageId: string | undefined;
 };
 
 export const fetchMessagesForConversation = createAsyncThunk(
@@ -307,8 +306,6 @@ export const fetchMessagesForConversation = createAsyncThunk(
     const beforeTimestamp = Date.now();
     console.time('fetchMessagesForConversation');
     const messagesProps = await getMessages(conversationKey, count);
-
-    const firstUnreadMessageId = await getFirstUnreadMessageIdInConversation(conversationKey);
     const afterTimestamp = Date.now();
     console.timeEnd('fetchMessagesForConversation');
 
@@ -318,7 +315,6 @@ export const fetchMessagesForConversation = createAsyncThunk(
     return {
       conversationKey,
       messagesProps,
-      firstUnreadMessageId,
     };
   }
 );
@@ -594,12 +590,14 @@ const conversationsSlice = createSlice({
       state: ConversationsStateType,
       action: PayloadAction<{
         id: string;
+        firstUnreadIdOnOpen: string | undefined;
         messageId?: string;
       }>
     ) {
       if (state.selectedConversation === action.payload.id) {
         return state;
       }
+
       return {
         conversationLookup: state.conversationLookup,
         selectedConversation: action.payload.id,
@@ -615,7 +613,7 @@ const conversationsSlice = createSlice({
         showScrollButton: false,
         animateQuotedMessageId: undefined,
         mentionMembers: [],
-        firstUnreadMessageId: undefined,
+        firstUnreadMessageId: action.payload.firstUnreadIdOnOpen,
       };
     },
     showLightBox(
@@ -662,14 +660,13 @@ const conversationsSlice = createSlice({
       fetchMessagesForConversation.fulfilled,
       (state: ConversationsStateType, action: PayloadAction<FetchedMessageResults>) => {
         // this is called once the messages are loaded from the db for the currently selected conversation
-        const { messagesProps, conversationKey, firstUnreadMessageId } = action.payload;
+        const { messagesProps, conversationKey } = action.payload;
         // double check that this update is for the shown convo
         if (conversationKey === state.selectedConversation) {
           return {
             ...state,
             messages: messagesProps,
             areMoreMessagesBeingFetched: false,
-            firstUnreadMessageId,
           };
         }
         return state;
