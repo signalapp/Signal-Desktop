@@ -87,11 +87,11 @@ module.exports = grunt => {
       },
     },
     exec: {
-      'tx-pull-new': {
-        cmd: 'tx pull -a --minimum-perc=80',
+      'tx-pull-mostly-translated': {
+        cmd: 'tx pull --all --use-git-timestamps --minimum-perc=80',
       },
-      'tx-pull': {
-        cmd: 'tx pull',
+      'tx-pull-any-existing-translation': {
+        cmd: 'tx pull --use-git-timestamps',
       },
       transpile: {
         cmd: 'yarn transpile',
@@ -397,8 +397,8 @@ module.exports = grunt => {
   );
 
   grunt.registerTask('tx', [
-    'exec:tx-pull-new',
-    'exec:tx-pull',
+    'exec:tx-pull-mostly-translated',
+    'exec:tx-pull-any-existing-translation',
     'locale-patch',
   ]);
   grunt.registerTask('dev', ['default', 'watch']);
