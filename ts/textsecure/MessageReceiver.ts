@@ -1926,6 +1926,7 @@ class MessageReceiverInner extends EventTarget {
       groupId: envelope.groupId,
       requesterDevice: sourceDevice,
       requesterUuid: sourceUuid,
+      ratchetKey: request.ratchetKey(),
       senderDevice: request.deviceId(),
       sentAt: request.timestamp(),
     });

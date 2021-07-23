@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 /* eslint-disable max-classes-per-file */
 
+import { PublicKey } from '@signalapp/signal-client';
+
 import { SignalService as Proto } from '../protobuf';
 import { ProcessedDataMessage, ProcessedSent } from './Types.d';
 import type {
@@ -92,6 +94,7 @@ export class DecryptionErrorEvent extends Event {
 
 export type RetryRequestEventData = Readonly<{
   groupId?: string;
+  ratchetKey?: PublicKey;
   requesterUuid: string;
   requesterDevice: number;
   senderDevice: number;

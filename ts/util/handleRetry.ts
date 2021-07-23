@@ -158,6 +158,7 @@ export async function onDecryptionError(
 // Helpers
 
 async function archiveSessionOnMatch({
+  ratchetKey,
   requesterUuid,
   requesterDevice,
   senderDevice,
@@ -166,9 +167,17 @@ async function archiveSessionOnMatch({
     window.textsecure.storage.user.getDeviceId(),
     'archiveSessionOnMatch/getDeviceId'
   );
-  if (ourDeviceId === senderDevice) {
-    const address = `${requesterUuid}.${requesterDevice}`;
-    window.log.info('archiveSessionOnMatch: Devices match, archiving session');
+  if (ourDeviceId !== senderDevice || !ratchetKey) {
+    return;
+  }
+
+  const address = `${requesterUuid}.${requesterDevice}`;
+  const session = await window.textsecure.storage.protocol.loadSession(address);
+
+  if (session && session.currentRatchetKeyMatches(ratchetKey)) {
+    window.log.info(
+      'archiveSessionOnMatch: Matching device and ratchetKey, archiving session'
+    );
     await window.textsecure.storage.protocol.archiveSession(address);
   }
 }
@@ -200,7 +209,7 @@ async function sendDistributionMessageOrNullMessage(
 
     if (group && distributionId) {
       window.log.info(
-        `sendDistributionMessageOrNullMessage/${logId}: Found matching group, sending sender key distribution message'`
+        `sendDistributionMessageOrNullMessage/${logId}: Found matching group, sending sender key distribution message`
       );
 
       try {
