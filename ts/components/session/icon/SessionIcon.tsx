@@ -104,10 +104,6 @@ const animation = (props: {
     return css``;
   }
 
-  if (props.glowDuration === 10) {
-    console.warn('scake', props);
-  }
-
   if (props.glowDuration !== undefined && props.glowStartDelay !== undefined && props.iconColor) {
     return css`
       ${glow(
@@ -188,7 +184,7 @@ export const SessionIcon = (props: SessionIconProps) => {
   const iconDimensions = getIconDimensionFromIconSize(iconSize);
   const iconDef = icons[iconType];
   const ratio = iconDef?.ratio || 1;
-  if (!theme) {
+  if (!themeToUse) {
     window?.log?.error('Missing theme props in SessionIcon');
   }
 

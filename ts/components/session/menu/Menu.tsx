@@ -25,6 +25,7 @@ import {
   unblockConvoById,
 } from '../../../interactions/conversationInteractions';
 import { SessionButtonColor } from '../SessionButton';
+import { getTimerOptions } from '../../../state/selectors/timerOptions';
 import { ToastUtils } from '../../../session/utils';
 import { NotificationForConvoOption } from '../../../state/ducks/conversations';
 
@@ -45,10 +46,6 @@ function showNotificationConvo(
   isBlocked: boolean
 ): boolean {
   return !left && !isKickedFromGroup && !isBlocked;
-}
-
-function showMemberMenu(isPublic: boolean, isGroup: boolean): boolean {
-  return !isPublic && isGroup;
 }
 
 function showBlock(isMe: boolean, isPrivate: boolean): boolean {
@@ -135,10 +132,11 @@ export interface PinConversationMenuItemProps {
 
 export const getPinConversationMenuItem = (conversationId: string): JSX.Element | null => {
   const isMessagesSection = useSelector(getFocusedSection) === SectionType.Message;
+  const nbOfAlreadyPinnedConvos = useSelector(getNumberOfPinnedConversations);
+
   if (isMessagesSection && window.lokiFeatureFlags.enablePinConversations) {
     const conversation = getConversationController().get(conversationId);
     const isPinned = conversation.isPinned();
-    const nbOfAlreadyPinnedConvos = useSelector(getNumberOfPinnedConversations);
 
     const togglePinConversation = async () => {
       if ((!isPinned && nbOfAlreadyPinnedConvos < maxNumberOfPinnedConversations) || isPinned) {
@@ -166,6 +164,8 @@ export function getDeleteContactMenuItem(
   isKickedFromGroup: boolean | undefined,
   conversationId: string
 ): JSX.Element | null {
+  const dispatch = useDispatch();
+
   if (
     showDeleteContact(
       Boolean(isMe),
@@ -182,7 +182,6 @@ export function getDeleteContactMenuItem(
       menuItemText = window.i18n('delete');
     }
 
-    const dispatch = useDispatch();
     const onClickClose = () => {
       dispatch(updateConfirmModal(null));
     };
@@ -313,9 +312,10 @@ export function getDisappearingMenuItem(
   isKickedFromGroup: boolean | undefined,
   left: boolean | undefined,
   isBlocked: boolean | undefined,
-  timerOptions: Array<TimerOption>,
   conversationId: string
 ): JSX.Element | null {
+  const timerOptions = useSelector(getTimerOptions).timerOptions;
+
   if (
     showTimerOptions(
       Boolean(isPublic),
@@ -332,7 +332,7 @@ export function getDisappearingMenuItem(
         label={window.i18n('disappearingMessages') as any}
         // rtl={isRtlMode && false}
       >
-        {(timerOptions || []).map(item => (
+        {timerOptions.map(item => (
           <Item
             key={item.value}
             onClick={async () => {

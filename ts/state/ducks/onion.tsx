@@ -19,10 +19,12 @@ const onionSlice = createSlice({
   initialState: initialOnionPathState,
   reducers: {
     updateOnionPaths(state: OnionState, action: PayloadAction<Array<Array<Snode>>>) {
-      return { ...state, snodePaths: action.payload };
+      state.snodePaths = action.payload;
+      return state;
     },
     updateIsOnline(state: OnionState, action: PayloadAction<boolean>) {
-      return { ...state, isOnline: action.payload };
+      state.isOnline = action.payload;
+      return state;
     },
   },
 });

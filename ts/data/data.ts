@@ -11,7 +11,7 @@ import { HexKeyPair } from '../receiver/keypairs';
 import { getSodium } from '../session/crypto';
 import { PubKey } from '../session/types';
 import { fromArrayBufferToBase64, fromBase64ToArrayBuffer } from '../session/utils/String';
-import { ConversationType } from '../state/ducks/conversations';
+import { ReduxConversationType } from '../state/ducks/conversations';
 import { channels } from './channels';
 import { channelsToMake as channelstoMakeOpenGroupV2 } from './opengroups';
 
@@ -123,6 +123,7 @@ const channelsToMake = {
   getOutgoingWithoutExpiresAt,
   getNextExpiringMessage,
   getMessagesByConversation,
+  getFirstUnreadMessageIdInConversation,
   getSeenMessagesByHashList,
   getLastHashBySnode,
 
@@ -155,7 +156,6 @@ const channelsToMake = {
   getAllEncryptionKeyPairsForGroup,
   getLatestClosedGroupEncryptionKeyPair,
   addClosedGroupEncryptionKeyPair,
-  isKeyPairAlreadySaved,
   removeAllClosedGroupEncryptionKeyPairs,
   removeOneOpenGroupV1Message,
 
@@ -216,6 +216,9 @@ function _cleanData(data: any): any {
     } else if (_.isObject(value)) {
       // eslint-disable-next-line no-param-reassign
       data[key] = _cleanData(value);
+    } else if (_.isBoolean(value)) {
+      // eslint-disable-next-line no-param-reassign
+      data[key] = value ? 1 : 0;
     } else if (
       typeof value !== 'string' &&
       typeof value !== 'number' &&
@@ -495,13 +498,6 @@ export async function addClosedGroupEncryptionKeyPair(
   await channels.addClosedGroupEncryptionKeyPair(groupPublicKey, keypair);
 }
 
-export async function isKeyPairAlreadySaved(
-  groupPublicKey: string,
-  keypair: HexKeyPair
-): Promise<boolean> {
-  return channels.isKeyPairAlreadySaved(groupPublicKey, keypair);
-}
-
 export async function removeAllClosedGroupEncryptionKeyPairs(
   groupPublicKey: string
 ): Promise<void> {
@@ -509,7 +505,7 @@ export async function removeAllClosedGroupEncryptionKeyPairs(
 }
 
 // Conversation
-export async function saveConversation(data: ConversationType): Promise<void> {
+export async function saveConversation(data: ReduxConversationType): Promise<void> {
   const cleaned = _.omit(data, 'isOnline');
   await channels.saveConversation(cleaned);
 }
@@ -522,7 +518,7 @@ export async function getConversationById(id: string): Promise<ConversationModel
   return undefined;
 }
 
-export async function updateConversation(data: ConversationType): Promise<void> {
+export async function updateConversation(data: ReduxConversationType): Promise<void> {
   await channels.updateConversation(data);
 }
 
@@ -758,6 +754,12 @@ export async function getMessagesByConversation(
   return new MessageCollection(messages);
 }
 
+export async function getFirstUnreadMessageIdInConversation(
+  conversationId: string
+): Promise<string | undefined> {
+  return channels.getFirstUnreadMessageIdInConversation(conversationId);
+}
+
 export async function getLastHashBySnode(convoId: string, snode: string): Promise<string> {
   return channels.getLastHashBySnode(convoId, snode);
 }
@@ -864,7 +866,7 @@ export async function saveAttachmentDownloadJob(job: any): Promise<void> {
   await channels.saveAttachmentDownloadJob(job);
 }
 export async function setAttachmentDownloadJobPending(id: string, pending: boolean): Promise<void> {
-  await channels.setAttachmentDownloadJobPending(id, pending);
+  await channels.setAttachmentDownloadJobPending(id, pending ? 1 : 0);
 }
 export async function resetAttachmentDownloadPending(): Promise<void> {
   await channels.resetAttachmentDownloadPending();
@@ -918,7 +920,7 @@ async function callChannel(name: string): Promise<any> {
 export async function getMessagesWithVisualMediaAttachments(
   conversationId: string,
   options?: { limit: number }
-): Promise<any> {
+): Promise<Array<MessageAttributes>> {
   return channels.getMessagesWithVisualMediaAttachments(conversationId, {
     limit: options?.limit,
   });
@@ -927,7 +929,7 @@ export async function getMessagesWithVisualMediaAttachments(
 export async function getMessagesWithFileAttachments(
   conversationId: string,
   options?: { limit: number }
-): Promise<any> {
+): Promise<Array<MessageAttributes>> {
   return channels.getMessagesWithFileAttachments(conversationId, {
     limit: options?.limit,
   });

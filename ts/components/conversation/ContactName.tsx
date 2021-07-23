@@ -5,8 +5,8 @@ import { Emojify } from './Emojify';
 
 type Props = {
   phoneNumber: string;
-  name?: string;
-  profileName?: string;
+  name?: string | null;
+  profileName?: string | null;
   module?: string;
   boldProfileName?: Boolean;
   compact?: Boolean;

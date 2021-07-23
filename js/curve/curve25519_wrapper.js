@@ -1,5 +1,5 @@
 /* vim: ts=4:sw=4:expandtab */
-var Internal = global.Internal || {};
+var Internal = typeof global === 'undefined' ? {} : global.Internal || {};
 
 (function() {
   'use strict';

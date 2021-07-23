@@ -1,5 +1,3 @@
-// TODO: fix libloki and textsecure not being available here yet
-
 import { EnvelopePlus } from './types';
 export { downloadAttachment } from './attachments';
 import { v4 as uuidv4 } from 'uuid';
@@ -39,6 +37,7 @@ import { fromBase64ToArray } from '../session/utils/String';
 import { removeMessagePadding } from '../session/crypto/BufferPadding';
 import { isDuplicateBasedOnHash } from './hashDuplicateFilter';
 import { createTaskWithTimeout } from '../session/utils/TaskWithTimeout';
+import { perfEnd, perfStart } from '../session/utils/Performance';
 
 // TODO: check if some of these exports no longer needed
 
@@ -143,8 +142,10 @@ async function handleRequestDetail(
     // NOTE: Annoyngly we add plaintext to the cache
     // after we've already processed some of it (thus the
     // need to handle senderIdentity separately)...
+    perfStart(`addToCache-${envelope.id}`);
 
     await addToCache(envelope, plaintext);
+    perfEnd(`addToCache-${envelope.id}`, 'addToCache');
 
     // TODO: This is the glue between the first and the last part of the
     // receiving pipeline refactor. It is to be implemented in the next PR.

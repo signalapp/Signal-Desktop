@@ -1,49 +1,59 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import classNames from 'classnames';
 
 import moment from 'moment';
 // tslint:disable-next-line:match-default-export-name
 import formatFileSize from 'filesize';
+import { getDecryptedMediaUrl } from '../../../session/crypto/DecryptedAttachmentsManager';
+import { sendDataExtractionNotification } from '../../../session/messages/outgoing/controlMessage/DataExtractionNotificationMessage';
+import { AttachmentTypeWithPath, save } from '../../../types/Attachment';
+import { MediaItemType } from '../../LightboxGallery';
+import { useSelector } from 'react-redux';
+import { getSelectedConversationKey } from '../../../state/selectors/conversations';
+import { saveAttachmentToDisk } from '../../../util/attachmentsUtil';
 
-interface Props {
+type Props = {
   // Required
   timestamp: number;
 
   // Optional
   fileName?: string;
-  fileSize?: number;
-  onClick?: () => void;
+  fileSize?: number | null;
   shouldShowSeparator?: boolean;
-}
+  mediaItem: MediaItemType;
+};
 
-export class DocumentListItem extends React.Component<Props> {
-  public static defaultProps: Partial<Props> = {
-    shouldShowSeparator: true,
-  };
+export const DocumentListItem = (props: Props) => {
+  const { shouldShowSeparator, fileName, fileSize, timestamp } = props;
 
-  public render() {
-    const { shouldShowSeparator } = this.props;
+  const defaultShowSeparator = shouldShowSeparator === undefined ? true : shouldShowSeparator;
+  const selectedConversationKey = useSelector(getSelectedConversationKey) as string;
 
-    return (
-      <div
-        className={classNames(
-          'module-document-list-item',
-          shouldShowSeparator ? 'module-document-list-item--with-separator' : null
-        )}
-      >
-        {this.renderContent()}
-      </div>
-    );
-  }
+  const saveAttachmentCallback = useCallback(() => {
+    void saveAttachmentToDisk({
+      messageSender: props.mediaItem.messageSender,
+      messageTimestamp: props.mediaItem.messageTimestamp,
+      attachment: props.mediaItem.attachment,
+      conversationId: selectedConversationKey,
+    });
+  }, [
+    selectedConversationKey,
+    props.mediaItem.messageSender,
+    props.mediaItem.messageTimestamp,
+    props.mediaItem.attachment,
+  ]);
 
-  private renderContent() {
-    const { fileName, fileSize, timestamp } = this.props;
-
-    return (
+  return (
+    <div
+      className={classNames(
+        'module-document-list-item',
+        defaultShowSeparator ? 'module-document-list-item--with-separator' : null
+      )}
+    >
       <div
         className="module-document-list-item__content"
         role="button"
-        onClick={this.props.onClick}
+        onClick={saveAttachmentCallback}
       >
         <div className="module-document-list-item__icon" />
         <div className="module-document-list-item__metadata">
@@ -56,6 +66,6 @@ export class DocumentListItem extends React.Component<Props> {
           {moment(timestamp).format('ddd, MMM D, Y')}
         </div>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};

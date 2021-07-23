@@ -6,17 +6,6 @@ export type CipherTextObject = {
   type: SignalService.Envelope.Type;
   body: BinaryString;
 };
-export interface SignalProtocolAddressConstructor {
-  new (hexEncodedPublicKey: string, deviceId: number): SignalProtocolAddress;
-  fromString(encodedAddress: string): SignalProtocolAddress;
-}
-
-export interface SignalProtocolAddress {
-  getName(): string;
-  getDeviceId(): number;
-  toString(): string;
-  equals(other: SignalProtocolAddress): boolean;
-}
 
 export type KeyPair = {
   pubKey: ArrayBuffer;
@@ -56,7 +45,6 @@ export interface KeyHelperInterface {
 }
 
 export interface LibsignalProtocol {
-  SignalProtocolAddress: SignalProtocolAddressConstructor;
   Curve: CurveInterface;
   crypto: CryptoInterface;
   KeyHelper: KeyHelperInterface;

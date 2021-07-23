@@ -1,43 +1,41 @@
 /**
  * @prettier
  */
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import * as MIME from '../types/MIME';
 import { Lightbox } from './Lightbox';
-import { Message } from './conversation/media-gallery/types/Message';
 
-import { AttachmentType } from '../types/Attachment';
+import { AttachmentTypeWithPath } from '../types/Attachment';
 // tslint:disable-next-line: no-submodule-imports
 import useKey from 'react-use/lib/useKey';
+import { showLightBox } from '../state/ducks/conversations';
+import { useDispatch, useSelector } from 'react-redux';
+import { saveAttachmentToDisk } from '../util/attachmentsUtil';
+import { getSelectedConversationKey } from '../state/selectors/conversations';
 
 export interface MediaItemType {
   objectURL?: string;
   thumbnailObjectUrl?: string;
   contentType: MIME.MIMEType;
   index: number;
-  attachment: AttachmentType;
-  message: Message;
+  attachment: AttachmentTypeWithPath;
   messageTimestamp: number;
   messageSender: string;
+  messageId: string;
 }
 
 type Props = {
-  close: () => void;
   media: Array<MediaItemType>;
-  onSave?: (options: {
-    attachment: AttachmentType;
-    message: Message;
-    index: number;
-    messageTimestamp?: number;
-    messageSender: string;
-  }) => void;
   selectedIndex: number;
 };
 
 export const LightboxGallery = (props: Props) => {
-  const { close, media, onSave } = props;
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const { media } = props;
+  const [currentIndex, setCurrentIndex] = useState(-1);
+  const selectedConversation = useSelector(getSelectedConversationKey) as string;
+
+  const dispatch = useDispatch();
 
   // just run once, when the component is mounted. It's to show the lightbox on the specified index at start.
   useEffect(() => {
@@ -47,39 +45,22 @@ export const LightboxGallery = (props: Props) => {
   const selectedMedia = media[currentIndex];
   const firstIndex = 0;
   const lastIndex = media.length - 1;
-  const onPrevious =
-    currentIndex > firstIndex
-      ? () => {
-          setCurrentIndex(Math.max(currentIndex - 1, 0));
-        }
-      : undefined;
-  const onNext =
-    currentIndex < lastIndex
-      ? () => {
-          setCurrentIndex(Math.min(currentIndex + 1, lastIndex));
-        }
-      : undefined;
 
-  const handleSave = () => {
-    if (!onSave) {
-      return;
-    }
+  const hasPrevious = currentIndex > firstIndex;
+  const hasNext = currentIndex < lastIndex;
 
+  const onPrevious = useCallback(() => {
+    setCurrentIndex(Math.max(currentIndex - 1, 0));
+  }, [currentIndex]);
+
+  const onNext = useCallback(() => {
+    setCurrentIndex(Math.min(currentIndex + 1, lastIndex));
+  }, [currentIndex, lastIndex]);
+
+  const handleSave = useCallback(() => {
     const mediaItem = media[currentIndex];
-    onSave({
-      attachment: mediaItem.attachment,
-      message: mediaItem.message,
-      index: mediaItem.index,
-      messageTimestamp: mediaItem.messageTimestamp || mediaItem?.message?.sent_at,
-      messageSender: mediaItem.messageSender || (mediaItem?.message as any)?.source,
-    });
-  };
-
-  const objectURL = selectedMedia.objectURL || 'images/alert-outline.svg';
-  const { attachment } = selectedMedia;
-
-  const saveCallback = onSave ? handleSave : undefined;
-  const captionCallback = attachment ? attachment.caption : undefined;
+    void saveAttachmentToDisk({ ...mediaItem, conversationId: selectedConversation });
+  }, [currentIndex, media]);
 
   useKey(
     'ArrowRight',
@@ -98,18 +79,30 @@ export const LightboxGallery = (props: Props) => {
     [currentIndex]
   );
 
-  useKey('Escape', () => {
-    props.close?.();
-  });
+  useKey(
+    'Escape',
+    () => {
+      dispatch(showLightBox(undefined));
+    },
+    undefined,
+    [currentIndex]
+  );
+  // just to avoid to render the first element during the first render when the user selected another item
+  if (currentIndex === -1) {
+    return null;
+  }
+  const objectURL = selectedMedia?.objectURL || 'images/alert-outline.svg';
+  const { attachment } = selectedMedia;
 
+  const caption = attachment?.caption;
   return (
+    // tslint:disable: use-simple-attributes
     <Lightbox
-      close={close}
-      onPrevious={onPrevious}
-      onNext={onNext}
-      onSave={saveCallback}
+      onPrevious={hasPrevious ? onPrevious : undefined}
+      onNext={hasNext ? onNext : undefined}
+      onSave={handleSave}
       objectURL={objectURL}
-      caption={captionCallback}
+      caption={caption}
       contentType={selectedMedia.contentType}
     />
   );

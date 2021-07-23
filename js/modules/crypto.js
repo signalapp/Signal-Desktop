@@ -1,121 +1,37 @@
 /* eslint-env browser */
-/* global dcodeIO, libsignal */
+/* global dcodeIO */
 
 /* eslint-disable camelcase, no-bitwise */
 
 module.exports = {
   arrayBufferToBase64,
-  base64ToArrayBuffer,
   bytesFromString,
   concatenateBytes,
   constantTimeEqual,
-  decryptAesCtr,
-  decryptAttachment,
-  decryptFile,
   decryptSymmetric,
   deriveAccessKey,
   encryptAesCtr,
-  encryptAttachment,
-  encryptFile,
   encryptSymmetric,
-  fromEncodedBinaryToArrayBuffer,
-  getAccessKeyVerifier,
   getRandomBytes,
-  getViewOfArrayBuffer,
   getZeroes,
-  highBitsToInt,
   hmacSha256,
-  intsToByteHighAndLow,
-  splitBytes,
-  stringFromBytes,
-  trimBytes,
-  verifyAccessKey,
 };
 
 function arrayBufferToBase64(arrayBuffer) {
   return dcodeIO.ByteBuffer.wrap(arrayBuffer).toString('base64');
 }
-function base64ToArrayBuffer(base64string) {
-  return dcodeIO.ByteBuffer.wrap(base64string, 'base64').toArrayBuffer();
-}
-
-function fromEncodedBinaryToArrayBuffer(key) {
-  return dcodeIO.ByteBuffer.wrap(key, 'binary').toArrayBuffer();
-}
 
 function bytesFromString(string) {
   return dcodeIO.ByteBuffer.wrap(string, 'utf8').toArrayBuffer();
 }
-function stringFromBytes(buffer) {
-  return dcodeIO.ByteBuffer.wrap(buffer).toString('utf8');
-}
 
 // High-level Operations
-
-// Path structure: 'fa/facdf99c22945b1c9393345599a276f4b36ad7ccdc8c2467f5441b742c2d11fa'
-function getAttachmentLabel(path) {
-  const filename = path.slice(3);
-  return base64ToArrayBuffer(filename);
-}
-
-const PUB_KEY_LENGTH = 32;
-async function encryptAttachment(staticPublicKey, path, plaintext) {
-  const uniqueId = getAttachmentLabel(path);
-  return encryptFile(staticPublicKey, uniqueId, plaintext);
-}
-
-async function decryptAttachment(staticPrivateKey, path, data) {
-  const uniqueId = getAttachmentLabel(path);
-  return decryptFile(staticPrivateKey, uniqueId, data);
-}
-
-async function encryptFile(staticPublicKey, uniqueId, plaintext) {
-  const ephemeralKeyPair = await libsignal.KeyHelper.generateIdentityKeyPair();
-  const agreement = await libsignal.Curve.async.calculateAgreement(
-    staticPublicKey,
-    ephemeralKeyPair.privKey
-  );
-  const key = await hmacSha256(agreement, uniqueId);
-
-  const prefix = ephemeralKeyPair.pubKey.slice(1);
-  return concatenateBytes(prefix, await encryptSymmetric(key, plaintext));
-}
-
-async function decryptFile(staticPrivateKey, uniqueId, data) {
-  const ephemeralPublicKey = _getFirstBytes(data, PUB_KEY_LENGTH);
-  const ciphertext = _getBytes(data, PUB_KEY_LENGTH, data.byteLength);
-  const agreement = await libsignal.Curve.async.calculateAgreement(
-    ephemeralPublicKey,
-    staticPrivateKey
-  );
-
-  const key = await hmacSha256(agreement, uniqueId);
-
-  return decryptSymmetric(key, ciphertext);
-}
 
 async function deriveAccessKey(profileKey) {
   const iv = getZeroes(12);
   const plaintext = getZeroes(16);
   const accessKey = await _encrypt_aes_gcm(profileKey, iv, plaintext);
   return _getFirstBytes(accessKey, 16);
-}
-
-async function getAccessKeyVerifier(accessKey) {
-  const plaintext = getZeroes(32);
-  const hmac = await hmacSha256(accessKey, plaintext);
-
-  return hmac;
-}
-
-async function verifyAccessKey(accessKey, theirVerifier) {
-  const ourVerifier = await getAccessKeyVerifier(accessKey);
-
-  if (constantTimeEqual(ourVerifier, theirVerifier)) {
-    return true;
-  }
-
-  return false;
 }
 
 const IV_LENGTH = 16;
@@ -225,19 +141,6 @@ async function encryptAesCtr(key, plaintext, counter) {
   return ciphertext;
 }
 
-async function decryptAesCtr(key, ciphertext, counter) {
-  const extractable = false;
-  const algorithm = {
-    name: 'AES-CTR',
-    counter: new Uint8Array(counter),
-    length: 128,
-  };
-
-  const cryptoKey = await crypto.subtle.importKey('raw', key, algorithm, extractable, ['decrypt']);
-  const plaintext = await crypto.subtle.decrypt(algorithm, cryptoKey, ciphertext);
-  return plaintext;
-}
-
 async function _encrypt_aes_gcm(key, iv, plaintext) {
   const algorithm = {
     name: 'AES-GCM',
@@ -268,24 +171,6 @@ function getZeroes(n) {
   return result;
 }
 
-function highBitsToInt(byte) {
-  return (byte & 0xff) >> 4;
-}
-
-function intsToByteHighAndLow(highValue, lowValue) {
-  return ((highValue << 4) | lowValue) & 0xff;
-}
-
-function trimBytes(buffer, length) {
-  return _getFirstBytes(buffer, length);
-}
-
-function getViewOfArrayBuffer(buffer, start, finish) {
-  const source = new Uint8Array(buffer);
-  const result = source.slice(start, finish);
-  return result.buffer;
-}
-
 function concatenateBytes(...elements) {
   const length = elements.reduce((total, element) => total + element.byteLength, 0);
 
@@ -302,32 +187,6 @@ function concatenateBytes(...elements) {
   }
 
   return result.buffer;
-}
-
-function splitBytes(buffer, ...lengths) {
-  const total = lengths.reduce((acc, length) => acc + length, 0);
-
-  if (total !== buffer.byteLength) {
-    throw new Error(
-      `Requested lengths total ${total} does not match source total ${buffer.byteLength}`
-    );
-  }
-
-  const source = new Uint8Array(buffer);
-  const results = [];
-  let position = 0;
-
-  for (let i = 0, max = lengths.length; i < max; i += 1) {
-    const length = lengths[i];
-    const result = new Uint8Array(length);
-    const section = source.slice(position, position + length);
-    result.set(section);
-    position += result.byteLength;
-
-    results.push(result);
-  }
-
-  return results;
 }
 
 // Internal-only

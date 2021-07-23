@@ -177,7 +177,7 @@ const InviteContactsDialogInner = (props: Props) => {
     return members.map((member: ContactType, index: number) => (
       <SessionMemberListItem
         member={member}
-        key={index}
+        key={member.id}
         index={index}
         isSelected={selectedContacts.some(m => m === member.id)}
         onSelect={(selectedMember: ContactType) => {

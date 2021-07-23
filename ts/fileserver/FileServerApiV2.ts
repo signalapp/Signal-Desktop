@@ -1,7 +1,6 @@
 import { OpenGroupV2Request } from '../opengroup/opengroupV2/ApiUtil';
 import { sendApiV2Request } from '../opengroup/opengroupV2/OpenGroupAPIV2';
 import { parseStatusCodeFromOnionRequest } from '../opengroup/opengroupV2/OpenGroupAPIV2Parser';
-import { fromArrayBufferToBase64, fromBase64ToArrayBuffer } from '../session/utils/String';
 
 // tslint:disable-next-line: no-http-string
 export const oldFileServerV2URL = 'http://88.99.175.227';
@@ -41,7 +40,7 @@ export const uploadFileToFsV2 = async (
     return null;
   }
   const queryParams = {
-    file: fromArrayBufferToBase64(fileContent),
+    file: await window.callWorker('arrayBufferToStringBase64', fileContent),
   };
 
   const request: FileServerV2Request = {
@@ -110,7 +109,7 @@ export const downloadFileFromFSv2 = async (
   if (!base64Data) {
     return null;
   }
-  return fromBase64ToArrayBuffer(base64Data);
+  return window.callWorker('fromBase64ToArrayBuffer', base64Data);
 };
 
 /**

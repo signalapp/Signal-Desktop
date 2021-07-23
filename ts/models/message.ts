@@ -1,7 +1,7 @@
 import Backbone from 'backbone';
 // tslint:disable-next-line: match-default-export-name
 import filesize from 'filesize';
-import _ from 'lodash';
+import _, { noop } from 'lodash';
 import { SignalService } from '../../ts/protobuf';
 import { getMessageQueue, Utils } from '../../ts/session';
 import { getConversationController } from '../../ts/session/conversations';
@@ -11,16 +11,35 @@ import { PubKey } from '../../ts/session/types';
 import { UserUtils } from '../../ts/session/utils';
 import {
   DataExtractionNotificationMsg,
-  DataExtractionNotificationProps,
   fillMessageAttributesWithDefaults,
   MessageAttributes,
   MessageAttributesOptionals,
+  MessageModelType,
+  PropsForDataExtractionNotification,
 } from './messageType';
 
 import autoBind from 'auto-bind';
 import { saveMessage } from '../../ts/data/data';
 import { ConversationModel, ConversationTypeEnum } from './conversation';
-import { actions as conversationActions } from '../state/ducks/conversations';
+import {
+  actions as conversationActions,
+  FindAndFormatContactType,
+  LastMessageStatusType,
+  MessageModelProps,
+  MessagePropsDetails,
+  PropsForAttachment,
+  PropsForExpirationTimer,
+  PropsForGroupInvitation,
+  PropsForGroupUpdate,
+  PropsForGroupUpdateAdd,
+  PropsForGroupUpdateArray,
+  PropsForGroupUpdateGeneral,
+  PropsForGroupUpdateKicked,
+  PropsForGroupUpdateName,
+  PropsForGroupUpdateRemove,
+  PropsForMessage,
+  PropsForSearchResults,
+} from '../state/ducks/conversations';
 import { VisibleMessage } from '../session/messages/outgoing/visibleMessage/VisibleMessage';
 import { buildSyncMessage } from '../session/utils/syncUtils';
 import { isOpenGroupV2 } from '../opengroup/utils/OpenGroupUtils';
@@ -30,20 +49,14 @@ import {
   uploadLinkPreviewsV2,
   uploadQuoteThumbnailsV2,
 } from '../session/utils/AttachmentsV2';
-import { acceptOpenGroupInvitation } from '../interactions/messageInteractions';
 import { OpenGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
 import { getV2OpenGroupRoom } from '../data/opengroups';
 import { getMessageController } from '../session/messages';
 import { isUsFromCache } from '../session/utils/User';
+import { perfEnd, perfStart } from '../session/utils/Performance';
+import { AttachmentTypeWithPath } from '../types/Attachment';
 
 export class MessageModel extends Backbone.Model<MessageAttributes> {
-  public propsForTimerNotification: any;
-  public propsForGroupNotification: any;
-  public propsForGroupInvitation: any;
-  public propsForDataExtractionNotification?: DataExtractionNotificationProps;
-  public propsForSearchResult: any;
-  public propsForMessage: any;
-
   constructor(attributes: MessageAttributesOptionals) {
     const filledAttrs = fillMessageAttributesWithDefaults(attributes);
     super(filledAttrs);
@@ -66,29 +79,25 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     void this.setToExpire();
     autoBind(this);
 
+    this.dispatchMessageUpdate = _.throttle(this.dispatchMessageUpdate, 300);
+
     window.contextMenuShown = false;
 
-    this.generateProps(false);
+    this.getProps();
   }
 
-  // Keep props ready
-  public generateProps(triggerEvent = true) {
-    if (this.isExpirationTimerUpdate()) {
-      this.propsForTimerNotification = this.getPropsForTimerNotification();
-    } else if (this.isGroupUpdate()) {
-      this.propsForGroupNotification = this.getPropsForGroupNotification();
-    } else if (this.isGroupInvitation()) {
-      this.propsForGroupInvitation = this.getPropsForGroupInvitation();
-    } else if (this.isDataExtractionNotification()) {
-      this.propsForDataExtractionNotification = this.getPropsForDataExtractionNotification();
-    } else {
-      this.propsForSearchResult = this.getPropsForSearchResult();
-      this.propsForMessage = this.getPropsForMessage();
-    }
-
-    if (triggerEvent) {
-      window.inboxStore?.dispatch(conversationActions.messageChanged(this));
-    }
+  public getProps(): MessageModelProps {
+    perfStart(`getPropsMessage-${this.id}`);
+    const messageProps: MessageModelProps = {
+      propsForMessage: this.getPropsForMessage(),
+      propsForSearchResult: this.getPropsForSearchResult(),
+      propsForDataExtractionNotification: this.getPropsForDataExtractionNotification(),
+      propsForGroupInvitation: this.getPropsForGroupInvitation(),
+      propsForGroupNotification: this.getPropsForGroupNotification(),
+      propsForTimerNotification: this.getPropsForTimerNotification(),
+    };
+    perfEnd(`getPropsMessage-${this.id}`, 'getPropsMessage');
+    return messageProps;
   }
 
   public idForLogging() {
@@ -267,39 +276,34 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     await window.Signal.Migrations.deleteExternalMessageFiles(this.attributes);
   }
 
-  public getPropsForTimerNotification() {
+  public getPropsForTimerNotification(): PropsForExpirationTimer | null {
+    if (!this.isExpirationTimerUpdate()) {
+      return null;
+    }
     const timerUpdate = this.get('expirationTimerUpdate');
     if (!timerUpdate || !timerUpdate.source) {
       return null;
     }
 
     const { expireTimer, fromSync, source } = timerUpdate;
-    const timespan = window.Whisper.ExpirationTimerOptions.getName(expireTimer || 0);
+    const timespan = window.Whisper.ExpirationTimerOptions.getName(expireTimer || 0) as string;
     const disabled = !expireTimer;
 
-    const basicProps = {
-      type: 'fromOther',
+    const basicProps: PropsForExpirationTimer = {
       ...this.findAndFormatContact(source),
       timespan,
       disabled,
+      type: fromSync ? 'fromSync' : UserUtils.isUsFromCache(source) ? 'fromMe' : 'fromOther',
+      messageId: this.id,
     };
-
-    if (fromSync) {
-      return {
-        ...basicProps,
-        type: 'fromSync',
-      };
-    } else if (UserUtils.isUsFromCache(source)) {
-      return {
-        ...basicProps,
-        type: 'fromMe',
-      };
-    }
 
     return basicProps;
   }
 
-  public getPropsForGroupInvitation() {
+  public getPropsForGroupInvitation(): PropsForGroupInvitation | null {
+    if (!this.isGroupInvitation()) {
+      return null;
+    }
     const invitation = this.get('groupInvitation');
 
     let direction = this.get('direction');
@@ -319,18 +323,20 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       serverName: invitation.name,
       url: serverAddress,
       direction,
-      onJoinClick: () => {
-        acceptOpenGroupInvitation(invitation.url, invitation.name);
-      },
+      acceptUrl: invitation.url,
+      messageId: this.id as string,
     };
   }
 
-  public getPropsForDataExtractionNotification(): DataExtractionNotificationProps | undefined {
+  public getPropsForDataExtractionNotification(): PropsForDataExtractionNotification | null {
+    if (!this.isDataExtractionNotification()) {
+      return null;
+    }
     const dataExtractionNotification = this.get('dataExtractionNotification');
 
     if (!dataExtractionNotification) {
       window.log.warn('dataExtractionNotification should not happen');
-      return;
+      return null;
     }
 
     const contact = this.findAndFormatContact(dataExtractionNotification.source);
@@ -338,6 +344,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     return {
       ...dataExtractionNotification,
       name: contact.profileName || contact.name || dataExtractionNotification.source,
+      messageId: this.id,
     };
   }
 
@@ -345,102 +352,119 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     return getConversationController().get(pubkey);
   }
 
-  public findAndFormatContact(pubkey: string) {
+  public findAndFormatContact(pubkey: string): FindAndFormatContactType {
     const contactModel = this.findContact(pubkey);
     let profileName;
-    if (pubkey === window.storage.get('primaryDevicePubKey')) {
+    let isMe = false;
+    UserUtils.getOurPubKeyStrFromCache();
+    if (pubkey === UserUtils.getOurPubKeyStrFromCache()) {
       profileName = window.i18n('you');
+      isMe = true;
     } else {
       profileName = contactModel ? contactModel.getProfileName() : null;
     }
 
     return {
-      phoneNumber: pubkey,
-      color: null,
-      avatarPath: contactModel ? contactModel.getAvatarPath() : null,
-      name: contactModel ? contactModel.getName() : null,
-      profileName,
-      title: contactModel ? contactModel.getTitle() : null,
+      phoneNumber: pubkey as string,
+      avatarPath: (contactModel ? contactModel.getAvatarPath() : null) as string | null,
+      name: (contactModel ? contactModel.getName() : null) as string | null,
+      profileName: profileName as string | null,
+      title: (contactModel ? contactModel.getTitle() : null) as string | null,
+      isMe,
     };
   }
 
-  public getPropsForGroupNotification() {
+  public getPropsForGroupNotification(): PropsForGroupUpdate | null {
+    if (!this.isGroupUpdate()) {
+      return null;
+    }
     const groupUpdate = this.get('group_update');
-    const changes = [];
+    const changes: PropsForGroupUpdateArray = [];
 
     if (!groupUpdate.name && !groupUpdate.left && !groupUpdate.joined) {
-      changes.push({
+      const change: PropsForGroupUpdateGeneral = {
         type: 'general',
-      });
+      };
+      changes.push(change);
     }
 
     if (groupUpdate.joined) {
-      changes.push({
+      const change: PropsForGroupUpdateAdd = {
         type: 'add',
         contacts: _.map(
           Array.isArray(groupUpdate.joined) ? groupUpdate.joined : [groupUpdate.joined],
           phoneNumber => this.findAndFormatContact(phoneNumber)
         ),
-      });
+      };
+      changes.push(change);
     }
 
     if (groupUpdate.kicked === 'You') {
-      changes.push({
+      const change: PropsForGroupUpdateKicked = {
         type: 'kicked',
         isMe: true,
-      });
+      };
+      changes.push(change);
     } else if (groupUpdate.kicked) {
-      changes.push({
+      const change: PropsForGroupUpdateKicked = {
         type: 'kicked',
+        isMe: false,
         contacts: _.map(
           Array.isArray(groupUpdate.kicked) ? groupUpdate.kicked : [groupUpdate.kicked],
           phoneNumber => this.findAndFormatContact(phoneNumber)
         ),
-      });
+      };
+      changes.push(change);
     }
 
     if (groupUpdate.left === 'You') {
-      changes.push({
+      const change: PropsForGroupUpdateRemove = {
         type: 'remove',
         isMe: true,
-      });
+      };
+      changes.push(change);
     } else if (groupUpdate.left) {
       if (
         Array.isArray(groupUpdate.left) &&
         groupUpdate.left.length === 1 &&
         groupUpdate.left[0] === UserUtils.getOurPubKeyStrFromCache()
       ) {
-        changes.push({
+        const change: PropsForGroupUpdateRemove = {
           type: 'remove',
           isMe: true,
-        });
+        };
+        changes.push(change);
       } else if (
         typeof groupUpdate.left === 'string' ||
         (Array.isArray(groupUpdate.left) && groupUpdate.left.length === 1)
       ) {
-        changes.push({
+        const change: PropsForGroupUpdateRemove = {
           type: 'remove',
+          isMe: false,
           contacts: _.map(
             Array.isArray(groupUpdate.left) ? groupUpdate.left : [groupUpdate.left],
             phoneNumber => this.findAndFormatContact(phoneNumber)
           ),
-        });
+        };
+        changes.push(change);
       }
     }
 
     if (groupUpdate.name) {
-      changes.push({
+      const change: PropsForGroupUpdateName = {
         type: 'name',
-        newName: groupUpdate.name,
-      });
+        newName: groupUpdate.name as string,
+      };
+      changes.push(change);
     }
 
     return {
       changes,
+      messageId: this.id,
     };
   }
 
-  public getMessagePropStatus() {
+  public getMessagePropStatus(): LastMessageStatusType {
     if (this.hasErrors()) {
       return 'error';
     }
@@ -467,42 +491,31 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     return 'sending';
   }
 
-  public getPropsForSearchResult() {
+  public getPropsForSearchResult(): PropsForSearchResults {
     const fromNumber = this.getSource();
     const from = this.findAndFormatContact(fromNumber);
-    if (fromNumber === UserUtils.getOurPubKeyStrFromCache()) {
-      (from as any).isMe = true;
-    }
 
     const toNumber = this.get('conversationId');
-    let to = this.findAndFormatContact(toNumber) as any;
-    if (toNumber === UserUtils.getOurPubKeyStrFromCache()) {
-      to.isMe = true;
-    } else if (fromNumber === toNumber) {
-      to = {
-        isMe: true,
-      };
-    }
+    const to = this.findAndFormatContact(toNumber);
 
     return {
       from,
       to,
-
       // isSelected: this.isSelected,
-
-      id: this.id,
+      id: this.id as string,
       conversationId: this.get('conversationId'),
       receivedAt: this.get('received_at'),
       snippet: this.get('snippet'),
     };
   }
 
-  public getPropsForMessage(options: any = {}) {
-    const phoneNumber = this.getSource();
-    const contact = this.findAndFormatContact(phoneNumber);
-    const contactModel = this.findContact(phoneNumber);
+  public getPropsForMessage(options: any = {}): PropsForMessage {
+    const ourPubkey = UserUtils.getOurPubKeyStrFromCache();
+    const sender = this.getSource();
+    const senderContact = this.findAndFormatContact(sender);
+    const senderContactModel = this.findContact(sender);
 
-    const authorAvatarPath = contactModel ? contactModel.getAvatarPath() : null;
+    const authorAvatarPath = senderContactModel ? senderContactModel.getAvatarPath() : null;
 
     const expirationLength = this.get('expireTimer') * 1000;
     const expireTimerStart = this.get('expirationStartTimestamp');
@@ -511,26 +524,37 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
     const conversation = this.getConversation();
 
-    const convoId = conversation ? conversation.id : undefined;
     const isGroup = !!conversation && !conversation.isPrivate();
+    const isBlocked = conversation?.isBlocked() || false;
     const isPublic = !!this.get('isPublic');
     const isPublicOpenGroupV2 = isOpenGroupV2(this.getConversation()?.id || '');
 
     const attachments = this.get('attachments') || [];
     const isTrustedForAttachmentDownload = this.isTrustedForAttachmentDownload();
+    const groupAdmins = (isGroup && conversation?.get('groupAdmins')) || [];
+    const weAreAdmin = groupAdmins.includes(ourPubkey) || false;
+    // a message is deletable if
+    // either we sent it,
+    // or the convo is not a public one (in this case, we will only be able to delete for us)
+    // or the convo is public and we are an admin
+    const isDeletable = sender === ourPubkey || !isPublic || (isPublic && !!weAreAdmin);
 
-    return {
+    const isSenderAdmin = groupAdmins.includes(sender);
+
+    const props: PropsForMessage = {
       text: this.createNonBreakingLastSeparator(this.get('body')),
-      id: this.id,
-      direction: this.isIncoming() ? 'incoming' : 'outgoing',
-      timestamp: this.get('sent_at'),
+      id: this.id as string,
+      direction: (this.isIncoming() ? 'incoming' : 'outgoing') as MessageModelType,
+      timestamp: this.get('sent_at') || 0,
+      receivedAt: this.get('received_at'),
       serverTimestamp: this.get('serverTimestamp'),
+      serverId: this.get('serverId'),
       status: this.getMessagePropStatus(),
-      authorName: contact.name,
-      authorProfileName: contact.profileName,
-      authorPhoneNumber: contact.phoneNumber,
+      authorName: senderContact.name,
+      authorProfileName: senderContact.profileName,
+      authorPhoneNumber: senderContact.phoneNumber,
       conversationType: isGroup ? ConversationTypeEnum.GROUP : ConversationTypeEnum.PRIVATE,
-      convoId,
+      convoId: this.get('conversationId'),
       attachments: attachments
         .filter((attachment: any) => !attachment.error)
         .map((attachment: any) => this.getPropsForAttachment(attachment)),
@@ -541,13 +565,17 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       expirationLength,
       expirationTimestamp,
       isPublic,
+      isBlocked,
       isOpenGroupV2: isPublicOpenGroupV2,
-      isKickedFromGroup: conversation && conversation.get('isKickedFromGroup'),
+      isKickedFromGroup: conversation?.get('isKickedFromGroup') || false,
       isTrustedForAttachmentDownload,
-
-      onRetrySend: this.retrySend,
-      markRead: this.markRead,
+      weAreAdmin,
+      isDeletable,
+      isSenderAdmin,
+      isExpired: this.isExpired(),
     };
+
+    return props;
   }
 
   public createNonBreakingLastSeparator(text?: string) {
@@ -596,7 +624,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     const previews = this.get('preview') || [];
 
     return previews.map((preview: any) => {
-      let image = null;
+      let image: PropsForAttachment | null = null;
       try {
         if (preview.image) {
           image = this.getPropsForAttachment(preview.image);
@@ -614,7 +642,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   }
 
   public getPropsForQuote(options: any = {}) {
-    const { noClick } = options;
     const quote = this.get('quote');
 
     if (!quote) {
@@ -627,16 +654,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     const authorName = contact ? contact.getContactProfileNameOrShortenedPubKey() : null;
 
     const isFromMe = contact ? contact.id === UserUtils.getOurPubKeyStrFromCache() : false;
-    const onClick = noClick
-      ? null
-      : (event: any) => {
-          event.stopPropagation();
-          this.trigger('scroll-to-message', {
-            author,
-            id,
-            referencedMessageNotFound,
-          });
-        };
 
     const firstAttachment = quote.attachments && quote.attachments[0];
 
@@ -647,27 +664,43 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       authorPhoneNumber: author,
       messageId: id,
       authorName,
-      onClick,
       referencedMessageNotFound,
     };
   }
 
-  public getPropsForAttachment(attachment: any) {
+  public getPropsForAttachment(attachment: AttachmentTypeWithPath): PropsForAttachment | null {
     if (!attachment) {
       return null;
     }
 
-    const { path, pending, flags, size, screenshot, thumbnail } = attachment;
-
-    return {
-      ...attachment,
-      fileSize: size ? filesize(size) : null,
-      isVoiceMessage:
-        flags &&
-        // eslint-disable-next-line no-bitwise
-        // tslint:disable-next-line: no-bitwise
-        flags & SignalService.AttachmentPointer.Flags.VOICE_MESSAGE,
+    const {
+      id,
+      path,
+      contentType,
+      width,
+      height,
       pending,
+      flags,
+      size,
+      screenshot,
+      thumbnail,
+      fileName,
+    } = attachment;
+
+    const isVoiceMessage =
+      // tslint:disable-next-line: no-bitwise
+      Boolean(flags && flags & SignalService.AttachmentPointer.Flags.VOICE_MESSAGE) || false;
+    return {
+      id,
+      contentType,
+      size: size || 0,
+      width: width || 0,
+      height: height || 0,
+      path,
+      fileName,
+      fileSize: size ? filesize(size) : null,
+      isVoiceMessage,
+      pending: Boolean(pending),
       url: path ? window.Signal.Migrations.getAbsoluteAttachmentPath(path) : null,
       screenshot: screenshot
         ? {
@@ -684,7 +717,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     };
   }
 
-  public async getPropsForMessageDetail() {
+  public async getPropsForMessageDetail(): Promise<MessagePropsDetails> {
     // We include numbers we didn't successfully send to so we can display errors.
     // Older messages don't have the recipients included on the message, so we fall
     //   back to the conversation's current recipients
@@ -729,19 +762,19 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       finalContacts,
       contact => `${contact.isPrimaryDevice ? '0' : '1'}${contact.phoneNumber}`
     );
-
-    return {
-      sentAt: this.get('sent_at'),
-      receivedAt: this.get('received_at'),
+    const toRet: MessagePropsDetails = {
+      sentAt: this.get('sent_at') || 0,
+      receivedAt: this.get('received_at') || 0,
       message: {
-        ...this.propsForMessage,
-        disableMenu: true,
+        ...this.getPropsForMessage(),
         // To ensure that group avatar doesn't show up
         conversationType: ConversationTypeEnum.PRIVATE,
       },
       errors,
-      contacts: sortedContacts,
+      contacts: sortedContacts || [],
     };
+
+    return toRet;
   }
 
   public copyPubKey() {
@@ -1039,17 +1072,28 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     if (!this.attributes.id) {
       throw new Error('A message always needs an id');
     }
+
+    perfStart(`messageCommit-${this.attributes.id}`);
     const id = await saveMessage(this.attributes);
-    this.generateProps();
+    this.dispatchMessageUpdate();
+    perfEnd(`messageCommit-${this.attributes.id}`, 'messageCommit');
+
     return id;
   }
 
   public async markRead(readAt: number) {
     this.markReadNoCommit(readAt);
-
-    this.getConversation()?.markRead(this.attributes.received_at);
-
     await this.commit();
+
+    const convo = this.getConversation();
+    if (convo) {
+      const beforeUnread = convo.get('unreadCount');
+      const unreadCount = await convo.getUnreadCount();
+      if (beforeUnread !== unreadCount) {
+        convo.set({ unreadCount });
+        await convo.commit();
+      }
+    }
   }
 
   public markReadNoCommit(readAt: number) {
@@ -1115,18 +1159,26 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   }
 
   public isTrustedForAttachmentDownload() {
-    const senderConvoId = this.getSource();
-    const isClosedGroup = this.getConversation()?.isClosedGroup() || false;
-    if (!!this.get('isPublic') || isClosedGroup || isUsFromCache(senderConvoId)) {
-      return true;
-    }
-    // check the convo from this user
-    // we want the convo of the sender of this message
-    const senderConvo = getConversationController().get(senderConvoId);
-    if (!senderConvo) {
+    try {
+      const senderConvoId = this.getSource();
+      const isClosedGroup = this.getConversation()?.isClosedGroup() || false;
+      if (!!this.get('isPublic') || isClosedGroup || isUsFromCache(senderConvoId)) {
+        return true;
+      }
+      // check the convo from this user
+      // we want the convo of the sender of this message
+      const senderConvo = getConversationController().get(senderConvoId);
+      if (!senderConvo) {
+        return false;
+      }
+      return senderConvo.get('isTrustedForAttachmentDownload') || false;
+    } catch (e) {
+      window.log.warn('isTrustedForAttachmentDownload: error; ', e.message);
       return false;
     }
-    return senderConvo.get('isTrustedForAttachmentDownload') || false;
+  }
+  private dispatchMessageUpdate() {
+    window.inboxStore?.dispatch(conversationActions.messageChanged(this.getProps()));
   }
 }
 export class MessageCollection extends Backbone.Collection<MessageModel> {}

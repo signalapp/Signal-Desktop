@@ -25,7 +25,7 @@ export const SessionToggle = (props: Props) => {
       props.onClick();
     };
 
-    if (props.confirmationDialogParams && props.confirmationDialogParams.shouldShowConfirm()) {
+    if (props.confirmationDialogParams && props.confirmationDialogParams.shouldShowConfirm) {
       // If item needs a confirmation dialog to turn ON, render it
       const closeConfirmModal = () => {
         dispatch(updateConfirmModal(null));

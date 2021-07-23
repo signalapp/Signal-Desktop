@@ -3,19 +3,6 @@
 'use strict';
 
 describe('Crypto', () => {
-  describe('accessKey/profileKey', () => {
-    it('verification roundtrips', async () => {
-      const profileKey = await Signal.Crypto.getRandomBytes(32);
-      const accessKey = await Signal.Crypto.deriveAccessKey(profileKey);
-
-      const verifier = await Signal.Crypto.getAccessKeyVerifier(accessKey);
-
-      const correct = await Signal.Crypto.verifyAccessKey(accessKey, verifier);
-
-      assert.strictEqual(correct, true);
-    });
-  });
-
   describe('symmetric encryption', () => {
     it('roundtrips', async () => {
       const message = 'this is my message';

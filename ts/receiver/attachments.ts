@@ -2,7 +2,6 @@ import _ from 'lodash';
 
 import { MessageModel } from '../models/message';
 import { saveMessage } from '../../ts/data/data';
-import { fromBase64ToArrayBuffer } from '../session/utils/String';
 import { AttachmentDownloads } from '../session/utils';
 import { ConversationModel } from '../models/conversation';
 import {
@@ -52,11 +51,10 @@ export async function downloadAttachment(attachment: any) {
       throw new Error('Attachment is not raw but we do not have a key to decode it');
     }
 
-    data = await window.textsecure.crypto.decryptAttachment(
-      data,
-      fromBase64ToArrayBuffer(key),
-      fromBase64ToArrayBuffer(digest)
-    );
+    const keyBuffer = await window.callWorker('fromBase64ToArrayBuffer', key);
+    const digestBuffer = await window.callWorker('fromBase64ToArrayBuffer', digest);
+
+    data = await window.textsecure.crypto.decryptAttachment(data, keyBuffer, digestBuffer);
 
     if (!size || size !== data.byteLength) {
       // we might have padding, check that all the remaining bytes are padding bytes

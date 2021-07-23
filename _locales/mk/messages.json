@@ -53,7 +53,7 @@
   "youLeftTheGroup": "You left the group",
   "youGotKickedFromGroup": "You were removed from the group.",
   "unreadMessage": "1 Unread Message",
-  "unreadMessages": "$count$ Unread Messages",
+  "unreadMessages": "Unread Messages",
   "debugLogExplanation": "Овој лог ќе биде објавен јавно онлајн за сите придонесувачи. Можете да го прегледате и уредите пред да го испратите.",
   "debugLogError": "Something went wrong with the upload! Please consider manually adding your log to the bug you file.",
   "reportIssue": "Report an issue",
