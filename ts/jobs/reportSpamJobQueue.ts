@@ -4,16 +4,17 @@
 
 import * as z from 'zod';
 import * as moment from 'moment';
+import { strictAssert } from '../util/assert';
 import { waitForOnline } from '../util/waitForOnline';
 import { isDone as isDeviceLinked } from '../util/registration';
 import * as log from '../logging/log';
-import { connectToServerWithStoredCredentials } from '../util/connectToServerWithStoredCredentials';
 import { map } from '../util/iterables';
 import { sleep } from '../util/sleep';
 
 import { JobQueue } from './JobQueue';
 import { jobQueueDatabaseStore } from './JobQueueDatabaseStore';
 import { parseIntWithFallback } from '../util/parseIntWithFallback';
+import type { WebAPIType } from '../textsecure/WebAPI';
 
 const RETRY_WAIT_TIME = moment.duration(1, 'minute').asMilliseconds();
 const RETRYABLE_4XX_FAILURE_STATUSES = new Set([
@@ -47,6 +48,12 @@ const reportSpamJobDataSchema = z.object({
 export type ReportSpamJobData = z.infer<typeof reportSpamJobDataSchema>;
 
 export class ReportSpamJobQueue extends JobQueue<ReportSpamJobData> {
+  private server?: WebAPIType;
+
+  public initialize({ server }: { server: WebAPIType }): void {
+    this.server = server;
+  }
+
   protected parseData(data: unknown): ReportSpamJobData {
     return reportSpamJobDataSchema.parse(data);
   }
@@ -67,10 +74,8 @@ export class ReportSpamJobQueue extends JobQueue<ReportSpamJobData> {
 
     await waitForOnline(window.navigator, window);
 
-    const server = connectToServerWithStoredCredentials(
-      window.WebAPI,
-      window.storage
-    );
+    const { server } = this;
+    strictAssert(server !== undefined, 'ReportSpamJobQueue not initialized');
 
     try {
       await Promise.all(

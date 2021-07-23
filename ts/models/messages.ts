@@ -1678,8 +1678,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     });
 
     if (hadSignedPreKeyRotationError) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      promises.push(window.getAccountManager()!.rotateSignedPreKey());
+      promises.push(window.getAccountManager().rotateSignedPreKey());
     }
 
     attributesToUpdate.sendStateByConversationId = sendStateByConversationId;

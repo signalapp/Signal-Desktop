@@ -11,6 +11,7 @@ import { connection as WebSocket } from 'websocket';
 
 import MessageReceiver from '../textsecure/MessageReceiver';
 import { DecryptionErrorEvent } from '../textsecure/messageReceiverEvents';
+import { WebAPIType } from '../textsecure/WebAPI';
 import { SignalService as Proto } from '../protobuf';
 import * as Crypto from '../Crypto';
 
@@ -32,15 +33,10 @@ describe('MessageReceiver', () => {
     it('generates decryption-error event when it cannot decrypt', done => {
       const socket = new FakeSocket();
 
-      const messageReceiver = new MessageReceiver(
-        'oldUsername.2',
-        'username.2',
-        'password',
-        {
-          serverTrustRoot: 'AAAAAAAA',
-          socket: socket as WebSocket,
-        }
-      );
+      const messageReceiver = new MessageReceiver({} as WebAPIType, {
+        serverTrustRoot: 'AAAAAAAA',
+        socket: socket as WebSocket,
+      });
 
       const body = Proto.Envelope.encode({
         type: Proto.Envelope.Type.CIPHERTEXT,

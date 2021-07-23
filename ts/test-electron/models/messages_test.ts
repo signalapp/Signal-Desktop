@@ -7,6 +7,7 @@ import { setup as setupI18n } from '../../../js/modules/i18n';
 import enMessages from '../../../_locales/en/messages.json';
 import { SendStatus } from '../../messages/MessageSendState';
 import MessageSender from '../../textsecure/SendMessage';
+import { WebAPIType } from '../../textsecure/WebAPI';
 import { CallbackResultType } from '../../textsecure/Types.d';
 import type { StorageAccessType } from '../../types/Storage.d';
 import { SignalService as Proto } from '../../protobuf';
@@ -81,7 +82,7 @@ describe('Message', () => {
       oldMessageSender = window.textsecure.messaging;
 
       window.textsecure.messaging =
-        oldMessageSender ?? new MessageSender('username', 'password');
+        oldMessageSender ?? new MessageSender({} as WebAPIType);
       this.sandbox
         .stub(window.textsecure.messaging, 'sendSyncMessage')
         .resolves({});

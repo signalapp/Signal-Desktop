@@ -70,16 +70,13 @@ type GeneratedKeysType = {
 };
 
 export default class AccountManager extends EventTarget {
-  server: WebAPIType;
-
   pending: Promise<void>;
 
   pendingQueue?: PQueue;
 
-  constructor(username: string, password: string) {
+  constructor(private readonly server: WebAPIType) {
     super();
 
-    this.server = window.WebAPI.connect({ username, password });
     this.pending = Promise.resolve();
   }
 
@@ -569,34 +566,27 @@ export default class AccountManager extends EventTarget {
 
     await Promise.all([
       window.textsecure.storage.remove('identityKey'),
-      window.textsecure.storage.remove('password'),
+      window.textsecure.storage.user.removeCredentials(),
       window.textsecure.storage.remove('registrationId'),
-      window.textsecure.storage.remove('number_id'),
-      window.textsecure.storage.remove('device_name'),
       window.textsecure.storage.remove('regionCode'),
       window.textsecure.storage.remove('userAgent'),
       window.textsecure.storage.remove('profileKey'),
       window.textsecure.storage.remove('read-receipt-setting'),
     ]);
 
-    // `setNumberAndDeviceId` and `setUuidAndDeviceId` need to be called
+    // `setCredentials` needs to be called
     // before `saveIdentifyWithAttributes` since `saveIdentityWithAttributes`
     // indirectly calls `ConversationController.getConverationId()` which
     // initializes the conversation for the given number (our number) which
     // calls out to the user storage API to get the stored UUID and number
     // information.
-    await window.textsecure.storage.user.setNumberAndDeviceId(
+    await window.textsecure.storage.user.setCredentials({
+      uuid,
       number,
-      response.deviceId || 1,
-      deviceName || undefined
-    );
-
-    if (uuid) {
-      await window.textsecure.storage.user.setUuidAndDeviceId(
-        uuid,
-        response.deviceId || 1
-      );
-    }
+      deviceId: response.deviceId ?? 1,
+      deviceName: deviceName ?? undefined,
+      password,
+    });
 
     // This needs to be done very early, because it changes how things are saved in the
     //   database. Your identity, for example, in the saveIdentityWithAttributes call
@@ -625,7 +615,6 @@ export default class AccountManager extends EventTarget {
     );
 
     await window.textsecure.storage.put('identityKey', identityKeyPair);
-    await window.textsecure.storage.put('password', password);
     await window.textsecure.storage.put('registrationId', registrationId);
     if (profileKey) {
       await ourProfileKeyService.set(profileKey);

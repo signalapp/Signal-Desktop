@@ -13,8 +13,8 @@ import { missingCaseError } from '../util/missingCaseError';
 import { normalizeNumber } from '../util/normalizeNumber';
 import { waitForOnline } from '../util/waitForOnline';
 import * as log from '../logging/log';
-import { connectToServerWithStoredCredentials } from '../util/connectToServerWithStoredCredentials';
 import { StorageInterface } from '../types/Storage.d';
+import type { WebAPIType } from '../textsecure/WebAPI';
 import { SignalService as Proto } from '../protobuf';
 
 import SenderCertificate = Proto.SenderCertificate;
@@ -28,7 +28,7 @@ const CLOCK_SKEW_THRESHOLD = 15 * 60 * 1000;
 
 // This is exported for testing.
 export class SenderCertificateService {
-  private WebAPI?: typeof window.WebAPI;
+  private server?: WebAPIType;
 
   private fetchPromises: Map<
     SenderCertificateMode,
@@ -42,19 +42,19 @@ export class SenderCertificateService {
   private storage?: StorageInterface;
 
   initialize({
-    WebAPI,
+    server,
     navigator,
     onlineEventTarget,
     storage,
   }: {
-    WebAPI: typeof window.WebAPI;
+    server: WebAPIType;
     navigator: Readonly<{ onLine: boolean }>;
     onlineEventTarget: EventTarget;
     storage: StorageInterface;
   }): void {
     log.info('Sender certificate service initialized');
 
-    this.WebAPI = WebAPI;
+    this.server = server;
     this.navigator = navigator;
     this.onlineEventTarget = onlineEventTarget;
     this.storage = storage;
@@ -188,13 +188,12 @@ export class SenderCertificateService {
   private async requestSenderCertificate(
     mode: SenderCertificateMode
   ): Promise<string> {
-    const { storage, WebAPI } = this;
+    const { server } = this;
     assert(
-      storage && WebAPI,
+      server,
       'Sender certificate service method was called before it was initialized'
     );
 
-    const server = connectToServerWithStoredCredentials(WebAPI, storage);
     const omitE164 = mode === SenderCertificateMode.WithoutE164;
     const { certificate } = await server.getSenderCertificate(omitE164);
     return certificate;

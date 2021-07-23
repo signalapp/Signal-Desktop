@@ -23,6 +23,11 @@ export type StorageServiceCredentials = {
   password: string;
 };
 
+export type WebAPICredentials = {
+  username: string;
+  password: string;
+};
+
 export type DeviceType = {
   id: number;
   identifier: string;

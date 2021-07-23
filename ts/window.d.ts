@@ -175,7 +175,7 @@ declare global {
     receivedAtCounter: number;
     enterKeyboardMode: () => void;
     enterMouseMode: () => void;
-    getAccountManager: () => AccountManager | undefined;
+    getAccountManager: () => AccountManager;
     getAlwaysRelayCalls: () => Promise<boolean>;
     getBuiltInImages: () => Promise<Array<string>>;
     getCallRingtoneNotification: () => Promise<boolean>;

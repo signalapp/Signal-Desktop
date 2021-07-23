@@ -439,14 +439,11 @@ class Message {
 }
 
 export default class MessageSender {
-  server: WebAPIType;
-
   pendingMessages: {
     [id: string]: PQueue;
   };
 
-  constructor(username: string, password: string) {
-    this.server = window.WebAPI.connect({ username, password });
+  constructor(public readonly server: WebAPIType) {
     this.pendingMessages = {};
   }
 

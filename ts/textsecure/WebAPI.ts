@@ -59,6 +59,7 @@ import { SignalService as Proto } from '../protobuf';
 
 import { ConnectTimeoutError } from './Errors';
 import MessageSender from './SendMessage';
+import { WebAPICredentials } from './Types.d';
 
 // TODO: remove once we move away from ArrayBuffers
 const FIXMEU8 = Uint8Array;
@@ -859,11 +860,6 @@ type InitializeOptionsType = {
   version: string;
 };
 
-type ConnectParametersType = {
-  username: string;
-  password: string;
-};
-
 type MessageType = any;
 
 type AjaxOptionsType = {
@@ -888,7 +884,7 @@ type AjaxOptionsType = {
 };
 
 export type WebAPIConnectType = {
-  connect: (options: ConnectParametersType) => WebAPIType;
+  connect: (options: WebAPICredentials) => WebAPIType;
 };
 
 export type CapabilitiesType = {
@@ -1089,6 +1085,7 @@ export type WebAPIType = {
   getConfig: () => Promise<
     Array<{ name: string; enabled: boolean; value: string | null }>
   >;
+  authenticate: (credentials: WebAPICredentials) => Promise<void>;
 };
 
 export type SignedPreKeyType = {
@@ -1197,7 +1194,7 @@ export function initialize({
   function connect({
     username: initialUsername,
     password: initialPassword,
-  }: ConnectParametersType) {
+  }: WebAPICredentials) {
     let username = initialUsername;
     let password = initialPassword;
     const PARSE_RANGE_HEADER = /\/(\d+)$/;
@@ -1205,6 +1202,7 @@ export function initialize({
 
     // Thanks, function hoisting!
     return {
+      authenticate,
       confirmCode,
       createGroup,
       fetchLinkPreviewImage,
@@ -1305,6 +1303,14 @@ export function initialize({
         httpType: 'PUT',
         jsonData: challengeResponse,
       });
+    }
+
+    async function authenticate({
+      username: newUsername,
+      password: newPassword,
+    }: WebAPICredentials) {
+      username = newUsername;
+      password = newPassword;
     }
 
     async function getConfig() {

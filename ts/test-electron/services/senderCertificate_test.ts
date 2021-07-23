@@ -23,7 +23,6 @@ describe('SenderCertificateService', () => {
   let fakeValidCertificate: SenderCertificate;
   let fakeValidCertificateExpiry: number;
   let fakeServer: any;
-  let fakeWebApi: typeof window.WebAPI;
   let fakeNavigator: { onLine: boolean };
   let fakeWindow: EventTarget;
   let fakeStorage: any;
@@ -31,7 +30,7 @@ describe('SenderCertificateService', () => {
   function initializeTestService(): SenderCertificateService {
     const result = new SenderCertificateService();
     result.initialize({
-      WebAPI: fakeWebApi,
+      server: fakeServer,
       navigator: fakeNavigator,
       onlineEventTarget: fakeWindow,
       storage: fakeStorage,
@@ -55,7 +54,6 @@ describe('SenderCertificateService', () => {
         ),
       }),
     };
-    fakeWebApi = { connect: sinon.stub().returns(fakeServer) };
 
     fakeNavigator = { onLine: true };
 

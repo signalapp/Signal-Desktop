@@ -34,12 +34,13 @@ describe('Conversations', () => {
       version: 0,
     });
 
-    window.textsecure.storage.user.setNumberAndDeviceId(
-      ourNumber,
-      2,
-      'my device'
-    );
-    window.textsecure.storage.user.setUuidAndDeviceId(ourUuid, 2);
+    await window.textsecure.storage.user.setCredentials({
+      number: ourNumber,
+      uuid: ourUuid,
+      deviceId: 2,
+      deviceName: 'my device',
+      password: 'password',
+    });
     await window.ConversationController.loadPromise();
 
     await window.Signal.Data.saveConversation(conversation.attributes);

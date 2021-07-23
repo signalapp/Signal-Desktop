@@ -60,7 +60,7 @@ import {
   ContactEvent,
   GroupEvent,
 } from './textsecure/messageReceiverEvents';
-import { connectToServerWithStoredCredentials } from './util/connectToServerWithStoredCredentials';
+import type { WebAPIType } from './textsecure/WebAPI';
 import * as universalExpireTimer from './util/universalExpireTimer';
 import { isDirectConversation, isGroupV2 } from './util/whatTypeOfConversation';
 import { getSendOptions } from './util/getSendOptions';
@@ -132,7 +132,24 @@ export async function startApp(): Promise<void> {
     );
   }
 
-  initializeAllJobQueues();
+  // Initialize WebAPI as early as possible
+  let server: WebAPIType | undefined;
+  window.storage.onready(() => {
+    server = window.WebAPI.connect(
+      window.textsecure.storage.user.getWebAPICredentials()
+    );
+
+    window.textsecure.storage.user.on('credentialsChange', async () => {
+      strictAssert(server !== undefined, 'WebAPI not ready');
+      await server.authenticate(
+        window.textsecure.storage.user.getWebAPICredentials()
+      );
+    });
+
+    initializeAllJobQueues({
+      server,
+    });
+  });
 
   ourProfileKeyService.initialize(window.storage);
 
@@ -153,8 +170,10 @@ export async function startApp(): Promise<void> {
   const reconnectBackOff = new BackOff(FIBONACCI_TIMEOUTS);
 
   window.storage.onready(() => {
+    strictAssert(server, 'WebAPI not ready');
+
     senderCertificateService.initialize({
-      WebAPI: window.WebAPI,
+      server,
       navigator,
       onlineEventTarget: window,
       storage: window.storage,
@@ -355,8 +374,7 @@ export async function startApp(): Promise<void> {
 
   window.Whisper.KeyChangeListener.init(window.textsecure.storage.protocol);
   window.textsecure.storage.protocol.on('removePreKey', () => {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    window.getAccountManager()!.refreshPreKeys();
+    window.getAccountManager().refreshPreKeys();
   });
 
   let messageReceiver: MessageReceiver | undefined;
@@ -372,32 +390,28 @@ export async function startApp(): Promise<void> {
   };
   let accountManager: typeof window.textsecure.AccountManager;
   window.getAccountManager = () => {
-    if (!accountManager) {
-      const OLD_USERNAME = window.storage.get('number_id', '');
-      const USERNAME = window.storage.get('uuid_id', '');
-      const PASSWORD = window.storage.get('password', '');
-      accountManager = new window.textsecure.AccountManager(
-        USERNAME || OLD_USERNAME,
-        PASSWORD
-      );
-      accountManager.addEventListener('registration', () => {
-        const ourDeviceId = window.textsecure.storage.user.getDeviceId();
-        const ourNumber = window.textsecure.storage.user.getNumber();
-        const ourUuid = window.textsecure.storage.user.getUuid();
-        const user = {
-          ourConversationId: window.ConversationController.getOurConversationId(),
-          ourDeviceId,
-          ourNumber,
-          ourUuid,
-          regionCode: window.storage.get('regionCode'),
-        };
-        window.Whisper.events.trigger('userChanged', user);
-
-        window.Signal.Util.Registration.markDone();
-        window.log.info('dispatching registration event');
-        window.Whisper.events.trigger('registration_done');
-      });
+    if (accountManager) {
+      return accountManager;
     }
+
+    accountManager = new window.textsecure.AccountManager(server);
+    accountManager.addEventListener('registration', () => {
+      const ourDeviceId = window.textsecure.storage.user.getDeviceId();
+      const ourNumber = window.textsecure.storage.user.getNumber();
+      const ourUuid = window.textsecure.storage.user.getUuid();
+      const user = {
+        ourConversationId: window.ConversationController.getOurConversationId(),
+        ourDeviceId,
+        ourNumber,
+        ourUuid,
+        regionCode: window.storage.get('regionCode'),
+      };
+      window.Whisper.events.trigger('userChanged', user);
+
+      window.Signal.Util.Registration.markDone();
+      window.log.info('dispatching registration event');
+      window.Whisper.events.trigger('registration_done');
+    });
     return accountManager;
   };
 
@@ -482,6 +496,8 @@ export async function startApp(): Promise<void> {
       return;
     }
     first = false;
+
+    strictAssert(server !== undefined, 'WebAPI not ready');
 
     cleanupSessionResets();
 
@@ -888,7 +904,7 @@ export async function startApp(): Promise<void> {
     // We start this up before window.ConversationController.load() to
     // ensure that our feature flags are represented in the cached props
     // we generate on load of each convo.
-    window.Signal.RemoteConfig.initRemoteConfig();
+    window.Signal.RemoteConfig.initRemoteConfig(server);
 
     let retryReceiptLifespan: number | undefined;
     try {
@@ -1724,6 +1740,7 @@ export async function startApp(): Promise<void> {
         window.reduxActions.network.setChallengeStatus(challengeStatus);
       },
     });
+
     window.Whisper.events.on('challengeResponse', response => {
       if (!challengeHandler) {
         throw new Error('Expected challenge handler to be there');
@@ -1732,13 +1749,8 @@ export async function startApp(): Promise<void> {
       challengeHandler.onResponse(response);
     });
 
-    window.storage.onready(async () => {
-      if (!challengeHandler) {
-        throw new Error('Expected challenge handler to be there');
-      }
-
-      await challengeHandler.load();
-    });
+    // Storage is ready because `start()` is called from `storage.onready()`
+    await challengeHandler.load();
 
     window.Signal.challengeHandler = challengeHandler;
 
@@ -1828,8 +1840,10 @@ export async function startApp(): Promise<void> {
 
     // Maybe refresh remote configuration when we become active
     window.registerForActive(async () => {
+      strictAssert(server !== undefined, 'WebAPI not ready');
+
       try {
-        await window.Signal.RemoteConfig.maybeRefreshRemoteConfig();
+        await window.Signal.RemoteConfig.maybeRefreshRemoteConfig(server);
       } catch (error) {
         if (error && window._.isNumber(error.code)) {
           window.log.warn(
@@ -2010,6 +2024,9 @@ export async function startApp(): Promise<void> {
       window.log.warn('connect already running', { connectCount });
       return;
     }
+
+    strictAssert(server !== undefined, 'WebAPI not connected');
+
     try {
       connecting = true;
 
@@ -2050,20 +2067,13 @@ export async function startApp(): Promise<void> {
         messageReceiver = undefined;
       }
 
-      const OLD_USERNAME = window.storage.get('number_id', '');
-      const USERNAME = window.storage.get('uuid_id', '');
-      const PASSWORD = window.storage.get('password', '');
-
-      window.textsecure.messaging = new window.textsecure.MessageSender(
-        USERNAME || OLD_USERNAME,
-        PASSWORD
-      );
+      window.textsecure.messaging = new window.textsecure.MessageSender(server);
 
       if (connectCount === 0) {
         try {
           // Force a re-fetch before we process our queue. We may want to turn on
           //   something which changes how we process incoming messages!
-          await window.Signal.RemoteConfig.refreshRemoteConfig();
+          await window.Signal.RemoteConfig.refreshRemoteConfig(server);
         } catch (error) {
           window.log.error(
             'connect: Error refreshing remote config:',
@@ -2109,9 +2119,7 @@ export async function startApp(): Promise<void> {
         serverTrustRoot: window.getServerTrustRoot(),
       };
       messageReceiver = new window.textsecure.MessageReceiver(
-        OLD_USERNAME,
-        USERNAME,
-        PASSWORD,
+        server,
         messageReceiverOptions
       );
       window.textsecure.messageReceiver = messageReceiver;
@@ -2251,8 +2259,7 @@ export async function startApp(): Promise<void> {
         runStorageService();
 
         try {
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          const manager = window.getAccountManager()!;
+          const manager = window.getAccountManager();
           await Promise.all([
             manager.maybeUpdateDeviceName(),
             window.textsecure.storage.user.removeSignalingKey(),
@@ -2267,10 +2274,6 @@ export async function startApp(): Promise<void> {
 
       const udSupportKey = 'hasRegisterSupportForUnauthenticatedDelivery';
       if (!window.storage.get(udSupportKey)) {
-        const server = connectToServerWithStoredCredentials(
-          window.WebAPI,
-          window.storage
-        );
         try {
           await server.registerSupportForUnauthenticatedDelivery();
           window.storage.put(udSupportKey, true);
@@ -2286,10 +2289,6 @@ export async function startApp(): Promise<void> {
 
       // If we didn't capture a UUID on registration, go get it from the server
       if (!window.textsecure.storage.user.getUuid()) {
-        const server = window.WebAPI.connect({
-          username: OLD_USERNAME,
-          password: PASSWORD,
-        });
         try {
           const { uuid } = await server.whoami();
           assert(deviceId, 'We should have device id');
@@ -2311,10 +2310,6 @@ export async function startApp(): Promise<void> {
       }
 
       if (connectCount === 1) {
-        const server = connectToServerWithStoredCredentials(
-          window.WebAPI,
-          window.storage
-        );
         try {
           // Note: we always have to register our capabilities all at once, so we do this
           //   after connect on every startup

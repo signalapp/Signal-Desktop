@@ -53,7 +53,6 @@ import { processAttachment, processDataMessage } from './processDataMessage';
 import { processSyncMessage } from './processSyncMessage';
 import EventTarget, { EventHandler } from './EventTarget';
 import { WebAPIType } from './WebAPI';
-import utils from './Helpers';
 import WebSocketResource, {
   IncomingWebSocketRequest,
   CloseEvent,
@@ -186,15 +185,11 @@ class MessageReceiverInner extends EventTarget {
 
   number_id?: string;
 
-  password: string;
-
   encryptedQueue: PQueue;
 
   decryptedQueue: PQueue;
 
   retryCachedTimeout: any;
-
-  server: WebAPIType;
 
   serverTrustRoot: Uint8Array;
 
@@ -204,10 +199,6 @@ class MessageReceiverInner extends EventTarget {
 
   stoppingProcessing?: boolean;
 
-  username: string;
-
-  uuid: string;
-
   uuid_id?: string;
 
   wsr?: WebSocketResource;
@@ -215,9 +206,7 @@ class MessageReceiverInner extends EventTarget {
   private readonly reconnectBackOff = new BackOff(FIBONACCI_TIMEOUTS);
 
   constructor(
-    oldUsername: string,
-    username: string,
-    password: string,
+    public readonly server: WebAPIType,
     options: {
       serverTrustRoot: string;
     }
@@ -227,30 +216,14 @@ class MessageReceiverInner extends EventTarget {
     this.count = 0;
     this.processedCount = 0;
 
-    this.username = oldUsername;
-    this.uuid = username;
-    this.password = password;
-    this.server = window.WebAPI.connect({
-      username: username || oldUsername,
-      password,
-    });
-
     if (!options.serverTrustRoot) {
       throw new Error('Server trust root is required!');
     }
     this.serverTrustRoot = Bytes.fromBase64(options.serverTrustRoot);
 
-    this.number_id = oldUsername
-      ? utils.unencodeNumber(oldUsername)[0]
-      : undefined;
-    this.uuid_id = username ? utils.unencodeNumber(username)[0] : undefined;
-    this.deviceId =
-      username || oldUsername
-        ? parseIntOrThrow(
-            utils.unencodeNumber(username || oldUsername)[1],
-            'MessageReceiver.constructor: username || oldUsername'
-          )
-        : undefined;
+    this.number_id = window.textsecure.storage.user.getNumber();
+    this.uuid_id = window.textsecure.storage.user.getUuid();
+    this.deviceId = window.textsecure.storage.user.getDeviceId();
 
     this.incomingQueue = new PQueue({ concurrency: 1, timeout: 1000 * 60 * 2 });
     this.appQueue = new PQueue({ concurrency: 1, timeout: 1000 * 60 * 2 });
@@ -2666,21 +2639,14 @@ export default class MessageReceiver {
   private readonly inner: MessageReceiverInner;
 
   constructor(
-    oldUsername: string,
-    username: string,
-    password: string,
+    server: WebAPIType,
     options: {
       serverTrustRoot: string;
       retryCached?: string;
       socket?: WebSocket;
     }
   ) {
-    const inner = new MessageReceiverInner(
-      oldUsername,
-      username,
-      password,
-      options
-    );
+    const inner = new MessageReceiverInner(server, options);
     this.inner = inner;
 
     this.close = inner.close.bind(inner);
