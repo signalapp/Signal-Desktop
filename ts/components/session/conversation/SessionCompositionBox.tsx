@@ -239,7 +239,7 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
    */
   private async showLinkSharingConfirmationModalDialog(e: any) {
     const pastedText = e.clipboardData.getData('text');
-    if (this.isURL(pastedText)) {
+    if (this.isURL(pastedText) && !window.getSettingValue('link-preview-setting', false)) {
       const alreadyDisplayedPopup =
         (await getItemById(hasLinkPreviewPopupBeenDisplayed))?.value || false;
       window.inboxStore?.dispatch(
