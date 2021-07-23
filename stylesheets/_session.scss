@@ -332,6 +332,7 @@ textarea {
 .module-message__container {
   border-radius: $session_message-container-border-radius;
   min-width: 150px;
+  overflow: hidden;
 }
 label {
   user-select: none;
