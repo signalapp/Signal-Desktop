@@ -5493,7 +5493,7 @@
     "description": "First paragraph in the captcha dialog"
   },
   "CaptchaDialog--can-close__title": {
-    "message": "Continue Without Verifying?",
+    "message": "Continue without verifying?",
     "description": "Header in the captcha dialog that can be closed"
   },
   "CaptchaDialog--can-close__body": {
