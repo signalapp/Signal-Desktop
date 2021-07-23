@@ -88,7 +88,7 @@ describe('VisibleMessage', () => {
   it('can create message with a preview', () => {
     let preview: PreviewWithAttachmentUrl;
 
-    preview = { url: 'url', title: 'title', id: 1234 };
+    preview = { url: 'url', title: 'title' };
     const previews = new Array<PreviewWithAttachmentUrl>();
     previews.push(preview);
 
