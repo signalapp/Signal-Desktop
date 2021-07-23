@@ -621,7 +621,7 @@ async function markIdentifierUnregistered(identifier: string) {
   );
 
   conversation.setUnregistered();
-  await window.Signal.Data.saveConversation(conversation.attributes);
+  await window.Signal.Data.updateConversation(conversation.attributes);
 
   await window.textsecure.storage.protocol.archiveAllSessions(identifier);
 }
@@ -975,7 +975,7 @@ async function resetSenderKey(conversation: ConversationModel): Promise<void> {
       memberDevices: [],
     },
   });
-  await window.Signal.Data.saveConversation(conversation.attributes);
+  await window.Signal.Data.updateConversation(conversation.attributes);
 }
 
 function getAccessKey(
@@ -1047,7 +1047,7 @@ async function fetchKeysForIdentifier(
       emptyConversation.set({
         sealedSender: SEALED_SENDER.DISABLED,
       });
-      await window.Signal.Data.saveConversation(emptyConversation.attributes);
+      await window.Signal.Data.updateConversation(emptyConversation.attributes);
     }
   } catch (error) {
     if (error.name === 'UnregisteredUserError') {
