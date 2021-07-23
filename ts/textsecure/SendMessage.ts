@@ -1912,6 +1912,9 @@ export default class MessageSender {
   ): Promise<CallbackResultType> {
     const contentMessage = new Proto.Content();
     const timestamp = Date.now();
+    window.log.info(
+      `sendSenderKeyDistributionMessage: Sending ${distributionId} with timestamp ${timestamp}`
+    );
 
     const senderKeyDistributionMessage = await this.getSenderKeyDistributionMessage(
       distributionId

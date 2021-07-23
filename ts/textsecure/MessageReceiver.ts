@@ -911,7 +911,7 @@ export default class MessageReceiver extends EventTarget {
       return `${sender}.${envelope.sourceDevice} ${timestamp} (${envelope.id})`;
     }
 
-    return envelope.id;
+    return `${timestamp} (${envelope.id})`;
   }
 
   private clearRetryTimeout(): void {
@@ -1322,8 +1322,6 @@ export default class MessageReceiver extends EventTarget {
     const originalSource = envelope.source;
     const originalSourceUuid = envelope.sourceUuid;
 
-    const unidentifiedLogId = this.getEnvelopeId(envelope);
-
     const newEnvelope: DecryptedEnvelope = {
       ...envelope,
 
@@ -1385,10 +1383,11 @@ export default class MessageReceiver extends EventTarget {
       );
     }
 
+    const unidentifiedLogId = this.getEnvelopeId(newEnvelope);
+
     if (newEnvelope.serverTimestamp > certificate.expiration()) {
-      const envelopeId = this.getEnvelopeId(newEnvelope);
       throw new Error(
-        `MessageReceiver.decryptSealedSender: Sender certificate is expired for envelope ${envelopeId}`
+        `MessageReceiver.decryptSealedSender: Sender certificate is expired for envelope ${unidentifiedLogId}`
       );
     }
 
