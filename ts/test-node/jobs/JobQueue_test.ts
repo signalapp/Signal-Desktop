@@ -204,6 +204,42 @@ describe('JobQueue', () => {
       assert.isEmpty(store.storedJobs);
     });
 
+    it('passes the attempt number to the run function', async () => {
+      const attempts: Array<number> = [];
+
+      const store = new TestJobQueueStore();
+
+      class TestQueue extends JobQueue<string> {
+        parseData(data: unknown): string {
+          return z.string().parse(data);
+        }
+
+        async run(
+          _: unknown,
+          { attempt }: Readonly<{ attempt: number }>
+        ): Promise<void> {
+          attempts.push(attempt);
+          throw new Error('this job always fails');
+        }
+      }
+
+      const queue = new TestQueue({
+        store,
+        queueType: 'test',
+        maxAttempts: 6,
+      });
+
+      queue.streamJobs();
+
+      try {
+        await (await queue.add('foo')).completion;
+      } catch (err: unknown) {
+        // We expect this to fail.
+      }
+
+      assert.deepStrictEqual(attempts, [1, 2, 3, 4, 5, 6]);
+    });
+
     it('makes job.completion reject if parseData throws', async () => {
       class TestQueue extends JobQueue<string> {
         parseData(data: unknown): string {

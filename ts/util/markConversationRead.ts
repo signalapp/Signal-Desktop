@@ -2,11 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { ConversationAttributesType } from '../model-types.d';
-import { handleMessageSend } from './handleMessageSend';
-import { getSendOptions } from './getSendOptions';
 import { sendReadReceiptsFor } from './sendReadReceiptsFor';
 import { hasErrors } from '../state/selectors/message';
-import { isNotNil } from './isNotNil';
+import { readSyncJobQueue } from '../jobs/readSyncJobQueue';
 
 export async function markConversationRead(
   conversationAttrs: ConversationAttributesType,
@@ -105,26 +103,17 @@ export async function markConversationRead(
     ...unreadMessagesSyncData,
     ...Array.from(unreadReactionSyncData.values()),
   ];
-  const messageIds = readSyncs.map(item => item.messageId).filter(isNotNil);
 
   if (readSyncs.length && options.sendReadReceipts) {
     window.log.info(`Sending ${readSyncs.length} read syncs`);
     // Because syncReadMessages sends to our other devices, and sendReadReceipts goes
     //   to a contact, we need accessKeys for both.
-    const ourConversation = window.ConversationController.getOurConversationOrThrow();
-    const sendOptions = await getSendOptions(ourConversation.attributes, {
-      syncMessage: true,
-    });
-
     if (window.ConversationController.areWePrimaryDevice()) {
       window.log.warn(
         'markConversationRead: We are primary device; not sending read syncs'
       );
     } else {
-      await handleMessageSend(
-        window.textsecure.messaging.syncReadMessages(readSyncs, sendOptions),
-        { messageIds, sendType: 'readSync' }
-      );
+      readSyncJobQueue.add({ readSyncs });
     }
 
     await sendReadReceiptsFor(conversationAttrs, unreadMessagesSyncData);

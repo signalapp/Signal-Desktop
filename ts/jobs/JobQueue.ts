@@ -93,7 +93,10 @@ export abstract class JobQueue<T> {
    * If it rejects, the job will be retried up to `maxAttempts - 1` times, after which it
    * will be deleted from the store.
    */
-  protected abstract run(job: Readonly<ParsedJob<T>>): Promise<void>;
+  protected abstract run(
+    job: Readonly<ParsedJob<T>>,
+    extra?: Readonly<{ attempt: number }>
+  ): Promise<void>;
 
   /**
    * Start streaming jobs from the store.
@@ -198,7 +201,7 @@ export abstract class JobQueue<T> {
         // We want an `await` in the loop, as we don't want a single job running more
         //   than once at a time. Ideally, the job will succeed on the first attempt.
         // eslint-disable-next-line no-await-in-loop
-        await this.run(parsedJob);
+        await this.run(parsedJob, { attempt });
         result = { success: true };
         log.info(
           `${this.logPrefix} job ${storedJob.id} succeeded on attempt ${attempt}`
