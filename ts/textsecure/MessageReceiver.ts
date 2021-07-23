@@ -1,12 +1,9 @@
 // Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable no-bitwise */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable camelcase */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable max-classes-per-file */
 /* eslint-disable no-restricted-syntax */
 
 import { isNumber, map, omit } from 'lodash';
@@ -156,52 +153,52 @@ enum TaskType {
   Decrypted = 'Decrypted',
 }
 
-class MessageReceiverInner extends EventTarget {
-  _onClose?: (code: number, reason: string) => Promise<void>;
+export default class MessageReceiver extends EventTarget {
+  private _onClose?: (code: number, reason: string) => Promise<void>;
 
-  _onWSRClose?: (event: CloseEvent) => void;
+  private _onWSRClose?: (event: CloseEvent) => void;
 
-  _onError?: (error: Error) => Promise<void>;
+  private _onError?: (error: Error) => Promise<void>;
 
-  appQueue: PQueue;
+  private appQueue: PQueue;
 
-  decryptAndCacheBatcher: BatcherType<CacheAddItemType>;
+  private decryptAndCacheBatcher: BatcherType<CacheAddItemType>;
 
-  cacheRemoveBatcher: BatcherType<string>;
+  private cacheRemoveBatcher: BatcherType<string>;
 
-  calledClose?: boolean;
+  private calledClose?: boolean;
 
-  count: number;
+  private count: number;
 
-  processedCount: number;
+  private processedCount: number;
 
-  deviceId?: number;
+  private deviceId?: number;
 
-  hasConnected = false;
+  private hasConnected = false;
 
-  incomingQueue: PQueue;
+  private incomingQueue: PQueue;
 
-  isEmptied?: boolean;
+  private isEmptied?: boolean;
 
-  number_id?: string;
+  private number_id?: string;
 
-  encryptedQueue: PQueue;
+  private encryptedQueue: PQueue;
 
-  decryptedQueue: PQueue;
+  private decryptedQueue: PQueue;
 
-  retryCachedTimeout: any;
+  private retryCachedTimeout: NodeJS.Timeout | undefined;
 
-  serverTrustRoot: Uint8Array;
+  private serverTrustRoot: Uint8Array;
 
-  socket?: WebSocket;
+  private socket?: WebSocket;
 
-  socketStatus = SocketStatus.CLOSED;
+  private socketStatus = SocketStatus.CLOSED;
 
-  stoppingProcessing?: boolean;
+  private stoppingProcessing?: boolean;
 
-  uuid_id?: string;
+  private uuid_id?: string;
 
-  wsr?: WebSocketResource;
+  private wsr?: WebSocketResource;
 
   private readonly reconnectBackOff = new BackOff(FIBONACCI_TIMEOUTS);
 
@@ -209,6 +206,7 @@ class MessageReceiverInner extends EventTarget {
     public readonly server: WebAPIType,
     options: {
       serverTrustRoot: string;
+      socket?: WebSocket;
     }
   ) {
     super();
@@ -254,9 +252,27 @@ class MessageReceiverInner extends EventTarget {
       maxSize: 30,
       processBatch: this.cacheRemoveBatch.bind(this),
     });
+
+    this.connect(options.socket);
   }
 
-  async connect(socket?: WebSocket): Promise<void> {
+  public async stopProcessing(): Promise<void> {
+    window.log.info('MessageReceiver: stopProcessing requested');
+    this.stoppingProcessing = true;
+    return this.close();
+  }
+
+  public unregisterBatchers(): void {
+    window.log.info('MessageReceiver: unregister batchers');
+    this.decryptAndCacheBatcher.unregister();
+    this.cacheRemoveBatcher.unregister();
+  }
+
+  public getProcessedCount(): number {
+    return this.processedCount;
+  }
+
+  private async connect(socket?: WebSocket): Promise<void> {
     if (this.calledClose) {
       return;
     }
@@ -332,19 +348,208 @@ class MessageReceiverInner extends EventTarget {
     }
   }
 
-  async stopProcessing() {
-    window.log.info('MessageReceiver: stopProcessing requested');
-    this.stoppingProcessing = true;
-    return this.close();
+  public async close(): Promise<void> {
+    window.log.info('MessageReceiver.close()');
+    this.calledClose = true;
+    this.socketStatus = SocketStatus.CLOSING;
+
+    // Our WebSocketResource instance will close the socket and emit a 'close' event
+    //   if the socket doesn't emit one quickly enough.
+    if (this.wsr) {
+      this.wsr.close(3000, 'called close');
+    }
+
+    this.clearRetryTimeout();
+
+    return this.drain();
   }
 
-  unregisterBatchers() {
-    window.log.info('MessageReceiver: unregister batchers');
-    this.decryptAndCacheBatcher.unregister();
-    this.cacheRemoveBatcher.unregister();
+  public checkSocket(): void {
+    if (this.wsr) {
+      this.wsr.forceKeepAlive();
+    }
   }
 
-  shutdown() {
+  public getStatus(): SocketStatus {
+    return this.socketStatus;
+  }
+
+  public async downloadAttachment(
+    attachment: ProcessedAttachment
+  ): Promise<DownloadedAttachmentType> {
+    const cdnId = attachment.cdnId || attachment.cdnKey;
+    const { cdnNumber } = attachment;
+
+    if (!cdnId) {
+      throw new Error('downloadAttachment: Attachment was missing cdnId!');
+    }
+
+    strictAssert(cdnId, 'attachment without cdnId');
+    const encrypted = await this.server.getAttachment(
+      cdnId,
+      dropNull(cdnNumber)
+    );
+    const { key, digest, size, contentType } = attachment;
+
+    if (!digest) {
+      throw new Error('Failure: Ask sender to update Signal and resend.');
+    }
+
+    strictAssert(key, 'attachment has no key');
+    strictAssert(digest, 'attachment has no digest');
+
+    const paddedData = await Crypto.decryptAttachment(
+      encrypted,
+      typedArrayToArrayBuffer(Bytes.fromBase64(key)),
+      typedArrayToArrayBuffer(Bytes.fromBase64(digest))
+    );
+
+    if (!isNumber(size)) {
+      throw new Error(
+        `downloadAttachment: Size was not provided, actual size was ${paddedData.byteLength}`
+      );
+    }
+
+    const data = window.Signal.Crypto.getFirstBytes(paddedData, size);
+
+    return {
+      ...omit(attachment, 'digest', 'key'),
+
+      contentType: contentType
+        ? MIME.fromString(contentType)
+        : MIME.APPLICATION_OCTET_STREAM,
+      data,
+    };
+  }
+
+  //
+  // EventTarget types
+  //
+
+  public addEventListener(
+    name: 'reconnect',
+    handler: (ev: ReconnectEvent) => void
+  ): void;
+
+  public addEventListener(
+    name: 'empty',
+    handler: (ev: EmptyEvent) => void
+  ): void;
+
+  public addEventListener(
+    name: 'progress',
+    handler: (ev: ProgressEvent) => void
+  ): void;
+
+  public addEventListener(
+    name: 'typing',
+    handler: (ev: TypingEvent) => void
+  ): void;
+
+  public addEventListener(
+    name: 'error',
+    handler: (ev: ErrorEvent) => void
+  ): void;
+
+  public addEventListener(
+    name: 'delivery',
+    handler: (ev: DeliveryEvent) => void
+  ): void;
+
+  public addEventListener(
+    name: 'decryption-error',
+    handler: (ev: DecryptionErrorEvent) => void
+  ): void;
+
+  public addEventListener(name: 'sent', handler: (ev: SentEvent) => void): void;
+
+  public addEventListener(
+    name: 'profileKeyUpdate',
+    handler: (ev: ProfileKeyUpdateEvent) => void
+  ): void;
+
+  public addEventListener(
+    name: 'message',
+    handler: (ev: MessageEvent) => void
+  ): void;
+
+  public addEventListener(
+    name: 'retry-request',
+    handler: (ev: RetryRequestEvent) => void
+  ): void;
+
+  public addEventListener(name: 'read', handler: (ev: ReadEvent) => void): void;
+
+  public addEventListener(
+    name: 'configuration',
+    handler: (ev: ConfigurationEvent) => void
+  ): void;
+
+  public addEventListener(
+    name: 'viewOnceOpenSync',
+    handler: (ev: ViewOnceOpenSyncEvent) => void
+  ): void;
+
+  public addEventListener(
+    name: 'messageRequestResponse',
+    handler: (ev: MessageRequestResponseEvent) => void
+  ): void;
+
+  public addEventListener(
+    name: 'fetchLatest',
+    handler: (ev: FetchLatestEvent) => void
+  ): void;
+
+  public addEventListener(name: 'keys', handler: (ev: KeysEvent) => void): void;
+
+  public addEventListener(
+    name: 'sticker-pack',
+    handler: (ev: StickerPackEvent) => void
+  ): void;
+
+  public addEventListener(
+    name: 'verified',
+    handler: (ev: VerifiedEvent) => void
+  ): void;
+
+  public addEventListener(
+    name: 'readSync',
+    handler: (ev: ReadSyncEvent) => void
+  ): void;
+
+  public addEventListener(
+    name: 'contact',
+    handler: (ev: ContactEvent) => void
+  ): void;
+
+  public addEventListener(
+    name: 'contactSync',
+    handler: (ev: ContactSyncEvent) => void
+  ): void;
+
+  public addEventListener(
+    name: 'group',
+    handler: (ev: GroupEvent) => void
+  ): void;
+
+  public addEventListener(
+    name: 'groupSync',
+    handler: (ev: GroupSyncEvent) => void
+  ): void;
+
+  public addEventListener(name: string, handler: EventHandler): void {
+    return super.addEventListener(name, handler);
+  }
+
+  public removeEventListener(name: string, handler: EventHandler): void {
+    return super.removeEventListener(name, handler);
+  }
+
+  //
+  // Private
+  //
+
+  private shutdown(): void {
     if (this.socket) {
       if (this._onClose) {
         this.socket.removeListener('close', this._onClose);
@@ -364,31 +569,15 @@ class MessageReceiverInner extends EventTarget {
     }
   }
 
-  async close() {
-    window.log.info('MessageReceiver.close()');
-    this.calledClose = true;
-    this.socketStatus = SocketStatus.CLOSING;
-
-    // Our WebSocketResource instance will close the socket and emit a 'close' event
-    //   if the socket doesn't emit one quickly enough.
-    if (this.wsr) {
-      this.wsr.close(3000, 'called close');
-    }
-
-    this.clearRetryTimeout();
-
-    return this.drain();
-  }
-
-  async onerror(error: Error): Promise<void> {
+  private async onerror(error: Error): Promise<void> {
     window.log.error('websocket error', error);
   }
 
-  async dispatchAndWait(event: Event): Promise<void> {
+  private async dispatchAndWait(event: Event): Promise<void> {
     this.appQueue.add(async () => Promise.all(this.dispatchEvent(event)));
   }
 
-  async onclose(code: number, reason: string): Promise<void> {
+  private async onclose(code: number, reason: string): Promise<void> {
     window.log.info(
       'MessageReceiver: websocket closed',
       code,
@@ -425,13 +614,7 @@ class MessageReceiverInner extends EventTarget {
     this.reconnectBackOff.reset();
   }
 
-  checkSocket(): void {
-    if (this.wsr) {
-      this.wsr.forceKeepAlive();
-    }
-  }
-
-  handleRequest(request: IncomingWebSocketRequest) {
+  private handleRequest(request: IncomingWebSocketRequest): void {
     // We do the message decryption here, instead of in the ordered pending queue,
     // to avoid exposing the time it took us to process messages through the time-to-ack.
 
@@ -517,7 +700,7 @@ class MessageReceiverInner extends EventTarget {
     this.incomingQueue.add(job);
   }
 
-  calculateMessageAge(
+  private calculateMessageAge(
     headers: ReadonlyArray<string>,
     serverTimestamp?: number
   ): number {
@@ -546,7 +729,10 @@ class MessageReceiverInner extends EventTarget {
     return messageAgeSec;
   }
 
-  async addToQueue<T>(task: () => Promise<T>, taskType: TaskType): Promise<T> {
+  private async addToQueue<T>(
+    task: () => Promise<T>,
+    taskType: TaskType
+  ): Promise<T> {
     if (taskType === TaskType.Encrypted) {
       this.count += 1;
     }
@@ -563,11 +749,11 @@ class MessageReceiverInner extends EventTarget {
     }
   }
 
-  hasEmptied(): boolean {
+  public hasEmptied(): boolean {
     return Boolean(this.isEmptied);
   }
 
-  onEmpty() {
+  private onEmpty(): void {
     const emitEmpty = async () => {
       await Promise.all([
         this.decryptAndCacheBatcher.flushAndWait(),
@@ -610,7 +796,7 @@ class MessageReceiverInner extends EventTarget {
     waitForCacheAddBatcher();
   }
 
-  async drain() {
+  private async drain(): Promise<void> {
     const waitForEncryptedQueue = async () =>
       this.addToQueue(async () => {
         window.log.info('drained');
@@ -622,7 +808,7 @@ class MessageReceiverInner extends EventTarget {
     return this.incomingQueue.add(waitForIncomingQueue);
   }
 
-  updateProgress(count: number) {
+  private updateProgress(count: number): void {
     // count by 10s
     if (count % 10 !== 0) {
       return;
@@ -630,7 +816,7 @@ class MessageReceiverInner extends EventTarget {
     this.dispatchEvent(new ProgressEvent({ count }));
   }
 
-  async queueAllCached() {
+  private async queueAllCached(): Promise<void> {
     const items = await this.getAllFromCache();
     const max = items.length;
     for (let i = 0; i < max; i += 1) {
@@ -639,7 +825,7 @@ class MessageReceiverInner extends EventTarget {
     }
   }
 
-  async queueCached(item: UnprocessedType) {
+  private async queueCached(item: UnprocessedType): Promise<void> {
     window.log.info('MessageReceiver.queueCached', item.id);
     try {
       let envelopePlaintext: Uint8Array;
@@ -717,7 +903,7 @@ class MessageReceiverInner extends EventTarget {
     }
   }
 
-  getEnvelopeId(envelope: ProcessedEnvelope) {
+  private getEnvelopeId(envelope: ProcessedEnvelope): string {
     const { timestamp } = envelope;
 
     if (envelope.sourceUuid || envelope.source) {
@@ -728,14 +914,14 @@ class MessageReceiverInner extends EventTarget {
     return envelope.id;
   }
 
-  clearRetryTimeout() {
+  private clearRetryTimeout(): void {
     if (this.retryCachedTimeout) {
       clearInterval(this.retryCachedTimeout);
-      this.retryCachedTimeout = null;
+      this.retryCachedTimeout = undefined;
     }
   }
 
-  maybeScheduleRetryTimeout() {
+  private maybeScheduleRetryTimeout(): void {
     if (this.isEmptied) {
       this.clearRetryTimeout();
       this.retryCachedTimeout = setTimeout(() => {
@@ -744,7 +930,7 @@ class MessageReceiverInner extends EventTarget {
     }
   }
 
-  async getAllFromCache() {
+  private async getAllFromCache(): Promise<Array<UnprocessedType>> {
     window.log.info('getAllFromCache');
     const count = await window.textsecure.storage.protocol.getUnprocessedCount();
 
@@ -788,7 +974,9 @@ class MessageReceiverInner extends EventTarget {
     );
   }
 
-  async decryptAndCacheBatch(items: Array<CacheAddItemType>) {
+  private async decryptAndCacheBatch(
+    items: Array<CacheAddItemType>
+  ): Promise<void> {
     window.log.info('MessageReceiver.decryptAndCacheBatch', items.length);
 
     const decrypted: Array<
@@ -915,11 +1103,11 @@ class MessageReceiverInner extends EventTarget {
     this.maybeScheduleRetryTimeout();
   }
 
-  decryptAndCache(
+  private decryptAndCache(
     envelope: ProcessedEnvelope,
     plaintext: Uint8Array,
     request: IncomingWebSocketRequest
-  ) {
+  ): void {
     const { id } = envelope;
     const data: UnprocessedType = {
       id,
@@ -936,19 +1124,19 @@ class MessageReceiverInner extends EventTarget {
     });
   }
 
-  async cacheRemoveBatch(items: Array<string>) {
+  private async cacheRemoveBatch(items: Array<string>): Promise<void> {
     await window.textsecure.storage.protocol.removeUnprocessed(items);
   }
 
-  removeFromCache(envelope: ProcessedEnvelope) {
+  private removeFromCache(envelope: ProcessedEnvelope): void {
     const { id } = envelope;
     this.cacheRemoveBatcher.add(id);
   }
 
-  async queueDecryptedEnvelope(
+  private async queueDecryptedEnvelope(
     envelope: DecryptedEnvelope,
     plaintext: Uint8Array
-  ) {
+  ): Promise<void> {
     const id = this.getEnvelopeId(envelope);
     window.log.info('queueing decrypted envelope', id);
 
@@ -969,7 +1157,7 @@ class MessageReceiverInner extends EventTarget {
     }
   }
 
-  async queueEncryptedEnvelope(
+  private async queueEncryptedEnvelope(
     stores: LockedStores,
     envelope: ProcessedEnvelope
   ): Promise<DecryptResult> {
@@ -1004,7 +1192,7 @@ class MessageReceiverInner extends EventTarget {
     }
   }
 
-  async queueCachedEnvelope(
+  private async queueCachedEnvelope(
     data: UnprocessedType,
     envelope: ProcessedEnvelope
   ): Promise<void> {
@@ -1023,7 +1211,7 @@ class MessageReceiverInner extends EventTarget {
   }
 
   // Called after `decryptEnvelope` decrypted the message.
-  async handleDecryptedEnvelope(
+  private async handleDecryptedEnvelope(
     envelope: DecryptedEnvelope,
     plaintext: Uint8Array
   ): Promise<void> {
@@ -1048,7 +1236,7 @@ class MessageReceiverInner extends EventTarget {
     throw new Error('Received message with no content and no legacyMessage');
   }
 
-  async decryptEnvelope(
+  private async decryptEnvelope(
     stores: LockedStores,
     envelope: ProcessedEnvelope
   ): Promise<DecryptResult> {
@@ -1072,11 +1260,7 @@ class MessageReceiverInner extends EventTarget {
     throw new Error('Received message with no content and no legacyMessage');
   }
 
-  getStatus(): SocketStatus {
-    return this.socketStatus;
-  }
-
-  async onDeliveryReceipt(envelope: ProcessedEnvelope): Promise<void> {
+  private async onDeliveryReceipt(envelope: ProcessedEnvelope): Promise<void> {
     await this.dispatchAndWait(
       new DeliveryEvent(
         {
@@ -1090,7 +1274,7 @@ class MessageReceiverInner extends EventTarget {
     );
   }
 
-  unpad(paddedPlaintext: Uint8Array): Uint8Array {
+  private unpad(paddedPlaintext: Uint8Array): Uint8Array {
     for (let i = paddedPlaintext.length - 1; i >= 0; i -= 1) {
       if (paddedPlaintext[i] === 0x80) {
         return new Uint8Array(paddedPlaintext.slice(0, i));
@@ -1480,7 +1664,7 @@ class MessageReceiverInner extends EventTarget {
     throw new Error('Unknown message type');
   }
 
-  async decrypt(
+  private async decrypt(
     stores: LockedStores,
     envelope: ProcessedEnvelope,
     ciphertext: Uint8Array
@@ -1561,7 +1745,7 @@ class MessageReceiverInner extends EventTarget {
     }
   }
 
-  async handleSentMessage(
+  private async handleSentMessage(
     envelope: ProcessedEnvelope,
     sentContainer: ProcessedSent
   ) {
@@ -1583,7 +1767,7 @@ class MessageReceiverInner extends EventTarget {
       throw new Error('MessageReceiver.handleSentMessage: message was falsey!');
     }
 
-    let p: Promise<any> = Promise.resolve();
+    let p: Promise<void> = Promise.resolve();
     // eslint-disable-next-line no-bitwise
     if (msg.flags && msg.flags & Proto.DataMessage.Flags.END_SESSION) {
       const identifier = destination || destinationUuid;
@@ -1642,7 +1826,7 @@ class MessageReceiverInner extends EventTarget {
     return this.dispatchAndWait(ev);
   }
 
-  async handleDataMessage(
+  private async handleDataMessage(
     envelope: DecryptedEnvelope,
     msg: Proto.IDataMessage
   ): Promise<void> {
@@ -1650,7 +1834,7 @@ class MessageReceiverInner extends EventTarget {
       'MessageReceiver.handleDataMessage',
       this.getEnvelopeId(envelope)
     );
-    let p: Promise<any> = Promise.resolve();
+    let p: Promise<void> = Promise.resolve();
     // eslint-disable-next-line no-bitwise
     const destination = envelope.sourceUuid || envelope.source;
     if (!destination) {
@@ -1730,7 +1914,7 @@ class MessageReceiverInner extends EventTarget {
     return this.dispatchAndWait(ev);
   }
 
-  async decryptLegacyMessage(
+  private async decryptLegacyMessage(
     stores: LockedStores,
     envelope: ProcessedEnvelope
   ): Promise<DecryptResult> {
@@ -1747,7 +1931,7 @@ class MessageReceiverInner extends EventTarget {
     return result;
   }
 
-  async innerHandleLegacyMessage(
+  private async innerHandleLegacyMessage(
     envelope: ProcessedEnvelope,
     plaintext: Uint8Array
   ) {
@@ -1755,7 +1939,7 @@ class MessageReceiverInner extends EventTarget {
     return this.handleDataMessage(envelope, message);
   }
 
-  async decryptContentMessage(
+  private async decryptContentMessage(
     stores: LockedStores,
     envelope: ProcessedEnvelope
   ): Promise<DecryptResult> {
@@ -1796,7 +1980,7 @@ class MessageReceiverInner extends EventTarget {
     return result;
   }
 
-  async maybeUpdateTimestamp(
+  private async maybeUpdateTimestamp(
     envelope: ProcessedEnvelope
   ): Promise<ProcessedEnvelope> {
     const { retryPlaceholders } = window.Signal.Services;
@@ -1850,7 +2034,7 @@ class MessageReceiverInner extends EventTarget {
     return envelope;
   }
 
-  async innerHandleContentMessage(
+  private async innerHandleContentMessage(
     incomingEnvelope: ProcessedEnvelope,
     plaintext: Uint8Array
   ): Promise<void> {
@@ -1902,7 +2086,7 @@ class MessageReceiverInner extends EventTarget {
     }
   }
 
-  async handleDecryptionError(
+  private async handleDecryptionError(
     envelope: DecryptedEnvelope,
     decryptionError: Uint8Array
   ) {
@@ -1933,7 +2117,7 @@ class MessageReceiverInner extends EventTarget {
     await this.dispatchEvent(event);
   }
 
-  async handleSenderKeyDistributionMessage(
+  private async handleSenderKeyDistributionMessage(
     stores: LockedStores,
     envelope: ProcessedEnvelope,
     distributionMessage: Uint8Array
@@ -1976,7 +2160,7 @@ class MessageReceiverInner extends EventTarget {
     );
   }
 
-  async handleCallingMessage(
+  private async handleCallingMessage(
     envelope: ProcessedEnvelope,
     callingMessage: Proto.ICallingMessage
   ): Promise<void> {
@@ -1987,7 +2171,7 @@ class MessageReceiverInner extends EventTarget {
     );
   }
 
-  async handleReceiptMessage(
+  private async handleReceiptMessage(
     envelope: ProcessedEnvelope,
     receiptMessage: Proto.IReceiptMessage
   ): Promise<void> {
@@ -2025,7 +2209,7 @@ class MessageReceiverInner extends EventTarget {
     await Promise.all(results);
   }
 
-  async handleTypingMessage(
+  private async handleTypingMessage(
     envelope: ProcessedEnvelope,
     typingMessage: Proto.ITypingMessage
   ): Promise<void> {
@@ -2081,7 +2265,7 @@ class MessageReceiverInner extends EventTarget {
     );
   }
 
-  handleNullMessage(envelope: ProcessedEnvelope): void {
+  private handleNullMessage(envelope: ProcessedEnvelope): void {
     window.log.info(
       'MessageReceiver.handleNullMessage',
       this.getEnvelopeId(envelope)
@@ -2089,7 +2273,7 @@ class MessageReceiverInner extends EventTarget {
     this.removeFromCache(envelope);
   }
 
-  isInvalidGroupData(
+  private isInvalidGroupData(
     message: Proto.IDataMessage,
     envelope: ProcessedEnvelope
   ): boolean {
@@ -2127,7 +2311,7 @@ class MessageReceiverInner extends EventTarget {
     return false;
   }
 
-  async deriveGroupV2FromV1(groupId: Uint8Array): Promise<string> {
+  private async deriveGroupV2FromV1(groupId: Uint8Array): Promise<string> {
     if (groupId.byteLength !== GROUPV1_ID_LENGTH) {
       throw new Error(
         `deriveGroupV2FromV1: had id with wrong byteLength: ${groupId.byteLength}`
@@ -2141,7 +2325,9 @@ class MessageReceiverInner extends EventTarget {
     return Bytes.toBase64(data.id);
   }
 
-  async checkGroupV1Data(message: Readonly<Proto.IDataMessage>): Promise<void> {
+  private async checkGroupV1Data(
+    message: Readonly<Proto.IDataMessage>
+  ): Promise<void> {
     const { group } = message;
 
     if (!group) {
@@ -2160,7 +2346,9 @@ class MessageReceiverInner extends EventTarget {
     }
   }
 
-  getProcessedGroupId(message: ProcessedDataMessage): string | undefined {
+  private getProcessedGroupId(
+    message: ProcessedDataMessage
+  ): string | undefined {
     if (message.groupV2) {
       return message.groupV2.id;
     }
@@ -2170,7 +2358,7 @@ class MessageReceiverInner extends EventTarget {
     return undefined;
   }
 
-  getGroupId(message: Proto.IDataMessage): string | undefined {
+  private getGroupId(message: Proto.IDataMessage): string | undefined {
     if (message.groupV2) {
       strictAssert(message.groupV2.masterKey, 'Missing groupV2.masterKey');
       const { id } = deriveGroupFields(message.groupV2.masterKey);
@@ -2183,7 +2371,7 @@ class MessageReceiverInner extends EventTarget {
     return undefined;
   }
 
-  getDestination(sentMessage: Proto.SyncMessage.ISent) {
+  private getDestination(sentMessage: Proto.SyncMessage.ISent) {
     if (sentMessage.message && sentMessage.message.groupV2) {
       return `groupv2(${this.getGroupId(sentMessage.message)})`;
     }
@@ -2194,7 +2382,7 @@ class MessageReceiverInner extends EventTarget {
     return sentMessage.destination || sentMessage.destinationUuid;
   }
 
-  async handleSyncMessage(
+  private async handleSyncMessage(
     envelope: ProcessedEnvelope,
     syncMessage: ProcessedSyncMessage
   ): Promise<void> {
@@ -2293,10 +2481,10 @@ class MessageReceiverInner extends EventTarget {
     return Promise.resolve();
   }
 
-  async handleConfiguration(
+  private async handleConfiguration(
     envelope: ProcessedEnvelope,
     configuration: Proto.SyncMessage.IConfiguration
-  ) {
+  ): Promise<void> {
     window.log.info('got configuration sync message');
     const ev = new ConfigurationEvent(
       configuration,
@@ -2305,10 +2493,10 @@ class MessageReceiverInner extends EventTarget {
     return this.dispatchAndWait(ev);
   }
 
-  async handleViewOnceOpen(
+  private async handleViewOnceOpen(
     envelope: ProcessedEnvelope,
     sync: Proto.SyncMessage.IViewOnceOpen
-  ) {
+  ): Promise<void> {
     window.log.info('got view once open sync message');
 
     const ev = new ViewOnceOpenSyncEvent(
@@ -2325,10 +2513,10 @@ class MessageReceiverInner extends EventTarget {
     return this.dispatchAndWait(ev);
   }
 
-  async handleMessageRequestResponse(
+  private async handleMessageRequestResponse(
     envelope: ProcessedEnvelope,
     sync: Proto.SyncMessage.IMessageRequestResponse
-  ) {
+  ): Promise<void> {
     window.log.info('got message request response sync message');
 
     const { groupId } = sync;
@@ -2367,10 +2555,10 @@ class MessageReceiverInner extends EventTarget {
     return this.dispatchAndWait(ev);
   }
 
-  async handleFetchLatest(
+  private async handleFetchLatest(
     envelope: ProcessedEnvelope,
     sync: Proto.SyncMessage.IFetchLatest
-  ) {
+  ): Promise<void> {
     window.log.info('got fetch latest sync message');
 
     const ev = new FetchLatestEvent(
@@ -2381,7 +2569,10 @@ class MessageReceiverInner extends EventTarget {
     return this.dispatchAndWait(ev);
   }
 
-  async handleKeys(envelope: ProcessedEnvelope, sync: Proto.SyncMessage.IKeys) {
+  private async handleKeys(
+    envelope: ProcessedEnvelope,
+    sync: Proto.SyncMessage.IKeys
+  ): Promise<void> {
     window.log.info('got keys sync message');
 
     if (!sync.storageService) {
@@ -2396,10 +2587,10 @@ class MessageReceiverInner extends EventTarget {
     return this.dispatchAndWait(ev);
   }
 
-  async handleStickerPackOperation(
+  private async handleStickerPackOperation(
     envelope: ProcessedEnvelope,
     operations: Array<Proto.SyncMessage.IStickerPackOperation>
-  ) {
+  ): Promise<void> {
     const ENUM = Proto.SyncMessage.StickerPackOperation.Type;
     window.log.info('got sticker pack operation sync message');
 
@@ -2418,7 +2609,10 @@ class MessageReceiverInner extends EventTarget {
     return this.dispatchAndWait(ev);
   }
 
-  async handleVerified(envelope: ProcessedEnvelope, verified: Proto.IVerified) {
+  private async handleVerified(
+    envelope: ProcessedEnvelope,
+    verified: Proto.IVerified
+  ): Promise<void> {
     const ev = new VerifiedEvent(
       {
         state: verified.state,
@@ -2438,7 +2632,7 @@ class MessageReceiverInner extends EventTarget {
     return this.dispatchAndWait(ev);
   }
 
-  async handleRead(
+  private async handleRead(
     envelope: ProcessedEnvelope,
     read: Array<Proto.SyncMessage.IRead>
   ): Promise<void> {
@@ -2461,10 +2655,10 @@ class MessageReceiverInner extends EventTarget {
     await Promise.all(results);
   }
 
-  async handleContacts(
+  private async handleContacts(
     envelope: ProcessedEnvelope,
     contacts: Proto.SyncMessage.IContacts
-  ) {
+  ): Promise<void> {
     window.log.info('contact sync');
     const { blob } = contacts;
     if (!blob) {
@@ -2494,7 +2688,7 @@ class MessageReceiverInner extends EventTarget {
     window.log.info('handleContacts: finished');
   }
 
-  async handleGroups(
+  private async handleGroups(
     envelope: ProcessedEnvelope,
     groups: Proto.SyncMessage.IGroups
   ): Promise<void> {
@@ -2511,12 +2705,23 @@ class MessageReceiverInner extends EventTarget {
     //   this attachment download and a lot of processing of that attachment.
     const attachmentPointer = await this.handleAttachment(blob);
     const groupBuffer = new GroupBuffer(attachmentPointer.data);
-    let groupDetails = groupBuffer.next() as any;
+    let groupDetails = groupBuffer.next();
     const promises = [];
     while (groupDetails) {
-      strictAssert(groupDetails.id, 'Group details without id');
-      groupDetails.id = Bytes.toBinary(groupDetails.id);
-      const ev = new GroupEvent(groupDetails);
+      const { id } = groupDetails;
+      strictAssert(id, 'Group details without id');
+
+      if (id.byteLength !== 16) {
+        window.log.error(
+          `onGroupReceived: Id was ${id} bytes, expected 16 bytes. Dropping group.`
+        );
+        continue;
+      }
+
+      const ev = new GroupEvent({
+        ...groupDetails,
+        id: Bytes.toBinary(id),
+      });
       const promise = this.dispatchAndWait(ev).catch(e => {
         window.log.error('error processing group', e);
       });
@@ -2530,10 +2735,10 @@ class MessageReceiverInner extends EventTarget {
     return this.dispatchAndWait(ev);
   }
 
-  async handleBlocked(
+  private async handleBlocked(
     envelope: ProcessedEnvelope,
     blocked: Proto.SyncMessage.IBlocked
-  ) {
+  ): Promise<void> {
     window.log.info('Setting these numbers as blocked:', blocked.numbers);
     if (blocked.numbers) {
       await window.textsecure.storage.put('blocked', blocked.numbers);
@@ -2556,246 +2761,34 @@ class MessageReceiverInner extends EventTarget {
     this.removeFromCache(envelope);
   }
 
-  isBlocked(number: string) {
+  private isBlocked(number: string): boolean {
     return window.textsecure.storage.blocked.isBlocked(number);
   }
 
-  isUuidBlocked(uuid: string) {
+  private isUuidBlocked(uuid: string): boolean {
     return window.textsecure.storage.blocked.isUuidBlocked(uuid);
   }
 
-  isGroupBlocked(groupId: string) {
+  private isGroupBlocked(groupId: string): boolean {
     return window.textsecure.storage.blocked.isGroupBlocked(groupId);
   }
 
-  async downloadAttachment(
-    attachment: ProcessedAttachment
-  ): Promise<DownloadedAttachmentType> {
-    const cdnId = attachment.cdnId || attachment.cdnKey;
-    const { cdnNumber } = attachment;
-
-    if (!cdnId) {
-      throw new Error('downloadAttachment: Attachment was missing cdnId!');
-    }
-
-    strictAssert(cdnId, 'attachment without cdnId');
-    const encrypted = await this.server.getAttachment(
-      cdnId,
-      dropNull(cdnNumber)
-    );
-    const { key, digest, size, contentType } = attachment;
-
-    if (!digest) {
-      throw new Error('Failure: Ask sender to update Signal and resend.');
-    }
-
-    strictAssert(key, 'attachment has no key');
-    strictAssert(digest, 'attachment has no digest');
-
-    const paddedData = await Crypto.decryptAttachment(
-      encrypted,
-      typedArrayToArrayBuffer(Bytes.fromBase64(key)),
-      typedArrayToArrayBuffer(Bytes.fromBase64(digest))
-    );
-
-    if (!isNumber(size)) {
-      throw new Error(
-        `downloadAttachment: Size was not provided, actual size was ${paddedData.byteLength}`
-      );
-    }
-
-    const data = window.Signal.Crypto.getFirstBytes(paddedData, size);
-
-    return {
-      ...omit(attachment, 'digest', 'key'),
-
-      contentType: contentType
-        ? MIME.fromString(contentType)
-        : MIME.APPLICATION_OCTET_STREAM,
-      data,
-    };
-  }
-
-  async handleAttachment(
+  private async handleAttachment(
     attachment: Proto.IAttachmentPointer
   ): Promise<DownloadedAttachmentType> {
     const cleaned = processAttachment(attachment);
     return this.downloadAttachment(cleaned);
   }
 
-  async handleEndSession(identifier: string) {
+  private async handleEndSession(identifier: string): Promise<void> {
     window.log.info(`handleEndSession: closing sessions for ${identifier}`);
     await window.textsecure.storage.protocol.archiveAllSessions(identifier);
   }
 
-  async processDecrypted(
+  private async processDecrypted(
     envelope: ProcessedEnvelope,
     decrypted: Proto.IDataMessage
   ): Promise<ProcessedDataMessage> {
     return processDataMessage(decrypted, envelope.timestamp);
   }
-}
-
-export default class MessageReceiver {
-  private readonly inner: MessageReceiverInner;
-
-  constructor(
-    server: WebAPIType,
-    options: {
-      serverTrustRoot: string;
-      retryCached?: string;
-      socket?: WebSocket;
-    }
-  ) {
-    const inner = new MessageReceiverInner(server, options);
-    this.inner = inner;
-
-    this.close = inner.close.bind(inner);
-    this.downloadAttachment = inner.downloadAttachment.bind(inner);
-    this.getStatus = inner.getStatus.bind(inner);
-    this.hasEmptied = inner.hasEmptied.bind(inner);
-    this.stopProcessing = inner.stopProcessing.bind(inner);
-    this.checkSocket = inner.checkSocket.bind(inner);
-    this.unregisterBatchers = inner.unregisterBatchers.bind(inner);
-
-    inner.connect(options.socket);
-    this.getProcessedCount = () => inner.processedCount;
-  }
-
-  public addEventListener(
-    name: 'reconnect',
-    handler: (ev: ReconnectEvent) => void
-  ): void;
-
-  public addEventListener(
-    name: 'empty',
-    handler: (ev: EmptyEvent) => void
-  ): void;
-
-  public addEventListener(
-    name: 'progress',
-    handler: (ev: ProgressEvent) => void
-  ): void;
-
-  public addEventListener(
-    name: 'typing',
-    handler: (ev: TypingEvent) => void
-  ): void;
-
-  public addEventListener(
-    name: 'error',
-    handler: (ev: ErrorEvent) => void
-  ): void;
-
-  public addEventListener(
-    name: 'delivery',
-    handler: (ev: DeliveryEvent) => void
-  ): void;
-
-  public addEventListener(
-    name: 'decryption-error',
-    handler: (ev: DecryptionErrorEvent) => void
-  ): void;
-
-  public addEventListener(name: 'sent', handler: (ev: SentEvent) => void): void;
-
-  public addEventListener(
-    name: 'profileKeyUpdate',
-    handler: (ev: ProfileKeyUpdateEvent) => void
-  ): void;
-
-  public addEventListener(
-    name: 'message',
-    handler: (ev: MessageEvent) => void
-  ): void;
-
-  public addEventListener(
-    name: 'retry-request',
-    handler: (ev: RetryRequestEvent) => void
-  ): void;
-
-  public addEventListener(name: 'read', handler: (ev: ReadEvent) => void): void;
-
-  public addEventListener(
-    name: 'configuration',
-    handler: (ev: ConfigurationEvent) => void
-  ): void;
-
-  public addEventListener(
-    name: 'viewOnceOpenSync',
-    handler: (ev: ViewOnceOpenSyncEvent) => void
-  ): void;
-
-  public addEventListener(
-    name: 'messageRequestResponse',
-    handler: (ev: MessageRequestResponseEvent) => void
-  ): void;
-
-  public addEventListener(
-    name: 'fetchLatest',
-    handler: (ev: FetchLatestEvent) => void
-  ): void;
-
-  public addEventListener(name: 'keys', handler: (ev: KeysEvent) => void): void;
-
-  public addEventListener(
-    name: 'sticker-pack',
-    handler: (ev: StickerPackEvent) => void
-  ): void;
-
-  public addEventListener(
-    name: 'verified',
-    handler: (ev: VerifiedEvent) => void
-  ): void;
-
-  public addEventListener(
-    name: 'readSync',
-    handler: (ev: ReadSyncEvent) => void
-  ): void;
-
-  public addEventListener(
-    name: 'contact',
-    handler: (ev: ContactEvent) => void
-  ): void;
-
-  public addEventListener(
-    name: 'contactSync',
-    handler: (ev: ContactSyncEvent) => void
-  ): void;
-
-  public addEventListener(
-    name: 'group',
-    handler: (ev: GroupEvent) => void
-  ): void;
-
-  public addEventListener(
-    name: 'groupSync',
-    handler: (ev: GroupSyncEvent) => void
-  ): void;
-
-  public addEventListener(name: string, handler: EventHandler): void {
-    return this.inner.addEventListener(name, handler);
-  }
-
-  public removeEventListener(name: string, handler: EventHandler): void {
-    return this.inner.removeEventListener(name, handler);
-  }
-
-  close: () => Promise<void>;
-
-  downloadAttachment: (
-    attachment: ProcessedAttachment
-  ) => Promise<DownloadedAttachmentType>;
-
-  getStatus: () => SocketStatus;
-
-  hasEmptied: () => boolean;
-
-  stopProcessing: () => Promise<void>;
-
-  unregisterBatchers: () => void;
-
-  checkSocket: () => void;
-
-  getProcessedCount: () => number;
 }

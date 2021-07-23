@@ -119,8 +119,13 @@ export class ContactSyncEvent extends Event {
   }
 }
 
+export type GroupEventData = Omit<ModifiedGroupDetails, 'id'> &
+  Readonly<{
+    id: string;
+  }>;
+
 export class GroupEvent extends Event {
-  constructor(public readonly groupDetails: ModifiedGroupDetails) {
+  constructor(public readonly groupDetails: GroupEventData) {
     super('group');
   }
 }
