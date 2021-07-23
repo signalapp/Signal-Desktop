@@ -621,6 +621,10 @@
             }
         }
     },
+    "decryptionErrorToast": {
+        "message": "Fehler bei der Entschlüsselung. Bitte anklicken, um eine Diagnoseprotokoll zu übermitteln.",
+        "description": "An error popup when we haven't added an error for decryption error."
+    },
     "oneNonImageAtATimeToast": {
         "message": "Mehrere Anhänge je Nachricht sind ausschließlich bei Bildern erlaubt.",
         "description": "An error popup when the user has attempted to add an attachment"
@@ -672,6 +676,10 @@
     "debugLog": {
         "message": "Diagnoseprotokoll",
         "description": "View menu item to open the debug log (title case)"
+    },
+    "forceUpdate": {
+        "message": "Aktualisierung erzwingen",
+        "description": "View menu item to force the app to update download and install"
     },
     "helpMenuShowKeyboardShortcuts": {
         "message": "Tastaturkurzbefehle anzeigen",
@@ -1028,10 +1036,6 @@
     "deleteForEveryoneWarning": {
         "message": "Diese Nachricht wird für alle Teilnehmer der Unterhaltung gelöscht, die eine aktuelle Version von Signal verwenden. Sie werden sehen können, dass du eine Nachricht gelöscht hast.",
         "description": "Text shown in the confirmation dialog for deleting a message for everyone"
-    },
-    "deleteThisMessage": {
-        "message": "Diese Nachricht löschen",
-        "description": ""
     },
     "from": {
         "message": "Von",
@@ -1557,6 +1561,14 @@
         "message": "Die Rechtschreibprüfung wird beim nächsten Start von Signal deaktiviert.",
         "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
     },
+    "SystemTraySetting__minimize-to-system-tray": {
+        "message": "In Taskleiste minimieren",
+        "description": "In the settings, shown next to the checkbox option for minimizing to the system tray"
+    },
+    "SystemTraySetting__minimize-to-and-start-in-system-tray": {
+        "message": "In Taskleiste minimiert starten",
+        "description": "In the settings, shown next to the checkbox option for starting in the system tray"
+    },
     "autoLaunchDescription": {
         "message": "Bei Computeranmeldung öffnen",
         "description": "Description for the automatic launch setting"
@@ -1837,7 +1849,7 @@
     },
     "disappearingMessages": {
         "message": "Verschwindende Nachrichten",
-        "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages"
+        "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
     },
     "disappearingMessagesDisabled": {
         "message": "Verschwindende Nachrichten deaktiviert",
@@ -3529,6 +3541,18 @@
         "message": "Sorry, dieser sgnl://-Link ergab keinen Sinn.",
         "description": "Shown if you click on a sgnl:// link not currently supported by Desktop"
     },
+    "GroupV2--cannot-send": {
+        "message": "Du kannst keine Nachrichten an diese Gruppe senden.",
+        "description": "Shown in toast when you attempt to forward a message to an announcement only group"
+    },
+    "GroupV2--add--missing-capability": {
+        "message": "Diese Personen können erst dann zur Gruppe hinzugefügt werden, wenn sie Signal aktualisiert haben.",
+        "description": "Shown in a confirmation dialog when members who cannot view announcement only group cannot be added"
+    },
+    "GroupV2--cannot-start-group-call": {
+        "message": "Nur Admins können in dieser Gruppe Anrufe starten.",
+        "description": "Shown in toast when a non-admin starts a group call in an announcements only group"
+    },
     "GroupV2--join--invalid-link--title": {
         "message": "Ungültiger Link",
         "description": "Shown if we are unable to parse a group link"
@@ -3626,7 +3650,7 @@
         "description": "Shown if something went wrong when you try to join via a group link"
     },
     "GroupV2--join--general-join-failure": {
-        "message": "Ein Beitreten über diesen Link war nicht möglich. Versuche es später erneut.",
+        "message": "Beitritt zur Gruppe nicht möglich. Bitte versuche es später erneut.",
         "description": "Shown if something went wrong when you try to join via a group link"
     },
     "GroupV2--admin": {
@@ -4701,6 +4725,42 @@
         "message": "Die Gruppenbeschreibung wurde geändert.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
+    "GroupV2--announcements--admin--you": {
+        "message": "Du hast die Gruppen-Einstellungen geändert, um nur Admins das Senden von Nachrichten zu erlauben.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--announcements--admin--other": {
+        "message": "$memberName$ hat die Gruppen-Einstellungen geändert, um nur Admins das Senden von Nachrichten zu erlauben.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--announcements--admin--unknown": {
+        "message": "Die Gruppen-Einstellungen wurden geändert, um nur Admins das Senden von Nachrichten zu erlauben.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--announcements--member--you": {
+        "message": "Du hast die Gruppen-Einstellungen geändert, um allen Mitgliedern das Senden von Nachrichten zu erlauben.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--announcements--member--other": {
+        "message": "$memberName$ hat die Gruppen-Einstellungen geändert, um allen Mitgliedern das Senden von Nachrichten zu erlauben.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--announcements--member--unknown": {
+        "message": "Die Gruppen-Einstellungen wurden geändert, um allen Mitgliedern das Senden von Nachrichten zu erlauben.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
     "GroupV1--Migration--disabled": {
         "message": "Aktualisiere diese Gruppe für neue Funktionen wie @Erwähnungen und Admins. Mitglieder, die ihre Namen und Fotos nicht mit dieser Gruppe geteilt haben, werden eingeladen, beizutreten. $learnMore$",
         "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1).",
@@ -4922,6 +4982,14 @@
     "ConversationDetails--add-members-info": {
         "message": "Wähle aus, wer dieser Gruppe Mitglieder hinzufügen kann.",
         "description": "This is the additional info for the 'who can add members' panel"
+    },
+    "ConversationDetails--announcement-label": {
+        "message": "Wer kann Nachrichten senden",
+        "description": "This is the additional info for the 'who can send messages' panel"
+    },
+    "ConversationDetails--announcement-info": {
+        "message": "Wähle aus, wer Nachrichten an diese Gruppe senden kann.",
+        "description": "This is the additional info for the 'who can send mesages' panel"
     },
     "ConversationDetails--requests-and-invites": {
         "message": "Anfragen & Einladungen",
@@ -5162,6 +5230,10 @@
     "AvatarInput--no-photo-label--group": {
         "message": "Gruppenfoto hinzufügen",
         "description": "The label for the avatar uploader when no group photo is selected"
+    },
+    "AvatarInput--no-photo-label--profile": {
+        "message": "Foto hinzufügen",
+        "description": "The label for the avatar uploader when no profile photo is selected"
     },
     "AvatarInput--change-photo-label": {
         "message": "Foto ändern",
@@ -5422,7 +5494,7 @@
         }
     },
     "CaptchaDialog__title": {
-        "message": "Verifizieren, um weiterhin zu kommunizieren",
+        "message": "Verifizieren zum Senden weiterer Nachrichten",
         "description": "Header in the captcha dialog"
     },
     "CaptchaDialog__first-paragraph": {
@@ -5620,5 +5692,141 @@
     "ConversationDetailsHeader--add-group-description": {
         "message": "Gruppenbeschreibung hinzufügen …",
         "description": "Placeholder text in the details header for those that can edit the group description"
+    },
+    "MediaQualitySelector--button": {
+        "message": "Medienqualität auswählen",
+        "description": "aria-label for the media quality selector button"
+    },
+    "MediaQualitySelector--title": {
+        "message": "Medienqualität",
+        "description": "Popup selector title"
+    },
+    "MediaQualitySelector--standard-quality-title": {
+        "message": "Standard",
+        "description": "Title for option for standard quality"
+    },
+    "MediaQualitySelector--standard-quality-description": {
+        "message": "Schneller, weniger Daten",
+        "description": "Description of standard quality selector"
+    },
+    "MediaQualitySelector--high-quality-title": {
+        "message": "Hoch",
+        "description": "Title for option for high quality"
+    },
+    "MediaQualitySelector--high-quality-description": {
+        "message": "Langsamer, mehr Daten",
+        "description": "Description of high quality selector"
+    },
+    "MessageDetailsHeader--Failed": {
+        "message": "Nicht gesendet",
+        "description": "In the message details screen, shown above contacts where the message failed to deliver"
+    },
+    "MessageDetailsHeader--Pending": {
+        "message": "Ausstehend",
+        "description": "In the message details screen, shown above contacts where the message is still sending"
+    },
+    "MessageDetailsHeader--Sent": {
+        "message": "Gesendet an",
+        "description": "In the message details screen, shown above contacts where the message has been sent (but not delivered, read, or viewed)"
+    },
+    "MessageDetailsHeader--Delivered": {
+        "message": "Zugestellt an",
+        "description": "In the message details screen, shown above contacts who have received your message"
+    },
+    "MessageDetailsHeader--Read": {
+        "message": "Gelesen von",
+        "description": "In the message details screen, shown above contacts who have read this message"
+    },
+    "MessageDetailsHeader--Viewed": {
+        "message": "Angesehen von",
+        "description": "In the message details screen, shown above contacts who have viewed this message"
+    },
+    "ProfileEditor--about": {
+        "message": "Info",
+        "description": "Default text for about field"
+    },
+    "ProfileEditor--about-placeholder": {
+        "message": "Schreib etwas über dich …",
+        "description": "Placeholder text for about input field"
+    },
+    "ProfileEditor--first-name": {
+        "message": "Vorname (erforderlich)",
+        "description": "Placeholder text for first name field"
+    },
+    "ProfileEditor--last-name": {
+        "message": "Nachname (optional)",
+        "description": "Placeholder text for last name field"
+    },
+    "ProfileEditor--discard": {
+        "message": "Möchtest du diese Änderungen verwerfen?",
+        "description": "ConfirmationDialog text for discarding changes"
+    },
+    "ProfileEditor--info": {
+        "message": "Dein Profil ist verschlüsselt. Dein Profil und Änderungen daran sind sichtbar für deine Kontakte, und bei Beginn oder Annahme neuer Unterhaltungen. $learnMore$",
+        "description": "Information shown at the bottom of the profile editor section",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "Learn More."
+            }
+        }
+    },
+    "ProfileEditor--learnMore": {
+        "message": "Mehr erfahren",
+        "description": "Text that links to a support article"
+    },
+    "Bio--speak-freely": {
+        "message": "Sprich offen",
+        "description": "A default bio option"
+    },
+    "Bio--encrypted": {
+        "message": "Verschlüsselt",
+        "description": "A default bio option"
+    },
+    "Bio--free-to-chat": {
+        "message": "Frei für Unterhaltungen",
+        "description": "A default bio option"
+    },
+    "Bio--coffee-lover": {
+        "message": "Kaffeeliebhaber",
+        "description": "A default bio option"
+    },
+    "Bio--taking-break": {
+        "message": "Mache eine Pause",
+        "description": "A default bio option"
+    },
+    "ProfileEditorModal--profile": {
+        "message": "Profil",
+        "description": "Title for profile editing"
+    },
+    "ProfileEditorModal--name": {
+        "message": "Dein Name",
+        "description": "Title for editing your name"
+    },
+    "ProfileEditorModal--about": {
+        "message": "Info",
+        "description": "Title for about editing"
+    },
+    "ProfileEditorModal--error": {
+        "message": "Dein Profil konnte nicht aktualisiert werden. Bitte versuche es erneut.",
+        "description": "Error message when something goes wrong updating your profile."
+    },
+    "AnnouncementsOnlyGroupBanner--modal": {
+        "message": "Schreib einem Admin",
+        "description": "Modal title for the list of admins in a group"
+    },
+    "AnnouncementsOnlyGroupBanner--announcements-only": {
+        "message": "Nur $admins$ können Nachrichten senden",
+        "description": "Displayed if sending of messages is disabled to non-admins",
+        "placeholders": {
+            "admins": {
+                "content": "$1",
+                "example": "admins"
+            }
+        }
+    },
+    "AnnouncementsOnlyGroupBanner--admins": {
+        "message": "Admins",
+        "description": "Clickable text describing administrators of a group, used in the message an admin label"
     }
 }

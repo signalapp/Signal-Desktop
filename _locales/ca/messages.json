@@ -188,11 +188,11 @@
         "description": "Message shown on the loading screen before we've loaded any messages"
     },
     "optimizingApplication": {
-        "message": "S'optimitza l'aplicació...",
+        "message": "S'està optimitzant l'aplicació...",
         "description": "Message shown on the loading screen while we are doing application optimizations"
     },
     "migratingToSQLCipher": {
-        "message": "S'optimitzen els missatges... $status$ acabat.",
+        "message": "S'estan optimitzant els missatges... $status$ acabat.",
         "description": "Message shown on the loading screen while we are doing application optimizations",
         "placeholders": {
             "status": {
@@ -266,7 +266,7 @@
         "description": "Header of the error screen after a failed import"
     },
     "importingHeader": {
-        "message": "Càrrega de contactes i missatges",
+        "message": "S'estan carregant els contactes i missatges",
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
@@ -298,11 +298,11 @@
         "description": "Message shown as the export location if we didn't capture the target directory"
     },
     "upgradingDatabase": {
-        "message": "S'actualitza la base de dades. Això pot trigar una mica...",
+        "message": "S'està actualitzant la base de dades. Això pot trigar una mica...",
         "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
     },
     "loadingMessages": {
-        "message": "Es carreguen els missatges. En manquen $count$...",
+        "message": "S'estan carregant els missatges. En manquen $count$...",
         "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
         "placeholders": {
             "count": {
@@ -320,7 +320,7 @@
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "invalidConversation": {
-        "message": "Aquest grup no és vàlid. Si us plau, creeu un grup nou.",
+        "message": "Aquest grup no és vàlid. Creeu un grup nou.",
         "description": "Displayed when a user can't send a message because something has gone wrong in the conversation."
     },
     "scrollDown": {
@@ -621,6 +621,10 @@
             }
         }
     },
+    "decryptionErrorToast": {
+        "message": "La versió d'escriptori ha tingut un error de desencriptació. Cliqueu per enviar-ne un registre d'error.",
+        "description": "An error popup when we haven't added an error for decryption error."
+    },
     "oneNonImageAtATimeToast": {
         "message": "Quan inclogueu un adjunt que no sigui una imatge, el límit és un adjunt per missatge.",
         "description": "An error popup when the user has attempted to add an attachment"
@@ -646,7 +650,7 @@
         "description": "Displayed when the desktop client cannot connect to the server."
     },
     "connecting": {
-        "message": "Es connecta",
+        "message": "S'està connectant",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "connect": {
@@ -672,6 +676,10 @@
     "debugLog": {
         "message": "Registre de depuració",
         "description": "View menu item to open the debug log (title case)"
+    },
+    "forceUpdate": {
+        "message": "Força l'actualització",
+        "description": "View menu item to force the app to update download and install"
     },
     "helpMenuShowKeyboardShortcuts": {
         "message": "Mostra les dreceres del teclat",
@@ -854,7 +862,7 @@
         "description": "When rendering an address, used to provide context to a post office box"
     },
     "downloading": {
-        "message": "Es baixa",
+        "message": "S'està baixant",
         "description": "Shown in the message bubble while a long message attachment is being downloaded"
     },
     "downloadAttachment": {
@@ -926,11 +934,11 @@
         "description": "Shown if the user attempts to send an audio message without audio permissions turned on"
     },
     "audioCallingPermissionNeeded": {
-        "message": "Per trucar, heu de permetre que el Signal Desktop accedeixi al micròfon.",
+        "message": "Per a trucar, heu de permetre que el Signal Desktop accedeixi al micròfon.",
         "description": "Shown if the user attempts access the microphone for calling without audio permissions turned on"
     },
     "videoCallingPermissionNeeded": {
-        "message": "Per fer trucades de vídeo, heu de permetre que el Signal Desktop accedeixi a la càmera.",
+        "message": "Per a fer trucades de vídeo, heu de permetre que el Signal Desktop accedeixi a la càmera.",
         "description": "Shown if the user attempts access the camera for video calling without video permissions turned on"
     },
     "allowAccess": {
@@ -958,7 +966,7 @@
         "description": "Shown as the title of our update error dialogs on windows"
     },
     "cannotUpdateDetail": {
-        "message": "El Signal Desktop no es pot actualitzar, però n'hi ha una versió nova disponible. Si us plau, aneu a  $url$ i instal·leu-ne la versió nova manualment. Després o bé contacteu amb el personal de suport o bé feu un informe d'error sobre aquest problema.",
+        "message": "El Signal Desktop no es pot actualitzar, però n'hi ha una versió nova disponible. Aneu a  $url$ i instal·leu-ne la versió nova manualment. Després o bé contacteu amb el personal de suport o bé feu un informe d'error sobre aquest problema.",
         "description": "Shown if a general error happened while trying to install update package",
         "placeholders": {
             "url": {
@@ -968,7 +976,7 @@
         }
     },
     "readOnlyVolume": {
-        "message": "El Signal Desktop es troba probablement en una quarentena de macOS i no es podrà actualitzar automàticament. Si us plau, proveu de moure  $app$ a  $folder$ amb el Finder.",
+        "message": "El Signal Desktop es troba probablement en una quarentena de macOS i no es podrà actualitzar automàticament. Proveu de moure  $app$ a  $folder$ amb el Finder.",
         "description": "Shown on MacOS if running on a read-only volume and we cannot update",
         "placeholders": {
             "app": {
@@ -1028,10 +1036,6 @@
     "deleteForEveryoneWarning": {
         "message": "Aquest missatge se suprimirà per a tothom que sigui a la conversa si tenen una versió recent del Signal. Podran veure que heu suprimit un missatge.",
         "description": "Text shown in the confirmation dialog for deleting a message for everyone"
-    },
-    "deleteThisMessage": {
-        "message": "Suprimeix aquest missatge",
-        "description": ""
     },
     "from": {
         "message": "De",
@@ -1557,6 +1561,14 @@
         "message": "La comprovació d'ortografia es desactivarà el proper cop que s'iniciï el Signal.",
         "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
     },
+    "SystemTraySetting__minimize-to-system-tray": {
+        "message": "Minimitza a la safata del sistema",
+        "description": "In the settings, shown next to the checkbox option for minimizing to the system tray"
+    },
+    "SystemTraySetting__minimize-to-and-start-in-system-tray": {
+        "message": "Comença minimitzada a la safata",
+        "description": "In the settings, shown next to the checkbox option for starting in the system tray"
+    },
     "autoLaunchDescription": {
         "message": "Obre en entrar a l'ordinador",
         "description": "Description for the automatic launch setting"
@@ -1837,7 +1849,7 @@
     },
     "disappearingMessages": {
         "message": "Missatges efímers",
-        "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages"
+        "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
     },
     "disappearingMessagesDisabled": {
         "message": "S'han desactivat els missatges efímers",
@@ -2952,11 +2964,11 @@
         "description": "Text for the sticker preview for the dark theme"
     },
     "StickerCreator--Authentication--error": {
-        "message": "Si us plau, configureu el Signal del telèfon i de l'escriptori perquè usi el Creador de paquets d'adhesius.",
+        "message": "Configureu el Signal del telèfon i de l'escriptori perquè usi el Creador de paquets d'adhesius.",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
     "Reactions--error": {
-        "message": "Ha fallat enviar la reacció. Si us plau, torneu-ho a provar.",
+        "message": "Ha fallat enviar la reacció. Torneu-ho a provar.",
         "description": "Shown when a reaction fails to send"
     },
     "ReactionsViewer--more": {
@@ -3518,7 +3530,7 @@
         "description": "Title of pop-up dialog when user-initiated task has gone wrong"
     },
     "ErrorModal--description": {
-        "message": "Si us plau, torneu-ho a provar o contacteu amb l'assistència.",
+        "message": "Torneu-ho a provar o contacteu amb l'assistència.",
         "description": "Description text in pop-up dialog when user-initiated task has gone wrong"
     },
     "Confirmation--confirm": {
@@ -3528,6 +3540,18 @@
     "unknown-sgnl-link": {
         "message": "Perdoneu, l'enllaç sgnl:// no tenia sentit!",
         "description": "Shown if you click on a sgnl:// link not currently supported by Desktop"
+    },
+    "GroupV2--cannot-send": {
+        "message": "No podeu enviar missatges a aquest grup.",
+        "description": "Shown in toast when you attempt to forward a message to an announcement only group"
+    },
+    "GroupV2--add--missing-capability": {
+        "message": "Aquestes persones no es poden afegir al grup fins que no actualitzin el Signal.",
+        "description": "Shown in a confirmation dialog when members who cannot view announcement only group cannot be added"
+    },
+    "GroupV2--cannot-start-group-call": {
+        "message": "Només els administradors del grup poden iniciar una trucada.",
+        "description": "Shown in toast when a non-admin starts a group call in an announcements only group"
     },
     "GroupV2--join--invalid-link--title": {
         "message": "Enllaç no vàlid",
@@ -3626,7 +3650,7 @@
         "description": "Shown if something went wrong when you try to join via a group link"
     },
     "GroupV2--join--general-join-failure": {
-        "message": "Ha fallat accedir-hi amb aquest enllaç. Torneu-ho a provar més tard.",
+        "message": "No us heu pogut afegir al grup. Torneu-ho a provar més tard.",
         "description": "Shown if something went wrong when you try to join via a group link"
     },
     "GroupV2--admin": {
@@ -4701,6 +4725,42 @@
         "message": "La descripció del grup ha canviat.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
+    "GroupV2--announcements--admin--you": {
+        "message": "Heu canviat la configuració del grup per permetre enviar missatges només als administradors.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--announcements--admin--other": {
+        "message": "$memberName$ ha canviat la configuració del grup per permetre enviar missatges només als administradors.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--announcements--admin--unknown": {
+        "message": "El grup s'ha canviat per permetre enviar missatges només als administradors.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--announcements--member--you": {
+        "message": "Heu canviat la configuració del grup per permetre enviar missatges a tots els membres.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--announcements--member--other": {
+        "message": "$memberName$ ha canviat la configuració del grup per permetre enviar missatges només a tots els membres.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--announcements--member--unknown": {
+        "message": "El grup s'ha canviat per permetre enviar missatges a tots els membres.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
     "GroupV1--Migration--disabled": {
         "message": "Actualitzeu aquest grup i activeu-ne les funcions noves com ara les @mencions i els administradors. Els membres que no hi han compartit el nom o la fotografia es convidaran a afegir-s'hi. $learnMore$",
         "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1).",
@@ -4922,6 +4982,14 @@
     "ConversationDetails--add-members-info": {
         "message": "Trieu qui pot afegir membres a aquest grup.",
         "description": "This is the additional info for the 'who can add members' panel"
+    },
+    "ConversationDetails--announcement-label": {
+        "message": "Qui pot enviar missatges",
+        "description": "This is the additional info for the 'who can send messages' panel"
+    },
+    "ConversationDetails--announcement-info": {
+        "message": "Qui pot enviar missatges al grup",
+        "description": "This is the additional info for the 'who can send mesages' panel"
     },
     "ConversationDetails--requests-and-invites": {
         "message": "Sol·licituds i invitacions",
@@ -5162,6 +5230,10 @@
     "AvatarInput--no-photo-label--group": {
         "message": "Afegiu una fotografia de grup",
         "description": "The label for the avatar uploader when no group photo is selected"
+    },
+    "AvatarInput--no-photo-label--profile": {
+        "message": "Afegiu-hi una fotografia",
+        "description": "The label for the avatar uploader when no profile photo is selected"
     },
     "AvatarInput--change-photo-label": {
         "message": "Canvia la fotografia",
@@ -5450,11 +5522,11 @@
         "description": "Displayed after successful captcha"
     },
     "verificationFailed": {
-        "message": "Ha fallat la verificació. Si us plau, proveu-ho més tard.",
+        "message": "Ha fallat la verificació. Proveu-ho més tard.",
         "description": "Displayed after unsuccessful captcha"
     },
     "deleteForEveryoneFailed": {
-        "message": "Ha fallat suprimir el missatge per a tothom. Si us plau, proveu-ho més tard.",
+        "message": "Ha fallat suprimir el missatge per a tothom. Proveu-ho més tard.",
         "description": "Displayed when delete-for-everyone has failed to send to all recepients"
     },
     "ChatColorPicker__delete--title": {
@@ -5620,5 +5692,141 @@
     "ConversationDetailsHeader--add-group-description": {
         "message": "Afegiu-hi una descripció del grup...",
         "description": "Placeholder text in the details header for those that can edit the group description"
+    },
+    "MediaQualitySelector--button": {
+        "message": "Seleccioneu la qualitat dels mitjans",
+        "description": "aria-label for the media quality selector button"
+    },
+    "MediaQualitySelector--title": {
+        "message": "Qualitat dels mitjans",
+        "description": "Popup selector title"
+    },
+    "MediaQualitySelector--standard-quality-title": {
+        "message": "Estàndard",
+        "description": "Title for option for standard quality"
+    },
+    "MediaQualitySelector--standard-quality-description": {
+        "message": "Més ràpid, menys dades",
+        "description": "Description of standard quality selector"
+    },
+    "MediaQualitySelector--high-quality-title": {
+        "message": "Alta",
+        "description": "Title for option for high quality"
+    },
+    "MediaQualitySelector--high-quality-description": {
+        "message": "Més lent, més dades",
+        "description": "Description of high quality selector"
+    },
+    "MessageDetailsHeader--Failed": {
+        "message": "No enviat",
+        "description": "In the message details screen, shown above contacts where the message failed to deliver"
+    },
+    "MessageDetailsHeader--Pending": {
+        "message": "Pendent",
+        "description": "In the message details screen, shown above contacts where the message is still sending"
+    },
+    "MessageDetailsHeader--Sent": {
+        "message": "Enviat a",
+        "description": "In the message details screen, shown above contacts where the message has been sent (but not delivered, read, or viewed)"
+    },
+    "MessageDetailsHeader--Delivered": {
+        "message": "Lliurat a",
+        "description": "In the message details screen, shown above contacts who have received your message"
+    },
+    "MessageDetailsHeader--Read": {
+        "message": "Llegit per",
+        "description": "In the message details screen, shown above contacts who have read this message"
+    },
+    "MessageDetailsHeader--Viewed": {
+        "message": "Vist per",
+        "description": "In the message details screen, shown above contacts who have viewed this message"
+    },
+    "ProfileEditor--about": {
+        "message": "Quant a",
+        "description": "Default text for about field"
+    },
+    "ProfileEditor--about-placeholder": {
+        "message": "Escriviu alguna cosa sobre vosaltres...",
+        "description": "Placeholder text for about input field"
+    },
+    "ProfileEditor--first-name": {
+        "message": "Nom (necessari)",
+        "description": "Placeholder text for first name field"
+    },
+    "ProfileEditor--last-name": {
+        "message": "Cognoms (opcional)",
+        "description": "Placeholder text for last name field"
+    },
+    "ProfileEditor--discard": {
+        "message": "Voleu descartar aquests canvis?",
+        "description": "ConfirmationDialog text for discarding changes"
+    },
+    "ProfileEditor--info": {
+        "message": "El perfil està encriptat. El perfil i els canvis seran visibles per als vostres contactes quan inicieu o accepteu converses noves. $learnMore$",
+        "description": "Information shown at the bottom of the profile editor section",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "Learn More."
+            }
+        }
+    },
+    "ProfileEditor--learnMore": {
+        "message": "Més informació",
+        "description": "Text that links to a support article"
+    },
+    "Bio--speak-freely": {
+        "message": "Parleu lliurement",
+        "description": "A default bio option"
+    },
+    "Bio--encrypted": {
+        "message": "Encriptat",
+        "description": "A default bio option"
+    },
+    "Bio--free-to-chat": {
+        "message": "Lliure per conversar-hi",
+        "description": "A default bio option"
+    },
+    "Bio--coffee-lover": {
+        "message": "Amant del cafè",
+        "description": "A default bio option"
+    },
+    "Bio--taking-break": {
+        "message": "Faig un descans.",
+        "description": "A default bio option"
+    },
+    "ProfileEditorModal--profile": {
+        "message": "Perfil",
+        "description": "Title for profile editing"
+    },
+    "ProfileEditorModal--name": {
+        "message": "El nom",
+        "description": "Title for editing your name"
+    },
+    "ProfileEditorModal--about": {
+        "message": "Quant a",
+        "description": "Title for about editing"
+    },
+    "ProfileEditorModal--error": {
+        "message": "No s'ha pogut actualitzar el perfil. Torneu-ho a provar més tard.",
+        "description": "Error message when something goes wrong updating your profile."
+    },
+    "AnnouncementsOnlyGroupBanner--modal": {
+        "message": "Envia un missatge a un administrador",
+        "description": "Modal title for the list of admins in a group"
+    },
+    "AnnouncementsOnlyGroupBanner--announcements-only": {
+        "message": "Només els $admins$ poden enviar missatges.",
+        "description": "Displayed if sending of messages is disabled to non-admins",
+        "placeholders": {
+            "admins": {
+                "content": "$1",
+                "example": "admins"
+            }
+        }
+    },
+    "AnnouncementsOnlyGroupBanner--admins": {
+        "message": "administradors",
+        "description": "Clickable text describing administrators of a group, used in the message an admin label"
     }
 }
