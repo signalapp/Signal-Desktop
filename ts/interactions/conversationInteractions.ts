@@ -439,7 +439,9 @@ export async function deleteMessagesById(
   askUserForConfirmation: boolean
 ) {
   const conversationModel = getConversationController().getOrThrow(conversationId);
-  const selectedMessages = _.compact(await Promise.all(messageIds.map(m => getMessageById(m))));
+  const selectedMessages = _.compact(
+    await Promise.all(messageIds.map(m => getMessageById(m, false)))
+  );
 
   const moreThanOne = selectedMessages.length > 1;
 
