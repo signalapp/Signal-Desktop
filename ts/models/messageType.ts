@@ -102,12 +102,6 @@ export interface MessageAttributes {
    * We display a small message just below the message referenced
    */
   dataExtractionNotification?: DataExtractionNotificationMsg;
-
-  /**
-   * This is used to choose whether to initialize the timer or not in the MessageModel object.
-   * If false or undefined, timer will be in itialized.
-   */
-  skipTimerInit?: boolean;
 }
 
 export interface DataExtractionNotificationMsg {
@@ -173,7 +167,6 @@ export interface MessageAttributesOptionals {
   sync?: boolean;
   snippet?: any;
   direction?: any;
-  skipTimerInit?: boolean;
 }
 
 /**
