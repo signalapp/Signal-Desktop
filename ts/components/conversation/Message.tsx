@@ -28,16 +28,17 @@ import { isFileDangerous } from '../../util/isFileDangerous';
 import _ from 'lodash';
 import { animation, contextMenu, Item, Menu } from 'react-contexify';
 import uuid from 'uuid';
-import { InView } from 'react-intersection-observer';
 import { withTheme } from 'styled-components';
 import { MessageMetadata } from './message/MessageMetadata';
 import { PubKey } from '../../session/types';
+import { getConversationController } from '../../session/conversations';
 import { MessageRegularProps } from '../../models/messageType';
 import {
   addSenderAsModerator,
   removeSenderFromModerator,
 } from '../../interactions/messageInteractions';
 import { updateUserDetailsModal } from '../../state/ducks/modalDialog';
+import { actions as conversationActions } from '../../state/ducks/conversations';
 import { MessageInteraction } from '../../interactions';
 import autoBind from 'auto-bind';
 import { AudioPlayerWithEncryptedFile } from './H5AudioPlayer';
@@ -104,7 +105,7 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
 
   public checkExpired() {
     const now = Date.now();
-    const { isExpired, expirationTimestamp, expirationLength } = this.props;
+    const { isExpired, expirationTimestamp, expirationLength, convoId, id } = this.props;
 
     if (!expirationTimestamp || !expirationLength) {
       return;
@@ -118,10 +119,19 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
         expiring: true,
       });
 
-      const setExpired = () => {
+      const setExpired = async () => {
         this.setState({
           expired: true,
         });
+        await window.Signal.Data.removeMessage(id);
+        window.inboxStore?.dispatch(
+          conversationActions.messageExpired({
+            conversationKey: convoId,
+            messageId: id,
+          })
+        );
+        const convo = getConversationController().get(convoId);
+        convo.updateLastMessage();
       };
       this.expiredTimeout = setTimeout(setExpired, EXPIRED_DELAY);
     }

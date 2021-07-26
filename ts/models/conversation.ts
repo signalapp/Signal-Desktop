@@ -758,6 +758,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
     const messages = await getMessagesByConversation(this.id, {
       limit: 1,
+      skipTimerInit: true,
     });
     const lastMessageModel = messages.at(0);
     const lastMessageJSON = lastMessageModel ? lastMessageModel.toJSON() : null;
@@ -947,7 +948,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     // Build the list of updated message models so we can mark them all as read on a single sqlite call
     for (const nowRead of oldUnreadNowRead) {
-      await nowRead.markReadNoCommit(options.readAt);
+      nowRead.markReadNoCommit(options.readAt);
 
       const errors = nowRead.get('errors');
       read.push({

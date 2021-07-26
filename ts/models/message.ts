@@ -63,7 +63,9 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     }
 
     // this.on('expired', this.onExpired);
-    void this.setToExpire();
+    if (!filledAttrs.skipTimerInit) {
+      void this.setToExpire();
+    }
     autoBind(this);
 
     window.contextMenuShown = false;
@@ -1045,20 +1047,20 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   }
 
   public async markRead(readAt: number) {
-    await this.markReadNoCommit(readAt);
+    this.markReadNoCommit(readAt);
 
     this.getConversation()?.markRead(this.attributes.received_at);
 
     await this.commit();
   }
 
-  public async markReadNoCommit(readAt: number) {
+  public markReadNoCommit(readAt: number) {
     this.set({ unread: 0 });
 
     if (this.get('expireTimer') && !this.get('expirationStartTimestamp')) {
       const expirationStartTimestamp = Math.min(Date.now(), readAt || Date.now());
       this.set({ expirationStartTimestamp });
-      await this.setToExpire(false);
+      //await this.setToExpire(false);
     }
 
     window.Whisper.Notifications.remove(
