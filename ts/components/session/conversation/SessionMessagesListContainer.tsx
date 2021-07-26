@@ -6,6 +6,7 @@ import _ from 'lodash';
 import { contextMenu } from 'react-contexify';
 import {
   fetchMessagesForConversation,
+  markConversationFullyRead,
   quotedMessageToAnimate,
   ReduxConversationType,
   setNextMessageToPlay,
@@ -173,7 +174,9 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
     }
 
     if ((forceIsOnBottom || this.getScrollOffsetBottomPx() === 0) && isElectronWindowFocused()) {
-      void conversation.markRead(messagesProps[0].propsForMessage.receivedAt || 0);
+      void conversation.markRead(messagesProps[0].propsForMessage.receivedAt || 0).then(() => {
+        window.inboxStore?.dispatch(markConversationFullyRead(conversationKey));
+      });
     }
   }
 
@@ -369,7 +372,9 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
 
     const conversation = getConversationController().get(conversationKey);
     if (isElectronWindowFocused()) {
-      void conversation.markRead(messagesProps[0].propsForMessage.receivedAt || 0);
+      void conversation.markRead(messagesProps[0].propsForMessage.receivedAt || 0).then(() => {
+        window.inboxStore?.dispatch(markConversationFullyRead(conversationKey));
+      });
     }
   }
 

@@ -601,6 +601,17 @@ const conversationsSlice = createSlice({
       return handleConversationReset(state, action);
     },
 
+    markConversationFullyRead(state: ConversationsStateType, action: PayloadAction<string>) {
+      if (state.selectedConversation !== action.payload) {
+        return state;
+      }
+
+      return {
+        ...state,
+        firstUnreadMessageId: undefined,
+      };
+    },
+
     openConversationExternal(
       state: ConversationsStateType,
       action: PayloadAction<{
@@ -711,6 +722,7 @@ export const {
   messageChanged,
   messagesChanged,
   openConversationExternal,
+  markConversationFullyRead,
   // layout stuff
   showMessageDetailsView,
   closeMessageDetailsView,
