@@ -61,7 +61,7 @@ async function handleGroupsAndContactsFromConfigMessage(
   const didWeHandleAConfigurationMessageAlready =
     (await getItemById(hasSyncedInitialConfigurationItem))?.value || false;
   if (didWeHandleAConfigurationMessageAlready) {
-    window?.log?.warn(
+    window?.log?.info(
       'Dropping configuration contacts/groups change as we already handled one... '
     );
     return;
@@ -73,7 +73,7 @@ async function handleGroupsAndContactsFromConfigMessage(
 
   const numberClosedGroup = configMessage.closedGroups?.length || 0;
 
-  window?.log?.warn(
+  window?.log?.info(
     `Received ${numberClosedGroup} closed group on configuration. Creating them... `
   );
 

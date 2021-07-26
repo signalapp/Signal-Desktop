@@ -37,7 +37,11 @@ import { getOpenGroupManager } from '../../opengroup/opengroupV2/OpenGroupManage
 import { forceRefreshRandomSnodePool } from '../../session/snode_api/snodePool';
 import { getSwarmPollingInstance } from '../../session/snode_api';
 import { DURATION } from '../../session/constants';
-import { actions as conversationActions } from '../../state/ducks/conversations';
+import {
+  actions as conversationActions,
+  conversationChanged,
+  conversationRemoved,
+} from '../../state/ducks/conversations';
 import { editProfileModal, onionPathModal } from '../../state/ducks/modalDialog';
 import { uploadOurAvatar } from '../../interactions/conversationInteractions';
 import { ModalContainer } from './ModalContainer';
@@ -173,9 +177,9 @@ const removeAllV1OpenGroups = async () => {
       window.log.info(`deleting v1convo : ${v1Convo.id}`);
       getConversationController().unsafeDelete(v1Convo);
       if (window.inboxStore) {
-        window.inboxStore?.dispatch(conversationActions.conversationRemoved(v1Convo.id));
+        window.inboxStore?.dispatch(conversationRemoved(v1Convo.id));
         window.inboxStore?.dispatch(
-          conversationActions.conversationChanged(v1Convo.id, v1Convo.getProps())
+          conversationChanged({ id: v1Convo.id, data: v1Convo.getProps() })
         );
       }
     } catch (e) {

@@ -4,10 +4,12 @@ import classNames from 'classnames';
 import { isImageTypeSupported, isVideoTypeSupported } from '../../../util/GoogleChrome';
 import { MediaItemType } from '../../LightboxGallery';
 import { useEncryptedFileFetch } from '../../../hooks/useEncryptedFileFetch';
+import { showLightBox } from '../../../state/ducks/conversations';
+import { LightBoxOptions } from '../../session/conversation/SessionConversation';
 
 type Props = {
   mediaItem: MediaItemType;
-  onClick?: () => void;
+  mediaItems: Array<MediaItemType>;
 };
 
 const MediaGridItemContent = (props: Props) => {
@@ -88,7 +90,18 @@ const MediaGridItemContent = (props: Props) => {
 
 export const MediaGridItem = (props: Props) => {
   return (
-    <div className="module-media-grid-item" role="button" onClick={props.onClick}>
+    <div
+      className="module-media-grid-item"
+      role="button"
+      onClick={() => {
+        const lightBoxOptions: LightBoxOptions = {
+          media: props.mediaItems,
+          attachment: props.mediaItem.attachment,
+        };
+
+        window.inboxStore?.dispatch(showLightBox(lightBoxOptions));
+      }}
+    >
       <MediaGridItemContent {...props} />
     </div>
   );

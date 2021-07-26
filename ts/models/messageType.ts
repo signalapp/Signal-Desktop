@@ -2,7 +2,8 @@ import { DefaultTheme } from 'styled-components';
 import _ from 'underscore';
 import { v4 as uuidv4 } from 'uuid';
 import { QuotedAttachmentType } from '../components/conversation/Quote';
-import { AttachmentType } from '../types/Attachment';
+import { PropsForMessage } from '../state/ducks/conversations';
+import { AttachmentType, AttachmentTypeWithPath } from '../types/Attachment';
 import { Contact } from '../types/Contact';
 import { ConversationTypeEnum } from './conversation';
 
@@ -51,7 +52,7 @@ export interface MessageAttributes {
    * timestamp is the sent_at timestamp, which is the envelope.timestamp
    */
   timestamp?: number;
-  status: MessageDeliveryStatus;
+  status?: MessageDeliveryStatus;
   dataMessage: any;
   sent_to: any;
   sent: boolean;
@@ -115,8 +116,9 @@ export interface DataExtractionNotificationMsg {
   referencedAttachmentTimestamp: number; // the attachment timestamp he screenshot
 }
 
-export type DataExtractionNotificationProps = DataExtractionNotificationMsg & {
+export type PropsForDataExtractionNotification = DataExtractionNotificationMsg & {
   name: string;
+  messageId: string;
 };
 
 export interface MessageAttributesOptionals {
@@ -199,69 +201,28 @@ export const fillMessageAttributesWithDefaults = (
   return defaulted;
 };
 
-export interface MessageRegularProps {
+export type QuoteClickOptions = {
+  quoteAuthor: string;
+  quoteId: number;
+  referencedMessageNotFound: boolean;
+};
+
+/**
+ * Those props are the one generated from a single Message improved by the one by the app itself.
+ * Some of the one added comes from the MessageList, some from redux, etc..
+ */
+export type MessageRenderingProps = PropsForMessage & {
   disableMenu?: boolean;
-  isDeletable: boolean;
-  isAdmin?: boolean;
-  weAreAdmin?: boolean;
-  text?: string;
-  id: string;
   collapseMetadata?: boolean;
-  direction: MessageModelType;
-  timestamp: number;
-  serverTimestamp?: number;
-  status?: MessageDeliveryStatus;
-  // What if changed this over to a single contact like quote, and put the events on it?
-  contact?: Contact & {
-    onSendMessage?: () => void;
-    onClick?: () => void;
-  };
-  authorName?: string;
-  authorProfileName?: string;
   /** Note: this should be formatted for display */
-  authorPhoneNumber: string;
-  conversationType: ConversationTypeEnum;
-  attachments?: Array<AttachmentType>;
-  quote?: {
-    text: string;
-    attachment?: QuotedAttachmentType;
-    isFromMe: boolean;
-    authorPhoneNumber: string;
-    authorProfileName?: string;
-    authorName?: string;
-    messageId?: string;
-    onClick: (data: any) => void;
-    referencedMessageNotFound: boolean;
-  };
-  previews: Array<any>;
-  authorAvatarPath?: string;
-  isExpired: boolean;
-  expirationLength?: number;
-  expirationTimestamp?: number;
-  convoId: string;
-  isPublic?: boolean;
-  isOpenGroupV2?: boolean;
-  selected: boolean;
-  isKickedFromGroup: boolean;
-  // whether or not to show check boxes
+  attachments?: Array<AttachmentTypeWithPath>; // vs Array<PropsForAttachment>;
+
+  // whether or not to allow selecting the message
   multiSelectMode: boolean;
   firstMessageOfSeries: boolean;
-  isUnread: boolean;
-  isQuotedMessageToAnimate?: boolean;
-  isTrustedForAttachmentDownload: boolean;
-
-  onClickAttachment?: (attachment: AttachmentType) => void;
-  onClickLinkPreview?: (url: string) => void;
-  onSelectMessage: (messageId: string) => void;
-  onReply?: (messagId: number) => void;
-  onRetrySend?: () => void;
-  onDownload?: (attachment: AttachmentType) => void;
-  onDeleteMessage: (messageId: string) => void;
-  onShowDetail: () => void;
-  markRead: (readAt: number) => Promise<void>;
-  theme: DefaultTheme;
+  onQuoteClick?: (options: QuoteClickOptions) => Promise<void>;
 
   playableMessageIndex?: number;
   nextMessageToPlay?: number;
-  playNextMessage?: (value: number) => any;
-}
+  playNextMessage?: (value: number) => void;
+};

@@ -46,13 +46,19 @@ export function getOurPubKeyFromCache(): PubKey {
   return PubKey.cast(ourNumber);
 }
 
+let cachedIdentityKeyPair: KeyPair | undefined;
+
 /**
  * This return the stored x25519 identity keypair for the current logged in user
  */
 export async function getIdentityKeyPair(): Promise<KeyPair | undefined> {
+  if (cachedIdentityKeyPair) {
+    return cachedIdentityKeyPair;
+  }
   const item = await getItemById('identityKey');
 
-  return item?.value;
+  cachedIdentityKeyPair = item?.value;
+  return cachedIdentityKeyPair;
 }
 
 export async function getUserED25519KeyPair(): Promise<HexKeyPair | undefined> {

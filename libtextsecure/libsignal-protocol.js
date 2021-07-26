@@ -1,6 +1,12 @@
+
+var libsignal
 ; (function () {
   var Internal = {};
-  window.libsignal = {};
+  libsignal = typeof window === 'undefined' ? {} : window.libsignal || {};
+  if (typeof window !== 'undefined') {
+    window.libsignal = libsignal;
+  }
+
   // The Module object: Our interface to the outside world. We import
   // and export values on it, and do the work to get that through
   // closure compiler if necessary. There are various ways Module can be used:
@@ -35178,7 +35184,7 @@
   (function () {
     'use strict';
 
-    var crypto = window.crypto;
+    var crypto = typeof window === 'undefined' ? self.crypto : window.crypto || {};
 
     if (!crypto || !crypto.subtle || typeof crypto.getRandomValues !== 'function') {
       throw new Error('WebCrypto not found');
@@ -35210,27 +35216,6 @@
         return crypto.subtle.digest({ name: 'SHA-512' }, data);
       },
 
-      HKDF: function (input, salt, info) {
-        // Specific implementation of RFC 5869 that only returns the first 3 32-byte chunks
-        // TODO: We dont always need the third chunk, we might skip it
-        return Internal.crypto.sign(salt, input).then(function (PRK) {
-          var infoBuffer = new ArrayBuffer(info.byteLength + 1 + 32);
-          var infoArray = new Uint8Array(infoBuffer);
-          infoArray.set(new Uint8Array(info), 32);
-          infoArray[infoArray.length - 1] = 1;
-          return Internal.crypto.sign(PRK, infoBuffer.slice(32)).then(function (T1) {
-            infoArray.set(new Uint8Array(T1));
-            infoArray[infoArray.length - 1] = 2;
-            return Internal.crypto.sign(PRK, infoBuffer).then(function (T2) {
-              infoArray.set(new Uint8Array(T2));
-              infoArray[infoArray.length - 1] = 3;
-              return Internal.crypto.sign(PRK, infoBuffer).then(function (T3) {
-                return [T1, T2, T3];
-              });
-            });
-          });
-        });
-      },
 
       // Curve 25519 crypto
       createKeyPair: function (privKey) {
@@ -35251,11 +35236,6 @@
     };
 
 
-    // HKDF for TextSecure has a bit of additional handling - salts always end up being 32 bytes
-    Internal.HKDF = function (input, salt, info) {
-      return Internal.crypto.HKDF(input, salt, util.toArrayBuffer(info));
-    };
-
     Internal.verifyMAC = function (data, key, mac, length) {
       return Internal.crypto.sign(key, data).then(function (calculated_mac) {
         if (mac.byteLength != length || calculated_mac.byteLength < length) {
@@ -35271,12 +35251,6 @@
           throw new Error("Bad MAC");
         }
       });
-    };
-
-    libsignal.HKDF = {
-      deriveSecrets: function (input, salt, info) {
-        return Internal.HKDF(input, salt, info);
-      }
     };
 
     libsignal.crypto = {
@@ -35333,26 +35307,8 @@
         }
         return new dcodeIO.ByteBuffer.wrap(thing, 'binary').toArrayBuffer();
       },
-      isEqual: function (a, b) {
-        // TODO: Special-case arraybuffers, etc
-        if (a === undefined || b === undefined) {
-          return false;
-        }
-        a = util.toString(a);
-        b = util.toString(b);
-        var maxLength = Math.max(a.length, b.length);
-        if (maxLength < 5) {
-          throw new Error("a/b compare too short");
-        }
-        return a.substring(0, Math.min(maxLength, a.length)) == b.substring(0, Math.min(maxLength, b.length));
-      }
     };
   })();
-
-  function isNonNegativeInteger(n) {
-    return (typeof n === 'number' && (n % 1) === 0 && n >= 0);
-  }
-
   var KeyHelper = {
     generateIdentityKeyPair: function () {
       return Internal.crypto.createKeyPair();
@@ -35360,154 +35316,6 @@
   };
 
   libsignal.KeyHelper = KeyHelper;
-
-  var Internal = Internal || {};
-
-  /*
-   * vim: ts=4:sw=4
-   */
-
-  var Internal = Internal || {};
-
-  Internal.BaseKeyType = {
-    OURS: 1,
-    THEIRS: 2
-  };
-  Internal.ChainType = {
-    SENDING: 1,
-    RECEIVING: 2
-  };
-  function SignalProtocolAddress(name, deviceId) {
-    this.name = name;
-    this.deviceId = deviceId;
-  }
-
-  SignalProtocolAddress.prototype = {
-    getName: function () {
-      return this.name;
-    },
-    getDeviceId: function () {
-      return this.deviceId;
-    },
-    toString: function () {
-      return this.name + '.' + this.deviceId;
-    },
-    equals: function (other) {
-      if (!(other instanceof SignalProtocolAddress)) { return false; }
-      return other.name === this.name && other.deviceId === this.deviceId;
-    }
-  };
-
-  libsignal.SignalProtocolAddress = function (name, deviceId) {
-    var address = new SignalProtocolAddress(name, deviceId);
-
-    ['getName', 'getDeviceId', 'toString', 'equals'].forEach(function (method) {
-      this[method] = address[method].bind(address);
-    }.bind(this));
-  };
-
-  libsignal.SignalProtocolAddress.fromString = function (encodedAddress) {
-    if (typeof encodedAddress !== 'string' || !encodedAddress.match(/.*\.\d+/)) {
-      throw new Error('Invalid SignalProtocolAddress string');
-    }
-    var parts = encodedAddress.split('.');
-    return new libsignal.SignalProtocolAddress(parts[0], parseInt(parts[1]));
-  };
-
-  /*
-   * jobQueue manages multiple queues indexed by device to serialize
-   * session io ops on the database.
-   */
-  ; (function () {
-    'use strict';
-
-    Internal.SessionLock = {};
-
-    var jobQueue = {};
-
-    Internal.SessionLock.queueJobForNumber = function queueJobForNumber(number, runJob) {
-      var runPrevious = jobQueue[number] || Promise.resolve();
-      var runCurrent = jobQueue[number] = runPrevious.then(runJob, runJob);
-      runCurrent.then(function () {
-        if (jobQueue[number] === runCurrent) {
-          delete jobQueue[number];
-        }
-      });
-      return runCurrent;
-    };
-
-  })();
-
-  (function () {
-    var VERSION = 0;
-
-    function iterateHash(data, key, count) {
-      data = dcodeIO.ByteBuffer.concat([data, key]).toArrayBuffer();
-      return Internal.crypto.hash(data).then(function (result) {
-        if (--count === 0) {
-          return result;
-        } else {
-          return iterateHash(result, key, count);
-        }
-      });
-    }
-
-    function shortToArrayBuffer(number) {
-      return new Uint16Array([number]).buffer;
-    }
-
-    function getEncodedChunk(hash, offset) {
-      var chunk = (hash[offset] * Math.pow(2, 32) +
-        hash[offset + 1] * Math.pow(2, 24) +
-        hash[offset + 2] * Math.pow(2, 16) +
-        hash[offset + 3] * Math.pow(2, 8) +
-        hash[offset + 4]) % 100000;
-      var s = chunk.toString();
-      while (s.length < 5) {
-        s = '0' + s;
-      }
-      return s;
-    }
-
-    function getDisplayStringFor(identifier, key, iterations) {
-      var bytes = dcodeIO.ByteBuffer.concat([
-        shortToArrayBuffer(VERSION), key, identifier
-      ]).toArrayBuffer();
-      return iterateHash(bytes, key, iterations).then(function (output) {
-        output = new Uint8Array(output);
-        return getEncodedChunk(output, 0) +
-          getEncodedChunk(output, 5) +
-          getEncodedChunk(output, 10) +
-          getEncodedChunk(output, 15) +
-          getEncodedChunk(output, 20) +
-          getEncodedChunk(output, 25);
-      });
-    }
-
-    libsignal.FingerprintGenerator = function (iterations) {
-      this.iterations = iterations;
-    };
-    libsignal.FingerprintGenerator.prototype = {
-      createFor: function (localIdentifier, localIdentityKey,
-        remoteIdentifier, remoteIdentityKey) {
-        if (typeof localIdentifier !== 'string' ||
-          typeof remoteIdentifier !== 'string' ||
-          !(localIdentityKey instanceof ArrayBuffer) ||
-          !(remoteIdentityKey instanceof ArrayBuffer)) {
-
-          throw new Error('Invalid arguments');
-        }
-
-        return Promise.all([
-          getDisplayStringFor(localIdentifier, localIdentityKey, this.iterations),
-          getDisplayStringFor(remoteIdentifier, remoteIdentityKey, this.iterations)
-        ]).then(function (fingerprints) {
-          return fingerprints.sort().join('');
-        });
-      }
-    };
-
-  })();
 
 
 })();

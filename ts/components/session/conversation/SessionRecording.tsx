@@ -6,7 +6,6 @@ import { SessionIconButton, SessionIconSize, SessionIconType } from '../icon';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../SessionButton';
 import { Constants } from '../../../session';
 import { ToastUtils } from '../../../session/utils';
-import { DefaultTheme, withTheme } from 'styled-components';
 import autoBind from 'auto-bind';
 import MicRecorder from 'mic-recorder-to-mp3';
 
@@ -14,7 +13,6 @@ interface Props {
   onExitVoiceNoteView: any;
   onLoadVoiceNoteView: any;
   sendVoiceMessage: any;
-  theme: DefaultTheme;
 }
 
 interface State {
@@ -36,9 +34,6 @@ function getTimestamp(asInt = false) {
 }
 
 class SessionRecordingInner extends React.Component<Props, State> {
-  private readonly visualisationRef: React.RefObject<HTMLDivElement>;
-  private readonly visualisationCanvas: React.RefObject<HTMLCanvasElement>;
-  private readonly playbackCanvas: React.RefObject<HTMLCanvasElement>;
   private recorder: any;
   private audioBlobMp3?: Blob;
   private audioElement?: HTMLAudioElement | null;
@@ -49,9 +44,6 @@ class SessionRecordingInner extends React.Component<Props, State> {
     autoBind(this);
 
     // Refs
-    this.visualisationRef = React.createRef();
-    this.visualisationCanvas = React.createRef();
-    this.playbackCanvas = React.createRef();
 
     const now = getTimestamp();
     const updateTimerInterval = global.setInterval(this.timerUpdate, 500);
@@ -127,7 +119,6 @@ class SessionRecordingInner extends React.Component<Props, State> {
               iconSize={SessionIconSize.Medium}
               iconColor={Constants.UI.COLORS.DANGER_ALT}
               onClick={actionPauseFn}
-              theme={this.props.theme}
             />
           )}
           {actionPauseAudio && (
@@ -135,7 +126,6 @@ class SessionRecordingInner extends React.Component<Props, State> {
               iconType={SessionIconType.Pause}
               iconSize={SessionIconSize.Medium}
               onClick={actionPauseFn}
-              theme={this.props.theme}
             />
           )}
           {actionPlayAudio && (
@@ -143,7 +133,6 @@ class SessionRecordingInner extends React.Component<Props, State> {
               iconType={SessionIconType.Play}
               iconSize={SessionIconSize.Medium}
               onClick={this.playAudio}
-              theme={this.props.theme}
             />
           )}
 
@@ -151,14 +140,8 @@ class SessionRecordingInner extends React.Component<Props, State> {
             <SessionIconButton
               iconType={SessionIconType.Microphone}
               iconSize={SessionIconSize.Huge}
-              theme={this.props.theme}
             />
           )}
-        </div>
-
-        <div className="session-recording--visualisation" ref={this.visualisationRef}>
-          {!isRecording && <canvas ref={this.playbackCanvas} />}
-          {isRecording && <canvas ref={this.visualisationCanvas} />}
         </div>
 
         <div className={classNames('session-recording--timer', !isRecording && 'playback-timer')}>
@@ -173,7 +156,6 @@ class SessionRecordingInner extends React.Component<Props, State> {
               iconSize={SessionIconSize.Large}
               iconRotation={90}
               onClick={this.onSendVoiceMessage}
-              theme={this.props.theme}
             />
           </div>
         )}
@@ -343,4 +325,4 @@ class SessionRecordingInner extends React.Component<Props, State> {
   }
 }
 
-export const SessionRecording = withTheme(SessionRecordingInner);
+export const SessionRecording = SessionRecordingInner;

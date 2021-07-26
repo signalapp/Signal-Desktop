@@ -66,7 +66,7 @@ const OnionPathModalInner = () => {
                   <OnionNodeStatusLight
                     glowDuration={glowDuration}
                     glowStartDelay={index}
-                    key={index}
+                    key={`light-${index}`}
                   />
                 );
               })}
@@ -80,7 +80,11 @@ const OnionPathModalInner = () => {
               if (!labelText) {
                 labelText = window.i18n('unknownCountry');
               }
-              return labelText ? <div className="onion__node__country">{labelText}</div> : null;
+              return labelText ? (
+                <div className="onion__node__country" key={`country-${index}`}>
+                  {labelText}
+                </div>
+              ) : null;
             })}
           </Flex>
         </Flex>

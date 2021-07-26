@@ -146,7 +146,10 @@ export async function getSnodesFromSeedUrl(urlObj: URL): Promise<Array<any>> {
     method: 'POST',
     timeout: 10000,
     body: JSON.stringify(body),
-
+    headers: {
+      'User-Agent': 'WhatsApp',
+      'Accept-Language': 'en-us',
+    },
     agent: sslAgent,
   };
   window?.log?.info('insecureNodeFetch => plaintext for getSnodesFromSeedUrl');
@@ -542,7 +545,7 @@ export async function retrieveNextMessages(
   } catch (e) {
     window?.log?.warn(
       'Got an error while retrieving next messages. Not retrying as we trigger fetch often:',
-      e
+      e.message
     );
     if (e.message === ERROR_CODE_NO_CONNECT) {
       window.inboxStore?.dispatch(updateIsOnline(false));

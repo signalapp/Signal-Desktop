@@ -434,15 +434,7 @@ export async function handleMessageJob(
     const id = await message.commit();
 
     message.set({ id });
-    // this updates the redux store.
-    // if the convo on which this message should become visible,
-    // it will be shown to the user, and might as well be read right away
-    window.inboxStore?.dispatch(
-      conversationActions.messageAdded({
-        conversationKey: conversation.id,
-        messageModel: message,
-      })
-    );
+
     getMessageController().register(message.id, message);
 
     // Note that this can save the message again, if jobs were queued. We need to
@@ -480,6 +472,16 @@ export async function handleMessageJob(
     } catch (error) {
       window?.log?.warn('handleDataMessage: Message', message.idForLogging(), 'was deleted');
     }
+
+    // this updates the redux store.
+    // if the convo on which this message should become visible,
+    // it will be shown to the user, and might as well be read right away
+    window.inboxStore?.dispatch(
+      conversationActions.messageAdded({
+        conversationKey: conversation.id,
+        messageModelProps: message.getProps(),
+      })
+    );
 
     if (message.get('unread')) {
       await conversation.throttledNotify(message);

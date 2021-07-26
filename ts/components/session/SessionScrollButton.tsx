@@ -1,11 +1,12 @@
 import React, { useContext } from 'react';
+import { useSelector } from 'react-redux';
 import styled, { ThemeContext } from 'styled-components';
+import { getShowScrollButton } from '../../state/selectors/conversations';
 
 import { SessionIconButton, SessionIconSize, SessionIconType } from './icon';
 
 type Props = {
   onClick?: () => any;
-  show?: boolean;
 };
 
 const SessionScrollButtonDiv = styled.div`
@@ -18,9 +19,11 @@ const SessionScrollButtonDiv = styled.div`
 export const SessionScrollButton = (props: Props) => {
   const themeContext = useContext(ThemeContext);
 
+  const show = useSelector(getShowScrollButton);
+
   return (
     <>
-      {props.show && (
+      {show && (
         <SessionScrollButtonDiv theme={themeContext}>
           <SessionIconButton
             iconType={SessionIconType.Chevron}

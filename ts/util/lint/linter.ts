@@ -56,7 +56,6 @@ const excludedFiles = [
   '^js/components.js',
   '^js/curve/',
   '^js/libtextsecure.js',
-  '^js/libloki.js',
   '^js/util_worker.js',
   '^libtextsecure/components.js',
   '^libtextsecure/test/test.js',
@@ -66,7 +65,6 @@ const excludedFiles = [
   '^libtextsecure/libsignal-protocol.js',
 
   // Test files
-  '^libloki/test/*',
   '^libtextsecure/test/*',
   '^test/*',
 
@@ -128,7 +126,6 @@ const excludedFiles = [
   '^node_modules/node-sass-import-once/*',
   '^node_modules/node-sass/*',
   '^node_modules/nsp/*',
-  '^node_modules/nyc/*',
   '^node_modules/phantomjs-prebuilt/*',
   '^node_modules/postcss*',
   '^node_modules/preserve/*',
@@ -137,7 +134,6 @@ const excludedFiles = [
   '^node_modules/ramda/*',
   '^node_modules/react-docgen/*',
   '^node_modules/react-error-overlay/*',
-  '^node_modules/react-styleguidist/*',
   '^node_modules/recast/*',
   '^node_modules/reduce-css-calc/*',
   '^node_modules/resolve/*',

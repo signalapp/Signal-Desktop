@@ -1,79 +1,62 @@
 import React from 'react';
 
-import { ConversationListItemWithDetails } from '../ConversationListItem';
+import { MemoConversationListItemWithDetails } from '../ConversationListItem';
 import { RowRendererParamsType } from '../LeftPane';
 import { AutoSizer, List } from 'react-virtualized';
-import { ConversationType as ReduxConversationType } from '../../state/ducks/conversations';
-import { DefaultTheme } from 'styled-components';
 import { LeftPaneSectionHeader } from './LeftPaneSectionHeader';
-import autoBind from 'auto-bind';
+import { useSelector } from 'react-redux';
+import { getDirectContacts } from '../../state/selectors/conversations';
 
-export interface Props {
-  directContacts: Array<ReduxConversationType>;
-  theme: DefaultTheme;
-  openConversationExternal: (id: string, messageId?: string) => void;
-}
+const renderRow = (props: RowRendererParamsType) => {
+  const { index, key, style } = props;
 
-export class LeftPaneContactSection extends React.Component<Props> {
-  public constructor(props: Props) {
-    super(props);
-    autoBind(this);
+  const directContacts = (props.parent as any)?.props?.directContacts || [];
+
+  const item = directContacts?.[index];
+
+  if (!item) {
+    return null;
   }
 
-  public renderHeader(): JSX.Element | undefined {
-    return <LeftPaneSectionHeader label={window.i18n('contactsHeader')} theme={this.props.theme} />;
+  return <MemoConversationListItemWithDetails style={style} key={key} {...item} />;
+};
+
+const ContactListItemSection = () => {
+  const directContacts = useSelector(getDirectContacts);
+
+  if (!directContacts) {
+    return null;
   }
 
-  public render(): JSX.Element {
-    return (
-      <div className="left-pane-contact-section">
-        {this.renderHeader()}
-        {this.renderContacts()}
+  const length = Number(directContacts.length);
+
+  return (
+    <div className="module-left-pane__list" key={0}>
+      <AutoSizer>
+        {({ height, width }) => (
+          <List
+            className="module-left-pane__virtual-list"
+            height={height}
+            directContacts={directContacts} // needed for change in props refresh
+            rowCount={length}
+            rowHeight={64}
+            rowRenderer={renderRow}
+            width={width}
+            autoHeight={false}
+          />
+        )}
+      </AutoSizer>
+    </div>
+  );
+};
+
+export const LeftPaneContactSection = () => {
+  return (
+    <div className="left-pane-contact-section">
+      <LeftPaneSectionHeader label={window.i18n('contactsHeader')} />
+      <div className="left-pane-contact-content">
+        <ContactListItemSection />
       </div>
-    );
-  }
-
-  public renderRow = ({ index, key, style }: RowRendererParamsType): JSX.Element | undefined => {
-    const { directContacts } = this.props;
-    const item = directContacts[index];
-
-    return (
-      <ConversationListItemWithDetails
-        key={item.id}
-        style={style}
-        {...item}
-        onClick={this.props.openConversationExternal}
-      />
-    );
-  };
-
-  private renderContacts() {
-    return <div className="left-pane-contact-content">{this.renderList()}</div>;
-  }
-
-  private renderList() {
-    const { directContacts } = this.props;
-    const length = Number(directContacts.length);
-
-    const list = (
-      <div className="module-left-pane__list" key={0}>
-        <AutoSizer>
-          {({ height, width }) => (
-            <List
-              className="module-left-pane__virtual-list"
-              height={height}
-              directContacts={directContacts} // needed for change in props refresh
-              rowCount={length}
-              rowHeight={64}
-              rowRenderer={this.renderRow}
-              width={width}
-              autoHeight={false}
-            />
-          )}
-        </AutoSizer>
-      </div>
-    );
-
-    return [list];
-  }
-}
+    </div>
+  );
+};

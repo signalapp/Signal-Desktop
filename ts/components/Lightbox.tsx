@@ -14,6 +14,8 @@ import { DefaultTheme } from 'styled-components';
 import useUnmount from 'react-use/lib/useUnmount';
 import { useEncryptedFileFetch } from '../hooks/useEncryptedFileFetch';
 import { darkTheme } from '../state/ducks/SessionTheme';
+import { useDispatch } from 'react-redux';
+import { showLightBox } from '../state/ducks/conversations';
 
 const Colors = {
   TEXT_SECONDARY: '#bbb',
@@ -29,7 +31,6 @@ const colorSVG = (url: string, color: string) => {
 };
 
 type Props = {
-  close: () => void;
   contentType: MIME.MIMEType | undefined;
   objectURL: string;
   caption?: string;
@@ -285,18 +286,19 @@ export const Lightbox = (props: Props) => {
   const containerRef = useRef<HTMLDivElement>(null);
   // there is no theme in use on the lightbox
   const theme = darkTheme;
+  const dispatch = useDispatch();
   const { caption, contentType, objectURL, onNext, onPrevious, onSave } = props;
 
   const onObjectClick = (event: any) => {
     event.stopPropagation();
-    props.close?.();
+    dispatch(showLightBox(undefined));
   };
 
   const onContainerClick = (event: React.MouseEvent<HTMLDivElement>) => {
     if (containerRef && event.target !== containerRef.current) {
       return;
     }
-    props.close?.();
+    dispatch(showLightBox(undefined));
   };
 
   return (
@@ -326,7 +328,7 @@ export const Lightbox = (props: Props) => {
             <IconButton
               type="close"
               onClick={() => {
-                props.close?.();
+                dispatch(showLightBox(undefined));
               }}
               theme={theme}
             />

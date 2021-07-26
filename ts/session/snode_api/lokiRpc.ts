@@ -41,6 +41,12 @@ async function lokiFetch(
       // import that this does not get set in lokiFetch fetchOptions
       fetchOptions.agent = snodeHttpsAgent;
     }
+
+    (fetchOptions as any).headers = {
+      'User-Agent': 'WhatsApp',
+      'Accept-Language': 'en-us',
+    };
+
     window?.log?.warn(`insecureNodeFetch => lokiFetch of ${url}`);
 
     const response = await insecureNodeFetch(url, fetchOptions);

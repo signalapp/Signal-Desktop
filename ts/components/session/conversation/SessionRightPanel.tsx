@@ -1,26 +1,18 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { SessionIconButton, SessionIconSize, SessionIconType } from '../icon';
 import { Avatar, AvatarSize } from '../../Avatar';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../SessionButton';
 import { SessionDropdown } from '../SessionDropdown';
 import { MediaGallery } from '../../conversation/media-gallery/MediaGallery';
 import _ from 'lodash';
-import { TimerOption } from '../../conversation/ConversationHeader';
 import { Constants } from '../../../session';
-import {
-  ConversationAvatar,
-  usingClosedConversationDetails,
-} from '../usingClosedConversationDetails';
-import { save } from '../../../types/Attachment';
-import { DefaultTheme, withTheme } from 'styled-components';
+import { ConversationAvatar } from '../usingClosedConversationDetails';
+import { AttachmentTypeWithPath } from '../../../types/Attachment';
+import { useTheme } from 'styled-components';
 import {
   getMessagesWithFileAttachments,
   getMessagesWithVisualMediaAttachments,
 } from '../../../data/data';
-import { getDecryptedMediaUrl } from '../../../session/crypto/DecryptedAttachmentsManager';
-import { LightBoxOptions } from './SessionConversation';
-import { UserUtils } from '../../../session/utils';
-import { sendDataExtractionNotification } from '../../../session/messages/outgoing/controlMessage/DataExtractionNotificationMessage';
 import { SpacerLG } from '../../basic/Text';
 import {
   deleteMessagesByConvoIdWithConfirmation,
@@ -32,382 +24,320 @@ import {
   showUpdateGroupMembersByConvoId,
   showUpdateGroupNameByConvoId,
 } from '../../../interactions/conversationInteractions';
+import { MediaItemType } from '../../LightboxGallery';
+// tslint:disable-next-line: no-submodule-imports
+import useInterval from 'react-use/lib/useInterval';
+import { useDispatch, useSelector } from 'react-redux';
+import { getTimerOptions } from '../../../state/selectors/timerOptions';
+import {
+  getSelectedConversation,
+  isRightPanelShowing,
+} from '../../../state/selectors/conversations';
+import { useMembersAvatars } from '../../../hooks/useMembersAvatar';
+import { closeRightPanel } from '../../../state/ducks/conversations';
 
-interface Props {
-  id: string;
-  name?: string;
-  profileName?: string;
-  phoneNumber: string;
-  memberCount: number;
-  description: string;
-  avatarPath: string;
-  timerOptions: Array<TimerOption>;
-  isPublic: boolean;
-  isAdmin: boolean;
-  isKickedFromGroup: boolean;
-  left: boolean;
-  isBlocked: boolean;
-  isGroup: boolean;
-  memberAvatars?: Array<ConversationAvatar>; // this is added by usingClosedConversationDetails
+async function getMediaGalleryProps(
+  conversationId: string
+): Promise<{
+  documents: Array<MediaItemType>;
+  media: Array<MediaItemType>;
+}> {
+  // We fetch more documents than media as they don’t require to be loaded
+  // into memory right away. Revisit this once we have infinite scrolling:
+  const rawMedia = await getMessagesWithVisualMediaAttachments(conversationId, {
+    limit: Constants.CONVERSATION.DEFAULT_MEDIA_FETCH_COUNT,
+  });
+  const rawDocuments = await getMessagesWithFileAttachments(conversationId, {
+    limit: Constants.CONVERSATION.DEFAULT_DOCUMENTS_FETCH_COUNT,
+  });
 
-  onGoBack: () => void;
-  onShowLightBox: (lightboxOptions?: LightBoxOptions) => void;
-  theme: DefaultTheme;
-}
+  const media = _.flatten(
+    rawMedia.map(attributes => {
+      const { attachments, source, id, timestamp, serverTimestamp, received_at } = attributes;
 
-interface State {
-  documents: Array<any>;
-  media: Array<any>;
-  onItemClick: any;
-}
+      return (attachments || [])
+        .filter(
+          (attachment: AttachmentTypeWithPath) =>
+            attachment.thumbnail && !attachment.pending && !attachment.error
+        )
+        .map((attachment: AttachmentTypeWithPath, index: number) => {
+          const { thumbnail } = attachment;
 
-class SessionRightPanel extends React.Component<Props, State> {
-  public constructor(props: Props) {
-    super(props);
-
-    this.state = {
-      documents: Array<any>(),
-      media: Array<any>(),
-      onItemClick: undefined,
-    };
-  }
-
-  public componentWillMount() {
-    void this.getMediaGalleryProps().then(({ documents, media, onItemClick }) => {
-      this.setState({
-        documents,
-        media,
-        onItemClick,
-      });
-    });
-  }
-
-  public componentDidUpdate() {
-    const mediaScanInterval = 1000;
-
-    setTimeout(() => {
-      void this.getMediaGalleryProps().then(({ documents, media, onItemClick }) => {
-        const { documents: oldDocs, media: oldMedias } = this.state;
-        if (oldDocs.length !== documents.length || oldMedias.length !== media.length) {
-          this.setState({
-            documents,
-            media,
-            onItemClick,
-          });
-        }
-      });
-    }, mediaScanInterval);
-  }
-
-  public async getMediaGalleryProps(): Promise<{
-    documents: Array<any>;
-    media: Array<any>;
-    onItemClick: any;
-  }> {
-    // We fetch more documents than media as they don’t require to be loaded
-    // into memory right away. Revisit this once we have infinite scrolling:
-    const conversationId = this.props.id;
-    const rawMedia = await getMessagesWithVisualMediaAttachments(conversationId, {
-      limit: Constants.CONVERSATION.DEFAULT_MEDIA_FETCH_COUNT,
-    });
-    const rawDocuments = await getMessagesWithFileAttachments(conversationId, {
-      limit: Constants.CONVERSATION.DEFAULT_DOCUMENTS_FETCH_COUNT,
-    });
-
-    // First we upgrade these messages to ensure that they have thumbnails
-    const max = rawMedia.length;
-    for (let i = 0; i < max; i += 1) {
-      const message = rawMedia[i];
-      const { schemaVersion } = message;
-
-      if (schemaVersion < message.VERSION_NEEDED_FOR_DISPLAY) {
-        // Yep, we really do want to wait for each of these
-        // eslint-disable-next-line no-await-in-loop
-        rawMedia[i] = await window.Signal.Migrations.upgradeMessageSchema(message);
-        // eslint-disable-next-line no-await-in-loop
-        await rawMedia[i].commit();
-      }
-    }
-
-    const media = _.flatten(
-      rawMedia.map((message: { attachments: any }) => {
-        const { attachments } = message;
-
-        return (attachments || [])
-          .filter(
-            (attachment: { thumbnail: any; pending: any; error: any }) =>
-              attachment.thumbnail && !attachment.pending && !attachment.error
-          )
-          .map((attachment: { path?: any; contentType?: any; thumbnail?: any }, index: any) => {
-            const { thumbnail } = attachment;
-
-            return {
-              objectURL: window.Signal.Migrations.getAbsoluteAttachmentPath(attachment.path),
-              thumbnailObjectUrl: thumbnail
-                ? window.Signal.Migrations.getAbsoluteAttachmentPath(thumbnail.path)
-                : null,
-              contentType: attachment.contentType,
-              index,
-              attachment,
-              message,
-            };
-          });
-      })
-    );
-
-    // Unlike visual media, only one non-image attachment is supported
-    const documents = rawDocuments.map((message: { attachments: Array<any> }) => {
-      // this is to not fail if the attachment is invalid (could be a Long Attachment type which is not supported)
-      if (!message.attachments?.length) {
-        // window?.log?.info(
-        //   'Got a message with an empty list of attachment. Skipping...'
-        // );
-        return null;
-      }
-      const attachment = message.attachments[0];
-
-      return {
-        contentType: attachment.contentType,
-        index: 0,
-        attachment,
-        message,
-      };
-    });
-
-    const saveAttachment = async ({ attachment, message }: any = {}) => {
-      const timestamp = message.received_at as number | undefined;
-      attachment.url = await getDecryptedMediaUrl(attachment.url, attachment.contentType);
-      save({
-        attachment,
-        document,
-        getAbsolutePath: window.Signal.Migrations.getAbsoluteAttachmentPath,
-        timestamp,
-      });
-      await sendDataExtractionNotification(this.props.id, message?.source, timestamp);
-    };
-
-    const onItemClick = ({ message, attachment, type }: any) => {
-      switch (type) {
-        case 'documents': {
-          void saveAttachment({ message, attachment });
-          break;
-        }
-
-        case 'media': {
-          // don't set the messageTimestamp when we are the sender, so we don't trigger a notification when
-          // we save the same attachment we sent ourself to another user
-          const messageTimestamp =
-            message.source !== UserUtils.getOurPubKeyStrFromCache()
-              ? message.sent_at || message.received_at
-              : undefined;
-          const lightBoxOptions = {
-            media,
+          const mediaItem: MediaItemType = {
+            objectURL: window.Signal.Migrations.getAbsoluteAttachmentPath(attachment.path),
+            thumbnailObjectUrl: thumbnail
+              ? window.Signal.Migrations.getAbsoluteAttachmentPath(thumbnail.path)
+              : null,
+            contentType: attachment.contentType || '',
+            index,
+            messageTimestamp: timestamp || serverTimestamp || received_at || 0,
+            messageSender: source,
+            messageId: id,
             attachment,
-            messageTimestamp,
-          } as LightBoxOptions;
-          this.onShowLightBox(lightBoxOptions);
-          break;
-        }
+          };
 
-        default:
-          throw new TypeError(`Unknown attachment type: '${type}'`);
-      }
-    };
+          return mediaItem;
+        });
+    })
+  );
+
+  // Unlike visual media, only one non-image attachment is supported
+  const documents = rawDocuments.map(attributes => {
+    // this is to not fail if the attachment is invalid (could be a Long Attachment type which is not supported)
+    if (!attributes.attachments?.length) {
+      // window?.log?.info(
+      //   'Got a message with an empty list of attachment. Skipping...'
+      // );
+      return null;
+    }
+    const attachment = attributes.attachments[0];
+    const { source, id, timestamp, serverTimestamp, received_at } = attributes;
 
     return {
-      media,
-      documents: _.compact(documents), // remove null
-      onItemClick,
+      contentType: attachment.contentType,
+      index: 0,
+      attachment,
+      messageTimestamp: timestamp || serverTimestamp || received_at || 0,
+      messageSender: source,
+      messageId: id,
     };
-  }
+  });
 
-  public onShowLightBox(lightboxOptions: LightBoxOptions) {
-    this.props.onShowLightBox(lightboxOptions);
-  }
-
-  // tslint:disable-next-line: cyclomatic-complexity
-  public render() {
-    const {
-      id,
-      memberCount,
-      name,
-      timerOptions,
-      isKickedFromGroup,
-      left,
-      isPublic,
-      isAdmin,
-      isBlocked,
-      isGroup,
-    } = this.props;
-    const { documents, media, onItemClick } = this.state;
-    const showMemberCount = !!(memberCount && memberCount > 0);
-    const commonNoShow = isKickedFromGroup || left || isBlocked;
-
-    const hasDisappearingMessages = !isPublic && !commonNoShow;
-    const leaveGroupString = isPublic
-      ? window.i18n('leaveGroup')
-      : isKickedFromGroup
-      ? window.i18n('youGotKickedFromGroup')
-      : left
-      ? window.i18n('youLeftTheGroup')
-      : window.i18n('leaveGroup');
-
-    const disappearingMessagesOptions = timerOptions.map(option => {
-      return {
-        content: option.name,
-        onClick: async () => {
-          await setDisappearingMessagesByConvoId(id, option.value);
-        },
-      };
-    });
-
-    const showUpdateGroupNameButton = isAdmin && !commonNoShow;
-    const showAddRemoveModeratorsButton = isAdmin && !commonNoShow && isPublic;
-
-    const showUpdateGroupMembersButton = !isPublic && isGroup && !commonNoShow;
-
-    const deleteConvoAction = isPublic
-      ? () => {
-          deleteMessagesByConvoIdWithConfirmation(id);
-        }
-      : () => {
-          showLeaveGroupByConvoId(id);
-        };
-
-    return (
-      <div className="group-settings">
-        {this.renderHeader()}
-        <h2>{name}</h2>
-        {showMemberCount && (
-          <>
-            <SpacerLG />
-            <div role="button" className="subtle">
-              {window.i18n('members', memberCount)}
-            </div>
-            <SpacerLG />
-          </>
-        )}
-        <input className="description" placeholder={window.i18n('description')} />
-        {showUpdateGroupNameButton && (
-          <div
-            className="group-settings-item"
-            role="button"
-            onClick={async () => {
-              await showUpdateGroupNameByConvoId(id);
-            }}
-          >
-            {isPublic ? window.i18n('editGroup') : window.i18n('editGroupName')}
-          </div>
-        )}
-        {showAddRemoveModeratorsButton && (
-          <>
-            <div
-              className="group-settings-item"
-              role="button"
-              onClick={() => {
-                showAddModeratorsByConvoId(id);
-              }}
-            >
-              {window.i18n('addModerators')}
-            </div>
-            <div
-              className="group-settings-item"
-              role="button"
-              onClick={() => {
-                showRemoveModeratorsByConvoId(id);
-              }}
-            >
-              {window.i18n('removeModerators')}
-            </div>
-          </>
-        )}
-
-        {showUpdateGroupMembersButton && (
-          <div
-            className="group-settings-item"
-            role="button"
-            onClick={async () => {
-              await showUpdateGroupMembersByConvoId(id);
-            }}
-          >
-            {window.i18n('groupMembers')}
-          </div>
-        )}
-
-        {hasDisappearingMessages && (
-          <SessionDropdown
-            label={window.i18n('disappearingMessages')}
-            options={disappearingMessagesOptions}
-          />
-        )}
-
-        <MediaGallery documents={documents} media={media} onItemClick={onItemClick} />
-        {isGroup && (
-          // tslint:disable-next-line: use-simple-attributes
-          <SessionButton
-            text={leaveGroupString}
-            buttonColor={SessionButtonColor.Danger}
-            disabled={isKickedFromGroup || left}
-            buttonType={SessionButtonType.SquareOutline}
-            onClick={deleteConvoAction}
-          />
-        )}
-      </div>
-    );
-  }
-
-  private renderHeader() {
-    const {
-      memberAvatars,
-      id,
-      onGoBack,
-      avatarPath,
-      isAdmin,
-      isPublic,
-      isKickedFromGroup,
-      isBlocked,
-      name,
-      profileName,
-      phoneNumber,
-      left,
-    } = this.props;
-
-    const showInviteContacts = (isPublic || isAdmin) && !isKickedFromGroup && !isBlocked && !left;
-    const userName = name || profileName || phoneNumber;
-
-    return (
-      <div className="group-settings-header">
-        <SessionIconButton
-          iconType={SessionIconType.Chevron}
-          iconSize={SessionIconSize.Medium}
-          iconRotation={270}
-          onClick={onGoBack}
-          theme={this.props.theme}
-        />
-        <Avatar
-          avatarPath={avatarPath}
-          name={userName}
-          size={AvatarSize.XL}
-          memberAvatars={memberAvatars}
-          pubkey={id}
-        />
-        <div className="invite-friends-container">
-          {showInviteContacts && (
-            <SessionIconButton
-              iconType={SessionIconType.AddUser}
-              iconSize={SessionIconSize.Medium}
-              onClick={() => {
-                showInviteContactByConvoId(this.props.id);
-              }}
-              theme={this.props.theme}
-            />
-          )}
-        </div>
-      </div>
-    );
-  }
+  return {
+    media,
+    documents: _.compact(documents), // remove null
+  };
 }
 
-export const SessionRightPanelWithDetails = usingClosedConversationDetails(
-  withTheme(SessionRightPanel)
-);
+const HeaderItem = () => {
+  const selectedConversation = useSelector(getSelectedConversation);
+  const theme = useTheme();
+  const dispatch = useDispatch();
+  const memberDetails = useMembersAvatars(selectedConversation);
+
+  if (!selectedConversation) {
+    return null;
+  }
+  const {
+    avatarPath,
+    isPublic,
+    id,
+    weAreAdmin,
+    isKickedFromGroup,
+    profileName,
+    phoneNumber,
+    isBlocked,
+    left,
+    name,
+  } = selectedConversation;
+
+  const showInviteContacts = (isPublic || weAreAdmin) && !isKickedFromGroup && !isBlocked && !left;
+  const userName = name || profileName || phoneNumber;
+
+  return (
+    <div className="group-settings-header">
+      <SessionIconButton
+        iconType={SessionIconType.Chevron}
+        iconSize={SessionIconSize.Medium}
+        iconRotation={270}
+        onClick={() => {
+          dispatch(closeRightPanel());
+        }}
+        theme={theme}
+      />
+      <Avatar
+        avatarPath={avatarPath || ''}
+        name={userName}
+        size={AvatarSize.XL}
+        memberAvatars={memberDetails}
+        pubkey={id}
+      />
+      <div className="invite-friends-container">
+        {showInviteContacts && (
+          <SessionIconButton
+            iconType={SessionIconType.AddUser}
+            iconSize={SessionIconSize.Medium}
+            onClick={() => {
+              if (selectedConversation) {
+                showInviteContactByConvoId(selectedConversation.id);
+              }
+            }}
+            theme={theme}
+          />
+        )}
+      </div>
+    </div>
+  );
+};
+
+// tslint:disable: cyclomatic-complexity
+// tslint:disable: max-func-body-length
+export const SessionRightPanelWithDetails = () => {
+  const [documents, setDocuments] = useState<Array<MediaItemType>>([]);
+  const [media, setMedia] = useState<Array<MediaItemType>>([]);
+
+  const selectedConversation = useSelector(getSelectedConversation);
+  const isShowing = useSelector(isRightPanelShowing);
+
+  useEffect(() => {
+    let isRunning = true;
+
+    if (isShowing && selectedConversation) {
+      void getMediaGalleryProps(selectedConversation.id).then(results => {
+        if (isRunning) {
+          if (!_.isEqual(documents, results.documents)) {
+            setDocuments(results.documents);
+          }
+
+          if (!_.isEqual(media, results.media)) {
+            setMedia(results.media);
+          }
+        }
+      });
+    }
+
+    return () => {
+      isRunning = false;
+      return;
+    };
+  }, [isShowing, selectedConversation?.id]);
+
+  useInterval(async () => {
+    if (isShowing && selectedConversation) {
+      const results = await getMediaGalleryProps(selectedConversation.id);
+      if (results.documents.length !== documents.length || results.media.length !== media.length) {
+        setDocuments(results.documents);
+        setMedia(results.media);
+      }
+    }
+  }, 10000);
+
+  if (!selectedConversation) {
+    return null;
+  }
+
+  const {
+    id,
+    subscriberCount,
+    name,
+    isKickedFromGroup,
+    left,
+    isPublic,
+    weAreAdmin,
+    isBlocked,
+    isGroup,
+  } = selectedConversation;
+  const showMemberCount = !!(subscriberCount && subscriberCount > 0);
+  const commonNoShow = isKickedFromGroup || left || isBlocked;
+  const hasDisappearingMessages = !isPublic && !commonNoShow;
+  const leaveGroupString = isPublic
+    ? window.i18n('leaveGroup')
+    : isKickedFromGroup
+    ? window.i18n('youGotKickedFromGroup')
+    : left
+    ? window.i18n('youLeftTheGroup')
+    : window.i18n('leaveGroup');
+
+  const timerOptions = useSelector(getTimerOptions).timerOptions;
+
+  const disappearingMessagesOptions = timerOptions.map(option => {
+    return {
+      content: option.name,
+      onClick: () => {
+        void setDisappearingMessagesByConvoId(id, option.value);
+      },
+    };
+  });
+
+  const showUpdateGroupNameButton = weAreAdmin && !commonNoShow;
+  const showAddRemoveModeratorsButton = weAreAdmin && !commonNoShow && isPublic;
+
+  const showUpdateGroupMembersButton = !isPublic && isGroup && !commonNoShow;
+
+  const deleteConvoAction = isPublic
+    ? () => {
+        deleteMessagesByConvoIdWithConfirmation(id);
+      }
+    : () => {
+        showLeaveGroupByConvoId(id);
+      };
+  return (
+    <div className="group-settings">
+      <HeaderItem />
+      <h2>{name}</h2>
+      {showMemberCount && (
+        <>
+          <SpacerLG />
+          <div role="button" className="subtle">
+            {window.i18n('members', subscriberCount)}
+          </div>
+          <SpacerLG />
+        </>
+      )}
+      {showUpdateGroupNameButton && (
+        <div
+          className="group-settings-item"
+          role="button"
+          onClick={async () => {
+            await showUpdateGroupNameByConvoId(id);
+          }}
+        >
+          {isPublic ? window.i18n('editGroup') : window.i18n('editGroupName')}
+        </div>
+      )}
+      {showAddRemoveModeratorsButton && (
+        <>
+          <div
+            className="group-settings-item"
+            role="button"
+            onClick={() => {
+              showAddModeratorsByConvoId(id);
+            }}
+          >
+            {window.i18n('addModerators')}
+          </div>
+          <div
+            className="group-settings-item"
+            role="button"
+            onClick={() => {
+              showRemoveModeratorsByConvoId(id);
+            }}
+          >
+            {window.i18n('removeModerators')}
+          </div>
+        </>
+      )}
+
+      {showUpdateGroupMembersButton && (
+        <div
+          className="group-settings-item"
+          role="button"
+          onClick={async () => {
+            await showUpdateGroupMembersByConvoId(id);
+          }}
+        >
+          {window.i18n('groupMembers')}
+        </div>
+      )}
+
+      {hasDisappearingMessages && (
+        <SessionDropdown
+          label={window.i18n('disappearingMessages')}
+          options={disappearingMessagesOptions}
+        />
+      )}
+
+      <MediaGallery documents={documents} media={media} />
+      {isGroup && (
+        // tslint:disable-next-line: use-simple-attributes
+        <SessionButton
+          text={leaveGroupString}
+          buttonColor={SessionButtonColor.Danger}
+          disabled={isKickedFromGroup || left}
+          buttonType={SessionButtonType.SquareOutline}
+          onClick={deleteConvoAction}
+        />
+      )}
+    </div>
+  );
+};

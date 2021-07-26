@@ -28,15 +28,23 @@ import {
 } from '../state/ducks/modalDialog';
 import {
   createOrUpdateItem,
+  getMessageById,
   lastAvatarUploadTimestamp,
   removeAllMessagesInConversation,
 } from '../data/data';
-import { conversationReset } from '../state/ducks/conversations';
+import {
+  conversationReset,
+  quoteMessage,
+  resetSelectedMessageIds,
+  SortedMessageModelProps,
+} from '../state/ducks/conversations';
 import { getDecryptedMediaUrl } from '../session/crypto/DecryptedAttachmentsManager';
 import { IMAGE_JPEG } from '../types/MIME';
 import { FSv2 } from '../fileserver';
 import { fromBase64ToArray, toHex } from '../session/utils/String';
 import { SessionButtonColor } from '../components/session/SessionButton';
+import { perfEnd, perfStart } from '../session/utils/Performance';
+import { ReplyingToMessageProps } from '../components/session/conversation/SessionCompositionBox';
 
 export const getCompleteUrlForV2ConvoId = async (convoId: string) => {
   if (convoId.match(openGroupV2ConversationIdRegex)) {
@@ -85,10 +93,10 @@ export async function copyPublicKeyByConvoId(convoId: string) {
  * @param messages the list of MessageModel to delete
  * @param convo the conversation to delete from (only v2 opengroups are supported)
  */
-export async function deleteOpenGroupMessages(
+async function deleteOpenGroupMessages(
   messages: Array<MessageModel>,
   convo: ConversationModel
-): Promise<Array<MessageModel>> {
+): Promise<Array<string>> {
   if (!convo.isPublic()) {
     throw new Error('cannot delete public message on a non public groups');
   }
@@ -99,8 +107,7 @@ export async function deleteOpenGroupMessages(
     // so logic here is to delete each messages and get which one where not removed
     const validServerIdsToRemove = _.compact(
       messages.map(msg => {
-        const serverId = msg.get('serverId');
-        return serverId;
+        return msg.get('serverId');
       })
     );
 
@@ -124,7 +131,7 @@ export async function deleteOpenGroupMessages(
     // remove only the messages we managed to remove on the server
     if (allMessagesAreDeleted) {
       window?.log?.info('Removed all those serverIds messages successfully');
-      return validMessageModelsToRemove;
+      return validMessageModelsToRemove.map(m => m.id as string);
     } else {
       window?.log?.info(
         'failed to remove all those serverIds message. not removing them locally neither'
@@ -254,7 +261,10 @@ export function showRemoveModeratorsByConvoId(conversationId: string) {
 
 export async function markAllReadByConvoId(conversationId: string) {
   const conversation = getConversationController().get(conversationId);
+  perfStart(`markAllReadByConvoId-${conversationId}`);
+
   await conversation.markReadBouncy(Date.now());
+  perfEnd(`markAllReadByConvoId-${conversationId}`, 'markAllReadByConvoId');
 }
 
 export async function setNotificationForConvoId(
@@ -281,11 +291,7 @@ export function showChangeNickNameByConvoId(conversationId: string) {
 export async function deleteMessagesByConvoIdNoConfirmation(conversationId: string) {
   const conversation = getConversationController().get(conversationId);
   await removeAllMessagesInConversation(conversationId);
-  window.inboxStore?.dispatch(
-    conversationReset({
-      conversationKey: conversationId,
-    })
-  );
+  window.inboxStore?.dispatch(conversationReset(conversationId));
 
   // destroy message keeps the active timestamp set so the
   // conversation still appears on the conversation list but is empty
@@ -354,7 +360,7 @@ export async function uploadOurAvatar(newAvatarDecrypted?: ArrayBuffer) {
     // this is a reupload. no need to generate a new profileKey
     profileKey = window.textsecure.storage.get('profileKey');
     if (!profileKey) {
-      window.log.warn('our profileKey not found');
+      window.log.info('our profileKey not found');
       return;
     }
     const currentAttachmentPath = ourConvo.getAvatarPath();
@@ -424,5 +430,126 @@ export async function uploadOurAvatar(newAvatarDecrypted?: ArrayBuffer) {
     window.log.info(
       `Reuploading avatar finished at ${newTimestampReupload}, newAttachmentPointer ${fileUrl}`
     );
+  }
+}
+
+export async function deleteMessagesById(
+  messageIds: Array<string>,
+  conversationId: string,
+  askUserForConfirmation: boolean
+) {
+  const conversationModel = getConversationController().getOrThrow(conversationId);
+  const selectedMessages = _.compact(await Promise.all(messageIds.map(getMessageById)));
+
+  const moreThanOne = selectedMessages.length > 1;
+
+  // In future, we may be able to unsend private messages also
+  // isServerDeletable also defined in ConversationHeader.tsx for
+  // future reference
+  const isServerDeletable = conversationModel.isPublic();
+
+  const doDelete = async () => {
+    let toDeleteLocallyIds: Array<string>;
+
+    if (isServerDeletable) {
+      // Get our Moderator status
+      const ourDevicePubkey = UserUtils.getOurPubKeyStrFromCache();
+      if (!ourDevicePubkey) {
+        return;
+      }
+
+      const isAdmin = conversationModel.isAdmin(ourDevicePubkey);
+      const isAllOurs = selectedMessages.every(message => ourDevicePubkey === message.getSource());
+
+      if (!isAllOurs && !isAdmin) {
+        ToastUtils.pushMessageDeleteForbidden();
+
+        window.inboxStore?.dispatch(resetSelectedMessageIds());
+        return;
+      }
+
+      toDeleteLocallyIds = await deleteOpenGroupMessages(selectedMessages, conversationModel);
+      if (toDeleteLocallyIds.length === 0) {
+        // Message failed to delete from server, show error?
+        return;
+      }
+    } else {
+      toDeleteLocallyIds = selectedMessages.map(m => m.id as string);
+    }
+
+    await Promise.all(
+      toDeleteLocallyIds.map(async msgId => {
+        await conversationModel.removeMessage(msgId);
+      })
+    );
+
+    // Update view and trigger update
+    window.inboxStore?.dispatch(resetSelectedMessageIds());
+    ToastUtils.pushDeleted();
+  };
+
+  if (askUserForConfirmation) {
+    let title = '';
+
+    // Note:  keep that i18n logic separated so the scripts in tools/ find the usage of those
+    if (isServerDeletable) {
+      if (moreThanOne) {
+        title = window.i18n('deleteMessagesForEveryone');
+      } else {
+        title = window.i18n('deleteMessageForEveryone');
+      }
+    } else {
+      if (moreThanOne) {
+        title = window.i18n('deleteMessages');
+      } else {
+        title = window.i18n('deleteMessage');
+      }
+    }
+
+    const okText = window.i18n(isServerDeletable ? 'deleteForEveryone' : 'delete');
+
+    const onClickClose = () => {
+      window.inboxStore?.dispatch(updateConfirmModal(null));
+    };
+
+    const warningMessage = (() => {
+      if (isServerDeletable) {
+        return moreThanOne
+          ? window.i18n('deleteMultiplePublicWarning')
+          : window.i18n('deletePublicWarning');
+      }
+      return moreThanOne ? window.i18n('deleteMultipleWarning') : window.i18n('deleteWarning');
+    })();
+    window.inboxStore?.dispatch(
+      updateConfirmModal({
+        title,
+        message: warningMessage,
+        okText,
+        okTheme: SessionButtonColor.Danger,
+        onClickOk: doDelete,
+        onClickClose,
+      })
+    );
+  } else {
+    void doDelete();
+  }
+}
+
+export async function replyToMessage(messageId: string) {
+  const quotedMessageModel = await getMessageById(messageId);
+  if (!quotedMessageModel) {
+    window.log.warn('Failed to find message to reply to');
+    return;
+  }
+  const conversationModel = getConversationController().getOrThrow(
+    quotedMessageModel.get('conversationId')
+  );
+
+  const quotedMessageProps = await conversationModel.makeQuote(quotedMessageModel);
+
+  if (quotedMessageProps) {
+    window.inboxStore?.dispatch(quoteMessage(quotedMessageProps));
+  } else {
+    window.inboxStore?.dispatch(quoteMessage(undefined));
   }
 }

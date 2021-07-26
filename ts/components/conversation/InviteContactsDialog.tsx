@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 
-import { SessionModal } from '../session/SessionModal';
 import { SessionButton, SessionButtonColor } from '../session/SessionButton';
 import { ContactType, SessionMemberListItem } from '../session/SessionMemberListItem';
-import { DefaultTheme, useTheme } from 'styled-components';
+import { useTheme } from 'styled-components';
 import { getConversationController } from '../../session/conversations';
 import { ToastUtils, UserUtils } from '../../session/utils';
 import { initiateGroupUpdate } from '../../session/group';
@@ -178,7 +177,7 @@ const InviteContactsDialogInner = (props: Props) => {
     return members.map((member: ContactType, index: number) => (
       <SessionMemberListItem
         member={member}
-        key={index}
+        key={member.id}
         index={index}
         isSelected={selectedContacts.some(m => m === member.id)}
         onSelect={(selectedMember: ContactType) => {

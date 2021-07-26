@@ -1,6 +1,6 @@
 import { ConversationModel } from '../models/conversation';
 import { getConversationController } from '../session/conversations';
-import { MentionsInputState } from '../state/ducks/mentionsInput';
+import { MentionsMembersType } from '../state/ducks/conversations';
 
 // tslint:disable: no-unnecessary-class
 export class FindMember {
@@ -31,8 +31,8 @@ export class FindMember {
 
     if (thisConvo.isPublic()) {
       const publicMembers = (await window.inboxStore?.getState()
-        .mentionsInput) as MentionsInputState;
-      const memberConversations = publicMembers
+        .mentionsInput) as MentionsMembersType;
+      const memberConversations = (publicMembers || [])
         .map(publicMember => getConversationController().get(publicMember.authorPhoneNumber))
         .filter((c: any) => !!c);
       groupMembers = memberConversations;

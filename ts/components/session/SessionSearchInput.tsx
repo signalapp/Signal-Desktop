@@ -8,7 +8,6 @@ interface Props {
   onChange: any;
   handleNavigation?: any;
   placeholder: string;
-  theme: DefaultTheme;
 }
 
 export class SessionSearchInput extends React.Component<Props> {
@@ -32,11 +31,7 @@ export class SessionSearchInput extends React.Component<Props> {
             });
           }}
         >
-          <SessionIconButton
-            iconSize={SessionIconSize.Medium}
-            iconType={SessionIconType.Search}
-            theme={this.props.theme}
-          />
+          <SessionIconButton iconSize={SessionIconSize.Medium} iconType={SessionIconType.Search} />
           <input
             value={searchString}
             onChange={e => this.props.onChange(e.target.value)}

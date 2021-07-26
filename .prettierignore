@@ -8,7 +8,6 @@ dist/**
 js/components.js
 js/util_worker.js
 js/libtextsecure.js
-js/libloki.js
 libtextsecure/components.js
 libtextsecure/test/test.js
 stylesheets/*.css
@@ -20,18 +19,14 @@ ts/protobuf/*.js
 stylesheets/manifest.css
 ts/util/lint/exceptions.json
 
-# Libloki specific files
-libloki/test/test.js
-libloki/test/components.js
-
 # Third-party files
 node_modules/**
 components/**
 js/curve/**
 js/Mp3LameEncoder.min.js
 js/WebAudioRecorderMp3.js
-js/libsignal-protocol-worker.js
 libtextsecure/libsignal-protocol.js
+js/util_worker.js
 libtextsecure/test/blanket_mocha.js
 test/blanket_mocha.js
 mnemonic_languages/**
@@ -47,6 +42,4 @@ test/fixtures.js
 stylesheets/_intlTelInput.scss
 
 # Coverage
-coverage/**
-.nyc_output/**
 release/**

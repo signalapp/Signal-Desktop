@@ -14,14 +14,11 @@ import {
   ConfigurationMessageContact,
 } from '../messages/outgoing/controlMessage/ConfigurationMessage';
 import { ConversationModel } from '../../models/conversation';
-import { fromBase64ToArray, fromBase64ToArrayBuffer, fromHexToArray } from './String';
-import { fromBase64 } from 'bytebuffer';
+import { fromBase64ToArray } from './String';
 import { SignalService } from '../../protobuf';
 import _ from 'lodash';
 import {
-  AttachmentPointer,
   AttachmentPointerWithUrl,
-  Preview,
   PreviewWithAttachmentUrl,
   Quote,
   VisibleMessage,

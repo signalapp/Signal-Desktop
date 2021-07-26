@@ -11,7 +11,6 @@ export interface Props {
   placeholder: string;
   searchResults?: SearchResultsProps;
   updateSearch: (searchTerm: string) => void;
-  theme: DefaultTheme;
 }
 
 interface State {
@@ -68,7 +67,6 @@ export class UserSearchDropdown extends React.Component<Props, State> {
           onChange={this.updateSearchBound}
           placeholder={placeholder}
           handleNavigation={this.handleNavigation}
-          theme={this.props.theme}
         />
         {searchResults && (
           <UserSearchResults

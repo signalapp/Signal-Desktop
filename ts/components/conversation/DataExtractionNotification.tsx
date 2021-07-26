@@ -1,16 +1,14 @@
 import React from 'react';
 import { useTheme } from 'styled-components';
-import { DataExtractionNotificationProps } from '../../models/messageType';
+import { PropsForDataExtractionNotification } from '../../models/messageType';
 import { SignalService } from '../../protobuf';
 import { Flex } from '../basic/Flex';
 import { SessionIcon, SessionIconSize, SessionIconType } from '../session/icon';
 import { SpacerXS, Text } from '../basic/Text';
 
-type Props = DataExtractionNotificationProps;
-
-export const DataExtractionNotification = (props: Props) => {
+export const DataExtractionNotification = (props: PropsForDataExtractionNotification) => {
   const theme = useTheme();
-  const { name, type, source } = props;
+  const { name, type, source, messageId } = props;
 
   let contentText: string;
   if (type === SignalService.DataExtractionNotification.Type.MEDIA_SAVED) {
@@ -25,6 +23,7 @@ export const DataExtractionNotification = (props: Props) => {
       flexDirection="column"
       alignItems="center"
       margin={theme.common.margins.sm}
+      id={messageId}
     >
       <SessionIcon
         iconType={SessionIconType.Upload}

@@ -1,7 +1,6 @@
 node_modules
 .sass-cache
 .eslintcache
-coverage/*
 build/curve25519_compiled.js
 build/icons/*
 stylesheets/*.css.map
@@ -12,7 +11,6 @@ config/local-*.json
 *.provisionprofile
 release/
 /dev-app-update.yml
-.nyc_output/
 *.sublime*
 sql/
 
@@ -20,11 +18,8 @@ sql/
 js/components.js
 js/util_worker.js
 js/libtextsecure.js
-js/libloki.js
 libtextsecure/components.js
 libtextsecure/test/test.js
-libloki/test/components.js
-libloki/test/test.js
 stylesheets/*.css
 test/test.js
 

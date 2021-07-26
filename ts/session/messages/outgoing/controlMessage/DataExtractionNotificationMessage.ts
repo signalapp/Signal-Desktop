@@ -46,16 +46,10 @@ export class DataExtractionNotificationMessage extends ContentMessage {
 export const sendDataExtractionNotification = async (
   conversationId: string,
   attachmentSender: string,
-  referencedAttachmentTimestamp?: number
+  referencedAttachmentTimestamp: number
 ) => {
   const convo = getConversationController().get(conversationId);
-  if (
-    !convo ||
-    !convo.isPrivate() ||
-    convo.isMe() ||
-    UserUtils.isUsFromCache(PubKey.cast(attachmentSender)) ||
-    !referencedAttachmentTimestamp
-  ) {
+  if (!convo || !convo.isPrivate() || convo.isMe() || UserUtils.isUsFromCache(attachmentSender)) {
     window.log.warn('Not sending saving attachment notification for', attachmentSender);
     return;
   }

@@ -1,33 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import classNames from 'classnames';
 
 import { SessionIconButton, SessionIconSize, SessionIconType } from './icon/';
-import { SessionButton, SessionButtonColor, SessionButtonType } from './SessionButton';
-import { DefaultTheme, useTheme } from 'styled-components';
+import { SessionButton } from './SessionButton';
+import { useTheme } from 'styled-components';
 
 // tslint:disable-next-line: no-submodule-imports
 import useKey from 'react-use/lib/useKey';
-
-type Props = {
-  title: string;
-  onClose: any;
-  showExitIcon?: boolean;
-  showHeader?: boolean;
-  headerReverse?: boolean;
-  //Maximum of two icons or buttons in header
-  headerIconButtons?: Array<{
-    iconType: SessionIconType;
-    iconRotation: number;
-    onClick?: any;
-  }>;
-  headerButtons?: Array<{
-    buttonType: SessionButtonType;
-    buttonColor: SessionButtonColor;
-    text: string;
-    onClick?: any;
-  }>;
-  theme: DefaultTheme;
-};
 
 export type SessionWrapperModalType = {
   title?: string;
@@ -79,10 +58,28 @@ export const SessionWrapperModal = (props: SessionWrapperModalType) => {
     [props.onClose]
   );
 
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  const handleClick = (e: any) => {
+    if (!modalRef.current?.contains(e.target)) {
+      props.onClose?.();
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClick);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClick);
+    };
+  }, []);
+
   return (
-    <div className={`loki-dialog modal ${additionalClassName}`}>
+    <div
+      className={classNames('loki-dialog modal', additionalClassName ? additionalClassName : null)}
+    >
       <div className="session-confirm-wrapper">
-        <div className="session-modal">
+        <div ref={modalRef} className="session-modal">
           {showHeader ? (
             <div className={classNames('session-modal__header', headerReverse && 'reverse')}>
               <div className="session-modal__header__close">

@@ -3,14 +3,13 @@ import { AutoSizer, List } from 'react-virtualized';
 import { MainViewController } from '../MainViewController';
 import {
   ConversationListItemProps,
-  ConversationListItemWithDetails,
+  MemoConversationListItemWithDetails,
 } from '../ConversationListItem';
-import { ConversationType as ReduxConversationType } from '../../state/ducks/conversations';
+import { openConversationExternal, ReduxConversationType } from '../../state/ducks/conversations';
 import { SearchResults, SearchResultsProps } from '../SearchResults';
 import { SessionSearchInput } from './SessionSearchInput';
 import _, { debounce } from 'lodash';
 import { cleanSearchTerm } from '../../util/cleanSearchTerm';
-import { SearchOptions } from '../../types/Search';
 import { RowRendererParamsType } from '../LeftPane';
 import { SessionClosableOverlay, SessionClosableOverlayType } from './SessionClosableOverlay';
 import { SessionIconType } from './icon';
@@ -18,7 +17,6 @@ import { ContactType } from './SessionMemberListItem';
 import { SessionButton, SessionButtonColor, SessionButtonType } from './SessionButton';
 import { PubKey } from '../../session/types';
 import { ToastUtils, UserUtils } from '../../session/utils';
-import { DefaultTheme } from 'styled-components';
 import { LeftPaneSectionHeader } from './LeftPaneSectionHeader';
 import { getConversationController } from '../../session/conversations';
 import { ConversationTypeEnum } from '../../models/conversation';
@@ -27,6 +25,8 @@ import { joinOpenGroupV2WithUIEvents } from '../../opengroup/opengroupV2/JoinOpe
 import autoBind from 'auto-bind';
 import { onsNameRegex } from '../../session/snode_api/SNodeAPI';
 import { SNodeAPI } from '../../session/snode_api';
+import { clearSearch, search, updateSearchTerm } from '../../state/ducks/search';
+import { getFirstUnreadMessageIdInConversation } from '../../data/data';
 
 export interface Props {
   searchTerm: string;
@@ -34,12 +34,6 @@ export interface Props {
   contacts: Array<ReduxConversationType>;
   conversations?: Array<ConversationListItemProps>;
   searchResults?: SearchResultsProps;
-
-  updateSearchTerm: (searchTerm: string) => void;
-  search: (query: string, options: SearchOptions) => void;
-  openConversationExternal: (id: string, messageId?: string) => void;
-  clearSearch: () => void;
-  theme: DefaultTheme;
 }
 
 export enum SessionComposeToType {
@@ -77,7 +71,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
   }
 
   public renderRow = ({ index, key, style }: RowRendererParamsType): JSX.Element => {
-    const { conversations, openConversationExternal } = this.props;
+    const { conversations } = this.props;
 
     if (!conversations) {
       throw new Error('renderRow: Tried to render without conversations');
@@ -85,28 +79,15 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
 
     const conversation = conversations[index];
 
-    return (
-      <ConversationListItemWithDetails
-        key={key}
-        style={style}
-        {...conversation}
-        onClick={openConversationExternal}
-      />
-    );
+    return <MemoConversationListItemWithDetails key={key} style={style} {...conversation} />;
   };
 
   public renderList(): JSX.Element | Array<JSX.Element | null> {
-    const { conversations, openConversationExternal, searchResults } = this.props;
+    const { conversations, searchResults } = this.props;
     const contacts = searchResults?.contacts || [];
 
     if (searchResults) {
-      return (
-        <SearchResults
-          {...searchResults}
-          contacts={contacts}
-          openConversationExternal={openConversationExternal}
-        />
-      );
+      return <SearchResults {...searchResults} contacts={contacts} />;
     }
 
     if (!conversations) {
@@ -150,7 +131,6 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     return (
       <LeftPaneSectionHeader
         label={window.i18n('messagesHeader')}
-        theme={this.props.theme}
         buttonIcon={SessionIconType.Plus}
         buttonClicked={this.handleNewSessionButtonClick}
       />
@@ -175,7 +155,6 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
           searchString={this.props.searchTerm}
           onChange={this.updateSearch}
           placeholder={window.i18n('searchFor...')}
-          theme={this.props.theme}
         />
         {this.renderList()}
         {this.renderBottomButtons()}
@@ -184,10 +163,8 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
   }
 
   public updateSearch(searchTerm: string) {
-    const { updateSearchTerm, clearSearch } = this.props;
-
     if (!searchTerm) {
-      clearSearch();
+      window.inboxStore?.dispatch(clearSearch());
 
       return;
     }
@@ -195,9 +172,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     // reset our pubKeyPasted, we can either have a pasted sessionID or a sessionID got from a search
     this.setState({ valuePasted: '' });
 
-    if (updateSearchTerm) {
-      updateSearchTerm(searchTerm);
-    }
+    window.inboxStore?.dispatch(updateSearchTerm(searchTerm));
 
     if (searchTerm.length < 2) {
       return;
@@ -212,19 +187,17 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
   }
 
   public clearSearch() {
-    this.props.clearSearch();
+    window.inboxStore?.dispatch(clearSearch());
   }
 
   public search() {
-    const { search } = this.props;
     const { searchTerm } = this.props;
-
-    if (search) {
+    window.inboxStore?.dispatch(
       search(searchTerm, {
         noteToSelf: window.i18n('noteToSelf').toLowerCase(),
         ourNumber: UserUtils.getOurPubKeyStrFromCache(),
-      });
-    }
+      })
+    );
   }
 
   private renderClosableOverlay(overlay: SessionComposeToType) {
@@ -242,7 +215,6 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
         searchTerm={searchTerm}
         updateSearch={this.updateSearch}
         showSpinner={loading}
-        theme={this.props.theme}
       />
     );
 
@@ -260,7 +232,6 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
         searchTerm={searchTerm}
         updateSearch={this.updateSearch}
         showSpinner={loading}
-        theme={this.props.theme}
       />
     );
 
@@ -276,7 +247,6 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
         searchResults={searchResults}
         showSpinner={loading}
         updateSearch={this.updateSearch}
-        theme={this.props.theme}
       />
     );
 
@@ -335,8 +305,6 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
   }
 
   private async handleMessageButtonClick() {
-    const { openConversationExternal } = this.props;
-
     if (!this.state.valuePasted && !this.props.searchTerm) {
       ToastUtils.pushToastError('invalidPubKey', window.i18n('invalidNumberError')); // or ons name
       return;
@@ -352,7 +320,11 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
         pubkeyorOns,
         ConversationTypeEnum.PRIVATE
       );
-      openConversationExternal(pubkeyorOns);
+      const firstUnreadIdOnOpen = await getFirstUnreadMessageIdInConversation(pubkeyorOns);
+
+      window.inboxStore?.dispatch(
+        openConversationExternal({ id: pubkeyorOns, firstUnreadIdOnOpen })
+      );
       this.handleToggleOverlay(undefined);
     } else {
       // this might be an ONS, validate the regex first
@@ -372,7 +344,12 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
           resolvedSessionID,
           ConversationTypeEnum.PRIVATE
         );
-        openConversationExternal(resolvedSessionID);
+
+        const firstUnreadIdOnOpen = await getFirstUnreadMessageIdInConversation(resolvedSessionID);
+
+        window.inboxStore?.dispatch(
+          openConversationExternal({ id: resolvedSessionID, firstUnreadIdOnOpen })
+        );
         this.handleToggleOverlay(undefined);
       } catch (e) {
         window?.log?.warn('failed to resolve ons name', pubkeyorOns, e);

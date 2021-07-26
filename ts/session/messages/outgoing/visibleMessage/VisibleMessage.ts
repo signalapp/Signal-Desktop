@@ -38,7 +38,6 @@ export interface Preview {
 
 export interface PreviewWithAttachmentUrl {
   url: string;
-  id: number;
   title?: string;
   image?: AttachmentPointerWithUrl;
 }

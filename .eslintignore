@@ -1,6 +1,5 @@
 build/**
 components/**
-coverage/**
 dist/**
 mnemonic_languages/**
 
@@ -8,18 +7,14 @@ mnemonic_languages/**
 js/curve/*
 js/components.js
 js/libtextsecure.js
-js/libloki.js
 js/util_worker.js
-js/libsignal-protocol-worker.js
 libtextsecure/components.js
-libloki/test/test.js
 libtextsecure/test/test.js
 test/test.js
 
 # Third-party files
 js/Mp3LameEncoder.min.js
 js/WebAudioRecorderMp3.js
-js/libsignal-protocol-worker.js
 libtextsecure/libsignal-protocol.js
 libtextsecure/test/blanket_mocha.js
 test/blanket_mocha.js
@@ -27,8 +22,3 @@ test/blanket_mocha.js
 # TypeScript generated files
 ts/**/*.js
 **/ts/**/*.js
-
-
-# Libloki specific files
-libloki/test/components.js
-libloki/modules/mnemonic.js

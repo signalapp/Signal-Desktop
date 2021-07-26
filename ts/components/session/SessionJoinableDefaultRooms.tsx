@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import {
   joinOpenGroupV2WithUIEvents,
@@ -81,8 +81,17 @@ const SessionJoinableRoomRow = (props: JoinableRoomProps) => {
   );
 };
 
-export const SessionJoinableRooms = () => {
+export const SessionJoinableRooms = (props: { onRoomClicked: () => void }) => {
   const joinableRooms = useSelector((state: StateType) => state.defaultRooms);
+
+  const onRoomClicked = useCallback(
+    (loading: boolean) => {
+      if (loading) {
+        props.onRoomClicked();
+      }
+    },
+    [props.onRoomClicked]
+  );
 
   if (!joinableRooms.inProgress && !joinableRooms.rooms?.length) {
     window?.log?.info('no default joinable rooms yet and not in progress');
@@ -101,7 +110,7 @@ export const SessionJoinableRooms = () => {
           roomId={r.id}
           base64Data={r.base64Data}
           onClick={completeUrl => {
-            void joinOpenGroupV2WithUIEvents(completeUrl, true, false);
+            void joinOpenGroupV2WithUIEvents(completeUrl, true, false, onRoomClicked);
           }}
         />
       );

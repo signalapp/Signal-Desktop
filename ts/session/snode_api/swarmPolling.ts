@@ -16,6 +16,7 @@ import { StringUtils, UserUtils } from '../../session/utils';
 import { ConversationModel } from '../../models/conversation';
 import { DURATION, SWARM_POLLING_TIMEOUT } from '../constants';
 import { getConversationController } from '../conversations';
+import { perfEnd, perfStart } from '../utils/Performance';
 
 type PubkeyToHash = { [key: string]: string };
 
@@ -213,7 +214,11 @@ export class SwarmPolling {
       });
     }
 
+    perfStart(`handleSeenMessages-${pkStr}`);
+
     const newMessages = await this.handleSeenMessages(messages);
+
+    perfEnd(`handleSeenMessages-${pkStr}`, 'handleSeenMessages');
 
     newMessages.forEach((m: Message) => {
       const options = isGroup ? { conversationId: pkStr } : {};

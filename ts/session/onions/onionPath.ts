@@ -122,7 +122,7 @@ export async function dropSnodeFromPath(snodeEd25519: string) {
 export async function getOnionPath(toExclude?: Snode): Promise<Array<Snode>> {
   let attemptNumber = 0;
   while (onionPaths.length < minimumGuardCount) {
-    window?.log?.error(
+    window?.log?.warn(
       `Must have at least ${minimumGuardCount} good onion paths, actual: ${onionPaths.length}, attempt #${attemptNumber} fetching more...`
     );
     // eslint-disable-next-line no-await-in-loop
@@ -178,7 +178,7 @@ export async function incrementBadPathCountOrDrop(snodeEd25519: string) {
   const guardNodeEd25519 = onionPaths[pathWithSnodeIndex][0].pubkey_ed25519;
 
   window?.log?.info(
-    `\t\tincrementBadPathCountOrDrop starting with guard ${ed25519Str(guardNodeEd25519)}`
+    `incrementBadPathCountOrDrop starting with guard ${ed25519Str(guardNodeEd25519)}`
   );
 
   const pathWithIssues = onionPaths[pathWithSnodeIndex];
@@ -259,7 +259,11 @@ async function testGuardNode(snode: Snode) {
   const fetchOptions = {
     method: 'POST',
     body: JSON.stringify(body),
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      'User-Agent': 'WhatsApp',
+      'Accept-Language': 'en-us',
+    },
     timeout: 10000, // 10s, we want a smaller timeout for testing
     agent: snodeHttpsAgent,
   };

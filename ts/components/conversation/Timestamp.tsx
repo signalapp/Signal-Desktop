@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import classNames from 'classnames';
 import moment from 'moment';
 
 import { formatRelativeTime } from '../../util/formatRelativeTime';
 import { useInterval } from '../../hooks/useInterval';
-import styled, { DefaultTheme } from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 import { OpacityMetadataComponent } from './message/MessageMetadata';
 
 type Props = {
@@ -13,7 +12,6 @@ type Props = {
   module?: string;
   withImageNoCaption?: boolean;
   isConversationListItem?: boolean;
-  theme: DefaultTheme;
 };
 
 const UPDATE_FREQUENCY = 60 * 1000;
@@ -52,6 +50,8 @@ export const Timestamp = (props: Props) => {
     setLastUpdated(Date.now());
   };
 
+  const theme = useTheme();
+
   useInterval(update, UPDATE_FREQUENCY);
 
   const { module, timestamp, withImageNoCaption, extended } = props;
@@ -79,7 +79,7 @@ export const Timestamp = (props: Props) => {
     dateString = dateString.replace('minutes', 'mins').replace('minute', 'min');
   }
 
-  const timestampColor = withImageNoCaption ? 'white' : props.theme.colors.textColor;
+  const timestampColor = withImageNoCaption ? 'white' : theme.colors.textColor;
   const title = moment(timestamp).format('llll');
   if (props.isConversationListItem) {
     return (

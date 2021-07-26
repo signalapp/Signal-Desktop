@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
-import { SessionModal } from './SessionModal';
 import { SessionButton, SessionButtonColor } from './SessionButton';
 import { SessionHtmlRenderer } from './SessionHTMLRenderer';
 import { SessionIcon, SessionIconSize, SessionIconType } from './icon';
 import { DefaultTheme, useTheme, withTheme } from 'styled-components';
 import { SessionWrapperModal } from './SessionWrapperModal';
-import { useDispatch } from 'react-redux';
 import { updateConfirmModal } from '../../state/ducks/modalDialog';
-import { update } from 'lodash';
 import { SpacerLG } from '../basic/Text';
 import { SessionSpinner } from './SessionSpinner';
 
@@ -27,7 +24,7 @@ export interface SessionConfirmDialogProps {
   sessionIcon?: SessionIconType;
   iconSize?: SessionIconSize;
   theme?: DefaultTheme;
-  shouldShowConfirm?: () => boolean | undefined;
+  shouldShowConfirm?: boolean | undefined;
 }
 
 const SessionConfirmInner = (props: SessionConfirmDialogProps) => {
@@ -70,7 +67,7 @@ const SessionConfirmInner = (props: SessionConfirmDialogProps) => {
     window.inboxStore?.dispatch(updateConfirmModal(null));
   };
 
-  if (shouldShowConfirm && !shouldShowConfirm()) {
+  if (shouldShowConfirm && !shouldShowConfirm) {
     return null;
   }
 

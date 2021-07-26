@@ -7,7 +7,6 @@ import {
 import { FSv2 } from '../../fileserver/';
 import { sendViaOnion } from '../../session/onions/onionSend';
 import { PubKey } from '../../session/types';
-import { fromArrayBufferToBase64, fromBase64ToArrayBuffer } from '../../session/utils/String';
 import { OpenGroupRequestCommonType, OpenGroupV2Info, OpenGroupV2Request } from './ApiUtil';
 import {
   parseMemberCount,
@@ -396,7 +395,7 @@ export const downloadFileOpenGroupV2 = async (
   if (!base64Data) {
     return null;
   }
-  return new Uint8Array(fromBase64ToArrayBuffer(base64Data));
+  return new Uint8Array(await window.callWorker('fromBase64ToArrayBuffer', base64Data));
 };
 
 export const downloadFileOpenGroupV2ByUrl = async (
@@ -423,7 +422,7 @@ export const downloadFileOpenGroupV2ByUrl = async (
   if (!base64Data) {
     return null;
   }
-  return new Uint8Array(fromBase64ToArrayBuffer(base64Data));
+  return new Uint8Array(await window.callWorker('fromBase64ToArrayBuffer', base64Data));
 };
 
 /**
@@ -469,7 +468,7 @@ export const uploadFileOpenGroupV2 = async (
     return null;
   }
   const queryParams = {
-    file: fromArrayBufferToBase64(fileContent),
+    file: await window.callWorker('arrayBufferToStringBase64', fileContent),
   };
 
   const filesEndpoint = 'files';
@@ -509,7 +508,7 @@ export const uploadImageForRoomOpenGroupV2 = async (
   }
 
   const queryParams = {
-    file: fromArrayBufferToBase64(fileContent),
+    file: await window.callWorker('arrayBufferToStringBase64', fileContent),
   };
 
   const imageEndpoint = `rooms/${roomInfos.roomId}/image`;

@@ -26,22 +26,44 @@ export interface AttachmentType {
   url: string;
   videoUrl?: string;
   size?: number;
-  fileSize?: string;
+  fileSize: string | null;
   pending?: boolean;
   width?: number;
   height?: number;
-  screenshot?: {
+  screenshot: {
     height: number;
     width: number;
-    url: string;
+    url?: string;
     contentType: MIME.MIMEType;
-  };
-  thumbnail?: {
+  } | null;
+  thumbnail: {
     height: number;
     width: number;
-    url: string;
+    url?: string;
     contentType: MIME.MIMEType;
-  };
+  } | null;
+}
+
+export interface AttachmentTypeWithPath extends AttachmentType {
+  path: string;
+  id: number;
+  flags?: number;
+  error?: any;
+
+  screenshot: {
+    height: number;
+    width: number;
+    url?: string;
+    contentType: MIME.MIMEType;
+    path?: string;
+  } | null;
+  thumbnail: {
+    height: number;
+    width: number;
+    url?: string;
+    contentType: MIME.MIMEType;
+    path?: string;
+  } | null;
 }
 
 // UI-focused functions
@@ -89,17 +111,17 @@ export function canDisplayImage(attachments?: Array<AttachmentType>) {
   return height && height > 0 && height <= 4096 && width && width > 0 && width <= 4096;
 }
 
-export function getThumbnailUrl(attachment: AttachmentType) {
-  if (attachment.thumbnail) {
+export function getThumbnailUrl(attachment: AttachmentType): string {
+  if (attachment.thumbnail && attachment.thumbnail.url) {
     return attachment.thumbnail.url;
   }
 
   return getUrl(attachment);
 }
 
-export function getUrl(attachment: AttachmentType) {
-  if (attachment.screenshot) {
-    return attachment.screenshot.url;
+export function getUrl(attachment: AttachmentType): string {
+  if (attachment.screenshot && attachment.screenshot.url) {
+    return attachment.screenshot.url as string;
   }
 
   return attachment.url;
@@ -378,60 +400,18 @@ export const encryptAttachmentBuffer = async (bufferIn: ArrayBuffer) => {
   if (!isArrayBuffer(bufferIn)) {
     throw new TypeError("'bufferIn' must be an array buffer");
   }
-
-  const uintArrayIn = new Uint8Array(bufferIn);
-  const sodium = await getSodium();
-  const encryptingKey = window.textsecure.storage.get('local_attachment_encrypted_key');
-
-  /* Set up a new stream: initialize the state and create the header */
-  const { state, header } = sodium.crypto_secretstream_xchacha20poly1305_init_push(
-    fromHexToArray(encryptingKey)
+  const encryptingKey = fromHexToArray(
+    window.textsecure.storage.get('local_attachment_encrypted_key')
   );
-  /* Now, encrypt the buffer. */
-  const bufferOut = sodium.crypto_secretstream_xchacha20poly1305_push(
-    state,
-    uintArrayIn,
-    null,
-    sodium.crypto_secretstream_xchacha20poly1305_TAG_FINAL
-  );
-
-  const encryptedBufferWithHeader = new Uint8Array(bufferOut.length + header.length);
-  encryptedBufferWithHeader.set(header);
-  encryptedBufferWithHeader.set(bufferOut, header.length);
-
-  return { encryptedBufferWithHeader, header };
+  return window.callWorker('encryptAttachmentBuffer', encryptingKey, bufferIn);
 };
 
 export const decryptAttachmentBuffer = async (bufferIn: ArrayBuffer): Promise<Uint8Array> => {
   if (!isArrayBuffer(bufferIn)) {
     throw new TypeError("'bufferIn' must be an array buffer");
   }
-  const sodium = await getSodium();
-  const encryptingKey = window.textsecure.storage.get('local_attachment_encrypted_key');
-
-  const header = new Uint8Array(
-    bufferIn.slice(0, sodium.crypto_secretstream_xchacha20poly1305_HEADERBYTES)
+  const encryptingKey = fromHexToArray(
+    window.textsecure.storage.get('local_attachment_encrypted_key')
   );
-
-  const encryptedBuffer = new Uint8Array(
-    bufferIn.slice(sodium.crypto_secretstream_xchacha20poly1305_HEADERBYTES)
-  );
-  try {
-    /* Decrypt the stream: initializes the state, using the key and a header */
-    const state = sodium.crypto_secretstream_xchacha20poly1305_init_pull(
-      header,
-      fromHexToArray(encryptingKey)
-    );
-    // what if ^ this call fail (? try to load as a unencrypted attachment?)
-
-    const messageTag = sodium.crypto_secretstream_xchacha20poly1305_pull(state, encryptedBuffer);
-    // we expect the final tag to be there. If not, we might have an issue with this file
-    // maybe not encrypted locally?
-    if (messageTag.tag === sodium.crypto_secretstream_xchacha20poly1305_TAG_FINAL) {
-      return messageTag.message;
-    }
-  } catch (e) {
-    window?.log?.warn('Failed to load the file as an encrypted one', e);
-  }
-  return new Uint8Array();
+  return window.callWorker('decryptAttachmentBuffer', encryptingKey, bufferIn);
 };

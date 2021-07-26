@@ -118,7 +118,10 @@ export class ConversationController {
     conversation.initialPromise.then(async () => {
       if (window?.inboxStore) {
         window.inboxStore?.dispatch(
-          conversationActions.conversationAdded(conversation.id, conversation.getProps())
+          conversationActions.conversationAdded({
+            id: conversation.id,
+            data: conversation.getProps(),
+          })
         );
       }
       if (!conversation.isPublic()) {
@@ -243,10 +246,13 @@ export class ConversationController {
 
       this.conversations.remove(conversation);
       if (window?.inboxStore) {
-        window.inboxStore?.dispatch(conversationActions.conversationRemoved(conversation.id));
         window.inboxStore?.dispatch(
-          conversationActions.conversationChanged(conversation.id, conversation.getProps())
+          conversationActions.conversationChanged({
+            id: conversation.id,
+            data: conversation.getProps(),
+          })
         );
+        window.inboxStore?.dispatch(conversationActions.conversationRemoved(conversation.id));
       }
       window.log.info(`deleteContact !isPrivate, convo removed from store: ${id}`);
     }

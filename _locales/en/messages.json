@@ -41,8 +41,8 @@
   "view": "View",
   "youLeftTheGroup": "You have left the group.",
   "youGotKickedFromGroup": "You were removed from the group.",
-  "unreadMessage": "$count$ Unread Message",
-  "unreadMessages": "$count$ Unread Messages",
+  "unreadMessage": "Unread Message",
+  "unreadMessages": "Unread Messages",
   "debugLogExplanation": "This log will be posted publicly online for contributors to view. You may examine and edit it before submitting.",
   "debugLogError": "Something went wrong with the upload! Please consider manually adding your log to the bug you file.",
   "reportIssue": "Report an issue",
@@ -413,5 +413,8 @@
   "pinConversation": "Pin Conversation",
   "unpinConversation": "Unpin Conversation",
   "pinConversationLimitTitle": "Pinned conversations limit",
-  "pinConversationLimitToastDescription": "You can only pin $number$ conversations"
+  "pinConversationLimitToastDescription": "You can only pin $number$ conversations",
+  "latestUnreadIsAbove": "First unread message is above",
+  "sendRecoveryPhraseTitle": "Sending Recovery Phrase",
+  "sendRecoveryPhraseMessage": "You are attempting to send your recovery phrase which can be used to access your account. Are you sure you want to send this message?"
 }

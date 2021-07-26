@@ -8,6 +8,7 @@ import {
   PreviewWithAttachmentUrl,
   Quote,
   QuotedAttachment,
+  QuotedAttachmentWithUrl,
 } from '../messages/outgoing/visibleMessage/VisibleMessage';
 import { uploadFileOpenGroupV2 } from '../../opengroup/opengroupV2/OpenGroupAPIV2';
 import { addAttachmentPadding } from '../crypto/BufferPadding';
@@ -105,7 +106,7 @@ export async function uploadQuoteThumbnailsV2(
   }
 
   const promises = (quote.attachments ?? []).map(async attachment => {
-    let thumbnail: PreviewWithAttachmentUrl | undefined;
+    let thumbnail: QuotedAttachment | undefined;
     if (attachment.thumbnail) {
       thumbnail = await exports.uploadV2({
         attachment: attachment.thumbnail,
