@@ -376,7 +376,7 @@ export async function sendToGroupViaSenderKey(options: {
           groupId,
           identifiers: newToMemberUuids,
         },
-        sendOptions
+        sendOptions ? { ...sendOptions, online: false } : undefined
       ),
       { messageIds: [], sendType: 'senderKeyDistributionMessage' }
     );
