@@ -133,6 +133,9 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
         const convo = getConversationController().get(convoId);
         convo.updateLastMessage();
       };
+      // as 'checkExpired' is potentially called more than once (componentDidUpdate & componentDidMount),
+      //  we need to clear the timeout call to 'setExpired' first to avoid multiple calls to 'setExpired'.
+      clearTimeout(this.expiredTimeout);
       this.expiredTimeout = setTimeout(setExpired, EXPIRED_DELAY);
     }
   }
