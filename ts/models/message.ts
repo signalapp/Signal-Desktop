@@ -1094,7 +1094,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     return msFromNow;
   }
 
-  public async setToExpire(commit = true, force = false) {
+  public async setToExpire(force = false) {
     if (this.isExpiring() && (force || !this.get('expires_at'))) {
       const start = this.get('expirationStartTimestamp');
       const delta = this.get('expireTimer') * 1000;
@@ -1105,7 +1105,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
       this.set({ expires_at: expiresAt });
       const id = this.get('id');
-      if (id && commit) {
+      if (id) {
         await this.commit();
       }
 
