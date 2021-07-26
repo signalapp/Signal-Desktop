@@ -1060,7 +1060,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     if (this.get('expireTimer') && !this.get('expirationStartTimestamp')) {
       const expirationStartTimestamp = Math.min(Date.now(), readAt || Date.now());
       this.set({ expirationStartTimestamp });
-      //await this.setToExpire(false);
     }
 
     window.Whisper.Notifications.remove(
