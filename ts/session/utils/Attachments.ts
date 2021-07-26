@@ -22,7 +22,7 @@ interface UploadParams {
 }
 
 export interface RawPreview {
-  url?: string;
+  url: string;
   title?: string;
   image: Attachment;
 }
@@ -129,8 +129,6 @@ export class AttachmentFsV2Utils {
       return {
         ...preview,
         image,
-        url: image.url,
-        id: image.id,
       };
     });
     return _.compact(await Promise.all(promises));
