@@ -92,7 +92,6 @@ export interface ConversationAttributes {
   profile?: any;
   profileAvatar?: any;
   profileKey?: string;
-  accessKey?: any;
   triggerNotificationsFor: ConversationNotificationSettingType;
   isTrustedForAttachmentDownload: boolean;
   isPinned: boolean;
@@ -130,7 +129,6 @@ export interface ConversationAttributesOptionals {
   profile?: any;
   profileAvatar?: any;
   profileKey?: string;
-  accessKey?: any;
   triggerNotificationsFor?: ConversationNotificationSettingType;
   isTrustedForAttachmentDownload?: boolean;
   isPinned: boolean;
@@ -1201,31 +1199,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     if (this.get('profileKey') !== profileKey) {
       this.set({
         profileKey,
-        accessKey: null,
       });
 
-      await this.deriveAccessKeyIfNeeded();
 
       await this.commit();
-    }
-  }
-
-  public async deriveAccessKeyIfNeeded() {
-    const profileKey = this.get('profileKey');
-    if (!profileKey) {
-      return;
-    }
-    if (this.get('accessKey')) {
-      return;
-    }
-
-    try {
-      const profileKeyBuffer = fromBase64ToArrayBuffer(profileKey);
-      const accessKeyBuffer = await window.Signal.Crypto.deriveAccessKey(profileKeyBuffer);
-      const accessKey = fromArrayBufferToBase64(accessKeyBuffer);
-      this.set({ accessKey });
-    } catch (e) {
-      window?.log?.warn(`Failed to derive access key for ${this.id}`);
     }
   }
 

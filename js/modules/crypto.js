@@ -9,7 +9,6 @@ module.exports = {
   concatenateBytes,
   constantTimeEqual,
   decryptSymmetric,
-  deriveAccessKey,
   encryptAesCtr,
   encryptSymmetric,
   getRandomBytes,
@@ -26,13 +25,6 @@ function bytesFromString(string) {
 }
 
 // High-level Operations
-
-async function deriveAccessKey(profileKey) {
-  const iv = getZeroes(12);
-  const plaintext = getZeroes(16);
-  const accessKey = await _encrypt_aes_gcm(profileKey, iv, plaintext);
-  return _getFirstBytes(accessKey, 16);
-}
 
 const IV_LENGTH = 16;
 const MAC_LENGTH = 16;
@@ -139,17 +131,6 @@ async function encryptAesCtr(key, plaintext, counter) {
   const ciphertext = await crypto.subtle.encrypt(algorithm, cryptoKey, plaintext);
 
   return ciphertext;
-}
-
-async function _encrypt_aes_gcm(key, iv, plaintext) {
-  const algorithm = {
-    name: 'AES-GCM',
-    iv,
-  };
-  const extractable = false;
-
-  const cryptoKey = await crypto.subtle.importKey('raw', key, algorithm, extractable, ['encrypt']);
-  return crypto.subtle.encrypt(algorithm, cryptoKey, plaintext);
 }
 
 // Utility
