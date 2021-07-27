@@ -216,7 +216,7 @@ describe('state/selectors/messages', () => {
       );
     });
 
-    it('returns "read" if the message is just for you and has been sent', () => {
+    it('returns "viewed" if the message is just for you and has been sent', () => {
       const message = createMessage({
         sendStateByConversationId: {
           [ourConversationId]: {
@@ -228,23 +228,19 @@ describe('state/selectors/messages', () => {
 
       assert.strictEqual(
         getMessagePropStatus(message, ourConversationId),
-        'read'
+        'viewed'
       );
     });
 
-    it('returns "read" if the message was read by at least one person', () => {
-      const readMessage = createMessage({
+    it('returns "viewed" if the message was viewed by at least one person', () => {
+      const message = createMessage({
         sendStateByConversationId: {
           [ourConversationId]: {
             status: SendStatus.Sent,
             updatedAt: Date.now(),
           },
           [uuid()]: {
-            status: SendStatus.Pending,
-            updatedAt: Date.now(),
-          },
-          [uuid()]: {
-            status: SendStatus.Delivered,
+            status: SendStatus.Viewed,
             updatedAt: Date.now(),
           },
           [uuid()]: {
@@ -254,20 +250,26 @@ describe('state/selectors/messages', () => {
         },
       });
       assert.strictEqual(
-        getMessagePropStatus(readMessage, ourConversationId),
-        'read'
+        getMessagePropStatus(message, ourConversationId),
+        'viewed'
       );
+    });
 
-      const viewedMessage = createMessage({
+    it('returns "read" if the message was read by at least one person', () => {
+      const message = createMessage({
         sendStateByConversationId: {
+          [ourConversationId]: {
+            status: SendStatus.Sent,
+            updatedAt: Date.now(),
+          },
           [uuid()]: {
-            status: SendStatus.Viewed,
+            status: SendStatus.Read,
             updatedAt: Date.now(),
           },
         },
       });
       assert.strictEqual(
-        getMessagePropStatus(viewedMessage, ourConversationId),
+        getMessagePropStatus(message, ourConversationId),
         'read'
       );
     });

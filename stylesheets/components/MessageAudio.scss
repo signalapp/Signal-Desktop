@@ -188,22 +188,59 @@ $audio-attachment-button-margin-small: 4px;
 }
 
 .module-message__audio-attachment__countdown {
-  flex-shrink: 1;
-
-  user-select: none;
+  $unplayed-dot-margin: 6px;
 
   @include font-caption;
+  align-items: center;
+  display: flex;
+  flex-shrink: 1;
+  user-select: none;
+
+  &:after {
+    content: '';
+    display: block;
+    width: 6px;
+    height: 6px;
+    border-radius: 100%;
+    transition: background 100ms ease-out;
+  }
+
+  &--played:after {
+    background: transparent;
+  }
 
   .module-message__audio-attachment--incoming & {
+    flex-direction: row-reverse;
+
+    &:after {
+      margin-right: $unplayed-dot-margin;
+    }
+
     @include light-theme {
-      color: $color-black-alpha-60;
+      $color: $color-black-alpha-60;
+      color: $color;
+      &--unplayed:after {
+        background: $color;
+      }
     }
     @include dark-theme {
-      color: $color-white-alpha-80;
+      $color: $color-white-alpha-80;
+      color: $color;
+      &--unplayed:after {
+        background: $color;
+      }
     }
   }
 
   .module-message__audio-attachment--outgoing & {
     color: $color-white-alpha-80;
+
+    &:after {
+      margin-left: $unplayed-dot-margin;
+    }
+
+    &--unplayed:after {
+      background: $color-white-alpha-80;
+    }
   }
 }

@@ -15,6 +15,7 @@ import {
   isMessageJustForMe,
   isRead,
   isSent,
+  isViewed,
   maxStatus,
   sendStateReducer,
   someSendStatus,
@@ -46,6 +47,20 @@ describe('message send state utilities', () => {
         const actual = maxStatus(a, b);
         assert.strictEqual(actual, expected);
       });
+    });
+  });
+
+  describe('isViewed', () => {
+    it('returns true for viewed statuses', () => {
+      assert.isTrue(isViewed(SendStatus.Viewed));
+    });
+
+    it('returns false for non-viewed statuses', () => {
+      assert.isFalse(isViewed(SendStatus.Read));
+      assert.isFalse(isViewed(SendStatus.Delivered));
+      assert.isFalse(isViewed(SendStatus.Sent));
+      assert.isFalse(isViewed(SendStatus.Pending));
+      assert.isFalse(isViewed(SendStatus.Failed));
     });
   });
 

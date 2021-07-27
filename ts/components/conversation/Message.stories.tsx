@@ -880,6 +880,21 @@ story.add('Audio', () => {
   return renderBothDirections(props);
 });
 
+story.add('Audio (played)', () => {
+  const props = createProps({
+    attachments: [
+      {
+        contentType: AUDIO_MP3,
+        fileName: 'incompetech-com-Agnus-Dei-X.mp3',
+        url: '/fixtures/incompetech-com-Agnus-Dei-X.mp3',
+      },
+    ],
+    status: 'viewed',
+  });
+
+  return renderBothDirections(props);
+});
+
 story.add('Long Audio', () => {
   const props = createProps({
     attachments: [

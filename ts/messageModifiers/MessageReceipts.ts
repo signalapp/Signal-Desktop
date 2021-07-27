@@ -21,6 +21,7 @@ const { deleteSentProtoRecipient } = dataInterface;
 export enum MessageReceiptType {
   Delivery = 'Delivery',
   Read = 'Read',
+  View = 'View',
 }
 
 type MessageReceiptAttributesType = {
@@ -150,6 +151,9 @@ export class MessageReceipts extends Collection<MessageReceiptModel> {
             break;
           case MessageReceiptType.Read:
             sendActionType = SendActionType.GotReadReceipt;
+            break;
+          case MessageReceiptType.View:
+            sendActionType = SendActionType.GotViewedReceipt;
             break;
           default:
             throw missingCaseError(type);

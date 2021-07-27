@@ -37,7 +37,8 @@ export type LastMessageStatus =
   | 'sending'
   | 'sent'
   | 'delivered'
-  | 'read';
+  | 'read'
+  | 'viewed';
 
 type TaskResultType = any;
 

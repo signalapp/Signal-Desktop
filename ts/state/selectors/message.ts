@@ -52,6 +52,7 @@ import {
   isMessageJustForMe,
   isRead,
   isSent,
+  isViewed,
   maxStatus,
   someSendStatus,
 } from '../../messages/MessageSendState';
@@ -914,7 +915,7 @@ export function getMessagePropStatus(
     if (hasErrors(message)) {
       return sent ? 'partial-sent' : 'error';
     }
-    return sent ? 'read' : 'sending';
+    return sent ? 'viewed' : 'sending';
   }
 
   const sendStates = Object.values(
@@ -927,6 +928,9 @@ export function getMessagePropStatus(
 
   if (hasErrors(message)) {
     return isSent(highestSuccessfulStatus) ? 'partial-sent' : 'error';
+  }
+  if (isViewed(highestSuccessfulStatus)) {
+    return 'viewed';
   }
   if (isRead(highestSuccessfulStatus)) {
     return 'read';

@@ -49,6 +49,7 @@ import {
   MessageEvent,
   MessageEventData,
   ReadEvent,
+  ViewEvent,
   ConfigurationEvent,
   ViewOnceOpenSyncEvent,
   MessageRequestResponseEvent,
@@ -2187,6 +2188,10 @@ export async function startApp(): Promise<void> {
         queuedEventListener(onReadReceipt)
       );
       messageReceiver.addEventListener(
+        'view',
+        queuedEventListener(onViewReceipt)
+      );
+      messageReceiver.addEventListener(
         'verified',
         queuedEventListener(onVerified)
       );
@@ -3711,14 +3716,38 @@ export async function startApp(): Promise<void> {
     MessageRequests.getSingleton().onResponse(sync);
   }
 
-  function onReadReceipt(ev: ReadEvent) {
+  function onReadReceipt(event: Readonly<ReadEvent>) {
+    onReadOrViewReceipt({
+      logTitle: 'read receipt',
+      event,
+      type: MessageReceiptType.Read,
+    });
+  }
+
+  function onViewReceipt(event: Readonly<ViewEvent>): void {
+    onReadOrViewReceipt({
+      logTitle: 'view receipt',
+      event,
+      type: MessageReceiptType.View,
+    });
+  }
+
+  function onReadOrViewReceipt({
+    event,
+    logTitle,
+    type,
+  }: Readonly<{
+    event: ReadEvent | ViewEvent;
+    logTitle: string;
+    type: MessageReceiptType.Read | MessageReceiptType.View;
+  }>): void {
     const {
       envelopeTimestamp,
       timestamp,
       source,
       sourceUuid,
       sourceDevice,
-    } = ev.read;
+    } = event.receipt;
     const sourceConversationId = window.ConversationController.ensureContactIds(
       {
         e164: source,
@@ -3727,7 +3756,7 @@ export async function startApp(): Promise<void> {
       }
     );
     window.log.info(
-      'read receipt',
+      logTitle,
       source,
       sourceUuid,
       sourceDevice,
@@ -3737,7 +3766,7 @@ export async function startApp(): Promise<void> {
       timestamp
     );
 
-    ev.confirm();
+    event.confirm();
 
     if (!window.storage.get('read-receipt-setting') || !sourceConversationId) {
       return;
@@ -3748,7 +3777,7 @@ export async function startApp(): Promise<void> {
       receiptTimestamp: envelopeTimestamp,
       sourceConversationId,
       sourceDevice,
-      type: MessageReceiptType.Read,
+      type,
     });
 
     // Note: We do not wait for completion here

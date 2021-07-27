@@ -3206,6 +3206,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
             case MessageReceiptType.Read:
               sendActionType = SendActionType.GotReadReceipt;
               break;
+            case MessageReceiptType.View:
+              sendActionType = SendActionType.GotViewedReceipt;
+              break;
             default:
               throw missingCaseError(receiptType);
           }

@@ -86,6 +86,7 @@ import {
   MessageEvent,
   RetryRequestEvent,
   ReadEvent,
+  ViewEvent,
   ConfigurationEvent,
   ViewOnceOpenSyncEvent,
   MessageRequestResponseEvent,
@@ -479,6 +480,8 @@ export default class MessageReceiver extends EventTarget {
   ): void;
 
   public addEventListener(name: 'read', handler: (ev: ReadEvent) => void): void;
+
+  public addEventListener(name: 'view', handler: (ev: ViewEvent) => void): void;
 
   public addEventListener(
     name: 'configuration',
@@ -2174,38 +2177,40 @@ export default class MessageReceiver extends EventTarget {
     envelope: ProcessedEnvelope,
     receiptMessage: Proto.IReceiptMessage
   ): Promise<void> {
-    const results = [];
     strictAssert(receiptMessage.timestamp, 'Receipt message without timestamp');
-    if (receiptMessage.type === Proto.ReceiptMessage.Type.DELIVERY) {
-      for (let i = 0; i < receiptMessage.timestamp.length; i += 1) {
-        const ev = new DeliveryEvent(
-          {
-            timestamp: normalizeNumber(receiptMessage.timestamp[i]),
-            envelopeTimestamp: envelope.timestamp,
-            source: envelope.source,
-            sourceUuid: envelope.sourceUuid,
-            sourceDevice: envelope.sourceDevice,
-          },
-          this.removeFromCache.bind(this, envelope)
-        );
-        results.push(this.dispatchAndWait(ev));
-      }
-    } else if (receiptMessage.type === Proto.ReceiptMessage.Type.READ) {
-      for (let i = 0; i < receiptMessage.timestamp.length; i += 1) {
-        const ev = new ReadEvent(
-          {
-            timestamp: normalizeNumber(receiptMessage.timestamp[i]),
-            envelopeTimestamp: envelope.timestamp,
-            source: envelope.source,
-            sourceUuid: envelope.sourceUuid,
-            sourceDevice: envelope.sourceDevice,
-          },
-          this.removeFromCache.bind(this, envelope)
-        );
-        results.push(this.dispatchAndWait(ev));
-      }
+
+    let EventClass: typeof DeliveryEvent | typeof ReadEvent | typeof ViewEvent;
+    switch (receiptMessage.type) {
+      case Proto.ReceiptMessage.Type.DELIVERY:
+        EventClass = DeliveryEvent;
+        break;
+      case Proto.ReceiptMessage.Type.READ:
+        EventClass = ReadEvent;
+        break;
+      case Proto.ReceiptMessage.Type.VIEWED:
+        EventClass = ViewEvent;
+        break;
+      default:
+        // This can happen if we get a receipt type we don't know about yet, which
+        //   is totally fine.
+        return;
     }
-    await Promise.all(results);
+
+    await Promise.all(
+      receiptMessage.timestamp.map(async rawTimestamp => {
+        const ev = new EventClass(
+          {
+            timestamp: normalizeNumber(rawTimestamp),
+            envelopeTimestamp: envelope.timestamp,
+            source: envelope.source,
+            sourceUuid: envelope.sourceUuid,
+            sourceDevice: envelope.sourceDevice,
+          },
+          this.removeFromCache.bind(this, envelope)
+        );
+        await this.dispatchAndWait(ev);
+      })
+    );
   }
 
   private async handleTypingMessage(

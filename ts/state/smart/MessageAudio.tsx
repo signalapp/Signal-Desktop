@@ -28,6 +28,7 @@ export type Props = {
   expirationLength?: number;
   expirationTimestamp?: number;
   id: string;
+  played: boolean;
   showMessageDetail: (id: string) => void;
   status?: MessageStatusType;
   textPending?: boolean;

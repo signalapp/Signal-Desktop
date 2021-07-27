@@ -52,6 +52,7 @@ import { ContactType } from '../../types/Contact';
 
 import { getIncrement } from '../../util/timer';
 import { isFileDangerous } from '../../util/isFileDangerous';
+import { missingCaseError } from '../../util/missingCaseError';
 import { BodyRangesType, LocalizerType, ThemeType } from '../../types/Util';
 import {
   ContactNameColorType,
@@ -80,6 +81,7 @@ export const MessageStatuses = [
   'read',
   'sending',
   'sent',
+  'viewed',
 ] as const;
 export type MessageStatusType = typeof MessageStatuses[number];
 
@@ -99,6 +101,7 @@ export type AudioAttachmentProps = {
   expirationLength?: number;
   expirationTimestamp?: number;
   id: string;
+  played: boolean;
   showMessageDetail: (id: string) => void;
   status?: MessageStatusType;
   textPending?: boolean;
@@ -764,6 +767,21 @@ export class Message extends React.Component<Props, State> {
       }
     }
     if (isAudio(attachments)) {
+      let played: boolean;
+      switch (direction) {
+        case 'outgoing':
+          played = status === 'viewed';
+          break;
+        case 'incoming':
+          // Not implemented yet. See DESKTOP-1855.
+          played = true;
+          break;
+        default:
+          window.log.error(missingCaseError(direction));
+          played = false;
+          break;
+      }
+
       return renderAudioAttachment({
         i18n,
         buttonRef: this.audioButtonRef,
@@ -777,6 +795,7 @@ export class Message extends React.Component<Props, State> {
         expirationLength,
         expirationTimestamp,
         id,
+        played,
         showMessageDetail,
         status,
         textPending,

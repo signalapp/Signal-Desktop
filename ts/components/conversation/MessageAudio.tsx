@@ -25,6 +25,7 @@ export type Props = {
   expirationLength?: number;
   expirationTimestamp?: number;
   id: string;
+  played: boolean;
   showMessageDetail: (id: string) => void;
   status?: MessageStatusType;
   textPending?: boolean;
@@ -153,6 +154,7 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
     expirationLength,
     expirationTimestamp,
     id,
+    played,
     showMessageDetail,
     status,
     textPending,
@@ -531,7 +533,14 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
           timestamp={timestamp}
         />
       )}
-      <div className={`${CSS_BASE}__countdown`}>{timeToText(countDown)}</div>
+      <div
+        className={classNames(
+          `${CSS_BASE}__countdown`,
+          `${CSS_BASE}__countdown--${played ? 'played' : 'unplayed'}`
+        )}
+      >
+        {timeToText(countDown)}
+      </div>
     </div>
   );
 

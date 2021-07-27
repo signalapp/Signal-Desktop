@@ -222,7 +222,7 @@ export class MessageEvent extends ConfirmableEvent {
   }
 }
 
-export type ReadEventData = Readonly<{
+export type ReadOrViewEventData = Readonly<{
   timestamp: number;
   envelopeTimestamp: number;
   source?: string;
@@ -231,8 +231,20 @@ export type ReadEventData = Readonly<{
 }>;
 
 export class ReadEvent extends ConfirmableEvent {
-  constructor(public readonly read: ReadEventData, confirm: ConfirmCallback) {
+  constructor(
+    public readonly receipt: ReadOrViewEventData,
+    confirm: ConfirmCallback
+  ) {
     super('read', confirm);
+  }
+}
+
+export class ViewEvent extends ConfirmableEvent {
+  constructor(
+    public readonly receipt: ReadOrViewEventData,
+    confirm: ConfirmCallback
+  ) {
+    super('view', confirm);
   }
 }
 
