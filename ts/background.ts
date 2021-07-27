@@ -928,7 +928,7 @@ export async function startApp(): Promise<void> {
           `retryPlaceholders/interval: Found ${expired.length} expired items`
         );
         expired.forEach(item => {
-          const { conversationId, senderUuid } = item;
+          const { conversationId, senderUuid, sentAt } = item;
           const conversation = window.ConversationController.get(
             conversationId
           );
@@ -940,6 +940,7 @@ export async function startApp(): Promise<void> {
                 receivedAt,
                 receivedAtCounter,
                 senderUuid,
+                sentAt,
               })
             );
           }
