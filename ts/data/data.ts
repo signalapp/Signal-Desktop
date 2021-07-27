@@ -89,7 +89,6 @@ const channelsToMake = {
   removeConversation,
 
   getAllConversations,
-  getAllConversationIds,
   getAllOpenGroupV1Conversations,
   getPubkeysInPublicConversation,
   getAllGroupsInvolvingId,
@@ -116,8 +115,6 @@ const channelsToMake = {
   getMessageBySenderAndServerTimestamp,
   getMessageIdsFromServerIds,
   getMessageById,
-  getAllMessages,
-  getAllMessageIds,
   getMessagesBySentAt,
   getExpiredMessages,
   getOutgoingWithoutExpiresAt,
@@ -541,11 +538,6 @@ export async function getAllConversations(): Promise<ConversationCollection> {
   return collection;
 }
 
-export async function getAllConversationIds(): Promise<Array<string>> {
-  const ids = await channels.getAllConversationIds();
-  return ids;
-}
-
 export async function getAllOpenGroupV1Conversations(): Promise<ConversationCollection> {
   const conversations = await channels.getAllOpenGroupV1Conversations();
 
@@ -664,17 +656,6 @@ export async function getMessageById(id: string): Promise<MessageModel | null> {
   return new MessageModel(message);
 }
 
-// For testing only
-export async function getAllMessages(): Promise<MessageCollection> {
-  const messages = await channels.getAllMessages();
-  return new MessageCollection(messages);
-}
-
-export async function getAllMessageIds(): Promise<Array<string>> {
-  const ids = await channels.getAllMessageIds();
-  return ids;
-}
-
 export async function getMessageBySender({
   source,
   sourceDevice,
@@ -775,9 +756,8 @@ export async function removeAllMessagesInConversation(conversationId: string): P
     //   time so we don't use too much memory.
     // eslint-disable-next-line no-await-in-loop
     messages = await getMessagesByConversation(conversationId, {
-      limit: 100,
+      limit: 500,
     });
-
     if (!messages.length) {
       return;
     }
@@ -787,6 +767,7 @@ export async function removeAllMessagesInConversation(conversationId: string): P
     // Note: It's very important that these models are fully hydrated because
     //   we need to delete all associated on-disk files along with the database delete.
     // eslint-disable-next-line no-await-in-loop
+
     await Promise.all(messages.map(message => message.cleanup()));
 
     // eslint-disable-next-line no-await-in-loop
