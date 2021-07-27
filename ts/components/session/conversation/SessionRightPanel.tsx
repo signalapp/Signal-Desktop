@@ -249,10 +249,9 @@ export const SessionRightPanelWithDetails = () => {
     };
   });
 
-  const showUpdateGroupNameButton = isGroup && (!isPublic || isPublic && weAreAdmin) && !commonNoShow;
+  const showUpdateGroupNameButton =
+    isGroup && (!isPublic || (isPublic && weAreAdmin)) && !commonNoShow;
   const showAddRemoveModeratorsButton = weAreAdmin && !commonNoShow && isPublic;
-
-
   const showUpdateGroupMembersButton = !isPublic && isGroup && !commonNoShow;
 
   const deleteConvoAction = isPublic
