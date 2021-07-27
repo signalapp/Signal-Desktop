@@ -472,6 +472,7 @@ async function requestResend(decryptionError: DecryptionErrorEventData) {
       receivedAt: receivedAtDate,
       receivedAtCounter,
       senderUuid,
+      sentAt: timestamp,
     });
   });
 }

@@ -2466,13 +2466,15 @@ export class ConversationModel extends window.Backbone
     receivedAt,
     receivedAtCounter,
     senderUuid,
+    sentAt,
   }: {
     receivedAt: number;
     receivedAtCounter: number;
     senderUuid: string;
+    sentAt: number;
   }): Promise<void> {
     window.log.info(`addDeliveryIssue: adding for ${this.idForLogging()}`, {
-      receivedAt,
+      sentAt,
       senderUuid,
     });
 
@@ -4379,9 +4381,9 @@ export class ConversationModel extends window.Backbone
     // request all conversation members' keys
     const conversations = (this.getMembers() as unknown) as Array<ConversationModel>;
     return Promise.all(
-      window._.map(conversations, conversation => {
-        getProfile(conversation.get('uuid'), conversation.get('e164'));
-      })
+      window._.map(conversations, conversation =>
+        getProfile(conversation.get('uuid'), conversation.get('e164'))
+      )
     );
   }
 
