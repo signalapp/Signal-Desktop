@@ -1185,7 +1185,6 @@ function updateToLokiSchemaVersion15(currentVersion, db) {
   db.transaction(() => {
     db.exec(`
       DROP TABLE pairingAuthorisations;
-      DROP TABLE ${MESSAGES_FTS_TABLE};
       DROP TRIGGER messages_on_delete;
       DROP TRIGGER messages_on_update;
     `);

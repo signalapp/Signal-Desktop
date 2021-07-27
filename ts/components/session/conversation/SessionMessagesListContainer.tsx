@@ -174,7 +174,7 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
     }
 
     if ((forceIsOnBottom || this.getScrollOffsetBottomPx() === 0) && isElectronWindowFocused()) {
-      void conversation.markRead(messagesProps[0].propsForMessage.receivedAt || 0).then(() => {
+      void conversation.markRead(Date.now()).then(() => {
         window.inboxStore?.dispatch(markConversationFullyRead(conversationKey));
       });
     }
@@ -372,7 +372,7 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
 
     const conversation = getConversationController().get(conversationKey);
     if (isElectronWindowFocused()) {
-      void conversation.markRead(messagesProps[0].propsForMessage.receivedAt || 0).then(() => {
+      void conversation.markRead(Date.now()).then(() => {
         window.inboxStore?.dispatch(markConversationFullyRead(conversationKey));
       });
     }
