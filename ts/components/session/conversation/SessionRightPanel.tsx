@@ -122,7 +122,7 @@ const HeaderItem = () => {
     avatarPath,
     isPublic,
     id,
-    weAreAdmin,
+    isGroup,
     isKickedFromGroup,
     profileName,
     phoneNumber,
@@ -131,7 +131,7 @@ const HeaderItem = () => {
     name,
   } = selectedConversation;
 
-  const showInviteContacts = !isKickedFromGroup && !isBlocked && !left;
+  const showInviteContacts = isGroup && !isKickedFromGroup && !isBlocked && !left;
   const userName = name || profileName || phoneNumber;
 
   return (
@@ -249,7 +249,7 @@ export const SessionRightPanelWithDetails = () => {
     };
   });
 
-  const showUpdateGroupNameButton = (!isPublic || isPublic && weAreAdmin) && !commonNoShow;
+  const showUpdateGroupNameButton = isGroup && (!isPublic || isPublic && weAreAdmin) && !commonNoShow;
   const showAddRemoveModeratorsButton = weAreAdmin && !commonNoShow && isPublic;
 
 
