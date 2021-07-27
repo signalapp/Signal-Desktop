@@ -198,7 +198,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     });
     this.throttledNotify = _.debounce(this.notify, 500, { maxWait: 1000, trailing: true });
     //start right away the function is called, and wait 1sec before calling it again
-    const markReadDebounced = _.debounce(this.markReadBouncy, 1000, { leading: true });
+    const markReadDebounced = _.debounce(this.markReadBouncy, 1000, {
+      leading: true,
+      trailing: true,
+    });
     // tslint:disable-next-line: no-async-without-await
     this.markRead = async (newestUnreadDate: number) => {
       const lastReadTimestamp = this.lastReadTimestamp;
@@ -973,7 +976,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     let allUnreadMessagesInConvo = (await this.getUnread()).models;
 
     const oldUnreadNowRead = allUnreadMessagesInConvo.filter(
-      (message: any) => message.get('received_at') <= newestUnreadDate
+      message => (message.get('received_at') as number) <= newestUnreadDate
     );
 
     let read = [];
