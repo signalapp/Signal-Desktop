@@ -13,11 +13,16 @@ import { LocalizerType } from '../../types/Util';
 export type PropsType = {
   i18n: LocalizerType;
   sender: ConversationType;
+  inGroup: boolean;
   onClose: () => unknown;
 };
 
 export function DeliveryIssueDialog(props: PropsType): React.ReactElement {
-  const { i18n, sender, onClose } = props;
+  const { i18n, inGroup, sender, onClose } = props;
+
+  const key = inGroup
+    ? 'DeliveryIssue--summary--group'
+    : 'DeliveryIssue--summary';
 
   return (
     <Modal hasXButton={false} i18n={i18n}>
@@ -35,7 +40,7 @@ export function DeliveryIssueDialog(props: PropsType): React.ReactElement {
         </div>
         <div className="module-delivery-issue-dialog__description">
           <Intl
-            id="DeliveryIssue--summary"
+            id={key}
             components={{
               sender: <Emojify text={sender.title} />,
             }}

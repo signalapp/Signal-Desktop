@@ -20,6 +20,21 @@ storiesOf('Components/Conversation/DeliveryIssueDialog', module).add(
       <DeliveryIssueDialog
         i18n={i18n}
         sender={sender}
+        inGroup={false}
+        onClose={action('onClose')}
+      />
+    );
+  }
+);
+
+storiesOf('Components/Conversation/DeliveryIssueDialog', module).add(
+  'In Group',
+  () => {
+    return (
+      <DeliveryIssueDialog
+        i18n={i18n}
+        sender={sender}
+        inGroup
         onClose={action('onClose')}
       />
     );
