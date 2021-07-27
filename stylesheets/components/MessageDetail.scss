@@ -24,6 +24,8 @@
 
 .module-message-detail__label {
   @include font-body-1-bold;
+
+  min-width: 72px;
 }
 
 .module-message-detail__unix-timestamp {

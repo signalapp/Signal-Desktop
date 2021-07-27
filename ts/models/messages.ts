@@ -1610,7 +1610,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     const promises: Array<Promise<unknown>> = [];
 
     let errors: Array<CustomError>;
-    if (isCustomError(result.value)) {
+    if (result.value instanceof SendMessageProtoError && result.value.errors) {
+      ({ errors } = result.value);
+    } else if (isCustomError(result.value)) {
       errors = [result.value];
     } else if (Array.isArray(result.value.errors)) {
       ({ errors } = result.value);
