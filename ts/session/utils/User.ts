@@ -3,7 +3,7 @@ import { UserUtils } from '.';
 import { getItemById } from '../../../ts/data/data';
 import { KeyPair } from '../../../libtextsecure/libsignal-protocol';
 import { PubKey } from '../types';
-import { toHex } from './String';
+import { fromHexToArray, toHex } from './String';
 import { getConversationController } from '../conversations';
 
 export type HexKeyPair = {
@@ -97,14 +97,15 @@ export function getOurProfile(): OurLokiProfile | undefined {
     // in their primary device's conversation
     const ourNumber = window.storage.get('primaryDevicePubKey');
     const ourConversation = getConversationController().get(ourNumber);
-    const profileKey = new Uint8Array(window.storage.get('profileKey'));
+    const ourProfileKeyHex = ourConversation.get('profileKey');
+    const profileKeyAsBytes = ourProfileKeyHex ? fromHexToArray(ourProfileKeyHex) : null;
 
     const avatarPointer = ourConversation.get('avatarPointer');
     const { displayName } = ourConversation.getLokiProfile();
     return {
       displayName,
       avatarPointer,
-      profileKey: profileKey.length ? profileKey : null,
+      profileKey: profileKeyAsBytes?.length ? profileKeyAsBytes : null,
     };
   } catch (e) {
     window?.log?.error(`Failed to get our profile: ${e}`);

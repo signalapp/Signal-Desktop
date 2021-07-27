@@ -14,7 +14,7 @@ import {
   ConfigurationMessageContact,
 } from '../messages/outgoing/controlMessage/ConfigurationMessage';
 import { ConversationModel } from '../../models/conversation';
-import { fromBase64ToArray } from './String';
+import { fromBase64ToArray, fromHexToArray, toHex } from './String';
 import { SignalService } from '../../protobuf';
 import _ from 'lodash';
 import {
@@ -160,9 +160,24 @@ const getValidContacts = (convos: Array<ConversationModel>) => {
 
   const contacts = contactsModels.map(c => {
     try {
-      const profileKeyForContact = c.get('profileKey')
-        ? fromBase64ToArray(c.get('profileKey') as string)
-        : undefined;
+      const profileKey = c.get('profileKey');
+      let profileKeyForContact;
+      if (typeof profileKey === 'string') {
+        // this will throw if the profileKey is not in hex.
+        try {
+          profileKeyForContact = fromHexToArray(profileKey);
+        } catch (e) {
+          profileKeyForContact = fromBase64ToArray(profileKey);
+          // if the line above does not fail, update the stored profileKey for this convo
+          void c.setProfileKey(profileKeyForContact);
+        }
+      } else if (profileKey) {
+        window.log.warn(
+          'Got a profileKey for a contact in another format than string. Contact: ',
+          c.id
+        );
+        return null;
+      }
 
       return new ConfigurationMessageContact({
         publicKey: c.id,
@@ -189,8 +204,12 @@ export const getCurrentConfigurationMessage = async (convos: Array<ConversationM
   if (!ourConvo) {
     window?.log?.error('Could not find our convo while building a configuration message.');
   }
-  const profileKeyFromStorage = window.storage.get('profileKey');
-  const profileKey = profileKeyFromStorage ? new Uint8Array(profileKeyFromStorage) : undefined;
+
+  const ourProfileKeyHex =
+    getConversationController()
+      .get(UserUtils.getOurPubKeyStrFromCache())
+      ?.get('profileKey') || null;
+  const profileKey = ourProfileKeyHex ? fromHexToArray(ourProfileKeyHex) : undefined;
 
   const profilePicture = ourConvo?.get('avatarPointer') || undefined;
   const displayName = ourConvo?.getLokiProfile()?.displayName || undefined;

@@ -41,7 +41,7 @@ import {
 import { getDecryptedMediaUrl } from '../session/crypto/DecryptedAttachmentsManager';
 import { IMAGE_JPEG } from '../types/MIME';
 import { FSv2 } from '../fileserver';
-import { fromBase64ToArray, toHex } from '../session/utils/String';
+import { fromBase64ToArray, fromHexToArray, toHex } from '../session/utils/String';
 import { SessionButtonColor } from '../components/session/SessionButton';
 import { perfEnd, perfStart } from '../session/utils/Performance';
 import { ReplyingToMessageProps } from '../components/session/conversation/SessionCompositionBox';
@@ -350,17 +350,21 @@ export async function uploadOurAvatar(newAvatarDecrypted?: ArrayBuffer) {
     return;
   }
 
-  let profileKey;
+  let profileKey: Uint8Array | null;
   let decryptedAvatarData;
   if (newAvatarDecrypted) {
     // Encrypt with a new key every time
-    profileKey = window.libsignal.crypto.getRandomBytes(32);
+    profileKey = window.libsignal.crypto.getRandomBytes(32) as Uint8Array;
     decryptedAvatarData = newAvatarDecrypted;
   } else {
     // this is a reupload. no need to generate a new profileKey
-    profileKey = window.textsecure.storage.get('profileKey');
+    const ourConvoProfileKey =
+      getConversationController()
+        .get(UserUtils.getOurPubKeyStrFromCache())
+        ?.get('profileKey') || null;
+    profileKey = ourConvoProfileKey ? fromHexToArray(ourConvoProfileKey) : null;
     if (!profileKey) {
-      window.log.info('our profileKey not found');
+      window.log.info('our profileKey not found. Not reuploading our avatar');
       return;
     }
     const currentAttachmentPath = ourConvo.getAvatarPath();
@@ -412,7 +416,6 @@ export async function uploadOurAvatar(newAvatarDecrypted?: ArrayBuffer) {
   const displayName = ourConvo.get('profileName');
 
   // write the profileKey even if it did not change
-  window.storage.put('profileKey', profileKey);
   ourConvo.set({ profileKey: toHex(profileKey) });
   // Replace our temporary image with the attachment pointer from the server:
   // this commits already
