@@ -1393,6 +1393,10 @@ export class Message extends React.Component<Props, State> {
             'module-message__buttons',
             `module-message__buttons--${direction}`
           )}
+          onDoubleClick={(event: React.MouseEvent) => {
+            // Prevent double-click interefering when clicking the invisible buttons.
+            event.stopPropagation();
+          }}
         >
           {canReply ? reactButton : null}
           {canDownload ? downloadButton : null}
