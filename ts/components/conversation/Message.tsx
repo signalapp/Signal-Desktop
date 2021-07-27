@@ -164,7 +164,7 @@ class MessageInner extends React.PureComponent<Props, State> {
 
   public checkExpired() {
     const now = Date.now();
-    const { isExpired, expirationTimestamp, expirationLength } = this.props;
+    const { isExpired, expirationTimestamp, expirationLength, convoId, id } = this.props;
 
     if (!expirationTimestamp || !expirationLength) {
       return;
@@ -178,17 +178,23 @@ class MessageInner extends React.PureComponent<Props, State> {
         expiring: true,
       });
 
-      const setExpired = () => {
+      const setExpired = async () => {
         this.setState({
           expired: true,
         });
+        await window.Signal.Data.removeMessage(id);
         window.inboxStore?.dispatch(
-          messageExpired({ messageId: this.props.id, conversationKey: this.props.convoId })
+          messageExpired({
+            conversationKey: convoId,
+            messageId: id,
+          })
         );
-        getConversationController()
-          .get(this.props.convoId)
-          ?.updateLastMessage();
+        const convo = getConversationController().get(convoId);
+        convo?.updateLastMessage();
       };
+      // as 'checkExpired' is potentially called more than once (componentDidUpdate & componentDidMount),
+      //  we need to clear the timeout call to 'setExpired' first to avoid multiple calls to 'setExpired'.
+      global.clearTimeout(this.expiredTimeout);
       this.expiredTimeout = setTimeout(setExpired, EXPIRED_DELAY);
     }
   }
