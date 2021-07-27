@@ -20,7 +20,7 @@ import {
   saveMessages,
   updateConversation,
 } from '../../ts/data/data';
-import { fromArrayBufferToBase64, fromBase64ToArrayBuffer } from '../session/utils/String';
+import { fromArrayBufferToBase64, fromBase64ToArrayBuffer, toHex } from '../session/utils/String';
 import {
   actions as conversationActions,
   conversationChanged,
@@ -91,6 +91,9 @@ export interface ConversationAttributes {
   nickname?: string;
   profile?: any;
   profileAvatar?: any;
+  /**
+   * Consider this being a hex string if it set
+   */
   profileKey?: string;
   triggerNotificationsFor: ConversationNotificationSettingType;
   isTrustedForAttachmentDownload: boolean;
@@ -128,6 +131,9 @@ export interface ConversationAttributesOptionals {
   nickname?: string;
   profile?: any;
   profileAvatar?: any;
+  /**
+   * Consider this being a hex string if it set
+   */
   profileKey?: string;
   triggerNotificationsFor?: ConversationNotificationSettingType;
   isTrustedForAttachmentDownload?: boolean;
@@ -1194,15 +1200,28 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       await this.commit();
     }
   }
-  public async setProfileKey(profileKey: string) {
+  /**
+   * profileKey MUST be a hex string
+   * @param profileKey MUST be a hex string
+   */
+  public async setProfileKey(profileKey?: Uint8Array, autoCommit = true) {
+    const re = /[0-9A-Fa-f]*/g;
+
+    if (!profileKey) {
+      return;
+    }
+
+    const profileKeyHex = toHex(profileKey);
+
     // profileKey is a string so we can compare it directly
-    if (this.get('profileKey') !== profileKey) {
+    if (this.get('profileKey') !== profileKeyHex) {
       this.set({
-        profileKey,
+        profileKey: profileKeyHex,
       });
 
-
-      await this.commit();
+      if (autoCommit) {
+        await this.commit();
+      }
     }
   }
 
