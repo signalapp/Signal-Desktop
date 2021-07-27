@@ -1114,7 +1114,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   public isAdmin(pubKey?: string) {
-    if (!this.isPublic()) {
+    if (!this.isPublic() && !this.isGroup()) {
       return false;
     }
     if (!pubKey) {
