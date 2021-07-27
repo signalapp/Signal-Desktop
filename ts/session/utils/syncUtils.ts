@@ -14,7 +14,7 @@ import {
   ConfigurationMessageContact,
 } from '../messages/outgoing/controlMessage/ConfigurationMessage';
 import { ConversationModel } from '../../models/conversation';
-import { fromBase64ToArray, fromHexToArray } from './String';
+import { fromBase64ToArray, fromHexToArray, toHex } from './String';
 import { SignalService } from '../../protobuf';
 import _ from 'lodash';
 import {
@@ -163,10 +163,20 @@ const getValidContacts = (convos: Array<ConversationModel>) => {
       const profileKey = c.get('profileKey');
       let profileKeyForContact;
       if (typeof profileKey === 'string') {
-        profileKeyForContact = fromHexToArray(profileKey);
+        // this will throw if the profileKey is not in hex.
+        try {
+          profileKeyForContact = fromHexToArray(profileKey);
+        } catch (e) {
+          profileKeyForContact = fromBase64ToArray(profileKey);
+          // if the line above does not fail, update the stored profileKey for this convo
+          void c.setProfileKey(profileKeyForContact);
+        }
       } else if (profileKey) {
-        console.warn('AUDRIC migration todo');
-        debugger;
+        window.log.warn(
+          'Got a profileKey for a contact in another format than string. Contact: ',
+          c.id
+        );
+        return null;
       }
 
       return new ConfigurationMessageContact({

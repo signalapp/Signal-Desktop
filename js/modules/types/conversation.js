@@ -1,6 +1,6 @@
 /* global crypto */
 
-const { isFunction, isNumber } = require('lodash');
+const { isFunction } = require('lodash');
 const { createLastMessageUpdate } = require('../../../ts/types/Conversation');
 const { arrayBufferToBase64 } = require('../crypto');
 

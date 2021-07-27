@@ -19,12 +19,13 @@ export const useEncryptedFileFetch = (url: string, contentType: string) => {
   }
 
   useEffect(() => {
+    setLoading(true);
+    mountedRef.current = true;
     void fetchUrl();
 
     return () => {
       mountedRef.current = false;
     };
   }, [url]);
-
   return { urlToLoad, loading };
 };
