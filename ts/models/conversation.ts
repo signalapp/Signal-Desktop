@@ -785,6 +785,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
     const messages = await getMessagesByConversation(this.id, {
       limit: 1,
+      skipTimerInit: true,
     });
     const lastMessageModel = messages.at(0);
     const lastMessageJSON = lastMessageModel ? lastMessageModel.toJSON() : null;

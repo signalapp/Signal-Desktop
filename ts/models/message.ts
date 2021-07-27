@@ -57,7 +57,7 @@ import { perfEnd, perfStart } from '../session/utils/Performance';
 import { AttachmentTypeWithPath } from '../types/Attachment';
 
 export class MessageModel extends Backbone.Model<MessageAttributes> {
-  constructor(attributes: MessageAttributesOptionals) {
+  constructor(attributes: MessageAttributesOptionals & { skipTimerInit?: boolean }) {
     const filledAttrs = fillMessageAttributesWithDefaults(attributes);
     super(filledAttrs);
 
@@ -76,7 +76,9 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     }
 
     // this.on('expired', this.onExpired);
-    void this.setToExpire();
+    if (!attributes.skipTimerInit) {
+      void this.setToExpire();
+    }
     autoBind(this);
 
     this.dispatchMessageUpdate = _.throttle(this.dispatchMessageUpdate, 300);
