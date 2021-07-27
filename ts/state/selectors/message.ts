@@ -857,9 +857,11 @@ function getPropsForDeliveryIssue(
   conversationSelector: GetConversationByIdType
 ): DeliveryIssuePropsType {
   const sender = conversationSelector(message.sourceUuid);
+  const conversation = conversationSelector(message.conversationId);
 
   return {
     sender,
+    inGroup: conversation.type === 'group',
   };
 }
 

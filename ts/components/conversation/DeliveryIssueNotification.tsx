@@ -12,6 +12,7 @@ import { DeliveryIssueDialog } from './DeliveryIssueDialog';
 
 export type PropsDataType = {
   sender?: ConversationType;
+  inGroup: boolean;
 };
 
 type PropsHousekeepingType = {
@@ -23,7 +24,7 @@ export type PropsType = PropsDataType & PropsHousekeepingType;
 export function DeliveryIssueNotification(
   props: PropsType
 ): ReactElement | null {
-  const { i18n, sender } = props;
+  const { i18n, inGroup, sender } = props;
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
 
   const openDialog = useCallback(() => {
@@ -59,6 +60,7 @@ export function DeliveryIssueNotification(
       {isDialogOpen ? (
         <DeliveryIssueDialog
           i18n={i18n}
+          inGroup={inGroup}
           sender={sender}
           onClose={closeDialog}
         />
