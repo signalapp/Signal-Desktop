@@ -80,7 +80,6 @@ export class Linkify extends React.Component<Props> {
     });
 
     const results: Array<JSX.Element | string> = [];
-    let last = 0;
     let count = 1;
 
     chunkData.forEach(({ chunk, matchData }) => {
@@ -90,9 +89,10 @@ export class Linkify extends React.Component<Props> {
         return;
       }
 
+      let chunkLastIndex = 0;
       matchData.forEach(match => {
-        if (last < match.index) {
-          const textWithNoLink = chunk.slice(last, match.index);
+        if (chunkLastIndex < match.index) {
+          const textWithNoLink = chunk.slice(chunkLastIndex, match.index);
           count += 1;
           results.push(renderNonLink({ text: textWithNoLink, key: count }));
         }
@@ -109,12 +109,17 @@ export class Linkify extends React.Component<Props> {
           results.push(renderNonLink({ text: originalText, key: count }));
         }
 
-        last = match.lastIndex;
+        chunkLastIndex = match.lastIndex;
       });
 
-      if (last < chunk.length) {
+      if (chunkLastIndex < chunk.length) {
         count += 1;
-        results.push(renderNonLink({ text: chunk.slice(last), key: count }));
+        results.push(
+          renderNonLink({
+            text: chunk.slice(chunkLastIndex),
+            key: count,
+          })
+        );
       }
     });
 
