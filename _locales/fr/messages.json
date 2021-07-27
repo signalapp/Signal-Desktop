@@ -3052,11 +3052,11 @@
         }
     },
     "MessageRequests--block-and-report-spam": {
-        "message": "Signaler comme Spam et Bloquer",
+        "message": "Signaler comme indésirable et bloquer",
         "description": "Shown as a button to let the user block a message request and report spam"
     },
     "MessageRequests--block-and-report-spam-success-toast": {
-        "message": "Signalé comme spam et bloqué.",
+        "message": "Signalé comme indésirable et bloqué",
         "description": "Shown in a toast when you successfully block a user and report them as spam"
     },
     "MessageRequests--block-direct-confirm-title": {
@@ -5146,7 +5146,7 @@
         "description": "This is the title for the list of members you have invited"
     },
     "PendingInvites--invited-by-others": {
-        "message": "Invité par d’autres",
+        "message": "Invitations par d’autres",
         "description": "This is the title for the list of members who have invited other people"
     },
     "PendingInvites--invited-count": {
@@ -5498,7 +5498,7 @@
         "description": "Header in the captcha dialog"
     },
     "CaptchaDialog__first-paragraph": {
-        "message": "Pour aider à prévenir le spam sur Signal, veuillez procéder à la confirmation.",
+        "message": "Pour aider à prévenir les indésirables sur Signal, veuillez procéder à la confirmation.",
         "description": "First paragraph in the captcha dialog"
     },
     "CaptchaDialog__second-paragraph": {
@@ -5738,7 +5738,7 @@
         "description": "In the message details screen, shown above contacts who have read this message"
     },
     "MessageDetailsHeader--Viewed": {
-        "message": "Vu par",
+        "message": "Visualisé par",
         "description": "In the message details screen, shown above contacts who have viewed this message"
     },
     "ProfileEditor--about": {
@@ -5762,7 +5762,7 @@
         "description": "ConfirmationDialog text for discarding changes"
     },
     "ProfileEditor--info": {
-        "message": "Votre profil est chiffré. Avec ses modifications, il est visible par vos contacts et si vous lancez ou acceptez de nouvelles conversations. $learnMore$",
+        "message": "Votre profil est chiffré.  Votre profil et les modifications qui y sont apportées seront visibles par vos contacts et quand vous lancerez ou accepterez de nouvelles conversations. $learnMore$",
         "description": "Information shown at the bottom of the profile editor section",
         "placeholders": {
             "learnMore": {
@@ -5812,11 +5812,11 @@
         "description": "Error message when something goes wrong updating your profile."
     },
     "AnnouncementsOnlyGroupBanner--modal": {
-        "message": "Écrire à un administrateur",
+        "message": "Envoyer un message à un administrateur",
         "description": "Modal title for the list of admins in a group"
     },
     "AnnouncementsOnlyGroupBanner--announcements-only": {
-        "message": "Seul les $admins$ peuvent envoyer des messages",
+        "message": "Seuls les $admins$ peuvent envoyer des messages",
         "description": "Displayed if sending of messages is disabled to non-admins",
         "placeholders": {
             "admins": {

@@ -621,6 +621,10 @@
             }
         }
     },
+    "decryptionErrorToast": {
+        "message": "Desktop ran into a decryption error. Click to submit a debug log.",
+        "description": "An error popup when we haven't added an error for decryption error."
+    },
     "oneNonImageAtATimeToast": {
         "message": "When including a non-image attachment, the limit is one attachment per message.",
         "description": "An error popup when the user has attempted to add an attachment"
@@ -1033,10 +1037,6 @@
         "message": "Це повідомлення буде видалено для усіх у розмові, якщо вони використовують найновішу версію Signal. Вони зможуть побачити, що ви видалили повідомлення.",
         "description": "Text shown in the confirmation dialog for deleting a message for everyone"
     },
-    "deleteThisMessage": {
-        "message": "Видалити це повідомлення",
-        "description": ""
-    },
     "from": {
         "message": "Від",
         "description": "Label for the sender of a message"
@@ -1152,7 +1152,7 @@
         "description": "Shown on explainer dialog available from chat session refreshed timeline events"
     },
     "DeliveryIssue--preview": {
-        "message": "Delivery issue",
+        "message": "Проблема з доставкою",
         "description": "Shown in left pane preview when message delivery issue happens"
     },
     "DeliveryIssue--notification": {
@@ -1170,7 +1170,7 @@
         "description": "Shown in timeline when message delivery issue happens, to provide access to a popup info dialog"
     },
     "DeliveryIssue--title": {
-        "message": "Delivery Issue",
+        "message": "Проблема з Доставкою",
         "description": "Shown on explainer dialog available from delivery issue timeline events"
     },
     "DeliveryIssue--summary": {
@@ -1440,7 +1440,7 @@
         }
     },
     "calling__block-info": {
-        "message": "You won't receive their audio or video and they won't receive yours.",
+        "message": "Ви не отримаєте аудіо або відео від цього користувача, а користувач не отримає ваші.",
         "description": "Shown in the modal dialog to describe how blocking works in a gorup call"
     },
     "calling__overflow__scroll-up": {
@@ -2430,7 +2430,7 @@
         "description": "Label for animal emoji picker button"
     },
     "EmojiPicker__button--food": {
-        "message": "Food",
+        "message": "Їжа",
         "description": "Label for food emoji picker button"
     },
     "EmojiPicker__button--activity": {
@@ -3541,6 +3541,18 @@
         "message": "Вибачте, це посилання sgnl:// не має сенсу!",
         "description": "Shown if you click on a sgnl:// link not currently supported by Desktop"
     },
+    "GroupV2--cannot-send": {
+        "message": "You cannot send messages to that group.",
+        "description": "Shown in toast when you attempt to forward a message to an announcement only group"
+    },
+    "GroupV2--add--missing-capability": {
+        "message": "These people cannot be added to the group until they upgrade Signal.",
+        "description": "Shown in a confirmation dialog when members who cannot view announcement only group cannot be added"
+    },
+    "GroupV2--cannot-start-group-call": {
+        "message": "Only admins of the group can start a call.",
+        "description": "Shown in toast when a non-admin starts a group call in an announcements only group"
+    },
     "GroupV2--join--invalid-link--title": {
         "message": "Хибне посилання",
         "description": "Shown if we are unable to parse a group link"
@@ -3638,7 +3650,7 @@
         "description": "Shown if something went wrong when you try to join via a group link"
     },
     "GroupV2--join--general-join-failure": {
-        "message": "Joining via this link failed. Try joining again later.",
+        "message": "Couldn't join group. Try again later.",
         "description": "Shown if something went wrong when you try to join via a group link"
     },
     "GroupV2--admin": {
@@ -3738,7 +3750,7 @@
         }
     },
     "GroupV2--avatar--change--you": {
-        "message": "You changed the group avatar.",
+        "message": "Ви змінили аватар групи.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--change--unknown": {
@@ -4030,7 +4042,7 @@
         }
     },
     "GroupV2--member-add-from-admin-approval--you--unknown": {
-        "message": "Your request to join the group has been approved.",
+        "message": "Ваш запит на приєднання до групи було прийнято.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add-from-admin-approval--other--you": {
@@ -4318,7 +4330,7 @@
         }
     },
     "GroupV2--pending-remove--decline--from-you": {
-        "message": "You declined the invitation to the group.",
+        "message": "Ви відхилили запрошення в групу.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--pending-remove--decline--unknown": {
@@ -4568,7 +4580,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--admin-approval-remove-one--you--unknown": {
-        "message": "Your request to join the group has been denied by an admin.",
+        "message": "Ваш запит на приєднання до групи було відхилений адміністратором.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--admin-approval-remove-one--other--you": {
@@ -4656,7 +4668,7 @@
         }
     },
     "GroupV2--group-link-remove--unknown": {
-        "message": "The group link has been turned off.",
+        "message": "Посилання групи було вимкнуто.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-reset--you": {
@@ -4674,7 +4686,7 @@
         }
     },
     "GroupV2--group-link-reset--unknown": {
-        "message": "The group link has been reset.",
+        "message": "Посилання на групу була скинута. ",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--description--remove--you": {
@@ -4711,6 +4723,42 @@
     },
     "GroupV2--description--change--unknown": {
         "message": "Опис групи змінено.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--announcements--admin--you": {
+        "message": "Ви змінили налаштування групи, щоб лише адміністратори мали змогу відправляти повідомлення.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--announcements--admin--other": {
+        "message": "$memberName$ changed the group settings to only allow admins to send messages.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--announcements--admin--unknown": {
+        "message": "The group was changed to only allow admins to send messages.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--announcements--member--you": {
+        "message": "Ви змінили налаштування групи, щоб усі користувачі мали змогу відправляти повідомлення.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--announcements--member--other": {
+        "message": "$memberName$ changed the group settings to allow all members to send messages.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--announcements--member--unknown": {
+        "message": "The group was changed to allow all members to send messages.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV1--Migration--disabled": {
@@ -4784,7 +4832,7 @@
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--invited--you": {
-        "message": "You couldn't be added to the New Group and have been invited to join.",
+        "message": "Вас не вдалось додати до Нової групи, а тому було запрошено приєднатись.",
         "description": "Shown in timeline when a group is upgraded and you were invited instead of added"
     },
     "GroupV1--Migration--invited--one": {
@@ -4934,6 +4982,14 @@
     "ConversationDetails--add-members-info": {
         "message": "Виберіть, хто може додавати учасників до цієї групи.",
         "description": "This is the additional info for the 'who can add members' panel"
+    },
+    "ConversationDetails--announcement-label": {
+        "message": "Who can send messages",
+        "description": "This is the additional info for the 'who can send messages' panel"
+    },
+    "ConversationDetails--announcement-info": {
+        "message": "Choose who can send messages to the group.",
+        "description": "This is the additional info for the 'who can send mesages' panel"
     },
     "ConversationDetails--requests-and-invites": {
         "message": "Запити та запрошення",
@@ -5174,6 +5230,10 @@
     "AvatarInput--no-photo-label--group": {
         "message": "Додати фото групи",
         "description": "The label for the avatar uploader when no group photo is selected"
+    },
+    "AvatarInput--no-photo-label--profile": {
+        "message": "Add a photo",
+        "description": "The label for the avatar uploader when no profile photo is selected"
     },
     "AvatarInput--change-photo-label": {
         "message": "Змінити фото",
@@ -5656,5 +5716,117 @@
     "MediaQualitySelector--high-quality-description": {
         "message": "Повільніше, більше даних",
         "description": "Description of high quality selector"
+    },
+    "MessageDetailsHeader--Failed": {
+        "message": "Не надіслано",
+        "description": "In the message details screen, shown above contacts where the message failed to deliver"
+    },
+    "MessageDetailsHeader--Pending": {
+        "message": "Очікування",
+        "description": "In the message details screen, shown above contacts where the message is still sending"
+    },
+    "MessageDetailsHeader--Sent": {
+        "message": "Надіслано до",
+        "description": "In the message details screen, shown above contacts where the message has been sent (but not delivered, read, or viewed)"
+    },
+    "MessageDetailsHeader--Delivered": {
+        "message": "Доставлено",
+        "description": "In the message details screen, shown above contacts who have received your message"
+    },
+    "MessageDetailsHeader--Read": {
+        "message": "Прочитано",
+        "description": "In the message details screen, shown above contacts who have read this message"
+    },
+    "MessageDetailsHeader--Viewed": {
+        "message": "Переглянули",
+        "description": "In the message details screen, shown above contacts who have viewed this message"
+    },
+    "ProfileEditor--about": {
+        "message": "Про додаток",
+        "description": "Default text for about field"
+    },
+    "ProfileEditor--about-placeholder": {
+        "message": "Write something about yourself...",
+        "description": "Placeholder text for about input field"
+    },
+    "ProfileEditor--first-name": {
+        "message": "Ім'я (обов'язково)",
+        "description": "Placeholder text for first name field"
+    },
+    "ProfileEditor--last-name": {
+        "message": "Прізвище (за бажанням)",
+        "description": "Placeholder text for last name field"
+    },
+    "ProfileEditor--discard": {
+        "message": "Ви хочете відхилити ці зміни?",
+        "description": "ConfirmationDialog text for discarding changes"
+    },
+    "ProfileEditor--info": {
+        "message": "Your profile is encrypted. Your profile and changes to it will be visible to your contacts and when you start or accept new chats. $learnMore$",
+        "description": "Information shown at the bottom of the profile editor section",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "Learn More."
+            }
+        }
+    },
+    "ProfileEditor--learnMore": {
+        "message": "Дізнатися більше",
+        "description": "Text that links to a support article"
+    },
+    "Bio--speak-freely": {
+        "message": "Готовий до розмов",
+        "description": "A default bio option"
+    },
+    "Bio--encrypted": {
+        "message": "Шифруюсь",
+        "description": "A default bio option"
+    },
+    "Bio--free-to-chat": {
+        "message": "Вільний для листування",
+        "description": "A default bio option"
+    },
+    "Bio--coffee-lover": {
+        "message": "Люблю каву",
+        "description": "A default bio option"
+    },
+    "Bio--taking-break": {
+        "message": "На перерві",
+        "description": "A default bio option"
+    },
+    "ProfileEditorModal--profile": {
+        "message": "Профіль",
+        "description": "Title for profile editing"
+    },
+    "ProfileEditorModal--name": {
+        "message": "Ваше ім'я",
+        "description": "Title for editing your name"
+    },
+    "ProfileEditorModal--about": {
+        "message": "Про додаток",
+        "description": "Title for about editing"
+    },
+    "ProfileEditorModal--error": {
+        "message": "Your profile could not be updated. Please try again.",
+        "description": "Error message when something goes wrong updating your profile."
+    },
+    "AnnouncementsOnlyGroupBanner--modal": {
+        "message": "Message an admin",
+        "description": "Modal title for the list of admins in a group"
+    },
+    "AnnouncementsOnlyGroupBanner--announcements-only": {
+        "message": "Only $admins$ can send messages",
+        "description": "Displayed if sending of messages is disabled to non-admins",
+        "placeholders": {
+            "admins": {
+                "content": "$1",
+                "example": "admins"
+            }
+        }
+    },
+    "AnnouncementsOnlyGroupBanner--admins": {
+        "message": "адміністратори",
+        "description": "Clickable text describing administrators of a group, used in the message an admin label"
     }
 }
