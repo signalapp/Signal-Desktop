@@ -16,6 +16,7 @@ import { AttachmentType } from '../types/Attachment';
 import { CallMode, CallHistoryDetailsType } from '../types/Calling';
 import * as Stickers from '../types/Stickers';
 import { GroupV2InfoType } from '../textsecure/SendMessage';
+import createTaskWithTimeout from '../textsecure/TaskWithTimeout';
 import { CallbackResultType } from '../textsecure/Types.d';
 import { ConversationType } from '../state/ducks/conversations';
 import {
@@ -1058,7 +1059,7 @@ export class ConversationModel extends window.Backbone
     this.setRegistered();
 
     // If we couldn't apply universal timer before - try it again.
-    this.queueJob('maybeSetPendingUniversalTimer', () =>
+    this.queueJob('maybeSetPendingUniversalTimer', async () =>
       this.maybeSetPendingUniversalTimer()
     );
   }
@@ -2893,13 +2894,10 @@ export class ConversationModel extends window.Backbone
     return null;
   }
 
-  queueJob(
-    name: string,
-    callback: () => unknown | Promise<unknown>
-  ): Promise<WhatIsThis> {
+  queueJob<T>(name: string, callback: () => Promise<T>): Promise<T> {
     this.jobQueue = this.jobQueue || new window.PQueue({ concurrency: 1 });
 
-    const taskWithTimeout = window.textsecure.createTaskWithTimeout(
+    const taskWithTimeout = createTaskWithTimeout(
       callback,
       `conversation ${this.idForLogging()}`
     );
@@ -3231,7 +3229,7 @@ export class ConversationModel extends window.Backbone
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const destination = this.getSendTarget()!;
 
-    return this.queueJob('sendDeleteForEveryone', async () => {
+    await this.queueJob('sendDeleteForEveryone', async () => {
       window.log.info(
         'Sending deleteForEveryone to conversation',
         this.idForLogging(),
@@ -3782,7 +3780,7 @@ export class ConversationModel extends window.Backbone
       return;
     }
 
-    this.queueJob('maybeSetPendingUniversalTimer', () =>
+    this.queueJob('maybeSetPendingUniversalTimer', async () =>
       this.maybeSetPendingUniversalTimer()
     );
 
@@ -4804,7 +4802,7 @@ export class ConversationModel extends window.Backbone
     );
     this.set({ needsStorageServiceSync: true });
 
-    this.queueJob('captureChange', () => {
+    this.queueJob('captureChange', async () => {
       Services.storageServiceUploadJob();
     });
   }

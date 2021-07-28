@@ -1689,8 +1689,8 @@ export async function createGroupV2({
     }
   );
 
-  await conversation.queueJob('storageServiceUploadJob', () => {
-    window.Signal.Services.storageServiceUploadJob();
+  await conversation.queueJob('storageServiceUploadJob', async () => {
+    await window.Signal.Services.storageServiceUploadJob();
   });
 
   const timestamp = Date.now();

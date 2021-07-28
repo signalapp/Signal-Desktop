@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { AttachmentType, DownloadedAttachmentType } from '../types/Attachment';
+import { downloadAttachment as doDownloadAttachment } from '../textsecure/downloadAttachment';
 
 export async function downloadAttachment(
   attachmentData: AttachmentType
@@ -20,7 +21,8 @@ export async function downloadAttachment(
 
   let downloaded;
   try {
-    downloaded = await window.textsecure.messageReceiver.downloadAttachment(
+    downloaded = await doDownloadAttachment(
+      window.textsecure.server,
       migratedAttachment
     );
   } catch (error) {

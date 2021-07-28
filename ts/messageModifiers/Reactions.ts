@@ -6,17 +6,9 @@
 import { Collection, Model } from 'backbone';
 import { MessageModel } from '../models/messages';
 import { isOutgoing } from '../state/selectors/message';
+import { ReactionAttributesType } from '../model-types.d';
 
-type ReactionsAttributesType = {
-  emoji: string;
-  remove: boolean;
-  targetAuthorUuid: string;
-  targetTimestamp: number;
-  timestamp: number;
-  fromId: string;
-};
-
-export class ReactionModel extends Model<ReactionsAttributesType> {}
+export class ReactionModel extends Model<ReactionAttributesType> {}
 
 let singleton: Reactions | undefined;
 
@@ -63,7 +55,7 @@ export class Reactions extends Collection {
 
   async onReaction(
     reaction: ReactionModel
-  ): Promise<ReactionModel | undefined> {
+  ): Promise<ReactionAttributesType | undefined> {
     try {
       // The conversation the target message was in; we have to find it in the database
       //   to to figure that out.

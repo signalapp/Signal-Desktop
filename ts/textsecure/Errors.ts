@@ -13,6 +13,40 @@ function appendStack(newError: Error, originalError: Error) {
   newError.stack += `\nOriginal stack:\n${originalError.stack}`;
 }
 
+export type HTTPErrorHeadersType = {
+  [name: string]: string | ReadonlyArray<string>;
+};
+
+export class HTTPError extends Error {
+  public readonly name = 'HTTPError';
+
+  public readonly code: number;
+
+  public readonly responseHeaders: HTTPErrorHeadersType;
+
+  public readonly response: unknown;
+
+  constructor(
+    message: string,
+    options: {
+      code: number;
+      headers: HTTPErrorHeadersType;
+      response?: unknown;
+      stack?: string;
+    }
+  ) {
+    super(`${message}; code: ${options.code}`);
+
+    const { code: providedCode, headers, response, stack } = options;
+
+    this.code = providedCode > 999 || providedCode < 100 ? -1 : providedCode;
+    this.responseHeaders = headers;
+
+    this.stack += `\nOriginal stack:\n${stack}`;
+    this.response = response;
+  }
+}
+
 export class ReplayableError extends Error {
   name: string;
 

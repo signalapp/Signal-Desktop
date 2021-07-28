@@ -19,10 +19,12 @@ declare global {
 window.waitBatchers = [];
 
 window.flushAllWaitBatchers = async () => {
+  window.log.info('waitBatcher#flushAllWaitBatchers');
   await Promise.all(window.waitBatchers.map(item => item.flushAndWait()));
 };
 
 window.waitForAllWaitBatchers = async () => {
+  window.log.info('waitBatcher#waitForAllWaitBatchers');
   await Promise.all(window.waitBatchers.map(item => item.onIdle()));
 };
 

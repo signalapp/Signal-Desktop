@@ -135,10 +135,12 @@ export async function startApp(): Promise<void> {
 
   // Initialize WebAPI as early as possible
   let server: WebAPIType | undefined;
+  let messageReceiver: MessageReceiver | undefined;
   window.storage.onready(() => {
     server = window.WebAPI.connect(
       window.textsecure.storage.user.getWebAPICredentials()
     );
+    window.textsecure.server = server;
 
     window.textsecure.storage.user.on('credentialsChange', async () => {
       strictAssert(server !== undefined, 'WebAPI not ready');
@@ -150,6 +152,122 @@ export async function startApp(): Promise<void> {
     initializeAllJobQueues({
       server,
     });
+
+    window.log.info('Initializing MessageReceiver');
+    messageReceiver = new MessageReceiver({
+      server,
+      storage: window.storage,
+      serverTrustRoot: window.getServerTrustRoot(),
+    });
+
+    // eslint-disable-next-line no-inner-declarations
+    function queuedEventListener<Args extends Array<unknown>>(
+      handler: (...args: Args) => Promise<void> | void,
+      track = true
+    ): (...args: Args) => void {
+      return (...args: Args): void => {
+        eventHandlerQueue.add(async () => {
+          try {
+            await handler(...args);
+          } finally {
+            // message/sent: Message.handleDataMessage has its own queue and will
+            //   trigger this event itself when complete.
+            // error: Error processing (below) also has its own queue and self-trigger.
+            if (track) {
+              window.Whisper.events.trigger('incrementProgress');
+            }
+          }
+        });
+      };
+    }
+
+    messageReceiver.addEventListener(
+      'message',
+      queuedEventListener(onMessageReceived, false)
+    );
+    messageReceiver.addEventListener(
+      'delivery',
+      queuedEventListener(onDeliveryReceipt)
+    );
+    messageReceiver.addEventListener(
+      'contact',
+      queuedEventListener(onContactReceived)
+    );
+    messageReceiver.addEventListener(
+      'contactSync',
+      queuedEventListener(onContactSyncComplete)
+    );
+    messageReceiver.addEventListener(
+      'group',
+      queuedEventListener(onGroupReceived)
+    );
+    messageReceiver.addEventListener(
+      'groupSync',
+      queuedEventListener(onGroupSyncComplete)
+    );
+    messageReceiver.addEventListener(
+      'sent',
+      queuedEventListener(onSentMessage, false)
+    );
+    messageReceiver.addEventListener(
+      'readSync',
+      queuedEventListener(onReadSync)
+    );
+    messageReceiver.addEventListener(
+      'read',
+      queuedEventListener(onReadReceipt)
+    );
+    messageReceiver.addEventListener(
+      'view',
+      queuedEventListener(onViewReceipt)
+    );
+    messageReceiver.addEventListener(
+      'verified',
+      queuedEventListener(onVerified)
+    );
+    messageReceiver.addEventListener(
+      'error',
+      queuedEventListener(onError, false)
+    );
+    messageReceiver.addEventListener(
+      'decryption-error',
+      queuedEventListener(onDecryptionError)
+    );
+    messageReceiver.addEventListener(
+      'retry-request',
+      queuedEventListener(onRetryRequest)
+    );
+    messageReceiver.addEventListener('empty', queuedEventListener(onEmpty));
+    messageReceiver.addEventListener(
+      'reconnect',
+      queuedEventListener(onReconnect)
+    );
+    messageReceiver.addEventListener(
+      'configuration',
+      queuedEventListener(onConfiguration)
+    );
+    messageReceiver.addEventListener('typing', queuedEventListener(onTyping));
+    messageReceiver.addEventListener(
+      'sticker-pack',
+      queuedEventListener(onStickerPack)
+    );
+    messageReceiver.addEventListener(
+      'viewOnceOpenSync',
+      queuedEventListener(onViewOnceOpenSync)
+    );
+    messageReceiver.addEventListener(
+      'messageRequestResponse',
+      queuedEventListener(onMessageRequestResponse)
+    );
+    messageReceiver.addEventListener(
+      'profileKeyUpdate',
+      queuedEventListener(onProfileKeyUpdate)
+    );
+    messageReceiver.addEventListener(
+      'fetchLatest',
+      queuedEventListener(onFetchLatestSync)
+    );
+    messageReceiver.addEventListener('keys', queuedEventListener(onKeysSync));
   });
 
   ourProfileKeyService.initialize(window.storage);
@@ -378,16 +496,11 @@ export async function startApp(): Promise<void> {
     window.getAccountManager().refreshPreKeys();
   });
 
-  let messageReceiver: MessageReceiver | undefined;
-  let preMessageReceiverStatus: SocketStatus | undefined;
   window.getSocketStatus = () => {
-    if (messageReceiver) {
-      return messageReceiver.getStatus();
+    if (server === undefined) {
+      return SocketStatus.CLOSED;
     }
-    if (preMessageReceiverStatus) {
-      return preMessageReceiverStatus;
-    }
-    return SocketStatus.CLOSED;
+    return server.getSocketStatus();
   };
   let accountManager: typeof window.textsecure.AccountManager;
   window.getAccountManager = () => {
@@ -638,13 +751,13 @@ export async function startApp(): Promise<void> {
 
         // Stop processing incoming messages
         if (messageReceiver) {
+          strictAssert(
+            server !== undefined,
+            'WebAPI should be initialized together with MessageReceiver'
+          );
+          server.unregisterRequestHandler(messageReceiver);
           await messageReceiver.stopProcessing();
           await window.waitForAllBatchers();
-        }
-
-        if (messageReceiver) {
-          messageReceiver.unregisterBatchers();
-          messageReceiver = undefined;
         }
 
         // A number of still-to-queue database queries might be waiting inside batchers.
@@ -1658,27 +1771,21 @@ export async function startApp(): Promise<void> {
 
   window.Whisper.events.on('powerMonitorResume', () => {
     window.log.info('powerMonitor: resume');
-    if (!messageReceiver) {
-      return;
-    }
-
-    messageReceiver.checkSocket();
+    server?.checkSockets();
   });
 
   const reconnectToWebSocketQueue = new LatestQueue();
 
   const enqueueReconnectToWebSocket = () => {
     reconnectToWebSocketQueue.add(async () => {
-      if (!messageReceiver) {
-        window.log.info(
-          'reconnectToWebSocket: No messageReceiver. Early return.'
-        );
+      if (!server) {
+        window.log.info('reconnectToWebSocket: No server. Early return.');
         return;
       }
 
       window.log.info('reconnectToWebSocket starting...');
-      await disconnect();
-      connect();
+      await server.onOffline();
+      await server.onOnline();
       window.log.info('reconnectToWebSocket complete.');
     });
   };
@@ -1687,6 +1794,8 @@ export async function startApp(): Promise<void> {
     'mightBeUnlinked',
     window._.debounce(enqueueReconnectToWebSocket, 1000, { maxWait: 5000 })
   );
+
+  window.Whisper.events.on('unlinkAndDisconnect', unlinkAndDisconnect);
 
   function runStorageService() {
     window.Signal.Services.enableStorageService();
@@ -2011,8 +2120,13 @@ export async function startApp(): Promise<void> {
     disconnectTimer = undefined;
 
     AttachmentDownloads.stop();
-    if (messageReceiver) {
-      await messageReceiver.close();
+    if (server !== undefined) {
+      strictAssert(
+        messageReceiver !== undefined,
+        'WebAPI should be initialized together with MessageReceiver'
+      );
+      await server.onOffline();
+      await messageReceiver.drain();
     }
   }
 
@@ -2054,19 +2168,6 @@ export async function startApp(): Promise<void> {
 
       if (!window.Signal.Util.Registration.everDone()) {
         return;
-      }
-
-      preMessageReceiverStatus = SocketStatus.CONNECTING;
-
-      if (messageReceiver) {
-        await messageReceiver.stopProcessing();
-
-        await window.waitForAllBatchers();
-      }
-
-      if (messageReceiver) {
-        messageReceiver.unregisterBatchers();
-        messageReceiver = undefined;
       }
 
       window.textsecure.messaging = new window.textsecure.MessageSender(server);
@@ -2115,132 +2216,20 @@ export async function startApp(): Promise<void> {
       window.Whisper.deliveryReceiptQueue.pause();
       window.Whisper.Notifications.disable();
 
-      // initialize the socket and start listening for messages
-      window.log.info('Initializing socket and listening for messages');
-      const messageReceiverOptions = {
-        serverTrustRoot: window.getServerTrustRoot(),
-      };
-      messageReceiver = new window.textsecure.MessageReceiver(
-        server,
-        messageReceiverOptions
-      );
-      window.textsecure.messageReceiver = messageReceiver;
-
       window.Signal.Services.initializeGroupCredentialFetcher();
 
-      preMessageReceiverStatus = undefined;
+      strictAssert(server !== undefined, 'WebAPI not initialized');
+      strictAssert(
+        messageReceiver !== undefined,
+        'MessageReceiver not initialized'
+      );
+      messageReceiver.reset();
+      server.registerRequestHandler(messageReceiver);
 
-      // eslint-disable-next-line no-inner-declarations
-      function queuedEventListener<Args extends Array<unknown>>(
-        handler: (...args: Args) => Promise<void> | void,
-        track = true
-      ): (...args: Args) => void {
-        return (...args: Args): void => {
-          eventHandlerQueue.add(async () => {
-            try {
-              await handler(...args);
-            } finally {
-              // message/sent: Message.handleDataMessage has its own queue and will
-              //   trigger this event itself when complete.
-              // error: Error processing (below) also has its own queue and self-trigger.
-              if (track) {
-                window.Whisper.events.trigger('incrementProgress');
-              }
-            }
-          });
-        };
-      }
-
-      messageReceiver.addEventListener(
-        'message',
-        queuedEventListener(onMessageReceived, false)
-      );
-      messageReceiver.addEventListener(
-        'delivery',
-        queuedEventListener(onDeliveryReceipt)
-      );
-      messageReceiver.addEventListener(
-        'contact',
-        queuedEventListener(onContactReceived)
-      );
-      messageReceiver.addEventListener(
-        'contactSync',
-        queuedEventListener(onContactSyncComplete)
-      );
-      messageReceiver.addEventListener(
-        'group',
-        queuedEventListener(onGroupReceived)
-      );
-      messageReceiver.addEventListener(
-        'groupSync',
-        queuedEventListener(onGroupSyncComplete)
-      );
-      messageReceiver.addEventListener(
-        'sent',
-        queuedEventListener(onSentMessage, false)
-      );
-      messageReceiver.addEventListener(
-        'readSync',
-        queuedEventListener(onReadSync)
-      );
-      messageReceiver.addEventListener(
-        'read',
-        queuedEventListener(onReadReceipt)
-      );
-      messageReceiver.addEventListener(
-        'view',
-        queuedEventListener(onViewReceipt)
-      );
-      messageReceiver.addEventListener(
-        'verified',
-        queuedEventListener(onVerified)
-      );
-      messageReceiver.addEventListener(
-        'error',
-        queuedEventListener(onError, false)
-      );
-      messageReceiver.addEventListener(
-        'decryption-error',
-        queuedEventListener(onDecryptionError)
-      );
-      messageReceiver.addEventListener(
-        'retry-request',
-        queuedEventListener(onRetryRequest)
-      );
-      messageReceiver.addEventListener('empty', queuedEventListener(onEmpty));
-      messageReceiver.addEventListener(
-        'reconnect',
-        queuedEventListener(onReconnect)
-      );
-      messageReceiver.addEventListener(
-        'configuration',
-        queuedEventListener(onConfiguration)
-      );
-      messageReceiver.addEventListener('typing', queuedEventListener(onTyping));
-      messageReceiver.addEventListener(
-        'sticker-pack',
-        queuedEventListener(onStickerPack)
-      );
-      messageReceiver.addEventListener(
-        'viewOnceOpenSync',
-        queuedEventListener(onViewOnceOpenSync)
-      );
-      messageReceiver.addEventListener(
-        'messageRequestResponse',
-        queuedEventListener(onMessageRequestResponse)
-      );
-      messageReceiver.addEventListener(
-        'profileKeyUpdate',
-        queuedEventListener(onProfileKeyUpdate)
-      );
-      messageReceiver.addEventListener(
-        'fetchLatest',
-        queuedEventListener(onFetchLatestSync)
-      );
-      messageReceiver.addEventListener('keys', queuedEventListener(onKeysSync));
+      // If coming here after `offline` event - connect again.
+      await server.onOnline();
 
       AttachmentDownloads.start({
-        getMessageReceiver: () => messageReceiver,
         logger: window.log,
       });
 
@@ -3511,14 +3500,10 @@ export async function startApp(): Promise<void> {
     window.Whisper.events.trigger('unauthorized');
 
     if (messageReceiver) {
+      strictAssert(server !== undefined, 'WebAPI not initialized');
+      server.unregisterRequestHandler(messageReceiver);
       await messageReceiver.stopProcessing();
-
       await window.waitForAllBatchers();
-    }
-
-    if (messageReceiver) {
-      messageReceiver.unregisterBatchers();
-      messageReceiver = undefined;
     }
 
     onEmpty();

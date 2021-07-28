@@ -4,7 +4,6 @@
 import { UnidentifiedSenderMessageContent } from '@signalapp/signal-client';
 
 import Crypto from './textsecure/Crypto';
-import MessageReceiver from './textsecure/MessageReceiver';
 import MessageSender from './textsecure/SendMessage';
 import SyncRequest from './textsecure/SyncRequest';
 import EventTarget from './textsecure/EventTarget';
@@ -38,20 +37,14 @@ export type UnprocessedType = {
 export { StorageServiceCallOptionsType, StorageServiceCredentials };
 
 export type TextSecureType = {
-  createTaskWithTimeout: (
-    task: () => Promise<any> | any,
-    id?: string,
-    options?: { timeout?: number }
-  ) => () => Promise<any>;
   crypto: typeof Crypto;
   storage: Storage;
-  messageReceiver: MessageReceiver;
+  server: WebAPIType;
   messageSender: MessageSender;
   messaging: SendMessage;
   utils: typeof utils;
 
   EventTarget: typeof EventTarget;
-  MessageReceiver: typeof MessageReceiver;
   AccountManager: WhatIsThis;
   MessageSender: typeof MessageSender;
   SyncRequest: typeof SyncRequest;

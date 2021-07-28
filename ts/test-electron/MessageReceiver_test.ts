@@ -6,12 +6,11 @@
      */
 
 import { assert } from 'chai';
-import EventEmitter from 'events';
-import { connection as WebSocket } from 'websocket';
 
 import MessageReceiver from '../textsecure/MessageReceiver';
-import { DecryptionErrorEvent } from '../textsecure/messageReceiverEvents';
+import { IncomingWebSocketRequest } from '../textsecure/WebsocketResources';
 import { WebAPIType } from '../textsecure/WebAPI';
+import { DecryptionErrorEvent } from '../textsecure/messageReceiverEvents';
 import { SignalService as Proto } from '../protobuf';
 import * as Crypto from '../Crypto';
 
@@ -19,23 +18,16 @@ import * as Crypto from '../Crypto';
 const FIXMEU8 = Uint8Array;
 
 describe('MessageReceiver', () => {
-  class FakeSocket extends EventEmitter {
-    public sendBytes(_: Uint8Array) {}
-
-    public close() {}
-  }
-
   const number = '+19999999999';
   const uuid = 'aaaaaaaa-bbbb-4ccc-9ddd-eeeeeeeeeeee';
   const deviceId = 1;
 
   describe('connecting', () => {
     it('generates decryption-error event when it cannot decrypt', done => {
-      const socket = new FakeSocket();
-
-      const messageReceiver = new MessageReceiver({} as WebAPIType, {
+      const messageReceiver = new MessageReceiver({
+        server: {} as WebAPIType,
+        storage: window.storage,
         serverTrustRoot: 'AAAAAAAA',
-        socket: socket as WebSocket,
       });
 
       const body = Proto.Envelope.encode({
@@ -47,15 +39,18 @@ describe('MessageReceiver', () => {
         content: new FIXMEU8(Crypto.getRandomBytes(200)),
       }).finish();
 
-      const message = Proto.WebSocketMessage.encode({
-        type: Proto.WebSocketMessage.Type.REQUEST,
-        request: { id: 1, verb: 'PUT', path: '/api/v1/message', body },
-      }).finish();
-
-      socket.emit('message', {
-        type: 'binary',
-        binaryData: message,
-      });
+      messageReceiver.handleRequest(
+        new IncomingWebSocketRequest(
+          {
+            id: 1,
+            verb: 'PUT',
+            path: '/api/v1/message',
+            body,
+            headers: [],
+          },
+          (_: Buffer): void => {}
+        )
+      );
 
       messageReceiver.addEventListener(
         'decryption-error',

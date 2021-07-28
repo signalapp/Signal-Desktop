@@ -11,7 +11,7 @@
 
 import fetch, { Response } from 'node-fetch';
 import ProxyAgent from 'proxy-agent';
-import { Agent, RequestOptions } from 'https';
+import { Agent } from 'https';
 import pProps from 'p-props';
 import {
   compact,
@@ -26,13 +26,13 @@ import { pki } from 'node-forge';
 import is from '@sindresorhus/is';
 import PQueue from 'p-queue';
 import { v4 as getGuid } from 'uuid';
-import { client as WebSocketClient, connection as WebSocket } from 'websocket';
 import { z } from 'zod';
 import Long from 'long';
 
 import { assert } from '../util/assert';
 import { getUserAgent } from '../util/getUserAgent';
 import { toWebSafeBase64 } from '../util/webSafeBase64';
+import { SocketStatus } from '../types/SocketStatus';
 import { isPackIdValid, redactPackId } from '../types/Stickers';
 import * as Bytes from '../Bytes';
 import {
@@ -55,11 +55,14 @@ import {
   StorageServiceCallOptionsType,
   StorageServiceCredentials,
 } from '../textsecure.d';
+import { SocketManager } from './SocketManager';
+import WebSocketResource from './WebsocketResources';
 import { SignalService as Proto } from '../protobuf';
 
-import { ConnectTimeoutError } from './Errors';
+import { HTTPError } from './Errors';
 import MessageSender from './SendMessage';
-import { WebAPICredentials } from './Types.d';
+import { WebAPICredentials, IRequestHandler } from './Types.d';
+import { handleStatusCode, translateError } from './Utils';
 
 // TODO: remove once we move away from ArrayBuffers
 const FIXMEU8 = Uint8Array;
@@ -263,96 +266,6 @@ function _validateResponse(response: any, schema: any) {
   return true;
 }
 
-export type ConnectSocketOptions = Readonly<{
-  certificateAuthority: string;
-  proxyUrl?: string;
-  version: string;
-  timeout?: number;
-}>;
-
-const TEN_SECONDS = 1000 * 10;
-
-async function _connectSocket(
-  url: string,
-  {
-    certificateAuthority,
-    proxyUrl,
-    version,
-    timeout = TEN_SECONDS,
-  }: ConnectSocketOptions
-): Promise<WebSocket> {
-  let tlsOptions: RequestOptions = {
-    ca: certificateAuthority,
-  };
-  if (proxyUrl) {
-    tlsOptions = {
-      ...tlsOptions,
-      agent: new ProxyAgent(proxyUrl),
-    };
-  }
-
-  const headers = {
-    'User-Agent': getUserAgent(version),
-  };
-  const client = new WebSocketClient({
-    tlsOptions,
-    maxReceivedFrameSize: 0x210000,
-  });
-
-  client.connect(url, undefined, undefined, headers);
-
-  const { stack } = new Error();
-
-  return new Promise((resolve, reject) => {
-    const timer = setTimeout(() => {
-      reject(new ConnectTimeoutError('Connection timed out'));
-
-      client.abort();
-    }, timeout);
-
-    client.on('connect', socket => {
-      clearTimeout(timer);
-      resolve(socket);
-    });
-
-    client.on('httpResponse', async response => {
-      clearTimeout(timer);
-
-      const statusCode = response.statusCode || -1;
-      await _handleStatusCode(statusCode);
-
-      const error = makeHTTPError(
-        '_connectSocket: invalid websocket response',
-        statusCode || -1,
-        {}, // headers
-        undefined,
-        stack
-      );
-
-      const translatedError = _translateError(error);
-      assert(
-        translatedError,
-        '`httpResponse` event cannot be emitted with 200 status code'
-      );
-
-      reject(translatedError);
-    });
-    client.on('connectFailed', e => {
-      clearTimeout(timer);
-
-      reject(
-        makeHTTPError(
-          '_connectSocket: connectFailed',
-          -1,
-          {},
-          e.toString(),
-          stack
-        )
-      );
-    });
-  });
-}
-
 const FIVE_MINUTES = 1000 * 60 * 5;
 
 type AgentCacheType = {
@@ -378,6 +291,7 @@ type HTTPCodeType = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
 type RedactUrl = (url: string) => string;
 
 type PromiseAjaxOptionsType = {
+  socketManager?: SocketManager;
   accessKey?: string;
   basicAuth?: string;
   certificateAuthority?: string;
@@ -468,284 +382,218 @@ function getHostname(url: string): string {
   return urlObject.hostname;
 }
 
-async function _handleStatusCode(
-  status: number,
-  unauthenticated = false
-): Promise<void> {
-  if (status === 499) {
-    window.log.error('Got 499 from Signal Server. Build is expired.');
-    await window.storage.put('remoteBuildExpiration', Date.now());
-    window.reduxActions.expiration.hydrateExpirationStatus(true);
-  }
-  if (!unauthenticated && status === 401) {
-    window.log.error('Got 401 from Signal Server. We might be unlinked.');
-    window.Whisper.events.trigger('mightBeUnlinked');
-  }
-}
-
-function _translateError(error: Error): Error | undefined {
-  const { code } = error;
-  if (code === 200) {
-    // Happens sometimes when we get no response. Might be nice to get 204 instead.
-    return undefined;
-  }
-  let message: string;
-  switch (code) {
-    case -1:
-      message =
-        'Failed to connect to the server, please check your network connection.';
-      break;
-    case 413:
-      message = 'Rate limit exceeded, please try again later.';
-      break;
-    case 403:
-      message = 'Invalid code, please try again.';
-      break;
-    case 417:
-      message = 'Number already registered.';
-      break;
-    case 401:
-      message =
-        'Invalid authentication, most likely someone re-registered and invalidated our registration.';
-      break;
-    case 404:
-      message = 'Number is not registered.';
-      break;
-    default:
-      message = 'The server rejected our query, please file a bug report.';
-  }
-  error.message = `${message} (original: ${error.message})`;
-  return error;
-}
-
 async function _promiseAjax(
   providedUrl: string | null,
   options: PromiseAjaxOptionsType
-): Promise<any> {
-  return new Promise((resolve, reject) => {
-    const url = providedUrl || `${options.host}/${options.path}`;
+): Promise<
+  | string
+  | ArrayBuffer
+  | unknown
+  | JSONWithDetailsType
+  | ArrayBufferWithDetailsType
+> {
+  const url = providedUrl || `${options.host}/${options.path}`;
 
-    const unauthLabel = options.unauthenticated ? ' (unauth)' : '';
+  const unauthLabel = options.unauthenticated ? ' (unauth)' : '';
+  if (options.redactUrl) {
+    window.log.info(`${options.type} ${options.redactUrl(url)}${unauthLabel}`);
+  } else {
+    window.log.info(`${options.type} ${url}${unauthLabel}`);
+  }
+
+  const timeout = typeof options.timeout === 'number' ? options.timeout : 10000;
+
+  const { proxyUrl, socketManager } = options;
+  const agentType = options.unauthenticated ? 'unauth' : 'auth';
+  const cacheKey = `${proxyUrl}-${agentType}`;
+
+  const { timestamp } = agents[cacheKey] || { timestamp: null };
+  if (!timestamp || timestamp + FIVE_MINUTES < Date.now()) {
+    if (timestamp) {
+      window.log.info(`Cycling agent for type ${cacheKey}`);
+    }
+    agents[cacheKey] = {
+      agent: proxyUrl
+        ? new ProxyAgent(proxyUrl)
+        : new Agent({ keepAlive: true }),
+      timestamp: Date.now(),
+    };
+  }
+  const { agent } = agents[cacheKey];
+
+  const fetchOptions = {
+    method: options.type,
+    body: options.data,
+    headers: {
+      'User-Agent': getUserAgent(options.version),
+      'X-Signal-Agent': 'OWD',
+      ...options.headers,
+    } as FetchHeaderListType,
+    redirect: options.redirect,
+    agent,
+    ca: options.certificateAuthority,
+    timeout,
+  };
+
+  if (fetchOptions.body instanceof ArrayBuffer) {
+    // node-fetch doesn't support ArrayBuffer, only node Buffer
+    const contentLength = fetchOptions.body.byteLength;
+    fetchOptions.body = Buffer.from(fetchOptions.body);
+
+    // node-fetch doesn't set content-length like S3 requires
+    fetchOptions.headers['Content-Length'] = contentLength.toString();
+  }
+
+  const { accessKey, basicAuth, unauthenticated } = options;
+  if (basicAuth) {
+    fetchOptions.headers.Authorization = `Basic ${basicAuth}`;
+  } else if (unauthenticated) {
+    if (!accessKey) {
+      throw new Error(
+        '_promiseAjax: mode is unauthenticated, but accessKey was not provided'
+      );
+    }
+    // Access key is already a Base64 string
+    fetchOptions.headers['Unidentified-Access-Key'] = accessKey;
+  } else if (options.user && options.password) {
+    const user = _getString(options.user);
+    const password = _getString(options.password);
+    const auth = _btoa(`${user}:${password}`);
+    fetchOptions.headers.Authorization = `Basic ${auth}`;
+  }
+
+  if (options.contentType) {
+    fetchOptions.headers['Content-Type'] = options.contentType;
+  }
+
+  let response: Response;
+  let result: string | ArrayBuffer | unknown;
+  try {
+    response = socketManager
+      ? await socketManager.fetch(url, fetchOptions)
+      : await fetch(url, fetchOptions);
+
+    if (
+      options.serverUrl &&
+      getHostname(options.serverUrl) === getHostname(url)
+    ) {
+      await handleStatusCode(response.status);
+
+      if (!unauthenticated && response.status === 401) {
+        window.log.error('Got 401 from Signal Server. We might be unlinked.');
+        window.Whisper.events.trigger('mightBeUnlinked');
+      }
+    }
+
+    if (DEBUG && !isSuccess(response.status)) {
+      result = await response.text();
+    } else if (
+      (options.responseType === 'json' ||
+        options.responseType === 'jsonwithdetails') &&
+      /^application\/json(;.*)?$/.test(
+        response.headers.get('Content-Type') || ''
+      )
+    ) {
+      result = await response.json();
+    } else if (
+      options.responseType === 'arraybuffer' ||
+      options.responseType === 'arraybufferwithdetails'
+    ) {
+      result = await response.arrayBuffer();
+    } else {
+      result = await response.textConverted();
+    }
+  } catch (e) {
+    if (options.redactUrl) {
+      window.log.error(options.type, options.redactUrl(url), 0, 'Error');
+    } else {
+      window.log.error(options.type, url, 0, 'Error');
+    }
+    const stack = `${e.stack}\nInitial stack:\n${options.stack}`;
+    throw makeHTTPError('promiseAjax catch', 0, {}, e.toString(), stack);
+  }
+
+  if (!isSuccess(response.status)) {
     if (options.redactUrl) {
       window.log.info(
-        `${options.type} ${options.redactUrl(url)}${unauthLabel}`
+        options.type,
+        options.redactUrl(url),
+        response.status,
+        'Error'
       );
     } else {
-      window.log.info(`${options.type} ${url}${unauthLabel}`);
+      window.log.error(options.type, url, response.status, 'Error');
     }
 
-    const timeout =
-      typeof options.timeout === 'number' ? options.timeout : 10000;
+    throw makeHTTPError(
+      'promiseAjax: error response',
+      response.status,
+      response.headers.raw(),
+      result,
+      options.stack
+    );
+  }
 
-    const { proxyUrl } = options;
-    const agentType = options.unauthenticated ? 'unauth' : 'auth';
-    const cacheKey = `${proxyUrl}-${agentType}`;
-
-    const { timestamp } = agents[cacheKey] || { timestamp: null };
-    if (!timestamp || timestamp + FIVE_MINUTES < Date.now()) {
-      if (timestamp) {
-        window.log.info(`Cycling agent for type ${cacheKey}`);
-      }
-      agents[cacheKey] = {
-        agent: proxyUrl
-          ? new ProxyAgent(proxyUrl)
-          : new Agent({ keepAlive: true }),
-        timestamp: Date.now(),
-      };
-    }
-    const { agent } = agents[cacheKey];
-
-    const fetchOptions = {
-      method: options.type,
-      body: options.data,
-      headers: {
-        'User-Agent': getUserAgent(options.version),
-        'X-Signal-Agent': 'OWD',
-        ...options.headers,
-      } as FetchHeaderListType,
-      redirect: options.redirect,
-      agent,
-      ca: options.certificateAuthority,
-      timeout,
-    };
-
-    if (fetchOptions.body instanceof ArrayBuffer) {
-      // node-fetch doesn't support ArrayBuffer, only node Buffer
-      const contentLength = fetchOptions.body.byteLength;
-      fetchOptions.body = Buffer.from(fetchOptions.body);
-
-      // node-fetch doesn't set content-length like S3 requires
-      fetchOptions.headers['Content-Length'] = contentLength.toString();
-    }
-
-    const { accessKey, basicAuth, unauthenticated } = options;
-    if (basicAuth) {
-      fetchOptions.headers.Authorization = `Basic ${basicAuth}`;
-    } else if (unauthenticated) {
-      if (!accessKey) {
-        throw new Error(
-          '_promiseAjax: mode is unauthenticated, but accessKey was not provided'
+  if (
+    options.responseType === 'json' ||
+    options.responseType === 'jsonwithdetails'
+  ) {
+    if (options.validateResponse) {
+      if (!_validateResponse(result, options.validateResponse)) {
+        if (options.redactUrl) {
+          window.log.info(
+            options.type,
+            options.redactUrl(url),
+            response.status,
+            'Error'
+          );
+        } else {
+          window.log.error(options.type, url, response.status, 'Error');
+        }
+        throw makeHTTPError(
+          'promiseAjax: invalid response',
+          response.status,
+          response.headers.raw(),
+          result,
+          options.stack
         );
       }
-      // Access key is already a Base64 string
-      fetchOptions.headers['Unidentified-Access-Key'] = accessKey;
-    } else if (options.user && options.password) {
-      const user = _getString(options.user);
-      const password = _getString(options.password);
-      const auth = _btoa(`${user}:${password}`);
-      fetchOptions.headers.Authorization = `Basic ${auth}`;
     }
+  }
 
-    if (options.contentType) {
-      fetchOptions.headers['Content-Type'] = options.contentType;
-    }
+  if (options.redactUrl) {
+    window.log.info(
+      options.type,
+      options.redactUrl(url),
+      response.status,
+      'Success'
+    );
+  } else {
+    window.log.info(options.type, url, response.status, 'Success');
+  }
 
-    fetch(url, fetchOptions)
-      .then(async response => {
-        if (
-          options.serverUrl &&
-          getHostname(options.serverUrl) === getHostname(url)
-        ) {
-          await _handleStatusCode(response.status, unauthenticated);
-        }
+  if (options.responseType === 'arraybufferwithdetails') {
+    assert(result instanceof ArrayBuffer, 'Expected ArrayBuffer result');
+    const fullResult: ArrayBufferWithDetailsType = {
+      data: result,
+      contentType: getContentType(response),
+      response,
+    };
 
-        let resultPromise;
-        if (DEBUG && !isSuccess(response.status)) {
-          resultPromise = response.text();
-        } else if (
-          (options.responseType === 'json' ||
-            options.responseType === 'jsonwithdetails') &&
-          /^application\/json(;.*)?$/.test(
-            response.headers.get('Content-Type') || ''
-          )
-        ) {
-          resultPromise = response.json();
-        } else if (
-          options.responseType === 'arraybuffer' ||
-          options.responseType === 'arraybufferwithdetails'
-        ) {
-          resultPromise = response.buffer();
-        } else {
-          resultPromise = response.textConverted();
-        }
+    return fullResult;
+  }
 
-        return resultPromise.then(result => {
-          if (isSuccess(response.status)) {
-            if (
-              options.responseType === 'arraybuffer' ||
-              options.responseType === 'arraybufferwithdetails'
-            ) {
-              result = result.buffer.slice(
-                result.byteOffset,
-                result.byteOffset + result.byteLength
-              );
-            }
-            if (
-              options.responseType === 'json' ||
-              options.responseType === 'jsonwithdetails'
-            ) {
-              if (options.validateResponse) {
-                if (!_validateResponse(result, options.validateResponse)) {
-                  if (options.redactUrl) {
-                    window.log.info(
-                      options.type,
-                      options.redactUrl(url),
-                      response.status,
-                      'Error'
-                    );
-                  } else {
-                    window.log.error(
-                      options.type,
-                      url,
-                      response.status,
-                      'Error'
-                    );
-                  }
-                  reject(
-                    makeHTTPError(
-                      'promiseAjax: invalid response',
-                      response.status,
-                      response.headers.raw(),
-                      result,
-                      options.stack
-                    )
-                  );
+  if (options.responseType === 'jsonwithdetails') {
+    const fullResult: JSONWithDetailsType = {
+      data: result,
+      contentType: getContentType(response),
+      response,
+    };
 
-                  return;
-                }
-              }
-            }
+    return fullResult;
+  }
 
-            if (options.redactUrl) {
-              window.log.info(
-                options.type,
-                options.redactUrl(url),
-                response.status,
-                'Success'
-              );
-            } else {
-              window.log.info(options.type, url, response.status, 'Success');
-            }
-            if (options.responseType === 'arraybufferwithdetails') {
-              const fullResult: ArrayBufferWithDetailsType = {
-                data: result,
-                contentType: getContentType(response),
-                response,
-              };
-
-              resolve(fullResult);
-
-              return;
-            }
-            if (options.responseType === 'jsonwithdetails') {
-              const fullResult: JSONWithDetailsType = {
-                data: result,
-                contentType: getContentType(response),
-                response,
-              };
-
-              resolve(fullResult);
-
-              return;
-            }
-
-            resolve(result);
-
-            return;
-          }
-
-          if (options.redactUrl) {
-            window.log.info(
-              options.type,
-              options.redactUrl(url),
-              response.status,
-              'Error'
-            );
-          } else {
-            window.log.error(options.type, url, response.status, 'Error');
-          }
-
-          reject(
-            makeHTTPError(
-              'promiseAjax: error response',
-              response.status,
-              response.headers.raw(),
-              result,
-              options.stack
-            )
-          );
-        });
-      })
-      .catch(e => {
-        if (options.redactUrl) {
-          window.log.error(options.type, options.redactUrl(url), 0, 'Error');
-        } else {
-          window.log.error(options.type, url, 0, 'Error');
-        }
-        const stack = `${e.stack}\nInitial stack:\n${options.stack}`;
-        reject(makeHTTPError('promiseAjax catch', 0, {}, e.toString(), stack));
-      });
-  });
+  return result;
 }
 
 async function _retryAjax(
@@ -793,21 +641,12 @@ function makeHTTPError(
   response: any,
   stack?: string
 ) {
-  const code = providedCode > 999 || providedCode < 100 ? -1 : providedCode;
-  const e = new Error(`${message}; code: ${code}`);
-  e.name = 'HTTPError';
-  e.code = code;
-  e.responseHeaders = headers;
-  if (DEBUG && response) {
-    e.stack += `\nresponse: ${response}`;
-  }
-
-  e.stack += `\nOriginal stack:\n${stack}`;
-  if (response) {
-    e.response = response;
-  }
-
-  return e;
+  return new HTTPError(message, {
+    code: providedCode,
+    headers,
+    response,
+    stack,
+  });
 }
 
 const URL_CALLS = {
@@ -843,6 +682,21 @@ const URL_CALLS = {
   whoami: 'v1/accounts/whoami',
   challenge: 'v1/challenge',
 };
+
+const WEBSOCKET_CALLS = new Set<keyof typeof URL_CALLS>([
+  // MessageController
+  'messages',
+  'reportMessage',
+
+  // ProfileController
+  'profile',
+
+  // AttachmentControllerV2
+  'attachmentId',
+
+  // RemoteConfigController
+  'config',
+]);
 
 type InitializeOptionsType = {
   url: string;
@@ -983,7 +837,6 @@ export type WebAPIType = {
     deviceId?: number,
     options?: { accessKey?: string }
   ) => Promise<ServerKeysType>;
-  getMessageSocket: () => Promise<WebSocket>;
   getMyKeys: () => Promise<number>;
   getProfile: (
     identifier: string,
@@ -1000,7 +853,9 @@ export type WebAPIType = {
       profileKeyCredentialRequest?: string;
     }
   ) => Promise<any>;
-  getProvisioningSocket: () => Promise<WebSocket>;
+  getProvisioningResource: (
+    handler: IRequestHandler
+  ) => Promise<WebSocketResource>;
   getSenderCertificate: (
     withUuid?: boolean
   ) => Promise<{ certificate: string }>;
@@ -1086,6 +941,12 @@ export type WebAPIType = {
     Array<{ name: string; enabled: boolean; value: string | null }>
   >;
   authenticate: (credentials: WebAPICredentials) => Promise<void>;
+  getSocketStatus: () => SocketStatus;
+  registerRequestHandler: (handler: IRequestHandler) => void;
+  unregisterRequestHandler: (handler: IRequestHandler) => void;
+  checkSockets: () => void;
+  onOnline: () => Promise<void>;
+  onOffline: () => Promise<void>;
 };
 
 export type SignedPreKeyType = {
@@ -1200,8 +1061,27 @@ export function initialize({
     const PARSE_RANGE_HEADER = /\/(\d+)$/;
     const PARSE_GROUP_LOG_RANGE_HEADER = /$versions (\d{1,10})-(\d{1,10})\/(d{1,10})/;
 
+    const socketManager = new SocketManager({
+      url,
+      certificateAuthority,
+      version,
+      proxyUrl,
+    });
+
+    socketManager.on('authError', () => {
+      window.Whisper.events.trigger('unlinkAndDisconnect');
+    });
+
+    socketManager.authenticate({ username, password });
+
     // Thanks, function hoisting!
     return {
+      getSocketStatus,
+      checkSockets,
+      onOnline,
+      onOffline,
+      registerRequestHandler,
+      unregisterRequestHandler,
       authenticate,
       confirmCode,
       createGroup,
@@ -1220,11 +1100,10 @@ export function initialize({
       getIceServers,
       getKeysForIdentifier,
       getKeysForIdentifierUnauth,
-      getMessageSocket,
       getMyKeys,
       getProfile,
       getProfileUnauth,
-      getProvisioningSocket,
+      getProvisioningResource,
       getSenderCertificate,
       getSticker,
       getStickerPackManifest,
@@ -1261,7 +1140,10 @@ export function initialize({
         param.urlParameters = '';
       }
 
+      const useWebSocket = WEBSOCKET_CALLS.has(param.call);
+
       return _outerAjax(null, {
+        socketManager: useWebSocket ? socketManager : undefined,
         basicAuth: param.basicAuth,
         certificateAuthority,
         contentType: param.contentType || 'application/json; charset=utf-8',
@@ -1282,7 +1164,7 @@ export function initialize({
         unauthenticated: param.unauthenticated,
         accessKey: param.accessKey,
       }).catch((e: Error) => {
-        const translatedError = _translateError(e);
+        const translatedError = translateError(e);
         if (translatedError) {
           throw translatedError;
         }
@@ -1311,6 +1193,33 @@ export function initialize({
     }: WebAPICredentials) {
       username = newUsername;
       password = newPassword;
+
+      await socketManager.authenticate({ username, password });
+    }
+
+    function getSocketStatus(): SocketStatus {
+      return socketManager.getStatus();
+    }
+
+    function checkSockets(): void {
+      // Intentionally not awaiting
+      socketManager.check();
+    }
+
+    async function onOnline(): Promise<void> {
+      await socketManager.onOnline();
+    }
+
+    async function onOffline(): Promise<void> {
+      await socketManager.onOffline();
+    }
+
+    function registerRequestHandler(handler: IRequestHandler): void {
+      socketManager.registerRequestHandler(handler);
+    }
+
+    function unregisterRequestHandler(handler: IRequestHandler): void {
+      socketManager.unregisterRequestHandler(handler);
     }
 
     async function getConfig() {
@@ -1589,8 +1498,7 @@ export function initialize({
       const urlPrefix = deviceName ? '/' : '/code/';
 
       // We update our saved username and password, since we're creating a new account
-      username = number;
-      password = newPassword;
+      await authenticate({ username: number, password: newPassword });
 
       const response = await _ajax({
         call,
@@ -1601,7 +1509,10 @@ export function initialize({
       });
 
       // From here on out, our username will be our UUID or E164 combined with device
-      username = `${response.uuid || number}.${response.deviceId || 1}`;
+      await authenticate({
+        username: `${response.uuid || number}.${response.deviceId || 1}`,
+        password,
+      });
 
       return response;
     }
@@ -2157,7 +2068,7 @@ export function initialize({
         timeout: 0,
         type,
         version,
-      });
+      }) as Promise<ArrayBufferWithDetailsType>;
     }
 
     // Groups
@@ -2312,7 +2223,7 @@ export function initialize({
         timeout: 0,
         type: 'GET',
         version,
-      });
+      }) as Promise<ArrayBuffer>;
     }
 
     async function createGroup(
@@ -2461,32 +2372,10 @@ export function initialize({
       };
     }
 
-    function getMessageSocket(): Promise<WebSocket> {
-      window.log.info('opening message socket', url);
-      const fixedScheme = url
-        .replace('https://', 'wss://')
-        .replace('http://', 'ws://');
-      const login = encodeURIComponent(username);
-      const pass = encodeURIComponent(password);
-      const clientVersion = encodeURIComponent(version);
-
-      return _connectSocket(
-        `${fixedScheme}/v1/websocket/?login=${login}&password=${pass}&agent=OWD&version=${clientVersion}`,
-        { certificateAuthority, proxyUrl, version }
-      );
-    }
-
-    function getProvisioningSocket(): Promise<WebSocket> {
-      window.log.info('opening provisioning socket', url);
-      const fixedScheme = url
-        .replace('https://', 'wss://')
-        .replace('http://', 'ws://');
-      const clientVersion = encodeURIComponent(version);
-
-      return _connectSocket(
-        `${fixedScheme}/v1/websocket/provisioning/?agent=OWD&version=${clientVersion}`,
-        { certificateAuthority, proxyUrl, version }
-      );
+    function getProvisioningResource(
+      handler: IRequestHandler
+    ): Promise<WebSocketResource> {
+      return socketManager.getProvisioningResource(handler);
     }
 
     async function getDirectoryAuth(): Promise<{
@@ -2688,7 +2577,7 @@ export function initialize({
       const pubKeyBase64 = arrayBufferToBase64(slicedPubKey);
       // Do request
       const data = JSON.stringify({ clientPublic: pubKeyBase64 });
-      const result: JSONWithDetailsType = await _outerAjax(null, {
+      const result: JSONWithDetailsType = (await _outerAjax(null, {
         certificateAuthority,
         type: 'PUT',
         contentType: 'application/json; charset=utf-8',
@@ -2700,7 +2589,7 @@ export function initialize({
         data,
         timeout: 30000,
         version,
-      });
+      })) as JSONWithDetailsType;
 
       const { data: responseBody, response } = result;
 
@@ -2806,7 +2695,7 @@ export function initialize({
         iv: string;
         data: string;
         mac: string;
-      } = await _outerAjax(null, {
+      } = (await _outerAjax(null, {
         certificateAuthority,
         type: 'PUT',
         headers: cookie
@@ -2823,7 +2712,7 @@ export function initialize({
         timeout: 30000,
         data: JSON.stringify(data),
         version,
-      });
+      })) as any;
 
       // Decode discovery request response
       const decodedDiscoveryResponse: {

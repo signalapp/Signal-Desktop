@@ -85,7 +85,7 @@ describe('WebSocket-Resource', () => {
       });
     });
 
-    it('sends requests and receives responses', done => {
+    it('sends requests and receives responses', async () => {
       // mock socket and request handler
       let requestId: number | Long | undefined;
       const socket = new FakeSocket();
@@ -101,16 +101,10 @@ describe('WebSocket-Resource', () => {
 
       // actual test
       const resource = new WebSocketResource(socket as WebSocket);
-      resource.sendRequest({
+      const promise = resource.sendRequest({
         verb: 'PUT',
         path: '/some/path',
         body: new Uint8Array([1, 2, 3]),
-        error: done,
-        success(message: string, status: number) {
-          assert.strictEqual(message, 'OK');
-          assert.strictEqual(status, 200);
-          done();
-        },
       });
 
       // mock socket response
@@ -121,6 +115,10 @@ describe('WebSocket-Resource', () => {
           response: { id: requestId, message: 'OK', status: 200 },
         }).finish(),
       });
+
+      const { status, message } = await promise;
+      assert.strictEqual(message, 'OK');
+      assert.strictEqual(status, 200);
     });
   });
 

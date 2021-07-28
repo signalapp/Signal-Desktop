@@ -13,9 +13,8 @@ import { WebAPIType } from './WebAPI';
 import { KeyPairType, CompatSignedPreKeyType } from './Types.d';
 import utils from './Helpers';
 import ProvisioningCipher from './ProvisioningCipher';
-import WebSocketResource, {
-  IncomingWebSocketRequest,
-} from './WebsocketResources';
+import { IncomingWebSocketRequest } from './WebsocketResources';
+import createTaskWithTimeout from './TaskWithTimeout';
 import * as Bytes from '../Bytes';
 import {
   deriveAccessKey,
@@ -192,112 +191,102 @@ export default class AccountManager extends EventTarget {
       SIGNED_KEY_GEN_BATCH_SIZE,
       progressCallback
     );
-    const confirmKeys = this.confirmKeys.bind(this);
-    const registrationDone = this.registrationDone.bind(this);
-    const registerKeys = this.server.registerKeys.bind(this.server);
-    const getSocket = this.server.getProvisioningSocket.bind(this.server);
-    const queueTask = this.queueTask.bind(this);
     const provisioningCipher = new ProvisioningCipher();
-    let gotProvisionEnvelope = false;
     const pubKey = await provisioningCipher.getPublicKey();
 
-    const socket = await getSocket();
+    let envelopeCallbacks:
+      | {
+          resolve(data: Proto.ProvisionEnvelope): void;
+          reject(error: Error): void;
+        }
+      | undefined;
+    const envelopePromise = new Promise<Proto.ProvisionEnvelope>(
+      (resolve, reject) => {
+        envelopeCallbacks = { resolve, reject };
+      }
+    );
+
+    const wsr = await this.server.getProvisioningResource({
+      handleRequest(request: IncomingWebSocketRequest) {
+        if (
+          request.path === '/v1/address' &&
+          request.verb === 'PUT' &&
+          request.body
+        ) {
+          const proto = Proto.ProvisioningUuid.decode(request.body);
+          const { uuid } = proto;
+          if (!uuid) {
+            throw new Error('registerSecondDevice: expected a UUID');
+          }
+          const url = getProvisioningUrl(uuid, pubKey);
+
+          if (window.CI) {
+            window.CI.setProvisioningURL(url);
+          }
+
+          setProvisioningUrl(url);
+          request.respond(200, 'OK');
+        } else if (
+          request.path === '/v1/message' &&
+          request.verb === 'PUT' &&
+          request.body
+        ) {
+          const envelope = Proto.ProvisionEnvelope.decode(request.body);
+          request.respond(200, 'OK');
+          wsr.close();
+          envelopeCallbacks?.resolve(envelope);
+        } else {
+          window.log.error('Unknown websocket message', request.path);
+        }
+      },
+    });
 
     window.log.info('provisioning socket open');
 
-    return new Promise((resolve, reject) => {
-      socket.on('close', (code, reason) => {
-        window.log.info(
-          `provisioning socket closed. Code: ${code} Reason: ${reason}`
+    wsr.addEventListener('close', ({ code, reason }) => {
+      window.log.info(
+        `provisioning socket closed. Code: ${code} Reason: ${reason}`
+      );
+
+      // Note: if we have resolved the envelope already - this has no effect
+      envelopeCallbacks?.reject(new Error('websocket closed'));
+    });
+
+    const envelope = await envelopePromise;
+    const provisionMessage = await provisioningCipher.decrypt(envelope);
+
+    await this.queueTask(async () => {
+      const deviceName = await confirmNumber(provisionMessage.number);
+      if (typeof deviceName !== 'string' || deviceName.length === 0) {
+        throw new Error(
+          'AccountManager.registerSecondDevice: Invalid device name'
         );
-        if (!gotProvisionEnvelope) {
-          reject(new Error('websocket closed'));
-        }
-      });
+      }
+      if (
+        !provisionMessage.number ||
+        !provisionMessage.provisioningCode ||
+        !provisionMessage.identityKeyPair
+      ) {
+        throw new Error(
+          'AccountManager.registerSecondDevice: Provision message was missing key data'
+        );
+      }
 
-      const wsr = new WebSocketResource(socket, {
-        keepalive: { path: '/v1/keepalive/provisioning' },
-        handleRequest(request: IncomingWebSocketRequest) {
-          if (
-            request.path === '/v1/address' &&
-            request.verb === 'PUT' &&
-            request.body
-          ) {
-            const proto = Proto.ProvisioningUuid.decode(request.body);
-            const { uuid } = proto;
-            if (!uuid) {
-              throw new Error('registerSecondDevice: expected a UUID');
-            }
-            const url = getProvisioningUrl(uuid, pubKey);
-
-            if (window.CI) {
-              window.CI.setProvisioningURL(url);
-            }
-
-            setProvisioningUrl(url);
-            request.respond(200, 'OK');
-          } else if (
-            request.path === '/v1/message' &&
-            request.verb === 'PUT' &&
-            request.body
-          ) {
-            const envelope = Proto.ProvisionEnvelope.decode(request.body);
-            request.respond(200, 'OK');
-            gotProvisionEnvelope = true;
-            wsr.close();
-            resolve(
-              provisioningCipher
-                .decrypt(envelope)
-                .then(async provisionMessage =>
-                  queueTask(async () =>
-                    confirmNumber(provisionMessage.number).then(
-                      async deviceName => {
-                        if (
-                          typeof deviceName !== 'string' ||
-                          deviceName.length === 0
-                        ) {
-                          throw new Error(
-                            'AccountManager.registerSecondDevice: Invalid device name'
-                          );
-                        }
-                        if (
-                          !provisionMessage.number ||
-                          !provisionMessage.provisioningCode ||
-                          !provisionMessage.identityKeyPair
-                        ) {
-                          throw new Error(
-                            'AccountManager.registerSecondDevice: Provision message was missing key data'
-                          );
-                        }
-
-                        return createAccount(
-                          provisionMessage.number,
-                          provisionMessage.provisioningCode,
-                          provisionMessage.identityKeyPair,
-                          provisionMessage.profileKey,
-                          deviceName,
-                          provisionMessage.userAgent,
-                          provisionMessage.readReceipts,
-                          { uuid: provisionMessage.uuid }
-                        )
-                          .then(clearSessionsAndPreKeys)
-                          .then(generateKeys)
-                          .then(async (keys: GeneratedKeysType) =>
-                            registerKeys(keys).then(async () =>
-                              confirmKeys(keys)
-                            )
-                          )
-                          .then(registrationDone);
-                      }
-                    )
-                  )
-                )
-            );
-          } else {
-            window.log.error('Unknown websocket message', request.path);
-          }
-        },
-      });
+      await createAccount(
+        provisionMessage.number,
+        provisionMessage.provisioningCode,
+        provisionMessage.identityKeyPair,
+        provisionMessage.profileKey,
+        deviceName,
+        provisionMessage.userAgent,
+        provisionMessage.readReceipts,
+        { uuid: provisionMessage.uuid }
+      );
+      await clearSessionsAndPreKeys();
+      const keys = await generateKeys();
+      await this.server.registerKeys(keys);
+      await this.confirmKeys(keys);
+      await this.registrationDone();
     });
   }
 
@@ -416,7 +405,7 @@ export default class AccountManager extends EventTarget {
 
   async queueTask(task: () => Promise<any>) {
     this.pendingQueue = this.pendingQueue || new PQueue({ concurrency: 1 });
-    const taskWithTimeout = window.textsecure.createTaskWithTimeout(task);
+    const taskWithTimeout = createTaskWithTimeout(task, 'AccountManager task');
 
     return this.pendingQueue.add(taskWithTimeout);
   }
@@ -633,6 +622,11 @@ export default class AccountManager extends EventTarget {
     );
     await window.textsecure.storage.put('regionCode', regionCode);
     await window.textsecure.storage.protocol.hydrateCaches();
+
+    // We are finally ready to reconnect
+    window.textsecure.storage.user.emitCredentialsChanged(
+      'AccountManager.createAccount'
+    );
   }
 
   async clearSessionsAndPreKeys() {

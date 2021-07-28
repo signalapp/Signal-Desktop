@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { SignalService as Proto } from '../protobuf';
+import type { IncomingWebSocketRequest } from './WebsocketResources';
 
 export {
   IdentityKeyType,
@@ -231,4 +232,8 @@ export interface CallbackResultType {
   contentProto?: Uint8Array;
   timestamp?: number;
   recipients?: Record<string, Array<number>>;
+}
+
+export interface IRequestHandler {
+  handleRequest(request: IncomingWebSocketRequest): void;
 }

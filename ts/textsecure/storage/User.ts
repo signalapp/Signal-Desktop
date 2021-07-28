@@ -81,12 +81,16 @@ export class User extends EventEmitter {
         ? this.storage.put('device_name', deviceName)
         : Promise.resolve(),
     ]);
+  }
 
-    window.log.info('storage.user: credentials changed');
+  public emitCredentialsChanged(reason: string): void {
+    window.log.info(`storage.user: credentials changed, ${reason}`);
     this.emit('credentialsChange');
   }
 
   public async removeCredentials(): Promise<void> {
+    window.log.info('storage.user: removeCredentials');
+
     await Promise.all([
       this.storage.remove('number_id'),
       this.storage.remove('uuid_id'),

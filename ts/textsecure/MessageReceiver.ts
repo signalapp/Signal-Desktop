@@ -6,10 +6,9 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-restricted-syntax */
 
-import { isNumber, map, omit } from 'lodash';
+import { isNumber, map } from 'lodash';
 import PQueue from 'p-queue';
 import { v4 as getGuid } from 'uuid';
-import { connection as WebSocket } from 'websocket';
 
 import {
   DecryptionErrorMessage,
@@ -38,42 +37,37 @@ import {
   SignedPreKeys,
 } from '../LibSignalStores';
 import { verifySignature } from '../Curve';
-import { BackOff, FIBONACCI_TIMEOUTS } from '../util/BackOff';
 import { strictAssert } from '../util/assert';
 import { BatcherType, createBatcher } from '../util/batcher';
 import { dropNull } from '../util/dropNull';
 import { normalizeUuid } from '../util/normalizeUuid';
 import { normalizeNumber } from '../util/normalizeNumber';
-import { sleep } from '../util/sleep';
 import { parseIntOrThrow } from '../util/parseIntOrThrow';
 import { Zone } from '../util/Zone';
+import { deriveMasterKeyFromGroupV1, typedArrayToArrayBuffer } from '../Crypto';
+import { DownloadedAttachmentType } from '../types/Attachment';
+import * as Errors from '../types/errors';
+
+import { SignalService as Proto } from '../protobuf';
+import { UnprocessedType } from '../textsecure.d';
+import { deriveGroupFields, MASTER_KEY_LENGTH } from '../groups';
+
+import createTaskWithTimeout from './TaskWithTimeout';
 import { processAttachment, processDataMessage } from './processDataMessage';
 import { processSyncMessage } from './processSyncMessage';
 import EventTarget, { EventHandler } from './EventTarget';
-import { WebAPIType } from './WebAPI';
-import WebSocketResource, {
-  IncomingWebSocketRequest,
-  CloseEvent,
-} from './WebsocketResources';
-import { ConnectTimeoutError } from './Errors';
-import * as Bytes from '../Bytes';
-import Crypto from './Crypto';
-import { deriveMasterKeyFromGroupV1, typedArrayToArrayBuffer } from '../Crypto';
+import { downloadAttachment } from './downloadAttachment';
+import { IncomingWebSocketRequest } from './WebsocketResources';
 import { ContactBuffer, GroupBuffer } from './ContactsParser';
-import { DownloadedAttachmentType } from '../types/Attachment';
-import * as Errors from '../types/errors';
-import * as MIME from '../types/MIME';
-import { SocketStatus } from '../types/SocketStatus';
-
-import { SignalService as Proto } from '../protobuf';
-
-import { UnprocessedType } from '../textsecure.d';
+import type { WebAPIType } from './WebAPI';
+import type { Storage } from './Storage';
+import * as Bytes from '../Bytes';
 import {
-  ProcessedAttachment,
   ProcessedDataMessage,
   ProcessedSyncMessage,
   ProcessedSent,
   ProcessedEnvelope,
+  IRequestHandler,
 } from './Types.d';
 import {
   ReconnectEvent,
@@ -102,8 +96,6 @@ import {
   GroupEvent,
   GroupSyncEvent,
 } from './messageReceiverEvents';
-
-import { deriveGroupFields, MASTER_KEY_LENGTH } from '../groups';
 
 // TODO: remove once we move away from ArrayBuffers
 const FIXMEU8 = Uint8Array;
@@ -150,12 +142,18 @@ enum TaskType {
   Decrypted = 'Decrypted',
 }
 
-export default class MessageReceiver extends EventTarget {
-  private _onClose?: (code: number, reason: string) => Promise<void>;
+export type MessageReceiverOptions = {
+  server: WebAPIType;
+  storage: Storage;
+  serverTrustRoot: string;
+};
 
-  private _onWSRClose?: (event: CloseEvent) => void;
+export default class MessageReceiver
+  extends EventTarget
+  implements IRequestHandler {
+  private server: WebAPIType;
 
-  private _onError?: (error: Error) => Promise<void>;
+  private storage: Storage;
 
   private appQueue: PQueue;
 
@@ -163,21 +161,13 @@ export default class MessageReceiver extends EventTarget {
 
   private cacheRemoveBatcher: BatcherType<string>;
 
-  private calledClose?: boolean;
-
   private count: number;
 
   private processedCount: number;
 
-  private deviceId?: number;
-
-  private hasConnected = false;
-
   private incomingQueue: PQueue;
 
   private isEmptied?: boolean;
-
-  private number_id?: string;
 
   private encryptedQueue: PQueue;
 
@@ -187,38 +177,21 @@ export default class MessageReceiver extends EventTarget {
 
   private serverTrustRoot: Uint8Array;
 
-  private socket?: WebSocket;
-
-  private socketStatus = SocketStatus.CLOSED;
-
   private stoppingProcessing?: boolean;
 
-  private uuid_id?: string;
-
-  private wsr?: WebSocketResource;
-
-  private readonly reconnectBackOff = new BackOff(FIBONACCI_TIMEOUTS);
-
-  constructor(
-    public readonly server: WebAPIType,
-    options: {
-      serverTrustRoot: string;
-      socket?: WebSocket;
-    }
-  ) {
+  constructor({ server, storage, serverTrustRoot }: MessageReceiverOptions) {
     super();
+
+    this.server = server;
+    this.storage = storage;
 
     this.count = 0;
     this.processedCount = 0;
 
-    if (!options.serverTrustRoot) {
+    if (!serverTrustRoot) {
       throw new Error('Server trust root is required!');
     }
-    this.serverTrustRoot = Bytes.fromBase64(options.serverTrustRoot);
-
-    this.number_id = window.textsecure.storage.user.getNumber();
-    this.uuid_id = window.textsecure.storage.user.getUuid();
-    this.deviceId = window.textsecure.storage.user.getDeviceId();
+    this.serverTrustRoot = Bytes.fromBase64(serverTrustRoot);
 
     this.incomingQueue = new PQueue({ concurrency: 1, timeout: 1000 * 60 * 2 });
     this.appQueue = new PQueue({ concurrency: 1, timeout: 1000 * 60 * 2 });
@@ -249,174 +222,124 @@ export default class MessageReceiver extends EventTarget {
       maxSize: 30,
       processBatch: this.cacheRemoveBatch.bind(this),
     });
-
-    this.connect(options.socket);
-  }
-
-  public async stopProcessing(): Promise<void> {
-    window.log.info('MessageReceiver: stopProcessing requested');
-    this.stoppingProcessing = true;
-    return this.close();
-  }
-
-  public unregisterBatchers(): void {
-    window.log.info('MessageReceiver: unregister batchers');
-    this.decryptAndCacheBatcher.unregister();
-    this.cacheRemoveBatcher.unregister();
   }
 
   public getProcessedCount(): number {
     return this.processedCount;
   }
 
-  private async connect(socket?: WebSocket): Promise<void> {
-    if (this.calledClose) {
+  public handleRequest(request: IncomingWebSocketRequest): void {
+    // We do the message decryption here, instead of in the ordered pending queue,
+    // to avoid exposing the time it took us to process messages through the time-to-ack.
+    window.log.info('MessageReceiver: got request', request.verb, request.path);
+    if (request.path !== '/api/v1/message') {
+      request.respond(200, 'OK');
+
+      if (request.verb === 'PUT' && request.path === '/api/v1/queue/empty') {
+        this.incomingQueue.add(() => {
+          this.onEmpty();
+        });
+      }
       return;
     }
 
+    const job = async () => {
+      const headers = request.headers || [];
+
+      if (!request.body) {
+        throw new Error(
+          'MessageReceiver.handleRequest: request.body was falsey!'
+        );
+      }
+
+      const plaintext = request.body;
+
+      try {
+        const decoded = Proto.Envelope.decode(plaintext);
+        const serverTimestamp = normalizeNumber(decoded.serverTimestamp);
+
+        const envelope: ProcessedEnvelope = {
+          // Make non-private envelope IDs dashless so they don't get redacted
+          //   from logs
+          id: getGuid().replace(/-/g, ''),
+          receivedAtCounter: window.Signal.Util.incrementMessageCounter(),
+          receivedAtDate: Date.now(),
+          // Calculate the message age (time on server).
+          messageAgeSec: this.calculateMessageAge(headers, serverTimestamp),
+
+          // Proto.Envelope fields
+          type: decoded.type,
+          source: decoded.source,
+          sourceUuid: decoded.sourceUuid
+            ? normalizeUuid(
+                decoded.sourceUuid,
+                'MessageReceiver.handleRequest.sourceUuid'
+              )
+            : undefined,
+          sourceDevice: decoded.sourceDevice,
+          timestamp: normalizeNumber(decoded.timestamp),
+          legacyMessage: dropNull(decoded.legacyMessage),
+          content: dropNull(decoded.content),
+          serverGuid: decoded.serverGuid,
+          serverTimestamp,
+        };
+
+        // After this point, decoding errors are not the server's
+        //   fault, and we should handle them gracefully and tell the
+        //   user they received an invalid message
+
+        if (envelope.source && this.isBlocked(envelope.source)) {
+          request.respond(200, 'OK');
+          return;
+        }
+
+        if (envelope.sourceUuid && this.isUuidBlocked(envelope.sourceUuid)) {
+          request.respond(200, 'OK');
+          return;
+        }
+
+        this.decryptAndCache(envelope, plaintext, request);
+        this.processedCount += 1;
+      } catch (e) {
+        request.respond(500, 'Bad encrypted websocket message');
+        window.log.error(
+          'Error handling incoming message:',
+          Errors.toLogFormat(e)
+        );
+        await this.dispatchAndWait(new ErrorEvent(e));
+      }
+    };
+
+    this.incomingQueue.add(job);
+  }
+
+  public reset(): void {
     // We always process our cache before processing a new websocket message
     this.incomingQueue.add(async () => this.queueAllCached());
 
     this.count = 0;
-    if (this.hasConnected) {
-      this.dispatchEvent(new ReconnectEvent());
-    }
-
     this.isEmptied = false;
-
-    this.hasConnected = true;
-
-    if (this.socket && this.socket.connected) {
-      this.socket.close();
-      this.socket = undefined;
-      if (this.wsr) {
-        this.wsr.close();
-        this.wsr = undefined;
-      }
-    }
-    this.socketStatus = SocketStatus.CONNECTING;
-
-    // initialize the socket and start listening for messages
-    try {
-      this.socket = socket || (await this.server.getMessageSocket());
-    } catch (error) {
-      this.socketStatus = SocketStatus.CLOSED;
-
-      if (error instanceof ConnectTimeoutError) {
-        await this.onclose(-1, 'Connection timed out');
-        return;
-      }
-
-      await this.dispatchAndWait(new ErrorEvent(error));
-      return;
-    }
-
-    this.socketStatus = SocketStatus.OPEN;
-
-    window.log.info('websocket open');
-    window.logMessageReceiverConnect();
-
-    if (!this._onClose) {
-      this._onClose = this.onclose.bind(this);
-    }
-    if (!this._onWSRClose) {
-      this._onWSRClose = ({ code, reason }: CloseEvent): void => {
-        this.onclose(code, reason);
-      };
-    }
-    if (!this._onError) {
-      this._onError = this.onerror.bind(this);
-    }
-
-    this.socket.on('close', this._onClose);
-    this.socket.on('error', this._onError);
-
-    this.wsr = new WebSocketResource(this.socket, {
-      handleRequest: this.handleRequest.bind(this),
-      keepalive: {
-        path: '/v1/keepalive',
-        disconnect: true,
-      },
-    });
-
-    // Because sometimes the socket doesn't properly emit its close event
-    if (this._onWSRClose) {
-      this.wsr.addEventListener('close', this._onWSRClose);
-    }
+    this.stoppingProcessing = false;
   }
 
-  public async close(): Promise<void> {
-    window.log.info('MessageReceiver.close()');
-    this.calledClose = true;
-    this.socketStatus = SocketStatus.CLOSING;
-
-    // Our WebSocketResource instance will close the socket and emit a 'close' event
-    //   if the socket doesn't emit one quickly enough.
-    if (this.wsr) {
-      this.wsr.close(3000, 'called close');
-    }
-
-    this.clearRetryTimeout();
-
-    return this.drain();
+  public stopProcessing(): void {
+    this.stoppingProcessing = true;
   }
 
-  public checkSocket(): void {
-    if (this.wsr) {
-      this.wsr.forceKeepAlive();
-    }
+  public hasEmptied(): boolean {
+    return Boolean(this.isEmptied);
   }
 
-  public getStatus(): SocketStatus {
-    return this.socketStatus;
-  }
+  public async drain(): Promise<void> {
+    const waitForEncryptedQueue = async () =>
+      this.addToQueue(async () => {
+        window.log.info('drained');
+      }, TaskType.Decrypted);
 
-  public async downloadAttachment(
-    attachment: ProcessedAttachment
-  ): Promise<DownloadedAttachmentType> {
-    const cdnId = attachment.cdnId || attachment.cdnKey;
-    const { cdnNumber } = attachment;
+    const waitForIncomingQueue = async () =>
+      this.addToQueue(waitForEncryptedQueue, TaskType.Encrypted);
 
-    if (!cdnId) {
-      throw new Error('downloadAttachment: Attachment was missing cdnId!');
-    }
-
-    strictAssert(cdnId, 'attachment without cdnId');
-    const encrypted = await this.server.getAttachment(
-      cdnId,
-      dropNull(cdnNumber)
-    );
-    const { key, digest, size, contentType } = attachment;
-
-    if (!digest) {
-      throw new Error('Failure: Ask sender to update Signal and resend.');
-    }
-
-    strictAssert(key, 'attachment has no key');
-    strictAssert(digest, 'attachment has no digest');
-
-    const paddedData = await Crypto.decryptAttachment(
-      encrypted,
-      typedArrayToArrayBuffer(Bytes.fromBase64(key)),
-      typedArrayToArrayBuffer(Bytes.fromBase64(digest))
-    );
-
-    if (!isNumber(size)) {
-      throw new Error(
-        `downloadAttachment: Size was not provided, actual size was ${paddedData.byteLength}`
-      );
-    }
-
-    const data = window.Signal.Crypto.getFirstBytes(paddedData, size);
-
-    return {
-      ...omit(attachment, 'digest', 'key'),
-
-      contentType: contentType
-        ? MIME.fromString(contentType)
-        : MIME.APPLICATION_OCTET_STREAM,
-      data,
-    };
+    return this.incomingQueue.add(waitForIncomingQueue);
   }
 
   //
@@ -548,155 +471,8 @@ export default class MessageReceiver extends EventTarget {
   // Private
   //
 
-  private shutdown(): void {
-    if (this.socket) {
-      if (this._onClose) {
-        this.socket.removeListener('close', this._onClose);
-      }
-      if (this._onError) {
-        this.socket.removeListener('error', this._onError);
-      }
-
-      this.socket = undefined;
-    }
-
-    if (this.wsr) {
-      if (this._onWSRClose) {
-        this.wsr.removeEventListener('close', this._onWSRClose);
-      }
-      this.wsr = undefined;
-    }
-  }
-
-  private async onerror(error: Error): Promise<void> {
-    window.log.error('websocket error', error);
-  }
-
   private async dispatchAndWait(event: Event): Promise<void> {
     this.appQueue.add(async () => Promise.all(this.dispatchEvent(event)));
-  }
-
-  private async onclose(code: number, reason: string): Promise<void> {
-    window.log.info(
-      'MessageReceiver: websocket closed',
-      code,
-      reason || '',
-      'calledClose:',
-      this.calledClose
-    );
-
-    this.socketStatus = SocketStatus.CLOSED;
-
-    this.shutdown();
-
-    if (this.calledClose) {
-      return;
-    }
-    if (code === 3000) {
-      return;
-    }
-    if (code === 3001) {
-      this.onEmpty();
-    }
-
-    const timeout = this.reconnectBackOff.getAndIncrement();
-
-    window.log.info(`MessageReceiver: reconnecting after ${timeout}ms`);
-    await sleep(timeout);
-
-    // Try to reconnect (if there is an HTTP error - we'll get an
-    // `error` event from `connect()` and hit the secondary retry backoff
-    // logic in `ts/background.ts`)
-    await this.connect();
-
-    // Successfull reconnect, reset the backoff timeouts
-    this.reconnectBackOff.reset();
-  }
-
-  private handleRequest(request: IncomingWebSocketRequest): void {
-    // We do the message decryption here, instead of in the ordered pending queue,
-    // to avoid exposing the time it took us to process messages through the time-to-ack.
-
-    if (request.path !== '/api/v1/message') {
-      window.log.info('got request', request.verb, request.path);
-      request.respond(200, 'OK');
-
-      if (request.verb === 'PUT' && request.path === '/api/v1/queue/empty') {
-        this.incomingQueue.add(() => {
-          this.onEmpty();
-        });
-      }
-      return;
-    }
-
-    const job = async () => {
-      const headers = request.headers || [];
-
-      if (!request.body) {
-        throw new Error(
-          'MessageReceiver.handleRequest: request.body was falsey!'
-        );
-      }
-
-      const plaintext = request.body;
-
-      try {
-        const decoded = Proto.Envelope.decode(plaintext);
-        const serverTimestamp = normalizeNumber(decoded.serverTimestamp);
-
-        const envelope: ProcessedEnvelope = {
-          // Make non-private envelope IDs dashless so they don't get redacted
-          //   from logs
-          id: getGuid().replace(/-/g, ''),
-          receivedAtCounter: window.Signal.Util.incrementMessageCounter(),
-          receivedAtDate: Date.now(),
-          // Calculate the message age (time on server).
-          messageAgeSec: this.calculateMessageAge(headers, serverTimestamp),
-
-          // Proto.Envelope fields
-          type: decoded.type,
-          source: decoded.source,
-          sourceUuid: decoded.sourceUuid
-            ? normalizeUuid(
-                decoded.sourceUuid,
-                'MessageReceiver.handleRequest.sourceUuid'
-              )
-            : undefined,
-          sourceDevice: decoded.sourceDevice,
-          timestamp: normalizeNumber(decoded.timestamp),
-          legacyMessage: dropNull(decoded.legacyMessage),
-          content: dropNull(decoded.content),
-          serverGuid: decoded.serverGuid,
-          serverTimestamp,
-        };
-
-        // After this point, decoding errors are not the server's
-        //   fault, and we should handle them gracefully and tell the
-        //   user they received an invalid message
-
-        if (envelope.source && this.isBlocked(envelope.source)) {
-          request.respond(200, 'OK');
-          return;
-        }
-
-        if (envelope.sourceUuid && this.isUuidBlocked(envelope.sourceUuid)) {
-          request.respond(200, 'OK');
-          return;
-        }
-
-        this.decryptAndCache(envelope, plaintext, request);
-        this.processedCount += 1;
-      } catch (e) {
-        request.respond(500, 'Bad encrypted websocket message');
-        window.log.error(
-          'Error handling incoming message:',
-          Errors.toLogFormat(e)
-        );
-        await this.dispatchAndWait(new ErrorEvent(e));
-      }
-    };
-
-    this.incomingQueue.add(job);
   }
 
   private calculateMessageAge(
@@ -748,10 +524,6 @@ export default class MessageReceiver extends EventTarget {
     }
   }
 
-  public hasEmptied(): boolean {
-    return Boolean(this.isEmptied);
-  }
-
   private onEmpty(): void {
     const emitEmpty = async () => {
       await Promise.all([
@@ -793,18 +565,6 @@ export default class MessageReceiver extends EventTarget {
     };
 
     waitForCacheAddBatcher();
-  }
-
-  private async drain(): Promise<void> {
-    const waitForEncryptedQueue = async () =>
-      this.addToQueue(async () => {
-        window.log.info('drained');
-      }, TaskType.Decrypted);
-
-    const waitForIncomingQueue = async () =>
-      this.addToQueue(waitForEncryptedQueue, TaskType.Encrypted);
-
-    return this.incomingQueue.add(waitForIncomingQueue);
   }
 
   private updateProgress(count: number): void {
@@ -890,7 +650,7 @@ export default class MessageReceiver extends EventTarget {
 
       try {
         const { id } = item;
-        await window.textsecure.storage.protocol.removeUnprocessed(id);
+        await this.storage.protocol.removeUnprocessed(id);
       } catch (deleteError) {
         window.log.error(
           'queueCached error deleting item',
@@ -931,17 +691,17 @@ export default class MessageReceiver extends EventTarget {
 
   private async getAllFromCache(): Promise<Array<UnprocessedType>> {
     window.log.info('getAllFromCache');
-    const count = await window.textsecure.storage.protocol.getUnprocessedCount();
+    const count = await this.storage.protocol.getUnprocessedCount();
 
     if (count > 1500) {
-      await window.textsecure.storage.protocol.removeAllUnprocessed();
+      await this.storage.protocol.removeAllUnprocessed();
       window.log.warn(
         `There were ${count} messages in cache. Deleted all instead of reprocessing`
       );
       return [];
     }
 
-    const items = await window.textsecure.storage.protocol.getAllUnprocessed();
+    const items = await this.storage.protocol.getAllUnprocessed();
     window.log.info('getAllFromCache loaded', items.length, 'saved envelopes');
 
     return Promise.all(
@@ -954,9 +714,9 @@ export default class MessageReceiver extends EventTarget {
               'getAllFromCache final attempt for envelope',
               item.id
             );
-            await window.textsecure.storage.protocol.removeUnprocessed(item.id);
+            await this.storage.protocol.removeUnprocessed(item.id);
           } else {
-            await window.textsecure.storage.protocol.updateUnprocessedAttempts(
+            await this.storage.protocol.updateUnprocessedAttempts(
               item.id,
               attempts
             );
@@ -986,7 +746,7 @@ export default class MessageReceiver extends EventTarget {
       }>
     > = [];
 
-    const storageProtocol = window.textsecure.storage.protocol;
+    const storageProtocol = this.storage.protocol;
 
     try {
       const zone = new Zone('decryptAndCacheBatch', {
@@ -1124,7 +884,7 @@ export default class MessageReceiver extends EventTarget {
   }
 
   private async cacheRemoveBatch(items: Array<string>): Promise<void> {
-    await window.textsecure.storage.protocol.removeUnprocessed(items);
+    await this.storage.protocol.removeUnprocessed(items);
   }
 
   private removeFromCache(envelope: ProcessedEnvelope): void {
@@ -1140,7 +900,7 @@ export default class MessageReceiver extends EventTarget {
     window.log.info('queueing decrypted envelope', id);
 
     const task = this.handleDecryptedEnvelope.bind(this, envelope, plaintext);
-    const taskWithTimeout = window.textsecure.createTaskWithTimeout(
+    const taskWithTimeout = createTaskWithTimeout(
       task,
       `queueDecryptedEnvelope ${id}`
     );
@@ -1163,7 +923,7 @@ export default class MessageReceiver extends EventTarget {
     window.log.info('queueing envelope', id);
 
     const task = this.decryptEnvelope.bind(this, stores, envelope);
-    const taskWithTimeout = window.textsecure.createTaskWithTimeout(
+    const taskWithTimeout = createTaskWithTimeout(
       task,
       `queueEncryptedEnvelope ${id}`
     );
@@ -1456,10 +1216,10 @@ export default class MessageReceiver extends EventTarget {
     envelope: UnsealedEnvelope,
     ciphertext: Uint8Array
   ): Promise<DecryptSealedSenderResult> {
-    const localE164 = window.textsecure.storage.user.getNumber();
-    const localUuid = window.textsecure.storage.user.getUuid();
+    const localE164 = this.storage.user.getNumber();
+    const localUuid = this.storage.user.getUuid();
     const localDeviceId = parseIntOrThrow(
-      window.textsecure.storage.user.getDeviceId(),
+      this.storage.user.getDeviceId(),
       'MessageReceiver.decryptSealedSender: localDeviceId'
     );
 
@@ -1513,7 +1273,7 @@ export default class MessageReceiver extends EventTarget {
 
       const address = `${sealedSenderIdentifier}.${sealedSenderSourceDevice}`;
 
-      const plaintext = await window.textsecure.storage.protocol.enqueueSenderKeyJob(
+      const plaintext = await this.storage.protocol.enqueueSenderKeyJob(
         address,
         () =>
           groupDecrypt(
@@ -1539,7 +1299,7 @@ export default class MessageReceiver extends EventTarget {
 
     const sealedSenderIdentifier = envelope.sourceUuid || envelope.source;
     const address = `${sealedSenderIdentifier}.${envelope.sourceDevice}`;
-    const unsealedPlaintext = await window.textsecure.storage.protocol.enqueueSessionJob(
+    const unsealedPlaintext = await this.storage.protocol.enqueueSessionJob(
       address,
       () =>
         sealedSenderDecryptMessage(
@@ -1598,7 +1358,7 @@ export default class MessageReceiver extends EventTarget {
       const signalMessage = SignalMessage.deserialize(Buffer.from(ciphertext));
 
       const address = `${identifier}.${sourceDevice}`;
-      const plaintext = await window.textsecure.storage.protocol.enqueueSessionJob(
+      const plaintext = await this.storage.protocol.enqueueSessionJob(
         address,
         async () =>
           this.unpad(
@@ -1630,7 +1390,7 @@ export default class MessageReceiver extends EventTarget {
       );
 
       const address = `${identifier}.${sourceDevice}`;
-      const plaintext = await window.textsecure.storage.protocol.enqueueSessionJob(
+      const plaintext = await this.storage.protocol.enqueueSessionJob(
         address,
         async () =>
           this.unpad(
@@ -1780,8 +1540,8 @@ export default class MessageReceiver extends EventTarget {
     const groupId = this.getProcessedGroupId(message);
     const isBlocked = groupId ? this.isGroupBlocked(groupId) : false;
     const { source, sourceUuid } = envelope;
-    const ourE164 = window.textsecure.storage.user.getNumber();
-    const ourUuid = window.textsecure.storage.user.getUuid();
+    const ourE164 = this.storage.user.getNumber();
+    const ourUuid = this.storage.user.getUuid();
     const isMe =
       (source && ourE164 && source === ourE164) ||
       (sourceUuid && ourUuid && sourceUuid === ourUuid);
@@ -1869,8 +1629,8 @@ export default class MessageReceiver extends EventTarget {
     const groupId = this.getProcessedGroupId(message);
     const isBlocked = groupId ? this.isGroupBlocked(groupId) : false;
     const { source, sourceUuid } = envelope;
-    const ourE164 = window.textsecure.storage.user.getNumber();
-    const ourUuid = window.textsecure.storage.user.getUuid();
+    const ourE164 = this.storage.user.getNumber();
+    const ourUuid = this.storage.user.getUuid();
     const isMe =
       (source && ourE164 && source === ourE164) ||
       (sourceUuid && ourUuid && sourceUuid === ourUuid);
@@ -2086,7 +1846,7 @@ export default class MessageReceiver extends EventTarget {
     const senderKeyStore = new SenderKeys();
     const address = `${identifier}.${sourceDevice}`;
 
-    await window.textsecure.storage.protocol.enqueueSenderKeyJob(
+    await this.storage.protocol.enqueueSenderKeyJob(
       address,
       () =>
         processSenderKeyDistributionMessage(
@@ -2326,15 +2086,19 @@ export default class MessageReceiver extends EventTarget {
     envelope: ProcessedEnvelope,
     syncMessage: ProcessedSyncMessage
   ): Promise<void> {
-    const fromSelfSource =
-      envelope.source && envelope.source === this.number_id;
+    const ourNumber = this.storage.user.getNumber();
+    const ourUuid = this.storage.user.getUuid();
+
+    const fromSelfSource = envelope.source && envelope.source === ourNumber;
     const fromSelfSourceUuid =
-      envelope.sourceUuid && envelope.sourceUuid === this.uuid_id;
+      envelope.sourceUuid && envelope.sourceUuid === ourUuid;
     if (!fromSelfSource && !fromSelfSourceUuid) {
       throw new Error('Received sync message from another number');
     }
+
+    const ourDeviceId = this.storage.user.getDeviceId();
     // eslint-disable-next-line eqeqeq
-    if (envelope.sourceDevice == this.deviceId) {
+    if (envelope.sourceDevice == ourDeviceId) {
       throw new Error('Received sync message from our own device');
     }
     if (syncMessage.sent) {
@@ -2681,14 +2445,14 @@ export default class MessageReceiver extends EventTarget {
   ): Promise<void> {
     window.log.info('Setting these numbers as blocked:', blocked.numbers);
     if (blocked.numbers) {
-      await window.textsecure.storage.put('blocked', blocked.numbers);
+      await this.storage.put('blocked', blocked.numbers);
     }
     if (blocked.uuids) {
       const uuids = blocked.uuids.map((uuid, index) => {
         return normalizeUuid(uuid, `handleBlocked.uuids.${index}`);
       });
       window.log.info('Setting these uuids as blocked:', uuids);
-      await window.textsecure.storage.put('blocked-uuids', uuids);
+      await this.storage.put('blocked-uuids', uuids);
     }
 
     const groupIds = map(blocked.groupIds, groupId => Bytes.toBinary(groupId));
@@ -2696,33 +2460,33 @@ export default class MessageReceiver extends EventTarget {
       'Setting these groups as blocked:',
       groupIds.map(groupId => `group(${groupId})`)
     );
-    await window.textsecure.storage.put('blocked-groups', groupIds);
+    await this.storage.put('blocked-groups', groupIds);
 
     this.removeFromCache(envelope);
   }
 
   private isBlocked(number: string): boolean {
-    return window.textsecure.storage.blocked.isBlocked(number);
+    return this.storage.blocked.isBlocked(number);
   }
 
   private isUuidBlocked(uuid: string): boolean {
-    return window.textsecure.storage.blocked.isUuidBlocked(uuid);
+    return this.storage.blocked.isUuidBlocked(uuid);
   }
 
   private isGroupBlocked(groupId: string): boolean {
-    return window.textsecure.storage.blocked.isGroupBlocked(groupId);
+    return this.storage.blocked.isGroupBlocked(groupId);
   }
 
   private async handleAttachment(
     attachment: Proto.IAttachmentPointer
   ): Promise<DownloadedAttachmentType> {
     const cleaned = processAttachment(attachment);
-    return this.downloadAttachment(cleaned);
+    return downloadAttachment(this.server, cleaned);
   }
 
   private async handleEndSession(identifier: string): Promise<void> {
     window.log.info(`handleEndSession: closing sessions for ${identifier}`);
-    await window.textsecure.storage.protocol.archiveAllSessions(identifier);
+    await this.storage.protocol.archiveAllSessions(identifier);
   }
 
   private async processDecrypted(

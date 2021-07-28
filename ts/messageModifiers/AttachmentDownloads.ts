@@ -1,13 +1,12 @@
 // Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { isFunction, isNumber, omit } from 'lodash';
+import { isNumber, omit } from 'lodash';
 import { v4 as getGuid } from 'uuid';
 
 import dataInterface from '../sql/Client';
 import { downloadAttachment } from '../util/downloadAttachment';
 import { stringFromBytes } from '../Crypto';
-import MessageReceiver from '../textsecure/MessageReceiver';
 import {
   AttachmentDownloadJobType,
   AttachmentDownloadJobTypeType,
@@ -42,7 +41,6 @@ const RETRY_BACKOFF: Record<number, number> = {
 
 let enabled = false;
 let timeout: NodeJS.Timeout | null;
-let getMessageReceiver: () => MessageReceiver | undefined;
 let logger: LoggerType;
 const _activeAttachmentDownloadJobs: Record<
   string,
@@ -50,17 +48,11 @@ const _activeAttachmentDownloadJobs: Record<
 > = {};
 
 type StartOptionsType = {
-  getMessageReceiver: () => MessageReceiver | undefined;
   logger: LoggerType;
 };
 
 export async function start(options: StartOptionsType): Promise<void> {
-  ({ getMessageReceiver, logger } = options);
-  if (!isFunction(getMessageReceiver)) {
-    throw new Error(
-      'attachment_downloads/start: getMessageReceiver must be a function'
-    );
-  }
+  ({ logger } = options);
   if (!logger) {
     throw new Error('attachment_downloads/start: logger must be provided!');
   }
@@ -219,11 +211,6 @@ async function _runJob(job?: AttachmentDownloadJobType): Promise<void> {
 
     const pending = true;
     await setAttachmentDownloadJobPending(id, pending);
-
-    const messageReceiver = getMessageReceiver();
-    if (!messageReceiver) {
-      throw new Error('_runJob: messageReceiver not found');
-    }
 
     const downloaded = await downloadAttachment(attachment);
 

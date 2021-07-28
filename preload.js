@@ -107,7 +107,7 @@ try {
 
   let connectStartTime = 0;
 
-  window.logMessageReceiverConnect = () => {
+  window.logAuthenticatedConnect = () => {
     if (connectStartTime === 0) {
       connectStartTime = Date.now();
     }
