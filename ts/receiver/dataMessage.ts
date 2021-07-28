@@ -47,14 +47,9 @@ async function updateProfile(
   // Retain old values unless changed:
   const newProfile = conversation.get('profile') || {};
 
-  if (!profileKey) {
-    window.log.warn("No need to try to update profile. We don't have a profile key");
-    return;
-  }
-
   newProfile.displayName = profile.displayName;
 
-  if (profile.profilePicture) {
+  if (profile.profilePicture && profileKey) {
     const prevPointer = conversation.get('avatarPointer');
     const needsUpdate = !prevPointer || !_.isEqual(prevPointer, profile.profilePicture);
 
@@ -97,7 +92,7 @@ async function updateProfile(
         return;
       }
     }
-  } else {
+  } else if (profileKey) {
     newProfile.avatar = null;
   }
 
