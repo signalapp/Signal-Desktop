@@ -88,8 +88,31 @@ describe('Proto#__unknownFields', () => {
     const decodedConcat = Full.decode(concat);
 
     assert.strictEqual(decodedConcat.a, 'hello');
-    assert.strictEqual(decodedConcat.b, true);
+    assert.isTrue(decodedConcat.b);
     assert.strictEqual(decodedConcat.c, 42);
     assert.strictEqual(Buffer.from(decodedConcat.d).toString(), 'ohai');
+  });
+
+  it('should decode unknown fields before reencoding them', () => {
+    const full = Full.encode({
+      a: 'hello',
+      b: true,
+      c: 42,
+      d: Buffer.from('ohai'),
+    }).finish();
+
+    const partial = Partial.decode(full);
+    assert.isUndefined(partial.b);
+
+    const encoded = Full.encode({
+      ...partial,
+      b: false,
+    }).finish();
+    const decoded = Full.decode(encoded);
+
+    assert.strictEqual(decoded.a, 'hello');
+    assert.isFalse(decoded.b);
+    assert.strictEqual(decoded.c, 42);
+    assert.strictEqual(Buffer.from(decoded.d).toString(), 'ohai');
   });
 });

@@ -50,18 +50,38 @@ index 491dd30..ec03e9f 100644
  
          ("}")
 diff --git a/node_modules/protobufjs/src/encoder.js b/node_modules/protobufjs/src/encoder.js
-index c803e99..d3c6e86 100644
+index c803e99..50cc3e6 100644
 --- a/node_modules/protobufjs/src/encoder.js
 +++ b/node_modules/protobufjs/src/encoder.js
-@@ -94,6 +94,13 @@ function encoder(mtype) {
+@@ -36,6 +36,21 @@ function encoder(mtype) {
+     // "when a message is serialized its known fields should be written sequentially by field number"
+     var fields = /* initializes */ mtype.fieldsArray.slice().sort(util.compareFieldsById);
+ 
++    var unknownRef = "m" + util.safeProp("__unknownFields");
++
++    // Redecode unknown fields and apply them to the message before encoding
++    gen
++    ("var fullyUnknown=[]")
++    ("if(%s) {", unknownRef)
++      ("for(var i=0;i<%s.length;++i) {", unknownRef)
++        ("try {")
++          ("var known=this.ctor.decode(%s[i])", unknownRef)
++          ("fullyUnknown=fullyUnknown.concat(known.__unknownFields||[])")
++          ("m=Object.assign(known,m)")
++        ("}catch(_){}")
++      ("}")
++    ("}")
++
+     for (var i = 0; i < fields.length; ++i) {
+         var field    = fields[i].resolve(),
+             index    = mtype._fieldsArray.indexOf(field),
+@@ -94,6 +109,11 @@ function encoder(mtype) {
          }
      }
  
-+    var unknownRef = "m" + util.safeProp("__unknownFields");
 +    gen
-+    ("if (%s) {", unknownRef)
-+      ("for (var i=0;i<%s.length;++i)", unknownRef)
-+        ("w.__unknownField(%s[i])", unknownRef)
++    ("for(var i=0;i<fullyUnknown.length;++i) {")
++        ("w.__unknownField(fullyUnknown[i])")
 +    ("}")
 +
      return gen
