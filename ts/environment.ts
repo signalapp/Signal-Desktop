@@ -39,3 +39,6 @@ export const parseEnvironment = makeEnumParser(
   Environment,
   Environment.Production
 );
+
+export const isTestEnvironment = (env: Environment): boolean =>
+  env === Environment.Test || env === Environment.TestLib;

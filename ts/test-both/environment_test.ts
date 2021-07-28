@@ -3,7 +3,11 @@
 
 import { assert } from 'chai';
 
-import { parseEnvironment, Environment } from '../environment';
+import {
+  Environment,
+  isTestEnvironment,
+  parseEnvironment,
+} from '../environment';
 
 describe('environment utilities', () => {
   describe('parseEnvironment', () => {
@@ -36,6 +40,19 @@ describe('environment utilities', () => {
 
     it('parses "test-lib" as Environment.TestLib', () => {
       assert.equal(parseEnvironment('test-lib'), Environment.TestLib);
+    });
+  });
+
+  describe('isTestEnvironment', () => {
+    it('returns false for non-test environments', () => {
+      assert.isFalse(isTestEnvironment(Environment.Development));
+      assert.isFalse(isTestEnvironment(Environment.Production));
+      assert.isFalse(isTestEnvironment(Environment.Staging));
+    });
+
+    it('returns true for test environments', () => {
+      assert.isTrue(isTestEnvironment(Environment.Test));
+      assert.isTrue(isTestEnvironment(Environment.TestLib));
     });
   });
 });

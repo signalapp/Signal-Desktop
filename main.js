@@ -120,7 +120,7 @@ const {
   getTitleBarVisibility,
   TitleBarVisibility,
 } = require('./ts/types/Settings');
-const { Environment } = require('./ts/environment');
+const { Environment, isTestEnvironment } = require('./ts/environment');
 const { ChallengeMainHandler } = require('./ts/main/challengeMain');
 const { NativeThemeNotifier } = require('./ts/main/NativeThemeNotifier');
 const { PowerChannel } = require('./ts/main/powerChannel');
@@ -362,13 +362,13 @@ async function createWindow() {
     minHeight: MIN_HEIGHT,
     autoHideMenuBar: false,
     titleBarStyle:
-      getTitleBarVisibility() === TitleBarVisibility.Hidden
+      getTitleBarVisibility() === TitleBarVisibility.Hidden &&
+      !isTestEnvironment(config.environment)
         ? 'hidden'
         : 'default',
-    backgroundColor:
-      config.environment === 'test' || config.environment === 'test-lib'
-        ? '#ffffff' // Tests should always be rendered on a white background
-        : '#3a76f0',
+    backgroundColor: isTestEnvironment(config.environment)
+      ? '#ffffff' // Tests should always be rendered on a white background
+      : '#3a76f0',
     webPreferences: {
       ...defaultWebPrefs,
       nodeIntegration: false,
@@ -518,8 +518,7 @@ async function createWindow() {
     });
     // If the application is terminating, just do the default
     if (
-      config.environment === 'test' ||
-      config.environment === 'test-lib' ||
+      isTestEnvironment(config.environment) ||
       (mainWindow.readyForShutdown && windowState.shouldQuit())
     ) {
       return;
@@ -1478,9 +1477,7 @@ app.on('window-all-closed', () => {
   // On OS X it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
   const shouldAutoClose =
-    !OS.isMacOS() ||
-    config.environment === 'test' ||
-    config.environment === 'test-lib';
+    !OS.isMacOS() || isTestEnvironment(config.environment);
 
   // Only automatically quit if the main window has been created
   // This is necessary because `window-all-closed` can be triggered by the
