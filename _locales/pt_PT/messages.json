@@ -622,7 +622,7 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "Desktop ran into a decryption error. Click to submit a debug log.",
+        "message": "O Desktop apresentou um erro de desencriptação. Clique para enviar um registo de depuração. ",
         "description": "An error popup when we haven't added an error for decryption error."
     },
     "oneNonImageAtATimeToast": {
@@ -3542,15 +3542,15 @@
         "description": "Shown if you click on a sgnl:// link not currently supported by Desktop"
     },
     "GroupV2--cannot-send": {
-        "message": "You cannot send messages to that group.",
+        "message": "Você não pode enviar mensagens para esse grupo.",
         "description": "Shown in toast when you attempt to forward a message to an announcement only group"
     },
     "GroupV2--add--missing-capability": {
-        "message": "These people cannot be added to the group until they upgrade Signal.",
+        "message": "Essas pessoas não podem ser adicionadas ao grupo até que façam o upgrade do Signal.",
         "description": "Shown in a confirmation dialog when members who cannot view announcement only group cannot be added"
     },
     "GroupV2--cannot-start-group-call": {
-        "message": "Only admins of the group can start a call.",
+        "message": "Apenas os administradores de um grupo podem começar uma chamada.",
         "description": "Shown in toast when a non-admin starts a group call in an announcements only group"
     },
     "GroupV2--join--invalid-link--title": {
@@ -3650,7 +3650,7 @@
         "description": "Shown if something went wrong when you try to join via a group link"
     },
     "GroupV2--join--general-join-failure": {
-        "message": "Couldn't join group. Try again later.",
+        "message": "Não foi possível juntar-se ao grupo. Por favor, tente novamente mais tarde.",
         "description": "Shown if something went wrong when you try to join via a group link"
     },
     "GroupV2--admin": {
@@ -4726,11 +4726,11 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--admin--you": {
-        "message": "You changed the group settings to only allow admins to send messages.",
+        "message": "Você modificou as definições de grupo de forma a permitir que apenas os administradores possam enviar mensagens.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--admin--other": {
-        "message": "$memberName$ changed the group settings to only allow admins to send messages.",
+        "message": "$memberName$ modificou as definições do grupo para apenas permitir que administradores enviem mensagens.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4740,15 +4740,15 @@
         }
     },
     "GroupV2--announcements--admin--unknown": {
-        "message": "The group was changed to only allow admins to send messages.",
+        "message": "O grupo foi modificado para permitir que apenas os administradores possam enviar mensagens.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--member--you": {
-        "message": "You changed the group settings to allow all members to send messages.",
+        "message": "Você modificou as definições de grupo de forma a permitir que todos os membros possam enviar mensagens.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--member--other": {
-        "message": "$memberName$ changed the group settings to allow all members to send messages.",
+        "message": "$memberName$ modificou as definições do grupo para permitir que todos os membros enviem mensagens.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4758,7 +4758,7 @@
         }
     },
     "GroupV2--announcements--member--unknown": {
-        "message": "The group was changed to allow all members to send messages.",
+        "message": "O grupo foi modificado para permitir que todos os membros  possam enviar mensagens.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV1--Migration--disabled": {
@@ -4984,11 +4984,11 @@
         "description": "This is the additional info for the 'who can add members' panel"
     },
     "ConversationDetails--announcement-label": {
-        "message": "Who can send messages",
+        "message": "Quem pode enviar mensagens",
         "description": "This is the additional info for the 'who can send messages' panel"
     },
     "ConversationDetails--announcement-info": {
-        "message": "Choose who can send messages to the group.",
+        "message": "Escolha quem pode enviar mensagens para o grupo.",
         "description": "This is the additional info for the 'who can send mesages' panel"
     },
     "ConversationDetails--requests-and-invites": {
@@ -5232,7 +5232,7 @@
         "description": "The label for the avatar uploader when no group photo is selected"
     },
     "AvatarInput--no-photo-label--profile": {
-        "message": "Add a photo",
+        "message": "Adicione uma fotografia",
         "description": "The label for the avatar uploader when no profile photo is selected"
     },
     "AvatarInput--change-photo-label": {
@@ -5738,7 +5738,7 @@
         "description": "In the message details screen, shown above contacts who have read this message"
     },
     "MessageDetailsHeader--Viewed": {
-        "message": "Vista(s) por",
+        "message": "Vista por",
         "description": "In the message details screen, shown above contacts who have viewed this message"
     },
     "ProfileEditor--about": {
@@ -5746,7 +5746,7 @@
         "description": "Default text for about field"
     },
     "ProfileEditor--about-placeholder": {
-        "message": "Write something about yourself...",
+        "message": "Escreva algumas palavras acerca de si...",
         "description": "Placeholder text for about input field"
     },
     "ProfileEditor--first-name": {
@@ -5762,7 +5762,7 @@
         "description": "ConfirmationDialog text for discarding changes"
     },
     "ProfileEditor--info": {
-        "message": "Your profile is encrypted. Your profile and changes to it will be visible to your contacts and when you start or accept new chats. $learnMore$",
+        "message": "O seu perfil é encriptado. O seu perfil e as alterações nele feitas ficarão visíveis para os seus contactos e quando você iniciar ou aceitar novas conversas. $learnMore$",
         "description": "Information shown at the bottom of the profile editor section",
         "placeholders": {
             "learnMore": {
@@ -5808,15 +5808,15 @@
         "description": "Title for about editing"
     },
     "ProfileEditorModal--error": {
-        "message": "Your profile could not be updated. Please try again.",
+        "message": "Não foi possível atualizar o seu perfil. Por favor, tente novamente.",
         "description": "Error message when something goes wrong updating your profile."
     },
     "AnnouncementsOnlyGroupBanner--modal": {
-        "message": "Message an admin",
+        "message": "Envie uma mensagem para um administrador",
         "description": "Modal title for the list of admins in a group"
     },
     "AnnouncementsOnlyGroupBanner--announcements-only": {
-        "message": "Only $admins$ can send messages",
+        "message": "Apenas $admins$ pode(m) enviar mensagens",
         "description": "Displayed if sending of messages is disabled to non-admins",
         "placeholders": {
             "admins": {
@@ -5826,7 +5826,7 @@
         }
     },
     "AnnouncementsOnlyGroupBanner--admins": {
-        "message": "admins",
+        "message": "administradores",
         "description": "Clickable text describing administrators of a group, used in the message an admin label"
     }
 }

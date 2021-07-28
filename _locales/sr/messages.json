@@ -622,7 +622,7 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "Desktop ran into a decryption error. Click to submit a debug log.",
+        "message": "Десктоп је налетио на грешку у дешифрирању. Кликните да бисте послали дневник за уклањање грешака.",
         "description": "An error popup when we haven't added an error for decryption error."
     },
     "oneNonImageAtATimeToast": {
@@ -3542,15 +3542,15 @@
         "description": "Shown if you click on a sgnl:// link not currently supported by Desktop"
     },
     "GroupV2--cannot-send": {
-        "message": "You cannot send messages to that group.",
+        "message": "Не можете да шаљете поруке тој групи.",
         "description": "Shown in toast when you attempt to forward a message to an announcement only group"
     },
     "GroupV2--add--missing-capability": {
-        "message": "These people cannot be added to the group until they upgrade Signal.",
+        "message": "Ове особе не могу бити додати у групу док не ажурирају Signal.",
         "description": "Shown in a confirmation dialog when members who cannot view announcement only group cannot be added"
     },
     "GroupV2--cannot-start-group-call": {
-        "message": "Only admins of the group can start a call.",
+        "message": "Само админи групе могу започети позив.",
         "description": "Shown in toast when a non-admin starts a group call in an announcements only group"
     },
     "GroupV2--join--invalid-link--title": {
@@ -3650,7 +3650,7 @@
         "description": "Shown if something went wrong when you try to join via a group link"
     },
     "GroupV2--join--general-join-failure": {
-        "message": "Couldn't join group. Try again later.",
+        "message": "Нисам могао да се придружим групи. Покушајте поново касније.",
         "description": "Shown if something went wrong when you try to join via a group link"
     },
     "GroupV2--admin": {
@@ -4730,7 +4730,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--admin--other": {
-        "message": "$memberName$ changed the group settings to only allow admins to send messages.",
+        "message": "$memberName$ је променио/ла подешавања групне како би само омогућили администраторима да шаљу поруке.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4740,7 +4740,7 @@
         }
     },
     "GroupV2--announcements--admin--unknown": {
-        "message": "The group was changed to only allow admins to send messages.",
+        "message": "Група је промењена како би се омогућили да само админи шаљу поруке.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--member--you": {
@@ -4748,7 +4748,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--member--other": {
-        "message": "$memberName$ changed the group settings to allow all members to send messages.",
+        "message": "$memberName$ је променио/ла подешавања групне како би омогућили све чланове да шаљу поруке.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4758,7 +4758,7 @@
         }
     },
     "GroupV2--announcements--member--unknown": {
-        "message": "The group was changed to allow all members to send messages.",
+        "message": "Група је промењена како би се омогућили да сви чланови шаљу поруке.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV1--Migration--disabled": {
@@ -4984,11 +4984,11 @@
         "description": "This is the additional info for the 'who can add members' panel"
     },
     "ConversationDetails--announcement-label": {
-        "message": "Who can send messages",
+        "message": "Ко може да шаље поруке",
         "description": "This is the additional info for the 'who can send messages' panel"
     },
     "ConversationDetails--announcement-info": {
-        "message": "Choose who can send messages to the group.",
+        "message": "Изаберите ко може шаље поруке у ову групу.",
         "description": "This is the additional info for the 'who can send mesages' panel"
     },
     "ConversationDetails--requests-and-invites": {
@@ -5232,7 +5232,7 @@
         "description": "The label for the avatar uploader when no group photo is selected"
     },
     "AvatarInput--no-photo-label--profile": {
-        "message": "Add a photo",
+        "message": "Додајте слику",
         "description": "The label for the avatar uploader when no profile photo is selected"
     },
     "AvatarInput--change-photo-label": {
@@ -5746,7 +5746,7 @@
         "description": "Default text for about field"
     },
     "ProfileEditor--about-placeholder": {
-        "message": "Write something about yourself...",
+        "message": "Напишите нешто о себи...",
         "description": "Placeholder text for about input field"
     },
     "ProfileEditor--first-name": {
@@ -5762,7 +5762,7 @@
         "description": "ConfirmationDialog text for discarding changes"
     },
     "ProfileEditor--info": {
-        "message": "Your profile is encrypted. Your profile and changes to it will be visible to your contacts and when you start or accept new chats. $learnMore$",
+        "message": "Ваш профил је енкриптован. Биће видљив вашим контактима када започнете или прихватите ново ћаскање. $learnMore$",
         "description": "Information shown at the bottom of the profile editor section",
         "placeholders": {
             "learnMore": {
@@ -5808,15 +5808,15 @@
         "description": "Title for about editing"
     },
     "ProfileEditorModal--error": {
-        "message": "Your profile could not be updated. Please try again.",
+        "message": "Ваш профил није могао да се ажурира. Покушајте поново.",
         "description": "Error message when something goes wrong updating your profile."
     },
     "AnnouncementsOnlyGroupBanner--modal": {
-        "message": "Message an admin",
+        "message": "Послати поруку админу",
         "description": "Modal title for the list of admins in a group"
     },
     "AnnouncementsOnlyGroupBanner--announcements-only": {
-        "message": "Only $admins$ can send messages",
+        "message": "Само $admins$ може да шаље поруке",
         "description": "Displayed if sending of messages is disabled to non-admins",
         "placeholders": {
             "admins": {

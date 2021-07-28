@@ -56,7 +56,7 @@
         "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
     },
     "appMenuServices": {
-        "message": "Services",
+        "message": "சேவைகள்",
         "description": "Application menu item for macOS 'Services'"
     },
     "appMenuHide": {
@@ -622,7 +622,7 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "Desktop ran into a decryption error. Click to submit a debug log.",
+        "message": "டெஸ்க்டாப்மறைகுறியாக்கப் பிழையில் ஓடியது. சமர்ப்பிக்க கிளிக் செய்க பிழை திருத்தப் பதிவு.",
         "description": "An error popup when we haven't added an error for decryption error."
     },
     "oneNonImageAtATimeToast": {
@@ -678,7 +678,7 @@
         "description": "View menu item to open the debug log (title case)"
     },
     "forceUpdate": {
-        "message": "Force Update",
+        "message": "கட்டாய புதுப்பிப்பு",
         "description": "View menu item to force the app to update download and install"
     },
     "helpMenuShowKeyboardShortcuts": {
@@ -718,7 +718,7 @@
         "description": "Item under the Help menu, which opens a small about window"
     },
     "screenShareWindow": {
-        "message": "Sharing screen",
+        "message": "திரையைப் பகிர்தல்",
         "description": "Title for screen sharing window"
     },
     "speech": {
@@ -770,7 +770,7 @@
         }
     },
     "noSearchResults--sms-only": {
-        "message": "SMS/MMS contacts are not available on Desktop.",
+        "message": "எஸ் எம் எஸ்/எம் எம் எஸ் தொடர்புகள் கிடைக்கவில்லை டெஸ்க்டாப்.",
         "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
     },
     "noSearchResultsInConversation": {
@@ -1152,11 +1152,11 @@
         "description": "Shown on explainer dialog available from chat session refreshed timeline events"
     },
     "DeliveryIssue--preview": {
-        "message": "Delivery issue",
+        "message": "டெலிவரி பிரச்சினை",
         "description": "Shown in left pane preview when message delivery issue happens"
     },
     "DeliveryIssue--notification": {
-        "message": "A message from $sender$ couldn’t be delivered",
+        "message": "இருந்து ஒரு செய்தி $sender$ வழங்க முடியவில்லை",
         "description": "Shown in timeline when message delivery issue happens",
         "placeholders": {
             "name": {
@@ -1170,11 +1170,11 @@
         "description": "Shown in timeline when message delivery issue happens, to provide access to a popup info dialog"
     },
     "DeliveryIssue--title": {
-        "message": "Delivery Issue",
+        "message": "டெலிவரி பிரச்சினை",
         "description": "Shown on explainer dialog available from delivery issue timeline events"
     },
     "DeliveryIssue--summary": {
-        "message": "A message, sticker, reaction, read receipt or media couldn’t be delivered to you from $sender$. They may have tried sending it to you directly, or in a group.",
+        "message": "ஒரு செய்தி, ஓட்டி, எதிர்வினை, ரசீதைப் படியுங்கள் அல்லது மீடியா உங்களிடமிருந்து வழங்க முடியவில்லை $sender$. அவர்கள் அதை உங்களுக்கு நேரடியாக அனுப்ப முயற்சித்திருக்கலாம், அல்லது ஒருகுழு.",
         "description": "Shown on explainer dialog available from delivery issue timeline events",
         "placeholders": {
             "name": {
@@ -1328,15 +1328,15 @@
         "description": "Button tooltip label for turning on the microphone"
     },
     "calling__button--presenting-disabled": {
-        "message": "Presenting disabled",
+        "message": "வழங்குதல் முடக்கப்பட்டது",
         "description": "Button tooltip label for when screen sharing is disabled"
     },
     "calling__button--presenting-on": {
-        "message": "Start presenting",
+        "message": "வழங்கத் தொடங்குங்கள்",
         "description": "Button tooltip label for starting to share screen"
     },
     "calling__button--presenting-off": {
-        "message": "Stop presenting",
+        "message": "வழங்குவதை நிறுத்துங்கள்",
         "description": "Button tooltip label for stopping screen sharing"
     },
     "calling__your-video-is-off": {
@@ -1452,15 +1452,15 @@
         "description": "Label for the \"scroll down\" button in a call's overflow area"
     },
     "calling__presenting--notification-title": {
-        "message": "You're presenting to everyone.",
+        "message": "நீங்கள் அனைவருக்கும் வழங்குகிறீர்கள்.",
         "description": "Title for the share screen notification"
     },
     "calling__presenting--notification-body": {
-        "message": "Click here to return to the call when you're ready to stop presenting.",
+        "message": "வழங்குவதை நிறுத்த நீங்கள் தயாராக இருக்கும்போது அழைப்பிற்குத் திரும்ப இங்கே கிளிக் செய்க.",
         "description": "Body text for the share screen notification"
     },
     "calling__presenting--info": {
-        "message": "Signal is sharing $window$.",
+        "message": "Signal பகிர்கிறது $window$.",
         "description": "Text that appears in the screen sharing controller to inform person that they are presenting",
         "placeholders": {
             "name": {
@@ -1470,15 +1470,15 @@
         }
     },
     "calling__presenting--stop": {
-        "message": "Stop sharing",
+        "message": "பகிர்வதை நிறுத்துங்கள்",
         "description": "Button for stopping screen sharing"
     },
     "calling__presenting--you-stopped": {
-        "message": "You stopped presenting",
+        "message": "நீங்கள் வழங்குவதை நிறுத்திவிட்டீர்கள்",
         "description": "Toast that appears when someone stops presenting"
     },
     "calling__presenting--person-ongoing": {
-        "message": "$name$ is presenting",
+        "message": "$name$ அளிக்கிறது",
         "description": "Title of call when someone is presenting",
         "placeholders": {
             "name": {
@@ -1488,7 +1488,7 @@
         }
     },
     "calling__presenting--person-stopped": {
-        "message": "$name$ stopped presenting",
+        "message": "$name$ வழங்குவதை நிறுத்தியது",
         "description": "Toast that appears when someone stops presenting",
         "placeholders": {
             "name": {
@@ -1498,27 +1498,27 @@
         }
     },
     "calling__presenting--permission-title": {
-        "message": "Permission needed",
+        "message": "அனுமதி தேவை",
         "description": "Shown as the title for the modal that requests screen recording permissions"
     },
     "calling__presenting--macos-permission-description": {
-        "message": "Signal needs permission to access your computer's screen recording.",
+        "message": "Signal தேவைகள் அனுமதி உங்கள் அணுக கணினிதிரை பதிவு.",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-instruction-step1": {
-        "message": "Go to System Preferences.",
+        "message": "கணினி விருப்பங்களுக்குச் செல்லவும்.",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-instruction-step2": {
-        "message": "Click on the lock icon on the bottom left and enter your computer’s password.",
+        "message": "கீழே இடதுபுறத்தில் உள்ள பூட்டு ஐகானைக் கிளிக் செய்க உள்ளிடவும் உங்கள் கணினிகடவுச்சொல்.",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-instruction-step3": {
-        "message": "On the right, check the box next to Signal. If you don’t see Signal in the list, click the + to add it.",
+        "message": "வலதுபுறத்தில், அடுத்த பெட்டியை சரிபார்க்கவும் Signal. நீங்கள் பார்க்கவில்லை என்றால் Signal பட்டியலில், + to என்பதைக் கிளிக் செய்க கூட்டு அது.",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-open": {
-        "message": "Open System Preferences",
+        "message": "திற கணினி விருப்பத்தேர்வுகள்",
         "description": "The button that opens your system preferences for the needs screen record permissions modal"
     },
     "calling__presenting--permission-cancel": {
@@ -1550,7 +1550,7 @@
         "description": "Header for general options on the settings screen"
     },
     "spellCheckDescription": {
-        "message": "Enable spell check",
+        "message": "எழுத்துப்பிழை சரிபார்ப்பை இயக்கு",
         "description": "Description of the spell check setting"
     },
     "spellCheckWillBeEnabled": {
@@ -1562,15 +1562,15 @@
         "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
     },
     "SystemTraySetting__minimize-to-system-tray": {
-        "message": "Minimize to system tray",
+        "message": "குறைத்தல் கணினி தட்டில்",
         "description": "In the settings, shown next to the checkbox option for minimizing to the system tray"
     },
     "SystemTraySetting__minimize-to-and-start-in-system-tray": {
-        "message": "Start minimized to tray",
+        "message": "தட்டில் குறைக்கத் தொடங்குங்கள்",
         "description": "In the settings, shown next to the checkbox option for starting in the system tray"
     },
     "autoLaunchDescription": {
-        "message": "Open at computer login",
+        "message": "திற இல் கணினி உள்நுழைய",
         "description": "Description for the automatic launch setting"
     },
     "clearDataHeader": {
@@ -1688,7 +1688,7 @@
         "description": "Shown on outgoing message if it fails to send"
     },
     "sendPaused": {
-        "message": "Send paused",
+        "message": "அனுப்பு இடைநிறுத்தப்பட்டது",
         "description": "Shown on outgoing message if it cannot be sent immediately"
     },
     "partiallySent": {
@@ -2050,7 +2050,7 @@
         "description": "Shown in the alert when you add the maximum recommended number of group members"
     },
     "chooseGroupMembers__maximum-recommended-group-size__body": {
-        "message": "Signal groups perform best with $max$ members or less. Adding more members will cause delays sending and receiving messages.",
+        "message": "Signal குழுக்கள் உடன் சிறப்பாக செயல்படுங்கள் $max$ உறுப்பினர்கள் அல்லது குறைவாக. அதிகமான உறுப்பினர்களைச் சேர்ப்பது செய்திகளை அனுப்புவதையும் பெறுவதையும் தாமதப்படுத்தும்.",
         "description": "Shown in the alert when you add the maximum recommended number of group members",
         "placeholders": {
             "max": {
@@ -2064,7 +2064,7 @@
         "description": "Shown in the alert when you try to add someone who can't be added to a group"
     },
     "chooseGroupMembers__cant-add-member__body": {
-        "message": "\"$name$\" can’t be added to the group because they’re using an old version of Signal. You can add them to the group after they’ve updated Signal.",
+        "message": "\"$name$\" இல் சேர்க்க முடியாது குழு ஏனெனில் அவர்கள் பழைய பதிப்பைப் பயன்படுத்துகிறார்கள் Signal. உன்னால் முடியும்கூட்டு அவர்களுக்கு குழு அவை புதுப்பிக்கப்பட்ட பிறகு Signal.",
         "description": "Shown in the alert when you try to add someone who can't be added to a group",
         "placeholders": {
             "max": {
@@ -2086,7 +2086,7 @@
         "description": "The placeholder for the group name placeholder"
     },
     "setGroupMetadata__group-description-placeholder": {
-        "message": "Description",
+        "message": "விளக்கம்",
         "description": "The placeholder for the group description"
     },
     "setGroupMetadata__create-group": {
@@ -3052,11 +3052,11 @@
         }
     },
     "MessageRequests--block-and-report-spam": {
-        "message": "Report Spam and Block",
+        "message": "ஸ்பேம் மற்றும் தடுப்பைப் புகாரளிக்கவும்",
         "description": "Shown as a button to let the user block a message request and report spam"
     },
     "MessageRequests--block-and-report-spam-success-toast": {
-        "message": "Reported as spam and blocked.",
+        "message": "என புகாரளிக்கப்பட்டது ஸ்பேம் மற்றும் தடுக்கப்பட்டது.",
         "description": "Shown in a toast when you successfully block a user and report them as spam"
     },
     "MessageRequests--block-direct-confirm-title": {
@@ -3220,7 +3220,7 @@
         }
     },
     "member-of-more-than-3-groups": {
-        "message": "Member of $group1$, $group2$, $group3$ and $remainingCount$ more",
+        "message": "உறுப்பினர் of $group1$, $group2$, $group3$ மற்றும் $remainingCount$ மேலும்",
         "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
         "placeholders": {
             "group1": {
@@ -3256,7 +3256,7 @@
         "description": "Shown to indicate this user is not a member of any groups"
     },
     "no-groups-in-common-warning": {
-        "message": "No groups in common. Review requests carefully.",
+        "message": "இல்லை குழுக்கள்பொதுவாக. கோரிக்கைகளை கவனமாக மதிப்பாய்வு செய்யவும்.",
         "description": "When a user has no common groups, show this warning"
     },
     "acceptCall": {
@@ -3434,19 +3434,19 @@
         "description": "Title for hang up button"
     },
     "calling__SelectPresentingSourcesModal--title": {
-        "message": "Share your screen",
+        "message": "பகிர் உங்கள் திரை",
         "description": "Title for the select your screen sharing sources modal"
     },
     "calling__SelectPresentingSourcesModal--confirm": {
-        "message": "Share screen",
+        "message": "பகிர் திரை",
         "description": "Confirm button for sharing screen modal"
     },
     "calling__SelectPresentingSourcesModal--entireScreen": {
-        "message": "Entire screen",
+        "message": "முழு திரை",
         "description": "Title for the select your screen sharing sources modal and 'Entire Screen' source"
     },
     "calling__SelectPresentingSourcesModal--screen": {
-        "message": "Screen $id$",
+        "message": "திரை $id$",
         "description": "Title for `Screen #N` source in screen sharing sources modal and overlay",
         "placeholders": {
             "id": {
@@ -3456,7 +3456,7 @@
         }
     },
     "calling__SelectPresentingSourcesModal--window": {
-        "message": "A window",
+        "message": "ஒரு ஜன்னல்",
         "description": "Title for the select your screen sharing sources modal"
     },
     "callingDeviceSelection__label--video": {
@@ -3542,15 +3542,15 @@
         "description": "Shown if you click on a sgnl:// link not currently supported by Desktop"
     },
     "GroupV2--cannot-send": {
-        "message": "You cannot send messages to that group.",
+        "message": "உன்னால் முடியாது அனுப்பு அதற்கான செய்திகள் குழு.",
         "description": "Shown in toast when you attempt to forward a message to an announcement only group"
     },
     "GroupV2--add--missing-capability": {
-        "message": "These people cannot be added to the group until they upgrade Signal.",
+        "message": "இவை மக்கள் இல் சேர்க்க முடியாது குழு அவர்கள் வரை மேம்படுத்தல் Signal.",
         "description": "Shown in a confirmation dialog when members who cannot view announcement only group cannot be added"
     },
     "GroupV2--cannot-start-group-call": {
-        "message": "Only admins of the group can start a call.",
+        "message": "மட்டும் நிர்வாகிகள் இன் குழு அழைப்பைத் தொடங்கலாம்.",
         "description": "Shown in toast when a non-admin starts a group call in an announcements only group"
     },
     "GroupV2--join--invalid-link--title": {
@@ -3650,7 +3650,7 @@
         "description": "Shown if something went wrong when you try to join via a group link"
     },
     "GroupV2--join--general-join-failure": {
-        "message": "Couldn't join group. Try again later.",
+        "message": "முடியவில்லை சேர குழு. பின்னர் மீண்டும் முயற்சிக்கவும்.",
         "description": "Shown if something went wrong when you try to join via a group link"
     },
     "GroupV2--admin": {
@@ -4690,11 +4690,11 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--description--remove--you": {
-        "message": "You removed the group description.",
+        "message": "நீங்கள் அகற்றிவிட்டீர்கள் குழு விளக்கம்.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--description--remove--other": {
-        "message": "$memberName$ removed the group description.",
+        "message": "$memberName$  அகற்றப்பட்டது குழு விளக்கம்.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4704,15 +4704,15 @@
         }
     },
     "GroupV2--description--remove--unknown": {
-        "message": "The group description was removed.",
+        "message": "தி குழு விளக்கம் இருந்தது அகற்றப்பட்டது.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--description--change--you": {
-        "message": "You changed the group description.",
+        "message": "நீங்கள் மாற்றினீர்கள் குழு விளக்கம்.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--description--change--other": {
-        "message": "$memberName$ changed the group description.",
+        "message": "$memberName$ மாற்றப்பட்டது குழு விளக்கம்.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4722,15 +4722,15 @@
         }
     },
     "GroupV2--description--change--unknown": {
-        "message": "The group description was changed.",
+        "message": "தி குழு விளக்கம் இருந்தது மாற்றப்பட்டது.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--admin--you": {
-        "message": "You changed the group settings to only allow admins to send messages.",
+        "message": "நீங்கள் மாற்றினீர்கள் குழு அமைப்புகள் மட்டும் அனுமதி நிர்வாகிகள் க்கு அனுப்பு செய்திகள்.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--admin--other": {
-        "message": "$memberName$ changed the group settings to only allow admins to send messages.",
+        "message": "$memberName$ மாற்றப்பட்டது குழு அமைப்புகள் மட்டும் அனுமதி நிர்வாகிகள் க்கு அனுப்பு செய்திகள்.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4740,15 +4740,15 @@
         }
     },
     "GroupV2--announcements--admin--unknown": {
-        "message": "The group was changed to only allow admins to send messages.",
+        "message": "தி குழு இருந்தது மட்டும் மாற்றப்பட்டது அனுமதி நிர்வாகிகள் க்கு அனுப்பு செய்திகள்.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--member--you": {
-        "message": "You changed the group settings to allow all members to send messages.",
+        "message": "நீங்கள் மாற்றினீர்கள் குழு அமைப்புகள் க்கு அனுமதிஅனைத்து உறுப்பினர்கள்அனுப்பு செய்திகள்.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--member--other": {
-        "message": "$memberName$ changed the group settings to allow all members to send messages.",
+        "message": "$memberName$ மாற்றப்பட்டது குழு அமைப்புகள் க்கு அனுமதிஅனைத்து உறுப்பினர்கள்அனுப்பு செய்திகள்.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4758,7 +4758,7 @@
         }
     },
     "GroupV2--announcements--member--unknown": {
-        "message": "The group was changed to allow all members to send messages.",
+        "message": "தி குழு இருந்தது க்கு மாற்றப்பட்டது அனுமதிஅனைத்து உறுப்பினர்கள்அனுப்பு செய்திகள்.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV1--Migration--disabled": {
@@ -4896,15 +4896,15 @@
         "description": "Aria label for file attachment button in composition area"
     },
     "CompositionArea--sms-only__title": {
-        "message": "This person isn’t using Signal",
+        "message": "இந்த நபர் பயன்படுத்தவில்லை Signal",
         "description": "Title for the composition area for the SMS-only contact"
     },
     "CompositionArea--sms-only__body": {
-        "message": "Signal Desktop does not support messaging non-Signal contacts. Ask this person to install Signal for a more secure messaging experience.",
+        "message": "Signal Desktop இல்லை ஆதரவு செய்தி அனுப்புதல் Signal தொடர்புகள். இந்த நபரை நிறுவச் சொல்லுங்கள் Signal மிகவும் பாதுகாப்பான செய்தியிடல் அனுபவத்திற்காக.",
         "description": "Body for the composition area for the SMS-only contact"
     },
     "CompositionArea--sms-only__spinner-label": {
-        "message": "Checking contact's registration status",
+        "message": "தொடர்புகளின் பதிவு நிலையை சரிபார்க்கிறது",
         "description": "Displayed while checking if the contact is SMS-only"
     },
     "countMutedConversationsDescription": {
@@ -4972,7 +4972,7 @@
         "description": "This is the label for the 'who can edit the group' panel"
     },
     "ConversationDetails--group-info-info": {
-        "message": "Choose who can edit group name, photo, description, and disappearing messages timer.",
+        "message": "யாரால் முடியும் என்பதைத் தேர்வுசெய்க தொகு குழு பெயர், புகைப்படம், விளக்கம் மற்றும் மறைந்து போகிறது செய்திகள் நேரக்குறிப்பான்.",
         "description": "This is the additional info for the 'who can edit the group' panel"
     },
     "ConversationDetails--add-members-label": {
@@ -4984,11 +4984,11 @@
         "description": "This is the additional info for the 'who can add members' panel"
     },
     "ConversationDetails--announcement-label": {
-        "message": "Who can send messages",
+        "message": "யாரால் முடியும் அனுப்பு செய்திகள்",
         "description": "This is the additional info for the 'who can send messages' panel"
     },
     "ConversationDetails--announcement-info": {
-        "message": "Choose who can send messages to the group.",
+        "message": "யாரால் முடியும் என்பதைத் தேர்வுசெய்க அனுப்பு செய்திகள் குழு.",
         "description": "This is the additional info for the 'who can send mesages' panel"
     },
     "ConversationDetails--requests-and-invites": {
@@ -5232,7 +5232,7 @@
         "description": "The label for the avatar uploader when no group photo is selected"
     },
     "AvatarInput--no-photo-label--profile": {
-        "message": "Add a photo",
+        "message": "கூட்டு a புகைப்படம்",
         "description": "The label for the avatar uploader when no profile photo is selected"
     },
     "AvatarInput--change-photo-label": {
@@ -5260,7 +5260,7 @@
         "description": "When creating a new group and inviting users, this is shown in the dialog"
     },
     "NewlyCreatedGroupInvitedContactsDialog--title--many": {
-        "message": "$count$ invitations sent",
+        "message": "$count$ அழைப்பிதழ்கள் அனுப்பப்பட்டது",
         "description": "When creating a new group and inviting users, this is shown in the dialog",
         "placeholders": {
             "count": {
@@ -5270,7 +5270,7 @@
         }
     },
     "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--one": {
-        "message": "$name$ can’t be automatically added to this group by you.",
+        "message": "$name$ இதில் தானாக சேர்க்க முடியாது குழு உங்களால்.",
         "description": "When creating a new group and inviting users, this is shown in the dialog",
         "placeholders": {
             "name": {
@@ -5300,7 +5300,7 @@
         "description": "When adding new members to an existing group, this is shown in the dialog"
     },
     "AddGroupMembersModal--confirm-title--one": {
-        "message": "Add $person$ to \"$group$\"?",
+        "message": "கூட்டு $person$ க்கு \"$group$\"?",
         "description": "When adding new members to an existing group, this is shown in the confirmation dialog",
         "placeholders": {
             "person": {
@@ -5314,7 +5314,7 @@
         }
     },
     "AddGroupMembersModal--confirm-title--many": {
-        "message": "Add $count$ members to \"$group$\"?",
+        "message": "கூட்டு $count$ உறுப்பினர்கள்  \"$group$\"?",
         "description": "When adding new members to an existing group, this is shown in the confirmation dialog",
         "placeholders": {
             "count": {
@@ -5398,15 +5398,15 @@
         "description": "Shown on the message request warning. Clicking this button will open a dialog with more information"
     },
     "MessageRequestWarning__dialog__details": {
-        "message": "You have no groups in common with this person. Review requests carefully before accepting to avoid unwanted messages.",
+        "message": "உங்களிடம் உள்ளது இல்லை குழுக்கள்இந்த நபருடன் பொதுவானது. தேவையற்ற செய்திகளைத் தவிர்ப்பதற்கு ஏற்றுக்கொள்வதற்கு முன் கோரிக்கைகளை கவனமாக மதிப்பாய்வு செய்யவும்.\n ",
         "description": "Shown in the message request warning dialog. Gives more information about message requests"
     },
     "MessageRequestWarning__dialog__learn-even-more": {
-        "message": "About Message Requests",
+        "message": "பற்றி செய்தி கோரிக்கைகள்",
         "description": "Shown in the message request warning dialog. Clicking this button will open a page on Signal's support site"
     },
     "ContactSpoofing__same-name": {
-        "message": "Review requests carefully. Signal found another contact with the same name. $link$",
+        "message": "கோரிக்கைகளை கவனமாக மதிப்பாய்வு செய்யவும். சிக்னல் அதே பெயருடன் மற்றொரு தொடர்பைக் கண்டறிந்தது. $link$",
         "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else",
         "placeholders": {
             "link": {
@@ -5416,7 +5416,7 @@
         }
     },
     "ContactSpoofing__same-name-in-group": {
-        "message": "$count$ group members have the same name. $link$",
+        "message": "$count$ குழு உறுப்பினர்களுக்கு ஒரே பெயர் உண்டு.  $link$",
         "description": "Shown in the timeline warning when you multiple group members have the same name",
         "placeholders": {
             "count": {
@@ -5430,15 +5430,15 @@
         }
     },
     "ContactSpoofing__same-name__link": {
-        "message": "Review request",
+        "message": "மறுஆய்வு கோரிக்கை",
         "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else"
     },
     "ContactSpoofing__same-name-in-group__link": {
-        "message": "Click to review",
+        "message": "மதிப்பாய்வு செய்ய கிளிக் செய்க",
         "description": "Shown in the timeline warning when you multiple group members have the same name"
     },
     "ContactSpoofingReviewDialog__title": {
-        "message": "Review request",
+        "message": "மறுஆய்வு கோரிக்கை",
         "description": "Title for the contact name spoofing review dialog"
     },
     "ContactSpoofingReviewDialog__description": {
@@ -5454,11 +5454,11 @@
         "description": "Header in the contact spoofing review dialog, shown above the \"safe\" user"
     },
     "ContactSpoofingReviewDialog__group__title": {
-        "message": "Review members",
+        "message": "மறுஆய்வு கோரிக்கை",
         "description": "Title for the contact name spoofing review dialog in groups"
     },
     "ContactSpoofingReviewDialog__group__description": {
-        "message": "$count$ group members have similar names. Review the members below or choose to take action.",
+        "message": "$count$ குழுஉறுப்பினர்களுக்கு ஒத்த பெயர்கள் உள்ளன. கீழே உள்ள உறுப்பினர்களை மதிப்பாய்வு செய்யவும் அல்லது நடவடிக்கை எடுக்க தேர்வு செய்யவும்.",
         "description": "Description for the group contact spoofing review dialog"
     },
     "ContactSpoofingReviewDialog__group__members-header": {
@@ -5466,7 +5466,7 @@
         "description": "Header in the group contact spoofing review dialog. After this header, there will be a list of members"
     },
     "ContactSpoofingReviewDialog__group__name-change-info": {
-        "message": "Recently changed their profile name from $oldName$ to $newName$",
+        "message": "சமீபத்தில் அவர்களின் சுயவிவரப் பெயரை மாற்றியது $oldName$ க்கு $newName$",
         "description": "In the group contact spoofing review dialog, this text is shown when someone has changed their name recently",
         "placeholders": {
             "oldName": {
@@ -5484,7 +5484,7 @@
         "description": "When confirming the removal of a group member, show this text in the button"
     },
     "RemoveGroupMemberConfirmation__description": {
-        "message": "Remove \"$name$\" from the group?",
+        "message": "அகற்று \"$name$\" இருந்து குழு?",
         "description": "When confirming the removal of a group member, show this text in the dialog",
         "placeholders": {
             "name": {
@@ -5494,47 +5494,47 @@
         }
     },
     "CaptchaDialog__title": {
-        "message": "Verify to continue messaging",
+        "message": "செய்தியைத் தொடர சரிபார்க்கவும்",
         "description": "Header in the captcha dialog"
     },
     "CaptchaDialog__first-paragraph": {
-        "message": "To help prevent spam on Signal, please complete verification.",
+        "message": "க்கு உதவி தடுக்க ஸ்பேம் ஆன் Signal, தயவு செய்து முழுமை சரிபார்ப்பு.",
         "description": "First paragraph in the captcha dialog"
     },
     "CaptchaDialog__second-paragraph": {
-        "message": "After verifying, you can continue messaging. Any paused messages will automatically be sent.",
+        "message": "சரிபார்க்கப்பட்ட பிறகு, நீங்கள் தொடர்ந்து செய்தியிடலாம். இடைநிறுத்தப்பட்ட எந்த செய்திகளும் தானாகவே அனுப்பப்படும்.",
         "description": "First paragraph in the captcha dialog"
     },
     "CaptchaDialog--can-close__title": {
-        "message": "Continue Without Verifying?",
+        "message": "சரிபார்க்காமல் தொடரவா?",
         "description": "Header in the captcha dialog that can be closed"
     },
     "CaptchaDialog--can-close__body": {
-        "message": "If you choose to skip verification, you may miss messages from other people and your messages may fail to send.",
+        "message": "சரிபார்ப்பைத் தவிர்க்க நீங்கள் தேர்வுசெய்தால், நீங்கள் செய்திகளைத் தவறவிடலாம் மற்றவை மக்கள் உங்கள் செய்திகள் தோல்வியடையக்கூடும் அனுப்பு.",
         "description": "Body of the captcha dialog that can be closed"
     },
     "CaptchaDialog--can_close__skip-verification": {
-        "message": "Skip verification",
+        "message": "சரிபார்ப்பைத் தவிர்",
         "description": "Skip button of the captcha dialog that can be closed"
     },
     "verificationComplete": {
-        "message": "Verification complete.",
+        "message": "சரிபார்ப்பு முழுமை.",
         "description": "Displayed after successful captcha"
     },
     "verificationFailed": {
-        "message": "Verification failed. Please retry later.",
+        "message": "சரிபார்ப்பு தோல்வியுற்றது. தயவு செய்து பின்னர் மீண்டும் முயற்சிக்கவும்.",
         "description": "Displayed after unsuccessful captcha"
     },
     "deleteForEveryoneFailed": {
-        "message": "Failed to delete message for everyone. Please retry later.",
+        "message": "அனைவருக்கும் செய்தியை நீக்குவதில் தோல்வி. தயவு செய்து பின்னர் மீண்டும் முயற்சிக்கவும்.",
         "description": "Displayed when delete-for-everyone has failed to send to all recepients"
     },
     "ChatColorPicker__delete--title": {
-        "message": "Delete color",
+        "message": "வண்ணத்தை நீக்கு",
         "description": "Confirm title for deleting custom color"
     },
     "ChatColorPicker__delete--message": {
-        "message": "This custom color is used in $num$ chats. Do you want to delete it for all chats?",
+        "message": "இந்த தனிப்பயன் வண்ணம் பயன்படுத்தப்படுகிறது $num$ அரட்டைகள். எல்லா அரட்டைகளுக்கும் இதை நீக்க விரும்புகிறீர்களா?",
         "description": "Confirm message for deleting custom color",
         "placeholders": {
             "num": {
@@ -5544,7 +5544,7 @@
         }
     },
     "ChatColorPicker__global-chat-color": {
-        "message": "Global Chat Color",
+        "message": "உலகளாவிய அரட்டை நிறம்",
         "description": "Modal title for the chat color picker and editor for all conversations"
     },
     "ChatColorPicker__menu-title": {
@@ -5552,19 +5552,19 @@
         "description": "View title for the chat color picker and editor"
     },
     "ChatColorPicker__reset": {
-        "message": "Reset chat color",
+        "message": "மீட்டமை அரட்டை நிறம்",
         "description": "Button label for resetting chat colors"
     },
     "ChatColorPicker__resetDefault": {
-        "message": "Reset Chat Colors",
+        "message": "மீட்டமை அரட்டை வண்ணங்கள்",
         "description": "Confirmation dialog title for resetting all chat colors or only the global default one"
     },
     "ChatColorPicker__resetAll": {
-        "message": "Reset all chat colors",
+        "message": "எல்லா அரட்டை வண்ணங்களையும் மீட்டமைக்கவும்",
         "description": "Button label for resetting all chat colors"
     },
     "ChatColorPicker__confirm-reset-default": {
-        "message": "Reset default",
+        "message": "இயல்புநிலையை மீட்டமை",
         "description": "Button label for resetting only global chat color"
     },
     "ChatColorPicker__confirm-reset": {
@@ -5572,31 +5572,31 @@
         "description": "Confirm button label for resetting chat colors"
     },
     "ChatColorPicker__confirm-reset-message": {
-        "message": "Would you like to override all chat colors?",
+        "message": "அனைத்தையும் மேலெழுத விரும்புகிறீர்களா? அரட்டை வண்ணங்கள்?",
         "description": "Modal message text for confirming resetting of chat colors"
     },
     "ChatColorPicker__custom-color--label": {
-        "message": "Show custom color editor",
+        "message": "தனிப்பயன் வண்ண பதிப்பான் காட்டு",
         "description": "aria-label for custom color editor button"
     },
     "ChatColorPicker__sampleBubble1": {
-        "message": "Here's a preview of the chat color.",
+        "message": "இங்கே ஒரு முன்னோட்டம் அரட்டை நிறம்.",
         "description": "An example message bubble for selecting the chat color"
     },
     "ChatColorPicker__sampleBubble2": {
-        "message": "Another bubble.",
+        "message": "மற்றொரு குமிழி.",
         "description": "An example message bubble for selecting the chat color"
     },
     "ChatColorPicker__sampleBubble3": {
-        "message": "The color is visible to only you.",
+        "message": "நிறம் உங்களுக்கு மட்டுமே தெரியும்.",
         "description": "An example message bubble for selecting the chat color"
     },
     "ChatColorPicker__context--edit": {
-        "message": "Edit color",
+        "message": "தொகு நிறம்",
         "description": "Option in the custom color bubble context menu"
     },
     "ChatColorPicker__context--duplicate": {
-        "message": "Duplicate",
+        "message": "நகல்",
         "description": "Option in the custom color bubble context menu"
     },
     "ChatColorPicker__context--delete": {
@@ -5604,39 +5604,39 @@
         "description": "Option in the custom color bubble context menu"
     },
     "CustomColorEditor__solid": {
-        "message": "Solid",
+        "message": "திட",
         "description": "Tab label for selecting solid colors"
     },
     "CustomColorEditor__gradient": {
-        "message": "Gradient",
+        "message": "சாய்வு",
         "description": "Tab label for selecting a gradient"
     },
     "CustomColorEditor__hue": {
-        "message": "Hue",
+        "message": "சாயல்",
         "description": "Label for the hue slider"
     },
     "CustomColorEditor__saturation": {
-        "message": "Saturation",
+        "message": "செறிவூட்டல்",
         "description": "Label for the saturation slider"
     },
     "CustomColorEditor__title": {
-        "message": "Custom Color",
+        "message": "விருப்ப வண்ணம்",
         "description": "Modal title for the custom color editor"
     },
     "customDisappearingTimeOption": {
-        "message": "Custom time...",
+        "message": "விருப்ப நேரம்...",
         "description": "Text for an option in Disappearing Messages menu and Conversation Details Disappearing Messages setting when no user value is available"
     },
     "selectedCustomDisappearingTimeOption": {
-        "message": "Custom time",
+        "message": "விருப்ப நேரம்",
         "description": "Text for an option in Conversation Details Disappearing Messages setting when user previously selected custom time"
     },
     "DisappearingTimeDialog__title": {
-        "message": "Custom Time",
+        "message": "விருப்ப நேரம்",
         "description": "Title for the custom disappearing message timeout dialog"
     },
     "DisappearingTimeDialog__body": {
-        "message": "Choose a custom time for disappearing messages.",
+        "message": "தனிப்பயன் நேரத்தைத் தேர்வுசெய்க மறைந்து போகிறது செய்திகள்.",
         "description": "Body for the custom disappearing message timeout dialog"
     },
     "DisappearingTimeDialog__set": {
@@ -5644,35 +5644,35 @@
         "description": "Text for the dialog button confirming the custom disappearing message timeout"
     },
     "DisappearingTimeDialog__seconds": {
-        "message": "Seconds",
+        "message": "விநாடிகள்",
         "description": "Name of the 'seconds' unit select for the custom disappearing message timeout dialog"
     },
     "DisappearingTimeDialog__minutes": {
-        "message": "Minutes",
+        "message": "நிமிடங்கள்",
         "description": "Name of the 'minutes' unit select for the custom disappearing message timeout dialog"
     },
     "DisappearingTimeDialog__hours": {
-        "message": "Hours",
+        "message": "மணி",
         "description": "Name of the 'hours' unit select for the custom disappearing message timeout dialog"
     },
     "DisappearingTimeDialog__days": {
-        "message": "Days",
+        "message": "நாட்களில்",
         "description": "Name of the 'days' unit select for the custom disappearing message timeout dialog"
     },
     "DisappearingTimeDialog__weeks": {
-        "message": "Weeks",
+        "message": "வாரங்கள்",
         "description": "Name of the 'weeks' unit select for the custom disappearing message timeout dialog"
     },
     "settings__DisappearingMessages__footer": {
-        "message": "Set a default disappearing message timer for all new chats started by you.",
+        "message": "அமை இயல்புநிலை மறைந்து வரும் செய்தி நேரக்குறிப்பான் நீங்கள் தொடங்கிய அனைத்து புதிய அரட்டைகளுக்கும்.",
         "description": "Footer for the Disappearing Messages settings section"
     },
     "settings__DisappearingMessages__timer__label": {
-        "message": "Default timer for new chats",
+        "message": "இயல்புநிலை நேரக்குறிப்பான் புதிய அரட்டைகளுக்கு",
         "description": "Label for the Disapearring Messages default timer setting"
     },
     "UniversalTimerNotification__text": {
-        "message": "The disappearing message time will be set to $timeValue$ when you message them.",
+        "message": "தி மறைந்து வரும் செய்தி நேரம் இருக்கும் அமை க்கு $timeValue$ நீங்கள் அவர்களுக்கு செய்தி அனுப்பும்போது.",
         "description": "A message displayed when default disappearing message timeout is about to be applied",
         "placeholders": {
             "timeValue": {
@@ -5682,23 +5682,23 @@
         }
     },
     "GroupDescription__read-more": {
-        "message": "read more",
+        "message": "மேலும் வாசிக்க",
         "description": "Button text when the group description is too long"
     },
     "EditConversationAttributesModal__description-warning": {
-        "message": "Group descriptions will be visible to members of this group and people who have been invited.",
+        "message": "குழு இந்த உறுப்பினர்களுக்கு விளக்கங்கள் தெரியும் குழு மற்றும் மக்கள் அழைக்கப்பட்டவர்கள்.",
         "description": "Label text shown when editing group description"
     },
     "ConversationDetailsHeader--add-group-description": {
-        "message": "Add group description...",
+        "message": "கூட்டு குழு விளக்கம்...",
         "description": "Placeholder text in the details header for those that can edit the group description"
     },
     "MediaQualitySelector--button": {
-        "message": "Select media quality",
+        "message": "தேர்ந்தெடு மீடியா தரம்",
         "description": "aria-label for the media quality selector button"
     },
     "MediaQualitySelector--title": {
-        "message": "Media Quality",
+        "message": "மீடியா தரம்",
         "description": "Popup selector title"
     },
     "MediaQualitySelector--standard-quality-title": {
@@ -5738,7 +5738,7 @@
         "description": "In the message details screen, shown above contacts who have read this message"
     },
     "MessageDetailsHeader--Viewed": {
-        "message": "Viewed by",
+        "message": "பார்த்தவர்",
         "description": "In the message details screen, shown above contacts who have viewed this message"
     },
     "ProfileEditor--about": {
@@ -5746,7 +5746,7 @@
         "description": "Default text for about field"
     },
     "ProfileEditor--about-placeholder": {
-        "message": "Write something about yourself...",
+        "message": "உன்னை பற்றி எதாவது எழுது...",
         "description": "Placeholder text for about input field"
     },
     "ProfileEditor--first-name": {
@@ -5762,7 +5762,7 @@
         "description": "ConfirmationDialog text for discarding changes"
     },
     "ProfileEditor--info": {
-        "message": "Your profile is encrypted. Your profile and changes to it will be visible to your contacts and when you start or accept new chats. $learnMore$",
+        "message": "உங்கள் சுயவிவரம் மறையாக்கப்பட்ட. உங்கள் சுயவிவரம் மற்றும் அதற்கான மாற்றங்கள் உங்கள் தொடர்புகளுக்கும், நீங்கள் தொடங்கும் போது அல்லது தெரியும்ஏற்றுக்கொள் புதிய பூனைகள்.  $learnMore$",
         "description": "Information shown at the bottom of the profile editor section",
         "placeholders": {
             "learnMore": {
@@ -5800,7 +5800,7 @@
         "description": "Title for profile editing"
     },
     "ProfileEditorModal--name": {
-        "message": "Your Name",
+        "message": "உங்கள் பெயர்",
         "description": "Title for editing your name"
     },
     "ProfileEditorModal--about": {
@@ -5808,15 +5808,15 @@
         "description": "Title for about editing"
     },
     "ProfileEditorModal--error": {
-        "message": "Your profile could not be updated. Please try again.",
+        "message": "உங்கள் சுயவிவரத்தை புதுப்பிக்க முடியவில்லை. தயவு செய்து மீண்டும் முயற்சி செய்.",
         "description": "Error message when something goes wrong updating your profile."
     },
     "AnnouncementsOnlyGroupBanner--modal": {
-        "message": "Message an admin",
+        "message": "ஒரு நிர்வாகிக்கு செய்தி அனுப்புங்கள்",
         "description": "Modal title for the list of admins in a group"
     },
     "AnnouncementsOnlyGroupBanner--announcements-only": {
-        "message": "Only $admins$ can send messages",
+        "message": "மட்டும்  $admins$ முடியும் அனுப்பு செய்திகள்",
         "description": "Displayed if sending of messages is disabled to non-admins",
         "placeholders": {
             "admins": {
@@ -5826,7 +5826,7 @@
         }
     },
     "AnnouncementsOnlyGroupBanner--admins": {
-        "message": "admins",
+        "message": "நிர்வாகிகள்",
         "description": "Clickable text describing administrators of a group, used in the message an admin label"
     }
 }

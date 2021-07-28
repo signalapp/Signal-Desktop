@@ -4046,7 +4046,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add-from-admin-approval--other--you": {
-        "message": "Has aprobado la solicitud de $joinerName$para unirse al grupo.",
+        "message": "Has aprobado la solicitud de $joinerName$ para unirse al grupo.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {

@@ -658,7 +658,7 @@
         "description": "Shown to allow the user to manually attempt a reconnect."
     },
     "connectingHangOn": {
-        "message": "Borde inte ta länge...",
+        "message": "Borde inte ta lång tid...",
         "description": "Subtext description for when the client is connecting to the server."
     },
     "offline": {
@@ -1132,7 +1132,7 @@
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "sessionEnded": {
-        "message": "Återställning av säkerhetssession",
+        "message": "Säker session har återställts",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "ChatRefresh--notification": {
@@ -4672,11 +4672,11 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-reset--you": {
-        "message": "Du återställer grupplänken.",
+        "message": "Du har återställt grupplänken.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-reset--other": {
-        "message": "$adminName$ återställde grupplänken.",
+        "message": "$adminName$ har återställt grupplänken.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5568,7 +5568,7 @@
         "description": "Button label for resetting only global chat color"
     },
     "ChatColorPicker__confirm-reset": {
-        "message": "Starta om",
+        "message": "Återställ",
         "description": "Confirm button label for resetting chat colors"
     },
     "ChatColorPicker__confirm-reset-message": {

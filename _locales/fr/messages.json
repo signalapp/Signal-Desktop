@@ -622,7 +622,7 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "Desktop ran into a decryption error. Click to submit a debug log.",
+        "message": "Signal pour ordinateur a rencontré une erreur de déchiffrement. Cliquez pour envoyer un journal de débogage.",
         "description": "An error popup when we haven't added an error for decryption error."
     },
     "oneNonImageAtATimeToast": {
@@ -678,7 +678,7 @@
         "description": "View menu item to open the debug log (title case)"
     },
     "forceUpdate": {
-        "message": "Force Update",
+        "message": "Forcer la mise à jour",
         "description": "View menu item to force the app to update download and install"
     },
     "helpMenuShowKeyboardShortcuts": {
@@ -770,7 +770,7 @@
         }
     },
     "noSearchResults--sms-only": {
-        "message": "SMS/MMS contacts are not available on Desktop.",
+        "message": "Les contacts de textos et de messages multimédias ne sont pas proposés sur Signal pour ordinateur.",
         "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
     },
     "noSearchResultsInConversation": {
@@ -1174,7 +1174,7 @@
         "description": "Shown on explainer dialog available from delivery issue timeline events"
     },
     "DeliveryIssue--summary": {
-        "message": "A message, sticker, reaction, read receipt or media couldn’t be delivered to you from $sender$. They may have tried sending it to you directly, or in a group.",
+        "message": "Un message, un autocollant, une réaction, un accusé de lecture ou un contenu multimédia de $sender$ n’a pas pu vous être remis. Cette personne pourrait avoir tenté de vous l’envoyer directement ou dans un groupe.",
         "description": "Shown on explainer dialog available from delivery issue timeline events",
         "placeholders": {
             "name": {
@@ -1452,11 +1452,11 @@
         "description": "Label for the \"scroll down\" button in a call's overflow area"
     },
     "calling__presenting--notification-title": {
-        "message": "You're presenting to everyone.",
+        "message": "Vous présentez à tout le monde.",
         "description": "Title for the share screen notification"
     },
     "calling__presenting--notification-body": {
-        "message": "Click here to return to the call when you're ready to stop presenting.",
+        "message": "Quand vous serez prêt à cesser de présenter, cliquez ici pour revenir à l’appel.",
         "description": "Body text for the share screen notification"
     },
     "calling__presenting--info": {
@@ -1474,11 +1474,11 @@
         "description": "Button for stopping screen sharing"
     },
     "calling__presenting--you-stopped": {
-        "message": "You stopped presenting",
+        "message": "Vous avez cessé de présenter",
         "description": "Toast that appears when someone stops presenting"
     },
     "calling__presenting--person-ongoing": {
-        "message": "$name$ est en présentation",
+        "message": "$name$ présente actuellement",
         "description": "Title of call when someone is presenting",
         "placeholders": {
             "name": {
@@ -1488,7 +1488,7 @@
         }
     },
     "calling__presenting--person-stopped": {
-        "message": "$name$ a arrêté la présentation",
+        "message": "$name$ a cessé de présenter",
         "description": "Toast that appears when someone stops presenting",
         "placeholders": {
             "name": {
@@ -1510,11 +1510,11 @@
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-instruction-step2": {
-        "message": "Click on the lock icon on the bottom left and enter your computer’s password.",
+        "message": "Cliquez sur l’icône de cadenas située en bas à gauche et saisissez le mot de passe de votre ordinateur.",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-instruction-step3": {
-        "message": "On the right, check the box next to Signal. If you don’t see Signal in the list, click the + to add it.",
+        "message": "Sur la droite, cochez la case à côté de Signal. Si vous ne voyez pas Signal dans la liste, cliquez sur + pour l’ajouter.",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-open": {
@@ -1562,11 +1562,11 @@
         "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
     },
     "SystemTraySetting__minimize-to-system-tray": {
-        "message": "Minimize to system tray",
+        "message": "Réduire dans la zone de notification",
         "description": "In the settings, shown next to the checkbox option for minimizing to the system tray"
     },
     "SystemTraySetting__minimize-to-and-start-in-system-tray": {
-        "message": "Start minimized to tray",
+        "message": "Lancer l’appli réduite dans la zone de notification",
         "description": "In the settings, shown next to the checkbox option for starting in the system tray"
     },
     "autoLaunchDescription": {
@@ -2060,11 +2060,11 @@
         }
     },
     "chooseGroupMembers__cant-add-member__title": {
-        "message": "Can’t add member",
+        "message": "Impossible d’ajouter le membre.",
         "description": "Shown in the alert when you try to add someone who can't be added to a group"
     },
     "chooseGroupMembers__cant-add-member__body": {
-        "message": "\"$name$\" can’t be added to the group because they’re using an old version of Signal. You can add them to the group after they’ve updated Signal.",
+        "message": "Il est impossible d’ajouter « $name$ » au groupe, car cette personne utilise une ancienne version de Signal. Vous pourrez l'ajouter au groupe une fois qu'elle aura mis Signal à jour.",
         "description": "Shown in the alert when you try to add someone who can't be added to a group",
         "placeholders": {
             "max": {
@@ -3052,11 +3052,11 @@
         }
     },
     "MessageRequests--block-and-report-spam": {
-        "message": "Signaler comme Spam et Bloquer",
+        "message": "Signaler comme indésirable et bloquer",
         "description": "Shown as a button to let the user block a message request and report spam"
     },
     "MessageRequests--block-and-report-spam-success-toast": {
-        "message": "Signalé comme spam et bloqué.",
+        "message": "Signalé comme indésirable et bloqué",
         "description": "Shown in a toast when you successfully block a user and report them as spam"
     },
     "MessageRequests--block-direct-confirm-title": {
@@ -3500,7 +3500,7 @@
         "description": "Label for muting the conversation"
     },
     "muteAlways": {
-        "message": "Toujours",
+        "message": "Toujours en sourdine",
         "description": "Label for muting the conversation"
     },
     "unmute": {
@@ -3508,7 +3508,7 @@
         "description": "Label for unmuting the conversation"
     },
     "muteExpirationLabelAlways": {
-        "message": "Muted always",
+        "message": "Toujours en sourdine",
         "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
     },
     "muteExpirationLabel": {
@@ -3542,15 +3542,15 @@
         "description": "Shown if you click on a sgnl:// link not currently supported by Desktop"
     },
     "GroupV2--cannot-send": {
-        "message": "You cannot send messages to that group.",
+        "message": "Vous ne pouvez pas envoyer de message à ce groupe.",
         "description": "Shown in toast when you attempt to forward a message to an announcement only group"
     },
     "GroupV2--add--missing-capability": {
-        "message": "These people cannot be added to the group until they upgrade Signal.",
+        "message": "Il est impossible d’ajouter ces personnes à ce groupe tant qu’elles n’auront pas mis Signal à niveau.",
         "description": "Shown in a confirmation dialog when members who cannot view announcement only group cannot be added"
     },
     "GroupV2--cannot-start-group-call": {
-        "message": "Only admins of the group can start a call.",
+        "message": "Seuls les administrateurs du groupe peuvent démarrer un appel.",
         "description": "Shown in toast when a non-admin starts a group call in an announcements only group"
     },
     "GroupV2--join--invalid-link--title": {
@@ -3650,7 +3650,7 @@
         "description": "Shown if something went wrong when you try to join via a group link"
     },
     "GroupV2--join--general-join-failure": {
-        "message": "Couldn't join group. Try again later.",
+        "message": "Impossible de vous joindre au groupe. Veuillez réessayer plus tard.",
         "description": "Shown if something went wrong when you try to join via a group link"
     },
     "GroupV2--admin": {
@@ -4730,7 +4730,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--admin--other": {
-        "message": "$memberName$ changed the group settings to only allow admins to send messages.",
+        "message": "$memberName$ a changé les paramètres du groupe afin de n’autoriser que les administrateurs à envoyer des messages.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4740,7 +4740,7 @@
         }
     },
     "GroupV2--announcements--admin--unknown": {
-        "message": "The group was changed to only allow admins to send messages.",
+        "message": "Le groupe a été changé afin de n’autoriser que les administrateurs à envoyer des messages.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--member--you": {
@@ -4748,7 +4748,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--member--other": {
-        "message": "$memberName$ changed the group settings to allow all members to send messages.",
+        "message": "$memberName$ a changé les paramètres du groupe afin d’autoriser tous les membres à envoyer des messages.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4758,7 +4758,7 @@
         }
     },
     "GroupV2--announcements--member--unknown": {
-        "message": "The group was changed to allow all members to send messages.",
+        "message": "Le groupe a été changé afin d’autoriser tous les membres à envoyer des messages.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV1--Migration--disabled": {
@@ -4900,11 +4900,11 @@
         "description": "Title for the composition area for the SMS-only contact"
     },
     "CompositionArea--sms-only__body": {
-        "message": "Signal Desktop does not support messaging non-Signal contacts. Ask this person to install Signal for a more secure messaging experience.",
+        "message": "Signal pour ordinateur ne permet pas d’échanger de messages avec des contacts qui ne sont pas sur Signal. Pour échanger des messages en toute sécurité, demandez à cette personne d’installer Signal.",
         "description": "Body for the composition area for the SMS-only contact"
     },
     "CompositionArea--sms-only__spinner-label": {
-        "message": "Checking contact's registration status",
+        "message": "Vérification de l’état d’inscription du contact",
         "description": "Displayed while checking if the contact is SMS-only"
     },
     "countMutedConversationsDescription": {
@@ -4972,7 +4972,7 @@
         "description": "This is the label for the 'who can edit the group' panel"
     },
     "ConversationDetails--group-info-info": {
-        "message": "Choose who can edit group name, photo, description, and disappearing messages timer.",
+        "message": "Choisissez qui peut modifier le nom, la photo, la description et la minuterie des messages éphémères du groupe.",
         "description": "This is the additional info for the 'who can edit the group' panel"
     },
     "ConversationDetails--add-members-label": {
@@ -4984,11 +4984,11 @@
         "description": "This is the additional info for the 'who can add members' panel"
     },
     "ConversationDetails--announcement-label": {
-        "message": "Who can send messages",
+        "message": "Les personnes qui peuvent envoyer des messages",
         "description": "This is the additional info for the 'who can send messages' panel"
     },
     "ConversationDetails--announcement-info": {
-        "message": "Choose who can send messages to the group.",
+        "message": "Choisissez qui peut envoyer des messages au groupe.",
         "description": "This is the additional info for the 'who can send mesages' panel"
     },
     "ConversationDetails--requests-and-invites": {
@@ -5146,7 +5146,7 @@
         "description": "This is the title for the list of members you have invited"
     },
     "PendingInvites--invited-by-others": {
-        "message": "Invité par d’autres",
+        "message": "Invitations par d’autres",
         "description": "This is the title for the list of members who have invited other people"
     },
     "PendingInvites--invited-count": {
@@ -5232,7 +5232,7 @@
         "description": "The label for the avatar uploader when no group photo is selected"
     },
     "AvatarInput--no-photo-label--profile": {
-        "message": "Add a photo",
+        "message": "Ajouter une photo",
         "description": "The label for the avatar uploader when no profile photo is selected"
     },
     "AvatarInput--change-photo-label": {
@@ -5280,11 +5280,11 @@
         }
     },
     "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--many": {
-        "message": "These users can’t be automatically added to this group by you.",
+        "message": "Ces utilisateurs n’ont pas pu être ajoutés automatiquement à ce groupe par vous.",
         "description": "When creating a new group and inviting users, this is shown in the dialog"
     },
     "NewlyCreatedGroupInvitedContactsDialog--body--info-paragraph": {
-        "message": "They’ve been invited to join, and won’t see any group messages until they accept.",
+        "message": "Une invitation leur a été envoyée, et ces utilisateurs ne verront aucun message du groupe tant que l’invitation n’aura pas été acceptée.",
         "description": "When creating a new group and inviting users, this is shown in the dialog"
     },
     "NewlyCreatedGroupInvitedContactsDialog--body--learn-more": {
@@ -5344,11 +5344,11 @@
         "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)"
     },
     "deselectContact": {
-        "message": "Désélectionner le contact",
+        "message": "Dessélectionner le contact",
         "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)"
     },
     "cannotSelectContact": {
-        "message": "Cannot select contact",
+        "message": "Impossible de sélectionner le contact",
         "description": "The label for contact checkboxes that are disabled"
     },
     "alreadyAMember": {
@@ -5360,7 +5360,7 @@
         "description": "Aria label for audio attachment's Play button"
     },
     "MessageAudio--pause": {
-        "message": "Pause audio attachment",
+        "message": "Mettre en pause le fichier son joint",
         "description": "Aria label for audio attachment's Pause button"
     },
     "MessageAudio--download": {
@@ -5372,7 +5372,7 @@
         "description": "Aria label for pending audio attachment spinner"
     },
     "MessageAudio--slider": {
-        "message": "Playback time of audio attachment",
+        "message": "Temp de lecture du fichier son joint",
         "description": "Aria label for audio attachment's playback time slider"
     },
     "emptyInboxMessage": {
@@ -5406,7 +5406,7 @@
         "description": "Shown in the message request warning dialog. Clicking this button will open a page on Signal's support site"
     },
     "ContactSpoofing__same-name": {
-        "message": "Review requests carefully. Signal found another contact with the same name. $link$",
+        "message": "Examinez attentivement les demandes. Signal a trouvé un autre contact qui porte le même nom. $link$",
         "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else",
         "placeholders": {
             "link": {
@@ -5416,7 +5416,7 @@
         }
     },
     "ContactSpoofing__same-name-in-group": {
-        "message": "$count$ group members have the same name. $link$",
+        "message": "$count$ membres du groupe portent le même nom. $link$",
         "description": "Shown in the timeline warning when you multiple group members have the same name",
         "placeholders": {
             "count": {
@@ -5458,7 +5458,7 @@
         "description": "Title for the contact name spoofing review dialog in groups"
     },
     "ContactSpoofingReviewDialog__group__description": {
-        "message": "$count$ membres du groupe ont un nom similaire. Examinez-les ci-dessous ou choisissez l’action appropriée.",
+        "message": "$count$ membres du groupe portent un nom semblable. Examinez-les ci-dessous ou choisissez l’action appropriée.",
         "description": "Description for the group contact spoofing review dialog"
     },
     "ContactSpoofingReviewDialog__group__members-header": {
@@ -5466,7 +5466,7 @@
         "description": "Header in the group contact spoofing review dialog. After this header, there will be a list of members"
     },
     "ContactSpoofingReviewDialog__group__name-change-info": {
-        "message": "Recently changed their profile name from $oldName$ to $newName$",
+        "message": "A récemment changé son nom de profil de $oldName$ à $newName$.",
         "description": "In the group contact spoofing review dialog, this text is shown when someone has changed their name recently",
         "placeholders": {
             "oldName": {
@@ -5498,7 +5498,7 @@
         "description": "Header in the captcha dialog"
     },
     "CaptchaDialog__first-paragraph": {
-        "message": "Pour aider à prévenir le spam sur Signal, veuillez procéder à la confirmation.",
+        "message": "Pour aider à prévenir les indésirables sur Signal, veuillez procéder à la confirmation.",
         "description": "First paragraph in the captcha dialog"
     },
     "CaptchaDialog__second-paragraph": {
@@ -5506,11 +5506,11 @@
         "description": "First paragraph in the captcha dialog"
     },
     "CaptchaDialog--can-close__title": {
-        "message": "Continue Without Verifying?",
+        "message": "Poursuivre sans confirmer ?",
         "description": "Header in the captcha dialog that can be closed"
     },
     "CaptchaDialog--can-close__body": {
-        "message": "If you choose to skip verification, you may miss messages from other people and your messages may fail to send.",
+        "message": "Si vous choisissez d’ignorer la confirmation, vous pourriez manquer les messages des autres et vos messages pourraient ne pas être envoyés.",
         "description": "Body of the captcha dialog that can be closed"
     },
     "CaptchaDialog--can_close__skip-verification": {
@@ -5522,11 +5522,11 @@
         "description": "Displayed after successful captcha"
     },
     "verificationFailed": {
-        "message": "Verification failed. Please retry later.",
+        "message": "Échec de confirmation. Veuillez réessayer plus tard.",
         "description": "Displayed after unsuccessful captcha"
     },
     "deleteForEveryoneFailed": {
-        "message": "Failed to delete message for everyone. Please retry later.",
+        "message": "Échec de suppression du message, pour tous. Veuillez réessayer plus tard.",
         "description": "Displayed when delete-for-everyone has failed to send to all recepients"
     },
     "ChatColorPicker__delete--title": {
@@ -5560,11 +5560,11 @@
         "description": "Confirmation dialog title for resetting all chat colors or only the global default one"
     },
     "ChatColorPicker__resetAll": {
-        "message": "Reset all chat colors",
+        "message": "Réinitialiser toutes les couleurs des conversations",
         "description": "Button label for resetting all chat colors"
     },
     "ChatColorPicker__confirm-reset-default": {
-        "message": "Reset default",
+        "message": "Réinitialiser à la valeur par défaut",
         "description": "Button label for resetting only global chat color"
     },
     "ChatColorPicker__confirm-reset": {
@@ -5576,7 +5576,7 @@
         "description": "Modal message text for confirming resetting of chat colors"
     },
     "ChatColorPicker__custom-color--label": {
-        "message": "Show custom color editor",
+        "message": "Afficher l’éditeur de couleurs personnalisées",
         "description": "aria-label for custom color editor button"
     },
     "ChatColorPicker__sampleBubble1": {
@@ -5584,7 +5584,7 @@
         "description": "An example message bubble for selecting the chat color"
     },
     "ChatColorPicker__sampleBubble2": {
-        "message": "Another bubble.",
+        "message": "Une autre bulle",
         "description": "An example message bubble for selecting the chat color"
     },
     "ChatColorPicker__sampleBubble3": {
@@ -5632,11 +5632,11 @@
         "description": "Text for an option in Conversation Details Disappearing Messages setting when user previously selected custom time"
     },
     "DisappearingTimeDialog__title": {
-        "message": "Custom Time",
+        "message": "Délai personnalisé",
         "description": "Title for the custom disappearing message timeout dialog"
     },
     "DisappearingTimeDialog__body": {
-        "message": "Choose a custom time for disappearing messages.",
+        "message": "Choisissez un délai personnalisé pour les messages éphémères.",
         "description": "Body for the custom disappearing message timeout dialog"
     },
     "DisappearingTimeDialog__set": {
@@ -5672,7 +5672,7 @@
         "description": "Label for the Disapearring Messages default timer setting"
     },
     "UniversalTimerNotification__text": {
-        "message": "The disappearing message time will be set to $timeValue$ when you message them.",
+        "message": "La minuterie des messages éphémères sera définie sur $timeValue$ quand vous échanger des messages avec eux.",
         "description": "A message displayed when default disappearing message timeout is about to be applied",
         "placeholders": {
             "timeValue": {
@@ -5694,7 +5694,7 @@
         "description": "Placeholder text in the details header for those that can edit the group description"
     },
     "MediaQualitySelector--button": {
-        "message": "Select media quality",
+        "message": "Sélectionner la qualité des médias",
         "description": "aria-label for the media quality selector button"
     },
     "MediaQualitySelector--title": {
@@ -5738,7 +5738,7 @@
         "description": "In the message details screen, shown above contacts who have read this message"
     },
     "MessageDetailsHeader--Viewed": {
-        "message": "Vu par",
+        "message": "Visualisé par",
         "description": "In the message details screen, shown above contacts who have viewed this message"
     },
     "ProfileEditor--about": {
@@ -5762,7 +5762,7 @@
         "description": "ConfirmationDialog text for discarding changes"
     },
     "ProfileEditor--info": {
-        "message": "Votre profil est chiffré. Avec ses modifications, il est visible par vos contacts et si vous lancez ou acceptez de nouvelles conversations. $learnMore$",
+        "message": "Votre profil est chiffré.  Votre profil et les modifications qui y sont apportées seront visibles par vos contacts et quand vous lancerez ou accepterez de nouvelles conversations. $learnMore$",
         "description": "Information shown at the bottom of the profile editor section",
         "placeholders": {
             "learnMore": {
@@ -5812,11 +5812,11 @@
         "description": "Error message when something goes wrong updating your profile."
     },
     "AnnouncementsOnlyGroupBanner--modal": {
-        "message": "Écrire à un administrateur",
+        "message": "Envoyer un message à un administrateur",
         "description": "Modal title for the list of admins in a group"
     },
     "AnnouncementsOnlyGroupBanner--announcements-only": {
-        "message": "Seul les $admins$ peuvent envoyer des messages",
+        "message": "Seuls les $admins$ peuvent envoyer des messages",
         "description": "Displayed if sending of messages is disabled to non-admins",
         "placeholders": {
             "admins": {

@@ -1170,7 +1170,7 @@
         "description": "Shown in timeline when message delivery issue happens, to provide access to a popup info dialog"
     },
     "DeliveryIssue--title": {
-        "message": "Delivery Issue",
+        "message": "Проблема з Доставкою",
         "description": "Shown on explainer dialog available from delivery issue timeline events"
     },
     "DeliveryIssue--summary": {
@@ -1440,7 +1440,7 @@
         }
     },
     "calling__block-info": {
-        "message": "You won't receive their audio or video and they won't receive yours.",
+        "message": "Ви не отримаєте аудіо або відео від цього користувача, а користувач не отримає ваші.",
         "description": "Shown in the modal dialog to describe how blocking works in a gorup call"
     },
     "calling__overflow__scroll-up": {
@@ -2430,7 +2430,7 @@
         "description": "Label for animal emoji picker button"
     },
     "EmojiPicker__button--food": {
-        "message": "Food",
+        "message": "Їжа",
         "description": "Label for food emoji picker button"
     },
     "EmojiPicker__button--activity": {
@@ -3750,7 +3750,7 @@
         }
     },
     "GroupV2--avatar--change--you": {
-        "message": "You changed the group avatar.",
+        "message": "Ви змінили аватар групи.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--change--unknown": {
@@ -4042,7 +4042,7 @@
         }
     },
     "GroupV2--member-add-from-admin-approval--you--unknown": {
-        "message": "Your request to join the group has been approved.",
+        "message": "Ваш запит на приєднання до групи було прийнято.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add-from-admin-approval--other--you": {
@@ -4330,7 +4330,7 @@
         }
     },
     "GroupV2--pending-remove--decline--from-you": {
-        "message": "You declined the invitation to the group.",
+        "message": "Ви відхилили запрошення в групу.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--pending-remove--decline--unknown": {
@@ -4580,7 +4580,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--admin-approval-remove-one--you--unknown": {
-        "message": "Your request to join the group has been denied by an admin.",
+        "message": "Ваш запит на приєднання до групи було відхилений адміністратором.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--admin-approval-remove-one--other--you": {
@@ -4668,7 +4668,7 @@
         }
     },
     "GroupV2--group-link-remove--unknown": {
-        "message": "The group link has been turned off.",
+        "message": "Посилання групи було вимкнуто.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-reset--you": {
@@ -4686,7 +4686,7 @@
         }
     },
     "GroupV2--group-link-reset--unknown": {
-        "message": "The group link has been reset.",
+        "message": "Посилання на групу була скинута. ",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--description--remove--you": {
@@ -4832,7 +4832,7 @@
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--invited--you": {
-        "message": "You couldn't be added to the New Group and have been invited to join.",
+        "message": "Вас не вдалось додати до Нової групи, а тому було запрошено приєднатись.",
         "description": "Shown in timeline when a group is upgraded and you were invited instead of added"
     },
     "GroupV1--Migration--invited--one": {
@@ -5718,11 +5718,11 @@
         "description": "Description of high quality selector"
     },
     "MessageDetailsHeader--Failed": {
-        "message": "Not sent",
+        "message": "Не надіслано",
         "description": "In the message details screen, shown above contacts where the message failed to deliver"
     },
     "MessageDetailsHeader--Pending": {
-        "message": "Pending",
+        "message": "Очікування",
         "description": "In the message details screen, shown above contacts where the message is still sending"
     },
     "MessageDetailsHeader--Sent": {

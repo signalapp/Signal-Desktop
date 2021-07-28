@@ -24,7 +24,7 @@
         "description": "Shown in a popup if the database cannot start up properly"
     },
     "deleteAndRestart": {
-        "message": "Șterg toate datele și repornește",
+        "message": "Șterge toate datele și repornește",
         "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
     },
     "mainMenuFile": {
@@ -56,7 +56,7 @@
         "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
     },
     "appMenuServices": {
-        "message": "Services",
+        "message": "Servicii",
         "description": "Application menu item for macOS 'Services'"
     },
     "appMenuHide": {
@@ -168,7 +168,7 @@
         "description": "Shown in the context menu for a link to indicate that the user can copy the link"
     },
     "contextMenuCopyImage": {
-        "message": "Copy Image",
+        "message": "Copiază imaginea",
         "description": "Shown in the context menu for an image to indicate that the user can copy the image"
     },
     "contextMenuNoSuggestions": {
@@ -5644,7 +5644,7 @@
         "description": "Text for the dialog button confirming the custom disappearing message timeout"
     },
     "DisappearingTimeDialog__seconds": {
-        "message": "Seconds",
+        "message": "Secunde",
         "description": "Name of the 'seconds' unit select for the custom disappearing message timeout dialog"
     },
     "DisappearingTimeDialog__minutes": {
@@ -5682,7 +5682,7 @@
         }
     },
     "GroupDescription__read-more": {
-        "message": "read more",
+        "message": "citiți mai multe",
         "description": "Button text when the group description is too long"
     },
     "EditConversationAttributesModal__description-warning": {
@@ -5812,7 +5812,7 @@
         "description": "Error message when something goes wrong updating your profile."
     },
     "AnnouncementsOnlyGroupBanner--modal": {
-        "message": "Message an admin",
+        "message": "Trimiteți un mesaj unui administrator",
         "description": "Modal title for the list of admins in a group"
     },
     "AnnouncementsOnlyGroupBanner--announcements-only": {

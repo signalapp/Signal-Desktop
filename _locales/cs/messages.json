@@ -622,7 +622,7 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "Desktop ran into a decryption error. Click to submit a debug log.",
+        "message": "Aplikace narazila na chybu při dešifrování. Kliknutím odešlete debug log.",
         "description": "An error popup when we haven't added an error for decryption error."
     },
     "oneNonImageAtATimeToast": {
@@ -3542,15 +3542,15 @@
         "description": "Shown if you click on a sgnl:// link not currently supported by Desktop"
     },
     "GroupV2--cannot-send": {
-        "message": "You cannot send messages to that group.",
+        "message": "Do této skupiny namůžete odesílat zprávy.",
         "description": "Shown in toast when you attempt to forward a message to an announcement only group"
     },
     "GroupV2--add--missing-capability": {
-        "message": "These people cannot be added to the group until they upgrade Signal.",
+        "message": "Tyto osoby nelze do skupiny přidat, dokud neprovedou aktualizaci aplikace Signal.",
         "description": "Shown in a confirmation dialog when members who cannot view announcement only group cannot be added"
     },
     "GroupV2--cannot-start-group-call": {
-        "message": "Only admins of the group can start a call.",
+        "message": "Pouze správci této skupiny mohou zahájit hovor.",
         "description": "Shown in toast when a non-admin starts a group call in an announcements only group"
     },
     "GroupV2--join--invalid-link--title": {
@@ -3650,7 +3650,7 @@
         "description": "Shown if something went wrong when you try to join via a group link"
     },
     "GroupV2--join--general-join-failure": {
-        "message": "Couldn't join group. Try again later.",
+        "message": "Nelze se připojit ke skupině. Zkuste to později.",
         "description": "Shown if something went wrong when you try to join via a group link"
     },
     "GroupV2--admin": {
@@ -4726,11 +4726,11 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--admin--you": {
-        "message": "You changed the group settings to only allow admins to send messages.",
+        "message": "Změnili jste nastavení skupiny tak, aby zprávy mohli odesílat pouze správci.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--admin--other": {
-        "message": "$memberName$ changed the group settings to only allow admins to send messages.",
+        "message": "$memberName$ změnil nastavení skupiny tak, aby zprávy mohli odesílat pouze správci.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4740,15 +4740,15 @@
         }
     },
     "GroupV2--announcements--admin--unknown": {
-        "message": "The group was changed to only allow admins to send messages.",
+        "message": "Nastavení skupiny bylo změněno tak, aby zprávy mohli odesílat pouze správci.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--member--you": {
-        "message": "You changed the group settings to allow all members to send messages.",
+        "message": "Změnili jste nastavení skupiny tak, aby umožňovala odesílání zpráv všem členům.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--member--other": {
-        "message": "$memberName$ changed the group settings to allow all members to send messages.",
+        "message": "$memberName$ změnil nastavení skupiny tak, aby umožňovala odesílání zpráv všem členům.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4758,7 +4758,7 @@
         }
     },
     "GroupV2--announcements--member--unknown": {
-        "message": "The group was changed to allow all members to send messages.",
+        "message": "Nastavení skupiny bylo změněno tak, aby všichni členové mohli odesílat zprávy.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV1--Migration--disabled": {
@@ -4984,11 +4984,11 @@
         "description": "This is the additional info for the 'who can add members' panel"
     },
     "ConversationDetails--announcement-label": {
-        "message": "Who can send messages",
+        "message": "Kdo může podílat zprávy",
         "description": "This is the additional info for the 'who can send messages' panel"
     },
     "ConversationDetails--announcement-info": {
-        "message": "Choose who can send messages to the group.",
+        "message": "Zvolte, kdo může skupině posílat zprávy.",
         "description": "This is the additional info for the 'who can send mesages' panel"
     },
     "ConversationDetails--requests-and-invites": {
@@ -5232,7 +5232,7 @@
         "description": "The label for the avatar uploader when no group photo is selected"
     },
     "AvatarInput--no-photo-label--profile": {
-        "message": "Add a photo",
+        "message": "Přidat fotku",
         "description": "The label for the avatar uploader when no profile photo is selected"
     },
     "AvatarInput--change-photo-label": {
@@ -5746,7 +5746,7 @@
         "description": "Default text for about field"
     },
     "ProfileEditor--about-placeholder": {
-        "message": "Write something about yourself...",
+        "message": "Napište pár slov o sobě...",
         "description": "Placeholder text for about input field"
     },
     "ProfileEditor--first-name": {
@@ -5762,7 +5762,7 @@
         "description": "ConfirmationDialog text for discarding changes"
     },
     "ProfileEditor--info": {
-        "message": "Your profile is encrypted. Your profile and changes to it will be visible to your contacts and when you start or accept new chats. $learnMore$",
+        "message": "Váš profil je zašifrovaný. Váš profil a jeho změny budou viditelné pro vaše kontakty a při zahájení nebo přijetí nových chatů. $learnMore$",
         "description": "Information shown at the bottom of the profile editor section",
         "placeholders": {
             "learnMore": {
@@ -5808,15 +5808,15 @@
         "description": "Title for about editing"
     },
     "ProfileEditorModal--error": {
-        "message": "Your profile could not be updated. Please try again.",
+        "message": "Váš profil se nepodařilo aktualizovat. Zkuste to prosím znovu.",
         "description": "Error message when something goes wrong updating your profile."
     },
     "AnnouncementsOnlyGroupBanner--modal": {
-        "message": "Message an admin",
+        "message": "Poslat zprávu správci",
         "description": "Modal title for the list of admins in a group"
     },
     "AnnouncementsOnlyGroupBanner--announcements-only": {
-        "message": "Only $admins$ can send messages",
+        "message": "Pouze$admins$ mohou posílat zprávy",
         "description": "Displayed if sending of messages is disabled to non-admins",
         "placeholders": {
             "admins": {
@@ -5826,7 +5826,7 @@
         }
     },
     "AnnouncementsOnlyGroupBanner--admins": {
-        "message": "admins",
+        "message": "správci",
         "description": "Clickable text describing administrators of a group, used in the message an admin label"
     }
 }

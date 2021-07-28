@@ -56,7 +56,7 @@
         "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
     },
     "appMenuServices": {
-        "message": "Services",
+        "message": "Υπηρεσίες",
         "description": "Application menu item for macOS 'Services'"
     },
     "appMenuHide": {
@@ -622,7 +622,7 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "Desktop ran into a decryption error. Click to submit a debug log.",
+        "message": "Συνέβη κάποιο σφάλμα αποκρυπτογράφησης. Κάνε κλικ για να καταχωρήσεις ένα αρχείο αποσφαλμάτωσης.",
         "description": "An error popup when we haven't added an error for decryption error."
     },
     "oneNonImageAtATimeToast": {
@@ -678,7 +678,7 @@
         "description": "View menu item to open the debug log (title case)"
     },
     "forceUpdate": {
-        "message": "Force Update",
+        "message": "Εξαναγκασμός ενημέρωσης",
         "description": "View menu item to force the app to update download and install"
     },
     "helpMenuShowKeyboardShortcuts": {
@@ -1562,11 +1562,11 @@
         "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
     },
     "SystemTraySetting__minimize-to-system-tray": {
-        "message": "Minimize to system tray",
+        "message": "Ελαχιστοποίηση στη μπάρα συστήματος",
         "description": "In the settings, shown next to the checkbox option for minimizing to the system tray"
     },
     "SystemTraySetting__minimize-to-and-start-in-system-tray": {
-        "message": "Start minimized to tray",
+        "message": "Εκκίνηση ως ελαχιστοποιημένο στη μπάρα",
         "description": "In the settings, shown next to the checkbox option for starting in the system tray"
     },
     "autoLaunchDescription": {
@@ -3542,15 +3542,15 @@
         "description": "Shown if you click on a sgnl:// link not currently supported by Desktop"
     },
     "GroupV2--cannot-send": {
-        "message": "You cannot send messages to that group.",
+        "message": "Δεν μπορείς να στείλεις μηνύματα σε εκείνη την ομάδα.",
         "description": "Shown in toast when you attempt to forward a message to an announcement only group"
     },
     "GroupV2--add--missing-capability": {
-        "message": "These people cannot be added to the group until they upgrade Signal.",
+        "message": "Αυτά τα άτομα δεν μπορούν να προστεθούν στην ομάδα μέχρι να αναβαθμίσουν το Signal.",
         "description": "Shown in a confirmation dialog when members who cannot view announcement only group cannot be added"
     },
     "GroupV2--cannot-start-group-call": {
-        "message": "Only admins of the group can start a call.",
+        "message": "Μόνο οι διαχειριστές της ομάδας μπορούν να ξεκινήσουν μια κλήση.",
         "description": "Shown in toast when a non-admin starts a group call in an announcements only group"
     },
     "GroupV2--join--invalid-link--title": {
@@ -3650,7 +3650,7 @@
         "description": "Shown if something went wrong when you try to join via a group link"
     },
     "GroupV2--join--general-join-failure": {
-        "message": "Couldn't join group. Try again later.",
+        "message": "Αποτυχία εισόδου στην ομάδα. Προσπάθησε ξανά αργότερα.",
         "description": "Shown if something went wrong when you try to join via a group link"
     },
     "GroupV2--admin": {
@@ -4730,7 +4730,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--admin--other": {
-        "message": "$memberName$ changed the group settings to only allow admins to send messages.",
+        "message": "Ο/Η $memberName$ άλλαξε τις ρυθμίσεις της ομάδας για να επιτρέπεται μόνο σε διαχειριστές να στέλνουν μηνύματα.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4740,7 +4740,7 @@
         }
     },
     "GroupV2--announcements--admin--unknown": {
-        "message": "The group was changed to only allow admins to send messages.",
+        "message": "Οι ρυθμίσεις της ομάδας άλλαξαν για να επιτρέπεται μόνο σε διαχειριστές να στέλνουν μηνύματα.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--member--you": {
@@ -4748,7 +4748,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--member--other": {
-        "message": "$memberName$ changed the group settings to allow all members to send messages.",
+        "message": "Ο/Η $memberName$ άλλαξε τις ρυθμίσεις της ομάδας για να επιτρέπεται σε όλα τα μέλη να στέλνουν μηνύματα.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4758,7 +4758,7 @@
         }
     },
     "GroupV2--announcements--member--unknown": {
-        "message": "The group was changed to allow all members to send messages.",
+        "message": "Οι ρυθμίσεις της ομάδας άλλαξαν για να επιτρέπεται σε όλα τα μέλη να στέλνουν μηνύματα.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV1--Migration--disabled": {
@@ -4984,11 +4984,11 @@
         "description": "This is the additional info for the 'who can add members' panel"
     },
     "ConversationDetails--announcement-label": {
-        "message": "Who can send messages",
+        "message": "Ποιοί μπορούν να στείλουν μηνύματα",
         "description": "This is the additional info for the 'who can send messages' panel"
     },
     "ConversationDetails--announcement-info": {
-        "message": "Choose who can send messages to the group.",
+        "message": "Επέλεξε ποιοί μπορούν να στέλνουν μηνύματα στην ομάδα.",
         "description": "This is the additional info for the 'who can send mesages' panel"
     },
     "ConversationDetails--requests-and-invites": {
@@ -5232,7 +5232,7 @@
         "description": "The label for the avatar uploader when no group photo is selected"
     },
     "AvatarInput--no-photo-label--profile": {
-        "message": "Add a photo",
+        "message": "Προσθήκη φωτογραφίας",
         "description": "The label for the avatar uploader when no profile photo is selected"
     },
     "AvatarInput--change-photo-label": {
@@ -5694,11 +5694,11 @@
         "description": "Placeholder text in the details header for those that can edit the group description"
     },
     "MediaQualitySelector--button": {
-        "message": "Select media quality",
+        "message": "Επιλογή ποιότητας πολυμέσων",
         "description": "aria-label for the media quality selector button"
     },
     "MediaQualitySelector--title": {
-        "message": "Media Quality",
+        "message": "Ποιότητα πολυμέσων",
         "description": "Popup selector title"
     },
     "MediaQualitySelector--standard-quality-title": {
@@ -5746,7 +5746,7 @@
         "description": "Default text for about field"
     },
     "ProfileEditor--about-placeholder": {
-        "message": "Write something about yourself...",
+        "message": "Γράψε κάτι για εσένα...",
         "description": "Placeholder text for about input field"
     },
     "ProfileEditor--first-name": {
@@ -5762,7 +5762,7 @@
         "description": "ConfirmationDialog text for discarding changes"
     },
     "ProfileEditor--info": {
-        "message": "Your profile is encrypted. Your profile and changes to it will be visible to your contacts and when you start or accept new chats. $learnMore$",
+        "message": "Το προφίλ σου είναι κρυπτογραφημένο. Το προφίλ σου και οι αλλαγές σε αυτό θα γίνονται διαθέσιμα στις επαφές σου και όταν ξεκινάς ή αποδέχεσαι νέες συνομιλίες. $learnMore$",
         "description": "Information shown at the bottom of the profile editor section",
         "placeholders": {
             "learnMore": {
@@ -5808,15 +5808,15 @@
         "description": "Title for about editing"
     },
     "ProfileEditorModal--error": {
-        "message": "Your profile could not be updated. Please try again.",
+        "message": "Το προφίλ σου δεν μπόρεσε να ανανεωθεί. Παρακαλώ προσπάθησε ξανά.",
         "description": "Error message when something goes wrong updating your profile."
     },
     "AnnouncementsOnlyGroupBanner--modal": {
-        "message": "Message an admin",
+        "message": "Μήνυμα σε διαχειριστή",
         "description": "Modal title for the list of admins in a group"
     },
     "AnnouncementsOnlyGroupBanner--announcements-only": {
-        "message": "Only $admins$ can send messages",
+        "message": "Μόνο οι $admins$ μπορούν να στείλουν μηνύματα",
         "description": "Displayed if sending of messages is disabled to non-admins",
         "placeholders": {
             "admins": {
