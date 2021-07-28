@@ -22,6 +22,7 @@ import { unblockConvoById } from '../../../interactions/conversationInteractions
 import { toggleAudioAutoplay } from '../../../state/ducks/userConfig';
 import { sessionPassword } from '../../../state/ducks/modalDialog';
 import { PasswordAction } from '../SessionPasswordModal';
+import { SessionIconButton, SessionIconSize, SessionIconType } from '../icon';
 
 export enum SessionSettingCategory {
   Appearance = 'appearance',
@@ -246,9 +247,17 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
   }
 
   public renderSessionInfo(): JSX.Element {
+    const openOxenWebsite = () => {
+      void shell.openExternal('https://oxen.io/');
+    };
     return (
       <div className="session-settings__version-info">
         <span className="text-selectable">v{window.versionInfo.version}</span>
+        <span><SessionIconButton
+          iconSize={SessionIconSize.Medium}
+          iconType={SessionIconType.Oxen}
+          onClick={openOxenWebsite}
+        /></span>
         <span className="text-selectable">{window.versionInfo.commitHash}</span>
       </div>
     );
