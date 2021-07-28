@@ -112,9 +112,6 @@ export async function scaleImageToLevel(
       throw new Error('image not a canvas');
     }
     ({ image } = data);
-    if (!(image instanceof HTMLCanvasElement)) {
-      throw new Error('image not a canvas');
-    }
   } catch (err) {
     const error = new Error('scaleImageToLevel: Failed to process image');
     error.originalError = err;
