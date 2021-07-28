@@ -153,7 +153,15 @@ function getSQLCipherIntegrityCheck(db) {
 
 function keyDatabase(db, key) {
   // https://www.zetetic.net/sqlcipher/sqlcipher-api/#key
-  db.pragma(`key = "x'${key}'"`);
+  // If the password isn't hex then we need to derive a key from it
+
+  const deriveKey = HEX_KEY.test(key);
+
+  const value = deriveKey ? `'${key}'` : `"x'${key}'"`;
+
+  const pragramToRun = `key = ${value}`;
+
+  db.pragma(pragramToRun);
 }
 
 function switchToWAL(db) {
@@ -269,13 +277,7 @@ function openAndMigrateDatabase(filePath, key) {
   }
 }
 
-const INVALID_KEY = /[^0-9A-Fa-f]/;
 function openAndSetUpSQLCipher(filePath, { key }) {
-  const match = INVALID_KEY.exec(key);
-  if (match) {
-    throw new Error(`setupSQLCipher: key '${key}' is not valid`);
-  }
-
   return openAndMigrateDatabase(filePath, key);
 }
 
