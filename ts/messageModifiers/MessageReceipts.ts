@@ -13,7 +13,11 @@ import { isOutgoing } from '../state/selectors/message';
 import { isDirectConversation } from '../util/whatTypeOfConversation';
 import { getOwn } from '../util/getOwn';
 import { missingCaseError } from '../util/missingCaseError';
-import { SendActionType, sendStateReducer } from '../messages/MessageSendState';
+import {
+  SendActionType,
+  SendStatus,
+  sendStateReducer,
+} from '../messages/MessageSendState';
 import dataInterface from '../sql/Client';
 
 const { deleteSentProtoRecipient } = dataInterface;
@@ -107,7 +111,7 @@ export class MessageReceipts extends Collection<MessageReceiptModel> {
         ids.includes(receipt.get('sourceConversationId'))
     );
     if (receipts.length) {
-      window.log.info('Found early read receipts for message');
+      window.log.info('Found early receipts for message');
       this.remove(receipts);
     }
     return receipts;
@@ -142,57 +146,48 @@ export class MessageReceipts extends Collection<MessageReceiptModel> {
       const oldSendState = getOwn(
         oldSendStateByConversationId,
         sourceConversationId
-      );
-      if (oldSendState) {
-        let sendActionType: SendActionType;
-        switch (type) {
-          case MessageReceiptType.Delivery:
-            sendActionType = SendActionType.GotDeliveryReceipt;
-            break;
-          case MessageReceiptType.Read:
-            sendActionType = SendActionType.GotReadReceipt;
-            break;
-          case MessageReceiptType.View:
-            sendActionType = SendActionType.GotViewedReceipt;
-            break;
-          default:
-            throw missingCaseError(type);
-        }
+      ) ?? { status: SendStatus.Sent, updatedAt: undefined };
 
-        const newSendState = sendStateReducer(oldSendState, {
-          type: sendActionType,
-          updatedAt: messageSentAt,
+      let sendActionType: SendActionType;
+      switch (type) {
+        case MessageReceiptType.Delivery:
+          sendActionType = SendActionType.GotDeliveryReceipt;
+          break;
+        case MessageReceiptType.Read:
+          sendActionType = SendActionType.GotReadReceipt;
+          break;
+        case MessageReceiptType.View:
+          sendActionType = SendActionType.GotViewedReceipt;
+          break;
+        default:
+          throw missingCaseError(type);
+      }
+
+      const newSendState = sendStateReducer(oldSendState, {
+        type: sendActionType,
+        updatedAt: messageSentAt,
+      });
+
+      // The send state may not change. For example, this can happen if we get a read
+      //   receipt before a delivery receipt.
+      if (!isEqual(oldSendState, newSendState)) {
+        message.set('sendStateByConversationId', {
+          ...oldSendStateByConversationId,
+          [sourceConversationId]: newSendState,
         });
 
-        // The send state may not change. For example, this can happen if we get a read
-        //   receipt before a delivery receipt.
-        if (!isEqual(oldSendState, newSendState)) {
-          message.set('sendStateByConversationId', {
-            ...oldSendStateByConversationId,
-            [sourceConversationId]: newSendState,
-          });
+        window.Signal.Util.queueUpdateMessage(message.attributes);
 
-          window.Signal.Util.queueUpdateMessage(message.attributes);
-
-          // notify frontend listeners
-          const conversation = window.ConversationController.get(
-            message.get('conversationId')
-          );
-          const updateLeftPane = conversation
-            ? conversation.debouncedUpdateLastMessage
-            : undefined;
-          if (updateLeftPane) {
-            updateLeftPane();
-          }
-        }
-      } else {
-        window.log.warn(
-          `Got a receipt from someone (${sourceConversationId}), but the message (sent at ${message.get(
-            'sent_at'
-          )}) wasn't sent to them. It was sent to ${
-            Object.keys(oldSendStateByConversationId).length
-          } recipients`
+        // notify frontend listeners
+        const conversation = window.ConversationController.get(
+          message.get('conversationId')
         );
+        const updateLeftPane = conversation
+          ? conversation.debouncedUpdateLastMessage
+          : undefined;
+        if (updateLeftPane) {
+          updateLeftPane();
+        }
       }
 
       if (
