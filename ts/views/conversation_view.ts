@@ -12,7 +12,7 @@ import {
 } from '../types/Attachment';
 import type { StickerPackType as StickerPackDBType } from '../sql/Interface';
 import * as Stickers from '../types/Stickers';
-import { IMAGE_JPEG, IMAGE_WEBP } from '../types/MIME';
+import { MIMEType, IMAGE_JPEG, IMAGE_WEBP } from '../types/MIME';
 import { ConversationModel } from '../models/conversations';
 import {
   GroupV2PendingMemberType,
@@ -43,8 +43,6 @@ import {
 import { getMessagesByConversation } from '../state/selectors/conversations';
 import { ConversationDetailsMembershipList } from '../components/conversation/conversation-details/ConversationDetailsMembershipList';
 import { showSafetyNumberChangeDialog } from '../shims/showSafetyNumberChangeDialog';
-import { autoOrientImage } from '../util/autoOrientImage';
-import { canvasToBlob } from '../util/canvasToBlob';
 import {
   LinkPreviewImage,
   LinkPreviewResult,
@@ -52,6 +50,10 @@ import {
 } from '../types/LinkPreview';
 import * as LinkPreview from '../types/LinkPreview';
 import { SignalService as Proto } from '../protobuf';
+import {
+  autoScale,
+  handleImageAttachment,
+} from '../util/handleImageAttachment';
 
 type AttachmentOptions = {
   messageId: string;
@@ -1858,7 +1860,7 @@ Whisper.ConversationView = Whisper.View.extend({
     return toWrite;
   },
 
-  async maybeAddAttachment(file: any) {
+  async maybeAddAttachment(file: File): Promise<void> {
     if (!file) {
       return;
     }
@@ -1892,8 +1894,10 @@ Whisper.ConversationView = Whisper.View.extend({
       return;
     }
 
+    const fileType = file.type as MIMEType;
+
     // You can't add a non-image attachment if you already have attachments staged
-    if (!MIME.isImage(file.type) && draftAttachments.length > 0) {
+    if (!MIME.isImage(fileType) && draftAttachments.length > 0) {
       this.showToast(Whisper.CannotMixImageAndNonImageAttachmentsToast);
       return;
     }
@@ -1901,10 +1905,10 @@ Whisper.ConversationView = Whisper.View.extend({
     let attachment: InMemoryAttachmentDraftType;
 
     try {
-      if (window.Signal.Util.GoogleChrome.isImageTypeSupported(file.type)) {
-        attachment = await this.handleImageAttachment(file);
+      if (window.Signal.Util.GoogleChrome.isImageTypeSupported(fileType)) {
+        attachment = await handleImageAttachment(file);
       } else if (
-        window.Signal.Util.GoogleChrome.isVideoTypeSupported(file.type)
+        window.Signal.Util.GoogleChrome.isVideoTypeSupported(fileType)
       ) {
         attachment = await this.handleVideoAttachment(file);
       } else {
@@ -1912,20 +1916,20 @@ Whisper.ConversationView = Whisper.View.extend({
         attachment = {
           data,
           size: data.byteLength,
-          contentType: file.type,
+          contentType: fileType,
           fileName: file.name,
         };
       }
     } catch (e) {
       window.log.error(
-        `Was unable to generate thumbnail for file type ${file.type}`,
+        `Was unable to generate thumbnail for fileType ${fileType}`,
         e && e.stack ? e.stack : e
       );
       const data = await this.arrayBufferFromFile(file);
       attachment = {
         data,
         size: data.byteLength,
-        contentType: file.type,
+        contentType: fileType,
         fileName: file.name,
       };
     }
@@ -2007,154 +2011,6 @@ Whisper.ConversationView = Whisper.View.extend({
     } finally {
       URL.revokeObjectURL(objectUrl);
     }
-  },
-
-  async handleImageAttachment(file: any): Promise<InMemoryAttachmentDraftType> {
-    const blurHash = await window.imageToBlurHash(file);
-    if (MIME.isJPEG(file.type)) {
-      const rotatedBlob = await autoOrientImage(file);
-      const { contentType, file: resizedBlob, fileName } = await this.autoScale(
-        {
-          contentType: file.type,
-          fileName: file.name,
-          file: rotatedBlob,
-        }
-      );
-      const data = await VisualAttachment.blobToArrayBuffer(resizedBlob);
-
-      return {
-        fileName: fileName || file.name,
-        contentType,
-        data,
-        size: data.byteLength,
-        blurHash,
-      };
-    }
-
-    const { contentType, file: resizedBlob, fileName } = await this.autoScale({
-      contentType: file.type,
-      fileName: file.name,
-      file,
-    });
-    const data = await VisualAttachment.blobToArrayBuffer(resizedBlob);
-    return {
-      fileName: fileName || file.name,
-      contentType,
-      data,
-      size: data.byteLength,
-      blurHash,
-    };
-  },
-
-  autoScale(attachment: any) {
-    const { contentType, file, fileName } = attachment;
-    if (contentType.split('/')[0] !== 'image' || contentType === 'image/tiff') {
-      // nothing to do
-      return Promise.resolve(attachment);
-    }
-
-    return new Promise((resolve, reject) => {
-      const url = URL.createObjectURL(file);
-      const img = document.createElement('img');
-      img.onload = async () => {
-        URL.revokeObjectURL(url);
-
-        const maxSize = 6000 * 1024;
-        const maxHeight = 4096;
-        const maxWidth = 4096;
-        if (
-          img.naturalWidth <= maxWidth &&
-          img.naturalHeight <= maxHeight &&
-          file.size <= maxSize
-        ) {
-          resolve(attachment);
-          return;
-        }
-
-        const gifMaxSize = 25000 * 1024;
-        if (file.type === 'image/gif' && file.size <= gifMaxSize) {
-          resolve(attachment);
-          return;
-        }
-
-        if (file.type === 'image/gif') {
-          reject(new Error('GIF is too large'));
-          return;
-        }
-
-        const targetContentType = IMAGE_JPEG;
-        const canvas = window.loadImage.scale(img, {
-          canvas: true,
-          maxWidth,
-          maxHeight,
-        });
-
-        let quality = 0.95;
-        let i = 4;
-        let blob;
-        do {
-          i -= 1;
-          // We want to do these operations in serial.
-          // eslint-disable-next-line no-await-in-loop
-          blob = await canvasToBlob(canvas, targetContentType, quality);
-          quality = (quality * maxSize) / blob.size;
-          // NOTE: During testing with a large image, we observed the
-          // `quality` value being > 1. Should we clamp it to [0.5, 1.0]?
-          // See: https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob#Syntax
-          if (quality < 0.5) {
-            quality = 0.5;
-          }
-        } while (i > 0 && blob.size > maxSize);
-
-        resolve({
-          ...attachment,
-          fileName: this.fixExtension(fileName, targetContentType),
-          contentType: targetContentType,
-          file: blob,
-        });
-      };
-      img.onerror = (
-        _event: unknown,
-        _source: unknown,
-        _lineno: unknown,
-        _colno: unknown,
-        error: Error = new Error('Failed to load image for auto-scaling')
-      ) => {
-        URL.revokeObjectURL(url);
-        reject(error);
-      };
-      img.src = url;
-    });
-  },
-
-  getFileName(fileName?: string) {
-    if (!fileName) {
-      return '';
-    }
-
-    if (!fileName.includes('.')) {
-      return fileName;
-    }
-
-    return fileName.split('.').slice(0, -1).join('.');
-  },
-
-  getType(contentType?: string) {
-    if (!contentType) {
-      return '';
-    }
-
-    if (!contentType.includes('/')) {
-      return contentType;
-    }
-
-    return contentType.split('/')[1];
-  },
-
-  fixExtension(fileName: string, contentType: string) {
-    const extension = this.getType(contentType);
-    const name = this.getFileName(fileName);
-    return `${name}.${extension}`;
   },
 
   markAllAsVerifiedDefault(unverified: any) {
@@ -4324,11 +4180,12 @@ Whisper.ConversationView = Whisper.View.extend({
 
         // Ensure that this file is either small enough or is resized to meet our
         //   requirements for attachments
-        const withBlob = await this.autoScale({
+        const withBlob = await autoScale({
           contentType: fullSizeImage.contentType,
           file: new Blob([fullSizeImage.data], {
             type: fullSizeImage.contentType,
           }),
+          fileName: title,
         });
 
         const data = await this.arrayBufferFromFile(withBlob.file);
