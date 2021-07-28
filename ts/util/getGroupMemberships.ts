@@ -29,7 +29,7 @@ export const getGroupMemberships = (
   memberships: memberships.reduce(
     (result: Array<GroupV2Membership>, membership) => {
       const member = getConversationById(membership.conversationId);
-      if (!member || isConversationUnregistered(member)) {
+      if (!member) {
         return result;
       }
       return [...result, { isAdmin: membership.isAdmin, member }];

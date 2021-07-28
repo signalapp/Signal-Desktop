@@ -57,7 +57,7 @@ describe('getGroupMemberships', () => {
       assert.isEmpty(result);
     });
 
-    it('filters out unregistered conversations', () => {
+    it('does not filter out unregistered conversations', () => {
       const conversation = {
         memberships: [
           {
@@ -70,7 +70,11 @@ describe('getGroupMemberships', () => {
       const result = getGroupMemberships(conversation, getConversationById)
         .memberships;
 
-      assert.isEmpty(result);
+      assert.lengthOf(result, 1);
+      assert.deepEqual(result[0], {
+        isAdmin: true,
+        member: unregisteredConversation,
+      });
     });
 
     it('hydrates memberships', () => {
