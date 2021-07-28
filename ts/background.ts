@@ -3221,7 +3221,7 @@ export async function startApp(): Promise<void> {
         return {
           ...result,
           [conversationId]: {
-            status: SendStatus.Pending,
+            status: SendStatus.Sent,
             updatedAt: timestamp,
           },
         };

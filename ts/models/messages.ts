@@ -2579,20 +2579,25 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
                 return;
               }
 
+              const updatedAt: number = isNormalNumber(data.timestamp)
+                ? data.timestamp
+                : Date.now();
+
               const previousSendState = getOwn(
                 sendStateByConversationId,
                 destinationConversationId
               );
-              if (previousSendState) {
-                sendStateByConversationId[
-                  destinationConversationId
-                ] = sendStateReducer(previousSendState, {
-                  type: SendActionType.Sent,
-                  updatedAt: isNormalNumber(data.timestamp)
-                    ? data.timestamp
-                    : Date.now(),
-                });
-              }
+              sendStateByConversationId[
+                destinationConversationId
+              ] = previousSendState
+                ? sendStateReducer(previousSendState, {
+                    type: SendActionType.Sent,
+                    updatedAt,
+                  })
+                : {
+                    status: SendStatus.Sent,
+                    updatedAt,
+                  };
 
               if (unidentified) {
                 unidentifiedDeliveriesSet.add(identifier);
