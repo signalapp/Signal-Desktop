@@ -1174,7 +1174,7 @@
         "description": "Shown on explainer dialog available from delivery issue timeline events"
     },
     "DeliveryIssue--summary": {
-        "message": "A message, sticker, reaction, read receipt or media couldn’t be delivered to you from $sender$. They may have tried sending it to you directly, or in a group.",
+        "message": "$sender$ থেকে আপনাকে কোন বার্তা, স্টিকার, প্রতিক্রিয়া, পড়ার রসিদ বা মিডিয়া পাঠানো যায়নি। তারা আপনাকে হয় সরাসরি বা কোন গ্রুপে এটি পাঠাতে চেষ্টা করেছিলো।",
         "description": "Shown on explainer dialog available from delivery issue timeline events",
         "placeholders": {
             "name": {
@@ -1268,7 +1268,7 @@
         "description": ""
     },
     "installTooOld": {
-        "message": "Update Signal on this device to link your phone.",
+        "message": "আপনার ফোনের সাথে সংযুক্ত করতে এই ডিভাইসে Signal আপডেট করুন।",
         "description": ""
     },
     "installErrorHeader": {
@@ -1288,59 +1288,59 @@
         "description": "Header for calling options on the settings screen"
     },
     "calling__start": {
-        "message": "Start Call",
+        "message": "কল শুরু করুন",
         "description": "Button label in the call lobby for starting a call"
     },
     "calling__join": {
-        "message": "Join Call",
+        "message": "কল-এ যোগ দিন",
         "description": "Button label in the call lobby for joining a call"
     },
     "calling__return": {
-        "message": "Return to Call",
+        "message": "কল-এ ফেরত যান",
         "description": "Button label in the call lobby for returning to a call"
     },
     "calling__call-is-full": {
-        "message": "Call is full",
+        "message": "কলটি পরিপূর্ণ",
         "description": "Button label in the call lobby when you can't join because the call is full"
     },
     "calling__button--video-disabled": {
-        "message": "Camera disabled",
+        "message": "ক্যামেরা নিষ্ক্রিয় করা",
         "description": "Button tooltip label when the camera is disabled"
     },
     "calling__button--video-off": {
-        "message": "Turn off camera",
+        "message": "ক্যামেরা বন্ধ করুন",
         "description": "Button tooltip label for turning off the camera"
     },
     "calling__button--video-on": {
-        "message": "Turn on camera",
+        "message": "ক্যামেরা চালু করুন",
         "description": "Button tooltip label for turning on the camera"
     },
     "calling__button--audio-disabled": {
-        "message": "Microphone disabled",
+        "message": "মাইক্রোফোন নিষ্ক্রিয় করা",
         "description": "Button tooltip label when the microphone is disabled"
     },
     "calling__button--audio-off": {
-        "message": "Mute mic",
+        "message": "মাইক নিঃশব্দ করুন",
         "description": "Button tooltip label for turning off the microphone"
     },
     "calling__button--audio-on": {
-        "message": "Unmute mic",
+        "message": "মাইক সশব্দ করুন",
         "description": "Button tooltip label for turning on the microphone"
     },
     "calling__button--presenting-disabled": {
-        "message": "Presenting disabled",
+        "message": "উপস্থাপনা নিষ্ক্রিয় করা",
         "description": "Button tooltip label for when screen sharing is disabled"
     },
     "calling__button--presenting-on": {
-        "message": "Start presenting",
+        "message": "উপস্থাপনা শুরু করুন",
         "description": "Button tooltip label for starting to share screen"
     },
     "calling__button--presenting-off": {
-        "message": "Stop presenting",
+        "message": "উপস্থাপনা থামান",
         "description": "Button tooltip label for stopping screen sharing"
     },
     "calling__your-video-is-off": {
-        "message": "Your camera is off",
+        "message": "আপনার ক্যামেরা বন্ধ",
         "description": "Label in the calling lobby indicating that your camera is off"
     },
     "calling__lobby-summary--zero": {
@@ -1348,7 +1348,7 @@
         "description": "Shown in the calling lobby to describe who is in the call"
     },
     "calling__lobby-summary--single": {
-        "message": "$first$ is in this call",
+        "message": "$first$ এই কল-এ আছে",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
@@ -1358,11 +1358,11 @@
         }
     },
     "calling__lobby-summary--self": {
-        "message": "One of your other devices is in this call",
+        "message": "আপনার অন্য ডিভাইসগুলোর একটি এই কল-এ আছে",
         "description": "Shown in the calling lobby to describe when it is just you"
     },
     "calling__lobby-summary--double": {
-        "message": "$first$ and $second$ are in this call",
+        "message": "$first$ ও $second$ এই কল-এ আছে",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
@@ -1376,7 +1376,7 @@
         }
     },
     "calling__lobby-summary--triple": {
-        "message": "$first$, $second$, and $third$ are in this call",
+        "message": "$first$, $second$, ও $third$এই কল-এ আছে",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
@@ -1394,7 +1394,7 @@
         }
     },
     "calling__lobby-summary--many": {
-        "message": "$first$, $second$, and $others$ others are in this call",
+        "message": "$first$, $second$, ও $others$ জন এই কল-এ আছে",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
@@ -1416,11 +1416,11 @@
         "description": "Shown in the participants list to describe how many people are in the call"
     },
     "calling__in-this-call--one": {
-        "message": "In this call · 1 person",
+        "message": "এই কল-এ · 1 জন আছে",
         "description": "Shown in the participants list to describe how many people are in the call"
     },
     "calling__in-this-call--many": {
-        "message": "In this call · $people$ people",
+        "message": "এই কল-এ · $people$ জন আছে",
         "description": "Shown in the participants list to describe how many people are in the call",
         "placeholders": {
             "people": {
@@ -1430,7 +1430,7 @@
         }
     },
     "calling__you-have-blocked": {
-        "message": "You have blocked $name$",
+        "message": "আপনি $name$-কে ব্লক করেছেন",
         "description": "when you block someone and cannot view their video",
         "placeholders": {
             "name": {
@@ -1440,27 +1440,27 @@
         }
     },
     "calling__block-info": {
-        "message": "You won't receive their audio or video and they won't receive yours.",
+        "message": "আপনি তাদের অডিও বা ভিডিও গ্রহণ পাবেন না এবং তারাও পাবে না।",
         "description": "Shown in the modal dialog to describe how blocking works in a gorup call"
     },
     "calling__overflow__scroll-up": {
-        "message": "Scroll up",
+        "message": "উপরের দিকে স্ক্রল করুন",
         "description": "Label for the \"scroll up\" button in a call's overflow area"
     },
     "calling__overflow__scroll-down": {
-        "message": "Scroll down",
+        "message": "নিচের দিকে স্ক্রল করুন",
         "description": "Label for the \"scroll down\" button in a call's overflow area"
     },
     "calling__presenting--notification-title": {
-        "message": "You're presenting to everyone.",
+        "message": "আপনি সবার নিকট উপস্থাপনা করছেন।",
         "description": "Title for the share screen notification"
     },
     "calling__presenting--notification-body": {
-        "message": "Click here to return to the call when you're ready to stop presenting.",
+        "message": "আপনি উপস্থাপনা থামাতে প্রস্তুত হলে কল-এ ফিরে যেতে এখানে ক্লিক করুন।",
         "description": "Body text for the share screen notification"
     },
     "calling__presenting--info": {
-        "message": "Signal is sharing $window$.",
+        "message": "Signal $window$ শেয়ার করছে।",
         "description": "Text that appears in the screen sharing controller to inform person that they are presenting",
         "placeholders": {
             "name": {
@@ -1470,15 +1470,15 @@
         }
     },
     "calling__presenting--stop": {
-        "message": "Stop sharing",
+        "message": "শেয়ার করা থামান",
         "description": "Button for stopping screen sharing"
     },
     "calling__presenting--you-stopped": {
-        "message": "You stopped presenting",
+        "message": "আপনি উপস্থাপন থামিয়েছেন",
         "description": "Toast that appears when someone stops presenting"
     },
     "calling__presenting--person-ongoing": {
-        "message": "$name$ is presenting",
+        "message": "$name$ উপস্থাপন করছে",
         "description": "Title of call when someone is presenting",
         "placeholders": {
             "name": {
@@ -1488,7 +1488,7 @@
         }
     },
     "calling__presenting--person-stopped": {
-        "message": "$name$ stopped presenting",
+        "message": "$name$ উপস্থাপন থামিয়েছে",
         "description": "Toast that appears when someone stops presenting",
         "placeholders": {
             "name": {
@@ -1498,27 +1498,27 @@
         }
     },
     "calling__presenting--permission-title": {
-        "message": "Permission needed",
+        "message": "অনুমতি আবশ্যক",
         "description": "Shown as the title for the modal that requests screen recording permissions"
     },
     "calling__presenting--macos-permission-description": {
-        "message": "Signal needs permission to access your computer's screen recording.",
+        "message": "আপনার কম্পিউটারের স্ক্রিন রেকর্ডিংয়ে প্রবেশাধিকার পেতে Signal-এর অনুমতি প্রয়োজন।",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-instruction-step1": {
-        "message": "Go to System Preferences.",
+        "message": "সিস্টেম অগ্রাধিকার-এ যান।",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-instruction-step2": {
-        "message": "Click on the lock icon on the bottom left and enter your computer’s password.",
+        "message": "নিচের বাম কোনের লক আইকন-এ ক্লিক করুন এবং আপনার কম্পিউটারের পাসওয়ার্ড প্রবেশ করান।",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-instruction-step3": {
-        "message": "On the right, check the box next to Signal. If you don’t see Signal in the list, click the + to add it.",
+        "message": "ডান দিকে, Signal-এর পাশের বক্সটিতে টিক দিন। তালিকায় Signal না দেখলে, সেটি যুক্ত করতে + চিহ্নে ক্লিক করুন।",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-open": {
-        "message": "Open System Preferences",
+        "message": "সিস্টেম অগ্রাধিকার খুলুন",
         "description": "The button that opens your system preferences for the needs screen record permissions modal"
     },
     "calling__presenting--permission-cancel": {
@@ -1538,11 +1538,11 @@
         "description": "Header for permissions section of settings"
     },
     "mediaPermissionsDescription": {
-        "message": "Allow access to the microphone",
+        "message": "মাইক্রোফোনে প্রবেশাধিকার দিন",
         "description": "Description of the media permission description"
     },
     "mediaCameraPermissionsDescription": {
-        "message": "Allow access to the camera",
+        "message": "ক্যামেরায় প্রবেশাধিকার দিন",
         "description": "Description of the media permission description"
     },
     "general": {
@@ -1550,27 +1550,27 @@
         "description": "Header for general options on the settings screen"
     },
     "spellCheckDescription": {
-        "message": "Enable spell check",
+        "message": "বানান যাচাই সক্রিয় করুন",
         "description": "Description of the spell check setting"
     },
     "spellCheckWillBeEnabled": {
-        "message": "Spell check will be enabled the next time Signal starts.",
+        "message": "পরের বার Signal চালু হওয়ার সময় বানান যাচাই অপশনটি চালু হবে।",
         "description": "Shown when the user enables spellcheck to indicate that they must restart Signal."
     },
     "spellCheckWillBeDisabled": {
-        "message": "Spell check will be disabled the next time Signal starts.",
+        "message": "পরের বার Signal চালু হওয়ার সময় বানান যাচাই অপশনটি নিষ্ক্রিয় হবে।",
         "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
     },
     "SystemTraySetting__minimize-to-system-tray": {
-        "message": "Minimize to system tray",
+        "message": "সিস্টেম ট্রে-তে মিনিমাইজ করুন",
         "description": "In the settings, shown next to the checkbox option for minimizing to the system tray"
     },
     "SystemTraySetting__minimize-to-and-start-in-system-tray": {
-        "message": "Start minimized to tray",
+        "message": "ট্রে-তে মিনিমাইজ করা শুরু করুন",
         "description": "In the settings, shown next to the checkbox option for starting in the system tray"
     },
     "autoLaunchDescription": {
-        "message": "Open at computer login",
+        "message": "কম্পিউটার লগইন করার সময় চালু করুন",
         "description": "Description for the automatic launch setting"
     },
     "clearDataHeader": {
@@ -1602,11 +1602,11 @@
         "description": "Message shown to user when app is disconnected and data deleted"
     },
     "deleteOldIndexedDBData": {
-        "message": "You have obsolete data from a prior installation of Signal Desktop. If you choose to continue, it will be deleted and you will start from scratch.",
+        "message": "পূর্বের Signal ডেস্কটপ ইনস্টলেশন থেকে আপনার অচল কিছু ডেটা রয়েছে। আপনি অগ্রসর হলে এগুলো মুছে যাবে এবং আপনি আবার শূন্য থেকে শুরু করবেন।",
         "description": "Shown if user last ran Signal Desktop before October 2018"
     },
     "deleteOldData": {
-        "message": "Delete Old Data",
+        "message": "পুরনো ডেটা মুছুন",
         "description": "Button to make the delete happen"
     },
     "notifications": {
@@ -1622,11 +1622,11 @@
         "description": "Label for disabling notifications"
     },
     "nameAndMessage": {
-        "message": "Name, content, and actions",
+        "message": "নাম, বিষয়বস্তু, ও পদক্ষেপসমূহ",
         "description": "Label for setting notifications to display name and message text"
     },
     "noNameOrMessage": {
-        "message": "No name or content",
+        "message": "কোন নাম বা বিষয়বস্তু নেই",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "nameOnly": {
@@ -1638,7 +1638,7 @@
         "description": "Displayed in notifications for only 1 message"
     },
     "notificationSenderInGroup": {
-        "message": "$sender$ in $group$",
+        "message": "$sender$ $group$-এ",
         "description": "Displayed in notifications for messages in a group",
         "placeholders": {
             "sender": {
@@ -1652,7 +1652,7 @@
         }
     },
     "notificationReaction": {
-        "message": "$sender$ reacted $emoji$ to your message",
+        "message": "$sender$ $emoji$-এর বার্তায় প্রতিক্রিয়া দেখিয়েছে",
         "description": "",
         "placeholders": {
             "sender": {
@@ -1666,7 +1666,7 @@
         }
     },
     "notificationReactionMessage": {
-        "message": "$sender$ reacted $emoji$ to: $message$",
+        "message": "$sender$ $emoji$ প্রতিক্রিয়া দেখিয়েছে: $message$-এ",
         "description": "",
         "placeholders": {
             "sender": {
@@ -1692,7 +1692,7 @@
         "description": "Shown on outgoing message if it cannot be sent immediately"
     },
     "partiallySent": {
-        "message": "Partially sent, click for details",
+        "message": "আংশিক পাঠানো হয়েছে, বিস্তারিত জানতে ক্লিক করুন",
         "description": "Shown on outgoing message if it is partially sent"
     },
     "showMore": {
@@ -1800,7 +1800,7 @@
         "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
-        "message": "You set the disappearing message time to $time$.",
+        "message": "আপনি বার্তা অদৃশ্য হওয়ার সময় $time$-এ সেট করেছেন।",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -1810,7 +1810,7 @@
         }
     },
     "timerSetOnSync": {
-        "message": "Updated the disappearing message time to $time$.",
+        "message": "বার্তা অদৃশ্য হওয়ার সময় $time$-এ আপডেট করেছেন।",
         "description": "Message displayed when timer is set on initial link of desktop device.",
         "placeholders": {
             "time": {
@@ -1820,7 +1820,7 @@
         }
     },
     "timerSetByMember": {
-        "message": "A member set the disappearing message time to $time$.",
+        "message": "একজন সদস্য বার্তা অদৃশ্য হওয়ার সময় $time$-এ সেট করেছেন।",
         "description": "Message displayed when timer is by an unknown group member.",
         "placeholders": {
             "time": {
@@ -1830,7 +1830,7 @@
         }
     },
     "theyChangedTheTimer": {
-        "message": "$name$ set the disappearing message time to $time$.",
+        "message": "$name$ বার্তা অদৃশ্য হওয়ার সময় $time$-এ সেট করেছেন।",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -1856,11 +1856,11 @@
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disappearingMessagesDisabledByMember": {
-        "message": "A member disabled disappearing messages.",
+        "message": "একজন সদস্য বার্তা অদৃশ্য হওয়া নিষ্ক্রিয় করেছেন।",
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disabledDisappearingMessages": {
-        "message": "$name$ disabled disappearing messages.",
+        "message": "$name$ বার্তা অদৃশ্য হওয়া নিষ্ক্রিয় করেছেন।",
         "description": "Displayed in the conversation list when the timer is turned off",
         "placeholders": {
             "name": {
@@ -1888,19 +1888,19 @@
         "description": "Description for audio notification setting"
     },
     "callRingtoneNotificationDescription": {
-        "message": "Play calling sounds",
+        "message": "কল আসার শব্দ বাজান",
         "description": "Description for call ringtone notification setting"
     },
     "callSystemNotificationDescription": {
-        "message": "Show notifications for calls",
+        "message": "কল আসার বিজ্ঞপ্তি দেখান",
         "description": "Description for call notification setting"
     },
     "incomingCallNotificationDescription": {
-        "message": "Enable incoming calls",
+        "message": "কল আসা সক্রিয় করুন",
         "description": "Description for incoming calls setting"
     },
     "contactChangedProfileName": {
-        "message": "$sender$ changed their profile name from $oldProfile$ to $newProfile$.",
+        "message": "$sender$ তার প্রোফাইল নাম $oldProfile$ থেকে $newProfile$-এ পরিবর্তন করেছেন।",
         "description": "Description for incoming calls setting",
         "placeholders": {
             "sender": {
@@ -1918,7 +1918,7 @@
         }
     },
     "changedProfileName": {
-        "message": "$oldProfile$ changed their profile name to $newProfile$.",
+        "message": "$oldProfile$ তার প্রোফাইল নাম $newProfile$-এ পরিবর্তন করেছেন।",
         "description": "Shown when a contact not in your address book changes their profile name",
         "placeholders": {
             "oldProfile": {
@@ -1936,7 +1936,7 @@
         "description": "A notification shown in the conversation when a contact reinstalls"
     },
     "safetyNumberChanges": {
-        "message": "Safety Number Changes",
+        "message": "নিরাপত্তা নাম্বার পরিবর্তন হয়েছে",
         "description": "Title for safety number changed modal"
     },
     "safetyNumberChangedGroup": {
@@ -1958,7 +1958,7 @@
         "description": "Shown on the safety number screen if you have never exchanged messages with that contact"
     },
     "yourSafetyNumberWith": {
-        "message": "Your safety number with $name1$:",
+        "message": "$name1$-এর সাথে আপনার নিরাপত্তা নাম্বার:",
         "description": "Heading for safety number view",
         "placeholders": {
             "name1": {
@@ -1988,7 +1988,7 @@
         "description": "Description for the Note to Self conversation"
     },
     "notificationDrawAttention": {
-        "message": "Draw attention to this window when a notification arrives",
+        "message": "কোন বিজ্ঞপ্তি আসলে এই উইন্ডোতে মনোযোগ আকৃষ্ট করুন",
         "description": "Label text for the setting that controls whether new notifications draw attention to the window"
     },
     "hideMenuBar": {
@@ -2004,11 +2004,11 @@
         "description": "Label for header when starting a new conversation"
     },
     "contactSearchPlaceholder": {
-        "message": "Search by name or phone number",
+        "message": "নাম বা ফোন নম্বর দিয়ে খুঁজুন",
         "description": "Placeholder to use when searching for contacts in the composer"
     },
     "noContactsFound": {
-        "message": "No contacts found",
+        "message": "কোন কন্ট্যাক্ট পাওয়া যায়নি",
         "description": "Label shown when there are no contacts to compose to"
     },
     "noConversationsFound": {
@@ -2032,7 +2032,7 @@
         "description": "The 'next' button text in the 'choose group members' left pane screen"
     },
     "chooseGroupMembers__maximum-group-size__title": {
-        "message": "Maximum group size reached",
+        "message": "গ্রুপের সদস্য সর্বোচ্চ সংখ্যায় পৌঁছেছে",
         "description": "Shown in the alert when you add the maximum number of group members"
     },
     "chooseGroupMembers__maximum-group-size__body": {
@@ -2046,7 +2046,7 @@
         }
     },
     "chooseGroupMembers__maximum-recommended-group-size__title": {
-        "message": "Recommended member limit reached",
+        "message": "সুপারিশকৃত সদস্য সীমায় পৌঁছেছে",
         "description": "Shown in the alert when you add the maximum recommended number of group members"
     },
     "chooseGroupMembers__maximum-recommended-group-size__body": {
@@ -3010,7 +3010,7 @@
         }
     },
     "MessageRequests--message-group-blocked": {
-        "message": "Unblock this group and share your name and photo with its members? You won't receive any messages until you unblock them.",
+        "message": "এই গ্রুপটিকে আনব্লক করে এর সদস্যদের সাথে আপনার নাম ও ছবি শেয়ার করবেন? আপনি তাদের আনব্লক না করা পর্যন্ত কোন বার্তা পাবেন না।",
         "description": "Shown as the message for a message request in a blocked group"
     },
     "MessageRequests--block": {
@@ -3256,7 +3256,7 @@
         "description": "Shown to indicate this user is not a member of any groups"
     },
     "no-groups-in-common-warning": {
-        "message": "No groups in common. Review requests carefully.",
+        "message": "কোন কমন গ্রুপ নেই। আবেদনগুলো সতর্কতার সাথে পর্যালোচনা করুন।",
         "description": "When a user has no common groups, show this warning"
     },
     "acceptCall": {
@@ -3288,11 +3288,11 @@
         "description": "Shown in conversation history when you accepted an incoming video call"
     },
     "missedIncomingAudioCall": {
-        "message": "Missed audio call",
+        "message": "অডিও কল মিস হয়েছে",
         "description": "Shown in conversation history when you missed an incoming audio call"
     },
     "missedIncomingVideoCall": {
-        "message": "Missed video call",
+        "message": "ভিডিও কল মিস হয়েছে",
         "description": "Shown in conversation history when you missed an incoming video call"
     },
     "acceptedOutgoingAudioCall": {
@@ -3430,7 +3430,7 @@
         "description": "Title for grid/speaker view toggle when on a call"
     },
     "calling__hangup": {
-        "message": "Leave call",
+        "message": "কল ছেড়ে যান",
         "description": "Title for hang up button"
     },
     "calling__SelectPresentingSourcesModal--title": {
@@ -4920,7 +4920,7 @@
         "description": "Button text for removing as admin button in Group Contact Details modal"
     },
     "ContactModal--make-admin": {
-        "message": "Make admin",
+        "message": "এডমিন করুন",
         "description": "Button text for make admin button in Group Contact Details modal"
     },
     "ContactModal--make-admin-info": {
@@ -4948,7 +4948,7 @@
         "description": "Button text for remove from group button in Group Contact Details modal"
     },
     "showChatColorEditor": {
-        "message": "Chat color",
+        "message": "চ্যাট'র রঙ",
         "description": "This is a button in the conversation context menu to show the chat color editor"
     },
     "showConversationDetails": {
@@ -5494,15 +5494,15 @@
         }
     },
     "CaptchaDialog__title": {
-        "message": "Verify to continue messaging",
+        "message": "বার্তা পাঠানো অব্যাহত রাখতে যাচাই করুন",
         "description": "Header in the captcha dialog"
     },
     "CaptchaDialog__first-paragraph": {
-        "message": "To help prevent spam on Signal, please complete verification.",
+        "message": "Signal-এ স্প্যাম প্রতিরোধ করতে, অনুগ্রহ করে যাচাই সম্পন্ন করুন।",
         "description": "First paragraph in the captcha dialog"
     },
     "CaptchaDialog__second-paragraph": {
-        "message": "After verifying, you can continue messaging. Any paused messages will automatically be sent.",
+        "message": "যাচাই করার পর, আপনি বার্তা পাঠানো চালিয়ে যেতে পারবেন। স্থগিত করা যেকোনো বার্তা স্বয়ংক্রিয়ভাবে পাঠানো হবে।",
         "description": "First paragraph in the captcha dialog"
     },
     "CaptchaDialog--can-close__title": {
@@ -5552,7 +5552,7 @@
         "description": "View title for the chat color picker and editor"
     },
     "ChatColorPicker__reset": {
-        "message": "Reset chat color",
+        "message": "চ্যাট রং রিসেট করুন",
         "description": "Button label for resetting chat colors"
     },
     "ChatColorPicker__resetDefault": {
@@ -5572,7 +5572,7 @@
         "description": "Confirm button label for resetting chat colors"
     },
     "ChatColorPicker__confirm-reset-message": {
-        "message": "Would you like to override all chat colors?",
+        "message": "আপনি কি সব চ্যাট রং বাতিল করতে চান?",
         "description": "Modal message text for confirming resetting of chat colors"
     },
     "ChatColorPicker__custom-color--label": {
@@ -5686,7 +5686,7 @@
         "description": "Button text when the group description is too long"
     },
     "EditConversationAttributesModal__description-warning": {
-        "message": "Group descriptions will be visible to members of this group and people who have been invited.",
+        "message": "গ্রুপ বিবরণ এই গ্রুপের সদস্যদের নিকট ও আমন্ত্রিত ব্যক্তিদের নিকট দৃশ্যমান হবে।",
         "description": "Label text shown when editing group description"
     },
     "ConversationDetailsHeader--add-group-description": {
@@ -5718,27 +5718,27 @@
         "description": "Description of high quality selector"
     },
     "MessageDetailsHeader--Failed": {
-        "message": "Not sent",
+        "message": "পাঠানো হয়নি",
         "description": "In the message details screen, shown above contacts where the message failed to deliver"
     },
     "MessageDetailsHeader--Pending": {
-        "message": "Pending",
+        "message": "স্থগিত",
         "description": "In the message details screen, shown above contacts where the message is still sending"
     },
     "MessageDetailsHeader--Sent": {
-        "message": "Sent to",
+        "message": "প্রাপক",
         "description": "In the message details screen, shown above contacts where the message has been sent (but not delivered, read, or viewed)"
     },
     "MessageDetailsHeader--Delivered": {
-        "message": "Delivered to",
+        "message": "যাকে পাঠানো হয়েছে",
         "description": "In the message details screen, shown above contacts who have received your message"
     },
     "MessageDetailsHeader--Read": {
-        "message": "Read by",
+        "message": "যিনি পড়েছেন",
         "description": "In the message details screen, shown above contacts who have read this message"
     },
     "MessageDetailsHeader--Viewed": {
-        "message": "Viewed by",
+        "message": "যারা দেখেছেন",
         "description": "In the message details screen, shown above contacts who have viewed this message"
     },
     "ProfileEditor--about": {
@@ -5780,19 +5780,19 @@
         "description": "A default bio option"
     },
     "Bio--encrypted": {
-        "message": "Encrypted",
+        "message": "একক্রিপ্ট করা",
         "description": "A default bio option"
     },
     "Bio--free-to-chat": {
-        "message": "Free to chat",
+        "message": "চ্যাট করার সময় আছে",
         "description": "A default bio option"
     },
     "Bio--coffee-lover": {
-        "message": "Coffee lover",
+        "message": "কফি প্রেমিক",
         "description": "A default bio option"
     },
     "Bio--taking-break": {
-        "message": "Taking a break",
+        "message": "একটি বিরতি নিচ্ছে",
         "description": "A default bio option"
     },
     "ProfileEditorModal--profile": {

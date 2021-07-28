@@ -1688,7 +1688,7 @@
         "description": "Shown on outgoing message if it fails to send"
     },
     "sendPaused": {
-        "message": "Send paused",
+        "message": "ವಿರಾಮಗೊಳಿಸಿ ಕಳುಹಿಸಿ",
         "description": "Shown on outgoing message if it cannot be sent immediately"
     },
     "partiallySent": {
@@ -3268,7 +3268,7 @@
         "description": "Shown in tooltip for the button to accept a video call without video"
     },
     "declineCall": {
-        "message": "Decline",
+        "message": "ನಿರಾಕರಿಸಿ",
         "description": "Shown in tooltip for the button to decline a call (audio or video)"
     },
     "declinedIncomingAudioCall": {
@@ -5726,15 +5726,15 @@
         "description": "In the message details screen, shown above contacts where the message is still sending"
     },
     "MessageDetailsHeader--Sent": {
-        "message": "Sent to",
+        "message": "ಅವರಿಗೆ ಕಳುಹಿಸಲಾಗಿದೆ",
         "description": "In the message details screen, shown above contacts where the message has been sent (but not delivered, read, or viewed)"
     },
     "MessageDetailsHeader--Delivered": {
-        "message": "Delivered to",
+        "message": "ಇವರಿಗೆ ತಲುಪಿಸಲಾಗಿದೆ",
         "description": "In the message details screen, shown above contacts who have received your message"
     },
     "MessageDetailsHeader--Read": {
-        "message": "Read by",
+        "message": "ಓದಿದ್ದಾರೆ",
         "description": "In the message details screen, shown above contacts who have read this message"
     },
     "MessageDetailsHeader--Viewed": {

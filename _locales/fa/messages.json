@@ -5620,7 +5620,7 @@
         "description": "Label for the saturation slider"
     },
     "CustomColorEditor__title": {
-        "message": "Custom Color",
+        "message": "رنگ سفارشی",
         "description": "Modal title for the custom color editor"
     },
     "customDisappearingTimeOption": {
@@ -5632,7 +5632,7 @@
         "description": "Text for an option in Conversation Details Disappearing Messages setting when user previously selected custom time"
     },
     "DisappearingTimeDialog__title": {
-        "message": "Custom Time",
+        "message": "زمان سفارشی",
         "description": "Title for the custom disappearing message timeout dialog"
     },
     "DisappearingTimeDialog__body": {
