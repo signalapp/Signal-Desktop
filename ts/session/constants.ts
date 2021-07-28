@@ -32,7 +32,7 @@ export const PROTOCOLS = {
 // User Interface
 export const CONVERSATION = {
   DEFAULT_MEDIA_FETCH_COUNT: 50,
-  DEFAULT_DOCUMENTS_FETCH_COUNT: 150,
+  DEFAULT_DOCUMENTS_FETCH_COUNT: 100,
   DEFAULT_MESSAGE_FETCH_COUNT: 30,
   MAX_MESSAGE_FETCH_COUNT: 1000,
   // Maximum voice message duraton of 5 minutes

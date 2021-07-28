@@ -115,51 +115,6 @@
     "reason": "Arbitrary code execution"
   },
   {
-    "name": "React-ref",
-    "expression": "\\bref(\\s)*=\\b",
-    "reason": "Potential XSS",
-    "excludedModules": [
-      "node_modules/react-dom",
-      "node_modules/tslint-microsoft-contrib",
-      "node_modules/react-error-overlay",
-      "node_modules/react-styleguidist"
-    ]
-  },
-  {
-    "name": "React-createRef",
-    "expression": "\\bcreateRef\\(",
-    "reason": "Potential XSS",
-    "excludedModules": [
-      "node_modules/react/",
-      "node_modules/react-dom",
-      "node_modules/tslint-microsoft-contrib",
-      "node_modules/react-error-overlay",
-      "node_modules/react-styleguidist"
-    ]
-  },
-  {
-    "name": "React-findDOMNode",
-    "expression": "\\bfindDOMNode\\(",
-    "reason": "Potential XSS",
-    "excludedModules": [
-      "node_modules/react-dom",
-      "node_modules/tslint-microsoft-contrib",
-      "node_modules/react-error-overlay",
-      "node_modules/react-styleguidist"
-    ]
-  },
-  {
-    "name": "React-dangerouslySetInnerHTML",
-    "expression": "\\bdangerouslySetInnerHTML\\b",
-    "reason": "Potential XSS",
-    "excludedModules": [
-      "node_modules/react-dom",
-      "node_modules/tslint-microsoft-contrib",
-      "node_modules/react-error-overlay",
-      "node_modules/react-styleguidist"
-    ]
-  },
-  {
     "name": "fbjs-createNodesFromMarkup",
     "expression": "\\bcreateNodesFromMarkup\\b",
     "reason": "Potential XSS, pipes input to innerHTML",

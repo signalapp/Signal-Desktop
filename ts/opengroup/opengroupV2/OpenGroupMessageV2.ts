@@ -1,12 +1,5 @@
-import { getSodium } from '../../session/crypto';
 import { UserUtils } from '../../session/utils';
-import {
-  fromArrayBufferToBase64,
-  fromBase64ToArray,
-  fromHex,
-  fromHexToArray,
-  toHex,
-} from '../../session/utils/String';
+import { fromBase64ToArray } from '../../session/utils/String';
 
 export class OpenGroupMessageV2 {
   public serverId?: number;
@@ -77,7 +70,7 @@ export class OpenGroupMessageV2 {
     return new OpenGroupMessageV2({
       base64EncodedData: this.base64EncodedData,
       sentTimestamp: this.sentTimestamp,
-      base64EncodedSignature: fromArrayBufferToBase64(signature),
+      base64EncodedSignature: await window.callWorker('arrayBufferToStringBase64', signature),
       sender: this.sender,
       serverId: this.serverId,
     });

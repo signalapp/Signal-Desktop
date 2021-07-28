@@ -18,7 +18,7 @@ export type SessionPasswordModalState = { passwordAction: PasswordAction; onOk: 
 
 export type UserDetailsModalState = {
   conversationId: string;
-  authorAvatarPath?: string;
+  authorAvatarPath: string | null;
   userName: string;
 } | null;
 

@@ -1,8 +1,17 @@
-import { SectionType } from '../../components/session/ActionsPanel';
 import { SessionSettingCategory } from '../../components/session/settings/SessionSettings';
 
 export const FOCUS_SECTION = 'FOCUS_SECTION';
 export const FOCUS_SETTINGS_SECTION = 'FOCUS_SETTINGS_SECTION';
+
+export enum SectionType {
+  Profile,
+  Message,
+  Contact,
+  Channel,
+  Settings,
+  Moon,
+  PathIndicator,
+}
 
 type FocusSectionActionType = {
   type: 'FOCUS_SECTION';

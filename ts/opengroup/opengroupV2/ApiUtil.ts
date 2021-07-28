@@ -1,8 +1,9 @@
 import _ from 'lodash';
 import { FileServerV2Request } from '../../fileserver/FileServerApiV2';
+import { getSodium } from '../../session/crypto';
 import { PubKey } from '../../session/types';
 import { allowOnlyOneAtATime, sleepFor } from '../../session/utils/Promise';
-import { fromBase64ToArrayBuffer, fromHex } from '../../session/utils/String';
+import { fromBase64ToArrayBuffer, fromHex, fromHexToArray } from '../../session/utils/String';
 import { updateDefaultRooms, updateDefaultRoomsInProgress } from '../../state/ducks/defaultRooms';
 import { getCompleteUrlFromRoom } from '../utils/OpenGroupUtils';
 import { parseOpenGroupV2 } from './JoinOpenGroupV2';
@@ -43,55 +44,45 @@ export type OpenGroupV2InfoJoinable = OpenGroupV2Info & {
 export const parseMessages = async (
   rawMessages: Array<Record<string, any>>
 ): Promise<Array<OpenGroupMessageV2>> => {
-  if (!rawMessages) {
+  if (!rawMessages || rawMessages.length === 0) {
     window?.log?.info('no new messages');
     return [];
   }
-  const chunks = _.chunk(rawMessages, 10);
+  const parsedMessages = [];
 
-  const handleChunk = async (chunk: Array<Record<string, any>>) => {
-    return Promise.all(
-      chunk.map(async r => {
-        try {
-          const opengroupv2Message = OpenGroupMessageV2.fromJson(r);
-          if (
-            !opengroupv2Message?.serverId ||
-            !opengroupv2Message.sentTimestamp || // this is our serverTimestamp
-            !opengroupv2Message.base64EncodedData ||
-            !opengroupv2Message.base64EncodedSignature
-          ) {
-            window?.log?.warn('invalid open group message received');
-            return null;
-          }
-          // Validate the message signature
-          const senderPubKey = PubKey.cast(opengroupv2Message.sender).withoutPrefix();
-          const signature = fromBase64ToArrayBuffer(opengroupv2Message.base64EncodedSignature);
-          const messageData = fromBase64ToArrayBuffer(opengroupv2Message.base64EncodedData);
-          // throws if signature failed
-          await window.libsignal.Curve.async.verifySignature(
-            fromHex(senderPubKey),
-            messageData,
-            signature
-          );
-          return opengroupv2Message;
-        } catch (e) {
-          window?.log?.error('An error happened while fetching getMessages output:', e);
-          return null;
-        }
-      })
-    );
-  };
+  // tslint:disable-next-line: prefer-for-of
+  for (let i = 0; i < rawMessages.length; i++) {
+    try {
+      const opengroupv2Message = OpenGroupMessageV2.fromJson(rawMessages[i]);
+      if (
+        !opengroupv2Message?.serverId ||
+        !opengroupv2Message.sentTimestamp || // this is our serverTimestamp
+        !opengroupv2Message.base64EncodedData ||
+        !opengroupv2Message.base64EncodedSignature
+      ) {
+        window?.log?.warn('invalid open group message received');
+        continue;
+      }
+      // Validate the message signature
+      const senderPubKey = PubKey.cast(opengroupv2Message.sender).withoutPrefix();
 
-  const allHandledMessages = [];
-  for (const currentChunk of chunks) {
-    window?.log?.info('Handling rawMessage chunk of size', currentChunk.length);
-    const messagesHandled = await handleChunk(currentChunk);
-    allHandledMessages.push(...messagesHandled);
-    // as we are not running in a worker, just give some time for UI events
-    await sleepFor(2);
+      const signatureValid = (await window.callWorker(
+        'verifySignature',
+        senderPubKey,
+        opengroupv2Message.base64EncodedData,
+        opengroupv2Message.base64EncodedSignature
+      )) as boolean;
+      if (!signatureValid) {
+        throw new Error('opengroup message signature invalisd');
+      }
+
+      parsedMessages.push(opengroupv2Message);
+    } catch (e) {
+      window?.log?.error('An error happened while fetching getMessages output:', e);
+    }
   }
 
-  return _.compact(allHandledMessages).sort((a, b) => (a.serverId || 0) - (b.serverId || 0));
+  return _.compact(parsedMessages).sort((a, b) => (a.serverId || 0) - (b.serverId || 0));
 };
 // tslint:disable: no-http-string
 const defaultServerUrl = 'http://116.203.70.33';

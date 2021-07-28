@@ -25,11 +25,16 @@ module.exports = grunt => {
     libtextsecurecomponents.push(bower.concat.libtextsecure[i]);
   }
 
-  const liblokicomponents = [];
-  // eslint-disable-next-line guard-for-in, no-restricted-syntax
-  for (const i in bower.concat.libloki) {
-    liblokicomponents.push(bower.concat.libloki[i]);
-  }
+  const utilWorkerComponents = [
+    'node_modules/bytebuffer/dist/bytebuffer.js',
+    'js/curve/curve25519_compiled.js',
+    'js/curve/curve25519_wrapper.js',
+    'node_modules/libsodium/dist/modules/libsodium.js',
+    'node_modules/libsodium-wrappers/dist/modules/libsodium-wrappers.js',
+
+    'libtextsecure/libsignal-protocol.js',
+    'js/util_worker_tasks.js',
+  ];
 
   grunt.loadNpmTasks('grunt-sass');
 
@@ -41,27 +46,17 @@ module.exports = grunt => {
         dest: 'js/components.js',
       },
       util_worker: {
-        src: [
-          'node_modules/bytebuffer/dist/bytebuffer.js',
-          'components/JSBI/dist/jsbi.mjs',
-          'node_modules/long/dist/long.js',
-          'js/util_worker_tasks.js',
-        ],
+        src: utilWorkerComponents,
         dest: 'js/util_worker.js',
       },
       libtextsecurecomponents: {
         src: libtextsecurecomponents,
         dest: 'libtextsecure/components.js',
       },
-      liblokicomponents: {
-        src: liblokicomponents,
-        dest: 'libloki/test/components.js',
-      },
       test: {
         src: ['node_modules/mocha/mocha.js', 'node_modules/chai/chai.js', 'test/_test.js'],
         dest: 'test/test.js',
       },
-      // TODO: Move errors back down?
       libtextsecure: {
         options: {
           banner: ';(function() {\n',
@@ -82,14 +77,6 @@ module.exports = grunt => {
           'libtextsecure/message_receiver.js',
         ],
         dest: 'js/libtextsecure.js',
-      },
-      libloki: {
-        src: ['libloki/crypto.js', 'libloki/service_nodes.js', 'libloki/storage.js'],
-        dest: 'js/libloki.js',
-      },
-      lokitest: {
-        src: ['node_modules/mocha/mocha.js', 'node_modules/chai/chai.js', 'libloki/test/_test.js'],
-        dest: 'libloki/test/test.js',
       },
       libtextsecuretest: {
         src: [
@@ -119,17 +106,8 @@ module.exports = grunt => {
         tasks: ['concat:libtextsecure'],
       },
       utilworker: {
-        files: [
-          'node_modules/bytebuffer/dist/bytebuffer.js',
-          'components/JSBI/dist/jsbi.mjs',
-          'node_modules/long/dist/long.js',
-          'js/util_worker_tasks.js',
-        ],
+        files: utilWorkerComponents,
         tasks: ['concat:util_worker'],
-      },
-      libloki: {
-        files: ['./libloki/*.js'],
-        tasks: ['concat:libloki'],
       },
       protobuf: {
         files: ['./protos/SignalService.proto'],
@@ -145,12 +123,6 @@ module.exports = grunt => {
       },
     },
     exec: {
-      'tx-pull-new': {
-        cmd: 'tx pull -a --minimum-perc=80',
-      },
-      'tx-pull': {
-        cmd: 'tx pull',
-      },
       transpile: {
         cmd: 'yarn transpile',
       },
@@ -187,29 +159,6 @@ module.exports = grunt => {
       // ignore grunt and grunt-cli
       grunt.loadNpmTasks(key);
     }
-  });
-
-  // Transifex does not understand placeholders, so this task patches all non-en
-  // locales with missing placeholders
-  grunt.registerTask('locale-patch', () => {
-    const en = grunt.file.readJSON('_locales/en/messages.json');
-    grunt.file.recurse('_locales', (abspath, rootdir, subdir, filename) => {
-      if (subdir === 'en' || filename !== 'messages.json') {
-        return;
-      }
-      const messages = grunt.file.readJSON(abspath);
-
-      // eslint-disable-next-line no-restricted-syntax
-      for (const key in messages) {
-        if (en[key] !== undefined && messages[key] !== undefined) {
-          if (en[key].placeholders !== undefined && messages[key].placeholders === undefined) {
-            messages[key].placeholders = en[key].placeholders;
-          }
-        }
-      }
-
-      grunt.file.write(abspath, `${JSON.stringify(messages, null, 4)}\n`);
-    });
   });
 
   function updateLocalConfig(update) {
@@ -426,7 +375,6 @@ module.exports = grunt => {
       .then(done);
   });
 
-  grunt.registerTask('tx', ['exec:tx-pull-new', 'exec:tx-pull', 'locale-patch']);
   grunt.registerTask('dev', ['default', 'watch']);
   grunt.registerTask('test', ['unit-tests']);
   grunt.registerTask('date', ['gitinfo', 'getExpireTime']);

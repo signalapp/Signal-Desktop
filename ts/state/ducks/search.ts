@@ -5,13 +5,7 @@ import { cleanSearchTerm } from '../../util/cleanSearchTerm';
 import { searchConversations, searchMessages } from '../../../ts/data/data';
 import { makeLookup } from '../../util/makeLookup';
 
-import {
-  ConversationType,
-  MessageExpiredActionType,
-  MessageType,
-  RemoveAllConversationsActionType,
-  SelectedConversationChangedActionType,
-} from './conversations';
+import { PropsForSearchResults, ReduxConversationType } from './conversations';
 import { PubKey } from '../../session/types';
 import { MessageModel } from '../../models/message';
 import { MessageModelType } from '../../models/messageType';
@@ -23,10 +17,10 @@ export type SearchStateType = {
   query: string;
   normalizedPhoneNumber?: string;
   // We need to store messages here, because they aren't anywhere else in state
-  messages: Array<MessageType>;
+  messages: Array<PropsForSearchResults>;
   selectedMessage?: string;
   messageLookup: {
-    [key: string]: MessageType;
+    [key: string]: PropsForSearchResults;
   };
   // For conversations we store just the id, and pull conversation props in the selector
   conversations: Array<string>;
@@ -37,7 +31,7 @@ export type SearchStateType = {
 type SearchResultsPayloadType = {
   query: string;
   normalizedPhoneNumber?: string;
-  messages: Array<MessageType>;
+  messages: Array<PropsForSearchResults>;
   conversations: Array<string>;
   contacts: Array<string>;
 };
@@ -64,10 +58,7 @@ type ClearSearchActionType = {
 export type SEARCH_TYPES =
   | SearchResultsFulfilledActionType
   | UpdateSearchTermActionType
-  | ClearSearchActionType
-  | MessageExpiredActionType
-  | RemoveAllConversationsActionType
-  | SelectedConversationChangedActionType;
+  | ClearSearchActionType;
 
 // Action Creators
 
@@ -211,7 +202,7 @@ function getAdvancedSearchOptionsFromQuery(query: string): AdvancedSearchOptions
   return filters;
 }
 
-const getMessageProps = (messages: Array<MessageType>) => {
+const getMessageProps = (messages: Array<PropsForSearchResults>) => {
   if (!messages || !messages.length) {
     return [];
   }
@@ -224,7 +215,7 @@ const getMessageProps = (messages: Array<MessageType>) => {
 
     const model = new MessageModel(overridenProps);
 
-    return model.propsForSearchResult;
+    return model.getPropsForSearchResult();
   });
 };
 
@@ -242,7 +233,7 @@ async function queryConversationsAndContacts(providedQuery: string, options: Sea
   const { ourNumber, noteToSelf } = options;
   const query = providedQuery.replace(/[+-.()]*/g, '');
 
-  const searchResults: Array<ConversationType> = await searchConversations(query);
+  const searchResults: Array<ReduxConversationType> = await searchConversations(query);
 
   // Split into two groups - active conversations and items just from address book
   let conversations: Array<string> = [];
@@ -332,39 +323,39 @@ export function reducer(state: SearchStateType | undefined, action: SEARCH_TYPES
     };
   }
 
-  if (action.type === 'CONVERSATIONS_REMOVE_ALL') {
-    return getEmptyState();
-  }
+  // if (action.type === 'CONVERSATIONS_REMOVE_ALL') {
+  //   return getEmptyState();
+  // }
 
-  if (action.type === 'SELECTED_CONVERSATION_CHANGED') {
-    const { payload } = action;
-    const { messageId } = payload;
+  // if (action.type === openConversationExternal.name) {
+  //   const { payload } = action;
+  //   const { messageId } = payload;
 
-    if (!messageId) {
-      return state;
-    }
+  //   if (!messageId) {
+  //     return state;
+  //   }
 
-    return {
-      ...state,
-      selectedMessage: messageId,
-    };
-  }
+  //   return {
+  //     ...state,
+  //     selectedMessage: messageId,
+  //   };
+  // }
 
-  if (action.type === 'MESSAGE_EXPIRED') {
-    const { messages, messageLookup } = state;
-    if (!messages.length) {
-      return state;
-    }
+  // if (action.type === 'MESSAGE_EXPIRED') {
+  //   const { messages, messageLookup } = state;
+  //   if (!messages.length) {
+  //     return state;
+  //   }
 
-    const { payload } = action;
-    const { messageId } = payload;
+  //   const { payload } = action;
+  //   const { messageId } = payload;
 
-    return {
-      ...state,
-      messages: reject(messages, message => messageId === message.id),
-      messageLookup: omit(messageLookup, ['id']),
-    };
-  }
+  //   return {
+  //     ...state,
+  //     messages: reject(messages, message => messageId === message.id),
+  //     messageLookup: omit(messageLookup, ['id']),
+  //   };
+  // }
 
   return state;
 }

@@ -9,6 +9,7 @@ import { actions as userActions } from '../state/ducks/user';
 import { mn_decode, mn_encode } from '../session/crypto/mnemonic';
 import { ConversationTypeEnum } from '../models/conversation';
 import _ from 'underscore';
+import { persistStore } from 'redux-persist';
 
 /**
  * Might throw
@@ -83,6 +84,7 @@ export async function signInByLinkingDevice(mnemonic: string, mnemonicLanguage: 
 
   // await for the first configuration message to come in.
   await registrationDone(pubKeyString, '');
+  return pubKeyString;
 }
 /**
  * This is a signup. User has no recovery and does not try to link a device

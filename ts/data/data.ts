@@ -11,7 +11,7 @@ import { HexKeyPair } from '../receiver/keypairs';
 import { getSodium } from '../session/crypto';
 import { PubKey } from '../session/types';
 import { fromArrayBufferToBase64, fromBase64ToArrayBuffer } from '../session/utils/String';
-import { ConversationType } from '../state/ducks/conversations';
+import { ReduxConversationType } from '../state/ducks/conversations';
 import { channels } from './channels';
 import { channelsToMake as channelstoMakeOpenGroupV2 } from './opengroups';
 
@@ -89,7 +89,6 @@ const channelsToMake = {
   removeConversation,
 
   getAllConversations,
-  getAllConversationIds,
   getAllOpenGroupV1Conversations,
   getPubkeysInPublicConversation,
   getAllGroupsInvolvingId,
@@ -116,13 +115,12 @@ const channelsToMake = {
   getMessageBySenderAndServerTimestamp,
   getMessageIdsFromServerIds,
   getMessageById,
-  getAllMessages,
-  getAllMessageIds,
   getMessagesBySentAt,
   getExpiredMessages,
   getOutgoingWithoutExpiresAt,
   getNextExpiringMessage,
   getMessagesByConversation,
+  getFirstUnreadMessageIdInConversation,
   getSeenMessagesByHashList,
   getLastHashBySnode,
 
@@ -155,7 +153,6 @@ const channelsToMake = {
   getAllEncryptionKeyPairsForGroup,
   getLatestClosedGroupEncryptionKeyPair,
   addClosedGroupEncryptionKeyPair,
-  isKeyPairAlreadySaved,
   removeAllClosedGroupEncryptionKeyPairs,
   removeOneOpenGroupV1Message,
 
@@ -216,6 +213,9 @@ function _cleanData(data: any): any {
     } else if (_.isObject(value)) {
       // eslint-disable-next-line no-param-reassign
       data[key] = _cleanData(value);
+    } else if (_.isBoolean(value)) {
+      // eslint-disable-next-line no-param-reassign
+      data[key] = value ? 1 : 0;
     } else if (
       typeof value !== 'string' &&
       typeof value !== 'number' &&
@@ -495,13 +495,6 @@ export async function addClosedGroupEncryptionKeyPair(
   await channels.addClosedGroupEncryptionKeyPair(groupPublicKey, keypair);
 }
 
-export async function isKeyPairAlreadySaved(
-  groupPublicKey: string,
-  keypair: HexKeyPair
-): Promise<boolean> {
-  return channels.isKeyPairAlreadySaved(groupPublicKey, keypair);
-}
-
 export async function removeAllClosedGroupEncryptionKeyPairs(
   groupPublicKey: string
 ): Promise<void> {
@@ -509,7 +502,7 @@ export async function removeAllClosedGroupEncryptionKeyPairs(
 }
 
 // Conversation
-export async function saveConversation(data: ConversationType): Promise<void> {
+export async function saveConversation(data: ReduxConversationType): Promise<void> {
   const cleaned = _.omit(data, 'isOnline');
   await channels.saveConversation(cleaned);
 }
@@ -522,7 +515,7 @@ export async function getConversationById(id: string): Promise<ConversationModel
   return undefined;
 }
 
-export async function updateConversation(data: ConversationType): Promise<void> {
+export async function updateConversation(data: ReduxConversationType): Promise<void> {
   await channels.updateConversation(data);
 }
 
@@ -543,11 +536,6 @@ export async function getAllConversations(): Promise<ConversationCollection> {
   const collection = new ConversationCollection();
   collection.add(conversations);
   return collection;
-}
-
-export async function getAllConversationIds(): Promise<Array<string>> {
-  const ids = await channels.getAllConversationIds();
-  return ids;
 }
 
 export async function getAllOpenGroupV1Conversations(): Promise<ConversationCollection> {
@@ -637,7 +625,7 @@ export async function saveMessages(arrayOfMessages: Array<MessageAttributes>): P
 }
 
 export async function removeMessage(id: string): Promise<void> {
-  const message = await getMessageById(id);
+  const message = await getMessageById(id, true);
 
   // Note: It's important to have a fully database-hydrated model to delete here because
   //   it needs to delete all associated on-disk files along with the database delete.
@@ -659,24 +647,19 @@ export async function getMessageIdsFromServerIds(
   return channels.getMessageIdsFromServerIds(serverIds, conversationId);
 }
 
-export async function getMessageById(id: string): Promise<MessageModel | null> {
+export async function getMessageById(
+  id: string,
+  skipTimerInit: boolean = false
+): Promise<MessageModel | null> {
   const message = await channels.getMessageById(id);
   if (!message) {
     return null;
   }
+  if (skipTimerInit) {
+    message.skipTimerInit = skipTimerInit;
+  }
 
   return new MessageModel(message);
-}
-
-// For testing only
-export async function getAllMessages(): Promise<MessageCollection> {
-  const messages = await channels.getAllMessages();
-  return new MessageCollection(messages);
-}
-
-export async function getAllMessageIds(): Promise<Array<string>> {
-  const ids = await channels.getAllMessageIds();
-  return ids;
 }
 
 export async function getMessageBySender({
@@ -748,14 +731,25 @@ export async function getUnreadCountByConversation(conversationId: string): Prom
 
 export async function getMessagesByConversation(
   conversationId: string,
-  { limit = 100, receivedAt = Number.MAX_VALUE, type = '%' }
+  { limit = 100, receivedAt = Number.MAX_VALUE, type = '%', skipTimerInit = false }
 ): Promise<MessageCollection> {
   const messages = await channels.getMessagesByConversation(conversationId, {
     limit,
     receivedAt,
     type,
   });
+  if (skipTimerInit) {
+    for (const message of messages) {
+      message.skipTimerInit = skipTimerInit;
+    }
+  }
   return new MessageCollection(messages);
+}
+
+export async function getFirstUnreadMessageIdInConversation(
+  conversationId: string
+): Promise<string | undefined> {
+  return channels.getFirstUnreadMessageIdInConversation(conversationId);
 }
 
 export async function getLastHashBySnode(convoId: string, snode: string): Promise<string> {
@@ -773,9 +767,8 @@ export async function removeAllMessagesInConversation(conversationId: string): P
     //   time so we don't use too much memory.
     // eslint-disable-next-line no-await-in-loop
     messages = await getMessagesByConversation(conversationId, {
-      limit: 100,
+      limit: 500,
     });
-
     if (!messages.length) {
       return;
     }
@@ -785,6 +778,7 @@ export async function removeAllMessagesInConversation(conversationId: string): P
     // Note: It's very important that these models are fully hydrated because
     //   we need to delete all associated on-disk files along with the database delete.
     // eslint-disable-next-line no-await-in-loop
+
     await Promise.all(messages.map(message => message.cleanup()));
 
     // eslint-disable-next-line no-await-in-loop
@@ -864,7 +858,7 @@ export async function saveAttachmentDownloadJob(job: any): Promise<void> {
   await channels.saveAttachmentDownloadJob(job);
 }
 export async function setAttachmentDownloadJobPending(id: string, pending: boolean): Promise<void> {
-  await channels.setAttachmentDownloadJobPending(id, pending);
+  await channels.setAttachmentDownloadJobPending(id, pending ? 1 : 0);
 }
 export async function resetAttachmentDownloadPending(): Promise<void> {
   await channels.resetAttachmentDownloadPending();
@@ -918,7 +912,7 @@ async function callChannel(name: string): Promise<any> {
 export async function getMessagesWithVisualMediaAttachments(
   conversationId: string,
   options?: { limit: number }
-): Promise<any> {
+): Promise<Array<MessageAttributes>> {
   return channels.getMessagesWithVisualMediaAttachments(conversationId, {
     limit: options?.limit,
   });
@@ -927,7 +921,7 @@ export async function getMessagesWithVisualMediaAttachments(
 export async function getMessagesWithFileAttachments(
   conversationId: string,
   options?: { limit: number }
-): Promise<any> {
+): Promise<Array<MessageAttributes>> {
   return channels.getMessagesWithFileAttachments(conversationId, {
     limit: options?.limit,
   });

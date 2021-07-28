@@ -1,10 +1,10 @@
-import { default as insecureNodeFetch } from 'node-fetch';
+import { default as insecureNodeFetch, RequestInit } from 'node-fetch';
 import https from 'https';
 
 import { dropSnodeFromSnodePool, dropSnodeFromSwarmIfNeeded, updateSwarmFor } from './snodePool';
 import ByteBuffer from 'bytebuffer';
 import { OnionPaths } from '../onions';
-import { fromBase64ToArrayBuffer, toHex } from '../utils/String';
+import { fromHex, toHex } from '../utils/String';
 import pRetry from 'p-retry';
 import { incrementBadPathCountOrDrop } from '../onions/onionPath';
 import _ from 'lodash';
@@ -49,7 +49,7 @@ async function encryptForPubKey(pubKeyX25519hex: string, reqObj: any): Promise<D
   const textEncoder = new TextEncoder();
   const plaintext = textEncoder.encode(reqStr);
 
-  return window.libloki.crypto.encryptForPubkey(pubKeyX25519hex, plaintext);
+  return window.callWorker('encryptForPubkey', pubKeyX25519hex, plaintext);
 }
 
 export type DestinationRelayV2 = {
@@ -77,8 +77,7 @@ async function encryptForRelayV2(
   };
 
   const plaintext = encodeCiphertextPlusJson(ctx.ciphertext, reqObj);
-
-  return window.libloki.crypto.encryptForPubkey(relayX25519hex, plaintext);
+  return window.callWorker('encryptForPubkey', relayX25519hex, plaintext);
 }
 
 /// Encode ciphertext as (len || binary) and append payloadJson as utf8
@@ -395,13 +394,18 @@ export async function decodeOnionResult(symmetricKey: ArrayBuffer, ciphertext: s
   } catch (e) {
     // just try to get a json object from what is inside (for PN requests), if it fails, continue ()
   }
-  const ciphertextBuffer = fromBase64ToArrayBuffer(parsedCiphertext);
+  const ciphertextBuffer = await window.callWorker('fromBase64ToArrayBuffer', parsedCiphertext);
 
-  const plaintextBuffer = await window.libloki.crypto.DecryptAESGCM(symmetricKey, ciphertextBuffer);
+  const plaintextBuffer = await window.callWorker(
+    'DecryptAESGCM',
+    new Uint8Array(symmetricKey),
+    new Uint8Array(ciphertextBuffer)
+  );
 
   return { plaintext: new TextDecoder().decode(plaintextBuffer), ciphertextBuffer };
 }
 
+const STATUS_NO_STATUS = 8888;
 /**
  * Only exported for testing purpose
  */
@@ -413,8 +417,8 @@ export async function processOnionResponse({
   associatedWith,
   lsrpcEd25519Key,
 }: {
-  response: { text: () => Promise<string>; status: number };
-  symmetricKey: ArrayBuffer;
+  response?: { text: () => Promise<string>; status: number };
+  symmetricKey?: ArrayBuffer;
   guardNode: Snode;
   lsrpcEd25519Key?: string;
   abortSignal?: AbortSignal;
@@ -425,13 +429,13 @@ export async function processOnionResponse({
   processAbortedRequest(abortSignal);
 
   try {
-    ciphertext = await response.text();
+    ciphertext = (await response?.text()) || '';
   } catch (e) {
     window?.log?.warn(e);
   }
 
   await processOnionRequestErrorOnPath(
-    response.status,
+    response?.status || STATUS_NO_STATUS,
     ciphertext,
     guardNode.pubkey_ed25519,
     lsrpcEd25519Key,
@@ -455,10 +459,12 @@ export async function processOnionResponse({
     ciphertextBuffer = decoded.ciphertextBuffer;
   } catch (e) {
     window?.log?.error('[path] lokiRpc::processingOnionResponse - decode error', e);
-    window?.log?.error(
-      '[path] lokiRpc::processingOnionResponse - symmetricKey',
-      toHex(symmetricKey)
-    );
+    if (symmetricKey) {
+      window?.log?.error(
+        '[path] lokiRpc::processingOnionResponse - symmetricKey',
+        toHex(symmetricKey)
+      );
+    }
     if (ciphertextBuffer) {
       window?.log?.error(
         '[path] lokiRpc::processingOnionResponse - ciphertextBuffer',
@@ -627,7 +633,7 @@ export async function incrementBadSnodeCountOrDrop({
     } catch (e) {
       window?.log?.warn(
         'dropSnodeFromPath, got error while patching up... incrementing the whole path as bad',
-        e
+        e.message
       );
       // If dropSnodeFromPath throws, it means there is an issue patching up the path, increment the whole path issues count
       // but using the guardNode we got instead of the snodeEd25519.
@@ -666,13 +672,23 @@ const sendOnionRequestHandlingSnodeEject = async ({
 }): Promise<SnodeResponse> => {
   // this sendOnionRequest() call has to be the only one like this.
   // If you need to call it, call it through sendOnionRequestHandlingSnodeEject because this is the one handling path rebuilding and known errors
-  const { response, decodingSymmetricKey } = await sendOnionRequest({
-    nodePath,
-    destX25519Any,
-    finalDestOptions,
-    finalRelayOptions,
-    abortSignal,
-  });
+  let response;
+  let decodingSymmetricKey;
+  try {
+    // this might throw a timeout error
+    const result = await sendOnionRequest({
+      nodePath,
+      destX25519Any,
+      finalDestOptions,
+      finalRelayOptions,
+      abortSignal,
+    });
+
+    response = result.response;
+    decodingSymmetricKey = result.decodingSymmetricKey;
+  } catch (e) {
+    window.log.warn('sendOnionRequest', e);
+  }
   // this call will handle the common onion failure logic.
   // if an error is not retryable a AbortError is triggered, which is handled by pRetry and retries are stopped
   const processed = await processOnionResponse({
@@ -752,7 +768,7 @@ const sendOnionRequest = async ({
       const bodyEncoded = textEncoder.encode(body);
 
       const plaintext = encodeCiphertextPlusJson(bodyEncoded, options);
-      destCtx = await window.libloki.crypto.encryptForPubkey(destX25519hex, plaintext);
+      destCtx = await window.callWorker('encryptForPubkey', destX25519hex, plaintext);
     } else {
       destCtx = await encryptForPubKey(destX25519hex, options);
     }
@@ -780,14 +796,21 @@ const sendOnionRequest = async ({
 
   const guardNode = nodePath[0];
 
-  const guardFetchOptions = {
+  const guardFetchOptions: RequestInit = {
     method: 'POST',
     body: payload,
     // we are talking to a snode...
     agent: snodeHttpsAgent,
-    abortSignal,
-    timeout: 5000,
+    headers: {
+      'User-Agent': 'WhatsApp',
+      'Accept-Language': 'en-us',
+    },
+    timeout: 10000,
   };
+
+  if (abortSignal) {
+    guardFetchOptions.signal = abortSignal as any;
+  }
 
   const guardUrl = `https://${guardNode.ip}:${guardNode.port}/onion_req/v2`;
   // no logs for that one insecureNodeFetch as we do need to call insecureNodeFetch to our guardNode
@@ -877,7 +900,7 @@ export async function lokiOnionFetch(
 
     return retriedResult;
   } catch (e) {
-    window?.log?.warn('onionFetchRetryable failed ', e);
+    window?.log?.warn('onionFetchRetryable failed ', e.message);
     // console.warn('error to show to user');
     if (e?.errno === 'ENETUNREACH') {
       // better handle the no connection state

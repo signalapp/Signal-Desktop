@@ -13,7 +13,7 @@ import { ConversationTypeEnum } from '../../models/conversation';
 
 import { useEncryptedFileFetch } from '../../hooks/useEncryptedFileFetch';
 
-interface QuoteProps {
+export type QuotePropsWithoutListener = {
   attachment?: QuotedAttachmentType;
   authorPhoneNumber: string;
   authorProfileName?: string;
@@ -24,10 +24,13 @@ interface QuoteProps {
   convoId: string;
   isPublic?: boolean;
   withContentAbove: boolean;
-  onClick?: (e: any) => void;
-  text: string;
+  text: string | null;
   referencedMessageNotFound: boolean;
-}
+};
+
+export type QuotePropsWithListener = QuotePropsWithoutListener & {
+  onClick?: (e: any) => void;
+};
 
 export interface QuotedAttachmentType {
   contentType: MIME.MIMEType;
@@ -43,7 +46,7 @@ interface Attachment {
   objectUrl?: string;
 }
 
-function validateQuote(quote: QuoteProps): boolean {
+function validateQuote(quote: QuotePropsWithoutListener): boolean {
   if (quote.text) {
     return true;
   }
@@ -295,8 +298,8 @@ export const QuoteReferenceWarning = (props: any) => {
   );
 };
 
-export const Quote = (props: QuoteProps) => {
-  const [imageBroken, setImageBroken] = useState(false);
+export const Quote = (props: QuotePropsWithListener) => {
+  const [_imageBroken, setImageBroken] = useState(false);
 
   const handleImageErrorBound = null;
 
@@ -313,33 +316,31 @@ export const Quote = (props: QuoteProps) => {
   }
 
   return (
-    <>
+    <div
+      className={classNames(
+        'module-quote-container',
+        withContentAbove ? 'module-quote-container--with-content-above' : null
+      )}
+    >
       <div
+        onClick={onClick}
+        role="button"
         className={classNames(
-          'module-quote-container',
-          withContentAbove ? 'module-quote-container--with-content-above' : null
+          'module-quote',
+          isIncoming ? 'module-quote--incoming' : 'module-quote--outgoing',
+          !onClick ? 'module-quote--no-click' : null,
+          withContentAbove ? 'module-quote--with-content-above' : null,
+          referencedMessageNotFound ? 'module-quote--with-reference-warning' : null
         )}
       >
-        <div
-          onClick={onClick}
-          role="button"
-          className={classNames(
-            'module-quote',
-            isIncoming ? 'module-quote--incoming' : 'module-quote--outgoing',
-            !onClick ? 'module-quote--no-click' : null,
-            withContentAbove ? 'module-quote--with-content-above' : null,
-            referencedMessageNotFound ? 'module-quote--with-reference-warning' : null
-          )}
-        >
-          <div className="module-quote__primary">
-            <QuoteAuthor {...props} />
-            <QuoteGenericFile {...props} />
-            <QuoteText {...props} />
-          </div>
-          <QuoteIconContainer {...props} handleImageErrorBound={handleImageErrorBound} />
+        <div className="module-quote__primary">
+          <QuoteAuthor {...props} />
+          <QuoteGenericFile {...props} />
+          <QuoteText {...props} />
         </div>
-        <QuoteReferenceWarning {...props} />
+        <QuoteIconContainer {...props} handleImageErrorBound={handleImageErrorBound} />
       </div>
-    </>
+      <QuoteReferenceWarning {...props} />
+    </div>
   );
 };

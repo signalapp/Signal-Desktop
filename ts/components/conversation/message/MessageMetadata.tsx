@@ -4,25 +4,22 @@ import { OutgoingMessageStatus } from './OutgoingMessageStatus';
 import { MetadataBadges } from './MetadataBadge';
 import { Timestamp } from '../Timestamp';
 import { ExpireTimer } from '../ExpireTimer';
-import styled, { DefaultTheme } from 'styled-components';
+import styled, { DefaultTheme, useTheme } from 'styled-components';
 import { MessageDeliveryStatus, MessageModelType } from '../../../models/messageType';
 
 type Props = {
-  disableMenu?: boolean;
   isAdmin?: boolean;
-  isDeletable: boolean;
-  text?: string;
+  text?: string | null;
   id: string;
   collapseMetadata?: boolean;
   direction: MessageModelType;
   timestamp: number;
   serverTimestamp?: number;
-  status?: MessageDeliveryStatus;
+  status?: MessageDeliveryStatus | null;
   expirationLength?: number;
-  expirationTimestamp?: number;
+  expirationTimestamp: number | null;
   isPublic?: boolean;
   isShowingImage: boolean;
-  theme: DefaultTheme;
 };
 // for some reason, we have to extend a styled component as this:
 // props => <OpacityMetadataComponent {...props}/>
@@ -68,8 +65,9 @@ export const MessageMetadata = (props: Props) => {
     isShowingImage,
     isPublic,
     isAdmin,
-    theme,
   } = props;
+
+  const theme = useTheme();
 
   if (collapseMetadata) {
     return null;
@@ -80,7 +78,7 @@ export const MessageMetadata = (props: Props) => {
   const showError = status === 'error' && isOutgoing;
 
   const showStatus = Boolean(status?.length && isOutgoing);
-  const messageStatusColor = withImageNoCaption ? 'white' : props.theme.colors.sentMessageText;
+  const messageStatusColor = withImageNoCaption ? 'white' : theme.colors.sentMessageText;
   return (
     <MetadatasContainer withImageNoCaption={withImageNoCaption} {...props}>
       {showError ? (
@@ -91,7 +89,6 @@ export const MessageMetadata = (props: Props) => {
           extended={true}
           withImageNoCaption={withImageNoCaption}
           isConversationListItem={false}
-          theme={theme}
         />
       )}
       <MetadataBadges
@@ -115,7 +112,6 @@ export const MessageMetadata = (props: Props) => {
       {showStatus ? (
         <OutgoingMessageStatus
           iconColor={messageStatusColor}
-          theme={theme}
           status={status}
           // do not show the error status, another component is shown on the right of the message itself here
           isInMessageView={true}

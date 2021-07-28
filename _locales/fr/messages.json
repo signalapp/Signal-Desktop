@@ -390,5 +390,9 @@
   "errorHappenedWhileRemovingModeratorDesc": "Une erreur est survenue lors de la suppression de cet utilisateur de la liste des modérateurs.",
   "orJoinOneOfThese": "Ou rejoignez un de ceux-ci...",
   "helpUsTranslateSession": "Help us Translate Session",
-  "translation": "Translation"
+  "translation": "Translation",
+  "pinConversation": "Épingler la conversation",
+  "unpinConversation": "Défaire la conversation",
+  "pinConversationLimitTitle": "Limite de conversations épinglées",
+  "pinConversationLimitToastDescription": "Vous ne pouvez pas épingler plus de $number$ conversations"
 }

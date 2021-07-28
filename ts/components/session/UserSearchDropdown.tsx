@@ -5,13 +5,13 @@ import { SessionSearchInput } from './SessionSearchInput';
 
 import { SearchResultsProps } from '../SearchResults';
 import { DefaultTheme } from 'styled-components';
+import autoBind from 'auto-bind';
 
 export interface Props {
   searchTerm: string;
   placeholder: string;
   searchResults?: SearchResultsProps;
   updateSearch: (searchTerm: string) => void;
-  theme: DefaultTheme;
 }
 
 interface State {
@@ -19,13 +19,9 @@ interface State {
 }
 
 export class UserSearchDropdown extends React.Component<Props, State> {
-  private readonly updateSearchBound: (searchedString: string) => void;
-
   public constructor(props: Props) {
     super(props);
-    this.updateSearchBound = this.updateSearch.bind(this);
-    this.handleNavigation = this.handleNavigation.bind(this);
-    this.handleContactSelected = this.handleContactSelected.bind(this);
+    autoBind(this);
     this.state = {
       selectedContact: -1,
     };
@@ -65,10 +61,9 @@ export class UserSearchDropdown extends React.Component<Props, State> {
       <div className="user-search-dropdown">
         <SessionSearchInput
           searchString={this.props.searchTerm}
-          onChange={this.updateSearchBound}
+          onChange={this.updateSearch}
           placeholder={placeholder}
           handleNavigation={this.handleNavigation}
-          theme={this.props.theme}
         />
         {searchResults && (
           <UserSearchResults

@@ -3,7 +3,7 @@ import { UserUtils } from '.';
 import { getItemById } from '../../../ts/data/data';
 import { KeyPair } from '../../../libtextsecure/libsignal-protocol';
 import { PubKey } from '../types';
-import { toHex } from './String';
+import { fromHexToArray, toHex } from './String';
 import { getConversationController } from '../conversations';
 
 export type HexKeyPair = {
@@ -46,13 +46,19 @@ export function getOurPubKeyFromCache(): PubKey {
   return PubKey.cast(ourNumber);
 }
 
+let cachedIdentityKeyPair: KeyPair | undefined;
+
 /**
  * This return the stored x25519 identity keypair for the current logged in user
  */
 export async function getIdentityKeyPair(): Promise<KeyPair | undefined> {
+  if (cachedIdentityKeyPair) {
+    return cachedIdentityKeyPair;
+  }
   const item = await getItemById('identityKey');
 
-  return item?.value;
+  cachedIdentityKeyPair = item?.value;
+  return cachedIdentityKeyPair;
 }
 
 export async function getUserED25519KeyPair(): Promise<HexKeyPair | undefined> {
@@ -91,14 +97,15 @@ export function getOurProfile(): OurLokiProfile | undefined {
     // in their primary device's conversation
     const ourNumber = window.storage.get('primaryDevicePubKey');
     const ourConversation = getConversationController().get(ourNumber);
-    const profileKey = new Uint8Array(window.storage.get('profileKey'));
+    const ourProfileKeyHex = ourConversation.get('profileKey');
+    const profileKeyAsBytes = ourProfileKeyHex ? fromHexToArray(ourProfileKeyHex) : null;
 
     const avatarPointer = ourConversation.get('avatarPointer');
     const { displayName } = ourConversation.getLokiProfile();
     return {
       displayName,
       avatarPointer,
-      profileKey: profileKey.length ? profileKey : null,
+      profileKey: profileKeyAsBytes?.length ? profileKeyAsBytes : null,
     };
   } catch (e) {
     window?.log?.error(`Failed to get our profile: ${e}`);

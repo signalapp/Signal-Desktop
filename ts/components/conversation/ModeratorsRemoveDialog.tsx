@@ -1,6 +1,4 @@
 import React from 'react';
-import { DefaultTheme } from 'styled-components';
-import { ConversationModel } from '../../models/conversation';
 import { ApiV2 } from '../../opengroup/opengroupV2';
 import { getConversationController } from '../../session/conversations';
 import { PubKey } from '../../session/types';
@@ -8,7 +6,6 @@ import { ToastUtils } from '../../session/utils';
 import { Flex } from '../basic/Flex';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../session/SessionButton';
 import { ContactType, SessionMemberListItem } from '../session/SessionMemberListItem';
-import { SessionModal } from '../session/SessionModal';
 import { SessionSpinner } from '../session/SessionSpinner';
 import _ from 'lodash';
 import { SessionWrapperModal } from '../session/SessionWrapperModal';
@@ -102,7 +99,7 @@ export class RemoveModeratorsDialog extends React.Component<Props, State> {
     return members.map((member: ContactType, index: number) => (
       <SessionMemberListItem
         member={member}
-        key={index}
+        key={member.id}
         index={index}
         isSelected={selectedContacts.some(m => m === member.id)}
         onSelect={(selectedMember: ContactType) => {

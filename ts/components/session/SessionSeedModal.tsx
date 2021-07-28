@@ -1,9 +1,8 @@
 import React from 'react';
 
-import { SessionModal } from './SessionModal';
 import { SessionButton } from './SessionButton';
 import { ToastUtils, UserUtils } from '../../session/utils';
-import { DefaultTheme, withTheme } from 'styled-components';
+import { withTheme } from 'styled-components';
 import { PasswordUtil } from '../../util';
 import { getPasswordHash } from '../../data/data';
 import { QRCode } from 'react-qr-svg';

@@ -2,7 +2,7 @@
  * This slice is intended for the user configurable settings for the client such as appearance, autoplaying of links etc.
  * Anything setting under the cog wheel tab.
  */
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
 export interface UserConfigState {
   audioAutoplay: boolean;

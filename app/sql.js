@@ -1,17 +1,14 @@
 const path = require('path');
 const mkdirp = require('mkdirp');
 const rimraf = require('rimraf');
-const sql = require('@journeyapps/sqlcipher');
+const SQL = require('better-sqlite3');
 const { app, dialog, clipboard } = require('electron');
 const { redactAll } = require('../js/modules/privacy');
 const { remove: removeUserConfig } = require('./user_config');
 
-const pify = require('pify');
-const { map, isString, fromPairs, forEach, last, isEmpty, isObject } = require('lodash');
+const { map, isString, fromPairs, forEach, last, isEmpty, isObject, isNumber } = require('lodash');
 
-// To get long stack traces
-//   https://github.com/mapbox/node-sqlite3/wiki/API#sqlite3verbose
-sql.verbose();
+/* eslint-disable camelcase */
 
 module.exports = {
   initialize,
@@ -44,7 +41,6 @@ module.exports = {
   getAllOpenGroupV1Conversations,
   getAllOpenGroupV2Conversations,
   getPubkeysInPublicConversation,
-  getAllConversationIds,
   getAllGroupsInvolvingId,
   removeAllConversations,
 
@@ -68,8 +64,6 @@ module.exports = {
   getMessageBySenderAndServerTimestamp,
   getMessageIdsFromServerIds,
   getMessageById,
-  getAllMessages,
-  getAllMessageIds,
   getMessagesBySentAt,
   getSeenMessagesByHashList,
   getLastHashBySnode,
@@ -77,6 +71,7 @@ module.exports = {
   getOutgoingWithoutExpiresAt,
   getNextExpiringMessage,
   getMessagesByConversation,
+  getFirstUnreadMessageIdInConversation,
 
   getUnprocessedCount,
   getAllUnprocessed,
@@ -104,7 +99,6 @@ module.exports = {
   getAllEncryptionKeyPairsForGroup,
   getLatestClosedGroupEncryptionKeyPair,
   addClosedGroupEncryptionKeyPair,
-  isKeyPairAlreadySaved,
   removeAllClosedGroupEncryptionKeyPairs,
 
   // open group v2
@@ -136,104 +130,187 @@ function jsonToObject(json) {
   return JSON.parse(json);
 }
 
-async function openDatabase(filePath) {
-  return new Promise((resolve, reject) => {
-    const instance = new sql.Database(filePath, error => {
-      if (error) {
-        return reject(error);
-      }
-
-      return resolve(instance);
-    });
-  });
+function getSQLiteVersion(db) {
+  const { sqlite_version } = db.prepare('select sqlite_version() as sqlite_version').get();
+  return sqlite_version;
 }
 
-function promisify(rawInstance) {
-  /* eslint-disable no-param-reassign */
-  rawInstance.close = pify(rawInstance.close.bind(rawInstance));
-  rawInstance.run = pify(rawInstance.run.bind(rawInstance));
-  rawInstance.get = pify(rawInstance.get.bind(rawInstance));
-  rawInstance.all = pify(rawInstance.all.bind(rawInstance));
-  rawInstance.each = pify(rawInstance.each.bind(rawInstance));
-  rawInstance.exec = pify(rawInstance.exec.bind(rawInstance));
-  rawInstance.prepare = pify(rawInstance.prepare.bind(rawInstance));
-  /* eslint-enable */
-
-  return rawInstance;
+function getSchemaVersion(db) {
+  return db.pragma('schema_version', { simple: true });
 }
 
-async function getSQLiteVersion(instance) {
-  const row = await instance.get('select sqlite_version() AS sqlite_version');
-  return row.sqlite_version;
+function getSQLCipherVersion(db) {
+  return db.pragma('cipher_version', { simple: true });
 }
 
-async function getSchemaVersion(instance) {
-  const row = await instance.get('PRAGMA schema_version;');
-  return row.schema_version;
+function getSQLCipherIntegrityCheck(db) {
+  const rows = db.pragma('cipher_integrity_check');
+  if (rows.length === 0) {
+    return undefined;
+  }
+  return rows.map(row => row.cipher_integrity_check);
 }
 
-async function getSQLCipherVersion(instance) {
-  const row = await instance.get('PRAGMA cipher_version;');
+function keyDatabase(db, key) {
+  // https://www.zetetic.net/sqlcipher/sqlcipher-api/#key
+  db.pragma(`key = "x'${key}'"`);
+}
+
+function switchToWAL(db) {
+  // https://sqlite.org/wal.html
+  db.pragma('journal_mode = WAL');
+  db.pragma('synchronous = FULL');
+}
+
+function getSQLIntegrityCheck(db) {
+  const checkResult = db.pragma('quick_check', { simple: true });
+  if (checkResult !== 'ok') {
+    return checkResult;
+  }
+
+  return undefined;
+}
+
+const HEX_KEY = /[^0-9A-Fa-f]/;
+
+function migrateSchemaVersion(db) {
+  const userVersion = getUserVersion(db);
+  if (userVersion > 0) {
+    return;
+  }
+  const schemaVersion = getSchemaVersion(db);
+
+  const newUserVersion = schemaVersion > 18 ? 16 : schemaVersion;
+  console.log(
+    'migrateSchemaVersion: Migrating from schema_version ' +
+      `${schemaVersion} to user_version ${newUserVersion}`
+  );
+
+  setUserVersion(db, newUserVersion);
+}
+
+function getUserVersion(db) {
   try {
-    return row.cipher_version;
+    return db.pragma('user_version', { simple: true });
   } catch (e) {
+    console.warn('getUserVersion error', e);
+    return 0;
+  }
+}
+
+function setUserVersion(db, version) {
+  if (!isNumber(version)) {
+    throw new Error(`setUserVersion: version ${version} is not a number`);
+  }
+
+  db.pragma(`user_version = ${version}`);
+}
+
+function openAndMigrateDatabase(filePath, key) {
+  let db;
+
+  // First, we try to open the database without any cipher changes
+  try {
+    db = new SQL(filePath, { verbose: null });
+
+    keyDatabase(db, key);
+    switchToWAL(db);
+    migrateSchemaVersion(db);
+    // Because foreign key support is not enabled by default! // actually, Session does not care
+    // db.pragma('foreign_keys = ON');
+
+    return db;
+  } catch (error) {
+    if (db) {
+      db.close();
+    }
+    console.log('migrateDatabase: Migration without cipher change failed', error);
+  }
+
+  // If that fails, we try to open the database with 3.x compatibility to extract the
+  //   user_version (previously stored in schema_version, blown away by cipher_migrate).
+
+  let db1;
+  try {
+    db1 = new SQL(filePath, { verbose: null });
+    keyDatabase(db1, key);
+
+    // https://www.zetetic.net/blog/2018/11/30/sqlcipher-400-release/#compatability-sqlcipher-4-0-0
+    db1.pragma('cipher_compatibility = 3');
+    migrateSchemaVersion(db1);
+    db1.close();
+  } catch (error) {
+    if (db1) {
+      db1.close();
+    }
+    console.log('migrateDatabase: migrateSchemaVersion failed', error);
+    return null;
+  }
+  // After migrating user_version -> schema_version, we reopen database, because we can't
+  //   migrate to the latest ciphers after we've modified the defaults.
+  let db2;
+  try {
+    db2 = new SQL(filePath, { verbose: null });
+    keyDatabase(db2, key);
+
+    db2.pragma('cipher_migrate');
+    switchToWAL(db2);
+
+    // Because foreign key support is not enabled by default!
+    db2.pragma('foreign_keys = OFF');
+
+    return db2;
+  } catch (error) {
+    if (db2) {
+      db2.close();
+    }
+    console.log('migrateDatabase: switchToWAL failed');
     return null;
   }
 }
 
-async function getSQLIntegrityCheck(instance) {
-  const row = await instance.get('PRAGMA cipher_integrity_check;');
-  if (row) {
-    return row.cipher_integrity_check;
+const INVALID_KEY = /[^0-9A-Fa-f]/;
+function openAndSetUpSQLCipher(filePath, { key }) {
+  const match = INVALID_KEY.exec(key);
+  if (match) {
+    throw new Error(`setupSQLCipher: key '${key}' is not valid`);
   }
 
-  return null;
+  return openAndMigrateDatabase(filePath, key);
 }
 
-const HEX_KEY = /[^0-9A-Fa-f]/;
-async function setupSQLCipher(instance, { key }) {
-  // If the key isn't hex then we need to derive a hex key from it
-  const deriveKey = HEX_KEY.test(key);
-
-  // https://www.zetetic.net/sqlcipher/sqlcipher-api/#key
-  const value = deriveKey ? `'${key}'` : `"x'${key}'"`;
-  await instance.run(`PRAGMA key = ${value};`);
-
-  // https://www.zetetic.net/blog/2018/11/30/sqlcipher-400-release/#compatability-sqlcipher-4-0-0
-  await instance.run('PRAGMA cipher_migrate;');
-}
-
-async function setSQLPassword(password) {
-  if (!db) {
+function setSQLPassword(password) {
+  if (!globalInstance) {
     throw new Error('setSQLPassword: db is not initialized');
   }
 
   // If the password isn't hex then we need to derive a key from it
   const deriveKey = HEX_KEY.test(password);
   const value = deriveKey ? `'${password}'` : `"x'${password}'"`;
-  await db.run(`PRAGMA rekey = ${value};`);
+  globalInstance.pragma(`rekey = ${value}`);
 }
 
-async function vacuumDatabase(instance) {
-  if (!instance) {
+function vacuumDatabase(db) {
+  if (!db) {
     throw new Error('vacuum: db is not initialized');
   }
+  console.time('vaccumming db');
   console.warn('Vacuuming DB. This might take a while.');
-  await instance.run('VACUUM;');
+  db.exec('VACUUM;');
   console.warn('Vacuuming DB Finished');
+  console.timeEnd('vaccumming db');
 }
 
-async function updateToSchemaVersion1(currentVersion, instance) {
+function updateToSchemaVersion1(currentVersion, db) {
   if (currentVersion >= 1) {
     return;
   }
 
   console.log('updateToSchemaVersion1: starting...');
 
-  await instance.run('BEGIN TRANSACTION;');
-
-  await instance.run(
-    `CREATE TABLE ${MESSAGES_TABLE}(
+  db.transaction(() => {
+    db.exec(
+      `CREATE TABLE ${MESSAGES_TABLE}(
       id STRING PRIMARY KEY ASC,
       json TEXT,
 
@@ -249,150 +326,155 @@ async function updateToSchemaVersion1(currentVersion, instance) {
       hasAttachments INTEGER,
       hasFileAttachments INTEGER,
       hasVisualMediaAttachments INTEGER
-    );`
-  );
+    );
 
-  await instance.run(`CREATE INDEX messages_unread ON ${MESSAGES_TABLE} (
+    CREATE INDEX messages_unread ON ${MESSAGES_TABLE} (
       unread
-    );`);
-  await instance.run(`CREATE INDEX messages_expires_at ON ${MESSAGES_TABLE} (
-      expires_at
-    );`);
-  await instance.run(`CREATE INDEX messages_receipt ON ${MESSAGES_TABLE} (
-      sent_at
-    );`);
-  await instance.run(`CREATE INDEX messages_schemaVersion ON ${MESSAGES_TABLE} (
-      schemaVersion
-    );`);
+    );
 
-  await instance.run(`CREATE INDEX messages_conversation ON ${MESSAGES_TABLE} (
+    CREATE INDEX messages_expires_at ON ${MESSAGES_TABLE} (
+      expires_at
+    );
+
+    CREATE INDEX messages_receipt ON ${MESSAGES_TABLE} (
+      sent_at
+    );
+
+    CREATE INDEX messages_schemaVersion ON ${MESSAGES_TABLE} (
+      schemaVersion
+    );
+
+    CREATE INDEX messages_conversation ON ${MESSAGES_TABLE} (
       conversationId,
       received_at
-    );`);
+    );
 
-  await instance.run(`CREATE INDEX messages_duplicate_check ON ${MESSAGES_TABLE} (
+    CREATE INDEX messages_duplicate_check ON ${MESSAGES_TABLE} (
       source,
       sourceDevice,
       sent_at
-    );`);
-  await instance.run(`CREATE INDEX messages_hasAttachments ON ${MESSAGES_TABLE} (
+    );
+
+    CREATE INDEX messages_hasAttachments ON ${MESSAGES_TABLE} (
       conversationId,
       hasAttachments,
       received_at
-    );`);
-  await instance.run(`CREATE INDEX messages_hasFileAttachments ON ${MESSAGES_TABLE} (
+    );
+
+    CREATE INDEX messages_hasFileAttachments ON ${MESSAGES_TABLE} (
       conversationId,
       hasFileAttachments,
       received_at
-    );`);
-  await instance.run(`CREATE INDEX messages_hasVisualMediaAttachments ON ${MESSAGES_TABLE} (
+    );
+
+    CREATE INDEX messages_hasVisualMediaAttachments ON ${MESSAGES_TABLE} (
       conversationId,
       hasVisualMediaAttachments,
       received_at
-    );`);
+    );
 
-  await instance.run(`CREATE TABLE unprocessed(
-    id STRING,
-    timestamp INTEGER,
-    json TEXT
-  );`);
-  await instance.run(`CREATE INDEX unprocessed_id ON unprocessed (
-    id
-  );`);
-  await instance.run(`CREATE INDEX unprocessed_timestamp ON unprocessed (
-    timestamp
-  );`);
+    CREATE TABLE unprocessed(
+      id STRING,
+      timestamp INTEGER,
+      json TEXT
+    );
 
-  await instance.run('PRAGMA schema_version = 1;');
-  await instance.run('COMMIT TRANSACTION;');
+    CREATE INDEX unprocessed_id ON unprocessed (
+      id
+    );
+
+    CREATE INDEX unprocessed_timestamp ON unprocessed (
+      timestamp
+    );
+
+
+    `
+    );
+    db.pragma('user_version = 1');
+  })();
 
   console.log('updateToSchemaVersion1: success!');
 }
 
-async function updateToSchemaVersion2(currentVersion, instance) {
+function updateToSchemaVersion2(currentVersion, db) {
   if (currentVersion >= 2) {
     return;
   }
 
   console.log('updateToSchemaVersion2: starting...');
 
-  await instance.run('BEGIN TRANSACTION;');
+  db.transaction(() => {
+    db.exec(`ALTER TABLE ${MESSAGES_TABLE}
+     ADD COLUMN expireTimer INTEGER;
 
-  await instance.run(
-    `ALTER TABLE ${MESSAGES_TABLE}
-     ADD COLUMN expireTimer INTEGER;`
-  );
+     ALTER TABLE ${MESSAGES_TABLE}
+     ADD COLUMN expirationStartTimestamp INTEGER;
 
-  await instance.run(
-    `ALTER TABLE ${MESSAGES_TABLE}
-     ADD COLUMN expirationStartTimestamp INTEGER;`
-  );
+     ALTER TABLE ${MESSAGES_TABLE}
+     ADD COLUMN type STRING;
 
-  await instance.run(
-    `ALTER TABLE ${MESSAGES_TABLE}
-     ADD COLUMN type STRING;`
-  );
-
-  await instance.run(`CREATE INDEX messages_expiring ON ${MESSAGES_TABLE} (
+     CREATE INDEX messages_expiring ON ${MESSAGES_TABLE} (
       expireTimer,
       expirationStartTimestamp,
       expires_at
-    );`);
+    );
 
-  await instance.run(
-    `UPDATE ${MESSAGES_TABLE} SET
+    UPDATE ${MESSAGES_TABLE} SET
       expirationStartTimestamp = json_extract(json, '$.expirationStartTimestamp'),
       expireTimer = json_extract(json, '$.expireTimer'),
-      type = json_extract(json, '$.type');`
-  );
+      type = json_extract(json, '$.type');
 
-  await instance.run('PRAGMA schema_version = 2;');
-  await instance.run('COMMIT TRANSACTION;');
+
+     `);
+    db.pragma('user_version = 2');
+  })();
 
   console.log('updateToSchemaVersion2: success!');
 }
 
-async function updateToSchemaVersion3(currentVersion, instance) {
+function updateToSchemaVersion3(currentVersion, db) {
   if (currentVersion >= 3) {
     return;
   }
 
   console.log('updateToSchemaVersion3: starting...');
 
-  await instance.run('BEGIN TRANSACTION;');
+  db.transaction(() => {
+    db.exec(`
+    DROP INDEX messages_expiring;
+    DROP INDEX messages_unread;
 
-  await instance.run('DROP INDEX messages_expiring;');
-  await instance.run('DROP INDEX messages_unread;');
-
-  await instance.run(`CREATE INDEX messages_without_timer ON ${MESSAGES_TABLE} (
+    CREATE INDEX messages_without_timer ON ${MESSAGES_TABLE} (
       expireTimer,
       expires_at,
       type
-    ) WHERE expires_at IS NULL AND expireTimer IS NOT NULL;`);
+    ) WHERE expires_at IS NULL AND expireTimer IS NOT NULL;
 
-  await instance.run(`CREATE INDEX messages_unread ON ${MESSAGES_TABLE} (
+    CREATE INDEX messages_unread ON ${MESSAGES_TABLE} (
       conversationId,
       unread
-    ) WHERE unread IS NOT NULL;`);
+    ) WHERE unread IS NOT NULL;
 
-  await instance.run('ANALYZE;');
-  await instance.run('PRAGMA schema_version = 3;');
-  await instance.run('COMMIT TRANSACTION;');
+    ANALYZE;
+
+    `);
+    db.pragma('user_version = 3');
+  })();
 
   console.log('updateToSchemaVersion3: success!');
 }
 
-async function updateToSchemaVersion4(currentVersion, instance) {
+function updateToSchemaVersion4(currentVersion, db) {
   if (currentVersion >= 4) {
     return;
   }
 
   console.log('updateToSchemaVersion4: starting...');
 
-  await instance.run('BEGIN TRANSACTION;');
+  db.transaction(() => {
+    db.exec(`
 
-  await instance.run(
-    `CREATE TABLE ${CONVERSATIONS_TABLE}(
+    CREATE TABLE ${CONVERSATIONS_TABLE}(
       id STRING PRIMARY KEY ASC,
       json TEXT,
 
@@ -401,194 +483,165 @@ async function updateToSchemaVersion4(currentVersion, instance) {
       members TEXT,
       name TEXT,
       profileName TEXT
-    );`
-  );
+    );
 
-  await instance.run(`CREATE INDEX conversations_active ON ${CONVERSATIONS_TABLE} (
+    CREATE INDEX conversations_active ON ${CONVERSATIONS_TABLE} (
       active_at
-    ) WHERE active_at IS NOT NULL;`);
-
-  await instance.run(`CREATE INDEX conversations_type ON ${CONVERSATIONS_TABLE} (
+    ) WHERE active_at IS NOT NULL;
+    CREATE INDEX conversations_type ON ${CONVERSATIONS_TABLE} (
       type
-    ) WHERE type IS NOT NULL;`);
+    ) WHERE type IS NOT NULL;
 
-  await instance.run('PRAGMA schema_version = 4;');
-  await instance.run('COMMIT TRANSACTION;');
+    `);
+
+    db.pragma('user_version = 4');
+  })();
 
   console.log('updateToSchemaVersion4: success!');
 }
 
-async function updateToSchemaVersion6(currentVersion, instance) {
+function updateToSchemaVersion6(currentVersion, db) {
   if (currentVersion >= 6) {
     return;
   }
   console.log('updateToSchemaVersion6: starting...');
-  await instance.run('BEGIN TRANSACTION;');
-
-  // friendRequestStatus is no longer needed. So no need to add the column on new apps
-  // await instance.run(
-  //   `ALTER TABLE ${CONVERSATIONS_TABLE}
-  //    ADD COLUMN friendRequestStatus INTEGER;`
-  // );
-
-  await instance.run(
-    `CREATE TABLE lastHashes(
+  db.transaction(() => {
+    db.exec(`
+    CREATE TABLE lastHashes(
       snode TEXT PRIMARY KEY,
       hash TEXT,
       expiresAt INTEGER
-    );`
-  );
+    );
 
-  await instance.run(
-    `CREATE TABLE seenMessages(
+    CREATE TABLE seenMessages(
       hash TEXT PRIMARY KEY,
       expiresAt INTEGER
-    );`
-  );
+    );
 
-  // key-value, ids are strings, one extra column
-  await instance.run(
-    `CREATE TABLE sessions(
+
+    CREATE TABLE sessions(
       id STRING PRIMARY KEY ASC,
       number STRING,
       json TEXT
-    );`
-  );
+    );
 
-  await instance.run(`CREATE INDEX sessions_number ON sessions (
-    number
-  ) WHERE number IS NOT NULL;`);
+    CREATE INDEX sessions_number ON sessions (
+      number
+    ) WHERE number IS NOT NULL;
 
-  // key-value, ids are strings
-  await instance.run(
-    `CREATE TABLE groups(
+    CREATE TABLE groups(
       id STRING PRIMARY KEY ASC,
       json TEXT
-    );`
-  );
-  await instance.run(
-    `CREATE TABLE ${IDENTITY_KEYS_TABLE}(
-      id STRING PRIMARY KEY ASC,
-      json TEXT
-    );`
-  );
-  await instance.run(
-    `CREATE TABLE ${ITEMS_TABLE}(
-      id STRING PRIMARY KEY ASC,
-      json TEXT
-    );`
-  );
+    );
 
-  // key-value, ids are integers
-  await instance.run(
-    `CREATE TABLE preKeys(
+
+    CREATE TABLE ${IDENTITY_KEYS_TABLE}(
+      id STRING PRIMARY KEY ASC,
+      json TEXT
+    );
+
+    CREATE TABLE ${ITEMS_TABLE}(
+      id STRING PRIMARY KEY ASC,
+      json TEXT
+    );
+
+
+    CREATE TABLE preKeys(
       id INTEGER PRIMARY KEY ASC,
       recipient STRING,
       json TEXT
-    );`
-  );
-  await instance.run(
-    `CREATE TABLE signedPreKeys(
+    );
+
+
+    CREATE TABLE signedPreKeys(
       id INTEGER PRIMARY KEY ASC,
       json TEXT
-    );`
-  );
+    );
 
-  await instance.run(
-    `CREATE TABLE contactPreKeys(
+    CREATE TABLE contactPreKeys(
       id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
       identityKeyString VARCHAR(255),
       keyId INTEGER,
       json TEXT
-    );`
-  );
+    );
 
-  await instance.run(`CREATE UNIQUE INDEX contact_prekey_identity_key_string_keyid ON contactPreKeys (
-    identityKeyString,
-    keyId
-  );`);
+    CREATE UNIQUE INDEX contact_prekey_identity_key_string_keyid ON contactPreKeys (
+      identityKeyString,
+      keyId
+    );
 
-  await instance.run(
-    `CREATE TABLE contactSignedPreKeys(
+    CREATE TABLE contactSignedPreKeys(
       id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
       identityKeyString VARCHAR(255),
       keyId INTEGER,
       json TEXT
-    );`
-  );
+    );
 
-  await instance.run(`CREATE UNIQUE INDEX contact_signed_prekey_identity_key_string_keyid ON contactSignedPreKeys (
-    identityKeyString,
-    keyId
-  );`);
+    CREATE UNIQUE INDEX contact_signed_prekey_identity_key_string_keyid ON contactSignedPreKeys (
+      identityKeyString,
+      keyId
+    );
 
-  await instance.run('PRAGMA schema_version = 6;');
-  await instance.run('COMMIT TRANSACTION;');
+    `);
+    db.pragma('user_version = 6');
+  })();
+
   console.log('updateToSchemaVersion6: success!');
 }
 
-async function updateToSchemaVersion7(currentVersion, instance) {
+function updateToSchemaVersion7(currentVersion, db) {
   if (currentVersion >= 7) {
     return;
   }
   console.log('updateToSchemaVersion7: starting...');
-  await instance.run('BEGIN TRANSACTION;');
 
-  // SQLite has been coercing our STRINGs into numbers, so we force it with TEXT
-  // We create a new table then copy the data into it, since we can't modify columns
+  db.transaction(() => {
+    db.exec(`
+      -- SQLite has been coercing our STRINGs into numbers, so we force it with TEXT
+      -- We create a new table then copy the data into it, since we can't modify columns
+      DROP INDEX sessions_number;
+      ALTER TABLE sessions RENAME TO sessions_old;
 
-  await instance.run('DROP INDEX sessions_number;');
-  await instance.run('ALTER TABLE sessions RENAME TO sessions_old;');
-
-  await instance.run(
-    `CREATE TABLE sessions(
-      id TEXT PRIMARY KEY,
-      number TEXT,
-      json TEXT
-    );`
-  );
-
-  await instance.run(`CREATE INDEX sessions_number ON sessions (
-    number
-  ) WHERE number IS NOT NULL;`);
-
-  await instance.run(`INSERT INTO sessions(id, number, json)
+      CREATE TABLE sessions(
+        id TEXT PRIMARY KEY,
+        number TEXT,
+        json TEXT
+      );
+      CREATE INDEX sessions_number ON sessions (
+        number
+      ) WHERE number IS NOT NULL;
+      INSERT INTO sessions(id, number, json)
     SELECT "+" || id, number, json FROM sessions_old;
-  `);
+      DROP TABLE sessions_old;
+    `);
 
-  await instance.run('DROP TABLE sessions_old;');
+    db.pragma('user_version = 7');
+  })();
 
-  await instance.run('PRAGMA schema_version = 7;');
-  await instance.run('COMMIT TRANSACTION;');
   console.log('updateToSchemaVersion7: success!');
 }
 
-async function updateToSchemaVersion8(currentVersion, instance) {
+function updateToSchemaVersion8(currentVersion, db) {
   if (currentVersion >= 8) {
     return;
   }
   console.log('updateToSchemaVersion8: starting...');
-  await instance.run('BEGIN TRANSACTION;');
 
-  // First, we pull a new body field out of the message table's json blob
-  await instance.run(
-    `ALTER TABLE ${MESSAGES_TABLE}
-     ADD COLUMN body TEXT;`
-  );
-  await instance.run(`UPDATE ${MESSAGES_TABLE} SET body = json_extract(json, '$.body')`);
+  db.transaction(() => {
+    db.exec(`
+    -- First, we pull a new body field out of the message table's json blob
+    ALTER TABLE ${MESSAGES_TABLE}
+      ADD COLUMN body TEXT;
+    UPDATE ${MESSAGES_TABLE} SET body = json_extract(json, '$.body');
 
-  // Then we create our full-text search table and populate it
-  await instance.run(`
+    -- Then we create our full-text search table and populate it
     CREATE VIRTUAL TABLE ${MESSAGES_FTS_TABLE}
-    USING fts5(id UNINDEXED, body);
-  `);
-  await instance.run(`
-    INSERT INTO ${MESSAGES_FTS_TABLE}(id, body)
-    SELECT id, body FROM ${MESSAGES_TABLE};
-  `);
+      USING fts5(id UNINDEXED, body);
 
-  // Then we set up triggers to keep the full-text search table up to date
-  await instance.run(`
+    INSERT INTO ${MESSAGES_FTS_TABLE}(id, body)
+      SELECT id, body FROM ${MESSAGES_TABLE};
+
+    -- Then we set up triggers to keep the full-text search table up to date
     CREATE TRIGGER messages_on_insert AFTER INSERT ON ${MESSAGES_TABLE} BEGIN
       INSERT INTO ${MESSAGES_FTS_TABLE} (
         id,
@@ -598,13 +651,9 @@ async function updateToSchemaVersion8(currentVersion, instance) {
         new.body
       );
     END;
-  `);
-  await instance.run(`
     CREATE TRIGGER messages_on_delete AFTER DELETE ON ${MESSAGES_TABLE} BEGIN
       DELETE FROM ${MESSAGES_FTS_TABLE} WHERE id = old.id;
     END;
-  `);
-  await instance.run(`
     CREATE TRIGGER messages_on_update AFTER UPDATE ON ${MESSAGES_TABLE} BEGIN
       DELETE FROM ${MESSAGES_FTS_TABLE} WHERE id = old.id;
       INSERT INTO ${MESSAGES_FTS_TABLE}(
@@ -615,116 +664,120 @@ async function updateToSchemaVersion8(currentVersion, instance) {
         new.body
       );
     END;
-  `);
 
-  // For formatting search results:
-  //   https://sqlite.org/fts5.html#the_highlight_function
-  //   https://sqlite.org/fts5.html#the_snippet_function
+    `);
+    // For formatting search results:
+    //   https://sqlite.org/fts5.html#the_highlight_function
+    //   https://sqlite.org/fts5.html#the_snippet_function
+    db.pragma('user_version = 8');
+  })();
 
-  await instance.run('PRAGMA schema_version = 8;');
-  await instance.run('COMMIT TRANSACTION;');
   console.log('updateToSchemaVersion8: success!');
 }
 
-async function updateToSchemaVersion9(currentVersion, instance) {
+function updateToSchemaVersion9(currentVersion, db) {
   if (currentVersion >= 9) {
     return;
   }
   console.log('updateToSchemaVersion9: starting...');
-  await instance.run('BEGIN TRANSACTION;');
+  db.transaction(() => {
+    db.exec(`
+      CREATE TABLE ${ATTACHMENT_DOWNLOADS_TABLE}(
+        id STRING primary key,
+        timestamp INTEGER,
+        pending INTEGER,
+        json TEXT
+      );
 
-  await instance.run(`CREATE TABLE ${ATTACHMENT_DOWNLOADS_TABLE}(
-    id STRING primary key,
-    timestamp INTEGER,
-    pending INTEGER,
-    json TEXT
-  );`);
+      CREATE INDEX attachment_downloads_timestamp
+        ON ${ATTACHMENT_DOWNLOADS_TABLE} (
+          timestamp
+      ) WHERE pending = 0;
+      CREATE INDEX attachment_downloads_pending
+        ON ${ATTACHMENT_DOWNLOADS_TABLE} (
+          pending
+      ) WHERE pending != 0;
+    `);
 
-  await instance.run(`CREATE INDEX attachment_downloads_timestamp
-    ON ${ATTACHMENT_DOWNLOADS_TABLE} (
-      timestamp
-  ) WHERE pending = 0;`);
-  await instance.run(`CREATE INDEX attachment_downloads_pending
-    ON ${ATTACHMENT_DOWNLOADS_TABLE} (
-      pending
-  ) WHERE pending != 0;`);
+    db.pragma('user_version = 9');
+  })();
 
-  await instance.run('PRAGMA schema_version = 9;');
-  await instance.run('COMMIT TRANSACTION;');
   console.log('updateToSchemaVersion9: success!');
 }
 
-async function updateToSchemaVersion10(currentVersion, instance) {
+function updateToSchemaVersion10(currentVersion, db) {
   if (currentVersion >= 10) {
     return;
   }
   console.log('updateToSchemaVersion10: starting...');
-  await instance.run('BEGIN TRANSACTION;');
 
-  await instance.run('DROP INDEX unprocessed_id;');
-  await instance.run('DROP INDEX unprocessed_timestamp;');
-  await instance.run('ALTER TABLE unprocessed RENAME TO unprocessed_old;');
+  db.transaction(() => {
+    db.exec(`
+      DROP INDEX unprocessed_id;
+      DROP INDEX unprocessed_timestamp;
+      ALTER TABLE unprocessed RENAME TO unprocessed_old;
 
-  await instance.run(`CREATE TABLE unprocessed(
-    id STRING,
-    timestamp INTEGER,
-    version INTEGER,
-    attempts INTEGER,
-    envelope TEXT,
-    decrypted TEXT,
-    source TEXT,
-    sourceDevice TEXT,
-    serverTimestamp INTEGER
-  );`);
+      CREATE TABLE unprocessed(
+        id STRING,
+        timestamp INTEGER,
+        version INTEGER,
+        attempts INTEGER,
+        envelope TEXT,
+        decrypted TEXT,
+        source TEXT,
+        sourceDevice TEXT,
+        serverTimestamp INTEGER
+      );
 
-  await instance.run(`CREATE INDEX unprocessed_id ON unprocessed (
-    id
-  );`);
-  await instance.run(`CREATE INDEX unprocessed_timestamp ON unprocessed (
-    timestamp
-  );`);
+      CREATE INDEX unprocessed_id ON unprocessed (
+        id
+      );
+      CREATE INDEX unprocessed_timestamp ON unprocessed (
+        timestamp
+      );
 
-  await instance.run(`INSERT INTO unprocessed (
-    id,
-    timestamp,
-    version,
-    attempts,
-    envelope,
-    decrypted,
-    source,
-    sourceDevice,
-    serverTimestamp
-  ) SELECT
-    id,
-    timestamp,
-    json_extract(json, '$.version'),
-    json_extract(json, '$.attempts'),
-    json_extract(json, '$.envelope'),
-    json_extract(json, '$.decrypted'),
-    json_extract(json, '$.source'),
-    json_extract(json, '$.sourceDevice'),
-    json_extract(json, '$.serverTimestamp')
-  FROM unprocessed_old;
-  `);
+      INSERT INTO unprocessed (
+        id,
+        timestamp,
+        version,
+        attempts,
+        envelope,
+        decrypted,
+        source,
+        sourceDevice,
+        serverTimestamp
+      ) SELECT
+        id,
+        timestamp,
+        json_extract(json, '$.version'),
+        json_extract(json, '$.attempts'),
+        json_extract(json, '$.envelope'),
+        json_extract(json, '$.decrypted'),
+        json_extract(json, '$.source'),
+        json_extract(json, '$.sourceDevice'),
+        json_extract(json, '$.serverTimestamp')
+      FROM unprocessed_old;
 
-  await instance.run('DROP TABLE unprocessed_old;');
+      DROP TABLE unprocessed_old;
+    `);
 
-  await instance.run('PRAGMA schema_version = 10;');
-  await instance.run('COMMIT TRANSACTION;');
+    db.pragma('user_version = 10');
+  })();
   console.log('updateToSchemaVersion10: success!');
 }
 
-async function updateToSchemaVersion11(currentVersion, instance) {
+function updateToSchemaVersion11(currentVersion, db) {
   if (currentVersion >= 11) {
     return;
   }
   console.log('updateToSchemaVersion11: starting...');
-  await instance.run('BEGIN TRANSACTION;');
+  db.transaction(() => {
+    db.exec(`
+      DROP TABLE groups;
+    `);
 
-  await instance.run('DROP TABLE groups;');
-
-  await instance.run('PRAGMA schema_version = 11;');
-  await instance.run('COMMIT TRANSACTION;');
+    db.pragma('user_version = 11');
+  })();
   console.log('updateToSchemaVersion11: success!');
 }
 
@@ -742,26 +795,25 @@ const SCHEMA_VERSIONS = [
   updateToSchemaVersion11,
 ];
 
-async function updateSchema(instance) {
-  const sqliteVersion = await getSQLiteVersion(instance);
-  const schemaVersion = await getSchemaVersion(instance);
-  const cipherVersion = await getSQLCipherVersion(instance);
-  console.log(
-    'updateSchema:',
-    `Current schema version: ${schemaVersion};`,
-    `Most recent schema version: ${SCHEMA_VERSIONS.length};`,
-    `SQLite version: ${sqliteVersion};`,
-    `SQLCipher version: ${cipherVersion};`
-  );
+function updateSchema(db) {
+  const sqliteVersion = getSQLiteVersion(db);
+  const sqlcipherVersion = getSQLCipherVersion(db);
+  const userVersion = getUserVersion(db);
+  const maxUserVersion = SCHEMA_VERSIONS.length;
+  const schemaVersion = getSchemaVersion(db);
+
+  console.log('updateSchema:');
+  console.log(` Current user_version: ${userVersion}`);
+  console.log(` Most recent db schema: ${maxUserVersion}`);
+  console.log(` SQLite version: ${sqliteVersion}`);
+  console.log(` SQLCipher version: ${sqlcipherVersion}`);
+  console.log(` (deprecated) schema_version: ${schemaVersion}`);
 
   for (let index = 0, max = SCHEMA_VERSIONS.length; index < max; index += 1) {
     const runSchemaUpdate = SCHEMA_VERSIONS[index];
-
-    // Yes, we really want to do this asynchronously, in order
-    // eslint-disable-next-line no-await-in-loop
-    await runSchemaUpdate(schemaVersion, instance);
+    runSchemaUpdate(schemaVersion, db);
   }
-  await updateLokiSchema(instance);
+  updateLokiSchema(db);
 }
 
 const LOKI_SCHEMA_VERSIONS = [
@@ -779,139 +831,104 @@ const LOKI_SCHEMA_VERSIONS = [
   updateToLokiSchemaVersion12,
   updateToLokiSchemaVersion13,
   updateToLokiSchemaVersion14,
+  updateToLokiSchemaVersion15,
 ];
 
-async function updateToLokiSchemaVersion1(currentVersion, instance) {
+function updateToLokiSchemaVersion1(currentVersion, db) {
   const targetVersion = 1;
   if (currentVersion >= targetVersion) {
     return;
   }
   console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
-  await instance.run('BEGIN TRANSACTION;');
+  db.transaction(() => {
+    db.exec(`
+    ALTER TABLE ${MESSAGES_TABLE}
+    ADD COLUMN serverId INTEGER;
 
-  await instance.run(
-    `ALTER TABLE ${MESSAGES_TABLE}
-     ADD COLUMN serverId INTEGER;`
-  );
-  // servers is removed later
-  await instance.run(
-    `CREATE TABLE servers(
+    CREATE TABLE servers(
       serverUrl STRING PRIMARY KEY ASC,
       token TEXT
-    );`
-  );
+    );
+    `);
+    writeLokiSchemaVersion(targetVersion, db);
+  })();
 
-  await instance.run(
-    `INSERT INTO loki_schema (
-        version
-      ) values (
-        ${targetVersion}
-      );`
-  );
-  await instance.run('COMMIT TRANSACTION;');
   console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
 }
 
-async function updateToLokiSchemaVersion2(currentVersion, instance) {
+function updateToLokiSchemaVersion2(currentVersion, db) {
   const targetVersion = 2;
 
   if (currentVersion >= targetVersion) {
     return;
   }
   console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
-  await instance.run('BEGIN TRANSACTION;');
 
-  await instance.run(
-    `CREATE TABLE pairingAuthorisations(
+  db.transaction(() => {
+    db.exec(`
+    CREATE TABLE pairingAuthorisations(
       id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
       primaryDevicePubKey VARCHAR(255),
       secondaryDevicePubKey VARCHAR(255),
       isGranted BOOLEAN,
       json TEXT,
       UNIQUE(primaryDevicePubKey, secondaryDevicePubKey)
-    );`
-  );
-
-  await instance.run(
-    `INSERT INTO loki_schema (
-        version
-      ) values (
-        ${targetVersion}
-      );`
-  );
-  await instance.run('COMMIT TRANSACTION;');
+    );
+    `);
+    writeLokiSchemaVersion(targetVersion, db);
+  })();
   console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
 }
 
-async function updateToLokiSchemaVersion3(currentVersion, instance) {
+function updateToLokiSchemaVersion3(currentVersion, db) {
   const targetVersion = 3;
 
   if (currentVersion >= targetVersion) {
     return;
   }
 
-  await instance.run(
-    `CREATE TABLE ${GUARD_NODE_TABLE}(
+  console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
+
+  db.transaction(() => {
+    db.exec(`
+    CREATE TABLE ${GUARD_NODE_TABLE}(
       id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
       ed25519PubKey VARCHAR(64)
-    );`
-  );
+    );
+    `);
+    writeLokiSchemaVersion(targetVersion, db);
+  })();
 
-  console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
-  await instance.run('BEGIN TRANSACTION;');
-
-  await instance.run(
-    `INSERT INTO loki_schema (
-        version
-      ) values (
-        ${targetVersion}
-      );`
-  );
-
-  await instance.run('COMMIT TRANSACTION;');
   console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
 }
 
-async function updateToLokiSchemaVersion4(currentVersion, instance) {
+function updateToLokiSchemaVersion4(currentVersion, db) {
   const targetVersion = 4;
   if (currentVersion >= targetVersion) {
     return;
   }
 
   console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
-  await instance.run('BEGIN TRANSACTION;');
 
-  // We don't bother migrating values, any old messages that
-  // we might receive as a result will we filtered out anyway
-  await instance.run(`DROP TABLE lastHashes;`);
-
-  await instance.run(
-    `CREATE TABLE lastHashes(
+  db.transaction(() => {
+    db.exec(`
+    DROP TABLE lastHashes;
+    CREATE TABLE lastHashes(
       id TEXT,
       snode TEXT,
       hash TEXT,
       expiresAt INTEGER,
       PRIMARY KEY (id, snode)
-    );`
-  );
-
-  // Add senderIdentity field to `unprocessed` needed
-  // for medium size groups
-  await instance.run(`ALTER TABLE unprocessed ADD senderIdentity TEXT`);
-
-  await instance.run(
-    `INSERT INTO loki_schema (
-        version
-      ) values (
-        ${targetVersion}
-      );`
-  );
-
-  await instance.run('COMMIT TRANSACTION;');
+    );
+    -- Add senderIdentity field to unprocessed needed for medium size groups
+    ALTER TABLE unprocessed ADD senderIdentity TEXT;
+    `);
+    writeLokiSchemaVersion(targetVersion, db);
+  })();
   console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
 }
 
-async function updateToLokiSchemaVersion5(currentVersion, instance) {
+function updateToLokiSchemaVersion5(currentVersion, db) {
   const targetVersion = 5;
   if (currentVersion >= targetVersion) {
     return;
@@ -919,28 +936,20 @@ async function updateToLokiSchemaVersion5(currentVersion, instance) {
 
   console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
 
-  await instance.run('BEGIN TRANSACTION;');
-
-  await instance.run(
-    `CREATE TABLE ${NODES_FOR_PUBKEY_TABLE} (
+  db.transaction(() => {
+    db.exec(`
+    CREATE TABLE ${NODES_FOR_PUBKEY_TABLE} (
       pubkey TEXT PRIMARY KEY,
       json TEXT
-    );`
-  );
+    );
 
-  await instance.run(
-    `INSERT INTO loki_schema (
-        version
-      ) values (
-        ${targetVersion}
-      );`
-  );
-
-  await instance.run('COMMIT TRANSACTION;');
+    `);
+    writeLokiSchemaVersion(targetVersion, db);
+  })();
   console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
 }
 
-async function updateToLokiSchemaVersion6(currentVersion, instance) {
+function updateToLokiSchemaVersion6(currentVersion, db) {
   const targetVersion = 6;
   if (currentVersion >= targetVersion) {
     return;
@@ -948,28 +957,20 @@ async function updateToLokiSchemaVersion6(currentVersion, instance) {
 
   console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
 
-  await instance.run('BEGIN TRANSACTION;');
+  db.transaction(() => {
+    db.exec(`
+    -- Remove RSS Feed conversations
+    DELETE FROM ${CONVERSATIONS_TABLE} WHERE
+    type = 'group' AND
+    id LIKE 'rss://%';
 
-  // Remove RSS Feed conversations
-  await instance.run(
-    `DELETE FROM ${CONVERSATIONS_TABLE} WHERE
-      type = 'group' AND
-      id LIKE 'rss://%';`
-  );
-
-  await instance.run(
-    `INSERT INTO loki_schema (
-        version
-      ) values (
-        ${targetVersion}
-      );`
-  );
-
-  await instance.run('COMMIT TRANSACTION;');
+    `);
+    writeLokiSchemaVersion(targetVersion, db);
+  })();
   console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
 }
 
-async function updateToLokiSchemaVersion7(currentVersion, instance) {
+function updateToLokiSchemaVersion7(currentVersion, db) {
   const targetVersion = 7;
   if (currentVersion >= targetVersion) {
     return;
@@ -977,198 +978,241 @@ async function updateToLokiSchemaVersion7(currentVersion, instance) {
 
   console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
 
-  await instance.run('BEGIN TRANSACTION;');
+  db.transaction(() => {
+    db.exec(`
+    -- Remove multi device data
 
-  // Remove multi device data
-  await instance.run('DELETE FROM pairingAuthorisations;');
-
-  await instance.run(
-    `INSERT INTO loki_schema (
-        version
-      ) values (
-        ${targetVersion}
-      );`
-  );
-
-  await instance.run('COMMIT TRANSACTION;');
+    DELETE FROM pairingAuthorisations;
+    `);
+    writeLokiSchemaVersion(targetVersion, db);
+  })();
   console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
 }
 
-async function updateToLokiSchemaVersion8(currentVersion, instance) {
+function updateToLokiSchemaVersion8(currentVersion, db) {
   const targetVersion = 8;
   if (currentVersion >= targetVersion) {
     return;
   }
   console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
-  await instance.run('BEGIN TRANSACTION;');
 
-  await instance.run(
-    `ALTER TABLE ${MESSAGES_TABLE}
-     ADD COLUMN serverTimestamp INTEGER;`
-  );
+  db.transaction(() => {
+    db.exec(`
 
-  await instance.run(
-    `INSERT INTO loki_schema (
-        version
-      ) values (
-        ${targetVersion}
-      );`
-  );
-  await instance.run('COMMIT TRANSACTION;');
+    ALTER TABLE ${MESSAGES_TABLE}
+    ADD COLUMN serverTimestamp INTEGER;
+    `);
+    writeLokiSchemaVersion(targetVersion, db);
+  })();
   console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
 }
 
-async function updateToLokiSchemaVersion9(currentVersion, instance) {
+function updateToLokiSchemaVersion9(currentVersion, db) {
   const targetVersion = 9;
   if (currentVersion >= targetVersion) {
     return;
   }
+
   console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
-  await instance.run('BEGIN TRANSACTION;');
+  db.transaction(() => {
+    const rows = db
+      .prepare(
+        `SELECT json FROM ${CONVERSATIONS_TABLE} WHERE
+      type = 'group' AND
+      id LIKE '__textsecure_group__!%';
+    `
+      )
+      .all();
 
-  await removePrefixFromGroupConversations(instance);
+    const objs = map(rows, row => jsonToObject(row.json));
 
-  await instance.run(
-    `INSERT INTO loki_schema (
-        version
-      ) values (
-        ${targetVersion}
-      );`
-  );
-  await instance.run('COMMIT TRANSACTION;');
+    const conversationIdRows = db
+      .prepare(`SELECT id FROM ${CONVERSATIONS_TABLE} ORDER BY id ASC;`)
+      .all();
+
+    const allOldConversationIds = map(conversationIdRows, row => row.id);
+    objs.forEach(o => {
+      const oldId = o.id;
+      const newId = oldId.replace('__textsecure_group__!', '');
+      console.log(`migrating conversation, ${oldId} to ${newId}`);
+
+      if (allOldConversationIds.includes(newId)) {
+        console.log(
+          'Found a duplicate conversation after prefix removing. We need to take care of it'
+        );
+        // We have another conversation with the same future name.
+        // We decided to keep only the conversation with the higher number of messages
+        const countMessagesOld = getMessagesCountByConversation(db, oldId, {
+          limit: Number.MAX_VALUE,
+        });
+        const countMessagesNew = getMessagesCountByConversation(db, newId, {
+          limit: Number.MAX_VALUE,
+        });
+
+        console.log(`countMessagesOld: ${countMessagesOld}, countMessagesNew: ${countMessagesNew}`);
+
+        const deleteId = countMessagesOld > countMessagesNew ? newId : oldId;
+        db.prepare(`DELETE FROM ${CONVERSATIONS_TABLE} WHERE id = $deleteId;`).run({ deleteId });
+      }
+
+      const morphedObject = {
+        ...o,
+        id: newId,
+      };
+
+      db.prepare(
+        `UPDATE ${CONVERSATIONS_TABLE} SET
+        id = $newId,
+        json = $json
+        WHERE id = $oldId;`
+      ).run({
+        newId,
+        json: objectToJSON(morphedObject),
+        oldId,
+      });
+    });
+
+    writeLokiSchemaVersion(targetVersion, db);
+  })();
+
   console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
 }
 
-async function updateToLokiSchemaVersion10(currentVersion, instance) {
+function updateToLokiSchemaVersion10(currentVersion, db) {
   const targetVersion = 10;
   if (currentVersion >= targetVersion) {
     return;
   }
   console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
-  await instance.run('BEGIN TRANSACTION;');
 
-  await createEncryptionKeyPairsForClosedGroup(instance);
+  db.transaction(() => {
+    db.exec(`
+    CREATE TABLE ${CLOSED_GROUP_V2_KEY_PAIRS_TABLE} (
+      id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+      groupPublicKey TEXT,
+      timestamp NUMBER,
+      json TEXT
+    );
 
-  await instance.run(
-    `INSERT INTO loki_schema (
-        version
-      ) values (
-        ${targetVersion}
-      );`
-  );
-  await instance.run('COMMIT TRANSACTION;');
+    `);
+    writeLokiSchemaVersion(targetVersion, db);
+  })();
   console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
 }
 
-async function updateToLokiSchemaVersion11(currentVersion, instance) {
+function updateToLokiSchemaVersion11(currentVersion, db) {
   const targetVersion = 11;
   if (currentVersion >= targetVersion) {
     return;
   }
   console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
-  await instance.run('BEGIN TRANSACTION;');
 
-  await updateExistingClosedGroupV1ToClosedGroupV2(instance);
-
-  await instance.run(
-    `INSERT INTO loki_schema (
-        version
-      ) values (
-        ${targetVersion}
-      );`
-  );
-  await instance.run('COMMIT TRANSACTION;');
+  db.transaction(() => {
+    updateExistingClosedGroupV1ToClosedGroupV2(db);
+    writeLokiSchemaVersion(targetVersion, db);
+  })();
   console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
 }
 
-async function updateToLokiSchemaVersion12(currentVersion, instance) {
+function updateToLokiSchemaVersion12(currentVersion, db) {
   const targetVersion = 12;
   if (currentVersion >= targetVersion) {
     return;
   }
   console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
-  await instance.run('BEGIN TRANSACTION;');
 
-  await instance.run(
-    `CREATE TABLE ${OPEN_GROUP_ROOMS_V2_TABLE} (
+  db.transaction(() => {
+    db.exec(`
+    CREATE TABLE ${OPEN_GROUP_ROOMS_V2_TABLE} (
       serverUrl TEXT NOT NULL,
       roomId TEXT NOT NULL,
       conversationId TEXT,
       json TEXT,
       PRIMARY KEY (serverUrl, roomId)
-    );`
-  );
+    );
 
-  await instance.run(
-    `INSERT INTO loki_schema (
-        version
-      ) values (
-        ${targetVersion}
-      );`
-  );
-  await instance.run('COMMIT TRANSACTION;');
+    `);
+    writeLokiSchemaVersion(targetVersion, db);
+  })();
   console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
 }
 
-async function updateToLokiSchemaVersion13(currentVersion, instance) {
+function updateToLokiSchemaVersion13(currentVersion, db) {
   const targetVersion = 13;
   if (currentVersion >= targetVersion) {
     return;
   }
   console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
-  await instance.run('BEGIN TRANSACTION;');
 
   // Clear any already deleted db entries.
   // secure_delete = ON will make sure next deleted entries are overwritten with 0 right away
-  await instance.run('PRAGMA secure_delete = ON;');
-  await instance.run(
-    `INSERT INTO loki_schema (
-        version
-      ) values (
-        ${targetVersion}
-      );`
-  );
-  await instance.run('COMMIT TRANSACTION;');
-
+  db.transaction(() => {
+    db.pragma('secure_delete = ON');
+    writeLokiSchemaVersion(targetVersion, db);
+  })();
   console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
 }
 
-async function updateToLokiSchemaVersion14(currentVersion, instance) {
+function updateToLokiSchemaVersion14(currentVersion, db) {
   const targetVersion = 14;
   if (currentVersion >= targetVersion) {
     return;
   }
   console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
 
-  await instance.run('BEGIN TRANSACTION;');
-  await instance.run('DROP TABLE IF EXISTS servers;');
-  await instance.run('DROP TABLE IF EXISTS sessions;');
-  await instance.run('DROP TABLE IF EXISTS preKeys;');
-  await instance.run('DROP TABLE IF EXISTS contactPreKeys;');
-  await instance.run('DROP TABLE IF EXISTS contactSignedPreKeys;');
-  await instance.run('DROP TABLE IF EXISTS signedPreKeys;');
-  await instance.run('DROP TABLE IF EXISTS senderKeys;');
-
-  await instance.run(
-    `INSERT INTO loki_schema (
-        version
-      ) values (
-        ${targetVersion}
-      );`
-  );
-  await instance.run('COMMIT TRANSACTION;');
-
+  db.transaction(() => {
+    db.exec(`
+    DROP TABLE IF EXISTS servers;
+    DROP TABLE IF EXISTS sessions;
+    DROP TABLE IF EXISTS preKeys;
+    DROP TABLE IF EXISTS contactPreKeys;
+    DROP TABLE IF EXISTS contactSignedPreKeys;
+    DROP TABLE IF EXISTS signedPreKeys;
+    DROP TABLE IF EXISTS senderKeys;
+    `);
+    writeLokiSchemaVersion(targetVersion, db);
+  })();
   console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
 }
 
-async function updateLokiSchema(instance) {
-  const result = await instance.get(
-    "SELECT name FROM sqlite_master WHERE type = 'table' AND name='loki_schema';"
-  );
-  if (!result) {
-    await createLokiSchemaTable(instance);
+function updateToLokiSchemaVersion15(currentVersion, db) {
+  const targetVersion = 15;
+  if (currentVersion >= targetVersion) {
+    return;
   }
-  const lokiSchemaVersion = await getLokiSchemaVersion(instance);
+  console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
+
+  db.transaction(() => {
+    db.exec(`
+      DROP TABLE pairingAuthorisations;
+      DROP TRIGGER messages_on_delete;
+      DROP TRIGGER messages_on_update;
+    `);
+
+    writeLokiSchemaVersion(targetVersion, db);
+  })();
+  console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
+}
+
+function writeLokiSchemaVersion(newVersion, db) {
+  db.prepare(
+    `INSERT INTO loki_schema(
+      version
+    ) values (
+      $newVersion
+    )`
+  ).run({ newVersion });
+}
+
+function updateLokiSchema(db) {
+  const result = db
+    .prepare(`SELECT name FROM sqlite_master WHERE type = 'table' AND name='loki_schema';`)
+    .get();
+
+  if (!result) {
+    createLokiSchemaTable(db);
+  }
+  const lokiSchemaVersion = getLokiSchemaVersion(db);
   console.log(
     'updateLokiSchema:',
     `Current loki schema version: ${lokiSchemaVersion};`,
@@ -1176,51 +1220,52 @@ async function updateLokiSchema(instance) {
   );
   for (let index = 0, max = LOKI_SCHEMA_VERSIONS.length; index < max; index += 1) {
     const runSchemaUpdate = LOKI_SCHEMA_VERSIONS[index];
-
-    // Yes, we really want to do this asynchronously, in order
-    // eslint-disable-next-line no-await-in-loop
-    await runSchemaUpdate(lokiSchemaVersion, instance);
+    runSchemaUpdate(lokiSchemaVersion, db);
   }
 }
 
-async function getLokiSchemaVersion(instance) {
-  const result = await instance.get('SELECT MAX(version) as version FROM loki_schema;');
+function getLokiSchemaVersion(db) {
+  const result = db
+    .prepare(
+      `
+    SELECT MAX(version) as version FROM loki_schema;
+    `
+    )
+    .get();
   if (!result || !result.version) {
     return 0;
   }
   return result.version;
 }
 
-async function createLokiSchemaTable(instance) {
-  await instance.run('BEGIN TRANSACTION;');
-  await instance.run(
-    `CREATE TABLE loki_schema(
+function createLokiSchemaTable(db) {
+  db.transaction(() => {
+    db.exec(`
+    CREATE TABLE loki_schema(
       id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
       version INTEGER
-    );`
-  );
-  await instance.run(
-    `INSERT INTO loki_schema (
+    );
+    INSERT INTO loki_schema (
       version
     ) values (
       0
-    );`
-  );
-  await instance.run('COMMIT TRANSACTION;');
+    );
+    `);
+  })();
 }
+let globalInstance;
 
-let db;
-let filePath;
+let databaseFilePath;
 
 function _initializePaths(configDir) {
   const dbDir = path.join(configDir, 'sql');
   mkdirp.sync(dbDir);
 
-  filePath = path.join(dbDir, 'db.sqlite');
+  databaseFilePath = path.join(dbDir, 'db.sqlite');
 }
 
-async function initialize({ configDir, key, messages, passwordAttempt }) {
-  if (db) {
+function initialize({ configDir, key, messages, passwordAttempt }) {
+  if (globalInstance) {
     throw new Error('Cannot initialize more than once!');
   }
 
@@ -1236,40 +1281,31 @@ async function initialize({ configDir, key, messages, passwordAttempt }) {
 
   _initializePaths(configDir);
 
+  let db;
   try {
-    const sqlInstance = await openDatabase(filePath);
-    const promisified = promisify(sqlInstance);
-
-    // promisified.on('trace', async statement => {
-    //   if (!db || statement.startsWith('--')) {
-    //     console._log(statement);
-    //     return;
-    //   }
-    //   const data = await db.get(`EXPLAIN QUERY PLAN ${statement}`);
-    //   console._log(`EXPLAIN QUERY PLAN ${statement}\n`, data && data.detail);
-    // });
-
-    try {
-      await setupSQLCipher(promisified, { key });
-      await updateSchema(promisified);
-    } catch (e) {
-      await promisified.close();
-      throw e;
-    }
-
-    db = promisified;
+    db = openAndSetUpSQLCipher(databaseFilePath, { key });
+    updateSchema(db);
 
     // test database
 
-    const result = await getSQLIntegrityCheck(db);
-    if (result) {
-      console.log('Database integrity check failed:', result);
-      throw new Error(`Integrity check failed: ${result}`);
+    const cipherIntegrityResult = getSQLCipherIntegrityCheck(db);
+    if (cipherIntegrityResult) {
+      console.log('Database cipher integrity check failed:', cipherIntegrityResult);
+      throw new Error(`Cipher integrity check failed: ${cipherIntegrityResult}`);
+    }
+    const integrityResult = getSQLIntegrityCheck(db);
+    if (integrityResult) {
+      console.log('Database integrity check failed:', integrityResult);
+      throw new Error(`Integrity check failed: ${integrityResult}`);
     }
 
+    // At this point we can allow general access to the database
+    globalInstance = db;
+
     // Clear any already deleted db entries on each app start.
-    await vacuumDatabase(db);
-    await getMessageCount();
+    vacuumDatabase(db);
+    const msgCount = getMessageCount();
+    console.warn('total message count: ', msgCount);
   } catch (error) {
     if (passwordAttempt) {
       throw error;
@@ -1287,8 +1323,8 @@ async function initialize({ configDir, key, messages, passwordAttempt }) {
     if (buttonIndex === 0) {
       clipboard.writeText(`Database startup error:\n\n${redactAll(error.stack)}`);
     } else {
-      await close();
-      await removeDB();
+      close();
+      removeDB();
       removeUserConfig();
       app.relaunch();
     }
@@ -1300,34 +1336,43 @@ async function initialize({ configDir, key, messages, passwordAttempt }) {
   return true;
 }
 
-async function close() {
-  if (!db) {
+function close() {
+  if (!globalInstance) {
     return;
   }
-  const dbRef = db;
-  db = null;
-  await dbRef.close();
+  const dbRef = globalInstance;
+  globalInstance = null;
+  // SQLLite documentation suggests that we run `PRAGMA optimize` right before
+  // closing the database connection.
+  dbRef.pragma('optimize');
+  dbRef.close();
 }
 
-async function removeDB(configDir = null) {
-  if (db) {
+function removeDB(configDir = null) {
+  if (globalInstance) {
     throw new Error('removeDB: Cannot erase database when it is open!');
   }
 
-  if (!filePath && configDir) {
+  if (globalInstance) {
+    throw new Error('removeDB: Cannot erase database when it is open!');
+  }
+
+  if (!databaseFilePath && configDir) {
     _initializePaths(configDir);
   }
 
-  rimraf.sync(filePath);
+  rimraf.sync(databaseFilePath);
+  rimraf.sync(`${databaseFilePath}-shm`);
+  rimraf.sync(`${databaseFilePath}-wal`);
 }
 
 // Password hash
 const PASS_HASH_ID = 'passHash';
-async function getPasswordHash() {
-  const item = await getItemById(PASS_HASH_ID);
+function getPasswordHash() {
+  const item = getItemById(PASS_HASH_ID);
   return item && item.value;
 }
-async function savePasswordHash(hash) {
+function savePasswordHash(hash) {
   if (isEmpty(hash)) {
     return removePasswordHash();
   }
@@ -1335,16 +1380,16 @@ async function savePasswordHash(hash) {
   const data = { id: PASS_HASH_ID, value: hash };
   return createOrUpdateItem(data);
 }
-async function removePasswordHash() {
+function removePasswordHash() {
   return removeItemById(PASS_HASH_ID);
 }
 
-async function getIdentityKeyById(id, instance) {
+function getIdentityKeyById(id, instance) {
   return getById(IDENTITY_KEYS_TABLE, id, instance);
 }
 
-async function getGuardNodes() {
-  const nodes = await db.all(`SELECT ed25519PubKey FROM ${GUARD_NODE_TABLE};`);
+function getGuardNodes() {
+  const nodes = globalInstance.prepare(`SELECT ed25519PubKey FROM ${GUARD_NODE_TABLE};`).all();
 
   if (!nodes) {
     return null;
@@ -1353,68 +1398,62 @@ async function getGuardNodes() {
   return nodes;
 }
 
-async function updateGuardNodes(nodes) {
-  await db.run('BEGIN TRANSACTION;');
-
-  await db.run(`DELETE FROM ${GUARD_NODE_TABLE}`);
-
-  await Promise.all(
+function updateGuardNodes(nodes) {
+  globalInstance.transaction(() => {
+    globalInstance.exec(`DELETE FROM ${GUARD_NODE_TABLE}`);
     nodes.map(edkey =>
-      db.run(
-        `INSERT INTO ${GUARD_NODE_TABLE} (
+      globalInstance
+        .prepare(
+          `INSERT INTO ${GUARD_NODE_TABLE} (
         ed25519PubKey
-      ) values ($ed25519PubKey)`,
-        {
-          $ed25519PubKey: edkey,
-        }
-      )
-    )
-  );
-
-  await db.run('END TRANSACTION;');
+      ) values ($ed25519PubKey)`
+        )
+        .run({
+          ed25519PubKey: edkey,
+        })
+    );
+  })();
 }
 
-// Return all the paired pubkeys for a specific pubkey (excluded),
-// irrespective of their Primary or Secondary status.
-
-async function createOrUpdateItem(data, instance) {
+function createOrUpdateItem(data, instance) {
   return createOrUpdate(ITEMS_TABLE, data, instance);
 }
-async function getItemById(id) {
+function getItemById(id) {
   return getById(ITEMS_TABLE, id);
 }
-async function getAllItems() {
-  const rows = await db.all(`SELECT json FROM ${ITEMS_TABLE} ORDER BY id ASC;`);
+function getAllItems() {
+  const rows = globalInstance.prepare(`SELECT json FROM ${ITEMS_TABLE} ORDER BY id ASC;`).all();
   return map(rows, row => jsonToObject(row.json));
 }
-async function removeItemById(id) {
+function removeItemById(id) {
   return removeById(ITEMS_TABLE, id);
 }
 
-async function createOrUpdate(table, data, instance) {
+function createOrUpdate(table, data, instance) {
   const { id } = data;
   if (!id) {
     throw new Error('createOrUpdate: Provided data did not have a truthy id');
   }
 
-  await (db || instance).run(
-    `INSERT OR REPLACE INTO ${table} (
+  (globalInstance || instance)
+    .prepare(
+      `INSERT OR REPLACE INTO ${table} (
       id,
       json
     ) values (
       $id,
       $json
-    )`,
-    {
-      $id: id,
-      $json: objectToJSON(data),
-    }
-  );
+    )`
+    )
+    .run({
+      id,
+      json: objectToJSON(data),
+    });
 }
 
-async function getById(table, id, instance) {
-  const row = await (db || instance).get(`SELECT * FROM ${table} WHERE id = $id;`, {
-    $id: id,
+function getById(table, id, instance) {
+  const row = (globalInstance || instance).prepare(`SELECT * FROM ${table} WHERE id = $id;`).get({
+    id,
   });
 
   if (!row) {
@@ -1424,9 +1463,9 @@ async function getById(table, id, instance) {
   return jsonToObject(row.json);
 }
 
-async function removeById(table, id) {
+function removeById(table, id) {
   if (!Array.isArray(id)) {
-    await db.run(`DELETE FROM ${table} WHERE id = $id;`, { $id: id });
+    globalInstance.prepare(`DELETE FROM ${table} WHERE id = $id;`).run({ id });
     return;
   }
 
@@ -1435,19 +1474,19 @@ async function removeById(table, id) {
   }
 
   // Our node interface doesn't seem to allow you to replace one single ? with an array
-  await db.run(`DELETE FROM ${table} WHERE id IN ( ${id.map(() => '?').join(', ')} );`, id);
-}
-
-async function removeAllFromTable(table) {
-  await db.run(`DELETE FROM ${table};`);
+  globalInstance
+    .prepare(`DELETE FROM ${table} WHERE id IN ( ${id.map(() => '?').join(', ')} );`)
+    .run({ id });
 }
 
 // Conversations
 
-async function getSwarmNodesForPubkey(pubkey) {
-  const row = await db.get(`SELECT * FROM ${NODES_FOR_PUBKEY_TABLE} WHERE pubkey = $pubkey;`, {
-    $pubkey: pubkey,
-  });
+function getSwarmNodesForPubkey(pubkey) {
+  const row = globalInstance
+    .prepare(`SELECT * FROM ${NODES_FOR_PUBKEY_TABLE} WHERE pubkey = $pubkey;`)
+    .get({
+      pubkey,
+    });
 
   if (!row) {
     return [];
@@ -1456,25 +1495,25 @@ async function getSwarmNodesForPubkey(pubkey) {
   return jsonToObject(row.json);
 }
 
-async function updateSwarmNodesForPubkey(pubkey, snodeEdKeys) {
-  await db.run(
-    `INSERT OR REPLACE INTO ${NODES_FOR_PUBKEY_TABLE} (
+function updateSwarmNodesForPubkey(pubkey, snodeEdKeys) {
+  globalInstance
+    .prepare(
+      `INSERT OR REPLACE INTO ${NODES_FOR_PUBKEY_TABLE} (
         pubkey,
         json
         ) values (
           $pubkey,
           $json
-          );`,
-    {
-      $pubkey: pubkey,
-      $json: objectToJSON(snodeEdKeys),
-    }
-  );
+          );`
+    )
+    .run({
+      pubkey,
+      json: objectToJSON(snodeEdKeys),
+    });
 }
 
-async function getConversationCount() {
-  const row = await db.get(`SELECT count(*) from ${CONVERSATIONS_TABLE};`);
-
+function getConversationCount() {
+  const row = globalInstance.prepare(`SELECT count(*) from ${CONVERSATIONS_TABLE};`).get();
   if (!row) {
     throw new Error(`getConversationCount: Unable to get count of ${CONVERSATIONS_TABLE}`);
   }
@@ -1482,19 +1521,12 @@ async function getConversationCount() {
   return row['count(*)'];
 }
 
-async function saveConversation(data) {
-  const {
-    id,
-    // eslint-disable-next-line camelcase
-    active_at,
-    type,
-    members,
-    name,
-    profileName,
-  } = data;
+function saveConversation(data) {
+  const { id, active_at, type, members, name, profileName } = data;
 
-  await db.run(
-    `INSERT INTO ${CONVERSATIONS_TABLE} (
+  globalInstance
+    .prepare(
+      `INSERT INTO ${CONVERSATIONS_TABLE} (
     id,
     json,
 
@@ -1512,21 +1544,21 @@ async function saveConversation(data) {
     $members,
     $name,
     $profileName
-  );`,
-    {
-      $id: id,
-      $json: objectToJSON(data),
+  );`
+    )
+    .run({
+      id,
+      json: objectToJSON(data),
 
-      $active_at: active_at,
-      $type: type,
-      $members: members ? members.join(' ') : null,
-      $name: name,
-      $profileName: profileName,
-    }
-  );
+      active_at,
+      type,
+      members: members ? members.join(' ') : null,
+      name,
+      profileName,
+    });
 }
 
-async function updateConversation(data) {
+function updateConversation(data) {
   const {
     id,
     // eslint-disable-next-line camelcase
@@ -1537,8 +1569,9 @@ async function updateConversation(data) {
     profileName,
   } = data;
 
-  await db.run(
-    `UPDATE ${CONVERSATIONS_TABLE} SET
+  globalInstance
+    .prepare(
+      `UPDATE ${CONVERSATIONS_TABLE} SET
     json = $json,
 
     active_at = $active_at,
@@ -1546,24 +1579,24 @@ async function updateConversation(data) {
     members = $members,
     name = $name,
     profileName = $profileName
-  WHERE id = $id;`,
-    {
-      $id: id,
-      $json: objectToJSON(data),
+  WHERE id = $id;`
+    )
+    .run({
+      id,
+      json: objectToJSON(data),
 
-      $active_at: active_at,
-      $type: type,
-      $members: members ? members.join(' ') : null,
-      $name: name,
-      $profileName: profileName,
-    }
-  );
+      active_at,
+      type,
+      members: members ? members.join(' ') : null,
+      name,
+      profileName,
+    });
 }
 
-async function removeConversation(id) {
+function removeConversation(id) {
   if (!Array.isArray(id)) {
-    await db.run(`DELETE FROM ${CONVERSATIONS_TABLE} WHERE id = $id;`, {
-      $id: id,
+    globalInstance.prepare(`DELETE FROM ${CONVERSATIONS_TABLE} WHERE id = $id;`).run({
+      id,
     });
     return;
   }
@@ -1573,15 +1606,14 @@ async function removeConversation(id) {
   }
 
   // Our node interface doesn't seem to allow you to replace one single ? with an array
-  await db.run(
-    `DELETE FROM ${CONVERSATIONS_TABLE} WHERE id IN ( ${id.map(() => '?').join(', ')} );`,
-    id
-  );
+  globalInstance
+    .prepare(`DELETE FROM ${CONVERSATIONS_TABLE} WHERE id IN ( ${id.map(() => '?').join(', ')} );`)
+    .run(id);
 }
 
-async function getConversationById(id) {
-  const row = await db.get(`SELECT * FROM ${CONVERSATIONS_TABLE} WHERE id = $id;`, {
-    $id: id,
+function getConversationById(id) {
+  const row = globalInstance.prepare(`SELECT * FROM ${CONVERSATIONS_TABLE} WHERE id = $id;`).get({
+    id,
   });
 
   if (!row) {
@@ -1591,92 +1623,97 @@ async function getConversationById(id) {
   return jsonToObject(row.json);
 }
 
-async function getAllConversations() {
-  const rows = await db.all(`SELECT json FROM ${CONVERSATIONS_TABLE} ORDER BY id ASC;`);
+function getAllConversations() {
+  const rows = globalInstance
+    .prepare(`SELECT json FROM ${CONVERSATIONS_TABLE} ORDER BY id ASC;`)
+    .all();
   return map(rows, row => jsonToObject(row.json));
 }
 
-async function getAllConversationIds() {
-  const rows = await db.all(`SELECT id FROM ${CONVERSATIONS_TABLE} ORDER BY id ASC;`);
-  return map(rows, row => row.id);
-}
-
-async function getAllOpenGroupV1Conversations() {
-  const rows = await db.all(
-    `SELECT json FROM ${CONVERSATIONS_TABLE} WHERE
+function getAllOpenGroupV1Conversations() {
+  const rows = globalInstance
+    .prepare(
+      `SELECT json FROM ${CONVERSATIONS_TABLE} WHERE
       type = 'group' AND
       id LIKE 'publicChat:1@%'
      ORDER BY id ASC;`
-  );
+    )
+    .all();
 
   return map(rows, row => jsonToObject(row.json));
 }
 
-async function getAllOpenGroupV2Conversations() {
+function getAllOpenGroupV2Conversations() {
   // first _ matches all opengroupv1,
   // second _ force a second char to be there, so it can only be opengroupv2 convos
 
-  const rows = await db.all(
-    `SELECT json FROM ${CONVERSATIONS_TABLE} WHERE
+  const rows = globalInstance
+    .prepare(
+      `SELECT json FROM ${CONVERSATIONS_TABLE} WHERE
       type = 'group' AND
       id LIKE 'publicChat:__%@%'
      ORDER BY id ASC;`
-  );
+    )
+    .all();
 
   return map(rows, row => jsonToObject(row.json));
 }
 
-async function getPubkeysInPublicConversation(id) {
-  const rows = await db.all(
-    `SELECT DISTINCT source FROM ${MESSAGES_TABLE} WHERE
+function getPubkeysInPublicConversation(conversationId) {
+  const rows = globalInstance
+    .prepare(
+      `SELECT DISTINCT source FROM ${MESSAGES_TABLE} WHERE
       conversationId = $conversationId
-     ORDER BY received_at DESC LIMIT ${MAX_PUBKEYS_MEMBERS};`,
-    {
-      $conversationId: id,
-    }
-  );
+     ORDER BY received_at DESC LIMIT ${MAX_PUBKEYS_MEMBERS};`
+    )
+    .all({
+      conversationId,
+    });
 
   return map(rows, row => row.source);
 }
 
-async function getAllGroupsInvolvingId(id) {
-  const rows = await db.all(
-    `SELECT json FROM ${CONVERSATIONS_TABLE} WHERE
+function getAllGroupsInvolvingId(id) {
+  const rows = globalInstance
+    .prepare(
+      `SELECT json FROM ${CONVERSATIONS_TABLE} WHERE
       type = 'group' AND
       members LIKE $id
-     ORDER BY id ASC;`,
-    {
-      $id: `%${id}%`,
-    }
-  );
+     ORDER BY id ASC;`
+    )
+    .all({
+      id: `%${id}%`,
+    });
 
   return map(rows, row => jsonToObject(row.json));
 }
 
-async function searchConversations(query, { limit } = {}) {
-  const rows = await db.all(
-    `SELECT json FROM ${CONVERSATIONS_TABLE} WHERE
+function searchConversations(query, { limit } = {}) {
+  const rows = globalInstance
+    .prepare(
+      `SELECT json FROM ${CONVERSATIONS_TABLE} WHERE
       (
         id LIKE $id OR
         name LIKE $name OR
         profileName LIKE $profileName
       )
      ORDER BY id ASC
-     LIMIT $limit`,
-    {
-      $id: `%${query}%`,
-      $name: `%${query}%`,
-      $profileName: `%${query}%`,
-      $limit: limit || 50,
-    }
-  );
+     LIMIT $limit`
+    )
+    .all({
+      id: `%${query}%`,
+      name: `%${query}%`,
+      profileName: `%${query}%`,
+      limit: limit || 50,
+    });
 
   return map(rows, row => jsonToObject(row.json));
 }
 
-async function searchMessages(query, { limit } = {}) {
-  const rows = await db.all(
-    `SELECT
+function searchMessages(query, { limit } = {}) {
+  const rows = globalInstance
+    .prepare(
+      `SELECT
       messages.json,
       snippet(messages_fts, -1, '<<left>>', '<<right>>', '...', 15) as snippet
     FROM ${MESSAGES_FTS_TABLE}
@@ -1684,12 +1721,12 @@ async function searchMessages(query, { limit } = {}) {
     WHERE
       messages_fts match $query
     ORDER BY messages.received_at DESC
-    LIMIT $limit;`,
-    {
-      $query: query,
-      $limit: limit || 100,
-    }
-  );
+    LIMIT $limit;`
+    )
+    .all({
+      query,
+      limit: limit || 100,
+    });
 
   return map(rows, row => ({
     ...jsonToObject(row.json),
@@ -1697,9 +1734,10 @@ async function searchMessages(query, { limit } = {}) {
   }));
 }
 
-async function searchMessagesInConversation(query, conversationId, { limit } = {}) {
-  const rows = await db.all(
-    `SELECT
+function searchMessagesInConversation(query, conversationId, { limit } = {}) {
+  const rows = globalInstance
+    .prepare(
+      `SELECT
       messages.json,
       snippet(messages_fts, -1, '<<left>>', '<<right>>', '...', 15) as snippet
     FROM messages_fts
@@ -1708,13 +1746,13 @@ async function searchMessagesInConversation(query, conversationId, { limit } = {
       messages_fts match $query AND
       messages.conversationId = $conversationId
     ORDER BY messages.received_at DESC
-    LIMIT $limit;`,
-    {
-      $query: query,
-      $conversationId: conversationId,
-      $limit: limit || 100,
-    }
-  );
+    LIMIT $limit;`
+    )
+    .all({
+      query,
+      conversationId,
+      limit: limit || 100,
+    });
 
   return map(rows, row => ({
     ...jsonToObject(row.json),
@@ -1722,17 +1760,16 @@ async function searchMessagesInConversation(query, conversationId, { limit } = {
   }));
 }
 
-async function getMessageCount() {
-  const row = await db.get(`SELECT count(*) from ${MESSAGES_TABLE};`);
+function getMessageCount() {
+  const row = globalInstance.prepare(`SELECT count(*) from ${MESSAGES_TABLE};`).get();
 
   if (!row) {
     throw new Error(`getMessageCount: Unable to get count of ${MESSAGES_TABLE}`);
   }
-
   return row['count(*)'];
 }
 
-async function saveMessage(data) {
+function saveMessage(data) {
   const {
     body,
     conversationId,
@@ -1767,31 +1804,32 @@ async function saveMessage(data) {
   }
 
   const payload = {
-    $id: id,
-    $json: objectToJSON(data),
+    id,
+    json: objectToJSON(data),
 
-    $serverId: serverId,
-    $serverTimestamp: serverTimestamp,
-    $body: body,
-    $conversationId: conversationId,
-    $expirationStartTimestamp: expirationStartTimestamp,
-    $expires_at: expires_at,
-    $expireTimer: expireTimer,
-    $hasAttachments: hasAttachments,
-    $hasFileAttachments: hasFileAttachments,
-    $hasVisualMediaAttachments: hasVisualMediaAttachments,
-    $received_at: received_at,
-    $schemaVersion: schemaVersion,
-    $sent: sent,
-    $sent_at: sent_at,
-    $source: source,
-    $sourceDevice: sourceDevice,
-    $type: type || '',
-    $unread: unread,
+    serverId,
+    serverTimestamp,
+    body,
+    conversationId,
+    expirationStartTimestamp,
+    expires_at,
+    expireTimer,
+    hasAttachments,
+    hasFileAttachments,
+    hasVisualMediaAttachments,
+    received_at,
+    schemaVersion,
+    sent,
+    sent_at,
+    source,
+    sourceDevice,
+    type: type || '',
+    unread,
   };
 
-  await db.run(
-    `INSERT OR REPLACE INTO ${MESSAGES_TABLE} (
+  globalInstance
+    .prepare(
+      `INSERT OR REPLACE INTO ${MESSAGES_TABLE} (
     id,
     json,
     serverId,
@@ -1833,37 +1871,27 @@ async function saveMessage(data) {
     $sourceDevice,
     $type,
     $unread
-  );`,
-    {
-      ...payload,
-      $json: objectToJSON(data),
-    }
-  );
+  );`
+    )
+    .run(payload);
 
   return id;
 }
 
 async function saveSeenMessageHashes(arrayOfHashes) {
-  let promise;
-
-  db.serialize(() => {
-    promise = Promise.all([
-      db.run('BEGIN TRANSACTION;'),
-      ...map(arrayOfHashes, hashData => saveSeenMessageHash(hashData)),
-      db.run('COMMIT TRANSACTION;'),
-    ]);
-  });
-
-  await promise;
+  globalInstance.transaction(() => {
+    map(arrayOfHashes, hashData => saveSeenMessageHash(hashData));
+  })();
 }
 
-async function updateLastHash(data) {
+function updateLastHash(data) {
   const { convoId, snode, hash, expiresAt } = data;
 
   const id = convoId;
 
-  await db.run(
-    `INSERT OR REPLACE INTO lastHashes (
+  globalInstance
+    .prepare(
+      `INSERT OR REPLACE INTO lastHashes (
       id,
       snode,
       hash,
@@ -1873,62 +1901,57 @@ async function updateLastHash(data) {
       $snode,
       $hash,
       $expiresAt
-    )`,
-    {
-      $id: id,
-      $snode: snode,
-      $hash: hash,
-      $expiresAt: expiresAt,
-    }
-  );
+    )`
+    )
+    .run({
+      id,
+      snode,
+      hash,
+      expiresAt,
+    });
 }
 
-async function saveSeenMessageHash(data) {
+function saveSeenMessageHash(data) {
   const { expiresAt, hash } = data;
-  await db.run(
-    `INSERT INTO seenMessages (
+  globalInstance
+    .prepare(
+      `INSERT INTO seenMessages (
       expiresAt,
       hash
       ) values (
         $expiresAt,
         $hash
-        );`,
-    {
-      $expiresAt: expiresAt,
-      $hash: hash,
-    }
-  );
+        );`
+    )
+    .run({
+      expiresAt,
+      hash,
+    });
 }
 
-async function cleanLastHashes() {
-  await db.run('DELETE FROM lastHashes WHERE expiresAt <= $now;', {
-    $now: Date.now(),
+function cleanLastHashes() {
+  globalInstance.prepare('DELETE FROM lastHashes WHERE expiresAt <= $now;').run({
+    now: Date.now(),
   });
 }
 
-async function cleanSeenMessages() {
-  await db.run('DELETE FROM seenMessages WHERE expiresAt <= $now;', {
-    $now: Date.now(),
+function cleanSeenMessages() {
+  globalInstance.prepare('DELETE FROM seenMessages WHERE expiresAt <= $now;').run({
+    now: Date.now(),
   });
 }
 
 async function saveMessages(arrayOfMessages) {
-  let promise;
-
-  db.serialize(() => {
-    promise = Promise.all([
-      db.run('BEGIN TRANSACTION;'),
-      ...map(arrayOfMessages, message => saveMessage(message)),
-      db.run('COMMIT TRANSACTION;'),
-    ]);
-  });
-
-  await promise;
+  globalInstance.transaction(() => {
+    map(arrayOfMessages, message => saveMessage(message));
+  })();
 }
 
-async function removeMessage(id, instance) {
+function removeMessage(id, instance) {
   if (!Array.isArray(id)) {
-    await (db || instance).run(`DELETE FROM ${MESSAGES_TABLE} WHERE id = $id;`, { $id: id });
+    (globalInstance || instance)
+      .prepare(`DELETE FROM ${MESSAGES_TABLE} WHERE id = $id;`)
+      .run({ id });
     return;
   }
 
@@ -1937,13 +1960,12 @@ async function removeMessage(id, instance) {
   }
 
   // Our node interface doesn't seem to allow you to replace one single ? with an array
-  await (db || instance).run(
-    `DELETE FROM ${MESSAGES_TABLE} WHERE id IN ( ${id.map(() => '?').join(', ')} );`,
-    id
-  );
+  (globalInstance || instance)
+    .prepare(`DELETE FROM ${MESSAGES_TABLE} WHERE id IN ( ${id.map(() => '?').join(', ')} );`)
+    .run(id);
 }
 
-async function getMessageIdsFromServerIds(serverIds, conversationId) {
+function getMessageIdsFromServerIds(serverIds, conversationId) {
   if (!Array.isArray(serverIds)) {
     return [];
   }
@@ -1957,20 +1979,21 @@ async function getMessageIdsFromServerIds(serverIds, conversationId) {
 
     So we have to use templating to insert the values.
   */
-  const rows = await db.all(
-    `SELECT id FROM ${MESSAGES_TABLE} WHERE
+  const rows = globalInstance
+    .prepare(
+      `SELECT id FROM ${MESSAGES_TABLE} WHERE
     serverId IN (${validIds.join(',')}) AND
-    conversationId = $conversationId;`,
-    {
-      $conversationId: conversationId,
-    }
-  );
+    conversationId = $conversationId;`
+    )
+    .all({
+      conversationId,
+    });
   return rows.map(row => row.id);
 }
 
-async function getMessageById(id) {
-  const row = await db.get(`SELECT * FROM ${MESSAGES_TABLE} WHERE id = $id;`, {
-    $id: id,
+function getMessageById(id) {
+  const row = globalInstance.prepare(`SELECT * FROM ${MESSAGES_TABLE} WHERE id = $id;`).get({
+    id,
   });
 
   if (!row) {
@@ -1980,87 +2003,81 @@ async function getMessageById(id) {
   return jsonToObject(row.json);
 }
 
-async function getAllMessages() {
-  const rows = await db.all(`SELECT json FROM ${MESSAGES_TABLE} ORDER BY id ASC;`);
-  return map(rows, row => jsonToObject(row.json));
-}
-
-async function getAllMessageIds() {
-  const rows = await db.all(`SELECT id FROM ${MESSAGES_TABLE} ORDER BY id ASC;`);
-  return map(rows, row => row.id);
-}
-
-// eslint-disable-next-line camelcase
-async function getMessageBySender({ source, sourceDevice, sentAt }) {
-  const rows = await db.all(
-    `SELECT json FROM ${MESSAGES_TABLE} WHERE
+function getMessageBySender({ source, sourceDevice, sentAt }) {
+  const rows = globalInstance
+    .prepare(
+      `SELECT json FROM ${MESSAGES_TABLE} WHERE
       source = $source AND
       sourceDevice = $sourceDevice AND
-      sent_at = $sent_at;`,
-    {
-      $source: source,
-      $sourceDevice: sourceDevice,
-      $sent_at: sentAt,
-    }
-  );
+      sent_at = $sent_at;`
+    )
+    .all({
+      source,
+      sourceDevice,
+      sent_at: sentAt,
+    });
 
   return map(rows, row => jsonToObject(row.json));
 }
 
-async function getMessageBySenderAndServerId({ source, serverId }) {
-  const rows = await db.all(
-    `SELECT json FROM ${MESSAGES_TABLE} WHERE
+function getMessageBySenderAndServerId({ source, serverId }) {
+  const rows = globalInstance
+    .prepare(
+      `SELECT json FROM ${MESSAGES_TABLE} WHERE
       source = $source AND
-      serverId = $serverId;`,
-    {
-      $source: source,
-      $serverId: serverId,
-    }
-  );
+      serverId = $serverId;`
+    )
+    .all({
+      source,
+      serverId,
+    });
 
   return map(rows, row => jsonToObject(row.json));
 }
 
-async function getMessageBySenderAndServerTimestamp({ source, serverTimestamp }) {
-  const rows = await db.all(
-    `SELECT json FROM ${MESSAGES_TABLE} WHERE
+function getMessageBySenderAndServerTimestamp({ source, serverTimestamp }) {
+  const rows = globalInstance
+    .prepare(
+      `SELECT json FROM ${MESSAGES_TABLE} WHERE
       source = $source AND
-      serverTimestamp = $serverTimestamp;`,
-    {
-      $source: source,
-      $serverTimestamp: serverTimestamp,
-    }
-  );
+      serverTimestamp = $serverTimestamp;`
+    )
+    .all({
+      source,
+      serverTimestamp,
+    });
 
   return map(rows, row => jsonToObject(row.json));
 }
 
-async function getUnreadByConversation(conversationId) {
-  const rows = await db.all(
-    `SELECT json FROM ${MESSAGES_TABLE} WHERE
+function getUnreadByConversation(conversationId) {
+  const rows = globalInstance
+    .prepare(
+      `SELECT json FROM ${MESSAGES_TABLE} WHERE
       unread = $unread AND
       conversationId = $conversationId
-     ORDER BY received_at DESC;`,
-    {
-      $unread: 1,
-      $conversationId: conversationId,
-    }
-  );
+     ORDER BY received_at DESC;`
+    )
+    .all({
+      unread: 1,
+      conversationId,
+    });
 
   return map(rows, row => jsonToObject(row.json));
 }
 
-async function getUnreadCountByConversation(conversationId) {
-  const row = await db.get(
-    `SELECT count(*) from ${MESSAGES_TABLE} WHERE
+function getUnreadCountByConversation(conversationId) {
+  const row = globalInstance
+    .prepare(
+      `SELECT count(*) from ${MESSAGES_TABLE} WHERE
     unread = $unread AND
     conversationId = $conversationId
-    ORDER BY received_at DESC;`,
-    {
-      $unread: 1,
-      $conversationId: conversationId,
-    }
-  );
+    ORDER BY received_at DESC;`
+    )
+    .get({
+      unread: 1,
+      conversationId,
+    });
 
   if (!row) {
     throw new Error(
@@ -2072,49 +2089,75 @@ async function getUnreadCountByConversation(conversationId) {
 }
 
 // Note: Sorting here is necessary for getting the last message (with limit 1)
-// be sure to update the sorting order to sort messages on reduxz too (sortMessages
+// be sure to update the sorting order to sort messages on redux too (sortMessages)
 
-async function getMessagesByConversation(
+function getMessagesByConversation(
   conversationId,
   { limit = 100, receivedAt = Number.MAX_VALUE, type = '%' } = {}
 ) {
-  const rows = await db.all(
-    `
+  const rows = globalInstance
+    .prepare(
+      `
     SELECT json FROM ${MESSAGES_TABLE} WHERE
       conversationId = $conversationId AND
       received_at < $received_at AND
       type LIKE $type
       ORDER BY serverTimestamp DESC, serverId DESC, sent_at DESC, received_at DESC
     LIMIT $limit;
-    `,
-    {
-      $conversationId: conversationId,
-      $received_at: receivedAt,
-      $limit: limit,
-      $type: type,
-    }
-  );
+    `
+    )
+    .all({
+      conversationId,
+      received_at: receivedAt,
+      limit,
+      type,
+    });
   return map(rows, row => jsonToObject(row.json));
 }
 
-async function getMessagesBySentAt(sentAt) {
-  const rows = await db.all(
-    `SELECT * FROM ${MESSAGES_TABLE}
+function getFirstUnreadMessageIdInConversation(conversationId) {
+  const rows = globalInstance
+    .prepare(
+      `
+    SELECT id FROM ${MESSAGES_TABLE} WHERE
+      conversationId = $conversationId AND
+      unread = $unread
+      ORDER BY serverTimestamp ASC, serverId ASC, sent_at ASC, received_at ASC
+    LIMIT 1;
+    `
+    )
+    .all({
+      conversationId,
+      unread: 1,
+    });
+
+  if (rows.length === 0) {
+    return undefined;
+  }
+  return rows[0].id;
+}
+
+function getMessagesBySentAt(sentAt) {
+  const rows = globalInstance
+    .prepare(
+      `SELECT * FROM ${MESSAGES_TABLE}
      WHERE sent_at = $sent_at
-     ORDER BY received_at DESC;`,
-    {
-      $sent_at: sentAt,
-    }
-  );
+     ORDER BY received_at DESC;`
+    )
+    .all({
+      sent_at: sentAt,
+    });
 
   return map(rows, row => jsonToObject(row.json));
 }
 
-async function getLastHashBySnode(convoId, snode) {
-  const row = await db.get('SELECT * FROM lastHashes WHERE snode = $snode AND id = $id;', {
-    $snode: snode,
-    $id: convoId,
-  });
+function getLastHashBySnode(convoId, snode) {
+  const row = globalInstance
+    .prepare('SELECT * FROM lastHashes WHERE snode = $snode AND id = $id;')
+    .get({
+      snode,
+      id: convoId,
+    });
 
   if (!row) {
     return null;
@@ -2123,64 +2166,73 @@ async function getLastHashBySnode(convoId, snode) {
   return row.hash;
 }
 
-async function getSeenMessagesByHashList(hashes) {
-  const rows = await db.all(
-    `SELECT * FROM seenMessages WHERE hash IN ( ${hashes.map(() => '?').join(', ')} );`,
-    hashes
-  );
+function getSeenMessagesByHashList(hashes) {
+  const rows = globalInstance
+    .prepare(`SELECT * FROM seenMessages WHERE hash IN ( ${hashes.map(() => '?').join(', ')} );`)
+    .all(hashes);
 
   return map(rows, row => row.hash);
 }
 
-async function getExpiredMessages() {
+function getExpiredMessages() {
   const now = Date.now();
 
-  const rows = await db.all(
-    `SELECT json FROM ${MESSAGES_TABLE} WHERE
+  const rows = globalInstance
+    .prepare(
+      `SELECT json FROM ${MESSAGES_TABLE} WHERE
       expires_at IS NOT NULL AND
       expires_at <= $expires_at
-     ORDER BY expires_at ASC;`,
-    {
-      $expires_at: now,
-    }
-  );
+     ORDER BY expires_at ASC;`
+    )
+    .all({
+      expires_at: now,
+    });
 
   return map(rows, row => jsonToObject(row.json));
 }
 
-async function getOutgoingWithoutExpiresAt() {
-  const rows = await db.all(`
+function getOutgoingWithoutExpiresAt() {
+  const rows = globalInstance
+    .prepare(
+      `
     SELECT json FROM ${MESSAGES_TABLE}
     WHERE
       expireTimer > 0 AND
       expires_at IS NULL AND
       type IS 'outgoing'
     ORDER BY expires_at ASC;
-  `);
+  `
+    )
+    .all();
 
   return map(rows, row => jsonToObject(row.json));
 }
 
-async function getNextExpiringMessage() {
-  const rows = await db.all(`
+function getNextExpiringMessage() {
+  const rows = globalInstance
+    .prepare(
+      `
     SELECT json FROM ${MESSAGES_TABLE}
     WHERE expires_at > 0
     ORDER BY expires_at ASC
     LIMIT 1;
-  `);
+  `
+    )
+    .all();
 
   return map(rows, row => jsonToObject(row.json));
 }
 
 /* Unproccessed a received messages not yet processed */
-async function saveUnprocessed(data) {
+function saveUnprocessed(data) {
   const { id, timestamp, version, attempts, envelope, senderIdentity } = data;
   if (!id) {
     throw new Error(`saveUnprocessed: id was falsey: ${id}`);
   }
 
-  await db.run(
-    `INSERT OR REPLACE INTO unprocessed (
+  globalInstance
+    .prepare(
+      `INSERT OR REPLACE INTO unprocessed (
       id,
       timestamp,
       version,
@@ -2194,58 +2246,59 @@ async function saveUnprocessed(data) {
       $attempts,
       $envelope,
       $senderIdentity
-    );`,
-    {
-      $id: id,
-      $timestamp: timestamp,
-      $version: version,
-      $attempts: attempts,
-      $envelope: envelope,
-      $senderIdentity: senderIdentity,
-    }
-  );
+    );`
+    )
+    .run({
+      id,
+      timestamp,
+      version,
+      attempts,
+      envelope,
+      senderIdentity,
+    });
 
   return id;
 }
 
-async function updateUnprocessedAttempts(id, attempts) {
-  await db.run('UPDATE unprocessed SET attempts = $attempts WHERE id = $id;', {
-    $id: id,
-    $attempts: attempts,
+function updateUnprocessedAttempts(id, attempts) {
+  globalInstance.prepare('UPDATE unprocessed SET attempts = $attempts WHERE id = $id;').run({
+    id,
+    attempts,
   });
 }
-async function updateUnprocessedWithData(id, data = {}) {
+function updateUnprocessedWithData(id, data = {}) {
   const { source, sourceDevice, serverTimestamp, decrypted, senderIdentity } = data;
 
-  await db.run(
-    `UPDATE unprocessed SET
+  globalInstance
+    .prepare(
+      `UPDATE unprocessed SET
       source = $source,
       sourceDevice = $sourceDevice,
       serverTimestamp = $serverTimestamp,
       decrypted = $decrypted,
       senderIdentity = $senderIdentity
-    WHERE id = $id;`,
-    {
-      $id: id,
-      $source: source,
-      $sourceDevice: sourceDevice,
-      $serverTimestamp: serverTimestamp,
-      $decrypted: decrypted,
-      $senderIdentity: senderIdentity,
-    }
-  );
+    WHERE id = $id;`
+    )
+    .run({
+      id,
+      source,
+      sourceDevice,
+      serverTimestamp,
+      decrypted,
+      senderIdentity,
+    });
 }
 
-async function getUnprocessedById(id) {
-  const row = await db.get('SELECT * FROM unprocessed WHERE id = $id;', {
-    $id: id,
+function getUnprocessedById(id) {
+  const row = globalInstance.prepare('SELECT * FROM unprocessed WHERE id = $id;').get({
+    id,
   });
 
   return row;
 }
 
-async function getUnprocessedCount() {
-  const row = await db.get('SELECT count(*) from unprocessed;');
+function getUnprocessedCount() {
+  const row = globalInstance.prepare('SELECT count(*) from unprocessed;').get();
 
   if (!row) {
     throw new Error('getMessageCount: Unable to get count of unprocessed');
@@ -2254,15 +2307,15 @@ async function getUnprocessedCount() {
   return row['count(*)'];
 }
 
-async function getAllUnprocessed() {
-  const rows = await db.all('SELECT * FROM unprocessed ORDER BY timestamp ASC;');
+function getAllUnprocessed() {
+  const rows = globalInstance.prepare('SELECT * FROM unprocessed ORDER BY timestamp ASC;').all();
 
   return rows;
 }
 
-async function removeUnprocessed(id) {
+function removeUnprocessed(id) {
   if (!Array.isArray(id)) {
-    await db.run('DELETE FROM unprocessed WHERE id = $id;', { $id: id });
+    globalInstance.prepare('DELETE FROM unprocessed WHERE id = $id;').run({ id });
     return;
   }
 
@@ -2271,37 +2324,42 @@ async function removeUnprocessed(id) {
   }
 
   // Our node interface doesn't seem to allow you to replace one single ? with an array
-  await db.run(`DELETE FROM unprocessed WHERE id IN ( ${id.map(() => '?').join(', ')} );`, id);
+  globalInstance
+    .prepare(`DELETE FROM unprocessed WHERE id IN ( ${id.map(() => '?').join(', ')} );`)
+    .run(id);
 }
 
-async function removeAllUnprocessed() {
-  await db.run('DELETE FROM unprocessed;');
+function removeAllUnprocessed() {
+  globalInstance.prepare('DELETE FROM unprocessed;').run();
 }
 
-async function getNextAttachmentDownloadJobs(limit, options = {}) {
+function getNextAttachmentDownloadJobs(limit, options = {}) {
   const timestamp = options.timestamp || Date.now();
 
-  const rows = await db.all(
-    `SELECT json FROM ${ATTACHMENT_DOWNLOADS_TABLE}
+  const rows = globalInstance
+    .prepare(
+      `SELECT json FROM ${ATTACHMENT_DOWNLOADS_TABLE}
     WHERE pending = 0 AND timestamp < $timestamp
     ORDER BY timestamp DESC
-    LIMIT $limit;`,
-    {
-      $limit: limit,
-      $timestamp: timestamp,
-    }
-  );
+    LIMIT $limit;`
+    )
+    .all({
+      limit,
+      timestamp,
+    });
 
   return map(rows, row => jsonToObject(row.json));
 }
-async function saveAttachmentDownloadJob(job) {
+
+function saveAttachmentDownloadJob(job) {
   const { id, pending, timestamp } = job;
   if (!id) {
     throw new Error('saveAttachmentDownloadJob: Provided job did not have a truthy id');
   }
 
-  await db.run(
-    `INSERT OR REPLACE INTO ${ATTACHMENT_DOWNLOADS_TABLE} (
+  globalInstance
+    .prepare(
+      `INSERT OR REPLACE INTO ${ATTACHMENT_DOWNLOADS_TABLE} (
       id,
       pending,
       timestamp,
@@ -2311,88 +2369,89 @@ async function saveAttachmentDownloadJob(job) {
       $pending,
       $timestamp,
       $json
-    )`,
-    {
-      $id: id,
-      $pending: pending,
-      $timestamp: timestamp,
-      $json: objectToJSON(job),
-    }
-  );
+    )`
+    )
+    .run({
+      id,
+      pending,
+      timestamp,
+      json: objectToJSON(job),
+    });
 }
-async function setAttachmentDownloadJobPending(id, pending) {
-  await db.run(`UPDATE ${ATTACHMENT_DOWNLOADS_TABLE} SET pending = $pending WHERE id = $id;`, {
-    $id: id,
-    $pending: pending,
-  });
+
+function setAttachmentDownloadJobPending(id, pending) {
+  globalInstance
+    .prepare(`UPDATE ${ATTACHMENT_DOWNLOADS_TABLE} SET pending = $pending WHERE id = $id;`)
+    .run({
+      id,
+      pending,
+    });
 }
-async function resetAttachmentDownloadPending() {
-  await db.run(`UPDATE ${ATTACHMENT_DOWNLOADS_TABLE} SET pending = 0 WHERE pending != 0;`);
+
+function resetAttachmentDownloadPending() {
+  globalInstance
+    .prepare(`UPDATE ${ATTACHMENT_DOWNLOADS_TABLE} SET pending = 0 WHERE pending != 0;`)
+    .run();
 }
-async function removeAttachmentDownloadJob(id) {
+function removeAttachmentDownloadJob(id) {
   return removeById(ATTACHMENT_DOWNLOADS_TABLE, id);
 }
-async function removeAllAttachmentDownloadJobs() {
-  return removeAllFromTable(ATTACHMENT_DOWNLOADS_TABLE);
+function removeAllAttachmentDownloadJobs() {
+  globalInstance.exec(`DELETE FROM ${ATTACHMENT_DOWNLOADS_TABLE};`);
 }
 
 // All data in database
-async function removeAll() {
-  let promise;
+function removeAll() {
+  globalInstance.exec(`
+    DELETE FROM ${IDENTITY_KEYS_TABLE};
 
-  db.serialize(() => {
-    promise = Promise.all([
-      db.run('BEGIN TRANSACTION;'),
-      db.run(`DELETE FROM ${IDENTITY_KEYS_TABLE};`),
-      db.run(`DELETE FROM ${ITEMS_TABLE};`),
-      db.run('DELETE FROM unprocessed;'),
-      db.run('DELETE FROM lastHashes;'),
-      db.run(`DELETE FROM ${NODES_FOR_PUBKEY_TABLE};`),
-      db.run(`DELETE FROM ${CLOSED_GROUP_V2_KEY_PAIRS_TABLE};`),
-      db.run('DELETE FROM seenMessages;'),
-      db.run(`DELETE FROM ${CONVERSATIONS_TABLE};`),
-      db.run(`DELETE FROM ${MESSAGES_TABLE};`),
-      db.run(`DELETE FROM ${ATTACHMENT_DOWNLOADS_TABLE};`),
-      db.run(`DELETE FROM ${MESSAGES_FTS_TABLE};`),
-      db.run('COMMIT TRANSACTION;'),
-    ]);
-  });
-
-  await promise;
+    DELETE FROM ${ITEMS_TABLE};
+    DELETE FROM unprocessed;
+    DELETE FROM lastHashes;
+    DELETE FROM ${NODES_FOR_PUBKEY_TABLE};
+    DELETE FROM ${CLOSED_GROUP_V2_KEY_PAIRS_TABLE};
+    DELETE FROM seenMessages;
+    DELETE FROM ${CONVERSATIONS_TABLE};
+    DELETE FROM ${MESSAGES_TABLE};
+    DELETE FROM ${ATTACHMENT_DOWNLOADS_TABLE};
+    DELETE FROM ${MESSAGES_FTS_TABLE};
+`);
 }
 
-async function removeAllConversations() {
-  await removeAllFromTable(CONVERSATIONS_TABLE);
+function removeAllConversations() {
+  globalInstance.prepare(`DELETE FROM ${CONVERSATIONS_TABLE};`).run();
 }
 
-async function getMessagesWithVisualMediaAttachments(conversationId, { limit }) {
-  const rows = await db.all(
-    `SELECT json FROM ${MESSAGES_TABLE} WHERE
+function getMessagesWithVisualMediaAttachments(conversationId, { limit }) {
+  const rows = globalInstance
+    .prepare(
+      `SELECT json FROM ${MESSAGES_TABLE} WHERE
       conversationId = $conversationId AND
       hasVisualMediaAttachments = 1
      ORDER BY received_at DESC
-     LIMIT $limit;`,
-    {
-      $conversationId: conversationId,
-      $limit: limit,
-    }
-  );
+     LIMIT $limit;`
+    )
+    .all({
+      conversationId,
+      limit,
+    });
 
   return map(rows, row => jsonToObject(row.json));
 }
 
-async function getMessagesWithFileAttachments(conversationId, { limit }) {
-  const rows = await db.all(
-    `SELECT json FROM ${MESSAGES_TABLE} WHERE
+function getMessagesWithFileAttachments(conversationId, { limit }) {
+  const rows = globalInstance
+    .prepare(
+      `SELECT json FROM ${MESSAGES_TABLE} WHERE
       conversationId = $conversationId AND
       hasFileAttachments = 1
      ORDER BY received_at DESC
-     LIMIT $limit;`,
-    {
-      $conversationId: conversationId,
-      $limit: limit,
-    }
-  );
+     LIMIT $limit;`
+    )
+    .all({
+      conversationId,
+      limit,
+    });
 
   return map(rows, row => jsonToObject(row.json));
 }
@@ -2464,11 +2523,11 @@ function getExternalFilesForConversation(conversation) {
   return files;
 }
 
-async function removeKnownAttachments(allAttachments) {
+function removeKnownAttachments(allAttachments) {
   const lookup = fromPairs(map(allAttachments, file => [file, true]));
   const chunkSize = 50;
 
-  const total = await getMessageCount();
+  const total = getMessageCount();
   console.log(`removeKnownAttachments: About to iterate through ${total} messages`);
 
   let count = 0;
@@ -2476,17 +2535,17 @@ async function removeKnownAttachments(allAttachments) {
   let id = '';
 
   while (!complete) {
-    // eslint-disable-next-line no-await-in-loop
-    const rows = await db.all(
-      `SELECT json FROM ${MESSAGES_TABLE}
+    const rows = globalInstance
+      .prepare(
+        `SELECT json FROM ${MESSAGES_TABLE}
        WHERE id > $id
        ORDER BY id ASC
-       LIMIT $chunkSize;`,
-      {
-        $id: id,
-        $chunkSize: chunkSize,
-      }
-    );
+       LIMIT $chunkSize;`
+      )
+      .all({
+        id,
+        chunkSize,
+      });
 
     const messages = map(rows, row => jsonToObject(row.json));
     forEach(messages, message => {
@@ -2512,23 +2571,23 @@ async function removeKnownAttachments(allAttachments) {
   //   value is still a string but it's smaller than every other string.
   id = 0;
 
-  const conversationTotal = await getConversationCount();
+  const conversationTotal = getConversationCount();
   console.log(
     `removeKnownAttachments: About to iterate through ${conversationTotal} ${CONVERSATIONS_TABLE}`
   );
 
   while (!complete) {
-    // eslint-disable-next-line no-await-in-loop
-    const rows = await db.all(
-      `SELECT json FROM ${CONVERSATIONS_TABLE}
+    const rows = globalInstance
+      .prepare(
+        `SELECT json FROM ${CONVERSATIONS_TABLE}
        WHERE id > $id
        ORDER BY id ASC
-       LIMIT $chunkSize;`,
-      {
-        $id: id,
-        $chunkSize: chunkSize,
-      }
-    );
+       LIMIT $chunkSize;`
+      )
+      .all({
+        id,
+        chunkSize,
+      });
 
     const conversations = map(rows, row => jsonToObject(row.json));
     forEach(conversations, conversation => {
@@ -2551,94 +2610,23 @@ async function removeKnownAttachments(allAttachments) {
   return Object.keys(lookup);
 }
 
-async function getMessagesCountByConversation(instance, conversationId) {
-  const row = await instance.get(
-    `SELECT count(*) from ${MESSAGES_TABLE} WHERE conversationId = $conversationId;`,
-    { $conversationId: conversationId }
-  );
+function getMessagesCountByConversation(instance, conversationId) {
+  const row = instance
+    .prepare(`SELECT count(*) from ${MESSAGES_TABLE} WHERE conversationId = $conversationId;`)
+    .get({ conversationId });
 
   return row ? row['count(*)'] : 0;
 }
 
-async function removePrefixFromGroupConversations(instance) {
-  const rows = await instance.all(
-    `SELECT json FROM ${CONVERSATIONS_TABLE} WHERE
-      type = 'group' AND
-      id LIKE '__textsecure_group__!%';`
-  );
-
-  const objs = map(rows, row => jsonToObject(row.json));
-
-  const conversationIdRows = await instance.all(
-    `SELECT id FROM ${CONVERSATIONS_TABLE} ORDER BY id ASC;`
-  );
-  const allOldConversationIds = map(conversationIdRows, row => row.id);
-
-  await Promise.all(
-    objs.map(async o => {
-      const oldId = o.id;
-      const newId = oldId.replace('__textsecure_group__!', '');
-      console.log(`migrating conversation, ${oldId} to ${newId}`);
-
-      if (allOldConversationIds.includes(newId)) {
-        console.log(
-          'Found a duplicate conversation after prefix removing. We need to take care of it'
-        );
-        // We have another conversation with the same future name.
-        // We decided to keep only the conversation with the higher number of messages
-        const countMessagesOld = await getMessagesCountByConversation(instance, oldId, {
-          limit: Number.MAX_VALUE,
-        });
-        const countMessagesNew = await getMessagesCountByConversation(instance, newId, {
-          limit: Number.MAX_VALUE,
-        });
-
-        console.log(`countMessagesOld: ${countMessagesOld}, countMessagesNew: ${countMessagesNew}`);
-
-        const deleteId = countMessagesOld > countMessagesNew ? newId : oldId;
-        await instance.run(`DELETE FROM ${CONVERSATIONS_TABLE} WHERE id = $id;`, {
-          $id: deleteId,
-        });
-      }
-
-      const morphedObject = {
-        ...o,
-        id: newId,
-      };
-
-      await instance.run(
-        `UPDATE ${CONVERSATIONS_TABLE} SET
-        id = $newId,
-        json = $json
-        WHERE id = $oldId;`,
-        {
-          $newId: newId,
-          $json: objectToJSON(morphedObject),
-          $oldId: oldId,
-        }
-      );
-    })
-  );
-}
-
-async function createEncryptionKeyPairsForClosedGroup(instance) {
-  await instance.run(
-    `CREATE TABLE ${CLOSED_GROUP_V2_KEY_PAIRS_TABLE} (
-      id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-      groupPublicKey TEXT,
-      timestamp NUMBER,
-      json TEXT
-    );` // json is the keypair
-  );
-}
-
-async function getAllClosedGroupConversationsV1(instance) {
-  const rows = await (db || instance).all(
-    `SELECT json FROM ${CONVERSATIONS_TABLE} WHERE
+function getAllClosedGroupConversationsV1(instance) {
+  const rows = (globalInstance || instance)
+    .prepare(
+      `SELECT json FROM ${CONVERSATIONS_TABLE} WHERE
       type = 'group' AND
       id NOT LIKE 'publicChat:%'
      ORDER BY id ASC;`
-  );
+    )
+    .all();
 
   return map(rows, row => jsonToObject(row.json));
 }
@@ -2650,79 +2638,77 @@ function remove05PrefixFromStringIfNeeded(str) {
   return str;
 }
 
-async function updateExistingClosedGroupV1ToClosedGroupV2(instance) {
+function updateExistingClosedGroupV1ToClosedGroupV2(db) {
   // the migration is called only once, so all current groups not being open groups are v1 closed group.
-  const allClosedGroupV1 = (await getAllClosedGroupConversationsV1(instance)) || [];
+  const allClosedGroupV1 = getAllClosedGroupConversationsV1(db) || [];
 
-  await Promise.all(
-    allClosedGroupV1.map(async groupV1 => {
-      const groupId = groupV1.id;
-      try {
-        console.log('Migrating closed group v1 to v2: pubkey', groupId);
-        const groupV1IdentityKey = await getIdentityKeyById(groupId, instance);
-        const encryptionPubKeyWithoutPrefix = remove05PrefixFromStringIfNeeded(
-          groupV1IdentityKey.id
-        );
+  allClosedGroupV1.forEach(groupV1 => {
+    const groupId = groupV1.id;
+    try {
+      console.log('Migrating closed group v1 to v2: pubkey', groupId);
+      const groupV1IdentityKey = getIdentityKeyById(groupId, db);
+      const encryptionPubKeyWithoutPrefix = remove05PrefixFromStringIfNeeded(groupV1IdentityKey.id);
 
-        // Note:
-        // this is what we get from getIdentityKeyById:
-        //   {
-        //     id: string;
-        //     secretKey?: string;
-        //   }
+      // Note:
+      // this is what we get from getIdentityKeyById:
+      //   {
+      //     id: string;
+      //     secretKey?: string;
+      //   }
 
-        // and this is what we want saved in db:
-        //   {
-        //    publicHex: string; // without prefix
-        //    privateHex: string;
-        //   }
-        const keyPair = {
-          publicHex: encryptionPubKeyWithoutPrefix,
-          privateHex: groupV1IdentityKey.secretKey,
-        };
-        await addClosedGroupEncryptionKeyPair(groupId, keyPair, instance);
-      } catch (e) {
-        console.warn(e);
-      }
-    })
-  );
+      // and this is what we want saved in db:
+      //   {
+      //    publicHex: string; // without prefix
+      //    privateHex: string;
+      //   }
+      const keyPair = {
+        publicHex: encryptionPubKeyWithoutPrefix,
+        privateHex: groupV1IdentityKey.secretKey,
+      };
+      addClosedGroupEncryptionKeyPair(groupId, keyPair, db);
+    } catch (e) {
+      console.warn(e);
+    }
+  });
 }
 
 /**
  * The returned array is ordered based on the timestamp, the latest is at the end.
  * @param {*} groupPublicKey string | PubKey
  */
-async function getAllEncryptionKeyPairsForGroup(groupPublicKey) {
-  const rows = await getAllEncryptionKeyPairsForGroupRaw(groupPublicKey);
+function getAllEncryptionKeyPairsForGroup(groupPublicKey) {
+  const rows = getAllEncryptionKeyPairsForGroupRaw(groupPublicKey);
 
   return map(rows, row => jsonToObject(row.json));
 }
 
-async function getAllEncryptionKeyPairsForGroupRaw(groupPublicKey) {
+function getAllEncryptionKeyPairsForGroupRaw(groupPublicKey) {
   const pubkeyAsString = groupPublicKey.key ? groupPublicKey.key : groupPublicKey;
-  const rows = await db.all(
-    `SELECT * FROM ${CLOSED_GROUP_V2_KEY_PAIRS_TABLE} WHERE groupPublicKey = $groupPublicKey ORDER BY timestamp ASC;`,
-    {
-      $groupPublicKey: pubkeyAsString,
-    }
-  );
+  const rows = globalInstance
+    .prepare(
+      `SELECT * FROM ${CLOSED_GROUP_V2_KEY_PAIRS_TABLE} WHERE groupPublicKey = $groupPublicKey ORDER BY timestamp ASC;`
+    )
+    .all({
+      groupPublicKey: pubkeyAsString,
+    });
 
   return rows;
 }
 
-async function getLatestClosedGroupEncryptionKeyPair(groupPublicKey) {
-  const rows = await getAllEncryptionKeyPairsForGroup(groupPublicKey);
+function getLatestClosedGroupEncryptionKeyPair(groupPublicKey) {
+  const rows = getAllEncryptionKeyPairsForGroup(groupPublicKey);
   if (!rows || rows.length === 0) {
     return undefined;
   }
   return rows[rows.length - 1];
 }
 
-async function addClosedGroupEncryptionKeyPair(groupPublicKey, keypair, instance) {
+function addClosedGroupEncryptionKeyPair(groupPublicKey, keypair, instance) {
   const timestamp = Date.now();
 
-  await (db || instance).run(
-    `INSERT OR REPLACE INTO ${CLOSED_GROUP_V2_KEY_PAIRS_TABLE} (
+  (globalInstance || instance)
+    .prepare(
+      `INSERT OR REPLACE INTO ${CLOSED_GROUP_V2_KEY_PAIRS_TABLE} (
       groupPublicKey,
       timestamp,
         json
@@ -2730,50 +2716,40 @@ async function addClosedGroupEncryptionKeyPair(groupPublicKey, keypair, instance
           $groupPublicKey,
           $timestamp,
           $json
-          );`,
-    {
-      $groupPublicKey: groupPublicKey,
-      $timestamp: timestamp,
-      $json: objectToJSON(keypair),
-    }
-  );
+          );`
+    )
+    .run({
+      groupPublicKey,
+      timestamp,
+      json: objectToJSON(keypair),
+    });
 }
 
-async function isKeyPairAlreadySaved(
-  groupPublicKey,
-  newKeyPairInHex // : HexKeyPair
-) {
-  const allKeyPairs = await getAllEncryptionKeyPairsForGroup(groupPublicKey);
-  return (allKeyPairs || []).some(
-    k => newKeyPairInHex.publicHex === k.publicHex && newKeyPairInHex.privateHex === k.privateHex
-  );
-}
-
-async function removeAllClosedGroupEncryptionKeyPairs(groupPublicKey) {
-  await db.run(
-    `DELETE FROM ${CLOSED_GROUP_V2_KEY_PAIRS_TABLE} WHERE groupPublicKey = $groupPublicKey`,
-    {
-      $groupPublicKey: groupPublicKey,
-    }
-  );
+function removeAllClosedGroupEncryptionKeyPairs(groupPublicKey) {
+  globalInstance
+    .prepare(
+      `DELETE FROM ${CLOSED_GROUP_V2_KEY_PAIRS_TABLE} WHERE groupPublicKey = $groupPublicKey`
+    )
+    .run({
+      groupPublicKey,
+    });
 }
 
 /**
  * Related to Opengroup V2
  */
-async function getAllV2OpenGroupRooms() {
-  const rows = await db.all(`SELECT json FROM ${OPEN_GROUP_ROOMS_V2_TABLE};`);
+function getAllV2OpenGroupRooms() {
+  const rows = globalInstance.prepare(`SELECT json FROM ${OPEN_GROUP_ROOMS_V2_TABLE};`).all();
 
   return map(rows, row => jsonToObject(row.json));
 }
 
-async function getV2OpenGroupRoom(conversationId) {
-  const row = await db.get(
-    `SELECT * FROM ${OPEN_GROUP_ROOMS_V2_TABLE} WHERE conversationId = $conversationId;`,
-    {
-      $conversationId: conversationId,
-    }
-  );
+function getV2OpenGroupRoom(conversationId) {
+  const row = globalInstance
+    .prepare(`SELECT * FROM ${OPEN_GROUP_ROOMS_V2_TABLE} WHERE conversationId = $conversationId;`)
+    .get({
+      conversationId,
+    });
 
   if (!row) {
     return null;
@@ -2782,14 +2758,15 @@ async function getV2OpenGroupRoom(conversationId) {
   return jsonToObject(row.json);
 }
 
-async function getV2OpenGroupRoomByRoomId(serverUrl, roomId) {
-  const row = await db.get(
-    `SELECT * FROM ${OPEN_GROUP_ROOMS_V2_TABLE} WHERE serverUrl = $serverUrl AND roomId = $roomId;`,
-    {
-      $serverUrl: serverUrl,
-      $roomId: roomId,
-    }
-  );
+function getV2OpenGroupRoomByRoomId(serverUrl, roomId) {
+  const row = globalInstance
+    .prepare(
+      `SELECT * FROM ${OPEN_GROUP_ROOMS_V2_TABLE} WHERE serverUrl = $serverUrl AND roomId = $roomId;`
+    )
+    .get({
+      serverUrl,
+      roomId,
+    });
 
   if (!row) {
     return null;
@@ -2798,10 +2775,11 @@ async function getV2OpenGroupRoomByRoomId(serverUrl, roomId) {
   return jsonToObject(row.json);
 }
 
-async function saveV2OpenGroupRoom(opengroupsv2Room) {
+function saveV2OpenGroupRoom(opengroupsv2Room) {
   const { serverUrl, roomId, conversationId } = opengroupsv2Room;
-  await db.run(
-    `INSERT OR REPLACE INTO ${OPEN_GROUP_ROOMS_V2_TABLE} (
+  globalInstance
+    .prepare(
+      `INSERT OR REPLACE INTO ${OPEN_GROUP_ROOMS_V2_TABLE} (
       serverUrl,
       roomId,
       conversationId,
@@ -2811,42 +2789,48 @@ async function saveV2OpenGroupRoom(opengroupsv2Room) {
       $roomId,
       $conversationId,
       $json
-    )`,
-    {
-      $serverUrl: serverUrl,
-      $roomId: roomId,
-      $conversationId: conversationId,
-      $json: objectToJSON(opengroupsv2Room),
-    }
-  );
+    )`
+    )
+    .run({
+      serverUrl,
+      roomId,
+      conversationId,
+      json: objectToJSON(opengroupsv2Room),
+    });
 }
 
-async function removeV2OpenGroupRoom(conversationId) {
-  await db.run(`DELETE FROM ${OPEN_GROUP_ROOMS_V2_TABLE} WHERE conversationId = $conversationId`, {
-    $conversationId: conversationId,
-  });
+function removeV2OpenGroupRoom(conversationId) {
+  globalInstance
+    .prepare(`DELETE FROM ${OPEN_GROUP_ROOMS_V2_TABLE} WHERE conversationId = $conversationId`)
+    .run({
+      conversationId,
+    });
 }
 
-async function removeOneOpenGroupV1Message() {
-  // eslint-disable-next-line no-await-in-loop
-  const row = await db.get(`SELECT count(*) from ${MESSAGES_TABLE} WHERE
-    conversationId LIKE 'publicChat:1@%';`);
+function removeOneOpenGroupV1Message() {
+  const row = globalInstance
+    .prepare(
+      `SELECT count(*) from ${MESSAGES_TABLE} WHERE
+    conversationId LIKE 'publicChat:1@%';`
+    )
+    .get();
   const toRemoveCount = row['count(*)'];
 
   if (toRemoveCount <= 0) {
     return 0;
   }
   console.warn('left opengroupv1 message to remove: ', toRemoveCount);
-  const rowMessageIds = await db.all(
-    `SELECT id from ${MESSAGES_TABLE} WHERE conversationId LIKE 'publicChat:1@%' ORDER BY id LIMIT 1;`
-  );
+  const rowMessageIds = globalInstance
+    .prepare(
+      `SELECT id from ${MESSAGES_TABLE} WHERE conversationId LIKE 'publicChat:1@%' ORDER BY id LIMIT 1;`
+    )
+    .all();
 
   const messagesIds = map(rowMessageIds, r => r.id)[0];
 
   console.time('removeOneOpenGroupV1Message');
 
-  // eslint-disable-next-line no-await-in-loop
-  await removeMessage(messagesIds);
+  removeMessage(messagesIds);
   console.timeEnd('removeOneOpenGroupV1Message');
 
   return toRemoveCount - 1;

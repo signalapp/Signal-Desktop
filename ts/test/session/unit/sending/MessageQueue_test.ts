@@ -42,10 +42,6 @@ describe('MessageQueue', () => {
     // Utils Stubs
     sandbox.stub(UserUtils, 'getOurPubKeyStrFromCache').returns(ourNumber);
 
-    TestUtils.stubWindow('libsignal', {
-      SignalProtocolAddress: sandbox.stub(),
-    } as any);
-
     // Message Sender Stubs
     sendStub = sandbox.stub(MessageSender, 'send').resolves();
     messageSentHandlerFailedStub = sandbox
@@ -187,7 +183,7 @@ describe('MessageQueue', () => {
     describe('closed groups', () => {
       it('can send to closed group', async () => {
         const members = TestUtils.generateFakePubKeys(4).map(p => new PubKey(p.key));
-        sandbox.stub(GroupUtils, 'getGroupMembers').resolves(members);
+        sandbox.stub(GroupUtils, 'getGroupMembers').returns(members);
 
         const send = sandbox.stub(messageQueueStub, 'sendToPubKey').resolves();
 

@@ -4,9 +4,13 @@ import { SessionConversation } from '../../components/session/conversation/Sessi
 import { StateType } from '../reducer';
 import { getTheme } from '../selectors/theme';
 import {
-  getMessagesOfSelectedConversation,
+  getLightBoxOptions,
   getSelectedConversation,
   getSelectedConversationKey,
+  getSelectedMessageIds,
+  getSortedMessagesOfSelectedConversation,
+  isMessageDetailView,
+  isRightPanelShowing,
 } from '../selectors/conversations';
 import { getOurNumber } from '../selectors/user';
 
@@ -15,8 +19,12 @@ const mapStateToProps = (state: StateType) => {
     selectedConversation: getSelectedConversation(state),
     selectedConversationKey: getSelectedConversationKey(state),
     theme: getTheme(state),
-    messages: getMessagesOfSelectedConversation(state),
+    messagesProps: getSortedMessagesOfSelectedConversation(state),
     ourNumber: getOurNumber(state),
+    showMessageDetails: isMessageDetailView(state),
+    isRightPanelShowing: isRightPanelShowing(state),
+    selectedMessages: getSelectedMessageIds(state),
+    lightBoxOptions: getLightBoxOptions(state),
   };
 };
 

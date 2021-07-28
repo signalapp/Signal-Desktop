@@ -111,7 +111,7 @@ export function unbanUser(userToUnBan: string, conversationId: string) {
   );
 }
 
-export function copyBodyToClipboard(body?: string) {
+export function copyBodyToClipboard(body?: string | null) {
   window.clipboard.writeText(body);
 
   ToastUtils.pushCopiedToClipBoard();

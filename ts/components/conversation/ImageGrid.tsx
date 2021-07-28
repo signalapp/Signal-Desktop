@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import {
   areAllAttachmentsVisual,
   AttachmentType,
+  AttachmentTypeWithPath,
   getAlt,
   getImageDimensions,
   getThumbnailUrl,
@@ -14,13 +15,13 @@ import {
 import { Image } from './Image';
 
 type Props = {
-  attachments: Array<AttachmentType>;
+  attachments: Array<AttachmentTypeWithPath>;
   withContentAbove?: boolean;
   withContentBelow?: boolean;
   bottomOverlay?: boolean;
 
   onError: () => void;
-  onClickAttachment?: (attachment: AttachmentType) => void;
+  onClickAttachment?: (attachment: AttachmentTypeWithPath | AttachmentType) => void;
 };
 
 export const ImageGrid = (props: Props) => {

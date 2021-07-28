@@ -297,10 +297,6 @@
     window.addEventListener('focus', () => Whisper.Notifications.clear());
     window.addEventListener('unload', () => Whisper.Notifications.fastClear());
 
-    window.showResetSessionIdDialog = () => {
-      appView.showResetSessionIdDialog();
-    };
-
     // Set user's launch count.
     const prevLaunchCount = window.getSettingValue('launch-count');
     const launchCount = !prevLaunchCount ? 1 : prevLaunchCount + 1;
@@ -345,10 +341,16 @@
       window.setMediaPermissions(!value);
     };
 
-    Whisper.Notifications.on('click', (id, messageId) => {
+    Whisper.Notifications.on('click', async (id, messageId) => {
       window.showWindow();
       if (id) {
-        window.inboxStore.dispatch(window.actionsCreators.openConversationExternal(id, messageId));
+        const firstUnreadIdOnOpen = await window.Signal.Data.getFirstUnreadMessageIdInConversation(
+          id
+        );
+
+        window.inboxStore.dispatch(
+          window.actionsCreators.openConversationExternal({ id, messageId, firstUnreadIdOnOpen })
+        );
       } else {
         appView.openInbox({
           initialLoadComplete,

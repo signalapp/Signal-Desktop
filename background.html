@@ -13,7 +13,7 @@
       http-equiv="Content-Security-Policy"
       content="default-src 'none';
             child-src 'self';
-            connect-src 'self' https: wss: blob:;
+            connect-src 'self' https: wss: blob: data:;
             font-src 'self';
             form-action 'self';
             frame-src 'none';
@@ -41,12 +41,10 @@
     </script>
 
     <script type="text/javascript" src="js/components.js"></script>
-    <script type="text/javascript" src="js/reliable_trigger.js"></script>
     <script type="text/javascript" src="js/database.js"></script>
     <script type="text/javascript" src="js/storage.js"></script>
     <script type="text/javascript" src="js/legacy_storage.js"></script>
     <script type="text/javascript" src="js/libtextsecure.js"></script>
-    <script type="text/javascript" src="js/libloki.js"></script>
 
     <script type="text/javascript" src="js/focus_listener.js"></script>
     <script type="text/javascript" src="js/notifications.js"></script>

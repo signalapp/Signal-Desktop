@@ -98,20 +98,10 @@ describe('MessageEncrypter', () => {
   };
 
   beforeEach(() => {
-    TestUtils.stubWindow('libsignal', {
-      SignalProtocolAddress: sandbox.stub(),
-    } as any);
-
     TestUtils.stubWindow('textsecure', {
       storage: {
         protocol: sandbox.stub(),
       },
-    });
-
-    TestUtils.stubWindow('libloki', {
-      crypto: {
-        encryptForPubkey: sinon.fake.returns(''),
-      } as any,
     });
 
     sandbox.stub(UserUtils, 'getOurPubKeyStrFromCache').returns(ourNumber);

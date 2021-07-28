@@ -40,11 +40,6 @@ const getCategories = () => {
       hidden: false,
     },
     {
-      id: SessionSettingCategory.Permissions,
-      title: window.i18n('permissionSettingsTitle'),
-      hidden: true,
-    },
-    {
       id: SessionSettingCategory.Notifications,
       title: window.i18n('notificationsSettingsTitle'),
       hidden: false,
@@ -133,7 +128,7 @@ const LeftPaneBottomButtons = () => {
   const showRecoveryPhrase = window.i18n('showRecoveryPhrase');
 
   return (
-    <div className="left-pane-setting-bottom-buttons">
+    <div className="left-pane-setting-bottom-buttons" key={1}>
       <SessionButton
         text={dangerButtonText}
         buttonType={SessionButtonType.SquareOutline}
@@ -159,7 +154,7 @@ export const LeftPaneSettingSection = () => {
   const theme = useSelector(getTheme);
   return (
     <div className="left-pane-setting-section">
-      <LeftPaneSectionHeader label={window.i18n('settingsHeader')} theme={theme} />
+      <LeftPaneSectionHeader label={window.i18n('settingsHeader')} />
       <div className="left-pane-setting-content">
         <LeftPaneSettingsCategories />
         <LeftPaneBottomButtons />

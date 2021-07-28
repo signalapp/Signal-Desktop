@@ -16,16 +16,18 @@ import {
   getMessagesByConversation,
   getUnreadByConversation,
   getUnreadCountByConversation,
-  removeAllMessagesInConversation,
   removeMessage as dataRemoveMessage,
   saveMessages,
   updateConversation,
 } from '../../ts/data/data';
-import { fromArrayBufferToBase64, fromBase64ToArrayBuffer } from '../session/utils/String';
+import { fromArrayBufferToBase64, fromBase64ToArrayBuffer, toHex } from '../session/utils/String';
 import {
   actions as conversationActions,
-  ConversationType as ReduxConversationType,
+  conversationChanged,
   LastMessageStatusType,
+  MessageModelProps,
+  NotificationForConvoOption,
+  ReduxConversationType,
 } from '../state/ducks/conversations';
 import { ExpirationTimerUpdateMessage } from '../session/messages/outgoing/controlMessage/ExpirationTimerUpdateMessage';
 import { TypingMessage } from '../session/messages/outgoing/controlMessage/TypingMessage';
@@ -36,15 +38,12 @@ import {
 import { GroupInvitationMessage } from '../session/messages/outgoing/visibleMessage/GroupInvitationMessage';
 import { ReadReceiptMessage } from '../session/messages/outgoing/controlMessage/receipt/ReadReceiptMessage';
 import { OpenGroupUtils } from '../opengroup/utils';
-import { ConversationInteraction } from '../interactions';
 import { OpenGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
 import { OpenGroupRequestCommonType } from '../opengroup/opengroupV2/ApiUtil';
 import { getOpenGroupV2FromConversationId } from '../opengroup/utils/OpenGroupUtils';
-import { NotificationForConvoOption } from '../components/conversation/ConversationHeader';
-import { useDispatch } from 'react-redux';
-import { updateConfirmModal } from '../state/ducks/modalDialog';
 import { createTaskWithTimeout } from '../session/utils/TaskWithTimeout';
-import { DURATION, SWARM_POLLING_TIMEOUT } from '../session/constants';
+import { perfEnd, perfStart } from '../session/utils/Performance';
+import { ReplyingToMessageProps } from '../components/session/conversation/SessionCompositionBox';
 
 export enum ConversationTypeEnum {
   GROUP = 'group',
@@ -92,10 +91,13 @@ export interface ConversationAttributes {
   nickname?: string;
   profile?: any;
   profileAvatar?: any;
+  /**
+   * Consider this being a hex string if it set
+   */
   profileKey?: string;
-  accessKey?: any;
   triggerNotificationsFor: ConversationNotificationSettingType;
   isTrustedForAttachmentDownload: boolean;
+  isPinned: boolean;
 }
 
 export interface ConversationAttributesOptionals {
@@ -129,10 +131,13 @@ export interface ConversationAttributesOptionals {
   nickname?: string;
   profile?: any;
   profileAvatar?: any;
+  /**
+   * Consider this being a hex string if it set
+   */
   profileKey?: string;
-  accessKey?: any;
   triggerNotificationsFor?: ConversationNotificationSettingType;
   isTrustedForAttachmentDownload?: boolean;
+  isPinned: boolean;
 }
 
 /**
@@ -162,6 +167,7 @@ export const fillConvoAttributesWithDefaults = (
     active_at: 0,
     triggerNotificationsFor: 'all', // if the settings is not set in the db, this is the default
     isTrustedForAttachmentDownload: false, // we don't trust a contact until we say so
+    isPinned: false,
   });
 };
 
@@ -169,12 +175,13 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public updateLastMessage: () => any;
   public throttledBumpTyping: any;
   public throttledNotify: any;
-  public markRead: any;
+  public markRead: (newestUnreadDate: number, providedOptions?: any) => Promise<void>;
   public initialPromise: any;
 
   private typingRefreshTimer?: NodeJS.Timeout | null;
   private typingPauseTimer?: NodeJS.Timeout | null;
   private typingTimer?: NodeJS.Timeout | null;
+  private lastReadTimestamp: number;
 
   private pending: any;
 
@@ -187,16 +194,32 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     autoBind(this);
 
     this.throttledBumpTyping = _.throttle(this.bumpTyping, 300);
-    this.updateLastMessage = _.throttle(this.bouncyUpdateLastMessage.bind(this), 1000);
-    this.throttledNotify = _.debounce(this.notify, 500, { maxWait: 1000 });
+    this.updateLastMessage = _.throttle(this.bouncyUpdateLastMessage.bind(this), 1000, {
+      trailing: true,
+    });
+    this.triggerUIRefresh = _.throttle(this.triggerUIRefresh, 1000, {
+      trailing: true,
+    });
+    this.throttledNotify = _.debounce(this.notify, 500, { maxWait: 1000, trailing: true });
     //start right away the function is called, and wait 1sec before calling it again
-    this.markRead = _.debounce(this.markReadBouncy, 1000, { leading: true });
+    const markReadDebounced = _.debounce(this.markReadBouncy, 1000, {
+      leading: true,
+      trailing: true,
+    });
+    // tslint:disable-next-line: no-async-without-await
+    this.markRead = async (newestUnreadDate: number) => {
+      const lastReadTimestamp = this.lastReadTimestamp;
+      if (newestUnreadDate > lastReadTimestamp) {
+        this.lastReadTimestamp = newestUnreadDate;
+      }
+      void markReadDebounced(newestUnreadDate);
+    };
     // Listening for out-of-band data updates
 
     this.typingRefreshTimer = null;
     this.typingPauseTimer = null;
-
-    window.inboxStore?.dispatch(conversationActions.conversationChanged(this.id, this.getProps()));
+    this.lastReadTimestamp = 0;
+    window.inboxStore?.dispatch(conversationChanged({ id: this.id, data: this.getProps() }));
   }
 
   public idForLogging() {
@@ -379,10 +402,12 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
     return this.get('moderators');
   }
+
   public getProps(): ReduxConversationType {
     const groupAdmins = this.getGroupAdmins();
+    const members = this.isGroup() && !this.isPublic() ? this.get('members') : [];
+    const ourNumber = UserUtils.getOurPubKeyStrFromCache();
 
-    const members = this.isGroup() && !this.isPublic() ? this.get('members') : undefined;
     // isSelected is overriden by redux
     return {
       isSelected: false,
@@ -390,6 +415,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       activeAt: this.get('active_at'),
       avatarPath: this.getAvatarPath() || undefined,
       type: this.isPrivate() ? ConversationTypeEnum.PRIVATE : ConversationTypeEnum.GROUP,
+      weAreAdmin: this.isAdmin(ourNumber),
+      isGroup: !this.isPrivate(),
+
+      isPrivate: this.isPrivate(),
       isMe: this.isMe(),
       isPublic: this.isPublic(),
       isTyping: !!this.typingTimer,
@@ -399,7 +428,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       unreadCount: this.get('unreadCount') || 0,
       mentionedUs: this.get('mentionedUs') || false,
       isBlocked: this.isBlocked(),
-      phoneNumber: this.id,
+      phoneNumber: this.getNumber(),
       lastMessage: {
         status: this.get('lastMessageStatus'),
         text: this.get('lastMessage'),
@@ -409,7 +438,22 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       left: !!this.get('left'),
       groupAdmins,
       members,
+      expireTimer: this.get('expireTimer') || 0,
+      subscriberCount: this.get('subscriberCount') || 0,
+      isPinned: this.isPinned(),
+      notificationForConvo: this.getConversationNotificationSettingType(),
+      currentNotificationSetting: this.get('triggerNotificationsFor'),
     };
+  }
+
+  public getConversationNotificationSettingType(): Array<NotificationForConvoOption> {
+    // exclude mentions_only settings for private chats as this does not make much sense
+    return ConversationNotificationSetting.filter(n =>
+      this.isPrivate() ? n !== 'mentions_only' : true
+    ).map((n: ConversationNotificationSettingType) => {
+      // this link to the notificationForConvo_all, notificationForConvo_mentions_only, ...
+      return { value: n, name: window.i18n(`notificationForConvo_${n}`) };
+    });
   }
 
   public async updateGroupAdmins(groupAdmins: Array<string>) {
@@ -456,7 +500,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     return unreadCount;
   }
 
-  public queueJob(callback: any) {
+  public queueJob(callback: () => Promise<void>) {
     // tslint:disable-next-line: no-promise-as-boolean
     const previous = this.pending || Promise.resolve();
 
@@ -539,17 +583,24 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     return [];
   }
 
-  public async makeQuote(quotedMessage: MessageModel) {
+  public async makeQuote(quotedMessage: MessageModel): Promise<ReplyingToMessageProps | null> {
     const attachments = quotedMessage.get('attachments');
     const preview = quotedMessage.get('preview');
 
     const body = quotedMessage.get('body');
     const quotedAttachments = await this.getQuoteAttachment(attachments, preview);
+
+    if (!quotedMessage.get('sent_at')) {
+      window.log.warn('tried to make a quote without a sent_at timestamp');
+      return null;
+    }
     return {
       author: quotedMessage.getSource(),
-      id: quotedMessage.get('sent_at'),
+      id: `${quotedMessage.get('sent_at')}` || '',
       text: body,
       attachments: quotedAttachments,
+      timestamp: quotedMessage.get('sent_at') || 0,
+      convoId: this.id,
     };
   }
 
@@ -738,6 +789,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
     const messages = await getMessagesByConversation(this.id, {
       limit: 1,
+      skipTimerInit: true,
     });
     const lastMessageModel = messages.at(0);
     const lastMessageJSON = lastMessageModel ? lastMessageModel.toJSON() : null;
@@ -857,15 +909,24 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     return message;
   }
 
-  public async commit() {
-    // write to DB
-    await updateConversation(this.attributes);
+  public triggerUIRefresh() {
     window.inboxStore?.dispatch(
-      conversationActions.conversationChanged(this.id, {
-        ...this.getProps(),
-        isSelected: false,
+      conversationChanged({
+        id: this.id,
+        data: {
+          ...this.getProps(),
+          isSelected: false,
+        },
       })
     );
+  }
+
+  public async commit() {
+    perfStart(`conversationCommit-${this.attributes.id}`);
+    // write to DB
+    await updateConversation(this.attributes);
+    this.triggerUIRefresh();
+    perfEnd(`conversationCommit-${this.attributes.id}`, 'conversationCommit');
   }
 
   public async addSingleMessage(messageAttributes: MessageAttributesOptionals, setToExpire = true) {
@@ -881,13 +942,12 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     window.inboxStore?.dispatch(
       conversationActions.messageAdded({
         conversationKey: this.id,
-        messageModel: model,
+        messageModelProps: model.getProps(),
       })
     );
     const unreadCount = await this.getUnreadCount();
     this.set({ unreadCount });
     await this.commit();
-
     return model;
   }
 
@@ -903,6 +963,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   public async markReadBouncy(newestUnreadDate: number, providedOptions: any = {}) {
+    const lastReadTimestamp = this.lastReadTimestamp;
+    if (newestUnreadDate < lastReadTimestamp) {
+      return;
+    }
+
     const options = providedOptions || {};
     _.defaults(options, { sendReadReceipts: true });
 
@@ -915,7 +980,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     let allUnreadMessagesInConvo = (await this.getUnread()).models;
 
     const oldUnreadNowRead = allUnreadMessagesInConvo.filter(
-      (message: any) => message.get('received_at') <= newestUnreadDate
+      message => (message.get('received_at') as number) <= newestUnreadDate
     );
 
     let read = [];
@@ -935,12 +1000,15 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const oldUnreadNowReadAttrs = oldUnreadNowRead.map(m => m.attributes);
 
     await saveMessages(oldUnreadNowReadAttrs);
+    const allProps: Array<MessageModelProps> = [];
 
     for (const nowRead of oldUnreadNowRead) {
-      nowRead.generateProps(false);
+      allProps.push(nowRead.getProps());
     }
-    window.inboxStore?.dispatch(conversationActions.messagesChanged(oldUnreadNowRead));
 
+    if (allProps.length) {
+      window.inboxStore?.dispatch(conversationActions.messagesChanged(allProps));
+    }
     // Some messages we're marking read are local notifications with no sender
     read = _.filter(read, m => Boolean(m.sender));
     const realUnreadCount = await this.getUnreadCount();
@@ -948,7 +1016,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       const cachedUnreadCountOnConvo = this.get('unreadCount');
       if (cachedUnreadCountOnConvo !== read.length) {
         // reset the unreadCount on the convo to the real one coming from markRead messages on the db
-        this.set({ unreadCount: 0 });
+        this.set({ unreadCount: realUnreadCount });
         await this.commit();
       } else {
         // window?.log?.info('markRead(): nothing newly read.');
@@ -965,12 +1033,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         (m: any) => m.get('received_at') > newestUnreadDate
       );
       const ourNumber = UserUtils.getOurPubKeyStrFromCache();
-      return !stillUnread.some(
-        (m: any) =>
-          m.propsForMessage &&
-          m.propsForMessage.text &&
-          m.propsForMessage.text.indexOf(`@${ourNumber}`) !== -1
-      );
+      return !stillUnread.some(m => m.getPropsForMessage()?.text?.indexOf(`@${ourNumber}`) !== -1);
     })();
 
     if (mentionRead) {
@@ -1055,7 +1118,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   public isAdmin(pubKey?: string) {
-    if (!this.isPublic()) {
+    if (!this.isPublic() && !this.isGroup()) {
       return false;
     }
     if (!pubKey) {
@@ -1094,6 +1157,16 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       await this.commit();
     }
   }
+
+  public async setIsPinned(value: boolean) {
+    if (value !== this.get('isPinned')) {
+      this.set({
+        isPinned: value,
+      });
+      await this.commit();
+    }
+  }
+
   public async setGroupName(name: string) {
     const profileName = this.get('name');
     if (profileName !== name) {
@@ -1127,36 +1200,28 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       await this.commit();
     }
   }
-  public async setProfileKey(profileKey: string) {
-    // profileKey is a string so we can compare it directly
-    if (this.get('profileKey') !== profileKey) {
-      this.set({
-        profileKey,
-        accessKey: null,
-      });
+  /**
+   * profileKey MUST be a hex string
+   * @param profileKey MUST be a hex string
+   */
+  public async setProfileKey(profileKey?: Uint8Array, autoCommit = true) {
+    const re = /[0-9A-Fa-f]*/g;
 
-      await this.deriveAccessKeyIfNeeded();
-
-      await this.commit();
-    }
-  }
-
-  public async deriveAccessKeyIfNeeded() {
-    const profileKey = this.get('profileKey');
     if (!profileKey) {
       return;
     }
-    if (this.get('accessKey')) {
-      return;
-    }
 
-    try {
-      const profileKeyBuffer = fromBase64ToArrayBuffer(profileKey);
-      const accessKeyBuffer = await window.Signal.Crypto.deriveAccessKey(profileKeyBuffer);
-      const accessKey = fromArrayBufferToBase64(accessKeyBuffer);
-      this.set({ accessKey });
-    } catch (e) {
-      window?.log?.warn(`Failed to derive access key for ${this.id}`);
+    const profileKeyHex = toHex(profileKey);
+
+    // profileKey is a string so we can compare it directly
+    if (this.get('profileKey') !== profileKeyHex) {
+      this.set({
+        profileKey: profileKeyHex,
+      });
+
+      if (autoCommit) {
+        await this.commit();
+      }
     }
   }
 
@@ -1223,6 +1288,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       return this.get('name');
     }
     return this.get('name') || window.i18n('unknown');
+  }
+
+  public isPinned() {
+    return this.get('isPinned');
   }
 
   public getTitle() {

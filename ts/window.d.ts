@@ -3,7 +3,6 @@ import {} from 'styled-components/cssprop';
 import { LocalizerType } from '../types/Util';
 import { LibsignalProtocol } from '../../libtextsecure/libsignal-protocol';
 import { SignalInterface } from '../../js/modules/signal';
-import { Libloki } from '../libloki';
 
 import { LibTextsecure } from '../libtextsecure';
 import { ConfirmationDialogParams } from '../background';
@@ -18,6 +17,8 @@ import { ConversationType } from './state/ducks/conversations';
 We declare window stuff here instead of global.d.ts because we are importing other declarations.
 If you import anything in global.d.ts, the type system won't work correctly.
 */
+
+type UtilWorkerFunctionType = (fnName: string, ...args: any) => Promise<any>;
 
 declare global {
   interface Window {
@@ -40,7 +41,6 @@ declare global {
     getFriendsFromContacts: any;
     getSettingValue: any;
     i18n: LocalizerType;
-    libloki: Libloki;
     libsignal: LibsignalProtocol;
     log: any;
     lokiFeatureFlags: {
@@ -48,6 +48,7 @@ declare global {
       useFileOnionRequests: boolean;
       useFileOnionRequestsV2: boolean;
       padOutgoingAttachments: boolean;
+      enablePinConversations: boolean;
     };
     lokiSnodeAPI: LokiSnodeAPI;
     onLogin: any;
@@ -56,7 +57,6 @@ declare global {
     getSeedNodeList: () => Array<any> | undefined;
     setPassword: any;
     setSettingValue: any;
-    showResetSessionIdDialog: any;
     storage: any;
     textsecure: LibTextsecure;
     toggleMediaPermissions: any;
@@ -78,10 +78,9 @@ declare global {
       expired: (boolean) => void;
       expiredStatus: () => boolean;
     };
-    lightTheme: DefaultTheme;
-    darkTheme: DefaultTheme;
     LokiPushNotificationServer: any;
     globalOnlineStatus: boolean;
     confirmationDialog: any;
+    callWorker: (fnName: string, ...args: any) => Promise<any>;
   }
 }

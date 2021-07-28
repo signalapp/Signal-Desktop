@@ -34,11 +34,6 @@ async function handleOurProfileUpdate(
       return;
     }
 
-    if (profileKey?.length) {
-      window?.log?.info('Saving our profileKey from configuration message');
-      // TODO not sure why we keep our profileKey in storage AND in our conversaio
-      window.textsecure.storage.put('profileKey', profileKey);
-    }
     const lokiProfile = {
       displayName,
       profilePicture,
@@ -61,7 +56,7 @@ async function handleGroupsAndContactsFromConfigMessage(
   const didWeHandleAConfigurationMessageAlready =
     (await getItemById(hasSyncedInitialConfigurationItem))?.value || false;
   if (didWeHandleAConfigurationMessageAlready) {
-    window?.log?.warn(
+    window?.log?.info(
       'Dropping configuration contacts/groups change as we already handled one... '
     );
     return;
@@ -73,7 +68,7 @@ async function handleGroupsAndContactsFromConfigMessage(
 
   const numberClosedGroup = configMessage.closedGroups?.length || 0;
 
-  window?.log?.warn(
+  window?.log?.info(
     `Received ${numberClosedGroup} closed group on configuration. Creating them... `
   );
 

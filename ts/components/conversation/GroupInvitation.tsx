@@ -2,15 +2,10 @@ import React from 'react';
 import classNames from 'classnames';
 import { SessionIconButton, SessionIconSize, SessionIconType } from '../session/icon';
 import { useTheme } from 'styled-components';
+import { PropsForGroupInvitation } from '../../state/ducks/conversations';
+import { acceptOpenGroupInvitation } from '../../interactions/messageInteractions';
 
-type Props = {
-  name: string;
-  url: string;
-  direction: string;
-  onJoinClick: () => void;
-};
-
-export const GroupInvitation = (props: Props) => {
+export const GroupInvitation = (props: PropsForGroupInvitation) => {
   const theme = useTheme();
   const classes = ['group-invitation'];
 
@@ -20,7 +15,7 @@ export const GroupInvitation = (props: Props) => {
   const openGroupInvitation = window.i18n('openGroupInvitation');
 
   return (
-    <div className="group-invitation-container">
+    <div className="group-invitation-container" id={props.messageId}>
       <div className={classNames(classes)}>
         <div className="contents">
           <SessionIconButton
@@ -28,10 +23,12 @@ export const GroupInvitation = (props: Props) => {
             iconColor={theme.colors.accent}
             theme={theme}
             iconSize={SessionIconSize.Large}
-            onClick={props.onJoinClick}
+            onClick={() => {
+              acceptOpenGroupInvitation(props.acceptUrl, props.serverName);
+            }}
           />
           <span className="group-details">
-            <span className="group-name">{props.name}</span>
+            <span className="group-name">{props.serverName}</span>
             <span className="group-type">{openGroupInvitation}</span>
             <span className="group-address">{props.url}</span>
           </span>

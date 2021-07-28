@@ -130,26 +130,19 @@
   border-radius: $session_message-container-border-radius;
   overflow: hidden;
   // no background by default for the attachment container
-  @include themify($themes) {
-    background: themed('inboxBackground');
-  }
 }
 
 .module-message--outgoing {
   .module-message__attachment-container--with-content-below,
   .module-message__attachment-container--with-content-above {
-    @include themify($themes) {
-      background: themed('sentMessageBackground');
-    }
+    background: none;
   }
 }
 
 .module-message--incoming {
   .module-message__attachment-container--with-content-below,
   .module-message__attachment-container--with-content-above {
-    @include themify($themes) {
-      background: themed('receivedMessageBackground');
-    }
+    background: none;
   }
 }
 
@@ -200,6 +193,7 @@
 
 .module-message__generic-attachment__icon-container {
   position: relative;
+  cursor: pointer;
 }
 .module-message__generic-attachment__spinner-container {
   padding-inline-start: 4px;
@@ -1284,7 +1278,7 @@
 
 .module-image {
   overflow: hidden;
-  background-color: $color-white;
+  background: none;
   position: relative;
   display: inline-block;
   margin: 1px;

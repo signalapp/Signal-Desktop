@@ -14,10 +14,6 @@ assets
 # examples
 example
 
-# code coverage directories
-coverage
-.nyc_output
-
 # build scripts
 Makefile
 Gulpfile.js
@@ -38,5 +34,3 @@ Gruntfile.js
 # misc
 *.md
 
-# asset directories
-!nyc/node_modules/istanbul-reports/lib/html/assets

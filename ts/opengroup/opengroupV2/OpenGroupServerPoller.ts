@@ -480,7 +480,7 @@ const handleBase64AvatarUpdate = async (
 
         const upgradedAttachment = await processNewAttachment({
           isRaw: true,
-          data: fromBase64ToArrayBuffer(res.base64),
+          data: await window.callWorker('fromBase64ToArrayBuffer', res.base64),
           url: `${serverUrl}/${res.roomId}`,
         });
         // update the hash on the conversationModel

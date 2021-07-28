@@ -54,7 +54,7 @@ interface State {
 }
 
 interface ConfirmationDialogParams extends SessionConfirmDialogProps {
-  shouldShowConfirm: () => boolean | undefined;
+  shouldShowConfirm: boolean | undefined;
 }
 
 interface LocalSettingType {
@@ -354,7 +354,7 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
         comparisonValue: undefined,
         onClick: undefined,
         confirmationDialogParams: {
-          shouldShowConfirm: () => !window.getSettingValue('link-preview-setting'),
+          shouldShowConfirm: !window.getSettingValue('link-preview-setting'),
           title: window.i18n('linkPreviewsTitle'),
           message: window.i18n('linkPreviewsConfirmMessage'),
           okTheme: SessionButtonColor.Danger,
@@ -413,19 +413,6 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
             ],
           },
         },
-        confirmationDialogParams: undefined,
-      },
-      {
-        id: 'media-permissions',
-        title: window.i18n('mediaPermissionsTitle'),
-        description: window.i18n('mediaPermissionsDescription'),
-        hidden: false,
-        type: SessionSettingType.Toggle,
-        category: SessionSettingCategory.Permissions,
-        setFn: window.toggleMediaPermissions,
-        content: undefined,
-        comparisonValue: undefined,
-        onClick: undefined,
         confirmationDialogParams: undefined,
       },
       {

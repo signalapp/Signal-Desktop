@@ -3,7 +3,7 @@ import { PubKey } from '../types';
 import { getConversationController } from '../conversations';
 import { fromHexToArray } from './String';
 
-export async function getGroupMembers(groupId: PubKey): Promise<Array<PubKey>> {
+export function getGroupMembers(groupId: PubKey): Array<PubKey> {
   const groupConversation = getConversationController().get(groupId.key);
   const groupMembers = groupConversation ? groupConversation.get('members') : undefined;
 

@@ -1,8 +1,7 @@
 import { createSelector } from 'reselect';
 
 import { StateType } from '../reducer';
-import { SectionStateType } from '../ducks/section';
-import { SectionType } from '../../components/session/ActionsPanel';
+import { SectionStateType, SectionType } from '../ducks/section';
 import { SessionSettingCategory } from '../../components/session/settings/SessionSettings';
 
 export const getSection = (state: StateType): SectionStateType => state.section;

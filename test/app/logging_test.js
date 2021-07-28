@@ -33,6 +33,7 @@ describe('app/logging', () => {
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error('removeCallback failed with ', e);
+      done();
     }
   });
 

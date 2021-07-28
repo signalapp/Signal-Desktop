@@ -204,16 +204,14 @@ function handleLinkPreviews(messageBody: string, messagePreview: any, message: M
 }
 
 async function processProfileKey(
-  source: string,
   conversation: ConversationModel,
   sendingDeviceConversation: ConversationModel,
-  profileKeyBuffer: Uint8Array
+  profileKeyBuffer?: Uint8Array
 ) {
-  const profileKey = StringUtils.decode(profileKeyBuffer, 'base64');
   if (conversation.isPrivate()) {
-    await conversation.setProfileKey(profileKey);
+    await conversation.setProfileKey(profileKeyBuffer);
   } else {
-    await sendingDeviceConversation.setProfileKey(profileKey);
+    await sendingDeviceConversation.setProfileKey(profileKeyBuffer);
   }
 }
 
@@ -360,12 +358,7 @@ async function handleRegularMessage(
   }
 
   if (dataMessage.profileKey) {
-    await processProfileKey(
-      source,
-      conversation,
-      sendingDeviceConversation,
-      dataMessage.profileKey
-    );
+    await processProfileKey(conversation, sendingDeviceConversation, dataMessage.profileKey);
   }
 
   // we just received a message from that user so we reset the typing indicator for this convo
@@ -434,15 +427,7 @@ export async function handleMessageJob(
     const id = await message.commit();
 
     message.set({ id });
-    // this updates the redux store.
-    // if the convo on which this message should become visible,
-    // it will be shown to the user, and might as well be read right away
-    window.inboxStore?.dispatch(
-      conversationActions.messageAdded({
-        conversationKey: conversation.id,
-        messageModel: message,
-      })
-    );
+
     getMessageController().register(message.id, message);
 
     // Note that this can save the message again, if jobs were queued. We need to
@@ -480,6 +465,16 @@ export async function handleMessageJob(
     } catch (error) {
       window?.log?.warn('handleDataMessage: Message', message.idForLogging(), 'was deleted');
     }
+
+    // this updates the redux store.
+    // if the convo on which this message should become visible,
+    // it will be shown to the user, and might as well be read right away
+    window.inboxStore?.dispatch(
+      conversationActions.messageAdded({
+        conversationKey: conversation.id,
+        messageModelProps: message.getProps(),
+      })
+    );
 
     if (message.get('unread')) {
       await conversation.throttledNotify(message);

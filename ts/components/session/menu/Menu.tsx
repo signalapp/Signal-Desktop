@@ -1,14 +1,13 @@
 import React from 'react';
 
-import { NotificationForConvoOption, TimerOption } from '../../conversation/ConversationHeader';
+import { getNumberOfPinnedConversations } from '../../../state/selectors/conversations';
+import { getFocusedSection } from '../../../state/selectors/section';
+import { TimerOption } from '../../conversation/ConversationHeader';
 import { Item, Submenu } from 'react-contexify';
 import { ConversationNotificationSettingType } from '../../../models/conversation';
-import { useDispatch } from 'react-redux';
-import {
-  adminLeaveClosedGroup,
-  changeNickNameModal,
-  updateConfirmModal,
-} from '../../../state/ducks/modalDialog';
+import { useDispatch, useSelector } from 'react-redux';
+import { changeNickNameModal, updateConfirmModal } from '../../../state/ducks/modalDialog';
+import { SectionType } from '../../../state/ducks/section';
 import { getConversationController } from '../../../session/conversations';
 import {
   blockConvoById,
@@ -26,6 +25,11 @@ import {
   unblockConvoById,
 } from '../../../interactions/conversationInteractions';
 import { SessionButtonColor } from '../SessionButton';
+import { getTimerOptions } from '../../../state/selectors/timerOptions';
+import { ToastUtils } from '../../../session/utils';
+import { NotificationForConvoOption } from '../../../state/ducks/conversations';
+
+const maxNumberOfPinnedConversations = 5;
 
 function showTimerOptions(
   isPublic: boolean,
@@ -42,10 +46,6 @@ function showNotificationConvo(
   isBlocked: boolean
 ): boolean {
   return !left && !isKickedFromGroup && !isBlocked;
-}
-
-function showMemberMenu(isPublic: boolean, isGroup: boolean): boolean {
-  return !isPublic && isGroup;
 }
 
 function showBlock(isMe: boolean, isPrivate: boolean): boolean {
@@ -126,6 +126,36 @@ export function getInviteContactMenuItem(
   return null;
 }
 
+export interface PinConversationMenuItemProps {
+  conversationId: string;
+}
+
+export const getPinConversationMenuItem = (conversationId: string): JSX.Element | null => {
+  const isMessagesSection = useSelector(getFocusedSection) === SectionType.Message;
+  const nbOfAlreadyPinnedConvos = useSelector(getNumberOfPinnedConversations);
+
+  if (isMessagesSection && window.lokiFeatureFlags.enablePinConversations) {
+    const conversation = getConversationController().get(conversationId);
+    const isPinned = conversation.isPinned();
+
+    const togglePinConversation = async () => {
+      if ((!isPinned && nbOfAlreadyPinnedConvos < maxNumberOfPinnedConversations) || isPinned) {
+        await conversation.setIsPinned(!isPinned);
+      } else {
+        ToastUtils.pushToastWarning(
+          'pinConversationLimitToast',
+          window.i18n('pinConversationLimitTitle'),
+          window.i18n('pinConversationLimitToastDescription', maxNumberOfPinnedConversations)
+        );
+      }
+    };
+
+    const menuText = isPinned ? window.i18n('unpinConversation') : window.i18n('pinConversation');
+    return <Item onClick={togglePinConversation}>{menuText}</Item>;
+  }
+  return null;
+};
+
 export function getDeleteContactMenuItem(
   isMe: boolean | undefined,
   isGroup: boolean | undefined,
@@ -134,6 +164,8 @@ export function getDeleteContactMenuItem(
   isKickedFromGroup: boolean | undefined,
   conversationId: string
 ): JSX.Element | null {
+  const dispatch = useDispatch();
+
   if (
     showDeleteContact(
       Boolean(isMe),
@@ -150,7 +182,6 @@ export function getDeleteContactMenuItem(
       menuItemText = window.i18n('delete');
     }
 
-    const dispatch = useDispatch();
     const onClickClose = () => {
       dispatch(updateConfirmModal(null));
     };
@@ -281,9 +312,10 @@ export function getDisappearingMenuItem(
   isKickedFromGroup: boolean | undefined,
   left: boolean | undefined,
   isBlocked: boolean | undefined,
-  timerOptions: Array<TimerOption>,
   conversationId: string
 ): JSX.Element | null {
+  const timerOptions = useSelector(getTimerOptions).timerOptions;
+
   if (
     showTimerOptions(
       Boolean(isPublic),
@@ -300,7 +332,7 @@ export function getDisappearingMenuItem(
         label={window.i18n('disappearingMessages') as any}
         // rtl={isRtlMode && false}
       >
-        {(timerOptions || []).map(item => (
+        {timerOptions.map(item => (
           <Item
             key={item.value}
             onClick={async () => {

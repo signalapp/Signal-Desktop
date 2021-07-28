@@ -1,17 +1,13 @@
-import React, { useContext } from 'react';
+import React, { useCallback } from 'react';
 import { Flex } from '../../basic/Flex';
 import { SessionIcon, SessionIconButton, SessionIconSize, SessionIconType } from '../icon';
-import { ReplyingToMessageProps } from './SessionCompositionBox';
-import styled, { DefaultTheme, ThemeContext } from 'styled-components';
-import { getAlt, isAudio, isImageAttachment } from '../../../types/Attachment';
+import styled, { useTheme } from 'styled-components';
+import { getAlt, isAudio } from '../../../types/Attachment';
 import { Image } from '../../conversation/Image';
 import { AUDIO_MP3 } from '../../../types/MIME';
-
-// tslint:disable: react-unused-props-and-state
-interface Props {
-  quotedMessageProps: ReplyingToMessageProps;
-  removeQuotedMessage: any;
-}
+import { useDispatch, useSelector } from 'react-redux';
+import { getQuotedMessage } from '../../../state/selectors/conversations';
+import { quoteMessage } from '../../../state/ducks/conversations';
 
 const QuotedMessageComposition = styled.div`
   width: 100%;
@@ -41,11 +37,13 @@ const ReplyingTo = styled.div`
   color: ${props => props.theme.colors.textColor};
 `;
 
-export const SessionQuotedMessageComposition = (props: Props) => {
-  const { quotedMessageProps, removeQuotedMessage } = props;
-  const theme = useContext(ThemeContext);
+export const SessionQuotedMessageComposition = () => {
+  const theme = useTheme();
+  const quotedMessageProps = useSelector(getQuotedMessage);
 
-  const { text: body, attachments } = quotedMessageProps;
+  const dispatch = useDispatch();
+
+  const { text: body, attachments } = quotedMessageProps || {};
   const hasAttachments = attachments && attachments.length > 0;
 
   let hasImageAttachment = false;
@@ -60,6 +58,14 @@ export const SessionQuotedMessageComposition = (props: Props) => {
 
   const hasAudioAttachment =
     hasAttachments && attachments && attachments.length > 0 && isAudio(attachments);
+
+  const removeQuotedMessage = useCallback(() => {
+    dispatch(quoteMessage(undefined));
+  }, []);
+
+  if (!quotedMessageProps?.id) {
+    return null;
+  }
 
   return (
     <QuotedMessageComposition theme={theme}>

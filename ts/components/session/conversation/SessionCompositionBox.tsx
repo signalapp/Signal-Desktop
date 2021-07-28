@@ -14,7 +14,7 @@ import { Constants } from '../../../session';
 
 import { toArray } from 'react-emoji-render';
 import { Flex } from '../../basic/Flex';
-import { AttachmentList } from '../../conversation/AttachmentList';
+import { StagedAttachmentList } from '../../conversation/AttachmentList';
 import { ToastUtils } from '../../../session/utils';
 import { AttachmentUtil } from '../../../util';
 import {
@@ -26,22 +26,32 @@ import { AbortController } from 'abort-controller';
 import { SessionQuotedMessageComposition } from './SessionQuotedMessageComposition';
 import { Mention, MentionsInput } from 'react-mentions';
 import { CaptionEditor } from '../../CaptionEditor';
-import { DefaultTheme } from 'styled-components';
 import { getConversationController } from '../../../session/conversations';
-import { ConversationType } from '../../../state/ducks/conversations';
+import { ReduxConversationType } from '../../../state/ducks/conversations';
 import { SessionMemberListItem } from '../SessionMemberListItem';
 import autoBind from 'auto-bind';
-import { SectionType } from '../ActionsPanel';
 import { SessionSettingCategory } from '../settings/SessionSettings';
-import { getMentionsInput } from '../../../state/selectors/mentionsInput';
 import { updateConfirmModal } from '../../../state/ducks/modalDialog';
+import {
+  SectionType,
+  showLeftPaneSection,
+  showSettingsSection,
+} from '../../../state/ducks/section';
 import { SessionButtonColor } from '../SessionButton';
-import { SessionConfirmDialogProps } from '../SessionConfirm';
 import {
   createOrUpdateItem,
   getItemById,
   hasLinkPreviewPopupBeenDisplayed,
 } from '../../../data/data';
+import {
+  getMentionsInput,
+  getQuotedMessage,
+  getSelectedConversation,
+  getSelectedConversationKey,
+} from '../../../state/selectors/conversations';
+import { connect } from 'react-redux';
+import { StateType } from '../../../state/reducer';
+import { getTheme } from '../../../state/selectors/theme';
 
 export interface ReplyingToMessageProps {
   convoId: string;
@@ -67,31 +77,16 @@ export interface StagedAttachmentType extends AttachmentType {
 
 interface Props {
   sendMessage: any;
-  onMessageSending: any;
-  onMessageSuccess: any;
-  onMessageFailure: any;
 
   onLoadVoiceNoteView: any;
   onExitVoiceNoteView: any;
-  isBlocked: boolean;
-  isPrivate: boolean;
-  isKickedFromGroup: boolean;
-  left: boolean;
   selectedConversationKey: string;
-  selectedConversation: ConversationType | undefined;
-  isPublic: boolean;
-
+  selectedConversation: ReduxConversationType | undefined;
   quotedMessageProps?: ReplyingToMessageProps;
-  removeQuotedMessage: () => void;
-
-  textarea: React.RefObject<HTMLDivElement>;
   stagedAttachments: Array<StagedAttachmentType>;
   clearAttachments: () => any;
   removeAttachment: (toRemove: AttachmentType) => void;
   onChoseAttachments: (newAttachments: Array<File>) => void;
-  showLeftPaneSection: (section: SectionType) => void;
-  showSettingsSection: (category: SessionSettingCategory) => void;
-  theme: DefaultTheme;
 }
 
 interface State {
@@ -138,7 +133,7 @@ const getDefaultState = () => {
   };
 };
 
-export class SessionCompositionBox extends React.Component<Props, State> {
+class SessionCompositionBoxInner extends React.Component<Props, State> {
   private readonly textarea: React.RefObject<any>;
   private readonly fileInput: React.RefObject<HTMLInputElement>;
   private emojiPanel: any;
@@ -151,7 +146,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     super(props);
     this.state = getDefaultState();
 
-    this.textarea = props.textarea;
+    this.textarea = React.createRef();
     this.fileInput = React.createRef();
 
     // Emojis
@@ -191,7 +186,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
 
     return (
       <Flex flexDirection="column">
-        {this.renderQuotedMessage()}
+        <SessionQuotedMessageComposition />
         {this.renderStagedLinkPreview()}
         {this.renderAttachmentsStaged()}
         <div className="composition-container">
@@ -244,12 +239,12 @@ export class SessionCompositionBox extends React.Component<Props, State> {
    */
   private async showLinkSharingConfirmationModalDialog(e: any) {
     const pastedText = e.clipboardData.getData('text');
-    if (this.isURL(pastedText)) {
+    if (this.isURL(pastedText) && !window.getSettingValue('link-preview-setting', false)) {
       const alreadyDisplayedPopup =
         (await getItemById(hasLinkPreviewPopupBeenDisplayed))?.value || false;
       window.inboxStore?.dispatch(
         updateConfirmModal({
-          shouldShowConfirm: () =>
+          shouldShowConfirm:
             !window.getSettingValue('link-preview-setting') && !alreadyDisplayedPopup,
           title: window.i18n('linkPreviewsTitle'),
           message: window.i18n('linkPreviewsConfirmMessage'),
@@ -307,13 +302,15 @@ export class SessionCompositionBox extends React.Component<Props, State> {
         sendVoiceMessage={this.sendVoiceMessage}
         onLoadVoiceNoteView={this.onLoadVoiceNoteView}
         onExitVoiceNoteView={this.onExitVoiceNoteView}
-        theme={this.props.theme}
       />
     );
   }
 
   private isTypingEnabled(): boolean {
-    const { isBlocked, isKickedFromGroup, left, isPrivate } = this.props;
+    if (!this.props.selectedConversation) {
+      return false;
+    }
+    const { isBlocked, isKickedFromGroup, left } = this.props.selectedConversation;
 
     return !(isBlocked || isKickedFromGroup || left);
   }
@@ -329,7 +326,6 @@ export class SessionCompositionBox extends React.Component<Props, State> {
             iconType={SessionIconType.CirclePlus}
             iconSize={SessionIconSize.Large}
             onClick={this.onChooseAttachment}
-            theme={this.props.theme}
           />
         )}
 
@@ -347,7 +343,6 @@ export class SessionCompositionBox extends React.Component<Props, State> {
             iconType={SessionIconType.Microphone}
             iconSize={SessionIconSize.Huge}
             onClick={this.onLoadVoiceNoteView}
-            theme={this.props.theme}
           />
         )}
 
@@ -367,7 +362,6 @@ export class SessionCompositionBox extends React.Component<Props, State> {
             iconType={SessionIconType.Emoji}
             iconSize={SessionIconSize.Large}
             onClick={this.toggleEmojiPanel}
-            theme={this.props.theme}
           />
         )}
         <div className="send-message-button">
@@ -376,7 +370,6 @@ export class SessionCompositionBox extends React.Component<Props, State> {
             iconSize={SessionIconSize.Large}
             iconRotation={90}
             onClick={this.onSendMessage}
-            theme={this.props.theme}
           />
         </div>
 
@@ -394,7 +387,12 @@ export class SessionCompositionBox extends React.Component<Props, State> {
   private renderTextArea() {
     const { i18n } = window;
     const { message } = this.state;
-    const { isKickedFromGroup, left, isPrivate, isBlocked, theme } = this.props;
+
+    if (!this.props.selectedConversation) {
+      return null;
+    }
+
+    const { isKickedFromGroup, left, isPrivate, isBlocked } = this.props.selectedConversation;
     const messagePlaceHolder = isKickedFromGroup
       ? i18n('youGotKickedFromGroup')
       : left
@@ -434,6 +432,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
             <SessionMemberListItem
               isSelected={focused}
               index={index++}
+              key={suggestion.id}
               member={{
                 id: `${suggestion.id}`,
                 authorPhoneNumber: `${suggestion.id}`,
@@ -473,11 +472,15 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     if (!query) {
       overridenQuery = '';
     }
-    if (this.props.isPublic) {
+    if (!this.props.selectedConversation) {
+      return;
+    }
+
+    if (this.props.selectedConversation.isPublic) {
       this.fetchUsersForOpenGroup(overridenQuery, callback);
       return;
     }
-    if (!this.props.isPrivate) {
+    if (!this.props.selectedConversation.isPrivate) {
       this.fetchUsersForClosedGroup(overridenQuery, callback);
       return;
     }
@@ -603,6 +606,9 @@ export class SessionCompositionBox extends React.Component<Props, State> {
                 ...ret.image,
                 url: URL.createObjectURL(blob),
                 fileName: 'preview',
+                fileSize: null,
+                screenshot: null,
+                thumbnail: null,
               };
               image = imageAttachment;
             }
@@ -664,19 +670,6 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       });
   }
 
-  private renderQuotedMessage() {
-    const { quotedMessageProps, removeQuotedMessage } = this.props;
-    if (quotedMessageProps?.id) {
-      return (
-        <SessionQuotedMessageComposition
-          quotedMessageProps={quotedMessageProps}
-          removeQuotedMessage={removeQuotedMessage}
-        />
-      );
-    }
-    return <></>;
-  }
-
   private onClickAttachment(attachment: AttachmentType) {
     this.setState({ showCaptionEditor: attachment });
   }
@@ -717,7 +710,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     if (stagedAttachments && stagedAttachments.length) {
       return (
         <>
-          <AttachmentList
+          <StagedAttachmentList
             attachments={stagedAttachments}
             onClickAttachment={this.onClickAttachment}
             onAddAttachment={this.onChooseAttachment}
@@ -811,13 +804,17 @@ export class SessionCompositionBox extends React.Component<Props, State> {
 
     const messagePlaintext = cleanMentions(this.parseEmojis(this.state.message));
 
-    const { isBlocked, isPrivate, left, isKickedFromGroup } = this.props;
+    const { selectedConversation } = this.props;
 
-    if (isBlocked && isPrivate) {
+    if (!selectedConversation) {
+      return;
+    }
+
+    if (selectedConversation.isBlocked && selectedConversation.isPrivate) {
       ToastUtils.pushUnblockToSend();
       return;
     }
-    if (isBlocked && !isPrivate) {
+    if (selectedConversation.isBlocked && !selectedConversation.isPrivate) {
       ToastUtils.pushUnblockToSendGroup();
       return;
     }
@@ -828,20 +825,20 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       return;
     }
 
-    if (!isPrivate && left) {
+    if (!selectedConversation.isPrivate && selectedConversation.left) {
       ToastUtils.pushYouLeftTheGroup();
       return;
     }
-    if (!isPrivate && isKickedFromGroup) {
+    if (!selectedConversation.isPrivate && selectedConversation.isKickedFromGroup) {
       ToastUtils.pushYouLeftTheGroup();
       return;
     }
 
     const { quotedMessageProps } = this.props;
+
     const { stagedLinkPreview } = this.state;
 
     // Send message
-    this.props.onMessageSending();
     const extractedQuotedMessageProps = _.pick(
       quotedMessageProps,
       'id',
@@ -868,8 +865,6 @@ export class SessionCompositionBox extends React.Component<Props, State> {
         {}
       );
 
-      // Message sending sucess
-      this.props.onMessageSuccess();
       this.props.clearAttachments();
 
       // Empty composition box and stagedAttachments
@@ -882,7 +877,6 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     } catch (e) {
       // Message sending failed
       window?.log?.error(e);
-      this.props.onMessageFailure();
     }
   }
 
@@ -946,8 +940,8 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     }
 
     ToastUtils.pushAudioPermissionNeeded(() => {
-      this.props.showLeftPaneSection(SectionType.Settings);
-      this.props.showSettingsSection(SessionSettingCategory.Privacy);
+      window.inboxStore?.dispatch(showLeftPaneSection(SectionType.Settings));
+      window.inboxStore?.dispatch(showSettingsSection(SessionSettingCategory.Privacy));
     });
   }
 
@@ -1002,3 +996,16 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     this.linkPreviewAbortController?.abort();
   }
 }
+
+const mapStateToProps = (state: StateType) => {
+  return {
+    quotedMessageProps: getQuotedMessage(state),
+    selectedConversation: getSelectedConversation(state),
+    selectedConversationKey: getSelectedConversationKey(state),
+    theme: getTheme(state),
+  };
+};
+
+const smart = connect(mapStateToProps);
+
+export const SessionCompositionBox = smart(SessionCompositionBoxInner);

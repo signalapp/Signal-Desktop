@@ -30,14 +30,18 @@ import { applyTheme } from '../../state/ducks/theme';
 import { getFocusedSection } from '../../state/selectors/section';
 import { useInterval } from '../../hooks/useInterval';
 import { clearSearch } from '../../state/ducks/search';
-import { showLeftPaneSection } from '../../state/ducks/section';
+import { SectionType, showLeftPaneSection } from '../../state/ducks/section';
 
 import { cleanUpOldDecryptedMedias } from '../../session/crypto/DecryptedAttachmentsManager';
 import { getOpenGroupManager } from '../../opengroup/opengroupV2/OpenGroupManagerV2';
 import { forceRefreshRandomSnodePool } from '../../session/snode_api/snodePool';
 import { getSwarmPollingInstance } from '../../session/snode_api';
 import { DURATION } from '../../session/constants';
-import { actions as conversationActions } from '../../state/ducks/conversations';
+import {
+  actions as conversationActions,
+  conversationChanged,
+  conversationRemoved,
+} from '../../state/ducks/conversations';
 import { editProfileModal, onionPathModal } from '../../state/ducks/modalDialog';
 import { uploadOurAvatar } from '../../interactions/conversationInteractions';
 import { ModalContainer } from './ModalContainer';
@@ -46,16 +50,6 @@ import { loadDefaultRooms } from '../../opengroup/opengroupV2/ApiUtil';
 import { ActionPanelOnionStatusLight } from '../OnionStatusPathDialog';
 
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
-
-export enum SectionType {
-  Profile,
-  Message,
-  Contact,
-  Channel,
-  Settings,
-  Moon,
-  PathIndicator,
-}
 
 const Section = (props: { type: SectionType; avatarPath?: string }) => {
   const ourNumber = useSelector(getOurNumber);
@@ -143,15 +137,6 @@ const Section = (props: { type: SectionType; avatarPath?: string }) => {
   );
 };
 
-const showResetSessionIDDialogIfNeeded = async () => {
-  const userED25519KeyPairHex = await UserUtils.getUserED25519KeyPair();
-  if (userED25519KeyPairHex) {
-    return;
-  }
-
-  window.showResetSessionIdDialog();
-};
-
 const cleanUpMediasInterval = DURATION.MINUTES * 30;
 
 const setupTheme = () => {
@@ -192,9 +177,9 @@ const removeAllV1OpenGroups = async () => {
       window.log.info(`deleting v1convo : ${v1Convo.id}`);
       getConversationController().unsafeDelete(v1Convo);
       if (window.inboxStore) {
-        window.inboxStore?.dispatch(conversationActions.conversationRemoved(v1Convo.id));
+        window.inboxStore?.dispatch(conversationRemoved(v1Convo.id));
         window.inboxStore?.dispatch(
-          conversationActions.conversationChanged(v1Convo.id, v1Convo.getProps())
+          conversationChanged({ id: v1Convo.id, data: v1Convo.getProps() })
         );
       }
     } catch (e) {
@@ -230,7 +215,6 @@ const doAppStartUp = () => {
   void setupTheme();
 
   // keep that one to make sure our users upgrade to new sessionIDS
-  void showResetSessionIDDialogIfNeeded();
   void removeAllV1OpenGroups();
 
   // this generates the key to encrypt attachments locally

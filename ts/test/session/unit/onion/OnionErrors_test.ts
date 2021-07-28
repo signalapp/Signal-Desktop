@@ -132,12 +132,6 @@ describe('OnionPathsErrors', () => {
     await OnionPaths.getOnionPath();
 
     oldOnionPaths = OnionPaths.TEST_getTestOnionPath();
-
-    TestUtils.stubWindow('libloki', {
-      crypto: {
-        DecryptAESGCM: async (s: any, e: string) => e,
-      } as any,
-    });
     sandbox
       .stub(SNodeAPI.Onions, 'decodeOnionResult')
       .callsFake((_symkey: ArrayBuffer, plaintext: string) =>
