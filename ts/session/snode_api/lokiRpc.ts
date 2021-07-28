@@ -9,8 +9,10 @@ interface FetchOptions {
   agent?: any;
 }
 
-// A small wrapper around node-fetch which deserializes response
-// returns insecureNodeFetch response or false
+/**
+ * A small wrapper around node-fetch which deserializes response
+ * returns insecureNodeFetch response or false
+ */
 async function lokiFetch(
   url: string,
   options: FetchOptions,

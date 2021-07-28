@@ -4,7 +4,7 @@ import { UserUtils } from '../session/utils';
 import { fromArrayBufferToBase64, fromHex, toHex } from '../session/utils/String';
 import { getOurPubKeyStrFromCache } from '../session/utils/User';
 import { trigger } from '../shims/events';
-import { forceSyncConfigurationNowIfNeeded } from '../session/utils/syncUtils';
+import { forceNetworkDeletion, forceSyncConfigurationNowIfNeeded } from '../session/utils/syncUtils';
 import { actions as userActions } from '../state/ducks/user';
 import { mn_decode, mn_encode } from '../session/crypto/mnemonic';
 import { ConversationTypeEnum } from '../models/conversation';
@@ -139,15 +139,25 @@ async function bouncyDeleteAccount(reason?: string) {
   };
   try {
     window?.log?.info('DeleteAccount => Sending a last SyncConfiguration');
+
+
+    // send deletion message to the network
+    await forceNetworkDeletion();
+
     // be sure to wait for the message being effectively sent. Otherwise we won't be able to encrypt it for our devices !
     await forceSyncConfigurationNowIfNeeded(true);
     window?.log?.info('Last configuration message sent!');
+
+    return;
+
     await deleteEverything();
   } catch (error) {
     window?.log?.error(
       'Something went wrong deleting all data:',
       error && error.stack ? error.stack : error
     );
+    debugger;
+      // return;
     try {
       await deleteEverything();
     } catch (e) {

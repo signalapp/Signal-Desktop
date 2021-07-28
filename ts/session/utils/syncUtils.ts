@@ -2,11 +2,12 @@ import {
   createOrUpdateItem,
   getItemById,
   getLatestClosedGroupEncryptionKeyPair,
+  Snode,
 } from '../../../ts/data/data';
-import { getMessageQueue } from '..';
+import { getMessageQueue, Utils } from '..';
 import { getConversationController } from '../conversations';
 import uuid from 'uuid';
-import { UserUtils } from '.';
+import { StringUtils, UserUtils } from '.';
 import { ECKeyPair } from '../../receiver/keypairs';
 import {
   ConfigurationMessage,
@@ -14,7 +15,7 @@ import {
   ConfigurationMessageContact,
 } from '../messages/outgoing/controlMessage/ConfigurationMessage';
 import { ConversationModel } from '../../models/conversation';
-import { fromBase64ToArray } from './String';
+import { fromBase64ToArray, fromHexToArray, fromUInt8ArrayToBase64, toHex } from './String';
 import { SignalService } from '../../protobuf';
 import _ from 'lodash';
 import {
@@ -27,6 +28,13 @@ import { ExpirationTimerUpdateMessage } from '../messages/outgoing/controlMessag
 import { getV2OpenGroupRoom } from '../../data/opengroups';
 import { getCompleteUrlFromRoom } from '../../opengroup/utils/OpenGroupUtils';
 import { DURATION } from '../constants';
+import { SnodePool } from '../snode_api';
+import { snodeHttpsAgent } from '../snode_api/onions';
+
+import { default as insecureNodeFetch } from 'node-fetch';
+import { getSodium } from '../crypto';
+import { encryptUsingSessionProtocol } from '../crypto/MessageEncrypter';
+import { snodeRpc } from '../snode_api/lokiRpc';
 
 const ITEM_ID_LAST_SYNC_TIMESTAMP = 'lastSyncedTimestamp';
 
@@ -76,9 +84,10 @@ export const forceSyncConfigurationNowIfNeeded = async (waitForMessageSent = fal
         // tslint:disable-next-line: no-void-expression
         const callback = waitForMessageSent
           ? () => {
-              resolve(true);
-            }
+            resolve(true);
+          }
           : undefined;
+        debugger;
         void getMessageQueue().sendSyncMessage(configMessage, callback as any);
         // either we resolve from the callback if we need to wait for it,
         // or we don't want to wait, we resolve it here.
@@ -91,6 +100,98 @@ export const forceSyncConfigurationNowIfNeeded = async (waitForMessageSent = fal
         resolve(false);
       });
   });
+
+
+/**
+ * Makes a post to a node to receive the timestamp info. If non-existant, returns -1
+ * @param snode Snode to send request to
+ * @returns timestamp of the response from snode
+ */
+export const getNetworkTime = async (snode: Snode): Promise<string | number> => {
+  // let response: any = await insecureNodeFetch(url, fetchOptions)
+  try {
+
+    let response: any = await snodeRpc('info', {}, snode);
+    let body = JSON.parse(response.body);
+    let timestamp = body['timestamp'];
+
+    debugger;
+    return timestamp ? timestamp : -1;
+  }
+  catch (e) {
+    debugger;
+    return -1;
+  }
+
+}
+
+export const forceNetworkDeletion = async () => {
+
+  // get keypair
+  let userPubKey = await UserUtils.getOurPubKeyFromCache();
+
+  // get ed255 key
+  let userED25519Keypair = await UserUtils.getUserED25519KeyPair();
+  if (userED25519Keypair === undefined || userED25519Keypair.privKey === undefined) {
+    return;
+  }
+
+  // get random snode
+  let snode: Snode | undefined = await SnodePool.getRandomSnode();
+
+  let timestamp = await getNetworkTime(snode);
+
+  let sodium = await getSodium();
+
+  // create data by combining shit. Combines the method + timestamp to a byteArray in android
+  let verificationData = 'delete_all' + timestamp.toString();
+
+  // convert vert data to byteArray for signing
+
+  // sign the data with sodium + user ed255key in byte for (userED25519Keypair.bytes)
+  let userED25519SecretBytes = fromHexToArray(userED25519Keypair.privKey)
+
+  let signature = sodium.crypto_sign_detached(verificationData, userED25519SecretBytes)
+
+  // package into some params
+  let deleteMessageParams = {
+    pubkey: userPubKey.key, // not cast as anything in android example
+    pubkeyED25519: toHex(StringUtils.encode(userED25519Keypair.pubKey, 'base64')) , // not sure if this is a proper hex value?
+    // pubkeyED25519: userED25519Keypair.pubKey,
+    timestamp, // -1 atm..
+    signature: fromUInt8ArrayToBase64(signature)
+  }
+
+  // send method to the network.
+  // await send('delete_all', snode, userPubKey.key, deleteMessageParams)
+
+  let res = await snodeRpc('delete_all', deleteMessageParams, snode, userPubKey.key);
+  debugger;
+}
+
+const send = async (method: string, snode: Snode, publicKey?: string, parameters?: any) => {
+  let url = `https://${snode.ip}:${snode.port}/storage_rpc/v1`;
+
+  let payload = {
+    method,
+    ...parameters
+  }
+
+  let fetchOptions = {
+    method: 'POST',
+    body: JSON.stringify(payload),
+    headers: {
+      'Content-Type': 'application/json',
+      //   // 'User-Agent': 'WhatsApp',
+      // 'Accept-Language': 'en-us',
+    },
+    // timeout: 10000,
+    agent: snodeHttpsAgent
+  }
+
+  let response: any = await insecureNodeFetch(url, fetchOptions)
+  console.log({ response });
+}
 
 const getActiveOpenGroupV2CompleteUrls = async (
   convos: Array<ConversationModel>
