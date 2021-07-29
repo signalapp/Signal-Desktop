@@ -3540,7 +3540,6 @@ export async function startApp(): Promise<void> {
 
       // These two bits of data are important to ensure that the app loads up
       //   the conversation list, instead of showing just the QR code screen.
-      window.Signal.Util.Registration.markEverDone();
       if (previousNumberId !== undefined) {
         await window.textsecure.storage.put(NUMBER_ID_KEY, previousNumberId);
       }
@@ -3570,6 +3569,8 @@ export async function startApp(): Promise<void> {
         'Something went wrong clearing local configuration',
         eraseError && eraseError.stack ? eraseError.stack : eraseError
       );
+    } finally {
+      window.Signal.Util.Registration.markEverDone();
     }
   }
 
