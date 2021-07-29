@@ -29,7 +29,7 @@ import { v4 as getGuid } from 'uuid';
 import { z } from 'zod';
 import Long from 'long';
 
-import { assert } from '../util/assert';
+import { assert, strictAssert } from '../util/assert';
 import { getUserAgent } from '../util/getUserAgent';
 import { toWebSafeBase64 } from '../util/webSafeBase64';
 import { SocketStatus } from '../types/SocketStatus';
@@ -1707,6 +1707,12 @@ export function initialize({
       }).then(handleKeys);
     }
 
+    function validateMessages(messages: Array<unknown>): void {
+      for (const message of messages) {
+        strictAssert(message !== null, 'Attempting to send `null` message');
+      }
+    }
+
     async function sendMessagesUnauth(
       destination: string,
       messageArray: Array<MessageType>,
@@ -1719,6 +1725,8 @@ export function initialize({
       if (online) {
         jsonData.online = true;
       }
+
+      validateMessages(messageArray);
 
       return _ajax({
         call: 'messages',
@@ -1742,6 +1750,8 @@ export function initialize({
       if (online) {
         jsonData.online = true;
       }
+
+      validateMessages(messageArray);
 
       return _ajax({
         call: 'messages',
