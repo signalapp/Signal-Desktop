@@ -179,6 +179,11 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
       // if number of staged attachment changed, focus the composition box for a more natural UI
       this.focusCompositionBox();
     }
+
+    // focus the composition box when user clicks start to reply to a message
+    if (!_.isEqual(prevProps.quotedMessageProps, this.props.quotedMessageProps)) {
+      this.focusCompositionBox();
+    }
   }
 
   public render() {
