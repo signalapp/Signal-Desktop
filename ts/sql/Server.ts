@@ -5058,7 +5058,7 @@ async function addStickerPackReference(
 async function deleteStickerPackReference(
   messageId: string,
   packId: string
-): Promise<Array<string>> {
+): Promise<ReadonlyArray<string> | undefined> {
   const db = getInstance();
 
   if (!messageId) {
@@ -5110,7 +5110,7 @@ async function deleteStickerPackReference(
       }
       const count = countRow['count(*)'];
       if (count > 0) {
-        return [];
+        return undefined;
       }
 
       const packRow: { status: StickerPackStatusType } = db
@@ -5123,12 +5123,12 @@ async function deleteStickerPackReference(
         .get({ packId });
       if (!packRow) {
         console.log('deleteStickerPackReference: did not find referenced pack');
-        return [];
+        return undefined;
       }
       const { status } = packRow;
 
       if (status === 'installed') {
-        return [];
+        return undefined;
       }
 
       const stickerPathRows: Array<{ path: string }> = db

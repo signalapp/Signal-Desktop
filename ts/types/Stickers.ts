@@ -796,7 +796,7 @@ export async function deletePackReference(
   const paths = await Data.deleteStickerPackReference(messageId, packId);
 
   // If we don't get a list of paths back, then the sticker pack was not deleted
-  if (!paths || !paths.length) {
+  if (!paths) {
     return;
   }
 

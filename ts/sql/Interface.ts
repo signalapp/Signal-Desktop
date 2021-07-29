@@ -390,7 +390,7 @@ export type DataInterface = {
   deleteStickerPackReference: (
     messageId: string,
     packId: string
-  ) => Promise<Array<string>>;
+  ) => Promise<ReadonlyArray<string> | undefined>;
   getStickerCount: () => Promise<number>;
   deleteStickerPack: (packId: string) => Promise<Array<string>>;
   getAllStickerPacks: () => Promise<Array<StickerPackType>>;

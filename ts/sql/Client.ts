@@ -1497,9 +1497,7 @@ async function addStickerPackReference(messageId: string, packId: string) {
   await channels.addStickerPackReference(messageId, packId);
 }
 async function deleteStickerPackReference(messageId: string, packId: string) {
-  const paths = await channels.deleteStickerPackReference(messageId, packId);
-
-  return paths;
+  return channels.deleteStickerPackReference(messageId, packId);
 }
 async function deleteStickerPack(packId: string) {
   const paths = await channels.deleteStickerPack(packId);
