@@ -20,14 +20,14 @@ const AvatarItem = (props: { contact: ContactPropsMessageDetail }) => {
   );
 };
 
-const DeleteButtonItem = (props: { id: string; convoId: string; isDeletable: boolean }) => {
+const DeleteButtonItem = (props: { messageId: string; convoId: string; isDeletable: boolean }) => {
   const { i18n } = window;
 
   return props.isDeletable ? (
     <div className="module-message-detail__delete-button-container">
       <button
         onClick={() => {
-          void deleteMessagesById([props.id], props.convoId, true);
+          void deleteMessagesById([props.messageId], props.convoId, true);
         }}
         className="module-message-detail__delete-button"
       >
@@ -143,7 +143,7 @@ export const MessageDetail = () => {
         <ContactsItem contacts={messageDetailProps.contacts} />
         <DeleteButtonItem
           convoId={messageDetailProps.message.convoId}
-          id={messageDetailProps.message.id}
+          messageId={messageDetailProps.message.id}
           isDeletable={messageDetailProps.message.isDeletable}
         />
       </div>

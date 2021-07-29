@@ -27,6 +27,7 @@ import {
   LastMessageStatusType,
   MessageModelProps,
   MessagePropsDetails,
+  messagesChanged,
   PropsForAttachment,
   PropsForExpirationTimer,
   PropsForGroupInvitation,
@@ -80,8 +81,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       void this.setToExpire();
     }
     autoBind(this);
-
-    this.dispatchMessageUpdate = _.throttle(this.dispatchMessageUpdate, 300);
 
     window.contextMenuShown = false;
 
@@ -1180,9 +1179,23 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     }
   }
   private dispatchMessageUpdate() {
-    window.inboxStore?.dispatch(conversationActions.messageChanged(this.getProps()));
+    trotthledAllMessagesDispatch();
+    console.warn('adding dispatch for:', this.id);
+
+    updatesToDispatch.set(this.id, this.getProps());
   }
 }
+
+const trotthledAllMessagesDispatch = _.throttle(() => {
+  if (updatesToDispatch.size === 0) {
+    return;
+  }
+  console.warn('TRIGGERING ALL DISPATCH');
+  window.inboxStore?.dispatch(messagesChanged([...updatesToDispatch.values()]));
+  updatesToDispatch.clear();
+}, 1000);
+
+const updatesToDispatch: Map<string, MessageModelProps> = new Map();
 export class MessageCollection extends Backbone.Collection<MessageModel> {}
 
 MessageCollection.prototype.model = MessageModel;

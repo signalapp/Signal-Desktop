@@ -10,7 +10,7 @@ import { MessageDeliveryStatus, MessageModelType } from '../../../models/message
 type Props = {
   isAdmin?: boolean;
   text?: string | null;
-  id: string;
+  messageId: string;
   collapseMetadata?: boolean;
   direction: MessageModelType;
   timestamp: number;
@@ -53,7 +53,7 @@ const MetadatasContainer = styled.div<{ withImageNoCaption: boolean }>`
  */
 export const MessageMetadata = (props: Props) => {
   const {
-    id,
+    messageId,
     collapseMetadata,
     direction,
     expirationLength,
@@ -95,7 +95,7 @@ export const MessageMetadata = (props: Props) => {
         direction={direction}
         isPublic={isPublic}
         isAdmin={isAdmin}
-        id={id}
+        messageId={messageId}
         withImageNoCaption={withImageNoCaption}
       />
 

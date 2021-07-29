@@ -350,19 +350,34 @@ function getEmptyState(): ConversationsStateType {
 
 function handleMessageAdded(
   state: ConversationsStateType,
-  action: PayloadAction<{
+  payload: {
     conversationKey: string;
     messageModelProps: MessageModelProps;
-  }>
+  }
 ) {
   const { messages } = state;
-  const { conversationKey, messageModelProps: addedMessageProps } = action.payload;
+  const { conversationKey, messageModelProps: addedMessageProps } = payload;
   if (conversationKey === state.selectedConversation) {
-    const messagesWithNewMessage = [...messages, addedMessageProps];
+    const messageInStoreIndex = state?.messages?.findIndex(
+      m => m.propsForMessage.id === addedMessageProps.propsForMessage.id
+    );
+    if (messageInStoreIndex >= 0) {
+      // we cannot edit the array directly, so slice the first part, insert our edited message, and slice the second part
+      const editedMessages = [
+        ...state.messages.slice(0, messageInStoreIndex),
+        addedMessageProps,
+        ...state.messages.slice(messageInStoreIndex + 1),
+      ];
+
+      return {
+        ...state,
+        messages: editedMessages,
+      };
+    }
 
     return {
       ...state,
-      messages: messagesWithNewMessage,
+      messages: [...messages, addedMessageProps], // sorting happens in the selector
     };
   }
   return state;
@@ -564,7 +579,23 @@ const conversationsSlice = createSlice({
         messageModelProps: MessageModelProps;
       }>
     ) {
-      return handleMessageAdded(state, action);
+      return handleMessageAdded(state, action.payload);
+    },
+    messagesAdded(
+      state: ConversationsStateType,
+      action: PayloadAction<
+        Array<{
+          conversationKey: string;
+          messageModelProps: MessageModelProps;
+        }>
+      >
+    ) {
+      action.payload.forEach(added => {
+        // tslint:disable-next-line: no-parameter-reassignment
+        state = handleMessageAdded(state, added);
+      });
+
+      return state;
     },
 
     messageChanged(state: ConversationsStateType, action: PayloadAction<MessageModelProps>) {
@@ -717,6 +748,7 @@ export const {
   removeAllConversations,
   messageExpired,
   messageAdded,
+  messagesAdded,
   messageDeleted,
   conversationReset,
   messageChanged,

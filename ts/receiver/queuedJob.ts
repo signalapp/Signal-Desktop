@@ -10,7 +10,11 @@ import { ConversationModel, ConversationTypeEnum } from '../models/conversation'
 import { MessageModel } from '../models/message';
 import { getMessageController } from '../session/messages';
 import { getMessageById, getMessagesBySentAt } from '../../ts/data/data';
-import { actions as conversationActions } from '../state/ducks/conversations';
+import {
+  actions as conversationActions,
+  MessageModelProps,
+  messagesAdded,
+} from '../state/ducks/conversations';
 import { updateProfileOneAtATime } from './dataMessage';
 import Long from 'long';
 
@@ -469,13 +473,12 @@ export async function handleMessageJob(
     // this updates the redux store.
     // if the convo on which this message should become visible,
     // it will be shown to the user, and might as well be read right away
-    window.inboxStore?.dispatch(
-      conversationActions.messageAdded({
-        conversationKey: conversation.id,
-        messageModelProps: message.getProps(),
-      })
-    );
 
+    updatesToDispatch.set(message.id, {
+      conversationKey: conversation.id,
+      messageModelProps: message.getProps(),
+    });
+    trotthledAllMessagesAddedDispatch();
     if (message.get('unread')) {
       await conversation.throttledNotify(message);
     }
@@ -490,3 +493,17 @@ export async function handleMessageJob(
     throw error;
   }
 }
+
+const trotthledAllMessagesAddedDispatch = _.throttle(() => {
+  if (updatesToDispatch.size === 0) {
+    return;
+  }
+  console.warn('TRIGGERING ALL ADDED DISPATCH');
+  window.inboxStore?.dispatch(messagesAdded([...updatesToDispatch.values()]));
+  updatesToDispatch.clear();
+}, 1000);
+
+const updatesToDispatch: Map<
+  string,
+  { conversationKey: string; messageModelProps: MessageModelProps }
+> = new Map();

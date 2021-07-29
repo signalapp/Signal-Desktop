@@ -39,12 +39,20 @@ import { getMessageById } from '../../data/data';
 import { connect } from 'react-redux';
 import { StateType } from '../../state/reducer';
 import {
+  areMoreMessagesBeingFetched,
+  getLoadedMessagesLength,
+  getMostRecentMessageId,
+  getOldestMessageId,
   getQuotedMessageToAnimate,
+  getSelectedConversationKey,
   getSelectedMessageIds,
 } from '../../state/selectors/conversations';
 import {
+  fetchMessagesForConversation,
+  markConversationFullyRead,
   messageExpired,
   showLightBox,
+  showScrollToBottomButton,
   toggleSelectedMessageId,
 } from '../../state/ducks/conversations';
 import { saveAttachmentToDisk } from '../../util/attachmentsUtil';
@@ -54,6 +62,7 @@ import { ReadableMessage } from './ReadableMessage';
 import { isElectronWindowFocused } from '../../session/utils/WindowUtils';
 import { getConversationController } from '../../session/conversations';
 import { MessageMetadata } from './message/MessageMetadata';
+import { Constants } from '../../session';
 
 // Same as MIN_WIDTH in ImageGrid.tsx
 const MINIMUM_LINK_PREVIEW_IMAGE_WIDTH = 200;
@@ -70,6 +79,11 @@ const EXPIRED_DELAY = 600;
 type Props = MessageRenderingProps & {
   selectedMessages: Array<string>;
   quotedMessageToAnimate: string | undefined;
+  mostRecentMessageId: string | undefined;
+  oldestMessageId: string | undefined;
+  areMoreMessagesBeingFetched: boolean;
+  loadedMessagesLength: number;
+  selectedConversationKey: string | undefined;
 };
 
 function attachmentIsAttachmentTypeWithPath(attac: any): attac is AttachmentTypeWithPath {
@@ -131,6 +145,7 @@ class MessageInner extends React.PureComponent<Props, State> {
       imageBroken: false,
     };
     this.ctxMenuID = `ctx-menu-message-${uuid()}`;
+    this.loadMoreMessages = _.debounce(this.loadMoreMessages, 100);
   }
 
   public componentDidMount() {
@@ -594,14 +609,21 @@ class MessageInner extends React.PureComponent<Props, State> {
 
   // tslint:disable-next-line: cyclomatic-complexity
   public render() {
-    const { direction, id, conversationType, isUnread, selectedMessages } = this.props;
+    const {
+      direction,
+      id: messageId,
+      conversationType,
+      areMoreMessagesBeingFetched: fetchingMore,
+      isUnread,
+      selectedMessages,
+    } = this.props;
     const { expired, expiring } = this.state;
 
     if (expired) {
       return null;
     }
 
-    const selected = selectedMessages.includes(id) || false;
+    const selected = selectedMessages.includes(messageId) || false;
 
     const width = this.getWidth();
     const isShowingImage = this.isShowingImage();
@@ -618,13 +640,37 @@ class MessageInner extends React.PureComponent<Props, State> {
       divClasses.push('public-chat-message-wrapper');
     }
 
-    if (this.props.quotedMessageToAnimate === this.props.id) {
+    if (this.props.quotedMessageToAnimate === messageId) {
       divClasses.push('flash-green-once');
     }
 
     const onVisible = async (inView: boolean | Object) => {
+      // we are the bottom message
+      if (this.props.mostRecentMessageId === messageId) {
+        if (inView === true) {
+          window.inboxStore?.dispatch(showScrollToBottomButton(false));
+          void getConversationController()
+            .get(this.props.selectedConversationKey as string)
+            ?.markRead(this.props.receivedAt || 0)
+            .then(() => {
+              window.inboxStore?.dispatch(
+                markConversationFullyRead(this.props.selectedConversationKey as string)
+              );
+            });
+        } else if (inView === false) {
+          window.inboxStore?.dispatch(showScrollToBottomButton(true));
+        }
+      }
+      console.warn('oldestMessageId', this.props.oldestMessageId);
+      console.warn('mostRecentMessageId', this.props.mostRecentMessageId);
+      console.warn('messageId', messageId);
+      if (inView === true && this.props.oldestMessageId === messageId && !fetchingMore) {
+        console.warn('loadMoreMessages');
+
+        this.loadMoreMessages();
+      }
       if (inView === true && shouldMarkReadWhenVisible && isElectronWindowFocused()) {
-        const found = await getMessageById(id);
+        const found = await getMessageById(messageId);
 
         if (found && Boolean(found.get('unread'))) {
           // mark the message as read.
@@ -636,11 +682,11 @@ class MessageInner extends React.PureComponent<Props, State> {
 
     return (
       <ReadableMessage
-        id={id}
+        messageId={messageId}
         className={classNames(divClasses)}
         onChange={onVisible}
         onContextMenu={this.handleContextMenu}
-        key={`readable-message-${this.props.id}`}
+        key={`readable-message-${messageId}`}
       >
         {this.renderAvatar()}
         <div
@@ -675,7 +721,7 @@ class MessageInner extends React.PureComponent<Props, State> {
             {this.renderText()}
             <MessageMetadata
               direction={this.props.direction}
-              id={this.props.id}
+              messageId={this.props.id}
               timestamp={this.props.timestamp}
               collapseMetadata={this.props.collapseMetadata}
               expirationLength={this.props.expirationLength}
@@ -710,6 +756,18 @@ class MessageInner extends React.PureComponent<Props, State> {
           />
         </div>
       </ReadableMessage>
+    );
+  }
+
+  private loadMoreMessages() {
+    const { loadedMessagesLength, selectedConversationKey } = this.props;
+
+    const numMessages = loadedMessagesLength + Constants.CONVERSATION.DEFAULT_MESSAGE_FETCH_COUNT;
+    (window.inboxStore?.dispatch as any)(
+      fetchMessagesForConversation({
+        conversationKey: selectedConversationKey as string,
+        count: numMessages,
+      })
     );
   }
 
@@ -869,6 +927,11 @@ const mapStateToProps = (state: StateType) => {
   return {
     selectedMessages: getSelectedMessageIds(state),
     quotedMessageToAnimate: getQuotedMessageToAnimate(state),
+    mostRecentMessageId: getMostRecentMessageId(state),
+    oldestMessageId: getOldestMessageId(state),
+    areMoreMessagesBeingFetched: areMoreMessagesBeingFetched(state),
+    selectedConversationKey: getSelectedConversationKey(state),
+    loadedMessagesLength: getLoadedMessagesLength(state),
   };
 };
 

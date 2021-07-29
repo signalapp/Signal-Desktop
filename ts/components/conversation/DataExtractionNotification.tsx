@@ -23,7 +23,7 @@ export const DataExtractionNotification = (props: PropsForDataExtractionNotifica
       flexDirection="column"
       alignItems="center"
       margin={theme.common.margins.sm}
-      id={messageId}
+      id={`data-extraction-${messageId}`}
     >
       <SessionIcon
         iconType={SessionIconType.Upload}

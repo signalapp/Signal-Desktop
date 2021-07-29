@@ -402,39 +402,32 @@ function sortMessages(
   return messagesSorted;
 }
 
-function getFirstMessageUnreadIndex(messages: Array<MessageModelProps>) {
-  if (!messages || messages.length === 0) {
-    return -1;
-  }
-
-  // this is to handle the case where 50 messages are loaded, some of them are already read at the top, but some  not loaded yet are still unread.
-  if (
-    messages.length <
-    getConversationController()
-      .get(messages[0].propsForMessage.convoId)
-      ?.get('unreadCount')
-  ) {
-    return -2;
-  }
-
-  // iterate over the incoming messages from the oldest one. the first one with isUnread !== undefined is our first unread
-  for (let index = messages.length - 1; index > 0; index--) {
-    const message = messages[index];
-    if (
-      message.propsForMessage.direction === 'incoming' &&
-      message.propsForMessage.isUnread === true
-    ) {
-      return index;
-    }
-  }
-
-  return -1;
-}
-
 export const getFirstUnreadMessageId = createSelector(
   getConversations,
   (state: ConversationsStateType): string | undefined => {
     return state.firstUnreadMessageId;
+  }
+);
+
+export const getMostRecentMessageId = createSelector(
+  getConversations,
+  (state: ConversationsStateType): string | undefined => {
+    return state.messages.length ? state.messages[0].propsForMessage.id : undefined;
+  }
+);
+
+export const getOldestMessageId = createSelector(getConversations, (state: ConversationsStateType):
+  | string
+  | undefined => {
+  return state.messages.length
+    ? state.messages[state.messages.length - 1].propsForMessage.id
+    : undefined;
+});
+
+export const getLoadedMessagesLength = createSelector(
+  getConversations,
+  (state: ConversationsStateType): number => {
+    return state.messages.length || 0;
   }
 );
 
