@@ -56,6 +56,7 @@ import {
 import { migrateLegacySendAttributes } from '../messages/migrateLegacySendAttributes';
 import { getOwn } from '../util/getOwn';
 import { markRead } from '../services/MessageUpdater';
+import { isMessageUnread } from '../util/isMessageUnread';
 import {
   isDirectConversation,
   isGroupV1,
@@ -745,10 +746,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     }
   }
 
-  isUnread(): boolean {
-    return !!this.get('unread');
-  }
-
   merge(model: MessageModel): void {
     const attributes = model.attributes || model;
     this.set(attributes);
@@ -847,7 +844,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       return;
     }
 
-    if (this.get('unread')) {
+    if (isMessageUnread(this.attributes)) {
       this.set(markRead(this.attributes));
     }
 
@@ -3175,7 +3172,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     const isFirstRun = false;
     await this.modifyTargetMessage(conversation, isFirstRun);
 
-    if (this.get('unread')) {
+    if (isMessageUnread(this.attributes)) {
       await conversation.notify(this);
     }
 

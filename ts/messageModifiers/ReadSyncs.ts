@@ -7,6 +7,7 @@ import { Collection, Model } from 'backbone';
 
 import { MessageModel } from '../models/messages';
 import { isIncoming } from '../state/selectors/message';
+import { isMessageUnread } from '../util/isMessageUnread';
 
 type ReadSyncAttributesType = {
   senderId: string;
@@ -109,7 +110,7 @@ export class ReadSyncs extends Collection {
       // If message is unread, we mark it read. Otherwise, we update the expiration
       //   timer to the time specified by the read sync if it's earlier than
       //   the previous read time.
-      if (message.isUnread()) {
+      if (isMessageUnread(message.attributes)) {
         // TODO DESKTOP-1509: use MessageUpdater.markRead once this is TS
         message.markRead(readAt, { skipSave: true });
 

@@ -40,6 +40,7 @@ import {
   isOutgoing,
   isTapToView,
 } from '../state/selectors/message';
+import { isMessageUnread } from '../util/isMessageUnread';
 import { getMessagesByConversation } from '../state/selectors/conversations';
 import { ConversationDetailsMembershipList } from '../components/conversation/conversation-details/ConversationDetailsMembershipList';
 import { showSafetyNumberChangeDialog } from '../shims/showSafetyNumberChangeDialog';
@@ -1313,16 +1314,16 @@ Whisper.ConversationView = Whisper.View.extend({
         const newestInMemoryMessage = await getMessageById(newestMessageId, {
           Message: Whisper.Message,
         });
-        if (!newestInMemoryMessage) {
+        if (newestInMemoryMessage) {
+          // If newest in-memory message is unread, scrolling down would mean going to
+          //   the very bottom, not the oldest unread.
+          if (isMessageUnread(newestInMemoryMessage.attributes)) {
+            scrollToLatestUnread = false;
+          }
+        } else {
           window.log.warn(
             `loadNewestMessages: did not find message ${newestMessageId}`
           );
-        }
-
-        // If newest in-memory message is unread, scrolling down would mean going to
-        //   the very bottom, not the oldest unread.
-        if (newestInMemoryMessage && newestInMemoryMessage.isUnread()) {
-          scrollToLatestUnread = false;
         }
       }
 

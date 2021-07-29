@@ -47,6 +47,7 @@ import {
   getGroupSizeRecommendedLimit,
   getGroupSizeHardLimit,
 } from '../../groups/limits';
+import { isMessageUnread } from '../../util/isMessageUnread';
 import { toggleSelectedContactForGroupAddition } from '../../groups/toggleSelectedContactForGroupAddition';
 import { GroupNameCollisionsWithIdsByTitle } from '../../util/groupMemberNameCollisions';
 import { ContactSpoofingType } from '../../util/contactSpoofing';
@@ -2241,7 +2242,7 @@ export function reducer(
       const oldestId = newMessageIds.find(messageId => {
         const message = lookup[messageId];
 
-        return Boolean(message.unread);
+        return message && isMessageUnread(message);
       });
 
       if (oldestId) {
@@ -2257,7 +2258,7 @@ export function reducer(
       const newUnread: number = newMessageIds.reduce((sum, messageId) => {
         const message = lookup[messageId];
 
-        return sum + (message && message.unread ? 1 : 0);
+        return sum + (message && isMessageUnread(message) ? 1 : 0);
       }, 0);
       totalUnread = (totalUnread || 0) + newUnread;
     }
