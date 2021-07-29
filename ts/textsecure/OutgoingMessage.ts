@@ -112,7 +112,7 @@ export default class OutgoingMessage {
 
   timestamp: number;
 
-  identifiers: Array<string>;
+  identifiers: ReadonlyArray<string>;
 
   message: Proto.Content | PlaintextContent;
 
@@ -156,7 +156,7 @@ export default class OutgoingMessage {
     callback: (result: CallbackResultType) => void;
     contentHint: number;
     groupId: string | undefined;
-    identifiers: Array<string>;
+    identifiers: ReadonlyArray<string>;
     message: Proto.Content | Proto.DataMessage | PlaintextContent;
     options?: OutgoingMessageOptionsType;
     sendLogCallback?: SendLogCallbackType;

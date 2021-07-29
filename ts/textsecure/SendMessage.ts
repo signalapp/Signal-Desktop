@@ -120,7 +120,7 @@ export type AttachmentType = {
 };
 
 export type MessageOptionsType = {
-  attachments?: Array<AttachmentType> | null;
+  attachments?: ReadonlyArray<AttachmentType> | null;
   body?: string;
   expireTimer?: number;
   flags?: number;
@@ -130,10 +130,10 @@ export type MessageOptionsType = {
   };
   groupV2?: GroupV2InfoType;
   needsSync?: boolean;
-  preview?: Array<PreviewType> | null;
+  preview?: ReadonlyArray<PreviewType> | null;
   profileKey?: ArrayBuffer;
   quote?: any;
-  recipients: Array<string>;
+  recipients: ReadonlyArray<string>;
   sticker?: any;
   reaction?: any;
   deletedForEveryoneTimestamp?: number;
@@ -162,7 +162,7 @@ export type GroupSendOptionsType = {
 const FIXMEU8 = Uint8Array;
 
 class Message {
-  attachments: Array<any>;
+  attachments: ReadonlyArray<any>;
 
   body?: string;
 
@@ -191,7 +191,7 @@ class Message {
     bodyRanges?: BodyRangesType;
   };
 
-  recipients: Array<string>;
+  recipients: ReadonlyArray<string>;
 
   sticker?: any;
 
@@ -486,7 +486,7 @@ export default class MessageSender {
     return new FIXMEU8(getRandomBytes(paddingLength));
   }
 
-  getPaddedAttachment(data: ArrayBuffer): ArrayBuffer {
+  getPaddedAttachment(data: Readonly<ArrayBuffer>): ArrayBuffer {
     const size = data.byteLength;
     const paddedSize = this._getAttachmentSizeBucket(size);
     const padding = getZeroes(paddedSize - size);
@@ -495,7 +495,7 @@ export default class MessageSender {
   }
 
   async makeAttachmentPointer(
-    attachment: AttachmentType
+    attachment: Readonly<AttachmentType>
   ): Promise<Proto.IAttachmentPointer> {
     assert(
       typeof attachment === 'object' && attachment !== null,
@@ -643,12 +643,16 @@ export default class MessageSender {
 
   // Proto assembly
 
-  async getDataMessage(options: MessageOptionsType): Promise<ArrayBuffer> {
+  async getDataMessage(
+    options: Readonly<MessageOptionsType>
+  ): Promise<ArrayBuffer> {
     const message = await this.getHydratedMessage(options);
     return message.toArrayBuffer();
   }
 
-  async getContentMessage(options: MessageOptionsType): Promise<Proto.Content> {
+  async getContentMessage(
+    options: Readonly<MessageOptionsType>
+  ): Promise<Proto.Content> {
     const message = await this.getHydratedMessage(options);
     const dataMessage = message.toProto();
 
@@ -658,7 +662,9 @@ export default class MessageSender {
     return contentMessage;
   }
 
-  async getHydratedMessage(attributes: MessageOptionsType): Promise<Message> {
+  async getHydratedMessage(
+    attributes: Readonly<MessageOptionsType>
+  ): Promise<Message> {
     const message = new Message(attributes);
     await Promise.all([
       this.uploadAttachments(message),
@@ -670,13 +676,15 @@ export default class MessageSender {
     return message;
   }
 
-  getTypingContentMessage(options: {
-    recipientId?: string;
-    groupId?: ArrayBuffer;
-    groupMembers: Array<string>;
-    isTyping: boolean;
-    timestamp?: number;
-  }): Proto.Content {
+  getTypingContentMessage(
+    options: Readonly<{
+      recipientId?: string;
+      groupId?: ArrayBuffer;
+      groupMembers: ReadonlyArray<string>;
+      isTyping: boolean;
+      timestamp?: number;
+    }>
+  ): Proto.Content {
     const ACTION_ENUM = Proto.TypingMessage.Action;
     const { recipientId, groupId, isTyping, timestamp } = options;
 
@@ -702,7 +710,9 @@ export default class MessageSender {
     return contentMessage;
   }
 
-  getAttrsFromGroupOptions(options: GroupSendOptionsType): MessageOptionsType {
+  getAttrsFromGroupOptions(
+    options: Readonly<GroupSendOptionsType>
+  ): MessageOptionsType {
     const {
       messageText,
       timestamp,
@@ -789,12 +799,12 @@ export default class MessageSender {
     contentHint,
     groupId,
     options,
-  }: {
+  }: Readonly<{
     messageOptions: MessageOptionsType;
     contentHint: number;
     groupId: string | undefined;
     options?: SendOptionsType;
-  }): Promise<CallbackResultType> {
+  }>): Promise<CallbackResultType> {
     const message = new Message(messageOptions);
 
     return Promise.all([
@@ -834,16 +844,16 @@ export default class MessageSender {
     recipients,
     sendLogCallback,
     timestamp,
-  }: {
+  }: Readonly<{
     callback: (result: CallbackResultType) => void;
     contentHint: number;
     groupId: string | undefined;
     options?: SendOptionsType;
     proto: Proto.Content | Proto.DataMessage | PlaintextContent;
-    recipients: Array<string>;
+    recipients: ReadonlyArray<string>;
     sendLogCallback?: SendLogCallbackType;
     timestamp: number;
-  }): void {
+  }>): void {
     const rejections = window.textsecure.storage.get(
       'signedKeyRotationRejected',
       0
@@ -878,14 +888,14 @@ export default class MessageSender {
     contentHint,
     groupId,
     options,
-  }: {
+  }: Readonly<{
     timestamp: number;
     recipients: Array<string>;
     proto: Proto.Content | Proto.DataMessage | PlaintextContent;
     contentHint: number;
     groupId: string | undefined;
     options?: SendOptionsType;
-  }): Promise<CallbackResultType> {
+  }>): Promise<CallbackResultType> {
     return new Promise((resolve, reject) => {
       const callback = (result: CallbackResultType) => {
         if (result && result.errors && result.errors.length > 0) {
@@ -914,13 +924,13 @@ export default class MessageSender {
     timestamp,
     contentHint,
     options,
-  }: {
+  }: Readonly<{
     identifier: string | undefined;
     proto: Proto.DataMessage | Proto.Content | PlaintextContent;
     timestamp: number;
     contentHint: number;
     options?: SendOptionsType;
-  }): Promise<CallbackResultType> {
+  }>): Promise<CallbackResultType> {
     assert(identifier, "Identifier can't be undefined");
     return new Promise((resolve, reject) => {
       const callback = (res: CallbackResultType) => {
@@ -959,12 +969,12 @@ export default class MessageSender {
     groupId,
     profileKey,
     options,
-  }: {
+  }: Readonly<{
     identifier: string;
     messageText: string | undefined;
-    attachments: Array<AttachmentType> | undefined;
+    attachments: ReadonlyArray<AttachmentType> | undefined;
     quote: unknown;
-    preview: Array<PreviewType> | undefined;
+    preview: ReadonlyArray<PreviewType> | undefined;
     sticker: unknown;
     reaction: unknown;
     deletedForEveryoneTimestamp: number | undefined;
@@ -974,7 +984,7 @@ export default class MessageSender {
     groupId: string | undefined;
     profileKey?: ArrayBuffer;
     options?: SendOptionsType;
-  }): Promise<CallbackResultType> {
+  }>): Promise<CallbackResultType> {
     return this.sendMessage({
       messageOptions: {
         recipients: [identifier],
@@ -1009,7 +1019,7 @@ export default class MessageSender {
     conversationIdsWithSealedSender = new Set(),
     isUpdate,
     options,
-  }: {
+  }: Readonly<{
     encodedDataMessage: ArrayBuffer;
     timestamp: number;
     destination: string | undefined;
@@ -1019,7 +1029,7 @@ export default class MessageSender {
     conversationIdsWithSealedSender?: Set<string>;
     isUpdate?: boolean;
     options?: SendOptionsType;
-  }): Promise<CallbackResultType> {
+  }>): Promise<CallbackResultType> {
     const myNumber = window.textsecure.storage.user.getNumber();
     const myUuid = window.textsecure.storage.user.getUuid();
 
@@ -1085,7 +1095,7 @@ export default class MessageSender {
   }
 
   async sendRequestBlockSyncMessage(
-    options?: SendOptionsType
+    options?: Readonly<SendOptionsType>
   ): Promise<CallbackResultType> {
     const myNumber = window.textsecure.storage.user.getNumber();
     const myUuid = window.textsecure.storage.user.getUuid();
@@ -1109,7 +1119,7 @@ export default class MessageSender {
   }
 
   async sendRequestConfigurationSyncMessage(
-    options?: SendOptionsType
+    options?: Readonly<SendOptionsType>
   ): Promise<CallbackResultType> {
     const myNumber = window.textsecure.storage.user.getNumber();
     const myUuid = window.textsecure.storage.user.getUuid();
@@ -1133,7 +1143,7 @@ export default class MessageSender {
   }
 
   async sendRequestGroupSyncMessage(
-    options?: SendOptionsType
+    options?: Readonly<SendOptionsType>
   ): Promise<CallbackResultType> {
     const myNumber = window.textsecure.storage.user.getNumber();
     const myUuid = window.textsecure.storage.user.getUuid();
@@ -1157,7 +1167,7 @@ export default class MessageSender {
   }
 
   async sendRequestContactSyncMessage(
-    options?: SendOptionsType
+    options?: Readonly<SendOptionsType>
   ): Promise<CallbackResultType> {
     const myNumber = window.textsecure.storage.user.getNumber();
     const myUuid = window.textsecure.storage.user.getUuid();
@@ -1181,7 +1191,7 @@ export default class MessageSender {
   }
 
   async sendFetchManifestSyncMessage(
-    options?: SendOptionsType
+    options?: Readonly<SendOptionsType>
   ): Promise<CallbackResultType> {
     const myUuid = window.textsecure.storage.user.getUuid();
     const myNumber = window.textsecure.storage.user.getNumber();
@@ -1206,7 +1216,7 @@ export default class MessageSender {
   }
 
   async sendFetchLocalProfileSyncMessage(
-    options?: SendOptionsType
+    options?: Readonly<SendOptionsType>
   ): Promise<CallbackResultType> {
     const myUuid = window.textsecure.storage.user.getUuid();
     const myNumber = window.textsecure.storage.user.getNumber();
@@ -1231,7 +1241,7 @@ export default class MessageSender {
   }
 
   async sendRequestKeySyncMessage(
-    options?: SendOptionsType
+    options?: Readonly<SendOptionsType>
   ): Promise<CallbackResultType> {
     const myUuid = window.textsecure.storage.user.getUuid();
     const myNumber = window.textsecure.storage.user.getNumber();
@@ -1256,12 +1266,12 @@ export default class MessageSender {
   }
 
   async syncReadMessages(
-    reads: Array<{
+    reads: ReadonlyArray<{
       senderUuid?: string;
       senderE164?: string;
       timestamp: number;
     }>,
-    options?: SendOptionsType
+    options?: Readonly<SendOptionsType>
   ): Promise<CallbackResultType> {
     const myNumber = window.textsecure.storage.user.getNumber();
     const myUuid = window.textsecure.storage.user.getUuid();
@@ -1291,7 +1301,7 @@ export default class MessageSender {
     sender: string | undefined,
     senderUuid: string,
     timestamp: number,
-    options?: SendOptionsType
+    options?: Readonly<SendOptionsType>
   ): Promise<CallbackResultType> {
     const myNumber = window.textsecure.storage.user.getNumber();
     const myUuid = window.textsecure.storage.user.getUuid();
@@ -1321,13 +1331,13 @@ export default class MessageSender {
   }
 
   async syncMessageRequestResponse(
-    responseArgs: {
+    responseArgs: Readonly<{
       threadE164?: string;
       threadUuid?: string;
       groupId?: ArrayBuffer;
       type: number;
-    },
-    options?: SendOptionsType
+    }>,
+    options?: Readonly<SendOptionsType>
   ): Promise<CallbackResultType> {
     const myNumber = window.textsecure.storage.user.getNumber();
     const myUuid = window.textsecure.storage.user.getUuid();
@@ -1362,12 +1372,12 @@ export default class MessageSender {
   }
 
   async sendStickerPackSync(
-    operations: Array<{
+    operations: ReadonlyArray<{
       packId: string;
       packKey: string;
       installed: boolean;
     }>,
-    options?: SendOptionsType
+    options?: Readonly<SendOptionsType>
   ): Promise<CallbackResultType> {
     const myNumber = window.textsecure.storage.user.getNumber();
     const myUuid = window.textsecure.storage.user.getUuid();
@@ -1405,8 +1415,8 @@ export default class MessageSender {
     destinationE164: string | undefined,
     destinationUuid: string | undefined,
     state: number,
-    identityKey: ArrayBuffer,
-    options?: SendOptionsType
+    identityKey: Readonly<ArrayBuffer>,
+    options?: Readonly<SendOptionsType>
   ): Promise<CallbackResultType> {
     const myNumber = window.textsecure.storage.user.getNumber();
     const myUuid = window.textsecure.storage.user.getUuid();
@@ -1462,9 +1472,9 @@ export default class MessageSender {
   // Sending messages to contacts
 
   async sendProfileKeyUpdate(
-    profileKey: ArrayBuffer,
-    recipients: Array<string>,
-    options: SendOptionsType,
+    profileKey: Readonly<ArrayBuffer>,
+    recipients: ReadonlyArray<string>,
+    options: Readonly<SendOptionsType>,
     groupId?: string
   ): Promise<CallbackResultType> {
     const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
@@ -1492,8 +1502,8 @@ export default class MessageSender {
 
   async sendCallingMessage(
     recipientId: string,
-    callingMessage: Proto.ICallingMessage,
-    options?: SendOptionsType
+    callingMessage: Readonly<Proto.ICallingMessage>,
+    options?: Readonly<SendOptionsType>
   ): Promise<CallbackResultType> {
     const recipients = [recipientId];
     const finalTimestamp = Date.now();
@@ -1518,12 +1528,12 @@ export default class MessageSender {
     uuid,
     timestamps,
     options,
-  }: {
+  }: Readonly<{
     e164?: string;
     uuid?: string;
     timestamps: Array<number>;
-    options?: SendOptionsType;
-  }): Promise<CallbackResultType> {
+    options?: Readonly<SendOptionsType>;
+  }>): Promise<CallbackResultType> {
     if (!uuid && !e164) {
       throw new Error(
         'sendDeliveryReceipt: Neither uuid nor e164 was provided!'
@@ -1553,12 +1563,12 @@ export default class MessageSender {
     senderUuid,
     timestamps,
     options,
-  }: {
+  }: Readonly<{
     senderE164: string;
     senderUuid: string;
     timestamps: Array<number>;
-    options?: SendOptionsType;
-  }): Promise<CallbackResultType> {
+    options?: Readonly<SendOptionsType>;
+  }>): Promise<CallbackResultType> {
     const receiptMessage = new Proto.ReceiptMessage();
     receiptMessage.type = Proto.ReceiptMessage.Type.READ;
     receiptMessage.timestamp = timestamps;
@@ -1582,8 +1592,8 @@ export default class MessageSender {
       uuid,
       e164,
       padding,
-    }: { uuid?: string; e164?: string; padding?: Uint8Array },
-    options?: SendOptionsType
+    }: Readonly<{ uuid?: string; e164?: string; padding?: Uint8Array }>,
+    options?: Readonly<SendOptionsType>
   ): Promise<CallbackResultType> {
     const nullMessage = new Proto.NullMessage();
 
@@ -1614,7 +1624,7 @@ export default class MessageSender {
     uuid: string,
     e164: string,
     timestamp: number,
-    options?: SendOptionsType
+    options?: Readonly<SendOptionsType>
   ): Promise<CallbackResultType> {
     window.log.info('resetSession: start');
     const proto = new Proto.DataMessage();
@@ -1693,8 +1703,8 @@ export default class MessageSender {
     identifier: string,
     expireTimer: number | undefined,
     timestamp: number,
-    profileKey?: ArrayBuffer,
-    options?: SendOptionsType
+    profileKey?: Readonly<ArrayBuffer>,
+    options?: Readonly<SendOptionsType>
   ): Promise<CallbackResultType> {
     const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
@@ -1717,12 +1727,12 @@ export default class MessageSender {
     options,
     plaintext,
     uuid,
-  }: {
+  }: Readonly<{
     groupId?: string;
     options?: SendOptionsType;
     plaintext: PlaintextContent;
     uuid: string;
-  }): Promise<CallbackResultType> {
+  }>): Promise<CallbackResultType> {
     const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
     return this.sendMessageProtoAndWait({
@@ -1746,13 +1756,13 @@ export default class MessageSender {
     proto,
     sendType,
     timestamp,
-  }: {
+  }: Readonly<{
     contentHint: number;
     messageId?: string;
     proto: Buffer;
     sendType: SendTypesType;
     timestamp: number;
-  }): SendLogCallbackType {
+  }>): SendLogCallbackType {
     let initialSavePromise: Promise<number>;
 
     return async ({
@@ -1814,15 +1824,15 @@ export default class MessageSender {
     recipients,
     sendLogCallback,
     timestamp = Date.now(),
-  }: {
+  }: Readonly<{
     contentHint: number;
     groupId: string | undefined;
     options?: SendOptionsType;
     proto: Proto.Content;
-    recipients: Array<string>;
+    recipients: ReadonlyArray<string>;
     sendLogCallback?: SendLogCallbackType;
     timestamp: number;
-  }): Promise<CallbackResultType> {
+  }>): Promise<CallbackResultType> {
     const dataMessage = proto.dataMessage
       ? typedArrayToArrayBuffer(
           Proto.DataMessage.encode(proto.dataMessage).finish()
@@ -1902,13 +1912,13 @@ export default class MessageSender {
       distributionId,
       groupId,
       identifiers,
-    }: {
+    }: Readonly<{
       contentHint: number;
       distributionId: string;
       groupId: string | undefined;
-      identifiers: Array<string>;
-    },
-    options?: SendOptionsType
+      identifiers: ReadonlyArray<string>;
+    }>,
+    options?: Readonly<SendOptionsType>
   ): Promise<CallbackResultType> {
     const contentMessage = new Proto.Content();
     const timestamp = Date.now();
@@ -1985,11 +1995,11 @@ export default class MessageSender {
 
   async sendExpirationTimerUpdateToGroup(
     groupId: string,
-    groupIdentifiers: Array<string>,
+    groupIdentifiers: ReadonlyArray<string>,
     expireTimer: number | undefined,
     timestamp: number,
-    profileKey?: ArrayBuffer,
-    options?: SendOptionsType
+    profileKey?: Readonly<ArrayBuffer>,
+    options?: Readonly<SendOptionsType>
   ): Promise<CallbackResultType> {
     const myNumber = window.textsecure.storage.user.getNumber();
     const myUuid = window.textsecure.storage.user.getUuid();
@@ -2046,11 +2056,11 @@ export default class MessageSender {
 
   async getProfile(
     number: string,
-    options: {
+    options: Readonly<{
       accessKey?: string;
       profileKeyVersion?: string;
       profileKeyCredentialRequest?: string;
-    } = {}
+    }> = {}
   ): Promise<any> {
     const { accessKey } = options;
 
@@ -2066,7 +2076,7 @@ export default class MessageSender {
   }
 
   async getUuidsForE164s(
-    numbers: Array<string>
+    numbers: ReadonlyArray<string>
   ): Promise<Dictionary<string | null>> {
     return this.server.getUuidsForE164s(numbers);
   }
@@ -2084,33 +2094,35 @@ export default class MessageSender {
   }
 
   async createGroup(
-    group: Proto.IGroup,
-    options: GroupCredentialsType
+    group: Readonly<Proto.IGroup>,
+    options: Readonly<GroupCredentialsType>
   ): Promise<void> {
     return this.server.createGroup(group, options);
   }
 
   async uploadGroupAvatar(
-    avatar: Uint8Array,
-    options: GroupCredentialsType
+    avatar: Readonly<Uint8Array>,
+    options: Readonly<GroupCredentialsType>
   ): Promise<string> {
     return this.server.uploadGroupAvatar(avatar, options);
   }
 
-  async getGroup(options: GroupCredentialsType): Promise<Proto.Group> {
+  async getGroup(
+    options: Readonly<GroupCredentialsType>
+  ): Promise<Proto.Group> {
     return this.server.getGroup(options);
   }
 
   async getGroupFromLink(
     groupInviteLink: string,
-    auth: GroupCredentialsType
+    auth: Readonly<GroupCredentialsType>
   ): Promise<Proto.GroupJoinInfo> {
     return this.server.getGroupFromLink(groupInviteLink, auth);
   }
 
   async getGroupLog(
     startVersion: number,
-    options: GroupCredentialsType
+    options: Readonly<GroupCredentialsType>
   ): Promise<GroupLogResponseType> {
     return this.server.getGroupLog(startVersion, options);
   }
@@ -2120,16 +2132,16 @@ export default class MessageSender {
   }
 
   async modifyGroup(
-    changes: Proto.GroupChange.IActions,
-    options: GroupCredentialsType,
+    changes: Readonly<Proto.GroupChange.IActions>,
+    options: Readonly<GroupCredentialsType>,
     inviteLinkBase64?: string
   ): Promise<Proto.IGroupChange> {
     return this.server.modifyGroup(changes, options, inviteLinkBase64);
   }
 
   async sendWithSenderKey(
-    data: ArrayBuffer,
-    accessKeys: ArrayBuffer,
+    data: Readonly<ArrayBuffer>,
+    accessKeys: Readonly<ArrayBuffer>,
     timestamp: number,
     online?: boolean
   ): Promise<MultiRecipient200ResponseType> {
@@ -2152,7 +2164,7 @@ export default class MessageSender {
 
   async makeProxiedRequest(
     url: string,
-    options?: ProxiedRequestOptionsType
+    options?: Readonly<ProxiedRequestOptionsType>
   ): Promise<any> {
     return this.server.makeProxiedRequest(url, options);
   }
@@ -2162,46 +2174,46 @@ export default class MessageSender {
   }
 
   async getStorageManifest(
-    options: StorageServiceCallOptionsType
+    options: Readonly<StorageServiceCallOptionsType>
   ): Promise<ArrayBuffer> {
     return this.server.getStorageManifest(options);
   }
 
   async getStorageRecords(
-    data: ArrayBuffer,
-    options: StorageServiceCallOptionsType
+    data: Readonly<ArrayBuffer>,
+    options: Readonly<StorageServiceCallOptionsType>
   ): Promise<ArrayBuffer> {
     return this.server.getStorageRecords(data, options);
   }
 
   async modifyStorageRecords(
-    data: ArrayBuffer,
-    options: StorageServiceCallOptionsType
+    data: Readonly<ArrayBuffer>,
+    options: Readonly<StorageServiceCallOptionsType>
   ): Promise<ArrayBuffer> {
     return this.server.modifyStorageRecords(data, options);
   }
 
   async getGroupMembershipToken(
-    options: GroupCredentialsType
+    options: Readonly<GroupCredentialsType>
   ): Promise<Proto.GroupExternalCredential> {
     return this.server.getGroupExternalCredential(options);
   }
 
   public async sendChallengeResponse(
-    challengeResponse: ChallengeType
+    challengeResponse: Readonly<ChallengeType>
   ): Promise<void> {
     return this.server.sendChallengeResponse(challengeResponse);
   }
 
   async putProfile(
-    jsonData: ProfileRequestDataType
+    jsonData: Readonly<ProfileRequestDataType>
   ): Promise<UploadAvatarHeadersType | undefined> {
     return this.server.putProfile(jsonData);
   }
 
   async uploadAvatar(
-    requestHeaders: UploadAvatarHeadersType,
-    avatarData: ArrayBuffer
+    requestHeaders: Readonly<UploadAvatarHeadersType>,
+    avatarData: Readonly<ArrayBuffer>
   ): Promise<string> {
     return this.server.uploadAvatar(requestHeaders, avatarData);
   }
