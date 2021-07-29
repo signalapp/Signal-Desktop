@@ -787,6 +787,7 @@ export async function openConversationWithMessages(args: {
   const { conversationKey, messageId } = args;
   const firstUnreadIdOnOpen = await getFirstUnreadMessageIdInConversation(conversationKey);
 
+  // preload 30 messages
   const initialMessages = await getMessages(conversationKey, 30);
 
   window.inboxStore?.dispatch(

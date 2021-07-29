@@ -91,7 +91,7 @@ function renderChange(change: PropsForGroupUpdateType) {
 export const GroupNotification = (props: PropsForGroupUpdate) => {
   const { changes } = props;
   return (
-    <div className="module-group-notification" id={`group-notif-${props.messageId}`}>
+    <div className="module-group-notification" id={`msg-${props.messageId}`}>
       {(changes || []).map((change, index) => (
         <div key={index} className="module-group-notification__change">
           {renderChange(change)}

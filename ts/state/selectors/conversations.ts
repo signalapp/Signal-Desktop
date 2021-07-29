@@ -415,19 +415,21 @@ export const getFirstUnreadMessageId = createSelector(
 );
 
 export const getMostRecentMessageId = createSelector(
-  getConversations,
-  (state: ConversationsStateType): string | undefined => {
-    return state.messages.length ? state.messages[0].propsForMessage.id : undefined;
+  getSortedMessagesOfSelectedConversation,
+  (messages: Array<MessageModelProps>): string | undefined => {
+    return messages.length ? messages[0].propsForMessage.id : undefined;
   }
 );
 
-export const getOldestMessageId = createSelector(getConversations, (state: ConversationsStateType):
-  | string
-  | undefined => {
-  return state.messages.length
-    ? state.messages[state.messages.length - 1].propsForMessage.id
-    : undefined;
-});
+export const getOldestMessageId = createSelector(
+  getSortedMessagesOfSelectedConversation,
+  (messages: Array<MessageModelProps>): string | undefined => {
+    const oldest =
+      messages.length > 0 ? messages[messages.length - 1].propsForMessage.id : undefined;
+
+    return oldest;
+  }
+);
 
 export const getLoadedMessagesLength = createSelector(
   getConversations,

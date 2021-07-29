@@ -1,6 +1,6 @@
 import React from 'react';
 import { useFocus } from '../../hooks/useFocus';
-import { InView, useInView } from 'react-intersection-observer';
+import { InView } from 'react-intersection-observer';
 
 type ReadableMessageProps = {
   children: React.ReactNode;
@@ -16,11 +16,11 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
 
   return (
     <InView
-      id={`inview-${messageId}`}
+      id={`msg-${messageId}`}
       {...props}
       as="div"
       threshold={0.5}
-      delay={20}
+      delay={100}
       triggerOnce={false}
     >
       {props.children}

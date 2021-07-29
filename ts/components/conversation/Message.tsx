@@ -652,11 +652,13 @@ class MessageInner extends React.PureComponent<Props, State> {
       // when the view first loads, it needs to scroll to the unread messages.
       // we need to disable the inview on the first loading
       if (!this.props.haveDoneFirstScroll) {
-        console.warn('waiting for first scroll');
+        if (inView === true) {
+          window.log.info('onVisible but waiting for first scroll event');
+        }
         return;
       }
       // we are the bottom message
-      if (this.props.mostRecentMessageId === messageId) {
+      if (this.props.mostRecentMessageId === messageId && isElectronWindowFocused()) {
         if (inView === true) {
           window.inboxStore?.dispatch(showScrollToBottomButton(false));
           void getConversationController()
@@ -671,12 +673,8 @@ class MessageInner extends React.PureComponent<Props, State> {
           window.inboxStore?.dispatch(showScrollToBottomButton(true));
         }
       }
-      console.warn('oldestMessageId', this.props.oldestMessageId);
-      console.warn('mostRecentMessageId', this.props.mostRecentMessageId);
-      console.warn('messageId', messageId);
-      if (inView === true && this.props.oldestMessageId === messageId && !fetchingMore) {
-        console.warn('loadMoreMessages');
 
+      if (inView === true && this.props.oldestMessageId === messageId && !fetchingMore) {
         this.loadMoreMessages();
       }
       if (inView === true && shouldMarkReadWhenVisible && isElectronWindowFocused()) {

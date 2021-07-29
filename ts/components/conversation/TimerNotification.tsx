@@ -34,7 +34,7 @@ const TimerNotificationContent = (props: PropsForExpirationTimer) => {
 
 export const TimerNotification = (props: PropsForExpirationTimer) => {
   return (
-    <div className="module-timer-notification" id={props.messageId}>
+    <div className="module-timer-notification" id={`msg-${props.messageId}`}>
       <div className="module-timer-notification__message">
         <div>
           <SessionIcon
