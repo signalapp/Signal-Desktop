@@ -51,7 +51,7 @@ export async function getAllCachedECKeyPair(groupPubKey: string) {
     cacheOfClosedGroupKeyPairs.set(groupPubKey, keyPairsFound);
   }
 
-  return keyPairsFound;
+  return keyPairsFound.slice();
 }
 
 /**
