@@ -5,7 +5,10 @@ import {
   ConversationListItemProps,
   MemoConversationListItemWithDetails,
 } from '../ConversationListItem';
-import { openConversationExternal, ReduxConversationType } from '../../state/ducks/conversations';
+import {
+  openConversationWithMessages,
+  ReduxConversationType,
+} from '../../state/ducks/conversations';
 import { SearchResults, SearchResultsProps } from '../SearchResults';
 import { SessionSearchInput } from './SessionSearchInput';
 import _, { debounce } from 'lodash';
@@ -320,11 +323,8 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
         pubkeyorOns,
         ConversationTypeEnum.PRIVATE
       );
-      const firstUnreadIdOnOpen = await getFirstUnreadMessageIdInConversation(pubkeyorOns);
 
-      window.inboxStore?.dispatch(
-        openConversationExternal({ id: pubkeyorOns, firstUnreadIdOnOpen })
-      );
+      await openConversationWithMessages({ conversationKey: pubkeyorOns });
       this.handleToggleOverlay(undefined);
     } else {
       // this might be an ONS, validate the regex first
@@ -345,11 +345,8 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
           ConversationTypeEnum.PRIVATE
         );
 
-        const firstUnreadIdOnOpen = await getFirstUnreadMessageIdInConversation(resolvedSessionID);
+        await openConversationWithMessages({ conversationKey: resolvedSessionID });
 
-        window.inboxStore?.dispatch(
-          openConversationExternal({ id: resolvedSessionID, firstUnreadIdOnOpen })
-        );
         this.handleToggleOverlay(undefined);
       } catch (e) {
         window?.log?.warn('failed to resolve ons name', pubkeyorOns, e);

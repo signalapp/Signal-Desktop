@@ -17,16 +17,15 @@ import { useTheme } from 'styled-components';
 import { PubKey } from '../session/types';
 import {
   LastMessageType,
-  openConversationExternal,
+  openConversationWithMessages,
   ReduxConversationType,
 } from '../state/ducks/conversations';
 import _ from 'underscore';
 import { useMembersAvatars } from '../hooks/useMembersAvatar';
 import { SessionIcon, SessionIconSize, SessionIconType } from './session/icon';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { SectionType } from '../state/ducks/section';
 import { getFocusedSection } from '../state/selectors/section';
-import { getFirstUnreadMessageIdInConversation } from '../data/data';
 
 // tslint:disable-next-line: no-empty-interface
 export interface ConversationListItemProps extends ReduxConversationType {}
@@ -238,18 +237,21 @@ const ConversationListItem = (props: Props) => {
 
   const membersAvatar = useMembersAvatars(props);
 
-  const dispatch = useDispatch();
-
-  const openConvo = useCallback(async () => {
-    const firstUnreadIdOnOpen = await getFirstUnreadMessageIdInConversation(conversationId);
-    dispatch(openConversationExternal({ id: conversationId, firstUnreadIdOnOpen }));
-  }, [conversationId]);
+  const openConvo = useCallback(
+    async (e: any) => {
+      // mousedown is invoked sooner than onClick, but for both right and left click
+      if (e.button === 0) {
+        await openConversationWithMessages({ conversationKey: conversationId });
+      }
+    },
+    [conversationId]
+  );
 
   return (
     <div key={key}>
       <div
         role="button"
-        onClick={openConvo}
+        onMouseDown={openConvo}
         onContextMenu={(e: any) => {
           contextMenu.show({
             id: triggerId,

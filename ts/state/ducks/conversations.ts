@@ -3,7 +3,7 @@ import _, { omit } from 'lodash';
 import { Constants } from '../../session';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { getConversationController } from '../../session/conversations';
-import { getMessagesByConversation } from '../../data/data';
+import { getFirstUnreadMessageIdInConversation, getMessagesByConversation } from '../../data/data';
 import {
   ConversationNotificationSettingType,
   ConversationTypeEnum,
@@ -255,6 +255,7 @@ export type ConversationsStateType = {
   lightBox?: LightBoxOptions;
   quotedMessage?: ReplyingToMessageProps;
   areMoreMessagesBeingFetched: boolean;
+  haveDoneFirstScroll: boolean;
 
   showScrollButton: boolean;
   animateQuotedMessageId?: string;
@@ -334,7 +335,7 @@ export const fetchMessagesForConversation = createAsyncThunk(
 
 // Reducer
 
-function getEmptyState(): ConversationsStateType {
+export function getEmptyConversationState(): ConversationsStateType {
   return {
     conversationLookup: {},
     messages: [],
@@ -345,6 +346,7 @@ function getEmptyState(): ConversationsStateType {
     showScrollButton: false,
     mentionMembers: [],
     firstUnreadMessageId: undefined,
+    haveDoneFirstScroll: false,
   };
 }
 
@@ -464,7 +466,7 @@ function handleConversationReset(state: ConversationsStateType, action: PayloadA
 
 const conversationsSlice = createSlice({
   name: 'conversations',
-  initialState: getEmptyState(),
+  initialState: getEmptyConversationState(),
   reducers: {
     showMessageDetailsView(
       state: ConversationsStateType,
@@ -569,7 +571,7 @@ const conversationsSlice = createSlice({
     },
 
     removeAllConversations() {
-      return getEmptyState();
+      return getEmptyConversationState();
     },
 
     messageAdded(
@@ -648,6 +650,7 @@ const conversationsSlice = createSlice({
       action: PayloadAction<{
         id: string;
         firstUnreadIdOnOpen: string | undefined;
+        initialMessages: Array<MessageModelProps>;
         messageId?: string;
       }>
     ) {
@@ -659,7 +662,7 @@ const conversationsSlice = createSlice({
         conversationLookup: state.conversationLookup,
         selectedConversation: action.payload.id,
         areMoreMessagesBeingFetched: false,
-        messages: [],
+        messages: action.payload.initialMessages,
         showRightPanel: false,
         selectedMessageIds: [],
         lightBox: undefined,
@@ -671,7 +674,13 @@ const conversationsSlice = createSlice({
         animateQuotedMessageId: undefined,
         mentionMembers: [],
         firstUnreadMessageId: action.payload.firstUnreadIdOnOpen,
+
+        haveDoneFirstScroll: false,
       };
+    },
+    updateHaveDoneFirstScroll(state: ConversationsStateType) {
+      state.haveDoneFirstScroll = true;
+      return state;
     },
     showLightBox(
       state: ConversationsStateType,
@@ -753,7 +762,7 @@ export const {
   conversationReset,
   messageChanged,
   messagesChanged,
-  openConversationExternal,
+  updateHaveDoneFirstScroll,
   markConversationFullyRead,
   // layout stuff
   showMessageDetailsView,
@@ -770,3 +779,22 @@ export const {
   setNextMessageToPlay,
   updateMentionsMembers,
 } = actions;
+
+export async function openConversationWithMessages(args: {
+  conversationKey: string;
+  messageId?: string;
+}) {
+  const { conversationKey, messageId } = args;
+  const firstUnreadIdOnOpen = await getFirstUnreadMessageIdInConversation(conversationKey);
+
+  const initialMessages = await getMessages(conversationKey, 30);
+
+  window.inboxStore?.dispatch(
+    actions.openConversationExternal({
+      id: conversationKey,
+      firstUnreadIdOnOpen,
+      messageId,
+      initialMessages,
+    })
+  );
+}

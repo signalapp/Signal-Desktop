@@ -73,7 +73,10 @@ declare global {
     autoOrientImage: any;
     contextMenuShown: boolean;
     inboxStore?: Store;
-    actionsCreators: any;
+    openConversationWithMessages: (args: {
+      conversationKey: string;
+      messageId?: string | undefined;
+    }) => Promise<void>;
     extension: {
       expired: (boolean) => void;
       expiredStatus: () => boolean;

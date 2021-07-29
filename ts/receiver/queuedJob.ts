@@ -498,7 +498,6 @@ const trotthledAllMessagesAddedDispatch = _.throttle(() => {
   if (updatesToDispatch.size === 0) {
     return;
   }
-  console.warn('TRIGGERING ALL ADDED DISPATCH');
   window.inboxStore?.dispatch(messagesAdded([...updatesToDispatch.values()]));
   updatesToDispatch.clear();
 }, 1000);

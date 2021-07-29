@@ -1180,7 +1180,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   }
   private dispatchMessageUpdate() {
     trotthledAllMessagesDispatch();
-    console.warn('adding dispatch for:', this.id);
 
     updatesToDispatch.set(this.id, this.getProps());
   }
@@ -1190,7 +1189,6 @@ const trotthledAllMessagesDispatch = _.throttle(() => {
   if (updatesToDispatch.size === 0) {
     return;
   }
-  console.warn('TRIGGERING ALL DISPATCH');
   window.inboxStore?.dispatch(messagesChanged([...updatesToDispatch.values()]));
   updatesToDispatch.clear();
 }, 1000);

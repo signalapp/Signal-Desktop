@@ -12,6 +12,7 @@ import {
   setNextMessageToPlay,
   showScrollToBottomButton,
   SortedMessageModelProps,
+  updateHaveDoneFirstScroll,
 } from '../../../state/ducks/conversations';
 import { ToastUtils } from '../../../session/utils';
 import { TypingBubble } from '../../conversation/TypingBubble';
@@ -48,14 +49,11 @@ type Props = SessionMessageListProps & {
 };
 
 class SessionMessagesListContainerInner extends React.Component<Props> {
-  private ignoreScrollEvents: boolean;
   private timeoutResetQuotedScroll: NodeJS.Timeout | null = null;
 
   public constructor(props: Props) {
     super(props);
     autoBind(this);
-
-    this.ignoreScrollEvents = true;
   }
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -63,8 +61,7 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   public componentDidMount() {
-    // Pause thread to wait for rendering to complete
-    setTimeout(this.initialMessageLoadingPosition, 0);
+    this.initialMessageLoadingPosition();
   }
 
   public componentWillUnmount() {
@@ -87,9 +84,7 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
       this.setupTimeoutResetQuotedHighlightedMessage(this.props.animateQuotedMessageId);
 
       // displayed conversation changed. We have a bit of cleaning to do here
-      this.ignoreScrollEvents = true;
       this.initialMessageLoadingPosition();
-      this.ignoreScrollEvents = false;
     } else {
       // if we got new message for this convo, and we are scrolled to bottom
       if (isSameConvo && messageLengthChanged) {
@@ -97,8 +92,6 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
         // Adjust scroll so these new items don't push the old ones out of view.
         // (snapshot here is the value returned from getSnapshotBeforeUpdate)
         if (prevProps.messagesProps.length && snapshot !== null) {
-          this.ignoreScrollEvents = true;
-
           const list = this.props.messageContainerRef.current;
 
           // if we added a message at the top, keep position from the bottom.
@@ -106,23 +99,28 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
             prevProps.messagesProps[0].propsForMessage.id ===
             this.props.messagesProps[0].propsForMessage.id
           ) {
-            // list.scrollTop = list.scrollHeight - (snapshot.scrollHeight - snapshot.scrollTop);
+            list.scrollTop = list.scrollHeight - (snapshot.scrollHeight - snapshot.scrollTop);
           } else {
             // if we added a message at the bottom, keep position from the bottom.
-            // list.scrollTop = snapshot.scrollTop;
+            list.scrollTop = snapshot.scrollTop;
           }
-          this.ignoreScrollEvents = false;
         }
       }
     }
   }
 
   public getSnapshotBeforeUpdate(prevProps: Props) {
+    // getSnapshotBeforeUpdate is kind of pain to do in react hooks, so better keep the message list as a
+    // class component for now
+
     // Are we adding new items to the list?
     // Capture the scroll position so we can adjust scroll later.
     if (prevProps.messagesProps.length < this.props.messagesProps.length) {
       const list = this.props.messageContainerRef.current;
-
+      console.warn('getSnapshotBeforeUpdate ', {
+        scrollHeight: list.scrollHeight,
+        scrollTop: list.scrollTop,
+      });
       return { scrollHeight: list.scrollHeight, scrollTop: list.scrollTop };
     }
     return null;
@@ -164,33 +162,6 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
         <SessionScrollButton onClick={this.scrollToBottom} key="scroll-down-button" />
       </div>
     );
-  }
-
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  // ~~~~~~~~~~~~~ MESSAGE HANDLING ~~~~~~~~~~~~~
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  private updateReadMessages(forceIsOnBottom = false) {
-    const { messagesProps, conversationKey } = this.props;
-
-    if (!messagesProps || messagesProps.length === 0 || !conversationKey) {
-      return;
-    }
-
-    const conversation = getConversationController().getOrThrow(conversationKey);
-
-    if (conversation.isBlocked()) {
-      return;
-    }
-
-    if (this.ignoreScrollEvents) {
-      return;
-    }
-
-    if ((forceIsOnBottom || this.getScrollOffsetBottomPx() === 0) && isElectronWindowFocused()) {
-      void conversation.markRead(Date.now()).then(() => {
-        window.inboxStore?.dispatch(markConversationFullyRead(conversationKey));
-      });
-    }
   }
 
   /**
@@ -246,11 +217,7 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
         this.scrollToMessage(messagesProps[middle].propsForMessage.id);
       }
     }
-
-    if (this.ignoreScrollEvents && messagesProps.length > 0) {
-      this.ignoreScrollEvents = false;
-      this.updateReadMessages();
-    }
+    // window.inboxStore?.dispatch(updateHaveDoneFirstScroll());
   }
 
   /**
@@ -274,18 +241,12 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
     }
   }
 
-  private scrollToMessage(messageId: string, scrollIsQuote: boolean = false) {
-    const messageElementDom = document.getElementById(messageId);
+  private scrollToMessage(messageId: string) {
+    const messageElementDom = document.getElementById(`inview-${messageId}`);
     messageElementDom?.scrollIntoView({
       behavior: 'auto',
       block: 'center',
     });
-
-    // we consider that a `scrollIsQuote` set to true, means it's a quoted message, so highlight this message on the UI
-    if (scrollIsQuote) {
-      window.inboxStore?.dispatch(quotedMessageToAnimate(messageId));
-      this.setupTimeoutResetQuotedHighlightedMessage(messageId);
-    }
   }
 
   private scrollToBottom() {
@@ -343,21 +304,10 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
     }
 
     const databaseId = targetMessage.propsForMessage.id;
-    this.scrollToMessage(databaseId, true);
-  }
-
-  // basically the offset in px from the bottom of the view (most recent message)
-  private getScrollOffsetBottomPx() {
-    const messageContainer = this.props.messageContainerRef?.current;
-
-    if (!messageContainer) {
-      return Number.MAX_VALUE;
-    }
-
-    const scrollTop = messageContainer.scrollTop;
-    const scrollHeight = messageContainer.scrollHeight;
-    const clientHeight = messageContainer.clientHeight;
-    return scrollHeight - scrollTop - clientHeight;
+    this.scrollToMessage(databaseId);
+    // Highlight this message on the UI
+    window.inboxStore?.dispatch(quotedMessageToAnimate(databaseId));
+    this.setupTimeoutResetQuotedHighlightedMessage(databaseId);
   }
 }
 

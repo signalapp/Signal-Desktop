@@ -46,6 +46,7 @@ import {
   getQuotedMessageToAnimate,
   getSelectedConversationKey,
   getSelectedMessageIds,
+  haveDoneFirstScroll,
 } from '../../state/selectors/conversations';
 import {
   fetchMessagesForConversation,
@@ -84,6 +85,7 @@ type Props = MessageRenderingProps & {
   areMoreMessagesBeingFetched: boolean;
   loadedMessagesLength: number;
   selectedConversationKey: string | undefined;
+  haveDoneFirstScroll: boolean;
 };
 
 function attachmentIsAttachmentTypeWithPath(attac: any): attac is AttachmentTypeWithPath {
@@ -609,6 +611,7 @@ class MessageInner extends React.PureComponent<Props, State> {
   }
 
   // tslint:disable-next-line: cyclomatic-complexity
+  // tslint:disable-next-line: max-func-body-length
   public render() {
     const {
       direction,
@@ -646,6 +649,12 @@ class MessageInner extends React.PureComponent<Props, State> {
     }
 
     const onVisible = async (inView: boolean | Object) => {
+      // when the view first loads, it needs to scroll to the unread messages.
+      // we need to disable the inview on the first loading
+      if (!this.props.haveDoneFirstScroll) {
+        console.warn('waiting for first scroll');
+        return;
+      }
       // we are the bottom message
       if (this.props.mostRecentMessageId === messageId) {
         if (inView === true) {
@@ -933,6 +942,7 @@ const mapStateToProps = (state: StateType) => {
     areMoreMessagesBeingFetched: areMoreMessagesBeingFetched(state),
     selectedConversationKey: getSelectedConversationKey(state),
     loadedMessagesLength: getLoadedMessagesLength(state),
+    haveDoneFirstScroll: haveDoneFirstScroll(state),
   };
 };
 
