@@ -407,7 +407,17 @@ export class SocketManager extends EventListener {
     });
     this.unauthenticated = process;
 
-    const unauthenticated = await this.unauthenticated.getResult();
+    let unauthenticated: WebSocketResource;
+    try {
+      unauthenticated = await this.unauthenticated.getResult();
+    } catch (error) {
+      window.log.info(
+        'SocketManager: failed to connect unauthenticated socket ' +
+          ` due to error: ${Errors.toLogFormat(error)}`
+      );
+      this.dropUnauthenticated(process);
+      throw error;
+    }
 
     window.log.info('SocketManager: connected unauthenticated socket');
 
@@ -540,8 +550,10 @@ export class SocketManager extends EventListener {
       {
         abort() {
           if (resource) {
+            window.log.warn(`SocketManager closing socket ${path}`);
             resource.close(3000, 'aborted');
           } else {
+            window.log.warn(`SocketManager aborting connection ${path}`);
             clearTimeout(timer);
             client.abort();
           }
