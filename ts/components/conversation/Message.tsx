@@ -576,7 +576,7 @@ class MessageInner extends React.PureComponent<Props, State> {
   }
 
   public isShowingImage(): boolean {
-    const { attachments, previews } = this.props;
+    const { attachments, previews, text } = this.props;
     const { imageBroken } = this.state;
 
     if (imageBroken) {
@@ -585,9 +585,10 @@ class MessageInner extends React.PureComponent<Props, State> {
 
     if (attachments && attachments.length) {
       const displayImage = canDisplayImage(attachments);
-
+      const hasText = text?.length;
       return Boolean(
         displayImage &&
+          !hasText &&
           ((isImage(attachments) && hasImage(attachments)) ||
             (isVideo(attachments) && hasVideoScreenshot(attachments)))
       );
