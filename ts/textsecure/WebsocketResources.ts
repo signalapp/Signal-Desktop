@@ -36,6 +36,8 @@ import { SignalService as Proto } from '../protobuf';
 
 const THIRTY_SECONDS = 30 * 1000;
 
+const MAX_MESSAGE_SIZE = 64 * 1024;
+
 export class IncomingWebSocketRequest {
   private readonly id: Long | number;
 
@@ -207,6 +209,10 @@ export default class WebSocketResource extends EventTarget {
       });
     });
 
+    strictAssert(
+      bytes.length <= MAX_MESSAGE_SIZE,
+      'WebSocket request byte size exceeded'
+    );
     this.socket.sendBytes(Buffer.from(bytes));
 
     return promise;
@@ -291,6 +297,10 @@ export default class WebSocketResource extends EventTarget {
         (bytes: Buffer): void => {
           this.removeActive(incomingRequest);
 
+          strictAssert(
+            bytes.length <= MAX_MESSAGE_SIZE,
+            'WebSocket response byte size exceeded'
+          );
           this.socket.sendBytes(bytes);
         }
       );
