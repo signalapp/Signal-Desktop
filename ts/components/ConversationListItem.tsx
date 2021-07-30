@@ -13,7 +13,7 @@ import { ConversationAvatar } from './session/usingClosedConversationDetails';
 import { MemoConversationListItemContextMenu } from './session/menu/ConversationListItemContextMenu';
 import { createPortal } from 'react-dom';
 import { OutgoingMessageStatus } from './conversation/message/OutgoingMessageStatus';
-import { useTheme } from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 import { PubKey } from '../session/types';
 import {
   LastMessageType,
@@ -27,9 +27,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import { SectionType } from '../state/ducks/section';
 import { getFocusedSection } from '../state/selectors/section';
 import { getFirstUnreadMessageIdInConversation } from '../data/data';
+import { ConversationNotificationSettingType } from '../models/conversation';
 
 // tslint:disable-next-line: no-empty-interface
-export interface ConversationListItemProps extends ReduxConversationType {}
+export interface ConversationListItemProps extends ReduxConversationType { }
+
+export const StyledConversationListItemIconWrapper = styled.div`
+  svg {
+    margin: 2px 2px;
+  }
+
+  display: flex;
+  flex-direction: row;
+`;
 
 type PropsHousekeeping = {
   style?: Object;
@@ -95,7 +105,7 @@ const HeaderItem = (props: {
           profileName={profileName}
         />
       </div>
-      {pinIcon}
+        {pinIcon}
       {unreadCountDiv}
       {atSymbol}
       {
@@ -282,7 +292,7 @@ const ConversationListItem = (props: Props) => {
             conversationId={conversationId}
             name={name}
             profileName={profileName}
-          />
+            />
           <MessageItem isTyping={isTyping} unreadCount={unreadCount} lastMessage={lastMessage} />
         </div>
       </div>
