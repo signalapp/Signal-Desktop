@@ -10084,9 +10084,20 @@ $contact-modal-padding: 18px;
   padding: 3px;
 }
 .module-delivery-issue-dialog__button {
+}
+
+.module-delivery-issue-dialog__learn-more-button {
+  @include button-reset;
+  @include button-secondary;
   @include font-body-1-bold;
+
+  border-radius: 4px;
+  padding: 7px 14px;
+}
+.module-delivery-issue-dialog__close-button {
   @include button-reset;
   @include button-primary;
+  @include font-body-1-bold;
 
   border-radius: 4px;
   padding: 7px 14px;

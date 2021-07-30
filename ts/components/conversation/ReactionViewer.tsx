@@ -124,8 +124,6 @@ export const ReactionViewer = React.forwardRef<HTMLDivElement, Props>(
       selectedReactionCategory,
       setSelectedReactionCategory,
     ] = React.useState(pickedReaction || 'all');
-    const focusRef = React.useRef<HTMLButtonElement>(null);
-
     // Handle escape key
     React.useEffect(() => {
       const handler = (e: KeyboardEvent) => {
@@ -142,7 +140,7 @@ export const ReactionViewer = React.forwardRef<HTMLDivElement, Props>(
     }, [onClose]);
 
     // Focus first button and restore focus on unmount
-    useRestoreFocus(focusRef);
+    const [focusRef] = useRestoreFocus();
 
     // If we have previously selected a reaction type that is no longer present
     // (removed on another device, for instance) we should select another

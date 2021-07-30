@@ -21,6 +21,7 @@ storiesOf('Components/Conversation/DeliveryIssueDialog', module).add(
         i18n={i18n}
         sender={sender}
         inGroup={false}
+        learnMoreAboutDeliveryIssue={action('learnMoreAboutDeliveryIssue')}
         onClose={action('onClose')}
       />
     );
@@ -35,6 +36,7 @@ storiesOf('Components/Conversation/DeliveryIssueDialog', module).add(
         i18n={i18n}
         sender={sender}
         inGroup
+        learnMoreAboutDeliveryIssue={action('learnMoreAboutDeliveryIssue')}
         onClose={action('onClose')}
       />
     );

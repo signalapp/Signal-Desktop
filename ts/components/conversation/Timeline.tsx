@@ -135,6 +135,7 @@ type PropsActionsType = {
     }>
   ) => void;
 
+  learnMoreAboutDeliveryIssue: () => unknown;
   loadAndScroll: (messageId: string) => unknown;
   loadOlderMessages: (messageId: string) => unknown;
   loadNewerMessages: (messageId: string) => unknown;

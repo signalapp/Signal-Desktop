@@ -54,7 +54,7 @@ export const SafetyNumberChangeDialog = ({
 
   if (selectedContact) {
     return (
-      <Modal i18n={i18n}>
+      <Modal i18n={i18n} onClose={onClose}>
         {renderSafetyNumber({ contactID: selectedContact.id, onClose })}
       </Modal>
     );

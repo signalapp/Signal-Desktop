@@ -21,6 +21,7 @@ import {
 } from './ChatSessionRefreshedNotification';
 import {
   DeliveryIssueNotification,
+  PropsActionsType as DeliveryIssueActionProps,
   PropsDataType as DeliveryIssueProps,
 } from './DeliveryIssueNotification';
 import { CallingNotificationType } from '../../util/callingNotification';
@@ -156,6 +157,7 @@ type PropsLocalType = {
 
 type PropsActionsType = MessageActionsType &
   CallingNotificationActionsType &
+  DeliveryIssueActionProps &
   PropsChatSessionRefreshedActionsType &
   UnsupportedMessageActionsType &
   SafetyNumberActionsType;
@@ -226,7 +228,9 @@ export class TimelineItem extends React.PureComponent<PropsType> {
         />
       );
     } else if (item.type === 'deliveryIssue') {
-      notification = <DeliveryIssueNotification {...item.data} i18n={i18n} />;
+      notification = (
+        <DeliveryIssueNotification {...item.data} {...this.props} i18n={i18n} />
+      );
     } else if (item.type === 'linkNotification') {
       notification = (
         <div className="module-message-unsynced">

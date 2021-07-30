@@ -8,24 +8,30 @@ import { Modal } from '../Modal';
 import { Intl } from '../Intl';
 import { Emojify } from './Emojify';
 
+import { useRestoreFocus } from '../../util/hooks';
+
 import { LocalizerType } from '../../types/Util';
 
 export type PropsType = {
   i18n: LocalizerType;
   sender: ConversationType;
   inGroup: boolean;
+  learnMoreAboutDeliveryIssue: () => unknown;
   onClose: () => unknown;
 };
 
 export function DeliveryIssueDialog(props: PropsType): React.ReactElement {
-  const { i18n, inGroup, sender, onClose } = props;
+  const { i18n, inGroup, learnMoreAboutDeliveryIssue, sender, onClose } = props;
 
   const key = inGroup
     ? 'DeliveryIssue--summary--group'
     : 'DeliveryIssue--summary';
 
+  // Focus first button after initial render, restore focus on teardown
+  const [focusRef] = useRestoreFocus();
+
   return (
-    <Modal hasXButton={false} i18n={i18n}>
+    <Modal hasXButton={false} onClose={onClose} i18n={i18n}>
       <div className="module-delivery-issue-dialog">
         <div className="module-delivery-issue-dialog__image">
           <img
@@ -50,8 +56,16 @@ export function DeliveryIssueDialog(props: PropsType): React.ReactElement {
         <div className="module-delivery-issue-dialog__buttons">
           <button
             type="button"
+            onClick={learnMoreAboutDeliveryIssue}
+            className="module-delivery-issue-dialog__learn-more-button"
+          >
+            {i18n('DeliveryIssue--learnMore')}
+          </button>
+          <button
+            type="button"
             onClick={onClose}
-            className="module-delivery-issue-dialog__button"
+            ref={focusRef}
+            className="module-delivery-issue-dialog__close-button"
           >
             {i18n('Confirmation--confirm')}
           </button>
