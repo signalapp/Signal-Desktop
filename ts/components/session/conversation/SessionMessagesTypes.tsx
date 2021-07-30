@@ -109,14 +109,14 @@ export const GenericMessageItem = (props: {
   };
 
   return (
-    <React.Fragment key={props.messageId}>
+    <React.Fragment key={messageId}>
       <Message
         {...regularProps}
         playableMessageIndex={props.playableMessageIndex}
         multiSelectMode={multiSelectMode}
         key={messageId}
       />
-      <UnreadIndicator messageId={props.messageId} />
+      <UnreadIndicator messageId={messageId} />
     </React.Fragment>
   );
 };

@@ -5,7 +5,6 @@ import moment from 'moment';
 import { Avatar, AvatarSize } from '../Avatar';
 import { ContactName } from './ContactName';
 import { Message } from './Message';
-import { MessageRenderingProps } from '../../models/messageType';
 import { deleteMessagesById } from '../../interactions/conversationInteractions';
 import { useSelector } from 'react-redux';
 import { ContactPropsMessageDetail } from '../../state/ducks/conversations';

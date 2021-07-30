@@ -1,11 +1,7 @@
-import { DefaultTheme } from 'styled-components';
 import _ from 'underscore';
 import { v4 as uuidv4 } from 'uuid';
-import { QuotedAttachmentType } from '../components/conversation/Quote';
 import { PropsForMessage } from '../state/ducks/conversations';
-import { AttachmentType, AttachmentTypeWithPath } from '../types/Attachment';
-import { Contact } from '../types/Contact';
-import { ConversationTypeEnum } from './conversation';
+import { AttachmentTypeWithPath } from '../types/Attachment';
 
 export type MessageModelType = 'incoming' | 'outgoing';
 export type MessageDeliveryStatus = 'sending' | 'sent' | 'read' | 'error';

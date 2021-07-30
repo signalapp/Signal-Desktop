@@ -22,17 +22,14 @@ export const SessionScrollButton = (props: Props) => {
   const show = useSelector(getShowScrollButton);
 
   return (
-    <>
-      {show && (
-        <SessionScrollButtonDiv theme={themeContext}>
-          <SessionIconButton
-            iconType={SessionIconType.Chevron}
-            iconSize={SessionIconSize.Huge}
-            onClick={props.onClick}
-            theme={themeContext}
-          />
-        </SessionScrollButtonDiv>
-      )}
-    </>
+    <SessionScrollButtonDiv theme={themeContext}>
+      <SessionIconButton
+        iconType={SessionIconType.Chevron}
+        iconSize={SessionIconSize.Huge}
+        isHidden={!show}
+        onClick={props.onClick}
+        theme={themeContext}
+      />
+    </SessionScrollButtonDiv>
   );
 };

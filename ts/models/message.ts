@@ -1179,9 +1179,8 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     }
   }
   private dispatchMessageUpdate() {
-    trotthledAllMessagesDispatch();
-
     updatesToDispatch.set(this.id, this.getProps());
+    trotthledAllMessagesDispatch();
   }
 }
 

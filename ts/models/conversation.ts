@@ -837,7 +837,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       source,
     });
 
-    const isOutgoing = Boolean(receivedAt);
+    const isOutgoing = Boolean(!receivedAt);
 
     source = source || UserUtils.getOurPubKeyStrFromCache();
 
@@ -850,7 +850,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const messageAttributes = {
       // Even though this isn't reflected to the user, we want to place the last seen
       //   indicator above it. We set it to 'unread' to trigger that placement.
-      unread: 1,
+      unread: isOutgoing ? 0 : 1,
       conversationId: this.id,
       // No type; 'incoming' messages are specially treated by conversation.markRead()
       sent_at: timestamp,

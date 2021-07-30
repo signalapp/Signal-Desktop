@@ -320,7 +320,7 @@ export const areMoreMessagesBeingFetched = createSelector(
   (state: ConversationsStateType): boolean => state.areMoreMessagesBeingFetched || false
 );
 
-export const haveDoneFirstScroll = createSelector(
+export const getHaveDoneFirstScroll = createSelector(
   getConversations,
   (state: ConversationsStateType): boolean => state.haveDoneFirstScroll
 );

@@ -39,31 +39,20 @@ import { getMessageById } from '../../data/data';
 import { connect } from 'react-redux';
 import { StateType } from '../../state/reducer';
 import {
-  areMoreMessagesBeingFetched,
-  getLoadedMessagesLength,
-  getMostRecentMessageId,
-  getOldestMessageId,
   getQuotedMessageToAnimate,
-  getSelectedConversationKey,
   getSelectedMessageIds,
-  haveDoneFirstScroll,
 } from '../../state/selectors/conversations';
 import {
-  fetchMessagesForConversation,
-  markConversationFullyRead,
   messageExpired,
   showLightBox,
-  showScrollToBottomButton,
   toggleSelectedMessageId,
 } from '../../state/ducks/conversations';
 import { saveAttachmentToDisk } from '../../util/attachmentsUtil';
 import { LightBoxOptions } from '../session/conversation/SessionConversation';
 import { MessageContextMenu } from './MessageContextMenu';
 import { ReadableMessage } from './ReadableMessage';
-import { isElectronWindowFocused } from '../../session/utils/WindowUtils';
 import { getConversationController } from '../../session/conversations';
 import { MessageMetadata } from './message/MessageMetadata';
-import { Constants } from '../../session';
 
 // Same as MIN_WIDTH in ImageGrid.tsx
 const MINIMUM_LINK_PREVIEW_IMAGE_WIDTH = 200;
@@ -80,12 +69,6 @@ const EXPIRED_DELAY = 600;
 type Props = MessageRenderingProps & {
   selectedMessages: Array<string>;
   quotedMessageToAnimate: string | undefined;
-  mostRecentMessageId: string | undefined;
-  oldestMessageId: string | undefined;
-  areMoreMessagesBeingFetched: boolean;
-  loadedMessagesLength: number;
-  selectedConversationKey: string | undefined;
-  haveDoneFirstScroll: boolean;
 };
 
 function attachmentIsAttachmentTypeWithPath(attac: any): attac is AttachmentTypeWithPath {
@@ -147,7 +130,6 @@ class MessageInner extends React.PureComponent<Props, State> {
       imageBroken: false,
     };
     this.ctxMenuID = `ctx-menu-message-${uuid()}`;
-    this.loadMoreMessages = _.debounce(this.loadMoreMessages, 100);
   }
 
   public componentDidMount() {
@@ -175,7 +157,7 @@ class MessageInner extends React.PureComponent<Props, State> {
     }
   }
 
-  public componentDidUpdate() {
+  public componentDidUpdate(prevProps: Props) {
     this.checkExpired();
   }
 
@@ -617,9 +599,9 @@ class MessageInner extends React.PureComponent<Props, State> {
       direction,
       id: messageId,
       conversationType,
-      areMoreMessagesBeingFetched: fetchingMore,
-      isUnread,
       selectedMessages,
+      receivedAt,
+      isUnread,
     } = this.props;
     const { expired, expiring } = this.state;
 
@@ -632,8 +614,6 @@ class MessageInner extends React.PureComponent<Props, State> {
     const width = this.getWidth();
     const isShowingImage = this.isShowingImage();
 
-    const isIncoming = direction === 'incoming';
-    const shouldMarkReadWhenVisible = isIncoming && isUnread;
     const divClasses = ['session-message-wrapper'];
 
     if (selected) {
@@ -648,52 +628,16 @@ class MessageInner extends React.PureComponent<Props, State> {
       divClasses.push('flash-green-once');
     }
 
-    const onVisible = async (inView: boolean | Object) => {
-      // when the view first loads, it needs to scroll to the unread messages.
-      // we need to disable the inview on the first loading
-      if (!this.props.haveDoneFirstScroll) {
-        if (inView === true) {
-          window.log.info('onVisible but waiting for first scroll event');
-        }
-        return;
-      }
-      // we are the bottom message
-      if (this.props.mostRecentMessageId === messageId && isElectronWindowFocused()) {
-        if (inView === true) {
-          window.inboxStore?.dispatch(showScrollToBottomButton(false));
-          void getConversationController()
-            .get(this.props.selectedConversationKey as string)
-            ?.markRead(this.props.receivedAt || 0)
-            .then(() => {
-              window.inboxStore?.dispatch(
-                markConversationFullyRead(this.props.selectedConversationKey as string)
-              );
-            });
-        } else if (inView === false) {
-          window.inboxStore?.dispatch(showScrollToBottomButton(true));
-        }
-      }
-
-      if (inView === true && this.props.oldestMessageId === messageId && !fetchingMore) {
-        this.loadMoreMessages();
-      }
-      if (inView === true && shouldMarkReadWhenVisible && isElectronWindowFocused()) {
-        const found = await getMessageById(messageId);
-
-        if (found && Boolean(found.get('unread'))) {
-          // mark the message as read.
-          // this will trigger the expire timer.
-          void found.markRead(Date.now());
-        }
-      }
-    };
+    const isIncoming = direction === 'incoming';
 
     return (
       <ReadableMessage
         messageId={messageId}
         className={classNames(divClasses)}
-        onChange={onVisible}
         onContextMenu={this.handleContextMenu}
+        receivedAt={receivedAt}
+        isUnread={isUnread}
+        direction={direction}
         key={`readable-message-${messageId}`}
       >
         {this.renderAvatar()}
@@ -764,18 +708,6 @@ class MessageInner extends React.PureComponent<Props, State> {
           />
         </div>
       </ReadableMessage>
-    );
-  }
-
-  private loadMoreMessages() {
-    const { loadedMessagesLength, selectedConversationKey } = this.props;
-
-    const numMessages = loadedMessagesLength + Constants.CONVERSATION.DEFAULT_MESSAGE_FETCH_COUNT;
-    (window.inboxStore?.dispatch as any)(
-      fetchMessagesForConversation({
-        conversationKey: selectedConversationKey as string,
-        count: numMessages,
-      })
     );
   }
 
@@ -935,12 +867,6 @@ const mapStateToProps = (state: StateType) => {
   return {
     selectedMessages: getSelectedMessageIds(state),
     quotedMessageToAnimate: getQuotedMessageToAnimate(state),
-    mostRecentMessageId: getMostRecentMessageId(state),
-    oldestMessageId: getOldestMessageId(state),
-    areMoreMessagesBeingFetched: areMoreMessagesBeingFetched(state),
-    selectedConversationKey: getSelectedConversationKey(state),
-    loadedMessagesLength: getLoadedMessagesLength(state),
-    haveDoneFirstScroll: haveDoneFirstScroll(state),
   };
 };
 
