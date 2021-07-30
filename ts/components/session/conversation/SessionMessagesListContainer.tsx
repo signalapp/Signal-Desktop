@@ -22,6 +22,7 @@ import { ConversationTypeEnum } from '../../../models/conversation';
 import { StateType } from '../../../state/reducer';
 import { connect } from 'react-redux';
 import {
+  getFirstUnreadMessageId,
   getQuotedMessageToAnimate,
   getSelectedConversation,
   getSelectedConversationKey,
@@ -41,6 +42,7 @@ type Props = SessionMessageListProps & {
   conversation?: ReduxConversationType;
   showScrollButton: boolean;
   animateQuotedMessageId: string | undefined;
+  firstUnreadOnOpen: string | undefined;
 };
 
 class SessionMessagesListContainerInner extends React.Component<Props> {
@@ -154,28 +156,32 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
    * Position the list to the middle of the loaded list if the conversation has unread messages and we have some messages loaded
    */
   private initialMessageLoadingPosition() {
-    const { messagesProps, conversation } = this.props;
+    const { messagesProps, conversation, firstUnreadOnOpen } = this.props;
     if (!conversation || !messagesProps.length) {
       return;
     }
 
-    if (conversation.unreadCount <= 0) {
+    if (conversation.unreadCount <= 0 || firstUnreadOnOpen === undefined) {
       this.scrollToBottom();
     } else {
       // just assume that this need to be shown by default
       window.inboxStore?.dispatch(showScrollToBottomButton(true));
+      const firstUnreadIndex = messagesProps.findIndex(
+        m => m.propsForMessage.id === firstUnreadOnOpen
+      );
 
-      // conversation.unreadCount > 0
-      // either we loaded all unread messages or not
-      if (conversation.unreadCount < messagesProps.length) {
-        const idToStringTo = messagesProps[conversation.unreadCount - 1].propsForMessage.id;
-
-        this.scrollToMessage(idToStringTo, 'end');
-      } else {
+      if (firstUnreadIndex === -1) {
+        // the first unread message is not in the 30 most recent messages
         // just scroll to the middle as we don't have enough loaded message nevertheless
         const middle = Math.floor(messagesProps.length / 2);
         const idToStringTo = messagesProps[middle].propsForMessage.id;
         this.scrollToMessage(idToStringTo, 'center');
+      } else {
+        const messageElementDom = document.getElementById('unread-indicator');
+        messageElementDom?.scrollIntoView({
+          behavior: 'auto',
+          block: 'end',
+        });
       }
     }
 
@@ -281,6 +287,7 @@ const mapStateToProps = (state: StateType) => {
     messagesProps: getSortedMessagesOfSelectedConversation(state),
     showScrollButton: getShowScrollButton(state),
     animateQuotedMessageId: getQuotedMessageToAnimate(state),
+    firstUnreadOnOpen: getFirstUnreadMessageId(state),
   };
 };
 

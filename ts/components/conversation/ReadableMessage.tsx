@@ -11,16 +11,18 @@ type ReadableMessageProps = {
 };
 
 export const ReadableMessage = (props: ReadableMessageProps) => {
-  const { onChange, messageId } = props;
+  const { onChange, messageId, onContextMenu, className } = props;
   useFocus(onChange);
 
   return (
     <InView
       id={`msg-${messageId}`}
-      {...props}
+      onContextMenu={onContextMenu}
+      className={className}
       as="div"
       threshold={0.5}
       delay={100}
+      onChange={onChange}
       triggerOnce={false}
     >
       {props.children}
