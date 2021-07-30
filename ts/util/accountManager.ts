@@ -157,7 +157,7 @@ async function bouncyDeleteAccount(reason?: string) {
       error && error.stack ? error.stack : error
     );
     debugger;
-      // return;
+      return;
     try {
       await deleteEverything();
     } catch (e) {

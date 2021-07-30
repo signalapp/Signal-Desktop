@@ -1,6 +1,6 @@
 /* global crypto */
 
-const { isFunction, isNumber } = require('lodash');
+const { isFunction } = require('lodash');
 const { createLastMessageUpdate } = require('../../../ts/types/Conversation');
 const { arrayBufferToBase64 } = require('../crypto');
 
@@ -55,60 +55,6 @@ function buildAvatarUpdater({ field }) {
 }
 
 const maybeUpdateAvatar = buildAvatarUpdater({ field: 'avatar' });
-const maybeUpdateProfileAvatar = buildAvatarUpdater({
-  field: 'profileAvatar',
-});
-
-async function upgradeToVersion2(conversation, options) {
-  if (conversation.version >= 2) {
-    return conversation;
-  }
-
-  const { writeNewAttachmentData } = options;
-  if (!isFunction(writeNewAttachmentData)) {
-    throw new Error('Conversation.upgradeToVersion2: writeNewAttachmentData must be a function');
-  }
-
-  let { avatar, profileAvatar, profileKey } = conversation;
-
-  if (avatar && avatar.data) {
-    avatar = {
-      hash: await computeHash(avatar.data),
-      path: await writeNewAttachmentData(avatar.data),
-    };
-  }
-
-  if (profileAvatar && profileAvatar.data) {
-    profileAvatar = {
-      hash: await computeHash(profileAvatar.data),
-      path: await writeNewAttachmentData(profileAvatar.data),
-    };
-  }
-
-  if (profileKey && profileKey.byteLength) {
-    profileKey = arrayBufferToBase64(profileKey);
-  }
-
-  return {
-    ...conversation,
-    version: 2,
-    avatar,
-    profileAvatar,
-    profileKey,
-  };
-}
-
-async function migrateConversation(conversation, options = {}) {
-  if (!conversation) {
-    return conversation;
-  }
-  if (!isNumber(conversation.version)) {
-    // eslint-disable-next-line no-param-reassign
-    conversation.version = 1;
-  }
-
-  return upgradeToVersion2(conversation, options);
-}
 
 async function deleteExternalFiles(conversation, options = {}) {
   if (!conversation) {
@@ -133,9 +79,7 @@ async function deleteExternalFiles(conversation, options = {}) {
 
 module.exports = {
   deleteExternalFiles,
-  migrateConversation,
   maybeUpdateAvatar,
-  maybeUpdateProfileAvatar,
   createLastMessageUpdate,
   arrayBufferToBase64,
 };

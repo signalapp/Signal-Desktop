@@ -41,6 +41,36 @@ export type OpenGroupV2InfoJoinable = OpenGroupV2Info & {
   base64Data?: string;
 };
 
+export const TextToBase64 = async (text: string) => {
+  const arrayBuffer = (await window.callWorker(
+    'bytesFromString',
+    text
+  ))
+
+  const base64 = ( await window.callWorker(
+    'arrayBufferToStringBase64',
+    arrayBuffer
+  ))
+
+  return base64;
+}
+
+export const textToArrayBuffer = async (text: string) => {
+  return (await window.callWorker(
+    'bytesFromString',
+    text
+  ))
+}
+
+export const verifyED25519Signature = async (pubkey: string, base64EncodedData: string, base64EncondedSignature: string): Promise<Boolean> => {
+  return (await window.callWorker(
+    'verifySignature',
+    pubkey,
+    base64EncodedData,
+    base64EncondedSignature
+  ));
+}
+
 export const parseMessages = async (
   rawMessages: Array<Record<string, any>>
 ): Promise<Array<OpenGroupMessageV2>> => {

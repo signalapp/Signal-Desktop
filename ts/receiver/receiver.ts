@@ -273,42 +273,6 @@ async function handleDecryptedEnvelope(envelope: EnvelopePlus, plaintext: ArrayB
   }
 }
 
-/**
- * Only used for opengroupv1 it seems.
- * To be removed soon
- */
-export async function handlePublicMessage(messageData: any) {
-  const { source } = messageData;
-  const { group, profile, profileKey } = messageData.message;
-
-  const isMe = UserUtils.isUsFromCache(source);
-
-  if (!isMe && profile) {
-    const conversation = await getConversationController().getOrCreateAndWait(
-      source,
-      ConversationTypeEnum.PRIVATE
-    );
-    await updateProfileOneAtATime(conversation, profile, profileKey);
-  }
-
-  const isPublicVisibleMessage = group && group.id && !!group.id.match(openGroupPrefixRegex);
-
-  if (!isPublicVisibleMessage) {
-    throw new Error('handlePublicMessage Should only be called with public message groups');
-  }
-
-  const ev = {
-    // Public chat messages from ourselves should be outgoing
-    type: isMe ? 'sent' : 'message',
-    data: messageData,
-    confirm: () => {
-      /* do nothing */
-    },
-  };
-
-  await handleMessageEvent(ev); // open groups v1
-}
-
 export async function handleOpenGroupV2Message(
   message: OpenGroupMessageV2,
   roomInfos: OpenGroupRequestCommonType

@@ -20,11 +20,12 @@ import {
 } from '../../ts/data/data';
 import { ConversationModel, ConversationTypeEnum } from '../models/conversation';
 import { allowOnlyOneAtATime } from '../session/utils/Promise';
+import { toHex } from '../session/utils/String';
 
 export async function updateProfileOneAtATime(
   conversation: ConversationModel,
   profile: SignalService.DataMessage.ILokiProfile,
-  profileKey: any
+  profileKey?: Uint8Array | null // was any
 ) {
   if (!conversation?.id) {
     window?.log?.warn('Cannot update profile with empty convoid');
@@ -39,7 +40,7 @@ export async function updateProfileOneAtATime(
 async function updateProfile(
   conversation: ConversationModel,
   profile: SignalService.DataMessage.ILokiProfile,
-  profileKey: any
+  profileKey?: Uint8Array | null // was any
 ) {
   const { dcodeIO, textsecure, Signal } = window;
 
@@ -48,7 +49,7 @@ async function updateProfile(
 
   newProfile.displayName = profile.displayName;
 
-  if (profile.profilePicture) {
+  if (profile.profilePicture && profileKey) {
     const prevPointer = conversation.get('avatarPointer');
     const needsUpdate = !prevPointer || !_.isEqual(prevPointer, profile.profilePicture);
 
@@ -79,7 +80,7 @@ async function updateProfile(
             });
             // Only update the convo if the download and decrypt is a success
             conversation.set('avatarPointer', profile.profilePicture);
-            conversation.set('profileKey', profileKey);
+            conversation.set('profileKey', toHex(profileKey));
             ({ path } = upgraded);
           } catch (e) {
             window?.log?.error(`Could not decrypt profile image: ${e}`);
@@ -91,7 +92,7 @@ async function updateProfile(
         return;
       }
     }
-  } else {
+  } else if (profileKey) {
     newProfile.avatar = null;
   }
 
@@ -422,18 +423,15 @@ export const isDuplicate = (
 async function handleProfileUpdate(
   profileKeyBuffer: Uint8Array,
   convoId: string,
-  convoType: ConversationTypeEnum,
   isIncoming: boolean
 ) {
-  const profileKey = StringUtils.decode(profileKeyBuffer, 'base64');
-
   if (!isIncoming) {
     // We update our own profileKey if it's different from what we have
     const ourNumber = UserUtils.getOurPubKeyStrFromCache();
     const me = getConversationController().getOrCreate(ourNumber, ConversationTypeEnum.PRIVATE);
 
     // Will do the save for us if needed
-    await me.setProfileKey(profileKey);
+    await me.setProfileKey(profileKeyBuffer);
   } else {
     const sender = await getConversationController().getOrCreateAndWait(
       convoId,
@@ -441,7 +439,7 @@ async function handleProfileUpdate(
     );
 
     // Will do the save for us
-    await sender.setProfileKey(profileKey);
+    await sender.setProfileKey(profileKeyBuffer);
   }
 }
 
@@ -582,7 +580,7 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
     return;
   }
   if (message.profileKey?.length) {
-    await handleProfileUpdate(message.profileKey, conversationId, type, isIncoming);
+    await handleProfileUpdate(message.profileKey, conversationId, isIncoming);
   }
 
   const msg = createMessage(data, isIncoming);

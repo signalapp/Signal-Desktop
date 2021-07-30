@@ -41,7 +41,6 @@ module.exports = {
   getAllOpenGroupV1Conversations,
   getAllOpenGroupV2Conversations,
   getPubkeysInPublicConversation,
-  getAllConversationIds,
   getAllGroupsInvolvingId,
   removeAllConversations,
 
@@ -65,8 +64,6 @@ module.exports = {
   getMessageBySenderAndServerTimestamp,
   getMessageIdsFromServerIds,
   getMessageById,
-  getAllMessages,
-  getAllMessageIds,
   getMessagesBySentAt,
   getSeenMessagesByHashList,
   getLastHashBySnode,
@@ -156,7 +153,15 @@ function getSQLCipherIntegrityCheck(db) {
 
 function keyDatabase(db, key) {
   // https://www.zetetic.net/sqlcipher/sqlcipher-api/#key
-  db.pragma(`key = "x'${key}'"`);
+  // If the password isn't hex then we need to derive a key from it
+
+  const deriveKey = HEX_KEY.test(key);
+
+  const value = deriveKey ? `'${key}'` : `"x'${key}'"`;
+
+  const pragramToRun = `key = ${value}`;
+
+  db.pragma(pragramToRun);
 }
 
 function switchToWAL(db) {
@@ -260,7 +265,7 @@ function openAndMigrateDatabase(filePath, key) {
     switchToWAL(db2);
 
     // Because foreign key support is not enabled by default!
-    db2.pragma('foreign_keys = ON');
+    db2.pragma('foreign_keys = OFF');
 
     return db2;
   } catch (error) {
@@ -272,13 +277,7 @@ function openAndMigrateDatabase(filePath, key) {
   }
 }
 
-const INVALID_KEY = /[^0-9A-Fa-f]/;
 function openAndSetUpSQLCipher(filePath, { key }) {
-  const match = INVALID_KEY.exec(key);
-  if (match) {
-    throw new Error(`setupSQLCipher: key '${key}' is not valid`);
-  }
-
   return openAndMigrateDatabase(filePath, key);
 }
 
@@ -834,6 +833,7 @@ const LOKI_SCHEMA_VERSIONS = [
   updateToLokiSchemaVersion12,
   updateToLokiSchemaVersion13,
   updateToLokiSchemaVersion14,
+  updateToLokiSchemaVersion15,
 ];
 
 function updateToLokiSchemaVersion1(currentVersion, db) {
@@ -1177,6 +1177,25 @@ function updateToLokiSchemaVersion14(currentVersion, db) {
   console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
 }
 
+function updateToLokiSchemaVersion15(currentVersion, db) {
+  const targetVersion = 15;
+  if (currentVersion >= targetVersion) {
+    return;
+  }
+  console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
+
+  db.transaction(() => {
+    db.exec(`
+      DROP TABLE pairingAuthorisations;
+      DROP TRIGGER messages_on_delete;
+      DROP TRIGGER messages_on_update;
+    `);
+
+    writeLokiSchemaVersion(targetVersion, db);
+  })();
+  console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
+}
+
 function writeLokiSchemaVersion(newVersion, db) {
   db.prepare(
     `INSERT INTO loki_schema(
@@ -1287,7 +1306,8 @@ function initialize({ configDir, key, messages, passwordAttempt }) {
 
     // Clear any already deleted db entries on each app start.
     vacuumDatabase(db);
-    getMessageCount();
+    const msgCount = getMessageCount();
+    console.warn('total message count: ', msgCount);
   } catch (error) {
     if (passwordAttempt) {
       throw error;
@@ -1610,13 +1630,6 @@ function getAllConversations() {
     .prepare(`SELECT json FROM ${CONVERSATIONS_TABLE} ORDER BY id ASC;`)
     .all();
   return map(rows, row => jsonToObject(row.json));
-}
-
-function getAllConversationIds() {
-  const rows = globalInstance
-    .prepare(`SELECT id FROM ${CONVERSATIONS_TABLE} ORDER BY id ASC;`)
-    .all();
-  return map(rows, row => row.id);
 }
 
 function getAllOpenGroupV1Conversations() {
@@ -1990,16 +2003,6 @@ function getMessageById(id) {
   }
 
   return jsonToObject(row.json);
-}
-
-function getAllMessages() {
-  const rows = globalInstance.prepare(`SELECT json FROM ${MESSAGES_TABLE} ORDER BY id ASC;`).all();
-  return map(rows, row => jsonToObject(row.json));
-}
-
-function getAllMessageIds() {
-  const rows = globalInstance.prepare(`SELECT id FROM ${MESSAGES_TABLE} ORDER BY id ASC;`).all();
-  return map(rows, row => row.id);
 }
 
 function getMessageBySender({ source, sourceDevice, sentAt }) {

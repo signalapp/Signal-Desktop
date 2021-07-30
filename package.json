@@ -2,7 +2,7 @@
   "name": "session-desktop",
   "productName": "Session",
   "description": "Private messaging from your desktop",
-  "version": "1.6.7",
+  "version": "1.6.9",
   "license": "GPL-3.0",
   "author": {
     "name": "Loki Project",
@@ -17,6 +17,7 @@
     "postinstall": "electron-builder install-app-deps && rimraf node_modules/dtrace-provider",
     "start": "cross-env NODE_APP_INSTANCE=$MULTI electron .",
     "start-prod": "cross-env NODE_ENV=production NODE_APP_INSTANCE=devprod$MULTI electron .",
+    "start-prod2": "cross-env NODE_ENV=production NODE_APP_INSTANCE=devprod2 electron .",
     "start-swarm-test": "cross-env NODE_ENV=swarm-testing NODE_APP_INSTANCE=$MULTI electron .",
     "grunt": "grunt",
     "grunt:dev": "yarn clean-transpile; yarn grunt dev --force",

@@ -20,7 +20,7 @@ import {
   saveMessages,
   updateConversation,
 } from '../../ts/data/data';
-import { fromArrayBufferToBase64, fromBase64ToArrayBuffer } from '../session/utils/String';
+import { fromArrayBufferToBase64, fromBase64ToArrayBuffer, toHex } from '../session/utils/String';
 import {
   actions as conversationActions,
   conversationChanged,
@@ -91,8 +91,10 @@ export interface ConversationAttributes {
   nickname?: string;
   profile?: any;
   profileAvatar?: any;
+  /**
+   * Consider this being a hex string if it set
+   */
   profileKey?: string;
-  accessKey?: any;
   triggerNotificationsFor: ConversationNotificationSettingType;
   isTrustedForAttachmentDownload: boolean;
   isPinned: boolean;
@@ -129,8 +131,10 @@ export interface ConversationAttributesOptionals {
   nickname?: string;
   profile?: any;
   profileAvatar?: any;
+  /**
+   * Consider this being a hex string if it set
+   */
   profileKey?: string;
-  accessKey?: any;
   triggerNotificationsFor?: ConversationNotificationSettingType;
   isTrustedForAttachmentDownload?: boolean;
   isPinned: boolean;
@@ -198,7 +202,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     });
     this.throttledNotify = _.debounce(this.notify, 500, { maxWait: 1000, trailing: true });
     //start right away the function is called, and wait 1sec before calling it again
-    const markReadDebounced = _.debounce(this.markReadBouncy, 1000, { leading: true });
+    const markReadDebounced = _.debounce(this.markReadBouncy, 1000, {
+      leading: true,
+      trailing: true,
+    });
     // tslint:disable-next-line: no-async-without-await
     this.markRead = async (newestUnreadDate: number) => {
       const lastReadTimestamp = this.lastReadTimestamp;
@@ -782,6 +789,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
     const messages = await getMessagesByConversation(this.id, {
       limit: 1,
+      skipTimerInit: true,
     });
     const lastMessageModel = messages.at(0);
     const lastMessageJSON = lastMessageModel ? lastMessageModel.toJSON() : null;
@@ -972,7 +980,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     let allUnreadMessagesInConvo = (await this.getUnread()).models;
 
     const oldUnreadNowRead = allUnreadMessagesInConvo.filter(
-      (message: any) => message.get('received_at') <= newestUnreadDate
+      message => (message.get('received_at') as number) <= newestUnreadDate
     );
 
     let read = [];
@@ -1110,7 +1118,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   public isAdmin(pubKey?: string) {
-    if (!this.isPublic()) {
+    if (!this.isPublic() && !this.isGroup()) {
       return false;
     }
     if (!pubKey) {
@@ -1192,36 +1200,28 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       await this.commit();
     }
   }
-  public async setProfileKey(profileKey: string) {
-    // profileKey is a string so we can compare it directly
-    if (this.get('profileKey') !== profileKey) {
-      this.set({
-        profileKey,
-        accessKey: null,
-      });
+  /**
+   * profileKey MUST be a hex string
+   * @param profileKey MUST be a hex string
+   */
+  public async setProfileKey(profileKey?: Uint8Array, autoCommit = true) {
+    const re = /[0-9A-Fa-f]*/g;
 
-      await this.deriveAccessKeyIfNeeded();
-
-      await this.commit();
-    }
-  }
-
-  public async deriveAccessKeyIfNeeded() {
-    const profileKey = this.get('profileKey');
     if (!profileKey) {
       return;
     }
-    if (this.get('accessKey')) {
-      return;
-    }
 
-    try {
-      const profileKeyBuffer = fromBase64ToArrayBuffer(profileKey);
-      const accessKeyBuffer = await window.Signal.Crypto.deriveAccessKey(profileKeyBuffer);
-      const accessKey = fromArrayBufferToBase64(accessKeyBuffer);
-      this.set({ accessKey });
-    } catch (e) {
-      window?.log?.warn(`Failed to derive access key for ${this.id}`);
+    const profileKeyHex = toHex(profileKey);
+
+    // profileKey is a string so we can compare it directly
+    if (this.get('profileKey') !== profileKeyHex) {
+      this.set({
+        profileKey: profileKeyHex,
+      });
+
+      if (autoCommit) {
+        await this.commit();
+      }
     }
   }
 

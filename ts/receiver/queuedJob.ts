@@ -204,16 +204,14 @@ function handleLinkPreviews(messageBody: string, messagePreview: any, message: M
 }
 
 async function processProfileKey(
-  source: string,
   conversation: ConversationModel,
   sendingDeviceConversation: ConversationModel,
-  profileKeyBuffer: Uint8Array
+  profileKeyBuffer?: Uint8Array
 ) {
-  const profileKey = StringUtils.decode(profileKeyBuffer, 'base64');
   if (conversation.isPrivate()) {
-    await conversation.setProfileKey(profileKey);
+    await conversation.setProfileKey(profileKeyBuffer);
   } else {
-    await sendingDeviceConversation.setProfileKey(profileKey);
+    await sendingDeviceConversation.setProfileKey(profileKeyBuffer);
   }
 }
 
@@ -360,12 +358,7 @@ async function handleRegularMessage(
   }
 
   if (dataMessage.profileKey) {
-    await processProfileKey(
-      source,
-      conversation,
-      sendingDeviceConversation,
-      dataMessage.profileKey
-    );
+    await processProfileKey(conversation, sendingDeviceConversation, dataMessage.profileKey);
   }
 
   // we just received a message from that user so we reset the typing indicator for this convo

@@ -89,7 +89,6 @@ const channelsToMake = {
   removeConversation,
 
   getAllConversations,
-  getAllConversationIds,
   getAllOpenGroupV1Conversations,
   getPubkeysInPublicConversation,
   getAllGroupsInvolvingId,
@@ -116,8 +115,6 @@ const channelsToMake = {
   getMessageBySenderAndServerTimestamp,
   getMessageIdsFromServerIds,
   getMessageById,
-  getAllMessages,
-  getAllMessageIds,
   getMessagesBySentAt,
   getExpiredMessages,
   getOutgoingWithoutExpiresAt,
@@ -541,11 +538,6 @@ export async function getAllConversations(): Promise<ConversationCollection> {
   return collection;
 }
 
-export async function getAllConversationIds(): Promise<Array<string>> {
-  const ids = await channels.getAllConversationIds();
-  return ids;
-}
-
 export async function getAllOpenGroupV1Conversations(): Promise<ConversationCollection> {
   const conversations = await channels.getAllOpenGroupV1Conversations();
 
@@ -633,7 +625,7 @@ export async function saveMessages(arrayOfMessages: Array<MessageAttributes>): P
 }
 
 export async function removeMessage(id: string): Promise<void> {
-  const message = await getMessageById(id);
+  const message = await getMessageById(id, true);
 
   // Note: It's important to have a fully database-hydrated model to delete here because
   //   it needs to delete all associated on-disk files along with the database delete.
@@ -655,24 +647,19 @@ export async function getMessageIdsFromServerIds(
   return channels.getMessageIdsFromServerIds(serverIds, conversationId);
 }
 
-export async function getMessageById(id: string): Promise<MessageModel | null> {
+export async function getMessageById(
+  id: string,
+  skipTimerInit: boolean = false
+): Promise<MessageModel | null> {
   const message = await channels.getMessageById(id);
   if (!message) {
     return null;
   }
+  if (skipTimerInit) {
+    message.skipTimerInit = skipTimerInit;
+  }
 
   return new MessageModel(message);
-}
-
-// For testing only
-export async function getAllMessages(): Promise<MessageCollection> {
-  const messages = await channels.getAllMessages();
-  return new MessageCollection(messages);
-}
-
-export async function getAllMessageIds(): Promise<Array<string>> {
-  const ids = await channels.getAllMessageIds();
-  return ids;
 }
 
 export async function getMessageBySender({
@@ -744,13 +731,18 @@ export async function getUnreadCountByConversation(conversationId: string): Prom
 
 export async function getMessagesByConversation(
   conversationId: string,
-  { limit = 100, receivedAt = Number.MAX_VALUE, type = '%' }
+  { limit = 100, receivedAt = Number.MAX_VALUE, type = '%', skipTimerInit = false }
 ): Promise<MessageCollection> {
   const messages = await channels.getMessagesByConversation(conversationId, {
     limit,
     receivedAt,
     type,
   });
+  if (skipTimerInit) {
+    for (const message of messages) {
+      message.skipTimerInit = skipTimerInit;
+    }
+  }
   return new MessageCollection(messages);
 }
 
@@ -775,9 +767,8 @@ export async function removeAllMessagesInConversation(conversationId: string): P
     //   time so we don't use too much memory.
     // eslint-disable-next-line no-await-in-loop
     messages = await getMessagesByConversation(conversationId, {
-      limit: 100,
+      limit: 500,
     });
-
     if (!messages.length) {
       return;
     }
@@ -787,6 +778,7 @@ export async function removeAllMessagesInConversation(conversationId: string): P
     // Note: It's very important that these models are fully hydrated because
     //   we need to delete all associated on-disk files along with the database delete.
     // eslint-disable-next-line no-await-in-loop
+
     await Promise.all(messages.map(message => message.cleanup()));
 
     // eslint-disable-next-line no-await-in-loop

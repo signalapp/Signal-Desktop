@@ -15,7 +15,7 @@ import {
   ConfigurationMessageContact,
 } from '../messages/outgoing/controlMessage/ConfigurationMessage';
 import { ConversationModel } from '../../models/conversation';
-import { fromBase64ToArray, fromHexToArray, fromUInt8ArrayToBase64, toHex } from './String';
+import { fromArrayBufferToBase64, fromBase64ToArray, fromBase64ToArrayBuffer, fromHex, fromHexToArray, fromUInt8ArrayToBase64, stringToArrayBuffer, stringToUint8Array, toHex } from './String';
 import { SignalService } from '../../protobuf';
 import _ from 'lodash';
 import {
@@ -28,13 +28,16 @@ import { ExpirationTimerUpdateMessage } from '../messages/outgoing/controlMessag
 import { getV2OpenGroupRoom } from '../../data/opengroups';
 import { getCompleteUrlFromRoom } from '../../opengroup/utils/OpenGroupUtils';
 import { DURATION } from '../constants';
-import { SnodePool } from '../snode_api';
 import { snodeHttpsAgent } from '../snode_api/onions';
 
 import { default as insecureNodeFetch } from 'node-fetch';
 import { getSodium } from '../crypto';
-import { encryptUsingSessionProtocol } from '../crypto/MessageEncrypter';
 import { snodeRpc } from '../snode_api/lokiRpc';
+import { getSwarmFor, getSwarmFromCacheOrDb } from '../snode_api/snodePool';
+import { crypto_sign, to_base64, to_hex } from 'libsodium-wrappers';
+import { textToArrayBuffer, TextToBase64, verifyED25519Signature } from '../../opengroup/opengroupV2/ApiUtil';
+import { KeyPair } from '../../../libtextsecure/libsignal-protocol';
+import { getIdentityKeyPair } from './User';
 
 const ITEM_ID_LAST_SYNC_TIMESTAMP = 'lastSyncedTimestamp';
 
@@ -87,7 +90,6 @@ export const forceSyncConfigurationNowIfNeeded = async (waitForMessageSent = fal
             resolve(true);
           }
           : undefined;
-        debugger;
         void getMessageQueue().sendSyncMessage(configMessage, callback as any);
         // either we resolve from the callback if we need to wait for it,
         // or we don't want to wait, we resolve it here.
@@ -115,82 +117,58 @@ export const getNetworkTime = async (snode: Snode): Promise<string | number> => 
     let body = JSON.parse(response.body);
     let timestamp = body['timestamp'];
 
-    debugger;
     return timestamp ? timestamp : -1;
   }
   catch (e) {
-    debugger;
     return -1;
   }
 
 }
 
 export const forceNetworkDeletion = async () => {
-
-  // get keypair
+  let sodium = await getSodium();
   let userPubKey = await UserUtils.getOurPubKeyFromCache();
 
-  // get ed255 key
-  let userED25519Keypair = await UserUtils.getUserED25519KeyPair();
-  if (userED25519Keypair === undefined || userED25519Keypair.privKey === undefined) {
-    return;
-  }
+  let edKey = await UserUtils.getUserED25519KeyPair();
+  let edKeyPriv = edKey?.privKey || '';
 
-  // get random snode
-  let snode: Snode | undefined = await SnodePool.getRandomSnode();
+  console.log({ edKey });
+  console.log({ edKeyPriv });
 
+  let snode: Snode | undefined = _.shuffle((await getSwarmFor(userPubKey.key)))[0]
   let timestamp = await getNetworkTime(snode);
 
-  let sodium = await getSodium();
+  let text = `delete_all${timestamp.toString()}`;
 
-  // create data by combining shit. Combines the method + timestamp to a byteArray in android
-  let verificationData = 'delete_all' + timestamp.toString();
+  let toSign = StringUtils.encode(text, 'utf8');
+  console.log({ toSign });
 
-  // convert vert data to byteArray for signing
+  let toSignBytes = new Uint8Array(toSign);
+  console.log({ toSignBytes });
 
-  // sign the data with sodium + user ed255key in byte for (userED25519Keypair.bytes)
-  let userED25519SecretBytes = fromHexToArray(userED25519Keypair.privKey)
+  let edKeyBytes = fromHexToArray(edKeyPriv)
 
-  let signature = sodium.crypto_sign_detached(verificationData, userED25519SecretBytes)
+  // using uint or string for message input makes no difference here.
+  // let sig = sodium.crypto_sign_detached(toSignBytes, edKeyBytes);
+  let sig = sodium.crypto_sign_detached(toSignBytes, edKeyBytes);
+  const sig64 = fromUInt8ArrayToBase64(sig);
+  console.log({ sig });
+  console.log({ sig64: sig64 });
+  console.log({ sigLength: sig64.length });
 
-  // package into some params
+  // pubkey - hex - from xSK.public_key
+  // timestamp - ms
+  // signature - ? Base64.encodeBytes(signature)
+
   let deleteMessageParams = {
-    pubkey: userPubKey.key, // not cast as anything in android example
-    pubkeyED25519: toHex(StringUtils.encode(userED25519Keypair.pubKey, 'base64')) , // not sure if this is a proper hex value?
-    // pubkeyED25519: userED25519Keypair.pubKey,
-    timestamp, // -1 atm..
-    signature: fromUInt8ArrayToBase64(signature)
+    pubkey: userPubKey.key, // pubkey is doing alright
+    pubkeyED25519: edKey?.pubKey, // ed pubkey is right
+    timestamp,
+    signature: sig64
   }
 
-  // send method to the network.
-  // await send('delete_all', snode, userPubKey.key, deleteMessageParams)
-
-  let res = await snodeRpc('delete_all', deleteMessageParams, snode, userPubKey.key);
+  let lokiRpcRes = await snodeRpc('delete_all', deleteMessageParams, snode, userPubKey.key);
   debugger;
-}
-
-const send = async (method: string, snode: Snode, publicKey?: string, parameters?: any) => {
-  let url = `https://${snode.ip}:${snode.port}/storage_rpc/v1`;
-
-  let payload = {
-    method,
-    ...parameters
-  }
-
-  let fetchOptions = {
-    method: 'POST',
-    body: JSON.stringify(payload),
-    headers: {
-      'Content-Type': 'application/json',
-      //   // 'User-Agent': 'WhatsApp',
-      // 'Accept-Language': 'en-us',
-    },
-    // timeout: 10000,
-    agent: snodeHttpsAgent
-  }
-
-  let response: any = await insecureNodeFetch(url, fetchOptions)
-  console.log({ response });
 }
 
 const getActiveOpenGroupV2CompleteUrls = async (
@@ -261,9 +239,24 @@ const getValidContacts = (convos: Array<ConversationModel>) => {
 
   const contacts = contactsModels.map(c => {
     try {
-      const profileKeyForContact = c.get('profileKey')
-        ? fromBase64ToArray(c.get('profileKey') as string)
-        : undefined;
+      const profileKey = c.get('profileKey');
+      let profileKeyForContact;
+      if (typeof profileKey === 'string') {
+        // this will throw if the profileKey is not in hex.
+        try {
+          profileKeyForContact = fromHexToArray(profileKey);
+        } catch (e) {
+          profileKeyForContact = fromBase64ToArray(profileKey);
+          // if the line above does not fail, update the stored profileKey for this convo
+          void c.setProfileKey(profileKeyForContact);
+        }
+      } else if (profileKey) {
+        window.log.warn(
+          'Got a profileKey for a contact in another format than string. Contact: ',
+          c.id
+        );
+        return null;
+      }
 
       return new ConfigurationMessageContact({
         publicKey: c.id,
@@ -290,8 +283,12 @@ export const getCurrentConfigurationMessage = async (convos: Array<ConversationM
   if (!ourConvo) {
     window?.log?.error('Could not find our convo while building a configuration message.');
   }
-  const profileKeyFromStorage = window.storage.get('profileKey');
-  const profileKey = profileKeyFromStorage ? new Uint8Array(profileKeyFromStorage) : undefined;
+
+  const ourProfileKeyHex =
+    getConversationController()
+      .get(UserUtils.getOurPubKeyStrFromCache())
+      ?.get('profileKey') || null;
+  const profileKey = ourProfileKeyHex ? fromHexToArray(ourProfileKeyHex) : undefined;
 
   const profilePicture = ourConvo?.get('avatarPointer') || undefined;
   const displayName = ourConvo?.getLokiProfile()?.displayName || undefined;

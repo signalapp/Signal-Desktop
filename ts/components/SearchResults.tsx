@@ -54,7 +54,7 @@ export const SearchResults = (props: SearchResultsProps) => {
         <ContactsItem header={window.i18n('contactsHeader')} items={contacts} />
       ) : null}
 
-      {haveMessages ? (
+      {/* {haveMessages ? (
         <div className="module-search-results__messages">
           {hideMessagesHeader ? null : (
             <div className="module-search-results__messages-header">
@@ -65,7 +65,7 @@ export const SearchResults = (props: SearchResultsProps) => {
             <MessageSearchResult key={message.id} {...message} />
           ))}
         </div>
-      ) : null}
+      ) : null} */}
     </div>
   );
 };

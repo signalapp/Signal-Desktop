@@ -17,7 +17,8 @@ async function lokiFetch(
   url: string,
   options: FetchOptions,
   targetNode?: Snode,
-  associatedWith?: string
+  associatedWith?: string,
+  test?: string
 ): Promise<undefined | SnodeResponse> {
   const timeout = 10000;
   const method = options.method || 'GET';
@@ -32,7 +33,7 @@ async function lokiFetch(
     // Absence of targetNode indicates that we want a direct connection
     // (e.g. to connect to a seed node for the first time)
     if (window.lokiFeatureFlags.useOnionRequests && targetNode) {
-      const fetchResult = await lokiOnionFetch(targetNode, fetchOptions.body, associatedWith);
+      const fetchResult = await lokiOnionFetch(targetNode, fetchOptions.body, associatedWith, test);
       if (!fetchResult) {
         return undefined;
       }
@@ -109,5 +110,5 @@ export async function snodeRpc(
     },
   };
 
-  return lokiFetch(url, fetchOptions, targetNode, associatedWith);
+  return lokiFetch(url, fetchOptions, targetNode, associatedWith, method);
 }

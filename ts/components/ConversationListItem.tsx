@@ -210,7 +210,6 @@ const AvatarItem = (props: {
 };
 
 const ConversationListItem = (props: Props) => {
-  // console.warn('ConversationListItem', props.id.substr(-1), ': ', props);
   const {
     activeAt,
     unreadCount,
