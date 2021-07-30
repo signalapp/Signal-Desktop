@@ -67,6 +67,8 @@ export type PropsForExpirationTimer = {
   title: string | null;
   type: 'fromMe' | 'fromSync' | 'fromOther';
   messageId: string;
+  isUnread: boolean;
+  receivedAt: number | undefined;
 };
 
 export type PropsForGroupUpdateGeneral = {
@@ -107,6 +109,8 @@ export type PropsForGroupUpdateArray = Array<PropsForGroupUpdateType>;
 export type PropsForGroupUpdate = {
   changes: PropsForGroupUpdateArray;
   messageId: string;
+  receivedAt: number | undefined;
+  isUnread: boolean;
 };
 
 export type PropsForGroupInvitation = {
@@ -115,6 +119,8 @@ export type PropsForGroupInvitation = {
   direction: MessageModelType;
   acceptUrl: string;
   messageId: string;
+  receivedAt?: number;
+  isUnread: boolean;
 };
 
 export type PropsForSearchResults = {

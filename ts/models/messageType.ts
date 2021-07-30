@@ -109,6 +109,8 @@ export interface DataExtractionNotificationMsg {
 export type PropsForDataExtractionNotification = DataExtractionNotificationMsg & {
   name: string;
   messageId: string;
+  receivedAt?: number;
+  isUnread: boolean;
 };
 
 export interface MessageAttributesOptionals {

@@ -296,6 +296,8 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       disabled,
       type: fromSync ? 'fromSync' : UserUtils.isUsFromCache(source) ? 'fromMe' : 'fromOther',
       messageId: this.id,
+      receivedAt: this.get('received_at'),
+      isUnread: this.isUnread(),
     };
 
     return basicProps;
@@ -326,6 +328,8 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       direction,
       acceptUrl: invitation.url,
       messageId: this.id as string,
+      receivedAt: this.get('received_at'),
+      isUnread: this.isUnread(),
     };
   }
 
@@ -346,6 +350,8 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       ...dataExtractionNotification,
       name: contact.profileName || contact.name || dataExtractionNotification.source,
       messageId: this.id,
+      receivedAt: this.get('received_at'),
+      isUnread: this.isUnread(),
     };
   }
 
@@ -462,6 +468,8 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     return {
       changes,
       messageId: this.id,
+      isUnread: this.isUnread(),
+      receivedAt: this.get('received_at'),
     };
   }
 

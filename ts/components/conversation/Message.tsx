@@ -637,7 +637,6 @@ class MessageInner extends React.PureComponent<Props, State> {
         onContextMenu={this.handleContextMenu}
         receivedAt={receivedAt}
         isUnread={isUnread}
-        direction={direction}
         key={`readable-message-${messageId}`}
       >
         {this.renderAvatar()}

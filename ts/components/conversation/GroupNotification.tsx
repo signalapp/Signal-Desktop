@@ -11,6 +11,7 @@ import {
   PropsForGroupUpdateType,
 } from '../../state/ducks/conversations';
 import _ from 'underscore';
+import { ReadableMessage } from './ReadableMessage';
 
 // This component is used to display group updates in the conversation view.
 // This is a not a "notification" as the name suggests, but a message inside the conversation
@@ -89,14 +90,21 @@ function renderChange(change: PropsForGroupUpdateType) {
 }
 
 export const GroupNotification = (props: PropsForGroupUpdate) => {
-  const { changes } = props;
+  const { changes, messageId, receivedAt, isUnread } = props;
   return (
-    <div className="module-group-notification" id={`msg-${props.messageId}`}>
-      {(changes || []).map((change, index) => (
-        <div key={index} className="module-group-notification__change">
-          {renderChange(change)}
-        </div>
-      ))}
-    </div>
+    <ReadableMessage
+      messageId={messageId}
+      receivedAt={receivedAt}
+      isUnread={isUnread}
+      key={`readable-message-${messageId}`}
+    >
+      <div className="module-group-notification" id={`msg-${props.messageId}`}>
+        {(changes || []).map((change, index) => (
+          <div key={index} className="module-group-notification__change">
+            {renderChange(change)}
+          </div>
+        ))}
+      </div>
+    </ReadableMessage>
   );
 };

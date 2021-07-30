@@ -26,12 +26,10 @@ import {
 type ReadableMessageProps = {
   children: React.ReactNode;
   messageId: string;
-  className: string;
+  className?: string;
   receivedAt: number | undefined;
   isUnread: boolean;
-  direction: MessageModelType;
-
-  onContextMenu: (e: any) => void;
+  onContextMenu?: (e: any) => void;
 };
 
 const debouncedTriggerLoadMore = _.debounce(
@@ -48,7 +46,7 @@ const debouncedTriggerLoadMore = _.debounce(
 );
 
 export const ReadableMessage = (props: ReadableMessageProps) => {
-  const { messageId, onContextMenu, className, receivedAt, isUnread, direction } = props;
+  const { messageId, onContextMenu, className, receivedAt, isUnread } = props;
 
   const isAppFocused = useAppIsFocused();
   const dispatch = useDispatch();
@@ -60,8 +58,7 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
   const mostRecentMessageId = useSelector(getMostRecentMessageId);
   const oldestMessageId = useSelector(getOldestMessageId);
   const fetchingMore = useSelector(areMoreMessagesBeingFetched);
-  const isIncoming = direction === 'incoming';
-  const shouldMarkReadWhenVisible = isIncoming && isUnread;
+  const shouldMarkReadWhenVisible = isUnread;
 
   const onVisible = useCallback(
     async (inView: boolean | Object) => {
