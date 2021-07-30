@@ -72,6 +72,8 @@ addDecorator((storyFn /* , context */) => {
     document.body.classList.add('keyboard-mode');
   }
 
+  document.body.classList.add('page-is-visible');
+
   return (
     <div className={styles.container}>
       <ClassyProvider themes={['dark']}>

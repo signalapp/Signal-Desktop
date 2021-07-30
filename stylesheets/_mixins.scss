@@ -109,6 +109,14 @@
   }
 }
 
+// NOTE: As of this writing, this mixin only works in the main window, because this class
+//   is only applied there.
+@mixin only-when-page-is-visible {
+  .page-is-visible & {
+    @content;
+  }
+}
+
 // Search results loading
 
 @mixin search-results-loading-pulsating-background {

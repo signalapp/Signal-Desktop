@@ -1131,21 +1131,10 @@
 
 .module-message__metadata__status-icon--paused,
 .module-message__metadata__status-icon--sending {
-  animation: module-message__metadata__status-icon--spinning 4s linear infinite;
-
-  @include light-theme {
-    @include color-svg('../images/sending.svg', $color-white);
+  @include only-when-page-is-visible {
+    animation: rotate 4s linear infinite;
   }
-  @include dark-theme {
-    @include color-svg('../images/sending.svg', $color-white);
-  }
-}
-
-@keyframes module-message__metadata__status-icon--spinning {
-  100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
+  @include color-svg('../images/sending.svg', $color-white);
 }
 
 .module-message__metadata__status-icon--sent {
@@ -4129,11 +4118,15 @@ button.module-image__border-overlay:focus {
     background-color: $color-gray-60;
   }
 
-  animation: typing-animation 1600ms ease infinite;
+  @include only-when-page-is-visible {
+    animation: typing-animation 1600ms ease infinite;
+  }
 }
 
 .module-left-pane .module-typing-animation__dot {
-  animation-name: typing-animation-bare;
+  @include only-when-page-is-visible {
+    animation-name: typing-animation-bare;
+  }
 }
 
 .module-typing-animation__dot--light {
@@ -4649,25 +4642,13 @@ button.module-image__border-overlay:focus {
   height: 100%;
   width: 100%;
 
-  animation: spinner-arc-animation 1000ms linear infinite;
+  animation: rotate 1000ms linear infinite;
 
   @include light-theme {
     @include color-svg('../images/spinner-56.svg', $color-gray-60);
   }
   @include dark-theme {
     @include color-svg('../images/spinner-56.svg', $color-gray-05);
-  }
-}
-
-@keyframes spinner-arc-animation {
-  0% {
-    transform: rotate(0deg);
-  }
-  50% {
-    transform: rotate(180deg);
-  }
-  100% {
-    transform: rotate(360deg);
   }
 }
 
@@ -6489,8 +6470,9 @@ button.module-image__border-overlay:focus {
               }
 
               &--sending {
-                animation: module-conversation-list__item--contact-or-conversation__contact__message__text__status-icon--spinning
-                  4s linear infinite;
+                @include only-when-page-is-visible {
+                  animation: rotate 4s linear infinite;
+                }
                 @include light-theme {
                   @include color-svg('../images/sending.svg', $color-gray-60);
                 }
@@ -6661,13 +6643,6 @@ button.module-image__border-overlay:focus {
 
       text-align: center;
     }
-  }
-}
-
-@keyframes module-conversation-list__item--contact-or-conversation__contact__message__text__status-icon--spinning {
-  100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
   }
 }
 

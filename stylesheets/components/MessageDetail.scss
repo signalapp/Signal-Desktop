@@ -121,16 +121,8 @@
 
   &--Pending:after {
     width: 12px;
-    animation: module-message-detail__contact-group__header--Pending 4s linear
-      infinite;
+    animation: rotate 4s linear infinite;
     @include normal-icon('../images/sending.svg');
-  }
-}
-
-@keyframes module-message-detail__contact-group__header--Pending {
-  100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
   }
 }
 

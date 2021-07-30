@@ -1,3 +1,6 @@
+// Copyright 2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import React, { useEffect } from 'react';
 import classNames from 'classnames';
 
@@ -6,6 +9,7 @@ import { Inbox } from './Inbox';
 import { Install } from './Install';
 import { StandaloneRegistration } from './StandaloneRegistration';
 import { ThemeType } from '../types/Util';
+import { usePageVisibility } from '../util/hooks';
 
 export type PropsType = {
   appView: AppViewType;
@@ -32,7 +36,7 @@ export const App = ({
     contents = <Inbox hasInitialLoadCompleted={hasInitialLoadCompleted} />;
   }
 
-  // This is here so that themes are properly applied to anything that is
+  // This are here so that themes are properly applied to anything that is
   // created in a portal and exists outside of the <App /> container.
   useEffect(() => {
     document.body.classList.remove('light-theme');
@@ -45,6 +49,11 @@ export const App = ({
       document.body.classList.add('light-theme');
     }
   }, [theme]);
+
+  const isPageVisible = usePageVisibility();
+  useEffect(() => {
+    document.body.classList.toggle('page-is-visible', isPageVisible);
+  }, [isPageVisible]);
 
   return (
     <div

@@ -269,12 +269,6 @@ $loading-height: 16px;
     border-color: $color-ios-blue-tint $color-ios-blue-tint $color-gray-02
       $color-gray-02 !important;
   }
-
-  @keyframes rotate {
-    to {
-      transform: rotate(360deg);
-    }
-  }
 }
 
 .x {
@@ -688,4 +682,10 @@ $loading-height: 16px;
 
 .overflow-hidden {
   overflow: hidden;
+}
+
+@keyframes rotate {
+  to {
+    transform: rotate(360deg);
+  }
 }
