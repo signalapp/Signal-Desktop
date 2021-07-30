@@ -90,6 +90,33 @@ const HeaderItem = (props: {
         iconSize={SessionIconSize.Tiny}
       />
     ) : null;
+
+
+  const NotificationSettingIcon = () => {
+    if (!isMessagesSection) {
+      return null;
+    }
+
+    switch (currentNotificationSetting) {
+      case ('all'):
+        return null;
+      case ('disabled'):
+        return <SessionIcon
+          iconType={SessionIconType.Mute}
+          iconColor={theme.colors.textColorSubtle}
+          iconSize={SessionIconSize.Tiny}
+        />
+      case ('mentions_only'):
+        return <SessionIcon
+          iconType={SessionIconType.Bell}
+          iconColor={theme.colors.textColorSubtle}
+          iconSize={SessionIconSize.Tiny}
+        />
+      default:
+        return null;
+    }
+  }
+
   return (
     <div className="module-conversation-list-item__header">
       <div
@@ -105,7 +132,11 @@ const HeaderItem = (props: {
           profileName={profileName}
         />
       </div>
+
+      <StyledConversationListItemIconWrapper>
         {pinIcon}
+        <NotificationSettingIcon></NotificationSettingIcon>
+      </StyledConversationListItemIconWrapper>
       {unreadCountDiv}
       {atSymbol}
       {
@@ -292,6 +323,8 @@ const ConversationListItem = (props: Props) => {
             conversationId={conversationId}
             name={name}
             profileName={profileName}
+            currentNotificationSetting={currentNotificationSetting}
+          />
             />
           <MessageItem isTyping={isTyping} unreadCount={unreadCount} lastMessage={lastMessage} />
         </div>
