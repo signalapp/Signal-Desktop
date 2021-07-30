@@ -30,11 +30,11 @@ import { getFirstUnreadMessageIdInConversation } from '../data/data';
 import { ConversationNotificationSettingType } from '../models/conversation';
 
 // tslint:disable-next-line: no-empty-interface
-export interface ConversationListItemProps extends ReduxConversationType { }
+export interface ConversationListItemProps extends ReduxConversationType {}
 
 export const StyledConversationListItemIconWrapper = styled.div`
   svg {
-    margin: 2px 2px;
+    margin: 0px 2px;
   }
 
   display: flex;
@@ -71,7 +71,7 @@ const HeaderItem = (props: {
     conversationId,
     profileName,
     name,
-    currentNotificationSetting
+    currentNotificationSetting,
   } = props;
   const theme = useTheme();
 
@@ -93,31 +93,34 @@ const HeaderItem = (props: {
       />
     ) : null;
 
-
   const NotificationSettingIcon = () => {
     if (!isMessagesSection) {
       return null;
     }
 
     switch (currentNotificationSetting) {
-      case ('all'):
+      case 'all':
         return null;
-      case ('disabled'):
-        return <SessionIcon
-          iconType={SessionIconType.Mute}
-          iconColor={theme.colors.textColorSubtle}
-          iconSize={SessionIconSize.Tiny}
-        />
-      case ('mentions_only'):
-        return <SessionIcon
-          iconType={SessionIconType.Bell}
-          iconColor={theme.colors.textColorSubtle}
-          iconSize={SessionIconSize.Tiny}
-        />
+      case 'disabled':
+        return (
+          <SessionIcon
+            iconType={SessionIconType.Mute}
+            iconColor={theme.colors.textColorSubtle}
+            iconSize={SessionIconSize.Tiny}
+          />
+        );
+      case 'mentions_only':
+        return (
+          <SessionIcon
+            iconType={SessionIconType.Bell}
+            iconColor={theme.colors.textColorSubtle}
+            iconSize={SessionIconSize.Tiny}
+          />
+        );
       default:
         return null;
     }
-  }
+  };
 
   return (
     <div className="module-conversation-list-item__header">
@@ -137,7 +140,7 @@ const HeaderItem = (props: {
 
       <StyledConversationListItemIconWrapper>
         {pinIcon}
-        <NotificationSettingIcon></NotificationSettingIcon>
+        <NotificationSettingIcon />
       </StyledConversationListItemIconWrapper>
       {unreadCountDiv}
       {atSymbol}

@@ -416,5 +416,9 @@
   "pinConversationLimitToastDescription": "You can only pin $number$ conversations",
   "latestUnreadIsAbove": "First unread message is above",
   "sendRecoveryPhraseTitle": "Sending Recovery Phrase",
-  "sendRecoveryPhraseMessage": "You are attempting to send your recovery phrase which can be used to access your account. Are you sure you want to send this message?"
+  "sendRecoveryPhraseMessage": "You are attempting to send your recovery phrase which can be used to access your account. Are you sure you want to send this message?",
+  "all": "All",
+  "mentionsOnly": "Mentions only",
+  "disabled": "Disabled",
+  "notificationSubtitle": "Notifications - $setting$"
 }
