@@ -311,6 +311,12 @@ export async function startApp(): Promise<void> {
   window.Signal.Services.lightSessionResetQueue = lightSessionResetQueue;
   lightSessionResetQueue.pause();
 
+  const readSyncQueue = new window.PQueue({
+    concurrency: 1,
+    timeout: 1000 * 60 * 2,
+  });
+  readSyncQueue.pause();
+
   window.Whisper.deliveryReceiptQueue = new window.PQueue({
     concurrency: 1,
     timeout: 1000 * 60 * 2,
@@ -2478,6 +2484,8 @@ export async function startApp(): Promise<void> {
   window.waitForEmptyEventQueue = waitForEmptyEventQueue;
 
   async function onEmpty() {
+    window.Signal.Util.setBatchingStrategy(false);
+
     await Promise.all([
       window.waitForAllBatchers(),
       window.flushAllWaitBatchers(),
@@ -2496,6 +2504,7 @@ export async function startApp(): Promise<void> {
 
     profileKeyResponseQueue.start();
     lightSessionResetQueue.start();
+    readSyncQueue.start();
     window.Whisper.deliveryReceiptQueue.start();
     window.Whisper.Notifications.enable();
 
@@ -2512,8 +2521,6 @@ export async function startApp(): Promise<void> {
         messageReceiver.getProcessedCount()
       );
     }
-
-    window.Signal.Util.setBatchingStrategy(false);
 
     const attachmentDownloadQueue = window.attachmentDownloadQueue || [];
 
@@ -3778,29 +3785,43 @@ export async function startApp(): Promise<void> {
       uuid: senderUuid,
     });
 
-    window.log.info(
-      'read sync',
-      sender,
-      senderUuid,
-      envelopeTimestamp,
-      senderId,
-      'for message',
-      timestamp
-    );
+    if (readSyncQueue.isPaused) {
+      window.log.info(
+        'delaying processing of read sync',
+        sender,
+        senderUuid,
+        envelopeTimestamp,
+        senderId,
+        'for message',
+        timestamp
+      );
+    }
 
-    const receipt = ReadSyncs.getSingleton().add({
-      senderId,
-      sender,
-      senderUuid,
-      timestamp,
-      readAt,
+    readSyncQueue.add(() => {
+      window.log.info(
+        'read sync',
+        sender,
+        senderUuid,
+        envelopeTimestamp,
+        senderId,
+        'for message',
+        timestamp
+      );
+
+      const receipt = ReadSyncs.getSingleton().add({
+        senderId,
+        sender,
+        senderUuid,
+        timestamp,
+        readAt,
+      });
+
+      receipt.on('remove', ev.confirm);
+
+      // Note: Here we wait, because we want read states to be in the database
+      //   before we move on.
+      return ReadSyncs.getSingleton().onReceipt(receipt);
     });
-
-    receipt.on('remove', ev.confirm);
-
-    // Note: Here we wait, because we want read states to be in the database
-    //   before we move on.
-    return ReadSyncs.getSingleton().onReceipt(receipt);
   }
 
   async function onVerified(ev: VerifiedEvent) {
