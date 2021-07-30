@@ -1267,7 +1267,7 @@ export class ConversationModel extends window.Backbone
     this.debouncedUpdateLastMessage!();
   }
 
-  addSingleMessage(message: MessageModel): MessageModel {
+  addSingleMessage(message: MessageModel): void {
     const { messagesAdded } = window.reduxActions.conversations;
     const isNewMessage = true;
     messagesAdded(
@@ -1276,8 +1276,6 @@ export class ConversationModel extends window.Backbone
       isNewMessage,
       window.isActive()
     );
-
-    return message;
   }
 
   // For incoming messages, they might arrive while we're in the middle of a bulk fetch
@@ -3622,17 +3620,17 @@ export class ConversationModel extends window.Backbone
         id: window.getGuid(),
       };
 
-      const model = this.addSingleMessage(
-        new window.Whisper.Message(attributes)
-      );
-      if (sticker) {
-        await addStickerPackReference(model.id, sticker.packId);
-      }
+      const model = new window.Whisper.Message(attributes);
       const message = window.MessageController.register(model.id, model);
-      const messageId = message.id;
       await window.Signal.Data.saveMessage(message.attributes, {
         forceSave: true,
       });
+
+      this.addSingleMessage(model);
+      if (sticker) {
+        await addStickerPackReference(model.id, sticker.packId);
+      }
+      const messageId = message.id;
 
       const draftProperties = dontClearDraft
         ? {}
