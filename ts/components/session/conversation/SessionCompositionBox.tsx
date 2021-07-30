@@ -179,6 +179,11 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
       // if number of staged attachment changed, focus the composition box for a more natural UI
       this.focusCompositionBox();
     }
+
+    // focus the composition box when user clicks start to reply to a message
+    if (!_.isEqual(prevProps.quotedMessageProps, this.props.quotedMessageProps)) {
+      this.focusCompositionBox();
+    }
   }
 
   public render() {
@@ -242,21 +247,23 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
     if (this.isURL(pastedText) && !window.getSettingValue('link-preview-setting', false)) {
       const alreadyDisplayedPopup =
         (await getItemById(hasLinkPreviewPopupBeenDisplayed))?.value || false;
-      window.inboxStore?.dispatch(
-        updateConfirmModal({
-          shouldShowConfirm:
-            !window.getSettingValue('link-preview-setting') && !alreadyDisplayedPopup,
-          title: window.i18n('linkPreviewsTitle'),
-          message: window.i18n('linkPreviewsConfirmMessage'),
-          okTheme: SessionButtonColor.Danger,
-          onClickOk: () => {
-            window.setSettingValue('link-preview-setting', true);
-          },
-          onClickClose: async () => {
-            await createOrUpdateItem({ id: hasLinkPreviewPopupBeenDisplayed, value: true });
-          },
-        })
-      );
+      if (!alreadyDisplayedPopup) {
+        window.inboxStore?.dispatch(
+          updateConfirmModal({
+            shouldShowConfirm:
+              !window.getSettingValue('link-preview-setting') && !alreadyDisplayedPopup,
+            title: window.i18n('linkPreviewsTitle'),
+            message: window.i18n('linkPreviewsConfirmMessage'),
+            okTheme: SessionButtonColor.Danger,
+            onClickOk: () => {
+              window.setSettingValue('link-preview-setting', true);
+            },
+            onClickClose: async () => {
+              await createOrUpdateItem({ id: hasLinkPreviewPopupBeenDisplayed, value: true });
+            },
+          })
+        );
+      }
     }
   }
 
