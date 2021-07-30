@@ -1412,8 +1412,16 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       const text = message.get('body');
       const mentions = text?.match(regex) || ([] as Array<string>);
       const mentionMe = mentions && mentions.some(m => UserUtils.isUsFromCache(m.slice(1)));
-      if (!mentionMe) {
-        window?.log?.info('notifications disabled for non mentions for convo', conversationId);
+
+      const quotedMessageAuthor = message.get('quote')?.author;
+
+      const isReplyToOurMessage =
+        quotedMessageAuthor && UserUtils.isUsFromCache(quotedMessageAuthor);
+      if (!mentionMe && !isReplyToOurMessage) {
+        window?.log?.info(
+          'notifications disabled for non mentions or reply for convo',
+          conversationId
+        );
 
         return;
       }
