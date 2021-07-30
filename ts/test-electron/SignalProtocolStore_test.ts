@@ -1330,18 +1330,22 @@ describe('SignalProtocolStore', () => {
           {
             id: 1,
             identifier: number,
+            registrationId: 243,
           },
           {
             id: 2,
             identifier: number,
+            registrationId: 243,
           },
           {
             id: 3,
             identifier: number,
+            registrationId: 243,
           },
           {
             id: 10,
             identifier: number,
+            registrationId: 243,
           },
         ],
         emptyIdentifiers: ['blah', 'blah2'],

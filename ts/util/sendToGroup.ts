@@ -44,7 +44,7 @@ import {
 } from '../textsecure/WebAPI';
 import { SignalService as Proto } from '../protobuf';
 
-import { assert } from './assert';
+import { strictAssert } from './assert';
 import { isGroupV2 } from './whatTypeOfConversation';
 
 const ERROR_EXPIRED_OR_MISSING_DEVICES = 409;
@@ -56,7 +56,7 @@ const DAY = 24 * HOUR;
 const MAX_CONCURRENCY = 5;
 
 // sendWithSenderKey is recursive, but we don't want to loop back too many times.
-const MAX_RECURSION = 5;
+const MAX_RECURSION = 10;
 
 // TODO: remove once we move away from ArrayBuffers
 const FIXMEU8 = Uint8Array;
@@ -80,7 +80,7 @@ export async function sendToGroup({
   sendOptions?: SendOptionsType;
   sendType: SendTypesType;
 }): Promise<CallbackResultType> {
-  assert(
+  strictAssert(
     window.textsecure.messaging,
     'sendToGroup: textsecure.messaging not available!'
   );
@@ -133,7 +133,7 @@ export async function sendContentMessageToGroup({
   timestamp: number;
 }): Promise<CallbackResultType> {
   const logId = conversation.idForLogging();
-  assert(
+  strictAssert(
     window.textsecure.messaging,
     'sendContentMessageToGroup: textsecure.messaging not available!'
   );
@@ -247,7 +247,7 @@ export async function sendToGroupViaSenderKey(options: {
     );
   }
 
-  assert(
+  strictAssert(
     window.textsecure.messaging,
     'sendToGroupViaSenderKey: textsecure.messaging not available!'
   );
@@ -293,14 +293,14 @@ export async function sendToGroupViaSenderKey(options: {
   ) {
     await fetchKeysForIdentifiers(emptyIdentifiers);
 
-    // Restart here to capture devices for accounts we just started sesions with
+    // Restart here to capture devices for accounts we just started sessions with
     return sendToGroupViaSenderKey({
       ...options,
       recursionCount: recursionCount + 1,
     });
   }
 
-  assert(
+  strictAssert(
     attributes.senderKeyInfo,
     `sendToGroupViaSenderKey/${logId}: expect senderKeyInfo`
   );
@@ -380,6 +380,13 @@ export async function sendToGroupViaSenderKey(options: {
       ),
       { messageIds: [], sendType: 'senderKeyDistributionMessage' }
     );
+
+    // Restart here because we might have discovered new or dropped devices as part of
+    //   distributing our sender key.
+    return sendToGroupViaSenderKey({
+      ...options,
+      recursionCount: recursionCount + 1,
+    });
   }
 
   // 9. Update memberDevices with both adds and the removals which didn't require a reset.
@@ -696,7 +703,7 @@ async function handle410Response(
           //   been re-registered or re-linked.
           const senderKeyInfo = conversation.get('senderKeyInfo');
           if (senderKeyInfo) {
-            const devicesToRemove: Array<DeviceType> = devices.staleDevices.map(
+            const devicesToRemove: Array<PartialDeviceType> = devices.staleDevices.map(
               id => ({ id, identifier: uuid })
             );
             conversation.set({
@@ -705,7 +712,7 @@ async function handle410Response(
                 memberDevices: differenceWith(
                   senderKeyInfo.memberDevices,
                   devicesToRemove,
-                  deviceComparator
+                  partialDeviceComparator
                 ),
               },
             });
@@ -732,7 +739,7 @@ function getXorOfAccessKeys(devices: Array<DeviceType>): Buffer {
   const uuids = getUuidsFromDevices(devices);
 
   const result = Buffer.alloc(ACCESS_KEY_LENGTH);
-  assert(
+  strictAssert(
     result.length === ACCESS_KEY_LENGTH,
     'getXorOfAccessKeys starting value'
   );
@@ -876,6 +883,21 @@ function isValidSenderKeyRecipient(
 }
 
 function deviceComparator(left?: DeviceType, right?: DeviceType): boolean {
+  return Boolean(
+    left &&
+      right &&
+      left.id === right.id &&
+      left.identifier === right.identifier &&
+      left.registrationId === right.registrationId
+  );
+}
+
+type PartialDeviceType = Omit<DeviceType, 'registrationId'>;
+
+function partialDeviceComparator(
+  left?: PartialDeviceType,
+  right?: PartialDeviceType
+): boolean {
   return Boolean(
     left &&
       right &&
