@@ -320,7 +320,7 @@ export async function startApp(): Promise<void> {
     {
       name: 'Whisper.deliveryReceiptBatcher',
       wait: 500,
-      maxSize: 500,
+      maxSize: 100,
       processBatch: async items => {
         const byConversationId = window._.groupBy(items, item =>
           window.ConversationController.ensureContactIds({

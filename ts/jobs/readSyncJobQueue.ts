@@ -5,6 +5,7 @@
 
 import * as z from 'zod';
 import * as moment from 'moment';
+import { chunk } from 'lodash';
 import { getSendOptions } from '../util/getSendOptions';
 import { handleMessageSend } from '../util/handleMessageSend';
 import { isNotNil } from '../util/isNotNil';
@@ -20,6 +21,8 @@ import { parseIntWithFallback } from '../util/parseIntWithFallback';
 
 import { JobQueue } from './JobQueue';
 import { jobQueueDatabaseStore } from './JobQueueDatabaseStore';
+
+const CHUNK_SIZE = 100;
 
 const MAX_RETRY_TIME = moment.duration(1, 'day').asMilliseconds();
 
@@ -79,17 +82,21 @@ export class ReadSyncJobQueue extends JobQueue<ReadSyncJobData> {
 
     await sleep(exponentialBackoffSleepTime(attempt));
 
-    const messageIds = readSyncs.map(item => item.messageId).filter(isNotNil);
-
     const ourConversation = window.ConversationController.getOurConversationOrThrow();
     const sendOptions = await getSendOptions(ourConversation.attributes, {
       syncMessage: true,
     });
 
     try {
-      await handleMessageSend(
-        window.textsecure.messaging.syncReadMessages(readSyncs, sendOptions),
-        { messageIds, sendType: 'readSync' }
+      await Promise.all(
+        chunk(readSyncs, CHUNK_SIZE).map(batch => {
+          const messageIds = batch.map(item => item.messageId).filter(isNotNil);
+
+          return handleMessageSend(
+            window.textsecure.messaging.syncReadMessages(batch, sendOptions),
+            { messageIds, sendType: 'readSync' }
+          );
+        })
       );
     } catch (err: unknown) {
       if (!(err instanceof Error)) {
