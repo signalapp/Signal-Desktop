@@ -60,6 +60,7 @@ const HeaderItem = (props: {
   profileName?: string;
   conversationId: string;
   isPinned: boolean;
+  currentNotificationSetting: ConversationNotificationSettingType;
 }) => {
   const {
     unreadCount,
@@ -70,6 +71,7 @@ const HeaderItem = (props: {
     conversationId,
     profileName,
     name,
+    currentNotificationSetting
   } = props;
   const theme = useTheme();
 
@@ -325,7 +327,6 @@ const ConversationListItem = (props: Props) => {
             profileName={profileName}
             currentNotificationSetting={currentNotificationSetting}
           />
-            />
           <MessageItem isTyping={isTyping} unreadCount={unreadCount} lastMessage={lastMessage} />
         </div>
       </div>
