@@ -7,7 +7,7 @@ import { SessionIconButton, SessionIconSize, SessionIconType } from '../session/
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../session/SessionButton';
 import { ConversationAvatar } from '../session/usingClosedConversationDetails';
 import { MemoConversationHeaderMenu } from '../session/menu/ConversationHeaderMenu';
-import { contextMenu, theme } from 'react-contexify';
+import { contextMenu } from 'react-contexify';
 import styled, { useTheme } from 'styled-components';
 import { ConversationNotificationSettingType } from '../../models/conversation';
 import {
