@@ -12,6 +12,7 @@ import { join } from 'path';
 import mkdirp from 'mkdirp';
 import rimraf from 'rimraf';
 import SQL, { Database, Statement } from 'better-sqlite3';
+import pProps from 'p-props';
 
 import { v4 as generateUUID } from 'uuid';
 import {
@@ -24,6 +25,7 @@ import {
   keyBy,
   last,
   map,
+  mapValues,
   omit,
   pick,
 } from 'lodash';
@@ -37,6 +39,7 @@ import { dropNull } from '../util/dropNull';
 import { isNormalNumber } from '../util/isNormalNumber';
 import { isNotNil } from '../util/isNotNil';
 import { parseIntOrThrow } from '../util/parseIntOrThrow';
+import { formatCountForLogging } from '../logging/formatCountForLogging';
 import { ConversationColorType, CustomColorType } from '../types/Colors';
 
 import {
@@ -247,6 +250,8 @@ const dataInterface: ServerInterface = {
   getJobsInQueue,
   insertJob,
   deleteJob,
+
+  getStatisticsForLogging,
 
   // Server-only
 
@@ -2975,21 +2980,22 @@ async function getAllFromTable<T>(table: string): Promise<Array<T>> {
   return rows.map(row => jsonToObject(row.json));
 }
 
+function getCountFromTable(table: string): number {
+  const db = getInstance();
+  const result: null | number = db
+    .prepare<EmptyQuery>(`SELECT count(*) from ${table};`)
+    .pluck(true)
+    .get();
+  if (isNumber(result)) {
+    return result;
+  }
+  throw new Error(`getCountFromTable: Unable to get count from table ${table}`);
+}
+
 // Conversations
 
 async function getConversationCount(): Promise<number> {
-  const db = getInstance();
-  const row = db
-    .prepare<EmptyQuery>('SELECT count(*) from conversations;')
-    .get();
-
-  if (!row) {
-    throw new Error(
-      'getConversationCount: Unable to get count of conversations'
-    );
-  }
-
-  return row['count(*)'];
+  return getCountFromTable('conversations');
 }
 
 function saveConversationSync(
@@ -3433,22 +3439,20 @@ async function searchMessagesInConversation(
 }
 
 async function getMessageCount(conversationId?: string): Promise<number> {
-  const db = getInstance();
-  let row: { 'count(*)': number } | undefined;
+  if (conversationId === undefined) {
+    return getCountFromTable('messages');
+  }
 
-  if (conversationId !== undefined) {
-    row = db
-      .prepare<Query>(
-        `
+  const db = getInstance();
+  const row: { 'count(*)': number } | undefined = db
+    .prepare<Query>(
+      `
         SELECT count(*)
         FROM messages
         WHERE conversationId = $conversationId;
         `
-      )
-      .get({ conversationId });
-  } else {
-    row = db.prepare<EmptyQuery>('SELECT count(*) FROM messages;').get();
-  }
+    )
+    .get({ conversationId });
 
   if (!row) {
     throw new Error('getMessageCount: Unable to get count of messages');
@@ -4654,14 +4658,7 @@ async function getUnprocessedById(
 }
 
 async function getUnprocessedCount(): Promise<number> {
-  const db = getInstance();
-  const row = db.prepare<EmptyQuery>('SELECT count(*) from unprocessed;').get();
-
-  if (!row) {
-    throw new Error('getUnprocessedCount: Unable to get count of unprocessed');
-  }
-
-  return row['count(*)'];
+  return getCountFromTable('unprocessed');
 }
 
 async function getAllUnprocessed(): Promise<Array<UnprocessedType>> {
@@ -5197,15 +5194,7 @@ async function deleteStickerPack(packId: string): Promise<Array<string>> {
 }
 
 async function getStickerCount(): Promise<number> {
-  const db = getInstance();
-
-  const row = db.prepare<EmptyQuery>('SELECT count(*) from stickers;').get();
-
-  if (!row) {
-    throw new Error('getStickerCount: Unable to get count of stickers');
-  }
-
-  return row['count(*)'];
+  return getCountFromTable('stickers');
 }
 async function getAllStickerPacks(): Promise<Array<StickerPackType>> {
   const db = getInstance();
@@ -5807,6 +5796,16 @@ async function deleteJob(id: string): Promise<void> {
   const db = getInstance();
 
   db.prepare<Query>('DELETE FROM jobs WHERE id = $id').run({ id });
+}
+
+async function getStatisticsForLogging(): Promise<Record<string, string>> {
+  const counts = await pProps({
+    messageCount: getMessageCount(),
+    conversationCount: getConversationCount(),
+    sessionCount: getCountFromTable('sessions'),
+    senderKeyCount: getCountFromTable('senderKeys'),
+  });
+  return mapValues(counts, formatCountForLogging);
 }
 
 async function updateAllConversationColors(

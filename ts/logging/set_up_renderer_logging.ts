@@ -19,10 +19,12 @@ import {
 import { uploadDebugLogs } from './debuglogs';
 import { redactAll } from '../util/privacy';
 import {
+  FetchLogIpcData,
   LogEntryType,
   LogLevel,
   cleanArgs,
   getLogLevelString,
+  isFetchLogIpcData,
   isLogEntry,
 } from './shared';
 import * as log from './log';
@@ -52,21 +54,49 @@ if (window.console) {
 
 // The mechanics of preparing a log for publish
 
-function getHeader() {
-  let header = window.navigator.userAgent;
+const headerSectionTitle = (title: string) => `========= ${title} =========`;
 
-  header += ` node/${window.getNodeVersion()}`;
-  header += ` env/${window.getEnvironment()}`;
+const headerSection = (
+  title: string,
+  data: Readonly<Record<string, unknown>>
+): string => {
+  const sortedEntries = _.sortBy(Object.entries(data), ([key]) => key);
+  return [
+    headerSectionTitle(title),
+    ...sortedEntries.map(
+      ([key, value]) => `${key}: ${redactAll(String(value))}`
+    ),
+    '',
+  ].join('\n');
+};
 
-  return header;
-}
+const getHeader = ({
+  capabilities,
+  remoteConfig,
+  statistics,
+  user,
+}: Omit<FetchLogIpcData, 'logEntries'>): string =>
+  [
+    headerSection('System info', {
+      Time: Date.now(),
+      'User agent': window.navigator.userAgent,
+      'Node version': window.getNodeVersion(),
+      Environment: window.getEnvironment(),
+      'App version': window.getVersion(),
+    }),
+    headerSection('User info', user),
+    headerSection('Capabilities', capabilities),
+    headerSection('Remote config', remoteConfig),
+    headerSection('Statistics', statistics),
+    headerSectionTitle('Logs'),
+  ].join('\n');
 
 const getLevel = _.memoize((level: LogLevel): string => {
   const text = getLogLevelString(level);
   return text.toUpperCase().padEnd(levelMaxLength, ' ');
 });
 
-function formatLine(mightBeEntry: Readonly<unknown>): string {
+function formatLine(mightBeEntry: unknown): string {
   const entry: LogEntryType = isLogEntry(mightBeEntry)
     ? mightBeEntry
     : {
@@ -84,11 +114,15 @@ function fetch(): Promise<string> {
   return new Promise(resolve => {
     ipc.send('fetch-log');
 
-    ipc.on('fetched-log', (_event, logEntries: unknown) => {
+    ipc.on('fetched-log', (_event, data: unknown) => {
+      let header: string;
       let body: string;
-      if (Array.isArray(logEntries)) {
+      if (isFetchLogIpcData(data)) {
+        const { logEntries } = data;
+        header = getHeader(data);
         body = logEntries.map(formatLine).join('\n');
       } else {
+        header = headerSectionTitle('Partial logs');
         const entry: LogEntryType = {
           level: LogLevel.Error,
           msg: 'Invalid IPC data when fetching logs; dropping all logs',
@@ -97,7 +131,7 @@ function fetch(): Promise<string> {
         body = formatLine(entry);
       }
 
-      const result = `${getHeader()}\n${redactAll(body)}`;
+      const result = `${header}\n${body}`;
       resolve(result);
     });
   });

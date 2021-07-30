@@ -309,9 +309,13 @@ export class ConversationController {
     return conversationId;
   }
 
+  getOurConversation(): ConversationModel | undefined {
+    const conversationId = this.getOurConversationId();
+    return conversationId ? this.get(conversationId) : undefined;
+  }
+
   getOurConversationOrThrow(): ConversationModel {
-    const conversationId = this.getOurConversationIdOrThrow();
-    const conversation = this.get(conversationId);
+    const conversation = this.getOurConversation();
     if (!conversation) {
       throw new Error(
         'getOurConversationOrThrow: Failed to fetch our own conversation'

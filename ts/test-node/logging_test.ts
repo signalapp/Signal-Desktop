@@ -15,7 +15,7 @@ import {
   eliminateOldEntries,
   isLineAfterDate,
   fetchLog,
-  fetch,
+  fetchLogs,
 } from '../logging/main_process_logging';
 
 describe('logging', () => {
@@ -275,9 +275,9 @@ describe('logging', () => {
     });
   });
 
-  describe('#fetch', () => {
+  describe('#fetchLogs', () => {
     it('returns single entry if no files', () => {
-      return fetch(tmpDir).then(results => {
+      return fetchLogs(tmpDir).then(results => {
         expect(results).to.have.length(1);
         expect(results[0].msg).to.match(/Loaded this list/);
       });
@@ -296,7 +296,7 @@ describe('logging', () => {
       fs.writeFileSync(path.join(tmpDir, 'first.log'), first);
       fs.writeFileSync(path.join(tmpDir, 'second.log'), second);
 
-      return fetch(tmpDir).then(results => {
+      return fetchLogs(tmpDir).then(results => {
         expect(results).to.have.length(4);
         expect(results[0].msg).to.equal('1');
         expect(results[1].msg).to.equal('2');

@@ -263,6 +263,8 @@ const dataInterface: ClientInterface = {
   insertJob,
   deleteJob,
 
+  getStatisticsForLogging,
+
   // Test-only
 
   _getAllMessages,
@@ -1637,4 +1639,8 @@ async function updateAllConversationColors(
     conversationColor,
     customColorData
   );
+}
+
+function getStatisticsForLogging(): Promise<Record<string, string>> {
+  return channels.getStatisticsForLogging();
 }

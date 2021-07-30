@@ -437,6 +437,8 @@ export type DataInterface = {
       value: CustomColorType;
     }
   ) => Promise<void>;
+
+  getStatisticsForLogging(): Promise<Record<string, string>>;
 };
 
 // The reason for client/server divergence is the need to inject Backbone models and

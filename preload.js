@@ -169,6 +169,34 @@ try {
   window.updateTrayIcon = unreadCount =>
     ipc.send('update-tray-icon', unreadCount);
 
+  ipc.on('additional-log-data-request', async event => {
+    const ourConversation = window.ConversationController.getOurConversation();
+    const ourCapabilities = ourConversation
+      ? ourConversation.get('capabilities')
+      : undefined;
+
+    const remoteConfig = window.storage.get('remoteConfig') || {};
+
+    let statistics;
+    try {
+      statistics = await window.Signal.Data.getStatisticsForLogging();
+    } catch (error) {
+      statistics = {};
+    }
+
+    event.sender.send('additional-log-data-response', {
+      capabilities: ourCapabilities || {},
+      remoteConfig: _.mapValues(remoteConfig, ({ value }) => value),
+      statistics,
+      user: {
+        deviceId: window.textsecure.storage.user.getDeviceId(),
+        e164: window.textsecure.storage.user.getNumber(),
+        uuid: window.textsecure.storage.user.getUuid(),
+        conversationId: ourConversation && ourConversation.id,
+      },
+    });
+  });
+
   ipc.on('set-up-as-new-device', () => {
     Whisper.events.trigger('setupAsNewDevice');
   });

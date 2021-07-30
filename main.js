@@ -1201,7 +1201,7 @@ app.on('ready', async () => {
 
   installPermissionsHandler({ session, userConfig });
 
-  logger = await logging.initialize();
+  logger = await logging.initialize(getMainWindow);
   logger.info('app ready');
   logger.info(`starting version ${packageJson.version}`);
 
