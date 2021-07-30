@@ -25,6 +25,7 @@ const {
   protocol: electronProtocol,
   session,
   shell,
+  systemPreferences,
 } = electron;
 
 // FIXME Hardcoding appId to prevent build failrues on release.
@@ -983,3 +984,14 @@ function getThemeFromMainWindow() {
     mainWindow.webContents.send('get-theme-setting');
   });
 }
+
+function askForMicrophoneAccess() {
+  const status = systemPreferences.getMediaAccessStatus('microphone');
+  if (status !== 'granted') {
+    systemPreferences.askForMediaAccess('microphone');
+  }
+}
+
+ipc.on('microphone-access', () => {
+  askForMicrophoneAccess();
+});

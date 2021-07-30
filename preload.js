@@ -219,6 +219,8 @@ window.setSettingValue = (settingID, value) => {
 window.getMediaPermissions = () => ipc.sendSync('get-media-permissions');
 window.setMediaPermissions = value => ipc.send('set-media-permissions', !!value);
 
+window.askForMicrophoneAccess = () => ipc.send('microphone-access');
+
 // Auto update setting
 window.getAutoUpdateEnabled = () => ipc.sendSync('get-auto-update-setting');
 window.setAutoUpdateEnabled = value => ipc.send('set-auto-update-setting', !!value);
