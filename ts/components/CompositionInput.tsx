@@ -74,7 +74,11 @@ export type Props = {
   ): unknown;
   onTextTooLong(): unknown;
   onPickEmoji(o: EmojiPickDataType): unknown;
-  onSubmit(message: string, mentions: Array<BodyRangeType>): unknown;
+  onSubmit(
+    message: string,
+    mentions: Array<BodyRangeType>,
+    timestamp: number
+  ): unknown;
   getQuotedMessage(): unknown;
   clearQuotedMessage(): unknown;
 };
@@ -218,6 +222,7 @@ export const CompositionInput: React.ComponentType<Props> = props => {
   };
 
   const submit = () => {
+    const timestamp = Date.now();
     const quill = quillRef.current;
 
     if (quill === undefined) {
@@ -226,8 +231,10 @@ export const CompositionInput: React.ComponentType<Props> = props => {
 
     const [text, mentions] = getTextAndMentions();
 
-    window.log.info(`Submitting a message with ${mentions.length} mentions`);
-    onSubmit(text, mentions);
+    window.log.info(
+      `CompositionInput: Submitting message ${timestamp} with ${mentions.length} mentions`
+    );
+    onSubmit(text, mentions, timestamp);
   };
 
   if (inputApi) {

@@ -670,8 +670,9 @@ Whisper.ConversationView = Whisper.View.extend({
         this.sendStickerMessage({ packId, stickerId }),
       onSubmit: (
         message: string,
-        mentions: typeof window.Whisper.BodyRangesType
-      ) => this.sendMessage(message, mentions),
+        mentions: typeof window.Whisper.BodyRangesType,
+        timestamp: number
+      ) => this.sendMessage(message, mentions, { timestamp }),
       onEditorStateChange: (
         msg: string,
         bodyRanges: Array<typeof window.Whisper.BodyRangeType>,
@@ -3640,7 +3641,7 @@ Whisper.ConversationView = Whisper.View.extend({
     }
   },
 
-  async getUntrustedContacts(options: any = {}) {
+  async getUntrustedContacts(options: { force?: boolean } = {}) {
     const { model }: { model: ConversationModel } = this;
 
     // This will go to the trust store for the latest identity key information,
@@ -3781,8 +3782,13 @@ Whisper.ConversationView = Whisper.View.extend({
     return false;
   },
 
-  async sendMessage(message = '', mentions = [], options = {}) {
+  async sendMessage(
+    message = '',
+    mentions = [],
+    options: { timestamp?: number; force?: boolean } = {}
+  ) {
     const { model }: { model: ConversationModel } = this;
+    const timestamp = options.timestamp || Date.now();
 
     this.sendStart = Date.now();
 
@@ -3793,7 +3799,7 @@ Whisper.ConversationView = Whisper.View.extend({
       if (contacts && contacts.length) {
         const sendAnyway = await this.showSendAnywayDialog(contacts);
         if (sendAnyway) {
-          this.sendMessage(message, mentions, { force: true });
+          this.sendMessage(message, mentions, { force: true, timestamp });
           return;
         }
 
@@ -3822,7 +3828,11 @@ Whisper.ConversationView = Whisper.View.extend({
       }
 
       const attachments = await this.getFiles();
+      const sendHQImages =
+        window.reduxStore &&
+        window.reduxStore.getState().composer.shouldSendHighQualityAttachments;
       const sendDelta = Date.now() - this.sendStart;
+
       window.log.info('Send pre-checks took', sendDelta, 'milliseconds');
 
       model.sendMessage(
@@ -3833,10 +3843,8 @@ Whisper.ConversationView = Whisper.View.extend({
         undefined, // sticker
         mentions,
         {
-          sendHQImages:
-            window.reduxStore &&
-            window.reduxStore.getState().composer
-              .shouldSendHighQualityAttachments,
+          sendHQImages,
+          timestamp,
         }
       );
 

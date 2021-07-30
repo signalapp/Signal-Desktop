@@ -454,7 +454,7 @@ export class Message extends React.Component<Props, State> {
   }
 
   public componentDidUpdate(prevProps: Props): void {
-    const { canDeleteForEveryone, isSelected } = this.props;
+    const { canDeleteForEveryone, isSelected, status, timestamp } = this.props;
 
     this.startSelectedTimer();
 
@@ -467,6 +467,19 @@ export class Message extends React.Component<Props, State> {
 
     if (canDeleteForEveryone !== prevProps.canDeleteForEveryone) {
       this.startDeleteForEveryoneTimer();
+    }
+
+    if (
+      prevProps.status === 'sending' &&
+      (status === 'sent' ||
+        status === 'delivered' ||
+        status === 'read' ||
+        status === 'viewed')
+    ) {
+      const delta = Date.now() - timestamp;
+      window.log.info(
+        `Message.tsx: Rendered 'send complete' for message ${timestamp}; took ${delta}ms`
+      );
     }
   }
 

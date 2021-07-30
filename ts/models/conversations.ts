@@ -3559,6 +3559,9 @@ export class ConversationModel extends window.Backbone
     const destination = this.getSendTarget()!;
     const recipients = this.getRecipients();
 
+    if (timestamp) {
+      window.log.info(`sendMessage: Queueing send with timestamp ${timestamp}`);
+    }
     this.queueJob('sendMessage', async () => {
       const now = timestamp || Date.now();
 
