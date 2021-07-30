@@ -1915,20 +1915,24 @@ function updateLastHash(data) {
 
 function saveSeenMessageHash(data) {
   const { expiresAt, hash } = data;
-  globalInstance
-    .prepare(
-      `INSERT INTO seenMessages (
+  try {
+    globalInstance
+      .prepare(
+        `INSERT INTO seenMessages (
       expiresAt,
       hash
       ) values (
         $expiresAt,
         $hash
         );`
-    )
-    .run({
-      expiresAt,
-      hash,
-    });
+      )
+      .run({
+        expiresAt,
+        hash,
+      });
+  } catch (e) {
+    console.warn('saveSeenMessageHash failed:', e);
+  }
 }
 
 function cleanLastHashes() {
