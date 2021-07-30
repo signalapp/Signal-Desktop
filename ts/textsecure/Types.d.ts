@@ -32,6 +32,7 @@ export type WebAPICredentials = {
 export type DeviceType = {
   id: number;
   identifier: string;
+  registrationId: number;
 };
 
 // How the legacy APIs generate these types

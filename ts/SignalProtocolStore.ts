@@ -967,13 +967,17 @@ export class SignalProtocolStore extends EventsMixin {
           conversationIds.has(session.fromDB.conversationId)
         );
         const openEntries: Array<
-          SessionCacheEntry | undefined
+          | undefined
+          | {
+              entry: SessionCacheEntry;
+              record: SessionRecord;
+            }
         > = await Promise.all(
           entries.map(async entry => {
             if (entry.hydrated) {
               const record = entry.item;
               if (record.hasCurrentState()) {
-                return entry;
+                return { record, entry };
               }
 
               return undefined;
@@ -981,7 +985,7 @@ export class SignalProtocolStore extends EventsMixin {
 
             const record = await this._maybeMigrateSession(entry.fromDB);
             if (record.hasCurrentState()) {
-              return entry;
+              return { record, entry };
             }
 
             return undefined;
@@ -989,10 +993,11 @@ export class SignalProtocolStore extends EventsMixin {
         );
 
         const devices = openEntries
-          .map(entry => {
-            if (!entry) {
+          .map(item => {
+            if (!item) {
               return undefined;
             }
+            const { entry, record } = item;
 
             const { conversationId } = entry.fromDB;
             conversationIds.delete(conversationId);
@@ -1015,9 +1020,12 @@ export class SignalProtocolStore extends EventsMixin {
               );
             }
 
+            const registrationId = record.remoteRegistrationId();
+
             return {
               identifier,
               id,
+              registrationId,
             };
           })
           .filter(isNotNil);
