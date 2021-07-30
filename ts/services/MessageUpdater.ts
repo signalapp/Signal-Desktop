@@ -30,15 +30,3 @@ export function markRead(
 
   return nextMessageAttributes;
 }
-
-export function getExpiresAt(
-  messageAttrs: Pick<
-    MessageAttributesType,
-    'expireTimer' | 'expirationStartTimestamp'
-  >
-): number | undefined {
-  const { expireTimer, expirationStartTimestamp } = messageAttrs;
-  return expirationStartTimestamp && expireTimer
-    ? expirationStartTimestamp + expireTimer * 1000
-    : undefined;
-}
