@@ -3,7 +3,7 @@ import { Flex } from '../../basic/Flex';
 import { SpacerLG } from '../../basic/Text';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../SessionButton';
 import { SessionSpinner } from '../SessionSpinner';
-import { signInWithLinking, signInWithRecovery, validatePassword } from './RegistrationTabs';
+import { signInWithLinking, signInWithRecovery } from './RegistrationTabs';
 import { RegistrationUserDetails } from './RegistrationUserDetails';
 import { TermsAndConditions } from './TermsAndConditions';
 
@@ -93,10 +93,6 @@ export const SignInTab = () => {
   const [recoveryPhraseError, setRecoveryPhraseError] = useState(undefined as string | undefined);
   const [displayName, setDisplayName] = useState('');
   const [displayNameError, setDisplayNameError] = useState('');
-  const [password, setPassword] = useState('');
-  const [passwordVerify, setPasswordVerify] = useState('');
-  const [passwordErrorString, setPasswordErrorString] = useState('');
-  const [passwordFieldsMatch, setPasswordFieldsMatch] = useState(false);
   const [loading, setIsLoading] = useState(false);
 
   const isRecovery = signInMode === SignInMode.UsingRecoveryPhrase;
@@ -110,28 +106,22 @@ export const SignInTab = () => {
 
   // Display name is required only on isRecoveryMode
   const displayNameOK = (isRecovery && !displayNameError && !!displayName) || isLinking;
-  // Password is valid if empty, or if no error and fields are matching
-  const passwordsOK = !password || (!passwordErrorString && passwordFieldsMatch);
 
   // Seed is mandatory no matter which mode
   const seedOK = recoveryPhrase && !recoveryPhraseError;
 
-  const activateContinueButton = seedOK && displayNameOK && passwordsOK && !loading;
+  const activateContinueButton = seedOK && displayNameOK && !loading;
 
   const continueYourSession = async () => {
     if (isRecovery) {
       await signInWithRecovery({
         displayName,
         userRecoveryPhrase: recoveryPhrase,
-        password,
-        verifyPassword: passwordVerify,
       });
     } else if (isLinking) {
       setIsLoading(true);
       await signInWithLinking({
         userRecoveryPhrase: recoveryPhrase,
-        password,
-        verifyPassword: passwordVerify,
       });
       setIsLoading(false);
     }
@@ -151,32 +141,10 @@ export const SignInTab = () => {
             setDisplayName(sanitizedName);
             setDisplayNameError(!trimName ? window.i18n('displayNameEmpty') : undefined);
           }}
-          onPasswordChanged={(val: string) => {
-            setPassword(val);
-            // if user just removed the password, empty the verify too
-            if (!val) {
-              setPasswordVerify('');
-              setPasswordErrorString('');
-              setPasswordFieldsMatch(true);
-              return;
-            }
-            const errors = validatePassword(val, passwordVerify);
-            setPasswordErrorString(errors.passwordErrorString);
-            setPasswordFieldsMatch(errors.passwordFieldsMatch);
-          }}
-          onPasswordVerifyChanged={(val: string) => {
-            setPasswordVerify(val);
-            const errors = validatePassword(password, val);
-            setPasswordErrorString(errors.passwordErrorString);
-            setPasswordFieldsMatch(errors.passwordFieldsMatch);
-          }}
           onSeedChanged={(seed: string) => {
             setRecoveryPhrase(seed);
             setRecoveryPhraseError(!seed ? window.i18n('recoveryPhraseEmpty') : undefined);
           }}
-          password={password}
-          passwordErrorString={passwordErrorString}
-          passwordFieldsMatch={passwordFieldsMatch}
           recoveryPhrase={recoveryPhrase}
           stealAutoFocus={true}
         />

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../SessionButton';
 import { SessionIdEditable } from '../SessionIdEditable';
-import { signUp, validatePassword } from './RegistrationTabs';
+import { signUp } from './RegistrationTabs';
 import { RegistrationUserDetails } from './RegistrationUserDetails';
 import { TermsAndConditions } from './TermsAndConditions';
 
@@ -67,11 +67,7 @@ export const SignUpTab = (props: Props) => {
   const [signUpMode, setSignUpMode] = useState(SignUpMode.Default);
 
   const [displayName, setDisplayName] = useState('');
-  const [password, setPassword] = useState('');
-  const [passwordVerify, setPasswordVerify] = useState('');
-  const [passwordErrorString, setPasswordErrorString] = useState('');
   const [displayNameError, setDisplayNameError] = useState('');
-  const [passwordFieldsMatch, setPasswordFieldsMatch] = useState(false);
 
   useEffect(() => {
     if (signUpMode === SignUpMode.SessionIDShown) {
@@ -103,16 +99,12 @@ export const SignUpTab = (props: Props) => {
 
   // Display name is required
   const displayNameOK = !displayNameError && !!displayName;
-  // Password is valid if empty, or if no error and fields are matching
-  const passwordsOK = !password || (!passwordErrorString && passwordFieldsMatch);
 
-  const enableCompleteSignUp = displayNameOK && passwordsOK;
+  const enableCompleteSignUp = displayNameOK;
   const signUpWithDetails = async () => {
     await signUp({
       displayName,
       generatedRecoveryPhrase: props.generatedRecoveryPhrase,
-      password,
-      verifyPassword: passwordVerify,
     });
   };
 
@@ -133,27 +125,6 @@ export const SignUpTab = (props: Props) => {
           setDisplayName(sanitizedName);
           setDisplayNameError(!trimName ? window.i18n('displayNameEmpty') : undefined);
         }}
-        onPasswordChanged={(val: string) => {
-          setPassword(val);
-          if (!val) {
-            setPasswordVerify('');
-            setPasswordErrorString('');
-            setPasswordFieldsMatch(true);
-            return;
-          }
-          const errors = validatePassword(val, passwordVerify);
-          setPasswordErrorString(errors.passwordErrorString);
-          setPasswordFieldsMatch(errors.passwordFieldsMatch);
-        }}
-        onPasswordVerifyChanged={(val: string) => {
-          setPasswordVerify(val);
-          const errors = validatePassword(password, val);
-          setPasswordErrorString(errors.passwordErrorString);
-          setPasswordFieldsMatch(errors.passwordFieldsMatch);
-        }}
-        password={password}
-        passwordErrorString={passwordErrorString}
-        passwordFieldsMatch={passwordFieldsMatch}
         stealAutoFocus={true}
       />
       <SessionButton
