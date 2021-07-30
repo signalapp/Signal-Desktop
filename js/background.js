@@ -340,7 +340,7 @@
     window.toggleMediaPermissions = async () => {
       const value = window.getMediaPermissions();
       if (value === false && Signal.OS.isMacOS()) {
-        await window.askForMicrophoneAccess();
+        await window.askForMediaAccess();
       }
       window.setMediaPermissions(!value);
     };
