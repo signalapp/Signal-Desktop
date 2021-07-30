@@ -13059,6 +13059,13 @@
     "updated": "2018-09-19T21:59:32.770Z"
   },
   {
+    "rule": "React-useRef",
+    "path": "sticker-creator/components/StickerFrame.tsx",
+    "line": "    const timerRef = React.useRef<number>();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-30T16:57:33.618Z"
+  },
+  {
     "rule": "jQuery-$(",
     "path": "sticker-creator/util/i18n.tsx",
     "line": "      const FIND_REPLACEMENTS = /\\$([^$]+)\\$/g;",
@@ -13185,6 +13192,13 @@
     "reasonDetail": "Needed to render remote video elements. Doesn't interact with the DOM."
   },
   {
+    "rule": "React-useRef",
+    "path": "ts/calling/useGetCallingFrameBuffer.ts",
+    "line": "  const ref = useRef<ArrayBuffer | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-30T16:57:33.618Z"
+  },
+  {
     "rule": "jQuery-load(",
     "path": "ts/challenge.js",
     "line": "    async load() {",
@@ -13237,6 +13251,20 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/AvatarInput.tsx",
+    "line": "  const fileInputRef = useRef<null | HTMLInputElement>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-30T16:57:33.618Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/AvatarInput.tsx",
+    "line": "  const menuTriggerRef = useRef<null | any>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-30T16:57:33.618Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/AvatarInputContainer.js",
     "line": "    const startingAvatarPathRef = react_1.useRef(avatarPath);",
     "reasonCategory": "usageTrusted",
@@ -13244,11 +13272,10 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/AvatarPopup.js",
-    "line": "    const focusRef = React.useRef(null);",
+    "path": "ts/components/AvatarInputContainer.tsx",
+    "line": "  const startingAvatarPathRef = useRef<undefined | string>(avatarPath);",
     "reasonCategory": "usageTrusted",
-    "updated": "2020-10-26T19:12:24.410Z",
-    "reasonDetail": "Only used to focus the element."
+    "updated": "2021-07-30T16:57:33.618Z"
   },
   {
     "rule": "React-useRef",
@@ -13266,11 +13293,32 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/BackboneHost.tsx",
+    "line": "  const hostRef = useRef<HTMLDivElement | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-30T16:57:33.618Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/BackboneHost.tsx",
+    "line": "  const viewRef = useRef<Backbone.View | undefined>(undefined);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-30T16:57:33.618Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/CallNeedPermissionScreen.js",
     "line": "    const autoCloseAtRef = react_1.useRef(Date.now() + AUTO_CLOSE_MS);",
     "reasonCategory": "falseMatch",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Doesn't touch the DOM."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CallNeedPermissionScreen.tsx",
+    "line": "  const autoCloseAtRef = useRef<number>(Date.now() + AUTO_CLOSE_MS);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-30T16:57:33.618Z"
   },
   {
     "rule": "React-useRef",
@@ -13282,11 +13330,25 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/CallScreen.tsx",
+    "line": "  const localVideoRef = useRef<HTMLVideoElement | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-30T16:57:33.618Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/CallingLobby.js",
     "line": "    const localVideoRef = react_1.default.useRef(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Used to get the local video element for rendering."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CallingLobby.tsx",
+    "line": "  const localVideoRef = React.useRef<null | HTMLVideoElement>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-30T16:57:33.618Z"
   },
   {
     "rule": "React-useRef",
@@ -13314,10 +13376,24 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/CallingPip.tsx",
+    "line": "  const videoContainerRef = React.useRef<null | HTMLDivElement>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-30T16:57:33.618Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/CallingToastManager.js",
     "line": "    const timeoutRef = react_1.useRef(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-05-13T19:40:31.751Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CallingToastManager.tsx",
+    "line": "  const timeoutRef = useRef<NodeJS.Timeout | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-30T16:57:33.618Z"
   },
   {
     "rule": "React-useRef",
@@ -13326,6 +13402,13 @@
     "reasonCategory": "usageTrusted",
     "updated": "2021-05-05T23:11:22.692Z",
     "reasonDetail": "Used only to set focus"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CaptchaDialog.tsx",
+    "line": "  const buttonRef = useRef<HTMLButtonElement | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-30T16:57:33.618Z"
   },
   {
     "rule": "React-createRef",
@@ -13349,6 +13432,13 @@
     "line": "    const menuRef = react_1.useRef(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-05-25T18:25:53.896Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/ChatColorPicker.tsx",
+    "line": "  const menuRef = useRef<any | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-30T16:57:33.618Z"
   },
   {
     "rule": "DOM-innerHTML",
@@ -13381,6 +13471,20 @@
     "reasonCategory": "usageTrusted",
     "updated": "2020-06-03T19:23:21.195Z",
     "reasonDetail": "Our code, no user input, only clearing out the dom"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CompositionArea.tsx",
+    "line": "  const inputApiRef = React.useRef<InputApi | undefined>();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-30T16:57:33.618Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CompositionArea.tsx",
+    "line": "  const micCellRef = React.useRef<HTMLDivElement>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-30T16:57:33.618Z"
   },
   {
     "rule": "React-useRef",
@@ -13446,11 +13550,60 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/CompositionInput.tsx",
+    "line": "  const emojiCompletionRef = React.useRef<EmojiCompletion>();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-30T16:57:33.618Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CompositionInput.tsx",
+    "line": "  const mentionCompletionRef = React.useRef<MentionCompletion>();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-30T16:57:33.618Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CompositionInput.tsx",
+    "line": "  const quillRef = React.useRef<Quill>();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-30T16:57:33.618Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CompositionInput.tsx",
+    "line": "  const scrollerRef = React.useRef<HTMLDivElement>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-30T16:57:33.618Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CompositionInput.tsx",
+    "line": "  const propsRef = React.useRef<Props>(props);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-30T16:57:33.618Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CompositionInput.tsx",
+    "line": "  const memberRepositoryRef = React.useRef<MemberRepository>(",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-30T16:57:33.618Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/ContactPills.js",
     "line": "    const elRef = react_1.useRef(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-03-01T18:34:36.638Z",
     "reasonDetail": "Used for scrolling. Doesn't otherwise manipulate the DOM"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/ContactPills.tsx",
+    "line": "  const elRef = useRef<null | HTMLDivElement>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-30T16:57:33.618Z"
   },
   {
     "rule": "React-useRef",
@@ -13462,11 +13615,25 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/ConversationList.tsx",
+    "line": "  const listRef = useRef<null | List>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-30T16:57:33.618Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/DirectCallRemoteParticipant.js",
     "line": "    const remoteVideoRef = react_1.useRef(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2020-11-11T21:56:04.179Z",
     "reasonDetail": "Needed to render the remote video element."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/DirectCallRemoteParticipant.tsx",
+    "line": "  const remoteVideoRef = useRef<HTMLCanvasElement | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-30T16:57:33.618Z"
   },
   {
     "rule": "React-useRef",
@@ -13484,10 +13651,31 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/ForwardMessageModal.tsx",
+    "line": "  const inputRef = useRef<null | HTMLInputElement>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-30T16:57:33.618Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/ForwardMessageModal.tsx",
+    "line": "  const inputApiRef = React.useRef<InputApi | undefined>();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-30T16:57:33.618Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/GradientDial.js",
     "line": "    const containerRef = react_1.useRef(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-05-25T18:25:53.896Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/GradientDial.tsx",
+    "line": "  const containerRef = useRef<HTMLDivElement | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-30T16:57:33.618Z"
   },
   {
     "rule": "React-useRef",
@@ -13496,6 +13684,13 @@
     "reasonCategory": "usageTrusted",
     "updated": "2021-01-08T15:48:46.313Z",
     "reasonDetail": "Used to deal with scroll position."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/GroupCallOverflowArea.tsx",
+    "line": "  const overflowRef = useRef<HTMLDivElement | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-30T16:57:33.618Z"
   },
   {
     "rule": "React-useRef",
@@ -13531,6 +13726,20 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/GroupCallRemoteParticipant.tsx",
+    "line": "    const remoteVideoRef = useRef<HTMLCanvasElement | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-30T16:57:33.618Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/GroupCallRemoteParticipant.tsx",
+    "line": "    const canvasContextRef = useRef<CanvasRenderingContext2D | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-30T16:57:33.618Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/Inbox.js",
     "line": "    const hostRef = react_1.useRef(null);",
     "reasonCategory": "usageTrusted",
@@ -13542,6 +13751,20 @@
     "line": "    const viewRef = react_1.useRef(undefined);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-06-08T02:49:25.154Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/Inbox.tsx",
+    "line": "  const hostRef = useRef<HTMLDivElement | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-30T16:57:33.618Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/Inbox.tsx",
+    "line": "  const viewRef = useRef<InboxViewType | undefined>(undefined);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-30T16:57:33.618Z"
   },
   {
     "rule": "React-useRef",
@@ -13563,6 +13786,27 @@
     "line": "    const selectionStartOnKeydownRef = react_1.useRef(value.length);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-07-14T00:50:58.330Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/Input.tsx",
+    "line": "    const innerRef = useRef<HTMLInputElement | HTMLTextAreaElement | null>(",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-30T16:57:33.618Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/Input.tsx",
+    "line": "    const valueOnKeydownRef = useRef<string>(value);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-30T16:57:33.618Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/Input.tsx",
+    "line": "    const selectionStartOnKeydownRef = useRef<number>(value.length);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-30T16:57:33.618Z"
   },
   {
     "rule": "jQuery-$(",
@@ -13625,20 +13869,19 @@
     "updated": "2021-07-14T00:50:58.330Z"
   },
   {
+    "rule": "React-useRef",
+    "path": "ts/components/ProfileEditor.tsx",
+    "line": "  const focusInputRef = useRef<HTMLInputElement | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-30T16:57:33.618Z"
+  },
+  {
     "rule": "React-createRef",
     "path": "ts/components/SafetyNumberChangeDialog.js",
     "line": "    const cancelButtonRef = React.createRef();",
     "reasonCategory": "usageTrusted",
     "updated": "2020-06-23T06:48:06.829Z",
     "reasonDetail": "Used to focus cancel button when dialog opens"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/ShortcutGuide.js",
-    "line": "    const focusRef = React.useRef(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-10-26T19:12:24.410Z",
-    "reasonDetail": "Only used to focus the element."
   },
   {
     "rule": "React-useRef",
@@ -13663,11 +13906,39 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/Slider.tsx",
+    "line": "  const diff = useRef<number>(0);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-30T16:57:33.618Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/Slider.tsx",
+    "line": "  const handleRef = useRef<HTMLDivElement | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-30T16:57:33.618Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/Slider.tsx",
+    "line": "  const sliderRef = useRef<HTMLDivElement | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-30T16:57:33.618Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/Tooltip.js",
     "line": "    const wrapperRef = react_1.default.useRef(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2020-12-04T00:11:08.128Z",
     "reasonDetail": "Used to add (and remove) event listeners."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/Tooltip.tsx",
+    "line": "  const wrapperRef = React.useRef<HTMLSpanElement | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-30T16:57:33.618Z"
   },
   {
     "rule": "React-useRef",
@@ -13682,6 +13953,20 @@
     "line": "    const closeButtonRef = react_1.default.useRef(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2020-11-10T21:27:04.909Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/conversation/ContactModal.tsx",
+    "line": "  const overlayRef = React.useRef<HTMLElement | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-30T16:57:33.618Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/conversation/ContactModal.tsx",
+    "line": "  const closeButtonRef = React.useRef<HTMLElement | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-30T16:57:33.618Z"
   },
   {
     "rule": "React-createRef",
@@ -13725,6 +14010,13 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/conversation/ConversationHero.tsx",
+    "line": "  const previousHeightRef = useRef<undefined | number>();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-30T16:57:33.618Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/conversation/GIF.js",
     "line": "    const videoRef = react_1.useRef(null);",
     "reasonCategory": "usageTrusted",
@@ -13733,10 +14025,24 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/conversation/GIF.tsx",
+    "line": "  const videoRef = useRef<HTMLVideoElement | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-30T16:57:33.618Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/conversation/GroupDescription.js",
     "line": "    const textRef = react_1.useRef(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-05-29T02:15:39.186Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/conversation/GroupDescription.tsx",
+    "line": "  const textRef = useRef<HTMLDivElement | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-30T16:57:33.618Z"
   },
   {
     "rule": "React-createRef",
@@ -13811,6 +14117,13 @@
     "reasonDetail": "Used for obtanining the bounding box for the container"
   },
   {
+    "rule": "React-useRef",
+    "path": "ts/components/conversation/MessageAudio.tsx",
+    "line": "  const waveformRef = useRef<HTMLDivElement | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-30T16:57:33.618Z"
+  },
+  {
     "rule": "React-createRef",
     "path": "ts/components/conversation/MessageDetail.js",
     "line": "        this.focusRef = react_1.default.createRef();",
@@ -13835,22 +14148,6 @@
     "reasonDetail": "Doesn't touch the DOM."
   },
   {
-    "rule": "React-useRef",
-    "path": "ts/components/conversation/ReactionPicker.js",
-    "line": "    const focusRef = React.useRef(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-10-26T19:12:24.410Z",
-    "reasonDetail": "Only used to focus the element."
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/conversation/ReactionViewer.js",
-    "line": "    const focusRef = React.useRef(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-10-26T19:12:24.410Z",
-    "reasonDetail": "Only used to focus the element."
-  },
-  {
     "rule": "React-createRef",
     "path": "ts/components/conversation/Timeline.js",
     "line": "        this.listRef = react_1.default.createRef();",
@@ -13865,6 +14162,13 @@
     "reasonCategory": "usageTrusted",
     "updated": "2021-03-11T20:49:17.292Z",
     "reasonDetail": "Used to focus an input."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/conversation/conversation-details/AddGroupMembersModal/ChooseGroupMembersModal.tsx",
+    "line": "  const inputRef = useRef<null | HTMLInputElement>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-30T16:57:33.618Z"
   },
   {
     "rule": "React-useRef",
@@ -13891,6 +14195,27 @@
     "reasonDetail": "Only stores undefined/true/false, not DOM references."
   },
   {
+    "rule": "React-useRef",
+    "path": "ts/components/conversation/conversation-details/EditConversationAttributesModal.tsx",
+    "line": "  const focusDescriptionRef = useRef<undefined | boolean>(",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-30T16:57:33.618Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/conversation/conversation-details/EditConversationAttributesModal.tsx",
+    "line": "  const startingTitleRef = useRef<string>(externalTitle);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-30T16:57:33.618Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/conversation/conversation-details/EditConversationAttributesModal.tsx",
+    "line": "  const startingAvatarPathRef = useRef<undefined | string>(externalAvatarPath);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-30T16:57:33.618Z"
+  },
+  {
     "rule": "React-createRef",
     "path": "ts/components/conversation/media-gallery/MediaGallery.js",
     "line": "        this.focusRef = react_1.default.createRef();",
@@ -13913,22 +14238,6 @@
     "reasonCategory": "usageTrusted",
     "updated": "2019-11-21T06:13:49.384Z",
     "reasonDetail": "Used for setting focus only"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/stickers/StickerPicker.js",
-    "line": "    const focusRef = React.useRef(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-10-26T19:12:24.410Z",
-    "reasonDetail": "Only used to focus the element."
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/stickers/StickerPreviewModal.js",
-    "line": "    const focusRef = React.useRef(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-10-26T19:12:24.410Z",
-    "reasonDetail": "Only used to focus the element."
   },
   {
     "rule": "jQuery-append(",
@@ -14102,5 +14411,49 @@
     "reasonCategory": "usageTrusted",
     "updated": "2021-03-18T21:41:28.361Z",
     "reasonDetail": "A generic hook. Typically not to be used with non-DOM values."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/util/hooks.js",
+    "line": "    const toFocusRef = React.useRef(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-30T01:08:01.309Z",
+    "reasonDetail": "Used to set focus"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/util/hooks.js",
+    "line": "    const lastFocusedRef = React.useRef(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-30T01:08:01.309Z",
+    "reasonDetail": "Used to store the previous-focused item, again to set focus"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/util/hooks.ts",
+    "line": "  const previousValueRef = React.useRef<T>(initialValue);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-30T16:57:33.618Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/util/hooks.ts",
+    "line": "  const toFocusRef = React.useRef<HTMLElement | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-30T16:57:33.618Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/util/hooks.ts",
+    "line": "  const lastFocusedRef = React.useRef<HTMLElement | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-30T16:57:33.618Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/util/hooks.ts",
+    "line": "  const unobserveRef = React.useRef<(() => unknown) | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-30T16:57:33.618Z"
   }
 ]

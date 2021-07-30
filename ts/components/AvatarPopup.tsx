@@ -23,7 +23,6 @@ export type Props = {
 } & AvatarProps;
 
 export const AvatarPopup = (props: Props): JSX.Element => {
-  const focusRef = React.useRef<HTMLButtonElement>(null);
   const {
     i18n,
     name,
@@ -42,7 +41,7 @@ export const AvatarPopup = (props: Props): JSX.Element => {
   // Note: mechanisms to dismiss this view are all in its host, MainHeader
 
   // Focus first button after initial render, restore focus on teardown
-  useRestoreFocus(focusRef);
+  const [focusRef] = useRestoreFocus();
 
   return (
     <div style={style} className="module-avatar-popup">

@@ -903,6 +903,10 @@ Whisper.ConversationView = Whisper.View.extend({
       this.navigateTo(url);
     };
 
+    const learnMoreAboutDeliveryIssue = () => {
+      this.navigateTo('https://support.signal.org/hc/articles/4404859745690');
+    };
+
     const scrollToQuotedMessage = async (options: any) => {
       const { authorId, sentAt } = options;
 
@@ -1079,6 +1083,7 @@ Whisper.ConversationView = Whisper.View.extend({
           model.acknowledgeGroupMemberNameCollisions(groupNameCollisions);
         },
         contactSupport,
+        learnMoreAboutDeliveryIssue,
         loadNewerMessages,
         loadNewestMessages: this.loadNewestMessages.bind(this),
         loadAndScroll: this.loadAndScroll.bind(this),

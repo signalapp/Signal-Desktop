@@ -15,16 +15,22 @@ export type PropsDataType = {
   inGroup: boolean;
 };
 
+export type PropsActionsType = {
+  learnMoreAboutDeliveryIssue: () => unknown;
+};
+
 type PropsHousekeepingType = {
   i18n: LocalizerType;
 };
 
-export type PropsType = PropsDataType & PropsHousekeepingType;
+export type PropsType = PropsDataType &
+  PropsActionsType &
+  PropsHousekeepingType;
 
 export function DeliveryIssueNotification(
   props: PropsType
 ): ReactElement | null {
-  const { i18n, inGroup, sender } = props;
+  const { i18n, inGroup, sender, learnMoreAboutDeliveryIssue } = props;
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
 
   const openDialog = useCallback(() => {
@@ -61,6 +67,7 @@ export function DeliveryIssueNotification(
         <DeliveryIssueDialog
           i18n={i18n}
           inGroup={inGroup}
+          learnMoreAboutDeliveryIssue={learnMoreAboutDeliveryIssue}
           sender={sender}
           onClose={closeDialog}
         />

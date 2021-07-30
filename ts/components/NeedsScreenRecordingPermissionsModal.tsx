@@ -29,6 +29,7 @@ export const NeedsScreenRecordingPermissionsModal = ({
       i18n={i18n}
       title={i18n('calling__presenting--permission-title')}
       theme={Theme.Dark}
+      onClose={toggleScreenRecordingPermissionsDialog}
     >
       <p>{i18n('calling__presenting--macos-permission-description')}</p>
       <ol style={{ paddingLeft: 16 }}>

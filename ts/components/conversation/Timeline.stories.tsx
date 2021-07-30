@@ -304,6 +304,7 @@ const actions = () => ({
   ),
   setLoadCountdownStart: action('setLoadCountdownStart'),
   setIsNearBottom: action('setIsNearBottom'),
+  learnMoreAboutDeliveryIssue: action('learnMoreAboutDeliveryIssue'),
   loadAndScroll: action('loadAndScroll'),
   loadOlderMessages: action('loadOlderMessages'),
   loadNewerMessages: action('loadNewerMessages'),

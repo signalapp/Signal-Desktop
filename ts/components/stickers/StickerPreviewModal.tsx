@@ -76,12 +76,11 @@ export const StickerPreviewModal = React.memo((props: Props) => {
     installStickerPack,
     uninstallStickerPack,
   } = props;
-  const focusRef = React.useRef<HTMLButtonElement>(null);
   const [root, setRoot] = React.useState<HTMLElement | null>(null);
   const [confirmingUninstall, setConfirmingUninstall] = React.useState(false);
 
   // Restore focus on teardown
-  useRestoreFocus(focusRef, root);
+  const [focusRef] = useRestoreFocus();
 
   React.useEffect(() => {
     const div = document.createElement('div');
