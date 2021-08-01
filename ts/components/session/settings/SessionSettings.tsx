@@ -253,11 +253,13 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
     return (
       <div className="session-settings__version-info">
         <span className="text-selectable">v{window.versionInfo.version}</span>
-        <span><SessionIconButton
-          iconSize={SessionIconSize.Medium}
-          iconType={SessionIconType.Oxen}
-          onClick={openOxenWebsite}
-        /></span>
+        <span>
+          <SessionIconButton
+            iconSize={SessionIconSize.Medium}
+            iconType={SessionIconType.Oxen}
+            onClick={openOxenWebsite}
+          />
+        </span>
         <span className="text-selectable">{window.versionInfo.commitHash}</span>
       </div>
     );

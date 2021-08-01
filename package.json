@@ -236,7 +236,11 @@
       "hardenedRuntime": true,
       "gatekeeperAssess": false,
       "entitlements": "build/entitlements.mac.plist",
-      "entitlementsInherit": "build/entitlements.mac.plist"
+      "entitlementsInherit": "build/entitlements.mac.plist",
+      "extendInfo": {
+        "NSCameraUsageDescription": "Session requires camera access to record video.",
+        "NSMicrophoneUsageDescription": "Session requires microphone access to record audio."
+      }
     },
     "dmg": {
       "sign": false
