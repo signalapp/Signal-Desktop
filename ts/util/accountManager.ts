@@ -148,7 +148,7 @@ async function bouncyDeleteAccount(reason?: string) {
     await forceSyncConfigurationNowIfNeeded(true);
     window?.log?.info('Last configuration message sent!');
 
-    return;
+    // return;
 
     await deleteEverything();
   } catch (error) {

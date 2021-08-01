@@ -34,7 +34,7 @@ import { default as insecureNodeFetch } from 'node-fetch';
 import { getSodium } from '../crypto';
 import { snodeRpc } from '../snode_api/lokiRpc';
 import { getSwarmFor, getSwarmFromCacheOrDb } from '../snode_api/snodePool';
-import { crypto_sign, to_base64, to_hex } from 'libsodium-wrappers';
+import { base64_variants, crypto_sign, to_base64, to_hex } from 'libsodium-wrappers';
 import { textToArrayBuffer, TextToBase64, verifyED25519Signature } from '../../opengroup/opengroupV2/ApiUtil';
 import { KeyPair } from '../../../libtextsecure/libsignal-protocol';
 import { getIdentityKeyPair } from './User';
@@ -141,17 +141,28 @@ export const forceNetworkDeletion = async () => {
   let text = `delete_all${timestamp.toString()}`;
 
   let toSign = StringUtils.encode(text, 'utf8');
-  console.log({ toSign });
-
   let toSignBytes = new Uint8Array(toSign);
+  console.log({ toSign });
   console.log({ toSignBytes });
 
   let edKeyBytes = fromHexToArray(edKeyPriv)
 
   // using uint or string for message input makes no difference here.
   // let sig = sodium.crypto_sign_detached(toSignBytes, edKeyBytes);
-  let sig = sodium.crypto_sign_detached(toSignBytes, edKeyBytes);
+  let sig = sodium.crypto_sign_detached(toSignBytes, edKeyBytes); // NO
+
+  const kp = await UserUtils.getIdentityKeyPair();
+  // let sig = await window.libsignal.Curve.async.calculateSignature(kp?.privKey,  toSign)
+  // console.log({isVerified: sodium.crypto_sign_verify_detached(sig, text, fromHexToArray(edKey?.pubKey || ''))})
+  // try: encode toSign to base64 before signing then decode to bytes afterwards
+  // todo:
+  // try the exact example with fillter values off the documentation.
+
   const sig64 = fromUInt8ArrayToBase64(sig);
+
+  const sig64a = to_base64(sig)
+  console.log({sig64a});
+
   console.log({ sig });
   console.log({ sig64: sig64 });
   console.log({ sigLength: sig64.length });
@@ -162,13 +173,81 @@ export const forceNetworkDeletion = async () => {
 
   let deleteMessageParams = {
     pubkey: userPubKey.key, // pubkey is doing alright
-    pubkeyED25519: edKey?.pubKey, // ed pubkey is right
+    pubkeyED25519: edKey?.pubKey.toUpperCase(), // ed pubkey is right
     timestamp,
     signature: sig64
   }
 
-  let lokiRpcRes = await snodeRpc('delete_all', deleteMessageParams, snode, userPubKey.key);
   debugger;
+  
+
+  // let lokiRpcRes = await snodeRpc('delete_all', deleteMessageParams, snode, userPubKey.key);
+  // let lokiRpcRes = sendOnionRequest()
+
+  await send(deleteMessageParams, snode, userPubKey.key)
+  debugger;
+}
+
+const send = async (params: any, snode: Snode, userPubKey: string) => {
+
+  // window?.log?.info(`Testing a candidate guard node ${ed25519Str(snode.pubkey_ed25519)}`);
+
+  // Send a post request and make sure it is OK
+  const endpoint = '/storage_rpc/v1';
+
+  const url = `https://${snode.ip}:${snode.port}${endpoint}`;
+
+  const ourPK = UserUtils.getOurPubKeyStrFromCache();
+  const pubKey = window.getStoragePubKey(ourPK); // truncate if testnet
+
+
+  // testt
+  const method = 'delete_all';
+  params.pubkey  = pubKey ; // trying with getStoragePubkey
+
+
+  const body = {
+    jsonrpc: '2.0',
+    id: '0',
+    method,
+    params,
+  };
+
+  const fetchOptions = {
+    method: 'POST',
+    body: JSON.stringify(body),
+    headers: {
+      'Content-Type': 'application/json',
+      'User-Agent': 'WhatsApp',
+      'Accept-Language': 'en-us',
+    },
+    timeout: 10000, // 10s, we want a smaller timeout for testing
+    agent: snodeHttpsAgent,
+  };
+
+  let response;
+
+  try {
+    // Log this line for testing
+    // curl -k -X POST -H 'Content-Type: application/json' -d '"+fetchOptions.body.replace(/"/g, "\\'")+"'", url
+    window?.log?.info('Sending delete all');
+
+    response = await insecureNodeFetch(url, fetchOptions);
+  } catch (e) {
+    if (e.type === 'request-timeout') {
+      window?.log?.warn('test timeout for node,', snode);
+    }
+    return false;
+  }
+
+  if (!response.ok) {
+    const tg = await response.text();
+    window?.log?.info('Node failed the guard test:', snode);
+  }
+
+  debugger;
+  return;
+
 }
 
 const getActiveOpenGroupV2CompleteUrls = async (
