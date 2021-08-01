@@ -901,7 +901,6 @@ export async function lokiOnionFetch(
     return retriedResult;
   } catch (e) {
     window?.log?.warn('onionFetchRetryable failed ', e.message);
-    // console.warn('error to show to user');
     if (e?.errno === 'ENETUNREACH') {
       // better handle the no connection state
       throw new Error(ERROR_CODE_NO_CONNECT);

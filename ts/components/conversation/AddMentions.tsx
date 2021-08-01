@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { RenderTextCallbackType } from '../../types/Util';
 import classNames from 'classnames';
-import { FindMember } from '../../util/findMember';
-import { useInterval } from '../../hooks/useInterval';
 import { PubKey } from '../../session/types';
 import { ConversationModel } from '../../models/conversation';
 import { UserUtils } from '../../session/utils';
+import { getConversationController } from '../../session/conversations';
+import _ from 'lodash';
 
 interface MentionProps {
   key: string;
@@ -15,29 +15,17 @@ interface MentionProps {
 }
 
 const Mention = (props: MentionProps) => {
-  const [found, setFound] = React.useState<ConversationModel | null>(null);
-  const [us, setUs] = React.useState(false);
+  const foundConvo = getConversationController().get(props.text.slice(1));
+  let us = false;
+  if (foundConvo) {
+    us = UserUtils.isUsFromCache(foundConvo.id);
+  }
 
-  const tryRenameMention = async () => {
-    if (!found) {
-      const foundMember = await FindMember.findMember(props.text.slice(1), props.convoId);
-
-      if (foundMember) {
-        const itsUs = UserUtils.isUsFromCache(foundMember.id);
-        setUs(itsUs);
-        setFound(foundMember);
-        // FIXME stop this interval once we found it.
-      }
-    }
-  };
-
-  useInterval(() => void tryRenameMention(), 10000);
-
-  if (found) {
+  if (foundConvo) {
     // TODO: We don't have to search the database of message just to know that the message is for us!
     const className = classNames('mention-profile-name', us && 'mention-profile-name-us');
 
-    const displayedName = found.getContactProfileNameOrShortenedPubKey();
+    const displayedName = foundConvo.getContactProfileNameOrShortenedPubKey();
     return <span className={className}>{displayedName}</span>;
   } else {
     return <span className="mention-profile-name">{PubKey.shorten(props.text)}</span>;
@@ -73,6 +61,7 @@ export class AddMentions extends React.Component<Props> {
     if (!match) {
       return renderOther({ text, key: 0 });
     }
+
     while (match) {
       count++;
       const key = count;
