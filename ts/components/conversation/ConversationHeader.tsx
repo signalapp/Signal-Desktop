@@ -117,10 +117,7 @@ const TripleDotsMenu = (props: { triggerId: string; showBackButton: boolean }) =
         });
       }}
     >
-      <SessionIconButton
-        iconType={SessionIconType.Ellipses}
-        iconSize={SessionIconSize.Medium}
-      />
+      <SessionIconButton iconType={SessionIconType.Ellipses} iconSize={SessionIconSize.Medium} />
     </div>
   );
 };
@@ -198,7 +195,7 @@ export const StyledSubtitleContainer = styled.div`
 
   span {
     margin-bottom: ${(p: StyledSubtitleContainerProps) => {
-      return p.margin || '5px'
+      return p.margin || '5px';
     }};
   }
 
@@ -206,10 +203,6 @@ export const StyledSubtitleContainer = styled.div`
     margin-bottom: 0;
   }
 `;
-
-//   margin-bottom: ${(p: StyledSubtitleContainerProps) => {
-//   return p.margin || '5px';
-// }};
 
 export type ConversationHeaderTitleProps = {
   phoneNumber: string;
@@ -271,7 +264,7 @@ const ConversationHeaderTitle = () => {
     ? window.i18n('notificationSubtitle', notificationSetting)
     : null;
   const title = profileName || name || phoneNumber;
-  const marginXS =  useTheme().common.margins.xs;
+  const marginXS = useTheme().common.margins.xs;
 
   return (
     <div className="module-conversation-header__title">
