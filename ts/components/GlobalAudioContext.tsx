@@ -27,6 +27,8 @@ export type Contents = {
 //   `audioContext` global, however, as the browser limits the number that can be
 //   created.)
 const audioContext = new AudioContext();
+audioContext.suspend();
+
 const waveformCache: WaveformCache = new LRU({
   max: MAX_WAVEFORM_COUNT,
 });
