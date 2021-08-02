@@ -21,6 +21,7 @@ import { assert } from '../../util/assert';
 import { missingCaseError } from '../../util/missingCaseError';
 
 import { PropsActions as MessageActionsType } from './Message';
+import { ErrorBoundary } from './ErrorBoundary';
 import { PropsActions as SafetyNumberActionsType } from './SafetyNumberNotification';
 import { Intl } from '../Intl';
 import { TimelineWarning } from './TimelineWarning';
@@ -653,6 +654,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
   }: RowRendererParamsType): JSX.Element => {
     const {
       id,
+      i18n,
       haveOldest,
       items,
       renderItem,
@@ -727,7 +729,9 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
           style={styleWithWidth}
           role="row"
         >
-          {renderItem(messageId, id, this.resizeMessage, this.props)}
+          <ErrorBoundary i18n={i18n} showDebugLog={() => window.showDebugLog()}>
+            {renderItem(messageId, id, this.resizeMessage, this.props)}
+          </ErrorBoundary>
         </div>
       );
     }

@@ -2425,6 +2425,63 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   }
 }
 
+.module-error-boundary-notification {
+  text-align: center;
+  cursor: pointer;
+
+  &:focus {
+    @include keyboard-mode {
+      outline: 0;
+    }
+  }
+
+  &:focus &__message {
+    @include keyboard-mode {
+      opacity: 1;
+    }
+  }
+
+  &__message {
+    opacity: 0.8;
+  }
+
+  @include light-theme {
+    color: $color-gray-60;
+  }
+  @include dark-theme {
+    color: $color-gray-05;
+  }
+
+  &__icon-container {
+    margin-left: auto;
+    margin-right: auto;
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+
+  &__icon {
+    height: 20px;
+    width: 20px;
+    display: inline-block;
+    opacity: 0.6;
+
+    @include light-theme {
+      @include color-svg(
+        '../images/icons/v2/error-solid-24.svg',
+        $color-gray-60
+      );
+    }
+    @include dark-theme {
+      @include color-svg(
+        '../images/icons/v2/error-solid-24.svg',
+        $color-gray-05
+      );
+    }
+  }
+}
+
 .module-notification--with-click-handler {
   cursor: pointer;
 }

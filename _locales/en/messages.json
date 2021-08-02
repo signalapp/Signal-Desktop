@@ -5678,6 +5678,10 @@
       }
     }
   },
+  "ErrorBoundaryNotification__text": {
+    "message": "Failed to display the message due to an internal error. Click to submit a debug log.",
+    "description": "An error notification displayed when message fails to render due to an internal error"
+  },
   "GroupDescription__read-more": {
     "message": "read more",
     "description": "Button text when the group description is too long"
