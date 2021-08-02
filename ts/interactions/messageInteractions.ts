@@ -34,8 +34,8 @@ export function banUser(
     : window.i18n('banUserConfirm');
 
   const confirmationModalProps = {
-    title: title,
-    message: message,
+    title,
+    message,
     onClickClose,
     onClickOk: async () => {
       const conversation = getConversationController().get(conversationId);

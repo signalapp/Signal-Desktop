@@ -268,14 +268,14 @@ export const banUser = async (
   deleteAllMessages: boolean
 ): Promise<boolean> => {
   const queryParams = { public_key: userToBan.key };
-  const endPoint = deleteAllMessages ? 'ban_and_delete_all' : 'block_list';
+  const endpoint = deleteAllMessages ? 'ban_and_delete_all' : 'block_list';
   const request: OpenGroupV2Request = {
     method: 'POST',
     room: roomInfos.roomId,
     server: roomInfos.serverUrl,
     isAuthRequired: true,
     queryParams,
-    endpoint: endPoint,
+    endpoint,
   };
   const banResult = await exports.sendApiV2Request(request);
   const isOk = parseStatusCodeFromOnionRequest(banResult) === 200;
