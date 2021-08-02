@@ -8,6 +8,7 @@ import { Constants } from '../../../session';
 import { ToastUtils } from '../../../session/utils';
 import autoBind from 'auto-bind';
 import MicRecorder from 'mic-recorder-to-mp3';
+import styled, { useTheme } from 'styled-components';
 
 interface Props {
   onExitVoiceNoteView: any;
@@ -32,6 +33,23 @@ function getTimestamp(asInt = false) {
   const timestamp = Date.now() / 1000;
   return asInt ? Math.floor(timestamp) : timestamp;
 }
+
+export interface StyledFlexWrapperProps {
+  flexDirection: 'row' | 'column';
+  marginHorizontal: string;
+}
+
+/**
+ * Generic wrapper for quickly passing in theme constant values.
+ */
+export const StyledFlexWrapper = styled.div`
+  display: flex;
+  flex-direction: ${(props: StyledFlexWrapperProps) => props.flexDirection};
+
+  .session-button {
+    margin: ${(props: StyledFlexWrapperProps) => props.marginHorizontal};
+  }
+`;
 
 class SessionRecordingInner extends React.Component<Props, State> {
   private recorder: any;
@@ -99,12 +117,13 @@ class SessionRecordingInner extends React.Component<Props, State> {
     const displayTimeMs = isRecording
       ? (nowTimestamp - startTimestamp) * 1000
       : (this.audioElement &&
-          (this.audioElement?.currentTime * 1000 || this.audioElement?.duration)) ||
-        0;
+        (this.audioElement?.currentTime * 1000 || this.audioElement?.duration)) ||
+      0;
 
     const displayTimeString = moment.utc(displayTimeMs).format('m:ss');
-
     const actionPauseFn = isPlaying ? this.pauseAudio : this.stopRecordingStream;
+
+    const themeToUse = useTheme();
 
     return (
       <div role="main" className="session-recording" tabIndex={0} onKeyDown={this.onKeyDown}>
@@ -163,17 +182,30 @@ class SessionRecordingInner extends React.Component<Props, State> {
         <div className="session-recording--status">
           {isRecording ? (
             <SessionButton
-              text={window.i18n('recording')}
+              // text={window.i18n('recording')}
+              text={'Stop recording'}
               buttonType={SessionButtonType.Brand}
               buttonColor={SessionButtonColor.Primary}
+              onClick={this.stopRecordingStream}
             />
           ) : (
-            <SessionButton
-              text={window.i18n('delete')}
-              buttonType={SessionButtonType.Brand}
-              buttonColor={SessionButtonColor.DangerAlt}
-              onClick={this.onDeleteVoiceMessage}
-            />
+            <StyledFlexWrapper
+              flexDirection='row'
+              marginHorizontal={themeToUse.common.margins.xs}
+            >
+              <SessionButton
+                text={window.i18n('delete')}
+                buttonType={SessionButtonType.Brand}
+                buttonColor={SessionButtonColor.DangerAlt}
+                onClick={this.onDeleteVoiceMessage}
+              />
+              <SessionButton
+                text={'Send'}
+                buttonType={SessionButtonType.Brand}
+                buttonColor={SessionButtonColor.Primary}
+                onClick={this.onSendVoiceMessage}
+              />
+            </StyledFlexWrapper>
           )}
         </div>
       </div>
@@ -272,6 +304,9 @@ class SessionRecordingInner extends React.Component<Props, State> {
     this.props.onExitVoiceNoteView();
   }
 
+  /**
+   * Sends the recorded voice message
+   */
   private async onSendVoiceMessage() {
     if (!this.audioBlobMp3 || !this.audioBlobMp3.size) {
       window?.log?.info('Empty audio blob');
@@ -306,6 +341,9 @@ class SessionRecordingInner extends React.Component<Props, State> {
       });
   }
 
+  /**
+   * Stops recording audio, sets recording state to stopped.
+   */
   private async stopRecordingStream() {
     if (!this.recorder) {
       return;
