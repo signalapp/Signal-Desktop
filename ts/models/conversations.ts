@@ -5000,11 +5000,6 @@ export class ConversationModel extends window.Backbone
     }
   }
 
-  getName(): string | undefined {
-    // eslint-disable-next-line no-useless-return
-    return;
-  }
-
   pin(): void {
     if (this.get('isPinned')) {
       return;
