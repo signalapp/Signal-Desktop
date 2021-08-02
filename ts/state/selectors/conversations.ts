@@ -238,7 +238,29 @@ export const getConversationHeaderTitleProps = createSelector(getSelectedConvers
     name: state.name,
     subscriberCount: state.subscriberCount,
     isGroup: state.type === 'group',
+    currentNotificationSetting: state.currentNotificationSetting,
   };
+});
+
+/**
+ * Returns the formatted text for notification setting.
+ */
+export const getCurrentNotificationSettingText = createSelector(getSelectedConversation, (state):
+  | string
+  | undefined => {
+  if (!state) {
+    return undefined;
+  }
+  switch (state.currentNotificationSetting) {
+    case 'all':
+      return window.i18n('notificationForConvo_all');
+    case 'mentions_only':
+      return window.i18n('notificationForConvo_mentions_only');
+    case 'disabled':
+      return window.i18n('notificationForConvo_mentions_disabled');
+    default:
+      return window.i18n('notificationForConvo_all');
+  }
 });
 
 export const getConversationHeaderProps = createSelector(getSelectedConversation, (state):
