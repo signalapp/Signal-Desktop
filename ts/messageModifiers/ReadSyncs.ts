@@ -21,21 +21,19 @@ class ReadSyncModel extends Model<ReadSyncAttributesType> {}
 
 let singleton: ReadSyncs | undefined;
 
-async function maybeItIsAReactionReadSync(
-  receipt: ReadSyncModel
-): Promise<void> {
+async function maybeItIsAReactionReadSync(sync: ReadSyncModel): Promise<void> {
   const readReaction = await window.Signal.Data.markReactionAsRead(
-    receipt.get('senderUuid'),
-    Number(receipt.get('timestamp'))
+    sync.get('senderUuid'),
+    Number(sync.get('timestamp'))
   );
 
   if (!readReaction) {
     window.log.info(
       'Nothing found for read sync',
-      receipt.get('senderId'),
-      receipt.get('sender'),
-      receipt.get('senderUuid'),
-      receipt.get('timestamp')
+      sync.get('senderId'),
+      sync.get('sender'),
+      sync.get('senderUuid'),
+      sync.get('timestamp')
     );
     return;
   }
@@ -62,25 +60,25 @@ export class ReadSyncs extends Collection {
       e164: message.get('source'),
       uuid: message.get('sourceUuid'),
     });
-    const receipt = this.find(item => {
+    const sync = this.find(item => {
       return (
         item.get('senderId') === senderId &&
         item.get('timestamp') === message.get('sent_at')
       );
     });
-    if (receipt) {
+    if (sync) {
       window.log.info('Found early read sync for message');
-      this.remove(receipt);
-      return receipt;
+      this.remove(sync);
+      return sync;
     }
 
     return null;
   }
 
-  async onReceipt(receipt: ReadSyncModel): Promise<void> {
+  async onSync(sync: ReadSyncModel): Promise<void> {
     try {
       const messages = await window.Signal.Data.getMessagesBySentAt(
-        receipt.get('timestamp'),
+        sync.get('timestamp'),
         {
           MessageCollection: window.Whisper.MessageCollection,
         }
@@ -92,20 +90,18 @@ export class ReadSyncs extends Collection {
           uuid: item.get('sourceUuid'),
         });
 
-        return (
-          isIncoming(item.attributes) && senderId === receipt.get('senderId')
-        );
+        return isIncoming(item.attributes) && senderId === sync.get('senderId');
       });
 
       if (!found) {
-        await maybeItIsAReactionReadSync(receipt);
+        await maybeItIsAReactionReadSync(sync);
         return;
       }
 
       window.Whisper.Notifications.removeBy({ messageId: found.id });
 
       const message = window.MessageController.register(found.id, found);
-      const readAt = receipt.get('readAt');
+      const readAt = sync.get('readAt');
 
       // If message is unread, we mark it read. Otherwise, we update the expiration
       //   timer to the time specified by the read sync if it's earlier than
@@ -147,10 +143,10 @@ export class ReadSyncs extends Collection {
 
       window.Signal.Util.queueUpdateMessage(message.attributes);
 
-      this.remove(receipt);
+      this.remove(sync);
     } catch (error) {
       window.log.error(
-        'ReadSyncs.onReceipt error:',
+        'ReadSyncs.onSync error:',
         error && error.stack ? error.stack : error
       );
     }

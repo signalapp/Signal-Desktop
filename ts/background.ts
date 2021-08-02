@@ -3820,7 +3820,7 @@ export async function startApp(): Promise<void> {
 
       // Note: Here we wait, because we want read states to be in the database
       //   before we move on.
-      return ReadSyncs.getSingleton().onReceipt(receipt);
+      return ReadSyncs.getSingleton().onSync(receipt);
     });
   }
 
