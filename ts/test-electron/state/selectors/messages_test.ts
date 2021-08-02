@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
+import * as moment from 'moment';
 import { v4 as uuid } from 'uuid';
 import { SendStatus } from '../../../messages/MessageSendState';
 import {
@@ -11,6 +12,7 @@ import {
 import { ConversationType } from '../../../state/ducks/conversations';
 
 import {
+  canDeleteForEveryone,
   canReply,
   getMessagePropStatus,
   isEndSession,
@@ -24,6 +26,98 @@ describe('state/selectors/messages', () => {
 
   beforeEach(() => {
     ourConversationId = uuid();
+  });
+
+  describe('canDeleteForEveryone', () => {
+    it('returns false for incoming messages', () => {
+      const message = {
+        type: 'incoming' as const,
+        sent_at: Date.now() - 1000,
+      };
+
+      assert.isFalse(canDeleteForEveryone(message));
+    });
+
+    it('returns false for messages that were already deleted for everyone', () => {
+      const message = {
+        type: 'outgoing' as const,
+        deletedForEveryone: true,
+        sent_at: Date.now() - 1000,
+        sendStateByConversationId: {
+          [ourConversationId]: {
+            status: SendStatus.Read,
+            updatedAt: Date.now(),
+          },
+          [uuid()]: {
+            status: SendStatus.Delivered,
+            updatedAt: Date.now(),
+          },
+        },
+      };
+
+      assert.isFalse(canDeleteForEveryone(message));
+    });
+
+    it('returns false for messages that were are too old to delete', () => {
+      const message = {
+        type: 'outgoing' as const,
+        sent_at: Date.now() - moment.duration(4, 'hours').asMilliseconds(),
+        sendStateByConversationId: {
+          [ourConversationId]: {
+            status: SendStatus.Read,
+            updatedAt: Date.now(),
+          },
+          [uuid()]: {
+            status: SendStatus.Delivered,
+            updatedAt: Date.now(),
+          },
+        },
+      };
+
+      assert.isFalse(canDeleteForEveryone(message));
+    });
+
+    it('returns false for messages that failed to send to anyone', () => {
+      const message = {
+        type: 'outgoing' as const,
+        sent_at: Date.now() - 1000,
+        sendStateByConversationId: {
+          [ourConversationId]: {
+            status: SendStatus.Failed,
+            updatedAt: Date.now(),
+          },
+          [uuid()]: {
+            status: SendStatus.Failed,
+            updatedAt: Date.now(),
+          },
+        },
+      };
+
+      assert.isFalse(canDeleteForEveryone(message));
+    });
+
+    it('returns true for messages that meet all criteria for deletion', () => {
+      const message = {
+        type: 'outgoing' as const,
+        sent_at: Date.now() - 1000,
+        sendStateByConversationId: {
+          [ourConversationId]: {
+            status: SendStatus.Pending,
+            updatedAt: Date.now(),
+          },
+          [uuid()]: {
+            status: SendStatus.Pending,
+            updatedAt: Date.now(),
+          },
+          [uuid()]: {
+            status: SendStatus.Failed,
+            updatedAt: Date.now(),
+          },
+        },
+      };
+
+      assert.isTrue(canDeleteForEveryone(message));
+    });
   });
 
   describe('canReply', () => {

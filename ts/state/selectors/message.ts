@@ -38,6 +38,7 @@ import { AttachmentType, isVoiceMessage } from '../../types/Attachment';
 import { CallingNotificationType } from '../../util/callingNotification';
 import { missingCaseError } from '../../util/missingCaseError';
 import { isNotNil } from '../../util/isNotNil';
+import { isMoreRecentThan } from '../../util/timestamp';
 
 import { ConversationType } from '../ducks/conversations';
 
@@ -1153,23 +1154,25 @@ export function canReply(
   return false;
 }
 
-export function canDeleteForEveryone(message: MessageAttributesType): boolean {
-  // is someone else's message
-  if (isIncoming(message)) {
-    return false;
-  }
-
-  // has already been deleted for everyone
-  if (message.deletedForEveryone) {
-    return false;
-  }
-
-  // is too old to delete
-  if (Date.now() - message.sent_at > THREE_HOURS) {
-    return false;
-  }
-
-  return true;
+export function canDeleteForEveryone(
+  message: Pick<
+    MessageAttributesType,
+    'type' | 'deletedForEveryone' | 'sent_at' | 'sendStateByConversationId'
+  >
+): boolean {
+  return (
+    // Is this a message I sent?
+    isOutgoing(message) &&
+    // Has the message already been deleted?
+    !message.deletedForEveryone &&
+    // Is it too old to delete?
+    isMoreRecentThan(message.sent_at, THREE_HOURS) &&
+    // Is it pending/sent to anyone?
+    someSendStatus(
+      message.sendStateByConversationId,
+      sendStatus => sendStatus !== SendStatus.Failed
+    )
+  );
 }
 
 export function canDownload(
