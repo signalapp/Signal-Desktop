@@ -10,7 +10,11 @@ import { ToastUtils } from '../session/utils';
 
 import { updateConfirmModal } from '../state/ducks/modalDialog';
 
-export function banUser(userToBan: string, conversationId: string, deleteAllMessages: boolean = false) {
+export function banUser(
+  userToBan: string,
+  conversationId: string,
+  deleteAllMessages: boolean = false
+) {
   let pubKeyToBan: PubKey;
   try {
     pubKeyToBan = PubKey.cast(userToBan);
@@ -24,8 +28,10 @@ export function banUser(userToBan: string, conversationId: string, deleteAllMess
     window.inboxStore?.dispatch(updateConfirmModal(null));
   };
 
-  const title = (deleteAllMessages) ? window.i18n('banUserAndDeleteAll') : window.i18n('banUser');
-  const message = (deleteAllMessages) ? window.i18n('banUserAndDeleteAllConfirm') : window.i18n('banUserConfirm');
+  const title = deleteAllMessages ? window.i18n('banUserAndDeleteAll') : window.i18n('banUser');
+  const message = deleteAllMessages
+    ? window.i18n('banUserAndDeleteAllConfirm')
+    : window.i18n('banUserConfirm');
 
   const confirmationModalProps = {
     title: title,
@@ -43,7 +49,11 @@ export function banUser(userToBan: string, conversationId: string, deleteAllMess
         if (!roomInfos) {
           window.log.warn('banUser room not found');
         } else {
-          success = await ApiV2.banUser(pubKeyToBan, _.pick(roomInfos, 'serverUrl', 'roomId'), deleteAllMessages);
+          success = await ApiV2.banUser(
+            pubKeyToBan,
+            _.pick(roomInfos, 'serverUrl', 'roomId'),
+            deleteAllMessages
+          );
         }
       } else {
         throw new Error('V1 opengroup are not supported');

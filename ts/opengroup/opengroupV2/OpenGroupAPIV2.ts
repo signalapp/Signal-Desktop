@@ -268,7 +268,7 @@ export const banUser = async (
   deleteAllMessages: boolean
 ): Promise<boolean> => {
   const queryParams = { public_key: userToBan.key };
-  const endPoint = (deleteAllMessages) ? 'ban_and_delete_all' : 'block_list';
+  const endPoint = deleteAllMessages ? 'ban_and_delete_all' : 'block_list';
   const request: OpenGroupV2Request = {
     method: 'POST',
     room: roomInfos.roomId,
