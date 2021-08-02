@@ -7,8 +7,8 @@ import { SessionIconButton, SessionIconSize, SessionIconType } from '../session/
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../session/SessionButton';
 import { ConversationAvatar } from '../session/usingClosedConversationDetails';
 import { MemoConversationHeaderMenu } from '../session/menu/ConversationHeaderMenu';
-import { contextMenu } from 'react-contexify';
-import styled, { useTheme } from 'styled-components';
+import { contextMenu, theme } from 'react-contexify';
+import styled, { ThemeProvider, useTheme } from 'styled-components';
 import { ConversationNotificationSettingType } from '../../models/conversation';
 import {
   getConversationHeaderProps,
@@ -29,6 +29,7 @@ import {
   openRightPanel,
   resetSelectedMessageIds,
 } from '../../state/ducks/conversations';
+import { getTheme } from '../../state/selectors/theme';
 
 export interface TimerOption {
   name: string;
@@ -86,7 +87,6 @@ const SelectionOverlay = (props: {
           iconType={SessionIconType.Exit}
           iconSize={SessionIconSize.Medium}
           onClick={onCloseOverlay}
-          theme={useTheme()}
         />
       </div>
 
@@ -120,7 +120,6 @@ const TripleDotsMenu = (props: { triggerId: string; showBackButton: boolean }) =
       <SessionIconButton
         iconType={SessionIconType.Ellipses}
         iconSize={SessionIconSize.Medium}
-        theme={useTheme()}
       />
     </div>
   );
@@ -184,7 +183,6 @@ const BackButton = (props: { onGoBack: () => void; showBackButton: boolean }) =>
       iconSize={SessionIconSize.Large}
       iconRotation={90}
       onClick={onGoBack}
-      theme={useTheme()}
     />
   );
 };
@@ -199,13 +197,19 @@ export const StyledSubtitleContainer = styled.div`
   justify-content: center;
 
   span {
-    margin-bottom: ${(p: StyledSubtitleContainerProps) => p.margin || '5px'};
+    margin-bottom: ${(p: StyledSubtitleContainerProps) => {
+      return p.margin || '5px'
+    }};
   }
 
   span:last-child {
     margin-bottom: 0;
   }
 `;
+
+//   margin-bottom: ${(p: StyledSubtitleContainerProps) => {
+//   return p.margin || '5px';
+// }};
 
 export type ConversationHeaderTitleProps = {
   phoneNumber: string;
@@ -256,10 +260,10 @@ const ConversationHeaderTitle = () => {
     }
   })();
 
-  let text = '';
+  let memberCountText = '';
   if (isGroup && memberCount > 0) {
     const count = String(memberCount);
-    text = i18n('members', [count]);
+    memberCountText = i18n('members', [count]);
   }
 
   const notificationSetting = useSelector(getCurrentNotificationSettingText);
@@ -267,12 +271,13 @@ const ConversationHeaderTitle = () => {
     ? window.i18n('notificationSubtitle', notificationSetting)
     : null;
   const title = profileName || name || phoneNumber;
+  const marginXS =  useTheme().common.margins.xs;
 
   return (
     <div className="module-conversation-header__title">
       <span className="module-contact-name__profile-name">{title}</span>
-      <StyledSubtitleContainer margin={useTheme().common.margins.xs}>
-        {isKickedFromGroup ? null : <ConversationHeaderSubtitle text={text} />}
+      <StyledSubtitleContainer margin={marginXS}>
+        {isKickedFromGroup ? null : <ConversationHeaderSubtitle text={memberCountText} />}
         <ConversationHeaderSubtitle text={notificationSubtitle} />
       </StyledSubtitleContainer>
     </div>
