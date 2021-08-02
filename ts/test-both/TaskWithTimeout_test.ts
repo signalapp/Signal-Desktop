@@ -44,4 +44,12 @@ describe('createTaskWithTimeout', () => {
     });
     await assert.isRejected(taskWithTimeout(), 'Task is throwing!');
   });
+
+  it('passes arguments to the underlying function', async () => {
+    const task = (arg: string) => Promise.resolve(arg);
+    const taskWithTimeout = createTaskWithTimeout(task, 'test');
+
+    const result = await taskWithTimeout('hi!');
+    assert.strictEqual(result, 'hi!');
+  });
 });

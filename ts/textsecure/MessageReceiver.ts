@@ -919,21 +919,27 @@ export default class MessageReceiver
     stores: LockedStores,
     envelope: ProcessedEnvelope
   ): Promise<DecryptResult> {
-    const id = this.getEnvelopeId(envelope);
-    window.log.info('queueing envelope', id);
+    let logId = this.getEnvelopeId(envelope);
+    window.log.info('queueing envelope', logId);
 
-    const task = this.decryptEnvelope.bind(this, stores, envelope);
-    const taskWithTimeout = createTaskWithTimeout(
-      task,
-      `queueEncryptedEnvelope ${id}`
-    );
+    const task = createTaskWithTimeout(async (): Promise<DecryptResult> => {
+      const unsealedEnvelope = await this.unsealEnvelope(stores, envelope);
+      if (!unsealedEnvelope) {
+        // Envelope was dropped or sender is blocked
+        return { envelope, plaintext: undefined };
+      }
+
+      logId = this.getEnvelopeId(unsealedEnvelope);
+
+      return this.decryptEnvelope(stores, unsealedEnvelope);
+    }, `MessageReceiver: unseal and decrypt ${logId}`);
 
     try {
-      return await this.addToQueue(taskWithTimeout, TaskType.Encrypted);
+      return await this.addToQueue(task, TaskType.Encrypted);
     } catch (error) {
       const args = [
         'queueEncryptedEnvelope error handling envelope',
-        this.getEnvelopeId(envelope),
+        logId,
         ':',
         Errors.toLogFormat(error),
       ];
@@ -993,15 +999,86 @@ export default class MessageReceiver
     throw new Error('Received message with no content and no legacyMessage');
   }
 
-  private async decryptEnvelope(
+  private async unsealEnvelope(
     stores: LockedStores,
-    initialEnvelope: ProcessedEnvelope
-  ): Promise<DecryptResult> {
-    let envelope: UnsealedEnvelope = initialEnvelope;
-    let logId = this.getEnvelopeId(envelope);
+    envelope: ProcessedEnvelope
+  ): Promise<UnsealedEnvelope | undefined> {
+    const logId = this.getEnvelopeId(envelope);
 
     if (this.stoppingProcessing) {
-      window.log.info(`MessageReceiver.decryptEnvelope(${logId}): dropping`);
+      window.log.info(`MessageReceiver.unsealEnvelope(${logId}): dropping`);
+      return undefined;
+    }
+
+    if (envelope.type !== Proto.Envelope.Type.UNIDENTIFIED_SENDER) {
+      return envelope;
+    }
+
+    const ciphertext = envelope.content || envelope.legacyMessage;
+    if (!ciphertext) {
+      this.removeFromCache(envelope);
+      throw new Error('Received message with no content and no legacyMessage');
+    }
+
+    window.log.info(
+      `MessageReceiver.unsealEnvelope(${logId}): unidentified message`
+    );
+    const messageContent = await sealedSenderDecryptToUsmc(
+      Buffer.from(ciphertext),
+      stores.identityKeyStore
+    );
+
+    // Here we take this sender information and attach it back to the envelope
+    //   to make the rest of the app work properly.
+    const certificate = messageContent.senderCertificate();
+
+    const originalSource = envelope.source;
+    const originalSourceUuid = envelope.sourceUuid;
+
+    const newEnvelope: UnsealedEnvelope = {
+      ...envelope,
+
+      // Overwrite Envelope fields
+      source: dropNull(certificate.senderE164()),
+      sourceUuid: normalizeUuid(
+        certificate.senderUuid(),
+        'MessageReceiver.unsealEnvelope.UNIDENTIFIED_SENDER.sourceUuid'
+      ),
+      sourceDevice: certificate.senderDeviceId(),
+
+      // UnsealedEnvelope-only fields
+      unidentifiedDeliveryReceived: !(originalSource || originalSourceUuid),
+      contentHint: messageContent.contentHint(),
+      groupId: messageContent.groupId()?.toString('base64'),
+      usmc: messageContent,
+      certificate,
+      unsealedContent: messageContent,
+    };
+    const newLogId = this.getEnvelopeId(newEnvelope);
+
+    const validationResult = await this.validateUnsealedEnvelope(newEnvelope);
+    if (validationResult && validationResult.isBlocked) {
+      this.removeFromCache(envelope);
+      return undefined;
+    }
+
+    window.log.info(
+      `MessageReceiver.unsealEnvelope(${logId}): unwrapped into ${newLogId}`
+    );
+
+    return newEnvelope;
+  }
+
+  private async decryptEnvelope(
+    stores: LockedStores,
+    envelope: UnsealedEnvelope
+  ): Promise<DecryptResult> {
+    const logId = this.getEnvelopeId(envelope);
+
+    if (this.stoppingProcessing) {
+      window.log.info(
+        `MessageReceiver.decryptEnvelope(${logId}): dropping unsealed`
+      );
       return { plaintext: undefined, envelope };
     }
 
@@ -1019,58 +1096,10 @@ export default class MessageReceiver
       isLegacy = true;
     } else {
       this.removeFromCache(envelope);
-      throw new Error('Received message with no content and no legacyMessage');
-    }
-
-    if (envelope.type === Proto.Envelope.Type.UNIDENTIFIED_SENDER) {
-      window.log.info(
-        `MessageReceiver.decryptEnvelope(${logId}): unidentified message`
+      strictAssert(
+        false,
+        'Contentless envelope should be handled by unsealEnvelope'
       );
-      const messageContent = await sealedSenderDecryptToUsmc(
-        Buffer.from(ciphertext),
-        stores.identityKeyStore
-      );
-
-      // Here we take this sender information and attach it back to the envelope
-      //   to make the rest of the app work properly.
-      const certificate = messageContent.senderCertificate();
-
-      const originalSource = envelope.source;
-      const originalSourceUuid = envelope.sourceUuid;
-
-      const newEnvelope: UnsealedEnvelope = {
-        ...envelope,
-
-        // Overwrite Envelope fields
-        source: dropNull(certificate.senderE164()),
-        sourceUuid: normalizeUuid(
-          certificate.senderUuid(),
-          'MessageReceiver.decryptEnvelope.UNIDENTIFIED_SENDER.sourceUuid'
-        ),
-        sourceDevice: certificate.senderDeviceId(),
-
-        // UnsealedEnvelope-only fields
-        unidentifiedDeliveryReceived: !(originalSource || originalSourceUuid),
-        contentHint: messageContent.contentHint(),
-        groupId: messageContent.groupId()?.toString('base64'),
-        usmc: messageContent,
-        certificate,
-        unsealedContent: messageContent,
-      };
-      const newLogId = this.getEnvelopeId(newEnvelope);
-
-      const validationResult = await this.validateUnsealedEnvelope(newEnvelope);
-      if (validationResult && validationResult.isBlocked) {
-        this.removeFromCache(envelope);
-        return { plaintext: undefined, envelope };
-      }
-
-      window.log.info(
-        `MessageReceiver.decryptEnvelope(${logId}): unwrapped into ${newLogId}`
-      );
-
-      envelope = newEnvelope;
-      logId = newLogId;
     }
 
     window.log.info(
@@ -1079,7 +1108,7 @@ export default class MessageReceiver
     const plaintext = await this.decrypt(stores, envelope, ciphertext);
 
     if (!plaintext) {
-      window.log.warn('MessageReceiver.decrryptEnvelope: plaintext was falsey');
+      window.log.warn('MessageReceiver.decryptEnvelope: plaintext was falsey');
       return { plaintext, envelope };
     }
 
@@ -1105,7 +1134,7 @@ export default class MessageReceiver
       }
     } catch (error) {
       window.log.error(
-        'MessageReceiver.decrryptEnvelope: Failed to process sender ' +
+        'MessageReceiver.decryptEnvelope: Failed to process sender ' +
           `key distribution message: ${Errors.toLogFormat(error)}`
       );
     }
