@@ -119,7 +119,7 @@ export type MessageAttributesType = {
   }>;
   requiredProtocolVersion?: number;
   retryOptions?: RetryOptions;
-  sourceDevice?: string | number;
+  sourceDevice?: number;
   supportedVersionAtReceive?: unknown;
   synced?: boolean;
   unidentifiedDeliveryReceived?: boolean;

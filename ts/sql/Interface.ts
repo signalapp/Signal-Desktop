@@ -195,7 +195,7 @@ export type UnprocessedType = {
 export type UnprocessedUpdateType = {
   source?: string;
   sourceUuid?: string;
-  sourceDevice?: string;
+  sourceDevice?: number;
   serverGuid?: string;
   serverTimestamp?: number;
   decrypted?: string;
@@ -459,7 +459,7 @@ export type ServerInterface = DataInterface & {
   getMessageBySender: (options: {
     source: string;
     sourceUuid: string;
-    sourceDevice: string;
+    sourceDevice: number;
     sent_at: number;
   }) => Promise<Array<MessageType>>;
   getMessagesBySentAt: (sentAt: number) => Promise<Array<MessageType>>;
@@ -548,7 +548,7 @@ export type ClientInterface = DataInterface & {
     data: {
       source: string;
       sourceUuid: string;
-      sourceDevice: string;
+      sourceDevice: number;
       sent_at: number;
     },
     options: { Message: typeof MessageModel }

@@ -1149,7 +1149,7 @@ async function getMessageBySender(
   }: {
     source: string;
     sourceUuid: string;
-    sourceDevice: string;
+    sourceDevice: number;
     sent_at: number;
   },
   { Message }: { Message: typeof MessageModel }

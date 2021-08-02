@@ -2040,6 +2040,42 @@ function updateToSchemaVersion37(currentVersion: number, db: Database) {
   console.log('updateToSchemaVersion37: success!');
 }
 
+function updateToSchemaVersion38(currentVersion: number, db: Database) {
+  if (currentVersion >= 38) {
+    return;
+  }
+
+  db.transaction(() => {
+    // TODO: Remove deprecated columns once sqlcipher is updated to support it
+    db.exec(`
+      DROP INDEX IF EXISTS messages_duplicate_check;
+
+      ALTER TABLE messages
+        RENAME COLUMN sourceDevice TO deprecatedSourceDevice;
+      ALTER TABLE messages
+        ADD COLUMN sourceDevice INTEGER;
+
+      UPDATE messages
+      SET
+        sourceDevice = CAST(deprecatedSourceDevice AS INTEGER),
+        deprecatedSourceDevice = NULL;
+
+      ALTER TABLE unprocessed
+        RENAME COLUMN sourceDevice TO deprecatedSourceDevice;
+      ALTER TABLE unprocessed
+        ADD COLUMN sourceDevice INTEGER;
+
+      UPDATE unprocessed
+      SET
+        sourceDevice = CAST(deprecatedSourceDevice AS INTEGER),
+        deprecatedSourceDevice = NULL;
+    `);
+
+    db.pragma('user_version = 38');
+  })();
+  console.log('updateToSchemaVersion38: success!');
+}
+
 const SCHEMA_VERSIONS = [
   updateToSchemaVersion1,
   updateToSchemaVersion2,
@@ -2078,6 +2114,7 @@ const SCHEMA_VERSIONS = [
   updateToSchemaVersion35,
   updateToSchemaVersion36,
   updateToSchemaVersion37,
+  updateToSchemaVersion38,
 ];
 
 function updateSchema(db: Database): void {
@@ -3744,7 +3781,7 @@ async function getMessageBySender({
 }: {
   source: string;
   sourceUuid: string;
-  sourceDevice: string;
+  sourceDevice: number;
   sent_at: number;
 }): Promise<Array<MessageType>> {
   const db = getInstance();
