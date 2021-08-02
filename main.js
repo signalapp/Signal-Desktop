@@ -252,7 +252,7 @@ async function createWindow() {
         nativeWindowOpen: true,
         spellcheck: await getSpellCheckSetting(),
       },
-      icon: path.join(__dirname, 'images', 'session', 'session_icon_64.png'),
+      // don't setup icon, the executable one will be used by default
     },
     _.pick(windowConfig, ['maximized', 'autoHideMenuBar', 'width', 'height', 'x', 'y'])
   );
@@ -474,7 +474,7 @@ function showPasswordWindow() {
       preload: path.join(__dirname, 'password_preload.js'),
       nativeWindowOpen: true,
     },
-    icon: path.join(__dirname, 'images', 'session', 'session_icon_256.png'),
+    // don't setup icon, the executable one will be used by default
   };
 
   passwordWindow = new BrowserWindow(windowOptions);
