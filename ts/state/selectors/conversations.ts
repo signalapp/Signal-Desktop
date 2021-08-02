@@ -335,9 +335,9 @@ export const getQuotedMessageToAnimate = createSelector(
   (state: ConversationsStateType): string | undefined => state.animateQuotedMessageId || undefined
 );
 
-export const getNextMessageToPlayIndex = createSelector(
+export const getNextMessageToPlayId = createSelector(
   getConversations,
-  (state: ConversationsStateType): number | undefined => state.nextMessageToPlay || undefined
+  (state: ConversationsStateType): string | undefined => state.nextMessageToPlayId || undefined
 );
 
 export const getMentionsInput = createSelector(
@@ -398,11 +398,13 @@ function sortMessages(
 
   // for non public convos, we order by sent_at or received_at timestamp.
   // we assume that a message has either a sent_at or a received_at field set.
-  const messagesSorted = messages.sort(
-    (a, b) =>
-      (b.propsForMessage.timestamp || b.propsForMessage.receivedAt || 0) -
-      (a.propsForMessage.timestamp || a.propsForMessage.receivedAt || 0)
-  );
+  const messagesSorted = messages
+    .slice()
+    .sort(
+      (a, b) =>
+        (b.propsForMessage.timestamp || b.propsForMessage.receivedAt || 0) -
+        (a.propsForMessage.timestamp || a.propsForMessage.receivedAt || 0)
+    );
 
   return messagesSorted;
 }

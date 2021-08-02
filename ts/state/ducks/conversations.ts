@@ -265,7 +265,7 @@ export type ConversationsStateType = {
 
   showScrollButton: boolean;
   animateQuotedMessageId?: string;
-  nextMessageToPlay?: number;
+  nextMessageToPlayId?: string;
   mentionMembers: MentionsMembersType;
 };
 
@@ -713,8 +713,11 @@ const conversationsSlice = createSlice({
       state.animateQuotedMessageId = action.payload;
       return state;
     },
-    setNextMessageToPlay(state: ConversationsStateType, action: PayloadAction<number | undefined>) {
-      state.nextMessageToPlay = action.payload;
+    setNextMessageToPlayId(
+      state: ConversationsStateType,
+      action: PayloadAction<string | undefined>
+    ) {
+      state.nextMessageToPlayId = action.payload;
       return state;
     },
     updateMentionsMembers(
@@ -782,7 +785,7 @@ export const {
   quoteMessage,
   showScrollToBottomButton,
   quotedMessageToAnimate,
-  setNextMessageToPlay,
+  setNextMessageToPlayId,
   updateMentionsMembers,
 } = actions;
 

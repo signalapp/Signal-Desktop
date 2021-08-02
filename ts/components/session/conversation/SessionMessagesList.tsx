@@ -13,14 +13,12 @@ import {
 
 export const SessionMessagesList = (props: {
   scrollToQuoteMessage: (options: QuoteClickOptions) => Promise<void>;
-  playNextMessage?: (value: number) => void;
 }) => {
   const messagesProps = useSelector(getSortedMessagesOfSelectedConversation);
-  let playableMessageIndex = 0;
 
   return (
     <>
-      {messagesProps.map((messageProps: SortedMessageModelProps, index: number) => {
+      {messagesProps.map((messageProps: SortedMessageModelProps) => {
         const timerProps = messageProps.propsForTimerNotification;
         const propsForGroupInvitation = messageProps.propsForGroupInvitation;
         const propsForDataExtractionNotification = messageProps.propsForDataExtractionNotification;
@@ -64,18 +62,14 @@ export const SessionMessagesList = (props: {
           return;
         }
 
-        playableMessageIndex++;
-
         // firstMessageOfSeries tells us to render the avatar only for the first message
         // in a series of messages from the same user
         return (
           <GenericMessageItem
             key={messageProps.propsForMessage.id}
-            playableMessageIndex={playableMessageIndex}
             messageId={messageProps.propsForMessage.id}
             messageProps={messageProps}
             scrollToQuoteMessage={props.scrollToQuoteMessage}
-            playNextMessage={props.playNextMessage}
           />
         );
       })}

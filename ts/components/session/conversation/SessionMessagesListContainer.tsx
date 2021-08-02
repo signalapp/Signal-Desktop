@@ -6,7 +6,6 @@ import { contextMenu } from 'react-contexify';
 import {
   quotedMessageToAnimate,
   ReduxConversationType,
-  setNextMessageToPlay,
   showScrollToBottomButton,
   SortedMessageModelProps,
   updateHaveDoneFirstScroll,
@@ -108,41 +107,11 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
           key="typing-bubble"
         />
 
-        <SessionMessagesList
-          scrollToQuoteMessage={this.scrollToQuoteMessage}
-          playNextMessage={this.playNextMessage}
-        />
+        <SessionMessagesList scrollToQuoteMessage={this.scrollToQuoteMessage} />
 
         <SessionScrollButton onClick={this.scrollToBottom} key="scroll-down-button" />
       </div>
     );
-  }
-
-  /**
-   * Sets the targeted index for the next
-   * @param index index of message that just completed
-   */
-  private playNextMessage(index: any) {
-    const { messagesProps } = this.props;
-    let nextIndex: number | undefined = index - 1;
-
-    // to prevent autoplaying as soon as a message is received.
-    const latestMessagePlayed = index <= 0 || messagesProps.length < index - 1;
-    if (latestMessagePlayed) {
-      nextIndex = undefined;
-      window.inboxStore?.dispatch(setNextMessageToPlay(nextIndex));
-      return;
-    }
-
-    // stop auto-playing when the audio messages change author.
-    const prevAuthorNumber = messagesProps[index].propsForMessage.authorPhoneNumber;
-    const nextAuthorNumber = messagesProps[index - 1].propsForMessage.authorPhoneNumber;
-    const differentAuthor = prevAuthorNumber !== nextAuthorNumber;
-    if (differentAuthor) {
-      nextIndex = undefined;
-    }
-
-    window.inboxStore?.dispatch(setNextMessageToPlay(nextIndex));
   }
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

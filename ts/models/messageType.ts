@@ -212,8 +212,4 @@ export type MessageRenderingProps = PropsForMessage & {
   multiSelectMode: boolean;
   firstMessageOfSeries: boolean;
   onQuoteClick?: (options: QuoteClickOptions) => Promise<void>;
-
-  playableMessageIndex?: number;
-  nextMessageToPlay?: number;
-  playNextMessage?: (value: number) => void;
 };

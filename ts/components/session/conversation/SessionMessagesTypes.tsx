@@ -13,7 +13,6 @@ import {
 } from '../../../state/ducks/conversations';
 import {
   getFirstUnreadMessageId,
-  getNextMessageToPlayIndex,
   isMessageSelectionMode,
 } from '../../../state/selectors/conversations';
 import { DataExtractionNotification } from '../../conversation/DataExtractionNotification';
@@ -86,12 +85,9 @@ export const TimerNotificationItem = (props: { timerProps: PropsForExpirationTim
 export const GenericMessageItem = (props: {
   messageId: string;
   messageProps: SortedMessageModelProps;
-  playableMessageIndex?: number;
   scrollToQuoteMessage: (options: QuoteClickOptions) => Promise<void>;
-  playNextMessage?: (value: number) => void;
 }) => {
   const multiSelectMode = useSelector(isMessageSelectionMode);
-  const nextMessageToPlay = useSelector(getNextMessageToPlayIndex);
 
   const messageId = props.messageId;
 
@@ -103,19 +99,12 @@ export const GenericMessageItem = (props: {
     ...props.messageProps.propsForMessage,
     firstMessageOfSeries: props.messageProps.firstMessageOfSeries,
     multiSelectMode,
-    nextMessageToPlay,
-    playNextMessage: props.playNextMessage,
     onQuoteClick,
   };
 
   return (
     <React.Fragment key={messageId}>
-      <Message
-        {...regularProps}
-        playableMessageIndex={props.playableMessageIndex}
-        multiSelectMode={multiSelectMode}
-        key={messageId}
-      />
+      <Message {...regularProps} multiSelectMode={multiSelectMode} key={messageId} />
       <UnreadIndicator messageId={messageId} />
     </React.Fragment>
   );

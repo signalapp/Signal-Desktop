@@ -268,9 +268,7 @@ class MessageInner extends React.PureComponent<Props, State> {
           <AudioPlayerWithEncryptedFile
             src={firstAttachment.url}
             contentType={firstAttachment.contentType}
-            playNextMessage={this.props.playNextMessage}
-            playableMessageIndex={this.props.playableMessageIndex}
-            nextMessageToPlay={this.props.nextMessageToPlay}
+            messageId={this.props.id}
           />
         </div>
       );
