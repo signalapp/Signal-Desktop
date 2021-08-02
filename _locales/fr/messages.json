@@ -260,6 +260,8 @@
   "userUnbanFailed": "Le débannissement a échoué !",
   "banUser": "Bannir l'utilisateur",
   "banUserConfirm": "Êtes-vous sûr de vouloir bannir cet utilisateur ?",
+  "banUserAndDeleteAll": "Bannir et tout supprimer",
+  "banUserAndDeleteAllConfirm": "Êtes-vous sûr de vouloir bannir cet utilisateur et supprimer tous ses messages ?",
   "userBanned": "Utilisateur banni",
   "userBanFailed": "Le bannissement a échoué",
   "leaveGroup": "Quitter le groupe",
