@@ -121,7 +121,7 @@ const ITEMS_TABLE = 'items';
 const ATTACHMENT_DOWNLOADS_TABLE = 'attachment_downloads';
 const CLOSED_GROUP_V2_KEY_PAIRS_TABLE = 'encryptionKeyPairsForClosedGroupV2';
 
-const MAX_PUBKEYS_MEMBERS = 1000;
+const MAX_PUBKEYS_MEMBERS = 300;
 
 function objectToJSON(data) {
   return JSON.stringify(data);
