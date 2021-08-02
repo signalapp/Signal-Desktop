@@ -1,16 +1,16 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-export default function createTaskWithTimeout<T>(
-  task: () => Promise<T>,
+export default function createTaskWithTimeout<T, Args extends Array<unknown>>(
+  task: (...args: Args) => Promise<T>,
   id: string,
   options: { timeout?: number } = {}
-): () => Promise<T> {
+): (...args: Args) => Promise<T> {
   const timeout = options.timeout || 1000 * 60 * 2; // two minutes
 
   const errorForStack = new Error('for stack');
 
-  return async () =>
+  return async (...args: Args) =>
     new Promise((resolve, reject) => {
       let complete = false;
       let timer: NodeJS.Timeout | null = setTimeout(() => {
@@ -58,7 +58,7 @@ export default function createTaskWithTimeout<T>(
 
       let promise;
       try {
-        promise = task();
+        promise = task(...args);
       } catch (error) {
         clearTimer();
         throw error;
