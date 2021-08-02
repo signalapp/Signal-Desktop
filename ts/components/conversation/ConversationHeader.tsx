@@ -7,12 +7,13 @@ import { SessionIconButton, SessionIconSize, SessionIconType } from '../session/
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../session/SessionButton';
 import { ConversationAvatar } from '../session/usingClosedConversationDetails';
 import { MemoConversationHeaderMenu } from '../session/menu/ConversationHeaderMenu';
-import { contextMenu } from 'react-contexify';
-import { useTheme } from 'styled-components';
+import { contextMenu, theme } from 'react-contexify';
+import styled, { ThemeProvider, useTheme } from 'styled-components';
 import { ConversationNotificationSettingType } from '../../models/conversation';
 import {
   getConversationHeaderProps,
   getConversationHeaderTitleProps,
+  getCurrentNotificationSettingText,
   getSelectedConversation,
   getSelectedMessageIds,
   isMessageDetailView,
@@ -28,6 +29,7 @@ import {
   openRightPanel,
   resetSelectedMessageIds,
 } from '../../state/ducks/conversations';
+import { getTheme } from '../../state/selectors/theme';
 
 export interface TimerOption {
   name: string;
@@ -74,7 +76,6 @@ const SelectionOverlay = (props: {
 }) => {
   const { onDeleteSelectedMessages, onCloseOverlay, isPublic } = props;
   const { i18n } = window;
-  const theme = useTheme();
 
   const isServerDeletable = isPublic;
   const deleteMessageButtonText = i18n(isServerDeletable ? 'deleteForEveryone' : 'delete');
@@ -86,7 +87,6 @@ const SelectionOverlay = (props: {
           iconType={SessionIconType.Exit}
           iconSize={SessionIconSize.Medium}
           onClick={onCloseOverlay}
-          theme={theme}
         />
       </div>
 
@@ -104,7 +104,6 @@ const SelectionOverlay = (props: {
 
 const TripleDotsMenu = (props: { triggerId: string; showBackButton: boolean }) => {
   const { showBackButton } = props;
-  const theme = useTheme();
   if (showBackButton) {
     return <></>;
   }
@@ -118,11 +117,7 @@ const TripleDotsMenu = (props: { triggerId: string; showBackButton: boolean }) =
         });
       }}
     >
-      <SessionIconButton
-        iconType={SessionIconType.Ellipses}
-        iconSize={SessionIconSize.Medium}
-        theme={theme}
-      />
+      <SessionIconButton iconType={SessionIconType.Ellipses} iconSize={SessionIconSize.Medium} />
     </div>
   );
 };
@@ -175,7 +170,6 @@ const AvatarHeader = (props: {
 
 const BackButton = (props: { onGoBack: () => void; showBackButton: boolean }) => {
   const { onGoBack, showBackButton } = props;
-  const theme = useTheme();
   if (!showBackButton) {
     return null;
   }
@@ -186,10 +180,29 @@ const BackButton = (props: { onGoBack: () => void; showBackButton: boolean }) =>
       iconSize={SessionIconSize.Large}
       iconRotation={90}
       onClick={onGoBack}
-      theme={theme}
     />
   );
 };
+
+interface StyledSubtitleContainerProps {
+  margin?: string;
+}
+export const StyledSubtitleContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  span {
+    margin-bottom: ${(p: StyledSubtitleContainerProps) => {
+      return p.margin || '5px';
+    }};
+  }
+
+  span:last-child {
+    margin-bottom: 0;
+  }
+`;
 
 export type ConversationHeaderTitleProps = {
   phoneNumber: string;
@@ -201,6 +214,7 @@ export type ConversationHeaderTitleProps = {
   subscriberCount?: number;
   isKickedFromGroup: boolean;
   name?: string;
+  currentNotificationSetting?: ConversationNotificationSettingType;
 };
 
 const ConversationHeaderTitle = () => {
@@ -227,37 +241,50 @@ const ConversationHeaderTitle = () => {
     return <div className="module-conversation-header__title">{i18n('noteToSelf')}</div>;
   }
 
-  const memberCount: number = (() => {
-    if (!isGroup) {
-      return 0;
-    }
-
+  let memberCount = 0;
+  if (isGroup) {
     if (isPublic) {
-      return subscriberCount || 0;
+      memberCount = subscriberCount || 0;
     } else {
-      return members.length;
+      memberCount = members.length;
     }
-  })();
-
-  let text = '';
-  if (isGroup && memberCount > 0) {
-    const count = String(memberCount);
-    text = i18n('members', [count]);
   }
 
-  const textEl =
-    text === '' || isKickedFromGroup ? null : (
-      <span className="module-conversation-header__title-text">{text}</span>
-    );
+  let memberCountText = '';
+  if (isGroup && memberCount > 0) {
+    const count = String(memberCount);
+    memberCountText = i18n('members', [count]);
+  }
 
+  const notificationSetting = useSelector(getCurrentNotificationSettingText);
+  const notificationSubtitle = notificationSetting
+    ? window.i18n('notificationSubtitle', notificationSetting)
+    : null;
   const title = profileName || name || phoneNumber;
+  const marginXS = useTheme().common.margins.xs;
 
   return (
     <div className="module-conversation-header__title">
       <span className="module-contact-name__profile-name">{title}</span>
-      {textEl}
+      <StyledSubtitleContainer margin={marginXS}>
+        {isKickedFromGroup ? null : <ConversationHeaderSubtitle text={memberCountText} />}
+        <ConversationHeaderSubtitle text={notificationSubtitle} />
+      </StyledSubtitleContainer>
     </div>
   );
+};
+
+/**
+ * The subtitle beneath a conversation title when looking at a conversation screen.
+ * @param props props for subtitle. Text to be displayed
+ * @returns JSX Element of the subtitle of conversation header
+ */
+export const ConversationHeaderSubtitle = (props: { text?: string | null }): JSX.Element | null => {
+  const { text } = props;
+  if (!text) {
+    return null;
+  }
+  return <span className="module-conversation-header__title-text">{text}</span>;
 };
 
 export const ConversationHeaderWithDetails = () => {

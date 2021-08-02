@@ -5,6 +5,7 @@
   storage,
   Whisper,
   BlockedNumberController,
+  Signal
 */
 
 // eslint-disable-next-line func-names
@@ -336,8 +337,11 @@
       window.libsession.Utils.ToastUtils.pushSpellCheckDirty();
     };
 
-    window.toggleMediaPermissions = () => {
+    window.toggleMediaPermissions = async () => {
       const value = window.getMediaPermissions();
+      if (value === false && Signal.OS.isMacOS()) {
+        await window.askForMediaAccess();
+      }
       window.setMediaPermissions(!value);
     };
 
