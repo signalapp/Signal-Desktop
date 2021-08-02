@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import { Emoji } from '../emoji/Emoji';
 import { convertShortName } from '../emoji/lib';
 import { Props as EmojiPickerProps } from '../emoji/EmojiPicker';
-import { useRestoreFocus } from '../../util/hooks';
+import { useRestoreFocus } from '../../util/hooks/useRestoreFocus';
 import { LocalizerType } from '../../types/Util';
 
 export type RenderEmojiPickerProps = Pick<Props, 'onClose' | 'style'> &

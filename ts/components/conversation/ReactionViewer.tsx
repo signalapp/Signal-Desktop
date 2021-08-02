@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import { ContactName } from './ContactName';
 import { Avatar, Props as AvatarProps } from '../Avatar';
 import { Emoji } from '../emoji/Emoji';
-import { useRestoreFocus } from '../../util/hooks';
+import { useRestoreFocus } from '../../util/hooks/useRestoreFocus';
 import { ConversationType } from '../../state/ducks/conversations';
 import { emojiToData, EmojiData } from '../emoji/lib';
 

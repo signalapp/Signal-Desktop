@@ -242,6 +242,11 @@ export function getSource(
   if (isIncoming(message)) {
     return message.source;
   }
+  if (!isOutgoing(message)) {
+    window.log.warn(
+      'message.getSource: Called for non-incoming/non-outoing message'
+    );
+  }
 
   return ourNumber;
 }
@@ -255,6 +260,11 @@ export function getSourceDevice(
   if (isIncoming(message)) {
     return sourceDevice;
   }
+  if (!isOutgoing(message)) {
+    window.log.warn(
+      'message.getSourceDevice: Called for non-incoming/non-outoing message'
+    );
+  }
 
   return sourceDevice || ourDeviceId;
 }
@@ -265,6 +275,11 @@ export function getSourceUuid(
 ): string | undefined {
   if (isIncoming(message)) {
     return message.sourceUuid;
+  }
+  if (!isOutgoing(message)) {
+    window.log.warn(
+      'message.getSourceUuid: Called for non-incoming/non-outoing message'
+    );
   }
 
   return ourUuid;

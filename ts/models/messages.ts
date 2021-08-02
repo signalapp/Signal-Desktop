@@ -1060,6 +1060,11 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     if (isIncoming(this.attributes)) {
       return this.get('source');
     }
+    if (!isOutgoing(this.attributes)) {
+      window.log.warn(
+        'Message.getSource: Called for non-incoming/non-outoing message'
+      );
+    }
 
     return this.OUR_NUMBER;
   }
@@ -1070,6 +1075,11 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     if (isIncoming(this.attributes)) {
       return sourceDevice;
     }
+    if (!isOutgoing(this.attributes)) {
+      window.log.warn(
+        'Message.getSourceDevice: Called for non-incoming/non-outoing message'
+      );
+    }
 
     return sourceDevice || window.textsecure.storage.user.getDeviceId();
   }
@@ -1077,6 +1087,11 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   getSourceUuid(): string | undefined {
     if (isIncoming(this.attributes)) {
       return this.get('sourceUuid');
+    }
+    if (!isOutgoing(this.attributes)) {
+      window.log.warn(
+        'Message.getSourceUuid: Called for non-incoming/non-outoing message'
+      );
     }
 
     return this.OUR_UUID;

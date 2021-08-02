@@ -14398,7 +14398,7 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/util/hooks.js",
+    "path": "ts/util/hooks/index.js",
     "line": "    const unobserveRef = React.useRef(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-01-08T15:46:32.143Z",
@@ -14406,7 +14406,7 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/util/hooks.js",
+    "path": "ts/util/hooks/index.js",
     "line": "    const previousValueRef = React.useRef(initialValue);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-03-18T21:41:28.361Z",
@@ -14414,7 +14414,21 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/util/hooks.js",
+    "path": "ts/util/hooks/index.ts",
+    "line": "  const previousValueRef = React.useRef<T>(initialValue);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-30T16:57:33.618Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/util/hooks/index.ts",
+    "line": "  const unobserveRef = React.useRef<(() => unknown) | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-30T16:57:33.618Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/util/hooks/useRestoreFocus.js",
     "line": "    const toFocusRef = React.useRef(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-07-30T01:08:01.309Z",
@@ -14422,7 +14436,7 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/util/hooks.js",
+    "path": "ts/util/hooks/useRestoreFocus.js",
     "line": "    const lastFocusedRef = React.useRef(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-07-30T01:08:01.309Z",
@@ -14430,29 +14444,15 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/util/hooks.ts",
-    "line": "  const previousValueRef = React.useRef<T>(initialValue);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-07-30T16:57:33.618Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/util/hooks.ts",
+    "path": "ts/util/hooks/useRestoreFocus.ts",
     "line": "  const toFocusRef = React.useRef<HTMLElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-07-30T16:57:33.618Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/util/hooks.ts",
+    "path": "ts/util/hooks/useRestoreFocus.ts",
     "line": "  const lastFocusedRef = React.useRef<HTMLElement | null>(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-07-30T16:57:33.618Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/util/hooks.ts",
-    "line": "  const unobserveRef = React.useRef<(() => unknown) | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-07-30T16:57:33.618Z"
   }

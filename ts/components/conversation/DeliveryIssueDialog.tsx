@@ -3,12 +3,13 @@
 
 import * as React from 'react';
 
+import { Button, ButtonSize, ButtonVariant } from '../Button';
 import { ConversationType } from '../../state/ducks/conversations';
 import { Modal } from '../Modal';
 import { Intl } from '../Intl';
 import { Emojify } from './Emojify';
 
-import { useRestoreFocus } from '../../util/hooks';
+import { useRestoreFocus } from '../../util/hooks/useRestoreFocus';
 
 import { LocalizerType } from '../../types/Util';
 
@@ -32,7 +33,7 @@ export function DeliveryIssueDialog(props: PropsType): React.ReactElement {
 
   return (
     <Modal hasXButton={false} onClose={onClose} i18n={i18n}>
-      <div className="module-delivery-issue-dialog">
+      <section>
         <div className="module-delivery-issue-dialog__image">
           <img
             src="images/delivery-issue.svg"
@@ -53,24 +54,25 @@ export function DeliveryIssueDialog(props: PropsType): React.ReactElement {
             i18n={i18n}
           />
         </div>
-        <div className="module-delivery-issue-dialog__buttons">
-          <button
-            type="button"
-            onClick={learnMoreAboutDeliveryIssue}
-            className="module-delivery-issue-dialog__learn-more-button"
-          >
-            {i18n('DeliveryIssue--learnMore')}
-          </button>
-          <button
-            type="button"
-            onClick={onClose}
-            ref={focusRef}
-            className="module-delivery-issue-dialog__close-button"
-          >
-            {i18n('Confirmation--confirm')}
-          </button>
-        </div>
-      </div>
+      </section>
+      <Modal.ButtonFooter>
+        <Button
+          onClick={learnMoreAboutDeliveryIssue}
+          size={ButtonSize.Medium}
+          variant={ButtonVariant.Secondary}
+        >
+          {i18n('DeliveryIssue--learnMore')}
+        </Button>
+        <Button
+          onClick={onClose}
+          ref={focusRef}
+          size={ButtonSize.Medium}
+          variant={ButtonVariant.Primary}
+          className="module-delivery-issue-dialog__close-button"
+        >
+          {i18n('Confirmation--confirm')}
+        </Button>
+      </Modal.ButtonFooter>
     </Modal>
   );
 }

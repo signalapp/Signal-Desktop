@@ -13,49 +13,6 @@ export function usePrevious<T>(initialValue: T, currentValue: T): T {
   return result;
 }
 
-type CallbackType = (toFocus: HTMLElement | null | undefined) => void;
-
-// Restore focus on teardown
-export const useRestoreFocus = (): Array<CallbackType> => {
-  const toFocusRef = React.useRef<HTMLElement | null>(null);
-  const lastFocusedRef = React.useRef<HTMLElement | null>(null);
-
-  // We need to use a callback here because refs aren't necessarily populated on first
-  //   render. For example, ModalHost makes a top-level parent div first, and then renders
-  //   into it. And the children you pass it don't have access to that root div.
-  const setFocusRef = React.useCallback(
-    (toFocus: HTMLElement | null | undefined) => {
-      if (!toFocus) {
-        return;
-      }
-
-      // We only want to do this once.
-      if (toFocusRef.current) {
-        return;
-      }
-      toFocusRef.current = toFocus;
-
-      // Remember last-focused element, focus this new target element.
-      lastFocusedRef.current = document.activeElement as HTMLElement;
-      toFocus.focus();
-    },
-    []
-  );
-
-  React.useEffect(() => {
-    return () => {
-      // On unmount, returned focus to element focused before we set the focus
-      setTimeout(() => {
-        if (lastFocusedRef.current && lastFocusedRef.current.focus) {
-          lastFocusedRef.current.focus();
-        }
-      });
-    };
-  }, []);
-
-  return [setFocusRef];
-};
-
 export const useBoundActions = <T extends ActionCreatorsMapObject>(
   actions: T
 ): T => {

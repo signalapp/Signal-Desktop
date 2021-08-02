@@ -32,6 +32,18 @@ story.add('Bare bones, long', () => (
   </Modal>
 ));
 
+story.add('Bare bones, long, with button', () => (
+  <Modal i18n={i18n}>
+    <p>{LOREM_IPSUM}</p>
+    <p>{LOREM_IPSUM}</p>
+    <p>{LOREM_IPSUM}</p>
+    <p>{LOREM_IPSUM}</p>
+    <Modal.ButtonFooter>
+      <Button onClick={noop}>Okay</Button>
+    </Modal.ButtonFooter>
+  </Modal>
+));
+
 story.add('Title, X button, body, and button footer', () => (
   <Modal i18n={i18n} title="Hello world" onClose={onClose} hasXButton>
     {LOREM_IPSUM}
@@ -66,6 +78,18 @@ story.add('Long body with title', () => (
     <p>{LOREM_IPSUM}</p>
     <p>{LOREM_IPSUM}</p>
     <p>{LOREM_IPSUM}</p>
+  </Modal>
+));
+
+story.add('Long body with title and button', () => (
+  <Modal i18n={i18n} title="Hello world" onClose={onClose}>
+    <p>{LOREM_IPSUM}</p>
+    <p>{LOREM_IPSUM}</p>
+    <p>{LOREM_IPSUM}</p>
+    <p>{LOREM_IPSUM}</p>
+    <Modal.ButtonFooter>
+      <Button onClick={noop}>Okay</Button>
+    </Modal.ButtonFooter>
   </Modal>
 ));
 

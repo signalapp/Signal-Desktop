@@ -10091,17 +10091,6 @@ $contact-modal-padding: 18px;
 
 // Module: Delivery Issue Dialog
 
-.module-delivery-issue-dialog {
-  // margin-left: auto;
-  // margin-right: auto;
-
-  @include light-theme {
-    background-color: $color-white;
-  }
-  @include dark-theme {
-    background-color: $color-gray-95;
-  }
-}
 .module-delivery-issue-dialog__image {
   text-align: center;
 }
@@ -10109,31 +10098,6 @@ $contact-modal-padding: 18px;
   @include font-body-1-bold;
   margin-top: 10px;
   margin-bottom: 3px;
-}
-.module-delivery-issue-dialog__buttons {
-  text-align: right;
-  margin-top: 20px;
-  padding: 3px;
-}
-.module-delivery-issue-dialog__button {
-}
-
-.module-delivery-issue-dialog__learn-more-button {
-  @include button-reset;
-  @include button-secondary;
-  @include font-body-1-bold;
-
-  border-radius: 4px;
-  padding: 7px 14px;
-}
-.module-delivery-issue-dialog__close-button {
-  @include button-reset;
-  @include button-primary;
-  @include font-body-1-bold;
-
-  border-radius: 4px;
-  padding: 7px 14px;
-  margin-left: 12px;
 }
 
 /* Third-party module: react-contextmenu*/
