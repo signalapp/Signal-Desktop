@@ -255,6 +255,8 @@
   "userUnbanFailed": "Unban failed!",
   "banUser": "Ban User",
   "banUserConfirm": "Are you sure you want to ban the user?",
+  "banUserAndDeleteAll": "Ban and Delete All",
+  "banUserAndDeleteAllConfirm": "Are you sure you want to ban the user and delete all his messages?",
   "userBanned": "Banned successfully",
   "userBanFailed": "Ban failed!",
   "leaveGroup": "Leave Group",
