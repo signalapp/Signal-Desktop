@@ -825,7 +825,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     _.defaults(options, { fromSync: false });
 
     if (!expireTimer) {
-      expireTimer = null;
+      expireTimer = 0;
     }
     if (this.get('expireTimer') === expireTimer || (!expireTimer && !this.get('expireTimer'))) {
       return null;
@@ -852,6 +852,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       //   indicator above it. We set it to 'unread' to trigger that placement.
       unread: isOutgoing ? 0 : 1,
       conversationId: this.id,
+      source,
       // No type; 'incoming' messages are specially treated by conversation.markRead()
       sent_at: timestamp,
       received_at: timestamp,

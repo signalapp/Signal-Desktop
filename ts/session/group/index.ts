@@ -164,8 +164,11 @@ export async function addUpdateMessage(
 
   const unread = type === 'incoming';
 
+  const source = UserUtils.getOurPubKeyStrFromCache();
+
   const message = await convo.addSingleMessage({
     conversationId: convo.get('id'),
+    source,
     type,
     sent_at: sentAt,
     received_at: now,
@@ -313,9 +316,12 @@ export async function leaveClosedGroup(groupId: string) {
   convo.set({ groupAdmins: admins });
   await convo.commit();
 
+  const source = UserUtils.getOurPubKeyStrFromCache();
+
   const dbMessage = await convo.addSingleMessage({
     group_update: { left: 'You' },
     conversationId: groupId,
+    source,
     type: 'outgoing',
     sent_at: now,
     received_at: now,

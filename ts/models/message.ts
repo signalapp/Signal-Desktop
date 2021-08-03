@@ -513,6 +513,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       // isSelected: this.isSelected,
       id: this.id as string,
       conversationId: this.get('conversationId'),
+      source: this.get('source'),
       receivedAt: this.get('received_at'),
       snippet: this.get('snippet'),
     };
