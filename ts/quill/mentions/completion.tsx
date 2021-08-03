@@ -14,6 +14,7 @@ import { Avatar } from '../../components/Avatar';
 import { LocalizerType } from '../../types/Util';
 import { MemberRepository } from '../memberRepository';
 import { matchBlotTextPartitions } from '../util';
+import { sameWidthModifier } from '../../util/popperUtil';
 
 export type MentionCompletionOptions = {
   i18n: LocalizerType;
@@ -218,25 +219,7 @@ export class MentionCompletion {
     }
 
     const element = createPortal(
-      <Popper
-        placement="top"
-        modifiers={{
-          width: {
-            enabled: true,
-            fn: oldData => {
-              const data = oldData;
-              const { width, left } = data.offsets.reference;
-
-              data.styles.width = `${width}px`;
-              data.offsets.popper.width = width;
-              data.offsets.popper.left = left;
-
-              return data;
-            },
-            order: 840,
-          },
-        }}
-      >
+      <Popper placement="top-start" modifiers={[sameWidthModifier]}>
         {({ ref, style }) => (
           <div
             ref={ref}

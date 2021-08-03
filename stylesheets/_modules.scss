@@ -4989,7 +4989,6 @@ button.module-image__border-overlay:focus {
   height: 56px;
   border-radius: 30px;
   position: relative;
-  margin: 4px 0;
   z-index: 2;
 
   animation: {
@@ -9908,8 +9907,6 @@ $contact-modal-padding: 18px;
   }
 
   &[data-placement='top'] {
-    margin-bottom: 12px;
-
     .module-tooltip-arrow {
       bottom: 0;
     }
@@ -9921,8 +9918,6 @@ $contact-modal-padding: 18px;
   }
 
   &[data-placement='right'] {
-    margin-left: 12px;
-
     .module-tooltip-arrow {
       left: 0;
     }
@@ -9934,8 +9929,6 @@ $contact-modal-padding: 18px;
   }
 
   &[data-placement='bottom'] {
-    margin-top: 12px;
-
     .module-tooltip-arrow {
       top: 0;
     }
@@ -9947,8 +9940,6 @@ $contact-modal-padding: 18px;
   }
 
   &[data-placement='left'] {
-    margin-right: 12px;
-
     .module-tooltip-arrow {
       right: 0;
     }

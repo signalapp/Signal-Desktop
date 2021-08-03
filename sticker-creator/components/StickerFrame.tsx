@@ -1,4 +1,4 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -260,7 +260,12 @@ export const StickerFrame = React.memo(
               previewActive &&
               previewPopperRoot
                 ? createPortal(
-                    <Popper placement="bottom">
+                    <Popper
+                      placement="bottom"
+                      modifiers={[
+                        { name: 'offset', options: { offset: [undefined, 8] } },
+                      ]}
+                    >
                       {({ ref, style, arrowProps, placement }) => (
                         <StickerPreview
                           ref={ref}

@@ -1,4 +1,4 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -10,6 +10,7 @@ import { StickerPicker } from './StickerPicker';
 import { countStickers } from './lib';
 import { StickerPackType, StickerType } from '../../state/ducks/stickers';
 import { LocalizerType } from '../../types/Util';
+import { offsetDistanceModifier } from '../../util/popperUtil';
 
 export type OwnProps = {
   readonly i18n: LocalizerType;
@@ -202,7 +203,11 @@ export const StickerButton = React.memo(
           )}
         </Reference>
         {!open && !showIntroduction && installedPack ? (
-          <Popper placement={position} key={installedPack.id}>
+          <Popper
+            placement={position}
+            key={installedPack.id}
+            modifiers={[offsetDistanceModifier(6)]}
+          >
             {({ ref, style, placement, arrowProps }) => (
               <button
                 type="button"
@@ -239,7 +244,7 @@ export const StickerButton = React.memo(
           </Popper>
         ) : null}
         {!open && showIntroduction ? (
-          <Popper placement={position}>
+          <Popper placement={position} modifiers={[offsetDistanceModifier(6)]}>
             {({ ref, style, placement, arrowProps }) => (
               <button
                 type="button"

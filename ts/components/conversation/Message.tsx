@@ -63,6 +63,7 @@ import { createRefMerger } from '../_util';
 import { emojiToData } from '../emoji/lib';
 import { SmartReactionPicker } from '../../state/smart/ReactionPicker';
 import { getCustomColorStyle } from '../../util/getCustomColorStyle';
+import { offsetDistanceModifier } from '../../util/popperUtil';
 
 type Trigger = {
   handleContextClick: (event: React.MouseEvent<HTMLDivElement>) => void;
@@ -1429,7 +1430,7 @@ export class Message extends React.Component<Props, State> {
         {reactionPickerRoot &&
           createPortal(
             // eslint-disable-next-line consistent-return
-            <Popper placement="top">
+            <Popper placement="top" modifiers={[offsetDistanceModifier(4)]}>
               {({ ref, style }) => (
                 <SmartReactionPicker
                   ref={ref}

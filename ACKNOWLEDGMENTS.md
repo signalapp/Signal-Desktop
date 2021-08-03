@@ -5,6 +5,10 @@
 
 Signal Desktop makes use of the following open source projects.
 
+## @popperjs/core
+
+    License: MIT
+
 ## @sindresorhus/is
 
     MIT License
@@ -2475,10 +2479,6 @@ Signal Desktop makes use of the following open source projects.
     SOFTWARE.
 
 ## pino-multi-stream
-
-    License: MIT
-
-## popper.js
 
     License: MIT
 

@@ -103,7 +103,7 @@ export const MediaQualitySelector = ({
       </Reference>
       {menuShowing && popperRoot
         ? createPortal(
-            <Popper placement="top-start" positionFixed>
+            <Popper placement="top-start" strategy="fixed">
               {({ ref, style, placement }) => (
                 <div
                   className="MediaQualitySelector__popper"
