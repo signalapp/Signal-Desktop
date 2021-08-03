@@ -180,7 +180,8 @@
     border-top: themed('sessionBorder');
   }
 
-  & > .session-icon-button {
+   .session-icon-button {
+  // & > .session-icon-button {
     margin-right: $session-margin-sm;
   }
   .session-icon-button {
