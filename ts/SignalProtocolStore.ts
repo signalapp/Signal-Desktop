@@ -807,13 +807,9 @@ export class SignalProtocolStore extends EventsMixin {
           return entry.item;
         }
 
-        const item = await this._maybeMigrateSession(entry.fromDB);
-        map.set(id, {
-          hydrated: true,
-          item,
-          fromDB: entry.fromDB,
-        });
-        return item;
+        // We'll either just hydrate the item or we'll fully migrate the session
+        //   and save it to the database.
+        return await this._maybeMigrateSession(entry.fromDB, { zone });
       } catch (error) {
         const errorString = error && error.stack ? error.stack : error;
         window.log.error(
@@ -840,14 +836,30 @@ export class SignalProtocolStore extends EventsMixin {
   }
 
   private async _maybeMigrateSession(
-    session: SessionType
+    session: SessionType,
+    { zone = GLOBAL_ZONE }: SessionTransactionOptions = {}
   ): Promise<SessionRecord> {
-    // Already migrated, return record directly
-    if (session.version === 2) {
-      return hydrateSession(session);
+    if (!this.sessions) {
+      throw new Error('_maybeMigrateSession: this.sessions not yet cached!');
     }
 
-    // Not yet converted, need to translate to new format
+    // Already migrated, hydrate and update cache
+    if (session.version === 2) {
+      const item = hydrateSession(session);
+
+      const map = this.pendingSessions.has(session.id)
+        ? this.pendingSessions
+        : this.sessions;
+      map.set(session.id, {
+        hydrated: true,
+        item,
+        fromDB: session,
+      });
+
+      return item;
+    }
+
+    // Not yet converted, need to translate to new format and save
     if (session.version !== undefined) {
       throw new Error('_maybeMigrateSession: Unknown session version type!');
     }
@@ -874,9 +886,13 @@ export class SignalProtocolStore extends EventsMixin {
       JSON.parse(session.record),
       localUserData
     );
-    return SessionRecord.deserialize(
+    const record = SessionRecord.deserialize(
       Buffer.from(sessionStructureToArrayBuffer(sessionProto))
     );
+
+    await this.storeSession(session.id, record, { zone });
+
+    return record;
   }
 
   async storeSession(
@@ -930,12 +946,13 @@ export class SignalProtocolStore extends EventsMixin {
   }
 
   async getOpenDevices(
-    identifiers: Array<string>
+    identifiers: Array<string>,
+    { zone = GLOBAL_ZONE }: SessionTransactionOptions = {}
   ): Promise<{
     devices: Array<DeviceType>;
     emptyIdentifiers: Array<string>;
   }> {
-    return this.withZone(GLOBAL_ZONE, 'getOpenDevices', async () => {
+    return this.withZone(zone, 'getOpenDevices', async () => {
       if (!this.sessions) {
         throw new Error('getOpenDevices: this.sessions not yet cached!');
       }
@@ -983,7 +1000,9 @@ export class SignalProtocolStore extends EventsMixin {
               return undefined;
             }
 
-            const record = await this._maybeMigrateSession(entry.fromDB);
+            const record = await this._maybeMigrateSession(entry.fromDB, {
+              zone,
+            });
             if (record.hasCurrentState()) {
               return { record, entry };
             }
@@ -1108,7 +1127,7 @@ export class SignalProtocolStore extends EventsMixin {
       async () => {
         const item = entry.hydrated
           ? entry.item
-          : await this._maybeMigrateSession(entry.fromDB);
+          : await this._maybeMigrateSession(entry.fromDB, { zone });
 
         if (!item.hasCurrentState()) {
           return;
