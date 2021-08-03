@@ -33,8 +33,10 @@ import { assert } from '../util/assert';
 import { getProvisioningUrl } from '../util/getProvisioningUrl';
 import { SignalService as Proto } from '../protobuf';
 
-const ARCHIVE_AGE = 30 * 24 * 60 * 60 * 1000;
-const PREKEY_ROTATION_AGE = 24 * 60 * 60 * 1000;
+const DAY = 24 * 60 * 60 * 1000;
+const MINIMUM_SIGNED_PREKEYS = 5;
+const ARCHIVE_AGE = 30 * DAY;
+const PREKEY_ROTATION_AGE = DAY;
 const PROFILE_KEY_LENGTH = 32;
 const SIGNED_KEY_GEN_BATCH_SIZE = 100;
 
@@ -321,13 +323,14 @@ export default class AccountManager extends EventTarget {
       const existingKeys = await store.loadSignedPreKeys();
       existingKeys.sort((a, b) => (b.created_at || 0) - (a.created_at || 0));
       const confirmedKeys = existingKeys.filter(key => key.confirmed);
+      const mostRecent = confirmedKeys[0];
 
       if (
-        confirmedKeys.length >= 3 &&
-        isMoreRecentThan(confirmedKeys[0].created_at, PREKEY_ROTATION_AGE)
+        confirmedKeys.length >= 2 ||
+        isMoreRecentThan(mostRecent?.created_at || 0, PREKEY_ROTATION_AGE)
       ) {
         window.log.warn(
-          'rotateSignedPreKey: 3+ confirmed keys, most recent is less than a day old. Cancelling rotation.'
+          `rotateSignedPreKey: ${confirmedKeys.length} confirmed keys, most recent was created ${mostRecent?.created_at}. Cancelling rotation.`
         );
         return;
       }
@@ -411,71 +414,49 @@ export default class AccountManager extends EventTarget {
   }
 
   async cleanSignedPreKeys() {
-    const MINIMUM_KEYS = 3;
     const store = window.textsecure.storage.protocol;
-    return store.loadSignedPreKeys().then(async allKeys => {
-      allKeys.sort((a, b) => (b.created_at || 0) - (a.created_at || 0));
-      const confirmed = allKeys.filter(key => key.confirmed);
-      const unconfirmed = allKeys.filter(key => !key.confirmed);
 
-      const recent = allKeys[0] ? allKeys[0].keyId : 'none';
-      const recentConfirmed = confirmed[0] ? confirmed[0].keyId : 'none';
-      window.log.info(`Most recent signed key: ${recent}`);
-      window.log.info(`Most recent confirmed signed key: ${recentConfirmed}`);
-      window.log.info(
-        'Total signed key count:',
-        allKeys.length,
-        '-',
-        confirmed.length,
-        'confirmed'
-      );
+    const allKeys = await store.loadSignedPreKeys();
+    allKeys.sort((a, b) => (b.created_at || 0) - (a.created_at || 0));
+    const confirmed = allKeys.filter(key => key.confirmed);
+    const unconfirmed = allKeys.filter(key => !key.confirmed);
 
-      let confirmedCount = confirmed.length;
+    const recent = allKeys[0] ? allKeys[0].keyId : 'none';
+    const recentConfirmed = confirmed[0] ? confirmed[0].keyId : 'none';
+    const recentUnconfirmed = unconfirmed[0] ? unconfirmed[0].keyId : 'none';
+    window.log.info(`cleanSignedPreKeys: Most recent signed key: ${recent}`);
+    window.log.info(
+      `cleanSignedPreKeys: Most recent confirmed signed key: ${recentConfirmed}`
+    );
+    window.log.info(
+      `cleanSignedPreKeys: Most recent unconfirmed signed key: ${recentUnconfirmed}`
+    );
+    window.log.info(
+      'cleanSignedPreKeys: Total signed key count:',
+      allKeys.length,
+      '-',
+      confirmed.length,
+      'confirmed'
+    );
 
-      // Keep MINIMUM_KEYS confirmed keys, then drop if older than a week
-      await Promise.all(
-        confirmed.map(async (key, index) => {
-          if (index < MINIMUM_KEYS) {
-            return;
-          }
-          const createdAt = key.created_at || 0;
+    // Keep MINIMUM_SIGNED_PREKEYS keys, then drop if older than ARCHIVE_AGE
+    await Promise.all(
+      allKeys.map(async (key, index) => {
+        if (index < MINIMUM_SIGNED_PREKEYS) {
+          return;
+        }
+        const createdAt = key.created_at || 0;
 
-          if (isOlderThan(createdAt, ARCHIVE_AGE)) {
-            window.log.info(
-              'Removing confirmed signed prekey:',
-              key.keyId,
-              'with timestamp:',
-              new Date(createdAt).toJSON()
-            );
-            await store.removeSignedPreKey(key.keyId);
-            confirmedCount -= 1;
-          }
-        })
-      );
-
-      const stillNeeded = MINIMUM_KEYS - confirmedCount;
-
-      // If we still don't have enough total keys, we keep as many unconfirmed
-      // keys as necessary. If not necessary, and over a week old, we drop.
-      await Promise.all(
-        unconfirmed.map(async (key, index) => {
-          if (index < stillNeeded) {
-            return;
-          }
-
-          const createdAt = key.created_at || 0;
-          if (isOlderThan(createdAt, ARCHIVE_AGE)) {
-            window.log.info(
-              'Removing unconfirmed signed prekey:',
-              key.keyId,
-              'with timestamp:',
-              new Date(createdAt).toJSON()
-            );
-            await store.removeSignedPreKey(key.keyId);
-          }
-        })
-      );
-    });
+        if (isOlderThan(createdAt, ARCHIVE_AGE)) {
+          const timestamp = new Date(createdAt).toJSON();
+          const confirmedText = key.confirmed ? ' (confirmed)' : '';
+          window.log.info(
+            `Removing signed prekey: ${key.keyId} with timestamp ${timestamp}${confirmedText}`
+          );
+          await store.removeSignedPreKey(key.keyId);
+        }
+      })
+    );
   }
 
   async createAccount(

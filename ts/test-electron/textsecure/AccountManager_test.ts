@@ -1,47 +1,68 @@
 // Copyright 2017-2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { assert } from 'chai';
+
+import { getRandomBytes } from '../../Crypto';
+import AccountManager from '../../textsecure/AccountManager';
+import { OuterSignedPrekeyType } from '../../textsecure/Types.d';
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 describe('AccountManager', () => {
-  let accountManager;
+  let accountManager: AccountManager;
 
   beforeEach(() => {
-    accountManager = new window.textsecure.AccountManager();
+    const server: any = {};
+    accountManager = new AccountManager(server);
   });
 
   describe('#cleanSignedPreKeys', () => {
-    let originalProtocolStorage;
-    let signedPreKeys;
+    let originalGetIdentityKeyPair: any;
+    let originalLoadSignedPreKeys: any;
+    let originalRemoveSignedPreKey: any;
+    let signedPreKeys: Array<OuterSignedPrekeyType>;
     const DAY = 1000 * 60 * 60 * 24;
+
+    const pubKey = getRandomBytes(33);
+    const privKey = getRandomBytes(32);
 
     beforeEach(async () => {
       const identityKey = window.Signal.Curve.generateKeyPair();
 
-      originalProtocolStorage = window.textsecure.storage.protocol;
-      window.textsecure.storage.protocol = {
-        getIdentityKeyPair() {
-          return identityKey;
-        },
-        loadSignedPreKeys() {
-          return Promise.resolve(signedPreKeys);
-        },
-      };
+      originalGetIdentityKeyPair =
+        window.textsecure.storage.protocol.getIdentityKeyPair;
+      originalLoadSignedPreKeys =
+        window.textsecure.storage.protocol.loadSignedPreKeys;
+      originalRemoveSignedPreKey =
+        window.textsecure.storage.protocol.removeSignedPreKey;
+
+      window.textsecure.storage.protocol.getIdentityKeyPair = async () =>
+        identityKey;
+      window.textsecure.storage.protocol.loadSignedPreKeys = async () =>
+        signedPreKeys;
     });
     afterEach(() => {
-      window.textsecure.storage.protocol = originalProtocolStorage;
+      window.textsecure.storage.protocol.getIdentityKeyPair = originalGetIdentityKeyPair;
+      window.textsecure.storage.protocol.loadSignedPreKeys = originalLoadSignedPreKeys;
+      window.textsecure.storage.protocol.removeSignedPreKey = originalRemoveSignedPreKey;
     });
 
     describe('encrypted device name', () => {
       it('roundtrips', async () => {
         const deviceName = 'v2.5.0 on Ubunto 20.04';
         const encrypted = await accountManager.encryptDeviceName(deviceName);
+        if (!encrypted) {
+          throw new Error('failed to encrypt!');
+        }
         assert.strictEqual(typeof encrypted, 'string');
         const decrypted = await accountManager.decryptDeviceName(encrypted);
 
         assert.strictEqual(decrypted, deviceName);
       });
 
-      it('handles null deviceName', async () => {
-        const encrypted = await accountManager.encryptDeviceName(null);
+      it('handles falsey deviceName', async () => {
+        const encrypted = await accountManager.encryptDeviceName('');
         assert.strictEqual(encrypted, null);
       });
     });
@@ -53,16 +74,22 @@ describe('AccountManager', () => {
           keyId: 1,
           created_at: now - DAY * 32,
           confirmed: true,
+          pubKey,
+          privKey,
         },
         {
           keyId: 2,
           created_at: now - DAY * 34,
           confirmed: true,
+          pubKey,
+          privKey,
         },
         {
           keyId: 3,
           created_at: now - DAY * 38,
           confirmed: true,
+          pubKey,
+          privKey,
         },
       ];
 
@@ -70,73 +97,57 @@ describe('AccountManager', () => {
       return accountManager.cleanSignedPreKeys();
     });
 
-    it('eliminates confirmed keys over a month old, if more than three', async () => {
+    it('eliminates oldest keys, even if recent key is unconfirmed', async () => {
       const now = Date.now();
       signedPreKeys = [
         {
           keyId: 1,
           created_at: now - DAY * 32,
           confirmed: true,
+          pubKey,
+          privKey,
         },
         {
           keyId: 2,
           created_at: now - DAY * 31,
-          confirmed: true,
+          confirmed: false,
+          pubKey,
+          privKey,
         },
         {
           keyId: 3,
           created_at: now - DAY * 24,
           confirmed: true,
+          pubKey,
+          privKey,
         },
         {
+          // Oldest, should be dropped
           keyId: 4,
           created_at: now - DAY * 38,
           confirmed: true,
+          pubKey,
+          privKey,
         },
         {
           keyId: 5,
           created_at: now - DAY,
           confirmed: true,
+          pubKey,
+          privKey,
+        },
+        {
+          keyId: 6,
+          created_at: now - DAY * 5,
+          confirmed: true,
+          pubKey,
+          privKey,
         },
       ];
 
       let count = 0;
-      window.textsecure.storage.protocol.removeSignedPreKey = keyId => {
-        if (keyId !== 1 && keyId !== 4) {
-          throw new Error(`Wrong keys were eliminated! ${keyId}`);
-        }
-
-        count += 1;
-      };
-
-      await accountManager.cleanSignedPreKeys();
-      assert.strictEqual(count, 2);
-    });
-
-    it('keeps at least three unconfirmed keys if no confirmed', async () => {
-      const now = Date.now();
-      signedPreKeys = [
-        {
-          keyId: 1,
-          created_at: now - DAY * 32,
-        },
-        {
-          keyId: 2,
-          created_at: now - DAY * 44,
-        },
-        {
-          keyId: 3,
-          created_at: now - DAY * 36,
-        },
-        {
-          keyId: 4,
-          created_at: now - DAY * 20,
-        },
-      ];
-
-      let count = 0;
-      window.textsecure.storage.protocol.removeSignedPreKey = keyId => {
-        if (keyId !== 2) {
+      window.textsecure.storage.protocol.removeSignedPreKey = async keyId => {
+        if (keyId !== 4) {
           throw new Error(`Wrong keys were eliminated! ${keyId}`);
         }
 
@@ -147,40 +158,44 @@ describe('AccountManager', () => {
       assert.strictEqual(count, 1);
     });
 
-    it('if some confirmed keys, keeps unconfirmed to addd up to three total', async () => {
+    it('Removes no keys if less than five', async () => {
       const now = Date.now();
       signedPreKeys = [
         {
           keyId: 1,
           created_at: now - DAY * 32,
           confirmed: true,
+          pubKey,
+          privKey,
         },
         {
           keyId: 2,
           created_at: now - DAY * 44,
           confirmed: true,
+          pubKey,
+          privKey,
         },
         {
           keyId: 3,
           created_at: now - DAY * 36,
+          confirmed: false,
+          pubKey,
+          privKey,
         },
         {
           keyId: 4,
           created_at: now - DAY * 20,
+          confirmed: false,
+          pubKey,
+          privKey,
         },
       ];
 
-      let count = 0;
-      window.textsecure.storage.protocol.removeSignedPreKey = keyId => {
-        if (keyId !== 3) {
-          throw new Error(`Wrong keys were eliminated! ${keyId}`);
-        }
-
-        count += 1;
+      window.textsecure.storage.protocol.removeSignedPreKey = async () => {
+        throw new Error('None should be removed!');
       };
 
       await accountManager.cleanSignedPreKeys();
-      assert.strictEqual(count, 1);
     });
   });
 });
