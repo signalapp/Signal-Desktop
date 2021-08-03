@@ -379,6 +379,18 @@ export async function sendToGroupViaSenderKey(options: {
       { messageIds: [], sendType: 'senderKeyDistributionMessage' }
     );
 
+    // Update memberDevices with new devices
+    const updatedMemberDevices = [...memberDevices, ...newToMemberDevices];
+
+    conversation.set({
+      senderKeyInfo: {
+        createdAtDate,
+        distributionId,
+        memberDevices: updatedMemberDevices,
+      },
+    });
+    await window.Signal.Data.updateConversation(conversation.attributes);
+
     // Restart here because we might have discovered new or dropped devices as part of
     //   distributing our sender key.
     return sendToGroupViaSenderKey({
@@ -387,15 +399,14 @@ export async function sendToGroupViaSenderKey(options: {
     });
   }
 
-  // 9. Update memberDevices with both adds and the removals which didn't require a reset.
-  if (removedFromMemberDevices.length > 0 || newToMemberDevices.length > 0) {
+  // 9. Update memberDevices with removals which didn't require a reset.
+  if (removedFromMemberDevices.length > 0) {
     const updatedMemberDevices = [
       ...differenceWith<DeviceType, DeviceType>(
         memberDevices,
         removedFromMemberDevices,
         deviceComparator
       ),
-      ...newToMemberDevices,
     ];
 
     conversation.set({
@@ -649,7 +660,7 @@ async function handle409Response(logId: string, error: Error) {
         const { uuid, devices } = item;
         // Start new sessions with devices we didn't know about before
         if (devices.missingDevices && devices.missingDevices.length > 0) {
-          await fetchKeysForIdentifier(uuid, devices.extraDevices);
+          await fetchKeysForIdentifier(uuid, devices.missingDevices);
         }
 
         // Archive sessions with devices that have been removed
@@ -857,16 +868,10 @@ function isValidSenderKeyRecipient(
 
   const capabilities = memberConversation.get('capabilities');
   if (!capabilities?.senderKey) {
-    window.log.info(
-      `isValidSenderKeyRecipient: Missing senderKey capability for member ${uuid}`
-    );
     return false;
   }
 
   if (!getAccessKey(memberConversation.attributes)) {
-    window.log.warn(
-      `isValidSenderKeyRecipient: Missing accessKey for member ${uuid}`
-    );
     return false;
   }
 
