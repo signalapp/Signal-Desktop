@@ -7,4 +7,4 @@ The current source file is build/session_icon_source_1024px.png
 
 -> macOS: use https://cloudconvert.com/png-to-icns to get .icns from the 1024px.png source file => save as icon.icns
 -> windows: use https://cloudconvert.com/png-to-ico to get .ico from the 1024px.png source file => save as icon.ico
--> linux: is be generated from the macos .icons one
+-> linux: build binaries on github actions, get the zip with the deb+appImage, extract it, all the icons are in a .icons-set folder, and you can copy paste them into build/icons
