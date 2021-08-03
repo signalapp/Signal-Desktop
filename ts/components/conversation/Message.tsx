@@ -51,7 +51,6 @@ import { saveAttachmentToDisk } from '../../util/attachmentsUtil';
 import { LightBoxOptions } from '../session/conversation/SessionConversation';
 import { MessageContextMenu } from './MessageContextMenu';
 import { ReadableMessage } from './ReadableMessage';
-import { isElectronWindowFocused } from '../../session/utils/WindowUtils';
 import { getConversationController } from '../../session/conversations';
 import { MessageMetadata } from './message/MessageMetadata';
 
@@ -158,7 +157,7 @@ class MessageInner extends React.PureComponent<Props, State> {
     }
   }
 
-  public componentDidUpdate() {
+  public componentDidUpdate(prevProps: Props) {
     this.checkExpired();
   }
 
@@ -269,9 +268,7 @@ class MessageInner extends React.PureComponent<Props, State> {
           <AudioPlayerWithEncryptedFile
             src={firstAttachment.url}
             contentType={firstAttachment.contentType}
-            playNextMessage={this.props.playNextMessage}
-            playableMessageIndex={this.props.playableMessageIndex}
-            nextMessageToPlay={this.props.nextMessageToPlay}
+            messageId={this.props.id}
           />
         </div>
       );
@@ -561,7 +558,7 @@ class MessageInner extends React.PureComponent<Props, State> {
   }
 
   public isShowingImage(): boolean {
-    const { attachments, previews } = this.props;
+    const { attachments, previews, text } = this.props;
     const { imageBroken } = this.state;
 
     if (imageBroken) {
@@ -570,9 +567,10 @@ class MessageInner extends React.PureComponent<Props, State> {
 
     if (attachments && attachments.length) {
       const displayImage = canDisplayImage(attachments);
-
+      const hasText = text?.length;
       return Boolean(
         displayImage &&
+          !hasText &&
           ((isImage(attachments) && hasImage(attachments)) ||
             (isVideo(attachments) && hasVideoScreenshot(attachments)))
       );
@@ -593,21 +591,27 @@ class MessageInner extends React.PureComponent<Props, State> {
   }
 
   // tslint:disable-next-line: cyclomatic-complexity
+  // tslint:disable-next-line: max-func-body-length
   public render() {
-    const { direction, id, conversationType, isUnread, selectedMessages } = this.props;
+    const {
+      direction,
+      id: messageId,
+      conversationType,
+      selectedMessages,
+      receivedAt,
+      isUnread,
+    } = this.props;
     const { expired, expiring } = this.state;
 
     if (expired) {
       return null;
     }
 
-    const selected = selectedMessages.includes(id) || false;
+    const selected = selectedMessages.includes(messageId) || false;
 
     const width = this.getWidth();
     const isShowingImage = this.isShowingImage();
 
-    const isIncoming = direction === 'incoming';
-    const shouldMarkReadWhenVisible = isIncoming && isUnread;
     const divClasses = ['session-message-wrapper'];
 
     if (selected) {
@@ -618,29 +622,20 @@ class MessageInner extends React.PureComponent<Props, State> {
       divClasses.push('public-chat-message-wrapper');
     }
 
-    if (this.props.quotedMessageToAnimate === this.props.id) {
+    if (this.props.quotedMessageToAnimate === messageId) {
       divClasses.push('flash-green-once');
     }
 
-    const onVisible = async (inView: boolean | Object) => {
-      if (inView === true && shouldMarkReadWhenVisible && isElectronWindowFocused()) {
-        const found = await getMessageById(id);
-
-        if (found && Boolean(found.get('unread'))) {
-          // mark the message as read.
-          // this will trigger the expire timer.
-          void found.markRead(Date.now());
-        }
-      }
-    };
+    const isIncoming = direction === 'incoming';
 
     return (
       <ReadableMessage
-        id={id}
+        messageId={messageId}
         className={classNames(divClasses)}
-        onChange={onVisible}
         onContextMenu={this.handleContextMenu}
-        key={`readable-message-${this.props.id}`}
+        receivedAt={receivedAt}
+        isUnread={isUnread}
+        key={`readable-message-${messageId}`}
       >
         {this.renderAvatar()}
         <div
@@ -675,7 +670,7 @@ class MessageInner extends React.PureComponent<Props, State> {
             {this.renderText()}
             <MessageMetadata
               direction={this.props.direction}
-              id={this.props.id}
+              messageId={this.props.id}
               timestamp={this.props.timestamp}
               collapseMetadata={this.props.collapseMetadata}
               expirationLength={this.props.expirationLength}

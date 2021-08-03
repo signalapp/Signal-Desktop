@@ -6,7 +6,6 @@ import { createOrUpdateItem, removeAll } from '../../../data/data';
 import { SignUpTab } from './SignUpTab';
 import { SignInTab } from './SignInTab';
 import { TabLabel, TabType } from './TabLabel';
-import { PasswordUtil } from '../../../util';
 import { trigger } from '../../../shims/events';
 import {
   generateMnemonic,
@@ -28,38 +27,6 @@ interface State {
   hexGeneratedPubKey: string;
 }
 
-export function validatePassword(password: string, verifyPassword: string) {
-  const trimmedPassword = password.trim();
-  const trimmedVerifyPassword = verifyPassword.trim();
-  // If user hasn't set a value then skip
-  if (!trimmedPassword && !trimmedVerifyPassword) {
-    return {
-      passwordErrorString: '',
-      passwordFieldsMatch: true,
-    };
-  }
-
-  const error = PasswordUtil.validatePassword(trimmedPassword);
-  if (error) {
-    return {
-      passwordErrorString: error,
-      passwordFieldsMatch: true,
-    };
-  }
-
-  if (trimmedPassword !== trimmedVerifyPassword) {
-    return {
-      passwordErrorString: '',
-      passwordFieldsMatch: false,
-    };
-  }
-
-  return {
-    passwordErrorString: '',
-    passwordFieldsMatch: true,
-  };
-}
-
 export async function resetRegistration() {
   await removeAll();
   await window.storage.reset();
@@ -67,22 +34,6 @@ export async function resetRegistration() {
   getConversationController().reset();
   await getConversationController().load();
 }
-
-const passwordsAreValid = (password: string, verifyPassword: string) => {
-  const passwordErrors = validatePassword(password, verifyPassword);
-  if (passwordErrors.passwordErrorString) {
-    window?.log?.warn('invalid password for registration');
-    ToastUtils.pushToastError('invalidPassword', window.i18n('invalidPassword'));
-    return false;
-  }
-  if (!!password && !passwordErrors.passwordFieldsMatch) {
-    window?.log?.warn('passwords does not match for registration');
-    ToastUtils.pushToastError('invalidPassword', window.i18n('passwordsDoNotMatch'));
-    return false;
-  }
-
-  return true;
-};
 
 /**
  * Returns undefined if an error happened, or the trim userName.
@@ -103,10 +54,8 @@ const displayNameIsValid = (displayName: string): undefined | string => {
 export async function signUp(signUpDetails: {
   displayName: string;
   generatedRecoveryPhrase: string;
-  password: string;
-  verifyPassword: string;
 }) {
-  const { displayName, password, verifyPassword, generatedRecoveryPhrase } = signUpDetails;
+  const { displayName, generatedRecoveryPhrase } = signUpDetails;
   window?.log?.info('SIGNING UP');
 
   const trimName = displayNameIsValid(displayName);
@@ -115,14 +64,8 @@ export async function signUp(signUpDetails: {
     return;
   }
 
-  // This will show a toast with the error
-  if (!passwordsAreValid(password, verifyPassword)) {
-    return;
-  }
-
   try {
     await resetRegistration();
-    await window.setPassword(password);
     await registerSingleDevice(generatedRecoveryPhrase, 'english', trimName);
     await createOrUpdateItem({
       id: 'hasSyncedInitialConfigurationItem',
@@ -145,24 +88,17 @@ export async function signUp(signUpDetails: {
 export async function signInWithRecovery(signInDetails: {
   displayName: string;
   userRecoveryPhrase: string;
-  password: string;
-  verifyPassword: string;
 }) {
-  const { displayName, password, verifyPassword, userRecoveryPhrase } = signInDetails;
+  const { displayName, userRecoveryPhrase } = signInDetails;
   window?.log?.info('RESTORING FROM SEED');
   const trimName = displayNameIsValid(displayName);
   // shows toast to user about the error
   if (!trimName) {
     return;
   }
-  // This will show a toast with the error
-  if (!passwordsAreValid(password, verifyPassword)) {
-    return;
-  }
 
   try {
     await resetRegistration();
-    await window.setPassword(password);
 
     await registerSingleDevice(userRecoveryPhrase, 'english', trimName);
     trigger('openInbox');
@@ -177,20 +113,12 @@ export async function signInWithRecovery(signInDetails: {
  * This is will try to sign in with the user recovery phrase.
  * If no ConfigurationMessage is received in 60seconds, the loading will be canceled.
  */
-export async function signInWithLinking(signInDetails: {
-  userRecoveryPhrase: string;
-  password: string;
-  verifyPassword: string;
-}) {
-  const { password, verifyPassword, userRecoveryPhrase } = signInDetails;
+export async function signInWithLinking(signInDetails: { userRecoveryPhrase: string }) {
+  const { userRecoveryPhrase } = signInDetails;
   window?.log?.info('LINKING DEVICE');
-  // This will show a toast with the error
-  if (!passwordsAreValid(password, verifyPassword)) {
-    return;
-  }
+
   try {
     await resetRegistration();
-    await window.setPassword(password);
     await signInByLinkingDevice(userRecoveryPhrase, 'english');
     let displayNameFromNetwork = '';
     await getSwarmPollingInstance().start();

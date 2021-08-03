@@ -7,16 +7,7 @@ let trayContextMenu = null;
 let tray = null;
 
 function createTrayIcon(getMainWindow, messages) {
-  // A smaller icon is needed on macOS
-  const iconSize = process.platform === 'darwin' ? '16' : '256';
-  const iconNoNewMessages = path.join(
-    __dirname,
-    '..',
-    'images',
-    'session',
-    `session_icon_${iconSize}.png`
-  );
-
+  const iconNoNewMessages = path.join(__dirname, '..', 'images', 'session', `session_icon.png`);
   tray = new Tray(iconNoNewMessages);
 
   tray.forceOnTop = mainWindow => {
@@ -79,15 +70,8 @@ function createTrayIcon(getMainWindow, messages) {
     tray.setContextMenu(trayContextMenu);
   };
 
-  tray.updateIcon = unreadCount => {
-    let image;
-
-    if (unreadCount > 0) {
-      const filename = `${String(unreadCount >= 10 ? 10 : unreadCount)}.png`;
-      image = path.join(__dirname, '..', 'images', 'alert', iconSize, filename);
-    } else {
-      image = iconNoNewMessages;
-    }
+  tray.updateIcon = () => {
+    const image = iconNoNewMessages;
 
     if (!fs.existsSync(image)) {
       console.log('tray.updateIcon: Image for tray update does not exist!');

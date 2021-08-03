@@ -73,11 +73,10 @@ declare global {
     autoOrientImage: any;
     contextMenuShown: boolean;
     inboxStore?: Store;
-    actionsCreators: any;
-    extension: {
-      expired: (boolean) => void;
-      expiredStatus: () => boolean;
-    };
+    openConversationWithMessages: (args: {
+      conversationKey: string;
+      messageId?: string | undefined;
+    }) => Promise<void>;
     LokiPushNotificationServer: any;
     globalOnlineStatus: boolean;
     confirmationDialog: any;

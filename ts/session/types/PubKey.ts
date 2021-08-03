@@ -2,7 +2,7 @@ import { fromHexToArray } from '../utils/String';
 
 export class PubKey {
   public static readonly PUBKEY_LEN = 66;
-  private static readonly HEX = '[0-9a-fA-F]';
+  public static readonly HEX = '[0-9a-fA-F]';
 
   // This is a temporary fix to allow groupPubkeys created from mobile to be handled correctly
   // They have a different regex to match

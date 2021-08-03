@@ -200,7 +200,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     this.triggerUIRefresh = _.throttle(this.triggerUIRefresh, 1000, {
       trailing: true,
     });
-    this.throttledNotify = _.debounce(this.notify, 500, { maxWait: 1000, trailing: true });
+    this.throttledNotify = _.debounce(this.notify, 500, { maxWait: 5000, trailing: true });
     //start right away the function is called, and wait 1sec before calling it again
     const markReadDebounced = _.debounce(this.markReadBouncy, 1000, {
       leading: true,
@@ -837,7 +837,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       source,
     });
 
-    const isOutgoing = Boolean(receivedAt);
+    const isOutgoing = Boolean(!receivedAt);
 
     source = source || UserUtils.getOurPubKeyStrFromCache();
 
@@ -850,7 +850,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const messageAttributes = {
       // Even though this isn't reflected to the user, we want to place the last seen
       //   indicator above it. We set it to 'unread' to trigger that placement.
-      unread: 1,
+      unread: isOutgoing ? 0 : 1,
       conversationId: this.id,
       // No type; 'incoming' messages are specially treated by conversation.markRead()
       sent_at: timestamp,
@@ -1412,8 +1412,16 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       const text = message.get('body');
       const mentions = text?.match(regex) || ([] as Array<string>);
       const mentionMe = mentions && mentions.some(m => UserUtils.isUsFromCache(m.slice(1)));
-      if (!mentionMe) {
-        window?.log?.info('notifications disabled for non mentions for convo', conversationId);
+
+      const quotedMessageAuthor = message.get('quote')?.author;
+
+      const isReplyToOurMessage =
+        quotedMessageAuthor && UserUtils.isUsFromCache(quotedMessageAuthor);
+      if (!mentionMe && !isReplyToOurMessage) {
+        window?.log?.info(
+          'notifications disabled for non mentions or reply for convo',
+          conversationId
+        );
 
         return;
       }

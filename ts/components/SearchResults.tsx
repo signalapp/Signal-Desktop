@@ -4,7 +4,7 @@ import {
   ConversationListItemProps,
   MemoConversationListItemWithDetails,
 } from './ConversationListItem';
-import { MessageSearchResult } from './MessageSearchResult';
+// import { MessageSearchResult } from './MessageSearchResult';
 
 export type SearchResultsProps = {
   contacts: Array<ConversationListItemProps>;

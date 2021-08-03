@@ -241,17 +241,14 @@ const ConversationHeaderTitle = () => {
     return <div className="module-conversation-header__title">{i18n('noteToSelf')}</div>;
   }
 
-  const memberCount: number = (() => {
-    if (!isGroup) {
-      return 0;
-    }
-
+  let memberCount = 0;
+  if (isGroup) {
     if (isPublic) {
-      return subscriberCount || 0;
+      memberCount = subscriberCount || 0;
     } else {
-      return members.length;
+      memberCount = members.length;
     }
-  })();
+  }
 
   let memberCountText = '';
   if (isGroup && memberCount > 0) {

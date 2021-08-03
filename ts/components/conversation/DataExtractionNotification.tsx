@@ -5,10 +5,11 @@ import { SignalService } from '../../protobuf';
 import { Flex } from '../basic/Flex';
 import { SessionIcon, SessionIconSize, SessionIconType } from '../session/icon';
 import { SpacerXS, Text } from '../basic/Text';
+import { ReadableMessage } from './ReadableMessage';
 
 export const DataExtractionNotification = (props: PropsForDataExtractionNotification) => {
   const theme = useTheme();
-  const { name, type, source, messageId } = props;
+  const { name, type, source, messageId, isUnread, receivedAt } = props;
 
   let contentText: string;
   if (type === SignalService.DataExtractionNotification.Type.MEDIA_SAVED) {
@@ -18,21 +19,28 @@ export const DataExtractionNotification = (props: PropsForDataExtractionNotifica
   }
 
   return (
-    <Flex
-      container={true}
-      flexDirection="column"
-      alignItems="center"
-      margin={theme.common.margins.sm}
-      id={messageId}
+    <ReadableMessage
+      messageId={messageId}
+      receivedAt={receivedAt}
+      isUnread={isUnread}
+      key={`readable-message-${messageId}`}
     >
-      <SessionIcon
-        iconType={SessionIconType.Upload}
-        theme={theme}
-        iconSize={SessionIconSize.Small}
-        iconRotation={180}
-      />
-      <SpacerXS />
-      <Text text={contentText} subtle={true} />
-    </Flex>
+      <Flex
+        container={true}
+        flexDirection="column"
+        alignItems="center"
+        margin={theme.common.margins.sm}
+        id={`msg-${messageId}`}
+      >
+        <SessionIcon
+          iconType={SessionIconType.Upload}
+          theme={theme}
+          iconSize={SessionIconSize.Small}
+          iconRotation={180}
+        />
+        <SpacerXS />
+        <Text text={contentText} subtle={true} />
+      </Flex>
+    </ReadableMessage>
   );
 };

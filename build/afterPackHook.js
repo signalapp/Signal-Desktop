@@ -10,21 +10,21 @@ module.exports = async function(context) {
   if (process.platform !== 'linux') {
     return;
   }
-  const isAppImage = context.targets.find(target => target.name === 'appImage');
+  const isAppImage = context.targets.name === 'appImage';
   console.log(
     'targets',
     context.targets.map(target => target.name)
   );
 
-  console.log('AppImage', isAppImage.options);
+  console.log('AppImage', isAppImage);
 
   if (!isAppImage) {
-    console.log('afterPack hook not triggered', context);
+    console.log('afterPack hook not triggered as this is not an appImage build:', context);
 
     return;
   }
   // eslint-disable-next-line no-console
-  console.log('afterPack hook triggered', context);
+  // console.log('afterPack hook triggered', context);
 
   const executableName = context.packager.executableName;
   const sourceExecutable = path.join(context.appOutDir, executableName);
