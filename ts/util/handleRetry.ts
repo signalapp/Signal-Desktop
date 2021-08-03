@@ -7,7 +7,8 @@ import {
 } from '@signalapp/signal-client';
 import { isNumber } from 'lodash';
 
-import { assert } from './assert';
+import { isBeta } from './version';
+import { strictAssert } from './assert';
 import { getSendOptions } from './getSendOptions';
 import { handleMessageSend } from './handleMessageSend';
 import { isGroupV2 } from './whatTypeOfConversation';
@@ -116,13 +117,11 @@ export async function onRetryRequest(event: RetryRequestEvent): Promise<void> {
 }
 
 function maybeShowDecryptionToast(logId: string) {
-  if (!RemoteConfig.isEnabled('desktop.internalUser')) {
+  if (!isBeta(window.getVersion())) {
     return;
   }
 
-  window.log.info(
-    `onDecryptionError/${logId}: Showing toast for internal user`
-  );
+  window.log.info(`onDecryptionError/${logId}: Showing decryption error toast`);
   window.Whisper.ToastView.show(
     window.Whisper.DecryptionErrorToast,
     document.getElementsByClassName('conversation-stack')[0]
@@ -434,7 +433,7 @@ async function requestResend(decryptionError: DecryptionErrorEventData) {
   // We believe that it could be successfully re-sent, so we'll add a placeholder.
   if (contentHint === ContentHint.RESENDABLE) {
     const { retryPlaceholders } = window.Signal.Services;
-    assert(retryPlaceholders, 'requestResend: adding placeholder');
+    strictAssert(retryPlaceholders, 'requestResend: adding placeholder');
 
     window.log.info(`requestResend/${logId}: Adding placeholder`);
 

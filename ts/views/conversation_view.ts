@@ -206,9 +206,10 @@ Whisper.TapToViewExpiredOutgoingToast = Whisper.ToastView.extend({
 });
 
 Whisper.DecryptionErrorToast = Whisper.ToastView.extend({
-  className: 'toast toast-clickable',
+  className: 'toast toast-clickable decryption-error',
   events: {
     click: 'onClick',
+    keydown: 'onKeyDown',
   },
   render_attributes() {
     return {
@@ -218,6 +219,15 @@ Whisper.DecryptionErrorToast = Whisper.ToastView.extend({
   // Note: this is the same thing as ToastView, except it's missing the setTimeout, so it
   //   will stick around until the user interacts with it.
   render() {
+    const toasts = document.getElementsByClassName('decryption-error');
+    if (toasts.length > 1) {
+      window.log.info(
+        'DecryptionErrorToast: We are second decryption error toast. Closing.'
+      );
+      this.close();
+      return;
+    }
+
     this.$el.html(
       window.Mustache.render(
         window._.result(this, 'template', ''),
@@ -226,10 +236,22 @@ Whisper.DecryptionErrorToast = Whisper.ToastView.extend({
     );
     this.$el.attr('tabIndex', 0);
     this.$el.show();
+    if (window.getInteractionMode() === 'keyboard') {
+      setTimeout(() => {
+        this.$el.focus();
+      }, 1);
+    }
   },
   onClick() {
     this.close();
     window.showDebugLog();
+  },
+  onKeyDown(event: KeyboardEvent) {
+    if (event.key !== 'Enter' && event.key !== ' ') {
+      return;
+    }
+
+    this.onClick();
   },
 });
 

@@ -18,7 +18,6 @@ export type ConfigKeyType =
   | 'desktop.retryReceiptLifespan'
   | 'desktop.retryRespondMaxAge'
   | 'desktop.screensharing2'
-  | 'desktop.sendSenderKey2'
   | 'desktop.storage'
   | 'desktop.storageWrite3'
   | 'desktop.worksAtSignal'
