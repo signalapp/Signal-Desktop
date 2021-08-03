@@ -329,6 +329,10 @@
   }
 }
 
+.send-message-button {
+  animation: fadein $session-transition-duration;
+}
+
 .session-recording {
   height: $composition-container-height;
   display: flex;
@@ -342,10 +346,13 @@
   &--actions {
     display: flex;
     align-items: center;
-    justify-content: center;
     width: $actions-element-size;
     height: $actions-element-size;
     border-radius: 50%;
+
+    .session-button {
+      animation: fadein $session-transition-duration;
+    }
 
     .session-icon-button {
       animation: fadein $session-transition-duration;
@@ -415,6 +422,11 @@
 
     &.playback-timer {
       margin-right: $session-margin-sm;
+      animation: fadein $session-transition-duration;
+
+      @media (-webkit-min-device-pixel-ratio: 1.6) {
+        margin-left: auto;
+      }
     }
 
     &-light {
@@ -422,9 +434,9 @@
       width: $session-margin-sm;
       border-radius: 50%;
       background-color: $session-color-danger-alt;
-      margin-left: $session-margin-sm;
+      margin: 0 $session-margin-sm;
 
-      animation: pulseLight 4s infinite;
+      @include pulse-color($session-color-danger-alt);
     }
   }
 }
