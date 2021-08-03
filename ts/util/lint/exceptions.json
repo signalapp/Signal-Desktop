@@ -171,20 +171,6 @@
     "reasonDetail": "Interacting with already-existing DOM nodes"
   },
   {
-    "rule": "jQuery-$(",
-    "path": "js/loading_start.js",
-    "line": "$(() => {",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-03-25T15:45:04.024Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/loading_start.js",
-    "line": "  $('.message').text(window.i18n('optimizingApplication'));",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-03-25T15:45:04.024Z"
-  },
-  {
     "rule": "jQuery-load(",
     "path": "js/modules/emojis.js",
     "line": "async function load() {",
@@ -14455,5 +14441,33 @@
     "line": "  const lastFocusedRef = React.useRef<HTMLElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-07-30T16:57:33.618Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "ts/windows/loading/start.js",
+    "line": "$(() => {",
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-03-25T15:45:04.024Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "ts/windows/loading/start.js",
+    "line": "    $('.message').text(window.i18n('optimizingApplication'));",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-22T03:00:34.561Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "ts/windows/loading/start.ts",
+    "line": "  $('.message').text(window.i18n('optimizingApplication'));",
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-03-25T15:45:04.024Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "ts/windows/loading/start.ts",
+    "line": "$(() => {",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-22T03:00:34.561Z"
   }
 ]
