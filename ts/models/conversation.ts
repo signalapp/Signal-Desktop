@@ -825,7 +825,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     _.defaults(options, { fromSync: false });
 
     if (!expireTimer) {
-      expireTimer = null;
+      expireTimer = 0;
     }
     if (this.get('expireTimer') === expireTimer || (!expireTimer && !this.get('expireTimer'))) {
       return null;
