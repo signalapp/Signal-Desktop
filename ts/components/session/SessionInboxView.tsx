@@ -32,7 +32,6 @@ import { TimerOptionsArray, TimerOptionsState } from '../../state/ducks/timerOpt
 
 type State = {
   isInitialLoadComplete: boolean;
-  isExpired: boolean;
 };
 
 export class SessionInboxView extends React.Component<any, State> {
@@ -42,19 +41,9 @@ export class SessionInboxView extends React.Component<any, State> {
     super(props);
     this.state = {
       isInitialLoadComplete: false,
-      isExpired: false,
     };
 
     void this.setupLeftPane();
-
-    // not reactified yet. this is a callback called once we were able to check for expiration of this Session version
-    window.extension.expired((expired: boolean) => {
-      if (expired) {
-        this.setState({
-          isExpired: true,
-        });
-      }
-    });
   }
 
   public render() {
@@ -78,7 +67,7 @@ export class SessionInboxView extends React.Component<any, State> {
   }
 
   private renderLeftPane() {
-    return <LeftPane isExpired={this.state.isExpired} />;
+    return <LeftPane />;
   }
 
   private async setupLeftPane() {

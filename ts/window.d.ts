@@ -77,10 +77,6 @@ declare global {
       conversationKey: string;
       messageId?: string | undefined;
     }) => Promise<void>;
-    extension: {
-      expired: (boolean) => void;
-      expiredStatus: () => boolean;
-    };
     LokiPushNotificationServer: any;
     globalOnlineStatus: boolean;
     confirmationDialog: any;
