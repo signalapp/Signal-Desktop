@@ -117,7 +117,7 @@ export type PropsForDataExtractionNotification = DataExtractionNotificationMsg &
 
 export interface MessageAttributesOptionals {
   id?: string;
-  source?: string;
+  source: string;
   quote?: any;
   expireTimer?: number;
   received_at?: number;

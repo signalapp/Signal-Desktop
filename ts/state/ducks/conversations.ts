@@ -122,6 +122,7 @@ export type PropsForSearchResults = {
   to: FindAndFormatContactType;
   id: string;
   conversationId: string;
+  source: string;
   receivedAt: number | undefined;
   snippet?: string; //not sure about the type of snippet
 };

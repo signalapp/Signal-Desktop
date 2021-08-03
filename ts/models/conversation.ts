@@ -852,6 +852,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       //   indicator above it. We set it to 'unread' to trigger that placement.
       unread: 1,
       conversationId: this.id,
+      source,
       // No type; 'incoming' messages are specially treated by conversation.markRead()
       sent_at: timestamp,
       received_at: timestamp,
