@@ -101,7 +101,7 @@ export const MessageContextMenu = (props: PropsForMessageContextMenu) => {
 
   const saveAttachment = useCallback(
     (e: any) => {
-      e.stopPropagation();
+      e.event.stopPropagation();
       if (!attachments?.length) {
         return;
       }
