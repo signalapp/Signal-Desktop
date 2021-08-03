@@ -1184,7 +1184,7 @@
         }
     },
     "DeliveryIssue--summary--group": {
-        "message": "A message, sticker, reaction, read receipt or media couldn’t be delivered to you from $sender$ in this chat.",
+        "message": "ஒரு செய்தி, ஓட்டி, எதிர்வினை, ரசீது வாசிக்கவும் அல்லது ஊடகம் இருந்து உங்களுக்கு வழங்க முடியவில்லை$sender$ இதில் அரட்டை.",
         "description": "Shown on explainer dialog available from delivery issue timeline events in groups",
         "placeholders": {
             "name": {
@@ -5516,7 +5516,7 @@
         "description": "First paragraph in the captcha dialog"
     },
     "CaptchaDialog--can-close__title": {
-        "message": "Continue without verifying?",
+        "message": "சரிபார்க்காமல் தொடரவா?",
         "description": "Header in the captcha dialog that can be closed"
     },
     "CaptchaDialog--can-close__body": {

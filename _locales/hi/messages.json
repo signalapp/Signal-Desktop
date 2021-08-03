@@ -5748,7 +5748,7 @@
         "description": "In the message details screen, shown above contacts who have read this message"
     },
     "MessageDetailsHeader--Viewed": {
-        "message": "Viewed by",
+        "message": "के द्वारा देखा गया",
         "description": "In the message details screen, shown above contacts who have viewed this message"
     },
     "ProfileEditor--about": {
@@ -5790,7 +5790,7 @@
         "description": "A default bio option"
     },
     "Bio--encrypted": {
-        "message": "Encrypted",
+        "message": "एन्क्रिप्टेड",
         "description": "A default bio option"
     },
     "Bio--free-to-chat": {

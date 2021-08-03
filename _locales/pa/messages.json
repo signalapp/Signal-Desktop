@@ -1,6 +1,6 @@
 {
     "softwareAcknowledgments": {
-        "message": "ਸਾਫਟਵੇਅਰ ਆਭਾਰ",
+        "message": "ਸਾੱਫ਼ਟਵੇਅਰ ਆਭਾਰ",
         "description": "Shown in the about box for the link to software acknowledgments"
     },
     "privacyPolicy": {
@@ -8,23 +8,23 @@
         "description": "Shown in the about box for the link to https://signal.org/legal"
     },
     "copyErrorAndQuit": {
-        "message": "ਗਲਤੀ ਨੂੰ ਕਾਪੀ ਕਰੋ ਤੇ ਬਾਹਰ ਜਾਓ",
+        "message": "ਤਰੁੱਟੀ ਨੂੰ ਕਾਪੀ ਕਰੋ ਤੇ ਬਾਹਰ ਨਿਕਲੋ",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
     },
     "unknownContact": {
-        "message": "ਅਣਪਛਾਤਾ ਸੰਪਰਕ",
+        "message": "ਅਣਜਾਣ ਸੰਪਰਕ",
         "description": "Shown as the name of a contact if we don't have any displayable information about them"
     },
     "unknownGroup": {
-        "message": "ਅਣਪਛਾਤਾ ਗਰੁੱਪ",
+        "message": "ਅਣਜਾਣ ਗਰੁੱਪ",
         "description": "Shown as the name of a group if we don't have any information about it"
     },
     "databaseError": {
-        "message": "ਡਾਟਾਬੇਸ ਗ਼ਲਤੀ",
+        "message": "ਡੇਟਾਬੇਸ ਤਰੁੱਟੀ",
         "description": "Shown in a popup if the database cannot start up properly"
     },
     "deleteAndRestart": {
-        "message": "ਸਾਰਾ ਡਾਟਾ ਹਟਾਓ ਤੇ ਮੁੜ-ਚਾਲੂ ਕਰੋ",
+        "message": "ਸਾਰਾ ਡੇਟਾ ਮਿਟਾਓ ਤੇ ਮੁੜ-ਚਾਲੂ ਕਰੋ",
         "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
     },
     "mainMenuFile": {
@@ -36,7 +36,7 @@
         "description": "The label that is used for the Create/upload sticker pack option in the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuEdit": {
-        "message": "ਸੋਧ(&E)",
+        "message": "ਸੋਧੋ(&E)",
         "description": "The label that is used for the Edit menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuView": {
@@ -100,7 +100,7 @@
         "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
     },
     "editMenuDelete": {
-        "message": "ਮਿਟਾਓ ",
+        "message": "ਮਿਟਾਓ",
         "description": "Edit menu command to remove the selected text"
     },
     "editMenuSelectAll": {
@@ -112,7 +112,7 @@
         "description": "Edit menu item under 'speech' to start dictation"
     },
     "editMenuStopSpeaking": {
-        "message": "ਬੋਲਣਾ ਰੋਕੋ",
+        "message": "ਬੋਲਣਾ ਬੰਦ ਕਰੋ",
         "description": "Edit menu item under 'speech' to stop dictation"
     },
     "windowMenuClose": {
@@ -120,11 +120,11 @@
         "description": "Window menu command to close the current window"
     },
     "windowMenuMinimize": {
-        "message": "ਘੱਟੋ-ਘੱਟ",
+        "message": "ਛੋਟਾ ਕਰੋ",
         "description": "Window menu command to minimize the current window"
     },
     "windowMenuZoom": {
-        "message": "ਜ਼ੂਮ",
+        "message": "ਜ਼ੂਮ ਕਰੋ",
         "description": "Window menu command to make the current window the size of the whole screen"
     },
     "windowMenuBringAllToFront": {
@@ -136,11 +136,11 @@
         "description": "View menu command to go back to the default zoom"
     },
     "viewMenuZoomIn": {
-        "message": "ਜ਼ੂਮ ਇਨ",
+        "message": "ਜ਼ੂਮ ਇਨ ਕਰੋ",
         "description": "View menu command to make everything bigger"
     },
     "viewMenuZoomOut": {
-        "message": "ਜ਼ੂਮ ਆਉਟ",
+        "message": "ਜ਼ੂਮ ਆਉਟ ਕਰੋ",
         "description": "View menu command to make everything smaller"
     },
     "viewMenuToggleFullScreen": {
@@ -148,7 +148,7 @@
         "description": "View menu command to enter or leave Full Screen mode"
     },
     "viewMenuToggleDevTools": {
-        "message": "ਡਿਵੈਲਪਰ ਟੂਲ ਬਦਲੋ",
+        "message": "ਡਿਵੈਲਪਰ ਟੂਲ ਲਈ ਬਦਲੋ",
         "description": "View menu command to show or hide the developer tools"
     },
     "menuSetupAsNewDevice": {
@@ -156,7 +156,7 @@
         "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
     },
     "menuSetupAsStandalone": {
-        "message": "ਇਕੱਲੇ ਡਿਵਾਈਸ ਵਜੋਂ ਸੈਟਅੱਪ ਕਰੋ",
+        "message": "ਇਕੱਲੇ ਡਿਵਾਈਸ ਵਜੋਂ ਸੈਟ ਅੱਪ ਕਰੋ",
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
     },
     "messageContextMenuButton": {
@@ -172,11 +172,11 @@
         "description": "Shown in the context menu for an image to indicate that the user can copy the image"
     },
     "contextMenuNoSuggestions": {
-        "message": "ਕੋਈ ਸੁਝਾਅ ਨਹੀਂ ਹੈ",
+        "message": "ਕੋਈ ਸੁਝਾਅ ਨਹੀਂ",
         "description": "Shown in the context menu for a misspelled word to indicate that there are no suggestions to replace the misspelled word"
     },
     "avatarMenuViewArchive": {
-        "message": "ਅਰਕਾਇਵ ਵੇਖੋ",
+        "message": "ਅਰਕਾਈਵ ਵੇਖੋ",
         "description": "One of the menu options available in the Avatar Popup menu"
     },
     "avatarMenuChatColors": {
@@ -202,11 +202,11 @@
         }
     },
     "archivedConversations": {
-        "message": "ਪੁਰਾਲੇਖ ਕੀਤੀਆਂ ਗੱਲਬਾਤਾਂ",
+        "message": "ਆਰਕਾਈਵ ਕੀਤੀਆਂ ਗੱਲਬਾਤਾਂ",
         "description": "Shown in place of the search box when showing archived conversation list"
     },
     "LeftPane--pinned": {
-        "message": "ਟੰਗਿਆ",
+        "message": "ਟੰਗੀਆਂ ਹੋਈਆਂ",
         "description": "Shown as a header for pinned conversations in the left pane"
     },
     "LeftPane--chats": {
@@ -214,7 +214,7 @@
         "description": "Shown as a header for non-pinned conversations in the left pane"
     },
     "archiveHelperText": {
-        "message": "ਇਹ ਵਾਰਤਾਲਾਪਾਂ ਪੁਰਾਲੇਖ ਵਿੱਚ ਚਲੀਆਂ ਗਈਆਂ ਹਨ ਅਤੇ ਇਨਬੌਕਸ ਵਿੱਚ ਕੋਈ ਨਵੇਂ ਸੁਨੇਹੇ ਆਉਣ 'ਤੇ ਹੀ ਦਿਖਣਗੀਆਂ.",
+        "message": "ਇਹ ਗੱਲਬਾਤਾਂ ਆਰਕਾਈਵ ਕੀਤੀਆਂ ਹੋਈਆਂ ਹਨ ਅਤੇ ਇਨਬੌਕਸ ਵਿੱਚ ਕੋਈ ਨਵੇਂ ਸੁਨੇਹੇ ਆਉਣ 'ਤੇ ਹੀ ਦਿਖਣਗੀਆਂ।",
         "description": "Shown at the top of the archived conversations list in the left pane"
     },
     "archiveConversation": {
@@ -250,15 +250,15 @@
         "description": "Button to allow the user to find a file on disk"
     },
     "loadDataHeader": {
-        "message": "ਆਪਣਾ ਡਾਟਾ ਲੋਡ ਕਰੋ",
+        "message": "ਆਪਣਾ ਡੇਟਾ ਲੋਡ ਕਰੋ",
         "description": "Header shown on the first screen in the data import process"
     },
     "loadDataDescription": {
-        "message": "ਤੁਸੀਂ ਹੁਣੇ ਨਿਰਯਾਤ ਪ੍ਰਕਿਰਿਆ ਨੂੰ ਪਾਰ ਕੀਤਾ ਹੈ, ਅਤੇ ਤੁਹਾਡੇ ਸੰਪਰਕ ਅਤੇ ਸੁਨੇਹੇ ਤੁਹਾਡੇ ਕੰਪਿਊਟਰ 'ਤੇ ਹੌਂਸਲੇ ਨਾਲ ਉਡੀਕ ਰਹੇ ਹਨ। ਉਸ ਫੋਲਡਰ ਦੀ ਚੋਣ ਕਰੋ ਜਿਸ ਵਿੱਚ ਤੁਹਾਡਾ ਸੇਵ ਕੀਤਾ Signal ਡਾਟਾ ਹੈ।",
+        "message": "ਤੁਸੀਂ ਹੁਣੇ ਨਿਰਯਾਤ ਪ੍ਰਕਿਰਿਆ ਨੂੰ ਪਾਰ ਕੀਤਾ ਹੈ, ਅਤੇ ਤੁਹਾਡੇ ਸੰਪਰਕ ਅਤੇ ਸੁਨੇਹੇ ਤੁਹਾਡੇ ਕੰਪਿਊਟਰ 'ਤੇ ਬੇਸਬਰੀ ਨਾਲ ਉਡੀਕ ਕਰ ਰਹੇ ਹਨ। ਉਸ ਫੋਲਡਰ ਦੀ ਚੋਣ ਕਰੋ ਜਿਸ ਵਿੱਚ ਤੁਹਾਡਾ ਸੰਭਾਲਿਆ ਹੋਇਆ Signal ਡੇਟਾ ਹੈ।",
         "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "importChooserTitle": {
-        "message": "ਐਕਸਪੋਰਟ ਕੀਤੇ ਡਾਟੇ ਵਾਲੀ ਡਾਇਰੈਕਟਰੀ ਚੁਣੋ",
+        "message": "ਐਕਸਪੋਰਟ ਕੀਤੇ ਡੇਟਾ ਵਾਲੀ ਡਾਇਰੈਕਟਰੀ ਚੁਣੋ",
         "description": "Title of the popup window used to select data previously exported"
     },
     "importErrorHeader": {
@@ -270,19 +270,19 @@
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
-        "message": "ਯਕੀਨੀ ਬਣਾਓ ਕਿ ਤੁਸੀਂ ਸਹੀ ਡਾਇਰੈਕਟਰੀ ਚੁਣੀ ਹੈ ਜਿਸ ਵਿੱਚ ਤੁਹਾਡਾ ਸੁਰੱਖਿਅਤ ਕੀਤਾ ਹੋਇਆ Signal ਡੇਟਾ ਮੌਜੂਦ ਹੈ। ਇਸਦਾ ਨਾਮ 'Signal ਐਕਸਪੋਰਟ' ਤੋਂ ਸ਼ੁਰੂ ਹੋਣਾ ਚਾਹੀਦਾ ਹੈ। ਤੁਸੀਂ ਆਪਣੇ ਡੇਟਾ ਦੀ ਇੱਕ ਨਵੀਂ ਕਾਪੀ ਕ੍ਰੋਮ ਐਪ ਤੋਂ ਵੀ ਸੁਰੱਖਿਅਤ ਕਰ ਸਕਦੇ ਹੋ।",
+        "message": "ਯਕੀਨੀ ਬਣਾਓ ਕਿ ਤੁਸੀਂ ਸਹੀ ਡਾਇਰੈਕਟਰੀ ਚੁਣੀ ਹੈ ਜਿਸ ਵਿੱਚ ਤੁਹਾਡਾ ਸੁਰੱਖਿਅਤ ਕੀਤਾ ਹੋਇਆ Signal ਡੇਟਾ ਮੌਜੂਦ ਹੈ। ਇਸਦਾ ਨਾਂ 'Signal ਨਿਰਯਾਤ' ਤੋਂ ਸ਼ੁਰੂ ਹੋਣਾ ਚਾਹੀਦਾ ਹੈ। ਤੁਸੀਂ ਆਪਣੇ ਡੇਟਾ ਦੀ ਇੱਕ ਨਵੀਂ ਕਾਪੀ Chrome ਐਪ ਤੋਂ ਵੀ ਸੰਭਾਲ ਸਕਦੇ ਹੋ।",
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
-        "message": "ਜੇ ਤੁਹਾਡੇ ਲਈ ਇਹ ਕਦਮ ਕੰਮ ਨਹੀਂ ਕਰਦੇ, ਤਾਂ ਕਿਰਪਾ ਕਰਕੇ ਇੱਕ ਡੀਬੱਗ ਲੌਗ (View -> Debug Log) ਜਮ੍ਹਾਂ ਕਰੋ ਤਾਂ ਜੋ ਅਸੀਂ ਮਾਈਗ੍ਰੇਟ ਹੋਣ ਵਿੱਚ ਤੁਹਾਡੀ ਮਦਦ ਕਰ ਸਕੀਏ!",
+        "message": "ਜੇ ਤੁਹਾਡੇ ਲਈ ਇਹ ਕਦਮ ਕੰਮ ਨਹੀਂ ਕਰਦੇ, ਤਾਂ ਕਿਰਪਾ ਕਰਕੇ ਇੱਕ ਡੀਬੱਗ ਲੌਗ (ਵੇਖੋ -> ਡੀਬੱਗ ਲੌਗ) ਜਮ੍ਹਾਂ ਕਰੋ ਤਾਂ ਜੋ ਅਸੀਂ ਮਾਈਗ੍ਰੇਟ ਹੋਣ ਵਿੱਚ ਤੁਹਾਡੀ ਮਦਦ ਕਰ ਸਕੀਏ!",
         "description": "Message shown if the import went wrong; second paragraph"
     },
     "importAgain": {
-        "message": "ਫੋਲਡਰ ਚੁਣੋ ਤੇ ਮੁੜ ਕੋਸ਼ਿਸ਼ ਕਰੋ",
+        "message": "ਫੋਲਡਰ ਚੁਣੋ ਅਤੇ ਮੁੜ ਕੋਸ਼ਿਸ਼ ਕਰੋ",
         "description": "Button shown if the user runs into an error during import, allowing them to start over"
     },
     "importCompleteHeader": {
-        "message": "ਸਫਲਤਾ!",
+        "message": "ਸਫ਼ਲਤਾ!",
         "description": "Header shown on the screen at the end of a successful import process"
     },
     "importCompleteStartButton": {
@@ -298,11 +298,11 @@
         "description": "Message shown as the export location if we didn't capture the target directory"
     },
     "upgradingDatabase": {
-        "message": "ਡਾਟਾਬੇਸ ਅੱਪਗਰੇਡ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ। ਇਸ ਨੂੰ ਕੁਝ ਸਮਾਂ ਲੱਗ ਸਕਦਾ ਹੈ…",
+        "message": "ਡੇਟਾਬੇਸ ਅੱਪਗ੍ਰੇਡ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ। ਇਸ ਨੂੰ ਕੁਝ ਸਮਾਂ ਲੱਗ ਸਕਦਾ ਹੈ…",
         "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
     },
     "loadingMessages": {
-        "message": "ਸੁਨੇਹੇ ਲੋਡ ਕੀਤੇ ਜਾ ਰਹੇ ਹਨ। $count$ ਹੁਣ ਤੱਕ…",
+        "message": "ਸੁਨੇਹੇ ਲੋਡ ਕੀਤੇ ਜਾ ਰਹੇ ਹਨ। ਹੁਣ ਤੱਕ $count$…",
         "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
         "placeholders": {
             "count": {
@@ -316,11 +316,11 @@
         "description": "Used as a label on a button allowing user to see more information"
     },
     "youLeftTheGroup": {
-        "message": "ਤੁਸੀਂ ਗਰੁੱਪ ਦੇ ਮੈਂਬਰ ਨਹੀਂ ਰਹੇ ਹੋ।",
+        "message": "ਤੁਸੀਂ ਹੁਣ ਗਰੁੱਪ ਦੇ ਮੈਂਬਰ ਨਹੀਂ ਰਹੇ।",
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "invalidConversation": {
-        "message": "ਇਹ ਗਰੁੱਪ ਗ਼ੈਰ-ਵਾਜਬ ਹੈ। ਨਵਾਂ ਗਰੁੱਪ ਬਣਾਓ।",
+        "message": "ਇਹ ਗਰੁੱਪ ਅਵੈਧ ਹੈ। ਕੋਈ ਨਵਾਂ ਗਰੁੱਪ ਬਣਾਓ।",
         "description": "Displayed when a user can't send a message because something has gone wrong in the conversation."
     },
     "scrollDown": {
@@ -332,11 +332,11 @@
         "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
     },
     "unreadMessage": {
-        "message": "1 ਨਾ ਪੜੇ ਸੁਨੇਹੇ ",
+        "message": "1 ਨਾ-ਪੜ੍ਹਿਆ ਸੁਨੇਹਾ ",
         "description": "Text for unread message separator, just one message"
     },
     "unreadMessages": {
-        "message": "$count$ ਨਾ ਪੜੇ ਸੁਨੇਹੇ ",
+        "message": "$count$ ਨਾ-ਪੜ੍ਹੇ ਸੁਨੇਹੇ ",
         "description": "Text for unread message separator, with count",
         "placeholders": {
             "count": {
@@ -346,11 +346,11 @@
         }
     },
     "messageHistoryUnsynced": {
-        "message": "ਸੁਰੱਖਿਆ ਕਾਰਨਾਂ ਕਰਕੇ, ਗੱਲਬਾਤ ਅਤੀਤ ਨੂੰ ਨਵੇਂ ਲਿੰਕ ਕੀਤੇ ਡਿਵਾਈਸਾਂ ਉੱਤੇ ਟਰਾਂਸਫਰ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ ਹੈ।",
+        "message": "ਤੁਹਾਡੀ ਸੁਰੱਖਿਆ ਲਈ, ਗੱਲਬਾਤ ਦੇ ਪਿਛੋਕੜ ਨੂੰ ਨਵੀਆਂ ਲਿੰਕ ਕੀਤੀਆਂ ਡਿਵਾਈਸਾਂ ਉੱਤੇ ਤਬਦੀਲ ਨਹੀਂ ਕੀਤਾ ਜਾਂਦਾ ਹੈ।",
         "description": "Shown in the conversation history when a user links a new device to explain what is not supported."
     },
     "youMarkedAsVerified": {
-        "message": "ਤੁਸੀਂ $name$ ਨਾਲ ਸੁਰੱਖਿਆ ਨੰਬਰ ਨੂੰ ਤਸਦੀਕ ਵਜੋਂ ਨਿਸ਼ਾਨੀ ਲਾਈ",
+        "message": "ਤੁਸੀਂ $name$ ਨਾਲ ਆਪਣੇ ਸੁਰੱਖਿਆ ਨੰਬਰ ਨੂੰ ਪ੍ਰਮਾਣਿਤ ਵਜੋਂ ਚਿੰਨ੍ਹ ਲਾਇਆ ਹੈ",
         "description": "Shown in the conversation history when the user marks a contact as verified.",
         "placeholders": {
             "name": {
@@ -360,7 +360,7 @@
         }
     },
     "youMarkedAsNotVerified": {
-        "message": "ਤੁਸੀਂ $name$ ਨਾਲ ਸੁਰੱਖਿਆ ਨੰਬਰ ਨੂੰ ਤਸਦੀਕ ਨਹੀਂ ਵਜੋਂ ਨਿਸ਼ਾਨੀ ਲਾਈ",
+        "message": "ਤੁਸੀਂ $name$ ਨਾਲ ਆਪਣੇ ਸੁਰੱਖਿਆ ਨੰਬਰ ਨੂੰ ਪ੍ਰਮਾਣਿਤ ਨਹੀਂ ਵਜੋਂ ਚਿੰਨ੍ਹ ਲਾਇਆ ਹੈ",
         "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog.",
         "placeholders": {
             "name": {
@@ -370,7 +370,7 @@
         }
     },
     "youMarkedAsVerifiedOtherDevice": {
-        "message": "ਤੁਸੀਂ ਕਿਸੇ ਹੋਰ ਡਿਵਾਈਸ ਤੋਂ $name$ ਨਾਲ ਆਪਣੇ ਸੁਰੱਖਿਆ ਨੰਬਰ ਨੂੰ ਪ੍ਰਮਾਣਿਤ ਕੀਤਾ ਹੈ",
+        "message": "ਤੁਸੀਂ ਕਿਸੇ ਹੋਰ ਡਿਵਾਈਸ ਤੋਂ $name$ ਨਾਲ ਆਪਣੇ ਸੁਰੱਖਿਆ ਨੰਬਰ ਨੂੰ ਪ੍ਰਮਾਣਿਤ ਵਜੋਂ ਚਿੰਨ੍ਹ ਲਾਇਆ ਹੈ",
         "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
         "placeholders": {
             "name": {
@@ -380,7 +380,7 @@
         }
     },
     "youMarkedAsNotVerifiedOtherDevice": {
-        "message": "ਤੁਸੀਂ ਕਿਸੇ ਹੋਰ ਡਿਵਾਈਸ ਤੋਂ $name$ ਨਾਲ ਆਪਣੇ ਸੁਰੱਖਿਆ ਨੰਬਰ ਨੂੰ ਅੰਕਿਤ ਕੀਤਾ ਹੈ",
+        "message": "ਤੁਸੀਂ ਕਿਸੇ ਹੋਰ ਡਿਵਾਈਸ ਤੋਂ $name$ ਨਾਲ ਆਪਣੇ ਸੁਰੱਖਿਆ ਨੰਬਰ ਨੂੰ ਪ੍ਰਮਾਣਿਤ ਨਹੀਂ ਵਜੋਂ ਚਿੰਨ੍ਹ ਲਾਇਆ ਹੈ",
         "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
         "placeholders": {
             "name": {
@@ -390,11 +390,11 @@
         }
     },
     "membersNeedingVerification": {
-        "message": "ਤੁਹਾਡੇ ਦੁਆਰਾ ਆਖਰੀ ਪ੍ਰਮਾਣਿਤ ਕੀਤੇ ਜਾਣ ਤੋਂ ਬਾਅਦ ਇਹਨਾਂ ਗਰੁੱਪ ਮੈਂਬਰਾਂ ਨਾਲ ਤੁਹਾਡੇ ਸੁਰੱਖਿਆ ਨੰਬਰ ਬਦਲ ਗਏ ਹਨ। ਕਿਸੇ ਗਰੁੱਪ ਮੈਂਬਰ ਨਾਲ ਆਪਣੇ ਨਵੇਂ ਸੁਰੱਖਿਆ ਨੰਬਰ ਨੂੰ ਦੇਖਣ ਲਈ ਮੈਂਬਰ ਉੱਪਰ ਕਲਿਕ ਕਰੋ।",
+        "message": "ਤੁਹਾਡੇ ਦੁਆਰਾ ਆਖਰੀ ਵਾਰ ਪ੍ਰਮਾਣਿਤ ਕੀਤੇ ਜਾਣ ਤੋਂ ਬਾਅਦ ਇਹਨਾਂ ਗਰੁੱਪ ਮੈਂਬਰਾਂ ਨਾਲ ਤੁਹਾਡੇ ਸੁਰੱਖਿਆ ਨੰਬਰ ਬਦਲ ਚੁੱਕੇ ਹਨ। ਕਿਸੇ ਗਰੁੱਪ ਮੈਂਬਰ ਨਾਲ ਆਪਣੇ ਨਵੇਂ ਸੁਰੱਖਿਆ ਨੰਬਰ ਨੂੰ ਦੇਖਣ ਲਈ ਮੈਂਬਰ ਉੱਪਰ ਕਲਿਕ ਕਰੋ।",
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedRightAfterVerify": {
-        "message": "ਤੁਸੀਂ ਜਿਸ ਸੁਰੱਖਿਆ ਨੰਬਰ ਨੂੰ ਪ੍ਰਮਾਣਿਤ ਕਰਨ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰ ਰਹੇ ਹੋ ਉਹ ਬਦਲ ਗਿਆ ਹੈ। ਕਿਰਪਾ ਕਰਕੇ $name1$ ਨਾਲ ਆਪਣੇ ਨਵੇਂ ਸੁਰੱਖਿਆ ਨੰਬਰ ਦੀ ਸਮੀਖਿਆ ਕਰੋ। ਯਾਦ ਰੱਖੋ, ਇਸ ਤਬਦੀਲੀ ਦਾ ਮਤਲਬ ਇਹ ਹੋ ਸਕਦਾ ਹੈ ਕਿ ਕੋਈ ਵਿਅਕਤੀ ਤੁਹਾਡੀ ਗੱਲਬਾਤ ਵਿੱਚ ਰੁਕਾਵਟ ਪਾਉਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰ ਰਿਹਾ ਹੈ ਜਾਂ ਇਹ ਕਿ $name2$ ਨੇ Signal ਨੂੰ ਮਹਿਜ਼ ਦੁਬਾਰਾ ਇੰਸਟਾਲ ਕੀਤਾ ਹੈ।",
+        "message": "ਤੁਸੀਂ ਜਿਸ ਸੁਰੱਖਿਆ ਨੰਬਰ ਨੂੰ ਪ੍ਰਮਾਣਿਤ ਕਰਨ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰ ਰਹੇ ਹੋ ਉਹ ਬਦਲ ਗਿਆ ਹੈ। ਕਿਰਪਾ ਕਰਕੇ $name1$ ਨਾਲ ਆਪਣੇ ਨਵੇਂ ਸੁਰੱਖਿਆ ਨੰਬਰ ਦੀ ਸਮੀਖਿਆ ਕਰੋ। ਯਾਦ ਰੱਖੋ, ਇਸ ਤਬਦੀਲੀ ਦਾ ਮਤਲਬ ਇਹ ਹੋ ਸਕਦਾ ਹੈ ਕਿ ਕੋਈ ਵਿਅਕਤੀ ਤੁਹਾਡੀ ਗੱਲਬਾਤ ਵਿੱਚ ਰੁਕਾਵਟ ਪਾਉਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰ ਰਿਹਾ ਹੈ ਜਾਂ ਇਹ ਕਿ $name2$ ਨੇ Signal ਨੂੰ ਮਹਿਜ਼ ਦੁਬਾਰਾ ਸਥਾਪਤ ਕੀਤਾ ਹੈ।",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name1": {
@@ -408,11 +408,11 @@
         }
     },
     "changedVerificationWarning": {
-        "message": "ਹੇਠ ਦਿੱਤੇ ਲੋਕਾਂ ਨੇ ਮੁੜ-ਇੰਸਟਾਲ ਕੀਤਾ ਜਾਂ ਡਿਵਾਈਸ ਬਦਲਿਆ ਹੋ ਸਕਦਾ ਹੈ। ਪਰਦੇਦਾਰੀ ਯਕੀਨੀ ਬਣਾਉਣ ਲਈ ਉਹਨਾਂ ਨਾਲ ਆਪਣੇ ਸੁਰੱਖਿਆ ਨੰਬਰ ਦੀ ਤਸਦੀਕ ਕਰੋ।",
+        "message": "ਹੇਠ ਦਿੱਤੇ ਲੋਕਾਂ ਨੇ ਮੁੜ-ਸਥਾਪਤ ਕੀਤਾ ਜਾਂ ਡਿਵਾਈਸ ਨੂੰ ਬਦਲਿਆ ਹੋ ਸਕਦਾ ਹੈ। ਪਰਦੇਦਾਰੀ ਨੂੰ ਯਕੀਨੀ ਬਣਾਉਣ ਲਈ ਉਹਨਾਂ ਨਾਲ ਆਪਣੇ ਸੁਰੱਖਿਆ ਨੰਬਰ ਨੂੰ ਪ੍ਰਮਾਣਿਤ ਕਰੋ।",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "identityKeyErrorOnSend": {
-        "message": "$name1$ ਨਾਲ ਤੁਹਾਡਾ ਸੁਰੱਖਿਆ ਨੰਬਰ ਬਦਲ ਚੁੱਕਾ ਹੈ। ਇਹ ਮਤਲਬ ਜਾਂ ਤਾਂ ਇਹ ਹੋ ਸਕਦਾ ਹੈ ਕਿ ਕੋਈ ਵਿਅਕਤੀ ਤੁਹਾਡੀ ਗੱਲਬਾਤ ਵਿੱਚ ਰੁਕਾਵਟ ਪਾਉਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰ ਰਿਹਾ ਹੈ ਜਾਂ ਇਹ ਕਿ $name2$ ਨੇ Signal ਨੂੰ ਮਹਿਜ਼ ਦੁਬਾਰਾ ਇੰਸਟਾਲ ਕੀਤਾ ਹੈ। ਹੋ ਸਕਦਾ ਹੈ ਕਿ ਤੁਸੀਂ ਇਸ ਸੰਪਰਕ ਦੇ ਨਾਲ ਆਪਣੇ ਸੁਰੱਖਿਆ ਨੰਬਰ ਨੂੰ ਪ੍ਰਮਾਣਿਤ ਕਰਨਾ ਚਾਹੋ।",
+        "message": "$name1$ ਨਾਲ ਤੁਹਾਡਾ ਸੁਰੱਖਿਆ ਨੰਬਰ ਬਦਲ ਚੁੱਕਾ ਹੈ। ਇਸਦਾ ਮਤਲਬ ਜਾਂ ਤਾਂ ਇਹ ਹੋ ਸਕਦਾ ਹੈ ਕਿ ਕੋਈ ਵਿਅਕਤੀ ਤੁਹਾਡੀ ਗੱਲਬਾਤ ਵਿੱਚ ਰੁਕਾਵਟ ਪਾਉਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰ ਰਿਹਾ ਹੈ ਜਾਂ ਇਹ ਕਿ $name2$ ਨੇ Signal ਨੂੰ ਮਹਿਜ਼ ਦੁਬਾਰਾ ਸਥਾਪਤ ਕੀਤਾ ਹੈ। ਹੋ ਸਕਦਾ ਹੈ ਕਿ ਤੁਸੀਂ ਇਸ ਸੰਪਰਕ ਦੇ ਨਾਲ ਆਪਣੇ ਸੁਰੱਖਿਆ ਨੰਬਰ ਨੂੰ ਪ੍ਰਮਾਣਿਤ ਕਰਨਾ ਚਾਹੋ।",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name1": {
@@ -438,7 +438,7 @@
         "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
     },
     "noLongerVerified": {
-        "message": "$name$ ਨਾਲ ਤੁਹਾਡਾ ਸੁਰੱਖਿਆ ਨੰਬਰ ਬਦਲਿਆ ਗਿਆ ਤੇ ਹੁਣ ਤਸਦੀਕ ਕੀਤਾ ਨਹੀਂ ਰਿਹਾ ਹੈ। ਵੇਖਣ ਲਈ ਕਲਿੱਕ ਕਰੋ।",
+        "message": "$name$ ਨਾਲ ਤੁਹਾਡਾ ਸੁਰੱਖਿਆ ਨੰਬਰ ਬਦਲ ਚੁੱਕਾ ਹੈ ਅਤੇ ਹੁਣ ਪ੍ਰਮਾਣਿਤ ਨਹੀਂ ਰਿਹਾ। ਦਿਖਾਉਣ ਲਈ ਕਲਿਕ ਕਰੋ।",
         "description": "Shown in conversation banner when user's safety number has changed, but they were previously verified.",
         "placeholders": {
             "name": {
@@ -448,15 +448,15 @@
         }
     },
     "multipleNoLongerVerified": {
-        "message": "ਇਸ ਗਰੁੱਪ ਦੇ ਬਹੁਤ ਸਾਰੇ ਮੈਂਬਰਾਂ ਨਾਲ ਤੁਹਾਡੇ ਸੁਰੱਖਿਆ ਨੰਬਰ ਬਦਲ ਚੁੱਕੇ ਹਨ ਅਤੇ ਹੁਣ ਪ੍ਰਮਾਣਿਤ ਨਹੀਂ ਰਹੇ। ਦਿਖਾਉਣ ਲਈ ਕਲਿੱਕ ਕਰੋ।",
+        "message": "ਇਸ ਗਰੁੱਪ ਦੇ ਬਹੁਤ ਸਾਰੇ ਮੈਂਬਰਾਂ ਨਾਲ ਤੁਹਾਡੇ ਸੁਰੱਖਿਆ ਨੰਬਰ ਬਦਲ ਚੁੱਕੇ ਹਨ ਅਤੇ ਹੁਣ ਪ੍ਰਮਾਣਿਤ ਨਹੀਂ ਰਹੇ। ਦਿਖਾਉਣ ਲਈ ਕਲਿਕ ਕਰੋ।",
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "ਇਸ ਲੌਗ ਨੂੰ ਯੋਗਦਾਨ ਪਾਉਣ ਵਾਲਿਆਂ ਦੇ ਦੇਖਣ ਲਈ ਜਨਤਕ ਤੌਰ ’ਤੇ ਆਨਲਾਈਨ ਪੋਸਟ ਕੀਤਾ ਜਾਵੇਗਾ। ਤੁਸੀਂ ਇਸ ਨੂੰ ਜਮ੍ਹਾਂ ਕਰਨ ਤੋਂ ਪਹਿਲਾਂ ਇਸ ਦੀ ਜਾਂਚ ਅਤੇ ਸੰਪਾਦਨ ਕਰ ਸਕਦੇ ਹੋੇ",
+        "message": "ਇਸ ਲੌਗ ਨੂੰ ਯੋਗਦਾਨ ਪਾਉਣ ਵਾਲਿਆਂ ਦੇ ਦੇਖਣ ਲਈ ਜਨਤਕ ਤੌਰ ’ਤੇ ਆਨਲਾਈਨ ਪੋਸਟ ਕੀਤਾ ਜਾਵੇਗਾ। ਤੁਸੀਂ ਇਸ ਨੂੰ ਜਮ੍ਹਾਂ ਕਰਨ ਤੋਂ ਪਹਿਲਾਂ ਇਸ ਦੀ ਜਾਂਚ ਅਤੇ ਸੰਪਾਦਨ ਕਰ ਸਕਦੇ ਹੋ।",
         "description": ""
     },
     "debugLogError": {
-        "message": "ਅਪਲੋਡ ਵਿੱਚ ਕੋਈ ਗੜਬੜ ਹੋਈ ਹੈ! ਕਿਰਪਾ ਕਰਕੇ ਤੁਹਾਡੇ ਦੁਆਰਾ ਦਰਜ ਕੀਤੇ ਜਾ ਰਹੇ ਬੱਗ ਵਿੱਚ ਲੌਗ ਨੂੰ ਦਸਤੀ ਰੂਪ ਵਿੱਚ ਪਾਉਣ ’ਤੇ ਵਿਚਾਰ ਕਰੋ।",
+        "message": "ਅਪਲੋਡ ਵਿੱਚ ਕੋਈ ਗੜਬੜ ਹੋਈ ਹੈ! ਕਿਰਪਾ ਕਰਕੇ ਤੁਹਾਡੇ ਦੁਆਰਾ ਦਰਜ ਕੀਤੇ ਜਾ ਰਹੇ ਬੱਗ ਵਿੱਚ ਆਪਣੇ ਲੌਗ ਨੂੰ ਦਸਤੀ ਰੂਪ ਵਿੱਚ ਪਾਉਣ ’ਤੇ ਵਿਚਾਰ ਕਰੋ।",
         "description": ""
     },
     "debugLogCopy": {
@@ -464,11 +464,11 @@
         "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogCopyAlt": {
-        "message": "ਲਿੰਕ ਨੂੰ ਆਪਣੇ ਕਲਿੱਪਬੋਰਡ ਵਿੱਚ ਕਾਪੀ ਕਰੋ",
+        "message": "ਲਿੰਕ ਨੂੰ ਆਪਣੇ ਕਲਿੱਪਬੋਰਡ ’ਤੇ ਕਾਪੀ ਕਰੋ",
         "description": "Shown as the alt text for the copy button on the debug log screen"
     },
     "debugLogLinkCopied": {
-        "message": "ਲਿੰਕ ਤੁਹਾਡੇ ਕਲਿੱਪਬੋਰਡ ਵਿੱਚ ਕਾਪੀ ਕੀਤਾ",
+        "message": "ਲਿੰਕ ਤੁਹਾਡੇ ਕਲਿੱਪਬੋਰਡ ’ਤੇ ਕਾਪੀ ਕੀਤਾ ਗਿਆ",
         "description": "Shown in a toast to let the user know that the link to the debug log has been copied to their clipboard"
     },
     "reportIssue": {
@@ -476,7 +476,7 @@
         "description": "Link to open the issue tracker"
     },
     "gotIt": {
-        "message": "ਮਿਲ ਗਿਆ",
+        "message": "ਸਮਝ ਲਿਆ!",
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "submit": {
@@ -484,19 +484,19 @@
         "description": ""
     },
     "acceptNewKey": {
-        "message": "ਸਵੀਕਾਰ ਕਰੋ",
+        "message": "ਮਨਜ਼ੂਰ ਕਰੋ",
         "description": "Label for a button to accept a new safety number"
     },
     "verify": {
-        "message": "ਤਸਦੀਕ ਕੀਤੇ ਵਜੋਂ ਚਿੰਨ੍ਹ ਲਗਾਓ",
+        "message": "ਪ੍ਰਮਾਣਿਤ ਵਜੋਂ ਚਿੰਨ੍ਹ ਲਾਓ",
         "description": ""
     },
     "unverify": {
-        "message": "ਤਸਦੀਕ ਨਹੀਂ ਵਜੋਂ ਨਿਸ਼ਾਨੀ ਲਾਓ",
+        "message": "ਪ੍ਰਮਾਣਿਤ ਨਹੀਂ ਵਜੋਂ ਚਿੰਨ੍ਹ ਲਾਓ",
         "description": ""
     },
     "isVerified": {
-        "message": "ਤੁਸੀਂ $name$ ਨਾਲ ਆਪਣੇ ਸੁਰੱਖਿਆ ਨੰਬਰ ਨੂੰ ਤਸਦੀਕ ਕੀਤਾ ਹੈ।",
+        "message": "ਤੁਸੀਂ $name$ ਨਾਲ ਆਪਣੇ ਸੁਰੱਖਿਆ ਨੰਬਰ ਨੂੰ ਪ੍ਰਮਾਣਿਤ ਕੀਤਾ ਹੈ।",
         "description": "Summary state shown at top of the safety number screen if user has verified contact.",
         "placeholders": {
             "name": {
@@ -506,7 +506,7 @@
         }
     },
     "isNotVerified": {
-        "message": "ਤੁਸੀਂ $name$ ਨਾਲ ਆਪਣੇ ਸੁਰੱਖਿਆ ਨੰਬਰ ਨੂੰ ਤਸਦੀਕ ਨਹੀਂ ਕੀਤਾ ਹੈ।",
+        "message": "ਤੁਸੀਂ $name$ ਨਾਲ ਆਪਣੇ ਸੁਰੱਖਿਆ ਨੰਬਰ ਨੂੰ ਪ੍ਰਮਾਣਿਤ ਨਹੀਂ ਕੀਤਾ ਹੈ।",
         "description": "Summary state shown at top of the safety number screen if user has not verified contact.",
         "placeholders": {
             "name": {
@@ -524,11 +524,11 @@
         "description": "Header for a key change dialog"
     },
     "identityChanged": {
-        "message": "ਇਸ ਸੰਪਰਕ ਦੇ ਨਾਲ ਤੁਹਾਡਾ ਸੁਰੱਖਿਆ ਨੰਬਰ ਬਦਲ ਚੁੱਕਾ ਹੈ। ਇਸ ਦਾ ਮਤਲਬ ਜਾਂ ਤਾਂ ਇਹ ਹੋ ਸਕਦਾ ਹੈ ਕਿ ਕੋਈ ਵਿਅਕਤੀ ਤੁਹਾਡੀ ਗੱਲਬਾਤ ਵਿੱਚ ਰੁਕਾਵਟ ਪਾਉਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰ ਰਿਹਾ ਹੈ, ਜਾਂ ਇਸ ਸੰਪਰਕ ਨੇ Signal ਨੂੰ ਮਹਿਜ਼ ਦੁਬਾਰਾ ਇੰਸਟਾਲ ਕੀਤਾ ਹੈ।  ਹੋ ਸਕਦਾ ਹੈ ਕਿ ਤੁਸੀਂ ਹੇਠਾਂ ਨਵੇਂ ਸੁਰੱਖਿਆ ਨੰਬਰ ਨੂੰ ਪ੍ਰਮਾਣਿਤ ਕਰਨਾ ਚਾਹੋ।",
+        "message": "ਇਸ ਸੰਪਰਕ ਦੇ ਨਾਲ ਤੁਹਾਡਾ ਸੁਰੱਖਿਆ ਨੰਬਰ ਬਦਲ ਚੁੱਕਾ ਹੈ। ਇਸ ਦਾ ਮਤਲਬ ਜਾਂ ਤਾਂ ਇਹ ਹੋ ਸਕਦਾ ਹੈ ਕਿ ਕੋਈ ਵਿਅਕਤੀ ਤੁਹਾਡੀ ਗੱਲਬਾਤ ਵਿੱਚ ਰੁਕਾਵਟ ਪਾਉਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰ ਰਿਹਾ ਹੈ, ਜਾਂ ਇਸ ਸੰਪਰਕ ਨੇ Signal ਨੂੰ ਮਹਿਜ਼ ਦੁਬਾਰਾ ਸਥਾਪਤ ਕੀਤਾ ਹੈ। ਹੋ ਸਕਦਾ ਹੈ ਕਿ ਤੁਸੀਂ ਹੇਠਾਂ ਨਵੇਂ ਸੁਰੱਖਿਆ ਨੰਬਰ ਨੂੰ ਪ੍ਰਮਾਣਿਤ ਕਰਨਾ ਚਾਹੋ।",
         "description": ""
     },
     "incomingError": {
-        "message": "ਆਉਣ ਵਾਲੇ ਸੁਨੇਹੇ ਨੂੰ ਸੰਭਾਲਣ ਵਿੱਚ ਗਲਤੀ",
+        "message": "ਆਉਣ ਵਾਲੇ ਸੁਨੇਹੇ ਨੂੰ ਸੰਭਾਲਣ ਵਿੱਚ ਤਰੁੱਟੀ",
         "description": ""
     },
     "media": {
@@ -556,7 +556,7 @@
         "description": "Section header in the media gallery"
     },
     "yesterday": {
-        "message": "ਕੱਲ ",
+        "message": "ਕੱਲ੍ਹ ",
         "description": "Section header in the media gallery"
     },
     "thisWeek": {
@@ -564,15 +564,15 @@
         "description": "Section header in the media gallery"
     },
     "thisMonth": {
-        "message": "ਇਹ ਮਹੀਨਾ",
+        "message": "ਇਸ ਮਹੀਨੇ",
         "description": "Section header in the media gallery"
     },
     "unsupportedAttachment": {
-        "message": "ਗ਼ੈਰ-ਸਹਾਇਕ ਅਟੈਚਮੈਂਟ ਕਿਸਮ ਹੈ। ਸੰਭਾਲਣ ਲਈ ਕਲਿੱਕ ਕਰੋ।",
+        "message": "ਗੈਰ-ਸਮਰਥਿਤ ਅਟੈਚਮੈਂਟ ਕਿਸਮ। ਸੰਭਾਲਣ ਲਈ ਕਲਿਕ ਕਰੋ।",
         "description": "Displayed for incoming unsupported attachment"
     },
     "clickToSave": {
-        "message": "ਸੰਭਾਲਣ ਲਈ ਕਲਿੱਕ ਕਰੋ",
+        "message": "ਸੰਭਾਲਣ ਲਈ ਕਲਿਕ ਕਰੋ",
         "description": "Hover text for attachment filenames"
     },
     "unnamedFile": {
@@ -580,7 +580,7 @@
         "description": "Hover text for attachment filenames"
     },
     "voiceMessage": {
-        "message": "ਆਵਾਜ਼ ਦਾ ਸੁਨੇਹਾ",
+        "message": "ਆਵਾਜ਼ ਵਾਲਾ ਸੁਨੇਹਾ",
         "description": "Name for a voice message attachment"
     },
     "dangerousFileType": {
@@ -592,7 +592,7 @@
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
     },
     "stagedPreviewThumbnail": {
-        "message": " $domain$ ਦੇ ਲਈ ਡ੍ਰਾਫ਼ਟ ਥੰਬਨੇਲ ਲਿੰਕ ਦਾ ਪ੍ਰੀਵਿਊ",
+        "message": " $domain$ ਦੇ ਲਈ ਡ੍ਰਾਫ਼ਟ ਥੰਬਨੇਲ ਲਿੰਕ ਦੀ ਝਲਕ",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
@@ -602,7 +602,7 @@
         }
     },
     "previewThumbnail": {
-        "message": " $domain$  ਦੇ ਲਈ ਥੰਬਨੇਲ ਲਿੰਕ ਦਾ ਪ੍ਰੀਵਿਊ",
+        "message": " $domain$  ਦੇ ਲਈ ਥੰਬਨੇਲ ਲਿੰਕ ਦੀ ਝਲਕ",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
@@ -612,7 +612,7 @@
         }
     },
     "stagedImageAttachment": {
-        "message": "ਨੱਥੀ ਡ੍ਰਾਫ਼ਟ ਚਿੱਤਰ: $path$",
+        "message": "ਡ੍ਰਾਫ਼ਟ ਨੱਥੀ ਚਿੱਤਰ: $path$",
         "description": "Alt text for staged attachments",
         "placeholders": {
             "path": {
@@ -642,15 +642,15 @@
         "description": ""
     },
     "unableToLoadAttachment": {
-        "message": "ਚੁਣੀ ਅਟੈਚਮੈਂਟ ਲੋਡ ਕਰਨ ਲਈ ਅਸਮਰੱਥ ਹੈ।",
+        "message": "ਚੁਣੀ ਅਟੈਚਮੈਂਟ ਲੋਡ ਕਰਨ ਵਿੱਚ ਅਸਮਰੱਥ।",
         "description": ""
     },
     "disconnected": {
-        "message": "ਕੁਨੈਕਸ਼ਨ ਬੰਦ",
+        "message": "ਕਨੈਕਸ਼ਨ ਬੰਦ",
         "description": "Displayed when the desktop client cannot connect to the server."
     },
     "connecting": {
-        "message": "ਕਨੈਕਟ ਕਰ ਰਿਹਾ ਹੈ …",
+        "message": "ਕਨੈਕਟ ਕਰ ਰਿਹਾ ਹੈ",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "connect": {
@@ -658,7 +658,7 @@
         "description": "Shown to allow the user to manually attempt a reconnect."
     },
     "connectingHangOn": {
-        "message": "ਲੰਮਾ ਸਮਾਂ ਨਹੀ ਲੱਗਣਾ ਚਾਹੀਦਾ ਹੈ…",
+        "message": "ਲੰਮਾ ਸਮਾਂ ਨਹੀ ਲੱਗਣਾ ਚਾਹੀਦਾ…",
         "description": "Subtext description for when the client is connecting to the server."
     },
     "offline": {
@@ -670,11 +670,11 @@
         "description": "Obvious instructions for when a user's computer loses its network connection"
     },
     "submitDebugLog": {
-        "message": "ਡੀਬੱਗ ਲਾਗ",
+        "message": "ਡੀਬੱਗ ਲੌਗ",
         "description": "Menu item and header text for debug log modal (sentence case)"
     },
     "debugLog": {
-        "message": "ਡੀਬੱਗ ਲਾਗ",
+        "message": "ਡੀਬੱਗ ਲੌਗ",
         "description": "View menu item to open the debug log (title case)"
     },
     "forceUpdate": {
@@ -682,7 +682,7 @@
         "description": "View menu item to force the app to update download and install"
     },
     "helpMenuShowKeyboardShortcuts": {
-        "message": "ਕੀਬੋਰਡ ਸ਼ਾਰਟਕੱਟ ਵੇਖਾਓ",
+        "message": "ਕੀਬੋਰਡ ਸ਼ਾਰਟਕੱਟ ਵਿਖਾਓ",
         "description": "Item under the help menu, pops up a screen showing the application's keyboard shortcuts"
     },
     "contactUs": {
@@ -690,11 +690,11 @@
         "description": "Item under the help menu, takes you to the contact us support page"
     },
     "goToReleaseNotes": {
-        "message": "ਰੀਲਿਜ਼ ਨੋਟਿਸਾਂ ਉੱਤੇ ਜਾਓ",
+        "message": "ਰਿਲੀਜ਼ ਨੋਟਸ ਉੱਤੇ ਜਾਓ",
         "description": "Item under the help menu, takes you to GitHub page for release notes"
     },
     "goToForums": {
-        "message": "ਫੋਰਮ ਉੱਤੇ ਜਾਓ",
+        "message": "ਫੋਰਮਜ਼ ਉੱਤੇ ਜਾਓ",
         "description": "Item under the Help menu, takes you to the forums"
     },
     "goToSupportPage": {
@@ -710,7 +710,7 @@
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "signalDesktopStickerCreator": {
-        "message": "ਸਟਿਕੱਰ ਪੈਕ ਨਿਰਮਾਤਾ",
+        "message": "ਸਟਿੱਕਰ ਪੈਕ ਨਿਰਮਾਤਾ",
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "aboutSignalDesktop": {
@@ -726,7 +726,7 @@
         "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
     },
     "show": {
-        "message": "ਦਿਖਾਉ",
+        "message": "ਦਿਖਾਓ",
         "description": "Command under Window menu, to show the window"
     },
     "hide": {
@@ -734,7 +734,7 @@
         "description": "Command in the tray icon menu, to hide the window"
     },
     "quit": {
-        "message": "ਬਾਹਰ",
+        "message": "ਬਾਹਰ ਨਿਕਲੋ",
         "description": "Command in the tray icon menu, to quit the application"
     },
     "signalDesktop": {
@@ -742,7 +742,7 @@
         "description": "Tooltip for the tray icon"
     },
     "search": {
-        "message": "ਖੋਜ",
+        "message": "ਖੋਜੋ",
         "description": "Placeholder text in the search input"
     },
     "clearSearch": {
@@ -788,7 +788,7 @@
         }
     },
     "conversationsHeader": {
-        "message": "ਗੱਲਾਂਬਾਤਾਂ ",
+        "message": "ਗੱਲਬਾਤਾਂ ",
         "description": "Shown to separate the types of search results"
     },
     "contactsHeader": {
@@ -800,7 +800,7 @@
         "description": "Shown to separate the types of search results"
     },
     "messagesHeader": {
-        "message": "ਸੁਨੇਹੇ ",
+        "message": "ਸੁਨੇਹੇ",
         "description": "Shown to separate the types of search results"
     },
     "welcomeToSignal": {
@@ -808,15 +808,15 @@
         "description": ""
     },
     "selectAContact": {
-        "message": "ਚੈਟ ਕਰਨਾ ਸ਼ੁਰੂ ਕਰਨ ਲਈ ਕੋਈ ਸੰਪਰਕ ਜਾਂ ਗਰੁੱਪ ਚੁਣੋ.",
+        "message": "ਚੈਟ ਕਰਨਾ ਸ਼ੁਰੂ ਕਰਨ ਲਈ ਕੋਈ ਸੰਪਰਕ ਜਾਂ ਗਰੁੱਪ ਚੁਣੋ।",
         "description": ""
     },
     "typingAlt": {
-        "message": "ਇਸ ਗੱਲਬਾਤ ਲਈ ਟਾਈਪਿੰਗ ਕਰਦੇ ਹੋਏ ਦੀ ਐਨੀਮੇਸ਼ਨ ",
+        "message": "ਇਸ ਗੱਲਬਾਤ ਲਈ ਟਾਈਪਿੰਗ ਕਰਦੇ ਹੋਏ ਦੀ ਐਨੀਮੇਸ਼ਨ",
         "description": "Used as the 'title' attribute for the typing animation"
     },
     "contactInAddressBook": {
-        "message": "ਇਹ ਵਿਅਕਤੀ ਤੁਹਾਡੇ ਸੰਪਰਕਾਂ ਵਿੱਚ ਨਹੀਂ ਹੈ।",
+        "message": "ਇਹ ਵਿਅਕਤੀ ਤੁਹਾਡੇ ਸੰਪਰਕਾਂ ਵਿੱਚ ਹੈ।",
         "description": "Description of icon denoting that contact is from your address book"
     },
     "contactAvatarAlt": {
@@ -842,7 +842,7 @@
         "description": "Shown on contact detail screen as a label for an address/phone/email"
     },
     "mobile": {
-        "message": "ਮੋਬਾਇਲ",
+        "message": "ਮੋਬਾਈਲ",
         "description": "Shown on contact detail screen as a label for aa phone or email"
     },
     "email": {
@@ -854,7 +854,7 @@
         "description": "Generic label shown if contact phone has custom type but no label"
     },
     "address": {
-        "message": "ਸਿਰਨਾਵਾਂ",
+        "message": "ਪਤਾ",
         "description": "Generic label shown if contact address has custom type but no label"
     },
     "poBox": {
@@ -870,43 +870,43 @@
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
     },
     "reactToMessage": {
-        "message": "ਸੁਨੇਹੇ ਲਈ ਪ੍ਰਤਿਕਿਰਿਆ",
+        "message": "ਸੁਨੇਹੇ ਲਈ ਪ੍ਰਤਿਕਿਰਿਆ ਦਿਓ",
         "description": "Shown in triple-dot menu next to message to allow user to react to the associated message"
     },
     "replyToMessage": {
-        "message": "ਸੁਨੇਹੇ ਲਈ ਜਵਾਬ",
+        "message": "ਸੁਨੇਹੇ ਦਾ ਜਵਾਬ ਦਿਓ",
         "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
     },
     "originalMessageNotFound": {
-        "message": "ਅਸਲੀ ਸੁਨੇਹਾ ਨਹੀਂ ਲੱਭਿਆ ",
+        "message": "ਅਸਲ ਸੁਨੇਹਾ ਨਹੀਂ ਲੱਭਿਆ",
         "description": "Shown in quote if reference message was not found as message was initially downloaded and processed"
     },
     "originalMessageNotAvailable": {
-        "message": "ਮੂਲ ਸੁਨੇਹਾ ਹੁਣ ਉਪਲਬਧ ਨਹੀਂ ਹੈ",
+        "message": "ਅਸਲ ਸੁਨੇਹਾ ਹੁਣ ਉਪਲਬਧ ਨਹੀਂ ਹੈ",
         "description": "Shown in toast if user clicks on quote that references message no longer in database"
     },
     "messageFoundButNotLoaded": {
-        "message": "ਅਸਲ ਸੁਨੇਹਾ ਲੱਭਿਆ, ਪਰ ਲੋਡ ਨਹੀਂ ਹੋਇਆ। ਇਸਨੂੰ ਲੋਡ ਕਰਨ ਲਈ ਉੱਪਰ ਨੂੰ ਸਕ੍ਰੋਲ ਕਰੋ।",
+        "message": "ਅਸਲ ਸੁਨੇਹਾ ਲੱਭਿਆ, ਪਰ ਲੋਡ ਨਹੀਂ ਹੋਇਆ। ਇਸਨੂੰ ਲੋਡ ਕਰਨ ਲਈ ਉੱਪਰ ਨੂੰ ਸਰਕਾਓ।",
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
     "voiceRecordingInterruptedMax": {
-        "message": "ਵੌਇਸ ਸੁਨੇਹੇ ਦੀ ਰਿਕਾਰਡ ਬੰਦ ਹੋ ਗਈ ਹੈ ਕਿਉਂਕਿ ਸਮੇਂ ਦੀ ਵੱਧ ਤੋਂ ਵੱਧ ਸੀਮਾ ਪੂਰੀ ਹੋ ਗਈ ਹੈ।",
+        "message": "ਅਵਾਜ਼ ਵਾਲੇ ਸੁਨੇਹੇ ਦੀ ਰਿਕਾਰਡਿੰਗ ਬੰਦ ਹੋ ਗਈ ਹੈ ਕਿਉਂਕਿ ਸਮੇਂ ਦੀ ਵੱਧ ਤੋਂ ਵੱਧ ਸੀਮਾ ਪੂਰੀ ਹੋ ਚੁੱਕੀ ਹੈ।",
         "description": "Confirmation dialog message for when the voice recording is interrupted due to max time limit"
     },
     "voiceRecordingInterruptedBlur": {
-        "message": "ਵੌਇਸ ਸੁਨੇਹੇ ਦੀ ਰਿਕਾਰਡ ਬੰਦ ਹੋ ਗਈ ਹੈ ਕਿਉਂਕਿ ਤੁਸੀਂ ਬਦਲ ਕੇ ਕਿਸੇ ਹੋਰ ਐਪ ਵਿੱਚ ਚਲੇ ਗਏ ਹੋ।",
+        "message": "ਅਵਾਜ਼ ਵਾਲੇ ਸੁਨੇਹੇ ਦੀ ਰਿਕਾਰਡਿੰਗ ਬੰਦ ਹੋ ਗਈ ਹੈ ਕਿਉਂਕਿ ਤੁਸੀਂ ਬਦਲ ਕੇ ਕਿਸੇ ਹੋਰ ਐਪ ਵਿੱਚ ਚਲੇ ਗਏ ਹੋ।",
         "description": "Confirmation dialog message for when the voice recording is interrupted due to app losing focus"
     },
     "voiceNoteLimit": {
-        "message": "ਵੌਇਸ ਸੁਨੇਹਿਆਂ ਦੀ ਸੀਮਾ ਪੰਜ ਮਿੰਟ ਤਕ ਹੈ। ਜੇ ਤੁਸੀਂ ਕਿਸੇ ਹੋਰ ਐਪ ਵਿੱਚ ਚਲੇ ਜਾਂਦੇ ਹੋ ਤਾਂ ਰਿਕਾਰਡਿੰਗ ਬੰਦ ਹੋ ਜਾਵੇਗੀ।",
+        "message": "ਅਵਾਜ਼ ਵਾਲੇ ਸੁਨੇਹਿਆਂ ਦੀ ਸੀਮਾ ਪੰਜ ਮਿੰਟ ਤਕ ਹੈ। ਜੇ ਤੁਸੀਂ ਕਿਸੇ ਹੋਰ ਐਪ ਵਿੱਚ ਚਲੇ ਜਾਂਦੇ ਹੋ ਤਾਂ ਰਿਕਾਰਡਿੰਗ ਬੰਦ ਹੋ ਜਾਵੇਗੀ।",
         "description": "Shown in toast to warn user about limited time and that window must be in focus"
     },
     "voiceNoteMustBeOnlyAttachment": {
-        "message": "ਲਾਜ਼ਮੀ ਹੈ ਕਿ ਇੱਕ ਵੌਇਸ ਸੁਨੇਹੇ ਵਿੱਚ ਸਿਰਫ਼ ਇੱਕ ਅਟੈਚਮੈਂਟ ਹੀ ਹੋਵੇ।",
+        "message": "ਲਾਜ਼ਮੀ ਹੈ ਕਿ ਇੱਕ ਅਵਾਜ਼ ਵਾਲੇ ਸੁਨੇਹੇ ਵਿੱਚ ਸਿਰਫ਼ ਇੱਕ ਅਟੈਚਮੈਂਟ ਹੀ ਹੋਵੇ।",
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
     },
     "attachmentSaved": {
-        "message": "ਨੱਥੀ ਨੂੰ ਸੰਭਾਲਿਆ। ਫੋਲਡਰ ਵਿੱਚ ਵੇਖਣ ਲਈ ਕਲਿੱਕ ਕਰੋ।",
+        "message": "ਅਟੈਚਮੈਂਟ ਨੂੰ ਸੰਭਾਲਿਆ। ਫੋਲਡਰ ਵਿੱਚ ਵਿਖਾਉਣ ਲਈ ਕਲਿਕ ਕਰੋ।",
         "description": "Shown after user selects to save to downloads",
         "placeholders": {
             "name": {
@@ -930,23 +930,23 @@
         }
     },
     "audioPermissionNeeded": {
-        "message": "ਆਡੀਓ ਸੁਨੇਹੇ ਭੇਜਣ ਲਈ, Signal Desktop ਨੂੰ ਆਪਣੇ ਮਾਈਕਰੋਫੋਨ ਲਈ ਪਹੁੰਚ ਦੀ ਆਗਿਆ ਦਿਓ।",
+        "message": "ਸੁਣਨ ਵਾਲੇ ਸੁਨੇਹੇ ਭੇਜਣ ਲਈ, Signal Desktop ਨੂੰ ਆਪਣੇ ਮਾਈਕ੍ਰੋਫ਼ੋਨ ਤਕ ਪਹੁੰਚ ਦੀ ਆਗਿਆ ਦਿਓ।",
         "description": "Shown if the user attempts to send an audio message without audio permissions turned on"
     },
     "audioCallingPermissionNeeded": {
-        "message": "ਕਾਲ ਕਰਨ ਲਈ, ਤੁਹਾਨੂੰ Signal Desktop ਨੂੰ ਆਪਣੇ ਮਾਈਕਰੋਫ਼ੋਨ ਲਈ ਪਹੁੰਚ ਦੀ ਆਗਿਆ ਦੇਣੀ ਪਵੇਗੀ।",
+        "message": "ਕਾਲ ਕਰਨ ਲਈ, ਤੁਹਾਨੂੰ Signal Desktop ਨੂੰ ਆਪਣੇ ਮਾਈਕ੍ਰੋਫ਼ੋਨ ਤਕ ਪਹੁੰਚ ਦੀ ਆਗਿਆ ਦੇਣੀ ਪਵੇਗੀ।",
         "description": "Shown if the user attempts access the microphone for calling without audio permissions turned on"
     },
     "videoCallingPermissionNeeded": {
-        "message": "ਵੀਡੀਓ ਕਾਲ ਵਾਸਤੇ ਤੁਹਾਨੂੰ Signal Desktop ਨੂੰ ਆਪਣੇ ਕੈਮਰੇ ਲਈ ਪਹੁੰਚ ਦੀ ਮਨਜ਼ੂਰੀ  ਦੇਣੀ ਪਵੇਗੀ।",
+        "message": "ਵੀਡੀਓ ਕਾਲ ਕਰਨ ਵਾਸਤੇ, ਤੁਹਾਨੂੰ Signal Desktop ਨੂੰ ਆਪਣੇ ਕੈਮਰੇ ਤਕ ਪਹੁੰਚ ਦੀ ਆਗਿਆ ਦੇਣੀ ਪਵੇਗੀ।",
         "description": "Shown if the user attempts access the camera for video calling without video permissions turned on"
     },
     "allowAccess": {
-        "message": "ਪਹੁੰਚ ਦੀ ਆਗਿਆ",
+        "message": "ਪਹੁੰਚ ਦੀ ਆਗਿਆ ਦਿਓ",
         "description": "Button shown in popup asking to enable microphone/video permissions to send audio messages"
     },
     "showSettings": {
-        "message": "ਸੈਟਿੰਗਾਂ ਵੇਖਾਓ",
+        "message": "ਸੈਟਿੰਗਾਂ ਵਿਖਾਓ",
         "description": "A button shown in dialog requesting the user to turn on audio permissions"
     },
     "audio": {
@@ -958,7 +958,7 @@
         "description": "Shown in a quotation of a message containing a video if no text was originally provided with that video"
     },
     "photo": {
-        "message": "ਫੋਟੋ",
+        "message": "ਫ਼ੋਟੋ",
         "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
     },
     "cannotUpdate": {
@@ -966,7 +966,7 @@
         "description": "Shown as the title of our update error dialogs on windows"
     },
     "cannotUpdateDetail": {
-        "message": "Signal Desktop ਅਪਡੇਟ ਕਰਨ ਵਿੱਚ ਅਸਫ਼ਲ ਰਿਹਾ, ਇੱਕ ਨਵਾਂ ਸੰਸਕਰਣ ਉਪਲਬਧ ਹੈ। ਕਿਰਪਾ ਕਰਕੇ $url$ ’ਤੇ ਜਾਓ ਅਤੇ ਨਵਾਂ ਸੰਸਕਰਣ ਹੱਥੀਂ ਇੰਸਟਾਲ ਕਰੋ, ਫੇਰ ਜਾਂ ਤਾਂ ਸਪੋਰਟ ਨਾਲ ਸੰਪਰਕ ਕਰੋ ਜਾਂ ਇਸ ਸਮੱਸਿਆ ਬਾਰੇ ਬੱਗ ਫ਼ਾਈਲ ਕਰੋ।",
+        "message": "Signal Desktop ਅੱਪਡੇਟ ਕਰਨ ਵਿੱਚ ਅਸਫ਼ਲ ਰਿਹਾ, ਪਰ ਇੱਕ ਨਵਾਂ ਸੰਸਕਰਣ ਉਪਲਬਧ ਹੈ। ਕਿਰਪਾ ਕਰਕੇ $url$ ’ਤੇ ਜਾਓ ਅਤੇ ਨਵਾਂ ਸੰਸਕਰਣ ਹੱਥੀਂ ਸਥਾਪਤ ਕਰੋ, ਫੇਰ ਜਾਂ ਤਾਂ ਸਹਾਇਤਾ ਨਾਲ ਸੰਪਰਕ ਕਰੋ ਜਾਂ ਇਸ ਸਮੱਸਿਆ ਬਾਰੇ ਬੱਗ ਦਰਜ ਕਰੋ।",
         "description": "Shown if a general error happened while trying to install update package",
         "placeholders": {
             "url": {
@@ -976,7 +976,7 @@
         }
     },
     "readOnlyVolume": {
-        "message": "Signal Desktop ਸੰਭਾਵਤ ਰੂਪ ਵਿੱਚ ਇੱਕ macOS ਕੁਆਰੰਟੀਨ ਹੈ, ਅਤੇ ਆਪਣੇ ਆਪ ਅਪਡੇਟ ਨਹੀਂ ਹੋ ਸਕੇਗਾ। ਕਿਰਪਾ ਕਰਕੇ ਫ਼ਾਈਂਡਰ ਦੇ ਨਾਲ $app$ ਨੂੰ $folder$ ਵਿੱਚ ਲਿਜਾਉਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ।",
+        "message": "Signal Desktop ਸੰਭਾਵਤ ਰੂਪ ਵਿੱਚ ਇੱਕ macOS ਕੁਆਰੰਟੀਨ ਹੈ, ਅਤੇ ਆਪਣੇ ਆਪ ਅੱਪਡੇਟ ਨਹੀਂ ਹੋ ਸਕੇਗਾ। ਕਿਰਪਾ ਕਰਕੇ ਫ਼ਾਈਂਡਰ ਦੇ ਨਾਲ $app$ ਨੂੰ $folder$ ਵਿੱਚ ਲਿਜਾਉਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ।",
         "description": "Shown on MacOS if running on a read-only volume and we cannot update",
         "placeholders": {
             "app": {
@@ -998,7 +998,7 @@
         "description": ""
     },
     "discard": {
-        "message": "ਰੱਦ",
+        "message": "ਰੱਦ ਕਰੋ",
         "description": ""
     },
     "failedToSend": {
@@ -1006,7 +1006,7 @@
         "description": ""
     },
     "error": {
-        "message": "ਗਲਤੀ",
+        "message": "ਤਰੁੱਟੀ",
         "description": ""
     },
     "messageDetail": {
@@ -1014,7 +1014,7 @@
         "description": ""
     },
     "delete": {
-        "message": "ਮਿਟਾਓ ",
+        "message": "ਮਿਟਾਓ",
         "description": ""
     },
     "accept": {
@@ -1026,19 +1026,19 @@
         "description": "Label for when something is turned on"
     },
     "off": {
-        "message": "ਬੰਦ ",
+        "message": "ਬੰਦ",
         "description": "Label for when something is turned off"
     },
     "deleteWarning": {
-        "message": "ਇਹ ਸੁਨੇਹਾ ਇਸ ਡਿਵਾਈਸ ਤੋਂ ਹਟਾਇਆ ਜਾਵੇਗਾ।",
+        "message": "ਇਹ ਸੁਨੇਹਾ ਇਸ ਡਿਵਾਈਸ ਤੋਂ ਮਿਟਾਇਆ ਜਾਵੇਗਾ।",
         "description": "Text shown in the confirmation dialog for deleting a message locally"
     },
     "deleteForEveryoneWarning": {
-        "message": "ਗੱਲਬਾਤ ਵਿੱਚ ਸ਼ਾਮਲ ਸਾਰੇ ਵਿਅਕਤੀਆਂ ਲਈ ਇਹ ਸੁਨੇਹਾ ਹਟਾਇਆ ਜਾਵੇਗਾ ਜੇ ਉਹ Signal ਦੇ ਤਾਜ਼ਾ ਸੰਸਕਰਣ ’ਤੇ ਹਨ। ਇਹ ਇਹ ਦੇਖ ਸਕਣਗੇ ਕਿ ਤੁਸੀਂ ਸੁਨੇਹਾ ਹਟਾਇਆ ਸੀ।",
+        "message": "ਗੱਲਬਾਤ ਵਿੱਚ ਸ਼ਾਮਲ ਸਾਰੇ ਵਿਅਕਤੀਆਂ ਲਈ ਇਹ ਸੁਨੇਹਾ ਮਿਟਾਇਆ ਜਾਵੇਗਾ ਜੇ ਉਹ Signal ਦੇ ਤਾਜ਼ਾ ਸੰਸਕਰਣ ’ਤੇ ਹਨ। ਉਹ ਇਹ ਦੇਖ ਸਕਣਗੇ ਕਿ ਤੁਸੀਂ ਸੁਨੇਹਾ ਮਿਟਾਇਆ ਸੀ।",
         "description": "Text shown in the confirmation dialog for deleting a message for everyone"
     },
     "from": {
-        "message": "ਵਲੋਂ",
+        "message": "ਵੱਲੋਂ",
         "description": "Label for the sender of a message"
     },
     "to": {
@@ -1070,7 +1070,7 @@
         "description": ""
     },
     "resetSession": {
-        "message": "ਸੈਸ਼ਨ ਰੀਸੈਟ ਕਰੋ",
+        "message": "ਸੈਸ਼ਨ ਰੀਸੈੱਟ ਕਰੋ",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "showSafetyNumber": {
@@ -1078,11 +1078,11 @@
         "description": ""
     },
     "viewRecentMedia": {
-        "message": "ਹਾਲੀਆ ਮੀਡੀਏ ਨੂੰ ਵੇਖੋ",
+        "message": "ਹਾਲੀਆ ਮੀਡੀਆ ਨੂੰ ਵੇਖੋ",
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
-        "message": "ਜੇ ਤੁਸੀਂ $name$ ਨਾਲ ਆਪਣੀ ਸ਼ੁਰੂ ਤੋਂ ਅੰਤ ਤਕ ਇਨਕ੍ਰਿਪਸ਼ਨ ਦੀ ਸੁਰੱਖਿਆ ਨੂੰ ਪ੍ਰਮਾਣਿਤ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ, ਤਾਂ ਉਪਰੋਕਤ ਸੰਖਿਆਵਾਂ ਦੀ ਉਹਨਾਂ ਦੀ ਡਿਵਾਈਸ ਉੱਪਰਲੀਆਂ ਸੰਖਿਆਵਾਂ ਨਾਲ ਤੁਲਨਾ ਕਰੋ।",
+        "message": "ਜੇ ਤੁਸੀਂ $name$ ਨਾਲ ਆਪਣੀ ਸਿਰੇ-ਤੋਂ-ਸਿਰੇ ਤਕ ਇਨਕ੍ਰਿਪਸ਼ਨ ਦੀ ਸੁਰੱਖਿਆ ਨੂੰ ਪ੍ਰਮਾਣਿਤ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ, ਤਾਂ ਉਪਰੋਕਤ ਸੰਖਿਆਵਾਂ ਦੀ ਤੁਲਨਾ ਉਹਨਾਂ ਦੀ ਡਿਵਾਈਸ ਉੱਪਰਲੀਆਂ ਸੰਖਿਆਵਾਂ ਨਾਲ ਕਰੋ।",
         "description": "",
         "placeholders": {
             "name": {
@@ -1092,7 +1092,7 @@
         }
     },
     "theirIdentityUnknown": {
-        "message": "ਤੁਸੀਂ ਅਜੇ ਤਕ ਇਸ ਸੰਪਰਕ ਦੇ ਨਾਲ ਕਿਸੇ ਵੀ ਸੁਨੇਹੇ ਦਾ ਲੈਣ-ਦੇਣ ਨਹੀਂ ਕੀਤਾ ਹੈ। ਉਹਨਾਂ ਦੇ ਨਾਲ ਤੁਹਾਡਾ ਸੁਰੱਖਿਆ ਨੰਬਰ ਪਹਿਲੇ ਸੁਨੇਹੇ ਤੋਂ ਬਾਅਦ ਉਪਲਬਧ ਹੋਵੇਗਾ।",
+        "message": "ਤੁਸੀਂ ਅਜੇ ਤਕ ਇਸ ਸੰਪਰਕ ਦੇ ਨਾਲ ਕਿਸੇ ਵੀ ਸੁਨੇਹੇ ਦਾ ਆਦਾਨ-ਪ੍ਰਦਾਨ ਨਹੀਂ ਕੀਤਾ ਹੈ। ਉਹਨਾਂ ਦੇ ਨਾਲ ਤੁਹਾਡਾ ਸੁਰੱਖਿਆ ਨੰਬਰ ਪਹਿਲੇ ਸੁਨੇਹੇ ਤੋਂ ਬਾਅਦ ਉਪਲਬਧ ਹੋਵੇਗਾ।",
         "description": ""
     },
     "back": {
@@ -1108,7 +1108,7 @@
         "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
     },
     "retrySend": {
-        "message": "ਭੇਜਣ ਦੀ ਮੁੜ-ਕੋਸ਼ਿਸ਼ ਕਰੋ",
+        "message": "ਭੇਜਣ ਦੀ ਮੁੜ ਕੋਸ਼ਿਸ਼ ਕਰੋ",
         "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
     },
     "forwardMessage": {
@@ -1116,23 +1116,23 @@
         "description": "Shown on the drop-down menu for an individual message, forwards a message"
     },
     "deleteMessage": {
-        "message": "ਮੇਰੇ ਲਈ ਸੁਨੇਹਾ ਹਟਾਓ",
+        "message": "ਮੇਰੇ ਲਈ ਸੁਨੇਹਾ ਮਿਟਾਓ",
         "description": "Shown on the drop-down menu for an individual message, deletes single message"
     },
     "deleteMessageForEveryone": {
-        "message": "ਹਰੇਕ ਲਈ ਸੁਨੇਹਾ ਹਟਾਓ",
+        "message": "ਹਰੇਕ ਲਈ ਸੁਨੇਹਾ ਮਿਟਾਓ",
         "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
     },
     "deleteMessages": {
-        "message": "ਮਿਟਾਓ ",
+        "message": "ਮਿਟਾਓ",
         "description": "Menu item for deleting messages, title case."
     },
     "deleteConversationConfirmation": {
-        "message": "ਕੀ ਇਹ ਗੱਲਬਾਤ ਪੱਕੇ ਤੌਰ ਉੱਤੇ ਹਟਾਉਣੀ ਹੈ?",
+        "message": "ਕੀ ਇਹ ਗੱਲਬਾਤ ਪੱਕੇ ਤੌਰ ਉੱਤੇ ਮਿਟਾਉਣੀ ਹੈ?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "sessionEnded": {
-        "message": "ਸੁਰੱਖਿਅਤ ਸ਼ੈਸਨ ਰੀਸੈਟ.",
+        "message": "ਸੁਰੱਖਿਅਤ ਸੈਸ਼ਨ ਰੀਸੈੱਟ ਕੀਤਾ ਗਿਆ",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "ChatRefresh--notification": {
@@ -1144,15 +1144,15 @@
         "description": "Shown in timeline when session is automatically reset, to provide access to a popup info dialog"
     },
     "ChatRefresh--summary": {
-        "message": "Signal ਸਿਰੇ-ਤੋਂ-ਸਿਰੇ ਤੱਕ ਇੰਕ੍ਰਿਪਸ਼ਨ ਵਰਤਦਾ ਹੈ ਅਤੇ ਇਸ ਨੂੰ ਕਈ ਵਾਰ ਤੁਹਾਡੇ ਚੈਟ ਸ਼ੈਸ਼ਨ ਨੂੰ ਤਾਜ਼ਾ ਕਰਨ ਦੀ ਲੋੜ ਹੁੰਦੀ ਹੈ। ਇਹ ਤੁਹਾਡੀ ਚੈਟ ਦੀ ਸੁਰੱਖਿਆ ਨੂੰ ਪ੍ਰਭਾਵਿਤ ਨਹੀਂ ਕਰਦਾ ਹੈ, ਪਰ ਤੁਸੀਂ ਇਸ ਸੰਪਰਕ ਨਾਲ ਆਪਣੇ ਕੁਝ ਸੁਨੇਹੇ ਖੁੰਝਾ ਸਕਦੇ ਹੋ ਅਤੇ ਤੁਹਾਨੂੰ ਉਹਨਾਂ ਨੂੰ ਇਹ ਮੁੜ ਭੇਜਣ ਲਈ ਕਹਿਣਾ ਪੈ ਸਕਦਾ ਹੈ।",
+        "message": "Signal ਸਿਰੇ-ਤੋਂ-ਸਿਰੇ ਤੱਕ ਇਨਕ੍ਰਿਪਸ਼ਨ ਵਰਤਦਾ ਹੈ ਅਤੇ ਇਸ ਨੂੰ ਕਈ ਵਾਰ ਤੁਹਾਡੇ ਚੈਟ ਸ਼ੈਸ਼ਨ ਨੂੰ ਤਾਜ਼ਾ ਕਰਨ ਦੀ ਲੋੜ ਹੁੰਦੀ ਹੈ। ਇਹ ਤੁਹਾਡੀ ਚੈਟ ਦੀ ਸੁਰੱਖਿਆ ਨੂੰ ਪ੍ਰਭਾਵਿਤ ਨਹੀਂ ਕਰਦਾ ਹੈ, ਪਰ ਹੋ ਸਕਦਾ ਹੈ ਕਿ ਤੁਸੀਂ ਇਸ ਸੰਪਰਕ ਨਾਲ ਆਪਣੇ ਕੁਝ ਸੁਨੇਹੇ ਖੁੰਝਾਏ ਹੋਣ ਅਤੇ ਤੁਸੀਂ ਉਹਨਾਂ ਨੂੰ ਇਹ ਮੁੜ ਭੇਜਣ ਲਈ ਕਹਿ ਸਕਦੇ ਹੋ।",
         "description": "Shown on explainer dialog available from chat session refreshed timeline events"
     },
     "ChatRefresh--contactSupport": {
-        "message": "رابطے دی سپورٹ",
+        "message": "ਸਹਾਇਤਾ ਦੇ ਨਾਲ ਸੰਪਰਕ ਕਰੋ",
         "description": "Shown on explainer dialog available from chat session refreshed timeline events"
     },
     "DeliveryIssue--preview": {
-        "message": "ਡਿਲਵਰੀ ਮਸਲਾ",
+        "message": "ਡਿਲਿਵਰੀ ਮਸਲਾ",
         "description": "Shown in left pane preview when message delivery issue happens"
     },
     "DeliveryIssue--notification": {
@@ -1184,7 +1184,7 @@
         }
     },
     "DeliveryIssue--summary--group": {
-        "message": "$sender$ ਤੋਂ ਇਸ ਚੈਟ ਵਿੱਚ ਤੁਹਾਨੂੰ ਕੋਈ ਸੁਨੇਹਾ, ਪੜ੍ਹਨ ਦੀ ਰਸੀਦ ਜਾਂ ਮੀਡੀਆ ਭੇਜਿਆ ਨਹੀਂ ਜਾ ਸਕਿਆ।",
+        "message": "ਇਸ ਚੈਟ ਵਿੱਚ $sender$ ਤੋਂ ਤੁਹਾਨੂੰ ਕੋਈ ਸੁਨੇਹਾ, ਸਟਿੱਕਰ, ਪ੍ਰਤਿਕਿਰਿਆ, ਪੜ੍ਹਨ ਦੀ ਰਸੀਦ ਜਾਂ ਮੀਡੀਆ ਭੇਜਿਆ ਨਹੀਂ ਜਾ ਸਕਿਆ।",
         "description": "Shown on explainer dialog available from delivery issue timeline events in groups",
         "placeholders": {
             "name": {
@@ -1198,7 +1198,7 @@
         "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
     },
     "imageAttachmentAlt": {
-        "message": "ਸੁਨੇਹੇ ਲਈ ਚਿੱਤਰ ਅਟੈਚ ਕੀਤਾ",
+        "message": "ਸੁਨੇਹੇ ਨਾਲ ਨੱਥੀ ਕੀਤਾ ਚਿੱਤਰ",
         "description": "Used in alt tag of image attachment"
     },
     "videoAttachmentAlt": {
@@ -1206,23 +1206,23 @@
         "description": "Used in alt tag of video attachment preview"
     },
     "lightboxImageAlt": {
-        "message": "ਚਿੱਤਰ ਗੱਲਬਾਤ ਵਿਚ ਭੇਜਿਆ ਗਿਆ",
+        "message": "ਗੱਲਬਾਤ ਵਿਚ ਭੇਜਿਆ ਗਿਆ ਚਿੱਤਰ",
         "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
     },
     "imageCaptionIconAlt": {
-        "message": "ਆਈਕਾਨ ਦਿਖਾ ਰਿਹਾ ਹੈ ਕਿ ਇਸ ਚਿੱਤਰ ਦਾ ਇੱਕ ਸਿਰਲੇਖ ਹੈ",
+        "message": "ਆਈਕਾਨ ਦਿਖਾ ਰਿਹਾ ਹੈ ਕਿ ਇਸ ਚਿੱਤਰ ਦੀ ਕੋਈ ਕੈਪਸ਼ਨ ਹੈ",
         "description": "Used for the icon layered on top of an image in message bubbles"
     },
     "addACaption": {
-        "message": "ਕੈਪਸ਼ਨ ਜੋੜੋ ... ",
+        "message": "ਕੈਪਸ਼ਨ ਜੋੜੋ... ",
         "description": "Used as the placeholder text in the caption editor text field"
     },
     "save": {
-        "message": "ਰੱਖੋ ",
+        "message": "ਸੰਭਾਲੋ",
         "description": "Used as a 'commit changes' button in the Caption Editor for outgoing image attachments"
     },
     "fileIconAlt": {
-        "message": "ਫਾਇਲ ਆਈਕਾਨ",
+        "message": "ਫਾਈਲ ਆਈਕਾਨ",
         "description": "Used in the media gallery documents tab to visually represent a file"
     },
     "installWelcome": {
@@ -1242,7 +1242,7 @@
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "linkedDevices": {
-        "message": "ਲਿੰਕ ਕੀਤੇ ਡਿਵਾਈਸ",
+        "message": "ਲਿੰਕ ਕੀਤੀਆਂ ਡਿਵਾਈਸਾਂ",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "plusButton": {
@@ -1262,15 +1262,15 @@
         "description": "The header shown on the 'choose device name' screen in the device linking process"
     },
     "finishLinkingPhone": {
-        "message": "ਫ਼ੋਨ ਨੂੰ ਲਿੰਕ ਕਰਨਾ ਪੂਰਾ ਹੋਇਆ",
+        "message": "ਫ਼ੋਨ ਨੂੰ ਲਿੰਕ ਕਰਨਾ ਸਮਾਪਤ ਕਰੋ",
         "description": "The text on the button to finish the linking process, after choosing the device name"
     },
     "initialSync": {
-        "message": "ਸੰਪਰਕ ਕੇ ਗਰੁੱਪ ਸਿੰਕ ਕੀਤੇ ਜਾ ਰਹੇ ਹਨ",
+        "message": "ਸੰਪਰਕ ਅਤੇ ਗਰੁੱਪ ਸਮਕਾਲੀ ਬਣਾਏ ਜਾ ਰਹੇ ਹਨ",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
     "installConnectionFailed": {
-        "message": "ਸਰਵਰ ਨਾਲ ਜੁੜਣ ਵਿਚ ਦਿੱਕਤ ਹੋ ਰਹੀ ਹੈ ",
+        "message": "ਸਰਵਰ ਨਾਲ ਕਨੈਕਟ ਕਰਨ ਵਿੱਚ ਅਸਫ਼ਲ",
         "description": "Displayed when we can't connect to the server."
     },
     "installTooManyDevices": {
@@ -1278,7 +1278,7 @@
         "description": ""
     },
     "installTooOld": {
-        "message": "ਇਸ ਡਿਵਾਈਸ ਨੂੰ ਆਪਣੇ ਫ਼ੋਨ ਨਾਲ ਲਿੰਕ ਕਰਨ ਲਈ Signal ਅੱਪਡੇਟ ਕਰੋ।",
+        "message": "ਇਸ ਡਿਵਾਈਸ ’ਤੇ ਆਪਣੇ ਫ਼ੋਨ ਨੂੰ ਲਿੰਕ ਕਰਨ ਲਈ Signal ਨੂੰ ਅੱਪਡੇਟ ਕਰੋ।",
         "description": ""
     },
     "installErrorHeader": {
@@ -1290,7 +1290,7 @@
         "description": ""
     },
     "theme": {
-        "message": "ਥੀਮ",
+        "message": "ਵਿਸ਼ਾ",
         "description": "Header for theme settings"
     },
     "calling": {
@@ -1326,11 +1326,11 @@
         "description": "Button tooltip label for turning on the camera"
     },
     "calling__button--audio-disabled": {
-        "message": "ਮਾਈਕਰੋਫ਼ੋਨ ਅਸਮਰੱਥ ਹੈ",
+        "message": "ਮਾਈਕਰੋਫ਼ੋਨ ਅਸਮਰੱਥ",
         "description": "Button tooltip label when the microphone is disabled"
     },
     "calling__button--audio-off": {
-        "message": "ਮਾਈਕ ਚੁੱਪ",
+        "message": "ਮਾਈਕ ਨੂੰ ਮਿਊਟ ਕਰੋ",
         "description": "Button tooltip label for turning off the microphone"
     },
     "calling__button--audio-on": {
@@ -1342,7 +1342,7 @@
         "description": "Button tooltip label for when screen sharing is disabled"
     },
     "calling__button--presenting-on": {
-        "message": "ਪੇਸ਼ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ",
+        "message": "ਪੇਸ਼ ਕਰਨਾ ਸ਼ੁਰੂ ਕਰੋ",
         "description": "Button tooltip label for starting to share screen"
     },
     "calling__button--presenting-off": {
@@ -1354,7 +1354,7 @@
         "description": "Label in the calling lobby indicating that your camera is off"
     },
     "calling__lobby-summary--zero": {
-        "message": "ਇੱਥੇ ਕੋਈ ਨਹੀਂ ਹੈ",
+        "message": "ਇੱਥੇ ਹੋਰ ਕੋਈ ਨਹੀਂ ਹੈ",
         "description": "Shown in the calling lobby to describe who is in the call"
     },
     "calling__lobby-summary--single": {
@@ -1368,7 +1368,7 @@
         }
     },
     "calling__lobby-summary--self": {
-        "message": "ਤੁਹਾਡੇ ਹੋਰ ਡਿਵਾਈਸਾਂ ਵਿੱਚੋਂ ਇੱਕ ਇਸ ਕਾਲ ਵਿੱਚ ਹੈ",
+        "message": "ਤੁਹਾਡੀਆਂ ਹੋਰ ਡਿਵਾਈਸਾਂ ਵਿੱਚੋਂ ਇੱਕ ਇਸ ਕਾਲ ਵਿੱਚ ਹੈ",
         "description": "Shown in the calling lobby to describe when it is just you"
     },
     "calling__lobby-summary--double": {
@@ -1386,7 +1386,7 @@
         }
     },
     "calling__lobby-summary--triple": {
-        "message": "$first$, $second$ ਅਤੇ $third$ ਕਾਲ ਵਿੱਚ ਹਨ",
+        "message": "$first$, $second$ ਅਤੇ $third$ ਇਸ ਕਾਲ ਵਿੱਚ ਹਨ",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
@@ -1422,15 +1422,15 @@
         }
     },
     "calling__in-this-call--zero": {
-        "message": "ਇੱਥੇ ਕੋਈ ਨਹੀਂ ਹੈ",
+        "message": "ਇੱਥੇ ਹੋਰ ਕੋਈ ਨਹੀਂ ਹੈ",
         "description": "Shown in the participants list to describe how many people are in the call"
     },
     "calling__in-this-call--one": {
-        "message": "ਇਸ ਕਾਲ ਵਿੱਚ 1 ਵਿਅਕਤੀ ਹੈ",
+        "message": "ਇਸ ਕਾਲ ਵਿੱਚ · 1 ਵਿਅਕਤੀ ਹੈ",
         "description": "Shown in the participants list to describe how many people are in the call"
     },
     "calling__in-this-call--many": {
-        "message": "ਇਸ ਕਾਲ ਵਿੱਚ · $people$ ਲੋਕ ਹਨ",
+        "message": "ਇਸ ਕਾਲ ਵਿੱਚ · $people$ ਵਿਅਕਤੀ ਹਨ",
         "description": "Shown in the participants list to describe how many people are in the call",
         "placeholders": {
             "people": {
@@ -1440,7 +1440,7 @@
         }
     },
     "calling__you-have-blocked": {
-        "message": "ਤੁਸੀਂ $name$ ਉੱਤੇ ਪਾਬੰਦੀ ਲਾ ਚੁੱਕੇ ਹੋ",
+        "message": "ਤੁਸੀਂ $name$ ’ਤੇ ਪਾਬੰਦੀ ਲਾ ਚੁੱਕੇ ਹੋ",
         "description": "when you block someone and cannot view their video",
         "placeholders": {
             "name": {
@@ -1454,11 +1454,11 @@
         "description": "Shown in the modal dialog to describe how blocking works in a gorup call"
     },
     "calling__overflow__scroll-up": {
-        "message": "ਉੱਤੇ ਸਰਕਾਓ",
+        "message": "ਉੱਪਰ ਨੂੰ ਸਰਕਾਓ",
         "description": "Label for the \"scroll up\" button in a call's overflow area"
     },
     "calling__overflow__scroll-down": {
-        "message": "ਹੇਠਾਂ ਸਰਕਾਓ",
+        "message": "ਹੇਠਾਂ ਨੂੰ ਸਰਕਾਓ",
         "description": "Label for the \"scroll down\" button in a call's overflow area"
     },
     "calling__presenting--notification-title": {
@@ -1466,7 +1466,7 @@
         "description": "Title for the share screen notification"
     },
     "calling__presenting--notification-body": {
-        "message": "ਜਦੋਂ ਤੁਸੀਂ ਪੇਸ਼ ਕਰਨਾ ਨੂੰ ਰੋਕਣ ਲਈ ਤਿਆਰ ਹੋ ਤਾਂ ਵਾਪਸੀ ਕਾਲ ਲਈ ਇੱਥੇ ਕਲਿੱਕ ਕਰੋ।",
+        "message": "ਜਦੋਂ ਤੁਸੀਂ ਪੇਸ਼ ਕਰਨਾ ਰੋਕਣ ਲਈ ਤਿਆਰ ਹੋਵੋ ਤਾਂ ਕਾਲ ਵਿੱਚ ਵਾਪਸੀ ਲਈ ਇੱਥੇ ਕਲਿਕ ਕਰੋ।",
         "description": "Body text for the share screen notification"
     },
     "calling__presenting--info": {
@@ -1498,7 +1498,7 @@
         }
     },
     "calling__presenting--person-stopped": {
-        "message": "$name$ਨੇ ਪੇਸ਼ ਕਰਨਾ ਰੋਕਿਆ",
+        "message": "$name$ ਨੇ ਪੇਸ਼ ਕਰਨਾ ਰੋਕਿਆ",
         "description": "Toast that appears when someone stops presenting",
         "placeholders": {
             "name": {
@@ -1512,7 +1512,7 @@
         "description": "Shown as the title for the modal that requests screen recording permissions"
     },
     "calling__presenting--macos-permission-description": {
-        "message": "Signal ਨੂੰ ਤੁਹਾਡੇ ਕੰਪਿਊਟਰ ਦੀ ਸਕਰੀਨ ਰਿਕਾਰਡ ਕਰਨ ਵਾਸਤੇ ਇਜਾਜ਼ਤ ਚਾਹੀਦੀ ਹੈ।",
+        "message": "Signal ਨੂੰ ਤੁਹਾਡੇ ਕੰਪਿਊਟਰ ਦੀ ਸਕਰੀਨ ਰਿਕਾਰਡਿੰਗ ਤਕ ਪਹੁੰਚ ਵਾਸਤੇ ਇਜਾਜ਼ਤ ਚਾਹੀਦੀ ਹੈ।",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-instruction-step1": {
@@ -1520,11 +1520,11 @@
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-instruction-step2": {
-        "message": "ਖੱਬਿਓ ਹੇਠਾਂ ਲਾਕ ਦੇ ਆਈਕਾਨ ਨੂੰ ਕਲਿੱਕ ਕਰੋ ਅਤੇ ਆਪਣੇ ਕੰਪਿਊਟਰ ਦਾ ਪਾਸਵਰਡ ਦਿਓ।",
+        "message": "ਖੱਬਿਓ ਹੇਠਾਂ ਲੌਕ ਦੇ ਆਈਕਾਨ ਨੂੰ ਕਲਿੱਕ ਕਰੋ ਅਤੇ ਆਪਣੇ ਕੰਪਿਊਟਰ ਦਾ ਪਾਸਵਰਡ ਦਰਜ ਕਰੋ।",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-instruction-step3": {
-        "message": "ਸੱਜੇ ਪਾਸੇ, Signal ਤੋਂ ਅੱਗੇ ਡੱਬੇ ਨੂੰ ਚੁਣੋ। ਜੇ ਤੁਸੀਂ ਸੂਚੀ ਵਿੱਚ Signal ਨਹੀਂ ਵੇਖ ਰਹੇ ਤਾਂ ਇਸ ਨੂੰ ਜੋੜਨ ਲਈ + ਨੂੰ ਕਲਿੱਕ ਕਰੋ।",
+        "message": "ਸੱਜੇ ਪਾਸੇ, Signal ਦੇ ਨਾਲ ਵਾਲੇ ਖਾਨੇ ਨੂੰ ਚੁਣੋ। ਜੇ ਤੁਸੀਂ ਸੂਚੀ ਵਿੱਚ Signal ਨਹੀਂ ਵੇਖ ਰਹੇ ਤਾਂ ਇਸ ਨੂੰ ਜੋੜਨ ਲਈ + ਨੂੰ ਕਲਿਕ ਕਰੋ।",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-open": {
@@ -1540,7 +1540,7 @@
         "description": "Description of the always relay calls setting"
     },
     "alwaysRelayCallsDetail": {
-        "message": "ਆਪਣੇ ਸੰਪਰਕ ਨੂੰ ਤੁਹਾਡੇ IP ਦਾ ਪਤਾ ਲੱਗਣ ਤੋਂ ਬਚਾਉਣ ਲਈ Signal ਸਰਵਰ ਰਾਹੀਂ ਸਾਰੀਆਂ ਕਾਲਾਂ ਨੂੰ ਰੀਲੇਅ ਕਰੋ. ਯੋਗ ਕਰਨ ਨਾਲ ਕਾਲ ਦੀ ਗੁਣਵੱਤਾ ਘਟੇਗੀ",
+        "message": "ਆਪਣੇ ਸੰਪਰਕ ਨੂੰ ਤੁਹਾਡੇ IP ਦਾ ਪਤਾ ਲੱਗਣ ਤੋਂ ਬਚਾਉਣ ਲਈ Signal ਸਰਵਰ ਰਾਹੀਂ ਸਾਰੀਆਂ ਕਾਲਾਂ ਨੂੰ ਰੀਲੇਅ ਕਰੋ। ਸਮਰੱਥ ਬਣਾਉਣ ਨਾਲ ਕਾਲ ਦੀ ਗੁਣਵੱਤਾ ਘਟੇਗੀ।",
         "description": "Details describing the always relay calls setting"
     },
     "permissions": {
@@ -1564,11 +1564,11 @@
         "description": "Description of the spell check setting"
     },
     "spellCheckWillBeEnabled": {
-        "message": "ਅਗਲੀ ਵਾਰ Signal ਦੇ ਸ਼ੁਰੂ ਹੋਣ 'ਤੇ ਸਪੈਲ ਚੈੱਕ ਨੂੰ ਸਮਰੱਥ ਬਣਾਇਆ ਜਾਏਗਾ",
+        "message": "ਅਗਲੀ ਵਾਰ Signal ਦੇ ਸ਼ੁਰੂ ਹੋਣ 'ਤੇ ਸ਼ਬਦ-ਜੋੜ ਦੀ ਜਾਂਚ ਨੂੰ ਸਮਰੱਥ ਬਣਾਇਆ ਜਾਏਗਾ",
         "description": "Shown when the user enables spellcheck to indicate that they must restart Signal."
     },
     "spellCheckWillBeDisabled": {
-        "message": "ਅਗਲੀ ਵਾਰ Signal ਦੇ ਸ਼ੁਰੂ ਹੋਣ 'ਤੇ ਸਪੈਲ ਚੈੱਕ ਨੂੰ ਅਸਮਰੱਥ ਬਣਾਇਆ ਜਾਏਗਾ",
+        "message": "ਅਗਲੀ ਵਾਰ Signal ਦੇ ਸ਼ੁਰੂ ਹੋਣ 'ਤੇ ਸ਼ਬਦ-ਜੋੜ ਦੀ ਜਾਂਚ ਨੂੰ ਅਸਮਰੱਥ ਬਣਾਇਆ ਜਾਏਗਾ",
         "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
     },
     "SystemTraySetting__minimize-to-system-tray": {
@@ -1580,51 +1580,51 @@
         "description": "In the settings, shown next to the checkbox option for starting in the system tray"
     },
     "autoLaunchDescription": {
-        "message": "ਕੰਪਿਊਟਰ ਲਾਗਇਨ ਕਰਨ ਸਮੇਂ ਖੋਲ੍ਹੋ",
+        "message": "ਕੰਪਿਊਟਰ ਲੌਗਿਨ ਕਰਨ ਸਮੇਂ ਖੋਲ੍ਹੋ",
         "description": "Description for the automatic launch setting"
     },
     "clearDataHeader": {
-        "message": "ਡਾਟਾ ਮਿਟਾਓ",
+        "message": "ਡੇਟਾ ਮਿਟਾਓ",
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "clearDataExplanation": {
-        "message": "ਇਹ ਸਾਰੇ ਸੁਨੇਹਿਆਂ ਅਤੇ ਸੁਰੱਖਿਅਤ ਕੀਤੀ ਹੋਈ ਖਾਤਾ ਜਾਣਕਾਰੀ ਨੂੰ ਹਟਾਉਂਦੇ ਹੋਏ, ਐਪਲੀਕੇਸ਼ਨ ਵਿਚਲੇ ਸਾਰੇ ਡੇਟਾ ਨੂੰ ਮਿਟਾ ਦੇਵੇਗਾ।",
+        "message": "ਇਹ ਸਾਰੇ ਸੁਨੇਹਿਆਂ ਅਤੇ ਸੰਭਾਲੀ ਹੋਈ ਖਾਤਾ ਜਾਣਕਾਰੀ ਨੂੰ ਹਟਾਉਂਦੇ ਹੋਏ, ਐਪਲੀਕੇਸ਼ਨ ਵਿਚਲੇ ਸਾਰੇ ਡੇਟਾ ਨੂੰ ਮਿਟਾ ਦੇਵੇਗਾ।",
         "description": "Text describing what the clear data button will do."
     },
     "clearDataButton": {
-        "message": "ਡਾਟਾ ਮਿਟਾਓ",
+        "message": "ਡੇਟਾ ਮਿਟਾਓ",
         "description": "Button in the settings dialog starting process to delete all data"
     },
     "deleteAllDataHeader": {
-        "message": "ਸਾਰਾ ਡਾਟਾ ਹਟਾਉਣਾ ਹੈ?",
+        "message": "ਸਾਰਾ ਡੇਟਾ ਮਿਟਾਉਣਾ ਹੈ?",
         "description": "Header of the full-screen delete data confirmation screen"
     },
     "deleteAllDataBody": {
-        "message": "ਤੁਸੀਂ ਇਸ ਐਪਲੀਕੇਸ਼ਨ ਦੀ ਸਾਰੀ ਸੁਰੱਖਿਅਤ ਕੀਤੀ ਖਾਤਾ ਜਾਣਕਾਰੀ ਨੂੰ ਹਟਾਉਣ ਜਾ ਰਹੇ ਹੋ, ਜਿਸ ਵਿੱਚ ਸਾਰੇ ਸੰਪਰਕ ਅਤੇ ਸਾਰੇ ਸੁਨੇਹੇ ਸ਼ਾਮਲ ਹਨ। ਤੁਸੀਂ ਹਮੇਸ਼ਾ ਆਪਣੀ ਮੋਬਾਈਲ ਡਿਵਾਈਸ ਨਾਲ ਦੁਬਾਰਾ ਲਿੰਕ ਕਰ ਸਕਦੇ ਹੋ, ਪਰ ਇਸ ਨਾਲ ਮਿਟਾਏ ਗਏ ਸੁਨੇਹੇ ਮੁੜ ਪ੍ਰਾਪਤ ਨਹੀਂ ਹੋਣਗੇ।",
+        "message": "ਤੁਸੀਂ ਇਸ ਐਪਲੀਕੇਸ਼ਨ ਦੀ ਸਾਰੀ ਸੰਭਾਲੀ ਹੋਈ ਖਾਤਾ ਜਾਣਕਾਰੀ ਨੂੰ ਮਿਟਾਉਣ ਜਾ ਰਹੇ ਹੋ, ਜਿਸ ਵਿੱਚ ਸਾਰੇ ਸੰਪਰਕ ਅਤੇ ਸਾਰੇ ਸੁਨੇਹੇ ਸ਼ਾਮਲ ਹਨ। ਤੁਸੀਂ ਹਮੇਸ਼ਾ ਆਪਣੀ ਮੋਬਾਈਲ ਡਿਵਾਈਸ ਨਾਲ ਦੁਬਾਰਾ ਲਿੰਕ ਕਰ ਸਕਦੇ ਹੋ, ਪਰ ਇਸ ਨਾਲ ਮਿਟਾਏ ਗਏ ਸੁਨੇਹੇ ਮੁੜ ਪ੍ਰਾਪਤ ਨਹੀਂ ਹੋਣਗੇ।",
         "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
     },
     "deleteAllDataButton": {
-        "message": "ਸਾਰਾ ਡਾਟਾ ਹਟਾਓ",
+        "message": "ਸਾਰਾ ਡੇਟਾ ਮਿਟਾਓ",
         "description": "Text of the button that deletes all data"
     },
     "deleteAllDataProgress": {
-        "message": "ਡਿਸਕਨੈਕਟ ਕਰਨਾ ਅਤੇ ਸਾਰਾ ਡੇਟਾ ਹਟਾਉਣਾ",
+        "message": "ਡਿਸਕਨੈਕਟ ਕਰਨਾ ਅਤੇ ਸਾਰਾ ਡੇਟਾ ਮਿਟਾਉਣਾ",
         "description": "Message shown to user when app is disconnected and data deleted"
     },
     "deleteOldIndexedDBData": {
-        "message": "ਤੁਹਾਡੇ ਕੋਲ Signal Desktop ਦੀ ਪੁਰਾਣੀ ਇੰਸਟਾਲੇਸ਼ਨ ਤੋਂ ਪੁਰਾਣਾ ਡਾਟਾ ਹੈ। ਜੇ ਤੁਸੀਂ ਜਾਰੀ ਰੱਖਣ ਦੀ ਚੋਣ ਕਰਦੇ ਹੋ, ਤਾਂ ਇਸਨੂੰ ਹਟਾ ਦਿੱਤਾ ਜਾਵੇਗਾ ਅਤੇ ਤੁਸੀਂ ਮੁੜ ਤੋਂ ਸ਼ੁਰੂ ਕਰੋਗੇ।",
+        "message": "ਤੁਹਾਡੇ ਕੋਲ Signal Desktop ਦੀ ਪੁਰਾਣੀ ਸਥਾਪਨਾ ਤੋਂ ਪੁਰਾਣਾ ਡੇਟਾ ਹੈ। ਜੇ ਤੁਸੀਂ ਜਾਰੀ ਰੱਖਣ ਦੀ ਚੋਣ ਕਰਦੇ ਹੋ, ਤਾਂ ਇਸਨੂੰ ਮਿਟਾ ਦਿੱਤਾ ਜਾਵੇਗਾ ਅਤੇ ਤੁਸੀਂ ਮੁੜ ਤੋਂ ਸ਼ੁਰੂ ਕਰੋਗੇ।",
         "description": "Shown if user last ran Signal Desktop before October 2018"
     },
     "deleteOldData": {
-        "message": "ਪੁਰਾਣਾ ਡਾਟਾ ਹਟਾਓ",
+        "message": "ਪੁਰਾਣਾ ਡੇਟਾ ਮਿਟਾਓ",
         "description": "Button to make the delete happen"
     },
     "notifications": {
-        "message": "ਸੂਚਨਾਵਾਂ ",
+        "message": "ਸੂਚਨਾਵਾਂ",
         "description": "Header for notification settings"
     },
     "notificationSettingsDialog": {
-        "message": "ਜਦੋਂ ਸੁਨੇਹੇ ਆਉਂਦੇ ਹਨ, ਤਾਂ ਉਹ ਨੋਟੀਫਿਕੇਸ਼ਨ ਪ੍ਰਦਰਸ਼ਤ ਕਰੋ ਜੋ ਇਹ ਪ੍ਰਗਟ ਕਰਦੇ ਹਨ:",
+        "message": "ਜਦੋਂ ਸੁਨੇਹੇ ਆਉਂਦੇ ਹਨ, ਤਾਂ ਉਹ ਸੂਚਨਾਵਾਂ ਪ੍ਰਦਰਸ਼ਤ ਕਰੋ ਜੋ ਇਹ ਪ੍ਰਗਟ ਕਰਦੀਆਂ ਹਨ:",
         "description": "Explain the purpose of the notification settings"
     },
     "disableNotifications": {
@@ -1636,15 +1636,15 @@
         "description": "Label for setting notifications to display name and message text"
     },
     "noNameOrMessage": {
-        "message": "ਕੋਈ ਨਾਂ ਜਾਂ ਸਮੱਗਰੀ ਨਹੀਂ ਹੈ",
+        "message": "ਕੋਈ ਨਾਂ ਜਾਂ ਸਮੱਗਰੀ ਨਹੀਂ",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "nameOnly": {
-        "message": "ਸਿਰਫ ਨਾਮ",
+        "message": "ਸਿਰਫ ਨਾਂ",
         "description": "Label for setting notifications to display sender name only"
     },
     "newMessage": {
-        "message": "ਨਵਾਂ ਸੰਦੇਸ਼!",
+        "message": "ਨਵਾਂ ਸੁਨੇਹਾ",
         "description": "Displayed in notifications for only 1 message"
     },
     "notificationSenderInGroup": {
@@ -1676,7 +1676,7 @@
         }
     },
     "notificationReactionMessage": {
-        "message": "$sender$ ਨੇ $message$ ਨੂੰ ਇਸ ਨਾਲ ਪ੍ਰਤਿਕਿਰਿਆ ਦਿੱਤੀ: $emoji$ ",
+        "message": "$sender$ ਨੇ $message$ ਨੂੰ ਇਹ ਪ੍ਰਤਿਕਿਰਿਆ ਦਿੱਤੀ: $emoji$ ",
         "description": "",
         "placeholders": {
             "sender": {
@@ -1694,7 +1694,7 @@
         }
     },
     "sendFailed": {
-        "message": "ਭੇਜਣ ਵਿੱਚ ਅਸਫਲ",
+        "message": "ਭੇਜਣ ਵਿੱਚ ਅਸਫ਼ਲ",
         "description": "Shown on outgoing message if it fails to send"
     },
     "sendPaused": {
@@ -1702,7 +1702,7 @@
         "description": "Shown on outgoing message if it cannot be sent immediately"
     },
     "partiallySent": {
-        "message": "ਅਧੂਰਾ ਭੇਜਿਆ, ਵੇਰਵੇ ਲਈ ਕਲਿੱਕ ਕਰੋ",
+        "message": "ਅਧੂਰਾ ਭੇਜਿਆ, ਵੇਰਵੇ ਲਈ ਕਲਿਕ ਕਰੋ",
         "description": "Shown on outgoing message if it is partially sent"
     },
     "showMore": {
@@ -1718,11 +1718,11 @@
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "Signal Desktop ਦੇ ਇਹ ਸੰਸਕਰਣ ਦੀ ਮਿਆਦ ਪੁੱਗ ਚੁੱਕੀ ਹੈ। ਕਿਰਪਾ ਕਰਕੇ ਮੈੇਸੇਜਿੰਗ ਨੂੰ ਜਾਰੀ ਰੱਖਣ ਲਈ ਤਾਜ਼ਾ ਸੰਸਕਰਣ ਲਈ ਅਪਗ੍ਰੇਡ ਕਰੋ।",
+        "message": "Signal Desktop ਦੇ ਇਸ ਸੰਸਕਰਣ ਦੀ ਮਿਆਦ ਪੁੱਗ ਚੁੱਕੀ ਹੈ। ਕਿਰਪਾ ਕਰਕੇ ਮੈੇਸੇਜਿੰਗ ਨੂੰ ਜਾਰੀ ਰੱਖਣ ਲਈ ਤਾਜ਼ਾ ਸੰਸਕਰਣ ਲਈ ਅਪਗ੍ਰੇਡ ਕਰੋ।",
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
-        "message": "ਅਪਗ੍ਰੇਡ ਕਰੋ",
+        "message": "ਅੱਪਗ੍ਰੇਡ ਕਰੋ",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "mediaMessage": {
@@ -1738,27 +1738,27 @@
         "description": "Label for contact and group sync settings"
     },
     "syncExplanation": {
-        "message": "ਆਪਣੀ ਮੋਬਾਈਲ ਡਿਵਾਈਸ ਤੋਂ ਸਾਰੇ Signal ਗਰੁੱਪਾਂ ਅਤੇ ਸੰਪਰਕਾਂ ਨੂੰ ਇੰਪੋਰਟ ਕਰੋ।",
+        "message": "ਆਪਣੀ ਮੋਬਾਈਲ ਡਿਵਾਈਸ ਤੋਂ ਸਾਰੇ Signal ਗਰੁੱਪਾਂ ਅਤੇ ਸੰਪਰਕਾਂ ਨੂੰ ਆਯਾਤ ਕਰੋ।",
         "description": "Explanatory text for sync settings"
     },
     "lastSynced": {
-        "message": "ਜਦੋਂ ਆਖਰੀ ਇੰਪੋਰਟ ਹੋਈ",
+        "message": "ਜਦੋਂ ਆਖਰੀ ਆਯਾਤ ਹੋਈ",
         "description": "Label for date and time of last sync operation"
     },
     "syncNow": {
-        "message": "ਆਯਾਤ ਕਰੋ",
+        "message": "ਹੁਣੇ ਆਯਾਤ ਕਰੋ",
         "description": "Label for a button that syncs contacts and groups from your phone"
     },
     "syncing": {
-        "message": "ਇੰਪੋਰਟ ਕਰ ਰਿਹਾ ਹੈ...",
+        "message": "ਆਯਾਤ ਕਰ ਰਿਹਾ ਹੈ...",
         "description": "Label for a disabled sync button while sync is in progress."
     },
     "syncFailed": {
-        "message": "ਇੰਪੋਰਟ ਅਸਫ਼ਲ। ਯਕੀਨੀ ਬਣਾਓ ਕਿ ਤੁਹਾਡੇ ਕੰਪਿਊਟਰ ਅਤੇ ਤੁਹਾਡਾ ਫ਼ੋਨ ਇੰਟਰਨੈੱਟ ਨਾਲ ਜੁੜੇ ਹੋੲੈ ਹਨ।",
+        "message": "ਆਯਾਤ ਅਸਫ਼ਲ। ਯਕੀਨੀ ਬਣਾਓ ਕਿ ਤੁਹਾਡੇ ਕੰਪਿਊਟਰ ਅਤੇ ਤੁਹਾਡਾ ਫ਼ੋਨ ਇੰਟਰਨੈੱਟ ਨਾਲ ਜੁੜੇ ਹੋਏ ਹਨ।",
         "description": "Informational text displayed if a sync operation times out."
     },
     "timestamp_s": {
-        "message": "ਹੁਣ",
+        "message": "ਹੁਣੇ",
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "timestamp_m": {
@@ -1790,7 +1790,7 @@
         }
     },
     "justNow": {
-        "message": "ਹੁਣ",
+        "message": "ਹੁਣੇ",
         "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
@@ -1802,15 +1802,15 @@
         "description": "Shown if the user tries to send more than 64kb of text"
     },
     "unblockToSend": {
-        "message": "ਸੁਨੇਹਾ ਭੇਜਣ ਲਈ ਇਸ ਸੰਪਰਕ ਨੂੰ ਅਨਬਲੌਕ ਕਰੋ।",
+        "message": "ਸੁਨੇਹਾ ਭੇਜਣ ਲਈ ਇਸ ਸੰਪਰਕ ਤੋਂ ਪਾਬੰਦੀ ਹਟਾਓ।",
         "description": "Brief message shown when trying to message a blocked number"
     },
     "unblockGroupToSend": {
-        "message": "ਸੁਨੇਹਾ ਭੇਜਣ ਲਈ ਇਸ ਗਰੁੱਪ ਨੂੰ ਅਨਬਲੌਕ ਕਰੋ।",
+        "message": "ਸੁਨੇਹਾ ਭੇਜਣ ਲਈ ਇਸ ਗਰੁੱਪ ਤੋਂ ਪਾਬੰਦੀ ਹਟਾਓ।",
         "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
-        "message": "ਤੁਸੀਂ ਅਲੋਪ ਹੋਣ ਵਾਲੇ ਸੁਨੇਹੇ ਦੇ ਟਾਈਮ ਨੂੰ $time$ ’ਤੇ ਸੈੱਟ ਕਰੋ।",
+        "message": "ਤੁਸੀਂ ਅਲੋਪ ਹੋਣ ਵਾਲੇ ਸੁਨੇਹੇ ਦੇ ਟਾਈਮ ਨੂੰ $time$ ’ਤੇ ਸੈੱਟ ਕੀਤਾ।",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -1820,7 +1820,7 @@
         }
     },
     "timerSetOnSync": {
-        "message": "ਅਲੋਪ ਹੋਣ ਵਾਲੇ ਸੁਨੇਹੇ ਦੇ ਟਾਈਮ ਨੂੰ $time$ ’ਤੇ ਅਪਡੇਟ ਕੀਤਾ ਗਿਆ।",
+        "message": "ਅਲੋਪ ਹੋਣ ਵਾਲੇ ਸੁਨੇਹੇ ਦੇ ਟਾਈਮ ਨੂੰ $time$ ’ਤੇ ਅੱਪਡੇਟ ਕੀਤਾ ਗਿਆ।",
         "description": "Message displayed when timer is set on initial link of desktop device.",
         "placeholders": {
             "time": {
@@ -1858,7 +1858,7 @@
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "disappearingMessages": {
-        "message": "ਗੁੰਮ ਹੋਣ ਵਾਲੇ ਸੁਨੇਹੇ",
+        "message": "ਅਲੋਪ ਹੋਣ ਵਾਲੇ ਸੁਨੇਹੇ",
         "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
     },
     "disappearingMessagesDisabled": {
@@ -1866,11 +1866,11 @@
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disappearingMessagesDisabledByMember": {
-        "message": "ਇੱਕ ਮੈਂਬਰ ਨੇ ਅਲੋਪ ਹੋਣ ਵਾਲੇ ਸੁਨੇਹਿਆਂ ਨੂੰ ਅਸਮਰੱਥ ਕੀਤਾ।",
+        "message": "ਕਿਸੇ ਮੈਂਬਰ ਨੇ ਅਲੋਪ ਹੋਣ ਵਾਲੇ ਸੁਨੇਹਿਆਂ ਨੂੰ ਅਸਮਰੱਥ ਕੀਤਾ।",
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disabledDisappearingMessages": {
-        "message": "$name$ਨੇ ਅਲੋਪ ਹੋਣ ਵਾਲੇ ਸੁਨੇਹਿਆਂ ਨੂੰ ਅਸਮਰੱਥ ਕੀਤਾ।",
+        "message": "$name$ ਨੇ ਅਲੋਪ ਹੋਣ ਵਾਲੇ ਸੁਨੇਹਿਆਂ ਨੂੰ ਅਸਮਰੱਥ ਕੀਤਾ।",
         "description": "Displayed in the conversation list when the timer is turned off",
         "placeholders": {
             "name": {
@@ -1880,11 +1880,11 @@
         }
     },
     "youDisabledDisappearingMessages": {
-        "message": "ਤੁਸੀਂ ਗਾਇਬ ਹੋਣ ਵਾਲੇ ਸੁਨੇਹਿਆਂ ਨੂੰ ਅਸਮਰੱਥ ਕੀਤਾ.",
+        "message": "ਤੁਸੀਂ ਅਲੋਪ ਹੋਣ ਵਾਲੇ ਸੁਨੇਹਿਆਂ ਨੂੰ ਅਸਮਰੱਥ ਕੀਤਾ।",
         "description": "Displayed in the conversation list when the timer is turned off"
     },
     "timerSetTo": {
-        "message": "$time$ ਲਈ ਸਮਾਂ ਤੈਅ ਕਰੋ",
+        "message": "$time$ ਲਈ ਸਮਾਂ ਤੈਅ ਕੀਤਾ",
         "description": "Displayed in the conversation list when the timer is updated by some automatic action, or in the left pane",
         "placeholders": {
             "time": {
@@ -1898,11 +1898,11 @@
         "description": "Description for audio notification setting"
     },
     "callRingtoneNotificationDescription": {
-        "message": "ਕਾਲ ਲਈ ਆਵਾਜ਼ਾਂ ਚਲਾਓ",
+        "message": "ਕਾਲਿੰਗ ਧੁਨੀਆਂ ਚਲਾਓ",
         "description": "Description for call ringtone notification setting"
     },
     "callSystemNotificationDescription": {
-        "message": "ਕਾਲਂ ਲਈ ਨੋਟੀਫਿਕੇਸ਼ਨ ਵੇਖਾਓ",
+        "message": "ਕਾਲਾਂ ਲਈ ਸੂਚਨਾਵਾਂ ਵਿਖਾਓ",
         "description": "Description for call notification setting"
     },
     "incomingCallNotificationDescription": {
@@ -1910,7 +1910,7 @@
         "description": "Description for incoming calls setting"
     },
     "contactChangedProfileName": {
-        "message": "$sender$ ਨੇ ਆਪਣੇ ਪਰੋਫਾਈਲ ਦਾ ਨਾਂ $oldProfile$ਤੋਂ ਬਦਲ ਕੇ $newProfile$ ਕੀਤਾ।",
+        "message": "$sender$ ਨੇ ਆਪਣੇ ਪ੍ਰੋਫ਼ਾਈਲ ਦਾ ਨਾਂ $oldProfile$ ਤੋਂ ਬਦਲ ਕੇ $newProfile$ ਕੀਤਾ।",
         "description": "Description for incoming calls setting",
         "placeholders": {
             "sender": {
@@ -1928,7 +1928,7 @@
         }
     },
     "changedProfileName": {
-        "message": "$oldProfile$ ਨੇ ਆਪਣੇ ਪਰੋਫਾਈਲ ਦਾ ਨਾਂ ਬਦਲ ਕੇ $newProfile$ ਕੀਤਾ।",
+        "message": "$oldProfile$ ਨੇ ਆਪਣੇ ਪ੍ਰੋਫ਼ਾਈਲ ਦਾ ਨਾਂ ਬਦਲ ਕੇ $newProfile$ ਕੀਤਾ।",
         "description": "Shown when a contact not in your address book changes their profile name",
         "placeholders": {
             "oldProfile": {
@@ -1942,15 +1942,15 @@
         }
     },
     "safetyNumberChanged": {
-        "message": "ਸੁਰੱਖਿਆ ਨੰਬਰ ਬਦਲਿਆ ਗਿਆ",
+        "message": "ਸੁਰੱਖਿਆ ਨੰਬਰ ਬਦਲ ਚੁੱਕਾ ਹੈ",
         "description": "A notification shown in the conversation when a contact reinstalls"
     },
     "safetyNumberChanges": {
-        "message": "ਸੁਰੱਖਿਆ ਨੰਬਰ ਤਬਦੀਲੀਆਂ",
+        "message": "ਸੁਰੱਖਿਆ ਨੰਬਰ ਵਿੱਚ ਤਬਦੀਲੀਆਂ",
         "description": "Title for safety number changed modal"
     },
     "safetyNumberChangedGroup": {
-        "message": "$name$ ਨਾਲ ਸੁਰੱਖਿਆ ਨੰਬਰ ਬਦਲਿਆ",
+        "message": "$name$ ਨਾਲ ਸੁਰੱਖਿਆ ਨੰਬਰ ਬਦਲ ਚੁੱਕਾ ਹੈ",
         "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name",
         "placeholders": {
             "name": {
@@ -1960,11 +1960,11 @@
         }
     },
     "verifyNewNumber": {
-        "message": "ਸੁਰੱਖਿਆ ਨੰਬਰ ਦੀ ਤਸਦੀਕ ਕਰੋ",
+        "message": "ਸੁਰੱਖਿਆ ਨੰਬਰ ਨੂੰ ਪ੍ਰਮਾਣਿਤ ਕਰੋ",
         "description": "Label on button included with safety number change notification in the conversation"
     },
     "cannotGenerateSafetyNumber": {
-        "message": "ਇਸ ਉਪਭੋਗਤਾ ਨੂੰ ਉਦੋਂ ਤੱਕ ਤਸਦੀਕ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ ਜਦੋਂ ਤੱਕ ਉਹਨਾਂ ਨਾਲ ਤੁਹਾਡਾ ਸੁਨੇਹਿਆਂ ਦਾ ਅਦਾਨ-ਪ੍ਰਦਾਨ ਨਹੀਂ ਹੋ ਜਾਂਦਾ.",
+        "message": "ਇਸ ਵਰਤੋਂਕਾਰ ਨੂੰ ਉਦੋਂ ਤੱਕ ਪ੍ਰਮਾਣਿਤ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ ਜਦੋਂ ਤੱਕ ਉਹਨਾਂ ਨਾਲ ਤੁਹਾਡਾ ਸੁਨੇਹਿਆਂ ਦਾ ਆਦਾਨ-ਪ੍ਰਦਾਨ ਨਹੀਂ ਹੋ ਜਾਂਦਾ।",
         "description": "Shown on the safety number screen if you have never exchanged messages with that contact"
     },
     "yourSafetyNumberWith": {
@@ -1978,11 +1978,11 @@
         }
     },
     "themeLight": {
-        "message": "ਲਾਈਟ",
+        "message": "ਫਿੱਕਾ",
         "description": "Label text for light theme (normal)"
     },
     "themeDark": {
-        "message": "ਹਨੇਰਾ ",
+        "message": "ਗੂੜ੍ਹਾ",
         "description": "Label text for dark theme"
     },
     "themeSystem": {
@@ -1994,19 +1994,19 @@
         "description": "Name for the conversation with your own phone number"
     },
     "noteToSelfHero": {
-        "message": "ਤੁਸੀਂ ਇਸ ਵਾਰਤਾਲਾਪ ਵਿੱਚ ਖੁਦ ਲਈ ਨੋਟ ਸ਼ਾਮਲ ਕਰ ਸਕਦੇ ਹੋ. ਜੇਕਰ ਤੁਹਾਡੇ ਖਾਤੇ ਦੇ ਨਾਲ ਲਿੰਕ ਕੀਤੇ ਹੋਏ ਕਈ ਡਿਵਾਈਸ ਹਨ, ਤਾਂ ਨਵੇਂ ਨੋਟ ਸਿੰਕ ਹੋ ਜਾਣਗੇ.",
+        "message": "ਤੁਸੀਂ ਇਸ ਗੱਲਬਾਤ ਵਿੱਚ ਖੁਦ ਲਈ ਨੋਟ ਸ਼ਾਮਲ ਕਰ ਸਕਦੇ ਹੋ। ਜੇਕਰ ਤੁਹਾਡੇ ਖਾਤੇ ਦੇ ਨਾਲ ਕੋਈ ਲਿੰਕ ਕੀਤੀਆਂ ਹੋਈਆਂ ਡਿਵਾਈਸਾਂ ਹਨ, ਤਾਂ ਨਵੇਂ ਨੋਟ ਸਿੰਕ ਹੋ ਜਾਣਗੇ।",
         "description": "Description for the Note to Self conversation"
     },
     "notificationDrawAttention": {
-        "message": "ਜਦੋਂ ਕੋਈ ਨੋਟੀਫ਼ਿਕੇਸ਼ਨ ਆਉਂਦਾ ਹੈ ਤਾਂ ਇਸ ਵਿੰਡੋ ਵੱਲ ਧਿਆਨ ਖਿੱਚੋ",
+        "message": "ਜਦੋਂ ਕੋਈ ਸੂਚਨਾ ਆਉਂਦੀ ਹੈ ਤਾਂ ਇਸ ਵਿੰਡੋ ਵੱਲ ਧਿਆਨ ਖਿੱਚੋ",
         "description": "Label text for the setting that controls whether new notifications draw attention to the window"
     },
     "hideMenuBar": {
-        "message": "ਮੁੱਖ ਪੱਟੀ ਲੁਕਾਓ",
+        "message": "ਮੇਨੂੰ ਪੱਟੀ ਲੁਕਾਓ",
         "description": "Label text for menu bar visibility setting"
     },
     "startConversation": {
-        "message": "…ਨਵੀਂ ਗੱਲਬਾਤ ਸ਼ੁਰੂ ਕਰੋ",
+        "message": "ਨਵੀਂ ਗੱਲਬਾਤ ਸ਼ੁਰੂ ਕਰੋ…",
         "description": "Label underneath number a user enters that is not an existing contact"
     },
     "newConversation": {
@@ -2018,11 +2018,11 @@
         "description": "Placeholder to use when searching for contacts in the composer"
     },
     "noContactsFound": {
-        "message": "ਕੋਈ ਸੰਪਰਕ ਨਹੀਂ ਲੱਭਿਆ ਹੈ",
+        "message": "ਕੋਈ ਸੰਪਰਕ ਨਹੀਂ ਲੱਭੇ",
         "description": "Label shown when there are no contacts to compose to"
     },
     "noConversationsFound": {
-        "message": "ਕੋਈ ਗੱਲਬਾਤ ਨਹੀਂ ਲੱਭੀ ਹੈ",
+        "message": "ਕੋਈ ਗੱਲਬਾਤ ਨਹੀਂ ਲੱਭੀ",
         "description": "Label shown when there are no conversations to compose to"
     },
     "chooseGroupMembers__title": {
@@ -2042,7 +2042,7 @@
         "description": "The 'next' button text in the 'choose group members' left pane screen"
     },
     "chooseGroupMembers__maximum-group-size__title": {
-        "message": "ਗਰੁੱਪ ਦੇ ਵੱਧ ਤੋਂ ਵੱਧ ਅਕਾਰ ਦੀ ਸੀਮਾ ਪੂਰੀ ਹੋਈ।",
+        "message": "ਗਰੁੱਪ ਦੇ ਵੱਧ ਤੋਂ ਵੱਧ ਅਕਾਰ ਦੀ ਸੀਮਾ ਪੂਰੀ ਹੋਈ",
         "description": "Shown in the alert when you add the maximum number of group members"
     },
     "chooseGroupMembers__maximum-group-size__body": {
@@ -2060,7 +2060,7 @@
         "description": "Shown in the alert when you add the maximum recommended number of group members"
     },
     "chooseGroupMembers__maximum-recommended-group-size__body": {
-        "message": "Signal ਗਰੁੱਪ $max$ ਜਾਂ ਇਸਤੋਂ ਘੱਟ ਮੈਂਬਰਾਂ ਨਾਲ ਬਿਹਤਰੀਨ ਕਾਰਗੁਜ਼ਾਰੀ ਕਰਦੇ ਹਨ। ਹੋਰ ਮੈਂਬਰ ਜੋੜਨ ਨਾਲ ਸੁਨੇਹੇ ਭੇਜਣ ਅਤੇ ਪ੍ਰਾਪਤ ਕਰਨ ਵਿੱਚ ਦੇਰੀ ਹੋ ਸਕਦੀ ਹੈ।",
+        "message": "Signal ਗਰੁੱਪ $max$ ਜਾਂ ਇਸਤੋਂ ਘੱਟ ਮੈਂਬਰਾਂ ਨਾਲ ਬਿਹਤਰੀਨ ਕਾਰਗੁਜ਼ਾਰੀ ਕਰਦੇ ਹਨ। ਹੋਰ ਮੈਂਬਰ ਸ਼ਾਮਲ ਕਰਨ ਨਾਲ ਸੁਨੇਹੇ ਭੇਜਣ ਅਤੇ ਪ੍ਰਾਪਤ ਕਰਨ ਵਿੱਚ ਦੇਰੀ ਹੋਵੇਗੀ।",
         "description": "Shown in the alert when you add the maximum recommended number of group members",
         "placeholders": {
             "max": {
@@ -2070,11 +2070,11 @@
         }
     },
     "chooseGroupMembers__cant-add-member__title": {
-        "message": "ਮੈਂਬਰ ਜੋੜਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ ਹੈ",
+        "message": "ਮੈਂਬਰ ਨੂੰ ਸ਼ਾਮਲ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ",
         "description": "Shown in the alert when you try to add someone who can't be added to a group"
     },
     "chooseGroupMembers__cant-add-member__body": {
-        "message": "\"$name$\" ਨੂੰ ਗਰੁੱਪ ਵਿੱਚ ਨਹੀਂ ਜੋੜਿਆ ਜਾ ਸਕਦਾ ਕਿਉਂਕਿ ਉਹ Signal ਦਾ ਕੋਈ ਪੁਰਾਣਾ ਸੰਸਕਰਣ ਵਰਤ ਰਹੇ ਹਨ। ਉਹਨਾਂ ਦੁਆਰਾ Signal ਨੂੰ ਅਪਡੇਟ ਕਰ ਲੈਣ ਤੋਂ ਬਾਅਦ ਤੁਸੀਂ ਉਹਨਾਂ ਨੂੰ ਗਰੁੱਪ ਵਿੱਚ ਜੋੜ ਸਕਦੇ ਹੋ।",
+        "message": "\"$name$\" ਨੂੰ ਗਰੁੱਪ ਵਿੱਚ ਨਹੀਂ ਸ਼ਾਮਲ ਕੀਤਾ ਜਾ ਸਕਦਾ ਕਿਉਂਕਿ ਉਹ Signal ਦਾ ਕੋਈ ਪੁਰਾਣਾ ਸੰਸਕਰਣ ਵਰਤ ਰਹੇ ਹਨ। ਉਹਨਾਂ ਦੁਆਰਾ Signal ਨੂੰ ਅਪਡੇਟ ਕਰ ਲੈਣ ਤੋਂ ਬਾਅਦ ਤੁਸੀਂ ਉਹਨਾਂ ਨੂੰ ਗਰੁੱਪ ਵਿੱਚ ਸ਼ਾਮਲ ਕਰ ਸਕਦੇ ਹੋ।",
         "description": "Shown in the alert when you try to add someone who can't be added to a group",
         "placeholders": {
             "max": {
@@ -2084,7 +2084,7 @@
         }
     },
     "setGroupMetadata__title": {
-        "message": "ਇਸ ਗਰੁੱਪ ਦਾ ਨਾਂ",
+        "message": "ਇਸ ਗਰੁੱਪ ਨੂੰ ਨਾਂ ਦਿਓ",
         "description": "The title for the 'set group metadata' left pane screen"
     },
     "setGroupMetadata__back-button": {
@@ -2096,7 +2096,7 @@
         "description": "The placeholder for the group name placeholder"
     },
     "setGroupMetadata__group-description-placeholder": {
-        "message": "ਵਰਣਨ",
+        "message": "ਵੇਰਵਾ",
         "description": "The placeholder for the group description"
     },
     "setGroupMetadata__create-group": {
@@ -2108,15 +2108,15 @@
         "description": "The header for the members list in the 'set group metadata' left pane screen"
     },
     "setGroupMetadata__error-message": {
-        "message": "ਇਹ ਗਰੁੱਪ ਨਹੀਂ ਬਣਾਇਆ ਜਾ ਸਕਿਆ। ਆਪਣਾ ਕਨੈਕਸ਼ਨ ਚੈਂਕ ਕਰੋ ਅਤੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।",
+        "message": "ਇਹ ਗਰੁੱਪ ਨਹੀਂ ਬਣਾਇਆ ਜਾ ਸਕਿਆ। ਆਪਣਾ ਕਨੈਕਸ਼ਨ ਚੈੱਕ ਕਰੋ ਅਤੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।",
         "description": "Shown in the modal when we can't create a group"
     },
     "updateGroupAttributes__title": {
-        "message": "ਸਮੂਹ ਸੰਪਾਦਿਤ ਕਰੋ",
+        "message": "ਗਰੁੱਪ ਨੂੰ ਸੰਪਾਦਿਤ ਕਰੋ",
         "description": "Shown in the modal when we want to update a group"
     },
     "updateGroupAttributes__error-message": {
-        "message": "ਗਰੁੱਪ ਨੂੰ ਅਪਡੇਟ ਕਰਨ ਵਿੱਚ ਅਸਫ਼ਲ। ਆਪਣਾ ਕਨੈਕਸ਼ਨ ਚੈਂਕ ਕਰੋ ਅਤੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।",
+        "message": "ਗਰੁੱਪ ਨੂੰ ਅਪਡੇਟ ਕਰਨ ਵਿੱਚ ਅਸਫ਼ਲ। ਆਪਣਾ ਕਨੈਕਸ਼ਨ ਚੈੱਕ ਕਰੋ ਅਤੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।",
         "description": "Shown in the modal when we can't update a group"
     },
     "notSupportedSMS": {
@@ -2124,7 +2124,7 @@
         "description": "Label underneath number informing user that SMS is not supported on desktop"
     },
     "newPhoneNumber": {
-        "message": "ਸੰਪਰਕ ਜੋੜਨ ਲਈ ਫ਼ੋਨ ਨੰਬਰ ਦਿਓ।",
+        "message": "ਕੋਈ ਸੰਪਰਕ ਜੋੜਨ ਲਈ ਫ਼ੋਨ ਨੰਬਰ ਦਰਜ ਕਰੋ।",
         "description": "Placeholder for adding a new number to a contact"
     },
     "invalidNumberError": {
@@ -2136,7 +2136,7 @@
         "description": ""
     },
     "unlinked": {
-        "message": "ਲਿੰਕ ਹਟਾਓ",
+        "message": "ਲਿੰਕ ਨਹੀਂ ਕੀਤਾ ਹੋਇਆ",
         "description": ""
     },
     "relink": {
@@ -2144,15 +2144,15 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Signal ਅੱਪਡੇਟ ਮੌਜੂਦ ਹੈ",
+        "message": "Signal ਅੱਪਡੇਟ ਮੌਜੂਦ",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "Signal ਦਾ ਨਵਾਂ ਵਰਜ਼ਨ ਮੌਜੂਦ ਹੈ।",
+        "message": "Signal ਦਾ ਨਵਾਂ ਸੰਸਕਰਣ ਮੌਜੂਦ ਹੈ।",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "ਅੱਪਡੇਟ ਲਾਗੂ ਕਰਨ ਲਈ Signal ਮੁੜ-ਚਾਲੂ ਨੂੰ ਦਬਾਓ।",
+        "message": "ਅੱਪਡੇਟ ਲਾਗੂ ਕਰਨ ਲਈ Signal ਮੁੜ ਚਾਲੂ ਕਰੋ ਨੂੰ ਦਬਾਓ।",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
@@ -2194,11 +2194,11 @@
         }
     },
     "youUpdatedTheGroup": {
-        "message": "ਤੁਸੀਂ ਗਰੁੱਪ ਨੂੰ ਅਪਡੇਟ ਕੀਤਾ.",
+        "message": "ਤੁਸੀਂ ਗਰੁੱਪ ਨੂੰ ਅੱਪਡੇਟ ਕੀਤਾ।",
         "description": "Shown in the conversation history when you update a group"
     },
     "updatedGroupAvatar": {
-        "message": "ਗਰੁੱਪ ਅਵਤਾਰ ਨੂੰ ਅੱਪਡੇਟ ਕੀਤਾ।",
+        "message": "ਗਰੁੱਪ ਅਵਤਾਰ ਨੂੰ ਅੱਪਡੇਟ ਕੀਤਾ ਗਿਆ।",
         "description": "Shown in the conversation history when someone updates the group"
     },
     "titleIsNow": {
@@ -2212,11 +2212,11 @@
         }
     },
     "youJoinedTheGroup": {
-        "message": "ਤੁਸੀਂ ਗਰੁੱਪ ਵਿੱਚ ਸ਼ਾਮਲ ਹੋਏ.",
+        "message": "ਤੁਸੀਂ ਗਰੁੱਪ ਵਿੱਚ ਸ਼ਾਮਲ ਹੋਏ।",
         "description": "Shown in the conversation history when you are added to a group."
     },
     "joinedTheGroup": {
-        "message": "$name$ ਗਰੁੱਪ ਦਾ ਮੈਂਬਰ ਬਣੇ।",
+        "message": "$name$ ਗਰੁੱਪ ਦੇ ਮੈਂਬਰ ਬਣੇ।",
         "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {
@@ -2226,7 +2226,7 @@
         }
     },
     "multipleJoinedTheGroup": {
-        "message": "$names$ ਨੇ ਗਰੁੱਪ ਜੁਆਇੰਨ ਕੀਤਾ।",
+        "message": "$names$ ਗਰੁੱਪ ਦੇ ਮੈਂਬਰ ਬਣੇ।",
         "description": "Shown in the conversation history when more than one person joins the group",
         "placeholders": {
             "names": {
@@ -2240,7 +2240,7 @@
         "description": "Preview shown for conversation if the user has not yet accepted an incoming message request"
     },
     "ConversationListItem--draft-prefix": {
-        "message": "ਡਰਾਫਟ:",
+        "message": "ਡ੍ਰਾਫ਼ਟ:",
         "description": "Prefix shown in italic in conversation view when a draft is saved"
     },
     "message--getNotificationText--gif": {
@@ -2248,7 +2248,7 @@
         "description": "Shown in notifications and in the left pane when a GIF is received."
     },
     "message--getNotificationText--photo": {
-        "message": "ਫੋਟੋ",
+        "message": "ਫ਼ੋਟੋ",
         "description": "Shown in notifications and in the left pane when a photo is received."
     },
     "message--getNotificationText--video": {
@@ -2256,7 +2256,7 @@
         "description": "Shown in notifications and in the left pane when a video is received."
     },
     "message--getNotificationText--voice-message": {
-        "message": "ਆਵਾਜ਼ ਦਾ ਸੁਨੇਹਾ",
+        "message": "ਆਵਾਜ਼ ਵਾਲਾ ਸੁਨੇਹਾ",
         "description": "Shown in notifications and in the left pane when a voice message is received."
     },
     "message--getNotificationText--audio-message": {
@@ -2264,7 +2264,7 @@
         "description": "Shown in notifications and in the left pane when an audio message is received."
     },
     "message--getNotificationText--file": {
-        "message": "ਫਾਈਲ",
+        "message": "ਫ਼ਾਈਲ",
         "description": "Shown in notifications and in the left pane when a generic file is received."
     },
     "message--getNotificationText--stickers": {
@@ -2286,7 +2286,7 @@
         }
     },
     "message--getDescription--unsupported-message": {
-        "message": "ਗ਼ੈਰ-ਸਹਾਇਕ ਸੁਨੇਹਾ",
+        "message": "ਗੈਰ-ਸਮਰਥਿਤ ਸੁਨੇਹਾ",
         "description": "Shown in notifications and in the left pane when a message has features too new for this signal install."
     },
     "message--getDescription--disappearing-media": {
@@ -2294,7 +2294,7 @@
         "description": "Shown in notifications and in the left pane after view-once message is deleted. Also shown when quoting a view once media."
     },
     "message--getDescription--disappearing-photo": {
-        "message": "ਇੱਕ ਵਾਰ ਦੇਖਣਯੋਗ ਤਸਵੀਰ",
+        "message": "ਇੱਕ ਵਾਰ ਦੇਖਣਯੋਗ ਫ਼ੋਟੋ",
         "description": "Shown in notifications and in the left pane when a message is a view once photo. Also shown when quoting a view once photo."
     },
     "message--getDescription--disappearing-video": {
@@ -2302,7 +2302,7 @@
         "description": "Shown in notifications and in the left pane when a message is a view once video. Also shown when quoting a view once video."
     },
     "message--deletedForEveryone": {
-        "message": "ਇਹ ਸੁਨੇਹਾ ਮਿਟਾਇਆ ਗਿਆ ਸੀ.",
+        "message": "ਇਹ ਸੁਨੇਹਾ ਮਿਟਾਇਆ ਗਿਆ ਸੀ।",
         "description": "Shown in a message's bubble when the message has been deleted for everyone."
     },
     "stickers--toast--InstallFailed": {
@@ -2310,11 +2310,11 @@
         "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
     },
     "stickers--StickerManager--InstalledPacks": {
-        "message": "ਇੰਸਟੌਲ ਕੀਤੇ ਸਟਿੱਕਰ",
+        "message": "ਸਥਾਪਤ ਕੀਤੇ ਸਟਿੱਕਰ",
         "description": "Shown in the sticker pack manager above your installed sticker packs."
     },
     "stickers--StickerManager--InstalledPacks--Empty": {
-        "message": "ਕੋਈ ਸਟਿੱਕਰ ਇੰਸਟੌਲ ਨਹੀਂ ਕੀਤੇ ਗਏ",
+        "message": "ਕੋਈ ਸਟਿੱਕਰ ਸਥਾਪਤ ਨਹੀਂ ਕੀਤੇ ਗਏ",
         "description": "Shown in the sticker pack manager when you don't have any installed sticker packs."
     },
     "stickers--StickerManager--BlessedPacks": {
@@ -2322,7 +2322,7 @@
         "description": "Shown in the sticker pack manager above the default sticker packs."
     },
     "stickers--StickerManager--BlessedPacks--Empty": {
-        "message": "ਕੋਈ Signal ਆਰਟਿਸਟ ਸਟਿੱਕਰ ਉਪਲਬਧ ਨਹੀਂ",
+        "message": "ਕੋਈ Signal ਕਲਾਕਾਰ ਸਟਿੱਕਰ ਉਪਲਬਧ ਨਹੀਂ",
         "description": "Shown in the sticker pack manager when there are no blessed sticker packs available."
     },
     "stickers--StickerManager--ReceivedPacks": {
@@ -2334,11 +2334,11 @@
         "description": "Shown in the sticker pack manager when you have not received any sticker packs in messages."
     },
     "stickers--StickerManager--Install": {
-        "message": "ਇੰਸਟਾਲ ਕਰੋ",
+        "message": "ਸਥਾਪਤ ਕਰੋ",
         "description": "Shown in the sticker pack manager next to sticker packs which can be installed."
     },
     "stickers--StickerManager--Uninstall": {
-        "message": "ਅਨਇੰਸਟਾਲ ਕਰੋ",
+        "message": "ਅਣ-ਸਥਾਪਤ ਕਰੋ",
         "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
     },
     "stickers--StickerManager--UninstallWarning": {
@@ -2382,7 +2382,7 @@
         "description": "Shown in the sticker picker when one or more stickers could not be downloaded."
     },
     "stickers--StickerPicker--DownloadPending": {
-        "message": "ਸਟਿੱਕਰ ਪੈਕ ਇੰਸਟਾਲ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ…",
+        "message": "ਸਟਿੱਕਰ ਪੈਕ ਸਥਾਪਤ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ…",
         "description": "Shown in the sticker picker when one or more stickers are still downloading."
     },
     "stickers--StickerPicker--Empty": {
@@ -2406,15 +2406,15 @@
         "description": "The title that appears in the sticker pack preview modal."
     },
     "stickers--StickerPreview--Error": {
-        "message": "ਸਟਿੱਕਰ ਪੈਕ ਨੂੰ ਖੋਲ੍ਹਣ ਵਿੱਚ ਗਲਤੀ। ਆਪਣਾ ਇੰਟਰਨੈੱਟ ਕਨੈਕਸ਼ਨ ਚੈੱਕ ਕਰੋ ਅਤੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।",
+        "message": "ਸਟਿੱਕਰ ਪੈਕ ਨੂੰ ਖੋਲ੍ਹਣ ਵਿੱਚ ਤਰੁੱਟੀ। ਆਪਣਾ ਇੰਟਰਨੈੱਟ ਕਨੈਕਸ਼ਨ ਚੈੱਕ ਕਰੋ ਅਤੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।",
         "description": "The message that appears in the sticker preview modal when there is an error."
     },
     "EmojiPicker--empty": {
-        "message": "ਕੋਈ ਈਮੋਜ਼ੀ ਨਹੀਂ ਲੱਭਿਆ",
+        "message": "ਕੋਈ ਇਮੋਜੀ ਨਹੀਂ ਲੱਭਿਆ",
         "description": "Shown in the emoji picker when a search yields 0 results."
     },
     "EmojiPicker--search-placeholder": {
-        "message": "ਈਮੋਜ਼ੀ ਲੱਭੋ",
+        "message": "ਇਮੋਜੀ ਖੋਜੋ",
         "description": "Shown as a placeholder inside the emoji picker search field."
     },
     "EmojiPicker--skin-tone": {
@@ -2432,15 +2432,15 @@
         "description": "Label for recents emoji picker button"
     },
     "EmojiPicker__button--emoji": {
-        "message": "ਈਮੋਜ਼ੀ",
+        "message": "ਇਮੋਜੀ",
         "description": "Label for emoji emoji picker button"
     },
     "EmojiPicker__button--animal": {
-        "message": "ਜਨੌਰ",
+        "message": "ਜਾਨਵਰ",
         "description": "Label for animal emoji picker button"
     },
     "EmojiPicker__button--food": {
-        "message": "ਖਾਣ-ਪੀਣ",
+        "message": "ਭੋਜਨ",
         "description": "Label for food emoji picker button"
     },
     "EmojiPicker__button--activity": {
@@ -2468,7 +2468,7 @@
         "description": "Appears on the cancel button in confirmation dialogs."
     },
     "Message--unsupported-message": {
-        "message": "$contact$ ਨੇ ਤੁਹਾਨੂੰ ਇੱਕ ਸੁਨੇਹਾ ਭੇਜਿਆ ਜਿਸ ਨੂੰ ਪ੍ਰੋਸੈਸ ਜਾਂ ਡਿਸਪਲੇ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ ਕਿਉਂਕਿ ਇਹ Signal ਦੇ ਇੱਕ ਨਵੇਂ ਫ਼ੀਚਰ ਦੀ ਵਰਤੋਂ ਕਰਦਾ ਹੈ।",
+        "message": "$contact$ ਨੇ ਤੁਹਾਨੂੰ ਇੱਕ ਸੁਨੇਹਾ ਭੇਜਿਆ ਜਿਸ ਨੂੰ ਪ੍ਰੋਸੈਸ ਜਾਂ ਡਿਸਪਲੇ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ ਕਿਉਂਕਿ ਇਹ Signal ਦੀ ਇੱਕ ਨਵੀਂ ਵਿਸ਼ੇਸ਼ਤਾ ਦੀ ਵਰਤੋਂ ਕਰਦਾ ਹੈ।",
         "description": "",
         "placeholders": {
             "contact": {
@@ -2488,15 +2488,15 @@
         }
     },
     "Message--from-me-unsupported-message": {
-        "message": "ਤੁਹਾਡੀ ਕਿਸੇ ਇੱਕ ਡਿਵਾਈਸ ਤੋਂ ਸੁਨੇਹਾ ਭੇਜਿਆ ਗਿਆ ਜਿਸ ਨੂੰ ਪ੍ਰੋਸੈਸ ਜਾਂ ਡਿਸਪਲੇ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ ਕਿਉਂਕਿ ਇਹ Signal ਦੇ ਕਿਸੇ ਨਵੇਂ ਫ਼ੀਚਰ ਦੀ ਵਰਤੋਂ ਕਰਦਾ ਹੈ।",
+        "message": "ਤੁਹਾਡੀ ਕਿਸੇ ਇੱਕ ਡਿਵਾਈਸ ਤੋਂ ਸੁਨੇਹਾ ਭੇਜਿਆ ਗਿਆ ਜਿਸ ਨੂੰ ਪ੍ਰੋਸੈਸ ਜਾਂ ਡਿਸਪਲੇ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ ਕਿਉਂਕਿ ਇਹ Signal ਦੀ ਕਿਸੇ ਨਵੀਂ ਵਿਸ਼ੇਸ਼ਤਾ ਦੀ ਵਰਤੋਂ ਕਰਦਾ ਹੈ।",
         "description": ""
     },
     "Message--from-me-unsupported-message-ask-to-resend": {
-        "message": "ਹੁਣ ਜੋ ਤੁਸੀਂ Signal ਦੇ ਬਿਲਕੁਲ ਨਵੇਂ ਸੰਸਕਰਣ ਦੀ ਵਰਤੋਂ ਕਰ ਰਹੇ ਹੋ ਤਾਂ ਭਵਿੱਖ ਦੇ ਅਜਿਹੇ ਸੁਨੇਹੇ ਸਿੰਕ੍ਰੋਨਾਈਜ਼ ਕੀਤੇ ਜਾਣਗੇ।",
+        "message": "ਹੁਣ ਜੋ ਤੁਸੀਂ Signal ਦੇ ਬਿਲਕੁਲ ਨਵੇਂ ਸੰਸਕਰਣ ਦੀ ਵਰਤੋਂ ਕਰ ਰਹੇ ਹੋ ਤਾਂ ਭਵਿੱਖ ਦੇ ਅਜਿਹੇ ਸੁਨੇਹਿਆਂ ਨੂੰ ਸਮਕਾਲੀ ਬਣਾਇਆ ਜਾਵੇਗਾ।",
         "description": ""
     },
     "Message--update-signal": {
-        "message": "ਅਪਡੇਟ Signal",
+        "message": "Signal ਨੂੰ ਅੱਪਡੇਟ ਕਰੋ",
         "description": "Text for a button which will take user to Signal download page"
     },
     "Message--tap-to-view-expired": {
@@ -2508,7 +2508,7 @@
         "description": "Text shown on outgoing messages with with individual timers (inaccessible)"
     },
     "Message--tap-to-view--incoming--expired-toast": {
-        "message": "ਤੁਸੀਂ ਪਹਿਲਾਂ ਤੋਂ ਹੀ ਇਹ ਸੁਨੇਹਾ ਦੇਖ ਲਿਆ ਹੈ.",
+        "message": "ਤੁਸੀਂ ਪਹਿਲਾਂ ਤੋਂ ਹੀ ਇਹ ਸੁਨੇਹਾ ਦੇਖ ਲਿਆ ਹੈ।",
         "description": "Shown when user clicks on an expired incoming view-once bubble"
     },
     "Message--tap-to-view--outgoing--expired-toast": {
@@ -2516,7 +2516,7 @@
         "description": "Shown when user clicks on an expired outgoing view-once bubble"
     },
     "Message--tap-to-view--incoming": {
-        "message": "ਤਸਵੀਰ ਦੇਖੋ",
+        "message": "ਫ਼ੋਟੋ ਦੇਖੋ",
         "description": "Text shown on photo messages with with individual timers, before user has viewed it"
     },
     "Message--tap-to-view--incoming-video": {
@@ -2528,7 +2528,7 @@
         "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
     },
     "Conversation--getDraftPreview--quote": {
-        "message": "(ਕੋਟ)",
+        "message": "(ਹਵਾਲਾ)",
         "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
     },
     "Conversation--getDraftPreview--draft": {
@@ -2576,7 +2576,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--search": {
-        "message": "ਖੋਜ",
+        "message": "ਖੋਜ'",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--search-in-conversation": {
@@ -2584,11 +2584,11 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--focus-composer": {
-        "message": "ਕੰਪੋਜ਼ਰ ’ਤੇ ਧਿਆਨ ਦਿਓ",
+        "message": "ਫ਼ੋਕਸ ਕੰਪੋਜ਼ਰ",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-all-media-view": {
-        "message": "ਸਾਰਾ ਮੀਡੀਆ ਦ੍ਰਿਸ਼ ਖੋਲ੍ਹੋ",
+        "message": "ਸਾਰੇ ਮੀਡੀਆ ਦ੍ਰਿਸ਼ ਖੋਲ੍ਹੋ",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-emoji-chooser": {
@@ -2600,7 +2600,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--begin-recording-voice-note": {
-        "message": "ਵੌਇਸ ਸੁਨੇਹੇ ਦੀ ਰਿਕਾਰਡਿੰਗ ਸ਼ੁਰੂ ਕਰੋ",
+        "message": "ਅਵਾਜ਼ ਵਾਲੇ ਸੁਨੇਹੇ ਦੀ ਰਿਕਾਰਡਿੰਗ ਸ਼ੁਰੂ ਕਰੋ",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--default-message-action": {
@@ -2612,19 +2612,19 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-reply": {
-        "message": "ਚੁਣੇ ਹੋਏ ਸੁਨੇੇਹੇ ਲਈ ਜਵਾਬ ਟੌਗਲ ਕਰੋ",
+        "message": "ਚੁਣੇ ਹੋਏ ਸੁਨੇੇਹੇ ਲਈ ਜਵਾਬ ਦੀ ਅਦਲਾ-ਬਦਲੀ ਕਰੋ",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-reaction-picker": {
-        "message": "ਚੁਣੇ ਹੋਏ ਸੁਨੇਹੇ ਲਈ ਇਮੋਜੀ-ਪ੍ਰਤਿਕਿਰਿਆ ਚੋਣਕਾਰ ਟੌਗਲ ਕਰੋ",
+        "message": "ਚੁਣੇ ਹੋਏ ਸੁਨੇਹੇ ਲਈ ਇਮੋਜੀ-ਪ੍ਰਤਿਕਿਰਿਆ ਚੋਣਕਾਰ ਦੀ ਅਦਲਾ-ਬਦਲੀ ਕਰੋ",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--save-attachment": {
-        "message": "ਚੁਣੇ ਹੋਏ ਸੁਨੇਹੇ ਲਈ ਅਟੈਚਮੈਂਟ ਸੁਰੱਖਿਅਤ ਕਰੋ",
+        "message": "ਚੁਣੇ ਹੋਏ ਸੁਨੇਹੇ ਲਈ ਅਟੈਚਮੈਂਟ ਨੂੰ ਸੰਭਾਲੋ",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--delete-message": {
-        "message": "ਚੁਣਿਆ ਸੁਨੇਹਾ ਹਟਾਓ",
+        "message": "ਚੁਣਿਆ ਹੋਇਆ ਸੁਨੇਹਾ ਮਿਟਾਓ",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--add-newline": {
@@ -2636,11 +2636,11 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--send-in-expanded-composer": {
-        "message": "ਭੇਜੋ (ਫੈਲਾਏ ਹੋਰ ਕੰਪੋਜ਼ਰ ਵਿੱਚ)",
+        "message": "ਭੇਜੋ (ਫੈਲਾਏ ਹੋਏ ਕੰਪੋਜ਼ਰ ਵਿੱਚ)",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--attach-file": {
-        "message": "ਫਾਇਲ ਅਟੈਚ ਕਰੋ",
+        "message": "ਫ਼ਾਈਲ ਅਟੈਚ ਕਰੋ",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--remove-draft-link-preview": {
@@ -2700,11 +2700,11 @@
         "description": "Header of the keyboard shortcuts guide - composer section"
     },
     "Keyboard--scroll-to-top": {
-        "message": "ਸੂਚੀ ਦੇ ਸਿਖਰ ਤਕ ਸਕ੍ਰੋਲ ਕਰੋ",
+        "message": "ਸੂਚੀ ਦੇ ਸਿਖਰ ਤਕ ਸਰਕਾਓ",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--scroll-to-bottom": {
-        "message": "ਸੂਚੀ ਦੇ ਹੇਠਾਂ ਤਕ ਸਕ੍ਰੋਲ ਕਰੋ",
+        "message": "ਸੂਚੀ ਦੇ ਹੇਠਾਂ ਤਕ ਸਰਕਾਓ",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--close-curent-conversation": {
@@ -2716,11 +2716,11 @@
         "description": "Header of the keyboard shortcuts guide - calling section"
     },
     "Keyboard--toggle-audio": {
-        "message": "ਮਿਊਟ ਆੱਨ ਅਤੇ ਆੱਫ਼ ਨੂੰ ਟੌਗਲ ਕਰੋ",
+        "message": "ਮਿਊਟ ਆੱਨ ਅਤੇ ਆੱਫ਼ ਵਿੱਚ ਅਦਲਾ-ਬਦਲੀ ਕਰੋ",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-video": {
-        "message": "ਵੀਡੀਓ ਆੱਨ ਅਤੇ ਆਫ਼ ਨੂੰ ਟੌਗਲ ਕਰੋ",
+        "message": "ਵੀਡੀਓ ਆੱਨ ਅਤੇ ਆਫ਼ ਵਿੱਚ ਅਦਲਾ-ਬਦਲੀ ਕਰੋ",
         "description": "Shown in the shortcuts guide"
     },
     "close-popup": {
@@ -2748,7 +2748,7 @@
         "description": "A toast that shows up when the user unarchives a conversation"
     },
     "conversationMarkedUnread": {
-        "message": "ਗੱਲਬਾਤ ਨੂੰ ਪੜ੍ਹੀ ਗਈ ਵਜੋਂ ਅੰਕਿਤ ਕੀਤਾ ਗਿਆ",
+        "message": "ਗੱਲਬਾਤ ਨੂੰ ਪੜ੍ਹੀ ਗਈ ਵਜੋਂ ਚਿੰਨ੍ਹ ਲਾਇਆ ਗਿਆ",
         "description": "A toast that shows up when user marks a conversation as unread"
     },
     "StickerCreator--title": {
@@ -2780,7 +2780,7 @@
         "description": "Title for Facebook button"
     },
     "StickerCreator--ShareButtons--twitter": {
-        "message": "ਟਵਿਟਰ",
+        "message": "Twitter",
         "description": "Title for Twitter button"
     },
     "StickerCreator--ShareButtons--pinterest": {
@@ -2822,7 +2822,7 @@
         }
     },
     "StickerCreator--EmojiStage--title": {
-        "message": "ਹਰੇਕ ਸਟਿੱਕਰ ਵਿੱਚ ਇੱਕ ਇਮੋਜੀ ਜੋੜੋ",
+        "message": "ਹਰੇਕ ਸਟਿੱਕਰ ਵਿੱਚ ਕੋਈ ਇਮੋਜੀ ਜੋੜੋ",
         "description": "Title for the drop stage of the sticker creator"
     },
     "StickerCreator--EmojiStage--help": {
@@ -2834,7 +2834,7 @@
         "description": "Title for the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--Field--title": {
-        "message": "ਨਾਂ",
+        "message": "ਸਿਰਲੇਖ",
         "description": "Label for the title input of the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--Field--author": {
@@ -2858,7 +2858,7 @@
         "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--ConfirmDialog--text": {
-        "message": "ਕਿਸੇ ਸਟਿੱਕਰ ਪੈਕ ਨੂੰ ਤਿਆਰ ਕਰਨ ਤੋਂ ਬਾਅਦ ਤੁਸੀਂ ਇਸ ਨੂੰ ਹੋਰ ਸੰਪਾਦਤ ਨਹੀਂ ਕਰ ਸਕੋਗੇ ਜਾਂ ਹਟਾ ਨਹੀਂ ਸਕੋਗੇ।",
+        "message": "ਕਿਸੇ ਸਟਿੱਕਰ ਪੈਕ ਨੂੰ ਤਿਆਰ ਕਰਨ ਤੋਂ ਬਾਅਦ ਤੁਸੀਂ ਇਸ ਨੂੰ ਹੋਰ ਸੰਪਾਦਤ ਨਹੀਂ ਕਰ ਸਕੋਗੇ ਜਾਂ ਮਿਟਾ ਨਹੀਂ ਸਕੋਗੇ।",
         "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--UploadStage--title": {
@@ -2880,7 +2880,7 @@
         }
     },
     "StickerCreator--ShareStage--title": {
-        "message": "ਵਧਾਈਆਂ! ਤੁਸੀਂ ਸਟਿੱਕਰ ਪੈਕ ਬਣਾਇਆ।",
+        "message": "ਵਧਾਈਆਂ! ਤੁਸੀਂ ਸਟਿੱਕਰ ਪੈਕ ਬਣਾਇਆ ਹੈ।",
         "description": "Title for the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--help": {
@@ -2888,7 +2888,7 @@
         "description": "Help text for the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--callToAction": {
-        "message": "ਹੋਰਨਾਂ ਲੋਕਾਂ ਨੂੰ ਕਿਸੇ ਵੀ ਕਸਟਮ ਸਟਿੱਕਰ ਪੈਕ ਜੋ ਤੁਸੀਂ ਜਨਤਕ ਤੌਰ 'ਤੇ ਪਹੁੰਚਯੋਗ ਬਣਾਉਣਾ ਚਾਹੁੰਦੇ ਹੋ, ਲਈ URL ਲੱਭਣ ਵਿੱਚ ਮਦਦ ਕਰਨ ਲਈ $hashtag$ ਹੈਸ਼ਟੈਗ ਦੀ ਵਰਤੋਂ ਕਰੋ।",
+        "message": "ਹੋਰਨਾਂ ਲੋਕਾਂ ਨੂੰ ਕਿਸੇ ਵੀ ਪਸੰਦੀਦਾ ਸਟਿੱਕਰ ਪੈਕ ਜੋ ਤੁਸੀਂ ਜਨਤਕ ਤੌਰ 'ਤੇ ਪਹੁੰਚਯੋਗ ਬਣਾਉਣਾ ਚਾਹੋਗੇ, ਲਈ URL ਲੱਭਣ ਵਿੱਚ ਮਦਦ ਕਰਨ ਲਈ $hashtag$ ਹੈਸ਼ਟੈਗ ਦੀ ਵਰਤੋਂ ਕਰੋ।",
         "description": "Call to action text for the share stage of the sticker creator",
         "placeholders": {
             "hashtag": {
@@ -2928,11 +2928,11 @@
         "description": "Text for the toast when an image that is animated was dropped on the sticker creator"
     },
     "StickerCreator--Toasts--tooLarge": {
-        "message": "ਸੁੱਟਿਆ ਗਿਆ ਚਿੱਤਰ ਬਹੁਤ ਵੱਡਾ ਹੈ",
+        "message": "ਡ੍ਰੌਪ ਕੀਤਾ ਚਿੱਤਰ ਬਹੁਤ ਵੱਡਾ ਹੈ",
         "description": "Text for the toast when an image that is too large was dropped on the sticker creator"
     },
     "StickerCreator--Toasts--errorProcessing": {
-        "message": "ਚਿੱਤਰ ਨੂੰ ਪ੍ਰੋਸੈੱਸ ਕਰਨ ਵਿੱਚ ਗਲਤੀ",
+        "message": "ਚਿੱਤਰ ਨੂੰ ਪ੍ਰੋਸੈੱਸ ਕਰਨ ਵਿੱਚ ਤਰੁੱਟੀ",
         "description": "Text for the toast when an image cannot be processed was dropped on the sticker creator with a generic error"
     },
     "StickerCreator--Toasts--APNG--notSquare": {
@@ -2952,7 +2952,7 @@
         "description": "Text for the toast when an APNG image in the sticker creator is too small"
     },
     "StickerCreator--Toasts--errorUploading": {
-        "message": "ਸਟਿੱਕਰਾਂ ਨੂੰ ਅਪਲੋਡ ਕਰਨ ਵਿੱਚ ਗਲਤੀ: $message$",
+        "message": "ਸਟਿੱਕਰਾਂ ਨੂੰ ਅਪਲੋਡ ਕਰਨ ਵਿੱਚ ਤਰੁੱਟੀ: $message$",
         "description": "Text for the toast when a sticker pack cannot be uploaded",
         "placeholders": {
             "message": {
@@ -2990,7 +2990,7 @@
         "description": "Shown in reaction viewer as the title for the 'all' category"
     },
     "MessageRequests--message-direct": {
-        "message": "$name$ ਨੂੰ ਤੁਹਾਨੂੰ ਸੁਨੇਹਾ ਭੇਜਣ ਅਤੇ ਉਹਨਾਂ ਨੂੰ ਤੁਹਾਡਾ ਨਾਮ ਅਤੇ ਤਸਵੀਰ ਸਾਂਝੀ ਕਰਨ ਦੀ ਆਗਿਆ ਦੇਣੀ ਹੈ? ਜਦੋਂ ਤਕ ਤੁਸੀਂ ਸਵੀਕਾਰ ਨਹੀਂ ਕਰ ਲੈਂਦੇ ਉਦੋਂ ਤਕ ਉਹਨਾਂ ਨੂੰ ਇਹ ਪਤਾ ਨਹੀਂ ਲੱਗੇਗਾ ਕਿ ਤੁਸੀਂ ਉਹਨਾਂ ਦੇ ਸੁਨੇਹੇ ਦੇਖ ਲਏ ਹਨ।",
+        "message": "$name$ ਨੂੰ ਤੁਹਾਨੂੰ ਸੁਨੇਹਾ ਭੇਜਣ ਅਤੇ ਉਹਨਾਂ ਨਾਲ ਤੁਹਾਡਾ ਨਾਂ ਅਤੇ ਫ਼ੋਟੋ ਸਾਂਝੀ ਕਰਨ ਦੀ ਆਗਿਆ ਦੇਣੀ ਹੈ? ਜਦੋਂ ਤਕ ਤੁਸੀਂ ਮਨਜ਼ੂਰ ਨਹੀਂ ਕਰ ਲੈਂਦੇ ਉਦੋਂ ਤਕ ਉਹਨਾਂ ਨੂੰ ਇਹ ਪਤਾ ਨਹੀਂ ਲੱਗੇਗਾ ਕਿ ਤੁਸੀਂ ਉਹਨਾਂ ਦੇ ਸੁਨੇਹੇ ਦੇਖ ਲਏ ਹਨ।",
         "description": "Shown as the message for a message request in a direct message",
         "placeholders": {
             "name": {
@@ -3000,7 +3000,7 @@
         }
     },
     "MessageRequests--message-direct-blocked": {
-        "message": "$name$ ਨੂੰ ਤੁਹਾਨੂੰ ਸੁਨੇਹਾ ਭੇਜਣ ਅਤੇ ਉਹਨਾਂ ਨੂੰ ਤੁਹਾਡਾ ਨਾਮ ਅਤੇ ਤਸਵੀਰ ਸਾਂਝੀ ਕਰਨ ਦੀ ਆਗਿਆ ਦੇਣੀ ਹੈ? ਜਦੋਂ ਤਕ ਤੁਸੀਂ ਉਹਨਾਂ ਨੂੰ ਅਨਬਲੌਕ ਨਹੀਂ ਕਰ ਦਿੰਦੇ ਉਦੋਂ ਤਕ ਤੁਹਾਨੂੰ ਕੋਈ ਵੀ ਸੁਨੇਹੇ ਪ੍ਰਾਪਤ ਨਹੀਂ ਹੋਣਗੇ।",
+        "message": "$name$ ਨੂੰ ਤੁਹਾਨੂੰ ਸੁਨੇਹਾ ਭੇਜਣ ਅਤੇ ਉਹਨਾਂ ਨੂੰ ਤੁਹਾਡਾ ਨਾਂ ਅਤੇ ਫ਼ੋਟੋ ਸਾਂਝੀ ਕਰਨ ਦੀ ਆਗਿਆ ਦੇਣੀ ਹੈ? ਜਦੋਂ ਤਕ ਤੁਸੀਂ ਉਹਨਾਂ ਤੋਂ ਪਾਬੰਦੀ ਹਟਾ ਨਹੀਂ ਦਿੰਦੇ ਉਦੋਂ ਤਕ ਤੁਹਾਨੂੰ ਕੋਈ ਵੀ ਸੁਨੇਹੇ ਪ੍ਰਾਪਤ ਨਹੀਂ ਹੋਣਗੇ।",
         "description": "Shown as the message for a message request in a direct message with a blocked account",
         "placeholders": {
             "name": {
@@ -3010,7 +3010,7 @@
         }
     },
     "MessageRequests--message-group": {
-        "message": "ਇਸ ਗਰੁੱਪ ਵਿੱਚ ਸ਼ਾਮਲ ਹੋਣਾ ਅਤੇ ਇਸਦੇ ਮੈਂਬਰਾਂ ਨਾਲ ਆਪਣਾ ਨਾਮ ਅਤੇ ਤਸਵੀਰ ਸਾਂਝੀ ਕਰਨੀ ਚਾਹੁੰਦੇ ਹੋ? ਜਦੋਂ ਤਕ ਤੁਸੀਂ ਸਵੀਕਾਰ ਨਹੀਂ ਕਰ ਲੈਂਦੇ ਉਦੋਂ ਤਕ ਉਹਨਾਂ ਨੂੰ ਇਹ ਪਤਾ ਨਹੀਂ ਲੱਗੇਗਾ ਕਿ ਤੁਸੀਂ ਉਹਨਾਂ ਦੇ ਸੁਨੇਹੇ ਦੇਖ ਲਏ ਹਨ।",
+        "message": "ਇਸ ਗਰੁੱਪ ਵਿੱਚ ਸ਼ਾਮਲ ਹੋਣਾ ਅਤੇ ਇਸਦੇ ਮੈਂਬਰਾਂ ਨਾਲ ਆਪਣਾ ਨਾਂ ਅਤੇ ਫ਼ੋਟੋ ਸਾਂਝੀ ਕਰਨੀ ਚਾਹੁੰਦੇ ਹੋ? ਜਦੋਂ ਤਕ ਤੁਸੀਂ ਮਨਜ਼ੂਰ ਨਹੀਂ ਕਰ ਲੈਂਦੇ ਉਦੋਂ ਤਕ ਉਹਨਾਂ ਨੂੰ ਇਹ ਪਤਾ ਨਹੀਂ ਲੱਗੇਗਾ ਕਿ ਤੁਸੀਂ ਉਹਨਾਂ ਦੇ ਸੁਨੇਹੇ ਦੇਖ ਲਏ ਹਨ।",
         "description": "Shown as the message for a message request in a group",
         "placeholders": {
             "name": {
@@ -3020,15 +3020,15 @@
         }
     },
     "MessageRequests--message-group-blocked": {
-        "message": "ਇਸ ਗਰੁੱਪ ਨੂੰ ਅਨਬਲੌਕ ਕਰਨਾ ਅਤੇ ਇਸਦੇ ਮੈਂਬਰਾਂ ਨਾਲ ਆਪਣਾ ਨਾਮ ਅਤੇ ਤਸਵੀਰ ਸਾਂਝੀ ਕਰਨੀ ਚਾਹੁੰਦੇ ਹੋ? ਜਦੋਂ ਤਕ ਤੁਸੀਂ ਉਹਨਾਂ ਨੂੰ ਅਨਬਲੌਕ ਨਹੀਂ ਕਰ ਦਿੰਦੇ ਉਦੋਂ ਤਕ ਤੁਹਾਨੂੰ ਕੋਈ ਵੀ ਸੁਨੇਹੇ ਪ੍ਰਾਪਤ ਨਹੀਂ ਹੋਣਗੇ।",
+        "message": "ਇਸ ਗਰੁੱਪ ਨੂੰ ਅਨਬਲੌਕ ਕਰਨਾ ਅਤੇ ਇਸਦੇ ਮੈਂਬਰਾਂ ਨਾਲ ਆਪਣਾ ਨਾਂ ਅਤੇ ਫ਼ੋਟੋ ਸਾਂਝੀ ਕਰਨੀ ਚਾਹੁੰਦੇ ਹੋ? ਜਦੋਂ ਤਕ ਤੁਸੀਂ ਉਹਨਾਂ ਤੋਂ ਪਾਬੰਦੀ ਹਟਾ ਨਹੀਂ ਦਿੰਦੇ ਉਦੋਂ ਤਕ ਤੁਹਾਨੂੰ ਕੋਈ ਵੀ ਸੁਨੇਹੇ ਪ੍ਰਾਪਤ ਨਹੀਂ ਹੋਣਗੇ।",
         "description": "Shown as the message for a message request in a blocked group"
     },
     "MessageRequests--block": {
-        "message": "ਬਲੌਕ ਕਰੋ",
+        "message": "ਪਾਬੰਦੀ ਲਾਓ",
         "description": "Shown as a button to let the user block a message request"
     },
     "MessageRequests--unblock": {
-        "message": "ਅਨਬਲੌਕ ਕਰੋ",
+        "message": "ਪਾਬੰਦੀ ਹਟਾਓ",
         "description": "Shown as a button to let the user unblock a message request"
     },
     "MessageRequests--unblock-confirm-title": {
@@ -3042,7 +3042,7 @@
         }
     },
     "MessageRequests--unblock-direct-confirm-body": {
-        "message": "ਤੁਸੀਂ ਇੱਕ ਦੂਜੇ ਨੂੰ ਸੁਨੇਹੇ ਭੇਜ ਸਕੋਗੇ ਅਤੇ ਕਾਲ ਕਰ ਸਕੋਗੇ.",
+        "message": "ਤੁਸੀਂ ਇੱਕ ਦੂਜੇ ਨੂੰ ਸੁਨੇਹਾ ਭੇਜ ਸਕੋਗੇ ਅਤੇ ਕਾਲ ਕਰ ਸਕੋਗੇ।",
         "description": "Shown as the body in the confirmation modal for unblocking a private message request",
         "placeholders": {
             "name": {
@@ -3052,7 +3052,7 @@
         }
     },
     "MessageRequests--unblock-group-confirm-body": {
-        "message": "ਗਰੁੱਪ ਦੇ ਮੈਂਬਰ ਤੁਹਾਨੂੰ ਇਸ ਗਰੁੱਪ ਵਿੱਚ ਦੁਬਾਰਾ ਜੋੜਨ ਦੇ ਯੋਗ ਹੋਣਗੇ.",
+        "message": "ਗਰੁੱਪ ਦੇ ਮੈਂਬਰ ਤੁਹਾਨੂੰ ਇਸ ਗਰੁੱਪ ਵਿੱਚ ਦੁਬਾਰਾ ਸ਼ਾਮਲ ਕਰ ਸਕਣਗੇ। ",
         "description": "Shown as the body in the confirmation modal for unblocking a group message request",
         "placeholders": {
             "name": {
@@ -3062,15 +3062,15 @@
         }
     },
     "MessageRequests--block-and-report-spam": {
-        "message": "ਸਪੈਮ ਰਿਪੋਰਟ ਕਰੋ ਤੇ ਪਾਬੰਦੀ ਲਾਓ",
+        "message": "ਸਪੈਮ ਰਿਪੋਰਟ ਕਰੋ ਅਤੇ ਪਾਬੰਦੀ ਲਾਓ",
         "description": "Shown as a button to let the user block a message request and report spam"
     },
     "MessageRequests--block-and-report-spam-success-toast": {
-        "message": "ਸਪੈਮ ਵਜੋਂ ਰਿਪੋਰਟ ਕੀਤਾ ਤੇ ਪਾਬੰਦੀ ਲਾਈ",
+        "message": "ਸਪੈਮ ਵਜੋਂ ਰਿਪੋਰਟ ਕੀਤਾ ਅਤੇ ਪਾਬੰਦੀ ਲਾਈ",
         "description": "Shown in a toast when you successfully block a user and report them as spam"
     },
     "MessageRequests--block-direct-confirm-title": {
-        "message": "$name$ ਤੇ ਪਾਬੰਦੀ ਲਾਉਣੀ ਹੈ?",
+        "message": "$name$ ’ਤੇ ਪਾਬੰਦੀ ਲਾਉਣੀ ਹੈ?",
         "description": "Shown as the title in the confirmation modal for blocking a private message request",
         "placeholders": {
             "name": {
@@ -3080,11 +3080,11 @@
         }
     },
     "MessageRequests--block-direct-confirm-body": {
-        "message": "ਬਲੌਕ ਕੀਤੇ ਲੋਕ ਤੁਹਾਨੂੰ ਕਾਲ ਜਾਂ ਸੁਨੇਹੇ ਨਹੀਂ ਭੇਜ ਸਕਣਗੇ.",
+        "message": "ਪਾਬੰਦੀਸ਼ੁਦਾ ਲੋਕ ਤੁਹਾਨੂੰ ਕਾਲ ਨਹੀਂ ਕਰ ਸਕਣਗੇ ਜਾਂ ਸੁਨੇਹੇ ਨਹੀਂ ਭੇਜ ਸਕਣਗੇ।",
         "description": "Shown as the body in the confirmation modal for blocking a private message request"
     },
     "MessageRequests--block-group-confirm-title": {
-        "message": "$group$ਤੇ ਪਾਬੰਦੀ ਲਾਉਣੀ ਤੇ ਛੱਡਣਾ ਹੈ?",
+        "message": "$group$ ’ਤੇ ਪਾਬੰਦੀ ਲਾਉਣੀ ਅਤੇ ਛੱਡਣਾ ਹੈ?",
         "description": "Shown as the title in the confirmation modal for blocking a group message request",
         "placeholders": {
             "group": {
@@ -3098,19 +3098,19 @@
         "description": "Shown as the body in the confirmation modal for blocking a group message request"
     },
     "MessageRequests--delete": {
-        "message": "ਮਿਟਾਓ ",
+        "message": "ਮਿਟਾਓ",
         "description": "Shown as a button to let the user delete any message request"
     },
     "MessageRequests--delete-direct-confirm-title": {
-        "message": "ਗੱਲਬਾਤ ਨੂੰ ਹਟਾਉਣਾ ਹੈ?",
+        "message": "ਗੱਲਬਾਤ ਨੂੰ ਮਿਟਾਉਣਾ ਹੈ?",
         "description": "Shown as the title in the confirmation modal for deleting a private message request"
     },
     "MessageRequests--delete-direct-confirm-body": {
-        "message": "ਇਹ ਵਾਰਤਾਲਾਪ ਤੁਹਾਡੇ ਸਾਰੇ ਡਿਵਾਈਸਾਂ ਵਿੱਚੋਂ ਮਿਟਾ ਦਿੱਤੀ ਜਾਵੇਗੀ.",
+        "message": "ਇਹ ਗੱਲਬਾਤ ਤੁਹਾਡੀਆਂ ਸਾਰੀਆਂ ਡਿਵਾਈਸਾਂ ਵਿੱਚੋਂ ਮਿਟਾ ਦਿੱਤੀ ਜਾਵੇਗੀ।",
         "description": "Shown as the body in the confirmation modal for deleting a private message request"
     },
     "MessageRequests--delete-group-confirm-title": {
-        "message": "$group$ ਨੂੰ ਹਟਾਉਣਾ ਅਤੇ ਛੱਡਣਾ ਹੈ?",
+        "message": "$group$ ਨੂੰ ਮਿਟਾਉਣਾ ਅਤੇ ਛੱਡਣਾ ਹੈ?",
         "description": "Shown as the title in the confirmation modal for deleting a group message request",
         "placeholders": {
             "group": {
@@ -3120,7 +3120,7 @@
         }
     },
     "MessageRequests--delete-direct": {
-        "message": "ਮਿਟਾਓ ",
+        "message": "ਮਿਟਾਓ",
         "description": "Shown as a button to let the user delete a direct message request"
     },
     "MessageRequests--delete-group": {
@@ -3128,11 +3128,11 @@
         "description": "Shown as a button to let the user delete a group message request"
     },
     "MessageRequests--delete-group-confirm-body": {
-        "message": "ਤੁਸੀਂ ਇਸ ਗਰੁੱਪ ਨੂੰ ਛੱਡ ਦਿਓਗੇ, ਅਤੇ ਇਹ ਤੁਹਾਡੇ ਸਾਰੇ ਡਿਵਾਈਸਾਂ ਵਿੱਚੋਂ ਮਿਟਾ ਦਿੱਤਾ ਜਾਵੇਗਾ.",
+        "message": "ਤੁਸੀਂ ਇਸ ਗਰੁੱਪ ਨੂੰ ਛੱਡ ਦਿਓਗੇ, ਅਤੇ ਇਹ ਤੁਹਾਡੀਆਂ ਸਾਰੀਆਂ ਡਿਵਾਈਸਾਂ ਵਿੱਚੋਂ ਮਿਟਾ ਦਿੱਤਾ ਜਾਵੇਗਾ।",
         "description": "Shown as the body in the confirmation modal for deleting a group message request"
     },
     "MessageRequests--accept": {
-        "message": "ਸਵੀਕਾਰ ਕਰੋ",
+        "message": "ਮਨਜ਼ੂਰ ਕਰੋ",
         "description": "Shown as a button to let the user accept a message request"
     },
     "MessageRequests--continue": {
@@ -3140,7 +3140,7 @@
         "description": "Shown as a button to share your profile, necessary to continue messaging in a conversation"
     },
     "MessageRequests--profile-sharing--group": {
-        "message": "ਇਸ ਗਰੁੱਪ ਵਿੱਚ ਆਪਣੀ ਗੱਲਬਾਤ ਜਾਰੀ ਰੱਖੋ ਅਤੇ ਇਸਦੇ ਮੈਂਬਰਾਂ ਨਾਲ ਆਪਣੇ ਨਾਮ ਅਤੇ ਤਸਵੀਰ ਸਾਂਝੀ ਕਰੋ? $learnMore$",
+        "message": "ਇਸ ਗਰੁੱਪ ਵਿੱਚ ਆਪਣੀ ਗੱਲਬਾਤ ਅਤੇ ਇਸਦੇ ਮੈਂਬਰਾਂ ਨਾਲ ਆਪਣਾ ਨਾਂ ਅਤੇ ਫ਼ੋਟੋ ਸਾਂਝੀ ਕਰਨੀ ਜਾਰੀ ਰੱਖਣੀ ਹੈ? $learnMore$",
         "description": "Shown when user hasn't shared their profile in a group yet",
         "placeholders": {
             "learnMore": {
@@ -3150,7 +3150,7 @@
         }
     },
     "MessageRequests--profile-sharing--direct": {
-        "message": "$firstName$ ਨਾਲ ਇਹ ਗੱਲਬਾਤ ਜਾਰੀ ਰੱਖੋ ਅਤੇ ਉਹਨ ਨਾਲ ਆਪਣਾ ਨਾਮ ਅਤੇ ਤਸਵੀਰ ਸਾਂਝੀ ਕਰੋ? $learnMore$",
+        "message": "$firstName$ ਨਾਲ ਇਹ ਗੱਲਬਾਤ ਜਾਰੀ ਅਤੇ ਉਹਨਾਂ ਨਾਲ ਆਪਣਾ ਨਾਂ ਅਤੇ ਫ਼ੋਟੋ ਸਾਂਝੀ ਕਰਨੀ ਜਾਰੀ ਰੱਖਣੀ ਹੈ? $learnMore$",
         "description": "Shown when user hasn't shared their profile in a 1:1 conversation yet",
         "placeholders": {
             "firstName": {
@@ -3252,7 +3252,7 @@
         }
     },
     "ConversationHero--membership-added": {
-        "message": "$name$ ਨੇ ਤੁਹਾਨੂੰ ਗਰੁੱਪ ਵਿੱਚ ਜੋੜਿਆ।",
+        "message": "$name$ ਨੇ ਤੁਹਾਨੂੰ ਗਰੁੱਪ ਵਿੱਚ ਸ਼ਾਮਲ ਕੀਤਾ।",
         "description": "Shown Indicates that you were added to a group by a given individual.",
         "placeholders": {
             "name": {
@@ -3262,7 +3262,7 @@
         }
     },
     "no-groups-in-common": {
-        "message": "ਕੋਈ ਸਮੂਹ ਸਾਂਝੇ ਨਹੀਂ",
+        "message": "ਕੋਈ ਗਰੁੱਪ ਸਾਂਝੇ ਨਹੀਂ",
         "description": "Shown to indicate this user is not a member of any groups"
     },
     "no-groups-in-common-warning": {
@@ -3278,15 +3278,15 @@
         "description": "Shown in tooltip for the button to accept a video call without video"
     },
     "declineCall": {
-        "message": "ਅਸਵੀਕਾਰ",
+        "message": "ਅਸਵੀਕਾਰ ਕਰੋ",
         "description": "Shown in tooltip for the button to decline a call (audio or video)"
     },
     "declinedIncomingAudioCall": {
-        "message": "ਤੁਸੀਂ ਆਡੀਓ ਕਾਲ ਲਈ ਨਾਂਹ ਕੀਤੀ",
+        "message": "ਤੁਸੀਂ ਆਡੀਓ ਕਾਲ ਨੂੰ ਅਸਵੀਕਾਰ ਕੀਤਾ",
         "description": "Shown in conversation history when you declined an incoming audio call"
     },
     "declinedIncomingVideoCall": {
-        "message": "ਤੁਸੀਂ ਵੀਡੀਓ ਕਾਲ ਨੂੰ ਇਨਕਾਰ ਕੀਤਾ",
+        "message": "ਤੁਸੀਂ ਵੀਡੀਓ ਕਾਲ ਨੂੰ ਅਸਵੀਕਾਰ ਕੀਤਾ",
         "description": "Shown in conversation history when you declined an incoming video call"
     },
     "acceptedIncomingAudioCall": {
@@ -3306,19 +3306,19 @@
         "description": "Shown in conversation history when you missed an incoming video call"
     },
     "acceptedOutgoingAudioCall": {
-        "message": "ਕੀਤੀ ਜਾ ਰਹੀ ਆਡੀਓ ਕਾਲ",
+        "message": "ਜਾਰੀ ਆਡੀਓ ਕਾਲ",
         "description": "Shown in conversation history when you made an outgoing audio call"
     },
     "acceptedOutgoingVideoCall": {
-        "message": "ਕੀਤੀ ਜਾ ਰਹੀ ਵੀਡੀਓ ਕਾਲ",
+        "message": "ਜਾਰੀ ਵੀਡੀਓ ਕਾਲ",
         "description": "Shown in conversation history when you made an outgoing video call"
     },
     "missedOrDeclinedOutgoingAudioCall": {
-        "message": "ਨਾ-ਜਵਾਬ ਦਿੱਤੀ ਆਡੀਓ ਕਾਲ",
+        "message": "ਜਵਾਬ ਨਾ ਦਿੱਤੀ ਆਡੀਓ ਕਾਲ",
         "description": "Shown in conversation history when your audio call is missed or declined"
     },
     "missedOrDeclinedOutgoingVideoCall": {
-        "message": "ਨਾ-ਜਵਾਬ ਦਿੱਤੀ ਵੀਡੀਓ ਕਾਲ",
+        "message": "ਜਵਾਬ ਨਾ ਦਿੱਤੀ ਵੀਡੀਓ ਕਾਲ",
         "description": "Shown in conversation history when your video call is missed or declined"
     },
     "incomingAudioCall": {
@@ -3350,7 +3350,7 @@
         "description": "Text that appears in a group when a call is active"
     },
     "callNeedPermission": {
-        "message": "$title$ ਨੂੰ ਤੁਹਾਡੇ ਤੋਂ ਬੇਨਤੀ ਵਾਲਾ ਸੁਨੇਹਾ ਮਿਲੇਗਾ। ਜਦੋਂ ਤੁਹਾਡਾ ਬੇਨਤੀ ਵਾਲਾ ਸੁਨੇਹਾ ਸਵੀਕਾਰ ਕਰ ਲਿਆ ਜਾਵੇਗਾ ਤਾਂ ਤੁਸੀਂ ਕਾਲ ਕਰ ਸਕਦੇ ਹੋ।",
+        "message": "$title$ ਨੂੰ ਤੁਹਾਡੇ ਤੋਂ ਬੇਨਤੀ ਵਾਲਾ ਸੁਨੇਹਾ ਮਿਲੇਗਾ। ਜਦੋਂ ਤੁਹਾਡਾ ਬੇਨਤੀ ਵਾਲਾ ਸੁਨੇਹਾ ਮਨਜ਼ੂਰ ਕਰ ਲਿਆ ਜਾਵੇਗਾ ਤਾਂ ਤੁਸੀਂ ਕਾਲ ਕਰ ਸਕਦੇ ਹੋ।",
         "description": "Shown when a call is rejected because the other party hasn't approved the message/call request",
         "placeholders": {
             "title": {
@@ -3388,15 +3388,15 @@
         }
     },
     "calling__call-notification__ended": {
-        "message": "ਗਰੁੱਪ ਕਾਲ ਖਤਮ ਹੋਈ",
+        "message": "ਗਰੁੱਪ ਕਾਲ ਖਤਮ ਹੋ ਗਈ ਹੈ",
         "description": "Notification message when a group call has ended"
     },
     "calling__call-notification__started-by-someone": {
-        "message": "ਗਰੁੱਪ ਕਾਲ ਸ਼ੁਰੂ ਹੋਈ",
+        "message": "ਗਰੁੱਪ ਕਾਲ ਸ਼ੁਰੂ ਕੀਤੀ ਗਈ",
         "description": "Notification message when a group call has started, but we don't know who started it"
     },
     "calling__call-notification__started-by-you": {
-        "message": "ਤੁਸੀਂ ਗਰੁੱਪ ਕਾਲ ਸ਼ੁਰੂ ਕੀਤੀ ਹੈ",
+        "message": "ਤੁਸੀਂ ਗਰੁੱਪ ਕਾਲ ਸ਼ੁਰੂ ਕੀਤੀ",
         "description": "Notification message when a group call has started by you"
     },
     "calling__call-notification__started": {
@@ -3424,7 +3424,7 @@
         }
     },
     "calling__pip--on": {
-        "message": "ਘੱਟੋ-ਘੱਟ ਕਾਲ",
+        "message": "ਕਾਲ ਦਾ ਅਕਾਰ ਛੋਟਾ ਕਰੋ",
         "description": "Title for picture-in-picture toggle"
     },
     "calling__pip--off": {
@@ -3432,11 +3432,11 @@
         "description": "Title for picture-in-picture toggle"
     },
     "calling__switch-view--to-grid": {
-        "message": "ਗਰਿੱਡ ਝਲਕ ਲਈ ਬਦਲੋ",
+        "message": "ਗਰਿੱਡ ਦ੍ਰਿਸ਼ ਲਈ ਬਦਲੋ",
         "description": "Title for grid/speaker view toggle when on a call"
     },
     "calling__switch-view--to-speaker": {
-        "message": "ਸਪੀਕਰ ਝਲਕ ਲਈ ਬਦਲੋ",
+        "message": "ਸਪੀਕਰ ਦ੍ਰਿਸ਼ ਲਈ ਬਦਲੋ",
         "description": "Title for grid/speaker view toggle when on a call"
     },
     "calling__hangup": {
@@ -3448,7 +3448,7 @@
         "description": "Title for the select your screen sharing sources modal"
     },
     "calling__SelectPresentingSourcesModal--confirm": {
-        "message": "ਸਕਰੀਨ ਸਾਂਝੀ",
+        "message": "ਸਕਰੀਨ ਸਾਂਝੀ ਕਰੋ",
         "description": "Confirm button for sharing screen modal"
     },
     "calling__SelectPresentingSourcesModal--entireScreen": {
@@ -3482,11 +3482,11 @@
         "description": "Label for audio output selector"
     },
     "callingDeviceSelection__select--no-device": {
-        "message": "ਕੋਈ ਡਿਵਾਈਸ ਮੌਜੂਦ ਨਹੀਂ ਹੈ",
+        "message": "ਕੋਈ ਡਿਵਾਈਸਾਂ ਮੌਜੂਦ ਨਹੀਂ",
         "description": "Message for when there are no available devices to select for input/output audio or video"
     },
     "callingDeviceSelection__select--default": {
-        "message": "ਡਿਫੌਲਟ",
+        "message": "ਡਿਫ਼ਾਲਟ",
         "description": "Shown when the device is the default device"
     },
     "muteNotificationsTitle": {
@@ -3494,23 +3494,23 @@
         "description": "Label for the mute notifications drop-down selector"
     },
     "muteHour": {
-        "message": "1 ਘੰਟੇ ਲਈ ਚੁੱਪ ਕਰੋ",
+        "message": "ਇੱਕ ਘੰਟੇ ਲਈ ਮਿਊਟ ਕਰੋ",
         "description": "Label for muting the conversation"
     },
     "muteEightHours": {
-        "message": "8 ਘੰਟਿਆਂ ਲਈ ਮੌਨ ਕਰੋ",
+        "message": "ਅੱਠ ਘੰਟਿਆਂ ਲਈ ਮਿਊਟ ਕਰੋ",
         "description": "Label for muting the conversation"
     },
     "muteDay": {
-        "message": "1 ਦਿਨ ਲਈ ਚੁੱਪ ਕਰੋ",
+        "message": "ਇੱਕ ਦਿਨ ਲਈ ਮਿਊਟ ਕਰੋ",
         "description": "Label for muting the conversation"
     },
     "muteWeek": {
-        "message": "1 ਹਫ਼ਤੇ ਲਈ ਚੁੱਪ ਕਰੋ",
+        "message": "ਇੱਕ ਹਫ਼ਤੇ ਲਈ ਮਿਊਟ ਕਰੋ",
         "description": "Label for muting the conversation"
     },
     "muteAlways": {
-        "message": "ਹਮੇਸ਼ਾਂ ਮੌਨ ਕਰੋ",
+        "message": "ਹਮੇਸ਼ਾ ਲਈ ਮਿਊਟ ਕਰੋ",
         "description": "Label for muting the conversation"
     },
     "unmute": {
@@ -3518,11 +3518,11 @@
         "description": "Label for unmuting the conversation"
     },
     "muteExpirationLabelAlways": {
-        "message": "ਹਮੇਸ਼ਾਂ ਮੌਨ ਹੈ",
+        "message": "ਹਮੇਸ਼ਾ ਲਈ ਮਿਊਟ",
         "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
     },
     "muteExpirationLabel": {
-        "message": "$duration$ ਲਈ ਮੌਨ ਹੈ",
+        "message": "$duration$ ਲਈ ਮਿਊਟ",
         "description": "Shown in the mute notifications submenu whenever a conversation has been muted",
         "placeholders": {
             "duration": {
@@ -3532,7 +3532,7 @@
         }
     },
     "EmojiButton__label": {
-        "message": "ਈਮੋਜ਼ੀ",
+        "message": "ਇਮੋਜੀ",
         "description": "Label for emoji button"
     },
     "ErrorModal--title": {
@@ -3540,7 +3540,7 @@
         "description": "Title of pop-up dialog when user-initiated task has gone wrong"
     },
     "ErrorModal--description": {
-        "message": "ਕਿਰਪਾ ਕਰਕੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ ਜਾਂ ਸਪੋਰਟ ਨਾਲ ਸੰਪਰਕ ਕਰੋ।",
+        "message": "ਕਿਰਪਾ ਕਰਕੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ ਜਾਂ ਸਹਾਇਤਾ ਨਾਲ ਸੰਪਰਕ ਕਰੋ।",
         "description": "Description text in pop-up dialog when user-initiated task has gone wrong"
     },
     "Confirmation--confirm": {
@@ -3548,7 +3548,7 @@
         "description": "Button to dismiss pop-up dialog when user-initiated task has gone wrong"
     },
     "unknown-sgnl-link": {
-        "message": "ਅਫ਼ਸੋਸ, ਉਹ sgnl:// ਲਿੰਕ ਦਾ ਕੋਈ ਅਰਥ ਨਹੀਂ ਬਣਦਾ!",
+        "message": "ਅਫ਼ਸੋਸ, ਉਸ sgnl:// ਲਿੰਕ ਦਾ ਕੋਈ ਅਰਥ ਨਹੀਂ ਬਣਦਾ!",
         "description": "Shown if you click on a sgnl:// link not currently supported by Desktop"
     },
     "GroupV2--cannot-send": {
@@ -3556,7 +3556,7 @@
         "description": "Shown in toast when you attempt to forward a message to an announcement only group"
     },
     "GroupV2--add--missing-capability": {
-        "message": "ਜਦੋਂ ਤਕ ਇਹ ਲੋਕ Signal ਅੱਪਗ੍ਰੇਡ ਨਹੀਂ ਕਰ ਲੈਂਦੇ ਉਦੋਂ ਤਕ ਇਹਨਾਂ ਨੂੰ ਗਰੁੱਪ ਵਿੱਚ ਜੋੜਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ ਹੈ।",
+        "message": "ਜਦੋਂ ਤਕ ਇਹ ਲੋਕ Signal ਅੱਪਗ੍ਰੇਡ ਨਹੀਂ ਕਰ ਲੈਂਦੇ ਉਦੋਂ ਤਕ ਇਹਨਾਂ ਨੂੰ ਗਰੁੱਪ ਵਿੱਚ ਸ਼ਾਮਲ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ ਹੈ।",
         "description": "Shown in a confirmation dialog when members who cannot view announcement only group cannot be added"
     },
     "GroupV2--cannot-start-group-call": {
@@ -3572,7 +3572,7 @@
         "description": "Shown if we are unable to parse a group link"
     },
     "GroupV2--join--prompt": {
-        "message": "ਕੀ ਤੁਸੀਂ ਇਸ ਗਰੁੱਪ ਵਿੱਚ ਸ਼ਾਮਲ ਹੋਣਾ ਅਤੇ ਇਸਦੇ ਮੈਂਬਰਾਂ ਨਾਲ ਆਪਣਾ ਨਾਮ ਅਤੇ ਤਸਵੀਰ ਸਾਂਝੀ ਕਰਨੀ ਚਾਹੁੰਦੇ ਹੋ?",
+        "message": "ਕੀ ਤੁਸੀਂ ਇਸ ਗਰੁੱਪ ਵਿੱਚ ਸ਼ਾਮਲ ਹੋਣਾ ਅਤੇ ਇਸਦੇ ਮੈਂਬਰਾਂ ਨਾਲ ਆਪਣਾ ਨਾਂ ਅਤੇ ਫ਼ੋਟੋ ਸਾਂਝੀ ਕਰਨੀ ਚਾਹੁੰਦੇ ਹੋ?",
         "description": "Shown when you click on a group link to confirm"
     },
     "GroupV2--join--already-in-group": {
@@ -3584,7 +3584,7 @@
         "description": "Shown if you click a group link for a group where you've already requested approval'"
     },
     "GroupV2--join--unknown-link-version--title": {
-        "message": "ਅਗਿਆਤ ਲਿੰਕ ਸੰਸਕਰਣ",
+        "message": "ਅਣਜਾਣ ਲਿੰਕ ਸੰਸਕਰਣ",
         "description": "This group link is no longer valid."
     },
     "GroupV2--join--unknown-link-version": {
@@ -3600,7 +3600,7 @@
         "description": "Shown if you click a group link and we can't get information about it"
     },
     "GroupV2--join--prompt-with-approval": {
-        "message": "ਇਸਤੋਂ ਪਹਿਲਾਂ ਕਿ ਤੁਸੀਂ ਇਸ ਗਰੁੱਪ ਵਿੱਚ ਸ਼ਾਮਲ ਹੋ ਸਕੋ, ਲਾਜ਼ਮੀ ਹੈ ਕਿ ਇਸ ਗਰੁੱਪ ਦਾ ਕੋਈ ਐਡਮਿਨ ਤੁਹਾਡੀ ਬੇਨਤੀ ਨੂੰ ਮਨਜ਼ੂਰ ਕਰੇ। ਮਨਜ਼ੂਰ ਹੋ ਜਾਣ ’ਤੇ, ਤੁਹਾਡੇ ਨਾਮ ਅਤੇ ਤਸਵੀਰ ਨੂੰ ਇਸਦੇ ਮੈਂਬਰਾਂ ਨਾਲ ਸਾਂਝਾ ਕੀਤਾ ਜਾਵੇਗਾ।",
+        "message": "ਇਸਤੋਂ ਪਹਿਲਾਂ ਕਿ ਤੁਸੀਂ ਇਸ ਗਰੁੱਪ ਵਿੱਚ ਸ਼ਾਮਲ ਹੋ ਸਕੋ, ਲਾਜ਼ਮੀ ਹੈ ਕਿ ਇਸ ਗਰੁੱਪ ਦਾ ਕੋਈ ਐਡਮਿਨ ਤੁਹਾਡੀ ਬੇਨਤੀ ਨੂੰ ਮਨਜ਼ੂਰ ਕਰੇ। ਮਨਜ਼ੂਰ ਹੋ ਜਾਣ ’ਤੇ, ਤੁਹਾਡੇ ਨਾਂ ਅਤੇ ਫ਼ੋਟੋ ਨੂੰ ਇਸਦੇ ਮੈਂਬਰਾਂ ਨਾਲ ਸਾਂਝਾ ਕੀਤਾ ਜਾਵੇਗਾ।",
         "description": "Shown when you click on a group link to confirm, if it requires admin approval"
     },
     "GroupV2--join--join-button": {
@@ -3656,11 +3656,11 @@
         "description": "Shown in composition area when you've requested to join a group"
     },
     "GroupV2--join--general-join-failure--title": {
-        "message": "ਲਿੰਕ ਵਿੱਚ ਗ਼ਲਤੀ",
+        "message": "ਲਿੰਕ ਵਿੱਚ ਤਰੁੱਟੀ",
         "description": "Shown if something went wrong when you try to join via a group link"
     },
     "GroupV2--join--general-join-failure": {
-        "message": "ਗਰੁੱਪ ਵਿੱਚ ਸ਼ਾਮਲ ਨਹੀਂ ਹੋ ਸਕ। ਬਾਅਦ ਵਿੱਚ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।",
+        "message": "ਗਰੁੱਪ ਵਿੱਚ ਸ਼ਾਮਲ ਨਹੀਂ ਹੋ ਸਕੇ। ਬਾਅਦ ਵਿੱਚ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।",
         "description": "Shown if something went wrong when you try to join via a group link"
     },
     "GroupV2--admin": {
@@ -3680,7 +3680,7 @@
         "description": "Shown along with a spinner when an update operation takes longer than one second"
     },
     "GroupV2--create--you": {
-        "message": "ਤੁਸੀਂ ਗਰੁੱਪ ਨੂੰ ਬਣਾਇਆ.",
+        "message": "ਤੁਸੀਂ ਗਰੁੱਪ ਨੂੰ ਬਣਾਇਆ।",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--create--other": {
@@ -3698,7 +3698,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--title--change--other": {
-        "message": "$memberName$ ਨੇ ਗਰੁੱਪ ਦਾ ਨਾਮ ਬਦਲ ਕੇ \"$newTitle$\" ਰੱਖ ਦਿੱਤਾ।",
+        "message": "$memberName$ ਨੇ ਗਰੁੱਪ ਦਾ ਨਾਂ ਬਦਲ ਕੇ \"$newTitle$\" ਰੱਖ ਦਿੱਤਾ।",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3712,7 +3712,7 @@
         }
     },
     "GroupV2--title--change--you": {
-        "message": "ਤੁਸੀਂ ਗਰੁੱਪ ਦਾ ਨਾਮ ਬਦਲ ਕੇ \"$newTitle$\" ਰੱਖ ਦਿੱਤਾ।",
+        "message": "ਤੁਸੀਂ ਗਰੁੱਪ ਦਾ ਨਾਂ ਬਦਲ ਕੇ \"$newTitle$\" ਰੱਖ ਦਿੱਤਾ।",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "newTitle": {
@@ -3722,7 +3722,7 @@
         }
     },
     "GroupV2--title--change--unknown": {
-        "message": "ਕਿਸੇ ਮੈਂਬਰ ਨੇ ਗਰੁੱਪ ਦਾ ਨਾਮ ਬਦਲ ਕੇ \"$newTitle$\" ਰੱਖ ਦਿੱਤਾ।",
+        "message": "ਕਿਸੇ ਮੈਂਬਰ ਨੇ ਗਰੁੱਪ ਦਾ ਨਾਂ ਬਦਲ ਕੇ \"$newTitle$\" ਰੱਖ ਦਿੱਤਾ।",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "newTitle": {
@@ -3732,7 +3732,7 @@
         }
     },
     "GroupV2--title--remove--other": {
-        "message": "$memberName$ ਨੇ ਗਰੁੱਪ ਦੇ ਨਾਮ ਨੂੰ ਹਟਾਇਆ।",
+        "message": "$memberName$ ਨੇ ਗਰੁੱਪ ਦੇ ਨਾਂ ਨੂੰ ਹਟਾਇਆ।",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3742,11 +3742,11 @@
         }
     },
     "GroupV2--title--remove--you": {
-        "message": "ਤੁਸੀਂ ਗਰੁੱਪ ਦੇ ਨਾਮ ਨੂੰ ਹਟਾ ਦਿੱਤਾ.",
+        "message": "ਤੁਸੀਂ ਗਰੁੱਪ ਦੇ ਨਾਂ ਨੂੰ ਹਟਾਇਆ।",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--title--remove--unknown": {
-        "message": "ਕਿਸੇ ਮੈਂਬਰ ਨੇ ਗਰੁੱਪ ਦੇ ਨਾਮ ਨੂੰ ਹਟਾਇਆ।",
+        "message": "ਕਿਸੇ ਮੈਂਬਰ ਨੇ ਗਰੁੱਪ ਦੇ ਨਾਂ ਨੂੰ ਹਟਾਇਆ।",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--change--other": {
@@ -3786,7 +3786,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--admins--other": {
-        "message": "$adminName$ ਨੇ “ਸਾਰੇ ਐਡਮਿਨਜ਼“ ਨੂੰ ਗਰੁੱਪ ਦੀ ਜਾਣਕਾਰੀ ਵਿੱਚ ਸੋਧ ਕਰਨ ਵਾਲੇ ਬਣਾ ਦਿੱਤਾ।",
+        "message": "$adminName$ ਨੇ “ਸਾਰੇ ਐਡਮਿਨਜ਼\" ਨੂੰ ਗਰੁੱਪ ਦੀ ਜਾਣਕਾਰੀ ਵਿੱਚ ਸੋਧ ਕਰਨ ਵਾਲੇ ਬਣਾ ਦਿੱਤਾ।",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3796,15 +3796,15 @@
         }
     },
     "GroupV2--access-attributes--admins--you": {
-        "message": "ਤੁਸੀਂ “ਸਾਰੇ ਐਡਮਿਨਜ਼“ ਨੂੰ ਗਰੁੱਪ ਦੀ ਜਾਣਕਾਰੀ ਵਿੱਚ ਸੋਧ ਕਰਨ ਵਾਲੇ ਬਣਾ ਦਿੱਤਾ।",
+        "message": "ਤੁਸੀਂ “ਸਾਰੇ ਐਡਮਿਨਜ਼\" ਨੂੰ ਗਰੁੱਪ ਦੀ ਜਾਣਕਾਰੀ ਵਿੱਚ ਸੋਧ ਕਰਨ ਵਾਲੇ ਬਣਾ ਦਿੱਤਾ।",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--admins--unknown": {
-        "message": "ਕਿਸੇ ਐਡਮਿਨ ਨੇ “ਸਾਰੇ ਐਡਮਿਨਜ਼“ ਨੂੰ ਗਰੁੱਪ ਦੀ ਜਾਣਕਾਰੀ ਵਿੱਚ ਸੋਧ ਕਰਨ ਵਾਲੇ ਬਣਾ ਦਿੱਤਾ।",
+        "message": "ਕਿਸੇ ਐਡਮਿਨ ਨੇ “ਸਾਰੇ ਐਡਮਿਨਜ਼\" ਨੂੰ ਗਰੁੱਪ ਦੀ ਜਾਣਕਾਰੀ ਵਿੱਚ ਸੋਧ ਕਰਨ ਵਾਲੇ ਬਣਾ ਦਿੱਤਾ।",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--all--other": {
-        "message": "$adminName$ ਨੇ “ਸਾਰੇ ਐਡਮਿਨਜ਼“ ਨੂੰ ਗਰੁੱਪ ਦੀ ਜਾਣਕਾਰੀ ਵਿੱਚ ਸੋਧ ਕਰਨ ਵਾਲੇ ਬਣਾ ਦਿੱਤਾ।",
+        "message": "$adminName$ ਨੇ “ਸਾਰੇ ਐਡਮਿਨਜ਼\" ਨੂੰ ਗਰੁੱਪ ਦੀ ਜਾਣਕਾਰੀ ਵਿੱਚ ਸੋਧ ਕਰਨ ਵਾਲੇ ਬਣਾ ਦਿੱਤਾ।",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3814,15 +3814,15 @@
         }
     },
     "GroupV2--access-attributes--all--you": {
-        "message": "ਤੁਸੀਂ “ਸਾਰੇ ਮੈਂਬਰਾਂ“ ਨੂੰ ਗਰੁੱਪ ਦੀ ਜਾਣਕਾਰੀ ਵਿੱਚ ਸੋਧ ਕਰਨ ਵਾਲੇ ਬਣਾ ਦਿੱਤਾ।",
+        "message": "ਤੁਸੀਂ “ਸਾਰੇ ਮੈਂਬਰਾਂ\" ਨੂੰ ਗਰੁੱਪ ਦੀ ਜਾਣਕਾਰੀ ਵਿੱਚ ਸੋਧ ਕਰਨ ਵਾਲੇ ਬਣਾ ਦਿੱਤਾ।",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--all--unknown": {
-        "message": "ਕਿਸੇ ਐਡਮਿਨ ਨੇ “ਸਾਰੇ ਮੈਂਬਰਾਂ“ ਨੂੰ ਗਰੁੱਪ ਦੀ ਜਾਣਕਾਰੀ ਵਿੱਚ ਸੋਧ ਕਰਨ ਵਾਲੇ ਬਣਾ ਦਿੱਤਾ।",
+        "message": "ਕਿਸੇ ਐਡਮਿਨ ਨੇ “ਸਾਰੇ ਮੈਂਬਰਾਂ\" ਨੂੰ ਗਰੁੱਪ ਦੀ ਜਾਣਕਾਰੀ ਵਿੱਚ ਸੋਧ ਕਰਨ ਵਾਲੇ ਬਣਾ ਦਿੱਤਾ।",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--admins--other": {
-        "message": "$adminName$ ਨੇ “ਸਾਰੇ ਮੈਂਬਰਾਂ\" ਨੂੰ ਗਰੁੱਪ ਦੀਆਂ ਮੈਂਬਰਸ਼ਿਪਾਂ ਵਿੱਚ ਸੋਧ ਕਰਨ ਵਾਲੇ ਬਣਾ ਦਿੱਤਾ।",
+        "message": "$adminName$ ਨੇ “ਸਾਰੇ ਮੈਂਬਰਾਂ\" ਨੂੰ ਗਰੁੱਪ ਦੀ ਮੈਂਬਰਸ਼ਿਪ ਵਿੱਚ ਸੋਧ ਕਰਨ ਵਾਲੇ ਬਣਾ ਦਿੱਤਾ।",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3832,15 +3832,15 @@
         }
     },
     "GroupV2--access-members--admins--you": {
-        "message": "ਤੁਸੀਂ “ਸਾਰੇ ਐਡਮਿਨਜ਼\" ਨੂੰ ਗਰੁੱਪ ਦੀਆਂ ਮੈਂਬਰਸ਼ਿਪਾਂ ਵਿੱਚ ਸੋਧ ਕਰਨ ਵਾਲੇ ਬਣਾ ਦਿੱਤਾ।",
+        "message": "ਤੁਸੀਂ “ਸਾਰੇ ਐਡਮਿਨਜ਼\" ਨੂੰ ਗਰੁੱਪ ਦੀ ਮੈਂਬਰਸ਼ਿਪ ਵਿੱਚ ਸੋਧ ਕਰਨ ਵਾਲੇ ਬਣਾ ਦਿੱਤਾ।",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--admins--unknown": {
-        "message": "ਕਿਸੇ ਐਡਮਿਨ ਨੇ “ਸਾਰੇ ਐਡਮਿਨਜ਼\" ਨੂੰ ਗਰੁੱਪ ਦੀਆਂ ਮੈਂਬਰਸ਼ਿਪਾਂ ਵਿੱਚ ਸੋਧ ਕਰਨ ਵਾਲੇ ਬਣਾ ਦਿੱਤਾ।",
+        "message": "ਕਿਸੇ ਐਡਮਿਨ ਨੇ “ਸਾਰੇ ਐਡਮਿਨਜ਼\" ਨੂੰ ਗਰੁੱਪ ਦੀ ਮੈਂਬਰਸ਼ਿਪ ਵਿੱਚ ਸੋਧ ਕਰਨ ਵਾਲੇ ਬਣਾ ਦਿੱਤਾ।",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--all--other": {
-        "message": "$adminName$ ਨੇ “ਸਾਰੇ ਮੈਂਬਰਾਂ\" ਨੂੰ ਗਰੁੱਪ ਦੀਆਂ ਮੈਂਬਰਸ਼ਿਪਾਂ ਵਿੱਚ ਸੋਧ ਕਰਨ ਵਾਲੇ ਬਣਾ ਦਿੱਤਾ।",
+        "message": "$adminName$ ਨੇ “ਸਾਰੇ ਮੈਂਬਰਾਂ\" ਨੂੰ ਗਰੁੱਪ ਦੀ ਮੈਂਬਰਸ਼ਿਪ ਵਿੱਚ ਸੋਧ ਕਰਨ ਵਾਲੇ ਬਣਾ ਦਿੱਤਾ।",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3850,11 +3850,11 @@
         }
     },
     "GroupV2--access-members--all--you": {
-        "message": "ਤੁਸੀਂ “ਸਾਰੇ ਮੈਂਬਰਾਂ“ ਨੂੰ ਗਰੁੱਪ ਦੀ ਮੈਂਬਰਸ਼ਿਪ ਸੋਧ ਕਰਨ ਵਾਲੇ ਬਣਾ ਦਿੱਤਾ।",
+        "message": "ਤੁਸੀਂ “ਸਾਰੇ ਮੈਂਬਰਾਂ\" ਨੂੰ ਗਰੁੱਪ ਦੀ ਮੈਂਬਰਸ਼ਿਪ ਸੋਧ ਕਰਨ ਵਾਲੇ ਬਣਾ ਦਿੱਤਾ।",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--all--unknown": {
-        "message": "ਕਿਸੇ ਐਡਮਿਨ ਨੇ “ਸਾਰੇ ਮੈਂਬਰਾਂ“ ਨੂੰ ਗਰੁੱਪ ਦੀ ਮੈਂਬਰਸ਼ਲ਼ਪ ਵਿੱਚ ਸੋਧ ਕਰਨ ਵਾਲੇ ਬਣਾ ਦਿੱਤਾ।",
+        "message": "ਕਿਸੇ ਐਡਮਿਨ ਨੇ “ਸਾਰੇ ਮੈਂਬਰਾਂ\" ਨੂੰ ਗਰੁੱਪ ਦੀ ਮੈਂਬਰਸ਼ਿਪ ਵਿੱਚ ਸੋਧ ਕਰਨ ਵਾਲੇ ਬਣਾ ਦਿੱਤਾ।",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-invite-link--disabled--you": {
@@ -3894,7 +3894,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add--invited--you": {
-        "message": "ਤੁਸੀਂ ਸੱਦਾ ਦਿੱਤੇ ਗਏ ਮੈਂਬਰ $inviteeName$ ਨੂੰ ਜੋੜਿਆ।",
+        "message": "ਤੁਸੀਂ ਸੱਦਾ ਦਿੱਤੇ ਗਏ ਮੈਂਬਰ $inviteeName$ ਨੂੰ ਸ਼ਾਮਲ ਕੀਤਾ।",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3904,7 +3904,7 @@
         }
     },
     "GroupV2--member-add--invited--other": {
-        "message": "$memberName$ ਨੇ ਸੱਦਾ ਦਿੱਤੇ ਗਏ ਮੈਂਬਰ $inviteeName$ ਨੂੰ ਜੋੜਿਆ।",
+        "message": "$memberName$ ਨੇ ਸੱਦਾ ਦਿੱਤੇ ਗਏ ਮੈਂਬਰ $inviteeName$ ਨੂੰ ਸ਼ਾਮਲ ਕੀਤਾ।",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3918,7 +3918,7 @@
         }
     },
     "GroupV2--member-add--invited--unknown": {
-        "message": "ਕਿਸੇ ਮੈਂਬਰ ਨੇ ਨੇ ਸੱਦਾ ਦਿੱਤੇ ਗਏ ਮੈਂਬਰ $inviteeName$ ਨੂੰ ਜੋੜਿਆ।",
+        "message": "ਕਿਸੇ ਮੈਂਬਰ ਨੇ ਸੱਦਾ ਦਿੱਤੇ ਗਏ ਮੈਂਬਰ $inviteeName$ ਨੂੰ ਸ਼ਾਮਲ ਕੀਤਾ।",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3928,7 +3928,7 @@
         }
     },
     "GroupV2--member-add--from-invite--other": {
-        "message": "$inviteeName$ ਨੇ $inviterName$ ਤੋਂ ਗਰੁੱਪ ਲਈ ਸੱਦੇ ਨੂੰ ਸਵੀਕਾਰ ਕੀਤਾ।",
+        "message": "$inviteeName$ ਨੇ $inviterName$ ਤੋਂ ਗਰੁੱਪ ਲਈ ਸੱਦੇ ਨੂੰ ਮਨਜ਼ੂਰ ਕੀਤਾ।",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3942,7 +3942,7 @@
         }
     },
     "GroupV2--member-add--from-invite--other-no-from": {
-        "message": "$inviteeName$ ਨੇ ਗਰੁੱਪ ਲਈ ਸੱਦੇ ਨੂੰ ਸਵੀਕਾਰ ਕੀਤਾ।",
+        "message": "$inviteeName$ ਨੇ ਗਰੁੱਪ ਲਈ ਸੱਦੇ ਨੂੰ ਮਨਜ਼ੂਰ ਕੀਤਾ।",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3952,7 +3952,7 @@
         }
     },
     "GroupV2--member-add--from-invite--you": {
-        "message": "ਤੁਸੀਂ $inviterName$ ਤੋਂ ਗਰੁੱਪ ਲਈ ਸੱਦੇ ਨੂੰ ਸਵੀਕਾਰ ਕੀਤਾ।",
+        "message": "ਤੁਸੀਂ $inviterName$ ਤੋਂ ਗਰੁੱਪ ਲਈ ਸੱਦੇ ਨੂੰ ਮਨਜ਼ੂਰ ਕੀਤਾ।",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviterName": {
@@ -3962,11 +3962,11 @@
         }
     },
     "GroupV2--member-add--from-invite--you-no-from": {
-        "message": "ਤੁਸੀਂ ਗਰੁੱਪ ਵਿੱਚ ਸੱਦਾ ਸਵੀਕਾਰ ਕੀਤਾ.",
+        "message": "ਤੁਸੀਂ ਗਰੁੱਪ ਲਈ ਕਿਸੇ ਸੱਦੇ ਨੂੰ ਮਨਜ਼ੂਰ ਕੀਤਾ।",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add--from-invite--from-you": {
-        "message": "$inviteeName$ ਨੇ ਗਰੁੱਪ ਲਈ ਤੁਹਾਡੇ ਸੱਦੇ ਨੂੰ ਸਵੀਕਾਰ ਕੀਤਾ।",
+        "message": "$inviteeName$ ਨੇ ਗਰੁੱਪ ਲਈ ਤੁਹਾਡੇ ਸੱਦੇ ਨੂੰ ਮਨਜ਼ੂਰ ਕੀਤਾ।",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3976,7 +3976,7 @@
         }
     },
     "GroupV2--member-add--other--other": {
-        "message": "$adderName$ ਨੇ $addeeName$ ਨੂੰ ਜੋੜਿਆ।",
+        "message": "$adderName$ ਨੇ $addeeName$ ਨੂੰ ਸ਼ਾਮਲ ਕੀਤਾ।",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adderName": {
@@ -3990,7 +3990,7 @@
         }
     },
     "GroupV2--member-add--other--you": {
-        "message": "ਤੁਸੀਂ $memberName$ ਨੂੰ ਜੋੜਿਆ।",
+        "message": "ਤੁਸੀਂ $memberName$ ਨੂੰ ਸ਼ਾਮਲ ਕੀਤਾ।",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4000,7 +4000,7 @@
         }
     },
     "GroupV2--member-add--other--unknown": {
-        "message": "ਕਿਸੇ ਮੈਂਬਰ ਨੇ $memberName$ ਨੂੰ ਜੋੜਿਆ।",
+        "message": "ਕਿਸੇ ਮੈਂਬਰ ਨੇ $memberName$ ਨੂੰ ਸ਼ਾਮਲ ਕੀਤਾ।",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4010,7 +4010,7 @@
         }
     },
     "GroupV2--member-add--you--other": {
-        "message": "$memberName$ ਨੇ ਤੁਹਾਨੂੰ ਗਰੁੱਪ ਵਿੱਚ ਜੋੜਿਆ।",
+        "message": "$memberName$ ਨੇ ਤੁਹਾਨੂੰ ਗਰੁੱਪ ਵਿੱਚ ਸ਼ਾਮਲ ਕੀਤਾ।",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4020,11 +4020,11 @@
         }
     },
     "GroupV2--member-add--you--you": {
-        "message": "ਤੁਸੀਂ ਗਰੁੱਪ ਵਿੱਚ ਸ਼ਾਮਲ ਹੋਏ.",
+        "message": "ਤੁਸੀਂ ਗਰੁੱਪ ਵਿੱਚ ਸ਼ਾਮਲ ਹੋਏ।",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add--you--unknown": {
-        "message": "ਤੁਹਾਨੂੰ ਗਰੁੱਪ ਵਿੱਚ ਜੋੜਿਆ ਗਿਆ ਸੀ।",
+        "message": "ਤੁਹਾਨੂੰ ਗਰੁੱਪ ਵਿੱਚ ਸ਼ਾਮਲ ਕੀਤਾ ਗਿਆ ਸੀ।",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add-from-link--you--you": {
@@ -4042,7 +4042,7 @@
         }
     },
     "GroupV2--member-add-from-admin-approval--you--other": {
-        "message": "$adminName$ ਨੇ ਗਰੁੱਪ ਵਿੱਚ ਸ਼ਾਮਲ ਹੋਣ ਦੀ ਤੁਹਾਡੀ ਮਨਜ਼ੂਰ ਕੀਤੀ।",
+        "message": "$adminName$ ਨੇ ਗਰੁੱਪ ਵਿੱਚ ਸ਼ਾਮਲ ਹੋਣ ਦੀ ਤੁਹਾਡੀ ਬੇਨਤੀ ਮਨਜ਼ੂਰ ਕੀਤੀ।",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4090,7 +4090,7 @@
         }
     },
     "GroupV2--member-remove--other--other": {
-        "message": "$adminName$ ਨੇ $memberName$ ਨੂੰ ਹਟਾ ਦਿੱਤਾ।",
+        "message": "$adminName$ ਨੇ $memberName$ ਨੂੰ ਹਟਾਇਆ।",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4124,7 +4124,7 @@
         }
     },
     "GroupV2--member-remove--other--unknown": {
-        "message": "ਕਿਸੇ ਮੈਂਬਰ ਨੇ $memberName$ ਨੂੰ ਹਟਾ ਦਿੱਤਾ।",
+        "message": "ਕਿਸੇ ਮੈਂਬਰ ਨੇ $memberName$ ਨੂੰ ਹਟਾਇਆ।",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4134,7 +4134,7 @@
         }
     },
     "GroupV2--member-remove--you--other": {
-        "message": "$adminName$ ਨੇ ਤੁਹਾਨੂੰ ਹਟਾ ਦਿੱਤਾ।",
+        "message": "$adminName$ ਨੇ ਤੁਹਾਨੂੰ ਹਟਾਇਆ।",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4148,7 +4148,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-remove--you--unknown": {
-        "message": "ਤੁਹਾਨੂੰ ਗਰੁੱਪ ਵਿੱਚੋਂ ਕੱਢ ਦਿੱਤਾ ਗਿਆ ਸੀ.",
+        "message": "ਤੁਹਾਨੂੰ ਗਰੁੱਪ ਵਿੱਚੋਂ ਕੱਢ ਦਿੱਤਾ ਗਿਆ ਸੀ।",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-privilege--promote--other--other": {
@@ -4176,7 +4176,7 @@
         }
     },
     "GroupV2--member-privilege--promote--other--unknown": {
-        "message": "ਇੱਕ ਐਡਮਿਨ ਨੇ $memberName$ ਨੂੰ ਐਡਮਿਨ ਬਣਾਇਆ।",
+        "message": "ਕਿਸੇ ਐਡਮਿਨ ਨੇ $memberName$ ਨੂੰ ਐਡਮਿਨ ਬਣਾਇਆ।",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4196,11 +4196,11 @@
         }
     },
     "GroupV2--member-privilege--promote--you--unknown": {
-        "message": "ਇੱਕ ਐਡਮਿਨ ਨੇ ਤੁਹਾਨੂੰ ਐਡਮਿਨ ਬਣਾਇਆ।",
+        "message": "ਕਿਸੇ ਐਡਮਿਨ ਨੇ ਤੁਹਾਨੂੰ ਐਡਮਿਨ ਬਣਾਇਆ।",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-privilege--demote--other--other": {
-        "message": "$adminName$ ਨੇ $memberName$ ਤੋਂ ਐਡਮਿਨ ਦੇ ਅਧਿਕਾਰ ਵਾਪਸ ਲਏ।",
+        "message": "$adminName$ ਨੇ $memberName$ ਤੋਂ ਐਡਮਿਨ ਦੇ ਅਧਿਕਾਰ ਮਨਸੂਖ ਕਰ ਦਿੱਤੇ।",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4214,7 +4214,7 @@
         }
     },
     "GroupV2--member-privilege--demote--other--you": {
-        "message": "ਤੁਸੀਂ $memberName$ ਤੋਂ ਐਡਮਿਨ ਦੇ ਅਧਿਕਾਰ ਵਾਪਸ ਲਏ।",
+        "message": "ਤੁਸੀਂ $memberName$ ਤੋਂ ਐਡਮਿਨ ਦੇ ਅਧਿਕਾਰ ਮਨਸੂਖ ਕਰ ਦਿੱਤੇ।",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4224,7 +4224,7 @@
         }
     },
     "GroupV2--member-privilege--demote--other--unknown": {
-        "message": "ਕਿਸੇ ਐਡਮਿਨ ਨੇ $memberName$ ਤੋਂ ਐਡਮਿਨ ਦੇ ਅਧਿਕਾਰ ਵਾਪਸ ਲਏ।",
+        "message": "ਕਿਸੇ ਐਡਮਿਨ ਨੇ $memberName$ ਤੋਂ ਐਡਮਿਨ ਦੇ ਅਧਿਕਾਰ ਮਨਸੂਖ ਕਰ ਦਿੱਤੇ।",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-privilege--demote--you--other": {
@@ -4282,7 +4282,7 @@
         }
     },
     "GroupV2--pending-add--one--you--unknown": {
-        "message": "ਤੁਹਾਨੂੰ ਗਰੁੱਪ ਵਿੱਚ ਸੱਦਾ ਭੇਜਿਆ ਗਿਆ ਸੀ.",
+        "message": "ਤੁਹਾਨੂੰ ਗਰੁੱਪ ਲਈ ਸੱਦਾ ਭੇਜਿਆ ਗਿਆ ਸੀ।",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--pending-add--many--other": {
@@ -4310,7 +4310,7 @@
         }
     },
     "GroupV2--pending-add--many--unknown": {
-        "message": "$count$ਲੋਕਾਂ ਨੂੰ ਗਰੁੱਪ ਲਈ ਸੱਦਾ ਭੇਜਿਆ ਗਿਆ ਸੀ।",
+        "message": "$count$ ਲੋਕਾਂ ਨੂੰ ਗਰੁੱਪ ਲਈ ਸੱਦਾ ਭੇਜਿਆ ਗਿਆ ਸੀ।",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -4486,7 +4486,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--one--unknown": {
-        "message": "ਕਿਸੇ ਐਡਮਿਨ ਨੇ ਤੁਹਾਡੇ ਦੁਆਰਾ $inviteeName$ ਨੂੰ ਗਰੁੱਪ ਲਈ ਭੇਜੇ ਗਏ ਸੱਦੇ ਨੂੰ ਰੱਦ ਕਰ ਦਿੱਤਾ।",
+        "message": "ਕਿਸੇ ਐਡਮਿਨ ਨੇ ਤੁਹਾਡੇ ਦੁਆਰਾ $inviteeName$ ਨੂੰ ਗਰੁੱਪ ਲਈ ਭੇਜੇ ਗਏ ਸੱਦੇ ਨੂੰ ਮਨਸੂਖ ਕਰ ਦਿੱਤਾ।",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -4496,7 +4496,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--many--other": {
-        "message": "$adminName$ ਨੇ $memberName$ ਦੁਆਰਾ $count$ ਵਿਅਕਤੀਆਂ ਵਾਸਤੇ ਗਰੁੱਪ ਲਈ ਭੇਜੇ ਗਏ ਸੱਦਿਆਂ ਨੂੰ ਰੱਦ ਕਰ ਦਿੱਤਾ।",
+        "message": "$adminName$ ਨੇ $memberName$ ਦੁਆਰਾ $count$ ਵਿਅਕਤੀਆਂ ਵਾਸਤੇ ਗਰੁੱਪ ਲਈ ਭੇਜੇ ਗਏ ਸੱਦਿਆਂ ਨੂੰ ਮਨਸੂਖ ਕਰ ਦਿੱਤਾ।",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4510,7 +4510,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--many--you": {
-        "message": "ਤੁਸੀਂ $memberName$ ਦੁਆਰਾ $count$ ਵਿਅਕਤੀਆਂ ਵਾਸਤੇ ਗਰੁੱਪ ਲਈ ਭੇਜੇ ਗਏ ਸੱਦਿਆਂ ਨੂੰ ਰੱਦ ਕਰ ਦਿੱਤਾ।",
+        "message": "ਤੁਸੀਂ $memberName$ ਦੁਆਰਾ $count$ ਵਿਅਕਤੀਆਂ ਵਾਸਤੇ ਗਰੁੱਪ ਲਈ ਭੇਜੇ ਗਏ ਸੱਦਿਆਂ ਨੂੰ ਮਨਸੂਖ ਕਰ ਦਿੱਤਾ।",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -4524,7 +4524,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--many--unknown": {
-        "message": "ਕਿਸੇ ਐਡਮਿਨ ਨੇ $memberName$ ਦੁਆਰਾ $count$ ਵਿਅਕਤੀਆਂ ਵਾਸਤੇ ਗਰੁੱਪ ਲਈ ਭੇਜੇ ਗਏ ਸੱਦਿਆਂ ਨੂੰ ਰੱਦ ਕਰ ਦਿੱਤਾ।",
+        "message": "ਕਿਸੇ ਐਡਮਿਨ ਨੇ $memberName$ ਦੁਆਰਾ $count$ ਵਿਅਕਤੀਆਂ ਵਾਸਤੇ ਗਰੁੱਪ ਲਈ ਭੇਜੇ ਗਏ ਸੱਦਿਆਂ ਨੂੰ ਮਨਸੂਖ ਕਰ ਦਿੱਤਾ।",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -4538,7 +4538,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--many--other": {
-        "message": "$adminName$ ਨੇ ਤੁਹਾਡੇ ਦੁਆਰਾ $count$ ਨੂੰ ਗਰੁੱਪ ਲਈ ਭੇਜੇ ਗਏ ਸੱਦਿਆਂ ਨੂੰ ਰੱਦ ਕਰ ਦਿੱਤਾ।",
+        "message": "$adminName$ ਨੇ ਤੁਹਾਡੇ ਦੁਆਰਾ $count$ ਨੂੰ ਗਰੁੱਪ ਲਈ ਭੇਜੇ ਗਏ ਸੱਦਿਆਂ ਨੂੰ ਮਨਸੂਖ ਕਰ ਦਿੱਤਾ।",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4562,7 +4562,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--many--unknown": {
-        "message": "ਕਿਸੇ ਐਡਮਿਨ ਨੇ ਤੁਹਾਡੇ ਦੁਆਰਾ $count$ ਨੂੰ ਗਰੁੱਪ ਲਈ ਭੇਜੇ ਗਏ ਸੱਦਿਆਂ ਨੂੰ ਰੱਦ ਕਰ ਦਿੱਤਾ।",
+        "message": "ਕਿਸੇ ਐਡਮਿਨ ਨੇ ਤੁਹਾਡੇ ਦੁਆਰਾ $count$ ਨੂੰ ਗਰੁੱਪ ਲਈ ਭੇਜੇ ਗਏ ਸੱਦਿਆਂ ਨੂੰ ਮਨਸੂਖ ਕਰ ਦਿੱਤਾ।",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -4590,7 +4590,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--admin-approval-remove-one--you--unknown": {
-        "message": "ਗਰੁੱਪ ਵਿੱਚ ਸ਼ਾਮਲ ਹੋਣ ਦੀ ਤੁਹਾਡੀ ਬੇਨਤੀ ਕਿਸੇ ਐਡਮਿਨ ਦੁਆਰਾ ਨਮਨਜ਼ੂਰ ਕਰ ਦਿੱਤੀ ਗਈ ਹੈ।",
+        "message": "ਗਰੁੱਪ ਵਿੱਚ ਸ਼ਾਮਲ ਹੋਣ ਦੀ ਤੁਹਾਡੀ ਬੇਨਤੀ ਕਿਸੇ ਐਡਮਿਨ ਦੁਆਰਾ ਨਾਮਨਜ਼ੂਰ ਕਰ ਦਿੱਤੀ ਗਈ ਹੈ।",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--admin-approval-remove-one--other--you": {
@@ -4664,7 +4664,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-remove--you": {
-        "message": "ਤੁਸੀਂ ਗਰੁੱਪ ਲਿੰਕ ਨੂੰ ਬੰਦ ਕਰ ਦਿੱਤਾ",
+        "message": "ਤੁਸੀਂ ਗਰੁੱਪ ਲਿੰਕ ਨੂੰ ਬੰਦ ਕਰ ਦਿੱਤਾ।",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-remove--other": {
@@ -4718,7 +4718,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--description--change--you": {
-        "message": "ਤੁਸੀਂ ਗਰੁੱਪ ਦੀ ਜਾਣਕਾਰੀ ਨੂੰ ਬਦਲਿਆ ਹੈ।",
+        "message": "ਤੁਸੀਂ ਗਰੁੱਪ ਦੇ ਵੇਰਵੇ ਨੂੰ ਬਦਲਿਆ।",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--description--change--other": {
@@ -4772,7 +4772,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV1--Migration--disabled": {
-        "message": "@mentions ਅਤੇ ਐਡਮਿਨਾਂ ਵਰਗੀਆਂ ਨਵੀਆਂ ਵਿਸ਼ੇਸ਼ਤਾਵਾਂ ਨੂੰ ਕਿਰਿਆਸ਼ੀਲ ਕਰਨ ਲਈ ਇਸ ਗਰੁੱਪ ਨੂੰ ਅੱਪਗ੍ਰੇਡ ਕਰੋ। ਜਿਹਨਾਂ ਮੈਂਬਰਾਂ ਨੇ ਇਸ ਗਰੁੱਪ ਵਿੱਚ ਆਪਣਾ ਨਾਮ ਜਾਂ ਤਸਵੀਰ ਸਾਂਝੀ ਨਹੀਂ ਕੀਤੀ ਹੈ, ਉਹਨਾਂ ਨੂੰ ਸ਼ਾਮਲ ਹੋਣ ਲਈ ਸੱਦਾ ਭੇਜਿਆ ਜਾਵੇਗਾ। $learnMore$",
+        "message": "@mentions ਅਤੇ ਐਡਮਿਨਾਂ ਵਰਗੀਆਂ ਨਵੀਆਂ ਵਿਸ਼ੇਸ਼ਤਾਵਾਂ ਨੂੰ ਕਿਰਿਆਸ਼ੀਲ ਕਰਨ ਲਈ ਇਸ ਗਰੁੱਪ ਨੂੰ ਅੱਪਗ੍ਰੇਡ ਕਰੋ। ਜਿਹਨਾਂ ਮੈਂਬਰਾਂ ਨੇ ਇਸ ਗਰੁੱਪ ਵਿੱਚ ਆਪਣਾ ਨਾਂ ਜਾਂ ਫ਼ੋਟੋ ਸਾਂਝੀ ਨਹੀਂ ਕੀਤੀ ਹੈ, ਉਹਨਾਂ ਨੂੰ ਸ਼ਾਮਲ ਹੋਣ ਲਈ ਸੱਦਾ ਭੇਜਿਆ ਜਾਵੇਗਾ। $learnMore$",
         "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1).",
         "placeholders": {
             "learnMore": {
@@ -4790,19 +4790,19 @@
         "description": "Shown on a bubble below a 'group was migrated' timeline notification, or as button on Migrate dialog"
     },
     "GroupV1--Migration--migrate": {
-        "message": "ਅਪਗ੍ਰੇਡ ਕਰੋ",
+        "message": "ਅੱਪਗ੍ਰੇਡ ਕਰੋ",
         "description": "Shown on Migrate dialog to kick off the process"
     },
     "GroupV1--Migration--info--title": {
-        "message": "ਨਵੇਂ ਸਮੂਹ ਕੀ ਹਨ?",
+        "message": "ਨਵੇਂ ਗਰੁੱਪ ਕਿਹੜੇ ਹਨ?",
         "description": "Shown on Learn More popup after GV1 migration"
     },
     "GroupV1--Migration--migrate--title": {
-        "message": "ਨਵੇਂ ਸਮੂਹ ਵਿੱਚ ਅਪਗ੍ਰੇਡ ਕਰੋ",
+        "message": "ਨਵੇਂ ਗਰੁੱਪ ਲਈ ਅੱਪਗ੍ਰੇਡ ਕਰੋ",
         "description": "Shown on Migration popup after choosing to migrate group"
     },
     "GroupV1--Migration--info--summary": {
-        "message": "ਨਵੇਂ ਸਮੂਹਾਂ ਵਿੱਚ @mentions ਅਤੇ ਸਮੂਹ ਪ੍ਰਬੰਧਕਾਂ ਵਰਗੀਆਂ ਵਿਸ਼ੇਸ਼ਤਾਵਾਂ ਹਨ, ਅਤੇ ਭਵਿੱਖ ਵਿੱਚ ਹੋਰ ਵਿਸ਼ੇਸ਼ਤਾਵਾਂ ਦਾ ਸਮਰਥਨ ਕਰਨਗੀਆਂ.",
+        "message": "ਨਵੇਂ ਗਰੁੱਪਾਂ ਵਿੱਚ @mentions ਅਤੇ ਗਰੁੱਪ ਐਡਮਿਨ ਵਰਗੀਆਂ ਵਿਸ਼ੇਸ਼ਤਾਵਾਂ ਹਨ, ਅਤੇ ਭਵਿੱਖ ਵਿੱਚ ਹੋਰ ਵਿਸ਼ੇਸ਼ਤਾਵਾਂ ਦਾ ਸਮਰਥਨ ਕਰਨਗੇ।",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--keep-history": {
@@ -4814,15 +4814,15 @@
         "description": "Shown on Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--invited--you": {
-        "message": "ਤੁਹਾਨੂੰ ਇਸ ਗਰੁੱਪ ਵਿੱਚ ਦੁਬਾਰਾ ਸ਼ਾਮਲ ਹੋਣ ਦੇ ਸੱਦੇ ਨੂੰ ਸਵੀਕਾਰ ਕਰਨਾ ਪਵੇਗਾ, ਅਤੇ ਜਦੋਂ ਤਕ ਤੁਸੀਂ ਸਵੀਕਾਰ ਨਹੀਂ ਕਰਦੇ ਉਦੋਂ ਤੱਕ ਗਰੁੱਪ ਦੇ ਸੁਨੇਹੇ ਪ੍ਰਾਪਤ ਨਹੀਂ ਹੋਣਗੇ।",
+        "message": "ਤੁਹਾਨੂੰ ਇਸ ਗਰੁੱਪ ਵਿੱਚ ਦੁਬਾਰਾ ਸ਼ਾਮਲ ਹੋਣ ਦੇ ਸੱਦੇ ਨੂੰ ਮਨਜ਼ੂਰ ਕਰਨਾ ਪਵੇਗਾ, ਅਤੇ ਜਦੋਂ ਤਕ ਤੁਸੀਂ ਸਵੀਕਾਰ ਨਹੀਂ ਕਰਦੇ ਉਦੋਂ ਤੱਕ ਗਰੁੱਪ ਦੇ ਸੁਨੇਹੇ ਪ੍ਰਾਪਤ ਨਹੀਂ ਹੋਣਗੇ।",
         "description": "Shown on Learn More popup after GV1 migration"
     },
     "GroupV1--Migration--info--invited--many": {
-        "message": "ਇਹਨਾਂ ਮੈਂਬਰਾਂ ਨੂੰ ਇਸ ਗਰੁੱਪ ਵਿੱਚ ਦੁਬਾਰਾ ਸ਼ਾਮਲ ਹੋਣ ਦੇ ਸੱਦੇ ਨੂੰ ਸਵੀਕਾਰ ਕਰਨਾ ਪਵੇਗਾ, ਅਤੇ ਜਦੋਂ ਤਕ ਉਹ ਸਵੀਕਾਰ ਨਹੀਂ ਕਰਦੇ ਉਦੋਂ ਤੱਕ ਗਰੁੱਪ ਦੇ ਸੁਨੇਹੇ ਪ੍ਰਾਪਤ ਨਹੀਂ ਹੋਣਗੇ।",
+        "message": "ਇਹਨਾਂ ਮੈਂਬਰਾਂ ਨੂੰ ਇਸ ਗਰੁੱਪ ਵਿੱਚ ਦੁਬਾਰਾ ਸ਼ਾਮਲ ਹੋਣ ਦੇ ਸੱਦੇ ਨੂੰ ਮਨਜ਼ੂਰ ਕਰਨਾ ਪਵੇਗਾ, ਅਤੇ ਜਦੋਂ ਤਕ ਉਹ ਸਵੀਕਾਰ ਨਹੀਂ ਕਰਦੇ ਉਦੋਂ ਤੱਕ ਗਰੁੱਪ ਦੇ ਸੁਨੇਹੇ ਪ੍ਰਾਪਤ ਨਹੀਂ ਹੋਣਗੇ।",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--invited--one": {
-        "message": "ਇਸ ਮੈਂਬਰ ਨੂੰ ਇਸ ਗਰੁੱਪ ਵਿੱਚ ਦੁਬਾਰਾ ਸ਼ਾਮਲ ਹੋਣ ਦੇ ਸੱਦੇ ਨੂੰ ਸਵੀਕਾਰ ਕਰਨਾ ਪਵੇਗਾ, ਅਤੇ ਜਦੋਂ ਤਕ ਉਹ ਸਵੀਕਾਰ ਨਹੀਂ ਕਰਦਾ ਉਦੋਂ ਤੱਕ ਗਰੁੱਪ ਦੇ ਸੁਨੇਹੇ ਪ੍ਰਾਪਤ ਨਹੀਂ ਹੋਣਗੇ।",
+        "message": "ਇਸ ਮੈਂਬਰ ਨੂੰ ਇਸ ਗਰੁੱਪ ਵਿੱਚ ਦੁਬਾਰਾ ਸ਼ਾਮਲ ਹੋਣ ਦੇ ਸੱਦੇ ਨੂੰ ਮਨਜ਼ੂਰ ਕਰਨਾ ਪਵੇਗਾ, ਅਤੇ ਜਦੋਂ ਤਕ ਉਹ ਸਵੀਕਾਰ ਨਹੀਂ ਕਰਦਾ ਉਦੋਂ ਤੱਕ ਗਰੁੱਪ ਦੇ ਸੁਨੇਹੇ ਪ੍ਰਾਪਤ ਨਹੀਂ ਹੋਣਗੇ।",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--before--many": {
@@ -4846,7 +4846,7 @@
         "description": "Shown in timeline when a group is upgraded and you were invited instead of added"
     },
     "GroupV1--Migration--invited--one": {
-        "message": "$contact$ ਨੂੰ ਨਵੇਂ ਗਰੁੱਪ ਵਿੱਚ ਜੋੜਿਆ ਨਹੀਂ ਜਾ ਸਕਿਆ ਅਤੇ ਸ਼ਾਮਲ ਹੋਣ ਲਈ ਸੱਦਾ ਦਿੱਤਾ ਗਿਆ ਹੈ।",
+        "message": "$contact$ ਨੂੰ ਨਵੇਂ ਗਰੁੱਪ ਵਿੱਚ ਸ਼ਾਮਲ ਨਹੀ਼ ਕੀਤਾ ਜਾ ਸਕਿਆ ਅਤੇ ਸ਼ਾਮਲ ਹੋਣ ਲਈ ਸੱਦਾ ਦਿੱਤਾ ਗਿਆ ਹੈ।",
         "description": "Shown in timeline when a group is upgraded and one person was invited, instead of added",
         "placeholders": {
             "contact": {
@@ -4856,7 +4856,7 @@
         }
     },
     "GroupV1--Migration--invited--many": {
-        "message": "$count$ ਮੈਂਬਰਾਂ ਨੂੰ ਨਵੇਂ ਗਰੁੱਪ ਵਿੱਚ ਜੋੜਿਆ ਨਹੀਂ ਜਾ ਸਕਿਆ ਅਤੇ ਸ਼ਾਮਲ ਹੋਣ ਲਈ ਸੱਦਾ ਦਿੱਤਾ ਗਿਆ ਹੈ।",
+        "message": "$count$ ਮੈਂਬਰਾਂ ਨੂੰ ਨਵੇਂ ਗਰੁੱਪ ਵਿੱਚ ਸ਼ਾਮਲ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਿਆ ਅਤੇ ਸ਼ਾਮਲ ਹੋਣ ਲਈ ਸੱਦਾ ਦਿੱਤਾ ਗਿਆ ਹੈ।",
         "description": "Shown in timeline when a group is upgraded and some people were invited, instead of added",
         "placeholders": {
             "contact": {
@@ -4902,15 +4902,15 @@
         "description": "Aria label for expanding composition area"
     },
     "CompositionArea--attach-file": {
-        "message": "ਫਾਇਲ ਅਟੈਚ ਕਰੋ",
+        "message": "ਫ਼ਾਈਲ ਅਟੈਚ ਕਰੋ",
         "description": "Aria label for file attachment button in composition area"
     },
     "CompositionArea--sms-only__title": {
-        "message": "ਇਹ ਵਿਅਕਤੀ Signal ਦੀ ਵਰਤੋਂ ਨਹੀਂ ਕਰ ਰਿਹਾ ਹੈ।",
+        "message": "ਇਹ ਵਿਅਕਤੀ Signal ਦੀ ਵਰਤੋਂ ਨਹੀਂ ਕਰ ਰਿਹਾ ਹੈ",
         "description": "Title for the composition area for the SMS-only contact"
     },
     "CompositionArea--sms-only__body": {
-        "message": "Signal Desktop ਗੈਰ-Signal ਸੰਪਰਕਾਂ ਦੇ ਨਾਲ ਸੁਨੇਹਿਆਂ ਦੇ ਲੈਣ-ਦੇਣ ਦਾ ਸਮਰਥਨ ਨਹੀਂ ਕਰਦਾ। ਵਧੇਰੇ ਸੁਰੱਖਿਅਤ ਮੈਸੇਜਿੰਗ ਅਨੁਭਵ ਲਈ ਇਹ ਵਿਅਕਤੀ ਨੂੰ Signal ਸਥਾਪਤ ਕਰਨ ਲਈ ਕਹੋ।",
+        "message": "Signal Desktop ਗੈਰ-Signal ਸੰਪਰਕਾਂ ਦੇ ਨਾਲ ਸੁਨੇਹਿਆਂ ਦੇ ਲੈਣ-ਦੇਣ ਦਾ ਸਮਰਥਨ ਨਹੀਂ ਕਰਦਾ। ਵਧੇਰੇ ਸੁਰੱਖਿਅਤ ਮੈਸੇਜਿੰਗ ਅਨੁਭਵ ਲਈ ਇਸ ਵਿਅਕਤੀ ਨੂੰ Signal ਸਥਾਪਤ ਕਰਨ ਲਈ ਕਹੋ।",
         "description": "Body for the composition area for the SMS-only contact"
     },
     "CompositionArea--sms-only__spinner-label": {
@@ -4966,7 +4966,7 @@
         "description": "This is a button in the conversation context menu to show group settings"
     },
     "ConversationDetails--group-link": {
-        "message": "ਸਮੂਹ ਲਿੰਕ",
+        "message": "ਗਰੁੱਪ ਲਿੰਕ",
         "description": "This is the label for the group link management panel"
     },
     "ConversationDetails--disappearing-messages-label": {
@@ -4982,15 +4982,15 @@
         "description": "This is the label for the 'who can edit the group' panel"
     },
     "ConversationDetails--group-info-info": {
-        "message": "ਇਸਦੀ ਚੋਣ ਕਰੋ ਗਰੁੱਪ ਦੇ ਨਾਮ, ਤਸਵੀਰ, ਵੇਰਵੇ ਅਤੇ ਅਲੋਪ ਹੋਣ ਵਾਲੇ ਸੁਨੇਹਿਆਂ ਦੇ ਟਾਈਮਰ ਵਿੱਚ ਕੌਣ ਸੋਧ ਕਰ ਸਕਦਾ ਹੈ।",
+        "message": "ਇਸਦੀ ਚੋਣ ਕਰੋ ਗਰੁੱਪ ਦੇ ਨਾਂ, ਫ਼ੋਟੋ, ਵੇਰਵੇ ਅਤੇ ਅਲੋਪ ਹੋਣ ਵਾਲੇ ਸੁਨੇਹਿਆਂ ਦੇ ਟਾਈਮਰ ਵਿੱਚ ਕੌਣ ਸੋਧ ਕਰ ਸਕਦਾ ਹੈ।",
         "description": "This is the additional info for the 'who can edit the group' panel"
     },
     "ConversationDetails--add-members-label": {
-        "message": "ਮੈਂਬਰਾਂ ਨੂੰ ਕੌਣ ਜੋੜ ਸਕਦਾ ਹੈ",
+        "message": "ਮੈਂਬਰਾਂ ਨੂੰ ਕੌਣ ਸ਼ਾਮਲ ਕਰ ਸਕਦਾ ਹੈ",
         "description": "This is the label for the 'who can add members' panel"
     },
     "ConversationDetails--add-members-info": {
-        "message": "ਚੋਣ ਕਰੋ ਕਿ ਕੌਣ ਇਸ ਗਰੁੱਪ ਵਿੱਚ ਮੈਂਬਰਾਂ ਨੂੰ ਜੋੜ ਸਕਦਾ ਹੈ।",
+        "message": "ਚੋਣ ਕਰੋ ਕਿ ਕੌਣ ਇਸ ਗਰੁੱਪ ਵਿੱਚ ਮੈਂਬਰਾਂ ਨੂੰ ਸ਼ਾਮਲ ਕਰ ਸਕਦਾ ਹੈ।",
         "description": "This is the additional info for the 'who can add members' panel"
     },
     "ConversationDetails--announcement-label": {
@@ -5010,7 +5010,7 @@
         "description": "This is a button to leave a group"
     },
     "ConversationDetailsActions--block-group": {
-        "message": "ਗਰੁੱਪ ਨੂੰ ਬਲੌਕ ਕਰੋ",
+        "message": "ਗਰੁੱਪ ’ਤੇ ਪਾਬੰਦੀ ਲਾਓ",
         "description": "This is a button to block a group"
     },
     "ConversationDetailsActions--leave-group-must-choose-new-admin": {
@@ -5030,7 +5030,7 @@
         "description": "This is the modal button to confirm leaving a group"
     },
     "ConversationDetailsActions--block-group-modal-title": {
-        "message": "$groupName$ ਗਰੁੱਪ ਨੂੰ ਬਲੌਕ ਕਰਨਾ ਅਤੇ ਛੱਡਣਾ ਹੈ?",
+        "message": "$groupName$ ਗਰੁੱਪ ’ਤੇ ਪਾਬੰਦੀ ਲਾਉਣੀ ਅਤੇ ਛੱਡਣਾ ਹੈ?",
         "description": "This is the modal title for confirming blocking a group",
         "placeholders": {
             "groupName": {
@@ -5040,7 +5040,7 @@
         }
     },
     "ConversationDetailsActions--block-group-modal-content": {
-        "message": "ਤੁਸੀਂ ਹੁਣ ਇਸ ਗਰੁੱਪ ਤੋਂ ਸੁਨੇਹੇ ਜਾਂ ਅਪਡੇਟ ਪ੍ਰਾਪਤ ਨਹੀਂ ਕਰੋਗੇ.",
+        "message": "ਤੁਸੀਂ ਹੁਣ ਇਸ ਗਰੁੱਪ ਤੋਂ ਸੁਨੇਹੇ ਜਾਂ ਅੱਪਡੇਟ ਪ੍ਰਾਪਤ ਨਹੀਂ ਕਰੋਗੇ।",
         "description": "This is the modal content for confirming blocking a group"
     },
     "ConversationDetailsActions--block-group-modal-confirm": {
@@ -5058,7 +5058,7 @@
         }
     },
     "ConversationDetailsMediaList--shared-media": {
-        "message": "ਸ਼ੇਅਰਡ ਮੀਡੀਆ",
+        "message": "ਸਾਂਝਾ ਕੀਤਾ ਮੀਡੀਆ",
         "description": "Title for the media thumbnails in the conversation details screen"
     },
     "ConversationDetailsMediaList--show-all": {
@@ -5076,7 +5076,7 @@
         }
     },
     "ConversationDetailsMembershipList--add-members": {
-        "message": "ਮੈਂਬਰ ਜੋੜੋ",
+        "message": "ਮੈਂਬਰ ਸ਼ਾਮਲ ਕਰੋ",
         "description": "The button that you can click to add new members"
     },
     "ConversationDetailsMembershipList--show-all": {
@@ -5170,11 +5170,11 @@
         }
     },
     "PendingInvites--revoke-for-label": {
-        "message": "ਗਰੁੱਪ ਦੇ ਸੱਦੇ ਨੂੰ ਰੱਦ ਕਰੋ",
+        "message": "ਗਰੁੱਪ ਦੇ ਸੱਦੇ ਨੂੰ ਮਨਸੂਖ ਕਰੋ",
         "description": "This is aria label for revoking a group invite icon"
     },
     "PendingInvites--revoke-for": {
-        "message": "\"$name$\" ਵਾਸਤੇ ਗਰੁੱਪ ਲਈ ਸੱਦੇ ਨੂੰ ਰੱਦ ਕਰਨਾ ਹੈ?",
+        "message": "\"$name$\" ਵਾਸਤੇ ਗਰੁੱਪ ਲਈ ਸੱਦੇ ਨੂੰ ਮਨਸੂਖ ਕਰਨਾ ਹੈ?",
         "description": "This is the modal content when confirming revoking a single invite",
         "placeholders": {
             "number": {
@@ -5188,7 +5188,7 @@
         }
     },
     "PendingInvites--revoke-from-singular": {
-        "message": "\"$name$\" ਦੁਆਰਾ ਭੇਜੇ 1 ਸੱਦੇ ਨੂੰ ਰੱਦ ਕਰਨਾ ਹੈ?",
+        "message": "\"$name$\" ਦੁਆਰਾ ਭੇਜੇ 1  ਸੱਦੇ ਨੂੰ ਮਨਸੂਖ ਕਰਨਾ ਹੈ?",
         "description": "This is the modal content when confirming revoking a single invite",
         "placeholders": {
             "name": {
@@ -5198,7 +5198,7 @@
         }
     },
     "PendingInvites--revoke-from-plural": {
-        "message": "\"$name$\" ਦੁਆਰਾ ਭੇਜੇ $number$ ਸੱਦਿਆਂ ਨੂੰ ਰੱਦ ਕਰੋ",
+        "message": "\"$name$\" ਦੁਆਰਾ ਭੇਜੇ $number$ ਸੱਦਿਆਂ ਨੂੰ ਮਨਸੂਖ ਕਰੋ",
         "description": "This is the modal content when confirming revoking multiple invites",
         "placeholders": {
             "number": {
@@ -5212,7 +5212,7 @@
         }
     },
     "PendingInvites--revoke": {
-        "message": "ਰੱਦ ਕਰੋ",
+        "message": "ਮਨਸੂਖ ਕਰੋ",
         "description": "This is the modal button to confirm revoking invites"
     },
     "PendingRequests--approve": {
@@ -5220,11 +5220,11 @@
         "description": "This is the modal button to approve group request to join"
     },
     "PendingRequests--deny": {
-        "message": "ਬੇਨਤੀ ਲਈ ਨਾਂਹ",
+        "message": "ਬੇਨਤੀ ਨਾਮਨਜ਼ੂਰ ਕਰੋ",
         "description": "This is the modal button to deny group request to join"
     },
     "PendingRequests--info": {
-        "message": "ਇਸ ਸੂਚੀ ’ਤੇ ਮੌਜੂਦ ਲੋਕ ਗਰੁੱਪ ਲਿੰਕ ਰਾਹੀਂ \"$name$\" ਵਿੱਚ ਸ਼ਾਮਲ ਹੋਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰ ਰਹੇ ਹਨ। ",
+        "message": "ਇਸ ਸੂਚੀ ’ਤੇ ਮੌਜੂਦ ਲੋਕ ਗਰੁੱਪ ਲਿੰਕ ਰਾਹੀਂ \"$name$\" ਵਿੱਚ ਸ਼ਾਮਲ ਹੋਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰ ਰਹੇ ਹਨ।",
         "description": "Inforamtion shown below the pending admin approval list",
         "placeholders": {
             "name": {
@@ -5238,23 +5238,23 @@
         "description": "Information shown below the invite list"
     },
     "AvatarInput--no-photo-label--group": {
-        "message": "ਗਰੁੱਪ ਤਸਵੀਰ ਜੋੜੋ",
+        "message": "ਗਰੁੱਪ ਫ਼ੋਟੋ ਜੋੜੋ",
         "description": "The label for the avatar uploader when no group photo is selected"
     },
     "AvatarInput--no-photo-label--profile": {
-        "message": "ਤਸਵੀਰ ਜੋੜੋ",
+        "message": "ਫ਼ੋਟੋ ਜੋੜੋ",
         "description": "The label for the avatar uploader when no profile photo is selected"
     },
     "AvatarInput--change-photo-label": {
-        "message": "ਤਸਵੀਰ ਬਦਲੋ",
+        "message": "ਫ਼ੋਟੋ ਬਦਲੋ",
         "description": "The label for the avatar uploader when a photo is selected"
     },
     "AvatarInput--upload-photo-choice": {
-        "message": "ਤਸਵੀਰ ਅੱਪਲੋਡ ਕਰੋ",
+        "message": "ਫ਼ੋਟੋ ਅੱਪਲੋਡ ਕਰੋ",
         "description": "The button text when you click on an uploaded avatar and want to upload a new one"
     },
     "AvatarInput--remove-photo-choice": {
-        "message": "ਫੋਟੋ ਨੂੰ ਹਟਾਓ",
+        "message": "ਫ਼ੋਟੋ ਨੂੰ ਹਟਾਓ",
         "description": "The button text when you click on an uploaded avatar and want to remove it"
     },
     "ContactPill--remove": {
@@ -5294,7 +5294,7 @@
         "description": "When creating a new group and inviting users, this is shown in the dialog"
     },
     "NewlyCreatedGroupInvitedContactsDialog--body--info-paragraph": {
-        "message": "ਉਹਨਾਂ ਨੂੰ ਸ਼ਾਮਲ ਹੋਣ ਦਾ ਸੱਦਾ ਦਿੱਤਾ ਗਿਆ ਹੈ, ਅਤੇ ਜਦੋਂ ਤਕ ਉਹ ਸਵੀਕਾਰ ਨਹੀਂ ਕਰ ਲੈਂਦੇ ਉਦੋਂ ਤਕ ਗਰੁੱਪ ਦੇ ਕੋਈ ਸੁਨੇਹੇ ਨਹੀਂ ਦੇਖ ਸਕਣਗੇ।",
+        "message": "ਉਹਨਾਂ ਨੂੰ ਸ਼ਾਮਲ ਹੋਣ ਦਾ ਸੱਦਾ ਦਿੱਤਾ ਗਿਆ ਹੈ, ਅਤੇ ਜਦੋਂ ਤਕ ਉਹ ਮਨਜ਼ੂਰ ਨਹੀਂ ਕਰ ਲੈਂਦੇ ਉਦੋਂ ਤਕ ਗਰੁੱਪ ਦੇ ਕੋਈ ਸੁਨੇਹੇ ਨਹੀਂ ਦੇਖ ਸਕਣਗੇ।",
         "description": "When creating a new group and inviting users, this is shown in the dialog"
     },
     "NewlyCreatedGroupInvitedContactsDialog--body--learn-more": {
@@ -5302,7 +5302,7 @@
         "description": "When creating a new group and inviting users, this is shown in the dialog"
     },
     "AddGroupMembersModal--title": {
-        "message": "ਮੈਂਬਰ ਜੋੜੋ",
+        "message": "ਮੈਂਬਰ ਸ਼ਾਮਲ ਕਰੋ",
         "description": "When adding new members to an existing group, this is shown in the dialog"
     },
     "AddGroupMembersModal--continue-to-confirm": {
@@ -5310,7 +5310,7 @@
         "description": "When adding new members to an existing group, this is shown in the dialog"
     },
     "AddGroupMembersModal--confirm-title--one": {
-        "message": "$person$ ਨੂੰ \"$group$\" ਵਿੱਚ ਜੋੜਨਾ ਹੈ?",
+        "message": "$person$ ਨੂੰ \"$group$\" ਵਿੱਚ ਸ਼ਾਮਲ ਕਰਨਾ ਹੈ?",
         "description": "When adding new members to an existing group, this is shown in the confirmation dialog",
         "placeholders": {
             "person": {
@@ -5324,7 +5324,7 @@
         }
     },
     "AddGroupMembersModal--confirm-title--many": {
-        "message": "$count$ ਮੈਂਬਰਾਂ ਨੂੰ \"$group$\" ਵਿੱਚ ਜੋੜਨਾ ਹੈ?",
+        "message": "$count$ ਮੈਂਬਰਾਂ ਨੂੰ \"$group$\" ਵਿੱਚ ਸ਼ਾਮਲ ਕਰਨਾ ਹੈ?",
         "description": "When adding new members to an existing group, this is shown in the confirmation dialog",
         "placeholders": {
             "count": {
@@ -5338,15 +5338,15 @@
         }
     },
     "AddGroupMembersModal--confirm-button--one": {
-        "message": "ਮੈਂਬਰ ਜੋੜੋ",
+        "message": "ਮੈਂਬਰ ਸ਼ਾਮਲ ਕਰੋ",
         "description": "When adding new members to an existing group, this is shown on the confirmation dialog button"
     },
     "AddGroupMembersModal--confirm-button--many": {
-        "message": "ਮੈਂਬਰ ਜੋੜੋ",
+        "message": "ਮੈਂਬਰ ਸ਼ਾਮਲ ਕਰੋ",
         "description": "When adding new members to an existing group, this is shown on the confirmation dialog button"
     },
     "createNewGroupButton": {
-        "message": "ਨਵਾਂ ਸਮੂਹ",
+        "message": "ਨਵਾਂ ਗਰੁੱਪ",
         "description": "The text of the button to create new groups"
     },
     "selectContact": {
@@ -5354,7 +5354,7 @@
         "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)"
     },
     "deselectContact": {
-        "message": "ਸੰਪਰਕ ਨੂੰ ਡਿਸਿਲੈਕਟ ਕਰੋ",
+        "message": "ਸੰਪਰਕ ਨੂੰ ਡੀਸਿਲੈਕਟ ਕਰੋ",
         "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)"
     },
     "cannotSelectContact": {
@@ -5362,7 +5362,7 @@
         "description": "The label for contact checkboxes that are disabled"
     },
     "alreadyAMember": {
-        "message": "ਪਹਿਲਾਂ ਹੀ ਮੈਂਬਰ ਹੈ",
+        "message": "ਪਹਿਲਾਂ ਤੋਂ ਹੀ ਮੈਂਬਰ ਹੈ",
         "description": "The label for contact checkboxes that are disabled because they're already a member"
     },
     "MessageAudio--play": {
@@ -5408,7 +5408,7 @@
         "description": "Shown on the message request warning. Clicking this button will open a dialog with more information"
     },
     "MessageRequestWarning__dialog__details": {
-        "message": "ਇਸ ਵਿਅਕਤੀ ਨਾਲ ਤੁਹਾਡੇ ਕੋਈ ਸਾਂਝੇ ਗਰੁੱਪ ਨਹੀਂ ਹਨ। ਅਣਚਾਹੇ ਸੁਨੇਹਿਆਂ ਤੋਂ ਬਚਣ ਲਈ ਬੇਨਤੀਆਂ ਨੂੰ ਸਵੀਕਾਰ ਕਰਨ ਤੋਂ ਪਹਿਲਾਂ ਸਾਵਧਾਨੀ ਨਾਲ ਇਹਨਾਂ ਦੀ ਸਮੀਖਿਆ ਕਰੋ।",
+        "message": "ਇਸ ਵਿਅਕਤੀ ਨਾਲ ਤੁਹਾਡੇ ਕੋਈ ਸਾਂਝੇ ਗਰੁੱਪ ਨਹੀਂ ਹਨ। ਅਣਚਾਹੇ ਸੁਨੇਹਿਆਂ ਤੋਂ ਬਚਣ ਲਈ ਬੇਨਤੀਆਂ ਨੂੰ ਮਨਜ਼ੂਰ ਕਰਨ ਤੋਂ ਪਹਿਲਾਂ ਧਿਆਨ ਨਾਲ ਇਹਨਾਂ ਦੀ ਸਮੀਖਿਆ ਕਰੋ।",
         "description": "Shown in the message request warning dialog. Gives more information about message requests"
     },
     "MessageRequestWarning__dialog__learn-even-more": {
@@ -5416,7 +5416,7 @@
         "description": "Shown in the message request warning dialog. Clicking this button will open a page on Signal's support site"
     },
     "ContactSpoofing__same-name": {
-        "message": "ਬੇਨਤੀਆਂ ਦੀ ਧਿਆਨ ਨਾਲ ਸਮੀਖਿਆ ਕਰੋ। Signal ਨੂੰ ਉਸੇ ਨਾਮ ਦਾ ਇੱਕ ਹੋਰ ਸੰਪਰਕ ਮਿਲਿਆ ਹੈ।$link$",
+        "message": "ਬੇਨਤੀਆਂ ਦੀ ਧਿਆਨ ਨਾਲ ਸਮੀਖਿਆ ਕਰੋ। Signal ਨੂੰ ਉਸੇ ਨਾਂ ਦਾ ਇੱਕ ਹੋਰ ਸੰਪਰਕ ਮਿਲਿਆ ਹੈ।$link$",
         "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else",
         "placeholders": {
             "link": {
@@ -5426,7 +5426,7 @@
         }
     },
     "ContactSpoofing__same-name-in-group": {
-        "message": "$count$ ਗਰੁੱਪ ਮੈਂਬਰਾਂ ਦਾ ਇੱਕੋ ਨਾਮ ਹੈ। $link$",
+        "message": "$count$ ਗਰੁੱਪ ਮੈਂਬਰਾਂ ਦਾ ਨਾਂ ਇੱਕੋ ਹੈ। $link$",
         "description": "Shown in the timeline warning when you multiple group members have the same name",
         "placeholders": {
             "count": {
@@ -5468,7 +5468,7 @@
         "description": "Title for the contact name spoofing review dialog in groups"
     },
     "ContactSpoofingReviewDialog__group__description": {
-        "message": "$count$ ਗਰੁੱਪ ਮੈਂਬਰਾਂ ਦੇ ਨਾਮ ਇੱਕੋ ਜਿਹੇ ਹਨ। ਹੇਠਲੇ ਮੈਂਬਰਾਂ ਦੀ ਸਮੀਖਿਆ ਕਰੋ ਜਾਂ ਕਾਰਵਾਈ ਦੀ ਚੋਣ ਕਰੋ।",
+        "message": "$count$ ਗਰੁੱਪ ਮੈਂਬਰਾਂ ਦੇ ਨਾਂ ਇੱਕੋ ਜਿਹੇ ਹਨ। ਹੇਠਲੇ ਮੈਂਬਰਾਂ ਦੀ ਸਮੀਖਿਆ ਕਰੋ ਜਾਂ ਕਾਰਵਾਈ ਦੀ ਚੋਣ ਕਰੋ।",
         "description": "Description for the group contact spoofing review dialog"
     },
     "ContactSpoofingReviewDialog__group__members-header": {
@@ -5520,7 +5520,7 @@
         "description": "Header in the captcha dialog that can be closed"
     },
     "CaptchaDialog--can-close__body": {
-        "message": "ਜੇ ਤੁਸੀਂ ਪ੍ਰਮਾਣੀਕਰਣ ਨੂੰ ਛੱਡਣਾ ਚੁਣਦੇ ਹੋ, ਤਾਂ ਹੋ ਸਕਦਾ ਹੈ ਕਿ ਤੁਸੀਂ ਦੂਜੇ ਲੋਕਾਂ ਦੇ ਸੁਨੇਹਿਆਂ ਨੂੰ ਖੁੰਝਾ ਦਿਓ ਅਤੇ ਸ਼ਾਇਦ ਤੁਹਾਡੇ ਸੁਨੇਹੇ ਭੇਜੇ ਜਾਣ ਵਿੱਚ ਅਸਫ਼ਲ ਰਹਿਣ।",
+        "message": "ਜੇ ਤੁਸੀਂ ਪ੍ਰਮਾਣੀਕਰਣ ਨੂੰ ਛੱਡਣ ਦੀ ਚੋਣ ਕਰਦੇ ਹੋ, ਤਾਂ ਹੋ ਸਕਦਾ ਹੈ ਕਿ ਤੁਸੀਂ ਦੂਜੇ ਲੋਕਾਂ ਦੇ ਸੁਨੇਹਿਆਂ ਨੂੰ ਖੁੰਝਾ ਦਿਓ ਅਤੇ ਸ਼ਾਇਦ ਤੁਹਾਡੇ ਸੁਨੇਹੇ ਭੇਜੇ ਜਾਣ ਵਿੱਚ ਅਸਫ਼ਲ ਰਹਿਣ।",
         "description": "Body of the captcha dialog that can be closed"
     },
     "CaptchaDialog--can_close__skip-verification": {
@@ -5536,15 +5536,15 @@
         "description": "Displayed after unsuccessful captcha"
     },
     "deleteForEveryoneFailed": {
-        "message": "ਹਰੇਕ ਦੇ ਲਈ ਸੁਨੇਹਾ ਹਟਾਉਣਾ ਅਸਫ਼ਲ ਰਿਹਾ। ਕਿਰਪਾ ਕਰਕੇ ਬਾਅਦ ਵਿੱਚ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।",
+        "message": "ਹਰੇਕ ਦੇ ਲਈ ਸੁਨੇਹਾ ਮਿਟਾਉਣਾ ਅਸਫ਼ਲ ਰਿਹਾ। ਕਿਰਪਾ ਕਰਕੇ ਬਾਅਦ ਵਿੱਚ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।",
         "description": "Displayed when delete-for-everyone has failed to send to all recepients"
     },
     "ChatColorPicker__delete--title": {
-        "message": "ਰੰਗ ਨੂੰ ਹਟਾਓ",
+        "message": "ਰੰਗ ਨੂੰ ਮਿਟਾਓ",
         "description": "Confirm title for deleting custom color"
     },
     "ChatColorPicker__delete--message": {
-        "message": "$num$ ਚੈਟਾਂ ਵਿੱਚ ਇਸ ਕਸਟਮ ਰੰਗ ਦੀ ਵਰਤੋਂ ਕੀਤੀ ਜਾਂਦੀ ਹੈ। ਕੀ ਤੁਸੀਂ ਸਾਰੀਆਂ ਚੈਟਾਂ ਲਈ ਇਸ ਨੂੰ ਹਟਾਉਣਾ ਚਾਹੁੰਦੇ ਹੋ?",
+        "message": "$num$ ਚੈਟਾਂ ਵਿੱਚ ਇਸ ਪਸੰਦੀਦਾ ਰੰਗ ਦੀ ਵਰਤੋਂ ਕੀਤੀ ਜਾਂਦੀ ਹੈ। ਕੀ ਤੁਸੀਂ ਸਾਰੀਆਂ ਚੈਟਾਂ ਲਈ ਇਸ ਨੂੰ ਹਟਾਉਣਾ ਚਾਹੁੰਦੇ ਹੋ?",
         "description": "Confirm message for deleting custom color",
         "placeholders": {
             "num": {
@@ -5554,7 +5554,7 @@
         }
     },
     "ChatColorPicker__global-chat-color": {
-        "message": "ਗਲੋਬਲ ਚੈਟ ਰੰਗ",
+        "message": "ਚੈਟ ਦੇ ਗਲੋਬਲ ਰੰਗ",
         "description": "Modal title for the chat color picker and editor for all conversations"
     },
     "ChatColorPicker__menu-title": {
@@ -5578,7 +5578,7 @@
         "description": "Button label for resetting only global chat color"
     },
     "ChatColorPicker__confirm-reset": {
-        "message": "ਮੁੜ-ਸੈੱਟ ਕਰੋ",
+        "message": "ਰੀਸੈੱਟ ਕਰੋ",
         "description": "Confirm button label for resetting chat colors"
     },
     "ChatColorPicker__confirm-reset-message": {
@@ -5586,11 +5586,11 @@
         "description": "Modal message text for confirming resetting of chat colors"
     },
     "ChatColorPicker__custom-color--label": {
-        "message": "ਕਸਟਮ ਕਲਰ ਐਡੀਟਰ ਦਿਖਾਓ",
+        "message": "ਪਸੰਦੀਦਾ ਕਲਰ ਐਡੀਟਰ ਦਿਖਾਓ",
         "description": "aria-label for custom color editor button"
     },
     "ChatColorPicker__sampleBubble1": {
-        "message": "ਇਹ ਹੈ ਚੈਟ ਰੰਗ ਦੀ ਝਲਕ।",
+        "message": "ਇਹ ਹੈ ਚੈਟ ਦੇ ਰੰਗ ਦੀ ਝਲਕ।",
         "description": "An example message bubble for selecting the chat color"
     },
     "ChatColorPicker__sampleBubble2": {
@@ -5610,7 +5610,7 @@
         "description": "Option in the custom color bubble context menu"
     },
     "ChatColorPicker__context--delete": {
-        "message": "ਹਟਾਓ",
+        "message": "ਮਿਟਾਓ",
         "description": "Option in the custom color bubble context menu"
     },
     "CustomColorEditor__solid": {
@@ -5626,7 +5626,7 @@
         "description": "Label for the hue slider"
     },
     "CustomColorEditor__saturation": {
-        "message": "ਸੰਤ੍ਰਿਪਤ",
+        "message": "ਸੰਤ੍ਰਿਪਤੀ",
         "description": "Label for the saturation slider"
     },
     "CustomColorEditor__title": {
@@ -5716,7 +5716,7 @@
         "description": "Title for option for standard quality"
     },
     "MediaQualitySelector--standard-quality-description": {
-        "message": "ਵੱਧ ਤੇਜ਼, ਘੱਟ ਡਾਟਾ",
+        "message": "ਵੱਧ ਤੇਜ਼, ਘੱਟ ਡੇਟਾ",
         "description": "Description of standard quality selector"
     },
     "MediaQualitySelector--high-quality-title": {
@@ -5724,7 +5724,7 @@
         "description": "Title for option for high quality"
     },
     "MediaQualitySelector--high-quality-description": {
-        "message": "ਹੌਲੀ, ਵੱਧ ਡਾਟਾ",
+        "message": "ਹੌਲੀ, ਵੱਧ ਡੇਟਾ",
         "description": "Description of high quality selector"
     },
     "MessageDetailsHeader--Failed": {
@@ -5744,7 +5744,7 @@
         "description": "In the message details screen, shown above contacts who have received your message"
     },
     "MessageDetailsHeader--Read": {
-        "message": "ਪੜ੍ਹੇ",
+        "message": "ਦੁਆਰਾ ਪੜ੍ਹਿਆ ਗਿਆ",
         "description": "In the message details screen, shown above contacts who have read this message"
     },
     "MessageDetailsHeader--Viewed": {
@@ -5760,11 +5760,11 @@
         "description": "Placeholder text for about input field"
     },
     "ProfileEditor--first-name": {
-        "message": "ਨਾਂ ਦਾ ਪਹਿਲਾਂ ਹਿੱਸਾ (ਲਾਜ਼ਮੀ)",
+        "message": "ਪਹਿਲਾ ਨਾਂ (ਲਾਜ਼ਮੀ)",
         "description": "Placeholder text for first name field"
     },
     "ProfileEditor--last-name": {
-        "message": "ਨਾਂ ਦਾ ਆਖਰੀ ਹਿੱਸਾ (ਚੋਣਵਾਂ)",
+        "message": "ਆਖਰੀ ਨਾਂ (ਚੋਣਵਾਂ)",
         "description": "Placeholder text for last name field"
     },
     "ProfileEditor--discard": {
@@ -5772,7 +5772,7 @@
         "description": "ConfirmationDialog text for discarding changes"
     },
     "ProfileEditor--info": {
-        "message": "ਤੁਹਾਡਾ ਪ੍ਰੋਫ਼ਾਈਲ ਸਿਰੇ-ਤੋਂ-ਸਿਰੇ ਤੱਕ ਇੰਕ੍ਰਿਪਟ ਕੀਤਾ ਹੋਇਆ ਹੈ। ਤੁਹਾਡੇ ਪ੍ਰੋਫ਼ਾਈਲ ਅਤੇ ਇਸ ਵਿੱਚ ਕੀਤੀਆਂ ਤਬਦੀਲੀਆਂ ਨੂੰ ਤੁਹਾਡੇ ਸੰਪਰਕ ਵੇਖ ਸਕਦੇ ਹਨ, ਅਤੇ ਇਹ ਵੀ ਕਿ ਤੁਸੀਂ ਕਦੋਂ ਨਵੀਂ ਚੈਟ ਸ਼ੁਰੂ ਜਾਂ ਸਵੀਕਾਰ ਕਰਦੇ ਹੋ। $learnMore$",
+        "message": "ਤੁਹਾਡਾ ਪ੍ਰੋਫ਼ਾਈਲ ਸਿਰੇ-ਤੋਂ-ਸਿਰੇ ਤੱਕ ਇਨਕ੍ਰਿਪਟ ਕੀਤਾ ਹੋਇਆ ਹੈ। ਤੁਹਾਡੇ ਪ੍ਰੋਫ਼ਾਈਲ ਅਤੇ ਇਸ ਵਿੱਚ ਕੀਤੀਆਂ ਤਬਦੀਲੀਆਂ ਨੂੰ ਤੁਹਾਡੇ ਸੰਪਰਕ ਵੇਖ ਸਕਦੇ ਹਨ, ਅਤੇ ਇਹ ਵੀ ਕਿ ਤੁਸੀਂ ਕਦੋਂ ਨਵੀਂਆਂ ਚੈਟਾਂ ਸ਼ੁਰੂ ਜਾਂ ਮਨਜ਼ੂਰ ਕਰਦੇ ਹੋ। $learnMore$",
         "description": "Information shown at the bottom of the profile editor section",
         "placeholders": {
             "learnMore": {
@@ -5790,11 +5790,11 @@
         "description": "A default bio option"
     },
     "Bio--encrypted": {
-        "message": "ਇੰਕ੍ਰਿਪਟ ਹੈ",
+        "message": "ਇਨਕ੍ਰਿਪਟ ਹੈ",
         "description": "A default bio option"
     },
     "Bio--free-to-chat": {
-        "message": "ਗੱਲਾਂ ਕਰਨ ਲਈ ਵੇਹਲੇ",
+        "message": "ਚੈਟ ਕਰਨ ਲਈ ਵੇਹਲੇ",
         "description": "A default bio option"
     },
     "Bio--coffee-lover": {

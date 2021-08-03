@@ -412,7 +412,7 @@
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "identityKeyErrorOnSend": {
-        "message": "$name1$-এর সাথে আপনার নিরাপত্তা নাম্বার বদলে গেছে। এই মানে হতে পারে এই যে কেউ একজন আপনার যোগাযোগে আড়িপাতার চেষ্টা করছে অথবা হতে পারে$name2$ কেবল Signal অ্যাপ পুনরায় ইনস্টল করেছেন। আপনি এই কন্ট্যাক্টের সাথে আপনার নিরাপত্তা নাম্বার যাচাই করতে চাইতে পারেন।",
+        "message": "$name1$-এর সাথে আপনার নিরাপত্তা নাম্বার বদলে গেছে। এর মানে হতে পারে এই যে, কেউ একজন আপনার যোগাযোগে আড়িপাতার চেষ্টা করছে অথবা হতে পারে$name2$ কেবল Signal অ্যাপ পুনরায় ইনস্টল করেছেন। আপনি এই কন্ট্যাক্টের সাথে আপনার নিরাপত্তা নাম্বার যাচাই করতে চাইতে পারেন।",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name1": {
