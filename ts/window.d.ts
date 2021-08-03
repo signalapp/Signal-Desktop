@@ -482,8 +482,8 @@ declare global {
 
     getServerTrustRoot: () => WhatIsThis;
     readyForUpdates: () => void;
-    logAppLoadedEvent: (options: { processedCount?: number }) => void;
-    logAuthenticatedConnect: () => void;
+    logAppLoadedEvent?: (options: { processedCount?: number }) => void;
+    logAuthenticatedConnect?: () => void;
 
     // Runtime Flags
     isShowingModal?: boolean;

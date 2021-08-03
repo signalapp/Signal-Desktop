@@ -212,7 +212,7 @@ export class SocketManager extends EventListener {
 
     window.log.info('SocketManager: connected authenticated socket');
 
-    window.logAuthenticatedConnect();
+    window.logAuthenticatedConnect?.();
     this.backOff.reset();
 
     authenticated.addEventListener('close', ({ code, reason }): void => {

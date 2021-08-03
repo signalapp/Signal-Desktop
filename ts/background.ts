@@ -2503,7 +2503,7 @@ export async function startApp(): Promise<void> {
 
     window.reduxActions.app.initialLoadComplete();
 
-    window.logAppLoadedEvent({
+    window.logAppLoadedEvent?.({
       processedCount: messageReceiver && messageReceiver.getProcessedCount(),
     });
     if (messageReceiver) {
