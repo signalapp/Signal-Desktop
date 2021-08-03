@@ -200,7 +200,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     this.triggerUIRefresh = _.throttle(this.triggerUIRefresh, 1000, {
       trailing: true,
     });
-    this.throttledNotify = _.debounce(this.notify, 500, { maxWait: 1000, trailing: true });
+    this.throttledNotify = _.debounce(this.notify, 500, { maxWait: 5000, trailing: true });
     //start right away the function is called, and wait 1sec before calling it again
     const markReadDebounced = _.debounce(this.markReadBouncy, 1000, {
       leading: true,
