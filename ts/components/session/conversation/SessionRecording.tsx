@@ -133,7 +133,7 @@ class SessionRecordingInner extends React.Component<Props, State> {
       displayTimeString += remainingTimeString;
     }
 
-    const actionPauseFn = isPlaying ? this.pauseAudio : this.stopRecordingStream;
+    const actionPauseFn = isPlaying ? this.pauseAudio : this.onStopRecordingClick;
 
     return (
       <div role="main" className="session-recording" tabIndex={0} onKeyDown={this.onKeyDown}>
@@ -348,19 +348,18 @@ class SessionRecordingInner extends React.Component<Props, State> {
     this.recorder = undefined;
 
     this.audioBlobMp3 = blob;
-    this.updateAudioElementAndDuration();
 
     // Stop recording
     this.stopRecordingState();
   }
 
+  /**
+   * Stops recording and sets up audio element, updates recording state.
+   */
   private async onStopRecordingClick() {
     this.stopRecordingStream();
     this.updateAudioElementAndDuration();
-    this.stopRecordingState();
   }
-
-
 
   /**
    * Creates an audio element using the recorded audio blob. 

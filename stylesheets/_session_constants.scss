@@ -153,9 +153,9 @@ $session-font-h4: 16px;
   color: subtle($color);
 }
 
-@mixin pulse-color($color) {
+@mixin pulse-color($color, $repetition) {
 
-  animation: pulseColor 2s infinite;
+  animation: pulseColor 2s $repetition;
 
   @keyframes pulseColor {
     0% {
@@ -214,23 +214,6 @@ $session-fadein-duration: 0.1s;
   }
   to {
     opacity: 1;
-  }
-}
-
-@keyframes pulse-shadow {
-  0% {
-    transform: scale(0.95);
-    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7);
-  }
-  
-  70% {
-    transform: scale(1);
-    box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
-  }
-  
-  100% {
-    transform: scale(0.95);
-    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
   }
 }
 

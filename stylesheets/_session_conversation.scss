@@ -187,7 +187,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    opacity: 0.8;
+    opacity: 0.7;
+
+    &:hover {
+      opacity: 1;
+      transform: scale(0.95);
+      transition: $session-transition-duration;
+    }
 
     .send {
       padding: $session-margin-xs;
@@ -436,7 +442,7 @@
       background-color: $session-color-danger-alt;
       margin: 0 $session-margin-sm;
 
-      @include pulse-color($session-color-danger-alt);
+      @include pulse-color($session-color-danger-alt, infinite);
     }
   }
 }
