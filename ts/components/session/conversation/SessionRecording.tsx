@@ -107,6 +107,7 @@ class SessionRecordingInner extends React.Component<Props, State> {
     } = this.state;
 
     const hasRecordingAndPaused = !isRecording && !isPlaying;
+    const hasRecording = this.audioElement?.duration && this.audioElement?.duration > 0;
     const actionPauseAudio = !isRecording && !isPaused && isPlaying;
 
     // const actionDefault = !actionStopRecording && !actionPlayAudio && !actionPauseAudio;
@@ -123,17 +124,16 @@ class SessionRecordingInner extends React.Component<Props, State> {
       0;
     let displayTimeString = moment.utc(displayTimeMs).format('m:ss');
 
-    const recordingLengthMs = this.audioElement?.duration ? this.audioElement?.duration * 1000 : undefined;
+    const recordingDurationMs = this.audioElement?.duration ? this.audioElement?.duration * 1000 : undefined;
 
     let remainingTimeString;
-    if (recordingLengthMs !== undefined) {
-      console.log({ recordingLengthMs });
-      console.log({ displayTimeMs });
-      remainingTimeString = ` / ${moment.utc(recordingLengthMs).format('m:ss')}`;
+    if (recordingDurationMs !== undefined) {
+      remainingTimeString = ` / ${moment.utc(recordingDurationMs).format('m:ss')}`;
       displayTimeString += remainingTimeString;
     }
 
-    const actionPauseFn = isPlaying ? this.pauseAudio : this.onStopRecordingClick;
+    const actionPauseFn = isPlaying ? this.pauseAudio : this.stopRecordingStream;
+    // const actionPauseFn = isPlaying ? this.pauseAudio : this.onStopRecordingClick;
 
     return (
       <div role="main" className="session-recording" tabIndex={0} onKeyDown={this.onKeyDown}>
@@ -157,24 +157,25 @@ class SessionRecordingInner extends React.Component<Props, State> {
               onClick={actionPauseFn}
             />
           )}
-          {hasRecordingAndPaused && (
-            <StyledFlexWrapper
-              flexDirection='row'
-              marginHorizontal={Constants.UI.SPACING.marginXs}
-            >
+          <StyledFlexWrapper
+            flexDirection='row'
+            marginHorizontal={Constants.UI.SPACING.marginXs}
+          >
+            {hasRecordingAndPaused && (
               <SessionIconButton
                 iconType={SessionIconType.Play}
                 iconSize={SessionIconSize.Medium}
                 onClick={this.playAudio}
               />
-              <SessionButton
-                text={window.i18n('delete')}
-                buttonType={SessionButtonType.Brand}
-                buttonColor={SessionButtonColor.Secondary}
+            )}
+            {hasRecording && (
+              <SessionIconButton
+                iconType={SessionIconType.Delete2}
+                iconSize={SessionIconSize.Medium}
                 onClick={this.onDeleteVoiceMessage}
               />
-            </StyledFlexWrapper>
-          )}
+            )}
+          </StyledFlexWrapper>
 
           {actionDefault && (
             <SessionIconButton
@@ -184,7 +185,7 @@ class SessionRecordingInner extends React.Component<Props, State> {
           )}
         </div>
 
-        {isRecording || (!isRecording && remainingTimeString) ?
+        {isRecording || (!isRecording && hasRecording) ?
           <div className={classNames('session-recording--timer', !isRecording && 'playback-timer')}>
             {displayTimeString}
             {isRecording && <div className="session-recording--timer-light" />}
@@ -348,6 +349,7 @@ class SessionRecordingInner extends React.Component<Props, State> {
     this.recorder = undefined;
 
     this.audioBlobMp3 = blob;
+    this.updateAudioElementAndDuration();
 
     // Stop recording
     this.stopRecordingState();
