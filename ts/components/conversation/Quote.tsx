@@ -113,7 +113,7 @@ export const QuoteImage = (props: any) => {
   const { loading, urlToLoad } = useEncryptedFileFetch(url, contentType);
   const srcData = !loading ? urlToLoad : '';
 
-  const onDragStart = useCallback((e:any) => {
+  const onDragStart = useCallback((e: any) => {
     e.preventDefault();
     return false;
   }, []);

@@ -211,9 +211,10 @@ export const LightboxObject = ({
 
   const isImageTypeSupported = GoogleChrome.isImageTypeSupported(contentType);
 
-  const onDragStart = useCallback((e:any) => {
+  const onDragStart = useCallback((e: any) => {
     e.preventDefault();
-    return false;  }, []);
+    return false;
+  }, []);
 
   const playVideo = () => {
     if (!videoRef) {
