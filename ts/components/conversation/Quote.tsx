@@ -1,6 +1,6 @@
 // tslint:disable:react-this-binding-issue
 
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import classNames from 'classnames';
 
 import * as MIME from '../../../ts/types/MIME';
@@ -113,6 +113,11 @@ export const QuoteImage = (props: any) => {
   const { loading, urlToLoad } = useEncryptedFileFetch(url, contentType);
   const srcData = !loading ? urlToLoad : '';
 
+  const onDragStart = useCallback((e:any) => {
+    e.preventDefault();
+    return false;
+  }, []);
+
   const iconElement = icon ? (
     <div className="module-quote__icon-container__inner">
       <div className="module-quote__icon-container__circle-background">
@@ -128,7 +133,12 @@ export const QuoteImage = (props: any) => {
 
   return (
     <div className="module-quote__icon-container">
-      <img src={srcData} alt={window.i18n('quoteThumbnailAlt')} onError={handleImageErrorBound} />
+      <img
+        src={srcData}
+        alt={window.i18n('quoteThumbnailAlt')}
+        onDragStart={onDragStart}
+        onError={handleImageErrorBound}
+      />
       {iconElement}
     </div>
   );

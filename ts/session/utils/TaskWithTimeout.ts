@@ -23,7 +23,7 @@ export const createTaskWithTimeout = (task: any, id: string, givenTimeout?: numb
           const localTimer = timer;
           if (localTimer) {
             timer = null;
-            clearTimeout(localTimer);
+            global.clearTimeout(localTimer);
           }
         } catch (error) {
           window?.log?.error(

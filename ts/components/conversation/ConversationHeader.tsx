@@ -219,6 +219,8 @@ export type ConversationHeaderTitleProps = {
 
 const ConversationHeaderTitle = () => {
   const headerTitleProps = useSelector(getConversationHeaderTitleProps);
+  const notificationSetting = useSelector(getCurrentNotificationSettingText);
+  const marginXS = useTheme().common.margins.xs;
   if (!headerTitleProps) {
     return null;
   }
@@ -256,12 +258,10 @@ const ConversationHeaderTitle = () => {
     memberCountText = i18n('members', [count]);
   }
 
-  const notificationSetting = useSelector(getCurrentNotificationSettingText);
   const notificationSubtitle = notificationSetting
     ? window.i18n('notificationSubtitle', notificationSetting)
     : null;
   const title = profileName || name || phoneNumber;
-  const marginXS = useTheme().common.margins.xs;
 
   return (
     <div className="module-conversation-header__title">
