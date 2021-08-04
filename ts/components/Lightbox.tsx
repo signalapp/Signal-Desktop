@@ -187,7 +187,7 @@ const Icon = ({
 }) => (
   <div
     style={{
-      ...styles.object,
+      ...(styles.object as any),
       ...colorSVG(url, Colors.ICON_SECONDARY),
       maxWidth: 200,
     }}
@@ -245,7 +245,9 @@ export const LightboxObject = ({
   });
 
   if (isImageTypeSupported) {
-    return <img style={styles.object} alt={window.i18n('lightboxImageAlt')} src={urlToLoad} />;
+    return (
+      <img style={styles.object as any} alt={window.i18n('lightboxImageAlt')} src={urlToLoad} />
+    );
   }
 
   const isVideoTypeSupported = GoogleChrome.isVideoTypeSupported(contentType);
@@ -259,7 +261,7 @@ export const LightboxObject = ({
         ref={videoRef}
         onClick={playVideo}
         controls={true}
-        style={styles.object}
+        style={styles.object as any}
         key={urlToLoad}
       >
         <source src={urlToLoad} />
@@ -302,8 +304,8 @@ export const Lightbox = (props: Props) => {
   };
 
   return (
-    <div style={styles.container} role="dialog">
-      <div style={styles.mainContainer}>
+    <div style={styles.container as any} role="dialog">
+      <div style={styles.mainContainer as any}>
         <div style={styles.controlsOffsetPlaceholder} />
         <div
           style={styles.objectParentContainer}
@@ -311,7 +313,7 @@ export const Lightbox = (props: Props) => {
           ref={containerRef}
           role="button"
         >
-          <div style={styles.objectContainer}>
+          <div style={styles.objectContainer as any}>
             {!is.undefined(contentType) ? (
               <LightboxObject
                 objectURL={objectURL}
@@ -320,10 +322,10 @@ export const Lightbox = (props: Props) => {
                 onObjectClick={onObjectClick}
               />
             ) : null}
-            {caption ? <div style={styles.caption}>{caption}</div> : null}
+            {caption ? <div style={styles.caption as any}>{caption}</div> : null}
           </div>
         </div>
-        <div style={styles.controls}>
+        <div style={styles.controls as any}>
           <Flex flex="1 1 auto">
             <IconButton
               type="close"
@@ -339,7 +341,7 @@ export const Lightbox = (props: Props) => {
           ) : null}
         </div>
       </div>
-      <div style={styles.navigationContainer}>
+      <div style={styles.navigationContainer as any}>
         {onPrevious ? (
           <IconButton type="previous" onClick={onPrevious} theme={theme} />
         ) : (

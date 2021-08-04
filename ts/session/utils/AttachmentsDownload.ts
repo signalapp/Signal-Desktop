@@ -47,7 +47,7 @@ export async function start(options: any = {}) {
 export function stop() {
   enabled = false;
   if (timeout) {
-    clearTimeout(timeout);
+    global.clearTimeout(timeout);
     timeout = null;
   }
 }

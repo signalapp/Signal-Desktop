@@ -909,7 +909,7 @@ export async function lokiOnionFetch(
       throw new Error(ERROR_CODE_NO_CONNECT);
     }
     if (e?.message === CLOCK_OUT_OF_SYNC_MESSAGE_ERROR) {
-      window?.log?.warn('Its an clock out of sync error ');
+      window?.log?.warn('Its a clock out of sync error ');
       throw new pRetry.AbortError(CLOCK_OUT_OF_SYNC_MESSAGE_ERROR);
     }
     throw e;

@@ -202,6 +202,9 @@ export class SwarmPolling {
     const messages = _.uniqBy(_.flatten(results), (x: any) => x.hash);
 
     if (isGroup) {
+      window?.log?.info(
+        `Polled for group(${pubkey}): group.pubkey, got ${messages.length} messages back.`
+      );
       // update the last fetched timestamp
       this.groupPolling = this.groupPolling.map(group => {
         if (PubKey.isEqual(pubkey, group.pubkey)) {

@@ -62,7 +62,7 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
 
   public componentWillUnmount() {
     if (this.timeoutResetQuotedScroll) {
-      clearTimeout(this.timeoutResetQuotedScroll);
+      global.clearTimeout(this.timeoutResetQuotedScroll);
     }
   }
 
@@ -170,7 +170,7 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
    */
   private setupTimeoutResetQuotedHighlightedMessage(messageId: string | undefined) {
     if (this.timeoutResetQuotedScroll) {
-      clearTimeout(this.timeoutResetQuotedScroll);
+      global.clearTimeout(this.timeoutResetQuotedScroll);
     }
 
     if (messageId !== undefined) {

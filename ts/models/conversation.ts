@@ -20,7 +20,7 @@ import {
   saveMessages,
   updateConversation,
 } from '../../ts/data/data';
-import { fromArrayBufferToBase64, fromBase64ToArrayBuffer, toHex } from '../session/utils/String';
+import { toHex } from '../session/utils/String';
 import {
   actions as conversationActions,
   conversationChanged,
@@ -300,7 +300,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
   public setTypingRefreshTimer() {
     if (this.typingRefreshTimer) {
-      clearTimeout(this.typingRefreshTimer);
+      global.clearTimeout(this.typingRefreshTimer);
     }
     this.typingRefreshTimer = global.setTimeout(this.onTypingRefreshTimeout.bind(this), 10 * 1000);
   }
@@ -315,7 +315,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
   public setTypingPauseTimer() {
     if (this.typingPauseTimer) {
-      clearTimeout(this.typingPauseTimer);
+      global.clearTimeout(this.typingPauseTimer);
     }
     this.typingPauseTimer = global.setTimeout(this.onTypingPauseTimeout.bind(this), 10 * 1000);
   }
@@ -329,11 +329,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
   public clearTypingTimers() {
     if (this.typingPauseTimer) {
-      clearTimeout(this.typingPauseTimer);
+      global.clearTimeout(this.typingPauseTimer);
       this.typingPauseTimer = null;
     }
     if (this.typingRefreshTimer) {
-      clearTimeout(this.typingRefreshTimer);
+      global.clearTimeout(this.typingRefreshTimer);
       this.typingRefreshTimer = null;
     }
   }
@@ -1468,7 +1468,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     const wasTyping = !!this.typingTimer;
     if (this.typingTimer) {
-      clearTimeout(this.typingTimer);
+      global.clearTimeout(this.typingTimer);
       this.typingTimer = null;
     }
 
@@ -1497,7 +1497,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
   public async clearContactTypingTimer(sender: string) {
     if (!!this.typingTimer) {
-      clearTimeout(this.typingTimer);
+      global.clearTimeout(this.typingTimer);
       this.typingTimer = null;
 
       // User was previously typing, but timed out or we received message. State change!

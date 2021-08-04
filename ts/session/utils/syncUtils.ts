@@ -122,7 +122,7 @@ const getValidClosedGroups = async (convos: Array<ConversationModel>) => {
     c =>
       !!c.get('active_at') &&
       c.isMediumGroup() &&
-      c.get('members').includes(ourPubKey) &&
+      c.get('members')?.includes(ourPubKey) &&
       !c.get('left') &&
       !c.get('isKickedFromGroup') &&
       !c.isBlocked() &&
@@ -138,7 +138,7 @@ const getValidClosedGroups = async (convos: Array<ConversationModel>) => {
       }
 
       return new ConfigurationMessageClosedGroup({
-        publicKey: groupPubKey,
+        publicKey: groupPubKey as string,
         name: c.get('name') || '',
         members: c.get('members') || [],
         admins: c.get('groupAdmins') || [],
@@ -188,7 +188,7 @@ const getValidContacts = (convos: Array<ConversationModel>) => {
       }
 
       return new ConfigurationMessageContact({
-        publicKey: c.id,
+        publicKey: c.id as string,
         displayName: c.getLokiProfile()?.displayName,
         profilePictureURL: c.get('avatarPointer'),
         profileKey: !profileKeyForContact?.length ? undefined : profileKeyForContact,
