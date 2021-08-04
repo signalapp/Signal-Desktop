@@ -42,6 +42,7 @@ import {
 } from '../state/selectors/message';
 import { getMessagesByConversation } from '../state/selectors/conversations';
 import { ConversationDetailsMembershipList } from '../components/conversation/conversation-details/ConversationDetailsMembershipList';
+import { MediaGallery } from '../components/conversation/media-gallery/MediaGallery';
 import { showSafetyNumberChangeDialog } from '../shims/showSafetyNumberChangeDialog';
 import {
   LinkPreviewImage,
@@ -2398,6 +2399,14 @@ Whisper.ConversationView = Whisper.View.extend({
   },
 
   async showAllMedia() {
+    if (
+      this.panels &&
+      this.panels.length > 0 &&
+      this.panels[0].Component === MediaGallery
+    ) {
+      return;
+    }
+
     // We fetch more documents than media as they don’t require to be loaded
     // into memory right away. Revisit this once we have infinite scrolling:
     const DEFAULT_MEDIA_FETCH_COUNT = 50;
