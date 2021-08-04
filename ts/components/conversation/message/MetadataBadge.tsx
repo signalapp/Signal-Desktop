@@ -38,7 +38,7 @@ export const MetadataBadge = (props: BadgeProps): JSX.Element => {
 };
 
 type BadgesProps = {
-  id: string;
+  messageId: string;
   direction: string;
   isPublic?: boolean;
   isAdmin?: boolean;
@@ -46,7 +46,7 @@ type BadgesProps = {
 };
 
 export const MetadataBadges = (props: BadgesProps): JSX.Element => {
-  const { id, direction, isPublic, isAdmin, withImageNoCaption } = props;
+  const { messageId, direction, isPublic, isAdmin, withImageNoCaption } = props;
   const badges = [(isPublic && 'Public') || null, (isPublic && isAdmin && 'Mod') || null].filter(
     nonNullish
   );
@@ -57,7 +57,7 @@ export const MetadataBadges = (props: BadgesProps): JSX.Element => {
 
   const badgesElements = badges.map(badgeText => (
     <MetadataBadge
-      key={`${id}-${badgeText}`}
+      key={`${messageId}-${badgeText}`}
       badge={badgeText}
       direction={direction}
       withImageNoCaption={withImageNoCaption}

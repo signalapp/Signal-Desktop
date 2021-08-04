@@ -14,6 +14,7 @@ const StyledTrustSenderUI = styled.div`
 `;
 
 const ClickToDownload = styled.div`
+  cursor: pointer;
   padding: ${props => props.theme.common.margins.xs} ${props => props.theme.common.margins.md};
 `;
 

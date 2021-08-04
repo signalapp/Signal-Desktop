@@ -255,6 +255,8 @@
   "userUnbanFailed": "Unban failed!",
   "banUser": "Ban User",
   "banUserConfirm": "Are you sure you want to ban the user?",
+  "banUserAndDeleteAll": "Ban and Delete All",
+  "banUserAndDeleteAllConfirm": "Are you sure you want to ban the user and delete all his messages?",
   "userBanned": "Banned successfully",
   "userBanFailed": "Ban failed!",
   "leaveGroup": "Leave Group",
@@ -416,5 +418,6 @@
   "pinConversationLimitToastDescription": "You can only pin $number$ conversations",
   "latestUnreadIsAbove": "First unread message is above",
   "sendRecoveryPhraseTitle": "Sending Recovery Phrase",
-  "sendRecoveryPhraseMessage": "You are attempting to send your recovery phrase which can be used to access your account. Are you sure you want to send this message?"
+  "sendRecoveryPhraseMessage": "You are attempting to send your recovery phrase which can be used to access your account. Are you sure you want to send this message?",
+  "notificationSubtitle": "Notifications - $setting$"
 }

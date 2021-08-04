@@ -8,7 +8,7 @@ import { ConversationTypeEnum } from '../models/conversation';
 import { SessionWrapperModal } from './session/SessionWrapperModal';
 import { SpacerMD } from './basic/Text';
 import { updateUserDetailsModal } from '../state/ducks/modalDialog';
-import { openConversationExternal } from '../state/ducks/conversations';
+import { openConversationWithMessages } from '../state/ducks/conversations';
 // tslint:disable-next-line: no-submodule-imports
 import useKey from 'react-use/lib/useKey';
 import { getFirstUnreadMessageIdInConversation } from '../data/data';
@@ -34,12 +34,8 @@ export const UserDetailsDialog = (props: Props) => {
       convo.id,
       ConversationTypeEnum.PRIVATE
     );
-    const firstUnreadIdOnOpen = await getFirstUnreadMessageIdInConversation(conversation.id);
 
-    window.inboxStore?.dispatch(
-      openConversationExternal({ id: conversation.id, firstUnreadIdOnOpen })
-    );
-
+    await openConversationWithMessages({ conversationKey: conversation.id });
     closeDialog();
   }
 

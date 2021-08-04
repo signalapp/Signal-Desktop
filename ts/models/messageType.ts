@@ -1,11 +1,7 @@
-import { DefaultTheme } from 'styled-components';
 import _ from 'underscore';
 import { v4 as uuidv4 } from 'uuid';
-import { QuotedAttachmentType } from '../components/conversation/Quote';
 import { PropsForMessage } from '../state/ducks/conversations';
-import { AttachmentType, AttachmentTypeWithPath } from '../types/Attachment';
-import { Contact } from '../types/Contact';
-import { ConversationTypeEnum } from './conversation';
+import { AttachmentTypeWithPath } from '../types/Attachment';
 
 export type MessageModelType = 'incoming' | 'outgoing';
 export type MessageDeliveryStatus = 'sending' | 'sent' | 'read' | 'error';
@@ -113,11 +109,13 @@ export interface DataExtractionNotificationMsg {
 export type PropsForDataExtractionNotification = DataExtractionNotificationMsg & {
   name: string;
   messageId: string;
+  receivedAt?: number;
+  isUnread: boolean;
 };
 
 export interface MessageAttributesOptionals {
   id?: string;
-  source?: string;
+  source: string;
   quote?: any;
   expireTimer?: number;
   received_at?: number;
@@ -214,8 +212,4 @@ export type MessageRenderingProps = PropsForMessage & {
   multiSelectMode: boolean;
   firstMessageOfSeries: boolean;
   onQuoteClick?: (options: QuoteClickOptions) => Promise<void>;
-
-  playableMessageIndex?: number;
-  nextMessageToPlay?: number;
-  playNextMessage?: (value: number) => void;
 };

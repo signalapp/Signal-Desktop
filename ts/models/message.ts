@@ -27,6 +27,7 @@ import {
   LastMessageStatusType,
   MessageModelProps,
   MessagePropsDetails,
+  messagesChanged,
   PropsForAttachment,
   PropsForExpirationTimer,
   PropsForGroupInvitation,
@@ -80,8 +81,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       void this.setToExpire();
     }
     autoBind(this);
-
-    this.dispatchMessageUpdate = _.throttle(this.dispatchMessageUpdate, 300);
 
     window.contextMenuShown = false;
 
@@ -297,6 +296,8 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       disabled,
       type: fromSync ? 'fromSync' : UserUtils.isUsFromCache(source) ? 'fromMe' : 'fromOther',
       messageId: this.id,
+      receivedAt: this.get('received_at'),
+      isUnread: this.isUnread(),
     };
 
     return basicProps;
@@ -327,6 +328,8 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       direction,
       acceptUrl: invitation.url,
       messageId: this.id as string,
+      receivedAt: this.get('received_at'),
+      isUnread: this.isUnread(),
     };
   }
 
@@ -347,6 +350,8 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       ...dataExtractionNotification,
       name: contact.profileName || contact.name || dataExtractionNotification.source,
       messageId: this.id,
+      receivedAt: this.get('received_at'),
+      isUnread: this.isUnread(),
     };
   }
 
@@ -463,6 +468,8 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     return {
       changes,
       messageId: this.id,
+      isUnread: this.isUnread(),
+      receivedAt: this.get('received_at'),
     };
   }
 
@@ -506,6 +513,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       // isSelected: this.isSelected,
       id: this.id as string,
       conversationId: this.get('conversationId'),
+      source: this.get('source'),
       receivedAt: this.get('received_at'),
       snippet: this.get('snippet'),
     };
@@ -1180,9 +1188,20 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     }
   }
   private dispatchMessageUpdate() {
-    window.inboxStore?.dispatch(conversationActions.messageChanged(this.getProps()));
+    updatesToDispatch.set(this.id, this.getProps());
+    trotthledAllMessagesDispatch();
   }
 }
+
+const trotthledAllMessagesDispatch = _.throttle(() => {
+  if (updatesToDispatch.size === 0) {
+    return;
+  }
+  window.inboxStore?.dispatch(messagesChanged([...updatesToDispatch.values()]));
+  updatesToDispatch.clear();
+}, 1000);
+
+const updatesToDispatch: Map<string, MessageModelProps> = new Map();
 export class MessageCollection extends Backbone.Collection<MessageModel> {}
 
 MessageCollection.prototype.model = MessageModel;

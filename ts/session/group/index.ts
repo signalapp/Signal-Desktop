@@ -98,7 +98,7 @@ export async function initiateGroupUpdate(
     name: groupName,
     members,
     // remove from the zombies list the zombies not which are not in the group anymore
-    zombies: convo.get('zombies').filter(z => members.includes(z)),
+    zombies: convo.get('zombies')?.filter(z => members.includes(z)),
     activeAt: Date.now(),
     expireTimer: convo.get('expireTimer'),
     avatar,
@@ -119,23 +119,28 @@ export async function initiateGroupUpdate(
   if (diff.newName?.length) {
     const nameOnlyDiff: GroupDiff = { newName: diff.newName };
     const dbMessageName = await addUpdateMessage(convo, nameOnlyDiff, 'outgoing', Date.now());
-    getMessageController().register(dbMessageName.id, dbMessageName);
-    await sendNewName(convo, diff.newName, dbMessageName.id);
+    getMessageController().register(dbMessageName.id as string, dbMessageName);
+    await sendNewName(convo, diff.newName, dbMessageName.id as string);
   }
 
   if (diff.joiningMembers?.length) {
     const joiningOnlyDiff: GroupDiff = { joiningMembers: diff.joiningMembers };
     const dbMessageAdded = await addUpdateMessage(convo, joiningOnlyDiff, 'outgoing', Date.now());
-    getMessageController().register(dbMessageAdded.id, dbMessageAdded);
-    await sendAddedMembers(convo, diff.joiningMembers, dbMessageAdded.id, updateObj);
+    getMessageController().register(dbMessageAdded.id as string, dbMessageAdded);
+    await sendAddedMembers(convo, diff.joiningMembers, dbMessageAdded.id as string, updateObj);
   }
 
   if (diff.leavingMembers?.length) {
     const leavingOnlyDiff: GroupDiff = { leavingMembers: diff.leavingMembers };
     const dbMessageLeaving = await addUpdateMessage(convo, leavingOnlyDiff, 'outgoing', Date.now());
-    getMessageController().register(dbMessageLeaving.id, dbMessageLeaving);
+    getMessageController().register(dbMessageLeaving.id as string, dbMessageLeaving);
     const stillMembers = members;
-    await sendRemovedMembers(convo, diff.leavingMembers, stillMembers, dbMessageLeaving.id);
+    await sendRemovedMembers(
+      convo,
+      diff.leavingMembers,
+      stillMembers,
+      dbMessageLeaving.id as string
+    );
   }
   await convo.commit();
 }
@@ -164,8 +169,11 @@ export async function addUpdateMessage(
 
   const unread = type === 'incoming';
 
+  const source = UserUtils.getOurPubKeyStrFromCache();
+
   const message = await convo.addSingleMessage({
     conversationId: convo.get('id'),
+    source,
     type,
     sent_at: sentAt,
     received_at: now,
@@ -259,7 +267,7 @@ export async function updateOrCreateClosedGroup(details: GroupInfo) {
 
   const isBlocked = details.blocked || false;
   if (conversation.isClosedGroup() || conversation.isMediumGroup()) {
-    await BlockedNumberController.setGroupBlocked(conversation.id, isBlocked);
+    await BlockedNumberController.setGroupBlocked(conversation.id as string, isBlocked);
   }
 
   if (details.admins?.length) {
@@ -313,20 +321,23 @@ export async function leaveClosedGroup(groupId: string) {
   convo.set({ groupAdmins: admins });
   await convo.commit();
 
+  const source = UserUtils.getOurPubKeyStrFromCache();
+
   const dbMessage = await convo.addSingleMessage({
     group_update: { left: 'You' },
     conversationId: groupId,
+    source,
     type: 'outgoing',
     sent_at: now,
     received_at: now,
     expireTimer: 0,
   });
-  getMessageController().register(dbMessage.id, dbMessage);
+  getMessageController().register(dbMessage.id as string, dbMessage);
   // Send the update to the group
   const ourLeavingMessage = new ClosedGroupMemberLeftMessage({
     timestamp: Date.now(),
     groupId,
-    identifier: dbMessage.id,
+    identifier: dbMessage.id as string,
   });
 
   window?.log?.info(`We are leaving the group ${groupId}. Sending our leaving message.`);
@@ -351,7 +362,7 @@ async function sendNewName(convo: ConversationModel, name: string, messageId: st
   // Send the update to the group
   const nameChangeMessage = new ClosedGroupNameChangeMessage({
     timestamp: Date.now(),
-    groupId,
+    groupId: groupId as string,
     identifier: messageId,
     name,
   });
@@ -421,7 +432,7 @@ export async function sendRemovedMembers(
   }
   const ourNumber = UserUtils.getOurPubKeyFromCache();
   const admins = convo.get('groupAdmins') || [];
-  const groupId = convo.get('id');
+  const groupId = convo.get('id') as string;
 
   const isCurrentUserAdmin = admins.includes(ourNumber.key);
   const isUserLeaving = removedMembers.includes(ourNumber.key);

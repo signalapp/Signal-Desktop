@@ -1,17 +1,9 @@
 import React from 'react';
-import classNames from 'classnames';
 
 import { Avatar, AvatarSize } from './Avatar';
-import { MessageBodyHighlight } from './MessageBodyHighlight';
-import { Timestamp } from './conversation/Timestamp';
 import { ContactName } from './conversation/ContactName';
 
-import {
-  FindAndFormatContactType,
-  openConversationExternal,
-  PropsForSearchResults,
-} from '../state/ducks/conversations';
-import { useDispatch } from 'react-redux';
+import { FindAndFormatContactType, PropsForSearchResults } from '../state/ducks/conversations';
 
 type PropsHousekeeping = {
   isSelected?: boolean;
@@ -81,44 +73,44 @@ const AvatarItem = (props: { from: FindAndFormatContactType }) => {
     />
   );
 };
-export const MessageSearchResult = (props: Props) => {
-  const { from, id: messageId, isSelected, conversationId, receivedAt, snippet, to } = props;
+// export const MessageSearchResult = (props: Props) => {
+//   const { from, id: messageId, isSelected, conversationId, receivedAt, snippet, to } = props;
 
-  const dispatch = useDispatch();
+//   const dispatch = useDispatch();
 
-  if (!from || !to) {
-    return null;
-  }
+//   if (!from || !to) {
+//     return null;
+//   }
 
-  return (
-    <div
-      role="button"
-      onClick={() => {
-        dispatch(
-          openConversationExternal({
-            id: conversationId,
-            messageId,
-            firstUnreadIdOnOpen: undefined,
-          })
-        );
-      }}
-      className={classNames(
-        'module-message-search-result',
-        isSelected ? 'module-message-search-result--is-selected' : null
-      )}
-    >
-      <AvatarItem from={from} />
-      <div className="module-message-search-result__text">
-        <div className="module-message-search-result__header">
-          <From from={from} to={to} />
-          <div className="module-message-search-result__header__timestamp">
-            <Timestamp timestamp={receivedAt} />
-          </div>
-        </div>
-        <div className="module-message-search-result__body">
-          <MessageBodyHighlight text={snippet || ''} />
-        </div>
-      </div>
-    </div>
-  );
-};
+//   return (
+//     <div
+//       role="button"
+//       onClick={() => {
+//         dispatch(
+//           openConversationExternal({
+//             id: conversationId,
+//             messageId,
+//             firstUnreadIdOnOpen: undefined,
+//           })
+//         );
+//       }}
+//       className={classNames(
+//         'module-message-search-result',
+//         isSelected ? 'module-message-search-result--is-selected' : null
+//       )}
+//     >
+//       <AvatarItem from={from} />
+//       <div className="module-message-search-result__text">
+//         <div className="module-message-search-result__header">
+//           <From from={from} to={to} />
+//           <div className="module-message-search-result__header__timestamp">
+//             <Timestamp timestamp={receivedAt} />
+//           </div>
+//         </div>
+//         <div className="module-message-search-result__body">
+//           <MessageBodyHighlight text={snippet || ''} />
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };

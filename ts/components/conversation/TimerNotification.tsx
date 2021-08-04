@@ -5,6 +5,7 @@ import { Intl } from '../Intl';
 import { missingCaseError } from '../../util/missingCaseError';
 import { SessionIcon, SessionIconSize, SessionIconType } from '../session/icon';
 import { PropsForExpirationTimer } from '../../state/ducks/conversations';
+import { ReadableMessage } from './ReadableMessage';
 
 const TimerNotificationContent = (props: PropsForExpirationTimer) => {
   const { phoneNumber, profileName, timespan, type, disabled } = props;
@@ -33,21 +34,30 @@ const TimerNotificationContent = (props: PropsForExpirationTimer) => {
 };
 
 export const TimerNotification = (props: PropsForExpirationTimer) => {
-  return (
-    <div className="module-timer-notification" id={props.messageId}>
-      <div className="module-timer-notification__message">
-        <div>
-          <SessionIcon
-            iconType={SessionIconType.Stopwatch}
-            iconSize={SessionIconSize.Small}
-            iconColor={'#ABABAB'}
-          />
-        </div>
+  const { messageId, receivedAt, isUnread } = props;
 
-        <div>
-          <TimerNotificationContent {...props} />
+  return (
+    <ReadableMessage
+      messageId={messageId}
+      receivedAt={receivedAt}
+      isUnread={isUnread}
+      key={`readable-message-${messageId}`}
+    >
+      <div className="module-timer-notification" id={`msg-${props.messageId}`}>
+        <div className="module-timer-notification__message">
+          <div>
+            <SessionIcon
+              iconType={SessionIconType.Stopwatch}
+              iconSize={SessionIconSize.Small}
+              iconColor={'#ABABAB'}
+            />
+          </div>
+
+          <div>
+            <TimerNotificationContent {...props} />
+          </div>
         </div>
       </div>
-    </div>
+    </ReadableMessage>
   );
 };

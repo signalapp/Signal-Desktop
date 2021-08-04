@@ -19,7 +19,6 @@ import { ToastUtils, UserUtils } from '../../../session/utils';
 import * as MIME from '../../../types/MIME';
 import { SessionFileDropzone } from './SessionFileDropzone';
 import {
-  fetchMessagesForConversation,
   quoteMessage,
   ReduxConversationType,
   resetSelectedMessageIds,
@@ -158,7 +157,6 @@ export class SessionConversation extends React.Component<Props, State> {
       }
     }
     if (newConversationKey !== oldConversationKey) {
-      void this.loadInitialMessages();
       this.setState({
         showRecordingView: false,
         stagedAttachments: [],
@@ -290,26 +288,6 @@ export class SessionConversation extends React.Component<Props, State> {
           <SessionRightPanelWithDetails />
         </div>
       </SessionTheme>
-    );
-  }
-
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  // ~~~~~~~~~~~~~~ GETTER METHODS ~~~~~~~~~~~~~~
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-  public async loadInitialMessages() {
-    const { selectedConversation, selectedConversationKey } = this.props;
-
-    if (!selectedConversation) {
-      return;
-    }
-
-    // lets load only 50 messages and let the user scroll up if he needs more context
-    (window.inboxStore?.dispatch as any)(
-      fetchMessagesForConversation({
-        conversationKey: selectedConversationKey,
-        count: 30, // first page
-      })
     );
   }
 

@@ -25,6 +25,7 @@ const {
   protocol: electronProtocol,
   session,
   shell,
+  systemPreferences,
 } = electron;
 
 // FIXME Hardcoding appId to prevent build failrues on release.
@@ -251,7 +252,7 @@ async function createWindow() {
         nativeWindowOpen: true,
         spellcheck: await getSpellCheckSetting(),
       },
-      icon: path.join(__dirname, 'images', 'session', 'session_icon_64.png'),
+      // don't setup icon, the executable one will be used by default
     },
     _.pick(windowConfig, ['maximized', 'autoHideMenuBar', 'width', 'height', 'x', 'y'])
   );
@@ -473,7 +474,7 @@ function showPasswordWindow() {
       preload: path.join(__dirname, 'password_preload.js'),
       nativeWindowOpen: true,
     },
-    icon: path.join(__dirname, 'images', 'session', 'session_icon_256.png'),
+    // don't setup icon, the executable one will be used by default
   };
 
   passwordWindow = new BrowserWindow(windowOptions);
@@ -983,3 +984,20 @@ function getThemeFromMainWindow() {
     mainWindow.webContents.send('get-theme-setting');
   });
 }
+
+function askForMediaAccess() {
+  // Microphone part
+  let status = systemPreferences.getMediaAccessStatus('microphone');
+  if (status !== 'granted') {
+    systemPreferences.askForMediaAccess('microphone');
+  }
+  // Camera part
+  status = systemPreferences.getMediaAccessStatus('camera');
+  if (status !== 'granted') {
+    systemPreferences.askForMediaAccess('camera');
+  }
+}
+
+ipc.on('media-access', () => {
+  askForMediaAccess();
+});

@@ -5,7 +5,11 @@ import { ConversationModel } from '../../models/conversation';
 import { getConversationController } from '../../session/conversations';
 import { UserUtils } from '../../session/utils';
 import { createStore } from '../../state/createStore';
-import { actions as conversationActions } from '../../state/ducks/conversations';
+import {
+  actions as conversationActions,
+  getEmptyConversationState,
+  openConversationWithMessages,
+} from '../../state/ducks/conversations';
 import { initialDefaultRoomState } from '../../state/ducks/defaultRooms';
 import { initialModalState } from '../../state/ducks/modalDialog';
 import { initialOnionPathState } from '../../state/ducks/onion';
@@ -28,7 +32,6 @@ import { TimerOptionsArray, TimerOptionsState } from '../../state/ducks/timerOpt
 
 type State = {
   isInitialLoadComplete: boolean;
-  isExpired: boolean;
 };
 
 export class SessionInboxView extends React.Component<any, State> {
@@ -38,19 +41,9 @@ export class SessionInboxView extends React.Component<any, State> {
     super(props);
     this.state = {
       isInitialLoadComplete: false,
-      isExpired: false,
     };
 
     void this.setupLeftPane();
-
-    // not reactified yet. this is a callback called once we were able to check for expiration of this Session version
-    window.extension.expired((expired: boolean) => {
-      if (expired) {
-        this.setState({
-          isExpired: true,
-        });
-      }
-    });
   }
 
   public render() {
@@ -74,7 +67,7 @@ export class SessionInboxView extends React.Component<any, State> {
   }
 
   private renderLeftPane() {
-    return <LeftPane isExpired={this.state.isExpired} />;
+    return <LeftPane />;
   }
 
   private async setupLeftPane() {
@@ -99,20 +92,8 @@ export class SessionInboxView extends React.Component<any, State> {
 
     const initialState: StateType = {
       conversations: {
+        ...getEmptyConversationState(),
         conversationLookup: makeLookup(fullFilledConversations, 'id'),
-        messages: [],
-        showRightPanel: false,
-        messageDetailProps: undefined,
-        selectedMessageIds: [],
-        selectedConversation: undefined,
-        areMoreMessagesBeingFetched: false,
-        showScrollButton: false,
-        animateQuotedMessageId: undefined,
-        lightBox: undefined,
-        nextMessageToPlay: undefined,
-        quotedMessage: undefined,
-        mentionMembers: [],
-        firstUnreadMessageId: undefined,
       },
       user: {
         ourNumber: UserUtils.getOurPubKeyStrFromCache(),
@@ -134,7 +115,7 @@ export class SessionInboxView extends React.Component<any, State> {
 
     // Enables our redux store to be updated by backbone events in the outside world
     const { messageExpired } = bindActionCreators(conversationActions, this.store.dispatch);
-    window.actionsCreators = conversationActions;
+    window.openConversationWithMessages = openConversationWithMessages;
 
     // messageExpired is currently inboked fropm js. So we link it to Redux that way
     window.Whisper.events.on('messageExpired', messageExpired);

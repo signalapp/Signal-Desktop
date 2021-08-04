@@ -19,7 +19,6 @@ import { OpenGroupMessageV2 } from './OpenGroupMessageV2';
 import { handleOpenGroupV2Message } from '../../receiver/receiver';
 import autoBind from 'auto-bind';
 import { sha256 } from '../../session/crypto';
-import { fromBase64ToArrayBuffer } from '../../session/utils/String';
 import { DURATION } from '../../session/constants';
 
 const pollForEverythingInterval = DURATION.SECONDS * 10;

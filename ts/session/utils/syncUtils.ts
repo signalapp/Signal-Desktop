@@ -27,6 +27,7 @@ import { ExpirationTimerUpdateMessage } from '../messages/outgoing/controlMessag
 import { getV2OpenGroupRoom } from '../../data/opengroups';
 import { getCompleteUrlFromRoom } from '../../opengroup/utils/OpenGroupUtils';
 import { DURATION } from '../constants';
+import { PubKey } from '../types';
 
 const ITEM_ID_LAST_SYNC_TIMESTAMP = 'lastSyncedTimestamp';
 
@@ -121,7 +122,7 @@ const getValidClosedGroups = async (convos: Array<ConversationModel>) => {
     c =>
       !!c.get('active_at') &&
       c.isMediumGroup() &&
-      c.get('members').includes(ourPubKey) &&
+      c.get('members')?.includes(ourPubKey) &&
       !c.get('left') &&
       !c.get('isKickedFromGroup') &&
       !c.isBlocked() &&
@@ -137,7 +138,7 @@ const getValidClosedGroups = async (convos: Array<ConversationModel>) => {
       }
 
       return new ConfigurationMessageClosedGroup({
-        publicKey: groupPubKey,
+        publicKey: groupPubKey as string,
         name: c.get('name') || '',
         members: c.get('members') || [],
         admins: c.get('groupAdmins') || [],
@@ -161,12 +162,19 @@ const getValidContacts = (convos: Array<ConversationModel>) => {
   const contacts = contactsModels.map(c => {
     try {
       const profileKey = c.get('profileKey');
-      let profileKeyForContact;
+      let profileKeyForContact = null;
       if (typeof profileKey === 'string') {
         // this will throw if the profileKey is not in hex.
         try {
+          // for some reason, at some point, the saved profileKey is a string in base64 format
+          // this hack is here to update existing conversations with a non-hex profileKey to a hex format and save them
+
+          if (!/^[0-9a-fA-F]+$/.test(profileKey)) {
+            throw new Error('Not Hex');
+          }
           profileKeyForContact = fromHexToArray(profileKey);
         } catch (e) {
+          // if not hex, try to decode it as base64
           profileKeyForContact = fromBase64ToArray(profileKey);
           // if the line above does not fail, update the stored profileKey for this convo
           void c.setProfileKey(profileKeyForContact);
@@ -180,10 +188,10 @@ const getValidContacts = (convos: Array<ConversationModel>) => {
       }
 
       return new ConfigurationMessageContact({
-        publicKey: c.id,
+        publicKey: c.id as string,
         displayName: c.getLokiProfile()?.displayName,
         profilePictureURL: c.get('avatarPointer'),
-        profileKey: profileKeyForContact,
+        profileKey: !profileKeyForContact?.length ? undefined : profileKeyForContact,
       });
     } catch (e) {
       window?.log.warn('getValidContacts', e);
