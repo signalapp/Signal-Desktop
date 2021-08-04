@@ -1,8 +1,6 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { EventEmitter } from 'events';
-
 import { WebAPICredentials } from '../Types.d';
 
 import { StorageInterface } from '../../types/Storage.d';
@@ -17,10 +15,8 @@ export type SetCredentialsOptions = {
   password: string;
 };
 
-export class User extends EventEmitter {
-  constructor(private readonly storage: StorageInterface) {
-    super();
-  }
+export class User {
+  constructor(private readonly storage: StorageInterface) {}
 
   public async setUuidAndDeviceId(
     uuid: string,
@@ -29,7 +25,6 @@ export class User extends EventEmitter {
     await this.storage.put('uuid_id', `${uuid}.${deviceId}`);
 
     window.log.info('storage.user: uuid and device id changed');
-    this.emit('credentialsChange');
   }
 
   public getNumber(): string | undefined {
@@ -83,11 +78,6 @@ export class User extends EventEmitter {
     ]);
   }
 
-  public emitCredentialsChanged(reason: string): void {
-    window.log.info(`storage.user: credentials changed, ${reason}`);
-    this.emit('credentialsChange');
-  }
-
   public async removeCredentials(): Promise<void> {
     window.log.info('storage.user: removeCredentials');
 
@@ -117,26 +107,5 @@ export class User extends EventEmitter {
     const numberId = this.storage.get('number_id');
     if (numberId === undefined) return undefined;
     return Helpers.unencodeNumber(numberId)[1];
-  }
-
-  //
-  // EventEmitter typing
-  //
-
-  public on(type: 'credentialsChange', callback: () => void): this;
-
-  public on(
-    type: string | symbol,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    listener: (...args: Array<any>) => void
-  ): this {
-    return super.on(type, listener);
-  }
-
-  public emit(type: 'credentialsChange'): boolean;
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public emit(type: string | symbol, ...args: Array<any>): boolean {
-    return super.emit(type, ...args);
   }
 }

@@ -686,6 +686,7 @@ const URL_CALLS = {
 const WEBSOCKET_CALLS = new Set<keyof typeof URL_CALLS>([
   // MessageController
   'messages',
+  'multiRecipient',
   'reportMessage',
 
   // ProfileController
@@ -801,7 +802,7 @@ export type WebAPIType = {
     newPassword: string,
     registrationId: number,
     deviceName?: string | null,
-    options?: { accessKey?: ArrayBuffer }
+    options?: { accessKey?: ArrayBuffer; uuid?: string }
   ) => Promise<any>;
   createGroup: (
     group: Proto.IGroup,
@@ -1472,7 +1473,7 @@ export function initialize({
       newPassword: string,
       registrationId: number,
       deviceName?: string | null,
-      options: { accessKey?: ArrayBuffer } = {}
+      options: { accessKey?: ArrayBuffer; uuid?: string } = {}
     ) {
       const capabilities: CapabilitiesUploadType = {
         announcementGroup: true,
@@ -1481,7 +1482,7 @@ export function initialize({
         senderKey: false,
       };
 
-      const { accessKey } = options;
+      const { accessKey, uuid } = options;
       const jsonData: any = {
         capabilities,
         fetchesMessages: true,
@@ -1497,8 +1498,17 @@ export function initialize({
       const call = deviceName ? 'devices' : 'accounts';
       const urlPrefix = deviceName ? '/' : '/code/';
 
-      // We update our saved username and password, since we're creating a new account
-      await authenticate({ username: number, password: newPassword });
+      // Reset old websocket credentials and disconnect.
+      // AccountManager is our only caller and it will trigger
+      // `registration_done` which will update credentials.
+      await socketManager.authenticate({
+        username: '',
+        password: '',
+      });
+
+      // Update REST credentials, though. We need them for the call below
+      username = number;
+      password = newPassword;
 
       const response = await _ajax({
         call,
@@ -1508,11 +1518,9 @@ export function initialize({
         jsonData,
       });
 
-      // From here on out, our username will be our UUID or E164 combined with device
-      await authenticate({
-        username: `${response.uuid || number}.${response.deviceId || 1}`,
-        password,
-      });
+      // Set final REST credentials to let `registerKeys` succeed.
+      username = `${uuid || response.uuid || number}.${response.deviceId || 1}`;
+      password = newPassword;
 
       return response;
     }
@@ -1775,6 +1783,7 @@ export function initialize({
         data,
         urlParameters: `?ts=${timestamp}&online=${online ? 'true' : 'false'}`,
         responseType: 'json',
+        unauthenticated: true,
         headers: {
           'Unidentified-Access-Key': arrayBufferToBase64(accessKeys),
         },
