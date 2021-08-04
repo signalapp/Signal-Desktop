@@ -1,6 +1,6 @@
 // tslint:disable:react-a11y-anchors
 
-import React, { useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 
 import is from '@sindresorhus/is';
 
@@ -211,6 +211,10 @@ export const LightboxObject = ({
 
   const isImageTypeSupported = GoogleChrome.isImageTypeSupported(contentType);
 
+  const onDragStart = useCallback((e:any) => {
+    e.preventDefault();
+    return false;  }, []);
+
   const playVideo = () => {
     if (!videoRef) {
       return;
@@ -246,7 +250,12 @@ export const LightboxObject = ({
 
   if (isImageTypeSupported) {
     return (
-      <img style={styles.object as any} alt={window.i18n('lightboxImageAlt')} src={urlToLoad} />
+      <img
+        style={styles.object as any}
+        onDragStart={onDragStart}
+        alt={window.i18n('lightboxImageAlt')}
+        src={urlToLoad}
+      />
     );
   }
 
