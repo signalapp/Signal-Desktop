@@ -19,6 +19,7 @@ export type ConfigKeyType =
   | 'desktop.screensharing2'
   | 'desktop.senderKey.send'
   | 'desktop.senderKey.retry'
+  | 'desktop.sendSenderKey2'
   | 'desktop.storage'
   | 'desktop.storageWrite3'
   | 'desktop.worksAtSignal'

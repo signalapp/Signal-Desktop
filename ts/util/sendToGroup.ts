@@ -19,6 +19,7 @@ import {
   SenderCertificateMode,
   SendLogCallbackType,
 } from '../textsecure/OutgoingMessage';
+import { isEnabled } from '../RemoteConfig';
 
 import { isOlderThan } from './timestamp';
 import {
@@ -146,6 +147,7 @@ export async function sendContentMessageToGroup({
   const ourConversation = window.ConversationController.get(ourConversationId);
 
   if (
+    isEnabled('desktop.sendSenderKey2') &&
     ourConversation?.get('capabilities')?.senderKey &&
     RemoteConfig.isEnabled('desktop.senderKey.send') &&
     isGroupV2(conversation.attributes)

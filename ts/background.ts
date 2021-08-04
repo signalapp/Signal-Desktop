@@ -2314,7 +2314,9 @@ export async function startApp(): Promise<void> {
             announcementGroup: true,
             'gv2-3': true,
             'gv1-migration': true,
-            senderKey: true,
+            senderKey: window.Signal.RemoteConfig.isEnabled(
+              'desktop.sendSenderKey2'
+            ),
           });
         } catch (error) {
           window.log.error(

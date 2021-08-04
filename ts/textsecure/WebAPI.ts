@@ -764,10 +764,10 @@ export type CapabilitiesType = {
   senderKey: boolean;
 };
 export type CapabilitiesUploadType = {
-  announcementGroup: true;
-  'gv2-3': true;
-  'gv1-migration': true;
-  senderKey: true;
+  announcementGroup: boolean;
+  'gv2-3': boolean;
+  'gv1-migration': boolean;
+  senderKey: boolean;
 };
 
 type StickerPackManifestType = any;
@@ -1494,7 +1494,7 @@ export function initialize({
         announcementGroup: true,
         'gv2-3': true,
         'gv1-migration': true,
-        senderKey: true,
+        senderKey: false,
       };
 
       const { accessKey, uuid } = options;
