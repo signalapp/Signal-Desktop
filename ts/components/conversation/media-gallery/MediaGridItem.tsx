@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import classNames from 'classnames';
 
 import { isImageTypeSupported, isVideoTypeSupported } from '../../../util/GoogleChrome';
@@ -21,6 +21,11 @@ const MediaGridItemContent = (props: Props) => {
   const [imageBroken, setImageBroken] = useState(false);
 
   const { loading, urlToLoad } = useEncryptedFileFetch(urlToDecrypt, contentType);
+
+  const onDragStart = useCallback((e: any) => {
+    e.preventDefault();
+    return false;
+  }, []);
   // data will be url if loading is finished and '' if not
   const srcData = !loading ? urlToLoad : '';
 
@@ -52,6 +57,7 @@ const MediaGridItemContent = (props: Props) => {
         className="module-media-grid-item__image"
         src={srcData}
         onError={onImageError}
+        onDragStart={onDragStart}
       />
     );
   } else if (contentType && isVideoTypeSupported(contentType)) {
@@ -73,6 +79,7 @@ const MediaGridItemContent = (props: Props) => {
           className="module-media-grid-item__image"
           src={srcData}
           onError={onImageError}
+          onDragStart={onDragStart}
         />
         <div className="module-media-grid-item__circle-overlay">
           <div className="module-media-grid-item__play-overlay" />

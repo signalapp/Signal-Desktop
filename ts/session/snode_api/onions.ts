@@ -6,7 +6,7 @@ import ByteBuffer from 'bytebuffer';
 import { OnionPaths } from '../onions';
 import { fromHex, toHex } from '../utils/String';
 import pRetry from 'p-retry';
-import { incrementBadPathCountOrDrop } from '../onions/onionPath';
+import { ed25519Str, incrementBadPathCountOrDrop } from '../onions/onionPath';
 import _ from 'lodash';
 import { hrefPnServerDev, hrefPnServerProd } from '../../pushnotification/PnServer';
 // hold the ed25519 key of a snode against the time it fails. Used to remove a snode only after a few failures (snodeFailureThreshold failures)
@@ -291,6 +291,7 @@ async function processAnyOtherErrorOnPath(
     // If we have a specific node in fault we can exclude just this node.
     // Otherwise we increment the whole path failure count
     if (nodeNotFound) {
+      window?.log?.warn('node not found error with: ', ed25519Str(nodeNotFound));
       await exports.incrementBadSnodeCountOrDrop({
         snodeEd25519: nodeNotFound,
         guardNodeEd25519,
@@ -615,15 +616,15 @@ export async function incrementBadSnodeCountOrDrop({
   const newFailureCount = oldFailureCount + 1;
   snodeFailureCount[snodeEd25519] = newFailureCount;
   if (newFailureCount >= snodeFailureThreshold) {
-    window?.log?.warn(`Failure threshold reached for: ${snodeEd25519}; dropping it.`);
+    window?.log?.warn(`Failure threshold reached for: ${ed25519Str(snodeEd25519)}; dropping it.`);
 
     if (associatedWith) {
       (window?.log?.info || console.warn)(
-        `Dropping ${snodeEd25519} from swarm of ${associatedWith}`
+        `Dropping ${ed25519Str(snodeEd25519)} from swarm of ${ed25519Str(associatedWith)}`
       );
       await dropSnodeFromSwarmIfNeeded(associatedWith, snodeEd25519);
     }
-    window?.log?.info(`Dropping ${snodeEd25519} from snodepool`);
+    window?.log?.info(`Dropping ${ed25519Str(snodeEd25519)} from snodepool`);
 
     await dropSnodeFromSnodePool(snodeEd25519);
     // the snode was ejected from the pool so it won't be used again.
@@ -644,7 +645,9 @@ export async function incrementBadSnodeCountOrDrop({
     }
   } else {
     window?.log?.warn(
-      `Couldn't reach snode at: ${snodeEd25519}; setting his failure count to ${newFailureCount}`
+      `Couldn't reach snode at: ${ed25519Str(
+        snodeEd25519
+      )}; setting his failure count to ${newFailureCount}`
     );
   }
 }
@@ -914,13 +917,12 @@ export async function lokiOnionFetch(
     return retriedResult;
   } catch (e) {
     window?.log?.warn('onionFetchRetryable failed ', e.message);
-    // console.warn('error to show to user');
     if (e?.errno === 'ENETUNREACH') {
       // better handle the no connection state
       throw new Error(ERROR_CODE_NO_CONNECT);
     }
     if (e?.message === CLOCK_OUT_OF_SYNC_MESSAGE_ERROR) {
-      window?.log?.warn('Its an clock out of sync error ');
+      window?.log?.warn('Its a clock out of sync error ');
       throw new pRetry.AbortError(CLOCK_OUT_OF_SYNC_MESSAGE_ERROR);
     }
     throw e;

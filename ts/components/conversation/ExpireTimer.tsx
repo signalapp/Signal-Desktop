@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import { getTimerBucketIcon } from '../../util/timer';
 import { useInterval } from '../../hooks/useInterval';
@@ -45,12 +45,12 @@ export const ExpireTimer = (props: Props) => {
   const initialTimeLeft = Math.max(Math.round((expirationTimestamp - Date.now()) / 1000), 0);
   const [timeLeft, setTimeLeft] = useState(initialTimeLeft);
 
-  const update = () => {
+  const update = useCallback(() => {
     const newTimeLeft = Math.max(Math.round((expirationTimestamp - Date.now()) / 1000), 0);
     if (newTimeLeft !== timeLeft) {
       setTimeLeft(newTimeLeft);
     }
-  };
+  }, [expirationTimestamp, timeLeft, setTimeLeft]);
 
   const updateFrequency = 500;
 

@@ -15,7 +15,17 @@ import {
   ConfigurationMessageContact,
 } from '../messages/outgoing/controlMessage/ConfigurationMessage';
 import { ConversationModel } from '../../models/conversation';
-import { fromArrayBufferToBase64, fromBase64ToArray, fromBase64ToArrayBuffer, fromHex, fromHexToArray, fromUInt8ArrayToBase64, stringToArrayBuffer, stringToUint8Array, toHex } from './String';
+import {
+  fromArrayBufferToBase64,
+  fromBase64ToArray,
+  fromBase64ToArrayBuffer,
+  fromHex,
+  fromHexToArray,
+  fromUInt8ArrayToBase64,
+  stringToArrayBuffer,
+  stringToUint8Array,
+  toHex,
+} from './String';
 import { SignalService } from '../../protobuf';
 import _ from 'lodash';
 import {
@@ -35,9 +45,14 @@ import { getSodium } from '../crypto';
 import { snodeRpc } from '../snode_api/lokiRpc';
 import { getSwarmFor, getSwarmFromCacheOrDb } from '../snode_api/snodePool';
 import { base64_variants, crypto_sign, to_base64, to_hex } from 'libsodium-wrappers';
-import { textToArrayBuffer, TextToBase64, verifyED25519Signature } from '../../opengroup/opengroupV2/ApiUtil';
+import {
+  textToArrayBuffer,
+  TextToBase64,
+  verifyED25519Signature,
+} from '../../opengroup/opengroupV2/ApiUtil';
 import { KeyPair } from '../../../libtextsecure/libsignal-protocol';
 import { getIdentityKeyPair } from './User';
+import { PubKey } from '../types';
 
 const ITEM_ID_LAST_SYNC_TIMESTAMP = 'lastSyncedTimestamp';
 
@@ -87,8 +102,8 @@ export const forceSyncConfigurationNowIfNeeded = async (waitForMessageSent = fal
         // tslint:disable-next-line: no-void-expression
         const callback = waitForMessageSent
           ? () => {
-            resolve(true);
-          }
+              resolve(true);
+            }
           : undefined;
         void getMessageQueue().sendSyncMessage(configMessage, callback as any);
         // either we resolve from the callback if we need to wait for it,
@@ -103,53 +118,49 @@ export const forceSyncConfigurationNowIfNeeded = async (waitForMessageSent = fal
       });
   });
 
-
 /**
  * Makes a post to a node to receive the timestamp info. If non-existant, returns -1
  * @param snode Snode to send request to
  * @returns timestamp of the response from snode
  */
-export const getNetworkTime = async (snode: Snode): Promise<string | number> => {
+const getNetworkTime = async (snode: Snode): Promise<string | number> => {
   // let response: any = await insecureNodeFetch(url, fetchOptions)
   try {
-
-    let response: any = await snodeRpc('info', {}, snode);
-    let body = JSON.parse(response.body);
-    let timestamp = body['timestamp'];
+    const response: any = await snodeRpc('info', {}, snode);
+    const body = JSON.parse(response.body);
+    const timestamp = body.timestamp;
 
     return timestamp ? timestamp : -1;
-  }
-  catch (e) {
+  } catch (e) {
     return -1;
   }
-
-}
+};
 
 export const forceNetworkDeletion = async () => {
-  let sodium = await getSodium();
-  let userPubKey = await UserUtils.getOurPubKeyFromCache();
+  const sodium = await getSodium();
+  const userPubKey = UserUtils.getOurPubKeyFromCache();
 
-  let edKey = await UserUtils.getUserED25519KeyPair();
-  let edKeyPriv = edKey?.privKey || '';
+  const edKey = await UserUtils.getUserED25519KeyPair();
+  const edKeyPriv = edKey?.privKey || '';
 
-  console.log({ edKey });
-  console.log({ edKeyPriv });
+  console.warn({ edKey });
+  console.warn({ edKeyPriv });
 
-  let snode: Snode | undefined = _.shuffle((await getSwarmFor(userPubKey.key)))[0]
-  let timestamp = await getNetworkTime(snode);
+  const snode: Snode | undefined = _.shuffle(await getSwarmFor(userPubKey.key))[0];
+  const timestamp = await getNetworkTime(snode);
 
-  let text = `delete_all${timestamp.toString()}`;
+  const text = `delete_all${timestamp.toString()}`;
 
-  let toSign = StringUtils.encode(text, 'utf8');
-  let toSignBytes = new Uint8Array(toSign);
-  console.log({ toSign });
-  console.log({ toSignBytes });
+  const toSign = StringUtils.encode(text, 'utf8');
+  const toSignBytes = new Uint8Array(toSign);
+  console.warn({ toSign });
+  console.warn({ toSignBytes });
 
-  let edKeyBytes = fromHexToArray(edKeyPriv)
+  const edKeyBytes = fromHexToArray(edKeyPriv);
 
   // using uint or string for message input makes no difference here.
   // let sig = sodium.crypto_sign_detached(toSignBytes, edKeyBytes);
-  let sig = sodium.crypto_sign_detached(toSignBytes, edKeyBytes); // NO
+  const sig = sodium.crypto_sign_detached(toSignBytes, edKeyBytes); // NO
 
   const kp = await UserUtils.getIdentityKeyPair();
   // let sig = await window.libsignal.Curve.async.calculateSignature(kp?.privKey,  toSign)
@@ -160,36 +171,31 @@ export const forceNetworkDeletion = async () => {
 
   const sig64 = fromUInt8ArrayToBase64(sig);
 
-  const sig64a = to_base64(sig)
-  console.log({sig64a});
+  const sig64a = to_base64(sig);
+  console.warn({ sig64a });
 
-  console.log({ sig });
-  console.log({ sig64: sig64 });
-  console.log({ sigLength: sig64.length });
+  console.warn({ sig });
+  console.warn({ sig64: sig64 });
+  console.warn({ sigLength: sig64.length });
 
   // pubkey - hex - from xSK.public_key
   // timestamp - ms
   // signature - ? Base64.encodeBytes(signature)
 
-  let deleteMessageParams = {
+  const deleteMessageParams = {
     pubkey: userPubKey.key, // pubkey is doing alright
     pubkeyED25519: edKey?.pubKey.toUpperCase(), // ed pubkey is right
     timestamp,
-    signature: sig64
-  }
-
-  debugger;
-  
+    signature: sig64,
+  };
 
   // let lokiRpcRes = await snodeRpc('delete_all', deleteMessageParams, snode, userPubKey.key);
   // let lokiRpcRes = sendOnionRequest()
 
-  await send(deleteMessageParams, snode, userPubKey.key)
-  debugger;
-}
+  await send(deleteMessageParams, snode, userPubKey.key);
+};
 
 const send = async (params: any, snode: Snode, userPubKey: string) => {
-
   // window?.log?.info(`Testing a candidate guard node ${ed25519Str(snode.pubkey_ed25519)}`);
 
   // Send a post request and make sure it is OK
@@ -200,11 +206,9 @@ const send = async (params: any, snode: Snode, userPubKey: string) => {
   const ourPK = UserUtils.getOurPubKeyStrFromCache();
   const pubKey = window.getStoragePubKey(ourPK); // truncate if testnet
 
-
   // testt
   const method = 'delete_all';
-  params.pubkey  = pubKey ; // trying with getStoragePubkey
-
+  params.pubkey = pubKey; // trying with getStoragePubkey
 
   const body = {
     jsonrpc: '2.0',
@@ -245,10 +249,8 @@ const send = async (params: any, snode: Snode, userPubKey: string) => {
     window?.log?.info('Node failed the guard test:', snode);
   }
 
-  debugger;
   return;
-
-}
+};
 
 const getActiveOpenGroupV2CompleteUrls = async (
   convos: Array<ConversationModel>
@@ -279,7 +281,7 @@ const getValidClosedGroups = async (convos: Array<ConversationModel>) => {
     c =>
       !!c.get('active_at') &&
       c.isMediumGroup() &&
-      c.get('members').includes(ourPubKey) &&
+      c.get('members')?.includes(ourPubKey) &&
       !c.get('left') &&
       !c.get('isKickedFromGroup') &&
       !c.isBlocked() &&
@@ -295,7 +297,7 @@ const getValidClosedGroups = async (convos: Array<ConversationModel>) => {
       }
 
       return new ConfigurationMessageClosedGroup({
-        publicKey: groupPubKey,
+        publicKey: groupPubKey as string,
         name: c.get('name') || '',
         members: c.get('members') || [],
         admins: c.get('groupAdmins') || [],
@@ -319,12 +321,19 @@ const getValidContacts = (convos: Array<ConversationModel>) => {
   const contacts = contactsModels.map(c => {
     try {
       const profileKey = c.get('profileKey');
-      let profileKeyForContact;
+      let profileKeyForContact = null;
       if (typeof profileKey === 'string') {
         // this will throw if the profileKey is not in hex.
         try {
+          // for some reason, at some point, the saved profileKey is a string in base64 format
+          // this hack is here to update existing conversations with a non-hex profileKey to a hex format and save them
+
+          if (!/^[0-9a-fA-F]+$/.test(profileKey)) {
+            throw new Error('Not Hex');
+          }
           profileKeyForContact = fromHexToArray(profileKey);
         } catch (e) {
+          // if not hex, try to decode it as base64
           profileKeyForContact = fromBase64ToArray(profileKey);
           // if the line above does not fail, update the stored profileKey for this convo
           void c.setProfileKey(profileKeyForContact);
@@ -338,10 +347,10 @@ const getValidContacts = (convos: Array<ConversationModel>) => {
       }
 
       return new ConfigurationMessageContact({
-        publicKey: c.id,
+        publicKey: c.id as string,
         displayName: c.getLokiProfile()?.displayName,
         profilePictureURL: c.get('avatarPointer'),
-        profileKey: profileKeyForContact,
+        profileKey: !profileKeyForContact?.length ? undefined : profileKeyForContact,
       });
     } catch (e) {
       window?.log.warn('getValidContacts', e);

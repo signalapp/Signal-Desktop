@@ -5,6 +5,7 @@
   storage,
   Whisper,
   BlockedNumberController,
+  Signal
 */
 
 // eslint-disable-next-line func-names
@@ -336,21 +337,18 @@
       window.libsession.Utils.ToastUtils.pushSpellCheckDirty();
     };
 
-    window.toggleMediaPermissions = () => {
+    window.toggleMediaPermissions = async () => {
       const value = window.getMediaPermissions();
+      if (value === false && Signal.OS.isMacOS()) {
+        await window.askForMediaAccess();
+      }
       window.setMediaPermissions(!value);
     };
 
     Whisper.Notifications.on('click', async (id, messageId) => {
       window.showWindow();
       if (id) {
-        const firstUnreadIdOnOpen = await window.Signal.Data.getFirstUnreadMessageIdInConversation(
-          id
-        );
-
-        window.inboxStore.dispatch(
-          window.actionsCreators.openConversationExternal({ id, messageId, firstUnreadIdOnOpen })
-        );
+        await window.openConversationWithMessages({ id, messageId });
       } else {
         appView.openInbox({
           initialLoadComplete,

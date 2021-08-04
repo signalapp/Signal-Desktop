@@ -6,7 +6,6 @@ import { LeftPaneMessageSection } from './session/LeftPaneMessageSection';
 import { LeftPaneContactSection } from './session/LeftPaneContactSection';
 import { LeftPaneSettingSection } from './session/LeftPaneSettingSection';
 import { SessionTheme } from '../state/ducks/SessionTheme';
-import { SessionExpiredWarning } from './session/network/SessionExpiredWarning';
 import { getFocusedSection } from '../state/selectors/section';
 import { useSelector } from 'react-redux';
 import { getLeftPaneLists } from '../state/selectors/conversations';
@@ -24,11 +23,7 @@ export type RowRendererParamsType = {
   style: Object;
 };
 
-type Props = {
-  isExpired: boolean;
-};
-
-const InnerLeftPaneMessageSection = (props: { isExpired: boolean }) => {
+const InnerLeftPaneMessageSection = () => {
   const showSearch = useSelector(isSearching);
   const searchTerm = useSelector(getQuery);
 
@@ -38,15 +33,12 @@ const InnerLeftPaneMessageSection = (props: { isExpired: boolean }) => {
   // tslint:disable: use-simple-attributes
 
   return (
-    <>
-      {props.isExpired && <SessionExpiredWarning />}
-      <LeftPaneMessageSection
-        conversations={lists?.conversations || []}
-        contacts={lists?.contacts || []}
-        searchResults={searchResults}
-        searchTerm={searchTerm}
-      />
-    </>
+    <LeftPaneMessageSection
+      conversations={lists?.conversations || []}
+      contacts={lists?.contacts || []}
+      searchResults={searchResults}
+      searchTerm={searchTerm}
+    />
   );
 };
 
@@ -54,11 +46,11 @@ const InnerLeftPaneContactSection = () => {
   return <LeftPaneContactSection />;
 };
 
-const LeftPaneSection = (props: { isExpired: boolean }) => {
+const LeftPaneSection = () => {
   const focusedSection = useSelector(getFocusedSection);
 
   if (focusedSection === SectionType.Message) {
-    return <InnerLeftPaneMessageSection isExpired={props.isExpired} />;
+    return <InnerLeftPaneMessageSection />;
   }
 
   if (focusedSection === SectionType.Contact) {
@@ -70,7 +62,7 @@ const LeftPaneSection = (props: { isExpired: boolean }) => {
   return null;
 };
 
-export const LeftPane = (props: Props) => {
+export const LeftPane = () => {
   const theme = useSelector(getTheme);
 
   return (
@@ -79,7 +71,7 @@ export const LeftPane = (props: Props) => {
         <ActionsPanel />
 
         <div className="module-left-pane">
-          <LeftPaneSection isExpired={props.isExpired} />
+          <LeftPaneSection />
         </div>
       </div>
     </SessionTheme>

@@ -515,6 +515,7 @@ export async function handleDataExtractionNotification(
 
     await convo.addSingleMessage({
       conversationId: convo.get('id'),
+      source,
       type: 'outgoing', // mark it as outgoing just so it appears below our sent attachment
       sent_at: envelopeTimestamp,
       received_at: now,

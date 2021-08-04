@@ -28,8 +28,9 @@ const LastSeenText = styled.div`
 export const SessionLastSeenIndicator = () => {
   const { i18n } = window;
   const text = i18n('unreadMessages');
+  // if this unread-indicator is not unique it's going to cause issues
   return (
-    <LastSeenBarContainer>
+    <LastSeenBarContainer id="unread-indicator">
       <LastSeenBar>
         <LastSeenText>{text}</LastSeenText>
       </LastSeenBar>

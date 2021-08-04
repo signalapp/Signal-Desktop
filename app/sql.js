@@ -121,7 +121,7 @@ const ITEMS_TABLE = 'items';
 const ATTACHMENT_DOWNLOADS_TABLE = 'attachment_downloads';
 const CLOSED_GROUP_V2_KEY_PAIRS_TABLE = 'encryptionKeyPairsForClosedGroupV2';
 
-const MAX_PUBKEYS_MEMBERS = 1000;
+const MAX_PUBKEYS_MEMBERS = 300;
 
 function objectToJSON(data) {
   return JSON.stringify(data);
@@ -1915,20 +1915,24 @@ function updateLastHash(data) {
 
 function saveSeenMessageHash(data) {
   const { expiresAt, hash } = data;
-  globalInstance
-    .prepare(
-      `INSERT INTO seenMessages (
+  try {
+    globalInstance
+      .prepare(
+        `INSERT INTO seenMessages (
       expiresAt,
       hash
       ) values (
         $expiresAt,
         $hash
         );`
-    )
-    .run({
-      expiresAt,
-      hash,
-    });
+      )
+      .run({
+        expiresAt,
+        hash,
+      });
+  } catch (e) {
+    console.warn('saveSeenMessageHash failed:', e);
+  }
 }
 
 function cleanLastHashes() {

@@ -118,13 +118,13 @@ const animation = (props: {
 };
 
 //tslint:disable no-unnecessary-callback-wrapper
-const Svg = styled.svg<StyledSvgProps>`
+const Svg = React.memo(styled.svg<StyledSvgProps>`
   width: ${props => props.width};
   transform: ${props => `rotate(${props.iconRotation}deg)`};
   animation: ${props => animation(props)};
   border-radius: ${props => props.borderRadius};
   filter: ${props => (props.noScale ? `drop-shadow(0px 0px 4px ${props.iconColor})` : '')};
-`;
+`);
 //tslint:enable no-unnecessary-callback-wrapper
 
 const SessionSvg = (props: {

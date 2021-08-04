@@ -43,6 +43,7 @@ export class Emojify extends React.Component<Props> {
     while (match) {
       if (last < match.index) {
         const textWithNoEmoji = text.slice(last, match.index);
+
         results.push(
           renderNonEmoji({
             text: textWithNoEmoji,
