@@ -73,4 +73,4 @@ jobs:
 
       - name: Build linux production binaries
         if: runner.os == 'Linux'
-        run: $(yarn bin)/electron-builder --config.extraMetadata.environment=$SIGNAL_ENV --publish=always
+        run: yarn build-release-publish
