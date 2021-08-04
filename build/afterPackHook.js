@@ -10,7 +10,8 @@ module.exports = async function(context) {
   if (process.platform !== 'linux') {
     return;
   }
-  const isAppImage = context.targets.name === 'appImage';
+  const isAppImage =
+    context.targets.name === 'appImage' || context.targets.some(e => e.name === 'appImage');
   console.log(
     'targets',
     context.targets.map(target => target.name)
