@@ -1488,7 +1488,7 @@
         "description": "Toast that appears when someone stops presenting"
     },
     "calling__presenting--person-ongoing": {
-        "message": "$name$ is presenting",
+        "message": "$name$ prezintă",
         "description": "Title of call when someone is presenting",
         "placeholders": {
             "name": {
@@ -1498,7 +1498,7 @@
         }
     },
     "calling__presenting--person-stopped": {
-        "message": "$name$ stopped presenting",
+        "message": "$name$ a oprit prezentarea",
         "description": "Toast that appears when someone stops presenting",
         "placeholders": {
             "name": {
@@ -1508,27 +1508,27 @@
         }
     },
     "calling__presenting--permission-title": {
-        "message": "Permission needed",
+        "message": "E nevoie de permisiune",
         "description": "Shown as the title for the modal that requests screen recording permissions"
     },
     "calling__presenting--macos-permission-description": {
-        "message": "Signal needs permission to access your computer's screen recording.",
+        "message": "Signal are nevoie de permisiune pentru a accesa înregistrarea ecranului dvs.",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-instruction-step1": {
-        "message": "Go to System Preferences.",
+        "message": "Mergeți la preferințe sistem.",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-instruction-step2": {
-        "message": "Click on the lock icon on the bottom left and enter your computer’s password.",
+        "message": "Apăsați pe pictograma lacăt din stânga jos și introduceți parola calculatorului dvs.",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-instruction-step3": {
-        "message": "On the right, check the box next to Signal. If you don’t see Signal in the list, click the + to add it.",
+        "message": "În partea dreapta, bifați caseta de lângă Signal. Dacă nu găsiți Signal în listă, apăsați + pentru a-l adăuga.",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-open": {
-        "message": "Open System Preferences",
+        "message": "Deschideți preferințe sistem",
         "description": "The button that opens your system preferences for the needs screen record permissions modal"
     },
     "calling__presenting--permission-cancel": {
@@ -1580,7 +1580,7 @@
         "description": "In the settings, shown next to the checkbox option for starting in the system tray"
     },
     "autoLaunchDescription": {
-        "message": "Open at computer login",
+        "message": "Deschideți la autentificarea în computer",
         "description": "Description for the automatic launch setting"
     },
     "clearDataHeader": {
@@ -2018,11 +2018,11 @@
         "description": "Placeholder to use when searching for contacts in the composer"
     },
     "noContactsFound": {
-        "message": "No contacts found",
+        "message": "Nu s-au găsit persoane de contact",
         "description": "Label shown when there are no contacts to compose to"
     },
     "noConversationsFound": {
-        "message": "No conversations found",
+        "message": "Nu s-au găsit conversații",
         "description": "Label shown when there are no conversations to compose to"
     },
     "chooseGroupMembers__title": {
@@ -2060,7 +2060,7 @@
         "description": "Shown in the alert when you add the maximum recommended number of group members"
     },
     "chooseGroupMembers__maximum-recommended-group-size__body": {
-        "message": "Signal groups perform best with $max$ members or less. Adding more members will cause delays sending and receiving messages.",
+        "message": "Grupurile Signal funcționează cel mai bine cu $max$ de membri sau mai puțin. Adăugarea mai multor membri va cauza întârzieri la trimiterea și primirea mesajelor.",
         "description": "Shown in the alert when you add the maximum recommended number of group members",
         "placeholders": {
             "max": {
@@ -2070,11 +2070,11 @@
         }
     },
     "chooseGroupMembers__cant-add-member__title": {
-        "message": "Can’t add member",
+        "message": "Nu s-a putut adăuga membru",
         "description": "Shown in the alert when you try to add someone who can't be added to a group"
     },
     "chooseGroupMembers__cant-add-member__body": {
-        "message": "\"$name$\" can’t be added to the group because they’re using an old version of Signal. You can add them to the group after they’ve updated Signal.",
+        "message": "Utilizatorul \"$name$\" nu a putut fi adăugat acestui grup, deoarece folosește o versiune veche de Signal. Îl puteți adăuga grupului după ce își actualizează Signal.",
         "description": "Shown in the alert when you try to add someone who can't be added to a group",
         "placeholders": {
             "max": {
@@ -2088,7 +2088,7 @@
         "description": "The title for the 'set group metadata' left pane screen"
     },
     "setGroupMetadata__back-button": {
-        "message": "Back to member selection",
+        "message": "Înapoi la alegerea membrilor",
         "description": "Used as alt-text of the back button on the 'set group metadata' left pane screen"
     },
     "setGroupMetadata__group-name-placeholder": {
@@ -2108,7 +2108,7 @@
         "description": "The header for the members list in the 'set group metadata' left pane screen"
     },
     "setGroupMetadata__error-message": {
-        "message": "This group couldn’t be created. Check your connection and try again.",
+        "message": "Acest grup nu a putut fi creat. Verificați conexiunea și încercați din nou.",
         "description": "Shown in the modal when we can't create a group"
     },
     "updateGroupAttributes__title": {
@@ -2116,7 +2116,7 @@
         "description": "Shown in the modal when we want to update a group"
     },
     "updateGroupAttributes__error-message": {
-        "message": "Failed to update the group. Check your connection and try again.",
+        "message": "Actualizarea grupului a eșuat. Verificați conexiunea și încercați din nou.",
         "description": "Shown in the modal when we can't update a group"
     },
     "notSupportedSMS": {
@@ -3432,11 +3432,11 @@
         "description": "Title for picture-in-picture toggle"
     },
     "calling__switch-view--to-grid": {
-        "message": "Switch to grid view",
+        "message": "Comutați la vizualizare grilă",
         "description": "Title for grid/speaker view toggle when on a call"
     },
     "calling__switch-view--to-speaker": {
-        "message": "Switch to speaker view",
+        "message": "Comutați la vizualizare vorbitor",
         "description": "Title for grid/speaker view toggle when on a call"
     },
     "calling__hangup": {
@@ -3444,19 +3444,19 @@
         "description": "Title for hang up button"
     },
     "calling__SelectPresentingSourcesModal--title": {
-        "message": "Share your screen",
+        "message": "Partajați ecranul dvs.",
         "description": "Title for the select your screen sharing sources modal"
     },
     "calling__SelectPresentingSourcesModal--confirm": {
-        "message": "Share screen",
+        "message": "Partajați ecranul",
         "description": "Confirm button for sharing screen modal"
     },
     "calling__SelectPresentingSourcesModal--entireScreen": {
-        "message": "Entire screen",
+        "message": "Întregul ecran",
         "description": "Title for the select your screen sharing sources modal and 'Entire Screen' source"
     },
     "calling__SelectPresentingSourcesModal--screen": {
-        "message": "Screen $id$",
+        "message": "Ecranul $id$",
         "description": "Title for `Screen #N` source in screen sharing sources modal and overlay",
         "placeholders": {
             "id": {
@@ -3466,7 +3466,7 @@
         }
     },
     "calling__SelectPresentingSourcesModal--window": {
-        "message": "A window",
+        "message": "O fereastră",
         "description": "Title for the select your screen sharing sources modal"
     },
     "callingDeviceSelection__label--video": {
@@ -3548,19 +3548,19 @@
         "description": "Button to dismiss pop-up dialog when user-initiated task has gone wrong"
     },
     "unknown-sgnl-link": {
-        "message": "Sorry, that sgnl:// link didn't make sense!",
+        "message": "Ne pare rău, linkul sgnl:// nu a fost înțeles!",
         "description": "Shown if you click on a sgnl:// link not currently supported by Desktop"
     },
     "GroupV2--cannot-send": {
-        "message": "You cannot send messages to that group.",
+        "message": "Nu puteți trimite mesaje acelui grup.",
         "description": "Shown in toast when you attempt to forward a message to an announcement only group"
     },
     "GroupV2--add--missing-capability": {
-        "message": "These people cannot be added to the group until they upgrade Signal.",
+        "message": "Aceste persoane nu pot fi adăugate la grup până nu actualizează Signal.",
         "description": "Shown in a confirmation dialog when members who cannot view announcement only group cannot be added"
     },
     "GroupV2--cannot-start-group-call": {
-        "message": "Only admins of the group can start a call.",
+        "message": "Numai administratorii grupului pot iniția un apel.",
         "description": "Shown in toast when a non-admin starts a group call in an announcements only group"
     },
     "GroupV2--join--invalid-link--title": {
@@ -3576,23 +3576,23 @@
         "description": "Shown when you click on a group link to confirm"
     },
     "GroupV2--join--already-in-group": {
-        "message": "You're already in this group.",
+        "message": "Sunteți deja în acest grup.",
         "description": "Shown if you click a group link for a group where you're already a member"
     },
     "GroupV2--join--already-awaiting-approval": {
-        "message": "You have already requested approval to join this group.",
+        "message": "Ați solicitat deja aprobare să vă alăturați acestui grup.",
         "description": "Shown if you click a group link for a group where you've already requested approval'"
     },
     "GroupV2--join--unknown-link-version--title": {
-        "message": "Unknown link version",
+        "message": "Versiune de link necunoscută",
         "description": "This group link is no longer valid."
     },
     "GroupV2--join--unknown-link-version": {
-        "message": "This link is not supported by this version of Signal Desktop.",
+        "message": "Acest link nu este acceptat de această versiune de Signal Desktop.",
         "description": "Shown if you click a group link and we can't get information about it"
     },
     "GroupV2--join--link-revoked--title": {
-        "message": "Can’t Join Group",
+        "message": "Nu se poate realiza alăturarea la grup.",
         "description": "Shown if you click a group link and we can't get information about it"
     },
     "GroupV2--join--link-revoked": {

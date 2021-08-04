@@ -770,7 +770,7 @@
         }
     },
     "noSearchResults--sms-only": {
-        "message": "SMS/MMS contacts are not available on Desktop.",
+        "message": "SMS/MMS 연락처는 데스크톱에서 사용할 수 없습니다.",
         "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
     },
     "noSearchResultsInConversation": {
@@ -1170,11 +1170,11 @@
         "description": "Shown in timeline when message delivery issue happens, to provide access to a popup info dialog"
     },
     "DeliveryIssue--title": {
-        "message": "Delivery Issue",
+        "message": "전달 문제",
         "description": "Shown on explainer dialog available from delivery issue timeline events"
     },
     "DeliveryIssue--summary": {
-        "message": "A message, sticker, reaction, read receipt or media couldn’t be delivered to you from $sender$. They may have tried sending it to you directly, or in a group.",
+        "message": "$sender$ 님이 보낸 메시지, 스티커, 리액션, 수신 확인 또는 미디어를 전달할 수 없습니다. 직접 또는 그룹으로 전달하려고 했을 수 있습니다.",
         "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations",
         "placeholders": {
             "name": {
@@ -1184,7 +1184,7 @@
         }
     },
     "DeliveryIssue--summary--group": {
-        "message": "A message, sticker, reaction, read receipt or media couldn’t be delivered to you from $sender$ in this chat.",
+        "message": "채팅에서 $sender$ 님이 보낸 메시지, 스티커, 리액션, 수신 확인 또는 미디어를 전달할 수 없습니다.",
         "description": "Shown on explainer dialog available from delivery issue timeline events in groups",
         "placeholders": {
             "name": {
@@ -1338,15 +1338,15 @@
         "description": "Button tooltip label for turning on the microphone"
     },
     "calling__button--presenting-disabled": {
-        "message": "Presenting disabled",
+        "message": "표시 비활성화됨",
         "description": "Button tooltip label for when screen sharing is disabled"
     },
     "calling__button--presenting-on": {
-        "message": "Start presenting",
+        "message": "표시 시작",
         "description": "Button tooltip label for starting to share screen"
     },
     "calling__button--presenting-off": {
-        "message": "Stop presenting",
+        "message": "표시 중단",
         "description": "Button tooltip label for stopping screen sharing"
     },
     "calling__your-video-is-off": {
@@ -1462,15 +1462,15 @@
         "description": "Label for the \"scroll down\" button in a call's overflow area"
     },
     "calling__presenting--notification-title": {
-        "message": "You're presenting to everyone.",
+        "message": "모든 사람에게 표시하고 있습니다.",
         "description": "Title for the share screen notification"
     },
     "calling__presenting--notification-body": {
-        "message": "Click here to return to the call when you're ready to stop presenting.",
+        "message": "표시를 중단할 준비가 되었을 때 통화로 돌아가려면 여기를 클릭하세요.",
         "description": "Body text for the share screen notification"
     },
     "calling__presenting--info": {
-        "message": "Signal is sharing $window$.",
+        "message": "Signal이 $window$ 창을 공유하고 있습니다.",
         "description": "Text that appears in the screen sharing controller to inform person that they are presenting",
         "placeholders": {
             "name": {
@@ -1484,11 +1484,11 @@
         "description": "Button for stopping screen sharing"
     },
     "calling__presenting--you-stopped": {
-        "message": "You stopped presenting",
+        "message": "표시를 중단했습니다.",
         "description": "Toast that appears when someone stops presenting"
     },
     "calling__presenting--person-ongoing": {
-        "message": "$name$ is presenting",
+        "message": "$name$ 님이 표시 중입니다.",
         "description": "Title of call when someone is presenting",
         "placeholders": {
             "name": {
@@ -1498,7 +1498,7 @@
         }
     },
     "calling__presenting--person-stopped": {
-        "message": "$name$ stopped presenting",
+        "message": "$name$ 님이 표시를 중단했습니다.",
         "description": "Toast that appears when someone stops presenting",
         "placeholders": {
             "name": {
@@ -1516,19 +1516,19 @@
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-instruction-step1": {
-        "message": "Go to System Preferences.",
+        "message": "시스템 환경 설정으로 이동하세요.",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-instruction-step2": {
-        "message": "Click on the lock icon on the bottom left and enter your computer’s password.",
+        "message": "왼쪽 하단의 자물쇠 아이콘을 클릭하고 컴퓨터의 비밀번호를 입력하세요.",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-instruction-step3": {
-        "message": "On the right, check the box next to Signal. If you don’t see Signal in the list, click the + to add it.",
+        "message": "오른쪽에서 Signal 옆의 체크 박스를 선택하세요. 목록에 Signal이 표시되지 않으면 +를 클릭하여 추가하세요.",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-open": {
-        "message": "Open System Preferences",
+        "message": "시스템 환경 설정 열기",
         "description": "The button that opens your system preferences for the needs screen record permissions modal"
     },
     "calling__presenting--permission-cancel": {
@@ -1560,7 +1560,7 @@
         "description": "Header for general options on the settings screen"
     },
     "spellCheckDescription": {
-        "message": "Enable spell check",
+        "message": "맞춤법 검사 활성화",
         "description": "Description of the spell check setting"
     },
     "spellCheckWillBeEnabled": {
@@ -1572,15 +1572,15 @@
         "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
     },
     "SystemTraySetting__minimize-to-system-tray": {
-        "message": "Minimize to system tray",
+        "message": "시스템 트레이로 최소화",
         "description": "In the settings, shown next to the checkbox option for minimizing to the system tray"
     },
     "SystemTraySetting__minimize-to-and-start-in-system-tray": {
-        "message": "Start minimized to tray",
+        "message": "트레이로 최소화 시작",
         "description": "In the settings, shown next to the checkbox option for starting in the system tray"
     },
     "autoLaunchDescription": {
-        "message": "Open at computer login",
+        "message": "컴퓨터 로그인 시 열기",
         "description": "Description for the automatic launch setting"
     },
     "clearDataHeader": {
@@ -1698,7 +1698,7 @@
         "description": "Shown on outgoing message if it fails to send"
     },
     "sendPaused": {
-        "message": "Send paused",
+        "message": "전송 일시 정지됨",
         "description": "Shown on outgoing message if it cannot be sent immediately"
     },
     "partiallySent": {
@@ -2046,7 +2046,7 @@
         "description": "Shown in the alert when you add the maximum number of group members"
     },
     "chooseGroupMembers__maximum-group-size__body": {
-        "message": "Signal groups can have a maximum of $max$ members.",
+        "message": "Signal 그룹에는 최대 $max$명의 구성원이 있을 수 있습니다.",
         "description": "Shown in the alert when you add the maximum number of group members",
         "placeholders": {
             "max": {
@@ -2060,7 +2060,7 @@
         "description": "Shown in the alert when you add the maximum recommended number of group members"
     },
     "chooseGroupMembers__maximum-recommended-group-size__body": {
-        "message": "Signal groups perform best with $max$ members or less. Adding more members will cause delays sending and receiving messages.",
+        "message": "Signal 그룹은 $max$명 이하의 구성원이 있을 때 최고의 성능을 보여줍니다. 구성원을 더 많이 추가하면 메시지 송수신이 지연됩니다.",
         "description": "Shown in the alert when you add the maximum recommended number of group members",
         "placeholders": {
             "max": {
@@ -2074,7 +2074,7 @@
         "description": "Shown in the alert when you try to add someone who can't be added to a group"
     },
     "chooseGroupMembers__cant-add-member__body": {
-        "message": "\"$name$\" can’t be added to the group because they’re using an old version of Signal. You can add them to the group after they’ve updated Signal.",
+        "message": "'$name$' 님은 이전 버전의 Signal을 사용하고 있기 때문에 그룹에 추가할 수 없습니다. Signal을 업데이트한 후 그룹에 추가할 수 있습니다.",
         "description": "Shown in the alert when you try to add someone who can't be added to a group",
         "placeholders": {
             "max": {
@@ -2108,7 +2108,7 @@
         "description": "The header for the members list in the 'set group metadata' left pane screen"
     },
     "setGroupMetadata__error-message": {
-        "message": "This group couldn’t be created. Check your connection and try again.",
+        "message": "그룹을 생성할 수 없습니다. 연결 상태를 확인하고 다시 시도하세요.",
         "description": "Shown in the modal when we can't create a group"
     },
     "updateGroupAttributes__title": {
@@ -2116,7 +2116,7 @@
         "description": "Shown in the modal when we want to update a group"
     },
     "updateGroupAttributes__error-message": {
-        "message": "Failed to update the group. Check your connection and try again.",
+        "message": "그룹을 업데이트하지 못했습니다. 연결 상태를 확인하고 다시 시도하세요.",
         "description": "Shown in the modal when we can't update a group"
     },
     "notSupportedSMS": {
@@ -3266,7 +3266,7 @@
         "description": "Shown to indicate this user is not a member of any groups"
     },
     "no-groups-in-common-warning": {
-        "message": "No groups in common. Review requests carefully.",
+        "message": "공통된 그룹이 없습니다. 요청을 주의 깊게 검토하세요.",
         "description": "When a user has no common groups, show this warning"
     },
     "acceptCall": {
@@ -3444,19 +3444,19 @@
         "description": "Title for hang up button"
     },
     "calling__SelectPresentingSourcesModal--title": {
-        "message": "Share your screen",
+        "message": "화면 공유",
         "description": "Title for the select your screen sharing sources modal"
     },
     "calling__SelectPresentingSourcesModal--confirm": {
-        "message": "Share screen",
+        "message": "화면 공유",
         "description": "Confirm button for sharing screen modal"
     },
     "calling__SelectPresentingSourcesModal--entireScreen": {
-        "message": "Entire screen",
+        "message": "전체 화면",
         "description": "Title for the select your screen sharing sources modal and 'Entire Screen' source"
     },
     "calling__SelectPresentingSourcesModal--screen": {
-        "message": "Screen $id$",
+        "message": "화면 $id$",
         "description": "Title for `Screen #N` source in screen sharing sources modal and overlay",
         "placeholders": {
             "id": {
@@ -3466,7 +3466,7 @@
         }
     },
     "calling__SelectPresentingSourcesModal--window": {
-        "message": "A window",
+        "message": "창",
         "description": "Title for the select your screen sharing sources modal"
     },
     "callingDeviceSelection__label--video": {
@@ -3552,15 +3552,15 @@
         "description": "Shown if you click on a sgnl:// link not currently supported by Desktop"
     },
     "GroupV2--cannot-send": {
-        "message": "You cannot send messages to that group.",
+        "message": "해당 그룹에 메시지를 전송할 수 없습니다.",
         "description": "Shown in toast when you attempt to forward a message to an announcement only group"
     },
     "GroupV2--add--missing-capability": {
-        "message": "These people cannot be added to the group until they upgrade Signal.",
+        "message": "해당 사용자는 Signal을 업그레이드할 때까지 그룹에 추가할 수 없습니다.",
         "description": "Shown in a confirmation dialog when members who cannot view announcement only group cannot be added"
     },
     "GroupV2--cannot-start-group-call": {
-        "message": "Only admins of the group can start a call.",
+        "message": "그룹의 관리자만 통화를 시작할 수 있습니다.",
         "description": "Shown in toast when a non-admin starts a group call in an announcements only group"
     },
     "GroupV2--join--invalid-link--title": {
@@ -3660,7 +3660,7 @@
         "description": "Shown if something went wrong when you try to join via a group link"
     },
     "GroupV2--join--general-join-failure": {
-        "message": "Couldn't join group. Try again later.",
+        "message": "그룹에 가입할 수 없습니다. 나중에 다시 시도하세요.",
         "description": "Shown if something went wrong when you try to join via a group link"
     },
     "GroupV2--admin": {
@@ -4700,7 +4700,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--description--remove--you": {
-        "message": "You removed the group description.",
+        "message": "그룹 설명을 제거했습니다.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--description--remove--other": {
@@ -4736,11 +4736,11 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--admin--you": {
-        "message": "You changed the group settings to only allow admins to send messages.",
+        "message": "관리자만 메시지를 전송할 수 있도록 그룹 설정을 변경했습니다.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--admin--other": {
-        "message": "$memberName$ changed the group settings to only allow admins to send messages.",
+        "message": "$memberName$ 님이 관리자만 메시지를 전송할 수 있도록 그룹 설정을 변경했습니다.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4750,15 +4750,15 @@
         }
     },
     "GroupV2--announcements--admin--unknown": {
-        "message": "The group was changed to only allow admins to send messages.",
+        "message": "관리자만 메시지를 전송할 수 있도록 그룹이 변경되었습니다.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--member--you": {
-        "message": "You changed the group settings to allow all members to send messages.",
+        "message": "모든 구성원이 메시지를 전송할 수 있도록 그룹 설정을 변경했습니다.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--member--other": {
-        "message": "$memberName$ changed the group settings to allow all members to send messages.",
+        "message": "$memberName$ 님이 모든 구성원이 메시지를 전송할 수 있도록 그룹 설정을 변경했습니다.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4768,7 +4768,7 @@
         }
     },
     "GroupV2--announcements--member--unknown": {
-        "message": "The group was changed to allow all members to send messages.",
+        "message": "모든 회원이 메시지를 전송할 수 있도록 그룹이 변경되었습니다.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV1--Migration--disabled": {
@@ -4910,11 +4910,11 @@
         "description": "Title for the composition area for the SMS-only contact"
     },
     "CompositionArea--sms-only__body": {
-        "message": "Signal Desktop does not support messaging non-Signal contacts. Ask this person to install Signal for a more secure messaging experience.",
+        "message": "Signal Desktop은 Signal 외부 연락처 메시징을 지원하지 않습니다. 보다 안전한 메시징 경험을 위해 해당 인물에게 Signal을 설치하도록 요청하세요.",
         "description": "Body for the composition area for the SMS-only contact"
     },
     "CompositionArea--sms-only__spinner-label": {
-        "message": "Checking contact's registration status",
+        "message": "연락처 등록 상태 확인",
         "description": "Displayed while checking if the contact is SMS-only"
     },
     "countMutedConversationsDescription": {
@@ -4982,7 +4982,7 @@
         "description": "This is the label for the 'who can edit the group' panel"
     },
     "ConversationDetails--group-info-info": {
-        "message": "Choose who can edit group name, photo, description, and disappearing messages timer.",
+        "message": "그룹 이름, 사진, 설명과 사라지는 메시지 타이머를 편집할 수 있는 사람을 선택하세요.",
         "description": "This is the additional info for the 'who can edit the group' panel"
     },
     "ConversationDetails--add-members-label": {
@@ -4994,11 +4994,11 @@
         "description": "This is the additional info for the 'who can add members' panel"
     },
     "ConversationDetails--announcement-label": {
-        "message": "Who can send messages",
+        "message": "메시지를 전송할 수 있는 사람",
         "description": "This is the additional info for the 'who can send messages' panel"
     },
     "ConversationDetails--announcement-info": {
-        "message": "Choose who can send messages to the group.",
+        "message": "그룹에 메시지를 전송할 수 있는 사람을 선택하세요.",
         "description": "This is the additional info for the 'who can send mesages' panel"
     },
     "ConversationDetails--requests-and-invites": {
@@ -5242,7 +5242,7 @@
         "description": "The label for the avatar uploader when no group photo is selected"
     },
     "AvatarInput--no-photo-label--profile": {
-        "message": "Add a photo",
+        "message": "사진 추가",
         "description": "The label for the avatar uploader when no profile photo is selected"
     },
     "AvatarInput--change-photo-label": {
@@ -5270,7 +5270,7 @@
         "description": "When creating a new group and inviting users, this is shown in the dialog"
     },
     "NewlyCreatedGroupInvitedContactsDialog--title--many": {
-        "message": "$count$ invitations sent",
+        "message": "$count$개의 초대장을 보냈습니다.",
         "description": "When creating a new group and inviting users, this is shown in the dialog",
         "placeholders": {
             "count": {
@@ -5280,7 +5280,7 @@
         }
     },
     "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--one": {
-        "message": "$name$ can’t be automatically added to this group by you.",
+        "message": "$name$ 님을 그룹에 자동으로 추가할 수 없습니다.",
         "description": "When creating a new group and inviting users, this is shown in the dialog",
         "placeholders": {
             "name": {
@@ -5290,11 +5290,11 @@
         }
     },
     "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--many": {
-        "message": "These users can’t be automatically added to this group by you.",
+        "message": "해당 사용자는 사용자가 그룹에 자동으로 추가할 수 없습니다.",
         "description": "When creating a new group and inviting users, this is shown in the dialog"
     },
     "NewlyCreatedGroupInvitedContactsDialog--body--info-paragraph": {
-        "message": "They’ve been invited to join, and won’t see any group messages until they accept.",
+        "message": "가입 초대를 받았으며 수락할 때까지 그룹 메시지가 표시되지 않습니다.",
         "description": "When creating a new group and inviting users, this is shown in the dialog"
     },
     "NewlyCreatedGroupInvitedContactsDialog--body--learn-more": {
@@ -5382,11 +5382,11 @@
         "description": "Aria label for pending audio attachment spinner"
     },
     "MessageAudio--slider": {
-        "message": "Playback time of audio attachment",
+        "message": "오디오 첨부 파일 재생 시간",
         "description": "Aria label for audio attachment's playback time slider"
     },
     "emptyInboxMessage": {
-        "message": "Click the $composeIcon$ above and search for your contacts or groups to message.",
+        "message": "위 $composeIcon$ 아이콘을 클릭하고 메시지를 전송할 연락처 또는 그룹을 검색하세요.",
         "description": "Shown in the left-pane when the inbox is empty",
         "placeholders": {
             "composeIcon": {
@@ -5396,7 +5396,7 @@
         }
     },
     "composeIcon": {
-        "message": "compose button",
+        "message": "구성 버튼",
         "description": "Shown in the left-pane when the inbox is empty. Describes the button that composes a new message."
     },
     "ForwardMessageModal--continue": {
@@ -5408,15 +5408,15 @@
         "description": "Shown on the message request warning. Clicking this button will open a dialog with more information"
     },
     "MessageRequestWarning__dialog__details": {
-        "message": "You have no groups in common with this person. Review requests carefully before accepting to avoid unwanted messages.",
+        "message": "해당 사용자와 공유하는 그룹이 없습니다. 원치 않는 메시지를 피하기 위해 수락하기 전 요청을 주의 깊게 검토하세요.",
         "description": "Shown in the message request warning dialog. Gives more information about message requests"
     },
     "MessageRequestWarning__dialog__learn-even-more": {
-        "message": "About Message Requests",
+        "message": "메시지 요청 정보",
         "description": "Shown in the message request warning dialog. Clicking this button will open a page on Signal's support site"
     },
     "ContactSpoofing__same-name": {
-        "message": "Review requests carefully. Signal found another contact with the same name. $link$",
+        "message": "요청을 주의 깊게 검토하세요. Signal이 같은 이름의 다른 연락처를 찾았습니다. $link$",
         "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else",
         "placeholders": {
             "link": {
@@ -5426,7 +5426,7 @@
         }
     },
     "ContactSpoofing__same-name-in-group": {
-        "message": "$count$ group members have the same name. $link$",
+        "message": "$count$ 그룹 구성원 중 이름이 같은 사람이 있습니다. $link$",
         "description": "Shown in the timeline warning when you multiple group members have the same name",
         "placeholders": {
             "count": {
@@ -5440,15 +5440,15 @@
         }
     },
     "ContactSpoofing__same-name__link": {
-        "message": "Review request",
+        "message": "검토 요청",
         "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else"
     },
     "ContactSpoofing__same-name-in-group__link": {
-        "message": "Click to review",
+        "message": "클릭하여 검토",
         "description": "Shown in the timeline warning when you multiple group members have the same name"
     },
     "ContactSpoofingReviewDialog__title": {
-        "message": "Review request",
+        "message": "검토 요청",
         "description": "Title for the contact name spoofing review dialog"
     },
     "ContactSpoofingReviewDialog__description": {
@@ -5464,11 +5464,11 @@
         "description": "Header in the contact spoofing review dialog, shown above the \"safe\" user"
     },
     "ContactSpoofingReviewDialog__group__title": {
-        "message": "Review members",
+        "message": "구성원 검토",
         "description": "Title for the contact name spoofing review dialog in groups"
     },
     "ContactSpoofingReviewDialog__group__description": {
-        "message": "$count$ group members have similar names. Review the members below or choose to take action.",
+        "message": "$count$ 그룹 구성원 중 이름이 비슷한 사람이 있습니다. 다음 구성원을 검토하거나 조치를 선택하세요.",
         "description": "Description for the group contact spoofing review dialog"
     },
     "ContactSpoofingReviewDialog__group__members-header": {
@@ -5476,7 +5476,7 @@
         "description": "Header in the group contact spoofing review dialog. After this header, there will be a list of members"
     },
     "ContactSpoofingReviewDialog__group__name-change-info": {
-        "message": "Recently changed their profile name from $oldName$ to $newName$",
+        "message": "최근에 프로필 이름을 $oldName$에서 $newName$(으)로 변경했습니다.",
         "description": "In the group contact spoofing review dialog, this text is shown when someone has changed their name recently",
         "placeholders": {
             "oldName": {
@@ -5504,39 +5504,39 @@
         }
     },
     "CaptchaDialog__title": {
-        "message": "Verify to continue messaging",
+        "message": "메시지를 계속 전송하려면 검증하세요.",
         "description": "Header in the captcha dialog"
     },
     "CaptchaDialog__first-paragraph": {
-        "message": "To help prevent spam on Signal, please complete verification.",
+        "message": "Signal에서 스팸을 방지하려면 검증을 완료하세요.",
         "description": "First paragraph in the captcha dialog"
     },
     "CaptchaDialog__second-paragraph": {
-        "message": "After verifying, you can continue messaging. Any paused messages will automatically be sent.",
+        "message": "검증 후 메시지를 계속 전달할 수 있습니다. 일시 정지된 메시지는 자동으로 전송됩니다.",
         "description": "First paragraph in the captcha dialog"
     },
     "CaptchaDialog--can-close__title": {
-        "message": "Continue without verifying?",
+        "message": "검증하지 않고 계속하시겠습니까?",
         "description": "Header in the captcha dialog that can be closed"
     },
     "CaptchaDialog--can-close__body": {
-        "message": "If you choose to skip verification, you may miss messages from other people and your messages may fail to send.",
+        "message": "검증을 건너뛰도록 선택하면 다른 사람이 전송한 메시지를 놓칠 수 있고 메시지가 전송되지 않을 수 있습니다.",
         "description": "Body of the captcha dialog that can be closed"
     },
     "CaptchaDialog--can_close__skip-verification": {
-        "message": "Skip verification",
+        "message": "검증 건너뛰기",
         "description": "Skip button of the captcha dialog that can be closed"
     },
     "verificationComplete": {
-        "message": "Verification complete.",
+        "message": "검증이 완료되었습니다.",
         "description": "Displayed after successful captcha"
     },
     "verificationFailed": {
-        "message": "Verification failed. Please retry later.",
+        "message": "검증에 실패했습니다. 나중에 다시 시도하세요.",
         "description": "Displayed after unsuccessful captcha"
     },
     "deleteForEveryoneFailed": {
-        "message": "Failed to delete message for everyone. Please retry later.",
+        "message": "모든 사람의 메시지를 삭제하지 못했습니다. 나중에 다시 시도하세요.",
         "description": "Displayed when delete-for-everyone has failed to send to all recepients"
     },
     "ChatColorPicker__delete--title": {
@@ -5544,7 +5544,7 @@
         "description": "Confirm title for deleting custom color"
     },
     "ChatColorPicker__delete--message": {
-        "message": "This custom color is used in $num$ chats. Do you want to delete it for all chats?",
+        "message": "사용자 정의 색상은 $num$ 채팅에서 사용됩니다. 모든 채팅에서 삭제하시겠습니까?",
         "description": "Confirm message for deleting custom color",
         "placeholders": {
             "num": {
@@ -5554,7 +5554,7 @@
         }
     },
     "ChatColorPicker__global-chat-color": {
-        "message": "Global Chat Color",
+        "message": "모두 적용되는 채팅 색상",
         "description": "Modal title for the chat color picker and editor for all conversations"
     },
     "ChatColorPicker__menu-title": {
@@ -5562,19 +5562,19 @@
         "description": "View title for the chat color picker and editor"
     },
     "ChatColorPicker__reset": {
-        "message": "Reset chat color",
+        "message": "채팅 색상 재설정",
         "description": "Button label for resetting chat colors"
     },
     "ChatColorPicker__resetDefault": {
-        "message": "Reset Chat Colors",
+        "message": "채팅 색상 재설정",
         "description": "Confirmation dialog title for resetting all chat colors or only the global default one"
     },
     "ChatColorPicker__resetAll": {
-        "message": "Reset all chat colors",
+        "message": "모든 채팅 색상 재설정",
         "description": "Button label for resetting all chat colors"
     },
     "ChatColorPicker__confirm-reset-default": {
-        "message": "Reset default",
+        "message": "기본값 재설정",
         "description": "Button label for resetting only global chat color"
     },
     "ChatColorPicker__confirm-reset": {
@@ -5582,27 +5582,27 @@
         "description": "Confirm button label for resetting chat colors"
     },
     "ChatColorPicker__confirm-reset-message": {
-        "message": "Would you like to override all chat colors?",
+        "message": "모든 채팅 색상을 무시하시겠습니까?",
         "description": "Modal message text for confirming resetting of chat colors"
     },
     "ChatColorPicker__custom-color--label": {
-        "message": "Show custom color editor",
+        "message": "사용자 정의 색상 편집기 표시",
         "description": "aria-label for custom color editor button"
     },
     "ChatColorPicker__sampleBubble1": {
-        "message": "Here's a preview of the chat color.",
+        "message": "다음은 채팅 색상의 미리 보기입니다.",
         "description": "An example message bubble for selecting the chat color"
     },
     "ChatColorPicker__sampleBubble2": {
-        "message": "Another bubble.",
+        "message": "또 다른 거품이군요.",
         "description": "An example message bubble for selecting the chat color"
     },
     "ChatColorPicker__sampleBubble3": {
-        "message": "The color is visible to only you.",
+        "message": "색상은 사용자에게만 보입니다.",
         "description": "An example message bubble for selecting the chat color"
     },
     "ChatColorPicker__context--edit": {
-        "message": "Edit color",
+        "message": "색상 편집",
         "description": "Option in the custom color bubble context menu"
     },
     "ChatColorPicker__context--duplicate": {
@@ -5614,7 +5614,7 @@
         "description": "Option in the custom color bubble context menu"
     },
     "CustomColorEditor__solid": {
-        "message": "Solid",
+        "message": "견고함",
         "description": "Tab label for selecting solid colors"
     },
     "CustomColorEditor__gradient": {
@@ -5674,15 +5674,15 @@
         "description": "Name of the 'weeks' unit select for the custom disappearing message timeout dialog"
     },
     "settings__DisappearingMessages__footer": {
-        "message": "Set a default disappearing message timer for all new chats started by you.",
+        "message": "내가 시작한 모든 새 채팅에 대해 기본으로 사라지는 메시지 타이머를 설정하세요.",
         "description": "Footer for the Disappearing Messages settings section"
     },
     "settings__DisappearingMessages__timer__label": {
-        "message": "Default timer for new chats",
+        "message": "새 채팅을 위한 기본 타이머",
         "description": "Label for the Disapearring Messages default timer setting"
     },
     "UniversalTimerNotification__text": {
-        "message": "The disappearing message time will be set to $timeValue$ when you message them.",
+        "message": "메시지가 사라지는 시간은 메시지를 전송할 때 $timeValue$(으)로 설정됩니다.",
         "description": "A message displayed when default disappearing message timeout is about to be applied",
         "placeholders": {
             "timeValue": {
@@ -5696,7 +5696,7 @@
         "description": "Button text when the group description is too long"
     },
     "EditConversationAttributesModal__description-warning": {
-        "message": "Group descriptions will be visible to members of this group and people who have been invited.",
+        "message": "그룹 설명은 이 그룹의 구성원과 초대받은 사람들에게 표시됩니다.",
         "description": "Label text shown when editing group description"
     },
     "ConversationDetailsHeader--add-group-description": {
@@ -5704,11 +5704,11 @@
         "description": "Placeholder text in the details header for those that can edit the group description"
     },
     "MediaQualitySelector--button": {
-        "message": "Select media quality",
+        "message": "미디어 품질 선택",
         "description": "aria-label for the media quality selector button"
     },
     "MediaQualitySelector--title": {
-        "message": "Media Quality",
+        "message": "미디어 품질",
         "description": "Popup selector title"
     },
     "MediaQualitySelector--standard-quality-title": {
@@ -5748,7 +5748,7 @@
         "description": "In the message details screen, shown above contacts who have read this message"
     },
     "MessageDetailsHeader--Viewed": {
-        "message": "Viewed by",
+        "message": "조회자",
         "description": "In the message details screen, shown above contacts who have viewed this message"
     },
     "ProfileEditor--about": {
@@ -5756,7 +5756,7 @@
         "description": "Default text for about field"
     },
     "ProfileEditor--about-placeholder": {
-        "message": "Write something about yourself...",
+        "message": "나를 소개해 보세요...",
         "description": "Placeholder text for about input field"
     },
     "ProfileEditor--first-name": {
@@ -5772,7 +5772,7 @@
         "description": "ConfirmationDialog text for discarding changes"
     },
     "ProfileEditor--info": {
-        "message": "Your profile is encrypted. Your profile and changes to it will be visible to your contacts and when you start or accept new chats. $learnMore$",
+        "message": "프로필이 암호화되었습니다. 프로필과 프로필 변경 사항은 연락처와 새 채팅을 시작하거나 수락할 때 볼 수 있습니다. $learnMore$",
         "description": "Information shown at the bottom of the profile editor section",
         "placeholders": {
             "learnMore": {
@@ -5810,7 +5810,7 @@
         "description": "Title for profile editing"
     },
     "ProfileEditorModal--name": {
-        "message": "Your Name",
+        "message": "내 이름",
         "description": "Title for editing your name"
     },
     "ProfileEditorModal--about": {
@@ -5818,15 +5818,15 @@
         "description": "Title for about editing"
     },
     "ProfileEditorModal--error": {
-        "message": "Your profile could not be updated. Please try again.",
+        "message": "프로필을 업데이트할 수 없습니다. 다시 시도하세요.",
         "description": "Error message when something goes wrong updating your profile."
     },
     "AnnouncementsOnlyGroupBanner--modal": {
-        "message": "Message an admin",
+        "message": "관리자에게 메시지 전송",
         "description": "Modal title for the list of admins in a group"
     },
     "AnnouncementsOnlyGroupBanner--announcements-only": {
-        "message": "Only $admins$ can send messages",
+        "message": "$admins$만 메시지를 전송할 수 있습니다.",
         "description": "Displayed if sending of messages is disabled to non-admins",
         "placeholders": {
             "admins": {
@@ -5836,7 +5836,7 @@
         }
     },
     "AnnouncementsOnlyGroupBanner--admins": {
-        "message": "admins",
+        "message": "관리자",
         "description": "Clickable text describing administrators of a group, used in the message an admin label"
     }
 }

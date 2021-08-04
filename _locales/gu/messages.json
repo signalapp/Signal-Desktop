@@ -270,7 +270,7 @@
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
-        "message": "ખાતરી કરો કે તમે સાચી ડિરેક્ટરી પસંદ કરી છે જેમાં તમારો સાચવેલો Signal ડેટા છે. તેનું નામ 'Signal એક્સપોર્ટ' થી શરૂ થવું જોઈએ. તમે ક્રોમ એપથી તમારા ડેટાની નવી નકલ પણ સેવ કરી શકો છો.",
+        "message": "ખાતરી કરો કે તમે સાચી ડિરેક્ટરી પસંદ કરી છે જેમાં તમારો સાચવેલો Signal ડેટા છે. તેનું નામ 'Signal એક્સપોર્ટ' થી શરૂ થવું જોઈએ. તમે ક્રોમ એપ્લિકેશનથી તમારા ડેટાની નવી નકલ પણ સેવ કરી શકો છો.",
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
@@ -448,7 +448,7 @@
         }
     },
     "multipleNoLongerVerified": {
-        "message": "આ ગ્રુપના બહુવિધ મેમ્બર્સ સાથેના તમારા સલામતી નંબરો બદલાયા છે અને હવે ચકાસવામાં આવ્યા નથી. બતાવવા માટે ક્લિક કરો.",
+        "message": "આ ગ્રુપના બહુવિધ સભ્યો સાથેના તમારા સલામતી નંબરો બદલાયા છે અને હવે ચકાસવામાં આવ્યા નથી. બતાવવા માટે ક્લિક કરો.",
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
@@ -464,11 +464,11 @@
         "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogCopyAlt": {
-        "message": "તમારા ક્લિપબોર્ડ પર લિંક કૉપિ કરો",
+        "message": "તમારા ક્લિપબોર્ડ પર લિંક કૉપી કરો",
         "description": "Shown as the alt text for the copy button on the debug log screen"
     },
     "debugLogLinkCopied": {
-        "message": "લિંક તમારા ક્લિપબોર્ડ પર કોપી કરી",
+        "message": "લિંક તમારા ક્લિપબોર્ડ પર કૉપી કરી",
         "description": "Shown in a toast to let the user know that the link to the debug log has been copied to their clipboard"
     },
     "reportIssue": {
@@ -548,7 +548,7 @@
         "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
     },
     "documentsEmptyState": {
-        "message": "આ વાતચીત માં તમારી પાસે કોઈ દસ્તાવેજો નથી",
+        "message": "આ વાતચીતમાં તમારી પાસે કોઈ દસ્તાવેજો નથી",
         "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
     },
     "today": {
@@ -638,7 +638,7 @@
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "fileSizeWarning": {
-        "message": "માફ કરશો, પસંદ કરેલી ફાઇલ મેસેજ ના કદના પ્રતિબંધોને વટાવી ગઈ છે.",
+        "message": "માફ કરશો, પસંદ કરેલી ફાઇલ મેસેજના કદના પ્રતિબંધોને વટાવી ગઈ છે.",
         "description": ""
     },
     "unableToLoadAttachment": {
@@ -930,7 +930,7 @@
         }
     },
     "audioPermissionNeeded": {
-        "message": "ઑડિયો સંદેશાઓ મોકલવા માટે, Signal ડેસ્કટોપને તમારા માઇક્રોફોનને ઍક્સેસ કરવાની મંજૂરી આપો.",
+        "message": "ઓડિયો સંદેશાઓ મોકલવા માટે, Signal ડેસ્કટોપને તમારા માઇક્રોફોનને ઍક્સેસ કરવાની મંજૂરી આપો.",
         "description": "Shown if the user attempts to send an audio message without audio permissions turned on"
     },
     "audioCallingPermissionNeeded": {
@@ -1092,7 +1092,7 @@
         }
     },
     "theirIdentityUnknown": {
-        "message": "તમે હજી સુધી આ સંપર્ક સાથે કોઈ મેસેજ ની આપલે કરી નથી. પ્રથમ મેસેજ પછી તેમની સાથે તમારો સલામતી નંબર ઉપલબ્ધ થશે.",
+        "message": "તમે હજી સુધી આ સંપર્ક સાથે કોઈ મેસેજની આપલે કરી નથી. પ્રથમ મેસેજ પછી તેમની સાથે તમારો સલામતી નંબર ઉપલબ્ધ થશે.",
         "description": ""
     },
     "back": {
@@ -1512,7 +1512,7 @@
         "description": "Shown as the title for the modal that requests screen recording permissions"
     },
     "calling__presenting--macos-permission-description": {
-        "message": "તમારા કમ્પ્યુટરના સ્ક્રીન રેકોર્ડિંગને એક્સેસ કરવા માટે Signal ની પરવાનગીની જરૂર છે.",
+        "message": "તમારા કમ્પ્યુટરના સ્ક્રીન રેકોર્ડિંગને ઍક્સેસ કરવા માટે Signal ની પરવાનગીની જરૂર છે.",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-instruction-step1": {
@@ -1524,7 +1524,7 @@
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-instruction-step3": {
-        "message": "જમણી બાજુએ, Signal ની આગલી બાજુમાં બૉક્સને ચેક કરો. જો તમને સૂચિમાં Signal દેખાતું નથી, તો તેને ઉમેરવા માટે + ને ક્લિક કરો.",
+        "message": "જમણી બાજુએ, Signal ની આગલી બાજુમાં બૉક્સને ચેક કરો. જો તમને લિસ્ટમાં Signal દેખાતું નથી, તો તેને ઉમેરવા માટે + ને ક્લિક કરો.",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-open": {
@@ -1738,15 +1738,15 @@
         "description": "Label for contact and group sync settings"
     },
     "syncExplanation": {
-        "message": "તમારા મોબાઈલ ઉપકરણમાંથી તમામ Signal ગૃપ્સ અને સંપર્કો ઈમ્પોર્ટ કરો.",
+        "message": "તમારા મોબાઈલ ઉપકરણમાંથી તમામ Signal ગૃપ્સ અને સંપર્કો ઇમ્પોર્ટ કરો.",
         "description": "Explanatory text for sync settings"
     },
     "lastSynced": {
-        "message": "અંતે છેલ્લી ઈમ્પોર્ટ",
+        "message": "અંતે છેલ્લી ઇમ્પોર્ટ",
         "description": "Label for date and time of last sync operation"
     },
     "syncNow": {
-        "message": "હમણાં ઈમ્પોર્ટ કરો",
+        "message": "હમણાં ઇમ્પોર્ટ કરો",
         "description": "Label for a button that syncs contacts and groups from your phone"
     },
     "syncing": {
@@ -1754,7 +1754,7 @@
         "description": "Label for a disabled sync button while sync is in progress."
     },
     "syncFailed": {
-        "message": "ઈમ્પોર્ટ નિષ્ફળ. ખાતરી કરો કે તમારું કમ્પ્યુટર અને તમારો ફોન ઈન્ટરનેટ સાથે જોડાયેલ છે.",
+        "message": "ઇમ્પોર્ટ નિષ્ફળ. ખાતરી કરો કે તમારું કમ્પ્યુટર અને તમારો ફોન ઈન્ટરનેટ સાથે જોડાયેલ છે.",
         "description": "Informational text displayed if a sync operation times out."
     },
     "timestamp_s": {
@@ -1798,7 +1798,7 @@
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
     "messageBodyTooLong": {
-        "message": "મેસેજ નો મુખ્ય ભાગ ખૂબ લાંબો છે.",
+        "message": "મેસેજનો મુખ્ય ભાગ ખૂબ લાંબો છે.",
         "description": "Shown if the user tries to send more than 64kb of text"
     },
     "unblockToSend": {
@@ -1806,11 +1806,11 @@
         "description": "Brief message shown when trying to message a blocked number"
     },
     "unblockGroupToSend": {
-        "message": "મેસેજ મોકલવા માટે આ ગ્રુપ ને અનબ્લૉક કરો.",
+        "message": "મેસેજ મોકલવા માટે આ ગ્રુપને અનબ્લૉક કરો.",
         "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
-        "message": "તમે અદૃશ્ય થઈ રહેલા મેસેજ નો સમય $time$ પર સેટ કર્યો છે.",
+        "message": "તમે અદૃશ્ય થઈ રહેલા મેસેજનો સમય $time$ પર સેટ કર્યો છે.",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -1840,7 +1840,7 @@
         }
     },
     "theyChangedTheTimer": {
-        "message": "$name$ અદૃશ્ય થઈ રહેલા મેસેજ નો સમય $time$ પર સેટ કરો.",
+        "message": "$name$ અદૃશ્ય થઈ રહેલા મેસેજનો સમય $time$ પર સેટ કરો.",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -1894,7 +1894,7 @@
         }
     },
     "audioNotificationDescription": {
-        "message": "ઑડિયો સૂચના ચલાવો",
+        "message": "ઓડિયો સૂચના ચલાવો",
         "description": "Description for audio notification setting"
     },
     "callRingtoneNotificationDescription": {
@@ -2010,7 +2010,7 @@
         "description": "Label underneath number a user enters that is not an existing contact"
     },
     "newConversation": {
-        "message": "નવો સંવાદ",
+        "message": "નવી વાતચીત",
         "description": "Label for header when starting a new conversation"
     },
     "contactSearchPlaceholder": {
@@ -2034,7 +2034,7 @@
         "description": "Used as alt-text of the back button on the 'choose group members' left pane screen"
     },
     "chooseGroupMembers__skip": {
-        "message": "અવગણો",
+        "message": "સ્કિપ",
         "description": "The 'skip' button text in the 'choose group members' left pane screen"
     },
     "chooseGroupMembers__next": {
@@ -2592,7 +2592,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-emoji-chooser": {
-        "message": "ઈમોજી પસંદગીકાર ખોલો",
+        "message": "ઈમોજી પસંદગીકાર ઓપન કરો",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-sticker-chooser": {
@@ -2962,7 +2962,7 @@
         }
     },
     "StickerCreator--Toasts--linkedCopied": {
-        "message": "લિંક કોપી કરી",
+        "message": "લિંક કૉપી કરી",
         "description": "Text for the toast when a link for sharing is copied from the Sticker Creator"
     },
     "StickerCreator--StickerPreview--light": {
@@ -3052,7 +3052,7 @@
         }
     },
     "MessageRequests--unblock-group-confirm-body": {
-        "message": "ગ્રુપ ના સભ્યો તમને આ ગ્રુપ માં ફરીથી ઉમેરવા માં સમર્થ હશે.",
+        "message": "ગ્રુપના સભ્યો તમને આ ગ્રુપમાં ફરીથી ઉમેરવામાં સમર્થ હશે.",
         "description": "Shown as the body in the confirmation modal for unblocking a group message request",
         "placeholders": {
             "name": {
@@ -3140,7 +3140,7 @@
         "description": "Shown as a button to share your profile, necessary to continue messaging in a conversation"
     },
     "MessageRequests--profile-sharing--group": {
-        "message": "આ ગ્રુપ સાથે તમારી વાતચીત ચાલુ રાખો અને તેના મેમ્બર્સ સાથે તમારું નામ અને ફોટો શેર કરો? $learnMore$",
+        "message": "આ ગ્રુપ સાથે તમારી વાતચીત ચાલુ રાખો અને તેના મેમ્બર્સ સાથે તમારું નામ અને ફોટો શેર કરીએ? $learnMore$",
         "description": "Shown when user hasn't shared their profile in a group yet",
         "placeholders": {
             "learnMore": {
@@ -3290,7 +3290,7 @@
         "description": "Shown in conversation history when you declined an incoming video call"
     },
     "acceptedIncomingAudioCall": {
-        "message": "ઈનકમિંગ ઑડિયો કૉલ",
+        "message": "ઈનકમિંગ ઓડિયો કૉલ",
         "description": "Shown in conversation history when you accepted an incoming audio call"
     },
     "acceptedIncomingVideoCall": {
@@ -3298,7 +3298,7 @@
         "description": "Shown in conversation history when you accepted an incoming video call"
     },
     "missedIncomingAudioCall": {
-        "message": "મિસ્ડ ઑડિયો કૉલ",
+        "message": "મિસ્ડ ઓડિયો કૉલ",
         "description": "Shown in conversation history when you missed an incoming audio call"
     },
     "missedIncomingVideoCall": {
@@ -3306,7 +3306,7 @@
         "description": "Shown in conversation history when you missed an incoming video call"
     },
     "acceptedOutgoingAudioCall": {
-        "message": "આઉટગોઈંગ ઑડિયો કૉલ",
+        "message": "આઉટગોઇંગ ઓડિયો કૉલ",
         "description": "Shown in conversation history when you made an outgoing audio call"
     },
     "acceptedOutgoingVideoCall": {
@@ -4052,11 +4052,11 @@
         }
     },
     "GroupV2--member-add-from-admin-approval--you--unknown": {
-        "message": "ગ્રુપ માં જોડાવાની તમારી વિનંતી મંજૂર કરવામાં આવી છે.",
+        "message": "ગ્રુપમાં જોડાવાની તમારી વિનંતી મંજૂર કરવામાં આવી છે.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add-from-admin-approval--other--you": {
-        "message": "તમે $joinerName$ તરફથી ગ્રુપ માં જોડાવાની વિનંતી મંજૂર કરી.",
+        "message": "તમે $joinerName$ તરફથી ગ્રુપમાં જોડાવાની વિનંતી મંજૂર કરી.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -4066,7 +4066,7 @@
         }
     },
     "GroupV2--member-add-from-admin-approval--other--other": {
-        "message": "$adminName$ એ $joinerName$ તરફથી ગ્રુપ માં જોડાવાની વિનંતી મંજૂર કરી.",
+        "message": "$adminName$ એ $joinerName$ તરફથી ગ્રુપમાં જોડાવાની વિનંતી મંજૂર કરી.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4080,7 +4080,7 @@
         }
     },
     "GroupV2--member-add-from-admin-approval--other--unknown": {
-        "message": "$joinerName$ તરફથી ગ્રુપ માં જોડાવાની વિનંતી મંજૂર કરવામાં આવી છે.",
+        "message": "$joinerName$ તરફથી ગ્રુપમાં જોડાવાની વિનંતી મંજૂર કરવામાં આવી છે.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -4242,7 +4242,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--pending-add--one--other--other": {
-        "message": "$memberName$ એ 1 વ્યક્તિને ગ્રુપ માં આમંત્રિત કર્યા.",
+        "message": "$memberName$ એ 1 વ્યક્તિને ગ્રુપમાં આમંત્રિત કર્યા.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4252,7 +4252,7 @@
         }
     },
     "GroupV2--pending-add--one--other--you": {
-        "message": "તમે $inviteeName$ ને ગ્રુપ માં આમંત્રિત કર્યા છે.",
+        "message": "તમે $inviteeName$ ને ગ્રુપમાં આમંત્રિત કર્યા છે.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -4262,7 +4262,7 @@
         }
     },
     "GroupV2--pending-add--one--other--unknown": {
-        "message": "એક વ્યક્તિને ગ્રુપ માં આમંત્રણ આપવામાં આવ્યું હતું.",
+        "message": "એક વ્યક્તિને ગ્રુપમાં આમંત્રણ આપવામાં આવ્યું હતું.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -4272,7 +4272,7 @@
         }
     },
     "GroupV2--pending-add--one--you--other": {
-        "message": "$memberName$ એ તમને ગ્રુપ માં આમંત્રિત કર્યા છે.",
+        "message": "$memberName$ એ તમને ગ્રુપમાં આમંત્રિત કર્યા છે.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4286,7 +4286,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--pending-add--many--other": {
-        "message": "$memberName$ એ $count$ લોકોને ગ્રુપ માં આમંત્રિત કર્યા.",
+        "message": "$memberName$ એ $count$ લોકોને ગ્રુપમાં આમંત્રિત કર્યા.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4300,7 +4300,7 @@
         }
     },
     "GroupV2--pending-add--many--you": {
-        "message": "તમે $count$ લોકોને ગ્રુપ માં આમંત્રિત કર્યા છે.",
+        "message": "તમે $count$ લોકોને ગ્રુપમાં આમંત્રિત કર્યા છે.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -4310,7 +4310,7 @@
         }
     },
     "GroupV2--pending-add--many--unknown": {
-        "message": "$count$ લોકોને ગ્રુપ માં આમંત્રિત કરવામાં આવ્યા હતા.",
+        "message": "$count$ લોકોને ગ્રુપમાં આમંત્રિત કરવામાં આવ્યા હતા.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -4320,7 +4320,7 @@
         }
     },
     "GroupV2--pending-remove--decline--other": {
-        "message": "$memberName$ દ્વારા આમંત્રિત 1 વ્યક્તિએ ગ્રુપ નું આમંત્રણ નકાર્યું.",
+        "message": "$memberName$ દ્વારા આમંત્રિત 1 વ્યક્તિએ ગ્રુપનું આમંત્રણ નકાર્યું.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4330,7 +4330,7 @@
         }
     },
     "GroupV2--pending-remove--decline--you": {
-        "message": "$inviteeName$ એ ગ્રુપ માં તમારું આમંત્રણ નકાર્યું.",
+        "message": "$inviteeName$ એ ગ્રુપમાં તમારું આમંત્રણ નકાર્યું.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -4340,15 +4340,15 @@
         }
     },
     "GroupV2--pending-remove--decline--from-you": {
-        "message": "તમે ગ્રુપ નું આમંત્રણ નકાર્યું.",
+        "message": "તમે ગ્રુપનું આમંત્રણ નકાર્યું.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--pending-remove--decline--unknown": {
-        "message": "1 વ્યક્તિએ ગ્રુપ માં આમંત્રણ નકાર્યું.",
+        "message": "1 વ્યક્તિએ ગ્રુપમાં આમંત્રણ નકાર્યું.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--pending-remove--revoke--one--other": {
-        "message": "$memberName$ એ 1 વ્યક્તિ માટે ગ્રુપ નું આમંત્રણ રદ કર્યું.",
+        "message": "$memberName$ એ 1 વ્યક્તિ માટે ગ્રુપનું આમંત્રણ રદ કર્યું.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4358,7 +4358,7 @@
         }
     },
     "GroupV2--pending-remove--revoke--one--you": {
-        "message": "તમે 1 વ્યક્તિ માટે ગ્રુપ નું આમંત્રણ રદ કર્યું.",
+        "message": "તમે 1 વ્યક્તિ માટે ગ્રુપનું આમંત્રણ રદ કર્યું.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -4388,7 +4388,7 @@
         }
     },
     "GroupV2--pending-remove--revoke--one--unknown": {
-        "message": "એક સંચાલકે 1 વ્યક્તિ માટે ગ્રુપ નું આમંત્રણ રદ કર્યું.",
+        "message": "એક સંચાલકે 1 વ્યક્તિ માટે ગ્રુપનું આમંત્રણ રદ કર્યું.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -4412,7 +4412,7 @@
         }
     },
     "GroupV2--pending-remove--revoke--many--you": {
-        "message": "તમે $count$ લોકો માટે ગ્રુપ ના આમંત્રણો રદ કર્યા.",
+        "message": "તમે $count$ લોકો માટે ગ્રુપના આમંત્રણો રદ કર્યા.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -4422,7 +4422,7 @@
         }
     },
     "GroupV2--pending-remove--revoke--many--unknown": {
-        "message": "એક વહીવટકર્તાએ $count$ લોકો માટે ગ્રુપ માં આમંત્રણો રદ કર્યા.",
+        "message": "એક વહીવટકર્તાએ $count$ લોકો માટે ગ્રુપમાં આમંત્રણો રદ કર્યા.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -4432,7 +4432,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--one--other": {
-        "message": "$memberName$ દ્વારા આમંત્રિત 1 વ્યક્તિ માટે $adminName$ એ ગ્રુપ નું આમંત્રણ રદ કર્યું.",
+        "message": "$memberName$ દ્વારા આમંત્રિત 1 વ્યક્તિ માટે $adminName$ એ ગ્રુપનું આમંત્રણ રદ કર્યું.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4446,7 +4446,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--one--you": {
-        "message": "તમે $memberName$ દ્વારા આમંત્રિત 1 વ્યક્તિ માટે ગ્રુપ નું આમંત્રણ રદ કર્યું.",
+        "message": "તમે $memberName$ દ્વારા આમંત્રિત 1 વ્યક્તિ માટે ગ્રુપનું આમંત્રણ રદ કર્યું.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4456,7 +4456,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--one--unknown": {
-        "message": "એક એડમીને $memberName$ દ્વારા આમંત્રિત 1 વ્યક્તિ માટે ગ્રુપ નું આમંત્રણ રદ કર્યું.",
+        "message": "એક એડમીને $memberName$ દ્વારા આમંત્રિત 1 વ્યક્તિ માટે ગ્રુપનું આમંત્રણ રદ કર્યું.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4466,7 +4466,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--one--other": {
-        "message": "$adminName$ એ તમે $inviteeName$ ને મોકલેલા ગ્રુપ નું આમંત્રણ રદ કર્યું.",
+        "message": "$adminName$ એ તમે $inviteeName$ ને મોકલેલા ગ્રુપનું આમંત્રણ રદ કર્યું.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4486,7 +4486,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--one--unknown": {
-        "message": "એક એડમીન એ તમેને $inviteeName$ મોકલેલા ગ્રુપ નું આમંત્રણ રદ કર્યું.",
+        "message": "એક એડમીન એ તમેને $inviteeName$ મોકલેલા ગ્રુપનું આમંત્રણ રદ કર્યું.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -4496,7 +4496,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--many--other": {
-        "message": "$memberName$ દ્વારા આમંત્રિત $count$ લોકો માટે $adminName$ એ ગ્રુપ માં આમંત્રણો રદ કર્યા.",
+        "message": "$memberName$ દ્વારા આમંત્રિત $count$ લોકો માટે $adminName$ એ ગ્રુપમાં આમંત્રણો રદ કર્યા.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4510,7 +4510,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--many--you": {
-        "message": "તમે $memberName$ દ્વારા આમંત્રિત $count$ લોકો માટે ગ્રુપ નું આમંત્રણ રદ કર્યું.",
+        "message": "તમે $memberName$ દ્વારા આમંત્રિત $count$ લોકો માટે ગ્રુપનું આમંત્રણ રદ કર્યું.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -4524,7 +4524,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--many--unknown": {
-        "message": "$memberName$ દ્વારા આમંત્રિત $count$ લોકો માટે એડમિનએ ગ્રુપ માં આમંત્રણ રદ કર્યું.",
+        "message": "$memberName$ દ્વારા આમંત્રિત $count$ લોકો માટે એડમિનએ ગ્રુપમાં આમંત્રણ રદ કર્યું.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -4538,7 +4538,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--many--other": {
-        "message": "$adminName$ એ તમે $count$ લોકોને મોકલેલા ગ્રુપ ના આમંત્રણો રદ કર્યા.",
+        "message": "$adminName$ એ તમે $count$ લોકોને મોકલેલા ગ્રુપના આમંત્રણો રદ કર્યા.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4562,7 +4562,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--many--unknown": {
-        "message": "એક સંચાલકે તમે $count$ લોકોને મોકલેલા ગ્રુપ ના આમંત્રણો રદ કર્યા.",
+        "message": "એક સંચાલકે તમે $count$ લોકોને મોકલેલા ગ્રુપના આમંત્રણો રદ કર્યા.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -4572,7 +4572,7 @@
         }
     },
     "GroupV2--admin-approval-add-one--you": {
-        "message": "તમે ગ્રુપ માં જોડાવા માટે વિનંતી મોકલી.",
+        "message": "તમે ગ્રુપમાં જોડાવા માટે વિનંતી મોકલી.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--admin-approval-add-one--other": {
@@ -4586,15 +4586,15 @@
         }
     },
     "GroupV2--admin-approval-remove-one--you--you": {
-        "message": "તમે ગ્રુપ માં જોડાવાની તમારી વિનંતી રદ કરી.",
+        "message": "તમે ગ્રુપમાં જોડાવાની તમારી વિનંતી રદ કરી.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--admin-approval-remove-one--you--unknown": {
-        "message": "ગ્રુપ માં જોડાવાની તમારી વિનંતી એડમિન દ્વારા નકારવામાં આવી છે.",
+        "message": "ગ્રુપમાં જોડાવાની તમારી વિનંતી એડમિન દ્વારા નકારવામાં આવી છે.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--admin-approval-remove-one--other--you": {
-        "message": "તમે $joinerName$ તરફથી ગ્રુપ માં જોડાવાની વિનંતી નકારી.",
+        "message": "તમે $joinerName$ તરફથી ગ્રુપમાં જોડાવાની વિનંતી નકારી.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -4604,7 +4604,7 @@
         }
     },
     "GroupV2--admin-approval-remove-one--other--own": {
-        "message": "$joinerName$ એ ગ્રુપ માં જોડાવાની તેમની વિનંતી રદ કરી.",
+        "message": "$joinerName$ એ ગ્રુપમાં જોડાવાની તેમની વિનંતી રદ કરી.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -4614,7 +4614,7 @@
         }
     },
     "GroupV2--admin-approval-remove-one--other--other": {
-        "message": "$adminName$ એ $joinerName$ તરફથી ગ્રુપ માં જોડાવાની વિનંતી નકારી.",
+        "message": "$adminName$ એ $joinerName$ તરફથી ગ્રુપમાં જોડાવાની વિનંતી નકારી.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4772,7 +4772,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV1--Migration--disabled": {
-        "message": "@mentions અને એડમિન જેવી નવી સુવિધાઓ સક્રિય કરવા માટે આ ગ્રુપ ને અપગ્રેડ કરો. જે મેમ્બરસે આ ગ્રુપ માં પોતાનું નામ કે ફોટો શેર કર્યો નથી તેમને જોડાવા માટે આમંત્રણ આપવામાં આવશે. $learnMore$",
+        "message": "@mentions અને એડમિન જેવી નવી સુવિધાઓ સક્રિય કરવા માટે આ ગ્રુપને અપગ્રેડ કરો. જે મેમ્બરે આ ગ્રુપમાં પોતાનું નામ કે ફોટો શેર કર્યો નથી તેમને જોડાવા માટે આમંત્રણ આપવામાં આવશે. $learnMore$",
         "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1).",
         "placeholders": {
             "learnMore": {
@@ -4782,7 +4782,7 @@
         }
     },
     "GroupV1--Migration--was-upgraded": {
-        "message": "આ ગ્રુપ ને નવા ગ્રુપ માં અપગ્રેડ કરવામાં આવ્યું હતું.",
+        "message": "આ ગ્રુપને નવા ગ્રુપમાં અપગ્રેડ કરવામાં આવ્યું હતું.",
         "description": "Shown in timeline when a legacy group (GV1) is upgraded to a new group (GV2)"
     },
     "GroupV1--Migration--learn-more": {
@@ -4822,31 +4822,31 @@
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--invited--one": {
-        "message": "આ મેમ્બર ને ફરીથી આ ગ્રુપ માં જોડાવા માટે આમંત્રણ સ્વીકારવાની જરૂર પડશે, અને જ્યાં સુધી તેઓ સ્વીકારે નહીં ત્યાં સુધી ગ્રુપ મેસેજ પ્રાપ્ત કરશે નહીં:",
+        "message": "આ મેમ્બરને ફરીથી આ ગ્રુપમાં જોડાવા માટે આમંત્રણ સ્વીકારવાની જરૂર પડશે, અને જ્યાં સુધી તેઓ સ્વીકારે નહીં ત્યાં સુધી ગ્રુપ મેસેજ પ્રાપ્ત કરશે નહીં:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--before--many": {
-        "message": "આ મેમ્બર્સ નવા ગ્રુપ માં જોડાવા માટે સક્ષમ નથી, અને ગ્રુપ માંથી દૂર કરવામાં આવશે:",
+        "message": "આ મેમ્બર્સ નવા ગ્રુપમાં જોડાવા માટે સક્ષમ નથી, અને ગ્રુપમાંથી દૂર કરવામાં આવશે:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--before--one": {
-        "message": "આ મેમ્બર નવા ગ્રુપમાં જોડાવા માટે સક્ષમ નથી, અને તેને ગ્રુપ માંથી દૂર કરવામાં આવશે:",
+        "message": "આ મેમ્બર નવા ગ્રુપમાં જોડાવા માટે સક્ષમ નથી, અને તેને ગ્રુપમાંથી દૂર કરવામાં આવશે:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--after--many": {
-        "message": "આ મેમ્બર્સ નવા ગ્રુપ માં જોડાવા માટે સક્ષમ ન હતા, અને તેમને ગ્રુપ માંથી દૂર કરવામાં આવ્યા હતા:",
+        "message": "આ મેમ્બર્સ નવા ગ્રુપમાં જોડાવા માટે સક્ષમ ન હતા, અને તેમને ગ્રુપમાંથી દૂર કરવામાં આવ્યા હતા:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--after--one": {
-        "message": "આ મેમ્બર નવા ગ્રુપ માં જોડાવા માટે સક્ષમ ન હતો, અને તેને ગ્રુપ માંથી દૂર કરવામાં આવ્યો:",
+        "message": "આ મેમ્બર નવા ગ્રુપમાં જોડાવા માટે સક્ષમ ન હતો, અને તેને ગ્રુપમાંથી દૂર કરવામાં આવ્યો:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--invited--you": {
-        "message": "તમને નવા ગ્રુપ માં ઉમેરી શકાયા નથી અને તમને જોડાવા માટે આમંત્રિત કરવામાં આવ્યા છે.",
+        "message": "તમને નવા ગ્રુપમાં ઉમેરી શકાયા નથી અને તમને જોડાવા માટે આમંત્રિત કરવામાં આવ્યા છે.",
         "description": "Shown in timeline when a group is upgraded and you were invited instead of added"
     },
     "GroupV1--Migration--invited--one": {
-        "message": "$contact$ નવા ગ્રુપ માં ઉમેરી શકાયો નથી અને જોડાવા માટે આમંત્રણ આપવામાં આવ્યું છે.",
+        "message": "$contact$ નવા ગ્રુપમાં ઉમેરી શકાયો નથી અને જોડાવા માટે આમંત્રણ આપવામાં આવ્યું છે.",
         "description": "Shown in timeline when a group is upgraded and one person was invited, instead of added",
         "placeholders": {
             "contact": {
@@ -4856,7 +4856,7 @@
         }
     },
     "GroupV1--Migration--invited--many": {
-        "message": "$count$ મેમ્બર્સ નવા ગ્રુપ માં ઉમેરી શકાયા નથી અને તેમને જોડાવા માટે આમંત્રણ આપવામાં આવ્યું છે.",
+        "message": "$count$ મેમ્બર્સ નવા ગ્રુપમાં ઉમેરી શકાયા નથી અને તેમને જોડાવા માટે આમંત્રણ આપવામાં આવ્યું છે.",
         "description": "Shown in timeline when a group is upgraded and some people were invited, instead of added",
         "placeholders": {
             "contact": {
@@ -4866,7 +4866,7 @@
         }
     },
     "GroupV1--Migration--removed--one": {
-        "message": "$contact$ ને ગ્રુપ માંથી દૂર કરવામાં આવ્યા.",
+        "message": "$contact$ ને ગ્રુપમાંથી દૂર કરવામાં આવ્યા.",
         "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade",
         "placeholders": {
             "contact": {
@@ -4876,7 +4876,7 @@
         }
     },
     "GroupV1--Migration--removed--many": {
-        "message": "$count$ મેમ્બર્સને ગ્રુપ માંથી દૂર કરવામાં આવ્યા.",
+        "message": "$count$ મેમ્બર્સને ગ્રુપમાંથી દૂર કરવામાં આવ્યા.",
         "description": "Shown in timeline when a group is upgraded and some people were removed entirely during the upgrade",
         "placeholders": {
             "contact": {
@@ -4910,11 +4910,11 @@
         "description": "Title for the composition area for the SMS-only contact"
     },
     "CompositionArea--sms-only__body": {
-        "message": "Signal ડેસ્કટોપ મેસેજિંગ non - Signal સંપર્કોને સપોર્ટ કરતું નથી. વધુ સુરક્ષિત મેસેજિંગ અનુભવ માટે આ વ્યક્તિને Signal ઇન્સ્ટોલ કરવા માટે કહો.",
+        "message": "Signal ડેસ્કટોપ મેસેજિંગ non - Signal સંપર્કોને સપોર્ટ કરતું નથી. વધુ સુરક્ષિત મેસેજિંગ અનુભવ માટે આ વ્યક્તિને Signal ઈન્સ્ટોલ કરવા માટે કહો.",
         "description": "Body for the composition area for the SMS-only contact"
     },
     "CompositionArea--sms-only__spinner-label": {
-        "message": "કોનટેક્ટ નું રજીસ્ટ્રેશન સ્ટેટસ તપાસી રહ્યું છે",
+        "message": "કોનટેક્ટનું રજીસ્ટ્રેશન સ્ટેટસ તપાસી રહ્યું છે",
         "description": "Displayed while checking if the contact is SMS-only"
     },
     "countMutedConversationsDescription": {
@@ -4954,7 +4954,7 @@
         }
     },
     "ContactModal--remove-from-group": {
-        "message": "ગ્રુપ માંથી દૂર કરવું",
+        "message": "ગ્રુપમાંથી દૂર કરવું",
         "description": "Button text for remove from group button in Group Contact Details modal"
     },
     "showChatColorEditor": {
@@ -4974,7 +4974,7 @@
         "description": "This is the label for the disappearing messages setting panel"
     },
     "ConversationDetails--disappearing-messages-info": {
-        "message": "જ્યારે સક્ષમ હોય, ત્યારે આ ગ્રુપ માં મોકલેલા અને પ્રાપ્ત થયેલા મેસેજ જોયા પછી અદૃશ્ય થઈ જશે.",
+        "message": "જ્યારે સક્ષમ હોય, ત્યારે આ ગ્રુપમાં મોકલેલા અને પ્રાપ્ત થયેલા મેસેજ જોયા પછી અદૃશ્ય થઈ જશે.",
         "description": "This is the info about the disappearing messages setting"
     },
     "ConversationDetails--group-info-label": {
@@ -4982,7 +4982,7 @@
         "description": "This is the label for the 'who can edit the group' panel"
     },
     "ConversationDetails--group-info-info": {
-        "message": "ગ્રુપ નું નામ, ફોટો, વર્ણન અને અદૃશ્ય થઈ રહેલા મેસેજ ટાઈમર કોણ સંપાદિત કરી શકે તે પસંદ કરો.",
+        "message": "ગ્રુપનું નામ, ફોટો, વર્ણન અને અદૃશ્ય થઈ રહેલા મેસેજ ટાઈમર કોણ સંપાદિત કરી શકે તે પસંદ કરો.",
         "description": "This is the additional info for the 'who can edit the group' panel"
     },
     "ConversationDetails--add-members-label": {
@@ -5030,7 +5030,7 @@
         "description": "This is the modal button to confirm leaving a group"
     },
     "ConversationDetailsActions--block-group-modal-title": {
-        "message": "\"$groupName$\" ગ્રુપ ને બ્લૉક કરો અને છોડો?",
+        "message": "\"$groupName$\" ગ્રુપને બ્લૉક કરો અને છોડો?",
         "description": "This is the modal title for confirming blocking a group",
         "placeholders": {
             "groupName": {
@@ -5092,7 +5092,7 @@
         "description": "This lets users share their group link"
     },
     "GroupLinkManagement--confirm-reset": {
-        "message": "શું તમે ખરેખર ગ્રુપ લિંક રીસેટ કરવા માંગો છો? લોકો હવે વર્તમાન લિંક નો ઉપયોગ કરીને ગ્રુપ માં જોડાવા માટે સમર્થ હશે નહીં.",
+        "message": "શું તમે ખરેખર ગ્રુપ લિંક રીસેટ કરવા માંગો છો? લોકો હવે વર્તમાન લિંકનો ઉપયોગ કરીને ગ્રુપમાં જોડાવા માટે સમર્થ હશે નહીં.",
         "description": "Shown in the confirmation dialog when an admin is about to reset the group link"
     },
     "GroupLinkManagement--reset": {
@@ -5234,7 +5234,7 @@
         }
     },
     "PendingInvites--info": {
-        "message": "આ ગ્રુપ માં આમંત્રિત લોકો વિશેની વિગતો જ્યાં સુધી તેઓ જોડાય ત્યાં સુધી બતાવવામાં આવતી નથી. આમંત્રિતો ગ્રુપ માં જોડાયા પછી જ મેસેજ જોશે.",
+        "message": "આ ગ્રુપમાં આમંત્રિત લોકો વિશેની વિગતો જ્યાં સુધી તેઓ જોડાય ત્યાં સુધી બતાવવામાં આવતી નથી. આમંત્રિતો ગ્રુપમાં જોડાયા પછી જ મેસેજ જોશે.",
         "description": "Information shown below the invite list"
     },
     "AvatarInput--no-photo-label--group": {
@@ -5280,7 +5280,7 @@
         }
     },
     "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--one": {
-        "message": "$name$ આપમેળે આ ગ્રુપ માં ઉમેરી શકાશે નહીં.",
+        "message": "$name$ આપમેળે આ ગ્રુપમાં ઉમેરી શકાશે નહીં.",
         "description": "When creating a new group and inviting users, this is shown in the dialog",
         "placeholders": {
             "name": {
@@ -5290,7 +5290,7 @@
         }
     },
     "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--many": {
-        "message": "આ વપરાશકર્તાઓ તમારા દ્વારા આ ગ્રુપ માં આપમેળે ઉમેરી શકાતા નથી.",
+        "message": "આ વપરાશકર્તાઓ તમારા દ્વારા આ ગ્રુપમાં આપમેળે ઉમેરી શકાતા નથી.",
         "description": "When creating a new group and inviting users, this is shown in the dialog"
     },
     "NewlyCreatedGroupInvitedContactsDialog--body--info-paragraph": {
@@ -5310,7 +5310,7 @@
         "description": "When adding new members to an existing group, this is shown in the dialog"
     },
     "AddGroupMembersModal--confirm-title--one": {
-        "message": "$person$ થી \"$group$\"? ઉમેરો  ",
+        "message": "$person$ ને \"$group$\" માં ઉમેરીએ?   ",
         "description": "When adding new members to an existing group, this is shown in the confirmation dialog",
         "placeholders": {
             "person": {
@@ -5324,7 +5324,7 @@
         }
     },
     "AddGroupMembersModal--confirm-title--many": {
-        "message": "$count$ મેમ્બર્સ થી \"$group$\"? ઉમેરો",
+        "message": "$count$ મેમ્બર્સને \"$group$\" માં ઉમેરીએ?",
         "description": "When adding new members to an existing group, this is shown in the confirmation dialog",
         "placeholders": {
             "count": {
@@ -5354,7 +5354,7 @@
         "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)"
     },
     "deselectContact": {
-        "message": "સંપર્ક ડી સિલેક્ટ કરો ",
+        "message": "સંપર્ક નાપસંદ કરો ",
         "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)"
     },
     "cannotSelectContact": {
@@ -5426,7 +5426,7 @@
         }
     },
     "ContactSpoofing__same-name-in-group": {
-        "message": "$count$ ગ્રુપ ના મેમ્બર્સનું નામ સમાન છે. $link$",
+        "message": "$count$ ગ્રુપના મેમ્બર્સનું નામ સમાન છે. $link$",
         "description": "Shown in the timeline warning when you multiple group members have the same name",
         "placeholders": {
             "count": {
@@ -5468,7 +5468,7 @@
         "description": "Title for the contact name spoofing review dialog in groups"
     },
     "ContactSpoofingReviewDialog__group__description": {
-        "message": "$count$ ગ્રુપ ના મેમ્બર્સ સમાન નામો ધરાવે છે. નીચેના મેમ્બર્સની સમીક્ષા કરો અથવા પગલાં લેવાનું પસંદ કરો.",
+        "message": "$count$ ગ્રુપના મેમ્બર્સ સમાન નામો ધરાવે છે. નીચેના મેમ્બર્સની સમીક્ષા કરો અથવા પગલાં લેવાનું પસંદ કરો.",
         "description": "Description for the group contact spoofing review dialog"
     },
     "ContactSpoofingReviewDialog__group__members-header": {
@@ -5490,11 +5490,11 @@
         }
     },
     "RemoveGroupMemberConfirmation__remove-button": {
-        "message": "ગ્રુપ માંથી દૂર કરો",
+        "message": "ગ્રુપમાંથી દૂર કરો",
         "description": "When confirming the removal of a group member, show this text in the button"
     },
     "RemoveGroupMemberConfirmation__description": {
-        "message": "ગ્રુપ માંથી \"$name$\" દૂર કરવા છે?",
+        "message": "ગ્રુપમાંથી \"$name$\" દૂર કરવા છે?",
         "description": "When confirming the removal of a group member, show this text in the dialog",
         "placeholders": {
             "name": {
@@ -5582,7 +5582,7 @@
         "description": "Confirm button label for resetting chat colors"
     },
     "ChatColorPicker__confirm-reset-message": {
-        "message": "શું તમે બધા ચેટ કલર્સ ને ઓવરરાઇડ કરવા માંગો છો?",
+        "message": "શું તમે બધા ચેટ કલર્સને ઓવરરાઇડ કરવા માંગો છો?",
         "description": "Modal message text for confirming resetting of chat colors"
     },
     "ChatColorPicker__custom-color--label": {
@@ -5682,7 +5682,7 @@
         "description": "Label for the Disapearring Messages default timer setting"
     },
     "UniversalTimerNotification__text": {
-        "message": "જ્યારે તમે મેસેજ મોકલો છો ત્યારે અદૃશ્ય થઈ રહેલા મેસેજ નો સમય $timeValue$ પર સેટ કરવામાં આવશે.",
+        "message": "જ્યારે તમે મેસેજ મોકલો છો ત્યારે અદૃશ્ય થઈ રહેલા મેસેજનો સમય $timeValue$ પર સેટ કરવામાં આવશે.",
         "description": "A message displayed when default disappearing message timeout is about to be applied",
         "placeholders": {
             "timeValue": {
@@ -5696,7 +5696,7 @@
         "description": "Button text when the group description is too long"
     },
     "EditConversationAttributesModal__description-warning": {
-        "message": "ગ્રુપ ડિસ્ક્રિપ્શન આ ગ્રુપ ના મેમ્બર્સ અને આમંત્રિત કરાયેલા લોકોને દેખાશે.",
+        "message": "ગ્રુપ ડિસ્ક્રિપ્શન આ ગ્રુપના મેમ્બર્સ અને આમંત્રિત કરાયેલા લોકોને દેખાશે.",
         "description": "Label text shown when editing group description"
     },
     "ConversationDetailsHeader--add-group-description": {
@@ -5752,7 +5752,7 @@
         "description": "In the message details screen, shown above contacts who have viewed this message"
     },
     "ProfileEditor--about": {
-        "message": "વિષે",
+        "message": "વિશે",
         "description": "Default text for about field"
     },
     "ProfileEditor--about-placeholder": {
@@ -5772,7 +5772,7 @@
         "description": "ConfirmationDialog text for discarding changes"
     },
     "ProfileEditor--info": {
-        "message": "તમારી પ્રોફાઇલ એન્ક્રિપ્ટેડ છે. તમારી પ્રોફાઇલ અને તેમાં કરેલા ફેરફારો તમારા સંપર્કો અને જ્યારે તમે નવી ચેટ શરૂ કરો અથવા સ્વીકારો ત્યારે દૃશ્યક્ષમ થશે. $learnMore$",
+        "message": "તમારી પ્રોફાઇલ એન્ક્રિપ્ટ થયેલ છે. તમારી પ્રોફાઇલ અને તેમાં કરેલા ફેરફારો તમારા સંપર્કો અને જ્યારે તમે નવી ચેટ શરૂ કરો અથવા સ્વીકારો ત્યારે દૃશ્યક્ષમ થશે. $learnMore$",
         "description": "Information shown at the bottom of the profile editor section",
         "placeholders": {
             "learnMore": {
@@ -5790,7 +5790,7 @@
         "description": "A default bio option"
     },
     "Bio--encrypted": {
-        "message": "એન્ક્રિપ્ટેડ",
+        "message": "એન્ક્રિપ્ટ થયેલ",
         "description": "A default bio option"
     },
     "Bio--free-to-chat": {
@@ -5814,11 +5814,11 @@
         "description": "Title for editing your name"
     },
     "ProfileEditorModal--about": {
-        "message": "વિષે",
+        "message": "વિશે",
         "description": "Title for about editing"
     },
     "ProfileEditorModal--error": {
-        "message": "તમારી પ્રોફાઇલ અપડેટ કરી શકાઈ નથી. મેહરબાની કરી ને ફરી થી પ્રયાસ કરો.",
+        "message": "તમારી પ્રોફાઇલ અપડેટ કરી શકાઈ નથી. મેહરબાની કરીને ફરીથી પ્રયાસ કરો.",
         "description": "Error message when something goes wrong updating your profile."
     },
     "AnnouncementsOnlyGroupBanner--modal": {

@@ -5562,7 +5562,7 @@
         "description": "View title for the chat color picker and editor"
     },
     "ChatColorPicker__reset": {
-        "message": "Reset chat color",
+        "message": "Скинути колір чату",
         "description": "Button label for resetting chat colors"
     },
     "ChatColorPicker__resetDefault": {
@@ -5590,7 +5590,7 @@
         "description": "aria-label for custom color editor button"
     },
     "ChatColorPicker__sampleBubble1": {
-        "message": "Here's a preview of the chat color.",
+        "message": "Ось таким буде колір чату.",
         "description": "An example message bubble for selecting the chat color"
     },
     "ChatColorPicker__sampleBubble2": {
@@ -5678,7 +5678,7 @@
         "description": "Footer for the Disappearing Messages settings section"
     },
     "settings__DisappearingMessages__timer__label": {
-        "message": "Default timer for new chats",
+        "message": "Таймер за умовчанням для нових чатів",
         "description": "Label for the Disapearring Messages default timer setting"
     },
     "UniversalTimerNotification__text": {
@@ -5822,7 +5822,7 @@
         "description": "Error message when something goes wrong updating your profile."
     },
     "AnnouncementsOnlyGroupBanner--modal": {
-        "message": "Message an admin",
+        "message": "Написати адміністратору",
         "description": "Modal title for the list of admins in a group"
     },
     "AnnouncementsOnlyGroupBanner--announcements-only": {

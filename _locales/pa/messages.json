@@ -24,7 +24,7 @@
         "description": "Shown in a popup if the database cannot start up properly"
     },
     "deleteAndRestart": {
-        "message": "ਸਾਰਾ ਡੇਟਾ ਮਿਟਾਓ ਤੇ ਮੁੜ-ਚਾਲੂ ਕਰੋ",
+        "message": "ਸਾਰਾ ਡੇਟਾ ਹਟਾਓ ਤੇ ਮੁੜ-ਚਾਲੂ ਕਰੋ",
         "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
     },
     "mainMenuFile": {
@@ -254,7 +254,7 @@
         "description": "Header shown on the first screen in the data import process"
     },
     "loadDataDescription": {
-        "message": "ਤੁਸੀਂ ਹੁਣੇ ਨਿਰਯਾਤ ਪ੍ਰਕਿਰਿਆ ਨੂੰ ਪਾਰ ਕੀਤਾ ਹੈ, ਅਤੇ ਤੁਹਾਡੇ ਸੰਪਰਕ ਅਤੇ ਸੁਨੇਹੇ ਤੁਹਾਡੇ ਕੰਪਿਊਟਰ 'ਤੇ ਬੇਸਬਰੀ ਨਾਲ ਉਡੀਕ ਕਰ ਰਹੇ ਹਨ। ਉਸ ਫੋਲਡਰ ਦੀ ਚੋਣ ਕਰੋ ਜਿਸ ਵਿੱਚ ਤੁਹਾਡਾ ਸੰਭਾਲਿਆ ਹੋਇਆ Signal ਡੇਟਾ ਹੈ।",
+        "message": "ਤੁਸੀਂ ਹੁਣੇ ਨਿਰਯਾਤ ਪ੍ਰਕਿਰਿਆ ਨੂੰ ਪਾਰ ਕੀਤਾ ਹੈ, ਅਤੇ ਤੁਹਾਡੇ ਸੰਪਰਕ ਅਤੇ ਸੁਨੇਹੇ ਤੁਹਾਡੇ ਕੰਪਿਊਟਰ 'ਤੇ ਬੇਸਬਰੀ ਨਾਲ ਉਡੀਕ ਕਰ ਰਹੇ ਹਨ। ਉਸ ਫੋਲਡਰ ਦੀ ਚੋਣ ਕਰੋ ਜਿਸ ਵਿੱਚ ਤੁਹਾਡਾ ਸੰਭਾਲਿਆ ਹੋਇਆ Signal ਡੇਟਾ ਦਿੱਤਾ ਹੈ।",
         "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "importChooserTitle": {
@@ -320,7 +320,7 @@
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "invalidConversation": {
-        "message": "ਇਹ ਗਰੁੱਪ ਅਵੈਧ ਹੈ। ਕੋਈ ਨਵਾਂ ਗਰੁੱਪ ਬਣਾਓ।",
+        "message": "ਇਹ ਗਰੁੱਪ ਨਾ-ਵਾਜ਼ਬ ਹੈ। ਕੋਈ ਨਵਾਂ ਗਰੁੱਪ ਬਣਾਓ।",
         "description": "Displayed when a user can't send a message because something has gone wrong in the conversation."
     },
     "scrollDown": {
@@ -390,7 +390,7 @@
         }
     },
     "membersNeedingVerification": {
-        "message": "ਤੁਹਾਡੇ ਦੁਆਰਾ ਆਖਰੀ ਵਾਰ ਪ੍ਰਮਾਣਿਤ ਕੀਤੇ ਜਾਣ ਤੋਂ ਬਾਅਦ ਇਹਨਾਂ ਗਰੁੱਪ ਮੈਂਬਰਾਂ ਨਾਲ ਤੁਹਾਡੇ ਸੁਰੱਖਿਆ ਨੰਬਰ ਬਦਲ ਚੁੱਕੇ ਹਨ। ਕਿਸੇ ਗਰੁੱਪ ਮੈਂਬਰ ਨਾਲ ਆਪਣੇ ਨਵੇਂ ਸੁਰੱਖਿਆ ਨੰਬਰ ਨੂੰ ਦੇਖਣ ਲਈ ਮੈਂਬਰ ਉੱਪਰ ਕਲਿਕ ਕਰੋ।",
+        "message": "ਤੁਹਾਡੇ ਦੁਆਰਾ ਆਖਰੀ ਵਾਰ ਪ੍ਰਮਾਣਿਤ ਕੀਤੇ ਜਾਣ ਤੋਂ ਬਾਅਦ ਇਹਨਾਂ ਗਰੁੱਪ ਮੈਂਬਰਾਂ ਨਾਲ ਤੁਹਾਡੇ ਸੁਰੱਖਿਆ ਨੰਬਰ ਬਦਲ ਚੁੱਕੇ ਹਨ। ਕਿਸੇ ਗਰੁੱਪ ਮੈਂਬਰ ਨਾਲ ਆਪਣੇ ਨਵੇਂ ਸੁਰੱਖਿਆ ਨੰਬਰ ਨੂੰ ਦੇਖਣ ਲਈ ਮੈਂਬਰ ਉੱਪਰ ਕਲਿੱਕ ਕਰੋ।",
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedRightAfterVerify": {
@@ -438,7 +438,7 @@
         "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
     },
     "noLongerVerified": {
-        "message": "$name$ ਨਾਲ ਤੁਹਾਡਾ ਸੁਰੱਖਿਆ ਨੰਬਰ ਬਦਲ ਚੁੱਕਾ ਹੈ ਅਤੇ ਹੁਣ ਪ੍ਰਮਾਣਿਤ ਨਹੀਂ ਰਿਹਾ। ਦਿਖਾਉਣ ਲਈ ਕਲਿਕ ਕਰੋ।",
+        "message": "$name$ ਨਾਲ ਤੁਹਾਡਾ ਸੁਰੱਖਿਆ ਨੰਬਰ ਬਦਲ ਚੁੱਕਾ ਹੈ ਅਤੇ ਹੁਣ ਪ੍ਰਮਾਣਿਤ ਨਹੀਂ ਰਿਹਾ। ਦਿਖਾਉਣ ਲਈ ਕਲਿੱਕ ਕਰੋ।",
         "description": "Shown in conversation banner when user's safety number has changed, but they were previously verified.",
         "placeholders": {
             "name": {
@@ -448,7 +448,7 @@
         }
     },
     "multipleNoLongerVerified": {
-        "message": "ਇਸ ਗਰੁੱਪ ਦੇ ਬਹੁਤ ਸਾਰੇ ਮੈਂਬਰਾਂ ਨਾਲ ਤੁਹਾਡੇ ਸੁਰੱਖਿਆ ਨੰਬਰ ਬਦਲ ਚੁੱਕੇ ਹਨ ਅਤੇ ਹੁਣ ਪ੍ਰਮਾਣਿਤ ਨਹੀਂ ਰਹੇ। ਦਿਖਾਉਣ ਲਈ ਕਲਿਕ ਕਰੋ।",
+        "message": "ਇਸ ਗਰੁੱਪ ਦੇ ਬਹੁਤ ਸਾਰੇ ਮੈਂਬਰਾਂ ਨਾਲ ਤੁਹਾਡੇ ਸੁਰੱਖਿਆ ਨੰਬਰ ਬਦਲ ਚੁੱਕੇ ਹਨ ਅਤੇ ਹੁਣ ਪ੍ਰਮਾਣਿਤ ਨਹੀਂ ਰਹੇ। ਦਿਖਾਉਣ ਲਈ ਕਲਿੱਕ ਕਰੋ।",
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
@@ -630,11 +630,11 @@
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "cannotMixImageAndNonImageAttachments": {
-        "message": "ਤੁਸੀਂ ਇੱਕ ਸੁਨੇਹੇ ਵਿੱਚ ਗੈਰ-ਚਿੱਤਰ ਅਤੇ ਚਿੱਤਰ ਅਟੈਚਮੈਂਟਾਂ ਨੂੰ ਰਲਾ ਨਹੀਂ ਸਕਦੇ ਹੋ।",
+        "message": "ਤੁਸੀਂ ਇੱਕ ਸੁਨੇਹੇ ਵਿੱਚ ਗੈਰ-ਚਿੱਤਰ ਅਤੇ ਚਿੱਤਰ ਨੱਥੀਆਂ ਨੂੰ ਰਲਾ ਨਹੀਂ ਸਕਦੇ ਹੋ।",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "maximumAttachments": {
-        "message": "ਤੁਸੀਂ ਇਸ ਸੁਨੇਹੇ ਵਿੱਚ ਹੁਣ ਹੋਰ ਅਟੈਚਮੈਂਟਾਂ ਨਹੀਂ ਜੋੜ ਸਕਦੇ ਹੋ।",
+        "message": "ਤੁਸੀਂ ਇਸ ਸੁਨੇਹੇ ਵਿੱਚ ਹੁਣ ਹੋਰ ਨੱਥੀਆਂ ਨਹੀਂ ਜੋੜ ਸਕਦੇ ਹੋ।",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "fileSizeWarning": {
@@ -858,7 +858,7 @@
         "description": "Generic label shown if contact address has custom type but no label"
     },
     "poBox": {
-        "message": "ਪੀ.ਓ. ਬਾਕਸ",
+        "message": "PO ਬਾਕਸ",
         "description": "When rendering an address, used to provide context to a post office box"
     },
     "downloading": {
@@ -906,7 +906,7 @@
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
     },
     "attachmentSaved": {
-        "message": "ਅਟੈਚਮੈਂਟ ਨੂੰ ਸੰਭਾਲਿਆ। ਫੋਲਡਰ ਵਿੱਚ ਵਿਖਾਉਣ ਲਈ ਕਲਿਕ ਕਰੋ।",
+        "message": "ਨੱਥੀ ਨੂੰ ਸੰਭਾਲਿਆ। ਫੋਲਡਰ ਵਿੱਚ ਵਿਖਾਉਣ ਲਈ ਕਲਿਕ ਕਰੋ।",
         "description": "Shown after user selects to save to downloads",
         "placeholders": {
             "name": {
@@ -2700,11 +2700,11 @@
         "description": "Header of the keyboard shortcuts guide - composer section"
     },
     "Keyboard--scroll-to-top": {
-        "message": "ਸੂਚੀ ਦੇ ਸਿਖਰ ਤਕ ਸਰਕਾਓ",
+        "message": "ਸੂਚੀ ਦੇ ਸਿਖਰ ਤੱਕ ਸਰਕਾਓ",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--scroll-to-bottom": {
-        "message": "ਸੂਚੀ ਦੇ ਹੇਠਾਂ ਤਕ ਸਰਕਾਓ",
+        "message": "ਸੂਚੀ ਦੇ ਹੇਠਾਂ ਤੱਕ ਸਰਕਾਓ",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--close-curent-conversation": {
@@ -2732,7 +2732,7 @@
         "description": "Used in draft attachment list for the big 'add new attachment' button"
     },
     "remove-attachment": {
-        "message": "ਅਟੈਚਮੈਂਟ ਨੂੰ ਹਟਾਓ",
+        "message": "ਨੱਥੀ ਨੂੰ ਹਟਾਓ",
         "description": "Used in draft attachment list to remove an individual attachment"
     },
     "backToInbox": {
@@ -3568,7 +3568,7 @@
         "description": "Shown if we are unable to parse a group link"
     },
     "GroupV2--join--invalid-link": {
-        "message": "ਇਹ ਇੱਕ ਵੈਧ ਗਰੁੱਪ ਲਿੰਕ ਨਹੀਂ ਹੈ। ਸ਼ਾਮਲ ਹੋਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰਨ ਤੋਂ ਪਹਿਲਾਂ ਇਹ ਯਕੀਨੀ ਬਣਾਓ ਕਿ ਪੂਰਾ ਲਿੰਕ ਬਰਕਰਾਰ ਅਤੇ ਸਹੀ ਹੈ।",
+        "message": "ਇਹ ਇੱਕ ਵਾਜਬ ਗਰੁੱਪ ਲਿੰਕ ਨਹੀਂ ਹੈ। ਸ਼ਾਮਲ ਹੋਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰਨ ਤੋਂ ਪਹਿਲਾਂ ਇਹ ਯਕੀਨੀ ਬਣਾਓ ਕਿ ਪੂਰਾ ਲਿੰਕ ਬਰਕਰਾਰ ਅਤੇ ਸਹੀ ਹੈ।",
         "description": "Shown if we are unable to parse a group link"
     },
     "GroupV2--join--prompt": {
@@ -5022,7 +5022,7 @@
         "description": "This is the modal title for confirming leaving a group"
     },
     "ConversationDetailsActions--leave-group-modal-content": {
-        "message": "ਤੁਸੀਂ ਹੁਣ ਇਸ ਗਰੁੱਪ ਵਿੱਚ ਸੁਨੇਹੇ ਭੇਜ ਜਾਂ ਪ੍ਰਾਪਤ ਨਹੀਂ ਕਰ ਸਕੋਗੇ.",
+        "message": "ਤੁਸੀਂ ਹੁਣ ਇਸ ਗਰੁੱਪ ਵਿੱਚ ਸੁਨੇਹੇ ਭੇਜ ਜਾਂ ਪ੍ਰਾਪਤ ਨਹੀਂ ਕਰ ਸਕੋਗੇ।",
         "description": "This is the modal content for confirming leaving a group"
     },
     "ConversationDetailsActions--leave-group-modal-confirm": {

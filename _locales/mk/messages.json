@@ -1698,7 +1698,7 @@
         "description": "Shown on outgoing message if it fails to send"
     },
     "sendPaused": {
-        "message": "Send paused",
+        "message": "Испраќањето е паузирано",
         "description": "Shown on outgoing message if it cannot be sent immediately"
     },
     "partiallySent": {
@@ -5540,7 +5540,7 @@
         "description": "Displayed when delete-for-everyone has failed to send to all recepients"
     },
     "ChatColorPicker__delete--title": {
-        "message": "Delete color",
+        "message": "Избриши боја",
         "description": "Confirm title for deleting custom color"
     },
     "ChatColorPicker__delete--message": {
@@ -5606,7 +5606,7 @@
         "description": "Option in the custom color bubble context menu"
     },
     "ChatColorPicker__context--duplicate": {
-        "message": "Duplicate",
+        "message": "Дупликат",
         "description": "Option in the custom color bubble context menu"
     },
     "ChatColorPicker__context--delete": {
@@ -5618,15 +5618,15 @@
         "description": "Tab label for selecting solid colors"
     },
     "CustomColorEditor__gradient": {
-        "message": "Gradient",
+        "message": "Градиент",
         "description": "Tab label for selecting a gradient"
     },
     "CustomColorEditor__hue": {
-        "message": "Hue",
+        "message": "Нијанса",
         "description": "Label for the hue slider"
     },
     "CustomColorEditor__saturation": {
-        "message": "Saturation",
+        "message": "Сатурација",
         "description": "Label for the saturation slider"
     },
     "CustomColorEditor__title": {
