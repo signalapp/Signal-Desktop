@@ -696,6 +696,24 @@ const WEBSOCKET_CALLS = new Set<keyof typeof URL_CALLS>([
 
   // RemoteConfigController
   'config',
+
+  // Certificate
+  'deliveryCert',
+  'getGroupCredentials',
+
+  // Devices
+  'devices',
+  'registerCapabilities',
+  'supportUnauthenticatedDelivery',
+
+  // Directory
+  'directoryAuth',
+
+  // Storage
+  'storageManifest',
+  'storageModify',
+  'storageRead',
+  'storageToken',
 ]);
 
 type InitializeOptionsType = {
@@ -1497,15 +1515,14 @@ export function initialize({
       const call = deviceName ? 'devices' : 'accounts';
       const urlPrefix = deviceName ? '/' : '/code/';
 
-      // We update our saved username and password, since we're creating a new account
-      await authenticate({ username: number, password: newPassword });
-
       const response = await _ajax({
         call,
         httpType: 'PUT',
         responseType: 'json',
         urlParameters: urlPrefix + code,
         jsonData,
+        username: number,
+        password: newPassword,
       });
 
       // From here on out, our username will be our UUID or E164 combined with device

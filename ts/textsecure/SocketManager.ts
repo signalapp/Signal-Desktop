@@ -268,10 +268,8 @@ export class SocketManager extends EventListener {
   public async fetch(url: string, init: RequestInit): Promise<Response> {
     const headers = new Headers(init.headers);
 
-    const isAuthenticated = headers.has('Authorization');
-
     let resource: WebSocketResource;
-    if (isAuthenticated) {
+    if (this.isAuthenticated(headers)) {
       resource = await this.getAuthenticatedResource();
     } else {
       resource = await this.getUnauthenticatedResource();
@@ -616,6 +614,33 @@ export class SocketManager extends EventListener {
         );
       }
     }
+  }
+
+  private isAuthenticated(headers: Headers): boolean {
+    if (!this.credentials) {
+      return false;
+    }
+
+    const authorization = headers.get('Authorization');
+    if (!authorization) {
+      return false;
+    }
+
+    const [basic, base64] = authorization.split(/\s+/, 2);
+
+    if (basic.toLowerCase() !== 'basic' || !base64) {
+      return false;
+    }
+
+    const [username, password] = Bytes.toString(Bytes.fromBase64(base64)).split(
+      ':',
+      2
+    );
+
+    return (
+      username === this.credentials.username &&
+      password === this.credentials.password
+    );
   }
 
   // EventEmitter types
