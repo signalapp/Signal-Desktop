@@ -12,6 +12,7 @@ import {
   UnidentifiedSenderMessageContent,
 } from '@signalapp/signal-client';
 import { typedArrayToArrayBuffer as toArrayBuffer } from '../Crypto';
+import * as Bytes from '../Bytes';
 import { senderCertificateService } from '../services/senderCertificate';
 import {
   padMessage,
@@ -42,6 +43,7 @@ import {
   multiRecipient410ResponseSchema,
 } from '../textsecure/WebAPI';
 import { SignalService as Proto } from '../protobuf';
+import * as RemoteConfig from '../RemoteConfig';
 
 import { strictAssert } from './assert';
 import { isGroupV2 } from './whatTypeOfConversation';
@@ -56,6 +58,9 @@ const MAX_CONCURRENCY = 5;
 
 // sendWithSenderKey is recursive, but we don't want to loop back too many times.
 const MAX_RECURSION = 10;
+
+const ACCESS_KEY_LENGTH = 16;
+const ZERO_ACCESS_KEY = Bytes.toBase64(new Uint8Array(ACCESS_KEY_LENGTH));
 
 // TODO: remove once we move away from ArrayBuffers
 const FIXMEU8 = Uint8Array;
@@ -142,6 +147,7 @@ export async function sendContentMessageToGroup({
 
   if (
     ourConversation?.get('capabilities')?.senderKey &&
+    RemoteConfig.isEnabled('desktop.senderKey.send') &&
     isGroupV2(conversation.attributes)
   ) {
     try {
@@ -744,7 +750,6 @@ async function handle410Response(
 }
 
 function getXorOfAccessKeys(devices: Array<DeviceType>): Buffer {
-  const ACCESS_KEY_LENGTH = 16;
   const uuids = getUuidsFromDevices(devices);
 
   const result = Buffer.alloc(ACCESS_KEY_LENGTH);
@@ -1008,11 +1013,15 @@ function getAccessKey(
 ): string | undefined {
   const { sealedSender, accessKey } = attributes;
 
-  if (
-    sealedSender === SEALED_SENDER.ENABLED ||
-    sealedSender === SEALED_SENDER.UNKNOWN
-  ) {
+  if (sealedSender === SEALED_SENDER.ENABLED) {
     return accessKey || undefined;
+  }
+
+  if (
+    sealedSender === SEALED_SENDER.UNKNOWN ||
+    sealedSender === SEALED_SENDER.UNRESTRICTED
+  ) {
+    return ZERO_ACCESS_KEY;
   }
 
   return undefined;

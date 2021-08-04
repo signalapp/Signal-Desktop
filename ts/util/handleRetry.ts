@@ -41,6 +41,13 @@ export async function onRetryRequest(event: RetryRequestEvent): Promise<void> {
 
   window.log.info(`onRetryRequest/${logId}: Starting...`);
 
+  if (!RemoteConfig.isEnabled('desktop.senderKey.retry')) {
+    window.log.warn(
+      `onRetryRequest/${logId}: Feature flag disabled, returning early.`
+    );
+    return;
+  }
+
   if (window.RETRY_DELAY) {
     window.log.warn(
       `onRetryRequest/${logId}: Delaying because RETRY_DELAY is set...`
@@ -145,7 +152,10 @@ export async function onDecryptionError(
     await conversation.getProfiles();
   }
 
-  if (conversation.get('capabilities')?.senderKey) {
+  if (
+    conversation.get('capabilities')?.senderKey &&
+    RemoteConfig.isEnabled('desktop.senderKey.retry')
+  ) {
     await requestResend(decryptionError);
   } else {
     await startAutomaticSessionReset(decryptionError);
