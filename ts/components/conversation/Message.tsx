@@ -860,8 +860,6 @@ class MessageInner extends React.PureComponent<Props, State> {
     if (target.className === 'text-selectable' || window.contextMenuShown) {
       return;
     }
-    event.preventDefault();
-    event.stopPropagation();
   }
 }
 
