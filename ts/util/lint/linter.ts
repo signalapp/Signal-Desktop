@@ -201,6 +201,7 @@ const excludedFilesRegexps = [
   '^node_modules/react-dev-utils/.+',
   '^node_modules/react-docgen/.+',
   '^node_modules/react-error-overlay/.+',
+  '^node_modules/read-config-file/.+', // Used by electron-builder
   '^node_modules/read-pkg/.+', // Used by npm-run-all
   '^node_modules/recast/.+',
   '^node_modules/reduce-css-calc/.+',
