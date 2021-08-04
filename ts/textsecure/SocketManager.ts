@@ -376,6 +376,8 @@ export class SocketManager extends EventListener {
 
     this.authenticated?.abort();
     this.unauthenticated?.abort();
+    this.authenticated = undefined;
+    this.unauthenticated = undefined;
   }
 
   //

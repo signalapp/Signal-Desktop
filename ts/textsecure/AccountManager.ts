@@ -502,7 +502,7 @@ export default class AccountManager extends EventTarget {
       password,
       registrationId,
       encryptedDeviceName,
-      { accessKey }
+      { accessKey, uuid }
     );
 
     const uuidChanged = previousUuid && uuid && previousUuid !== uuid;
@@ -603,11 +603,6 @@ export default class AccountManager extends EventTarget {
     );
     await window.textsecure.storage.put('regionCode', regionCode);
     await window.textsecure.storage.protocol.hydrateCaches();
-
-    // We are finally ready to reconnect
-    window.textsecure.storage.user.emitCredentialsChanged(
-      'AccountManager.createAccount'
-    );
   }
 
   async clearSessionsAndPreKeys() {

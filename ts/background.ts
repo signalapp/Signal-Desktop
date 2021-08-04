@@ -142,13 +142,6 @@ export async function startApp(): Promise<void> {
     );
     window.textsecure.server = server;
 
-    window.textsecure.storage.user.on('credentialsChange', async () => {
-      strictAssert(server !== undefined, 'WebAPI not ready');
-      await server.authenticate(
-        window.textsecure.storage.user.getWebAPICredentials()
-      );
-    });
-
     initializeAllJobQueues({
       server,
     });
@@ -1906,6 +1899,11 @@ export async function startApp(): Promise<void> {
     window.log.info('listening for registration events');
     window.Whisper.events.on('registration_done', () => {
       window.log.info('handling registration event');
+
+      strictAssert(server !== undefined, 'WebAPI not ready');
+      server.authenticate(
+        window.textsecure.storage.user.getWebAPICredentials()
+      );
       connect(true);
     });
 
@@ -2296,6 +2294,10 @@ export async function startApp(): Promise<void> {
             'private'
           );
           me.updateUuid(uuid);
+
+          await server.authenticate(
+            window.textsecure.storage.user.getWebAPICredentials()
+          );
         } catch (error) {
           window.log.error(
             'Error: Unable to retrieve UUID from service.',
