@@ -46,3 +46,34 @@ story.add('Basic', () => {
 
   return <GroupV2Permissions {...props} />;
 });
+
+story.add('Not admin', () => (
+  <GroupV2Permissions
+    {...createProps()}
+    conversation={getDefaultConversation({
+      announcementsOnly: true,
+      areWeAdmin: false,
+    })}
+  />
+));
+
+story.add('Admin but not announcement ready', () => (
+  <GroupV2Permissions
+    {...createProps()}
+    conversation={getDefaultConversation({
+      announcementsOnlyReady: false,
+      areWeAdmin: true,
+    })}
+  />
+));
+
+story.add('Admin, not announcement ready, but it was on', () => (
+  <GroupV2Permissions
+    {...createProps()}
+    conversation={getDefaultConversation({
+      announcementsOnly: true,
+      announcementsOnlyReady: false,
+      areWeAdmin: true,
+    })}
+  />
+));

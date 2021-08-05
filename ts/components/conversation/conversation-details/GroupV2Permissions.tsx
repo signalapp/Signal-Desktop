@@ -48,6 +48,10 @@ export const GroupV2Permissions = ({
       : AccessControlEnum.MEMBER
   );
 
+  const showAnnouncementsOnlyPermission =
+    conversation.areWeAdmin &&
+    (conversation.announcementsOnly || conversation.announcementsOnlyReady);
+
   return (
     <PanelSection>
       <PanelRow
@@ -72,7 +76,7 @@ export const GroupV2Permissions = ({
           />
         }
       />
-      {conversation.areWeAdmin && conversation.announcementsOnlyReady && (
+      {showAnnouncementsOnlyPermission && (
         <PanelRow
           label={i18n('ConversationDetails--announcement-label')}
           info={i18n('ConversationDetails--announcement-info')}
