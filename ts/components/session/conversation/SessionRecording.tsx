@@ -119,11 +119,13 @@ class SessionRecordingInner extends React.Component<Props, State> {
     const displayTimeMs = isRecording
       ? (nowTimestamp - startTimestamp) * 1000
       : (this.audioElement &&
-        (this.audioElement?.currentTime * 1000 || this.audioElement?.duration)) ||
-      0;
-    let displayTimeString = moment.utc(displayTimeMs).format('m:ss');
+          (this.audioElement?.currentTime * 1000 || this.audioElement?.duration)) ||
+        0;
 
-    const recordingDurationMs = this.audioElement?.duration ? this.audioElement?.duration * 1000 : 1;
+    const displayTimeString = moment.utc(displayTimeMs).format('m:ss');
+    const recordingDurationMs = this.audioElement?.duration
+      ? this.audioElement?.duration * 1000
+      : 1;
 
     let remainingTimeString = '';
     if (recordingDurationMs !== undefined) {
@@ -139,17 +141,15 @@ class SessionRecordingInner extends React.Component<Props, State> {
           onMouseEnter={this.handleHoverActions}
           onMouseLeave={this.handleUnhoverActions}
         >
-          <StyledFlexWrapper
-            flexDirection='row'
-            marginHorizontal={Constants.UI.SPACING.marginXs}
-          >{isRecording && (
-            <SessionIconButton
-              iconType={SessionIconType.Pause}
-              iconSize={SessionIconSize.Medium}
-              iconColor={Constants.UI.COLORS.DANGER_ALT}
-              onClick={actionPauseFn}
-            />
-          )}
+          <StyledFlexWrapper flexDirection="row" marginHorizontal={Constants.UI.SPACING.marginXs}>
+            {isRecording && (
+              <SessionIconButton
+                iconType={SessionIconType.Pause}
+                iconSize={SessionIconSize.Medium}
+                iconColor={Constants.UI.COLORS.DANGER_ALT}
+                onClick={actionPauseFn}
+              />
+            )}
             {actionPauseAudio && (
               <SessionIconButton
                 iconType={SessionIconType.Pause}
@@ -164,7 +164,7 @@ class SessionRecordingInner extends React.Component<Props, State> {
                 onClick={this.playAudio}
               />
             )}
-            { hasRecording && (
+            {hasRecording && (
               <SessionIconButton
                 iconType={SessionIconType.Delete2}
                 iconSize={SessionIconSize.Medium}
@@ -181,30 +181,26 @@ class SessionRecordingInner extends React.Component<Props, State> {
           )}
         </div>
 
-        { hasRecording && !isRecording ?
+        {hasRecording && !isRecording ? (
           <div className={classNames('session-recording--timer', !isRecording && 'playback-timer')}>
-            {
-              displayTimeString + remainingTimeString
-            }
+            {displayTimeString + remainingTimeString}
           </div>
-          :
-          null
-        }
+        ) : null}
 
-        {isRecording ?
+        {isRecording ? (
           <div className={classNames('session-recording--timer')}>
             {displayTimeString}
             <div className="session-recording--timer-light" />
           </div>
-          :
-          null
-        }
+        ) : null}
 
-        {!isRecording  && (
-          <div className={classNames(
-            "send-message-button",
-            hasRecording && 'send-message-button---scale'
-            )}>
+        {!isRecording && (
+          <div
+            className={classNames(
+              'send-message-button',
+              hasRecording && 'send-message-button---scale'
+            )}
+          >
             <SessionIconButton
               iconType={SessionIconType.Send}
               iconSize={SessionIconSize.Large}
@@ -213,7 +209,6 @@ class SessionRecordingInner extends React.Component<Props, State> {
             />
           </div>
         )}
-
       </div>
     );
   }
@@ -365,15 +360,7 @@ class SessionRecordingInner extends React.Component<Props, State> {
   }
 
   /**
-   * Stops recording and sets up audio element, updates recording state.
-   */
-  private async onStopRecordingClick() {
-    this.stopRecordingStream();
-    this.updateAudioElementAndDuration();
-  }
-
-  /**
-   * Creates an audio element using the recorded audio blob. 
+   * Creates an audio element using the recorded audio blob.
    * Updates the duration for displaying audio duration.
    */
   private updateAudioElementAndDuration() {
@@ -383,8 +370,8 @@ class SessionRecordingInner extends React.Component<Props, State> {
 
     // ww adding record duration
     this.setState({
-      recordDuration: this.audioElement.duration
-    })
+      recordDuration: this.audioElement.duration,
+    });
 
     this.audioElement.loop = false;
     this.audioElement.onended = () => {
