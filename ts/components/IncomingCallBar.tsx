@@ -49,7 +49,7 @@ const CallButton = ({
     <Tooltip content={tooltipContent} theme={Theme.Dark}>
       <button
         aria-label={tooltipContent}
-        className={`module-incoming-call__button module-incoming-call__button--${classSuffix}`}
+        className={`IncomingCallBar__button IncomingCallBar__button--${classSuffix}`}
         onClick={onClick}
         tabIndex={tabIndex}
         type="button"
@@ -82,91 +82,90 @@ export const IncomingCallBar = ({
   } = conversation;
 
   return (
-    <div className="module-incoming-call">
-      <div className="module-incoming-call__contact">
-        <div className="module-incoming-call__contact--avatar">
-          <Avatar
-            acceptedMessageRequest={acceptedMessageRequest}
-            avatarPath={avatarPath}
-            color={color || 'ultramarine'}
-            noteToSelf={false}
-            conversationType="direct"
-            i18n={i18n}
-            isMe={isMe}
-            name={name}
-            phoneNumber={phoneNumber}
-            profileName={profileName}
-            title={title}
-            sharedGroupNames={sharedGroupNames}
-            size={52}
-          />
-        </div>
-        <div className="module-incoming-call__contact--name">
-          <div className="module-incoming-call__contact--name-header">
-            <ContactName
+    <div className="IncomingCallBar__container">
+      <div className="IncomingCallBar__bar">
+        <div className="IncomingCallBar__contact">
+          <div className="IncomingCallBar__contact--avatar">
+            <Avatar
+              acceptedMessageRequest={acceptedMessageRequest}
+              avatarPath={avatarPath}
+              color={color || 'ultramarine'}
+              noteToSelf={false}
+              conversationType="direct"
+              i18n={i18n}
+              isMe={isMe}
               name={name}
               phoneNumber={phoneNumber}
               profileName={profileName}
               title={title}
-              i18n={i18n}
+              sharedGroupNames={sharedGroupNames}
+              size={52}
             />
           </div>
-          <div
-            dir="auto"
-            className="module-incoming-call__contact--message-text"
-          >
-            {i18n(isVideoCall ? 'incomingVideoCall' : 'incomingAudioCall')}
+          <div className="IncomingCallBar__contact--name">
+            <div className="IncomingCallBar__contact--name-header">
+              <ContactName
+                name={name}
+                phoneNumber={phoneNumber}
+                profileName={profileName}
+                title={title}
+                i18n={i18n}
+              />
+            </div>
+            <div dir="auto" className="IncomingCallBar__contact--message-text">
+              {i18n(isVideoCall ? 'incomingVideoCall' : 'incomingAudioCall')}
+            </div>
           </div>
         </div>
-      </div>
-      <div className="module-incoming-call__actions">
-        {isVideoCall ? (
-          <>
-            <CallButton
-              classSuffix="decline"
-              onClick={() => {
-                declineCall({ conversationId });
-              }}
-              tabIndex={0}
-              tooltipContent={i18n('declineCall')}
-            />
-            <CallButton
-              classSuffix="accept-video-as-audio"
-              onClick={() => {
-                acceptCall({ conversationId, asVideoCall: false });
-              }}
-              tabIndex={0}
-              tooltipContent={i18n('acceptCallWithoutVideo')}
-            />
-            <CallButton
-              classSuffix="accept-video"
-              onClick={() => {
-                acceptCall({ conversationId, asVideoCall: true });
-              }}
-              tabIndex={0}
-              tooltipContent={i18n('acceptCall')}
-            />
-          </>
-        ) : (
-          <>
-            <CallButton
-              classSuffix="decline"
-              onClick={() => {
-                declineCall({ conversationId });
-              }}
-              tabIndex={0}
-              tooltipContent={i18n('declineCall')}
-            />
-            <CallButton
-              classSuffix="accept-audio"
-              onClick={() => {
-                acceptCall({ conversationId, asVideoCall: false });
-              }}
-              tabIndex={0}
-              tooltipContent={i18n('acceptCall')}
-            />
-          </>
-        )}
+        <div className="IncomingCallBar__actions">
+          {isVideoCall ? (
+            <>
+              <CallButton
+                classSuffix="decline"
+                onClick={() => {
+                  declineCall({ conversationId });
+                }}
+                tabIndex={0}
+                tooltipContent={i18n('declineCall')}
+              />
+              <CallButton
+                classSuffix="accept-video-as-audio"
+                onClick={() => {
+                  acceptCall({ conversationId, asVideoCall: false });
+                }}
+                tabIndex={0}
+                tooltipContent={i18n('acceptCallWithoutVideo')}
+              />
+              <CallButton
+                classSuffix="accept-video"
+                onClick={() => {
+                  acceptCall({ conversationId, asVideoCall: true });
+                }}
+                tabIndex={0}
+                tooltipContent={i18n('acceptCall')}
+              />
+            </>
+          ) : (
+            <>
+              <CallButton
+                classSuffix="decline"
+                onClick={() => {
+                  declineCall({ conversationId });
+                }}
+                tabIndex={0}
+                tooltipContent={i18n('declineCall')}
+              />
+              <CallButton
+                classSuffix="accept-audio"
+                onClick={() => {
+                  acceptCall({ conversationId, asVideoCall: false });
+                }}
+                tabIndex={0}
+                tooltipContent={i18n('acceptCall')}
+              />
+            </>
+          )}
+        </div>
       </div>
     </div>
   );

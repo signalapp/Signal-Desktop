@@ -35,22 +35,6 @@ const defaultProps = {
   i18n,
 };
 
-const permutations = [
-  {
-    title: 'Incoming Call Bar (video)',
-    props: {},
-  },
-  {
-    title: 'Incoming Call Bar (audio)',
-    props: {
-      call: {
-        ...defaultProps.call,
-        isVideoCall: false,
-      },
-    },
-  },
-];
-
 storiesOf('Components/IncomingCallBar', module)
   .add('Knobs Playground', () => {
     const color = select('color', AvatarColors, 'ultramarine');
@@ -75,11 +59,10 @@ storiesOf('Components/IncomingCallBar', module)
       />
     );
   })
-  .add('Iterations', () => {
-    return permutations.map(({ props, title }) => (
-      <>
-        <h3>{title}</h3>
-        <IncomingCallBar {...defaultProps} {...props} />
-      </>
-    ));
-  });
+  .add('Incoming Call Bar (video)', () => <IncomingCallBar {...defaultProps} />)
+  .add('Incoming Call Bar (audio)', () => (
+    <IncomingCallBar
+      {...defaultProps}
+      call={{ ...defaultProps.call, isVideoCall: false }}
+    />
+  ));
