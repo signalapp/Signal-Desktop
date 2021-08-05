@@ -153,8 +153,7 @@ $session-font-h4: 16px;
   color: subtle($color);
 }
 
-@mixin pulse-color($color,$duration, $repetition) {
-
+@mixin pulse-color($color, $duration, $repetition) {
   animation: pulseColor $duration $repetition;
 
   @keyframes pulseColor {
@@ -162,19 +161,18 @@ $session-font-h4: 16px;
       transform: scale(0.95);
       box-shadow: 0 0 0 0 rgba($color, 0.7);
     }
-    
+
     70% {
       transform: scale(1);
       box-shadow: 0 0 0 10px rgba($color, 0);
     }
-    
+
     100% {
       transform: scale(0.95);
       box-shadow: 0 0 0 0 rgba($color, 0);
     }
   }
 }
-
 
 $session-subtle-factor: 0.6;
 
