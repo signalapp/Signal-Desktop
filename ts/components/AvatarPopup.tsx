@@ -1,4 +1,4 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -20,7 +20,7 @@ export type Props = {
   // Matches Popper's RefHandler type
   innerRef?: React.Ref<HTMLDivElement>;
   style: React.CSSProperties;
-} & AvatarProps;
+} & Omit<AvatarProps, 'onClick'>;
 
 export const AvatarPopup = (props: Props): JSX.Element => {
   const {

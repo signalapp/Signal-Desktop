@@ -41,7 +41,6 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   name: text('name', overrideProps.name || ''),
   noteToSelf: boolean('noteToSelf', overrideProps.noteToSelf || false),
   onEditProfile: action('onEditProfile'),
-  onClick: action('onClick'),
   onSetChatColor: action('onSetChatColor'),
   onViewArchive: action('onViewArchive'),
   onViewPreferences: action('onViewPreferences'),
