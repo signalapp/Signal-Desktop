@@ -51,8 +51,8 @@ aptly publish switch -gpg-key="$GPG_KEYID" "$CURRENT" "$SNAPSHOT"
 
 echo
 echo "aptly.sh: Syncing local publish to s3"
-/usr/bin/aws s3 sync ~/.aptly/public/pool/ s3://updates.signal.org/desktop/apt/pool/
-/usr/bin/aws s3 sync ~/.aptly/public/dists/ s3://updates.signal.org/desktop/apt/dists/
+aws s3 sync ~/.aptly/public/pool/ s3://updates.signal.org/desktop/apt/pool/
+aws s3 sync ~/.aptly/public/dists/ s3://updates.signal.org/desktop/apt/dists/
 
 echo
 echo "aptly.sh: Complete!"
