@@ -387,7 +387,11 @@ const debug = false;
 /**
  * Only exported for testing purpose
  */
-export async function decodeOnionResult(symmetricKey: ArrayBuffer, ciphertext: string, test?: string) {
+export async function decodeOnionResult(
+  symmetricKey: ArrayBuffer,
+  ciphertext: string,
+  test?: string
+) {
   let parsedCiphertext = ciphertext;
   try {
     const jsonRes = JSON.parse(ciphertext);
@@ -417,7 +421,7 @@ export async function processOnionResponse({
   abortSignal,
   associatedWith,
   lsrpcEd25519Key,
-  test
+  test,
 }: {
   response?: { text: () => Promise<string>; status: number };
   symmetricKey?: ArrayBuffer;
@@ -663,7 +667,7 @@ const sendOnionRequestHandlingSnodeEject = async ({
   abortSignal,
   associatedWith,
   finalRelayOptions,
-  test
+  test,
 }: {
   nodePath: Array<Snode>;
   destX25519Any: string;
@@ -689,7 +693,7 @@ const sendOnionRequestHandlingSnodeEject = async ({
       finalDestOptions,
       finalRelayOptions,
       abortSignal,
-      test
+      test,
     });
 
     response = result.response;
@@ -706,7 +710,7 @@ const sendOnionRequestHandlingSnodeEject = async ({
     lsrpcEd25519Key: finalDestOptions?.destination_ed25519_hex,
     abortSignal,
     associatedWith,
-    test
+    test,
   });
 
   return processed;
@@ -729,7 +733,7 @@ const sendOnionRequest = async ({
   finalDestOptions,
   finalRelayOptions,
   abortSignal,
-  test
+  test,
 }: {
   nodePath: Array<Snode>;
   destX25519Any: string;
@@ -827,7 +831,6 @@ const sendOnionRequest = async ({
   // no logs for that one insecureNodeFetch as we do need to call insecureNodeFetch to our guardNode
   // window?.log?.info('insecureNodeFetch => plaintext for sendOnionRequest');
 
-  
   const response = await insecureNodeFetch(guardUrl, guardFetchOptions);
   return { response, decodingSymmetricKey: destCtx.symmetricKey };
 };
@@ -847,7 +850,7 @@ async function sendOnionRequestSnodeDest(
       body: plaintext,
     },
     associatedWith,
-    test
+    test,
   });
 }
 

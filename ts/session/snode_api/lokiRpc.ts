@@ -82,7 +82,7 @@ export async function snodeRpc(
   method: string,
   params: any,
   targetNode: Snode,
-  associatedWith?: string //the user pubkey this call is for. if the onion request fails, this is used to handle the error for this user swarm for isntance
+  associatedWith?: string //the user pubkey this call is for. if the onion request fails, this is used to handle the error for this user swarm for instance
 ): Promise<undefined | SnodeResponse> {
   const url = `https://${targetNode.ip}:${targetNode.port}/storage_rpc/v1`;
 

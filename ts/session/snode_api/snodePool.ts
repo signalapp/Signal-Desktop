@@ -66,24 +66,12 @@ async function tryGetSnodeListFromLokidSeednode(
     // throw before clearing the lock, so the retries can kick in
     if (snodes.length === 0) {
       window?.log?.warn(
-        `loki_snode_api::tryGetSnodeListFromLokidSeednode - ${seedNode.url} did not return any snodes, falling back to IP`,
-        seedNode.ip_url
+        `loki_snode_api::tryGetSnodeListFromLokidSeednode - ${seedNode.ip_url} did not return any snodes`
       );
-      // fall back on ip_url
-      const tryIpUrl = new URL(seedNode.ip_url);
-      snodes = await getSnodesFromSeedUrl(tryIpUrl);
-      if (snodes.length === 0) {
-        window?.log?.warn(
-          `loki_snode_api::tryGetSnodeListFromLokidSeednode - ${seedNode.ip_url} did not return any snodes`
-        );
-        // does this error message need to be exactly this?
-        throw new window.textsecure.SeedNodeError('Failed to contact seed node');
-      }
-    } else {
-      window?.log?.info(
-        `loki_snode_api::tryGetSnodeListFromLokidSeednode - ${seedNode.url} returned ${snodes.length} snodes`
-      );
+      // does this error message need to be exactly this?
+      throw new window.textsecure.SeedNodeError('Failed to contact seed node');
     }
+
     return snodes;
   } catch (e) {
     window?.log?.warn(

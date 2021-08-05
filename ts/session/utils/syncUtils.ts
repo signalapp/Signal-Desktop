@@ -53,6 +53,8 @@ import {
 import { KeyPair } from '../../../libtextsecure/libsignal-protocol';
 import { getIdentityKeyPair } from './User';
 import { PubKey } from '../types';
+import pRetry from 'p-retry';
+import { ed25519Str } from '../onions/onionPath';
 
 const ITEM_ID_LAST_SYNC_TIMESTAMP = 'lastSyncedTimestamp';
 
@@ -124,132 +126,152 @@ export const forceSyncConfigurationNowIfNeeded = async (waitForMessageSent = fal
  * @returns timestamp of the response from snode
  */
 const getNetworkTime = async (snode: Snode): Promise<string | number> => {
-  // let response: any = await insecureNodeFetch(url, fetchOptions)
-  try {
-    const response: any = await snodeRpc('info', {}, snode);
-    const body = JSON.parse(response.body);
-    const timestamp = body.timestamp;
-
-    return timestamp ? timestamp : -1;
-  } catch (e) {
-    return -1;
+  const response: any = await snodeRpc('info', {}, snode);
+  const body = JSON.parse(response.body);
+  const timestamp = body.timestamp;
+  if (!timestamp) {
+    throw new Error(`getNetworkTime returned invalid timestamp: ${timestamp}`);
   }
+  return timestamp;
 };
 
-export const forceNetworkDeletion = async () => {
+export const forceNetworkDeletion = async (): Promise<Map<string, boolean> | null> => {
   const sodium = await getSodium();
-  const userPubKey = UserUtils.getOurPubKeyFromCache();
+  const userX25519PublicKey = UserUtils.getOurPubKeyFromCache();
 
-  const edKey = await UserUtils.getUserED25519KeyPair();
-  const edKeyPriv = edKey?.privKey || '';
+  const userED25519KeyPair = await UserUtils.getUserED25519KeyPair();
 
-  console.warn({ edKey });
+  if (!userED25519KeyPair) {
+    window.log.warn('Cannot forceNetworkDeletion, did not find user ed25519 key.');
+    return null;
+  }
+  const edKeyPriv = userED25519KeyPair.privKey;
+
+  console.warn({ userED25519KeyPair });
   console.warn({ edKeyPriv });
 
-  const snode: Snode | undefined = _.shuffle(await getSwarmFor(userPubKey.key))[0];
-  const timestamp = await getNetworkTime(snode);
+  return pRetry(
+    async () => {
+      const userSwarm = await getSwarmFor(userX25519PublicKey.key);
+      const snodeToMakeRequestTo: Snode | undefined = _.sample(userSwarm);
+      const edKeyPrivBytes = fromHexToArray(edKeyPriv);
 
-  const text = `delete_all${timestamp.toString()}`;
+      if (!snodeToMakeRequestTo) {
+        window.log.warn('Cannot forceNetworkDeletion, without a valid swarm node.');
+        return null;
+      }
 
-  const toSign = StringUtils.encode(text, 'utf8');
-  const toSignBytes = new Uint8Array(toSign);
-  console.warn({ toSign });
-  console.warn({ toSignBytes });
+      // FIXME audric pretry getNetworkTime separately too
+      return pRetry(
+        async () => {
+          const timestamp = await getNetworkTime(snodeToMakeRequestTo);
 
-  const edKeyBytes = fromHexToArray(edKeyPriv);
+          const verificationData = StringUtils.encode(`delete_all${timestamp}`, 'utf8');
+          const message = new Uint8Array(verificationData);
+          const signature = sodium.crypto_sign_detached(message, edKeyPrivBytes);
+          const signatureBase64 = fromUInt8ArrayToBase64(signature);
 
-  // using uint or string for message input makes no difference here.
-  // let sig = sodium.crypto_sign_detached(toSignBytes, edKeyBytes);
-  const sig = sodium.crypto_sign_detached(toSignBytes, edKeyBytes); // NO
+          const deleteMessageParams = {
+            pubkey: userX25519PublicKey.key,
+            pubkey_ed25519: userED25519KeyPair.pubKey.toUpperCase(),
+            timestamp,
+            signature: signatureBase64,
+          };
 
-  const kp = await UserUtils.getIdentityKeyPair();
-  // let sig = await window.libsignal.Curve.async.calculateSignature(kp?.privKey,  toSign)
-  // console.log({isVerified: sodium.crypto_sign_verify_detached(sig, text, fromHexToArray(edKey?.pubKey || ''))})
-  // try: encode toSign to base64 before signing then decode to bytes afterwards
-  // todo:
-  // try the exact example with fillter values off the documentation.
+          const ret = await snodeRpc(
+            'delete_all',
+            deleteMessageParams,
+            snodeToMakeRequestTo,
+            userX25519PublicKey.key
+          );
 
-  const sig64 = fromUInt8ArrayToBase64(sig);
+          if (!ret) {
+            throw new Error(
+              `Empty response got for delete_all on snode ${ed25519Str(
+                snodeToMakeRequestTo.pubkey_ed25519
+              )}`
+            );
+          }
 
-  const sig64a = to_base64(sig);
-  console.warn({ sig64a });
+          try {
+            const parsedResponse = JSON.parse(ret.body);
+            const { swarm } = parsedResponse;
 
-  console.warn({ sig });
-  console.warn({ sig64: sig64 });
-  console.warn({ sigLength: sig64.length });
+            if (!swarm) {
+              throw new Error(
+                `Invalid JSON swarm response got for delete_all on snode ${ed25519Str(
+                  snodeToMakeRequestTo.pubkey_ed25519
+                )}, ${ret?.body}`
+              );
+            }
+            const swarmAsArray = Object.entries(swarm) as Array<Array<any>>;
+            if (!swarmAsArray.length) {
+              throw new Error(
+                `Invalid JSON swarmAsArray response got for delete_all on snode ${ed25519Str(
+                  snodeToMakeRequestTo.pubkey_ed25519
+                )}, ${ret?.body}`
+              );
+            }
+            const results: Map<string, boolean> = new Map(
+              swarmAsArray.map(snode => {
+                const snodePubkey = snode[0];
+                const snodeJson = snode[1];
+                console.warn({ snodePubkey, snodeJson });
 
-  // pubkey - hex - from xSK.public_key
-  // timestamp - ms
-  // signature - ? Base64.encodeBytes(signature)
+                const isFailed = snodeJson.failed || false;
 
-  const deleteMessageParams = {
-    pubkey: userPubKey.key, // pubkey is doing alright
-    pubkeyED25519: edKey?.pubKey.toUpperCase(), // ed pubkey is right
-    timestamp,
-    signature: sig64,
-  };
+                if (isFailed) {
+                  const reason = snodeJson.reason;
+                  const statusCode = snodeJson.code;
+                  if (reason && statusCode) {
+                    window.log.warn(
+                      `Could not delete data from ${ed25519Str(
+                        snodeToMakeRequestTo.pubkey_ed25519
+                      )} due to error: ${reason}: ${statusCode}`
+                    );
+                  } else {
+                    window.log.warn(
+                      `Could not delete data from ${ed25519Str(snodeToMakeRequestTo.pubkey_ed25519)}`
+                    );
+                  }
+                  return [snodePubkey, false];
+                }
 
-  // let lokiRpcRes = await snodeRpc('delete_all', deleteMessageParams, snode, userPubKey.key);
-  // let lokiRpcRes = sendOnionRequest()
+                const hashes = snodeJson.deleted as Array<string>;
+                const signatureSnode = snodeJson.signature as string;
+                // The signature format is ( PUBKEY_HEX || TIMESTAMP || DELETEDHASH[0] || ... || DELETEDHASH[N] )
+                const dataToVerify = `${userX25519PublicKey.key}${timestamp}${hashes.join('')}`;
+                const dataToVerifyUtf8 = StringUtils.encode(dataToVerify, 'utf8');
+                const isValid = sodium.crypto_sign_verify_detached(
+                  fromBase64ToArray(signatureSnode),
+                  new Uint8Array(dataToVerifyUtf8),
+                  fromHexToArray(snodePubkey)
+                );
+                return [snodePubkey, isValid];
+              })
+            );
 
-  await send(deleteMessageParams, snode, userPubKey.key);
-};
-
-const send = async (params: any, snode: Snode, userPubKey: string) => {
-  // window?.log?.info(`Testing a candidate guard node ${ed25519Str(snode.pubkey_ed25519)}`);
-
-  // Send a post request and make sure it is OK
-  const endpoint = '/storage_rpc/v1';
-
-  const url = `https://${snode.ip}:${snode.port}${endpoint}`;
-
-  const ourPK = UserUtils.getOurPubKeyStrFromCache();
-  const pubKey = window.getStoragePubKey(ourPK); // truncate if testnet
-
-  // testt
-  const method = 'delete_all';
-  params.pubkey = pubKey; // trying with getStoragePubkey
-
-  const body = {
-    jsonrpc: '2.0',
-    id: '0',
-    method,
-    params,
-  };
-
-  const fetchOptions = {
-    method: 'POST',
-    body: JSON.stringify(body),
-    headers: {
-      'Content-Type': 'application/json',
-      'User-Agent': 'WhatsApp',
-      'Accept-Language': 'en-us',
-    },
-    timeout: 10000, // 10s, we want a smaller timeout for testing
-    agent: snodeHttpsAgent,
-  };
-
-  let response;
-
-  try {
-    // Log this line for testing
-    // curl -k -X POST -H 'Content-Type: application/json' -d '"+fetchOptions.body.replace(/"/g, "\\'")+"'", url
-    window?.log?.info('Sending delete all');
-
-    response = await insecureNodeFetch(url, fetchOptions);
-  } catch (e) {
-    if (e.type === 'request-timeout') {
-      window?.log?.warn('test timeout for node,', snode);
+            return results;
+          } catch (e) {
+            throw new Error(
+              `Invalid JSON response got for delete_all on snode ${ed25519Str(
+                snodeToMakeRequestTo.pubkey_ed25519
+              )}, ${ret?.body}`
+            );
+          }
+        },
+        {
+          retries: 3,
+          minTimeout: 500,
+          onFailedAttempt: e => {
+            window?.log?.warn(
+              `delete_all request attempt #${e.attemptNumber} failed. ${e.retriesLeft} retries left...`
+            );
+          },
+        },
     }
-    return false;
-  }
+  );
 
-  if (!response.ok) {
-    const tg = await response.text();
-    window?.log?.info('Node failed the guard test:', snode);
-  }
-
-  return;
 };
 
 const getActiveOpenGroupV2CompleteUrls = async (
