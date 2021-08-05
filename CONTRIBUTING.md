@@ -43,7 +43,7 @@ Install the [Xcode Command-Line Tools](http://osxdaily.com/2014/02/12/install-co
 ### Linux
 
 1.  Pick your favorite package manager.
-1.  Install `python` (Python 2.7+)
+1.  Install `python` (Python 3.6+)
 1.  Install `gcc`
 1.  Install `g++`
 1.  Install `make`
