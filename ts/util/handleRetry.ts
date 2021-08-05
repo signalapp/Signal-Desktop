@@ -37,7 +37,7 @@ export async function onRetryRequest(event: RetryRequestEvent): Promise<void> {
     senderDevice,
     sentAt,
   } = retryRequest;
-  const logId = `${requesterUuid}.${requesterDevice} ${sentAt}-${senderDevice}`;
+  const logId = `${requesterUuid}.${requesterDevice} ${sentAt}.${senderDevice}`;
 
   window.log.info(`onRetryRequest/${logId}: Starting...`);
 
@@ -128,7 +128,9 @@ function maybeShowDecryptionToast(logId: string) {
     return;
   }
 
-  window.log.info(`onDecryptionError/${logId}: Showing decryption error toast`);
+  window.log.info(
+    `maybeShowDecryptionToast/${logId}: Showing decryption error toast`
+  );
   window.Whisper.ToastView.show(
     window.Whisper.DecryptionErrorToast,
     document.getElementsByClassName('conversation-stack')[0]
@@ -151,6 +153,8 @@ export async function onDecryptionError(
   if (!conversation.get('capabilities')?.senderKey) {
     await conversation.getProfiles();
   }
+
+  maybeShowDecryptionToast(logId);
 
   if (
     conversation.get('capabilities')?.senderKey &&
@@ -460,16 +464,15 @@ async function requestResend(decryptionError: DecryptionErrorEventData) {
       wasOpened,
     });
 
-    maybeShowDecryptionToast(logId);
-
     return;
   }
 
   // This message cannot be resent. We'll show no error and trust the other side to
   //   reset their session.
   if (contentHint === ContentHint.IMPLICIT) {
-    maybeShowDecryptionToast(logId);
-
+    window.log.info(
+      `requestResend/${logId}: contentHint is IMPLICIT, doing nothing.`
+    );
     return;
   }
 
