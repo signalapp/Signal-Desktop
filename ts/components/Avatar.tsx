@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import classNames from 'classnames';
 
 import { AvatarPlaceHolder, ClosedGroupAvatar } from './AvatarPlaceHolder';
@@ -71,6 +71,11 @@ const AvatarImage = (props: {
 }) => {
   const { avatarPath, base64Data, name, imageBroken, handleImageError } = props;
 
+  const onDragStart = useCallback((e: any) => {
+    e.preventDefault();
+    return false;
+  }, []);
+
   if ((!avatarPath && !base64Data) || imageBroken) {
     return null;
   }
@@ -79,6 +84,7 @@ const AvatarImage = (props: {
   return (
     <img
       onError={handleImageError}
+      onDragStart={onDragStart}
       alt={window.i18n('contactAvatarAlt', [name])}
       src={dataToDisplay}
     />

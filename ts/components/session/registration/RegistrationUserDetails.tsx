@@ -46,45 +46,6 @@ const RecoveryPhraseInput = (props: {
   );
 };
 
-const PasswordAndVerifyPasswordFields = (props: {
-  password: string;
-  passwordFieldsMatch: boolean;
-  passwordErrorString: string;
-  onPasswordChanged: (val: string) => any;
-  onPasswordVerifyChanged: (val: string) => any;
-  handlePressEnter: () => any;
-}) => {
-  const { password, passwordFieldsMatch, passwordErrorString } = props;
-  const passwordsDoNotMatch =
-    !passwordFieldsMatch && password ? window.i18n('passwordsDoNotMatch') : undefined;
-
-  return (
-    <>
-      <SessionInput
-        label={window.i18n('password')}
-        error={passwordErrorString}
-        type="password"
-        placeholder={window.i18n('enterOptionalPassword')}
-        onValueChanged={props.onPasswordChanged}
-        onEnterPressed={props.handlePressEnter}
-        theme={lightTheme}
-      />
-
-      {!!password && (
-        <SessionInput
-          label={window.i18n('confirmPassword')}
-          error={passwordsDoNotMatch}
-          type="password"
-          placeholder={window.i18n('confirmPassword')}
-          onValueChanged={props.onPasswordVerifyChanged}
-          onEnterPressed={props.handlePressEnter}
-          theme={lightTheme}
-        />
-      )}
-    </>
-  );
-};
-
 export interface Props {
   // tslint:disable: react-unused-props-and-state
   showDisplayNameField: boolean;
@@ -92,14 +53,9 @@ export interface Props {
   stealAutoFocus?: boolean;
   recoveryPhrase?: string;
   displayName: string;
-  password: string;
-  passwordErrorString: string;
-  passwordFieldsMatch: boolean;
   handlePressEnter: () => any;
   onSeedChanged?: (val: string) => any;
   onDisplayNameChanged: (val: string) => any;
-  onPasswordChanged: (val: string) => any;
-  onPasswordVerifyChanged: (val: string) => any;
 }
 
 export const RegistrationUserDetails = (props: Props) => {
@@ -124,14 +80,6 @@ export const RegistrationUserDetails = (props: Props) => {
             onDisplayNameChanged={props.onDisplayNameChanged}
           />
         )}
-        <PasswordAndVerifyPasswordFields
-          handlePressEnter={props.handlePressEnter}
-          onPasswordChanged={props.onPasswordChanged}
-          onPasswordVerifyChanged={props.onPasswordVerifyChanged}
-          passwordErrorString={props.passwordErrorString}
-          password={props.password}
-          passwordFieldsMatch={props.passwordFieldsMatch}
-        />
       </div>
     </div>
   );

@@ -9,6 +9,7 @@ interface SProps extends SessionIconProps {
   notificationCount?: number;
   isSelected?: boolean;
   theme?: DefaultTheme;
+  isHidden?: boolean;
 }
 
 export const SessionIconButton = (props: SProps) => {
@@ -23,6 +24,7 @@ export const SessionIconButton = (props: SProps) => {
     glowDuration,
     glowStartDelay,
     noScale,
+    isHidden,
   } = props;
   const clickHandler = (e: any) => {
     if (props.onClick) {
@@ -38,6 +40,7 @@ export const SessionIconButton = (props: SProps) => {
       className={classNames('session-icon-button', iconSize, isSelected ? 'no-opacity' : '')}
       role="button"
       onClick={clickHandler}
+      style={{ display: isHidden ? 'none' : 'flex' }}
     >
       <SessionIcon
         iconType={iconType}

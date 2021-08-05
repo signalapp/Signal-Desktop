@@ -2,7 +2,6 @@ node_modules
 .sass-cache
 .eslintcache
 build/curve25519_compiled.js
-build/icons/*
 stylesheets/*.css.map
 /dist
 .DS_Store

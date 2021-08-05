@@ -24,7 +24,9 @@
 
 input,
 textarea {
-  caret-color: $session-color-green !important;
+  @include themify($themes) {
+    caret-color: themed('textColor') !important;
+  }
 }
 
 * {

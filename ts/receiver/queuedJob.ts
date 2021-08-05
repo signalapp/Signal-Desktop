@@ -10,7 +10,11 @@ import { ConversationModel, ConversationTypeEnum } from '../models/conversation'
 import { MessageModel } from '../models/message';
 import { getMessageController } from '../session/messages';
 import { getMessageById, getMessagesBySentAt } from '../../ts/data/data';
-import { actions as conversationActions } from '../state/ducks/conversations';
+import {
+  actions as conversationActions,
+  MessageModelProps,
+  messagesAdded,
+} from '../state/ducks/conversations';
 import { updateProfileOneAtATime } from './dataMessage';
 import Long from 'long';
 
@@ -84,11 +88,8 @@ function contentTypeSupported(type: string): boolean {
   return Chrome.isImageTypeSupported(type) || Chrome.isVideoTypeSupported(type);
 }
 
-async function copyFromQuotedMessage(
-  msg: MessageModel,
-  quote?: Quote,
-  attemptCount: number = 1
-): Promise<void> {
+// tslint:disable-next-line: cyclomatic-complexity
+async function copyFromQuotedMessage(msg: MessageModel, quote?: Quote): Promise<void> {
   const { upgradeMessageSchema } = window.Signal.Migrations;
   const { Message: TypedMessage, Errors } = window.Signal.Types;
 
@@ -96,10 +97,10 @@ async function copyFromQuotedMessage(
     return;
   }
 
-  const { attachments, id: longId, author } = quote;
+  const { attachments, id: quoteId, author } = quote;
   const firstAttachment = attachments[0];
 
-  const id: number = Long.isLong(longId) ? longId.toNumber() : longId;
+  const id: number = Long.isLong(quoteId) ? quoteId.toNumber() : quoteId;
 
   // We always look for the quote by sentAt timestamp, for opengroups, closed groups and session chats
   // this will return an array of sent message by id we have locally.
@@ -111,17 +112,10 @@ async function copyFromQuotedMessage(
   });
 
   if (!found) {
-    // Exponential backoff, giving up after 5 attempts:
-    if (attemptCount < 5) {
-      setTimeout(() => {
-        window?.log?.info(`Looking for the message id : ${id}, attempt: ${attemptCount + 1}`);
-        void copyFromQuotedMessage(msg, quote, attemptCount + 1);
-      }, attemptCount * attemptCount * 500);
-    } else {
-      window?.log?.warn(`We did not found quoted message ${id} after ${attemptCount} attempts.`);
-    }
-
+    window?.log?.warn(`We did not found quoted message ${id}.`);
     quote.referencedMessageNotFound = true;
+    msg.set({ quote });
+    await msg.commit();
     return;
   }
 
@@ -130,14 +124,6 @@ async function copyFromQuotedMessage(
 
   const queryMessage = getMessageController().register(found.id, found);
   quote.text = queryMessage.get('body') || '';
-
-  if (attemptCount > 1) {
-    // Normally the caller would save the message, but in case we are
-    // called by a timer, we need to update the message manually
-    msg.set({ quote });
-    await msg.commit();
-    return;
-  }
 
   if (!firstAttachment || !contentTypeSupported(firstAttachment.contentType)) {
     return;
@@ -469,13 +455,12 @@ export async function handleMessageJob(
     // this updates the redux store.
     // if the convo on which this message should become visible,
     // it will be shown to the user, and might as well be read right away
-    window.inboxStore?.dispatch(
-      conversationActions.messageAdded({
-        conversationKey: conversation.id,
-        messageModelProps: message.getProps(),
-      })
-    );
 
+    updatesToDispatch.set(message.id, {
+      conversationKey: conversation.id,
+      messageModelProps: message.getProps(),
+    });
+    trotthledAllMessagesAddedDispatch();
     if (message.get('unread')) {
       await conversation.throttledNotify(message);
     }
@@ -490,3 +475,16 @@ export async function handleMessageJob(
     throw error;
   }
 }
+
+const trotthledAllMessagesAddedDispatch = _.throttle(() => {
+  if (updatesToDispatch.size === 0) {
+    return;
+  }
+  window.inboxStore?.dispatch(messagesAdded([...updatesToDispatch.values()]));
+  updatesToDispatch.clear();
+}, 1000);
+
+const updatesToDispatch: Map<
+  string,
+  { conversationKey: string; messageModelProps: MessageModelProps }
+> = new Map();

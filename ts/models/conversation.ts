@@ -20,7 +20,7 @@ import {
   saveMessages,
   updateConversation,
 } from '../../ts/data/data';
-import { fromArrayBufferToBase64, fromBase64ToArrayBuffer, toHex } from '../session/utils/String';
+import { toHex } from '../session/utils/String';
 import {
   actions as conversationActions,
   conversationChanged,
@@ -200,7 +200,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     this.triggerUIRefresh = _.throttle(this.triggerUIRefresh, 1000, {
       trailing: true,
     });
-    this.throttledNotify = _.debounce(this.notify, 500, { maxWait: 1000, trailing: true });
+    this.throttledNotify = _.debounce(this.notify, 500, { maxWait: 5000, trailing: true });
     //start right away the function is called, and wait 1sec before calling it again
     const markReadDebounced = _.debounce(this.markReadBouncy, 1000, {
       leading: true,
@@ -300,7 +300,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
   public setTypingRefreshTimer() {
     if (this.typingRefreshTimer) {
-      clearTimeout(this.typingRefreshTimer);
+      global.clearTimeout(this.typingRefreshTimer);
     }
     this.typingRefreshTimer = global.setTimeout(this.onTypingRefreshTimeout.bind(this), 10 * 1000);
   }
@@ -315,7 +315,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
   public setTypingPauseTimer() {
     if (this.typingPauseTimer) {
-      clearTimeout(this.typingPauseTimer);
+      global.clearTimeout(this.typingPauseTimer);
     }
     this.typingPauseTimer = global.setTimeout(this.onTypingPauseTimeout.bind(this), 10 * 1000);
   }
@@ -329,11 +329,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
   public clearTypingTimers() {
     if (this.typingPauseTimer) {
-      clearTimeout(this.typingPauseTimer);
+      global.clearTimeout(this.typingPauseTimer);
       this.typingPauseTimer = null;
     }
     if (this.typingRefreshTimer) {
-      clearTimeout(this.typingRefreshTimer);
+      global.clearTimeout(this.typingRefreshTimer);
       this.typingRefreshTimer = null;
     }
   }
@@ -825,7 +825,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     _.defaults(options, { fromSync: false });
 
     if (!expireTimer) {
-      expireTimer = null;
+      expireTimer = 0;
     }
     if (this.get('expireTimer') === expireTimer || (!expireTimer && !this.get('expireTimer'))) {
       return null;
@@ -837,7 +837,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       source,
     });
 
-    const isOutgoing = Boolean(receivedAt);
+    const isOutgoing = Boolean(!receivedAt);
 
     source = source || UserUtils.getOurPubKeyStrFromCache();
 
@@ -850,8 +850,9 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const messageAttributes = {
       // Even though this isn't reflected to the user, we want to place the last seen
       //   indicator above it. We set it to 'unread' to trigger that placement.
-      unread: 1,
+      unread: isOutgoing ? 0 : 1,
       conversationId: this.id,
+      source,
       // No type; 'incoming' messages are specially treated by conversation.markRead()
       sent_at: timestamp,
       received_at: timestamp,
@@ -1412,8 +1413,16 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       const text = message.get('body');
       const mentions = text?.match(regex) || ([] as Array<string>);
       const mentionMe = mentions && mentions.some(m => UserUtils.isUsFromCache(m.slice(1)));
-      if (!mentionMe) {
-        window?.log?.info('notifications disabled for non mentions for convo', conversationId);
+
+      const quotedMessageAuthor = message.get('quote')?.author;
+
+      const isReplyToOurMessage =
+        quotedMessageAuthor && UserUtils.isUsFromCache(quotedMessageAuthor);
+      if (!mentionMe && !isReplyToOurMessage) {
+        window?.log?.info(
+          'notifications disabled for non mentions or reply for convo',
+          conversationId
+        );
 
         return;
       }
@@ -1460,7 +1469,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     const wasTyping = !!this.typingTimer;
     if (this.typingTimer) {
-      clearTimeout(this.typingTimer);
+      global.clearTimeout(this.typingTimer);
       this.typingTimer = null;
     }
 
@@ -1489,7 +1498,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
   public async clearContactTypingTimer(sender: string) {
     if (!!this.typingTimer) {
-      clearTimeout(this.typingTimer);
+      global.clearTimeout(this.typingTimer);
       this.typingTimer = null;
 
       // User was previously typing, but timed out or we received message. State change!

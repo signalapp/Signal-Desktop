@@ -4,7 +4,7 @@ import { sha256 } from '../session/crypto';
 
 const recentHashByConvo = new Map<string, Array<string>>();
 
-const maxHashToKeepPerConvo = 50;
+const maxHashToKeepPerConvo = 10;
 
 export function isDuplicateBasedOnHash(
   dataMessage: SignalService.DataMessage,

@@ -964,6 +964,63 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
     this.setState({ message });
   }
 
+  private getSelectionBasedOnMentions(index: number) {
+    // we have to get the real selectionStart/end of an index in the mentions box.
+    // this is kind of a pain as the mentions box has two inputs, one with the real text, and one with the extracted mentions
+
+    // the index shown to the user is actually just the visible part of the mentions (so the part between ￗ...ￒ
+    const matches = this.state.message.match(this.mentionsRegex);
+
+    let lastMatchStartIndex = 0;
+    let lastMatchEndIndex = 0;
+    let lastRealMatchEndIndex = 0;
+
+    if (!matches) {
+      return index;
+    }
+    const mapStartToLengthOfMatches = matches.map(match => {
+      const displayNameStart = match.indexOf('\uFFD7') + 1;
+      const displayNameEnd = match.lastIndexOf('\uFFD2');
+      const displayName = match.substring(displayNameStart, displayNameEnd);
+
+      const currentMatchStartIndex = this.state.message.indexOf(match) + lastMatchStartIndex;
+      lastMatchStartIndex = currentMatchStartIndex;
+      lastMatchEndIndex = currentMatchStartIndex + match.length;
+
+      const realLength = displayName.length + 1;
+      lastRealMatchEndIndex = lastRealMatchEndIndex + realLength;
+
+      // the +1 is for the @
+      return {
+        length: displayName.length + 1,
+        lastRealMatchEndIndex,
+        start: lastMatchStartIndex,
+        end: lastMatchEndIndex,
+      };
+    });
+
+    const beforeFirstMatch = index < mapStartToLengthOfMatches[0].start;
+    if (beforeFirstMatch) {
+      // those first char are always just char, so the mentions logic does not come into account
+      return index;
+    }
+    const lastMatchMap = _.last(mapStartToLengthOfMatches);
+
+    if (!lastMatchMap) {
+      return Number.MAX_SAFE_INTEGER;
+    }
+
+    const indexIsAfterEndOfLastMatch = lastMatchMap.lastRealMatchEndIndex <= index;
+    if (indexIsAfterEndOfLastMatch) {
+      const lastEnd = lastMatchMap.end;
+      const diffBetweenEndAndLastRealEnd = index - lastMatchMap.lastRealMatchEndIndex;
+      return lastEnd + diffBetweenEndAndLastRealEnd - 1;
+    }
+    // now this is the hard part, the cursor is currently between the end of the first match and the start of the last match
+    // for now, just append it to the end
+    return Number.MAX_SAFE_INTEGER;
+  }
+
   private onEmojiClick({ colons }: { colons: string }) {
     const messageBox = this.textarea.current;
     if (!messageBox) {
@@ -973,10 +1030,12 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
     const { message } = this.state;
 
     const currentSelectionStart = Number(messageBox.selectionStart);
-    const currentSelectionEnd = Number(messageBox.selectionEnd);
 
-    const before = message.slice(0, currentSelectionStart);
-    const end = message.slice(currentSelectionEnd);
+    const realSelectionStart = this.getSelectionBasedOnMentions(currentSelectionStart);
+
+    const before = message.slice(0, realSelectionStart);
+    const end = message.slice(realSelectionStart);
+
     const newMessage = `${before}${colons}${end}`;
 
     this.setState({ message: newMessage }, () => {

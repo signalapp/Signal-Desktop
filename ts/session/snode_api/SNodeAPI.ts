@@ -199,7 +199,7 @@ export type SendParams = {
 
 // get snodes for pubkey from random snode. Uses an existing snode
 
-async function requestSnodesForPubkeyRetryable(
+async function requestSnodesForPubkeyWithTargetNodeRetryable(
   pubKey: string,
   targetNode: Snode
 ): Promise<Array<Snode>> {
@@ -210,15 +210,15 @@ async function requestSnodesForPubkeyRetryable(
 
   if (!result) {
     window?.log?.warn(
-      `LokiSnodeAPI::requestSnodesForPubkeyRetryable - lokiRpc on ${targetNode.ip}:${targetNode.port} returned falsish value`,
+      `LokiSnodeAPI::requestSnodesForPubkeyWithTargetNodeRetryable - lokiRpc on ${targetNode.ip}:${targetNode.port} returned falsish value`,
       result
     );
-    throw new Error('requestSnodesForPubkeyRetryable: Invalid result');
+    throw new Error('requestSnodesForPubkeyWithTargetNodeRetryable: Invalid result');
   }
 
   if (result.status !== 200) {
     window?.log?.warn('Status is not 200 for get_snodes_for_pubkey');
-    throw new Error('requestSnodesForPubkeyRetryable: Invalid status code');
+    throw new Error('requestSnodesForPubkeyWithTargetNodeRetryable: Invalid status code');
   }
 
   try {
@@ -240,26 +240,64 @@ async function requestSnodesForPubkeyRetryable(
   }
 }
 
+async function requestSnodesForPubkeyWithTargetNode(
+  pubKey: string,
+  targetNode: Snode
+): Promise<Array<Snode>> {
+  // don't catch exception in here. we want them to bubble up
+
+  // this is the level where our targetNode is supposed to be valid. We retry a few times with this one.
+  // if all our retries fails, we retry from the caller of this function with a new target node.
+  return pRetry(
+    async () => {
+      return requestSnodesForPubkeyWithTargetNodeRetryable(pubKey, targetNode);
+    },
+    {
+      retries: 3,
+      factor: 2,
+      minTimeout: 100,
+      maxTimeout: 2000,
+      onFailedAttempt: e => {
+        window?.log?.warn(
+          `requestSnodesForPubkeyWithTargetNode attempt #${e.attemptNumber} failed. ${e.retriesLeft} retries left...`
+        );
+      },
+    }
+  );
+}
+
+async function requestSnodesForPubkeyRetryable(pubKey: string): Promise<Array<Snode>> {
+  // don't catch exception in here. we want them to bubble up
+
+  // this is the level where our targetNode is not yet known. We retry a few times with a new one everytime.
+  // the idea is that the requestSnodesForPubkeyWithTargetNode will remove a failing targetNode
+  return pRetry(
+    async () => {
+      const targetNode = await getRandomSnode();
+
+      return requestSnodesForPubkeyWithTargetNode(pubKey, targetNode);
+    },
+    {
+      retries: 3,
+      factor: 2,
+      minTimeout: 100,
+      maxTimeout: 4000,
+      onFailedAttempt: e => {
+        window?.log?.warn(
+          `requestSnodesForPubkeyRetryable attempt #${e.attemptNumber} failed. ${e.retriesLeft} retries left...`
+        );
+      },
+    }
+  );
+}
+
 export async function requestSnodesForPubkey(pubKey: string): Promise<Array<Snode>> {
   try {
-    const targetNode = await getRandomSnode();
+    // catch exception in here only.
+    // the idea is that the pretry will retry a few times each calls, except if an AbortError is thrown.
 
-    return await pRetry(
-      async () => {
-        return requestSnodesForPubkeyRetryable(pubKey, targetNode);
-      },
-      {
-        retries: 10, // each path can fail 3 times before being dropped, we have 3 paths at most
-        factor: 2,
-        minTimeout: 1000,
-        maxTimeout: 4000,
-        onFailedAttempt: e => {
-          window?.log?.warn(
-            `requestSnodesForPubkey attempt #${e.attemptNumber} failed. ${e.retriesLeft} retries left...`
-          );
-        },
-      }
-    );
+    // if all retry fails, we will end up in the catch below when the last exception thrown
+    return await requestSnodesForPubkeyRetryable(pubKey);
   } catch (e) {
     window?.log?.error('LokiSnodeAPI::requestSnodesForPubkey - error', e);
 
@@ -527,7 +565,7 @@ export async function retrieveNextMessages(
     }
 
     if (result.status !== 200) {
-      window.log('retrieve result is not 200');
+      window?.log?.warn('retrieve result is not 200');
       return [];
     }
 

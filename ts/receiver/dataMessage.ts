@@ -101,6 +101,7 @@ async function updateProfile(
     ConversationTypeEnum.PRIVATE
   );
   await conv.setLokiProfile(newProfile);
+  await conv.commit();
 }
 
 function cleanAttachment(attachment: any) {

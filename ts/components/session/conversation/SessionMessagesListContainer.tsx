@@ -1,17 +1,14 @@
 import React from 'react';
 
 import { SessionScrollButton } from '../SessionScrollButton';
-import { Constants } from '../../../session';
 import _ from 'lodash';
 import { contextMenu } from 'react-contexify';
 import {
-  fetchMessagesForConversation,
-  markConversationFullyRead,
   quotedMessageToAnimate,
   ReduxConversationType,
-  setNextMessageToPlay,
   showScrollToBottomButton,
   SortedMessageModelProps,
+  updateHaveDoneFirstScroll,
 } from '../../../state/ducks/conversations';
 import { ToastUtils } from '../../../session/utils';
 import { TypingBubble } from '../../conversation/TypingBubble';
@@ -24,14 +21,13 @@ import { ConversationTypeEnum } from '../../../models/conversation';
 import { StateType } from '../../../state/reducer';
 import { connect } from 'react-redux';
 import {
-  areMoreMessagesBeingFetched,
+  getFirstUnreadMessageId,
   getQuotedMessageToAnimate,
   getSelectedConversation,
   getSelectedConversationKey,
   getShowScrollButton,
   getSortedMessagesOfSelectedConversation,
 } from '../../../state/selectors/conversations';
-import { isElectronWindowFocused } from '../../../session/utils/WindowUtils';
 import { SessionMessagesList } from './SessionMessagesList';
 
 export type SessionMessageListProps = {
@@ -45,19 +41,15 @@ type Props = SessionMessageListProps & {
   conversation?: ReduxConversationType;
   showScrollButton: boolean;
   animateQuotedMessageId: string | undefined;
-  areMoreMessagesBeingFetched: boolean;
+  firstUnreadOnOpen: string | undefined;
 };
 
 class SessionMessagesListContainerInner extends React.Component<Props> {
-  private ignoreScrollEvents: boolean;
   private timeoutResetQuotedScroll: NodeJS.Timeout | null = null;
 
   public constructor(props: Props) {
     super(props);
     autoBind(this);
-
-    this.ignoreScrollEvents = true;
-    this.triggerFetchMoreMessages = _.debounce(this.triggerFetchMoreMessages, 100);
   }
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -65,19 +57,17 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   public componentDidMount() {
-    // Pause thread to wait for rendering to complete
-    setTimeout(this.initialMessageLoadingPosition, 0);
+    this.initialMessageLoadingPosition();
   }
 
   public componentWillUnmount() {
     if (this.timeoutResetQuotedScroll) {
-      clearTimeout(this.timeoutResetQuotedScroll);
+      global.clearTimeout(this.timeoutResetQuotedScroll);
     }
   }
 
-  public componentDidUpdate(prevProps: Props, _prevState: any, snapshot: any) {
+  public componentDidUpdate(prevProps: Props) {
     const isSameConvo = prevProps.conversationKey === this.props.conversationKey;
-    const messageLengthChanged = prevProps.messagesProps.length !== this.props.messagesProps.length;
     if (
       !isSameConvo ||
       (prevProps.messagesProps.length === 0 && this.props.messagesProps.length !== 0)
@@ -85,34 +75,8 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
       this.setupTimeoutResetQuotedHighlightedMessage(this.props.animateQuotedMessageId);
 
       // displayed conversation changed. We have a bit of cleaning to do here
-      this.ignoreScrollEvents = true;
       this.initialMessageLoadingPosition();
-      this.ignoreScrollEvents = false;
-    } else {
-      // if we got new message for this convo, and we are scrolled to bottom
-      if (isSameConvo && messageLengthChanged) {
-        // If we have a snapshot value, we've just added new items.
-        // Adjust scroll so these new items don't push the old ones out of view.
-        // (snapshot here is the value returned from getSnapshotBeforeUpdate)
-        if (prevProps.messagesProps.length && snapshot !== null) {
-          this.ignoreScrollEvents = true;
-
-          const list = this.props.messageContainerRef.current;
-          list.scrollTop = list.scrollHeight - snapshot;
-          this.ignoreScrollEvents = false;
-        }
-      }
     }
-  }
-
-  public getSnapshotBeforeUpdate(prevProps: Props) {
-    // Are we adding new items to the list?
-    // Capture the scroll position so we can adjust scroll later.
-    if (prevProps.messagesProps.length < this.props.messagesProps.length) {
-      const list = this.props.messageContainerRef.current;
-      return list.scrollHeight - list.scrollTop;
-    }
-    return null;
   }
 
   public render() {
@@ -143,10 +107,7 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
           key="typing-bubble"
         />
 
-        <SessionMessagesList
-          scrollToQuoteMessage={this.scrollToQuoteMessage}
-          playNextMessage={this.playNextMessage}
-        />
+        <SessionMessagesList scrollToQuoteMessage={this.scrollToQuoteMessage} />
 
         <SessionScrollButton onClick={this.scrollToBottom} key="scroll-down-button" />
       </div>
@@ -154,173 +115,48 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
   }
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  // ~~~~~~~~~~~~~ MESSAGE HANDLING ~~~~~~~~~~~~~
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  private updateReadMessages(forceIsOnBottom = false) {
-    const { messagesProps, conversationKey } = this.props;
-
-    if (!messagesProps || messagesProps.length === 0 || !conversationKey) {
-      return;
-    }
-
-    const conversation = getConversationController().getOrThrow(conversationKey);
-
-    if (conversation.isBlocked()) {
-      return;
-    }
-
-    if (this.ignoreScrollEvents) {
-      return;
-    }
-
-    if ((forceIsOnBottom || this.getScrollOffsetBottomPx() === 0) && isElectronWindowFocused()) {
-      void conversation.markRead(Date.now()).then(() => {
-        window.inboxStore?.dispatch(markConversationFullyRead(conversationKey));
-      });
-    }
-  }
-
-  /**
-   * Sets the targeted index for the next
-   * @param index index of message that just completed
-   */
-  private playNextMessage(index: any) {
-    const { messagesProps } = this.props;
-    let nextIndex: number | undefined = index - 1;
-
-    // to prevent autoplaying as soon as a message is received.
-    const latestMessagePlayed = index <= 0 || messagesProps.length < index - 1;
-    if (latestMessagePlayed) {
-      nextIndex = undefined;
-      window.inboxStore?.dispatch(setNextMessageToPlay(nextIndex));
-      return;
-    }
-
-    // stop auto-playing when the audio messages change author.
-    const prevAuthorNumber = messagesProps[index].propsForMessage.authorPhoneNumber;
-    const nextAuthorNumber = messagesProps[index - 1].propsForMessage.authorPhoneNumber;
-    const differentAuthor = prevAuthorNumber !== nextAuthorNumber;
-    if (differentAuthor) {
-      nextIndex = undefined;
-    }
-
-    window.inboxStore?.dispatch(setNextMessageToPlay(nextIndex));
-  }
-
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   // ~~~~~~~~~~~~ SCROLLING METHODS ~~~~~~~~~~~~~
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  private async handleScroll() {
-    const messageContainer = this.props.messageContainerRef?.current;
-
-    const { conversationKey } = this.props;
-    if (!messageContainer || !conversationKey) {
-      return;
-    }
+  private handleScroll() {
     contextMenu.hideAll();
-
-    if (this.ignoreScrollEvents) {
-      return;
-    }
-    // nothing to do if there are no message loaded
-    if (!this.props.messagesProps || this.props.messagesProps.length === 0) {
-      return;
-    }
-
-    //  ---- First lets see if we need to show the scroll to bottom button, without using clientHeight (which generates a full layout recalculation)
-    // get the message the most at the bottom
-    const bottomMessageId = this.props.messagesProps[0].propsForMessage.id;
-    const bottomMessageDomElement = document.getElementById(bottomMessageId);
-
-    // get the message the most at the top
-    const topMessageId = this.props.messagesProps[this.props.messagesProps.length - 1]
-      .propsForMessage.id;
-    const topMessageDomElement = document.getElementById(topMessageId);
-
-    const containerTop = messageContainer.getBoundingClientRect().top;
-    const containerBottom = messageContainer.getBoundingClientRect().bottom;
-
-    // First handle what we gotta handle with the bottom message position
-    // either the showScrollButton or the markRead of all messages
-    if (!bottomMessageDomElement) {
-      window.log.warn('Could not find dom element for handle scroll');
-    } else {
-      const topOfBottomMessage = bottomMessageDomElement.getBoundingClientRect().top;
-      const bottomOfBottomMessage = bottomMessageDomElement.getBoundingClientRect().bottom;
-
-      // this is our limit for the showScrollDownButton.
-      const showScrollButton = topOfBottomMessage > window.innerHeight;
-      window.inboxStore?.dispatch(showScrollToBottomButton(showScrollButton));
-
-      // trigger markRead if we hit the bottom
-      const isScrolledToBottom = bottomOfBottomMessage <= containerBottom - 5;
-      if (isScrolledToBottom) {
-        // Mark messages read
-        this.updateReadMessages(true);
-      }
-    }
-
-    // Then, see if we need to fetch more messages because the top message it
-
-    if (!topMessageDomElement) {
-      window.log.warn('Could not find dom top element for handle scroll');
-    } else {
-      const topTopMessage = topMessageDomElement.getBoundingClientRect().top;
-
-      // this is our limit for the showScrollDownButton.
-      const shouldFetchMore =
-        topTopMessage > containerTop - 10 && !this.props.areMoreMessagesBeingFetched;
-
-      if (shouldFetchMore) {
-        const { messagesProps } = this.props;
-
-        const oldLen = messagesProps.length;
-        const previousTopMessage = messagesProps[oldLen - 1]?.propsForMessage.id;
-
-        this.triggerFetchMoreMessages();
-        if (previousTopMessage && oldLen !== messagesProps.length) {
-          this.scrollToMessage(previousTopMessage);
-        }
-      }
-    }
-  }
-
-  private triggerFetchMoreMessages() {
-    const { messagesProps } = this.props;
-
-    const numMessages = messagesProps.length + Constants.CONVERSATION.DEFAULT_MESSAGE_FETCH_COUNT;
-    (window.inboxStore?.dispatch as any)(
-      fetchMessagesForConversation({
-        conversationKey: this.props.conversationKey as string,
-        count: numMessages,
-      })
-    );
   }
 
   /**
    * Position the list to the middle of the loaded list if the conversation has unread messages and we have some messages loaded
    */
   private initialMessageLoadingPosition() {
-    const { messagesProps, conversation } = this.props;
-    if (!conversation) {
+    const { messagesProps, conversation, firstUnreadOnOpen } = this.props;
+    if (!conversation || !messagesProps.length) {
       return;
     }
-    if (conversation.unreadCount > 0 && messagesProps.length) {
-      if (conversation.unreadCount < messagesProps.length) {
-        // if we loaded all unread messages, scroll to the first one unread
-        const firstUnread = Math.max(conversation.unreadCount, 0);
-        this.scrollToMessage(messagesProps[firstUnread].propsForMessage.id);
-      } else {
-        // if we did not load all unread messages, just scroll to the middle of the loaded messages list. so the user can choose to go up or down from there
+
+    if (conversation.unreadCount <= 0 || firstUnreadOnOpen === undefined) {
+      this.scrollToBottom();
+    } else {
+      // just assume that this need to be shown by default
+      window.inboxStore?.dispatch(showScrollToBottomButton(true));
+      const firstUnreadIndex = messagesProps.findIndex(
+        m => m.propsForMessage.id === firstUnreadOnOpen
+      );
+
+      if (firstUnreadIndex === -1) {
+        // the first unread message is not in the 30 most recent messages
+        // just scroll to the middle as we don't have enough loaded message nevertheless
         const middle = Math.floor(messagesProps.length / 2);
-        this.scrollToMessage(messagesProps[middle].propsForMessage.id);
+        const idToStringTo = messagesProps[middle].propsForMessage.id;
+        this.scrollToMessage(idToStringTo, 'center');
+      } else {
+        const messageElementDom = document.getElementById('unread-indicator');
+        messageElementDom?.scrollIntoView({
+          behavior: 'auto',
+          block: 'end',
+        });
       }
     }
 
-    if (this.ignoreScrollEvents && messagesProps.length > 0) {
-      this.ignoreScrollEvents = false;
-      this.updateReadMessages();
-    }
+    setTimeout(() => {
+      window.inboxStore?.dispatch(updateHaveDoneFirstScroll());
+    }, 100);
   }
 
   /**
@@ -334,7 +170,7 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
    */
   private setupTimeoutResetQuotedHighlightedMessage(messageId: string | undefined) {
     if (this.timeoutResetQuotedScroll) {
-      clearTimeout(this.timeoutResetQuotedScroll);
+      global.clearTimeout(this.timeoutResetQuotedScroll);
     }
 
     if (messageId !== undefined) {
@@ -344,18 +180,12 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
     }
   }
 
-  private scrollToMessage(messageId: string, scrollIsQuote: boolean = false) {
-    const messageElementDom = document.getElementById(messageId);
+  private scrollToMessage(messageId: string, block: 'center' | 'end' | 'nearest' | 'start') {
+    const messageElementDom = document.getElementById(`msg-${messageId}`);
     messageElementDom?.scrollIntoView({
       behavior: 'auto',
-      block: 'center',
+      block,
     });
-
-    // we consider that a `scrollIsQuote` set to true, means it's a quoted message, so highlight this message on the UI
-    if (scrollIsQuote) {
-      window.inboxStore?.dispatch(quotedMessageToAnimate(messageId));
-      this.setupTimeoutResetQuotedHighlightedMessage(messageId);
-    }
   }
 
   private scrollToBottom() {
@@ -364,18 +194,6 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
       return;
     }
     messageContainer.scrollTop = messageContainer.scrollHeight - messageContainer.clientHeight;
-    const { messagesProps, conversationKey } = this.props;
-
-    if (!messagesProps || messagesProps.length === 0 || !conversationKey) {
-      return;
-    }
-
-    const conversation = getConversationController().get(conversationKey);
-    if (isElectronWindowFocused()) {
-      void conversation.markRead(Date.now()).then(() => {
-        window.inboxStore?.dispatch(markConversationFullyRead(conversationKey));
-      });
-    }
   }
 
   private async scrollToQuoteMessage(options: QuoteClickOptions) {
@@ -424,21 +242,10 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
     }
 
     const databaseId = targetMessage.propsForMessage.id;
-    this.scrollToMessage(databaseId, true);
-  }
-
-  // basically the offset in px from the bottom of the view (most recent message)
-  private getScrollOffsetBottomPx() {
-    const messageContainer = this.props.messageContainerRef?.current;
-
-    if (!messageContainer) {
-      return Number.MAX_VALUE;
-    }
-
-    const scrollTop = messageContainer.scrollTop;
-    const scrollHeight = messageContainer.scrollHeight;
-    const clientHeight = messageContainer.clientHeight;
-    return scrollHeight - scrollTop - clientHeight;
+    this.scrollToMessage(databaseId, 'center');
+    // Highlight this message on the UI
+    window.inboxStore?.dispatch(quotedMessageToAnimate(databaseId));
+    this.setupTimeoutResetQuotedHighlightedMessage(databaseId);
   }
 }
 
@@ -449,7 +256,7 @@ const mapStateToProps = (state: StateType) => {
     messagesProps: getSortedMessagesOfSelectedConversation(state),
     showScrollButton: getShowScrollButton(state),
     animateQuotedMessageId: getQuotedMessageToAnimate(state),
-    areMoreMessagesBeingFetched: areMoreMessagesBeingFetched(state),
+    firstUnreadOnOpen: getFirstUnreadMessageId(state),
   };
 };
 

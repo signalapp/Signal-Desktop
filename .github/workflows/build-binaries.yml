@@ -76,7 +76,7 @@ jobs:
 
       - name: Build linux production binaries
         if: runner.os == 'Linux'
-        run: $(yarn bin)/electron-builder --config.extraMetadata.environment=$SIGNAL_ENV --publish=never --config.directories.output=release
+        run: yarn build-release
 
       - name: Remove unpacked files
         run: |
