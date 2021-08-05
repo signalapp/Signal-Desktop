@@ -338,6 +338,10 @@
 
 .send-message-button {
   animation: fadein $session-transition-duration;
+
+  &---shake {
+    @include subtle-shake();
+  }
 }
 
 .session-recording {
@@ -363,7 +367,6 @@
 
     .session-icon-button {
       animation: fadein $session-transition-duration;
-      opacity: 1;
       border-radius: 50%;
       width: $actions-element-size;
       height: $actions-element-size;
