@@ -4,7 +4,10 @@ import { UserUtils } from '../session/utils';
 import { fromArrayBufferToBase64, fromHex, toHex } from '../session/utils/String';
 import { getOurPubKeyStrFromCache } from '../session/utils/User';
 import { trigger } from '../shims/events';
-import { forceNetworkDeletion, forceSyncConfigurationNowIfNeeded } from '../session/utils/syncUtils';
+import {
+  forceNetworkDeletion,
+  forceSyncConfigurationNowIfNeeded,
+} from '../session/utils/syncUtils';
 import { actions as userActions } from '../state/ducks/user';
 import { mn_decode, mn_encode } from '../session/crypto/mnemonic';
 import { ConversationTypeEnum } from '../models/conversation';
@@ -140,9 +143,9 @@ async function bouncyDeleteAccount(reason?: string) {
   try {
     window?.log?.info('DeleteAccount => Sending a last SyncConfiguration');
 
-
     // send deletion message to the network
-    await forceNetworkDeletion();
+    const ret = await forceNetworkDeletion();
+    debugger;
 
     // be sure to wait for the message being effectively sent. Otherwise we won't be able to encrypt it for our devices !
     await forceSyncConfigurationNowIfNeeded(true);
@@ -157,7 +160,7 @@ async function bouncyDeleteAccount(reason?: string) {
       error && error.stack ? error.stack : error
     );
     debugger;
-      return;
+    return;
     try {
       await deleteEverything();
     } catch (e) {
