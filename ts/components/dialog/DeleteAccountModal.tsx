@@ -11,6 +11,7 @@ import { SessionWrapperModal } from '../session/SessionWrapperModal';
 
 const deleteDbLocally = async () => {
   window?.log?.info('configuration message sent successfully. Deleting everything');
+  window.persistStore?.purge();
   await window.Signal.Logs.deleteAll();
   await window.Signal.Data.removeAll();
   await window.Signal.Data.close();

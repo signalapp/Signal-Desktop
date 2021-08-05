@@ -6,10 +6,12 @@ import { createSlice } from '@reduxjs/toolkit';
 
 export interface UserConfigState {
   audioAutoplay: boolean;
+  showRecoveryPhrasePrompt: boolean;
 }
 
 export const initialUserConfigState = {
   audioAutoplay: false,
+  showRecoveryPhrasePrompt: true,
 };
 
 const userConfigSlice = createSlice({
@@ -19,9 +21,14 @@ const userConfigSlice = createSlice({
     toggleAudioAutoplay: state => {
       state.audioAutoplay = !state.audioAutoplay;
     },
+    disableRecoveryPhrasePrompt: state => {
+      console.log('setting recovery phrase state');
+      state.showRecoveryPhrasePrompt = false
+    },
+
   },
 });
 
 const { actions, reducer } = userConfigSlice;
-export const { toggleAudioAutoplay } = actions;
+export const { toggleAudioAutoplay, disableRecoveryPhrasePrompt } = actions;
 export const userConfigReducer = reducer;

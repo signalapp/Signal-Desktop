@@ -52,6 +52,7 @@ export class SessionInboxView extends React.Component<any, State> {
     }
 
     const persistor = persistStore(this.store);
+    window.persistStore = persistor;
 
     return (
       <Provider store={this.store}>

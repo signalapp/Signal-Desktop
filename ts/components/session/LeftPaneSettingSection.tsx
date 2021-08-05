@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import classNames from 'classnames';
 
 import { SessionButton, SessionButtonColor, SessionButtonType } from './SessionButton';
@@ -12,6 +12,12 @@ import { showSettingsSection } from '../../state/ducks/section';
 import { getFocusedSettingsSection } from '../../state/selectors/section';
 import { getTheme } from '../../state/selectors/theme';
 import { recoveryPhraseModal, updateDeleteAccountModal } from '../../state/ducks/modalDialog';
+
+type Props = {
+  settingsCategory: SessionSettingCategory;
+  showSettingsSection: (category: SessionSettingCategory) => void;
+  theme: DefaultTheme;
+};
 
 const getCategories = () => {
   return [

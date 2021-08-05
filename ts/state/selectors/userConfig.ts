@@ -8,3 +8,9 @@ export const getAudioAutoplay = createSelector(
   getUserConfig,
   (state: UserConfigState): boolean => state.audioAutoplay
 );
+
+
+export const getShowRecoveryPhrasePrompt = createSelector(
+  getUserConfig,
+  (state: UserConfigState): boolean => state.showRecoveryPhrasePrompt
+);
