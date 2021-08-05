@@ -3,7 +3,6 @@
 
 import React, { ReactNode } from 'react';
 import Measure from 'react-measure';
-import moment from 'moment';
 import classNames from 'classnames';
 import {
   ContextMenu,
@@ -19,9 +18,8 @@ import { InContactsIcon } from '../InContactsIcon';
 
 import { LocalizerType } from '../../types/Util';
 import { ConversationType } from '../../state/ducks/conversations';
-import { MuteOption, getMuteOptions } from '../../util/getMuteOptions';
+import { getMuteOptions } from '../../util/getMuteOptions';
 import * as expirationTimer from '../../util/expirationTimer';
-import { isMuted } from '../../util/isMuted';
 import { missingCaseError } from '../../util/missingCaseError';
 import { isInSystemContacts } from '../../util/isInSystemContacts';
 
@@ -395,38 +393,7 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
       onMoveToInbox,
     } = this.props;
 
-    const muteOptions: Array<MuteOption> = [];
-    if (isMuted(muteExpiresAt)) {
-      const expires = moment(muteExpiresAt);
-
-      let muteExpirationLabel: string;
-      if (Number(muteExpiresAt) >= Number.MAX_SAFE_INTEGER) {
-        muteExpirationLabel = i18n('muteExpirationLabelAlways');
-      } else {
-        const muteExpirationUntil = moment().isSame(expires, 'day')
-          ? expires.format('hh:mm A')
-          : expires.format('M/D/YY, hh:mm A');
-
-        muteExpirationLabel = i18n('muteExpirationLabel', [
-          muteExpirationUntil,
-        ]);
-      }
-
-      muteOptions.push(
-        ...[
-          {
-            name: muteExpirationLabel,
-            disabled: true,
-            value: 0,
-          },
-          {
-            name: i18n('unmute'),
-            value: 0,
-          },
-        ]
-      );
-    }
-    muteOptions.push(...getMuteOptions(i18n));
+    const muteOptions = getMuteOptions(muteExpiresAt, i18n);
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const disappearingTitle = i18n('disappearingMessages') as any;

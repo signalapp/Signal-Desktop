@@ -515,6 +515,14 @@ Whisper.ConversationView = Whisper.View.extend({
     return expires.format('M/D/YY, hh:mm A');
   },
 
+  setMuteExpiration(ms = 0): void {
+    const { model }: { model: ConversationModel } = this;
+
+    model.setMuteExpiration(
+      ms >= Number.MAX_SAFE_INTEGER ? ms : Date.now() + ms
+    );
+  },
+
   setPin(value: boolean) {
     const { model }: { model: ConversationModel } = this;
 
@@ -556,10 +564,7 @@ Whisper.ConversationView = Whisper.View.extend({
               : model.getTitle();
             searchInConversation(model.id, name);
           },
-          onSetMuteNotifications: (ms: number) =>
-            model.setMuteExpiration(
-              ms >= Number.MAX_SAFE_INTEGER ? ms : Date.now() + ms
-            ),
+          onSetMuteNotifications: this.setMuteExpiration.bind(this),
           onSetPin: this.setPin.bind(this),
           // These are view only and don't update the Conversation model, so they
           //   need a manual update call.
@@ -3206,6 +3211,28 @@ Whisper.ConversationView = Whisper.View.extend({
     view.render();
   },
 
+  showConversationNotificationsSettings() {
+    const { model }: { model: ConversationModel } = this;
+
+    const view = new Whisper.ReactWrapperView({
+      className: 'panel',
+      JSX: window.Signal.State.Roots.createConversationNotificationsSettings(
+        window.reduxStore,
+        {
+          conversationId: model.id,
+          setDontNotifyForMentionsIfMuted: model.setDontNotifyForMentionsIfMuted.bind(
+            model
+          ),
+          setMuteExpiration: this.setMuteExpiration.bind(this),
+        }
+      ),
+    });
+    view.headerTitle = window.i18n('ConversationDetails--notifications');
+
+    this.listenBack(view);
+    view.render();
+  },
+
   showChatColorEditor() {
     const { model }: { model: ConversationModel } = this;
 
@@ -3268,6 +3295,9 @@ Whisper.ConversationView = Whisper.View.extend({
       showGroupChatColorEditor: this.showChatColorEditor.bind(this),
       showGroupLinkManagement: this.showGroupLinkManagement.bind(this),
       showGroupV2Permissions: this.showGroupV2Permissions.bind(this),
+      showConversationNotificationsSettings: this.showConversationNotificationsSettings.bind(
+        this
+      ),
       showPendingInvites: this.showPendingInvites.bind(this),
       showLightboxForMedia: this.showLightboxForMedia.bind(this),
       updateGroupAttributes: model.updateGroupAttributesV2.bind(model),

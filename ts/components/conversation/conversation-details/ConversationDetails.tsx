@@ -5,6 +5,7 @@ import React, { useState, ReactNode } from 'react';
 
 import { ConversationType } from '../../../state/ducks/conversations';
 import { assert } from '../../../util/assert';
+import { getMutedUntilText } from '../../../util/getMutedUntilText';
 
 import { LocalizerType } from '../../../types/Util';
 import { MediaItemType } from '../../LightboxGallery';
@@ -62,6 +63,7 @@ export type StateProps = {
     selectedMediaItem: MediaItemType,
     media: Array<MediaItemType>
   ) => void;
+  showConversationNotificationsSettings: () => void;
   updateGroupAttributes: (
     _: Readonly<{
       avatar?: undefined | ArrayBuffer;
@@ -95,6 +97,7 @@ export const ConversationDetails: React.ComponentType<Props> = ({
   showGroupV2Permissions,
   showPendingInvites,
   showLightboxForMedia,
+  showConversationNotificationsSettings,
   updateGroupAttributes,
   onBlock,
   onLeave,
@@ -282,6 +285,21 @@ export const ConversationDetails: React.ComponentType<Props> = ({
                 ...getCustomColorStyle(conversation.customColor),
               }}
             />
+          }
+        />
+        <PanelRow
+          icon={
+            <ConversationDetailsIcon
+              ariaLabel={i18n('ConversationDetails--notifications')}
+              icon="notifications"
+            />
+          }
+          label={i18n('ConversationDetails--notifications')}
+          onClick={showConversationNotificationsSettings}
+          right={
+            conversation.muteExpiresAt
+              ? getMutedUntilText(conversation.muteExpiresAt, i18n)
+              : undefined
           }
         />
       </PanelSection>

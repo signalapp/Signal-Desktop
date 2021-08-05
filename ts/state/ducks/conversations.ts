@@ -137,6 +137,7 @@ export type ConversationType = {
     conversationId: string;
   }>;
   muteExpiresAt?: number;
+  dontNotifyForMentionsIfMuted?: boolean;
   type: ConversationTypeType;
   isMe: boolean;
   lastUpdated?: number;

@@ -95,6 +95,9 @@ const {
   createMessageDetail,
 } = require('../../ts/state/roots/createMessageDetail');
 const {
+  createConversationNotificationsSettings,
+} = require('../../ts/state/roots/createConversationNotificationsSettings');
+const {
   createGroupV2Permissions,
 } = require('../../ts/state/roots/createGroupV2Permissions');
 const {
@@ -363,6 +366,7 @@ exports.setup = (options = {}) => {
     createGroupV2Permissions,
     createLeftPane,
     createMessageDetail,
+    createConversationNotificationsSettings,
     createPendingInvites,
     createSafetyNumberViewer,
     createShortcutGuideModal,

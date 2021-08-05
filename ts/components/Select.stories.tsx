@@ -29,3 +29,16 @@ story.add('Normal', () => {
     />
   );
 });
+
+story.add('With disabled options', () => (
+  <Select
+    options={[
+      { value: 'a', text: 'Apples' },
+      { value: 'b', text: 'Bananas', disabled: true },
+      { value: 'c', text: 'Cabbage' },
+      { value: 'd', text: 'Durian', disabled: true },
+    ]}
+    onChange={action('onChange')}
+    value="c"
+  />
+));

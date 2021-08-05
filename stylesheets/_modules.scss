@@ -2862,6 +2862,51 @@ button.module-conversation-details__action-button {
         }
       }
 
+      &--notifications {
+        &::after {
+          -webkit-mask: url('../images/icons/v2/sound-outline-24.svg') no-repeat
+            center;
+
+          @include light-theme {
+            background-color: $color-gray-75;
+          }
+
+          @include dark-theme {
+            background-color: $color-gray-15;
+          }
+        }
+      }
+
+      &--mute {
+        &::after {
+          @include light-theme {
+            -webkit-mask: url('../images/icons/v2/bell-disabled-outline-24.svg')
+              no-repeat center;
+            background-color: $color-gray-75;
+          }
+
+          @include dark-theme {
+            -webkit-mask: url('../images/icons/v2/bell-disabled-solid-24.svg')
+              no-repeat center;
+            background-color: $color-gray-15;
+          }
+        }
+      }
+
+      &--mention {
+        &::after {
+          -webkit-mask: url('../images/icons/v2/at-24.svg') no-repeat center;
+
+          @include light-theme {
+            background-color: $color-gray-75;
+          }
+
+          @include dark-theme {
+            background-color: $color-gray-15;
+          }
+        }
+      }
+
       &--lock {
         &::after {
           -webkit-mask: url(../images/icons/v2/lock-outline-24.svg) no-repeat

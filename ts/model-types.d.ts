@@ -219,6 +219,7 @@ export type ConversationAttributesType = {
   messageCountBeforeMessageRequests?: number | null;
   messageRequestResponseType?: number;
   muteExpiresAt?: number;
+  dontNotifyForMentionsIfMuted?: boolean;
   profileAvatar?: null | {
     hash: string;
     path: string;

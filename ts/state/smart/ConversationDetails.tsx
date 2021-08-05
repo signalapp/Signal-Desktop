@@ -28,6 +28,7 @@ export type SmartConversationDetailsProps = {
   showGroupChatColorEditor: () => void;
   showGroupLinkManagement: () => void;
   showGroupV2Permissions: () => void;
+  showConversationNotificationsSettings: () => void;
   showPendingInvites: () => void;
   showLightboxForMedia: (
     selectedMediaItem: MediaItemType,

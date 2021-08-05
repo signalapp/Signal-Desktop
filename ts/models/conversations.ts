@@ -1452,6 +1452,7 @@ export class ConversationModel extends window.Backbone
       announcementsOnlyReady: this.canBeAnnouncementGroup(),
       expireTimer: this.get('expireTimer'),
       muteExpiresAt: this.get('muteExpiresAt')!,
+      dontNotifyForMentionsIfMuted: this.get('dontNotifyForMentionsIfMuted'),
       name: this.get('name')!,
       phoneNumber: this.getNumber()!,
       profileName: this.getProfileName()!,
@@ -4787,6 +4788,7 @@ export class ConversationModel extends window.Backbone
   // [X] whitelisted
   // [X] archived
   // [X] markedUnread
+  // [X] dontNotifyForMentionsIfMuted
   captureChange(logMessage: string): void {
     if (!window.Signal.RemoteConfig.isEnabled('desktop.storageWrite3')) {
       window.log.info(
@@ -4863,7 +4865,17 @@ export class ConversationModel extends window.Backbone
     }
 
     if (this.isMuted()) {
-      return;
+      if (this.get('dontNotifyForMentionsIfMuted')) {
+        return;
+      }
+
+      const ourUuid = window.textsecure.storage.user.getUuid();
+      const mentionsMe = (message.get('bodyRanges') || []).some(
+        range => range.mentionUuid && range.mentionUuid === ourUuid
+      );
+      if (!mentionsMe) {
+        return;
+      }
     }
 
     if (!isIncoming(message.attributes) && !reaction) {
@@ -5052,6 +5064,17 @@ export class ConversationModel extends window.Backbone
     if (me) {
       me.captureChange('pin');
     }
+  }
+
+  setDontNotifyForMentionsIfMuted(newValue: boolean): void {
+    const previousValue = Boolean(this.get('dontNotifyForMentionsIfMuted'));
+    if (previousValue === newValue) {
+      return;
+    }
+
+    this.set({ dontNotifyForMentionsIfMuted: newValue });
+    window.Signal.Data.updateConversation(this.attributes);
+    this.captureChange('dontNotifyForMentionsIfMuted');
   }
 
   acknowledgeGroupMemberNameCollisions(

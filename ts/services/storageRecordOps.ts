@@ -319,6 +319,9 @@ export async function toGroupV2Record(
   groupV2Record.mutedUntilTimestamp = getSafeLongFromTimestamp(
     conversation.get('muteExpiresAt')
   );
+  groupV2Record.dontNotifyForMentionsIfMuted = Boolean(
+    conversation.get('dontNotifyForMentionsIfMuted')
+  );
 
   applyUnknownFields(groupV2Record, conversation);
 
@@ -655,6 +658,9 @@ export async function mergeGroupV2Record(
   conversation.set({
     isArchived: Boolean(groupV2Record.archived),
     markedUnread: Boolean(groupV2Record.markedUnread),
+    dontNotifyForMentionsIfMuted: Boolean(
+      groupV2Record.dontNotifyForMentionsIfMuted
+    ),
     storageID,
   });
 

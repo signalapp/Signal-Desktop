@@ -3451,6 +3451,10 @@
     "message": "Mute notifications",
     "description": "Label for the mute notifications drop-down selector"
   },
+  "notMuted": {
+    "message": "Not muted",
+    "description": "Label when the conversation is not muted"
+  },
   "muteHour": {
     "message": "Mute for one hour",
     "description": "Label for muting the conversation"
@@ -4964,6 +4968,10 @@
     "message": "When enabled, messages sent and received in this group will disappear after they've been seen.",
     "description": "This is the info about the disappearing messages setting"
   },
+  "ConversationDetails--notifications": {
+    "message": "Notifications",
+    "description": "This is the label for notifications in the conversation details screen"
+  },
   "ConversationDetails--group-info-label": {
     "message": "Who can edit group info",
     "description": "This is the label for the 'who can edit the group' panel"
@@ -5069,6 +5077,22 @@
   "ConversationDetailsMembershipList--show-all": {
     "message": "See all",
     "description": "This is a button on the conversation details to show all members"
+  },
+  "ConversationNotificationsSettings__mentions__label": {
+    "message": "Mentions",
+    "description": "In the conversation notifications settings, this is the label for the mentions option"
+  },
+  "ConversationNotificationsSettings__mentions__info": {
+    "message": "Receive notifications when you're mentioned in muted chats",
+    "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
+  },
+  "ConversationNotificationsSettings__mentions__select__always-notify": {
+    "message": "Always notify",
+    "description": "In the conversation notifications settings, this is the option that always notifies you for @mentions"
+  },
+  "ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
+    "message": "Don't notify if muted",
+    "description": "In the conversation notifications settings, this is the option that doesn't notify you for @mentions if the conversation is muted"
   },
   "GroupLinkManagement--clipboard": {
     "message": "Group link copied.",
