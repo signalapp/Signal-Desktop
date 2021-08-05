@@ -153,9 +153,9 @@ $session-font-h4: 16px;
   color: subtle($color);
 }
 
-@mixin pulse-color($color, $repetition) {
+@mixin pulse-color($color,$duration, $repetition) {
 
-  animation: pulseColor 2s $repetition;
+  animation: pulseColor $duration $repetition;
 
   @keyframes pulseColor {
     0% {

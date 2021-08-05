@@ -192,7 +192,7 @@
 
     &:hover {
       opacity: 1;
-      transform: scale(0.95);
+      transform: scale(0.93);
       transition: $session-transition-duration;
     }
 
@@ -348,7 +348,7 @@
   flex-grow: 1;
   outline: none;
 
-  $actions-element-size: 45px;
+  $actions-element-size: 30px;
 
   &--actions {
     display: flex;
@@ -442,7 +442,7 @@
       background-color: $session-color-danger-alt;
       margin: 0 $session-margin-sm;
 
-      @include pulse-color($session-color-danger-alt, infinite);
+      @include pulse-color($session-color-danger-alt, 1s, infinite);
     }
   }
 }
