@@ -5,7 +5,7 @@ import * as RemoteConfig from '../RemoteConfig';
 
 export function isAnnouncementGroupReady(): boolean {
   return Boolean(
-    RemoteConfig.isEnabled('desktop.worksAtSignal') ||
+    RemoteConfig.isEnabled('desktop.internalUser') ||
       RemoteConfig.isEnabled('desktop.announcementGroup')
   );
 }

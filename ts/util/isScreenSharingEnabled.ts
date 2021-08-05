@@ -10,7 +10,7 @@ export function isScreenSharingEnabled(): boolean {
   const version = window.getVersion?.();
 
   return Boolean(
-    RemoteConfig.isEnabled('desktop.worksAtSignal') ||
+    RemoteConfig.isEnabled('desktop.internalUser') ||
       RemoteConfig.isEnabled('desktop.screensharing2') ||
       (version && isBeta(version))
   );
