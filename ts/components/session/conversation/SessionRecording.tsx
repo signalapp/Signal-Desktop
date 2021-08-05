@@ -3,12 +3,11 @@ import classNames from 'classnames';
 import moment from 'moment';
 
 import { SessionIconButton, SessionIconSize, SessionIconType } from '../icon';
-import { SessionButton, SessionButtonColor, SessionButtonType } from '../SessionButton';
 import { Constants } from '../../../session';
 import { ToastUtils } from '../../../session/utils';
 import autoBind from 'auto-bind';
 import MicRecorder from 'mic-recorder-to-mp3';
-import styled, { useTheme } from 'styled-components';
+import styled from 'styled-components';
 
 interface Props {
   onExitVoiceNoteView: any;
@@ -165,7 +164,7 @@ class SessionRecordingInner extends React.Component<Props, State> {
             )}
             {hasRecording && (
               <SessionIconButton
-                iconType={SessionIconType.Delete2}
+                iconType={SessionIconType.Delete}
                 iconSize={SessionIconSize.Medium}
                 onClick={this.onDeleteVoiceMessage}
               />
@@ -367,7 +366,6 @@ class SessionRecordingInner extends React.Component<Props, State> {
     const audioURL = window.URL.createObjectURL(this.audioBlobMp3);
     this.audioElement = new Audio(audioURL);
 
-    // ww adding record duration
     this.setState({
       recordDuration: this.audioElement.duration,
     });
