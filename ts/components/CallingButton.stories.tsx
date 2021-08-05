@@ -33,6 +33,7 @@ story.add('Kitchen Sink', () => {
     <>
       {Object.keys(CallingButtonType).map(buttonType => (
         <CallingButton
+          key={buttonType}
           {...createProps({ buttonType: buttonType as CallingButtonType })}
         />
       ))}
