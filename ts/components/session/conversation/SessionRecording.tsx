@@ -203,7 +203,7 @@ class SessionRecordingInner extends React.Component<Props, State> {
         {!isRecording  && (
           <div className={classNames(
             "send-message-button",
-            hasRecording && 'send-message-button---shake'
+            hasRecording && 'send-message-button---scale'
             )}>
             <SessionIconButton
               iconType={SessionIconType.Send}
