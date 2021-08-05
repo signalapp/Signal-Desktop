@@ -109,8 +109,6 @@ class SessionRecordingInner extends React.Component<Props, State> {
     const hasRecordingAndPaused = !isRecording && !isPlaying;
     const hasRecording = !!this.audioElement?.duration && this.audioElement?.duration > 0;
     const actionPauseAudio = !isRecording && !isPaused && isPlaying;
-
-    // const actionDefault = !actionStopRecording && !actionPlayAudio && !actionPauseAudio;
     const actionDefault = !isRecording && !hasRecordingAndPaused && !actionPauseAudio;
 
     // if we are recording, we base the time recording on our state values
