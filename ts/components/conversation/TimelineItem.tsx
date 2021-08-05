@@ -24,6 +24,10 @@ import {
   PropsActionsType as DeliveryIssueActionProps,
   PropsDataType as DeliveryIssueProps,
 } from './DeliveryIssueNotification';
+import {
+  ChangeNumberNotification,
+  PropsData as ChangeNumberNotificationProps,
+} from './ChangeNumberNotification';
 import { CallingNotificationType } from '../../util/callingNotification';
 import { InlineNotificationWrapper } from './InlineNotificationWrapper';
 import {
@@ -95,6 +99,10 @@ type UniversalTimerNotificationType = {
   type: 'universalTimerNotification';
   data: null;
 };
+type ChangeNumberNotificationType = {
+  type: 'changeNumberNotification';
+  data: ChangeNumberNotificationProps;
+};
 type SafetyNumberNotificationType = {
   type: 'safetyNumberNotification';
   data: SafetyNumberNotificationProps;
@@ -138,6 +146,7 @@ export type TimelineItemType =
   | SafetyNumberNotificationType
   | TimerNotificationType
   | UniversalTimerNotificationType
+  | ChangeNumberNotificationType
   | UnsupportedMessageType
   | VerificationNotificationType;
 
@@ -244,6 +253,10 @@ export class TimelineItem extends React.PureComponent<PropsType> {
       );
     } else if (item.type === 'universalTimerNotification') {
       notification = renderUniversalTimerNotification();
+    } else if (item.type === 'changeNumberNotification') {
+      notification = (
+        <ChangeNumberNotification {...this.props} {...item.data} i18n={i18n} />
+      );
     } else if (item.type === 'safetyNumberNotification') {
       notification = (
         <SafetyNumberNotification {...this.props} {...item.data} i18n={i18n} />

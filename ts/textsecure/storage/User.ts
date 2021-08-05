@@ -3,6 +3,7 @@
 
 import { WebAPICredentials } from '../Types.d';
 
+import { strictAssert } from '../../util/assert';
 import { StorageInterface } from '../../types/Storage.d';
 
 import Helpers from '../Helpers';
@@ -25,6 +26,25 @@ export class User {
     await this.storage.put('uuid_id', `${uuid}.${deviceId}`);
 
     window.log.info('storage.user: uuid and device id changed');
+  }
+
+  public async setNumber(number: string): Promise<void> {
+    if (this.getNumber() === number) {
+      return;
+    }
+
+    const deviceId = this.getDeviceId();
+    strictAssert(
+      deviceId !== undefined,
+      'Cannot update device number without knowing device id'
+    );
+
+    window.log.info('storage.user: number changed');
+
+    await this.storage.put('number_id', `${number}.${deviceId}`);
+
+    // Notify redux about phone number change
+    window.Whisper.events.trigger('userChanged');
   }
 
   public getNumber(): string | undefined {

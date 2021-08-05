@@ -152,8 +152,6 @@ export class ConversationModel extends window.Backbone
 
   jobQueue?: typeof window.PQueueType;
 
-  ourNumber?: string;
-
   ourUuid?: string;
 
   storeName?: string | null;
@@ -234,7 +232,6 @@ export class ConversationModel extends window.Backbone
 
     this.storeName = 'conversations';
 
-    this.ourNumber = window.textsecure.storage.user.getNumber();
     this.ourUuid = window.textsecure.storage.user.getUuid();
     this.verifiedEnum = window.textsecure.storage.protocol.VerifiedStatus;
 
@@ -1497,6 +1494,11 @@ export class ConversationModel extends window.Backbone
     const oldValue = this.get('e164');
     if (e164 && e164 !== oldValue) {
       this.set('e164', e164);
+
+      if (oldValue) {
+        this.addChangeNumberNotification();
+      }
+
       window.Signal.Data.updateConversation(this.attributes);
       this.trigger('idUpdated', this, 'e164', oldValue);
     }
@@ -2688,7 +2690,7 @@ export class ConversationModel extends window.Backbone
       sent_at: now,
       received_at: window.Signal.Util.incrementMessageCounter(),
       received_at_ms: now,
-      unread: 0,
+      unread: false,
       changedId: conversationId || this.id,
       profileChange,
       // TODO: DESKTOP-722
@@ -2716,23 +2718,30 @@ export class ConversationModel extends window.Backbone
     }
   }
 
-  async addUniversalTimerNotification(): Promise<string> {
+  async addNotification(
+    type: MessageAttributesType['type'],
+    extra: Partial<MessageAttributesType> = {}
+  ): Promise<string> {
     const now = Date.now();
-    const message = ({
+    const message: Partial<MessageAttributesType> = {
+      ...extra,
+
       conversationId: this.id,
-      type: 'universal-timer-notification',
+      type,
       sent_at: now,
       received_at: window.Signal.Util.incrementMessageCounter(),
       received_at_ms: now,
-      unread: 0,
-      // TODO: DESKTOP-722
-    } as unknown) as typeof window.Whisper.MessageAttributesType;
+      unread: false,
+    };
 
-    const id = await window.Signal.Data.saveMessage(message);
+    const id = await window.Signal.Data.saveMessage(
+      // TODO: DESKTOP-722
+      message as MessageAttributesType
+    );
     const model = window.MessageController.register(
       id,
       new window.Whisper.Message({
-        ...message,
+        ...(message as MessageAttributesType),
         id,
       })
     );
@@ -2764,7 +2773,9 @@ export class ConversationModel extends window.Backbone
       return;
     }
 
-    const notificationId = await this.addUniversalTimerNotification();
+    const notificationId = await this.addNotification(
+      'universal-timer-notification'
+    );
     this.set('pendingUniversalTimer', notificationId);
   }
 
@@ -2795,6 +2806,27 @@ export class ConversationModel extends window.Backbone
     }
 
     this.set('pendingUniversalTimer', undefined);
+  }
+
+  async addChangeNumberNotification(): Promise<void> {
+    window.log.info(
+      `Conversation ${this.idForLogging()}: adding change number notification`
+    );
+
+    const convos = [
+      this,
+      ...(await window.ConversationController.getAllGroupsInvolvingId(this.id)),
+    ];
+
+    const sourceUuid = this.get('uuid');
+
+    await Promise.all(
+      convos.map(convo => {
+        return convo.addNotification('change-number-notification', {
+          sourceUuid,
+        });
+      })
+    );
   }
 
   async onReadMessage(

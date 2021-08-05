@@ -60,6 +60,7 @@ import {
   ReadSyncEvent,
   ContactEvent,
   GroupEvent,
+  EnvelopeEvent,
 } from './textsecure/messageReceiverEvents';
 import type { WebAPIType } from './textsecure/WebAPI';
 import * as universalExpireTimer from './util/universalExpireTimer';
@@ -174,6 +175,10 @@ export async function startApp(): Promise<void> {
       };
     }
 
+    messageReceiver.addEventListener(
+      'envelope',
+      queuedEventListener(onEnvelopeReceived, false)
+    );
     messageReceiver.addEventListener(
       'message',
       queuedEventListener(onMessageReceived, false)
@@ -503,17 +508,7 @@ export async function startApp(): Promise<void> {
 
     accountManager = new window.textsecure.AccountManager(server);
     accountManager.addEventListener('registration', () => {
-      const ourDeviceId = window.textsecure.storage.user.getDeviceId();
-      const ourNumber = window.textsecure.storage.user.getNumber();
-      const ourUuid = window.textsecure.storage.user.getUuid();
-      const user = {
-        ourConversationId: window.ConversationController.getOurConversationId(),
-        ourDeviceId,
-        ourNumber,
-        ourUuid,
-        regionCode: window.storage.get('regionCode'),
-      };
-      window.Whisper.events.trigger('userChanged', user);
+      window.Whisper.events.trigger('userChanged');
 
       window.Signal.Util.Registration.markDone();
       window.log.info('dispatching registration event');
@@ -1210,7 +1205,6 @@ export async function startApp(): Promise<void> {
       conversationRemoved,
       removeAllConversations,
     } = window.reduxActions.conversations;
-    const { userChanged } = window.reduxActions.user;
 
     convoCollection.on('remove', conversation => {
       const { id } = conversation || {};
@@ -1254,7 +1248,19 @@ export async function startApp(): Promise<void> {
     });
     convoCollection.on('reset', removeAllConversations);
 
-    window.Whisper.events.on('userChanged', userChanged);
+    window.Whisper.events.on('userChanged', () => {
+      const newDeviceId = window.textsecure.storage.user.getDeviceId();
+      const newNumber = window.textsecure.storage.user.getNumber();
+      const newUuid = window.textsecure.storage.user.getUuid();
+
+      window.reduxActions.user.userChanged({
+        ourConversationId: window.ConversationController.getOurConversationId(),
+        ourDeviceId: newDeviceId,
+        ourNumber: newNumber,
+        ourUuid: newUuid,
+        regionCode: window.storage.get('regionCode'),
+      });
+    });
 
     let shortcutGuideView: WhatIsThis | null = null;
 
@@ -2999,6 +3005,17 @@ export async function startApp(): Promise<void> {
     wait: 200,
     maxSize: Infinity,
   });
+
+  function onEnvelopeReceived({ envelope }: EnvelopeEvent) {
+    const ourUuid = window.textsecure.storage.user.getUuid();
+    if (envelope.sourceUuid && envelope.sourceUuid !== ourUuid) {
+      window.ConversationController.ensureContactIds({
+        e164: envelope.source,
+        uuid: envelope.sourceUuid,
+        highTrust: true,
+      });
+    }
+  }
 
   // Note: We do very little in this function, since everything in handleDataMessage is
   //   inside a conversation-specific queue(). Any code here might run before an earlier

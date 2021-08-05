@@ -3522,7 +3522,8 @@ async function hasUserInitiatedMessages(
                 'message-history-unsynced',
                 'keychange',
                 'group-v1-migration',
-                'universal-timer-notification'
+                'universal-timer-notification',
+                'change-number-notification'
               )
             ) AND
             json_extract(json, '$.expirationTimerUpdate') IS NULL
@@ -4226,7 +4227,8 @@ async function getLastConversationActivity({
             'message-history-unsynced',
             'keychange',
             'group-v1-migration',
-            'universal-timer-notification'
+            'universal-timer-notification',
+            'change-number-notification'
           )
         ) AND
         (
@@ -4277,7 +4279,8 @@ async function getLastConversationPreview({
             'verified-change',
             'message-history-unsynced',
             'group-v1-migration',
-            'universal-timer-notification'
+            'universal-timer-notification',
+            'change-number-notification'
           )
         ) AND NOT
         (

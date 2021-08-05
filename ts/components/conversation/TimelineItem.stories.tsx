@@ -130,6 +130,13 @@ storiesOf('Components/Conversation/TimelineItem', module)
         data: null,
       },
       {
+        type: 'changeNumberNotification',
+        data: {
+          sender: getDefaultConversation(),
+          timestamp: Date.now(),
+        },
+      },
+      {
         type: 'callHistory',
         data: {
           // declined incoming audio

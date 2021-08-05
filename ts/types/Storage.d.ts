@@ -77,6 +77,9 @@ export type StorageAccessType = {
   phoneNumberDiscoverability: PhoneNumberDiscoverability;
   pinnedConversationIds: Array<string>;
   primarySendsSms: boolean;
+  // Unlike `number_id` (which also includes device id) this field is only
+  // updated whenever we receive a new storage manifest
+  accountE164: string;
   typingIndicators: boolean;
   sealedSenderIndicators: boolean;
   storageFetchComplete: boolean;

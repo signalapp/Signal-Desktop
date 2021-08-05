@@ -13,6 +13,7 @@ import {
 import { TimelineItemType } from '../../components/conversation/TimelineItem';
 import { PropsData } from '../../components/conversation/Message';
 import { PropsData as TimerNotificationProps } from '../../components/conversation/TimerNotification';
+import { PropsData as ChangeNumberNotificationProps } from '../../components/conversation/ChangeNumberNotification';
 import { PropsData as SafetyNumberNotificationProps } from '../../components/conversation/SafetyNumberNotification';
 import { PropsData as VerificationNotificationProps } from '../../components/conversation/VerificationNotification';
 import { PropsDataType as GroupsV2Props } from '../../components/conversation/GroupV2Change';
@@ -186,6 +187,12 @@ export function getPropsForBubble(
     return {
       type: 'universalTimerNotification',
       data: null,
+    };
+  }
+  if (isChangeNumberNotification(message)) {
+    return {
+      type: 'changeNumberNotification',
+      data: getPropsForChangeNumberNotification(message, conversationSelector),
     };
   }
   if (isChatSessionRefreshed(message)) {
@@ -850,6 +857,24 @@ export function isUniversalTimerNotification(
   message: MessageAttributesType
 ): boolean {
   return message.type === 'universal-timer-notification';
+}
+
+// Change Number Notification
+
+export function isChangeNumberNotification(
+  message: MessageAttributesType
+): boolean {
+  return message.type === 'change-number-notification';
+}
+
+function getPropsForChangeNumberNotification(
+  message: MessageAttributesType,
+  conversationSelector: GetConversationByIdType
+): ChangeNumberNotificationProps {
+  return {
+    sender: conversationSelector(message.sourceUuid),
+    timestamp: message.sent_at,
+  };
 }
 
 // Chat Session Refreshed

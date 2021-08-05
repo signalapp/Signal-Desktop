@@ -95,6 +95,7 @@ import {
   ContactSyncEvent,
   GroupEvent,
   GroupSyncEvent,
+  EnvelopeEvent,
 } from './messageReceiverEvents';
 
 // TODO: remove once we move away from ArrayBuffers
@@ -457,6 +458,11 @@ export default class MessageReceiver
   public addEventListener(
     name: 'groupSync',
     handler: (ev: GroupSyncEvent) => void
+  ): void;
+
+  public addEventListener(
+    name: 'envelope',
+    handler: (ev: EnvelopeEvent) => void
   ): void;
 
   public addEventListener(name: string, handler: EventHandler): void {
@@ -981,8 +987,6 @@ export default class MessageReceiver
     if (this.stoppingProcessing) {
       return;
     }
-    // No decryption is required for delivery receipts, so the decrypted field of
-    //   the Unprocessed model will never be set
 
     if (envelope.content) {
       await this.innerHandleContentMessage(envelope, plaintext);

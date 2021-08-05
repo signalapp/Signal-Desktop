@@ -141,6 +141,7 @@ export type MessageAttributesType = {
     | 'profile-change'
     | 'timer-notification'
     | 'universal-timer-notification'
+    | 'change-number-notification'
     | 'verified-change';
   body?: string;
   attachments?: Array<AttachmentType>;

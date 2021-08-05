@@ -1168,6 +1168,16 @@
       }
     }
   },
+  "ChangeNumber--notification": {
+    "message": "$sender$ changed their number to a new number",
+    "description": "Shown in timeline when a member of a conversation changes their phone number",
+    "placeholders": {
+      "sender": {
+        "content": "$1",
+        "example": "Sam"
+      }
+    }
+  },
   "quoteThumbnailAlt": {
     "message": "Thumbnail of image from quoted message",
     "description": "Used in alt tag of thumbnail images inside of an embedded message quote"

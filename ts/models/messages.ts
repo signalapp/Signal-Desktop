@@ -178,8 +178,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
   INITIAL_PROTOCOL_VERSION?: number;
 
-  OUR_NUMBER?: string;
-
   OUR_UUID?: string;
 
   isSelected?: boolean;
@@ -209,7 +207,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
     this.CURRENT_PROTOCOL_VERSION = Proto.DataMessage.ProtocolVersion.CURRENT;
     this.INITIAL_PROTOCOL_VERSION = Proto.DataMessage.ProtocolVersion.INITIAL;
-    this.OUR_NUMBER = window.textsecure.storage.user.getNumber();
     this.OUR_UUID = window.textsecure.storage.user.getUuid();
 
     this.on('change', this.notifyRedux);
@@ -364,7 +361,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         this.attributes,
         findAndFormatContact,
         ourConversationId,
-        this.OUR_NUMBER,
+        window.textsecure.storage.user.getNumber(),
         this.OUR_UUID,
         undefined,
         undefined,
@@ -1066,7 +1063,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       );
     }
 
-    return this.OUR_NUMBER;
+    return window.textsecure.storage.user.getNumber();
   }
 
   getSourceDevice(): string | number | undefined {
@@ -1280,11 +1277,12 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     const quoteWithData = await loadQuoteData(this.get('quote'));
     const previewWithData = await loadPreviewData(this.get('preview'));
     const stickerWithData = await loadStickerData(this.get('sticker'));
+    const ourNumber = window.textsecure.storage.user.getNumber();
 
     // Special-case the self-send case - we send only a sync message
     if (
       recipients.length === 1 &&
-      (recipients[0] === this.OUR_NUMBER || recipients[0] === this.OUR_UUID)
+      (recipients[0] === ourNumber || recipients[0] === this.OUR_UUID)
     ) {
       const dataMessage = await window.textsecure.messaging.getDataMessage({
         attachments,
@@ -1434,9 +1432,10 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     const quoteWithData = await loadQuoteData(this.get('quote'));
     const previewWithData = await loadPreviewData(this.get('preview'));
     const stickerWithData = await loadStickerData(this.get('sticker'));
+    const ourNumber = window.textsecure.storage.user.getNumber();
 
     // Special-case the self-send case - we send only a sync message
-    if (identifier === this.OUR_NUMBER || identifier === this.OUR_UUID) {
+    if (identifier === ourNumber || identifier === this.OUR_UUID) {
       const dataMessage = await window.textsecure.messaging.getDataMessage({
         attachments,
         body,

@@ -186,6 +186,11 @@ export async function toAccountRecord(
     accountRecord.primarySendsSms = Boolean(primarySendsSms);
   }
 
+  const accountE164 = window.storage.get('accountE164');
+  if (accountE164 !== undefined) {
+    accountRecord.e164 = accountE164;
+  }
+
   const universalExpireTimer = getUniversalExpireTimer();
   if (universalExpireTimer) {
     accountRecord.universalExpireTimer = Number(universalExpireTimer);
@@ -828,6 +833,7 @@ export async function mergeAccountRecord(
     typingIndicators,
     primarySendsSms,
     universalExpireTimer,
+    e164: accountE164,
   } = accountRecord;
 
   window.storage.put('read-receipt-setting', Boolean(readReceipts));
@@ -846,6 +852,11 @@ export async function mergeAccountRecord(
 
   if (typeof primarySendsSms === 'boolean') {
     window.storage.put('primarySendsSms', primarySendsSms);
+  }
+
+  if (typeof accountE164 === 'string') {
+    window.storage.put('accountE164', accountE164);
+    window.storage.user.setNumber(accountE164);
   }
 
   setUniversalExpireTimer(universalExpireTimer || 0);

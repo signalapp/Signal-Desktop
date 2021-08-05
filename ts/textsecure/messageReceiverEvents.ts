@@ -5,7 +5,11 @@
 import { PublicKey } from '@signalapp/signal-client';
 
 import { SignalService as Proto } from '../protobuf';
-import { ProcessedDataMessage, ProcessedSent } from './Types.d';
+import {
+  ProcessedEnvelope,
+  ProcessedDataMessage,
+  ProcessedSent,
+} from './Types.d';
 import type {
   ModifiedContactDetails,
   ModifiedGroupDetails,
@@ -133,6 +137,12 @@ export class GroupEvent extends Event {
 export class GroupSyncEvent extends Event {
   constructor() {
     super('groupSync');
+  }
+}
+
+export class EnvelopeEvent extends Event {
+  constructor(public readonly envelope: ProcessedEnvelope) {
+    super('envelope');
   }
 }
 
