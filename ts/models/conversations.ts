@@ -1008,12 +1008,15 @@ export class ConversationModel extends window.Backbone
     }
   }
 
-  async fetchLatestGroupV2Data(): Promise<void> {
+  async fetchLatestGroupV2Data(
+    options: { force?: boolean } = {}
+  ): Promise<void> {
     if (!isGroupV2(this.attributes)) {
       return;
     }
 
     await window.Signal.Groups.waitThenMaybeUpdateGroup({
+      force: options.force,
       conversation: this,
     });
   }
