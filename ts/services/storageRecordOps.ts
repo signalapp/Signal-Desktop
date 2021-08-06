@@ -854,7 +854,7 @@ export async function mergeAccountRecord(
     window.storage.put('primarySendsSms', primarySendsSms);
   }
 
-  if (typeof accountE164 === 'string') {
+  if (typeof accountE164 === 'string' && accountE164) {
     window.storage.put('accountE164', accountE164);
     window.storage.user.setNumber(accountE164);
   }
