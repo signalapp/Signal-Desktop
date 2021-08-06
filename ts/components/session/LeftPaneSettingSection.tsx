@@ -11,17 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { showSettingsSection } from '../../state/ducks/section';
 import { getFocusedSettingsSection } from '../../state/selectors/section';
 import { getTheme } from '../../state/selectors/theme';
-import {
-  recoveryPhraseModal,
-  updateConfirmModal,
-  updateDeleteAccountModal,
-} from '../../state/ducks/modalDialog';
-
-type Props = {
-  settingsCategory: SessionSettingCategory;
-  showSettingsSection: (category: SessionSettingCategory) => void;
-  theme: DefaultTheme;
-};
+import { recoveryPhraseModal, updateDeleteAccountModal } from '../../state/ducks/modalDialog';
 
 const getCategories = () => {
   return [

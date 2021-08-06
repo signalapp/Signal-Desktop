@@ -421,8 +421,9 @@
   "sendRecoveryPhraseMessage": "You are attempting to send your recovery phrase which can be used to access your account. Are you sure you want to send this message?",
   "notificationSubtitle": "Notifications - $setting$",
   "dialogClearAllDataDeletionFailedTitle": "Data not deleted",
-  "dialogClearAllDataDeletionFailedDesc": "Data not deleted with an unknown error",
-  "dialogClearAllDataDeletionFailedMultiple": "Data not deleted by all those Service Nodes: $snodes$",
+  "dialogClearAllDataDeletionFailedDesc": "Data not deleted with an unknown error. Do you want to delete data from just this device?",
+  "dialogClearAllDataDeletionFailedTitleQuestion": "Do you want to delete data from just this device?",
+  "dialogClearAllDataDeletionFailedMultiple": "Data not deleted by those Service Nodes: $snodes$",
   "dialogClearAllDataDeletionQuestion": "Would you like to clear only this device, or delete your entire account?",
   "deviceOnly": "Device Only",
   "entireAccount": "Entire Account"

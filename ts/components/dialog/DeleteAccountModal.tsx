@@ -58,11 +58,14 @@ async function deleteEverythingAndNetworkData() {
     if (potentiallyMaliciousSnodes === null) {
       window?.log?.warn('DeleteAccount => forceNetworkDeletion failed');
 
+      // close this dialog
+      window.inboxStore?.dispatch(updateDeleteAccountModal(null));
       window.inboxStore?.dispatch(
         updateConfirmModal({
           title: window.i18n('dialogClearAllDataDeletionFailedTitle'),
           message: window.i18n('dialogClearAllDataDeletionFailedDesc'),
           okTheme: SessionButtonColor.Danger,
+          okText: window.i18n('deviceOnly'),
           onClickOk: async () => {
             await deleteDbLocally();
             window.restart();
@@ -78,11 +81,19 @@ async function deleteEverythingAndNetworkData() {
         'DeleteAccount => forceNetworkDeletion Got some potentially malicious snodes',
         snodeStr
       );
+      // close this dialog
+      window.inboxStore?.dispatch(updateDeleteAccountModal(null));
+      // open a new confirm dialog to ask user what to do
       window.inboxStore?.dispatch(
         updateConfirmModal({
           title: window.i18n('dialogClearAllDataDeletionFailedTitle'),
-          message: window.i18n('dialogClearAllDataDeletionFailedMultiple', snodeStr),
+          message: window.i18n(
+            'dialogClearAllDataDeletionFailedMultiple',
+            potentiallyMaliciousSnodes.join(', ')
+          ),
+          messageSub: window.i18n('dialogClearAllDataDeletionFailedTitleQuestion'),
           okTheme: SessionButtonColor.Danger,
+          okText: window.i18n('deviceOnly'),
           onClickOk: async () => {
             await deleteDbLocally();
             window.restart();
@@ -128,7 +139,7 @@ export const DeleteAccountModal = () => {
       setIsLoading(false);
     }
 
-    dispatch(updateConfirmModal(null));
+    window.inboxStore?.dispatch(updateConfirmModal(null));
   };
   const onDeleteEverythingAndNetworkData = async () => {
     setIsLoading(true);
@@ -140,8 +151,6 @@ export const DeleteAccountModal = () => {
     } finally {
       setIsLoading(false);
     }
-
-    dispatch(updateConfirmModal(null));
   };
 
   /**
@@ -181,7 +190,7 @@ export const DeleteAccountModal = () => {
 
           <SessionButton
             text={window.i18n('deviceOnly')}
-            buttonColor={SessionButtonColor.Danger}
+            buttonColor={SessionButtonColor.Primary}
             onClick={onDeleteEverythingLocallyOnly}
             disabled={isLoading}
           />
@@ -192,9 +201,3 @@ export const DeleteAccountModal = () => {
     </SessionWrapperModal>
   );
 };
-function dispatch(arg0: {
-  payload: import('../../state/ducks/modalDialog').ConfirmModalState;
-  type: string;
-}) {
-  throw new Error('Function not implemented.');
-}
