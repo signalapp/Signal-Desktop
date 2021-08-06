@@ -1368,13 +1368,13 @@ export async function modifyGroupV2({
         );
 
         // eslint-disable-next-line no-await-in-loop
-        await conversation.fetchLatestGroupV2Data();
+        await conversation.fetchLatestGroupV2Data({ force: true });
       } else if (error.code === 409) {
         window.log.error(
           `modifyGroupV2/${idLog}: Conflict while updating. Timed out; not retrying.`
         );
         // We don't wait here because we're breaking out of the loop immediately.
-        conversation.fetchLatestGroupV2Data();
+        conversation.fetchLatestGroupV2Data({ force: true });
         throw error;
       } else {
         const errorString = error && error.stack ? error.stack : error;
@@ -2720,6 +2720,7 @@ type MaybeUpdatePropsType = {
   receivedAt?: number;
   sentAt?: number;
   dropInitialJoinMessage?: boolean;
+  force?: boolean;
 };
 
 const FIVE_MINUTES = 1000 * 60 * 5;
@@ -2742,7 +2743,10 @@ export async function waitThenMaybeUpdateGroup(
 
   // Then make sure we haven't fetched this group too recently
   const { lastSuccessfulGroupFetch = 0 } = conversation;
-  if (isMoreRecentThan(lastSuccessfulGroupFetch, FIVE_MINUTES)) {
+  if (
+    !options.force &&
+    isMoreRecentThan(lastSuccessfulGroupFetch, FIVE_MINUTES)
+  ) {
     const waitTime = lastSuccessfulGroupFetch + FIVE_MINUTES - Date.now();
     window.log.info(
       `waitThenMaybeUpdateGroup/${conversation.idForLogging()}: group update ` +
