@@ -1175,7 +1175,17 @@
     },
     "DeliveryIssue--summary": {
         "message": "Сообщение, стикер, реакцию, уведомление о прочтении или медиа-файл от $sender$ не удалось доставить вам. Этот человек мог отправить вышеуказанное напрямую вам или в какую-нибудь группу.",
-        "description": "Shown on explainer dialog available from delivery issue timeline events",
+        "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "DeliveryIssue--summary--group": {
+        "message": "Сообщение, стикер, реакцию, уведомление о прочтении или медиа-файл от $sender$ не удалось доставить вам в этом чате.",
+        "description": "Shown on explainer dialog available from delivery issue timeline events in groups",
         "placeholders": {
             "name": {
                 "content": "$1",

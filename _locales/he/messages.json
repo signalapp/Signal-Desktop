@@ -1175,7 +1175,17 @@
     },
     "DeliveryIssue--summary": {
         "message": "הודעה, מדבקה, תגובה, אישור קריאה או מדיה לא יכלו להימסר אליך מאת $sender$. הצד השני ניסה אולי לשלוח זאת ישירות אליך, או בקבוצה.",
-        "description": "Shown on explainer dialog available from delivery issue timeline events",
+        "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "DeliveryIssue--summary--group": {
+        "message": "הודעה, מדבקה, תגובה, אישור קריאה או מדיה לא יכלו להימסר אליך מאת $sender$ בהתכתבות זו.",
+        "description": "Shown on explainer dialog available from delivery issue timeline events in groups",
         "placeholders": {
             "name": {
                 "content": "$1",

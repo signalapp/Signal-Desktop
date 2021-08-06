@@ -1175,7 +1175,17 @@
     },
     "DeliveryIssue--summary": {
         "message": "$sender$ tarafından gönderilen bir ileti, çıkartma, tepki, okundu bilgisi veya medya size teslim edilemedi. Size doğrudan veya grup içerisinden göndermeye çalışmış olabilirler.",
-        "description": "Shown on explainer dialog available from delivery issue timeline events",
+        "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "DeliveryIssue--summary--group": {
+        "message": "A message, sticker, reaction, read receipt or media couldn’t be delivered to you from $sender$ in this chat.",
+        "description": "Shown on explainer dialog available from delivery issue timeline events in groups",
         "placeholders": {
             "name": {
                 "content": "$1",
@@ -5506,7 +5516,7 @@
         "description": "First paragraph in the captcha dialog"
     },
     "CaptchaDialog--can-close__title": {
-        "message": "Doğrulamadan devam et?",
+        "message": "Continue without verifying?",
         "description": "Header in the captcha dialog that can be closed"
     },
     "CaptchaDialog--can-close__body": {

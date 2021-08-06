@@ -1175,7 +1175,17 @@
     },
     "DeliveryIssue--summary": {
         "message": "$sender$ की ओर से आपको कोई मैसेज, स्टिकर, रिएक्शन, रीड रिसीट या मीडिया डिलीवर नहीं किया जा सका। हो सकता है कि उन्होंने इसे सीधे आपको या किसी समूह में भेजने का प्रयास किया हो।",
-        "description": "Shown on explainer dialog available from delivery issue timeline events",
+        "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "DeliveryIssue--summary--group": {
+        "message": "A message, sticker, reaction, read receipt or media couldn’t be delivered to you from $sender$ in this chat.",
+        "description": "Shown on explainer dialog available from delivery issue timeline events in groups",
         "placeholders": {
             "name": {
                 "content": "$1",
@@ -4726,7 +4736,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--admin--you": {
-        "message": "You changed the group settings to only allow admins to send messages.",
+        "message": "आपने ग्रुप सेटिंग को केवल व्यवस्थापकों को संदेश भेजने की अनुमति देने के लिए बदल दिया है।",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--admin--other": {
@@ -4744,7 +4754,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--member--you": {
-        "message": "You changed the group settings to allow all members to send messages.",
+        "message": "आपने सभी सदस्यों को संदेश भेजने की अनुमति देने के लिए ग्रुप सेटिंग्स बदल दी हैं।",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--member--other": {
@@ -5506,7 +5516,7 @@
         "description": "First paragraph in the captcha dialog"
     },
     "CaptchaDialog--can-close__title": {
-        "message": "सत्यापित किए बिना जारी रखें?",
+        "message": "Continue without verifying?",
         "description": "Header in the captcha dialog that can be closed"
     },
     "CaptchaDialog--can-close__body": {
@@ -5738,7 +5748,7 @@
         "description": "In the message details screen, shown above contacts who have read this message"
     },
     "MessageDetailsHeader--Viewed": {
-        "message": "Viewed by",
+        "message": "के द्वारा देखा गया",
         "description": "In the message details screen, shown above contacts who have viewed this message"
     },
     "ProfileEditor--about": {
@@ -5780,7 +5790,7 @@
         "description": "A default bio option"
     },
     "Bio--encrypted": {
-        "message": "Encrypted",
+        "message": "एन्क्रिप्टेड",
         "description": "A default bio option"
     },
     "Bio--free-to-chat": {
@@ -5812,7 +5822,7 @@
         "description": "Error message when something goes wrong updating your profile."
     },
     "AnnouncementsOnlyGroupBanner--modal": {
-        "message": "Message an admin",
+        "message": "व्यवस्थापक को संदेश भेजें",
         "description": "Modal title for the list of admins in a group"
     },
     "AnnouncementsOnlyGroupBanner--announcements-only": {
@@ -5826,7 +5836,7 @@
         }
     },
     "AnnouncementsOnlyGroupBanner--admins": {
-        "message": "admins",
+        "message": "व्यवस्थापक",
         "description": "Clickable text describing administrators of a group, used in the message an admin label"
     }
 }

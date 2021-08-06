@@ -1175,7 +1175,17 @@
     },
     "DeliveryIssue--summary": {
         "message": "Nie udało się dostarczyć Ci wiadomości, naklejki, reakcji, potwierdzenia przeczytania lub multimediów od $sender$. Ten kontakt mógł próbować przesłać Ci tę wiadomość bezpośrednio lub w rozmowie grupowej.",
-        "description": "Shown on explainer dialog available from delivery issue timeline events",
+        "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "DeliveryIssue--summary--group": {
+        "message": "Nie udało się dostarczyć Ci wiadomości, naklejki, reakcji, potwierdzenia przeczytania lub multimediów od $sender$, w tej rozmowie.",
+        "description": "Shown on explainer dialog available from delivery issue timeline events in groups",
         "placeholders": {
             "name": {
                 "content": "$1",

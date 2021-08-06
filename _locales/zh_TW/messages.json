@@ -1,6 +1,6 @@
 {
     "softwareAcknowledgments": {
-        "message": "軟體確認",
+        "message": "軟體致謝",
         "description": "Shown in the about box for the link to software acknowledgments"
     },
     "privacyPolicy": {
@@ -128,7 +128,7 @@
         "description": "Window menu command to make the current window the size of the whole screen"
     },
     "windowMenuBringAllToFront": {
-        "message": "全部提到最頂",
+        "message": "顯示所有視窗",
         "description": "Window menu command to bring all windows of current application to front"
     },
     "viewMenuResetZoom": {
@@ -140,7 +140,7 @@
         "description": "View menu command to make everything bigger"
     },
     "viewMenuZoomOut": {
-        "message": "拉出",
+        "message": "拉遠",
         "description": "View menu command to make everything smaller"
     },
     "viewMenuToggleFullScreen": {
@@ -426,11 +426,11 @@
         }
     },
     "sendAnyway": {
-        "message": "無論如何都送出",
+        "message": "仍要傳送",
         "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
     },
     "callAnyway": {
-        "message": "依然撥出",
+        "message": "仍要通話",
         "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
     },
     "continueCall": {
@@ -456,7 +456,7 @@
         "description": ""
     },
     "debugLogError": {
-        "message": "上傳出問題了，請考慮手動加入活動記錄檔來查錯",
+        "message": "上傳出問題了，請考慮手動加入程式記錄檔來協助除錯",
         "description": ""
     },
     "debugLogCopy": {
@@ -464,11 +464,11 @@
         "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogCopyAlt": {
-        "message": "複製連結到剪貼板",
+        "message": "複製連結到剪貼簿",
         "description": "Shown as the alt text for the copy button on the debug log screen"
     },
     "debugLogLinkCopied": {
-        "message": "連結複製到剪貼板",
+        "message": "連結複製到剪貼簿",
         "description": "Shown in a toast to let the user know that the link to the debug log has been copied to their clipboard"
     },
     "reportIssue": {
@@ -584,7 +584,7 @@
         "description": "Name for a voice message attachment"
     },
     "dangerousFileType": {
-        "message": "基於安全考慮，不允許此附件類型",
+        "message": "基於安全考量，不允許此附件類型",
         "description": "Shown in toast when user attempts to send .exe file, for example"
     },
     "loadingPreview": {
@@ -622,11 +622,11 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "電腦若遇到解密錯誤。 單擊以提交偵錯日誌。",
+        "message": "Signal 桌面版解密發生錯誤，按下按鈕來傳送除錯日誌",
         "description": "An error popup when we haven't added an error for decryption error."
     },
     "oneNonImageAtATimeToast": {
-        "message": "當包含的附檔不是圖片，每個訊息限制只能有一個附檔。",
+        "message": "若附檔不是圖片，每則訊息限制只能有一個附檔。",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "cannotMixImageAndNonImageAttachments": {
@@ -670,7 +670,7 @@
         "description": "Obvious instructions for when a user's computer loses its network connection"
     },
     "submitDebugLog": {
-        "message": "除錯紀錄",
+        "message": "除錯日誌",
         "description": "Menu item and header text for debug log modal (sentence case)"
     },
     "debugLog": {
@@ -690,7 +690,7 @@
         "description": "Item under the help menu, takes you to the contact us support page"
     },
     "goToReleaseNotes": {
-        "message": "前往發行紀錄",
+        "message": "前往版本發行紀錄",
         "description": "Item under the help menu, takes you to GitHub page for release notes"
     },
     "goToForums": {
@@ -698,11 +698,11 @@
         "description": "Item under the Help menu, takes you to the forums"
     },
     "goToSupportPage": {
-        "message": "前往支援頁面",
+        "message": "前往說明頁面",
         "description": "Item under the Help menu, takes you to the support page"
     },
     "joinTheBeta": {
-        "message": "加入 Beta",
+        "message": "加入 Beta 測試版",
         "description": "Item under the Help menu, takes you to an article describing how to install the beta release of Signal Desktop"
     },
     "signalDesktopPreferences": {
@@ -718,7 +718,7 @@
         "description": "Item under the Help menu, which opens a small about window"
     },
     "screenShareWindow": {
-        "message": "共享畫面",
+        "message": "分享畫面",
         "description": "Title for screen sharing window"
     },
     "speech": {
@@ -858,7 +858,7 @@
         "description": "Generic label shown if contact address has custom type but no label"
     },
     "poBox": {
-        "message": "郵箱號碼",
+        "message": "郵政信箱",
         "description": "When rendering an address, used to provide context to a post office box"
     },
     "downloading": {
@@ -1175,7 +1175,17 @@
     },
     "DeliveryIssue--summary": {
         "message": "無法從 $sender$向你傳送訊息、貼圖、回應、已讀回執或媒體。 他們可能已經嘗試將其直接傳送給你，或以群組形式傳送給你。",
-        "description": "Shown on explainer dialog available from delivery issue timeline events",
+        "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "DeliveryIssue--summary--group": {
+        "message": "無法從$sender$聊天中向你傳送訊息、貼圖、回應、已讀回執或媒體檔。",
+        "description": "Shown on explainer dialog available from delivery issue timeline events in groups",
         "placeholders": {
             "name": {
                 "content": "$1",
@@ -5506,7 +5516,7 @@
         "description": "First paragraph in the captcha dialog"
     },
     "CaptchaDialog--can-close__title": {
-        "message": "繼續而不驗證？",
+        "message": "不驗證繼續？",
         "description": "Header in the captcha dialog that can be closed"
     },
     "CaptchaDialog--can-close__body": {
