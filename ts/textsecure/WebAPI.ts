@@ -1799,9 +1799,7 @@ export function initialize({
         urlParameters: `?ts=${timestamp}&online=${online ? 'true' : 'false'}`,
         responseType: 'json',
         unauthenticated: true,
-        headers: {
-          'Unidentified-Access-Key': arrayBufferToBase64(accessKeys),
-        },
+        accessKey: arrayBufferToBase64(accessKeys),
       });
     }
 
