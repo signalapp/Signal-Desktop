@@ -13,7 +13,7 @@ type OptionsType = {
   development: boolean;
   devTools: boolean;
   includeSetup: boolean;
-  isBeta: (version: string) => boolean;
+  isProduction: boolean;
   platform: string;
 
   // actions
@@ -42,7 +42,7 @@ export const createTemplate = (
   }
 
   const {
-    isBeta,
+    isProduction,
     devTools,
     includeSetup,
     openContactUs,
@@ -212,7 +212,7 @@ export const createTemplate = (
           label: messages.goToSupportPage.message,
           click: openSupportPage,
         },
-        ...(!isBeta
+        ...(isProduction
           ? [
               {
                 label: messages.joinTheBeta.message,

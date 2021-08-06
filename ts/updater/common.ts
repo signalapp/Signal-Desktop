@@ -25,6 +25,7 @@ import { app, BrowserWindow, dialog, ipcMain } from 'electron';
 import { getTempPath } from '../../app/attachments';
 import { Dialogs } from '../types/Dialogs';
 import { getUserAgent } from '../util/getUserAgent';
+import { isAlpha, isBeta } from '../util/version';
 
 import * as packageJson from '../../package.json';
 import { getSignatureFileName } from './signature';
@@ -260,7 +261,7 @@ export function getProxyUrl(): string | undefined {
 }
 
 export function getUpdatesFileName(): string {
-  const prefix = isBetaChannel() ? 'beta' : 'latest';
+  const prefix = getChannel();
 
   if (platform === 'darwin') {
     return `${prefix}-mac.yml`;
@@ -269,9 +270,16 @@ export function getUpdatesFileName(): string {
   return `${prefix}.yml`;
 }
 
-const hasBeta = /beta/i;
-function isBetaChannel(): boolean {
-  return hasBeta.test(packageJson.version);
+function getChannel(): string {
+  const { version } = packageJson;
+
+  if (isAlpha(version)) {
+    return 'alpha';
+  }
+  if (isBeta(version)) {
+    return 'beta';
+  }
+  return 'latest';
 }
 
 function isVersionNewer(newVersion: string): boolean {

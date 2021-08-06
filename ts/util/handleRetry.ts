@@ -7,7 +7,7 @@ import {
 } from '@signalapp/signal-client';
 import { isNumber } from 'lodash';
 
-import { isBeta } from './version';
+import { isProduction } from './version';
 import { strictAssert } from './assert';
 import { getSendOptions } from './getSendOptions';
 import { handleMessageSend } from './handleMessageSend';
@@ -124,7 +124,7 @@ export async function onRetryRequest(event: RetryRequestEvent): Promise<void> {
 }
 
 function maybeShowDecryptionToast(logId: string) {
-  if (!isBeta(window.getVersion())) {
+  if (isProduction(window.getVersion())) {
     return;
   }
 

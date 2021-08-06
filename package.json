@@ -24,8 +24,10 @@
     "clean-module-protobuf": "rm -f ts/protobuf/compiled.d.ts ts/protobuf/compiled.js",
     "build-protobuf": "yarn build-module-protobuf",
     "clean-protobuf": "yarn clean-module-protobuf",
-    "prepare-beta-build": "node prepare_beta_build.js",
-    "prepare-import-build": "node prepare_import_build.js",
+    "prepare-beta-build": "node scripts/prepare_beta_build.js",
+    "prepare-alpha-build": "node scripts/prepare_alpha_build.js",
+    "prepare-alpha-version": "node scripts/prepare_alpha_version.js",
+    "prepare-windows-cert": "node scripts/prepare_windows_cert.js",
     "publish-to-apt": "NAME=$npm_package_name VERSION=$npm_package_version ./aptly.sh",
     "test": "yarn test-node && yarn test-electron",
     "test-electron": "yarn grunt test",
@@ -329,9 +331,12 @@
         "node_modules/@signalapp/signal-client/build/*.node"
       ],
       "artifactName": "${name}-win-${version}.${ext}",
-      "certificateSubjectName": "Signal (Quiet Riddle Ventures, LLC)",
-      "certificateSha1": "77B2AA4421E5F377454B8B91E573746592D1543D",
-      "publisherName": "Signal (Quiet Riddle Ventures, LLC)",
+      "certificateSubjectName": "Signal Messenger, LLC",
+      "certificateSha1": "8C9A0B5C852EC703D83EF7BFBCEB54B796073759",
+      "signingHashAlgorithms": [
+        "sha256"
+      ],
+      "publisherName": "Signal Messenger, LLC",
       "icon": "build/icons/win/icon.ico",
       "publish": [
         {

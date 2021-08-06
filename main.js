@@ -104,7 +104,7 @@ const {
 } = require('./app/protocol_filter');
 const { installPermissionsHandler } = require('./app/permissions');
 const OS = require('./ts/OS');
-const { isBeta } = require('./ts/util/version');
+const { isProduction } = require('./ts/util/version');
 const {
   isSgnlHref,
   isCaptchaHref,
@@ -149,7 +149,7 @@ const defaultWebPrefs = {
   devTools:
     process.argv.some(arg => arg === '--enable-dev-tools') ||
     config.environment !== Environment.Production ||
-    isBeta(app.getVersion()),
+    !isProduction(app.getVersion()),
 };
 
 async function getSpellCheckSetting() {
@@ -1400,7 +1400,7 @@ function setupMenu(options) {
   const menuOptions = {
     ...options,
     development,
-    isBeta: isBeta(app.getVersion()),
+    isProduction: isProduction(app.getVersion()),
     devTools: defaultWebPrefs.devTools,
     showDebugLog: showDebugLogWindow,
     showKeyboardShortcuts,

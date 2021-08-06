@@ -49,7 +49,7 @@ describe('SignalMenu', () => {
                 },
               };
               const options = {
-                isBeta: false,
+                isProduction: true,
                 devTools: true,
                 openContactUs: null,
                 openForums: null,

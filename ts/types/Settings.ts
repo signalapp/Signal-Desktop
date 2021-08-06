@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as OS from '../OS';
-import { isBeta } from '../util/version';
+import { isProduction } from '../util/version';
 
 const MIN_WINDOWS_VERSION = '8.0.0';
 
@@ -57,4 +57,4 @@ export const getTitleBarVisibility = (): TitleBarVisibility =>
  */
 export const isSystemTraySupported = (appVersion: string): boolean =>
   // We eventually want to support Linux in production.
-  OS.isWindows() || (OS.isLinux() && isBeta(appVersion));
+  OS.isWindows() || (OS.isLinux() && !isProduction(appVersion));
