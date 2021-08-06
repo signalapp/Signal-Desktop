@@ -4,18 +4,11 @@ import { UserUtils } from '../session/utils';
 import { fromArrayBufferToBase64, fromHex, toHex } from '../session/utils/String';
 import { getOurPubKeyStrFromCache } from '../session/utils/User';
 import { trigger } from '../shims/events';
-import {
-  forceNetworkDeletion,
-  forceSyncConfigurationNowIfNeeded,
-} from '../session/utils/syncUtils';
+
 import { actions as userActions } from '../state/ducks/user';
 import { mn_decode, mn_encode } from '../session/crypto/mnemonic';
 import { ConversationTypeEnum } from '../models/conversation';
 import _ from 'underscore';
-import { persistStore } from 'redux-persist';
-import { ed25519Str } from '../session/onions/onionPath';
-import { SessionButtonColor } from '../components/session/SessionButton';
-import { updateConfirmModal } from '../state/ducks/modalDialog';
 
 /**
  * Might throw

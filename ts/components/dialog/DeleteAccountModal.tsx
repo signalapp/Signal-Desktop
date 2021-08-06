@@ -1,9 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { ed25519Str } from '../../session/onions/onionPath';
-import {
-  forceNetworkDeletion,
-  forceSyncConfigurationNowIfNeeded,
-} from '../../session/utils/syncUtils';
+import { forceNetworkDeletion } from '../../session/snode_api/SNodeAPI';
+import { forceSyncConfigurationNowIfNeeded } from '../../session/utils/syncUtils';
 import { updateConfirmModal, updateDeleteAccountModal } from '../../state/ducks/modalDialog';
 import { SpacerLG } from '../basic/Text';
 import { SessionButton, SessionButtonColor } from '../session/SessionButton';
