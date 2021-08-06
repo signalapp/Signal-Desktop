@@ -174,7 +174,6 @@ export const forceNetworkDeletion = async (): Promise<Array<string> | null> => {
             timestamp,
             signature: signatureBase64,
           };
-
           const ret = await snodeRpc(
             'delete_all',
             deleteMessageParams,

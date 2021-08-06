@@ -46,7 +46,7 @@ window.getServerTrustRoot = () => config.serverTrustRoot;
 window.JobQueue = JobQueue;
 window.isBehindProxy = () => Boolean(config.proxyUrl);
 
-window.getStoragePubKey = key => (window.isDev() ? key.substring(0, key.length - 2) : key);
+window.getStoragePubKey = key => (window.isDev() ? key.substring(2) : key);
 
 window.getDefaultFileServer = () => config.defaultFileServer;
 window.initialisedAPI = false;
