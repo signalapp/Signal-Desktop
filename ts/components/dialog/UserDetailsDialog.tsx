@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
-import { Avatar, AvatarSize } from './Avatar';
 
-import { SessionButton, SessionButtonColor, SessionButtonType } from './session/SessionButton';
-import { SessionIdEditable } from './session/SessionIdEditable';
-import { getConversationController } from '../session/conversations';
-import { ConversationTypeEnum } from '../models/conversation';
-import { SessionWrapperModal } from './session/SessionWrapperModal';
-import { SpacerMD } from './basic/Text';
-import { updateUserDetailsModal } from '../state/ducks/modalDialog';
-import { openConversationWithMessages } from '../state/ducks/conversations';
 // tslint:disable-next-line: no-submodule-imports
 import useKey from 'react-use/lib/useKey';
-import { getFirstUnreadMessageIdInConversation } from '../data/data';
+import { ConversationTypeEnum } from '../../models/conversation';
+import { getConversationController } from '../../session/conversations';
+import { openConversationWithMessages } from '../../state/ducks/conversations';
+import { updateUserDetailsModal } from '../../state/ducks/modalDialog';
+import { Avatar, AvatarSize } from '../Avatar';
+import { SpacerMD } from '../basic/Text';
+import { SessionButton, SessionButtonColor, SessionButtonType } from '../session/SessionButton';
+import { SessionIdEditable } from '../session/SessionIdEditable';
+import { SessionWrapperModal } from '../session/SessionWrapperModal';
 type Props = {
   conversationId: string;
   authorAvatarPath: string | null;

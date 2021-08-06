@@ -2,30 +2,27 @@ import React from 'react';
 
 import _ from 'lodash';
 
-import { getTheme } from '../state/selectors/theme';
-
 import Electron from 'electron';
 const { shell } = Electron;
 
 import { useDispatch, useSelector } from 'react-redux';
-import { SessionIcon, SessionIconButton, SessionIconSize, SessionIconType } from './session/icon';
-
-import { SessionWrapperModal } from './session/SessionWrapperModal';
 
 import ip2country from 'ip2country';
 import countryLookup from 'country-code-lookup';
 import { useTheme } from 'styled-components';
-import { Snode } from '../data/data';
-import { onionPathModal } from '../state/ducks/modalDialog';
+import { Snode } from '../../data/data';
+import { onionPathModal } from '../../state/ducks/modalDialog';
 import {
   getFirstOnionPath,
   getFirstOnionPathLength,
   getIsOnline,
   getOnionPathsCount,
-} from '../state/selectors/onions';
-
-import { SessionSpinner } from './session/SessionSpinner';
-import { Flex } from './basic/Flex';
+} from '../../state/selectors/onions';
+import { getTheme } from '../../state/selectors/theme';
+import { Flex } from '../basic/Flex';
+import { SessionIcon, SessionIconButton, SessionIconSize, SessionIconType } from '../session/icon';
+import { SessionSpinner } from '../session/SessionSpinner';
+import { SessionWrapperModal } from '../session/SessionWrapperModal';
 
 export type StatusLightType = {
   glowStartDelay: number;

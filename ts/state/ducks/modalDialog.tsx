@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { SessionConfirmDialogProps } from '../../components/session/SessionConfirm';
-import { PasswordAction } from '../../components/session/SessionPasswordModal';
+import { SessionConfirmDialogProps } from '../../components/dialog/SessionConfirm';
+import { PasswordAction } from '../../components/dialog/SessionPasswordDialog';
 
 export type ConfirmModalState = SessionConfirmDialogProps | null;
 export type InviteContactModalState = { conversationId: string } | null;
