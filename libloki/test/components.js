@@ -1,4 +1,803 @@
-!function(t,i){"object"==typeof exports&&"object"==typeof module?module.exports=i():"function"==typeof define&&define.amd?define([],i):"object"==typeof exports?exports.Long=i():t.Long=i()}("undefined"!=typeof self?self:this,function(){return function(t){function i(e){if(n[e])return n[e].exports;var r=n[e]={i:e,l:!1,exports:{}};return t[e].call(r.exports,r,r.exports,i),r.l=!0,r.exports}var n={};return i.m=t,i.c=n,i.d=function(t,n,e){i.o(t,n)||Object.defineProperty(t,n,{configurable:!1,enumerable:!0,get:e})},i.n=function(t){var n=t&&t.__esModule?function(){return t.default}:function(){return t};return i.d(n,"a",n),n},i.o=function(t,i){return Object.prototype.hasOwnProperty.call(t,i)},i.p="",i(i.s=0)}([function(t,i){function n(t,i,n){this.low=0|t,this.high=0|i,this.unsigned=!!n}function e(t){return!0===(t&&t.__isLong__)}function r(t,i){var n,e,r;return i?(t>>>=0,(r=0<=t&&t<256)&&(e=l[t])?e:(n=h(t,(0|t)<0?-1:0,!0),r&&(l[t]=n),n)):(t|=0,(r=-128<=t&&t<128)&&(e=f[t])?e:(n=h(t,t<0?-1:0,!1),r&&(f[t]=n),n))}function s(t,i){if(isNaN(t))return i?p:m;if(i){if(t<0)return p;if(t>=c)return q}else{if(t<=-v)return _;if(t+1>=v)return E}return t<0?s(-t,i).neg():h(t%d|0,t/d|0,i)}function h(t,i,e){return new n(t,i,e)}function u(t,i,n){if(0===t.length)throw Error("empty string");if("NaN"===t||"Infinity"===t||"+Infinity"===t||"-Infinity"===t)return m;if("number"==typeof i?(n=i,i=!1):i=!!i,(n=n||10)<2||36<n)throw RangeError("radix");var e;if((e=t.indexOf("-"))>0)throw Error("interior hyphen");if(0===e)return u(t.substring(1),i,n).neg();for(var r=s(a(n,8)),h=m,o=0;o<t.length;o+=8){var g=Math.min(8,t.length-o),f=parseInt(t.substring(o,o+g),n);if(g<8){var l=s(a(n,g));h=h.mul(l).add(s(f))}else h=h.mul(r),h=h.add(s(f))}return h.unsigned=i,h}function o(t,i){return"number"==typeof t?s(t,i):"string"==typeof t?u(t,i):h(t.low,t.high,"boolean"==typeof i?i:t.unsigned)}t.exports=n;var g=null;try{g=new WebAssembly.Instance(new WebAssembly.Module(new Uint8Array([0,97,115,109,1,0,0,0,1,13,2,96,0,1,127,96,4,127,127,127,127,1,127,3,7,6,0,1,1,1,1,1,6,6,1,127,1,65,0,11,7,50,6,3,109,117,108,0,1,5,100,105,118,95,115,0,2,5,100,105,118,95,117,0,3,5,114,101,109,95,115,0,4,5,114,101,109,95,117,0,5,8,103,101,116,95,104,105,103,104,0,0,10,191,1,6,4,0,35,0,11,36,1,1,126,32,0,173,32,1,173,66,32,134,132,32,2,173,32,3,173,66,32,134,132,126,34,4,66,32,135,167,36,0,32,4,167,11,36,1,1,126,32,0,173,32,1,173,66,32,134,132,32,2,173,32,3,173,66,32,134,132,127,34,4,66,32,135,167,36,0,32,4,167,11,36,1,1,126,32,0,173,32,1,173,66,32,134,132,32,2,173,32,3,173,66,32,134,132,128,34,4,66,32,135,167,36,0,32,4,167,11,36,1,1,126,32,0,173,32,1,173,66,32,134,132,32,2,173,32,3,173,66,32,134,132,129,34,4,66,32,135,167,36,0,32,4,167,11,36,1,1,126,32,0,173,32,1,173,66,32,134,132,32,2,173,32,3,173,66,32,134,132,130,34,4,66,32,135,167,36,0,32,4,167,11])),{}).exports}catch(t){}n.prototype.__isLong__,Object.defineProperty(n.prototype,"__isLong__",{value:!0}),n.isLong=e;var f={},l={};n.fromInt=r,n.fromNumber=s,n.fromBits=h;var a=Math.pow;n.fromString=u,n.fromValue=o;var d=4294967296,c=d*d,v=c/2,w=r(1<<24),m=r(0);n.ZERO=m;var p=r(0,!0);n.UZERO=p;var y=r(1);n.ONE=y;var b=r(1,!0);n.UONE=b;var N=r(-1);n.NEG_ONE=N;var E=h(-1,2147483647,!1);n.MAX_VALUE=E;var q=h(-1,-1,!0);n.MAX_UNSIGNED_VALUE=q;var _=h(0,-2147483648,!1);n.MIN_VALUE=_;var B=n.prototype;B.toInt=function(){return this.unsigned?this.low>>>0:this.low},B.toNumber=function(){return this.unsigned?(this.high>>>0)*d+(this.low>>>0):this.high*d+(this.low>>>0)},B.toString=function(t){if((t=t||10)<2||36<t)throw RangeError("radix");if(this.isZero())return"0";if(this.isNegative()){if(this.eq(_)){var i=s(t),n=this.div(i),e=n.mul(i).sub(this);return n.toString(t)+e.toInt().toString(t)}return"-"+this.neg().toString(t)}for(var r=s(a(t,6),this.unsigned),h=this,u="";;){var o=h.div(r),g=h.sub(o.mul(r)).toInt()>>>0,f=g.toString(t);if(h=o,h.isZero())return f+u;for(;f.length<6;)f="0"+f;u=""+f+u}},B.getHighBits=function(){return this.high},B.getHighBitsUnsigned=function(){return this.high>>>0},B.getLowBits=function(){return this.low},B.getLowBitsUnsigned=function(){return this.low>>>0},B.getNumBitsAbs=function(){if(this.isNegative())return this.eq(_)?64:this.neg().getNumBitsAbs();for(var t=0!=this.high?this.high:this.low,i=31;i>0&&0==(t&1<<i);i--);return 0!=this.high?i+33:i+1},B.isZero=function(){return 0===this.high&&0===this.low},B.eqz=B.isZero,B.isNegative=function(){return!this.unsigned&&this.high<0},B.isPositive=function(){return this.unsigned||this.high>=0},B.isOdd=function(){return 1==(1&this.low)},B.isEven=function(){return 0==(1&this.low)},B.equals=function(t){return e(t)||(t=o(t)),(this.unsigned===t.unsigned||this.high>>>31!=1||t.high>>>31!=1)&&(this.high===t.high&&this.low===t.low)},B.eq=B.equals,B.notEquals=function(t){return!this.eq(t)},B.neq=B.notEquals,B.ne=B.notEquals,B.lessThan=function(t){return this.comp(t)<0},B.lt=B.lessThan,B.lessThanOrEqual=function(t){return this.comp(t)<=0},B.lte=B.lessThanOrEqual,B.le=B.lessThanOrEqual,B.greaterThan=function(t){return this.comp(t)>0},B.gt=B.greaterThan,B.greaterThanOrEqual=function(t){return this.comp(t)>=0},B.gte=B.greaterThanOrEqual,B.ge=B.greaterThanOrEqual,B.compare=function(t){if(e(t)||(t=o(t)),this.eq(t))return 0;var i=this.isNegative(),n=t.isNegative();return i&&!n?-1:!i&&n?1:this.unsigned?t.high>>>0>this.high>>>0||t.high===this.high&&t.low>>>0>this.low>>>0?-1:1:this.sub(t).isNegative()?-1:1},B.comp=B.compare,B.negate=function(){return!this.unsigned&&this.eq(_)?_:this.not().add(y)},B.neg=B.negate,B.add=function(t){e(t)||(t=o(t));var i=this.high>>>16,n=65535&this.high,r=this.low>>>16,s=65535&this.low,u=t.high>>>16,g=65535&t.high,f=t.low>>>16,l=65535&t.low,a=0,d=0,c=0,v=0;return v+=s+l,c+=v>>>16,v&=65535,c+=r+f,d+=c>>>16,c&=65535,d+=n+g,a+=d>>>16,d&=65535,a+=i+u,a&=65535,h(c<<16|v,a<<16|d,this.unsigned)},B.subtract=function(t){return e(t)||(t=o(t)),this.add(t.neg())},B.sub=B.subtract,B.multiply=function(t){if(this.isZero())return m;if(e(t)||(t=o(t)),g){return h(g.mul(this.low,this.high,t.low,t.high),g.get_high(),this.unsigned)}if(t.isZero())return m;if(this.eq(_))return t.isOdd()?_:m;if(t.eq(_))return this.isOdd()?_:m;if(this.isNegative())return t.isNegative()?this.neg().mul(t.neg()):this.neg().mul(t).neg();if(t.isNegative())return this.mul(t.neg()).neg();if(this.lt(w)&&t.lt(w))return s(this.toNumber()*t.toNumber(),this.unsigned);var i=this.high>>>16,n=65535&this.high,r=this.low>>>16,u=65535&this.low,f=t.high>>>16,l=65535&t.high,a=t.low>>>16,d=65535&t.low,c=0,v=0,p=0,y=0;return y+=u*d,p+=y>>>16,y&=65535,p+=r*d,v+=p>>>16,p&=65535,p+=u*a,v+=p>>>16,p&=65535,v+=n*d,c+=v>>>16,v&=65535,v+=r*a,c+=v>>>16,v&=65535,v+=u*l,c+=v>>>16,v&=65535,c+=i*d+n*a+r*l+u*f,c&=65535,h(p<<16|y,c<<16|v,this.unsigned)},B.mul=B.multiply,B.divide=function(t){if(e(t)||(t=o(t)),t.isZero())throw Error("division by zero");if(g){if(!this.unsigned&&-2147483648===this.high&&-1===t.low&&-1===t.high)return this;return h((this.unsigned?g.div_u:g.div_s)(this.low,this.high,t.low,t.high),g.get_high(),this.unsigned)}if(this.isZero())return this.unsigned?p:m;var i,n,r;if(this.unsigned){if(t.unsigned||(t=t.toUnsigned()),t.gt(this))return p;if(t.gt(this.shru(1)))return b;r=p}else{if(this.eq(_)){if(t.eq(y)||t.eq(N))return _;if(t.eq(_))return y;return i=this.shr(1).div(t).shl(1),i.eq(m)?t.isNegative()?y:N:(n=this.sub(t.mul(i)),r=i.add(n.div(t)))}if(t.eq(_))return this.unsigned?p:m;if(this.isNegative())return t.isNegative()?this.neg().div(t.neg()):this.neg().div(t).neg();if(t.isNegative())return this.div(t.neg()).neg();r=m}for(n=this;n.gte(t);){i=Math.max(1,Math.floor(n.toNumber()/t.toNumber()));for(var u=Math.ceil(Math.log(i)/Math.LN2),f=u<=48?1:a(2,u-48),l=s(i),d=l.mul(t);d.isNegative()||d.gt(n);)i-=f,l=s(i,this.unsigned),d=l.mul(t);l.isZero()&&(l=y),r=r.add(l),n=n.sub(d)}return r},B.div=B.divide,B.modulo=function(t){if(e(t)||(t=o(t)),g){return h((this.unsigned?g.rem_u:g.rem_s)(this.low,this.high,t.low,t.high),g.get_high(),this.unsigned)}return this.sub(this.div(t).mul(t))},B.mod=B.modulo,B.rem=B.modulo,B.not=function(){return h(~this.low,~this.high,this.unsigned)},B.and=function(t){return e(t)||(t=o(t)),h(this.low&t.low,this.high&t.high,this.unsigned)},B.or=function(t){return e(t)||(t=o(t)),h(this.low|t.low,this.high|t.high,this.unsigned)},B.xor=function(t){return e(t)||(t=o(t)),h(this.low^t.low,this.high^t.high,this.unsigned)},B.shiftLeft=function(t){return e(t)&&(t=t.toInt()),0==(t&=63)?this:t<32?h(this.low<<t,this.high<<t|this.low>>>32-t,this.unsigned):h(0,this.low<<t-32,this.unsigned)},B.shl=B.shiftLeft,B.shiftRight=function(t){return e(t)&&(t=t.toInt()),0==(t&=63)?this:t<32?h(this.low>>>t|this.high<<32-t,this.high>>t,this.unsigned):h(this.high>>t-32,this.high>=0?0:-1,this.unsigned)},B.shr=B.shiftRight,B.shiftRightUnsigned=function(t){if(e(t)&&(t=t.toInt()),0===(t&=63))return this;var i=this.high;if(t<32){return h(this.low>>>t|i<<32-t,i>>>t,this.unsigned)}return 32===t?h(i,0,this.unsigned):h(i>>>t-32,0,this.unsigned)},B.shru=B.shiftRightUnsigned,B.shr_u=B.shiftRightUnsigned,B.toSigned=function(){return this.unsigned?h(this.low,this.high,!1):this},B.toUnsigned=function(){return this.unsigned?this:h(this.low,this.high,!0)},B.toBytes=function(t){return t?this.toBytesLE():this.toBytesBE()},B.toBytesLE=function(){var t=this.high,i=this.low;return[255&i,i>>>8&255,i>>>16&255,i>>>24,255&t,t>>>8&255,t>>>16&255,t>>>24]},B.toBytesBE=function(){var t=this.high,i=this.low;return[t>>>24,t>>>16&255,t>>>8&255,255&t,i>>>24,i>>>16&255,i>>>8&255,255&i]},n.fromBytes=function(t,i,e){return e?n.fromBytesLE(t,i):n.fromBytesBE(t,i)},n.fromBytesLE=function(t,i){return new n(t[0]|t[1]<<8|t[2]<<16|t[3]<<24,t[4]|t[5]<<8|t[6]<<16|t[7]<<24,i)},n.fromBytesBE=function(t,i){return new n(t[4]<<24|t[5]<<16|t[6]<<8|t[7],t[0]<<24|t[1]<<16|t[2]<<8|t[3],i)}}])});
+!(function(t, i) {
+  'object' == typeof exports && 'object' == typeof module
+    ? (module.exports = i())
+    : 'function' == typeof define && define.amd
+    ? define([], i)
+    : 'object' == typeof exports
+    ? (exports.Long = i())
+    : (t.Long = i());
+})('undefined' != typeof self ? self : this, function() {
+  return (function(t) {
+    function i(e) {
+      if (n[e]) return n[e].exports;
+      var r = (n[e] = { i: e, l: !1, exports: {} });
+      return t[e].call(r.exports, r, r.exports, i), (r.l = !0), r.exports;
+    }
+    var n = {};
+    return (
+      (i.m = t),
+      (i.c = n),
+      (i.d = function(t, n, e) {
+        i.o(t, n) || Object.defineProperty(t, n, { configurable: !1, enumerable: !0, get: e });
+      }),
+      (i.n = function(t) {
+        var n =
+          t && t.__esModule
+            ? function() {
+                return t.default;
+              }
+            : function() {
+                return t;
+              };
+        return i.d(n, 'a', n), n;
+      }),
+      (i.o = function(t, i) {
+        return Object.prototype.hasOwnProperty.call(t, i);
+      }),
+      (i.p = ''),
+      i((i.s = 0))
+    );
+  })([
+    function(t, i) {
+      function n(t, i, n) {
+        (this.low = 0 | t), (this.high = 0 | i), (this.unsigned = !!n);
+      }
+      function e(t) {
+        return !0 === (t && t.__isLong__);
+      }
+      function r(t, i) {
+        var n, e, r;
+        return i
+          ? ((t >>>= 0),
+            (r = 0 <= t && t < 256) && (e = l[t])
+              ? e
+              : ((n = h(t, (0 | t) < 0 ? -1 : 0, !0)), r && (l[t] = n), n))
+          : ((t |= 0),
+            (r = -128 <= t && t < 128) && (e = f[t])
+              ? e
+              : ((n = h(t, t < 0 ? -1 : 0, !1)), r && (f[t] = n), n));
+      }
+      function s(t, i) {
+        if (isNaN(t)) return i ? p : m;
+        if (i) {
+          if (t < 0) return p;
+          if (t >= c) return q;
+        } else {
+          if (t <= -v) return _;
+          if (t + 1 >= v) return E;
+        }
+        return t < 0 ? s(-t, i).neg() : h(t % d | 0, (t / d) | 0, i);
+      }
+      function h(t, i, e) {
+        return new n(t, i, e);
+      }
+      function u(t, i, n) {
+        if (0 === t.length) throw Error('empty string');
+        if ('NaN' === t || 'Infinity' === t || '+Infinity' === t || '-Infinity' === t) return m;
+        if (('number' == typeof i ? ((n = i), (i = !1)) : (i = !!i), (n = n || 10) < 2 || 36 < n))
+          throw RangeError('radix');
+        var e;
+        if ((e = t.indexOf('-')) > 0) throw Error('interior hyphen');
+        if (0 === e) return u(t.substring(1), i, n).neg();
+        for (var r = s(a(n, 8)), h = m, o = 0; o < t.length; o += 8) {
+          var g = Math.min(8, t.length - o),
+            f = parseInt(t.substring(o, o + g), n);
+          if (g < 8) {
+            var l = s(a(n, g));
+            h = h.mul(l).add(s(f));
+          } else (h = h.mul(r)), (h = h.add(s(f)));
+        }
+        return (h.unsigned = i), h;
+      }
+      function o(t, i) {
+        return 'number' == typeof t
+          ? s(t, i)
+          : 'string' == typeof t
+          ? u(t, i)
+          : h(t.low, t.high, 'boolean' == typeof i ? i : t.unsigned);
+      }
+      t.exports = n;
+      var g = null;
+      try {
+        g = new WebAssembly.Instance(
+          new WebAssembly.Module(
+            new Uint8Array([
+              0,
+              97,
+              115,
+              109,
+              1,
+              0,
+              0,
+              0,
+              1,
+              13,
+              2,
+              96,
+              0,
+              1,
+              127,
+              96,
+              4,
+              127,
+              127,
+              127,
+              127,
+              1,
+              127,
+              3,
+              7,
+              6,
+              0,
+              1,
+              1,
+              1,
+              1,
+              1,
+              6,
+              6,
+              1,
+              127,
+              1,
+              65,
+              0,
+              11,
+              7,
+              50,
+              6,
+              3,
+              109,
+              117,
+              108,
+              0,
+              1,
+              5,
+              100,
+              105,
+              118,
+              95,
+              115,
+              0,
+              2,
+              5,
+              100,
+              105,
+              118,
+              95,
+              117,
+              0,
+              3,
+              5,
+              114,
+              101,
+              109,
+              95,
+              115,
+              0,
+              4,
+              5,
+              114,
+              101,
+              109,
+              95,
+              117,
+              0,
+              5,
+              8,
+              103,
+              101,
+              116,
+              95,
+              104,
+              105,
+              103,
+              104,
+              0,
+              0,
+              10,
+              191,
+              1,
+              6,
+              4,
+              0,
+              35,
+              0,
+              11,
+              36,
+              1,
+              1,
+              126,
+              32,
+              0,
+              173,
+              32,
+              1,
+              173,
+              66,
+              32,
+              134,
+              132,
+              32,
+              2,
+              173,
+              32,
+              3,
+              173,
+              66,
+              32,
+              134,
+              132,
+              126,
+              34,
+              4,
+              66,
+              32,
+              135,
+              167,
+              36,
+              0,
+              32,
+              4,
+              167,
+              11,
+              36,
+              1,
+              1,
+              126,
+              32,
+              0,
+              173,
+              32,
+              1,
+              173,
+              66,
+              32,
+              134,
+              132,
+              32,
+              2,
+              173,
+              32,
+              3,
+              173,
+              66,
+              32,
+              134,
+              132,
+              127,
+              34,
+              4,
+              66,
+              32,
+              135,
+              167,
+              36,
+              0,
+              32,
+              4,
+              167,
+              11,
+              36,
+              1,
+              1,
+              126,
+              32,
+              0,
+              173,
+              32,
+              1,
+              173,
+              66,
+              32,
+              134,
+              132,
+              32,
+              2,
+              173,
+              32,
+              3,
+              173,
+              66,
+              32,
+              134,
+              132,
+              128,
+              34,
+              4,
+              66,
+              32,
+              135,
+              167,
+              36,
+              0,
+              32,
+              4,
+              167,
+              11,
+              36,
+              1,
+              1,
+              126,
+              32,
+              0,
+              173,
+              32,
+              1,
+              173,
+              66,
+              32,
+              134,
+              132,
+              32,
+              2,
+              173,
+              32,
+              3,
+              173,
+              66,
+              32,
+              134,
+              132,
+              129,
+              34,
+              4,
+              66,
+              32,
+              135,
+              167,
+              36,
+              0,
+              32,
+              4,
+              167,
+              11,
+              36,
+              1,
+              1,
+              126,
+              32,
+              0,
+              173,
+              32,
+              1,
+              173,
+              66,
+              32,
+              134,
+              132,
+              32,
+              2,
+              173,
+              32,
+              3,
+              173,
+              66,
+              32,
+              134,
+              132,
+              130,
+              34,
+              4,
+              66,
+              32,
+              135,
+              167,
+              36,
+              0,
+              32,
+              4,
+              167,
+              11,
+            ])
+          ),
+          {}
+        ).exports;
+      } catch (t) {}
+      n.prototype.__isLong__,
+        Object.defineProperty(n.prototype, '__isLong__', { value: !0 }),
+        (n.isLong = e);
+      var f = {},
+        l = {};
+      (n.fromInt = r), (n.fromNumber = s), (n.fromBits = h);
+      var a = Math.pow;
+      (n.fromString = u), (n.fromValue = o);
+      var d = 4294967296,
+        c = d * d,
+        v = c / 2,
+        w = r(1 << 24),
+        m = r(0);
+      n.ZERO = m;
+      var p = r(0, !0);
+      n.UZERO = p;
+      var y = r(1);
+      n.ONE = y;
+      var b = r(1, !0);
+      n.UONE = b;
+      var N = r(-1);
+      n.NEG_ONE = N;
+      var E = h(-1, 2147483647, !1);
+      n.MAX_VALUE = E;
+      var q = h(-1, -1, !0);
+      n.MAX_UNSIGNED_VALUE = q;
+      var _ = h(0, -2147483648, !1);
+      n.MIN_VALUE = _;
+      var B = n.prototype;
+      (B.toInt = function() {
+        return this.unsigned ? this.low >>> 0 : this.low;
+      }),
+        (B.toNumber = function() {
+          return this.unsigned
+            ? (this.high >>> 0) * d + (this.low >>> 0)
+            : this.high * d + (this.low >>> 0);
+        }),
+        (B.toString = function(t) {
+          if ((t = t || 10) < 2 || 36 < t) throw RangeError('radix');
+          if (this.isZero()) return '0';
+          if (this.isNegative()) {
+            if (this.eq(_)) {
+              var i = s(t),
+                n = this.div(i),
+                e = n.mul(i).sub(this);
+              return n.toString(t) + e.toInt().toString(t);
+            }
+            return '-' + this.neg().toString(t);
+          }
+          for (var r = s(a(t, 6), this.unsigned), h = this, u = ''; ; ) {
+            var o = h.div(r),
+              g = h.sub(o.mul(r)).toInt() >>> 0,
+              f = g.toString(t);
+            if (((h = o), h.isZero())) return f + u;
+            for (; f.length < 6; ) f = '0' + f;
+            u = '' + f + u;
+          }
+        }),
+        (B.getHighBits = function() {
+          return this.high;
+        }),
+        (B.getHighBitsUnsigned = function() {
+          return this.high >>> 0;
+        }),
+        (B.getLowBits = function() {
+          return this.low;
+        }),
+        (B.getLowBitsUnsigned = function() {
+          return this.low >>> 0;
+        }),
+        (B.getNumBitsAbs = function() {
+          if (this.isNegative()) return this.eq(_) ? 64 : this.neg().getNumBitsAbs();
+          for (
+            var t = 0 != this.high ? this.high : this.low, i = 31;
+            i > 0 && 0 == (t & (1 << i));
+            i--
+          );
+          return 0 != this.high ? i + 33 : i + 1;
+        }),
+        (B.isZero = function() {
+          return 0 === this.high && 0 === this.low;
+        }),
+        (B.eqz = B.isZero),
+        (B.isNegative = function() {
+          return !this.unsigned && this.high < 0;
+        }),
+        (B.isPositive = function() {
+          return this.unsigned || this.high >= 0;
+        }),
+        (B.isOdd = function() {
+          return 1 == (1 & this.low);
+        }),
+        (B.isEven = function() {
+          return 0 == (1 & this.low);
+        }),
+        (B.equals = function(t) {
+          return (
+            e(t) || (t = o(t)),
+            (this.unsigned === t.unsigned || this.high >>> 31 != 1 || t.high >>> 31 != 1) &&
+              this.high === t.high && this.low === t.low
+          );
+        }),
+        (B.eq = B.equals),
+        (B.notEquals = function(t) {
+          return !this.eq(t);
+        }),
+        (B.neq = B.notEquals),
+        (B.ne = B.notEquals),
+        (B.lessThan = function(t) {
+          return this.comp(t) < 0;
+        }),
+        (B.lt = B.lessThan),
+        (B.lessThanOrEqual = function(t) {
+          return this.comp(t) <= 0;
+        }),
+        (B.lte = B.lessThanOrEqual),
+        (B.le = B.lessThanOrEqual),
+        (B.greaterThan = function(t) {
+          return this.comp(t) > 0;
+        }),
+        (B.gt = B.greaterThan),
+        (B.greaterThanOrEqual = function(t) {
+          return this.comp(t) >= 0;
+        }),
+        (B.gte = B.greaterThanOrEqual),
+        (B.ge = B.greaterThanOrEqual),
+        (B.compare = function(t) {
+          if ((e(t) || (t = o(t)), this.eq(t))) return 0;
+          var i = this.isNegative(),
+            n = t.isNegative();
+          return i && !n
+            ? -1
+            : !i && n
+            ? 1
+            : this.unsigned
+            ? t.high >>> 0 > this.high >>> 0 ||
+              (t.high === this.high && t.low >>> 0 > this.low >>> 0)
+              ? -1
+              : 1
+            : this.sub(t).isNegative()
+            ? -1
+            : 1;
+        }),
+        (B.comp = B.compare),
+        (B.negate = function() {
+          return !this.unsigned && this.eq(_) ? _ : this.not().add(y);
+        }),
+        (B.neg = B.negate),
+        (B.add = function(t) {
+          e(t) || (t = o(t));
+          var i = this.high >>> 16,
+            n = 65535 & this.high,
+            r = this.low >>> 16,
+            s = 65535 & this.low,
+            u = t.high >>> 16,
+            g = 65535 & t.high,
+            f = t.low >>> 16,
+            l = 65535 & t.low,
+            a = 0,
+            d = 0,
+            c = 0,
+            v = 0;
+          return (
+            (v += s + l),
+            (c += v >>> 16),
+            (v &= 65535),
+            (c += r + f),
+            (d += c >>> 16),
+            (c &= 65535),
+            (d += n + g),
+            (a += d >>> 16),
+            (d &= 65535),
+            (a += i + u),
+            (a &= 65535),
+            h((c << 16) | v, (a << 16) | d, this.unsigned)
+          );
+        }),
+        (B.subtract = function(t) {
+          return e(t) || (t = o(t)), this.add(t.neg());
+        }),
+        (B.sub = B.subtract),
+        (B.multiply = function(t) {
+          if (this.isZero()) return m;
+          if ((e(t) || (t = o(t)), g)) {
+            return h(g.mul(this.low, this.high, t.low, t.high), g.get_high(), this.unsigned);
+          }
+          if (t.isZero()) return m;
+          if (this.eq(_)) return t.isOdd() ? _ : m;
+          if (t.eq(_)) return this.isOdd() ? _ : m;
+          if (this.isNegative())
+            return t.isNegative()
+              ? this.neg().mul(t.neg())
+              : this.neg()
+                  .mul(t)
+                  .neg();
+          if (t.isNegative()) return this.mul(t.neg()).neg();
+          if (this.lt(w) && t.lt(w)) return s(this.toNumber() * t.toNumber(), this.unsigned);
+          var i = this.high >>> 16,
+            n = 65535 & this.high,
+            r = this.low >>> 16,
+            u = 65535 & this.low,
+            f = t.high >>> 16,
+            l = 65535 & t.high,
+            a = t.low >>> 16,
+            d = 65535 & t.low,
+            c = 0,
+            v = 0,
+            p = 0,
+            y = 0;
+          return (
+            (y += u * d),
+            (p += y >>> 16),
+            (y &= 65535),
+            (p += r * d),
+            (v += p >>> 16),
+            (p &= 65535),
+            (p += u * a),
+            (v += p >>> 16),
+            (p &= 65535),
+            (v += n * d),
+            (c += v >>> 16),
+            (v &= 65535),
+            (v += r * a),
+            (c += v >>> 16),
+            (v &= 65535),
+            (v += u * l),
+            (c += v >>> 16),
+            (v &= 65535),
+            (c += i * d + n * a + r * l + u * f),
+            (c &= 65535),
+            h((p << 16) | y, (c << 16) | v, this.unsigned)
+          );
+        }),
+        (B.mul = B.multiply),
+        (B.divide = function(t) {
+          if ((e(t) || (t = o(t)), t.isZero())) throw Error('division by zero');
+          if (g) {
+            if (!this.unsigned && -2147483648 === this.high && -1 === t.low && -1 === t.high)
+              return this;
+            return h(
+              (this.unsigned ? g.div_u : g.div_s)(this.low, this.high, t.low, t.high),
+              g.get_high(),
+              this.unsigned
+            );
+          }
+          if (this.isZero()) return this.unsigned ? p : m;
+          var i, n, r;
+          if (this.unsigned) {
+            if ((t.unsigned || (t = t.toUnsigned()), t.gt(this))) return p;
+            if (t.gt(this.shru(1))) return b;
+            r = p;
+          } else {
+            if (this.eq(_)) {
+              if (t.eq(y) || t.eq(N)) return _;
+              if (t.eq(_)) return y;
+              return (
+                (i = this.shr(1)
+                  .div(t)
+                  .shl(1)),
+                i.eq(m)
+                  ? t.isNegative()
+                    ? y
+                    : N
+                  : ((n = this.sub(t.mul(i))), (r = i.add(n.div(t))))
+              );
+            }
+            if (t.eq(_)) return this.unsigned ? p : m;
+            if (this.isNegative())
+              return t.isNegative()
+                ? this.neg().div(t.neg())
+                : this.neg()
+                    .div(t)
+                    .neg();
+            if (t.isNegative()) return this.div(t.neg()).neg();
+            r = m;
+          }
+          for (n = this; n.gte(t); ) {
+            i = Math.max(1, Math.floor(n.toNumber() / t.toNumber()));
+            for (
+              var u = Math.ceil(Math.log(i) / Math.LN2),
+                f = u <= 48 ? 1 : a(2, u - 48),
+                l = s(i),
+                d = l.mul(t);
+              d.isNegative() || d.gt(n);
+
+            )
+              (i -= f), (l = s(i, this.unsigned)), (d = l.mul(t));
+            l.isZero() && (l = y), (r = r.add(l)), (n = n.sub(d));
+          }
+          return r;
+        }),
+        (B.div = B.divide),
+        (B.modulo = function(t) {
+          if ((e(t) || (t = o(t)), g)) {
+            return h(
+              (this.unsigned ? g.rem_u : g.rem_s)(this.low, this.high, t.low, t.high),
+              g.get_high(),
+              this.unsigned
+            );
+          }
+          return this.sub(this.div(t).mul(t));
+        }),
+        (B.mod = B.modulo),
+        (B.rem = B.modulo),
+        (B.not = function() {
+          return h(~this.low, ~this.high, this.unsigned);
+        }),
+        (B.and = function(t) {
+          return e(t) || (t = o(t)), h(this.low & t.low, this.high & t.high, this.unsigned);
+        }),
+        (B.or = function(t) {
+          return e(t) || (t = o(t)), h(this.low | t.low, this.high | t.high, this.unsigned);
+        }),
+        (B.xor = function(t) {
+          return e(t) || (t = o(t)), h(this.low ^ t.low, this.high ^ t.high, this.unsigned);
+        }),
+        (B.shiftLeft = function(t) {
+          return (
+            e(t) && (t = t.toInt()),
+            0 == (t &= 63)
+              ? this
+              : t < 32
+              ? h(this.low << t, (this.high << t) | (this.low >>> (32 - t)), this.unsigned)
+              : h(0, this.low << (t - 32), this.unsigned)
+          );
+        }),
+        (B.shl = B.shiftLeft),
+        (B.shiftRight = function(t) {
+          return (
+            e(t) && (t = t.toInt()),
+            0 == (t &= 63)
+              ? this
+              : t < 32
+              ? h((this.low >>> t) | (this.high << (32 - t)), this.high >> t, this.unsigned)
+              : h(this.high >> (t - 32), this.high >= 0 ? 0 : -1, this.unsigned)
+          );
+        }),
+        (B.shr = B.shiftRight),
+        (B.shiftRightUnsigned = function(t) {
+          if ((e(t) && (t = t.toInt()), 0 === (t &= 63))) return this;
+          var i = this.high;
+          if (t < 32) {
+            return h((this.low >>> t) | (i << (32 - t)), i >>> t, this.unsigned);
+          }
+          return 32 === t ? h(i, 0, this.unsigned) : h(i >>> (t - 32), 0, this.unsigned);
+        }),
+        (B.shru = B.shiftRightUnsigned),
+        (B.shr_u = B.shiftRightUnsigned),
+        (B.toSigned = function() {
+          return this.unsigned ? h(this.low, this.high, !1) : this;
+        }),
+        (B.toUnsigned = function() {
+          return this.unsigned ? this : h(this.low, this.high, !0);
+        }),
+        (B.toBytes = function(t) {
+          return t ? this.toBytesLE() : this.toBytesBE();
+        }),
+        (B.toBytesLE = function() {
+          var t = this.high,
+            i = this.low;
+          return [
+            255 & i,
+            (i >>> 8) & 255,
+            (i >>> 16) & 255,
+            i >>> 24,
+            255 & t,
+            (t >>> 8) & 255,
+            (t >>> 16) & 255,
+            t >>> 24,
+          ];
+        }),
+        (B.toBytesBE = function() {
+          var t = this.high,
+            i = this.low;
+          return [
+            t >>> 24,
+            (t >>> 16) & 255,
+            (t >>> 8) & 255,
+            255 & t,
+            i >>> 24,
+            (i >>> 16) & 255,
+            (i >>> 8) & 255,
+            255 & i,
+          ];
+        }),
+        (n.fromBytes = function(t, i, e) {
+          return e ? n.fromBytesLE(t, i) : n.fromBytesBE(t, i);
+        }),
+        (n.fromBytesLE = function(t, i) {
+          return new n(
+            t[0] | (t[1] << 8) | (t[2] << 16) | (t[3] << 24),
+            t[4] | (t[5] << 8) | (t[6] << 16) | (t[7] << 24),
+            i
+          );
+        }),
+        (n.fromBytesBE = function(t, i) {
+          return new n(
+            (t[4] << 24) | (t[5] << 16) | (t[6] << 8) | t[7],
+            (t[0] << 24) | (t[1] << 16) | (t[2] << 8) | t[3],
+            i
+          );
+        });
+    },
+  ]);
+});
 //# sourceMappingURL=long.js.map
 // Copyright 2018 Google Inc.
 //
@@ -32,8 +831,9 @@ class JSBI extends Array {
         return JSBI.__oneDigit(arg, false);
       }
       if (!Number.isFinite(arg) || Math.floor(arg) !== arg) {
-        throw new RangeError('The number ' + arg + ' cannot be converted to ' +
-                             'BigInt because it is not an integer');
+        throw new RangeError(
+          'The number ' + arg + ' cannot be converted to ' + 'BigInt because it is not an integer'
+        );
       }
       return JSBI.__fromDouble(arg);
     } else if (typeof arg === 'string') {
@@ -66,8 +866,7 @@ class JSBI extends Array {
 
   toString(radix = 10) {
     if (radix < 2 || radix > 36) {
-      throw new RangeError(
-          'toString() radix argument must be between 2 and 36');
+      throw new RangeError('toString() radix argument must be between 2 and 36');
     }
     if (this.length === 0) return '0';
     if ((radix & (radix - 1)) === 0) {
@@ -92,32 +891,31 @@ class JSBI extends Array {
     let currentDigit = xMsd;
     let digitIndex = xLength - 1;
     const shift = msdLeadingZeros + 1;
-    let mantissaHigh = (shift === 32) ? 0 : currentDigit << shift;
+    let mantissaHigh = shift === 32 ? 0 : currentDigit << shift;
     mantissaHigh >>>= 12;
     const mantissaHighBitsUnset = shift - 12;
-    let mantissaLow = (shift >= 12) ? 0 : (currentDigit << (20 + shift));
+    let mantissaLow = shift >= 12 ? 0 : currentDigit << (20 + shift);
     let mantissaLowBitsUnset = 20 + shift;
     if (mantissaHighBitsUnset > 0 && digitIndex > 0) {
       digitIndex--;
       currentDigit = x.__digit(digitIndex);
-      mantissaHigh |= (currentDigit >>> (32 - mantissaHighBitsUnset));
+      mantissaHigh |= currentDigit >>> (32 - mantissaHighBitsUnset);
       mantissaLow = currentDigit << mantissaHighBitsUnset;
       mantissaLowBitsUnset = mantissaHighBitsUnset;
     }
     if (mantissaLowBitsUnset > 0 && digitIndex > 0) {
       digitIndex--;
       currentDigit = x.__digit(digitIndex);
-      mantissaLow |= (currentDigit >>> (32 - mantissaLowBitsUnset));
+      mantissaLow |= currentDigit >>> (32 - mantissaLowBitsUnset);
       mantissaLowBitsUnset -= 32;
     }
-    const rounding = JSBI.__decideRounding(x, mantissaLowBitsUnset,
-        digitIndex, currentDigit);
+    const rounding = JSBI.__decideRounding(x, mantissaLowBitsUnset, digitIndex, currentDigit);
     if (rounding === 1 || (rounding === 0 && (mantissaLow & 1) === 1)) {
       mantissaLow = (mantissaLow + 1) >>> 0;
       if (mantissaLow === 0) {
         // Incrementing mantissaLow overflowed.
         mantissaHigh++;
-        if ((mantissaHigh >>> 20) !== 0) {
+        if (mantissaHigh >>> 20 !== 0) {
           // Incrementing mantissaHigh overflowed.
           mantissaHigh = 0;
           exponent++;
@@ -128,8 +926,8 @@ class JSBI extends Array {
         }
       }
     }
-    const signBit = x.sign ? (1 << 31) : 0;
-    exponent = (exponent + 0x3FF) << 20;
+    const signBit = x.sign ? 1 << 31 : 0;
+    exponent = (exponent + 0x3ff) << 20;
     JSBI.__kBitConversionInts[1] = signBit | exponent | mantissaHigh;
     JSBI.__kBitConversionInts[0] = mantissaLow;
     return JSBI.__kBitConversionDouble[0];
@@ -180,7 +978,7 @@ class JSBI extends Array {
     if (x.length === 1 && x.__digit(0) === 2) {
       // Fast path for 2^n.
       const neededDigits = 1 + (expValue >>> 5);
-      const sign = x.sign && ((expValue & 1) !== 0);
+      const sign = x.sign && (expValue & 1) !== 0;
       const result = new JSBI(neededDigits, sign);
       result.__initializeDigits();
       // All bits are zero. Now set the n-th bit.
@@ -227,7 +1025,7 @@ class JSBI extends Array {
     const resultSign = x.sign !== y.sign;
     const divisor = y.__unsignedDigit(0);
     let quotient;
-    if (y.length === 1 && divisor <= 0xFFFF) {
+    if (y.length === 1 && divisor <= 0xffff) {
       if (divisor === 1) {
         return resultSign === x.sign ? x : JSBI.unaryMinus(x);
       }
@@ -243,7 +1041,7 @@ class JSBI extends Array {
     if (y.length === 0) throw new RangeError('Division by zero');
     if (JSBI.__absoluteCompare(x, y) < 0) return x;
     const divisor = y.__unsignedDigit(0);
-    if (y.length === 1 && divisor <= 0xFFFF) {
+    if (y.length === 1 && divisor <= 0xffff) {
       if (divisor === 1) return JSBI.__zero();
       const remainderDigit = JSBI.__absoluteModSmall(x, divisor);
       if (remainderDigit === 0) return JSBI.__zero();
@@ -297,8 +1095,7 @@ class JSBI extends Array {
   }
 
   static unsignedRightShift() {
-    throw new TypeError(
-        'BigInts have no unsigned right shift; use >> instead');
+    throw new TypeError('BigInts have no unsigned right shift; use >> instead');
   }
 
   static lessThan(x, y) {
@@ -409,8 +1206,7 @@ class JSBI extends Array {
     if (typeof x === 'number' && typeof y === 'number') {
       return x + y;
     }
-    throw new TypeError(
-        'Cannot mix BigInt and other types, use explicit conversions');
+    throw new TypeError('Cannot mix BigInt and other types, use explicit conversions');
   }
 
   static LT(x, y) {
@@ -526,12 +1322,12 @@ class JSBI extends Array {
   static __fromDouble(value) {
     const sign = value < 0;
     JSBI.__kBitConversionDouble[0] = value;
-    const rawExponent = (JSBI.__kBitConversionInts[1] >>> 20) & 0x7FF;
-    const exponent = rawExponent - 0x3FF;
+    const rawExponent = (JSBI.__kBitConversionInts[1] >>> 20) & 0x7ff;
+    const exponent = rawExponent - 0x3ff;
     const digits = (exponent >>> 5) + 1;
     const result = new JSBI(digits, sign);
     const kHiddenBit = 0x00100000;
-    let mantissaHigh = (JSBI.__kBitConversionInts[1] & 0xFFFFF) | kHiddenBit;
+    let mantissaHigh = (JSBI.__kBitConversionInts[1] & 0xfffff) | kHiddenBit;
     let mantissaLow = JSBI.__kBitConversionInts[0];
     const kMantissaHighTopBit = 20;
     // 0-indexed position of most significant bit in most significant digit.
@@ -546,8 +1342,7 @@ class JSBI extends Array {
       const shift = kMantissaHighTopBit - msdTopBit;
       remainingMantissaBits = shift + 32;
       digit = mantissaHigh >>> shift;
-      mantissaHigh = (mantissaHigh << (32 - shift)) |
-                      (mantissaLow >>> shift);
+      mantissaHigh = (mantissaHigh << (32 - shift)) | (mantissaLow >>> shift);
       mantissaLow = mantissaLow << (32 - shift);
     } else if (msdTopBit === kMantissaHighTopBit) {
       remainingMantissaBits = 32;
@@ -575,17 +1370,16 @@ class JSBI extends Array {
   }
 
   static __isWhitespace(c) {
-    if (c <= 0x0D && c >= 0x09) return true;
-    if (c <= 0x9F) return c === 0x20;
-    if (c <= 0x01FFFF) {
-      return c === 0xA0 || c === 0x1680;
+    if (c <= 0x0d && c >= 0x09) return true;
+    if (c <= 0x9f) return c === 0x20;
+    if (c <= 0x01ffff) {
+      return c === 0xa0 || c === 0x1680;
     }
-    if (c <= 0x02FFFF) {
-      c &= 0x01FFFF;
-      return c <= 0x0A || c === 0x28 || c === 0x29 || c === 0x2F ||
-             c === 0x5F || c === 0x1000;
+    if (c <= 0x02ffff) {
+      c &= 0x01ffff;
+      return c <= 0x0a || c === 0x28 || c === 0x29 || c === 0x2f || c === 0x5f || c === 0x1000;
     }
-    return c === 0xFEFF;
+    return c === 0xfeff;
   }
 
   static __fromString(string, radix = 0) {
@@ -602,11 +1396,13 @@ class JSBI extends Array {
     }
 
     // Detect radix.
-    if (current === 0x2B) { // '+'
+    if (current === 0x2b) {
+      // '+'
       if (++cursor === length) return null;
       current = string.charCodeAt(cursor);
       sign = 1;
-    } else if (current === 0x2D) { // '-'
+    } else if (current === 0x2d) {
+      // '-'
       if (++cursor === length) return null;
       current = string.charCodeAt(cursor);
       sign = -1;
@@ -614,18 +1410,22 @@ class JSBI extends Array {
 
     if (radix === 0) {
       radix = 10;
-      if (current === 0x30) { // '0'
+      if (current === 0x30) {
+        // '0'
         if (++cursor === length) return JSBI.__zero();
         current = string.charCodeAt(cursor);
-        if (current === 0x58 || current === 0x78) { // 'X' or 'x'
+        if (current === 0x58 || current === 0x78) {
+          // 'X' or 'x'
           radix = 16;
           if (++cursor === length) return null;
           current = string.charCodeAt(cursor);
-        } else if (current === 0x4F || current === 0x6F) { // 'O' or 'o'
+        } else if (current === 0x4f || current === 0x6f) {
+          // 'O' or 'o'
           radix = 8;
           if (++cursor === length) return null;
           current = string.charCodeAt(cursor);
-        } else if (current === 0x42 || current === 0x62) { // 'B' or 'b'
+        } else if (current === 0x42 || current === 0x62) {
+          // 'B' or 'b'
           radix = 2;
           if (++cursor === length) return null;
           current = string.charCodeAt(cursor);
@@ -634,11 +1434,13 @@ class JSBI extends Array {
         }
       }
     } else if (radix === 16) {
-      if (current === 0x30) { // '0'
+      if (current === 0x30) {
+        // '0'
         // Allow "0x" prefix.
         if (++cursor === length) return JSBI.__zero();
         current = string.charCodeAt(cursor);
-        if (current === 0x58 || current === 0x78) { // 'X' or 'x'
+        if (current === 0x58 || current === 0x78) {
+          // 'X' or 'x'
           if (++cursor === length) return null;
           current = string.charCodeAt(cursor);
         } else {
@@ -658,8 +1460,7 @@ class JSBI extends Array {
     let bitsPerChar = JSBI.__kMaxBitsPerChar[radix];
     let roundup = JSBI.__kBitsPerCharTableMultiplier - 1;
     if (chars > (1 << 30) / bitsPerChar) return null;
-    const bitsMin =
-        (bitsPerChar * chars + roundup) >>> JSBI.__kBitsPerCharTableShift;
+    const bitsMin = (bitsPerChar * chars + roundup) >>> JSBI.__kBitsPerCharTableShift;
     const resultLength = (bitsMin + 31) >>> 5;
     const result = new JSBI(resultLength, false);
 
@@ -678,9 +1479,9 @@ class JSBI extends Array {
         let bits = 0;
         while (true) {
           let d;
-          if (((current - 48) >>> 0) < limDigit) {
+          if ((current - 48) >>> 0 < limDigit) {
             d = current - 48;
-          } else if ((((current | 32) - 97) >>> 0) < limAlpha) {
+          } else if (((current | 32) - 97) >>> 0 < limAlpha) {
             d = (current | 32) - 87;
           } else {
             done = true;
@@ -708,9 +1509,9 @@ class JSBI extends Array {
         let multiplier = 1;
         while (true) {
           let d;
-          if (((current - 48) >>> 0) < limDigit) {
+          if ((current - 48) >>> 0 < limDigit) {
             d = current - 48;
-          } else if ((((current | 32) - 97) >>> 0) < limAlpha) {
+          } else if (((current | 32) - 97) >>> 0 < limAlpha) {
             d = (current | 32) - 87;
           } else {
             done = true;
@@ -718,7 +1519,7 @@ class JSBI extends Array {
           }
 
           const m = multiplier * radix;
-          if (m > 0xFFFFFFFF) break;
+          if (m > 0xffffffff) break;
           multiplier = m;
           part = part * radix + d;
           charsSoFar++;
@@ -729,8 +1530,8 @@ class JSBI extends Array {
           current = string.charCodeAt(cursor);
         }
         roundup = JSBI.__kBitsPerCharTableMultiplier * 32 - 1;
-        const digitsSoFar = (bitsPerChar * charsSoFar + roundup) >>>
-                            (JSBI.__kBitsPerCharTableShift + 5);
+        const digitsSoFar =
+          (bitsPerChar * charsSoFar + roundup) >>> (JSBI.__kBitsPerCharTableShift + 5);
         result.__inplaceMultiplyAdd(multiplier, part, digitsSoFar);
       } while (!done);
     }
@@ -742,7 +1543,7 @@ class JSBI extends Array {
 
     // Get result.
     if (sign !== 0 && radix !== 10) return null;
-    result.sign = (sign === -1);
+    result.sign = sign === -1;
     return result.__trim();
   }
 
@@ -753,7 +1554,7 @@ class JSBI extends Array {
     for (let i = parts.length - 1; i >= 0; i--) {
       const part = parts[i];
       const partBits = partsBits[i];
-      digit |= (part << bitsInDigit);
+      digit |= part << bitsInDigit;
       bitsInDigit += partBits;
       if (bitsInDigit === 32) {
         result.__setDigit(digitIndex++, digit);
@@ -779,16 +1580,15 @@ class JSBI extends Array {
     let bits = radix - 1;
     bits = ((bits >>> 1) & 0x55) + (bits & 0x55);
     bits = ((bits >>> 2) & 0x33) + (bits & 0x33);
-    bits = ((bits >>> 4) & 0x0F) + (bits & 0x0F);
+    bits = ((bits >>> 4) & 0x0f) + (bits & 0x0f);
     const bitsPerChar = bits;
     const charMask = radix - 1;
     const msd = x.__digit(length - 1);
     const msdLeadingZeros = Math.clz32(msd);
     const bitLength = length * 32 - msdLeadingZeros;
-    let charsRequired =
-        ((bitLength + bitsPerChar - 1) / bitsPerChar) | 0;
+    let charsRequired = ((bitLength + bitsPerChar - 1) / bitsPerChar) | 0;
     if (x.sign) charsRequired++;
-    if (charsRequired > (1 << 28)) throw new Error('string too long');
+    if (charsRequired > 1 << 28) throw new Error('string too long');
     const result = new Array(charsRequired);
     let pos = charsRequired - 1;
     let digit = 0;
@@ -837,19 +1637,21 @@ class JSBI extends Array {
     const secondHalfChars = (charsRequired + 1) >> 1;
     // Divide-and-conquer: split by a power of {radix} that's approximately
     // the square root of {x}, then recurse.
-    const conqueror = JSBI.exponentiate(JSBI.__oneDigit(radix, false),
-        JSBI.__oneDigit(secondHalfChars, false));
+    const conqueror = JSBI.exponentiate(
+      JSBI.__oneDigit(radix, false),
+      JSBI.__oneDigit(secondHalfChars, false)
+    );
     let quotient;
     let secondHalf;
     const divisor = conqueror.__unsignedDigit(0);
-    if (conqueror.length === 1 && divisor <= 0xFFFF) {
+    if (conqueror.length === 1 && divisor <= 0xffff) {
       quotient = new JSBI(x.length, false);
       quotient.__initializeDigits();
       let remainder = 0;
       for (let i = x.length * 2 - 1; i >= 0; i--) {
         const input = (remainder << 16) | x.__halfDigit(i);
         quotient.__setHalfDigit(i, (input / divisor) | 0);
-        remainder = (input % divisor) | 0;
+        remainder = input % divisor | 0;
       }
       secondHalf = remainder.toString(radix);
     } else {
@@ -889,9 +1691,9 @@ class JSBI extends Array {
   }
 
   static __compareToNumber(x, y) {
-    if (y | 0 === 0) {
+    if (y | (0 === 0)) {
       const xSign = x.sign;
-      const ySign = (y < 0);
+      const ySign = y < 0;
       if (xSign !== ySign) return JSBI.__unequalSign(xSign);
       if (x.length === 0) {
         if (ySign) throw new Error('implementation bug');
@@ -913,18 +1715,18 @@ class JSBI extends Array {
     if (y === Infinity) return -1;
     if (y === -Infinity) return 1;
     const xSign = x.sign;
-    const ySign = (y < 0);
+    const ySign = y < 0;
     if (xSign !== ySign) return JSBI.__unequalSign(xSign);
     if (y === 0) {
       throw new Error('implementation bug: should be handled elsewhere');
     }
     if (x.length === 0) return -1;
     JSBI.__kBitConversionDouble[0] = y;
-    const rawExponent = (JSBI.__kBitConversionInts[1] >>> 20) & 0x7FF;
-    if (rawExponent === 0x7FF) {
+    const rawExponent = (JSBI.__kBitConversionInts[1] >>> 20) & 0x7ff;
+    if (rawExponent === 0x7ff) {
       throw new Error('implementation bug: handled elsewhere');
     }
-    const exponent = rawExponent - 0x3FF;
+    const exponent = rawExponent - 0x3ff;
     if (exponent < 0) {
       // The absolute value of y is less than 1. Only 0n has an absolute
       // value smaller than that, but we've already covered that case.
@@ -940,11 +1742,11 @@ class JSBI extends Array {
     // Same sign, same bit length. Shift mantissa to align with x and compare
     // bit for bit.
     const kHiddenBit = 0x00100000;
-    let mantissaHigh = (JSBI.__kBitConversionInts[1] & 0xFFFFF) | kHiddenBit;
+    let mantissaHigh = (JSBI.__kBitConversionInts[1] & 0xfffff) | kHiddenBit;
     let mantissaLow = JSBI.__kBitConversionInts[0];
     const kMantissaHighTopBit = 20;
     const msdTopBit = 31 - msdLeadingZeros;
-    if (msdTopBit !== ((xBitLength - 1) % 31)) {
+    if (msdTopBit !== (xBitLength - 1) % 31) {
       throw new Error('implementation bug');
     }
     let compareMantissa; // Shifted chunk of mantissa.
@@ -963,8 +1765,7 @@ class JSBI extends Array {
     } else {
       const shift = msdTopBit - kMantissaHighTopBit;
       remainingMantissaBits = 32 - shift;
-      compareMantissa =
-          (mantissaHigh << shift) | (mantissaLow >>> (32 - shift));
+      compareMantissa = (mantissaHigh << shift) | (mantissaLow >>> (32 - shift));
       mantissaHigh = mantissaLow << shift;
     }
     xMsd = xMsd >>> 0;
@@ -994,11 +1795,10 @@ class JSBI extends Array {
   }
 
   static __equalToNumber(x, y) {
-    if (y | 0 === y) {
+    if (y | (0 === y)) {
       if (y === 0) return x.length === 0;
       // Any multi-digit BigInt is bigger than an int32.
-      return (x.length === 1) && (x.sign === (y < 0)) &&
-             (x.__unsignedDigit(0) === Math.abs(y));
+      return x.length === 1 && x.sign === y < 0 && x.__unsignedDigit(0) === Math.abs(y);
     }
     return JSBI.__compareToDouble(x, y) === 0;
   }
@@ -1010,10 +1810,14 @@ class JSBI extends Array {
   // 3 - greaterThanOrEqual
   static __comparisonResultToBool(result, op) {
     switch (op) {
-      case 0: return result < 0;
-      case 1: return result <= 0;
-      case 2: return result > 0;
-      case 3: return result >= 0;
+      case 0:
+        return result < 0;
+      case 1:
+        return result <= 0;
+      case 2:
+        return result > 0;
+      case 3:
+        return result >= 0;
     }
     throw new Error('unreachable');
   }
@@ -1023,10 +1827,14 @@ class JSBI extends Array {
     y = JSBI.__toPrimitive(y);
     if (typeof x === 'string' && typeof y === 'string') {
       switch (op) {
-        case 0: return x < y;
-        case 1: return x <= y;
-        case 2: return x > y;
-        case 3: return x >= y;
+        case 0:
+          return x < y;
+        case 1:
+          return x <= y;
+        case 2:
+          return x > y;
+        case 3:
+          return x >= y;
       }
     }
     if (JSBI.__isBigInt(x) && typeof y === 'string') {
@@ -1051,15 +1859,18 @@ class JSBI extends Array {
     if (typeof x !== 'number') throw new Error('implementation bug');
     if (JSBI.__isBigInt(y)) {
       // Note that "op ^ 2" reverses the op's direction.
-      return JSBI.__comparisonResultToBool(JSBI.__compareToNumber(y, x),
-          op ^ 2);
+      return JSBI.__comparisonResultToBool(JSBI.__compareToNumber(y, x), op ^ 2);
     }
     if (typeof y !== 'number') throw new Error('implementation bug');
     switch (op) {
-      case 0: return x < y;
-      case 1: return x <= y;
-      case 2: return x > y;
-      case 3: return x >= y;
+      case 0:
+        return x < y;
+      case 1:
+        return x <= y;
+      case 2:
+        return x > y;
+      case 3:
+        return x >= y;
     }
   }
 
@@ -1081,17 +1892,17 @@ class JSBI extends Array {
     for (; i < y.length; i++) {
       const yDigit = y.__digit(i);
       const xDigit = x.__digit(i);
-      const rLow = (xDigit & 0xFFFF) + (yDigit & 0xFFFF) + carry;
+      const rLow = (xDigit & 0xffff) + (yDigit & 0xffff) + carry;
       const rHigh = (xDigit >>> 16) + (yDigit >>> 16) + (rLow >>> 16);
       carry = rHigh >>> 16;
-      result.__setDigit(i, (rLow & 0xFFFF) | (rHigh << 16));
+      result.__setDigit(i, (rLow & 0xffff) | (rHigh << 16));
     }
     for (; i < x.length; i++) {
       const xDigit = x.__digit(i);
-      const rLow = (xDigit & 0xFFFF) + carry;
+      const rLow = (xDigit & 0xffff) + carry;
       const rHigh = (xDigit >>> 16) + (rLow >>> 16);
       carry = rHigh >>> 16;
-      result.__setDigit(i, (rLow & 0xFFFF) | (rHigh << 16));
+      result.__setDigit(i, (rLow & 0xffff) | (rHigh << 16));
     }
     if (i < result.length) {
       result.__setDigit(i, carry);
@@ -1108,19 +1919,19 @@ class JSBI extends Array {
     for (; i < y.length; i++) {
       const xDigit = x.__digit(i);
       const yDigit = y.__digit(i);
-      const rLow = (xDigit & 0xFFFF) - (yDigit & 0xFFFF) - borrow;
+      const rLow = (xDigit & 0xffff) - (yDigit & 0xffff) - borrow;
       borrow = (rLow >>> 16) & 1;
       const rHigh = (xDigit >>> 16) - (yDigit >>> 16) - borrow;
       borrow = (rHigh >>> 16) & 1;
-      result.__setDigit(i, (rLow & 0xFFFF) | (rHigh << 16));
+      result.__setDigit(i, (rLow & 0xffff) | (rHigh << 16));
     }
     for (; i < x.length; i++) {
       const xDigit = x.__digit(i);
-      const rLow = (xDigit & 0xFFFF) - borrow;
+      const rLow = (xDigit & 0xffff) - borrow;
       borrow = (rLow >>> 16) & 1;
       const rHigh = (xDigit >>> 16) - borrow;
       borrow = (rHigh >>> 16) & 1;
-      result.__setDigit(i, (rLow & 0xFFFF) | (rHigh << 16));
+      result.__setDigit(i, (rLow & 0xffff) | (rHigh << 16));
     }
     return result.__trim();
   }
@@ -1135,7 +1946,7 @@ class JSBI extends Array {
     let carry = true;
     for (let i = 0; i < inputLength; i++) {
       let digit = x.__digit(i);
-      const newCarry = digit === (0xFFFFFFFF | 0);
+      const newCarry = digit === (0xffffffff | 0);
       if (carry) digit = (digit + 1) | 0;
       carry = newCarry;
       result.__setDigit(i, digit);
@@ -1292,45 +2103,43 @@ class JSBI extends Array {
     return x.__unsignedDigit(i) > y.__unsignedDigit(i) ? 1 : -1;
   }
 
-  static __multiplyAccumulate(multiplicand, multiplier, accumulator,
-      accumulatorIndex) {
+  static __multiplyAccumulate(multiplicand, multiplier, accumulator, accumulatorIndex) {
     if (multiplier === 0) return;
-    const m2Low = multiplier & 0xFFFF;
+    const m2Low = multiplier & 0xffff;
     const m2High = multiplier >>> 16;
     let carry = 0;
     let highLower = 0;
     let highHigher = 0;
     for (let i = 0; i < multiplicand.length; i++, accumulatorIndex++) {
       let acc = accumulator.__digit(accumulatorIndex);
-      let accLow = acc & 0xFFFF;
+      let accLow = acc & 0xffff;
       let accHigh = acc >>> 16;
       const m1 = multiplicand.__digit(i);
-      const m1Low = m1 & 0xFFFF;
+      const m1Low = m1 & 0xffff;
       const m1High = m1 >>> 16;
       const rLow = Math.imul(m1Low, m2Low);
       const rMid1 = Math.imul(m1Low, m2High);
       const rMid2 = Math.imul(m1High, m2Low);
       const rHigh = Math.imul(m1High, m2High);
-      accLow += highLower + (rLow & 0xFFFF);
-      accHigh += highHigher + carry + (accLow >>> 16) + (rLow >>> 16) +
-                 (rMid1 & 0xFFFF) + (rMid2 & 0xFFFF);
+      accLow += highLower + (rLow & 0xffff);
+      accHigh +=
+        highHigher + carry + (accLow >>> 16) + (rLow >>> 16) + (rMid1 & 0xffff) + (rMid2 & 0xffff);
       carry = accHigh >>> 16;
-      highLower = (rMid1 >>> 16) + (rMid2 >>> 16) + (rHigh & 0xFFFF) + carry;
+      highLower = (rMid1 >>> 16) + (rMid2 >>> 16) + (rHigh & 0xffff) + carry;
       carry = highLower >>> 16;
-      highLower &= 0xFFFF;
+      highLower &= 0xffff;
       highHigher = rHigh >>> 16;
-      acc = (accLow & 0xFFFF) | (accHigh << 16);
+      acc = (accLow & 0xffff) | (accHigh << 16);
       accumulator.__setDigit(accumulatorIndex, acc);
     }
-    for (; carry !== 0 || highLower !== 0 || highHigher !== 0;
-      accumulatorIndex++) {
+    for (; carry !== 0 || highLower !== 0 || highHigher !== 0; accumulatorIndex++) {
       let acc = accumulator.__digit(accumulatorIndex);
-      const accLow = (acc & 0xFFFF) + highLower;
+      const accLow = (acc & 0xffff) + highLower;
       const accHigh = (acc >>> 16) + (accLow >>> 16) + highHigher + carry;
       highLower = 0;
       highHigher = 0;
       carry = accHigh >>> 16;
-      acc = (accLow & 0xFFFF) | (accHigh << 16);
+      acc = (accLow & 0xffff) | (accHigh << 16);
       accumulator.__setDigit(accumulatorIndex, acc);
     }
   }
@@ -1340,14 +2149,14 @@ class JSBI extends Array {
     let high = 0;
     for (let i = 0; i < n; i++) {
       const digit = source.__digit(i);
-      const rx = Math.imul(digit & 0xFFFF, factor);
-      const r0 = (rx & 0xFFFF) + high + carry;
+      const rx = Math.imul(digit & 0xffff, factor);
+      const r0 = (rx & 0xffff) + high + carry;
       carry = r0 >>> 16;
       const ry = Math.imul(digit >>> 16, factor);
-      const r16 = (ry & 0xFFFF) + (rx >>> 16) + carry;
+      const r16 = (ry & 0xffff) + (rx >>> 16) + carry;
       carry = r16 >>> 16;
       high = ry >>> 16;
-      result.__setDigit(i, (r16 << 16) | (r0 & 0xFFFF));
+      result.__setDigit(i, (r16 << 16) | (r0 & 0xffff));
     }
     if (result.length > n) {
       result.__setDigit(n++, carry + high);
@@ -1361,28 +2170,27 @@ class JSBI extends Array {
 
   __inplaceMultiplyAdd(multiplier, summand, length) {
     if (length > this.length) length = this.length;
-    const mLow = multiplier & 0xFFFF;
+    const mLow = multiplier & 0xffff;
     const mHigh = multiplier >>> 16;
     let carry = 0;
-    let highLower = summand & 0xFFFF;
+    let highLower = summand & 0xffff;
     let highHigher = summand >>> 16;
     for (let i = 0; i < length; i++) {
       const d = this.__digit(i);
-      const dLow = d & 0xFFFF;
+      const dLow = d & 0xffff;
       const dHigh = d >>> 16;
       const pLow = Math.imul(dLow, mLow);
       const pMid1 = Math.imul(dLow, mHigh);
       const pMid2 = Math.imul(dHigh, mLow);
       const pHigh = Math.imul(dHigh, mHigh);
-      const rLow = highLower + (pLow & 0xFFFF);
-      const rHigh = highHigher + carry + (rLow >>> 16) + (pLow >>> 16) +
-                    (pMid1 & 0xFFFF) + (pMid2 & 0xFFFF);
-      highLower = (pMid1 >>> 16) + (pMid2 >>> 16) + (pHigh & 0xFFFF) +
-                  (rHigh >>> 16);
+      const rLow = highLower + (pLow & 0xffff);
+      const rHigh =
+        highHigher + carry + (rLow >>> 16) + (pLow >>> 16) + (pMid1 & 0xffff) + (pMid2 & 0xffff);
+      highLower = (pMid1 >>> 16) + (pMid2 >>> 16) + (pHigh & 0xffff) + (rHigh >>> 16);
       carry = highLower >>> 16;
-      highLower &= 0xFFFF;
+      highLower &= 0xffff;
       highHigher = pHigh >>> 16;
-      const result = (rLow & 0xFFFF) | (rHigh << 16);
+      const result = (rLow & 0xffff) | (rHigh << 16);
       this.__setDigit(i, result);
     }
     if (carry !== 0 || highLower !== 0 || highHigher !== 0) {
@@ -1396,10 +2204,10 @@ class JSBI extends Array {
     for (let i = x.length * 2 - 1; i >= 0; i -= 2) {
       let input = ((remainder << 16) | x.__halfDigit(i)) >>> 0;
       const upperHalf = (input / divisor) | 0;
-      remainder = (input % divisor) | 0;
+      remainder = input % divisor | 0;
       input = ((remainder << 16) | x.__halfDigit(i - 1)) >>> 0;
       const lowerHalf = (input / divisor) | 0;
-      remainder = (input % divisor) | 0;
+      remainder = input % divisor | 0;
       quotient.__setDigit(i >>> 1, (upperHalf << 16) | lowerHalf);
     }
     return quotient;
@@ -1409,7 +2217,7 @@ class JSBI extends Array {
     let remainder = 0;
     for (let i = x.length * 2 - 1; i >= 0; i--) {
       const input = ((remainder << 16) | x.__halfDigit(i)) >>> 0;
-      remainder = (input % divisor) | 0;
+      remainder = input % divisor | 0;
     }
     return remainder;
   }
@@ -1436,18 +2244,18 @@ class JSBI extends Array {
     let halfDigitBuffer = 0;
     for (let j = m; j >= 0; j--) {
       // D3.
-      let qhat = 0xFFFF;
+      let qhat = 0xffff;
       const ujn = u.__halfDigit(j + n);
       if (ujn !== vn1) {
         const input = ((ujn << 16) | u.__halfDigit(j + n - 1)) >>> 0;
         qhat = (input / vn1) | 0;
-        let rhat = (input % vn1) | 0;
+        let rhat = input % vn1 | 0;
         const vn2 = divisor.__halfDigit(n - 2);
         const ujn2 = u.__halfDigit(j + n - 2);
-        while ((Math.imul(qhat, vn2) >>> 0) > (((rhat << 16) | ujn2) >>> 0)) {
+        while (Math.imul(qhat, vn2) >>> 0 > ((rhat << 16) | ujn2) >>> 0) {
           qhat--;
           rhat += vn1;
-          if (rhat > 0xFFFF) break;
+          if (rhat > 0xffff) break;
         }
       }
       // D4.
@@ -1469,7 +2277,7 @@ class JSBI extends Array {
     if (wantRemainder) {
       u.__inplaceRightShift(shift);
       if (wantQuotient) {
-        return {quotient: q, remainder: u};
+        return { quotient: q, remainder: u };
       }
       return u;
     }
@@ -1484,9 +2292,7 @@ class JSBI extends Array {
   __inplaceAdd(summand, startIndex, halfDigits) {
     let carry = 0;
     for (let i = 0; i < halfDigits; i++) {
-      const sum = this.__halfDigit(startIndex + i) +
-                summand.__halfDigit(i) +
-                carry;
+      const sum = this.__halfDigit(startIndex + i) + summand.__halfDigit(i) + carry;
       carry = sum >>> 16;
       this.__setHalfDigit(startIndex + i, sum);
     }
@@ -1501,32 +2307,31 @@ class JSBI extends Array {
       // subtr.:   [..][..]
       startIndex >>= 1;
       let current = this.__digit(startIndex);
-      let r0 = current & 0xFFFF;
+      let r0 = current & 0xffff;
       let i = 0;
       for (; i < fullSteps; i++) {
         const sub = subtrahend.__digit(i);
-        const r16 = (current >>> 16) - (sub & 0xFFFF) - borrow;
+        const r16 = (current >>> 16) - (sub & 0xffff) - borrow;
         borrow = (r16 >>> 16) & 1;
-        this.__setDigit(startIndex + i, (r16 << 16) | (r0 & 0xFFFF));
+        this.__setDigit(startIndex + i, (r16 << 16) | (r0 & 0xffff));
         current = this.__digit(startIndex + i + 1);
-        r0 = (current & 0xFFFF) - (sub >>> 16) - borrow;
+        r0 = (current & 0xffff) - (sub >>> 16) - borrow;
         borrow = (r0 >>> 16) & 1;
       }
       // Unrolling the last iteration gives a 5% performance benefit!
       const sub = subtrahend.__digit(i);
-      const r16 = (current >>> 16) - (sub & 0xFFFF) - borrow;
+      const r16 = (current >>> 16) - (sub & 0xffff) - borrow;
       borrow = (r16 >>> 16) & 1;
-      this.__setDigit(startIndex + i, (r16 << 16) | (r0 & 0xFFFF));
+      this.__setDigit(startIndex + i, (r16 << 16) | (r0 & 0xffff));
       const subTop = sub >>> 16;
       if (startIndex + i + 1 >= this.length) {
         throw new RangeError('out of bounds');
       }
       if ((halfDigits & 1) === 0) {
         current = this.__digit(startIndex + i + 1);
-        r0 = (current & 0xFFFF) - subTop - borrow;
+        r0 = (current & 0xffff) - subTop - borrow;
         borrow = (r0 >>> 16) & 1;
-        this.__setDigit(startIndex + subtrahend.length,
-                        (current & 0xFFFF0000) | (r0 & 0xFFFF));
+        this.__setDigit(startIndex + subtrahend.length, (current & 0xffff0000) | (r0 & 0xffff));
       }
     } else {
       startIndex >>= 1;
@@ -1534,22 +2339,22 @@ class JSBI extends Array {
       for (; i < subtrahend.length - 1; i++) {
         const current = this.__digit(startIndex + i);
         const sub = subtrahend.__digit(i);
-        const r0 = (current & 0xFFFF) - (sub & 0xFFFF) - borrow;
+        const r0 = (current & 0xffff) - (sub & 0xffff) - borrow;
         borrow = (r0 >>> 16) & 1;
         const r16 = (current >>> 16) - (sub >>> 16) - borrow;
         borrow = (r16 >>> 16) & 1;
-        this.__setDigit(startIndex + i, (r16 << 16) | (r0 & 0xFFFF));
+        this.__setDigit(startIndex + i, (r16 << 16) | (r0 & 0xffff));
       }
       const current = this.__digit(startIndex + i);
       const sub = subtrahend.__digit(i);
-      const r0 = (current & 0xFFFF) - (sub & 0xFFFF) - borrow;
+      const r0 = (current & 0xffff) - (sub & 0xffff) - borrow;
       borrow = (r0 >>> 16) & 1;
       let r16 = 0;
       if ((halfDigits & 1) === 0) {
         r16 = (current >>> 16) - (sub >>> 16) - borrow;
         borrow = (r16 >>> 16) & 1;
       }
-      this.__setDigit(startIndex + i, (r16 << 16) | (r0 & 0xFFFF));
+      this.__setDigit(startIndex + i, (r16 << 16) | (r0 & 0xffff));
     }
     return borrow;
   }
@@ -1593,8 +2398,7 @@ class JSBI extends Array {
     const digitShift = shift >>> 5;
     const bitsShift = shift & 31;
     const length = x.length;
-    const grow = bitsShift !== 0 &&
-                 (x.__digit(length - 1) >>> (32 - bitsShift)) !== 0;
+    const grow = bitsShift !== 0 && x.__digit(length - 1) >>> (32 - bitsShift) !== 0;
     const resultLength = length + digitShift + (grow ? 1 : 0);
     const result = new JSBI(resultLength, x.sign);
     if (bitsShift === 0) {
@@ -1691,7 +2495,7 @@ class JSBI extends Array {
     return value;
   }
 
-  static __toPrimitive(obj, hint='default') {
+  static __toPrimitive(obj, hint = 'default') {
     if (typeof obj !== 'object') return obj;
     if (obj.constructor === JSBI) return obj;
     const exoticToPrim = obj[Symbol.toPrimitive];
@@ -1737,17 +2541,17 @@ class JSBI extends Array {
   }
   __halfDigitLength() {
     const len = this.length;
-    if (this.__unsignedDigit(len - 1) <= 0xFFFF) return len * 2 - 1;
-    return len*2;
+    if (this.__unsignedDigit(len - 1) <= 0xffff) return len * 2 - 1;
+    return len * 2;
   }
   __halfDigit(i) {
-    return (this[i >>> 1] >>> ((i & 1) << 4)) & 0xFFFF;
+    return (this[i >>> 1] >>> ((i & 1) << 4)) & 0xffff;
   }
   __setHalfDigit(i, value) {
     const digitIndex = i >>> 1;
     const previous = this.__digit(digitIndex);
-    const updated = (i & 1) ? (previous & 0xFFFF) | (value << 16)
-                            : (previous & 0xFFFF0000) | (value & 0xFFFF);
+    const updated =
+      i & 1 ? (previous & 0xffff) | (value << 16) : (previous & 0xffff0000) | (value & 0xffff);
     this.__setDigit(digitIndex, updated);
   }
 
@@ -1772,11 +2576,43 @@ JSBI.__kMaxLengthBits = JSBI.__kMaxLength << 5;
 //   console.log(Math.ceil(Math.log2(i) * 32) + ',');
 // }
 JSBI.__kMaxBitsPerChar = [
-  0, 0, 32, 51, 64, 75, 83, 90, 96, // 0..8
-  102, 107, 111, 115, 119, 122, 126, 128, // 9..16
-  131, 134, 136, 139, 141, 143, 145, 147, // 17..24
-  149, 151, 153, 154, 156, 158, 159, 160, // 25..32
-  162, 163, 165, 166, // 33..36
+  0,
+  0,
+  32,
+  51,
+  64,
+  75,
+  83,
+  90,
+  96, // 0..8
+  102,
+  107,
+  111,
+  115,
+  119,
+  122,
+  126,
+  128, // 9..16
+  131,
+  134,
+  136,
+  139,
+  141,
+  143,
+  145,
+  147, // 17..24
+  149,
+  151,
+  153,
+  154,
+  156,
+  158,
+  159,
+  160, // 25..32
+  162,
+  163,
+  165,
+  166, // 33..36
 ];
 JSBI.__kBitsPerCharTableShift = 5;
 JSBI.__kBitsPerCharTableMultiplier = 1 << JSBI.__kBitsPerCharTableShift;
