@@ -879,7 +879,7 @@ export const getContactNameColorSelector = createSelector(
       );
       const color = contactNameColors.get(contactId);
       if (!color) {
-        assert(false, `No color generated for contact ${contactId}`);
+        window.log.warn(`No color generated for contact ${contactId}`);
         return ContactNameColors[0];
       }
       return color;
