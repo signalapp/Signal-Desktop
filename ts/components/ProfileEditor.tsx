@@ -416,13 +416,14 @@ export const ProfileEditor = ({
           avatarValue={avatarBuffer}
           conversationTitle={getFullNameText()}
           i18n={i18n}
+          isEditable
           onAvatarLoaded={handleAvatarLoaded}
           onClick={() => {
             setEditState(EditState.BetterAvatar);
           }}
           style={{
-            height: 96,
-            width: 96,
+            height: 80,
+            width: 80,
           }}
         />
 

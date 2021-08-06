@@ -178,6 +178,7 @@ export const AvatarPreview = ({
             type="button"
           />
         )}
+        {isEditable && <div className="AvatarPreview__upload" />}
       </div>
     </div>
   );

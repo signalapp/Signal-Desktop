@@ -5,7 +5,6 @@ import React from 'react';
 
 import { AvatarColorType } from '../types/Colors';
 import { AvatarPreview } from './AvatarPreview';
-import { IMAGE_JPEG } from '../types/MIME';
 import { Lightbox } from './Lightbox';
 import { LocalizerType } from '../types/Util';
 
@@ -26,20 +25,6 @@ export const AvatarLightbox = ({
   isGroup,
   onClose,
 }: PropsType): JSX.Element => {
-  if (avatarPath) {
-    return (
-      <Lightbox
-        // We don't know that the avatar is a JPEG, but any image `contentType` will cause
-        //  it to be rendered as an image, which is what we want.
-        contentType={IMAGE_JPEG}
-        close={onClose}
-        i18n={i18n}
-        isViewOnce={false}
-        objectURL={avatarPath}
-      />
-    );
-  }
-
   return (
     <Lightbox
       contentType={undefined}
@@ -50,12 +35,15 @@ export const AvatarLightbox = ({
     >
       <AvatarPreview
         avatarColor={avatarColor}
+        avatarPath={avatarPath}
         conversationTitle={conversationTitle}
         i18n={i18n}
         isGroup={isGroup}
         style={{
           fontSize: '16em',
           height: '2em',
+          maxHeight: 512,
+          maxWidth: 512,
           width: '2em',
         }}
       />

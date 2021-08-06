@@ -64,7 +64,11 @@ export const AvatarIconEditor = ({
         i18n={i18n}
       />
       <hr className="AvatarEditor__divider" />
-      <AvatarColorPicker i18n={i18n} onColorSelected={onColorSelected} />
+      <AvatarColorPicker
+        i18n={i18n}
+        onColorSelected={onColorSelected}
+        selectedColor={avatarData.color}
+      />
       <AvatarModalButtons
         hasChanges={hasChanges}
         i18n={i18n}
