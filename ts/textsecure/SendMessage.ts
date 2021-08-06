@@ -1882,12 +1882,12 @@ export default class MessageSender {
     const ourUuid = window.textsecure.storage.user.getUuid();
     if (!ourUuid) {
       throw new Error(
-        'sendSenderKeyDistributionMessage: Failed to fetch our UUID!'
+        'getSenderKeyDistributionMessage: Failed to fetch our UUID!'
       );
     }
     const ourDeviceId = parseIntOrThrow(
       window.textsecure.storage.user.getDeviceId(),
-      'sendSenderKeyDistributionMessage'
+      'getSenderKeyDistributionMessage'
     );
 
     const protocolAddress = ProtocolAddress.new(ourUuid, ourDeviceId);

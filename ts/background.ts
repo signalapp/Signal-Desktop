@@ -1030,9 +1030,24 @@ export async function startApp(): Promise<void> {
       const now = Date.now();
       const HOUR = 1000 * 60 * 60;
       const DAY = 24 * HOUR;
-      const oneDayAgo = now - DAY;
+      let sentProtoMaxAge = 14 * DAY;
+
       try {
-        await window.Signal.Data.deleteSentProtosOlderThan(oneDayAgo);
+        sentProtoMaxAge = parseIntOrThrow(
+          window.Signal.RemoteConfig.getValue('desktop.retryRespondMaxAge'),
+          'retryRespondMaxAge'
+        );
+      } catch (error) {
+        window.log.warn(
+          'background/setInterval: Failed to parse integer from desktop.retryRespondMaxAge feature flag',
+          error && error.stack ? error.stack : error
+        );
+      }
+
+      try {
+        await window.Signal.Data.deleteSentProtosOlderThan(
+          now - sentProtoMaxAge
+        );
       } catch (error) {
         window.log.error(
           'background/onready/setInterval: Error deleting sent protos: ',

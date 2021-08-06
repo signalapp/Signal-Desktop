@@ -1203,7 +1203,10 @@ export class ConversationModel extends window.Backbone
 
       const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
-      const sendOptions = await getSendOptions(this.attributes);
+      const sendOptions = {
+        ...(await getSendOptions(this.attributes)),
+        online: true,
+      };
       if (isDirectConversation(this.attributes)) {
         handleMessageSend(
           window.textsecure.messaging.sendMessageProtoAndWait({
@@ -1212,10 +1215,7 @@ export class ConversationModel extends window.Backbone
             proto: contentMessage,
             contentHint: ContentHint.IMPLICIT,
             groupId: undefined,
-            options: {
-              ...sendOptions,
-              online: true,
-            },
+            options: sendOptions,
           }),
           { messageIds: [], sendType: 'typing' }
         );

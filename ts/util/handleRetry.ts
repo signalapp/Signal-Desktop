@@ -56,8 +56,8 @@ export async function onRetryRequest(event: RetryRequestEvent): Promise<void> {
   }
 
   const HOUR = 60 * 60 * 1000;
-  const ONE_DAY = 24 * HOUR;
-  let retryRespondMaxAge = ONE_DAY;
+  const DAY = 24 * HOUR;
+  let retryRespondMaxAge = 14 * DAY;
   try {
     retryRespondMaxAge = parseIntOrThrow(
       RemoteConfig.getValue('desktop.retryRespondMaxAge'),
