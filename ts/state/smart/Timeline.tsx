@@ -4,6 +4,8 @@
 import { isEmpty, mapValues, pick } from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
+import memoizee from 'memoizee';
+
 import { mapDispatchToProps } from '../actions';
 import {
   ContactSpoofingReviewPropType,
@@ -56,6 +58,16 @@ type ExternalProps = {
   //   are provided by ConversationView in setupTimeline().
 };
 
+const createBoundOnHeightChange = memoizee(
+  (
+    onHeightChange: (messageId: string) => unknown,
+    messageId: string
+  ): (() => unknown) => {
+    return () => onHeightChange(messageId);
+  },
+  { max: 500 }
+);
+
 function renderItem(
   messageId: string,
   conversationId: string,
@@ -67,7 +79,7 @@ function renderItem(
       {...actionProps}
       conversationId={conversationId}
       id={messageId}
-      onHeightChange={() => onHeightChange(messageId)}
+      onHeightChange={createBoundOnHeightChange(onHeightChange, messageId)}
       renderEmojiPicker={renderEmojiPicker}
       renderAudioAttachment={renderAudioAttachment}
     />
