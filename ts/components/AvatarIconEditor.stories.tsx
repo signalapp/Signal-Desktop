@@ -38,7 +38,7 @@ story.add('Group Icon', () => (
   <AvatarIconEditor
     {...createProps({
       avatarData: createAvatarData({
-        color: AvatarColors[3],
+        color: AvatarColors[8],
         icon: GroupAvatarIcons[0],
       }),
     })}

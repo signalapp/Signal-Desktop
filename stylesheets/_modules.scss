@@ -3149,7 +3149,7 @@ button.module-conversation-details__action-button {
       border-radius: 5px;
       border: 2px solid transparent;
       display: flex;
-      padding: 16px 24px;
+      padding: 8px 24px;
       user-select: none;
       width: 100%;
 
@@ -9172,13 +9172,13 @@ button.module-image__border-overlay:focus {
 .module-group-v2-change--icon {
   @include light-theme {
     @include color-svg(
-      '../images/icons/v2/group-outline-20.svg',
+      '../images/icons/v2/group-outline-24.svg',
       $color-gray-60
     );
   }
   @include dark-theme {
     @include color-svg(
-      '../images/icons/v2/group-outline-20.svg',
+      '../images/icons/v2/group-outline-24.svg',
       $color-gray-05
     );
   }
@@ -9215,13 +9215,13 @@ button.module-image__border-overlay:focus {
 .module-group-v1-migration--icon {
   @include light-theme {
     @include color-svg(
-      '../images/icons/v2/group-outline-20.svg',
+      '../images/icons/v2/group-outline-24.svg',
       $color-gray-60
     );
   }
   @include dark-theme {
     @include color-svg(
-      '../images/icons/v2/group-outline-20.svg',
+      '../images/icons/v2/group-outline-24.svg',
       $color-gray-05
     );
   }
@@ -9737,14 +9737,14 @@ $contact-modal-padding: 18px;
 
   @include light-theme {
     @include color-svg(
-      '../images/icons/v2/group-outline-20.svg',
+      '../images/icons/v2/group-outline-24.svg',
       $color-gray-75
     );
   }
 
   @include dark-theme {
     @include color-svg(
-      '../images/icons/v2/group-outline-20.svg',
+      '../images/icons/v2/group-outline-24.svg',
       $color-gray-15
     );
   }

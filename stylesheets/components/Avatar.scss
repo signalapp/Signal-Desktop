@@ -71,7 +71,6 @@
   &__label {
     align-items: center;
     display: flex;
-    font-weight: bold;
     justify-content: center;
     text-align: center;
     text-transform: uppercase;
@@ -91,15 +90,15 @@
     }
 
     &--group {
-      @include avatar-icon('../images/icons/v2/group-outline-20.svg');
-      height: 60%;
-      width: 60%;
+      @include avatar-icon('../images/icons/v2/group-outline-24.svg');
+      height: 62%;
+      width: 62%;
     }
 
     &--note-to-self {
-      @include avatar-icon('../images/note-28.svg');
-      height: 70%;
-      width: 70%;
+      @include avatar-icon('../images/icons/v2/note-24.svg');
+      height: 62%;
+      width: 62%;
     }
   }
 
@@ -108,4 +107,13 @@
   }
 
   @include avatar-colors();
+
+  &--undefined {
+    background-color: $color-gray-15;
+    color: $color-gray-75;
+
+    &--icon {
+      background-color: $color-gray-75;
+    }
+  }
 }
