@@ -138,7 +138,7 @@ const getNetworkTime = async (snode: Snode): Promise<string | number> => {
 // tslint:disable-next-line: max-func-body-length
 export const forceNetworkDeletion = async (): Promise<Array<string> | null> => {
   const sodium = await getSodium();
-  const userX25519PublicKey = UserUtils.getOurPubKeyFromCache();
+  const userX25519PublicKey = UserUtils.getOurPubKeyStrFromCache();
 
   const userED25519KeyPair = await UserUtils.getUserED25519KeyPair();
 
@@ -150,7 +150,7 @@ export const forceNetworkDeletion = async (): Promise<Array<string> | null> => {
 
   try {
     const maliciousSnodes = await pRetry(async () => {
-      const userSwarm = await getSwarmFor(userX25519PublicKey.key);
+      const userSwarm = await getSwarmFor(userX25519PublicKey);
       const snodeToMakeRequestTo: Snode | undefined = _.sample(userSwarm);
       const edKeyPrivBytes = fromHexToArray(edKeyPriv);
 
@@ -169,7 +169,7 @@ export const forceNetworkDeletion = async (): Promise<Array<string> | null> => {
           const signatureBase64 = fromUInt8ArrayToBase64(signature);
 
           const deleteMessageParams = {
-            pubkey: userX25519PublicKey.key,
+            pubkey: userX25519PublicKey,
             pubkey_ed25519: userED25519KeyPair.pubKey.toUpperCase(),
             timestamp,
             signature: signatureBase64,
@@ -179,7 +179,7 @@ export const forceNetworkDeletion = async (): Promise<Array<string> | null> => {
             'delete_all',
             deleteMessageParams,
             snodeToMakeRequestTo,
-            userX25519PublicKey.key
+            userX25519PublicKey
           );
 
           if (!ret) {
@@ -239,7 +239,7 @@ export const forceNetworkDeletion = async (): Promise<Array<string> | null> => {
                 const hashes = snodeJson.deleted as Array<string>;
                 const signatureSnode = snodeJson.signature as string;
                 // The signature format is ( PUBKEY_HEX || TIMESTAMP || DELETEDHASH[0] || ... || DELETEDHASH[N] )
-                const dataToVerify = `${userX25519PublicKey.key}${timestamp}${hashes.join('')}`;
+                const dataToVerify = `${userX25519PublicKey}${timestamp}${hashes.join('')}`;
                 const dataToVerifyUtf8 = StringUtils.encode(dataToVerify, 'utf8');
                 const isValid = sodium.crypto_sign_verify_detached(
                   fromBase64ToArray(signatureSnode),

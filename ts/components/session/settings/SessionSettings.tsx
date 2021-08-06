@@ -23,6 +23,7 @@ import { toggleAudioAutoplay } from '../../../state/ducks/userConfig';
 import { sessionPassword } from '../../../state/ducks/modalDialog';
 import { PasswordAction } from '../SessionPasswordModal';
 import { SessionIconButton, SessionIconSize, SessionIconType } from '../icon';
+import { withTheme } from 'styled-components';
 
 export enum SessionSettingCategory {
   Appearance = 'appearance',
@@ -96,12 +97,10 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
     window.addEventListener('keyup', this.onKeyUp);
   }
 
-  public async componentWillMount() {
-    const mediaSetting = await window.getSettingValue('media-permissions');
-    this.setState({ mediaSetting });
-  }
-
   public componentDidMount() {
+    const mediaSetting = window.getSettingValue('media-permissions');
+    this.setState({ mediaSetting });
+
     setTimeout(() => ($('#password-lock-input') as any).focus(), 100);
   }
 

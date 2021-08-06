@@ -13,7 +13,7 @@ const functions = {
   generateEphemeralKeyPair,
   decryptAttachmentBuffer,
   encryptAttachmentBuffer,
-  bytesFromString
+  bytesFromString,
 };
 
 onmessage = async e => {

@@ -5,6 +5,7 @@ import {
   getAdminLeaveClosedGroupDialog,
   getChangeNickNameDialog,
   getConfirmModal,
+  getDeleteAccountModalState,
   getEditProfileDialog,
   getInviteContactModal,
   getOnionPathDialog,
@@ -21,6 +22,7 @@ import { AddModeratorsDialog } from '../conversation/ModeratorsAddDialog';
 import { RemoveModeratorsDialog } from '../conversation/ModeratorsRemoveDialog';
 import { UpdateGroupMembersDialog } from '../conversation/UpdateGroupMembersDialog';
 import { UpdateGroupNameDialog } from '../conversation/UpdateGroupNameDialog';
+import { DeleteAccountModal } from '../dialog/DeleteAccountModal';
 import { EditProfileDialog } from '../EditProfileDialog';
 import { OnionPathModal } from '../OnionStatusPathDialog';
 import { UserDetailsDialog } from '../UserDetailsDialog';
@@ -43,6 +45,7 @@ export const ModalContainer = () => {
   const recoveryPhraseModalState = useSelector(getRecoveryPhraseDialog);
   const adminLeaveClosedGroupModalState = useSelector(getAdminLeaveClosedGroupDialog);
   const sessionPasswordModalState = useSelector(getSessionPasswordDialog);
+  const deleteAccountModalState = useSelector(getDeleteAccountModalState);
 
   return (
     <>
@@ -63,6 +66,7 @@ export const ModalContainer = () => {
         <AdminLeaveClosedGroupDialog {...adminLeaveClosedGroupModalState} />
       )}
       {sessionPasswordModalState && <SessionPasswordModal {...sessionPasswordModalState} />}
+      {deleteAccountModalState && <DeleteAccountModal {...deleteAccountModalState} />}
     </>
   );
 };

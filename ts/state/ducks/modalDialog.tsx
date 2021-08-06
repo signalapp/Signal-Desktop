@@ -13,6 +13,7 @@ export type AdminLeaveClosedGroupModalState = InviteContactModalState;
 export type EditProfileModalState = {} | null;
 export type OnionPathModalState = EditProfileModalState;
 export type RecoveryPhraseModalState = EditProfileModalState;
+export type DeleteAccountModalState = EditProfileModalState;
 
 export type SessionPasswordModalState = { passwordAction: PasswordAction; onOk: () => void } | null;
 
@@ -36,6 +37,7 @@ export type ModalState = {
   recoveryPhraseModal: RecoveryPhraseModalState;
   adminLeaveClosedGroup: AdminLeaveClosedGroupModalState;
   sessionPasswordModal: SessionPasswordModalState;
+  deleteAccountModal: DeleteAccountModalState;
 };
 
 export const initialModalState: ModalState = {
@@ -52,6 +54,7 @@ export const initialModalState: ModalState = {
   recoveryPhraseModal: null,
   adminLeaveClosedGroup: null,
   sessionPasswordModal: null,
+  deleteAccountModal: null,
 };
 
 const ModalSlice = createSlice({
@@ -97,6 +100,9 @@ const ModalSlice = createSlice({
     sessionPassword(state, action: PayloadAction<SessionPasswordModalState>) {
       return { ...state, sessionPasswordModal: action.payload };
     },
+    updateDeleteAccountModal(state, action: PayloadAction<DeleteAccountModalState>) {
+      return { ...state, deleteAccountModal: action.payload };
+    },
   },
 });
 
@@ -115,5 +121,6 @@ export const {
   recoveryPhraseModal,
   adminLeaveClosedGroup,
   sessionPassword,
+  updateDeleteAccountModal,
 } = actions;
 export const modalReducer = reducer;

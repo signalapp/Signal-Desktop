@@ -41,13 +41,13 @@ class SessionSeedModalInner extends React.Component<{}, State> {
 
   public componentDidMount() {
     setTimeout(() => ($('#seed-input-password') as any).focus(), 100);
+
+    void this.checkHasPassword();
+    void this.getRecoveryPhrase();
   }
 
   public render() {
     const i18n = window.i18n;
-
-    void this.checkHasPassword();
-    void this.getRecoveryPhrase();
 
     const { hasPassword, passwordValid } = this.state;
     const loading = this.state.loadingPassword || this.state.loadingSeed;

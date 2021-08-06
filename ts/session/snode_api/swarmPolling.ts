@@ -17,6 +17,7 @@ import { ConversationModel } from '../../models/conversation';
 import { DURATION, SWARM_POLLING_TIMEOUT } from '../constants';
 import { getConversationController } from '../conversations';
 import { perfEnd, perfStart } from '../utils/Performance';
+import { ed25519Str } from '../onions/onionPath';
 
 type PubkeyToHash = { [key: string]: string };
 
@@ -203,7 +204,9 @@ export class SwarmPolling {
 
     if (isGroup) {
       window?.log?.info(
-        `Polled for group(${pubkey}): group.pubkey, got ${messages.length} messages back.`
+        `Polled for group(${ed25519Str(pubkey.key)}): group.pubkey, got ${
+          messages.length
+        } messages back.`
       );
       // update the last fetched timestamp
       this.groupPolling = this.groupPolling.map(group => {

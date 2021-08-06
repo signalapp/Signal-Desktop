@@ -6,6 +6,7 @@ import {
   AdminLeaveClosedGroupModalState,
   ChangeNickNameModalState,
   ConfirmModalState,
+  DeleteAccountModalState,
   EditProfileModalState,
   InviteContactModalState,
   ModalState,
@@ -85,4 +86,9 @@ export const getAdminLeaveClosedGroupDialog = createSelector(
 export const getSessionPasswordDialog = createSelector(
   getModal,
   (state: ModalState): SessionPasswordModalState => state.sessionPasswordModal
+);
+
+export const getDeleteAccountModalState = createSelector(
+  getModal,
+  (state: ModalState): DeleteAccountModalState => state.deleteAccountModal
 );
