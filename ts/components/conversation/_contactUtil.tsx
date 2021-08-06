@@ -8,6 +8,7 @@ import { Avatar, AvatarBlur } from '../Avatar';
 import { Spinner } from '../Spinner';
 
 import { LocalizerType } from '../../types/Util';
+import { AvatarColors } from '../../types/Colors';
 import { ContactType, getName } from '../../types/Contact';
 
 // This file starts with _ to keep it from showing up in the StyleGuide.
@@ -48,7 +49,7 @@ export function renderAvatar({
       acceptedMessageRequest={false}
       avatarPath={avatarPath}
       blur={AvatarBlur.NoBlur}
-      color="steel"
+      color={AvatarColors[0]}
       conversationType="direct"
       i18n={i18n}
       isMe

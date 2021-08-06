@@ -24,7 +24,7 @@ import {
   PresentedSource,
   VideoFrameSource,
 } from '../types/Calling';
-import { AvatarColorType } from '../types/Colors';
+import { AvatarColors, AvatarColorType } from '../types/Colors';
 import { CallingToastManager } from './CallingToastManager';
 import { DirectCallRemoteParticipant } from './DirectCallRemoteParticipant';
 import { GroupCallRemoteParticipants } from './GroupCallRemoteParticipants';
@@ -343,7 +343,7 @@ export const CallScreen: React.FC<PropsType> = ({
             <Avatar
               acceptedMessageRequest
               avatarPath={me.avatarPath}
-              color={me.color || 'ultramarine'}
+              color={me.color || AvatarColors[0]}
               noteToSelf={false}
               conversationType="direct"
               i18n={i18n}
@@ -418,7 +418,7 @@ export const CallScreen: React.FC<PropsType> = ({
               <Avatar
                 acceptedMessageRequest
                 avatarPath={me.avatarPath}
-                color={me.color || 'ultramarine'}
+                color={me.color || AvatarColors[0]}
                 noteToSelf={false}
                 conversationType="direct"
                 i18n={i18n}

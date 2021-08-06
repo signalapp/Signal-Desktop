@@ -15,6 +15,7 @@ import {
   GroupCallVideoRequest,
   VideoFrameSource,
 } from '../types/Calling';
+import { AvatarColors } from '../types/Colors';
 import { SetRendererCanvasType } from '../state/ducks/calling';
 import { useGetCallingFrameBuffer } from '../calling/useGetCallingFrameBuffer';
 import { usePageVisibility } from '../util/hooks';
@@ -50,7 +51,7 @@ const NoVideo = ({
           <Avatar
             acceptedMessageRequest={acceptedMessageRequest}
             avatarPath={avatarPath}
-            color={color || 'ultramarine'}
+            color={color || AvatarColors[0]}
             noteToSelf={false}
             conversationType="direct"
             i18n={i18n}

@@ -27,6 +27,7 @@ import { ContactSpoofingType } from '../../../util/contactSpoofing';
 import { CallMode } from '../../../types/Calling';
 import * as groups from '../../../groups';
 import { getDefaultConversation } from '../../../test-both/helpers/getDefaultConversation';
+import { getDefaultAvatars } from '../../../types/Avatar';
 
 const {
   cantAddContactToGroup,
@@ -55,6 +56,13 @@ const {
   reviewMessageRequestNameCollision,
   toggleConversationInChooseMembers,
 } = actions;
+
+function getDefaultComposeState() {
+  return {
+    isEditingAvatar: false,
+    userAvatarData: [],
+  };
+}
 
 describe('both/state/ducks/conversations', () => {
   const getEmptyRootState = () => rootReducer(undefined, noopAction());
@@ -451,6 +459,7 @@ describe('both/state/ducks/conversations', () => {
         const state = {
           ...getEmptyState(),
           composer: {
+            ...getDefaultComposeState(),
             cantAddContactIdForModal: undefined,
             searchTerm: '',
             groupAvatar: undefined,
@@ -477,6 +486,7 @@ describe('both/state/ducks/conversations', () => {
         const state = {
           ...getEmptyState(),
           composer: {
+            ...getDefaultComposeState(),
             step: ComposerStep.SetGroupMetadata as const,
             selectedConversationIds: [],
             recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
@@ -516,6 +526,7 @@ describe('both/state/ducks/conversations', () => {
         const state = {
           ...getEmptyState(),
           composer: {
+            ...getDefaultComposeState(),
             cantAddContactIdForModal: 'abc123',
             searchTerm: '',
             groupAvatar: undefined,
@@ -567,6 +578,7 @@ describe('both/state/ducks/conversations', () => {
         const state = {
           ...getEmptyState(),
           composer: {
+            ...getDefaultComposeState(),
             cantAddContactIdForModal: 'abc123',
             searchTerm: '',
             groupAvatar: undefined,
@@ -593,6 +605,7 @@ describe('both/state/ducks/conversations', () => {
         const state = {
           ...getEmptyState(),
           composer: {
+            ...getDefaultComposeState(),
             cantAddContactIdForModal: 'abc123',
             searchTerm: '',
             groupAvatar: undefined,
@@ -614,6 +627,7 @@ describe('both/state/ducks/conversations', () => {
         const state = {
           ...getEmptyState(),
           composer: {
+            ...getDefaultComposeState(),
             cantAddContactIdForModal: 'abc123',
             searchTerm: '',
             groupAvatar: undefined,
@@ -637,6 +651,7 @@ describe('both/state/ducks/conversations', () => {
         const state = {
           ...getEmptyState(),
           composer: {
+            ...getDefaultComposeState(),
             cantAddContactIdForModal: 'abc123',
             searchTerm: '',
             groupAvatar: undefined,
@@ -663,6 +678,7 @@ describe('both/state/ducks/conversations', () => {
         const state = {
           ...getEmptyState(),
           composer: {
+            ...getDefaultComposeState(),
             cantAddContactIdForModal: 'abc123',
             searchTerm: '',
             groupAvatar: undefined,
@@ -684,6 +700,7 @@ describe('both/state/ducks/conversations', () => {
         const state = {
           ...getEmptyState(),
           composer: {
+            ...getDefaultComposeState(),
             cantAddContactIdForModal: 'abc123',
             searchTerm: '',
             groupAvatar: undefined,
@@ -706,6 +723,7 @@ describe('both/state/ducks/conversations', () => {
       const conversationsState = {
         ...getEmptyState(),
         composer: {
+          ...getDefaultComposeState(),
           step: ComposerStep.SetGroupMetadata as const,
           selectedConversationIds: ['abc123'],
           recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
@@ -758,6 +776,7 @@ describe('both/state/ducks/conversations', () => {
         sinon.assert.calledWith(createGroupStub, {
           name: 'Foo Bar Group',
           avatar: new Uint8Array([1, 2, 3]).buffer,
+          avatars: [],
           expireTimer: 0,
           conversationIds: ['abc123'],
         });
@@ -1210,6 +1229,7 @@ describe('both/state/ducks/conversations', () => {
         const state = {
           ...getEmptyState(),
           composer: {
+            ...getDefaultComposeState(),
             step: ComposerStep.SetGroupMetadata as const,
             selectedConversationIds: [],
             recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
@@ -1236,6 +1256,7 @@ describe('both/state/ducks/conversations', () => {
         const state = {
           ...getEmptyState(),
           composer: {
+            ...getDefaultComposeState(),
             step: ComposerStep.SetGroupMetadata as const,
             selectedConversationIds: [],
             recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
@@ -1262,6 +1283,7 @@ describe('both/state/ducks/conversations', () => {
         const state = {
           ...getEmptyState(),
           composer: {
+            ...getDefaultComposeState(),
             step: ComposerStep.SetGroupMetadata as const,
             selectedConversationIds: [],
             recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
@@ -1435,6 +1457,7 @@ describe('both/state/ducks/conversations', () => {
         const state = {
           ...getEmptyState(),
           composer: {
+            ...getDefaultComposeState(),
             cantAddContactIdForModal: undefined,
             searchTerm: 'to be cleared',
             groupAvatar: undefined,
@@ -1460,6 +1483,7 @@ describe('both/state/ducks/conversations', () => {
         const state = {
           ...getEmptyState(),
           composer: {
+            ...getDefaultComposeState(),
             step: ComposerStep.SetGroupMetadata as const,
             selectedConversationIds: [],
             recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
@@ -1523,6 +1547,7 @@ describe('both/state/ducks/conversations', () => {
 
         assert.isFalse(result.showArchived);
         assert.deepEqual(result.composer, {
+          ...getDefaultComposeState(),
           step: ComposerStep.ChooseGroupMembers,
           searchTerm: '',
           selectedConversationIds: [],
@@ -1532,6 +1557,7 @@ describe('both/state/ducks/conversations', () => {
           groupName: '',
           groupAvatar: undefined,
           groupExpireTimer: 0,
+          userAvatarData: getDefaultAvatars(true),
         });
       });
 
@@ -1539,6 +1565,7 @@ describe('both/state/ducks/conversations', () => {
         const state = {
           ...getEmptyState(),
           composer: {
+            ...getDefaultComposeState(),
             step: ComposerStep.ChooseGroupMembers as const,
             searchTerm: 'foo bar',
             selectedConversationIds: [],
@@ -1560,6 +1587,7 @@ describe('both/state/ducks/conversations', () => {
         const state = {
           ...getEmptyState(),
           composer: {
+            ...getDefaultComposeState(),
             step: ComposerStep.SetGroupMetadata as const,
             selectedConversationIds: [],
             cantAddContactIdForModal: undefined,
@@ -1577,6 +1605,7 @@ describe('both/state/ducks/conversations', () => {
 
         assert.isFalse(result.showArchived);
         assert.deepEqual(result.composer, {
+          ...getDefaultComposeState(),
           step: ComposerStep.ChooseGroupMembers,
           searchTerm: '',
           selectedConversationIds: [],
@@ -1596,6 +1625,7 @@ describe('both/state/ducks/conversations', () => {
 
         assert.isFalse(result.showArchived);
         assert.deepEqual(result.composer, {
+          ...getDefaultComposeState(),
           step: ComposerStep.ChooseGroupMembers,
           searchTerm: '',
           selectedConversationIds: [],
@@ -1605,6 +1635,7 @@ describe('both/state/ducks/conversations', () => {
           groupName: '',
           groupAvatar: undefined,
           groupExpireTimer: 0,
+          userAvatarData: getDefaultAvatars(true),
         });
       });
 
@@ -1618,6 +1649,7 @@ describe('both/state/ducks/conversations', () => {
 
         assert.isFalse(result.showArchived);
         assert.deepEqual(result.composer, {
+          ...getDefaultComposeState(),
           step: ComposerStep.ChooseGroupMembers,
           searchTerm: '',
           selectedConversationIds: [],
@@ -1627,6 +1659,7 @@ describe('both/state/ducks/conversations', () => {
           groupName: '',
           groupAvatar: undefined,
           groupExpireTimer: 0,
+          userAvatarData: getDefaultAvatars(true),
         });
       });
     });
@@ -1636,6 +1669,7 @@ describe('both/state/ducks/conversations', () => {
         const state = {
           ...getEmptyState(),
           composer: {
+            ...getDefaultComposeState(),
             step: ComposerStep.ChooseGroupMembers as const,
             searchTerm: 'foo bar',
             selectedConversationIds: ['abc', 'def'],
@@ -1651,6 +1685,7 @@ describe('both/state/ducks/conversations', () => {
         const result = reducer(state, action);
 
         assert.deepEqual(result.composer, {
+          ...getDefaultComposeState(),
           step: ComposerStep.SetGroupMetadata,
           selectedConversationIds: ['abc', 'def'],
           recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
@@ -1667,6 +1702,7 @@ describe('both/state/ducks/conversations', () => {
         const state = {
           ...getEmptyState(),
           composer: {
+            ...getDefaultComposeState(),
             step: ComposerStep.ChooseGroupMembers as const,
             searchTerm: 'foo bar',
             selectedConversationIds: ['abc', 'def'],
@@ -1682,6 +1718,7 @@ describe('both/state/ducks/conversations', () => {
         const result = reducer(state, action);
 
         assert.deepEqual(result.composer, {
+          ...getDefaultComposeState(),
           step: ComposerStep.SetGroupMetadata,
           selectedConversationIds: ['abc', 'def'],
           recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
@@ -1698,6 +1735,7 @@ describe('both/state/ducks/conversations', () => {
         const state = {
           ...getEmptyState(),
           composer: {
+            ...getDefaultComposeState(),
             step: ComposerStep.SetGroupMetadata as const,
             selectedConversationIds: [],
             recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
@@ -1750,6 +1788,7 @@ describe('both/state/ducks/conversations', () => {
         const zero = {
           ...getEmptyState(),
           composer: {
+            ...getDefaultComposeState(),
             step: ComposerStep.ChooseGroupMembers as const,
             searchTerm: '',
             selectedConversationIds: [],
@@ -1765,6 +1804,7 @@ describe('both/state/ducks/conversations', () => {
         const two = reducer(one, getAction('def', one));
 
         assert.deepEqual(two.composer, {
+          ...getDefaultComposeState(),
           step: ComposerStep.ChooseGroupMembers,
           searchTerm: '',
           selectedConversationIds: ['abc', 'def'],
@@ -1781,6 +1821,7 @@ describe('both/state/ducks/conversations', () => {
         const state = {
           ...getEmptyState(),
           composer: {
+            ...getDefaultComposeState(),
             step: ComposerStep.ChooseGroupMembers as const,
             searchTerm: '',
             selectedConversationIds: ['abc', 'def'],
@@ -1796,6 +1837,7 @@ describe('both/state/ducks/conversations', () => {
         const result = reducer(state, action);
 
         assert.deepEqual(result.composer, {
+          ...getDefaultComposeState(),
           step: ComposerStep.ChooseGroupMembers,
           searchTerm: '',
           selectedConversationIds: ['def'],
@@ -1815,6 +1857,7 @@ describe('both/state/ducks/conversations', () => {
         const state = {
           ...getEmptyState(),
           composer: {
+            ...getDefaultComposeState(),
             step: ComposerStep.ChooseGroupMembers as const,
             searchTerm: '',
             selectedConversationIds: oldSelectedConversationIds,
@@ -1830,6 +1873,7 @@ describe('both/state/ducks/conversations', () => {
         const result = reducer(state, action);
 
         assert.deepEqual(result.composer, {
+          ...getDefaultComposeState(),
           step: ComposerStep.ChooseGroupMembers,
           searchTerm: '',
           selectedConversationIds: [...oldSelectedConversationIds, newUuid],
@@ -1849,6 +1893,7 @@ describe('both/state/ducks/conversations', () => {
         const state = {
           ...getEmptyState(),
           composer: {
+            ...getDefaultComposeState(),
             step: ComposerStep.ChooseGroupMembers as const,
             searchTerm: '',
             selectedConversationIds: oldSelectedConversationIds,
@@ -1864,6 +1909,7 @@ describe('both/state/ducks/conversations', () => {
         const result = reducer(state, action);
 
         assert.deepEqual(result.composer, {
+          ...getDefaultComposeState(),
           step: ComposerStep.ChooseGroupMembers,
           searchTerm: '',
           selectedConversationIds: [...oldSelectedConversationIds, newUuid],
@@ -1885,6 +1931,7 @@ describe('both/state/ducks/conversations', () => {
           const state = {
             ...getEmptyState(),
             composer: {
+              ...getDefaultComposeState(),
               step: ComposerStep.ChooseGroupMembers as const,
               searchTerm: '',
               selectedConversationIds: [],
@@ -1909,6 +1956,7 @@ describe('both/state/ducks/conversations', () => {
         const state = {
           ...getEmptyState(),
           composer: {
+            ...getDefaultComposeState(),
             step: ComposerStep.ChooseGroupMembers as const,
             searchTerm: '',
             selectedConversationIds: oldSelectedConversationIds,
@@ -1924,6 +1972,7 @@ describe('both/state/ducks/conversations', () => {
         const result = reducer(state, action);
 
         assert.deepEqual(result.composer, {
+          ...getDefaultComposeState(),
           step: ComposerStep.ChooseGroupMembers,
           searchTerm: '',
           selectedConversationIds: [...oldSelectedConversationIds, newUuid],
@@ -1943,6 +1992,7 @@ describe('both/state/ducks/conversations', () => {
         const state = {
           ...getEmptyState(),
           composer: {
+            ...getDefaultComposeState(),
             step: ComposerStep.ChooseGroupMembers as const,
             searchTerm: '',
             selectedConversationIds: oldSelectedConversationIds,
@@ -1958,6 +2008,7 @@ describe('both/state/ducks/conversations', () => {
         const result = reducer(state, action);
 
         assert.deepEqual(result.composer, {
+          ...getDefaultComposeState(),
           step: ComposerStep.ChooseGroupMembers,
           searchTerm: '',
           selectedConversationIds: [...oldSelectedConversationIds, newUuid],
@@ -1974,6 +2025,7 @@ describe('both/state/ducks/conversations', () => {
         const state = {
           ...getEmptyState(),
           composer: {
+            ...getDefaultComposeState(),
             step: ComposerStep.ChooseGroupMembers as const,
             searchTerm: '',
             selectedConversationIds: times(1000, () => uuid()),
@@ -2002,6 +2054,7 @@ describe('both/state/ducks/conversations', () => {
           const state = {
             ...getEmptyState(),
             composer: {
+              ...getDefaultComposeState(),
               step: ComposerStep.ChooseGroupMembers as const,
               searchTerm: '',
               selectedConversationIds: [],
@@ -2029,6 +2082,7 @@ describe('both/state/ducks/conversations', () => {
         const state = {
           ...getEmptyState(),
           composer: {
+            ...getDefaultComposeState(),
             step: ComposerStep.ChooseGroupMembers as const,
             searchTerm: '',
             selectedConversationIds: [],

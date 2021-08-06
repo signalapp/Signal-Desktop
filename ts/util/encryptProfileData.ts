@@ -16,7 +16,7 @@ const { encryptProfile, encryptProfileItemWithPadding } = Crypto;
 
 export async function encryptProfileData(
   conversation: ConversationType,
-  avatarData?: ArrayBuffer
+  avatarBuffer?: ArrayBuffer
 ): Promise<[ProfileRequestDataType, ArrayBuffer | undefined]> {
   const {
     aboutEmoji,
@@ -59,7 +59,7 @@ export async function encryptProfileData(
           PaddedLengths.AboutEmoji
         )
       : null,
-    avatarData ? encryptProfile(avatarData, keyBuffer) : undefined,
+    avatarBuffer ? encryptProfile(avatarBuffer, keyBuffer) : undefined,
   ]);
 
   const profileData = {
@@ -68,7 +68,7 @@ export async function encryptProfileData(
     about: bytesAbout ? arrayBufferToBase64(bytesAbout) : null,
     aboutEmoji: bytesAboutEmoji ? arrayBufferToBase64(bytesAboutEmoji) : null,
     paymentAddress: window.storage.get('paymentAddress') || null,
-    avatar: Boolean(avatarData),
+    avatar: Boolean(avatarBuffer),
     commitment: deriveProfileKeyCommitment(profileKey, uuid),
   };
 

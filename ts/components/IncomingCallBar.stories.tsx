@@ -11,6 +11,7 @@ import { AvatarColors } from '../types/Colors';
 import { setup as setupI18n } from '../../js/modules/i18n';
 import enMessages from '../../_locales/en/messages.json';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
+import { getRandomColor } from '../test-both/helpers/getRandomColor';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -25,7 +26,6 @@ const defaultProps = {
   conversation: getDefaultConversation({
     id: '3051234567',
     avatarPath: undefined,
-    color: AvatarColors[0],
     name: 'Rick Sanchez',
     phoneNumber: '3051234567',
     profileName: 'Rick Sanchez',
@@ -37,7 +37,7 @@ const defaultProps = {
 
 storiesOf('Components/IncomingCallBar', module)
   .add('Knobs Playground', () => {
-    const color = select('color', AvatarColors, 'ultramarine');
+    const color = select('color', AvatarColors, getRandomColor());
     const isVideoCall = boolean('isVideoCall', false);
     const name = text(
       'name',

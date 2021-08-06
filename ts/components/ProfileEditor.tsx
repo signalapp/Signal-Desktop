@@ -3,16 +3,24 @@
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
-import { AvatarInputContainer } from './AvatarInputContainer';
-import { AvatarInputType } from './AvatarInput';
+import { AvatarColors, AvatarColorType } from '../types/Colors';
+import {
+  AvatarDataType,
+  DeleteAvatarFromDiskActionType,
+  ReplaceAvatarActionType,
+  SaveAvatarToDiskActionType,
+} from '../types/Avatar';
+import { AvatarEditor } from './AvatarEditor';
+import { AvatarPreview } from './AvatarPreview';
 import { Button, ButtonVariant } from './Button';
-import { ConfirmationDialog } from './ConfirmationDialog';
+import { ConfirmDiscardDialog } from './ConfirmDiscardDialog';
 import { Emoji } from './emoji/Emoji';
 import { EmojiButton, Props as EmojiButtonProps } from './emoji/EmojiButton';
 import { EmojiPickDataType } from './emoji/EmojiPicker';
 import { Input } from './Input';
 import { Intl } from './Intl';
 import { LocalizerType } from '../types/Util';
+import { Modal } from './Modal';
 import { PanelRow } from './conversation/conversation-details/PanelRow';
 import { ProfileDataType } from '../state/ducks/conversations';
 import { getEmojiData, unifiedToEmoji } from './emoji/lib';
@@ -20,6 +28,7 @@ import { missingCaseError } from '../util/missingCaseError';
 
 export enum EditState {
   None = 'None',
+  BetterAvatar = 'BetterAvatar',
   ProfileName = 'ProfileName',
   Bio = 'Bio',
 }
@@ -28,7 +37,7 @@ type PropsExternalType = {
   onEditStateChanged: (editState: EditState) => unknown;
   onProfileChanged: (
     profileData: ProfileDataType,
-    avatarData?: ArrayBuffer
+    avatarBuffer?: ArrayBuffer
   ) => unknown;
 };
 
@@ -36,13 +45,19 @@ export type PropsDataType = {
   aboutEmoji?: string;
   aboutText?: string;
   avatarPath?: string;
+  color?: AvatarColorType;
+  conversationId: string;
   familyName?: string;
   firstName: string;
   i18n: LocalizerType;
+  userAvatarData: Array<AvatarDataType>;
 } & Pick<EmojiButtonProps, 'recentEmojis' | 'skinTone'>;
 
 type PropsActionType = {
+  deleteAvatarFromDisk: DeleteAvatarFromDiskActionType;
   onSetSkinTone: (tone: number) => unknown;
+  replaceAvatar: ReplaceAvatarActionType;
+  saveAvatarToDisk: SaveAvatarToDiskActionType;
 };
 
 export type PropsType = PropsDataType & PropsActionType & PropsExternalType;
@@ -79,6 +94,9 @@ export const ProfileEditor = ({
   aboutEmoji,
   aboutText,
   avatarPath,
+  color,
+  conversationId,
+  deleteAvatarFromDisk,
   familyName,
   firstName,
   i18n,
@@ -86,7 +104,10 @@ export const ProfileEditor = ({
   onProfileChanged,
   onSetSkinTone,
   recentEmojis,
+  replaceAvatar,
+  saveAvatarToDisk,
   skinTone,
+  userAvatarData,
 }: PropsType): JSX.Element => {
   const focusInputRef = useRef<HTMLInputElement | null>(null);
   const [editState, setEditState] = useState<EditState>(EditState.None);
@@ -105,7 +126,7 @@ export const ProfileEditor = ({
     aboutText,
   });
 
-  const [avatarData, setAvatarData] = useState<ArrayBuffer | undefined>(
+  const [avatarBuffer, setAvatarBuffer] = useState<ArrayBuffer | undefined>(
     undefined
   );
   const [stagedProfile, setStagedProfile] = useState<ProfileDataType>({
@@ -114,8 +135,6 @@ export const ProfileEditor = ({
     familyName,
     firstName,
   });
-
-  let content: JSX.Element;
 
   const handleBack = useCallback(() => {
     setEditState(EditState.None);
@@ -135,9 +154,11 @@ export const ProfileEditor = ({
 
   const handleAvatarChanged = useCallback(
     (avatar: ArrayBuffer | undefined) => {
-      setAvatarData(avatar);
+      setAvatarBuffer(avatar);
+      setEditState(EditState.None);
+      onProfileChanged(stagedProfile, avatar);
     },
-    [setAvatarData]
+    [onProfileChanged, stagedProfile]
   );
 
   const getTextEncoder = useCallback(() => new TextEncoder(), []);
@@ -154,6 +175,10 @@ export const ProfileEditor = ({
     [countByteLength]
   );
 
+  const getFullNameText = () => {
+    return [fullName.firstName, fullName.familyName].filter(Boolean).join(' ');
+  };
+
   useEffect(() => {
     const focusNode = focusInputRef.current;
     if (!focusNode) {
@@ -163,7 +188,34 @@ export const ProfileEditor = ({
     focusNode.focus();
   }, [editState]);
 
-  if (editState === EditState.ProfileName) {
+  useEffect(() => {
+    onEditStateChanged(editState);
+  }, [editState, onEditStateChanged]);
+
+  const handleAvatarLoaded = useCallback(avatar => {
+    setAvatarBuffer(avatar);
+  }, []);
+
+  let content: JSX.Element;
+
+  if (editState === EditState.BetterAvatar) {
+    content = (
+      <AvatarEditor
+        avatarColor={color || AvatarColors[0]}
+        avatarPath={avatarPath}
+        avatarValue={avatarBuffer}
+        conversationId={conversationId}
+        conversationTitle={getFullNameText()}
+        deleteAvatarFromDisk={deleteAvatarFromDisk}
+        i18n={i18n}
+        onCancel={handleBack}
+        onSave={handleAvatarChanged}
+        userAvatarData={userAvatarData}
+        replaceAvatar={replaceAvatar}
+        saveAvatarToDisk={saveAvatarToDisk}
+      />
+    );
+  } else if (editState === EditState.ProfileName) {
     const shouldDisableSave =
       !stagedProfile.firstName ||
       (stagedProfile.firstName === fullName.firstName &&
@@ -200,7 +252,7 @@ export const ProfileEditor = ({
           placeholder={i18n('ProfileEditor--last-name')}
           value={stagedProfile.familyName}
         />
-        <div className="ProfileEditor__buttons">
+        <Modal.ButtonFooter>
           <Button
             onClick={() => {
               const handleCancel = () => {
@@ -236,13 +288,13 @@ export const ProfileEditor = ({
                 familyName: stagedProfile.familyName,
               });
 
-              onProfileChanged(stagedProfile, avatarData);
+              onProfileChanged(stagedProfile, avatarBuffer);
               handleBack();
             }}
           >
             {i18n('save')}
           </Button>
-        </div>
+        </Modal.ButtonFooter>
       </>
     );
   } else if (editState === EditState.Bio) {
@@ -314,7 +366,7 @@ export const ProfileEditor = ({
           />
         ))}
 
-        <div className="ProfileEditor__buttons">
+        <Modal.ButtonFooter>
           <Button
             onClick={() => {
               const handleCancel = () => {
@@ -346,32 +398,32 @@ export const ProfileEditor = ({
                 aboutText: stagedProfile.aboutText,
               });
 
-              onProfileChanged(stagedProfile, avatarData);
+              onProfileChanged(stagedProfile, avatarBuffer);
               handleBack();
             }}
           >
             {i18n('save')}
           </Button>
-        </div>
+        </Modal.ButtonFooter>
       </>
     );
   } else if (editState === EditState.None) {
-    const fullNameText = [fullName.firstName, fullName.familyName]
-      .filter(Boolean)
-      .join(' ');
-
     content = (
       <>
-        <AvatarInputContainer
+        <AvatarPreview
+          avatarColor={color}
           avatarPath={avatarPath}
-          contextMenuId="edit-self-profile-avatar"
+          avatarValue={avatarBuffer}
+          conversationTitle={getFullNameText()}
           i18n={i18n}
-          onAvatarChanged={avatar => {
-            handleAvatarChanged(avatar);
-            onProfileChanged(stagedProfile, avatar);
+          onAvatarLoaded={handleAvatarLoaded}
+          onClick={() => {
+            setEditState(EditState.BetterAvatar);
           }}
-          onAvatarLoaded={handleAvatarChanged}
-          type={AvatarInputType.Profile}
+          style={{
+            height: 96,
+            width: 96,
+          }}
         />
 
         <hr className="ProfileEditor__divider" />
@@ -381,10 +433,9 @@ export const ProfileEditor = ({
           icon={
             <i className="ProfileEditor__icon--container ProfileEditor__icon ProfileEditor__icon--name" />
           }
-          label={fullNameText}
+          label={getFullNameText()}
           onClick={() => {
             setEditState(EditState.ProfileName);
-            onEditStateChanged(EditState.ProfileName);
           }}
         />
 
@@ -402,7 +453,6 @@ export const ProfileEditor = ({
           label={fullBio.aboutText || i18n('ProfileEditor--about')}
           onClick={() => {
             setEditState(EditState.Bio);
-            onEditStateChanged(EditState.Bio);
           }}
         />
 
@@ -434,19 +484,11 @@ export const ProfileEditor = ({
   return (
     <>
       {confirmDiscardAction && (
-        <ConfirmationDialog
-          actions={[
-            {
-              action: confirmDiscardAction,
-              text: i18n('discard'),
-              style: 'negative',
-            },
-          ]}
+        <ConfirmDiscardDialog
           i18n={i18n}
+          onDiscard={confirmDiscardAction}
           onClose={() => setConfirmDiscardAction(undefined)}
-        >
-          {i18n('ProfileEditor--discard')}
-        </ConfirmationDialog>
+        />
       )}
       <div className="ProfileEditor">{content}</div>
     </>

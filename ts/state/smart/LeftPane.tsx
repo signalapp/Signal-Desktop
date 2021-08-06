@@ -17,16 +17,17 @@ import { ComposerStep, OneTimeModalState } from '../ducks/conversations';
 import { getSearchResults, isSearching } from '../selectors/search';
 import { getIntl, getRegionCode } from '../selectors/user';
 import {
-  getFilteredCandidateContactsForNewGroup,
   getCantAddContactForModal,
-  getFilteredComposeContacts,
-  getFilteredComposeGroups,
+  getComposeAvatarData,
   getComposeGroupAvatar,
-  getComposeGroupName,
   getComposeGroupExpireTimer,
+  getComposeGroupName,
   getComposeSelectedContacts,
   getComposerConversationSearchTerm,
   getComposerStep,
+  getFilteredCandidateContactsForNewGroup,
+  getFilteredComposeContacts,
+  getFilteredComposeGroups,
   getLeftPaneLists,
   getMaximumGroupSizeModalState,
   getRecommendedGroupSizeModalState,
@@ -35,6 +36,7 @@ import {
   getShowArchived,
   hasGroupCreationError,
   isCreatingGroup,
+  isEditingAvatar,
 } from '../selectors/conversations';
 
 import { SmartExpiredBuildDialog } from './ExpiredBuildDialog';
@@ -133,7 +135,9 @@ const getModeSpecificProps = (
         groupExpireTimer: getComposeGroupExpireTimer(state),
         hasError: hasGroupCreationError(state),
         isCreating: isCreatingGroup(state),
+        isEditingAvatar: isEditingAvatar(state),
         selectedContacts: getComposeSelectedContacts(state),
+        userAvatarData: getComposeAvatarData(state),
       };
     default:
       throw missingCaseError(composerStep);

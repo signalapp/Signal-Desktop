@@ -7,7 +7,9 @@
   margin: 0 auto;
   max-width: 360px;
   width: 95%;
-  max-height: 90vh;
+  // We need this to be a number not divisible by 5 so that if we have sticky
+  // buttons the bottom doesn't bleed through by 1px.
+  max-height: 89vh;
   display: flex;
   flex-direction: column;
 
@@ -85,7 +87,8 @@
       padding: 0 16px 16px 16px;
       border-top: 1px solid transparent;
       // If there's a header, just the body scrolls
-      overflow: auto;
+      overflow-y: scroll; // scroll so that the padding is always there
+      overflow-x: auto;
 
       &--scrolled {
         @include light-theme {
@@ -102,7 +105,8 @@
   &--no-header {
     padding: 16px;
     // If there's no header, the whole thing scrolls
-    overflow: auto;
+    overflow-y: scroll; // scroll so that the padding is always there
+    overflow-x: auto;
   }
 
   &__button-footer {
@@ -119,6 +123,44 @@
     &--one-button-per-line {
       flex-direction: column;
       align-items: flex-end;
+    }
+
+    .module-Modal--sticky-buttons & {
+      bottom: 0;
+      display: flex;
+      justify-content: flex-end;
+      padding: 16px 0;
+      position: sticky;
+      right: 0;
+      width: 100%;
+      z-index: 10;
+
+      @include light-theme() {
+        background: $color-white;
+      }
+
+      @include dark-theme() {
+        background: $color-gray-95;
+      }
+    }
+  }
+
+  &--sticky-buttons {
+    .module-Modal__body {
+      padding-bottom: 0;
+    }
+    position: relative;
+
+    .module-Modal__body--overflow {
+      .module-Modal__button-footer {
+        @include light-theme {
+          border-top: 1px solid $color-gray-05;
+        }
+
+        @include dark-theme {
+          border-top: 1px solid $color-gray-80;
+        }
+      }
     }
   }
 

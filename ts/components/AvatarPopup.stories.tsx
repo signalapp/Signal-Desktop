@@ -30,7 +30,7 @@ const conversationTypeMap: Record<string, Props['conversationType']> = {
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   acceptedMessageRequest: true,
   avatarPath: text('avatarPath', overrideProps.avatarPath || ''),
-  color: select('color', colorMap, overrideProps.color || 'blue'),
+  color: select('color', colorMap, overrideProps.color || AvatarColors[0]),
   conversationType: select(
     'conversationType',
     conversationTypeMap,

@@ -4,6 +4,7 @@
 import { v4 as generateUuid } from 'uuid';
 import { sample } from 'lodash';
 import { ConversationType } from '../../state/ducks/conversations';
+import { getRandomColor } from './getRandomColor';
 
 const FIRST_NAMES = [
   'James',
@@ -323,6 +324,7 @@ export function getDefaultConversation(
   return {
     acceptedMessageRequest: true,
     e164: '+1300555000',
+    color: getRandomColor(),
     firstName,
     id: generateUuid(),
     isGroupV2Capable: true,

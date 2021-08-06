@@ -24,6 +24,7 @@ import { ConversationColorType } from './types/Colors';
 import { AttachmentType, ThumbnailType } from './types/Attachment';
 import { ContactType } from './types/Contact';
 import { SignalService as Proto } from './protobuf';
+import { AvatarDataType } from './types/Avatar';
 
 import AccessRequiredEnum = Proto.AccessControl.AccessRequired;
 import MemberRoleEnum = Proto.Member.Role;
@@ -299,6 +300,7 @@ export type ConversationAttributesType = {
     path: string;
     hash?: string;
   } | null;
+  avatars?: Array<AvatarDataType>;
   description?: string;
   expireTimer?: number;
   membersV2?: Array<GroupV2MemberType>;

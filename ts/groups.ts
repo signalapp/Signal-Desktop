@@ -73,6 +73,7 @@ import {
 import { handleMessageSend, SendTypesType } from './util/handleMessageSend';
 import { getSendOptions } from './util/getSendOptions';
 import * as Bytes from './Bytes';
+import { AvatarDataType } from './types/Avatar';
 import { SignalService as Proto } from './protobuf';
 import AccessRequiredEnum = Proto.AccessControl.AccessRequired;
 
@@ -1508,11 +1509,13 @@ export async function createGroupV2({
   avatar,
   expireTimer,
   conversationIds,
+  avatars,
 }: Readonly<{
   name: string;
   avatar: undefined | ArrayBuffer;
   expireTimer: undefined | number;
   conversationIds: Array<string>;
+  avatars?: Array<AvatarDataType>;
 }>): Promise<ConversationModel> {
   // Ensure we have the credentials we need before attempting GroupsV2 operations
   await maybeFetchNewCredentials();
@@ -1681,6 +1684,7 @@ export async function createGroupV2({
       active_at: now,
       addedBy: ourConversationId,
       avatar: avatarAttribute,
+      avatars,
       groupVersion: 2,
       masterKey,
       profileSharing: true,

@@ -13221,47 +13221,75 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/AvatarInput.js",
+    "path": "ts/components/AvatarPreview.js",
+    "line": "    const startingAvatarPathRef = react_1.useRef(avatarValue ? undefined : avatarPath);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-08-03T21:17:38.615Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/AvatarPreview.tsx",
+    "line": "  const startingAvatarPathRef = useRef<undefined | string>(",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-08-03T21:17:38.615Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/AvatarTextEditor.js",
+    "line": "    const measureElRef = react_1.useRef(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-08-04T18:18:09.236Z",
+    "reasonDetail": "Only used for measurement. Doesn't modify the DOM."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/AvatarTextEditor.js",
+    "line": "    const inputRef = react_1.useRef(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-08-04T22:02:17.074Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/AvatarTextEditor.js",
+    "line": "    const onDoneRef = react_1.useRef(onDone);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-08-05T23:40:55.699Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/AvatarTextEditor.tsx",
+    "line": "  const measureElRef = useRef<null | HTMLDivElement>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-08-04T18:18:09.236Z",
+    "reasonDetail": "Only used for measurement. Doesn't modify the DOM."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/AvatarTextEditor.tsx",
+    "line": "  const inputRef = useRef<HTMLInputElement | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-08-04T22:02:17.074Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/AvatarTextEditor.tsx",
+    "line": "  const onDoneRef = useRef<DoneHandleType>(onDone);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-08-05T23:40:55.699Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/AvatarUploadButton.js",
     "line": "    const fileInputRef = react_1.useRef(null);",
     "reasonCategory": "usageTrusted",
-    "updated": "2021-03-01T18:34:36.638Z",
-    "reasonDetail": "Needed to trigger a click on a 'file' input. Doesn't update the DOM."
+    "updated": "2021-08-03T21:17:38.615Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/AvatarInput.js",
-    "line": "    const menuTriggerRef = react_1.useRef(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-03-01T18:34:36.638Z",
-    "reasonDetail": "Used to reference popup menu"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/AvatarInput.tsx",
+    "path": "ts/components/AvatarUploadButton.tsx",
     "line": "  const fileInputRef = useRef<null | HTMLInputElement>(null);",
     "reasonCategory": "usageTrusted",
-    "updated": "2021-07-30T16:57:33.618Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/AvatarInput.tsx",
-    "line": "  const menuTriggerRef = useRef<null | any>(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-07-30T16:57:33.618Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/AvatarInputContainer.js",
-    "line": "    const startingAvatarPathRef = react_1.useRef(avatarPath);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-07-14T00:50:58.330Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/AvatarInputContainer.tsx",
-    "line": "  const startingAvatarPathRef = useRef<undefined | string>(avatarPath);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-07-30T16:57:33.618Z"
+    "updated": "2021-08-03T21:17:38.615Z"
   },
   {
     "rule": "React-useRef",
@@ -13849,6 +13877,20 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/Modal.js",
+    "line": "    const modalRef = react_1.useRef(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-08-05T00:22:31.660Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/Modal.tsx",
+    "line": "  const modalRef = useRef<HTMLDivElement | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-08-05T00:22:31.660Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/ProfileEditor.js",
     "line": "    const focusInputRef = react_1.useRef(null);",
     "reasonCategory": "usageTrusted",
@@ -13929,30 +13971,30 @@
   {
     "rule": "React-useRef",
     "path": "ts/components/conversation/ContactModal.js",
-    "line": "    const overlayRef = react_1.default.useRef(null);",
+    "line": "    const overlayRef = react_1.useRef(null);",
     "reasonCategory": "usageTrusted",
-    "updated": "2020-11-09T17:48:12.173Z"
+    "updated": "2021-08-03T21:17:38.615Z"
   },
   {
     "rule": "React-useRef",
     "path": "ts/components/conversation/ContactModal.js",
-    "line": "    const closeButtonRef = react_1.default.useRef(null);",
+    "line": "    const closeButtonRef = react_1.useRef(null);",
     "reasonCategory": "usageTrusted",
-    "updated": "2020-11-10T21:27:04.909Z"
+    "updated": "2021-08-03T21:17:38.615Z"
   },
   {
     "rule": "React-useRef",
     "path": "ts/components/conversation/ContactModal.tsx",
-    "line": "  const overlayRef = React.useRef<HTMLElement | null>(null);",
+    "line": "  const overlayRef = useRef<HTMLElement | null>(null);",
     "reasonCategory": "usageTrusted",
-    "updated": "2021-07-30T16:57:33.618Z"
+    "updated": "2021-08-03T21:17:38.615Z"
   },
   {
     "rule": "React-useRef",
     "path": "ts/components/conversation/ContactModal.tsx",
-    "line": "  const closeButtonRef = React.useRef<HTMLElement | null>(null);",
+    "line": "  const closeButtonRef = useRef<HTMLElement | null>(null);",
     "reasonCategory": "usageTrusted",
-    "updated": "2021-07-30T16:57:33.618Z"
+    "updated": "2021-08-03T21:17:38.615Z"
   },
   {
     "rule": "React-createRef",
@@ -14381,6 +14423,20 @@
     "line": "export async function load(): Promise<void> {",
     "reasonCategory": "falseMatch",
     "updated": "2019-04-26T17:48:30.675Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "ts/util/avatarDataToArrayBuffer.js",
+    "line": "    await font.load();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-08-03T21:17:38.615Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "ts/util/avatarDataToArrayBuffer.ts",
+    "line": "  await font.load();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-08-03T21:17:38.615Z"
   },
   {
     "rule": "React-useRef",

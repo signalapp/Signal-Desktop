@@ -188,6 +188,7 @@ function initializeMigrations({
     createWriterForExisting,
     createWriterForNew,
     createDoesExist,
+    getAvatarsPath,
     getDraftPath,
     getPath,
     getStickersPath,
@@ -238,11 +239,17 @@ function initializeMigrations({
   const deleteDraftFile = Attachments.createDeleter(draftPath);
   const readDraftData = createReader(draftPath);
 
+  const avatarsPath = getAvatarsPath(userDataPath);
+  const getAbsoluteAvatarPath = createAbsolutePathGetter(avatarsPath);
+  const writeNewAvatarData = createWriterForNew(avatarsPath);
+  const deleteAvatar = Attachments.createDeleter(avatarsPath);
+
   return {
     attachmentsPath,
     copyIntoAttachmentsDirectory,
     copyIntoTempDirectory,
     deleteAttachmentData: deleteOnDisk,
+    deleteAvatar,
     deleteDraftFile,
     deleteExternalMessageFiles: MessageType.deleteAllExternalFiles({
       deleteAttachmentData: Type.deleteData(deleteOnDisk),
@@ -252,6 +259,7 @@ function initializeMigrations({
     deleteTempFile,
     doesAttachmentExist,
     getAbsoluteAttachmentPath,
+    getAbsoluteAvatarPath,
     getAbsoluteDraftPath,
     getAbsoluteStickerPath,
     getAbsoluteTempPath,
@@ -312,6 +320,7 @@ function initializeMigrations({
       logger,
     }),
     writeNewAttachmentData: createWriterForNew(attachmentsPath),
+    writeNewAvatarData,
     writeNewDraftData,
   };
 }

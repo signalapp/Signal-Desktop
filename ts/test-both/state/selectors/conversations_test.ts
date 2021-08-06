@@ -45,6 +45,13 @@ import { setup as setupI18n } from '../../../../js/modules/i18n';
 import enMessages from '../../../../_locales/en/messages.json';
 import { getDefaultConversation } from '../../helpers/getDefaultConversation';
 
+function getDefaultComposeState() {
+  return {
+    isEditingAvatar: false,
+    userAvatarData: [],
+  };
+}
+
 describe('both/state/selectors/conversations', () => {
   const getEmptyRootState = (): StateType => {
     return rootReducer(undefined, noopAction());
@@ -317,6 +324,7 @@ describe('both/state/selectors/conversations', () => {
         conversations: {
           ...getEmptyState(),
           composer: {
+            ...getDefaultComposeState(),
             step: ComposerStep.ChooseGroupMembers as const,
             searchTerm: 'foo',
             selectedConversationIds: ['abc'],
@@ -340,6 +348,7 @@ describe('both/state/selectors/conversations', () => {
         conversations: {
           ...getEmptyState(),
           composer: {
+            ...getDefaultComposeState(),
             step: ComposerStep.SetGroupMetadata as const,
             selectedConversationIds: ['abc'],
             cantAddContactIdForModal: undefined,
@@ -384,6 +393,7 @@ describe('both/state/selectors/conversations', () => {
           conversations: {
             ...getEmptyState(),
             composer: {
+              ...getDefaultComposeState(),
               step: ComposerStep.SetGroupMetadata as const,
               selectedConversationIds: [],
               recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
@@ -406,6 +416,7 @@ describe('both/state/selectors/conversations', () => {
           conversations: {
             ...getEmptyState(),
             composer: {
+              ...getDefaultComposeState(),
               step: ComposerStep.SetGroupMetadata as const,
               selectedConversationIds: [],
               recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
@@ -447,6 +458,7 @@ describe('both/state/selectors/conversations', () => {
           conversations: {
             ...getEmptyState(),
             composer: {
+              ...getDefaultComposeState(),
               step: ComposerStep.SetGroupMetadata as const,
               selectedConversationIds: [],
               recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
@@ -469,6 +481,7 @@ describe('both/state/selectors/conversations', () => {
           conversations: {
             ...getEmptyState(),
             composer: {
+              ...getDefaultComposeState(),
               step: ComposerStep.SetGroupMetadata as const,
               selectedConversationIds: [],
               recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
@@ -1078,6 +1091,7 @@ describe('both/state/selectors/conversations', () => {
             },
           },
           composer: {
+            ...getDefaultComposeState(),
             step: ComposerStep.ChooseGroupMembers,
             searchTerm,
             selectedConversationIds: ['abc'],
@@ -1139,6 +1153,7 @@ describe('both/state/selectors/conversations', () => {
           conversations: {
             ...getEmptyState(),
             composer: {
+              ...getDefaultComposeState(),
               cantAddContactIdForModal: undefined,
               searchTerm: '',
               groupAvatar: undefined,
@@ -1164,6 +1179,7 @@ describe('both/state/selectors/conversations', () => {
             ...getEmptyState(),
             conversationLookup: { abc123: conversation },
             composer: {
+              ...getDefaultComposeState(),
               cantAddContactIdForModal: 'abc123',
               searchTerm: '',
               groupAvatar: undefined,
@@ -1602,6 +1618,7 @@ describe('both/state/selectors/conversations', () => {
         conversations: {
           ...getEmptyState(),
           composer: {
+            ...getDefaultComposeState(),
             cantAddContactIdForModal: undefined,
             searchTerm: 'to be cleared',
             groupAvatar: undefined,
@@ -1628,6 +1645,7 @@ describe('both/state/selectors/conversations', () => {
         conversations: {
           ...getEmptyState(),
           composer: {
+            ...getDefaultComposeState(),
             cantAddContactIdForModal: undefined,
             searchTerm: 'to be cleared',
             groupAvatar: undefined,
@@ -1654,6 +1672,7 @@ describe('both/state/selectors/conversations', () => {
         conversations: {
           ...getEmptyState(),
           composer: {
+            ...getDefaultComposeState(),
             step: ComposerStep.SetGroupMetadata as const,
             selectedConversationIds: ['abc'],
             cantAddContactIdForModal: undefined,
@@ -1676,6 +1695,7 @@ describe('both/state/selectors/conversations', () => {
         conversations: {
           ...getEmptyState(),
           composer: {
+            ...getDefaultComposeState(),
             step: ComposerStep.SetGroupMetadata as const,
             selectedConversationIds: ['abc'],
             cantAddContactIdForModal: undefined,
@@ -1703,6 +1723,7 @@ describe('both/state/selectors/conversations', () => {
         conversations: {
           ...getEmptyState(),
           composer: {
+            ...getDefaultComposeState(),
             step: ComposerStep.SetGroupMetadata as const,
             selectedConversationIds: ['abc'],
             cantAddContactIdForModal: undefined,
@@ -1737,6 +1758,7 @@ describe('both/state/selectors/conversations', () => {
             },
           },
           composer: {
+            ...getDefaultComposeState(),
             step: ComposerStep.SetGroupMetadata as const,
             selectedConversationIds: ['convo-2', 'convo-1'],
             cantAddContactIdForModal: undefined,

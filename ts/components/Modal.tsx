@@ -1,7 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useState, ReactElement, ReactNode } from 'react';
+import React, { useRef, useState, ReactElement, ReactNode } from 'react';
+import Measure, { ContentRect, MeasuredComponentProps } from 'react-measure';
 import classNames from 'classnames';
 import { noop } from 'lodash';
 
@@ -13,6 +14,7 @@ import { useHasWrapped } from '../util/hooks';
 
 type PropsType = {
   children: ReactNode;
+  hasStickyButtons?: boolean;
   hasXButton?: boolean;
   i18n: LocalizerType;
   moduleClassName?: string;
@@ -26,6 +28,7 @@ const BASE_CLASS_NAME = 'module-Modal';
 
 export function Modal({
   children,
+  hasStickyButtons,
   hasXButton,
   i18n,
   moduleClassName,
@@ -34,18 +37,32 @@ export function Modal({
   title,
   theme,
 }: Readonly<PropsType>): ReactElement {
+  const modalRef = useRef<HTMLDivElement | null>(null);
   const [scrolled, setScrolled] = useState(false);
+  const [hasOverflow, setHasOverflow] = useState(false);
 
   const hasHeader = Boolean(hasXButton || title);
   const getClassName = getClassNamesFor(BASE_CLASS_NAME, moduleClassName);
+
+  function handleResize({ scroll }: ContentRect) {
+    const modalNode = modalRef?.current;
+    if (!modalNode) {
+      return;
+    }
+    if (scroll) {
+      setHasOverflow(scroll.height > modalNode.clientHeight);
+    }
+  }
 
   return (
     <ModalHost noMouseClose={noMouseClose} onClose={onClose} theme={theme}>
       <div
         className={classNames(
           getClassName(''),
-          getClassName(hasHeader ? '--has-header' : '--no-header')
+          getClassName(hasHeader ? '--has-header' : '--no-header'),
+          hasStickyButtons && getClassName('--sticky-buttons')
         )}
+        ref={modalRef}
       >
         {hasHeader && (
           <div className={getClassName('__header')}>
@@ -72,17 +89,25 @@ export function Modal({
             )}
           </div>
         )}
-        <div
-          className={classNames(
-            getClassName('__body'),
-            scrolled ? getClassName('__body--scrolled') : null
+        <Measure scroll onResize={handleResize}>
+          {({ measureRef }: MeasuredComponentProps) => (
+            <div
+              className={classNames(
+                getClassName('__body'),
+                scrolled ? getClassName('__body--scrolled') : null,
+                hasOverflow || scrolled
+                  ? getClassName('__body--overflow')
+                  : null
+              )}
+              onScroll={event => {
+                setScrolled((event.target as HTMLDivElement).scrollTop > 2);
+              }}
+              ref={measureRef}
+            >
+              {children}
+            </div>
           )}
-          onScroll={event => {
-            setScrolled((event.target as HTMLDivElement).scrollTop > 2);
-          }}
-        >
-          {children}
-        </div>
+        </Measure>
       </div>
     </ModalHost>
   );

@@ -15,6 +15,7 @@ import { PropsType, Timeline } from './Timeline';
 import { TimelineItem, TimelineItemType } from './TimelineItem';
 import { ConversationHero } from './ConversationHero';
 import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
+import { getRandomColor } from '../../test-both/helpers/getRandomColor';
 import { LastSeenIndicator } from './LastSeenIndicator';
 import { TimelineLoadingRow } from './TimelineLoadingRow';
 import { TypingBubble } from './TypingBubble';
@@ -38,7 +39,6 @@ const items: Record<string, TimelineItemType> = {
     data: {
       author: getDefaultConversation({
         phoneNumber: '(202) 555-2001',
-        color: 'forest',
       }),
       canDeleteForEveryone: false,
       canDownload: true,
@@ -58,7 +58,7 @@ const items: Record<string, TimelineItemType> = {
   'id-2': {
     type: 'message',
     data: {
-      author: getDefaultConversation({ color: 'forest' }),
+      author: getDefaultConversation({}),
       canDeleteForEveryone: false,
       canDownload: true,
       canReply: true,
@@ -90,7 +90,7 @@ const items: Record<string, TimelineItemType> = {
   'id-3': {
     type: 'message',
     data: {
-      author: getDefaultConversation({ color: 'crimson' }),
+      author: getDefaultConversation({}),
       canDeleteForEveryone: false,
       canDownload: true,
       canReply: true,
@@ -188,7 +188,7 @@ const items: Record<string, TimelineItemType> = {
   'id-10': {
     type: 'message',
     data: {
-      author: getDefaultConversation({ color: 'plum' }),
+      author: getDefaultConversation({}),
       canDeleteForEveryone: false,
       canDownload: true,
       canReply: true,
@@ -208,7 +208,7 @@ const items: Record<string, TimelineItemType> = {
   'id-11': {
     type: 'message',
     data: {
-      author: getDefaultConversation({ color: 'plum' }),
+      author: getDefaultConversation({}),
       canDeleteForEveryone: false,
       canDownload: true,
       canReply: true,
@@ -228,7 +228,7 @@ const items: Record<string, TimelineItemType> = {
   'id-12': {
     type: 'message',
     data: {
-      author: getDefaultConversation({ color: 'crimson' }),
+      author: getDefaultConversation({}),
       canDeleteForEveryone: false,
       canDownload: true,
       canReply: true,
@@ -248,7 +248,7 @@ const items: Record<string, TimelineItemType> = {
   'id-13': {
     type: 'message',
     data: {
-      author: getDefaultConversation({ color: 'blue' }),
+      author: getDefaultConversation({}),
       canDeleteForEveryone: false,
       canDownload: true,
       canReply: true,
@@ -269,7 +269,7 @@ const items: Record<string, TimelineItemType> = {
   'id-14': {
     type: 'message',
     data: {
-      author: getDefaultConversation({ color: 'crimson' }),
+      author: getDefaultConversation({}),
       canDeleteForEveryone: false,
       canDownload: true,
       canReply: true,
@@ -418,7 +418,7 @@ const renderLoadingRow = () => <TimelineLoadingRow state="loading" />;
 const renderTypingBubble = () => (
   <TypingBubble
     acceptedMessageRequest
-    color="crimson"
+    color={getRandomColor()}
     conversationType="direct"
     phoneNumber="+18005552222"
     i18n={i18n}

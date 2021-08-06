@@ -540,3 +540,20 @@
     }
   }
 }
+
+@mixin avatar-colors {
+  @each $color, $value in $avatar-colors {
+    &--#{$color} {
+      background-color: map-get($value, 'bg');
+      color: map-get($value, 'fg');
+
+      &--icon {
+        background-color: map-get($value, 'fg');
+        @include dark-theme {
+          // For specificity
+          background-color: map-get($value, 'fg');
+        }
+      }
+    }
+  }
+}

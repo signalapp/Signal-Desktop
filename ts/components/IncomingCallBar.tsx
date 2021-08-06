@@ -7,6 +7,7 @@ import { Tooltip } from './Tooltip';
 import { Theme } from '../util/theme';
 import { ContactName } from './conversation/ContactName';
 import { LocalizerType } from '../types/Util';
+import { AvatarColors } from '../types/Colors';
 import { ConversationType } from '../state/ducks/conversations';
 import { AcceptCallType, DeclineCallType } from '../state/ducks/calling';
 
@@ -89,7 +90,7 @@ export const IncomingCallBar = ({
             <Avatar
               acceptedMessageRequest={acceptedMessageRequest}
               avatarPath={avatarPath}
-              color={color || 'ultramarine'}
+              color={color || AvatarColors[0]}
               noteToSelf={false}
               conversationType="direct"
               i18n={i18n}

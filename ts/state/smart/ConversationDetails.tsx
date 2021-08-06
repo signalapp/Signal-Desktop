@@ -4,6 +4,7 @@
 import { connect } from 'react-redux';
 
 import { StateType } from '../reducer';
+import { mapDispatchToProps } from '../actions';
 import {
   ConversationDetails,
   StateProps,
@@ -71,9 +72,10 @@ const mapStateToProps = (
     i18n: getIntl(state),
     isAdmin,
     ...getGroupMemberships(conversation, conversationSelector),
+    userAvatarData: conversation.avatars || [],
   };
 };
 
-const smart = connect(mapStateToProps);
+const smart = connect(mapStateToProps, mapDispatchToProps);
 
 export const SmartConversationDetails = smart(ConversationDetails);

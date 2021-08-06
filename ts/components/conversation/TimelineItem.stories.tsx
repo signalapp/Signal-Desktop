@@ -12,6 +12,7 @@ import enMessages from '../../../_locales/en/messages.json';
 import { PropsType as TimelineItemProps, TimelineItem } from './TimelineItem';
 import { UniversalTimerNotification } from './UniversalTimerNotification';
 import { CallMode } from '../../types/Calling';
+import { AvatarColors } from '../../types/Colors';
 import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
 
 const i18n = setupI18n('en', enMessages);
@@ -97,7 +98,7 @@ storiesOf('Components/Conversation/TimelineItem', module)
         timestamp: Date.now(),
         author: {
           phoneNumber: '(202) 555-2001',
-          color: 'forest',
+          color: AvatarColors[0],
         },
         text: '🔥',
       },

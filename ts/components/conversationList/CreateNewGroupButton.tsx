@@ -5,6 +5,7 @@ import React, { CSSProperties, FunctionComponent } from 'react';
 
 import { BaseConversationListItem } from './BaseConversationListItem';
 import { LocalizerType } from '../../types/Util';
+import { AvatarColors } from '../../types/Colors';
 
 type PropsType = {
   i18n: LocalizerType;
@@ -19,7 +20,7 @@ export const CreateNewGroupButton: FunctionComponent<PropsType> = React.memo(
     return (
       <BaseConversationListItem
         acceptedMessageRequest={false}
-        color="steel"
+        color={AvatarColors[0]}
         conversationType="group"
         headerName={title}
         i18n={i18n}

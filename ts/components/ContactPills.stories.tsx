@@ -22,7 +22,6 @@ type ContactType = Omit<ContactPillPropsType, 'i18n' | 'onClickRemove'>;
 
 const contacts: Array<ContactType> = times(50, index =>
   getDefaultConversation({
-    color: 'crimson',
     id: `contact-${index}`,
     name: `Contact ${index}`,
     phoneNumber: '(202) 555-0001',
@@ -37,7 +36,6 @@ const contactPillProps = (
   ...(overrideProps ||
     getDefaultConversation({
       avatarPath: gifUrl,
-      color: 'crimson',
       firstName: 'John',
       id: 'abc123',
       isMe: false,

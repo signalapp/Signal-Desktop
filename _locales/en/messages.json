@@ -949,6 +949,10 @@
     "message": "Photo",
     "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
   },
+  "text": {
+    "message": "Text",
+    "description": "Label for the word 'text'"
+  },
   "cannotUpdate": {
     "message": "Cannot Update",
     "description": "Shown as the title of our update error dialogs on windows"
@@ -1000,6 +1004,10 @@
   },
   "accept": {
     "message": "Accept"
+  },
+  "done": {
+    "message": "Done",
+    "description": "Label for done"
   },
   "on": {
     "message": "On",
@@ -5792,7 +5800,7 @@
     "message": "Last Name (Optional)",
     "description": "Placeholder text for last name field"
   },
-  "ProfileEditor--discard": {
+  "ConfirmDiscardDialog--discard": {
     "message": "Would you like to discard these changes?",
     "description": "ConfirmationDialog text for discarding changes"
   },
@@ -5863,5 +5871,17 @@
   "AnnouncementsOnlyGroupBanner--admins": {
     "message": "admins",
     "description": "Clickable text describing administrators of a group, used in the message an admin label"
+  },
+  "AvatarEditor--choose": {
+    "message": "Select an avatar",
+    "description": "Label for the avatar selector"
+  },
+  "AvatarColorPicker--choose": {
+    "message": "Choose a color",
+    "description": "Label for when you need to choose your fighter, err color"
+  },
+  "LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
+    "message": "Group Avatar",
+    "description": "Title for the avatar picker in the group creation flow"
   }
 }

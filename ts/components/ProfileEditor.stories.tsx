@@ -14,6 +14,7 @@ import {
   getFirstName,
   getLastName,
 } from '../test-both/helpers/getDefaultConversation';
+import { getRandomColor } from '../test-both/helpers/getRandomColor';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -23,6 +24,9 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   aboutEmoji: overrideProps.aboutEmoji,
   aboutText: text('about', overrideProps.aboutText || ''),
   avatarPath: overrideProps.avatarPath,
+  conversationId: '123',
+  color: overrideProps.color || getRandomColor(),
+  deleteAvatarFromDisk: action('deleteAvatarFromDisk'),
   familyName: overrideProps.familyName,
   firstName: text('firstName', overrideProps.firstName || getFirstName()),
   i18n,
@@ -30,7 +34,10 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   onProfileChanged: action('onProfileChanged'),
   onSetSkinTone: overrideProps.onSetSkinTone || action('onSetSkinTone'),
   recentEmojis: [],
+  replaceAvatar: action('replaceAvatar'),
+  saveAvatarToDisk: action('saveAvatarToDisk'),
   skinTone: overrideProps.skinTone || 0,
+  userAvatarData: [],
 });
 
 stories.add('Full Set', () => {

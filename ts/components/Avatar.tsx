@@ -14,7 +14,7 @@ import { Spinner } from './Spinner';
 
 import { getInitials } from '../util/getInitials';
 import { LocalizerType } from '../types/Util';
-import { AvatarColorType } from '../types/Colors';
+import { AvatarColors, AvatarColorType } from '../types/Colors';
 import * as log from '../logging/log';
 import { assert } from '../util/assert';
 import { shouldBlurAvatar } from '../util/shouldBlurAvatar';
@@ -70,7 +70,7 @@ export const Avatar: FunctionComponent<Props> = ({
   acceptedMessageRequest,
   avatarPath,
   className,
-  color,
+  color = AvatarColors[0],
   conversationType,
   i18n,
   isMe,
@@ -160,6 +160,7 @@ export const Avatar: FunctionComponent<Props> = ({
       <div
         className={classNames(
           'module-Avatar__icon',
+          `module-Avatar--${color}--icon`,
           'module-Avatar__icon--note-to-self'
         )}
       />
@@ -179,6 +180,7 @@ export const Avatar: FunctionComponent<Props> = ({
       <div
         className={classNames(
           'module-Avatar__icon',
+          `module-Avatar--${color}--icon`,
           `module-Avatar__icon--${conversationType}`
         )}
       />

@@ -10,7 +10,7 @@ import { handleMessageSend } from '../util/handleMessageSend';
 
 export async function writeProfile(
   conversation: ConversationType,
-  avatarData?: ArrayBuffer
+  avatarBuffer?: ArrayBuffer
 ): Promise<void> {
   // Before we write anything we request the user's profile so that we can
   // have an up-to-date paymentAddress to be able to include it when we write
@@ -32,7 +32,7 @@ export async function writeProfile(
 
   const [profileData, encryptedAvatarData] = await encryptProfileData(
     conversation,
-    avatarData
+    avatarBuffer
   );
   const avatarRequestHeaders = await window.textsecure.messaging.putProfile(
     profileData
@@ -47,17 +47,17 @@ export async function writeProfile(
         path: string;
       }
     | undefined;
-  if (avatarRequestHeaders && encryptedAvatarData && avatarData) {
+  if (avatarRequestHeaders && encryptedAvatarData && avatarBuffer) {
     await window.textsecure.messaging.uploadAvatar(
       avatarRequestHeaders,
       encryptedAvatarData
     );
 
-    const hash = await computeHash(avatarData);
+    const hash = await computeHash(avatarBuffer);
 
     if (hash !== avatarHash) {
       const [path] = await Promise.all([
-        window.Signal.Migrations.writeNewAttachmentData(avatarData),
+        window.Signal.Migrations.writeNewAttachmentData(avatarBuffer),
         avatarPath
           ? window.Signal.Migrations.deleteAttachmentData(avatarPath)
           : undefined,

@@ -9797,11 +9797,7 @@ $contact-modal-padding: 18px;
     background-color: $color-black-alpha-40;
   }
 
-  @each $color, $value in $avatar-colors {
-    &__#{$color} {
-      background-color: $value;
-    }
-  }
+  @include avatar-colors();
 }
 
 .module-tooltip {

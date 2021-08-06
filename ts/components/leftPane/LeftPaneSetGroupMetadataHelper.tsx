@@ -8,11 +8,20 @@ import { Row, RowType } from '../ConversationList';
 import { PropsDataType as ContactListItemPropsType } from '../conversationList/ContactListItem';
 import { DisappearingTimerSelect } from '../DisappearingTimerSelect';
 import { LocalizerType } from '../../types/Util';
-import { AvatarInput } from '../AvatarInput';
 import { Alert } from '../Alert';
+import { AvatarEditor } from '../AvatarEditor';
+import { AvatarPreview } from '../AvatarPreview';
 import { Spinner } from '../Spinner';
 import { Button } from '../Button';
+import { Modal } from '../Modal';
 import { GroupTitleInput } from '../GroupTitleInput';
+import {
+  AvatarDataType,
+  DeleteAvatarFromDiskActionType,
+  ReplaceAvatarActionType,
+  SaveAvatarToDiskActionType,
+} from '../../types/Avatar';
+import { AvatarColors } from '../../types/Colors';
 
 export type LeftPaneSetGroupMetadataPropsType = {
   groupAvatar: undefined | ArrayBuffer;
@@ -20,7 +29,9 @@ export type LeftPaneSetGroupMetadataPropsType = {
   groupExpireTimer: number;
   hasError: boolean;
   isCreating: boolean;
+  isEditingAvatar: boolean;
   selectedContacts: ReadonlyArray<ContactListItemPropsType>;
+  userAvatarData: ReadonlyArray<AvatarDataType>;
 };
 
 /* eslint-disable class-methods-use-this */
@@ -36,15 +47,21 @@ export class LeftPaneSetGroupMetadataHelper extends LeftPaneHelper<LeftPaneSetGr
 
   private readonly isCreating: boolean;
 
+  private readonly isEditingAvatar: boolean;
+
   private readonly selectedContacts: ReadonlyArray<ContactListItemPropsType>;
+
+  private readonly userAvatarData: ReadonlyArray<AvatarDataType>;
 
   constructor({
     groupAvatar,
     groupName,
     groupExpireTimer,
-    isCreating,
     hasError,
+    isCreating,
+    isEditingAvatar,
     selectedContacts,
+    userAvatarData,
   }: Readonly<LeftPaneSetGroupMetadataPropsType>) {
     super();
 
@@ -53,7 +70,9 @@ export class LeftPaneSetGroupMetadataHelper extends LeftPaneHelper<LeftPaneSetGr
     this.groupExpireTimer = groupExpireTimer;
     this.hasError = hasError;
     this.isCreating = isCreating;
+    this.isEditingAvatar = isEditingAvatar;
     this.selectedContacts = selectedContacts;
+    this.userAvatarData = userAvatarData;
   }
 
   getHeaderContents({
@@ -92,19 +111,28 @@ export class LeftPaneSetGroupMetadataHelper extends LeftPaneHelper<LeftPaneSetGr
 
   getPreRowsNode({
     clearGroupCreationError,
+    composeDeleteAvatarFromDisk,
+    composeReplaceAvatar,
+    composeSaveAvatarToDisk,
     createGroup,
     i18n,
     setComposeGroupAvatar,
     setComposeGroupExpireTimer,
     setComposeGroupName,
+    toggleComposeEditingAvatar,
   }: Readonly<{
     clearGroupCreationError: () => unknown;
+    composeDeleteAvatarFromDisk: DeleteAvatarFromDiskActionType;
+    composeReplaceAvatar: ReplaceAvatarActionType;
+    composeSaveAvatarToDisk: SaveAvatarToDiskActionType;
     createGroup: () => unknown;
     i18n: LocalizerType;
     setComposeGroupAvatar: (_: undefined | ArrayBuffer) => unknown;
     setComposeGroupExpireTimer: (_: number) => void;
     setComposeGroupName: (_: string) => unknown;
+    toggleComposeEditingAvatar: () => unknown;
   }>): ReactChild {
+    const [avatarColor] = AvatarColors;
     const disabled = this.isCreating;
 
     return (
@@ -121,12 +149,43 @@ export class LeftPaneSetGroupMetadataHelper extends LeftPaneHelper<LeftPaneSetGr
           createGroup();
         }}
       >
-        <AvatarInput
-          contextMenuId="left pane group avatar uploader"
-          disabled={disabled}
+        {this.isEditingAvatar && (
+          <Modal
+            hasStickyButtons
+            hasXButton
+            i18n={i18n}
+            onClose={toggleComposeEditingAvatar}
+            title={i18n('LeftPaneSetGroupMetadataHelper__avatar-modal-title')}
+          >
+            <AvatarEditor
+              avatarColor={avatarColor}
+              avatarValue={this.groupAvatar}
+              deleteAvatarFromDisk={composeDeleteAvatarFromDisk}
+              i18n={i18n}
+              isGroup
+              onCancel={toggleComposeEditingAvatar}
+              onSave={newAvatar => {
+                setComposeGroupAvatar(newAvatar);
+                toggleComposeEditingAvatar();
+              }}
+              userAvatarData={this.userAvatarData}
+              replaceAvatar={composeReplaceAvatar}
+              saveAvatarToDisk={composeSaveAvatarToDisk}
+            />
+          </Modal>
+        )}
+        <AvatarPreview
+          avatarColor={avatarColor}
+          avatarValue={this.groupAvatar}
           i18n={i18n}
-          onChange={setComposeGroupAvatar}
-          value={this.groupAvatar}
+          isEditable
+          isGroup
+          onClick={toggleComposeEditingAvatar}
+          style={{
+            height: 96,
+            margin: 0,
+            width: 96,
+          }}
         />
         <div className="module-GroupInput--container">
           <GroupTitleInput

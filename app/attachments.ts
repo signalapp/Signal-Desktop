@@ -34,6 +34,7 @@ try {
 }
 
 const PATH = 'attachments.noindex';
+const AVATAR_PATH = 'avatars.noindex';
 const STICKER_PATH = 'stickers.noindex';
 const TEMP_PATH = 'temp';
 const DRAFT_PATH = 'drafts.noindex';
@@ -85,6 +86,13 @@ export const getPath = (userDataPath: string): string => {
     throw new TypeError("'userDataPath' must be a string");
   }
   return join(userDataPath, PATH);
+};
+
+export const getAvatarsPath = (userDataPath: string): string => {
+  if (!isString(userDataPath)) {
+    throw new TypeError("'userDataPath' must be a string");
+  }
+  return join(userDataPath, AVATAR_PATH);
 };
 
 export const getStickersPath = (userDataPath: string): string => {

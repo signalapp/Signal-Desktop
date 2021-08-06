@@ -20,7 +20,7 @@ import * as groups from '../../groups';
 import * as log from '../../logging/log';
 import { calling } from '../../services/calling';
 import { getOwn } from '../../util/getOwn';
-import { assert } from '../../util/assert';
+import { assert, strictAssert } from '../../util/assert';
 import * as universalExpireTimer from '../../util/universalExpireTimer';
 import { trigger } from '../../shims/events';
 import {
@@ -53,6 +53,9 @@ import { GroupNameCollisionsWithIdsByTitle } from '../../util/groupMemberNameCol
 import { ContactSpoofingType } from '../../util/contactSpoofing';
 import { writeProfile } from '../../services/writeProfile';
 import { getMe } from '../selectors/conversations';
+import { AvatarDataType, getDefaultAvatars } from '../../types/Avatar';
+import { getAvatarData } from '../../util/getAvatarData';
+import { isSameAvatarData } from '../../util/isSameAvatarData';
 
 import { NoopActionType } from './noop';
 
@@ -86,6 +89,7 @@ export type ConversationType = {
   about?: string;
   aboutText?: string;
   aboutEmoji?: string;
+  avatars?: Array<AvatarDataType>;
   avatarPath?: string;
   avatarHash?: string;
   unblurredAvatarPath?: string;
@@ -244,9 +248,11 @@ type ComposerGroupCreationState = {
   groupAvatar: undefined | ArrayBuffer;
   groupName: string;
   groupExpireTimer: number;
+  isEditingAvatar: boolean;
   maximumGroupSizeModalState: OneTimeModalState;
   recommendedGroupSizeModalState: OneTimeModalState;
   selectedConversationIds: Array<string>;
+  userAvatarData: Array<AvatarDataType>;
 };
 
 type ComposerStateType =
@@ -325,9 +331,15 @@ export const getConversationCallMode = (
 
 // Actions
 
-const COLOR_SELECTED = 'conversations/COLOR_SELECTED';
 const COLORS_CHANGED = 'conversations/COLORS_CHANGED';
+const COLOR_SELECTED = 'conversations/COLOR_SELECTED';
+const COMPOSE_TOGGLE_EDITING_AVATAR =
+  'conversations/compose/COMPOSE_TOGGLE_EDITING_AVATAR';
+const COMPOSE_ADD_AVATAR = 'conversations/compose/ADD_AVATAR';
+const COMPOSE_REMOVE_AVATAR = 'conversations/compose/REMOVE_AVATAR';
+const COMPOSE_REPLACE_AVATAR = 'conversations/compose/REPLACE_AVATAR';
 const CUSTOM_COLOR_REMOVED = 'conversations/CUSTOM_COLOR_REMOVED';
+const REPLACE_AVATARS = 'conversations/REPLACE_AVATARS';
 
 type CantAddContactToGroupActionType = {
   type: 'CANT_ADD_CONTACT_TO_GROUP';
@@ -372,6 +384,21 @@ type ColorSelectedPayloadType = {
 export type ColorSelectedActionType = {
   type: typeof COLOR_SELECTED;
   payload: ColorSelectedPayloadType;
+};
+type ComposeDeleteAvatarActionType = {
+  type: typeof COMPOSE_REMOVE_AVATAR;
+  payload: AvatarDataType;
+};
+type ComposeReplaceAvatarsActionType = {
+  type: typeof COMPOSE_REPLACE_AVATAR;
+  payload: {
+    curr: AvatarDataType;
+    prev?: AvatarDataType;
+  };
+};
+type ComposeSaveAvatarActionType = {
+  type: typeof COMPOSE_ADD_AVATAR;
+  payload: AvatarDataType;
 };
 type CustomColorRemovedActionType = {
   type: typeof CUSTOM_COLOR_REMOVED;
@@ -594,6 +621,9 @@ type SetRecentMediaItemsActionType = {
     recentMediaItems: Array<MediaItemType>;
   };
 };
+type ToggleComposeEditingAvatarActionType = {
+  type: typeof COMPOSE_TOGGLE_EDITING_AVATAR;
+};
 type StartComposingActionType = {
   type: 'START_COMPOSING';
 };
@@ -615,6 +645,14 @@ export type ToggleConversationInChooseMembersActionType = {
     maxGroupSize: number;
   };
 };
+
+type ReplaceAvatarsActionType = {
+  type: typeof REPLACE_AVATARS;
+  payload: {
+    conversationId: string;
+    avatars: Array<AvatarDataType>;
+  };
+};
 export type ConversationActionType =
   | CantAddContactToGroupActionType
   | ClearChangedMessagesActionType
@@ -626,32 +664,36 @@ export type ConversationActionType =
   | CloseContactSpoofingReviewActionType
   | CloseMaximumGroupSizeModalActionType
   | CloseRecommendedGroupSizeModalActionType
+  | ColorSelectedActionType
+  | ColorsChangedActionType
+  | ComposeDeleteAvatarActionType
+  | ComposeReplaceAvatarsActionType
+  | ComposeSaveAvatarActionType
   | ConversationAddedActionType
   | ConversationChangedActionType
   | ConversationRemovedActionType
   | ConversationUnloadedActionType
-  | ColorsChangedActionType
-  | ColorSelectedActionType
-  | CustomColorRemovedActionType
   | CreateGroupFulfilledActionType
   | CreateGroupPendingActionType
   | CreateGroupRejectedActionType
+  | CustomColorRemovedActionType
   | MessageChangedActionType
   | MessageDeletedActionType
-  | MessagesAddedActionType
   | MessageSelectedActionType
   | MessageSizeChangedActionType
+  | MessagesAddedActionType
   | MessagesResetActionType
   | RemoveAllConversationsActionType
   | RepairNewestMessageActionType
   | RepairOldestMessageActionType
+  | ReplaceAvatarsActionType
   | ReviewGroupMemberNameCollisionActionType
   | ReviewMessageRequestNameCollisionActionType
   | ScrollToMessageActionType
   | SelectedConversationChangedActionType
   | SetComposeGroupAvatarActionType
-  | SetComposeGroupNameActionType
   | SetComposeGroupExpireTimerActionType
+  | SetComposeGroupNameActionType
   | SetComposeSearchTermActionType
   | SetConversationHeaderTitleActionType
   | SetIsNearBottomActionType
@@ -661,37 +703,42 @@ export type ConversationActionType =
   | SetRecentMediaItemsActionType
   | SetSelectedConversationPanelDepthActionType
   | ShowArchivedConversationsActionType
+  | ShowChooseGroupMembersActionType
   | ShowInboxActionType
   | StartComposingActionType
-  | ShowChooseGroupMembersActionType
   | StartSettingGroupMetadataActionType
   | SwitchToAssociatedViewActionType
-  | ToggleConversationInChooseMembersActionType;
+  | ToggleConversationInChooseMembersActionType
+  | ToggleComposeEditingAvatarActionType;
 
 // Action Creators
 
 export const actions = {
   cantAddContactToGroup,
   clearChangedMessages,
-  clearInvitedConversationsForNewlyCreatedGroup,
   clearGroupCreationError,
+  clearInvitedConversationsForNewlyCreatedGroup,
   clearSelectedMessage,
   clearUnreadMetrics,
   closeCantAddContactToGroupModal,
   closeContactSpoofingReview,
-  closeRecommendedGroupSizeModal,
   closeMaximumGroupSizeModal,
+  closeRecommendedGroupSizeModal,
+  colorSelected,
+  composeDeleteAvatarFromDisk,
+  composeReplaceAvatar,
+  composeSaveAvatarToDisk,
   conversationAdded,
   conversationChanged,
   conversationRemoved,
   conversationUnloaded,
-  colorSelected,
   createGroup,
+  deleteAvatarFromDisk,
   doubleCheckMissingQuoteReference,
   messageChanged,
   messageDeleted,
-  messagesAdded,
   messageSizeChanged,
+  messagesAdded,
   messagesReset,
   myProfileChanged,
   openConversationExternal,
@@ -700,14 +747,16 @@ export const actions = {
   removeCustomColorOnConversations,
   repairNewestMessage,
   repairOldestMessage,
+  replaceAvatar,
   resetAllChatColors,
   reviewGroupMemberNameCollision,
   reviewMessageRequestNameCollision,
+  saveAvatarToDisk,
   scrollToMessage,
   selectMessage,
   setComposeGroupAvatar,
-  setComposeGroupName,
   setComposeGroupExpireTimer,
+  setComposeGroupName,
   setComposeSearchTerm,
   setIsNearBottom,
   setLoadCountdownStart,
@@ -717,17 +766,166 @@ export const actions = {
   setSelectedConversationHeaderTitle,
   setSelectedConversationPanelDepth,
   showArchivedConversations,
+  showChooseGroupMembers,
   showInbox,
   startComposing,
-  showChooseGroupMembers,
   startNewConversationFromPhoneNumber,
   startSettingGroupMetadata,
   toggleConversationInChooseMembers,
+  toggleComposeEditingAvatar,
 };
+
+function filterAvatarData(
+  avatars: ReadonlyArray<AvatarDataType>,
+  data: AvatarDataType
+): Array<AvatarDataType> {
+  return avatars.filter(avatarData => !isSameAvatarData(data, avatarData));
+}
+
+function getNextAvatarId(avatars: Array<AvatarDataType>): number {
+  return Math.max(...avatars.map(x => Number(x.id))) + 1;
+}
+
+async function getAvatarsAndUpdateConversation(
+  conversations: ConversationsStateType,
+  conversationId: string,
+  getNextAvatarsData: (
+    avatars: Array<AvatarDataType>,
+    nextId: number
+  ) => Array<AvatarDataType>
+): Promise<Array<AvatarDataType>> {
+  const conversation = window.ConversationController.get(conversationId);
+  if (!conversation) {
+    throw new Error('No conversation found');
+  }
+
+  const { conversationLookup } = conversations;
+  const conversationAttrs = conversationLookup[conversationId];
+  const avatars =
+    conversationAttrs.avatars || getAvatarData(conversation.attributes);
+
+  const nextAvatarId = getNextAvatarId(avatars);
+  const nextAvatars = getNextAvatarsData(avatars, nextAvatarId);
+  // We don't save buffers to the db, but we definitely want it in-memory so
+  // we don't have to re-generate them.
+  //
+  // Mutating here because we don't want to trigger a model change
+  // because we're updating redux here manually ourselves. Au revoir Backbone!
+  conversation.attributes.avatars = nextAvatars.map(avatarData =>
+    omit(avatarData, ['buffer'])
+  );
+  await window.Signal.Data.updateConversation(conversation.attributes);
+
+  return nextAvatars;
+}
+
+function deleteAvatarFromDisk(
+  avatarData: AvatarDataType,
+  conversationId?: string
+): ThunkAction<void, RootStateType, unknown, ReplaceAvatarsActionType> {
+  return async (dispatch, getState) => {
+    if (avatarData.imagePath) {
+      await window.Signal.Migrations.deleteAvatar(avatarData.imagePath);
+    } else {
+      window.log.info(
+        'No imagePath for avatarData. Removing from userAvatarData, but not disk'
+      );
+    }
+
+    strictAssert(conversationId, 'conversationId not provided');
+
+    const avatars = await getAvatarsAndUpdateConversation(
+      getState().conversations,
+      conversationId,
+      prevAvatarsData => filterAvatarData(prevAvatarsData, avatarData)
+    );
+
+    dispatch({
+      type: REPLACE_AVATARS,
+      payload: {
+        conversationId,
+        avatars,
+      },
+    });
+  };
+}
+
+function replaceAvatar(
+  curr: AvatarDataType,
+  prev?: AvatarDataType,
+  conversationId?: string
+): ThunkAction<void, RootStateType, unknown, ReplaceAvatarsActionType> {
+  return async (dispatch, getState) => {
+    strictAssert(conversationId, 'conversationId not provided');
+
+    const avatars = await getAvatarsAndUpdateConversation(
+      getState().conversations,
+      conversationId,
+      (prevAvatarsData, nextId) => {
+        const newAvatarData = {
+          ...curr,
+          id: prev?.id ?? nextId,
+        };
+        const existingAvatarsData = prev
+          ? filterAvatarData(prevAvatarsData, prev)
+          : prevAvatarsData;
+
+        return [newAvatarData, ...existingAvatarsData];
+      }
+    );
+
+    dispatch({
+      type: REPLACE_AVATARS,
+      payload: {
+        conversationId,
+        avatars,
+      },
+    });
+  };
+}
+
+function saveAvatarToDisk(
+  avatarData: AvatarDataType,
+  conversationId?: string
+): ThunkAction<void, RootStateType, unknown, ReplaceAvatarsActionType> {
+  return async (dispatch, getState) => {
+    if (!avatarData.buffer) {
+      throw new Error('No avatar ArrayBuffer provided');
+    }
+
+    strictAssert(conversationId, 'conversationId not provided');
+
+    const imagePath = await window.Signal.Migrations.writeNewAvatarData(
+      avatarData.buffer
+    );
+
+    const avatars = await getAvatarsAndUpdateConversation(
+      getState().conversations,
+      conversationId,
+      (prevAvatarsData, id) => {
+        const newAvatarData = {
+          ...avatarData,
+          imagePath,
+          id,
+        };
+
+        return [newAvatarData, ...prevAvatarsData];
+      }
+    );
+
+    dispatch({
+      type: REPLACE_AVATARS,
+      payload: {
+        conversationId,
+        avatars,
+      },
+    });
+  };
+}
 
 function myProfileChanged(
   profileData: ProfileDataType,
-  avatarData?: ArrayBuffer
+  avatarBuffer?: ArrayBuffer
 ): ThunkAction<
   void,
   RootStateType,
@@ -743,7 +941,7 @@ function myProfileChanged(
           ...conversation,
           ...profileData,
         },
-        avatarData
+        avatarBuffer
       );
 
       // writeProfile above updates the backbone model which in turn updates
@@ -879,6 +1077,66 @@ function colorSelected({
   };
 }
 
+function toggleComposeEditingAvatar(): ToggleComposeEditingAvatarActionType {
+  return {
+    type: COMPOSE_TOGGLE_EDITING_AVATAR,
+  };
+}
+
+function composeSaveAvatarToDisk(
+  avatarData: AvatarDataType
+): ThunkAction<void, RootStateType, unknown, ComposeSaveAvatarActionType> {
+  return async dispatch => {
+    if (!avatarData.buffer) {
+      throw new Error('No avatar ArrayBuffer provided');
+    }
+
+    const imagePath = await window.Signal.Migrations.writeNewAvatarData(
+      avatarData.buffer
+    );
+
+    dispatch({
+      type: COMPOSE_ADD_AVATAR,
+      payload: {
+        ...avatarData,
+        imagePath,
+      },
+    });
+  };
+}
+
+function composeDeleteAvatarFromDisk(
+  avatarData: AvatarDataType
+): ThunkAction<void, RootStateType, unknown, ComposeDeleteAvatarActionType> {
+  return async dispatch => {
+    if (avatarData.imagePath) {
+      await window.Signal.Migrations.deleteAvatar(avatarData.imagePath);
+    } else {
+      window.log.info(
+        'No imagePath for avatarData. Removing from userAvatarData, but not disk'
+      );
+    }
+
+    dispatch({
+      type: COMPOSE_REMOVE_AVATAR,
+      payload: avatarData,
+    });
+  };
+}
+
+function composeReplaceAvatar(
+  curr: AvatarDataType,
+  prev?: AvatarDataType
+): ComposeReplaceAvatarsActionType {
+  return {
+    type: COMPOSE_REPLACE_AVATAR,
+    payload: {
+      curr,
+      prev,
+    },
+  };
+}
+
 function cantAddContactToGroup(
   conversationId: string
 ): CantAddContactToGroupActionType {
@@ -967,6 +1225,9 @@ function createGroup(): ThunkAction<
       const conversation = await groups.createGroupV2({
         name: composer.groupName.trim(),
         avatar: composer.groupAvatar,
+        avatars: composer.userAvatarData.map(avatarData =>
+          omit(avatarData, ['buffer'])
+        ),
         expireTimer: composer.groupExpireTimer,
         conversationIds: composer.selectedConversationIds,
       });
@@ -2421,6 +2682,8 @@ export function reducer(
     let groupName: string;
     let groupAvatar: undefined | ArrayBuffer;
     let groupExpireTimer: number;
+    let isEditingAvatar = false;
+    let userAvatarData = getDefaultAvatars(true);
 
     switch (state.composer?.step) {
       case ComposerStep.ChooseGroupMembers:
@@ -2433,6 +2696,8 @@ export function reducer(
           groupName,
           groupAvatar,
           groupExpireTimer,
+          isEditingAvatar,
+          userAvatarData,
         } = state.composer);
         break;
       default:
@@ -2457,6 +2722,8 @@ export function reducer(
         groupName,
         groupAvatar,
         groupExpireTimer,
+        isEditingAvatar,
+        userAvatarData,
       },
     };
   }
@@ -2477,9 +2744,11 @@ export function reducer(
               'groupAvatar',
               'groupName',
               'groupExpireTimer',
+              'isEditingAvatar',
               'maximumGroupSizeModalState',
               'recommendedGroupSizeModalState',
               'selectedConversationIds',
+              'userAvatarData',
             ]),
           },
         };
@@ -2572,6 +2841,99 @@ export function reducer(
         searchTerm: action.payload.searchTerm,
       },
     };
+  }
+
+  if (action.type === COMPOSE_TOGGLE_EDITING_AVATAR) {
+    const { composer } = state;
+
+    switch (composer?.step) {
+      case ComposerStep.ChooseGroupMembers:
+      case ComposerStep.SetGroupMetadata:
+        return {
+          ...state,
+          composer: {
+            ...composer,
+            isEditingAvatar: !composer?.isEditingAvatar,
+          },
+        };
+      default:
+        assert(false, 'Setting editing avatar at this step is a no-op');
+        return state;
+    }
+  }
+
+  if (action.type === COMPOSE_ADD_AVATAR) {
+    const { payload } = action;
+    const { composer } = state;
+
+    switch (composer?.step) {
+      case ComposerStep.ChooseGroupMembers:
+      case ComposerStep.SetGroupMetadata:
+        return {
+          ...state,
+          composer: {
+            ...composer,
+            userAvatarData: [
+              {
+                ...payload,
+                id: getNextAvatarId(composer.userAvatarData),
+              },
+              ...composer.userAvatarData,
+            ],
+          },
+        };
+      default:
+        assert(false, 'Adding an avatar at this step is a no-op');
+        return state;
+    }
+  }
+
+  if (action.type === COMPOSE_REMOVE_AVATAR) {
+    const { payload } = action;
+    const { composer } = state;
+
+    switch (composer?.step) {
+      case ComposerStep.ChooseGroupMembers:
+      case ComposerStep.SetGroupMetadata:
+        return {
+          ...state,
+          composer: {
+            ...composer,
+            userAvatarData: filterAvatarData(composer.userAvatarData, payload),
+          },
+        };
+      default:
+        assert(false, 'Removing an avatar at this step is a no-op');
+        return state;
+    }
+  }
+
+  if (action.type === COMPOSE_REPLACE_AVATAR) {
+    const { curr, prev } = action.payload;
+    const { composer } = state;
+
+    switch (composer?.step) {
+      case ComposerStep.ChooseGroupMembers:
+      case ComposerStep.SetGroupMetadata:
+        return {
+          ...state,
+          composer: {
+            ...composer,
+            userAvatarData: [
+              {
+                ...curr,
+                id: prev?.id ?? getNextAvatarId(composer.userAvatarData),
+              },
+              ...(prev
+                ? filterAvatarData(composer.userAvatarData, prev)
+                : composer.userAvatarData),
+            ],
+          },
+        };
+      default:
+        assert(false, 'Replacing an avatar at this step is a no-op');
+        return state;
+    }
   }
 
   if (action.type === 'SWITCH_TO_ASSOCIATED_VIEW') {
@@ -2716,6 +3078,30 @@ export function reducer(
     });
 
     return nextState;
+  }
+
+  if (action.type === REPLACE_AVATARS) {
+    const { conversationLookup } = state;
+    const { conversationId, avatars } = action.payload;
+
+    const conversation = conversationLookup[conversationId];
+    if (!conversation) {
+      return state;
+    }
+
+    const changed = {
+      ...conversation,
+      avatars,
+    };
+
+    return {
+      ...state,
+      conversationLookup: {
+        ...conversationLookup,
+        [conversationId]: changed,
+      },
+      ...updateConversationLookups(changed, conversation, state),
+    };
   }
 
   return state;

@@ -75,6 +75,10 @@ const createProps = (hasGroupLink = false, expireTimer?: number): Props => ({
   },
   onBlock: action('onBlock'),
   onLeave: action('onLeave'),
+  deleteAvatarFromDisk: action('deleteAvatarFromDisk'),
+  replaceAvatar: action('replaceAvatar'),
+  saveAvatarToDisk: action('saveAvatarToDisk'),
+  userAvatarData: [],
 });
 
 story.add('Basic', () => {

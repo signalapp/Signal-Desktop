@@ -16,6 +16,7 @@ import {
   VideoFrameSource,
 } from '../types/Calling';
 import { LocalizerType } from '../types/Util';
+import { AvatarColors } from '../types/Colors';
 import { CallBackgroundBlur } from './CallBackgroundBlur';
 import { Avatar, AvatarSize } from './Avatar';
 import { ConfirmationDialog } from './ConfirmationDialog';
@@ -331,7 +332,7 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
                 <Avatar
                   acceptedMessageRequest={acceptedMessageRequest}
                   avatarPath={avatarPath}
-                  color={color || 'ultramarine'}
+                  color={color || AvatarColors[0]}
                   noteToSelf={false}
                   conversationType="direct"
                   i18n={i18n}

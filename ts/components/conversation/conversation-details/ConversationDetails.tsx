@@ -32,6 +32,12 @@ import { EditConversationAttributesModal } from './EditConversationAttributesMod
 import { RequestState } from './util';
 import { getCustomColorStyle } from '../../../util/getCustomColorStyle';
 import { ConfirmationDialog } from '../../ConfirmationDialog';
+import {
+  AvatarDataType,
+  DeleteAvatarFromDiskActionType,
+  ReplaceAvatarActionType,
+  SaveAvatarToDiskActionType,
+} from '../../../types/Avatar';
 
 enum ModalState {
   NothingOpen,
@@ -73,9 +79,16 @@ export type StateProps = {
   ) => Promise<void>;
   onBlock: () => void;
   onLeave: () => void;
+  userAvatarData: Array<AvatarDataType>;
 };
 
-export type Props = StateProps;
+type ActionProps = {
+  deleteAvatarFromDisk: DeleteAvatarFromDiskActionType;
+  replaceAvatar: ReplaceAvatarActionType;
+  saveAvatarToDisk: SaveAvatarToDiskActionType;
+};
+
+export type Props = StateProps & ActionProps;
 
 export const ConversationDetails: React.ComponentType<Props> = ({
   addMembers,
@@ -101,6 +114,10 @@ export const ConversationDetails: React.ComponentType<Props> = ({
   updateGroupAttributes,
   onBlock,
   onLeave,
+  deleteAvatarFromDisk,
+  replaceAvatar,
+  saveAvatarToDisk,
+  userAvatarData,
 }) => {
   const [modalState, setModalState] = useState<ModalState>(
     ModalState.NothingOpen
@@ -141,7 +158,9 @@ export const ConversationDetails: React.ComponentType<Props> = ({
     case ModalState.EditingGroupTitle:
       modalNode = (
         <EditConversationAttributesModal
+          avatarColor={conversation.color}
           avatarPath={conversation.avatarPath}
+          conversationId={conversation.id}
           groupDescription={conversation.groupDescription}
           i18n={i18n}
           initiallyFocusDescription={
@@ -172,6 +191,10 @@ export const ConversationDetails: React.ComponentType<Props> = ({
           }}
           requestState={editGroupAttributesRequestState}
           title={conversation.title}
+          deleteAvatarFromDisk={deleteAvatarFromDisk}
+          replaceAvatar={replaceAvatar}
+          saveAvatarToDisk={saveAvatarToDisk}
+          userAvatarData={userAvatarData}
         />
       );
       break;

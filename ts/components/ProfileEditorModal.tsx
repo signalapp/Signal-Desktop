@@ -18,7 +18,7 @@ export type PropsDataType = {
 type PropsType = {
   myProfileChanged: (
     profileData: ProfileDataType,
-    avatarData?: ArrayBuffer
+    avatarBuffer?: ArrayBuffer
   ) => unknown;
   toggleProfileEditor: () => unknown;
   toggleProfileEditorHasError: () => unknown;
@@ -57,6 +57,7 @@ export const ProfileEditorModal = ({
   return (
     <>
       <Modal
+        hasStickyButtons
         hasXButton
         i18n={i18n}
         onClose={toggleProfileEditor}
@@ -74,8 +75,8 @@ export const ProfileEditorModal = ({
               setModalTitle(ModalTitles.Bio);
             }
           }}
-          onProfileChanged={(profileData, avatarData) => {
-            myProfileChanged(profileData, avatarData);
+          onProfileChanged={(profileData, avatarBuffer) => {
+            myProfileChanged(profileData, avatarBuffer);
           }}
           onSetSkinTone={onSetSkinTone}
         />

@@ -106,3 +106,45 @@ story.add('Long body with long title and X button', () => (
     <p>{LOREM_IPSUM}</p>
   </Modal>
 ));
+
+story.add('With sticky buttons long body', () => (
+  <Modal hasStickyButtons hasXButton i18n={i18n} onClose={onClose}>
+    <p>{LOREM_IPSUM}</p>
+    <p>{LOREM_IPSUM}</p>
+    <p>{LOREM_IPSUM}</p>
+    <p>{LOREM_IPSUM}</p>
+    <Modal.ButtonFooter>
+      <Button onClick={noop}>Okay</Button>
+      <Button onClick={noop}>Okay</Button>
+    </Modal.ButtonFooter>
+  </Modal>
+));
+
+story.add('With sticky buttons short body', () => (
+  <Modal hasStickyButtons hasXButton i18n={i18n} onClose={onClose}>
+    <p>{LOREM_IPSUM.slice(0, 140)}</p>
+    <Modal.ButtonFooter>
+      <Button onClick={noop}>Okay</Button>
+      <Button onClick={noop}>Okay</Button>
+    </Modal.ButtonFooter>
+  </Modal>
+));
+
+story.add('Sticky footer, Lots of buttons', () => (
+  <Modal hasStickyButtons i18n={i18n} onClose={onClose} title="OK">
+    <p>{LOREM_IPSUM}</p>
+    <Modal.ButtonFooter>
+      <Button onClick={noop}>Okay</Button>
+      <Button onClick={noop}>Okay</Button>
+      <Button onClick={noop}>Okay</Button>
+      <Button onClick={noop}>
+        This is a button with a fairly large amount of text
+      </Button>
+      <Button onClick={noop}>Okay</Button>
+      <Button onClick={noop}>
+        This is a button with a fairly large amount of text
+      </Button>
+      <Button onClick={noop}>Okay</Button>
+    </Modal.ButtonFooter>
+  </Modal>
+));

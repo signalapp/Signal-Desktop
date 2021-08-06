@@ -25,6 +25,7 @@ import { assert } from '../../util/assert';
 import { isConversationUnregistered } from '../../util/isConversationUnregistered';
 import { filterAndSortConversationsByTitle } from '../../util/filterAndSortConversations';
 import { ContactNameColors, ContactNameColorType } from '../../types/Colors';
+import { AvatarDataType } from '../../types/Avatar';
 import { isInSystemContacts } from '../../util/isInSystemContacts';
 import { isGroupV2 } from '../../util/whatTypeOfConversation';
 
@@ -187,6 +188,21 @@ export const isCreatingGroup = createSelector(
   (composerState): boolean =>
     composerState?.step === ComposerStep.SetGroupMetadata &&
     composerState.isCreating
+);
+
+export const isEditingAvatar = createSelector(
+  getComposerState,
+  (composerState): boolean =>
+    composerState?.step === ComposerStep.SetGroupMetadata &&
+    composerState.isEditingAvatar
+);
+
+export const getComposeAvatarData = createSelector(
+  getComposerState,
+  (composerState): ReadonlyArray<AvatarDataType> =>
+    composerState?.step === ComposerStep.SetGroupMetadata
+      ? composerState.userAvatarData
+      : []
 );
 
 export const getMessages = createSelector(

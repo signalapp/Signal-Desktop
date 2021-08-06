@@ -17,9 +17,16 @@ import { selectRecentEmojis } from '../selectors/emojis';
 function mapStateToProps(
   state: StateType
 ): PropsDataType & ProfileEditorModalPropsType {
-  const { avatarPath, aboutText, aboutEmoji, firstName, familyName } = getMe(
-    state
-  );
+  const {
+    avatarPath,
+    avatars: userAvatarData = [],
+    aboutText,
+    aboutEmoji,
+    color,
+    firstName,
+    familyName,
+    id: conversationId,
+  } = getMe(state);
   const recentEmojis = selectRecentEmojis(state);
   const skinTone = get(state, ['items', 'skinTone'], 0);
 
@@ -27,12 +34,15 @@ function mapStateToProps(
     aboutEmoji,
     aboutText,
     avatarPath,
+    color,
+    conversationId,
     familyName,
     firstName: String(firstName),
     hasError: state.globalModals.profileEditorHasError,
     i18n: getIntl(state),
     recentEmojis,
     skinTone,
+    userAvatarData,
   };
 }
 

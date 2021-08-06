@@ -9,6 +9,7 @@ import {
 } from './BaseConversationListItem';
 
 import { LocalizerType } from '../../types/Util';
+import { AvatarColors } from '../../types/Colors';
 
 const TEXT_CLASS_NAME = `${MESSAGE_TEXT_CLASS_NAME}__start-new-conversation`;
 
@@ -33,7 +34,7 @@ export const StartNewConversation: FunctionComponent<Props> = React.memo(
     return (
       <BaseConversationListItem
         acceptedMessageRequest={false}
-        color="steel"
+        color={AvatarColors[0]}
         conversationType="direct"
         headerName={phoneNumber}
         i18n={i18n}

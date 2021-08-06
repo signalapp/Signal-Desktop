@@ -12,7 +12,7 @@ export enum ConversationTypes {
 }
 
 export function isDirectConversation(
-  conversationAttrs: ConversationAttributesType
+  conversationAttrs: Pick<ConversationAttributesType, 'type'>
 ): boolean {
   return conversationAttrs.type === 'private';
 }

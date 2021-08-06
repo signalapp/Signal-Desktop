@@ -36,7 +36,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
     : true,
   avatarPath: text('avatarPath', overrideProps.avatarPath || ''),
   blur: overrideProps.blur,
-  color: select('color', colorMap, overrideProps.color || 'blue'),
+  color: select('color', colorMap, overrideProps.color || AvatarColors[0]),
   conversationType: select(
     'conversationType',
     conversationTypeMap,

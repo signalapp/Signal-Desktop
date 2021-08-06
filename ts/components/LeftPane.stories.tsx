@@ -82,6 +82,9 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   closeCantAddContactToGroupModal: action('closeCantAddContactToGroupModal'),
   closeMaximumGroupSizeModal: action('closeMaximumGroupSizeModal'),
   closeRecommendedGroupSizeModal: action('closeRecommendedGroupSizeModal'),
+  composeDeleteAvatarFromDisk: action('composeDeleteAvatarFromDisk'),
+  composeReplaceAvatar: action('composeReplaceAvatar'),
+  composeSaveAvatarToDisk: action('composeSaveAvatarToDisk'),
   createGroup: action('createGroup'),
   i18n,
   modeSpecificProps: defaultModeSpecificProps,
@@ -135,6 +138,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
     'startNewConversationFromPhoneNumber'
   ),
   startSettingGroupMetadata: action('startSettingGroupMetadata'),
+  toggleComposeEditingAvatar: action('toggleComposeEditingAvatar'),
   toggleConversationInChooseMembers: action(
     'toggleConversationInChooseMembers'
   ),
@@ -528,7 +532,9 @@ story.add('Group Metadata: No Timer', () => (
         groupExpireTimer: 0,
         hasError: false,
         isCreating: false,
+        isEditingAvatar: false,
         selectedContacts: defaultConversations,
+        userAvatarData: [],
       },
     })}
   />
@@ -544,7 +550,9 @@ story.add('Group Metadata: Regular Timer', () => (
         groupExpireTimer: 24 * 3600,
         hasError: false,
         isCreating: false,
+        isEditingAvatar: false,
         selectedContacts: defaultConversations,
+        userAvatarData: [],
       },
     })}
   />
@@ -560,7 +568,9 @@ story.add('Group Metadata: Custom Timer', () => (
         groupExpireTimer: 7 * 3600,
         hasError: false,
         isCreating: false,
+        isEditingAvatar: false,
         selectedContacts: defaultConversations,
+        userAvatarData: [],
       },
     })}
   />

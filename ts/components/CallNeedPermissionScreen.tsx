@@ -3,6 +3,7 @@
 
 import React, { useRef, useEffect } from 'react';
 import { LocalizerType } from '../types/Util';
+import { AvatarColors } from '../types/Colors';
 import { Avatar } from './Avatar';
 import { Intl } from './Intl';
 import { ContactName } from './conversation/ContactName';
@@ -46,7 +47,7 @@ export const CallNeedPermissionScreen: React.FC<Props> = ({
       <Avatar
         acceptedMessageRequest={conversation.acceptedMessageRequest}
         avatarPath={conversation.avatarPath}
-        color={conversation.color || 'ultramarine'}
+        color={conversation.color || AvatarColors[0]}
         noteToSelf={false}
         conversationType="direct"
         i18n={i18n}

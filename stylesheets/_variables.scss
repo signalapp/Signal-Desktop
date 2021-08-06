@@ -117,36 +117,70 @@ $color-tangerine: (
 
 // Avatars
 
-$avatar-color-crimson: #d00b2c;
-$avatar-color-vermilion: #c72a0a;
-$avatar-color-burlap: #866118;
-$avatar-color-forest: #067919;
-$avatar-color-wintergreen: #067953;
-$avatar-color-teal: #077288;
-$avatar-color-blue: #0a69c7;
-$avatar-color-indigo: #5151f6;
-$avatar-color-violet: #a20ced;
-$avatar-color-plum: #c70a88;
-$avatar-color-taupe: #cb0b6b;
-$avatar-color-steel: $color-gray-60;
-$avatar-color-ultramarine: #0d59f2;
+$avatar-color-A100: (
+  bg: #e3e3fe,
+  fg: #3838f5,
+);
+$avatar-color-A110: (
+  bg: #dde7fc,
+  fg: #1251d3,
+);
+$avatar-color-A120: (
+  bg: #d8e8f0,
+  fg: #086da0,
+);
+$avatar-color-A130: (
+  bg: #cde4cd,
+  fg: #067906,
+);
+$avatar-color-A140: (
+  bg: #eae0fd,
+  fg: #661aff,
+);
+$avatar-color-A150: (
+  bg: #f5e3fe,
+  fg: #9f00f0,
+);
+$avatar-color-A160: (
+  bg: #f6d8ec,
+  fg: #b8057c,
+);
+$avatar-color-A170: (
+  bg: #f5d7d7,
+  fg: #be0404,
+);
+$avatar-color-A180: (
+  bg: #fef5d0,
+  fg: #836b01,
+);
+$avatar-color-A190: (
+  bg: #eae6d5,
+  fg: #7d6f40,
+);
+$avatar-color-A200: (
+  bg: #d2d2dc,
+  fg: #4f4f6d,
+);
+$avatar-color-A210: (
+  bg: #d7d7d9,
+  fg: #5c5c5c,
+);
 
 // Maps for easy manipulation
 
 $avatar-colors: (
-  blue: $avatar-color-blue,
-  burlap: $avatar-color-burlap,
-  crimson: $avatar-color-crimson,
-  forest: $avatar-color-forest,
-  indigo: $avatar-color-indigo,
-  plum: $avatar-color-plum,
-  steel: $avatar-color-steel,
-  taupe: $avatar-color-taupe,
-  teal: $avatar-color-teal,
-  ultramarine: $avatar-color-ultramarine,
-  vermilion: $avatar-color-vermilion,
-  violet: $avatar-color-violet,
-  wintergreen: $avatar-color-wintergreen,
+  A100: $avatar-color-A100,
+  A110: $avatar-color-A110,
+  A120: $avatar-color-A120,
+  A130: $avatar-color-A130,
+  A140: $avatar-color-A140,
+  A150: $avatar-color-A150,
+  A160: $avatar-color-A160,
+  A170: $avatar-color-A170,
+  A180: $avatar-color-A180,
+  A190: $avatar-color-A190,
+  A200: $avatar-color-A200,
+  A210: $avatar-color-A210,
 );
 
 $conversation-colors: (

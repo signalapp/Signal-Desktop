@@ -44,7 +44,6 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   contacts: overrideProps.contacts || [
     {
       ...getDefaultConversation({
-        color: 'indigo',
         title: 'Just Max',
       }),
       isOutgoingKeyError: false,
@@ -124,7 +123,6 @@ story.add('Message Statuses', () => {
     contacts: [
       {
         ...getDefaultConversation({
-          color: 'forest',
           title: 'Max',
         }),
         isOutgoingKeyError: false,
@@ -133,7 +131,6 @@ story.add('Message Statuses', () => {
       },
       {
         ...getDefaultConversation({
-          color: 'blue',
           title: 'Sally',
         }),
         isOutgoingKeyError: false,
@@ -142,7 +139,6 @@ story.add('Message Statuses', () => {
       },
       {
         ...getDefaultConversation({
-          color: 'burlap',
           title: 'Terry',
         }),
         isOutgoingKeyError: false,
@@ -151,7 +147,6 @@ story.add('Message Statuses', () => {
       },
       {
         ...getDefaultConversation({
-          color: 'wintergreen',
           title: 'Theo',
         }),
         isOutgoingKeyError: false,
@@ -160,7 +155,6 @@ story.add('Message Statuses', () => {
       },
       {
         ...getDefaultConversation({
-          color: 'steel',
           title: 'Nikki',
         }),
         isOutgoingKeyError: false,
@@ -217,7 +211,6 @@ story.add('All Errors', () => {
     contacts: [
       {
         ...getDefaultConversation({
-          color: 'forest',
           title: 'Max',
         }),
         isOutgoingKeyError: true,
@@ -226,7 +219,6 @@ story.add('All Errors', () => {
       },
       {
         ...getDefaultConversation({
-          color: 'blue',
           title: 'Sally',
         }),
         errors: [
@@ -241,7 +233,6 @@ story.add('All Errors', () => {
       },
       {
         ...getDefaultConversation({
-          color: 'taupe',
           title: 'Terry',
         }),
         isOutgoingKeyError: true,

@@ -43,6 +43,12 @@ import { missingCaseError } from '../util/missingCaseError';
 import { ConversationList } from './ConversationList';
 import { ContactCheckboxDisabledReason } from './conversationList/ContactCheckbox';
 
+import {
+  DeleteAvatarFromDiskActionType,
+  ReplaceAvatarActionType,
+  SaveAvatarToDiskActionType,
+} from '../types/Avatar';
+
 export enum LeftPaneMode {
   Inbox,
   Search,
@@ -105,6 +111,10 @@ export type PropsType = {
   showChooseGroupMembers: () => void;
   startSettingGroupMetadata: () => void;
   toggleConversationInChooseMembers: (conversationId: string) => void;
+  composeDeleteAvatarFromDisk: DeleteAvatarFromDiskActionType;
+  composeReplaceAvatar: ReplaceAvatarActionType;
+  composeSaveAvatarToDisk: SaveAvatarToDiskActionType;
+  toggleComposeEditingAvatar: () => unknown;
 
   // Render Props
   renderExpiredBuildDialog: () => JSX.Element;
@@ -118,35 +128,39 @@ export type PropsType = {
 
 export const LeftPane: React.FC<PropsType> = ({
   cantAddContactToGroup,
+  challengeStatus,
   clearGroupCreationError,
   closeCantAddContactToGroupModal,
   closeMaximumGroupSizeModal,
   closeRecommendedGroupSizeModal,
+  composeDeleteAvatarFromDisk,
+  composeReplaceAvatar,
+  composeSaveAvatarToDisk,
   createGroup,
   i18n,
   modeSpecificProps,
-  challengeStatus,
-  setChallengeStatus,
   openConversationInternal,
+  renderCaptchaDialog,
   renderExpiredBuildDialog,
   renderMainHeader,
   renderMessageSearchResult,
   renderNetworkStatus,
   renderRelinkDialog,
   renderUpdateDialog,
-  renderCaptchaDialog,
   selectedConversationId,
   selectedMessageId,
-  setComposeSearchTerm,
+  setChallengeStatus,
   setComposeGroupAvatar,
-  setComposeGroupName,
   setComposeGroupExpireTimer,
+  setComposeGroupName,
+  setComposeSearchTerm,
   showArchivedConversations,
+  showChooseGroupMembers,
   showInbox,
   startComposing,
-  showChooseGroupMembers,
   startNewConversationFromPhoneNumber,
   startSettingGroupMetadata,
+  toggleComposeEditingAvatar,
   toggleConversationInChooseMembers,
 }) => {
   const previousModeSpecificProps = usePrevious(
@@ -340,11 +354,15 @@ export const LeftPane: React.FC<PropsType> = ({
     closeCantAddContactToGroupModal,
     closeMaximumGroupSizeModal,
     closeRecommendedGroupSizeModal,
+    composeDeleteAvatarFromDisk,
+    composeReplaceAvatar,
+    composeSaveAvatarToDisk,
     createGroup,
     i18n,
     setComposeGroupAvatar,
     setComposeGroupName,
     setComposeGroupExpireTimer,
+    toggleComposeEditingAvatar,
     onChangeComposeSearchTerm: event => {
       setComposeSearchTerm(event.target.value);
     },

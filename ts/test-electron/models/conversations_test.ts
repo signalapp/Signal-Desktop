@@ -20,6 +20,7 @@ describe('Conversations', () => {
 
     // Creating a fake conversation
     const conversation = new window.Whisper.Conversation({
+      avatars: [],
       id: window.getGuid(),
       e164: '+15551234567',
       uuid: window.getGuid(),

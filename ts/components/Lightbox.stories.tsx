@@ -129,3 +129,18 @@ story.add('Including Next/Previous/Save Callbacks', () => {
 
   return <Lightbox {...props} />;
 });
+
+story.add('Custom children', () => (
+  <Lightbox {...createProps({})} contentType={undefined}>
+    <div
+      style={{
+        color: 'white',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      I am middle child
+    </div>
+  </Lightbox>
+));

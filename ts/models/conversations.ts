@@ -3,7 +3,7 @@
 
 /* eslint-disable class-methods-use-this */
 /* eslint-disable camelcase */
-import { compact, sample } from 'lodash';
+import { compact } from 'lodash';
 import {
   ConversationAttributesType,
   MessageAttributesType,
@@ -21,7 +21,6 @@ import { CallbackResultType } from '../textsecure/Types.d';
 import { ConversationType } from '../state/ducks/conversations';
 import {
   AvatarColorType,
-  AvatarColors,
   ConversationColorType,
   CustomColorType,
   DEFAULT_CONVERSATION_COLOR,
@@ -82,6 +81,7 @@ import { Reactions, ReactionModel } from '../messageModifiers/Reactions';
 import { isAnnouncementGroupReady } from '../util/isAnnouncementGroupReady';
 import { getProfile } from '../util/getProfile';
 import { SEALED_SENDER } from '../types/SealedSender';
+import { getAvatarData } from '../util/getAvatarData';
 
 // TODO: remove once we move away from ArrayBuffers
 const FIXMEU8 = Uint8Array;
@@ -311,10 +311,13 @@ export class ConversationModel extends window.Backbone
       FIVE_MINUTES
     );
 
-    // Ensure each contact has a an avatar color associated with it
-    if (!this.get('color')) {
-      this.set('color', sample(AvatarColors));
-      window.Signal.Data.updateConversation(this.attributes);
+    const migratedColor = this.getColor();
+    if (this.get('color') !== migratedColor) {
+      this.set('color', migratedColor);
+      // Not saving the conversation here we're hoping it'll be saved elsewhere
+      // this may cause some color thrashing if Signal is restarted without
+      // the convo saving. If that is indeed the case and it's too disruptive
+      // we should add batched saving.
     }
   }
 
@@ -1395,6 +1398,7 @@ export class ConversationModel extends window.Backbone
         ourConversationId && this.isMemberAwaitingApproval(ourConversationId)
       ),
       areWeAdmin: this.areWeAdmin(),
+      avatars: getAvatarData(this.attributes),
       canChangeTimer: this.canChangeTimer(),
       canEditGroupInfo: this.canEditGroupInfo(),
       avatarPath: this.getAbsoluteAvatarPath(),
@@ -4673,10 +4677,6 @@ export class ConversationModel extends window.Backbone
   }
 
   getColor(): AvatarColorType {
-    if (!isDirectConversation(this.attributes)) {
-      return 'ultramarine';
-    }
-
     return migrateColor(this.get('color'));
   }
 

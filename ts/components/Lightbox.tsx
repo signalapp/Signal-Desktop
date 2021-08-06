@@ -1,7 +1,7 @@
 // Copyright 2018-2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 import classNames from 'classnames';
 import is from '@sindresorhus/is';
@@ -25,6 +25,7 @@ const colorSVG = (url: string, color: string) => {
 };
 
 export type Props = {
+  children?: ReactNode;
   close: () => void;
   contentType: MIME.MIMEType | undefined;
   i18n: LocalizerType;
@@ -53,6 +54,7 @@ const styles = {
     top: 0,
     bottom: 0,
     backgroundColor: 'rgba(0, 0, 0, 0.9)',
+    zIndex: 10,
   } as React.CSSProperties,
   buttonContainer: {
     backgroundColor: 'transparent',
@@ -298,6 +300,7 @@ export class Lightbox extends React.Component<Props, State> {
   public render(): JSX.Element {
     const {
       caption,
+      children,
       contentType,
       i18n,
       isViewOnce,
@@ -329,7 +332,7 @@ export class Lightbox extends React.Component<Props, State> {
                   isViewOnce,
                   loop,
                 })
-              : null}
+              : children}
             {caption ? <div style={styles.caption}>{caption}</div> : null}
           </div>
           <div style={styles.controls}>

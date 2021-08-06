@@ -5,6 +5,11 @@ import { ChangeEvent, ReactChild } from 'react';
 
 import { Row } from '../ConversationList';
 import { LocalizerType } from '../../types/Util';
+import {
+  DeleteAvatarFromDiskActionType,
+  ReplaceAvatarActionType,
+  SaveAvatarToDiskActionType,
+} from '../../types/Avatar';
 
 export enum FindDirection {
   Up,
@@ -46,6 +51,9 @@ export abstract class LeftPaneHelper<T> {
       closeCantAddContactToGroupModal: () => unknown;
       closeMaximumGroupSizeModal: () => unknown;
       closeRecommendedGroupSizeModal: () => unknown;
+      composeDeleteAvatarFromDisk: DeleteAvatarFromDiskActionType;
+      composeReplaceAvatar: ReplaceAvatarActionType;
+      composeSaveAvatarToDisk: SaveAvatarToDiskActionType;
       createGroup: () => unknown;
       i18n: LocalizerType;
       setComposeGroupAvatar: (_: undefined | ArrayBuffer) => unknown;
@@ -55,6 +63,7 @@ export abstract class LeftPaneHelper<T> {
         event: ChangeEvent<HTMLInputElement>
       ) => unknown;
       removeSelectedContact: (_: string) => unknown;
+      toggleComposeEditingAvatar: () => unknown;
     }>
   ): null | ReactChild {
     return null;
