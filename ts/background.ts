@@ -1267,9 +1267,14 @@ export async function startApp(): Promise<void> {
       const newDeviceId = window.textsecure.storage.user.getDeviceId();
       const newNumber = window.textsecure.storage.user.getNumber();
       const newUuid = window.textsecure.storage.user.getUuid();
+      const ourConversation = window.ConversationController.getOurConversation();
+
+      if (ourConversation?.get('e164') !== newNumber) {
+        ourConversation?.set('e164', newNumber);
+      }
 
       window.reduxActions.user.userChanged({
-        ourConversationId: window.ConversationController.getOurConversationId(),
+        ourConversationId: ourConversation?.get('id'),
         ourDeviceId: newDeviceId,
         ourNumber: newNumber,
         ourUuid: newUuid,
@@ -1878,6 +1883,15 @@ export async function startApp(): Promise<void> {
     await challengeHandler.load();
 
     window.Signal.challengeHandler = challengeHandler;
+
+    if (!window.storage.user.getNumber()) {
+      const ourConversation = window.ConversationController.getOurConversation();
+      const ourE164 = ourConversation?.get('e164');
+      if (ourE164) {
+        window.log.warn('Restoring E164 from our conversation');
+        window.storage.user.setNumber(ourE164);
+      }
+    }
 
     window.dispatchEvent(new Event('storage_ready'));
 
