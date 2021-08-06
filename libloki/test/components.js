@@ -492,7 +492,8 @@
           return (
             e(t) || (t = o(t)),
             (this.unsigned === t.unsigned || this.high >>> 31 != 1 || t.high >>> 31 != 1) &&
-              this.high === t.high && this.low === t.low
+              this.high === t.high &&
+              this.low === t.low
           );
         }),
         (B.eq = B.equals),

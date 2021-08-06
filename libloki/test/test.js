@@ -8116,14 +8116,9 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
                 /*istanbul ignore start*/ function _interopRequireDefault(obj) {
                   return obj && obj.__esModule ? obj : { default: obj };
-                } // Based on https://en.wikipedia.org/wiki/Latin_script_in_Unicode
+                } // Based on https://en.wikipedia.org/wiki/Latin_script_in_Unicode // // Ranges and exceptions: // Latin-1 Supplement, 0080–00FF //  - U+00D7  × Multiplication sign //  - U+00F7  ÷ Division sign
 
-                /*istanbul ignore end*/ //
-                // Ranges and exceptions:
-                // Latin-1 Supplement, 0080–00FF
-                //  - U+00D7  × Multiplication sign
-                //  - U+00F7  ÷ Division sign
-                // Latin Extended-A, 0100–017F
+                /*istanbul ignore end*/ // Latin Extended-A, 0100–017F
                 // Latin Extended-B, 0180–024F
                 // IPA Extensions, 0250–02AF
                 // Spacing Modifier Letters, 02B0–02FF
@@ -8176,10 +8171,12 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                 };
 
                 function diffWords(oldStr, newStr, options) {
-                  options = /*istanbul ignore start*/ (0,
-                  _params.generateOptions)(/*istanbul ignore end*/ options, {
-                    ignoreWhitespace: true,
-                  });
+                  options = /*istanbul ignore start*/ (0, _params.generateOptions)(
+                    /*istanbul ignore end*/ options,
+                    {
+                      ignoreWhitespace: true,
+                    }
+                  );
                   return wordDiff.diff(oldStr, newStr, options);
                 }
 
@@ -8267,10 +8264,12 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                   return lineDiff.diff(oldStr, newStr, callback);
                 }
                 function diffTrimmedLines(oldStr, newStr, callback) {
-                  var options = /*istanbul ignore start*/ (0,
-                  _params.generateOptions)(/*istanbul ignore end*/ callback, {
-                    ignoreWhitespace: true,
-                  });
+                  var options = /*istanbul ignore start*/ (0, _params.generateOptions)(
+                    /*istanbul ignore end*/ callback,
+                    {
+                      ignoreWhitespace: true,
+                    }
+                  );
                   return lineDiff.diff(oldStr, newStr, options);
                 }
 
@@ -22562,7 +22561,8 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
               if (
                 !doLength &&
-                objType === 'date' && (startType !== 'date' || finishType !== 'date')
+                objType === 'date' &&
+                (startType !== 'date' || finishType !== 'date')
               ) {
                 errorMessage = msgPrefix + 'the arguments to within must be dates';
               } else if (

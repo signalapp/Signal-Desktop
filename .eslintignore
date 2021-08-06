@@ -11,6 +11,9 @@ js/util_worker.js
 libtextsecure/components.js
 libtextsecure/test/test.js
 test/test.js
+libloki/test/components.js
+libloki/test/test.js
+
 
 # Third-party files
 js/Mp3LameEncoder.min.js

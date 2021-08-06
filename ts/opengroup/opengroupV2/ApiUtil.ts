@@ -50,7 +50,7 @@ export const TextToBase64 = async (text: string) => {
 };
 
 export const textToArrayBuffer = async (text: string) => {
-  return await window.callWorker('bytesFromString', text);
+  return window.callWorker('bytesFromString', text);
 };
 
 export const verifyED25519Signature = async (
@@ -58,12 +58,7 @@ export const verifyED25519Signature = async (
   base64EncodedData: string,
   base64EncondedSignature: string
 ): Promise<Boolean> => {
-  return await window.callWorker(
-    'verifySignature',
-    pubkey,
-    base64EncodedData,
-    base64EncondedSignature
-  );
+  return window.callWorker('verifySignature', pubkey, base64EncodedData, base64EncondedSignature);
 };
 
 export const parseMessages = async (
