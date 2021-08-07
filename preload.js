@@ -186,7 +186,11 @@ try {
 
     event.sender.send('additional-log-data-response', {
       capabilities: ourCapabilities || {},
-      remoteConfig: _.mapValues(remoteConfig, ({ value }) => value),
+      remoteConfig: _.mapValues(remoteConfig, ({ value, enabled }) => {
+        const enableString = enabled ? 'enabled' : 'disabled';
+        const valueString = value && value !== 'TRUE' ? ` ${value}` : '';
+        return `${enableString}${valueString}`;
+      }),
       statistics,
       user: {
         deviceId: window.textsecure.storage.user.getDeviceId(),
