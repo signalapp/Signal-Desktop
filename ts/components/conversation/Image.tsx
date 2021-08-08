@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import classNames from 'classnames';
 
 import { Spinner } from '../basic/Spinner';
@@ -57,6 +57,11 @@ export const Image = (props: Props) => {
     width,
   } = props;
 
+  const onDragStart = useCallback((e: any) => {
+    e.preventDefault();
+    return false;
+  }, []);
+
   const { caption, pending } = attachment || { caption: null, pending: true };
   const canClick = onClick && !pending;
   const role = canClick ? 'button' : undefined;
@@ -106,6 +111,7 @@ export const Image = (props: Props) => {
           height={height}
           width={width}
           src={srcData}
+          onDragStart={onDragStart}
         />
       )}
       {caption ? (
@@ -113,6 +119,7 @@ export const Image = (props: Props) => {
           className="module-image__caption-icon"
           src="images/caption-shadow.svg"
           alt={window.i18n('imageCaptionIconAlt')}
+          onDragStart={onDragStart}
         />
       ) : null}
       <div

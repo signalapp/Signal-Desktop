@@ -310,7 +310,7 @@ function _removeJob(id: number) {
   }
 
   if (_jobs[id].timer) {
-    clearTimeout(_jobs[id].timer);
+    global.clearTimeout(_jobs[id].timer);
     _jobs[id].timer = null;
   }
 

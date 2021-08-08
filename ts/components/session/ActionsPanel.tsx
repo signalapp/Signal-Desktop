@@ -249,9 +249,9 @@ export const ActionsPanel = () => {
   // wait for cleanUpMediasInterval and then start cleaning up medias
   // this would be way easier to just be able to not trigger a call with the setInterval
   useEffect(() => {
-    const timeout = global.setTimeout(() => setStartCleanUpMedia(true), cleanUpMediasInterval);
+    const timeout = setTimeout(() => setStartCleanUpMedia(true), cleanUpMediasInterval);
 
-    return () => global.clearTimeout(timeout);
+    return () => clearTimeout(timeout);
   }, []);
 
   useInterval(

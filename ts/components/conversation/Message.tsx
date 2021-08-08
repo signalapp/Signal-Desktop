@@ -153,11 +153,11 @@ class MessageInner extends React.PureComponent<Props, State> {
       clearInterval(this.expirationCheckInterval);
     }
     if (this.expiredTimeout) {
-      clearTimeout(this.expiredTimeout);
+      global.clearTimeout(this.expiredTimeout);
     }
   }
 
-  public componentDidUpdate(prevProps: Props) {
+  public componentDidUpdate() {
     this.checkExpired();
   }
 
@@ -726,14 +726,15 @@ class MessageInner extends React.PureComponent<Props, State> {
 
   private onQuoteClick(e: any) {
     const { quote, multiSelectMode, id } = this.props;
+    e.preventDefault();
+    e.stopPropagation();
     if (!quote) {
       window.log.warn('onQuoteClick: quote not valid');
       return;
     }
     const quoteId = _.toNumber(quote.messageId);
     const { authorPhoneNumber, referencedMessageNotFound } = quote;
-    e.preventDefault();
-    e.stopPropagation();
+
     if (multiSelectMode && id) {
       window.inboxStore?.dispatch(toggleSelectedMessageId(id));
 
@@ -810,7 +811,7 @@ class MessageInner extends React.PureComponent<Props, State> {
     const { timestamp, serverTimestamp, authorPhoneNumber, attachments, convoId } = this.props;
 
     e.stopPropagation();
-
+    e.preventDefault();
     if (!attachments?.length) {
       return;
     }
@@ -828,6 +829,7 @@ class MessageInner extends React.PureComponent<Props, State> {
 
   private onClickOnMessageOuterContainer(event: any) {
     const { multiSelectMode, id } = this.props;
+
     const selection = window.getSelection();
     // Text is being selected
     if (selection && selection.type === 'Range') {
@@ -839,7 +841,8 @@ class MessageInner extends React.PureComponent<Props, State> {
     if ((!multiSelectMode && target.className === 'text-selectable') || window.contextMenuShown) {
       return;
     }
-
+    event.preventDefault();
+    event.stopPropagation();
     if (id) {
       window.inboxStore?.dispatch(toggleSelectedMessageId(id));
     }

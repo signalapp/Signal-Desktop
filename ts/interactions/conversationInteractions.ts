@@ -361,6 +361,7 @@ export async function uploadOurAvatar(newAvatarDecrypted?: ArrayBuffer) {
       getConversationController()
         .get(UserUtils.getOurPubKeyStrFromCache())
         ?.get('profileKey') || null;
+
     profileKey = ourConvoProfileKey ? fromHexToArray(ourConvoProfileKey) : null;
     if (!profileKey) {
       window.log.info('our profileKey not found. Not reuploading our avatar');

@@ -16,6 +16,7 @@ import {
 import { LightBoxOptions } from '../../components/session/conversation/SessionConversation';
 import { ReplyingToMessageProps } from '../../components/session/conversation/SessionCompositionBox';
 import { QuotedAttachmentType } from '../../components/conversation/Quote';
+import { perfEnd, perfStart } from '../../session/utils/Performance';
 
 export type MessageModelProps = {
   propsForMessage: PropsForMessage;
@@ -599,10 +600,12 @@ const conversationsSlice = createSlice({
         }>
       >
     ) {
+      perfStart('messagesAdded');
       action.payload.forEach(added => {
         // tslint:disable-next-line: no-parameter-reassignment
         state = handleMessageAdded(state, added);
       });
+      perfEnd('messagesAdded', 'messagesAdded');
 
       return state;
     },

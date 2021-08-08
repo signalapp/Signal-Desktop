@@ -565,7 +565,7 @@ export async function retrieveNextMessages(
     }
 
     if (result.status !== 200) {
-      window.log('retrieve result is not 200');
+      window?.log?.warn('retrieve result is not 200');
       return [];
     }
 

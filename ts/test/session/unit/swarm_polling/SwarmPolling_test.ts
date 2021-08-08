@@ -80,7 +80,7 @@ describe('SwarmPolling', () => {
         ConversationTypeEnum.GROUP
       );
       convo.set('active_at', Date.now() - 3555);
-      expect(swarmPolling.TEST_getPollingTimeout(PubKey.cast(convo.id))).to.eq(
+      expect(swarmPolling.TEST_getPollingTimeout(PubKey.cast(convo.id as string))).to.eq(
         SWARM_POLLING_TIMEOUT.ACTIVE
       );
     });
@@ -91,7 +91,7 @@ describe('SwarmPolling', () => {
         ConversationTypeEnum.GROUP
       );
       convo.set('active_at', undefined);
-      expect(swarmPolling.TEST_getPollingTimeout(PubKey.cast(convo.id))).to.eq(
+      expect(swarmPolling.TEST_getPollingTimeout(PubKey.cast(convo.id as string))).to.eq(
         SWARM_POLLING_TIMEOUT.INACTIVE
       );
     });
@@ -102,7 +102,7 @@ describe('SwarmPolling', () => {
         ConversationTypeEnum.GROUP
       );
       convo.set('active_at', Date.now() - 1000 * 3600 * 23);
-      expect(swarmPolling.TEST_getPollingTimeout(PubKey.cast(convo.id))).to.eq(
+      expect(swarmPolling.TEST_getPollingTimeout(PubKey.cast(convo.id as string))).to.eq(
         SWARM_POLLING_TIMEOUT.MEDIUM_ACTIVE
       );
     });
@@ -113,7 +113,7 @@ describe('SwarmPolling', () => {
         ConversationTypeEnum.GROUP
       );
       convo.set('active_at', Date.now() - 1000 * 3600 * 25);
-      expect(swarmPolling.TEST_getPollingTimeout(PubKey.cast(convo.id))).to.eq(
+      expect(swarmPolling.TEST_getPollingTimeout(PubKey.cast(convo.id as string))).to.eq(
         SWARM_POLLING_TIMEOUT.INACTIVE
       );
     });
@@ -150,7 +150,7 @@ describe('SwarmPolling', () => {
         ConversationTypeEnum.GROUP
       );
       convo.set('active_at', Date.now());
-      const groupConvoPubkey = PubKey.cast(convo.id);
+      const groupConvoPubkey = PubKey.cast(convo.id as string);
       swarmPolling.addGroupId(groupConvoPubkey);
       await swarmPolling.start(true);
 
@@ -167,7 +167,7 @@ describe('SwarmPolling', () => {
       );
 
       convo.set('active_at', 1);
-      const groupConvoPubkey = PubKey.cast(convo.id);
+      const groupConvoPubkey = PubKey.cast(convo.id as string);
       swarmPolling.addGroupId(groupConvoPubkey);
       await swarmPolling.start(true);
 
@@ -184,7 +184,7 @@ describe('SwarmPolling', () => {
       );
 
       convo.set('active_at', 1);
-      const groupConvoPubkey = PubKey.cast(convo.id);
+      const groupConvoPubkey = PubKey.cast(convo.id as string);
       swarmPolling.addGroupId(groupConvoPubkey);
       await swarmPolling.start(true);
 
@@ -202,7 +202,7 @@ describe('SwarmPolling', () => {
       );
 
       convo.set('active_at', Date.now());
-      const groupConvoPubkey = PubKey.cast(convo.id);
+      const groupConvoPubkey = PubKey.cast(convo.id as string);
       swarmPolling.addGroupId(groupConvoPubkey);
       await swarmPolling.start(true);
       clock.tick(6000);
@@ -222,7 +222,7 @@ describe('SwarmPolling', () => {
       );
 
       convo.set('active_at', Date.now());
-      const groupConvoPubkey = PubKey.cast(convo.id);
+      const groupConvoPubkey = PubKey.cast(convo.id as string);
       swarmPolling.addGroupId(groupConvoPubkey);
       await swarmPolling.start(true);
 
@@ -243,7 +243,7 @@ describe('SwarmPolling', () => {
       );
 
       convo.set('active_at', Date.now());
-      const groupConvoPubkey = PubKey.cast(convo.id);
+      const groupConvoPubkey = PubKey.cast(convo.id as string);
       swarmPolling.addGroupId(groupConvoPubkey);
       await swarmPolling.start(true);
 
@@ -268,7 +268,7 @@ describe('SwarmPolling', () => {
         );
 
         convo.set('active_at', Date.now());
-        groupConvoPubkey = PubKey.cast(convo.id);
+        groupConvoPubkey = PubKey.cast(convo.id as string);
         swarmPolling.addGroupId(groupConvoPubkey);
         await swarmPolling.start(true);
       });

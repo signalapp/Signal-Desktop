@@ -34,7 +34,7 @@ export const ContactName = (props: Props) => {
     : {}) as React.CSSProperties;
   const textProfile = profileName || name || window.i18n('anonymous');
   const profileElement = shouldShowProfile ? (
-    <span style={styles} className={`${prefix}__profile-name`}>
+    <span style={styles as any} className={`${prefix}__profile-name`}>
       <Emojify text={textProfile} />
     </span>
   ) : null;
