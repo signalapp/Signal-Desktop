@@ -67,7 +67,9 @@ export class ReadSyncs extends Collection {
       );
     });
     if (sync) {
-      window.log.info('Found early read sync for message');
+      window.log.info(
+        `Found early read sync for message ${sync.get('timestamp')}`
+      );
       this.remove(sync);
       return sync;
     }
