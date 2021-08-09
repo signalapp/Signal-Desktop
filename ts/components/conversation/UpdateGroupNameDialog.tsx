@@ -100,17 +100,17 @@ export class UpdateGroupNameDialog extends React.Component<Props, State> {
         <SpacerMD />
 
         {isAdmin ? (
-            <input
-              type="text"
-              className="profile-name-input"
-              value={this.state.groupName}
-              placeholder={window.i18n('groupNamePlaceholder')}
-              onChange={this.onGroupNameChanged}
-              tabIndex={0}
-              required={true}
-              aria-required={true}
-              autoFocus={true}
-            />
+          <input
+            type="text"
+            className="profile-name-input"
+            value={this.state.groupName}
+            placeholder={window.i18n('groupNamePlaceholder')}
+            onChange={this.onGroupNameChanged}
+            tabIndex={0}
+            required={true}
+            aria-required={true}
+            autoFocus={true}
+          />
         ) : null}
 
         <div className="session-modal__button-group">
