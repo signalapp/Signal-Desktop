@@ -739,7 +739,6 @@ const conversationsSlice = createSlice({
       state: ConversationsStateType,
       action: PayloadAction<{ conversationKey: string; draft: string }>
     ) {
-      window?.log?.info('updating draft for conversation');
       const { conversationKey, draft } = action.payload;
       const foundAtIndex = state.draftsForConversations.findIndex(
         c => c.conversationKey === conversationKey

@@ -152,7 +152,7 @@ export async function getSnodesFromSeedUrl(urlObj: URL): Promise<Array<any>> {
 
   const fetchOptions = {
     method: 'POST',
-    timeout: 10000,
+    timeout: 5000,
     body: JSON.stringify(body),
     headers: {
       'User-Agent': 'WhatsApp',

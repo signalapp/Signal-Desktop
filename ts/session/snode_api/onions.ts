@@ -820,7 +820,7 @@ const sendOnionRequest = async ({
       'User-Agent': 'WhatsApp',
       'Accept-Language': 'en-us',
     },
-    timeout: 10000,
+    timeout: 25000,
   };
 
   if (abortSignal) {
