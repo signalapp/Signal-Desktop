@@ -27,7 +27,10 @@ import { SessionQuotedMessageComposition } from './SessionQuotedMessageCompositi
 import { Mention, MentionsInput } from 'react-mentions';
 import { CaptionEditor } from '../../CaptionEditor';
 import { getConversationController } from '../../../session/conversations';
-import { ReduxConversationType } from '../../../state/ducks/conversations';
+import {
+  ReduxConversationType,
+  updateDraftForConversation,
+} from '../../../state/ducks/conversations';
 import { SessionMemberListItem } from '../SessionMemberListItem';
 import autoBind from 'auto-bind';
 import { SessionSettingCategory } from '../settings/SessionSettings';
@@ -44,6 +47,7 @@ import {
   hasLinkPreviewPopupBeenDisplayed,
 } from '../../../data/data';
 import {
+  getDraftForCurrentConversation,
   getMentionsInput,
   getQuotedMessage,
   getSelectedConversation,
@@ -77,6 +81,7 @@ export interface StagedAttachmentType extends AttachmentType {
 
 interface Props {
   sendMessage: any;
+  draft: string;
 
   onLoadVoiceNoteView: any;
   onExitVoiceNoteView: any;
@@ -90,7 +95,6 @@ interface Props {
 }
 
 interface State {
-  message: string;
   showRecordingView: boolean;
 
   showEmojiPanel: boolean;
@@ -393,7 +397,7 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
 
   private renderTextArea() {
     const { i18n } = window;
-    const { message } = this.state;
+    const { draft } = this.props;
 
     if (!this.props.selectedConversation) {
       return null;
@@ -414,7 +418,7 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
 
     return (
       <MentionsInput
-        value={message}
+        value={draft}
         onChange={this.onChange}
         onKeyDown={this.onKeyDown}
         onKeyUp={this.onKeyUp}
@@ -545,7 +549,7 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
       return <></>;
     }
     // we try to match the first link found in the current message
-    const links = window.Signal.LinkPreviews.findLinks(this.state.message, undefined);
+    const links = window.Signal.LinkPreviews.findLinks(this.props.draft, undefined);
     if (!links || links.length === 0 || ignoredLink === links[0]) {
       return <></>;
     }
@@ -766,18 +770,18 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
   }
 
   private async onKeyUp(event: any) {
-    const { message } = this.state;
+    const { draft } = this.props;
     // Called whenever the user changes the message composition field. But only
     //   fires if there's content in the message field after the change.
     // Also, check for a message length change before firing it up, to avoid
     // catching ESC, tab, or whatever which is not typing
-    if (message.length && message.length !== this.lastBumpTypingMessageLength) {
+    if (draft.length && draft.length !== this.lastBumpTypingMessageLength) {
       const conversationModel = getConversationController().get(this.props.selectedConversationKey);
       if (!conversationModel) {
         return;
       }
       conversationModel.throttledBumpTyping();
-      this.lastBumpTypingMessageLength = message.length;
+      this.lastBumpTypingMessageLength = draft.length;
     }
   }
 
@@ -809,7 +813,7 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
       return replacedMentions;
     };
 
-    const messagePlaintext = cleanMentions(this.parseEmojis(this.state.message));
+    const messagePlaintext = cleanMentions(this.parseEmojis(this.props.draft));
 
     const { selectedConversation } = this.props;
 
@@ -876,11 +880,16 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
 
       // Empty composition box and stagedAttachments
       this.setState({
-        message: '',
         showEmojiPanel: false,
         stagedLinkPreview: undefined,
         ignoredLink: undefined,
       });
+      window.inboxStore?.dispatch(
+        updateDraftForConversation({
+          conversationKey: this.props.selectedConversationKey,
+          draft: '',
+        })
+      );
     } catch (e) {
       // Message sending failed
       window?.log?.error(e);
@@ -959,9 +968,13 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
   }
 
   private onChange(event: any) {
-    const message = event.target.value ?? '';
-
-    this.setState({ message });
+    const draft = event.target.value ?? '';
+    window.inboxStore?.dispatch(
+      updateDraftForConversation({
+        conversationKey: this.props.selectedConversationKey,
+        draft,
+      })
+    );
   }
 
   private getSelectionBasedOnMentions(index: number) {
@@ -969,7 +982,7 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
     // this is kind of a pain as the mentions box has two inputs, one with the real text, and one with the extracted mentions
 
     // the index shown to the user is actually just the visible part of the mentions (so the part between ￗ...ￒ
-    const matches = this.state.message.match(this.mentionsRegex);
+    const matches = this.props.draft.match(this.mentionsRegex);
 
     let lastMatchStartIndex = 0;
     let lastMatchEndIndex = 0;
@@ -983,7 +996,7 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
       const displayNameEnd = match.lastIndexOf('\uFFD2');
       const displayName = match.substring(displayNameStart, displayNameEnd);
 
-      const currentMatchStartIndex = this.state.message.indexOf(match) + lastMatchStartIndex;
+      const currentMatchStartIndex = this.props.draft.indexOf(match) + lastMatchStartIndex;
       lastMatchStartIndex = currentMatchStartIndex;
       lastMatchEndIndex = currentMatchStartIndex + match.length;
 
@@ -1027,30 +1040,34 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
       return;
     }
 
-    const { message } = this.state;
+    const { draft } = this.props;
 
     const currentSelectionStart = Number(messageBox.selectionStart);
 
     const realSelectionStart = this.getSelectionBasedOnMentions(currentSelectionStart);
 
-    const before = message.slice(0, realSelectionStart);
-    const end = message.slice(realSelectionStart);
+    const before = draft.slice(0, realSelectionStart);
+    const end = draft.slice(realSelectionStart);
 
     const newMessage = `${before}${colons}${end}`;
+    window.inboxStore?.dispatch(
+      updateDraftForConversation({
+        conversationKey: this.props.selectedConversationKey,
+        draft: newMessage,
+      })
+    );
 
-    this.setState({ message: newMessage }, () => {
-      // update our selection because updating text programmatically
-      // will put the selection at the end of the textarea
-      const selectionStart = currentSelectionStart + Number(colons.length);
+    // update our selection because updating text programmatically
+    // will put the selection at the end of the textarea
+    const selectionStart = currentSelectionStart + Number(colons.length);
+    messageBox.selectionStart = selectionStart;
+    messageBox.selectionEnd = selectionStart;
+
+    // Sometimes, we have to repeat the set of the selection position with a timeout to be effective
+    setTimeout(() => {
       messageBox.selectionStart = selectionStart;
       messageBox.selectionEnd = selectionStart;
-
-      // Sometimes, we have to repeat the set of the selection position with a timeout to be effective
-      setTimeout(() => {
-        messageBox.selectionStart = selectionStart;
-        messageBox.selectionEnd = selectionStart;
-      }, 20);
-    });
+    }, 20);
   }
 
   private focusCompositionBox() {
@@ -1068,6 +1085,7 @@ const mapStateToProps = (state: StateType) => {
     quotedMessageProps: getQuotedMessage(state),
     selectedConversation: getSelectedConversation(state),
     selectedConversationKey: getSelectedConversationKey(state),
+    draft: getDraftForCurrentConversation(state),
     theme: getTheme(state),
   };
 };

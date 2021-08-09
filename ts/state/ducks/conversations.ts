@@ -269,6 +269,7 @@ export type ConversationsStateType = {
   animateQuotedMessageId?: string;
   nextMessageToPlayId?: string;
   mentionMembers: MentionsMembersType;
+  draftsForConversations: Array<{ conversationKey: string; draft: string }>;
 };
 
 export type MentionsMembersType = Array<{
@@ -355,6 +356,7 @@ export function getEmptyConversationState(): ConversationsStateType {
     mentionMembers: [],
     firstUnreadMessageId: undefined,
     haveDoneFirstScroll: false,
+    draftsForConversations: new Array(),
   };
 }
 
@@ -686,6 +688,7 @@ const conversationsSlice = createSlice({
         firstUnreadMessageId: action.payload.firstUnreadIdOnOpen,
 
         haveDoneFirstScroll: false,
+        draftsForConversations: state.draftsForConversations,
       };
     },
     updateHaveDoneFirstScroll(state: ConversationsStateType) {
@@ -728,8 +731,22 @@ const conversationsSlice = createSlice({
       state: ConversationsStateType,
       action: PayloadAction<MentionsMembersType>
     ) {
-      window?.log?.warn('updating mentions input members length', action.payload?.length);
+      window?.log?.info('updating mentions input members length', action.payload?.length);
       state.mentionMembers = action.payload;
+      return state;
+    },
+    updateDraftForConversation(
+      state: ConversationsStateType,
+      action: PayloadAction<{ conversationKey: string; draft: string }>
+    ) {
+      window?.log?.info('updating draft for conversation');
+      const { conversationKey, draft } = action.payload;
+      const foundAtIndex = state.draftsForConversations.findIndex(
+        c => c.conversationKey === conversationKey
+      );
+      foundAtIndex === -1
+        ? state.draftsForConversations.push({ conversationKey, draft })
+        : (state.draftsForConversations[foundAtIndex] = action.payload);
       return state;
     },
   },
@@ -791,6 +808,7 @@ export const {
   quotedMessageToAnimate,
   setNextMessageToPlayId,
   updateMentionsMembers,
+  updateDraftForConversation,
 } = actions;
 
 export async function openConversationWithMessages(args: {
