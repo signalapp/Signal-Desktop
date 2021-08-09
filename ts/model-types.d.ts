@@ -207,7 +207,9 @@ export type ConversationAttributesType = {
   customColorId?: string;
   discoveredUnregisteredAt?: number;
   draftAttachments?: Array<{
+    fileName?: string;
     path?: string;
+    pending?: boolean;
     screenshotPath?: string;
   }>;
   draftBodyRanges?: Array<BodyRangeType>;

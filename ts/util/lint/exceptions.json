@@ -8385,6 +8385,12 @@
     "reasonDetail": "isn't jquery"
   },
   {
+    "rule": "jQuery-$(",
+    "path": "node_modules/libheif-js/libheif/libheif.js",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-07-16T22:15:43.772Z"
+  },
+  {
     "rule": "jQuery-append(",
     "path": "node_modules/liftup/node_modules/braces/lib/expand.js",
     "line": "        result.push(append(value, stash, enclose));",

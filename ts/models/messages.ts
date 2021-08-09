@@ -42,7 +42,7 @@ import {
 } from '../types/Stickers';
 import * as Stickers from '../types/Stickers';
 import { AttachmentType, isImage, isVideo } from '../types/Attachment';
-import { MIMEType, IMAGE_WEBP } from '../types/MIME';
+import { IMAGE_WEBP, stringToMIMEType } from '../types/MIME';
 import { ourProfileKeyService } from '../services/ourProfileKey';
 import {
   SendActionType,
@@ -2425,10 +2425,10 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       !firstAttachment ||
       !firstAttachment.contentType ||
       (!GoogleChrome.isImageTypeSupported(
-        firstAttachment.contentType as MIMEType
+        stringToMIMEType(firstAttachment.contentType)
       ) &&
         !GoogleChrome.isVideoTypeSupported(
-          firstAttachment.contentType as MIMEType
+          stringToMIMEType(firstAttachment.contentType)
         ))
     ) {
       return;

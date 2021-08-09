@@ -3,20 +3,28 @@
 
 export type MIMEType = string & { _mimeTypeBrand: never };
 
-export const APPLICATION_OCTET_STREAM = 'application/octet-stream' as MIMEType;
-export const APPLICATION_JSON = 'application/json' as MIMEType;
-export const AUDIO_AAC = 'audio/aac' as MIMEType;
-export const AUDIO_MP3 = 'audio/mp3' as MIMEType;
-export const IMAGE_GIF = 'image/gif' as MIMEType;
-export const IMAGE_JPEG = 'image/jpeg' as MIMEType;
-export const IMAGE_PNG = 'image/png' as MIMEType;
-export const IMAGE_WEBP = 'image/webp' as MIMEType;
-export const IMAGE_ICO = 'image/x-icon' as MIMEType;
-export const IMAGE_BMP = 'image/bmp' as MIMEType;
-export const VIDEO_MP4 = 'video/mp4' as MIMEType;
-export const VIDEO_QUICKTIME = 'video/quicktime' as MIMEType;
-export const LONG_MESSAGE = 'text/x-signal-plain' as MIMEType;
+export const stringToMIMEType = (value: string): MIMEType => {
+  return value as MIMEType;
+};
 
+export const APPLICATION_OCTET_STREAM = stringToMIMEType(
+  'application/octet-stream'
+);
+export const APPLICATION_JSON = stringToMIMEType('application/json');
+export const AUDIO_AAC = stringToMIMEType('audio/aac');
+export const AUDIO_MP3 = stringToMIMEType('audio/mp3');
+export const IMAGE_GIF = stringToMIMEType('image/gif');
+export const IMAGE_JPEG = stringToMIMEType('image/jpeg');
+export const IMAGE_PNG = stringToMIMEType('image/png');
+export const IMAGE_WEBP = stringToMIMEType('image/webp');
+export const IMAGE_ICO = stringToMIMEType('image/x-icon');
+export const IMAGE_BMP = stringToMIMEType('image/bmp');
+export const VIDEO_MP4 = stringToMIMEType('video/mp4');
+export const VIDEO_QUICKTIME = stringToMIMEType('video/quicktime');
+export const LONG_MESSAGE = stringToMIMEType('text/x-signal-plain');
+
+export const isHeic = (value: string): boolean =>
+  value === 'image/heic' || value === 'image/heif';
 export const isGif = (value: string): value is MIMEType =>
   value === 'image/gif';
 export const isJPEG = (value: string): value is MIMEType =>
@@ -31,7 +39,3 @@ export const isAudio = (value: string): value is MIMEType =>
   Boolean(value) && value.startsWith('audio/') && !value.endsWith('aiff');
 export const isLongMessage = (value: unknown): value is MIMEType =>
   value === LONG_MESSAGE;
-
-export const fromString = (value: string): MIMEType => {
-  return value as MIMEType;
-};

@@ -125,8 +125,10 @@ const { ChallengeMainHandler } = require('./ts/main/challengeMain');
 const { NativeThemeNotifier } = require('./ts/main/NativeThemeNotifier');
 const { PowerChannel } = require('./ts/main/powerChannel');
 const { maybeParseUrl, setUrlSearchParams } = require('./ts/util/url');
+const { getHeicConverter } = require('./ts/workers/heicConverterMain');
 
 const sql = new MainSQL();
+const heicConverter = getHeicConverter();
 
 let systemTrayService;
 const systemTraySettingCache = new SystemTraySettingCache(
@@ -638,6 +640,11 @@ ipc.on('title-bar-double-click', () => {
     //   we add support for other operating systems.
     toggleMaximizedBrowserWindow(mainWindow);
   }
+});
+
+ipc.on('convert-image', async (event, uuid, data) => {
+  const { error, response } = await heicConverter(uuid, data);
+  event.reply(`convert-image:${uuid}`, { error, response });
 });
 
 let isReadyForUpdates = false;

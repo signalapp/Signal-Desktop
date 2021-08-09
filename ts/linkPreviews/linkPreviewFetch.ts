@@ -11,6 +11,7 @@ import {
   IMAGE_PNG,
   IMAGE_WEBP,
   MIMEType,
+  stringToMIMEType,
 } from '../types/MIME';
 
 const USER_AGENT = 'WhatsApp/2';
@@ -163,7 +164,7 @@ const parseContentType = (headerValue: string | null): ParsedContentType => {
   }
 
   return {
-    type: rawType as MIMEType,
+    type: stringToMIMEType(rawType),
     charset,
   };
 };

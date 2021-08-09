@@ -196,8 +196,12 @@ export async function autoOrientJPEG(
     return attachment;
   }
 
-  // If we haven't downloaded the attachment yet, we won't have the data
-  if (!attachment.data) {
+  // If we haven't downloaded the attachment yet, we won't have the data.
+  // All images go through handleImageAttachment before being sent and thus have
+  // already been scaled to level, oriented, stripped of exif data, and saved
+  // in high quality format. If we want to send the image in HQ we can return
+  // the attachement as-is. Otherwise we'll have to further scale it down.
+  if (!attachment.data || sendHQImages) {
     return attachment;
   }
 
@@ -205,10 +209,7 @@ export async function autoOrientJPEG(
     attachment.data,
     attachment.contentType
   );
-  const xcodedDataBlob = await scaleImageToLevel(
-    dataBlob,
-    sendHQImages || isIncoming
-  );
+  const xcodedDataBlob = await scaleImageToLevel(dataBlob, isIncoming);
   const xcodedDataArrayBuffer = await blobToArrayBuffer(xcodedDataBlob);
 
   // IMPORTANT: We overwrite the existing `data` `ArrayBuffer` losing the original

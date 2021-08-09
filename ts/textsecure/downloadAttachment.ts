@@ -54,7 +54,7 @@ export async function downloadAttachment(
     ...omit(attachment, 'digest', 'key'),
 
     contentType: contentType
-      ? MIME.fromString(contentType)
+      ? MIME.stringToMIMEType(contentType)
       : MIME.APPLICATION_OCTET_STREAM,
     data,
   };

@@ -1,6 +1,9 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { ThunkAction } from 'redux-thunk';
+
+import { StateType as RootStateType } from '../reducer';
 import { AttachmentType } from '../../types/Attachment';
 import { MessageAttributesType } from '../../model-types.d';
 import { LinkPreviewWithDomain } from '../../types/LinkPreview';
@@ -68,11 +71,20 @@ export const actions = {
 };
 
 function replaceAttachments(
+  conversationId: string,
   payload: ReadonlyArray<AttachmentType>
-): ReplaceAttachmentsActionType {
-  return {
-    type: REPLACE_ATTACHMENTS,
-    payload,
+): ThunkAction<void, RootStateType, unknown, ReplaceAttachmentsActionType> {
+  return (dispatch, getState) => {
+    // If the call came from a conversation we are no longer in we do not
+    // update the state.
+    if (getState().conversations.selectedConversationId !== conversationId) {
+      return;
+    }
+
+    dispatch({
+      type: REPLACE_ATTACHMENTS,
+      payload,
+    });
   };
 }
 

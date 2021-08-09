@@ -15,8 +15,8 @@ import {
   AUDIO_MP3,
   IMAGE_PNG,
   LONG_MESSAGE,
-  MIMEType,
   VIDEO_MP4,
+  stringToMIMEType,
 } from '../../types/MIME';
 import { Props, Quote } from './Quote';
 import { setup as setupI18n } from '../../../js/modules/i18n';
@@ -392,7 +392,7 @@ story.add('Voice Message Attachment', () => {
 story.add('Other File Only', () => {
   const props = createProps({
     rawAttachment: {
-      contentType: 'application/json' as MIMEType,
+      contentType: stringToMIMEType('application/json'),
       fileName: 'great-data.json',
       isVoiceMessage: false,
     },
@@ -420,7 +420,7 @@ story.add('Media Tap-to-View', () => {
 story.add('Other File Attachment', () => {
   const props = createProps({
     rawAttachment: {
-      contentType: 'application/json' as MIMEType,
+      contentType: stringToMIMEType('application/json'),
       fileName: 'great-data.json',
       isVoiceMessage: false,
     },

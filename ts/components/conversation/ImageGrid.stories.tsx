@@ -13,8 +13,8 @@ import {
   IMAGE_JPEG,
   IMAGE_PNG,
   IMAGE_WEBP,
-  MIMEType,
   VIDEO_MP4,
+  stringToMIMEType,
 } from '../../types/MIME';
 import { setup as setupI18n } from '../../../js/modules/i18n';
 import enMessages from '../../../_locales/en/messages.json';
@@ -273,7 +273,7 @@ story.add('Mixed Content Types', () => {
         width: 800,
       },
       {
-        contentType: 'text/plain' as MIMEType,
+        contentType: stringToMIMEType('text/plain'),
         fileName: 'lorem-ipsum.txt',
         url: '/fixtures/lorem-ipsum.txt',
       },

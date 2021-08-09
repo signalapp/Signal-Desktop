@@ -6,7 +6,7 @@ import * as sinon from 'sinon';
 import * as fs from 'fs';
 import * as path from 'path';
 import AbortController from 'abort-controller';
-import { MIMEType, IMAGE_JPEG } from '../../types/MIME';
+import { IMAGE_JPEG, stringToMIMEType } from '../../types/MIME';
 
 import { typedArrayToArrayBuffer } from '../../Crypto';
 
@@ -1155,7 +1155,7 @@ describe('link preview fetching', () => {
           ),
           {
             data: typedArrayToArrayBuffer(fixture),
-            contentType: contentType as MIMEType,
+            contentType: stringToMIMEType(contentType),
           }
         );
       });

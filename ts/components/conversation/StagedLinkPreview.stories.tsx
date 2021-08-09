@@ -7,7 +7,7 @@ import { date, text, withKnobs } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
 import { AttachmentType } from '../../types/Attachment';
-import { MIMEType } from '../../types/MIME';
+import { stringToMIMEType } from '../../types/MIME';
 import { setup as setupI18n } from '../../../js/modules/i18n';
 import enMessages from '../../../_locales/en/messages.json';
 import { Props, StagedLinkPreview } from './StagedLinkPreview';
@@ -27,10 +27,9 @@ story.addDecorator((withKnobs as any)({ escapeHTML: false }));
 const createAttachment = (
   props: Partial<AttachmentType> = {}
 ): AttachmentType => ({
-  contentType: text(
-    'attachment contentType',
-    props.contentType || ''
-  ) as MIMEType,
+  contentType: stringToMIMEType(
+    text('attachment contentType', props.contentType || '')
+  ),
   fileName: text('attachment fileName', props.fileName || ''),
   url: text('attachment url', props.url || ''),
 });
@@ -69,7 +68,7 @@ story.add('Image', () => {
   const props = createProps({
     image: createAttachment({
       url: '/fixtures/kitten-4-112-112.jpg',
-      contentType: 'image/jpeg' as MIMEType,
+      contentType: stringToMIMEType('image/jpeg'),
     }),
   });
 
@@ -83,7 +82,7 @@ story.add('Image, No Title Or Description', () => {
     domain: 'instagram.com',
     image: createAttachment({
       url: '/fixtures/kitten-4-112-112.jpg',
-      contentType: 'image/jpeg' as MIMEType,
+      contentType: stringToMIMEType('image/jpeg'),
     }),
   });
 
@@ -112,7 +111,7 @@ story.add('Image, Long Title Without Description', () => {
     title: LONG_TITLE,
     image: createAttachment({
       url: '/fixtures/kitten-4-112-112.jpg',
-      contentType: 'image/jpeg' as MIMEType,
+      contentType: stringToMIMEType('image/jpeg'),
     }),
   });
 
@@ -125,7 +124,7 @@ story.add('Image, Long Title And Description', () => {
     description: LONG_DESCRIPTION,
     image: createAttachment({
       url: '/fixtures/kitten-4-112-112.jpg',
-      contentType: 'image/jpeg' as MIMEType,
+      contentType: stringToMIMEType('image/jpeg'),
     }),
   });
 
@@ -139,7 +138,7 @@ story.add('Everything: image, title, description, and date', () => {
     date: Date.now(),
     image: createAttachment({
       url: '/fixtures/kitten-4-112-112.jpg',
-      contentType: 'image/jpeg' as MIMEType,
+      contentType: stringToMIMEType('image/jpeg'),
     }),
   });
 

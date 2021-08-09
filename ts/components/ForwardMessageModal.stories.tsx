@@ -10,17 +10,16 @@ import { text } from '@storybook/addon-knobs';
 import enMessages from '../../_locales/en/messages.json';
 import { AttachmentType } from '../types/Attachment';
 import { ForwardMessageModal, PropsType } from './ForwardMessageModal';
-import { IMAGE_JPEG, MIMEType, VIDEO_MP4 } from '../types/MIME';
+import { IMAGE_JPEG, VIDEO_MP4, stringToMIMEType } from '../types/MIME';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import { setup as setupI18n } from '../../js/modules/i18n';
 
 const createAttachment = (
   props: Partial<AttachmentType> = {}
 ): AttachmentType => ({
-  contentType: text(
-    'attachment contentType',
-    props.contentType || ''
-  ) as MIMEType,
+  contentType: stringToMIMEType(
+    text('attachment contentType', props.contentType || '')
+  ),
   fileName: text('attachment fileName', props.fileName || ''),
   screenshot: props.screenshot,
   url: text('attachment url', props.url || ''),

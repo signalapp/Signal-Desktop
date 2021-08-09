@@ -56,6 +56,7 @@ const excludedFilesRegexps = [
   '^sticker-creator/dist/bundle.js',
   '^test/test.js',
   '^ts/test[^/]*/.+',
+  '^ts/workers/heicConverter.bundle.js',
   '^ts/sql/mainWorker.bundle.js',
 
   // Copied from dependency

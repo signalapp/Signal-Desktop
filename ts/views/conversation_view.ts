@@ -3,6 +3,7 @@
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+import nodePath from 'path';
 import {
   AttachmentDraftType,
   AttachmentType,
@@ -12,7 +13,12 @@ import {
 } from '../types/Attachment';
 import type { StickerPackType as StickerPackDBType } from '../sql/Interface';
 import * as Stickers from '../types/Stickers';
-import { MIMEType, IMAGE_JPEG, IMAGE_WEBP } from '../types/MIME';
+import {
+  IMAGE_JPEG,
+  IMAGE_WEBP,
+  isHeic,
+  stringToMIMEType,
+} from '../types/MIME';
 import { ConversationModel } from '../models/conversations';
 import {
   GroupV2PendingMemberType,
@@ -1721,7 +1727,13 @@ Whisper.ConversationView = Whisper.View.extend({
     const { model }: { model: ConversationModel } = this;
     const onDisk = await this.writeDraftAttachment(attachment);
 
-    const draftAttachments = model.get('draftAttachments') || [];
+    // Remove any pending attachments that were transcoding
+    const draftAttachments = (model.get('draftAttachments') || []).filter(
+      draftAttachment =>
+        !draftAttachment.pending &&
+        nodePath.parse(String(draftAttachment.fileName)).name !==
+          attachment.fileName
+    );
     this.model.set({
       draftAttachments: [...draftAttachments, onDisk],
     });
@@ -1859,8 +1871,10 @@ Whisper.ConversationView = Whisper.View.extend({
   },
 
   updateAttachmentsView() {
+    const { model }: { model: ConversationModel } = this;
     const draftAttachments = this.model.get('draftAttachments') || [];
     window.reduxActions.composer.replaceAttachments(
+      model.get('id'),
       draftAttachments.map((att: AttachmentType) =>
         this.resolveOnDiskAttachment(att)
       )
@@ -1928,7 +1942,7 @@ Whisper.ConversationView = Whisper.View.extend({
       return;
     }
 
-    const fileType = file.type as MIMEType;
+    const fileType = stringToMIMEType(file.type);
 
     // You can't add a non-image attachment if you already have attachments staged
     if (!MIME.isImage(fileType) && draftAttachments.length > 0) {
@@ -1939,7 +1953,23 @@ Whisper.ConversationView = Whisper.View.extend({
     let attachment: InMemoryAttachmentDraftType;
 
     try {
-      if (window.Signal.Util.GoogleChrome.isImageTypeSupported(fileType)) {
+      if (
+        window.Signal.Util.GoogleChrome.isImageTypeSupported(fileType) ||
+        isHeic(fileType)
+      ) {
+        // Add a pending attachment since transcoding may take a while
+        this.model.set({
+          draftAttachments: [
+            ...draftAttachments,
+            {
+              contentType: IMAGE_JPEG,
+              fileName: nodePath.parse(file.name).name,
+              pending: true,
+            },
+          ],
+        });
+        this.updateAttachmentsView();
+
         attachment = await handleImageAttachment(file);
       } else if (
         window.Signal.Util.GoogleChrome.isVideoTypeSupported(fileType)

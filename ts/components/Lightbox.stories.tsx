@@ -11,9 +11,9 @@ import { Lightbox, Props } from './Lightbox';
 import {
   AUDIO_MP3,
   IMAGE_JPEG,
-  MIMEType,
   VIDEO_MP4,
   VIDEO_QUICKTIME,
+  stringToMIMEType,
 } from '../types/MIME';
 import { setup as setupI18n } from '../../js/modules/i18n';
 import enMessages from '../../_locales/en/messages.json';
@@ -94,7 +94,7 @@ story.add('Video (View Once)', () => {
 
 story.add('Unsupported Image Type', () => {
   const props = createProps({
-    contentType: 'image/tiff' as MIMEType,
+    contentType: stringToMIMEType('image/tiff'),
     objectURL: 'unsupported-image.tiff',
   });
 

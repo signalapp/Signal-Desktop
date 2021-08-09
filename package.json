@@ -55,10 +55,11 @@
     "build:dev": "run-s --print-label build:grunt build:typed-scss build:webpack",
     "build:grunt": "yarn grunt",
     "build:typed-scss": "tsm sticker-creator",
-    "build:webpack": "run-p build:webpack:sticker-creator build:webpack:preload build:webpack:sql-worker",
+    "build:webpack": "run-p build:webpack:sticker-creator build:webpack:preload build:webpack:sql-worker build:webpack:heic-worker",
     "build:webpack:sticker-creator": "cross-env NODE_ENV=production webpack",
     "build:webpack:preload": "cross-env NODE_ENV=production webpack -c webpack-preload.config.ts",
     "build:webpack:sql-worker": "cross-env NODE_ENV=production webpack -c webpack-sql-worker.config.ts",
+    "build:webpack:heic-worker": "cross-env NODE_ENV=production webpack -c webpack-heic-worker.config.ts",
     "build:electron": "electron-builder --config.extraMetadata.environment=$SIGNAL_ENV",
     "build:release": "cross-env SIGNAL_ENV=production yarn build:electron -- --config.directories.output=release",
     "build:fuses": "node scripts/fuse-electron.js",
@@ -101,6 +102,7 @@
     "glob": "7.1.6",
     "google-libphonenumber": "3.2.17",
     "got": "8.3.2",
+    "heic-convert": "^1.2.4",
     "history": "4.9.0",
     "humanize-duration": "3.26.0",
     "intl-tel-input": "12.1.15",
@@ -385,6 +387,7 @@
       ]
     },
     "asarUnpack": [
+      "ts/workers/heicConverter.bundle.js",
       "ts/sql/mainWorker.bundle.js",
       "node_modules/better-sqlite3/build/Release/better_sqlite3.node"
     ],

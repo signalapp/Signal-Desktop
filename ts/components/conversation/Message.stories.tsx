@@ -17,8 +17,8 @@ import {
   IMAGE_JPEG,
   IMAGE_PNG,
   IMAGE_WEBP,
-  MIMEType,
   VIDEO_MP4,
+  stringToMIMEType,
 } from '../../types/MIME';
 import { MessageAudio } from './MessageAudio';
 import { computePeaks } from '../GlobalAudioContext';
@@ -959,7 +959,7 @@ story.add('Other File Type', () => {
   const props = createProps({
     attachments: [
       {
-        contentType: 'text/plain' as MIMEType,
+        contentType: stringToMIMEType('text/plain'),
         fileName: 'my-resume.txt',
         url: 'my-resume.txt',
       },
@@ -974,7 +974,7 @@ story.add('Other File Type with Caption', () => {
   const props = createProps({
     attachments: [
       {
-        contentType: 'text/plain' as MIMEType,
+        contentType: stringToMIMEType('text/plain'),
         fileName: 'my-resume.txt',
         url: 'my-resume.txt',
       },
@@ -990,7 +990,7 @@ story.add('Other File Type with Long Filename', () => {
   const props = createProps({
     attachments: [
       {
-        contentType: 'text/plain' as MIMEType,
+        contentType: stringToMIMEType('text/plain'),
         fileName:
           'INSERT-APP-NAME_INSERT-APP-APPLE-ID_AppStore_AppsGamesWatch.psd.zip',
         url: 'a2/a2334324darewer4234',
@@ -1081,7 +1081,9 @@ story.add('Dangerous File Type', () => {
   const props = createProps({
     attachments: [
       {
-        contentType: 'application/vnd.microsoft.portable-executable' as MIMEType,
+        contentType: stringToMIMEType(
+          'application/vnd.microsoft.portable-executable'
+        ),
         fileName: 'terrible.exe',
         url: 'terrible.exe',
       },

@@ -2,7 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import path from 'path';
-import { MIMEType, IMAGE_JPEG } from '../types/MIME';
+import { ipcRenderer } from 'electron';
+import { v4 as genUuid } from 'uuid';
+
+import { IMAGE_JPEG, MIMEType, isHeic, stringToMIMEType } from '../types/MIME';
 import {
   InMemoryAttachmentDraftType,
   canBeTranscoded,
@@ -13,16 +16,37 @@ import { scaleImageToLevel } from './scaleImageToLevel';
 export async function handleImageAttachment(
   file: File
 ): Promise<InMemoryAttachmentDraftType> {
-  const blurHash = await imageToBlurHash(file);
+  let processedFile: File | Blob = file;
+
+  if (isHeic(file.type)) {
+    const uuid = genUuid();
+    const arrayBuffer = await file.arrayBuffer();
+
+    const convertedFile = await new Promise<File>((resolve, reject) => {
+      ipcRenderer.once(`convert-image:${uuid}`, (_, { error, response }) => {
+        if (response) {
+          resolve(response);
+        } else {
+          reject(error);
+        }
+      });
+      ipcRenderer.send('convert-image', uuid, arrayBuffer);
+    });
+
+    processedFile = new Blob([convertedFile]);
+  }
 
   const { contentType, file: resizedBlob, fileName } = await autoScale({
-    contentType: file.type as MIMEType,
+    contentType: isHeic(file.type) ? IMAGE_JPEG : stringToMIMEType(file.type),
     fileName: file.name,
-    file,
+    file: processedFile,
   });
+
   const data = await window.Signal.Types.VisualAttachment.blobToArrayBuffer(
     resizedBlob
   );
+  const blurHash = await imageToBlurHash(resizedBlob);
+
   return {
     fileName: fileName || file.name,
     contentType,
