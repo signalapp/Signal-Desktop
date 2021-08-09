@@ -100,7 +100,6 @@ export class UpdateGroupNameDialog extends React.Component<Props, State> {
         <SpacerMD />
 
         {isAdmin ? (
-          <>
             <input
               type="text"
               className="profile-name-input"
@@ -112,7 +111,6 @@ export class UpdateGroupNameDialog extends React.Component<Props, State> {
               aria-required={true}
               autoFocus={true}
             />
-          </>
         ) : null}
 
         <div className="session-modal__button-group">
