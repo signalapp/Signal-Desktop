@@ -1058,17 +1058,12 @@ export default class MessageReceiver
       certificate,
       unsealedContent: messageContent,
     };
-    const newLogId = this.getEnvelopeId(newEnvelope);
 
     const validationResult = await this.validateUnsealedEnvelope(newEnvelope);
     if (validationResult && validationResult.isBlocked) {
       this.removeFromCache(envelope);
       return undefined;
     }
-
-    window.log.info(
-      `MessageReceiver.unsealEnvelope(${logId}): unwrapped into ${newLogId}`
-    );
 
     return newEnvelope;
   }
