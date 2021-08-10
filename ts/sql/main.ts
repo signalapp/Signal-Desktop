@@ -7,7 +7,7 @@ import { join } from 'path';
 import { Worker } from 'worker_threads';
 
 const ASAR_PATTERN = /app\.asar$/;
-const MIN_TRACE_DURATION = 10;
+const MIN_TRACE_DURATION = 40;
 
 export type InitializeOptions = {
   readonly configDir: string;
