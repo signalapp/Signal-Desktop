@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { getConversationController } from '../../session/conversations';
-import { SessionButton } from './SessionButton';
 
 import _ from 'lodash';
-import { SessionWrapperModal } from './SessionWrapperModal';
 import { SpacerLG } from '../basic/Text';
 import { useDispatch } from 'react-redux';
 import { changeNickNameModal } from '../../state/ducks/modalDialog';
+import { SessionButton } from '../session/SessionButton';
+import { SessionWrapperModal } from '../session/SessionWrapperModal';
 
 type Props = {
   conversationId: string;

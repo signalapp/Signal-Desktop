@@ -74,12 +74,12 @@ describe('SwarmPolling', () => {
       expect(swarmPolling.TEST_getPollingTimeout(fakeConvo)).to.eq(SWARM_POLLING_TIMEOUT.INACTIVE);
     });
 
-    it('returns ACTIVE for convo with less than an hour old activeAt', () => {
+    it('returns ACTIVE for convo with less than two days old activeAt', () => {
       const convo = getConversationController().getOrCreate(
         TestUtils.generateFakePubKeyStr(),
         ConversationTypeEnum.GROUP
       );
-      convo.set('active_at', Date.now() - 3555);
+      convo.set('active_at', Date.now() - 2 * 23 * 3600 * 1000); // 23 * 2 = 46 hours old
       expect(swarmPolling.TEST_getPollingTimeout(PubKey.cast(convo.id as string))).to.eq(
         SWARM_POLLING_TIMEOUT.ACTIVE
       );
@@ -96,23 +96,28 @@ describe('SwarmPolling', () => {
       );
     });
 
-    it('returns MEDIUM_ACTIVE for convo with  activeAt of less than a day', () => {
+    it('returns MEDIUM_ACTIVE for convo with activeAt of more than 2 days but less than a week old', () => {
       const convo = getConversationController().getOrCreate(
         TestUtils.generateFakePubKeyStr(),
         ConversationTypeEnum.GROUP
       );
-      convo.set('active_at', Date.now() - 1000 * 3600 * 23);
+      convo.set('active_at', Date.now() - 1000 * 3600 * 25 * 2); // 25 hours x 2 = 50 hours old
+      expect(swarmPolling.TEST_getPollingTimeout(PubKey.cast(convo.id as string))).to.eq(
+        SWARM_POLLING_TIMEOUT.MEDIUM_ACTIVE
+      );
+
+      convo.set('active_at', Date.now() - 1000 * 3600 * 24 * 7 + 3600); // a week minus an hour old
       expect(swarmPolling.TEST_getPollingTimeout(PubKey.cast(convo.id as string))).to.eq(
         SWARM_POLLING_TIMEOUT.MEDIUM_ACTIVE
       );
     });
 
-    it('returns INACTIVE for convo with  activeAt of more than a day', () => {
+    it('returns INACTIVE for convo with  activeAt of more than a week', () => {
       const convo = getConversationController().getOrCreate(
         TestUtils.generateFakePubKeyStr(),
         ConversationTypeEnum.GROUP
       );
-      convo.set('active_at', Date.now() - 1000 * 3600 * 25);
+      convo.set('active_at', Date.now() - 1000 * 3600 * 24 * 8); // 8 days
       expect(swarmPolling.TEST_getPollingTimeout(PubKey.cast(convo.id as string))).to.eq(
         SWARM_POLLING_TIMEOUT.INACTIVE
       );
@@ -215,7 +220,7 @@ describe('SwarmPolling', () => {
       expect(pollOnceForKeySpy.lastCall.args).to.deep.eq([groupConvoPubkey, true]);
     });
 
-    it('does run once only if activeAt is more than one hour', async () => {
+    it('does run once only if activeAt is inactive', async () => {
       const convo = getConversationController().getOrCreate(
         TestUtils.generateFakePubKeyStr(),
         ConversationTypeEnum.GROUP
@@ -227,7 +232,7 @@ describe('SwarmPolling', () => {
       await swarmPolling.start(true);
 
       // more than hour old, we should not tick after just 5 seconds
-      convo.set('active_at', Date.now() - 3605 * 1000);
+      convo.set('active_at', Date.now() - 7 * 25 * 3600 * 1000);
 
       clock.tick(6000);
 
@@ -236,7 +241,7 @@ describe('SwarmPolling', () => {
       expect(pollOnceForKeySpy.thirdCall.args).to.deep.eq([ourPubkey, false]);
     });
 
-    it('does run once if activeAt is more than 1 days old ', async () => {
+    it('does run once if activeAt is inactive ', async () => {
       const convo = getConversationController().getOrCreate(
         TestUtils.generateFakePubKeyStr(),
         ConversationTypeEnum.GROUP
@@ -247,8 +252,8 @@ describe('SwarmPolling', () => {
       swarmPolling.addGroupId(groupConvoPubkey);
       await swarmPolling.start(true);
 
-      // more than hour old, we should not tick after just 5 seconds
-      convo.set('active_at', Date.now() - 25 * 3600 * 1000);
+      // more than a week old, we should not tick after just 5 seconds
+      convo.set('active_at', Date.now() - 7 * 24 * 3600 * 1000 - 3600 * 1000);
 
       clock.tick(6 * 1000); // active
 
@@ -273,10 +278,10 @@ describe('SwarmPolling', () => {
         await swarmPolling.start(true);
       });
 
-      it('does run twice if activeAt is more than 1 hour old and we tick more than one minute ', async () => {
+      it('does run twice if activeAt is more is medium active ', async () => {
         pollOnceForKeySpy.resetHistory();
-        // more than hour old but less than a day, we should tick after just 60 seconds
-        convo.set('active_at', Date.now() - 3605 * 1000);
+        // medium active category
+        convo.set('active_at', Date.now() - 2 * 24 * 3600 * 1000 - 3600 * 1000);
 
         clock.tick(61 * 1000); // medium_active
 
@@ -289,11 +294,11 @@ describe('SwarmPolling', () => {
         expect(pollOnceForKeySpy.thirdCall.args).to.deep.eq([groupConvoPubkey, true]);
       });
 
-      it('does run twice if activeAt is more than 1 day old and we tick more than one hour ', async () => {
+      it('does run twice if activeAt is more than 2 days old and we tick more than one minute ', async () => {
         pollOnceForKeySpy.resetHistory();
-        convo.set('active_at', Date.now() - 25 * 3600 * 1000);
+        convo.set('active_at', Date.now() - 2 * 24 * 3600 * 1000);
 
-        clock.tick(3700 * 1000); // inactive
+        clock.tick(65 * 1000); // inactive
 
         await swarmPolling.TEST_pollForAllKeys();
         expect(pollOnceForKeySpy.callCount).to.eq(3);

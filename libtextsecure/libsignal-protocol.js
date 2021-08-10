@@ -35065,8 +35065,10 @@ var libsignal
     'use strict';
 
     function validatePrivKey(privKey) {
-      if (privKey === undefined || !(privKey instanceof ArrayBuffer) || privKey.byteLength != 32) {
-        throw new Error("Invalid private key");
+        if (privKey === undefined || !(privKey instanceof ArrayBuffer)) {       
+        console.log(privKey === undefined, (privKey instanceof ArrayBuffer), privKey.byteLength)
+
+        throw new Error("Invalid private key", privKey);
       }
     }
     function validatePubKeyFormat(pubKey) {

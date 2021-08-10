@@ -348,7 +348,7 @@
     Whisper.Notifications.on('click', async (id, messageId) => {
       window.showWindow();
       if (id) {
-        await window.openConversationWithMessages({ id, messageId });
+        await window.openConversationWithMessages({ conversationKey: id, messageId });
       } else {
         appView.openInbox({
           initialLoadComplete,

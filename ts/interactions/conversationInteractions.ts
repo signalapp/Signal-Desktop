@@ -41,7 +41,7 @@ import {
 import { getDecryptedMediaUrl } from '../session/crypto/DecryptedAttachmentsManager';
 import { IMAGE_JPEG } from '../types/MIME';
 import { FSv2 } from '../fileserver';
-import { fromHexToArray, toHex } from '../session/utils/String';
+import { fromBase64ToArray, fromHexToArray, toHex } from '../session/utils/String';
 import { SessionButtonColor } from '../components/session/SessionButton';
 import { perfEnd, perfStart } from '../session/utils/Performance';
 

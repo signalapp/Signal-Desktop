@@ -12,6 +12,8 @@ libtextsecure/components.js
 libtextsecure/test/test.js
 stylesheets/*.css
 test/test.js
+libloki/test/test.js
+
 test/ts/**/*.js
 ts/**/*.js
 ts/protobuf/*.d.ts

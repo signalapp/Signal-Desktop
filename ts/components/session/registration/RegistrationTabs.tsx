@@ -159,8 +159,8 @@ export async function signInWithLinking(signInDetails: { userRecoveryPhrase: str
   }
 }
 export class RegistrationTabs extends React.Component<any, State> {
-  constructor() {
-    super({});
+  constructor(props: any) {
+    super(props);
     this.state = {
       selectedTab: TabType.SignUp,
       generatedRecoveryPhrase: '',

@@ -7,7 +7,7 @@ import { SessionToggle } from '../SessionToggle';
 import { SessionButton } from '../SessionButton';
 import { SessionSettingType } from './SessionSettings';
 import { SessionRadioGroup } from '../SessionRadioGroup';
-import { SessionConfirmDialogProps } from '../SessionConfirm';
+import { SessionConfirmDialogProps } from '../../dialog/SessionConfirm';
 
 type Props = {
   title?: string;

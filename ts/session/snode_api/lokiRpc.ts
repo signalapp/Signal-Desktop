@@ -9,13 +9,16 @@ interface FetchOptions {
   agent?: any;
 }
 
-// A small wrapper around node-fetch which deserializes response
-// returns insecureNodeFetch response or false
+/**
+ * A small wrapper around node-fetch which deserializes response
+ * returns insecureNodeFetch response or false
+ */
 async function lokiFetch(
   url: string,
   options: FetchOptions,
   targetNode?: Snode,
-  associatedWith?: string
+  associatedWith?: string,
+  test?: string
 ): Promise<undefined | SnodeResponse> {
   const timeout = 10000;
   const method = options.method || 'GET';
@@ -30,7 +33,7 @@ async function lokiFetch(
     // Absence of targetNode indicates that we want a direct connection
     // (e.g. to connect to a seed node for the first time)
     if (window.lokiFeatureFlags.useOnionRequests && targetNode) {
-      const fetchResult = await lokiOnionFetch(targetNode, fetchOptions.body, associatedWith);
+      const fetchResult = await lokiOnionFetch(targetNode, fetchOptions.body, associatedWith, test);
       if (!fetchResult) {
         return undefined;
       }
@@ -79,7 +82,7 @@ export async function snodeRpc(
   method: string,
   params: any,
   targetNode: Snode,
-  associatedWith?: string //the user pubkey this call is for. if the onion request fails, this is used to handle the error for this user swarm for isntance
+  associatedWith?: string //the user pubkey this call is for. if the onion request fails, this is used to handle the error for this user swarm for instance
 ): Promise<undefined | SnodeResponse> {
   const url = `https://${targetNode.ip}:${targetNode.port}/storage_rpc/v1`;
 
@@ -107,5 +110,5 @@ export async function snodeRpc(
     },
   };
 
-  return lokiFetch(url, fetchOptions, targetNode, associatedWith);
+  return lokiFetch(url, fetchOptions, targetNode, associatedWith, method);
 }

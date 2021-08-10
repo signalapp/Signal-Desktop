@@ -30,13 +30,15 @@ const RecoveryPhraseInput = (props: {
   recoveryPhrase: string;
   onSeedChanged: (val: string) => any;
   handlePressEnter: () => any;
+  stealAutoFocus?: boolean;
 }) => {
   return (
+    // tslint:disable-next-line: use-simple-attributes
     <SessionInput
       label={window.i18n('recoveryPhrase')}
       type="password"
       value={props.recoveryPhrase}
-      autoFocus={true}
+      autoFocus={props.stealAutoFocus || false}
       placeholder={window.i18n('enterRecoveryPhrase')}
       enableShowHide={true}
       onValueChanged={props.onSeedChanged}
@@ -69,12 +71,14 @@ export const RegistrationUserDetails = (props: Props) => {
           recoveryPhrase={props.recoveryPhrase as string}
           handlePressEnter={props.handlePressEnter}
           onSeedChanged={props.onSeedChanged as any}
+          stealAutoFocus={props.stealAutoFocus}
         />
       )}
       <div className="inputfields">
         {props.showDisplayNameField && (
+          // tslint:disable-next-line: use-simple-attributes
           <DisplayNameInput
-            stealAutoFocus={props.stealAutoFocus}
+            stealAutoFocus={!props.showSeedField && props.stealAutoFocus}
             displayName={props.displayName}
             handlePressEnter={props.handlePressEnter}
             onDisplayNameChanged={props.onDisplayNameChanged}

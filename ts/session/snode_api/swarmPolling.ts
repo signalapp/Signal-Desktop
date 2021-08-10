@@ -17,6 +17,7 @@ import { ConversationModel } from '../../models/conversation';
 import { DURATION, SWARM_POLLING_TIMEOUT } from '../constants';
 import { getConversationController } from '../conversations';
 import { perfEnd, perfStart } from '../utils/Performance';
+import { ed25519Str } from '../onions/onionPath';
 
 type PubkeyToHash = { [key: string]: string };
 
@@ -90,12 +91,12 @@ export class SwarmPolling {
   }
 
   /**
-   * Only public for testing
-   * As of today, we pull closed group pubkeys as follow:
-   * if activeAt is not set, poll only once per hour
-   * if activeAt is less than an hour old, poll every 5 seconds or so
-   * if activeAt is less than a day old, poll every minutes only.
-   * If activeAt is more than a day old, poll only once per hour
+   * Only public for testing purpose.
+   *
+   * Currently, a group with an
+   *  -> an activeAt less than 2 days old is considered active and polled often (every 5 sec)
+   *  -> an activeAt less than 1 week old is considered medium_active and polled a bit less (every minute)
+   *  -> an activeAt more than a week old is considered inactive, and not polled much (every 2 minutes)
    */
   public TEST_getPollingTimeout(convoId: PubKey) {
     const convo = getConversationController().get(convoId.key);
@@ -109,12 +110,12 @@ export class SwarmPolling {
 
     const currentTimestamp = Date.now();
 
-    // consider that this is an active group if activeAt is less than an hour old
-    if (currentTimestamp - activeAt <= DURATION.HOURS * 1) {
+    // consider that this is an active group if activeAt is less than two days old
+    if (currentTimestamp - activeAt <= DURATION.DAYS * 2) {
       return SWARM_POLLING_TIMEOUT.ACTIVE;
     }
 
-    if (currentTimestamp - activeAt <= DURATION.DAYS * 1) {
+    if (currentTimestamp - activeAt <= DURATION.DAYS * 7) {
       return SWARM_POLLING_TIMEOUT.MEDIUM_ACTIVE;
     }
 
@@ -203,7 +204,9 @@ export class SwarmPolling {
 
     if (isGroup) {
       window?.log?.info(
-        `Polled for group(${pubkey}): group.pubkey, got ${messages.length} messages back.`
+        `Polled for group(${ed25519Str(pubkey.key)}): group.pubkey, got ${
+          messages.length
+        } messages back.`
       );
       // update the last fetched timestamp
       this.groupPolling = this.groupPolling.map(group => {
