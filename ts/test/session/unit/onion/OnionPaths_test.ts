@@ -112,6 +112,20 @@ const fakeSnodePool = [
     pubkey_ed25519: 'e3ec6fcc79e64c2af6a48a9865d4bf4b739ec7708d75f35acc3d478f91615356',
     version: '',
   },
+  {
+    ip: '136.243.103.183',
+    port: 22116,
+    pubkey_x25519: '0f78775bf189a6eaca2f9c873524832aae8e87a5bf792fb394df97b21173f50c',
+    pubkey_ed25519: 'e3ec6fcc79e64c2af6a48a9865d4bf4b739ec7708d75f35acc3d478f91615357',
+    version: '',
+  },
+  {
+    ip: '136.243.103.183',
+    port: 22116,
+    pubkey_x25519: '0f78775bf189a6eaca2f9c873524832aae8e87a5bf792fb394df97b21173f50c',
+    pubkey_ed25519: 'e3ec6fcc79e64c2af6a48a9865d4bf4b739ec7708d75f35acc3d478f91615358',
+    version: '',
+  },
 ];
 
 const fakeGuardNodesEd25519 = [guard1ed, guard2ed, guard3ed];
@@ -130,7 +144,15 @@ describe('OnionPaths', () => {
     sandbox.stub(OnionPaths, 'selectGuardNodes').resolves(fakeGuardNodes);
     sandbox.stub(SNodeAPI.SNodeAPI, 'getSnodePoolFromSnode').resolves(fakeGuardNodes);
     TestUtils.stubData('getGuardNodes').resolves(fakeGuardNodesEd25519);
+    TestUtils.stubData('createOrUpdateItem').resolves();
     TestUtils.stubWindow('getSeedNodeList', () => ['seednode1']);
+    // tslint:disable: no-void-expression no-console
+
+    TestUtils.stubWindow('log', {
+      info: (args: any) => console.info(args),
+      warn: (args: any) => console.warn(args),
+      error: (args: any) => console.error(args),
+    });
 
     sandbox.stub(SNodeAPI.SnodePool, 'refreshRandomPoolDetail').resolves(fakeSnodePool);
     SNodeAPI.Onions.resetSnodeFailureCount();
