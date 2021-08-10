@@ -15,8 +15,7 @@ let snodeFailureCount: Record<string, number> = {};
 import { Snode } from '../../data/data';
 import { ERROR_CODE_NO_CONNECT } from './SNodeAPI';
 
-// tslint:disable-next-line: variable-name
-export const TEST_resetSnodeFailureCount = () => {
+export const resetSnodeFailureCount = () => {
   snodeFailureCount = {};
 };
 

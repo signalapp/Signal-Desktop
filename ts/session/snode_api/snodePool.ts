@@ -8,6 +8,8 @@ import * as Data from '../../../ts/data/data';
 import { allowOnlyOneAtATime } from '../utils/Promise';
 import pRetry from 'p-retry';
 import { ed25519Str } from '../onions/onionPath';
+import { OnionPaths } from '../onions';
+import { Onions, SNodeAPI } from '.';
 
 /**
  * If we get less than this snode in a swarm, we fetch new snodes for this pubkey
@@ -18,7 +20,7 @@ const minSwarmSnodeCount = 3;
  * If we get less than minSnodePoolCount we consider that we need to fetch the new snode pool from a seed node
  * and not from those snodes.
  */
-const minSnodePoolCount = 12;
+export const minSnodePoolCount = 12;
 
 /**
  * If we do a request to fetch nodes from snodes and they don't return at least
@@ -29,7 +31,7 @@ const minSnodePoolCount = 12;
 export const requiredSnodesForAgreement = 24;
 
 // This should be renamed to `allNodes` or something
-let randomSnodePool: Array<Data.Snode> = [];
+export let randomSnodePool: Array<Data.Snode> = [];
 
 // We only store nodes' identifiers here,
 const swarmCache: Map<string, Array<string>> = new Map();
@@ -306,6 +308,9 @@ export async function refreshRandomPool(forceRefresh = false): Promise<void> {
           }
           window?.log?.info('updating snode list with snode pool length:', commonNodes.length);
           randomSnodePool = commonNodes;
+          OnionPaths.resetPathFailureCount();
+          Onions.resetSnodeFailureCount();
+
           await Data.updateSnodePoolOnDb(JSON.stringify(randomSnodePool));
         },
         {
@@ -327,6 +332,9 @@ export async function refreshRandomPool(forceRefresh = false): Promise<void> {
 
       // fallback to a seed node fetch of the snode pool
       randomSnodePool = await exports.refreshRandomPoolDetail(seedNodes);
+
+      OnionPaths.resetPathFailureCount();
+      Onions.resetSnodeFailureCount();
       await Data.updateSnodePoolOnDb(JSON.stringify(randomSnodePool));
     }
   });

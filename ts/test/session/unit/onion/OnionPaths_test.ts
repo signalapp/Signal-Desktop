@@ -133,8 +133,8 @@ describe('OnionPaths', () => {
     TestUtils.stubWindow('getSeedNodeList', () => ['seednode1']);
 
     sandbox.stub(SNodeAPI.SnodePool, 'refreshRandomPoolDetail').resolves(fakeSnodePool);
-    SNodeAPI.Onions.TEST_resetSnodeFailureCount();
-    OnionPaths.TEST_resetPathFailureCount();
+    SNodeAPI.Onions.resetSnodeFailureCount();
+    OnionPaths.resetPathFailureCount();
     // get a copy of what old ones look like
     await OnionPaths.getOnionPath();
 

@@ -12,8 +12,8 @@ const minimumGuardCount = 2;
 
 import { updateOnionPaths } from '../../state/ducks/onion';
 
-const onionRequestHops = 3;
-let onionPaths: Array<Array<Snode>> = [];
+const ONION_REQUEST_HOPS = 3;
+export let onionPaths: Array<Array<Snode>> = [];
 
 /**
  * Used for testing only
@@ -47,7 +47,7 @@ export const clearTestOnionPath = () => {
 export let pathFailureCount: Record<string, number> = {};
 
 // tslint:disable-next-line: variable-name
-export const TEST_resetPathFailureCount = () => {
+export const resetPathFailureCount = () => {
   pathFailureCount = {};
 };
 
@@ -57,7 +57,7 @@ const pathFailureThreshold = 3;
 // This array is meant to store nodes will full info,
 // so using GuardNode would not be correct (there is
 // some naming issue here it seems)
-let guardNodes: Array<Snode> = [];
+export let guardNodes: Array<Snode> = [];
 
 export const ed25519Str = (ed25519Key: string) => `(...${ed25519Key.substr(58)})`;
 
@@ -121,16 +121,22 @@ export async function dropSnodeFromPath(snodeEd25519: string) {
 
 export async function getOnionPath(toExclude?: Snode): Promise<Array<Snode>> {
   let attemptNumber = 0;
+
   while (onionPaths.length < minimumGuardCount) {
-    window?.log?.warn(
+    window?.log?.info(
       `Must have at least ${minimumGuardCount} good onion paths, actual: ${onionPaths.length}, attempt #${attemptNumber} fetching more...`
     );
     // eslint-disable-next-line no-await-in-loop
     await buildNewOnionPathsOneAtATime();
-    // should we add a delay? buildNewOnionPathsOneAtATime should act as one
+    // should we add a delay? buildNewOnionPathsOneA  tATime should act as one
 
     // reload goodPaths now
     attemptNumber += 1;
+
+    if (attemptNumber >= 10) {
+      window?.log?.error('Failed to get an onion path after 10 attempts');
+      throw new Error(`Failed to build enough onion paths, current count: ${onionPaths.length}`);
+    }
   }
 
   if (onionPaths.length <= 0) {
@@ -213,19 +219,16 @@ async function dropPathStartingWithGuardNode(guardNodeEd25519: string) {
   const failingPathIndex = onionPaths.findIndex(p => p[0].pubkey_ed25519 === guardNodeEd25519);
   if (failingPathIndex === -1) {
     window?.log?.warn('No such path starts with this guard node ');
-    return;
+  } else {
+    window?.log?.info(
+      `Dropping path starting with guard node ${ed25519Str(
+        guardNodeEd25519
+      )}; index:${failingPathIndex}`
+    );
+    onionPaths = onionPaths.filter(p => p[0].pubkey_ed25519 !== guardNodeEd25519);
   }
-  window?.log?.info(
-    `Dropping path starting with guard node ${ed25519Str(
-      guardNodeEd25519
-    )}; index:${failingPathIndex}`
-  );
-  onionPaths = onionPaths.filter(p => p[0].pubkey_ed25519 !== guardNodeEd25519);
 
-  const edKeys = guardNodes
-    .filter(g => g.pubkey_ed25519 !== guardNodeEd25519)
-    .map(n => n.pubkey_ed25519);
-
+  // make sure to drop the guard node even if the path starting with this guard node is not found
   guardNodes = guardNodes.filter(g => g.pubkey_ed25519 !== guardNodeEd25519);
   pathFailureCount[guardNodeEd25519] = 0;
 
@@ -233,6 +236,12 @@ async function dropPathStartingWithGuardNode(guardNodeEd25519: string) {
 
   // write the updates guard nodes to the db.
   // the next call to getOnionPath will trigger a rebuild of the path
+  await internalUpdateGuardNodes(guardNodes);
+}
+
+async function internalUpdateGuardNodes(updatedGuardNodes: Array<Snode>) {
+  const edKeys = updatedGuardNodes.map(n => n.pubkey_ed25519);
+
   await updateGuardNodes(edKeys);
 }
 
@@ -297,6 +306,7 @@ async function testGuardNode(snode: Snode) {
 export async function selectGuardNodes(): Promise<Array<Snode>> {
   // `getRandomSnodePool` is expected to refresh itself on low nodes
   const nodePool = await SnodePool.getRandomSnodePool();
+  window.log.info('selectGuardNodes snodePool:', nodePool.length);
   if (nodePool.length < desiredGuardCount) {
     window?.log?.error(
       'Could not select guard nodes. Not enough nodes in the pool: ',
@@ -314,7 +324,7 @@ export async function selectGuardNodes(): Promise<Array<Snode>> {
   // eslint-disable-next-line-no-await-in-loop
   while (selectedGuardNodes.length < desiredGuardCount) {
     if (shuffled.length < desiredGuardCount) {
-      window?.log?.error('Not enought nodes in the pool');
+      window?.log?.error('Not enough nodes in the pool');
       break;
     }
 
@@ -336,9 +346,7 @@ export async function selectGuardNodes(): Promise<Array<Snode>> {
   }
   guardNodes = selectedGuardNodes;
 
-  const edKeys = guardNodes.map(n => n.pubkey_ed25519);
-
-  await updateGuardNodes(edKeys);
+  await internalUpdateGuardNodes(guardNodes);
 
   return guardNodes;
 }
@@ -369,15 +377,19 @@ async function buildNewOnionPathsWorker() {
     }
   }
   // If guard nodes is still empty (the old nodes are now invalid), select new ones:
-  if (guardNodes.length < minimumGuardCount) {
+  if (guardNodes.length < desiredGuardCount) {
     // TODO: don't throw away potentially good guard nodes
     guardNodes = await exports.selectGuardNodes();
   }
   // be sure to fetch again as that list might have been refreshed by selectGuardNodes
   allNodes = await SnodePool.getRandomSnodePool();
+  window?.log?.info(
+    'LokiSnodeAPI::buildNewOnionPaths - after refetch, snodePool length:',
+    allNodes.length
+  );
   // TODO: select one guard node and 2 other nodes randomly
   let otherNodes = _.differenceBy(allNodes, guardNodes, 'pubkey_ed25519');
-  if (otherNodes.length < 2) {
+  if (otherNodes.length < SnodePool.minSnodePoolCount) {
     window?.log?.warn(
       'LokiSnodeAPI::buildNewOnionPaths - Too few nodes to build an onion path! Refreshing pool and retrying'
     );
@@ -387,17 +399,21 @@ async function buildNewOnionPathsWorker() {
 
     // how to handle failing to rety
     buildNewOnionPathsWorkerRetry = buildNewOnionPathsWorkerRetry + 1;
-    window.log.warn(
+    window?.log?.warn(
       'buildNewOnionPathsWorker failed to get otherNodes. Current retry:',
       buildNewOnionPathsWorkerRetry
     );
     if (buildNewOnionPathsWorkerRetry >= 3) {
       // we failed enough. Something is wrong. Lets get out of that function and get a new fresh call.
-      window.log.warn(
+      window?.log?.warn(
         `buildNewOnionPathsWorker failed to get otherNodes even after retries... Exiting after ${buildNewOnionPathsWorkerRetry} retries`
       );
 
       return;
+    } else {
+      window?.log?.info(
+        `buildNewOnionPathsWorker failed to get otherNodes. Next attempt: ${buildNewOnionPathsWorkerRetry}`
+      );
     }
     await buildNewOnionPathsWorker();
     return;
@@ -407,14 +423,12 @@ async function buildNewOnionPathsWorker() {
   const guards = _.shuffle(guardNodes);
 
   // Create path for every guard node:
-  const nodesNeededPerPaths = onionRequestHops - 1;
+  const nodesNeededPerPaths = ONION_REQUEST_HOPS - 1;
 
-  // Each path needs X (nodesNeededPerPaths) nodes in addition to the guard node:
-  const maxPath = Math.floor(
-    Math.min(
-      guards.length,
-      nodesNeededPerPaths ? otherNodes.length / nodesNeededPerPaths : otherNodes.length
-    )
+  // Each path needs nodesNeededPerPaths nodes in addition to the guard node:
+  const maxPath = Math.floor(Math.min(guards.length, otherNodes.length / nodesNeededPerPaths));
+  window?.log?.info(
+    `Building ${maxPath} onion paths based on guard nodes length: ${guards.length}, other nodes length ${otherNodes.length} `
   );
 
   // TODO: might want to keep some of the existing paths

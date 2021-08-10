@@ -70,7 +70,7 @@ describe('OnionPathsErrors', () => {
     guardPubkeys = TestUtils.generateFakePubKeys(3).map(n => n.key);
     otherNodesPubkeys = TestUtils.generateFakePubKeys(9).map(n => n.key);
 
-    SNodeAPI.Onions.TEST_resetSnodeFailureCount();
+    SNodeAPI.Onions.resetSnodeFailureCount();
 
     guardNodesArray = guardPubkeys.map(ed25519 => {
       fakePortCurrent++;
@@ -127,7 +127,7 @@ describe('OnionPathsErrors', () => {
 
     OnionPaths.clearTestOnionPath();
 
-    OnionPaths.TEST_resetPathFailureCount();
+    OnionPaths.resetPathFailureCount();
 
     await OnionPaths.getOnionPath();
 
