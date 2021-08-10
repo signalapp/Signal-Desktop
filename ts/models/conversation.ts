@@ -44,6 +44,7 @@ import { getOpenGroupV2FromConversationId } from '../opengroup/utils/OpenGroupUt
 import { createTaskWithTimeout } from '../session/utils/TaskWithTimeout';
 import { perfEnd, perfStart } from '../session/utils/Performance';
 import { ReplyingToMessageProps } from '../components/session/conversation/SessionCompositionBox';
+import { ed25519Str } from '../session/onions/onionPath';
 
 export enum ConversationTypeEnum {
   GROUP = 'group',
@@ -231,7 +232,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       return `opengroup(${this.id})`;
     }
 
-    return `group(${this.id})`;
+    return `group(${ed25519Str(this.id)})`;
   }
 
   public isMe() {

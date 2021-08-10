@@ -551,6 +551,11 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
     // we try to match the first link found in the current message
     const links = window.Signal.LinkPreviews.findLinks(this.props.draft, undefined);
     if (!links || links.length === 0 || ignoredLink === links[0]) {
+      if (this.state.stagedLinkPreview) {
+        this.setState({
+          stagedLinkPreview: undefined,
+        });
+      }
       return <></>;
     }
     const firstLink = links[0];
