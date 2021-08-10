@@ -89,6 +89,11 @@ const mapStateToActiveCallProp = (
 
   switch (call.callMode) {
     case CallMode.Direct:
+      // If the call is incoming, it's not an 'active' call and we shouldn't show a lobby.
+      if (call.isIncoming) {
+        return;
+      }
+
       return {
         ...baseResult,
         callEndedReason: call.callEndedReason,
