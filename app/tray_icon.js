@@ -1,6 +1,5 @@
 const path = require('path');
 
-const fs = require('fs');
 const { app, Menu, Tray } = require('electron');
 
 let trayContextMenu = null;
@@ -68,16 +67,6 @@ function createTrayIcon(getMainWindow, messages) {
     ]);
 
     tray.setContextMenu(trayContextMenu);
-  };
-
-  tray.updateIcon = () => {
-    const image = iconNoNewMessages;
-
-    if (!fs.existsSync(image)) {
-      console.log('tray.updateIcon: Image for tray update does not exist!');
-      return;
-    }
-    tray.setImage(image);
   };
 
   tray.on('click', tray.showWindow);

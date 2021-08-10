@@ -179,8 +179,6 @@ ipc.on('mediaPermissionsChanged', () => {
 window.closeAbout = () => ipc.send('close-about');
 window.readyForUpdates = () => ipc.send('ready-for-updates');
 
-window.updateTrayIcon = unreadCount => ipc.send('update-tray-icon', unreadCount);
-
 ipc.on('get-theme-setting', () => {
   const theme = window.Events.getThemeSetting();
   ipc.send('get-success-theme-setting', theme);

@@ -876,12 +876,6 @@ ipc.on('close-about', () => {
   }
 });
 
-ipc.on('update-tray-icon', (event, unreadCount) => {
-  if (tray) {
-    tray.updateIcon(unreadCount);
-  }
-});
-
 // Password screen related IPC calls
 ipc.on('password-window-login', async (event, passPhrase) => {
   const sendResponse = e => event.sender.send('password-window-login-response', e);
@@ -898,6 +892,17 @@ ipc.on('password-window-login', async (event, passPhrase) => {
 ipc.on('start-in-tray-on-start', async (event, newValue) => {
   try {
     userConfig.set('startInTray', newValue);
+
+    if (newValue) {
+      if (!tray) {
+        tray = createTrayIcon(getMainWindow, locale.messages);
+      }
+    } else {
+      if (tray) {
+        tray.destroy();
+      }
+      tray = null;
+    }
     event.sender.send('start-in-tray-on-start-response', null);
   } catch (e) {
     event.sender.send('start-in-tray-on-start-response', e);

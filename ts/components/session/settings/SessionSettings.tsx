@@ -382,7 +382,6 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
           await window.setStartInTray(newValue);
           // make sure to write it here too, as this is the value used on the UI to mark the toggle as true/false
           window.setSettingValue('start-in-tray-setting', newValue);
-          ToastUtils.pushRestartNeeded();
         },
         content: undefined,
         comparisonValue: undefined,
