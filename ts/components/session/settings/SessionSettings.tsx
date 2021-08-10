@@ -22,6 +22,7 @@ import { toggleAudioAutoplay } from '../../../state/ducks/userConfig';
 import { sessionPassword } from '../../../state/ducks/modalDialog';
 import { PasswordAction } from '../../dialog/SessionPasswordDialog';
 import { SessionIconButton, SessionIconSize, SessionIconType } from '../icon';
+import { ToastUtils } from '../../../session/utils';
 
 export enum SessionSettingCategory {
   Appearance = 'appearance',
@@ -368,6 +369,26 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
           okTheme: SessionButtonColor.Danger,
         },
       },
+
+      {
+        id: 'start-in-tray-setting',
+        title: window.i18n('startInTrayTitle'),
+        description: window.i18n('startInTrayDescription'),
+        hidden: false,
+        type: SessionSettingType.Toggle,
+        category: SessionSettingCategory.Appearance,
+        setFn: async () => {
+          const newValue = !(await window.getStartInTray());
+          await window.setStartInTray(newValue);
+          // make sure to write it here too, as this is the value used on the UI to mark the toggle as true/false
+          window.setSettingValue('start-in-tray-setting', newValue);
+          ToastUtils.pushRestartNeeded();
+        },
+        content: undefined,
+        comparisonValue: undefined,
+        onClick: undefined,
+        confirmationDialogParams: undefined,
+      },
       {
         id: 'audio-message-autoplay-setting',
         title: window.i18n('audioMessageAutoplayTitle'),
@@ -385,6 +406,7 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
         onClick: undefined,
         confirmationDialogParams: undefined,
       },
+
       {
         id: 'notification-setting',
         title: window.i18n('notificationSettingsDialog'),
@@ -400,7 +422,7 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
         content: {
           options: {
             group: 'notification-setting',
-            initalItem: window.getSettingValue('notification-setting') || 'message',
+            initialItem: window.getSettingValue('notification-setting') || 'message',
             items: [
               {
                 label: window.i18n('nameAndMessage'),

@@ -81,5 +81,7 @@ declare global {
     globalOnlineStatus: boolean;
     confirmationDialog: any;
     callWorker: (fnName: string, ...args: any) => Promise<any>;
+    setStartInTray: (val: boolean) => Promise<void>;
+    getStartInTray: () => Promise<boolean>;
   }
 }

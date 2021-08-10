@@ -334,7 +334,7 @@
       // if not undefined, we take the opposite
       const newValue = currentValue !== undefined ? !currentValue : false;
       window.Events.setSpellCheck(newValue);
-      window.libsession.Utils.ToastUtils.pushSpellCheckDirty();
+      window.libsession.Utils.ToastUtils.pushRestartNeeded();
     };
 
     window.toggleMediaPermissions = async () => {

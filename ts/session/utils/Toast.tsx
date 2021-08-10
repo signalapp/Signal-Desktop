@@ -106,8 +106,8 @@ export function pushForceUnlinked() {
   pushToastInfo('successUnlinked', window.i18n('successUnlinked'));
 }
 
-export function pushSpellCheckDirty() {
-  pushToastInfo('spellCheckDirty', window.i18n('spellCheckDirty'));
+export function pushRestartNeeded() {
+  pushToastInfo('restartNeeded', window.i18n('spellCheckDirty'));
 }
 
 export function pushAlreadyMemberOpenGroup() {

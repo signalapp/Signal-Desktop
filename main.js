@@ -46,8 +46,6 @@ function getMainWindow() {
 
 // Tray icon and related objects
 let tray = null;
-const startInTray = process.argv.some(arg => arg === '--start-in-tray');
-const usingTrayIcon = startInTray || process.argv.some(arg => arg === '--use-tray-icon');
 
 const config = require('./app/config');
 
@@ -231,13 +229,19 @@ function isVisible(window, bounds) {
   );
 }
 
+function getStartInTray() {
+  const startInTray =
+    process.argv.some(arg => arg === '--start-in-tray') || userConfig.get('startInTray');
+  const usingTrayIcon = startInTray || process.argv.some(arg => arg === '--use-tray-icon');
+  return { usingTrayIcon, startInTray };
+}
 async function createWindow() {
   const { screen } = electron;
   const { minWidth, minHeight, width, height } = getWindowSize();
 
   const windowOptions = Object.assign(
     {
-      show: !startInTray, // allow to start minimised in tray
+      show: true,
       width,
       height,
       minWidth,
@@ -378,7 +382,10 @@ async function createWindow() {
 
     // On Mac, or on other platforms when the tray icon is in use, the window
     // should be only hidden, not closed, when the user clicks the close button
-    if (!windowState.shouldQuit() && (usingTrayIcon || process.platform === 'darwin')) {
+    if (
+      !windowState.shouldQuit() &&
+      (getStartInTray().usingTrayIcon || process.platform === 'darwin')
+    ) {
       // toggle the visibility of the show/hide tray icon menu entries
       if (tray) {
         tray.updateContextMenu();
@@ -495,7 +502,10 @@ function showPasswordWindow() {
 
     // On Mac, or on other platforms when the tray icon is in use, the window
     // should be only hidden, not closed, when the user clicks the close button
-    if (!windowState.shouldQuit() && (usingTrayIcon || process.platform === 'darwin')) {
+    if (
+      !windowState.shouldQuit() &&
+      (getStartInTray().usingTrayIcon || process.platform === 'darwin')
+    ) {
       // toggle the visibility of the show/hide tray icon menu entries
       if (tray) {
         tray.updateContextMenu();
@@ -700,7 +710,7 @@ async function showMainWindow(sqlKey, passwordAttempt = false) {
 
   await createWindow();
 
-  if (usingTrayIcon) {
+  if (getStartInTray().usingTrayIcon) {
     tray = createTrayIcon(getMainWindow, locale.messages);
   }
 
@@ -883,6 +893,23 @@ ipc.on('password-window-login', async (event, passPhrase) => {
   } catch (e) {
     const localisedError = locale.messages.invalidPassword;
     sendResponse(localisedError || 'Invalid password');
+  }
+});
+ipc.on('start-in-tray-on-start', async (event, newValue) => {
+  try {
+    userConfig.set('startInTray', newValue);
+    event.sender.send('start-in-tray-on-start-response', null);
+  } catch (e) {
+    event.sender.send('start-in-tray-on-start-response', e);
+  }
+});
+
+ipc.on('get-start-in-tray', async (event, newValue) => {
+  try {
+    const val = userConfig.get('startInTray', newValue);
+    event.sender.send('get-start-in-tray-response', val);
+  } catch (e) {
+    event.sender.send('get-start-in-tray-response', false);
   }
 });
 

@@ -123,6 +123,23 @@ window.setPassword = (passPhrase, oldPhrase) =>
     ipc.send('set-password', passPhrase, oldPhrase);
   });
 
+window.setStartInTray = startInTray =>
+  new Promise((resolve, reject) => {
+    ipc.once('start-in-tray-on-start-response', (event, error) => {
+      if (error) {
+        return reject(error);
+      }
+      return resolve();
+    });
+    ipc.send('start-in-tray-on-start', startInTray);
+  });
+
+window.getStartInTray = () =>
+  new Promise(resolve => {
+    ipc.once('get-start-in-tray-response', (event, value) => resolve(value));
+    ipc.send('get-start-in-tray');
+  });
+
 window.libsession = require('./ts/session');
 
 window.getConversationController = window.libsession.Conversations.getConversationController;
