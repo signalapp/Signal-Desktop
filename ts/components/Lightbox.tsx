@@ -196,6 +196,7 @@ const Icon = ({
   />
 );
 
+// tslint:disable-next-line: max-func-body-length
 export const LightboxObject = ({
   objectURL,
   contentType,
@@ -216,37 +217,12 @@ export const LightboxObject = ({
     return false;
   }, []);
 
-  const playVideo = () => {
-    if (!videoRef) {
-      return;
-    }
-
-    const { current } = videoRef;
-    if (!current) {
-      return;
-    }
-
-    if (current.paused) {
-      void current.play();
-    } else {
-      current.pause();
-    }
-  };
-
-  const pauseVideo = () => {
-    if (!videoRef) {
-      return;
-    }
-
-    const { current } = videoRef;
-    if (current) {
-      current.pause();
-    }
-  };
-
   // auto play video on showing a video attachment
   useUnmount(() => {
-    pauseVideo();
+    if (!videoRef?.current) {
+      return;
+    }
+    videoRef.current.pause.pause();
   });
 
   if (isImageTypeSupported) {
@@ -263,13 +239,15 @@ export const LightboxObject = ({
   const isVideoTypeSupported = GoogleChrome.isVideoTypeSupported(contentType);
   if (isVideoTypeSupported) {
     if (urlToLoad) {
-      playVideo();
+      if (videoRef?.current.paused) {
+        void videoRef.current.play();
+      }
     }
+
     return (
       <video
         role="button"
         ref={videoRef}
-        onClick={playVideo}
         controls={true}
         style={styles.object as any}
         key={urlToLoad}
