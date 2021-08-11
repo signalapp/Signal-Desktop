@@ -1752,8 +1752,9 @@ export default class MessageReceiver
       }
     } catch (error) {
       window.log.error(
-        `maybeUpdateTimestamp/${timestamp}: Failed to process sender key ` +
-          `distribution message: ${Errors.toLogFormat(error)}`
+        `maybeUpdateTimestamp/${timestamp}: Failed to process message: ${Errors.toLogFormat(
+          error
+        )}`
       );
     }
 
