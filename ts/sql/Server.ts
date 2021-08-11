@@ -5369,7 +5369,6 @@ async function removeAll(): Promise<void> {
 // Anything that isn't user-visible data
 async function removeAllConfiguration(): Promise<void> {
   const db = getInstance();
-  const patch: Partial<ConversationType> = { senderKeyInfo: undefined };
 
   db.transaction(() => {
     db.exec(
@@ -5384,10 +5383,8 @@ async function removeAllConfiguration(): Promise<void> {
       DELETE FROM jobs;
     `
     );
-    db.prepare('UPDATE conversations SET json = json_patch(json, $patch);').run(
-      {
-        patch: JSON.stringify(patch),
-      }
+    db.exec(
+      "UPDATE conversations SET json = json_remove(json, '$.senderKeyInfo');"
     );
   })();
 }
