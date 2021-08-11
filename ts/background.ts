@@ -3074,7 +3074,7 @@ export async function startApp(): Promise<void> {
 
     if (
       isIncoming(message.attributes) &&
-      message.get('unidentifiedDeliveryReceived')
+      !message.get('unidentifiedDeliveryReceived')
     ) {
       const sender = message.getContact();
 
