@@ -179,7 +179,11 @@ export const _getLeftPaneLists = (
       directConversations.push(conversation);
     }
 
-    if (unreadCount < 9 && conversation.unreadCount > 0) {
+    if (
+      unreadCount < 9 &&
+      conversation.unreadCount > 0 &&
+      conversation.currentNotificationSetting !== 'disabled'
+    ) {
       unreadCount += conversation.unreadCount;
     }
 
