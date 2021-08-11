@@ -6,7 +6,9 @@ let trayContextMenu = null;
 let tray = null;
 
 function createTrayIcon(getMainWindow, messages) {
-  const iconNoNewMessages = path.join(__dirname, '..', 'images', 'session', `session_icon.png`);
+  // keep the duplicated part to allow for search and find
+  const iconFile = process.platform === 'darwin' ? 'session_icon_16.png' : 'session_icon.png';
+  const iconNoNewMessages = path.join(__dirname, '..', 'images', 'session', iconFile);
   tray = new Tray(iconNoNewMessages);
 
   tray.forceOnTop = mainWindow => {
