@@ -4,6 +4,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import nodePath from 'path';
+import { unstable_batchedUpdates as batchedUpdates } from 'react-dom';
+
 import {
   AttachmentDraftType,
   AttachmentType,
@@ -3922,25 +3924,27 @@ Whisper.ConversationView = Whisper.View.extend({
 
       window.log.info('Send pre-checks took', sendDelta, 'milliseconds');
 
-      model.sendMessage(
-        message,
-        attachments,
-        this.quote,
-        this.getLinkPreview(),
-        undefined, // sticker
-        mentions,
-        {
-          sendHQImages,
-          timestamp,
-        }
-      );
+      batchedUpdates(() => {
+        model.sendMessage(
+          message,
+          attachments,
+          this.quote,
+          this.getLinkPreview(),
+          undefined, // sticker
+          mentions,
+          {
+            sendHQImages,
+            timestamp,
+          }
+        );
 
-      this.compositionApi.current.reset();
-      model.setMarkedUnread(false);
-      this.setQuoteMessage(null);
-      this.resetLinkPreview();
-      this.clearAttachments();
-      window.reduxActions.composer.resetComposer();
+        this.compositionApi.current.reset();
+        model.setMarkedUnread(false);
+        this.setQuoteMessage(null);
+        this.resetLinkPreview();
+        this.clearAttachments();
+        window.reduxActions.composer.resetComposer();
+      });
     } catch (error) {
       window.log.error(
         'Error pulling attached files before send',

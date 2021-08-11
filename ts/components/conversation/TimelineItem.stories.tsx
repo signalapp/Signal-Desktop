@@ -42,7 +42,6 @@ const renderUniversalTimerNotification = () => (
 
 const getDefaultProps = () => ({
   conversationId: 'conversation-id',
-  conversationAccepted: true,
   id: 'asdf',
   isSelected: false,
   interactionMode: 'keyboard' as const,

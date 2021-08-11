@@ -712,19 +712,18 @@ export const getMessageSelector = createSelector(
         return undefined;
       }
 
-      return messageSelector(
-        message,
+      return messageSelector(message, {
         conversationSelector,
         ourConversationId,
         ourNumber,
         ourUuid,
         regionCode,
-        selectedMessage ? selectedMessage.id : undefined,
-        selectedMessage ? selectedMessage.counter : undefined,
+        selectedMessageId: selectedMessage?.id,
+        selectedMessageCounter: selectedMessage?.counter,
         callSelector,
         activeCall,
-        accountSelector
-      );
+        accountSelector,
+      });
     };
   }
 );

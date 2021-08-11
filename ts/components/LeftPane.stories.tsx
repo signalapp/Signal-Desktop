@@ -98,7 +98,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   setChallengeStatus: action('setChallengeStatus'),
   renderExpiredBuildDialog: () => <div />,
   renderMainHeader: () => <div />,
-  renderMessageSearchResult: (id: string, style: React.CSSProperties) => (
+  renderMessageSearchResult: (id: string) => (
     <MessageSearchResult
       body="Lorem ipsum wow"
       bodyRanges={[]}
@@ -109,7 +109,6 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
       openConversationInternal={action('openConversationInternal')}
       sentAt={1587358800000}
       snippet="Lorem <<left>>ipsum<<right>> wow"
-      style={style}
       to={defaultConversations[1]}
     />
   ),

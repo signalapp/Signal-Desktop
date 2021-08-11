@@ -153,10 +153,15 @@ export type ConversationType = {
   isSelected?: boolean;
   isFetchingUUID?: boolean;
   typingContact?: {
+    acceptedMessageRequest: boolean;
     avatarPath?: string;
+    color?: AvatarColorType;
+    isMe: boolean;
     name?: string;
     phoneNumber?: string;
     profileName?: string;
+    sharedGroupNames: Array<string>;
+    title: string;
   } | null;
   recentMediaItems?: Array<MediaItemType>;
   profileSharing?: boolean;

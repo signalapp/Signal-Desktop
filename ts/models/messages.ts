@@ -357,21 +357,18 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     return {
       sentAt: this.get('sent_at'),
       receivedAt: this.getReceivedAt(),
-      message: getPropsForMessage(
-        this.attributes,
-        findAndFormatContact,
+      message: getPropsForMessage(this.attributes, {
+        conversationSelector: findAndFormatContact,
         ourConversationId,
-        window.textsecure.storage.user.getNumber(),
-        this.OUR_UUID,
-        undefined,
-        undefined,
-        window.storage.get('regionCode', 'ZZ'),
-        (identifier?: string) => {
+        ourNumber: window.textsecure.storage.user.getNumber(),
+        ourUuid: this.OUR_UUID,
+        regionCode: window.storage.get('regionCode', 'ZZ'),
+        accountSelector: (identifier?: string) => {
           const state = window.reduxStore.getState();
           const accountSelector = getAccountSelector(state);
           return accountSelector(identifier);
-        }
-      ),
+        },
+      }),
       errors,
       contacts,
     };
@@ -621,12 +618,11 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
     if (isCallHistory(attributes)) {
       const state = window.reduxStore.getState();
-      const callingNotification = getPropsForCallHistory(
-        attributes,
-        findAndFormatContact,
-        getCallSelector(state),
-        getActiveCall(state)
-      );
+      const callingNotification = getPropsForCallHistory(attributes, {
+        conversationSelector: findAndFormatContact,
+        callSelector: getCallSelector(state),
+        activeCall: getActiveCall(state),
+      });
       if (callingNotification) {
         return {
           text: getCallingNotificationText(callingNotification, window.i18n),
@@ -679,10 +675,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     const body = (this.get('body') || '').trim();
     const { attributes } = this;
 
-    const bodyRanges = processBodyRanges(
-      attributes.bodyRanges,
-      findAndFormatContact
-    );
+    const bodyRanges = processBodyRanges(attributes, {
+      conversationSelector: findAndFormatContact,
+    });
     if (bodyRanges) {
       return getTextWithMentions(bodyRanges, body);
     }
@@ -696,10 +691,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
     let modifiedText = text;
 
-    const bodyRanges = processBodyRanges(
-      attributes.bodyRanges,
-      findAndFormatContact
-    );
+    const bodyRanges = processBodyRanges(attributes, {
+      conversationSelector: findAndFormatContact,
+    });
 
     if (bodyRanges && bodyRanges.length) {
       modifiedText = getTextWithMentions(bodyRanges, modifiedText);

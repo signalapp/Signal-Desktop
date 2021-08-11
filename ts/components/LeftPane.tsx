@@ -1,7 +1,7 @@
 // Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useEffect, useMemo, CSSProperties } from 'react';
+import React, { useEffect, useCallback, useMemo } from 'react';
 import Measure, { MeasuredComponentProps } from 'react-measure';
 import { isNumber } from 'lodash';
 
@@ -119,7 +119,7 @@ export type PropsType = {
   // Render Props
   renderExpiredBuildDialog: () => JSX.Element;
   renderMainHeader: () => JSX.Element;
-  renderMessageSearchResult: (id: string, style: CSSProperties) => JSX.Element;
+  renderMessageSearchResult: (id: string) => JSX.Element;
   renderNetworkStatus: () => JSX.Element;
   renderRelinkDialog: () => JSX.Element;
   renderUpdateDialog: () => JSX.Element;
@@ -376,6 +376,17 @@ export const LeftPane: React.FC<PropsType> = ({
 
   const getRow = useMemo(() => helper.getRow.bind(helper), [helper]);
 
+  const onSelectConversation = useCallback(
+    (conversationId: string, messageId?: string) => {
+      openConversationInternal({
+        conversationId,
+        messageId,
+        switchToAssociatedView: true,
+      });
+    },
+    [openConversationInternal]
+  );
+
   const previousSelectedConversationId = usePrevious(
     selectedConversationId,
     selectedConversationId
@@ -458,16 +469,7 @@ export const LeftPane: React.FC<PropsType> = ({
                         throw missingCaseError(disabledReason);
                     }
                   }}
-                  onSelectConversation={(
-                    conversationId: string,
-                    messageId?: string
-                  ) => {
-                    openConversationInternal({
-                      conversationId,
-                      messageId,
-                      switchToAssociatedView: true,
-                    });
-                  }}
+                  onSelectConversation={onSelectConversation}
                   renderMessageSearchResult={renderMessageSearchResult}
                   rowCount={helper.getRowCount()}
                   scrollBehavior={scrollBehavior}

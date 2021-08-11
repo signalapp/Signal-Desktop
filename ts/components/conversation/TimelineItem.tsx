@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
+import { omit } from 'lodash';
+
 import { LocalizerType, ThemeType } from '../../types/Util';
 
 import { InteractionModeType } from '../../state/ducks/conversations';
@@ -152,7 +154,6 @@ export type TimelineItemType =
 
 type PropsLocalType = {
   conversationId: string;
-  conversationAccepted: boolean;
   item?: TimelineItemType;
   id: string;
   isSelected: boolean;
@@ -201,7 +202,7 @@ export class TimelineItem extends React.PureComponent<PropsType> {
     if (item.type === 'message') {
       return (
         <Message
-          {...this.props}
+          {...omit(this.props, ['item'])}
           {...item.data}
           i18n={i18n}
           theme={theme}

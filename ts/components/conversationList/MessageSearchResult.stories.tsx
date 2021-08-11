@@ -55,7 +55,6 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
     'isSearchingInConversation',
     overrideProps.isSearchingInConversation || false
   ),
-  style: {},
 });
 
 story.add('Default', () => {

@@ -1,9 +1,10 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useRef, useEffect, useCallback, CSSProperties } from 'react';
+import React, { useRef, useEffect, useCallback, ReactNode } from 'react';
 import { List, ListRowRenderer } from 'react-virtualized';
 import classNames from 'classnames';
+import { pick } from 'lodash';
 
 import { missingCaseError } from '../util/missingCaseError';
 import { assert } from '../util/assert';
@@ -128,7 +129,7 @@ export type PropsType = {
     disabledReason: undefined | ContactCheckboxDisabledReason
   ) => void;
   onSelectConversation: (conversationId: string, messageId?: string) => void;
-  renderMessageSearchResult: (id: string, style: CSSProperties) => JSX.Element;
+  renderMessageSearchResult: (id: string) => JSX.Element;
   showChooseGroupMembers: () => void;
   startNewConversationFromPhoneNumber: (e164: string) => void;
 };
@@ -187,13 +188,12 @@ export const ConversationList: React.FC<PropsType> = ({
         return <div key={key} style={style} />;
       }
 
+      let result: ReactNode;
       switch (row.type) {
         case RowType.ArchiveButton:
-          return (
+          result = (
             <button
-              key={key}
               className="module-conversation-list__item--archive-button"
-              style={style}
               onClick={onClickArchiveButton}
               type="button"
             >
@@ -203,90 +203,108 @@ export const ConversationList: React.FC<PropsType> = ({
               </span>
             </button>
           );
+          break;
         case RowType.Blank:
-          return <div key={key} style={style} />;
+          result = <></>;
+          break;
         case RowType.Contact: {
           const { isClickable = true } = row;
-          return (
+          result = (
             <ContactListItem
               {...row.contact}
-              key={key}
-              style={style}
               onClick={isClickable ? onSelectConversation : undefined}
               i18n={i18n}
             />
           );
+          break;
         }
         case RowType.ContactCheckbox:
-          return (
+          result = (
             <ContactCheckboxComponent
               {...row.contact}
               isChecked={row.isChecked}
               disabledReason={row.disabledReason}
-              key={key}
-              style={style}
               onClick={onClickContactCheckbox}
               i18n={i18n}
             />
           );
-        case RowType.Conversation:
-          return (
+          break;
+        case RowType.Conversation: {
+          const itemProps = pick(row.conversation, [
+            'acceptedMessageRequest',
+            'avatarPath',
+            'color',
+            'draftPreview',
+            'id',
+            'isMe',
+            'isSelected',
+            'lastMessage',
+            'lastUpdated',
+            'markedUnread',
+            'muteExpiresAt',
+            'name',
+            'phoneNumber',
+            'profileName',
+            'sharedGroupNames',
+            'shouldShowDraft',
+            'title',
+            'type',
+            'typingContact',
+            'unblurredAvatarPath',
+            'unreadCount',
+          ]);
+          result = (
             <ConversationListItem
-              {...row.conversation}
+              {...itemProps}
               key={key}
-              style={style}
               onClick={onSelectConversation}
               i18n={i18n}
             />
           );
+          break;
+        }
         case RowType.CreateNewGroup:
-          return (
+          result = (
             <CreateNewGroupButton
               i18n={i18n}
-              key={key}
               onClick={showChooseGroupMembers}
-              style={style}
             />
           );
+          break;
         case RowType.Header:
-          return (
-            <div
-              className="module-conversation-list__item--header"
-              key={key}
-              style={style}
-            >
+          result = (
+            <div className="module-conversation-list__item--header">
               {i18n(row.i18nKey)}
             </div>
           );
+          break;
         case RowType.MessageSearchResult:
-          return (
-            <React.Fragment key={key}>
-              {renderMessageSearchResult(row.messageId, style)}
-            </React.Fragment>
-          );
+          result = <>{renderMessageSearchResult(row.messageId)}</>;
+          break;
         case RowType.SearchResultsLoadingFakeHeader:
-          return (
-            <SearchResultsLoadingFakeHeaderComponent key={key} style={style} />
-          );
+          result = <SearchResultsLoadingFakeHeaderComponent />;
+          break;
         case RowType.SearchResultsLoadingFakeRow:
-          return (
-            <SearchResultsLoadingFakeRowComponent key={key} style={style} />
-          );
+          result = <SearchResultsLoadingFakeRowComponent />;
+          break;
         case RowType.StartNewConversation:
-          return (
+          result = (
             <StartNewConversationComponent
               i18n={i18n}
-              key={key}
               phoneNumber={row.phoneNumber}
-              onClick={() => {
-                startNewConversationFromPhoneNumber(row.phoneNumber);
-              }}
-              style={style}
+              onClick={startNewConversationFromPhoneNumber}
             />
           );
+          break;
         default:
           throw missingCaseError(row);
       }
+
+      return (
+        <span style={style} key={key}>
+          {result}
+        </span>
+      );
     },
     [
       getRow,

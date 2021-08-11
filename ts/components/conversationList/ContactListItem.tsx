@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { CSSProperties, FunctionComponent } from 'react';
+import React, { FunctionComponent } from 'react';
 
 import { BaseConversationListItem } from './BaseConversationListItem';
 import { ConversationType } from '../../state/ducks/conversations';
@@ -28,7 +28,6 @@ export type PropsDataType = Pick<
 
 type PropsHousekeepingType = {
   i18n: LocalizerType;
-  style: CSSProperties;
   onClick?: (id: string) => void;
 };
 
@@ -48,7 +47,6 @@ export const ContactListItem: FunctionComponent<PropsType> = React.memo(
     phoneNumber,
     profileName,
     sharedGroupNames,
-    style,
     title,
     type,
     unblurredAvatarPath,
@@ -85,7 +83,6 @@ export const ContactListItem: FunctionComponent<PropsType> = React.memo(
         phoneNumber={phoneNumber}
         profileName={profileName}
         sharedGroupNames={sharedGroupNames}
-        style={style}
         title={title}
         unblurredAvatarPath={unblurredAvatarPath}
       />

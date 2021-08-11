@@ -1,12 +1,7 @@
 // Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, {
-  useCallback,
-  CSSProperties,
-  FunctionComponent,
-  ReactNode,
-} from 'react';
+import React, { useCallback, FunctionComponent, ReactNode } from 'react';
 import classNames from 'classnames';
 
 import {
@@ -62,7 +57,6 @@ export type PropsData = Pick<
 
 type PropsHousekeeping = {
   i18n: LocalizerType;
-  style: CSSProperties;
   onClick: (id: string) => void;
 };
 
@@ -88,7 +82,6 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
     profileName,
     sharedGroupNames,
     shouldShowDraft,
-    style,
     title,
     type,
     typingContact,
@@ -197,7 +190,6 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
         phoneNumber={phoneNumber}
         profileName={profileName}
         sharedGroupNames={sharedGroupNames}
-        style={style}
         title={title}
         unreadCount={unreadCount}
         unblurredAvatarPath={unblurredAvatarPath}

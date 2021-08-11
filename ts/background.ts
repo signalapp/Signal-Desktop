@@ -3,7 +3,7 @@
 
 import { isNumber, noop } from 'lodash';
 import { bindActionCreators } from 'redux';
-import { render } from 'react-dom';
+import { render, unstable_batchedUpdates as batchedUpdates } from 'react-dom';
 
 import MessageReceiver from './textsecure/MessageReceiver';
 import { SessionResetsType, ProcessedDataMessage } from './textsecure/Types.d';
@@ -1241,8 +1241,10 @@ export async function startApp(): Promise<void> {
             `${batch.length} into ${deduped.size}`
         );
 
-        deduped.forEach(conversation => {
-          conversationChanged(conversation.id, conversation.format());
+        batchedUpdates(() => {
+          deduped.forEach(conversation => {
+            conversationChanged(conversation.id, conversation.format());
+          });
         });
       },
 

@@ -1236,6 +1236,7 @@ describe('both/state/selectors/conversations', () => {
           unreadCount: 1,
           isSelected: false,
           typingContact: {
+            ...getDefaultConversation(),
             name: 'Someone There',
             phoneNumber: '+18005551111',
           },
@@ -1260,6 +1261,7 @@ describe('both/state/selectors/conversations', () => {
           unreadCount: 1,
           isSelected: false,
           typingContact: {
+            ...getDefaultConversation(),
             name: 'Someone There',
             phoneNumber: '+18005551111',
           },
@@ -1284,6 +1286,7 @@ describe('both/state/selectors/conversations', () => {
           unreadCount: 1,
           isSelected: false,
           typingContact: {
+            ...getDefaultConversation(),
             name: 'Someone There',
             phoneNumber: '+18005551111',
           },
@@ -1308,6 +1311,7 @@ describe('both/state/selectors/conversations', () => {
           unreadCount: 1,
           isSelected: false,
           typingContact: {
+            ...getDefaultConversation(),
             name: 'Someone There',
             phoneNumber: '+18005551111',
           },
@@ -1332,6 +1336,7 @@ describe('both/state/selectors/conversations', () => {
           unreadCount: 1,
           isSelected: false,
           typingContact: {
+            ...getDefaultConversation(),
             name: 'Someone There',
             phoneNumber: '+18005551111',
           },
@@ -1380,6 +1385,7 @@ describe('both/state/selectors/conversations', () => {
             unreadCount: 1,
             isSelected: false,
             typingContact: {
+              ...getDefaultConversation(),
               name: 'Someone There',
               phoneNumber: '+18005551111',
             },
@@ -1405,6 +1411,7 @@ describe('both/state/selectors/conversations', () => {
             unreadCount: 1,
             isSelected: false,
             typingContact: {
+              ...getDefaultConversation(),
               name: 'Someone There',
               phoneNumber: '+18005551111',
             },
@@ -1430,6 +1437,7 @@ describe('both/state/selectors/conversations', () => {
             unreadCount: 1,
             isSelected: false,
             typingContact: {
+              ...getDefaultConversation(),
               name: 'Someone There',
               phoneNumber: '+18005551111',
             },
@@ -1480,6 +1488,7 @@ describe('both/state/selectors/conversations', () => {
             unreadCount: 1,
             isSelected: false,
             typingContact: {
+              ...getDefaultConversation(),
               name: 'Someone There',
               phoneNumber: '+18005551111',
             },
@@ -1504,6 +1513,7 @@ describe('both/state/selectors/conversations', () => {
             unreadCount: 1,
             isSelected: false,
             typingContact: {
+              ...getDefaultConversation(),
               name: 'Someone There',
               phoneNumber: '+18005551111',
             },
@@ -1528,6 +1538,7 @@ describe('both/state/selectors/conversations', () => {
             unreadCount: 1,
             isSelected: false,
             typingContact: {
+              ...getDefaultConversation(),
               name: 'Someone There',
               phoneNumber: '+18005551111',
             },
@@ -1553,6 +1564,7 @@ describe('both/state/selectors/conversations', () => {
             unreadCount: 1,
             isSelected: false,
             typingContact: {
+              ...getDefaultConversation(),
               name: 'Someone There',
               phoneNumber: '+18005551111',
             },
@@ -1577,6 +1589,7 @@ describe('both/state/selectors/conversations', () => {
             unreadCount: 1,
             isSelected: false,
             typingContact: {
+              ...getDefaultConversation(),
               name: 'Someone There',
               phoneNumber: '+18005551111',
             },

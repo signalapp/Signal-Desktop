@@ -1,7 +1,7 @@
 // Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { CSSProperties } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { get } from 'lodash';
 import { mapDispatchToProps } from '../actions';
@@ -59,11 +59,8 @@ function renderExpiredBuildDialog(): JSX.Element {
 function renderMainHeader(): JSX.Element {
   return <SmartMainHeader />;
 }
-function renderMessageSearchResult(
-  id: string,
-  style: CSSProperties
-): JSX.Element {
-  return <FilteredSmartMessageSearchResult id={id} style={style} />;
+function renderMessageSearchResult(id: string): JSX.Element {
+  return <FilteredSmartMessageSearchResult id={id} />;
 }
 function renderNetworkStatus(): JSX.Element {
   return <SmartNetworkStatus />;

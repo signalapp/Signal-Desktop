@@ -375,7 +375,6 @@ const renderItem = (id: string) => (
     i18n={i18n}
     interactionMode="keyboard"
     conversationId=""
-    conversationAccepted
     renderContact={() => '*ContactName*'}
     renderUniversalTimerNotification={() => (
       <div>*UniversalTimerNotification*</div>

@@ -54,7 +54,7 @@ const createProps = (rows: ReadonlyArray<Row>): PropsType => ({
   onSelectConversation: action('onSelectConversation'),
   onClickArchiveButton: action('onClickArchiveButton'),
   onClickContactCheckbox: action('onClickContactCheckbox'),
-  renderMessageSearchResult: (id: string, style: React.CSSProperties) => (
+  renderMessageSearchResult: (id: string) => (
     <MessageSearchResult
       body="Lorem ipsum wow"
       bodyRanges={[]}
@@ -65,7 +65,6 @@ const createProps = (rows: ReadonlyArray<Row>): PropsType => ({
       openConversationInternal={action('openConversationInternal')}
       sentAt={1587358800000}
       snippet="Lorem <<left>>ipsum<<right>> wow"
-      style={style}
       to={defaultConversations[1]}
     />
   ),
@@ -288,6 +287,7 @@ story.add('Contact checkboxes: disabled', () => (
   story.add('Conversation: Typing Status', () =>
     renderConversation({
       typingContact: {
+        ...getDefaultConversation(),
         name: 'Someone Here',
       },
     })

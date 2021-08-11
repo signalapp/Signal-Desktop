@@ -8,6 +8,7 @@ import memoizee from 'memoizee';
 
 import { mapDispatchToProps } from '../actions';
 import {
+  PropsActionsType as TimelineActionsType,
   ContactSpoofingReviewPropType,
   Timeline,
   WarningType as TimelineWarningType,
@@ -44,13 +45,6 @@ import {
 } from '../../util/groupMemberNameCollisions';
 import { ContactSpoofingType } from '../../util/contactSpoofing';
 
-// Workaround: A react component's required properties are filtering up through connect()
-//   https://github.com/DefinitelyTyped/DefinitelyTyped/issues/31363
-/* eslint-disable @typescript-eslint/no-explicit-any */
-const FilteredSmartTimelineItem = SmartTimelineItem as any;
-const FilteredSmartTypingBubble = SmartTypingBubble as any;
-/* eslint-enable @typescript-eslint/no-explicit-any */
-
 type ExternalProps = {
   id: string;
 
@@ -72,10 +66,10 @@ function renderItem(
   messageId: string,
   conversationId: string,
   onHeightChange: (messageId: string) => unknown,
-  actionProps: Record<string, unknown>
+  actionProps: TimelineActionsType
 ): JSX.Element {
   return (
-    <FilteredSmartTimelineItem
+    <SmartTimelineItem
       {...actionProps}
       conversationId={conversationId}
       id={messageId}
@@ -109,7 +103,7 @@ function renderLoadingRow(id: string): JSX.Element {
   return <SmartTimelineLoadingRow id={id} />;
 }
 function renderTypingBubble(id: string): JSX.Element {
-  return <FilteredSmartTypingBubble id={id} />;
+  return <SmartTypingBubble id={id} />;
 }
 
 const getWarning = (

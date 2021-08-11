@@ -1,7 +1,7 @@
 // Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { debounce, get, isNumber } from 'lodash';
+import { debounce, get, isNumber, pick } from 'lodash';
 import classNames from 'classnames';
 import React, { CSSProperties, ReactChild, ReactNode } from 'react';
 import {
@@ -15,12 +15,14 @@ import Measure from 'react-measure';
 
 import { ScrollDownButton } from './ScrollDownButton';
 
-import { LocalizerType } from '../../types/Util';
+import { AssertProps, LocalizerType } from '../../types/Util';
 import { ConversationType } from '../../state/ducks/conversations';
 import { assert } from '../../util/assert';
 import { missingCaseError } from '../../util/missingCaseError';
 
 import { PropsActions as MessageActionsType } from './Message';
+import { PropsActions as UnsupportedMessageActionsType } from './UnsupportedMessage';
+import { PropsActionsType as ChatSessionRefreshedNotificationActionsType } from './ChatSessionRefreshedNotification';
 import { ErrorBoundary } from './ErrorBoundary';
 import { PropsActions as SafetyNumberActionsType } from './SafetyNumberNotification';
 import { Intl } from '../Intl';
@@ -104,7 +106,7 @@ type PropsHousekeepingType = {
     id: string,
     conversationId: string,
     onHeightChange: (messageId: string) => unknown,
-    actions: Record<string, unknown>
+    actions: PropsActionsType
   ) => JSX.Element;
   renderLastSeenIndicator: (id: string) => JSX.Element;
   renderHeroRow: (
@@ -117,7 +119,7 @@ type PropsHousekeepingType = {
   renderTypingBubble: (id: string) => JSX.Element;
 };
 
-type PropsActionsType = {
+export type PropsActionsType = {
   acknowledgeGroupMemberNameCollisions: (
     groupNameCollisions: Readonly<GroupNameCollisionsWithIdsByTitle>
   ) => void;
@@ -152,7 +154,9 @@ type PropsActionsType = {
   unblurAvatar: () => void;
   updateSharedGroups: () => unknown;
 } & MessageActionsType &
-  SafetyNumberActionsType;
+  SafetyNumberActionsType &
+  UnsupportedMessageActionsType &
+  ChatSessionRefreshedNotificationActionsType;
 
 export type PropsType = PropsDataType &
   PropsHousekeepingType &
@@ -721,6 +725,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
         );
       }
       const messageId = items[itemIndex];
+
       rowContents = (
         <div
           id={messageId}
@@ -730,7 +735,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
           role="row"
         >
           <ErrorBoundary i18n={i18n} showDebugLog={() => window.showDebugLog()}>
-            {renderItem(messageId, id, this.resizeMessage, this.props)}
+            {renderItem(messageId, id, this.resizeMessage, this.getActions())}
           </ErrorBoundary>
         </div>
       );
@@ -1473,5 +1478,66 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
       default:
         throw missingCaseError(warning);
     }
+  }
+
+  private getActions(): PropsActionsType {
+    const unsafe = pick(this.props, [
+      'acknowledgeGroupMemberNameCollisions',
+      'clearChangedMessages',
+      'clearInvitedConversationsForNewlyCreatedGroup',
+      'closeContactSpoofingReview',
+      'setLoadCountdownStart',
+      'setIsNearBottom',
+      'reviewGroupMemberNameCollision',
+      'reviewMessageRequestNameCollision',
+      'learnMoreAboutDeliveryIssue',
+      'loadAndScroll',
+      'loadOlderMessages',
+      'loadNewerMessages',
+      'loadNewestMessages',
+      'markMessageRead',
+      'onBlock',
+      'onBlockAndReportSpam',
+      'onDelete',
+      'onUnblock',
+      'removeMember',
+      'selectMessage',
+      'clearSelectedMessage',
+      'unblurAvatar',
+      'updateSharedGroups',
+
+      'doubleCheckMissingQuoteReference',
+      'onHeightChange',
+      'checkForAccount',
+      'reactToMessage',
+      'replyToMessage',
+      'retrySend',
+      'showForwardMessageModal',
+      'deleteMessage',
+      'deleteMessageForEveryone',
+      'showMessageDetail',
+      'openConversation',
+      'showContactDetail',
+      'showContactModal',
+      'kickOffAttachmentDownload',
+      'markAttachmentAsCorrupted',
+      'showVisualAttachment',
+      'downloadAttachment',
+      'displayTapToViewMessage',
+      'openLink',
+      'scrollToQuotedMessage',
+      'showExpiredIncomingTapToViewToast',
+      'showExpiredOutgoingTapToViewToast',
+
+      'showIdentity',
+
+      'downloadNewVersion',
+
+      'contactSupport',
+    ]);
+
+    const safe: AssertProps<PropsActionsType, typeof unsafe> = unsafe;
+
+    return safe;
   }
 }

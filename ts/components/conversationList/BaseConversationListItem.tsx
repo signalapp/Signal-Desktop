@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { ReactNode, CSSProperties, FunctionComponent } from 'react';
+import React, { ReactNode, FunctionComponent } from 'react';
 import classNames from 'classnames';
 import { isBoolean, isNumber } from 'lodash';
 
@@ -37,7 +37,6 @@ type PropsType = {
   messageStatusIcon?: ReactNode;
   messageText?: ReactNode;
   onClick?: () => void;
-  style: CSSProperties;
   unreadCount?: number;
 } & Pick<
   ConversationType,
@@ -77,7 +76,6 @@ export const BaseConversationListItem: FunctionComponent<PropsType> = React.memo
     phoneNumber,
     profileName,
     sharedGroupNames,
-    style,
     title,
     unblurredAvatarPath,
     unreadCount,
@@ -198,7 +196,6 @@ export const BaseConversationListItem: FunctionComponent<PropsType> = React.memo
             { [`${BASE_CLASS_NAME}--is-checkbox--disabled`]: disabled }
           )}
           data-id={id ? cleanId(id) : undefined}
-          style={style}
           // `onClick` is will double-fire if we're enabled. We want it to fire when we're
           //   disabled so we can show any "can't add contact" modals, etc. This won't
           //   work for keyboard users, though, because labels are not tabbable.
@@ -219,7 +216,6 @@ export const BaseConversationListItem: FunctionComponent<PropsType> = React.memo
           data-id={id ? cleanId(id) : undefined}
           disabled={disabled}
           onClick={onClick}
-          style={style}
           type="button"
         >
           {contents}
@@ -228,11 +224,7 @@ export const BaseConversationListItem: FunctionComponent<PropsType> = React.memo
     }
 
     return (
-      <div
-        className={commonClassNames}
-        data-id={id ? cleanId(id) : undefined}
-        style={style}
-      >
+      <div className={commonClassNames} data-id={id ? cleanId(id) : undefined}>
         {contents}
       </div>
     );

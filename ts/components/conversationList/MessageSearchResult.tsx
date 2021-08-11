@@ -1,12 +1,7 @@
 // Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, {
-  useCallback,
-  CSSProperties,
-  FunctionComponent,
-  ReactNode,
-} from 'react';
+import React, { useCallback, FunctionComponent, ReactNode } from 'react';
 import { escapeRegExp } from 'lodash';
 
 import { MessageBodyHighlight } from './MessageBodyHighlight';
@@ -59,7 +54,6 @@ type PropsHousekeepingType = {
     conversationId: string;
     messageId?: string;
   }) => void;
-  style: CSSProperties;
 };
 
 export type PropsType = PropsDataType & PropsHousekeepingType;
@@ -159,7 +153,6 @@ export const MessageSearchResult: FunctionComponent<PropsType> = React.memo(
     openConversationInternal,
     sentAt,
     snippet,
-    style,
     to,
   }) => {
     const onClickItem = useCallback(() => {
@@ -167,7 +160,7 @@ export const MessageSearchResult: FunctionComponent<PropsType> = React.memo(
     }, [openConversationInternal, conversationId, id]);
 
     if (!from || !to) {
-      return <div style={style} />;
+      return <div />;
     }
 
     const isNoteToSelf = from.isMe && to.isMe;
@@ -213,7 +206,6 @@ export const MessageSearchResult: FunctionComponent<PropsType> = React.memo(
         phoneNumber={from.phoneNumber}
         profileName={from.profileName}
         sharedGroupNames={from.sharedGroupNames}
-        style={style}
         title={from.title}
         unblurredAvatarPath={from.unblurredAvatarPath}
       />

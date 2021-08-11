@@ -36,9 +36,6 @@ export const AnnouncementsOnlyGroupBanner = ({
               onClick={() => {
                 openConversation(admin.id);
               }}
-              // Required by the component but unecessary for us
-              style={{}}
-              // We don't want these values to show
               draftPreview=""
               lastMessage={undefined}
               lastUpdated={undefined}
