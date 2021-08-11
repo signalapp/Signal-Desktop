@@ -11,7 +11,7 @@ import {
   pick,
   reduce,
 } from 'lodash';
-import { createSelector, createSelectorCreator } from 'reselect';
+import { createSelectorCreator } from 'reselect';
 import filesize from 'filesize';
 
 import {
@@ -101,108 +101,6 @@ export type GetPropsForBubbleOptions = Readonly<{
   activeCall?: CallStateType;
   accountSelector: (identifier?: string) => boolean;
 }>;
-
-// Top-level prop generation for the message bubble
-export function getPropsForBubble(
-  message: MessageAttributesType,
-  options: GetPropsForBubbleOptions
-): TimelineItemType {
-  if (isUnsupportedMessage(message)) {
-    return {
-      type: 'unsupportedMessage',
-      data: getPropsForUnsupportedMessage(message, options),
-    };
-  }
-  if (isGroupV2Change(message)) {
-    return {
-      type: 'groupV2Change',
-      data: getPropsForGroupV2Change(message, options),
-    };
-  }
-  if (isGroupV1Migration(message)) {
-    return {
-      type: 'groupV1Migration',
-      data: getPropsForGroupV1Migration(message, options),
-    };
-  }
-  if (isMessageHistoryUnsynced(message)) {
-    return {
-      type: 'linkNotification',
-      data: null,
-    };
-  }
-  if (isExpirationTimerUpdate(message)) {
-    return {
-      type: 'timerNotification',
-      data: getPropsForTimerNotification(message, options),
-    };
-  }
-  if (isKeyChange(message)) {
-    return {
-      type: 'safetyNumberNotification',
-      data: getPropsForSafetyNumberNotification(message, options),
-    };
-  }
-  if (isVerifiedChange(message)) {
-    return {
-      type: 'verificationNotification',
-      data: getPropsForVerificationNotification(message, options),
-    };
-  }
-  if (isGroupUpdate(message)) {
-    return {
-      type: 'groupNotification',
-      data: getPropsForGroupNotification(message, options),
-    };
-  }
-  if (isEndSession(message)) {
-    return {
-      type: 'resetSessionNotification',
-      data: null,
-    };
-  }
-  if (isCallHistory(message)) {
-    return {
-      type: 'callHistory',
-      data: getPropsForCallHistory(message, options),
-    };
-  }
-  if (isProfileChange(message)) {
-    return {
-      type: 'profileChange',
-      data: getPropsForProfileChange(message, options),
-    };
-  }
-  if (isUniversalTimerNotification(message)) {
-    return {
-      type: 'universalTimerNotification',
-      data: null,
-    };
-  }
-  if (isChangeNumberNotification(message)) {
-    return {
-      type: 'changeNumberNotification',
-      data: getPropsForChangeNumberNotification(message, options),
-    };
-  }
-  if (isChatSessionRefreshed(message)) {
-    return {
-      type: 'chatSessionRefreshed',
-      data: null,
-    };
-  }
-  if (isDeliveryIssue(message)) {
-    return {
-      type: 'deliveryIssue',
-      data: getPropsForDeliveryIssue(message, options),
-    };
-  }
-
-  return {
-    type: 'message',
-    data: getPropsForMessage(message, options),
-  };
-}
 
 export function isIncoming(
   message: Pick<MessageAttributesType, 'type'>
@@ -483,6 +381,70 @@ export const getReactionsForMessage = createSelectorCreator(
   (_: MessageAttributesType, reactions: PropsData['reactions']) => reactions
 );
 
+export const getPropsForQuote = createSelectorCreator(memoizeByRoot, isEqual)(
+  // `memoizeByRoot` requirement
+  identity,
+
+  (
+    message: Pick<MessageAttributesType, 'conversationId' | 'quote'>,
+    {
+      conversationSelector,
+      ourConversationId,
+    }: {
+      conversationSelector: GetConversationByIdType;
+      ourConversationId?: string;
+    }
+  ): PropsData['quote'] => {
+    const { quote } = message;
+    if (!quote) {
+      return undefined;
+    }
+
+    const {
+      author,
+      authorUuid,
+      id: sentAt,
+      isViewOnce,
+      referencedMessageNotFound,
+      text,
+    } = quote;
+
+    const contact = conversationSelector(authorUuid || author);
+
+    const authorId = contact.id;
+    const authorName = contact.name;
+    const authorPhoneNumber = contact.phoneNumber;
+    const authorProfileName = contact.profileName;
+    const authorTitle = contact.title;
+    const isFromMe = authorId === ourConversationId;
+
+    const firstAttachment = quote.attachments && quote.attachments[0];
+    const conversation = getConversation(message, conversationSelector);
+
+    return {
+      authorId,
+      authorName,
+      authorPhoneNumber,
+      authorProfileName,
+      authorTitle,
+      bodyRanges: processBodyRanges(quote, { conversationSelector }),
+      conversationColor:
+        conversation.conversationColor ?? ConversationColors[0],
+      customColor: conversation.customColor,
+      isFromMe,
+      rawAttachment: firstAttachment
+        ? processQuoteAttachment(firstAttachment)
+        : undefined,
+      isViewOnce,
+      referencedMessageNotFound,
+      sentAt: Number(sentAt),
+      text: createNonBreakingLastSeparator(text),
+    };
+  },
+
+  (_: unknown, quote: PropsData['quote']) => quote
+);
+
 export type GetPropsForMessageOptions = Pick<
   GetPropsForBubbleOptions,
   | 'conversationSelector'
@@ -493,30 +455,51 @@ export type GetPropsForMessageOptions = Pick<
   | 'accountSelector'
 >;
 
-export const getPropsForMessage = createSelector(
-  (message: MessageAttributesType) => message,
-  getAttachmentsForMessage,
-  processBodyRanges,
-  getAuthorForMessage,
-  getPreviewsForMessage,
-  getReactionsForMessage,
-  (_: unknown, options: GetPropsForMessageOptions) => options,
+type ShallowPropsType = Pick<
+  PropsForMessage,
+  | 'canDeleteForEveryone'
+  | 'canDownload'
+  | 'canReply'
+  | 'contact'
+  | 'conversationColor'
+  | 'conversationId'
+  | 'conversationType'
+  | 'customColor'
+  | 'deletedForEveryone'
+  | 'direction'
+  | 'expirationLength'
+  | 'expirationTimestamp'
+  | 'id'
+  | 'isBlocked'
+  | 'isMessageRequestAccepted'
+  | 'isSelected'
+  | 'isSelectedCounter'
+  | 'isSticker'
+  | 'isTapToView'
+  | 'isTapToViewError'
+  | 'isTapToViewExpired'
+  | 'selectedReaction'
+  | 'status'
+  | 'text'
+  | 'textPending'
+  | 'timestamp'
+>;
+
+const getShallowPropsForMessage = createSelectorCreator(memoizeByRoot, isEqual)(
+  // `memoizeByRoot` requirement
+  identity,
+
   (
     message: MessageAttributesType,
-    attachments: Array<AttachmentType>,
-    bodyRanges: BodyRangesType | undefined,
-    author: PropsData['author'],
-    previews: Array<LinkPreviewType>,
-    reactions: PropsData['reactions'],
     {
+      accountSelector,
       conversationSelector,
       ourConversationId,
+      regionCode,
       selectedMessageId,
       selectedMessageCounter,
-      regionCode,
-      accountSelector,
     }: GetPropsForMessageOptions
-  ): Omit<PropsForMessage, 'renderingContext'> => {
+  ): ShallowPropsType => {
     const { expireTimer, expirationStartTimestamp } = message;
     const expirationLength = expireTimer ? expireTimer * 1000 : undefined;
     const expirationTimestamp =
@@ -530,17 +513,14 @@ export const getPropsForMessage = createSelector(
 
     const isMessageTapToView = isTapToView(message);
 
+    const isSelected = message.id === selectedMessageId;
+
     const selectedReaction = (
       (message.reactions || []).find(re => re.fromId === ourConversationId) ||
       {}
     ).emoji;
 
-    const isSelected = message.id === selectedMessageId;
-
     return {
-      attachments,
-      author,
-      bodyRanges,
       canDeleteForEveryone: canDeleteForEveryone(message),
       canDownload: canDownload(message, conversationSelector),
       canReply: canReply(message, ourConversationId, conversationSelector),
@@ -564,17 +544,159 @@ export const getPropsForMessage = createSelector(
       isTapToViewError:
         isMessageTapToView && isIncoming(message) && message.isTapToViewInvalid,
       isTapToViewExpired: isMessageTapToView && message.isErased,
-      previews,
-      quote: getPropsForQuote(message, conversationSelector, ourConversationId),
-      reactions,
       selectedReaction,
       status: getMessagePropStatus(message, ourConversationId),
       text: createNonBreakingLastSeparator(message.body),
       textPending: message.bodyPending,
       timestamp: message.sent_at,
     };
+  },
+
+  (_: unknown, props: ShallowPropsType) => props
+);
+
+export const getPropsForMessage = createSelectorCreator(memoizeByRoot)(
+  // `memoizeByRoot` requirement
+  identity,
+
+  getAttachmentsForMessage,
+  processBodyRanges,
+  getAuthorForMessage,
+  getPreviewsForMessage,
+  getReactionsForMessage,
+  getPropsForQuote,
+  getShallowPropsForMessage,
+  (
+    _: unknown,
+    attachments: Array<AttachmentType>,
+    bodyRanges: BodyRangesType | undefined,
+    author: PropsData['author'],
+    previews: Array<LinkPreviewType>,
+    reactions: PropsData['reactions'],
+    quote: PropsData['quote'],
+    shallowProps: ShallowPropsType
+  ): Omit<PropsForMessage, 'renderingContext'> => {
+    return {
+      attachments,
+      author,
+      bodyRanges,
+      previews,
+      quote,
+      reactions,
+      ...shallowProps,
+    };
   }
 );
+
+export const getBubblePropsForMessage = createSelectorCreator(memoizeByRoot)(
+  // `memoizeByRoot` requirement
+  identity,
+
+  getPropsForMessage,
+  (_: unknown, data: ReturnType<typeof getPropsForMessage>) => ({
+    type: 'message' as const,
+    data,
+  })
+);
+
+// Top-level prop generation for the message bubble
+export function getPropsForBubble(
+  message: MessageAttributesType,
+  options: GetPropsForBubbleOptions
+): TimelineItemType {
+  if (isUnsupportedMessage(message)) {
+    return {
+      type: 'unsupportedMessage',
+      data: getPropsForUnsupportedMessage(message, options),
+    };
+  }
+  if (isGroupV2Change(message)) {
+    return {
+      type: 'groupV2Change',
+      data: getPropsForGroupV2Change(message, options),
+    };
+  }
+  if (isGroupV1Migration(message)) {
+    return {
+      type: 'groupV1Migration',
+      data: getPropsForGroupV1Migration(message, options),
+    };
+  }
+  if (isMessageHistoryUnsynced(message)) {
+    return {
+      type: 'linkNotification',
+      data: null,
+    };
+  }
+  if (isExpirationTimerUpdate(message)) {
+    return {
+      type: 'timerNotification',
+      data: getPropsForTimerNotification(message, options),
+    };
+  }
+  if (isKeyChange(message)) {
+    return {
+      type: 'safetyNumberNotification',
+      data: getPropsForSafetyNumberNotification(message, options),
+    };
+  }
+  if (isVerifiedChange(message)) {
+    return {
+      type: 'verificationNotification',
+      data: getPropsForVerificationNotification(message, options),
+    };
+  }
+  if (isGroupUpdate(message)) {
+    return {
+      type: 'groupNotification',
+      data: getPropsForGroupNotification(message, options),
+    };
+  }
+  if (isEndSession(message)) {
+    return {
+      type: 'resetSessionNotification',
+      data: null,
+    };
+  }
+  if (isCallHistory(message)) {
+    return {
+      type: 'callHistory',
+      data: getPropsForCallHistory(message, options),
+    };
+  }
+  if (isProfileChange(message)) {
+    return {
+      type: 'profileChange',
+      data: getPropsForProfileChange(message, options),
+    };
+  }
+  if (isUniversalTimerNotification(message)) {
+    return {
+      type: 'universalTimerNotification',
+      data: null,
+    };
+  }
+  if (isChangeNumberNotification(message)) {
+    return {
+      type: 'changeNumberNotification',
+      data: getPropsForChangeNumberNotification(message, options),
+    };
+  }
+  if (isChatSessionRefreshed(message)) {
+    return {
+      type: 'chatSessionRefreshed',
+      data: null,
+    };
+  }
+  if (isDeliveryIssue(message)) {
+    return {
+      type: 'deliveryIssue',
+      data: getPropsForDeliveryIssue(message, options),
+    };
+  }
+
+  return getBubblePropsForMessage(message, options);
+}
 
 // Unsupported Message
 
@@ -1165,57 +1287,6 @@ export function getPropsForAttachment(
           ),
         }
       : undefined,
-  };
-}
-
-export function getPropsForQuote(
-  message: Pick<MessageAttributesType, 'conversationId' | 'quote'>,
-  conversationSelector: GetConversationByIdType,
-  ourConversationId: string | undefined
-): PropsData['quote'] {
-  const { quote } = message;
-  if (!quote) {
-    return undefined;
-  }
-
-  const {
-    author,
-    authorUuid,
-    id: sentAt,
-    isViewOnce,
-    referencedMessageNotFound,
-    text,
-  } = quote;
-
-  const contact = conversationSelector(authorUuid || author);
-
-  const authorId = contact.id;
-  const authorName = contact.name;
-  const authorPhoneNumber = contact.phoneNumber;
-  const authorProfileName = contact.profileName;
-  const authorTitle = contact.title;
-  const isFromMe = authorId === ourConversationId;
-
-  const firstAttachment = quote.attachments && quote.attachments[0];
-  const conversation = getConversation(message, conversationSelector);
-
-  return {
-    authorId,
-    authorName,
-    authorPhoneNumber,
-    authorProfileName,
-    authorTitle,
-    bodyRanges: processBodyRanges(quote, { conversationSelector }),
-    conversationColor: conversation.conversationColor ?? ConversationColors[0],
-    customColor: conversation.customColor,
-    isFromMe,
-    rawAttachment: firstAttachment
-      ? processQuoteAttachment(firstAttachment)
-      : undefined,
-    isViewOnce,
-    referencedMessageNotFound,
-    sentAt: Number(sentAt),
-    text: createNonBreakingLastSeparator(text),
   };
 }
 

@@ -87,11 +87,10 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     linkPreviewResult,
     // Quote
     quotedMessageProps: quotedMessage
-      ? getPropsForQuote(
-          quotedMessage,
+      ? getPropsForQuote(quotedMessage, {
           conversationSelector,
-          getUserConversationId(state)
-        )
+          ourConversationId: getUserConversationId(state),
+        })
       : undefined,
     onClickQuotedMessage: () =>
       onClickQuotedMessage(quotedMessage?.quote?.messageId),
