@@ -22,10 +22,8 @@ const userConfigSlice = createSlice({
       state.audioAutoplay = !state.audioAutoplay;
     },
     disableRecoveryPhrasePrompt: state => {
-      console.log('setting recovery phrase state');
-      state.showRecoveryPhrasePrompt = false
+      state.showRecoveryPhrasePrompt = false;
     },
-
   },
 });
 

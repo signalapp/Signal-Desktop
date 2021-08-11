@@ -22,8 +22,8 @@ const Tab = ({
 }) => {
   const handleClick = onSelect
     ? () => {
-      onSelect(type);
-    }
+        onSelect(type);
+      }
     : undefined;
 
   return (
@@ -68,14 +68,13 @@ export const LeftPaneSectionHeader = (props: Props) => {
   );
 };
 
-export const LeftPaneBanner = (Props: any) => {
-
+export const LeftPaneBanner = () => {
   const [completion, setCompletion] = useState(80);
   const [bodyText, setBodyText] = useState(window.i18n('recoveryPhraseSecureMessage'));
   const [buttonText, setButtonText] = useState(window.i18n('recoveryPhraseSecureButtonText'));
   const [recoveryPhraseHidden, setRecoveryPhraseHidden] = useState(true);
   const [isCompleted, setIsCompleted] = useState(false);
-  const [bannerTitle, setBannerTitle] = useState(window.i18n("recoveryPhraseSecureTitle"));
+  const [bannerTitle, setBannerTitle] = useState(window.i18n('recoveryPhraseSecureTitle'));
   const recoveryPhrase = UserUtils.getCurrentRecoveryPhrase();
   const secondsBeforeRemoval = 2 * 1000;
   const completionText = `${completion}%`;
@@ -84,7 +83,7 @@ export const LeftPaneBanner = (Props: any) => {
     setRecoveryPhraseHidden(false);
     setBodyText(window.i18n('recoveryPhraseInfoMessage'));
     setButtonText(window.i18n('copy'));
-  }
+  };
 
   const handleSecureClick = () => {
     if (completion === 80) {
@@ -92,14 +91,14 @@ export const LeftPaneBanner = (Props: any) => {
       setBodyText(window.i18n('recoveryPhraseRevealMessage'));
       setButtonText(window.i18n('recoveryPhraseRevealButtonText'));
     }
-  }
+  };
 
   const BannerInner = (props: any) => {
     const dispatch = useDispatch();
 
     const handleCopyPhraseClick = async () => {
       await navigator.clipboard.writeText(recoveryPhrase);
-      setCompletion(100)
+      setCompletion(100);
       setBannerTitle(window.i18n('recoveryPhraseCompleteTitle'));
       setBodyText('');
       setRecoveryPhraseHidden(true);
@@ -109,63 +108,57 @@ export const LeftPaneBanner = (Props: any) => {
       setTimeout(() => {
         dispatch(disableRecoveryPhrasePrompt());
       }, secondsBeforeRemoval);
-    }
+    };
 
-    let onClick =
-      completion === 80 ? handleSecureClick :
-        completion === 90 ?
-          recoveryPhraseHidden ?
-            handleShowRecoveryClick :
-            handleCopyPhraseClick
-          : null;
+    const onClick =
+      completion === 80
+        ? handleSecureClick
+        : completion === 90
+        ? recoveryPhraseHidden
+          ? handleShowRecoveryClick
+          : handleCopyPhraseClick
+        : null;
 
-    // TODO: This can be refactored down. all returns have p tag + button, final has conditional phrase element.
     return (
       <StyledBannerInner>
-        <p>
-          {bodyText}
-        </p>
-        {!recoveryPhraseHidden &&
+        <p>{bodyText}</p>
+        {!recoveryPhraseHidden && (
           <StyledRecoveryPhrase
             theme={theme}
-            className="left-pane-banner___phrase" onClick={handleShowRecoveryClick}>
+            className="left-pane-banner___phrase"
+            onClick={handleShowRecoveryClick}
+          >
             {recoveryPhrase}
           </StyledRecoveryPhrase>
-        }
-        {!isCompleted &&
+        )}
+        {!isCompleted && (
           <SessionButton
             buttonType={SessionButtonType.Default}
             text={buttonText}
             onClick={onClick}
           />
-        }
+        )}
       </StyledBannerInner>
-    )
-  }
+    );
+  };
 
-  const useColumn = completion === 90 && handleShowRecoveryClick;
+  const flexDirection = completion === 90 && handleShowRecoveryClick ? 'column' : 'row';
   const theme = useTheme();
 
   return (
-    <StyledLeftPaneBanner
-      border={useTheme().colors.sessionBorder}
-      isCompleted={isCompleted}>
+    <StyledLeftPaneBanner border={useTheme().colors.sessionBorder} isCompleted={isCompleted}>
       <StyledProgressBarContainer>
-        <StyledProgressBarInner
-          color={Constants.UI.COLORS.GREEN}
-          width={completion + '%'}
-        />
+        <StyledProgressBarInner color={Constants.UI.COLORS.GREEN} width={`${completion}%`} />
       </StyledProgressBarContainer>
-      <StyledBannerTitle
-        theme={theme}>
+      <StyledBannerTitle theme={theme}>
         {bannerTitle} <span>{completionText}</span>
       </StyledBannerTitle>
-      <StyledBannerContainer flexDirection={useColumn ? 'column' : 'row'} >
+      <StyledBannerContainer flexDirection={flexDirection}>
         <BannerInner />
       </StyledBannerContainer>
     </StyledLeftPaneBanner>
-  )
-}
+  );
+};
 
 interface StyledProgressBarContainerProps {
   theme: DefaultTheme;
@@ -196,15 +189,12 @@ export const StyledBannerTitle = styled.div`
   line-height: 1.3;
   font-size: ${(p: StyledBannerTitle) => p.theme.common.fonts.md};
   font-weight: bold;
-  margin: 
-    ${Constants.UI.SPACING.marginSm} 
-    ${Constants.UI.SPACING.marginSm} 
-    0 
+  margin: ${Constants.UI.SPACING.marginSm} ${Constants.UI.SPACING.marginSm} 0
     ${Constants.UI.SPACING.marginSm};
 
   span {
-     color: ${(p: StyledBannerTitle) => p.theme.colors.textAccent};
-   }
+    color: ${(p: StyledBannerTitle) => p.theme.colors.textAccent};
+  }
 `;
 
 interface StyledLeftPaneBannerProps {
@@ -219,13 +209,12 @@ export const StyledLeftPaneBanner = styled.div`
   border-bottom: ${(p: StyledLeftPaneBannerProps) => p.border};
   opacity: 1;
   transition: opacity 2s;
-  ${(p: StyledLeftPaneBannerProps) => p.isCompleted === true ?
-    `
+  ${(p: StyledLeftPaneBannerProps) =>
+    p.isCompleted === true
+      ? `
       opacity: 0;
     `
-    :
-    null
-  }
+      : null}
 `;
 
 const StyledBannerInner = styled.div`
@@ -252,14 +241,6 @@ const StyledRecoveryPhrase = styled.p`
   border: ${(props: StyledRecoveryPhraseProps) => props.theme.colors.sessionBorderHighContrast};
 `;
 
-
-// 90%
-
-// tap and hold the redacted words to reveal your recovery phrase then store it safely to secure
-
-// meet your recovery phrase
-// your recovery phrase is the master key to your session ID - you can use it to restore your Session ID if you lose access to your device, Store your recovery phrase in a safe place, and don't give it to anyone.
-
 interface StyledBannerContainerProps {
   flexDirection?: string;
 }
@@ -267,7 +248,7 @@ export const StyledBannerContainer = styled.div`
   display: flex;
   flex-direction: ${(p: StyledBannerContainerProps) => p.flexDirection};
   justify-content: space-between;
-  padding: ${Constants.UI.SPACING.marginSm}
+  padding: ${Constants.UI.SPACING.marginSm};
 `;
 
 export const StyledLeftPaneHeaderContainer = styled.div`
