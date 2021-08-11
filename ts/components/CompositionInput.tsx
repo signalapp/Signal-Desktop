@@ -86,7 +86,7 @@ export type Props = {
 const MAX_LENGTH = 64 * 1024;
 const BASE_CLASS_NAME = 'module-composition-input';
 
-export const CompositionInput: React.ComponentType<Props> = props => {
+export function CompositionInput(props: Props): React.ReactElement {
   const {
     i18n,
     disabled,
@@ -644,4 +644,4 @@ export const CompositionInput: React.ComponentType<Props> = props => {
       </Reference>
     </Manager>
   );
-};
+}

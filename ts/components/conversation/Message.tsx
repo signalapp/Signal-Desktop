@@ -478,6 +478,10 @@ export class Message extends React.PureComponent<Props, State> {
         status === 'viewed')
     ) {
       const delta = Date.now() - timestamp;
+      window.CI?.handleEvent('message:send-complete', {
+        timestamp,
+        delta,
+      });
       window.log.info(
         `Message.tsx: Rendered 'send complete' for message ${timestamp}; took ${delta}ms`
       );

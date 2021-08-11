@@ -1172,19 +1172,14 @@ app.on('ready', async () => {
     console.log('Processed count:', processedCount);
     console.log('Messages per second:', messagesPerSec);
 
-    if (enableCI) {
-      console._log(
-        'ci: app_loaded=%s',
-        JSON.stringify({
-          loadTime,
-          sqlInitTime,
-          preloadTime,
-          connectTime,
-          processedCount,
-          messagesPerSec,
-        })
-      );
-    }
+    event.sender.send('ci:event', 'app-loaded', {
+      loadTime,
+      sqlInitTime,
+      preloadTime,
+      connectTime,
+      processedCount,
+      messagesPerSec,
+    });
   });
 
   const userDataPath = await getRealPath(app.getPath('userData'));
@@ -1536,12 +1531,6 @@ app.on('will-finish-launching', () => {
     handleSgnlHref(incomingHref);
   });
 });
-
-if (enableCI) {
-  ipc.on('set-provisioning-url', (event, provisioningURL) => {
-    console._log('ci: provisioning_url=%j', provisioningURL);
-  });
-}
 
 ipc.on('set-badge-count', (event, count) => {
   app.badgeCount = count;

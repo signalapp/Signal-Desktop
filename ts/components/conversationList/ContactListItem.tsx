@@ -34,7 +34,7 @@ type PropsHousekeepingType = {
 type PropsType = PropsDataType & PropsHousekeepingType;
 
 export const ContactListItem: FunctionComponent<PropsType> = React.memo(
-  ({
+  function ContactListItem({
     about,
     acceptedMessageRequest,
     avatarPath,
@@ -50,7 +50,7 @@ export const ContactListItem: FunctionComponent<PropsType> = React.memo(
     title,
     type,
     unblurredAvatarPath,
-  }) => {
+  }) {
     const headerName = isMe ? (
       i18n('noteToSelf')
     ) : (

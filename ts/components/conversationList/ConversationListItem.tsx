@@ -63,7 +63,7 @@ type PropsHousekeeping = {
 export type Props = PropsData & PropsHousekeeping;
 
 export const ConversationListItem: FunctionComponent<Props> = React.memo(
-  ({
+  function ConversationListItem({
     acceptedMessageRequest,
     avatarPath,
     color,
@@ -87,7 +87,7 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
     typingContact,
     unblurredAvatarPath,
     unreadCount,
-  }) => {
+  }) {
     const headerName = isMe ? (
       i18n('noteToSelf')
     ) : (

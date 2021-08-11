@@ -25,7 +25,7 @@ type PropsHousekeeping = {
 export type Props = PropsData & PropsHousekeeping;
 
 export const StartNewConversation: FunctionComponent<Props> = React.memo(
-  ({ i18n, onClick, phoneNumber }) => {
+  function StartNewConversation({ i18n, onClick, phoneNumber }) {
     const messageText = (
       <div className={TEXT_CLASS_NAME}>{i18n('startConversation')}</div>
     );

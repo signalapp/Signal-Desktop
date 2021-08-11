@@ -143,7 +143,7 @@ function getFilteredBodyRanges(
 }
 
 export const MessageSearchResult: FunctionComponent<PropsType> = React.memo(
-  ({
+  function MessageSearchResult({
     body,
     bodyRanges,
     conversationId,
@@ -154,7 +154,7 @@ export const MessageSearchResult: FunctionComponent<PropsType> = React.memo(
     sentAt,
     snippet,
     to,
-  }) => {
+  }) {
     const onClickItem = useCallback(() => {
       openConversationInternal({ conversationId, messageId: id });
     }, [openConversationInternal, conversationId, id]);

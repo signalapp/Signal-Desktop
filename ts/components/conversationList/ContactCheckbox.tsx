@@ -47,7 +47,7 @@ type PropsHousekeepingType = {
 type PropsType = PropsDataType & PropsHousekeepingType;
 
 export const ContactCheckbox: FunctionComponent<PropsType> = React.memo(
-  ({
+  function ContactCheckbox({
     about,
     acceptedMessageRequest,
     avatarPath,
@@ -65,7 +65,7 @@ export const ContactCheckbox: FunctionComponent<PropsType> = React.memo(
     title,
     type,
     unblurredAvatarPath,
-  }) => {
+  }) {
     const disabled = Boolean(disabledReason);
 
     const headerName = isMe ? (

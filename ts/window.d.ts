@@ -117,6 +117,7 @@ import { MessageController } from './util/MessageController';
 import { isValidGuid } from './util/isValidGuid';
 import { StateType } from './state/reducer';
 import { SystemTraySetting } from './types/SystemTraySetting';
+import { CI } from './CI';
 
 export { Long } from 'long';
 
@@ -277,12 +278,7 @@ declare global {
     };
 
     Backbone: typeof Backbone;
-    CI:
-      | {
-          setProvisioningURL: (url: string) => void;
-          deviceName: string;
-        }
-      | undefined;
+    CI?: CI;
     Accessibility: {
       reducedMotionSetting: boolean;
     };

@@ -222,9 +222,7 @@ export default class AccountManager extends EventTarget {
           }
           const url = getProvisioningUrl(uuid, pubKey);
 
-          if (window.CI) {
-            window.CI.setProvisioningURL(url);
-          }
+          window.CI?.setProvisioningURL(url);
 
           setProvisioningUrl(url);
           request.respond(200, 'OK');

@@ -54,7 +54,7 @@ type PropsType = {
 >;
 
 export const BaseConversationListItem: FunctionComponent<PropsType> = React.memo(
-  ({
+  function BaseConversationListItem({
     acceptedMessageRequest,
     avatarPath,
     checked,
@@ -79,7 +79,7 @@ export const BaseConversationListItem: FunctionComponent<PropsType> = React.memo
     title,
     unblurredAvatarPath,
     unreadCount,
-  }) => {
+  }) {
     const isUnread = isConversationUnread({ markedUnread, unreadCount });
 
     const isAvatarNoteToSelf = isBoolean(isNoteToSelf)

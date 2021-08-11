@@ -582,12 +582,12 @@ try {
     getRegionCode: () => window.storage.get('regionCode'),
     logger: window.log,
   });
-  window.CI = config.enableCI
-    ? {
-        setProvisioningURL: url => ipc.send('set-provisioning-url', url),
-        deviceName: title,
-      }
-    : undefined;
+
+  if (config.enableCI) {
+    const { CI, electronRequire } = require('./ts/CI');
+    window.CI = new CI(title);
+    window.electronRequire = electronRequire;
+  }
 
   // these need access to window.Signal:
   require('./ts/models/messages');
@@ -616,7 +616,7 @@ try {
   });
 
   if (config.environment === 'test') {
-    require('./preload_test.js');
+    require('./preload_test');
   }
 } catch (error) {
   /* eslint-disable no-console */

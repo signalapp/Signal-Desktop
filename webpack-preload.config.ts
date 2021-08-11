@@ -31,7 +31,10 @@ const EXTERNAL_MODULE = new Set([
   'zkgroup',
 
   // Uses fast-glob and dynamic requires
-  './preload_test.js',
+  './preload_test',
+
+  // Needs to exports `electronRequire`
+  './ts/CI',
 ]);
 
 const preloadConfig: Configuration = {
@@ -43,10 +46,11 @@ const preloadConfig: Configuration = {
   optimization: {
     minimizer: [
       new TerserPlugin({
+        parallel: true,
         terserOptions: {
-          mangle: {
-            keep_fnames: true,
-          },
+          mangle: false,
+          keep_classnames: true,
+          keep_fnames: true,
         },
       }),
     ],
