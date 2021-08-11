@@ -51,8 +51,8 @@
     "clean-transpile": "rimraf 'ts/**/*.js ts/*.js' 'ts/*.js.map' 'ts/**/*.js.map' && rimraf tsconfig.tsbuildinfo;",
     "ready": "yarn clean-transpile; yarn grunt && yarn lint-full && yarn test",
     "build:webpack:sql-worker": "cross-env NODE_ENV=production webpack -c webpack-sql-worker.config.ts",
-    "sedtoAppImage": "sed -i 's/\"target\": \"deb\"/\"target\": \"AppImage\"/g' package.json",
-    "sedtoDeb": "sed -i 's/\"target\": \"AppImage\"/\"target\": \"deb\"/g' package.json"
+    "sedtoAppImage": "sed -i 's/\"target\": [\"deb\", \"rpm\", \"freebsd\"]/\"target\": \"AppImage\"/g' package.json",
+    "sedtoDeb": "sed -i 's/\"target\": \"AppImage\"/\"target\": [\"deb\", \"rpm\", \"freebsd\"]/g' package.json"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.4.0",
@@ -275,7 +275,7 @@
         "StartupWMClass": "Session"
       },
       "asarUnpack": "node_modules/spellchecker/vendor/hunspell_dictionaries",
-      "target": "deb",
+      "target": ["deb", "rpm", "freebsd"],
       "icon": "build/icon.icns"
     },
     "asarUnpack": [
