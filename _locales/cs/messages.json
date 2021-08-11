@@ -961,6 +961,10 @@
         "message": "Fotografie",
         "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
     },
+    "text": {
+        "message": "Text",
+        "description": "Label for the word 'text'"
+    },
     "cannotUpdate": {
         "message": "Aktualizace selhala",
         "description": "Shown as the title of our update error dialogs on windows"
@@ -1020,6 +1024,10 @@
     "accept": {
         "message": "Přijmout",
         "description": ""
+    },
+    "done": {
+        "message": "Hotovo",
+        "description": "Label for done"
     },
     "on": {
         "message": "Zap.",
@@ -1190,6 +1198,16 @@
             "name": {
                 "content": "$1",
                 "example": "Alice"
+            }
+        }
+    },
+    "ChangeNumber--notification": {
+        "message": "$sender$ změnili své číslo na nové",
+        "description": "Shown in timeline when a member of a conversation changes their phone number",
+        "placeholders": {
+            "sender": {
+                "content": "$1",
+                "example": "Sam"
             }
         }
     },
@@ -3493,6 +3511,10 @@
         "message": "Ztišit upozornění",
         "description": "Label for the mute notifications drop-down selector"
     },
+    "notMuted": {
+        "message": "Není ztlumeno",
+        "description": "Label when the conversation is not muted"
+    },
     "muteHour": {
         "message": "Ztlumit na hodinu",
         "description": "Label for muting the conversation"
@@ -4977,6 +4999,10 @@
         "message": "Pokud je povoleno, zprávy odeslané a přijaté v této skupině zmizí poté, co budou zobrazeny.",
         "description": "This is the info about the disappearing messages setting"
     },
+    "ConversationDetails--notifications": {
+        "message": "Upozornění",
+        "description": "This is the label for notifications in the conversation details screen"
+    },
     "ConversationDetails--group-info-label": {
         "message": "Kdo může upravovat informace o skupině",
         "description": "This is the label for the 'who can edit the group' panel"
@@ -5082,6 +5108,22 @@
     "ConversationDetailsMembershipList--show-all": {
         "message": "Zobrazit vše",
         "description": "This is a button on the conversation details to show all members"
+    },
+    "ConversationNotificationsSettings__mentions__label": {
+        "message": "Zmínky",
+        "description": "In the conversation notifications settings, this is the label for the mentions option"
+    },
+    "ConversationNotificationsSettings__mentions__info": {
+        "message": "Přijmout upozornění při zmínce o vás ve ztišených chatech",
+        "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
+    },
+    "ConversationNotificationsSettings__mentions__select__always-notify": {
+        "message": "Vždy poslat notifikaci",
+        "description": "In the conversation notifications settings, this is the option that always notifies you for @mentions"
+    },
+    "ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
+        "message": "Neupozorňovat, pokud je ztlumeno",
+        "description": "In the conversation notifications settings, this is the option that doesn't notify you for @mentions if the conversation is muted"
     },
     "GroupLinkManagement--clipboard": {
         "message": "Odkaz skupiny zkopírován.",
@@ -5691,6 +5733,10 @@
             }
         }
     },
+    "ErrorBoundaryNotification__text": {
+        "message": "Zprávu se nepodařilo zobrazit z důvodu vnitřní chyby. Kliknutím nám odešlete log.",
+        "description": "An error notification displayed when message fails to render due to an internal error"
+    },
     "GroupDescription__read-more": {
         "message": "číst dál",
         "description": "Button text when the group description is too long"
@@ -5767,7 +5813,7 @@
         "message": "Příjmení (volitelné)",
         "description": "Placeholder text for last name field"
     },
-    "ProfileEditor--discard": {
+    "ConfirmDiscardDialog--discard": {
         "message": "Chcete zahodit tyto změny?",
         "description": "ConfirmationDialog text for discarding changes"
     },
@@ -5838,5 +5884,17 @@
     "AnnouncementsOnlyGroupBanner--admins": {
         "message": "správci",
         "description": "Clickable text describing administrators of a group, used in the message an admin label"
+    },
+    "AvatarEditor--choose": {
+        "message": "Vybrat avatar",
+        "description": "Label for the avatar selector"
+    },
+    "AvatarColorPicker--choose": {
+        "message": "Vyberte barvu",
+        "description": "Label for when you need to choose your fighter, err color"
+    },
+    "LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
+        "message": "Avatar skupiny",
+        "description": "Title for the avatar picker in the group creation flow"
     }
 }

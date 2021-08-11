@@ -961,6 +961,10 @@
         "message": "Foto",
         "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
     },
+    "text": {
+        "message": "Tekst",
+        "description": "Label for the word 'text'"
+    },
     "cannotUpdate": {
         "message": "S'përditësohet Dot",
         "description": "Shown as the title of our update error dialogs on windows"
@@ -1020,6 +1024,10 @@
     "accept": {
         "message": "Pranoje",
         "description": ""
+    },
+    "done": {
+        "message": "U bë",
+        "description": "Label for done"
     },
     "on": {
         "message": "On",
@@ -1190,6 +1198,16 @@
             "name": {
                 "content": "$1",
                 "example": "Alice"
+            }
+        }
+    },
+    "ChangeNumber--notification": {
+        "message": "$sender$ ndryshoi numrin e vet me një numër të ri",
+        "description": "Shown in timeline when a member of a conversation changes their phone number",
+        "placeholders": {
+            "sender": {
+                "content": "$1",
+                "example": "Sam"
             }
         }
     },
@@ -3493,6 +3511,10 @@
         "message": "Heshtoji njoftimet",
         "description": "Label for the mute notifications drop-down selector"
     },
+    "notMuted": {
+        "message": "S’është heshtuar",
+        "description": "Label when the conversation is not muted"
+    },
     "muteHour": {
         "message": "Heshtoje për një orë",
         "description": "Label for muting the conversation"
@@ -4977,6 +4999,10 @@
         "message": "Në qoftë e aktivizuar, mesazhet e dërguar dhe të marrë në këtë grup do të zhduken, pasi të jenë parë.",
         "description": "This is the info about the disappearing messages setting"
     },
+    "ConversationDetails--notifications": {
+        "message": "Njoftime",
+        "description": "This is the label for notifications in the conversation details screen"
+    },
     "ConversationDetails--group-info-label": {
         "message": "Cilët mund të përpunojnë të dhëna grupi",
         "description": "This is the label for the 'who can edit the group' panel"
@@ -5082,6 +5108,22 @@
     "ConversationDetailsMembershipList--show-all": {
         "message": "Shihini krejt",
         "description": "This is a button on the conversation details to show all members"
+    },
+    "ConversationNotificationsSettings__mentions__label": {
+        "message": "Përmendje",
+        "description": "In the conversation notifications settings, this is the label for the mentions option"
+    },
+    "ConversationNotificationsSettings__mentions__info": {
+        "message": "Merrni njoftime, kur përmendeni në fjalosje të heshtuara",
+        "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
+    },
+    "ConversationNotificationsSettings__mentions__select__always-notify": {
+        "message": "Njofto përherë",
+        "description": "In the conversation notifications settings, this is the option that always notifies you for @mentions"
+    },
+    "ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
+        "message": "Mos njofto, në qoftë e heshtuar",
+        "description": "In the conversation notifications settings, this is the option that doesn't notify you for @mentions if the conversation is muted"
     },
     "GroupLinkManagement--clipboard": {
         "message": "Lidhja e grupit u kopjua.",
@@ -5691,6 +5733,10 @@
             }
         }
     },
+    "ErrorBoundaryNotification__text": {
+        "message": "S’u arrit të shfaqet mesazhi, për shkak të një gabimi të brendshëm. Klikoni që të parashtroni një regjistër diagnostikimi.",
+        "description": "An error notification displayed when message fails to render due to an internal error"
+    },
     "GroupDescription__read-more": {
         "message": "lexoni më tepër",
         "description": "Button text when the group description is too long"
@@ -5767,7 +5813,7 @@
         "message": "Mbiemër (Në daçi)",
         "description": "Placeholder text for last name field"
     },
-    "ProfileEditor--discard": {
+    "ConfirmDiscardDialog--discard": {
         "message": "Doni të hidhen tej këto ndryshime?",
         "description": "ConfirmationDialog text for discarding changes"
     },
@@ -5838,5 +5884,17 @@
     "AnnouncementsOnlyGroupBanner--admins": {
         "message": "përgjegjësit",
         "description": "Clickable text describing administrators of a group, used in the message an admin label"
+    },
+    "AvatarEditor--choose": {
+        "message": "Përzgjidhni një avatar",
+        "description": "Label for the avatar selector"
+    },
+    "AvatarColorPicker--choose": {
+        "message": "Zgjidhni një ngjyrë",
+        "description": "Label for when you need to choose your fighter, err color"
+    },
+    "LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
+        "message": "Avatar Grupi",
+        "description": "Title for the avatar picker in the group creation flow"
     }
 }

@@ -961,6 +961,10 @@
         "message": "תצלום",
         "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
     },
+    "text": {
+        "message": "מלל",
+        "description": "Label for the word 'text'"
+    },
     "cannotUpdate": {
         "message": "לא ניתן לעדכן",
         "description": "Shown as the title of our update error dialogs on windows"
@@ -1020,6 +1024,10 @@
     "accept": {
         "message": "אשר",
         "description": ""
+    },
+    "done": {
+        "message": "סיים",
+        "description": "Label for done"
     },
     "on": {
         "message": "מופעל",
@@ -1190,6 +1198,16 @@
             "name": {
                 "content": "$1",
                 "example": "Alice"
+            }
+        }
+    },
+    "ChangeNumber--notification": {
+        "message": "$sender$ שינה/שינתה את המספר שלו/שלה אל מספר חדש",
+        "description": "Shown in timeline when a member of a conversation changes their phone number",
+        "placeholders": {
+            "sender": {
+                "content": "$1",
+                "example": "Sam"
             }
         }
     },
@@ -3493,6 +3511,10 @@
         "message": "השתק התראות",
         "description": "Label for the mute notifications drop-down selector"
     },
+    "notMuted": {
+        "message": "לא מושתק",
+        "description": "Label when the conversation is not muted"
+    },
     "muteHour": {
         "message": "השתק לשעה אחת",
         "description": "Label for muting the conversation"
@@ -4977,6 +4999,10 @@
         "message": "כאשר מאופשר, הודעות אשר נשלחות ומתקבלות בקבוצה זו יעלמו לאחר שייראו.",
         "description": "This is the info about the disappearing messages setting"
     },
+    "ConversationDetails--notifications": {
+        "message": "התראות",
+        "description": "This is the label for notifications in the conversation details screen"
+    },
     "ConversationDetails--group-info-label": {
         "message": "מי יכול לערוך מידע קבוצה",
         "description": "This is the label for the 'who can edit the group' panel"
@@ -5082,6 +5108,22 @@
     "ConversationDetailsMembershipList--show-all": {
         "message": "ראה הכל",
         "description": "This is a button on the conversation details to show all members"
+    },
+    "ConversationNotificationsSettings__mentions__label": {
+        "message": "אזכורים",
+        "description": "In the conversation notifications settings, this is the label for the mentions option"
+    },
+    "ConversationNotificationsSettings__mentions__info": {
+        "message": "קבל התראות כאשר אתה מוזכר בהתכתבויות מושתקות",
+        "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
+    },
+    "ConversationNotificationsSettings__mentions__select__always-notify": {
+        "message": "יידע תמיד",
+        "description": "In the conversation notifications settings, this is the option that always notifies you for @mentions"
+    },
+    "ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
+        "message": "אל תיידע אם מושתק",
+        "description": "In the conversation notifications settings, this is the option that doesn't notify you for @mentions if the conversation is muted"
     },
     "GroupLinkManagement--clipboard": {
         "message": "קישור קבוצה הועתק.",
@@ -5691,6 +5733,10 @@
             }
         }
     },
+    "ErrorBoundaryNotification__text": {
+        "message": "נכשל בהצגת ההודעה עקב שגיאה פנימית. לחץ כדי להגיש יומן ניופי תקלים.",
+        "description": "An error notification displayed when message fails to render due to an internal error"
+    },
     "GroupDescription__read-more": {
         "message": "קרא עוד",
         "description": "Button text when the group description is too long"
@@ -5767,7 +5813,7 @@
         "message": "שם משפחה (רשותי)",
         "description": "Placeholder text for last name field"
     },
-    "ProfileEditor--discard": {
+    "ConfirmDiscardDialog--discard": {
         "message": "האם אתה רוצה להשליך שינויים אלו?",
         "description": "ConfirmationDialog text for discarding changes"
     },
@@ -5838,5 +5884,17 @@
     "AnnouncementsOnlyGroupBanner--admins": {
         "message": "מנהלנים",
         "description": "Clickable text describing administrators of a group, used in the message an admin label"
+    },
+    "AvatarEditor--choose": {
+        "message": "בחר יצגן",
+        "description": "Label for the avatar selector"
+    },
+    "AvatarColorPicker--choose": {
+        "message": "בחר צבע",
+        "description": "Label for when you need to choose your fighter, err color"
+    },
+    "LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
+        "message": "יצגן קבוצה",
+        "description": "Title for the avatar picker in the group creation flow"
     }
 }

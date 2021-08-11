@@ -961,6 +961,10 @@
         "message": "Слика",
         "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
     },
+    "text": {
+        "message": "Текст",
+        "description": "Label for the word 'text'"
+    },
     "cannotUpdate": {
         "message": "Не можам да ажурирам",
         "description": "Shown as the title of our update error dialogs on windows"
@@ -1020,6 +1024,10 @@
     "accept": {
         "message": "Прифати ",
         "description": ""
+    },
+    "done": {
+        "message": "Готово",
+        "description": "Label for done"
     },
     "on": {
         "message": "Вклучи",
@@ -1190,6 +1198,16 @@
             "name": {
                 "content": "$1",
                 "example": "Alice"
+            }
+        }
+    },
+    "ChangeNumber--notification": {
+        "message": "$sender$ changed their number to a new number",
+        "description": "Shown in timeline when a member of a conversation changes their phone number",
+        "placeholders": {
+            "sender": {
+                "content": "$1",
+                "example": "Sam"
             }
         }
     },
@@ -3493,6 +3511,10 @@
         "message": "Исклучи известувања",
         "description": "Label for the mute notifications drop-down selector"
     },
+    "notMuted": {
+        "message": "Звукот не е исклучен",
+        "description": "Label when the conversation is not muted"
+    },
     "muteHour": {
         "message": "Исклучи звук на 1 час",
         "description": "Label for muting the conversation"
@@ -4977,6 +4999,10 @@
         "message": "Кога е овозможено, пораките испратени и примени во оваа група ќе исчезнат откако ќе бидат видени.",
         "description": "This is the info about the disappearing messages setting"
     },
+    "ConversationDetails--notifications": {
+        "message": "Известувања ",
+        "description": "This is the label for notifications in the conversation details screen"
+    },
     "ConversationDetails--group-info-label": {
         "message": "Кој може да ги уредува информациите за групата",
         "description": "This is the label for the 'who can edit the group' panel"
@@ -5082,6 +5108,22 @@
     "ConversationDetailsMembershipList--show-all": {
         "message": "Види сѐ",
         "description": "This is a button on the conversation details to show all members"
+    },
+    "ConversationNotificationsSettings__mentions__label": {
+        "message": "Спомнувања",
+        "description": "In the conversation notifications settings, this is the label for the mentions option"
+    },
+    "ConversationNotificationsSettings__mentions__info": {
+        "message": "Receive notifications when you're mentioned in muted chats",
+        "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
+    },
+    "ConversationNotificationsSettings__mentions__select__always-notify": {
+        "message": "Секогаш известувај",
+        "description": "In the conversation notifications settings, this is the option that always notifies you for @mentions"
+    },
+    "ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
+        "message": "Don't notify if muted",
+        "description": "In the conversation notifications settings, this is the option that doesn't notify you for @mentions if the conversation is muted"
     },
     "GroupLinkManagement--clipboard": {
         "message": "Групниот линк е копиран.",
@@ -5590,7 +5632,7 @@
         "description": "aria-label for custom color editor button"
     },
     "ChatColorPicker__sampleBubble1": {
-        "message": "Here's a preview of the chat color.",
+        "message": "Еве преглед на бојата на разговорот.",
         "description": "An example message bubble for selecting the chat color"
     },
     "ChatColorPicker__sampleBubble2": {
@@ -5598,7 +5640,7 @@
         "description": "An example message bubble for selecting the chat color"
     },
     "ChatColorPicker__sampleBubble3": {
-        "message": "The color is visible to only you.",
+        "message": "Бојата е видлива само за вас.",
         "description": "An example message bubble for selecting the chat color"
     },
     "ChatColorPicker__context--edit": {
@@ -5674,7 +5716,7 @@
         "description": "Name of the 'weeks' unit select for the custom disappearing message timeout dialog"
     },
     "settings__DisappearingMessages__footer": {
-        "message": "Set a default disappearing message timer for all new chats started by you.",
+        "message": "Поставете стандарден тајмер за пораки што исчезнуваат за сите нови разговори започнати од вас.",
         "description": "Footer for the Disappearing Messages settings section"
     },
     "settings__DisappearingMessages__timer__label": {
@@ -5690,6 +5732,10 @@
                 "example": "1 week"
             }
         }
+    },
+    "ErrorBoundaryNotification__text": {
+        "message": "Failed to display the message due to an internal error. Click to submit a debug log.",
+        "description": "An error notification displayed when message fails to render due to an internal error"
     },
     "GroupDescription__read-more": {
         "message": "read more",
@@ -5716,7 +5762,7 @@
         "description": "Title for option for standard quality"
     },
     "MediaQualitySelector--standard-quality-description": {
-        "message": "Faster, less data",
+        "message": "Побрзо, помалку податоци",
         "description": "Description of standard quality selector"
     },
     "MediaQualitySelector--high-quality-title": {
@@ -5724,7 +5770,7 @@
         "description": "Title for option for high quality"
     },
     "MediaQualitySelector--high-quality-description": {
-        "message": "Slower, more data",
+        "message": "Побавно, повеќе податоци",
         "description": "Description of high quality selector"
     },
     "MessageDetailsHeader--Failed": {
@@ -5767,7 +5813,7 @@
         "message": "Last Name (Optional)",
         "description": "Placeholder text for last name field"
     },
-    "ProfileEditor--discard": {
+    "ConfirmDiscardDialog--discard": {
         "message": "Дали сакате да ги откажете овие промени?",
         "description": "ConfirmationDialog text for discarding changes"
     },
@@ -5838,5 +5884,17 @@
     "AnnouncementsOnlyGroupBanner--admins": {
         "message": "администраторид",
         "description": "Clickable text describing administrators of a group, used in the message an admin label"
+    },
+    "AvatarEditor--choose": {
+        "message": "Избери аватар",
+        "description": "Label for the avatar selector"
+    },
+    "AvatarColorPicker--choose": {
+        "message": "Choose a color",
+        "description": "Label for when you need to choose your fighter, err color"
+    },
+    "LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
+        "message": "Group Avatar",
+        "description": "Title for the avatar picker in the group creation flow"
     }
 }

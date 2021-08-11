@@ -961,6 +961,10 @@
         "message": "写真",
         "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
     },
+    "text": {
+        "message": "テキスト",
+        "description": "Label for the word 'text'"
+    },
     "cannotUpdate": {
         "message": "アップデートできません",
         "description": "Shown as the title of our update error dialogs on windows"
@@ -1020,6 +1024,10 @@
     "accept": {
         "message": "承認する",
         "description": ""
+    },
+    "done": {
+        "message": "完了",
+        "description": "Label for done"
     },
     "on": {
         "message": "オン",
@@ -1184,12 +1192,22 @@
         }
     },
     "DeliveryIssue--summary--group": {
-        "message": "このチャットで、$sender$からのメッセージ、ステッカー、メディア、リアクションまたは既読通知をあなたに配信できませんでした。",
+        "message": "このチャットで、 $sender$ からのメッセージ、ステッカー、メディア、リアクションまたは既読通知をあなたに配信できませんでした。",
         "description": "Shown on explainer dialog available from delivery issue timeline events in groups",
         "placeholders": {
             "name": {
                 "content": "$1",
                 "example": "Alice"
+            }
+        }
+    },
+    "ChangeNumber--notification": {
+        "message": "$sender$ は、電話番号を変更しました",
+        "description": "Shown in timeline when a member of a conversation changes their phone number",
+        "placeholders": {
+            "sender": {
+                "content": "$1",
+                "example": "Sam"
             }
         }
     },
@@ -3493,6 +3511,10 @@
         "message": "通知をミュート",
         "description": "Label for the mute notifications drop-down selector"
     },
+    "notMuted": {
+        "message": "ミュートしていません",
+        "description": "Label when the conversation is not muted"
+    },
     "muteHour": {
         "message": "1時間ミュート",
         "description": "Label for muting the conversation"
@@ -4977,6 +4999,10 @@
         "message": "有効にすると、このグループ内で送受信されるメッセージは、閲覧後に消えます。",
         "description": "This is the info about the disappearing messages setting"
     },
+    "ConversationDetails--notifications": {
+        "message": "通知",
+        "description": "This is the label for notifications in the conversation details screen"
+    },
     "ConversationDetails--group-info-label": {
         "message": "グループ情報を編集できるユーザー",
         "description": "This is the label for the 'who can edit the group' panel"
@@ -5082,6 +5108,22 @@
     "ConversationDetailsMembershipList--show-all": {
         "message": "すべて表示",
         "description": "This is a button on the conversation details to show all members"
+    },
+    "ConversationNotificationsSettings__mentions__label": {
+        "message": "メンション",
+        "description": "In the conversation notifications settings, this is the label for the mentions option"
+    },
+    "ConversationNotificationsSettings__mentions__info": {
+        "message": "ミュートしたチャットでメンションされた際に通知を受け取る",
+        "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
+    },
+    "ConversationNotificationsSettings__mentions__select__always-notify": {
+        "message": "常に通知する",
+        "description": "In the conversation notifications settings, this is the option that always notifies you for @mentions"
+    },
+    "ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
+        "message": "ミュートしていても通知しない",
+        "description": "In the conversation notifications settings, this is the option that doesn't notify you for @mentions if the conversation is muted"
     },
     "GroupLinkManagement--clipboard": {
         "message": "グループリンクをコピーしました",
@@ -5691,6 +5733,10 @@
             }
         }
     },
+    "ErrorBoundaryNotification__text": {
+        "message": "Failed to display the message due to an internal error. Click to submit a debug log.",
+        "description": "An error notification displayed when message fails to render due to an internal error"
+    },
     "GroupDescription__read-more": {
         "message": " 続き",
         "description": "Button text when the group description is too long"
@@ -5767,7 +5813,7 @@
         "message": "姓 (任意)",
         "description": "Placeholder text for last name field"
     },
-    "ProfileEditor--discard": {
+    "ConfirmDiscardDialog--discard": {
         "message": "変更を破棄しますか？",
         "description": "ConfirmationDialog text for discarding changes"
     },
@@ -5838,5 +5884,17 @@
     "AnnouncementsOnlyGroupBanner--admins": {
         "message": "管理者",
         "description": "Clickable text describing administrators of a group, used in the message an admin label"
+    },
+    "AvatarEditor--choose": {
+        "message": "アバターを選択してください",
+        "description": "Label for the avatar selector"
+    },
+    "AvatarColorPicker--choose": {
+        "message": "色を選択してください",
+        "description": "Label for when you need to choose your fighter, err color"
+    },
+    "LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
+        "message": "グループアバター",
+        "description": "Title for the avatar picker in the group creation flow"
     }
 }

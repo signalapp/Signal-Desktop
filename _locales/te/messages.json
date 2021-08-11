@@ -961,6 +961,10 @@
         "message": "ఛాయాచిత్రము",
         "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
     },
+    "text": {
+        "message": "వచనం",
+        "description": "Label for the word 'text'"
+    },
     "cannotUpdate": {
         "message": "నవీకరించలేరు",
         "description": "Shown as the title of our update error dialogs on windows"
@@ -1020,6 +1024,10 @@
     "accept": {
         "message": "అంగీకరించండి",
         "description": ""
+    },
+    "done": {
+        "message": "పూర్తి",
+        "description": "Label for done"
     },
     "on": {
         "message": "ఆన్",
@@ -1190,6 +1198,16 @@
             "name": {
                 "content": "$1",
                 "example": "Alice"
+            }
+        }
+    },
+    "ChangeNumber--notification": {
+        "message": "$sender$ changed their number to a new number",
+        "description": "Shown in timeline when a member of a conversation changes their phone number",
+        "placeholders": {
+            "sender": {
+                "content": "$1",
+                "example": "Sam"
             }
         }
     },
@@ -3493,6 +3511,10 @@
         "message": "  ప్రకటనలను మ్యూట్లో ఉంచు",
         "description": "Label for the mute notifications drop-down selector"
     },
+    "notMuted": {
+        "message": "మ్యూట్ చేయలేదు",
+        "description": "Label when the conversation is not muted"
+    },
     "muteHour": {
         "message": "ఒక గంట మ్యూట్ చేయండి",
         "description": "Label for muting the conversation"
@@ -4977,6 +4999,10 @@
         "message": "ప్రారంభించినప్పుడు, ఈ గుంపులో పంపిన మరియు స్వీకరించిన సందేశాలు చూసిన తర్వాత అవి అదృశ్యమవుతాయి.",
         "description": "This is the info about the disappearing messages setting"
     },
+    "ConversationDetails--notifications": {
+        "message": "ప్రకటనలు",
+        "description": "This is the label for notifications in the conversation details screen"
+    },
     "ConversationDetails--group-info-label": {
         "message": "సమూహ సమాచారాన్ని ఎవరు సవరించగలరు",
         "description": "This is the label for the 'who can edit the group' panel"
@@ -5082,6 +5108,22 @@
     "ConversationDetailsMembershipList--show-all": {
         "message": "అన్నింటిని చూడు",
         "description": "This is a button on the conversation details to show all members"
+    },
+    "ConversationNotificationsSettings__mentions__label": {
+        "message": "ప్రస్తావనలు",
+        "description": "In the conversation notifications settings, this is the label for the mentions option"
+    },
+    "ConversationNotificationsSettings__mentions__info": {
+        "message": "Receive notifications when you're mentioned in muted chats",
+        "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
+    },
+    "ConversationNotificationsSettings__mentions__select__always-notify": {
+        "message": "Always notify",
+        "description": "In the conversation notifications settings, this is the option that always notifies you for @mentions"
+    },
+    "ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
+        "message": "Don't notify if muted",
+        "description": "In the conversation notifications settings, this is the option that doesn't notify you for @mentions if the conversation is muted"
     },
     "GroupLinkManagement--clipboard": {
         "message": "సమూహ లింక్ నకలు చేయబడింది.",
@@ -5691,6 +5733,10 @@
             }
         }
     },
+    "ErrorBoundaryNotification__text": {
+        "message": "Failed to display the message due to an internal error. Click to submit a debug log.",
+        "description": "An error notification displayed when message fails to render due to an internal error"
+    },
     "GroupDescription__read-more": {
         "message": "ఇంకా చదవండి",
         "description": "Button text when the group description is too long"
@@ -5767,7 +5813,7 @@
         "message": "చివరి పేరు (ఐచ్ఛికం)",
         "description": "Placeholder text for last name field"
     },
-    "ProfileEditor--discard": {
+    "ConfirmDiscardDialog--discard": {
         "message": "మీరు ఈ మార్పులను విస్మరించాలనుకుంటున్నారా?",
         "description": "ConfirmationDialog text for discarding changes"
     },
@@ -5838,5 +5884,17 @@
     "AnnouncementsOnlyGroupBanner--admins": {
         "message": "నిర్వాహకులు",
         "description": "Clickable text describing administrators of a group, used in the message an admin label"
+    },
+    "AvatarEditor--choose": {
+        "message": "Select an avatar",
+        "description": "Label for the avatar selector"
+    },
+    "AvatarColorPicker--choose": {
+        "message": "Choose a color",
+        "description": "Label for when you need to choose your fighter, err color"
+    },
+    "LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
+        "message": "Group Avatar",
+        "description": "Title for the avatar picker in the group creation flow"
     }
 }

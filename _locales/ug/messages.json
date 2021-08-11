@@ -961,6 +961,10 @@
         "message": "سۈرەت",
         "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
     },
+    "text": {
+        "message": "تېكىست",
+        "description": "Label for the word 'text'"
+    },
     "cannotUpdate": {
         "message": "يېڭىلىيالمايدۇ",
         "description": "Shown as the title of our update error dialogs on windows"
@@ -1020,6 +1024,10 @@
     "accept": {
         "message": "قوشۇل",
         "description": ""
+    },
+    "done": {
+        "message": "بولدى",
+        "description": "Label for done"
     },
     "on": {
         "message": "ئاچ",
@@ -1190,6 +1198,16 @@
             "name": {
                 "content": "$1",
                 "example": "Alice"
+            }
+        }
+    },
+    "ChangeNumber--notification": {
+        "message": "$sender$ changed their number to a new number",
+        "description": "Shown in timeline when a member of a conversation changes their phone number",
+        "placeholders": {
+            "sender": {
+                "content": "$1",
+                "example": "Sam"
             }
         }
     },
@@ -3493,6 +3511,10 @@
         "message": "ئۈنسىز ئۇقتۇرۇش",
         "description": "Label for the mute notifications drop-down selector"
     },
+    "notMuted": {
+        "message": "ئۈنسىز ئەمەس",
+        "description": "Label when the conversation is not muted"
+    },
     "muteHour": {
         "message": "بىر سائەت ئۈنسىز",
         "description": "Label for muting the conversation"
@@ -4977,6 +4999,10 @@
         "message": "قوزغىتىلغاندا، بۇ گۇرۇپپىغا ئەۋەتىلگەن ۋە تاپشۇرۇۋالغان ئۇچۇرلار كۆرۈنگەندىن كېيىن غايىب بولىدۇ.",
         "description": "This is the info about the disappearing messages setting"
     },
+    "ConversationDetails--notifications": {
+        "message": "ئۇقتۇرۇشلار",
+        "description": "This is the label for notifications in the conversation details screen"
+    },
     "ConversationDetails--group-info-label": {
         "message": "گۇرۇپپا ئۇچۇرىنى كىم تەھرىرلىيەلەيدۇ",
         "description": "This is the label for the 'who can edit the group' panel"
@@ -5082,6 +5108,22 @@
     "ConversationDetailsMembershipList--show-all": {
         "message": "ھەممىنى كۆرسەت",
         "description": "This is a button on the conversation details to show all members"
+    },
+    "ConversationNotificationsSettings__mentions__label": {
+        "message": "تىلغا ئالغانلار",
+        "description": "In the conversation notifications settings, this is the label for the mentions option"
+    },
+    "ConversationNotificationsSettings__mentions__info": {
+        "message": "Receive notifications when you're mentioned in muted chats",
+        "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
+    },
+    "ConversationNotificationsSettings__mentions__select__always-notify": {
+        "message": "ھەمىشە ئۇقتۇر",
+        "description": "In the conversation notifications settings, this is the option that always notifies you for @mentions"
+    },
+    "ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
+        "message": "Don't notify if muted",
+        "description": "In the conversation notifications settings, this is the option that doesn't notify you for @mentions if the conversation is muted"
     },
     "GroupLinkManagement--clipboard": {
         "message": "گۇرۇپپا ئۇلانمىسى كۆچۈرۈلدى.",
@@ -5691,6 +5733,10 @@
             }
         }
     },
+    "ErrorBoundaryNotification__text": {
+        "message": "Failed to display the message due to an internal error. Click to submit a debug log.",
+        "description": "An error notification displayed when message fails to render due to an internal error"
+    },
     "GroupDescription__read-more": {
         "message": "تېخىمۇ كۆپ",
         "description": "Button text when the group description is too long"
@@ -5767,7 +5813,7 @@
         "message": "تەگئات (ئىختىيارى)",
         "description": "Placeholder text for last name field"
     },
-    "ProfileEditor--discard": {
+    "ConfirmDiscardDialog--discard": {
         "message": "بۇ ئۆزگەرتىشلەرنى  تاشلىۋېتەمسىز؟",
         "description": "ConfirmationDialog text for discarding changes"
     },
@@ -5822,7 +5868,7 @@
         "description": "Error message when something goes wrong updating your profile."
     },
     "AnnouncementsOnlyGroupBanner--modal": {
-        "message": "Message an admin",
+        "message": "باشقۇرغۇچىغا ئۇچۇر يوللاڭ",
         "description": "Modal title for the list of admins in a group"
     },
     "AnnouncementsOnlyGroupBanner--announcements-only": {
@@ -5838,5 +5884,17 @@
     "AnnouncementsOnlyGroupBanner--admins": {
         "message": "باشقۇرغۇچىلار",
         "description": "Clickable text describing administrators of a group, used in the message an admin label"
+    },
+    "AvatarEditor--choose": {
+        "message": "بىر سىما تاللا",
+        "description": "Label for the avatar selector"
+    },
+    "AvatarColorPicker--choose": {
+        "message": "Choose a color",
+        "description": "Label for when you need to choose your fighter, err color"
+    },
+    "LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
+        "message": "Group Avatar",
+        "description": "Title for the avatar picker in the group creation flow"
     }
 }

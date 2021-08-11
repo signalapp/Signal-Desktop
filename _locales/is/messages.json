@@ -961,6 +961,10 @@
         "message": "Ljósmynd",
         "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
     },
+    "text": {
+        "message": "Texti",
+        "description": "Label for the word 'text'"
+    },
     "cannotUpdate": {
         "message": "Get ekki uppfært",
         "description": "Shown as the title of our update error dialogs on windows"
@@ -1020,6 +1024,10 @@
     "accept": {
         "message": "Samþykkja",
         "description": ""
+    },
+    "done": {
+        "message": "Lokið",
+        "description": "Label for done"
     },
     "on": {
         "message": "Kveikt",
@@ -1190,6 +1198,16 @@
             "name": {
                 "content": "$1",
                 "example": "Alice"
+            }
+        }
+    },
+    "ChangeNumber--notification": {
+        "message": "$sender$ changed their number to a new number",
+        "description": "Shown in timeline when a member of a conversation changes their phone number",
+        "placeholders": {
+            "sender": {
+                "content": "$1",
+                "example": "Sam"
             }
         }
     },
@@ -3493,6 +3511,10 @@
         "message": "Þagga tilkynningar",
         "description": "Label for the mute notifications drop-down selector"
     },
+    "notMuted": {
+        "message": "Ekki þaggað",
+        "description": "Label when the conversation is not muted"
+    },
     "muteHour": {
         "message": "Þagga í einn klukkutíma",
         "description": "Label for muting the conversation"
@@ -3560,7 +3582,7 @@
         "description": "Shown in a confirmation dialog when members who cannot view announcement only group cannot be added"
     },
     "GroupV2--cannot-start-group-call": {
-        "message": "Only admins of the group can start a call.",
+        "message": "Einungis stjórnendur þessa hóps geta hafið samtal.",
         "description": "Shown in toast when a non-admin starts a group call in an announcements only group"
     },
     "GroupV2--join--invalid-link--title": {
@@ -4977,6 +4999,10 @@
         "message": "Þegar þetta er virkt, munu send og móttekin skilaboð í þessum hópi hverfa eftir að þau hafa verið skoðuð.",
         "description": "This is the info about the disappearing messages setting"
     },
+    "ConversationDetails--notifications": {
+        "message": "Tilkynningar",
+        "description": "This is the label for notifications in the conversation details screen"
+    },
     "ConversationDetails--group-info-label": {
         "message": "Hverjir geta breytt upplýsingum hóps",
         "description": "This is the label for the 'who can edit the group' panel"
@@ -5082,6 +5108,22 @@
     "ConversationDetailsMembershipList--show-all": {
         "message": "Sjá allt",
         "description": "This is a button on the conversation details to show all members"
+    },
+    "ConversationNotificationsSettings__mentions__label": {
+        "message": "Tilvísanir",
+        "description": "In the conversation notifications settings, this is the label for the mentions option"
+    },
+    "ConversationNotificationsSettings__mentions__info": {
+        "message": "Fá tilkynningu þegar nafn þitt er nefnt í þögguðum umræðum",
+        "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
+    },
+    "ConversationNotificationsSettings__mentions__select__always-notify": {
+        "message": "Alltaf láta vita",
+        "description": "In the conversation notifications settings, this is the option that always notifies you for @mentions"
+    },
+    "ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
+        "message": "Ekki láta vita ef þaggað",
+        "description": "In the conversation notifications settings, this is the option that doesn't notify you for @mentions if the conversation is muted"
     },
     "GroupLinkManagement--clipboard": {
         "message": "Hóptengill afritaður.",
@@ -5691,6 +5733,10 @@
             }
         }
     },
+    "ErrorBoundaryNotification__text": {
+        "message": "Failed to display the message due to an internal error. Click to submit a debug log.",
+        "description": "An error notification displayed when message fails to render due to an internal error"
+    },
     "GroupDescription__read-more": {
         "message": "lesa meira",
         "description": "Button text when the group description is too long"
@@ -5767,7 +5813,7 @@
         "message": "Kenninafn (eftirnafn - valfrjálst)",
         "description": "Placeholder text for last name field"
     },
-    "ProfileEditor--discard": {
+    "ConfirmDiscardDialog--discard": {
         "message": "Viltu henda þessum breytingum?",
         "description": "ConfirmationDialog text for discarding changes"
     },
@@ -5838,5 +5884,17 @@
     "AnnouncementsOnlyGroupBanner--admins": {
         "message": "stjórnendur",
         "description": "Clickable text describing administrators of a group, used in the message an admin label"
+    },
+    "AvatarEditor--choose": {
+        "message": "Veldu auðkennismynd",
+        "description": "Label for the avatar selector"
+    },
+    "AvatarColorPicker--choose": {
+        "message": "Veldu lit",
+        "description": "Label for when you need to choose your fighter, err color"
+    },
+    "LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
+        "message": "Auðkennismynd hóps",
+        "description": "Title for the avatar picker in the group creation flow"
     }
 }
