@@ -15,6 +15,7 @@ import { getIncomingCall } from '../selectors/calling';
 import {
   ActiveCallType,
   CallMode,
+  CallState,
   GroupCallRemoteParticipantType,
 } from '../../types/Calling';
 import { StateType } from '../reducer';
@@ -89,8 +90,11 @@ const mapStateToActiveCallProp = (
 
   switch (call.callMode) {
     case CallMode.Direct:
-      // If the call is incoming, it's not an 'active' call and we shouldn't show a lobby.
-      if (call.isIncoming) {
+      if (
+        call.isIncoming &&
+        (call.callState === CallState.Prering ||
+          call.callState === CallState.Ringing)
+      ) {
         return;
       }
 
