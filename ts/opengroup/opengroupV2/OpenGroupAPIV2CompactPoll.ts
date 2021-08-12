@@ -3,10 +3,10 @@ import {
   OpenGroupV2Room,
   saveV2OpenGroupRoom,
 } from '../../data/opengroups';
-import { OpenGroupV2CompactPollRequest, OpenGroupV2Info, parseMessages } from './ApiUtil';
+import { OpenGroupV2CompactPollRequest, parseMessages } from './ApiUtil';
 import { parseStatusCodeFromOnionRequest } from './OpenGroupAPIV2Parser';
 import _ from 'lodash';
-import { sendViaOnion } from '../../session/onions/onionSend';
+import { sendViaOnionToNonSnode } from '../../session/onions/onionSend';
 import { OpenGroupMessageV2 } from './OpenGroupMessageV2';
 import { downloadPreviewOpenGroupV2, getMemberCount } from './OpenGroupAPIV2';
 import { getAuthToken } from './ApiAuth';
@@ -244,7 +244,7 @@ async function sendOpenGroupV2RequestCompactPoll(
   // this will throw if the url is not valid
   const builtUrl = new URL(`${serverUrl}/${endpoint}`);
 
-  const res = await sendViaOnion(
+  const res = await sendViaOnionToNonSnode(
     serverPubKey,
     builtUrl,
     {

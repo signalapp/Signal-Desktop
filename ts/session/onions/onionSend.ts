@@ -1,26 +1,12 @@
 // tslint:disable: cyclomatic-complexity
 
 import { OnionPaths } from '.';
-import {
-  FinalRelayOptions,
-  sendOnionRequestLsrpcDest,
-  snodeHttpsAgent,
-  SnodeResponse,
-} from '../snode_api/onions';
+import { FinalRelayOptions, sendOnionRequestLsrpcDest, SnodeResponse } from '../snode_api/onions';
 import _, { toNumber } from 'lodash';
-import { default as insecureNodeFetch } from 'node-fetch';
 import { PROTOCOLS } from '../constants';
 import { toHex } from '../utils/String';
 import pRetry from 'p-retry';
 import { Snode } from '../../data/data';
-
-// FIXME audric we should soon be able to get rid of that
-const FILESERVER_HOSTS = [
-  'file-dev.lokinet.org',
-  'file.lokinet.org',
-  'file-dev.getsession.org',
-  'file.getsession.org',
-];
 
 type OnionFetchOptions = {
   method: string;
@@ -127,10 +113,15 @@ const sendViaOnionRetryable = async ({
 };
 
 /**
+ *
+ * This function can be used to make a request via onion to a non snode server.
+ *
+ * A non Snode server is for instance the Push Notification server or an OpengroupV2 server.
+ *
  * FIXME the type for this is not correct for open group api v2 returned values
  * result is status_code and whatever the body should be
  */
-export const sendViaOnion = async (
+export const sendViaOnionToNonSnode = async (
   destinationX25519Key: string,
   url: URL,
   fetchOptions: OnionFetchOptions,
@@ -221,164 +212,4 @@ export const sendViaOnion = async (
     txtResponse = JSON.stringify(body);
   }
   return { result, txtResponse, response: body };
-};
-
-// FIXME this is really dirty
-type ServerRequestOptionsType = {
-  params?: Record<string, string>;
-  method?: string;
-  rawBody?: any;
-  objBody?: any;
-  token?: string;
-  srvPubKey?: string;
-  forceFreshToken?: boolean;
-
-  retry?: number;
-  noJson?: boolean;
-};
-
-// tslint:disable-next-line: max-func-body-length
-export const serverRequest = async (
-  endpoint: string,
-  options: ServerRequestOptionsType = {}
-): Promise<any> => {
-  const {
-    params = {},
-    method,
-    rawBody,
-    objBody,
-    token,
-    srvPubKey,
-    forceFreshToken = false,
-  } = options;
-
-  const url = new URL(endpoint);
-  if (!_.isEmpty(params)) {
-    const builtParams = new URLSearchParams(params).toString();
-    url.search = `?${builtParams}`;
-  }
-  const fetchOptions: any = {};
-  const headers: any = {};
-  try {
-    if (token) {
-      headers.Authorization = `Bearer ${token}`;
-    }
-    if (method) {
-      fetchOptions.method = method;
-    }
-    if (objBody) {
-      headers['Content-Type'] = 'application/json';
-      fetchOptions.body = JSON.stringify(objBody);
-    } else if (rawBody) {
-      fetchOptions.body = rawBody;
-    }
-    fetchOptions.headers = headers;
-
-    // domain ends in .loki
-    if (url.host.match(/\.loki$/i)) {
-      fetchOptions.agent = snodeHttpsAgent;
-    }
-  } catch (e) {
-    window?.log?.error('onionSend:::serverRequest - set up error:', e.code, e.message);
-    return {
-      err: e,
-      ok: false,
-    };
-  }
-
-  let response;
-  let result;
-  let txtResponse;
-  let mode = 'insecureNodeFetch';
-  try {
-    const host = url.host.toLowerCase();
-    // log.info('host', host, FILESERVER_HOSTS);
-    if (window.lokiFeatureFlags.useFileOnionRequests && FILESERVER_HOSTS.includes(host)) {
-      mode = 'sendViaOnion';
-      if (!srvPubKey) {
-        throw new Error('useFileOnionRequests=true but we do not have a server pubkey set.');
-      }
-      const onionResponse = await sendViaOnion(srvPubKey, url, fetchOptions, options);
-      if (onionResponse) {
-        ({ response, txtResponse, result } = onionResponse);
-      }
-    } else if (window.lokiFeatureFlags.useFileOnionRequests) {
-      if (!srvPubKey) {
-        throw new Error('useFileOnionRequests=true but we do not have a server pubkey set.');
-      }
-      mode = 'sendViaOnionOG';
-      const onionResponse = await sendViaOnion(srvPubKey, url, fetchOptions, options);
-      if (onionResponse) {
-        ({ response, txtResponse, result } = onionResponse);
-      }
-    } else {
-      // we end up here only if window.lokiFeatureFlags.useFileOnionRequests is false
-      window?.log?.info(`insecureNodeFetch => plaintext for ${url}`);
-      result = await insecureNodeFetch(url, fetchOptions);
-
-      txtResponse = await result.text();
-      // cloudflare timeouts (504s) will be html...
-      response = options.noJson ? txtResponse : JSON.parse(txtResponse);
-
-      // result.status will always be 200
-      // emulate the correct http code if available
-      if (response && response.meta && response.meta.code) {
-        result.status = response.meta.code;
-      }
-    }
-  } catch (e) {
-    if (txtResponse) {
-      window?.log?.error(
-        `onionSend:::serverRequest - ${mode} error`,
-        e.code,
-        e.message,
-        `json: ${txtResponse}`,
-        'attempting connection to',
-        url.toString()
-      );
-    } else {
-      window?.log?.error(
-        `onionSend:::serverRequest - ${mode} error`,
-        e.code,
-        e.message,
-        'attempting connection to',
-        url.toString()
-      );
-    }
-
-    return {
-      err: e,
-      ok: false,
-    };
-  }
-
-  if (!result) {
-    return {
-      err: 'noResult',
-      response,
-      ok: false,
-    };
-  }
-
-  // if it's a response style with a meta
-  if (result.status !== 200) {
-    if (!forceFreshToken && (!response.meta || response.meta.code === 401)) {
-      // retry with forcing a fresh token
-      return serverRequest(endpoint, {
-        ...options,
-        forceFreshToken: true,
-      });
-    }
-    return {
-      err: 'statusCode',
-      statusCode: result.status,
-      response,
-      ok: false,
-    };
-  }
-  return {
-    statusCode: result.status,
-    response,
-    ok: result.status >= 200 && result.status <= 299,
-  };
 };

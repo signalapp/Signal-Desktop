@@ -11,6 +11,7 @@ const desiredGuardCount = 3;
 const minimumGuardCount = 2;
 
 import { updateOnionPaths } from '../../state/ducks/onion';
+import { ERROR_CODE_NO_CONNECT } from '../snode_api/SNodeAPI';
 
 const ONION_REQUEST_HOPS = 3;
 export let onionPaths: Array<Array<Snode>> = [];
