@@ -57,6 +57,7 @@ const getDefaultProps = () => ({
   kickOffAttachmentDownload: action('kickOffAttachmentDownload'),
   learnMoreAboutDeliveryIssue: action('learnMoreAboutDeliveryIssue'),
   markAttachmentAsCorrupted: action('markAttachmentAsCorrupted'),
+  markViewed: action('markViewed'),
   showMessageDetail: action('showMessageDetail'),
   openConversation: action('openConversation'),
   showContactDetail: action('showContactDetail'),

@@ -30,6 +30,7 @@ import {
   pick,
 } from 'lodash';
 
+import { ReadStatus } from '../messages/MessageReadStatus';
 import { GroupV2MemberType } from '../model-types.d';
 import { ReactionType } from '../types/Reactions';
 import { StoredJob } from '../jobs/types';
@@ -2076,6 +2077,19 @@ function updateToSchemaVersion38(currentVersion: number, db: Database) {
   console.log('updateToSchemaVersion38: success!');
 }
 
+function updateToSchemaVersion39(currentVersion: number, db: Database) {
+  if (currentVersion >= 39) {
+    return;
+  }
+
+  db.transaction(() => {
+    db.exec('ALTER TABLE messages RENAME COLUMN unread TO readStatus;');
+
+    db.pragma('user_version = 39');
+  })();
+  console.log('updateToSchemaVersion39: success!');
+}
+
 const SCHEMA_VERSIONS = [
   updateToSchemaVersion1,
   updateToSchemaVersion2,
@@ -2115,6 +2129,7 @@ const SCHEMA_VERSIONS = [
   updateToSchemaVersion36,
   updateToSchemaVersion37,
   updateToSchemaVersion38,
+  updateToSchemaVersion39,
 ];
 
 function updateSchema(db: Database): void {
@@ -3572,7 +3587,7 @@ function saveMessageSync(
     sourceUuid,
     sourceDevice,
     type,
-    unread,
+    readStatus,
     expireTimer,
     expirationStartTimestamp,
   } = data;
@@ -3598,7 +3613,7 @@ function saveMessageSync(
     sourceUuid: sourceUuid || null,
     sourceDevice: sourceDevice || null,
     type: type || null,
-    unread: unread ? 1 : 0,
+    readStatus: readStatus ?? null,
   };
 
   if (id && !forceSave) {
@@ -3626,7 +3641,7 @@ function saveMessageSync(
         sourceUuid = $sourceUuid,
         sourceDevice = $sourceDevice,
         type = $type,
-        unread = $unread
+        readStatus = $readStatus
       WHERE id = $id;
       `
     ).run(payload);
@@ -3663,7 +3678,7 @@ function saveMessageSync(
       sourceUuid,
       sourceDevice,
       type,
-      unread
+      readStatus
     ) values (
       $id,
       $json,
@@ -3685,7 +3700,7 @@ function saveMessageSync(
       $sourceUuid,
       $sourceDevice,
       $type,
-      $unread
+      $readStatus
     );
     `
   ).run({
@@ -3812,7 +3827,7 @@ async function getUnreadCountForConversation(
     .prepare<Query>(
       `
       SELECT COUNT(*) AS unreadCount FROM messages
-      WHERE unread = 1 AND
+      WHERE readStatus = ${ReadStatus.Unread} AND
       conversationId = $conversationId AND
       type = 'incoming';
       `
@@ -3862,14 +3877,13 @@ async function getUnreadByConversationAndMarkRead(
         SELECT id, json FROM messages
         INDEXED BY messages_unread
         WHERE
-          unread = $unread AND
+          readStatus = ${ReadStatus.Unread} AND
           conversationId = $conversationId AND
           received_at <= $newestUnreadId
         ORDER BY received_at DESC, sent_at DESC;
         `
       )
       .all({
-        unread: 1,
         conversationId,
         newestUnreadId,
       });
@@ -3878,24 +3892,23 @@ async function getUnreadByConversationAndMarkRead(
       `
         UPDATE messages
         SET
-          unread = 0,
+          readStatus = ${ReadStatus.Read},
           json = json_patch(json, $jsonPatch)
         WHERE
-          unread = $unread AND
+          readStatus = ${ReadStatus.Unread} AND
           conversationId = $conversationId AND
           received_at <= $newestUnreadId;
         `
     ).run({
       conversationId,
-      jsonPatch: JSON.stringify({ unread: 0 }),
+      jsonPatch: JSON.stringify({ readStatus: ReadStatus.Read }),
       newestUnreadId,
-      unread: 1,
     });
 
     return rows.map(row => {
       const json = jsonToObject(row.json);
       return {
-        unread: false,
+        readStatus: ReadStatus.Read,
         ...pick(json, [
           'expirationStartTimestamp',
           'id',
@@ -4313,7 +4326,7 @@ function getOldestUnreadMessageForConversation(
       `
       SELECT * FROM messages WHERE
         conversationId = $conversationId AND
-        unread = 1
+        readStatus = ${ReadStatus.Unread}
       ORDER BY received_at ASC, sent_at ASC
       LIMIT 1;
       `
@@ -4338,7 +4351,7 @@ function getTotalUnreadForConversation(conversationId: string): number {
       FROM messages
       WHERE
         conversationId = $conversationId AND
-        unread = 1;
+        readStatus = ${ReadStatus.Unread};
       `
     )
     .get({
@@ -4469,8 +4482,9 @@ async function getMessagesUnexpectedlyMissingExpirationStartTimestamp(): Promise
         (
           type IS 'outgoing' OR
           (type IS 'incoming' AND (
-            unread = 0 OR
-            unread IS NULL
+            readStatus = ${ReadStatus.Read} OR
+            readStatus = ${ReadStatus.Viewed} OR
+            readStatus IS NULL
           ))
         );
       `

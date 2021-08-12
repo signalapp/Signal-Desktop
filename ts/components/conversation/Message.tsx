@@ -13,6 +13,7 @@ import {
   ConversationTypeType,
   InteractionModeType,
 } from '../../state/ducks/conversations';
+import { ReadStatus } from '../../messages/MessageReadStatus';
 import { Avatar } from '../Avatar';
 import { Spinner } from '../Spinner';
 import { MessageBody } from './MessageBody';
@@ -110,6 +111,7 @@ export type AudioAttachmentProps = {
 
   kickOffAttachmentDownload(): void;
   onCorrupted(): void;
+  onFirstPlayed(): void;
 };
 
 export type PropsData = {
@@ -166,6 +168,8 @@ export type PropsData = {
   isTapToView?: boolean;
   isTapToViewExpired?: boolean;
   isTapToViewError?: boolean;
+
+  readStatus: ReadStatus;
 
   expirationLength?: number;
   expirationTimestamp?: number;
@@ -225,6 +229,7 @@ export type PropsActions = {
     attachment: AttachmentType;
     messageId: string;
   }) => void;
+  markViewed(messageId: string): void;
   showVisualAttachment: (options: {
     attachment: AttachmentType;
     messageId: string;
@@ -684,7 +689,9 @@ export class Message extends React.PureComponent<Props, State> {
       isSticker,
       kickOffAttachmentDownload,
       markAttachmentAsCorrupted,
+      markViewed,
       quote,
+      readStatus,
       reducedMotion,
       renderAudioAttachment,
       renderingContext,
@@ -791,8 +798,7 @@ export class Message extends React.PureComponent<Props, State> {
           played = status === 'viewed';
           break;
         case 'incoming':
-          // Not implemented yet. See DESKTOP-1855.
-          played = true;
+          played = readStatus === ReadStatus.Viewed;
           break;
         default:
           window.log.error(missingCaseError(direction));
@@ -830,6 +836,9 @@ export class Message extends React.PureComponent<Props, State> {
             attachment: firstAttachment,
             messageId: id,
           });
+        },
+        onFirstPlayed() {
+          markViewed(id);
         },
       });
     }

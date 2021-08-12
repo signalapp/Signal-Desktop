@@ -20,6 +20,7 @@ import {
   VIDEO_MP4,
   stringToMIMEType,
 } from '../../types/MIME';
+import { ReadStatus } from '../../messages/MessageReadStatus';
 import { MessageAudio } from './MessageAudio';
 import { computePeaks } from '../GlobalAudioContext';
 import { setup as setupI18n } from '../../../js/modules/i18n';
@@ -61,6 +62,7 @@ const MessageAudioContainer: React.FC<AudioAttachmentProps> = props => {
       audio={audio}
       computePeaks={computePeaks}
       setActiveAudioID={(id, context) => setActive({ id, context })}
+      onFirstPlayed={action('onFirstPlayed')}
       activeAudioID={active.id}
       activeAudioContext={active.context}
     />
@@ -120,12 +122,17 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   isTapToViewExpired: overrideProps.isTapToViewExpired,
   kickOffAttachmentDownload: action('kickOffAttachmentDownload'),
   markAttachmentAsCorrupted: action('markAttachmentAsCorrupted'),
+  markViewed: action('markViewed'),
   onHeightChange: action('onHeightChange'),
   openConversation: action('openConversation'),
   openLink: action('openLink'),
   previews: overrideProps.previews || [],
   reactions: overrideProps.reactions,
   reactToMessage: action('reactToMessage'),
+  readStatus:
+    overrideProps.readStatus === undefined
+      ? ReadStatus.Read
+      : overrideProps.readStatus,
   renderEmojiPicker,
   renderAudioAttachment,
   replyToMessage: action('replyToMessage'),
@@ -866,33 +873,48 @@ story.add('Pending GIF', () => {
 });
 
 story.add('Audio', () => {
-  const props = createProps({
-    attachments: [
-      {
-        contentType: AUDIO_MP3,
-        fileName: 'incompetech-com-Agnus-Dei-X.mp3',
-        url: '/fixtures/incompetech-com-Agnus-Dei-X.mp3',
-      },
-    ],
-    status: 'sent',
-  });
+  const Wrapper = () => {
+    const [isPlayed, setIsPlayed] = React.useState(false);
 
-  return renderBothDirections(props);
-});
+    const messageProps = createProps({
+      attachments: [
+        {
+          contentType: AUDIO_MP3,
+          fileName: 'incompetech-com-Agnus-Dei-X.mp3',
+          url: '/fixtures/incompetech-com-Agnus-Dei-X.mp3',
+        },
+      ],
+      ...(isPlayed
+        ? {
+            status: 'viewed',
+            readStatus: ReadStatus.Viewed,
+          }
+        : {
+            status: 'read',
+            readStatus: ReadStatus.Read,
+          }),
+    });
 
-story.add('Audio (played)', () => {
-  const props = createProps({
-    attachments: [
-      {
-        contentType: AUDIO_MP3,
-        fileName: 'incompetech-com-Agnus-Dei-X.mp3',
-        url: '/fixtures/incompetech-com-Agnus-Dei-X.mp3',
-      },
-    ],
-    status: 'viewed',
-  });
+    return (
+      <>
+        <button
+          type="button"
+          onClick={() => {
+            setIsPlayed(old => !old);
+          }}
+          style={{
+            display: 'block',
+            marginBottom: '2em',
+          }}
+        >
+          Toggle played
+        </button>
+        {renderBothDirections(messageProps)}
+      </>
+    );
+  };
 
-  return renderBothDirections(props);
+  return <Wrapper />;
 });
 
 story.add('Long Audio', () => {

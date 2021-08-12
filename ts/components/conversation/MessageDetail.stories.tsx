@@ -10,6 +10,7 @@ import { storiesOf } from '@storybook/react';
 import { PropsData as MessageDataPropsType } from './Message';
 import { MessageDetail, Props } from './MessageDetail';
 import { SendStatus } from '../../messages/MessageSendState';
+import { ReadStatus } from '../../messages/MessageReadStatus';
 import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
 import { setup as setupI18n } from '../../../js/modules/i18n';
 import enMessages from '../../../_locales/en/messages.json';
@@ -35,6 +36,7 @@ const defaultMessage: MessageDataPropsType = {
   isBlocked: false,
   isMessageRequestAccepted: true,
   previews: [],
+  readStatus: ReadStatus.Read,
   status: 'sent',
   text: 'A message from Max',
   timestamp: Date.now(),
@@ -71,6 +73,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   doubleCheckMissingQuoteReference: action('doubleCheckMissingQuoteReference'),
   kickOffAttachmentDownload: action('kickOffAttachmentDownload'),
   markAttachmentAsCorrupted: action('markAttachmentAsCorrupted'),
+  markViewed: action('markViewed'),
   openConversation: action('openConversation'),
   openLink: action('openLink'),
   reactToMessage: action('reactToMessage'),

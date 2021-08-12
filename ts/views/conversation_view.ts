@@ -63,6 +63,9 @@ import {
   autoScale,
   handleImageAttachment,
 } from '../util/handleImageAttachment';
+import { ReadStatus } from '../messages/MessageReadStatus';
+import { markViewed } from '../services/MessageUpdater';
+import { viewSyncJobQueue } from '../jobs/viewSyncJobQueue';
 
 type AttachmentOptions = {
   messageId: string;
@@ -861,6 +864,28 @@ Whisper.ConversationView = Whisper.View.extend({
       }
       message.markAttachmentAsCorrupted(options.attachment);
     };
+    const onMarkViewed = (messageId: string): void => {
+      const message = window.MessageController.getById(messageId);
+      if (!message) {
+        throw new Error(`onMarkViewed: Message ${messageId} missing!`);
+      }
+
+      if (message.get('readStatus') === ReadStatus.Viewed) {
+        return;
+      }
+
+      message.set(markViewed(message.attributes, Date.now()));
+      viewSyncJobQueue.add({
+        viewSyncs: [
+          {
+            messageId,
+            senderE164: message.get('source'),
+            senderUuid: message.get('sourceUuid'),
+            timestamp: message.get('sent_at'),
+          },
+        ],
+      });
+    };
     const showVisualAttachment = (options: {
       attachment: AttachmentType;
       messageId: string;
@@ -910,6 +935,7 @@ Whisper.ConversationView = Whisper.View.extend({
       downloadNewVersion,
       kickOffAttachmentDownload,
       markAttachmentAsCorrupted,
+      markViewed: onMarkViewed,
       openConversation,
       openLink,
       reactToMessage,

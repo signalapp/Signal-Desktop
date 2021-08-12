@@ -44,6 +44,7 @@ import * as Stickers from '../types/Stickers';
 import { AttachmentType, isImage, isVideo } from '../types/Attachment';
 import { IMAGE_WEBP, stringToMIMEType } from '../types/MIME';
 import { ourProfileKeyService } from '../services/ourProfileKey';
+import { ReadStatus } from '../messages/MessageReadStatus';
 import {
   SendActionType,
   SendStateByConversationId,
@@ -53,9 +54,10 @@ import {
   sendStateReducer,
   someSendStatus,
 } from '../messages/MessageSendState';
+import { migrateLegacyReadStatus } from '../messages/migrateLegacyReadStatus';
 import { migrateLegacySendAttributes } from '../messages/migrateLegacySendAttributes';
 import { getOwn } from '../util/getOwn';
-import { markRead } from '../services/MessageUpdater';
+import { markRead, markViewed } from '../services/MessageUpdater';
 import { isMessageUnread } from '../util/isMessageUnread';
 import {
   isDirectConversation,
@@ -104,6 +106,7 @@ import {
 import { Deletes } from '../messageModifiers/Deletes';
 import { Reactions } from '../messageModifiers/Reactions';
 import { ReadSyncs } from '../messageModifiers/ReadSyncs';
+import { ViewSyncs } from '../messageModifiers/ViewSyncs';
 import { ViewOnceOpenSyncs } from '../messageModifiers/ViewOnceOpenSyncs';
 import * as AttachmentDownloads from '../messageModifiers/AttachmentDownloads';
 import * as LinkPreview from '../types/LinkPreview';
@@ -192,6 +195,11 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           logger: window.log,
         })
       );
+    }
+
+    const readStatus = migrateLegacyReadStatus(this.attributes);
+    if (readStatus !== undefined) {
+      this.set('readStatus', readStatus, { silent: true });
     }
 
     const sendStateByConversationId = migrateLegacySendAttributes(
@@ -835,8 +843,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       return;
     }
 
-    if (isMessageUnread(this.attributes)) {
-      this.set(markRead(this.attributes));
+    if (this.get('readStatus') !== ReadStatus.Viewed) {
+      this.set(markViewed(this.attributes));
     }
 
     await this.eraseContents();
@@ -3269,19 +3277,41 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     }
 
     if (type === 'incoming') {
+      // In a followup (see DESKTOP-2100), we want to make `ReadSyncs#forMessage` return
+      //   an array, not an object. This array wrapping makes that future a bit easier.
       const readSync = ReadSyncs.getSingleton().forMessage(message);
-      if (readSync) {
-        if (
-          message.get('expireTimer') &&
-          !message.get('expirationStartTimestamp')
-        ) {
-          message.set(
-            'expirationStartTimestamp',
-            Math.min(readSync.get('readAt'), Date.now())
-          );
-        }
+      const readSyncs = readSync ? [readSync] : [];
 
-        message.unset('unread');
+      const viewSyncs = ViewSyncs.getSingleton().forMessage(message);
+
+      if (message.get('expireTimer')) {
+        const existingExpirationStartTimestamp = message.get(
+          'expirationStartTimestamp'
+        );
+        const candidateTimestamps: Array<number> = [
+          Date.now(),
+          ...(existingExpirationStartTimestamp
+            ? [existingExpirationStartTimestamp]
+            : []),
+          ...readSyncs.map(sync => sync.get('readAt')),
+          ...viewSyncs.map(sync => sync.get('viewedAt')),
+        ];
+        message.set(
+          'expirationStartTimestamp',
+          Math.min(...candidateTimestamps)
+        );
+        changed = true;
+      }
+
+      let newReadStatus: undefined | ReadStatus.Read | ReadStatus.Viewed;
+      if (viewSyncs.length) {
+        newReadStatus = ReadStatus.Viewed;
+      } else if (readSyncs.length) {
+        newReadStatus = ReadStatus.Read;
+      }
+
+      if (newReadStatus !== undefined) {
+        message.set('readStatus', newReadStatus);
         // This is primarily to allow the conversation to mark all older
         // messages as read, as is done when we receive a read sync for
         // a message we already know about.
@@ -3290,22 +3320,24 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           c.onReadMessage(message);
         }
         changed = true;
-      } else if (isFirstRun) {
+      }
+
+      if (isFirstRun && !viewSyncs.length && !readSyncs.length) {
         conversation.set({
           unreadCount: (conversation.get('unreadCount') || 0) + 1,
           isArchived: false,
         });
       }
-    }
 
-    // Check for out-of-order view once open syncs
-    if (type === 'incoming' && isTapToView(message.attributes)) {
-      const viewOnceOpenSync = ViewOnceOpenSyncs.getSingleton().forMessage(
-        message
-      );
-      if (viewOnceOpenSync) {
-        await message.markViewOnceMessageViewed({ fromSync: true });
-        changed = true;
+      // Check for out-of-order view once open syncs
+      if (isTapToView(message.attributes)) {
+        const viewOnceOpenSync = ViewOnceOpenSyncs.getSingleton().forMessage(
+          message
+        );
+        if (viewOnceOpenSync) {
+          await message.markViewOnceMessageViewed({ fromSync: true });
+          changed = true;
+        }
       }
     }
 

@@ -15,6 +15,7 @@ import { MessageModel } from './models/messages';
 import { ConversationModel } from './models/conversations';
 import { ProfileNameChangeType } from './util/getStringForProfileChange';
 import { CapabilitiesType } from './textsecure/WebAPI';
+import { ReadStatus } from './messages/MessageReadStatus';
 import {
   SendState,
   SendStateByConversationId,
@@ -182,7 +183,6 @@ export type MessageAttributesType = {
   source?: string;
   sourceUuid?: string;
 
-  unread?: boolean;
   timestamp: number;
 
   // Backwards-compatibility with prerelease data schema
@@ -190,6 +190,9 @@ export type MessageAttributesType = {
   droppedGV2MemberIds?: Array<string>;
 
   sendHQImages?: boolean;
+
+  // Should only be present for incoming messages
+  readStatus?: ReadStatus;
 
   // Should only be present for outgoing messages
   sendStateByConversationId?: SendStateByConversationId;

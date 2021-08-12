@@ -19,6 +19,7 @@ import {
   stringToMIMEType,
 } from '../../types/MIME';
 import { Props, Quote } from './Quote';
+import { ReadStatus } from '../../messages/MessageReadStatus';
 import { setup as setupI18n } from '../../../js/modules/i18n';
 import enMessages from '../../../_locales/en/messages.json';
 import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
@@ -56,11 +57,13 @@ const defaultMessageProps: MessagesProps = {
   isMessageRequestAccepted: true,
   kickOffAttachmentDownload: action('default--kickOffAttachmentDownload'),
   markAttachmentAsCorrupted: action('default--markAttachmentAsCorrupted'),
+  markViewed: action('default--markViewed'),
   onHeightChange: action('onHeightChange'),
   openConversation: action('default--openConversation'),
   openLink: action('default--openLink'),
   previews: [],
   reactToMessage: action('default--reactToMessage'),
+  readStatus: ReadStatus.Read,
   renderEmojiPicker: () => <div />,
   renderAudioAttachment: () => <div>*AudioAttachment*</div>,
   replyToMessage: action('default--replyToMessage'),

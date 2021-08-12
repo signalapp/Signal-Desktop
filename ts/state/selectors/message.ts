@@ -45,6 +45,7 @@ import { ConversationColors } from '../../types/Colors';
 import { CallMode } from '../../types/Calling';
 import { SignalService as Proto } from '../../protobuf';
 import { AttachmentType, isVoiceMessage } from '../../types/Attachment';
+import { ReadStatus } from '../../messages/MessageReadStatus';
 
 import { CallingNotificationType } from '../../util/callingNotification';
 import { memoizeByRoot } from '../../util/memoizeByRoot';
@@ -478,6 +479,7 @@ type ShallowPropsType = Pick<
   | 'isTapToView'
   | 'isTapToViewError'
   | 'isTapToViewExpired'
+  | 'readStatus'
   | 'selectedReaction'
   | 'status'
   | 'text'
@@ -544,6 +546,7 @@ const getShallowPropsForMessage = createSelectorCreator(memoizeByRoot, isEqual)(
       isTapToViewError:
         isMessageTapToView && isIncoming(message) && message.isTapToViewInvalid,
       isTapToViewExpired: isMessageTapToView && message.isErased,
+      readStatus: message.readStatus ?? ReadStatus.Read,
       selectedReaction,
       status: getMessagePropStatus(message, ourConversationId),
       text: createNonBreakingLastSeparator(message.body),

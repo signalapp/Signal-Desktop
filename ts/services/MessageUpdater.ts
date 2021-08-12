@@ -1,16 +1,21 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { MessageAttributesType } from '../model-types.d';
+import type { MessageAttributesType } from '../model-types.d';
+import { ReadStatus, maxReadStatus } from '../messages/MessageReadStatus';
 
-export function markRead(
-  messageAttrs: MessageAttributesType,
-  readAt?: number,
-  { skipSave = false } = {}
+function markReadOrViewed(
+  messageAttrs: Readonly<MessageAttributesType>,
+  readStatus: ReadStatus.Read | ReadStatus.Viewed,
+  timestamp: undefined | number,
+  skipSave: boolean
 ): MessageAttributesType {
-  const nextMessageAttributes = {
+  const oldReadStatus = messageAttrs.readStatus ?? ReadStatus.Read;
+  const newReadStatus = maxReadStatus(oldReadStatus, readStatus);
+
+  const nextMessageAttributes: MessageAttributesType = {
     ...messageAttrs,
-    unread: false,
+    readStatus: newReadStatus,
   };
 
   const { id: messageId, expireTimer, expirationStartTimestamp } = messageAttrs;
@@ -18,7 +23,7 @@ export function markRead(
   if (expireTimer && !expirationStartTimestamp) {
     nextMessageAttributes.expirationStartTimestamp = Math.min(
       Date.now(),
-      readAt || Date.now()
+      timestamp || Date.now()
     );
   }
 
@@ -30,3 +35,17 @@ export function markRead(
 
   return nextMessageAttributes;
 }
+
+export const markRead = (
+  messageAttrs: Readonly<MessageAttributesType>,
+  readAt?: number,
+  { skipSave = false } = {}
+): MessageAttributesType =>
+  markReadOrViewed(messageAttrs, ReadStatus.Read, readAt, skipSave);
+
+export const markViewed = (
+  messageAttrs: Readonly<MessageAttributesType>,
+  viewedAt?: number,
+  { skipSave = false } = {}
+): MessageAttributesType =>
+  markReadOrViewed(messageAttrs, ReadStatus.Viewed, viewedAt, skipSave);

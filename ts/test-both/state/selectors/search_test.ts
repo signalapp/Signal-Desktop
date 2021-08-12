@@ -21,6 +21,7 @@ import {
 } from '../../../state/selectors/search';
 import { makeLookup } from '../../../util/makeLookup';
 import { getDefaultConversation } from '../../helpers/getDefaultConversation';
+import { ReadStatus } from '../../../messages/MessageReadStatus';
 
 import { StateType, reducer as rootReducer } from '../../../state/reducer';
 
@@ -54,7 +55,7 @@ describe('both/state/selectors/search', () => {
       sourceUuid: 'sourceUuid',
       timestamp: NOW,
       type: 'incoming' as const,
-      unread: false,
+      readStatus: ReadStatus.Read,
     };
   }
 

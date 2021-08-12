@@ -30,6 +30,7 @@ export type OwnProps = Pick<
   | 'errors'
   | 'kickOffAttachmentDownload'
   | 'markAttachmentAsCorrupted'
+  | 'markViewed'
   | 'message'
   | 'openConversation'
   | 'openLink'
@@ -71,6 +72,7 @@ const mapStateToProps = (
     doubleCheckMissingQuoteReference,
     kickOffAttachmentDownload,
     markAttachmentAsCorrupted,
+    markViewed,
     openConversation,
     openLink,
     reactToMessage,
@@ -115,6 +117,7 @@ const mapStateToProps = (
     doubleCheckMissingQuoteReference,
     kickOffAttachmentDownload,
     markAttachmentAsCorrupted,
+    markViewed,
     openConversation,
     openLink,
     reactToMessage,

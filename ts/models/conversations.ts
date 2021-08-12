@@ -52,6 +52,7 @@ import { handleMessageSend } from '../util/handleMessageSend';
 import { getConversationMembers } from '../util/getConversationMembers';
 import { sendReadReceiptsFor } from '../util/sendReadReceiptsFor';
 import { updateConversationsWithUuidLookup } from '../updateConversationsWithUuidLookup';
+import { ReadStatus } from '../messages/MessageReadStatus';
 import { SendStatus } from '../messages/MessageSendState';
 import {
   concat,
@@ -2454,7 +2455,7 @@ export class ConversationModel extends window.Backbone
       sent_at: receivedAt,
       received_at: receivedAtCounter,
       received_at_ms: receivedAt,
-      unread: 1,
+      readStatus: ReadStatus.Unread,
       // TODO: DESKTOP-722
       // this type does not fully implement the interface it is expected to
     } as unknown) as typeof window.Whisper.MessageAttributesType;
@@ -2494,7 +2495,7 @@ export class ConversationModel extends window.Backbone
       sent_at: receivedAt,
       received_at: receivedAtCounter,
       received_at_ms: receivedAt,
-      unread: 1,
+      readStatus: ReadStatus.Unread,
       // TODO: DESKTOP-722
       // this type does not fully implement the interface it is expected to
     } as unknown) as typeof window.Whisper.MessageAttributesType;
@@ -2529,7 +2530,7 @@ export class ConversationModel extends window.Backbone
       received_at: window.Signal.Util.incrementMessageCounter(),
       received_at_ms: timestamp,
       key_changed: keyChangedId,
-      unread: 1,
+      readStatus: ReadStatus.Unread,
       schemaVersion: Message.VERSION_NEEDED_FOR_DISPLAY,
       // TODO: DESKTOP-722
       // this type does not fully implement the interface it is expected to
@@ -2589,7 +2590,7 @@ export class ConversationModel extends window.Backbone
       verifiedChanged: verifiedChangeId,
       verified,
       local: options.local,
-      unread: 1,
+      readStatus: ReadStatus.Unread,
       // TODO: DESKTOP-722
     } as unknown) as typeof window.Whisper.MessageAttributesType;
 
@@ -2647,7 +2648,7 @@ export class ConversationModel extends window.Backbone
       sent_at: timestamp,
       received_at: window.Signal.Util.incrementMessageCounter(),
       received_at_ms: timestamp,
-      unread,
+      readStatus: unread ? ReadStatus.Unread : ReadStatus.Read,
       callHistoryDetails: detailsToSave,
       // TODO: DESKTOP-722
     } as unknown) as typeof window.Whisper.MessageAttributesType;
@@ -2697,7 +2698,7 @@ export class ConversationModel extends window.Backbone
       sent_at: now,
       received_at: window.Signal.Util.incrementMessageCounter(),
       received_at_ms: now,
-      unread: false,
+      readStatus: ReadStatus.Read,
       changedId: conversationId || this.id,
       profileChange,
       // TODO: DESKTOP-722
@@ -2738,7 +2739,7 @@ export class ConversationModel extends window.Backbone
       sent_at: now,
       received_at: window.Signal.Util.incrementMessageCounter(),
       received_at_ms: now,
-      unread: false,
+      readStatus: ReadStatus.Read,
     };
 
     const id = await window.Signal.Data.saveMessage(
@@ -4163,7 +4164,7 @@ export class ConversationModel extends window.Backbone
     const model = new window.Whisper.Message(({
       // Even though this isn't reflected to the user, we want to place the last seen
       //   indicator above it. We set it to 'unread' to trigger that placement.
-      unread: 1,
+      readStatus: ReadStatus.Unread,
       conversationId: this.id,
       // No type; 'incoming' messages are specially treated by conversation.markRead()
       sent_at: timestamp,
@@ -4266,7 +4267,7 @@ export class ConversationModel extends window.Backbone
       type: 'message-history-unsynced',
       // Even though this isn't reflected to the user, we want to place the last seen
       //   indicator above it. We set it to 'unread' to trigger that placement.
-      unread: 1,
+      readStatus: ReadStatus.Unread,
       conversationId: this.id,
       sent_at: timestamp,
       received_at: window.Signal.Util.incrementMessageCounter(),

@@ -58,6 +58,7 @@ import {
   StickerPackEvent,
   VerifiedEvent,
   ReadSyncEvent,
+  ViewSyncEvent,
   ContactEvent,
   GroupEvent,
   EnvelopeEvent,
@@ -79,7 +80,9 @@ import {
 import { MessageRequests } from './messageModifiers/MessageRequests';
 import { Reactions } from './messageModifiers/Reactions';
 import { ReadSyncs } from './messageModifiers/ReadSyncs';
+import { ViewSyncs } from './messageModifiers/ViewSyncs';
 import { ViewOnceOpenSyncs } from './messageModifiers/ViewOnceOpenSyncs';
+import { ReadStatus } from './messages/MessageReadStatus';
 import {
   SendStateByConversationId,
   SendStatus,
@@ -210,6 +213,10 @@ export async function startApp(): Promise<void> {
     messageReceiver.addEventListener(
       'readSync',
       queuedEventListener(onReadSync)
+    );
+    messageReceiver.addEventListener(
+      'viewSync',
+      queuedEventListener(onViewSync)
     );
     messageReceiver.addEventListener(
       'read',
@@ -3518,7 +3525,7 @@ export async function startApp(): Promise<void> {
       conversationId: descriptor.id,
       unidentifiedDeliveryReceived: data.unidentifiedDeliveryReceived,
       type: 'incoming',
-      unread: true,
+      readStatus: ReadStatus.Unread,
       timestamp: data.timestamp,
     } as Partial<MessageAttributesType>) as WhatIsThis);
   }
@@ -3849,6 +3856,38 @@ export async function startApp(): Promise<void> {
     // Note: Here we wait, because we want read states to be in the database
     //   before we move on.
     return ReadSyncs.getSingleton().onSync(receipt);
+  }
+
+  function onViewSync(ev: ViewSyncEvent) {
+    const { envelopeTimestamp, senderE164, senderUuid, timestamp } = ev.view;
+    const senderId = window.ConversationController.ensureContactIds({
+      e164: senderE164,
+      uuid: senderUuid,
+    });
+
+    window.log.info(
+      'view sync',
+      senderE164,
+      senderUuid,
+      envelopeTimestamp,
+      senderId,
+      'for message',
+      timestamp
+    );
+
+    const receipt = ViewSyncs.getSingleton().add({
+      senderId,
+      senderE164,
+      senderUuid,
+      timestamp,
+      viewedAt: envelopeTimestamp,
+    });
+
+    receipt.on('remove', ev.confirm);
+
+    // Note: Here we wait, because we want viewed states to be in the database
+    //   before we move on.
+    return ViewSyncs.getSingleton().onSync(receipt);
   }
 
   async function onVerified(ev: VerifiedEvent) {

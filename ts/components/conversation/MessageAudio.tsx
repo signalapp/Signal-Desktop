@@ -37,6 +37,7 @@ export type Props = {
   buttonRef: React.RefObject<HTMLButtonElement>;
   kickOffAttachmentDownload(): void;
   onCorrupted(): void;
+  onFirstPlayed(): void;
 
   computePeaks(url: string, barCount: number): Promise<ComputePeaksResult>;
   activeAudioID: string | undefined;
@@ -163,6 +164,7 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
     buttonRef,
     kickOffAttachmentDownload,
     onCorrupted,
+    onFirstPlayed,
 
     audio,
     computePeaks,
@@ -364,6 +366,12 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
       audio.src = attachment.url;
     }
   };
+
+  useEffect(() => {
+    if (!played && isPlaying) {
+      onFirstPlayed();
+    }
+  }, [played, isPlaying, onFirstPlayed]);
 
   // Clicking waveform moves playback head position and starts playback.
   const onWaveformClick = (event: React.MouseEvent) => {

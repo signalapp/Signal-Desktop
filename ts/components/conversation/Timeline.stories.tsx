@@ -20,6 +20,7 @@ import { LastSeenIndicator } from './LastSeenIndicator';
 import { TimelineLoadingRow } from './TimelineLoadingRow';
 import { TypingBubble } from './TypingBubble';
 import { ContactSpoofingType } from '../../util/contactSpoofing';
+import { ReadStatus } from '../../messages/MessageReadStatus';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -51,6 +52,7 @@ const items: Record<string, TimelineItemType> = {
       isBlocked: false,
       isMessageRequestAccepted: true,
       previews: [],
+      readStatus: ReadStatus.Read,
       text: '🔥',
       timestamp: Date.now(),
     },
@@ -70,6 +72,7 @@ const items: Record<string, TimelineItemType> = {
       isBlocked: false,
       isMessageRequestAccepted: true,
       previews: [],
+      readStatus: ReadStatus.Read,
       text: 'Hello there from the new world! http://somewhere.com',
       timestamp: Date.now(),
     },
@@ -102,6 +105,7 @@ const items: Record<string, TimelineItemType> = {
       isBlocked: false,
       isMessageRequestAccepted: true,
       previews: [],
+      readStatus: ReadStatus.Read,
       text: 'Hello there from the new world!',
       timestamp: Date.now(),
     },
@@ -200,6 +204,7 @@ const items: Record<string, TimelineItemType> = {
       isBlocked: false,
       isMessageRequestAccepted: true,
       previews: [],
+      readStatus: ReadStatus.Read,
       status: 'sent',
       text: '🔥',
       timestamp: Date.now(),
@@ -220,6 +225,7 @@ const items: Record<string, TimelineItemType> = {
       isBlocked: false,
       isMessageRequestAccepted: true,
       previews: [],
+      readStatus: ReadStatus.Read,
       status: 'read',
       text: 'Hello there from the new world! http://somewhere.com',
       timestamp: Date.now(),
@@ -240,6 +246,7 @@ const items: Record<string, TimelineItemType> = {
       isBlocked: false,
       isMessageRequestAccepted: true,
       previews: [],
+      readStatus: ReadStatus.Read,
       status: 'sent',
       text: 'Hello there from the new world! 🔥',
       timestamp: Date.now(),
@@ -260,6 +267,7 @@ const items: Record<string, TimelineItemType> = {
       isBlocked: false,
       isMessageRequestAccepted: true,
       previews: [],
+      readStatus: ReadStatus.Read,
       status: 'sent',
       text:
         'Hello there from the new world! And this is multiple lines of text. Lines and lines and lines.',
@@ -281,6 +289,7 @@ const items: Record<string, TimelineItemType> = {
       isBlocked: false,
       isMessageRequestAccepted: true,
       previews: [],
+      readStatus: ReadStatus.Read,
       status: 'read',
       text:
         'Hello there from the new world! And this is multiple lines of text. Lines and lines and lines.',
@@ -325,6 +334,7 @@ const actions = () => ({
   showContactModal: action('showContactModal'),
   kickOffAttachmentDownload: action('kickOffAttachmentDownload'),
   markAttachmentAsCorrupted: action('markAttachmentAsCorrupted'),
+  markViewed: action('markViewed'),
   showVisualAttachment: action('showVisualAttachment'),
   downloadAttachment: action('downloadAttachment'),
   displayTapToViewMessage: action('displayTapToViewMessage'),

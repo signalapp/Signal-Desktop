@@ -399,3 +399,19 @@ export class ReadSyncEvent extends ConfirmableEvent {
     super('readSync', confirm);
   }
 }
+
+export type ViewSyncEventData = Readonly<{
+  timestamp?: number;
+  envelopeTimestamp: number;
+  senderE164?: string;
+  senderUuid?: string;
+}>;
+
+export class ViewSyncEvent extends ConfirmableEvent {
+  constructor(
+    public readonly view: ViewSyncEventData,
+    confirm: ConfirmCallback
+  ) {
+    super('viewSync', confirm);
+  }
+}

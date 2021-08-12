@@ -69,6 +69,7 @@ export type Props = {
   | 'interactionMode'
   | 'kickOffAttachmentDownload'
   | 'markAttachmentAsCorrupted'
+  | 'markViewed'
   | 'openConversation'
   | 'openLink'
   | 'reactToMessage'
@@ -269,6 +270,7 @@ export class MessageDetail extends React.Component<Props> {
       interactionMode,
       kickOffAttachmentDownload,
       markAttachmentAsCorrupted,
+      markViewed,
       openConversation,
       openLink,
       reactToMessage,
@@ -305,6 +307,7 @@ export class MessageDetail extends React.Component<Props> {
             interactionMode={interactionMode}
             kickOffAttachmentDownload={kickOffAttachmentDownload}
             markAttachmentAsCorrupted={markAttachmentAsCorrupted}
+            markViewed={markViewed}
             onHeightChange={noop}
             openConversation={openConversation}
             openLink={openLink}

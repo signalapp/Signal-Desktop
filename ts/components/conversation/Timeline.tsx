@@ -1496,6 +1496,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
       'loadNewerMessages',
       'loadNewestMessages',
       'markMessageRead',
+      'markViewed',
       'onBlock',
       'onBlockAndReportSpam',
       'onDelete',

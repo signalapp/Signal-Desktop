@@ -2,20 +2,22 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
+import { ReadStatus } from '../../messages/MessageReadStatus';
 
 import { isMessageUnread } from '../../util/isMessageUnread';
 
 describe('isMessageUnread', () => {
-  it("returns false if the message's `unread` field is undefined", () => {
+  it("returns false if the message's `readStatus` field is undefined", () => {
     assert.isFalse(isMessageUnread({}));
-    assert.isFalse(isMessageUnread({ unread: undefined }));
+    assert.isFalse(isMessageUnread({ readStatus: undefined }));
   });
 
-  it('returns false if the message is read', () => {
-    assert.isFalse(isMessageUnread({ unread: false }));
+  it('returns false if the message is read or viewed', () => {
+    assert.isFalse(isMessageUnread({ readStatus: ReadStatus.Read }));
+    assert.isFalse(isMessageUnread({ readStatus: ReadStatus.Viewed }));
   });
 
   it('returns true if the message is unread', () => {
-    assert.isTrue(isMessageUnread({ unread: true }));
+    assert.isTrue(isMessageUnread({ readStatus: ReadStatus.Unread }));
   });
 });

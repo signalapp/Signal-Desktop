@@ -23,6 +23,7 @@ import {
   reducer,
   updateConversationLookups,
 } from '../../../state/ducks/conversations';
+import { ReadStatus } from '../../../messages/MessageReadStatus';
 import { ContactSpoofingType } from '../../../util/contactSpoofing';
 import { CallMode } from '../../../types/Calling';
 import * as groups from '../../../groups';
@@ -317,7 +318,7 @@ describe('both/state/ducks/conversations', () => {
         sourceUuid: 'sourceUuid',
         timestamp: previousTime,
         type: 'incoming' as const,
-        unread: false,
+        readStatus: ReadStatus.Read,
       };
     }
 

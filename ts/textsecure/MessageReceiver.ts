@@ -91,6 +91,7 @@ import {
   StickerPackEvent,
   VerifiedEvent,
   ReadSyncEvent,
+  ViewSyncEvent,
   ContactEvent,
   ContactSyncEvent,
   GroupEvent,
@@ -438,6 +439,11 @@ export default class MessageReceiver
   public addEventListener(
     name: 'readSync',
     handler: (ev: ReadSyncEvent) => void
+  ): void;
+
+  public addEventListener(
+    name: 'viewSync',
+    handler: (ev: ViewSyncEvent) => void
   ): void;
 
   public addEventListener(
@@ -2206,6 +2212,9 @@ export default class MessageReceiver
     if (syncMessage.keys) {
       return this.handleKeys(envelope, syncMessage.keys);
     }
+    if (syncMessage.viewed && syncMessage.viewed.length) {
+      return this.handleViewed(envelope, syncMessage.viewed);
+    }
 
     this.removeFromCache(envelope);
     window.log.warn(
@@ -2386,6 +2395,32 @@ export default class MessageReceiver
       results.push(this.dispatchAndWait(ev));
     }
     await Promise.all(results);
+  }
+
+  private async handleViewed(
+    envelope: ProcessedEnvelope,
+    viewed: ReadonlyArray<Proto.SyncMessage.IViewed>
+  ): Promise<void> {
+    window.log.info(
+      'MessageReceiver.handleViewed',
+      this.getEnvelopeId(envelope)
+    );
+    await Promise.all(
+      viewed.map(async ({ timestamp, senderE164, senderUuid }) => {
+        const ev = new ViewSyncEvent(
+          {
+            envelopeTimestamp: envelope.timestamp,
+            timestamp: normalizeNumber(dropNull(timestamp)),
+            senderE164: dropNull(senderE164),
+            senderUuid: senderUuid
+              ? normalizeUuid(senderUuid, 'handleViewed.senderUuid')
+              : undefined,
+          },
+          this.removeFromCache.bind(this, envelope)
+        );
+        await this.dispatchAndWait(ev);
+      })
+    );
   }
 
   private async handleContacts(

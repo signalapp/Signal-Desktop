@@ -1297,6 +1297,33 @@ export default class MessageSender {
     });
   }
 
+  async syncView(
+    views: ReadonlyArray<{
+      senderUuid?: string;
+      senderE164?: string;
+      timestamp: number;
+    }>,
+    options?: SendOptionsType
+  ): Promise<CallbackResultType> {
+    const myNumber = window.textsecure.storage.user.getNumber();
+    const myUuid = window.textsecure.storage.user.getUuid();
+
+    const syncMessage = this.createSyncMessage();
+    syncMessage.viewed = views.map(view => new Proto.SyncMessage.Viewed(view));
+    const contentMessage = new Proto.Content();
+    contentMessage.syncMessage = syncMessage;
+
+    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
+
+    return this.sendIndividualProto({
+      identifier: myUuid || myNumber,
+      proto: contentMessage,
+      timestamp: Date.now(),
+      contentHint: ContentHint.RESENDABLE,
+      options,
+    });
+  }
+
   async syncViewOnceOpen(
     sender: string | undefined,
     senderUuid: string,

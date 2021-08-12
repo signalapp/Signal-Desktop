@@ -6,6 +6,7 @@ import type { WebAPIType } from '../textsecure/WebAPI';
 import { readSyncJobQueue } from './readSyncJobQueue';
 import { removeStorageKeyJobQueue } from './removeStorageKeyJobQueue';
 import { reportSpamJobQueue } from './reportSpamJobQueue';
+import { viewSyncJobQueue } from './viewSyncJobQueue';
 
 /**
  * Start all of the job queues. Should be called when the database is ready.
@@ -20,4 +21,5 @@ export function initializeAllJobQueues({
   readSyncJobQueue.streamJobs();
   removeStorageKeyJobQueue.streamJobs();
   reportSpamJobQueue.streamJobs();
+  viewSyncJobQueue.streamJobs();
 }

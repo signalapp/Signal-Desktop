@@ -13,8 +13,8 @@ import { jobQueueDatabaseStore } from './JobQueueDatabaseStore';
 
 const MAX_RETRY_TIME = moment.duration(1, 'day').asMilliseconds();
 
-const readSyncJobDataSchema = z.object({
-  readSyncs: z.array(
+const viewSyncJobDataSchema = z.object({
+  viewSyncs: z.array(
     z.object({
       messageId: z.string().optional(),
       senderE164: z.string().optional(),
@@ -24,31 +24,31 @@ const readSyncJobDataSchema = z.object({
   ),
 });
 
-export type ReadSyncJobData = z.infer<typeof readSyncJobDataSchema>;
+export type ViewSyncJobData = z.infer<typeof viewSyncJobDataSchema>;
 
-export class ReadSyncJobQueue extends JobQueue<ReadSyncJobData> {
-  protected parseData(data: unknown): ReadSyncJobData {
-    return readSyncJobDataSchema.parse(data);
+export class ViewSyncJobQueue extends JobQueue<ViewSyncJobData> {
+  protected parseData(data: unknown): ViewSyncJobData {
+    return viewSyncJobDataSchema.parse(data);
   }
 
   protected async run(
-    { data, timestamp }: Readonly<{ data: ReadSyncJobData; timestamp: number }>,
+    { data, timestamp }: Readonly<{ data: ViewSyncJobData; timestamp: number }>,
     { attempt }: Readonly<{ attempt: number }>
   ): Promise<void> {
     await runReadOrViewSyncJob({
       attempt,
-      isView: false,
+      isView: true,
       maxRetryTime: MAX_RETRY_TIME,
-      syncs: data.readSyncs,
+      syncs: data.viewSyncs,
       timestamp,
     });
   }
 }
 
-export const readSyncJobQueue = new ReadSyncJobQueue({
+export const viewSyncJobQueue = new ViewSyncJobQueue({
   store: jobQueueDatabaseStore,
 
-  queueType: 'read sync',
+  queueType: 'view sync',
 
   maxAttempts: exponentialBackoffMaxAttempts(MAX_RETRY_TIME),
 });
