@@ -2,11 +2,12 @@ import {
   createOrUpdateItem,
   getItemById,
   getLatestClosedGroupEncryptionKeyPair,
+  Snode,
 } from '../../../ts/data/data';
-import { getMessageQueue } from '..';
+import { getMessageQueue, Utils } from '..';
 import { getConversationController } from '../conversations';
 import uuid from 'uuid';
-import { UserUtils } from '.';
+import { StringUtils, UserUtils } from '.';
 import { ECKeyPair } from '../../receiver/keypairs';
 import {
   ConfigurationMessage,
@@ -14,7 +15,17 @@ import {
   ConfigurationMessageContact,
 } from '../messages/outgoing/controlMessage/ConfigurationMessage';
 import { ConversationModel } from '../../models/conversation';
-import { fromBase64ToArray, fromHexToArray, toHex } from './String';
+import {
+  fromArrayBufferToBase64,
+  fromBase64ToArray,
+  fromBase64ToArrayBuffer,
+  fromHex,
+  fromHexToArray,
+  fromUInt8ArrayToBase64,
+  stringToArrayBuffer,
+  stringToUint8Array,
+  toHex,
+} from './String';
 import { SignalService } from '../../protobuf';
 import _ from 'lodash';
 import {
@@ -27,7 +38,23 @@ import { ExpirationTimerUpdateMessage } from '../messages/outgoing/controlMessag
 import { getV2OpenGroupRoom } from '../../data/opengroups';
 import { getCompleteUrlFromRoom } from '../../opengroup/utils/OpenGroupUtils';
 import { DURATION } from '../constants';
+import { snodeHttpsAgent } from '../snode_api/onions';
+
+import { default as insecureNodeFetch } from 'node-fetch';
+import { getSodium } from '../crypto';
+import { snodeRpc } from '../snode_api/lokiRpc';
+import { getSwarmFor, getSwarmFromCacheOrDb } from '../snode_api/snodePool';
+import { base64_variants, crypto_sign, to_base64, to_hex } from 'libsodium-wrappers';
+import {
+  textToArrayBuffer,
+  TextToBase64,
+  verifyED25519Signature,
+} from '../../opengroup/opengroupV2/ApiUtil';
+import { KeyPair } from '../../../libtextsecure/libsignal-protocol';
+import { getIdentityKeyPair } from './User';
 import { PubKey } from '../types';
+import pRetry from 'p-retry';
+import { ed25519Str } from '../onions/onionPath';
 
 const ITEM_ID_LAST_SYNC_TIMESTAMP = 'lastSyncedTimestamp';
 
@@ -138,7 +165,7 @@ const getValidClosedGroups = async (convos: Array<ConversationModel>) => {
       }
 
       return new ConfigurationMessageClosedGroup({
-        publicKey: groupPubKey as string,
+        publicKey: groupPubKey,
         name: c.get('name') || '',
         members: c.get('members') || [],
         admins: c.get('groupAdmins') || [],

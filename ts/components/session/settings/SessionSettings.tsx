@@ -8,20 +8,19 @@ import { ConversationLookupType } from '../../../state/ducks/conversations';
 import { StateType } from '../../../state/reducer';
 import { getConversationController } from '../../../session/conversations';
 import { getConversationLookup } from '../../../state/selectors/conversations';
-import { connect, useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 import {
   createOrUpdateItem,
   getPasswordHash,
   hasLinkPreviewPopupBeenDisplayed,
 } from '../../../../ts/data/data';
-import { SpacerLG, SpacerXS } from '../../basic/Text';
 import { shell } from 'electron';
-import { SessionConfirmDialogProps } from '../SessionConfirm';
+import { SessionConfirmDialogProps } from '../../dialog/SessionConfirm';
 import { mapDispatchToProps } from '../../../state/actions';
 import { unblockConvoById } from '../../../interactions/conversationInteractions';
 import { toggleAudioAutoplay } from '../../../state/ducks/userConfig';
 import { sessionPassword } from '../../../state/ducks/modalDialog';
-import { PasswordAction } from '../SessionPasswordModal';
+import { PasswordAction } from '../../dialog/SessionPasswordDialog';
 import { SessionIconButton, SessionIconSize, SessionIconType } from '../icon';
 
 export enum SessionSettingCategory {
@@ -96,12 +95,10 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
     window.addEventListener('keyup', this.onKeyUp);
   }
 
-  public async componentWillMount() {
-    const mediaSetting = await window.getSettingValue('media-permissions');
-    this.setState({ mediaSetting });
-  }
-
   public componentDidMount() {
+    const mediaSetting = window.getSettingValue('media-permissions');
+    this.setState({ mediaSetting });
+
     setTimeout(() => ($('#password-lock-input') as any).focus(), 100);
   }
 

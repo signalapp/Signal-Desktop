@@ -2,24 +2,24 @@ import React from 'react';
 import classNames from 'classnames';
 import { QRCode } from 'react-qr-svg';
 
-import { Avatar, AvatarSize } from './Avatar';
+import { Avatar, AvatarSize } from '../Avatar';
 
-import { SessionButton, SessionButtonColor, SessionButtonType } from './session/SessionButton';
+import { SessionButton, SessionButtonColor, SessionButtonType } from '../session/SessionButton';
 
-import { SessionIconButton, SessionIconSize, SessionIconType } from './session/icon';
-import { PillDivider } from './session/PillDivider';
-import { SyncUtils, ToastUtils, UserUtils } from '../session/utils';
-import { MAX_USERNAME_LENGTH } from './session/registration/RegistrationTabs';
-import { SessionSpinner } from './session/SessionSpinner';
-import { ConversationModel, ConversationTypeEnum } from '../models/conversation';
+import { SessionIconButton, SessionIconSize, SessionIconType } from '../session/icon';
+import { PillDivider } from '../session/PillDivider';
+import { SyncUtils, ToastUtils, UserUtils } from '../../session/utils';
+import { MAX_USERNAME_LENGTH } from '../session/registration/RegistrationTabs';
+import { SessionSpinner } from '../session/SessionSpinner';
+import { ConversationModel, ConversationTypeEnum } from '../../models/conversation';
 
-import { SessionWrapperModal } from './session/SessionWrapperModal';
-import { AttachmentUtil } from '../util';
-import { getConversationController } from '../session/conversations';
-import { SpacerLG, SpacerMD } from './basic/Text';
+import { SessionWrapperModal } from '../session/SessionWrapperModal';
+import { AttachmentUtil } from '../../util';
+import { getConversationController } from '../../session/conversations';
+import { SpacerLG, SpacerMD } from '../basic/Text';
 import autoBind from 'auto-bind';
-import { editProfileModal } from '../state/ducks/modalDialog';
-import { uploadOurAvatar } from '../interactions/conversationInteractions';
+import { editProfileModal } from '../../state/ducks/modalDialog';
+import { uploadOurAvatar } from '../../interactions/conversationInteractions';
 
 interface State {
   profileName: string;

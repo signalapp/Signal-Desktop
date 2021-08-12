@@ -37,20 +37,16 @@ import { getOpenGroupManager } from '../../opengroup/opengroupV2/OpenGroupManage
 import { forceRefreshRandomSnodePool } from '../../session/snode_api/snodePool';
 import { getSwarmPollingInstance } from '../../session/snode_api';
 import { DURATION } from '../../session/constants';
-import {
-  actions as conversationActions,
-  conversationChanged,
-  conversationRemoved,
-} from '../../state/ducks/conversations';
+import { conversationChanged, conversationRemoved } from '../../state/ducks/conversations';
 import { editProfileModal, onionPathModal } from '../../state/ducks/modalDialog';
 import { uploadOurAvatar } from '../../interactions/conversationInteractions';
-import { ModalContainer } from './ModalContainer';
+import { ModalContainer } from '../dialog/ModalContainer';
 import { debounce } from 'underscore';
 import { loadDefaultRooms } from '../../opengroup/opengroupV2/ApiUtil';
-import { ActionPanelOnionStatusLight } from '../OnionStatusPathDialog';
 
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
 
+import { ActionPanelOnionStatusLight } from '../dialog/OnionStatusPathDialog';
 const Section = (props: { type: SectionType; avatarPath?: string }) => {
   const ourNumber = useSelector(getOurNumber);
   const unreadMessageCount = useSelector(getUnreadMessageCount);

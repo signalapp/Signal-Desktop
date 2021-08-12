@@ -387,7 +387,11 @@ const debug = false;
 /**
  * Only exported for testing purpose
  */
-export async function decodeOnionResult(symmetricKey: ArrayBuffer, ciphertext: string) {
+export async function decodeOnionResult(
+  symmetricKey: ArrayBuffer,
+  ciphertext: string,
+  test?: string
+) {
   let parsedCiphertext = ciphertext;
   try {
     const jsonRes = JSON.parse(ciphertext);
@@ -417,6 +421,7 @@ export async function processOnionResponse({
   abortSignal,
   associatedWith,
   lsrpcEd25519Key,
+  test,
 }: {
   response?: { text: () => Promise<string>; status: number };
   symmetricKey?: ArrayBuffer;
@@ -424,6 +429,7 @@ export async function processOnionResponse({
   lsrpcEd25519Key?: string;
   abortSignal?: AbortSignal;
   associatedWith?: string;
+  test?: string;
 }): Promise<SnodeResponse> {
   let ciphertext = '';
 
@@ -454,7 +460,7 @@ export async function processOnionResponse({
   let ciphertextBuffer;
 
   try {
-    const decoded = await exports.decodeOnionResult(symmetricKey, ciphertext);
+    const decoded = await exports.decodeOnionResult(symmetricKey, ciphertext, test);
 
     plaintext = decoded.plaintext;
     ciphertextBuffer = decoded.ciphertextBuffer;
@@ -661,6 +667,7 @@ const sendOnionRequestHandlingSnodeEject = async ({
   abortSignal,
   associatedWith,
   finalRelayOptions,
+  test,
 }: {
   nodePath: Array<Snode>;
   destX25519Any: string;
@@ -672,6 +679,7 @@ const sendOnionRequestHandlingSnodeEject = async ({
   finalRelayOptions?: FinalRelayOptions;
   abortSignal?: AbortSignal;
   associatedWith?: string;
+  test?: string;
 }): Promise<SnodeResponse> => {
   // this sendOnionRequest() call has to be the only one like this.
   // If you need to call it, call it through sendOnionRequestHandlingSnodeEject because this is the one handling path rebuilding and known errors
@@ -685,6 +693,7 @@ const sendOnionRequestHandlingSnodeEject = async ({
       finalDestOptions,
       finalRelayOptions,
       abortSignal,
+      test,
     });
 
     response = result.response;
@@ -701,6 +710,7 @@ const sendOnionRequestHandlingSnodeEject = async ({
     lsrpcEd25519Key: finalDestOptions?.destination_ed25519_hex,
     abortSignal,
     associatedWith,
+    test,
   });
 
   return processed;
@@ -723,6 +733,7 @@ const sendOnionRequest = async ({
   finalDestOptions,
   finalRelayOptions,
   abortSignal,
+  test,
 }: {
   nodePath: Array<Snode>;
   destX25519Any: string;
@@ -733,6 +744,7 @@ const sendOnionRequest = async ({
   };
   finalRelayOptions?: FinalRelayOptions;
   abortSignal?: AbortSignal;
+  test?: string;
 }) => {
   // get destination pubkey in array buffer format
   let destX25519hex = destX25519Any;
@@ -808,7 +820,7 @@ const sendOnionRequest = async ({
       'User-Agent': 'WhatsApp',
       'Accept-Language': 'en-us',
     },
-    timeout: 10000,
+    timeout: 25000,
   };
 
   if (abortSignal) {
@@ -827,7 +839,8 @@ async function sendOnionRequestSnodeDest(
   onionPath: Array<Snode>,
   targetNode: Snode,
   plaintext?: string,
-  associatedWith?: string
+  associatedWith?: string,
+  test?: string
 ) {
   return sendOnionRequestHandlingSnodeEject({
     nodePath: onionPath,
@@ -837,6 +850,7 @@ async function sendOnionRequestSnodeDest(
       body: plaintext,
     },
     associatedWith,
+    test,
   });
 }
 
@@ -867,11 +881,12 @@ export function getPathString(pathObjArr: Array<{ ip: string; port: number }>): 
 async function onionFetchRetryable(
   targetNode: Snode,
   body?: string,
-  associatedWith?: string
+  associatedWith?: string,
+  test?: string
 ): Promise<SnodeResponse> {
   // Get a path excluding `targetNode`:
   const path = await OnionPaths.getOnionPath(targetNode);
-  const result = await sendOnionRequestSnodeDest(path, targetNode, body, associatedWith);
+  const result = await sendOnionRequestSnodeDest(path, targetNode, body, associatedWith, test);
   return result;
 }
 
@@ -881,12 +896,13 @@ async function onionFetchRetryable(
 export async function lokiOnionFetch(
   targetNode: Snode,
   body?: string,
-  associatedWith?: string
+  associatedWith?: string,
+  test?: string
 ): Promise<SnodeResponse | undefined> {
   try {
     const retriedResult = await pRetry(
       async () => {
-        return onionFetchRetryable(targetNode, body, associatedWith);
+        return onionFetchRetryable(targetNode, body, associatedWith, test);
       },
       {
         retries: 4,

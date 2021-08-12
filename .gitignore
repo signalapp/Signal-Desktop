@@ -44,3 +44,5 @@ yarn-error.log
 
 # editor
 .vscode/
+
+libloki/test/test.js

@@ -60,13 +60,12 @@ class SessionRecordingInner extends React.Component<Props, State> {
     };
   }
 
-  public componentWillMount() {
-    // This turns on the microphone on the system. Later we need to turn it off.
-    void this.initiateRecordingStream();
-  }
-
   public componentDidMount() {
+    // This turns on the microphone on the system. Later we need to turn it off.
+
+    void this.initiateRecordingStream();
     // Callback to parent on load complete
+
     if (this.props.onLoadVoiceNoteView) {
       this.props.onLoadVoiceNoteView();
     }

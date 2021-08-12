@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { SessionButton, SessionButtonColor } from './SessionButton';
-import { SessionHtmlRenderer } from './SessionHTMLRenderer';
-import { SessionIcon, SessionIconSize, SessionIconType } from './icon';
+import { SessionButton, SessionButtonColor } from '../session/SessionButton';
+import { SessionHtmlRenderer } from '../session/SessionHTMLRenderer';
+import { SessionIcon, SessionIconSize, SessionIconType } from '../session/icon';
 import { DefaultTheme, useTheme, withTheme } from 'styled-components';
-import { SessionWrapperModal } from './SessionWrapperModal';
+import { SessionWrapperModal } from '../session/SessionWrapperModal';
 import { updateConfirmModal } from '../../state/ducks/modalDialog';
 import { SpacerLG } from '../basic/Text';
-import { SessionSpinner } from './SessionSpinner';
+import { SessionSpinner } from '../session/SessionSpinner';
 
 export interface SessionConfirmDialogProps {
   message?: string;

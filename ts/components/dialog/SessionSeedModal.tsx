@@ -1,13 +1,13 @@
 import React from 'react';
 
-import { SessionButton } from './SessionButton';
+import { SessionButton } from '../session/SessionButton';
 import { ToastUtils, UserUtils } from '../../session/utils';
 import { withTheme } from 'styled-components';
 import { PasswordUtil } from '../../util';
 import { getPasswordHash } from '../../data/data';
 import { QRCode } from 'react-qr-svg';
 import { mn_decode } from '../../session/crypto/mnemonic';
-import { SessionWrapperModal } from './SessionWrapperModal';
+import { SessionWrapperModal } from '../session/SessionWrapperModal';
 import { SpacerLG, SpacerSM, SpacerXS } from '../basic/Text';
 import autoBind from 'auto-bind';
 import { recoveryPhraseModal } from '../../state/ducks/modalDialog';
@@ -41,13 +41,13 @@ class SessionSeedModalInner extends React.Component<{}, State> {
 
   public componentDidMount() {
     setTimeout(() => ($('#seed-input-password') as any).focus(), 100);
+
+    void this.checkHasPassword();
+    void this.getRecoveryPhrase();
   }
 
   public render() {
     const i18n = window.i18n;
-
-    void this.checkHasPassword();
-    void this.getRecoveryPhrase();
 
     const { hasPassword, passwordValid } = this.state;
     const loading = this.state.loadingPassword || this.state.loadingSeed;
