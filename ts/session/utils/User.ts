@@ -5,8 +5,6 @@ import { KeyPair } from '../../../libtextsecure/libsignal-protocol';
 import { PubKey } from '../types';
 import { fromHexToArray, toHex } from './String';
 import { getConversationController } from '../conversations';
-import { SnodePool } from '../snode_api';
-import { OnionPaths } from '../onions';
 
 export type HexKeyPair = {
   pubKey: string;

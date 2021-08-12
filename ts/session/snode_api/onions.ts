@@ -4,7 +4,7 @@ import https from 'https';
 import { dropSnodeFromSnodePool, dropSnodeFromSwarmIfNeeded, updateSwarmFor } from './snodePool';
 import ByteBuffer from 'bytebuffer';
 import { OnionPaths } from '../onions';
-import { fromHex, toHex } from '../utils/String';
+import { toHex } from '../utils/String';
 import pRetry from 'p-retry';
 import { ed25519Str, incrementBadPathCountOrDrop } from '../onions/onionPath';
 import _ from 'lodash';
@@ -202,7 +202,7 @@ function process406Error(statusCode: number) {
   }
 }
 
-function processOxenServerError(statusCode: number, body?: string) {
+function processOxenServerError(_statusCode: number, body?: string) {
   if (body === OXEN_SERVER_ERROR) {
     window?.log?.warn('[path] Got Oxen server Error. Not much to do if the server has troubles.');
     throw new pRetry.AbortError(OXEN_SERVER_ERROR);
@@ -386,11 +386,7 @@ const debug = false;
 /**
  * Only exported for testing purpose
  */
-export async function decodeOnionResult(
-  symmetricKey: ArrayBuffer,
-  ciphertext: string,
-  test?: string
-) {
+export async function decodeOnionResult(symmetricKey: ArrayBuffer, ciphertext: string) {
   let parsedCiphertext = ciphertext;
   try {
     const jsonRes = JSON.parse(ciphertext);
@@ -485,7 +481,7 @@ export async function processOnionResponse({
   }
 
   try {
-    const jsonRes = JSON.parse(plaintext, (key, value) => {
+    const jsonRes = JSON.parse(plaintext, (_key, value) => {
       if (typeof value === 'number' && value > Number.MAX_SAFE_INTEGER) {
         window?.log?.warn('Received an out of bounds js number');
       }
@@ -529,10 +525,6 @@ export type FinalDestinationOptions = {
   headers?: Record<string, string>;
   body?: string;
 };
-
-function isSnodeResponse(arg: any): arg is SnodeResponse {
-  return arg.status !== undefined;
-}
 
 /**
  * Handle a 421. The body is supposed to be the new swarm nodes for this publickey.
@@ -732,7 +724,6 @@ const sendOnionRequest = async ({
   finalDestOptions,
   finalRelayOptions,
   abortSignal,
-  test,
 }: {
   nodePath: Array<Snode>;
   destX25519Any: string;

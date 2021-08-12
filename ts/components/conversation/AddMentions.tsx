@@ -1,12 +1,9 @@
-import React, { useEffect } from 'react';
-
 import { RenderTextCallbackType } from '../../types/Util';
 import classNames from 'classnames';
 import { PubKey } from '../../session/types';
-import { ConversationModel } from '../../models/conversation';
 import { UserUtils } from '../../session/utils';
 import { getConversationController } from '../../session/conversations';
-import _ from 'lodash';
+import React from 'react';
 
 interface MentionProps {
   key: string;

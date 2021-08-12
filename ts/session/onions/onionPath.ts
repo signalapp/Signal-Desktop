@@ -294,7 +294,7 @@ async function testGuardNode(snode: Snode) {
   }
 
   if (!response.ok) {
-    const tg = await response.text();
+    await response.text();
     window?.log?.info('Node failed the guard test:', snode);
   }
 

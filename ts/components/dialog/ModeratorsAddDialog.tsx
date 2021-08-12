@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../session/SessionButton';
 import { PubKey } from '../../session/types';
 import { ToastUtils } from '../../session/utils';
-import { useTheme } from 'styled-components';
 import { SessionSpinner } from '../session/SessionSpinner';
 import { Flex } from '../basic/Flex';
 import { ApiV2 } from '../../opengroup/opengroupV2';
@@ -10,7 +9,6 @@ import { SessionWrapperModal } from '../session/SessionWrapperModal';
 import { getConversationController } from '../../session/conversations';
 import { useDispatch } from 'react-redux';
 import { updateAddModeratorsModal } from '../../state/ducks/modalDialog';
-import _ from 'lodash';
 
 type Props = {
   conversationId: string;

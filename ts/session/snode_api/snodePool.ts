@@ -1,4 +1,3 @@
-import semver from 'semver';
 import _ from 'lodash';
 
 import { getSnodePoolFromSnodes, getSnodesFromSeedUrl, requestSnodesForPubkey } from './SNodeAPI';
@@ -9,7 +8,7 @@ import { allowOnlyOneAtATime } from '../utils/Promise';
 import pRetry from 'p-retry';
 import { ed25519Str } from '../onions/onionPath';
 import { OnionPaths } from '../onions';
-import { Onions, SNodeAPI } from '.';
+import { Onions } from '.';
 
 /**
  * If we get less than this snode in a swarm, we fetch new snodes for this pubkey

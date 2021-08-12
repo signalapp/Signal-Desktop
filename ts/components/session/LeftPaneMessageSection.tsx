@@ -11,7 +11,6 @@ import {
 } from '../../state/ducks/conversations';
 import { SearchResults, SearchResultsProps } from '../SearchResults';
 import { SessionSearchInput } from './SessionSearchInput';
-import _, { debounce } from 'lodash';
 import { cleanSearchTerm } from '../../util/cleanSearchTerm';
 import { RowRendererParamsType } from '../LeftPane';
 import { SessionClosableOverlay, SessionClosableOverlayType } from './SessionClosableOverlay';
@@ -29,7 +28,7 @@ import autoBind from 'auto-bind';
 import { onsNameRegex } from '../../session/snode_api/SNodeAPI';
 import { SNodeAPI } from '../../session/snode_api';
 import { clearSearch, search, updateSearchTerm } from '../../state/ducks/search';
-import { getFirstUnreadMessageIdInConversation } from '../../data/data';
+import _ from 'lodash';
 
 export interface Props {
   searchTerm: string;
@@ -70,7 +69,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     };
 
     autoBind(this);
-    this.debouncedSearch = debounce(this.search.bind(this), 20);
+    this.debouncedSearch = _.debounce(this.search.bind(this), 20);
   }
 
   public renderRow = ({ index, key, style }: RowRendererParamsType): JSX.Element => {

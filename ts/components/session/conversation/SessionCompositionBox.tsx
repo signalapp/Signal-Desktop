@@ -1,5 +1,5 @@
 import React from 'react';
-import _, { debounce, update } from 'lodash';
+import _, { debounce } from 'lodash';
 
 import { Attachment, AttachmentType } from '../../../types/Attachment';
 import * as MIME from '../../../types/MIME';
@@ -774,7 +774,7 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
     }
   }
 
-  private async onKeyUp(event: any) {
+  private async onKeyUp() {
     const { draft } = this.props;
     // Called whenever the user changes the message composition field. But only
     //   fires if there's content in the message field after the change.

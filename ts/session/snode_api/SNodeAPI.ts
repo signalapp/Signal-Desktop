@@ -23,7 +23,6 @@ import _, { range } from 'lodash';
 import pRetry from 'p-retry';
 import {
   fromBase64ToArray,
-  fromHex,
   fromHexToArray,
   fromUInt8ArrayToBase64,
   stringToUint8Array,

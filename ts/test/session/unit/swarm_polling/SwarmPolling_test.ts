@@ -2,7 +2,6 @@
 
 import chai from 'chai';
 import Sinon, * as sinon from 'sinon';
-import _, { noop } from 'lodash';
 import { describe } from 'mocha';
 
 import chaiAsPromised from 'chai-as-promised';
@@ -19,6 +18,7 @@ import {
   ConversationTypeEnum,
 } from '../../../../models/conversation';
 import { PubKey } from '../../../../session/types';
+import { noop } from 'lodash';
 // tslint:disable: chai-vague-errors
 
 chai.use(chaiAsPromised as any);

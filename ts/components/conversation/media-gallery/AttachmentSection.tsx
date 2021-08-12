@@ -4,8 +4,6 @@ import { DocumentListItem } from './DocumentListItem';
 import { MediaGridItem } from './MediaGridItem';
 import { MediaItemType } from '../../LightboxGallery';
 import { missingCaseError } from '../../../util/missingCaseError';
-import { useSelector } from 'react-redux';
-import { getSelectedConversationKey } from '../../../state/selectors/conversations';
 
 type Props = {
   type: 'media' | 'documents';

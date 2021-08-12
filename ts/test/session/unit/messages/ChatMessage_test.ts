@@ -5,9 +5,7 @@ import { TextEncoder } from 'util';
 import { toNumber } from 'lodash';
 import { Constants } from '../../../../session';
 import {
-  AttachmentPointer,
   AttachmentPointerWithUrl,
-  Preview,
   PreviewWithAttachmentUrl,
   Quote,
   VisibleMessage,

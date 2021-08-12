@@ -170,7 +170,7 @@ export class OpenGroupServerPoller {
     }
   }
 
-  private async triggerPollAfterAdd(room?: OpenGroupRequestCommonType) {
+  private async triggerPollAfterAdd(_room?: OpenGroupRequestCommonType) {
     await this.compactPoll();
     await this.previewPerRoomPoll();
     await this.pollForAllMemberCount();
@@ -381,7 +381,7 @@ const handleDeletions = async (
 const handleNewMessages = async (
   newMessages: Array<OpenGroupMessageV2>,
   conversationId: string,
-  convo?: ConversationModel
+  _convo?: ConversationModel
 ) => {
   try {
     const roomInfos = await getV2OpenGroupRoom(conversationId);

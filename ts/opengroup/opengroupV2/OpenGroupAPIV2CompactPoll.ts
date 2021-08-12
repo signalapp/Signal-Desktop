@@ -320,7 +320,7 @@ export type ParsedMemberCount = {
 
 const parseCompactPollResult = async (
   singleRoomResult: any,
-  serverUrl: string
+  _serverUrl: string
 ): Promise<ParsedRoomCompactPollResults | null> => {
   const {
     room_id,

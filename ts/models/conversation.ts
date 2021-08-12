@@ -390,7 +390,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
   }
 
-  public async onExpired(message: MessageModel) {
+  public async onExpired(_message: MessageModel) {
     await this.updateLastMessage();
 
     // removeMessage();
@@ -1207,8 +1207,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
    * @param profileKey MUST be a hex string
    */
   public async setProfileKey(profileKey?: Uint8Array, autoCommit = true) {
-    const re = /[0-9A-Fa-f]*/g;
-
     if (!profileKey) {
       return;
     }
@@ -1497,7 +1495,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
   }
 
-  public async clearContactTypingTimer(sender: string) {
+  public async clearContactTypingTimer(_sender: string) {
     if (!!this.typingTimer) {
       global.clearTimeout(this.typingTimer);
       this.typingTimer = null;

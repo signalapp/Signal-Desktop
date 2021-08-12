@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import {
   getV2OpenGroupRoomByRoomId,
   OpenGroupV2Room,

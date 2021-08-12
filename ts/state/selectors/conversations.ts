@@ -143,8 +143,6 @@ export const _getLeftPaneLists = (
   const conversations: Array<ReduxConversationType> = [];
   const directConversations: Array<ReduxConversationType> = [];
 
-  let index = 0;
-
   let unreadCount = 0;
   for (let conversation of sorted) {
     if (selectedConversation === conversation.id) {
@@ -188,7 +186,6 @@ export const _getLeftPaneLists = (
     }
 
     conversations.push(conversation);
-    index++;
   }
 
   return {

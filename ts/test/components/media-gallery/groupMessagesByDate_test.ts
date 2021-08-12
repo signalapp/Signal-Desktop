@@ -10,7 +10,6 @@ import { MediaItemType } from '../../../components/LightboxGallery';
 import { TestUtils } from '../../test-utils';
 
 const generatedMessageSenderKey = TestUtils.generateFakePubKey().key;
-const generatedMessageTimestamp = Date.now();
 
 const toMediaItem = (date: Date): MediaItemType => ({
   objectURL: date.toUTCString(),

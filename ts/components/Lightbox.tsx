@@ -1,6 +1,6 @@
 // tslint:disable:react-a11y-anchors
 
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useRef } from 'react';
 
 import is from '@sindresorhus/is';
 
@@ -136,7 +136,7 @@ interface IconButtonProps {
 }
 
 const IconButton = ({ onClick, type, theme }: IconButtonProps) => {
-  const clickHandler = (event: React.MouseEvent<HTMLAnchorElement>): void => {
+  const clickHandler = (_event: React.MouseEvent<HTMLAnchorElement>): void => {
     if (!onClick) {
       return;
     }
