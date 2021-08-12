@@ -561,44 +561,36 @@ export async function retrieveNextMessages(
   };
 
   // let exceptions bubble up
-  try {
-    // no retry for this one as this a call we do every few seconds while polling for messages
-    const result = await snodeRpc('retrieve', params, targetNode, associatedWith);
+  // no retry for this one as this a call we do every few seconds while polling for messages
+  const result = await snodeRpc('retrieve', params, targetNode, associatedWith);
 
-    if (!result) {
-      window?.log?.warn(
-        `loki_message:::_retrieveNextMessages - lokiRpc could not talk to ${targetNode.ip}:${targetNode.port}`
-      );
-      return [];
-    }
-
-    if (result.status !== 200) {
-      window?.log?.warn('retrieve result is not 200');
-      return [];
-    }
-
-    try {
-      const json = JSON.parse(result.body);
-      window.inboxStore?.dispatch(updateIsOnline(true));
-
-      return json.messages || [];
-    } catch (e) {
-      window?.log?.warn('exception while parsing json of nextMessage:', e);
-      window.inboxStore?.dispatch(updateIsOnline(true));
-
-      return [];
-    }
-  } catch (e) {
+  if (!result) {
     window?.log?.warn(
-      'Got an error while retrieving next messages. Not retrying as we trigger fetch often:',
-      e.message
+      `loki_message:::_retrieveNextMessages - lokiRpc could not talk to ${targetNode.ip}:${targetNode.port}`
     );
-    if (e.message === ERROR_CODE_NO_CONNECT) {
-      window.inboxStore?.dispatch(updateIsOnline(false));
-    } else {
-      window.inboxStore?.dispatch(updateIsOnline(true));
-    }
-    return [];
+    throw new Error(
+      `loki_message:::_retrieveNextMessages - lokiRpc could not talk to ${targetNode.ip}:${targetNode.port}`
+    );
+  }
+
+  if (result.status !== 200) {
+    window?.log?.warn('retrieve result is not 200');
+    throw new Error(
+      `loki_message:::_retrieveNextMessages - retrieve result is not 200 with ${targetNode.ip}:${targetNode.port}`
+    );
+  }
+
+  try {
+    const json = JSON.parse(result.body);
+    window.inboxStore?.dispatch(updateIsOnline(true));
+
+    return json.messages || [];
+  } catch (e) {
+    window?.log?.warn('exception while parsing json of nextMessage:', e);
+    window.inboxStore?.dispatch(updateIsOnline(true));
+    throw new Error(
+      `loki_message:::_retrieveNextMessages - exception while parsing json of nextMessage ${targetNode.ip}:${targetNode.port}: ${e?.message}`
+    );
   }
 }
 
