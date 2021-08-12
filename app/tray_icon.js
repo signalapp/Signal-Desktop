@@ -7,7 +7,7 @@ let tray = null;
 
 function createTrayIcon(getMainWindow, messages) {
   // keep the duplicated part to allow for search and find
-  const iconFile = process.platform === 'darwin' ? 'session_icon_16.png' : 'session_icon.png';
+  const iconFile = process.platform === 'darwin' ? 'session_icon_16.png' : 'session_icon_32.png';
   const iconNoNewMessages = path.join(__dirname, '..', 'images', 'session', iconFile);
   tray = new Tray(iconNoNewMessages);
 
