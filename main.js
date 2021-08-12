@@ -169,7 +169,6 @@ function prepareURL(pathSegments, moreKeys) {
       contentProxyUrl: config.contentProxyUrl,
       serverTrustRoot: config.get('serverTrustRoot'),
       appStartInitialSpellcheckSetting,
-      defaultFileServer: config.get('defaultFileServer'),
       ...moreKeys,
     },
   });

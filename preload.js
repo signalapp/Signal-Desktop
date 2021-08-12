@@ -48,8 +48,6 @@ window.isBehindProxy = () => Boolean(config.proxyUrl);
 
 window.getStoragePubKey = key => (window.isDev() ? key.substring(2) : key);
 
-window.getDefaultFileServer = () => config.defaultFileServer;
-
 window.lokiFeatureFlags = {
   useOnionRequests: true,
   useFileOnionRequests: true,
@@ -60,8 +58,6 @@ window.lokiFeatureFlags = {
 
 if (typeof process.env.NODE_ENV === 'string' && process.env.NODE_ENV.includes('test-integration')) {
   window.electronRequire = require;
-  // during test-integration, file server is started on localhost
-  window.getDefaultFileServer = () => 'http://127.0.0.1:7070';
 }
 
 window.isBeforeVersion = (toCheck, baseVersion) => {

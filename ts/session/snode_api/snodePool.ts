@@ -38,7 +38,6 @@ const swarmCache: Map<string, Array<string>> = new Map();
 
 export type SeedNode = {
   url: string;
-  ip_url: string;
 };
 
 // just get the filtered list
@@ -68,7 +67,7 @@ async function tryGetSnodeListFromLokidSeednode(
     // throw before clearing the lock, so the retries can kick in
     if (snodes.length === 0) {
       window?.log?.warn(
-        `loki_snode_api::tryGetSnodeListFromLokidSeednode - ${seedNode.ip_url} did not return any snodes`
+        `loki_snode_api::tryGetSnodeListFromLokidSeednode - ${seedNode.url} did not return any snodes`
       );
       // does this error message need to be exactly this?
       throw new window.textsecure.SeedNodeError('Failed to contact seed node');
