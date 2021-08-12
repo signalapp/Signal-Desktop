@@ -63,26 +63,27 @@ jobs:
 
     - name: Run benchmarks
       run: |
-        xvfb-run --auto-servernum \
-          ts-node Mock-Server/scripts/load-test.ts ./node_modules/.bin/electron . | tee benchmark.log || \
+        set -o pipefail
+        xvfb-run --auto-servernum ts-node Mock-Server/scripts/load-test.ts \
+          ./node_modules/.bin/electron . | tee benchmark-startup.log || \
           (cat /home/runner/.config/Signal-mock/logs/{app,main}.log && exit 1)
       timeout-minutes: 10
       env:
         RUN_COUNT: 10
         ELECTRON_ENABLE_STACK_DUMPING: on
 
-    - name: Clone benchmark branch
+    - name: Clone benchmark repo
       uses: actions/checkout@v2
       with:
         repository: 'signalapp/Signal-Desktop-Benchmarks-Private'
         path: 'benchmark-results'
         token: ${{ secrets.AUTOMATED_GITHUB_PAT }}
 
-    - name: Push benchmark branch
+    - name: Push benchmark repo
       working-directory: benchmark-results
       run: |
         npm ci
-        node ./bin/collect.js ../benchmark.log data.json
+        node ./bin/collect.js ../benchmark-startup.log data/startup.json
         npm run build
         git config --global user.email "no-reply@signal.org"
         git config --global user.name "Signal Bot"
