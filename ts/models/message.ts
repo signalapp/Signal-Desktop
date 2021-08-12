@@ -626,11 +626,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   }
 
   public getPropsForPreview() {
-    // Don't generate link previews if user has turned them off
-    if (!window.storage.get('link-preview-setting', false)) {
-      return null;
-    }
-
     const previews = this.get('preview') || [];
 
     return previews.map((preview: any) => {

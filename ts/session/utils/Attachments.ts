@@ -121,7 +121,7 @@ export class AttachmentFsV2Utils {
       // some links does not have an image associated, and it makes the whole message fail to send
       if (!preview.image) {
         window.log.warn('tried to upload file to fsv2 without image.. skipping');
-        return undefined;
+        return preview as any;
       }
       const image = await this.uploadToFsV2({
         attachment: preview.image,
