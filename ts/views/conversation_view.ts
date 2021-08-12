@@ -889,9 +889,15 @@ Whisper.ConversationView = Whisper.View.extend({
       this.showSafetyNumber(contactId);
     };
     const showExpiredIncomingTapToViewToast = () => {
+      window.log.info(
+        'Showing expired tap-to-view toast for an incoming message'
+      );
       this.showToast(Whisper.TapToViewExpiredIncomingToast);
     };
     const showExpiredOutgoingTapToViewToast = () => {
+      window.log.info(
+        'Showing expired tap-to-view toast for an outgoing message'
+      );
       this.showToast(Whisper.TapToViewExpiredOutgoingToast);
     };
     const showForwardMessageModal = this.showForwardMessageModal.bind(this);
@@ -2798,6 +2804,8 @@ Whisper.ConversationView = Whisper.View.extend({
   },
 
   async displayTapToViewMessage(messageId: string) {
+    window.log.info('displayTapToViewMessage: attempting to display message');
+
     const message = window.MessageController.getById(messageId);
     if (!message) {
       throw new Error(`displayTapToViewMessage: Message ${messageId} missing!`);
@@ -2832,7 +2840,10 @@ Whisper.ConversationView = Whisper.View.extend({
     await message.markViewOnceMessageViewed();
 
     const closeLightbox = async () => {
+      window.log.info('displayTapToViewMessage: attempting to close lightbox');
+
       if (!this.lightboxView) {
+        window.log.info('displayTapToViewMessage: lightbox was already closed');
         return;
       }
 
@@ -2870,6 +2881,8 @@ Whisper.ConversationView = Whisper.View.extend({
     });
 
     window.Signal.Backbone.Views.Lightbox.show(this.lightboxView.el);
+
+    window.log.info('displayTapToViewMessage: showed lightbox');
   },
 
   deleteMessage(messageId: string) {

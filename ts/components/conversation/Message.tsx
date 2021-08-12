@@ -2084,13 +2084,16 @@ export class Message extends React.PureComponent<Props, State> {
 
     const isAttachmentPending = this.isAttachmentPending();
 
-    // Don't show lightbox for GIFs
     if (isGIF(attachments)) {
+      window.log.info("<Message> handleOpen: lightbox doesn't open for GIFs");
       return;
     }
 
     if (isTapToView) {
       if (isAttachmentPending) {
+        window.log.info(
+          '<Message> handleOpen: tap-to-view attachment is pending; not showing the lightbox'
+        );
         return;
       }
 
