@@ -1526,7 +1526,7 @@
         }
     },
     "calling__presenting--permission-title": {
-        "message": "Permission needed",
+        "message": "Потребна е дозвола",
         "description": "Shown as the title for the modal that requests screen recording permissions"
     },
     "calling__presenting--macos-permission-description": {
@@ -5550,11 +5550,11 @@
         "description": "Header in the captcha dialog"
     },
     "CaptchaDialog__first-paragraph": {
-        "message": "To help prevent spam on Signal, please complete verification.",
+        "message": "За да спречите несакани пораки на Signal, пополнете ја потврдата.",
         "description": "First paragraph in the captcha dialog"
     },
     "CaptchaDialog__second-paragraph": {
-        "message": "After verifying, you can continue messaging. Any paused messages will automatically be sent.",
+        "message": "По потврдувањето, можете да продолжите со испраќање пораки. Сите паузирани пораки автоматски ќе се испратат.",
         "description": "First paragraph in the captcha dialog"
     },
     "CaptchaDialog--can-close__title": {
@@ -5656,7 +5656,7 @@
         "description": "Option in the custom color bubble context menu"
     },
     "CustomColorEditor__solid": {
-        "message": "Solid",
+        "message": "Цврста",
         "description": "Tab label for selecting solid colors"
     },
     "CustomColorEditor__gradient": {

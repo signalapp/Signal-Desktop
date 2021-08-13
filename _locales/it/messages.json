@@ -1112,7 +1112,7 @@
         "description": "Label for back button in a conversation"
     },
     "moreInfo": {
-        "message": "Ulteriori informazioni",
+        "message": "Informazioni",
         "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
     },
     "retrySend": {
