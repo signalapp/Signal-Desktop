@@ -79,6 +79,18 @@ export class SwarmPolling {
     this.groupPolling = [];
   }
 
+  public TEST_forcePolledTimestamp(pubkey: PubKey, lastPoll: number) {
+    this.groupPolling = this.groupPolling.map(group => {
+      if (PubKey.isEqual(pubkey, group.pubkey)) {
+        return {
+          ...group,
+          lastPolledTimestamp: lastPoll,
+        };
+      }
+      return group;
+    });
+  }
+
   public addGroupId(pubkey: PubKey) {
     if (this.groupPolling.findIndex(m => m.pubkey.key === pubkey.key) === -1) {
       window?.log?.info('Swarm addGroupId: adding pubkey to polling', pubkey.key);
@@ -199,14 +211,15 @@ export class SwarmPolling {
       nodesToPoll = _.concat(nodesToPoll, newNodes);
     }
 
-    const arrayOfResultsWithNull = (
-      await Promise.allSettled(
-        nodesToPoll.map(async (n: Snode) => {
-          // this returns null if an exception occurs
-          return this.pollNodeForKey(n, pubkey);
-        })
-      )
-    ).flatMap(entry => (entry.status === 'fulfilled' ? entry.value : null));
+    const promisesSettled = await Promise.allSettled(
+      nodesToPoll.map(async (n: Snode) => {
+        return this.pollNodeForKey(n, pubkey);
+      })
+    );
+
+    const arrayOfResultsWithNull = promisesSettled.map(entry =>
+      entry.status === 'fulfilled' ? entry.value : null
+    );
 
     // filter out null (exception thrown)
     const arrayOfResults = _.compact(arrayOfResultsWithNull);
@@ -230,7 +243,11 @@ export class SwarmPolling {
         return group;
       });
     } else if (isGroup) {
-      window?.log?.info(`Polled for group(${ed25519Str(pubkey.key)}):, but no results.`);
+      window?.log?.info(
+        `Polled for group(${ed25519Str(
+          pubkey.key
+        )}):, but no snode returned something else than null.`
+      );
     }
 
     perfStart(`handleSeenMessages-${pkStr}`);
@@ -283,6 +300,7 @@ export class SwarmPolling {
       } else {
         window.inboxStore?.dispatch(updateIsOnline(true));
       }
+      window?.log?.info('pollNodeForKey failed with', e.message);
       return null;
     }
   }
