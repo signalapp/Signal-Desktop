@@ -33,10 +33,10 @@ const StyledPillContainer = styled.div<PillContainerProps>`
 
 const StyledPillContainerHoverable = styled.div<PillContainerProps>`
   background: none;
-  
+
   position: relative;
   flex-direction: 'row';
-  
+
   width: 50%;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -44,7 +44,6 @@ const StyledPillContainerHoverable = styled.div<PillContainerProps>`
   padding: ${props => props.padding || ''};
   margin: ${props => props.margin || ''};
 `;
-
 
 const StyledPillInner = styled.div<PillContainerProps>`
   background: green;

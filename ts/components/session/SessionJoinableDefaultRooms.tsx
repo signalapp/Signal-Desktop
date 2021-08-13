@@ -12,7 +12,7 @@ import { Flex } from '../basic/Flex';
 import { PillContainerHoverable, PillTooltipWrapper } from '../basic/PillContainer';
 import { H3 } from '../basic/Text';
 import { SessionSpinner } from './SessionSpinner';
-import styled, { DefaultTheme, useTheme } from "styled-components";
+import styled, { DefaultTheme, useTheme } from 'styled-components';
 // tslint:disable: no-void-expression
 
 export type JoinableRoomProps = {
@@ -108,43 +108,39 @@ const SessionJoinableRoomRow = (props: JoinableRoomProps) => {
 
   const handleMouseEnter = () => {
     setIsHovering(true);
-    setDelayHandler(setTimeout(() => {
-      setHoverDelayReached(true);
-    }, 750))
-  }
+    setDelayHandler(
+      setTimeout(() => {
+        setHoverDelayReached(true);
+      }, 750)
+    );
+  };
   const handleMouseLeave = () => {
     setIsHovering(false);
     setHoverDelayReached(false);
     if (delayHandler) {
       clearTimeout(delayHandler);
     }
-  }
+  };
 
   const showTooltip = hoverDelayReached && isHovering;
 
   return (
-      <PillTooltipWrapper>
-        <PillContainerHoverable
-          onClick={() => {
-            props.onClick(props.completeUrl);
-          }}
-          margin="5px"
-          padding="5px"
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-        >
-          <SessionJoinableRoomAvatar {...props} />
-          <SessionJoinableRoomName {...props} />
-        </PillContainerHoverable>
+    <PillTooltipWrapper>
+      <PillContainerHoverable
+        onClick={() => {
+          props.onClick(props.completeUrl);
+        }}
+        margin="5px"
+        padding="5px"
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
+        <SessionJoinableRoomAvatar {...props} />
+        <SessionJoinableRoomName {...props} />
+      </PillContainerHoverable>
 
-
-        {showTooltip && 
-          <StyledToolTip theme={theme}>
-            {props.name}
-          </StyledToolTip>
-        }
-
-      </PillTooltipWrapper>
+      {showTooltip && <StyledToolTip theme={theme}>{props.name}</StyledToolTip>}
+    </PillTooltipWrapper>
   );
 };
 
