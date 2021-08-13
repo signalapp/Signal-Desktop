@@ -249,6 +249,7 @@ async function createWindow() {
       backgroundColor: '#fff',
       webPreferences: {
         nodeIntegration: false,
+        enableRemoteModule: true,
         nodeIntegrationInWorker: false,
         contextIsolation: false,
         preload: path.join(__dirname, 'preload.js'),
