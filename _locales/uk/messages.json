@@ -961,6 +961,10 @@
         "message": "Світлини",
         "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
     },
+    "text": {
+        "message": "Опис",
+        "description": "Label for the word 'text'"
+    },
     "cannotUpdate": {
         "message": "Неможливо оновити",
         "description": "Shown as the title of our update error dialogs on windows"
@@ -1020,6 +1024,10 @@
     "accept": {
         "message": "Прийняти",
         "description": ""
+    },
+    "done": {
+        "message": "Готово",
+        "description": "Label for done"
     },
     "on": {
         "message": "Увімк.",
@@ -1190,6 +1198,16 @@
             "name": {
                 "content": "$1",
                 "example": "Alice"
+            }
+        }
+    },
+    "ChangeNumber--notification": {
+        "message": "$sender$ змінив номер телефону на новий",
+        "description": "Shown in timeline when a member of a conversation changes their phone number",
+        "placeholders": {
+            "sender": {
+                "content": "$1",
+                "example": "Sam"
             }
         }
     },
@@ -3493,6 +3511,10 @@
         "message": "Вимкнути звук сповіщень",
         "description": "Label for the mute notifications drop-down selector"
     },
+    "notMuted": {
+        "message": "Сповіщення увімкнені",
+        "description": "Label when the conversation is not muted"
+    },
     "muteHour": {
         "message": "Не сповіщати 1 годину",
         "description": "Label for muting the conversation"
@@ -4977,6 +4999,10 @@
         "message": "При включенні цієї настройки повідомлень, надіслані та отримані в цій групі повідомлення будуть зникати після того як будуть прочитаними.",
         "description": "This is the info about the disappearing messages setting"
     },
+    "ConversationDetails--notifications": {
+        "message": "Сповіщення",
+        "description": "This is the label for notifications in the conversation details screen"
+    },
     "ConversationDetails--group-info-label": {
         "message": "Хто може редагувати інформацію групи",
         "description": "This is the label for the 'who can edit the group' panel"
@@ -5082,6 +5108,22 @@
     "ConversationDetailsMembershipList--show-all": {
         "message": "Побачити все",
         "description": "This is a button on the conversation details to show all members"
+    },
+    "ConversationNotificationsSettings__mentions__label": {
+        "message": "Згадати",
+        "description": "In the conversation notifications settings, this is the label for the mentions option"
+    },
+    "ConversationNotificationsSettings__mentions__info": {
+        "message": "Отримувати сповіщення, коли вас згадали у чатах з вимкнутими сповіщеннями",
+        "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
+    },
+    "ConversationNotificationsSettings__mentions__select__always-notify": {
+        "message": "Завжди повідомляти",
+        "description": "In the conversation notifications settings, this is the option that always notifies you for @mentions"
+    },
+    "ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
+        "message": "Не сповіщати, якщо сповіщення вимкнені",
+        "description": "In the conversation notifications settings, this is the option that doesn't notify you for @mentions if the conversation is muted"
     },
     "GroupLinkManagement--clipboard": {
         "message": "Посилання групи скопійовано.",
@@ -5691,6 +5733,10 @@
             }
         }
     },
+    "ErrorBoundaryNotification__text": {
+        "message": "Не вдалось показати повідомлення через внутрішню помилку. Натисніть, щоб надіслати журнал відладки.",
+        "description": "An error notification displayed when message fails to render due to an internal error"
+    },
     "GroupDescription__read-more": {
         "message": "читати ще",
         "description": "Button text when the group description is too long"
@@ -5767,7 +5813,7 @@
         "message": "Прізвище (за бажанням)",
         "description": "Placeholder text for last name field"
     },
-    "ProfileEditor--discard": {
+    "ConfirmDiscardDialog--discard": {
         "message": "Ви хочете відхилити ці зміни?",
         "description": "ConfirmationDialog text for discarding changes"
     },
@@ -5838,5 +5884,17 @@
     "AnnouncementsOnlyGroupBanner--admins": {
         "message": "адміністратори",
         "description": "Clickable text describing administrators of a group, used in the message an admin label"
+    },
+    "AvatarEditor--choose": {
+        "message": "Обрати фото профілю",
+        "description": "Label for the avatar selector"
+    },
+    "AvatarColorPicker--choose": {
+        "message": "Обрати колір",
+        "description": "Label for when you need to choose your fighter, err color"
+    },
+    "LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
+        "message": "Зображення групи",
+        "description": "Title for the avatar picker in the group creation flow"
     }
 }

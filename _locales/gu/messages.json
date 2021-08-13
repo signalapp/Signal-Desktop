@@ -20,11 +20,11 @@
         "description": "Shown as the name of a group if we don't have any information about it"
     },
     "databaseError": {
-        "message": "ડેટાબેઝ મા ભૂલ",
+        "message": "ડેટાબેઝમાં ભૂલ",
         "description": "Shown in a popup if the database cannot start up properly"
     },
     "deleteAndRestart": {
-        "message": "બધો ડાટા નશ્ટ‌ કરિને ફરિથિ પ્રારંભ કરો",
+        "message": "બધો ડાટા નષ્ટ કરીને ફરીથી પ્રારંભ કરો",
         "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
     },
     "mainMenuFile": {
@@ -556,7 +556,7 @@
         "description": "Section header in the media gallery"
     },
     "yesterday": {
-        "message": "ગઇકાલે",
+        "message": "ગઈકાલે",
         "description": "Section header in the media gallery"
     },
     "thisWeek": {
@@ -961,6 +961,10 @@
         "message": "ફોટો",
         "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
     },
+    "text": {
+        "message": "ટેક્સ્ટ",
+        "description": "Label for the word 'text'"
+    },
     "cannotUpdate": {
         "message": "અપડેટ કરી શકાતું નથી",
         "description": "Shown as the title of our update error dialogs on windows"
@@ -1021,6 +1025,10 @@
         "message": "સ્વીકાર",
         "description": ""
     },
+    "done": {
+        "message": "થઈ ગયું",
+        "description": "Label for done"
+    },
     "on": {
         "message": "ચાલુ",
         "description": "Label for when something is turned on"
@@ -1062,7 +1070,7 @@
         "description": "Placeholder text in the message entry field"
     },
     "groupMembers": {
-        "message": "ગ્રુપ ના સભ્યો",
+        "message": "ગ્રુપના સભ્યો",
         "description": ""
     },
     "showMembers": {
@@ -1190,6 +1198,16 @@
             "name": {
                 "content": "$1",
                 "example": "Alice"
+            }
+        }
+    },
+    "ChangeNumber--notification": {
+        "message": "$sender$ changed their number to a new number",
+        "description": "Shown in timeline when a member of a conversation changes their phone number",
+        "placeholders": {
+            "sender": {
+                "content": "$1",
+                "example": "Sam"
             }
         }
     },
@@ -1742,11 +1760,11 @@
         "description": "Explanatory text for sync settings"
     },
     "lastSynced": {
-        "message": "અંતે છેલ્લી ઇમ્પોર્ટ",
+        "message": "અંતે છેલ્લી ઈમ્પોર્ટ",
         "description": "Label for date and time of last sync operation"
     },
     "syncNow": {
-        "message": "હમણાં ઇમ્પોર્ટ કરો",
+        "message": "હમણાં ઈમ્પોર્ટ કરો",
         "description": "Label for a button that syncs contacts and groups from your phone"
     },
     "syncing": {
@@ -1880,7 +1898,7 @@
         }
     },
     "youDisabledDisappearingMessages": {
-        "message": "તમે અદૃશ્ય થઈ રહેલા મેસેજ ને અક્ષમ કર્યા.",
+        "message": "તમે અદૃશ્ય થઈ રહેલા મેસેજને અક્ષમ કર્યા.",
         "description": "Displayed in the conversation list when the timer is turned off"
     },
     "timerSetTo": {
@@ -2194,7 +2212,7 @@
         }
     },
     "youUpdatedTheGroup": {
-        "message": "તમે ગ્રુપ ને અપડેટ કર્યું.",
+        "message": "તમે ગ્રુપને અપડેટ કર્યું.",
         "description": "Shown in the conversation history when you update a group"
     },
     "updatedGroupAvatar": {
@@ -2264,7 +2282,7 @@
         "description": "Shown in notifications and in the left pane when an audio message is received."
     },
     "message--getNotificationText--file": {
-        "message": "ફાઇલ",
+        "message": "ફાઈલ",
         "description": "Shown in notifications and in the left pane when a generic file is received."
     },
     "message--getNotificationText--stickers": {
@@ -2822,7 +2840,7 @@
         }
     },
     "StickerCreator--EmojiStage--title": {
-        "message": "દરેક સ્ટીકર માં ઈમોજી ઉમેરો",
+        "message": "દરેક સ્ટીકરમાં ઈમોજી ઉમેરો",
         "description": "Title for the drop stage of the sticker creator"
     },
     "StickerCreator--EmojiStage--help": {
@@ -3084,7 +3102,7 @@
         "description": "Shown as the body in the confirmation modal for blocking a private message request"
     },
     "MessageRequests--block-group-confirm-title": {
-        "message": "$group$ ને બ્લૉક કરો અને છોડો?",
+        "message": "$group$ ને બ્લૉક કરો અને છોડો છો?",
         "description": "Shown as the title in the confirmation modal for blocking a group message request",
         "placeholders": {
             "group": {
@@ -3493,6 +3511,10 @@
         "message": "સૂચનાઓ મ્યૂટ કરો",
         "description": "Label for the mute notifications drop-down selector"
     },
+    "notMuted": {
+        "message": "મ્યૂટ નહીં",
+        "description": "Label when the conversation is not muted"
+    },
     "muteHour": {
         "message": "એક કલાક માટે મ્યૂટ કરો",
         "description": "Label for muting the conversation"
@@ -3552,15 +3574,15 @@
         "description": "Shown if you click on a sgnl:// link not currently supported by Desktop"
     },
     "GroupV2--cannot-send": {
-        "message": "તમે તે ગ્રુપ ને સંદેશા મોકલી શકતા નથી.",
+        "message": "તમે તે ગ્રુપને સંદેશા મોકલી શકતા નથી.",
         "description": "Shown in toast when you attempt to forward a message to an announcement only group"
     },
     "GroupV2--add--missing-capability": {
-        "message": "જ્યાં સુધી તેઓ Signal અપગ્રેડ ન કરે ત્યાં સુધી આ લોકોને  ગ્રુપ માં ઉમેરી શકાતા નથી.",
+        "message": "જ્યાં સુધી તેઓ Signal અપગ્રેડ ન કરે ત્યાં સુધી આ લોકોને  ગ્રુપમાં ઉમેરી શકાતા નથી.",
         "description": "Shown in a confirmation dialog when members who cannot view announcement only group cannot be added"
     },
     "GroupV2--cannot-start-group-call": {
-        "message": "ગ્રુપ ના એડમિન જ કોલ શરૂ કરી શકે છે.",
+        "message": "ગ્રુપના એડમિન જ કોલ શરૂ કરી શકે છે.",
         "description": "Shown in toast when a non-admin starts a group call in an announcements only group"
     },
     "GroupV2--join--invalid-link--title": {
@@ -3742,7 +3764,7 @@
         }
     },
     "GroupV2--title--remove--you": {
-        "message": "તમે ગ્રુપ નું નામ દૂર કર્યું છે.",
+        "message": "તમે ગ્રુપનું નામ દૂર કર્યું છે.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--title--remove--unknown": {
@@ -3962,7 +3984,7 @@
         }
     },
     "GroupV2--member-add--from-invite--you-no-from": {
-        "message": "તમે ગ્રુપ નું આમંત્રણ સ્વીકાર્યું છે.",
+        "message": "તમે ગ્રુપનું આમંત્રણ સ્વીકાર્યું છે.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add--from-invite--from-you": {
@@ -4020,7 +4042,7 @@
         }
     },
     "GroupV2--member-add--you--you": {
-        "message": "તમે ગ્રુપ માં જોડાયા.",
+        "message": "તમે ગ્રુપમાં જોડાયા.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add--you--unknown": {
@@ -4977,6 +4999,10 @@
         "message": "જ્યારે સક્ષમ હોય, ત્યારે આ ગ્રુપમાં મોકલેલા અને પ્રાપ્ત થયેલા મેસેજ જોયા પછી અદૃશ્ય થઈ જશે.",
         "description": "This is the info about the disappearing messages setting"
     },
+    "ConversationDetails--notifications": {
+        "message": "સૂચનાઓ",
+        "description": "This is the label for notifications in the conversation details screen"
+    },
     "ConversationDetails--group-info-label": {
         "message": "ગ્રુપ માહિતી કોણ સંપાદિત કરી શકે છે",
         "description": "This is the label for the 'who can edit the group' panel"
@@ -4998,7 +5024,7 @@
         "description": "This is the additional info for the 'who can send messages' panel"
     },
     "ConversationDetails--announcement-info": {
-        "message": "ગ્રુપ માં મેસેજ કોણ મોકલી શકે તે પસંદ કરો.",
+        "message": "ગ્રુપમાં મેસેજ કોણ મોકલી શકે તે પસંદ કરો.",
         "description": "This is the additional info for the 'who can send mesages' panel"
     },
     "ConversationDetails--requests-and-invites": {
@@ -5040,7 +5066,7 @@
         }
     },
     "ConversationDetailsActions--block-group-modal-content": {
-        "message": "તમે હવે આ ગ્રુપ માંથી મેસેજ અથવા અપડેટ્સ પ્રાપ્ત કરશો નહીં.",
+        "message": "તમે હવે આ ગ્રુપમાંથી મેસેજ અથવા અપડેટ્સ પ્રાપ્ત કરશો નહીં.",
         "description": "This is the modal content for confirming blocking a group"
     },
     "ConversationDetailsActions--block-group-modal-confirm": {
@@ -5082,6 +5108,22 @@
     "ConversationDetailsMembershipList--show-all": {
         "message": "બધા જુઓ",
         "description": "This is a button on the conversation details to show all members"
+    },
+    "ConversationNotificationsSettings__mentions__label": {
+        "message": "ઉલ્લેખો",
+        "description": "In the conversation notifications settings, this is the label for the mentions option"
+    },
+    "ConversationNotificationsSettings__mentions__info": {
+        "message": "Receive notifications when you're mentioned in muted chats",
+        "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
+    },
+    "ConversationNotificationsSettings__mentions__select__always-notify": {
+        "message": "હંમેશાં સૂચિત કરો",
+        "description": "In the conversation notifications settings, this is the option that always notifies you for @mentions"
+    },
+    "ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
+        "message": "Don't notify if muted",
+        "description": "In the conversation notifications settings, this is the option that doesn't notify you for @mentions if the conversation is muted"
     },
     "GroupLinkManagement--clipboard": {
         "message": "ગ્રુપ લિંક કોપી કરી.",
@@ -5691,6 +5733,10 @@
             }
         }
     },
+    "ErrorBoundaryNotification__text": {
+        "message": "Failed to display the message due to an internal error. Click to submit a debug log.",
+        "description": "An error notification displayed when message fails to render due to an internal error"
+    },
     "GroupDescription__read-more": {
         "message": "વધુ વાંચો",
         "description": "Button text when the group description is too long"
@@ -5767,7 +5813,7 @@
         "message": "અટક (વૈકલ્પિક)",
         "description": "Placeholder text for last name field"
     },
-    "ProfileEditor--discard": {
+    "ConfirmDiscardDialog--discard": {
         "message": "શું તમે આ ફેરફારોને કાઢી નાખવા માંગો છો?",
         "description": "ConfirmationDialog text for discarding changes"
     },
@@ -5802,11 +5848,11 @@
         "description": "A default bio option"
     },
     "Bio--taking-break": {
-        "message": "વિરામ લઇ રહયા છે ",
+        "message": "વિરામ લઈ રહયા છે ",
         "description": "A default bio option"
     },
     "ProfileEditorModal--profile": {
-        "message": "પ્રોફાઇલ",
+        "message": "પ્રોફાઈલ",
         "description": "Title for profile editing"
     },
     "ProfileEditorModal--name": {
@@ -5838,5 +5884,17 @@
     "AnnouncementsOnlyGroupBanner--admins": {
         "message": "એડમિન્સ",
         "description": "Clickable text describing administrators of a group, used in the message an admin label"
+    },
+    "AvatarEditor--choose": {
+        "message": "અવતાર પસંદ કરો",
+        "description": "Label for the avatar selector"
+    },
+    "AvatarColorPicker--choose": {
+        "message": "Choose a color",
+        "description": "Label for when you need to choose your fighter, err color"
+    },
+    "LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
+        "message": "Group Avatar",
+        "description": "Title for the avatar picker in the group creation flow"
     }
 }

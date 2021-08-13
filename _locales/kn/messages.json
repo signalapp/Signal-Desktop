@@ -426,11 +426,11 @@
         }
     },
     "sendAnyway": {
-        "message": "ಯಾವುದೇ ರೀತಿಯಲ್ಲಿ ಕಳುಹಿಸಿ",
+        "message": "ಹೇಗಾದರೂ ಕಳುಹಿಸಿ",
         "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
     },
     "callAnyway": {
-        "message": "ಯಾವುದೇ ರೀತಿಯಲ್ಲಿ ಕರೆ ಮಾಡಿ",
+        "message": "ಹೇಗಾದರೂ ಕರೆ ಮಾಡಿ",
         "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
     },
     "continueCall": {
@@ -488,7 +488,7 @@
         "description": "Label for a button to accept a new safety number"
     },
     "verify": {
-        "message": "ಪರಿಶೀಲಿಸಲಾಗಿದೆ ಎಂದು ಗುರುತು ಮಾಡಿ",
+        "message": "ಪರಿಶೀಲಿಸಲಾಗಿದೆ ಎಂದು ಗುರುತಿಸಿ",
         "description": ""
     },
     "unverify": {
@@ -834,7 +834,7 @@
         "description": "Shown when you are sent a contact and that contact has a signal account"
     },
     "home": {
-        "message": "ಮನೆ",
+        "message": "ಹೋಮ್",
         "description": "Shown on contact detail screen as a label for an address/phone/email"
     },
     "work": {
@@ -842,7 +842,7 @@
         "description": "Shown on contact detail screen as a label for an address/phone/email"
     },
     "mobile": {
-        "message": "ಮೋಬೈಲ್",
+        "message": "ಮೊಬೈಲ್",
         "description": "Shown on contact detail screen as a label for aa phone or email"
     },
     "email": {
@@ -874,7 +874,7 @@
         "description": "Shown in triple-dot menu next to message to allow user to react to the associated message"
     },
     "replyToMessage": {
-        "message": "ಸಂದೇಶ ಉತ್ತರಿಸಿ",
+        "message": "ಸಂದೇಶಕ್ಕೆ ಉತ್ತರಿಸಿ",
         "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
     },
     "originalMessageNotFound": {
@@ -890,19 +890,19 @@
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
     "voiceRecordingInterruptedMax": {
-        "message": "ಗರಿಷ್ಠ ಸಮಯ ಮಿತಿಯನ್ನು ತಲುಪಿದ್ದರಿಂದ ವಾಯ್ಸ್‌ ಮೆಸೇಜ್ ರೆಕಾರ್ಡಿಂಗ್‌ ನಿಲ್ಲಿಸಲಾಗಿದೆ.",
+        "message": "ಗರಿಷ್ಠ ಸಮಯ ಮಿತಿಯನ್ನು ತಲುಪಿದ್ದರಿಂದ ಧ್ವನಿ ಸಂದೇಶ ರೆಕಾರ್ಡಿಂಗ್‌ ನಿಲ್ಲಿಸಲಾಗಿದೆ.",
         "description": "Confirmation dialog message for when the voice recording is interrupted due to max time limit"
     },
     "voiceRecordingInterruptedBlur": {
-        "message": "ನೀವು ಇನ್ನೊಂದು ಆಪ್‌ಗೆ ಬದಲಿಸಿದ್ದರಿಂದ ವಾಯ್ಸ್‌ ಮೆಸೇಜ್ ರೆಕಾರ್ಡಿಂಗ್‌ ಅನ್ನು ನಿಲ್ಲಿಸಲಾಗಿದೆ.",
+        "message": "ನೀವು ಇನ್ನೊಂದು ಆಪ್‌ಗೆ ಬದಲಿಸಿದ್ದರಿಂದ ಧ್ವನಿ ಸಂದೇಶ ರೆಕಾರ್ಡಿಂಗ್‌ ಅನ್ನು ನಿಲ್ಲಿಸಲಾಗಿದೆ.",
         "description": "Confirmation dialog message for when the voice recording is interrupted due to app losing focus"
     },
     "voiceNoteLimit": {
-        "message": "ವಾಯ್ಸ್‌ ಮೆಸೇಜ್‌ಗಳನ್ನು ಐದು ನಿಮಿಷಗಳಿಗೆ ಮಿತಿಗೊಳಿಸಲಾಗಿದೆ. ಇನ್ನೊಂದು ಆಪ್‌ಗೆ ನೀವು ಬದಲಿಸಿದರೆ ರೆಕಾರ್ಡಿಂಗ್ ನಿಲ್ಲುತ್ತದೆ.",
+        "message": "ಧ್ವನಿ ಸಂದೇಶಗಳನ್ನು ಐದು ನಿಮಿಷಗಳಿಗೆ ಮಿತಿಗೊಳಿಸಲಾಗಿದೆ. ಇನ್ನೊಂದು ಆಪ್‌ಗೆ ನೀವು ಬದಲಿಸಿದರೆ ರೆಕಾರ್ಡಿಂಗ್ ನಿಲ್ಲುತ್ತದೆ.",
         "description": "Shown in toast to warn user about limited time and that window must be in focus"
     },
     "voiceNoteMustBeOnlyAttachment": {
-        "message": "ವಾಯ್ಸ್‌ ಮೆಸೇಜ್ ಒಂದೇ ಅಟ್ಯಾಚ್‌ಮೆಂಟ್ ಹೊಂದಿರಬೇಕು.",
+        "message": "ಧ್ವನಿ ಸಂದೇಶ ಒಂದೇ ಅಟ್ಯಾಚ್‌ಮೆಂಟ್ ಹೊಂದಿರಬೇಕು.",
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
     },
     "attachmentSaved": {
@@ -950,7 +950,7 @@
         "description": "A button shown in dialog requesting the user to turn on audio permissions"
     },
     "audio": {
-        "message": "ಶ್ರಾವ್ಯ",
+        "message": "ಆಡಿಯೊ",
         "description": "Shown in a quotation of a message containing an audio attachment if no text was originally provided with that attachment"
     },
     "video": {
@@ -960,6 +960,10 @@
     "photo": {
         "message": "ಫೋಟೋ",
         "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
+    },
+    "text": {
+        "message": "ಪಠ್ಯ",
+        "description": "Label for the word 'text'"
     },
     "cannotUpdate": {
         "message": "ಅಪ್‌ಡೇಟ್ ಮಾಡಲಾಗದು",
@@ -1021,6 +1025,10 @@
         "message": "ಒಪ್ಪಿಕೊಳ್ಳಿ",
         "description": ""
     },
+    "done": {
+        "message": "ಮುಗಿದಿದೆ",
+        "description": "Label for done"
+    },
     "on": {
         "message": "ಆನ್",
         "description": "Label for when something is turned on"
@@ -1034,7 +1042,7 @@
         "description": "Text shown in the confirmation dialog for deleting a message locally"
     },
     "deleteForEveryoneWarning": {
-        "message": "Signalನ ಇತ್ತೀಚಿನ ಆವೃತ್ತಿಯಲ್ಲಿದ್ದರೆ ಸಂಭಾಷಣೆಯಲ್ಲಿರುವ ಪ್ರತಿಯೊಬ್ಬರಿಗೂ ಈ ಸಂದೇಶವನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ. ನೀವು ಸಂದೇಶವನ್ನು ಅಳಿಸಿದ್ದೀರಿ ಎಂದು ಅವರು ನೋಡಲು ಸಾಧ್ಯವಾಗುತ್ತದೆ.",
+        "message": "Signal ನ ಇತ್ತೀಚಿನ ಆವೃತ್ತಿಯಲ್ಲಿದ್ದರೆ ಸಂಭಾಷಣೆಯಲ್ಲಿರುವ ಪ್ರತಿಯೊಬ್ಬರಿಗೂ ಈ ಸಂದೇಶವನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ. ನೀವು ಸಂದೇಶವನ್ನು ಅಳಿಸಿದ್ದೀರಿ ಎಂದು ಅವರು ನೋಡಲು ಸಾಧ್ಯವಾಗುತ್ತದೆ.",
         "description": "Text shown in the confirmation dialog for deleting a message for everyone"
     },
     "from": {
@@ -1193,6 +1201,16 @@
             }
         }
     },
+    "ChangeNumber--notification": {
+        "message": "$sender$ changed their number to a new number",
+        "description": "Shown in timeline when a member of a conversation changes their phone number",
+        "placeholders": {
+            "sender": {
+                "content": "$1",
+                "example": "Sam"
+            }
+        }
+    },
     "quoteThumbnailAlt": {
         "message": "ಕೋಟ್ ಮಾಡಿದ ಮೆಸೇಜ್‌ನಿಂದ ಥಂಬ್‌ನೇಲ್ ಇಮೇಜ್",
         "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
@@ -1202,7 +1220,7 @@
         "description": "Used in alt tag of image attachment"
     },
     "videoAttachmentAlt": {
-        "message": "ಮೆಸೇಜ್‌ಗೆ ಅಟ್ಯಾಚ್‌ ಮಾಡಿದ ವೀಡಿಯೋ ಸ್ಕ್ರೀನ್‌ಶಾಟ್",
+        "message": "ಮೆಸೇಜ್‌ಗೆ ಅಟ್ಯಾಚ್‌ ಮಾಡಿದ ವೀಡಿಯೊ ಸ್ಕ್ರೀನ್‌ಶಾಟ್",
         "description": "Used in alt tag of video attachment preview"
     },
     "lightboxImageAlt": {
@@ -1282,7 +1300,7 @@
         "description": ""
     },
     "installErrorHeader": {
-        "message": "ಏನೋ ತಪ್ಪಾಗಿದೆ",
+        "message": "ಏನೋ ತಪ್ಪಾಗಿದೆ!",
         "description": ""
     },
     "installTryAgain": {
@@ -1306,7 +1324,7 @@
         "description": "Button label in the call lobby for joining a call"
     },
     "calling__return": {
-        "message": "ಕಾಲ್‌ಗೆ ಹಿಂತಿರುಗಿ",
+        "message": "ಕರೆಗೆ ಹಿಂತಿರುಗಿ",
         "description": "Button label in the call lobby for returning to a call"
     },
     "calling__call-is-full": {
@@ -1350,7 +1368,7 @@
         "description": "Button tooltip label for stopping screen sharing"
     },
     "calling__your-video-is-off": {
-        "message": "ನಿಮ್ಮ ಕ್ಯಾಮೆರಾ ಆಫ್ ಆಗಿದೆ",
+        "message": "ನಿಮ್ಮ ಕ್ಯಾಮರಾ ಆಫ್ ಆಗಿದೆ",
         "description": "Label in the calling lobby indicating that your camera is off"
     },
     "calling__lobby-summary--zero": {
@@ -1552,7 +1570,7 @@
         "description": "Description of the media permission description"
     },
     "mediaCameraPermissionsDescription": {
-        "message": "ಕ್ಯಾಮೆರಾಗೆ ಪ್ರವೇಶ ಅನುಮತಿಸಿ",
+        "message": "ಕ್ಯಾಮರಾಗೆ ಪ್ರವೇಶ ಅನುಮತಿಸಿ",
         "description": "Description of the media permission description"
     },
     "general": {
@@ -1604,7 +1622,7 @@
         "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
     },
     "deleteAllDataButton": {
-        "message": "ಎಲ್ಲ ಡೇಟಾ ಅಳಿಸಿ",
+        "message": "ಎಲ್ಲಾ ಡೇಟಾವನ್ನು ಅಳಿಸಿ",
         "description": "Text of the button that deletes all data"
     },
     "deleteAllDataProgress": {
@@ -1632,11 +1650,11 @@
         "description": "Label for disabling notifications"
     },
     "nameAndMessage": {
-        "message": "ಹೆಸರು, ಕಂಟೆಂಟ್ ಮತ್ತು ಕ್ರಿಯೆಗಳು",
+        "message": "ಹೆಸರು, ವಿಷಯ ಮತ್ತು ಕ್ರಿಯೆಗಳು",
         "description": "Label for setting notifications to display name and message text"
     },
     "noNameOrMessage": {
-        "message": "ಹೆಸರು ಅಥವಾ ಕಂಟೆಂಟ್ ಇಲ್ಲ",
+        "message": "ಹೆಸರು ಅಥವಾ ವಿಷಯವಿಲ್ಲ",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "nameOnly": {
@@ -1762,7 +1780,7 @@
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "timestamp_m": {
-        "message": "1 ನಿಮಿಷ",
+        "message": "1 ನಿ",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "timestamp_h": {
@@ -1894,7 +1912,7 @@
         }
     },
     "audioNotificationDescription": {
-        "message": "ಆಡಿಯೋ ನೊಟಿಫಿಕೇಶನ್‌ ಪ್ಲೇ ಮಾಡಿ",
+        "message": "ಆಡಿಯೊ ನೊಟಿಫಿಕೇಶನ್‌ ಪ್ಲೇ ಮಾಡಿ",
         "description": "Description for audio notification setting"
     },
     "callRingtoneNotificationDescription": {
@@ -2260,7 +2278,7 @@
         "description": "Shown in notifications and in the left pane when a voice message is received."
     },
     "message--getNotificationText--audio-message": {
-        "message": "ಆಡಿಯೋ ಸಂದೇಶ",
+        "message": "ಆಡಿಯೊ ಸಂದೇಶ",
         "description": "Shown in notifications and in the left pane when an audio message is received."
     },
     "message--getNotificationText--file": {
@@ -2298,7 +2316,7 @@
         "description": "Shown in notifications and in the left pane when a message is a view once photo. Also shown when quoting a view once photo."
     },
     "message--getDescription--disappearing-video": {
-        "message": "ಏಕ ವೀಕ್ಷಣೆ ವೀಡಿಯೋ",
+        "message": "ಏಕ ವೀಕ್ಷಣೆ ವೀಡಿಯೊ",
         "description": "Shown in notifications and in the left pane when a message is a view once video. Also shown when quoting a view once video."
     },
     "message--deletedForEveryone": {
@@ -2432,7 +2450,7 @@
         "description": "Label for recents emoji picker button"
     },
     "EmojiPicker__button--emoji": {
-        "message": "ಎಮೋಜ",
+        "message": "ಎಮೋಜಿ",
         "description": "Label for emoji emoji picker button"
     },
     "EmojiPicker__button--animal": {
@@ -2720,7 +2738,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-video": {
-        "message": "ವೀಡಿಯೋ ಟಾಗಲ್ ಅನ್ನು ಆನ್ ಮತ್ತು ಆಫ್ ಮಾಡಿ",
+        "message": "ವೀಡಿಯೊ ಟಾಗಲ್ ಅನ್ನು ಆನ್ ಮತ್ತು ಆಫ್ ಮಾಡಿ",
         "description": "Shown in the shortcuts guide"
     },
     "close-popup": {
@@ -3062,7 +3080,7 @@
         }
     },
     "MessageRequests--block-and-report-spam": {
-        "message": "ಸ್ಪ್ಯಾಮ್‌ ಎಂದು ರಿಪೋರ್ಟ್‌ ಮಾಡಿ ಮತ್ತು ಬ್ಲಾಕ್‌ ಮಾಡಿ",
+        "message": "ಸ್ಪ್ಯಾಮ್ ವರದಿ ಮಾಡಿ ಮತ್ತು ಬ್ಲಾಕ್ ಮಾಡಿ",
         "description": "Shown as a button to let the user block a message request and report spam"
     },
     "MessageRequests--block-and-report-spam-success-toast": {
@@ -3262,7 +3280,7 @@
         }
     },
     "no-groups-in-common": {
-        "message": "ನೀವಿಬ್ಬರೂ ಯಾವುದೇ ಗ್ರೂಪ್‌ಗಳಲ್ಲಿಲ್ಲ",
+        "message": "ನೀವಿಬ್ಬರೂ ಒಂದೇ ಗುಂಪುಗಳಲ್ಲಿಲ್ಲ",
         "description": "Shown to indicate this user is not a member of any groups"
     },
     "no-groups-in-common-warning": {
@@ -3286,47 +3304,47 @@
         "description": "Shown in conversation history when you declined an incoming audio call"
     },
     "declinedIncomingVideoCall": {
-        "message": "ನೀವು ಒಂದು ವೀಡಿಯೋ ಕಾಲ್ ನಿರಾಕರಿಸಿದ್ದೀರಿ",
+        "message": "ನೀವು ಒಂದು ವೀಡಿಯೊ ಕಾಲ್ ನಿರಾಕರಿಸಿದ್ದೀರಿ",
         "description": "Shown in conversation history when you declined an incoming video call"
     },
     "acceptedIncomingAudioCall": {
-        "message": "ಒಳಬರುವ ಆಡಿಯೋ ಕಾಲ್",
+        "message": "ಒಳಬರುವ ಆಡಿಯೊ ಕರೆ",
         "description": "Shown in conversation history when you accepted an incoming audio call"
     },
     "acceptedIncomingVideoCall": {
-        "message": "ಒಳಬರುವ ವೀಡಿಯೋ ಕಾಲ್",
+        "message": "ಒಳಬರುವ ವೀಡಿಯೊ ಕಾಲ್",
         "description": "Shown in conversation history when you accepted an incoming video call"
     },
     "missedIncomingAudioCall": {
-        "message": "ಮಿಸ್ಡ್ ಆಡಿಯೋ ಕಾಲ್",
+        "message": "ಮಿಸ್ಡ್ ಆಡಿಯೊ ಕರೆ",
         "description": "Shown in conversation history when you missed an incoming audio call"
     },
     "missedIncomingVideoCall": {
-        "message": "ಮಿಸ್ಡ್ ವೀಡಿಯೋ ಕಾಲ್",
+        "message": "ಮಿಸ್ಡ್ ವೀಡಿಯೊ ಕಾಲ್",
         "description": "Shown in conversation history when you missed an incoming video call"
     },
     "acceptedOutgoingAudioCall": {
-        "message": "ಹೊರಹೋಗುವ ಆಡಿಯೋ ಕಾಲ್",
+        "message": "ಹೊರಹೋಗುವ ಆಡಿಯೊ ಕರೆ",
         "description": "Shown in conversation history when you made an outgoing audio call"
     },
     "acceptedOutgoingVideoCall": {
-        "message": "ಹೊರಹೋಗುವ ವೀಡಿಯೋ ಕಾಲ್",
+        "message": "ಹೊರಹೋಗುವ ವೀಡಿಯೊ ಕಾಲ್",
         "description": "Shown in conversation history when you made an outgoing video call"
     },
     "missedOrDeclinedOutgoingAudioCall": {
-        "message": "ಉತ್ತರಿಸದ ಆಡಿಯೋ ಕಾಲ್",
+        "message": "ಉತ್ತರಿಸದ ಆಡಿಯೊ ಕರೆ",
         "description": "Shown in conversation history when your audio call is missed or declined"
     },
     "missedOrDeclinedOutgoingVideoCall": {
-        "message": "ಉತ್ತರಿಸದ ವೀಡಿಯೋ ಕಾಲ್",
+        "message": "ಉತ್ತರಿಸದ ವೀಡಿಯೊ ಕಾಲ್",
         "description": "Shown in conversation history when your video call is missed or declined"
     },
     "incomingAudioCall": {
-        "message": "ಒಳಬರುವ ಆಡಿಯೋ ಕಾಲ್...",
+        "message": "ಒಳಬರುವ ಆಡಿಯೊ ಕರೆ...",
         "description": "Shown in both the incoming call bar and notification for an incoming audio call"
     },
     "incomingVideoCall": {
-        "message": "ಒಳಬರುವ ವೀಡಿಯೋ ಕಾಲ್...",
+        "message": "ಒಳಬರುವ ವೀಡಿಯೊ ಕಾಲ್...",
         "description": "Shown in both the incoming call bar and notification for an incoming video call"
     },
     "outgoingCallPrering": {
@@ -3342,7 +3360,7 @@
         "description": "Title for the call button in a conversation"
     },
     "makeOutgoingVideoCall": {
-        "message": "ವೀಡಿಯೋ ಕಾಲ್ ಆರಂಭಿಸಿ",
+        "message": "ವೀಡಿಯೊ ಕರೆ ಆರಂಭಿಸಿ",
         "description": "Title for the video call button in a conversation"
     },
     "joinOngoingCall": {
@@ -3440,7 +3458,7 @@
         "description": "Title for grid/speaker view toggle when on a call"
     },
     "calling__hangup": {
-        "message": "ಕಾಲ್ ಬಿಟ್ಟುಬಿಡಿ",
+        "message": "ಕರೆ ಬಿಡಿ",
         "description": "Title for hang up button"
     },
     "calling__SelectPresentingSourcesModal--title": {
@@ -3493,6 +3511,10 @@
         "message": "ಅಧಿಸೂಚನೆಗಳನ್ನು ಮ್ಯೂಟ್ ಮಾಡಿ",
         "description": "Label for the mute notifications drop-down selector"
     },
+    "notMuted": {
+        "message": "ಮ್ಯೂಟ್ ಮಾಡಲಾಗಿಲ್ಲ",
+        "description": "Label when the conversation is not muted"
+    },
     "muteHour": {
         "message": "ಒಂದು ಗಂಟೆಗಾಗಿ ಮ್ಯೂಟ್ ಮಾಡಿ",
         "description": "Label for muting the conversation"
@@ -3532,11 +3554,11 @@
         }
     },
     "EmojiButton__label": {
-        "message": "ಎಮೋಜ",
+        "message": "ಎಮೋಜಿ",
         "description": "Label for emoji button"
     },
     "ErrorModal--title": {
-        "message": "ಏನೋ ತಪ್ಪಾಗಿದೆ",
+        "message": "ಏನೋ ತಪ್ಪಾಗಿದೆ!",
         "description": "Title of pop-up dialog when user-initiated task has gone wrong"
     },
     "ErrorModal--description": {
@@ -3592,7 +3614,7 @@
         "description": "Shown if you click a group link and we can't get information about it"
     },
     "GroupV2--join--link-revoked--title": {
-        "message": "ಗ್ರೂಪ್‌ಗೆ ಸೇರಲಾಗದು",
+        "message": "ಗುಂಪನ್ನು ಸೇರಲು ಸಾಧ್ಯವಿಲ್ಲ",
         "description": "Shown if you click a group link and we can't get information about it"
     },
     "GroupV2--join--link-revoked": {
@@ -3760,7 +3782,7 @@
         }
     },
     "GroupV2--avatar--change--you": {
-        "message": "ಗ್ರೂಪ್ ಅವತಾರ್ ಅನ್ನು ಬದಲಿಸಲಾಗಿದೆ.",
+        "message": "ಗ್ರೂಪ್ ಅವತಾರ್ ಅನ್ನು ನೀವು ಬದಲಿಸಲಾಯಿಸಿರುವಿರಿ.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--change--unknown": {
@@ -4736,7 +4758,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--admin--you": {
-        "message": "ಸಂದೇಶಗಳನ್ನು ಕಳುಹಿಸಲು ಅಡ್ಮಿನ್‌ಗಳಿಗೆ ಮಾತ್ರ  ಅವಕಾಶ ಮಾಡಿಕೊಡುವಂತೆ ಈ ಗುಂಪಿನ ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ನೀವು ಬದಲಾಯಿಸಿದ್ದೀರಿ.",
+        "message": "ಸಂದೇಶಗಳನ್ನು ಕಳುಹಿಸಲು ಅಡ್ಮಿನ್‌ಗಳಿಗೆ ಮಾತ್ರ ಅವಕಾಶವಾಗುವಂತೆ ಗುಂಪಿನ ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ನೀವು ಬದಲಾಯಿಸಿರುವಿರಿ.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--admin--other": {
@@ -4822,7 +4844,7 @@
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--invited--one": {
-        "message": "ಈ ಸದಸ್ಯರು ಮತ್ತೊಮ್ಮೆ ಈ ಗುಂಪಿಗೆ ಸೇರಲು ಆಹ್ವಾನವನ್ನು ಸ್ವೀಕರಿಸುವ ಅಗತ್ಯವಿದೆ ಮತ್ತು ಅವರು ಸ್ವೀಕರಿಸುವವರೆಗೆ ಗುಂಪು ಸಂದೇಶಗಳನ್ನು ಸ್ವೀಕರಿಸುವುದಿಲ್ಲ:",
+        "message": "ಈ ಸದಸ್ಯರು ಮತ್ತೊಮ್ಮೆ ಈ ಗುಂಪಿಗೆ ಸೇರಲು ಆಹ್ವಾನವನ್ನು ಸ್ವೀಕರಿಸುವ ಅಗತ್ಯವಿದೆ ಮತ್ತು ಅವರು ಸ್ವೀಕರಿಸುವವರೆಗೆ ಗುಂಪಿನ ಸಂದೇಶಗಳನ್ನು ಸ್ವೀಕರಿಸುವುದಿಲ್ಲ:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--before--many": {
@@ -4830,7 +4852,7 @@
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--before--one": {
-        "message": "ಈ ಸದಸ್ಯರು ಹೊಸ ಗುಂಪುಗಳನ್ನು ಸೇರಲು ಅರ್ಹರಾಗಿಲ್ಲ, ಆದ್ದರಿಂದ ಗುಂಪಿನಿಂದ ಅವರನ್ನು ತೆಗೆದುಹಾಕಲಾಗುವುದು:",
+        "message": "ಈ ಸದಸ್ಯರು ಹೊಸ ಗುಂಪುಗಳಿಗೆ ಸೇರಲು ಅರ್ಹರಾಗಿಲ್ಲ, ಆದ್ದರಿಂದ ಗುಂಪಿನಿಂದ ಅವರನ್ನು ತೆಗೆದುಹಾಕಲಾಗುವುದು:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--after--many": {
@@ -4977,6 +4999,10 @@
         "message": "ಸಕ್ರಿಯಗೊಳಿಸಿದಾಗ, ಈ ಗ್ರೂಪ್‌ನಲ್ಲಿ ಕಳುಹಿಸಿದ ಮತ್ತು ಸ್ವೀಕರಿಸಿದ ಸಂದೇಶಗಳು ಅವರು ನೋಡಿದ ನಂತರ ಕಣ್ಮರೆಯಾಗುತ್ತವೆ.",
         "description": "This is the info about the disappearing messages setting"
     },
+    "ConversationDetails--notifications": {
+        "message": "ಅಧಿಸೂಚನೆಗಳು",
+        "description": "This is the label for notifications in the conversation details screen"
+    },
     "ConversationDetails--group-info-label": {
         "message": "ಗ್ರೂಪ್ ಮಾಹಿತಿಯನ್ನು ಯಾರು ಎಡಿಟ್ ಮಾಡಬಹುದು",
         "description": "This is the label for the 'who can edit the group' panel"
@@ -5083,6 +5109,22 @@
         "message": "ಎಲ್ಲವನ್ನು ನೋಡಿ",
         "description": "This is a button on the conversation details to show all members"
     },
+    "ConversationNotificationsSettings__mentions__label": {
+        "message": "ಉಲ್ಲೇಖಗಳು",
+        "description": "In the conversation notifications settings, this is the label for the mentions option"
+    },
+    "ConversationNotificationsSettings__mentions__info": {
+        "message": "Receive notifications when you're mentioned in muted chats",
+        "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
+    },
+    "ConversationNotificationsSettings__mentions__select__always-notify": {
+        "message": "ಯಾವಾಗಲೂ ಸೂಚನೆ ನೀಡಿ",
+        "description": "In the conversation notifications settings, this is the option that always notifies you for @mentions"
+    },
+    "ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
+        "message": "Don't notify if muted",
+        "description": "In the conversation notifications settings, this is the option that doesn't notify you for @mentions if the conversation is muted"
+    },
     "GroupLinkManagement--clipboard": {
         "message": "ಗ್ರೂಪ್ ಲಿಂಕ್ ನಕಲಿಸಲಾಗಿದೆ.",
         "description": "Shown in a toast when a user selects to copy group link"
@@ -5096,7 +5138,7 @@
         "description": "Shown in the confirmation dialog when an admin is about to reset the group link"
     },
     "GroupLinkManagement--reset": {
-        "message": "ಲಿಂಕ್ ರಿಸೆಟ್ ಮಾಡಿ",
+        "message": "ರೀಸೆಟ್ ಲಿಂಕ್",
         "description": "This lets users generate a new group link"
     },
     "GroupLinkManagement--approve-label": {
@@ -5148,15 +5190,15 @@
         }
     },
     "PendingInvites--invites": {
-        "message": "ನೀವು ಆಹ್ವಾನಿಸಿದ",
+        "message": "ನೀವು ಆಹ್ವಾನಿಸಿದ ಜನರು",
         "description": "This is the title list of all invites"
     },
     "PendingInvites--invited-by-you": {
-        "message": "ನೀವು ಆಹ್ವಾನಿಸಿದ",
+        "message": "ನೀವು ಆಹ್ವಾನಿಸಿದ ಜನರು",
         "description": "This is the title for the list of members you have invited"
     },
     "PendingInvites--invited-by-others": {
-        "message": "ಇತರರು ಆಹ್ವಾನಿಸಿ",
+        "message": "ಇತರರು ಆಹ್ವಾನಿಸಿದ ಜನರು",
         "description": "This is the title for the list of members who have invited other people"
     },
     "PendingInvites--invited-count": {
@@ -5350,7 +5392,7 @@
         "description": "The text of the button to create new groups"
     },
     "selectContact": {
-        "message": "ಸಂಪರ್ಕ ಆಯ್ಕೆ ಮಾಡಿ",
+        "message": "ಸಂಪರ್ಕವನ್ನು ಆಯ್ಕೆಮಾಡಿ",
         "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)"
     },
     "deselectContact": {
@@ -5366,23 +5408,23 @@
         "description": "The label for contact checkboxes that are disabled because they're already a member"
     },
     "MessageAudio--play": {
-        "message": "ಆಡಿಯೋ ಅಟ್ಯಾಚ್‌ಮೆಂಟ್ ಪ್ಲೇ ಮಾಡಿ",
+        "message": "ಆಡಿಯೊ ಅಟ್ಯಾಚ್‌ಮೆಂಟ್ ಪ್ಲೇ ಮಾಡಿ",
         "description": "Aria label for audio attachment's Play button"
     },
     "MessageAudio--pause": {
-        "message": "ಆಡಿಯೋ ಅಟ್ಯಾಚ್‌ಮೆಂಟ್ ಪಾಸ್ ಮಾಡಿ",
+        "message": "ಆಡಿಯೊ ಅಟ್ಯಾಚ್‌ಮೆಂಟ್ ಪಾಸ್ ಮಾಡಿ",
         "description": "Aria label for audio attachment's Pause button"
     },
     "MessageAudio--download": {
-        "message": "ಆಡಿಯೋ ಅಟ್ಯಾಚ್‌ಮೆಂಟ್ ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ",
+        "message": "ಆಡಿಯೊ ಅಟ್ಯಾಚ್‌ಮೆಂಟ್ ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ",
         "description": "Aria label for audio attachment's Download button"
     },
     "MessageAudio--pending": {
-        "message": "ಆಡಿಯೋ ಅಟ್ಯಾಚ್‌ಮೆಂಟ್ ಡೌನ್‌ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ...",
+        "message": "ಆಡಿಯೊ ಅಟ್ಯಾಚ್‌ಮೆಂಟ್ ಡೌನ್‌ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ...",
         "description": "Aria label for pending audio attachment spinner"
     },
     "MessageAudio--slider": {
-        "message": "ಆಡಿಯೋ ಅಟ್ಯಾಚ್‌ಮೆಂಟ್‌ಗೆ ಪ್ಲೇಬ್ಯಾಕ್ ಸಮಯ",
+        "message": "ಆಡಿಯೊ ಅಟ್ಯಾಚ್‌ಮೆಂಟ್‌ಗೆ ಪ್ಲೇಬ್ಯಾಕ್ ಸಮಯ",
         "description": "Aria label for audio attachment's playback time slider"
     },
     "emptyInboxMessage": {
@@ -5412,7 +5454,7 @@
         "description": "Shown in the message request warning dialog. Gives more information about message requests"
     },
     "MessageRequestWarning__dialog__learn-even-more": {
-        "message": "ಮೆಸೇಜ್ ಕೋರಿಕೆಗಳ ಬಗ್ಗೆ",
+        "message": "ಸಂದೇಶ ವಿನಂತಿಗಳ ಬಗ್ಗೆ",
         "description": "Shown in the message request warning dialog. Clicking this button will open a page on Signal's support site"
     },
     "ContactSpoofing__same-name": {
@@ -5440,7 +5482,7 @@
         }
     },
     "ContactSpoofing__same-name__link": {
-        "message": "ವಿನಂತಿ ಪರಿಶೀಲಿಸಿ",
+        "message": "ವಿನಂತಿಯನ್ನು ಪರಿಶೀಲಿಸಿ",
         "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else"
     },
     "ContactSpoofing__same-name-in-group__link": {
@@ -5448,7 +5490,7 @@
         "description": "Shown in the timeline warning when you multiple group members have the same name"
     },
     "ContactSpoofingReviewDialog__title": {
-        "message": "ವಿನಂತಿ ಪರಿಶೀಲಿಸಿ",
+        "message": "ವಿನಂತಿಯನ್ನು ಪರಿಶೀಲಿಸಿ",
         "description": "Title for the contact name spoofing review dialog"
     },
     "ContactSpoofingReviewDialog__description": {
@@ -5504,7 +5546,7 @@
         }
     },
     "CaptchaDialog__title": {
-        "message": "ಮೆಸೇಜ್ ಮಾಡುವುದನ್ನು ಮುಂದುವರಿಸಲು ಪರಿಶೀಲಿಸಿ",
+        "message": "ಸಂದೇಶ ಕಳುಹಿಸುವುದನ್ನು ಮುಂದುವರಿಸಲು ಪರಿಶೀಲಿಸಿ",
         "description": "Header in the captcha dialog"
     },
     "CaptchaDialog__first-paragraph": {
@@ -5562,11 +5604,11 @@
         "description": "View title for the chat color picker and editor"
     },
     "ChatColorPicker__reset": {
-        "message": "ಚಾಟ್ ಬಣ್ಣ ರಿಸೆಟ್ ಮಾಡಿ",
+        "message": "ಚಾಟ್‌ ಬಣ್ಣವನ್ನು ಮರುಹೊಂದಿಸಿ",
         "description": "Button label for resetting chat colors"
     },
     "ChatColorPicker__resetDefault": {
-        "message": "ಚಾಟ್‌ ಬಣ್ಣವನ್ನು ಮರುಹೊಂದಿಸಿ",
+        "message": "ಚಾಟ್‌ ಬಣ್ಣಗಳನ್ನು ಮರುಹೊಂದಿಸಿ",
         "description": "Confirmation dialog title for resetting all chat colors or only the global default one"
     },
     "ChatColorPicker__resetAll": {
@@ -5691,6 +5733,10 @@
             }
         }
     },
+    "ErrorBoundaryNotification__text": {
+        "message": "Failed to display the message due to an internal error. Click to submit a debug log.",
+        "description": "An error notification displayed when message fails to render due to an internal error"
+    },
     "GroupDescription__read-more": {
         "message": "ಇನ್ನಷ್ಟು ಓದಿ",
         "description": "Button text when the group description is too long"
@@ -5744,7 +5790,7 @@
         "description": "In the message details screen, shown above contacts who have received your message"
     },
     "MessageDetailsHeader--Read": {
-        "message": "ಓದಿದ್ದಾರೆ",
+        "message": "ಇವರು ಓದಿದ್ದಾರೆ",
         "description": "In the message details screen, shown above contacts who have read this message"
     },
     "MessageDetailsHeader--Viewed": {
@@ -5767,7 +5813,7 @@
         "message": "ಕೊನೆಯ ಹೆಸರು (ಐಚ್ಛಿಕ)",
         "description": "Placeholder text for last name field"
     },
-    "ProfileEditor--discard": {
+    "ConfirmDiscardDialog--discard": {
         "message": "ಈ ಬದಲಾವಣೆಗಳನ್ನು ತ್ಯಜಿಸಲು ನೀವು ಬಯಸುವಿರಾ?",
         "description": "ConfirmationDialog text for discarding changes"
     },
@@ -5838,5 +5884,17 @@
     "AnnouncementsOnlyGroupBanner--admins": {
         "message": "ಅಡ್ಮಿನ್‌‌ಗಳು",
         "description": "Clickable text describing administrators of a group, used in the message an admin label"
+    },
+    "AvatarEditor--choose": {
+        "message": "ಒಂದು ಅವತಾರವನ್ನು ಆಯ್ಕೆಮಾಡಿ\n",
+        "description": "Label for the avatar selector"
+    },
+    "AvatarColorPicker--choose": {
+        "message": "Choose a color",
+        "description": "Label for when you need to choose your fighter, err color"
+    },
+    "LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
+        "message": "Group Avatar",
+        "description": "Title for the avatar picker in the group creation flow"
     }
 }

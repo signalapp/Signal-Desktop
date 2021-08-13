@@ -622,7 +622,7 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "Desktop ran into a decryption error. Click to submit a debug log.",
+        "message": "डेस्कटॉप में कोई डीक्रिप्शन त्रुटि हुई। डीबग लॉग सबमिट करने के लिए क्लिक करें।",
         "description": "An error popup when we haven't added an error for decryption error."
     },
     "oneNonImageAtATimeToast": {
@@ -961,6 +961,10 @@
         "message": "तस्वीर",
         "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
     },
+    "text": {
+        "message": "टेक्स्ट",
+        "description": "Label for the word 'text'"
+    },
     "cannotUpdate": {
         "message": "अपडेट नहीं कर सकते",
         "description": "Shown as the title of our update error dialogs on windows"
@@ -1020,6 +1024,10 @@
     "accept": {
         "message": "स्वीकृत ",
         "description": ""
+    },
+    "done": {
+        "message": "पूर्ण",
+        "description": "Label for done"
     },
     "on": {
         "message": "पर",
@@ -1184,12 +1192,22 @@
         }
     },
     "DeliveryIssue--summary--group": {
-        "message": "A message, sticker, reaction, read receipt or media couldn’t be delivered to you from $sender$ in this chat.",
+        "message": "इस चैट में $sender$ द्वारा भेजा गया कोई संदेश, स्टिकर, प्रतिक्रिया, पढ़ा गया रिसीप्ट या मीडिया आपको डिलीवर नहीं किया जा सका।",
         "description": "Shown on explainer dialog available from delivery issue timeline events in groups",
         "placeholders": {
             "name": {
                 "content": "$1",
                 "example": "Alice"
+            }
+        }
+    },
+    "ChangeNumber--notification": {
+        "message": "$sender$ ने अपना नंबर किसी नए नंबर से बदल लिया",
+        "description": "Shown in timeline when a member of a conversation changes their phone number",
+        "placeholders": {
+            "sender": {
+                "content": "$1",
+                "example": "Sam"
             }
         }
     },
@@ -3493,6 +3511,10 @@
         "message": "नोटिफिकेशन म्यूट करें",
         "description": "Label for the mute notifications drop-down selector"
     },
+    "notMuted": {
+        "message": "म्युट नहीं है",
+        "description": "Label when the conversation is not muted"
+    },
     "muteHour": {
         "message": "एक घंटे के लिये म्युट करें",
         "description": "Label for muting the conversation"
@@ -3552,15 +3574,15 @@
         "description": "Shown if you click on a sgnl:// link not currently supported by Desktop"
     },
     "GroupV2--cannot-send": {
-        "message": "You cannot send messages to that group.",
+        "message": "आप उस ग्रुप में संदेश नहीं भेज सकते।",
         "description": "Shown in toast when you attempt to forward a message to an announcement only group"
     },
     "GroupV2--add--missing-capability": {
-        "message": "These people cannot be added to the group until they upgrade Signal.",
+        "message": "इन लोगों को तब तक ग्रुप में नहीं जोड़ा जा सकता जब तक कि वे Signal अपग्रेड नहीं करते।",
         "description": "Shown in a confirmation dialog when members who cannot view announcement only group cannot be added"
     },
     "GroupV2--cannot-start-group-call": {
-        "message": "Only admins of the group can start a call.",
+        "message": "केवल इस ग्रुप के ऐडमिन ही कॉल शुरू कर सकते हैं।",
         "description": "Shown in toast when a non-admin starts a group call in an announcements only group"
     },
     "GroupV2--join--invalid-link--title": {
@@ -3660,7 +3682,7 @@
         "description": "Shown if something went wrong when you try to join via a group link"
     },
     "GroupV2--join--general-join-failure": {
-        "message": "Couldn't join group. Try again later.",
+        "message": "ग्रुप में शामिल नहीं हो सके। बाद में प्रयास करें।",
         "description": "Shown if something went wrong when you try to join via a group link"
     },
     "GroupV2--admin": {
@@ -4740,7 +4762,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--admin--other": {
-        "message": "$memberName$ changed the group settings to only allow admins to send messages.",
+        "message": "$memberName$ ने ग्रुप सेटिंग्ज़ को केवल ऐडमिन को संदेश भेजने की अनुमति देने के लिए बदल दिया।",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4750,7 +4772,7 @@
         }
     },
     "GroupV2--announcements--admin--unknown": {
-        "message": "The group was changed to only allow admins to send messages.",
+        "message": "ग्रुप को केवल ऐडमिन को संदेश भेजने की अनुमति देने के लिए बदल दिया गया था।",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--member--you": {
@@ -4758,7 +4780,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--member--other": {
-        "message": "$memberName$ changed the group settings to allow all members to send messages.",
+        "message": "$memberName$ ने ग्रुप सेटिंग्ज़ को सभी सदस्यों को संदेश भेजने की अनुमति देने के लिए बदल दिया।",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4768,7 +4790,7 @@
         }
     },
     "GroupV2--announcements--member--unknown": {
-        "message": "The group was changed to allow all members to send messages.",
+        "message": "ग्रुप को सभी सदस्यों को संदेश भेजने की अनुमति देने के लिए बदल दिया था।",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV1--Migration--disabled": {
@@ -4977,6 +4999,10 @@
         "message": "अगर सक्षम किया जाए, तो इस संवाद में भेजे गए और प्राप्त किए गए मेसेज देखे जाने के बाद गायब हो जाएंगे।",
         "description": "This is the info about the disappearing messages setting"
     },
+    "ConversationDetails--notifications": {
+        "message": "अधिसूचनाएँ",
+        "description": "This is the label for notifications in the conversation details screen"
+    },
     "ConversationDetails--group-info-label": {
         "message": "ग्रुप जानकारी कौन बदल सकता है",
         "description": "This is the label for the 'who can edit the group' panel"
@@ -4994,11 +5020,11 @@
         "description": "This is the additional info for the 'who can add members' panel"
     },
     "ConversationDetails--announcement-label": {
-        "message": "Who can send messages",
+        "message": "संदेश कौन भेज सकता है",
         "description": "This is the additional info for the 'who can send messages' panel"
     },
     "ConversationDetails--announcement-info": {
-        "message": "Choose who can send messages to the group.",
+        "message": "यह चुनें कि ग्रुप में संदेश कौन भेज सकता है।",
         "description": "This is the additional info for the 'who can send mesages' panel"
     },
     "ConversationDetails--requests-and-invites": {
@@ -5082,6 +5108,22 @@
     "ConversationDetailsMembershipList--show-all": {
         "message": "सभी देखें",
         "description": "This is a button on the conversation details to show all members"
+    },
+    "ConversationNotificationsSettings__mentions__label": {
+        "message": "मेंछन",
+        "description": "In the conversation notifications settings, this is the label for the mentions option"
+    },
+    "ConversationNotificationsSettings__mentions__info": {
+        "message": "म्यूटेड चैट में आपको मेंशन किए जाने पर अधिसूचना प्राप्त करें",
+        "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
+    },
+    "ConversationNotificationsSettings__mentions__select__always-notify": {
+        "message": "हमेशा सूचित करें",
+        "description": "In the conversation notifications settings, this is the option that always notifies you for @mentions"
+    },
+    "ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
+        "message": "यदि म्यूट किया गया है तो सूचित न करें",
+        "description": "In the conversation notifications settings, this is the option that doesn't notify you for @mentions if the conversation is muted"
     },
     "GroupLinkManagement--clipboard": {
         "message": "समूह लिंक कॉपी किया गया।",
@@ -5242,7 +5284,7 @@
         "description": "The label for the avatar uploader when no group photo is selected"
     },
     "AvatarInput--no-photo-label--profile": {
-        "message": "Add a photo",
+        "message": "फ़ोटो जोड़ें",
         "description": "The label for the avatar uploader when no profile photo is selected"
     },
     "AvatarInput--change-photo-label": {
@@ -5516,7 +5558,7 @@
         "description": "First paragraph in the captcha dialog"
     },
     "CaptchaDialog--can-close__title": {
-        "message": "Continue without verifying?",
+        "message": "सत्यापित किए बिना जारी रखें?",
         "description": "Header in the captcha dialog that can be closed"
     },
     "CaptchaDialog--can-close__body": {
@@ -5691,6 +5733,10 @@
             }
         }
     },
+    "ErrorBoundaryNotification__text": {
+        "message": "आंतरिक त्रुटि के कारण संदेश प्रदर्शित करने में विफल। डीबग लॉग सबमिट करने के लिए क्लिक करें।",
+        "description": "An error notification displayed when message fails to render due to an internal error"
+    },
     "GroupDescription__read-more": {
         "message": "और पढ़ें",
         "description": "Button text when the group description is too long"
@@ -5756,23 +5802,23 @@
         "description": "Default text for about field"
     },
     "ProfileEditor--about-placeholder": {
-        "message": "Write something about yourself...",
+        "message": "अपने बारे में कुछ लिखें...",
         "description": "Placeholder text for about input field"
     },
     "ProfileEditor--first-name": {
-        "message": "First Name (Required)",
+        "message": "प्रथम नाम (आवश्यक)",
         "description": "Placeholder text for first name field"
     },
     "ProfileEditor--last-name": {
-        "message": "Last Name (Optional)",
+        "message": "अंतिम नाम (वैकल्पिक)",
         "description": "Placeholder text for last name field"
     },
-    "ProfileEditor--discard": {
+    "ConfirmDiscardDialog--discard": {
         "message": "क्या आप इन बदलावों को छोङना चाहते हैं?",
         "description": "ConfirmationDialog text for discarding changes"
     },
     "ProfileEditor--info": {
-        "message": "Your profile is encrypted. Your profile and changes to it will be visible to your contacts and when you start or accept new chats. $learnMore$",
+        "message": "आपकी प्रोफ़ाइल एन्क्रिप्टेड है। जब आप नई चैट शुरू या स्वीकार करते हैं तो आपकी प्रोफ़ाइल और उसके परिवर्तन आपके संपर्कों को दिखाई देंगे। $learnMore$",
         "description": "Information shown at the bottom of the profile editor section",
         "placeholders": {
             "learnMore": {
@@ -5786,7 +5832,7 @@
         "description": "Text that links to a support article"
     },
     "Bio--speak-freely": {
-        "message": "Speak Freely",
+        "message": "खुल कर बोलें",
         "description": "A default bio option"
     },
     "Bio--encrypted": {
@@ -5810,7 +5856,7 @@
         "description": "Title for profile editing"
     },
     "ProfileEditorModal--name": {
-        "message": "Your Name",
+        "message": "आपका नाम",
         "description": "Title for editing your name"
     },
     "ProfileEditorModal--about": {
@@ -5818,7 +5864,7 @@
         "description": "Title for about editing"
     },
     "ProfileEditorModal--error": {
-        "message": "Your profile could not be updated. Please try again.",
+        "message": "आपकी प्रोफ़ाइल को अपडेट नहीं किया जा सका। कृपया दोबारा प्रयास करें।",
         "description": "Error message when something goes wrong updating your profile."
     },
     "AnnouncementsOnlyGroupBanner--modal": {
@@ -5826,7 +5872,7 @@
         "description": "Modal title for the list of admins in a group"
     },
     "AnnouncementsOnlyGroupBanner--announcements-only": {
-        "message": "Only $admins$ can send messages",
+        "message": "केवल $admins$ संदेश भेज सकते हैं",
         "description": "Displayed if sending of messages is disabled to non-admins",
         "placeholders": {
             "admins": {
@@ -5838,5 +5884,17 @@
     "AnnouncementsOnlyGroupBanner--admins": {
         "message": "व्यवस्थापक",
         "description": "Clickable text describing administrators of a group, used in the message an admin label"
+    },
+    "AvatarEditor--choose": {
+        "message": "कोई अवतार चुनें",
+        "description": "Label for the avatar selector"
+    },
+    "AvatarColorPicker--choose": {
+        "message": "कोई रंग चुनें",
+        "description": "Label for when you need to choose your fighter, err color"
+    },
+    "LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
+        "message": "ग्रुप अवतार",
+        "description": "Title for the avatar picker in the group creation flow"
     }
 }

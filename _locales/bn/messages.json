@@ -164,7 +164,7 @@
         "description": "Label for context button next to each message"
     },
     "contextMenuCopyLink": {
-        "message": "লিংক কপি করুন",
+        "message": "লিঙ্ক কপি করুন",
         "description": "Shown in the context menu for a link to indicate that the user can copy the link"
     },
     "contextMenuCopyImage": {
@@ -180,7 +180,7 @@
         "description": "One of the menu options available in the Avatar Popup menu"
     },
     "avatarMenuChatColors": {
-        "message": "চ্যাটের রং",
+        "message": "চ্যাটের রঙ",
         "description": "One of the menu options available in the Avatar Popup menu"
     },
     "loading": {
@@ -222,7 +222,7 @@
         "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
     },
     "markUnread": {
-        "message": "অপঠিত হিসাবে চিহ্নিত করুন",
+        "message": "পড়া হয়নি হিসাবে চিহ্নিত করুন",
         "description": "Shown in menu for conversation, and marks conversation as unread"
     },
     "moveConversationToInbox": {
@@ -408,7 +408,7 @@
         }
     },
     "changedVerificationWarning": {
-        "message": "নিম্নোক্ত ব্যক্তিগণ পুনরায় ইনস্টল করতে অথবা ডিভাইসগুলি পরিবর্তন করে থাকতে পারে। গোপনীয়তা নিশ্চিত করতে আপনার নিরাপত্তা নাম্বার তাদের সাথে যাচাই করুন।",
+        "message": "নিম্নোক্ত ব্যক্তিগণ পুনরায় ইনস্টল করতে অথবা ডিভাইসগুলি পরিবর্তন করে থাকতে পারে। গোপনীয়তা নিশ্চিত করতে আপনার নিরাপত্তা নাম্বার তাদের সাথে ভেরিফাই করুন।",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "identityKeyErrorOnSend": {
@@ -464,7 +464,7 @@
         "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogCopyAlt": {
-        "message": "ক্লিপবোর্ডে লিংক কপি করুন",
+        "message": "ক্লিপবোর্ডে লিঙ্ক কপি করুন",
         "description": "Shown as the alt text for the copy button on the debug log screen"
     },
     "debugLogLinkCopied": {
@@ -961,6 +961,10 @@
         "message": "ছবি",
         "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
     },
+    "text": {
+        "message": "টেক্সট",
+        "description": "Label for the word 'text'"
+    },
     "cannotUpdate": {
         "message": "আপডেট করতে পারছে না",
         "description": "Shown as the title of our update error dialogs on windows"
@@ -1020,6 +1024,10 @@
     "accept": {
         "message": "স্বীকার করুন",
         "description": ""
+    },
+    "done": {
+        "message": "শেষ",
+        "description": "Label for done"
     },
     "on": {
         "message": "চালু",
@@ -1136,7 +1144,7 @@
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "ChatRefresh--notification": {
-        "message": "চ্যাটের সেশনটি রিফ্রেশ করা হয়েছে",
+        "message": "চ্যাট সেশনটি রিফ্রেশ করা হয়েছে",
         "description": "Shown in timeline when a error happened, and the session was automatically reset."
     },
     "ChatRefresh--learnMore": {
@@ -1144,7 +1152,7 @@
         "description": "Shown in timeline when session is automatically reset, to provide access to a popup info dialog"
     },
     "ChatRefresh--summary": {
-        "message": "Signal এক প্রান্ত থেকে অপর প্রান্ত পর্যন্ত এনক্রিপশন ব্যবহার করে এবং এটিকে মাঝে মধ্যেই আপনার চ্যাট সেশন রিফ্রেশ করতে হতে পারে। এটি আপনার চ্যাট-এর নিরাপত্তার উপর কোনও প্রভাব না ফেললেও আপনি এই কন্ট্যাক্ট থেকে কোনও বার্তা মিস করে থাকতে পারেন, সুতরাং আপনি তাদেরকে বার্তাটি পুনরায় পাঠাতে বলতে পারেন।",
+        "message": "Signal এক প্রান্ত থেকে অপর প্রান্ত পর্যন্ত এনক্রিপশন ব্যবহার করে এবং এটিকে মাঝেমাঝে আপনার চ্যাট সেশন রিফ্রেশ করতে হতে পারে। এটি আপনার চ্যাটের সুরক্ষাকে ব্যহত করবে না কিন্তু আপনি এই কন্ট্যাক্ট থেকে কোন মেসেজ নাও পেতে পারেন, সুতরাং আপনি সংশ্লিষ্ট কন্ট্যাক্টকে মেসেজটি পুনরায় পাঠাতে বলতে পারেন।",
         "description": "Shown on explainer dialog available from chat session refreshed timeline events"
     },
     "ChatRefresh--contactSupport": {
@@ -1152,7 +1160,7 @@
         "description": "Shown on explainer dialog available from chat session refreshed timeline events"
     },
     "DeliveryIssue--preview": {
-        "message": "পাঠানোয় সমস্যা",
+        "message": "পাঠাতে সমস্যা",
         "description": "Shown in left pane preview when message delivery issue happens"
     },
     "DeliveryIssue--notification": {
@@ -1170,7 +1178,7 @@
         "description": "Shown in timeline when message delivery issue happens, to provide access to a popup info dialog"
     },
     "DeliveryIssue--title": {
-        "message": "পাঠানোর ক্ষেত্রে সমস্যা",
+        "message": "পাঠাতে সমস্যা",
         "description": "Shown on explainer dialog available from delivery issue timeline events"
     },
     "DeliveryIssue--summary": {
@@ -1190,6 +1198,16 @@
             "name": {
                 "content": "$1",
                 "example": "Alice"
+            }
+        }
+    },
+    "ChangeNumber--notification": {
+        "message": "$sender$ changed their number to a new number",
+        "description": "Shown in timeline when a member of a conversation changes their phone number",
+        "placeholders": {
+            "sender": {
+                "content": "$1",
+                "example": "Sam"
             }
         }
     },
@@ -1426,7 +1444,7 @@
         "description": "Shown in the participants list to describe how many people are in the call"
     },
     "calling__in-this-call--one": {
-        "message": "এই কলটিতে আছেন · 1 জন ব্যক্তি",
+        "message": "এই কলে আছেন · 1 জন ব্যক্তি",
         "description": "Shown in the participants list to describe how many people are in the call"
     },
     "calling__in-this-call--many": {
@@ -1450,7 +1468,7 @@
         }
     },
     "calling__block-info": {
-        "message": "আপনি তাদের অডিও বা ভিডিও পাবেন না এবং তারাও আপনার পাবেন না।",
+        "message": "আপনারা কেউ কারও অডিও বা ভিডিও পাবেন না।",
         "description": "Shown in the modal dialog to describe how blocking works in a gorup call"
     },
     "calling__overflow__scroll-up": {
@@ -1632,11 +1650,11 @@
         "description": "Label for disabling notifications"
     },
     "nameAndMessage": {
-        "message": "নাম, বিষয়বস্তু ও পদক্ষেপ",
+        "message": "নাম, কনটেন্ট ও পদক্ষেপ",
         "description": "Label for setting notifications to display name and message text"
     },
     "noNameOrMessage": {
-        "message": "কোনও নাম বা বিষয়বস্তু নেই",
+        "message": "কোনও নাম বা কনটেন্ট নেই",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "nameOnly": {
@@ -1698,7 +1716,7 @@
         "description": "Shown on outgoing message if it fails to send"
     },
     "sendPaused": {
-        "message": "পাঠানো সাময়িকভাবে বন্ধ করা হয়েছে",
+        "message": "পাঠানো সাময়িকভাবে থামানো হয়েছে",
         "description": "Shown on outgoing message if it cannot be sent immediately"
     },
     "partiallySent": {
@@ -1946,7 +1964,7 @@
         "description": "A notification shown in the conversation when a contact reinstalls"
     },
     "safetyNumberChanges": {
-        "message": "নিরাপত্তা নাম্বার পরিবর্তন হয়",
+        "message": "নিরাপত্তা নাম্বার পরিবর্তিত হয়",
         "description": "Title for safety number changed modal"
     },
     "safetyNumberChangedGroup": {
@@ -2042,7 +2060,7 @@
         "description": "The 'next' button text in the 'choose group members' left pane screen"
     },
     "chooseGroupMembers__maximum-group-size__title": {
-        "message": "গ্রুপের আকার সর্বোচ্চ সংখ্যায় পৌঁছেছে",
+        "message": "গ্রুপের সদস্য সর্বোচ্চ সংখ্যায় পৌঁছেছে",
         "description": "Shown in the alert when you add the maximum number of group members"
     },
     "chooseGroupMembers__maximum-group-size__body": {
@@ -2056,7 +2074,7 @@
         }
     },
     "chooseGroupMembers__maximum-recommended-group-size__title": {
-        "message": "সুপারিশকৃত সদস্য সীমায় পৌঁছেছে",
+        "message": "সুপারিশকৃত সদস্য সর্বোচ্চ সীমায় পৌঁছেছে",
         "description": "Shown in the alert when you add the maximum recommended number of group members"
     },
     "chooseGroupMembers__maximum-recommended-group-size__body": {
@@ -3010,7 +3028,7 @@
         }
     },
     "MessageRequests--message-group": {
-        "message": "এই গ্রুপে যোগ দিয়ে এটির সদস্যদের সাথে আপনার নাম ও ফটো তাদের সাথে শেয়ার করবেন? আপনি স্বীকার না করা পর্যন্ত আপনি যে তাদের বার্তাগুলি দেখেছেন তা তারা জানবেন না।",
+        "message": "এই গ্রুপে যোগ দিয়ে এটির সদস্যদের সাথে আপনার নাম ও ফটো তাদের সাথে শেয়ার করবেন? আপনি স্বীকার না করা পর্যন্ত আপনি যে তাদের মেসেজগুলি দেখেছেন তা তারা জানবেন না।",
         "description": "Shown as the message for a message request in a group",
         "placeholders": {
             "name": {
@@ -3020,7 +3038,7 @@
         }
     },
     "MessageRequests--message-group-blocked": {
-        "message": "এই গ্রুপটিকে আনব্লক করে এটির সদস্যদের সাথে আপনার নাম ও ফটো শেয়ার করবেন? আপনি তাদের আনব্লক না করা পর্যন্ত আপনি কোনও বার্তা পাবেন না।",
+        "message": "এই গ্রুপটিকে আনব্লক করে এটির সদস্যদের সাথে আপনার নাম ও ফটো শেয়ার করবেন? আপনি তাদের আনব্লক না করা পর্যন্ত আপনি কোনও মেসেজ পাবেন না।",
         "description": "Shown as the message for a message request in a blocked group"
     },
     "MessageRequests--block": {
@@ -3298,11 +3316,11 @@
         "description": "Shown in conversation history when you accepted an incoming video call"
     },
     "missedIncomingAudioCall": {
-        "message": "মিস করা অডিও কল",
+        "message": "অডিও কল মিস হয়েছে",
         "description": "Shown in conversation history when you missed an incoming audio call"
     },
     "missedIncomingVideoCall": {
-        "message": "মিস করা ভিডিও কল",
+        "message": "ভিডিও কল মিস হয়েছে",
         "description": "Shown in conversation history when you missed an incoming video call"
     },
     "acceptedOutgoingAudioCall": {
@@ -3493,6 +3511,10 @@
         "message": "নোটিফিকেশন মিউট করুন",
         "description": "Label for the mute notifications drop-down selector"
     },
+    "notMuted": {
+        "message": "নিঃশব্দ নয়",
+        "description": "Label when the conversation is not muted"
+    },
     "muteHour": {
         "message": "এক ঘন্টার জন্য মিউট করুন",
         "description": "Label for muting the conversation"
@@ -3564,11 +3586,11 @@
         "description": "Shown in toast when a non-admin starts a group call in an announcements only group"
     },
     "GroupV2--join--invalid-link--title": {
-        "message": "অবৈধ লিংক",
+        "message": "অবৈধ লিঙ্ক",
         "description": "Shown if we are unable to parse a group link"
     },
     "GroupV2--join--invalid-link": {
-        "message": "এটি কোনও বৈধ গ্রুপের লিংক নয়। নিশ্চিত করুন যে সমগ্র লিংকটি সঠিক এবং যোগ দেওয়ার আগে সেটি ঠিক করে নিন।",
+        "message": "এটি কোনও বৈধ গ্রুপের লিঙ্ক নয়। যোগ দেওয়ার আগে নিশ্চিত হয়ে নিন যে লিঙ্কটি সম্পূর্ণ এবং সঠিকভাবে রয়েছে।",
         "description": "Shown if we are unable to parse a group link"
     },
     "GroupV2--join--prompt": {
@@ -3592,11 +3614,11 @@
         "description": "Shown if you click a group link and we can't get information about it"
     },
     "GroupV2--join--link-revoked--title": {
-        "message": "গ্রুপটিতে যোগ দেওয়া যাবে না",
+        "message": "গ্রুপে যোগ দেওয়া যাবে না",
         "description": "Shown if you click a group link and we can't get information about it"
     },
     "GroupV2--join--link-revoked": {
-        "message": "এই গ্রুপের লিংকটি আর বৈধ নয়।",
+        "message": "এই গ্রুপের লিঙ্কটি আর বৈধ নেই।",
         "description": "Shown if you click a group link and we can't get information about it"
     },
     "GroupV2--join--prompt-with-approval": {
@@ -3608,7 +3630,7 @@
         "description": "The button to join the group"
     },
     "GroupV2--join--request-to-join-button": {
-        "message": "যোগ দেওয়ার অনুরোধ করুন",
+        "message": "যোগদানের জন্য অনুরোধ করুন",
         "description": "The button to join the group, if approval is required"
     },
     "GroupV2--join--cancel-request-to-join": {
@@ -3652,7 +3674,7 @@
         }
     },
     "GroupV2--join--requested": {
-        "message": "যোগ দেওয়ার আপনার অনুরোধটি গ্রুপ অ্যাডমিনের কাছে পাঠানো হয়েছে। তারা কোনও পদক্ষেপ নিলে আপনাকে জানানো হবে।",
+        "message": "যোগদান করার জন্য আপনার অনুরোধ গ্রুপ অ্যাডমিনের কাছে পাঠানো হয়েছে। তারা কোনও পদক্ষেপ নিলে আপনাকে জানানো হবে।",
         "description": "Shown in composition area when you've requested to join a group"
     },
     "GroupV2--join--general-join-failure--title": {
@@ -4028,7 +4050,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add-from-link--you--you": {
-        "message": "আপনি গ্রুপ লিংকের মাধ্যমে গ্রুপে যোগ দিয়েছেন।",
+        "message": "আপনি গ্রুপের লিঙ্কের মাধ্যমে গ্রুপে যোগ দিয়েছেন।",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add-from-link--other": {
@@ -4340,7 +4362,7 @@
         }
     },
     "GroupV2--pending-remove--decline--from-you": {
-        "message": "আপনি গ্রুপটিতে আমন্ত্রণটি প্রত্যাখ্যান করেছেন।",
+        "message": "আপনি গ্রুপের আমন্ত্রণটি প্রত্যাখ্যান করেছেন।",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--pending-remove--decline--unknown": {
@@ -4664,7 +4686,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-remove--you": {
-        "message": "আপনি গ্রুপ লিংক বন্ধ করেছেন।",
+        "message": "আপনি গ্রুপের লিঙ্ক বন্ধ করেছেন।",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-remove--other": {
@@ -4678,11 +4700,11 @@
         }
     },
     "GroupV2--group-link-remove--unknown": {
-        "message": "গ্রুপ লিংকটি বন্ধ করা হয়েছে।",
+        "message": "গ্রুপ লিঙ্কটি বন্ধ করা হয়েছে।",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-reset--you": {
-        "message": "আপনি গ্রুপ লিংকটি রিসেট করেছেন।",
+        "message": "আপনি গ্রুপের লিঙ্কটি রিসেট করেছেন।",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-reset--other": {
@@ -4696,7 +4718,7 @@
         }
     },
     "GroupV2--group-link-reset--unknown": {
-        "message": "গ্রুপ লিংকটি রিসেট করা হয়েছে।",
+        "message": "গ্রুপ লিঙ্কটি রিসেট করা হয়েছে।",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--description--remove--you": {
@@ -4714,7 +4736,7 @@
         }
     },
     "GroupV2--description--remove--unknown": {
-        "message": " গ্রুপের বিবরণ মুছে দেওয়া হয়েছে।",
+        "message": " গ্রুপের বিবরণ সরানো হয়েছে।",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--description--change--you": {
@@ -4802,7 +4824,7 @@
         "description": "Shown on Migration popup after choosing to migrate group"
     },
     "GroupV1--Migration--info--summary": {
-        "message": "নতুন গ্রুপে @mentions এবং গ্রুপ অ্যাডমিনের মতো বৈশিষ্ট্য রয়েছে এবং ভবিষ্যতে আরও বৈশিষ্ট্য সমর্থন করা হবে।",
+        "message": "নতুন গ্রুপে @mentions এবং গ্রুপ অ্যাডমিনের মতো ফিচার রয়েছে এবং ভবিষ্যতে আরও ফিচার সমর্থন করবে।",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--keep-history": {
@@ -4810,7 +4832,7 @@
         "description": "Shown on Learn More popup after GV1 migration"
     },
     "GroupV1--Migration--migrate--keep-history": {
-        "message": "আপগ্রেড করার আগে সমস্ত মেসেজের ইতিহাস এবং মিডিয়া রাখা হবে।",
+        "message": "আপগ্রেড করার আগে সমস্ত মেসেজের ইতিহাস এবং মিডিয়া রাখা থাকবে।",
         "description": "Shown on Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--invited--you": {
@@ -4826,11 +4848,11 @@
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--before--many": {
-        "message": "এই সদস্যরা নতুন গ্রুপে যোগদান করতে সমর্থ নন এবং তাদেরকে গ্রুপটি থেকে সরানো হবে:",
+        "message": "এই সদস্যরা নতুন গ্রুপে যোগদানের যোগ্য নন এবং তাদেরকে গ্রুপটি থেকে সরানো হবে:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--before--one": {
-        "message": "এই সদস্যটি নতুন গ্রুপে যোগ দিতে সমর্থ নন এবং তাকে গ্রুপটি থেকে সরানো হবে:",
+        "message": "এই সদস্যটি নতুন গ্রুপে যোগদানের যোগ্য নন এবং তাকে গ্রুপটি থেকে সরানো হবে।",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--after--many": {
@@ -4977,6 +4999,10 @@
         "message": "সক্রিয় করা অবস্থায়, এই গ্রুপ থেকে পাঠানো ও গ্রুপে গ্রহণ করা বার্তাগুলো দেখার পর অদৃশ্য হয়ে যাবে।",
         "description": "This is the info about the disappearing messages setting"
     },
+    "ConversationDetails--notifications": {
+        "message": "নোটিফিকেশনসমুহ",
+        "description": "This is the label for notifications in the conversation details screen"
+    },
     "ConversationDetails--group-info-label": {
         "message": "যারা গ্রুপের তথ্য সম্পাদনা করতে পারবেন",
         "description": "This is the label for the 'who can edit the group' panel"
@@ -5002,7 +5028,7 @@
         "description": "This is the additional info for the 'who can send mesages' panel"
     },
     "ConversationDetails--requests-and-invites": {
-        "message": "অনুরোধ ও আমন্ত্রণসমূহ",
+        "message": "অনুরোধ ও আমন্ত্রণ",
         "description": "This is a button to display which members have been invited but have not joined yet"
     },
     "ConversationDetailsActions--leave-group": {
@@ -5083,24 +5109,40 @@
         "message": "সব দেখুন",
         "description": "This is a button on the conversation details to show all members"
     },
+    "ConversationNotificationsSettings__mentions__label": {
+        "message": "উল্লেখ",
+        "description": "In the conversation notifications settings, this is the label for the mentions option"
+    },
+    "ConversationNotificationsSettings__mentions__info": {
+        "message": "Receive notifications when you're mentioned in muted chats",
+        "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
+    },
+    "ConversationNotificationsSettings__mentions__select__always-notify": {
+        "message": "সবসময় জানান",
+        "description": "In the conversation notifications settings, this is the option that always notifies you for @mentions"
+    },
+    "ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
+        "message": "Don't notify if muted",
+        "description": "In the conversation notifications settings, this is the option that doesn't notify you for @mentions if the conversation is muted"
+    },
     "GroupLinkManagement--clipboard": {
         "message": "গ্রুপ লিংক কপি করা হয়েছে।",
         "description": "Shown in a toast when a user selects to copy group link"
     },
     "GroupLinkManagement--share": {
-        "message": "লিংক কপি করুন",
+        "message": "লিঙ্ক কপি করুন",
         "description": "This lets users share their group link"
     },
     "GroupLinkManagement--confirm-reset": {
-        "message": "আপনি কি গ্রুপের লিংকটি পুনরায় সেট করতে চাওয়ার ব্যাপারে নিশ্চিত? বর্তমান লিংকটি ব্যবহার করে লোকেরা আর গ্রুপে যোগ দিতে পারবেন না।",
+        "message": "আপনি কি গ্রুপের লিঙ্কটি রিসেট করতে চাওয়ার ব্যাপারে নিশ্চিত? বর্তমান লিঙ্কটি ব্যবহার করে লোকেরা আর গ্রুপে যোগ দিতে পারবেন না।",
         "description": "Shown in the confirmation dialog when an admin is about to reset the group link"
     },
     "GroupLinkManagement--reset": {
-        "message": "লিংকটি রিসেট করুন",
+        "message": "লিঙ্ক রিসেট করুন",
         "description": "This lets users generate a new group link"
     },
     "GroupLinkManagement--approve-label": {
-        "message": "নতুন সদস্যদের অনুমোদন করুন",
+        "message": "নতুন সদস্যদের অনুমোদন দিন",
         "description": "Title for the approve new members select area"
     },
     "GroupLinkManagement--approve-info": {
@@ -5148,15 +5190,15 @@
         }
     },
     "PendingInvites--invites": {
-        "message": "আপনার আমন্ত্রিত",
+        "message": "আপনার দ্বারা আমন্ত্রিত",
         "description": "This is the title list of all invites"
     },
     "PendingInvites--invited-by-you": {
-        "message": "আপনার আমন্ত্রিত",
+        "message": "আপনার দ্বারা আমন্ত্রিত",
         "description": "This is the title for the list of members you have invited"
     },
     "PendingInvites--invited-by-others": {
-        "message": "অন্যদের আমন্ত্রিত",
+        "message": "অন্যদের দ্বারা আমন্ত্রিত",
         "description": "This is the title for the list of members who have invited other people"
     },
     "PendingInvites--invited-count": {
@@ -5408,7 +5450,7 @@
         "description": "Shown on the message request warning. Clicking this button will open a dialog with more information"
     },
     "MessageRequestWarning__dialog__details": {
-        "message": "এই ব্যক্তিটির সাথে আপনি কোনও একই গ্রুপে নেই। অযাচিত মেসেজ এড়াতে স্বীকার করার আগে অনুরোধগুলি পর্যালোচনা করুন।",
+        "message": "আপনার এবং এই ব্যক্তির মধ্যে কোনও কমন গ্রুপ নেই। অনাকাঙ্ক্ষিত মেসেজ পাওয়া এড়াতে গ্রহণ করার পূর্বে অনুরোধগুলো যত্ন সহকারে পর্যালোচনা করুন।",
         "description": "Shown in the message request warning dialog. Gives more information about message requests"
     },
     "MessageRequestWarning__dialog__learn-even-more": {
@@ -5464,7 +5506,7 @@
         "description": "Header in the contact spoofing review dialog, shown above the \"safe\" user"
     },
     "ContactSpoofingReviewDialog__group__title": {
-        "message": "সদস্যদের পর্যালোচনা করুন",
+        "message": "সদস্যের পর্যালোচনা করুন",
         "description": "Title for the contact name spoofing review dialog in groups"
     },
     "ContactSpoofingReviewDialog__group__description": {
@@ -5504,15 +5546,15 @@
         }
     },
     "CaptchaDialog__title": {
-        "message": "মেসেজ পাঠানো অব্যাহত রাখতে যাচাই করুন",
+        "message": "মেসেজ পাঠানো চালিয়ে যেতে ভেরিফাই করুন",
         "description": "Header in the captcha dialog"
     },
     "CaptchaDialog__first-paragraph": {
-        "message": "Signal-এ স্প্যাম প্রতিরোধ করতে, অনুগ্রহ করে যাচাইকরণ সম্পূর্ণ করুন।",
+        "message": "Signal-এ স্প্যাম প্রতিরোধ করতে, অনুগ্রহ করে ভেরিফিকেশন সম্পূর্ণ করুন।",
         "description": "First paragraph in the captcha dialog"
     },
     "CaptchaDialog__second-paragraph": {
-        "message": "যাচাই করার পর, আপনি মেসেজ পাঠানো চালিয়ে যেতে পারবেন। স্থগিত করা যেকোনো বার্তা স্বয়ংক্রিয়ভাবে পাঠানো হবে।",
+        "message": "ভেরিফাই করার পর আপনি মেসেজ পাঠানো চালিয়ে যেতে পারবেন। পজ করা যেকোনও মেসেজ স্বয়ংক্রিয়ভাবে পাঠানো হবে।",
         "description": "First paragraph in the captcha dialog"
     },
     "CaptchaDialog--can-close__title": {
@@ -5520,7 +5562,7 @@
         "description": "Header in the captcha dialog that can be closed"
     },
     "CaptchaDialog--can-close__body": {
-        "message": "আপনি যাচাইকরণ এড়িয়ে গেলে আপনি অন্য ব্যক্তিদের কাছ থেকে আসা মেসেজগুলি নাও দেখতে পেতে পারেন এবং আপনার মেসেজগুলিও পাঠানো নাও যেতে পারে।",
+        "message": "আপনি যাচাইকরণ এড়িয়ে গেলে, আপনি অন্য ব্যক্তিদের কাছ থেকে আসা মেসেজ নাও দেখতে পারেন এবং আপনার মেসেজগুলিও পাঠানো নাও যেতে পারে।",
         "description": "Body of the captcha dialog that can be closed"
     },
     "CaptchaDialog--can_close__skip-verification": {
@@ -5566,7 +5608,7 @@
         "description": "Button label for resetting chat colors"
     },
     "ChatColorPicker__resetDefault": {
-        "message": "চ্যাটের রঙগুলি রিসেট করুন",
+        "message": "চ্যাটের রঙ রিসেট করুন",
         "description": "Confirmation dialog title for resetting all chat colors or only the global default one"
     },
     "ChatColorPicker__resetAll": {
@@ -5598,7 +5640,7 @@
         "description": "An example message bubble for selecting the chat color"
     },
     "ChatColorPicker__sampleBubble3": {
-        "message": "কেবলমাত্র আপনিই এই রঙটি দেখতে পাবেন।",
+        "message": "কেবলমাত্র আপনি রঙটি দেখতে পাবেন।",
         "description": "An example message bubble for selecting the chat color"
     },
     "ChatColorPicker__context--edit": {
@@ -5606,7 +5648,7 @@
         "description": "Option in the custom color bubble context menu"
     },
     "ChatColorPicker__context--duplicate": {
-        "message": "নকল",
+        "message": "ডুপ্লিকেট",
         "description": "Option in the custom color bubble context menu"
     },
     "ChatColorPicker__context--delete": {
@@ -5674,7 +5716,7 @@
         "description": "Name of the 'weeks' unit select for the custom disappearing message timeout dialog"
     },
     "settings__DisappearingMessages__footer": {
-        "message": "আপনার সূচনাকৃত সমস্ত নতুন চ্যাটের জন্য মেসেজ অদৃশ্য হওয়ার ডিফল্ট সময়টি সেট করুন।",
+        "message": "আপনার শুরু করা সব নতুন চ্যাটের জন্য মেসেজ অদৃশ্য হওয়ার ডিফল্ট সময় সেট করুন।",
         "description": "Footer for the Disappearing Messages settings section"
     },
     "settings__DisappearingMessages__timer__label": {
@@ -5691,12 +5733,16 @@
             }
         }
     },
+    "ErrorBoundaryNotification__text": {
+        "message": "Failed to display the message due to an internal error. Click to submit a debug log.",
+        "description": "An error notification displayed when message fails to render due to an internal error"
+    },
     "GroupDescription__read-more": {
         "message": "আরও পড়ুন",
         "description": "Button text when the group description is too long"
     },
     "EditConversationAttributesModal__description-warning": {
-        "message": "এই গ্রুপের সদস্য ও আমন্ত্রিত লোকজন গ্রুপের বিবরণগুলি দেখতে পাবেন।",
+        "message": "এই গ্রুপের সদস্য ও আমন্ত্রিত লোকজন গ্রুপের বিবরণগুলি দেখতে পারবেন।",
         "description": "Label text shown when editing group description"
     },
     "ConversationDetailsHeader--add-group-description": {
@@ -5716,7 +5762,7 @@
         "description": "Title for option for standard quality"
     },
     "MediaQualitySelector--standard-quality-description": {
-        "message": "দ্রুততর, কম ডেটা",
+        "message": "আরও দ্রুত, কম ডেটা",
         "description": "Description of standard quality selector"
     },
     "MediaQualitySelector--high-quality-title": {
@@ -5724,7 +5770,7 @@
         "description": "Title for option for high quality"
     },
     "MediaQualitySelector--high-quality-description": {
-        "message": "আরও ধীরগতি, আরও ডেটা",
+        "message": "আরও ধীর, বেশি ডেটা",
         "description": "Description of high quality selector"
     },
     "MessageDetailsHeader--Failed": {
@@ -5740,7 +5786,7 @@
         "description": "In the message details screen, shown above contacts where the message has been sent (but not delivered, read, or viewed)"
     },
     "MessageDetailsHeader--Delivered": {
-        "message": "যাকে পাঠানো হয়েছে",
+        "message": "যাকে ডেলিভার করা হয়েছে",
         "description": "In the message details screen, shown above contacts who have received your message"
     },
     "MessageDetailsHeader--Read": {
@@ -5767,7 +5813,7 @@
         "message": "নামের শেষ অংশ (ঐচ্ছিক)",
         "description": "Placeholder text for last name field"
     },
-    "ProfileEditor--discard": {
+    "ConfirmDiscardDialog--discard": {
         "message": "আপনি কি এই পরিবর্তনগুলি বাতিল করতে চান?",
         "description": "ConfirmationDialog text for discarding changes"
     },
@@ -5838,5 +5884,17 @@
     "AnnouncementsOnlyGroupBanner--admins": {
         "message": "অ্যাডমিন",
         "description": "Clickable text describing administrators of a group, used in the message an admin label"
+    },
+    "AvatarEditor--choose": {
+        "message": "একটি অবতার নির্বাচন করুন",
+        "description": "Label for the avatar selector"
+    },
+    "AvatarColorPicker--choose": {
+        "message": "Choose a color",
+        "description": "Label for when you need to choose your fighter, err color"
+    },
+    "LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
+        "message": "Group Avatar",
+        "description": "Title for the avatar picker in the group creation flow"
     }
 }

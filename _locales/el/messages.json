@@ -961,6 +961,10 @@
         "message": "Φωτογραφία ",
         "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
     },
+    "text": {
+        "message": "Κείμενο",
+        "description": "Label for the word 'text'"
+    },
     "cannotUpdate": {
         "message": "Αδυναμία αναβάθμισης",
         "description": "Shown as the title of our update error dialogs on windows"
@@ -1020,6 +1024,10 @@
     "accept": {
         "message": "Αποδοχή",
         "description": ""
+    },
+    "done": {
+        "message": "Τέλος",
+        "description": "Label for done"
     },
     "on": {
         "message": "Ενεργό",
@@ -1190,6 +1198,16 @@
             "name": {
                 "content": "$1",
                 "example": "Alice"
+            }
+        }
+    },
+    "ChangeNumber--notification": {
+        "message": "Ο/Η $sender$ άλλαξε τον αριθμό τηλεφώνου του/της",
+        "description": "Shown in timeline when a member of a conversation changes their phone number",
+        "placeholders": {
+            "sender": {
+                "content": "$1",
+                "example": "Sam"
             }
         }
     },
@@ -3493,6 +3511,10 @@
         "message": "Σίγαση ειδοποιήσεων",
         "description": "Label for the mute notifications drop-down selector"
     },
+    "notMuted": {
+        "message": "Μη σιγασμένο",
+        "description": "Label when the conversation is not muted"
+    },
     "muteHour": {
         "message": "Σίγαση για μια ώρα",
         "description": "Label for muting the conversation"
@@ -4977,6 +4999,10 @@
         "message": "Όταν ενεργοποιηθεί, τα μηνύματα που στέλνονται και λαμβάνονται σε αυτή την ομάδα θα εξαφανίζονται αφού προβληθούν.",
         "description": "This is the info about the disappearing messages setting"
     },
+    "ConversationDetails--notifications": {
+        "message": "Ειδοποιήσεις",
+        "description": "This is the label for notifications in the conversation details screen"
+    },
     "ConversationDetails--group-info-label": {
         "message": "Ποιοί μπορούν να επεξεργαστούν τις πληροφορίες της ομάδας",
         "description": "This is the label for the 'who can edit the group' panel"
@@ -5082,6 +5108,22 @@
     "ConversationDetailsMembershipList--show-all": {
         "message": "Προβολή όλων",
         "description": "This is a button on the conversation details to show all members"
+    },
+    "ConversationNotificationsSettings__mentions__label": {
+        "message": "Αναφορές",
+        "description": "In the conversation notifications settings, this is the label for the mentions option"
+    },
+    "ConversationNotificationsSettings__mentions__info": {
+        "message": "Λήψη ειδοποιήσεων όταν σε αναφέρουν σε συνομιλίες σε σίγαση",
+        "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
+    },
+    "ConversationNotificationsSettings__mentions__select__always-notify": {
+        "message": "Πάντα να ειδοποιούμαι",
+        "description": "In the conversation notifications settings, this is the option that always notifies you for @mentions"
+    },
+    "ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
+        "message": "Να μην ειδοποιούμαι αν είναι σε σίγαση",
+        "description": "In the conversation notifications settings, this is the option that doesn't notify you for @mentions if the conversation is muted"
     },
     "GroupLinkManagement--clipboard": {
         "message": "Ο σύνδεσμος ομάδας αντιγράφτηκε.",
@@ -5691,6 +5733,10 @@
             }
         }
     },
+    "ErrorBoundaryNotification__text": {
+        "message": "Αποτυχία εμφάνισης του μηνύματος λόγω σφάλματος της εφαρμογής. Πάτα εδώ για καταχώριση του αρχείου καταγραφής αποσφαλμάτωσης.",
+        "description": "An error notification displayed when message fails to render due to an internal error"
+    },
     "GroupDescription__read-more": {
         "message": "διάβασε περισσότερα",
         "description": "Button text when the group description is too long"
@@ -5767,7 +5813,7 @@
         "message": "Επώνυμο (προαιρετικά)",
         "description": "Placeholder text for last name field"
     },
-    "ProfileEditor--discard": {
+    "ConfirmDiscardDialog--discard": {
         "message": "Θες να απορρίψεις αυτές τις αλλαγές;",
         "description": "ConfirmationDialog text for discarding changes"
     },
@@ -5838,5 +5884,17 @@
     "AnnouncementsOnlyGroupBanner--admins": {
         "message": "διαχειριστές",
         "description": "Clickable text describing administrators of a group, used in the message an admin label"
+    },
+    "AvatarEditor--choose": {
+        "message": "Επιλογή εικόνας προφίλ",
+        "description": "Label for the avatar selector"
+    },
+    "AvatarColorPicker--choose": {
+        "message": "Επιλογή χρώματος",
+        "description": "Label for when you need to choose your fighter, err color"
+    },
+    "LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
+        "message": "Εικονίδιο ομάδας",
+        "description": "Title for the avatar picker in the group creation flow"
     }
 }

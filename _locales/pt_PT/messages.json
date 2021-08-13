@@ -961,6 +961,10 @@
         "message": "Fotografia",
         "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
     },
+    "text": {
+        "message": "Texto",
+        "description": "Label for the word 'text'"
+    },
     "cannotUpdate": {
         "message": "Não é possível atualizar",
         "description": "Shown as the title of our update error dialogs on windows"
@@ -1020,6 +1024,10 @@
     "accept": {
         "message": "Aceitar",
         "description": ""
+    },
+    "done": {
+        "message": "Concluído",
+        "description": "Label for done"
     },
     "on": {
         "message": "On",
@@ -1190,6 +1198,16 @@
             "name": {
                 "content": "$1",
                 "example": "Alice"
+            }
+        }
+    },
+    "ChangeNumber--notification": {
+        "message": "$sender$ alterou o seu número de telemóvel para um número novo",
+        "description": "Shown in timeline when a member of a conversation changes their phone number",
+        "placeholders": {
+            "sender": {
+                "content": "$1",
+                "example": "Sam"
             }
         }
     },
@@ -3493,6 +3511,10 @@
         "message": "Silenciar notificações",
         "description": "Label for the mute notifications drop-down selector"
     },
+    "notMuted": {
+        "message": "Não silenciado(a)",
+        "description": "Label when the conversation is not muted"
+    },
     "muteHour": {
         "message": "Silenciar por uma hora",
         "description": "Label for muting the conversation"
@@ -4977,6 +4999,10 @@
         "message": "Quando ativo, as mensagens enviadas e recebidas neste grupo irão ser destruídas após terem sido lidas.",
         "description": "This is the info about the disappearing messages setting"
     },
+    "ConversationDetails--notifications": {
+        "message": "Notificações",
+        "description": "This is the label for notifications in the conversation details screen"
+    },
     "ConversationDetails--group-info-label": {
         "message": "Quem pode editar a informação do grupo",
         "description": "This is the label for the 'who can edit the group' panel"
@@ -5082,6 +5108,22 @@
     "ConversationDetailsMembershipList--show-all": {
         "message": "Ver tudo",
         "description": "This is a button on the conversation details to show all members"
+    },
+    "ConversationNotificationsSettings__mentions__label": {
+        "message": "Menções",
+        "description": "In the conversation notifications settings, this is the label for the mentions option"
+    },
+    "ConversationNotificationsSettings__mentions__info": {
+        "message": "Receba notificações quando for mencionado em conversas silenciadas",
+        "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
+    },
+    "ConversationNotificationsSettings__mentions__select__always-notify": {
+        "message": "Notificar sempre",
+        "description": "In the conversation notifications settings, this is the option that always notifies you for @mentions"
+    },
+    "ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
+        "message": "Não notificar se silenciado",
+        "description": "In the conversation notifications settings, this is the option that doesn't notify you for @mentions if the conversation is muted"
     },
     "GroupLinkManagement--clipboard": {
         "message": "Link do grupo copiado.",
@@ -5691,6 +5733,10 @@
             }
         }
     },
+    "ErrorBoundaryNotification__text": {
+        "message": "Falha ao exibir a mensagem devido a um erro no Signal. Clique para enviar um registo de depuração.",
+        "description": "An error notification displayed when message fails to render due to an internal error"
+    },
     "GroupDescription__read-more": {
         "message": "ler mais",
         "description": "Button text when the group description is too long"
@@ -5767,7 +5813,7 @@
         "message": "Apelido (Opcional)",
         "description": "Placeholder text for last name field"
     },
-    "ProfileEditor--discard": {
+    "ConfirmDiscardDialog--discard": {
         "message": "Deseja descartar estas alterações?",
         "description": "ConfirmationDialog text for discarding changes"
     },
@@ -5838,5 +5884,17 @@
     "AnnouncementsOnlyGroupBanner--admins": {
         "message": "administradores",
         "description": "Clickable text describing administrators of a group, used in the message an admin label"
+    },
+    "AvatarEditor--choose": {
+        "message": "Selecione um avatar",
+        "description": "Label for the avatar selector"
+    },
+    "AvatarColorPicker--choose": {
+        "message": "Escolha uma cor",
+        "description": "Label for when you need to choose your fighter, err color"
+    },
+    "LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
+        "message": "Avatar do grupo",
+        "description": "Title for the avatar picker in the group creation flow"
     }
 }

@@ -961,6 +961,10 @@
         "message": "Slika",
         "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
     },
+    "text": {
+        "message": "Besedilo",
+        "description": "Label for the word 'text'"
+    },
     "cannotUpdate": {
         "message": "Posodobitev ni uspela",
         "description": "Shown as the title of our update error dialogs on windows"
@@ -1020,6 +1024,10 @@
     "accept": {
         "message": "Sprejmi",
         "description": ""
+    },
+    "done": {
+        "message": "OK",
+        "description": "Label for done"
     },
     "on": {
         "message": "Vklopljena",
@@ -1190,6 +1198,16 @@
             "name": {
                 "content": "$1",
                 "example": "Alice"
+            }
+        }
+    },
+    "ChangeNumber--notification": {
+        "message": "Uporabnik/ca $sender$ ima novo številko",
+        "description": "Shown in timeline when a member of a conversation changes their phone number",
+        "placeholders": {
+            "sender": {
+                "content": "$1",
+                "example": "Sam"
             }
         }
     },
@@ -3493,6 +3511,10 @@
         "message": "Izklopi obvestila",
         "description": "Label for the mute notifications drop-down selector"
     },
+    "notMuted": {
+        "message": "Neutišan",
+        "description": "Label when the conversation is not muted"
+    },
     "muteHour": {
         "message": "Utišaj za eno uro",
         "description": "Label for muting the conversation"
@@ -4977,6 +4999,10 @@
         "message": "Poslana in prejeta sporočila bodo izginila po tem, ko bodo videna s strani prejemnika.",
         "description": "This is the info about the disappearing messages setting"
     },
+    "ConversationDetails--notifications": {
+        "message": "Obvestila",
+        "description": "This is the label for notifications in the conversation details screen"
+    },
     "ConversationDetails--group-info-label": {
         "message": "Kdo lahko ureja informacije o skupini",
         "description": "This is the label for the 'who can edit the group' panel"
@@ -5082,6 +5108,22 @@
     "ConversationDetailsMembershipList--show-all": {
         "message": "Prikaz vseh",
         "description": "This is a button on the conversation details to show all members"
+    },
+    "ConversationNotificationsSettings__mentions__label": {
+        "message": "Omembe",
+        "description": "In the conversation notifications settings, this is the label for the mentions option"
+    },
+    "ConversationNotificationsSettings__mentions__info": {
+        "message": "Prejemajte obvestila, kadar ste omenjeni v utišanih pogovorih",
+        "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
+    },
+    "ConversationNotificationsSettings__mentions__select__always-notify": {
+        "message": "Vedno obveščaj",
+        "description": "In the conversation notifications settings, this is the option that always notifies you for @mentions"
+    },
+    "ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
+        "message": "Ne obvesti, ko je utišano",
+        "description": "In the conversation notifications settings, this is the option that doesn't notify you for @mentions if the conversation is muted"
     },
     "GroupLinkManagement--clipboard": {
         "message": "Povezava do skupine je bila prekopirana.",
@@ -5691,6 +5733,10 @@
             }
         }
     },
+    "ErrorBoundaryNotification__text": {
+        "message": "Sporočilo ni bilo prikazano zaradi interne napake. Kliknite za oddajo sistemske zabeležke.",
+        "description": "An error notification displayed when message fails to render due to an internal error"
+    },
     "GroupDescription__read-more": {
         "message": "več o tem",
         "description": "Button text when the group description is too long"
@@ -5767,7 +5813,7 @@
         "message": "Priimek (neobvezno)",
         "description": "Placeholder text for last name field"
     },
-    "ProfileEditor--discard": {
+    "ConfirmDiscardDialog--discard": {
         "message": "Želite zavreči te spremembe?",
         "description": "ConfirmationDialog text for discarding changes"
     },
@@ -5838,5 +5884,17 @@
     "AnnouncementsOnlyGroupBanner--admins": {
         "message": "skrbniki/ce",
         "description": "Clickable text describing administrators of a group, used in the message an admin label"
+    },
+    "AvatarEditor--choose": {
+        "message": "Izberi avatar",
+        "description": "Label for the avatar selector"
+    },
+    "AvatarColorPicker--choose": {
+        "message": "Izberite barvo",
+        "description": "Label for when you need to choose your fighter, err color"
+    },
+    "LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
+        "message": "Avatar skupine",
+        "description": "Title for the avatar picker in the group creation flow"
     }
 }

@@ -1,6 +1,6 @@
 {
     "softwareAcknowledgments": {
-        "message": "Proqram lisenziyaları",
+        "message": "Proqram Lisenziyaları",
         "description": "Shown in the about box for the link to software acknowledgments"
     },
     "privacyPolicy": {
@@ -222,7 +222,7 @@
         "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
     },
     "markUnread": {
-        "message": "Oxunmamış kimi işarələ",
+        "message": "Oxunmadı olaraq işarələ",
         "description": "Shown in menu for conversation, and marks conversation as unread"
     },
     "moveConversationToInbox": {
@@ -286,11 +286,11 @@
         "description": "Header shown on the screen at the end of a successful import process"
     },
     "importCompleteStartButton": {
-        "message": "\"Signal Desktop\"u istifadə etməyə başlaya bilərsiniz",
+        "message": "\"Signal Masaüstü\"nün istifadəsinə başlaya bilərsiniz",
         "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "importCompleteLinkButton": {
-        "message": "Bu cihazı telefonunuza bağlayın",
+        "message": "Bu cihazı telefonunuzla əlaqələndirin",
         "description": "Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
     },
     "selectedLocation": {
@@ -350,7 +350,7 @@
         "description": "Shown in the conversation history when a user links a new device to explain what is not supported."
     },
     "youMarkedAsVerified": {
-        "message": "Güvənlik nömrənizi $name$ olaraq təsdiqlənmiş kimi işarələdiniz",
+        "message": "$name$ ilə olan güvənlik nömrənizi təsdiqləndi olaraq işarələdiniz",
         "description": "Shown in the conversation history when the user marks a contact as verified.",
         "placeholders": {
             "name": {
@@ -360,7 +360,7 @@
         }
     },
     "youMarkedAsNotVerified": {
-        "message": "Güvənlik nömrənizi $name$ olaraq təsdiqlənməmiş kimi işarələdiniz",
+        "message": "$name$ ilə olan güvənlik nömrənizi təsdiqlənmədi olaraq işarələdiniz",
         "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog.",
         "placeholders": {
             "name": {
@@ -370,7 +370,7 @@
         }
     },
     "youMarkedAsVerifiedOtherDevice": {
-        "message": "You marked your Safety Number with $name$ as verified from another device",
+        "message": "$name$ ilə olan güvənlik nömrənizi başqa cihazda təsdiqləndi olaraq işarələdiniz",
         "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
         "placeholders": {
             "name": {
@@ -380,7 +380,7 @@
         }
     },
     "youMarkedAsNotVerifiedOtherDevice": {
-        "message": "You marked your Safety Number with $name$ as not verified from another device",
+        "message": "$name$ ilə olan güvənlik nömrənizi başqa cihazda təsdiqlənmədi olaraq işarələdiniz",
         "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
         "placeholders": {
             "name": {
@@ -390,11 +390,11 @@
         }
     },
     "membersNeedingVerification": {
-        "message": "Your safety numbers with these group members have changed since you last verified. Click a group member to see your new safety number with them.",
+        "message": "Bu qrup üzvləri ilə güvənlik nömrələriniz, son təsdiqləmədən bu yana dəyişdirildi. Yeni güvənlik nömrələrinə baxmaq üçün qrup üzvlərinə klikləyin.",
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedRightAfterVerify": {
-        "message": "The safety number you are trying to verify has changed. Please review your new safety number with $name1$. Remember, this change could mean that someone is trying to intercept your communication or that $name2$ has simply reinstalled Signal.",
+        "message": "Təsdiqləməyə çalışdığınız güvənlik nömrəsi dəyişdirildi. Zəhmət olmasa $name1$ ilə olan güvənlik nömrənizi nəzərdən keçirin. Unutmayın, bu dəyişiklik, kiminsə rabitənizi kəsməyə çaılşdığı və ya sadəcə $name2$əlaqəsinin Signal-ı yenidən quraşdırdığı mənasını verə bilər.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name1": {
@@ -412,7 +412,7 @@
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "identityKeyErrorOnSend": {
-        "message": "Your safety number with $name1$ has changed. This could either mean that someone is trying to intercept your communication or that $name2$ has simply reinstalled Signal. You may wish to verify your safety number with this contact.",
+        "message": "$name1$ ilə  olan güvənlik nömrəniz dəyişdirildi. Unutmayın, bu dəyişiklik, kiminsə rabitənizi kəsməyə çaılşdığı və ya sadəcə $name2$  əlaqəsinin Signal-ı yenidən quraşdırdığı mənasını verə bilər. Bu əlaqə ilə güvənlik nömrənizi təsdiqləmək istəyə bilərsiniz.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name1": {
@@ -426,19 +426,19 @@
         }
     },
     "sendAnyway": {
-        "message": "Yenə də Göndər",
+        "message": "Yenə də göndər",
         "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
     },
     "callAnyway": {
-        "message": "Yenə də Zəng Et",
+        "message": "Yenə də zəng et",
         "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
     },
     "continueCall": {
-        "message": "Continue Call",
+        "message": "Zəngə davam et",
         "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
     },
     "noLongerVerified": {
-        "message": "Your safety number with $name$ has changed and is no longer verified. Click to show.",
+        "message": "$name$ ilə olan güvənlik nömrəniz dəyişdirildi və artıq təsdiqlənmir. Göstərmək üçün klikləyin.",
         "description": "Shown in conversation banner when user's safety number has changed, but they were previously verified.",
         "placeholders": {
             "name": {
@@ -448,35 +448,35 @@
         }
     },
     "multipleNoLongerVerified": {
-        "message": "Your safety numbers with multiple members of this group have changed and are no longer verified. Click to show.",
+        "message": "Bu qrupun bir neçə üzvü ilə olan güvənlik nömrəniz dəyişdirildi və artıq təsdiqlənmir. Göstərmək üçün klikləyin.",
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "This log will be posted publicly online for contributors to view. You may examine and edit it before submitting.",
+        "message": "Bu jurnal, töhfə verənlərin görməsi üçün ictimai olaraq paylaşılacaq. Göndərməzdən əvvəl yoxlaya və düzəliş edə bilərsiniz.",
         "description": ""
     },
     "debugLogError": {
-        "message": "Something went wrong with the upload! Please consider manually adding your log to the bug you file.",
+        "message": "Yükləmə ilə bağlı nəsə səhv getdi! Zəhmət olmasa jurnalı, xəta faylınıza özünüz əlavə edin.",
         "description": ""
     },
     "debugLogCopy": {
-        "message": "Köçür",
+        "message": "Kopyala",
         "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogCopyAlt": {
-        "message": "Copy link to your clipboard",
+        "message": "Bağlantını lövhəyə kopyala",
         "description": "Shown as the alt text for the copy button on the debug log screen"
     },
     "debugLogLinkCopied": {
-        "message": "Link Copied to Your Clipboard",
+        "message": "Bağlantı lövhənizə kopyalandı",
         "description": "Shown in a toast to let the user know that the link to the debug log has been copied to their clipboard"
     },
     "reportIssue": {
-        "message": "Report an issue",
+        "message": "Bir problem bildir",
         "description": "Link to open the issue tracker"
     },
     "gotIt": {
-        "message": "Got it!",
+        "message": "Anladım",
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "submit": {
@@ -488,15 +488,15 @@
         "description": "Label for a button to accept a new safety number"
     },
     "verify": {
-        "message": "Mark as verified",
+        "message": "Təsdiqləndi olaraq işarələ",
         "description": ""
     },
     "unverify": {
-        "message": "Mark as not verified",
+        "message": "Təsdiqlənmədi olaraq işarələ",
         "description": ""
     },
     "isVerified": {
-        "message": "You have verified your safety number with $name$.",
+        "message": "$name$ ilə olan güvənlik nömrəniz təsdiqləndi.",
         "description": "Summary state shown at top of the safety number screen if user has verified contact.",
         "placeholders": {
             "name": {
@@ -506,7 +506,7 @@
         }
     },
     "isNotVerified": {
-        "message": "You have not verified your safety number with $name$.",
+        "message": "$name$ ilə olan güvənlik nömrəniz təsdiqlənmədi",
         "description": "Summary state shown at top of the safety number screen if user has not verified contact.",
         "placeholders": {
             "name": {
@@ -516,19 +516,19 @@
         }
     },
     "verified": {
-        "message": "Təsdiq edildi",
+        "message": "Təsdiqləndi",
         "description": ""
     },
     "newIdentity": {
-        "message": "Yeni təhlükəsizlik rəqəmi",
+        "message": "Yeni güvənlik nömrəsi",
         "description": "Header for a key change dialog"
     },
     "identityChanged": {
-        "message": "Your safety number with this contact has changed. This could either mean that someone is trying to intercept your communication, or this contact simply reinstalled Signal. You may wish to verify the new safety number below.",
+        "message": "Bu əlaqə ilə olan güvənlik nömrəniz dəyişdirildi. Unutmayın, bu dəyişiklik, kiminsə rabitənizi kəsməyə çaılşdığı və ya sadəcə bu əlaqənin Signal-ı yenidən quraşdırdığı mənasını verə bilər. Aşağıdakı yeni güvənlik nömrəsini təsdiqləmək istəyə bilərsiniz.",
         "description": ""
     },
     "incomingError": {
-        "message": "Gələn ismarışın açılmasında xəta",
+        "message": "Gələn mesajın emal olunma xətası",
         "description": ""
     },
     "media": {
@@ -536,7 +536,7 @@
         "description": "Header of the default pane in the media gallery, showing images and videos"
     },
     "mediaEmptyState": {
-        "message": "You don’t have any media in this conversation",
+        "message": "Bu danışıqda heç bir medianız yoxdur",
         "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
     },
     "allMedia": {
@@ -548,7 +548,7 @@
         "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
     },
     "documentsEmptyState": {
-        "message": "You don’t have any documents in this conversation",
+        "message": "Bu danışıqda heç bir sənədiniz yoxdur",
         "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
     },
     "today": {
@@ -560,39 +560,39 @@
         "description": "Section header in the media gallery"
     },
     "thisWeek": {
-        "message": "This Week",
+        "message": "Bu həftə",
         "description": "Section header in the media gallery"
     },
     "thisMonth": {
-        "message": "Bu Ay",
+        "message": "Bu ay",
         "description": "Section header in the media gallery"
     },
     "unsupportedAttachment": {
-        "message": "Unsupported attachment type. Click to save.",
+        "message": "Dəstəklənməyən qoşma növü. Saxlamaq üçün klikləyin.",
         "description": "Displayed for incoming unsupported attachment"
     },
     "clickToSave": {
-        "message": "Click to save",
+        "message": "Saxlamaq üçün klikləyin",
         "description": "Hover text for attachment filenames"
     },
     "unnamedFile": {
-        "message": "Unnamed File",
+        "message": "Adsız fayl",
         "description": "Hover text for attachment filenames"
     },
     "voiceMessage": {
-        "message": "Səsli Mesaj",
+        "message": "Səsyazmalı Mesaj",
         "description": "Name for a voice message attachment"
     },
     "dangerousFileType": {
-        "message": "Attachment type not allowed for security reasons",
+        "message": "Təhlükəsizlik səbəblərinə görə bu qoşma növünə icazə verilmir.",
         "description": "Shown in toast when user attempts to send .exe file, for example"
     },
     "loadingPreview": {
-        "message": "Loading Preview...",
+        "message": "Önbaxış yüklənir...",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
     },
     "stagedPreviewThumbnail": {
-        "message": "Draft thumbnail link preview for $domain$",
+        "message": "$domain$ üçün bağlantı önbaxış eskiz qaralaması",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
@@ -602,7 +602,7 @@
         }
     },
     "previewThumbnail": {
-        "message": "Thumbnail link preview for $domain$",
+        "message": "$domain$ üçün bağlantı önbaxış eskizi",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
@@ -612,7 +612,7 @@
         }
     },
     "stagedImageAttachment": {
-        "message": "Draft image attachment: $path$",
+        "message": "Təsvir qoşma qaralaması: $path$",
         "description": "Alt text for staged attachments",
         "placeholders": {
             "path": {
@@ -622,27 +622,27 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "Desktop ran into a decryption error. Click to submit a debug log.",
+        "message": "Masaüstü, şifrə açma xətası ilə üzləşdi. Sazlama jurnalını göndərmək üçün klikləyin.",
         "description": "An error popup when we haven't added an error for decryption error."
     },
     "oneNonImageAtATimeToast": {
-        "message": "When including a non-image attachment, the limit is one attachment per message.",
+        "message": "Təsvir olmayan qoşma əlavə ediləndə, bir mesaj üçün qoşma limiti birdir.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "cannotMixImageAndNonImageAttachments": {
-        "message": "You cannot mix non-image and image attachments in one message.",
+        "message": "Bir mesajda təsvir olan və olmayan qoşmaları birləşdirə bilməzsiniz.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "maximumAttachments": {
-        "message": "You cannot add any more attachments to this message.",
+        "message": "Bu mesaja daha çox qoşma əlavə edə bilməzsiniz.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "fileSizeWarning": {
-        "message": "Sorry, the selected file exceeds message size restrictions.",
+        "message": "Təəssüf ki, seçilmiş fayl, mesaj həcm məhdudiyyətlərini aşır.",
         "description": ""
     },
     "unableToLoadAttachment": {
-        "message": "Unable to load selected attachment.",
+        "message": "Seçilmiş qoşma yüklənilə bilmir.",
         "description": ""
     },
     "disconnected": {
@@ -650,23 +650,23 @@
         "description": "Displayed when the desktop client cannot connect to the server."
     },
     "connecting": {
-        "message": "Qoşulur",
+        "message": "Bağlantı qurulur",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "connect": {
-        "message": "Connect",
+        "message": "Bağlantı qur",
         "description": "Shown to allow the user to manually attempt a reconnect."
     },
     "connectingHangOn": {
-        "message": "Shouldn't be long...",
+        "message": "Çox çəkməməlidir...",
         "description": "Subtext description for when the client is connecting to the server."
     },
     "offline": {
-        "message": "Oflayn",
+        "message": "Xətdən kənardadır",
         "description": "Displayed when the desktop client has no network connection."
     },
     "checkNetworkConnection": {
-        "message": "Check your network connection.",
+        "message": "İnternet bağlantınızı yoxlayın.",
         "description": "Obvious instructions for when a user's computer loses its network connection"
     },
     "submitDebugLog": {
@@ -674,39 +674,39 @@
         "description": "Menu item and header text for debug log modal (sentence case)"
     },
     "debugLog": {
-        "message": "Debug Log",
+        "message": "Sazlama jurnalı",
         "description": "View menu item to open the debug log (title case)"
     },
     "forceUpdate": {
-        "message": "Force Update",
+        "message": "Məcburi yeniləmə",
         "description": "View menu item to force the app to update download and install"
     },
     "helpMenuShowKeyboardShortcuts": {
-        "message": "Show Keyboard Shortcuts",
+        "message": "Klaviatura qısayollarını göstər",
         "description": "Item under the help menu, pops up a screen showing the application's keyboard shortcuts"
     },
     "contactUs": {
-        "message": "Əlaqə",
+        "message": "Bizimlə əlaqə",
         "description": "Item under the help menu, takes you to the contact us support page"
     },
     "goToReleaseNotes": {
-        "message": "Go to Release Notes",
+        "message": "Buraxılış qeydlərinə get",
         "description": "Item under the help menu, takes you to GitHub page for release notes"
     },
     "goToForums": {
-        "message": "Go to Forums",
+        "message": "Forumlara get",
         "description": "Item under the Help menu, takes you to the forums"
     },
     "goToSupportPage": {
-        "message": "Go to Support Page",
+        "message": "Dəstək səhifəsinə get",
         "description": "Item under the Help menu, takes you to the support page"
     },
     "joinTheBeta": {
-        "message": "Join the Beta",
+        "message": "Beta-ya qoşul",
         "description": "Item under the Help menu, takes you to an article describing how to install the beta release of Signal Desktop"
     },
     "signalDesktopPreferences": {
-        "message": "Signal Desktop Preferences",
+        "message": "Signal Masaüstü Tərcihləri",
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "signalDesktopStickerCreator": {
@@ -714,15 +714,15 @@
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "aboutSignalDesktop": {
-        "message": "About Signal Desktop",
+        "message": "Signal Masaüstü haqqında",
         "description": "Item under the Help menu, which opens a small about window"
     },
     "screenShareWindow": {
-        "message": "Sharing screen",
+        "message": "Ekran paylaşımı",
         "description": "Title for screen sharing window"
     },
     "speech": {
-        "message": "Speech",
+        "message": "Danışma",
         "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
     },
     "show": {
@@ -734,11 +734,11 @@
         "description": "Command in the tray icon menu, to hide the window"
     },
     "quit": {
-        "message": "Quit",
+        "message": "Çıx",
         "description": "Command in the tray icon menu, to quit the application"
     },
     "signalDesktop": {
-        "message": "Signal Desktop",
+        "message": "Signal Masaüstü",
         "description": "Tooltip for the tray icon"
     },
     "search": {
@@ -746,11 +746,11 @@
         "description": "Placeholder text in the search input"
     },
     "clearSearch": {
-        "message": "Clear Search",
+        "message": "Axtarışı təmizlə",
         "description": "Aria label for clear search button"
     },
     "searchIn": {
-        "message": "Search in $conversationName$",
+        "message": "$conversationName$ danışığında axtar",
         "description": "Shown in the search box before text is entered when searching in a specific conversation",
         "placeholders": {
             "conversationName": {
@@ -760,7 +760,7 @@
         }
     },
     "noSearchResults": {
-        "message": "No results for \"$searchTerm$\"",
+        "message": "\"$searchTerm$\" üçün nəticə yoxdur",
         "description": "Shown in the search left pane when no results were found",
         "placeholders": {
             "searchTerm": {
@@ -770,11 +770,11 @@
         }
     },
     "noSearchResults--sms-only": {
-        "message": "SMS/MMS contacts are not available on Desktop.",
+        "message": "SMS/MMS əlaqələri Masaüstündə əlçatmazdır.",
         "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
     },
     "noSearchResultsInConversation": {
-        "message": "No results for \"$searchTerm$\" in $conversationName$",
+        "message": "$conversationName$ danışığında \"$searchTerm$\" üçün nəticə yoxdur",
         "description": "Shown in the search left pane when no results were found",
         "placeholders": {
             "searchTerm": {
@@ -788,11 +788,11 @@
         }
     },
     "conversationsHeader": {
-        "message": "Söhbətlər",
+        "message": "Danışıqlar",
         "description": "Shown to separate the types of search results"
     },
     "contactsHeader": {
-        "message": "Kontaktlar",
+        "message": "Əlaqələr",
         "description": "Shown to separate the types of search results"
     },
     "groupsHeader": {
@@ -808,19 +808,19 @@
         "description": ""
     },
     "selectAContact": {
-        "message": "Söhbət üçün adam və ya qrup seçin.",
+        "message": "Söhbətə başlamaq üçün əlaqə və ya qrup seçin.",
         "description": ""
     },
     "typingAlt": {
-        "message": "Typing animation for this conversation",
+        "message": "Bu danışıq üçün yazma animasiyası",
         "description": "Used as the 'title' attribute for the typing animation"
     },
     "contactInAddressBook": {
-        "message": "This person is in your contacts.",
+        "message": "Bu şəxs, ünvan kitabçanızdadır.",
         "description": "Description of icon denoting that contact is from your address book"
     },
     "contactAvatarAlt": {
-        "message": "Avatar for contact $name$",
+        "message": "$name$ əlaqəsi üçün avatar",
         "description": "Used in the alt tag for the image avatar of a contact",
         "placeholders": {
             "name": {
@@ -834,79 +834,79 @@
         "description": "Shown when you are sent a contact and that contact has a signal account"
     },
     "home": {
-        "message": "home",
+        "message": "ev",
         "description": "Shown on contact detail screen as a label for an address/phone/email"
     },
     "work": {
-        "message": "work",
+        "message": "iş",
         "description": "Shown on contact detail screen as a label for an address/phone/email"
     },
     "mobile": {
-        "message": "mobile",
+        "message": "mobil",
         "description": "Shown on contact detail screen as a label for aa phone or email"
     },
     "email": {
-        "message": "email",
+        "message": "e-poçt",
         "description": "Generic label shown if contact email has custom type but no label"
     },
     "phone": {
-        "message": "phone",
+        "message": "telefon",
         "description": "Generic label shown if contact phone has custom type but no label"
     },
     "address": {
-        "message": "address",
+        "message": "ünvan",
         "description": "Generic label shown if contact address has custom type but no label"
     },
     "poBox": {
-        "message": "PO Box",
+        "message": "Poçt qutusu",
         "description": "When rendering an address, used to provide context to a post office box"
     },
     "downloading": {
-        "message": "Yüklənir",
+        "message": "Endirilir",
         "description": "Shown in the message bubble while a long message attachment is being downloaded"
     },
     "downloadAttachment": {
-        "message": "Download Attachment",
+        "message": "Qoşmanı endir",
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
     },
     "reactToMessage": {
-        "message": "React to Message",
+        "message": "Mesaja reaksiya ver",
         "description": "Shown in triple-dot menu next to message to allow user to react to the associated message"
     },
     "replyToMessage": {
-        "message": "Reply to Message",
+        "message": "Mesajı cavabla",
         "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
     },
     "originalMessageNotFound": {
-        "message": "Mesajın əsli tapılmadı",
+        "message": "Orijinal mesaj tapılmadı",
         "description": "Shown in quote if reference message was not found as message was initially downloaded and processed"
     },
     "originalMessageNotAvailable": {
-        "message": "Mesajın əsli artıq mövcud deyil",
+        "message": "Orijinal mesaj artıq mövcud deyil",
         "description": "Shown in toast if user clicks on quote that references message no longer in database"
     },
     "messageFoundButNotLoaded": {
-        "message": "Original message found, but not loaded. Scroll up to load it.",
+        "message": "Orijinal mesaj tapıldı, ancaq yüklənmədi. Yükləmək üçün yuxarı çək.",
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
     "voiceRecordingInterruptedMax": {
-        "message": "Voice message recording stopped because the maximum time limit was reached.",
+        "message": "Vaxt limitinə çatdığı üçün səsyazma dayandırıldı.",
         "description": "Confirmation dialog message for when the voice recording is interrupted due to max time limit"
     },
     "voiceRecordingInterruptedBlur": {
-        "message": "Voice message recording stopped because you switched to another app.",
+        "message": "Başqa tətbiqə keçdiyiniz üçün səsyazma dayandırıldı.",
         "description": "Confirmation dialog message for when the voice recording is interrupted due to app losing focus"
     },
     "voiceNoteLimit": {
-        "message": "Voice messages are limited to five minutes. Recording will stop if you switch to another app.",
+        "message": "Səsyazmalı mesajların limiti beş dəqiqədir. Başqa bir tətbiqə keçsəniz, səsyazma dayandırılacaq.",
         "description": "Shown in toast to warn user about limited time and that window must be in focus"
     },
     "voiceNoteMustBeOnlyAttachment": {
-        "message": "A voice message must have only one attachment.",
+        "message": "Səsyazmalı mesajın yalnız bir qoşması olmalıdır.",
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
     },
     "attachmentSaved": {
-        "message": "Attachment saved. Click to show in folder.",
+        "message": "Qoşma saxlanıldı. Qovluq göstərmək üçün klikləyin.",
         "description": "Shown after user selects to save to downloads",
         "placeholders": {
             "name": {
@@ -916,11 +916,11 @@
         }
     },
     "you": {
-        "message": "Sən",
+        "message": "Siz",
         "description": "Shown when the user represented is the current user."
     },
     "replyingTo": {
-        "message": "Replying to $name$",
+        "message": "$name$ əlaqəsinə cavab verilir",
         "description": "Shown in iOS theme when you or someone quotes to a message which is not from you",
         "placeholders": {
             "name": {
@@ -930,27 +930,27 @@
         }
     },
     "audioPermissionNeeded": {
-        "message": "To send audio messages, allow Signal Desktop to access your microphone.",
+        "message": "Səsli mesaj göndərmək üçün, \"Signal Masaüstü\"nün mikrofonunuza müraciətinə icazə verin.",
         "description": "Shown if the user attempts to send an audio message without audio permissions turned on"
     },
     "audioCallingPermissionNeeded": {
-        "message": "For calling, you must allow Signal Desktop to access your microphone.",
+        "message": "Zəng etmək üçün, \"Signal Masaüstü\"nün mikrofonunuza müraciətinə icazə verməlisiniz.",
         "description": "Shown if the user attempts access the microphone for calling without audio permissions turned on"
     },
     "videoCallingPermissionNeeded": {
-        "message": "For video calling, you must allow Signal Desktop to access your camera.",
+        "message": "Görüntülü zəng etmək üçün, \"Signal Masaüstü\"nün kameranıza müraciətinə icazə verməlisiniz.",
         "description": "Shown if the user attempts access the camera for video calling without video permissions turned on"
     },
     "allowAccess": {
-        "message": "Allow Access",
+        "message": "Müraciətə icazə ver",
         "description": "Button shown in popup asking to enable microphone/video permissions to send audio messages"
     },
     "showSettings": {
-        "message": "Show Settings",
+        "message": "Tənzimləmələri göstər",
         "description": "A button shown in dialog requesting the user to turn on audio permissions"
     },
     "audio": {
-        "message": "Audio",
+        "message": "Səs",
         "description": "Shown in a quotation of a message containing an audio attachment if no text was originally provided with that attachment"
     },
     "video": {
@@ -958,15 +958,19 @@
         "description": "Shown in a quotation of a message containing a video if no text was originally provided with that video"
     },
     "photo": {
-        "message": "Şəkil",
+        "message": "Foto",
         "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
     },
+    "text": {
+        "message": "Mətn",
+        "description": "Label for the word 'text'"
+    },
     "cannotUpdate": {
-        "message": "Cannot Update",
+        "message": "Yenilənə bilmir",
         "description": "Shown as the title of our update error dialogs on windows"
     },
     "cannotUpdateDetail": {
-        "message": "Signal Desktop failed to update, but there is a new version available. Please go to $url$ and install the new version manually, then either contact support or file a bug about this problem.",
+        "message": "Signal Masaüstü yenilənmədi, ancaq yeni bir versiya mövcuddur. Zəhmət olmasa $url$ ünvanına gedərək yeni versiyanı əllə quraşdırın, daha sonra dəstəklə əlaqə saxlayın və ya bu problemlə əlaqədar bir xəta bildirin.",
         "description": "Shown if a general error happened while trying to install update package",
         "placeholders": {
             "url": {
@@ -976,7 +980,7 @@
         }
     },
     "readOnlyVolume": {
-        "message": "Signal Desktop is likely in a macOS quarantine, and will not be able to auto-update. Please try moving $app$ to $folder$ with Finder.",
+        "message": "Signal Masaüstü, böyük ehtimalla macOS karantinindədir və avtomatik yenilənə bilməyəcək. Zəhmət olmasa Finder ilə $app$ tətbiqini $folder$ qovluğuna köçürün.",
         "description": "Shown on MacOS if running on a read-only volume and we cannot update",
         "placeholders": {
             "app": {
@@ -994,15 +998,15 @@
         "description": ""
     },
     "cancel": {
-        "message": "Ləğv et",
+        "message": "İmtina",
         "description": ""
     },
     "discard": {
-        "message": "Xaric et",
+        "message": "Ləğv et",
         "description": ""
     },
     "failedToSend": {
-        "message": "Failed to send to some recipients. Check your network connection.",
+        "message": "Bəzi alıcılara göndərilmədi. Şəbəkə bağlantınızı yoxlayın.",
         "description": ""
     },
     "error": {
@@ -1010,7 +1014,7 @@
         "description": ""
     },
     "messageDetail": {
-        "message": "Message Detail",
+        "message": "Mesaj təfsilatı",
         "description": ""
     },
     "delete": {
@@ -1021,6 +1025,10 @@
         "message": "Qəbul et",
         "description": ""
     },
+    "done": {
+        "message": "Hazırdır",
+        "description": "Label for done"
+    },
     "on": {
         "message": "Açıq",
         "description": "Label for when something is turned on"
@@ -1030,23 +1038,23 @@
         "description": "Label for when something is turned off"
     },
     "deleteWarning": {
-        "message": "This message will be deleted from this device.",
+        "message": "Bu mesaj, bu cihazdan silinəcək.",
         "description": "Text shown in the confirmation dialog for deleting a message locally"
     },
     "deleteForEveryoneWarning": {
-        "message": "Bu mesaj bu söhbətdə hamı üçün silindi. Əgə onlarda Daha yüksək Siqnal versiyası varsa. Onlar sizin mesajı sildiyinizi görə bilərlər.",
+        "message": "Bu mesaj, bu danışıqda Signal-ın ən son versiyasına sahib olan hər kəs üçün silinəcək. Bir mesajı sildiyinizi görə bilərlər.",
         "description": "Text shown in the confirmation dialog for deleting a message for everyone"
     },
     "from": {
-        "message": "Buradan",
+        "message": "Göndərən",
         "description": "Label for the sender of a message"
     },
     "to": {
-        "message": "Alıcı",
+        "message": "Alan",
         "description": "Label for the receiver of a message"
     },
     "toJoiner": {
-        "message": "to",
+        "message": "->",
         "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
     },
     "sent": {
@@ -1066,23 +1074,23 @@
         "description": ""
     },
     "showMembers": {
-        "message": "Show members",
+        "message": "Üzvləri göstər",
         "description": ""
     },
     "resetSession": {
-        "message": "Reset session",
+        "message": "Seansı sıfırla",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "showSafetyNumber": {
-        "message": "Təhlükəsizlik rəqəminə bax",
+        "message": "Güvənlik nömrəsinə bax",
         "description": ""
     },
     "viewRecentMedia": {
-        "message": "View recent media",
+        "message": "Son mediaya bax",
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
-        "message": "If you wish to verify the security of your end-to-end encryption with $name$, compare the numbers above with the numbers on their device.",
+        "message": "$name$ ilə bir ucdan digərinə kimi olan şifrələmənizin güvənliyini təsdiqləmək istəsəniz, yuxarıdakı nömrələri cihazındakı nömrələrlə müqayisə edin.",
         "description": "",
         "placeholders": {
             "name": {
@@ -1092,7 +1100,7 @@
         }
     },
     "theirIdentityUnknown": {
-        "message": "You haven't exchanged any messages with this contact yet. Your safety number with them will be available after the first message.",
+        "message": "Hələ ki, bu əlaqə ilə mesajlaşmadınız. Güvənlik nömrəsi, ilk mesajdan sonra mövcud olacaq.",
         "description": ""
     },
     "back": {
@@ -1100,15 +1108,15 @@
         "description": "Generic label for back"
     },
     "goBack": {
-        "message": "Go back",
+        "message": "Geri get",
         "description": "Label for back button in a conversation"
     },
     "moreInfo": {
-        "message": "Daha Ətraflı",
+        "message": "Daha çox məlumat",
         "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
     },
     "retrySend": {
-        "message": "Retry Send",
+        "message": "Təkrar göndər",
         "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
     },
     "forwardMessage": {
@@ -1116,11 +1124,11 @@
         "description": "Shown on the drop-down menu for an individual message, forwards a message"
     },
     "deleteMessage": {
-        "message": "Delete message for me",
+        "message": "Mesajı mənim üçün sil",
         "description": "Shown on the drop-down menu for an individual message, deletes single message"
     },
     "deleteMessageForEveryone": {
-        "message": "Delete message for everyone",
+        "message": "Mesajı hər kəs üçün sil",
         "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
     },
     "deleteMessages": {
@@ -1128,15 +1136,15 @@
         "description": "Menu item for deleting messages, title case."
     },
     "deleteConversationConfirmation": {
-        "message": "Permanently delete this conversation?",
+        "message": "Bu danışıq birdəfəlik silinsin?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "sessionEnded": {
-        "message": "Secure session reset",
+        "message": "Güvənli seansı sıfırla",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "ChatRefresh--notification": {
-        "message": "Söhbət sessiyası yeniləndi",
+        "message": "Söhbət seansı təzələndi",
         "description": "Shown in timeline when a error happened, and the session was automatically reset."
     },
     "ChatRefresh--learnMore": {
@@ -1144,11 +1152,11 @@
         "description": "Shown in timeline when session is automatically reset, to provide access to a popup info dialog"
     },
     "ChatRefresh--summary": {
-        "message": "Signal uses end-to-end encryption and it may need to refresh your chat session sometimes. This doesn’t affect your chat’s security but you may have missed a message from this contact and you can ask them to resend it.",
+        "message": "Signal, bir ucdan digər uca kimi şifrələmə istifadə edir və bəzən söhbət seansınızı təzələmək lazım olur. Bu, söhbətinizin güvənliyinə təsir etmir, ancaq bu şəxsdən gələn bir mesajı buraxmış ola bilərsiniz və ondan mesajı yenidən göndərməsini xahiş edə bilərsiniz.",
         "description": "Shown on explainer dialog available from chat session refreshed timeline events"
     },
     "ChatRefresh--contactSupport": {
-        "message": "Yardımla xidməti",
+        "message": "Dəstək ilə əlaqə",
         "description": "Shown on explainer dialog available from chat session refreshed timeline events"
     },
     "DeliveryIssue--preview": {
@@ -1156,7 +1164,7 @@
         "description": "Shown in left pane preview when message delivery issue happens"
     },
     "DeliveryIssue--notification": {
-        "message": "A message from $sender$ couldn’t be delivered",
+        "message": "$sender$ tərəfindən göndərilən bir mesaj çatdırıla bilmədi",
         "description": "Shown in timeline when message delivery issue happens",
         "placeholders": {
             "name": {
@@ -1174,7 +1182,7 @@
         "description": "Shown on explainer dialog available from delivery issue timeline events"
     },
     "DeliveryIssue--summary": {
-        "message": "A message, sticker, reaction, read receipt or media couldn’t be delivered to you from $sender$. They may have tried sending it to you directly, or in a group.",
+        "message": "$sender$  tərəfindən göndərilən bir mesaj, stiker, reaksiya və ya oxundu bildirişi sizə çatdırıla bilmədi. Sizə, birbaşa və ya qrup daxilindən göndərməyə çalışmış ola bilər.",
         "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations",
         "placeholders": {
             "name": {
@@ -1184,7 +1192,7 @@
         }
     },
     "DeliveryIssue--summary--group": {
-        "message": "A message, sticker, reaction, read receipt or media couldn’t be delivered to you from $sender$ in this chat.",
+        "message": "$sender$  tərəfindən bu söhbətdə göndərilən bir mesaj, stiker, reaksiya və ya oxundu bildirişi sizə çatdırıla bilmədi.",
         "description": "Shown on explainer dialog available from delivery issue timeline events in groups",
         "placeholders": {
             "name": {
@@ -1193,24 +1201,34 @@
             }
         }
     },
+    "ChangeNumber--notification": {
+        "message": "$sender$, nömrəsini dəyişdirdi",
+        "description": "Shown in timeline when a member of a conversation changes their phone number",
+        "placeholders": {
+            "sender": {
+                "content": "$1",
+                "example": "Sam"
+            }
+        }
+    },
     "quoteThumbnailAlt": {
-        "message": "Thumbnail of image from quoted message",
+        "message": "Sitat mesajdan təsvirin eskizi",
         "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
     },
     "imageAttachmentAlt": {
-        "message": "Image attached to message",
+        "message": "Təsvir, mesaja əlavə edildi",
         "description": "Used in alt tag of image attachment"
     },
     "videoAttachmentAlt": {
-        "message": "Screenshot of video attached to message",
+        "message": "Mesaja əlavə edilən videonun ekran şəkli",
         "description": "Used in alt tag of video attachment preview"
     },
     "lightboxImageAlt": {
-        "message": "Image sent in conversation",
+        "message": "Bu danışıqda təsvir göndərildi",
         "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
     },
     "imageCaptionIconAlt": {
-        "message": "Icon showing that this image has a caption",
+        "message": "Nişan, bu təsvirin başlığının olduğunu göstərir",
         "description": "Used for the icon layered on top of an image in message bubbles"
     },
     "addACaption": {
@@ -1218,39 +1236,39 @@
         "description": "Used as the placeholder text in the caption editor text field"
     },
     "save": {
-        "message": "Yaddaşa yaz",
+        "message": "Saxla",
         "description": "Used as a 'commit changes' button in the Caption Editor for outgoing image attachments"
     },
     "fileIconAlt": {
-        "message": "File icon",
+        "message": "Fayl nişanı",
         "description": "Used in the media gallery documents tab to visually represent a file"
     },
     "installWelcome": {
-        "message": "Welcome to Signal Desktop",
+        "message": "Signal Masaüstü tətbiqinə xoş gəldiniz",
         "description": "Welcome title on the install page"
     },
     "installTagline": {
-        "message": "Privacy is possible. Signal makes it easy.",
+        "message": "Gizlilik mümkündür. Signal, bunu asanlaşdırır.",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
     "linkYourPhone": {
-        "message": "Link your phone to Signal Desktop",
+        "message": "Telefonunuzu, Signal Masaüstü ilə əlaqələndirin.",
         "description": "Shown on the front page when the application first starts, above the QR code"
     },
     "signalSettings": {
-        "message": "Signal Settings",
+        "message": "Signal Tənzimləmələri",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "linkedDevices": {
-        "message": "Qoşulmuş alətlər",
+        "message": "Əlaqə yaradılmış cihazlar",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "plusButton": {
-        "message": "'+' Button",
+        "message": "'+' düyməsi",
         "description": "The button used in Signal Android to add a new linked device"
     },
     "linkNewDevice": {
-        "message": "Yeni alət qoş",
+        "message": "Yeni cihazla əlaqə yarat",
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
     "deviceName": {
@@ -1262,23 +1280,23 @@
         "description": "The header shown on the 'choose device name' screen in the device linking process"
     },
     "finishLinkingPhone": {
-        "message": "Finish linking phone",
+        "message": "Telefonla əlaqəni bitir",
         "description": "The text on the button to finish the linking process, after choosing the device name"
     },
     "initialSync": {
-        "message": "Syncing contacts and groups",
+        "message": "Əlaqələr və qruplar eyniləşdirilir",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
     "installConnectionFailed": {
-        "message": "Failed to connect to server.",
+        "message": "Serverlə bağlantı qurulmadı.",
         "description": "Displayed when we can't connect to the server."
     },
     "installTooManyDevices": {
-        "message": "Sorry, you have too many devices linked already. Try removing some.",
+        "message": "Təəssüf ki, həddən çox cihazla əlaqə əlaqələndirdiniz. Bəzilərini çıxartmağa çalışın",
         "description": ""
     },
     "installTooOld": {
-        "message": "Update Signal on this device to link your phone.",
+        "message": "Telefonunuzu əlaqələndirmək üçün bu cihazda Signal-ı yeniləyin.",
         "description": ""
     },
     "installErrorHeader": {
@@ -1286,7 +1304,7 @@
         "description": ""
     },
     "installTryAgain": {
-        "message": "Yenidən cəhd et",
+        "message": "Yenidən sına",
         "description": ""
     },
     "theme": {
@@ -1306,7 +1324,7 @@
         "description": "Button label in the call lobby for joining a call"
     },
     "calling__return": {
-        "message": "Return to Call",
+        "message": "Zəngə qayıt",
         "description": "Button label in the call lobby for returning to a call"
     },
     "calling__call-is-full": {
@@ -1314,43 +1332,43 @@
         "description": "Button label in the call lobby when you can't join because the call is full"
     },
     "calling__button--video-disabled": {
-        "message": "Camera disabled",
+        "message": "Kamera sıradan çıxarıldı",
         "description": "Button tooltip label when the camera is disabled"
     },
     "calling__button--video-off": {
-        "message": "Turn off camera",
+        "message": "Kameranı bağla",
         "description": "Button tooltip label for turning off the camera"
     },
     "calling__button--video-on": {
-        "message": "Turn on camera",
+        "message": "Kameranı aç",
         "description": "Button tooltip label for turning on the camera"
     },
     "calling__button--audio-disabled": {
-        "message": "Microphone disabled",
+        "message": "Mikrofon sıradan çıxarıldı",
         "description": "Button tooltip label when the microphone is disabled"
     },
     "calling__button--audio-off": {
-        "message": "Mute mic",
+        "message": "Mikrofonu bağla",
         "description": "Button tooltip label for turning off the microphone"
     },
     "calling__button--audio-on": {
-        "message": "Unmute mic",
+        "message": "Mikrofonu aç",
         "description": "Button tooltip label for turning on the microphone"
     },
     "calling__button--presenting-disabled": {
-        "message": "Presenting disabled",
+        "message": "Təqdimat sıradan çıxarıldı",
         "description": "Button tooltip label for when screen sharing is disabled"
     },
     "calling__button--presenting-on": {
-        "message": "Start presenting",
+        "message": "Təqdimatı başlat",
         "description": "Button tooltip label for starting to share screen"
     },
     "calling__button--presenting-off": {
-        "message": "Stop presenting",
+        "message": "Təqdimatı dayandır",
         "description": "Button tooltip label for stopping screen sharing"
     },
     "calling__your-video-is-off": {
-        "message": "Your camera is off",
+        "message": "Kameranız bağlıdır",
         "description": "Label in the calling lobby indicating that your camera is off"
     },
     "calling__lobby-summary--zero": {
@@ -1358,7 +1376,7 @@
         "description": "Shown in the calling lobby to describe who is in the call"
     },
     "calling__lobby-summary--single": {
-        "message": "$first$ is in this call",
+        "message": "$first$ bu zəngdədir",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
@@ -1368,11 +1386,11 @@
         }
     },
     "calling__lobby-summary--self": {
-        "message": "One of your other devices is in this call",
+        "message": "Digər cihazlarınızdan biri bu zəngdədir",
         "description": "Shown in the calling lobby to describe when it is just you"
     },
     "calling__lobby-summary--double": {
-        "message": "$first$ and $second$ are in this call",
+        "message": "$first$ və $second$ bu zəngdədir",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
@@ -1386,7 +1404,7 @@
         }
     },
     "calling__lobby-summary--triple": {
-        "message": "$first$, $second$, and $third$ are in this call",
+        "message": "$first$, $second$ və $third$ bu zəngdədir",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
@@ -1404,7 +1422,7 @@
         }
     },
     "calling__lobby-summary--many": {
-        "message": "$first$, $second$, and $others$ others are in this call",
+        "message": "$first$, $second$ və digər $others$nəfər bu zəngdədirlər",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
@@ -1426,11 +1444,11 @@
         "description": "Shown in the participants list to describe how many people are in the call"
     },
     "calling__in-this-call--one": {
-        "message": "In this call · 1 person",
+        "message": "Bu zəngdə · 1 nəfər",
         "description": "Shown in the participants list to describe how many people are in the call"
     },
     "calling__in-this-call--many": {
-        "message": "In this call · $people$ people",
+        "message": "Bu zəngdə · $people$ nəfər",
         "description": "Shown in the participants list to describe how many people are in the call",
         "placeholders": {
             "people": {
@@ -1440,7 +1458,7 @@
         }
     },
     "calling__you-have-blocked": {
-        "message": "You have blocked $name$",
+        "message": "$name$ əlaqəsini əngəllədiniz",
         "description": "when you block someone and cannot view their video",
         "placeholders": {
             "name": {
@@ -1450,27 +1468,27 @@
         }
     },
     "calling__block-info": {
-        "message": "Onların göndərdiyi səs və ya videoları almayacaqsınız və onlar da sizin göndərdiklərinizi almayacaq.",
+        "message": "Onların göndərdiyi səs və ya görüntünü almayacaqsınız və onlar da sizin göndərdiklərinizi almayacaq.",
         "description": "Shown in the modal dialog to describe how blocking works in a gorup call"
     },
     "calling__overflow__scroll-up": {
-        "message": "Scroll up",
+        "message": "Yuxarı çəkin",
         "description": "Label for the \"scroll up\" button in a call's overflow area"
     },
     "calling__overflow__scroll-down": {
-        "message": "Scroll down",
+        "message": "Aşağı çəkin",
         "description": "Label for the \"scroll down\" button in a call's overflow area"
     },
     "calling__presenting--notification-title": {
-        "message": "You're presenting to everyone.",
+        "message": "Hər kəsə təqdim edirsiniz.",
         "description": "Title for the share screen notification"
     },
     "calling__presenting--notification-body": {
-        "message": "Click here to return to the call when you're ready to stop presenting.",
+        "message": "Təqdimatı dayandırmağa hazır olanda, zəngə qayıtmaq üçün bura klikləyin.",
         "description": "Body text for the share screen notification"
     },
     "calling__presenting--info": {
-        "message": "Signal is sharing $window$.",
+        "message": "Signal, $window$ pəncərəsini paylaşır.",
         "description": "Text that appears in the screen sharing controller to inform person that they are presenting",
         "placeholders": {
             "name": {
@@ -1480,15 +1498,15 @@
         }
     },
     "calling__presenting--stop": {
-        "message": "Stop sharing",
+        "message": "Paylaşmanı dayandır",
         "description": "Button for stopping screen sharing"
     },
     "calling__presenting--you-stopped": {
-        "message": "You stopped presenting",
+        "message": "Təqdimatı dayandırdınız",
         "description": "Toast that appears when someone stops presenting"
     },
     "calling__presenting--person-ongoing": {
-        "message": "$name$ is presenting",
+        "message": "$name$ təqdim edir.",
         "description": "Title of call when someone is presenting",
         "placeholders": {
             "name": {
@@ -1498,7 +1516,7 @@
         }
     },
     "calling__presenting--person-stopped": {
-        "message": "$name$ stopped presenting",
+        "message": "$name$ təqdimatı dayandırdı ",
         "description": "Toast that appears when someone stops presenting",
         "placeholders": {
             "name": {
@@ -1508,11 +1526,11 @@
         }
     },
     "calling__presenting--permission-title": {
-        "message": "Permission needed",
+        "message": "İcazə lazımdır",
         "description": "Shown as the title for the modal that requests screen recording permissions"
     },
     "calling__presenting--macos-permission-description": {
-        "message": "Signal needs permission to access your computer's screen recording.",
+        "message": "Signal-ın, kompüterin ekranının yazılmasına müraciət etməsi üçün icazəyə ehtiyacı var.",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-instruction-step1": {
@@ -1520,11 +1538,11 @@
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-instruction-step2": {
-        "message": "Click on the lock icon on the bottom left and enter your computer’s password.",
+        "message": "Sol altdakı kilid nişanına klikləyin və kompüterinizin şifrəsini daxil edin.",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-instruction-step3": {
-        "message": "On the right, check the box next to Signal. If you don’t see Signal in the list, click the + to add it.",
+        "message": "Sağda, Signal-ın yanındakı qutunu işarələyin. Siyahıda Signal-ı görmürsünüzsə, əlavə etmək üçün \"+\" nişanına klikləyin.",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-open": {
@@ -1532,7 +1550,7 @@
         "description": "The button that opens your system preferences for the needs screen record permissions modal"
     },
     "calling__presenting--permission-cancel": {
-        "message": "İmtina",
+        "message": "Rədd et",
         "description": "The cancel button for the needs screen record permissions modal"
     },
     "alwaysRelayCallsDescription": {
@@ -1540,7 +1558,7 @@
         "description": "Description of the always relay calls setting"
     },
     "alwaysRelayCallsDetail": {
-        "message": "Bütün zəngləri Signal serveri üzərindən yayımla ki, əlaqən IP ünvanının müəyyən edilməsinin qarşısı alınmış olsun. Aktiv etsən, zəngin keyfiyyəti aşağı düşəcək.",
+        "message": "IP ünvanınızı əlaqənizə göstərməmək üçün bütün zəngləri Signal serveri üzərindən həyata keçirin. Fəallaşdırsanız, zəngin keyfiyyəti aşağı düşəcək.",
         "description": "Details describing the always relay calls setting"
     },
     "permissions": {
@@ -1548,27 +1566,27 @@
         "description": "Header for permissions section of settings"
     },
     "mediaPermissionsDescription": {
-        "message": "Allow access to the microphone",
+        "message": "Mikrofona müraciətə icazə verin",
         "description": "Description of the media permission description"
     },
     "mediaCameraPermissionsDescription": {
-        "message": "Allow access to the camera",
+        "message": "Kameraya müraciətə icazə verin",
         "description": "Description of the media permission description"
     },
     "general": {
-        "message": "General",
+        "message": "Ümumi",
         "description": "Header for general options on the settings screen"
     },
     "spellCheckDescription": {
-        "message": "Enable spell check",
+        "message": "Yazı yoxlanışını fəallaşdır",
         "description": "Description of the spell check setting"
     },
     "spellCheckWillBeEnabled": {
-        "message": "Spell check will be enabled the next time Signal starts.",
+        "message": "Yazı yoxlanışı, Signal növbəti dəfə başladılanda fəallaşdırılacaq.",
         "description": "Shown when the user enables spellcheck to indicate that they must restart Signal."
     },
     "spellCheckWillBeDisabled": {
-        "message": "Spell check will be disabled the next time Signal starts.",
+        "message": "Yazı yoxlanışı, Signal növbəti dəfə başladılanda sıradan çıxarılacaq.",
         "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
     },
     "SystemTraySetting__minimize-to-system-tray": {
@@ -1576,11 +1594,11 @@
         "description": "In the settings, shown next to the checkbox option for minimizing to the system tray"
     },
     "SystemTraySetting__minimize-to-and-start-in-system-tray": {
-        "message": "Start minimized to tray",
+        "message": "Kiçildilmiş olaraq başlat",
         "description": "In the settings, shown next to the checkbox option for starting in the system tray"
     },
     "autoLaunchDescription": {
-        "message": "Open at computer login",
+        "message": "Kompüterdə giriş ediləndə aç",
         "description": "Description for the automatic launch setting"
     },
     "clearDataHeader": {
@@ -1600,7 +1618,7 @@
         "description": "Header of the full-screen delete data confirmation screen"
     },
     "deleteAllDataBody": {
-        "message": "You are about to delete all of this application's saved account information, including all contacts and all messages. You can always link with your mobile device again, but that will not restore deleted messages.",
+        "message": "Bütün əlaqələr və mesajlar daxil olmaqla bu tətbiqin bütün saxlanılmış hesab məlumatlarını silməyə hazırlaşırsınız. İstənilən vaxt, mobil cihazınızla yenidən əlaqə yarada bilərsiniz, ancaq silinən mesajlar geri yüklənməyəcək.",
         "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
     },
     "deleteAllDataButton": {
@@ -1608,15 +1626,15 @@
         "description": "Text of the button that deletes all data"
     },
     "deleteAllDataProgress": {
-        "message": "Disconnecting and deleting all data",
+        "message": "Bağlantı kəsilir və bütün verilənlər silinir",
         "description": "Message shown to user when app is disconnected and data deleted"
     },
     "deleteOldIndexedDBData": {
-        "message": "You have obsolete data from a prior installation of Signal Desktop. If you choose to continue, it will be deleted and you will start from scratch.",
+        "message": "\"Signal Masaüstü\"nün əvvəlki quraşdırmasından qalma köhnə verilənləriniz var. \"Davam et\"i seçsəniz, bu verilənlər silinəcək və sıfırdan başlayacaqsınız.",
         "description": "Shown if user last ran Signal Desktop before October 2018"
     },
     "deleteOldData": {
-        "message": "Delete Old Data",
+        "message": "Köhnə verilənləri sil",
         "description": "Button to make the delete happen"
     },
     "notifications": {
@@ -1644,11 +1662,11 @@
         "description": "Label for setting notifications to display sender name only"
     },
     "newMessage": {
-        "message": "Yeni ismarış",
+        "message": "Yeni mesaj",
         "description": "Displayed in notifications for only 1 message"
     },
     "notificationSenderInGroup": {
-        "message": "$sender$ in $group$",
+        "message": "$sender$, $group$ qrupundadır",
         "description": "Displayed in notifications for messages in a group",
         "placeholders": {
             "sender": {
@@ -1662,7 +1680,7 @@
         }
     },
     "notificationReaction": {
-        "message": "$sender$ reacted $emoji$ to your message",
+        "message": "$sender$, mesajınıza reaksiya verdi: $emoji$",
         "description": "",
         "placeholders": {
             "sender": {
@@ -1676,7 +1694,7 @@
         }
     },
     "notificationReactionMessage": {
-        "message": "$sender$ reacted $emoji$ to: $message$",
+        "message": "$sender$, $message$ mesajına reaksiya verdi: $emoji$ ",
         "description": "",
         "placeholders": {
             "sender": {
@@ -1694,15 +1712,15 @@
         }
     },
     "sendFailed": {
-        "message": "Göndəriş uğursuz oldu",
+        "message": "Göndərilmədi",
         "description": "Shown on outgoing message if it fails to send"
     },
     "sendPaused": {
-        "message": "Göndəriş dayandı",
+        "message": "Göndərişə fasilə verildi",
         "description": "Shown on outgoing message if it cannot be sent immediately"
     },
     "partiallySent": {
-        "message": "Partially sent, click for details",
+        "message": "Qismən göndərildi, təfsilatlar üçün klikləyin",
         "description": "Shown on outgoing message if it is partially sent"
     },
     "showMore": {
@@ -1710,15 +1728,15 @@
         "description": "Displays the details of a key change"
     },
     "showLess": {
-        "message": "Hide details",
+        "message": "Təfsilatları gizlət",
         "description": "Hides the details of a key change"
     },
     "learnMore": {
-        "message": "Learn more about verifying safety numbers",
+        "message": "Güvənlik nömrələrinin təsdiqlənməsi haqqında daha ətraflı",
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "This version of Signal Desktop has expired. Please upgrade to the latest version to continue messaging.",
+        "message": "\"Signal Masaüstü\"nün bu versiyasının istifadə müddəti bitib. Zəhmət olmasa mesajlaşmağa davam etmək üçün son versiyaya yüksəldin.",
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
@@ -1726,51 +1744,51 @@
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "mediaMessage": {
-        "message": "Media Message",
+        "message": "Media mesajı",
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
     },
     "unregisteredUser": {
-        "message": "Number is not registered",
+        "message": "Nömrə qeydiyyatdan keçməyib",
         "description": "Error message displayed when sending to an unregistered user."
     },
     "sync": {
-        "message": "Kontaktlar",
+        "message": "Əlaqələr",
         "description": "Label for contact and group sync settings"
     },
     "syncExplanation": {
-        "message": "Import all Signal groups and contacts from your mobile device.",
+        "message": "Bütün Signal qruplarını və əlaqələrini mobil cihazınızdan idxal edin.",
         "description": "Explanatory text for sync settings"
     },
     "lastSynced": {
-        "message": "Last import at",
+        "message": "Son idxal",
         "description": "Label for date and time of last sync operation"
     },
     "syncNow": {
-        "message": "Import now",
+        "message": "İndi idxal et",
         "description": "Label for a button that syncs contacts and groups from your phone"
     },
     "syncing": {
-        "message": "Importing...",
+        "message": "İdxal edilir...",
         "description": "Label for a disabled sync button while sync is in progress."
     },
     "syncFailed": {
-        "message": "Import failed. Make sure your computer and your phone are connected to the internet.",
+        "message": "İdxal edilmədi. Kompüterinizin və telefonunuzun internetə bağlandığına əmin olun.",
         "description": "Informational text displayed if a sync operation times out."
     },
     "timestamp_s": {
-        "message": "now",
+        "message": "indi",
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "timestamp_m": {
-        "message": "1m",
+        "message": "1 dəq",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "timestamp_h": {
-        "message": "1h",
+        "message": "1 sa",
         "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
     },
     "hoursAgo": {
-        "message": "$hours$h",
+        "message": "$hours$sa",
         "description": "Contracted form of 'X hours ago' which works both for singular and plural",
         "placeholders": {
             "hours": {
@@ -1780,7 +1798,7 @@
         }
     },
     "minutesAgo": {
-        "message": "$minutes$m",
+        "message": "$minutes$dəq",
         "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
         "placeholders": {
             "minutes": {
@@ -1790,27 +1808,27 @@
         }
     },
     "justNow": {
-        "message": "now",
+        "message": "indi",
         "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
-        "message": "MMM D",
+        "message": "AAA G",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
     "messageBodyTooLong": {
-        "message": "Message body is too long.",
+        "message": "Mesaj gövdəsi çox uzundur.",
         "description": "Shown if the user tries to send more than 64kb of text"
     },
     "unblockToSend": {
-        "message": "Unblock this contact to send a message.",
+        "message": "Mesaj göndərmək üçün bu əlaqəni əngəldən çıxart.",
         "description": "Brief message shown when trying to message a blocked number"
     },
     "unblockGroupToSend": {
-        "message": "Unblock this group to send a message.",
+        "message": "Mesaj göndərmək üçün bu qrupu əngəldən çıxart.",
         "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
-        "message": "You set the disappearing message time to $time$.",
+        "message": "Yox olan mesaj vaxtını $time$ olaraq tənzimlədiniz.",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -1820,7 +1838,7 @@
         }
     },
     "timerSetOnSync": {
-        "message": "Updated the disappearing message time to $time$.",
+        "message": "Yox olan mesaj vaxtı $time$ olaraq yeniləndi.",
         "description": "Message displayed when timer is set on initial link of desktop device.",
         "placeholders": {
             "time": {
@@ -1830,7 +1848,7 @@
         }
     },
     "timerSetByMember": {
-        "message": "A member set the disappearing message time to $time$.",
+        "message": "Bir üzv, yox olan mesaj vaxtını $time$ olaraq tənzimlədi.",
         "description": "Message displayed when timer is by an unknown group member.",
         "placeholders": {
             "time": {
@@ -1840,7 +1858,7 @@
         }
     },
     "theyChangedTheTimer": {
-        "message": "$name$ set the disappearing message time to $time$.",
+        "message": "$name$, yox olan mesaj vaxtını $time$ olaraq tənzimlədi.",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -1866,11 +1884,11 @@
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disappearingMessagesDisabledByMember": {
-        "message": "A member disabled disappearing messages.",
+        "message": "Bir üzv, yox olan mesajları sıradan çıxartdı.",
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disabledDisappearingMessages": {
-        "message": "$name$ disabled disappearing messages.",
+        "message": "$name$, yox olan mesajları sıradan çıxartdı.",
         "description": "Displayed in the conversation list when the timer is turned off",
         "placeholders": {
             "name": {
@@ -1884,7 +1902,7 @@
         "description": "Displayed in the conversation list when the timer is turned off"
     },
     "timerSetTo": {
-        "message": "Timer set to $time$",
+        "message": "Vaxtölçən $time$ olaraq tənzimləndi",
         "description": "Displayed in the conversation list when the timer is updated by some automatic action, or in the left pane",
         "placeholders": {
             "time": {
@@ -1894,11 +1912,11 @@
         }
     },
     "audioNotificationDescription": {
-        "message": "Play audio notification",
+        "message": "Səsli bildiriş oxut",
         "description": "Description for audio notification setting"
     },
     "callRingtoneNotificationDescription": {
-        "message": "Play calling sounds",
+        "message": "Zəng səslərini oxut",
         "description": "Description for call ringtone notification setting"
     },
     "callSystemNotificationDescription": {
@@ -1906,11 +1924,11 @@
         "description": "Description for call notification setting"
     },
     "incomingCallNotificationDescription": {
-        "message": "Enable incoming calls",
+        "message": "Gələn zəngləri fəallaşdır",
         "description": "Description for incoming calls setting"
     },
     "contactChangedProfileName": {
-        "message": "$sender$ changed their profile name from $oldProfile$ to $newProfile$.",
+        "message": "$sender$, $oldProfile$ olan profil adını $newProfile$ olaraq dəyişdirdi.",
         "description": "Description for incoming calls setting",
         "placeholders": {
             "sender": {
@@ -1928,7 +1946,7 @@
         }
     },
     "changedProfileName": {
-        "message": "$oldProfile$ changed their profile name to $newProfile$.",
+        "message": "$oldProfile$, profil adını $newProfile$ olaraq dəyişdirdi.",
         "description": "Shown when a contact not in your address book changes their profile name",
         "placeholders": {
             "oldProfile": {
@@ -1942,7 +1960,7 @@
         }
     },
     "safetyNumberChanged": {
-        "message": "Safety Number has changed",
+        "message": "Güvənlik nömrəsi dəyişdirildi",
         "description": "A notification shown in the conversation when a contact reinstalls"
     },
     "safetyNumberChanges": {
@@ -1950,7 +1968,7 @@
         "description": "Title for safety number changed modal"
     },
     "safetyNumberChangedGroup": {
-        "message": "Safety Number with $name$ has changed",
+        "message": "$name$ ilə olan güvənlik nömrəsi dəyişdirildi",
         "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name",
         "placeholders": {
             "name": {
@@ -1960,7 +1978,7 @@
         }
     },
     "verifyNewNumber": {
-        "message": "Təhlükəsizlik Rəqəmini Təsdiq Et",
+        "message": "Güvənlik nömrəsini təsdiqlə",
         "description": "Label on button included with safety number change notification in the conversation"
     },
     "cannotGenerateSafetyNumber": {
@@ -2042,7 +2060,7 @@
         "description": "The 'next' button text in the 'choose group members' left pane screen"
     },
     "chooseGroupMembers__maximum-group-size__title": {
-        "message": "Maksimum qrup ölçüsünə çatıldı",
+        "message": "Maksimum qrup həcminə çatıldı",
         "description": "Shown in the alert when you add the maximum number of group members"
     },
     "chooseGroupMembers__maximum-group-size__body": {
@@ -2060,7 +2078,7 @@
         "description": "Shown in the alert when you add the maximum recommended number of group members"
     },
     "chooseGroupMembers__maximum-recommended-group-size__body": {
-        "message": "Signal qrupları, $max$  və daha üzvlə daha yaxşı işləyir. Daha çox üzvün əlavə edilməsi mesajların alınması və göndərilməsinə gecikmələrə səbəb olacaq.",
+        "message": "Signal qrupları, $max$ və daha az üzvlə daha yaxşı işləyir. Daha çox üzvün əlavə edilməsi mesajların alınması və göndərilməsində gecikmələrə səbəb olacaq.",
         "description": "Shown in the alert when you add the maximum recommended number of group members",
         "placeholders": {
             "max": {
@@ -2148,11 +2166,11 @@
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "Signal-ın yeni bir versiyası var.",
+        "message": "Signal-ın yeni bir versiyası mövcuddur.",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "Yeniləmələri tətbiq etmək üçün \"Signal-ın yenidən başlat\"a basın.",
+        "message": "Yeniləmələri tətbiq etmək üçün \"Signal-ı yenidən başlat\"a basın.",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
@@ -2478,7 +2496,7 @@
         }
     },
     "Message--unsupported-message-ask-to-resend": {
-        "message": "Signal-ın son versiyasını istifadə etdiyinizə görə $contact$ adlı əlaqədən bu mesajı təkrar göndərməsini xahiş edə bilərsiniz.",
+        "message": "Signal-ın son versiyasını istifadə etdiyinizə görə $contact$ əlaqəsindən bu mesajı təkrar göndərməsini xahiş edə bilərsiniz.",
         "description": "",
         "placeholders": {
             "contact": {
@@ -2508,7 +2526,7 @@
         "description": "Text shown on outgoing messages with with individual timers (inaccessible)"
     },
     "Message--tap-to-view--incoming--expired-toast": {
-        "message": "Bu ismarışı görmüsünüz.",
+        "message": "Artıq bu mesaja baxdınız.",
         "description": "Shown when user clicks on an expired incoming view-once bubble"
     },
     "Message--tap-to-view--outgoing--expired-toast": {
@@ -2624,7 +2642,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--delete-message": {
-        "message": "Seçilən mesajı sil",
+        "message": "Seçilmiş mesajı sil",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--add-newline": {
@@ -2660,7 +2678,7 @@
         "description": "Key shown in shortcut combination in shortcuts guide"
     },
     "Keyboard--Key--option": {
-        "message": "Seçim",
+        "message": "Option",
         "description": "Key shown in shortcut combination in shortcuts guide"
     },
     "Keyboard--Key--alt": {
@@ -2712,7 +2730,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--calling-header": {
-        "message": "Zəng edilir",
+        "message": "Zənglər",
         "description": "Header of the keyboard shortcuts guide - calling section"
     },
     "Keyboard--toggle-audio": {
@@ -2748,7 +2766,7 @@
         "description": "A toast that shows up when the user unarchives a conversation"
     },
     "conversationMarkedUnread": {
-        "message": "Danışıq oxunmadı olaraq işarələndi",
+        "message": "Danışıq, oxunmadı olaraq işarələndi",
         "description": "A toast that shows up when user marks a conversation as unread"
     },
     "StickerCreator--title": {
@@ -2764,7 +2782,7 @@
         "description": "Text which appears on the Sticker Creator drop zone when there is an active drag"
     },
     "StickerCreator--Preview--title": {
-        "message": "Sticker paketi",
+        "message": "Stiker paketi",
         "description": "The 'title' of the sticker pack preview 'modal'"
     },
     "StickerCreator--ConfirmDialog--cancel": {
@@ -2990,7 +3008,7 @@
         "description": "Shown in reaction viewer as the title for the 'all' category"
     },
     "MessageRequests--message-direct": {
-        "message": "$name$  adlı şəxsin sizə mesaj göndərməsinə icazə verərək adınızı və fotonuzu onunla paylaşırsınız? Qəbul edənə qədər onun mesajlarını gördüyünüzü bilməyəcək.",
+        "message": "$name$  əlaqəsinin sizə mesaj göndərməsinə icazə verərək adınızı və fotonuzu onunla paylaşırsınız? Qəbul edənə qədər onun mesajlarını gördüyünüzü bilməyəcək.",
         "description": "Shown as the message for a message request in a direct message",
         "placeholders": {
             "name": {
@@ -3000,7 +3018,7 @@
         }
     },
     "MessageRequests--message-direct-blocked": {
-        "message": "$name$ adlı şəxsin sizə mesaj göndərməsinə icazə verərək adınızı və fotonuzu onunla paylaşırsınız? Əngəldən çıxardana qədər heç bir mesaj almayacaqsınız.",
+        "message": "$name$ əlaqəsinin sizə mesaj göndərməsinə icazə verərək adınızı və fotonuzu onunla paylaşırsınız? Əngəldən çıxardana qədər heç bir mesaj almayacaqsınız.",
         "description": "Shown as the message for a message request in a direct message with a blocked account",
         "placeholders": {
             "name": {
@@ -3140,7 +3158,7 @@
         "description": "Shown as a button to share your profile, necessary to continue messaging in a conversation"
     },
     "MessageRequests--profile-sharing--group": {
-        "message": "Bu qrup ilə danışığınıza davam edib adınızı və fotonuzu üzvlər ilə paylaşmaq istəyirsiniz? $learnMore$",
+        "message": "Bu qrup ilə danışığınıza davam edib adınızı və fotonuzu üzvlərlə paylaşmaq istəyirsiniz? $learnMore$",
         "description": "Shown when user hasn't shared their profile in a group yet",
         "placeholders": {
             "learnMore": {
@@ -3286,15 +3304,15 @@
         "description": "Shown in conversation history when you declined an incoming audio call"
     },
     "declinedIncomingVideoCall": {
-        "message": "Bir video zəngi rədd etdiniz",
+        "message": "Bir görüntülü zəngi rədd etdiniz",
         "description": "Shown in conversation history when you declined an incoming video call"
     },
     "acceptedIncomingAudioCall": {
-        "message": "Gələn səsli zəng",
+        "message": "Səsli zəng gəlir",
         "description": "Shown in conversation history when you accepted an incoming audio call"
     },
     "acceptedIncomingVideoCall": {
-        "message": "Gələn video zəng",
+        "message": "Görüntülü zəng gəlir",
         "description": "Shown in conversation history when you accepted an incoming video call"
     },
     "missedIncomingAudioCall": {
@@ -3302,7 +3320,7 @@
         "description": "Shown in conversation history when you missed an incoming audio call"
     },
     "missedIncomingVideoCall": {
-        "message": "Cavabsız video zəng",
+        "message": "Cavabsız görüntülü zəng",
         "description": "Shown in conversation history when you missed an incoming video call"
     },
     "acceptedOutgoingAudioCall": {
@@ -3310,7 +3328,7 @@
         "description": "Shown in conversation history when you made an outgoing audio call"
     },
     "acceptedOutgoingVideoCall": {
-        "message": "Gedən video zəng",
+        "message": "Gedən görüntülü zəng",
         "description": "Shown in conversation history when you made an outgoing video call"
     },
     "missedOrDeclinedOutgoingAudioCall": {
@@ -3318,7 +3336,7 @@
         "description": "Shown in conversation history when your audio call is missed or declined"
     },
     "missedOrDeclinedOutgoingVideoCall": {
-        "message": "Cavablanmamış video zəng",
+        "message": "Cavablanmamış görüntülü zəng",
         "description": "Shown in conversation history when your video call is missed or declined"
     },
     "incomingAudioCall": {
@@ -3326,7 +3344,7 @@
         "description": "Shown in both the incoming call bar and notification for an incoming audio call"
     },
     "incomingVideoCall": {
-        "message": "Gələn video zəng...",
+        "message": "Gələn görüntülü zəng...",
         "description": "Shown in both the incoming call bar and notification for an incoming video call"
     },
     "outgoingCallPrering": {
@@ -3342,7 +3360,7 @@
         "description": "Title for the call button in a conversation"
     },
     "makeOutgoingVideoCall": {
-        "message": "Video zəng başlat",
+        "message": "Görüntülü zəng başlat",
         "description": "Title for the video call button in a conversation"
     },
     "joinOngoingCall": {
@@ -3378,7 +3396,7 @@
         "description": "Title for device selection settings"
     },
     "calling__participants": {
-        "message": "$people$ nəfər zəngdədir",
+        "message": "$people$  zəngdədirlər",
         "description": "Title for participants list toggle",
         "placeholders": {
             "people": {
@@ -3470,7 +3488,7 @@
         "description": "Title for the select your screen sharing sources modal"
     },
     "callingDeviceSelection__label--video": {
-        "message": "Video",
+        "message": "Görüntü",
         "description": "Label for video input selector"
     },
     "callingDeviceSelection__label--audio-input": {
@@ -3493,6 +3511,10 @@
         "message": "Bildirişləri səssizə al",
         "description": "Label for the mute notifications drop-down selector"
     },
+    "notMuted": {
+        "message": "Səssizdə deyil",
+        "description": "Label when the conversation is not muted"
+    },
     "muteHour": {
         "message": "Bir saatlıq səssizə al",
         "description": "Label for muting the conversation"
@@ -3502,7 +3524,7 @@
         "description": "Label for muting the conversation"
     },
     "muteDay": {
-        "message": "Bir gün səssiz olsun",
+        "message": "Bir günlük səssizə al",
         "description": "Label for muting the conversation"
     },
     "muteWeek": {
@@ -3612,7 +3634,7 @@
         "description": "The button to join the group, if approval is required"
     },
     "GroupV2--join--cancel-request-to-join": {
-        "message": "Tələbdən imtina et",
+        "message": "Tələbi ləğv et",
         "description": "The button to cancel request to join the group"
     },
     "GroupV2--join--cancel-request-to-join--confirmation": {
@@ -3952,7 +3974,7 @@
         }
     },
     "GroupV2--member-add--from-invite--you": {
-        "message": "$inviterName$ göndərən qrup dəvətini qəbul etdiniz.",
+        "message": "$inviterName$ tərəfindən göndərilən qrup dəvətini qəbul etdiniz.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviterName": {
@@ -3990,7 +4012,7 @@
         }
     },
     "GroupV2--member-add--other--you": {
-        "message": "$memberName$ adlı əlaqəni əlavə etdiniz.",
+        "message": "$memberName$ əlaqəsini əlavə etdiniz.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4056,7 +4078,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add-from-admin-approval--other--you": {
-        "message": "$joinerName$ göndərən qrupa qoşulma tələbini təsdiqlədiniz.",
+        "message": "$joinerName$ tərəfindən göndərilən qrupa qoşulma tələbini təsdiqlədiniz.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -4080,7 +4102,7 @@
         }
     },
     "GroupV2--member-add-from-admin-approval--other--unknown": {
-        "message": "$joinerName$ göndərən qrupa qoşulma tələbi təsdiqləndi.",
+        "message": "$joinerName$ tərəfindən göndərilən qrupa qoşulma tələbi təsdiqləndi.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -4238,7 +4260,7 @@
         }
     },
     "GroupV2--member-privilege--demote--you--unknown": {
-        "message": "Bir admin, admin imtiyazlarını ləğv etdi.",
+        "message": "Bir admin, admin imtiyazlarınızı ləğv etdi.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--pending-add--one--other--other": {
@@ -4320,7 +4342,7 @@
         }
     },
     "GroupV2--pending-remove--decline--other": {
-        "message": "$memberName$ dəvət edən 1 nəfər qrup dəvətini rədd etdi.",
+        "message": "$memberName$ tərəfindən dəvət edilən 1 nəfər qrup dəvətini rədd etdi.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4628,11 +4650,11 @@
         }
     },
     "GroupV2--group-link-add--disabled--you": {
-        "message": "Admin təsdiqləməsi sıradan çıxarılmış ikən qrup bağlantısını açdınız.",
+        "message": "Qrup bağlantısını, admin təsdiqi bağlı olaraq işə saldınız.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-add--disabled--other": {
-        "message": "$adminName$, admin təsdiqləməsi sıradan çıxarılmış ikən qrup bağlantısını açdı.",
+        "message": "$adminName$, qrup bağlantısını admin təsdiqi bağlı olaraq işə saldı.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4642,15 +4664,15 @@
         }
     },
     "GroupV2--group-link-add--disabled--unknown": {
-        "message": "Admin təsdiqləməsi sıradan çıxarılmış ikən qrup bağlantısı açıldı.",
+        "message": "Qrup bağlantısı, admin təsdiqi bağlı olaraq işə salındı.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-add--enabled--you": {
-        "message": "Admin təsdiqləməsi fəal ikən qrup bağlantısını açdınız.",
+        "message": "Qrup bağlantısını, admin təsdiqi açıq olaraq işə saldınız.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-add--enabled--other": {
-        "message": "$adminName$, admin təsdiqləməsi fəal ikən qrup bağlantısını açdı.",
+        "message": "$adminName$, qrup bağlantısını admin təsdiqi açıq olaraq işə saldı.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4660,15 +4682,15 @@
         }
     },
     "GroupV2--group-link-add--enabled--unknown": {
-        "message": "Admin təsdiqləməsi fəal ikən qrup bağlantısı açıldı.",
+        "message": "Qrup bağlantısı, admin təsdiqi açıq olaraq işə salındı.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-remove--you": {
-        "message": "Qrup bağlantısını bağladınız.",
+        "message": "Qrup bağlantısını söndürdünüz.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-remove--other": {
-        "message": "$adminName$, qrup bağlantısını bağladı.",
+        "message": "$adminName$, qrup bağlantısını söndürdü.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4678,7 +4700,7 @@
         }
     },
     "GroupV2--group-link-remove--unknown": {
-        "message": "Qrup bağlantısı bağlanıldı.",
+        "message": "Qrup bağlantısı söndürüldü.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-reset--you": {
@@ -4782,7 +4804,7 @@
         }
     },
     "GroupV1--Migration--was-upgraded": {
-        "message": "Bu qrup Yeni Qrupa yüksəldildi.",
+        "message": "Bu qrup, Yeni Qrupa yüksəldildi.",
         "description": "Shown in timeline when a legacy group (GV1) is upgraded to a new group (GV2)"
     },
     "GroupV1--Migration--learn-more": {
@@ -4818,7 +4840,7 @@
         "description": "Shown on Learn More popup after GV1 migration"
     },
     "GroupV1--Migration--info--invited--many": {
-        "message": "Bu üzvlər, bu qrupa yenidən qoşulması üçün dəvəti qəbul etməlidir və qəbul edənə qədər qrup mesajlarını almayacaq:",
+        "message": "Bu üzvlər, bu qrupa yenidən qoşulması üçün dəvəti qəbul etməlidir və qəbul edənə qədər qrup mesajlarını almayacaqlar:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--invited--one": {
@@ -4910,7 +4932,7 @@
         "description": "Title for the composition area for the SMS-only contact"
     },
     "CompositionArea--sms-only__body": {
-        "message": "Signal Masaüstü, Signal-da qeydiyyatda keçməyən əlaqələr mesaj göndərilməsini dəstəkləmir. Daha güvənli mesajlaşma təcrübəsi üçün bu şəxsən Signal-ı quraşdırmasını xahiş edin.",
+        "message": "Signal Masaüstü, Signal-da qeydiyyatda keçməyən əlaqələrə mesaj göndərilməsini dəstəkləmir. Daha güvənli mesajlaşma təcrübəsi üçün bu şəxsdən Signal-ı quraşdırmasını xahiş edin.",
         "description": "Body for the composition area for the SMS-only contact"
     },
     "CompositionArea--sms-only__spinner-label": {
@@ -4976,6 +4998,10 @@
     "ConversationDetails--disappearing-messages-info": {
         "message": "Fəal olanda, bu qrupda göndərilən və alınan mesajlar, baxıldıqdan sonra yox olacaq.",
         "description": "This is the info about the disappearing messages setting"
+    },
+    "ConversationDetails--notifications": {
+        "message": "Bildirişlər",
+        "description": "This is the label for notifications in the conversation details screen"
     },
     "ConversationDetails--group-info-label": {
         "message": "Kim qrup məlumatına düzəliş edə bilər",
@@ -5083,6 +5109,22 @@
         "message": "Hamısına bax",
         "description": "This is a button on the conversation details to show all members"
     },
+    "ConversationNotificationsSettings__mentions__label": {
+        "message": "Ad çəkmələr",
+        "description": "In the conversation notifications settings, this is the label for the mentions option"
+    },
+    "ConversationNotificationsSettings__mentions__info": {
+        "message": "Səssizə alınmış söhbətlərdə adınız çəkilibsə bildirişlər al",
+        "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
+    },
+    "ConversationNotificationsSettings__mentions__select__always-notify": {
+        "message": "Həmişə bildir",
+        "description": "In the conversation notifications settings, this is the option that always notifies you for @mentions"
+    },
+    "ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
+        "message": "Səssizə alınıbsa bildirmə",
+        "description": "In the conversation notifications settings, this is the option that doesn't notify you for @mentions if the conversation is muted"
+    },
     "GroupLinkManagement--clipboard": {
         "message": "Qrup bağlantısı kopyalandı.",
         "description": "Shown in a toast when a user selects to copy group link"
@@ -5128,7 +5170,7 @@
         }
     },
     "PendingRequests--approve-for": {
-        "message": "\"$name$\" göndərən tələb təsdiqlənsin?",
+        "message": "\"$name$\" tərəfindən göndərilən tələb təsdiqlənsin?",
         "description": "This is the modal content when confirming approving a group request to join",
         "placeholders": {
             "name": {
@@ -5138,7 +5180,7 @@
         }
     },
     "PendingRequests--deny-for": {
-        "message": "\"$name$\" göndərən tələb rədd edilsin?",
+        "message": "\"$name$\" tərəfindən göndərilən tələb rədd edilsin?",
         "description": "This is the modal content when confirming denying a group request to join",
         "placeholders": {
             "name": {
@@ -5310,7 +5352,7 @@
         "description": "When adding new members to an existing group, this is shown in the dialog"
     },
     "AddGroupMembersModal--confirm-title--one": {
-        "message": "$person$ \"$group$\" qrupuna əlavə edilsin?",
+        "message": "$person$, \"$group$\" qrupuna əlavə edilsin?",
         "description": "When adding new members to an existing group, this is shown in the confirmation dialog",
         "placeholders": {
             "person": {
@@ -5452,7 +5494,7 @@
         "description": "Title for the contact name spoofing review dialog"
     },
     "ContactSpoofingReviewDialog__description": {
-        "message": "Tələbin kimdən gəldiyinə əmin deyilsinizsə, aşağıdakı əlaqələri nəzərdən keçirin və əməliyyat edin.",
+        "message": "Tələbin kimdən gəldiyinə əmin deyilsinizsə, aşağıdakı əlaqələri nəzərdən keçirin və seçim edin.",
         "description": "Description for the contact spoofing review dialog"
     },
     "ContactSpoofingReviewDialog__possibly-unsafe-title": {
@@ -5468,7 +5510,7 @@
         "description": "Title for the contact name spoofing review dialog in groups"
     },
     "ContactSpoofingReviewDialog__group__description": {
-        "message": "$count$ qrup üzvü oxşar ada sahibdir. Üzvləri aşağıda nəzərdən keçirin və \"əməliyyat et\"i seçin.",
+        "message": "$count$ qrup üzvü oxşar ada sahibdir. Üzvləri aşağıda nəzərdən keçirin və seçim edin.",
         "description": "Description for the group contact spoofing review dialog"
     },
     "ContactSpoofingReviewDialog__group__members-header": {
@@ -5528,7 +5570,7 @@
         "description": "Skip button of the captcha dialog that can be closed"
     },
     "verificationComplete": {
-        "message": "Təsdiqlənmə tamamlandı.",
+        "message": "Təsdiqləmə tamamlandı.",
         "description": "Displayed after successful captcha"
     },
     "verificationFailed": {
@@ -5691,6 +5733,10 @@
             }
         }
     },
+    "ErrorBoundaryNotification__text": {
+        "message": "Daxili xətaya görə mesaj görüntülənmədi. Sazlama jurnalını göndərmək üçün klikləyin.",
+        "description": "An error notification displayed when message fails to render due to an internal error"
+    },
     "GroupDescription__read-more": {
         "message": "daha çox oxu",
         "description": "Button text when the group description is too long"
@@ -5767,8 +5813,8 @@
         "message": "Soyad (İxtiyari)",
         "description": "Placeholder text for last name field"
     },
-    "ProfileEditor--discard": {
-        "message": "Bu dəyişiklikləri ləğv etmək istəyirsən?",
+    "ConfirmDiscardDialog--discard": {
+        "message": "Bu dəyişiklikləri ləğv etmək istəyirsiniz?",
         "description": "ConfirmationDialog text for discarding changes"
     },
     "ProfileEditor--info": {
@@ -5822,7 +5868,7 @@
         "description": "Error message when something goes wrong updating your profile."
     },
     "AnnouncementsOnlyGroupBanner--modal": {
-        "message": "Admin kimi mesaj yaz",
+        "message": "Bir adminə mesaj yazın",
         "description": "Modal title for the list of admins in a group"
     },
     "AnnouncementsOnlyGroupBanner--announcements-only": {
@@ -5838,5 +5884,17 @@
     "AnnouncementsOnlyGroupBanner--admins": {
         "message": "adminlər",
         "description": "Clickable text describing administrators of a group, used in the message an admin label"
+    },
+    "AvatarEditor--choose": {
+        "message": "Bir avatar seçin",
+        "description": "Label for the avatar selector"
+    },
+    "AvatarColorPicker--choose": {
+        "message": "Bir rəng seçin",
+        "description": "Label for when you need to choose your fighter, err color"
+    },
+    "LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
+        "message": "Qrup avatarı",
+        "description": "Title for the avatar picker in the group creation flow"
     }
 }
