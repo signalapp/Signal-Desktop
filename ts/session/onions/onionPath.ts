@@ -290,6 +290,10 @@ async function testGuardNode(snode: Snode) {
     if (e.type === 'request-timeout') {
       window?.log?.warn('test timeout for node,', snode);
     }
+    if (e.code === 'ENETUNREACH') {
+      window?.log?.warn('no network on node,', snode);
+      throw new pRetry.AbortError(ERROR_CODE_NO_CONNECT);
+    }
     return false;
   }
 
@@ -310,20 +314,27 @@ export async function selectGuardNodes(): Promise<Array<Snode>> {
   window.log.info('selectGuardNodes snodePool:', nodePool.length);
   if (nodePool.length < desiredGuardCount) {
     window?.log?.error(
-      'Could not select guard nodes. Not enough nodes in the pool: ',
-      nodePool.length
+      `Could not select guard nodes. Not enough nodes in the pool: ${nodePool.length}`
     );
-    return [];
+    throw new Error(
+      `Could not select guard nodes. Not enough nodes in the pool: ${nodePool.length}`
+    );
   }
 
   const shuffled = _.shuffle(nodePool);
 
   let selectedGuardNodes: Array<Snode> = [];
 
+  let attempts = 0;
+
   // The use of await inside while is intentional:
   // we only want to repeat if the await fails
   // eslint-disable-next-line-no-await-in-loop
   while (selectedGuardNodes.length < desiredGuardCount) {
+    if (!window.globalOnlineStatus) {
+      window?.log?.error('selectedGuardNodes: offline');
+      throw new Error('selectedGuardNodes: offline');
+    }
     if (shuffled.length < desiredGuardCount) {
       window?.log?.error('Not enough nodes in the pool');
       break;
@@ -331,15 +342,25 @@ export async function selectGuardNodes(): Promise<Array<Snode>> {
 
     const candidateNodes = shuffled.splice(0, desiredGuardCount);
 
-    // Test all three nodes at once
+    if (attempts > 10) {
+      // too many retries. something is wrong.
+      window.log.info(`selectGuardNodes stopping after attempts: ${attempts}`);
+      throw new Error(`selectGuardNodes stopping after attempts: ${attempts}`);
+    }
+    window.log.info(`selectGuardNodes attempts: ${attempts}`);
+
+    // Test all three nodes at once, wait for all to resolve or reject
     // eslint-disable-next-line no-await-in-loop
-    const idxOk = await Promise.all(candidateNodes.map(testGuardNode));
+    const idxOk = (await Promise.allSettled(candidateNodes.map(testGuardNode))).flatMap(p =>
+      p.status === 'fulfilled' ? p.value : null
+    );
 
     const goodNodes = _.zip(idxOk, candidateNodes)
       .filter(x => x[0])
       .map(x => x[1]) as Array<Snode>;
 
     selectedGuardNodes = _.concat(selectedGuardNodes, goodNodes);
+    attempts++;
   }
 
   if (selectedGuardNodes.length < desiredGuardCount) {
@@ -379,8 +400,12 @@ async function buildNewOnionPathsWorker() {
   }
   // If guard nodes is still empty (the old nodes are now invalid), select new ones:
   if (guardNodes.length < desiredGuardCount) {
-    // TODO: don't throw away potentially good guard nodes
-    guardNodes = await exports.selectGuardNodes();
+    try {
+      guardNodes = await exports.selectGuardNodes();
+    } catch (e) {
+      window.log.warn('selectGuardNodes throw error. Not retrying.', e);
+      return;
+    }
   }
   // be sure to fetch again as that list might have been refreshed by selectGuardNodes
   allNodes = await SnodePool.getRandomSnodePool();

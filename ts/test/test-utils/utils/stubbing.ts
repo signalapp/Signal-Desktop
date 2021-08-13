@@ -70,3 +70,13 @@ export function restoreStubs() {
   globalAny.window = undefined;
   sandbox.restore();
 }
+
+export const stubWindowLog = () => {
+  stubWindow('log', {
+    // tslint:disable: no-void-expression
+    // tslint:disable: no-console
+    info: (args: any) => console.info(args),
+    warn: (args: any) => console.warn(args),
+    error: (args: any) => console.error(args),
+  });
+};

@@ -409,9 +409,6 @@
 
     // Clear timer, since we're only called when the timer is expired
     disconnectTimer = null;
-
-    // FIXME audric stop polling opengroupv2 and swarm nodes
-
     window.libsession.Utils.AttachmentDownloads.stop();
   }
 

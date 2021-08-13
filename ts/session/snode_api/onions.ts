@@ -520,12 +520,6 @@ export type DestinationContext = {
   ephemeralKey: ArrayBuffer;
 };
 
-export type FinalDestinationOptions = {
-  destination_ed25519_hex?: string;
-  headers?: Record<string, string>;
-  body?: string;
-};
-
 /**
  * Handle a 421. The body is supposed to be the new swarm nodes for this publickey.
  * @param snodeEd25519 the snode gaving the reply
@@ -651,7 +645,7 @@ export async function incrementBadSnodeCountOrDrop({
  * This call tries to send the request via onion. If we get a bad path, it handles the snode removing of the swarm and snode pool.
  * But the caller needs to handle the retry (and rebuild the path on his side if needed)
  */
-const sendOnionRequestHandlingSnodeEject = async ({
+export const sendOnionRequestHandlingSnodeEject = async ({
   destX25519Any,
   finalDestOptions,
   nodePath,
@@ -691,6 +685,9 @@ const sendOnionRequestHandlingSnodeEject = async ({
     decodingSymmetricKey = result.decodingSymmetricKey;
   } catch (e) {
     window.log.warn('sendOnionRequest', e);
+    if (e.code === 'ENETUNREACH') {
+      throw e;
+    }
   }
   // this call will handle the common onion failure logic.
   // if an error is not retryable a AbortError is triggered, which is handled by pRetry and retries are stopped
@@ -841,26 +838,6 @@ async function sendOnionRequestSnodeDest(
     },
     associatedWith,
     test,
-  });
-}
-
-/**
- * This call tries to send the request via onion. If we get a bad path, it handles the snode removing of the swarm and snode pool.
- * But the caller needs to handle the retry (and rebuild the path on his side if needed)
- */
-export async function sendOnionRequestLsrpcDest(
-  onionPath: Array<Snode>,
-  destX25519Any: string,
-  finalRelayOptions: FinalRelayOptions,
-  payloadObj: FinalDestinationOptions,
-  abortSignal?: AbortSignal
-): Promise<SnodeResponse> {
-  return sendOnionRequestHandlingSnodeEject({
-    nodePath: onionPath,
-    destX25519Any,
-    finalDestOptions: payloadObj,
-    finalRelayOptions,
-    abortSignal,
   });
 }
 

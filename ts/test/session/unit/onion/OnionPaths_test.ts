@@ -148,11 +148,7 @@ describe('OnionPaths', () => {
     TestUtils.stubWindow('getSeedNodeList', () => ['seednode1']);
     // tslint:disable: no-void-expression no-console
 
-    TestUtils.stubWindow('log', {
-      info: (args: any) => console.info(args),
-      warn: (args: any) => console.warn(args),
-      error: (args: any) => console.error(args),
-    });
+    TestUtils.stubWindowLog();
 
     sandbox.stub(SNodeAPI.SnodePool, 'refreshRandomPoolDetail').resolves(fakeSnodePool);
     SNodeAPI.Onions.resetSnodeFailureCount();

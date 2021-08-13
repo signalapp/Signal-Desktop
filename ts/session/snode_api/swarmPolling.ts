@@ -128,6 +128,12 @@ export class SwarmPolling {
    * Only public for testing
    */
   public async TEST_pollForAllKeys() {
+    if (!window.globalOnlineStatus) {
+      window?.log?.error('pollForAllKeys: offline');
+      // Important to set up a new polling
+      setTimeout(this.TEST_pollForAllKeys.bind(this), SWARM_POLLING_TIMEOUT.ACTIVE);
+      return;
+    }
     // we always poll as often as possible for our pubkey
     const ourPubkey = UserUtils.getOurPubKeyFromCache();
     const directPromise = this.TEST_pollOnceForKey(ourPubkey, false);
@@ -158,7 +164,7 @@ export class SwarmPolling {
     try {
       await Promise.all(_.concat(directPromise, groupPromises));
     } catch (e) {
-      (window?.log?.info || console.warn)('pollForAllKeys swallowing exception: ', e);
+      window?.log?.info('pollForAllKeys exception: ', e);
       throw e;
     } finally {
       setTimeout(this.TEST_pollForAllKeys.bind(this), SWARM_POLLING_TIMEOUT.ACTIVE);
@@ -195,21 +201,23 @@ export class SwarmPolling {
       nodesToPoll = _.concat(nodesToPoll, newNodes);
     }
 
-    const resultsWithNull = await Promise.all(
-      nodesToPoll.map(async (n: Snode) => {
-        // this returns null if an exception occurs
-        return this.pollNodeForKey(n, pubkey);
-      })
-    );
+    const arrayOfResultsWithNull = (
+      await Promise.allSettled(
+        nodesToPoll.map(async (n: Snode) => {
+          // this returns null if an exception occurs
+          return this.pollNodeForKey(n, pubkey);
+        })
+      )
+    ).flatMap(entry => (entry.status === 'fulfilled' ? entry.value : null));
 
     // filter out null (exception thrown)
-    const results = _.compact(resultsWithNull);
+    const arrayOfResults = _.compact(arrayOfResultsWithNull);
 
     // Merge results into one list of unique messages
-    const messages = _.uniqBy(_.flatten(results), (x: any) => x.hash);
+    const messages = _.uniqBy(_.flatten(arrayOfResults), (x: any) => x.hash);
 
     // if all snodes returned an error (null), no need to update the lastPolledTimestamp
-    if (isGroup && results?.length) {
+    if (isGroup && arrayOfResults?.length) {
       window?.log?.info(
         `Polled for group(${ed25519Str(pubkey.key)}):, got ${messages.length} messages back.`
       );
@@ -223,6 +231,8 @@ export class SwarmPolling {
         }
         return group;
       });
+    } else if (isGroup) {
+      window?.log?.info(`Polled for group(${ed25519Str(pubkey.key)}):, but no results.`);
     }
 
     perfStart(`handleSeenMessages-${pkStr}`);

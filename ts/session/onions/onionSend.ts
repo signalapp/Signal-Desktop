@@ -1,7 +1,11 @@
 // tslint:disable: cyclomatic-complexity
 
 import { OnionPaths } from '.';
-import { FinalRelayOptions, sendOnionRequestLsrpcDest, SnodeResponse } from '../snode_api/onions';
+import {
+  FinalRelayOptions,
+  sendOnionRequestHandlingSnodeEject,
+  SnodeResponse,
+} from '../snode_api/onions';
 import _, { toNumber } from 'lodash';
 import { PROTOCOLS } from '../constants';
 import { toHex } from '../utils/String';
@@ -24,6 +28,12 @@ type OnionPayloadObj = {
   endpoint: string;
   body: any;
   headers: Record<string, any>;
+};
+
+export type FinalDestinationOptions = {
+  destination_ed25519_hex?: string;
+  headers?: Record<string, string>;
+  body?: string;
 };
 
 const buildSendViaOnionPayload = (url: URL, fetchOptions: OnionFetchOptions): OnionPayloadObj => {
@@ -82,7 +92,7 @@ const initOptionsWithDefaults = (options: OnionFetchBasicOptions) => {
   return _.defaults(options, defaultFetchBasicOptions);
 };
 
-const sendViaOnionRetryable = async ({
+const sendViaOnionToNonSnodeRetryable = async ({
   castedDestinationX25519Key,
   finalRelayOptions,
   payloadObj,
@@ -99,15 +109,18 @@ const sendViaOnionRetryable = async ({
     throw new Error('getOnionPathForSending is emtpy');
   }
 
-  // this call throws a normal error (which will trigger a retry) if a retryable is got (bad path or whatever)
-  // it throws an AbortError in case the retry should not be retried again (aborted, or )
-  const result = await sendOnionRequestLsrpcDest(
-    pathNodes,
-    castedDestinationX25519Key,
+  /**
+   * This call handles ejecting a snode or a path if needed. If that happens, it throws a retryable error and the pRetry
+   * call above will call us again with the same params but a different path.
+   * If the error is not recoverable, it throws a pRetry.AbortError.
+   */
+  const result: SnodeResponse = await sendOnionRequestHandlingSnodeEject({
+    nodePath: pathNodes,
+    destX25519Any: castedDestinationX25519Key,
+    finalDestOptions: payloadObj,
     finalRelayOptions,
-    payloadObj,
-    abortSignal
-  );
+    abortSignal,
+  });
 
   return result;
 };
@@ -160,7 +173,7 @@ export const sendViaOnionToNonSnode = async (
   try {
     result = await pRetry(
       async () => {
-        return sendViaOnionRetryable({
+        return sendViaOnionToNonSnodeRetryable({
           castedDestinationX25519Key,
           finalRelayOptions,
           payloadObj,
@@ -174,13 +187,13 @@ export const sendViaOnionToNonSnode = async (
         maxTimeout: 4000,
         onFailedAttempt: e => {
           window?.log?.warn(
-            `sendViaOnionRetryable attempt #${e.attemptNumber} failed. ${e.retriesLeft} retries left...`
+            `sendViaOnionToNonSnodeRetryable attempt #${e.attemptNumber} failed. ${e.retriesLeft} retries left...`
           );
         },
       }
     );
   } catch (e) {
-    window?.log?.warn('sendViaOnionRetryable failed ', e);
+    window?.log?.warn('sendViaOnionToNonSnodeRetryable failed ', e);
     return null;
   }
 
