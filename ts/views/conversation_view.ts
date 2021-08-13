@@ -63,6 +63,7 @@ import {
   autoScale,
   handleImageAttachment,
 } from '../util/handleImageAttachment';
+import type { WhatIsThis } from '../window.d';
 
 type AttachmentOptions = {
   messageId: string;
@@ -3929,7 +3930,7 @@ Whisper.ConversationView = Whisper.View.extend({
           message,
           attachments,
           this.quote,
-          this.getLinkPreview(),
+          this.getLinkPreviewForSend(),
           undefined, // sticker
           mentions,
           {
@@ -4426,7 +4427,7 @@ Whisper.ConversationView = Whisper.View.extend({
     );
   },
 
-  getLinkPreview() {
+  getLinkPreviewForSend(message: string) {
     // Don't generate link previews if user has turned them off
     if (!window.storage.get('linkPreviews', false)) {
       return [];
@@ -4436,17 +4437,26 @@ Whisper.ConversationView = Whisper.View.extend({
       return [];
     }
 
-    return this.preview.map((item: any) => {
-      if (item.image) {
-        // We eliminate the ObjectURL here, unneeded for send or save
-        return {
-          ...item,
-          image: window._.omit(item.image, 'url'),
-        };
-      }
+    const urlsInMessage = new Set<string>(LinkPreview.findLinks(message));
 
-      return item;
-    });
+    return (
+      this.preview
+        // This bullet-proofs against sending link previews for URLs that are no longer in
+        //   the message. This can happen if you have a link preview, then quickly delete
+        //   the link and send the message.
+        .filter(({ url }: Readonly<{ url: string }>) => urlsInMessage.has(url))
+        .map((item: WhatIsThis) => {
+          if (item.image) {
+            // We eliminate the ObjectURL here, unneeded for send or save
+            return {
+              ...item,
+              image: window._.omit(item.image, 'url'),
+            };
+          }
+
+          return item;
+        })
+    );
   },
 
   getLinkPreviewWithDomain(): LinkPreviewWithDomain | undefined {
