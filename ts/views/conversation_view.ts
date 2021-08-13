@@ -3930,7 +3930,7 @@ Whisper.ConversationView = Whisper.View.extend({
           message,
           attachments,
           this.quote,
-          this.getLinkPreviewForSend(),
+          this.getLinkPreviewForSend(message),
           undefined, // sticker
           mentions,
           {
