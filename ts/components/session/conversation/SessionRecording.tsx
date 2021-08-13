@@ -33,21 +33,20 @@ function getTimestamp(asInt = false) {
   return asInt ? Math.floor(timestamp) : timestamp;
 }
 
-export interface StyledFlexWrapperProps {
-  flexDirection: 'row' | 'column';
+interface StyledFlexWrapperProps {
   marginHorizontal: string;
 }
 
 /**
  * Generic wrapper for quickly passing in theme constant values.
  */
-export const StyledFlexWrapper = styled.div`
+const StyledFlexWrapper = styled.div<StyledFlexWrapperProps>`
   display: flex;
-  flex-direction: ${(props: StyledFlexWrapperProps) => props.flexDirection};
+  flex-direction: row;
   align-items: center;
 
   .session-button {
-    margin: ${(props: StyledFlexWrapperProps) => props.marginHorizontal};
+    margin: ${props => props.marginHorizontal};
   }
 `;
 
@@ -96,14 +95,7 @@ class SessionRecordingInner extends React.Component<Props, State> {
 
   // tslint:disable-next-line: cyclomatic-complexity
   public render() {
-    const {
-      actionHover,
-      isPlaying,
-      isPaused,
-      isRecording,
-      startTimestamp,
-      nowTimestamp,
-    } = this.state;
+    const { isPlaying, isPaused, isRecording, startTimestamp, nowTimestamp } = this.state;
 
     const hasRecordingAndPaused = !isRecording && !isPlaying;
     const hasRecording = !!this.audioElement?.duration && this.audioElement?.duration > 0;
@@ -134,12 +126,8 @@ class SessionRecordingInner extends React.Component<Props, State> {
 
     return (
       <div role="main" className="session-recording" tabIndex={0} onKeyDown={this.onKeyDown}>
-        <div
-          className="session-recording--actions"
-          onMouseEnter={this.handleHoverActions}
-          onMouseLeave={this.handleUnhoverActions}
-        >
-          <StyledFlexWrapper flexDirection="row" marginHorizontal={Constants.UI.SPACING.marginXs}>
+        <div className="session-recording--actions">
+          <StyledFlexWrapper marginHorizontal={Constants.UI.SPACING.marginXs}>
             {isRecording && (
               <SessionIconButton
                 iconType={SessionIconType.Pause}
@@ -211,14 +199,6 @@ class SessionRecordingInner extends React.Component<Props, State> {
     );
   }
 
-  private handleHoverActions() {
-    if (this.state.isRecording && !this.state.actionHover) {
-      this.setState({
-        actionHover: true,
-      });
-    }
-  }
-
   private async timerUpdate() {
     const { nowTimestamp, startTimestamp } = this.state;
     const elapsedTime = nowTimestamp - startTimestamp;
@@ -231,14 +211,6 @@ class SessionRecordingInner extends React.Component<Props, State> {
     this.setState({
       nowTimestamp: getTimestamp(),
     });
-  }
-
-  private handleUnhoverActions() {
-    if (this.state.isRecording && this.state.actionHover) {
-      this.setState({
-        actionHover: false,
-      });
-    }
   }
 
   private stopRecordingState() {
