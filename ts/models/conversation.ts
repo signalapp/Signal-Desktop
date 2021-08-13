@@ -998,10 +998,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         hasErrors: Boolean(errors && errors.length),
       });
     }
-
     const oldUnreadNowReadAttrs = oldUnreadNowRead.map(m => m.attributes);
-
-    await saveMessages(oldUnreadNowReadAttrs);
+    if (oldUnreadNowReadAttrs?.length) {
+      await saveMessages(oldUnreadNowReadAttrs);
+    }
     const allProps: Array<MessageModelProps> = [];
 
     for (const nowRead of oldUnreadNowRead) {
