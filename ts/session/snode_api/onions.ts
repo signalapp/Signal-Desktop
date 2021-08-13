@@ -599,7 +599,7 @@ export async function incrementBadSnodeCountOrDrop({
   associatedWith?: string;
 }) {
   if (!guardNodeEd25519) {
-    console.warn('We need a guardNodeEd25519 at all times');
+    window?.log?.warn('We need a guardNodeEd25519 at all times');
   }
   const oldFailureCount = snodeFailureCount[snodeEd25519] || 0;
   const newFailureCount = oldFailureCount + 1;
@@ -608,7 +608,7 @@ export async function incrementBadSnodeCountOrDrop({
     window?.log?.warn(`Failure threshold reached for: ${ed25519Str(snodeEd25519)}; dropping it.`);
 
     if (associatedWith) {
-      (window?.log?.info || console.warn)(
+      window?.log?.warn(
         `Dropping ${ed25519Str(snodeEd25519)} from swarm of ${ed25519Str(associatedWith)}`
       );
       await dropSnodeFromSwarmIfNeeded(associatedWith, snodeEd25519);

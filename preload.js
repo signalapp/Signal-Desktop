@@ -46,8 +46,6 @@ window.getServerTrustRoot = () => config.serverTrustRoot;
 window.JobQueue = JobQueue;
 window.isBehindProxy = () => Boolean(config.proxyUrl);
 
-window.getStoragePubKey = key => (window.isDev() ? key.substring(2) : key);
-
 window.lokiFeatureFlags = {
   useOnionRequests: true,
   useFileOnionRequests: true,
@@ -55,10 +53,6 @@ window.lokiFeatureFlags = {
   padOutgoingAttachments: true,
   enablePinConversations: true,
 };
-
-if (typeof process.env.NODE_ENV === 'string' && process.env.NODE_ENV.includes('test-integration')) {
-  window.electronRequire = require;
-}
 
 window.isBeforeVersion = (toCheck, baseVersion) => {
   try {
@@ -352,35 +346,6 @@ Promise.prototype.ignore = function() {
   // eslint-disable-next-line more/no-then
   this.then(() => {});
 };
-
-if (
-  config.environment.includes('test') &&
-  !config.environment.includes('swarm-testing') &&
-  !config.environment.includes('test-integration')
-) {
-  const isWindows = process.platform === 'win32';
-  /* eslint-disable global-require, import/no-extraneous-dependencies */
-  window.test = {
-    glob: require('glob'),
-    fse: require('fs-extra'),
-    tmp: require('tmp'),
-    path: require('path'),
-    basePath: __dirname,
-    attachmentsPath: window.Signal.Migrations.attachmentsPath,
-    isWindows,
-  };
-  /* eslint-enable global-require, import/no-extraneous-dependencies */
-  window.lokiFeatureFlags = {};
-}
-if (config.environment.includes('test-integration')) {
-  window.lokiFeatureFlags = {
-    useOnionRequests: false,
-    useFileOnionRequests: false,
-  };
-  /* eslint-disable global-require, import/no-extraneous-dependencies */
-  window.sinon = require('sinon');
-  /* eslint-enable global-require, import/no-extraneous-dependencies */
-}
 
 // Blocking
 

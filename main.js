@@ -344,13 +344,7 @@ async function createWindow() {
     }
   });
 
-  if (config.environment === 'test') {
-    mainWindow.loadURL(prepareURL([__dirname, 'test', 'index.html']));
-  } else if (config.environment.includes('test-integration')) {
-    mainWindow.loadURL(prepareURL([__dirname, 'background_test.html']));
-  } else {
-    mainWindow.loadURL(prepareURL([__dirname, 'background.html']));
-  }
+  mainWindow.loadURL(prepareURL([__dirname, 'background.html']));
 
   if (config.get('openDevTools')) {
     // Open the DevTools.
@@ -368,11 +362,7 @@ async function createWindow() {
       shouldQuit: windowState.shouldQuit(),
     });
     // If the application is terminating, just do the default
-    if (
-      config.environment === 'test' ||
-      config.environment.includes('test-integration') ||
-      (mainWindow.readyForShutdown && windowState.shouldQuit())
-    ) {
+    if (mainWindow.readyForShutdown && windowState.shouldQuit()) {
       return;
     }
 
@@ -492,7 +482,7 @@ function showPasswordWindow() {
 
   passwordWindow.on('close', e => {
     // If the application is terminating, just do the default
-    if (config.environment === 'test' || windowState.shouldQuit()) {
+    if (windowState.shouldQuit()) {
       return;
     }
 
@@ -620,14 +610,12 @@ app.on('ready', async () => {
   const userDataPath = await getRealPath(app.getPath('userData'));
   const installPath = await getRealPath(app.getAppPath());
 
-  if (process.env.NODE_ENV !== 'test' && !process.env.NODE_ENV.includes('test-integration')) {
-    installFileHandler({
-      protocol: electronProtocol,
-      userDataPath,
-      installPath,
-      isWindows: process.platform === 'win32',
-    });
-  }
+  installFileHandler({
+    protocol: electronProtocol,
+    userDataPath,
+    installPath,
+    isWindows: process.platform === 'win32',
+  });
 
   installWebHandler({
     protocol: electronProtocol,
@@ -640,7 +628,7 @@ app.on('ready', async () => {
   logger.info('app ready');
   logger.info(`starting version ${packageJson.version}`);
   if (!locale) {
-    const appLocale = process.env.NODE_ENV === 'test' ? 'en' : app.getLocale();
+    const appLocale = app.getLocale() || 'en';
     locale = loadLocale({ appLocale, logger });
   }
 
@@ -785,11 +773,7 @@ app.on('before-quit', () => {
 app.on('window-all-closed', () => {
   // On OS X it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
-  if (
-    process.platform !== 'darwin' ||
-    config.environment === 'test' ||
-    config.environment.includes('test-integration')
-  ) {
+  if (process.platform !== 'darwin') {
     app.quit();
   }
 });

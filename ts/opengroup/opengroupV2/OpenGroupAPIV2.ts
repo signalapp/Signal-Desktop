@@ -80,7 +80,7 @@ export async function sendApiV2Request(
     throw new Error('Invalid request');
   }
 
-  if (!window.globalOnlineStatus) {
+  if (!window.getGlobalOnlineStatus()) {
     throw new pRetry.AbortError('Network is not available');
   }
 

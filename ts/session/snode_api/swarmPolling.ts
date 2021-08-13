@@ -120,7 +120,6 @@ export class SwarmPolling {
     if (currentTimestamp - activeAt <= DURATION.DAYS * 7) {
       return SWARM_POLLING_TIMEOUT.MEDIUM_ACTIVE;
     }
-
     return SWARM_POLLING_TIMEOUT.INACTIVE;
   }
 
@@ -128,7 +127,7 @@ export class SwarmPolling {
    * Only public for testing
    */
   public async TEST_pollForAllKeys() {
-    if (!window.globalOnlineStatus) {
+    if (!window.getGlobalOnlineStatus()) {
       window?.log?.error('pollForAllKeys: offline');
       // Important to set up a new polling
       setTimeout(this.TEST_pollForAllKeys.bind(this), SWARM_POLLING_TIMEOUT.ACTIVE);
@@ -150,12 +149,12 @@ export class SwarmPolling {
           ?.idForLogging() || group.pubkey.key;
 
       if (diff >= convoPollingTimeout) {
-        (window?.log?.info || console.warn)(
+        window?.log?.info(
           `Polling for ${loggingId}; timeout: ${convoPollingTimeout} ; diff: ${diff}`
         );
         return this.TEST_pollOnceForKey(group.pubkey, true);
       }
-      (window?.log?.info || console.warn)(
+      window?.log?.info(
         `Not polling for ${loggingId}; timeout: ${convoPollingTimeout} ; diff: ${diff}`
       );
 
@@ -190,7 +189,6 @@ export class SwarmPolling {
     const COUNT = 1;
 
     let nodesToPoll = _.sampleSize(alreadyPolled, COUNT);
-
     if (nodesToPoll.length < COUNT) {
       const notPolled = _.difference(snodes, alreadyPolled);
 

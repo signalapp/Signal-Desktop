@@ -79,7 +79,6 @@ const getSslAgentForSeedNode = (seedNodeHost: string, isSsl = false) => {
   const sslOptions = {
     // as the seed nodes are using a self signed certificate, we have to provide it here.
     ca: crt,
-    // we might need to selectively disable that for tests on swarm-testing or so.
     // we have to reject them, otherwise our errors returned in the checkServerIdentity are simply not making the call fail.
     // so in production, rejectUnauthorized must be true.
     rejectUnauthorized: true,
@@ -90,8 +89,6 @@ const getSslAgentForSeedNode = (seedNodeHost: string, isSsl = false) => {
       if (err) {
         return err;
       }
-
-      // we might need to selectively disable that for tests on swarm-testing or so.
 
       // Pin the public key, similar to HPKP pin-sha25 pinning
       if (sha256(cert.pubkey) !== pubkey256) {

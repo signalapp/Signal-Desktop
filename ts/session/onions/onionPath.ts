@@ -12,6 +12,7 @@ const minimumGuardCount = 2;
 
 import { updateOnionPaths } from '../../state/ducks/onion';
 import { ERROR_CODE_NO_CONNECT } from '../snode_api/SNodeAPI';
+import { getStoragePubKey } from '../types/PubKey';
 
 const ONION_REQUEST_HOPS = 3;
 export let onionPaths: Array<Array<Snode>> = [];
@@ -175,7 +176,7 @@ export async function incrementBadPathCountOrDrop(snodeEd25519: string) {
   );
 
   if (pathWithSnodeIndex === -1) {
-    (window?.log?.info || console.warn)('Did not find any path containing this snode');
+    window?.log?.info('Did not find any path containing this snode');
     // this can only be bad. throw an abortError so we use another path if needed
     throw new pRetry.AbortError(
       'incrementBadPathCountOrDrop: Did not find any path containing this snode'
@@ -255,7 +256,7 @@ async function testGuardNode(snode: Snode) {
   const url = `https://${snode.ip}:${snode.port}${endpoint}`;
 
   const ourPK = UserUtils.getOurPubKeyStrFromCache();
-  const pubKey = window.getStoragePubKey(ourPK); // truncate if testnet
+  const pubKey = getStoragePubKey(ourPK); // truncate if testnet
 
   const method = 'get_snodes_for_pubkey';
   const params = { pubKey };
@@ -331,7 +332,7 @@ export async function selectGuardNodes(): Promise<Array<Snode>> {
   // we only want to repeat if the await fails
   // eslint-disable-next-line-no-await-in-loop
   while (selectedGuardNodes.length < desiredGuardCount) {
-    if (!window.globalOnlineStatus) {
+    if (!window.getGlobalOnlineStatus()) {
       window?.log?.error('selectedGuardNodes: offline');
       throw new Error('selectedGuardNodes: offline');
     }

@@ -63,7 +63,7 @@
   //   of preload.js processing
   window.setImmediate = window.nodeSetImmediate;
   window.globalOnlineStatus = true; // default to true as we don't get an event on app start
-
+  window.getGlobalOnlineStatus = () => window.globalOnlineStatus;
   const { Views } = window.Signal;
 
   // Implicitly used in `indexeddb-backbonejs-adapter`:
