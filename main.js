@@ -766,6 +766,10 @@ app.on('before-quit', () => {
     shouldQuit: windowState.shouldQuit(),
   });
 
+  if (tray) {
+    tray.destroy();
+  }
+
   windowState.markShouldQuit();
 });
 
@@ -876,16 +880,15 @@ ipc.on('password-window-login', async (event, passPhrase) => {
 ipc.on('start-in-tray-on-start', async (event, newValue) => {
   try {
     userConfig.set('startInTray', newValue);
-
     if (newValue) {
       if (!tray) {
         tray = createTrayIcon(getMainWindow, locale.messages);
       }
     } else {
-      if (tray) {
-        tray.destroy();
-      }
-      tray = null;
+      // destroy is not working for a lot of desktop env. So for simplicity, we don't destroy it here but just
+      // show a toast to explain to the user that he needs to restart
+      // tray.destroy();
+      // tray = null;
     }
     event.sender.send('start-in-tray-on-start-response', null);
   } catch (e) {

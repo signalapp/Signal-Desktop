@@ -22,6 +22,7 @@ import { toggleAudioAutoplay } from '../../../state/ducks/userConfig';
 import { sessionPassword } from '../../../state/ducks/modalDialog';
 import { PasswordAction } from '../../dialog/SessionPasswordDialog';
 import { SessionIconButton, SessionIconSize, SessionIconType } from '../icon';
+import { ToastUtils } from '../../../session/utils';
 
 export enum SessionSettingCategory {
   Appearance = 'appearance',
@@ -377,10 +378,18 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
         type: SessionSettingType.Toggle,
         category: SessionSettingCategory.Appearance,
         setFn: async () => {
-          const newValue = !(await window.getStartInTray());
-          await window.setStartInTray(newValue);
-          // make sure to write it here too, as this is the value used on the UI to mark the toggle as true/false
-          window.setSettingValue('start-in-tray-setting', newValue);
+          try {
+            const newValue = !(await window.getStartInTray());
+
+            // make sure to write it here too, as this is the value used on the UI to mark the toggle as true/false
+            window.setSettingValue('start-in-tray-setting', newValue);
+            await window.setStartInTray(newValue);
+            if (!newValue) {
+              ToastUtils.pushRestartNeeded();
+            }
+          } catch (e) {
+            window.log.warn('start in tray change error:', e);
+          }
         },
         content: undefined,
         comparisonValue: undefined,

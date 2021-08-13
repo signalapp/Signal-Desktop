@@ -114,7 +114,7 @@ window.setPassword = (passPhrase, oldPhrase) =>
 
 window.setStartInTray = startInTray =>
   new Promise((resolve, reject) => {
-    ipc.once('start-in-tray-on-start-response', (event, error) => {
+    ipc.once('start-in-tray-on-start-response', (_event, error) => {
       if (error) {
         return reject(error);
       }
