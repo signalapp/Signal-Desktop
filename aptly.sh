@@ -19,12 +19,22 @@ REPO=signal-desktop
 CURRENT=xenial
 SNAPSHOT="signal-desktop_v$VERSION"
 GPG_KEYID=57F6FB06
+APTLY_SOURCE=${APTLY_SOURCE:-desktop/apt}
 
-# FIRST RUN 
-# echo
-# echo "aptly.sh: Setting up repo and mirror"
-# aptly repo create signal-desktop
-# aptly mirror create -ignore-signatures backfill-mirror https://updates.signal.org/desktop/apt xenial
+FIRST_RUN=false
+
+if [ ! -d ~/.aptly ] ; then
+  echo
+  echo "aptly.sh: Detected first run"
+  FIRST_RUN=true
+fi
+
+if [ "$FIRST_RUN" = true ] ; then
+  echo
+  echo "aptly.sh: (first run) Setting up repo and mirror"
+  aptly repo create signal-desktop
+  aptly mirror create -ignore-signatures backfill-mirror "https://updates.signal.org/$APTLY_SOURCE" xenial
+fi
 
 echo
 echo "aptly.sh: Fetching latest released files so we don't erase anything"
@@ -39,20 +49,22 @@ echo
 echo "aptly.sh: Creating a snapshot from the current state of the repo"
 aptly snapshot create "$SNAPSHOT" from repo "$REPO"
 
-# FIRST RUN - https://www.aptly.info/doc/aptly/publish/snapshot/
-# echo
-# echo "aptly.sh: Setting up local publish with current snapshot"
-# aptly publish snapshot -gpg-key="$GPG_KEYID" -distribution="$CURRENT" "$SNAPSHOT"
-
-# LATER RUNS - https://www.aptly.info/doc/aptly/publish/switch/
-echo
-echo "aptly.sh: Switching local publish to current snapshot"
-aptly publish switch -gpg-key="$GPG_KEYID" "$CURRENT" "$SNAPSHOT"
+if [ "$FIRST_RUN" = true ] ; then
+  # https://www.aptly.info/doc/aptly/publish/snapshot/
+  echo
+  echo "aptly.sh: (first run) Setting up local publish with current snapshot"
+  aptly publish snapshot -gpg-key="$GPG_KEYID" -distribution="$CURRENT" "$SNAPSHOT"
+else
+  # https://www.aptly.info/doc/aptly/publish/switch/
+  echo
+  echo "aptly.sh: (later runs) Switching local publish to current snapshot"
+  aptly publish switch -gpg-key="$GPG_KEYID" "$CURRENT" "$SNAPSHOT"
+fi
 
 echo
 echo "aptly.sh: Syncing local publish to s3"
-aws s3 sync ~/.aptly/public/pool/ s3://updates.signal.org/desktop/apt/pool/
-aws s3 sync ~/.aptly/public/dists/ s3://updates.signal.org/desktop/apt/dists/
+aws s3 sync ~/.aptly/public/pool/ "s3://updates.signal.org/$APTLY_SOURCE/pool/"
+aws s3 sync ~/.aptly/public/dists/ "s3://updates.signal.org/$APTLY_SOURCE/dists/"
 
 echo
 echo "aptly.sh: Complete!"
