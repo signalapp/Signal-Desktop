@@ -188,6 +188,11 @@ export class OpenGroupServerPoller {
     if (this.isPolling) {
       return false;
     }
+
+    if (!window.getGlobalOnlineStatus()) {
+      window?.log?.info('OpenGroupServerPoller: offline');
+      return false;
+    }
     return true;
   }
 
@@ -203,6 +208,10 @@ export class OpenGroupServerPoller {
     if (this.isPreviewPolling) {
       return false;
     }
+    if (!window.getGlobalOnlineStatus()) {
+      window?.log?.info('OpenGroupServerPoller: offline');
+      return false;
+    }
     return true;
   }
 
@@ -216,6 +225,10 @@ export class OpenGroupServerPoller {
     }
     // return early if a poll is already in progress
     if (this.isMemberCountPolling) {
+      return false;
+    }
+    if (!window.getGlobalOnlineStatus()) {
+      window?.log?.info('OpenGroupServerPoller: offline');
       return false;
     }
     return true;
