@@ -5290,11 +5290,11 @@
     "description": "Displayed after unsuccessful captcha"
   },
   "userPasswordRequiredNoKeyExisting": {
-    "message": "Please enter your NEW password.\n It is required at every start of Signal",
+    "message": "Please enter your NEW password.\n It is required at every start of Signal\n needs at least 20 characters.",
     "description": "Title of userPasswordPrompt window, shows up to get the user password (user has NOT already pw)"
   },
   "userPasswordRequiredAlreadyKeyExisting": {
-    "message": "Please enter your already existing password.",
+    "message": "Please enter your already existing password.\n must be at least 20 characters.",
       "description": "Title of userPasswordPrompt window, shows up to get the user password (user has already pw)"
   },
   "deleteForEveryoneFailed": {
