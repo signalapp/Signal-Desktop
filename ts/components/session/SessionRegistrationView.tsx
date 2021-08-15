@@ -36,7 +36,7 @@ export const SessionRegistrationView = () => {
             <AccentText />
           </div>
           <div className="session-content-registration">
-            <RegistrationStages theme={lightTheme} />
+            <RegistrationStages />
           </div>
         </div>
       </div>

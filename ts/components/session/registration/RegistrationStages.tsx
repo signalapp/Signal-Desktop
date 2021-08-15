@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { PromiseUtils, StringUtils, ToastUtils, UserUtils } from '../../../session/utils';
 import { getConversationController } from '../../../session/conversations';
@@ -16,7 +16,6 @@ import { fromHex } from '../../../session/utils/String';
 import { TaskTimedOutError } from '../../../session/utils/Promise';
 import { mn_decode } from '../../../session/crypto/mnemonic';
 import { getSwarmPollingInstance } from '../../../session/snode_api/swarmPolling';
-import { useEffect } from 'react';
 
 export const MAX_USERNAME_LENGTH = 20;
 // tslint:disable: use-simple-attributes
@@ -156,10 +155,10 @@ export async function signInWithLinking(signInDetails: { userRecoveryPhrase: str
 export enum RegistrationPhase {
   Start,
   SignIn,
-  SignUp
+  SignUp,
 }
 
-export const RegistrationStages = (props: any) => {
+export const RegistrationStages = () => {
   const [generatedRecoveryPhrase, setGeneratedRecoveryPhrase] = useState('');
   const [hexGeneratedPubKey, setHexGeneratedPubKey] = useState('');
   const [registrationPhase, setRegistrationPhase] = useState(RegistrationPhase.Start);
@@ -167,7 +166,7 @@ export const RegistrationStages = (props: any) => {
   useEffect(() => {
     void generateMnemonicAndKeyPair();
     void resetRegistration();
-  }, [])
+  }, []);
 
   const generateMnemonicAndKeyPair = async () => {
     if (generatedRecoveryPhrase === '') {
@@ -182,30 +181,27 @@ export const RegistrationStages = (props: any) => {
       }
       const seed = fromHex(seedHex);
       const keyPair = await sessionGenerateKeyPair(seed);
-      const hexGeneratedPubKey = StringUtils.decode(keyPair.pubKey, 'hex');
+      const newHexPubKey = StringUtils.decode(keyPair.pubKey, 'hex');
 
       setGeneratedRecoveryPhrase(mnemonic);
-      setHexGeneratedPubKey(hexGeneratedPubKey); // our 'frontend' sessionID
+      setHexGeneratedPubKey(newHexPubKey); // our 'frontend' sessionID
     }
-  }
+  };
 
   return (
     <div className="session-registration-container">
       {(registrationPhase === RegistrationPhase.Start ||
-        registrationPhase === RegistrationPhase.SignUp) &&
+        registrationPhase === RegistrationPhase.SignUp) && (
         <SignUpTab
           generatedRecoveryPhrase={generatedRecoveryPhrase}
           hexGeneratedPubKey={hexGeneratedPubKey}
           setRegistrationPhase={setRegistrationPhase}
         />
-      }
-      {
-        (registrationPhase === RegistrationPhase.Start ||
-          registrationPhase === RegistrationPhase.SignIn) &&
-        <SignInTab
-          setRegistrationPhase={setRegistrationPhase}
-        />
-      }
+      )}
+      {(registrationPhase === RegistrationPhase.Start ||
+        registrationPhase === RegistrationPhase.SignIn) && (
+        <SignInTab setRegistrationPhase={setRegistrationPhase} />
+      )}
     </div>
-  )
-}
+  );
+};

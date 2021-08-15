@@ -79,7 +79,7 @@ export const SignUpTab = (props: Props) => {
       <SignUpDefault
         createSessionID={() => {
           setSignUpMode(SignUpMode.SessionIDShown);
-          setRegistrationPhase(RegistrationPhase.SignUp)
+          setRegistrationPhase(RegistrationPhase.SignUp);
         }}
       />
     );
