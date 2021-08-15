@@ -63,7 +63,7 @@
   //   of preload.js processing
   window.setImmediate = window.nodeSetImmediate;
   window.globalOnlineStatus = true; // default to true as we don't get an event on app start
-
+  window.getGlobalOnlineStatus = () => window.globalOnlineStatus;
   const { Views } = window.Signal;
 
   // Implicitly used in `indexeddb-backbonejs-adapter`:
@@ -334,7 +334,7 @@
       // if not undefined, we take the opposite
       const newValue = currentValue !== undefined ? !currentValue : false;
       window.Events.setSpellCheck(newValue);
-      window.libsession.Utils.ToastUtils.pushSpellCheckDirty();
+      window.libsession.Utils.ToastUtils.pushRestartNeeded();
     };
 
     window.toggleMediaPermissions = async () => {
@@ -409,9 +409,6 @@
 
     // Clear timer, since we're only called when the timer is expired
     disconnectTimer = null;
-
-    // FIXME audric stop polling opengroupv2 and swarm nodes
-
     window.libsession.Utils.AttachmentDownloads.stop();
   }
 

@@ -4,10 +4,8 @@ import { Attachment } from '../../types/Attachment';
 import {
   AttachmentPointer,
   AttachmentPointerWithUrl,
-  Preview,
   PreviewWithAttachmentUrl,
   Quote,
-  QuotedAttachment,
   QuotedAttachmentWithUrl,
 } from '../messages/outgoing/visibleMessage/VisibleMessage';
 import { FSv2 } from '../../fileserver';

@@ -4,7 +4,6 @@ import {
   ConversationListItemProps,
   MemoConversationListItemWithDetails,
 } from './ConversationListItem';
-// import { MessageSearchResult } from './MessageSearchResult';
 
 export type SearchResultsProps = {
   contacts: Array<ConversationListItemProps>;
@@ -26,7 +25,7 @@ const ContactsItem = (props: { header: string; items: Array<ConversationListItem
 };
 
 export const SearchResults = (props: SearchResultsProps) => {
-  const { conversations, contacts, hideMessagesHeader, messages, searchTerm } = props;
+  const { conversations, contacts, messages, searchTerm } = props;
 
   const haveConversations = conversations && conversations.length;
   const haveContacts = contacts && contacts.length;

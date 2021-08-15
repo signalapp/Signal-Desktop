@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { SessionScrollButton } from '../SessionScrollButton';
-import _ from 'lodash';
 import { contextMenu } from 'react-contexify';
 import {
   quotedMessageToAnimate,

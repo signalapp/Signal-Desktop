@@ -6,7 +6,6 @@ import { SessionDropdown } from '../SessionDropdown';
 import { MediaGallery } from '../../conversation/media-gallery/MediaGallery';
 import _ from 'lodash';
 import { Constants } from '../../../session';
-import { ConversationAvatar } from '../usingClosedConversationDetails';
 import { AttachmentTypeWithPath } from '../../../types/Attachment';
 import { useTheme } from 'styled-components';
 import {
@@ -120,7 +119,6 @@ const HeaderItem = () => {
   }
   const {
     avatarPath,
-    isPublic,
     id,
     isGroup,
     isKickedFromGroup,

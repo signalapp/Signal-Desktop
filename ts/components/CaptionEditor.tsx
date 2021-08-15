@@ -7,7 +7,7 @@ import { AttachmentType } from '../types/Attachment';
 
 import { SessionInput } from './session/SessionInput';
 import { SessionButton, SessionButtonColor, SessionButtonType } from './session/SessionButton';
-import { darkTheme, lightTheme } from '../state/ducks/SessionTheme';
+import { darkTheme } from '../state/ducks/SessionTheme';
 import autoBind from 'auto-bind';
 
 interface Props {

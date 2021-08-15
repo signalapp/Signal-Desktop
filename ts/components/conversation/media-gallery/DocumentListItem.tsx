@@ -4,9 +4,6 @@ import classNames from 'classnames';
 import moment from 'moment';
 // tslint:disable-next-line:match-default-export-name
 import formatFileSize from 'filesize';
-import { getDecryptedMediaUrl } from '../../../session/crypto/DecryptedAttachmentsManager';
-import { sendDataExtractionNotification } from '../../../session/messages/outgoing/controlMessage/DataExtractionNotificationMessage';
-import { AttachmentTypeWithPath, save } from '../../../types/Attachment';
 import { MediaItemType } from '../../LightboxGallery';
 import { useSelector } from 'react-redux';
 import { getSelectedConversationKey } from '../../../state/selectors/conversations';

@@ -144,7 +144,6 @@ const excludedFiles = [
   '^node_modules/snapdragon-util/*',
   '^node_modules/snapdragon/*',
   '^node_modules/sockjs-client/*',
-  '^node_modules/spectron/*',
   '^node_modules/style-loader/*',
   '^node_modules/svgo/*',
   '^node_modules/text-encoding/*',

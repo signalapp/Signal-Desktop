@@ -1,5 +1,4 @@
-import { app, BrowserWindow, remote } from 'electron';
-import { useEffect, useState } from 'react';
+import { remote } from 'electron';
 
 export function isElectronWindowFocused() {
   const [yourBrowserWindow] = remote.BrowserWindow.getAllWindows();

@@ -1,6 +1,5 @@
 import * as sinon from 'sinon';
 import * as DataShape from '../../../../ts/data/data';
-import { Application } from 'spectron';
 
 const globalAny: any = global;
 const sandbox = sinon.createSandbox();
@@ -51,22 +50,17 @@ export function stubWindow<K extends keyof Window>(fn: K, value: WindowValue<K>)
   };
 }
 
-export async function spyMessageQueueSend(app: Application) {
-  await app.webContents.executeJavaScript(
-    "var messageQueueSpy = sinon.spy(window.libsession.getMessageQueue(), 'send'); "
-  );
-}
-
-export async function getAllMessagesSent(app: Application) {
-  const messageQueueSpy = await app.webContents.executeJavaScript('messageQueueSpy.args;');
-  if (!messageQueueSpy) {
-    throw new Error('Be sure to call spyMessageQueueSend() on the correct app first.');
-  }
-  const messages = await app.webContents.executeJavaScript('messageQueueSpy.args');
-  return messages;
-}
-
 export function restoreStubs() {
   globalAny.window = undefined;
   sandbox.restore();
 }
+
+export const stubWindowLog = () => {
+  stubWindow('log', {
+    // tslint:disable: no-void-expression
+    // tslint:disable: no-console
+    info: (args: any) => console.info(args),
+    warn: (args: any) => console.warn(args),
+    error: (args: any) => console.error(args),
+  });
+};
