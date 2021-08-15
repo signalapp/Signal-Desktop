@@ -1,5 +1,3 @@
-import { fromHex } from 'bytebuffer';
-import { Constants } from '../../../..';
 import { SignalService } from '../../../../../protobuf';
 import { fromHexToArray } from '../../../../utils/String';
 import { ClosedGroupMessage, ClosedGroupMessageParams } from './ClosedGroupMessage';

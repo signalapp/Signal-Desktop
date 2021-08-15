@@ -2,11 +2,8 @@ import _, { noop } from 'lodash';
 import React, { useCallback } from 'react';
 import { InView } from 'react-intersection-observer';
 import { useDispatch, useSelector } from 'react-redux';
-// tslint:disable-next-line: no-submodule-imports
-import useDebounce from 'react-use/lib/useDebounce';
 import { getMessageById } from '../../data/data';
 import { useAppIsFocused } from '../../hooks/useAppFocused';
-import { MessageModelType } from '../../models/messageType';
 import { Constants } from '../../session';
 import { getConversationController } from '../../session/conversations';
 import {

@@ -1,8 +1,5 @@
 import ByteBuffer from 'bytebuffer';
-
-import { isNumber, toNumber } from 'lodash';
 import { DataMessage } from '..';
-import { Constants } from '../../..';
 import { SignalService } from '../../../../protobuf';
 import { LokiProfile } from '../../../../types/Message';
 import { MessageParams } from '../Message';

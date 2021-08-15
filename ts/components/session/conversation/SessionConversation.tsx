@@ -14,7 +14,7 @@ import styled, { DefaultTheme } from 'styled-components';
 import { SessionMessagesListContainer } from './SessionMessagesListContainer';
 import { LightboxGallery, MediaItemType } from '../../LightboxGallery';
 
-import { AttachmentType, AttachmentTypeWithPath, save } from '../../../types/Attachment';
+import { AttachmentType, AttachmentTypeWithPath } from '../../../types/Attachment';
 import { ToastUtils, UserUtils } from '../../../session/utils';
 import * as MIME from '../../../types/MIME';
 import { SessionFileDropzone } from './SessionFileDropzone';
@@ -112,7 +112,7 @@ export class SessionConversation extends React.Component<Props, State> {
   // ~~~~~~~~~~~~~~~~ LIFECYCLES ~~~~~~~~~~~~~~~~
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  public componentDidUpdate(prevProps: Props, prevState: State) {
+  public componentDidUpdate(prevProps: Props, _prevState: State) {
     const {
       selectedConversationKey: newConversationKey,
       selectedConversation: newConversation,

@@ -1,6 +1,6 @@
 import { PubKey } from '../types';
 import * as snodePool from './snodePool';
-import { retrieveNextMessages } from './SNodeAPI';
+import { ERROR_CODE_NO_CONNECT, retrieveNextMessages } from './SNodeAPI';
 import { SignalService } from '../../protobuf';
 import * as Receiver from '../../receiver/receiver';
 import _ from 'lodash';
@@ -18,6 +18,8 @@ import { DURATION, SWARM_POLLING_TIMEOUT } from '../constants';
 import { getConversationController } from '../conversations';
 import { perfEnd, perfStart } from '../utils/Performance';
 import { ed25519Str } from '../onions/onionPath';
+import { updateIsOnline } from '../../state/ducks/onion';
+import pRetry from 'p-retry';
 
 type PubkeyToHash = { [key: string]: string };
 
@@ -77,6 +79,18 @@ export class SwarmPolling {
     this.groupPolling = [];
   }
 
+  public TEST_forcePolledTimestamp(pubkey: PubKey, lastPoll: number) {
+    this.groupPolling = this.groupPolling.map(group => {
+      if (PubKey.isEqual(pubkey, group.pubkey)) {
+        return {
+          ...group,
+          lastPolledTimestamp: lastPoll,
+        };
+      }
+      return group;
+    });
+  }
+
   public addGroupId(pubkey: PubKey) {
     if (this.groupPolling.findIndex(m => m.pubkey.key === pubkey.key) === -1) {
       window?.log?.info('Swarm addGroupId: adding pubkey to polling', pubkey.key);
@@ -118,7 +132,6 @@ export class SwarmPolling {
     if (currentTimestamp - activeAt <= DURATION.DAYS * 7) {
       return SWARM_POLLING_TIMEOUT.MEDIUM_ACTIVE;
     }
-
     return SWARM_POLLING_TIMEOUT.INACTIVE;
   }
 
@@ -126,6 +139,12 @@ export class SwarmPolling {
    * Only public for testing
    */
   public async TEST_pollForAllKeys() {
+    if (!window.getGlobalOnlineStatus()) {
+      window?.log?.error('pollForAllKeys: offline');
+      // Important to set up a new polling
+      setTimeout(this.TEST_pollForAllKeys.bind(this), SWARM_POLLING_TIMEOUT.ACTIVE);
+      return;
+    }
     // we always poll as often as possible for our pubkey
     const ourPubkey = UserUtils.getOurPubKeyFromCache();
     const directPromise = this.TEST_pollOnceForKey(ourPubkey, false);
@@ -142,12 +161,12 @@ export class SwarmPolling {
           ?.idForLogging() || group.pubkey.key;
 
       if (diff >= convoPollingTimeout) {
-        (window?.log?.info || console.warn)(
+        window?.log?.info(
           `Polling for ${loggingId}; timeout: ${convoPollingTimeout} ; diff: ${diff}`
         );
         return this.TEST_pollOnceForKey(group.pubkey, true);
       }
-      (window?.log?.info || console.warn)(
+      window?.log?.info(
         `Not polling for ${loggingId}; timeout: ${convoPollingTimeout} ; diff: ${diff}`
       );
 
@@ -156,7 +175,7 @@ export class SwarmPolling {
     try {
       await Promise.all(_.concat(directPromise, groupPromises));
     } catch (e) {
-      (window?.log?.info || console.warn)('pollForAllKeys swallowing exception: ', e);
+      window?.log?.info('pollForAllKeys exception: ', e);
       throw e;
     } finally {
       setTimeout(this.TEST_pollForAllKeys.bind(this), SWARM_POLLING_TIMEOUT.ACTIVE);
@@ -182,7 +201,6 @@ export class SwarmPolling {
     const COUNT = 1;
 
     let nodesToPoll = _.sampleSize(alreadyPolled, COUNT);
-
     if (nodesToPoll.length < COUNT) {
       const notPolled = _.difference(snodes, alreadyPolled);
 
@@ -193,20 +211,26 @@ export class SwarmPolling {
       nodesToPoll = _.concat(nodesToPoll, newNodes);
     }
 
-    const results = await Promise.all(
+    const promisesSettled = await Promise.allSettled(
       nodesToPoll.map(async (n: Snode) => {
         return this.pollNodeForKey(n, pubkey);
       })
     );
 
-    // Merge results into one list of unique messages
-    const messages = _.uniqBy(_.flatten(results), (x: any) => x.hash);
+    const arrayOfResultsWithNull = promisesSettled.map(entry =>
+      entry.status === 'fulfilled' ? entry.value : null
+    );
 
-    if (isGroup) {
+    // filter out null (exception thrown)
+    const arrayOfResults = _.compact(arrayOfResultsWithNull);
+
+    // Merge results into one list of unique messages
+    const messages = _.uniqBy(_.flatten(arrayOfResults), (x: any) => x.hash);
+
+    // if all snodes returned an error (null), no need to update the lastPolledTimestamp
+    if (isGroup && arrayOfResults?.length) {
       window?.log?.info(
-        `Polled for group(${ed25519Str(pubkey.key)}): group.pubkey, got ${
-          messages.length
-        } messages back.`
+        `Polled for group(${ed25519Str(pubkey.key)}):, got ${messages.length} messages back.`
       );
       // update the last fetched timestamp
       this.groupPolling = this.groupPolling.map(group => {
@@ -218,6 +242,12 @@ export class SwarmPolling {
         }
         return group;
       });
+    } else if (isGroup) {
+      window?.log?.info(
+        `Polled for group(${ed25519Str(
+          pubkey.key
+        )}):, but no snode returned something else than null.`
+      );
     }
 
     perfStart(`handleSeenMessages-${pkStr}`);
@@ -234,24 +264,45 @@ export class SwarmPolling {
 
   // Fetches messages for `pubkey` from `node` potentially updating
   // the lash hash record
-  private async pollNodeForKey(node: Snode, pubkey: PubKey): Promise<Array<any>> {
+  private async pollNodeForKey(node: Snode, pubkey: PubKey): Promise<Array<any> | null> {
     const edkey = node.pubkey_ed25519;
 
     const pkStr = pubkey.key;
 
     const prevHash = await this.getLastHash(edkey, pkStr);
 
-    const messages = await retrieveNextMessages(node, prevHash, pkStr);
+    try {
+      return await pRetry(
+        async () => {
+          const messages = await retrieveNextMessages(node, prevHash, pkStr);
+          if (!messages.length) {
+            return [];
+          }
 
-    if (!messages.length) {
-      return [];
+          const lastMessage = _.last(messages);
+
+          await this.updateLastHash(edkey, pubkey, lastMessage.hash, lastMessage.expiration);
+          return messages;
+        },
+        {
+          minTimeout: 100,
+          retries: 2,
+          onFailedAttempt: e => {
+            window?.log?.warn(
+              `retrieveNextMessages attempt #${e.attemptNumber} failed. ${e.retriesLeft} retries left...`
+            );
+          },
+        }
+      );
+    } catch (e) {
+      if (e.message === ERROR_CODE_NO_CONNECT) {
+        window.inboxStore?.dispatch(updateIsOnline(false));
+      } else {
+        window.inboxStore?.dispatch(updateIsOnline(true));
+      }
+      window?.log?.info('pollNodeForKey failed with', e.message);
+      return null;
     }
-
-    const lastMessage = _.last(messages);
-
-    await this.updateLastHash(edkey, pubkey, lastMessage.hash, lastMessage.expiration);
-
-    return messages;
   }
 
   private loadGroupIds() {

@@ -4,11 +4,7 @@ import { createSelector } from 'reselect';
 import { StateType } from '../reducer';
 
 import { SearchStateType } from '../ducks/search';
-import {
-  getConversationLookup,
-  getSelectedConversation,
-  getSelectedConversationKey,
-} from './conversations';
+import { getConversationLookup, getSelectedConversationKey } from './conversations';
 import { ConversationLookupType } from '../ducks/conversations';
 
 export const getSearch = (state: StateType): SearchStateType => state.search;

@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import { SessionIcon, SessionIconProps } from '../icon';
 import { SessionNotificationCount } from '../SessionNotificationCount';
 import { DefaultTheme, useTheme } from 'styled-components';
+import _ from 'lodash';
 
 interface SProps extends SessionIconProps {
   onClick?: any;
@@ -12,7 +13,7 @@ interface SProps extends SessionIconProps {
   isHidden?: boolean;
 }
 
-export const SessionIconButton = (props: SProps) => {
+const SessionIconButtonInner = (props: SProps) => {
   const {
     iconType,
     iconSize,
@@ -56,3 +57,5 @@ export const SessionIconButton = (props: SProps) => {
     </div>
   );
 };
+
+export const SessionIconButton = React.memo(SessionIconButtonInner, _.isEqual);

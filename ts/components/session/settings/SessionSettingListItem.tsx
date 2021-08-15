@@ -66,7 +66,7 @@ export const SessionSettingListItem = (props: Props) => {
 
         {type === SessionSettingType.Options && (
           <SessionRadioGroup
-            initialItem={content.options.initalItem}
+            initialItem={content.options.initialItem}
             group={content.options.group}
             items={content.options.items}
             onClick={(selectedRadioValue: string) => {

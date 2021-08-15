@@ -8,7 +8,6 @@ import { trigger } from '../shims/events';
 import { actions as userActions } from '../state/ducks/user';
 import { mn_decode, mn_encode } from '../session/crypto/mnemonic';
 import { ConversationTypeEnum } from '../models/conversation';
-import _ from 'underscore';
 
 /**
  * Might throw

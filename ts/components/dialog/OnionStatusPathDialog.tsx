@@ -1,7 +1,5 @@
 import React from 'react';
 
-import _ from 'lodash';
-
 import Electron from 'electron';
 const { shell } = Electron;
 
