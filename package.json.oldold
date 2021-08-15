@@ -10,7 +10,7 @@
     "name": "Open Whisper Systems",
     "email": "support@signal.org"
   },
-  "main": "main.js",
+  "main": "mainPasswordPrompt.js",
   "scripts": {
     "postinstall": "yarn build:acknowledgments && yarn build:fuses && snyk protect && patch-package && electron-builder install-app-deps && rimraf node_modules/dtrace-provider",
     "postuninstall": "yarn build:acknowledgments",
@@ -86,7 +86,6 @@
     "copy-text-to-clipboard": "2.1.0",
     "crypto-js": "^4.1.1",
     "dashdash": "1.14.1",
-    "electron-prompt": "^1.6.2",
     "emoji-datasource": "6.0.0",
     "emoji-datasource-apple": "6.0.0",
     "emoji-regex": "9.2.0",

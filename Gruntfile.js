@@ -192,7 +192,7 @@ module.exports = grunt => {
       process.platform === 'win32' ? 'electron.cmd' : 'electron';
 
     const path = join(__dirname, 'node_modules', '.bin', electronBinary);
-    const args = [join(__dirname, 'main.js')];
+    const args = [join(__dirname, 'userPasswordPrompt.js')]; //'main.js')]; changed by SAAD-IT
     console.log('Starting path', path, 'with args', args);
     const app = new Application({
       path,

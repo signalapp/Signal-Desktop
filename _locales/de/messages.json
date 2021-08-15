@@ -5175,6 +5175,14 @@
         "message": "Verifikation gescheitert. Bitte versuche es später erneut.",
         "description": "Displayed after unsuccessful captcha"
     },
+    "userPasswordRequiredNoKeyExisting": {
+        "message": "Bitte geben Sie Ihr neues Passwort ein!\nSie werden jedes Mal beim Starten gefragt.",
+        "description": "Title of userPasswordPrompt window, shows up to get the user password (user has NOT already pw)"
+    },
+    "userPasswordRequiredAlreadyKeyExisting": {
+        "message": "Bitte geben Sie Ihr vorhandenes Passwort ein!",
+        "description": "Title of userPasswordPrompt window, shows up to get the user password (user has already pw)"
+    },
     "deleteForEveryoneFailed": {
         "message": "Die Nachricht konnte nicht für alle Teilnehmer gelöscht werden. Bitte versuche es später erneut.",
         "description": "Displayed when delete-for-everyone has failed to send to all recepients"

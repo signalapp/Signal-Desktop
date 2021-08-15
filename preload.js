@@ -134,6 +134,12 @@ try {
   // eslint-disable-next-line no-eval, no-multi-assign
   window.eval = global.eval = () => null;
 
+  // when userPassword for decrypt of config.json database key is needed
+  window.userPasswordRequired = () => {
+    window.log.info('userPasswordRequired required');
+    ipc.send('userpassword-required');
+  };
+
   window.captchaRequired = () => {
     window.log.info('CAPTCHA required');
     ipc.send('captcha-required');

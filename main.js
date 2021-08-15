@@ -1,7 +1,19 @@
-// Copyright 2017-2021 Signal Messenger, LLC
-// SPDX-License-Identifier: AGPL-3.0-only
-
-/* eslint-disable no-console */
+/* 
+ * Copyright 2017-2021 Signal Messenger, LLC
+ * SPDX-License-Identifier: AGPL-3.0-only
+ *
+ * Signal main.js - prepares everything, provides locales, the mainWindow, including own modules (and so on)
+ * 
+ * 
+ * Note by ksaadDE:
+ * reordered everything; new structure is:
+ *  consts
+ *  lets
+ *  functions
+ *  all the other stuff (calling functions etc)
+ *
+ * eslint-disable no-console
+ */
 
 const path = require('path');
 const { pathToFileURL } = require('url');
@@ -22,12 +34,10 @@ const { setup: setupSpellChecker } = require('./app/spell_check');
 const { redactAll } = require('./js/modules/privacy');
 const removeUserConfig = require('./app/user_config').remove;
 
-GlobalErrors.addHandler();
+const prompt = require('electron-prompt'); 
+const CryptoJS = require("crypto-js");
 
-// Set umask early on in the process lifecycle to ensure file permissions are
-// set such that only we have read access to our files
-process.umask(0o077);
-
+// Used also for init stuff
 const getRealPath = pify(fs.realpath);
 const {
   app,
@@ -42,51 +52,24 @@ const {
   systemPreferences,
 } = electron;
 
+// Animation setting consts
 const animationSettings = systemPreferences.getAnimationSettings();
-
+// AppUserModel consts
 const appUserModelId = `org.whispersystems.${packageJson.name}`;
-console.log('Set Windows Application User Model ID (AUMID)', {
-  appUserModelId,
-});
-app.setAppUserModelId(appUserModelId);
 
-// We don't navigate, but this is the way of the future
-//   https://github.com/electron/electron/issues/18397
-// TODO: Make ringrtc-node context-aware and change this to true.
-app.allowRendererProcessReuse = false;
-
-// Keep a global reference of the window object, if you don't, the window will
-//   be closed automatically when the JavaScript object is garbage collected.
-let mainWindow;
-let mainWindowCreated = false;
-let loadingWindow;
-
-function getMainWindow() {
-  return mainWindow;
-}
-
-// Tray icon and related objects
-let tray = null;
-const startInTray = process.argv.some(arg => arg === '--start-in-tray');
-const usingTrayIcon =
-  startInTray || process.argv.some(arg => arg === '--use-tray-icon');
-
+//Try consts
+const startInTray   = process.argv.some(arg => arg === '--start-in-tray');
+const usingTrayIcon = startInTray || process.argv.some(arg => arg === '--use-tray-icon');
 const config = require('./app/config');
 
-// Very important to put before the single instance check, since it is based on the
-//   userData directory.
+// other consts?
+// Very important to put before the single instance check, since it is based on the userData directory.
 const userConfig = require('./app/user_config');
-
-const importMode =
-  process.argv.some(arg => arg === '--import') || config.get('import');
-
-const development =
-  config.environment === 'development' || config.environment === 'staging';
-
+const importMode = process.argv.some(arg => arg === '--import') || config.get('import');
+const development = config.environment === 'development' || config.environment === 'staging';
 const enableCI = Boolean(config.get('enableCI'));
 
-// We generally want to pull in our own modules after this point, after the user
-//   data directory has been set.
+// after the user data directory has been set, "pull in our own modules"
 const attachments = require('./app/attachments');
 const attachmentChannel = require('./app/attachment_channel');
 const bounce = require('./ts/services/bounce');
@@ -128,16 +111,129 @@ const { maybeParseUrl, setUrlSearchParams } = require('./ts/util/url');
 const sql = new MainSQL();
 const challengeHandler = new ChallengeMainHandler();
 
-let sqlInitTimeStart = 0;
-let sqlInitTimeEnd = 0;
-
-let appStartInitialSpellcheckSetting = true;
-
 const defaultWebPrefs = {
   devTools:
     process.argv.some(arg => arg === '--enable-dev-tools') ||
     config.environment !== Environment.Production,
 };
+
+const windowFromUserConfig = userConfig.get('window');
+const windowFromEphemeral = ephemeralConfig.get('window');
+const loadLocale = require('./app/locale').load;
+const { resolve } = require('path');
+const { LeftPaneComposeHelper } = require('./ts/components/leftPane/LeftPaneComposeHelper');
+
+const DEFAULT_WIDTH = 800;
+const DEFAULT_HEIGHT = 610;
+const MIN_WIDTH = 680;
+const MIN_HEIGHT = 550;
+const BOUNDS_BUFFER = 100;
+const TEN_MINUTES = 10 * 60 * 1000;
+
+// the support only provides a subset of languages available within the app
+// so we have to list them out here and fallback to english if not included
+const SUPPORT_LANGUAGES = [
+  'ar',
+  'bn',
+  'de',
+  'en-us',
+  'es',
+  'fr',
+  'hi',
+  'hi-in',
+  'hc',
+  'id',
+  'it',
+  'ja',
+  'ko',
+  'mr',
+  'ms',
+  'nl',
+  'pl',
+  'pt',
+  'ru',
+  'sv',
+  'ta',
+  'te',
+  'tr',
+  'uk',
+  'ur',
+  'vi',
+  'zh-cn',
+  'zh-tw',
+];
+
+const startTime = Date.now();
+
+
+// shareWindow stuff
+let screenShareWindow;
+
+// window stuff
+let windowIcon;
+let isReadyForUpdates = false;
+let aboutWindow;
+let settingsWindow;
+let stickerCreatorWindow;
+let debugLogWindow;
+let permissionsPopupWindow;
+let captchaWindow;
+app.allowRendererProcessReuse = false; //  TODO: Make ringrtc-node context-aware and change this to true. | We don't navigate, but this is the way of the future | https://github.com/electron/electron/issues/18397
+let mainWindow; // Keep a global reference of the window object, if you don't, the window will be closed automatically when the JavaScript object is garbage collected.
+let mainWindowCreated = false;
+let loadingWindow;
+// Both of these will be set after app fires the 'ready' event
+let logger = null;
+let locale = null;
+// tray settings
+let tray = null;
+// sqltime variables
+let sqlInitTimeStart = 0;
+let sqlInitTimeEnd = 0;
+// dbDecryptedKey (unencrypted DB key)
+let dbDecryptedKey = null;
+// other stuff (?)
+let appStartInitialSpellcheckSetting = true;
+let windowConfig = windowFromEphemeral || windowFromUserConfig;
+// are you readyyy? :)
+let ready = false;
+
+// needed globally crazy stuff
+let appLocale   = null;
+let installPath = null;
+let userDataPath = null;
+
+// sqlInitPromise used literally everywhere  | linked to initializeSQL();
+let sqlInitPromise = null;
+
+/**
+ * Sets permissions, addhandlers and so on
+ * introduced by ksaadDE for readability and stability.
+ */
+async function doInitBeforeInit(logger){
+  appLocale = process.env.NODE_ENV === 'test' ? 'en' : app.getLocale();
+  userDataPath = await getRealPath(app.getPath('userData'));
+  installPath = await getRealPath(app.getAppPath());
+
+  let x = await loadLocales(appLocale, logger);
+  console.log("loadLocales:" + x);
+
+  GlobalErrors.addHandler();
+
+  // Set umask early on in the process lifecycle to ensure file permissions are
+  // set such that only we have read access to our files
+  process.umask(0o077);
+
+  // Note by ksaadDE: I'm really unsure why this is exactly here. Somewhere else would be a bit better, since function definitions coming "always" first!
+  console.log('Set Windows Application User Model ID (AUMID)', {
+    appUserModelId,
+  });
+  app.setAppUserModelId(appUserModelId);
+}
+
+function getMainWindow() {
+  return mainWindow;
+}
 
 async function getSpellCheckSetting() {
   const fastValue = ephemeralConfig.get('spell-check');
@@ -215,19 +311,10 @@ if (!process.mas) {
   }
 }
 
-const windowFromUserConfig = userConfig.get('window');
-const windowFromEphemeral = ephemeralConfig.get('window');
-let windowConfig = windowFromEphemeral || windowFromUserConfig;
 if (windowFromUserConfig) {
   userConfig.set('window', null);
   ephemeralConfig.set('window', windowConfig);
 }
-
-const loadLocale = require('./app/locale').load;
-
-// Both of these will be set after app fires the 'ready' event
-let logger;
-let locale;
 
 function prepareFileUrl(
   pathSegments /* : ReadonlyArray<string> */,
@@ -312,12 +399,6 @@ function handleCommonWindowEvents(window) {
   });
 }
 
-const DEFAULT_WIDTH = 800;
-const DEFAULT_HEIGHT = 610;
-const MIN_WIDTH = 680;
-const MIN_HEIGHT = 550;
-const BOUNDS_BUFFER = 100;
-
 function isVisible(window, bounds) {
   const boundsX = _.get(bounds, 'x') || 0;
   const boundsY = _.get(bounds, 'y') || 0;
@@ -342,8 +423,6 @@ function isVisible(window, bounds) {
     topClearOfLowerBound
   );
 }
-
-let windowIcon;
 
 if (OS.isWindows()) {
   windowIcon = path.join(__dirname, 'build', 'icons', 'win', 'icon.ico');
@@ -579,9 +658,6 @@ async function createWindow() {
   mainWindow.once('ready-to-show', async () => {
     console.log('main window is ready-to-show');
 
-    // Ignore sql errors and show the window anyway
-    await sqlInitPromise;
-
     if (!mainWindow) {
       return;
     }
@@ -593,21 +669,6 @@ async function createWindow() {
     }
   });
 }
-
-// Renderer asks if we are done with the database
-ipc.on('database-ready', async event => {
-  const { error } = await sqlInitPromise;
-  if (error) {
-    console.log(
-      'database-ready requested, but got sql error',
-      error && error.stack
-    );
-    return;
-  }
-
-  console.log('sending `database-ready`');
-  event.sender.send('database-ready');
-});
 
 ipc.on('show-window', () => {
   showWindow();
@@ -646,7 +707,6 @@ ipc.on('title-bar-double-click', () => {
   }
 });
 
-let isReadyForUpdates = false;
 async function readyForUpdates() {
   if (isReadyForUpdates) {
     return;
@@ -673,42 +733,8 @@ async function readyForUpdates() {
 
 ipc.once('ready-for-updates', readyForUpdates);
 
-const TEN_MINUTES = 10 * 60 * 1000;
 setTimeout(readyForUpdates, TEN_MINUTES);
 
-// the support only provides a subset of languages available within the app
-// so we have to list them out here and fallback to english if not included
-
-const SUPPORT_LANGUAGES = [
-  'ar',
-  'bn',
-  'de',
-  'en-us',
-  'es',
-  'fr',
-  'hi',
-  'hi-in',
-  'hc',
-  'id',
-  'it',
-  'ja',
-  'ko',
-  'mr',
-  'ms',
-  'nl',
-  'pl',
-  'pt',
-  'ru',
-  'sv',
-  'ta',
-  'te',
-  'tr',
-  'uk',
-  'ur',
-  'vi',
-  'zh-cn',
-  'zh-tw',
-];
 
 function openContactUs() {
   const userLanguage = app.getLocale();
@@ -761,7 +787,6 @@ function setupAsStandalone() {
   }
 }
 
-let screenShareWindow;
 function showScreenShareWindow(sourceName) {
   if (screenShareWindow) {
     screenShareWindow.show();
@@ -816,7 +841,6 @@ function showScreenShareWindow(sourceName) {
   });
 }
 
-let aboutWindow;
 function showAbout() {
   if (aboutWindow) {
     aboutWindow.show();
@@ -856,7 +880,6 @@ function showAbout() {
   });
 }
 
-let settingsWindow;
 function showSettingsWindow() {
   if (settingsWindow) {
     settingsWindow.show();
@@ -924,7 +947,6 @@ async function getIsLinked() {
   }
 }
 
-let stickerCreatorWindow;
 async function showStickerCreator() {
   if (!(await getIsLinked())) {
     const { message } = locale.messages[
@@ -995,7 +1017,6 @@ async function showStickerCreator() {
   });
 }
 
-let debugLogWindow;
 async function showDebugLogWindow() {
   if (debugLogWindow) {
     debugLogWindow.show();
@@ -1043,7 +1064,6 @@ async function showDebugLogWindow() {
   });
 }
 
-let permissionsPopupWindow;
 function showPermissionsPopupWindow(forCalling, forCamera) {
   // eslint-disable-next-line no-async-promise-executor
   return new Promise(async (resolve, reject) => {
@@ -1104,7 +1124,6 @@ function showPermissionsPopupWindow(forCalling, forCamera) {
   });
 }
 
-let captchaWindow;
 function showCaptchaWindow() {
   if (captchaWindow) {
     captchaWindow.show();
@@ -1145,42 +1164,197 @@ ipc.on('captcha-required', () => {
   showCaptchaWindow();
 });
 
+ /*
+    ====
+    Password Prompt  Start
+    Added by ksaadDE | Aug 2021
+    ====
+ */
+function doPasswordValidation (password) {
+  if (password === null || password === undefined) return 'data.error.nopwentered_or_abort';
+  if (password.length         < 20)                return 'data.error.pwshort';
+  if (password.trim().length  < 20)                return 'data.error.pwwhitespace';
+  if (password.length         > 128)               return 'data.error.pwlong';
+  return 'data.success';
+}
+
+function checkConfigPassword(password) {
+  let dbKey = userConfig.get('key');
+
+  if (!dbKey) {
+    // copied old code from above, edited the message for clarity ;p
+    console.log('key/initialize: Generating new encryption key, since we did not find it in config.json');
+    dbKey = crypto.randomBytes(32).toString('hex'); // https://www.zetetic.net/sqlcipher/sqlcipher-api/#key
+    
+    // the dbKey here is not encrypted yet, that's why false
+    userConfig.set('usesPassword', false);
+  }
+
+  if (userConfig.get('usesPassword') === true) {
+    // since usesPassword is already set to true, the dbKey (key in config.json) is encrypted, so we need to decrypt it now
+    let realKey = CryptoJS.AES.decrypt(dbKey, password).toString(CryptoJS.enc.Utf8);
+    dbDecryptedKey = realKey;
+  } else {
+    // usesPassword is set to false, the dbKey (key in config.json) is not encrypted yet, this is done here
+    let encryptedDBKey = CryptoJS.AES.encrypt(dbKey, password).toString();
+    userConfig.set('usesPassword', true);
+    userConfig.set('key', encryptedDBKey);
+    dbDecryptedKey = dbKey;
+  }
+
+  return dbDecryptedKey;
+}
+
+async function showPasswordPrompt(){
+  let labelText = 'no yet';
+  pw='your password';
+
+  // load the correct translation, depending if the user already has set a encrypt password or not!
+  if ( userConfig.get('usesPassword') !== true ) {
+    // here the user has NOT set a encryption password yet
+    labelText =  locale.messages.userPasswordRequiredNoKeyExisting.message; //'Please set a NEW encryption password! :-)';
+  } else {
+    // here the user HAS set a enc pw
+    labelText =  locale.messages.userPasswordRequiredAlreadyKeyExisting.message; //'Please enter your encryption password! :-)';
+  }
+
+  let x = await prompt({
+    title: 'Signal Password Window',
+    label: labelText,
+    value: pw,
+    inputAttrs: {
+        type: 'text'
+    },
+    type: 'input'
+  });
+  return x;
+}
+
+async function askAgainForPassword() {
+  let unlockDBPassword = null;
+  let pwvalidation = null;
+  let password =  null;
+
+  try {
+
+    password = await showPasswordPrompt("");
+    pwvalidation = doPasswordValidation(password);
+
+    if(pwvalidation == 'data.error.nopwentered_or_abort') {
+      // aborting
+      console.log("closing due to user requested abort of password prompt | exitcode: 1337");
+      app.exit(1337);
+    }
+
+    if(pwvalidation != 'data.success') {
+      return await askAgainForPassword();
+    }
+
+    unlockDBPassword = checkConfigPassword(password).toString();
+      
+    if (unlockDBPassword == undefined || unlockDBPassword.length == 0 || unlockDBPassword == null) {
+      return await askAgainForPassword();
+    }
+  
+  } catch (error) {
+
+    console.log(error);
+    unlockDBPassword = undefined;
+  
+  }  
+  return unlockDBPassword;
+}
+
+
 async function initializeSQL() {
   const userDataPath = await getRealPath(app.getPath('userData'));
 
-  let key = userConfig.get('key');
-  if (!key) {
-    console.log(
-      'key/initialize: Generating new encryption key, since we did not find it on disk'
-    );
-    // https://www.zetetic.net/sqlcipher/sqlcipher-api/#key
-    key = crypto.randomBytes(32).toString('hex');
-    userConfig.set('key', key);
+  let unlockDBPassword = await askAgainForPassword();
+  
+  if (unlockDBPassword === null || unlockDBPassword === undefined){
+    console.log("sqlInit: failed, password prompt aborted!");
+    app.exit(1);
   }
 
   sqlInitTimeStart = Date.now();
   try {
-    await sql.initialize({
+    console.log ("sqlInit: Trying to unlock and load DB! <3");
+    return await sql.initialize({
       configDir: userDataPath,
-      key,
+      key: unlockDBPassword,
     });
   } catch (error) {
+    console.log("sqlInit: Unlock or loading failed :/");
     return { ok: false, error };
   } finally {
     sqlInitTimeEnd = Date.now();
   }
-
-  return { ok: true };
 }
 
-const sqlInitPromise = initializeSQL();
+ /*
+    ====
+    Password Prompt  END
+    ====
+ */
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
-let ready = false;
+async function loadLocales(appLocale, logger){
+  if (!locale) {
+    locale = loadLocale({ appLocale, logger });
+  }
+
+  GlobalErrors.updateLocale(locale.messages);
+
+  return locale.messages;
+}
+
+/* 
+  This method will be called when Electron has finished; 
+  initialization and is ready to create browser windows.
+  Some APIs can only be used after this event occurs
+*/
 app.on('ready', async () => {
-  const startTime = Date.now();
+  logger = await logging.initialize();
+  await doInitBeforeInit(logger);
+
+  sqlInitPromise = await initializeSQL();
+
+  if (process.env.NODE_ENV !== 'test' && process.env.NODE_ENV !== 'test-lib') {
+    installFileHandler({
+      protocol: electronProtocol,
+      userDataPath,
+      installPath,
+      isWindows: OS.isWindows(),
+    });
+  }
+
+  installWebHandler({
+    enableHttp: config.enableHttp,
+    protocol: electronProtocol,
+  });
+  
+  installPermissionsHandler({ session, userConfig });
+  
+  logger.info('app ready');
+  logger.info(`starting version ${packageJson.version}`);
+
+  // This logging helps us debug user reports about broken devices.
+  {
+    let getMediaAccessStatus;
+    // This function is not supported on Linux, so we have a fallback.
+    if (systemPreferences.getMediaAccessStatus) {
+      getMediaAccessStatus = systemPreferences.getMediaAccessStatus.bind(
+        systemPreferences
+      );
+    } else {
+      getMediaAccessStatus = _.noop;
+    }
+    logger.info(
+      'media access status',
+      getMediaAccessStatus('microphone'),
+      getMediaAccessStatus('camera')
+    );
+  }
+
 
   // We use this event only a single time to log the startup time of the app
   // from when it's first ready until the loading screen disappears.
@@ -1214,54 +1388,6 @@ app.on('ready', async () => {
       );
     }
   });
-
-  const userDataPath = await getRealPath(app.getPath('userData'));
-  const installPath = await getRealPath(app.getAppPath());
-
-  if (process.env.NODE_ENV !== 'test' && process.env.NODE_ENV !== 'test-lib') {
-    installFileHandler({
-      protocol: electronProtocol,
-      userDataPath,
-      installPath,
-      isWindows: OS.isWindows(),
-    });
-  }
-
-  installWebHandler({
-    enableHttp: config.enableHttp,
-    protocol: electronProtocol,
-  });
-
-  installPermissionsHandler({ session, userConfig });
-
-  logger = await logging.initialize();
-  logger.info('app ready');
-  logger.info(`starting version ${packageJson.version}`);
-
-  // This logging helps us debug user reports about broken devices.
-  {
-    let getMediaAccessStatus;
-    // This function is not supported on Linux, so we have a fallback.
-    if (systemPreferences.getMediaAccessStatus) {
-      getMediaAccessStatus = systemPreferences.getMediaAccessStatus.bind(
-        systemPreferences
-      );
-    } else {
-      getMediaAccessStatus = _.noop;
-    }
-    logger.info(
-      'media access status',
-      getMediaAccessStatus('microphone'),
-      getMediaAccessStatus('camera')
-    );
-  }
-
-  if (!locale) {
-    const appLocale = process.env.NODE_ENV === 'test' ? 'en' : app.getLocale();
-    locale = loadLocale({ appLocale, logger });
-  }
-
-  GlobalErrors.updateLocale(locale.messages);
 
   // If the sql initialization takes more than three seconds to complete, we
   // want to notify the user that things are happening
@@ -1305,36 +1431,40 @@ app.on('ready', async () => {
   // Run window preloading in parallel with database initialization.
   await createWindow();
 
-  const { error: sqlError } = await sqlInitPromise;
-  if (sqlError) {
+  // well the code was recalling sqlInit... why? note by ksaadDE (performance is now better!)
+  error = sqlInitPromise;
+  if (error) {
     console.log('sql.initialize was unsuccessful; returning early');
-    const buttonIndex = dialog.showMessageBoxSync({
-      buttons: [
-        locale.messages.copyErrorAndQuit.message,
-        locale.messages.deleteAndRestart.message,
-      ],
-      defaultId: 0,
-      detail: redactAll(sqlError.stack),
-      message: locale.messages.databaseError.message,
-      noLink: true,
-      type: 'error',
-    });
+    try {
+      const buttonIndex = dialog.showMessageBoxSync({
+        buttons: [
+          locale.messages.copyErrorAndQuit.message,
+          locale.messages.deleteAndRestart.message,
+        ],
+        defaultId: 0,
+        detail: redactAll(sqlError.stack),
+        message: locale.messages.databaseError.message,
+        noLink: true,
+        type: 'error',
+      });
 
-    if (buttonIndex === 0) {
-      clipboard.writeText(
-        `Database startup error:\n\n${redactAll(sqlError.stack)}`
-      );
-    } else {
-      await sql.sqlCall('removeDB', []);
-      removeUserConfig();
-      app.relaunch();
+      if (buttonIndex === 0) {
+        clipboard.writeText(
+          `Database startup error:\n\n${redactAll(sqlError.stack)}`
+        );
+      } else {
+        await sql.sqlCall('removeDB', []);
+        removeUserConfig();
+        app.relaunch();
+      }
+    } catch (error) {
+      console.log(error);
     }
-
     app.exit(1);
 
     return;
   }
-
+  
   // eslint-disable-next-line more/no-then
   appStartInitialSpellcheckSetting = await getSpellCheckSetting();
   await sqlChannels.initialize(sql);
@@ -1748,6 +1878,12 @@ installSettingsGetter('sync-request');
 installSettingsGetter('sync-time');
 installSettingsSetter('sync-time');
 
+ipc.on('database-ready', () => {
+  if (mainWindow && mainWindow.webContents) {
+    mainWindow.webContents.send('database-ready');
+  }
+});
+
 ipc.on('delete-all-data', () => {
   if (mainWindow && mainWindow.webContents) {
     mainWindow.webContents.send('delete-all-data');
@@ -1775,7 +1911,7 @@ ipc.on('locale-data', event => {
 
 ipc.on('user-config-key', event => {
   // eslint-disable-next-line no-param-reassign
-  event.returnValue = userConfig.get('key');
+  event.returnValue = dbDecryptedKey; //userConfig.get('key');
 });
 
 ipc.on('get-user-data-path', event => {
