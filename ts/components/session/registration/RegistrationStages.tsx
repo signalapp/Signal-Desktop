@@ -5,7 +5,6 @@ import { getConversationController } from '../../../session/conversations';
 import { createOrUpdateItem, removeAll } from '../../../data/data';
 import { SignUpTab } from './SignUpTab';
 import { SignInTab } from './SignInTab';
-import { TabLabel, TabType } from './TabLabel'; // TODO: remove unused tabs
 import { trigger } from '../../../shims/events';
 import {
   generateMnemonic,
@@ -157,12 +156,10 @@ export async function signInWithLinking(signInDetails: { userRecoveryPhrase: str
 export enum RegistrationPhase {
   Start,
   SignIn,
-  CreateSessionID,
-  RestoreYourAccount,
-  LinkDevice
+  SignUp
 }
 
-export const RegistrationOptions = (props: any) => {
+export const RegistrationStages = (props: any) => {
   const [generatedRecoveryPhrase, setGeneratedRecoveryPhrase] = useState('');
   const [hexGeneratedPubKey, setHexGeneratedPubKey] = useState('');
   const [registrationPhase, setRegistrationPhase] = useState(RegistrationPhase.Start);
@@ -195,7 +192,7 @@ export const RegistrationOptions = (props: any) => {
   return (
     <div className="session-registration-container">
       {(registrationPhase === RegistrationPhase.Start ||
-        registrationPhase === RegistrationPhase.CreateSessionID) &&
+        registrationPhase === RegistrationPhase.SignUp) &&
         <SignUpTab
           generatedRecoveryPhrase={generatedRecoveryPhrase}
           hexGeneratedPubKey={hexGeneratedPubKey}

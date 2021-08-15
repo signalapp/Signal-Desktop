@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import React from 'react';
 import { lightTheme } from '../../../state/ducks/SessionTheme';
 import { SessionInput } from '../SessionInput';
-import { MAX_USERNAME_LENGTH } from './RegistrationTabs';
+import { MAX_USERNAME_LENGTH } from './RegistrationStages';
 
 const DisplayNameInput = (props: {
   stealAutoFocus?: boolean;

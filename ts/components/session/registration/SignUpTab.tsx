@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../SessionButton';
 import { SessionIdEditable } from '../SessionIdEditable';
-import { RegistrationPhase, signUp } from './RegistrationTabs';
+import { RegistrationPhase, signUp } from './RegistrationStages';
 import { RegistrationUserDetails } from './RegistrationUserDetails';
 import { TermsAndConditions } from './TermsAndConditions';
 
@@ -79,7 +79,7 @@ export const SignUpTab = (props: Props) => {
       <SignUpDefault
         createSessionID={() => {
           setSignUpMode(SignUpMode.SessionIDShown);
-          setRegistrationPhase(RegistrationPhase.CreateSessionID)
+          setRegistrationPhase(RegistrationPhase.SignUp)
         }}
       />
     );
