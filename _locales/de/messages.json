@@ -5176,11 +5176,11 @@
         "description": "Displayed after unsuccessful captcha"
     },
     "userPasswordRequiredNoKeyExisting": {
-        "message": "Bitte geben Sie Ihr neues Passwort ein!\nSie werden jedes Mal beim Starten gefragt.",
+        "message": "Bitte geben Sie Ihr neues Passwort ein!\nSie werden jedes Mal beim Starten gefragt.\n Es muss mindestens 20 Zeichen lang sein.",
         "description": "Title of userPasswordPrompt window, shows up to get the user password (user has NOT already pw)"
     },
     "userPasswordRequiredAlreadyKeyExisting": {
-        "message": "Bitte geben Sie Ihr vorhandenes Passwort ein!",
+        "message": "Bitte geben Sie Ihr vorhandenes Passwort ein!\n Es muss mindestens 20 Zeichen lang sein.",
         "description": "Title of userPasswordPrompt window, shows up to get the user password (user has already pw)"
     },
     "deleteForEveryoneFailed": {
