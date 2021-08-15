@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../SessionButton';
 import { SessionIdEditable } from '../SessionIdEditable';
-import { signUp } from './RegistrationTabs';
+import { RegistrationPhase, signUp } from './RegistrationTabs';
 import { RegistrationUserDetails } from './RegistrationUserDetails';
 import { TermsAndConditions } from './TermsAndConditions';
 
@@ -15,6 +15,7 @@ export interface Props {
   // tslint:disable: react-unused-props-and-state
   generatedRecoveryPhrase: string;
   hexGeneratedPubKey: string;
+  setRegistrationPhase: (phase: any) => any;
 }
 
 const CreateSessionIdButton = ({ createSessionID }: { createSessionID: any }) => {
@@ -40,10 +41,8 @@ const ContinueSignUpButton = ({ continueSignUp }: { continueSignUp: any }) => {
 };
 
 const SignUpDefault = (props: { createSessionID: () => void }) => {
-  const allUsersAreRandomly = window.i18n('allUsersAreRandomly...');
   return (
     <div className="session-registration__content">
-      <div className="session-description-long">{allUsersAreRandomly}</div>
       <CreateSessionIdButton createSessionID={props.createSessionID} />
     </div>
   );
@@ -55,8 +54,8 @@ const SignUpSessionIDShown = (props: { continueSignUp: () => void }) => {
       <div className="session-registration__unique-session-id">
         {window.i18n('yourUniqueSessionID')}
       </div>
-
       <SessionIdEditable editable={false} placeholder={undefined} />
+      <div className="session-description-long">{window.i18n('signupSessionIDBlurb')}</div>
       <ContinueSignUpButton continueSignUp={props.continueSignUp} />
       <TermsAndConditions />
     </div>
@@ -64,8 +63,8 @@ const SignUpSessionIDShown = (props: { continueSignUp: () => void }) => {
 };
 
 export const SignUpTab = (props: Props) => {
+  const { setRegistrationPhase } = props;
   const [signUpMode, setSignUpMode] = useState(SignUpMode.Default);
-
   const [displayName, setDisplayName] = useState('');
   const [displayNameError, setDisplayNameError] = useState('');
 
@@ -80,6 +79,7 @@ export const SignUpTab = (props: Props) => {
       <SignUpDefault
         createSessionID={() => {
           setSignUpMode(SignUpMode.SessionIDShown);
+          setRegistrationPhase(RegistrationPhase.CreateSessionID)
         }}
       />
     );

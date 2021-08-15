@@ -338,7 +338,7 @@
   "createAccount": "Create account",
   "signIn": "Sign In",
   "yourUniqueSessionID": "Say hello to your Session ID",
-  "allUsersAreRandomly...": "Your Session ID is the unique address people can use to contact you on Session. With no connection to your real identity, your Session ID is totally anonymous and private by design.",
+  "signupSessionIDBlurb": "Your Session ID is the unique address people can use to contact you on Session. With no connection to your real identity, your Session ID is totally anonymous and private by design.",
   "getStarted": "Get started",
   "createSessionID": "Create Session ID",
   "recoveryPhrase": "Recovery Phrase",
