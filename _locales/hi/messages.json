@@ -3582,7 +3582,7 @@
         "description": "Shown in a confirmation dialog when members who cannot view announcement only group cannot be added"
     },
     "GroupV2--cannot-start-group-call": {
-        "message": "केवल इस ग्रुप के ऐडमिन ही कॉल शुरू कर सकते हैं।",
+        "message": "केवल ग्रुप के ऐडमिन ही कॉल शुरू कर सकते हैं।",
         "description": "Shown in toast when a non-admin starts a group call in an announcements only group"
     },
     "GroupV2--join--invalid-link--title": {
@@ -5114,7 +5114,7 @@
         "description": "In the conversation notifications settings, this is the label for the mentions option"
     },
     "ConversationNotificationsSettings__mentions__info": {
-        "message": "म्यूटेड चैट में आपको मेंशन किए जाने पर अधिसूचना प्राप्त करें",
+        "message": "म्यूट की गई चैट में आपको मेंशन किए जाने पर अधिसूचना प्राप्त करें",
         "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
     },
     "ConversationNotificationsSettings__mentions__select__always-notify": {
