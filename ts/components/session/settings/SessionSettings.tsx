@@ -19,7 +19,7 @@ import { SessionConfirmDialogProps } from '../../dialog/SessionConfirm';
 import { mapDispatchToProps } from '../../../state/actions';
 import { unblockConvoById } from '../../../interactions/conversationInteractions';
 import { toggleAudioAutoplay } from '../../../state/ducks/userConfig';
-import { sessionPassword } from '../../../state/ducks/modalDialog';
+import { sessionPassword, updateConfirmModal } from '../../../state/ducks/modalDialog';
 import { PasswordAction } from '../../dialog/SessionPasswordDialog';
 import { SessionIconButton, SessionIconSize, SessionIconType } from '../icon';
 import { ToastUtils } from '../../../session/utils';
@@ -357,17 +357,20 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
           window.setSettingValue('link-preview-setting', newValue);
           if (!newValue) {
             await createOrUpdateItem({ id: hasLinkPreviewPopupBeenDisplayed, value: false });
+          } else {
+            window.inboxStore?.dispatch(
+              updateConfirmModal({
+                title: window.i18n('linkPreviewsTitle'),
+                message: window.i18n('linkPreviewsConfirmMessage'),
+                okTheme: SessionButtonColor.Danger,
+              })
+            );
           }
         },
         content: undefined,
         comparisonValue: undefined,
         onClick: undefined,
-        confirmationDialogParams: {
-          shouldShowConfirm: !window.getSettingValue('link-preview-setting'),
-          title: window.i18n('linkPreviewsTitle'),
-          message: window.i18n('linkPreviewsConfirmMessage'),
-          okTheme: SessionButtonColor.Danger,
-        },
+        confirmationDialogParams: undefined,
       },
 
       {
