@@ -1,8 +1,6 @@
 // Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import nodePath from 'path';
 import { unstable_batchedUpdates as batchedUpdates } from 'react-dom';
 
@@ -66,6 +64,7 @@ import {
 import { ReadStatus } from '../messages/MessageReadStatus';
 import { markViewed } from '../services/MessageUpdater';
 import { viewSyncJobQueue } from '../jobs/viewSyncJobQueue';
+import type { ContactType } from '../types/Contact';
 import type { WhatIsThis } from '../window.d';
 
 type AttachmentOptions = {
@@ -269,7 +268,7 @@ Whisper.DecryptionErrorToast = Whisper.ToastView.extend({
 
 Whisper.FileSavedToast = Whisper.ToastView.extend({
   className: 'toast toast-clickable',
-  initialize(options: any) {
+  initialize(options: Readonly<{ fullPath: string }>) {
     if (!options.fullPath) {
       throw new Error('FileSavedToast: name option was not provided!');
     }
@@ -841,13 +840,18 @@ Whisper.ConversationView = Whisper.View.extend({
     const showContactModal = (contactId: string) => {
       this.showContactModal(contactId);
     };
-    const openConversation = (conversationId: string, messageId: any) => {
+    const openConversation = (conversationId: string, messageId: string) => {
       this.openConversation(conversationId, messageId);
     };
-    const showContactDetail = (options: any) => {
+    const showContactDetail = (options: {
+      contact: ContactType;
+      signalAccount?: string;
+    }) => {
       this.showContactDetail(options);
     };
-    const kickOffAttachmentDownload = async (options: any) => {
+    const kickOffAttachmentDownload = async (
+      options: Readonly<{ messageId: string }>
+    ) => {
       const message = window.MessageController.getById(options.messageId);
       if (!message) {
         throw new Error(
@@ -894,7 +898,11 @@ Whisper.ConversationView = Whisper.View.extend({
     }) => {
       this.showLightbox(options);
     };
-    const downloadAttachment = (options: any) => {
+    const downloadAttachment = (options: {
+      attachment: AttachmentType;
+      timestamp: number;
+      isDangerous: boolean;
+    }) => {
       this.downloadAttachment(options);
     };
     const displayTapToViewMessage = (messageId: string) =>
@@ -975,18 +983,24 @@ Whisper.ConversationView = Whisper.View.extend({
       this.navigateTo('https://support.signal.org/hc/articles/4404859745690');
     };
 
-    const scrollToQuotedMessage = async (options: any) => {
+    const scrollToQuotedMessage = async (
+      options: Readonly<{
+        authorId: string;
+        sentAt: number;
+      }>
+    ) => {
       const { authorId, sentAt } = options;
 
       const conversationId = model.id;
       const messages = await getMessagesBySentAt(sentAt, {
         MessageCollection: Whisper.MessageCollection,
       });
-      const message = messages.find(
-        item =>
+      const message = messages.find(item =>
+        Boolean(
           item.get('conversationId') === conversationId &&
-          authorId &&
-          item.getContactId() === authorId
+            authorId &&
+            item.getContactId() === authorId
+        )
       );
 
       if (!message) {
@@ -1202,7 +1216,7 @@ Whisper.ConversationView = Whisper.View.extend({
 
   showToast(
     ToastView: typeof window.Whisper.ToastView,
-    options: any,
+    options: WhatIsThis,
     element: Element
   ) {
     const toast = new ToastView(options);
@@ -1225,8 +1239,8 @@ Whisper.ConversationView = Whisper.View.extend({
     collection: MessageModelCollectionType | Array<MessageModel>
   ): Promise<Array<MessageModel>> {
     const result = collection
-      .filter((message: any) => Boolean(message.id))
-      .map((message: any) =>
+      .filter((message: MessageModel) => Boolean(message.id))
+      .map((message: MessageModel) =>
         window.MessageController.register(message.id, message)
       );
 
@@ -1601,15 +1615,15 @@ Whisper.ConversationView = Whisper.View.extend({
     this.remove();
   },
 
-  navigateTo(url: any) {
-    window.location = url;
+  navigateTo(url: string) {
+    window.location.href = url;
   },
 
   downloadNewVersion() {
-    (window as any).location = 'https://signal.org/download';
+    this.navigateTo('https://signal.org/download');
   },
 
-  onDragOver(e: any) {
+  onDragOver(e: WhatIsThis) {
     if (e.originalEvent.dataTransfer.types[0] !== 'Files') {
       return;
     }
@@ -1619,7 +1633,7 @@ Whisper.ConversationView = Whisper.View.extend({
     this.$el.addClass('dropoff');
   },
 
-  onDragLeave(e: any) {
+  onDragLeave(e: WhatIsThis) {
     if (e.originalEvent.dataTransfer.types[0] !== 'Files') {
       return;
     }
@@ -1628,7 +1642,7 @@ Whisper.ConversationView = Whisper.View.extend({
     e.preventDefault();
   },
 
-  async onDrop(e: any) {
+  async onDrop(e: WhatIsThis) {
     if (e.originalEvent.dataTransfer.types[0] !== 'Files') {
       return;
     }
@@ -1651,7 +1665,7 @@ Whisper.ConversationView = Whisper.View.extend({
     }
   },
 
-  onPaste(e: any) {
+  onPaste(e: WhatIsThis) {
     const { items } = e.originalEvent.clipboardData;
     let imgBlob = null;
     for (let i = 0; i < items.length; i += 1) {
@@ -1699,7 +1713,7 @@ Whisper.ConversationView = Whisper.View.extend({
     });
   },
 
-  onClickAttachment(attachment: any) {
+  onClickAttachment(attachment: WhatIsThis) {
     const getProps = () => ({
       url: attachment.url,
       caption: attachment.caption,
@@ -1707,11 +1721,11 @@ Whisper.ConversationView = Whisper.View.extend({
       onSave,
     });
 
-    const onSave = (caption: any) => {
+    const onSave = (caption: WhatIsThis) => {
       this.model.set({
         draftAttachments: this.model
           .get('draftAttachments')
-          .map((item: any) => {
+          .map((item: WhatIsThis) => {
             if (
               (item.path && item.path === attachment.path) ||
               (item.screenshotPath &&
@@ -1797,7 +1811,7 @@ Whisper.ConversationView = Whisper.View.extend({
     };
   },
 
-  async onCloseAttachment(attachment: any) {
+  async onCloseAttachment(attachment: Pick<AttachmentType, 'path'>) {
     const { model }: { model: ConversationModel } = this;
     const draftAttachments = model.get('draftAttachments') || [];
 
@@ -1860,7 +1874,7 @@ Whisper.ConversationView = Whisper.View.extend({
     return files;
   },
 
-  async getFile(attachment: any) {
+  async getFile(attachment?: AttachmentType) {
     if (!attachment) {
       return Promise.resolve();
     }
@@ -1888,7 +1902,7 @@ Whisper.ConversationView = Whisper.View.extend({
   arrayBufferFromFile(file: Blob): Promise<ArrayBuffer> {
     return new Promise((resolve, reject) => {
       const FR = new FileReader();
-      FR.onload = (e: any) => {
+      FR.onload = (e: WhatIsThis) => {
         resolve(e.target.result);
       };
       FR.onerror = reject;
@@ -1897,7 +1911,15 @@ Whisper.ConversationView = Whisper.View.extend({
     });
   },
 
-  showFileSizeError({ limit, units, u }: any) {
+  showFileSizeError({
+    limit,
+    units,
+    u,
+  }: Readonly<{
+    limit: WhatIsThis;
+    units: WhatIsThis;
+    u: WhatIsThis;
+  }>) {
     const toast = new Whisper.FileSizeToast({
       model: { limit, units: units[u] },
     });
@@ -1969,7 +1991,7 @@ Whisper.ConversationView = Whisper.View.extend({
 
     const haveNonImage = window._.any(
       draftAttachments,
-      (attachment: any) => !MIME.isImage(attachment.contentType)
+      (attachment: WhatIsThis) => !MIME.isImage(attachment.contentType)
     );
     // You can't add another attachment if you already have a non-image staged
     if (haveNonImage) {
@@ -2059,7 +2081,7 @@ Whisper.ConversationView = Whisper.View.extend({
     }
   },
 
-  isSizeOkay(attachment: any) {
+  isSizeOkay(attachment: Readonly<AttachmentType>) {
     const limitKb = window.Signal.Types.Attachment.getUploadSizeLimitKb(
       attachment.contentType
     );
@@ -2081,7 +2103,9 @@ Whisper.ConversationView = Whisper.View.extend({
     return true;
   },
 
-  async handleVideoAttachment(file: any): Promise<InMemoryAttachmentDraftType> {
+  async handleVideoAttachment(
+    file: Readonly<File>
+  ): Promise<InMemoryAttachmentDraftType> {
     const objectUrl = URL.createObjectURL(file);
     if (!objectUrl) {
       throw new Error('Failed to create object url for video!');
@@ -2103,7 +2127,7 @@ Whisper.ConversationView = Whisper.View.extend({
         screenshotContentType,
         screenshotData,
         screenshotSize: screenshotData.byteLength,
-        contentType: file.type,
+        contentType: stringToMIMEType(file.type),
         data,
         size: data.byteLength,
       };
@@ -2112,9 +2136,9 @@ Whisper.ConversationView = Whisper.View.extend({
     }
   },
 
-  markAllAsVerifiedDefault(unverified: any) {
+  markAllAsVerifiedDefault(unverified: ReadonlyArray<ConversationModel>) {
     return Promise.all(
-      unverified.map((contact: any) => {
+      unverified.map(contact => {
         if (contact.isUnverified()) {
           return contact.setVerifiedDefault();
         }
@@ -2124,8 +2148,8 @@ Whisper.ConversationView = Whisper.View.extend({
     );
   },
 
-  markAllAsApproved(untrusted: any) {
-    return Promise.all(untrusted.map((contact: any) => contact.setApproved()));
+  markAllAsApproved(untrusted: ReadonlyArray<ConversationModel>) {
+    return Promise.all(untrusted.map(contact => contact.setApproved()));
   },
 
   toggleMicrophone() {
@@ -2541,10 +2565,10 @@ Whisper.ConversationView = Whisper.View.extend({
           const { attachments } = message;
           return (attachments || [])
             .filter(
-              (attachment: any) =>
+              (attachment: AttachmentType) =>
                 attachment.thumbnail && !attachment.pending && !attachment.error
             )
-            .map((attachment: any, index: number) => {
+            .map((attachment: WhatIsThis, index: number) => {
               const { thumbnail } = attachment;
 
               return {
@@ -2577,7 +2601,13 @@ Whisper.ConversationView = Whisper.View.extend({
           };
         });
 
-      const saveAttachment = async ({ attachment, message }: any = {}) => {
+      const saveAttachment = async ({
+        attachment,
+        message,
+      }: {
+        attachment: AttachmentType;
+        message: Pick<MessageAttributesType, 'sent_at'>;
+      }) => {
         const timestamp = message.sent_at;
         const fullPath = await window.Signal.Types.Attachment.save({
           attachment,
@@ -2591,7 +2621,7 @@ Whisper.ConversationView = Whisper.View.extend({
         }
       };
 
-      const onItemClick = async ({ message, attachment, type }: any) => {
+      const onItemClick = async ({ message, attachment, type }: WhatIsThis) => {
         switch (type) {
           case 'documents': {
             saveAttachment({ message, attachment });
@@ -2990,8 +3020,11 @@ Whisper.ConversationView = Whisper.View.extend({
   },
 
   // TODO: DESKTOP-1133 (DRY up these lightboxes)
-  showLightboxForMedia(selectedMediaItem: any, media: Array<any> = []) {
-    const onSave = async (options: any = {}) => {
+  showLightboxForMedia(
+    selectedMediaItem: WhatIsThis,
+    media: Array<WhatIsThis> = []
+  ) {
+    const onSave = async (options: WhatIsThis = {}) => {
       const fullPath = await window.Signal.Types.Attachment.save({
         attachment: options.attachment,
         index: options.index + 1,
@@ -3096,10 +3129,10 @@ Whisper.ConversationView = Whisper.View.extend({
 
     const selectedIndex = window._.findIndex(
       media,
-      (item: any) => attachment.path === item.path
+      item => attachment.path === item.path
     );
 
-    const onSave = async (options: any = {}) => {
+    const onSave = async (options: WhatIsThis = {}) => {
       const fullPath = await window.Signal.Types.Attachment.save({
         attachment: options.attachment,
         index: options.index + 1,
@@ -3447,8 +3480,8 @@ Whisper.ConversationView = Whisper.View.extend({
     contact,
     signalAccount,
   }: {
-    contact: any;
-    signalAccount: any;
+    contact: ContactType;
+    signalAccount?: string;
   }) {
     const view = new Whisper.ReactWrapperView({
       Component: window.Signal.Components.ContactDetail,
@@ -3474,7 +3507,7 @@ Whisper.ConversationView = Whisper.View.extend({
     window.Whisper.events.trigger('showConversation', conversationId);
   },
 
-  listenBack(view: any) {
+  listenBack(view: WhatIsThis) {
     this.panels = this.panels || [];
 
     if (this.panels.length === 0) {
@@ -3580,10 +3613,10 @@ Whisper.ConversationView = Whisper.View.extend({
     );
   },
 
-  async setDisappearingMessages(seconds: any) {
+  async setDisappearingMessages(seconds: number) {
     const { model }: { model: ConversationModel } = this;
 
-    const valueToSet = seconds > 0 ? seconds : null;
+    const valueToSet = seconds > 0 ? seconds : undefined;
 
     await this.longRunningTaskWrapper({
       name: 'updateExpirationTimer',
@@ -3718,7 +3751,10 @@ Whisper.ConversationView = Whisper.View.extend({
     });
   },
 
-  async sendReactionMessage(messageId: string, reaction: any) {
+  async sendReactionMessage(
+    messageId: string,
+    reaction: { emoji: string; remove: boolean }
+  ) {
     const messageModel = messageId
       ? await getMessageById(messageId, {
           Message: Whisper.Message,
@@ -4090,7 +4126,7 @@ Whisper.ConversationView = Whisper.View.extend({
   },
 
   removeLinkPreview() {
-    (this.preview || []).forEach((item: any) => {
+    (this.preview || []).forEach((item: WhatIsThis) => {
       if (item.url) {
         URL.revokeObjectURL(item.url);
       }
@@ -4379,7 +4415,7 @@ Whisper.ConversationView = Whisper.View.extend({
       return;
     }
 
-    (this.preview || []).forEach((item: any) => {
+    (this.preview || []).forEach((item: WhatIsThis) => {
       if (item.url) {
         URL.revokeObjectURL(item.url);
       }
