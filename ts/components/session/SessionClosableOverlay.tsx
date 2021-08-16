@@ -7,7 +7,6 @@ import { ContactType, SessionMemberListItem } from './SessionMemberListItem';
 import { ReduxConversationType } from '../../state/ducks/conversations';
 import { SessionButton, SessionButtonColor, SessionButtonType } from './SessionButton';
 import { SessionSpinner } from './SessionSpinner';
-import { DefaultTheme } from 'styled-components';
 import { ConversationTypeEnum } from '../../models/conversation';
 import { SessionJoinableRooms } from './SessionJoinableDefaultRooms';
 import { SpacerLG, SpacerMD } from '../basic/Text';

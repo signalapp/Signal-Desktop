@@ -7,7 +7,6 @@ import { saveURLAsFile } from '../util/saveURLAsFile';
 import { SignalService } from '../protobuf';
 import { isImageTypeSupported, isVideoTypeSupported } from '../util/GoogleChrome';
 import { fromHexToArray } from '../session/utils/String';
-import { getSodium } from '../session/crypto';
 
 const MAX_WIDTH = 300;
 const MAX_HEIGHT = MAX_WIDTH * 1.5;

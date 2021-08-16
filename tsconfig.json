@@ -1,12 +1,12 @@
 {
   "compilerOptions": {
     // Basic Options
-    "target": "es2017", // Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017','ES2018' or 'ESNEXT'.
+    "target": "es2020", // Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017','ES2018' or 'ESNEXT'.
     "module": "commonjs", // Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', or 'ESNext'.
     // Specify library files to be included in the compilation.
     "lib": [
       "dom", // Required to access `window`
-      "es2017" // Required by `@sindresorhus/is`
+      "es2020"
     ],
     // "allowJs": true,                       // Allow javascript files to be compiled.
     // "checkJs": true,                       // Report errors in .js files.
@@ -26,8 +26,8 @@
     "strict": true, // Enable all strict type-checking options.
     "skipLibCheck": true,
     // Additional Checks
-    "noUnusedLocals": false, // Report errors on unused locals. Loki - Enable this after refactor
-    "noUnusedParameters": false, // Report errors on unused parameters. Loki - Enable this after refactor
+    "noUnusedLocals": true, // Report errors on unused locals.
+    "noUnusedParameters": true, // Report errors on unused parameters.
     "noImplicitReturns": true, // Report error when not all code paths in function return a value.
     "noFallthroughCasesInSwitch": true, // Report errors for fallthrough cases in switch statement.
 

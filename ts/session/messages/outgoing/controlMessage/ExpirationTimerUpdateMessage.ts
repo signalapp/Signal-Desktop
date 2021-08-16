@@ -1,5 +1,4 @@
 import { DataMessage } from '..';
-import { Constants } from '../../..';
 import { SignalService } from '../../../../protobuf';
 import { PubKey } from '../../../types';
 import { StringUtils } from '../../../utils';

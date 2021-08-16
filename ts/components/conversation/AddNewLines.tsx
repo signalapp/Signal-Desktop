@@ -16,8 +16,6 @@ export class AddNewLines extends React.Component<Props> {
 
   public render() {
     const { text, renderNonNewLine, convoId } = this.props;
-    const results: Array<any> = [];
-    const FIND_NEWLINES = /\n/g;
 
     // We have to do this, because renderNonNewLine is not required in our Props object,
     //  but it is always provided via defaultProps.
@@ -25,31 +23,6 @@ export class AddNewLines extends React.Component<Props> {
       return;
     }
 
-    let match = FIND_NEWLINES.exec(text);
-    let last = 0;
-    let count = 1;
-
-    if (!match) {
-      return renderNonNewLine({ text, key: 0, convoId });
-    }
-
-    while (match) {
-      if (last < match.index) {
-        const textWithNoNewline = text.slice(last, match.index);
-        results.push(renderNonNewLine({ text: textWithNoNewline, key: count++, convoId }));
-      }
-
-      results.push(<br key={count++} />);
-
-      // @ts-ignore
-      last = FIND_NEWLINES.lastIndex;
-      match = FIND_NEWLINES.exec(text);
-    }
-
-    if (last < text.length) {
-      results.push(renderNonNewLine({ text: text.slice(last), key: count++, convoId }));
-    }
-
-    return results;
+    return renderNonNewLine({ text, key: 0, convoId });
   }
 }

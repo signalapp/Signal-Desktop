@@ -5,10 +5,7 @@ import _ from 'lodash';
 import { fromHexToArray, toHex } from '../utils/String';
 import { BlockedNumberController } from '../../util/blockedNumberController';
 import { getConversationController } from '../conversations';
-import {
-  addClosedGroupEncryptionKeyPair,
-  getLatestClosedGroupEncryptionKeyPair,
-} from '../../../ts/data/data';
+import { getLatestClosedGroupEncryptionKeyPair } from '../../../ts/data/data';
 import uuid from 'uuid';
 import { SignalService } from '../../protobuf';
 import { generateCurve25519KeyPairWithoutPrefix } from '../crypto';
@@ -28,7 +25,6 @@ import {
 import { getMessageQueue } from '..';
 import { ClosedGroupAddedMembersMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupAddedMembersMessage';
 import { ClosedGroupEncryptionPairMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupEncryptionPairMessage';
-import { ClosedGroupEncryptionPairRequestMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupEncryptionPairRequestMessage';
 import { ClosedGroupNameChangeMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupNameChangeMessage';
 import { ClosedGroupNewMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupNewMessage';
 import { ClosedGroupRemovedMembersMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupRemovedMembersMessage';
@@ -49,11 +45,6 @@ export type GroupInfo = {
   secretKey?: Uint8Array;
   weWereJustAdded?: boolean;
 };
-
-interface UpdatableGroupState {
-  name: string;
-  members: Array<string>;
-}
 
 export interface GroupDiff extends MemberChanges {
   newName?: string;
@@ -89,7 +80,6 @@ export async function initiateGroupUpdate(
   if (!isMediumGroup) {
     throw new Error('Legacy group are not supported anymore.');
   }
-  const oldZombies = convo.get('zombies');
 
   // do not give an admins field here. We don't want to be able to update admins and
   // updateOrCreateClosedGroup() will update them if given the choice.

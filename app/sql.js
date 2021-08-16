@@ -224,8 +224,7 @@ function openAndMigrateDatabase(filePath, key) {
     keyDatabase(db, key);
     switchToWAL(db);
     migrateSchemaVersion(db);
-    // Because foreign key support is not enabled by default! // actually, Session does not care
-    // db.pragma('foreign_keys = ON');
+    db.pragma('secure_delete = ON');
 
     return db;
   } catch (error) {

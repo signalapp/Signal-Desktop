@@ -1,4 +1,3 @@
-import semver from 'semver';
 import _ from 'lodash';
 
 import { getSnodePoolFromSnodes, getSnodesFromSeedUrl, requestSnodesForPubkey } from './SNodeAPI';
@@ -8,6 +7,8 @@ import * as Data from '../../../ts/data/data';
 import { allowOnlyOneAtATime } from '../utils/Promise';
 import pRetry from 'p-retry';
 import { ed25519Str } from '../onions/onionPath';
+import { OnionPaths } from '../onions';
+import { Onions } from '.';
 
 /**
  * If we get less than this snode in a swarm, we fetch new snodes for this pubkey
@@ -18,7 +19,7 @@ const minSwarmSnodeCount = 3;
  * If we get less than minSnodePoolCount we consider that we need to fetch the new snode pool from a seed node
  * and not from those snodes.
  */
-const minSnodePoolCount = 12;
+export const minSnodePoolCount = 12;
 
 /**
  * If we do a request to fetch nodes from snodes and they don't return at least
@@ -29,14 +30,13 @@ const minSnodePoolCount = 12;
 export const requiredSnodesForAgreement = 24;
 
 // This should be renamed to `allNodes` or something
-let randomSnodePool: Array<Data.Snode> = [];
+export let randomSnodePool: Array<Data.Snode> = [];
 
 // We only store nodes' identifiers here,
 const swarmCache: Map<string, Array<string>> = new Map();
 
 export type SeedNode = {
   url: string;
-  ip_url: string;
 };
 
 // just get the filtered list
@@ -66,7 +66,7 @@ async function tryGetSnodeListFromLokidSeednode(
     // throw before clearing the lock, so the retries can kick in
     if (snodes.length === 0) {
       window?.log?.warn(
-        `loki_snode_api::tryGetSnodeListFromLokidSeednode - ${seedNode.ip_url} did not return any snodes`
+        `loki_snode_api::tryGetSnodeListFromLokidSeednode - ${seedNode.url} did not return any snodes`
       );
       // does this error message need to be exactly this?
       throw new window.textsecure.SeedNodeError('Failed to contact seed node');
@@ -281,7 +281,7 @@ export async function refreshRandomPool(forceRefresh = false): Promise<void> {
     // we don't have nodes to fetch the pool from them, so call the seed node instead.
     if (randomSnodePool.length < minSnodePoolCount) {
       window?.log?.info(
-        `refreshRandomPool: NOT enough snodes to fetch from them, so falling back to seedNodes ${seedNodes?.length}`
+        `refreshRandomPool: NOT enough snodes to fetch from them ${randomSnodePool.length} < ${minSnodePoolCount}, so falling back to seedNodes ${seedNodes?.length}`
       );
 
       randomSnodePool = await exports.refreshRandomPoolDetail(seedNodes);
@@ -306,6 +306,9 @@ export async function refreshRandomPool(forceRefresh = false): Promise<void> {
           }
           window?.log?.info('updating snode list with snode pool length:', commonNodes.length);
           randomSnodePool = commonNodes;
+          OnionPaths.resetPathFailureCount();
+          Onions.resetSnodeFailureCount();
+
           await Data.updateSnodePoolOnDb(JSON.stringify(randomSnodePool));
         },
         {
@@ -327,6 +330,9 @@ export async function refreshRandomPool(forceRefresh = false): Promise<void> {
 
       // fallback to a seed node fetch of the snode pool
       randomSnodePool = await exports.refreshRandomPoolDetail(seedNodes);
+
+      OnionPaths.resetPathFailureCount();
+      Onions.resetSnodeFailureCount();
       await Data.updateSnodePoolOnDb(JSON.stringify(randomSnodePool));
     }
   });

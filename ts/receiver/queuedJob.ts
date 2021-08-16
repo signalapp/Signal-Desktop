@@ -4,17 +4,13 @@ import { Quote } from './types';
 import { PubKey } from '../session/types';
 import _ from 'lodash';
 import { SignalService } from '../protobuf';
-import { StringUtils, UserUtils } from '../session/utils';
+import { UserUtils } from '../session/utils';
 import { getConversationController } from '../session/conversations';
 import { ConversationModel, ConversationTypeEnum } from '../models/conversation';
 import { MessageModel } from '../models/message';
 import { getMessageController } from '../session/messages';
 import { getMessageById, getMessagesBySentAt } from '../../ts/data/data';
-import {
-  actions as conversationActions,
-  MessageModelProps,
-  messagesAdded,
-} from '../state/ducks/conversations';
+import { MessageModelProps, messagesAdded } from '../state/ducks/conversations';
 import { updateProfileOneAtATime } from './dataMessage';
 import Long from 'long';
 

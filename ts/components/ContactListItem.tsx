@@ -38,8 +38,6 @@ export class ContactListItem extends React.Component<Props> {
         </span>
       ) : null;
 
-    const showNumber = isMe || name;
-
     return (
       <div
         role="button"

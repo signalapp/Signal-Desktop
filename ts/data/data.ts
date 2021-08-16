@@ -171,7 +171,7 @@ export function init() {
     }
   });
 
-  ipcRenderer.on(`${SQL_CHANNEL_KEY}-done`, (event, jobId, errorForDisplay, result) => {
+  ipcRenderer.on(`${SQL_CHANNEL_KEY}-done`, (_event, jobId, errorForDisplay, result) => {
     const job = _getJob(jobId);
     if (!job) {
       throw new Error(
@@ -892,7 +892,7 @@ export async function removeOtherData(): Promise<void> {
 async function callChannel(name: string): Promise<any> {
   return new Promise((resolve, reject) => {
     ipcRenderer.send(name);
-    ipcRenderer.once(`${name}-done`, (event, error) => {
+    ipcRenderer.once(`${name}-done`, (_event, error) => {
       if (error) {
         return reject(error);
       }

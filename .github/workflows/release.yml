@@ -73,4 +73,6 @@ jobs:
 
       - name: Build linux production binaries
         if: runner.os == 'Linux'
-        run: yarn build-release-publish
+        run: |
+          sudo apt-get install -y rpm
+          yarn build-release-publish

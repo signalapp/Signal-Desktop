@@ -46,8 +46,6 @@ function getMainWindow() {
 
 // Tray icon and related objects
 let tray = null;
-const startInTray = process.argv.some(arg => arg === '--start-in-tray');
-const usingTrayIcon = startInTray || process.argv.some(arg => arg === '--use-tray-icon');
 
 const config = require('./app/config');
 
@@ -171,7 +169,6 @@ function prepareURL(pathSegments, moreKeys) {
       contentProxyUrl: config.contentProxyUrl,
       serverTrustRoot: config.get('serverTrustRoot'),
       appStartInitialSpellcheckSetting,
-      defaultFileServer: config.get('defaultFileServer'),
       ...moreKeys,
     },
   });
@@ -231,13 +228,19 @@ function isVisible(window, bounds) {
   );
 }
 
+function getStartInTray() {
+  const startInTray =
+    process.argv.some(arg => arg === '--start-in-tray') || userConfig.get('startInTray');
+  const usingTrayIcon = startInTray || process.argv.some(arg => arg === '--use-tray-icon');
+  return { usingTrayIcon, startInTray };
+}
 async function createWindow() {
   const { screen } = electron;
   const { minWidth, minHeight, width, height } = getWindowSize();
 
   const windowOptions = Object.assign(
     {
-      show: !startInTray, // allow to start minimised in tray
+      show: true,
       width,
       height,
       minWidth,
@@ -246,6 +249,7 @@ async function createWindow() {
       backgroundColor: '#fff',
       webPreferences: {
         nodeIntegration: false,
+        enableRemoteModule: true,
         nodeIntegrationInWorker: false,
         contextIsolation: false,
         preload: path.join(__dirname, 'preload.js'),
@@ -340,13 +344,7 @@ async function createWindow() {
     }
   });
 
-  if (config.environment === 'test') {
-    mainWindow.loadURL(prepareURL([__dirname, 'test', 'index.html']));
-  } else if (config.environment.includes('test-integration')) {
-    mainWindow.loadURL(prepareURL([__dirname, 'background_test.html']));
-  } else {
-    mainWindow.loadURL(prepareURL([__dirname, 'background.html']));
-  }
+  mainWindow.loadURL(prepareURL([__dirname, 'background.html']));
 
   if (config.get('openDevTools')) {
     // Open the DevTools.
@@ -364,11 +362,7 @@ async function createWindow() {
       shouldQuit: windowState.shouldQuit(),
     });
     // If the application is terminating, just do the default
-    if (
-      config.environment === 'test' ||
-      config.environment.includes('test-integration') ||
-      (mainWindow.readyForShutdown && windowState.shouldQuit())
-    ) {
+    if (mainWindow.readyForShutdown && windowState.shouldQuit()) {
       return;
     }
 
@@ -378,7 +372,10 @@ async function createWindow() {
 
     // On Mac, or on other platforms when the tray icon is in use, the window
     // should be only hidden, not closed, when the user clicks the close button
-    if (!windowState.shouldQuit() && (usingTrayIcon || process.platform === 'darwin')) {
+    if (
+      !windowState.shouldQuit() &&
+      (getStartInTray().usingTrayIcon || process.platform === 'darwin')
+    ) {
       // toggle the visibility of the show/hide tray icon menu entries
       if (tray) {
         tray.updateContextMenu();
@@ -485,7 +482,7 @@ function showPasswordWindow() {
 
   passwordWindow.on('close', e => {
     // If the application is terminating, just do the default
-    if (config.environment === 'test' || windowState.shouldQuit()) {
+    if (windowState.shouldQuit()) {
       return;
     }
 
@@ -495,7 +492,10 @@ function showPasswordWindow() {
 
     // On Mac, or on other platforms when the tray icon is in use, the window
     // should be only hidden, not closed, when the user clicks the close button
-    if (!windowState.shouldQuit() && (usingTrayIcon || process.platform === 'darwin')) {
+    if (
+      !windowState.shouldQuit() &&
+      (getStartInTray().usingTrayIcon || process.platform === 'darwin')
+    ) {
       // toggle the visibility of the show/hide tray icon menu entries
       if (tray) {
         tray.updateContextMenu();
@@ -610,14 +610,12 @@ app.on('ready', async () => {
   const userDataPath = await getRealPath(app.getPath('userData'));
   const installPath = await getRealPath(app.getAppPath());
 
-  if (process.env.NODE_ENV !== 'test' && !process.env.NODE_ENV.includes('test-integration')) {
-    installFileHandler({
-      protocol: electronProtocol,
-      userDataPath,
-      installPath,
-      isWindows: process.platform === 'win32',
-    });
-  }
+  installFileHandler({
+    protocol: electronProtocol,
+    userDataPath,
+    installPath,
+    isWindows: process.platform === 'win32',
+  });
 
   installWebHandler({
     protocol: electronProtocol,
@@ -630,7 +628,7 @@ app.on('ready', async () => {
   logger.info('app ready');
   logger.info(`starting version ${packageJson.version}`);
   if (!locale) {
-    const appLocale = process.env.NODE_ENV === 'test' ? 'en' : app.getLocale();
+    const appLocale = app.getLocale() || 'en';
     locale = loadLocale({ appLocale, logger });
   }
 
@@ -700,7 +698,7 @@ async function showMainWindow(sqlKey, passwordAttempt = false) {
 
   await createWindow();
 
-  if (usingTrayIcon) {
+  if (getStartInTray().usingTrayIcon) {
     tray = createTrayIcon(getMainWindow, locale.messages);
   }
 
@@ -768,6 +766,10 @@ app.on('before-quit', () => {
     shouldQuit: windowState.shouldQuit(),
   });
 
+  if (tray) {
+    tray.destroy();
+  }
+
   windowState.markShouldQuit();
 });
 
@@ -775,11 +777,7 @@ app.on('before-quit', () => {
 app.on('window-all-closed', () => {
   // On OS X it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
-  if (
-    process.platform !== 'darwin' ||
-    config.environment === 'test' ||
-    config.environment.includes('test-integration')
-  ) {
+  if (process.platform !== 'darwin') {
     app.quit();
   }
 });
@@ -866,12 +864,6 @@ ipc.on('close-about', () => {
   }
 });
 
-ipc.on('update-tray-icon', (event, unreadCount) => {
-  if (tray) {
-    tray.updateIcon(unreadCount);
-  }
-});
-
 // Password screen related IPC calls
 ipc.on('password-window-login', async (event, passPhrase) => {
   const sendResponse = e => event.sender.send('password-window-login-response', e);
@@ -883,6 +875,33 @@ ipc.on('password-window-login', async (event, passPhrase) => {
   } catch (e) {
     const localisedError = locale.messages.invalidPassword;
     sendResponse(localisedError || 'Invalid password');
+  }
+});
+ipc.on('start-in-tray-on-start', async (event, newValue) => {
+  try {
+    userConfig.set('startInTray', newValue);
+    if (newValue) {
+      if (!tray) {
+        tray = createTrayIcon(getMainWindow, locale.messages);
+      }
+    } else {
+      // destroy is not working for a lot of desktop env. So for simplicity, we don't destroy it here but just
+      // show a toast to explain to the user that he needs to restart
+      // tray.destroy();
+      // tray = null;
+    }
+    event.sender.send('start-in-tray-on-start-response', null);
+  } catch (e) {
+    event.sender.send('start-in-tray-on-start-response', e);
+  }
+});
+
+ipc.on('get-start-in-tray', async (event, newValue) => {
+  try {
+    const val = userConfig.get('startInTray', newValue);
+    event.sender.send('get-start-in-tray-response', val);
+  } catch (e) {
+    event.sender.send('get-start-in-tray-response', false);
   }
 });
 

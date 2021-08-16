@@ -610,6 +610,7 @@ class MessageInner extends React.PureComponent<Props, State> {
       selectedMessages,
       receivedAt,
       isUnread,
+      text,
     } = this.props;
     const { expired, expiring } = this.state;
 
@@ -638,6 +639,10 @@ class MessageInner extends React.PureComponent<Props, State> {
 
     const isIncoming = direction === 'incoming';
 
+    const hasText = Boolean(text);
+
+    const bgShouldBeTransparent = isShowingImage && !hasText;
+
     return (
       <ReadableMessage
         messageId={messageId}
@@ -663,7 +668,7 @@ class MessageInner extends React.PureComponent<Props, State> {
             className={classNames(
               'module-message__container',
               `module-message__container--${direction}`,
-              isShowingImage
+              bgShouldBeTransparent
                 ? `module-message__container--${direction}--transparent`
                 : `module-message__container--${direction}--opaque`
             )}

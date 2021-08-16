@@ -2,7 +2,6 @@
 
 import chai from 'chai';
 import Sinon, * as sinon from 'sinon';
-import _, { noop } from 'lodash';
 import { describe } from 'mocha';
 
 import chaiAsPromised from 'chai-as-promised';
@@ -10,7 +9,7 @@ import { TestUtils } from '../../../test-utils';
 import { UserUtils } from '../../../../session/utils';
 import { getConversationController } from '../../../../session/conversations';
 import * as Data from '../../../../../ts/data/data';
-import { getSwarmPollingInstance, SnodePool } from '../../../../session/snode_api';
+import { getSwarmPollingInstance, SNodeAPI, SnodePool } from '../../../../session/snode_api';
 import { SwarmPolling } from '../../../../session/snode_api/swarmPolling';
 import { SWARM_POLLING_TIMEOUT } from '../../../../session/constants';
 import {
@@ -19,6 +18,8 @@ import {
   ConversationTypeEnum,
 } from '../../../../models/conversation';
 import { PubKey } from '../../../../session/types';
+import { noop } from 'lodash';
+import { generateFakeSnodes } from '../../../test-utils/utils';
 // tslint:disable: chai-vague-errors
 
 chai.use(chaiAsPromised as any);
@@ -33,7 +34,8 @@ describe('SwarmPolling', () => {
   const ourPubkey = TestUtils.generateFakePubKey();
   const ourNumber = ourPubkey.key;
 
-  let pollOnceForKeySpy: Sinon.SinonSpy<any>;
+  // tslint:disable-next-line: variable-name
+  let TEST_pollOnceForKeySpy: Sinon.SinonSpy<any>;
 
   let swarmPolling: SwarmPolling;
 
@@ -46,16 +48,22 @@ describe('SwarmPolling', () => {
     sandbox.stub(Data, 'getItemById').resolves();
     sandbox.stub(Data, 'saveConversation').resolves();
     sandbox.stub(Data, 'getSwarmNodesForPubkey').resolves();
-    sandbox.stub(SnodePool, 'getSwarmFor').resolves([]);
+    sandbox.stub(Data, 'getLastHashBySnode').resolves();
+
+    sandbox.stub(SnodePool, 'getSwarmFor').resolves(generateFakeSnodes(5));
+    sandbox.stub(SNodeAPI, 'retrieveNextMessages').resolves([]);
     TestUtils.stubWindow('profileImages', { removeImagesNotInArray: noop, hasImage: noop });
     TestUtils.stubWindow('inboxStore', undefined);
+    TestUtils.stubWindow('getGlobalOnlineStatus', () => true);
+    TestUtils.stubWindowLog();
+
     const convoController = getConversationController();
     await convoController.load();
     getConversationController().getOrCreate(ourPubkey.key, ConversationTypeEnum.PRIVATE);
 
     swarmPolling = getSwarmPollingInstance();
     swarmPolling.TEST_reset();
-    pollOnceForKeySpy = sandbox.spy(swarmPolling, 'TEST_pollOnceForKey');
+    TEST_pollOnceForKeySpy = sandbox.spy(swarmPolling, 'TEST_pollOnceForKey');
 
     clock = sinon.useFakeTimers(Date.now());
   });
@@ -133,8 +141,8 @@ describe('SwarmPolling', () => {
       convo.set('active_at', Date.now() - 1000 * 3600 * 25);
       await swarmPolling.start(true);
 
-      expect(pollOnceForKeySpy.callCount).to.eq(1);
-      expect(pollOnceForKeySpy.firstCall.args).to.deep.eq([ourPubkey, false]);
+      expect(TEST_pollOnceForKeySpy.callCount).to.eq(1);
+      expect(TEST_pollOnceForKeySpy.firstCall.args).to.deep.eq([ourPubkey, false]);
     });
 
     it('does run for our pubkey even if activeAt is recent ', async () => {
@@ -145,8 +153,8 @@ describe('SwarmPolling', () => {
       convo.set('active_at', Date.now());
       await swarmPolling.start(true);
 
-      expect(pollOnceForKeySpy.callCount).to.eq(1);
-      expect(pollOnceForKeySpy.firstCall.args).to.deep.eq([ourPubkey, false]);
+      expect(TEST_pollOnceForKeySpy.callCount).to.eq(1);
+      expect(TEST_pollOnceForKeySpy.firstCall.args).to.deep.eq([ourPubkey, false]);
     });
 
     it('does run for group pubkey on start no matter the recent timestamp  ', async () => {
@@ -160,9 +168,9 @@ describe('SwarmPolling', () => {
       await swarmPolling.start(true);
 
       // our pubkey will be polled for, hence the 2
-      expect(pollOnceForKeySpy.callCount).to.eq(2);
-      expect(pollOnceForKeySpy.firstCall.args).to.deep.eq([ourPubkey, false]);
-      expect(pollOnceForKeySpy.secondCall.args).to.deep.eq([groupConvoPubkey, true]);
+      expect(TEST_pollOnceForKeySpy.callCount).to.eq(2);
+      expect(TEST_pollOnceForKeySpy.firstCall.args).to.deep.eq([ourPubkey, false]);
+      expect(TEST_pollOnceForKeySpy.secondCall.args).to.deep.eq([groupConvoPubkey, true]);
     });
 
     it('does run for group pubkey on start no matter the old timestamp ', async () => {
@@ -177,9 +185,9 @@ describe('SwarmPolling', () => {
       await swarmPolling.start(true);
 
       // our pubkey will be polled for, hence the 2
-      expect(pollOnceForKeySpy.callCount).to.eq(2);
-      expect(pollOnceForKeySpy.firstCall.args).to.deep.eq([ourPubkey, false]);
-      expect(pollOnceForKeySpy.secondCall.args).to.deep.eq([groupConvoPubkey, true]);
+      expect(TEST_pollOnceForKeySpy.callCount).to.eq(2);
+      expect(TEST_pollOnceForKeySpy.firstCall.args).to.deep.eq([ourPubkey, false]);
+      expect(TEST_pollOnceForKeySpy.secondCall.args).to.deep.eq([groupConvoPubkey, true]);
     });
 
     it('does run for group pubkey on start but not another time if activeAt is old ', async () => {
@@ -188,16 +196,20 @@ describe('SwarmPolling', () => {
         ConversationTypeEnum.GROUP
       );
 
-      convo.set('active_at', 1);
+      convo.set('active_at', 1); // really old
       const groupConvoPubkey = PubKey.cast(convo.id as string);
       swarmPolling.addGroupId(groupConvoPubkey);
+
+      // this calls the stub 2 times, one for our direct pubkey and one for the group
       await swarmPolling.start(true);
 
+      // this should only call the stub one more time: for our direct pubkey but not for the group pubkey
       await swarmPolling.TEST_pollForAllKeys();
 
-      expect(pollOnceForKeySpy.callCount).to.eq(3);
-      expect(pollOnceForKeySpy.secondCall.args).to.deep.eq([groupConvoPubkey, true]);
-      expect(pollOnceForKeySpy.thirdCall.args).to.deep.eq([ourPubkey, false]);
+      expect(TEST_pollOnceForKeySpy.callCount).to.eq(3);
+      expect(TEST_pollOnceForKeySpy.firstCall.args).to.deep.eq([ourPubkey, false]);
+      expect(TEST_pollOnceForKeySpy.secondCall.args).to.deep.eq([groupConvoPubkey, true]);
+      expect(TEST_pollOnceForKeySpy.thirdCall.args).to.deep.eq([ourPubkey, false]);
     });
 
     it('does run twice if activeAt less than one hour ', async () => {
@@ -214,38 +226,44 @@ describe('SwarmPolling', () => {
       // no need to do that as the tick will trigger a call in all cases after 5 secs
       // await swarmPolling.TEST_pollForAllKeys();
 
-      expect(pollOnceForKeySpy.callCount).to.eq(4);
-      expect(pollOnceForKeySpy.secondCall.args).to.deep.eq([groupConvoPubkey, true]);
-      expect(pollOnceForKeySpy.thirdCall.args).to.deep.eq([ourPubkey, false]);
-      expect(pollOnceForKeySpy.lastCall.args).to.deep.eq([groupConvoPubkey, true]);
+      expect(TEST_pollOnceForKeySpy.callCount).to.eq(4);
+      expect(TEST_pollOnceForKeySpy.secondCall.args).to.deep.eq([groupConvoPubkey, true]);
+      expect(TEST_pollOnceForKeySpy.thirdCall.args).to.deep.eq([ourPubkey, false]);
+      expect(TEST_pollOnceForKeySpy.lastCall.args).to.deep.eq([groupConvoPubkey, true]);
     });
 
-    it('does run once only if activeAt is inactive', async () => {
+    it('does run twice if activeAt is inactive and we tick longer than 2 minutes', async () => {
       const convo = getConversationController().getOrCreate(
         TestUtils.generateFakePubKeyStr(),
         ConversationTypeEnum.GROUP
       );
 
+      TEST_pollOnceForKeySpy.resetHistory();
       convo.set('active_at', Date.now());
       const groupConvoPubkey = PubKey.cast(convo.id as string);
       swarmPolling.addGroupId(groupConvoPubkey);
+      // this call the stub two times already, one for our direct pubkey and one for the group
       await swarmPolling.start(true);
-
-      // more than hour old, we should not tick after just 5 seconds
+      const timeToTick = 3 * 60 * 1000;
+      swarmPolling.TEST_forcePolledTimestamp(groupConvoPubkey, Date.now() - timeToTick);
+      // more than week old, so inactive group but we have to tick after more than 2 min
       convo.set('active_at', Date.now() - 7 * 25 * 3600 * 1000);
+      clock.tick(timeToTick);
 
-      clock.tick(6000);
-
-      expect(pollOnceForKeySpy.callCount).to.eq(3);
-      expect(pollOnceForKeySpy.secondCall.args).to.deep.eq([groupConvoPubkey, true]);
-      expect(pollOnceForKeySpy.thirdCall.args).to.deep.eq([ourPubkey, false]);
+      // we should have two more calls here, so 4 total.
+      expect(TEST_pollOnceForKeySpy.callCount).to.eq(4);
+      expect(TEST_pollOnceForKeySpy.firstCall.args).to.deep.eq([ourPubkey, false]);
+      expect(TEST_pollOnceForKeySpy.secondCall.args).to.deep.eq([groupConvoPubkey, true]);
+      expect(TEST_pollOnceForKeySpy.thirdCall.args).to.deep.eq([ourPubkey, false]);
+      expect(TEST_pollOnceForKeySpy.getCalls()[3].args).to.deep.eq([groupConvoPubkey, true]);
     });
 
-    it('does run once if activeAt is inactive ', async () => {
+    it('does run once only if group is inactive and we tick less than 2 minutes ', async () => {
       const convo = getConversationController().getOrCreate(
         TestUtils.generateFakePubKeyStr(),
         ConversationTypeEnum.GROUP
       );
+      TEST_pollOnceForKeySpy.resetHistory();
 
       convo.set('active_at', Date.now());
       const groupConvoPubkey = PubKey.cast(convo.id as string);
@@ -255,11 +273,12 @@ describe('SwarmPolling', () => {
       // more than a week old, we should not tick after just 5 seconds
       convo.set('active_at', Date.now() - 7 * 24 * 3600 * 1000 - 3600 * 1000);
 
-      clock.tick(6 * 1000); // active
+      clock.tick(1 * 60 * 1000);
 
-      expect(pollOnceForKeySpy.callCount).to.eq(3);
-      expect(pollOnceForKeySpy.secondCall.args).to.deep.eq([groupConvoPubkey, true]);
-      expect(pollOnceForKeySpy.thirdCall.args).to.deep.eq([ourPubkey, false]);
+      // we should have only one more call here, the one for our direct pubkey fetch
+      expect(TEST_pollOnceForKeySpy.callCount).to.eq(3);
+      expect(TEST_pollOnceForKeySpy.secondCall.args).to.deep.eq([groupConvoPubkey, true]); // this one comes from the swarmPolling.start
+      expect(TEST_pollOnceForKeySpy.thirdCall.args).to.deep.eq([ourPubkey, false]);
     });
 
     describe('multiple runs', () => {
@@ -278,34 +297,46 @@ describe('SwarmPolling', () => {
         await swarmPolling.start(true);
       });
 
-      it('does run twice if activeAt is more is medium active ', async () => {
-        pollOnceForKeySpy.resetHistory();
-        // medium active category
+      it('does run twice if activeAt is less than 2 days', async () => {
+        TEST_pollOnceForKeySpy.resetHistory();
+        // less than 2 days old, this is an active group
         convo.set('active_at', Date.now() - 2 * 24 * 3600 * 1000 - 3600 * 1000);
 
-        clock.tick(61 * 1000); // medium_active
+        const timeToTick = 6 * 1000;
+
+        swarmPolling.TEST_forcePolledTimestamp(convo.id, timeToTick);
+        // we tick more than 5 sec
+        clock.tick(timeToTick);
 
         await swarmPolling.TEST_pollForAllKeys();
-        expect(pollOnceForKeySpy.callCount).to.eq(3);
+        // we have 4 calls total. 2 for our direct promises run each 5 seconds, and 2 for the group pubkey active (so run every 5 sec too)
+        expect(TEST_pollOnceForKeySpy.callCount).to.eq(4);
         // first two calls are our pubkey
-        expect(pollOnceForKeySpy.firstCall.args).to.deep.eq([ourPubkey, false]);
-        expect(pollOnceForKeySpy.secondCall.args).to.deep.eq([ourPubkey, false]);
+        expect(TEST_pollOnceForKeySpy.firstCall.args).to.deep.eq([ourPubkey, false]);
+        expect(TEST_pollOnceForKeySpy.secondCall.args).to.deep.eq([groupConvoPubkey, true]);
 
-        expect(pollOnceForKeySpy.thirdCall.args).to.deep.eq([groupConvoPubkey, true]);
+        expect(TEST_pollOnceForKeySpy.thirdCall.args).to.deep.eq([ourPubkey, false]);
+        expect(TEST_pollOnceForKeySpy.getCalls()[3].args).to.deep.eq([groupConvoPubkey, true]);
       });
 
       it('does run twice if activeAt is more than 2 days old and we tick more than one minute ', async () => {
-        pollOnceForKeySpy.resetHistory();
-        convo.set('active_at', Date.now() - 2 * 24 * 3600 * 1000);
+        TEST_pollOnceForKeySpy.resetHistory();
+        convo.set('active_at', Date.now() - 2 * 25 * 3600 * 1000); // medium active
 
-        clock.tick(65 * 1000); // inactive
+        const timeToTick = 65 * 1000;
+        swarmPolling.TEST_forcePolledTimestamp(convo.id, timeToTick);
+
+        clock.tick(timeToTick); // should tick twice more (one more our direct pubkey and one for the group)
 
         await swarmPolling.TEST_pollForAllKeys();
-        expect(pollOnceForKeySpy.callCount).to.eq(3);
+        expect(TEST_pollOnceForKeySpy.callCount).to.eq(4);
+
         // first two calls are our pubkey
-        expect(pollOnceForKeySpy.firstCall.args).to.deep.eq([ourPubkey, false]);
-        expect(pollOnceForKeySpy.secondCall.args).to.deep.eq([ourPubkey, false]);
-        expect(pollOnceForKeySpy.thirdCall.args).to.deep.eq([groupConvoPubkey, true]);
+        expect(TEST_pollOnceForKeySpy.firstCall.args).to.deep.eq([ourPubkey, false]);
+        expect(TEST_pollOnceForKeySpy.secondCall.args).to.deep.eq([groupConvoPubkey, true]);
+
+        expect(TEST_pollOnceForKeySpy.thirdCall.args).to.deep.eq([ourPubkey, false]);
+        expect(TEST_pollOnceForKeySpy.getCalls()[3].args).to.deep.eq([groupConvoPubkey, true]);
       });
     });
   });

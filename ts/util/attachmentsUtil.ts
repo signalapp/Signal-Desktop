@@ -4,7 +4,7 @@ import { Constants } from '../session';
 import loadImage from 'blueimp-load-image';
 import { getDecryptedMediaUrl } from '../session/crypto/DecryptedAttachmentsManager';
 import { sendDataExtractionNotification } from '../session/messages/outgoing/controlMessage/DataExtractionNotificationMessage';
-import { AttachmentType, AttachmentTypeWithPath, save } from '../types/Attachment';
+import { AttachmentType, save } from '../types/Attachment';
 export interface MaxScaleSize {
   maxSize?: number;
   maxHeight?: number;

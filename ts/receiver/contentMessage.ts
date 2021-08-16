@@ -11,7 +11,7 @@ import { GroupUtils, UserUtils } from '../session/utils';
 import { fromHexToArray, toHex } from '../session/utils/String';
 import { concatUInt8Array, getSodium } from '../session/crypto';
 import { getConversationController } from '../session/conversations';
-import { ECKeyPair, HexKeyPair } from './keypairs';
+import { ECKeyPair } from './keypairs';
 import { handleConfigurationMessage } from './configMessage';
 import { ConversationTypeEnum } from '../models/conversation';
 import { removeMessagePadding } from '../session/crypto/BufferPadding';

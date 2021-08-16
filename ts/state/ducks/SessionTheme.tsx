@@ -3,7 +3,6 @@ import React from 'react';
 // import 'reset-css/reset.css';
 
 import { DefaultTheme, ThemeProvider } from 'styled-components';
-import { pushToastWarning } from '../../session/utils/Toast';
 
 const white = '#ffffff';
 const black = '#000000';
@@ -13,7 +12,6 @@ const accentLightTheme = '#00e97b';
 const accentDarkTheme = '#00f782';
 const borderLightTheme = '#f1f1f1';
 const borderDarkTheme = '#ffffff0F';
-const borderAvatarColor = '#00000059';
 
 const common = {
   fonts: {

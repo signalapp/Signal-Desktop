@@ -25,7 +25,7 @@ import { SessionMainPanel } from '../SessionMainPanel';
 // tslint:disable-next-line: no-submodule-imports
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore } from 'redux-persist';
-import { TimerOptionsArray, TimerOptionsState } from '../../state/ducks/timerOptions';
+import { TimerOptionsArray } from '../../state/ducks/timerOptions';
 
 // Workaround: A react component's required properties are filtering up through connect()
 //   https://github.com/DefinitelyTyped/DefinitelyTyped/issues/31363

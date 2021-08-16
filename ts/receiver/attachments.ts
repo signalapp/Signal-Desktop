@@ -160,6 +160,7 @@ async function processNormalAttachments(
 async function processPreviews(message: MessageModel, convo: ConversationModel): Promise<number> {
   let addedCount = 0;
   const isOpenGroupV2 = convo.isOpenGroupV2();
+  const openGroupV2Details = (isOpenGroupV2 && convo.toOpenGroupV2()) || undefined;
 
   const preview = await Promise.all(
     (message.get('preview') || []).map(async (item: any, index: any) => {
@@ -170,11 +171,12 @@ async function processPreviews(message: MessageModel, convo: ConversationModel):
 
       const image = message.isTrustedForAttachmentDownload()
         ? await AttachmentDownloads.addJob(item.image, {
-            messageId: message.id,
-            type: 'preview',
-            index,
-            isOpenGroupV2,
-          })
+          messageId: message.id,
+          type: 'preview',
+          index,
+          isOpenGroupV2,
+          openGroupV2Details,
+        })
         : null;
 
       return { ...item, image };
@@ -198,6 +200,7 @@ async function processQuoteAttachments(
     return 0;
   }
   const isOpenGroupV2 = convo.isOpenGroupV2();
+  const openGroupV2Details = (isOpenGroupV2 && convo.toOpenGroupV2()) || undefined;
 
   quote.attachments = await Promise.all(
     quote.attachments.map(async (item: any, index: any) => {
@@ -214,6 +217,7 @@ async function processQuoteAttachments(
         type: 'quote',
         index,
         isOpenGroupV2,
+        openGroupV2Details,
       });
 
       return { ...item, thumbnail };
