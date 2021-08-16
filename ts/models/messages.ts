@@ -3284,7 +3284,10 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
       const viewSyncs = ViewSyncs.getSingleton().forMessage(message);
 
-      if (message.get('expireTimer')) {
+      if (
+        (readSyncs.length !== 0 || viewSyncs.length !== 0) &&
+        message.get('expireTimer')
+      ) {
         const existingExpirationStartTimestamp = message.get(
           'expirationStartTimestamp'
         );
