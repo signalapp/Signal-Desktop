@@ -83,7 +83,7 @@ const StyledToolTip = styled.div<{ theme: DefaultTheme }>`
   left: 10%;
 
   border-radius: 300px;
-  z-index: 999;
+  z-index: 5;
   opacity: 1;
   animation: fadeIn 0.5s ease-out;
 
