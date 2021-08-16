@@ -44,13 +44,11 @@ import { StateType, reducer as rootReducer } from '../../../state/reducer';
 import { setup as setupI18n } from '../../../../js/modules/i18n';
 import enMessages from '../../../../_locales/en/messages.json';
 import { getDefaultConversation } from '../../helpers/getDefaultConversation';
-
-function getDefaultComposeState() {
-  return {
-    isEditingAvatar: false,
-    userAvatarData: [],
-  };
-}
+import {
+  defaultStartDirectConversationComposerState,
+  defaultChooseGroupMembersComposerState,
+  defaultSetGroupMetadataComposerState,
+} from '../../helpers/defaultComposerStates';
 
 describe('both/state/selectors/conversations', () => {
   const getEmptyRootState = (): StateType => {
@@ -307,10 +305,7 @@ describe('both/state/selectors/conversations', () => {
         ...getEmptyRootState(),
         conversations: {
           ...getEmptyState(),
-          composer: {
-            step: ComposerStep.StartDirectConversation as const,
-            searchTerm: 'foo',
-          },
+          composer: defaultStartDirectConversationComposerState,
         },
       };
       const result = getComposerStep(state);
@@ -323,18 +318,7 @@ describe('both/state/selectors/conversations', () => {
         ...getEmptyRootState(),
         conversations: {
           ...getEmptyState(),
-          composer: {
-            ...getDefaultComposeState(),
-            step: ComposerStep.ChooseGroupMembers as const,
-            searchTerm: 'foo',
-            selectedConversationIds: ['abc'],
-            cantAddContactIdForModal: undefined,
-            recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
-            maximumGroupSizeModalState: OneTimeModalState.NeverShown,
-            groupName: '',
-            groupAvatar: undefined,
-            groupExpireTimer: 0,
-          },
+          composer: defaultChooseGroupMembersComposerState,
         },
       };
       const result = getComposerStep(state);
@@ -347,19 +331,7 @@ describe('both/state/selectors/conversations', () => {
         ...getEmptyRootState(),
         conversations: {
           ...getEmptyState(),
-          composer: {
-            ...getDefaultComposeState(),
-            step: ComposerStep.SetGroupMetadata as const,
-            selectedConversationIds: ['abc'],
-            cantAddContactIdForModal: undefined,
-            recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
-            maximumGroupSizeModalState: OneTimeModalState.NeverShown,
-            groupName: '',
-            groupAvatar: undefined,
-            groupExpireTimer: 0,
-            isCreating: false,
-            hasError: false as const,
-          },
+          composer: defaultSetGroupMetadataComposerState,
         },
       };
       const result = getComposerStep(state);
@@ -377,10 +349,7 @@ describe('both/state/selectors/conversations', () => {
           ...getEmptyRootState(),
           conversations: {
             ...getEmptyState(),
-            composer: {
-              step: ComposerStep.StartDirectConversation,
-              searchTerm: '',
-            },
+            composer: defaultStartDirectConversationComposerState,
           },
         })
       );
@@ -392,18 +361,7 @@ describe('both/state/selectors/conversations', () => {
           ...getEmptyRootState(),
           conversations: {
             ...getEmptyState(),
-            composer: {
-              ...getDefaultComposeState(),
-              step: ComposerStep.SetGroupMetadata as const,
-              selectedConversationIds: [],
-              recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
-              maximumGroupSizeModalState: OneTimeModalState.NeverShown,
-              groupName: '',
-              groupAvatar: undefined,
-              groupExpireTimer: 0,
-              isCreating: false as const,
-              hasError: false as const,
-            },
+            composer: defaultSetGroupMetadataComposerState,
           },
         })
       );
@@ -416,16 +374,8 @@ describe('both/state/selectors/conversations', () => {
           conversations: {
             ...getEmptyState(),
             composer: {
-              ...getDefaultComposeState(),
-              step: ComposerStep.SetGroupMetadata as const,
-              selectedConversationIds: [],
-              recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
-              maximumGroupSizeModalState: OneTimeModalState.NeverShown,
-              groupName: '',
-              groupAvatar: undefined,
-              groupExpireTimer: 0,
-              isCreating: false as const,
-              hasError: true as const,
+              ...defaultSetGroupMetadataComposerState,
+              hasError: true,
             },
           },
         })
@@ -442,10 +392,7 @@ describe('both/state/selectors/conversations', () => {
           ...getEmptyRootState(),
           conversations: {
             ...getEmptyState(),
-            composer: {
-              step: ComposerStep.StartDirectConversation,
-              searchTerm: '',
-            },
+            composer: defaultStartDirectConversationComposerState,
           },
         })
       );
@@ -457,18 +404,7 @@ describe('both/state/selectors/conversations', () => {
           ...getEmptyRootState(),
           conversations: {
             ...getEmptyState(),
-            composer: {
-              ...getDefaultComposeState(),
-              step: ComposerStep.SetGroupMetadata as const,
-              selectedConversationIds: [],
-              recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
-              maximumGroupSizeModalState: OneTimeModalState.NeverShown,
-              groupName: '',
-              groupAvatar: undefined,
-              groupExpireTimer: 0,
-              isCreating: false as const,
-              hasError: true as const,
-            },
+            composer: defaultSetGroupMetadataComposerState,
           },
         })
       );
@@ -481,16 +417,9 @@ describe('both/state/selectors/conversations', () => {
           conversations: {
             ...getEmptyState(),
             composer: {
-              ...getDefaultComposeState(),
-              step: ComposerStep.SetGroupMetadata as const,
-              selectedConversationIds: [],
-              recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
-              maximumGroupSizeModalState: OneTimeModalState.NeverShown,
-              groupName: '',
-              groupAvatar: undefined,
-              groupExpireTimer: 0,
-              isCreating: true as const,
-              hasError: false as const,
+              ...defaultSetGroupMetadataComposerState,
+              isCreating: true,
+              hasError: false,
             },
           },
         })
@@ -856,7 +785,7 @@ describe('both/state/selectors/conversations', () => {
             },
           },
           composer: {
-            step: ComposerStep.StartDirectConversation,
+            ...defaultStartDirectConversationComposerState,
             searchTerm,
           },
         },
@@ -1015,7 +944,7 @@ describe('both/state/selectors/conversations', () => {
             },
           },
           composer: {
-            step: ComposerStep.StartDirectConversation,
+            ...defaultStartDirectConversationComposerState,
             searchTerm,
           },
         },
@@ -1091,16 +1020,8 @@ describe('both/state/selectors/conversations', () => {
             },
           },
           composer: {
-            ...getDefaultComposeState(),
-            step: ComposerStep.ChooseGroupMembers,
+            ...defaultChooseGroupMembersComposerState,
             searchTerm,
-            selectedConversationIds: ['abc'],
-            cantAddContactIdForModal: undefined,
-            recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
-            maximumGroupSizeModalState: OneTimeModalState.NeverShown,
-            groupName: '',
-            groupAvatar: undefined,
-            groupExpireTimer: 0,
           },
         },
         user: {
@@ -1137,10 +1058,7 @@ describe('both/state/selectors/conversations', () => {
           ...getEmptyRootState(),
           conversations: {
             ...getEmptyState(),
-            composer: {
-              step: ComposerStep.StartDirectConversation,
-              searchTerm: '',
-            },
+            composer: defaultStartDirectConversationComposerState,
           },
         })
       );
@@ -1152,18 +1070,7 @@ describe('both/state/selectors/conversations', () => {
           ...getEmptyRootState(),
           conversations: {
             ...getEmptyState(),
-            composer: {
-              ...getDefaultComposeState(),
-              cantAddContactIdForModal: undefined,
-              searchTerm: '',
-              groupAvatar: undefined,
-              groupExpireTimer: 0,
-              groupName: '',
-              maximumGroupSizeModalState: OneTimeModalState.NeverShown,
-              recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
-              selectedConversationIds: [],
-              step: ComposerStep.ChooseGroupMembers as const,
-            },
+            composer: defaultChooseGroupMembersComposerState,
           },
         })
       );
@@ -1179,16 +1086,8 @@ describe('both/state/selectors/conversations', () => {
             ...getEmptyState(),
             conversationLookup: { abc123: conversation },
             composer: {
-              ...getDefaultComposeState(),
+              ...defaultChooseGroupMembersComposerState,
               cantAddContactIdForModal: 'abc123',
-              searchTerm: '',
-              groupAvatar: undefined,
-              groupExpireTimer: 0,
-              groupName: '',
-              maximumGroupSizeModalState: OneTimeModalState.NeverShown,
-              recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
-              selectedConversationIds: [],
-              step: ComposerStep.ChooseGroupMembers as const,
             },
           },
         }),
@@ -1205,7 +1104,7 @@ describe('both/state/selectors/conversations', () => {
           conversations: {
             ...getEmptyState(),
             composer: {
-              step: ComposerStep.StartDirectConversation,
+              ...defaultStartDirectConversationComposerState,
               searchTerm: 'foo bar',
             },
           },
@@ -1631,16 +1530,8 @@ describe('both/state/selectors/conversations', () => {
         conversations: {
           ...getEmptyState(),
           composer: {
-            ...getDefaultComposeState(),
-            cantAddContactIdForModal: undefined,
-            searchTerm: 'to be cleared',
-            groupAvatar: undefined,
-            groupExpireTimer: 0,
-            groupName: '',
+            ...defaultChooseGroupMembersComposerState,
             maximumGroupSizeModalState: OneTimeModalState.Showing,
-            recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
-            selectedConversationIds: [],
-            step: ComposerStep.ChooseGroupMembers as const,
           },
         },
       };
@@ -1658,16 +1549,8 @@ describe('both/state/selectors/conversations', () => {
         conversations: {
           ...getEmptyState(),
           composer: {
-            ...getDefaultComposeState(),
-            cantAddContactIdForModal: undefined,
-            searchTerm: 'to be cleared',
-            groupAvatar: undefined,
-            groupExpireTimer: 0,
-            groupName: '',
-            maximumGroupSizeModalState: OneTimeModalState.NeverShown,
+            ...defaultChooseGroupMembersComposerState,
             recommendedGroupSizeModalState: OneTimeModalState.Showing,
-            selectedConversationIds: [],
-            step: ComposerStep.ChooseGroupMembers as const,
           },
         },
       };
@@ -1685,17 +1568,8 @@ describe('both/state/selectors/conversations', () => {
         conversations: {
           ...getEmptyState(),
           composer: {
-            ...getDefaultComposeState(),
-            step: ComposerStep.SetGroupMetadata as const,
-            selectedConversationIds: ['abc'],
-            cantAddContactIdForModal: undefined,
-            recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
-            maximumGroupSizeModalState: OneTimeModalState.NeverShown,
-            groupName: '',
+            ...defaultSetGroupMetadataComposerState,
             groupAvatar: undefined,
-            groupExpireTimer: 0,
-            isCreating: false,
-            hasError: false as const,
           },
         },
       };
@@ -1708,17 +1582,8 @@ describe('both/state/selectors/conversations', () => {
         conversations: {
           ...getEmptyState(),
           composer: {
-            ...getDefaultComposeState(),
-            step: ComposerStep.SetGroupMetadata as const,
-            selectedConversationIds: ['abc'],
-            cantAddContactIdForModal: undefined,
-            recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
-            maximumGroupSizeModalState: OneTimeModalState.NeverShown,
-            groupName: '',
+            ...defaultSetGroupMetadataComposerState,
             groupAvatar: new Uint8Array([1, 2, 3]).buffer,
-            groupExpireTimer: 0,
-            isCreating: false,
-            hasError: false as const,
           },
         },
       };
@@ -1736,17 +1601,8 @@ describe('both/state/selectors/conversations', () => {
         conversations: {
           ...getEmptyState(),
           composer: {
-            ...getDefaultComposeState(),
-            step: ComposerStep.SetGroupMetadata as const,
-            selectedConversationIds: ['abc'],
-            cantAddContactIdForModal: undefined,
-            recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
-            maximumGroupSizeModalState: OneTimeModalState.NeverShown,
+            ...defaultSetGroupMetadataComposerState,
             groupName: 'foo bar',
-            groupAvatar: undefined,
-            groupExpireTimer: 0,
-            isCreating: false,
-            hasError: false as const,
           },
         },
       };
@@ -1771,17 +1627,8 @@ describe('both/state/selectors/conversations', () => {
             },
           },
           composer: {
-            ...getDefaultComposeState(),
-            step: ComposerStep.SetGroupMetadata as const,
+            ...defaultSetGroupMetadataComposerState,
             selectedConversationIds: ['convo-2', 'convo-1'],
-            cantAddContactIdForModal: undefined,
-            recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
-            maximumGroupSizeModalState: OneTimeModalState.NeverShown,
-            groupName: 'foo bar',
-            groupAvatar: undefined,
-            groupExpireTimer: 0,
-            isCreating: false,
-            hasError: false as const,
           },
         },
       };

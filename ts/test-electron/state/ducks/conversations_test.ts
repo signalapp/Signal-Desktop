@@ -29,6 +29,11 @@ import { CallMode } from '../../../types/Calling';
 import * as groups from '../../../groups';
 import { getDefaultConversation } from '../../../test-both/helpers/getDefaultConversation';
 import { getDefaultAvatars } from '../../../types/Avatar';
+import {
+  defaultStartDirectConversationComposerState,
+  defaultChooseGroupMembersComposerState,
+  defaultSetGroupMetadataComposerState,
+} from '../../../test-both/helpers/defaultComposerStates';
 
 const {
   cantAddContactToGroup,
@@ -57,13 +62,6 @@ const {
   reviewMessageRequestNameCollision,
   toggleConversationInChooseMembers,
 } = actions;
-
-function getDefaultComposeState() {
-  return {
-    isEditingAvatar: false,
-    userAvatarData: [],
-  };
-}
 
 describe('both/state/ducks/conversations', () => {
   const getEmptyRootState = () => rootReducer(undefined, noopAction());
@@ -459,18 +457,7 @@ describe('both/state/ducks/conversations', () => {
       it('marks the conversation ID as "cannot add"', () => {
         const state = {
           ...getEmptyState(),
-          composer: {
-            ...getDefaultComposeState(),
-            cantAddContactIdForModal: undefined,
-            searchTerm: '',
-            groupAvatar: undefined,
-            groupExpireTimer: 0,
-            groupName: '',
-            maximumGroupSizeModalState: OneTimeModalState.NeverShown,
-            recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
-            selectedConversationIds: [],
-            step: ComposerStep.ChooseGroupMembers as const,
-          },
+          composer: defaultChooseGroupMembersComposerState,
         };
         const action = cantAddContactToGroup('abc123');
         const result = reducer(state, action);
@@ -487,15 +474,7 @@ describe('both/state/ducks/conversations', () => {
         const state = {
           ...getEmptyState(),
           composer: {
-            ...getDefaultComposeState(),
-            step: ComposerStep.SetGroupMetadata as const,
-            selectedConversationIds: [],
-            recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
-            maximumGroupSizeModalState: OneTimeModalState.NeverShown,
-            groupName: '',
-            groupAvatar: undefined,
-            groupExpireTimer: 0,
-            isCreating: false as const,
+            ...defaultSetGroupMetadataComposerState,
             hasError: true as const,
           },
         };
@@ -527,16 +506,8 @@ describe('both/state/ducks/conversations', () => {
         const state = {
           ...getEmptyState(),
           composer: {
-            ...getDefaultComposeState(),
+            ...defaultChooseGroupMembersComposerState,
             cantAddContactIdForModal: 'abc123',
-            searchTerm: '',
-            groupAvatar: undefined,
-            groupExpireTimer: 0,
-            groupName: '',
-            maximumGroupSizeModalState: OneTimeModalState.NeverShown,
-            recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
-            selectedConversationIds: [],
-            step: ComposerStep.ChooseGroupMembers as const,
           },
         };
         const action = closeCantAddContactToGroupModal();
@@ -579,16 +550,8 @@ describe('both/state/ducks/conversations', () => {
         const state = {
           ...getEmptyState(),
           composer: {
-            ...getDefaultComposeState(),
-            cantAddContactIdForModal: 'abc123',
-            searchTerm: '',
-            groupAvatar: undefined,
-            groupExpireTimer: 0,
-            groupName: '',
+            ...defaultChooseGroupMembersComposerState,
             maximumGroupSizeModalState: OneTimeModalState.Showing,
-            recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
-            selectedConversationIds: [],
-            step: ComposerStep.ChooseGroupMembers as const,
           },
         };
         const action = closeMaximumGroupSizeModal();
@@ -605,18 +568,7 @@ describe('both/state/ducks/conversations', () => {
       it('does nothing if the maximum group size modal was never shown', () => {
         const state = {
           ...getEmptyState(),
-          composer: {
-            ...getDefaultComposeState(),
-            cantAddContactIdForModal: 'abc123',
-            searchTerm: '',
-            groupAvatar: undefined,
-            groupExpireTimer: 0,
-            groupName: '',
-            maximumGroupSizeModalState: OneTimeModalState.NeverShown,
-            recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
-            selectedConversationIds: [],
-            step: ComposerStep.ChooseGroupMembers as const,
-          },
+          composer: defaultChooseGroupMembersComposerState,
         };
         const action = closeMaximumGroupSizeModal();
         const result = reducer(state, action);
@@ -628,16 +580,8 @@ describe('both/state/ducks/conversations', () => {
         const state = {
           ...getEmptyState(),
           composer: {
-            ...getDefaultComposeState(),
-            cantAddContactIdForModal: 'abc123',
-            searchTerm: '',
-            groupAvatar: undefined,
-            groupExpireTimer: 0,
-            groupName: '',
+            ...defaultChooseGroupMembersComposerState,
             maximumGroupSizeModalState: OneTimeModalState.Shown,
-            recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
-            selectedConversationIds: [],
-            step: ComposerStep.ChooseGroupMembers as const,
           },
         };
         const action = closeMaximumGroupSizeModal();
@@ -652,16 +596,8 @@ describe('both/state/ducks/conversations', () => {
         const state = {
           ...getEmptyState(),
           composer: {
-            ...getDefaultComposeState(),
-            cantAddContactIdForModal: 'abc123',
-            searchTerm: '',
-            groupAvatar: undefined,
-            groupExpireTimer: 0,
-            groupName: '',
-            maximumGroupSizeModalState: OneTimeModalState.NeverShown,
+            ...defaultChooseGroupMembersComposerState,
             recommendedGroupSizeModalState: OneTimeModalState.Showing,
-            selectedConversationIds: [],
-            step: ComposerStep.ChooseGroupMembers as const,
           },
         };
         const action = closeRecommendedGroupSizeModal();
@@ -678,18 +614,7 @@ describe('both/state/ducks/conversations', () => {
       it('does nothing if the recommended group size modal was never shown', () => {
         const state = {
           ...getEmptyState(),
-          composer: {
-            ...getDefaultComposeState(),
-            cantAddContactIdForModal: 'abc123',
-            searchTerm: '',
-            groupAvatar: undefined,
-            groupExpireTimer: 0,
-            groupName: '',
-            maximumGroupSizeModalState: OneTimeModalState.NeverShown,
-            recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
-            selectedConversationIds: [],
-            step: ComposerStep.ChooseGroupMembers as const,
-          },
+          composer: defaultChooseGroupMembersComposerState,
         };
         const action = closeRecommendedGroupSizeModal();
         const result = reducer(state, action);
@@ -701,16 +626,8 @@ describe('both/state/ducks/conversations', () => {
         const state = {
           ...getEmptyState(),
           composer: {
-            ...getDefaultComposeState(),
-            cantAddContactIdForModal: 'abc123',
-            searchTerm: '',
-            groupAvatar: undefined,
-            groupExpireTimer: 0,
-            groupName: '',
-            maximumGroupSizeModalState: OneTimeModalState.NeverShown,
+            ...defaultChooseGroupMembersComposerState,
             recommendedGroupSizeModalState: OneTimeModalState.Shown,
-            selectedConversationIds: [],
-            step: ComposerStep.ChooseGroupMembers as const,
           },
         };
         const action = closeRecommendedGroupSizeModal();
@@ -724,16 +641,10 @@ describe('both/state/ducks/conversations', () => {
       const conversationsState = {
         ...getEmptyState(),
         composer: {
-          ...getDefaultComposeState(),
-          step: ComposerStep.SetGroupMetadata as const,
+          ...defaultSetGroupMetadataComposerState,
           selectedConversationIds: ['abc123'],
-          recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
-          maximumGroupSizeModalState: OneTimeModalState.NeverShown,
           groupName: 'Foo Bar Group',
           groupAvatar: new Uint8Array([1, 2, 3]).buffer,
-          groupExpireTimer: 0,
-          isCreating: false as const,
-          hasError: true as const,
         },
       };
 
@@ -1230,16 +1141,8 @@ describe('both/state/ducks/conversations', () => {
         const state = {
           ...getEmptyState(),
           composer: {
-            ...getDefaultComposeState(),
-            step: ComposerStep.SetGroupMetadata as const,
-            selectedConversationIds: [],
-            recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
-            maximumGroupSizeModalState: OneTimeModalState.NeverShown,
-            groupName: 'foo',
+            ...defaultSetGroupMetadataComposerState,
             groupAvatar: new ArrayBuffer(2),
-            groupExpireTimer: 0,
-            isCreating: false as const,
-            hasError: false as const,
           },
         };
         const action = setComposeGroupAvatar(undefined);
@@ -1256,18 +1159,7 @@ describe('both/state/ducks/conversations', () => {
 
         const state = {
           ...getEmptyState(),
-          composer: {
-            ...getDefaultComposeState(),
-            step: ComposerStep.SetGroupMetadata as const,
-            selectedConversationIds: [],
-            recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
-            maximumGroupSizeModalState: OneTimeModalState.NeverShown,
-            groupName: 'foo',
-            groupAvatar: undefined,
-            groupExpireTimer: 0,
-            isCreating: false as const,
-            hasError: false as const,
-          },
+          composer: defaultSetGroupMetadataComposerState,
         };
         const action = setComposeGroupAvatar(avatar);
         const result = reducer(state, action);
@@ -1283,18 +1175,7 @@ describe('both/state/ducks/conversations', () => {
       it("can set the composer's group name", () => {
         const state = {
           ...getEmptyState(),
-          composer: {
-            ...getDefaultComposeState(),
-            step: ComposerStep.SetGroupMetadata as const,
-            selectedConversationIds: [],
-            recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
-            maximumGroupSizeModalState: OneTimeModalState.NeverShown,
-            groupName: '',
-            groupAvatar: undefined,
-            groupExpireTimer: 0,
-            isCreating: false as const,
-            hasError: false as const,
-          },
+          composer: defaultSetGroupMetadataComposerState,
         };
         const action = setComposeGroupName('bing bong');
         const result = reducer(state, action);
@@ -1310,16 +1191,13 @@ describe('both/state/ducks/conversations', () => {
       it('updates the contact search term', () => {
         const state = {
           ...getEmptyState(),
-          composer: {
-            step: ComposerStep.StartDirectConversation as const,
-            searchTerm: '',
-          },
+          composer: defaultStartDirectConversationComposerState,
         };
         const action = setComposeSearchTerm('foo bar');
         const result = reducer(state, action);
 
         assert.deepEqual(result.composer, {
-          step: ComposerStep.StartDirectConversation,
+          ...defaultStartDirectConversationComposerState,
           searchTerm: 'foo bar',
         });
       });
@@ -1384,10 +1262,7 @@ describe('both/state/ducks/conversations', () => {
       it('switches from the composer to the archive', () => {
         const state = {
           ...getEmptyState(),
-          composer: {
-            step: ComposerStep.StartDirectConversation as const,
-            searchTerm: '',
-          },
+          composer: defaultStartDirectConversationComposerState,
         };
         const action = showArchivedConversations();
         const result = reducer(state, action);
@@ -1422,10 +1297,7 @@ describe('both/state/ducks/conversations', () => {
       it('switches from the composer to the inbox', () => {
         const state = {
           ...getEmptyState(),
-          composer: {
-            step: ComposerStep.StartDirectConversation as const,
-            searchTerm: '',
-          },
+          composer: defaultStartDirectConversationComposerState,
         };
         const action = showInbox();
         const result = reducer(state, action);
@@ -1439,71 +1311,49 @@ describe('both/state/ducks/conversations', () => {
       it('does nothing if on the first step of the composer', () => {
         const state = {
           ...getEmptyState(),
-          composer: {
-            step: ComposerStep.StartDirectConversation as const,
-            searchTerm: 'foo bar',
-          },
+          composer: defaultStartDirectConversationComposerState,
         };
         const action = startComposing();
         const result = reducer(state, action);
 
         assert.isFalse(result.showArchived);
-        assert.deepEqual(result.composer, {
-          step: ComposerStep.StartDirectConversation,
-          searchTerm: 'foo bar',
-        });
+        assert.deepEqual(
+          result.composer,
+          defaultStartDirectConversationComposerState
+        );
       });
 
       it('if on the second step of the composer, goes back to the first step, clearing the search term', () => {
         const state = {
           ...getEmptyState(),
           composer: {
-            ...getDefaultComposeState(),
-            cantAddContactIdForModal: undefined,
+            ...defaultChooseGroupMembersComposerState,
             searchTerm: 'to be cleared',
-            groupAvatar: undefined,
-            groupExpireTimer: 0,
-            groupName: '',
-            maximumGroupSizeModalState: OneTimeModalState.NeverShown,
-            recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
-            selectedConversationIds: [],
-            step: ComposerStep.ChooseGroupMembers as const,
           },
         };
         const action = startComposing();
         const result = reducer(state, action);
 
         assert.isFalse(result.showArchived);
-        assert.deepEqual(result.composer, {
-          step: ComposerStep.StartDirectConversation,
-          searchTerm: '',
-        });
+        assert.deepEqual(
+          result.composer,
+          defaultStartDirectConversationComposerState
+        );
       });
 
       it('if on the third step of the composer, goes back to the first step, clearing everything', () => {
         const state = {
           ...getEmptyState(),
-          composer: {
-            ...getDefaultComposeState(),
-            step: ComposerStep.SetGroupMetadata as const,
-            selectedConversationIds: [],
-            recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
-            maximumGroupSizeModalState: OneTimeModalState.NeverShown,
-            groupName: '',
-            groupAvatar: undefined,
-            groupExpireTimer: 0,
-            isCreating: false,
-            hasError: false as const,
-          },
+          composer: defaultSetGroupMetadataComposerState,
         };
         const action = startComposing();
         const result = reducer(state, action);
 
         assert.isFalse(result.showArchived);
-        assert.deepEqual(result.composer, {
-          step: ComposerStep.StartDirectConversation,
-          searchTerm: '',
-        });
+        assert.deepEqual(
+          result.composer,
+          defaultStartDirectConversationComposerState
+        );
       });
 
       it('switches from the inbox to the composer', () => {
@@ -1512,10 +1362,10 @@ describe('both/state/ducks/conversations', () => {
         const result = reducer(state, action);
 
         assert.isFalse(result.showArchived);
-        assert.deepEqual(result.composer, {
-          step: ComposerStep.StartDirectConversation,
-          searchTerm: '',
-        });
+        assert.deepEqual(
+          result.composer,
+          defaultStartDirectConversationComposerState
+        );
       });
 
       it('switches from the archive to the inbox', () => {
@@ -1527,10 +1377,10 @@ describe('both/state/ducks/conversations', () => {
         const result = reducer(state, action);
 
         assert.isFalse(result.showArchived);
-        assert.deepEqual(result.composer, {
-          step: ComposerStep.StartDirectConversation,
-          searchTerm: '',
-        });
+        assert.deepEqual(
+          result.composer,
+          defaultStartDirectConversationComposerState
+        );
       });
     });
 
@@ -1539,7 +1389,7 @@ describe('both/state/ducks/conversations', () => {
         const state = {
           ...getEmptyState(),
           composer: {
-            step: ComposerStep.StartDirectConversation as const,
+            ...defaultStartDirectConversationComposerState,
             searchTerm: 'to be cleared',
           },
         };
@@ -1548,16 +1398,7 @@ describe('both/state/ducks/conversations', () => {
 
         assert.isFalse(result.showArchived);
         assert.deepEqual(result.composer, {
-          ...getDefaultComposeState(),
-          step: ComposerStep.ChooseGroupMembers,
-          searchTerm: '',
-          selectedConversationIds: [],
-          cantAddContactIdForModal: undefined,
-          recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
-          maximumGroupSizeModalState: OneTimeModalState.NeverShown,
-          groupName: '',
-          groupAvatar: undefined,
-          groupExpireTimer: 0,
+          ...defaultChooseGroupMembersComposerState,
           userAvatarData: getDefaultAvatars(true),
         });
       });
@@ -1565,18 +1406,7 @@ describe('both/state/ducks/conversations', () => {
       it('does nothing if already on the second step of the composer', () => {
         const state = {
           ...getEmptyState(),
-          composer: {
-            ...getDefaultComposeState(),
-            step: ComposerStep.ChooseGroupMembers as const,
-            searchTerm: 'foo bar',
-            selectedConversationIds: [],
-            cantAddContactIdForModal: undefined,
-            recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
-            maximumGroupSizeModalState: OneTimeModalState.NeverShown,
-            groupName: '',
-            groupAvatar: undefined,
-            groupExpireTimer: 0,
-          },
+          composer: defaultChooseGroupMembersComposerState,
         };
         const action = showChooseGroupMembers();
         const result = reducer(state, action);
@@ -1588,17 +1418,9 @@ describe('both/state/ducks/conversations', () => {
         const state = {
           ...getEmptyState(),
           composer: {
-            ...getDefaultComposeState(),
-            step: ComposerStep.SetGroupMetadata as const,
-            selectedConversationIds: [],
-            cantAddContactIdForModal: undefined,
-            recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
-            maximumGroupSizeModalState: OneTimeModalState.NeverShown,
+            ...defaultSetGroupMetadataComposerState,
             groupName: 'Foo Bar Group',
             groupAvatar: new Uint8Array([4, 2]).buffer,
-            groupExpireTimer: 0,
-            isCreating: false,
-            hasError: false as const,
           },
         };
         const action = showChooseGroupMembers();
@@ -1606,16 +1428,9 @@ describe('both/state/ducks/conversations', () => {
 
         assert.isFalse(result.showArchived);
         assert.deepEqual(result.composer, {
-          ...getDefaultComposeState(),
-          step: ComposerStep.ChooseGroupMembers,
-          searchTerm: '',
-          selectedConversationIds: [],
-          cantAddContactIdForModal: undefined,
-          recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
-          maximumGroupSizeModalState: OneTimeModalState.NeverShown,
+          ...defaultChooseGroupMembersComposerState,
           groupName: 'Foo Bar Group',
           groupAvatar: new Uint8Array([4, 2]).buffer,
-          groupExpireTimer: 0,
         });
       });
 
@@ -1626,16 +1441,7 @@ describe('both/state/ducks/conversations', () => {
 
         assert.isFalse(result.showArchived);
         assert.deepEqual(result.composer, {
-          ...getDefaultComposeState(),
-          step: ComposerStep.ChooseGroupMembers,
-          searchTerm: '',
-          selectedConversationIds: [],
-          cantAddContactIdForModal: undefined,
-          recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
-          maximumGroupSizeModalState: OneTimeModalState.NeverShown,
-          groupName: '',
-          groupAvatar: undefined,
-          groupExpireTimer: 0,
+          ...defaultChooseGroupMembersComposerState,
           userAvatarData: getDefaultAvatars(true),
         });
       });
@@ -1650,16 +1456,7 @@ describe('both/state/ducks/conversations', () => {
 
         assert.isFalse(result.showArchived);
         assert.deepEqual(result.composer, {
-          ...getDefaultComposeState(),
-          step: ComposerStep.ChooseGroupMembers,
-          searchTerm: '',
-          selectedConversationIds: [],
-          cantAddContactIdForModal: undefined,
-          recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
-          maximumGroupSizeModalState: OneTimeModalState.NeverShown,
-          groupName: '',
-          groupAvatar: undefined,
-          groupExpireTimer: 0,
+          ...defaultChooseGroupMembersComposerState,
           userAvatarData: getDefaultAvatars(true),
         });
       });
@@ -1670,32 +1467,16 @@ describe('both/state/ducks/conversations', () => {
         const state = {
           ...getEmptyState(),
           composer: {
-            ...getDefaultComposeState(),
-            step: ComposerStep.ChooseGroupMembers as const,
-            searchTerm: 'foo bar',
+            ...defaultChooseGroupMembersComposerState,
             selectedConversationIds: ['abc', 'def'],
-            cantAddContactIdForModal: undefined,
-            recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
-            maximumGroupSizeModalState: OneTimeModalState.NeverShown,
-            groupName: '',
-            groupAvatar: undefined,
-            groupExpireTimer: 0,
           },
         };
         const action = startSettingGroupMetadata();
         const result = reducer(state, action);
 
         assert.deepEqual(result.composer, {
-          ...getDefaultComposeState(),
-          step: ComposerStep.SetGroupMetadata,
+          ...defaultSetGroupMetadataComposerState,
           selectedConversationIds: ['abc', 'def'],
-          recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
-          maximumGroupSizeModalState: OneTimeModalState.NeverShown,
-          groupName: '',
-          groupAvatar: undefined,
-          groupExpireTimer: 0,
-          isCreating: false,
-          hasError: false,
         });
       });
 
@@ -1703,50 +1484,28 @@ describe('both/state/ducks/conversations', () => {
         const state = {
           ...getEmptyState(),
           composer: {
-            ...getDefaultComposeState(),
-            step: ComposerStep.ChooseGroupMembers as const,
+            ...defaultChooseGroupMembersComposerState,
             searchTerm: 'foo bar',
             selectedConversationIds: ['abc', 'def'],
-            cantAddContactIdForModal: undefined,
-            recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
-            maximumGroupSizeModalState: OneTimeModalState.NeverShown,
             groupName: 'Foo Bar Group',
             groupAvatar: new Uint8Array([6, 9]).buffer,
-            groupExpireTimer: 0,
           },
         };
         const action = startSettingGroupMetadata();
         const result = reducer(state, action);
 
         assert.deepEqual(result.composer, {
-          ...getDefaultComposeState(),
-          step: ComposerStep.SetGroupMetadata,
+          ...defaultSetGroupMetadataComposerState,
           selectedConversationIds: ['abc', 'def'],
-          recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
-          maximumGroupSizeModalState: OneTimeModalState.NeverShown,
           groupName: 'Foo Bar Group',
           groupAvatar: new Uint8Array([6, 9]).buffer,
-          groupExpireTimer: 0,
-          isCreating: false,
-          hasError: false as const,
         });
       });
 
       it('does nothing if already on the third step of the composer', () => {
         const state = {
           ...getEmptyState(),
-          composer: {
-            ...getDefaultComposeState(),
-            step: ComposerStep.SetGroupMetadata as const,
-            selectedConversationIds: [],
-            recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
-            maximumGroupSizeModalState: OneTimeModalState.NeverShown,
-            groupName: 'Foo Bar Group',
-            groupAvatar: new Uint8Array([4, 2]).buffer,
-            groupExpireTimer: 0,
-            isCreating: false,
-            hasError: false as const,
-          },
+          composer: defaultSetGroupMetadataComposerState,
         };
         const action = startSettingGroupMetadata();
         const result = reducer(state, action);
@@ -1788,33 +1547,14 @@ describe('both/state/ducks/conversations', () => {
       it('adds conversation IDs to the list', () => {
         const zero = {
           ...getEmptyState(),
-          composer: {
-            ...getDefaultComposeState(),
-            step: ComposerStep.ChooseGroupMembers as const,
-            searchTerm: '',
-            selectedConversationIds: [],
-            cantAddContactIdForModal: undefined,
-            recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
-            maximumGroupSizeModalState: OneTimeModalState.NeverShown,
-            groupName: '',
-            groupAvatar: undefined,
-            groupExpireTimer: 0,
-          },
+          composer: defaultChooseGroupMembersComposerState,
         };
         const one = reducer(zero, getAction('abc', zero));
         const two = reducer(one, getAction('def', one));
 
         assert.deepEqual(two.composer, {
-          ...getDefaultComposeState(),
-          step: ComposerStep.ChooseGroupMembers,
-          searchTerm: '',
+          ...defaultChooseGroupMembersComposerState,
           selectedConversationIds: ['abc', 'def'],
-          cantAddContactIdForModal: undefined,
-          recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
-          maximumGroupSizeModalState: OneTimeModalState.NeverShown,
-          groupName: '',
-          groupAvatar: undefined,
-          groupExpireTimer: 0,
         });
       });
 
@@ -1822,32 +1562,16 @@ describe('both/state/ducks/conversations', () => {
         const state = {
           ...getEmptyState(),
           composer: {
-            ...getDefaultComposeState(),
-            step: ComposerStep.ChooseGroupMembers as const,
-            searchTerm: '',
+            ...defaultChooseGroupMembersComposerState,
             selectedConversationIds: ['abc', 'def'],
-            cantAddContactIdForModal: undefined,
-            recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
-            maximumGroupSizeModalState: OneTimeModalState.NeverShown,
-            groupName: '',
-            groupAvatar: undefined,
-            groupExpireTimer: 0,
           },
         };
         const action = getAction('abc', state);
         const result = reducer(state, action);
 
         assert.deepEqual(result.composer, {
-          ...getDefaultComposeState(),
-          step: ComposerStep.ChooseGroupMembers,
-          searchTerm: '',
+          ...defaultChooseGroupMembersComposerState,
           selectedConversationIds: ['def'],
-          cantAddContactIdForModal: undefined,
-          recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
-          maximumGroupSizeModalState: OneTimeModalState.NeverShown,
-          groupName: '',
-          groupAvatar: undefined,
-          groupExpireTimer: 0,
         });
       });
 
@@ -1858,32 +1582,17 @@ describe('both/state/ducks/conversations', () => {
         const state = {
           ...getEmptyState(),
           composer: {
-            ...getDefaultComposeState(),
-            step: ComposerStep.ChooseGroupMembers as const,
-            searchTerm: '',
+            ...defaultChooseGroupMembersComposerState,
             selectedConversationIds: oldSelectedConversationIds,
-            cantAddContactIdForModal: undefined,
-            recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
-            maximumGroupSizeModalState: OneTimeModalState.NeverShown,
-            groupName: '',
-            groupAvatar: undefined,
-            groupExpireTimer: 0,
           },
         };
         const action = getAction(newUuid, state);
         const result = reducer(state, action);
 
         assert.deepEqual(result.composer, {
-          ...getDefaultComposeState(),
-          step: ComposerStep.ChooseGroupMembers,
-          searchTerm: '',
+          ...defaultChooseGroupMembersComposerState,
           selectedConversationIds: [...oldSelectedConversationIds, newUuid],
-          cantAddContactIdForModal: undefined,
           recommendedGroupSizeModalState: OneTimeModalState.Showing,
-          maximumGroupSizeModalState: OneTimeModalState.NeverShown,
-          groupName: '',
-          groupAvatar: undefined,
-          groupExpireTimer: 0,
         });
       });
 
@@ -1894,32 +1603,18 @@ describe('both/state/ducks/conversations', () => {
         const state = {
           ...getEmptyState(),
           composer: {
-            ...getDefaultComposeState(),
-            step: ComposerStep.ChooseGroupMembers as const,
-            searchTerm: '',
+            ...defaultChooseGroupMembersComposerState,
             selectedConversationIds: oldSelectedConversationIds,
-            cantAddContactIdForModal: undefined,
             recommendedGroupSizeModalState: OneTimeModalState.Shown,
-            maximumGroupSizeModalState: OneTimeModalState.NeverShown,
-            groupName: '',
-            groupAvatar: undefined,
-            groupExpireTimer: 0,
           },
         };
         const action = getAction(newUuid, state);
         const result = reducer(state, action);
 
         assert.deepEqual(result.composer, {
-          ...getDefaultComposeState(),
-          step: ComposerStep.ChooseGroupMembers,
-          searchTerm: '',
+          ...defaultChooseGroupMembersComposerState,
           selectedConversationIds: [...oldSelectedConversationIds, newUuid],
-          cantAddContactIdForModal: undefined,
           recommendedGroupSizeModalState: OneTimeModalState.Shown,
-          maximumGroupSizeModalState: OneTimeModalState.NeverShown,
-          groupName: '',
-          groupAvatar: undefined,
-          groupExpireTimer: 0,
         });
       });
 
@@ -1931,18 +1626,7 @@ describe('both/state/ducks/conversations', () => {
 
           const state = {
             ...getEmptyState(),
-            composer: {
-              ...getDefaultComposeState(),
-              step: ComposerStep.ChooseGroupMembers as const,
-              searchTerm: '',
-              selectedConversationIds: [],
-              cantAddContactIdForModal: undefined,
-              recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
-              maximumGroupSizeModalState: OneTimeModalState.NeverShown,
-              groupName: '',
-              groupAvatar: undefined,
-              groupExpireTimer: 0,
-            },
+            composer: defaultChooseGroupMembersComposerState,
           };
           const action = getAction(uuid(), state);
 
@@ -1957,32 +1641,20 @@ describe('both/state/ducks/conversations', () => {
         const state = {
           ...getEmptyState(),
           composer: {
-            ...getDefaultComposeState(),
-            step: ComposerStep.ChooseGroupMembers as const,
-            searchTerm: '',
+            ...defaultChooseGroupMembersComposerState,
             selectedConversationIds: oldSelectedConversationIds,
-            cantAddContactIdForModal: undefined,
             recommendedGroupSizeModalState: OneTimeModalState.Shown,
             maximumGroupSizeModalState: OneTimeModalState.NeverShown,
-            groupName: '',
-            groupAvatar: undefined,
-            groupExpireTimer: 0,
           },
         };
         const action = getAction(newUuid, state);
         const result = reducer(state, action);
 
         assert.deepEqual(result.composer, {
-          ...getDefaultComposeState(),
-          step: ComposerStep.ChooseGroupMembers,
-          searchTerm: '',
+          ...defaultChooseGroupMembersComposerState,
           selectedConversationIds: [...oldSelectedConversationIds, newUuid],
-          cantAddContactIdForModal: undefined,
           recommendedGroupSizeModalState: OneTimeModalState.Shown,
           maximumGroupSizeModalState: OneTimeModalState.Showing,
-          groupName: '',
-          groupAvatar: undefined,
-          groupExpireTimer: 0,
         });
       });
 
@@ -1993,32 +1665,20 @@ describe('both/state/ducks/conversations', () => {
         const state = {
           ...getEmptyState(),
           composer: {
-            ...getDefaultComposeState(),
-            step: ComposerStep.ChooseGroupMembers as const,
-            searchTerm: '',
+            ...defaultChooseGroupMembersComposerState,
             selectedConversationIds: oldSelectedConversationIds,
-            cantAddContactIdForModal: undefined,
             recommendedGroupSizeModalState: OneTimeModalState.Shown,
             maximumGroupSizeModalState: OneTimeModalState.Shown,
-            groupName: '',
-            groupAvatar: undefined,
-            groupExpireTimer: 0,
           },
         };
         const action = getAction(newUuid, state);
         const result = reducer(state, action);
 
         assert.deepEqual(result.composer, {
-          ...getDefaultComposeState(),
-          step: ComposerStep.ChooseGroupMembers,
-          searchTerm: '',
+          ...defaultChooseGroupMembersComposerState,
           selectedConversationIds: [...oldSelectedConversationIds, newUuid],
-          cantAddContactIdForModal: undefined,
           recommendedGroupSizeModalState: OneTimeModalState.Shown,
           maximumGroupSizeModalState: OneTimeModalState.Shown,
-          groupName: '',
-          groupAvatar: undefined,
-          groupExpireTimer: 0,
         });
       });
 
@@ -2026,16 +1686,8 @@ describe('both/state/ducks/conversations', () => {
         const state = {
           ...getEmptyState(),
           composer: {
-            ...getDefaultComposeState(),
-            step: ComposerStep.ChooseGroupMembers as const,
-            searchTerm: '',
+            ...defaultChooseGroupMembersComposerState,
             selectedConversationIds: times(1000, () => uuid()),
-            cantAddContactIdForModal: undefined,
-            recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
-            maximumGroupSizeModalState: OneTimeModalState.NeverShown,
-            groupName: '',
-            groupAvatar: undefined,
-            groupExpireTimer: 0,
           },
         };
         const action = getAction(uuid(), state);
@@ -2054,18 +1706,7 @@ describe('both/state/ducks/conversations', () => {
 
           const state = {
             ...getEmptyState(),
-            composer: {
-              ...getDefaultComposeState(),
-              step: ComposerStep.ChooseGroupMembers as const,
-              searchTerm: '',
-              selectedConversationIds: [],
-              cantAddContactIdForModal: undefined,
-              recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
-              maximumGroupSizeModalState: OneTimeModalState.NeverShown,
-              groupName: '',
-              groupAvatar: undefined,
-              groupExpireTimer: 0,
-            },
+            composer: defaultChooseGroupMembersComposerState,
           };
           const action = getAction(uuid(), state);
 
@@ -2082,18 +1723,7 @@ describe('both/state/ducks/conversations', () => {
 
         const state = {
           ...getEmptyState(),
-          composer: {
-            ...getDefaultComposeState(),
-            step: ComposerStep.ChooseGroupMembers as const,
-            searchTerm: '',
-            selectedConversationIds: [],
-            cantAddContactIdForModal: undefined,
-            recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
-            maximumGroupSizeModalState: OneTimeModalState.NeverShown,
-            groupName: '',
-            groupAvatar: undefined,
-            groupExpireTimer: 0,
-          },
+          composer: defaultChooseGroupMembersComposerState,
         };
         const action = getAction(uuid(), state);
 

@@ -253,7 +253,6 @@ type ComposerGroupCreationState = {
   groupAvatar: undefined | ArrayBuffer;
   groupName: string;
   groupExpireTimer: number;
-  isEditingAvatar: boolean;
   maximumGroupSizeModalState: OneTimeModalState;
   recommendedGroupSizeModalState: OneTimeModalState;
   selectedConversationIds: Array<string>;
@@ -272,6 +271,7 @@ type ComposerStateType =
     } & ComposerGroupCreationState)
   | ({
       step: ComposerStep.SetGroupMetadata;
+      isEditingAvatar: boolean;
     } & ComposerGroupCreationState &
       (
         | { isCreating: false; hasError: boolean }
@@ -2687,7 +2687,6 @@ export function reducer(
     let groupName: string;
     let groupAvatar: undefined | ArrayBuffer;
     let groupExpireTimer: number;
-    let isEditingAvatar = false;
     let userAvatarData = getDefaultAvatars(true);
 
     switch (state.composer?.step) {
@@ -2701,7 +2700,6 @@ export function reducer(
           groupName,
           groupAvatar,
           groupExpireTimer,
-          isEditingAvatar,
           userAvatarData,
         } = state.composer);
         break;
@@ -2727,7 +2725,6 @@ export function reducer(
         groupName,
         groupAvatar,
         groupExpireTimer,
-        isEditingAvatar,
         userAvatarData,
       },
     };
@@ -2743,13 +2740,13 @@ export function reducer(
           showArchived: false,
           composer: {
             step: ComposerStep.SetGroupMetadata,
+            isEditingAvatar: false,
             isCreating: false,
             hasError: false,
             ...pick(composer, [
               'groupAvatar',
               'groupName',
               'groupExpireTimer',
-              'isEditingAvatar',
               'maximumGroupSizeModalState',
               'recommendedGroupSizeModalState',
               'selectedConversationIds',
@@ -2852,13 +2849,12 @@ export function reducer(
     const { composer } = state;
 
     switch (composer?.step) {
-      case ComposerStep.ChooseGroupMembers:
       case ComposerStep.SetGroupMetadata:
         return {
           ...state,
           composer: {
             ...composer,
-            isEditingAvatar: !composer?.isEditingAvatar,
+            isEditingAvatar: !composer.isEditingAvatar,
           },
         };
       default:
