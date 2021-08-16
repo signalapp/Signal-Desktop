@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import {
   joinOpenGroupV2WithUIEvents,
@@ -9,9 +9,10 @@ import { updateDefaultBase64RoomData } from '../../state/ducks/defaultRooms';
 import { StateType } from '../../state/reducer';
 import { Avatar, AvatarSize } from '../Avatar';
 import { Flex } from '../basic/Flex';
-import { PillContainer } from '../basic/PillContainer';
+import { PillContainerHoverable, PillTooltipWrapper } from '../basic/PillContainer';
 import { H3 } from '../basic/Text';
 import { SessionSpinner } from './SessionSpinner';
+import styled, { DefaultTheme, useTheme } from 'styled-components';
 // tslint:disable: no-void-expression
 
 export type JoinableRoomProps = {
@@ -62,22 +63,84 @@ const SessionJoinableRoomAvatar = (props: JoinableRoomProps) => {
   );
 };
 
+const StyledRoomName = styled(Flex)`
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  padding: 0 10px;
+`;
+
+const StyledToolTip = styled.div<{ theme: DefaultTheme }>`
+  padding: ${props => props.theme.common.margins.sm};
+  background: ${props => props.theme.colors.clickableHovered};
+  font-size: ${props => props.theme.common.fonts.xs};
+  border: 1px solid ${props => props.theme.colors.pillDividerColor};
+  display: inline-block;
+  position: absolute;
+  white-space: normal;
+
+  top: 100%;
+  left: 10%;
+
+  border-radius: 300px;
+  z-index: 5;
+  opacity: 1;
+  animation: fadeIn 0.5s ease-out;
+
+  max-width: 80%;
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+  }
+`;
+
 const SessionJoinableRoomName = (props: JoinableRoomProps) => {
-  return <Flex padding="0 10px">{props.name}</Flex>;
+  return <StyledRoomName>{props.name}</StyledRoomName>;
 };
 
 const SessionJoinableRoomRow = (props: JoinableRoomProps) => {
+  const [hoverDelayReached, setHoverDelayReached] = useState(false);
+  const [isHovering, setIsHovering] = useState(false);
+  const [delayHandler, setDelayHandler] = useState<null | number>(null);
+  const theme: DefaultTheme = useTheme();
+
+  const handleMouseEnter = () => {
+    setIsHovering(true);
+    setDelayHandler(
+      setTimeout(() => {
+        setHoverDelayReached(true);
+      }, 750)
+    );
+  };
+  const handleMouseLeave = () => {
+    setIsHovering(false);
+    setHoverDelayReached(false);
+    if (delayHandler) {
+      clearTimeout(delayHandler);
+    }
+  };
+
+  const showTooltip = hoverDelayReached && isHovering;
+
   return (
-    <PillContainer
-      onClick={() => {
-        props.onClick(props.completeUrl);
-      }}
-      margin="5px"
-      padding="5px"
-    >
-      <SessionJoinableRoomAvatar {...props} />
-      <SessionJoinableRoomName {...props} />
-    </PillContainer>
+    <PillTooltipWrapper>
+      <PillContainerHoverable
+        onClick={() => {
+          props.onClick(props.completeUrl);
+        }}
+        margin="5px"
+        padding="5px"
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
+        <SessionJoinableRoomAvatar {...props} />
+        <SessionJoinableRoomName {...props} />
+      </PillContainerHoverable>
+
+      {showTooltip && <StyledToolTip theme={theme}>{props.name}</StyledToolTip>}
+    </PillTooltipWrapper>
   );
 };
 
