@@ -706,9 +706,7 @@ export async function startApp(): Promise<void> {
           const conversation = window.ConversationController.get(selectedId);
           assert(conversation, "Conversation wasn't found");
 
-          conversation.queueJob('maybeSetPendingUniversalTimer', () =>
-            conversation.maybeSetPendingUniversalTimer()
-          );
+          await conversation.updateLastMessage();
         }
       },
 

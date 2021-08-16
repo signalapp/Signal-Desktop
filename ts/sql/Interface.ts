@@ -201,6 +201,18 @@ export type UnprocessedUpdateType = {
   decrypted?: string;
 };
 
+export type LastConversationMessagesServerType = {
+  activity?: MessageType;
+  preview?: MessageType;
+  hasUserInitiatedMessages: boolean;
+};
+
+export type LastConversationMessagesType = {
+  activity?: MessageModel;
+  preview?: MessageModel;
+  hasUserInitiatedMessages: boolean;
+};
+
 export type DataInterface = {
   close: () => Promise<void>;
   removeDB: () => Promise<void>;
@@ -302,7 +314,6 @@ export type DataInterface = {
     options?: { forceSave?: boolean }
   ) => Promise<void>;
   getMessageCount: (conversationId?: string) => Promise<number>;
-  hasUserInitiatedMessages: (conversationId: string) => Promise<boolean>;
   getAllMessageIds: () => Promise<Array<string>>;
   getMessageMetricsForConversation: (
     conversationId: string
@@ -476,14 +487,10 @@ export type ServerInterface = DataInterface & {
     conversationId: string,
     options?: { limit?: number; receivedAt?: number; sentAt?: number }
   ) => Promise<Array<MessageTypeUnhydrated>>;
-  getLastConversationActivity: (options: {
+  getLastConversationMessages: (options: {
     conversationId: string;
     ourConversationId: string;
-  }) => Promise<MessageType | undefined>;
-  getLastConversationPreview: (options: {
-    conversationId: string;
-    ourConversationId: string;
-  }) => Promise<MessageType | undefined>;
+  }) => Promise<LastConversationMessagesServerType>;
   getTapToViewMessagesNeedingErase: () => Promise<Array<MessageType>>;
   removeConversation: (id: Array<string> | string) => Promise<void>;
   removeMessage: (id: string) => Promise<void>;
@@ -576,16 +583,11 @@ export type ClientInterface = DataInterface & {
       MessageCollection: typeof MessageModelCollectionType;
     }
   ) => Promise<MessageModelCollectionType>;
-  getLastConversationActivity: (options: {
+  getLastConversationMessages: (options: {
     conversationId: string;
     ourConversationId: string;
     Message: typeof MessageModel;
-  }) => Promise<MessageModel | undefined>;
-  getLastConversationPreview: (options: {
-    conversationId: string;
-    ourConversationId: string;
-    Message: typeof MessageModel;
-  }) => Promise<MessageModel | undefined>;
+  }) => Promise<LastConversationMessagesType>;
   getTapToViewMessagesNeedingErase: (options: {
     MessageCollection: typeof MessageModelCollectionType;
   }) => Promise<MessageModelCollectionType>;

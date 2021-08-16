@@ -1060,11 +1060,6 @@ export class ConversationModel extends window.Backbone
 
     // On successful fetch - mark contact as registered.
     this.setRegistered();
-
-    // If we couldn't apply universal timer before - try it again.
-    this.queueJob('maybeSetPendingUniversalTimer', async () =>
-      this.maybeSetPendingUniversalTimer()
-    );
   }
 
   isValid(): boolean {
@@ -2758,7 +2753,9 @@ export class ConversationModel extends window.Backbone
     return id;
   }
 
-  async maybeSetPendingUniversalTimer(): Promise<void> {
+  async maybeSetPendingUniversalTimer(
+    hasUserInitiatedMessages: boolean
+  ): Promise<void> {
     if (!isDirectConversation(this.attributes)) {
       return;
     }
@@ -2767,7 +2764,8 @@ export class ConversationModel extends window.Backbone
       return;
     }
 
-    if (await window.Signal.Data.hasUserInitiatedMessages(this.get('id'))) {
+    if (hasUserInitiatedMessages) {
+      await this.maybeApplyUniversalTimer(true);
       return;
     }
 
@@ -2786,7 +2784,7 @@ export class ConversationModel extends window.Backbone
     this.set('pendingUniversalTimer', notificationId);
   }
 
-  async maybeApplyUniversalTimer(): Promise<void> {
+  async maybeApplyUniversalTimer(forceRemove: boolean): Promise<void> {
     const notificationId = this.get('pendingUniversalTimer');
     if (!notificationId) {
       return;
@@ -2800,7 +2798,7 @@ export class ConversationModel extends window.Backbone
       });
     }
 
-    if (this.get('expireTimer')) {
+    if (this.get('expireTimer') || forceRemove) {
       this.set('pendingUniversalTimer', undefined);
       return;
     }
@@ -3404,7 +3402,7 @@ export class ConversationModel extends window.Backbone
         timestamp
       );
 
-      await this.maybeApplyUniversalTimer();
+      await this.maybeApplyUniversalTimer(false);
 
       const expireTimer = this.get('expireTimer');
 
@@ -3603,7 +3601,7 @@ export class ConversationModel extends window.Backbone
     this.queueJob('sendMessage', async () => {
       const now = timestamp || Date.now();
 
-      await this.maybeApplyUniversalTimer();
+      await this.maybeApplyUniversalTimer(false);
 
       const expireTimer = this.get('expireTimer');
 
@@ -3821,28 +3819,25 @@ export class ConversationModel extends window.Backbone
       return;
     }
 
-    this.queueJob('maybeSetPendingUniversalTimer', async () =>
-      this.maybeSetPendingUniversalTimer()
-    );
-
     const ourConversationId = window.ConversationController.getOurConversationId();
     if (!ourConversationId) {
       throw new Error('updateLastMessage: Failed to fetch ourConversationId');
     }
 
     const conversationId = this.id;
-    let [previewMessage, activityMessage] = await Promise.all([
-      window.Signal.Data.getLastConversationPreview({
-        conversationId,
-        ourConversationId,
-        Message: window.Whisper.Message,
-      }),
-      window.Signal.Data.getLastConversationActivity({
-        conversationId,
-        ourConversationId,
-        Message: window.Whisper.Message,
-      }),
-    ]);
+
+    const lastMessages = await window.Signal.Data.getLastConversationMessages({
+      conversationId,
+      ourConversationId,
+      Message: window.Whisper.Message,
+    });
+
+    // This runs as a job to avoid race conditions
+    this.queueJob('maybeSetPendingUniversalTimer', async () =>
+      this.maybeSetPendingUniversalTimer(lastMessages.hasUserInitiatedMessages)
+    );
+
+    let { preview: previewMessage, activity: activityMessage } = lastMessages;
 
     // Register the message with MessageController so that if it already exists
     // in memory we use that data instead of the data from the db which may
@@ -4156,7 +4151,7 @@ export class ConversationModel extends window.Backbone
 
     // This call actually removes universal timer notification and clears
     // the pending flags.
-    await this.maybeApplyUniversalTimer();
+    await this.maybeApplyUniversalTimer(true);
 
     window.Signal.Data.updateConversation(this.attributes);
 
