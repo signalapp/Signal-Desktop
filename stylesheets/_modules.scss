@@ -5420,7 +5420,7 @@ button.module-image__border-overlay:focus {
   }
 
   &--presenting {
-    $icon: '../images/icons/v2/share-screen-solid-28.svg';
+    $icon: '../images/icons/v2/share-screen-26.svg';
     &--on {
       @include calling-button-icon-on($icon);
     }
@@ -6099,10 +6099,7 @@ button.module-image__border-overlay:focus {
   }
 
   &__presenting {
-    @include color-svg(
-      '../images/icons/v2/share-screen-solid-28.svg',
-      $color-white
-    );
+    @include color-svg('../images/icons/v2/share-screen-26.svg', $color-white);
     display: inline-block;
     margin-left: 18px;
     height: 16px;
