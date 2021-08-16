@@ -63,9 +63,9 @@ declare global {
     toggleMenuBar: any;
     toggleSpellCheck: any;
     setTheme: (newTheme: string) => any;
+    isDev?: () => boolean;
     userConfig: any;
     versionInfo: any;
-    getStoragePubKey: (key: string) => string;
     getConversations: () => ConversationCollection;
     profileImages: any;
     MediaRecorder: any;
@@ -78,8 +78,10 @@ declare global {
       messageId?: string | undefined;
     }) => Promise<void>;
     LokiPushNotificationServer: any;
-    globalOnlineStatus: boolean;
+    getGlobalOnlineStatus: () => boolean;
     confirmationDialog: any;
     callWorker: (fnName: string, ...args: any) => Promise<any>;
+    setStartInTray: (val: boolean) => Promise<void>;
+    getStartInTray: () => Promise<boolean>;
   }
 }

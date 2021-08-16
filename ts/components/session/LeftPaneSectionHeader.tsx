@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import { SessionIcon, SessionIconSize, SessionIconType } from './icon';
-import { DefaultTheme, useTheme } from 'styled-components';
+import { useTheme } from 'styled-components';
 import { SessionButton } from './SessionButton';
 
 const Tab = ({

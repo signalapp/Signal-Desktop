@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { SessionButton, SessionButtonColor, SessionButtonType } from '../session/SessionButton';
+import { SessionButton, SessionButtonColor } from '../session/SessionButton';
 import { ContactType, SessionMemberListItem } from '../session/SessionMemberListItem';
 import { ToastUtils, UserUtils } from '../../session/utils';
 import autoBind from 'auto-bind';
@@ -10,7 +10,7 @@ import { getConversationController } from '../../session/conversations';
 import _ from 'lodash';
 import { SpacerLG, SpacerMD, Text } from '../basic/Text';
 import { SessionWrapperModal } from '../session/SessionWrapperModal';
-import { ConversationModel, ConversationTypeEnum } from '../../models/conversation';
+import { ConversationModel } from '../../models/conversation';
 import { updateGroupMembersModal } from '../../state/ducks/modalDialog';
 import { ClosedGroup } from '../../session';
 
@@ -130,9 +130,7 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
       'error-message',
       this.state.errorDisplayed ? 'error-shown' : 'error-faded'
     );
-    const existingZombies = this.convo.get('zombies') || [];
 
-    const hasZombies = Boolean(existingZombies.length);
     const okText = window.i18n('ok');
     const cancelText = window.i18n('cancel');
     const titleText = window.i18n('updateGroupDialogTitle', this.convo.getName());
@@ -286,7 +284,7 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
     });
   }
 
-  private onZombieClicked(selected: ContactType) {
+  private onZombieClicked(_selected: ContactType) {
     if (!this.state.isAdmin) {
       ToastUtils.pushOnlyAdminCanRemove();
       return;

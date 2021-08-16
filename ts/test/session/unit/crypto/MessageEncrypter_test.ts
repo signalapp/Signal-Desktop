@@ -3,7 +3,7 @@ import * as crypto from 'crypto';
 import * as sinon from 'sinon';
 import { concatUInt8Array, getSodium, MessageEncrypter } from '../../../../session/crypto';
 import { EncryptionType } from '../../../../session/types/EncryptionType';
-import { Stubs, TestUtils } from '../../../test-utils';
+import { TestUtils } from '../../../test-utils';
 import { SignalService } from '../../../../protobuf';
 
 import { StringUtils, UserUtils } from '../../../../session/utils';

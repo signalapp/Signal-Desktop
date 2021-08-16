@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 
 import { SessionButton, SessionButtonColor } from '../session/SessionButton';
 import { ContactType, SessionMemberListItem } from '../session/SessionMemberListItem';
-import { useTheme } from 'styled-components';
 import { getConversationController } from '../../session/conversations';
 import { ToastUtils, UserUtils } from '../../session/utils';
 import { initiateGroupUpdate } from '../../session/group';
@@ -22,7 +21,6 @@ type Props = {
 const InviteContactsDialogInner = (props: Props) => {
   const { conversationId } = props;
 
-  const theme = useTheme();
   const dispatch = useDispatch();
 
   const convo = getConversationController().get(conversationId);

@@ -4,11 +4,9 @@ import { OpenGroupRequestCommonType } from '../../opengroup/opengroupV2/ApiUtil'
 import {
   AttachmentPointer,
   AttachmentPointerWithUrl,
-  Preview,
   PreviewWithAttachmentUrl,
   Quote,
   QuotedAttachment,
-  QuotedAttachmentWithUrl,
 } from '../messages/outgoing/visibleMessage/VisibleMessage';
 import { uploadFileOpenGroupV2 } from '../../opengroup/opengroupV2/OpenGroupAPIV2';
 import { addAttachmentPadding } from '../crypto/BufferPadding';

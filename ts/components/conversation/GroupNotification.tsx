@@ -1,8 +1,7 @@
 import React from 'react';
-import { compact, flatten } from 'lodash';
+import { flatten } from 'lodash';
 
 import { Intl } from '../Intl';
-import { missingCaseError } from '../../util/missingCaseError';
 import {
   PropsForGroupUpdate,
   PropsForGroupUpdateAdd,

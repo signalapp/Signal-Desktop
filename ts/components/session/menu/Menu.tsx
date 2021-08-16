@@ -2,7 +2,6 @@ import React from 'react';
 
 import { getNumberOfPinnedConversations } from '../../../state/selectors/conversations';
 import { getFocusedSection } from '../../../state/selectors/section';
-import { TimerOption } from '../../conversation/ConversationHeader';
 import { Item, Submenu } from 'react-contexify';
 import { ConversationNotificationSettingType } from '../../../models/conversation';
 import { useDispatch, useSelector } from 'react-redux';
@@ -324,7 +323,7 @@ export function getDisappearingMenuItem(
       Boolean(isBlocked)
     )
   ) {
-    const isRtlMode = isRtlBody();
+    // const isRtlMode = isRtlBody();
 
     return (
       // Remove the && false to make context menu work with RTL support

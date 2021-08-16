@@ -1,10 +1,6 @@
-import {
-  getV2OpenGroupRoomByRoomId,
-  OpenGroupV2Room,
-  saveV2OpenGroupRoom,
-} from '../../data/opengroups';
+import { getV2OpenGroupRoomByRoomId, saveV2OpenGroupRoom } from '../../data/opengroups';
 import { allowOnlyOneAtATime } from '../../session/utils/Promise';
-import { fromBase64ToArrayBuffer, toHex } from '../../session/utils/String';
+import { toHex } from '../../session/utils/String';
 import { getIdentityKeyPair, getOurPubKeyStrFromCache } from '../../session/utils/User';
 import { OpenGroupRequestCommonType, OpenGroupV2Request } from './ApiUtil';
 import { sendApiV2Request } from './OpenGroupAPIV2';

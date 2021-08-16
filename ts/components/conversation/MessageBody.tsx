@@ -79,7 +79,18 @@ export class MessageBody extends React.Component<Props> {
   };
 
   public renderJsxSelectable(jsx: JSX.Element): JSX.Element {
-    return <span className="text-selectable">{jsx}</span>;
+    return (
+      <span
+        className="text-selectable"
+        onDragStart={(e: any) => {
+          e.preventDefault();
+          e.stopPropagation();
+          return false;
+        }}
+      >
+        {jsx}
+      </span>
+    );
   }
 
   public render() {

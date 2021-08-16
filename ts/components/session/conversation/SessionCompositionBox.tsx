@@ -1,5 +1,5 @@
 import React from 'react';
-import _, { debounce, update } from 'lodash';
+import _, { debounce } from 'lodash';
 
 import { Attachment, AttachmentType } from '../../../types/Attachment';
 import * as MIME from '../../../types/MIME';
@@ -551,6 +551,11 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
     // we try to match the first link found in the current message
     const links = window.Signal.LinkPreviews.findLinks(this.props.draft, undefined);
     if (!links || links.length === 0 || ignoredLink === links[0]) {
+      if (this.state.stagedLinkPreview) {
+        this.setState({
+          stagedLinkPreview: undefined,
+        });
+      }
       return <></>;
     }
     const firstLink = links[0];
@@ -769,7 +774,7 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
     }
   }
 
-  private async onKeyUp(event: any) {
+  private async onKeyUp() {
     const { draft } = this.props;
     // Called whenever the user changes the message composition field. But only
     //   fires if there's content in the message field after the change.

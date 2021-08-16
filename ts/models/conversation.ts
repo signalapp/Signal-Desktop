@@ -44,6 +44,7 @@ import { getOpenGroupV2FromConversationId } from '../opengroup/utils/OpenGroupUt
 import { createTaskWithTimeout } from '../session/utils/TaskWithTimeout';
 import { perfEnd, perfStart } from '../session/utils/Performance';
 import { ReplyingToMessageProps } from '../components/session/conversation/SessionCompositionBox';
+import { ed25519Str } from '../session/onions/onionPath';
 
 export enum ConversationTypeEnum {
   GROUP = 'group',
@@ -231,7 +232,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       return `opengroup(${this.id})`;
     }
 
-    return `group(${this.id})`;
+    return `group(${ed25519Str(this.id)})`;
   }
 
   public isMe() {
@@ -389,7 +390,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
   }
 
-  public async onExpired(message: MessageModel) {
+  public async onExpired(_message: MessageModel) {
     await this.updateLastMessage();
 
     // removeMessage();
@@ -997,10 +998,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         hasErrors: Boolean(errors && errors.length),
       });
     }
-
     const oldUnreadNowReadAttrs = oldUnreadNowRead.map(m => m.attributes);
-
-    await saveMessages(oldUnreadNowReadAttrs);
+    if (oldUnreadNowReadAttrs?.length) {
+      await saveMessages(oldUnreadNowReadAttrs);
+    }
     const allProps: Array<MessageModelProps> = [];
 
     for (const nowRead of oldUnreadNowRead) {
@@ -1206,8 +1207,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
    * @param profileKey MUST be a hex string
    */
   public async setProfileKey(profileKey?: Uint8Array, autoCommit = true) {
-    const re = /[0-9A-Fa-f]*/g;
-
     if (!profileKey) {
       return;
     }
@@ -1496,7 +1495,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
   }
 
-  public async clearContactTypingTimer(sender: string) {
+  public async clearContactTypingTimer(_sender: string) {
     if (!!this.typingTimer) {
       global.clearTimeout(this.typingTimer);
       this.typingTimer = null;

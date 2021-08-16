@@ -6,6 +6,7 @@ import { RenderTextCallbackType } from '../../types/Util';
 import { isLinkSneaky } from '../../../js/modules/link_previews';
 import { updateConfirmModal } from '../../state/ducks/modalDialog';
 import { shell } from 'electron';
+import { MessageInteraction } from '../../interactions';
 
 const linkify = LinkifyIt();
 
@@ -85,9 +86,14 @@ export class Linkify extends React.Component<Props> {
         title: window.i18n('linkVisitWarningTitle'),
         message: window.i18n('linkVisitWarningMessage', url),
         okText: window.i18n('open'),
+        cancelText: window.i18n('copy'),
         onClickOk: openLink,
         onClickClose: () => {
           window.inboxStore?.dispatch(updateConfirmModal(null));
+        },
+
+        onClickCancel: () => {
+          MessageInteraction.copyBodyToClipboard(url);
         },
       })
     );

@@ -143,8 +143,6 @@ export const _getLeftPaneLists = (
   const conversations: Array<ReduxConversationType> = [];
   const directConversations: Array<ReduxConversationType> = [];
 
-  let index = 0;
-
   let unreadCount = 0;
   for (let conversation of sorted) {
     if (selectedConversation === conversation.id) {
@@ -179,12 +177,15 @@ export const _getLeftPaneLists = (
       directConversations.push(conversation);
     }
 
-    if (unreadCount < 9 && conversation.unreadCount > 0) {
+    if (
+      unreadCount < 9 &&
+      conversation.unreadCount > 0 &&
+      conversation.currentNotificationSetting !== 'disabled'
+    ) {
       unreadCount += conversation.unreadCount;
     }
 
     conversations.push(conversation);
-    index++;
   }
 
   return {

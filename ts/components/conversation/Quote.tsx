@@ -1,6 +1,6 @@
 // tslint:disable:react-this-binding-issue
 
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import classNames from 'classnames';
 
 import * as MIME from '../../../ts/types/MIME';
@@ -309,15 +309,7 @@ export const QuoteReferenceWarning = (props: any) => {
 };
 
 export const Quote = (props: QuotePropsWithListener) => {
-  const [_imageBroken, setImageBroken] = useState(false);
-
   const handleImageErrorBound = null;
-
-  const handleImageError = () => {
-    // tslint:disable-next-line no-console
-    console.log('Message: Image failed to load; failing over to placeholder');
-    setImageBroken(true);
-  };
 
   const { isIncoming, onClick, referencedMessageNotFound, withContentAbove } = props;
 

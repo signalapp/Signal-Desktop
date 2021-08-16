@@ -1,7 +1,6 @@
 import Backbone from 'backbone';
 // tslint:disable-next-line: match-default-export-name
 import filesize from 'filesize';
-import _, { noop } from 'lodash';
 import { SignalService } from '../../ts/protobuf';
 import { getMessageQueue, Utils } from '../../ts/session';
 import { getConversationController } from '../../ts/session/conversations';
@@ -22,7 +21,6 @@ import autoBind from 'auto-bind';
 import { saveMessage } from '../../ts/data/data';
 import { ConversationModel, ConversationTypeEnum } from './conversation';
 import {
-  actions as conversationActions,
   FindAndFormatContactType,
   LastMessageStatusType,
   MessageModelProps,
@@ -44,7 +42,6 @@ import {
 import { VisibleMessage } from '../session/messages/outgoing/visibleMessage/VisibleMessage';
 import { buildSyncMessage } from '../session/utils/syncUtils';
 import { isOpenGroupV2 } from '../opengroup/utils/OpenGroupUtils';
-import { MessageInteraction } from '../interactions';
 import {
   uploadAttachmentsV2,
   uploadLinkPreviewsV2,
@@ -56,6 +53,7 @@ import { getMessageController } from '../session/messages';
 import { isUsFromCache } from '../session/utils/User';
 import { perfEnd, perfStart } from '../session/utils/Performance';
 import { AttachmentTypeWithPath } from '../types/Attachment';
+import _ from 'lodash';
 
 export class MessageModel extends Backbone.Model<MessageAttributes> {
   constructor(attributes: MessageAttributesOptionals & { skipTimerInit?: boolean }) {
@@ -651,7 +649,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     });
   }
 
-  public getPropsForQuote(options: any = {}) {
+  public getPropsForQuote(_options: any = {}) {
     const quote = this.get('quote');
 
     if (!quote) {
@@ -785,11 +783,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     };
 
     return toRet;
-  }
-
-  public copyPubKey() {
-    // this.getSource return out pubkey if this is an outgoing message, or the sender pubkey
-    MessageInteraction.copyPubKey(this.getSource());
   }
 
   /**
