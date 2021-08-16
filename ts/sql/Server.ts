@@ -52,6 +52,7 @@ import {
   IdentityKeyType,
   ItemKeyType,
   ItemType,
+  LastConversationMessagesServerType,
   MessageMetricsType,
   MessageType,
   MessageTypeUnhydrated,
@@ -179,7 +180,6 @@ const dataInterface: ServerInterface = {
   searchMessagesInConversation,
 
   getMessageCount,
-  hasUserInitiatedMessages,
   saveMessage,
   saveMessages,
   removeMessage,
@@ -203,8 +203,7 @@ const dataInterface: ServerInterface = {
   getOlderMessagesByConversation,
   getNewerMessagesByConversation,
   getMessageMetricsForConversation,
-  getLastConversationActivity,
-  getLastConversationPreview,
+  getLastConversationMessages,
   hasGroupCallHistoryMessage,
   migrateConversationMessages,
 
@@ -3513,10 +3512,7 @@ async function getMessageCount(conversationId?: string): Promise<number> {
   return row['count(*)'];
 }
 
-// Called only for private conversations
-async function hasUserInitiatedMessages(
-  conversationId: string
-): Promise<boolean> {
+function hasUserInitiatedMessages(conversationId: string): boolean {
   const db = getInstance();
 
   // We apply the limit in the sub-query so that `json_extract` wouldn't run
@@ -3538,10 +3534,10 @@ async function hasUserInitiatedMessages(
                 'keychange',
                 'group-v1-migration',
                 'universal-timer-notification',
-                'change-number-notification'
+                'change-number-notification',
+                'group-v2-change'
               )
-            ) AND
-            json_extract(json, '$.expirationTimerUpdate') IS NULL
+            )
           LIMIT 1
         );
       `
@@ -4218,13 +4214,13 @@ function getNewestMessageForConversation(
   return row;
 }
 
-async function getLastConversationActivity({
+function getLastConversationActivity({
   conversationId,
   ourConversationId,
 }: {
   conversationId: string;
   ourConversationId: string;
-}): Promise<MessageType | undefined> {
+}): MessageType | undefined {
   const db = getInstance();
   const row = prepare(
     db,
@@ -4270,13 +4266,13 @@ async function getLastConversationActivity({
 
   return jsonToObject(row.json);
 }
-async function getLastConversationPreview({
+function getLastConversationPreview({
   conversationId,
   ourConversationId,
 }: {
   conversationId: string;
   ourConversationId: string;
-}): Promise<MessageType | undefined> {
+}): MessageType | undefined {
   const db = getInstance();
   const row = prepare(
     db,
@@ -4317,6 +4313,31 @@ async function getLastConversationPreview({
 
   return jsonToObject(row.json);
 }
+
+async function getLastConversationMessages({
+  conversationId,
+  ourConversationId,
+}: {
+  conversationId: string;
+  ourConversationId: string;
+}): Promise<LastConversationMessagesServerType> {
+  const db = getInstance();
+
+  return db.transaction(() => {
+    return {
+      activity: getLastConversationActivity({
+        conversationId,
+        ourConversationId,
+      }),
+      preview: getLastConversationPreview({
+        conversationId,
+        ourConversationId,
+      }),
+      hasUserInitiatedMessages: hasUserInitiatedMessages(conversationId),
+    };
+  })();
+}
+
 function getOldestUnreadMessageForConversation(
   conversationId: string
 ): MessageMetricsType | undefined {

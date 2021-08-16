@@ -48,6 +48,7 @@ import {
   IdentityKeyType,
   ItemKeyType,
   ItemType,
+  LastConversationMessagesType,
   MessageType,
   MessageTypeUnhydrated,
   PreKeyType,
@@ -190,7 +191,6 @@ const dataInterface: ClientInterface = {
   searchMessagesInConversation,
 
   getMessageCount,
-  hasUserInitiatedMessages,
   saveMessage,
   saveMessages,
   removeMessage,
@@ -213,8 +213,7 @@ const dataInterface: ClientInterface = {
   getTapToViewMessagesNeedingErase,
   getOlderMessagesByConversation,
   getNewerMessagesByConversation,
-  getLastConversationActivity,
-  getLastConversationPreview,
+  getLastConversationMessages,
   getMessageMetricsForConversation,
   hasGroupCallHistoryMessage,
   migrateConversationMessages,
@@ -1063,10 +1062,6 @@ async function getMessageCount(conversationId?: string) {
   return channels.getMessageCount(conversationId);
 }
 
-async function hasUserInitiatedMessages(conversationId: string) {
-  return channels.hasUserInitiatedMessages(conversationId);
-}
-
 async function saveMessage(
   data: MessageType,
   options?: { forceSave?: boolean }
@@ -1267,7 +1262,7 @@ async function getNewerMessagesByConversation(
 
   return new MessageCollection(handleMessageJSON(messages));
 }
-async function getLastConversationActivity({
+async function getLastConversationMessages({
   conversationId,
   ourConversationId,
   Message,
@@ -1275,33 +1270,21 @@ async function getLastConversationActivity({
   conversationId: string;
   ourConversationId: string;
   Message: typeof MessageModel;
-}): Promise<MessageModel | undefined> {
-  const result = await channels.getLastConversationActivity({
+}): Promise<LastConversationMessagesType> {
+  const {
+    preview,
+    activity,
+    hasUserInitiatedMessages,
+  } = await channels.getLastConversationMessages({
     conversationId,
     ourConversationId,
   });
-  if (result) {
-    return new Message(result);
-  }
-  return undefined;
-}
-async function getLastConversationPreview({
-  conversationId,
-  ourConversationId,
-  Message,
-}: {
-  conversationId: string;
-  ourConversationId: string;
-  Message: typeof MessageModel;
-}): Promise<MessageModel | undefined> {
-  const result = await channels.getLastConversationPreview({
-    conversationId,
-    ourConversationId,
-  });
-  if (result) {
-    return new Message(result);
-  }
-  return undefined;
+
+  return {
+    preview: preview ? new Message(preview) : undefined,
+    activity: activity ? new Message(activity) : undefined,
+    hasUserInitiatedMessages,
+  };
 }
 async function getMessageMetricsForConversation(conversationId: string) {
   const result = await channels.getMessageMetricsForConversation(
