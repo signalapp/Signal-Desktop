@@ -11,7 +11,7 @@ const workerConfig: Configuration = {
   context,
   mode: 'development',
   devtool: false,
-  entry: ['./ts/workers/heicConverterMain.js'],
+  entry: ['./ts/workers/heicConverterWorker.js'],
   target: 'node',
   output: {
     path: resolve(context, 'ts', 'workers'),
