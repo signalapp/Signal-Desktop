@@ -2166,9 +2166,6 @@ export async function startApp(): Promise<void> {
   let connectCount = 0;
   let connecting = false;
   async function connect(firstRun?: boolean) {
-    window.receivedAtCounter =
-      window.storage.get('lastReceivedAtCounter') || Date.now();
-
     if (connecting) {
       window.log.warn('connect already running', { connectCount });
       return;
