@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { SessionButton } from '../session/SessionButton';
 import { ToastUtils, UserUtils } from '../../session/utils';
@@ -9,73 +9,34 @@ import { QRCode } from 'react-qr-svg';
 import { mn_decode } from '../../session/crypto/mnemonic';
 import { SessionWrapperModal } from '../session/SessionWrapperModal';
 import { SpacerLG, SpacerSM, SpacerXS } from '../basic/Text';
-import autoBind from 'auto-bind';
 import { recoveryPhraseModal } from '../../state/ducks/modalDialog';
+import { useEffect } from 'react';
 
-interface State {
-  error: string;
-  loadingPassword: boolean;
-  loadingSeed: boolean;
-  recoveryPhrase: string;
-  hasPassword: boolean | null;
-  passwordHash: string;
-  passwordValid: boolean;
+interface Props {
+  onClickOk?: () => any;
 }
 
-class SessionSeedModalInner extends React.Component<{}, State> {
-  constructor(props: any) {
-    super(props);
+const SessionSeedModalInner = (props: Props) => {
+  const [error, setError] = useState('');
+  const [loadingPassword, setLoadingPassword] = useState(true);
+  const [loadingSeed, setLoadingSeed] = useState(true);
+  const [recoveryPhrase, setRecoveryPhrase] = useState('');
+  const [hasPassword, setHasPassword] = useState<null | boolean>(null);
+  const [passwordHash, setPasswordHash] = useState('');
+  const [passwordValid, setPasswordValid] = useState(false);
 
-    this.state = {
-      error: '',
-      loadingPassword: true,
-      loadingSeed: true,
-      recoveryPhrase: '',
-      hasPassword: null,
-      passwordHash: '',
-      passwordValid: false,
-    };
-
-    autoBind(this);
-  }
-
-  public componentDidMount() {
+  useEffect(() => {
     setTimeout(() => ($('#seed-input-password') as any).focus(), 100);
+    void checkHasPassword();
+    void getRecoveryPhrase();
+  }, []);
 
-    void this.checkHasPassword();
-    void this.getRecoveryPhrase();
-  }
 
-  public render() {
-    const i18n = window.i18n;
+  const i18n = window.i18n;
 
-    const { hasPassword, passwordValid } = this.state;
-    const loading = this.state.loadingPassword || this.state.loadingSeed;
-    const onClose = () => window.inboxStore?.dispatch(recoveryPhraseModal(null));
+  const onClose = () => window.inboxStore?.dispatch(recoveryPhraseModal(null));
 
-    return (
-      <>
-        {!loading && (
-          <SessionWrapperModal
-            title={i18n('showRecoveryPhrase')}
-            onClose={onClose}
-            showExitIcon={true}
-          >
-            <SpacerSM />
-
-            {hasPassword && !passwordValid ? (
-              <>{this.renderPasswordView()}</>
-            ) : (
-              <>{this.renderSeedView()}</>
-            )}
-          </SessionWrapperModal>
-        )}
-      </>
-    );
-  }
-
-  private renderPasswordView() {
-    const error = this.state.error;
+  const renderPasswordView = () => {
     const i18n = window.i18n;
 
     const onClose = () => window.inboxStore?.dispatch(recoveryPhraseModal(null));
@@ -87,7 +48,7 @@ class SessionSeedModalInner extends React.Component<{}, State> {
           type="password"
           id="seed-input-password"
           placeholder={i18n('password')}
-          onKeyUp={this.onEnter}
+          onKeyUp={onEnter}
         />
 
         {error && (
@@ -100,7 +61,7 @@ class SessionSeedModalInner extends React.Component<{}, State> {
         <SpacerLG />
 
         <div className="session-modal__button-group">
-          <SessionButton text={i18n('ok')} onClick={this.confirmPassword} />
+          <SessionButton text={i18n('ok')} onClick={confirmPassword} />
 
           <SessionButton text={i18n('cancel')} onClick={onClose} />
         </div>
@@ -108,12 +69,12 @@ class SessionSeedModalInner extends React.Component<{}, State> {
     );
   }
 
-  private renderSeedView() {
+  const renderSeedView = () => {
     const i18n = window.i18n;
     const bgColor = '#FFFFFF';
     const fgColor = '#1B1B1B';
 
-    const hexEncodedSeed = mn_decode(this.state.recoveryPhrase, 'english');
+    const hexEncodedSeed = mn_decode(recoveryPhrase, 'english');
 
     return (
       <>
@@ -121,7 +82,7 @@ class SessionSeedModalInner extends React.Component<{}, State> {
           <p className="session-modal__description">{i18n('recoveryPhraseSavePromptMain')}</p>
           <SpacerXS />
 
-          <i className="session-modal__text-highlight">{this.state.recoveryPhrase}</i>
+          <i className="session-modal__text-highlight">{recoveryPhrase}</i>
         </div>
         <SpacerLG />
         <div className="qr-image">
@@ -132,7 +93,7 @@ class SessionSeedModalInner extends React.Component<{}, State> {
           <SessionButton
             text={i18n('copy')}
             onClick={() => {
-              this.copyRecoveryPhrase(this.state.recoveryPhrase);
+              copyRecoveryPhrase(recoveryPhrase);
             }}
           />
         </div>
@@ -140,77 +101,88 @@ class SessionSeedModalInner extends React.Component<{}, State> {
     );
   }
 
-  private confirmPassword() {
-    const passwordHash = this.state.passwordHash;
+  const confirmPassword = () => {
     const passwordValue = jQuery('#seed-input-password').val();
     const isPasswordValid = PasswordUtil.matchesHash(passwordValue as string, passwordHash);
 
     if (!passwordValue) {
-      this.setState({
-        error: window.i18n('noGivenPassword'),
-      });
-
+      setError('noGivenPassword');
       return false;
     }
 
     if (passwordHash && !isPasswordValid) {
-      this.setState({
-        error: window.i18n('invalidPassword'),
-      });
-
+      setError('invalidPassword');
       return false;
     }
 
-    this.setState({
-      passwordValid: true,
-      error: '',
-    });
+    setPasswordValid(true);
+    setError('');
 
-    window.removeEventListener('keyup', this.onEnter);
-
+    window.removeEventListener('keyup', onEnter);
     return true;
   }
 
-  private async checkHasPassword() {
-    if (!this.state.loadingPassword) {
+  const checkHasPassword = async () => {
+    if (!loadingPassword) {
       return;
     }
 
     const hash = await getPasswordHash();
-    this.setState({
-      hasPassword: !!hash,
-      passwordHash: hash || '',
-      loadingPassword: false,
-    });
+    setHasPassword(!!hash);
+    setPasswordHash(hash || '');
+    setLoadingPassword(false);
   }
 
-  private async getRecoveryPhrase() {
-    if (this.state.recoveryPhrase) {
+  const getRecoveryPhrase = async () => {
+    if (recoveryPhrase) {
       return false;
     }
-
-    const recoveryPhrase = UserUtils.getCurrentRecoveryPhrase();
-
-    this.setState({
-      recoveryPhrase,
-      loadingSeed: false,
-    });
+    const newRecoveryPhrase = UserUtils.getCurrentRecoveryPhrase();
+    setRecoveryPhrase(newRecoveryPhrase);
+    setLoadingSeed(false);
 
     return true;
   }
 
-  private copyRecoveryPhrase(recoveryPhrase: string) {
+  const copyRecoveryPhrase = (recoveryPhrase: string) => {
     window.clipboard.writeText(recoveryPhrase);
 
     ToastUtils.pushCopiedToClipBoard();
     window.inboxStore?.dispatch(recoveryPhraseModal(null));
   }
 
-  private onEnter(event: any) {
+  const onEnter = (event: any) => {
     if (event.key === 'Enter') {
-      this.confirmPassword();
+      confirmPassword();
     }
   }
+
+  if (Math.random() > 0.5) {
+    return null;
+  }
+
+  return (
+    <>
+      {!loadingSeed && (
+        <SessionWrapperModal
+          title={i18n('showRecoveryPhrase')}
+          onClose={onClose}
+          showExitIcon={true}
+        >
+          <SpacerSM />
+
+          {hasPassword && !passwordValid ? (
+            <>{renderPasswordView()}</>
+          ) : (
+            <>{renderSeedView()}</>
+          )}
+        </SessionWrapperModal>
+      )}
+      :
+    </>
+   );
 }
 
-export const SessionSeedModal = withTheme(SessionSeedModalInner);
+// withTheme(SessionSeedModalInner)
+// export const SessionSeedModal = withTheme(SessionSeedModalInner);
+export const SessionSeedModal = SessionSeedModalInner;
