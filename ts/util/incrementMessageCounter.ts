@@ -3,21 +3,20 @@
 
 import { debounce } from 'lodash';
 
+let receivedAtCounter: number | undefined;
+
 export function incrementMessageCounter(): number {
-  if (!window.receivedAtCounter) {
-    window.receivedAtCounter =
+  if (!receivedAtCounter) {
+    receivedAtCounter =
       Number(localStorage.getItem('lastReceivedAtCounter')) || Date.now();
   }
 
-  window.receivedAtCounter += 1;
+  receivedAtCounter += 1;
   debouncedUpdateLastReceivedAt();
 
-  return window.receivedAtCounter;
+  return receivedAtCounter;
 }
 
 const debouncedUpdateLastReceivedAt = debounce(() => {
-  localStorage.setItem(
-    'lastReceivedAtCounter',
-    String(window.receivedAtCounter)
-  );
+  localStorage.setItem('lastReceivedAtCounter', String(receivedAtCounter));
 }, 500);

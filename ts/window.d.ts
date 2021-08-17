@@ -189,7 +189,6 @@ declare global {
     baseAttachmentsPath: string;
     baseStickersPath: string;
     baseTempPath: string;
-    receivedAtCounter: number;
     enterKeyboardMode: () => void;
     enterMouseMode: () => void;
     getAccountManager: () => AccountManager;
