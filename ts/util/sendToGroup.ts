@@ -275,7 +275,7 @@ export async function sendToGroupViaSenderKey(options: {
         memberDevices: [],
       },
     });
-    await window.Signal.Data.updateConversation(attributes);
+    window.Signal.Data.updateConversation(attributes);
   } else if (isOlderThan(attributes.senderKeyInfo.createdAtDate, THIRTY_DAYS)) {
     const { createdAtDate } = attributes.senderKeyInfo;
     window.log.info(
@@ -397,7 +397,7 @@ export async function sendToGroupViaSenderKey(options: {
         memberDevices: updatedMemberDevices,
       },
     });
-    await window.Signal.Data.updateConversation(conversation.attributes);
+    window.Signal.Data.updateConversation(conversation.attributes);
 
     // Restart here because we might have discovered new or dropped devices as part of
     //   distributing our sender key.
@@ -424,7 +424,7 @@ export async function sendToGroupViaSenderKey(options: {
         memberDevices: updatedMemberDevices,
       },
     });
-    await window.Signal.Data.updateConversation(conversation.attributes);
+    window.Signal.Data.updateConversation(conversation.attributes);
   }
 
   // 10. Send the Sender Key message!
@@ -645,7 +645,7 @@ async function markIdentifierUnregistered(identifier: string) {
   );
 
   conversation.setUnregistered();
-  await window.Signal.Data.updateConversation(conversation.attributes);
+  window.Signal.Data.updateConversation(conversation.attributes);
 
   await window.textsecure.storage.protocol.archiveAllSessions(identifier);
 }
@@ -733,9 +733,7 @@ async function handle410Response(
                 ),
               },
             });
-            await window.Signal.Data.updateConversation(
-              conversation.attributes
-            );
+            window.Signal.Data.updateConversation(conversation.attributes);
           }
         }
       }),
@@ -1005,11 +1003,6 @@ async function resetSenderKey(conversation: ConversationModel): Promise<void> {
   const { distributionId } = senderKeyInfo;
   const address = getOurAddress();
 
-  await window.textsecure.storage.protocol.removeSenderKey(
-    address,
-    distributionId
-  );
-
   // Note: We preserve existing distributionId to minimize space for sender key storage
   conversation.set({
     senderKeyInfo: {
@@ -1018,7 +1011,12 @@ async function resetSenderKey(conversation: ConversationModel): Promise<void> {
       memberDevices: [],
     },
   });
-  await window.Signal.Data.updateConversation(conversation.attributes);
+  window.Signal.Data.updateConversation(conversation.attributes);
+
+  await window.textsecure.storage.protocol.removeSenderKey(
+    address,
+    distributionId
+  );
 }
 
 function getAccessKey(
@@ -1094,7 +1092,7 @@ async function fetchKeysForIdentifier(
       emptyConversation.set({
         sealedSender: SEALED_SENDER.DISABLED,
       });
-      await window.Signal.Data.updateConversation(emptyConversation.attributes);
+      window.Signal.Data.updateConversation(emptyConversation.attributes);
     }
   } catch (error) {
     if (error.name === 'UnregisteredUserError') {
