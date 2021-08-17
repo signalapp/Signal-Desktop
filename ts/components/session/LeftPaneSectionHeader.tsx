@@ -8,6 +8,7 @@ import { UserUtils } from '../../session/utils';
 import { useDispatch, useSelector } from 'react-redux';
 import { disableRecoveryPhrasePrompt } from '../../state/ducks/userConfig';
 import { getShowRecoveryPhrasePrompt } from '../../state/selectors/userConfig';
+import { recoveryPhraseModal } from '../../state/ducks/modalDialog';
 
 const Tab = ({
   isSelected,
@@ -69,9 +70,9 @@ export const LeftPaneSectionHeader = (props: Props) => {
 };
 
 export const LeftPaneBanner = () => {
-  const [completion, setCompletion] = useState(80);
-  const [bodyText, setBodyText] = useState(window.i18n('recoveryPhraseSecureMessage'));
-  const [buttonText, setButtonText] = useState(window.i18n('recoveryPhraseSecureButtonText'));
+  const [completion, setCompletion] = useState(90);
+  const [bodyText, setBodyText] = useState(window.i18n('recoveryPhraseRevealMessage'));
+  const [buttonText, setButtonText] = useState(window.i18n('recoveryPhraseRevealButtonText'));
   const [recoveryPhraseHidden, setRecoveryPhraseHidden] = useState(true);
   const [isCompleted, setIsCompleted] = useState(false);
   const [bannerTitle, setBannerTitle] = useState(window.i18n('recoveryPhraseSecureTitle'));
@@ -79,19 +80,17 @@ export const LeftPaneBanner = () => {
   const secondsBeforeRemoval = 2 * 1000;
   const completionText = `${completion}%`;
 
+  const dispatch = useDispatch();
+
   const handleShowRecoveryClick = () => {
-    setRecoveryPhraseHidden(false);
-    setBodyText(window.i18n('recoveryPhraseInfoMessage'));
-    setButtonText(window.i18n('copy'));
+    // setRecoveryPhraseHidden(false);
+    // setBodyText(window.i18n('recoveryPhraseInfoMessage'));
+    // setButtonText(window.i18n('copy'));
+
+    // show a modal
+    dispatch(recoveryPhraseModal({}))
   };
 
-  const handleSecureClick = () => {
-    if (completion === 80) {
-      setCompletion(90);
-      setBodyText(window.i18n('recoveryPhraseRevealMessage'));
-      setButtonText(window.i18n('recoveryPhraseRevealButtonText'));
-    }
-  };
 
   const BannerInner = (props: any) => {
     const dispatch = useDispatch();
@@ -111,9 +110,7 @@ export const LeftPaneBanner = () => {
     };
 
     const onClick =
-      completion === 80
-        ? handleSecureClick
-        : completion === 90
+      completion === 90
         ? recoveryPhraseHidden
           ? handleShowRecoveryClick
           : handleCopyPhraseClick

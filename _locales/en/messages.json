@@ -427,10 +427,8 @@
   "dialogClearAllDataDeletionQuestion": "Would you like to clear only this device, or delete your entire account?",
   "deviceOnly": "Device Only",
   "entireAccount": "Entire Account",
-  "recoveryPhraseSecureMessage": "Secure your account by saving your recovery phrase",
   "recoveryPhraseSecureTitle": "You're almost finished!",
-  "recoveryPhraseSecureButtonText": "Secure your account",
-  "recoveryPhraseRevealMessage": "Reveal your recovery phrase then store it safely to secure it",
+  "recoveryPhraseRevealMessage": "Secure your account by saving your recovery phrase. Reveal your recovery phrase then store it safely to secure it",
   "recoveryPhraseRevealButtonText": "Reveal Recovery Phrase",
   "recoveryPhraseInfoMessage": "Meet your recovery phrase Your recovery phrase is the master key to your session ID - you can use it to restore your Session ID if you lose access to your device, Store your recovery phrase in a safe place, and don't give it to anyone.",
   "recoveryPhraseCompleteTitle": "Account secured!"
