@@ -1,20 +1,18 @@
 import React from 'react';
 import _, { debounce } from 'lodash';
 
-import { Attachment, AttachmentType } from '../../../types/Attachment';
+import { AttachmentType } from '../../../types/Attachment';
 import * as MIME from '../../../types/MIME';
 
 import { SessionIconButton, SessionIconSize, SessionIconType } from '../icon';
 import { SessionEmojiPanel } from './SessionEmojiPanel';
 import { SessionRecording } from './SessionRecording';
 
-import { SignalService } from '../../../protobuf';
-
 import { Constants } from '../../../session';
 
 import { toArray } from 'react-emoji-render';
 import { Flex } from '../../basic/Flex';
-import { StagedAttachmentList } from '../../conversation/AttachmentList';
+import { StagedAttachmentList } from '../../conversation/StagedAttachmentList';
 import { ToastUtils } from '../../../session/utils';
 import { AttachmentUtil } from '../../../util';
 import {
@@ -79,8 +77,16 @@ export interface StagedAttachmentType extends AttachmentType {
   file: File;
 }
 
+export type SendMessageType = {
+  body: string;
+  attachments: Array<StagedAttachmentType> | undefined;
+  quote: any | undefined;
+  preview: any | undefined;
+  groupInvitation: { url: string | undefined; name: string } | undefined;
+};
+
 interface Props {
-  sendMessage: any;
+  sendMessage: (msg: SendMessageType) => void;
   draft: string;
 
   onLoadVoiceNoteView: any;
@@ -872,14 +878,13 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
 
     try {
       const attachments = await this.getFiles();
-      await this.props.sendMessage(
-        messagePlaintext,
-        attachments,
-        extractedQuotedMessageProps,
-        linkPreviews,
-        null,
-        {}
-      );
+      this.props.sendMessage({
+        body: messagePlaintext,
+        attachments: attachments || [],
+        quote: extractedQuotedMessageProps,
+        preview: linkPreviews,
+        groupInvitation: undefined,
+      });
 
       this.props.clearAttachments();
 
@@ -921,27 +926,27 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
       return;
     }
 
-    const fileBuffer = await new Response(audioBlob).arrayBuffer();
+    const file = new File([audioBlob], 'audio-blob');
 
-    const audioAttachment: Attachment = {
-      data: fileBuffer,
-      flags: SignalService.AttachmentPointer.Flags.VOICE_MESSAGE,
+    const audioAttachment: StagedAttachmentType = {
+      file,
       contentType: MIME.AUDIO_MP3,
       size: audioBlob.size,
+      fileSize: null,
+      screenshot: null,
+      fileName: 'audio-message',
+      thumbnail: null,
+      url: '',
+      isVoiceMessage: true,
     };
 
-    const messageSuccess = this.props.sendMessage(
-      '',
-      [audioAttachment],
-      undefined,
-      undefined,
-      null,
-      {}
-    );
-
-    if (messageSuccess) {
-      // success!
-    }
+    await this.props.sendMessage({
+      body: '',
+      attachments: [audioAttachment],
+      preview: undefined,
+      quote: undefined,
+      groupInvitation: undefined,
+    });
 
     this.onExitVoiceNoteView();
   }

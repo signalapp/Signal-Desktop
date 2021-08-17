@@ -195,6 +195,7 @@ export function init() {
 // We can't send ArrayBuffers or BigNumbers (what we get from proto library for dates).
 function _cleanData(data: any): any {
   const keys = Object.keys(data);
+
   for (let index = 0, max = keys.length; index < max; index += 1) {
     const key = keys[index];
     const value = data[key];
@@ -210,6 +211,9 @@ function _cleanData(data: any): any {
     } else if (Array.isArray(value)) {
       // eslint-disable-next-line no-param-reassign
       data[key] = value.map(_cleanData);
+    } else if (_.isObject(value) && value instanceof File) {
+      // eslint-disable-next-line no-param-reassign
+      data[key] = { name: value.name, path: value.path, size: value.size, type: value.type };
     } else if (_.isObject(value)) {
       // eslint-disable-next-line no-param-reassign
       data[key] = _cleanData(value);

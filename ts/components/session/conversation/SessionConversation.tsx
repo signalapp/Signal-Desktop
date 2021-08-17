@@ -2,7 +2,11 @@ import React from 'react';
 
 import classNames from 'classnames';
 
-import { SessionCompositionBox, StagedAttachmentType } from './SessionCompositionBox';
+import {
+  SendMessageType,
+  SessionCompositionBox,
+  StagedAttachmentType,
+} from './SessionCompositionBox';
 
 import { Constants } from '../../../session';
 import _ from 'lodash';
@@ -178,6 +182,47 @@ export class SessionConversation extends React.Component<Props, State> {
     }
   }
 
+  public sendMessageFn(msg: SendMessageType) {
+    const { selectedConversationKey } = this.props;
+    const conversationModel = getConversationController().get(selectedConversationKey);
+
+    if (!conversationModel) {
+      return;
+    }
+
+    const sendAndScroll = () => {
+      void conversationModel.sendMessage(msg);
+      if (this.messageContainerRef.current) {
+        (this.messageContainerRef
+          .current as any).scrollTop = this.messageContainerRef.current?.scrollHeight;
+      }
+    };
+
+    // const recoveryPhrase = window.textsecure.storage.get('mnemonic');
+    const recoveryPhrase = UserUtils.getCurrentRecoveryPhrase();
+
+    // string replace to fix case where pasted text contains invis characters causing false negatives
+    if (msg.body.replace(/\s/g, '').includes(recoveryPhrase.replace(/\s/g, ''))) {
+      window.inboxStore?.dispatch(
+        updateConfirmModal({
+          title: window.i18n('sendRecoveryPhraseTitle'),
+          message: window.i18n('sendRecoveryPhraseMessage'),
+          okTheme: SessionButtonColor.Danger,
+          onClickOk: () => {
+            sendAndScroll();
+          },
+          onClickClose: () => {
+            window.inboxStore?.dispatch(updateConfirmModal(null));
+          },
+        })
+      );
+    } else {
+      sendAndScroll();
+    }
+
+    window.inboxStore?.dispatch(quoteMessage(undefined));
+  }
+
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   // ~~~~~~~~~~~~~~ RENDER METHODS ~~~~~~~~~~~~~~
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -186,7 +231,6 @@ export class SessionConversation extends React.Component<Props, State> {
 
     const {
       selectedConversation,
-      selectedConversationKey,
       messagesProps,
       showMessageDetails,
       selectedMessages,
@@ -200,50 +244,6 @@ export class SessionConversation extends React.Component<Props, State> {
     }
 
     const selectionMode = selectedMessages.length > 0;
-    const conversationModel = getConversationController().get(selectedConversationKey);
-    const sendMessageFn = (
-      body: any,
-      attachments: any,
-      quote: any,
-      preview: any,
-      groupInvitation: any
-    ) => {
-      if (!conversationModel) {
-        return;
-      }
-
-      const sendAndScroll = () => {
-        void conversationModel.sendMessage(body, attachments, quote, preview, groupInvitation);
-        if (this.messageContainerRef.current) {
-          (this.messageContainerRef
-            .current as any).scrollTop = this.messageContainerRef.current?.scrollHeight;
-        }
-      };
-
-      // const recoveryPhrase = window.textsecure.storage.get('mnemonic');
-      const recoveryPhrase = UserUtils.getCurrentRecoveryPhrase();
-
-      // string replace to fix case where pasted text contains invis characters causing false negatives
-      if (body.replace(/\s/g, '').includes(recoveryPhrase.replace(/\s/g, ''))) {
-        window.inboxStore?.dispatch(
-          updateConfirmModal({
-            title: window.i18n('sendRecoveryPhraseTitle'),
-            message: window.i18n('sendRecoveryPhraseMessage'),
-            okTheme: SessionButtonColor.Danger,
-            onClickOk: () => {
-              sendAndScroll();
-            },
-            onClickClose: () => {
-              window.inboxStore?.dispatch(updateConfirmModal(null));
-            },
-          })
-        );
-      } else {
-        sendAndScroll();
-      }
-
-      window.inboxStore?.dispatch(quoteMessage(undefined));
-    };
 
     return (
       <SessionTheme theme={this.props.theme}>
@@ -273,7 +273,7 @@ export class SessionConversation extends React.Component<Props, State> {
           </div>
 
           <SessionCompositionBox
-            sendMessage={sendMessageFn}
+            sendMessage={this.sendMessageFn}
             stagedAttachments={stagedAttachments}
             onLoadVoiceNoteView={this.onLoadVoiceNoteView}
             onExitVoiceNoteView={this.onExitVoiceNoteView}

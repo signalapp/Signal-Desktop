@@ -90,7 +90,7 @@ export async function autoScale<T extends { contentType: string; file: any }>(
 
       resolve({
         ...attachment,
-        file: blob,
+        file: new File([blob], 'blob-file'),
       });
     };
     img.src = url;
