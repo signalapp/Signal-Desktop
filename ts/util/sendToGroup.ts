@@ -841,9 +841,20 @@ async function encryptForSenderKey({
     groupIdBuffer
   );
 
-  const recipients = devices.map(device =>
-    ProtocolAddress.new(device.identifier, device.id)
-  );
+  const recipients = devices
+    .slice()
+    .sort((a, b): number => {
+      if (a.identifier === b.identifier) {
+        return 0;
+      }
+
+      if (a.identifier < b.identifier) {
+        return -1;
+      }
+
+      return 1;
+    })
+    .map(device => ProtocolAddress.new(device.identifier, device.id));
   const identityKeyStore = new IdentityKeys();
   const sessionStore = new Sessions();
   return sealedSenderMultiRecipientEncrypt(
