@@ -55,5 +55,5 @@ Please visit https://deb.oxen.io/<br/>
 
 Copyright 2011 Whisper Systems<br/>
 Copyright 2013-2017 Open Whisper Systems<br/>
-Copyright 2019-2020 The Loki Project<br/>
+Copyright 2019-2021 The Oxen Project<br/>
 Licensed under the GPLv3: http://www.gnu.org/licenses/gpl-3.0.html<br/>
