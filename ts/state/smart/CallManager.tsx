@@ -115,8 +115,22 @@ const mapStateToActiveCallProp = (
       };
     case CallMode.Group: {
       const conversationsWithSafetyNumberChanges: Array<ConversationType> = [];
+      const groupMembers: Array<ConversationType> = [];
       const remoteParticipants: Array<GroupCallRemoteParticipantType> = [];
       const peekedParticipants: Array<ConversationType> = [];
+
+      const { memberships = [] } = conversation;
+      for (let i = 0; i < memberships.length; i += 1) {
+        const { conversationId } = memberships[i];
+        const member = conversationSelectorByUuid(conversationId);
+
+        if (!member) {
+          window.log.error('Group member has no corresponding conversation');
+          continue;
+        }
+
+        groupMembers.push(member);
+      }
 
       for (let i = 0; i < call.remoteParticipants.length; i += 1) {
         const remoteParticipant = call.remoteParticipants[i];
@@ -183,6 +197,7 @@ const mapStateToActiveCallProp = (
         connectionState: call.connectionState,
         conversationsWithSafetyNumberChanges,
         deviceCount: call.peekInfo.deviceCount,
+        groupMembers,
         joinState: call.joinState,
         maxDevices: call.peekInfo.maxDevices,
         peekedParticipants,

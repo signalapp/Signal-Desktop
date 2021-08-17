@@ -1,0 +1,29 @@
+// Copyright 2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.module-CallingPreCallInfo {
+  text-align: center;
+  user-select: none;
+
+  &__title,
+  &__subtitle {
+    -webkit-box-orient: vertical;
+    color: $color-white;
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    @include calling-text-shadow;
+  }
+
+  &__title {
+    -webkit-line-clamp: 1;
+    @include font-title-2;
+    margin-top: 16px;
+  }
+
+  &__subtitle {
+    -webkit-line-clamp: 2;
+    @include font-body-1;
+    margin-top: 8px;
+  }
+}

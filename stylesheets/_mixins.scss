@@ -222,6 +222,10 @@
   text-align: inherit;
 }
 
+@mixin calling-text-shadow {
+  text-shadow: 0 0 4px $color-black-alpha-40;
+}
+
 // --- Buttons
 
 // Individual traits

@@ -94,6 +94,7 @@ const createActiveGroupCallProp = (overrideProps: GroupCallOverrideProps) => ({
   joinState: GroupCallJoinState.Joined,
   maxDevices: 5,
   deviceCount: (overrideProps.remoteParticipants || []).length,
+  groupMembers: overrideProps.remoteParticipants || [],
   // Because remote participants are a superset, we can use them in place of peeked
   //   participants.
   peekedParticipants:

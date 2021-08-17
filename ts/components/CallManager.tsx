@@ -163,6 +163,9 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
 
   let isCallFull: boolean;
   let showCallLobby: boolean;
+  let groupMembers:
+    | undefined
+    | Array<Pick<ConversationType, 'firstName' | 'title' | 'uuid'>>;
 
   switch (activeCall.callMode) {
     case CallMode.Direct: {
@@ -182,11 +185,13 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
       }
       showCallLobby = !callState;
       isCallFull = false;
+      groupMembers = undefined;
       break;
     }
     case CallMode.Group: {
       showCallLobby = activeCall.joinState === GroupCallJoinState.NotJoined;
       isCallFull = activeCall.deviceCount >= activeCall.maxDevices;
+      ({ groupMembers } = activeCall);
       break;
     }
     default:
@@ -199,6 +204,7 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
         <CallingLobby
           availableCameras={availableCameras}
           conversation={conversation}
+          groupMembers={groupMembers}
           hasLocalAudio={hasLocalAudio}
           hasLocalVideo={hasLocalVideo}
           i18n={i18n}

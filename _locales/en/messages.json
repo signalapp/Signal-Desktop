@@ -1300,7 +1300,11 @@
   },
   "calling__call-is-full": {
     "message": "Call is full",
-    "description": "Button label in the call lobby when you can't join because the call is full"
+    "description": "Text in the call lobby when you can't join because the call is full"
+  },
+  "calling__button--video__label": {
+    "message": "Camera",
+    "description": "Label under the video button"
   },
   "calling__button--video-disabled": {
     "message": "Camera disabled",
@@ -1314,6 +1318,10 @@
     "message": "Turn on camera",
     "description": "Button tooltip label for turning on the camera"
   },
+  "calling__button--audio__label": {
+    "message": "Mute",
+    "description": "Label under the audio button"
+  },
   "calling__button--audio-disabled": {
     "message": "Microphone disabled",
     "description": "Button tooltip label when the microphone is disabled"
@@ -1325,6 +1333,10 @@
   "calling__button--audio-on": {
     "message": "Unmute mic",
     "description": "Button tooltip label for turning on the microphone"
+  },
+  "calling__button--presenting__label": {
+    "message": "Share",
+    "description": "Label under the share screen button"
   },
   "calling__button--presenting-disabled": {
     "message": "Presenting disabled",
@@ -1342,11 +1354,11 @@
     "message": "Your camera is off",
     "description": "Label in the calling lobby indicating that your camera is off"
   },
-  "calling__lobby-summary--zero": {
+  "calling__pre-call-info--empty-group": {
     "message": "No one else is here",
     "description": "Shown in the calling lobby to describe who is in the call"
   },
-  "calling__lobby-summary--single": {
+  "calling__pre-call-info--1-person-in-call": {
     "message": "$first$ is in this call",
     "description": "Shown in the calling lobby to describe who is in the call",
     "placeholders": {
@@ -1356,11 +1368,11 @@
       }
     }
   },
-  "calling__lobby-summary--self": {
+  "calling__pre-call-info--another-device-in-call": {
     "message": "One of your other devices is in this call",
     "description": "Shown in the calling lobby to describe when it is just you"
   },
-  "calling__lobby-summary--double": {
+  "calling__pre-call-info--2-people-in-call": {
     "message": "$first$ and $second$ are in this call",
     "description": "Shown in the calling lobby to describe who is in the call",
     "placeholders": {
@@ -1374,7 +1386,7 @@
       }
     }
   },
-  "calling__lobby-summary--triple": {
+  "calling__pre-call-info--3-people-in-call": {
     "message": "$first$, $second$, and $third$ are in this call",
     "description": "Shown in the calling lobby to describe who is in the call",
     "placeholders": {
@@ -1392,11 +1404,81 @@
       }
     }
   },
-  "calling__lobby-summary--many": {
+  "calling__pre-call-info--many-people-in-call": {
     "message": "$first$, $second$, and $others$ others are in this call",
     "description": "Shown in the calling lobby to describe who is in the call",
     "placeholders": {
       "first": {
+        "content": "$1",
+        "example": "Sam"
+      },
+      "second": {
+        "content": "$2",
+        "example": "Cayce"
+      },
+      "others": {
+        "content": "$3",
+        "example": "5"
+      }
+    }
+  },
+  "calling__pre-call-info--will-ring-1": {
+    "message": "Signal will ring $person$",
+    "description": "Shown in the calling lobby to describe who will be rung",
+    "placeholders": {
+      "person": {
+        "content": "$1",
+        "example": "Sam"
+      }
+    }
+  },
+  "calling__pre-call-info--will-notify-1": {
+    "message": "$person$ will be notified",
+    "description": "Shown in the calling lobby to describe who will be notified",
+    "placeholders": {
+      "person": {
+        "content": "$1",
+        "example": "Sam"
+      }
+    }
+  },
+  "calling__pre-call-info--will-notify-2": {
+    "message": "$first$ and $second$ will be notified",
+    "description": "Shown in the calling lobby to describe who will be notified",
+    "placeholders": {
+      "first": {
+        "content": "$1",
+        "example": "Sam"
+      },
+      "second": {
+        "content": "$2",
+        "example": "Cayce"
+      }
+    }
+  },
+  "calling__pre-call-info--will-notify-3": {
+    "message": "$first$, $second$, and $third$ will be notified",
+    "description": "Shown in the calling lobby to describe who will be notified",
+    "placeholders": {
+      "first": {
+        "content": "$1",
+        "example": "Sam"
+      },
+      "second": {
+        "content": "$2",
+        "example": "Cayce"
+      },
+      "third": {
+        "content": "$3",
+        "example": "April"
+      }
+    }
+  },
+  "calling__pre-call-info--will-notify-many": {
+    "message": "$first$, $second$, and $others$ others will be notified",
+    "description": "Shown in the calling lobby to describe who will be notified",
+    "placeholders": {
+      "person": {
         "content": "$1",
         "example": "Sam"
       },

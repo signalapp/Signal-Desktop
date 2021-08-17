@@ -60,6 +60,7 @@ type ActiveGroupCallType = ActiveCallBaseType & {
   joinState: GroupCallJoinState;
   maxDevices: number;
   deviceCount: number;
+  groupMembers: Array<Pick<ConversationType, 'firstName' | 'title' | 'uuid'>>;
   peekedParticipants: Array<ConversationType>;
   remoteParticipants: Array<GroupCallRemoteParticipantType>;
 };

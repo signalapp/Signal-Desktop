@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
+import { times } from 'lodash';
 import { storiesOf } from '@storybook/react';
 import { boolean } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
@@ -109,6 +110,7 @@ story.add('Group Call', () => {
       callMode: CallMode.Group as CallMode.Group,
       connectionState: GroupCallConnectionState.Connected,
       conversationsWithSafetyNumberChanges: [],
+      groupMembers: times(3, () => getDefaultConversation()),
       joinState: GroupCallJoinState.Joined,
       maxDevices: 5,
       deviceCount: 0,

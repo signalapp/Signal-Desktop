@@ -19,6 +19,7 @@ story.add('Kitchen sink', () => (
           ButtonVariant.SecondaryAffirmative,
           ButtonVariant.SecondaryDestructive,
           ButtonVariant.Destructive,
+          ButtonVariant.Calling,
         ].map(variant => (
           <React.Fragment key={variant}>
             <p>
@@ -49,4 +50,10 @@ story.add('aria-label', () => (
     className="module-ForwardMessageModal__header--back"
     onClick={action('onClick')}
   />
+));
+
+story.add('Custom styles', () => (
+  <Button onClick={action('onClick')} style={{ transform: 'rotate(5deg)' }}>
+    Hello world
+  </Button>
 ));

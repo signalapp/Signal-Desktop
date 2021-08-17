@@ -313,7 +313,6 @@ export const CallScreen: React.FC<PropsType> = ({
         className={classNames('module-ongoing-call__header', controlsFadeClass)}
       >
         <CallingHeader
-          canPip
           i18n={i18n}
           isInSpeakerView={isInSpeakerView}
           isGroupCall={isGroupCall}
@@ -357,11 +356,8 @@ export const CallScreen: React.FC<PropsType> = ({
               sharedGroupNames={[]}
               size={80}
             />
-            <div className="module-calling__video-off--container">
-              <div className="module-calling__video-off--icon" />
-              <span className="module-calling__video-off--text">
-                {i18n('calling__your-video-is-off')}
-              </span>
+            <div className="module-calling__camera-is-off">
+              {i18n('calling__your-video-is-off')}
             </div>
           </CallBackgroundBlur>
         </div>

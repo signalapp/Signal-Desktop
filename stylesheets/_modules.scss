@@ -5201,7 +5201,7 @@ button.module-image__border-overlay:focus {
     padding-bottom: 24px;
     padding-top: calc(24px + var(--title-bar-drag-area-height));
     text-align: center;
-    text-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+    @include calling-text-shadow;
     width: 100%;
 
     &--header-name {
@@ -5224,6 +5224,10 @@ button.module-image__border-overlay:focus {
     position: absolute;
     text-align: center;
     width: 100%;
+
+    &--inline {
+      position: static;
+    }
   }
 
   &__background {
@@ -5237,7 +5241,6 @@ button.module-image__border-overlay:focus {
     width: 100%;
 
     &--blur {
-      position: absolute;
       background-repeat: no-repeat;
       background-size: cover;
       background-position: center;
@@ -5248,30 +5251,23 @@ button.module-image__border-overlay:focus {
     }
   }
 
-  &__video-off {
-    &--icon {
+  &__camera-is-off {
+    @include calling-text-shadow;
+    @include font-body-1;
+    color: $color-white;
+    display: flex;
+    z-index: 1;
+
+    &::before {
+      content: '';
+      display: block;
       @include color-svg(
         '../images/icons/v2/video-off-solid-24.svg',
         $color-white
       );
       height: 24px;
-      margin-bottom: 8px;
+      margin-right: 10px;
       width: 24px;
-    }
-
-    &--text {
-      color: $color-white;
-      z-index: 1;
-    }
-
-    &--container {
-      display: flex;
-      flex-direction: row;
-      margin-top: 12px;
-
-      .module-calling__video-off--text {
-        margin-left: 10px;
-      }
     }
   }
 }
@@ -5352,20 +5348,31 @@ button.module-image__border-overlay:focus {
     height: $size;
     width: $size;
   }
+
+  &__cancel {
+    @include color-svg('../images/icons/v2/x-24.svg', $color-white);
+    height: $size;
+    width: $size;
+  }
+}
+
+.module-calling-button__container {
+  display: inline-flex;
+  flex-direction: column;
 }
 
 .module-calling-button__icon {
-  border-radius: 56px;
-  height: 56px;
-  width: 56px;
+  border-radius: 52px;
+  height: 52px;
+  width: 52px;
 
   @mixin calling-button-icon($icon, $background-color, $icon-color) {
     background-color: $background-color;
 
     div {
       @include color-svg($icon, $icon-color);
-      height: 28px;
-      width: 28px;
+      height: 24px;
+      width: 24px;
     }
   }
 
@@ -5431,6 +5438,16 @@ button.module-image__border-overlay:focus {
       @include calling-button-icon-disabled($icon);
     }
   }
+}
+
+.module-calling-button__label {
+  @include font-subtitle;
+  margin-top: 8px;
+  text-align: center;
+  text-transform: lowercase;
+  color: $color-white;
+  @include calling-text-shadow;
+  user-select: none;
 }
 
 @keyframes module-ongoing-call__controls--fade-in {
@@ -5801,84 +5818,6 @@ button.module-image__border-overlay:focus {
 
   &__button {
     margin-right: 25px;
-  }
-}
-
-.module-calling-lobby {
-  &__actions {
-    align-items: flex-start;
-    display: flex;
-    flex-direction: row;
-    flex: 0 0 100px;
-  }
-
-  &__button {
-    margin-left: 8px;
-    margin-right: 8px;
-    width: 160px;
-
-    &[disabled] {
-      opacity: 0.5;
-    }
-  }
-
-  // The dimensions of this element are set by JavaScript.
-  &__local-preview {
-    $transition: 200ms ease-out;
-
-    @include font-body-2;
-    border-radius: 8px;
-    color: $color-white;
-    display: flex;
-    flex-direction: column;
-    max-height: 100%;
-    max-width: 100%;
-    overflow: hidden;
-    position: relative;
-    transition: width $transition, height $transition;
-
-    &-container {
-      align-items: center;
-      display: flex;
-      flex-direction: column;
-      flex: 1 1 auto;
-      justify-content: center;
-      margin: 24px;
-      overflow: hidden;
-      width: 90%;
-    }
-
-    &__video-on {
-      background-color: $color-gray-80;
-      display: block;
-      flex-grow: 1;
-      object-fit: contain;
-      transform: rotateY(180deg);
-      width: 100%;
-      height: 100%;
-    }
-
-    &__video-off {
-      &__icon {
-        @include color-svg(
-          '../images/icons/v2/video-off-solid-24.svg',
-          $color-white
-        );
-        height: 24px;
-        margin-bottom: 8px;
-        width: 24px;
-      }
-
-      &__text {
-        z-index: 1;
-      }
-    }
-  }
-
-  &__info {
-    color: $color-white;
-    margin-bottom: 36px;
-    margin-top: 12px;
   }
 }
 
@@ -9546,40 +9485,6 @@ button.module-image__border-overlay:focus {
     border-width: 1px;
     outline: none;
     padding: 7px 12px;
-  }
-
-  &__gray {
-    @include font-body-1-bold;
-    background-color: $color-gray-45;
-    border-radius: 4px;
-    border: none;
-    color: $color-white;
-    line-height: 24px;
-    outline: none;
-    padding: 7px 14px;
-
-    @include keyboard-mode {
-      &:focus {
-        box-shadow: 0px 0px 0px 2px $color-ultramarine;
-      }
-    }
-  }
-
-  &__green {
-    @include font-body-1-bold;
-    background-color: $color-accent-green;
-    border-radius: 4px;
-    border: none;
-    color: $color-white;
-    line-height: 24px;
-    outline: none;
-    padding: 7px 14px;
-
-    @include keyboard-mode {
-      &:focus {
-        box-shadow: 0px 0px 0px 2px $color-ultramarine;
-      }
-    }
   }
 }
 
