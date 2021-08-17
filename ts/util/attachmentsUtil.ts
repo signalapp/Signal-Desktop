@@ -99,7 +99,7 @@ export async function autoScale<T extends { contentType: string; file: any }>(
 
 export async function getFile(attachment: StagedAttachmentType, maxMeasurements?: MaxScaleSize) {
   if (!attachment) {
-    return Promise.resolve();
+    return null;
   }
 
   const attachmentFlags = attachment.isVoiceMessage

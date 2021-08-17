@@ -208,6 +208,11 @@ function _cleanData(data: any): any {
     if (_.isFunction(value.toNumber)) {
       // eslint-disable-next-line no-param-reassign
       data[key] = value.toNumber();
+    } else if (_.isFunction(value)) {
+      // just skip a function which has not a toNumber function. We don't want to save a function to the db.
+      // an attachment comes with a toJson() function
+      // tslint:disable-next-line: no-dynamic-delete
+      delete data[key];
     } else if (Array.isArray(value)) {
       // eslint-disable-next-line no-param-reassign
       data[key] = value.map(_cleanData);
@@ -619,7 +624,8 @@ export async function updateLastHash(data: {
 }
 
 export async function saveMessage(data: MessageAttributes): Promise<string> {
-  const id = await channels.saveMessage(_cleanData(data));
+  const cleanedData = _cleanData(data);
+  const id = await channels.saveMessage(cleanedData);
   window.Whisper.ExpiringMessagesListener.update();
   return id;
 }

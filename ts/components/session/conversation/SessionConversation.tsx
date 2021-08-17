@@ -18,7 +18,7 @@ import styled, { DefaultTheme } from 'styled-components';
 import { SessionMessagesListContainer } from './SessionMessagesListContainer';
 import { LightboxGallery, MediaItemType } from '../../LightboxGallery';
 
-import { AttachmentType, AttachmentTypeWithPath } from '../../../types/Attachment';
+import { AttachmentTypeWithPath } from '../../../types/Attachment';
 import { ToastUtils, UserUtils } from '../../../session/utils';
 import * as MIME from '../../../types/MIME';
 import { SessionFileDropzone } from './SessionFileDropzone';
@@ -42,10 +42,10 @@ import {
 
 import { SessionButtonColor } from '../SessionButton';
 import { updateConfirmModal } from '../../../state/ducks/modalDialog';
+import { addStagedAttachmentsInConversation } from '../../../state/ducks/stagedAttachments';
 
 interface State {
   showRecordingView: boolean;
-  stagedAttachments: Array<StagedAttachmentType>;
   isDraggingFile: boolean;
 }
 export interface LightBoxOptions {
@@ -65,6 +65,8 @@ interface Props {
 
   // lightbox options
   lightBoxOptions?: LightBoxOptions;
+
+  stagedAttachments: Array<StagedAttachmentType>;
 }
 
 const SessionUnreadAboveIndicator = styled.div`
@@ -102,7 +104,6 @@ export class SessionConversation extends React.Component<Props, State> {
 
     this.state = {
       showRecordingView: false,
-      stagedAttachments: [],
       isDraggingFile: false,
     };
     this.messageContainerRef = React.createRef();
@@ -163,7 +164,6 @@ export class SessionConversation extends React.Component<Props, State> {
     if (newConversationKey !== oldConversationKey) {
       this.setState({
         showRecordingView: false,
-        stagedAttachments: [],
         isDraggingFile: false,
       });
     }
@@ -227,7 +227,7 @@ export class SessionConversation extends React.Component<Props, State> {
   // ~~~~~~~~~~~~~~ RENDER METHODS ~~~~~~~~~~~~~~
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   public render() {
-    const { showRecordingView, isDraggingFile, stagedAttachments } = this.state;
+    const { showRecordingView, isDraggingFile } = this.state;
 
     const {
       selectedConversation,
@@ -274,11 +274,9 @@ export class SessionConversation extends React.Component<Props, State> {
 
           <SessionCompositionBox
             sendMessage={this.sendMessageFn}
-            stagedAttachments={stagedAttachments}
+            stagedAttachments={this.props.stagedAttachments}
             onLoadVoiceNoteView={this.onLoadVoiceNoteView}
             onExitVoiceNoteView={this.onExitVoiceNoteView}
-            clearAttachments={this.clearAttachments}
-            removeAttachment={this.removeAttachment}
             onChoseAttachments={this.onChoseAttachments}
           />
         </div>
@@ -332,45 +330,6 @@ export class SessionConversation extends React.Component<Props, State> {
     }
   }
 
-  private clearAttachments() {
-    this.state.stagedAttachments.forEach(attachment => {
-      if (attachment.url) {
-        URL.revokeObjectURL(attachment.url);
-      }
-      if (attachment.videoUrl) {
-        URL.revokeObjectURL(attachment.videoUrl);
-      }
-    });
-    this.setState({ stagedAttachments: [] });
-  }
-
-  private removeAttachment(attachment: AttachmentType) {
-    const { stagedAttachments } = this.state;
-    const updatedStagedAttachments = (stagedAttachments || []).filter(
-      m => m.fileName !== attachment.fileName
-    );
-
-    this.setState({ stagedAttachments: updatedStagedAttachments });
-  }
-
-  private addAttachments(newAttachments: Array<StagedAttachmentType>) {
-    const { stagedAttachments } = this.state;
-    let newAttachmentsFiltered: Array<StagedAttachmentType> = [];
-    if (newAttachments?.length > 0) {
-      if (newAttachments.some(a => a.isVoiceMessage) && stagedAttachments.length > 0) {
-        throw new Error('A voice note cannot be sent with other attachments');
-      }
-      // do not add already added attachments
-      newAttachmentsFiltered = newAttachments.filter(
-        a => !stagedAttachments.some(b => b.file.path === a.file.path)
-      );
-    }
-
-    this.setState({
-      stagedAttachments: [...stagedAttachments, ...newAttachmentsFiltered],
-    });
-  }
-
   private renderLightBox({ media, attachment }: LightBoxOptions) {
     const selectedIndex =
       media.length > 1
@@ -399,7 +358,7 @@ export class SessionConversation extends React.Component<Props, State> {
     const fileName = file.name;
     const contentType = file.type;
 
-    const { stagedAttachments } = this.state;
+    const { stagedAttachments } = this.props;
 
     if (window.Signal.Util.isFileDangerous(fileName)) {
       ToastUtils.pushDangerousFileError();
@@ -566,6 +525,15 @@ export class SessionConversation extends React.Component<Props, State> {
         },
       ]);
     }
+  }
+
+  private addAttachments(newAttachments: Array<StagedAttachmentType>) {
+    window.inboxStore?.dispatch(
+      addStagedAttachmentsInConversation({
+        conversationKey: this.props.selectedConversationKey,
+        newAttachments,
+      })
+    );
   }
 
   private handleDrag(e: any) {

@@ -54,6 +54,7 @@ import {
 import { connect } from 'react-redux';
 import { StateType } from '../../../state/reducer';
 import { getTheme } from '../../../state/selectors/theme';
+import { removeAllStagedAttachmentsInConversation } from '../../../state/ducks/stagedAttachments';
 
 export interface ReplyingToMessageProps {
   convoId: string;
@@ -95,8 +96,6 @@ interface Props {
   selectedConversation: ReduxConversationType | undefined;
   quotedMessageProps?: ReplyingToMessageProps;
   stagedAttachments: Array<StagedAttachmentType>;
-  clearAttachments: () => any;
-  removeAttachment: (toRemove: AttachmentType) => void;
   onChoseAttachments: (newAttachments: Array<File>) => void;
 }
 
@@ -736,8 +735,6 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
             attachments={stagedAttachments}
             onClickAttachment={this.onClickAttachment}
             onAddAttachment={this.onChooseAttachment}
-            onCloseAttachment={this.props.removeAttachment}
-            onClose={this.props.clearAttachments}
           />
           {this.renderCaptionEditor(showCaptionEditor)}
         </>
@@ -886,8 +883,11 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
         groupInvitation: undefined,
       });
 
-      this.props.clearAttachments();
-
+      window.inboxStore?.dispatch(
+        removeAllStagedAttachmentsInConversation({
+          conversationKey: this.props.selectedConversationKey,
+        })
+      );
       // Empty composition box and stagedAttachments
       this.setState({
         showEmojiPanel: false,
@@ -907,8 +907,12 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
   }
 
   // this function is called right before sending a message, to gather really the files behind attachments.
-  private async getFiles() {
+  private async getFiles(): Promise<Array<any>> {
     const { stagedAttachments } = this.props;
+
+    if (_.isEmpty(stagedAttachments)) {
+      return [];
+    }
     // scale them down
     const files = await Promise.all(
       stagedAttachments.map(attachment =>
@@ -917,8 +921,12 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
         })
       )
     );
-    this.props.clearAttachments();
-    return files;
+    window.inboxStore?.dispatch(
+      removeAllStagedAttachmentsInConversation({
+        conversationKey: this.props.selectedConversationKey,
+      })
+    );
+    return _.compact(files);
   }
 
   private async sendVoiceMessage(audioBlob: Blob) {
@@ -940,7 +948,7 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
       isVoiceMessage: true,
     };
 
-    await this.props.sendMessage({
+    this.props.sendMessage({
       body: '',
       attachments: [audioAttachment],
       preview: undefined,
