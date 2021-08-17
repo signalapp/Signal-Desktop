@@ -23,6 +23,7 @@ export type ConfigKeyType =
   | 'desktop.sendSenderKey2'
   | 'desktop.storage'
   | 'desktop.storageWrite3'
+  | 'global.calling.maxGroupCallRingSize'
   | 'global.groupsv2.groupSizeHardLimit'
   | 'global.groupsv2.maxGroupSize';
 type ConfigValueType = {
