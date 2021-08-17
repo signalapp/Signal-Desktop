@@ -3381,18 +3381,9 @@ Whisper.ConversationView = Whisper.View.extend({
       );
     };
 
-    const ACCESS_ENUM = Proto.AccessControl.AccessRequired;
-
-    const hasGroupLink = Boolean(
-      model.get('groupInviteLinkPassword') &&
-        model.get('accessControl')?.addFromInviteLink !==
-          ACCESS_ENUM.UNSATISFIABLE
-    );
-
     const props = {
       addMembers: model.addMembersV2.bind(model),
       conversationId: model.get('id'),
-      hasGroupLink,
       loadRecentMediaItems: this.loadRecentMediaItems.bind(this),
       setDisappearingMessages: this.setDisappearingMessages.bind(this),
       showAllMedia: this.showAllMedia.bind(this),

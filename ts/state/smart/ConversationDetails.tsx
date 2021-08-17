@@ -17,11 +17,11 @@ import { getGroupMemberships } from '../../util/getGroupMemberships';
 import { getIntl } from '../selectors/user';
 import { MediaItemType } from '../../components/LightboxGallery';
 import { assert } from '../../util/assert';
+import { SignalService as Proto } from '../../protobuf';
 
 export type SmartConversationDetailsProps = {
   addMembers: (conversationIds: ReadonlyArray<string>) => Promise<void>;
   conversationId: string;
-  hasGroupLink: boolean;
   loadRecentMediaItems: (limit: number) => void;
   setDisappearingMessages: (seconds: number) => void;
   showAllMedia: () => void;
@@ -45,6 +45,8 @@ export type SmartConversationDetailsProps = {
   onLeave: () => void;
 };
 
+const ACCESS_ENUM = Proto.AccessControl.AccessRequired;
+
 const mapStateToProps = (
   state: StateType,
   props: SmartConversationDetailsProps
@@ -56,13 +58,13 @@ const mapStateToProps = (
     '<SmartConversationDetails> expected a conversation to be found'
   );
 
-  const canEditGroupInfo =
-    conversation && conversation.canEditGroupInfo
-      ? conversation.canEditGroupInfo
-      : false;
-
-  const isAdmin = Boolean(conversation?.areWeAdmin);
+  const canEditGroupInfo = Boolean(conversation.canEditGroupInfo);
+  const isAdmin = Boolean(conversation.areWeAdmin);
   const candidateContactsToAdd = getCandidateContactsForNewGroup(state);
+
+  const hasGroupLink =
+    Boolean(conversation.groupLink) &&
+    conversation.accessControlAddFromInviteLink !== ACCESS_ENUM.UNSATISFIABLE;
 
   return {
     ...props,
@@ -73,6 +75,7 @@ const mapStateToProps = (
     isAdmin,
     ...getGroupMemberships(conversation, conversationSelector),
     userAvatarData: conversation.avatars || [],
+    hasGroupLink,
   };
 };
 
