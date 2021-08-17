@@ -680,6 +680,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
     const typingBubbleRow = this.getTypingBubbleRow();
     let rowContents: ReactNode;
 
+    let stableKey = key;
     if (haveOldest && row === 0) {
       rowContents = (
         <div data-row={row} style={styleWithWidth} role="row">
@@ -725,6 +726,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
         );
       }
       const messageId = items[itemIndex];
+      stableKey = messageId;
 
       rowContents = (
         <div
@@ -745,7 +747,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
       <CellMeasurer
         cache={this.cellSizeCache}
         columnIndex={0}
-        key={key}
+        key={stableKey}
         parent={parent}
         rowIndex={index}
         width={this.mostRecentWidth}
