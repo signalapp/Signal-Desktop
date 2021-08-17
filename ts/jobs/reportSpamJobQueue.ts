@@ -7,7 +7,7 @@ import * as moment from 'moment';
 import { strictAssert } from '../util/assert';
 import { waitForOnline } from '../util/waitForOnline';
 import { isDone as isDeviceLinked } from '../util/registration';
-import * as log from '../logging/log';
+import type { LoggerType } from '../logging/log';
 import { map } from '../util/iterables';
 import { sleep } from '../util/sleep';
 
@@ -58,9 +58,10 @@ export class ReportSpamJobQueue extends JobQueue<ReportSpamJobData> {
     return reportSpamJobDataSchema.parse(data);
   }
 
-  protected async run({
-    data,
-  }: Readonly<{ data: ReportSpamJobData }>): Promise<void> {
+  protected async run(
+    { data }: Readonly<{ data: ReportSpamJobData }>,
+    { log }: Readonly<{ log: LoggerType }>
+  ): Promise<void> {
     const { e164, serverGuids } = data;
 
     await new Promise<void>(resolve => {
@@ -122,8 +123,6 @@ export class ReportSpamJobQueue extends JobQueue<ReportSpamJobData> {
 
 export const reportSpamJobQueue = new ReportSpamJobQueue({
   store: jobQueueDatabaseStore,
-
   queueType: 'report spam',
-
   maxAttempts: 25,
 });

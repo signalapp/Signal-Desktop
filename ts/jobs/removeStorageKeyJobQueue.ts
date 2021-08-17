@@ -31,8 +31,6 @@ export class RemoveStorageKeyJobQueue extends JobQueue<RemoveStorageKeyJobData> 
 
 export const removeStorageKeyJobQueue = new RemoveStorageKeyJobQueue({
   store: jobQueueDatabaseStore,
-
   queueType: 'remove storage key',
-
   maxAttempts: 100,
 });

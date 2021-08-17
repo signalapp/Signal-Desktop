@@ -7,6 +7,7 @@ import { readSyncJobQueue } from './readSyncJobQueue';
 import { removeStorageKeyJobQueue } from './removeStorageKeyJobQueue';
 import { reportSpamJobQueue } from './reportSpamJobQueue';
 import { viewSyncJobQueue } from './viewSyncJobQueue';
+import { viewedReceiptsJobQueue } from './viewedReceiptsJobQueue';
 
 /**
  * Start all of the job queues. Should be called when the database is ready.
@@ -22,4 +23,5 @@ export function initializeAllJobQueues({
   removeStorageKeyJobQueue.streamJobs();
   reportSpamJobQueue.streamJobs();
   viewSyncJobQueue.streamJobs();
+  viewedReceiptsJobQueue.streamJobs();
 }

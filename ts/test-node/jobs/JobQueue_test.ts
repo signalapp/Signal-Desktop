@@ -12,6 +12,7 @@ import { JobError } from '../../jobs/JobError';
 import { TestJobQueueStore } from './TestJobQueueStore';
 import { missingCaseError } from '../../util/missingCaseError';
 import { assertRejects } from '../helpers';
+import type { LoggerType } from '../../logging/log';
 
 import { JobQueue } from '../../jobs/JobQueue';
 import { ParsedJob, StoredJob, JobQueueStore } from '../../jobs/types';
@@ -238,6 +239,62 @@ describe('JobQueue', () => {
       }
 
       assert.deepStrictEqual(attempts, [1, 2, 3, 4, 5, 6]);
+    });
+
+    it('passes a logger to the run function', async () => {
+      const uniqueString = uuid();
+
+      const fakeLogger = {
+        fatal: sinon.fake(),
+        error: sinon.fake(),
+        warn: sinon.fake(),
+        info: sinon.fake(),
+        debug: sinon.fake(),
+        trace: sinon.fake(),
+      };
+
+      class TestQueue extends JobQueue<number> {
+        parseData(data: unknown): number {
+          return z.number().parse(data);
+        }
+
+        async run(
+          _: unknown,
+          { log }: Readonly<{ log: LoggerType }>
+        ): Promise<void> {
+          log.info(uniqueString);
+          log.warn(uniqueString);
+          log.error(uniqueString);
+        }
+      }
+
+      const queue = new TestQueue({
+        store: new TestJobQueueStore(),
+        queueType: 'test queue 123',
+        maxAttempts: 6,
+        logger: fakeLogger,
+      });
+
+      queue.streamJobs();
+
+      const job = await queue.add(1);
+      await job.completion;
+
+      [fakeLogger.info, fakeLogger.warn, fakeLogger.error].forEach(logFn => {
+        sinon.assert.calledWith(
+          logFn,
+          sinon.match(
+            (arg: unknown) =>
+              typeof arg === 'string' &&
+              arg.includes(job.id) &&
+              arg.includes('test queue 123')
+          ),
+          sinon.match(
+            (arg: unknown) =>
+              typeof arg === 'string' && arg.includes(uniqueString)
+          )
+        );
+      });
     });
 
     it('makes job.completion reject if parseData throws', async () => {

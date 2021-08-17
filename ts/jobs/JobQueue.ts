@@ -9,6 +9,7 @@ import { JobError } from './JobError';
 import { ParsedJob, StoredJob, JobQueueStore } from './types';
 import { assert } from '../util/assert';
 import * as log from '../logging/log';
+import { JobLogger } from './JobLogger';
 
 const noopOnCompleteCallbacks = {
   resolve: noop,
@@ -32,6 +33,11 @@ type JobQueueOptions = {
    * the job to fail; a value of 2 will allow the job to fail once; etc.
    */
   maxAttempts: number;
+
+  /**
+   * A custom logger. Might be overwritten in test.
+   */
+  logger?: log.LoggerType;
 };
 
 export abstract class JobQueue<T> {
@@ -40,6 +46,8 @@ export abstract class JobQueue<T> {
   private readonly queueType: string;
 
   private readonly store: JobQueueStore;
+
+  private readonly logger: log.LoggerType;
 
   private readonly logPrefix: string;
 
@@ -70,6 +78,7 @@ export abstract class JobQueue<T> {
     this.maxAttempts = options.maxAttempts;
     this.queueType = options.queueType;
     this.store = options.store;
+    this.logger = options.logger ?? log;
 
     this.logPrefix = `${this.queueType} job queue:`;
   }
@@ -92,10 +101,13 @@ export abstract class JobQueue<T> {
    *
    * If it rejects, the job will be retried up to `maxAttempts - 1` times, after which it
    * will be deleted from the store.
+   *
+   * If your job logs things, you're encouraged to use the logger provided, as it
+   * automatically includes debugging information.
    */
   protected abstract run(
     job: Readonly<ParsedJob<T>>,
-    extra?: Readonly<{ attempt: number }>
+    extra?: Readonly<{ attempt?: number; log?: log.LoggerType }>
   ): Promise<void>;
 
   /**
@@ -188,12 +200,16 @@ export abstract class JobQueue<T> {
       data: parsedData,
     };
 
+    const logger = new JobLogger(parsedJob, this.logger);
+
     let result:
       | undefined
       | { success: true }
       | { success: false; err: unknown };
 
     for (let attempt = 1; attempt <= this.maxAttempts; attempt += 1) {
+      logger.attempt = attempt;
+
       log.info(
         `${this.logPrefix} running job ${storedJob.id}, attempt ${attempt} of ${this.maxAttempts}`
       );
@@ -201,7 +217,7 @@ export abstract class JobQueue<T> {
         // We want an `await` in the loop, as we don't want a single job running more
         //   than once at a time. Ideally, the job will succeed on the first attempt.
         // eslint-disable-next-line no-await-in-loop
-        await this.run(parsedJob, { attempt });
+        await this.run(parsedJob, { attempt, log: logger });
         result = { success: true };
         log.info(
           `${this.logPrefix} job ${storedJob.id} succeeded on attempt ${attempt}`

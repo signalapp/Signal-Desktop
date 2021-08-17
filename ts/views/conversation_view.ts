@@ -63,6 +63,7 @@ import {
 } from '../util/handleImageAttachment';
 import { ReadStatus } from '../messages/MessageReadStatus';
 import { markViewed } from '../services/MessageUpdater';
+import { viewedReceiptsJobQueue } from '../jobs/viewedReceiptsJobQueue';
 import { viewSyncJobQueue } from '../jobs/viewSyncJobQueue';
 import type { ContactType } from '../types/Contact';
 import type { WhatIsThis } from '../window.d';
@@ -879,14 +880,28 @@ Whisper.ConversationView = Whisper.View.extend({
         return;
       }
 
+      const senderE164 = message.get('source');
+      const senderUuid = message.get('sourceUuid');
+      const timestamp = message.get('sent_at');
+
       message.set(markViewed(message.attributes, Date.now()));
+
+      viewedReceiptsJobQueue.add({
+        viewedReceipt: {
+          messageId,
+          senderE164,
+          senderUuid,
+          timestamp,
+        },
+      });
+
       viewSyncJobQueue.add({
         viewSyncs: [
           {
             messageId,
-            senderE164: message.get('source'),
-            senderUuid: message.get('sourceUuid'),
-            timestamp: message.get('sent_at'),
+            senderE164,
+            senderUuid,
+            timestamp,
           },
         ],
       });

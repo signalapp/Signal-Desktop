@@ -5,6 +5,7 @@
 
 import * as z from 'zod';
 import * as moment from 'moment';
+import type { LoggerType } from '../logging/log';
 import { exponentialBackoffMaxAttempts } from '../util/exponentialBackoff';
 import { runReadOrViewSyncJob } from './helpers/runReadOrViewSyncJob';
 
@@ -33,11 +34,12 @@ export class ViewSyncJobQueue extends JobQueue<ViewSyncJobData> {
 
   protected async run(
     { data, timestamp }: Readonly<{ data: ViewSyncJobData; timestamp: number }>,
-    { attempt }: Readonly<{ attempt: number }>
+    { attempt, log }: Readonly<{ attempt: number; log: LoggerType }>
   ): Promise<void> {
     await runReadOrViewSyncJob({
       attempt,
       isView: true,
+      log,
       maxRetryTime: MAX_RETRY_TIME,
       syncs: data.viewSyncs,
       timestamp,
@@ -47,8 +49,6 @@ export class ViewSyncJobQueue extends JobQueue<ViewSyncJobData> {
 
 export const viewSyncJobQueue = new ViewSyncJobQueue({
   store: jobQueueDatabaseStore,
-
   queueType: 'view sync',
-
   maxAttempts: exponentialBackoffMaxAttempts(MAX_RETRY_TIME),
 });

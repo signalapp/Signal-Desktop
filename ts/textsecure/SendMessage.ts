@@ -1550,54 +1550,69 @@ export default class MessageSender {
     });
   }
 
-  async sendDeliveryReceipt({
-    e164,
-    uuid,
+  async sendDeliveryReceipt(
+    options: Readonly<{
+      senderE164?: string;
+      senderUuid?: string;
+      timestamps: Array<number>;
+      options?: Readonly<SendOptionsType>;
+    }>
+  ): Promise<CallbackResultType> {
+    return this.sendReceiptMessage({
+      ...options,
+      type: Proto.ReceiptMessage.Type.DELIVERY,
+    });
+  }
+
+  async sendReadReceipts(
+    options: Readonly<{
+      senderE164?: string;
+      senderUuid?: string;
+      timestamps: Array<number>;
+      options?: Readonly<SendOptionsType>;
+    }>
+  ): Promise<CallbackResultType> {
+    return this.sendReceiptMessage({
+      ...options,
+      type: Proto.ReceiptMessage.Type.READ,
+    });
+  }
+
+  async sendViewedReceipts(
+    options: Readonly<{
+      senderE164?: string;
+      senderUuid?: string;
+      timestamps: Array<number>;
+      options?: Readonly<SendOptionsType>;
+    }>
+  ): Promise<CallbackResultType> {
+    return this.sendReceiptMessage({
+      ...options,
+      type: Proto.ReceiptMessage.Type.VIEWED,
+    });
+  }
+
+  private async sendReceiptMessage({
+    senderE164,
+    senderUuid,
     timestamps,
+    type,
     options,
   }: Readonly<{
-    e164?: string;
-    uuid?: string;
+    senderE164?: string;
+    senderUuid?: string;
     timestamps: Array<number>;
+    type: Proto.ReceiptMessage.Type;
     options?: Readonly<SendOptionsType>;
   }>): Promise<CallbackResultType> {
-    if (!uuid && !e164) {
+    if (!senderUuid && !senderE164) {
       throw new Error(
-        'sendDeliveryReceipt: Neither uuid nor e164 was provided!'
+        'sendReceiptMessage: Neither uuid nor e164 was provided!'
       );
     }
 
     const receiptMessage = new Proto.ReceiptMessage();
-    receiptMessage.type = Proto.ReceiptMessage.Type.DELIVERY;
-    receiptMessage.timestamp = timestamps;
-
-    const contentMessage = new Proto.Content();
-    contentMessage.receiptMessage = receiptMessage;
-
-    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
-
-    return this.sendIndividualProto({
-      identifier: uuid || e164,
-      proto: contentMessage,
-      timestamp: Date.now(),
-      contentHint: ContentHint.RESENDABLE,
-      options,
-    });
-  }
-
-  async sendReadReceipts({
-    senderE164,
-    senderUuid,
-    timestamps,
-    options,
-  }: Readonly<{
-    senderE164: string;
-    senderUuid: string;
-    timestamps: Array<number>;
-    options?: Readonly<SendOptionsType>;
-  }>): Promise<CallbackResultType> {
-    const receiptMessage = new Proto.ReceiptMessage();
-    receiptMessage.type = Proto.ReceiptMessage.Type.READ;
+    receiptMessage.type = type;
     receiptMessage.timestamp = timestamps;
 
     const contentMessage = new Proto.Content();

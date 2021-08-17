@@ -350,8 +350,8 @@ export async function startApp(): Promise<void> {
             continue;
           }
 
-          const uuid = c.get('uuid');
-          const e164 = c.get('e164');
+          const senderUuid = c.get('uuid');
+          const senderE164 = c.get('e164');
 
           c.queueJob('sendDeliveryReceipt', async () => {
             try {
@@ -360,8 +360,8 @@ export async function startApp(): Promise<void> {
               // eslint-disable-next-line no-await-in-loop
               await handleMessageSend(
                 window.textsecure.messaging.sendDeliveryReceipt({
-                  e164,
-                  uuid,
+                  senderE164,
+                  senderUuid,
                   timestamps,
                   options: sendOptions,
                 }),
@@ -369,7 +369,7 @@ export async function startApp(): Promise<void> {
               );
             } catch (error) {
               window.log.error(
-                `Failed to send delivery receipt to ${e164}/${uuid} for timestamps ${timestamps}:`,
+                `Failed to send delivery receipt to ${senderE164}/${senderUuid} for timestamps ${timestamps}:`,
                 error && error.stack ? error.stack : error
               );
             }

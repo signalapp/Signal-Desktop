@@ -37,7 +37,8 @@ export type SendTypesType =
   | 'typing' // excluded from send log
   | 'verificationSync'
   | 'viewOnceSync'
-  | 'viewSync';
+  | 'viewSync'
+  | 'viewedReceipt';
 
 export function shouldSaveProto(sendType: SendTypesType): boolean {
   if (sendType === 'callingMessage') {
