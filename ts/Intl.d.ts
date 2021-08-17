@@ -10,6 +10,12 @@ declare namespace Intl {
     index: number;
     input: string;
     segment: string;
+    // According to [the proposal][0], `isWordLike` is a boolean when `granularity` is
+    //   "word" and undefined otherwise. There may be a more rigid way to enforce this
+    //   with TypeScript, but an optional property is okay for now.
+    //
+    // [0]: https://github.com/tc39/proposal-intl-segmenter/blob/e5f982f51cef810111dfeab835d6a934a7cae045/README.md
+    isWordLike?: boolean;
   };
 
   interface Segments {

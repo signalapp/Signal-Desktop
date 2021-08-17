@@ -119,11 +119,32 @@ describe('MemberRepository', () => {
       });
     });
 
+    describe('given a prefix-matching string on name', () => {
+      it('returns the match', () => {
+        const memberRepository = new MemberRepository(members);
+        const results = memberRepository.search('dude');
+        assert.deepEqual(results, [memberShia]);
+      });
+    });
+
     describe('given a prefix-matching string on title', () => {
       it('returns the match', () => {
         const memberRepository = new MemberRepository(members);
-        const results = memberRepository.search('d');
+        const results = memberRepository.search('bud');
         assert.deepEqual(results, [memberShia]);
+      });
+
+      it('handles titles with Unicode bidi characters, which some contacts have', () => {
+        const memberShiaBidi: ConversationType = {
+          ...memberShia,
+          title: '\u2086Buddyo\u2069',
+        };
+        const memberRepository = new MemberRepository([
+          memberMahershala,
+          memberShiaBidi,
+        ]);
+        const results = memberRepository.search('bud');
+        assert.deepEqual(results, [memberShiaBidi]);
       });
     });
 

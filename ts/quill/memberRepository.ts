@@ -1,9 +1,11 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import Fuse from 'fuse.js';
 
 import { ConversationType } from '../state/ducks/conversations';
+import { getOwn } from '../util/getOwn';
+import { filter, map } from '../util/iterables';
 
 const FUSE_OPTIONS = {
   location: 0,
@@ -11,23 +13,43 @@ const FUSE_OPTIONS = {
   threshold: 0,
   maxPatternLength: 32,
   minMatchCharLength: 1,
-  tokenize: true,
   keys: ['name', 'firstName', 'profileName', 'title'],
+  getFn(
+    conversation: Readonly<ConversationType>,
+    path: string
+  ): ReadonlyArray<string> | string {
+    // It'd be nice to avoid this cast, but Fuse's types don't allow it.
+    const rawValue = getOwn(conversation as Record<string, unknown>, path);
+
+    if (typeof rawValue !== 'string') {
+      // It might make more sense to return `undefined` here, but [Fuse's types don't
+      //   allow it in newer versions][0] so we just return the empty string.
+      //
+      // [0]: https://github.com/krisk/Fuse/blob/e5e3abb44e004662c98750d0964d2d9a73b87848/src/index.d.ts#L117
+      return '';
+    }
+
+    const segmenter = new Intl.Segmenter(undefined, { granularity: 'word' });
+    const segments = segmenter.segment(rawValue);
+    const wordlikeSegments = filter(segments, segment => segment.isWordLike);
+    const wordlikes = map(wordlikeSegments, segment => segment.segment);
+    return Array.from(wordlikes);
+  },
 };
 
 export class MemberRepository {
-  private members: Array<ConversationType>;
+  private isFuseReady = false;
 
-  private fuse: Fuse<ConversationType>;
+  private fuse: Fuse<ConversationType> = new Fuse<ConversationType>(
+    [],
+    FUSE_OPTIONS
+  );
 
-  constructor(members: Array<ConversationType> = []) {
-    this.members = members;
-    this.fuse = new Fuse<ConversationType>(this.members, FUSE_OPTIONS);
-  }
+  constructor(private members: Array<ConversationType> = []) {}
 
   updateMembers(members: Array<ConversationType>): void {
     this.members = members;
-    this.fuse = new Fuse(members, FUSE_OPTIONS);
+    this.isFuseReady = false;
   }
 
   getMembers(omit?: ConversationType): Array<ConversationType> {
@@ -51,6 +73,11 @@ export class MemberRepository {
   }
 
   search(pattern: string, omit?: ConversationType): Array<ConversationType> {
+    if (!this.isFuseReady) {
+      this.fuse.setCollection(this.members);
+      this.isFuseReady = true;
+    }
+
     const results = this.fuse.search(`${pattern}`);
 
     if (omit) {
