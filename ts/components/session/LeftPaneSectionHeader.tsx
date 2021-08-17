@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import classNames from 'classnames';
 import { SessionIcon, SessionIconSize, SessionIconType } from './icon';
 import styled, { DefaultTheme, useTheme } from 'styled-components';
-import { SessionButton, SessionButtonColor, SessionButtonType } from './SessionButton';
+import { SessionButton, SessionButtonType } from './SessionButton';
 import { Constants } from '../../session';
 import { UserUtils } from '../../session/utils';
 import { useDispatch, useSelector } from 'react-redux';
 import { disableRecoveryPhrasePrompt } from '../../state/ducks/userConfig';
 import { getShowRecoveryPhrasePrompt } from '../../state/selectors/userConfig';
 import { recoveryPhraseModal } from '../../state/ducks/modalDialog';
+import { Flex } from '../basic/Flex';
 
 const Tab = ({
   isSelected,
@@ -50,7 +51,7 @@ export const LeftPaneSectionHeader = (props: Props) => {
   const showRecoveryPhrasePrompt = useSelector(getShowRecoveryPhrasePrompt);
 
   return (
-    <StyledLeftPaneHeaderContainer>
+    <Flex flexDirection={'column'}>
       <div className="module-left-pane__header">
         {label && <Tab label={label} type={0} isSelected={true} key={label} />}
         {buttonIcon && (
@@ -65,7 +66,7 @@ export const LeftPaneSectionHeader = (props: Props) => {
         )}
       </div>
       {showRecoveryPhrasePrompt && <LeftPaneBanner />}
-    </StyledLeftPaneHeaderContainer>
+    </Flex>
   );
 };
 
@@ -82,49 +83,31 @@ export const LeftPaneBanner = () => {
 
   const dispatch = useDispatch();
 
-  const handleShowRecoveryClick = () => {
-    // setRecoveryPhraseHidden(false);
-    // setBodyText(window.i18n('recoveryPhraseInfoMessage'));
-    // setButtonText(window.i18n('copy'));
+  const showRecoveryPhraseModal = () => {
+    dispatch(
+      recoveryPhraseModal({
+        onClickOk: () => {
+          setCompletion(100);
+          setBannerTitle(window.i18n('recoveryPhraseCompleteTitle'));
+          setBodyText('');
+          setRecoveryPhraseHidden(true);
+          setIsCompleted(true);
 
-    // show a modal
-    dispatch(recoveryPhraseModal({}))
+          // remove banner after a small delay
+          setTimeout(() => {
+            dispatch(disableRecoveryPhrasePrompt());
+          }, secondsBeforeRemoval);
+        },
+      })
+    );
   };
 
-
-  const BannerInner = (props: any) => {
-    const dispatch = useDispatch();
-
-    const handleCopyPhraseClick = async () => {
-      await navigator.clipboard.writeText(recoveryPhrase);
-      setCompletion(100);
-      setBannerTitle(window.i18n('recoveryPhraseCompleteTitle'));
-      setBodyText('');
-      setRecoveryPhraseHidden(true);
-      setIsCompleted(true);
-
-      // remove banner after a small delay
-      setTimeout(() => {
-        dispatch(disableRecoveryPhrasePrompt());
-      }, secondsBeforeRemoval);
-    };
-
-    const onClick =
-      completion === 90
-        ? recoveryPhraseHidden
-          ? handleShowRecoveryClick
-          : handleCopyPhraseClick
-        : null;
-
+  const BannerInner = () => {
     return (
       <StyledBannerInner>
         <p>{bodyText}</p>
         {!recoveryPhraseHidden && (
-          <StyledRecoveryPhrase
-            theme={theme}
-            className="left-pane-banner___phrase"
-            onClick={handleShowRecoveryClick}
-          >
+          <StyledRecoveryPhrase theme={theme} className="left-pane-banner___phrase">
             {recoveryPhrase}
           </StyledRecoveryPhrase>
         )}
@@ -132,14 +115,13 @@ export const LeftPaneBanner = () => {
           <SessionButton
             buttonType={SessionButtonType.Default}
             text={buttonText}
-            onClick={onClick}
+            onClick={showRecoveryPhraseModal}
           />
         )}
       </StyledBannerInner>
     );
   };
 
-  const flexDirection = completion === 90 && handleShowRecoveryClick ? 'column' : 'row';
   const theme = useTheme();
 
   return (
@@ -150,9 +132,13 @@ export const LeftPaneBanner = () => {
       <StyledBannerTitle theme={theme}>
         {bannerTitle} <span>{completionText}</span>
       </StyledBannerTitle>
-      <StyledBannerContainer flexDirection={flexDirection}>
+      <Flex
+        flexDirection={'column'}
+        justifyContent={'space-between'}
+        padding={`${Constants.UI.SPACING.marginSm}`}
+      >
         <BannerInner />
-      </StyledBannerContainer>
+      </Flex>
     </StyledLeftPaneBanner>
   );
 };
@@ -236,19 +222,4 @@ const StyledRecoveryPhrase = styled.p`
   border-radius: 5px;
   padding: 5px;
   border: ${(props: StyledRecoveryPhraseProps) => props.theme.colors.sessionBorderHighContrast};
-`;
-
-interface StyledBannerContainerProps {
-  flexDirection?: string;
-}
-export const StyledBannerContainer = styled.div`
-  display: flex;
-  flex-direction: ${(p: StyledBannerContainerProps) => p.flexDirection};
-  justify-content: space-between;
-  padding: ${Constants.UI.SPACING.marginSm};
-`;
-
-export const StyledLeftPaneHeaderContainer = styled.div`
-  display: flex;
-  flex-direction: column;
 `;
