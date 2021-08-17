@@ -290,16 +290,6 @@ export default class MessageReceiver
         //   fault, and we should handle them gracefully and tell the
         //   user they received an invalid message
 
-        if (envelope.source && this.isBlocked(envelope.source)) {
-          request.respond(200, 'OK');
-          return;
-        }
-
-        if (envelope.sourceUuid && this.isUuidBlocked(envelope.sourceUuid)) {
-          request.respond(200, 'OK');
-          return;
-        }
-
         this.decryptAndCache(envelope, plaintext, request);
         this.processedCount += 1;
       } catch (e) {
@@ -937,7 +927,7 @@ export default class MessageReceiver
     const task = createTaskWithTimeout(async (): Promise<DecryptResult> => {
       const unsealedEnvelope = await this.unsealEnvelope(stores, envelope);
       if (!unsealedEnvelope) {
-        // Envelope was dropped or sender is blocked
+        // Envelope was dropped
         return { envelope, plaintext: undefined };
       }
 
@@ -1065,11 +1055,8 @@ export default class MessageReceiver
       unsealedContent: messageContent,
     };
 
-    const validationResult = await this.validateUnsealedEnvelope(newEnvelope);
-    if (validationResult && validationResult.isBlocked) {
-      this.removeFromCache(envelope);
-      return undefined;
-    }
+    // This will throw if there's a problem
+    this.validateUnsealedEnvelope(newEnvelope);
 
     return newEnvelope;
   }
@@ -1144,12 +1131,20 @@ export default class MessageReceiver
       );
     }
 
+    if (
+      (envelope.source && this.isBlocked(envelope.source)) ||
+      (envelope.sourceUuid && this.isUuidBlocked(envelope.sourceUuid))
+    ) {
+      window.log.info(
+        'MessageReceiver.decryptEnvelope: Dropping message from blocked sender'
+      );
+      return { plaintext: undefined, envelope };
+    }
+
     return { plaintext, envelope };
   }
 
-  private async validateUnsealedEnvelope(
-    envelope: UnsealedEnvelope
-  ): Promise<{ isBlocked: true } | void> {
+  private validateUnsealedEnvelope(envelope: UnsealedEnvelope): void {
     const { unsealedContent: messageContent, certificate } = envelope;
     strictAssert(
       messageContent !== undefined,
@@ -1159,17 +1154,6 @@ export default class MessageReceiver
       certificate !== undefined,
       'Missing sender certificate for sealed sender message'
     );
-
-    if (
-      (envelope.source && this.isBlocked(envelope.source)) ||
-      (envelope.sourceUuid && this.isUuidBlocked(envelope.sourceUuid))
-    ) {
-      window.log.info(
-        'MessageReceiver.validateUnsealedEnvelope: Dropping blocked message ' +
-          'after partial sealed sender decryption'
-      );
-      return { isBlocked: true };
-    }
 
     if (!envelope.serverTimestamp) {
       throw new Error(
@@ -1486,7 +1470,7 @@ export default class MessageReceiver
       const uuid = envelope.sourceUuid;
       const deviceId = envelope.sourceDevice;
 
-      // We don't do a light session reset if it's just a duplicated message
+      // We don't do anything if it's just a duplicated message
       if (
         error?.message?.includes &&
         error.message.includes('message with old counter')
@@ -1500,6 +1484,16 @@ export default class MessageReceiver
         error?.message?.includes &&
         error.message.includes('trust root validation failed')
       ) {
+        throw error;
+      }
+
+      if (
+        (envelope.source && this.isBlocked(envelope.source)) ||
+        (envelope.sourceUuid && this.isUuidBlocked(envelope.sourceUuid))
+      ) {
+        window.log.info(
+          'MessageReceiver.decrypt: Error from blocked sender; no further processing'
+        );
         throw error;
       }
 
