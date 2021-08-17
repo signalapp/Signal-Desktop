@@ -182,7 +182,7 @@
     "@storybook/addons": "5.1.11",
     "@storybook/react": "5.1.11",
     "@types/backbone": "1.4.3",
-    "@types/better-sqlite3": "5.4.1",
+    "@types/better-sqlite3": "7.4.0",
     "@types/blueimp-load-image": "5.14.1",
     "@types/chai": "4.2.18",
     "@types/chai-as-promised": "7.1.4",

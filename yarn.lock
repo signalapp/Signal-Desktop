@@ -2371,12 +2371,10 @@
     "@types/jquery" "*"
     "@types/underscore" "*"
 
-"@types/better-sqlite3@5.4.1":
-  version "5.4.1"
-  resolved "https://registry.yarnpkg.com/@types/better-sqlite3/-/better-sqlite3-5.4.1.tgz#d45600bc19f8f41397263d037ca9b0d05df85e58"
-  integrity sha512-8hje3Rhsg/9veTkALfCwiWn7VMrP1QDwHhBSgerttYPABEvrHsMQnU9dlqoM6QX3x4uw3Y06dDVz8uDQo1J4Ng==
-  dependencies:
-    "@types/integer" "*"
+"@types/better-sqlite3@7.4.0":
+  version "7.4.0"
+  resolved "https://registry.yarnpkg.com/@types/better-sqlite3/-/better-sqlite3-7.4.0.tgz#2b88d8474fc3f755617c0a5a8643388252c10aa1"
+  integrity sha512-tmSORlztb2cdWZDy4V81mRDgL+q7bd+ext4pI+Wj8EtJ5EHIZ6v7yiWbJ6A5eKVtoz77EsBEm7amwAzfqR/kAw==
 
 "@types/blueimp-load-image@5.14.1":
   version "5.14.1"
@@ -2575,11 +2573,6 @@
   version "3.18.1"
   resolved "https://registry.yarnpkg.com/@types/humanize-duration/-/humanize-duration-3.18.1.tgz#10090d596053703e7de0ac43a37b96cd9fc78309"
   integrity sha512-MUgbY3CF7hg/a/jogixmAufLjJBQT7WEf8Q+kYJkOc47ytngg1IuZobCngdTjAgY83JWEogippge5O5fplaQlw==
-
-"@types/integer@*":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@types/integer/-/integer-1.0.1.tgz#025d87e30d97f539fcc6087372af7d3672ffbbe6"
-  integrity sha512-DmZDpSVnsuBrOhtHwE1oKmUJ3qVjHhhNQ7WnZy9/RhH3A24Ar+9o4SoaCWcTzQhalpRDIAMsfdoZLWNJtdBR7A==
 
 "@types/jquery@*", "@types/jquery@3.5.0":
   version "3.5.0"
