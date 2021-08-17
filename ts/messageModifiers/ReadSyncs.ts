@@ -103,7 +103,7 @@ export class ReadSyncs extends Collection {
       window.Whisper.Notifications.removeBy({ messageId: found.id });
 
       const message = window.MessageController.register(found.id, found);
-      const readAt = sync.get('readAt');
+      const readAt = Math.min(sync.get('readAt'), Date.now());
 
       // If message is unread, we mark it read. Otherwise, we update the expiration
       //   timer to the time specified by the read sync if it's earlier than
@@ -116,10 +116,7 @@ export class ReadSyncs extends Collection {
           // onReadMessage may result in messages older than this one being
           //   marked read. We want those messages to have the same expire timer
           //   start time as this one, so we pass the readAt value through.
-          const conversation = message.getConversation();
-          if (conversation) {
-            conversation.onReadMessage(message, readAt);
-          }
+          message.getConversation()?.onReadMessage(message, readAt);
         };
 
         if (window.startupProcessingQueue) {
@@ -127,6 +124,7 @@ export class ReadSyncs extends Collection {
           if (conversation) {
             window.startupProcessingQueue.add(
               conversation.get('id'),
+              message.get('sent_at'),
               updateConversation
             );
           }

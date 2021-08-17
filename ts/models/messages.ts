@@ -185,6 +185,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
   isSelected?: boolean;
 
+  private pendingMarkRead?: number;
+
   syncPromise?: Promise<CallbackResultType | void>;
 
   initialize(attributes: unknown): void {
@@ -3284,52 +3286,61 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
       const viewSyncs = ViewSyncs.getSingleton().forMessage(message);
 
-      if (
-        (readSyncs.length !== 0 || viewSyncs.length !== 0) &&
-        message.get('expireTimer')
-      ) {
-        const existingExpirationStartTimestamp = message.get(
-          'expirationStartTimestamp'
-        );
-        const candidateTimestamps: Array<number> = [
+      if (readSyncs.length !== 0 || viewSyncs.length !== 0) {
+        const markReadAt = Math.min(
           Date.now(),
-          ...(existingExpirationStartTimestamp
-            ? [existingExpirationStartTimestamp]
-            : []),
           ...readSyncs.map(sync => sync.get('readAt')),
-          ...viewSyncs.map(sync => sync.get('viewedAt')),
-        ];
-        message.set(
-          'expirationStartTimestamp',
-          Math.min(...candidateTimestamps)
+          ...viewSyncs.map(sync => sync.get('viewedAt'))
         );
-        changed = true;
-      }
 
-      let newReadStatus: undefined | ReadStatus.Read | ReadStatus.Viewed;
-      if (viewSyncs.length) {
-        newReadStatus = ReadStatus.Viewed;
-      } else if (readSyncs.length) {
-        newReadStatus = ReadStatus.Read;
-      }
-
-      if (newReadStatus !== undefined) {
-        message.set('readStatus', newReadStatus);
-        // This is primarily to allow the conversation to mark all older
-        // messages as read, as is done when we receive a read sync for
-        // a message we already know about.
-        const c = message.getConversation();
-        if (c) {
-          c.onReadMessage(message);
+        if (message.get('expireTimer')) {
+          const existingExpirationStartTimestamp = message.get(
+            'expirationStartTimestamp'
+          );
+          message.set(
+            'expirationStartTimestamp',
+            Math.min(existingExpirationStartTimestamp ?? Date.now(), markReadAt)
+          );
+          changed = true;
         }
-        changed = true;
-      }
 
-      if (isFirstRun && !viewSyncs.length && !readSyncs.length) {
+        let newReadStatus: ReadStatus.Read | ReadStatus.Viewed;
+        if (viewSyncs.length) {
+          newReadStatus = ReadStatus.Viewed;
+        } else {
+          strictAssert(
+            readSyncs.length !== 0,
+            'Should have either view or read syncs'
+          );
+          newReadStatus = ReadStatus.Read;
+        }
+
+        message.set('readStatus', newReadStatus);
+        changed = true;
+
+        this.pendingMarkRead = Math.min(
+          this.pendingMarkRead ?? Date.now(),
+          markReadAt
+        );
+      } else if (isFirstRun) {
         conversation.set({
           unreadCount: (conversation.get('unreadCount') || 0) + 1,
           isArchived: false,
         });
+      }
+
+      if (!isFirstRun && this.pendingMarkRead) {
+        const markReadAt = this.pendingMarkRead;
+        this.pendingMarkRead = undefined;
+
+        // This is primarily to allow the conversation to mark all older
+        // messages as read, as is done when we receive a read sync for
+        // a message we already know about.
+        //
+        // We run this when `isFirstRun` is false so that it triggers when the
+        // message and the other ones accompanying it in the batch are fully in
+        // the database.
+        message.getConversation()?.onReadMessage(message, markReadAt);
       }
 
       // Check for out-of-order view once open syncs
