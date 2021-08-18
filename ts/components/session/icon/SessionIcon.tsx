@@ -1,9 +1,6 @@
 import React from 'react';
 import { icons, SessionIconSize, SessionIconType } from '../icon';
 import styled, { css, DefaultTheme, keyframes, useTheme } from 'styled-components';
-import _ from 'lodash';
-import { useSelector } from 'react-redux';
-import { getTheme } from '../../../state/selectors/theme';
 import { lightTheme } from '../../../state/ducks/SessionTheme';
 
 export type SessionIconProps = {

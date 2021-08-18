@@ -15,6 +15,8 @@ const borderDarkThemeColor = '#ffffff0F';
 const borderHighContrastLightTheme = '#afafaf';
 const borderHighContrastDarkTheme = '#484848';
 const borderAvatarColor = '#00000059';
+const borderLightTheme = '#f1f1f1';
+const borderDarkTheme = '#ffffff0F';
 
 const common = {
   fonts: {

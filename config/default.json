@@ -5,15 +5,12 @@
   "contentProxyUrl": "",
   "seedNodeList": [
     {
-      "ip_url": "https://116.203.53.213:4433/",
       "url": "https://storage.seed1.loki.network:4433/"
     },
     {
-      "ip_url": "https://212.199.114.66:4433/",
       "url": "https://storage.seed3.loki.network:4433/"
     },
     {
-      "ip_url": "https://144.76.164.202:4433/",
       "url": "https://public.loki.foundation:4433/"
     }
   ],
@@ -22,7 +19,5 @@
   "buildExpiration": 0,
   "commitHash": "",
   "import": false,
-  "serverTrustRoot": "BbqY1DzohE4NUZoVF+L18oUPrK3kILllLEJh2UnPSsEx",
-  "defaultPublicChatServer": "https://chat.getsession.org",
-  "defaultFileServer": "https://file.getsession.org"
+  "serverTrustRoot": "BbqY1DzohE4NUZoVF+L18oUPrK3kILllLEJh2UnPSsEx"
 }

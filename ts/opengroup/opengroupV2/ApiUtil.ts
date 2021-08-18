@@ -1,9 +1,7 @@
 import _ from 'lodash';
 import { FileServerV2Request } from '../../fileserver/FileServerApiV2';
-import { getSodium } from '../../session/crypto';
 import { PubKey } from '../../session/types';
-import { allowOnlyOneAtATime, sleepFor } from '../../session/utils/Promise';
-import { fromBase64ToArrayBuffer, fromHex, fromHexToArray } from '../../session/utils/String';
+import { allowOnlyOneAtATime } from '../../session/utils/Promise';
 import { updateDefaultRooms, updateDefaultRoomsInProgress } from '../../state/ducks/defaultRooms';
 import { getCompleteUrlFromRoom } from '../utils/OpenGroupUtils';
 import { parseOpenGroupV2 } from './JoinOpenGroupV2';

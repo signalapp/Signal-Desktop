@@ -4,7 +4,6 @@ import { UserSearchResults } from '../UserSearchResults';
 import { SessionSearchInput } from './SessionSearchInput';
 
 import { SearchResultsProps } from '../SearchResults';
-import { DefaultTheme } from 'styled-components';
 import autoBind from 'auto-bind';
 
 export interface Props {

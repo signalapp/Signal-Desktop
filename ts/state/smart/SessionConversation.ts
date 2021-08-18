@@ -13,6 +13,7 @@ import {
   isRightPanelShowing,
 } from '../selectors/conversations';
 import { getOurNumber } from '../selectors/user';
+import { getStagedAttachmentsForCurrentConversation } from '../selectors/stagedAttachments';
 
 const mapStateToProps = (state: StateType) => {
   return {
@@ -25,6 +26,7 @@ const mapStateToProps = (state: StateType) => {
     isRightPanelShowing: isRightPanelShowing(state),
     selectedMessages: getSelectedMessageIds(state),
     lightBoxOptions: getLightBoxOptions(state),
+    stagedAttachments: getStagedAttachmentsForCurrentConversation(state),
   };
 };
 

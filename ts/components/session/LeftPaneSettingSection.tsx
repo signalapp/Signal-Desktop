@@ -1,23 +1,14 @@
 import React from 'react';
 import classNames from 'classnames';
-
 import { SessionButton, SessionButtonColor, SessionButtonType } from './SessionButton';
-
 import { SessionIcon, SessionIconSize, SessionIconType } from './icon';
 import { SessionSettingCategory } from './settings/SessionSettings';
-import { DefaultTheme } from 'styled-components';
 import { LeftPaneSectionHeader } from './LeftPaneSectionHeader';
 import { useDispatch, useSelector } from 'react-redux';
 import { showSettingsSection } from '../../state/ducks/section';
 import { getFocusedSettingsSection } from '../../state/selectors/section';
 import { getTheme } from '../../state/selectors/theme';
 import { recoveryPhraseModal, updateDeleteAccountModal } from '../../state/ducks/modalDialog';
-
-type Props = {
-  settingsCategory: SessionSettingCategory;
-  showSettingsSection: (category: SessionSettingCategory) => void;
-  theme: DefaultTheme;
-};
 
 const getCategories = () => {
   return [

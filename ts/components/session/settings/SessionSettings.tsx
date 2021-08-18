@@ -19,9 +19,10 @@ import { SessionConfirmDialogProps } from '../../dialog/SessionConfirm';
 import { mapDispatchToProps } from '../../../state/actions';
 import { unblockConvoById } from '../../../interactions/conversationInteractions';
 import { toggleAudioAutoplay } from '../../../state/ducks/userConfig';
-import { sessionPassword } from '../../../state/ducks/modalDialog';
+import { sessionPassword, updateConfirmModal } from '../../../state/ducks/modalDialog';
 import { PasswordAction } from '../../dialog/SessionPasswordDialog';
 import { SessionIconButton, SessionIconSize, SessionIconType } from '../icon';
+import { ToastUtils } from '../../../session/utils';
 
 export enum SessionSettingCategory {
   Appearance = 'appearance',
@@ -356,17 +357,47 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
           window.setSettingValue('link-preview-setting', newValue);
           if (!newValue) {
             await createOrUpdateItem({ id: hasLinkPreviewPopupBeenDisplayed, value: false });
+          } else {
+            window.inboxStore?.dispatch(
+              updateConfirmModal({
+                title: window.i18n('linkPreviewsTitle'),
+                message: window.i18n('linkPreviewsConfirmMessage'),
+                okTheme: SessionButtonColor.Danger,
+              })
+            );
           }
         },
         content: undefined,
         comparisonValue: undefined,
         onClick: undefined,
-        confirmationDialogParams: {
-          shouldShowConfirm: !window.getSettingValue('link-preview-setting'),
-          title: window.i18n('linkPreviewsTitle'),
-          message: window.i18n('linkPreviewsConfirmMessage'),
-          okTheme: SessionButtonColor.Danger,
+        confirmationDialogParams: undefined,
+      },
+
+      {
+        id: 'start-in-tray-setting',
+        title: window.i18n('startInTrayTitle'),
+        description: window.i18n('startInTrayDescription'),
+        hidden: false,
+        type: SessionSettingType.Toggle,
+        category: SessionSettingCategory.Appearance,
+        setFn: async () => {
+          try {
+            const newValue = !(await window.getStartInTray());
+
+            // make sure to write it here too, as this is the value used on the UI to mark the toggle as true/false
+            window.setSettingValue('start-in-tray-setting', newValue);
+            await window.setStartInTray(newValue);
+            if (!newValue) {
+              ToastUtils.pushRestartNeeded();
+            }
+          } catch (e) {
+            window.log.warn('start in tray change error:', e);
+          }
         },
+        content: undefined,
+        comparisonValue: undefined,
+        onClick: undefined,
+        confirmationDialogParams: undefined,
       },
       {
         id: 'audio-message-autoplay-setting',
@@ -385,6 +416,7 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
         onClick: undefined,
         confirmationDialogParams: undefined,
       },
+
       {
         id: 'notification-setting',
         title: window.i18n('notificationSettingsDialog'),
@@ -400,7 +432,7 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
         content: {
           options: {
             group: 'notification-setting',
-            initalItem: window.getSettingValue('notification-setting') || 'message',
+            initialItem: window.getSettingValue('notification-setting') || 'message',
             items: [
               {
                 label: window.i18n('nameAndMessage'),

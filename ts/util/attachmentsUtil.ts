@@ -4,7 +4,7 @@ import { Constants } from '../session';
 import loadImage from 'blueimp-load-image';
 import { getDecryptedMediaUrl } from '../session/crypto/DecryptedAttachmentsManager';
 import { sendDataExtractionNotification } from '../session/messages/outgoing/controlMessage/DataExtractionNotificationMessage';
-import { AttachmentType, AttachmentTypeWithPath, save } from '../types/Attachment';
+import { AttachmentType, save } from '../types/Attachment';
 export interface MaxScaleSize {
   maxSize?: number;
   maxHeight?: number;
@@ -90,7 +90,7 @@ export async function autoScale<T extends { contentType: string; file: any }>(
 
       resolve({
         ...attachment,
-        file: blob,
+        file: new File([blob], 'blob-file'),
       });
     };
     img.src = url;
@@ -99,7 +99,7 @@ export async function autoScale<T extends { contentType: string; file: any }>(
 
 export async function getFile(attachment: StagedAttachmentType, maxMeasurements?: MaxScaleSize) {
   if (!attachment) {
-    return Promise.resolve();
+    return null;
   }
 
   const attachmentFlags = attachment.isVoiceMessage

@@ -1,14 +1,12 @@
-import React, { Dispatch, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SessionIconButton, SessionIconSize, SessionIconType } from './icon';
 import { Avatar, AvatarSize } from '../Avatar';
 import { darkTheme, lightTheme } from '../../state/ducks/SessionTheme';
 import { SessionToastContainer } from './SessionToastContainer';
 import { getConversationController } from '../../session/conversations';
-import { UserUtils } from '../../session/utils';
 import { syncConfigurationIfNeeded } from '../../session/utils/syncUtils';
 
 import {
-  createOrUpdateItem,
   generateAttachmentKeyIfEmpty,
   getAllOpenGroupV1Conversations,
   getItemById,

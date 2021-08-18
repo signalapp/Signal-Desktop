@@ -16,6 +16,7 @@ export interface SessionConfirmDialogProps {
   onClose?: any;
   onClickOk?: () => Promise<void> | void;
   onClickClose?: () => any;
+  onClickCancel?: () => any;
   okText?: string;
   cancelText?: string;
   hideCancel?: boolean;
@@ -25,6 +26,7 @@ export interface SessionConfirmDialogProps {
   iconSize?: SessionIconSize;
   theme?: DefaultTheme;
   shouldShowConfirm?: boolean | undefined;
+  showExitIcon?: boolean | undefined;
 }
 
 const SessionConfirmInner = (props: SessionConfirmDialogProps) => {
@@ -40,6 +42,8 @@ const SessionConfirmInner = (props: SessionConfirmDialogProps) => {
     sessionIcon,
     iconSize,
     shouldShowConfirm,
+    onClickCancel,
+    showExitIcon,
   } = props;
 
   const [isLoading, setIsLoading] = useState(false);
@@ -75,6 +79,10 @@ const SessionConfirmInner = (props: SessionConfirmDialogProps) => {
    * Performs specified on close action then removes the modal.
    */
   const onClickCancelHandler = () => {
+    if (onClickCancel) {
+      onClickCancel();
+    }
+
     if (onClickClose) {
       onClickClose();
     }
@@ -86,7 +94,7 @@ const SessionConfirmInner = (props: SessionConfirmDialogProps) => {
     <SessionWrapperModal
       title={title}
       onClose={onClickClose}
-      showExitIcon={false}
+      showExitIcon={showExitIcon}
       showHeader={showHeader}
     >
       {!showHeader && <SpacerLG />}

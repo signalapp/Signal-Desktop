@@ -709,7 +709,7 @@ function isUserAZombie(convo: ConversationModel, user: PubKey) {
  * No commit() are called
  */
 function addMemberToZombies(
-  envelope: EnvelopePlus,
+  _envelope: EnvelopePlus,
   userToAdd: PubKey,
   convo: ConversationModel
 ): boolean {
@@ -729,7 +729,7 @@ function addMemberToZombies(
  * Note: no commit() are made
  */
 function removeMemberFromZombies(
-  envelope: EnvelopePlus,
+  _envelope: EnvelopePlus,
   userToAdd: PubKey,
   convo: ConversationModel
 ): boolean {
@@ -839,7 +839,7 @@ async function handleClosedGroupMemberLeft(envelope: EnvelopePlus, convo: Conver
 }
 
 async function sendLatestKeyPairToUsers(
-  groupConvo: ConversationModel,
+  _groupConvo: ConversationModel,
   groupPubKey: string,
   targetUsers: Array<string>
 ) {
@@ -854,8 +854,6 @@ async function sendLatestKeyPairToUsers(
   }
 
   const keyPairToUse = inMemoryKeyPair || ECKeyPair.fromHexKeyPair(latestKeyPair as HexKeyPair);
-
-  const expireTimer = groupConvo.get('expireTimer') || 0;
 
   await Promise.all(
     targetUsers.map(async member => {

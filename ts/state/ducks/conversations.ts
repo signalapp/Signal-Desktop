@@ -1,5 +1,3 @@
-import _, { omit } from 'lodash';
-
 import { Constants } from '../../session';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { getConversationController } from '../../session/conversations';
@@ -17,6 +15,7 @@ import { LightBoxOptions } from '../../components/session/conversation/SessionCo
 import { ReplyingToMessageProps } from '../../components/session/conversation/SessionCompositionBox';
 import { QuotedAttachmentType } from '../../components/conversation/Quote';
 import { perfEnd, perfStart } from '../../session/utils/Performance';
+import { omit } from 'lodash';
 
 export type MessageModelProps = {
   propsForMessage: PropsForMessage;

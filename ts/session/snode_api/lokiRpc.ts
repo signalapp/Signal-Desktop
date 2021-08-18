@@ -1,5 +1,6 @@
 import { default as insecureNodeFetch } from 'node-fetch';
 import { Snode } from '../../data/data';
+import { getStoragePubKey } from '../types';
 
 import { lokiOnionFetch, snodeHttpsAgent, SnodeResponse } from './onions';
 
@@ -32,7 +33,11 @@ async function lokiFetch(
   try {
     // Absence of targetNode indicates that we want a direct connection
     // (e.g. to connect to a seed node for the first time)
-    if (window.lokiFeatureFlags.useOnionRequests && targetNode) {
+    const useOnionRequests =
+      window.lokiFeatureFlags?.useOnionRequests === undefined
+        ? true
+        : window.lokiFeatureFlags?.useOnionRequests;
+    if (useOnionRequests && targetNode) {
       const fetchResult = await lokiOnionFetch(targetNode, fetchOptions.body, associatedWith, test);
       if (!fetchResult) {
         return undefined;
@@ -92,7 +97,7 @@ export async function snodeRpc(
     // tslint:disable-next-line no-parameter-reassignment
     params = {
       ...params,
-      pubKey: window.getStoragePubKey(params.pubKey),
+      pubKey: getStoragePubKey(params.pubKey),
     };
   }
   const body = {

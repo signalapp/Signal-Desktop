@@ -33,10 +33,6 @@ function initialize() {
     } catch (error) {
       const errorForDisplay = error && error.stack ? error.stack : error;
       console.log(`sql channel error with call ${callName}: ${errorForDisplay}`);
-      // FIXME this line cause the test-integration to fail and we probably don't need it during test
-      if (!process.env.NODE_ENV.includes('test-integration')) {
-        event.sender.send(`${SQL_CHANNEL_KEY}-done`, jobId, errorForDisplay);
-      }
     }
   });
 

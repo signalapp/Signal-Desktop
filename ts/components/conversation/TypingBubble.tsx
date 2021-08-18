@@ -29,6 +29,10 @@ export const TypingBubble = (props: TypingBubbleProps) => {
     return <></>;
   }
 
+  if (!props.isTyping) {
+    return null;
+  }
+
   return (
     <TypingBubbleContainer {...props}>
       <TypingAnimation />

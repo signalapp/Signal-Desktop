@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import { PubKey } from '../types';
 import { getConversationController } from '../conversations';
 import { fromHexToArray } from './String';

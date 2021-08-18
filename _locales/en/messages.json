@@ -150,6 +150,8 @@
   "savedTheFile": "Media saved by $name$",
   "linkPreviewsTitle": "Send Link Previews",
   "linkPreviewDescription": "Previews are supported for most urls",
+  "startInTrayTitle": "Start in Tray",
+  "startInTrayDescription": "Start Session as a minified app ",
   "linkPreviewsConfirmMessage": "You will not have full metadata protection when sending or receiving link previews.",
   "mediaPermissionsTitle": "Microphone and Camera",
   "mediaPermissionsDescription": "Allow access to camera and microphone",

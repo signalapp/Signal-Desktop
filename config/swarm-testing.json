@@ -1,10 +1,8 @@
 {
   "seedNodeList": [
     {
-      "ip_url": "http://127.0.0.1:22129/",
       "url": "http://localhost:22129/"
     }
   ],
-  "openDevTools": true,
-  "defaultFileServer": "https://file-dev.getsession.org"
+  "openDevTools": true
 }

@@ -76,7 +76,9 @@ jobs:
 
       - name: Build linux production binaries
         if: runner.os == 'Linux'
-        run: yarn build-release
+        run: |
+          sudo apt-get install -y rpm
+          yarn build-release
 
       - name: Remove unpacked files
         run: |

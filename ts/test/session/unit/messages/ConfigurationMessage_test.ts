@@ -215,11 +215,6 @@ describe('ConfigurationMessage', () => {
     it('throw if the contact has an empty display name', () => {
       // a display name cannot be empty nor undefined
 
-      const params = {
-        publicKey: TestUtils.generateFakePubKey().key,
-        displayName: undefined as any,
-      };
-
       expect(() => new ConfigurationMessageContact(params2)).to.throw();
 
       const params2 = {
