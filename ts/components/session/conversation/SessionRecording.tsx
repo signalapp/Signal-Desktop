@@ -96,7 +96,6 @@ class SessionRecordingInner extends React.Component<Props, State> {
   // tslint:disable-next-line: cyclomatic-complexity
   public render() {
     const {
-      actionHover,
       isPlaying,
       isPaused,
       isRecording,

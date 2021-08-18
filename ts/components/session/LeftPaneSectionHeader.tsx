@@ -73,7 +73,6 @@ export const LeftPaneSectionHeader = (props: Props) => {
 export const LeftPaneBanner = () => {
   const [completion, setCompletion] = useState(90);
   const [bodyText, setBodyText] = useState(window.i18n('recoveryPhraseRevealMessage'));
-  const [buttonText, setButtonText] = useState(window.i18n('recoveryPhraseRevealButtonText'));
   const [recoveryPhraseHidden, setRecoveryPhraseHidden] = useState(true);
   const [isCompleted, setIsCompleted] = useState(false);
   const [bannerTitle, setBannerTitle] = useState(window.i18n('recoveryPhraseSecureTitle'));
@@ -114,7 +113,7 @@ export const LeftPaneBanner = () => {
         {!isCompleted && (
           <SessionButton
             buttonType={SessionButtonType.Default}
-            text={buttonText}
+            text={window.i18n('recoveryPhraseRevealButtonText')}
             onClick={showRecoveryPhraseModal}
           />
         )}
