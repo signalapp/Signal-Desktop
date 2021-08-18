@@ -140,6 +140,9 @@ export const ConversationHero = ({
     //   this will cause a re-render loop.
     const previousHeight = previousHeightRef.current;
     if (previousHeight && height && previousHeight !== height) {
+      window.log.info(
+        `ConversationHero height changed from ${previousHeight} to ${height}`
+      );
       onHeightChange?.();
     }
   }, [height, onHeightChange]);
@@ -176,7 +179,7 @@ export const ConversationHero = ({
         bounds
         onResize={({ bounds }) => {
           assert(bounds, 'We should be measuring the bounds');
-          setHeight(bounds.height);
+          setHeight(Math.ceil(bounds.height));
         }}
       >
         {({ measureRef }) => (
