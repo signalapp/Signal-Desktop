@@ -7,6 +7,11 @@ import { StateType as RootStateType } from '../reducer';
 import { AttachmentType } from '../../types/Attachment';
 import { MessageAttributesType } from '../../model-types.d';
 import { LinkPreviewWithDomain } from '../../types/LinkPreview';
+import { assignWithNoUnnecessaryAllocation } from '../../util/assignWithNoUnnecessaryAllocation';
+import {
+  REMOVE_PREVIEW as REMOVE_LINK_PREVIEW,
+  RemoveLinkPreviewActionType,
+} from './linkPreviews';
 
 // State
 
@@ -58,6 +63,7 @@ type ComposerActionType =
   | ResetComposerActionType
   | SetHighQualitySettingActionType
   | SetLinkPreviewResultActionType
+  | RemoveLinkPreviewActionType
   | SetQuotedMessageActionType;
 
 // Action Creators
@@ -174,6 +180,13 @@ export function reducer(
       linkPreviewLoading: action.payload.isLoading,
       linkPreviewResult: action.payload.linkPreview,
     };
+  }
+
+  if (action.type === REMOVE_LINK_PREVIEW) {
+    return assignWithNoUnnecessaryAllocation(state, {
+      linkPreviewLoading: false,
+      linkPreviewResult: undefined,
+    });
   }
 
   return state;

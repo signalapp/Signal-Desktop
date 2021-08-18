@@ -1,9 +1,10 @@
 // Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { debounce, get, isNumber, pick } from 'lodash';
+import { debounce, get, isNumber, pick, identity } from 'lodash';
 import classNames from 'classnames';
 import React, { CSSProperties, ReactChild, ReactNode } from 'react';
+import { createSelector } from 'reselect';
 import {
   AutoSizer,
   CellMeasurer,
@@ -213,6 +214,74 @@ type StateType = {
   hasDismissedDirectContactSpoofingWarning: boolean;
   lastMeasuredWarningHeight: number;
 };
+
+const getActions = createSelector(
+  // It is expensive to pick so many properties out of the `props` object so we
+  // use `createSelector` to memoize them by the last seen `props` object.
+  identity,
+
+  (props: PropsType): PropsActionsType => {
+    const unsafe = pick(props, [
+      'acknowledgeGroupMemberNameCollisions',
+      'clearChangedMessages',
+      'clearInvitedConversationsForNewlyCreatedGroup',
+      'closeContactSpoofingReview',
+      'setLoadCountdownStart',
+      'setIsNearBottom',
+      'reviewGroupMemberNameCollision',
+      'reviewMessageRequestNameCollision',
+      'learnMoreAboutDeliveryIssue',
+      'loadAndScroll',
+      'loadOlderMessages',
+      'loadNewerMessages',
+      'loadNewestMessages',
+      'markMessageRead',
+      'markViewed',
+      'onBlock',
+      'onBlockAndReportSpam',
+      'onDelete',
+      'onUnblock',
+      'removeMember',
+      'selectMessage',
+      'clearSelectedMessage',
+      'unblurAvatar',
+      'updateSharedGroups',
+
+      'doubleCheckMissingQuoteReference',
+      'onHeightChange',
+      'checkForAccount',
+      'reactToMessage',
+      'replyToMessage',
+      'retrySend',
+      'showForwardMessageModal',
+      'deleteMessage',
+      'deleteMessageForEveryone',
+      'showMessageDetail',
+      'openConversation',
+      'showContactDetail',
+      'showContactModal',
+      'kickOffAttachmentDownload',
+      'markAttachmentAsCorrupted',
+      'showVisualAttachment',
+      'downloadAttachment',
+      'displayTapToViewMessage',
+      'openLink',
+      'scrollToQuotedMessage',
+      'showExpiredIncomingTapToViewToast',
+      'showExpiredOutgoingTapToViewToast',
+
+      'showIdentity',
+
+      'downloadNewVersion',
+
+      'contactSupport',
+    ]);
+
+    const safe: AssertProps<PropsActionsType, typeof unsafe> = unsafe;
+
+    return safe;
+  }
+);
 
 export class Timeline extends React.PureComponent<PropsType, StateType> {
   public cellSizeCache = new CellMeasurerCache({
@@ -728,6 +797,8 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
       const messageId = items[itemIndex];
       stableKey = messageId;
 
+      const actions = getActions(this.props);
+
       rowContents = (
         <div
           id={messageId}
@@ -737,7 +808,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
           role="row"
         >
           <ErrorBoundary i18n={i18n} showDebugLog={() => window.showDebugLog()}>
-            {renderItem(messageId, id, this.resizeMessage, this.getActions())}
+            {renderItem(messageId, id, this.resizeMessage, actions)}
           </ErrorBoundary>
         </div>
       );
@@ -1480,67 +1551,5 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
       default:
         throw missingCaseError(warning);
     }
-  }
-
-  private getActions(): PropsActionsType {
-    const unsafe = pick(this.props, [
-      'acknowledgeGroupMemberNameCollisions',
-      'clearChangedMessages',
-      'clearInvitedConversationsForNewlyCreatedGroup',
-      'closeContactSpoofingReview',
-      'setLoadCountdownStart',
-      'setIsNearBottom',
-      'reviewGroupMemberNameCollision',
-      'reviewMessageRequestNameCollision',
-      'learnMoreAboutDeliveryIssue',
-      'loadAndScroll',
-      'loadOlderMessages',
-      'loadNewerMessages',
-      'loadNewestMessages',
-      'markMessageRead',
-      'markViewed',
-      'onBlock',
-      'onBlockAndReportSpam',
-      'onDelete',
-      'onUnblock',
-      'removeMember',
-      'selectMessage',
-      'clearSelectedMessage',
-      'unblurAvatar',
-      'updateSharedGroups',
-
-      'doubleCheckMissingQuoteReference',
-      'onHeightChange',
-      'checkForAccount',
-      'reactToMessage',
-      'replyToMessage',
-      'retrySend',
-      'showForwardMessageModal',
-      'deleteMessage',
-      'deleteMessageForEveryone',
-      'showMessageDetail',
-      'openConversation',
-      'showContactDetail',
-      'showContactModal',
-      'kickOffAttachmentDownload',
-      'markAttachmentAsCorrupted',
-      'showVisualAttachment',
-      'downloadAttachment',
-      'displayTapToViewMessage',
-      'openLink',
-      'scrollToQuotedMessage',
-      'showExpiredIncomingTapToViewToast',
-      'showExpiredOutgoingTapToViewToast',
-
-      'showIdentity',
-
-      'downloadNewVersion',
-
-      'contactSupport',
-    ]);
-
-    const safe: AssertProps<PropsActionsType, typeof unsafe> = unsafe;
-
-    return safe;
   }
 }

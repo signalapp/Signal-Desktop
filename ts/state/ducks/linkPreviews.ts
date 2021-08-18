@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { LinkPreviewType } from '../../types/message/LinkPreviews';
+import { assignWithNoUnnecessaryAllocation } from '../../util/assignWithNoUnnecessaryAllocation';
 
 // State
 
@@ -12,14 +13,14 @@ export type LinkPreviewsStateType = {
 // Actions
 
 const ADD_PREVIEW = 'linkPreviews/ADD_PREVIEW';
-const REMOVE_PREVIEW = 'linkPreviews/REMOVE_PREVIEW';
+export const REMOVE_PREVIEW = 'linkPreviews/REMOVE_PREVIEW';
 
 type AddLinkPreviewActionType = {
   type: 'linkPreviews/ADD_PREVIEW';
   payload: LinkPreviewType;
 };
 
-type RemoveLinkPreviewActionType = {
+export type RemoveLinkPreviewActionType = {
   type: 'linkPreviews/REMOVE_PREVIEW';
 };
 
@@ -68,9 +69,9 @@ export function reducer(
   }
 
   if (action.type === REMOVE_PREVIEW) {
-    return {
+    return assignWithNoUnnecessaryAllocation(state, {
       linkPreview: undefined,
-    };
+    });
   }
 
   return state;

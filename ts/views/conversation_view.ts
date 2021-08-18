@@ -4137,12 +4137,12 @@ Whisper.ConversationView = Whisper.View.extend({
         URL.revokeObjectURL(item.url);
       }
     });
-    window.reduxActions.linkPreviews.removeLinkPreview();
     this.preview = null;
     this.currentlyMatchedLink = null;
     this.linkPreviewAbortController?.abort();
     this.linkPreviewAbortController = null;
-    this.renderLinkPreview();
+
+    window.reduxActions.linkPreviews.removeLinkPreview();
   },
 
   async getStickerPackPreview(
