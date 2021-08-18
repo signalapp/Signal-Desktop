@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { createContext, useState } from 'react';
 import { Flex } from '../../basic/Flex';
 import { SpacerLG } from '../../basic/Text';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../SessionButton';
@@ -86,7 +86,7 @@ const SignInButtons = (props: {
 };
 
 interface Props {
-  setRegistrationPhase: (phase: any) => any;
+  setRegistrationPhase: (phase: RegistrationPhase) => void;
 }
 
 export const SignInTab = (props: Props) => {
