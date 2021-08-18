@@ -2822,7 +2822,7 @@
         "description": "Title for the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--help": {
-        "message": "Pelekat mesti dalam format PNG, APNG atau WebP dengan latar belakang yang telus dan piksel 512x512. Margin yang disyorkan ialah 16px.",
+        "message": "Pelekat mesti dalam format PNG, APNG, atau WebP dengan latar belakang yang telus dan piksel 512x512. Margin yang disyorkan ialah 16px.",
         "description": "Help text for the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--showMargins": {
@@ -3230,7 +3230,7 @@
         }
     },
     "member-of-3-groups": {
-        "message": "Ahli bagi $group1$, $group2$ dan $group3$",
+        "message": "Ahli bagi $group1$, $group2$, dan $group3$",
         "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
         "placeholders": {
             "group1": {
@@ -3682,7 +3682,7 @@
         "description": "Shown if something went wrong when you try to join via a group link"
     },
     "GroupV2--join--general-join-failure": {
-        "message": "Tidak dapat menyertai kumpulan. Cuba lagi nanti.",
+        "message": "Tidak dapat menyertai kumpulan. Cuba sebentar lagi.",
         "description": "Shown if something went wrong when you try to join via a group link"
     },
     "GroupV2--admin": {
@@ -4410,7 +4410,7 @@
         }
     },
     "GroupV2--pending-remove--revoke--one--unknown": {
-        "message": "Seroang pentadbir telah menarik balik jemputan ke kumpulan untuk 1 orang.",
+        "message": "Seorang pentadbir telah menarik balik jemputan ke kumpulan untuk 1 orang.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -4584,7 +4584,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--many--unknown": {
-        "message": "Seroang pentadbir telah menarik balik jemputan ke kumpulan yang anda hantar kepada $count$ orang.",
+        "message": "Seorang pentadbir telah menarik balik jemputan ke kumpulan yang anda hantar kepada $count$ orang.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -4828,11 +4828,11 @@
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--keep-history": {
-        "message": "Semua sejarah dan media mesej telah disimpan sebelum penaiktarafan.",
+        "message": "Semua sejarah mesej dan media telah disimpan sebelum penaiktarafan.",
         "description": "Shown on Learn More popup after GV1 migration"
     },
     "GroupV1--Migration--migrate--keep-history": {
-        "message": "Semua sejarah dan media mesej akan disimpan sebelum penaiktarafan.",
+        "message": "Semua sejarah mesej dan media akan disimpan sebelum penaiktarafan.",
         "description": "Shown on Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--invited--you": {
@@ -5734,7 +5734,7 @@
         }
     },
     "ErrorBoundaryNotification__text": {
-        "message": "Gagal memaparkan mesej kerana ralat dalaman. Klik untuk menyerahkan log nyhpepijat.",
+        "message": "Gagal memaparkan mesej kerana ralat dalaman. Klik untuk menyerahkan log nyahpepijat.",
         "description": "An error notification displayed when message fails to render due to an internal error"
     },
     "GroupDescription__read-more": {
