@@ -171,12 +171,12 @@ async function processPreviews(message: MessageModel, convo: ConversationModel):
 
       const image = message.isTrustedForAttachmentDownload()
         ? await AttachmentDownloads.addJob(item.image, {
-          messageId: message.id,
-          type: 'preview',
-          index,
-          isOpenGroupV2,
-          openGroupV2Details,
-        })
+            messageId: message.id,
+            type: 'preview',
+            index,
+            isOpenGroupV2,
+            openGroupV2Details,
+          })
         : null;
 
       return { ...item, image };

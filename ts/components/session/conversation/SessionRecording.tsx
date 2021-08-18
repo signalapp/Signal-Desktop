@@ -95,13 +95,7 @@ class SessionRecordingInner extends React.Component<Props, State> {
 
   // tslint:disable-next-line: cyclomatic-complexity
   public render() {
-    const {
-      isPlaying,
-      isPaused,
-      isRecording,
-      startTimestamp,
-      nowTimestamp,
-    } = this.state;
+    const { isPlaying, isPaused, isRecording, startTimestamp, nowTimestamp } = this.state;
 
     const hasRecordingAndPaused = !isRecording && !isPlaying;
     const hasRecording = !!this.audioElement?.duration && this.audioElement?.duration > 0;
