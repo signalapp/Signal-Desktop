@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-
+import React, { createContext, useEffect, useState } from 'react';
 import { PromiseUtils, StringUtils, ToastUtils, UserUtils } from '../../../session/utils';
 import { getConversationController } from '../../../session/conversations';
 import { createOrUpdateItem, removeAll } from '../../../data/data';
@@ -16,7 +15,6 @@ import { fromHex } from '../../../session/utils/String';
 import { TaskTimedOutError } from '../../../session/utils/Promise';
 import { mn_decode } from '../../../session/crypto/mnemonic';
 import { getSwarmPollingInstance } from '../../../session/snode_api/swarmPolling';
-import { createContext } from 'react';
 
 export const MAX_USERNAME_LENGTH = 20;
 // tslint:disable: use-simple-attributes
@@ -166,7 +164,7 @@ interface RegistrationPhaseContext {
 
 export const RegistrationContext = createContext<RegistrationPhaseContext>({
   registrationPhase: RegistrationPhase.Start,
-  setRegistrationPhase: () => {}
+  setRegistrationPhase: () => undefined,
 });
 
 export const RegistrationStages = () => {
@@ -201,20 +199,17 @@ export const RegistrationStages = () => {
 
   return (
     <div className="session-registration-container">
-      <RegistrationContext.Provider value={{registrationPhase, setRegistrationPhase}}>
+      <RegistrationContext.Provider value={{ registrationPhase, setRegistrationPhase }}>
         {(registrationPhase === RegistrationPhase.Start ||
           registrationPhase === RegistrationPhase.SignUp) && (
-            <SignUpTab
-              generatedRecoveryPhrase={generatedRecoveryPhrase}
-              hexGeneratedPubKey={hexGeneratedPubKey}
-              // setRegistrationPhase={setRegistrationPhase}
-            />
-          )}
+          <SignUpTab
+            generatedRecoveryPhrase={generatedRecoveryPhrase}
+            hexGeneratedPubKey={hexGeneratedPubKey}
+            // setRegistrationPhase={setRegistrationPhase}
+          />
+        )}
         {(registrationPhase === RegistrationPhase.Start ||
-          registrationPhase === RegistrationPhase.SignIn) && (
-            <SignInTab />
-          )}
-
+          registrationPhase === RegistrationPhase.SignIn) && <SignInTab />}
       </RegistrationContext.Provider>
     </div>
   );

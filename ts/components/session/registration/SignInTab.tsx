@@ -3,7 +3,12 @@ import { Flex } from '../../basic/Flex';
 import { SpacerLG } from '../../basic/Text';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../SessionButton';
 import { SessionSpinner } from '../SessionSpinner';
-import { RegistrationContext, RegistrationPhase, signInWithLinking, signInWithRecovery } from './RegistrationStages';
+import {
+  RegistrationContext,
+  RegistrationPhase,
+  signInWithLinking,
+  signInWithRecovery,
+} from './RegistrationStages';
 import { RegistrationUserDetails } from './RegistrationUserDetails';
 import { TermsAndConditions } from './TermsAndConditions';
 
