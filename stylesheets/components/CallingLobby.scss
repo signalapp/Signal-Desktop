@@ -7,9 +7,12 @@
     object-fit: cover;
     opacity: 0.6;
     position: absolute;
-    transform: rotateY(180deg);
     width: 100%;
     z-index: -1;
+
+    &--camera-is-on {
+      transform: rotateY(180deg);
+    }
   }
 
   &__camera-is-off {

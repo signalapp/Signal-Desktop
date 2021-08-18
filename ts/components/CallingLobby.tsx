@@ -153,13 +153,13 @@ export const CallingLobby = ({
     <div className="module-calling__container">
       {shouldShowLocalVideo ? (
         <video
-          className="module-CallingLobby__local-preview"
+          className="module-CallingLobby__local-preview module-CallingLobby__local-preview--camera-is-on"
           ref={localVideoRef}
           autoPlay
         />
       ) : (
         <CallBackgroundBlur
-          className="module-CallingLobby__local-preview"
+          className="module-CallingLobby__local-preview module-CallingLobby__local-preview--camera-is-off"
           avatarPath={me.avatarPath}
           color={me.color}
         />
