@@ -32,7 +32,6 @@ import {
 
 import { ReadStatus } from '../messages/MessageReadStatus';
 import { GroupV2MemberType } from '../model-types.d';
-import * as Errors from '../types/errors';
 import { ReactionType } from '../types/Reactions';
 import { StoredJob } from '../jobs/types';
 import { assert } from '../util/assert';
@@ -2280,26 +2279,16 @@ async function initializeRenderer({
 }
 
 async function close(): Promise<void> {
-  if (!globalInstance) {
-    return;
-  }
-
-  const dbRef = globalInstance;
-  globalInstance = undefined;
-
-  if (!isRenderer()) {
+  for (const dbRef of [globalInstanceRenderer, globalInstance]) {
     // SQLLite documentation suggests that we run `PRAGMA optimize` right
     // before closing the database connection.
-    dbRef.pragma('optimize');
+    dbRef?.pragma('optimize');
 
-    try {
-      dbRef.pragma('wal_checkpoint(TRUNCATE)');
-    } catch (error) {
-      console.error('Failed to truncate WAL log', Errors.toLogFormat(error));
-    }
+    dbRef?.close();
   }
 
-  dbRef.close();
+  globalInstance = undefined;
+  globalInstanceRenderer = undefined;
 }
 
 async function removeDB(): Promise<void> {
