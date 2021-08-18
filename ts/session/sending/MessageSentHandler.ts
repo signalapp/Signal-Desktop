@@ -94,7 +94,10 @@ export class MessageSentHandler {
         window?.log?.warn('Should send PN notify but no wrapped envelope set.');
       } else {
         // we do not really care about the retsult.
-        await PnServer.notifyPnServer(wrappedEnvelope, sentMessage.device);
+        const pnNotifyRet = await PnServer.notifyPnServer(wrappedEnvelope, sentMessage.device);
+        if (!pnNotifyRet) {
+          window?.log?.warn('Push notification server request returned false');
+        }
       }
     }
 
