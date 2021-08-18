@@ -10,7 +10,7 @@ import { StagedLinkPreview } from '../../conversation/StagedLinkPreview';
 export interface StagedLinkPreviewProps extends StagedLinkPreviewData {
   onClose: (url: string) => void;
 }
-export const LINK_PREVIEW_TIMEOUT = 60 * 1000;
+export const LINK_PREVIEW_TIMEOUT = 20 * 1000;
 
 export interface GetLinkPreviewResultImage {
   data: ArrayBuffer;

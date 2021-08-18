@@ -26,6 +26,7 @@ export interface SessionConfirmDialogProps {
   iconSize?: SessionIconSize;
   theme?: DefaultTheme;
   shouldShowConfirm?: boolean | undefined;
+  showExitIcon?: boolean | undefined;
 }
 
 const SessionConfirmInner = (props: SessionConfirmDialogProps) => {
@@ -42,6 +43,7 @@ const SessionConfirmInner = (props: SessionConfirmDialogProps) => {
     iconSize,
     shouldShowConfirm,
     onClickCancel,
+    showExitIcon,
   } = props;
 
   const [isLoading, setIsLoading] = useState(false);
@@ -92,7 +94,7 @@ const SessionConfirmInner = (props: SessionConfirmDialogProps) => {
     <SessionWrapperModal
       title={title}
       onClose={onClickClose}
-      showExitIcon={false}
+      showExitIcon={showExitIcon}
       showHeader={showHeader}
     >
       {!showHeader && <SpacerLG />}

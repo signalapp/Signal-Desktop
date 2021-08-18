@@ -1879,7 +1879,7 @@ function saveMessage(data) {
   return id;
 }
 
-async function saveSeenMessageHashes(arrayOfHashes) {
+function saveSeenMessageHashes(arrayOfHashes) {
   globalInstance.transaction(() => {
     map(arrayOfHashes, hashData => saveSeenMessageHash(hashData));
   })();
@@ -1946,7 +1946,7 @@ function cleanSeenMessages() {
   });
 }
 
-async function saveMessages(arrayOfMessages) {
+function saveMessages(arrayOfMessages) {
   globalInstance.transaction(() => {
     map(arrayOfMessages, message => saveMessage(message));
   })();

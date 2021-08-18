@@ -121,7 +121,13 @@ const InviteContactsDialogInner = (props: Props) => {
         );
 
         if (privateConvo) {
-          void privateConvo.sendMessage('', null, null, null, groupInvitation);
+          void privateConvo.sendMessage({
+            body: '',
+            attachments: undefined,
+            groupInvitation,
+            preview: undefined,
+            quote: undefined,
+          });
         }
       });
     }

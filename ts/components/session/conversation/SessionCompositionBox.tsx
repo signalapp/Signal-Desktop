@@ -1,20 +1,18 @@
 import React from 'react';
 import _, { debounce } from 'lodash';
 
-import { Attachment, AttachmentType } from '../../../types/Attachment';
+import { AttachmentType } from '../../../types/Attachment';
 import * as MIME from '../../../types/MIME';
 
 import { SessionIconButton, SessionIconSize, SessionIconType } from '../icon';
 import { SessionEmojiPanel } from './SessionEmojiPanel';
 import { SessionRecording } from './SessionRecording';
 
-import { SignalService } from '../../../protobuf';
-
 import { Constants } from '../../../session';
 
 import { toArray } from 'react-emoji-render';
 import { Flex } from '../../basic/Flex';
-import { StagedAttachmentList } from '../../conversation/AttachmentList';
+import { StagedAttachmentList } from '../../conversation/StagedAttachmentList';
 import { ToastUtils } from '../../../session/utils';
 import { AttachmentUtil } from '../../../util';
 import {
@@ -56,6 +54,7 @@ import {
 import { connect } from 'react-redux';
 import { StateType } from '../../../state/reducer';
 import { getTheme } from '../../../state/selectors/theme';
+import { removeAllStagedAttachmentsInConversation } from '../../../state/ducks/stagedAttachments';
 
 export interface ReplyingToMessageProps {
   convoId: string;
@@ -79,8 +78,16 @@ export interface StagedAttachmentType extends AttachmentType {
   file: File;
 }
 
+export type SendMessageType = {
+  body: string;
+  attachments: Array<StagedAttachmentType> | undefined;
+  quote: any | undefined;
+  preview: any | undefined;
+  groupInvitation: { url: string | undefined; name: string } | undefined;
+};
+
 interface Props {
-  sendMessage: any;
+  sendMessage: (msg: SendMessageType) => void;
   draft: string;
 
   onLoadVoiceNoteView: any;
@@ -89,8 +96,6 @@ interface Props {
   selectedConversation: ReduxConversationType | undefined;
   quotedMessageProps?: ReplyingToMessageProps;
   stagedAttachments: Array<StagedAttachmentType>;
-  clearAttachments: () => any;
-  removeAttachment: (toRemove: AttachmentType) => void;
   onChoseAttachments: (newAttachments: Array<File>) => void;
 }
 
@@ -730,8 +735,6 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
             attachments={stagedAttachments}
             onClickAttachment={this.onClickAttachment}
             onAddAttachment={this.onChooseAttachment}
-            onCloseAttachment={this.props.removeAttachment}
-            onClose={this.props.clearAttachments}
           />
           {this.renderCaptionEditor(showCaptionEditor)}
         </>
@@ -872,17 +875,19 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
 
     try {
       const attachments = await this.getFiles();
-      await this.props.sendMessage(
-        messagePlaintext,
-        attachments,
-        extractedQuotedMessageProps,
-        linkPreviews,
-        null,
-        {}
+      this.props.sendMessage({
+        body: messagePlaintext,
+        attachments: attachments || [],
+        quote: extractedQuotedMessageProps,
+        preview: linkPreviews,
+        groupInvitation: undefined,
+      });
+
+      window.inboxStore?.dispatch(
+        removeAllStagedAttachmentsInConversation({
+          conversationKey: this.props.selectedConversationKey,
+        })
       );
-
-      this.props.clearAttachments();
-
       // Empty composition box and stagedAttachments
       this.setState({
         showEmojiPanel: false,
@@ -902,8 +907,12 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
   }
 
   // this function is called right before sending a message, to gather really the files behind attachments.
-  private async getFiles() {
+  private async getFiles(): Promise<Array<any>> {
     const { stagedAttachments } = this.props;
+
+    if (_.isEmpty(stagedAttachments)) {
+      return [];
+    }
     // scale them down
     const files = await Promise.all(
       stagedAttachments.map(attachment =>
@@ -912,8 +921,12 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
         })
       )
     );
-    this.props.clearAttachments();
-    return files;
+    window.inboxStore?.dispatch(
+      removeAllStagedAttachmentsInConversation({
+        conversationKey: this.props.selectedConversationKey,
+      })
+    );
+    return _.compact(files);
   }
 
   private async sendVoiceMessage(audioBlob: Blob) {
@@ -921,27 +934,27 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
       return;
     }
 
-    const fileBuffer = await new Response(audioBlob).arrayBuffer();
+    const file = new File([audioBlob], 'audio-blob');
 
-    const audioAttachment: Attachment = {
-      data: fileBuffer,
-      flags: SignalService.AttachmentPointer.Flags.VOICE_MESSAGE,
+    const audioAttachment: StagedAttachmentType = {
+      file,
       contentType: MIME.AUDIO_MP3,
       size: audioBlob.size,
+      fileSize: null,
+      screenshot: null,
+      fileName: 'audio-message',
+      thumbnail: null,
+      url: '',
+      isVoiceMessage: true,
     };
 
-    const messageSuccess = this.props.sendMessage(
-      '',
-      [audioAttachment],
-      undefined,
-      undefined,
-      null,
-      {}
-    );
-
-    if (messageSuccess) {
-      // success!
-    }
+    this.props.sendMessage({
+      body: '',
+      attachments: [audioAttachment],
+      preview: undefined,
+      quote: undefined,
+      groupInvitation: undefined,
+    });
 
     this.onExitVoiceNoteView();
   }

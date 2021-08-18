@@ -26,6 +26,7 @@ import { SessionMainPanel } from '../SessionMainPanel';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore } from 'redux-persist';
 import { TimerOptionsArray } from '../../state/ducks/timerOptions';
+import { getEmptyStagedAttachmentsState } from '../../state/ducks/stagedAttachments';
 
 // Workaround: A react component's required properties are filtering up through connect()
 //   https://github.com/DefinitelyTyped/DefinitelyTyped/issues/31363
@@ -108,6 +109,7 @@ export class SessionInboxView extends React.Component<any, State> {
       timerOptions: {
         timerOptions,
       },
+      stagedAttachments: getEmptyStagedAttachmentsState(),
     };
 
     this.store = createStore(initialState);

@@ -87,6 +87,7 @@ export class Linkify extends React.Component<Props> {
         message: window.i18n('linkVisitWarningMessage', url),
         okText: window.i18n('open'),
         cancelText: window.i18n('copy'),
+        showExitIcon: true,
         onClickOk: openLink,
         onClickClose: () => {
           window.inboxStore?.dispatch(updateConfirmModal(null));

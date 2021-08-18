@@ -70,7 +70,7 @@ declare global {
     profileImages: any;
     MediaRecorder: any;
     dataURLToBlobSync: any;
-    autoOrientImage: any;
+    autoOrientImage: (fileOrBlobOrURL: string | File | Blob, options: any = {}) => Promise<string>;
     contextMenuShown: boolean;
     inboxStore?: Store;
     openConversationWithMessages: (args: {

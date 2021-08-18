@@ -10,21 +10,41 @@ import {
   getUrl,
   isVideoAttachment,
 } from '../../types/Attachment';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  removeAllStagedAttachmentsInConversation,
+  removeStagedAttachmentInConversation,
+} from '../../state/ducks/stagedAttachments';
+import { getSelectedConversationKey } from '../../state/selectors/conversations';
 
 type Props = {
   attachments: Array<AttachmentType>;
-  // onError: () => void;
   onClickAttachment: (attachment: AttachmentType) => void;
-  onCloseAttachment: (attachment: AttachmentType) => void;
   onAddAttachment: () => void;
-  onClose: () => void;
 };
 
 const IMAGE_WIDTH = 120;
 const IMAGE_HEIGHT = 120;
 
 export const StagedAttachmentList = (props: Props) => {
-  const { attachments, onAddAttachment, onClickAttachment, onCloseAttachment, onClose } = props;
+  const { attachments, onAddAttachment, onClickAttachment } = props;
+
+  const dispatch = useDispatch();
+  const conversationKey = useSelector(getSelectedConversationKey);
+
+  const onRemoveAllStaged = () => {
+    if (!conversationKey) {
+      return;
+    }
+    dispatch(removeAllStagedAttachmentsInConversation({ conversationKey }));
+  };
+
+  const onRemoveByFilename = (filename: string) => {
+    if (!conversationKey) {
+      return;
+    }
+    dispatch(removeStagedAttachmentInConversation({ conversationKey, filename }));
+  };
 
   if (!attachments.length) {
     return null;
@@ -36,7 +56,11 @@ export const StagedAttachmentList = (props: Props) => {
     <div className="module-attachments">
       {attachments.length > 1 ? (
         <div className="module-attachments__header">
-          <div role="button" onClick={onClose} className="module-attachments__close-button" />
+          <div
+            role="button"
+            onClick={onRemoveAllStaged}
+            className="module-attachments__close-button"
+          />
         </div>
       ) : null}
       <div className="module-attachments__rail">
@@ -58,7 +82,9 @@ export const StagedAttachmentList = (props: Props) => {
                 url={getUrl(attachment)}
                 closeButton={true}
                 onClick={clickCallback}
-                onClickClose={onCloseAttachment}
+                onClickClose={() => {
+                  onRemoveByFilename(attachment.fileName);
+                }}
               />
             );
           }
@@ -69,7 +95,9 @@ export const StagedAttachmentList = (props: Props) => {
             <StagedGenericAttachment
               key={genericKey}
               attachment={attachment}
-              onClose={onCloseAttachment}
+              onClose={() => {
+                onRemoveByFilename(attachment.fileName);
+              }}
             />
           );
         })}
