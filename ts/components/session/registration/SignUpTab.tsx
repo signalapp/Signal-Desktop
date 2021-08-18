@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../SessionButton';
 import { SessionIdEditable } from '../SessionIdEditable';
-import { RegistrationPhase, signUp } from './RegistrationStages';
+import { RegistrationContext, RegistrationPhase, signUp } from './RegistrationStages';
 import { RegistrationUserDetails } from './RegistrationUserDetails';
 import { TermsAndConditions } from './TermsAndConditions';
 
@@ -15,7 +15,6 @@ export interface Props {
   // tslint:disable: react-unused-props-and-state
   generatedRecoveryPhrase: string;
   hexGeneratedPubKey: string;
-  setRegistrationPhase: (phase: any) => any;
 }
 
 const CreateSessionIdButton = ({ createSessionID }: { createSessionID: any }) => {
@@ -63,7 +62,8 @@ const SignUpSessionIDShown = (props: { continueSignUp: () => void }) => {
 };
 
 export const SignUpTab = (props: Props) => {
-  const { setRegistrationPhase } = props;
+  const { setRegistrationPhase } = useContext(RegistrationContext);
+
   const [signUpMode, setSignUpMode] = useState(SignUpMode.Default);
   const [displayName, setDisplayName] = useState('');
   const [displayNameError, setDisplayNameError] = useState('');

@@ -1,9 +1,9 @@
-import React, { createContext, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Flex } from '../../basic/Flex';
 import { SpacerLG } from '../../basic/Text';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../SessionButton';
 import { SessionSpinner } from '../SessionSpinner';
-import { RegistrationPhase, signInWithLinking, signInWithRecovery } from './RegistrationStages';
+import { RegistrationContext, RegistrationPhase, signInWithLinking, signInWithRecovery } from './RegistrationStages';
 import { RegistrationUserDetails } from './RegistrationUserDetails';
 import { TermsAndConditions } from './TermsAndConditions';
 
@@ -85,12 +85,9 @@ const SignInButtons = (props: {
   );
 };
 
-interface Props {
-  setRegistrationPhase: (phase: RegistrationPhase) => void;
-}
+export const SignInTab = () => {
+  const { setRegistrationPhase } = useContext(RegistrationContext);
 
-export const SignInTab = (props: Props) => {
-  const { setRegistrationPhase } = props;
   const [signInMode, setSignInMode] = useState(SignInMode.Default);
   const [recoveryPhrase, setRecoveryPhrase] = useState('');
   const [recoveryPhraseError, setRecoveryPhraseError] = useState(undefined as string | undefined);

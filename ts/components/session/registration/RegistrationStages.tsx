@@ -16,6 +16,7 @@ import { fromHex } from '../../../session/utils/String';
 import { TaskTimedOutError } from '../../../session/utils/Promise';
 import { mn_decode } from '../../../session/crypto/mnemonic';
 import { getSwarmPollingInstance } from '../../../session/snode_api/swarmPolling';
+import { createContext } from 'react';
 
 export const MAX_USERNAME_LENGTH = 20;
 // tslint:disable: use-simple-attributes
@@ -158,6 +159,16 @@ export enum RegistrationPhase {
   SignUp,
 }
 
+interface RegistrationPhaseContext {
+  registrationPhase: RegistrationPhase;
+  setRegistrationPhase: (phase: RegistrationPhase) => void;
+}
+
+export const RegistrationContext = createContext<RegistrationPhaseContext>({
+  registrationPhase: RegistrationPhase.Start,
+  setRegistrationPhase: () => {}
+});
+
 export const RegistrationStages = () => {
   const [generatedRecoveryPhrase, setGeneratedRecoveryPhrase] = useState('');
   const [hexGeneratedPubKey, setHexGeneratedPubKey] = useState('');
@@ -190,18 +201,21 @@ export const RegistrationStages = () => {
 
   return (
     <div className="session-registration-container">
-      {(registrationPhase === RegistrationPhase.Start ||
-        registrationPhase === RegistrationPhase.SignUp) && (
-        <SignUpTab
-          generatedRecoveryPhrase={generatedRecoveryPhrase}
-          hexGeneratedPubKey={hexGeneratedPubKey}
-          setRegistrationPhase={setRegistrationPhase}
-        />
-      )}
-      {(registrationPhase === RegistrationPhase.Start ||
-        registrationPhase === RegistrationPhase.SignIn) && (
-        <SignInTab setRegistrationPhase={setRegistrationPhase} />
-      )}
+      <RegistrationContext.Provider value={{registrationPhase, setRegistrationPhase}}>
+        {(registrationPhase === RegistrationPhase.Start ||
+          registrationPhase === RegistrationPhase.SignUp) && (
+            <SignUpTab
+              generatedRecoveryPhrase={generatedRecoveryPhrase}
+              hexGeneratedPubKey={hexGeneratedPubKey}
+              // setRegistrationPhase={setRegistrationPhase}
+            />
+          )}
+        {(registrationPhase === RegistrationPhase.Start ||
+          registrationPhase === RegistrationPhase.SignIn) && (
+            <SignInTab />
+          )}
+
+      </RegistrationContext.Provider>
     </div>
   );
 };
