@@ -6,16 +6,16 @@
 const { ipcRenderer } = require('electron');
 const url = require('url');
 const copyText = require('copy-text-to-clipboard');
+
+// It is important to call this as early as possible
+require('./ts/windows/context');
+
 const i18n = require('./js/modules/i18n');
 const {
   getEnvironment,
   setEnvironment,
   parseEnvironment,
 } = require('./ts/environment');
-
-const { Context: SignalContext } = require('./ts/context');
-
-window.SignalContext = new SignalContext(ipcRenderer);
 
 const config = url.parse(window.location.toString(), true).query;
 const { locale } = config;

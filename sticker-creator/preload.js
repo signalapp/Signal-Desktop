@@ -10,6 +10,10 @@ const config = require('url').parse(window.location.toString(), true).query;
 const { noop, uniqBy } = require('lodash');
 const pMap = require('p-map');
 const client = require('@signalapp/signal-client');
+
+// It is important to call this as early as possible
+require('../ts/windows/context');
+
 const { deriveStickerPackKey } = require('../ts/Crypto');
 const { SignalService: Proto } = require('../ts/protobuf');
 const {
@@ -17,19 +21,15 @@ const {
   setEnvironment,
   parseEnvironment,
 } = require('../ts/environment');
-const { makeGetter } = require('../preload_utils');
+const { createSetting } = require('../ts/util/preload');
 
 const { dialog } = remote;
-
-const { Context: SignalContext } = require('../ts/context');
 
 const STICKER_SIZE = 512;
 const MIN_STICKER_DIMENSION = 10;
 const MAX_STICKER_DIMENSION = STICKER_SIZE;
 const MAX_WEBP_STICKER_BYTE_LENGTH = 100 * 1024;
 const MAX_ANIMATED_STICKER_BYTE_LENGTH = 300 * 1024;
-
-window.SignalContext = new SignalContext(ipc);
 
 setEnvironment(parseEnvironment(config.environment));
 
@@ -274,10 +274,10 @@ async function encrypt(data, key, iv) {
   return ciphertext;
 }
 
-const getThemeSetting = makeGetter('theme-setting');
+const getThemeSetting = createSetting('theme-setting');
 
 async function resolveTheme() {
-  const theme = (await getThemeSetting()) || 'system';
+  const theme = (await getThemeSetting.getValue()) || 'system';
   if (process.platform === 'darwin' && theme === 'system') {
     const { theme: nativeTheme } = window.SignalContext.nativeThemeListener;
     return nativeTheme.shouldUseDarkColors ? 'dark' : 'light';

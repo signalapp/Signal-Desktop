@@ -170,16 +170,14 @@ export async function toAccountRecord(
   accountRecord.noteToSelfMarkedUnread = Boolean(
     conversation.get('markedUnread')
   );
-  accountRecord.readReceipts = Boolean(
-    window.storage.get('read-receipt-setting')
-  );
+  accountRecord.readReceipts = Boolean(window.Events.getReadReceiptSetting());
   accountRecord.sealedSenderIndicators = Boolean(
     window.storage.get('sealedSenderIndicators')
   );
   accountRecord.typingIndicators = Boolean(
-    window.storage.get('typingIndicators')
+    window.Events.getTypingIndicatorSetting()
   );
-  accountRecord.linkPreviews = Boolean(window.storage.get('linkPreviews'));
+  accountRecord.linkPreviews = Boolean(window.Events.getLinkPreviewSetting());
 
   const primarySendsSms = window.storage.get('primarySendsSms');
   if (primarySendsSms !== undefined) {

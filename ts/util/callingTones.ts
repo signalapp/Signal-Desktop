@@ -14,7 +14,7 @@ class CallingTones {
 
   // eslint-disable-next-line class-methods-use-this
   async playEndCall(): Promise<void> {
-    const canPlayTone = await window.getCallRingtoneNotification();
+    const canPlayTone = window.Events.getCallRingtoneNotification();
     if (!canPlayTone) {
       return;
     }
@@ -32,7 +32,7 @@ class CallingTones {
         this.ringtone = undefined;
       }
 
-      const canPlayTone = await window.getCallRingtoneNotification();
+      const canPlayTone = window.Events.getCallRingtoneNotification();
       if (!canPlayTone) {
         return;
       }
@@ -57,7 +57,7 @@ class CallingTones {
 
   // eslint-disable-next-line class-methods-use-this
   async someonePresenting() {
-    const canPlayTone = await window.getCallRingtoneNotification();
+    const canPlayTone = window.Events.getCallRingtoneNotification();
     if (!canPlayTone) {
       return;
     }

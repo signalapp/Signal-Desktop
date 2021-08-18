@@ -26,7 +26,9 @@ type CustomColorDataType = {
 export type PropsDataType = {
   conversationId?: string;
   customColors?: Record<string, CustomColorType>;
-  getConversationsWithCustomColor: (colorId: string) => Array<ConversationType>;
+  getConversationsWithCustomColor: (
+    colorId: string
+  ) => Promise<Array<ConversationType>>;
   i18n: LocalizerType;
   isGlobal?: boolean;
   selectedColor?: ConversationColorType;
@@ -34,10 +36,7 @@ export type PropsDataType = {
 };
 
 type PropsActionType = {
-  addCustomColor: (
-    color: CustomColorType,
-    nextAction: (uuid: string) => unknown
-  ) => unknown;
+  addCustomColor: (color: CustomColorType, conversationId?: string) => unknown;
   colorSelected: (payload: {
     conversationId: string;
     conversationColor?: ConversationColorType;
@@ -100,20 +99,10 @@ export const ChatColorPicker = ({
     }
   };
 
-  const onColorAdded = (value: CustomColorType) => {
-    return (id: string) => {
-      onSelectColor('custom', {
-        id,
-        value,
-      });
-    };
-  };
-
   const renderCustomColorEditorWrapper = () => (
     <CustomColorEditorWrapper
       customColorToEdit={customColorToEdit}
       i18n={i18n}
-      isGlobal={isGlobal}
       onClose={() => setCustomColorToEdit(undefined)}
       onSave={(color: CustomColorType) => {
         if (customColorToEdit?.id) {
@@ -123,15 +112,11 @@ export const ChatColorPicker = ({
             value: color,
           });
         } else {
-          addCustomColor(color, onColorAdded(color));
+          addCustomColor(color, conversationId);
         }
       }}
     />
   );
-
-  if (isGlobal && customColorToEdit) {
-    return renderCustomColorEditorWrapper();
-  }
 
   return (
     <div className="ChatColorPicker__container">
@@ -228,7 +213,7 @@ export const ChatColorPicker = ({
                 removeCustomColorOnConversations(colorId);
               }}
               onDupe={() => {
-                addCustomColor(colorValues, onColorAdded(colorValues));
+                addCustomColor(colorValues, conversationId);
               }}
               onEdit={() => {
                 setCustomColorToEdit({ id: colorId, value: colorValues });
@@ -279,7 +264,9 @@ export const ChatColorPicker = ({
 type CustomColorBubblePropsType = {
   color: CustomColorType;
   colorId: string;
-  getConversationsWithCustomColor: (colorId: string) => Array<ConversationType>;
+  getConversationsWithCustomColor: (
+    colorId: string
+  ) => Promise<Array<ConversationType>>;
   i18n: LocalizerType;
   isSelected: boolean;
   onDelete: () => unknown;
@@ -398,11 +385,13 @@ const CustomColorBubble = ({
           attributes={{
             className: 'ChatColorPicker__context--delete',
           }}
-          onClick={(event: MouseEvent) => {
+          onClick={async (event: MouseEvent) => {
             event.stopPropagation();
             event.preventDefault();
 
-            const conversations = getConversationsWithCustomColor(colorId);
+            const conversations = await getConversationsWithCustomColor(
+              colorId
+            );
             if (!conversations.length) {
               onDelete();
             } else {
@@ -420,7 +409,6 @@ const CustomColorBubble = ({
 type CustomColorEditorWrapperPropsType = {
   customColorToEdit?: CustomColorDataType;
   i18n: LocalizerType;
-  isGlobal: boolean;
   onClose: () => unknown;
   onSave: (color: CustomColorType) => unknown;
 };
@@ -428,7 +416,6 @@ type CustomColorEditorWrapperPropsType = {
 const CustomColorEditorWrapper = ({
   customColorToEdit,
   i18n,
-  isGlobal,
   onClose,
   onSave,
 }: CustomColorEditorWrapperPropsType): JSX.Element => {
@@ -441,20 +428,16 @@ const CustomColorEditorWrapper = ({
     />
   );
 
-  if (!isGlobal) {
-    return (
-      <Modal
-        hasXButton
-        i18n={i18n}
-        moduleClassName="ChatColorPicker__modal"
-        noMouseClose
-        onClose={onClose}
-        title={i18n('CustomColorEditor__title')}
-      >
-        {editor}
-      </Modal>
-    );
-  }
-
-  return editor;
+  return (
+    <Modal
+      hasXButton
+      i18n={i18n}
+      moduleClassName="ChatColorPicker__modal"
+      noMouseClose
+      onClose={onClose}
+      title={i18n('CustomColorEditor__title')}
+    >
+      {editor}
+    </Modal>
+  );
 };

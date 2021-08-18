@@ -51,3 +51,5 @@ type InternalAssertProps<
       };
 
 export type AssertProps<Result, Value> = InternalAssertProps<Result, Value>;
+
+export type UnwrapPromise<Value> = Value extends Promise<infer T> ? T : Value;

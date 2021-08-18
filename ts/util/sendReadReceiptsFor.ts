@@ -24,7 +24,7 @@ export async function sendReadReceiptsFor(
 ): Promise<void> {
   // Only send read receipts for accepted conversations
   if (
-    window.storage.get('read-receipt-setting') &&
+    window.Events.getReadReceiptSetting() &&
     isConversationAccepted(conversationAttrs)
   ) {
     window.log.info(`Sending ${items.length} read receipts`);

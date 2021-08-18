@@ -37,7 +37,6 @@ const {
   ipcMain: ipc,
   Menu,
   protocol: electronProtocol,
-  session,
   shell,
   systemPreferences,
 } = electron;
@@ -102,7 +101,6 @@ const {
   installFileHandler,
   installWebHandler,
 } = require('./app/protocol_filter');
-const { installPermissionsHandler } = require('./app/permissions');
 const OS = require('./ts/OS');
 const { isProduction } = require('./ts/util/version');
 const {
@@ -124,6 +122,7 @@ const { Environment, isTestEnvironment } = require('./ts/environment');
 const { ChallengeMainHandler } = require('./ts/main/challengeMain');
 const { NativeThemeNotifier } = require('./ts/main/NativeThemeNotifier');
 const { PowerChannel } = require('./ts/main/powerChannel');
+const { SettingsChannel } = require('./ts/main/settingsChannel');
 const { maybeParseUrl, setUrlSearchParams } = require('./ts/util/url');
 const { getHeicConverter } = require('./ts/workers/heicConverterMain');
 
@@ -235,6 +234,7 @@ const loadLocale = require('./app/locale').load;
 // Both of these will be set after app fires the 'ready' event
 let logger;
 let locale;
+let settingsChannel;
 
 function prepareFileUrl(
   pathSegments /* : ReadonlyArray<string> */,
@@ -425,6 +425,8 @@ async function createWindow() {
 
   // Create the browser window.
   mainWindow = new BrowserWindow(windowOptions);
+  settingsChannel.setMainWindow(mainWindow);
+
   mainWindowCreated = true;
   setupSpellChecker(mainWindow, locale.messages);
   if (!startInTray && windowConfig && windowConfig.maximized) {
@@ -567,6 +569,7 @@ async function createWindow() {
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
     mainWindow = undefined;
+    settingsChannel.setMainWindow(mainWindow);
     if (systemTrayService) {
       systemTrayService.setMainWindow(mainWindow);
     }
@@ -875,40 +878,26 @@ function showSettingsWindow() {
     settingsWindow.show();
     return;
   }
-  if (!mainWindow) {
-    return;
-  }
 
-  addDarkOverlay();
-
-  const size = mainWindow.getSize();
-  // center settings window over main window
-  const settingwidth = Math.min(500, size[0]);
-  const settingheight = Math.max(size[1] - 100, MIN_HEIGHT);
-  const mainPos = mainWindow.getPosition();
-  const mainSize = mainWindow.getSize();
   const options = {
-    x: Math.round(mainPos[0] + mainSize[0] / 2 - settingwidth / 2),
-    y: Math.round(mainPos[1] + mainSize[1] / 2 - settingheight / 2),
-    width: settingwidth,
-    height: settingheight,
-    frame: false,
+    width: 700,
+    height: 700,
+    frame: true,
     resizable: false,
     title: locale.messages.signalDesktopPreferences.message,
     autoHideMenuBar: true,
     backgroundColor: '#3a76f0',
     show: false,
-    modal: true,
+    modal: false,
     webPreferences: {
       ...defaultWebPrefs,
       nodeIntegration: false,
       nodeIntegrationInWorker: false,
       contextIsolation: false,
       enableRemoteModule: true,
-      preload: path.join(__dirname, 'settings_preload.js'),
+      preload: path.join(__dirname, 'ts', 'windows', 'settings', 'preload.js'),
       nativeWindowOpen: true,
     },
-    parent: mainWindow,
   };
 
   settingsWindow = new BrowserWindow(options);
@@ -924,6 +913,11 @@ function showSettingsWindow() {
 
   settingsWindow.once('ready-to-show', () => {
     settingsWindow.show();
+    settingsWindow.webContents.send('render');
+
+    if (config.get('openDevTools')) {
+      settingsWindow.webContents.openDevTools();
+    }
   });
 }
 
@@ -1015,7 +1009,7 @@ async function showDebugLogWindow() {
     return;
   }
 
-  const theme = await pify(getDataFromMainWindow)('theme-setting');
+  const theme = await settingsChannel.getSettingFromMainWindow('themeSetting');
   const size = mainWindow.getSize();
   const options = {
     width: Math.max(size[0] - 100, MIN_WIDTH),
@@ -1068,7 +1062,9 @@ function showPermissionsPopupWindow(forCalling, forCamera) {
       reject(new Error('No main window'));
     }
 
-    const theme = await pify(getDataFromMainWindow)('theme-setting');
+    const theme = await settingsChannel.getSettingFromMainWindow(
+      'themeSetting'
+    );
     const size = mainWindow.getSize();
     const options = {
       width: Math.min(400, size[0]),
@@ -1154,6 +1150,9 @@ let ready = false;
 app.on('ready', async () => {
   const startTime = Date.now();
 
+  settingsChannel = new SettingsChannel();
+  settingsChannel.install();
+
   // We use this event only a single time to log the startup time of the app
   // from when it's first ready until the loading screen disappears.
   ipc.once('signal-app-loaded', (event, info) => {
@@ -1200,8 +1199,6 @@ app.on('ready', async () => {
     enableHttp: config.enableHttp,
     protocol: electronProtocol,
   });
-
-  installPermissionsHandler({ session, userConfig });
 
   logger = await logging.initialize(getMainWindow);
   logger.info('app ready');
@@ -1668,79 +1665,6 @@ ipc.on('close-settings', () => {
   }
 });
 
-installSettingsGetter('device-name');
-
-installSettingsGetter('theme-setting');
-installSettingsSetter('theme-setting');
-installSettingsGetter('hide-menu-bar');
-installSettingsSetter('hide-menu-bar');
-installSettingsGetter('system-tray-setting');
-installSettingsSetter('system-tray-setting');
-
-installSettingsGetter('notification-setting');
-installSettingsSetter('notification-setting');
-installSettingsGetter('notification-draw-attention');
-installSettingsSetter('notification-draw-attention');
-installSettingsGetter('audio-notification');
-installSettingsSetter('audio-notification');
-installSettingsGetter('badge-count-muted-conversations');
-installSettingsSetter('badge-count-muted-conversations');
-
-installSettingsGetter('spell-check');
-installSettingsSetter('spell-check', true);
-
-installSettingsGetter('auto-launch');
-installSettingsSetter('auto-launch');
-
-installSettingsGetter('always-relay-calls');
-installSettingsSetter('always-relay-calls');
-installSettingsGetter('call-ringtone-notification');
-installSettingsSetter('call-ringtone-notification');
-installSettingsGetter('call-system-notification');
-installSettingsSetter('call-system-notification');
-installSettingsGetter('incoming-call-notification');
-installSettingsSetter('incoming-call-notification');
-
-// These ones are different because its single source of truth is userConfig,
-// not IndexedDB
-ipc.on('get-media-permissions', event => {
-  event.sender.send(
-    'get-success-media-permissions',
-    null,
-    userConfig.get('mediaPermissions') || false
-  );
-});
-ipc.on('get-media-camera-permissions', event => {
-  event.sender.send(
-    'get-success-media-camera-permissions',
-    null,
-    userConfig.get('mediaCameraPermissions') || false
-  );
-});
-ipc.on('set-media-permissions', (event, value) => {
-  userConfig.set('mediaPermissions', value);
-
-  // We reinstall permissions handler to ensure that a revoked permission takes effect
-  installPermissionsHandler({ session, userConfig });
-
-  event.sender.send('set-success-media-permissions', null);
-});
-ipc.on('set-media-camera-permissions', (event, value) => {
-  userConfig.set('mediaCameraPermissions', value);
-
-  // We reinstall permissions handler to ensure that a revoked permission takes effect
-  installPermissionsHandler({ session, userConfig });
-
-  event.sender.send('set-success-media-camera-permissions', null);
-});
-
-installSettingsGetter('is-primary');
-installSettingsGetter('sync-request');
-installSettingsGetter('sync-time');
-installSettingsSetter('sync-time');
-installSettingsGetter('universal-expire-timer');
-installSettingsSetter('universal-expire-timer');
-
 ipc.on('delete-all-data', () => {
   if (mainWindow && mainWindow.webContents) {
     mainWindow.webContents.send('delete-all-data');
@@ -1776,47 +1700,12 @@ ipc.on('get-user-data-path', event => {
   event.returnValue = app.getPath('userData');
 });
 
-function getDataFromMainWindow(name, callback) {
-  ipc.once(`get-success-${name}`, (_event, error, value) =>
-    callback(error, value)
-  );
-  mainWindow.webContents.send(`get-${name}`);
-}
-
-function installSettingsGetter(name) {
-  ipc.on(`get-${name}`, event => {
-    if (mainWindow && mainWindow.webContents) {
-      getDataFromMainWindow(name, (error, value) => {
-        const contents = event.sender;
-        if (contents.isDestroyed()) {
-          return;
-        }
-
-        contents.send(`get-success-${name}`, error, value);
-      });
-    }
-  });
-}
-
-function installSettingsSetter(name, isEphemeral = false) {
-  ipc.on(`set-${name}`, (event, value) => {
-    if (isEphemeral) {
-      ephemeralConfig.set('spell-check', value);
-    }
-
-    if (mainWindow && mainWindow.webContents) {
-      ipc.once(`set-success-${name}`, (_event, error) => {
-        const contents = event.sender;
-        if (contents.isDestroyed()) {
-          return;
-        }
-
-        contents.send(`set-success-${name}`, error);
-      });
-      mainWindow.webContents.send(`set-${name}`, value);
-    }
-  });
-}
+// Refresh the settings window whenever preferences change
+ipc.on('preferences-changed', () => {
+  if (settingsWindow && settingsWindow.webContents) {
+    settingsWindow.webContents.send('render');
+  }
+});
 
 function getIncomingHref(argv) {
   return argv.find(arg => isSgnlHref(arg, logger));

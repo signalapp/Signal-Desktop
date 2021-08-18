@@ -156,12 +156,15 @@ export enum CallingDeviceType {
   SPEAKER,
 }
 
-export type MediaDeviceSettings = {
-  availableMicrophones: Array<AudioDevice>;
-  selectedMicrophone: AudioDevice | undefined;
-  availableSpeakers: Array<AudioDevice>;
-  selectedSpeaker: AudioDevice | undefined;
+export type AvailableIODevicesType = {
   availableCameras: Array<MediaDeviceInfo>;
+  availableMicrophones: Array<AudioDevice>;
+  availableSpeakers: Array<AudioDevice>;
+};
+
+export type MediaDeviceSettings = AvailableIODevicesType & {
+  selectedMicrophone: AudioDevice | undefined;
+  selectedSpeaker: AudioDevice | undefined;
   selectedCamera: string | undefined;
 };
 

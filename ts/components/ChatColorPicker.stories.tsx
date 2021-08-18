@@ -26,7 +26,7 @@ const createProps = (): PropsType => ({
   addCustomColor: action('addCustomColor'),
   colorSelected: action('colorSelected'),
   editCustomColor: action('editCustomColor'),
-  getConversationsWithCustomColor: (_: string) => [],
+  getConversationsWithCustomColor: (_: string) => Promise.resolve([]),
   i18n,
   removeCustomColor: action('removeCustomColor'),
   removeCustomColorOnConversations: action('removeCustomColorOnConversations'),

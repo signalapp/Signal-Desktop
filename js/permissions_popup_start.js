@@ -12,7 +12,7 @@ $(document).on('keydown', e => {
 const $body = $(document.body);
 
 async function applyTheme() {
-  const theme = await window.getThemeSetting();
+  const theme = await window.Settings.themeSetting.getValue();
   $body.removeClass('light-theme');
   $body.removeClass('dark-theme');
   $body.addClass(`${theme === 'system' ? window.systemTheme : theme}-theme`);
@@ -41,9 +41,9 @@ window.showConfirmationDialog({
   okText: i18n('allowAccess'),
   resolve: () => {
     if (!window.forCamera) {
-      window.setMediaPermissions(true);
+      window.Settings.mediaPermissions.setValue(true);
     } else {
-      window.setMediaCameraPermissions(true);
+      window.Settings.mediaCameraPermissions.setValue(true);
     }
     window.closePermissionsPopup();
   },

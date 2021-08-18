@@ -4,21 +4,15 @@
 // State
 
 export type GlobalModalsStateType = {
-  readonly isChatColorEditorVisible: boolean;
   readonly isProfileEditorVisible: boolean;
   readonly profileEditorHasError: boolean;
 };
 
 // Actions
 
-const TOGGLE_CHAT_COLOR_EDITOR = 'globalModals/TOGGLE_CHAT_COLOR_EDITOR';
 const TOGGLE_PROFILE_EDITOR = 'globalModals/TOGGLE_PROFILE_EDITOR';
 export const TOGGLE_PROFILE_EDITOR_ERROR =
   'globalModals/TOGGLE_PROFILE_EDITOR_ERROR';
-
-type ToggleChatColorEditorActionType = {
-  type: typeof TOGGLE_CHAT_COLOR_EDITOR;
-};
 
 type ToggleProfileEditorActionType = {
   type: typeof TOGGLE_PROFILE_EDITOR;
@@ -29,21 +23,15 @@ export type ToggleProfileEditorErrorActionType = {
 };
 
 export type GlobalModalsActionType =
-  | ToggleChatColorEditorActionType
   | ToggleProfileEditorActionType
   | ToggleProfileEditorErrorActionType;
 
 // Action Creators
 
 export const actions = {
-  toggleChatColorEditor,
   toggleProfileEditor,
   toggleProfileEditorHasError,
 };
-
-function toggleChatColorEditor(): ToggleChatColorEditorActionType {
-  return { type: TOGGLE_CHAT_COLOR_EDITOR };
-}
 
 function toggleProfileEditor(): ToggleProfileEditorActionType {
   return { type: TOGGLE_PROFILE_EDITOR };
@@ -57,7 +45,6 @@ function toggleProfileEditorHasError(): ToggleProfileEditorErrorActionType {
 
 export function getEmptyState(): GlobalModalsStateType {
   return {
-    isChatColorEditorVisible: false,
     isProfileEditorVisible: false,
     profileEditorHasError: false,
   };
@@ -67,13 +54,6 @@ export function reducer(
   state: Readonly<GlobalModalsStateType> = getEmptyState(),
   action: Readonly<GlobalModalsActionType>
 ): GlobalModalsStateType {
-  if (action.type === TOGGLE_CHAT_COLOR_EDITOR) {
-    return {
-      ...state,
-      isChatColorEditorVisible: !state.isChatColorEditorVisible,
-    };
-  }
-
   if (action.type === TOGGLE_PROFILE_EDITOR) {
     return {
       ...state,

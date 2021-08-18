@@ -8,7 +8,7 @@ import * as Backbone from 'backbone';
 import * as Underscore from 'underscore';
 import moment from 'moment';
 import PQueue from 'p-queue/dist';
-import { Ref } from 'react';
+import { Attributes, ComponentClass, FunctionComponent, Ref } from 'react';
 import { imageToBlurHash } from './util/imageToBlurHash';
 import * as Util from './util';
 import {
@@ -118,6 +118,7 @@ import { isValidGuid } from './util/isValidGuid';
 import { StateType } from './state/reducer';
 import { SystemTraySetting } from './types/SystemTraySetting';
 import { CI } from './CI';
+import { IPCEventsType } from './util/createIPCEvents';
 
 export { Long } from 'long';
 
@@ -176,6 +177,15 @@ declare global {
 
     WhatIsThis: WhatIsThis;
 
+    SignalModule: {
+      registerReactRenderer: (
+        f: <P extends {}>(
+          component: FunctionComponent<P> | ComponentClass<P>,
+          props?: (Attributes & P) | null
+        ) => void
+      ) => void;
+    };
+
     registerScreenShareControllerRenderer: (
       f: (
         component: typeof CallingScreenSharingController,
@@ -194,15 +204,12 @@ declare global {
     getAccountManager: () => AccountManager;
     getAlwaysRelayCalls: () => Promise<boolean>;
     getBuiltInImages: () => Promise<Array<string>>;
-    getCallRingtoneNotification: () => Promise<boolean>;
-    getCallSystemNotification: () => Promise<boolean>;
     getConversations: () => ConversationModelCollectionType;
     getCountMutedConversations: () => Promise<boolean>;
     getEnvironment: typeof getEnvironment;
     getExpiration: () => string;
     getGuid: () => string;
     getInboxCollection: () => ConversationModelCollectionType;
-    getIncomingCallNotification: () => Promise<boolean>;
     getInteractionMode: () => 'mouse' | 'keyboard';
     getLocale: () => ElectronLocaleType;
     getMediaCameraPermissions: () => Promise<boolean>;
@@ -489,7 +496,7 @@ declare global {
     SignalContext: SignalContext;
 
     ConversationController: ConversationController;
-    Events: WhatIsThis;
+    Events: IPCEventsType;
     MessageController: MessageController;
     SignalProtocolStore: typeof SignalProtocolStore;
     WebAPI: WebAPIConnectType;

@@ -23,7 +23,6 @@ import {
   AvatarColorType,
   ConversationColorType,
   CustomColorType,
-  DEFAULT_CONVERSATION_COLOR,
 } from '../types/Colors';
 import { MessageModel } from './messages';
 import { isMuted } from '../util/isMuted';
@@ -950,7 +949,7 @@ export class ConversationModel extends window.Backbone
 
   bumpTyping(): void {
     // We don't send typing messages if the setting is disabled
-    if (!window.storage.get('typingIndicators')) {
+    if (!window.Events.getTypingIndicatorSetting()) {
       return;
     }
 
@@ -4680,10 +4679,7 @@ export class ConversationModel extends window.Backbone
   }
 
   getConversationColor(): ConversationColorType {
-    const defaultConversationColor = window.storage.get(
-      'defaultConversationColor',
-      DEFAULT_CONVERSATION_COLOR
-    );
+    const defaultConversationColor = window.Events.getDefaultConversationColor();
 
     return this.get('conversationColor') || defaultConversationColor.color;
   }
@@ -4692,10 +4688,7 @@ export class ConversationModel extends window.Backbone
     customColor?: CustomColorType;
     customColorId?: string;
   } {
-    const defaultConversationColor = window.storage.get(
-      'defaultConversationColor',
-      DEFAULT_CONVERSATION_COLOR
-    );
+    const defaultConversationColor = window.Events.getDefaultConversationColor();
 
     if (this.getConversationColor() !== 'custom') {
       return {

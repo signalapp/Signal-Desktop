@@ -24,6 +24,12 @@ export type SerializedCertificateType = {
   serialized: ArrayBuffer;
 };
 
+export type ZoomFactorType = 0.75 | 1 | 1.25 | 1.5 | 2;
+
+export type ThemeSettingType = 'system' | 'light' | 'dark';
+
+export type NotificationSettingType = 'message' | 'name' | 'count' | 'off';
+
 export type StorageAccessType = {
   'always-relay-calls': boolean;
   'audio-notification': boolean;
@@ -36,10 +42,10 @@ export type StorageAccessType = {
   'system-tray-setting': SystemTraySetting;
   'incoming-call-notification': boolean;
   'notification-draw-attention': boolean;
-  'notification-setting': 'message' | 'name' | 'count' | 'off';
+  'notification-setting': NotificationSettingType;
   'read-receipt-setting': boolean;
   'spell-check': boolean;
-  'theme-setting': 'light' | 'dark' | 'system';
+  'theme-setting': ThemeSettingType;
   attachmentMigration_isComplete: boolean;
   attachmentMigration_lastProcessedIndex: number;
   blocked: Array<string>;
@@ -112,6 +118,7 @@ export type StorageAccessType = {
   senderCertificate: SerializedCertificateType;
   senderCertificateNoE164: SerializedCertificateType;
   paymentAddress: string;
+  zoomFactor: ZoomFactorType;
 
   // Deprecated
   senderCertificateWithUuid: never;

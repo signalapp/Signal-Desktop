@@ -29,6 +29,7 @@ import {
 } from './shared';
 import * as log from './log';
 import { reallyJsonStringify } from '../util/reallyJsonStringify';
+import { Environment, getEnvironment } from '../environment';
 
 // To make it easier to visually scan logs, we make all levels the same length
 const levelFromName = pino().levels.values;
@@ -81,7 +82,7 @@ const getHeader = ({
       Time: Date.now(),
       'User agent': window.navigator.userAgent,
       'Node version': window.getNodeVersion(),
-      Environment: window.getEnvironment(),
+      Environment: getEnvironment(),
       'App version': window.getVersion(),
     }),
     headerSection('User info', user),
@@ -179,11 +180,8 @@ const publish = uploadDebugLogs;
 
 // A modern logging interface for the browser
 
-const env = window.getEnvironment();
-const IS_PRODUCTION = env === 'production';
-
 function logAtLevel(level: LogLevel, ...args: ReadonlyArray<unknown>): void {
-  if (!IS_PRODUCTION) {
+  if (getEnvironment() !== Environment.Production) {
     const prefix = getLogLevelString(level)
       .toUpperCase()
       .padEnd(levelMaxLength, ' ');

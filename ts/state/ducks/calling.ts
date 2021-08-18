@@ -524,7 +524,7 @@ async function showCallNotification(
   isVideoCall: boolean
 ): Promise<void> {
   const shouldNotify =
-    !window.isActive() && (await window.getCallSystemNotification());
+    !window.isActive() && window.Events.getCallSystemNotification();
   if (!shouldNotify) {
     return;
   }

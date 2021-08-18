@@ -10,7 +10,7 @@ import { start } from './base_config';
 const userDataPath = app.getPath('userData');
 const targetPath = join(userDataPath, 'ephemeral.json');
 
-const ephemeralConfig = start('ephemeral', targetPath, {
+export const ephemeralConfig = start('ephemeral', targetPath, {
   allowMalformedOnStartup: true,
 });
 

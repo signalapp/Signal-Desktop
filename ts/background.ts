@@ -1,6 +1,7 @@
 // Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { webFrame } from 'electron';
 import { isNumber, noop } from 'lodash';
 import { bindActionCreators } from 'redux';
 import { render, unstable_batchedUpdates as batchedUpdates } from 'react-dom';
@@ -64,7 +65,6 @@ import {
   EnvelopeEvent,
 } from './textsecure/messageReceiverEvents';
 import type { WebAPIType } from './textsecure/WebAPI';
-import * as universalExpireTimer from './util/universalExpireTimer';
 import { isDirectConversation, isGroupV2 } from './util/whatTypeOfConversation';
 import { getSendOptions } from './util/getSendOptions';
 import { BackOff, FIBONACCI_TIMEOUTS } from './util/BackOff';
@@ -88,13 +88,11 @@ import {
   SendStatus,
 } from './messages/MessageSendState';
 import * as AttachmentDownloads from './messageModifiers/AttachmentDownloads';
-import {
-  SystemTraySetting,
-  parseSystemTraySetting,
-} from './types/SystemTraySetting';
 import * as Stickers from './types/Stickers';
 import { SignalService as Proto } from './protobuf';
 import { onRetryRequest, onDecryptionError } from './util/handleRetry';
+import { themeChanged } from './shims/themeChanged';
+import { createIPCEvents } from './util/createIPCEvents';
 
 const MAX_ATTACHMENT_DOWNLOAD_AGE = 3600 * 72 * 1000;
 
@@ -582,7 +580,11 @@ export async function startApp(): Promise<void> {
   window.log.info('Storage fetch');
   window.storage.fetch();
 
-  function mapOldThemeToNew(theme: Readonly<unknown>) {
+  function mapOldThemeToNew(
+    theme: Readonly<
+      'system' | 'light' | 'dark' | 'android' | 'ios' | 'android-dark'
+    >
+  ): 'system' | 'light' | 'dark' {
     switch (theme) {
       case 'dark':
       case 'light':
@@ -611,129 +613,7 @@ export async function startApp(): Promise<void> {
     cleanupSessionResets();
 
     // These make key operations available to IPC handlers created in preload.js
-    window.Events = {
-      getDeviceName: () => window.textsecure.storage.user.getDeviceName(),
-
-      getThemeSetting: (): 'light' | 'dark' | 'system' =>
-        window.storage.get(
-          'theme-setting',
-          window.platform === 'darwin' ? 'system' : 'light'
-        ),
-      setThemeSetting: (value: 'light' | 'dark' | 'system') => {
-        window.storage.put('theme-setting', value);
-        onChangeTheme();
-      },
-      getHideMenuBar: () => window.storage.get('hide-menu-bar'),
-      setHideMenuBar: (value: boolean) => {
-        window.storage.put('hide-menu-bar', value);
-        window.setAutoHideMenuBar(value);
-        window.setMenuBarVisibility(!value);
-      },
-      getSystemTraySetting: (): SystemTraySetting =>
-        parseSystemTraySetting(window.storage.get('system-tray-setting')),
-      setSystemTraySetting: (value: Readonly<SystemTraySetting>) => {
-        window.storage.put('system-tray-setting', value);
-        window.updateSystemTraySetting(value);
-      },
-
-      getNotificationSetting: () =>
-        window.storage.get('notification-setting', 'message'),
-      setNotificationSetting: (value: 'message' | 'name' | 'count' | 'off') =>
-        window.storage.put('notification-setting', value),
-      getNotificationDrawAttention: () =>
-        window.storage.get('notification-draw-attention', true),
-      setNotificationDrawAttention: (value: boolean) =>
-        window.storage.put('notification-draw-attention', value),
-      getAudioNotification: () => window.storage.get('audio-notification'),
-      setAudioNotification: (value: boolean) =>
-        window.storage.put('audio-notification', value),
-      getCountMutedConversations: () =>
-        window.storage.get('badge-count-muted-conversations', false),
-      setCountMutedConversations: (value: boolean) => {
-        window.storage.put('badge-count-muted-conversations', value);
-        window.Whisper.events.trigger('updateUnreadCount');
-      },
-      getCallRingtoneNotification: () =>
-        window.storage.get('call-ringtone-notification', true),
-      setCallRingtoneNotification: (value: boolean) =>
-        window.storage.put('call-ringtone-notification', value),
-      getCallSystemNotification: () =>
-        window.storage.get('call-system-notification', true),
-      setCallSystemNotification: (value: boolean) =>
-        window.storage.put('call-system-notification', value),
-      getIncomingCallNotification: () =>
-        window.storage.get('incoming-call-notification', true),
-      setIncomingCallNotification: (value: boolean) =>
-        window.storage.put('incoming-call-notification', value),
-
-      getSpellCheck: () => window.storage.get('spell-check', true),
-      setSpellCheck: (value: boolean) => {
-        window.storage.put('spell-check', value);
-      },
-
-      getAlwaysRelayCalls: () => window.storage.get('always-relay-calls'),
-      setAlwaysRelayCalls: (value: boolean) =>
-        window.storage.put('always-relay-calls', value),
-
-      getAutoLaunch: () => window.getAutoLaunch(),
-      setAutoLaunch: (value: boolean) => window.setAutoLaunch(value),
-
-      isPrimary: () => window.textsecure.storage.user.getDeviceId() === 1,
-      getSyncRequest: () =>
-        new Promise<void>((resolve, reject) => {
-          const FIVE_MINUTES = 5 * 60 * 60 * 1000;
-          const syncRequest = window.getSyncRequest(FIVE_MINUTES);
-          syncRequest.addEventListener('success', () => resolve());
-          syncRequest.addEventListener('timeout', () =>
-            reject(new Error('timeout'))
-          );
-        }),
-      getLastSyncTime: () => window.storage.get('synced_at'),
-      setLastSyncTime: (value: number) =>
-        window.storage.put('synced_at', value),
-      getUniversalExpireTimer: (): number | undefined => {
-        return universalExpireTimer.get();
-      },
-      setUniversalExpireTimer: async (
-        newValue: number | undefined
-      ): Promise<void> => {
-        await universalExpireTimer.set(newValue);
-
-        // Update account in Storage Service
-        const conversationId = window.ConversationController.getOurConversationIdOrThrow();
-        const account = window.ConversationController.get(conversationId);
-        assert(account, "Account wasn't found");
-
-        account.captureChange('universalExpireTimer');
-
-        // Add a notification to the currently open conversation
-        const state = window.reduxStore.getState();
-        const selectedId = state.conversations.selectedConversationId;
-        if (selectedId) {
-          const conversation = window.ConversationController.get(selectedId);
-          assert(conversation, "Conversation wasn't found");
-
-          await conversation.updateLastMessage();
-        }
-      },
-
-      addDarkOverlay: () => {
-        if ($('.dark-overlay').length) {
-          return;
-        }
-        $(document.body).prepend('<div class="dark-overlay"></div>');
-        $('.dark-overlay').on('click', () => $('.dark-overlay').remove());
-      },
-      removeDarkOverlay: () => $('.dark-overlay').remove(),
-      showKeyboardShortcuts: () => window.showKeyboardShortcuts(),
-
-      deleteAllData: async () => {
-        await window.sqlInitializer.goBackToMainProcess();
-
-        const clearDataView = new window.Whisper.ClearDataView().render();
-        $('body').append(clearDataView.el);
-      },
-
+    window.Events = createIPCEvents({
       shutdown: async () => {
         window.log.info('background/shutdown');
         // Stop background processing
@@ -763,112 +643,9 @@ export async function startApp(): Promise<void> {
         // Shut down the data interface cleanly
         await window.Signal.Data.shutdown();
       },
+    });
 
-      showStickerPack: (packId: string, key: string) => {
-        // We can get these events even if the user has never linked this instance.
-        if (!window.Signal.Util.Registration.everDone()) {
-          window.log.warn('showStickerPack: Not registered, returning early');
-          return;
-        }
-        if (window.isShowingModal) {
-          window.log.warn(
-            'showStickerPack: Already showing modal, returning early'
-          );
-          return;
-        }
-        try {
-          window.isShowingModal = true;
-
-          // Kick off the download
-          Stickers.downloadEphemeralPack(packId, key);
-
-          const props = {
-            packId,
-            onClose: async () => {
-              window.isShowingModal = false;
-              stickerPreviewModalView.remove();
-              await Stickers.removeEphemeralPack(packId);
-            },
-          };
-
-          const stickerPreviewModalView = new window.Whisper.ReactWrapperView({
-            className: 'sticker-preview-modal-wrapper',
-            JSX: window.Signal.State.Roots.createStickerPreviewModal(
-              window.reduxStore,
-              props
-            ),
-          });
-        } catch (error) {
-          window.isShowingModal = false;
-          window.log.error(
-            'showStickerPack: Ran into an error!',
-            error && error.stack ? error.stack : error
-          );
-          const errorView = new window.Whisper.ReactWrapperView({
-            className: 'error-modal-wrapper',
-            Component: window.Signal.Components.ErrorModal,
-            props: {
-              onClose: () => {
-                errorView.remove();
-              },
-            },
-          });
-        }
-      },
-      showGroupViaLink: async (hash: string) => {
-        // We can get these events even if the user has never linked this instance.
-        if (!window.Signal.Util.Registration.everDone()) {
-          window.log.warn('showGroupViaLink: Not registered, returning early');
-          return;
-        }
-        if (window.isShowingModal) {
-          window.log.warn(
-            'showGroupViaLink: Already showing modal, returning early'
-          );
-          return;
-        }
-        try {
-          await window.Signal.Groups.joinViaLink(hash);
-        } catch (error) {
-          window.log.error(
-            'showGroupViaLink: Ran into an error!',
-            error && error.stack ? error.stack : error
-          );
-          const errorView = new window.Whisper.ReactWrapperView({
-            className: 'error-modal-wrapper',
-            Component: window.Signal.Components.ErrorModal,
-            props: {
-              title: window.i18n('GroupV2--join--general-join-failure--title'),
-              description: window.i18n('GroupV2--join--general-join-failure'),
-              onClose: () => {
-                errorView.remove();
-              },
-            },
-          });
-        }
-        window.isShowingModal = false;
-      },
-
-      unknownSignalLink: () => {
-        window.log.warn('unknownSignalLink: Showing error dialog');
-        const errorView = new window.Whisper.ReactWrapperView({
-          className: 'error-modal-wrapper',
-          Component: window.Signal.Components.ErrorModal,
-          props: {
-            description: window.i18n('unknown-sgnl-link'),
-            onClose: () => {
-              errorView.remove();
-            },
-          },
-        });
-      },
-
-      installStickerPack: async (packId: string, key: string) => {
-        Stickers.downloadStickerPack(packId, key, {
-          finalStatus: 'installed',
-        });
-      },
-    };
+    webFrame.setZoomFactor(window.Events.getZoomFactor());
 
     // How long since we were last running?
     const lastHeartbeat = window.storage.get('lastHeartbeat', 0);
@@ -2373,7 +2150,7 @@ export async function startApp(): Promise<void> {
             'theme-setting',
             await window.Events.getThemeSetting()
           );
-          onChangeTheme();
+          themeChanged();
         }
         const syncRequest = window.getSyncRequest();
         window.Whisper.events.trigger('contactsync:begin');
@@ -2457,18 +2234,7 @@ export async function startApp(): Promise<void> {
     }
   }
 
-  function onChangeTheme() {
-    if (window.reduxActions && window.reduxActions.user) {
-      const theme = window.Events.getThemeSetting();
-      window.reduxActions.user.userChanged({
-        theme: theme === 'system' ? window.systemTheme : theme,
-      });
-    }
-  }
-
-  window.SignalContext.nativeThemeListener.subscribe(() => {
-    onChangeTheme();
-  });
+  window.SignalContext.nativeThemeListener.subscribe(themeChanged);
 
   const FIVE_MINUTES = 5 * 60 * 1000;
 

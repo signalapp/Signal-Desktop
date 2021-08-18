@@ -10,18 +10,18 @@ import {
 } from '../../../state/ducks/globalModals';
 
 describe('both/state/ducks/globalModals', () => {
-  describe('toggleChatColorEditor', () => {
-    const { toggleChatColorEditor } = actions;
+  describe('toggleProfileEditor', () => {
+    const { toggleProfileEditor } = actions;
 
-    it('toggles isChatColorEditorVisible', () => {
+    it('toggles isProfileEditorVisible', () => {
       const state = getEmptyState();
-      const nextState = reducer(state, toggleChatColorEditor());
+      const nextState = reducer(state, toggleProfileEditor());
 
-      assert.isTrue(nextState.isChatColorEditorVisible);
+      assert.isTrue(nextState.isProfileEditorVisible);
 
-      const nextNextState = reducer(nextState, toggleChatColorEditor());
+      const nextNextState = reducer(nextState, toggleProfileEditor());
 
-      assert.isFalse(nextNextState.isChatColorEditorVisible);
+      assert.isFalse(nextNextState.isProfileEditorVisible);
     });
   });
 });

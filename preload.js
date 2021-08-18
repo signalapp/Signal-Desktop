@@ -12,7 +12,10 @@ try {
   const electron = require('electron');
   const semver = require('semver');
   const _ = require('lodash');
-  const { installGetter, installSetter } = require('./preload_utils');
+
+  // It is important to call this as early as possible
+  require('./ts/windows/context');
+
   const {
     getEnvironment,
     setEnvironment,
@@ -23,10 +26,6 @@ try {
 
   const { remote } = electron;
   const { app } = remote;
-
-  const { Context: SignalContext } = require('./ts/context');
-
-  window.SignalContext = new SignalContext(ipc);
 
   window.sqlInitializer = require('./ts/sql/initialize');
 
@@ -254,146 +253,7 @@ try {
     window.Events.removeDarkOverlay();
   });
 
-  installGetter('device-name', 'getDeviceName');
-
-  installGetter('theme-setting', 'getThemeSetting');
-  installSetter('theme-setting', 'setThemeSetting');
-  installGetter('hide-menu-bar', 'getHideMenuBar');
-  installSetter('hide-menu-bar', 'setHideMenuBar');
-  installGetter('system-tray-setting', 'getSystemTraySetting');
-  installSetter('system-tray-setting', 'setSystemTraySetting');
-
-  installGetter('notification-setting', 'getNotificationSetting');
-  installSetter('notification-setting', 'setNotificationSetting');
-  installGetter('notification-draw-attention', 'getNotificationDrawAttention');
-  installSetter('notification-draw-attention', 'setNotificationDrawAttention');
-  installGetter('audio-notification', 'getAudioNotification');
-  installSetter('audio-notification', 'setAudioNotification');
-  installGetter(
-    'badge-count-muted-conversations',
-    'getCountMutedConversations'
-  );
-  installSetter(
-    'badge-count-muted-conversations',
-    'setCountMutedConversations'
-  );
-
-  window.getCountMutedConversations = () =>
-    new Promise((resolve, reject) => {
-      ipc.once(
-        'get-success-badge-count-muted-conversations',
-        (_event, error, value) => {
-          if (error) {
-            return reject(new Error(error));
-          }
-
-          return resolve(value);
-        }
-      );
-      ipc.send('get-badge-count-muted-conversations');
-    });
-
-  installGetter('spell-check', 'getSpellCheck');
-  installSetter('spell-check', 'setSpellCheck');
-
-  installGetter('auto-launch', 'getAutoLaunch');
-  installSetter('auto-launch', 'setAutoLaunch');
-
-  installGetter('always-relay-calls', 'getAlwaysRelayCalls');
-  installSetter('always-relay-calls', 'setAlwaysRelayCalls');
-
-  installGetter('call-ringtone-notification', 'getCallRingtoneNotification');
-  installSetter('call-ringtone-notification', 'setCallRingtoneNotification');
-
-  window.getCallRingtoneNotification = () =>
-    new Promise((resolve, reject) => {
-      ipc.once(
-        'get-success-call-ringtone-notification',
-        (_event, error, value) => {
-          if (error) {
-            return reject(new Error(error));
-          }
-
-          return resolve(value);
-        }
-      );
-      ipc.send('get-call-ringtone-notification');
-    });
-
-  installGetter('call-system-notification', 'getCallSystemNotification');
-  installSetter('call-system-notification', 'setCallSystemNotification');
-
-  window.getCallSystemNotification = () =>
-    new Promise((resolve, reject) => {
-      ipc.once(
-        'get-success-call-system-notification',
-        (_event, error, value) => {
-          if (error) {
-            return reject(new Error(error));
-          }
-
-          return resolve(value);
-        }
-      );
-      ipc.send('get-call-system-notification');
-    });
-
-  installGetter('incoming-call-notification', 'getIncomingCallNotification');
-  installSetter('incoming-call-notification', 'setIncomingCallNotification');
-
-  window.getIncomingCallNotification = () =>
-    new Promise((resolve, reject) => {
-      ipc.once(
-        'get-success-incoming-call-notification',
-        (_event, error, value) => {
-          if (error) {
-            return reject(new Error(error));
-          }
-
-          return resolve(value);
-        }
-      );
-      ipc.send('get-incoming-call-notification');
-    });
-
-  window.getAlwaysRelayCalls = () =>
-    new Promise((resolve, reject) => {
-      ipc.once('get-success-always-relay-calls', (_event, error, value) => {
-        if (error) {
-          return reject(new Error(error));
-        }
-
-        return resolve(value);
-      });
-      ipc.send('get-always-relay-calls');
-    });
-
-  window.getMediaPermissions = () =>
-    new Promise((resolve, reject) => {
-      ipc.once('get-success-media-permissions', (_event, error, value) => {
-        if (error) {
-          return reject(new Error(error));
-        }
-
-        return resolve(value);
-      });
-      ipc.send('get-media-permissions');
-    });
-
-  window.getMediaCameraPermissions = () =>
-    new Promise((resolve, reject) => {
-      ipc.once(
-        'get-success-media-camera-permissions',
-        (_event, error, value) => {
-          if (error) {
-            return reject(new Error(error));
-          }
-
-          return resolve(value);
-        }
-      );
-      ipc.send('get-media-camera-permissions');
-    });
+  require('./ts/windows/preload');
 
   window.getBuiltInImages = () =>
     new Promise((resolve, reject) => {
@@ -406,13 +266,6 @@ try {
       });
       ipc.send('get-built-in-images');
     });
-
-  installGetter('is-primary', 'isPrimary');
-  installGetter('sync-request', 'getSyncRequest');
-  installGetter('sync-time', 'getLastSyncTime');
-  installSetter('sync-time', 'setLastSyncTime');
-  installGetter('universal-expire-timer', 'getUniversalExpireTimer');
-  installSetter('universal-expire-timer', 'setUniversalExpireTimer');
 
   ipc.on('delete-all-data', async () => {
     const { deleteAllData } = window.Events;

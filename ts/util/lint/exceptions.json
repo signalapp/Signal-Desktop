@@ -202,30 +202,6 @@
   },
   {
     "rule": "jQuery-$(",
-    "path": "js/settings_start.js",
-    "line": "$(document).on('keydown', e => {",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/settings_start.js",
-    "line": "const $body = $(document.body);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-appendTo(",
-    "path": "js/settings_start.js",
-    "line": "    window.view.$el.appendTo($body);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-08-21T11:29:29.636Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
-  },
-  {
-    "rule": "jQuery-$(",
     "path": "js/views/clear_data_view.js",
     "line": "    template: () => $('#clear-data').html(),",
     "reasonCategory": "usageTrusted",
@@ -766,317 +742,6 @@
     "reasonCategory": "usageTrusted",
     "updated": "2021-02-26T18:44:56.450Z",
     "reasonDetail": "Static selector, read-only access"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/settings_view.js",
-    "line": "      this.$('input').prop('checked', !!this.value);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/settings_view.js",
-    "line": "      this.$('input').prop('checked', Boolean(this.value));",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-06-02T21:51:34.813Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/settings_view.js",
-    "line": "      const value = this.$(e.target).val();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-06-02T21:51:34.813Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/settings_view.js",
-    "line": "      this.$(`#${this.name}-${this.value}`).attr('checked', 'checked');",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-06-02T21:51:34.813Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/settings_view.js",
-    "line": "        el: this.$('.notification-settings'),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-06-02T21:51:34.813Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/settings_view.js",
-    "line": "        el: this.$('.theme-settings'),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-06-02T21:51:34.813Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/settings_view.js",
-    "line": "          $(document.body)",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-06-02T21:51:34.813Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/settings_view.js",
-    "line": "      this.$('input').prop('checked', Boolean(this.value));",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-06-02T22:20:33.618Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/settings_view.js",
-    "line": "          el: this.$('.draw-attention-setting'),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-08-21T11:29:29.636Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/settings_view.js",
-    "line": "          el: this.$('.audio-notification-setting'),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-08-21T11:29:29.636Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/settings_view.js",
-    "line": "        el: this.$('.badge-count-muted-conversations-setting'),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-08-21T11:29:29.636Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/settings_view.js",
-    "line": "        el: this.$('.spell-check-setting'),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-08-21T11:29:29.636Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/settings_view.js",
-    "line": "          const $msg = this.$('.spell-check-setting-message');",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-08-21T11:29:29.636Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/settings_view.js",
-    "line": "          el: this.$('.menu-bar-setting'),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-08-21T11:29:29.636Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/settings_view.js",
-    "line": "        el: this.$('.always-relay-calls-setting'),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-08-21T11:29:29.636Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/settings_view.js",
-    "line": "        el: this.$('.call-ringtone-notification-setting'),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-08-21T11:29:29.636Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/settings_view.js",
-    "line": "        el: this.$('.call-system-notification-setting'),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-08-21T11:29:29.636Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/settings_view.js",
-    "line": "        el: this.$('.incoming-call-notification-setting'),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-08-21T11:29:29.636Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/settings_view.js",
-    "line": "        el: this.$('.media-permissions'),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-08-21T11:29:29.636Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/settings_view.js",
-    "line": "        el: this.$('.media-camera-permissions'),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-08-21T11:29:29.636Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/settings_view.js",
-    "line": "        this.$('.sync-setting').append(syncView.el);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-08-21T11:29:29.636Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/settings_view.js",
-    "line": "      this.$('.sync').text(i18n('syncNow'));",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-08-21T11:29:29.636Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/settings_view.js",
-    "line": "      this.$('.sync').attr('disabled', 'disabled');",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-08-21T11:29:29.636Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/settings_view.js",
-    "line": "      this.$('.synced_at').hide();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-08-21T11:29:29.636Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/settings_view.js",
-    "line": "      this.$('.sync_failed').hide();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-08-21T11:29:29.636Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/settings_view.js",
-    "line": "      this.$('.sync').removeAttr('disabled');",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-09-11T17:24:56.124Z",
-    "reasonDetail": "Static selector argument"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/settings_view.js",
-    "line": "      this.$('.sync').text(i18n('syncing'));",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-09-11T17:24:56.124Z",
-    "reasonDetail": "Static selector argument"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/settings_view.js",
-    "line": "      this.$('.sync_failed').show();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-09-11T17:24:56.124Z",
-    "reasonDetail": "Static selector argument"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/settings_view.js",
-    "line": "    template: () => $('#settings').html(),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-02-26T18:44:56.450Z",
-    "reasonDetail": "Static selector, read-only access"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/settings_view.js",
-    "line": "    template: () => $('#syncSettings').html(),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-02-26T18:44:56.450Z",
-    "reasonDetail": "Static selector, read-only access"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/settings_view.js",
-    "line": "          el: this.$('.auto-launch-setting'),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-05-11T20:38:03.542Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/settings_view.js",
-    "line": "    template: () => $('#disappearingMessagesSettings').html(),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-05-27T01:33:06.541Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/settings_view.js",
-    "line": "      this.$('.disappearing-messages-setting').append(",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-05-27T01:33:06.541Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/settings_view.js",
-    "line": "        el: this.$('.system-tray-setting-container'),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-06-24T23:16:24.537Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "js/views/settings_view.js",
-    "line": "        this.$('.sync-setting').append(syncView.el);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-08-21T11:29:29.636Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "js/views/settings_view.js",
-    "line": "      this.$('.disappearing-messages-setting').append(",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-05-27T01:33:06.541Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
-  },
-  {
-    "rule": "jQuery-html(",
-    "path": "js/views/settings_view.js",
-    "line": "    template: () => $('#settings').html(),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-02-26T18:44:56.450Z",
-    "reasonDetail": "Static selector, read-only access"
-  },
-  {
-    "rule": "jQuery-html(",
-    "path": "js/views/settings_view.js",
-    "line": "    template: () => $('#syncSettings').html(),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-02-26T18:44:56.450Z",
-    "reasonDetail": "Static selector, read-only access"
-  },
-  {
-    "rule": "jQuery-html(",
-    "path": "js/views/settings_view.js",
-    "line": "    template: () => $('#disappearingMessagesSettings').html(),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-05-27T01:33:06.541Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
   },
   {
     "rule": "jQuery-$(",
@@ -14443,6 +14108,118 @@
     "line": "  await font.load();",
     "reasonCategory": "usageTrusted",
     "updated": "2021-08-03T21:17:38.615Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "ts/util/createIPCEvents.js",
+    "line": "            if ($('.dark-overlay').length) {",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-08-18T18:22:55.307Z",
+    "reasonDetail": "Legacy code"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "ts/util/createIPCEvents.js",
+    "line": "            $(document.body).prepend('<div class=\"dark-overlay\"></div>');",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-08-18T18:22:55.307Z",
+    "reasonDetail": "Legacy code"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "ts/util/createIPCEvents.js",
+    "line": "            $('.dark-overlay').on('click', () => $('.dark-overlay').remove());",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-08-18T18:22:55.307Z",
+    "reasonDetail": "Legacy code"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "ts/util/createIPCEvents.js",
+    "line": "        }, removeDarkOverlay: () => $('.dark-overlay').remove(), showKeyboardShortcuts: () => window.showKeyboardShortcuts(), deleteAllData: async () => {",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-08-18T18:22:55.307Z",
+    "reasonDetail": "Legacy code"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "ts/util/createIPCEvents.js",
+    "line": "            $('body').append(clearDataView.el);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-08-18T18:22:55.307Z",
+    "reasonDetail": "Legacy code"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "ts/util/createIPCEvents.js",
+    "line": "            $('body').append(clearDataView.el);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-08-18T18:22:55.307Z",
+    "reasonDetail": "Legacy code"
+  },
+  {
+    "rule": "jQuery-prepend(",
+    "path": "ts/util/createIPCEvents.js",
+    "line": "            $(document.body).prepend('<div class=\"dark-overlay\"></div>');",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-08-18T18:22:55.307Z",
+    "reasonDetail": "Legacy code"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "ts/util/createIPCEvents.ts",
+    "line": "      if ($('.dark-overlay').length) {",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-08-18T18:22:55.307Z",
+    "reasonDetail": "Legacy code"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "ts/util/createIPCEvents.ts",
+    "line": "      $(document.body).prepend('<div class=\"dark-overlay\"></div>');",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-08-18T18:22:55.307Z",
+    "reasonDetail": "Legacy code"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "ts/util/createIPCEvents.ts",
+    "line": "      $('.dark-overlay').on('click', () => $('.dark-overlay').remove());",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-08-18T18:22:55.307Z",
+    "reasonDetail": "Legacy code"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "ts/util/createIPCEvents.ts",
+    "line": "    removeDarkOverlay: () => $('.dark-overlay').remove(),",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-08-18T18:22:55.307Z",
+    "reasonDetail": "Legacy code"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "ts/util/createIPCEvents.ts",
+    "line": "      $('body').append(clearDataView.el);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-08-18T18:22:55.307Z",
+    "reasonDetail": "Legacy code"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "ts/util/createIPCEvents.ts",
+    "line": "      $('body').append(clearDataView.el);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-08-18T18:22:55.307Z",
+    "reasonDetail": "Legacy code"
+  },
+  {
+    "rule": "jQuery-prepend(",
+    "path": "ts/util/createIPCEvents.ts",
+    "line": "      $(document.body).prepend('<div class=\"dark-overlay\"></div>');",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-08-18T18:22:55.307Z",
+    "reasonDetail": "Legacy code"
   },
   {
     "rule": "React-useRef",

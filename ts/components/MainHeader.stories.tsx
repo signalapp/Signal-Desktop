@@ -58,7 +58,6 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
 
   showArchivedConversations: action('showArchivedConversations'),
   startComposing: action('startComposing'),
-  toggleChatColorEditor: action('toggleChatColorEditor'),
   toggleProfileEditor: action('toggleProfileEditor'),
 });
 

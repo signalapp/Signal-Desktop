@@ -43,3 +43,9 @@ export const getDefaultConversationColor = createSelector(
     };
   } => state.defaultConversationColor ?? DEFAULT_CONVERSATION_COLOR
 );
+
+export const getCustomColors = createSelector(
+  getItems,
+  (state: ItemsStateType): Record<string, CustomColorType> | undefined =>
+    state.customColors?.colors
+);

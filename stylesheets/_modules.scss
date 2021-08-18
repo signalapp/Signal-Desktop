@@ -8755,17 +8755,6 @@ button.module-image__border-overlay:focus {
     );
   }
 }
-.module-avatar-popup__item__icon-colors {
-  @include light-theme {
-    @include color-svg(
-      '../images/icons/v2/color-outline-24.svg',
-      $color-gray-75
-    );
-  }
-  @include dark-theme {
-    @include color-svg('../images/icons/v2/color-solid-24.svg', $color-gray-15);
-  }
-}
 .module-avatar-popup__item__icon-archive {
   @include light-theme {
     @include color-svg(

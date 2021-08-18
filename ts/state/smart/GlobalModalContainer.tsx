@@ -6,8 +6,6 @@ import { connect } from 'react-redux';
 import { mapDispatchToProps } from '../actions';
 import { GlobalModalContainer } from '../../components/GlobalModalContainer';
 import { StateType } from '../reducer';
-import { getIntl } from '../selectors/user';
-import { SmartChatColorPicker } from './ChatColorPicker';
 import { SmartProfileEditorModal } from './ProfileEditorModal';
 
 // Workaround: A react component's required properties are filtering up through connect()
@@ -16,10 +14,6 @@ import { SmartProfileEditorModal } from './ProfileEditorModal';
 const FilteredSmartProfileEditorModal = SmartProfileEditorModal as any;
 /* eslint-enable @typescript-eslint/no-explicit-any */
 
-function renderChatColorPicker(): JSX.Element {
-  return <SmartChatColorPicker />;
-}
-
 function renderProfileEditor(): JSX.Element {
   return <FilteredSmartProfileEditorModal />;
 }
@@ -27,8 +21,6 @@ function renderProfileEditor(): JSX.Element {
 const mapStateToProps = (state: StateType) => {
   return {
     ...state.globalModals,
-    i18n: getIntl(state),
-    renderChatColorPicker,
     renderProfileEditor,
   };
 };

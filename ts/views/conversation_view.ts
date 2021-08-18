@@ -4079,7 +4079,7 @@ Whisper.ConversationView = Whisper.View.extend({
 
   maybeGrabLinkPreview(message: string, caretLocation?: number) {
     // Don't generate link previews if user has turned them off
-    if (!window.storage.get('linkPreviews', false)) {
+    if (!window.Events.getLinkPreviewSetting()) {
       return;
     }
     // Do nothing if we're offline

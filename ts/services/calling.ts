@@ -38,11 +38,12 @@ import {
 } from '../state/ducks/calling';
 import { getConversationCallMode } from '../state/ducks/conversations';
 import {
-  CallMode,
   AudioDevice,
-  MediaDeviceSettings,
+  AvailableIODevicesType,
+  CallMode,
   GroupCallConnectionState,
   GroupCallJoinState,
+  MediaDeviceSettings,
   PresentableSource,
   PresentedSource,
 } from '../types/Calling';
@@ -1254,11 +1255,26 @@ export class CallingClass {
     }
   }
 
-  async getMediaDeviceSettings(): Promise<MediaDeviceSettings> {
+  async getAvailableIODevices(): Promise<AvailableIODevicesType> {
+    const availableCameras = await this.videoCapturer.enumerateDevices();
     const availableMicrophones = RingRTC.getAudioInputs();
-    const preferredMicrophone = window.storage.get(
-      'preferred-audio-input-device'
-    );
+    const availableSpeakers = RingRTC.getAudioOutputs();
+
+    return {
+      availableCameras,
+      availableMicrophones,
+      availableSpeakers,
+    };
+  }
+
+  async getMediaDeviceSettings(): Promise<MediaDeviceSettings> {
+    const {
+      availableCameras,
+      availableMicrophones,
+      availableSpeakers,
+    } = await this.getAvailableIODevices();
+
+    const preferredMicrophone = window.Events.getPreferredAudioInputDevice();
     const selectedMicIndex = this.findBestMatchingDeviceIndex(
       availableMicrophones,
       preferredMicrophone
@@ -1268,10 +1284,7 @@ export class CallingClass {
         ? availableMicrophones[selectedMicIndex]
         : undefined;
 
-    const availableSpeakers = RingRTC.getAudioOutputs();
-    const preferredSpeaker = window.storage.get(
-      'preferred-audio-output-device'
-    );
+    const preferredSpeaker = window.Events.getPreferredAudioOutputDevice();
     const selectedSpeakerIndex = this.findBestMatchingDeviceIndex(
       availableSpeakers,
       preferredSpeaker
@@ -1281,8 +1294,7 @@ export class CallingClass {
         ? availableSpeakers[selectedSpeakerIndex]
         : undefined;
 
-    const availableCameras = await this.videoCapturer.enumerateDevices();
-    const preferredCamera = window.storage.get('preferred-video-input-device');
+    const preferredCamera = window.Events.getPreferredVideoInputDevice();
     const selectedCamera = this.findBestMatchingCamera(
       availableCameras,
       preferredCamera
@@ -1343,13 +1355,13 @@ export class CallingClass {
 
   setPreferredMicrophone(device: AudioDevice): void {
     window.log.info('MediaDevice: setPreferredMicrophone', device);
-    window.storage.put('preferred-audio-input-device', device);
+    window.Events.setPreferredAudioInputDevice(device);
     RingRTC.setAudioInput(device.index);
   }
 
   setPreferredSpeaker(device: AudioDevice): void {
     window.log.info('MediaDevice: setPreferredSpeaker', device);
-    window.storage.put('preferred-audio-output-device', device);
+    window.Events.setPreferredAudioOutputDevice(device);
     RingRTC.setAudioOutput(device.index);
   }
 
@@ -1363,7 +1375,7 @@ export class CallingClass {
 
   async setPreferredCamera(device: string): Promise<void> {
     window.log.info('MediaDevice: setPreferredCamera', device);
-    window.storage.put('preferred-video-input-device', device);
+    window.Events.setPreferredVideoInputDevice(device);
     await this.videoCapturer.setPreferredDevice(device);
   }
 
@@ -1373,7 +1385,7 @@ export class CallingClass {
   ): Promise<void> {
     window.log.info('CallingClass.handleCallingMessage()');
 
-    const enableIncomingCalls = await window.getIncomingCallNotification();
+    const enableIncomingCalls = window.Events.getIncomingCallNotification();
     if (callingMessage.offer && !enableIncomingCalls) {
       // Drop offers silently if incoming call notifications are disabled.
       window.log.info('Incoming calls are disabled, ignoring call offer.');

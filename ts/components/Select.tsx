@@ -11,34 +11,48 @@ export type Option = Readonly<{
 }>;
 
 export type PropsType = Readonly<{
+  disabled?: boolean;
   moduleClassName?: string;
+  name?: string;
   options: ReadonlyArray<Option>;
   onChange(value: string): void;
-  value: string | number;
+  value?: string | number;
 }>;
 
-export function Select(props: PropsType): JSX.Element {
-  const { moduleClassName, value, options, onChange } = props;
-
+export function Select({
+  disabled,
+  moduleClassName,
+  name,
+  onChange,
+  options,
+  value,
+}: PropsType): JSX.Element {
   const onSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
     onChange(event.target.value);
   };
 
   return (
     <div className={classNames(['module-select', moduleClassName])}>
-      <select value={value} onChange={onSelectChange}>
-        {options.map(({ disabled, text, value: optionValue }) => {
-          return (
-            <option
-              disabled={disabled}
-              value={optionValue}
-              key={optionValue}
-              aria-label={text}
-            >
-              {text}
-            </option>
-          );
-        })}
+      <select
+        disabled={disabled}
+        name={name}
+        value={value}
+        onChange={onSelectChange}
+      >
+        {options.map(
+          ({ disabled: optionDisabled, text, value: optionValue }) => {
+            return (
+              <option
+                disabled={optionDisabled}
+                value={optionValue}
+                key={optionValue}
+                aria-label={text}
+              >
+                {text}
+              </option>
+            );
+          }
+        )}
       </select>
     </div>
   );

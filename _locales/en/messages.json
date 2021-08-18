@@ -1246,7 +1246,7 @@
     "message": "Link New Device",
     "description": "The menu option shown in Signal iOS to add a new linked device"
   },
-  "deviceName": {
+  "Preferences--device-name": {
     "message": "Device name",
     "description": "The label in settings panel shown for the user-provided name for this desktop instance"
   },
@@ -1278,7 +1278,7 @@
   "installTryAgain": {
     "message": "Try again"
   },
-  "theme": {
+  "Preferences--theme": {
     "message": "Theme",
     "description": "Header for theme settings"
   },
@@ -1614,7 +1614,7 @@
     "message": "Relay all calls through the Signal server to avoid revealing your IP address to your contact. Enabling will reduce call quality.",
     "description": "Details describing the always relay calls setting"
   },
-  "permissions": {
+  "Preferences--permissions": {
     "message": "Permissions",
     "description": "Header for permissions section of settings"
   },
@@ -1631,7 +1631,7 @@
     "description": "Header for general options on the settings screen"
   },
   "spellCheckDescription": {
-    "message": "Enable spell check",
+    "message": "Spell check text entered in message composition box",
     "description": "Description of the spell check setting"
   },
   "spellCheckWillBeEnabled": {
@@ -1655,7 +1655,7 @@
     "description": "Description for the automatic launch setting"
   },
   "clearDataHeader": {
-    "message": "Clear Data",
+    "message": "Clear application data",
     "description": "Header in the settings dialog for the section dealing with data deletion"
   },
   "clearDataExplanation": {
@@ -1803,7 +1803,7 @@
     "description": "Error message displayed when sending to an unregistered user."
   },
   "sync": {
-    "message": "Contacts",
+    "message": "Import contacts",
     "description": "Label for contact and group sync settings"
   },
   "syncExplanation": {
@@ -1963,7 +1963,7 @@
     }
   },
   "audioNotificationDescription": {
-    "message": "Play audio notification",
+    "message": "Play notification sounds",
     "description": "Description for audio notification setting"
   },
   "callRingtoneNotificationDescription": {
@@ -5009,7 +5009,7 @@
     "description": "Displayed while checking if the contact is SMS-only"
   },
   "countMutedConversationsDescription": {
-    "message": "Count muted conversations in badge count",
+    "message": "Include muted conversations in badge count",
     "description": "Description for counting muted conversations in badge setting"
   },
   "ContactModal--message": {
@@ -5965,5 +5965,131 @@
   "LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
     "message": "Group Avatar",
     "description": "Title for the avatar picker in the group creation flow"
+  },
+  "Preferences__button--general": {
+    "message": "General",
+    "description": "Button to switch the settings view"
+  },
+  "Preferences__button--appearance": {
+    "message": "Appearance",
+    "description": "Button to switch the settings view"
+  },
+  "Preferences__button--chats": {
+    "message": "Chats",
+    "description": "Button to switch the settings view"
+  },
+  "Preferences__button--calls": {
+    "message": "Calls",
+    "description": "Button to switch the settings view"
+  },
+  "Preferences__button--notifications": {
+    "message": "Notifications",
+    "description": "Button to switch the settings view"
+  },
+  "Preferences__button--privacy": {
+    "message": "Privacy",
+    "description": "Button to switch the settings view"
+  },
+  "Preferences--lastSynced": {
+    "message": "Last import at $date$ $time$",
+    "description": "Label for date and time of last sync operation",
+    "placeholders": {
+      "date": {
+        "content": "$1",
+        "example": "6/9/2020"
+      },
+      "time": {
+        "content": "$2",
+        "example": "7:37:25 PM"
+      }
+    }
+  },
+  "Preferences--system": {
+    "message": "System",
+    "description": "Title for system type settings"
+  },
+  "Preferences--zoom": {
+    "message": "Zoom level",
+    "description": "Label for changing the zoom level"
+  },
+  "Preferences__link-previews--title": {
+    "message": "Generate link previews",
+    "description": "Title for the generate link previews setting"
+  },
+  "Preferences__link-previews--description": {
+    "message": "To change this setting, open the Signal app on your mobile device and navigate to Settings > Chats",
+    "description": "Description for the generate link previews setting"
+  },
+  "Preferences--advanced": {
+    "message": "Advanced",
+    "description": "Title for advanced settings"
+  },
+  "Preferences--notification-content": {
+    "message": "Notification content",
+    "description": "Label for the notification content setting select box"
+  },
+  "Preferences--blocked": {
+    "message": "Blocked",
+    "description": "Label for blocked contacts setting"
+  },
+  "Preferences--blocked-count-singular": {
+    "message": "$num$ contact",
+    "description": "Number of contacts blocked singular",
+    "placeholders": {
+      "num": {
+        "content": "$1",
+        "example": "1"
+      }
+    }
+  },
+  "Preferences--blocked-count-plural": {
+    "message": "$num$ contacts",
+    "description": "Number of contacts blocked plural",
+    "placeholders": {
+      "num": {
+        "content": "$1",
+        "example": "20"
+      }
+    }
+  },
+  "Preferences__who-can--title": {
+    "message": "Who can...",
+    "description": "Title for the 'who can do X' setting"
+  },
+  "Preferences__privacy--description": {
+    "message": "To change these settings, open the Signal app on your mobile device and navigate to Settings > Privacy",
+    "description": "Description for the 'who can do X' setting"
+  },
+  "Preferences__who-can--everybody": {
+    "message": "Everybody",
+    "description": "Option for who can see my X select"
+  },
+  "Preferences__who-can--contacts": {
+    "message": "My Contacts",
+    "description": "Option for who can see my X select"
+  },
+  "Preferences__who-can--nobody": {
+    "message": "Nobody",
+    "description": "Option for who can see my X select"
+  },
+  "Preferences--messaging": {
+    "message": "Messaging",
+    "description": "Title for the messaging settings"
+  },
+  "Preferences--see-me": {
+    "message": "See my phone number",
+    "description": "Label for the see my phone number setting"
+  },
+  "Preferences--find-me": {
+    "message": "Find me by my phone number",
+    "description": "Label for the find me by my phone number setting"
+  },
+  "Preferences--read-receipts": {
+    "message": "Read receipts",
+    "description": "Label for the read receipts setting"
+  },
+  "Preferences--typing-indicators": {
+    "message": "Typing indicators",
+    "description": "Label for the typing indicators setting"
   }
 }

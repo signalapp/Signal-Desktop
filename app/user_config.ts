@@ -24,7 +24,7 @@ console.log(`userData: ${app.getPath('userData')}`);
 const userDataPath = app.getPath('userData');
 const targetPath = join(userDataPath, 'config.json');
 
-const userConfig = start('user', targetPath);
+export const userConfig = start('user', targetPath);
 
 export const get = userConfig.get.bind(userConfig);
 export const remove = userConfig.remove.bind(userConfig);

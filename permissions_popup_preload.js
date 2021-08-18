@@ -8,23 +8,24 @@ window.ReactDOM = require('react-dom');
 
 const { ipcRenderer } = require('electron');
 const url = require('url');
+
+// It is important to call this as early as possible
+require('./ts/windows/context');
+
 const i18n = require('./js/modules/i18n');
 const { ConfirmationDialog } = require('./ts/components/ConfirmationDialog');
-const { makeGetter, makeSetter } = require('./preload_utils');
 const {
   getEnvironment,
   setEnvironment,
   parseEnvironment,
 } = require('./ts/environment');
 
-const { Context: SignalContext } = require('./ts/context');
-
 const config = url.parse(window.location.toString(), true).query;
 const { locale } = config;
 const localeMessages = ipcRenderer.sendSync('locale-data');
 setEnvironment(parseEnvironment(config.environment));
 
-window.SignalContext = new SignalContext(ipcRenderer);
+const { createSetting } = require('./ts/util/preload');
 
 window.getEnvironment = getEnvironment;
 window.getVersion = () => config.version;
@@ -43,8 +44,14 @@ require('./ts/logging/set_up_renderer_logging').initialize();
 window.closePermissionsPopup = () =>
   ipcRenderer.send('close-permissions-popup');
 
-window.setMediaPermissions = makeSetter('media-permissions');
-window.setMediaCameraPermissions = makeSetter('media-camera-permissions');
-window.getThemeSetting = makeGetter('theme-setting');
-window.setThemeSetting = makeSetter('theme-setting');
 window.Backbone = require('backbone');
+
+window.Settings = {
+  mediaCameraPermissions: createSetting('mediaCameraPermissions', {
+    getter: false,
+  }),
+  mediaPermissions: createSetting('mediaPermissions', {
+    getter: false,
+  }),
+  themeSetting: createSetting('themeSetting', { setter: false }),
+};

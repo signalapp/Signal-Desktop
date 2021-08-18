@@ -1,0 +1,241 @@
+// Copyright 2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+@mixin preferences-icon($light_svg, $dark_svg) {
+  &:before {
+    @include light-theme {
+      @include color-svg($light_svg, $color-gray-75);
+    }
+    @include dark-theme {
+      @include color-svg($dark_svg, $color-gray-15);
+    }
+  }
+}
+
+.Preferences {
+  display: flex;
+  overflow: hidden;
+  @include light-theme {
+    background: $color-white;
+  }
+  @include dark-theme {
+    background: $color-gray-95;
+  }
+
+  &__page-selector {
+    padding-top: 76px;
+    min-width: 240px;
+    @include light-theme {
+      background: $color-gray-02;
+    }
+    @include dark-theme {
+      background: $color-gray-80;
+    }
+  }
+
+  &__padding {
+    padding: 0 24px;
+  }
+
+  &__button {
+    @include button-reset;
+    @include font-body-1;
+    align-items: center;
+    display: flex;
+    height: 48px;
+    width: 100%;
+    padding: 14px 0;
+
+    &--selected {
+      @include light-theme {
+        background: $color-gray-15;
+      }
+      @include dark-theme {
+        background: $color-gray-65;
+      }
+    }
+
+    &:before {
+      content: '';
+      display: block;
+      height: 22px;
+      margin-left: 18px;
+      margin-right: 14px;
+      width: 22px;
+    }
+
+    &--general {
+      @include preferences-icon(
+        '../images/icons/v2/settings-outline-16.svg',
+        '../images/icons/v2/settings-outline-16.svg'
+      );
+    }
+
+    &--appearance {
+      @include preferences-icon(
+        '../images/icons/v2/appearance-outline-24.svg',
+        '../images/icons/v2/appearance-solid-24.svg'
+      );
+    }
+
+    &--chats {
+      @include preferences-icon(
+        '../images/icons/v2/message-outline-24.svg',
+        '../images/icons/v2/message-solid-24.svg'
+      );
+    }
+
+    &--calls {
+      @include preferences-icon(
+        '../images/icons/v2/video-outline-24.svg',
+        '../images/icons/v2/video-solid-24.svg'
+      );
+    }
+
+    &--notifications {
+      @include preferences-icon(
+        '../images/icons/v2/bell-outline-24.svg',
+        '../images/icons/v2/bell-solid-24.svg'
+      );
+    }
+
+    &--privacy {
+      @include preferences-icon(
+        '../images/icons/v2/lock-outline-24.svg',
+        '../images/icons/v2/lock-solid-24.svg'
+      );
+      &:before {
+        -webkit-mask-size: 75%;
+      }
+    }
+  }
+
+  &__settings-pane {
+    height: 100vh;
+    overflow: scroll;
+    width: 100%;
+  }
+
+  &__title {
+    @include font-body-1-bold;
+    align-items: center;
+    display: flex;
+    height: 76px;
+    padding: 42px 0 14px 0;
+    text-align: center;
+
+    &--header {
+      flex-grow: 1;
+      text-align: center;
+    }
+  }
+
+  &__settings-row {
+    padding-bottom: 12px;
+
+    h3 {
+      @include font-body-1-bold;
+      margin: 0;
+      margin-bottom: 8px;
+    }
+  }
+
+  &__settings-row:not(:last-child) {
+    border-bottom: 1px solid $color-gray-15;
+    @include light-theme {
+      border-color: $color-gray-15;
+    }
+    @include dark-theme {
+      border-color: $color-gray-65;
+    }
+    margin-bottom: 24px;
+  }
+
+  &__control {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    min-height: 48px;
+    padding: 4px 24px;
+
+    &--key {
+      flex-grow: 1;
+      padding-right: 20px;
+    }
+
+    &--value {
+      color: $color-gray-45;
+    }
+
+    &--clickable {
+      @include button-reset;
+      padding: 4px 24px;
+      width: 100%;
+      &:hover {
+        @include light-theme {
+          background: $color-gray-02;
+        }
+        @include dark-theme {
+          background: $color-gray-80;
+        }
+      }
+    }
+  }
+
+  &__checkbox {
+    padding: 10px 24px;
+  }
+
+  &__description {
+    @include font-subtitle;
+    @include light-theme {
+      color: $color-gray-60;
+    }
+    @include dark-theme {
+      color: $color-gray-25;
+    }
+
+    &--error {
+      color: $color-accent-red !important;
+    }
+  }
+
+  &__select {
+    width: 100%;
+  }
+
+  &__select-title {
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  &__right-button {
+    display: flex;
+    justify-content: flex-end;
+    min-width: 120px;
+  }
+
+  &__back-icon {
+    @include button-reset;
+
+    display: inline-block;
+    height: 24px;
+    margin-left: 12px;
+    min-width: 24px;
+    vertical-align: text-bottom;
+    width: 24px;
+
+    @include light-theme {
+      @include color-svg(
+        '../images/icons/v2/chevron-left-24.svg',
+        $color-gray-90
+      );
+    }
+    @include dark-theme {
+      @include color-svg(
+        '../images/icons/v2/chevron-left-24.svg',
+        $color-gray-02
+      );
+    }
+  }
+}

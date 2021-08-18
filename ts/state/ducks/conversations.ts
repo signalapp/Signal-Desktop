@@ -336,8 +336,8 @@ export const getConversationCallMode = (
 
 // Actions
 
-const COLORS_CHANGED = 'conversations/COLORS_CHANGED';
-const COLOR_SELECTED = 'conversations/COLOR_SELECTED';
+export const COLORS_CHANGED = 'conversations/COLORS_CHANGED';
+export const COLOR_SELECTED = 'conversations/COLOR_SELECTED';
 const COMPOSE_TOGGLE_EDITING_AVATAR =
   'conversations/compose/COMPOSE_TOGGLE_EDITING_AVATAR';
 const COMPOSE_ADD_AVATAR = 'conversations/compose/ADD_AVATAR';

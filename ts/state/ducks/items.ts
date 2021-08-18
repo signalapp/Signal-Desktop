@@ -16,6 +16,7 @@ import {
 } from '../../types/Colors';
 import { reloadSelectedConversation } from '../../shims/reloadSelectedConversation';
 import { StorageAccessType } from '../../types/Storage.d';
+import { actions as conversationActions } from './conversations';
 
 // State
 
@@ -139,7 +140,7 @@ function getDefaultCustomColorData() {
 
 function addCustomColor(
   customColor: CustomColorType,
-  nextAction: (uuid: string) => unknown
+  conversationId?: string
 ): ThunkAction<void, RootStateType, unknown, ItemPutAction> {
   return (dispatch, getState) => {
     const { customColors = getDefaultCustomColorData() } = getState().items;
@@ -158,7 +159,25 @@ function addCustomColor(
     };
 
     dispatch(putItem('customColors', nextCustomColors));
-    nextAction(uuid);
+
+    const customColorData = {
+      id: uuid,
+      value: customColor,
+    };
+
+    if (conversationId) {
+      conversationActions.colorSelected({
+        conversationId,
+        conversationColor: 'custom',
+        customColorData,
+      })(dispatch, getState, null);
+    } else {
+      setGlobalDefaultConversationColor('custom', customColorData)(
+        dispatch,
+        getState,
+        null
+      );
+    }
   };
 }
 

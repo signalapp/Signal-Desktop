@@ -64,7 +64,6 @@ export type PropsType = {
 
   showArchivedConversations: () => void;
   startComposing: () => void;
-  toggleChatColorEditor: () => void;
   toggleProfileEditor: () => void;
 };
 
@@ -353,7 +352,6 @@ export class MainHeader extends React.Component<PropsType, StateType> {
       searchConversationName,
       searchTerm,
       showArchivedConversations,
-      toggleChatColorEditor,
       toggleProfileEditor,
     } = this.props;
     const { showingAvatarPopup, popperRoot } = this.state;
@@ -414,10 +412,6 @@ export class MainHeader extends React.Component<PropsType, StateType> {
                       sharedGroupNames={[]}
                       onEditProfile={() => {
                         toggleProfileEditor();
-                        this.hideAvatarPopup();
-                      }}
-                      onSetChatColor={() => {
-                        toggleChatColorEditor();
                         this.hideAvatarPopup();
                       }}
                       onViewPreferences={() => {
