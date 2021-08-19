@@ -160,11 +160,15 @@ export enum RegistrationPhase {
 interface RegistrationPhaseContext {
   registrationPhase: RegistrationPhase;
   setRegistrationPhase: (phase: RegistrationPhase) => void;
+  generatedRecoveryPhrase: string;
+  hexGeneratedPubKey: string;
 }
 
 export const RegistrationContext = createContext<RegistrationPhaseContext>({
   registrationPhase: RegistrationPhase.Start,
   setRegistrationPhase: () => undefined,
+  generatedRecoveryPhrase: '',
+  hexGeneratedPubKey: '',
 });
 
 export const RegistrationStages = () => {
@@ -199,15 +203,16 @@ export const RegistrationStages = () => {
 
   return (
     <div className="session-registration-container">
-      <RegistrationContext.Provider value={{ registrationPhase, setRegistrationPhase }}>
+      <RegistrationContext.Provider
+        value={{
+          registrationPhase,
+          setRegistrationPhase,
+          generatedRecoveryPhrase,
+          hexGeneratedPubKey,
+        }}
+      >
         {(registrationPhase === RegistrationPhase.Start ||
-          registrationPhase === RegistrationPhase.SignUp) && (
-          <SignUpTab
-            generatedRecoveryPhrase={generatedRecoveryPhrase}
-            hexGeneratedPubKey={hexGeneratedPubKey}
-            // setRegistrationPhase={setRegistrationPhase}
-          />
-        )}
+          registrationPhase === RegistrationPhase.SignUp) && <SignUpTab />}
         {(registrationPhase === RegistrationPhase.Start ||
           registrationPhase === RegistrationPhase.SignIn) && <SignInTab />}
       </RegistrationContext.Provider>

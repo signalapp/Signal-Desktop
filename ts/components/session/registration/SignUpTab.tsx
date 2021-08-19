@@ -11,12 +11,6 @@ export enum SignUpMode {
   EnterDetails,
 }
 
-export interface Props {
-  // tslint:disable: react-unused-props-and-state
-  generatedRecoveryPhrase: string;
-  hexGeneratedPubKey: string;
-}
-
 const CreateSessionIdButton = ({ createSessionID }: { createSessionID: any }) => {
   return (
     <SessionButton
@@ -61,8 +55,10 @@ const SignUpSessionIDShown = (props: { continueSignUp: () => void }) => {
   );
 };
 
-export const SignUpTab = (props: Props) => {
-  const { setRegistrationPhase } = useContext(RegistrationContext);
+export const SignUpTab = () => {
+  const { setRegistrationPhase, generatedRecoveryPhrase, hexGeneratedPubKey } = useContext(
+    RegistrationContext
+  );
 
   const [signUpMode, setSignUpMode] = useState(SignUpMode.Default);
   const [displayName, setDisplayName] = useState('');
@@ -70,7 +66,7 @@ export const SignUpTab = (props: Props) => {
 
   useEffect(() => {
     if (signUpMode === SignUpMode.SessionIDShown) {
-      window.Session.setNewSessionID(props.hexGeneratedPubKey);
+      window.Session.setNewSessionID(hexGeneratedPubKey);
     }
   }, [signUpMode]);
 
@@ -104,7 +100,7 @@ export const SignUpTab = (props: Props) => {
   const signUpWithDetails = async () => {
     await signUp({
       displayName,
-      generatedRecoveryPhrase: props.generatedRecoveryPhrase,
+      generatedRecoveryPhrase: generatedRecoveryPhrase,
     });
   };
 
