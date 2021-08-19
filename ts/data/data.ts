@@ -204,6 +204,7 @@ function _cleanData(data: any): any {
       // eslint-disable-next-line no-continue
       continue;
     }
+    // eslint-disable no-param-reassign
 
     if (_.isFunction(value.toNumber)) {
       // eslint-disable-next-line no-param-reassign
@@ -214,16 +215,12 @@ function _cleanData(data: any): any {
       // tslint:disable-next-line: no-dynamic-delete
       delete data[key];
     } else if (Array.isArray(value)) {
-      // eslint-disable-next-line no-param-reassign
       data[key] = value.map(_cleanData);
     } else if (_.isObject(value) && value instanceof File) {
-      // eslint-disable-next-line no-param-reassign
       data[key] = { name: value.name, path: value.path, size: value.size, type: value.type };
     } else if (_.isObject(value)) {
-      // eslint-disable-next-line no-param-reassign
       data[key] = _cleanData(value);
     } else if (_.isBoolean(value)) {
-      // eslint-disable-next-line no-param-reassign
       data[key] = value ? 1 : 0;
     } else if (
       typeof value !== 'string' &&

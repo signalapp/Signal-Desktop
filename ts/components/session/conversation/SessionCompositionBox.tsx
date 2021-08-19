@@ -76,6 +76,7 @@ export interface StagedLinkPreviewData {
 
 export interface StagedAttachmentType extends AttachmentType {
   file: File;
+  path?: string; // a bit hacky, but this is the only way to make our sending audio message be playable, this must be used only for those message
 }
 
 export type SendMessageType = {
@@ -934,18 +935,22 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
       return;
     }
 
-    const file = new File([audioBlob], 'audio-blob');
-
+    const savedAudioFile = await window.Signal.Migrations.processNewAttachment({
+      data: await audioBlob.arrayBuffer(),
+      isRaw: true,
+      url: `session-audio-message-${Date.now()}`,
+    });
     const audioAttachment: StagedAttachmentType = {
-      file,
+      file: { ...savedAudioFile, path: savedAudioFile.path },
       contentType: MIME.AUDIO_MP3,
       size: audioBlob.size,
       fileSize: null,
       screenshot: null,
-      fileName: 'audio-message',
+      fileName: 'session-audio-message',
       thumbnail: null,
       url: '',
       isVoiceMessage: true,
+      path: savedAudioFile.path,
     };
 
     this.props.sendMessage({
