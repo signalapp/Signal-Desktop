@@ -55,10 +55,12 @@ import { isMoreRecentThan } from '../../util/timestamp';
 
 import { ConversationType } from '../ducks/conversations';
 
+import { AccountSelectorType } from './accounts';
 import { CallSelectorType, CallStateType } from './calling';
 import {
   GetConversationByIdType,
   isMissingRequiredProfileSharing,
+  ContactNameColorSelectorType,
 } from './conversations';
 import {
   SendStatus,
@@ -100,7 +102,8 @@ export type GetPropsForBubbleOptions = Readonly<{
   regionCode: string;
   callSelector: CallSelectorType;
   activeCall?: CallStateType;
-  accountSelector: (identifier?: string) => boolean;
+  accountSelector: AccountSelectorType;
+  contactNameColorSelector: ContactNameColorSelectorType;
 }>;
 
 export function isIncoming(
@@ -450,10 +453,13 @@ export type GetPropsForMessageOptions = Pick<
   GetPropsForBubbleOptions,
   | 'conversationSelector'
   | 'ourConversationId'
+  | 'ourUuid'
+  | 'ourNumber'
   | 'selectedMessageId'
   | 'selectedMessageCounter'
   | 'regionCode'
   | 'accountSelector'
+  | 'contactNameColorSelector'
 >;
 
 type ShallowPropsType = Pick<
@@ -462,6 +468,7 @@ type ShallowPropsType = Pick<
   | 'canDownload'
   | 'canReply'
   | 'contact'
+  | 'contactNameColor'
   | 'conversationColor'
   | 'conversationId'
   | 'conversationType'
@@ -497,12 +504,15 @@ const getShallowPropsForMessage = createSelectorCreator(memoizeByRoot, isEqual)(
       accountSelector,
       conversationSelector,
       ourConversationId,
+      ourNumber,
+      ourUuid,
       regionCode,
       selectedMessageId,
       selectedMessageCounter,
+      contactNameColorSelector,
     }: GetPropsForMessageOptions
   ): ShallowPropsType => {
-    const { expireTimer, expirationStartTimestamp } = message;
+    const { expireTimer, expirationStartTimestamp, conversationId } = message;
     const expirationLength = expireTimer ? expireTimer * 1000 : undefined;
     const expirationTimestamp =
       expirationStartTimestamp && expirationLength
@@ -522,14 +532,26 @@ const getShallowPropsForMessage = createSelectorCreator(memoizeByRoot, isEqual)(
       {}
     ).emoji;
 
+    const author = getContact(message, {
+      conversationSelector,
+      ourConversationId,
+      ourNumber,
+      ourUuid,
+    });
+    const contactNameColor = contactNameColorSelector(
+      conversationId,
+      author.id
+    );
+
     return {
       canDeleteForEveryone: canDeleteForEveryone(message),
       canDownload: canDownload(message, conversationSelector),
       canReply: canReply(message, ourConversationId, conversationSelector),
       contact: getPropsForEmbeddedContact(message, regionCode, accountSelector),
+      contactNameColor,
       conversationColor:
         conversation?.conversationColor ?? ConversationColors[0],
-      conversationId: message.conversationId,
+      conversationId,
       conversationType: isGroup ? 'group' : 'direct',
       customColor: conversation?.customColor,
       deletedForEveryone: message.deletedForEveryone || false,

@@ -1737,6 +1737,7 @@ describe('both/state/selectors/conversations', () => {
 
     it('returns the right color order sorted by UUID ASC', () => {
       const group = makeConversation('group');
+      group.type = 'group';
       group.sortedGroupMembers = [
         makeConversationWithUuid('zyx'),
         makeConversationWithUuid('vut'),
@@ -1765,6 +1766,29 @@ describe('both/state/selectors/conversations', () => {
       assert.equal(contactNameColorSelector('group', 'srq'), '210');
       assert.equal(contactNameColorSelector('group', 'vut'), '330');
       assert.equal(contactNameColorSelector('group', 'zyx'), '230');
+    });
+
+    it('returns the right colors for direct conversation', () => {
+      const direct = makeConversation('theirId');
+      const emptyState = getEmptyRootState();
+      const state = {
+        ...emptyState,
+        user: {
+          ...emptyState.user,
+          ourConversationId: 'us',
+        },
+        conversations: {
+          ...getEmptyState(),
+          conversationLookup: {
+            direct,
+          },
+        },
+      };
+
+      const contactNameColorSelector = getContactNameColorSelector(state);
+
+      assert.equal(contactNameColorSelector('direct', 'theirId'), '200');
+      assert.equal(contactNameColorSelector('direct', 'us'), '200');
     });
   });
 });

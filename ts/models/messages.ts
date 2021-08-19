@@ -99,6 +99,7 @@ import {
   getActiveCall,
 } from '../state/selectors/calling';
 import { getAccountSelector } from '../state/selectors/accounts';
+import { getContactNameColorSelector } from '../state/selectors/conversations';
 import {
   MessageReceipts,
   MessageReceiptType,
@@ -377,6 +378,14 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           const state = window.reduxStore.getState();
           const accountSelector = getAccountSelector(state);
           return accountSelector(identifier);
+        },
+        contactNameColorSelector: (
+          conversationId: string,
+          contactId: string
+        ) => {
+          const state = window.reduxStore.getState();
+          const contactNameColorSelector = getContactNameColorSelector(state);
+          return contactNameColorSelector(conversationId, contactId);
         },
       }),
       errors,

@@ -680,6 +680,71 @@ export const getCachedSelectorForMessage = createSelector(
   }
 );
 
+const getCachedConversationMemberColorsSelector = createSelector(
+  getConversationSelector,
+  getUserConversationId,
+  (
+    conversationSelector: GetConversationByIdType,
+    ourConversationId: string
+  ) => {
+    return memoizee(
+      (conversationId: string) => {
+        const contactNameColors: Map<string, ContactNameColorType> = new Map();
+        const {
+          sortedGroupMembers = [],
+          type,
+          id: theirId,
+        } = conversationSelector(conversationId);
+
+        if (type === 'direct') {
+          contactNameColors.set(ourConversationId, ContactNameColors[0]);
+          contactNameColors.set(theirId, ContactNameColors[0]);
+          return contactNameColors;
+        }
+
+        [...sortedGroupMembers]
+          .sort((left, right) =>
+            String(left.uuid) > String(right.uuid) ? 1 : -1
+          )
+          .forEach((member, i) => {
+            contactNameColors.set(
+              member.id,
+              ContactNameColors[i % ContactNameColors.length]
+            );
+          });
+
+        return contactNameColors;
+      },
+      { max: 100 }
+    );
+  }
+);
+
+export type ContactNameColorSelectorType = (
+  conversationId: string,
+  contactId: string
+) => ContactNameColorType;
+
+export const getContactNameColorSelector = createSelector(
+  getCachedConversationMemberColorsSelector,
+  conversationMemberColorsSelector => {
+    return (
+      conversationId: string,
+      contactId: string
+    ): ContactNameColorType => {
+      const contactNameColors = conversationMemberColorsSelector(
+        conversationId
+      );
+      const color = contactNameColors.get(contactId);
+      if (!color) {
+        window.log.warn(`No color generated for contact ${contactId}`);
+        return ContactNameColors[0];
+      }
+      return color;
+    };
+  }
+);
+
 type GetMessageByIdType = (id: string) => TimelineItemType | undefined;
 export const getMessageSelector = createSelector(
   getCachedSelectorForMessage,
@@ -693,6 +758,7 @@ export const getMessageSelector = createSelector(
   getCallSelector,
   getActiveCall,
   getAccountSelector,
+  getContactNameColorSelector,
   (
     messageSelector: typeof getPropsForBubble,
     messageLookup: MessageLookupType,
@@ -704,7 +770,8 @@ export const getMessageSelector = createSelector(
     ourConversationId: string,
     callSelector: CallSelectorType,
     activeCall: undefined | CallStateType,
-    accountSelector: AccountSelectorType
+    accountSelector: AccountSelectorType,
+    contactNameColorSelector: ContactNameColorSelectorType
   ): GetMessageByIdType => {
     return (id: string) => {
       const message = messageLookup[id];
@@ -720,6 +787,7 @@ export const getMessageSelector = createSelector(
         regionCode,
         selectedMessageId: selectedMessage?.id,
         selectedMessageCounter: selectedMessage?.counter,
+        contactNameColorSelector,
         callSelector,
         activeCall,
         accountSelector,
@@ -836,54 +904,6 @@ export const getInvitedContactsForNewlyCreatedGroup = createSelector(
       conversationLookup,
       invitedConversationIdsForNewlyCreatedGroup
     )
-);
-
-const getCachedConversationMemberColorsSelector = createSelector(
-  getConversationSelector,
-  (conversationSelector: GetConversationByIdType) => {
-    return memoizee(
-      (conversationId: string) => {
-        const contactNameColors: Map<string, ContactNameColorType> = new Map();
-        const { sortedGroupMembers = [] } = conversationSelector(
-          conversationId
-        );
-
-        [...sortedGroupMembers]
-          .sort((left, right) =>
-            String(left.uuid) > String(right.uuid) ? 1 : -1
-          )
-          .forEach((member, i) => {
-            contactNameColors.set(
-              member.id,
-              ContactNameColors[i % ContactNameColors.length]
-            );
-          });
-
-        return contactNameColors;
-      },
-      { max: 100 }
-    );
-  }
-);
-
-export const getContactNameColorSelector = createSelector(
-  getCachedConversationMemberColorsSelector,
-  conversationMemberColorsSelector => {
-    return (
-      conversationId: string,
-      contactId: string
-    ): ContactNameColorType => {
-      const contactNameColors = conversationMemberColorsSelector(
-        conversationId
-      );
-      const color = contactNameColors.get(contactId);
-      if (!color) {
-        window.log.warn(`No color generated for contact ${contactId}`);
-        return ContactNameColors[0];
-      }
-      return color;
-    };
-  }
 );
 
 export const getConversationsWithCustomColorSelector = createSelector(
