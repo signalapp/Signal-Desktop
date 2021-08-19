@@ -155,6 +155,7 @@ exports.loadData = readAttachmentData => {
     }
 
     const isAlreadyLoaded = exports.hasData(attachment);
+
     if (isAlreadyLoaded) {
       return attachment;
     }

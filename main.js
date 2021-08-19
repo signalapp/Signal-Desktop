@@ -466,7 +466,10 @@ function showPasswordWindow() {
     autoHideMenuBar: false,
     webPreferences: {
       nodeIntegration: false,
+      enableRemoteModule: true,
       nodeIntegrationInWorker: false,
+      contextIsolation: false,
+
       // sandbox: true,
       preload: path.join(__dirname, 'password_preload.js'),
       nativeWindowOpen: true,
