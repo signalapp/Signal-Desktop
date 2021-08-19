@@ -1,11 +1,9 @@
-import React from 'react';
-
+import React, { createContext, useEffect, useState } from 'react';
 import { PromiseUtils, StringUtils, ToastUtils, UserUtils } from '../../../session/utils';
 import { getConversationController } from '../../../session/conversations';
 import { createOrUpdateItem, removeAll } from '../../../data/data';
 import { SignUpTab } from './SignUpTab';
 import { SignInTab } from './SignInTab';
-import { TabLabel, TabType } from './TabLabel';
 import { trigger } from '../../../shims/events';
 import {
   generateMnemonic,
@@ -20,12 +18,6 @@ import { getSwarmPollingInstance } from '../../../session/snode_api/swarmPolling
 
 export const MAX_USERNAME_LENGTH = 20;
 // tslint:disable: use-simple-attributes
-
-interface State {
-  selectedTab: TabType;
-  generatedRecoveryPhrase: string;
-  hexGeneratedPubKey: string;
-}
 
 export async function resetRegistration() {
   await removeAll();
@@ -158,45 +150,39 @@ export async function signInWithLinking(signInDetails: { userRecoveryPhrase: str
     window?.log?.warn('exception during registration:', e);
   }
 }
-export class RegistrationTabs extends React.Component<any, State> {
-  constructor(props: any) {
-    super(props);
-    this.state = {
-      selectedTab: TabType.SignUp,
-      generatedRecoveryPhrase: '',
-      hexGeneratedPubKey: '',
-    };
-  }
 
-  public componentDidMount() {
-    void this.generateMnemonicAndKeyPair();
+export enum RegistrationPhase {
+  Start,
+  SignIn,
+  SignUp,
+}
+
+interface RegistrationPhaseContext {
+  registrationPhase: RegistrationPhase;
+  setRegistrationPhase: (phase: RegistrationPhase) => void;
+  generatedRecoveryPhrase: string;
+  hexGeneratedPubKey: string;
+}
+
+export const RegistrationContext = createContext<RegistrationPhaseContext>({
+  registrationPhase: RegistrationPhase.Start,
+  setRegistrationPhase: () => undefined,
+  generatedRecoveryPhrase: '',
+  hexGeneratedPubKey: '',
+});
+
+export const RegistrationStages = () => {
+  const [generatedRecoveryPhrase, setGeneratedRecoveryPhrase] = useState('');
+  const [hexGeneratedPubKey, setHexGeneratedPubKey] = useState('');
+  const [registrationPhase, setRegistrationPhase] = useState(RegistrationPhase.Start);
+
+  useEffect(() => {
+    void generateMnemonicAndKeyPair();
     void resetRegistration();
-  }
+  }, []);
 
-  public render() {
-    const { selectedTab } = this.state;
-
-    return (
-      <div className="session-registration-container">
-        <div className="session-registration__tab-container">
-          <TabLabel
-            type={TabType.SignUp}
-            isSelected={selectedTab === TabType.SignUp}
-            onSelect={this.handleTabSelect}
-          />
-          <TabLabel
-            type={TabType.SignIn}
-            isSelected={selectedTab === TabType.SignIn}
-            onSelect={this.handleTabSelect}
-          />
-        </div>
-        {this.renderSections()}
-      </div>
-    );
-  }
-
-  private async generateMnemonicAndKeyPair() {
-    if (this.state.generatedRecoveryPhrase === '') {
+  const generateMnemonicAndKeyPair = async () => {
+    if (generatedRecoveryPhrase === '') {
       const mnemonic = await generateMnemonic();
 
       let seedHex = mn_decode(mnemonic);
@@ -208,32 +194,28 @@ export class RegistrationTabs extends React.Component<any, State> {
       }
       const seed = fromHex(seedHex);
       const keyPair = await sessionGenerateKeyPair(seed);
-      const hexGeneratedPubKey = StringUtils.decode(keyPair.pubKey, 'hex');
+      const newHexPubKey = StringUtils.decode(keyPair.pubKey, 'hex');
 
-      this.setState({
-        generatedRecoveryPhrase: mnemonic,
-        hexGeneratedPubKey, // our 'frontend' sessionID
-      });
+      setGeneratedRecoveryPhrase(mnemonic);
+      setHexGeneratedPubKey(newHexPubKey); // our 'frontend' sessionID
     }
-  }
-
-  private readonly handleTabSelect = (tabType: TabType): void => {
-    this.setState({
-      selectedTab: tabType,
-    });
   };
 
-  private renderSections() {
-    const { selectedTab, generatedRecoveryPhrase, hexGeneratedPubKey } = this.state;
-    if (selectedTab === TabType.SignUp) {
-      return (
-        <SignUpTab
-          generatedRecoveryPhrase={generatedRecoveryPhrase}
-          hexGeneratedPubKey={hexGeneratedPubKey}
-        />
-      );
-    }
-
-    return <SignInTab />;
-  }
-}
+  return (
+    <div className="session-registration-container">
+      <RegistrationContext.Provider
+        value={{
+          registrationPhase,
+          setRegistrationPhase,
+          generatedRecoveryPhrase,
+          hexGeneratedPubKey,
+        }}
+      >
+        {(registrationPhase === RegistrationPhase.Start ||
+          registrationPhase === RegistrationPhase.SignUp) && <SignUpTab />}
+        {(registrationPhase === RegistrationPhase.Start ||
+          registrationPhase === RegistrationPhase.SignIn) && <SignInTab />}
+      </RegistrationContext.Provider>
+    </div>
+  );
+};

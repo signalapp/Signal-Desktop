@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { AccentText } from './AccentText';
 
-import { RegistrationTabs } from './registration/RegistrationTabs';
+import { RegistrationStages } from './registration/RegistrationStages';
 import { SessionIconButton, SessionIconSize, SessionIconType } from './icon';
 import { SessionToastContainer } from './SessionToastContainer';
 import { lightTheme, SessionTheme } from '../../state/ducks/SessionTheme';
@@ -36,7 +36,7 @@ export const SessionRegistrationView = () => {
             <AccentText />
           </div>
           <div className="session-content-registration">
-            <RegistrationTabs theme={lightTheme} />
+            <RegistrationStages />
           </div>
         </div>
       </div>
