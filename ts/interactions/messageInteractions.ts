@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import { getV2OpenGroupRoom } from '../data/opengroups';
-import { ConversationModel } from '../models/conversation';
 import { ApiV2 } from '../opengroup/opengroupV2';
 import { joinOpenGroupV2WithUIEvents } from '../opengroup/opengroupV2/JoinOpenGroupV2';
 import { isOpenGroupV2, openGroupV2CompleteURLRegex } from '../opengroup/utils/OpenGroupUtils';
@@ -126,13 +125,6 @@ export function unbanUser(userToUnBan: string, conversationId: string) {
 
 export function copyBodyToClipboard(body?: string | null) {
   window.clipboard.writeText(body);
-
-  ToastUtils.pushCopiedToClipBoard();
-}
-
-export function copyPubKey(sender: string) {
-  // this.getSource return out pubkey if this is an outgoing message, or the sender pubkey
-  window.clipboard.writeText();
 
   ToastUtils.pushCopiedToClipBoard();
 }

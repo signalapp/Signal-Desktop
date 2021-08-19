@@ -1,9 +1,14 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Flex } from '../../basic/Flex';
 import { SpacerLG } from '../../basic/Text';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../SessionButton';
 import { SessionSpinner } from '../SessionSpinner';
-import { signInWithLinking, signInWithRecovery } from './RegistrationTabs';
+import {
+  RegistrationContext,
+  RegistrationPhase,
+  signInWithLinking,
+  signInWithRecovery,
+} from './RegistrationStages';
 import { RegistrationUserDetails } from './RegistrationUserDetails';
 import { TermsAndConditions } from './TermsAndConditions';
 
@@ -80,14 +85,14 @@ const SignInButtons = (props: {
     <div>
       <RestoreUsingRecoveryPhraseButton onRecoveryButtonClicked={props.onRecoveryButtonClicked} />
       <SpacerLG />
-      <div className="or">{window.i18n('or')}</div>
-      <SpacerLG />
       <LinkDeviceButton onLinkDeviceButtonClicked={props.onLinkDeviceButtonClicked} />
     </div>
   );
 };
 
 export const SignInTab = () => {
+  const { setRegistrationPhase } = useContext(RegistrationContext);
+
   const [signInMode, setSignInMode] = useState(SignInMode.Default);
   const [recoveryPhrase, setRecoveryPhrase] = useState('');
   const [recoveryPhraseError, setRecoveryPhraseError] = useState(undefined as string | undefined);
@@ -153,12 +158,14 @@ export const SignInTab = () => {
       <SignInButtons
         signInMode={signInMode}
         onRecoveryButtonClicked={() => {
+          setRegistrationPhase(RegistrationPhase.SignIn);
           setSignInMode(SignInMode.UsingRecoveryPhrase);
           setRecoveryPhrase('');
           setDisplayName('');
           setIsLoading(false);
         }}
         onLinkDeviceButtonClicked={() => {
+          setRegistrationPhase(RegistrationPhase.SignIn);
           setSignInMode(SignInMode.LinkDevice);
           setRecoveryPhrase('');
           setDisplayName('');

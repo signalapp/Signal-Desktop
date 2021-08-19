@@ -11,6 +11,7 @@ import * as SNodeAPI from '../../../../session/snode_api';
 import chaiAsPromised from 'chai-as-promised';
 import * as OnionPaths from '../../../../session/onions/onionPath';
 import { Snode } from '../../../../data/data';
+import { generateFakeSnodes, generateFakeSnodeWithEdKey } from '../../../test-utils/utils';
 chai.use(chaiAsPromised as any);
 chai.should();
 
@@ -20,98 +21,12 @@ const guard1ed = 'e3ec6fcc79e64c2af6a48a9865d4bf4b739ec7708d75f35acc3d478f916153
 const guard2ed = 'e3ec6fcc79e64c2af6a48a9865d4bf4b739ec7708d75f35acc3d478f91615349';
 const guard3ed = 'e3ec6fcc79e64c2af6a48a9865d4bf4b739ec7708d75f35acc3d478f9161534a';
 
-const fakeSnodePool = [
-  {
-    ip: '136.243.103.171',
-    port: 22116,
-    pubkey_x25519: '0f78775bf189a6eaca2f9c873524832aae8e87a5bf792fb394df97b21173f50c',
-    pubkey_ed25519: 'e3ec6fcc79e64c2af6a48a9865d4bf4b739ec7708d75f35acc3d478f9161534d',
-    version: '',
-  },
-  {
-    ip: '136.243.103.172',
-    port: 22116,
-    pubkey_x25519: '0f78775bf189a6eaca2f9c873524832aae8e87a5bf792fb394df97b21173f50c',
-    pubkey_ed25519: 'e3ec6fcc79e64c2af6a48a9865d4bf4b739ec7708d75f35acc3d478f91615341',
-    version: '',
-  },
-  {
-    ip: '136.243.103.173',
-    port: 22116,
-    pubkey_x25519: '0f78775bf189a6eaca2f9c873524832aae8e87a5bf792fb394df97b21173f50c',
-    pubkey_ed25519: 'e3ec6fcc79e64c2af6a48a9865d4bf4b739ec7708d75f35acc3d478f91615342',
-    version: '',
-  },
-  {
-    ip: '136.243.103.174',
-    port: 22116,
-    pubkey_x25519: '0f78775bf189a6eaca2f9c873524832aae8e87a5bf792fb394df97b21173f50c',
-    pubkey_ed25519: 'e3ec6fcc79e64c2af6a48a9865d4bf4b739ec7708d75f35acc3d478f91615343',
-    version: '',
-  },
-  {
-    ip: '136.243.103.175',
-    port: 22116,
-    pubkey_x25519: '0f78775bf189a6eaca2f9c873524832aae8e87a5bf792fb394df97b21173f50c',
-    pubkey_ed25519: 'e3ec6fcc79e64c2af6a48a9865d4bf4b739ec7708d75f35acc3d478f91615344',
-    version: '',
-  },
-  {
-    ip: '136.243.103.176',
-    port: 22116,
-    pubkey_x25519: '0f78775bf189a6eaca2f9c873524832aae8e87a5bf792fb394df97b21173f50c',
-    pubkey_ed25519: 'e3ec6fcc79e64c2af6a48a9865d4bf4b739ec7708d75f35acc3d478f91615345',
-    version: '',
-  },
-  {
-    ip: '136.243.103.177',
-    port: 22116,
-    pubkey_x25519: '0f78775bf189a6eaca2f9c873524832aae8e87a5bf792fb394df97b21173f50c',
-    pubkey_ed25519: 'e3ec6fcc79e64c2af6a48a9865d4bf4b739ec7708d75f35acc3d478f91615346',
-    version: '',
-  },
-  {
-    ip: '136.243.103.178',
-    port: 22116,
-    pubkey_x25519: '0f78775bf189a6eaca2f9c873524832aae8e87a5bf792fb394df97b21173f50c',
-    pubkey_ed25519: 'e3ec6fcc79e64c2af6a48a9865d4bf4b739ec7708d75f35acc3d478f91615347',
-    version: '',
-  },
-  {
-    ip: '136.243.103.179',
-    port: 22116,
-    pubkey_x25519: '0f78775bf189a6eaca2f9c873524832aae8e87a5bf792fb394df97b21173f50c',
-    pubkey_ed25519: 'e3ec6fcc79e64c2af6a48a9865d4bf4b739ec7708d75f35acc3d478f91615348',
-    version: '',
-  },
-  {
-    ip: '136.243.103.180',
-    port: 22116,
-    pubkey_x25519: '0f78775bf189a6eaca2f9c873524832aae8e87a5bf792fb394df97b21173f50c',
-    pubkey_ed25519: guard1ed,
-    version: '',
-  },
-  {
-    ip: '136.243.103.181',
-    port: 22116,
-    pubkey_x25519: '0f78775bf189a6eaca2f9c873524832aae8e87a5bf792fb394df97b21173f50c',
-    pubkey_ed25519: guard2ed,
-    version: '',
-  },
-  {
-    ip: '136.243.103.182',
-    port: 22116,
-    pubkey_x25519: '0f78775bf189a6eaca2f9c873524832aae8e87a5bf792fb394df97b21173f50c',
-    pubkey_ed25519: guard3ed,
-    version: '',
-  },
-  {
-    ip: '136.243.103.183',
-    port: 22116,
-    pubkey_x25519: '0f78775bf189a6eaca2f9c873524832aae8e87a5bf792fb394df97b21173f50c',
-    pubkey_ed25519: 'e3ec6fcc79e64c2af6a48a9865d4bf4b739ec7708d75f35acc3d478f91615356',
-    version: '',
-  },
+const fakeSnodePool: Array<Snode> = [
+  ...generateFakeSnodes(12),
+  generateFakeSnodeWithEdKey(guard1ed),
+  generateFakeSnodeWithEdKey(guard2ed),
+  generateFakeSnodeWithEdKey(guard3ed),
+  ...generateFakeSnodes(3),
 ];
 
 const fakeGuardNodesEd25519 = [guard1ed, guard2ed, guard3ed];
@@ -130,11 +45,15 @@ describe('OnionPaths', () => {
     sandbox.stub(OnionPaths, 'selectGuardNodes').resolves(fakeGuardNodes);
     sandbox.stub(SNodeAPI.SNodeAPI, 'getSnodePoolFromSnode').resolves(fakeGuardNodes);
     TestUtils.stubData('getGuardNodes').resolves(fakeGuardNodesEd25519);
+    TestUtils.stubData('createOrUpdateItem').resolves();
     TestUtils.stubWindow('getSeedNodeList', () => ['seednode1']);
+    // tslint:disable: no-void-expression no-console
+
+    TestUtils.stubWindowLog();
 
     sandbox.stub(SNodeAPI.SnodePool, 'refreshRandomPoolDetail').resolves(fakeSnodePool);
-    SNodeAPI.Onions.TEST_resetSnodeFailureCount();
-    OnionPaths.TEST_resetPathFailureCount();
+    SNodeAPI.Onions.resetSnodeFailureCount();
+    OnionPaths.resetPathFailureCount();
     // get a copy of what old ones look like
     await OnionPaths.getOnionPath();
 

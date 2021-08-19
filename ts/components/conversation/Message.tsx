@@ -53,6 +53,8 @@ import { MessageContextMenu } from './MessageContextMenu';
 import { ReadableMessage } from './ReadableMessage';
 import { getConversationController } from '../../session/conversations';
 import { MessageMetadata } from './message/MessageMetadata';
+import { SessionIcon } from '../session/icon/SessionIcon';
+import { SessionIconSize, SessionIconType } from '../session/icon/Icons';
 
 // Same as MIN_WIDTH in ImageGrid.tsx
 const MINIMUM_LINK_PREVIEW_IMAGE_WIDTH = 200;
@@ -382,7 +384,7 @@ class MessageInner extends React.PureComponent<Props, State> {
           )}
         >
           {first.image && previewHasImage && !isFullSizeImage ? (
-            <div className="module-message__link-preview__icon_container">
+            <div className="module-message__link-preview__image_container">
               <Image
                 smallCurveTopLeft={!withContentAbove}
                 softCorners={true}
@@ -393,6 +395,14 @@ class MessageInner extends React.PureComponent<Props, State> {
                 attachment={first.image}
                 onError={this.handleImageError}
               />
+            </div>
+          ) : !first.image || !previewHasImage ? (
+            <div className="module-message__link-preview__icon_container">
+              <div className="module-message__link-preview__icon_container__inner">
+                <div className="module-message__link-preview__icon-container__circle-background">
+                  <SessionIcon iconType={SessionIconType.Link} iconSize={SessionIconSize.Small} />
+                </div>
+              </div>
             </div>
           ) : null}
           <div
@@ -600,6 +610,7 @@ class MessageInner extends React.PureComponent<Props, State> {
       selectedMessages,
       receivedAt,
       isUnread,
+      text,
     } = this.props;
     const { expired, expiring } = this.state;
 
@@ -628,6 +639,10 @@ class MessageInner extends React.PureComponent<Props, State> {
 
     const isIncoming = direction === 'incoming';
 
+    const hasText = Boolean(text);
+
+    const bgShouldBeTransparent = isShowingImage && !hasText;
+
     return (
       <ReadableMessage
         messageId={messageId}
@@ -653,7 +668,7 @@ class MessageInner extends React.PureComponent<Props, State> {
             className={classNames(
               'module-message__container',
               `module-message__container--${direction}`,
-              isShowingImage
+              bgShouldBeTransparent
                 ? `module-message__container--${direction}--transparent`
                 : `module-message__container--${direction}--opaque`
             )}

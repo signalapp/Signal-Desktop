@@ -149,7 +149,7 @@
         color: themed('textColor');
       }
       font-weight: bold;
-      padding: 12px;
+      padding: 20px;
     }
 
     &__welcome-session {
@@ -278,7 +278,7 @@
 
   &-description-long,
   &-signin-device-pairing-header {
-    padding-top: 10px;
+    padding-top: 0;
     padding-bottom: 20px;
     @include themify($themes) {
       @include session-color-subtle(themed('textColor'));

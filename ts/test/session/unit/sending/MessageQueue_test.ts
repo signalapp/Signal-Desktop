@@ -2,7 +2,6 @@
 
 import chai from 'chai';
 import * as sinon from 'sinon';
-import _ from 'lodash';
 import { describe } from 'mocha';
 
 import { GroupUtils, PromiseUtils, UserUtils } from '../../../../session/utils';

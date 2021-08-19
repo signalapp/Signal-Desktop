@@ -4,7 +4,7 @@ import https from 'https';
 import { dropSnodeFromSnodePool, dropSnodeFromSwarmIfNeeded, updateSwarmFor } from './snodePool';
 import ByteBuffer from 'bytebuffer';
 import { OnionPaths } from '../onions';
-import { fromHex, toHex } from '../utils/String';
+import { toHex } from '../utils/String';
 import pRetry from 'p-retry';
 import { ed25519Str, incrementBadPathCountOrDrop } from '../onions/onionPath';
 import _ from 'lodash';
@@ -15,8 +15,7 @@ let snodeFailureCount: Record<string, number> = {};
 import { Snode } from '../../data/data';
 import { ERROR_CODE_NO_CONNECT } from './SNodeAPI';
 
-// tslint:disable-next-line: variable-name
-export const TEST_resetSnodeFailureCount = () => {
+export const resetSnodeFailureCount = () => {
   snodeFailureCount = {};
 };
 
@@ -203,7 +202,7 @@ function process406Error(statusCode: number) {
   }
 }
 
-function processOxenServerError(statusCode: number, body?: string) {
+function processOxenServerError(_statusCode: number, body?: string) {
   if (body === OXEN_SERVER_ERROR) {
     window?.log?.warn('[path] Got Oxen server Error. Not much to do if the server has troubles.');
     throw new pRetry.AbortError(OXEN_SERVER_ERROR);
@@ -417,6 +416,7 @@ export async function processOnionResponse({
   abortSignal,
   associatedWith,
   lsrpcEd25519Key,
+  test,
 }: {
   response?: { text: () => Promise<string>; status: number };
   symmetricKey?: ArrayBuffer;
@@ -424,6 +424,7 @@ export async function processOnionResponse({
   lsrpcEd25519Key?: string;
   abortSignal?: AbortSignal;
   associatedWith?: string;
+  test?: string;
 }): Promise<SnodeResponse> {
   let ciphertext = '';
 
@@ -454,7 +455,7 @@ export async function processOnionResponse({
   let ciphertextBuffer;
 
   try {
-    const decoded = await exports.decodeOnionResult(symmetricKey, ciphertext);
+    const decoded = await exports.decodeOnionResult(symmetricKey, ciphertext, test);
 
     plaintext = decoded.plaintext;
     ciphertextBuffer = decoded.ciphertextBuffer;
@@ -480,7 +481,7 @@ export async function processOnionResponse({
   }
 
   try {
-    const jsonRes = JSON.parse(plaintext, (key, value) => {
+    const jsonRes = JSON.parse(plaintext, (_key, value) => {
       if (typeof value === 'number' && value > Number.MAX_SAFE_INTEGER) {
         window?.log?.warn('Received an out of bounds js number');
       }
@@ -518,16 +519,6 @@ export type DestinationContext = {
   symmetricKey: ArrayBuffer;
   ephemeralKey: ArrayBuffer;
 };
-
-export type FinalDestinationOptions = {
-  destination_ed25519_hex?: string;
-  headers?: Record<string, string>;
-  body?: string;
-};
-
-function isSnodeResponse(arg: any): arg is SnodeResponse {
-  return arg.status !== undefined;
-}
 
 /**
  * Handle a 421. The body is supposed to be the new swarm nodes for this publickey.
@@ -608,7 +599,7 @@ export async function incrementBadSnodeCountOrDrop({
   associatedWith?: string;
 }) {
   if (!guardNodeEd25519) {
-    console.warn('We need a guardNodeEd25519 at all times');
+    window?.log?.warn('We need a guardNodeEd25519 at all times');
   }
   const oldFailureCount = snodeFailureCount[snodeEd25519] || 0;
   const newFailureCount = oldFailureCount + 1;
@@ -617,7 +608,7 @@ export async function incrementBadSnodeCountOrDrop({
     window?.log?.warn(`Failure threshold reached for: ${ed25519Str(snodeEd25519)}; dropping it.`);
 
     if (associatedWith) {
-      (window?.log?.info || console.warn)(
+      window?.log?.warn(
         `Dropping ${ed25519Str(snodeEd25519)} from swarm of ${ed25519Str(associatedWith)}`
       );
       await dropSnodeFromSwarmIfNeeded(associatedWith, snodeEd25519);
@@ -654,13 +645,14 @@ export async function incrementBadSnodeCountOrDrop({
  * This call tries to send the request via onion. If we get a bad path, it handles the snode removing of the swarm and snode pool.
  * But the caller needs to handle the retry (and rebuild the path on his side if needed)
  */
-const sendOnionRequestHandlingSnodeEject = async ({
+export const sendOnionRequestHandlingSnodeEject = async ({
   destX25519Any,
   finalDestOptions,
   nodePath,
   abortSignal,
   associatedWith,
   finalRelayOptions,
+  test,
 }: {
   nodePath: Array<Snode>;
   destX25519Any: string;
@@ -672,6 +664,7 @@ const sendOnionRequestHandlingSnodeEject = async ({
   finalRelayOptions?: FinalRelayOptions;
   abortSignal?: AbortSignal;
   associatedWith?: string;
+  test?: string;
 }): Promise<SnodeResponse> => {
   // this sendOnionRequest() call has to be the only one like this.
   // If you need to call it, call it through sendOnionRequestHandlingSnodeEject because this is the one handling path rebuilding and known errors
@@ -685,12 +678,16 @@ const sendOnionRequestHandlingSnodeEject = async ({
       finalDestOptions,
       finalRelayOptions,
       abortSignal,
+      test,
     });
 
     response = result.response;
     decodingSymmetricKey = result.decodingSymmetricKey;
   } catch (e) {
     window.log.warn('sendOnionRequest', e);
+    if (e.code === 'ENETUNREACH') {
+      throw e;
+    }
   }
   // this call will handle the common onion failure logic.
   // if an error is not retryable a AbortError is triggered, which is handled by pRetry and retries are stopped
@@ -701,6 +698,7 @@ const sendOnionRequestHandlingSnodeEject = async ({
     lsrpcEd25519Key: finalDestOptions?.destination_ed25519_hex,
     abortSignal,
     associatedWith,
+    test,
   });
 
   return processed;
@@ -733,6 +731,7 @@ const sendOnionRequest = async ({
   };
   finalRelayOptions?: FinalRelayOptions;
   abortSignal?: AbortSignal;
+  test?: string;
 }) => {
   // get destination pubkey in array buffer format
   let destX25519hex = destX25519Any;
@@ -808,7 +807,7 @@ const sendOnionRequest = async ({
       'User-Agent': 'WhatsApp',
       'Accept-Language': 'en-us',
     },
-    timeout: 10000,
+    timeout: 25000,
   };
 
   if (abortSignal) {
@@ -827,7 +826,8 @@ async function sendOnionRequestSnodeDest(
   onionPath: Array<Snode>,
   targetNode: Snode,
   plaintext?: string,
-  associatedWith?: string
+  associatedWith?: string,
+  test?: string
 ) {
   return sendOnionRequestHandlingSnodeEject({
     nodePath: onionPath,
@@ -837,26 +837,7 @@ async function sendOnionRequestSnodeDest(
       body: plaintext,
     },
     associatedWith,
-  });
-}
-
-/**
- * This call tries to send the request via onion. If we get a bad path, it handles the snode removing of the swarm and snode pool.
- * But the caller needs to handle the retry (and rebuild the path on his side if needed)
- */
-export async function sendOnionRequestLsrpcDest(
-  onionPath: Array<Snode>,
-  destX25519Any: string,
-  finalRelayOptions: FinalRelayOptions,
-  payloadObj: FinalDestinationOptions,
-  abortSignal?: AbortSignal
-): Promise<SnodeResponse> {
-  return sendOnionRequestHandlingSnodeEject({
-    nodePath: onionPath,
-    destX25519Any,
-    finalDestOptions: payloadObj,
-    finalRelayOptions,
-    abortSignal,
+    test,
   });
 }
 
@@ -867,11 +848,12 @@ export function getPathString(pathObjArr: Array<{ ip: string; port: number }>): 
 async function onionFetchRetryable(
   targetNode: Snode,
   body?: string,
-  associatedWith?: string
+  associatedWith?: string,
+  test?: string
 ): Promise<SnodeResponse> {
   // Get a path excluding `targetNode`:
   const path = await OnionPaths.getOnionPath(targetNode);
-  const result = await sendOnionRequestSnodeDest(path, targetNode, body, associatedWith);
+  const result = await sendOnionRequestSnodeDest(path, targetNode, body, associatedWith, test);
   return result;
 }
 
@@ -881,12 +863,13 @@ async function onionFetchRetryable(
 export async function lokiOnionFetch(
   targetNode: Snode,
   body?: string,
-  associatedWith?: string
+  associatedWith?: string,
+  test?: string
 ): Promise<SnodeResponse | undefined> {
   try {
     const retriedResult = await pRetry(
       async () => {
-        return onionFetchRetryable(targetNode, body, associatedWith);
+        return onionFetchRetryable(targetNode, body, associatedWith, test);
       },
       {
         retries: 4,

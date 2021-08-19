@@ -2,7 +2,6 @@ import { EnvelopePlus } from '../../../receiver/types';
 import { SignalService } from '../../../protobuf';
 
 import uuid from 'uuid';
-import { fromHexToArray } from '../../../session/utils/String';
 
 export function generateEnvelopePlusClosedGroup(groupId: string, sender: string): EnvelopePlus {
   const envelope: EnvelopePlus = {

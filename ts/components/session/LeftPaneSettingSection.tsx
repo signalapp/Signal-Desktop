@@ -1,26 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import classNames from 'classnames';
-
 import { SessionButton, SessionButtonColor, SessionButtonType } from './SessionButton';
-
 import { SessionIcon, SessionIconSize, SessionIconType } from './icon';
 import { SessionSettingCategory } from './settings/SessionSettings';
-import { DefaultTheme } from 'styled-components';
 import { LeftPaneSectionHeader } from './LeftPaneSectionHeader';
-import { deleteAccount } from '../../util/accountManager';
 import { useDispatch, useSelector } from 'react-redux';
 import { showSettingsSection } from '../../state/ducks/section';
 import { getFocusedSettingsSection } from '../../state/selectors/section';
 import { getTheme } from '../../state/selectors/theme';
-import { SessionConfirm } from './SessionConfirm';
-import { SessionSeedModal } from './SessionSeedModal';
-import { recoveryPhraseModal, updateConfirmModal } from '../../state/ducks/modalDialog';
-
-type Props = {
-  settingsCategory: SessionSettingCategory;
-  showSettingsSection: (category: SessionSettingCategory) => void;
-  theme: DefaultTheme;
-};
+import { recoveryPhraseModal, updateDeleteAccountModal } from '../../state/ducks/modalDialog';
 
 const getCategories = () => {
   return [
@@ -100,32 +88,11 @@ const LeftPaneSettingsCategories = () => {
   );
 };
 
-const onDeleteAccount = () => {
-  const title = window.i18n('clearAllData');
-  const message = window.i18n('deleteAccountWarning');
-
-  const onClickClose = () => {
-    window.inboxStore?.dispatch(updateConfirmModal(null));
-  };
-
-  window.inboxStore?.dispatch(
-    updateConfirmModal({
-      title,
-      message,
-      okTheme: SessionButtonColor.Danger,
-      onClickOk: deleteAccount,
-      onClickClose,
-    })
-  );
-};
-
-const onShowRecoveryPhrase = () => {
-  window.inboxStore?.dispatch(recoveryPhraseModal({}));
-};
-
 const LeftPaneBottomButtons = () => {
   const dangerButtonText = window.i18n('clearAllData');
   const showRecoveryPhrase = window.i18n('showRecoveryPhrase');
+
+  const dispatch = useDispatch();
 
   return (
     <div className="left-pane-setting-bottom-buttons" key={1}>
@@ -134,7 +101,7 @@ const LeftPaneBottomButtons = () => {
         buttonType={SessionButtonType.SquareOutline}
         buttonColor={SessionButtonColor.Danger}
         onClick={() => {
-          onDeleteAccount();
+          dispatch(updateDeleteAccountModal({}));
         }}
       />
 
@@ -143,7 +110,7 @@ const LeftPaneBottomButtons = () => {
         buttonType={SessionButtonType.SquareOutline}
         buttonColor={SessionButtonColor.White}
         onClick={() => {
-          onShowRecoveryPhrase();
+          dispatch(recoveryPhraseModal({}));
         }}
       />
     </div>
@@ -151,7 +118,6 @@ const LeftPaneBottomButtons = () => {
 };
 
 export const LeftPaneSettingSection = () => {
-  const theme = useSelector(getTheme);
   return (
     <div className="left-pane-setting-section">
       <LeftPaneSectionHeader label={window.i18n('settingsHeader')} />

@@ -43,7 +43,7 @@ const TimestampContainerNotListItem = styled(props => <OpacityMetadataComponent 
 `;
 
 export const Timestamp = (props: Props) => {
-  const [lastUpdated, setLastUpdated] = useState(Date.now());
+  const [_lastUpdated, setLastUpdated] = useState(Date.now());
   // this is kind of a hack, but we use lastUpdated just to trigger a refresh.
   // formatRelativeTime() will print the correct moment.
   const update = () => {
@@ -54,8 +54,7 @@ export const Timestamp = (props: Props) => {
 
   useInterval(update, UPDATE_FREQUENCY);
 
-  const { module, timestamp, withImageNoCaption, extended } = props;
-  const moduleName = module || 'module-timestamp';
+  const { timestamp, withImageNoCaption, extended } = props;
 
   if (timestamp === null || timestamp === undefined) {
     return null;

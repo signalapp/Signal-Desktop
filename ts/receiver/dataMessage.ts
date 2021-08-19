@@ -8,7 +8,6 @@ import { handleMessageJob } from './queuedJob';
 import { downloadAttachment } from './attachments';
 import _ from 'lodash';
 import { StringUtils, UserUtils } from '../session/utils';
-import { getMessageQueue } from '../session';
 import { getConversationController } from '../session/conversations';
 import { handleClosedGroupControlMessage } from './closedGroups';
 import { MessageModel } from '../models/message';

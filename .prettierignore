@@ -12,6 +12,8 @@ libtextsecure/components.js
 libtextsecure/test/test.js
 stylesheets/*.css
 test/test.js
+libloki/test/test.js
+
 test/ts/**/*.js
 ts/**/*.js
 ts/protobuf/*.d.ts
@@ -28,11 +30,7 @@ js/WebAudioRecorderMp3.js
 libtextsecure/libsignal-protocol.js
 js/util_worker.js
 libtextsecure/test/blanket_mocha.js
-test/blanket_mocha.js
 mnemonic_languages/**
-
-# Test fixtures
-test/fixtures.js
 
 # Managed by package manager (`bower` and `yarn`/`npm`):
 /bower.json

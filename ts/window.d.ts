@@ -52,6 +52,7 @@ declare global {
     };
     lokiSnodeAPI: LokiSnodeAPI;
     onLogin: any;
+    persistStore?: Persistor;
     resetDatabase: any;
     restart: any;
     getSeedNodeList: () => Array<any> | undefined;
@@ -63,14 +64,14 @@ declare global {
     toggleMenuBar: any;
     toggleSpellCheck: any;
     setTheme: (newTheme: string) => any;
+    isDev?: () => boolean;
     userConfig: any;
     versionInfo: any;
-    getStoragePubKey: (key: string) => string;
     getConversations: () => ConversationCollection;
     profileImages: any;
     MediaRecorder: any;
     dataURLToBlobSync: any;
-    autoOrientImage: any;
+    autoOrientImage: (fileOrBlobOrURL: string | File | Blob, options: any = {}) => Promise<string>;
     contextMenuShown: boolean;
     inboxStore?: Store;
     openConversationWithMessages: (args: {
@@ -78,8 +79,10 @@ declare global {
       messageId?: string | undefined;
     }) => Promise<void>;
     LokiPushNotificationServer: any;
-    globalOnlineStatus: boolean;
+    getGlobalOnlineStatus: () => boolean;
     confirmationDialog: any;
     callWorker: (fnName: string, ...args: any) => Promise<any>;
+    setStartInTray: (val: boolean) => Promise<void>;
+    getStartInTray: () => Promise<boolean>;
   }
 }

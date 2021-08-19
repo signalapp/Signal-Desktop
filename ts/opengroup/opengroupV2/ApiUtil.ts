@@ -1,9 +1,7 @@
 import _ from 'lodash';
 import { FileServerV2Request } from '../../fileserver/FileServerApiV2';
-import { getSodium } from '../../session/crypto';
 import { PubKey } from '../../session/types';
-import { allowOnlyOneAtATime, sleepFor } from '../../session/utils/Promise';
-import { fromBase64ToArrayBuffer, fromHex, fromHexToArray } from '../../session/utils/String';
+import { allowOnlyOneAtATime } from '../../session/utils/Promise';
 import { updateDefaultRooms, updateDefaultRoomsInProgress } from '../../state/ducks/defaultRooms';
 import { getCompleteUrlFromRoom } from '../utils/OpenGroupUtils';
 import { parseOpenGroupV2 } from './JoinOpenGroupV2';
@@ -39,6 +37,26 @@ export type OpenGroupV2Info = {
 export type OpenGroupV2InfoJoinable = OpenGroupV2Info & {
   completeUrl: string;
   base64Data?: string;
+};
+
+export const TextToBase64 = async (text: string) => {
+  const arrayBuffer = await window.callWorker('bytesFromString', text);
+
+  const base64 = await window.callWorker('arrayBufferToStringBase64', arrayBuffer);
+
+  return base64;
+};
+
+export const textToArrayBuffer = async (text: string) => {
+  return window.callWorker('bytesFromString', text);
+};
+
+export const verifyED25519Signature = async (
+  pubkey: string,
+  base64EncodedData: string,
+  base64EncondedSignature: string
+): Promise<Boolean> => {
+  return window.callWorker('verifySignature', pubkey, base64EncodedData, base64EncondedSignature);
 };
 
 export const parseMessages = async (

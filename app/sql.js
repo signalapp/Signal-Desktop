@@ -224,8 +224,7 @@ function openAndMigrateDatabase(filePath, key) {
     keyDatabase(db, key);
     switchToWAL(db);
     migrateSchemaVersion(db);
-    // Because foreign key support is not enabled by default! // actually, Session does not care
-    // db.pragma('foreign_keys = ON');
+    db.pragma('secure_delete = ON');
 
     return db;
   } catch (error) {
@@ -1880,7 +1879,7 @@ function saveMessage(data) {
   return id;
 }
 
-async function saveSeenMessageHashes(arrayOfHashes) {
+function saveSeenMessageHashes(arrayOfHashes) {
   globalInstance.transaction(() => {
     map(arrayOfHashes, hashData => saveSeenMessageHash(hashData));
   })();
@@ -1947,7 +1946,7 @@ function cleanSeenMessages() {
   });
 }
 
-async function saveMessages(arrayOfMessages) {
+function saveMessages(arrayOfMessages) {
   globalInstance.transaction(() => {
     map(arrayOfMessages, message => saveMessage(message));
   })();

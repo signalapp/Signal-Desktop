@@ -1,11 +1,10 @@
-import _ from 'lodash';
 import {
   getV2OpenGroupRoomByRoomId,
   OpenGroupV2Room,
   saveV2OpenGroupRoom,
 } from '../../data/opengroups';
 import { FSv2 } from '../../fileserver/';
-import { sendViaOnion } from '../../session/onions/onionSend';
+import { sendViaOnionToNonSnode } from '../../session/onions/onionSend';
 import { PubKey } from '../../session/types';
 import { OpenGroupRequestCommonType, OpenGroupV2Info, OpenGroupV2Request } from './ApiUtil';
 import {
@@ -81,7 +80,7 @@ export async function sendApiV2Request(
     throw new Error('Invalid request');
   }
 
-  if (!window.globalOnlineStatus) {
+  if (!window.getGlobalOnlineStatus()) {
     throw new pRetry.AbortError('Network is not available');
   }
 
@@ -120,7 +119,7 @@ export async function sendApiV2Request(
     }
 
     headers.Authorization = token;
-    const res = await sendViaOnion(
+    const res = await sendViaOnionToNonSnode(
       destinationX25519Key,
       builtUrl,
       {
@@ -156,7 +155,7 @@ export async function sendApiV2Request(
     return res as object;
   } else {
     // no need for auth, just do the onion request
-    const res = await sendViaOnion(destinationX25519Key, builtUrl, {
+    const res = await sendViaOnionToNonSnode(destinationX25519Key, builtUrl, {
       method: request.method,
       headers,
       body,

@@ -21,7 +21,6 @@ import {
 } from '../../components/conversation/ConversationHeader';
 import { LightBoxOptions } from '../../components/session/conversation/SessionConversation';
 import { ReplyingToMessageProps } from '../../components/session/conversation/SessionCompositionBox';
-import { createSlice } from '@reduxjs/toolkit';
 import { getConversationController } from '../../session/conversations';
 
 export const getConversations = (state: StateType): ConversationsStateType => state.conversations;
@@ -144,8 +143,6 @@ export const _getLeftPaneLists = (
   const conversations: Array<ReduxConversationType> = [];
   const directConversations: Array<ReduxConversationType> = [];
 
-  let index = 0;
-
   let unreadCount = 0;
   for (let conversation of sorted) {
     if (selectedConversation === conversation.id) {
@@ -180,12 +177,15 @@ export const _getLeftPaneLists = (
       directConversations.push(conversation);
     }
 
-    if (unreadCount < 9 && conversation.unreadCount > 0) {
+    if (
+      unreadCount < 9 &&
+      conversation.unreadCount > 0 &&
+      conversation.currentNotificationSetting !== 'disabled'
+    ) {
       unreadCount += conversation.unreadCount;
     }
 
     conversations.push(conversation);
-    index++;
   }
 
   return {
@@ -365,6 +365,19 @@ export const getNextMessageToPlayId = createSelector(
 export const getMentionsInput = createSelector(
   getConversations,
   (state: ConversationsStateType): MentionsMembersType => state.mentionMembers
+);
+
+export const getDraftForCurrentConversation = createSelector(
+  getConversations,
+  (state: ConversationsStateType): string => {
+    if (state.selectedConversation) {
+      return (
+        state.draftsForConversations.find(c => c.conversationKey === state.selectedConversation)
+          ?.draft || ''
+      );
+    }
+    return '';
+  }
 );
 
 /// Those calls are just related to ordering messages in the redux store.

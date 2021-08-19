@@ -7,8 +7,8 @@ import { SessionIconButton, SessionIconSize, SessionIconType } from '../session/
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../session/SessionButton';
 import { ConversationAvatar } from '../session/usingClosedConversationDetails';
 import { MemoConversationHeaderMenu } from '../session/menu/ConversationHeaderMenu';
-import { contextMenu, theme } from 'react-contexify';
-import styled, { ThemeProvider, useTheme } from 'styled-components';
+import { contextMenu } from 'react-contexify';
+import styled, { useTheme } from 'styled-components';
 import { ConversationNotificationSettingType } from '../../models/conversation';
 import {
   getConversationHeaderProps,
@@ -29,7 +29,6 @@ import {
   openRightPanel,
   resetSelectedMessageIds,
 } from '../../state/ducks/conversations';
-import { getTheme } from '../../state/selectors/theme';
 
 export interface TimerOption {
   name: string;

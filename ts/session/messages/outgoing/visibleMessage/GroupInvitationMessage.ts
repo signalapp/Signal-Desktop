@@ -1,5 +1,4 @@
 import { DataMessage } from '..';
-import { Constants } from '../../..';
 import { SignalService } from '../../../../protobuf';
 import { MessageParams } from '../Message';
 

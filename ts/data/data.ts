@@ -171,7 +171,7 @@ export function init() {
     }
   });
 
-  ipcRenderer.on(`${SQL_CHANNEL_KEY}-done`, (event, jobId, errorForDisplay, result) => {
+  ipcRenderer.on(`${SQL_CHANNEL_KEY}-done`, (_event, jobId, errorForDisplay, result) => {
     const job = _getJob(jobId);
     if (!job) {
       throw new Error(
@@ -195,6 +195,7 @@ export function init() {
 // We can't send ArrayBuffers or BigNumbers (what we get from proto library for dates).
 function _cleanData(data: any): any {
   const keys = Object.keys(data);
+
   for (let index = 0, max = keys.length; index < max; index += 1) {
     const key = keys[index];
     const value = data[key];
@@ -203,18 +204,23 @@ function _cleanData(data: any): any {
       // eslint-disable-next-line no-continue
       continue;
     }
+    // eslint-disable no-param-reassign
 
     if (_.isFunction(value.toNumber)) {
       // eslint-disable-next-line no-param-reassign
       data[key] = value.toNumber();
+    } else if (_.isFunction(value)) {
+      // just skip a function which has not a toNumber function. We don't want to save a function to the db.
+      // an attachment comes with a toJson() function
+      // tslint:disable-next-line: no-dynamic-delete
+      delete data[key];
     } else if (Array.isArray(value)) {
-      // eslint-disable-next-line no-param-reassign
       data[key] = value.map(_cleanData);
+    } else if (_.isObject(value) && value instanceof File) {
+      data[key] = { name: value.name, path: value.path, size: value.size, type: value.type };
     } else if (_.isObject(value)) {
-      // eslint-disable-next-line no-param-reassign
       data[key] = _cleanData(value);
     } else if (_.isBoolean(value)) {
-      // eslint-disable-next-line no-param-reassign
       data[key] = value ? 1 : 0;
     } else if (
       typeof value !== 'string' &&
@@ -615,7 +621,8 @@ export async function updateLastHash(data: {
 }
 
 export async function saveMessage(data: MessageAttributes): Promise<string> {
-  const id = await channels.saveMessage(_cleanData(data));
+  const cleanedData = _cleanData(data);
+  const id = await channels.saveMessage(cleanedData);
   window.Whisper.ExpiringMessagesListener.update();
   return id;
 }
@@ -892,7 +899,7 @@ export async function removeOtherData(): Promise<void> {
 async function callChannel(name: string): Promise<any> {
   return new Promise((resolve, reject) => {
     ipcRenderer.send(name);
-    ipcRenderer.once(`${name}-done`, (event, error) => {
+    ipcRenderer.once(`${name}-done`, (_event, error) => {
       if (error) {
         return reject(error);
       }

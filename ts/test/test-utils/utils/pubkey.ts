@@ -1,4 +1,6 @@
 import * as crypto from 'crypto';
+import _ from 'lodash';
+import { Snode } from '../../../data/data';
 import { ECKeyPair } from '../../../receiver/keypairs';
 import { PubKey } from '../../../session/types';
 
@@ -31,4 +33,27 @@ export function generateFakePubKeys(amount: number): Array<PubKey> {
 
   // tslint:disable-next-line: no-unnecessary-callback-wrapper
   return new Array(numPubKeys).fill(0).map(() => generateFakePubKey());
+}
+
+export function generateFakeSnode(): Snode {
+  return {
+    ip: '136.243.103.171',
+    port: 22116,
+    pubkey_x25519: generateFakePubKeyStr(),
+    pubkey_ed25519: generateFakePubKeyStr(),
+  };
+}
+
+export function generateFakeSnodeWithEdKey(ed25519Pubkey: string): Snode {
+  return {
+    ip: '136.243.103.171',
+    port: 22116,
+    pubkey_x25519: generateFakePubKeyStr(),
+    pubkey_ed25519: ed25519Pubkey,
+  };
+}
+
+export function generateFakeSnodes(amount: number): Array<Snode> {
+  const ar: Array<Snode> = _.times(amount, generateFakeSnode);
+  return ar;
 }
