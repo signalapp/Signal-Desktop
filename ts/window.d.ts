@@ -202,10 +202,8 @@ declare global {
     enterKeyboardMode: () => void;
     enterMouseMode: () => void;
     getAccountManager: () => AccountManager;
-    getAlwaysRelayCalls: () => Promise<boolean>;
     getBuiltInImages: () => Promise<Array<string>>;
     getConversations: () => ConversationModelCollectionType;
-    getCountMutedConversations: () => Promise<boolean>;
     getEnvironment: typeof getEnvironment;
     getExpiration: () => string;
     getGuid: () => string;

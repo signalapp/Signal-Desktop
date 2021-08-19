@@ -1823,7 +1823,7 @@ export class CallingClass {
 
     const iceServerJson = await window.textsecure.messaging.server.getIceServers();
 
-    const shouldRelayCalls = Boolean(await window.getAlwaysRelayCalls());
+    const shouldRelayCalls = window.Events.getAlwaysRelayCalls();
 
     // If the peer is 'unknown', i.e. not in the contact list, force IP hiding.
     const isContactUnknown = !conversation.isFromOrAddedByTrustedContact();
