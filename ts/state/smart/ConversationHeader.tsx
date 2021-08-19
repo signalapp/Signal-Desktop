@@ -18,7 +18,7 @@ import {
   getConversationCallMode,
 } from '../ducks/conversations';
 import { getActiveCall, isAnybodyElseInGroupCall } from '../ducks/calling';
-import { getUserConversationId, getIntl } from '../selectors/user';
+import { getUserUuid, getIntl } from '../selectors/user';
 import { getOwn } from '../../util/getOwn';
 import { missingCaseError } from '../../util/missingCaseError';
 import { isConversationSMSOnly } from '../../util/isConversationSMSOnly';
@@ -71,7 +71,7 @@ const getOutgoingCallButtonStyle = (
       const call = getOwn(calling.callsByConversation, conversation.id);
       if (
         call?.callMode === CallMode.Group &&
-        isAnybodyElseInGroupCall(call.peekInfo, getUserConversationId(state))
+        isAnybodyElseInGroupCall(call.peekInfo, getUserUuid(state))
       ) {
         return OutgoingCallButtonStyle.Join;
       }
