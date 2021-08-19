@@ -743,9 +743,9 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     if (!this.isPublic()) {
       messageWithSchema.destination = destination;
+    } else {
       // set the serverTimestamp only if this conversation is a public one.
-
-      messageWithSchema.serverTimestamp = new Date().getTime();
+      messageWithSchema.serverTimestamp = Date.now();
     }
     messageWithSchema.source = UserUtils.getOurPubKeyStrFromCache();
     messageWithSchema.sourceDevice = 1;
