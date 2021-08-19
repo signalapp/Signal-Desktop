@@ -753,8 +753,12 @@ type AjaxOptionsType = {
   validateResponse?: any;
 };
 
+export type WebAPIConnectOptionsType = WebAPICredentials & {
+  disableWebSockets?: boolean;
+};
+
 export type WebAPIConnectType = {
-  connect: (options: WebAPICredentials) => WebAPIType;
+  connect: (options: WebAPIConnectOptionsType) => WebAPIType;
 };
 
 export type CapabilitiesType = {
@@ -1071,7 +1075,8 @@ export function initialize({
   function connect({
     username: initialUsername,
     password: initialPassword,
-  }: WebAPICredentials) {
+    disableWebSockets = false,
+  }: WebAPIConnectOptionsType) {
     let username = initialUsername;
     let password = initialPassword;
     const PARSE_RANGE_HEADER = /\/(\d+)$/;
@@ -1088,7 +1093,9 @@ export function initialize({
       window.Whisper.events.trigger('unlinkAndDisconnect');
     });
 
-    socketManager.authenticate({ username, password });
+    if (!disableWebSockets) {
+      socketManager.authenticate({ username, password });
+    }
 
     // Thanks, function hoisting!
     return {
@@ -1156,7 +1163,8 @@ export function initialize({
         param.urlParameters = '';
       }
 
-      const useWebSocket = WEBSOCKET_CALLS.has(param.call);
+      const useWebSocket =
+        !disableWebSockets && WEBSOCKET_CALLS.has(param.call);
 
       return _outerAjax(null, {
         socketManager: useWebSocket ? socketManager : undefined,
@@ -1210,7 +1218,9 @@ export function initialize({
       username = newUsername;
       password = newPassword;
 
-      await socketManager.authenticate({ username, password });
+      if (!disableWebSockets) {
+        await socketManager.authenticate({ username, password });
+      }
     }
 
     function getSocketStatus(): SocketStatus {

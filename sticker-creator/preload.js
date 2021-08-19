@@ -212,6 +212,7 @@ window.encryptAndUpload = async (
   const server = WebAPI.connect({
     username: username || oldUsername,
     password,
+    disableWebSockets: true,
   });
 
   const uniqueStickers = uniqBy(
