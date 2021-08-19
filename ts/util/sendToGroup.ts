@@ -317,10 +317,12 @@ export async function sendToGroupViaSenderKey(options: {
     createdAtDate,
   } = attributes.senderKeyInfo;
 
+  const memberSet = new Set(conversation.getMembers());
+
   // 4. Partition devices into sender key and non-sender key groups
   const [devicesForSenderKey, devicesForNormalSend] = partition(
     currentDevices,
-    device => isValidSenderKeyRecipient(conversation, device.identifier)
+    device => isValidSenderKeyRecipient(memberSet, device.identifier)
   );
 
   const senderKeyRecipients = getUuidsFromDevices(devicesForSenderKey);
@@ -864,20 +866,20 @@ async function encryptForSenderKey({
 }
 
 function isValidSenderKeyRecipient(
-  conversation: ConversationModel,
+  members: Set<ConversationModel>,
   uuid: string
 ): boolean {
-  if (!conversation.hasMember(uuid)) {
-    window.log.info(
-      `isValidSenderKeyRecipient: Sending to ${uuid}, not a group member`
-    );
-    return false;
-  }
-
   const memberConversation = window.ConversationController.get(uuid);
   if (!memberConversation) {
     window.log.warn(
       `isValidSenderKeyRecipient: Missing conversation model for member ${uuid}`
+    );
+    return false;
+  }
+
+  if (!members.has(memberConversation)) {
+    window.log.info(
+      `isValidSenderKeyRecipient: Sending to ${uuid}, not a group member`
     );
     return false;
   }
