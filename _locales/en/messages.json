@@ -428,5 +428,8 @@
   "dialogClearAllDataDeletionFailedMultiple": "Data not deleted by those Service Nodes: $snodes$",
   "dialogClearAllDataDeletionQuestion": "Would you like to clear only this device, or delete your entire account?",
   "deviceOnly": "Device Only",
-  "entireAccount": "Entire Account"
+  "entireAccount": "Entire Account",
+  "recoveryPhraseSecureTitle": "You're almost finished!",
+  "recoveryPhraseRevealMessage": "Secure your account by saving your recovery phrase. Reveal your recovery phrase then store it safely to secure it.",
+  "recoveryPhraseRevealButtonText": "Reveal Recovery Phrase"
 }

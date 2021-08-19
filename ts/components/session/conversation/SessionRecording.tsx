@@ -3,11 +3,11 @@ import classNames from 'classnames';
 import moment from 'moment';
 
 import { SessionIconButton, SessionIconSize, SessionIconType } from '../icon';
-import { SessionButton, SessionButtonColor, SessionButtonType } from '../SessionButton';
 import { Constants } from '../../../session';
 import { ToastUtils } from '../../../session/utils';
 import autoBind from 'auto-bind';
 import MicRecorder from 'mic-recorder-to-mp3';
+import styled from 'styled-components';
 
 interface Props {
   onExitVoiceNoteView: any;
@@ -32,6 +32,24 @@ function getTimestamp(asInt = false) {
   const timestamp = Date.now() / 1000;
   return asInt ? Math.floor(timestamp) : timestamp;
 }
+
+export interface StyledFlexWrapperProps {
+  flexDirection: 'row' | 'column';
+  marginHorizontal: string;
+}
+
+/**
+ * Generic wrapper for quickly passing in theme constant values.
+ */
+export const StyledFlexWrapper = styled.div`
+  display: flex;
+  flex-direction: ${(props: StyledFlexWrapperProps) => props.flexDirection};
+  align-items: center;
+
+  .session-button {
+    margin: ${(props: StyledFlexWrapperProps) => props.marginHorizontal};
+  }
+`;
 
 class SessionRecordingInner extends React.Component<Props, State> {
   private recorder: any;
@@ -77,19 +95,12 @@ class SessionRecordingInner extends React.Component<Props, State> {
 
   // tslint:disable-next-line: cyclomatic-complexity
   public render() {
-    const {
-      actionHover,
-      isPlaying,
-      isPaused,
-      isRecording,
-      startTimestamp,
-      nowTimestamp,
-    } = this.state;
+    const { isPlaying, isPaused, isRecording, startTimestamp, nowTimestamp } = this.state;
 
-    const actionStopRecording = actionHover && isRecording;
-    const actionPlayAudio = !isRecording && !isPlaying;
+    const hasRecordingAndPaused = !isRecording && !isPlaying;
+    const hasRecording = !!this.audioElement?.duration && this.audioElement?.duration > 0;
     const actionPauseAudio = !isRecording && !isPaused && isPlaying;
-    const actionDefault = !actionStopRecording && !actionPlayAudio && !actionPauseAudio;
+    const actionDefault = !isRecording && !hasRecordingAndPaused && !actionPauseAudio;
 
     // if we are recording, we base the time recording on our state values
     // if we are playing ( audioElement?.currentTime is !== 0, use that instead)
@@ -102,6 +113,14 @@ class SessionRecordingInner extends React.Component<Props, State> {
         0;
 
     const displayTimeString = moment.utc(displayTimeMs).format('m:ss');
+    const recordingDurationMs = this.audioElement?.duration
+      ? this.audioElement?.duration * 1000
+      : 1;
+
+    let remainingTimeString = '';
+    if (recordingDurationMs !== undefined) {
+      remainingTimeString = ` / ${moment.utc(recordingDurationMs).format('m:ss')}`;
+    }
 
     const actionPauseFn = isPlaying ? this.pauseAudio : this.stopRecordingStream;
 
@@ -112,28 +131,37 @@ class SessionRecordingInner extends React.Component<Props, State> {
           onMouseEnter={this.handleHoverActions}
           onMouseLeave={this.handleUnhoverActions}
         >
-          {actionStopRecording && (
-            <SessionIconButton
-              iconType={SessionIconType.Pause}
-              iconSize={SessionIconSize.Medium}
-              iconColor={Constants.UI.COLORS.DANGER_ALT}
-              onClick={actionPauseFn}
-            />
-          )}
-          {actionPauseAudio && (
-            <SessionIconButton
-              iconType={SessionIconType.Pause}
-              iconSize={SessionIconSize.Medium}
-              onClick={actionPauseFn}
-            />
-          )}
-          {actionPlayAudio && (
-            <SessionIconButton
-              iconType={SessionIconType.Play}
-              iconSize={SessionIconSize.Medium}
-              onClick={this.playAudio}
-            />
-          )}
+          <StyledFlexWrapper flexDirection="row" marginHorizontal={Constants.UI.SPACING.marginXs}>
+            {isRecording && (
+              <SessionIconButton
+                iconType={SessionIconType.Pause}
+                iconSize={SessionIconSize.Medium}
+                iconColor={Constants.UI.COLORS.DANGER_ALT}
+                onClick={actionPauseFn}
+              />
+            )}
+            {actionPauseAudio && (
+              <SessionIconButton
+                iconType={SessionIconType.Pause}
+                iconSize={SessionIconSize.Medium}
+                onClick={actionPauseFn}
+              />
+            )}
+            {hasRecordingAndPaused && (
+              <SessionIconButton
+                iconType={SessionIconType.Play}
+                iconSize={SessionIconSize.Medium}
+                onClick={this.playAudio}
+              />
+            )}
+            {hasRecording && (
+              <SessionIconButton
+                iconType={SessionIconType.Delete}
+                iconSize={SessionIconSize.Medium}
+                onClick={this.onDeleteVoiceMessage}
+              />
+            )}
+          </StyledFlexWrapper>
 
           {actionDefault && (
             <SessionIconButton
@@ -143,13 +171,26 @@ class SessionRecordingInner extends React.Component<Props, State> {
           )}
         </div>
 
-        <div className={classNames('session-recording--timer', !isRecording && 'playback-timer')}>
-          {displayTimeString}
-          {isRecording && <div className="session-recording--timer-light" />}
-        </div>
+        {hasRecording && !isRecording ? (
+          <div className={classNames('session-recording--timer', !isRecording && 'playback-timer')}>
+            {displayTimeString + remainingTimeString}
+          </div>
+        ) : null}
+
+        {isRecording ? (
+          <div className={classNames('session-recording--timer')}>
+            {displayTimeString}
+            <div className="session-recording--timer-light" />
+          </div>
+        ) : null}
 
         {!isRecording && (
-          <div className="send-message-button">
+          <div
+            className={classNames(
+              'send-message-button',
+              hasRecording && 'send-message-button---scale'
+            )}
+          >
             <SessionIconButton
               iconType={SessionIconType.Send}
               iconSize={SessionIconSize.Large}
@@ -158,23 +199,6 @@ class SessionRecordingInner extends React.Component<Props, State> {
             />
           </div>
         )}
-
-        <div className="session-recording--status">
-          {isRecording ? (
-            <SessionButton
-              text={window.i18n('recording')}
-              buttonType={SessionButtonType.Brand}
-              buttonColor={SessionButtonColor.Primary}
-            />
-          ) : (
-            <SessionButton
-              text={window.i18n('delete')}
-              buttonType={SessionButtonType.Brand}
-              buttonColor={SessionButtonColor.DangerAlt}
-              onClick={this.onDeleteVoiceMessage}
-            />
-          )}
-        </div>
       </div>
     );
   }
@@ -271,6 +295,9 @@ class SessionRecordingInner extends React.Component<Props, State> {
     this.props.onExitVoiceNoteView();
   }
 
+  /**
+   * Sends the recorded voice message
+   */
   private async onSendVoiceMessage() {
     if (!this.audioBlobMp3 || !this.audioBlobMp3.size) {
       window?.log?.info('Empty audio blob');
@@ -305,6 +332,9 @@ class SessionRecordingInner extends React.Component<Props, State> {
       });
   }
 
+  /**
+   * Stops recording audio, sets recording state to stopped.
+   */
   private async stopRecordingStream() {
     if (!this.recorder) {
       return;
@@ -313,8 +343,37 @@ class SessionRecordingInner extends React.Component<Props, State> {
     this.recorder = undefined;
 
     this.audioBlobMp3 = blob;
+    this.updateAudioElementAndDuration();
+
     // Stop recording
     this.stopRecordingState();
+  }
+
+  /**
+   * Creates an audio element using the recorded audio blob.
+   * Updates the duration for displaying audio duration.
+   */
+  private updateAudioElementAndDuration() {
+    // init audio element
+    const audioURL = window.URL.createObjectURL(this.audioBlobMp3);
+    this.audioElement = new Audio(audioURL);
+
+    this.setState({
+      recordDuration: this.audioElement.duration,
+    });
+
+    this.audioElement.loop = false;
+    this.audioElement.onended = () => {
+      this.pauseAudio();
+    };
+
+    this.audioElement.oncanplaythrough = async () => {
+      const duration = this.state.recordDuration;
+
+      if (duration && this.audioElement && this.audioElement.currentTime < duration) {
+        await this.audioElement?.play();
+      }
+    };
   }
 
   private async onKeyDown(event: any) {

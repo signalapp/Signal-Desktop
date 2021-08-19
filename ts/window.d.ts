@@ -52,6 +52,7 @@ declare global {
     };
     lokiSnodeAPI: LokiSnodeAPI;
     onLogin: any;
+    persistStore?: Persistor;
     resetDatabase: any;
     restart: any;
     getSeedNodeList: () => Array<any> | undefined;

@@ -1,7 +1,6 @@
+import React from 'react';
 import classNames from 'classnames';
-
 import { SessionButton, SessionButtonColor, SessionButtonType } from './SessionButton';
-
 import { SessionIcon, SessionIconSize, SessionIconType } from './icon';
 import { SessionSettingCategory } from './settings/SessionSettings';
 import { LeftPaneSectionHeader } from './LeftPaneSectionHeader';
@@ -10,7 +9,6 @@ import { showSettingsSection } from '../../state/ducks/section';
 import { getFocusedSettingsSection } from '../../state/selectors/section';
 import { getTheme } from '../../state/selectors/theme';
 import { recoveryPhraseModal, updateDeleteAccountModal } from '../../state/ducks/modalDialog';
-import React from 'react';
 
 const getCategories = () => {
   return [

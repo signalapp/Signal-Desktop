@@ -39,6 +39,7 @@ declare module 'styled-components' {
       textColorSubtleNoOpacity: string;
       textColorOpposite: string;
       textHighlight: string;
+      textAccent: string;
       // inbox
       inboxBackground: string;
       // buttons
@@ -60,8 +61,11 @@ declare module 'styled-components' {
       conversationItemSelected: string;
       clickableHovered: string;
       sessionBorder: string;
+      sessionBorderColor: string;
+      sessionBorderHighContrast: string;
       sessionUnreadBorder: string;
       leftpaneOverlayBackground: string;
+      recoveryPhraseBannerBackground: string;
       // scrollbars
       scrollBarTrack: string;
       scrollBarThumb: string;
