@@ -120,6 +120,7 @@ const createProps = (): PropsType => ({
   isAutoLaunchSupported: true,
   isHideMenuBarSupported: true,
   isNotificationAttentionSupported: true,
+  isPhoneNumberSharingSupported: false,
   isSyncSupported: true,
   isSystemTraySupported: true,
 

@@ -46,6 +46,7 @@ installSetting('callSystemNotification');
 installSetting('deviceName');
 installSetting('hideMenuBar');
 installSetting('incomingCallNotification');
+installCallback('isPhoneNumberSharingEnabled');
 installCallback('isPrimary');
 installCallback('syncRequest');
 installSetting('notificationDrawAttention');

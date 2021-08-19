@@ -22,7 +22,6 @@ import { getUserUuid, getIntl } from '../selectors/user';
 import { getOwn } from '../../util/getOwn';
 import { missingCaseError } from '../../util/missingCaseError';
 import { isConversationSMSOnly } from '../../util/isConversationSMSOnly';
-import { isGroupCallingEnabled } from '../../util/isGroupCallingEnabled';
 
 export type OwnProps = {
   id: string;
@@ -65,9 +64,6 @@ const getOutgoingCallButtonStyle = (
     case CallMode.Direct:
       return OutgoingCallButtonStyle.Both;
     case CallMode.Group: {
-      if (!isGroupCallingEnabled()) {
-        return OutgoingCallButtonStyle.None;
-      }
       const call = getOwn(calling.callsByConversation, conversation.id);
       if (
         call?.callMode === CallMode.Group &&

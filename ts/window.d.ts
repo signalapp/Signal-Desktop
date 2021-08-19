@@ -511,7 +511,6 @@ declare global {
     isShowingModal?: boolean;
 
     // Feature Flags
-    isGroupCallingEnabled: () => boolean;
     GV2_ENABLE_SINGLE_CHANGE_PROCESSING: boolean;
     GV2_ENABLE_CHANGE_PROCESSING: boolean;
     GV2_ENABLE_STATE_PROCESSING: boolean;

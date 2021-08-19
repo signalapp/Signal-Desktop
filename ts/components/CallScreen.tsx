@@ -30,7 +30,6 @@ import { DirectCallRemoteParticipant } from './DirectCallRemoteParticipant';
 import { GroupCallRemoteParticipants } from './GroupCallRemoteParticipants';
 import { LocalizerType } from '../types/Util';
 import { NeedsScreenRecordingPermissionsModal } from './NeedsScreenRecordingPermissionsModal';
-import { isScreenSharingEnabled } from '../util/isScreenSharingEnabled';
 import { missingCaseError } from '../util/missingCaseError';
 import { useActivateSpeakerViewOnPresenting } from '../hooks/useActivateSpeakerViewOnPresenting';
 
@@ -372,13 +371,11 @@ export const CallScreen: React.FC<PropsType> = ({
             controlsFadeClass
           )}
         >
-          {isScreenSharingEnabled() ? (
-            <CallingButton
-              buttonType={presentingButtonType}
-              i18n={i18n}
-              onClick={togglePresenting}
-            />
-          ) : null}
+          <CallingButton
+            buttonType={presentingButtonType}
+            i18n={i18n}
+            onClick={togglePresenting}
+          />
           <CallingButton
             buttonType={videoButtonType}
             i18n={i18n}

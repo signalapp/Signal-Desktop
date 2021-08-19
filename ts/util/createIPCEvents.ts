@@ -27,6 +27,7 @@ import * as universalExpireTimer from './universalExpireTimer';
 import { PhoneNumberDiscoverability } from './phoneNumberDiscoverability';
 import { PhoneNumberSharingMode } from './phoneNumberSharingMode';
 import { assert } from './assert';
+import { isPhoneNumberSharingEnabled } from './isPhoneNumberSharingEnabled';
 
 type ThemeType = 'light' | 'dark' | 'system';
 type NotificationSettingType = 'message' | 'name' | 'count' | 'off';
@@ -81,6 +82,7 @@ export type IPCEventsCallbacksType = {
   editCustomColor: (colorId: string, customColor: CustomColorType) => void;
   getConversationsWithCustomColor: (x: string) => Array<ConversationType>;
   installStickerPack: (packId: string, key: string) => Promise<void>;
+  isPhoneNumberSharingEnabled: () => boolean;
   isPrimary: () => boolean;
   removeCustomColor: (x: string) => void;
   removeCustomColorOnConversations: (x: string) => void;
@@ -321,6 +323,7 @@ export function createIPCEvents(
       window.setAutoLaunch(value);
     },
 
+    isPhoneNumberSharingEnabled: () => isPhoneNumberSharingEnabled(),
     isPrimary: () => window.textsecure.storage.user.getDeviceId() === 1,
     syncRequest: () =>
       new Promise<void>((resolve, reject) => {

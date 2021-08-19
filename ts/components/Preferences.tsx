@@ -98,6 +98,7 @@ export type PropsType = {
   isAutoLaunchSupported: boolean;
   isHideMenuBarSupported: boolean;
   isNotificationAttentionSupported: boolean;
+  isPhoneNumberSharingSupported: boolean;
   isSyncSupported: boolean;
   isSystemTraySupported: boolean;
 
@@ -182,6 +183,7 @@ export const Preferences = ({
   isAudioNotificationsSupported,
   isAutoLaunchSupported,
   isHideMenuBarSupported,
+  isPhoneNumberSharingSupported,
   isNotificationAttentionSupported,
   isSyncSupported,
   isSystemTraySupported,
@@ -748,57 +750,59 @@ export const Preferences = ({
             }
           />
         </SettingsRow>
-        <SettingsRow title={i18n('Preferences__who-can--title')}>
-          <Control
-            left={i18n('Preferences--see-me')}
-            right={
-              <Select
-                disabled
-                onChange={noop}
-                options={[
-                  {
-                    text: i18n('Preferences__who-can--everybody'),
-                    value: PhoneNumberSharingMode.Everybody,
-                  },
-                  {
-                    text: i18n('Preferences__who-can--contacts'),
-                    value: PhoneNumberSharingMode.ContactsOnly,
-                  },
-                  {
-                    text: i18n('Preferences__who-can--nobody'),
-                    value: PhoneNumberSharingMode.Nobody,
-                  },
-                ]}
-                value={whoCanSeeMe}
-              />
-            }
-          />
-          <Control
-            left={i18n('Preferences--find-me')}
-            right={
-              <Select
-                disabled
-                onChange={noop}
-                options={[
-                  {
-                    text: i18n('Preferences__who-can--everybody'),
-                    value: PhoneNumberDiscoverability.Discoverable,
-                  },
-                  {
-                    text: i18n('Preferences__who-can--nobody'),
-                    value: PhoneNumberDiscoverability.NotDiscoverable,
-                  },
-                ]}
-                value={whoCanFindMe}
-              />
-            }
-          />
-          <div className="Preferences__padding">
-            <div className="Preferences__description">
-              {i18n('Preferences__privacy--description')}
+        {isPhoneNumberSharingSupported ? (
+          <SettingsRow title={i18n('Preferences__who-can--title')}>
+            <Control
+              left={i18n('Preferences--see-me')}
+              right={
+                <Select
+                  disabled
+                  onChange={noop}
+                  options={[
+                    {
+                      text: i18n('Preferences__who-can--everybody'),
+                      value: PhoneNumberSharingMode.Everybody,
+                    },
+                    {
+                      text: i18n('Preferences__who-can--contacts'),
+                      value: PhoneNumberSharingMode.ContactsOnly,
+                    },
+                    {
+                      text: i18n('Preferences__who-can--nobody'),
+                      value: PhoneNumberSharingMode.Nobody,
+                    },
+                  ]}
+                  value={whoCanSeeMe}
+                />
+              }
+            />
+            <Control
+              left={i18n('Preferences--find-me')}
+              right={
+                <Select
+                  disabled
+                  onChange={noop}
+                  options={[
+                    {
+                      text: i18n('Preferences__who-can--everybody'),
+                      value: PhoneNumberDiscoverability.Discoverable,
+                    },
+                    {
+                      text: i18n('Preferences__who-can--nobody'),
+                      value: PhoneNumberDiscoverability.NotDiscoverable,
+                    },
+                  ]}
+                  value={whoCanFindMe}
+                />
+              }
+            />
+            <div className="Preferences__padding">
+              <div className="Preferences__description">
+                {i18n('Preferences__privacy--description')}
+              </div>
             </div>
-          </div>
-        </SettingsRow>
+          </SettingsRow>
+        ) : null}
         <SettingsRow title={i18n('Preferences--messaging')}>
           <Checkbox
             checked={hasReadReceipts}

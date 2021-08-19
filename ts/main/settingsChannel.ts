@@ -38,6 +38,7 @@ export class SettingsChannel {
     this.installCallback('getAvailableIODevices');
     this.installCallback('isPrimary');
     this.installCallback('syncRequest');
+    this.installCallback('isPhoneNumberSharingEnabled');
 
     // Getters only. These are set by the primary device
     this.installSetting('blockedCount', { setter: false });

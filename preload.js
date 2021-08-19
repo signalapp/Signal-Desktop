@@ -369,7 +369,6 @@ try {
   }, 1000);
 
   const { imageToBlurHash } = require('./ts/util/imageToBlurHash');
-  const { isGroupCallingEnabled } = require('./ts/util/isGroupCallingEnabled');
   const { isValidGuid } = require('./ts/util/isValidGuid');
   const { ActiveWindowService } = require('./ts/services/ActiveWindowService');
 
@@ -379,7 +378,6 @@ try {
   window.libphonenumber.PhoneNumberFormat = require('google-libphonenumber').PhoneNumberFormat;
   window.loadImage = require('blueimp-load-image');
   window.getGuid = require('uuid/v4');
-  window.isGroupCallingEnabled = isGroupCallingEnabled;
 
   const activeWindowService = new ActiveWindowService();
   activeWindowService.initialize(window.document, ipc);

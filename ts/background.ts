@@ -3298,11 +3298,9 @@ export async function startApp(): Promise<void> {
   ): boolean {
     if (message.groupCallUpdate) {
       if (message.groupV2 && messageDescriptor.type === Message.GROUP) {
-        if (window.isGroupCallingEnabled()) {
-          window.reduxActions.calling.peekNotConnectedGroupCall({
-            conversationId: messageDescriptor.id,
-          });
-        }
+        window.reduxActions.calling.peekNotConnectedGroupCall({
+          conversationId: messageDescriptor.id,
+        });
         return true;
       }
       window.log.warn(

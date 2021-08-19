@@ -102,6 +102,7 @@ const ipcGetAvailableIODevices = createCallback('getAvailableIODevices');
 const ipcGetCustomColors = createCallback('getCustomColors');
 const ipcIsSyncNotSupported = createCallback('isPrimary');
 const ipcMakeSyncRequest = createCallback('syncRequest');
+const ipcPNP = createCallback('isPhoneNumberSharingEnabled');
 
 // ChatColorPicker redux hookups
 // The redux actions update over IPC through a preferences re-render
@@ -179,6 +180,7 @@ async function renderPreferences() {
     hasRelayCalls,
     hasSpellCheck,
     hasTypingIndicators,
+    isPhoneNumberSharingSupported,
     lastSyncTime,
     notificationContent,
     selectedCamera,
@@ -213,6 +215,7 @@ async function renderPreferences() {
     hasRelayCalls: settingRelayCalls.getValue(),
     hasSpellCheck: settingSpellCheck.getValue(),
     hasTypingIndicators: settingTypingIndicators.getValue(),
+    isPhoneNumberSharingSupported: ipcPNP(),
     lastSyncTime: settingLastSyncTime.getValue(),
     notificationContent: settingNotificationSetting.getValue(),
     selectedCamera: settingVideoInput.getValue(),
@@ -301,6 +304,7 @@ async function renderPreferences() {
     isAutoLaunchSupported: Settings.isAutoLaunchSupported(),
     isHideMenuBarSupported: Settings.isHideMenuBarSupported(),
     isNotificationAttentionSupported: Settings.isDrawAttentionSupported(),
+    isPhoneNumberSharingSupported,
     isSyncSupported: !isSyncNotSupported,
     isSystemTraySupported: Settings.isSystemTraySupported(window.getVersion()),
 
