@@ -13693,26 +13693,11 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/conversation/ConversationHero.js",
-    "line": "    const previousHeightRef = react_1.useRef();",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-05-05T21:55:35.064Z",
-    "reasonDetail": "Doesn't refer to a DOM element."
-  },
-  {
-    "rule": "React-useRef",
     "path": "ts/components/conversation/ConversationHero.tsx",
     "line": "  const firstRenderRef = useRef(true);",
     "reasonCategory": "falseMatch",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Doesn't refer to a DOM element."
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/conversation/ConversationHero.tsx",
-    "line": "  const previousHeightRef = useRef<undefined | number>();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-07-30T16:57:33.618Z"
   },
   {
     "rule": "React-useRef",

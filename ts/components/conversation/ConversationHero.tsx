@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useEffect, useRef, useState } from 'react';
-import Measure from 'react-measure';
 import { Avatar, AvatarBlur, Props as AvatarProps } from '../Avatar';
 import { ContactName } from './ContactName';
 import { About } from './About';
@@ -11,7 +10,6 @@ import { SharedGroupNames } from '../SharedGroupNames';
 import { LocalizerType } from '../../types/Util';
 import { ConfirmationDialog } from '../ConfirmationDialog';
 import { Button, ButtonSize, ButtonVariant } from '../Button';
-import { assert } from '../../util/assert';
 import { shouldBlurAvatar } from '../../util/shouldBlurAvatar';
 
 export type Props = {
@@ -114,9 +112,6 @@ export const ConversationHero = ({
 }: Props): JSX.Element => {
   const firstRenderRef = useRef(true);
 
-  const previousHeightRef = useRef<undefined | number>();
-  const [height, setHeight] = useState<undefined | number>();
-
   const [
     isShowingMessageRequestWarning,
     setIsShowingMessageRequestWarning,
@@ -130,26 +125,29 @@ export const ConversationHero = ({
     updateSharedGroups();
   }, [updateSharedGroups]);
 
+  const sharedGroupNamesStringified = JSON.stringify(sharedGroupNames);
   useEffect(() => {
-    firstRenderRef.current = false;
-  }, []);
-
-  useEffect(() => {
-    // We only want to kick off a "height change" when the height goes from number to
-    //   number. We DON'T want to do it when we measure the height for the first time, as
-    //   this will cause a re-render loop.
-    const previousHeight = previousHeightRef.current;
-    if (previousHeight && height && previousHeight !== height) {
-      window.log.info(
-        `ConversationHero height changed from ${previousHeight} to ${height}`
-      );
-      onHeightChange?.();
+    const isFirstRender = firstRenderRef.current;
+    if (isFirstRender) {
+      firstRenderRef.current = false;
+      return;
     }
-  }, [height, onHeightChange]);
 
-  useEffect(() => {
-    previousHeightRef.current = height;
-  }, [height]);
+    window.log.info('ConversationHero: calling onHeightChange');
+    onHeightChange?.();
+  }, [
+    about,
+    conversationType,
+    groupDescription,
+    isMe,
+    membersCount,
+    name,
+    onHeightChange,
+    phoneNumber,
+    profileName,
+    title,
+    sharedGroupNamesStringified,
+  ]);
 
   let avatarBlur: AvatarBlur;
   let avatarOnClick: undefined | (() => void);
@@ -175,81 +173,71 @@ export const ConversationHero = ({
   /* eslint-disable no-nested-ternary */
   return (
     <>
-      <Measure
-        bounds
-        onResize={({ bounds }) => {
-          assert(bounds, 'We should be measuring the bounds');
-          setHeight(Math.ceil(bounds.height));
-        }}
-      >
-        {({ measureRef }) => (
-          <div className="module-conversation-hero" ref={measureRef}>
-            <Avatar
-              acceptedMessageRequest={acceptedMessageRequest}
-              avatarPath={avatarPath}
-              blur={avatarBlur}
-              className="module-conversation-hero__avatar"
-              color={color}
-              conversationType={conversationType}
-              i18n={i18n}
-              isMe={isMe}
-              name={name}
-              noteToSelf={isMe}
-              onClick={avatarOnClick}
-              profileName={profileName}
-              sharedGroupNames={sharedGroupNames}
-              size={112}
+      <div className="module-conversation-hero">
+        <Avatar
+          acceptedMessageRequest={acceptedMessageRequest}
+          avatarPath={avatarPath}
+          blur={avatarBlur}
+          className="module-conversation-hero__avatar"
+          color={color}
+          conversationType={conversationType}
+          i18n={i18n}
+          isMe={isMe}
+          name={name}
+          noteToSelf={isMe}
+          onClick={avatarOnClick}
+          profileName={profileName}
+          sharedGroupNames={sharedGroupNames}
+          size={112}
+          title={title}
+        />
+        <h1 className="module-conversation-hero__profile-name">
+          {isMe ? (
+            i18n('noteToSelf')
+          ) : (
+            <ContactName
               title={title}
+              name={name}
+              profileName={profileName}
+              phoneNumber={phoneNumber}
+              i18n={i18n}
             />
-            <h1 className="module-conversation-hero__profile-name">
-              {isMe ? (
-                i18n('noteToSelf')
-              ) : (
-                <ContactName
-                  title={title}
-                  name={name}
-                  profileName={profileName}
-                  phoneNumber={phoneNumber}
-                  i18n={i18n}
-                />
-              )}
-            </h1>
-            {about && !isMe && (
-              <div className="module-about__container">
-                <About text={about} />
-              </div>
-            )}
-            {!isMe ? (
-              <div className="module-conversation-hero__with">
-                {groupDescription ? (
-                  <GroupDescription
-                    i18n={i18n}
-                    title={title}
-                    text={groupDescription}
-                  />
-                ) : membersCount === 1 ? (
-                  i18n('ConversationHero--members-1')
-                ) : membersCount !== undefined ? (
-                  i18n('ConversationHero--members', [`${membersCount}`])
-                ) : phoneNumberOnly ? null : (
-                  phoneNumber
-                )}
-              </div>
-            ) : null}
-            {renderMembershipRow({
-              acceptedMessageRequest,
-              conversationType,
-              i18n,
-              isMe,
-              onClickMessageRequestWarning() {
-                setIsShowingMessageRequestWarning(true);
-              },
-              phoneNumber,
-              sharedGroupNames,
-            })}
+          )}
+        </h1>
+        {about && !isMe && (
+          <div className="module-about__container">
+            <About text={about} />
           </div>
         )}
-      </Measure>
+        {!isMe ? (
+          <div className="module-conversation-hero__with">
+            {groupDescription ? (
+              <GroupDescription
+                i18n={i18n}
+                title={title}
+                text={groupDescription}
+              />
+            ) : membersCount === 1 ? (
+              i18n('ConversationHero--members-1')
+            ) : membersCount !== undefined ? (
+              i18n('ConversationHero--members', [`${membersCount}`])
+            ) : phoneNumberOnly ? null : (
+              phoneNumber
+            )}
+          </div>
+        ) : null}
+        {renderMembershipRow({
+          acceptedMessageRequest,
+          conversationType,
+          i18n,
+          isMe,
+          onClickMessageRequestWarning() {
+            setIsShowingMessageRequestWarning(true);
+          },
+          phoneNumber,
+          sharedGroupNames,
+        })}
+      </div>
       {isShowingMessageRequestWarning && (
         <ConfirmationDialog
           i18n={i18n}
