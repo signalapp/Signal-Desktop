@@ -9,6 +9,7 @@ import { mn_decode } from '../../session/crypto/mnemonic';
 import { SessionWrapperModal } from '../session/SessionWrapperModal';
 import { SpacerLG, SpacerSM, SpacerXS } from '../basic/Text';
 import { recoveryPhraseModal } from '../../state/ducks/modalDialog';
+import { useDispatch } from 'react-redux';
 
 interface PasswordProps {
   setPasswordValid: (val: boolean) => any;
@@ -19,8 +20,9 @@ const Password = (props: PasswordProps) => {
   const { setPasswordValid, passwordHash } = props;
   const i18n = window.i18n;
   const [error, setError] = useState('');
+  const dispatch = useDispatch();
 
-  const onClose = () => window.inboxStore?.dispatch(recoveryPhraseModal(null));
+  const onClose = () => dispatch(recoveryPhraseModal(null));
 
   const confirmPassword = () => {
     const passwordValue = jQuery('#seed-input-password').val();
@@ -87,6 +89,7 @@ const Seed = (props: SeedProps) => {
   const i18n = window.i18n;
   const bgColor = '#FFFFFF';
   const fgColor = '#1B1B1B';
+  const dispatch = useDispatch();
 
   const hexEncodedSeed = mn_decode(recoveryPhrase, 'english');
 
@@ -96,7 +99,7 @@ const Seed = (props: SeedProps) => {
     if (onClickCopy) {
       onClickCopy();
     }
-    window.inboxStore?.dispatch(recoveryPhraseModal(null));
+    dispatch(recoveryPhraseModal(null));
   };
 
   return (
@@ -136,6 +139,7 @@ const SessionSeedModalInner = (props: ModalInnerProps) => {
   const [hasPassword, setHasPassword] = useState<null | boolean>(null);
   const [passwordValid, setPasswordValid] = useState(false);
   const [passwordHash, setPasswordHash] = useState('');
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setTimeout(() => ($('#seed-input-password') as any).focus(), 100);
@@ -145,7 +149,7 @@ const SessionSeedModalInner = (props: ModalInnerProps) => {
 
   const i18n = window.i18n;
 
-  const onClose = () => window.inboxStore?.dispatch(recoveryPhraseModal(null));
+  const onClose = () => dispatch(recoveryPhraseModal(null));
 
   const checkHasPassword = async () => {
     if (!loadingPassword) {

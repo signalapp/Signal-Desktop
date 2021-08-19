@@ -430,7 +430,6 @@
   "deviceOnly": "Device Only",
   "entireAccount": "Entire Account",
   "recoveryPhraseSecureTitle": "You're almost finished!",
-  "recoveryPhraseRevealMessage": "Secure your account by saving your recovery phrase. Reveal your recovery phrase then store it safely to secure it",
-  "recoveryPhraseRevealButtonText": "Reveal Recovery Phrase",
-  "recoveryPhraseCompleteTitle": "Account secured!"
+  "recoveryPhraseRevealMessage": "Secure your account by saving your recovery phrase. Reveal your recovery phrase then store it safely to secure it.",
+  "recoveryPhraseRevealButtonText": "Reveal Recovery Phrase"
 }
