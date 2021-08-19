@@ -43,6 +43,7 @@ export type PropsType = {
   defaultConversationColor: DefaultConversationColorType;
   deviceName?: string;
   hasAudioNotifications?: boolean;
+  hasAutoDownloadUpdate: boolean;
   hasAutoLaunch: boolean;
   hasCallNotifications: boolean;
   hasCallRingtoneNotification: boolean;
@@ -104,6 +105,7 @@ export type PropsType = {
 
   // Change handlers
   onAudioNotificationsChange: CheckboxChangeHandlerType;
+  onAutoDownloadUpdateChange: CheckboxChangeHandlerType;
   onAutoLaunchChange: CheckboxChangeHandlerType;
   onCallNotificationsChange: CheckboxChangeHandlerType;
   onCallRingtoneNotificationChange: CheckboxChangeHandlerType;
@@ -161,6 +163,7 @@ export const Preferences = ({
   editCustomColor,
   getConversationsWithCustomColor,
   hasAudioNotifications,
+  hasAutoDownloadUpdate,
   hasAutoLaunch,
   hasCallNotifications,
   hasCallRingtoneNotification,
@@ -191,6 +194,7 @@ export const Preferences = ({
   makeSyncRequest,
   notificationContent,
   onAudioNotificationsChange,
+  onAutoDownloadUpdateChange,
   onAutoLaunchChange,
   onCallNotificationsChange,
   onCallRingtoneNotificationChange,
@@ -338,6 +342,15 @@ export const Preferences = ({
             moduleClassName="Preferences__checkbox"
             name="mediaCameraPermissions"
             onChange={onMediaCameraPermissionsChange}
+          />
+        </SettingsRow>
+        <SettingsRow title={i18n('Preferences--updates')}>
+          <Checkbox
+            checked={hasAutoDownloadUpdate}
+            label={i18n('Preferences__download-update')}
+            moduleClassName="Preferences__checkbox"
+            name="autoDownloadUpdate"
+            onChange={onAutoDownloadUpdateChange}
           />
         </SettingsRow>
       </>

@@ -69,6 +69,7 @@ const createProps = (): PropsType => ({
   defaultConversationColor: DEFAULT_CONVERSATION_COLOR,
   deviceName: 'Work Windows ME',
   hasAudioNotifications: true,
+  hasAutoDownloadUpdate: true,
   hasAutoLaunch: true,
   hasCallNotifications: true,
   hasCallRingtoneNotification: false,
@@ -125,6 +126,7 @@ const createProps = (): PropsType => ({
   isSystemTraySupported: true,
 
   onAudioNotificationsChange: action('onAudioNotificationsChange'),
+  onAutoDownloadUpdateChange: action('onAutoDownloadUpdateChange'),
   onAutoLaunchChange: action('onAutoLaunchChange'),
   onCallNotificationsChange: action('onCallNotificationsChange'),
   onCallRingtoneNotificationChange: action('onCallRingtoneNotificationChange'),

@@ -7,7 +7,6 @@ import { BrowserWindow } from 'electron';
 import { UpdaterInterface } from './common';
 import { start as startMacOS } from './macos';
 import { start as startWindows } from './windows';
-import { LocaleType } from '../types/I18N';
 import { LoggerType } from '../types/Logging';
 
 let initialized = false;
@@ -16,7 +15,6 @@ let updater: UpdaterInterface | undefined;
 
 export async function start(
   getMainWindow: () => BrowserWindow,
-  locale?: LocaleType,
   logger?: LoggerType
 ): Promise<void> {
   const { platform } = process;
@@ -26,9 +24,6 @@ export async function start(
   }
   initialized = true;
 
-  if (!locale) {
-    throw new Error('updater/start: Must provide locale!');
-  }
   if (!logger) {
     throw new Error('updater/start: Must provide logger!');
   }
@@ -42,9 +37,9 @@ export async function start(
   }
 
   if (platform === 'win32') {
-    updater = await startWindows(getMainWindow, locale, logger);
+    updater = await startWindows(getMainWindow, logger);
   } else if (platform === 'darwin') {
-    updater = await startMacOS(getMainWindow, locale, logger);
+    updater = await startMacOS(getMainWindow, logger);
   } else {
     throw new Error('updater/start: Unsupported platform');
   }

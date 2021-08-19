@@ -12,6 +12,9 @@ import { LocalizerType } from '../types/Util';
 export type Props = {
   readonly i18n: LocalizerType;
 
+  hasPendingUpdate: boolean;
+  startUpdate: () => unknown;
+
   onEditProfile: () => unknown;
   onViewPreferences: () => unknown;
   onViewArchive: () => unknown;
@@ -23,15 +26,17 @@ export type Props = {
 
 export const AvatarPopup = (props: Props): JSX.Element => {
   const {
+    hasPendingUpdate,
     i18n,
     name,
-    profileName,
-    phoneNumber,
-    title,
     onEditProfile,
-    onViewPreferences,
     onViewArchive,
+    onViewPreferences,
+    phoneNumber,
+    profileName,
+    startUpdate,
     style,
+    title,
   } = props;
 
   const shouldShowNumber = Boolean(name || profileName);
@@ -92,6 +97,24 @@ export const AvatarPopup = (props: Props): JSX.Element => {
           {i18n('avatarMenuViewArchive')}
         </div>
       </button>
+      {hasPendingUpdate && (
+        <button
+          type="button"
+          className="module-avatar-popup__item"
+          onClick={startUpdate}
+        >
+          <div
+            className={classNames(
+              'module-avatar-popup__item__icon',
+              'module-avatar-popup__item__icon--update'
+            )}
+          />
+          <div className="module-avatar-popup__item__text">
+            {i18n('avatarMenuUpdateAvailable')}
+          </div>
+          <div className="module-avatar-popup__item--badge" />
+        </button>
+      )}
     </div>
   );
 };

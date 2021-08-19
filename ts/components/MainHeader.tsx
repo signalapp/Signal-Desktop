@@ -37,6 +37,7 @@ export type PropsType = {
   profileName?: string;
   title: string;
   avatarPath?: string;
+  hasPendingUpdate: boolean;
 
   i18n: LocalizerType;
 
@@ -59,6 +60,7 @@ export type PropsType = {
       noteToSelf: string;
     }
   ) => void;
+  startUpdate: () => unknown;
   clearConversationSearch: () => void;
   clearSearch: () => void;
 
@@ -342,16 +344,18 @@ export class MainHeader extends React.Component<PropsType, StateType> {
       avatarPath,
       color,
       disabled,
+      hasPendingUpdate,
       i18n,
       name,
-      startComposing,
       phoneNumber,
       profileName,
-      title,
       searchConversationId,
       searchConversationName,
       searchTerm,
       showArchivedConversations,
+      startComposing,
+      startUpdate,
+      title,
       toggleProfileEditor,
     } = this.props;
     const { showingAvatarPopup, popperRoot } = this.state;
@@ -369,25 +373,30 @@ export class MainHeader extends React.Component<PropsType, StateType> {
         <Manager>
           <Reference>
             {({ ref }) => (
-              <Avatar
-                acceptedMessageRequest
-                avatarPath={avatarPath}
-                className="module-main-header__avatar"
-                color={color}
-                conversationType="direct"
-                i18n={i18n}
-                isMe
-                name={name}
-                phoneNumber={phoneNumber}
-                profileName={profileName}
-                title={title}
-                // `sharedGroupNames` makes no sense for yourself, but `<Avatar>` needs it
-                //   to determine blurring.
-                sharedGroupNames={[]}
-                size={28}
-                innerRef={ref}
-                onClick={this.showAvatarPopup}
-              />
+              <div className="module-main-header__avatar--container">
+                <Avatar
+                  acceptedMessageRequest
+                  avatarPath={avatarPath}
+                  className="module-main-header__avatar"
+                  color={color}
+                  conversationType="direct"
+                  i18n={i18n}
+                  isMe
+                  name={name}
+                  phoneNumber={phoneNumber}
+                  profileName={profileName}
+                  title={title}
+                  // `sharedGroupNames` makes no sense for yourself, but
+                  // `<Avatar>` needs it to determine blurring.
+                  sharedGroupNames={[]}
+                  size={28}
+                  innerRef={ref}
+                  onClick={this.showAvatarPopup}
+                />
+                {hasPendingUpdate && (
+                  <div className="module-main-header__avatar--badged" />
+                )}
+              </div>
             )}
           </Reference>
           {showingAvatarPopup && popperRoot
@@ -408,6 +417,8 @@ export class MainHeader extends React.Component<PropsType, StateType> {
                       title={title}
                       avatarPath={avatarPath}
                       size={28}
+                      hasPendingUpdate={hasPendingUpdate}
+                      startUpdate={startUpdate}
                       // See the comment above about `sharedGroupNames`.
                       sharedGroupNames={[]}
                       onEditProfile={() => {

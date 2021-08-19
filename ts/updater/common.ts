@@ -9,6 +9,7 @@ import {
 } from 'fs';
 import { join, normalize } from 'path';
 import { tmpdir } from 'os';
+import { throttle } from 'lodash';
 
 import { createParser, ParserConfiguration } from 'dashdash';
 import ProxyAgent from 'proxy-agent';
@@ -20,10 +21,10 @@ import { v4 as getGuid } from 'uuid';
 import pify from 'pify';
 import mkdirp from 'mkdirp';
 import rimraf from 'rimraf';
-import { app, BrowserWindow, dialog, ipcMain } from 'electron';
+import { app, BrowserWindow, ipcMain } from 'electron';
 
 import { getTempPath } from '../../app/attachments';
-import { Dialogs } from '../types/Dialogs';
+import { DialogType } from '../types/Dialogs';
 import { getUserAgent } from '../util/getUserAgent';
 import { isAlpha, isBeta } from '../util/version';
 
@@ -31,7 +32,6 @@ import * as packageJson from '../../package.json';
 import { getSignatureFileName } from './signature';
 import { isPathInside } from '../util/isPathInside';
 
-import { LocaleType } from '../types/I18N';
 import { LoggerType } from '../types/Logging';
 
 const writeFile = pify(writeFileCallback);
@@ -39,24 +39,40 @@ const mkdirpPromise = pify(mkdirp);
 const rimrafPromise = pify(rimraf);
 const { platform } = process;
 
-export const ACK_RENDER_TIMEOUT = 10000;
 export const GOT_CONNECT_TIMEOUT = 2 * 60 * 1000;
 export const GOT_LOOKUP_TIMEOUT = 2 * 60 * 1000;
 export const GOT_SOCKET_TIMEOUT = 2 * 60 * 1000;
+
+type JSONUpdateSchema = {
+  version: string;
+  files: Array<{
+    url: string;
+    sha512: string;
+    size: string;
+    blockMapSize?: string;
+  }>;
+  path: string;
+  sha512: string;
+  releaseDate: string;
+};
 
 export type UpdaterInterface = {
   force(): Promise<void>;
 };
 
+export type UpdateInformationType = {
+  fileName: string;
+  size: number;
+  version: string;
+};
+
 export async function checkForUpdates(
   logger: LoggerType,
   forceUpdate = false
-): Promise<{
-  fileName: string;
-  version: string;
-} | null> {
+): Promise<UpdateInformationType | null> {
   const yaml = await getUpdateYaml();
-  const version = getVersion(yaml);
+  const parsedYaml = parseYaml(yaml);
+  const version = getVersion(parsedYaml);
 
   if (!version) {
     logger.warn('checkForUpdates: no version extracted from downloaded yaml');
@@ -70,8 +86,11 @@ export async function checkForUpdates(
         `forceUpdate=${forceUpdate}`
     );
 
+    const fileName = getUpdateFileName(parsedYaml);
+
     return {
-      fileName: getUpdateFileName(yaml),
+      fileName,
+      size: getSize(parsedYaml, fileName),
       version,
     };
   }
@@ -95,7 +114,8 @@ export function validatePath(basePath: string, targetPath: string): void {
 
 export async function downloadUpdate(
   fileName: string,
-  logger: LoggerType
+  logger: LoggerType,
+  mainWindow?: BrowserWindow
 ): Promise<string> {
   const baseUrl = getUpdatesBase();
   const updateFileUrl = `${baseUrl}/${fileName}`;
@@ -121,6 +141,23 @@ export async function downloadUpdate(
     const writeStream = createWriteStream(targetUpdatePath);
 
     await new Promise<void>((resolve, reject) => {
+      if (mainWindow) {
+        let downloadedSize = 0;
+
+        const throttledSend = throttle(() => {
+          mainWindow.webContents.send(
+            'show-update-dialog',
+            DialogType.Downloading,
+            { downloadedSize }
+          );
+        }, 500);
+
+        downloadStream.on('data', data => {
+          downloadedSize += data.length;
+          throttledSend();
+        });
+      }
+
       downloadStream.on('error', error => {
         reject(error);
       });
@@ -142,106 +179,6 @@ export async function downloadUpdate(
     }
     throw error;
   }
-}
-
-let showingUpdateDialog = false;
-
-async function showFallbackUpdateDialog(
-  mainWindow: BrowserWindow,
-  locale: LocaleType
-): Promise<boolean> {
-  if (showingUpdateDialog) {
-    return false;
-  }
-
-  const RESTART_BUTTON = 0;
-  const LATER_BUTTON = 1;
-  const options = {
-    type: 'info',
-    buttons: [
-      locale.messages.autoUpdateRestartButtonLabel.message,
-      locale.messages.autoUpdateLaterButtonLabel.message,
-    ],
-    title: locale.messages.autoUpdateNewVersionTitle.message,
-    message: locale.messages.autoUpdateNewVersionMessage.message,
-    detail: locale.messages.autoUpdateNewVersionInstructions.message,
-    defaultId: LATER_BUTTON,
-    cancelId: LATER_BUTTON,
-  };
-
-  showingUpdateDialog = true;
-
-  const { response } = await dialog.showMessageBox(mainWindow, options);
-
-  showingUpdateDialog = false;
-
-  return response === RESTART_BUTTON;
-}
-
-export function showUpdateDialog(
-  mainWindow: BrowserWindow,
-  locale: LocaleType,
-  performUpdateCallback: () => void
-): void {
-  let ack = false;
-
-  ipcMain.once('show-update-dialog-ack', () => {
-    ack = true;
-  });
-
-  mainWindow.webContents.send('show-update-dialog', Dialogs.Update);
-
-  setTimeout(async () => {
-    if (!ack) {
-      const shouldUpdate = await showFallbackUpdateDialog(mainWindow, locale);
-      if (shouldUpdate) {
-        performUpdateCallback();
-      }
-    }
-  }, ACK_RENDER_TIMEOUT);
-}
-
-let showingCannotUpdateDialog = false;
-
-async function showFallbackCannotUpdateDialog(
-  mainWindow: BrowserWindow,
-  locale: LocaleType
-): Promise<void> {
-  if (showingCannotUpdateDialog) {
-    return;
-  }
-
-  const options = {
-    type: 'error',
-    buttons: [locale.messages.ok.message],
-    title: locale.messages.cannotUpdate.message,
-    message: locale.i18n('cannotUpdateDetail', ['https://signal.org/download']),
-  };
-
-  showingCannotUpdateDialog = true;
-
-  await dialog.showMessageBox(mainWindow, options);
-
-  showingCannotUpdateDialog = false;
-}
-
-export function showCannotUpdateDialog(
-  mainWindow: BrowserWindow,
-  locale: LocaleType
-): void {
-  let ack = false;
-
-  ipcMain.once('show-update-dialog-ack', () => {
-    ack = true;
-  });
-
-  mainWindow.webContents.send('show-update-dialog', Dialogs.Cannot_Update);
-
-  setTimeout(async () => {
-    if (!ack) {
-      await showFallbackCannotUpdateDialog(mainWindow, locale);
-    }
-  }, ACK_RENDER_TIMEOUT);
 }
 
 // Helper functions
@@ -288,9 +225,7 @@ function isVersionNewer(newVersion: string): boolean {
   return gt(newVersion, version);
 }
 
-export function getVersion(yaml: string): string | null {
-  const info = parseYaml(yaml);
-
+export function getVersion(info: JSONUpdateSchema): string | null {
   return info && info.version;
 }
 
@@ -299,11 +234,7 @@ export function isUpdateFileNameValid(name: string): boolean {
   return validFile.test(name);
 }
 
-// Reliant on third party parser that returns any
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function getUpdateFileName(yaml: string): any {
-  const info = parseYaml(yaml);
-
+export function getUpdateFileName(info: JSONUpdateSchema): string {
   if (!info || !info.path) {
     throw new Error('getUpdateFileName: No path present in YAML file');
   }
@@ -318,9 +249,17 @@ export function getUpdateFileName(yaml: string): any {
   return path;
 }
 
-// Reliant on third party parser that returns any
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function parseYaml(yaml: string): any {
+function getSize(info: JSONUpdateSchema, fileName: string): number {
+  if (!info || !info.files) {
+    throw new Error('getUpdateFileName: No files present in YAML file');
+  }
+
+  const foundFile = info.files.find(file => file.url === fileName);
+
+  return Number(foundFile?.size) || 0;
+}
+
+export function parseYaml(yaml: string): JSONUpdateSchema {
   return safeLoad(yaml, { schema: FAILSAFE_SCHEMA, json: true });
 }
 
@@ -412,4 +351,22 @@ export function getCliOptions<T>(options: ParserConfiguration['options']): T {
 
 export function setUpdateListener(performUpdateCallback: () => void): void {
   ipcMain.once('start-update', performUpdateCallback);
+}
+
+export function getAutoDownloadUpdateSetting(
+  mainWindow: BrowserWindow
+): Promise<boolean> {
+  return new Promise((resolve, reject) => {
+    ipcMain.once(
+      'settings:get-success:autoDownloadUpdate',
+      (_, error, value: boolean) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(value);
+        }
+      }
+    );
+    mainWindow.webContents.send('settings:get:autoDownloadUpdate');
+  });
 }

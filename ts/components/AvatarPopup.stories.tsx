@@ -36,6 +36,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
     conversationTypeMap,
     overrideProps.conversationType || 'direct'
   ),
+  hasPendingUpdate: Boolean(overrideProps.hasPendingUpdate),
   i18n,
   isMe: true,
   name: text('name', overrideProps.name || ''),
@@ -47,6 +48,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   profileName: text('profileName', overrideProps.profileName || ''),
   sharedGroupNames: [],
   size: 80,
+  startUpdate: action('startUpdate'),
   style: {},
   title: text('title', overrideProps.title || ''),
 });
@@ -79,6 +81,14 @@ stories.add('Phone Number', () => {
   const props = createProps({
     profileName: 'Sam Neill',
     phoneNumber: '(555) 867-5309',
+  });
+
+  return <AvatarPopup {...props} />;
+});
+
+stories.add('Update Available', () => {
+  const props = createProps({
+    hasPendingUpdate: true,
   });
 
   return <AvatarPopup {...props} />;

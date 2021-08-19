@@ -3683,6 +3683,21 @@ button.module-conversation-details__action-button {
 
   &__avatar {
     -webkit-app-region: no-drag;
+
+    &--container {
+      position: relative;
+    }
+
+    &--badged {
+      background: $color-ultramarine;
+      border-radius: 100%;
+      border: 1px solid $color-white;
+      height: 8px;
+      width: 8px;
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
   }
 
   &__search {
@@ -7781,79 +7796,6 @@ button.module-image__border-overlay:focus {
   }
 }
 
-.module-left-pane-dialog {
-  background: $color-accent-green;
-  color: $color-white;
-  padding: 16px;
-
-  .module-left-pane-dialog__message {
-    h3 {
-      @include font-body-1-bold;
-      padding: 0px;
-      margin: 0px;
-      margin-bottom: 8px;
-    }
-    span {
-      @include font-body-1;
-      display: inline-block;
-    }
-  }
-
-  .module-left-pane-dialog__actions {
-    margin-top: 8px;
-    text-align: right;
-
-    .module-left-pane-dialog__link {
-      @include keyboard-mode {
-        display: inline-block;
-        outline: 0;
-      }
-    }
-
-    button {
-      background: inherit;
-      border-radius: 20px;
-      border: solid 1px $color-white;
-      color: $color-white;
-      cursor: pointer;
-      font-family: inherit;
-      margin: 0 4px;
-      padding: 8px 16px;
-      outline: 0;
-
-      &:focus {
-        @include keyboard-mode {
-          box-shadow: 0 0 0 3px $color-ultramarine;
-        }
-      }
-
-      &:hover {
-        @include mouse-mode {
-          box-shadow: 0 0 0 3px $color-ultramarine;
-        }
-      }
-    }
-
-    .module-left-pane-dialog__button--no-border {
-      border: none;
-    }
-  }
-
-  &.module-left-pane-dialog--error {
-    background-color: $color-accent-red;
-  }
-
-  &.module-left-pane-dialog--warning {
-    background-color: $color-accent-yellow;
-    color: $color-black;
-
-    button {
-      border-color: $color-black;
-      color: $color-black;
-    }
-  }
-}
-
 // Module: Emoji Picker
 
 %module-emoji-picker--ribbon {
@@ -8740,6 +8682,15 @@ button.module-image__border-overlay:focus {
 
   height: 16px;
   width: 16px;
+
+  &--update {
+    @include light-theme {
+      @include color-svg('../images/icons/v2/refresh-24.svg', $color-gray-75);
+    }
+    @include dark-theme {
+      @include color-svg('../images/icons/v2/refresh-24.svg', $color-gray-15);
+    }
+  }
 }
 .module-avatar-popup__item__icon-settings {
   @include light-theme {
@@ -8771,7 +8722,16 @@ button.module-image__border-overlay:focus {
 }
 
 .module-avatar-popup__item__text {
+  flex-grow: 1;
   margin-left: 8px;
+}
+
+.module-avatar-popup__item--badge {
+  background: $color-ultramarine;
+  border-radius: 100%;
+  height: 8px;
+  margin-right: 10px;
+  width: 8px;
 }
 
 // Module: Shortcut Guide Modal

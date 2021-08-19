@@ -10,7 +10,7 @@ type PropsType = {
   i18n: LocalizerType;
 };
 
-export const ExpiredBuildDialog = ({
+export const DialogExpiredBuild = ({
   hasExpired,
   i18n,
 }: PropsType): JSX.Element | null => {
@@ -19,19 +19,17 @@ export const ExpiredBuildDialog = ({
   }
 
   return (
-    <div className="module-left-pane-dialog module-left-pane-dialog--error">
-      {i18n('expiredWarning')}
-      <div className="module-left-pane-dialog__actions">
+    <div className="LeftPaneDialog LeftPaneDialog--error">
+      <div className="LeftPaneDialog__message">
+        {i18n('expiredWarning')}{' '}
         <a
-          className="module-left-pane-dialog__link"
+          className="LeftPaneDialog__action-text"
           href="https://signal.org/download/"
           rel="noreferrer"
           tabIndex={-1}
           target="_blank"
         >
-          <button type="button" className="upgrade">
-            {i18n('upgrade')}
-          </button>
+          {i18n('upgrade')}
         </a>
       </div>
     </div>

@@ -61,6 +61,7 @@ export class SettingsChannel {
       isEphemeral: true,
     });
 
+    this.installSetting('autoDownloadUpdate');
     this.installSetting('autoLaunch');
 
     this.installSetting('alwaysRelayCalls');

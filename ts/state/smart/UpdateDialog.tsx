@@ -3,7 +3,7 @@
 
 import { connect } from 'react-redux';
 import { mapDispatchToProps } from '../actions';
-import { UpdateDialog } from '../../components/UpdateDialog';
+import { DialogUpdate } from '../../components/DialogUpdate';
 import { StateType } from '../reducer';
 import { getIntl } from '../selectors/user';
 import { hasNetworkDialog } from '../selectors/network';
@@ -18,4 +18,4 @@ const mapStateToProps = (state: StateType) => {
 
 const smart = connect(mapStateToProps, mapDispatchToProps);
 
-export const SmartUpdateDialog = smart(UpdateDialog);
+export const SmartUpdateDialog = smart(DialogUpdate);

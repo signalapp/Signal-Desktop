@@ -33,6 +33,7 @@ export type NotificationSettingType = 'message' | 'name' | 'count' | 'off';
 export type StorageAccessType = {
   'always-relay-calls': boolean;
   'audio-notification': boolean;
+  'auto-download-update': boolean;
   'badge-count-muted-conversations': boolean;
   'blocked-groups': Array<string>;
   'blocked-uuids': Array<string>;

@@ -45,6 +45,7 @@ window.getVersion = () => String(config.version);
 window.i18n = i18n.setup(locale, localeMessages);
 
 const settingAudioNotification = createSetting('audioNotification');
+const settingAutoDownloadUpdate = createSetting('autoDownloadUpdate');
 const settingAutoLaunch = createSetting('autoLaunch');
 const settingCallRingtoneNotification = createSetting(
   'callRingtoneNotification'
@@ -166,6 +167,7 @@ async function renderPreferences() {
     blockedCount,
     deviceName,
     hasAudioNotifications,
+    hasAutoDownloadUpdate,
     hasAutoLaunch,
     hasCallNotifications,
     hasCallRingtoneNotification,
@@ -201,6 +203,7 @@ async function renderPreferences() {
     blockedCount: settingBlockedCount.getValue(),
     deviceName: settingDeviceName.getValue(),
     hasAudioNotifications: settingAudioNotification.getValue(),
+    hasAutoDownloadUpdate: settingAutoDownloadUpdate.getValue(),
     hasAutoLaunch: settingAutoLaunch.getValue(),
     hasCallNotifications: settingCallSystemNotification.getValue(),
     hasCallRingtoneNotification: settingCallRingtoneNotification.getValue(),
@@ -256,6 +259,7 @@ async function renderPreferences() {
     defaultConversationColor,
     deviceName,
     hasAudioNotifications,
+    hasAutoDownloadUpdate,
     hasAutoLaunch,
     hasCallNotifications,
     hasCallRingtoneNotification,
@@ -310,6 +314,7 @@ async function renderPreferences() {
 
     // Change handlers
     onAudioNotificationsChange: reRender(settingAudioNotification.setValue),
+    onAutoDownloadUpdateChange: reRender(settingAutoDownloadUpdate.setValue),
     onAutoLaunchChange: reRender(settingAutoLaunch.setValue),
     onCallNotificationsChange: reRender(settingCallSystemNotification.setValue),
     onCallRingtoneNotificationChange: reRender(

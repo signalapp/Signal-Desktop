@@ -3,6 +3,7 @@
 
 import React from 'react';
 
+import { Spinner } from './Spinner';
 import { LocalizerType } from '../types/Util';
 import { SocketStatus } from '../types/SocketStatus';
 import { NetworkStateType } from '../state/ducks/network';
@@ -16,28 +17,42 @@ export type PropsType = NetworkStateType & {
 };
 
 type RenderDialogTypes = {
+  isConnecting?: boolean;
   title: string;
   subtext: string;
   renderActionableButton?: () => JSX.Element;
 };
 
 function renderDialog({
+  isConnecting,
   title,
   subtext,
   renderActionableButton,
 }: RenderDialogTypes): JSX.Element {
   return (
-    <div className="module-left-pane-dialog module-left-pane-dialog--warning">
-      <div className="module-left-pane-dialog__message">
+    <div className="LeftPaneDialog LeftPaneDialog--warning">
+      {isConnecting ? (
+        <div className="LeftPaneDialog__spinner-container">
+          <Spinner
+            direction="on-avatar"
+            moduleClassName="LeftPaneDialog__spinner"
+            size="22px"
+            svgSize="small"
+          />
+        </div>
+      ) : (
+        <div className="LeftPaneDialog__icon LeftPaneDialog__icon--network" />
+      )}
+      <div className="LeftPaneDialog__message">
         <h3>{title}</h3>
         <span>{subtext}</span>
+        <div>{renderActionableButton && renderActionableButton()}</div>
       </div>
-      {renderActionableButton && renderActionableButton()}
     </div>
   );
 }
 
-export const NetworkStatus = ({
+export const DialogNetworkStatus = ({
   hasNetworkDialog,
   i18n,
   isOnline,
@@ -75,19 +90,23 @@ export const NetworkStatus = ({
   };
 
   const manualReconnectButton = (): JSX.Element => (
-    <div className="module-left-pane-dialog__actions">
-      <button onClick={reconnect} type="button">
-        {i18n('connect')}
-      </button>
-    </div>
+    <button
+      className="LeftPaneDialog__action-text"
+      onClick={reconnect}
+      type="button"
+    >
+      {i18n('connect')}
+    </button>
   );
 
   if (isConnecting) {
     return renderDialog({
+      isConnecting: true,
       subtext: i18n('connectingHangOn'),
       title: i18n('connecting'),
     });
   }
+
   if (!isOnline) {
     return renderDialog({
       renderActionableButton: manualReconnectButton,
@@ -114,6 +133,7 @@ export const NetworkStatus = ({
   }
 
   return renderDialog({
+    isConnecting: socketStatus === SocketStatus.CONNECTING,
     renderActionableButton,
     subtext,
     title,

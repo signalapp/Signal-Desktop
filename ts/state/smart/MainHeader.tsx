@@ -25,6 +25,7 @@ import { getMe, getSelectedConversation } from '../selectors/conversations';
 const mapStateToProps = (state: StateType) => {
   return {
     disabled: state.network.challengeStatus !== 'idle',
+    hasPendingUpdate: Boolean(state.updates.didSnooze),
     searchTerm: getQuery(state),
     searchConversationId: getSearchConversationId(state),
     searchConversationName: getSearchConversationName(state),

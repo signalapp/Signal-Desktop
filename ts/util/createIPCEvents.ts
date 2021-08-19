@@ -35,6 +35,7 @@ type NotificationSettingType = 'message' | 'name' | 'count' | 'off';
 export type IPCEventsValuesType = {
   alwaysRelayCalls: boolean | undefined;
   audioNotification: boolean | undefined;
+  autoDownloadUpdate: boolean;
   autoLaunch: boolean;
   callRingtoneNotification: boolean;
   callSystemNotification: boolean;
@@ -252,6 +253,10 @@ export function createIPCEvents(
       window.storage.get('typingIndicators', false),
 
     // Configurable settings
+    getAutoDownloadUpdate: () =>
+      window.storage.get('auto-download-update', true),
+    setAutoDownloadUpdate: value =>
+      window.storage.put('auto-download-update', value),
     getThemeSetting: () =>
       window.storage.get(
         'theme-setting',

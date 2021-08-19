@@ -93,6 +93,8 @@
         model: { window: options.window },
       });
 
+      this.renderWhatsNew();
+
       Whisper.events.on('refreshConversation', ({ oldId, newId }) => {
         const convo = this.conversation_stack.lastConversation;
         if (convo && convo.get('id') === oldId) {
@@ -152,6 +154,18 @@
     },
     events: {
       click: 'onClick',
+    },
+    renderWhatsNew() {
+      if (this.whatsNewView) {
+        return;
+      }
+      this.whatsNewView = new Whisper.ReactWrapperView({
+        Component: window.Signal.Components.WhatsNew,
+        props: {
+          i18n: window.i18n,
+        },
+      });
+      this.$('.whats-new-placeholder').append(this.whatsNewView.el);
     },
     setupLeftPane() {
       if (this.leftPaneView) {

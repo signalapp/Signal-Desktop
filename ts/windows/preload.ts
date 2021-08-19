@@ -39,6 +39,7 @@ installSetting('typingIndicatorSetting', {
 
 installSetting('alwaysRelayCalls');
 installSetting('audioNotification');
+installSetting('autoDownloadUpdate');
 installSetting('autoLaunch');
 installSetting('countMutedConversations');
 installSetting('callRingtoneNotification');

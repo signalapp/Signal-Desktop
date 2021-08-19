@@ -21,12 +21,12 @@ export const RelinkDialog = ({
   }
 
   return (
-    <div className="module-left-pane-dialog module-left-pane-dialog--warning">
-      <div className="module-left-pane-dialog__message">
+    <div className="LeftPaneDialog LeftPaneDialog--warning">
+      <div className="LeftPaneDialog__message">
         <h3>{i18n('unlinked')}</h3>
         <span>{i18n('unlinkedWarning')}</span>
       </div>
-      <div className="module-left-pane-dialog__actions">
+      <div className="LeftPaneDialog__actions">
         <button onClick={relinkDevice} type="button">
           {i18n('relink')}
         </button>

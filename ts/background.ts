@@ -888,8 +888,7 @@ export async function startApp(): Promise<void> {
         window.reduxActions.network
       );
       window.Signal.Services.initializeUpdateListener(
-        window.reduxActions.updates,
-        window.Whisper.events
+        window.reduxActions.updates
       );
       window.Signal.Services.calling.initialize(
         window.reduxActions.calling,

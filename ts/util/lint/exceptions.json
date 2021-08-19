@@ -432,12 +432,26 @@
     "updated": "2021-06-15T23:46:51.629Z"
   },
   {
+    "rule": "jQuery-$(",
+    "path": "js/views/inbox_view.js",
+    "line": "      this.$('.whats-new-placeholder').append(this.whatsNewView.el);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-08-17T01:37:13.116Z"
+  },
+  {
     "rule": "jQuery-append(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.left-pane-placeholder').append(this.leftPaneView.el);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-02-26T18:44:56.450Z",
     "reasonDetail": "Adding sub-view to DOM"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "js/views/inbox_view.js",
+    "line": "      this.$('.whats-new-placeholder').append(this.whatsNewView.el);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-08-17T01:37:13.116Z"
   },
   {
     "rule": "jQuery-appendTo(",

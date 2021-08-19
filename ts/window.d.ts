@@ -103,6 +103,7 @@ import { ProgressModal } from './components/ProgressModal';
 import { Quote } from './components/conversation/Quote';
 import { StagedLinkPreview } from './components/conversation/StagedLinkPreview';
 import { DisappearingTimeDialog } from './components/DisappearingTimeDialog';
+import { WhatsNew } from './components/WhatsNew';
 import { MIMEType } from './types/MIME';
 import { DownloadedAttachmentType } from './types/Attachment';
 import { ElectronLocaleType } from './util/mapToSupportLocale';
@@ -298,11 +299,8 @@ declare global {
         enableStorageService: () => boolean;
         eraseAllStorageServiceState: () => Promise<void>;
         initializeGroupCredentialFetcher: () => void;
-        initializeNetworkObserver: (network: WhatIsThis) => void;
-        initializeUpdateListener: (
-          updates: WhatIsThis,
-          events: WhatIsThis
-        ) => void;
+        initializeNetworkObserver: (network: ReduxActions['network']) => void;
+        initializeUpdateListener: (updates: ReduxActions['updates']) => void;
         onTimeout: (timestamp: number, cb: () => void, id?: string) => string;
         removeTimeout: (uuid: string) => void;
         retryPlaceholders?: Util.RetryPlaceholders;
@@ -420,6 +418,7 @@ declare global {
         ConfirmationDialog: typeof ConfirmationDialog;
         ContactDetail: typeof ContactDetail;
         ContactModal: typeof ContactModal;
+        DisappearingTimeDialog: typeof DisappearingTimeDialog;
         ErrorModal: typeof ErrorModal;
         Lightbox: typeof Lightbox;
         LightboxGallery: typeof LightboxGallery;
@@ -428,7 +427,7 @@ declare global {
         ProgressModal: typeof ProgressModal;
         Quote: typeof Quote;
         StagedLinkPreview: typeof StagedLinkPreview;
-        DisappearingTimeDialog: typeof DisappearingTimeDialog;
+        WhatsNew: typeof WhatsNew;
       };
       OS: typeof OS;
       Workflow: {

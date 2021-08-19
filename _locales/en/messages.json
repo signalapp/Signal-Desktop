@@ -183,6 +183,10 @@
     "message": "Chat Color",
     "description": "One of the menu options available in the Avatar Popup menu"
   },
+  "avatarMenuUpdateAvailable": {
+    "message": "Update Signal",
+    "description": "One of the menu options available in the Avatar Popup menu"
+  },
   "loading": {
     "message": "Loading...",
     "description": "Message shown on the loading screen before we've loaded any messages"
@@ -640,15 +644,15 @@
     "description": "Displayed when the desktop client cannot connect to the server."
   },
   "connecting": {
-    "message": "Connecting",
+    "message": "Connecting...",
     "description": "Displayed when the desktop client is currently connecting to the server."
   },
   "connect": {
-    "message": "Connect",
+    "message": "Click to reconnect.",
     "description": "Shown to allow the user to manually attempt a reconnect."
   },
   "connectingHangOn": {
-    "message": "Shouldn't be long...",
+    "message": "Shouldn't be long",
     "description": "Subtext description for when the client is connecting to the server."
   },
   "offline": {
@@ -795,6 +799,20 @@
   },
   "welcomeToSignal": {
     "message": "Welcome to Signal"
+  },
+  "whatsNew": {
+    "message": "See $whatsNew$ in this update",
+    "description": "Shown in the main window",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "what's new"
+      }
+    }
+  },
+  "viewReleaseNotes": {
+    "message": "what's new",
+    "description": "Clickable link that displays the latest release notes"
   },
   "selectAContact": {
     "message": "Select a contact or group to start chatting."
@@ -1791,7 +1809,7 @@
     "description": "Warning notification that this version of the app has expired"
   },
   "upgrade": {
-    "message": "Upgrade",
+    "message": "Click to go to signal.org/download",
     "description": "Label text for button to upgrade the app to the latest version"
   },
   "mediaMessage": {
@@ -2210,10 +2228,13 @@
     "message": "Relink"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Signal update available"
+    "message": "Update available"
   },
   "autoUpdateNewVersionMessage": {
-    "message": "There is a new version of Signal available."
+    "message": "Click to restart Signal"
+  },
+  "downloadNewVersionMessage": {
+    "message": "Click to download update"
   },
   "autoUpdateNewVersionInstructions": {
     "message": "Press Restart Signal to apply the updates."
@@ -6091,5 +6112,43 @@
   "Preferences--typing-indicators": {
     "message": "Typing indicators",
     "description": "Label for the typing indicators setting"
+  },
+  "Preferences--updates": {
+    "message": "Updates",
+    "description": "Header for settings having to do with updates"
+  },
+  "Preferences__download-update": {
+    "message": "Automatically download updates",
+    "description": "Label for checkbox for the auto download updates setting"
+  },
+  "DialogUpdate--version-available": {
+    "message": "Update to version $version$ available",
+    "description": "Tooltip for new update available",
+    "placeholders": {
+      "status": {
+        "content": "$1",
+        "example": "v7.7.7"
+      }
+    }
+  },
+  "WhatsNew__v5.15--1": {
+    "message": "No that's not speck of dust you need to flick off your monitor, there's now a dot for unplayed incoming audio messages.",
+    "description": "Release notes for v5.15"
+  },
+  "WhatsNew__v5.15--2": {
+    "message": "The calling lobby got some remodeling and renovations done and we didn't even have to refinance.",
+    "description": "Release notes for v5.15"
+  },
+  "WhatsNew__v5.15--3": {
+    "message": "The new preferences window is better and faster. Go ahead and change your zoom level, toggle the theme, set a custom disappearing timer.",
+    "description": "Release notes for v5.15"
+  },
+  "WhatsNew__v5.15--4": {
+    "message": "You can now choose when to download and apply new updates for Signal. The dialogs got a small makeover too. Check out the setting in the new preferences window.",
+    "description": "Release notes for v5.15"
+  },
+  "WhatsNew__v5.15--5": {
+    "message": "Squashed lots of bugs and there are some performance improvements as well. Thank you all for your reports!",
+    "description": "Release notes for v5.15"
   }
 }

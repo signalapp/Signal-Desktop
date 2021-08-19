@@ -59,6 +59,7 @@ const {
 const {
   SystemTraySettingsCheckboxes,
 } = require('../../ts/components/conversation/SystemTraySettingsCheckboxes');
+const { WhatsNew } = require('../../ts/components/WhatsNew');
 
 // State
 const { createTimeline } = require('../../ts/state/roots/createTimeline');
@@ -359,6 +360,7 @@ exports.setup = (options = {}) => {
     Types: {
       Message: MediaGalleryMessage,
     },
+    WhatsNew,
   };
 
   const Roots = {
