@@ -9,7 +9,7 @@ import { SessionButton, SessionButtonColor, SessionButtonType } from '../session
 import { SessionIconButton, SessionIconSize, SessionIconType } from '../session/icon';
 import { PillDivider } from '../session/PillDivider';
 import { SyncUtils, ToastUtils, UserUtils } from '../../session/utils';
-import { MAX_USERNAME_LENGTH } from '../session/registration/RegistrationTabs';
+import { MAX_USERNAME_LENGTH } from '../session/registration/RegistrationStages';
 import { SessionSpinner } from '../session/SessionSpinner';
 import { ConversationModel, ConversationTypeEnum } from '../../models/conversation';
 
