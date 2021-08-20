@@ -130,19 +130,23 @@ export const EmojiPicker = React.memo(
             | React.MouseEvent<HTMLButtonElement>
             | React.KeyboardEvent<HTMLButtonElement>
         ) => {
-          if ('key' in e) {
-            if (e.key === 'Enter' && doSend) {
-              e.stopPropagation();
-              e.preventDefault();
-              doSend();
-            }
-          } else {
             const { shortName } = e.currentTarget.dataset;
-            if (shortName) {
+            if ('key' in e) {
+                if (e.key === 'Enter') {
+                    if (shortName) {
+                        e.stopPropagation();
+                        e.preventDefault();
+                        onPickEmoji({ skinTone: selectedTone, shortName });
+                    } else if (doSend) {
+                        e.stopPropagation();
+                        e.preventDefault();
+                        doSend();
+                    }
+                }
+            } else if (shortName) {
               e.stopPropagation();
               e.preventDefault();
               onPickEmoji({ skinTone: selectedTone, shortName });
-            }
           }
         },
         [doSend, onPickEmoji, selectedTone]
@@ -248,6 +252,7 @@ export const EmojiPicker = React.memo(
       const cellRenderer = React.useCallback<GridCellRenderer>(
         ({ key, style: cellStyle, rowIndex, columnIndex }) => {
           const shortName = emojiGrid[rowIndex][columnIndex];
+          const isFirstItem = rowIndex === 0 && columnIndex === 0;
 
           return shortName ? (
             <div
@@ -262,13 +267,14 @@ export const EmojiPicker = React.memo(
                 onKeyDown={handlePickEmoji}
                 data-short-name={shortName}
                 title={shortName}
+                ref={(isFirstItem && !searchMode) ? focusOnRender : null}
               >
                 <Emoji shortName={shortName} skinTone={selectedTone} />
               </button>
             </div>
           ) : null;
         },
-        [emojiGrid, handlePickEmoji, selectedTone]
+        [emojiGrid, handlePickEmoji, selectedTone, searchMode]
       );
 
       const getRowHeight = React.useCallback(
