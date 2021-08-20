@@ -96,6 +96,7 @@ export type PropsType = {
 
   // Limited support features
   isAudioNotificationsSupported: boolean;
+  isAutoDownloadUpdatesSupported: boolean;
   isAutoLaunchSupported: boolean;
   isHideMenuBarSupported: boolean;
   isNotificationAttentionSupported: boolean;
@@ -184,6 +185,7 @@ export const Preferences = ({
   i18n,
   initialSpellCheckSetting,
   isAudioNotificationsSupported,
+  isAutoDownloadUpdatesSupported,
   isAutoLaunchSupported,
   isHideMenuBarSupported,
   isPhoneNumberSharingSupported,
@@ -344,15 +346,17 @@ export const Preferences = ({
             onChange={onMediaCameraPermissionsChange}
           />
         </SettingsRow>
-        <SettingsRow title={i18n('Preferences--updates')}>
-          <Checkbox
-            checked={hasAutoDownloadUpdate}
-            label={i18n('Preferences__download-update')}
-            moduleClassName="Preferences__checkbox"
-            name="autoDownloadUpdate"
-            onChange={onAutoDownloadUpdateChange}
-          />
-        </SettingsRow>
+        {isAutoDownloadUpdatesSupported && (
+          <SettingsRow title={i18n('Preferences--updates')}>
+            <Checkbox
+              checked={hasAutoDownloadUpdate}
+              label={i18n('Preferences__download-update')}
+              moduleClassName="Preferences__checkbox"
+              name="autoDownloadUpdate"
+              onChange={onAutoDownloadUpdateChange}
+            />
+          </SettingsRow>
+        )}
       </>
     );
   } else if (page === Page.Appearance) {
