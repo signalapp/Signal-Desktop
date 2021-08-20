@@ -622,7 +622,7 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "Desktop ran into a decryption error. Click to submit a debug log.",
+        "message": "Skjáborðsforritið lenti á villu í afkóðun. Smelltu til að senda villuskýrslu.",
         "description": "An error popup when we haven't added an error for decryption error."
     },
     "oneNonImageAtATimeToast": {
@@ -1202,7 +1202,7 @@
         }
     },
     "ChangeNumber--notification": {
-        "message": "$sender$ changed their number to a new number",
+        "message": "$sender$ skipti yfir í nýtt símanúmer",
         "description": "Shown in timeline when a member of a conversation changes their phone number",
         "placeholders": {
             "sender": {
@@ -1377,13 +1377,7 @@
     },
     "calling__lobby-summary--single": {
         "message": "$first$ er í símtalinu",
-        "description": "Shown in the calling lobby to describe who is in the call",
-        "placeholders": {
-            "first": {
-                "content": "$1",
-                "example": "Sam"
-            }
-        }
+        "description": "Shown in the calling lobby to describe who is in the call"
     },
     "calling__lobby-summary--self": {
         "message": "Eitt af hinum tækjum þínum er tengt þessu símtali",
@@ -1391,53 +1385,15 @@
     },
     "calling__lobby-summary--double": {
         "message": "$first$ og $second$ eru í símtalinu",
-        "description": "Shown in the calling lobby to describe who is in the call",
-        "placeholders": {
-            "first": {
-                "content": "$1",
-                "example": "Sam"
-            },
-            "second": {
-                "content": "$2",
-                "example": "Cayce"
-            }
-        }
+        "description": "Shown in the calling lobby to describe who is in the call"
     },
     "calling__lobby-summary--triple": {
         "message": "$first$, $second$, og $third$ eru í símtalinu  ",
-        "description": "Shown in the calling lobby to describe who is in the call",
-        "placeholders": {
-            "first": {
-                "content": "$1",
-                "example": "Sam"
-            },
-            "second": {
-                "content": "$2",
-                "example": "Cayce"
-            },
-            "third": {
-                "content": "$3",
-                "example": "April"
-            }
-        }
+        "description": "Shown in the calling lobby to describe who is in the call"
     },
     "calling__lobby-summary--many": {
         "message": "$first$, $second$, og $others$ í viðbót eru í símtalinu",
-        "description": "Shown in the calling lobby to describe who is in the call",
-        "placeholders": {
-            "first": {
-                "content": "$1",
-                "example": "Sam"
-            },
-            "second": {
-                "content": "$2",
-                "example": "Cayce"
-            },
-            "others": {
-                "content": "$3",
-                "example": "5"
-            }
-        }
+        "description": "Shown in the calling lobby to describe who is in the call"
     },
     "calling__in-this-call--zero": {
         "message": "Það er enginn annar hérna",
@@ -4758,11 +4714,11 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--admin--you": {
-        "message": "You changed the group settings to only allow admins to send messages.",
+        "message": "Þú breyttir stillingum hóps þannig að einungis stjórnendur geta sent skilaboð.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--admin--other": {
-        "message": "$memberName$ changed the group settings to only allow admins to send messages.",
+        "message": "$memberName$ breytti stillingum hóps þannig að einungis stjórnendur geta sent skilaboð.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4772,15 +4728,15 @@
         }
     },
     "GroupV2--announcements--admin--unknown": {
-        "message": "The group was changed to only allow admins to send messages.",
+        "message": "Stillingum hóps var breytt þannig að einungis stjórnendur geta sent skilaboð.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--member--you": {
-        "message": "You changed the group settings to allow all members to send messages.",
+        "message": "Þú breyttir stillingum hóps þannig að allir meðlimir hans geta sent skilaboð.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--member--other": {
-        "message": "$memberName$ changed the group settings to allow all members to send messages.",
+        "message": "$memberName$ breytti stillingum hóps þannig að allir meðlimir hans geta sent skilaboð.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4790,7 +4746,7 @@
         }
     },
     "GroupV2--announcements--member--unknown": {
-        "message": "The group was changed to allow all members to send messages.",
+        "message": "Stillingum hóps var breytt þannig að allir meðlimir hans geta sent skilaboð.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV1--Migration--disabled": {
@@ -5734,7 +5690,7 @@
         }
     },
     "ErrorBoundaryNotification__text": {
-        "message": "Failed to display the message due to an internal error. Click to submit a debug log.",
+        "message": "Tókst ekki að birta skilaboðin vegna innri villu. Smelltu til að senda villuskýrslu.",
         "description": "An error notification displayed when message fails to render due to an internal error"
     },
     "GroupDescription__read-more": {
@@ -5864,7 +5820,7 @@
         "description": "Title for about editing"
     },
     "ProfileEditorModal--error": {
-        "message": "Your profile could not be updated. Please try again.",
+        "message": "Ekki var hægt að uppfæra notandasniðið þitt. Reyndu aftur.",
         "description": "Error message when something goes wrong updating your profile."
     },
     "AnnouncementsOnlyGroupBanner--modal": {

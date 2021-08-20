@@ -1192,7 +1192,7 @@
         }
     },
     "DeliveryIssue--summary--group": {
-        "message": "A message, sticker, reaction, read receipt or media couldn’t be delivered to you from $sender$ in this chat.",
+        "message": "Bu sohbette $sender$ tarafından gönderilen bir ileti, çıkartma, tepki, okundu bilgisi veya içerik size teslim edilemedi.",
         "description": "Shown on explainer dialog available from delivery issue timeline events in groups",
         "placeholders": {
             "name": {
@@ -1202,7 +1202,7 @@
         }
     },
     "ChangeNumber--notification": {
-        "message": "$sender$ changed their number to a new number",
+        "message": "$sender$ telefon numrasını yeni bir numarayla değiştirdi",
         "description": "Shown in timeline when a member of a conversation changes their phone number",
         "placeholders": {
             "sender": {
@@ -1377,13 +1377,7 @@
     },
     "calling__lobby-summary--single": {
         "message": "$first$bu aramada",
-        "description": "Shown in the calling lobby to describe who is in the call",
-        "placeholders": {
-            "first": {
-                "content": "$1",
-                "example": "Sam"
-            }
-        }
+        "description": "Shown in the calling lobby to describe who is in the call"
     },
     "calling__lobby-summary--self": {
         "message": "Diğer cihazlarınızdan birisi bu aramada",
@@ -1391,53 +1385,15 @@
     },
     "calling__lobby-summary--double": {
         "message": "$first$ ve $second$ bu aramada",
-        "description": "Shown in the calling lobby to describe who is in the call",
-        "placeholders": {
-            "first": {
-                "content": "$1",
-                "example": "Sam"
-            },
-            "second": {
-                "content": "$2",
-                "example": "Cayce"
-            }
-        }
+        "description": "Shown in the calling lobby to describe who is in the call"
     },
     "calling__lobby-summary--triple": {
         "message": "$first$, $second$, ve $third$ bu aramada",
-        "description": "Shown in the calling lobby to describe who is in the call",
-        "placeholders": {
-            "first": {
-                "content": "$1",
-                "example": "Sam"
-            },
-            "second": {
-                "content": "$2",
-                "example": "Cayce"
-            },
-            "third": {
-                "content": "$3",
-                "example": "April"
-            }
-        }
+        "description": "Shown in the calling lobby to describe who is in the call"
     },
     "calling__lobby-summary--many": {
         "message": "$first$, $second$, ve $others$diğer kişi bu aramada",
-        "description": "Shown in the calling lobby to describe who is in the call",
-        "placeholders": {
-            "first": {
-                "content": "$1",
-                "example": "Sam"
-            },
-            "second": {
-                "content": "$2",
-                "example": "Cayce"
-            },
-            "others": {
-                "content": "$3",
-                "example": "5"
-            }
-        }
+        "description": "Shown in the calling lobby to describe who is in the call"
     },
     "calling__in-this-call--zero": {
         "message": "Burada kimse yok",
@@ -5114,7 +5070,7 @@
         "description": "In the conversation notifications settings, this is the label for the mentions option"
     },
     "ConversationNotificationsSettings__mentions__info": {
-        "message": "Receive notifications when you're mentioned in muted chats",
+        "message": "Sessize alınan konuşmalarda sizden söz edildiğinde bildirim gönderilsin",
         "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
     },
     "ConversationNotificationsSettings__mentions__select__always-notify": {
@@ -5122,7 +5078,7 @@
         "description": "In the conversation notifications settings, this is the option that always notifies you for @mentions"
     },
     "ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
-        "message": "Don't notify if muted",
+        "message": "Sessizdeyse haber verme",
         "description": "In the conversation notifications settings, this is the option that doesn't notify you for @mentions if the conversation is muted"
     },
     "GroupLinkManagement--clipboard": {
@@ -5558,7 +5514,7 @@
         "description": "First paragraph in the captcha dialog"
     },
     "CaptchaDialog--can-close__title": {
-        "message": "Continue without verifying?",
+        "message": "Doğrulamadan devam et?",
         "description": "Header in the captcha dialog that can be closed"
     },
     "CaptchaDialog--can-close__body": {
@@ -5734,7 +5690,7 @@
         }
     },
     "ErrorBoundaryNotification__text": {
-        "message": "Failed to display the message due to an internal error. Click to submit a debug log.",
+        "message": "Bir iç hata nedeniyle ileti gösterilemedi. Hata ayıklama günlüğünü göndermek için tıklayın.",
         "description": "An error notification displayed when message fails to render due to an internal error"
     },
     "GroupDescription__read-more": {
@@ -5890,11 +5846,11 @@
         "description": "Label for the avatar selector"
     },
     "AvatarColorPicker--choose": {
-        "message": "Choose a color",
+        "message": "Bir renk seçin",
         "description": "Label for when you need to choose your fighter, err color"
     },
     "LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
-        "message": "Group Avatar",
+        "message": "Grup resmi",
         "description": "Title for the avatar picker in the group creation flow"
     }
 }

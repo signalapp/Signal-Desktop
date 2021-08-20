@@ -1377,13 +1377,7 @@
     },
     "calling__lobby-summary--single": {
         "message": "$first$ е на овој повик",
-        "description": "Shown in the calling lobby to describe who is in the call",
-        "placeholders": {
-            "first": {
-                "content": "$1",
-                "example": "Sam"
-            }
-        }
+        "description": "Shown in the calling lobby to describe who is in the call"
     },
     "calling__lobby-summary--self": {
         "message": "Еден од Вашите други уреди е на овој повик",
@@ -1391,53 +1385,15 @@
     },
     "calling__lobby-summary--double": {
         "message": "$first$ и $second$ се на овој повик",
-        "description": "Shown in the calling lobby to describe who is in the call",
-        "placeholders": {
-            "first": {
-                "content": "$1",
-                "example": "Sam"
-            },
-            "second": {
-                "content": "$2",
-                "example": "Cayce"
-            }
-        }
+        "description": "Shown in the calling lobby to describe who is in the call"
     },
     "calling__lobby-summary--triple": {
         "message": "$first$, $second$, и $third$ се на овој повик",
-        "description": "Shown in the calling lobby to describe who is in the call",
-        "placeholders": {
-            "first": {
-                "content": "$1",
-                "example": "Sam"
-            },
-            "second": {
-                "content": "$2",
-                "example": "Cayce"
-            },
-            "third": {
-                "content": "$3",
-                "example": "April"
-            }
-        }
+        "description": "Shown in the calling lobby to describe who is in the call"
     },
     "calling__lobby-summary--many": {
         "message": "$first$, $second$, и $others$ други се на овој повик",
-        "description": "Shown in the calling lobby to describe who is in the call",
-        "placeholders": {
-            "first": {
-                "content": "$1",
-                "example": "Sam"
-            },
-            "second": {
-                "content": "$2",
-                "example": "Cayce"
-            },
-            "others": {
-                "content": "$3",
-                "example": "5"
-            }
-        }
+        "description": "Shown in the calling lobby to describe who is in the call"
     },
     "calling__in-this-call--zero": {
         "message": "Нема никој друг овде",
@@ -1526,7 +1482,7 @@
         }
     },
     "calling__presenting--permission-title": {
-        "message": "Permission needed",
+        "message": "Потребна е дозвола",
         "description": "Shown as the title for the modal that requests screen recording permissions"
     },
     "calling__presenting--macos-permission-description": {
@@ -5454,7 +5410,7 @@
         "description": "Shown in the message request warning dialog. Gives more information about message requests"
     },
     "MessageRequestWarning__dialog__learn-even-more": {
-        "message": "About Message Requests",
+        "message": "За барањата за пораки",
         "description": "Shown in the message request warning dialog. Clicking this button will open a page on Signal's support site"
     },
     "ContactSpoofing__same-name": {
@@ -5550,11 +5506,11 @@
         "description": "Header in the captcha dialog"
     },
     "CaptchaDialog__first-paragraph": {
-        "message": "To help prevent spam on Signal, please complete verification.",
+        "message": "За да спречите несакани пораки на Signal, пополнете ја потврдата.",
         "description": "First paragraph in the captcha dialog"
     },
     "CaptchaDialog__second-paragraph": {
-        "message": "After verifying, you can continue messaging. Any paused messages will automatically be sent.",
+        "message": "По потврдувањето, можете да продолжите со испраќање пораки. Сите паузирани пораки автоматски ќе се испратат.",
         "description": "First paragraph in the captcha dialog"
     },
     "CaptchaDialog--can-close__title": {
@@ -5608,7 +5564,7 @@
         "description": "Button label for resetting chat colors"
     },
     "ChatColorPicker__resetDefault": {
-        "message": "Reset Chat Colors",
+        "message": "Ресетирај ги боите на разговорот",
         "description": "Confirmation dialog title for resetting all chat colors or only the global default one"
     },
     "ChatColorPicker__resetAll": {
@@ -5656,7 +5612,7 @@
         "description": "Option in the custom color bubble context menu"
     },
     "CustomColorEditor__solid": {
-        "message": "Solid",
+        "message": "Цврста",
         "description": "Tab label for selecting solid colors"
     },
     "CustomColorEditor__gradient": {
@@ -5754,7 +5710,7 @@
         "description": "aria-label for the media quality selector button"
     },
     "MediaQualitySelector--title": {
-        "message": "Media Quality",
+        "message": "Квалитет на медиа",
         "description": "Popup selector title"
     },
     "MediaQualitySelector--standard-quality-title": {

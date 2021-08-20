@@ -1,6 +1,6 @@
 {
     "softwareAcknowledgments": {
-        "message": "Shukrani za Programu",
+        "message": "Shukrani wa Wasadini Programu",
         "description": "Shown in the about box for the link to software acknowledgments"
     },
     "privacyPolicy": {
@@ -180,7 +180,7 @@
         "description": "One of the menu options available in the Avatar Popup menu"
     },
     "avatarMenuChatColors": {
-        "message": "Rangi ya soga",
+        "message": "Rangi ya Gumzo",
         "description": "One of the menu options available in the Avatar Popup menu"
     },
     "loading": {
@@ -206,7 +206,7 @@
         "description": "Shown in place of the search box when showing archived conversation list"
     },
     "LeftPane--pinned": {
-        "message": "Imebanwa",
+        "message": "Imebandikwa",
         "description": "Shown as a header for pinned conversations in the left pane"
     },
     "LeftPane--chats": {
@@ -222,7 +222,7 @@
         "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
     },
     "markUnread": {
-        "message": "Tia alama kuwa haijasomwa",
+        "message": "Weka alama kuwa hujaisoma",
         "description": "Shown in menu for conversation, and marks conversation as unread"
     },
     "moveConversationToInbox": {
@@ -230,15 +230,15 @@
         "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
     },
     "pinConversation": {
-        "message": "Piga Mazungumzo",
+        "message": "Bandika Gumzo",
         "description": "Shown in menu for conversation, and pins the conversation to the top of the conversation list"
     },
     "unpinConversation": {
-        "message": "Ondoa Mazungumzo",
+        "message": "Bandua Gumzo",
         "description": "Undoes Archive Conversation action, and unpins the conversation from the top of the conversation list"
     },
     "pinnedConversationsFull": {
-        "message": "Unaweza kubandika hadi mazungumzo 4 tu",
+        "message": "Unaweza kubandika hadi gumzo 4 tu",
         "description": ""
     },
     "chooseDirectory": {
@@ -316,11 +316,11 @@
         "description": "Used as a label on a button allowing user to see more information"
     },
     "youLeftTheGroup": {
-        "message": "Wewe si mshiriki wa kikundi tena.",
+        "message": "Wewe si mwanachama kikundi hiki tena.",
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "invalidConversation": {
-        "message": "Kikundi hiki si sahihi. Tafadhali anzisha kikundi kipya.",
+        "message": "Kikundi hiki si sahihi. Tafadhali unda kikundi kipya.",
         "description": "Displayed when a user can't send a message because something has gone wrong in the conversation."
     },
     "scrollDown": {
@@ -346,7 +346,7 @@
         }
     },
     "messageHistoryUnsynced": {
-        "message": "Kwa usalama wako, historia ya mazungumzo haihamishiwi kwa vifaa vipya vilivyounganishwa.",
+        "message": "Kwa usalama wako, historia ya mazungumzo haihamishiwi kwenye vifaa vipya vilivyounganishwa.",
         "description": "Shown in the conversation history when a user links a new device to explain what is not supported."
     },
     "youMarkedAsVerified": {
@@ -394,7 +394,7 @@
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedRightAfterVerify": {
-        "message": "Nambari ya usalama unayojaribu kuthibitisha imebadilika. Tafadhali kagua nambari yako mpya ya usalama na$name1$ . Kumbuka, mabadiliko haya yanaweza kumaanisha kuwa mtu anajaribu kuzuia mawasiliano yako au hiyo$name2$ ameweka tena Ishara.",
+        "message": "Nambari ya usalama unayojaribu kuthibitisha imebadilika. Tafadhali kagua nambari yako mpya ya usalama unayotumia na $name1$. Kumbuka, mabadiliko haya yanaweza kumaanisha kuwa mtu anayejaribu kuzuia mawasiliano yako au kuwa $name2$ amesakinisha Signal upya.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name1": {
@@ -408,11 +408,11 @@
         }
     },
     "changedVerificationWarning": {
-        "message": "Watu wafuatao wanaweza kuwa wameweka tena vifaa au kubadilisha vifaa. Thibitisha nambari yako ya usalama nao ili kuhakikisha faragha.",
+        "message": "Huenda watu wafuatao wamesakinisha upya programu zao au kubadilisha vifaa. Thibitisha nambari yako ya usalama unayotumia kwao ili kuhakikisha unalinda faragha yako.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "identityKeyErrorOnSend": {
-        "message": "Nambari yako ya usalama na$name1$ imebadilika. Hii inaweza kumaanisha kuwa mtu anajaribu kuzuia mawasiliano yako au hiyo$name2$ ameweka tena Ishara. Unaweza kutaka kuthibitisha nambari yako ya usalama na anwani hii.",
+        "message": "Nambari yako ya usalama unayotumia kwa $name1$ imebadilika. Hii inaweza kumaanisha kuwa mtu anajaribu kuzuia mawasiliano yako au kuwa $name2$ amesakinisha Signal upya. Unashauriwa uthibitishe nambari yako ya usalama unayotumia kwa anwani hii.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name1": {
@@ -434,7 +434,7 @@
         "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
     },
     "continueCall": {
-        "message": "Endelea kupiga simu",
+        "message": "Endelea na Mazungumzo ya Simu",
         "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
     },
     "noLongerVerified": {
@@ -464,11 +464,11 @@
         "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogCopyAlt": {
-        "message": "Nakili kiungo kwenye clipboard yako",
+        "message": "Nakili kiungo kwenye ubao wako wa kunakili",
         "description": "Shown as the alt text for the copy button on the debug log screen"
     },
     "debugLogLinkCopied": {
-        "message": "Kiungo kimenakiliwa kwenye Ubao Uliyonama",
+        "message": "Kiungo Kimenakiliwa kwenye Ubao Wako wa Kunakili",
         "description": "Shown in a toast to let the user know that the link to the debug log has been copied to their clipboard"
     },
     "reportIssue": {
@@ -622,7 +622,7 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "Desktop iliingia hitilafu ya usimbuaji. Bonyeza kuwasilisha kumbukumbu ya utatuzi.",
+        "message": "Toleo la kompyuta limekabiliwa na hitilafu ya usimbuaji. Bonyeza ili uwasilishe kumbukumbu ya utatuzi.",
         "description": "An error popup when we haven't added an error for decryption error."
     },
     "oneNonImageAtATimeToast": {
@@ -658,7 +658,7 @@
         "description": "Shown to allow the user to manually attempt a reconnect."
     },
     "connectingHangOn": {
-        "message": "Haipaswi kuwa ndefu ...",
+        "message": "Inaunganisha hivi punde...",
         "description": "Subtext description for when the client is connecting to the server."
     },
     "offline": {
@@ -678,7 +678,7 @@
         "description": "View menu item to open the debug log (title case)"
     },
     "forceUpdate": {
-        "message": "Lazimisha Sasisho",
+        "message": "Lazimisha Kusasisha",
         "description": "View menu item to force the app to update download and install"
     },
     "helpMenuShowKeyboardShortcuts": {
@@ -702,7 +702,7 @@
         "description": "Item under the Help menu, takes you to the support page"
     },
     "joinTheBeta": {
-        "message": "Jiunge na Beta",
+        "message": "Jiunge na Toleo la Beta",
         "description": "Item under the Help menu, takes you to an article describing how to install the beta release of Signal Desktop"
     },
     "signalDesktopPreferences": {
@@ -770,7 +770,7 @@
         }
     },
     "noSearchResults--sms-only": {
-        "message": "Anwani za SMS / MMS hazipatikani kwenye Eneo-kazi.",
+        "message": "Mawasiliano ya SMS/MMS hayapatikani kwenye toleo la Kompyuta.",
         "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
     },
     "noSearchResultsInConversation": {
@@ -816,7 +816,7 @@
         "description": "Used as the 'title' attribute for the typing animation"
     },
     "contactInAddressBook": {
-        "message": "Mtu huyu yuko katika anwani zako.",
+        "message": "Mtu huyu yuko katika orodha yako ya waasiliani.",
         "description": "Description of icon denoting that contact is from your address book"
     },
     "contactAvatarAlt": {
@@ -870,7 +870,7 @@
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
     },
     "reactToMessage": {
-        "message": "Guswa na Ujumbe",
+        "message": "Jibu Ujumbe",
         "description": "Shown in triple-dot menu next to message to allow user to react to the associated message"
     },
     "replyToMessage": {
@@ -890,15 +890,15 @@
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
     "voiceRecordingInterruptedMax": {
-        "message": "Kurekodi ujumbe wa sauti kumesimamishwa kwa sababu upeo wa muda ulifikiwa.",
+        "message": "Mchakato wa kurekodi ujumbe wa sauti umesimamishwa kwa sababu umefikia upeo wa muda.",
         "description": "Confirmation dialog message for when the voice recording is interrupted due to max time limit"
     },
     "voiceRecordingInterruptedBlur": {
-        "message": "Kurekodi ujumbe wa sauti kumesitishwa kwa sababu umebadilisha kwenda kwenye programu nyingine.",
+        "message": "Mchakato wa kurekodi ujumbe wa sauti umesimamishwa kwa sababu umebadilisha programu unayotimia.",
         "description": "Confirmation dialog message for when the voice recording is interrupted due to app losing focus"
     },
     "voiceNoteLimit": {
-        "message": "Ujumbe wa sauti umepunguzwa kwa dakika tano. Kurekodi kutaacha ikiwa utabadilisha kwenda kwenye programu nyingine.",
+        "message": "Ujumbe wa sauti hauwezi kuzidi dakika tano. Mchakato wa kurekodi utakomeshwa ikiwa utabadilisha programu unayotumia.",
         "description": "Shown in toast to warn user about limited time and that window must be in focus"
     },
     "voiceNoteMustBeOnlyAttachment": {
@@ -934,11 +934,11 @@
         "description": "Shown if the user attempts to send an audio message without audio permissions turned on"
     },
     "audioCallingPermissionNeeded": {
-        "message": "Kwa kupiga simu, lazima ukubali Signal Desktop kufikia maikrofoni yako.",
+        "message": "Ili uweze kupiga simu, sharti uiruhusu Signal Desktop ifikie maikrofoni yako.",
         "description": "Shown if the user attempts access the microphone for calling without audio permissions turned on"
     },
     "videoCallingPermissionNeeded": {
-        "message": "Kwa kupiga simu kwa video, lazima ukubali Signal Desktop kufikia kamera yako.",
+        "message": "Ili uweze kupiga simu za video, sharti uiruhusu Signal Desktop ifikie kamera yako.",
         "description": "Shown if the user attempts access the camera for video calling without video permissions turned on"
     },
     "allowAccess": {
@@ -962,7 +962,7 @@
         "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
     },
     "text": {
-        "message": "Nakala",
+        "message": "Maandishi",
         "description": "Label for the word 'text'"
     },
     "cannotUpdate": {
@@ -970,7 +970,7 @@
         "description": "Shown as the title of our update error dialogs on windows"
     },
     "cannotUpdateDetail": {
-        "message": "Desktop ya Ishara imeshindwa kusasisha, lakini kuna toleo jipya linapatikana. Tafadhali nenda kwa$url$ na usakinishe toleo jipya kwa mikono, kisha wasiliana na msaada au faili mdudu kuhusu shida hii.",
+        "message": "Signal Desktop haijaweza kusasishwa, lakini toleo jipya linapatikana. Tafadhali nenda kwenye $url$ na usakinishe toleo jipya wewe mwenyewe, kisha wasiliana na timu ya usaidizi au uwasilishe ripoti ya hitilafu kuhusiana na shida hii.",
         "description": "Shown if a general error happened while trying to install update package",
         "placeholders": {
             "url": {
@@ -980,7 +980,7 @@
         }
     },
     "readOnlyVolume": {
-        "message": "Eneo-kazi la Ishara linaweza kuwa katika karantini ya MacOS, na haitaweza kusasisha kiotomatiki. Tafadhali jaribu kusogea$app$ kwa$folder$ na Kitafutaji.",
+        "message": "Huenda Signal Desktop ipo katika karantini ya macOS, na haitaweza kusasisha kiotomatiki. Tafadhali jaribu kuhamishia $app$ kwenye $folder$ kwa kutumia Kitafutaji.",
         "description": "Shown on MacOS if running on a read-only volume and we cannot update",
         "placeholders": {
             "app": {
@@ -1042,7 +1042,7 @@
         "description": "Text shown in the confirmation dialog for deleting a message locally"
     },
     "deleteForEveryoneWarning": {
-        "message": "Ujumbe huu utafutwa kwa kila mtu katika mazungumzo ikiwa yuko kwenye toleo la hivi karibuni la Ishara. Wataweza kuona kuwa umefuta ujumbe.",
+        "message": "Ujumbe huu utafutwa kwa kila mtu aliye katika mazungumzo ikiwa anatumia toleo jipya la Signal. Kila mtu ataweza kuona kuwa umefuta ujumbe.",
         "description": "Text shown in the confirmation dialog for deleting a message for everyone"
     },
     "from": {
@@ -1086,7 +1086,7 @@
         "description": ""
     },
     "viewRecentMedia": {
-        "message": "Tazama vyombo vya habari vya hivi karibuni",
+        "message": "Tazama media za hivi majuzi",
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
@@ -1144,7 +1144,7 @@
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "ChatRefresh--notification": {
-        "message": "Kipindi cha mazungumzo kiliburudishwa",
+        "message": "Kipindi cha mazungumzo kimewekwa upya",
         "description": "Shown in timeline when a error happened, and the session was automatically reset."
     },
     "ChatRefresh--learnMore": {
@@ -1152,7 +1152,7 @@
         "description": "Shown in timeline when session is automatically reset, to provide access to a popup info dialog"
     },
     "ChatRefresh--summary": {
-        "message": "Ishara hutumia usimbuaji wa mwisho hadi mwisho na inaweza kuhitaji kuonyesha upya kikao chako cha mazungumzo wakati mwingine. Hii haiathiri usalama wa gumzo lako lakini unaweza kuwa umekosa ujumbe kutoka kwa anwani hii na unaweza kuwauliza watumie tena.",
+        "message": "Signal hutumia usimbaji wa mwisho hadi mwisho na inaweza kuhitaji kuonyesha upya gumzo zako wakati mwingine. Kitendo hiki hakiathiri usalama wa gumzo yako lakini huenda umekosa ujumbe kutoka kwa mwasiliani huyu na unaweza kumwomba autume tena.",
         "description": "Shown on explainer dialog available from chat session refreshed timeline events"
     },
     "ChatRefresh--contactSupport": {
@@ -1160,11 +1160,11 @@
         "description": "Shown on explainer dialog available from chat session refreshed timeline events"
     },
     "DeliveryIssue--preview": {
-        "message": "Suala la utoaji",
+        "message": "Hitilafu ya uwasilishaji",
         "description": "Shown in left pane preview when message delivery issue happens"
     },
     "DeliveryIssue--notification": {
-        "message": "Ujumbe kutoka$sender$ haikuweza kutolewa",
+        "message": "Ujumbe kutoka kwa $sender$ haukuweza kuwasilishwa",
         "description": "Shown in timeline when message delivery issue happens",
         "placeholders": {
             "name": {
@@ -1178,11 +1178,11 @@
         "description": "Shown in timeline when message delivery issue happens, to provide access to a popup info dialog"
     },
     "DeliveryIssue--title": {
-        "message": "Suala la Uwasilishaji",
+        "message": "Hitilafu ya Uwasilishaji",
         "description": "Shown on explainer dialog available from delivery issue timeline events"
     },
     "DeliveryIssue--summary": {
-        "message": "Ujumbe, kibandiko, majibu, risiti ya kusoma au media haikuweza kutolewa kwako kutoka$sender$ . Labda walijaribu kukutumia moja kwa moja, au kwa kikundi.",
+        "message": "Ujumbe, kibandiko, majibu, ripoti ya kusoma au media haikuweza kuwasilishwa kwako kutoka kwa $sender$. Labda alijaribu kukutumia moja kwa moja, au kwenye kikundi.",
         "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations",
         "placeholders": {
             "name": {
@@ -1192,7 +1192,7 @@
         }
     },
     "DeliveryIssue--summary--group": {
-        "message": "Ujumbe, kibandiko, majibu, risiti ya kusoma au media haikuweza kutolewa kwako kutoka$sender$ katika mazungumzo haya.",
+        "message": "Ujumbe, vibandiko, majibu, ripoti ya kusomwa au media haikuweza kuwasilishwa kwako kutoka kwa %$sender$ katika gumzo hii.",
         "description": "Shown on explainer dialog available from delivery issue timeline events in groups",
         "placeholders": {
             "name": {
@@ -1202,7 +1202,7 @@
         }
     },
     "ChangeNumber--notification": {
-        "message": "$sender$walibadilisha nambari yao kuwa nambari mpya",
+        "message": "$sender$ amebadilisha nambari yake na kuanza kutumia nambari mpya",
         "description": "Shown in timeline when a member of a conversation changes their phone number",
         "placeholders": {
             "sender": {
@@ -1296,7 +1296,7 @@
         "description": ""
     },
     "installTooOld": {
-        "message": "Sasisha Ishara kwenye kifaa hiki ili kuunganisha simu yako.",
+        "message": "Sasisha Signal kwenye kifaa hiki ili uunganishe simu yako.",
         "description": ""
     },
     "installErrorHeader": {
@@ -1316,19 +1316,19 @@
         "description": "Header for calling options on the settings screen"
     },
     "calling__start": {
-        "message": "Anza kupiga simu",
+        "message": "Anza Kupiga Simu",
         "description": "Button label in the call lobby for starting a call"
     },
     "calling__join": {
-        "message": "Jiunge na Simu",
+        "message": "Jiunge na Mazungumzo ya Simu",
         "description": "Button label in the call lobby for joining a call"
     },
     "calling__return": {
-        "message": "Rudi kwa Simu",
+        "message": "Rudi kwenye Mazungumzo ya Simu",
         "description": "Button label in the call lobby for returning to a call"
     },
     "calling__call-is-full": {
-        "message": "Simu imejaa",
+        "message": "Mazungumzo ya simu yamejaa",
         "description": "Button label in the call lobby when you can't join because the call is full"
     },
     "calling__button--video-disabled": {
@@ -1344,19 +1344,19 @@
         "description": "Button tooltip label for turning on the camera"
     },
     "calling__button--audio-disabled": {
-        "message": "Maikrofoni imelemazwa",
+        "message": "Maikrofoni imezimwa",
         "description": "Button tooltip label when the microphone is disabled"
     },
     "calling__button--audio-off": {
-        "message": "Nyamazisha kidogo",
+        "message": "Nyamazisha maikrofoni",
         "description": "Button tooltip label for turning off the microphone"
     },
     "calling__button--audio-on": {
-        "message": "Washa sauti ndogo",
+        "message": "Washa maikrofoni",
         "description": "Button tooltip label for turning on the microphone"
     },
     "calling__button--presenting-disabled": {
-        "message": "Kuwasilisha walemavu",
+        "message": "Uwasilishaji umezimwa",
         "description": "Button tooltip label for when screen sharing is disabled"
     },
     "calling__button--presenting-on": {
@@ -1372,83 +1372,39 @@
         "description": "Label in the calling lobby indicating that your camera is off"
     },
     "calling__lobby-summary--zero": {
-        "message": "Hakuna mtu mwingine aliye hapa",
+        "message": "Hakuna mtu mwingine hapa",
         "description": "Shown in the calling lobby to describe who is in the call"
     },
     "calling__lobby-summary--single": {
-        "message": "$first$iko katika simu hii",
-        "description": "Shown in the calling lobby to describe who is in the call",
-        "placeholders": {
-            "first": {
-                "content": "$1",
-                "example": "Sam"
-            }
-        }
+        "message": "$first$ yupo katika mazungumzo haya ya simu",
+        "description": "Shown in the calling lobby to describe who is in the call"
     },
     "calling__lobby-summary--self": {
-        "message": "Moja ya vifaa vyako vingine iko kwenye simu hii",
+        "message": "Mojawapo ya vifaa vyako vingine viko kwenye mazungumzo haya ya simu",
         "description": "Shown in the calling lobby to describe when it is just you"
     },
     "calling__lobby-summary--double": {
-        "message": "$first$na$second$ wako kwenye simu hii",
-        "description": "Shown in the calling lobby to describe who is in the call",
-        "placeholders": {
-            "first": {
-                "content": "$1",
-                "example": "Sam"
-            },
-            "second": {
-                "content": "$2",
-                "example": "Cayce"
-            }
-        }
+        "message": "$first$ na $second$ wako kwenye mazungumzo haya ya simu",
+        "description": "Shown in the calling lobby to describe who is in the call"
     },
     "calling__lobby-summary--triple": {
-        "message": "$first$,$second$ , na$third$ wako kwenye simu hii",
-        "description": "Shown in the calling lobby to describe who is in the call",
-        "placeholders": {
-            "first": {
-                "content": "$1",
-                "example": "Sam"
-            },
-            "second": {
-                "content": "$2",
-                "example": "Cayce"
-            },
-            "third": {
-                "content": "$3",
-                "example": "April"
-            }
-        }
+        "message": "$first$, $second$ na $third$ wako kwenye mazungumzo haya ya simu",
+        "description": "Shown in the calling lobby to describe who is in the call"
     },
     "calling__lobby-summary--many": {
-        "message": "$first$,$second$ , na$others$ wengine wako katika simu hii",
-        "description": "Shown in the calling lobby to describe who is in the call",
-        "placeholders": {
-            "first": {
-                "content": "$1",
-                "example": "Sam"
-            },
-            "second": {
-                "content": "$2",
-                "example": "Cayce"
-            },
-            "others": {
-                "content": "$3",
-                "example": "5"
-            }
-        }
+        "message": "$first$, $second$ na wengine $others$ wako kwenye mazungumzo haya ya simu",
+        "description": "Shown in the calling lobby to describe who is in the call"
     },
     "calling__in-this-call--zero": {
-        "message": "Hakuna mtu mwingine aliye hapa",
+        "message": "Hakuna mtu mwingine hapa",
         "description": "Shown in the participants list to describe how many people are in the call"
     },
     "calling__in-this-call--one": {
-        "message": "Katika simu hii · 1 mtu",
+        "message": "Katika mazungumzo haya ya simu· Mtu 1",
         "description": "Shown in the participants list to describe how many people are in the call"
     },
     "calling__in-this-call--many": {
-        "message": "Katika simu hii ·$people$ watu",
+        "message": "Katika mazungumzo haya ya simu· Watu $people$",
         "description": "Shown in the participants list to describe how many people are in the call",
         "placeholders": {
             "people": {
@@ -1458,7 +1414,7 @@
         }
     },
     "calling__you-have-blocked": {
-        "message": "Umezuia$name$",
+        "message": "Umemzuia $name$",
         "description": "when you block someone and cannot view their video",
         "placeholders": {
             "name": {
@@ -1468,7 +1424,7 @@
         }
     },
     "calling__block-info": {
-        "message": "Hautapokea sauti au video yao na hawatapokea yako.",
+        "message": "Hutapokea sauti au video yake na hatapokea yako.",
         "description": "Shown in the modal dialog to describe how blocking works in a gorup call"
     },
     "calling__overflow__scroll-up": {
@@ -1476,7 +1432,7 @@
         "description": "Label for the \"scroll up\" button in a call's overflow area"
     },
     "calling__overflow__scroll-down": {
-        "message": "Shuka chini",
+        "message": "Sogeza chini",
         "description": "Label for the \"scroll down\" button in a call's overflow area"
     },
     "calling__presenting--notification-title": {
@@ -1484,11 +1440,11 @@
         "description": "Title for the share screen notification"
     },
     "calling__presenting--notification-body": {
-        "message": "Bonyeza hapa kurudi kwenye simu ukiwa tayari kuacha kuwasilisha.",
+        "message": "Bonyeza hapa urudi kwenye mazungumzo ya simu ukiwa tayari kuacha kuwasilisha.",
         "description": "Body text for the share screen notification"
     },
     "calling__presenting--info": {
-        "message": "Ishara inashiriki$window$ .",
+        "message": "Signal inashiriki $window$.",
         "description": "Text that appears in the screen sharing controller to inform person that they are presenting",
         "placeholders": {
             "name": {
@@ -1502,11 +1458,11 @@
         "description": "Button for stopping screen sharing"
     },
     "calling__presenting--you-stopped": {
-        "message": "Uliacha kuwasilisha",
+        "message": "Umeacha kuwasilisha",
         "description": "Toast that appears when someone stops presenting"
     },
     "calling__presenting--person-ongoing": {
-        "message": "$name$anawasilisha",
+        "message": "$name$ anawasilisha",
         "description": "Title of call when someone is presenting",
         "placeholders": {
             "name": {
@@ -1516,7 +1472,7 @@
         }
     },
     "calling__presenting--person-stopped": {
-        "message": "$name$aliacha kuwasilisha",
+        "message": "$name$ ameacha kuwasilisha",
         "description": "Toast that appears when someone stops presenting",
         "placeholders": {
             "name": {
@@ -1530,19 +1486,19 @@
         "description": "Shown as the title for the modal that requests screen recording permissions"
     },
     "calling__presenting--macos-permission-description": {
-        "message": "Ishara inahitaji ruhusa ya kufikia kurekodi skrini ya kompyuta yako.",
+        "message": "Signal inahitaji ruhusa ya kufikia rekodi ya skrini ya kompyuta yako.",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-instruction-step1": {
-        "message": "Nenda kwa Mapendeleo ya Mfumo.",
+        "message": "Nenda kwenye Mapendeleo ya Mfumo.",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-instruction-step2": {
-        "message": "Bonyeza ikoni ya kufuli chini kushoto na weka nywila ya kompyuta yako.",
+        "message": "Bonyeza aikoni ya kufuli kwenye sehemu ya chini kushoto na uweke nenosiri la kompyuta yako.",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-instruction-step3": {
-        "message": "Kulia, angalia sanduku karibu na Signal. Ikiwa hauoni Signal kwenye orodha, bonyeza + kuiongeza.",
+        "message": "Kwenye sehemi ya kulia, chagua sanduku lililo karibu na Signal. Usipoona Signal kwenye orodha, bonyeza + uiongeze.",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-open": {
@@ -1566,7 +1522,7 @@
         "description": "Header for permissions section of settings"
     },
     "mediaPermissionsDescription": {
-        "message": "Ruhusu ufikiaji wa kipaza sauti",
+        "message": "Ruhusu ufikiaji wa maikrofoni",
         "description": "Description of the media permission description"
     },
     "mediaCameraPermissionsDescription": {
@@ -1578,23 +1534,23 @@
         "description": "Header for general options on the settings screen"
     },
     "spellCheckDescription": {
-        "message": "Washa ukaguzi wa tahajia",
+        "message": "Washa ukaguzi wa uendelezaji",
         "description": "Description of the spell check setting"
     },
     "spellCheckWillBeEnabled": {
-        "message": "Ukaguzi wa tahajia utawezeshwa wakati mwingine Ishara itakapoanza.",
+        "message": "Ukaguzi wa uendelezaji utawezeshwa wakati Signal itawashwa tena.",
         "description": "Shown when the user enables spellcheck to indicate that they must restart Signal."
     },
     "spellCheckWillBeDisabled": {
-        "message": "Ukaguzi wa tahajia utalemazwa wakati Ishara nyingine itaanza.",
+        "message": "Ukaguzi wa uendelezaji utazimwa wakati Signal itawashwa tena.",
         "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
     },
     "SystemTraySetting__minimize-to-system-tray": {
-        "message": "Punguza kwenye tray ya mfumo",
+        "message": "Punguza uonyeshe kwenye sehemu ya arifa ya mfumo",
         "description": "In the settings, shown next to the checkbox option for minimizing to the system tray"
     },
     "SystemTraySetting__minimize-to-and-start-in-system-tray": {
-        "message": "Anza kupunguzwa kwa tray",
+        "message": "Kipengele cha Kuanza kimepunguzwa kionekane kwenye sehemu ya arifa",
         "description": "In the settings, shown next to the checkbox option for starting in the system tray"
     },
     "autoLaunchDescription": {
@@ -1630,11 +1586,11 @@
         "description": "Message shown to user when app is disconnected and data deleted"
     },
     "deleteOldIndexedDBData": {
-        "message": "Una data ya kizamani kutoka kwa usanikishaji wa awali wa Signal Desktop. Ukichagua kuendelea, itafutwa na utaanza kutoka mwanzoni.",
+        "message": "Una data zee kutokana na usanikishaji wa awali wa Signal Desktop. Ukichagua kuendelea, itafutwa na utaanza kutoka mwanzoni.",
         "description": "Shown if user last ran Signal Desktop before October 2018"
     },
     "deleteOldData": {
-        "message": "Futa Takwimu za Zamani",
+        "message": "Futa Data Zee",
         "description": "Button to make the delete happen"
     },
     "notifications": {
@@ -1650,11 +1606,11 @@
         "description": "Label for disabling notifications"
     },
     "nameAndMessage": {
-        "message": "Jina, yaliyomo, na vitendo",
+        "message": "Jina, maudhui na vitendo",
         "description": "Label for setting notifications to display name and message text"
     },
     "noNameOrMessage": {
-        "message": "Hakuna jina au yaliyomo",
+        "message": "Hakuna jina au maudhui",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "nameOnly": {
@@ -1666,7 +1622,7 @@
         "description": "Displayed in notifications for only 1 message"
     },
     "notificationSenderInGroup": {
-        "message": "$sender$ndani$group$",
+        "message": "$sender$ katika $group$",
         "description": "Displayed in notifications for messages in a group",
         "placeholders": {
             "sender": {
@@ -1680,7 +1636,7 @@
         }
     },
     "notificationReaction": {
-        "message": "$sender$ilijibu$emoji$ kwa ujumbe wako",
+        "message": "$sender$ ameijibu $emoji$ ujumbe wako",
         "description": "",
         "placeholders": {
             "sender": {
@@ -1694,7 +1650,7 @@
         }
     },
     "notificationReactionMessage": {
-        "message": "$sender$ilijibu$emoji$ kwa:$message$",
+        "message": "$sender$ amejibu kwa kutuma $emoji$ kwa $message$",
         "description": "",
         "placeholders": {
             "sender": {
@@ -1716,11 +1672,11 @@
         "description": "Shown on outgoing message if it fails to send"
     },
     "sendPaused": {
-        "message": "Tuma imesitishwa",
+        "message": "Mchakato wa kutuma umesitishwa",
         "description": "Shown on outgoing message if it cannot be sent immediately"
     },
     "partiallySent": {
-        "message": "Sehemu iliyotumwa, bonyeza kwa maelezo",
+        "message": "Ujumbe wote haujatumwa, bonyeza upate maelezo",
         "description": "Shown on outgoing message if it is partially sent"
     },
     "showMore": {
@@ -1828,7 +1784,7 @@
         "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
-        "message": "Unaweka wakati wa kutoweka kwa$time$ .",
+        "message": "Umeweka muda wa ujumbe unaotoweka kuwa $time$.",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -1838,7 +1794,7 @@
         }
     },
     "timerSetOnSync": {
-        "message": "Sasisha muda wa ujumbe uliopotea kuwa$time$ .",
+        "message": "Umebadilisha muda wa ujumbe unaotoweka kuwa $time$.",
         "description": "Message displayed when timer is set on initial link of desktop device.",
         "placeholders": {
             "time": {
@@ -1848,7 +1804,7 @@
         }
     },
     "timerSetByMember": {
-        "message": "Mwanachama aliweka wakati wa kutoweka kwa ujumbe$time$ .",
+        "message": "Mwanachama ameweka muda wa ujumbe unaotoweka kuwa $time$.",
         "description": "Message displayed when timer is by an unknown group member.",
         "placeholders": {
             "time": {
@@ -1858,7 +1814,7 @@
         }
     },
     "theyChangedTheTimer": {
-        "message": "$name$weka wakati wa kutoweka kwa$time$ .",
+        "message": "$name$ weka muda wa ujube unaotoweka kuwa $time$.",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -1884,11 +1840,11 @@
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disappearingMessagesDisabledByMember": {
-        "message": "Mwanachama amezima ujumbe wa kutoweka.",
+        "message": "Mwanachama amezima ujumbe unaotoweka.",
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disabledDisappearingMessages": {
-        "message": "$name$walemavu kutoweka ujumbe.",
+        "message": "$name$ amezima ujumbe unaotoweka.",
         "description": "Displayed in the conversation list when the timer is turned off",
         "placeholders": {
             "name": {
@@ -1920,15 +1876,15 @@
         "description": "Description for call ringtone notification setting"
     },
     "callSystemNotificationDescription": {
-        "message": "Onyesha arifa za simu",
+        "message": "Onyesha arifa za simu zinazopigwa",
         "description": "Description for call notification setting"
     },
     "incomingCallNotificationDescription": {
-        "message": "Washa simu zinazoingia",
+        "message": "Wezesha simu zinazoingia",
         "description": "Description for incoming calls setting"
     },
     "contactChangedProfileName": {
-        "message": "$sender$walibadilisha jina la wasifu wao kutoka$oldProfile$ kwa$newProfile$ .",
+        "message": "$sender$ amebadilisha jina la wasifu wake kutoka $oldProfile$ kuwa $newProfile$.",
         "description": "Description for incoming calls setting",
         "placeholders": {
             "sender": {
@@ -1946,7 +1902,7 @@
         }
     },
     "changedProfileName": {
-        "message": "$oldProfile$walibadilisha jina la wasifu wao kuwa$newProfile$ .",
+        "message": "$oldProfile$ amebadilisha jina la wasifu wake kuwa $newProfile$.",
         "description": "Shown when a contact not in your address book changes their profile name",
         "placeholders": {
             "oldProfile": {
@@ -1986,7 +1942,7 @@
         "description": "Shown on the safety number screen if you have never exchanged messages with that contact"
     },
     "yourSafetyNumberWith": {
-        "message": "Nambari yako ya usalama na$name1$ :",
+        "message": "Nambari yako ya usalama unayotumia kwa $name1$:",
         "description": "Heading for safety number view",
         "placeholders": {
             "name1": {
@@ -2016,7 +1972,7 @@
         "description": "Description for the Note to Self conversation"
     },
     "notificationDrawAttention": {
-        "message": "Zingatia dirisha hili wakati arifa itafika",
+        "message": "Makinikia dirisha hili utakapopokea arifa",
         "description": "Label text for the setting that controls whether new notifications draw attention to the window"
     },
     "hideMenuBar": {
@@ -2032,11 +1988,11 @@
         "description": "Label for header when starting a new conversation"
     },
     "contactSearchPlaceholder": {
-        "message": "Tafuta kwa jina au nambari ya simu",
+        "message": "Tafuta kwa kutumia jina au nambari ya simu",
         "description": "Placeholder to use when searching for contacts in the composer"
     },
     "noContactsFound": {
-        "message": "Hakuna anwani zilizopatikana",
+        "message": "Hakuna waasiliani waliopatikana",
         "description": "Label shown when there are no contacts to compose to"
     },
     "noConversationsFound": {
@@ -2044,7 +2000,7 @@
         "description": "Label shown when there are no conversations to compose to"
     },
     "chooseGroupMembers__title": {
-        "message": "Chagua washiriki",
+        "message": "Chagua wanachama",
         "description": "The title for the 'choose group members' left pane screen"
     },
     "chooseGroupMembers__back-button": {
@@ -2060,11 +2016,11 @@
         "description": "The 'next' button text in the 'choose group members' left pane screen"
     },
     "chooseGroupMembers__maximum-group-size__title": {
-        "message": "Ukubwa wa juu wa kikundi umefikiwa",
+        "message": "Umefikia ukubwa wa juu zaidi wa kikundi",
         "description": "Shown in the alert when you add the maximum number of group members"
     },
     "chooseGroupMembers__maximum-group-size__body": {
-        "message": "Vikundi vya ishara vinaweza kuwa na kiwango cha juu cha$max$ wanachama.",
+        "message": "Vikundi vya Signal vinaweza kuwa na kiwango cha juu zaidi cha wanachama $max$.",
         "description": "Shown in the alert when you add the maximum number of group members",
         "placeholders": {
             "max": {
@@ -2078,7 +2034,7 @@
         "description": "Shown in the alert when you add the maximum recommended number of group members"
     },
     "chooseGroupMembers__maximum-recommended-group-size__body": {
-        "message": "Vikundi vya ishara hufanya vizuri na$max$ wanachama au chini. Kuongeza wanachama zaidi kutasababisha ucheleweshaji wa kutuma na kupokea ujumbe.",
+        "message": "Vikundi vya Signal hufanya vizuri zaidi vikiwa na wanachama wasiozidi$max$. Kuongeza wanachama zaidi kutasababisha kucheleweshwa kwa kutuma na kupokea ujumbe.",
         "description": "Shown in the alert when you add the maximum recommended number of group members",
         "placeholders": {
             "max": {
@@ -2088,11 +2044,11 @@
         }
     },
     "chooseGroupMembers__cant-add-member__title": {
-        "message": "Imeshindwa kuongeza mwanachama",
+        "message": "Huwezi kuongeza mwanachama",
         "description": "Shown in the alert when you try to add someone who can't be added to a group"
     },
     "chooseGroupMembers__cant-add-member__body": {
-        "message": "&quot;$name$ &quot;haiwezi kuongezwa kwenye kikundi kwa sababu wanatumia toleo la zamani la Ishara. Unaweza kuwaongeza kwenye kikundi baada ya kusasisha Signal.",
+        "message": "\"$name$\" haiwezi kuongezwa kwenye kikundi kwa sababu anatumia toleo la awali la Signal. Unaweza kumwongeza kwenye kikundi atakaposisha Signal.",
         "description": "Shown in the alert when you try to add someone who can't be added to a group",
         "placeholders": {
             "max": {
@@ -2102,11 +2058,11 @@
         }
     },
     "setGroupMetadata__title": {
-        "message": "Taja kikundi hiki",
+        "message": "Kipe kikundi hiki jina",
         "description": "The title for the 'set group metadata' left pane screen"
     },
     "setGroupMetadata__back-button": {
-        "message": "Rudi kwenye uteuzi wa mwanachama",
+        "message": "Rudi kwenye uteuzi wa wanachama",
         "description": "Used as alt-text of the back button on the 'set group metadata' left pane screen"
     },
     "setGroupMetadata__group-name-placeholder": {
@@ -2126,7 +2082,7 @@
         "description": "The header for the members list in the 'set group metadata' left pane screen"
     },
     "setGroupMetadata__error-message": {
-        "message": "Kikundi hiki hakiwezi kuundwa. Angalia muunganisho wako na ujaribu tena.",
+        "message": "Kikundi hiki hakikuweza kuundwa. Kagua muunganisho wako kisha ujaribu tena.",
         "description": "Shown in the modal when we can't create a group"
     },
     "updateGroupAttributes__title": {
@@ -2134,11 +2090,11 @@
         "description": "Shown in the modal when we want to update a group"
     },
     "updateGroupAttributes__error-message": {
-        "message": "Imeshindwa kusasisha kikundi. Angalia muunganisho wako na ujaribu tena.",
+        "message": "Hukuweza kusasisha kikundi. Kagua muunganisho wako kisha ujaribu tena.",
         "description": "Shown in the modal when we can't update a group"
     },
     "notSupportedSMS": {
-        "message": "Ujumbe wa SMS / MMS hauhimiliwi.",
+        "message": "Ujumbe wa SMS/MMS hautumiki.",
         "description": "Label underneath number informing user that SMS is not supported on desktop"
     },
     "newPhoneNumber": {
@@ -2182,7 +2138,7 @@
         "description": ""
     },
     "leftTheGroup": {
-        "message": "$name$aliondoka kwenye kikundi.",
+        "message": "$name$ ameondoka kwenye kikundi.",
         "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
@@ -2192,7 +2148,7 @@
         }
     },
     "multipleLeftTheGroup": {
-        "message": "$name$aliondoka kwenye kikundi.",
+        "message": "$name$ ameondoka kwenye kikundi.",
         "description": "Shown in the conversation history when multiple people leave the group",
         "placeholders": {
             "name": {
@@ -2202,7 +2158,7 @@
         }
     },
     "updatedTheGroup": {
-        "message": "$name$ilisasisha kikundi.",
+        "message": "$name$ amesasisha kikundi.",
         "description": "Shown in the conversation history when someone updates the group",
         "placeholders": {
             "name": {
@@ -2216,11 +2172,11 @@
         "description": "Shown in the conversation history when you update a group"
     },
     "updatedGroupAvatar": {
-        "message": "Ishara ya kikundi ilisasishwa.",
+        "message": "Umbo la kikundi limebadilishwa.",
         "description": "Shown in the conversation history when someone updates the group"
     },
     "titleIsNow": {
-        "message": "Jina la kikundi sasa &#39;$name$ &#39;.",
+        "message": "Jina la kikundi sasa ni '$name$'.",
         "description": "Shown in the conversation history when someone changes the title of the group",
         "placeholders": {
             "name": {
@@ -2234,7 +2190,7 @@
         "description": "Shown in the conversation history when you are added to a group."
     },
     "joinedTheGroup": {
-        "message": "$name$alijiunga na kikundi.",
+        "message": "$name$ amejiunga na kikundi.",
         "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {
@@ -2244,7 +2200,7 @@
         }
     },
     "multipleJoinedTheGroup": {
-        "message": "$names$alijiunga na kikundi.",
+        "message": "$names$ amejiunga na kikundi.",
         "description": "Shown in the conversation history when more than one person joins the group",
         "placeholders": {
             "names": {
@@ -2392,7 +2348,7 @@
         "description": "Label for the previous page button in the sticker picker"
     },
     "stickers--StickerPicker--Recents": {
-        "message": "Stika ya Hivi Karibuni",
+        "message": "Kibandiko cha Hivi Majuzi",
         "description": "Label for the recent stickers button in the sticker picker"
     },
     "stickers--StickerPicker--DownloadError": {
@@ -2466,7 +2422,7 @@
         "description": "Label for activity emoji picker button"
     },
     "EmojiPicker__button--travel": {
-        "message": "Kusafiri",
+        "message": "Usafiri",
         "description": "Label for travel emoji picker button"
     },
     "EmojiPicker__button--object": {
@@ -2582,7 +2538,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--new-conversation": {
-        "message": "Anza mazungumzo mapya",
+        "message": "Anzisha mazungumzo mapya",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--archive-conversation": {
@@ -2634,7 +2590,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-reaction-picker": {
-        "message": "Geuza kiteua majibu ya emoji kwa ujumbe uliochaguliwa",
+        "message": "Geuza kiteua majibu ya emoji kwa ujumbe uliochagua",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--save-attachment": {
@@ -2670,7 +2626,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--conversation-by-index": {
-        "message": "Rukia mazungumzo",
+        "message": "Ruka hadi kwenye mazungumzo",
         "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
     },
     "Keyboard--Key--ctrl": {
@@ -2734,11 +2690,11 @@
         "description": "Header of the keyboard shortcuts guide - calling section"
     },
     "Keyboard--toggle-audio": {
-        "message": "Geuza bubu kuwasha na kuzima",
+        "message": "Geuza kitufe cha kunyamazisha ukiwashe na kuzima",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-video": {
-        "message": "Geuza na uzime video",
+        "message": "Geuza video uiwashe na kuizima",
         "description": "Shown in the shortcuts guide"
     },
     "close-popup": {
@@ -2766,7 +2722,7 @@
         "description": "A toast that shows up when the user unarchives a conversation"
     },
     "conversationMarkedUnread": {
-        "message": "Mazungumzo yametiwa alama kuwa hayajasomwa",
+        "message": "Umeweka alama kwenye mazungumzo kuwa hujayasoma",
         "description": "A toast that shows up when user marks a conversation as unread"
     },
     "StickerCreator--title": {
@@ -2822,7 +2778,7 @@
         "description": "Title for the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--help": {
-        "message": "Stika lazima ziwe katika muundo wa PNG, APNG, au WebP zilizo na usuli wa uwazi na saizi 512x512. Margin iliyopendekezwa ni 16px.",
+        "message": "Sharti vibandiko viwe katika muundo wa PNG, APNG, au WebP na viwe na mandhari ya nyuma wazi pikseli 512x512. Ukingo unaopendekezwa ni 16px.",
         "description": "Help text for the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--showMargins": {
@@ -2954,19 +2910,19 @@
         "description": "Text for the toast when an image cannot be processed was dropped on the sticker creator with a generic error"
     },
     "StickerCreator--Toasts--APNG--notSquare": {
-        "message": "Stika za michoro za PNG lazima ziwe mraba",
+        "message": "Vibandiko vya PNG vyenye uhuishaji sharti viwe mraba",
         "description": "Text for the toast when someone tries to upload a non-square APNG"
     },
     "StickerCreator--Toasts--mustLoopForever": {
-        "message": "Stika za uhuishaji lazima zifunguke milele",
+        "message": "Sharti vibandiko vyenye uhuishaji vicheze kwa mzunguko wa daima",
         "description": "Text for the toast when an image in the sticker creator does not animate forever"
     },
     "StickerCreator--Toasts--APNG--dimensionsTooLarge": {
-        "message": "Vipimo vya vibonzo vya PNG ni vikubwa mno",
+        "message": "Vipimo vya vibandiko vya PNG vyenye uhuishaji ni vikubwa mno",
         "description": "Text for the toast when an APNG image in the sticker creator is too large"
     },
     "StickerCreator--Toasts--APNG--dimensionsTooSmall": {
-        "message": "Vipimo vya vibonzo vya PNG ni vidogo mno",
+        "message": "Vipimo vya vibandiko vya PNG vyenye uhuishaji ni vidogo mno",
         "description": "Text for the toast when an APNG image in the sticker creator is too small"
     },
     "StickerCreator--Toasts--errorUploading": {
@@ -3008,7 +2964,7 @@
         "description": "Shown in reaction viewer as the title for the 'all' category"
     },
     "MessageRequests--message-direct": {
-        "message": "Acha$name$ kukutumia ujumbe na kushiriki jina na picha yako nao? Hawatajua umeona ujumbe wao hadi utakapokubali.",
+        "message": "Ungependa kumruhusu $name$ akutumie ujumbe na ushiriki jina na picha yako naye? Hatajua umeona ujumbe wake hadi utakapokubali.",
         "description": "Shown as the message for a message request in a direct message",
         "placeholders": {
             "name": {
@@ -3018,7 +2974,7 @@
         }
     },
     "MessageRequests--message-direct-blocked": {
-        "message": "Acha$name$ kukutumia ujumbe na kushiriki jina na picha yako nao? Hautapokea ujumbe wowote mpaka uwafungue.",
+        "message": "Ungependa kumruhusu $name$ akutumie ujumbe na ushiriki naye jina na picha yako? Hutapokea ujumbe wowote mpaka uache kumzuia.",
         "description": "Shown as the message for a message request in a direct message with a blocked account",
         "placeholders": {
             "name": {
@@ -3028,7 +2984,7 @@
         }
     },
     "MessageRequests--message-group": {
-        "message": "Jiunge na kikundi hiki na ushiriki jina na picha yako na washiriki wake? Hawatajua umeona ujumbe wao hadi utakapokubali.",
+        "message": "Ungependa kujiunge na kikundi hiki na ushiriki jina na picha yako na washiriki wake? Hawatajua umeona ujumbe wao hadi utakapokubali.",
         "description": "Shown as the message for a message request in a group",
         "placeholders": {
             "name": {
@@ -3038,7 +2994,7 @@
         }
     },
     "MessageRequests--message-group-blocked": {
-        "message": "Zuia kikundi hiki na ushiriki jina na picha yako na washiriki wake? Hautapokea ujumbe wowote mpaka uwafungue.",
+        "message": "Ungependa kuondoa kizuizi cha kikundi hiki na ushiriki jina na picha yako na washiriki wake? Hutapokea ujumbe wowote mpaka uache kuwazuia.",
         "description": "Shown as the message for a message request in a blocked group"
     },
     "MessageRequests--block": {
@@ -3050,7 +3006,7 @@
         "description": "Shown as a button to let the user unblock a message request"
     },
     "MessageRequests--unblock-confirm-title": {
-        "message": "Fungulia$name$ ?",
+        "message": "Ungependa kuacha kumzuia $name$?",
         "description": "Shown as a button to let the user unblock a message request",
         "placeholders": {
             "name": {
@@ -3080,15 +3036,15 @@
         }
     },
     "MessageRequests--block-and-report-spam": {
-        "message": "Ripoti Spam na Block",
+        "message": "Ripoti kuwa Taka na Uizuie",
         "description": "Shown as a button to let the user block a message request and report spam"
     },
     "MessageRequests--block-and-report-spam-success-toast": {
-        "message": "Imeripotiwa kuwa taka na imezuiwa.",
+        "message": "Umeripoti kuwa taka na umemzuia.",
         "description": "Shown in a toast when you successfully block a user and report them as spam"
     },
     "MessageRequests--block-direct-confirm-title": {
-        "message": "Zuia$name$ ?",
+        "message": "Ungependa kumzuia $name$?",
         "description": "Shown as the title in the confirmation modal for blocking a private message request",
         "placeholders": {
             "name": {
@@ -3098,11 +3054,11 @@
         }
     },
     "MessageRequests--block-direct-confirm-body": {
-        "message": "Watu waliozuiwa hawataweza kukupigia simu au kukutumia ujumbe.",
+        "message": "Watu uliowazuia hawataweza kukupigia simu au kukutumia ujumbe.",
         "description": "Shown as the body in the confirmation modal for blocking a private message request"
     },
     "MessageRequests--block-group-confirm-title": {
-        "message": "Kuzuia na Kuondoka$group$ ?",
+        "message": "Ungependa Kuzuia na Kujiondoa kwenye $group$?",
         "description": "Shown as the title in the confirmation modal for blocking a group message request",
         "placeholders": {
             "group": {
@@ -3112,7 +3068,7 @@
         }
     },
     "MessageRequests--block-group-confirm-body": {
-        "message": "Hutapokea tena ujumbe au sasisho kutoka kwa kikundi hiki na washiriki hawataweza kukuongeza kwenye kikundi hiki tena.",
+        "message": "Hutapokea tena ujumbe au arifa kutoka kwenye kikundi hiki na washiriki hawataweza kukuongeza kwenye kikundi hiki tena.",
         "description": "Shown as the body in the confirmation modal for blocking a group message request"
     },
     "MessageRequests--delete": {
@@ -3128,7 +3084,7 @@
         "description": "Shown as the body in the confirmation modal for deleting a private message request"
     },
     "MessageRequests--delete-group-confirm-title": {
-        "message": "Futa na Ondoka$group$ ?",
+        "message": "Ungependa Kufuta na Kuondoka kwenye $group$?",
         "description": "Shown as the title in the confirmation modal for deleting a group message request",
         "placeholders": {
             "group": {
@@ -3158,7 +3114,7 @@
         "description": "Shown as a button to share your profile, necessary to continue messaging in a conversation"
     },
     "MessageRequests--profile-sharing--group": {
-        "message": "Endelea mazungumzo yako na kikundi hiki na ushiriki jina na picha yako na washiriki wake?$learnMore$",
+        "message": "Ungependa kuendelea na mazungumzo yako na kikundi hiki na ushiriki jina na picha yako na washiriki wake? $learnMore$",
         "description": "Shown when user hasn't shared their profile in a group yet",
         "placeholders": {
             "learnMore": {
@@ -3168,7 +3124,7 @@
         }
     },
     "MessageRequests--profile-sharing--direct": {
-        "message": "Endelea na mazungumzo haya na$firstName$ na ushirikiane nao jina na picha yako?$learnMore$",
+        "message": "Ungependa kuendelea na mazungumzo yako na $firstName$ na ushiriki jina na picha yako na naye? $learnMore$",
         "description": "Shown when user hasn't shared their profile in a 1:1 conversation yet",
         "placeholders": {
             "firstName": {
@@ -3182,11 +3138,11 @@
         }
     },
     "MessageRequests--learn-more": {
-        "message": "Jifunze zaidi.",
+        "message": "Pata maelezo zaidi.",
         "description": "Shown at the end of profile sharing messages as a link."
     },
     "ConversationHero--members": {
-        "message": "$count$wanachama",
+        "message": "Wanachama $count$",
         "description": "Specifies the number of members in a group conversation",
         "placeholders": {
             "count": {
@@ -3248,7 +3204,7 @@
         }
     },
     "member-of-more-than-3-groups": {
-        "message": "Mwanachama wa$group1$ ,$group2$ ,$group3$ na$remainingCount$ zaidi",
+        "message": "Mwanachama wa $group1$ ,$group2$ ,$group3$ na$remainingCount$ vingine",
         "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
         "placeholders": {
             "group1": {
@@ -3270,7 +3226,7 @@
         }
     },
     "ConversationHero--membership-added": {
-        "message": "$name$alikuongeza kwenye kikundi.",
+        "message": "$name$ amekuongeza kwenye kikundi.",
         "description": "Shown Indicates that you were added to a group by a given individual.",
         "placeholders": {
             "name": {
@@ -3280,11 +3236,11 @@
         }
     },
     "no-groups-in-common": {
-        "message": "Hakuna vikundi vinavyofanana",
+        "message": "Hakuna vikundi mnavyoshiriki pamoja",
         "description": "Shown to indicate this user is not a member of any groups"
     },
     "no-groups-in-common-warning": {
-        "message": "Hakuna vikundi vinavyofanana. Pitia maombi kwa uangalifu.",
+        "message": "Hakuna vikundi mnavyoshiriki pamoja. Kagua maombi kwa uangalifu.",
         "description": "When a user has no common groups, show this warning"
     },
     "acceptCall": {
@@ -3296,7 +3252,7 @@
         "description": "Shown in tooltip for the button to accept a video call without video"
     },
     "declineCall": {
-        "message": "Kushuka",
+        "message": "Kataa",
         "description": "Shown in tooltip for the button to decline a call (audio or video)"
     },
     "declinedIncomingAudioCall": {
@@ -3308,11 +3264,11 @@
         "description": "Shown in conversation history when you declined an incoming video call"
     },
     "acceptedIncomingAudioCall": {
-        "message": "Simu ya sauti inayoingia",
+        "message": "Simu ya sauti uliyopigiwa",
         "description": "Shown in conversation history when you accepted an incoming audio call"
     },
     "acceptedIncomingVideoCall": {
-        "message": "Simu ya video inayoingia",
+        "message": "Simu ya video uliyopigiwa",
         "description": "Shown in conversation history when you accepted an incoming video call"
     },
     "missedIncomingAudioCall": {
@@ -3324,43 +3280,43 @@
         "description": "Shown in conversation history when you missed an incoming video call"
     },
     "acceptedOutgoingAudioCall": {
-        "message": "Simu ya sauti inayotoka",
+        "message": "Simu ya sauti uliyopiga",
         "description": "Shown in conversation history when you made an outgoing audio call"
     },
     "acceptedOutgoingVideoCall": {
-        "message": "Simu ya video inayotoka",
+        "message": "Simu ya video uliyopiga",
         "description": "Shown in conversation history when you made an outgoing video call"
     },
     "missedOrDeclinedOutgoingAudioCall": {
-        "message": "Simu ya sauti isiyojibiwa",
+        "message": "Simu ya sauti ambayo haikujibiwa",
         "description": "Shown in conversation history when your audio call is missed or declined"
     },
     "missedOrDeclinedOutgoingVideoCall": {
-        "message": "Simu ya video isiyojibiwa",
+        "message": "Simu ya video ambayo haikujibiwa",
         "description": "Shown in conversation history when your video call is missed or declined"
     },
     "incomingAudioCall": {
-        "message": "Simu inayoingia ...",
+        "message": "Unapigiwa simu ya sauti...",
         "description": "Shown in both the incoming call bar and notification for an incoming audio call"
     },
     "incomingVideoCall": {
-        "message": "Simu ya video inayoingia ...",
+        "message": "Unapigiwa simu ya video...",
         "description": "Shown in both the incoming call bar and notification for an incoming video call"
     },
     "outgoingCallPrering": {
-        "message": "Inapiga simu ...",
+        "message": "Unapiga simu...",
         "description": "Shown in the call screen when placing an outgoing call that isn't ringing yet"
     },
     "outgoingCallRinging": {
-        "message": "Inapiga ...",
+        "message": "Inalia...",
         "description": "Shown in the call screen when placing an outgoing call that is now ringing"
     },
     "makeOutgoingCall": {
-        "message": "Anza simu",
+        "message": "Piga simu",
         "description": "Title for the call button in a conversation"
     },
     "makeOutgoingVideoCall": {
-        "message": "Anzisha simu ya video",
+        "message": "Piga simu ya video",
         "description": "Title for the video call button in a conversation"
     },
     "joinOngoingCall": {
@@ -3368,7 +3324,7 @@
         "description": "Text that appears in a group when a call is active"
     },
     "callNeedPermission": {
-        "message": "$title$atapata ombi la ujumbe kutoka kwako. Unaweza kupiga simu mara tu ombi lako la ujumbe limekubaliwa.",
+        "message": "$title$ atapokea ombi la ujumbe kutoka kwako. Unaweza kupiga simu tu baada ya ombi lako la ujumbe kukubaliwa.",
         "description": "Shown when a call is rejected because the other party hasn't approved the message/call request",
         "placeholders": {
             "title": {
@@ -3378,11 +3334,11 @@
         }
     },
     "callReconnecting": {
-        "message": "Inaunganisha tena ...",
+        "message": "Inaunganisha tena...",
         "description": "Shown in the call screen when the call is reconnecting due to network issues"
     },
     "callDuration": {
-        "message": "Ishara$duration$",
+        "message": "Signal $duration$",
         "description": "Shown in the call screen to indicate how long the call has been connected",
         "placeholders": {
             "duration": {
@@ -3396,7 +3352,7 @@
         "description": "Title for device selection settings"
     },
     "calling__participants": {
-        "message": "$people$katika simu",
+        "message": "$people$ katika mazungumzo ya simu",
         "description": "Title for participants list toggle",
         "placeholders": {
             "people": {
@@ -3406,19 +3362,19 @@
         }
     },
     "calling__call-notification__ended": {
-        "message": "Simu ya kikundi imeisha",
+        "message": "Mazungumzo ya simu ya kikundi yamekwisha",
         "description": "Notification message when a group call has ended"
     },
     "calling__call-notification__started-by-someone": {
-        "message": "Wito wa kikundi ulianzishwa",
+        "message": "Mazungumzo ya simu ya kikundi yameanzishwa",
         "description": "Notification message when a group call has started, but we don't know who started it"
     },
     "calling__call-notification__started-by-you": {
-        "message": "Ulianzisha simu ya kikundi",
+        "message": "Umeanzisha mazungumzo ya simu ya kikundi",
         "description": "Notification message when a group call has started by you"
     },
     "calling__call-notification__started": {
-        "message": "$name$ilianzisha simu ya kikundi",
+        "message": "$name$ ameanzisha mazungumzo ya simu ya kikundi",
         "description": "Notification message when a group call has started",
         "placeholders": {
             "name": {
@@ -3428,11 +3384,11 @@
         }
     },
     "calling__call-notification__button__in-another-call-tooltip": {
-        "message": "Tayari uko kwenye simu",
+        "message": "Tayari uko kwenye mazungumzo ya simu",
         "description": "Tooltip in disabled notification button when you're on another call"
     },
     "calling__call-notification__button__call-full-tooltip": {
-        "message": "Simu imefikia uwezo wa$max$ washiriki",
+        "message": "Mazungumzo ya simu yamefikia kiwango cha washiriki $max$",
         "description": "Tooltip in disabled notification button when the call is full",
         "placeholders": {
             "max": {
@@ -3442,23 +3398,23 @@
         }
     },
     "calling__pip--on": {
-        "message": "Punguza simu",
+        "message": "Punguza mazungumzo ya simu",
         "description": "Title for picture-in-picture toggle"
     },
     "calling__pip--off": {
-        "message": "Simu ya skrini nzima",
+        "message": "Mazungumzo ya simu ya skrini nzima",
         "description": "Title for picture-in-picture toggle"
     },
     "calling__switch-view--to-grid": {
-        "message": "Badilisha kwa mtazamo wa gridi",
+        "message": "Badilisha utumie mtazamo wa gridi",
         "description": "Title for grid/speaker view toggle when on a call"
     },
     "calling__switch-view--to-speaker": {
-        "message": "Badilisha kwa mwonekano wa spika",
+        "message": "Badilisha utumie mwonekano wa mnenaji",
         "description": "Title for grid/speaker view toggle when on a call"
     },
     "calling__hangup": {
-        "message": "Acha simu",
+        "message": "Ondoka kwenye mazungumzo ya simu",
         "description": "Title for hang up button"
     },
     "calling__SelectPresentingSourcesModal--title": {
@@ -3474,7 +3430,7 @@
         "description": "Title for the select your screen sharing sources modal and 'Entire Screen' source"
     },
     "calling__SelectPresentingSourcesModal--screen": {
-        "message": "Skrini$id$",
+        "message": "Skrini ya $id$",
         "description": "Title for `Screen #N` source in screen sharing sources modal and overlay",
         "placeholders": {
             "id": {
@@ -3492,11 +3448,11 @@
         "description": "Label for video input selector"
     },
     "callingDeviceSelection__label--audio-input": {
-        "message": "Kipaza sauti",
+        "message": "Maikrofini",
         "description": "Label for audio input selector"
     },
     "callingDeviceSelection__label--audio-output": {
-        "message": "Wasemaji",
+        "message": "Wanenaji",
         "description": "Label for audio output selector"
     },
     "callingDeviceSelection__select--no-device": {
@@ -3520,7 +3476,7 @@
         "description": "Label for muting the conversation"
     },
     "muteEightHours": {
-        "message": "Nyamaza kwa masaa nane",
+        "message": "Nyamazisha kwa saa nane",
         "description": "Label for muting the conversation"
     },
     "muteDay": {
@@ -3540,11 +3496,11 @@
         "description": "Label for unmuting the conversation"
     },
     "muteExpirationLabelAlways": {
-        "message": "Imenyamazishwa kila wakati",
+        "message": "Umenyamazisha kila wakati",
         "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
     },
     "muteExpirationLabel": {
-        "message": "Imenyamazishwa hadi$duration$",
+        "message": "Umenyamazisha hadi $duration$",
         "description": "Shown in the mute notifications submenu whenever a conversation has been muted",
         "placeholders": {
             "duration": {
@@ -3562,7 +3518,7 @@
         "description": "Title of pop-up dialog when user-initiated task has gone wrong"
     },
     "ErrorModal--description": {
-        "message": "Tafadhali jaribu tena au wasiliana na usaidizi.",
+        "message": "Tafadhali jaribu tena au uwasiliane na timu ya usaidizi.",
         "description": "Description text in pop-up dialog when user-initiated task has gone wrong"
     },
     "Confirmation--confirm": {
@@ -3570,31 +3526,31 @@
         "description": "Button to dismiss pop-up dialog when user-initiated task has gone wrong"
     },
     "unknown-sgnl-link": {
-        "message": "Samahani, kiungo hicho cha sgnl: // hakikuwa na maana!",
+        "message": "Samahani, kiungo hicho cha sgnl:// hakikuwa sahihi!",
         "description": "Shown if you click on a sgnl:// link not currently supported by Desktop"
     },
     "GroupV2--cannot-send": {
-        "message": "Huwezi kutuma ujumbe kwa kikundi hicho.",
+        "message": "Huwezi kutuma ujumbe kwenye kikundi hicho.",
         "description": "Shown in toast when you attempt to forward a message to an announcement only group"
     },
     "GroupV2--add--missing-capability": {
-        "message": "Watu hawa hawawezi kuongezwa kwenye kikundi hadi watakapoboresha Ishara.",
+        "message": "Watu hawa hawawezi kuongezwa kwenye kikundi hadi watakapoboresha Signal.",
         "description": "Shown in a confirmation dialog when members who cannot view announcement only group cannot be added"
     },
     "GroupV2--cannot-start-group-call": {
-        "message": "Admin tu wa kikundi wanaweza kuanza simu.",
+        "message": "Ni wasimamizi wa kikundi hicho pekee wanaoweza kuanzisha mazungumzo ya simu.",
         "description": "Shown in toast when a non-admin starts a group call in an announcements only group"
     },
     "GroupV2--join--invalid-link--title": {
-        "message": "Kiungo batili",
+        "message": "Kiungo Si Sahihi",
         "description": "Shown if we are unable to parse a group link"
     },
     "GroupV2--join--invalid-link": {
-        "message": "Hiki sio kiungo halali cha kikundi. Hakikisha kiunga kizima kiko sawa na sahihi kabla ya kujaribu kujiunga.",
+        "message": "Hiki si kiungo sahihi cha kikundi. Hakikisha kiungo chote ni sahihi na hakijavunjika kabla ya kujaribu kujiunga.",
         "description": "Shown if we are unable to parse a group link"
     },
     "GroupV2--join--prompt": {
-        "message": "Je! Unataka kujiunga na kikundi hiki na ushiriki jina na picha yako na washiriki wake?",
+        "message": "Je, unataka kujiunga na kikundi hiki na ushiriki jina na picha yako na washiriki wake?",
         "description": "Shown when you click on a group link to confirm"
     },
     "GroupV2--join--already-in-group": {
@@ -3606,23 +3562,23 @@
         "description": "Shown if you click a group link for a group where you've already requested approval'"
     },
     "GroupV2--join--unknown-link-version--title": {
-        "message": "Toleo la kiungo kisichojulikana",
+        "message": "Toleo la kiungo halijulikani",
         "description": "This group link is no longer valid."
     },
     "GroupV2--join--unknown-link-version": {
-        "message": "Kiungo hiki hakihimiliwi na toleo hili la Signal Desktop.",
+        "message": "Kiungo hiki hakitumiki katika toleo hili la Signal Desktop.",
         "description": "Shown if you click a group link and we can't get information about it"
     },
     "GroupV2--join--link-revoked--title": {
-        "message": "Imeshindwa Kujiunga na Kikundi",
+        "message": "Huwezi Kujiunga na Kikundi",
         "description": "Shown if you click a group link and we can't get information about it"
     },
     "GroupV2--join--link-revoked": {
-        "message": "Kiungo hiki cha kikundi si halali tena.",
+        "message": "Kiungo hiki cha kikundi hakitumiki tena.",
         "description": "Shown if you click a group link and we can't get information about it"
     },
     "GroupV2--join--prompt-with-approval": {
-        "message": "Msimamizi wa kikundi hiki lazima aidhinishe ombi lako kabla ya kujiunga na kikundi hiki. Ikiwa imeidhinishwa, jina lako na picha yako itashirikiwa na washiriki wake.",
+        "message": "Msimamizi wa kikundi hiki sharti aidhinishe ombi lako kabla ya kujiunga na kikundi hiki. Ukiidhinishwa, jina na picha yako zitashirikiwa na washiriki wake.",
         "description": "Shown when you click on a group link to confirm, if it requires admin approval"
     },
     "GroupV2--join--join-button": {
@@ -3654,7 +3610,7 @@
         "description": "Shown in the metadata section if group has just one member"
     },
     "GroupV2--join--member-count--multiple": {
-        "message": "$count$wanachama",
+        "message": "Wanachama $count$",
         "description": "Shown in the metadata section if group has more than one member",
         "placeholders": {
             "count": {
@@ -3678,11 +3634,11 @@
         "description": "Shown in composition area when you've requested to join a group"
     },
     "GroupV2--join--general-join-failure--title": {
-        "message": "Kosa la Kiungo",
+        "message": "Hitilafu ya Kiungo",
         "description": "Shown if something went wrong when you try to join via a group link"
     },
     "GroupV2--join--general-join-failure": {
-        "message": "Imeshindwa kujiunga na kikundi. Jaribu tena baadae.",
+        "message": "Hujaweza kujiunga na kikundi. Jaribu tena baadaye.",
         "description": "Shown if something went wrong when you try to join via a group link"
     },
     "GroupV2--admin": {
@@ -3698,7 +3654,7 @@
         "description": "Label for describing the general non-privileged members of a group"
     },
     "updating": {
-        "message": "Inasasisha ...",
+        "message": "Inasasisha...",
         "description": "Shown along with a spinner when an update operation takes longer than one second"
     },
     "GroupV2--create--you": {
@@ -3706,7 +3662,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--create--other": {
-        "message": "$memberName$aliunda kikundi.",
+        "message": "$memberName$ ameunda kikundi.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3716,11 +3672,11 @@
         }
     },
     "GroupV2--create--unknown": {
-        "message": "Kikundi kiliundwa.",
+        "message": "Kikundi kimeundwa.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--title--change--other": {
-        "message": "$memberName$amebadilisha jina la kikundi kuwa &quot;$newTitle$ &quot;.",
+        "message": "$memberName$ amebadilisha jina la kikundi kuwa \"$newTitle$\".",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3734,7 +3690,7 @@
         }
     },
     "GroupV2--title--change--you": {
-        "message": "Umebadilisha jina la kikundi kuwa &quot;$newTitle$ &quot;.",
+        "message": "Umebadilisha jina la kikundi kuwa \"$newTitle$\".",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "newTitle": {
@@ -3744,7 +3700,7 @@
         }
     },
     "GroupV2--title--change--unknown": {
-        "message": "Mwanachama alibadilisha jina la kikundi kuwa &quot;$newTitle$ &quot;.",
+        "message": "Mwanachama amebadilisha jina la kikundi kuwa \"$newTitle$\".",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "newTitle": {
@@ -3754,7 +3710,7 @@
         }
     },
     "GroupV2--title--remove--other": {
-        "message": "$memberName$iliondoa jina la kikundi.",
+        "message": "$memberName$ ameondoa jina la kikundi.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3768,11 +3724,11 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--title--remove--unknown": {
-        "message": "Mwanachama aliondoa jina la kikundi.",
+        "message": "Mwanachama ameondoa jina la kikundi.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--change--other": {
-        "message": "$memberName$iliyopita avatar ya kikundi.",
+        "message": "$memberName$ amebadilisha umbo la kikundi.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3782,15 +3738,15 @@
         }
     },
     "GroupV2--avatar--change--you": {
-        "message": "Umebadilisha picha ya kikundi.",
+        "message": "Umebadilisha umbo la kikundi.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--change--unknown": {
-        "message": "Mwanachama alishiriki avatar ya kikundi.",
+        "message": "Mwanachama ameshiriki umbo la kikundi.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--remove--other": {
-        "message": "$memberName$aliondoa avatar ya kikundi.",
+        "message": "$memberName$ ameondoa umbo la kikundi.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3800,15 +3756,15 @@
         }
     },
     "GroupV2--avatar--remove--you": {
-        "message": "Umeondoa avatar ya kikundi.",
+        "message": "Umeondoa umbo la kikundi.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--remove--unknown": {
-        "message": "Mwanachama mmoja aliondoa picha ya kikundi.",
+        "message": "Mwanachama mmoja ameondoa umbo la kikundi.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--admins--other": {
-        "message": "$adminName$amebadilisha ambaye anaweza kubadilisha maelezo ya kikundi kuwa &quot;Admins tu.&quot;",
+        "message": "$adminName$ amebadilisha mtu ambaye anaweza kubadilisha maelezo ya kikundi kuwa \"Wasimamizi pekee.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3818,15 +3774,15 @@
         }
     },
     "GroupV2--access-attributes--admins--you": {
-        "message": "Ulibadilisha ni nani anayeweza kuhariri maelezo ya kikundi kuwa &quot;Admins tu.&quot;",
+        "message": "Umebadilisha mtu ambaye anaweza kubadilisha maelezo ya kikundi kuwa \"Wasimamizi pekee.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--admins--unknown": {
-        "message": "Msimamizi alibadilisha ambaye anaweza kubadilisha maelezo ya kikundi kuwa &quot;Admins tu.&quot;",
+        "message": "Msimamizi amebadilisha mtu ambaye anaweza kubadilisha maelezo ya kikundi kuwa \"Wasimamizi pekee.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--all--other": {
-        "message": "$adminName$amebadilisha ni nani anayeweza kuhariri maelezo ya kikundi kuwa &quot;Washiriki wote.&quot;",
+        "message": "$adminName$ amebadilisha mtu ambaye anaweza kubadilisha maelezo ya kikundi kuwa \"Wanachama wote.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3836,15 +3792,15 @@
         }
     },
     "GroupV2--access-attributes--all--you": {
-        "message": "Ulibadilisha ni nani anayeweza kuhariri maelezo ya kikundi kuwa &quot;Washiriki wote.&quot;",
+        "message": "Umebadilisha mtu ambaye anaweza kubadilisha maelezo ya kikundi kuwa \"Wanachama wote.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--all--unknown": {
-        "message": "Msimamizi alibadilisha anayeweza kubadilisha maelezo ya kikundi kuwa &quot;Washiriki wote.&quot;",
+        "message": "Msimamizi amebadilisha mtu ambaye anaweza kubadilisha maelezo ya kikundi kuwa \"Wanachama wote.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--admins--other": {
-        "message": "$adminName$amebadilisha ni nani anayeweza kuhariri ushirika wa kikundi kuwa &quot;Admins tu.&quot;",
+        "message": "$adminName$ amebadilisha mtu ambaye anaweza kubadilisha maelezo ya kikundi kuwa \"Wasimamizi pekee.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3854,15 +3810,15 @@
         }
     },
     "GroupV2--access-members--admins--you": {
-        "message": "Ulibadilisha ni nani anayeweza kuhariri uanachama wa kikundi kuwa &quot;Admins tu.&quot;",
+        "message": "Umebadilisha mtu ambaye anaweza kubadilisha uanachama wa kikundi kuwa \"Wasimamizi pekee.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--admins--unknown": {
-        "message": "Msimamizi alibadilisha anayeweza kuhariri ushirika wa kikundi kuwa &quot;Admins tu.&quot;",
+        "message": "Msimamizi amebadilisha mtu ambaye anaweza kubadilisha uanachama wa kikundi kuwa \"Wasimamizi pekee.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--all--other": {
-        "message": "$adminName$amebadilisha ni nani anayeweza kuhariri uanachama wa kikundi kuwa &quot;Washiriki wote.&quot;",
+        "message": "$adminName$ amebadilisha mtu ambaye anaweza kubadilisha uanachama wa kikundi kuwa \"Wanachama wote.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3872,19 +3828,19 @@
         }
     },
     "GroupV2--access-members--all--you": {
-        "message": "Ulibadilisha ni nani anayeweza kuhariri uanachama wa kikundi kuwa &quot;Washiriki wote.&quot;",
+        "message": "Umebadilisha mtu ambaye anaweza kubadilisha uanachama wa kikundi kuwa \"Wanachama wote.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--all--unknown": {
-        "message": "Msimamizi alibadilisha ni nani anayeweza kuhariri uanachama wa kikundi kuwa &quot;Washiriki wote.&quot;",
+        "message": "Msimamizi amebadilisha mtu ambaye anaweza kubadilisha uanachama wa kikundi kuwa \"Wanachama wote.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-invite-link--disabled--you": {
-        "message": "Umelemaza idhini ya msimamizi wa kiungo cha kikundi.",
+        "message": "Umezima idhini ya msimamizi ya kiungo cha kikundi.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-invite-link--disabled--other": {
-        "message": "$adminName$walemavu idhini ya msimamizi kwa kiunga cha kikundi.",
+        "message": "$adminName$ amezima idhini ya msimamizi ya kiungo cha kikundi.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3894,15 +3850,15 @@
         }
     },
     "GroupV2--access-invite-link--disabled--unknown": {
-        "message": "Idhini ya msimamizi ya kiungo cha kikundi imelemazwa.",
+        "message": "Idhini ya msimamizi ya kiungo cha kikundi imezimwa.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-invite-link--enabled--you": {
-        "message": "Uliwezesha idhini ya msimamizi kwa kiunga cha kikundi.",
+        "message": "Umewasha idhini ya msimamizi ya kiungo cha kikundi.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-invite-link--enabled--other": {
-        "message": "$adminName$kuwezeshwa idhini ya msimamizi kwa kiunga cha kikundi.",
+        "message": "$adminName$ amewasha idhini ya msimamizi ya kiungo cha kikundi.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3912,11 +3868,11 @@
         }
     },
     "GroupV2--access-invite-link--enabled--unknown": {
-        "message": "Idhini ya usimamizi wa kiunga cha kikundi imewezeshwa.",
+        "message": "Idhini ya msimamizi ya kiungo cha kikundi imewashwa.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add--invited--you": {
-        "message": "Uliongeza mshiriki aliyealikwa$inviteeName$ .",
+        "message": "Umemwongeza mwanachama aliyealikwa kwa jina $inviteeName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3926,7 +3882,7 @@
         }
     },
     "GroupV2--member-add--invited--other": {
-        "message": "$memberName$aliongeza mwanachama aliyealikwa$inviteeName$ .",
+        "message": "$memberName$ amemwongeza mwanachama aliyealikwa kwa jina $inviteeName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3940,7 +3896,7 @@
         }
     },
     "GroupV2--member-add--invited--unknown": {
-        "message": "Mwanachama aliongeza mjumbe aliyealikwa$inviteeName$ .",
+        "message": "Mwanachama amemwongeza mwanachama aliyealikwa kwa jina $inviteeName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3950,7 +3906,7 @@
         }
     },
     "GroupV2--member-add--from-invite--other": {
-        "message": "$inviteeName$alikubali mwaliko kwa kikundi kutoka$inviterName$ .",
+        "message": "$inviteeName$amekubali mwaliko wa kikundi kutoka kwa $inviterName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -4022,7 +3978,7 @@
         }
     },
     "GroupV2--member-add--other--unknown": {
-        "message": "Mwanachama aliongeza$memberName$ .",
+        "message": "Mwanachama amemwongeza $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4032,7 +3988,7 @@
         }
     },
     "GroupV2--member-add--you--other": {
-        "message": "$memberName$alikuongeza kwenye kikundi.",
+        "message": "$memberName$ amekuongeza kwenye kikundi.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4046,15 +4002,15 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add--you--unknown": {
-        "message": "Uliongezwa kwenye kikundi.",
+        "message": "Umeongezwa kwenye kikundi.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add-from-link--you--you": {
-        "message": "Ulijiunga na kikundi kupitia kiunga cha kikundi.",
+        "message": "Umejiunga na kikundi kupitia kiungo cha kikundi.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add-from-link--other": {
-        "message": "$memberName$alijiunga na kikundi kupitia kiunga cha kikundi.",
+        "message": "$memberName$ amejiunga na kikundi kupitia kiungo cha kikundi.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4064,7 +4020,7 @@
         }
     },
     "GroupV2--member-add-from-admin-approval--you--other": {
-        "message": "$adminName$imeidhinisha ombi lako la kujiunga na kikundi.",
+        "message": "$adminName$ ameidhinisha ombi lako la kujiunga na kikundi.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4078,7 +4034,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add-from-admin-approval--other--you": {
-        "message": "Uliidhinisha ombi la kujiunga na kikundi kutoka$joinerName$ .",
+        "message": "Umeidhinisha ombi la kujiunga na kikundi kutoka kwa $joinerName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -4088,7 +4044,7 @@
         }
     },
     "GroupV2--member-add-from-admin-approval--other--other": {
-        "message": "$adminName$iliidhinisha ombi la kujiunga na kikundi kutoka$joinerName$ .",
+        "message": "$adminName$ ameidhinisha ombi la kujiunga na kikundi kutoka kwa $joinerName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4102,7 +4058,7 @@
         }
     },
     "GroupV2--member-add-from-admin-approval--other--unknown": {
-        "message": "Ombi la kujiunga na kikundi kutoka$joinerName$ imeidhinishwa.",
+        "message": "Ombi la kujiunga na kikundi kutoka kwa $joinerName$ limeidhinishwa.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -4112,7 +4068,7 @@
         }
     },
     "GroupV2--member-remove--other--other": {
-        "message": "$adminName$kuondolewa$memberName$ .",
+        "message": "$adminName$ amemwondoa $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4126,7 +4082,7 @@
         }
     },
     "GroupV2--member-remove--other--self": {
-        "message": "$memberName$aliondoka kwenye kikundi.",
+        "message": "$memberName$ ameondoka kwenye kikundi.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4136,7 +4092,7 @@
         }
     },
     "GroupV2--member-remove--other--you": {
-        "message": "Umeondoa$memberName$ .",
+        "message": "Umemwondoa $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4146,7 +4102,7 @@
         }
     },
     "GroupV2--member-remove--other--unknown": {
-        "message": "Mwanachama ameondolewa$memberName$ .",
+        "message": "Mwanachama amemwondoa $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4156,7 +4112,7 @@
         }
     },
     "GroupV2--member-remove--you--other": {
-        "message": "$adminName$imekuondoa.",
+        "message": "$adminName$ amekuondoa.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4174,7 +4130,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-privilege--promote--other--other": {
-        "message": "$adminName$imetengenezwa$memberName$ msimamizi.",
+        "message": "$adminName$ amemteua $memberName$ kuwa msimamizi.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4188,7 +4144,7 @@
         }
     },
     "GroupV2--member-privilege--promote--other--you": {
-        "message": "Umefanya$memberName$ msimamizi.",
+        "message": "Umeteua $memberName$ msimamizi.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4198,7 +4154,7 @@
         }
     },
     "GroupV2--member-privilege--promote--other--unknown": {
-        "message": "Msimamizi alifanya$memberName$ msimamizi.",
+        "message": "Msimamizi amemteua $memberName$ kuwa msimamizi.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4208,7 +4164,7 @@
         }
     },
     "GroupV2--member-privilege--promote--you--other": {
-        "message": "$adminName$amekufanya msimamizi.",
+        "message": "$adminName$ amekuteua kuwa msimamizi.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4218,11 +4174,11 @@
         }
     },
     "GroupV2--member-privilege--promote--you--unknown": {
-        "message": "Msimamizi alikufanya uwe msimamizi.",
+        "message": "Msimamizi amekuteua uwe msimamizi.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-privilege--demote--other--other": {
-        "message": "$adminName$marupurupu ya usimamizi yaliyofutwa$memberName$ .",
+        "message": "$adminName$ amemwondolea $memberName$ mamlaka ya usimamizi.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4236,7 +4192,7 @@
         }
     },
     "GroupV2--member-privilege--demote--other--you": {
-        "message": "Umefuta haki za msimamizi kutoka$memberName$ .",
+        "message": "Umemwondolea $memberName$ mamlaka ya usimamizi.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4246,11 +4202,11 @@
         }
     },
     "GroupV2--member-privilege--demote--other--unknown": {
-        "message": "Msimamizi alifuta marupurupu ya msimamizi kutoka$memberName$ .",
+        "message": "Msimamizi amemwondolea $memberName$ mamlaka ya usimamizi.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-privilege--demote--you--other": {
-        "message": "$adminName$ilifuta marupurupu yako ya msimamizi.",
+        "message": "$adminName$ amekuondolea mamlaka ya usimamizi.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4260,11 +4216,11 @@
         }
     },
     "GroupV2--member-privilege--demote--you--unknown": {
-        "message": "Msimamizi alifutilia mbali marupurupu yako ya msimamizi.",
+        "message": "Msimamizi amekuondolea mamlaka ya usimamizi.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--pending-add--one--other--other": {
-        "message": "$memberName$alialika mtu 1 kwenye kikundi.",
+        "message": "$memberName$ amemwalika mtu 1 kwenye kikundi.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4274,7 +4230,7 @@
         }
     },
     "GroupV2--pending-add--one--other--you": {
-        "message": "Umealika$inviteeName$ kwa kikundi.",
+        "message": "Umemwalika $inviteeName$ kwenye kikundi.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -4284,7 +4240,7 @@
         }
     },
     "GroupV2--pending-add--one--other--unknown": {
-        "message": "Mtu mmoja alialikwa kwenye kikundi.",
+        "message": "Mtu mmoja amealikwa kwenye kikundi.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -4294,7 +4250,7 @@
         }
     },
     "GroupV2--pending-add--one--you--other": {
-        "message": "$memberName$alikualika kwenye kikundi.",
+        "message": "$memberName$ amekualika kwenye kikundi.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4308,7 +4264,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--pending-add--many--other": {
-        "message": "$memberName$walioalikwa$count$ watu kwa kikundi.",
+        "message": "$memberName$ amewaalika watu $count$kwenye kikundi.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4322,7 +4278,7 @@
         }
     },
     "GroupV2--pending-add--many--you": {
-        "message": "Umealika$count$ watu kwa kikundi.",
+        "message": "Umewaalika watu $count$kwenye kikundi.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -4332,7 +4288,7 @@
         }
     },
     "GroupV2--pending-add--many--unknown": {
-        "message": "$count$watu walialikwa kwenye kikundi.",
+        "message": "Watu $count$ wamealikwa kwenye kikundi.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -4342,7 +4298,7 @@
         }
     },
     "GroupV2--pending-remove--decline--other": {
-        "message": "Mtu 1 aliyealikwa na$memberName$ alikataa mwaliko kwa kikundi.",
+        "message": "Mtu 1 aliyealikwa na $memberName$ amekataa mwaliko kwa kikundi.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4352,7 +4308,7 @@
         }
     },
     "GroupV2--pending-remove--decline--you": {
-        "message": "$inviteeName$alikataa mwaliko wako kwa kikundi.",
+        "message": "$inviteeName$ amekataa mwaliko wako kwa kikundi.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -4362,15 +4318,15 @@
         }
     },
     "GroupV2--pending-remove--decline--from-you": {
-        "message": "Ulikataa mwaliko kwenye kikundi.",
+        "message": "Umekataa mwaliko wa kujiunga na kikundi.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--pending-remove--decline--unknown": {
-        "message": "Mtu 1 alikataa mwaliko wao kwa kikundi.",
+        "message": "Mtu 1 amekataa mwaliko aliotumiwa wa kujiunga na kikundi.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--pending-remove--revoke--one--other": {
-        "message": "$memberName$ilibatilisha mwaliko kwa kikundi kwa mtu 1.",
+        "message": "$memberName$ amebatilisha mwaliko kwa kikundi uliotumwa kwa mtu 1.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4390,7 +4346,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-own--to-you": {
-        "message": "$inviterName$walibatilisha mwaliko wao kwako.",
+        "message": "$inviterName$ amebatilisha mwaliko aliokutumia.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviterName": {
@@ -4400,7 +4356,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-own--unknown": {
-        "message": "$inviterName$ilibatilisha mwaliko wao kwa mtu 1.",
+        "message": "$inviterName$ amebatilisha mwaliko aliotuma kwa mtu 1.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviterName": {
@@ -4410,7 +4366,7 @@
         }
     },
     "GroupV2--pending-remove--revoke--one--unknown": {
-        "message": "Msimamizi alibatilisha mwaliko kwa kikundi kwa mtu 1.",
+        "message": "Msimamizi amebatilisha mwaliko wa kikundi uliotumiwa kwa mtu 1.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -4420,7 +4376,7 @@
         }
     },
     "GroupV2--pending-remove--revoke--many--other": {
-        "message": "$memberName$ilibadilisha mialiko kwa kikundi kwa$count$ watu.",
+        "message": "$memberName$amebatilisha mialiko ya kikundi iliyotumiwa watu $count$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -4444,7 +4400,7 @@
         }
     },
     "GroupV2--pending-remove--revoke--many--unknown": {
-        "message": "Msimamizi alibatilisha mialiko kwa kikundi kwa$count$ watu.",
+        "message": "Msimamizi amebatilisha mialiko ya kikundi iliyotumiwa watu $count$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -4454,7 +4410,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--one--other": {
-        "message": "$adminName$ilibatilisha mwaliko kwa kikundi kwa mtu 1 aliyealikwa na$memberName$ .",
+        "message": "$adminName$ amebatilisha mwaliko wa kikundi uliotumiwa mtu 1 aliyealikwa na$memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4468,7 +4424,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--one--you": {
-        "message": "Ulibatilisha mwaliko kwa kikundi kwa mtu 1 aliyealikwa na$memberName$ .",
+        "message": "Umebatilisha mwaliko wa kikundi uliotumiwa mtu 1 aliyealikwa na$memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4478,7 +4434,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--one--unknown": {
-        "message": "Msimamizi alibatilisha mwaliko kwa kikundi kwa mtu 1 aliyealikwa na$memberName$ .",
+        "message": "Msimamizi amebatilisha mwaliko wa kikundi uliotumiwa mtu 1 aliyealikwa na $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4488,7 +4444,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--one--other": {
-        "message": "$adminName$ilibatilisha mwaliko kwa kikundi ulichotuma$inviteeName$ .",
+        "message": "$adminName$ amebatilisha mwaliko wa kikundi uliomtumia $inviteeName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4498,7 +4454,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--one--you": {
-        "message": "Uliachilia mwaliko wako kwa$inviteeName$ .",
+        "message": "Umeondoa mwaliko uliomtumia $inviteeName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -4508,7 +4464,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--one--unknown": {
-        "message": "Msimamizi alibatilisha mwaliko kwa kikundi ulichotuma$inviteeName$ .",
+        "message": "Msimamizi amebatilisha mwaliko kwa kikundi uliomtumia $inviteeName$ .",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -4518,7 +4474,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--many--other": {
-        "message": "$adminName$ilibadilisha mialiko kwa kikundi kwa$count$ watu walioalikwa na$memberName$ .",
+        "message": "$adminName$ amebatilisha mialiko ya kikundi aliyowatumia watu$count$ walioalikwa na $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4532,7 +4488,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--many--you": {
-        "message": "Ulibatilisha mialiko kwa kikundi kwa$count$ watu walioalikwa na$memberName$ .",
+        "message": "Umebatilisha mialiko ya kikundi uliyowatumia watu $count$ walioalikwa na $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -4546,7 +4502,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--many--unknown": {
-        "message": "Msimamizi alibatilisha mialiko kwa kikundi kwa$count$ watu walioalikwa na$memberName$ .",
+        "message": "Msimamizi amebatilisha mialiko ya kikundi aliyowatumia watu $count$ walioalikwa na $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -4560,7 +4516,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--many--other": {
-        "message": "$adminName$ilibatilisha mialiko kwa kikundi ulichotuma$count$ watu.",
+        "message": "$adminName$ amebatilisha mialiko ya kikundi uliyowatumia watu $count$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4574,7 +4530,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--many--you": {
-        "message": "Uliachilia mwaliko wako kwa$count$ watu.",
+        "message": "Umeondoa mwaliko uliowatumia watu $count$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -4584,7 +4540,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--many--unknown": {
-        "message": "Msimamizi alibatilisha mialiko kwa kikundi ulichotuma$count$ watu.",
+        "message": "Msimamizi amebatilisha mialiko ya kikundi uliyowatumia watu $count$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -4594,11 +4550,11 @@
         }
     },
     "GroupV2--admin-approval-add-one--you": {
-        "message": "Ulituma ombi la kujiunga na kikundi.",
+        "message": "Umetuma ombi la kujiunga na kikundi.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--admin-approval-add-one--other": {
-        "message": "$joinerName$uliombwa kujiunga kupitia kiungo cha kikundi.",
+        "message": "$joinerName$ ameomba kujiunga kupitia kiungo cha kikundi.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -4616,7 +4572,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--admin-approval-remove-one--other--you": {
-        "message": "Umekataa ombi la kujiunga na kikundi kutoka$joinerName$ .",
+        "message": "Umekataa ombi la kujiunga na kikundi lililotumwa na $joinerName$ .",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -4626,7 +4582,7 @@
         }
     },
     "GroupV2--admin-approval-remove-one--other--own": {
-        "message": "$joinerName$ilighairi ombi lao la kujiunga na kikundi.",
+        "message": "$joinerName$ ameghairi ombi lake la kujiunga na kikundi.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -4636,7 +4592,7 @@
         }
     },
     "GroupV2--admin-approval-remove-one--other--other": {
-        "message": "$adminName$alikataa ombi la kujiunga na kikundi kutoka$joinerName$ .",
+        "message": "$adminName$ amekataa ombi la kujiunga na kikundi lililotumwa na $joinerName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4650,11 +4606,11 @@
         }
     },
     "GroupV2--group-link-add--disabled--you": {
-        "message": "Umewasha kiunga cha kikundi na idhini ya msimamizi imezimwa.",
+        "message": "Umewasha kiungo cha kikundi idhini ya msimamizi ikiwa imezimwa.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-add--disabled--other": {
-        "message": "$adminName$imewasha kiunga cha kikundi na idhini ya msimamizi imezimwa.",
+        "message": "$adminName$ amewasha kiungo cha kikundi idhini ya msimamizi ikiwa imezimwa.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4664,15 +4620,15 @@
         }
     },
     "GroupV2--group-link-add--disabled--unknown": {
-        "message": "Kiungo cha kikundi kimewashwa na idhini ya msimamizi imezimwa.",
+        "message": "Kiungo cha kikundi kimewashwa na idhini ya msimamizi kuzimwa.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-add--enabled--you": {
-        "message": "Umewasha kiunga cha kikundi na idhini ya msimamizi imewezeshwa.",
+        "message": "Umewasha kiungo cha kikundi idhini ya msimamizi ikiwa imewashwa.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-add--enabled--other": {
-        "message": "$adminName$imewasha kiunga cha kikundi na idhini ya msimamizi imewezeshwa.",
+        "message": "$adminName$ amewasha kiungo cha kikundi idhini ya msimamizi ikiwa imewashwa.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4682,15 +4638,15 @@
         }
     },
     "GroupV2--group-link-add--enabled--unknown": {
-        "message": "Kiungo cha kikundi kimewashwa na idhini ya msimamizi kuwezeshwa.",
+        "message": "Kiungo cha kikundi kimewashwa na idhini ya msimamizi kuwashwa.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-remove--you": {
-        "message": "Umezima kiunga cha kikundi.",
+        "message": "Umezima kiungo cha kikundi.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-remove--other": {
-        "message": "$adminName$amezima kiunga cha kikundi.",
+        "message": "$adminName$ amezima kiungo cha kikundi.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4704,11 +4660,11 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-reset--you": {
-        "message": "Unaweka upya kiunga cha kikundi.",
+        "message": "Umwweka upya kiungo cha kikundi.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-reset--other": {
-        "message": "$adminName$rekebisha kiunga cha kikundi.",
+        "message": "$adminName$ ameweka upya kiungo cha kikundi.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4726,7 +4682,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--description--remove--other": {
-        "message": "$memberName$iliondoa maelezo ya kikundi.",
+        "message": "$memberName$ ameondoa maelezo ya kikundi.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4736,7 +4692,7 @@
         }
     },
     "GroupV2--description--remove--unknown": {
-        "message": "Maelezo ya kikundi yaliondolewa.",
+        "message": "Maelezo ya kikundi yameondolewa.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--description--change--you": {
@@ -4744,7 +4700,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--description--change--other": {
-        "message": "$memberName$ilibadilisha maelezo ya kikundi.",
+        "message": "$memberName$ amebadilisha maelezo ya kikundi.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4754,15 +4710,15 @@
         }
     },
     "GroupV2--description--change--unknown": {
-        "message": "Maelezo ya kikundi yalibadilishwa.",
+        "message": "Maelezo ya kikundi yamebadilishwa.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--admin--you": {
-        "message": "Ulibadilisha mipangilio ya kikundi ili kuruhusu wasimamizi tu kutuma ujumbe.",
+        "message": "Umebadilisha mipangilio ya kikundi ili kuwaruhusu wasimamizi pekee kutuma ujumbe.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--admin--other": {
-        "message": "$memberName$ilibadilisha mipangilio ya kikundi kuruhusu wasimamizi tu kutuma ujumbe.",
+        "message": "$memberName$ amebadilisha mipangilio ya kikundi ili kuwaruhusu wasimamizi pekee kutuma ujumbe.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4772,15 +4728,15 @@
         }
     },
     "GroupV2--announcements--admin--unknown": {
-        "message": "Kikundi kilibadilishwa kuruhusu tu wasimamizi kutuma ujumbe.",
+        "message": "Kikundi kimebadilishwa ili kuwaruhusu wasimamizi pekee kutuma ujumbe.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--member--you": {
-        "message": "Ulibadilisha mipangilio ya kikundi ili kuruhusu washiriki wote kutuma ujumbe.",
+        "message": "Umebadilisha mipangilio ya kikundi ili kuwaruhusu wanachama wote kutuma ujumbe.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--member--other": {
-        "message": "$memberName$ilibadilisha mipangilio ya kikundi kuruhusu washiriki wote kutuma ujumbe.",
+        "message": "$memberName$ amebadilisha mipangilio ya kikundi ili kuwaruhusu wanachama wote kutuma ujumbe.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4790,11 +4746,11 @@
         }
     },
     "GroupV2--announcements--member--unknown": {
-        "message": "Kikundi kilibadilishwa ili kuruhusu washiriki wote kutuma ujumbe.",
+        "message": "Kikundi kimebadilishwa ili kuwaruhusu wanachama wote kutuma ujumbe.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV1--Migration--disabled": {
-        "message": "Boresha kikundi hiki ili kuamsha huduma mpya kama @mention na admins. Wanachama ambao hawajashiriki jina au picha zao katika kikundi hiki wataalikwa kujiunga.$learnMore$",
+        "message": "Boresha kikundi hiki ili uwezesha vipengele vipya kama vile @kutajwa na kuteua wasimamizi. Wanachama ambao hawajashiriki majina au picha zao katika kikundi hiki wataalikwa kujiunga. $learnMore$",
         "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1).",
         "placeholders": {
             "learnMore": {
@@ -4804,7 +4760,7 @@
         }
     },
     "GroupV1--Migration--was-upgraded": {
-        "message": "Kikundi hiki kiliboreshwa na kuwa Kikundi kipya.",
+        "message": "Kikundi hiki kimeboreshwa na kuwa Kikundi Kipya.",
         "description": "Shown in timeline when a legacy group (GV1) is upgraded to a new group (GV2)"
     },
     "GroupV1--Migration--learn-more": {
@@ -4816,31 +4772,31 @@
         "description": "Shown on Migrate dialog to kick off the process"
     },
     "GroupV1--Migration--info--title": {
-        "message": "Vikundi vipya ni nini?",
+        "message": "Vikundi Vipya ni Nini?",
         "description": "Shown on Learn More popup after GV1 migration"
     },
     "GroupV1--Migration--migrate--title": {
-        "message": "Boresha hadi Kundi Jipya",
+        "message": "Boresha kiwe Kikundi Kipya",
         "description": "Shown on Migration popup after choosing to migrate group"
     },
     "GroupV1--Migration--info--summary": {
-        "message": "Vikundi vipya vina huduma kama vile @ maelezo na wasimamizi wa vikundi, na vitasaidia huduma zaidi katika siku zijazo.",
+        "message": "Vikundi Vipya vina vipengele kama vile @kutajwa na kuteua wasimamizi wa vikundi, na vitatumia vipengele zaidi katika siku zijazo.",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--keep-history": {
-        "message": "Historia yote ya ujumbe na media zimehifadhiwa kutoka kabla ya sasisho.",
+        "message": "Historia yote ya ujumbe na media zimehifadhiwa kutoka kabla ya usasishaji.",
         "description": "Shown on Learn More popup after GV1 migration"
     },
     "GroupV1--Migration--migrate--keep-history": {
-        "message": "Historia yote ya ujumbe na media zitahifadhiwa kutoka kabla ya sasisho.",
+        "message": "Historia yote ya ujumbe na media zitahifadhiwa kutoka kabla ya usasishaji.",
         "description": "Shown on Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--invited--you": {
-        "message": "Utahitaji kukubali mwaliko ili ujiunge na kikundi hiki tena, na hautapokea ujumbe wa kikundi hadi ukubali.",
+        "message": "Utahitaji kukubali mwaliko ili ujiunge na kikundi hiki tena, na hutapokea ujumbe wa kikundi hadi ukubali.",
         "description": "Shown on Learn More popup after GV1 migration"
     },
     "GroupV1--Migration--info--invited--many": {
-        "message": "Wanachama hawa watahitaji kukubali mwaliko wa kujiunga na kikundi hiki tena, na hawatapokea ujumbe wa kikundi mpaka watakapokubali:",
+        "message": "Wanachama hawa watahitaji kukubali mwaliko ili kujiunga na kikundi hiki tena, na hawatapokea ujumbe wa kikundi hadi wakubali:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--invited--one": {
@@ -4848,27 +4804,27 @@
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--before--many": {
-        "message": "Wanachama hawa hawana uwezo wa kujiunga na Vikundi vipya, na wataondolewa kwenye kikundi:",
+        "message": "Wanachama hawa hawana uwezo wa kujiunga na Vikundi Vipya, kwa hivyo wataondolewa kwenye kikundi:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--before--one": {
-        "message": "Mwanachama huyu hana uwezo wa kujiunga na Vikundi vipya, na ataondolewa kwenye kikundi:",
+        "message": "Mwanachama huyu hana uwezo wa kujiunga na Vikundi Vipya, kwa hivyo ataondolewa kwenye kikundi:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--after--many": {
-        "message": "Wanachama hawa hawakuwa na uwezo wa kujiunga na Vikundi vipya, na waliondolewa kwenye kikundi:",
+        "message": "Wanachama hawa hawakuweza kujiunga na Vikundi vipya, kwa hivyo waliondolewa kwenye kikundi:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--after--one": {
-        "message": "Mwanachama huyu hakuwa na uwezo wa kujiunga na Vikundi vipya, na aliondolewa kwenye kikundi:",
+        "message": "Mwanachama huyu hakuweza kujiunga na Vikundi Vipya, kwa hivyo ameondolewa kwenye kikundi:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--invited--you": {
-        "message": "Haungeweza kuongezwa kwenye Kikundi kipya na umealikwa kujiunga.",
+        "message": "Hukuweza kuongezwa kwenye Kikundi Kipya na umealikwa kujiunga.",
         "description": "Shown in timeline when a group is upgraded and you were invited instead of added"
     },
     "GroupV1--Migration--invited--one": {
-        "message": "$contact$haikuweza kuongezwa kwenye Kikundi kipya na amealikwa kujiunga.",
+        "message": "$contact$ hakuweza kuongezwa kwenye Kikundi Kipya na amealikwa kujiunga.",
         "description": "Shown in timeline when a group is upgraded and one person was invited, instead of added",
         "placeholders": {
             "contact": {
@@ -4878,7 +4834,7 @@
         }
     },
     "GroupV1--Migration--invited--many": {
-        "message": "$count$washiriki hawakuweza kuongezwa kwenye Kikundi kipya na wamealikwa kujiunga.",
+        "message": "Wanachama $count$ hawakuweza kuongezwa kwenye Kikundi Kipya na wamealikwa kujiunga.",
         "description": "Shown in timeline when a group is upgraded and some people were invited, instead of added",
         "placeholders": {
             "contact": {
@@ -4888,7 +4844,7 @@
         }
     },
     "GroupV1--Migration--removed--one": {
-        "message": "$contact$aliondolewa kwenye kikundi.",
+        "message": "$contact$ ameondolewa kwenye kikundi.",
         "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade",
         "placeholders": {
             "contact": {
@@ -4898,7 +4854,7 @@
         }
     },
     "GroupV1--Migration--removed--many": {
-        "message": "$count$wanachama waliondolewa kwenye kikundi.",
+        "message": "Wanachama $count$ wameondolewa kwenye kikundi.",
         "description": "Shown in timeline when a group is upgraded and some people were removed entirely during the upgrade",
         "placeholders": {
             "contact": {
@@ -4912,7 +4868,7 @@
         "description": "Generic close label"
     },
     "previous": {
-        "message": "uliopita",
+        "message": "iliyopita",
         "description": "Generic previous label"
     },
     "next": {
@@ -4928,19 +4884,19 @@
         "description": "Aria label for file attachment button in composition area"
     },
     "CompositionArea--sms-only__title": {
-        "message": "Mtu huyu hatumii Ishara",
+        "message": "Mtu huyu hatumii Signal",
         "description": "Title for the composition area for the SMS-only contact"
     },
     "CompositionArea--sms-only__body": {
-        "message": "Eneo-kazi la Ishara halitumii ujumbe ambao sio Ishara. Muulize mtu huyu asakinishe Ishara kwa uzoefu salama zaidi wa ujumbe.",
+        "message": "Signal Desktop haikubali kupokea ujumbe kwa watu wasiotumia Signal. Muombe mtu huyu asakinishe Signal afurahie huduma salama zaidi ya ujumbe.",
         "description": "Body for the composition area for the SMS-only contact"
     },
     "CompositionArea--sms-only__spinner-label": {
-        "message": "Kuangalia hali ya usajili wa anwani",
+        "message": "Inakagua hali ya usajili wa mwasiliani",
         "description": "Displayed while checking if the contact is SMS-only"
     },
     "countMutedConversationsDescription": {
-        "message": "Hesabu mazungumzo yaliyonyamazishwa katika hesabu ya beji",
+        "message": "Hesabu gumzo zilizonyamazishwa katika hesabu ya beji",
         "description": "Description for counting muted conversations in badge setting"
     },
     "ContactModal--message": {
@@ -4948,15 +4904,15 @@
         "description": "Button text for send message button in Group Contact Details modal"
     },
     "ContactModal--rm-admin": {
-        "message": "Ondoa kama msimamizi",
+        "message": "Mwondoe kama msimamizi",
         "description": "Button text for removing as admin button in Group Contact Details modal"
     },
     "ContactModal--make-admin": {
-        "message": "Fanya msimamizi",
+        "message": "Mteue kuwa msimamizi",
         "description": "Button text for make admin button in Group Contact Details modal"
     },
     "ContactModal--make-admin-info": {
-        "message": "$contact$wataweza kuhariri kikundi hiki na washiriki wake.",
+        "message": "$contact$ ataweza kubadilisha maelezo ya kikundi hiki na wanachama wake.",
         "description": "Shown in a confirmation dialog when you are about to grant admin privileges to someone",
         "placeholders": {
             "contact": {
@@ -4966,7 +4922,7 @@
         }
     },
     "ContactModal--rm-admin-info": {
-        "message": "Ondoa$contact$ kama msimamizi wa kikundi",
+        "message": "Mwondoe $contact$ kama msimamizi wa kikundi",
         "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone",
         "placeholders": {
             "contact": {
@@ -4976,7 +4932,7 @@
         }
     },
     "ContactModal--remove-from-group": {
-        "message": "Ondoa kutoka kwa kikundi",
+        "message": "Mwondoe kwenye kikundi",
         "description": "Button text for remove from group button in Group Contact Details modal"
     },
     "showChatColorEditor": {
@@ -4988,7 +4944,7 @@
         "description": "This is a button in the conversation context menu to show group settings"
     },
     "ConversationDetails--group-link": {
-        "message": "Kiunga cha kikundi",
+        "message": "Kiungo cha kikundi",
         "description": "This is the label for the group link management panel"
     },
     "ConversationDetails--disappearing-messages-label": {
@@ -4996,7 +4952,7 @@
         "description": "This is the label for the disappearing messages setting panel"
     },
     "ConversationDetails--disappearing-messages-info": {
-        "message": "Ikiwashwa, ujumbe uliotumwa na kupokelewa katika kikundi hiki utatoweka baada ya kuonekana.",
+        "message": "Ukiwasha mipangilio hii, ujumbe uliotumwa na kupokelewa katika kikundi hiki utatoweka baada ya kuonekana.",
         "description": "This is the info about the disappearing messages setting"
     },
     "ConversationDetails--notifications": {
@@ -5004,19 +4960,19 @@
         "description": "This is the label for notifications in the conversation details screen"
     },
     "ConversationDetails--group-info-label": {
-        "message": "Nani anayeweza kuhariri maelezo ya kikundi",
+        "message": "Nani anayeweza kubadilisha maelezo ya kikundi",
         "description": "This is the label for the 'who can edit the group' panel"
     },
     "ConversationDetails--group-info-info": {
-        "message": "Chagua ni nani anayeweza kuhariri jina la kikundi, picha, maelezo, na kipima muda cha ujumbe.",
+        "message": "Chagua ni nani anayeweza kubadilisha jina la kikundi, picha, maelezo, na kipima muda cha ujumbe unaotoweka.",
         "description": "This is the additional info for the 'who can edit the group' panel"
     },
     "ConversationDetails--add-members-label": {
-        "message": "Nani anaweza kuongeza wanachama",
+        "message": "Nani anayeweza kuongeza wanachama",
         "description": "This is the label for the 'who can add members' panel"
     },
     "ConversationDetails--add-members-info": {
-        "message": "Chagua ni nani anayeweza kuongeza washiriki kwenye kikundi hiki.",
+        "message": "Chagua ni nani anayeweza kuongeza wanachama kwenye kikundi hiki.",
         "description": "This is the additional info for the 'who can add members' panel"
     },
     "ConversationDetails--announcement-label": {
@@ -5024,7 +4980,7 @@
         "description": "This is the additional info for the 'who can send messages' panel"
     },
     "ConversationDetails--announcement-info": {
-        "message": "Chagua ni nani anayeweza kutuma ujumbe kwa kikundi.",
+        "message": "Chagua ni nani anayeweza kutuma ujumbe kwenye kikundi.",
         "description": "This is the additional info for the 'who can send mesages' panel"
     },
     "ConversationDetails--requests-and-invites": {
@@ -5036,11 +4992,11 @@
         "description": "This is a button to leave a group"
     },
     "ConversationDetailsActions--block-group": {
-        "message": "Kuzuia kikundi",
+        "message": "Zuia kikundi",
         "description": "This is a button to block a group"
     },
     "ConversationDetailsActions--leave-group-must-choose-new-admin": {
-        "message": "Kabla ya kuondoka, lazima uchague angalau msimamizi mmoja mpya wa kikundi hiki.",
+        "message": "Kabla ya kuondoka, sharti uchague angalau msimamizi mmoja mpya wa kikundi hiki.",
         "description": "Shown if, before leaving a group, you need to choose an admin"
     },
     "ConversationDetailsActions--leave-group-modal-title": {
@@ -5056,7 +5012,7 @@
         "description": "This is the modal button to confirm leaving a group"
     },
     "ConversationDetailsActions--block-group-modal-title": {
-        "message": "Zuia na Uache &quot;$groupName$ &quot;Kikundi?",
+        "message": "Ungependa Kuzuia na Kuondoka kwenye Kikundi cha \"$groupName$\"?",
         "description": "This is the modal title for confirming blocking a group",
         "placeholders": {
             "groupName": {
@@ -5074,7 +5030,7 @@
         "description": "This is the modal button to confirm blocking a group"
     },
     "ConversationDetailsHeader--members": {
-        "message": "$number$wanachama",
+        "message": "Wanachama $number$",
         "description": "This is the number of members in a group",
         "placeholders": {
             "number": {
@@ -5088,11 +5044,11 @@
         "description": "Title for the media thumbnails in the conversation details screen"
     },
     "ConversationDetailsMediaList--show-all": {
-        "message": "Ona yote",
+        "message": "Tazama zote",
         "description": "This is a button on the conversation details to show all media"
     },
     "ConversationDetailsMembershipList--title": {
-        "message": "$number$wanachama",
+        "message": "Wanachama $number$",
         "description": "The title of the membership list panel",
         "placeholders": {
             "number": {
@@ -5106,7 +5062,7 @@
         "description": "The button that you can click to add new members"
     },
     "ConversationDetailsMembershipList--show-all": {
-        "message": "Ona yote",
+        "message": "Tazama zote",
         "description": "This is a button on the conversation details to show all members"
     },
     "ConversationNotificationsSettings__mentions__label": {
@@ -5122,11 +5078,11 @@
         "description": "In the conversation notifications settings, this is the option that always notifies you for @mentions"
     },
     "ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
-        "message": "Usijulishe ikiwa umenyamazishwa",
+        "message": "Usiarifu ikiwa mazungumzo yamenyamazishwa",
         "description": "In the conversation notifications settings, this is the option that doesn't notify you for @mentions if the conversation is muted"
     },
     "GroupLinkManagement--clipboard": {
-        "message": "Kiungo cha kikundi kimenakiliwa",
+        "message": "Umenakili kiungo cha kikundi.",
         "description": "Shown in a toast when a user selects to copy group link"
     },
     "GroupLinkManagement--share": {
@@ -5134,7 +5090,7 @@
         "description": "This lets users share their group link"
     },
     "GroupLinkManagement--confirm-reset": {
-        "message": "Je! Una uhakika unataka kuweka upya kiunga cha kikundi? Watu hawataweza tena kujiunga na kikundi kwa kutumia kiunga cha sasa.",
+        "message": "Je, una hakika unataka kuweka upya kiungo cha kikundi? Watu hawataweza tena kujiunga na kikundi kwa kutumia kiungo cha sasa.",
         "description": "Shown in the confirmation dialog when an admin is about to reset the group link"
     },
     "GroupLinkManagement--reset": {
@@ -5146,11 +5102,11 @@
         "description": "Title for the approve new members select area"
     },
     "GroupLinkManagement--approve-info": {
-        "message": "Inahitaji msimamizi kuidhinisha wanachama wapya wanaojiunga kupitia kiunga cha kikundi",
+        "message": "Itisha ruhusa ya msimamizi kuidhinisha wanachama wapya wanaojiunga kupitia kiungo cha kikundi",
         "description": "Description for the approve new members select area"
     },
     "PendingInvites--tab-requests": {
-        "message": "Maombi ($count$ )",
+        "message": "Maombi ($count$)",
         "description": "Label for the tab to view pending requests",
         "placeholders": {
             "name": {
@@ -5160,7 +5116,7 @@
         }
     },
     "PendingInvites--tab-invites": {
-        "message": "Mialiko ($count$ )",
+        "message": "Mialiko ($count$)",
         "description": "Label for the tab to view pending invites",
         "placeholders": {
             "name": {
@@ -5170,7 +5126,7 @@
         }
     },
     "PendingRequests--approve-for": {
-        "message": "Idhinisha ombi kutoka &quot;$name$ &quot;?",
+        "message": "Ungependa kuidhinisha ombi kutoka kwa \"$name$\"?",
         "description": "This is the modal content when confirming approving a group request to join",
         "placeholders": {
             "name": {
@@ -5180,7 +5136,7 @@
         }
     },
     "PendingRequests--deny-for": {
-        "message": "Kataa ombi kutoka &quot;$name$ &quot;?",
+        "message": "Ungependa kukataa ombi kutoka kwa \"$name$\"?",
         "description": "This is the modal content when confirming denying a group request to join",
         "placeholders": {
             "name": {
@@ -5190,19 +5146,19 @@
         }
     },
     "PendingInvites--invites": {
-        "message": "Umealikwa na wewe",
+        "message": "Ulioalika",
         "description": "This is the title list of all invites"
     },
     "PendingInvites--invited-by-you": {
-        "message": "Umealikwa na wewe",
+        "message": "Ulioalika",
         "description": "This is the title for the list of members you have invited"
     },
     "PendingInvites--invited-by-others": {
-        "message": "Umealikwa na wengine",
+        "message": "Walioalikwa na wengine",
         "description": "This is the title for the list of members who have invited other people"
     },
     "PendingInvites--invited-count": {
-        "message": "Umealikwa$number$",
+        "message": "Umealika $number$",
         "description": "This is the label for the number of members someone has invited",
         "placeholders": {
             "number": {
@@ -5216,7 +5172,7 @@
         "description": "This is aria label for revoking a group invite icon"
     },
     "PendingInvites--revoke-for": {
-        "message": "Batilisha mwaliko wa kikundi kwa &quot;$name$ &quot;?",
+        "message": "Ungependa kubatilisha mwaliko wa kikundi wa \"$name$\"?",
         "description": "This is the modal content when confirming revoking a single invite",
         "placeholders": {
             "number": {
@@ -5230,7 +5186,7 @@
         }
     },
     "PendingInvites--revoke-from-singular": {
-        "message": "Batilisha mwaliko 1 uliotumwa na &quot;$name$ &quot;?",
+        "message": "Ungependa kubatilisha mwaliko 1 uliotumwa na \"$name$\"?",
         "description": "This is the modal content when confirming revoking a single invite",
         "placeholders": {
             "name": {
@@ -5240,7 +5196,7 @@
         }
     },
     "PendingInvites--revoke-from-plural": {
-        "message": "Batilisha$number$ mialiko iliyotumwa na &quot;$name$ &quot;",
+        "message": "Batilisha mialiko $number$ iliyotumwa na \"$name$\"",
         "description": "This is the modal content when confirming revoking multiple invites",
         "placeholders": {
             "number": {
@@ -5266,7 +5222,7 @@
         "description": "This is the modal button to deny group request to join"
     },
     "PendingRequests--info": {
-        "message": "Watu kwenye orodha hii wanajaribu kujiunga &quot;$name$ &quot;kupitia kiunga cha kikundi.",
+        "message": "Watu walio kwenye orodha hii wanajaribu kujiunga na \"$name$\" kupitia kiungo cha kikundi.",
         "description": "Inforamtion shown below the pending admin approval list",
         "placeholders": {
             "name": {
@@ -5276,7 +5232,7 @@
         }
     },
     "PendingInvites--info": {
-        "message": "Maelezo kuhusu watu walioalikwa kwenye kikundi hiki hayaonyeshwa hadi wajiunge. Waalikwa wataona tu ujumbe baada ya kujiunga na kikundi.",
+        "message": "Maelezo kuhusu watu walioalikwa kwenye kikundi hiki hayataonyeshwa hadi wajiunge. Waalikwa wataona ujumbe tu baada ya kujiunga na kikundi.",
         "description": "Information shown below the invite list"
     },
     "AvatarInput--no-photo-label--group": {
@@ -5288,7 +5244,7 @@
         "description": "The label for the avatar uploader when no profile photo is selected"
     },
     "AvatarInput--change-photo-label": {
-        "message": "BADILISHA picha",
+        "message": "Badilisha picha",
         "description": "The label for the avatar uploader when a photo is selected"
     },
     "AvatarInput--upload-photo-choice": {
@@ -5300,7 +5256,7 @@
         "description": "The button text when you click on an uploaded avatar and want to remove it"
     },
     "ContactPill--remove": {
-        "message": "Ondoa anwani",
+        "message": "Ondoa mwasiliani",
         "description": "The label for the 'remove' button on the contact pill"
     },
     "ComposeErrorDialog--close": {
@@ -5312,7 +5268,7 @@
         "description": "When creating a new group and inviting users, this is shown in the dialog"
     },
     "NewlyCreatedGroupInvitedContactsDialog--title--many": {
-        "message": "$count$mialiko imetumwa",
+        "message": "Mialiko $count$ imetumwa",
         "description": "When creating a new group and inviting users, this is shown in the dialog",
         "placeholders": {
             "count": {
@@ -5322,7 +5278,7 @@
         }
     },
     "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--one": {
-        "message": "$name$haiwezi kuongezwa kiotomatiki kwenye kikundi hiki na wewe.",
+        "message": "$name$ hawezi kuongezwa na wewe kiotomatiki kwenye kikundi hiki.",
         "description": "When creating a new group and inviting users, this is shown in the dialog",
         "placeholders": {
             "name": {
@@ -5332,7 +5288,7 @@
         }
     },
     "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--many": {
-        "message": "Watumiaji hawa hawawezi kuongezwa kiotomatiki kwenye kikundi hiki na wewe.",
+        "message": "Watumiaji hawa hawawezi kuongezwa na wewe kiotomatiki kwenye kikundi hiki.",
         "description": "When creating a new group and inviting users, this is shown in the dialog"
     },
     "NewlyCreatedGroupInvitedContactsDialog--body--info-paragraph": {
@@ -5352,7 +5308,7 @@
         "description": "When adding new members to an existing group, this is shown in the dialog"
     },
     "AddGroupMembersModal--confirm-title--one": {
-        "message": "Ongeza$person$ kwa &quot;$group$ &quot;?",
+        "message": "Ungependa kumwongeza $person$ kwenye \"$group$\"?",
         "description": "When adding new members to an existing group, this is shown in the confirmation dialog",
         "placeholders": {
             "person": {
@@ -5366,7 +5322,7 @@
         }
     },
     "AddGroupMembersModal--confirm-title--many": {
-        "message": "Ongeza$count$ wanachama kwa &quot;$group$ &quot;?",
+        "message": "Ungependa kuwaongeza wanachama $count$ kwenye \"$group$\"?",
         "description": "When adding new members to an existing group, this is shown in the confirmation dialog",
         "placeholders": {
             "count": {
@@ -5392,15 +5348,15 @@
         "description": "The text of the button to create new groups"
     },
     "selectContact": {
-        "message": "Chagua anwani",
+        "message": "Chagua mwasiliani",
         "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)"
     },
     "deselectContact": {
-        "message": "Chagua anwani",
+        "message": "Tendua kuchagua mwasiliani",
         "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)"
     },
     "cannotSelectContact": {
-        "message": "Haiwezi kuchagua anwani",
+        "message": "Huwezi kuchagua mwasiliani",
         "description": "The label for contact checkboxes that are disabled"
     },
     "alreadyAMember": {
@@ -5420,15 +5376,15 @@
         "description": "Aria label for audio attachment's Download button"
     },
     "MessageAudio--pending": {
-        "message": "Inapakua kiambatisho cha sauti ...",
+        "message": "Unapakua kiambatisho cha sauti...",
         "description": "Aria label for pending audio attachment spinner"
     },
     "MessageAudio--slider": {
-        "message": "Wakati wa kucheza wa kiambatisho cha sauti",
+        "message": "Muda wa kucheza wa kiambatisho cha sauti",
         "description": "Aria label for audio attachment's playback time slider"
     },
     "emptyInboxMessage": {
-        "message": "Bonyeza$composeIcon$ hapo juu na utafute anwani zako au vikundi kwa ujumbe.",
+        "message": "Bonyeza $composeIcon$ hapa juu na uwatafute waasiliani zako au vikundi vya kutumia ujumbe.",
         "description": "Shown in the left-pane when the inbox is empty",
         "placeholders": {
             "composeIcon": {
@@ -5438,7 +5394,7 @@
         }
     },
     "composeIcon": {
-        "message": "tunga kitufe",
+        "message": "kitufe cha kutunga",
         "description": "Shown in the left-pane when the inbox is empty. Describes the button that composes a new message."
     },
     "ForwardMessageModal--continue": {
@@ -5450,7 +5406,7 @@
         "description": "Shown on the message request warning. Clicking this button will open a dialog with more information"
     },
     "MessageRequestWarning__dialog__details": {
-        "message": "Huna vikundi sawa na mtu huyu. Pitia maombi kwa uangalifu kabla ya kukubali ili kuepuka ujumbe usiohitajika.",
+        "message": "Hamshiriki vikundi na mtu huyu. Kagua maombi kwa uangalifu kabla ya kukubali ili kuepuka kutumiwa ujumbe usiohitajika.",
         "description": "Shown in the message request warning dialog. Gives more information about message requests"
     },
     "MessageRequestWarning__dialog__learn-even-more": {
@@ -5458,7 +5414,7 @@
         "description": "Shown in the message request warning dialog. Clicking this button will open a page on Signal's support site"
     },
     "ContactSpoofing__same-name": {
-        "message": "Pitia maombi kwa uangalifu. Ishara ilipata mawasiliano mengine yenye jina moja.$link$",
+        "message": "Kagua maombi kwa uangalifu. Signal imempata mtu mwingine mwenye jina kama hili. $link$",
         "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else",
         "placeholders": {
             "link": {
@@ -5468,7 +5424,7 @@
         }
     },
     "ContactSpoofing__same-name-in-group": {
-        "message": "$count$washiriki wa kikundi wana jina moja.$link$",
+        "message": "Wanachama $count$ wa kikundi wana majina yanayofanana. $link$",
         "description": "Shown in the timeline warning when you multiple group members have the same name",
         "placeholders": {
             "count": {
@@ -5486,7 +5442,7 @@
         "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else"
     },
     "ContactSpoofing__same-name-in-group__link": {
-        "message": "Bonyeza kukagua",
+        "message": "Bonyeza ukague",
         "description": "Shown in the timeline warning when you multiple group members have the same name"
     },
     "ContactSpoofingReviewDialog__title": {
@@ -5494,7 +5450,7 @@
         "description": "Title for the contact name spoofing review dialog"
     },
     "ContactSpoofingReviewDialog__description": {
-        "message": "Ikiwa hujui ombi hilo limetoka kwa nani, kagua anwani zilizo hapa chini na uchukue hatua.",
+        "message": "Ikiwa hujui ombi hili limetoka kwa nani, kagua waasiliani walio hapa chini na uchukue hatua.",
         "description": "Description for the contact spoofing review dialog"
     },
     "ContactSpoofingReviewDialog__possibly-unsafe-title": {
@@ -5502,15 +5458,15 @@
         "description": "Header in the contact spoofing review dialog, shown above the potentially-unsafe user"
     },
     "ContactSpoofingReviewDialog__safe-title": {
-        "message": "Anwani yako",
+        "message": "Mwasiliani wako",
         "description": "Header in the contact spoofing review dialog, shown above the \"safe\" user"
     },
     "ContactSpoofingReviewDialog__group__title": {
-        "message": "Pitia wanachama",
+        "message": "Kagua wanachama",
         "description": "Title for the contact name spoofing review dialog in groups"
     },
     "ContactSpoofingReviewDialog__group__description": {
-        "message": "$count$washiriki wa kikundi wana majina yanayofanana. Pitia wanachama walio chini au chagua kuchukua hatua.",
+        "message": "Wanachama $count$ wa kikundi wana majina yanayofanana. Wakague wanachama hapa chini au uchague kuchukua hatua.",
         "description": "Description for the group contact spoofing review dialog"
     },
     "ContactSpoofingReviewDialog__group__members-header": {
@@ -5518,7 +5474,7 @@
         "description": "Header in the group contact spoofing review dialog. After this header, there will be a list of members"
     },
     "ContactSpoofingReviewDialog__group__name-change-info": {
-        "message": "Hivi karibuni walibadilisha jina la wasifu wao kutoka$oldName$ kwa$newName$",
+        "message": "Hivi majuzi alibadilisha jina la wasifu wake kutoka $oldName$ hadi $newName$.",
         "description": "In the group contact spoofing review dialog, this text is shown when someone has changed their name recently",
         "placeholders": {
             "oldName": {
@@ -5532,11 +5488,11 @@
         }
     },
     "RemoveGroupMemberConfirmation__remove-button": {
-        "message": "Ondoa kutoka kwa kikundi",
+        "message": "Mwondoe kwenye kikundi",
         "description": "When confirming the removal of a group member, show this text in the button"
     },
     "RemoveGroupMemberConfirmation__description": {
-        "message": "Ondoa &quot;$name$ &quot;kutoka kwa kikundi?",
+        "message": "Ungependa kumwondoa \"$name$\" kwenye kikundi?",
         "description": "When confirming the removal of a group member, show this text in the dialog",
         "placeholders": {
             "name": {
@@ -5550,11 +5506,11 @@
         "description": "Header in the captcha dialog"
     },
     "CaptchaDialog__first-paragraph": {
-        "message": "Ili kusaidia kuzuia barua taka kwenye Ishara, tafadhali kamilisha uthibitishaji.",
+        "message": "Ili kusaidia kuzuia ujumbe taka kwenye Signal, tafadhali kamilisha uthibitishaji.",
         "description": "First paragraph in the captcha dialog"
     },
     "CaptchaDialog__second-paragraph": {
-        "message": "Baada ya kuthibitisha, unaweza kuendelea kutuma ujumbe. Ujumbe wowote uliositishwa utatumwa kiatomati.",
+        "message": "Baada ya kuthibitisha, unaweza kuendelea kutuma ujumbe. Ujumbe wowote uliositishwa utatumwa kiotomatiki.",
         "description": "First paragraph in the captcha dialog"
     },
     "CaptchaDialog--can-close__title": {
@@ -5562,7 +5518,7 @@
         "description": "Header in the captcha dialog that can be closed"
     },
     "CaptchaDialog--can-close__body": {
-        "message": "Ukichagua kuruka uthibitishaji, unaweza kukosa ujumbe kutoka kwa watu wengine na ujumbe wako unaweza kushindwa kutuma.",
+        "message": "Ukichagua kuruka uthibitishaji, huenda utakosa ujumbe kutoka kwa watu wengine na huenda ujumbe wako hautatumwa.",
         "description": "Body of the captcha dialog that can be closed"
     },
     "CaptchaDialog--can_close__skip-verification": {
@@ -5574,11 +5530,11 @@
         "description": "Displayed after successful captcha"
     },
     "verificationFailed": {
-        "message": "Uthibitishaji umeshindwa. Tafadhali jaribu tena baadaye.",
+        "message": "Uthibitishaji haujakamilika. Tafadhali jaribu tena baadaye.",
         "description": "Displayed after unsuccessful captcha"
     },
     "deleteForEveryoneFailed": {
-        "message": "Imeshindwa kufuta ujumbe kwa kila mtu. Tafadhali jaribu tena baadaye.",
+        "message": "Hujaweza kufuta ujumbe kwa kila mtu. Tafadhali jaribu tena baadaye.",
         "description": "Displayed when delete-for-everyone has failed to send to all recepients"
     },
     "ChatColorPicker__delete--title": {
@@ -5586,7 +5542,7 @@
         "description": "Confirm title for deleting custom color"
     },
     "ChatColorPicker__delete--message": {
-        "message": "Rangi hii ya kawaida hutumiwa katika$num$ mazungumzo. Je! Unataka kuifuta kwa soga zote?",
+        "message": "Rangi hii maalum hutumiwa katika gumzo $num$. Je, ungependa kuifuta kwa gumzo zote?",
         "description": "Confirm message for deleting custom color",
         "placeholders": {
             "num": {
@@ -5596,23 +5552,23 @@
         }
     },
     "ChatColorPicker__global-chat-color": {
-        "message": "Rangi ya Mazungumzo ya Ulimwenguni",
+        "message": "Rangi ya Mazungumzo ya Kijumla",
         "description": "Modal title for the chat color picker and editor for all conversations"
     },
     "ChatColorPicker__menu-title": {
-        "message": "Rangi ya soga",
+        "message": "Rangi ya Gumzo",
         "description": "View title for the chat color picker and editor"
     },
     "ChatColorPicker__reset": {
-        "message": "Rudisha rangi ya gumzo",
+        "message": "Weka upya rangi ya gumzo",
         "description": "Button label for resetting chat colors"
     },
     "ChatColorPicker__resetDefault": {
-        "message": "Rudisha Rangi za Gumzo",
+        "message": "Weka Upya Rangi za Gumzo",
         "description": "Confirmation dialog title for resetting all chat colors or only the global default one"
     },
     "ChatColorPicker__resetAll": {
-        "message": "Rudisha rangi zote za gumzo",
+        "message": "Weka upya rangi zote za gumzo",
         "description": "Button label for resetting all chat colors"
     },
     "ChatColorPicker__confirm-reset-default": {
@@ -5624,31 +5580,31 @@
         "description": "Confirm button label for resetting chat colors"
     },
     "ChatColorPicker__confirm-reset-message": {
-        "message": "Je! Ungependa kubatilisha rangi zote za gumzo?",
+        "message": "Je, ungependa kubatilisha rangi zote za gumzo?",
         "description": "Modal message text for confirming resetting of chat colors"
     },
     "ChatColorPicker__custom-color--label": {
-        "message": "Onyesha mhariri wa rangi maalum",
+        "message": "Onyesha kibadilishaji rangi maalum",
         "description": "aria-label for custom color editor button"
     },
     "ChatColorPicker__sampleBubble1": {
-        "message": "Hapa kuna hakiki ya rangi ya soga.",
+        "message": "Hii hapa hakiki ya rangi ya gumzo.",
         "description": "An example message bubble for selecting the chat color"
     },
     "ChatColorPicker__sampleBubble2": {
-        "message": "Bubble nyingine.",
+        "message": "Kiputo kingine.",
         "description": "An example message bubble for selecting the chat color"
     },
     "ChatColorPicker__sampleBubble3": {
-        "message": "Rangi hiyo inaonekana kwa wewe tu.",
+        "message": "Ni wewe tu unayeweza kuiona rangi hii.",
         "description": "An example message bubble for selecting the chat color"
     },
     "ChatColorPicker__context--edit": {
-        "message": "Hariri rangi",
+        "message": "Badilisha rangi",
         "description": "Option in the custom color bubble context menu"
     },
     "ChatColorPicker__context--duplicate": {
-        "message": "Nakala",
+        "message": "Nakala rudufu",
         "description": "Option in the custom color bubble context menu"
     },
     "ChatColorPicker__context--delete": {
@@ -5656,7 +5612,7 @@
         "description": "Option in the custom color bubble context menu"
     },
     "CustomColorEditor__solid": {
-        "message": "Imara",
+        "message": "Madhubuti",
         "description": "Tab label for selecting solid colors"
     },
     "CustomColorEditor__gradient": {
@@ -5664,19 +5620,19 @@
         "description": "Tab label for selecting a gradient"
     },
     "CustomColorEditor__hue": {
-        "message": "Hue",
+        "message": "Ukolevu wa rangi",
         "description": "Label for the hue slider"
     },
     "CustomColorEditor__saturation": {
-        "message": "Kueneza",
+        "message": "Ukolevu",
         "description": "Label for the saturation slider"
     },
     "CustomColorEditor__title": {
-        "message": "Rangi ya kawaida",
+        "message": "Rangi Maalum",
         "description": "Modal title for the custom color editor"
     },
     "customDisappearingTimeOption": {
-        "message": "Wakati maalum ...",
+        "message": "Wakati maalum...",
         "description": "Text for an option in Disappearing Messages menu and Conversation Details Disappearing Messages setting when no user value is available"
     },
     "selectedCustomDisappearingTimeOption": {
@@ -5684,11 +5640,11 @@
         "description": "Text for an option in Conversation Details Disappearing Messages setting when user previously selected custom time"
     },
     "DisappearingTimeDialog__title": {
-        "message": "Wakati wa kawaida",
+        "message": "Wakati wa Kawaida",
         "description": "Title for the custom disappearing message timeout dialog"
     },
     "DisappearingTimeDialog__body": {
-        "message": "Chagua wakati maalum wa kutoweka kwa ujumbe.",
+        "message": "Chagua wakati maalum wa ujumbe unaotoweka.",
         "description": "Body for the custom disappearing message timeout dialog"
     },
     "DisappearingTimeDialog__set": {
@@ -5704,7 +5660,7 @@
         "description": "Name of the 'minutes' unit select for the custom disappearing message timeout dialog"
     },
     "DisappearingTimeDialog__hours": {
-        "message": "Masaa",
+        "message": "Saa",
         "description": "Name of the 'hours' unit select for the custom disappearing message timeout dialog"
     },
     "DisappearingTimeDialog__days": {
@@ -5716,15 +5672,15 @@
         "description": "Name of the 'weeks' unit select for the custom disappearing message timeout dialog"
     },
     "settings__DisappearingMessages__footer": {
-        "message": "Weka kipima muda cha ujumbe wa kutoweka kwa gumzo zote mpya zilizoanzishwa na wewe.",
+        "message": "Weka kipima muda cha ujumbe unaotoweka kwa gumzo zote mpya zilizoanzishwa na wewe.",
         "description": "Footer for the Disappearing Messages settings section"
     },
     "settings__DisappearingMessages__timer__label": {
-        "message": "Kipima muda chaguzi mpya",
+        "message": "Kipima muda chaguo-msingi cha gumzo mpya",
         "description": "Label for the Disapearring Messages default timer setting"
     },
     "UniversalTimerNotification__text": {
-        "message": "Wakati wa kutoweka wa ujumbe utawekwa$timeValue$ unapowatumia ujumbe.",
+        "message": "Wakati wa ujumbe inaotoweka utawekwa kuwa $timeValue$ unapowatumia ujumbe.",
         "description": "A message displayed when default disappearing message timeout is about to be applied",
         "placeholders": {
             "timeValue": {
@@ -5734,19 +5690,19 @@
         }
     },
     "ErrorBoundaryNotification__text": {
-        "message": "Imeshindwa kuonyesha ujumbe kwa sababu ya hitilafu ya ndani. Bonyeza kuwasilisha kumbukumbu ya utatuzi.",
+        "message": "Ujumbe haujaonyeshwa kwa sababu ya hitilafu ya ndani. Bonyeza ili uwasilishe kumbukumbu ya utatuzi.",
         "description": "An error notification displayed when message fails to render due to an internal error"
     },
     "GroupDescription__read-more": {
-        "message": "Soma zaidi",
+        "message": "soma zaidi",
         "description": "Button text when the group description is too long"
     },
     "EditConversationAttributesModal__description-warning": {
-        "message": "Maelezo ya kikundi yataonekana kwa washiriki wa kikundi hiki na watu ambao wamealikwa.",
+        "message": "Maelezo ya kikundi yataonekana kwa wanachama wa kikundi hiki na watu ambao wamealikwa.",
         "description": "Label text shown when editing group description"
     },
     "ConversationDetailsHeader--add-group-description": {
-        "message": "Ongeza maelezo ya kikundi ...",
+        "message": "Ongeza maelezo ya kikundi...",
         "description": "Placeholder text in the details header for those that can edit the group description"
     },
     "MediaQualitySelector--button": {
@@ -5754,7 +5710,7 @@
         "description": "aria-label for the media quality selector button"
     },
     "MediaQualitySelector--title": {
-        "message": "Ubora wa media",
+        "message": "Ubora wa Media",
         "description": "Popup selector title"
     },
     "MediaQualitySelector--standard-quality-title": {
@@ -5762,7 +5718,7 @@
         "description": "Title for option for standard quality"
     },
     "MediaQualitySelector--standard-quality-description": {
-        "message": "Haraka, data ndogo",
+        "message": "Haraka zaidi, kiasi kidogo cha data",
         "description": "Description of standard quality selector"
     },
     "MediaQualitySelector--high-quality-title": {
@@ -5770,31 +5726,31 @@
         "description": "Title for option for high quality"
     },
     "MediaQualitySelector--high-quality-description": {
-        "message": "Polepole, data zaidi",
+        "message": "Polepole zaidi, data nyingi zaidi",
         "description": "Description of high quality selector"
     },
     "MessageDetailsHeader--Failed": {
-        "message": "Haikutumwa",
+        "message": "Haujatumwa",
         "description": "In the message details screen, shown above contacts where the message failed to deliver"
     },
     "MessageDetailsHeader--Pending": {
-        "message": "Inasubiri",
+        "message": "Unasubiri",
         "description": "In the message details screen, shown above contacts where the message is still sending"
     },
     "MessageDetailsHeader--Sent": {
-        "message": "Imetumwa kwa",
+        "message": "Umetumwa kwa",
         "description": "In the message details screen, shown above contacts where the message has been sent (but not delivered, read, or viewed)"
     },
     "MessageDetailsHeader--Delivered": {
-        "message": "Imewasilishwa kwa",
+        "message": "Umewasilishwa kwa",
         "description": "In the message details screen, shown above contacts who have received your message"
     },
     "MessageDetailsHeader--Read": {
-        "message": "Soma na",
+        "message": "Umesomwa na",
         "description": "In the message details screen, shown above contacts who have read this message"
     },
     "MessageDetailsHeader--Viewed": {
-        "message": "Imetazamwa na",
+        "message": "Umetazamwa na",
         "description": "In the message details screen, shown above contacts who have viewed this message"
     },
     "ProfileEditor--about": {
@@ -5802,15 +5758,15 @@
         "description": "Default text for about field"
     },
     "ProfileEditor--about-placeholder": {
-        "message": "Andika kitu kukuhusu ...",
+        "message": "Andika jambo kukuhusu...",
         "description": "Placeholder text for about input field"
     },
     "ProfileEditor--first-name": {
-        "message": "Jina la Kwanza (Inahitajika)",
+        "message": "Jina la Kwanza (Linahitajika)",
         "description": "Placeholder text for first name field"
     },
     "ProfileEditor--last-name": {
-        "message": "Jina la Mwisho (Hiari)",
+        "message": "Jina la Mwisho (Ukipenda)",
         "description": "Placeholder text for last name field"
     },
     "ConfirmDiscardDialog--discard": {
@@ -5818,7 +5774,7 @@
         "description": "ConfirmationDialog text for discarding changes"
     },
     "ProfileEditor--info": {
-        "message": "Wasifu wako umesimbwa kwa njia fiche. Wasifu wako na mabadiliko yake yataonekana kwa anwani zako na wakati unapoanza au kukubali gumzo mpya.$learnMore$",
+        "message": "Wasifu wako umesimbwa kwa njia fiche. Wasifu wako na mabadiliko unayoufanyia yataonekana kwa waasiliani wako, na unapoanza au kukubali gumzo mpya. $learnMore$",
         "description": "Information shown at the bottom of the profile editor section",
         "placeholders": {
             "learnMore": {
@@ -5832,23 +5788,23 @@
         "description": "Text that links to a support article"
     },
     "Bio--speak-freely": {
-        "message": "Ongea kwa Uhuru",
+        "message": "Ongea Bila Vikwazo",
         "description": "A default bio option"
     },
     "Bio--encrypted": {
-        "message": "Imesimbwa kwa njia fiche",
+        "message": "Imesimbwa",
         "description": "A default bio option"
     },
     "Bio--free-to-chat": {
-        "message": "Huru kuzungumza",
+        "message": "Piga gumzo bila malipo",
         "description": "A default bio option"
     },
     "Bio--coffee-lover": {
-        "message": "Mpenzi wa kahawa",
+        "message": "Mpenda kahawa",
         "description": "A default bio option"
     },
     "Bio--taking-break": {
-        "message": "Kuchukua mapumziko",
+        "message": "Kwenda mapumziko",
         "description": "A default bio option"
     },
     "ProfileEditorModal--profile": {
@@ -5856,7 +5812,7 @@
         "description": "Title for profile editing"
     },
     "ProfileEditorModal--name": {
-        "message": "Jina lako",
+        "message": "Jina Lako",
         "description": "Title for editing your name"
     },
     "ProfileEditorModal--about": {
@@ -5864,15 +5820,15 @@
         "description": "Title for about editing"
     },
     "ProfileEditorModal--error": {
-        "message": "Wasifu wako haukuweza kusasishwa. Tafadhali jaribu tena.",
+        "message": "Wasifu wako haujasasishwa. Tafadhali jaribu tena.",
         "description": "Error message when something goes wrong updating your profile."
     },
     "AnnouncementsOnlyGroupBanner--modal": {
-        "message": "Tuma ujumbe kwa msimamizi",
+        "message": "Mtumie msimamizi ujumbe",
         "description": "Modal title for the list of admins in a group"
     },
     "AnnouncementsOnlyGroupBanner--announcements-only": {
-        "message": "Tu$admins$ inaweza kutuma ujumbe",
+        "message": "Ni $admins$ pekee anayeweza kutuma ujumbe",
         "description": "Displayed if sending of messages is disabled to non-admins",
         "placeholders": {
             "admins": {
@@ -5886,7 +5842,7 @@
         "description": "Clickable text describing administrators of a group, used in the message an admin label"
     },
     "AvatarEditor--choose": {
-        "message": "Chagua avatar",
+        "message": "Chagua umbo",
         "description": "Label for the avatar selector"
     },
     "AvatarColorPicker--choose": {
@@ -5894,7 +5850,7 @@
         "description": "Label for when you need to choose your fighter, err color"
     },
     "LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
-        "message": "Avatar ya Kikundi",
+        "message": "Umbo la Kikundi",
         "description": "Title for the avatar picker in the group creation flow"
     }
 }

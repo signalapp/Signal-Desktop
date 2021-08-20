@@ -1202,7 +1202,7 @@
         }
     },
     "ChangeNumber--notification": {
-        "message": "$sender$ changed their number to a new number",
+        "message": "Ο/Η $sender$ άλλαξε τον αριθμό τηλεφώνου του/της",
         "description": "Shown in timeline when a member of a conversation changes their phone number",
         "placeholders": {
             "sender": {
@@ -1377,13 +1377,7 @@
     },
     "calling__lobby-summary--single": {
         "message": "Ο/Η $first$ είναι στην κλήση",
-        "description": "Shown in the calling lobby to describe who is in the call",
-        "placeholders": {
-            "first": {
-                "content": "$1",
-                "example": "Sam"
-            }
-        }
+        "description": "Shown in the calling lobby to describe who is in the call"
     },
     "calling__lobby-summary--self": {
         "message": "Κάποια από τις άλλες συσκευές σου είναι στην κλήση",
@@ -1391,53 +1385,15 @@
     },
     "calling__lobby-summary--double": {
         "message": "Οι $first$ και $second$ είναι στην κλήση",
-        "description": "Shown in the calling lobby to describe who is in the call",
-        "placeholders": {
-            "first": {
-                "content": "$1",
-                "example": "Sam"
-            },
-            "second": {
-                "content": "$2",
-                "example": "Cayce"
-            }
-        }
+        "description": "Shown in the calling lobby to describe who is in the call"
     },
     "calling__lobby-summary--triple": {
         "message": "Οι $first$, $second$ και $third$ είναι στην κλήση",
-        "description": "Shown in the calling lobby to describe who is in the call",
-        "placeholders": {
-            "first": {
-                "content": "$1",
-                "example": "Sam"
-            },
-            "second": {
-                "content": "$2",
-                "example": "Cayce"
-            },
-            "third": {
-                "content": "$3",
-                "example": "April"
-            }
-        }
+        "description": "Shown in the calling lobby to describe who is in the call"
     },
     "calling__lobby-summary--many": {
         "message": "Οι $first$, $second$ και $others$ ακόμα είναι στην κλήση",
-        "description": "Shown in the calling lobby to describe who is in the call",
-        "placeholders": {
-            "first": {
-                "content": "$1",
-                "example": "Sam"
-            },
-            "second": {
-                "content": "$2",
-                "example": "Cayce"
-            },
-            "others": {
-                "content": "$3",
-                "example": "5"
-            }
-        }
+        "description": "Shown in the calling lobby to describe who is in the call"
     },
     "calling__in-this-call--zero": {
         "message": "Δεν είναι κανένας άλλος εδώ",
@@ -5114,15 +5070,15 @@
         "description": "In the conversation notifications settings, this is the label for the mentions option"
     },
     "ConversationNotificationsSettings__mentions__info": {
-        "message": "Receive notifications when you're mentioned in muted chats",
+        "message": "Λήψη ειδοποιήσεων όταν σε αναφέρουν σε συνομιλίες σε σίγαση",
         "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
     },
     "ConversationNotificationsSettings__mentions__select__always-notify": {
-        "message": "Always notify",
+        "message": "Πάντα να ειδοποιούμαι",
         "description": "In the conversation notifications settings, this is the option that always notifies you for @mentions"
     },
     "ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
-        "message": "Don't notify if muted",
+        "message": "Να μην ειδοποιούμαι αν είναι σε σίγαση",
         "description": "In the conversation notifications settings, this is the option that doesn't notify you for @mentions if the conversation is muted"
     },
     "GroupLinkManagement--clipboard": {
@@ -5734,7 +5690,7 @@
         }
     },
     "ErrorBoundaryNotification__text": {
-        "message": "Failed to display the message due to an internal error. Click to submit a debug log.",
+        "message": "Αποτυχία εμφάνισης του μηνύματος λόγω σφάλματος της εφαρμογής. Πάτα εδώ για καταχώριση του αρχείου καταγραφής αποσφαλμάτωσης.",
         "description": "An error notification displayed when message fails to render due to an internal error"
     },
     "GroupDescription__read-more": {
@@ -5890,11 +5846,11 @@
         "description": "Label for the avatar selector"
     },
     "AvatarColorPicker--choose": {
-        "message": "Choose a color",
+        "message": "Επιλογή χρώματος",
         "description": "Label for when you need to choose your fighter, err color"
     },
     "LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
-        "message": "Group Avatar",
+        "message": "Εικονίδιο ομάδας",
         "description": "Title for the avatar picker in the group creation flow"
     }
 }

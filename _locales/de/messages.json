@@ -1377,13 +1377,7 @@
     },
     "calling__lobby-summary--single": {
         "message": "$first$ nimmt an diesem Anruf teil",
-        "description": "Shown in the calling lobby to describe who is in the call",
-        "placeholders": {
-            "first": {
-                "content": "$1",
-                "example": "Sam"
-            }
-        }
+        "description": "Shown in the calling lobby to describe who is in the call"
     },
     "calling__lobby-summary--self": {
         "message": "Eines deiner anderen Geräte nimmt an diesem Anruf teil",
@@ -1391,53 +1385,15 @@
     },
     "calling__lobby-summary--double": {
         "message": "$first$ und $second$ nehmen an diesem Anruf teil",
-        "description": "Shown in the calling lobby to describe who is in the call",
-        "placeholders": {
-            "first": {
-                "content": "$1",
-                "example": "Sam"
-            },
-            "second": {
-                "content": "$2",
-                "example": "Cayce"
-            }
-        }
+        "description": "Shown in the calling lobby to describe who is in the call"
     },
     "calling__lobby-summary--triple": {
         "message": "$first$, $second$ und $third$ nehmen an diesem Anruf teil",
-        "description": "Shown in the calling lobby to describe who is in the call",
-        "placeholders": {
-            "first": {
-                "content": "$1",
-                "example": "Sam"
-            },
-            "second": {
-                "content": "$2",
-                "example": "Cayce"
-            },
-            "third": {
-                "content": "$3",
-                "example": "April"
-            }
-        }
+        "description": "Shown in the calling lobby to describe who is in the call"
     },
     "calling__lobby-summary--many": {
         "message": "$first$, $second$ und $others$ Weitere nehmen an diesem Anruf teil",
-        "description": "Shown in the calling lobby to describe who is in the call",
-        "placeholders": {
-            "first": {
-                "content": "$1",
-                "example": "Sam"
-            },
-            "second": {
-                "content": "$2",
-                "example": "Cayce"
-            },
-            "others": {
-                "content": "$3",
-                "example": "5"
-            }
-        }
+        "description": "Shown in the calling lobby to describe who is in the call"
     },
     "calling__in-this-call--zero": {
         "message": "Niemand anderes ist hier",
@@ -1598,7 +1554,7 @@
         "description": "In the settings, shown next to the checkbox option for starting in the system tray"
     },
     "autoLaunchDescription": {
-        "message": "Bei Computeranmeldung öffnen",
+        "message": "Bei Anmeldung am Computer starten",
         "description": "Description for the automatic launch setting"
     },
     "clearDataHeader": {

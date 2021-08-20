@@ -218,7 +218,7 @@
         "description": "Shown at the top of the archived conversations list in the left pane"
     },
     "archiveConversation": {
-        "message": "Arhivă",
+        "message": "Arhivează",
         "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
     },
     "markUnread": {
@@ -226,7 +226,7 @@
         "description": "Shown in menu for conversation, and marks conversation as unread"
     },
     "moveConversationToInbox": {
-        "message": "Dezarhivare",
+        "message": "Dezarhivează",
         "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
     },
     "pinConversation": {
@@ -916,7 +916,7 @@
         }
     },
     "you": {
-        "message": "Tu",
+        "message": "Dvs.",
         "description": "Shown when the user represented is the current user."
     },
     "replyingTo": {
@@ -1377,13 +1377,7 @@
     },
     "calling__lobby-summary--single": {
         "message": "$first$ este în acest apel",
-        "description": "Shown in the calling lobby to describe who is in the call",
-        "placeholders": {
-            "first": {
-                "content": "$1",
-                "example": "Sam"
-            }
-        }
+        "description": "Shown in the calling lobby to describe who is in the call"
     },
     "calling__lobby-summary--self": {
         "message": "Un alt dispozitiv al dvs. este în acest apel",
@@ -1391,53 +1385,15 @@
     },
     "calling__lobby-summary--double": {
         "message": "$first$ și $second$ sunt în acest apel",
-        "description": "Shown in the calling lobby to describe who is in the call",
-        "placeholders": {
-            "first": {
-                "content": "$1",
-                "example": "Sam"
-            },
-            "second": {
-                "content": "$2",
-                "example": "Cayce"
-            }
-        }
+        "description": "Shown in the calling lobby to describe who is in the call"
     },
     "calling__lobby-summary--triple": {
         "message": "$first$, $second$ și $third$ sunt în acest apel",
-        "description": "Shown in the calling lobby to describe who is in the call",
-        "placeholders": {
-            "first": {
-                "content": "$1",
-                "example": "Sam"
-            },
-            "second": {
-                "content": "$2",
-                "example": "Cayce"
-            },
-            "third": {
-                "content": "$3",
-                "example": "April"
-            }
-        }
+        "description": "Shown in the calling lobby to describe who is in the call"
     },
     "calling__lobby-summary--many": {
         "message": "$first$, $second$ și alte $others$ persoane sunt în acest apel",
-        "description": "Shown in the calling lobby to describe who is in the call",
-        "placeholders": {
-            "first": {
-                "content": "$1",
-                "example": "Sam"
-            },
-            "second": {
-                "content": "$2",
-                "example": "Cayce"
-            },
-            "others": {
-                "content": "$3",
-                "example": "5"
-            }
-        }
+        "description": "Shown in the calling lobby to describe who is in the call"
     },
     "calling__in-this-call--zero": {
         "message": "Nu este nimeni aici",
@@ -3520,7 +3476,7 @@
         "description": "Label for muting the conversation"
     },
     "muteEightHours": {
-        "message": "Fără sunet pentru opt ore",
+        "message": "Silențios pentru opt ore",
         "description": "Label for muting the conversation"
     },
     "muteDay": {
@@ -3590,7 +3546,7 @@
         "description": "Shown if we are unable to parse a group link"
     },
     "GroupV2--join--invalid-link": {
-        "message": "Acesta nu este un link de grup valid. Asigură-te că întregul link este intact și corect înainte de a te alătura grupului.",
+        "message": "Acesta nu este un link de grup valid. Asigurați-vă că întregul link este intact și corect înainte de a te alătura grupului.",
         "description": "Shown if we are unable to parse a group link"
     },
     "GroupV2--join--prompt": {
@@ -3880,11 +3836,11 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-invite-link--disabled--you": {
-        "message": "Ai dezactivat aprobarea de acces din partea unui administrator pentru linkul grupului.",
+        "message": "Ai dezactivat aprobarea administratorului pentru alăturările prin linkul de grup.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-invite-link--disabled--other": {
-        "message": "$adminName$ a dezactivat aprobarea de acces din partea unui administrator pentru linkul grupului.",
+        "message": "$adminName$ a dezactivat aprobarea administratorului pentru alăturările prin linkul de grup.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3894,15 +3850,15 @@
         }
     },
     "GroupV2--access-invite-link--disabled--unknown": {
-        "message": "Aprobarea administratorului pentru linkul grupului a fost dezactivată.",
+        "message": "Aprobarea administratorului pentru alăturările prin linkul de grup au fost dezactivate.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-invite-link--enabled--you": {
-        "message": "Ai activat aprobarea de acces din partea unui administrator pentru adresa grupului.",
+        "message": "Ai activat aprobarea administratorului pentru alăturările prin linkul de grup.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-invite-link--enabled--other": {
-        "message": "$adminName$ a activat aprobarea de acces din partea unui administrator pentru linkul grupului.",
+        "message": "$adminName$ a activat aprobarea administratorului pentru alăturările prin linkul de grup.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3912,7 +3868,7 @@
         }
     },
     "GroupV2--access-invite-link--enabled--unknown": {
-        "message": "Aprobarea administratorului pentru linkul grupului a fost activată.",
+        "message": "Aprobarea administratorului pentru alăturările prin linkul de grup a fost activată.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add--invited--you": {
@@ -4654,7 +4610,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-add--disabled--other": {
-        "message": "$adminName$ a activat linkul de grup cu aprobarea administratorului dezactivată.",
+        "message": "$adminName$ a activat linkul de grup cu aprobarea administratorului pentru alăturări dezactivată.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4664,11 +4620,11 @@
         }
     },
     "GroupV2--group-link-add--disabled--unknown": {
-        "message": "Linkul de grup a fost activat cu aprobarea administratorului dezactivată.",
+        "message": "Linkul de grup a fost activat cu aprobarea administratorului pentru alăturări dezactivată.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-add--enabled--you": {
-        "message": "Ați activat linkul de grup cu aprobarea administratorului activată.",
+        "message": "Ați activat linkul de grup cu aprobarea administratorului pentru alăturări activată.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-add--enabled--other": {
@@ -4686,7 +4642,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-remove--you": {
-        "message": "Ați dezactivat link-ul către grup.",
+        "message": "Ați dezactivat linkul de grup.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-remove--other": {
@@ -4700,11 +4656,11 @@
         }
     },
     "GroupV2--group-link-remove--unknown": {
-        "message": "Link-ul grupului a fost dezactivat.",
+        "message": "Linkul grupului a fost dezactivat.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-reset--you": {
-        "message": "Ați resetat link-ul grupului.",
+        "message": "Ați resetat linkul grupului.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-reset--other": {
@@ -4718,7 +4674,7 @@
         }
     },
     "GroupV2--group-link-reset--unknown": {
-        "message": "Link-ul grupului a fost resetat.",
+        "message": "Linkul grupului a fost resetat.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--description--remove--you": {
@@ -5122,7 +5078,7 @@
         "description": "In the conversation notifications settings, this is the option that always notifies you for @mentions"
     },
     "ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
-        "message": "Fără notificări pe mod silențios",
+        "message": "Nu notifica pe silențios",
         "description": "In the conversation notifications settings, this is the option that doesn't notify you for @mentions if the conversation is muted"
     },
     "GroupLinkManagement--clipboard": {
@@ -5134,7 +5090,7 @@
         "description": "This lets users share their group link"
     },
     "GroupLinkManagement--confirm-reset": {
-        "message": "Sigur doriți să resetați linkul de grup? Oamenii nu vor mai putea să se alăture grupului folosind link-ul curent.",
+        "message": "Sigur doriți să resetați linkul de grup? Oamenii nu vor mai putea să se alăture grupului folosind linkul curent.",
         "description": "Shown in the confirmation dialog when an admin is about to reset the group link"
     },
     "GroupLinkManagement--reset": {
