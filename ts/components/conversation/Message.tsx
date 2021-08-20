@@ -49,7 +49,7 @@ import {
   isVideo,
   isGIF,
 } from '../../types/Attachment';
-import { ContactType } from '../../types/Contact';
+import { EmbeddedContactType } from '../../types/EmbeddedContact';
 
 import { getIncrement } from '../../util/timer';
 import { isFileDangerous } from '../../util/isFileDangerous';
@@ -129,7 +129,7 @@ export type PropsData = {
   direction: DirectionType;
   timestamp: number;
   status?: MessageStatusType;
-  contact?: ContactType;
+  contact?: EmbeddedContactType;
   author: Pick<
     ConversationType,
     | 'acceptedMessageRequest'
@@ -216,7 +216,7 @@ export type PropsActions = {
 
   openConversation: (conversationId: string, messageId?: string) => void;
   showContactDetail: (options: {
-    contact: ContactType;
+    contact: EmbeddedContactType;
     signalAccount?: string;
   }) => void;
   showContactModal: (contactId: string) => void;

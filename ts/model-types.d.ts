@@ -23,7 +23,7 @@ import {
 import { GroupNameCollisionsWithIdsByTitle } from './util/groupMemberNameCollisions';
 import { ConversationColorType } from './types/Colors';
 import { AttachmentType, ThumbnailType } from './types/Attachment';
-import { ContactType } from './types/Contact';
+import { EmbeddedContactType } from './types/EmbeddedContact';
 import { SignalService as Proto } from './protobuf';
 import { AvatarDataType } from './types/Avatar';
 
@@ -156,7 +156,7 @@ export type MessageAttributesType = {
   };
   sent_at: number;
   unidentifiedDeliveries?: Array<string>;
-  contact?: Array<ContactType>;
+  contact?: Array<EmbeddedContactType>;
   conversationId: string;
   reaction?: WhatIsThis;
 

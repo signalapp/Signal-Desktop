@@ -4,7 +4,7 @@
 import { format as formatPhoneNumber } from './PhoneNumber';
 import { AttachmentType } from './Attachment';
 
-export type ContactType = {
+export type EmbeddedContactType = {
   name?: Name;
   number?: Array<Phone>;
   email?: Array<Email>;
@@ -68,15 +68,15 @@ type Avatar = {
   isProfile: boolean;
 };
 
-export function contactSelector(
-  contact: ContactType,
+export function embeddedContactSelector(
+  contact: EmbeddedContactType,
   options: {
     regionCode: string;
     firstNumber?: string;
     isNumberOnSignal?: boolean;
     getAbsoluteAttachmentPath: (path: string) => string;
   }
-): ContactType {
+): EmbeddedContactType {
   const {
     getAbsoluteAttachmentPath,
     firstNumber,
@@ -117,7 +117,7 @@ export function contactSelector(
   };
 }
 
-export function getName(contact: ContactType): string | undefined {
+export function getName(contact: EmbeddedContactType): string | undefined {
   const { name, organization } = contact;
   const displayName = (name && name.displayName) || undefined;
   const givenName = (name && name.givenName) || undefined;

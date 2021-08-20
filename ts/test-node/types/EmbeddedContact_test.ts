@@ -4,7 +4,7 @@
 import { assert } from 'chai';
 
 import { IMAGE_GIF } from '../../types/MIME';
-import { contactSelector, getName } from '../../types/Contact';
+import { embeddedContactSelector, getName } from '../../types/EmbeddedContact';
 
 describe('Contact', () => {
   describe('getName', () => {
@@ -65,7 +65,7 @@ describe('Contact', () => {
       assert.strictEqual(actual, expected);
     });
   });
-  describe('contactSelector', () => {
+  describe('embeddedContactSelector', () => {
     const regionCode = '1';
     const firstNumber = '+1202555000';
     const isNumberOnSignal = false;
@@ -99,7 +99,7 @@ describe('Contact', () => {
         isNumberOnSignal,
         number: undefined,
       };
-      const actual = contactSelector(contact, {
+      const actual = embeddedContactSelector(contact, {
         regionCode,
         firstNumber,
         isNumberOnSignal,
@@ -143,7 +143,7 @@ describe('Contact', () => {
         isNumberOnSignal,
         number: undefined,
       };
-      const actual = contactSelector(contact, {
+      const actual = embeddedContactSelector(contact, {
         regionCode,
         firstNumber,
         isNumberOnSignal,
@@ -186,7 +186,7 @@ describe('Contact', () => {
         isNumberOnSignal: true,
         number: undefined,
       };
-      const actual = contactSelector(contact, {
+      const actual = embeddedContactSelector(contact, {
         regionCode,
         firstNumber,
         isNumberOnSignal: true,

@@ -65,7 +65,7 @@ import { ReadStatus } from '../messages/MessageReadStatus';
 import { markViewed } from '../services/MessageUpdater';
 import { viewedReceiptsJobQueue } from '../jobs/viewedReceiptsJobQueue';
 import { viewSyncJobQueue } from '../jobs/viewSyncJobQueue';
-import type { ContactType } from '../types/Contact';
+import type { EmbeddedContactType } from '../types/EmbeddedContact';
 import type { WhatIsThis } from '../window.d';
 
 type AttachmentOptions = {
@@ -845,7 +845,7 @@ Whisper.ConversationView = Whisper.View.extend({
       this.openConversation(conversationId, messageId);
     };
     const showContactDetail = (options: {
-      contact: ContactType;
+      contact: EmbeddedContactType;
       signalAccount?: string;
     }) => {
       this.showContactDetail(options);
@@ -3486,7 +3486,7 @@ Whisper.ConversationView = Whisper.View.extend({
     contact,
     signalAccount,
   }: {
-    contact: ContactType;
+    contact: EmbeddedContactType;
     signalAccount?: string;
   }) {
     const view = new Whisper.ReactWrapperView({

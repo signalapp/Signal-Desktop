@@ -36,7 +36,7 @@ import * as zkgroup from './util/zkgroup';
 import { LocalizerType, BodyRangesType, BodyRangeType } from './types/Util';
 import * as Attachment from './types/Attachment';
 import * as MIME from './types/MIME';
-import * as Contact from './types/Contact';
+import * as EmbeddedContact from './types/EmbeddedContact';
 import * as Errors from './types/errors';
 import { ConversationController } from './ConversationController';
 import { ReduxActions } from './state/types';
@@ -359,7 +359,7 @@ declare global {
       Types: {
         Attachment: typeof Attachment;
         MIME: typeof MIME;
-        Contact: typeof Contact;
+        EmbeddedContact: typeof EmbeddedContact;
         Conversation: {
           computeHash: (data: string) => Promise<string>;
           deleteExternalFiles: (

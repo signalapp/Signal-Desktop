@@ -38,7 +38,10 @@ import { QuotedAttachmentType } from '../../components/conversation/Quote';
 
 import { getDomain, isStickerPack } from '../../types/LinkPreview';
 
-import { ContactType, contactSelector } from '../../types/Contact';
+import {
+  EmbeddedContactType,
+  embeddedContactSelector,
+} from '../../types/EmbeddedContact';
 import { AssertProps, BodyRangesType } from '../../types/Util';
 import { LinkPreviewType } from '../../types/message/LinkPreviews';
 import { ConversationColors } from '../../types/Colors';
@@ -1260,7 +1263,7 @@ export function getPropsForEmbeddedContact(
   message: MessageAttributesType,
   regionCode: string,
   accountSelector: (identifier?: string) => boolean
-): ContactType | undefined {
+): EmbeddedContactType | undefined {
   const contacts = message.contact;
   if (!contacts || !contacts.length) {
     return undefined;
@@ -1270,7 +1273,7 @@ export function getPropsForEmbeddedContact(
   const numbers = firstContact?.number;
   const firstNumber = numbers && numbers[0] ? numbers[0].value : undefined;
 
-  return contactSelector(firstContact, {
+  return embeddedContactSelector(firstContact, {
     regionCode,
     getAbsoluteAttachmentPath:
       window.Signal.Migrations.getAbsoluteAttachmentPath,

@@ -129,7 +129,7 @@ const {
   Message: TypedMessage,
   Attachment,
   MIME,
-  Contact,
+  EmbeddedContact,
   Errors,
 } = window.Signal.Types;
 const {
@@ -678,7 +678,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     const contacts = this.get('contact');
     if (contacts && contacts.length) {
       return {
-        text: Contact.getName(contacts[0]) || window.i18n('unknownContact'),
+        text:
+          EmbeddedContact.getName(contacts[0]) || window.i18n('unknownContact'),
         emoji: '👤',
       };
     }

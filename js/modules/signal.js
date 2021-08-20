@@ -137,7 +137,7 @@ const searchSelectors = require('../../ts/state/selectors/search');
 // Types
 const AttachmentType = require('../../ts/types/Attachment');
 const VisualAttachment = require('./types/visual_attachment');
-const Contact = require('../../ts/types/Contact');
+const EmbeddedContact = require('../../ts/types/EmbeddedContact');
 const Conversation = require('./types/conversation');
 const Errors = require('../../ts/types/errors');
 const MediaGalleryMessage = require('../../ts/components/conversation/media-gallery/types/Message');
@@ -429,7 +429,7 @@ exports.setup = (options = {}) => {
 
   const Types = {
     Attachment: AttachmentType,
-    Contact,
+    EmbeddedContact,
     Conversation,
     Errors,
     Message: MessageType,

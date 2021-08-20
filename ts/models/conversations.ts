@@ -90,7 +90,7 @@ const FIXMEU8 = Uint8Array;
 window.Whisper = window.Whisper || {};
 
 const { Services, Util } = window.Signal;
-const { Contact, Message } = window.Signal.Types;
+const { EmbeddedContact, Message } = window.Signal.Types;
 const {
   deleteAttachmentData,
   doesAttachmentExist,
@@ -3170,7 +3170,7 @@ export class ConversationModel extends window.Backbone
   async makeQuote(
     quotedMessage: typeof window.Whisper.MessageType
   ): Promise<QuotedMessageType> {
-    const { getName } = Contact;
+    const { getName } = EmbeddedContact;
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const contact = quotedMessage.getContact()!;
     const attachments = quotedMessage.get('attachments');

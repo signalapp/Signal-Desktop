@@ -6,11 +6,11 @@ import React from 'react';
 import {
   AddressType,
   ContactFormType,
-  ContactType,
+  EmbeddedContactType,
   Email,
   Phone,
   PostalAddress,
-} from '../../types/Contact';
+} from '../../types/EmbeddedContact';
 import { missingCaseError } from '../../util/missingCaseError';
 
 import {
@@ -22,7 +22,7 @@ import {
 import { LocalizerType } from '../../types/Util';
 
 export type Props = {
-  contact: ContactType;
+  contact: EmbeddedContactType;
   hasSignalAccount: boolean;
   i18n: LocalizerType;
   onSendMessage: () => void;
