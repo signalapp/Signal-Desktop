@@ -12,7 +12,6 @@ const LinkPreviews = require('./link_previews');
 const { Message } = require('../../ts/components/conversation/Message');
 
 // Components
-const { SessionIDResetDialog } = require('../../ts/components/session/SessionIDResetDialog');
 const { SessionRegistrationView } = require('../../ts/components/session/SessionRegistrationView');
 
 const { SessionInboxView } = require('../../ts/components/session/SessionInboxView');
@@ -121,7 +120,6 @@ exports.setup = (options = {}) => {
 
   const Components = {
     SessionInboxView,
-    SessionIDResetDialog,
     SessionRegistrationView,
     Message,
   };

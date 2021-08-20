@@ -1,6 +1,5 @@
 import React from 'react';
 import { animation, contextMenu, Item, Menu } from 'react-contexify';
-import { DefaultTheme } from 'styled-components';
 import { SessionIconButton, SessionIconSize, SessionIconType } from './icon';
 
 interface Props {

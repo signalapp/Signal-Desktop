@@ -1,12 +1,9 @@
-import React, { useEffect } from 'react';
-
 import { RenderTextCallbackType } from '../../types/Util';
 import classNames from 'classnames';
 import { PubKey } from '../../session/types';
-import { ConversationModel } from '../../models/conversation';
 import { UserUtils } from '../../session/utils';
 import { getConversationController } from '../../session/conversations';
-import _ from 'lodash';
+import React from 'react';
 
 interface MentionProps {
   key: string;
@@ -48,7 +45,7 @@ export class AddMentions extends React.Component<Props> {
     const results: Array<any> = [];
     const FIND_MENTIONS = new RegExp(`@${PubKey.regexForPubkeys}`, 'g');
 
-    // We have to do this, because renderNonNewLine is not required in our Props object,
+    // We have to do this, because renderOther is not required in our Props object,
     //  but it is always provided via defaultProps.
     if (!renderOther) {
       return;

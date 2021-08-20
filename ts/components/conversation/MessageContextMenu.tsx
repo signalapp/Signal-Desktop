@@ -1,7 +1,6 @@
 import React, { useCallback } from 'react';
 
 import { AttachmentTypeWithPath } from '../../types/Attachment';
-import _ from 'lodash';
 import { animation, Item, Menu } from 'react-contexify';
 
 import { MessageInteraction } from '../../interactions';

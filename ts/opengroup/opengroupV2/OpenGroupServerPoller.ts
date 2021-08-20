@@ -170,7 +170,7 @@ export class OpenGroupServerPoller {
     }
   }
 
-  private async triggerPollAfterAdd(room?: OpenGroupRequestCommonType) {
+  private async triggerPollAfterAdd(_room?: OpenGroupRequestCommonType) {
     await this.compactPoll();
     await this.previewPerRoomPoll();
     await this.pollForAllMemberCount();
@@ -188,6 +188,11 @@ export class OpenGroupServerPoller {
     if (this.isPolling) {
       return false;
     }
+
+    if (!window.getGlobalOnlineStatus()) {
+      window?.log?.info('OpenGroupServerPoller: offline');
+      return false;
+    }
     return true;
   }
 
@@ -203,6 +208,10 @@ export class OpenGroupServerPoller {
     if (this.isPreviewPolling) {
       return false;
     }
+    if (!window.getGlobalOnlineStatus()) {
+      window?.log?.info('OpenGroupServerPoller: offline');
+      return false;
+    }
     return true;
   }
 
@@ -216,6 +225,10 @@ export class OpenGroupServerPoller {
     }
     // return early if a poll is already in progress
     if (this.isMemberCountPolling) {
+      return false;
+    }
+    if (!window.getGlobalOnlineStatus()) {
+      window?.log?.info('OpenGroupServerPoller: offline');
       return false;
     }
     return true;
@@ -381,7 +394,7 @@ const handleDeletions = async (
 const handleNewMessages = async (
   newMessages: Array<OpenGroupMessageV2>,
   conversationId: string,
-  convo?: ConversationModel
+  _convo?: ConversationModel
 ) => {
   try {
     const roomInfos = await getV2OpenGroupRoom(conversationId);

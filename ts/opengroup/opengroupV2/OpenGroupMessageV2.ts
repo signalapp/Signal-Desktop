@@ -67,10 +67,11 @@ export class OpenGroupMessageV2 {
     if (!signature || signature.length === 0) {
       throw new Error("Couldn't sign message");
     }
+    const base64Sig = await window.callWorker('arrayBufferToStringBase64', signature);
     return new OpenGroupMessageV2({
       base64EncodedData: this.base64EncodedData,
       sentTimestamp: this.sentTimestamp,
-      base64EncodedSignature: await window.callWorker('arrayBufferToStringBase64', signature),
+      base64EncodedSignature: base64Sig,
       sender: this.sender,
       serverId: this.serverId,
     });

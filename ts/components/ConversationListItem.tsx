@@ -26,7 +26,6 @@ import { SessionIcon, SessionIconSize, SessionIconType } from './session/icon';
 import { useSelector } from 'react-redux';
 import { SectionType } from '../state/ducks/section';
 import { getFocusedSection } from '../state/selectors/section';
-import { getFirstUnreadMessageIdInConversation } from '../data/data';
 import { ConversationNotificationSettingType } from '../models/conversation';
 
 // tslint:disable-next-line: no-empty-interface
@@ -112,7 +111,7 @@ const HeaderItem = (props: {
       case 'mentions_only':
         return (
           <SessionIcon
-            iconType={SessionIconType.Bell}
+            iconType={SessionIconType.BellMention}
             iconColor={theme.colors.textColorSubtle}
             iconSize={SessionIconSize.Tiny}
           />

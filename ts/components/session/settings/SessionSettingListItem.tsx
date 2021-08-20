@@ -7,7 +7,7 @@ import { SessionToggle } from '../SessionToggle';
 import { SessionButton } from '../SessionButton';
 import { SessionSettingType } from './SessionSettings';
 import { SessionRadioGroup } from '../SessionRadioGroup';
-import { SessionConfirmDialogProps } from '../SessionConfirm';
+import { SessionConfirmDialogProps } from '../../dialog/SessionConfirm';
 
 type Props = {
   title?: string;
@@ -66,7 +66,7 @@ export const SessionSettingListItem = (props: Props) => {
 
         {type === SessionSettingType.Options && (
           <SessionRadioGroup
-            initialItem={content.options.initalItem}
+            initialItem={content.options.initialItem}
             group={content.options.group}
             items={content.options.items}
             onClick={(selectedRadioValue: string) => {

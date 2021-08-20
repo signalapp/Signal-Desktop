@@ -4,12 +4,10 @@ import { UserUtils } from '../session/utils';
 import { fromArrayBufferToBase64, fromHex, toHex } from '../session/utils/String';
 import { getOurPubKeyStrFromCache } from '../session/utils/User';
 import { trigger } from '../shims/events';
-import { forceSyncConfigurationNowIfNeeded } from '../session/utils/syncUtils';
+
 import { actions as userActions } from '../state/ducks/user';
 import { mn_decode, mn_encode } from '../session/crypto/mnemonic';
 import { ConversationTypeEnum } from '../models/conversation';
-import _ from 'underscore';
-import { persistStore } from 'redux-persist';
 
 /**
  * Might throw
@@ -124,41 +122,6 @@ export async function generateMnemonic() {
   const seed = (await getSodium()).randombytes_buf(seedSize);
   const hex = toHex(seed);
   return mn_encode(hex);
-}
-
-async function bouncyDeleteAccount(reason?: string) {
-  const deleteEverything = async () => {
-    window?.log?.info('configuration message sent successfully. Deleting everything');
-    await window.Signal.Logs.deleteAll();
-    await window.Signal.Data.removeAll();
-    await window.Signal.Data.close();
-    await window.Signal.Data.removeDB();
-    await window.Signal.Data.removeOtherData();
-    // 'unlink' => toast will be shown on app restart
-    window.localStorage.setItem('restart-reason', reason || '');
-  };
-  try {
-    window?.log?.info('DeleteAccount => Sending a last SyncConfiguration');
-    // be sure to wait for the message being effectively sent. Otherwise we won't be able to encrypt it for our devices !
-    await forceSyncConfigurationNowIfNeeded(true);
-    window?.log?.info('Last configuration message sent!');
-    await deleteEverything();
-  } catch (error) {
-    window?.log?.error(
-      'Something went wrong deleting all data:',
-      error && error.stack ? error.stack : error
-    );
-    try {
-      await deleteEverything();
-    } catch (e) {
-      window?.log?.error(e);
-    }
-  }
-  window.restart();
-}
-
-export async function deleteAccount(reason?: string) {
-  return bouncyDeleteAccount(reason);
 }
 
 async function createAccount(identityKeyPair: any) {

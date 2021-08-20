@@ -36,9 +36,9 @@ Then you need `git`, if you don't have that yet: https://git-scm.com/
 ### Windows
 
 1.  **Windows 7 only:**
-    * Install Microsoft .NET Framework 4.5.1:
+    - Install Microsoft .NET Framework 4.5.1:
       https://www.microsoft.com/en-us/download/details.aspx?id=40773
-    * Install Windows SDK version 8.1: https://developer.microsoft.com/en-us/windows/downloads/sdk-archive
+    - Install Windows SDK version 8.1: https://developer.microsoft.com/en-us/windows/downloads/sdk-archive
 1.  Install _Windows Build Tools_: Open the [Command Prompt (`cmd.exe`) as Administrator](<https://technet.microsoft.com/en-us/library/cc947813(v=ws.10).aspx>)
     and run: `npm install --vs2015 --global --production --add-python-to-path windows-build-tools`
 
@@ -136,16 +136,6 @@ Please write tests! Our testing framework is
 
 The easiest way to run all tests at once is `yarn test`.
 
-You can browse tests from the command line with `grunt unit-tests` or in an
-interactive session with `NODE_ENV=test yarn run start`. The `libtextsecure` tests are run
-similarly: `grunt lib-unit-tests` and `NODE_ENV=test-lib yarn run start`. You can tweak
-the appropriate `test.html` for both of these runs to get code coverage numbers via
-`blanket.js` (it's shown at the bottom of the web page when the run is complete).
-
-To run Node.js tests, you can run `yarn test-server` from the command line. You can get
-code coverage numbers for this kind of run via `yarn test-server-coverage`, then display
-the report with `yarn open-coverage`.
-
 ## Pull requests
 
 So you wanna make a pull request? Please observe the following guidelines.
@@ -156,29 +146,29 @@ So you wanna make a pull request? Please observe the following guidelines.
   [Transifex](https://www.transifex.com/projects/p/signal-desktop).
 -->
 
-* First, make sure that your `yarn ready` run passes - it's very similar to what our
+- First, make sure that your `yarn ready` run passes - it's very similar to what our
   Continuous Integration servers do to test the app.
-* Never use plain strings right in the source code - pull them from `messages.json`!
+- Never use plain strings right in the source code - pull them from `messages.json`!
   You **only** need to modify the default locale
   [`_locales/en/messages.json`](_locales/en/messages.json).
   <!-- TODO:
     Other locales are generated automatically based on that file and then periodically
     uploaded to Transifex for translation. -->
-* [Rebase](https://nathanleclaire.com/blog/2014/09/14/dont-be-scared-of-git-rebase/) your
+- [Rebase](https://nathanleclaire.com/blog/2014/09/14/dont-be-scared-of-git-rebase/) your
   changes on the latest `development` branch, resolving any conflicts.
   This ensures that your changes will merge cleanly when you open your PR.
-* Be sure to add and run tests!
-* Make sure the diff between our master and your branch contains only the
+- Be sure to add and run tests!
+- Make sure the diff between our master and your branch contains only the
   minimal set of changes needed to implement your feature or bugfix. This will
   make it easier for the person reviewing your code to approve the changes.
   Please do not submit a PR with commented out code or unfinished features.
-* Avoid meaningless or too-granular commits. If your branch contains commits like
+- Avoid meaningless or too-granular commits. If your branch contains commits like
   the lines of "Oops, reverted this change" or "Just experimenting, will
   delete this later", please [squash or rebase those changes away](https://robots.thoughtbot.com/git-interactive-rebase-squash-amend-rewriting-history).
-* Don't have too few commits. If you have a complicated or long lived feature
+- Don't have too few commits. If you have a complicated or long lived feature
   branch, it may make sense to break the changes up into logical atomic chunks
   to aid in the review process.
-* Provide a well written and nicely formatted commit message. See [this
+- Provide a well written and nicely formatted commit message. See [this
   link](http://chris.beams.io/posts/git-commit/)
   for some tips on formatting. As far as content, try to include in your
   summary

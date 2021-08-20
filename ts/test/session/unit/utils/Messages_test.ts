@@ -6,10 +6,7 @@ import { TestUtils } from '../../../test-utils';
 import { MessageUtils, UserUtils } from '../../../../session/utils';
 import { EncryptionType, PubKey } from '../../../../session/types';
 import { ClosedGroupVisibleMessage } from '../../../../session/messages/outgoing/visibleMessage/ClosedGroupVisibleMessage';
-import { MockConversation } from '../../../test-utils/utils';
 import { ConfigurationMessage } from '../../../../session/messages/outgoing/controlMessage/ConfigurationMessage';
-
-import { ConversationModel, ConversationTypeEnum } from '../../../../models/conversation';
 
 import chaiAsPromised from 'chai-as-promised';
 chai.use(chaiAsPromised as any);
@@ -20,7 +17,6 @@ import { ClosedGroupEncryptionPairMessage } from '../../../../session/messages/o
 import { ClosedGroupNameChangeMessage } from '../../../../session/messages/outgoing/controlMessage/group/ClosedGroupNameChangeMessage';
 import { ClosedGroupNewMessage } from '../../../../session/messages/outgoing/controlMessage/group/ClosedGroupNewMessage';
 import { ClosedGroupRemovedMembersMessage } from '../../../../session/messages/outgoing/controlMessage/group/ClosedGroupRemovedMembersMessage';
-import { openGroupPrefix } from '../../../../opengroup/utils/OpenGroupUtils';
 
 const { expect } = chai;
 
@@ -219,35 +215,35 @@ describe('Message Utils', () => {
   describe('getCurrentConfigurationMessage', () => {
     const ourNumber = TestUtils.generateFakePubKey().key;
 
-    let convos: Array<ConversationModel>;
-    const mockValidOpenGroup = new MockConversation({
-      type: ConversationTypeEnum.GROUP,
-      id: `${openGroupPrefix}1@chat-dev.lokinet.org`,
-    });
+    // let convos: Array<ConversationModel>;
+    // const mockValidOpenGroup = new MockConversation({
+    //   type: ConversationTypeEnum.GROUP,
+    //   id: `${openGroupPrefix}1@chat-dev.lokinet.org`,
+    // });
 
-    const mockValidOpenGroup2 = new MockConversation({
-      type: ConversationTypeEnum.GROUP,
-      id: `${openGroupPrefix}1@chat-dev2.lokinet.org`,
-    });
+    // const mockValidOpenGroup2 = new MockConversation({
+    //   type: ConversationTypeEnum.GROUP,
+    //   id: `${openGroupPrefix}1@chat-dev2.lokinet.org`,
+    // });
 
-    const mockValidClosedGroup = new MockConversation({
-      type: ConversationTypeEnum.GROUP,
-    });
+    // const mockValidClosedGroup = new MockConversation({
+    //   type: ConversationTypeEnum.GROUP,
+    // });
 
-    const mockValidPrivate = {
-      id: TestUtils.generateFakePubKey(),
-      isMediumGroup: () => false,
-      isPublic: () => false,
-    };
+    // const mockValidPrivate = {
+    //   id: TestUtils.generateFakePubKey(),
+    //   isMediumGroup: () => false,
+    //   isPublic: () => false,
+    // };
 
     beforeEach(() => {
-      convos = [];
+      // convos = [];
       sandbox.stub(UserUtils, 'getOurPubKeyStrFromCache').resolves(ourNumber);
       sandbox.stub(UserUtils, 'getOurPubKeyFromCache').resolves(PubKey.cast(ourNumber));
     });
 
     beforeEach(() => {
-      convos = [];
+      // convos = [];
       sandbox.restore();
     });
 

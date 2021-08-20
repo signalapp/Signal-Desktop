@@ -25,6 +25,7 @@
   "concat": {
     "app": [
       "node_modules/jquery/dist/jquery.js",
+      "node_modules/bytebuffer/dist/bytebuffer.min.js",
       "node_modules/long/dist/long.js",
       "components/protobuf/**/*.js",
       "node_modules/mustache/mustache.js",

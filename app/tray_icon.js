@@ -1,13 +1,14 @@
 const path = require('path');
 
-const fs = require('fs');
 const { app, Menu, Tray } = require('electron');
 
 let trayContextMenu = null;
 let tray = null;
 
 function createTrayIcon(getMainWindow, messages) {
-  const iconNoNewMessages = path.join(__dirname, '..', 'images', 'session', `session_icon.png`);
+  // keep the duplicated part to allow for search and find
+  const iconFile = process.platform === 'darwin' ? 'session_icon_16.png' : 'session_icon_32.png';
+  const iconNoNewMessages = path.join(__dirname, '..', 'images', 'session', iconFile);
   tray = new Tray(iconNoNewMessages);
 
   tray.forceOnTop = mainWindow => {
@@ -68,16 +69,6 @@ function createTrayIcon(getMainWindow, messages) {
     ]);
 
     tray.setContextMenu(trayContextMenu);
-  };
-
-  tray.updateIcon = () => {
-    const image = iconNoNewMessages;
-
-    if (!fs.existsSync(image)) {
-      console.log('tray.updateIcon: Image for tray update does not exist!');
-      return;
-    }
-    tray.setImage(image);
   };
 
   tray.on('click', tray.showWindow);

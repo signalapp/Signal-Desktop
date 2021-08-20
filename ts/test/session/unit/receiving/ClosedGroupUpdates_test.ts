@@ -1,7 +1,6 @@
 // tslint:disable: no-implicit-dependencies max-func-body-length no-unused-expression
 
 import chai from 'chai';
-import _ from 'lodash';
 import { describe } from 'mocha';
 
 import chaiAsPromised from 'chai-as-promised';

@@ -1,5 +1,3 @@
-import _, { omit } from 'lodash';
-
 import { Constants } from '../../session';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { getConversationController } from '../../session/conversations';
@@ -17,6 +15,7 @@ import { LightBoxOptions } from '../../components/session/conversation/SessionCo
 import { ReplyingToMessageProps } from '../../components/session/conversation/SessionCompositionBox';
 import { QuotedAttachmentType } from '../../components/conversation/Quote';
 import { perfEnd, perfStart } from '../../session/utils/Performance';
+import { omit } from 'lodash';
 
 export type MessageModelProps = {
   propsForMessage: PropsForMessage;
@@ -137,6 +136,7 @@ export type PropsForSearchResults = {
 export type PropsForAttachment = {
   id: number;
   contentType: string;
+  caption?: string;
   size: number;
   width?: number;
   height?: number;
@@ -269,6 +269,7 @@ export type ConversationsStateType = {
   animateQuotedMessageId?: string;
   nextMessageToPlayId?: string;
   mentionMembers: MentionsMembersType;
+  draftsForConversations: Array<{ conversationKey: string; draft: string }>;
 };
 
 export type MentionsMembersType = Array<{
@@ -355,6 +356,7 @@ export function getEmptyConversationState(): ConversationsStateType {
     mentionMembers: [],
     firstUnreadMessageId: undefined,
     haveDoneFirstScroll: false,
+    draftsForConversations: new Array(),
   };
 }
 
@@ -686,6 +688,7 @@ const conversationsSlice = createSlice({
         firstUnreadMessageId: action.payload.firstUnreadIdOnOpen,
 
         haveDoneFirstScroll: false,
+        draftsForConversations: state.draftsForConversations,
       };
     },
     updateHaveDoneFirstScroll(state: ConversationsStateType) {
@@ -728,8 +731,21 @@ const conversationsSlice = createSlice({
       state: ConversationsStateType,
       action: PayloadAction<MentionsMembersType>
     ) {
-      window?.log?.warn('updating mentions input members length', action.payload?.length);
+      window?.log?.info('updating mentions input members length', action.payload?.length);
       state.mentionMembers = action.payload;
+      return state;
+    },
+    updateDraftForConversation(
+      state: ConversationsStateType,
+      action: PayloadAction<{ conversationKey: string; draft: string }>
+    ) {
+      const { conversationKey, draft } = action.payload;
+      const foundAtIndex = state.draftsForConversations.findIndex(
+        c => c.conversationKey === conversationKey
+      );
+      foundAtIndex === -1
+        ? state.draftsForConversations.push({ conversationKey, draft })
+        : (state.draftsForConversations[foundAtIndex] = action.payload);
       return state;
     },
   },
@@ -791,6 +807,7 @@ export const {
   quotedMessageToAnimate,
   setNextMessageToPlayId,
   updateMentionsMembers,
+  updateDraftForConversation,
 } = actions;
 
 export async function openConversationWithMessages(args: {

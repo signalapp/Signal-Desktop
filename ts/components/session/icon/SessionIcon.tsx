@@ -1,7 +1,7 @@
 import React from 'react';
 import { icons, SessionIconSize, SessionIconType } from '../icon';
 import styled, { css, DefaultTheme, keyframes, useTheme } from 'styled-components';
-import _ from 'lodash';
+import { lightTheme } from '../../../state/ducks/SessionTheme';
 
 export type SessionIconProps = {
   iconType: SessionIconType;
@@ -179,7 +179,7 @@ export const SessionIcon = (props: SessionIconProps) => {
   iconSize = iconSize || SessionIconSize.Medium;
   iconRotation = iconRotation || 0;
 
-  const themeToUse = theme || useTheme();
+  const themeToUse = theme || useTheme() || lightTheme;
 
   const iconDimensions = getIconDimensionFromIconSize(iconSize);
   const iconDef = icons[iconType];

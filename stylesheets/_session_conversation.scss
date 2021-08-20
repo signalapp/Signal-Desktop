@@ -180,14 +180,21 @@
     border-top: themed('sessionBorder');
   }
 
-  & > .session-icon-button {
+  .session-icon-button {
+    // & > .session-icon-button {
     margin-right: $session-margin-sm;
   }
   .session-icon-button {
     display: flex;
     justify-content: center;
     align-items: center;
-    opacity: 0.8;
+    opacity: 0.7;
+
+    &:hover {
+      opacity: 1;
+      transform: scale(0.93);
+      transition: $session-transition-duration;
+    }
 
     .send {
       padding: $session-margin-xs;
@@ -329,6 +336,26 @@
   }
 }
 
+.send-message-button {
+  animation: fadein $session-transition-duration;
+
+  &---scale {
+    animation: scaling 2s ease-in-out;
+
+    @keyframes scaling {
+      0% {
+        transform: scale(1);
+      }
+      80% {
+        transform: scale(1.3);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+  }
+}
+
 .session-recording {
   height: $composition-container-height;
   display: flex;
@@ -337,19 +364,21 @@
   flex-grow: 1;
   outline: none;
 
-  $actions-element-size: 45px;
+  $actions-element-size: 30px;
 
   &--actions {
     display: flex;
     align-items: center;
-    justify-content: center;
     width: $actions-element-size;
     height: $actions-element-size;
     border-radius: 50%;
 
+    .session-button {
+      animation: fadein $session-transition-duration;
+    }
+
     .session-icon-button {
       animation: fadein $session-transition-duration;
-      opacity: 1;
       border-radius: 50%;
       width: $actions-element-size;
       height: $actions-element-size;
@@ -414,7 +443,11 @@
     flex-shrink: 0;
 
     &.playback-timer {
-      margin-right: $session-margin-sm;
+      animation: fadein $session-transition-duration;
+
+      @media (-webkit-min-device-pixel-ratio: 1.6) {
+        margin-left: auto;
+      }
     }
 
     &-light {
@@ -422,22 +455,12 @@
       width: $session-margin-sm;
       border-radius: 50%;
       background-color: $session-color-danger-alt;
-      margin-left: $session-margin-sm;
+      margin: 0 $session-margin-sm;
 
-      animation: pulseLight 4s infinite;
+      @include pulse-color($session-color-danger-alt, 1s, infinite);
     }
   }
 }
-
-// box-sizing: border-box;
-//     position: absolute;
-//     z-index: 3;
-//     width: 4px;
-//     height: 5px;
-//     margin-left: 0px;
-//     top: 0px;
-//     background: #00f782;
-//     border-radius: 50px;
 
 /* ************ */
 /* AUDIO PLAYER */

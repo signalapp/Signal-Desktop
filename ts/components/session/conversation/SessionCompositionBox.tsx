@@ -1,20 +1,18 @@
 import React from 'react';
-import _, { debounce, update } from 'lodash';
+import _, { debounce } from 'lodash';
 
-import { Attachment, AttachmentType } from '../../../types/Attachment';
+import { AttachmentType } from '../../../types/Attachment';
 import * as MIME from '../../../types/MIME';
 
 import { SessionIconButton, SessionIconSize, SessionIconType } from '../icon';
 import { SessionEmojiPanel } from './SessionEmojiPanel';
 import { SessionRecording } from './SessionRecording';
 
-import { SignalService } from '../../../protobuf';
-
 import { Constants } from '../../../session';
 
 import { toArray } from 'react-emoji-render';
 import { Flex } from '../../basic/Flex';
-import { StagedAttachmentList } from '../../conversation/AttachmentList';
+import { StagedAttachmentList } from '../../conversation/StagedAttachmentList';
 import { ToastUtils } from '../../../session/utils';
 import { AttachmentUtil } from '../../../util';
 import {
@@ -27,7 +25,10 @@ import { SessionQuotedMessageComposition } from './SessionQuotedMessageCompositi
 import { Mention, MentionsInput } from 'react-mentions';
 import { CaptionEditor } from '../../CaptionEditor';
 import { getConversationController } from '../../../session/conversations';
-import { ReduxConversationType } from '../../../state/ducks/conversations';
+import {
+  ReduxConversationType,
+  updateDraftForConversation,
+} from '../../../state/ducks/conversations';
 import { SessionMemberListItem } from '../SessionMemberListItem';
 import autoBind from 'auto-bind';
 import { SessionSettingCategory } from '../settings/SessionSettings';
@@ -44,6 +45,7 @@ import {
   hasLinkPreviewPopupBeenDisplayed,
 } from '../../../data/data';
 import {
+  getDraftForCurrentConversation,
   getMentionsInput,
   getQuotedMessage,
   getSelectedConversation,
@@ -52,6 +54,7 @@ import {
 import { connect } from 'react-redux';
 import { StateType } from '../../../state/reducer';
 import { getTheme } from '../../../state/selectors/theme';
+import { removeAllStagedAttachmentsInConversation } from '../../../state/ducks/stagedAttachments';
 
 export interface ReplyingToMessageProps {
   convoId: string;
@@ -73,10 +76,20 @@ export interface StagedLinkPreviewData {
 
 export interface StagedAttachmentType extends AttachmentType {
   file: File;
+  path?: string; // a bit hacky, but this is the only way to make our sending audio message be playable, this must be used only for those message
 }
 
+export type SendMessageType = {
+  body: string;
+  attachments: Array<StagedAttachmentType> | undefined;
+  quote: any | undefined;
+  preview: any | undefined;
+  groupInvitation: { url: string | undefined; name: string } | undefined;
+};
+
 interface Props {
-  sendMessage: any;
+  sendMessage: (msg: SendMessageType) => void;
+  draft: string;
 
   onLoadVoiceNoteView: any;
   onExitVoiceNoteView: any;
@@ -84,13 +97,10 @@ interface Props {
   selectedConversation: ReduxConversationType | undefined;
   quotedMessageProps?: ReplyingToMessageProps;
   stagedAttachments: Array<StagedAttachmentType>;
-  clearAttachments: () => any;
-  removeAttachment: (toRemove: AttachmentType) => void;
   onChoseAttachments: (newAttachments: Array<File>) => void;
 }
 
 interface State {
-  message: string;
   showRecordingView: boolean;
 
   showEmojiPanel: boolean;
@@ -393,7 +403,7 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
 
   private renderTextArea() {
     const { i18n } = window;
-    const { message } = this.state;
+    const { draft } = this.props;
 
     if (!this.props.selectedConversation) {
       return null;
@@ -414,7 +424,7 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
 
     return (
       <MentionsInput
-        value={message}
+        value={draft}
         onChange={this.onChange}
         onKeyDown={this.onKeyDown}
         onKeyUp={this.onKeyUp}
@@ -545,8 +555,13 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
       return <></>;
     }
     // we try to match the first link found in the current message
-    const links = window.Signal.LinkPreviews.findLinks(this.state.message, undefined);
+    const links = window.Signal.LinkPreviews.findLinks(this.props.draft, undefined);
     if (!links || links.length === 0 || ignoredLink === links[0]) {
+      if (this.state.stagedLinkPreview) {
+        this.setState({
+          stagedLinkPreview: undefined,
+        });
+      }
       return <></>;
     }
     const firstLink = links[0];
@@ -721,8 +736,6 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
             attachments={stagedAttachments}
             onClickAttachment={this.onClickAttachment}
             onAddAttachment={this.onChooseAttachment}
-            onCloseAttachment={this.props.removeAttachment}
-            onClose={this.props.clearAttachments}
           />
           {this.renderCaptionEditor(showCaptionEditor)}
         </>
@@ -765,19 +778,19 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
     }
   }
 
-  private async onKeyUp(event: any) {
-    const { message } = this.state;
+  private async onKeyUp() {
+    const { draft } = this.props;
     // Called whenever the user changes the message composition field. But only
     //   fires if there's content in the message field after the change.
     // Also, check for a message length change before firing it up, to avoid
     // catching ESC, tab, or whatever which is not typing
-    if (message.length && message.length !== this.lastBumpTypingMessageLength) {
+    if (draft.length && draft.length !== this.lastBumpTypingMessageLength) {
       const conversationModel = getConversationController().get(this.props.selectedConversationKey);
       if (!conversationModel) {
         return;
       }
       conversationModel.throttledBumpTyping();
-      this.lastBumpTypingMessageLength = message.length;
+      this.lastBumpTypingMessageLength = draft.length;
     }
   }
 
@@ -809,7 +822,7 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
       return replacedMentions;
     };
 
-    const messagePlaintext = cleanMentions(this.parseEmojis(this.state.message));
+    const messagePlaintext = cleanMentions(this.parseEmojis(this.props.draft));
 
     const { selectedConversation } = this.props;
 
@@ -863,24 +876,31 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
 
     try {
       const attachments = await this.getFiles();
-      await this.props.sendMessage(
-        messagePlaintext,
-        attachments,
-        extractedQuotedMessageProps,
-        linkPreviews,
-        null,
-        {}
+      this.props.sendMessage({
+        body: messagePlaintext,
+        attachments: attachments || [],
+        quote: extractedQuotedMessageProps,
+        preview: linkPreviews,
+        groupInvitation: undefined,
+      });
+
+      window.inboxStore?.dispatch(
+        removeAllStagedAttachmentsInConversation({
+          conversationKey: this.props.selectedConversationKey,
+        })
       );
-
-      this.props.clearAttachments();
-
       // Empty composition box and stagedAttachments
       this.setState({
-        message: '',
         showEmojiPanel: false,
         stagedLinkPreview: undefined,
         ignoredLink: undefined,
       });
+      window.inboxStore?.dispatch(
+        updateDraftForConversation({
+          conversationKey: this.props.selectedConversationKey,
+          draft: '',
+        })
+      );
     } catch (e) {
       // Message sending failed
       window?.log?.error(e);
@@ -888,8 +908,12 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
   }
 
   // this function is called right before sending a message, to gather really the files behind attachments.
-  private async getFiles() {
+  private async getFiles(): Promise<Array<any>> {
     const { stagedAttachments } = this.props;
+
+    if (_.isEmpty(stagedAttachments)) {
+      return [];
+    }
     // scale them down
     const files = await Promise.all(
       stagedAttachments.map(attachment =>
@@ -898,8 +922,12 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
         })
       )
     );
-    this.props.clearAttachments();
-    return files;
+    window.inboxStore?.dispatch(
+      removeAllStagedAttachmentsInConversation({
+        conversationKey: this.props.selectedConversationKey,
+      })
+    );
+    return _.compact(files);
   }
 
   private async sendVoiceMessage(audioBlob: Blob) {
@@ -907,27 +935,31 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
       return;
     }
 
-    const fileBuffer = await new Response(audioBlob).arrayBuffer();
-
-    const audioAttachment: Attachment = {
-      data: fileBuffer,
-      flags: SignalService.AttachmentPointer.Flags.VOICE_MESSAGE,
+    const savedAudioFile = await window.Signal.Migrations.processNewAttachment({
+      data: await audioBlob.arrayBuffer(),
+      isRaw: true,
+      url: `session-audio-message-${Date.now()}`,
+    });
+    const audioAttachment: StagedAttachmentType = {
+      file: { ...savedAudioFile, path: savedAudioFile.path },
       contentType: MIME.AUDIO_MP3,
       size: audioBlob.size,
+      fileSize: null,
+      screenshot: null,
+      fileName: 'session-audio-message',
+      thumbnail: null,
+      url: '',
+      isVoiceMessage: true,
+      path: savedAudioFile.path,
     };
 
-    const messageSuccess = this.props.sendMessage(
-      '',
-      [audioAttachment],
-      undefined,
-      undefined,
-      null,
-      {}
-    );
-
-    if (messageSuccess) {
-      // success!
-    }
+    this.props.sendMessage({
+      body: '',
+      attachments: [audioAttachment],
+      preview: undefined,
+      quote: undefined,
+      groupInvitation: undefined,
+    });
 
     this.onExitVoiceNoteView();
   }
@@ -959,9 +991,13 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
   }
 
   private onChange(event: any) {
-    const message = event.target.value ?? '';
-
-    this.setState({ message });
+    const draft = event.target.value ?? '';
+    window.inboxStore?.dispatch(
+      updateDraftForConversation({
+        conversationKey: this.props.selectedConversationKey,
+        draft,
+      })
+    );
   }
 
   private getSelectionBasedOnMentions(index: number) {
@@ -969,7 +1005,7 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
     // this is kind of a pain as the mentions box has two inputs, one with the real text, and one with the extracted mentions
 
     // the index shown to the user is actually just the visible part of the mentions (so the part between ￗ...ￒ
-    const matches = this.state.message.match(this.mentionsRegex);
+    const matches = this.props.draft.match(this.mentionsRegex);
 
     let lastMatchStartIndex = 0;
     let lastMatchEndIndex = 0;
@@ -983,7 +1019,7 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
       const displayNameEnd = match.lastIndexOf('\uFFD2');
       const displayName = match.substring(displayNameStart, displayNameEnd);
 
-      const currentMatchStartIndex = this.state.message.indexOf(match) + lastMatchStartIndex;
+      const currentMatchStartIndex = this.props.draft.indexOf(match) + lastMatchStartIndex;
       lastMatchStartIndex = currentMatchStartIndex;
       lastMatchEndIndex = currentMatchStartIndex + match.length;
 
@@ -1027,30 +1063,34 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
       return;
     }
 
-    const { message } = this.state;
+    const { draft } = this.props;
 
     const currentSelectionStart = Number(messageBox.selectionStart);
 
     const realSelectionStart = this.getSelectionBasedOnMentions(currentSelectionStart);
 
-    const before = message.slice(0, realSelectionStart);
-    const end = message.slice(realSelectionStart);
+    const before = draft.slice(0, realSelectionStart);
+    const end = draft.slice(realSelectionStart);
 
     const newMessage = `${before}${colons}${end}`;
+    window.inboxStore?.dispatch(
+      updateDraftForConversation({
+        conversationKey: this.props.selectedConversationKey,
+        draft: newMessage,
+      })
+    );
 
-    this.setState({ message: newMessage }, () => {
-      // update our selection because updating text programmatically
-      // will put the selection at the end of the textarea
-      const selectionStart = currentSelectionStart + Number(colons.length);
+    // update our selection because updating text programmatically
+    // will put the selection at the end of the textarea
+    const selectionStart = currentSelectionStart + Number(colons.length);
+    messageBox.selectionStart = selectionStart;
+    messageBox.selectionEnd = selectionStart;
+
+    // Sometimes, we have to repeat the set of the selection position with a timeout to be effective
+    setTimeout(() => {
       messageBox.selectionStart = selectionStart;
       messageBox.selectionEnd = selectionStart;
-
-      // Sometimes, we have to repeat the set of the selection position with a timeout to be effective
-      setTimeout(() => {
-        messageBox.selectionStart = selectionStart;
-        messageBox.selectionEnd = selectionStart;
-      }, 20);
-    });
+    }, 20);
   }
 
   private focusCompositionBox() {
@@ -1068,6 +1108,7 @@ const mapStateToProps = (state: StateType) => {
     quotedMessageProps: getQuotedMessage(state),
     selectedConversation: getSelectedConversation(state),
     selectedConversationKey: getSelectedConversationKey(state),
+    draft: getDraftForCurrentConversation(state),
     theme: getTheme(state),
   };
 };

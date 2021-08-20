@@ -2,7 +2,11 @@ import React from 'react';
 
 import classNames from 'classnames';
 
-import { SessionCompositionBox, StagedAttachmentType } from './SessionCompositionBox';
+import {
+  SendMessageType,
+  SessionCompositionBox,
+  StagedAttachmentType,
+} from './SessionCompositionBox';
 
 import { Constants } from '../../../session';
 import _ from 'lodash';
@@ -14,7 +18,7 @@ import styled, { DefaultTheme } from 'styled-components';
 import { SessionMessagesListContainer } from './SessionMessagesListContainer';
 import { LightboxGallery, MediaItemType } from '../../LightboxGallery';
 
-import { AttachmentType, AttachmentTypeWithPath, save } from '../../../types/Attachment';
+import { AttachmentTypeWithPath } from '../../../types/Attachment';
 import { ToastUtils, UserUtils } from '../../../session/utils';
 import * as MIME from '../../../types/MIME';
 import { SessionFileDropzone } from './SessionFileDropzone';
@@ -38,10 +42,10 @@ import {
 
 import { SessionButtonColor } from '../SessionButton';
 import { updateConfirmModal } from '../../../state/ducks/modalDialog';
+import { addStagedAttachmentsInConversation } from '../../../state/ducks/stagedAttachments';
 
 interface State {
   showRecordingView: boolean;
-  stagedAttachments: Array<StagedAttachmentType>;
   isDraggingFile: boolean;
 }
 export interface LightBoxOptions {
@@ -61,6 +65,8 @@ interface Props {
 
   // lightbox options
   lightBoxOptions?: LightBoxOptions;
+
+  stagedAttachments: Array<StagedAttachmentType>;
 }
 
 const SessionUnreadAboveIndicator = styled.div`
@@ -98,7 +104,6 @@ export class SessionConversation extends React.Component<Props, State> {
 
     this.state = {
       showRecordingView: false,
-      stagedAttachments: [],
       isDraggingFile: false,
     };
     this.messageContainerRef = React.createRef();
@@ -112,7 +117,7 @@ export class SessionConversation extends React.Component<Props, State> {
   // ~~~~~~~~~~~~~~~~ LIFECYCLES ~~~~~~~~~~~~~~~~
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  public componentDidUpdate(prevProps: Props, prevState: State) {
+  public componentDidUpdate(prevProps: Props, _prevState: State) {
     const {
       selectedConversationKey: newConversationKey,
       selectedConversation: newConversation,
@@ -159,7 +164,6 @@ export class SessionConversation extends React.Component<Props, State> {
     if (newConversationKey !== oldConversationKey) {
       this.setState({
         showRecordingView: false,
-        stagedAttachments: [],
         isDraggingFile: false,
       });
     }
@@ -178,15 +182,55 @@ export class SessionConversation extends React.Component<Props, State> {
     }
   }
 
+  public sendMessageFn(msg: SendMessageType) {
+    const { selectedConversationKey } = this.props;
+    const conversationModel = getConversationController().get(selectedConversationKey);
+
+    if (!conversationModel) {
+      return;
+    }
+
+    const sendAndScroll = () => {
+      void conversationModel.sendMessage(msg);
+      if (this.messageContainerRef.current) {
+        (this.messageContainerRef
+          .current as any).scrollTop = this.messageContainerRef.current?.scrollHeight;
+      }
+    };
+
+    // const recoveryPhrase = window.textsecure.storage.get('mnemonic');
+    const recoveryPhrase = UserUtils.getCurrentRecoveryPhrase();
+
+    // string replace to fix case where pasted text contains invis characters causing false negatives
+    if (msg.body.replace(/\s/g, '').includes(recoveryPhrase.replace(/\s/g, ''))) {
+      window.inboxStore?.dispatch(
+        updateConfirmModal({
+          title: window.i18n('sendRecoveryPhraseTitle'),
+          message: window.i18n('sendRecoveryPhraseMessage'),
+          okTheme: SessionButtonColor.Danger,
+          onClickOk: () => {
+            sendAndScroll();
+          },
+          onClickClose: () => {
+            window.inboxStore?.dispatch(updateConfirmModal(null));
+          },
+        })
+      );
+    } else {
+      sendAndScroll();
+    }
+
+    window.inboxStore?.dispatch(quoteMessage(undefined));
+  }
+
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   // ~~~~~~~~~~~~~~ RENDER METHODS ~~~~~~~~~~~~~~
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   public render() {
-    const { showRecordingView, isDraggingFile, stagedAttachments } = this.state;
+    const { showRecordingView, isDraggingFile } = this.state;
 
     const {
       selectedConversation,
-      selectedConversationKey,
       messagesProps,
       showMessageDetails,
       selectedMessages,
@@ -200,50 +244,6 @@ export class SessionConversation extends React.Component<Props, State> {
     }
 
     const selectionMode = selectedMessages.length > 0;
-    const conversationModel = getConversationController().get(selectedConversationKey);
-    const sendMessageFn = (
-      body: any,
-      attachments: any,
-      quote: any,
-      preview: any,
-      groupInvitation: any
-    ) => {
-      if (!conversationModel) {
-        return;
-      }
-
-      const sendAndScroll = () => {
-        void conversationModel.sendMessage(body, attachments, quote, preview, groupInvitation);
-        if (this.messageContainerRef.current) {
-          (this.messageContainerRef
-            .current as any).scrollTop = this.messageContainerRef.current?.scrollHeight;
-        }
-      };
-
-      // const recoveryPhrase = window.textsecure.storage.get('mnemonic');
-      const recoveryPhrase = UserUtils.getCurrentRecoveryPhrase();
-
-      // string replace to fix case where pasted text contains invis characters causing false negatives
-      if (body.replace(/\s/g, '').includes(recoveryPhrase.replace(/\s/g, ''))) {
-        window.inboxStore?.dispatch(
-          updateConfirmModal({
-            title: window.i18n('sendRecoveryPhraseTitle'),
-            message: window.i18n('sendRecoveryPhraseMessage'),
-            okTheme: SessionButtonColor.Danger,
-            onClickOk: () => {
-              sendAndScroll();
-            },
-            onClickClose: () => {
-              window.inboxStore?.dispatch(updateConfirmModal(null));
-            },
-          })
-        );
-      } else {
-        sendAndScroll();
-      }
-
-      window.inboxStore?.dispatch(quoteMessage(undefined));
-    };
 
     return (
       <SessionTheme theme={this.props.theme}>
@@ -273,12 +273,10 @@ export class SessionConversation extends React.Component<Props, State> {
           </div>
 
           <SessionCompositionBox
-            sendMessage={sendMessageFn}
-            stagedAttachments={stagedAttachments}
+            sendMessage={this.sendMessageFn}
+            stagedAttachments={this.props.stagedAttachments}
             onLoadVoiceNoteView={this.onLoadVoiceNoteView}
             onExitVoiceNoteView={this.onExitVoiceNoteView}
-            clearAttachments={this.clearAttachments}
-            removeAttachment={this.removeAttachment}
             onChoseAttachments={this.onChoseAttachments}
           />
         </div>
@@ -332,45 +330,6 @@ export class SessionConversation extends React.Component<Props, State> {
     }
   }
 
-  private clearAttachments() {
-    this.state.stagedAttachments.forEach(attachment => {
-      if (attachment.url) {
-        URL.revokeObjectURL(attachment.url);
-      }
-      if (attachment.videoUrl) {
-        URL.revokeObjectURL(attachment.videoUrl);
-      }
-    });
-    this.setState({ stagedAttachments: [] });
-  }
-
-  private removeAttachment(attachment: AttachmentType) {
-    const { stagedAttachments } = this.state;
-    const updatedStagedAttachments = (stagedAttachments || []).filter(
-      m => m.fileName !== attachment.fileName
-    );
-
-    this.setState({ stagedAttachments: updatedStagedAttachments });
-  }
-
-  private addAttachments(newAttachments: Array<StagedAttachmentType>) {
-    const { stagedAttachments } = this.state;
-    let newAttachmentsFiltered: Array<StagedAttachmentType> = [];
-    if (newAttachments?.length > 0) {
-      if (newAttachments.some(a => a.isVoiceMessage) && stagedAttachments.length > 0) {
-        throw new Error('A voice note cannot be sent with other attachments');
-      }
-      // do not add already added attachments
-      newAttachmentsFiltered = newAttachments.filter(
-        a => !stagedAttachments.some(b => b.file.path === a.file.path)
-      );
-    }
-
-    this.setState({
-      stagedAttachments: [...stagedAttachments, ...newAttachmentsFiltered],
-    });
-  }
-
   private renderLightBox({ media, attachment }: LightBoxOptions) {
     const selectedIndex =
       media.length > 1
@@ -399,7 +358,7 @@ export class SessionConversation extends React.Component<Props, State> {
     const fileName = file.name;
     const contentType = file.type;
 
-    const { stagedAttachments } = this.state;
+    const { stagedAttachments } = this.props;
 
     if (window.Signal.Util.isFileDangerous(fileName)) {
       ToastUtils.pushDangerousFileError();
@@ -566,6 +525,15 @@ export class SessionConversation extends React.Component<Props, State> {
         },
       ]);
     }
+  }
+
+  private addAttachments(newAttachments: Array<StagedAttachmentType>) {
+    window.inboxStore?.dispatch(
+      addStagedAttachmentsInConversation({
+        conversationKey: this.props.selectedConversationKey,
+        newAttachments,
+      })
+    );
   }
 
   private handleDrag(e: any) {

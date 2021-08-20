@@ -11,13 +11,18 @@ const { remote } = Electron;
 
 import { snodeRpc } from './lokiRpc';
 
-import { getRandomSnode, getRandomSnodePool, requiredSnodesForAgreement } from './snodePool';
+import {
+  getRandomSnode,
+  getRandomSnodePool,
+  getSwarmFor,
+  requiredSnodesForAgreement,
+} from './snodePool';
 import { Constants } from '..';
 import { getSodium, sha256 } from '../crypto';
 import _, { range } from 'lodash';
 import pRetry from 'p-retry';
 import {
-  fromHex,
+  fromBase64ToArray,
   fromHexToArray,
   fromUInt8ArrayToBase64,
   stringToUint8Array,
@@ -25,6 +30,8 @@ import {
 } from '../utils/String';
 import { Snode } from '../../data/data';
 import { updateIsOnline } from '../../state/ducks/onion';
+import { ed25519Str } from '../onions/onionPath';
+import { StringUtils, UserUtils } from '../utils';
 
 // ONS name can have [a-zA-Z0-9_-] except that - is not allowed as start or end
 // do not define a regex but rather create it on the fly to avoid https://stackoverflow.com/questions/3891641/regex-test-only-works-every-other-time
@@ -72,7 +79,6 @@ const getSslAgentForSeedNode = (seedNodeHost: string, isSsl = false) => {
   const sslOptions = {
     // as the seed nodes are using a self signed certificate, we have to provide it here.
     ca: crt,
-    // we might need to selectively disable that for tests on swarm-testing or so.
     // we have to reject them, otherwise our errors returned in the checkServerIdentity are simply not making the call fail.
     // so in production, rejectUnauthorized must be true.
     rejectUnauthorized: true,
@@ -83,8 +89,6 @@ const getSslAgentForSeedNode = (seedNodeHost: string, isSsl = false) => {
       if (err) {
         return err;
       }
-
-      // we might need to selectively disable that for tests on swarm-testing or so.
 
       // Pin the public key, similar to HPKP pin-sha25 pinning
       if (sha256(cert.pubkey) !== pubkey256) {
@@ -144,7 +148,7 @@ export async function getSnodesFromSeedUrl(urlObj: URL): Promise<Array<any>> {
 
   const fetchOptions = {
     method: 'POST',
-    timeout: 10000,
+    timeout: 5000,
     body: JSON.stringify(body),
     headers: {
       'User-Agent': 'WhatsApp',
@@ -553,43 +557,210 @@ export async function retrieveNextMessages(
   };
 
   // let exceptions bubble up
-  try {
-    // no retry for this one as this a call we do every few seconds while polling for messages
-    const result = await snodeRpc('retrieve', params, targetNode, associatedWith);
+  // no retry for this one as this a call we do every few seconds while polling for messages
+  const result = await snodeRpc('retrieve', params, targetNode, associatedWith);
 
-    if (!result) {
-      window?.log?.warn(
-        `loki_message:::_retrieveNextMessages - lokiRpc could not talk to ${targetNode.ip}:${targetNode.port}`
-      );
-      return [];
-    }
-
-    if (result.status !== 200) {
-      window?.log?.warn('retrieve result is not 200');
-      return [];
-    }
-
-    try {
-      const json = JSON.parse(result.body);
-      window.inboxStore?.dispatch(updateIsOnline(true));
-
-      return json.messages || [];
-    } catch (e) {
-      window?.log?.warn('exception while parsing json of nextMessage:', e);
-      window.inboxStore?.dispatch(updateIsOnline(true));
-
-      return [];
-    }
-  } catch (e) {
+  if (!result) {
     window?.log?.warn(
-      'Got an error while retrieving next messages. Not retrying as we trigger fetch often:',
-      e.message
+      `loki_message:::_retrieveNextMessages - lokiRpc could not talk to ${targetNode.ip}:${targetNode.port}`
     );
-    if (e.message === ERROR_CODE_NO_CONNECT) {
-      window.inboxStore?.dispatch(updateIsOnline(false));
-    } else {
-      window.inboxStore?.dispatch(updateIsOnline(true));
-    }
-    return [];
+    throw new Error(
+      `loki_message:::_retrieveNextMessages - lokiRpc could not talk to ${targetNode.ip}:${targetNode.port}`
+    );
+  }
+
+  if (result.status !== 200) {
+    window?.log?.warn('retrieve result is not 200');
+    throw new Error(
+      `loki_message:::_retrieveNextMessages - retrieve result is not 200 with ${targetNode.ip}:${targetNode.port}`
+    );
+  }
+
+  try {
+    const json = JSON.parse(result.body);
+    window.inboxStore?.dispatch(updateIsOnline(true));
+
+    return json.messages || [];
+  } catch (e) {
+    window?.log?.warn('exception while parsing json of nextMessage:', e);
+    window.inboxStore?.dispatch(updateIsOnline(true));
+    throw new Error(
+      `loki_message:::_retrieveNextMessages - exception while parsing json of nextMessage ${targetNode.ip}:${targetNode.port}: ${e?.message}`
+    );
   }
 }
+
+/**
+ * Makes a post to a node to receive the timestamp info. If non-existant, returns -1
+ * @param snode Snode to send request to
+ * @returns timestamp of the response from snode
+ */
+// tslint:disable-next-line: variable-name
+export const TEST_getNetworkTime = async (snode: Snode): Promise<string | number> => {
+  const response: any = await snodeRpc('info', {}, snode);
+  const body = JSON.parse(response.body);
+  const timestamp = body?.timestamp;
+  if (!timestamp) {
+    throw new Error(`getNetworkTime returned invalid timestamp: ${timestamp}`);
+  }
+  return timestamp;
+};
+
+// tslint:disable-next-line: max-func-body-length
+export const forceNetworkDeletion = async (): Promise<Array<string> | null> => {
+  const sodium = await getSodium();
+  const userX25519PublicKey = UserUtils.getOurPubKeyStrFromCache();
+
+  const userED25519KeyPair = await UserUtils.getUserED25519KeyPair();
+
+  if (!userED25519KeyPair) {
+    window?.log?.warn('Cannot forceNetworkDeletion, did not find user ed25519 key.');
+    return null;
+  }
+  const edKeyPriv = userED25519KeyPair.privKey;
+
+  try {
+    const maliciousSnodes = await pRetry(
+      async () => {
+        const userSwarm = await getSwarmFor(userX25519PublicKey);
+        const snodeToMakeRequestTo: Snode | undefined = _.sample(userSwarm);
+        const edKeyPrivBytes = fromHexToArray(edKeyPriv);
+
+        if (!snodeToMakeRequestTo) {
+          window?.log?.warn('Cannot forceNetworkDeletion, without a valid swarm node.');
+          return null;
+        }
+
+        return pRetry(
+          async () => {
+            const timestamp = await exports.TEST_getNetworkTime(snodeToMakeRequestTo);
+
+            const verificationData = StringUtils.encode(`delete_all${timestamp}`, 'utf8');
+            const message = new Uint8Array(verificationData);
+            const signature = sodium.crypto_sign_detached(message, edKeyPrivBytes);
+            const signatureBase64 = fromUInt8ArrayToBase64(signature);
+
+            const deleteMessageParams = {
+              pubkey: userX25519PublicKey,
+              pubkey_ed25519: userED25519KeyPair.pubKey.toUpperCase(),
+              timestamp,
+              signature: signatureBase64,
+            };
+            const ret = await snodeRpc(
+              'delete_all',
+              deleteMessageParams,
+              snodeToMakeRequestTo,
+              userX25519PublicKey
+            );
+
+            if (!ret) {
+              throw new Error(
+                `Empty response got for delete_all on snode ${ed25519Str(
+                  snodeToMakeRequestTo.pubkey_ed25519
+                )}`
+              );
+            }
+
+            try {
+              const parsedResponse = JSON.parse(ret.body);
+              const { swarm } = parsedResponse;
+
+              if (!swarm) {
+                throw new Error(
+                  `Invalid JSON swarm response got for delete_all on snode ${ed25519Str(
+                    snodeToMakeRequestTo.pubkey_ed25519
+                  )}, ${ret?.body}`
+                );
+              }
+              const swarmAsArray = Object.entries(swarm) as Array<Array<any>>;
+              if (!swarmAsArray.length) {
+                throw new Error(
+                  `Invalid JSON swarmAsArray response got for delete_all on snode ${ed25519Str(
+                    snodeToMakeRequestTo.pubkey_ed25519
+                  )}, ${ret?.body}`
+                );
+              }
+              // results will only contains the snode pubkeys which returned invalid/empty results
+              const results: Array<string> = _.compact(
+                swarmAsArray.map(snode => {
+                  const snodePubkey = snode[0];
+                  const snodeJson = snode[1];
+
+                  const isFailed = snodeJson.failed || false;
+
+                  if (isFailed) {
+                    const reason = snodeJson.reason;
+                    const statusCode = snodeJson.code;
+                    if (reason && statusCode) {
+                      window?.log?.warn(
+                        `Could not delete data from ${ed25519Str(
+                          snodeToMakeRequestTo.pubkey_ed25519
+                        )} due to error: ${reason}: ${statusCode}`
+                      );
+                    } else {
+                      window?.log?.warn(
+                        `Could not delete data from ${ed25519Str(
+                          snodeToMakeRequestTo.pubkey_ed25519
+                        )}`
+                      );
+                    }
+                    return snodePubkey;
+                  }
+
+                  const hashes = snodeJson.deleted as Array<string>;
+                  const signatureSnode = snodeJson.signature as string;
+                  // The signature format is ( PUBKEY_HEX || TIMESTAMP || DELETEDHASH[0] || ... || DELETEDHASH[N] )
+                  const dataToVerify = `${userX25519PublicKey}${timestamp}${hashes.join('')}`;
+                  const dataToVerifyUtf8 = StringUtils.encode(dataToVerify, 'utf8');
+                  const isValid = sodium.crypto_sign_verify_detached(
+                    fromBase64ToArray(signatureSnode),
+                    new Uint8Array(dataToVerifyUtf8),
+                    fromHexToArray(snodePubkey)
+                  );
+                  if (!isValid) {
+                    return snodePubkey;
+                  }
+                  return null;
+                })
+              );
+
+              return results;
+            } catch (e) {
+              throw new Error(
+                `Invalid JSON response got for delete_all on snode ${ed25519Str(
+                  snodeToMakeRequestTo.pubkey_ed25519
+                )}, ${ret?.body}`
+              );
+            }
+          },
+          {
+            retries: 3,
+            minTimeout: exports.TEST_getMinTimeout(),
+            onFailedAttempt: e => {
+              window?.log?.warn(
+                `delete_all INNER request attempt #${e.attemptNumber} failed. ${e.retriesLeft} retries left...`
+              );
+            },
+          }
+        );
+      },
+      {
+        retries: 3,
+        minTimeout: exports.TEST_getMinTimeout(),
+        onFailedAttempt: e => {
+          window?.log?.warn(
+            `delete_all OUTER request attempt #${e.attemptNumber} failed. ${e.retriesLeft} retries left...`
+          );
+        },
+      }
+    );
+
+    return maliciousSnodes;
+  } catch (e) {
+    window?.log?.warn('failed to delete everything on network:', e);
+    return null;
+  }
+};
+
+// tslint:disable-next-line: variable-name
+export const TEST_getMinTimeout = () => 500;

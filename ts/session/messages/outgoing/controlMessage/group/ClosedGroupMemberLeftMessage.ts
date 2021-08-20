@@ -1,4 +1,3 @@
-import { Constants } from '../../../..';
 import { SignalService } from '../../../../../protobuf';
 import { ClosedGroupMessage } from './ClosedGroupMessage';
 

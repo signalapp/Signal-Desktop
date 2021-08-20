@@ -1,5 +1,8 @@
 import { fromHexToArray } from '../utils/String';
 
+export const getStoragePubKey = (key: string) =>
+  window.isDev?.() || false ? key.substring(2) : key;
+
 export class PubKey {
   public static readonly PUBKEY_LEN = 66;
   public static readonly HEX = '[0-9a-fA-F]';

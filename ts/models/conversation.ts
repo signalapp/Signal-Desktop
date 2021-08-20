@@ -43,7 +43,11 @@ import { OpenGroupRequestCommonType } from '../opengroup/opengroupV2/ApiUtil';
 import { getOpenGroupV2FromConversationId } from '../opengroup/utils/OpenGroupUtils';
 import { createTaskWithTimeout } from '../session/utils/TaskWithTimeout';
 import { perfEnd, perfStart } from '../session/utils/Performance';
-import { ReplyingToMessageProps } from '../components/session/conversation/SessionCompositionBox';
+import {
+  ReplyingToMessageProps,
+  SendMessageType,
+} from '../components/session/conversation/SessionCompositionBox';
+import { ed25519Str } from '../session/onions/onionPath';
 
 export enum ConversationTypeEnum {
   GROUP = 'group',
@@ -231,7 +235,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       return `opengroup(${this.id})`;
     }
 
-    return `group(${this.id})`;
+    return `group(${ed25519Str(this.id)})`;
   }
 
   public isMe() {
@@ -389,7 +393,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
   }
 
-  public async onExpired(message: MessageModel) {
+  public async onExpired(_message: MessageModel) {
     await this.updateLastMessage();
 
     // removeMessage();
@@ -701,13 +705,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       return null;
     }
   }
-  public async sendMessage(
-    body: string,
-    attachments: any,
-    quote: any,
-    preview: any,
-    groupInvitation: any = null
-  ) {
+  public async sendMessage(msg: SendMessageType) {
+    const { attachments, body, groupInvitation, preview, quote } = msg;
     this.clearTypingTimers();
 
     const destination = this.id;
@@ -744,20 +743,32 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     if (!this.isPublic()) {
       messageWithSchema.destination = destination;
+    } else {
+      // set the serverTimestamp only if this conversation is a public one.
+      messageWithSchema.serverTimestamp = Date.now();
     }
     messageWithSchema.source = UserUtils.getOurPubKeyStrFromCache();
     messageWithSchema.sourceDevice = 1;
 
-    // set the serverTimestamp only if this conversation is a public one.
     const attributes: MessageAttributesOptionals = {
       ...messageWithSchema,
       groupInvitation,
       conversationId: this.id,
       destination: isPrivate ? destination : undefined,
-      serverTimestamp: this.isPublic() ? new Date().getTime() : undefined,
     };
 
     const messageModel = await this.addSingleMessage(attributes);
+
+    // We're offline!
+    if (!window.textsecure.messaging) {
+      const error = new Error('Network is not available');
+      error.name = 'SendMessageNetworkError';
+      (error as any).number = this.id;
+      await messageModel.saveErrors([error]);
+      await this.commit();
+
+      return;
+    }
 
     this.set({
       lastMessage: messageModel.getNotificationText(),
@@ -766,18 +777,9 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     });
     await this.commit();
 
-    // We're offline!
-    if (!window.textsecure.messaging) {
-      const error = new Error('Network is not available');
-      error.name = 'SendMessageNetworkError';
-      (error as any).number = this.id;
-      await messageModel.saveErrors([error]);
-      return null;
-    }
     this.queueJob(async () => {
       await this.sendMessageJob(messageModel, expireTimer);
     });
-    return null;
   }
 
   public async bouncyUpdateLastMessage() {
@@ -997,10 +999,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         hasErrors: Boolean(errors && errors.length),
       });
     }
-
     const oldUnreadNowReadAttrs = oldUnreadNowRead.map(m => m.attributes);
-
-    await saveMessages(oldUnreadNowReadAttrs);
+    if (oldUnreadNowReadAttrs?.length) {
+      await saveMessages(oldUnreadNowReadAttrs);
+    }
     const allProps: Array<MessageModelProps> = [];
 
     for (const nowRead of oldUnreadNowRead) {
@@ -1206,8 +1208,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
    * @param profileKey MUST be a hex string
    */
   public async setProfileKey(profileKey?: Uint8Array, autoCommit = true) {
-    const re = /[0-9A-Fa-f]*/g;
-
     if (!profileKey) {
       return;
     }
@@ -1496,7 +1496,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
   }
 
-  public async clearContactTypingTimer(sender: string) {
+  public async clearContactTypingTimer(_sender: string) {
     if (!!this.typingTimer) {
       global.clearTimeout(this.typingTimer);
       this.typingTimer = null;

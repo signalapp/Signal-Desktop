@@ -36,7 +36,6 @@ import {
   conversationReset,
   quoteMessage,
   resetSelectedMessageIds,
-  SortedMessageModelProps,
 } from '../state/ducks/conversations';
 import { getDecryptedMediaUrl } from '../session/crypto/DecryptedAttachmentsManager';
 import { IMAGE_JPEG } from '../types/MIME';

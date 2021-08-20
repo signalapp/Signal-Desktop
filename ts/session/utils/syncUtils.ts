@@ -14,7 +14,7 @@ import {
   ConfigurationMessageContact,
 } from '../messages/outgoing/controlMessage/ConfigurationMessage';
 import { ConversationModel } from '../../models/conversation';
-import { fromBase64ToArray, fromHexToArray, toHex } from './String';
+import { fromBase64ToArray, fromHexToArray } from './String';
 import { SignalService } from '../../protobuf';
 import _ from 'lodash';
 import {
@@ -27,7 +27,6 @@ import { ExpirationTimerUpdateMessage } from '../messages/outgoing/controlMessag
 import { getV2OpenGroupRoom } from '../../data/opengroups';
 import { getCompleteUrlFromRoom } from '../../opengroup/utils/OpenGroupUtils';
 import { DURATION } from '../constants';
-import { PubKey } from '../types';
 
 const ITEM_ID_LAST_SYNC_TIMESTAMP = 'lastSyncedTimestamp';
 
@@ -138,7 +137,7 @@ const getValidClosedGroups = async (convos: Array<ConversationModel>) => {
       }
 
       return new ConfigurationMessageClosedGroup({
-        publicKey: groupPubKey as string,
+        publicKey: groupPubKey,
         name: c.get('name') || '',
         members: c.get('members') || [],
         admins: c.get('groupAdmins') || [],

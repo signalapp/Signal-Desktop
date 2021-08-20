@@ -12,13 +12,7 @@ import _, { noop } from 'lodash';
 
 export { processMessage };
 
-import {
-  createMessage,
-  handleMessageEvent,
-  isMessageDuplicate,
-  MessageCreationData,
-  updateProfileOneAtATime,
-} from './dataMessage';
+import { createMessage, isMessageDuplicate, MessageCreationData } from './dataMessage';
 
 import { getEnvelopeId } from './common';
 import { StringUtils, UserUtils } from '../session/utils';
@@ -26,10 +20,7 @@ import { SignalService } from '../protobuf';
 import { getConversationController } from '../session/conversations';
 import { removeUnprocessed } from '../data/data';
 import { ConversationTypeEnum } from '../models/conversation';
-import {
-  getOpenGroupV2ConversationId,
-  openGroupPrefixRegex,
-} from '../opengroup/utils/OpenGroupUtils';
+import { getOpenGroupV2ConversationId } from '../opengroup/utils/OpenGroupUtils';
 import { OpenGroupMessageV2 } from '../opengroup/opengroupV2/OpenGroupMessageV2';
 import { OpenGroupRequestCommonType } from '../opengroup/opengroupV2/ApiUtil';
 import { handleMessageJob } from './queuedJob';
@@ -63,13 +54,10 @@ async function handleEnvelope(envelope: EnvelopePlus) {
 }
 
 class EnvelopeQueue {
-  private count: number = 0;
-
   // Last pending promise
   private pending: Promise<any> = Promise.resolve();
 
   public add(task: any): void {
-    this.count += 1;
     const promise = this.pending.then(task, task);
     this.pending = promise;
 
