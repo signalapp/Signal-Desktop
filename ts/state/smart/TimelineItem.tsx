@@ -1,7 +1,7 @@
 // Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import React, { RefObject } from 'react';
 import { connect } from 'react-redux';
 
 import { mapDispatchToProps } from '../actions';
@@ -21,6 +21,7 @@ import { SmartUniversalTimerNotification } from './UniversalTimerNotification';
 type ExternalProps = {
   id: string;
   conversationId: string;
+  containerElementRef: RefObject<HTMLElement>;
 };
 
 // Workaround: A react component's required properties are filtering up through connect()
@@ -38,7 +39,7 @@ function renderUniversalTimerNotification(): JSX.Element {
 }
 
 const mapStateToProps = (state: StateType, props: ExternalProps) => {
-  const { id, conversationId } = props;
+  const { id, conversationId, containerElementRef } = props;
 
   const messageSelector = getMessageSelector(state);
   const item = messageSelector(id);
@@ -51,6 +52,7 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
   return {
     item,
     id,
+    containerElementRef,
     conversationId,
     conversationColor: conversation?.conversationColor,
     customColor: conversation?.customColor,

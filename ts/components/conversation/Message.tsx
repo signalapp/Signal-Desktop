@@ -1,12 +1,13 @@
 // Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import React, { RefObject } from 'react';
 import ReactDOM, { createPortal } from 'react-dom';
 import classNames from 'classnames';
 import { drop, groupBy, orderBy, take, unescape } from 'lodash';
 import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
 import { Manager, Popper, Reference } from 'react-popper';
+import type { PreventOverflowModifier } from '@popperjs/core/lib/modifiers/preventOverflow';
 
 import {
   ConversationType,
@@ -188,6 +189,7 @@ export type PropsData = {
 };
 
 export type PropsHousekeeping = {
+  containerElementRef: RefObject<HTMLElement>;
   i18n: LocalizerType;
   interactionMode: InteractionModeType;
   theme?: ThemeType;
@@ -1443,7 +1445,13 @@ export class Message extends React.PureComponent<Props, State> {
         {reactionPickerRoot &&
           createPortal(
             // eslint-disable-next-line consistent-return
-            <Popper placement="top" modifiers={[offsetDistanceModifier(4)]}>
+            <Popper
+              placement="top"
+              modifiers={[
+                offsetDistanceModifier(4),
+                this.popperPreventOverflowModifier(),
+              ]}
+            >
               {({ ref, style }) => (
                 <SmartReactionPicker
                   ref={ref}
@@ -1801,6 +1809,23 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
+  private popperPreventOverflowModifier(): Partial<PreventOverflowModifier> {
+    const { containerElementRef } = this.props;
+    return {
+      name: 'preventOverflow',
+      options: {
+        altAxis: true,
+        boundary: containerElementRef.current || undefined,
+        padding: {
+          bottom: 16,
+          left: 8,
+          right: 8,
+          top: 16,
+        },
+      },
+    };
+  }
+
   public toggleReactionViewer = (onlyRemove = false): void => {
     this.setState(({ reactionViewerRoot }) => {
       if (reactionViewerRoot) {
@@ -2022,7 +2047,11 @@ export class Message extends React.PureComponent<Props, State> {
         </Reference>
         {reactionViewerRoot &&
           createPortal(
-            <Popper placement={popperPlacement}>
+            <Popper
+              placement={popperPlacement}
+              strategy="fixed"
+              modifiers={[this.popperPreventOverflowModifier()]}
+            >
               {({ ref, style }) => (
                 <ReactionViewer
                   ref={ref}

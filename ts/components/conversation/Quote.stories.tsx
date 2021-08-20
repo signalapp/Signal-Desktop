@@ -38,6 +38,7 @@ const defaultMessageProps: MessagesProps = {
   canDownload: true,
   checkForAccount: action('checkForAccount'),
   clearSelectedMessage: action('default--clearSelectedMessage'),
+  containerElementRef: React.createRef<HTMLElement>(),
   conversationColor: 'crimson',
   conversationId: 'conversationId',
   conversationType: 'direct', // override

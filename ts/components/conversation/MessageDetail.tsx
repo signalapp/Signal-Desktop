@@ -94,6 +94,8 @@ const _keyForError = (error: Error): string => {
 export class MessageDetail extends React.Component<Props> {
   private readonly focusRef = React.createRef<HTMLDivElement>();
 
+  private readonly messageContainerRef = React.createRef<HTMLDivElement>();
+
   public componentDidMount(): void {
     // When this component is created, it's initially not part of the DOM, and then it's
     //   added off-screen and animated in. This ensures that the focus takes.
@@ -289,13 +291,17 @@ export class MessageDetail extends React.Component<Props> {
     return (
       // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
       <div className="module-message-detail" tabIndex={0} ref={this.focusRef}>
-        <div className="module-message-detail__message-container">
+        <div
+          className="module-message-detail__message-container"
+          ref={this.messageContainerRef}
+        >
           <Message
             {...message}
             renderingContext="conversation/MessageDetail"
             checkForAccount={checkForAccount}
             clearSelectedMessage={clearSelectedMessage}
             contactNameColor={contactNameColor}
+            containerElementRef={this.messageContainerRef}
             deleteMessage={deleteMessage}
             deleteMessageForEveryone={deleteMessageForEveryone}
             disableMenu

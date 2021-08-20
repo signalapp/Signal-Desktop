@@ -13846,6 +13846,14 @@
     "reasonDetail": "Used for setting focus only"
   },
   {
+    "rule": "React-createRef",
+    "path": "ts/components/conversation/MessageDetail.js",
+    "line": "        this.messageContainerRef = react_1.default.createRef();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-08-20T16:48:00.885Z",
+    "reasonDetail": "Needed to confine Poppers. We don't actually manipulate this DOM reference."
+  },
+  {
     "rule": "React-useRef",
     "path": "ts/components/conversation/Quote.js",
     "line": "    const imageRef = react_1.useRef(new Image());",
@@ -13868,6 +13876,14 @@
     "reasonCategory": "usageTrusted",
     "updated": "2019-07-31T00:19:18.696Z",
     "reasonDetail": "Timeline needs to interact with its child List directly"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "ts/components/conversation/Timeline.js",
+    "line": "        this.containerRef = react_1.default.createRef();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-08-20T16:48:00.885Z",
+    "reasonDetail": "Needed to confine Poppers. We don't actually manipulate this DOM reference."
   },
   {
     "rule": "React-useRef",

@@ -41,6 +41,7 @@ const renderUniversalTimerNotification = () => (
 );
 
 const getDefaultProps = () => ({
+  containerElementRef: React.createRef<HTMLElement>(),
   conversationId: 'conversation-id',
   id: 'asdf',
   isSelected: false,

@@ -84,6 +84,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   checkForAccount: action('checkForAccount'),
   clearSelectedMessage: action('clearSelectedMessage'),
   collapseMetadata: overrideProps.collapseMetadata,
+  containerElementRef: React.createRef<HTMLElement>(),
   conversationColor:
     overrideProps.conversationColor ||
     select('conversationColor', ConversationColors, ConversationColors[0]),

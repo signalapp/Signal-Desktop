@@ -26,6 +26,8 @@ const excludedFilesRegexps = [
 
   // Non-distributed files
   '\\.d\\.ts$',
+  '.+\\.stories\\.js',
+  '.+\\.stories\\.tsx',
 
   // High-traffic files in our project
   '^app/.+(ts|js)',

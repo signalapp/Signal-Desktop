@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { isEmpty, mapValues, pick } from 'lodash';
-import React from 'react';
+import React, { RefObject } from 'react';
 import { connect } from 'react-redux';
 import memoizee from 'memoizee';
 
@@ -66,11 +66,13 @@ function renderItem(
   messageId: string,
   conversationId: string,
   onHeightChange: (messageId: string) => unknown,
-  actionProps: TimelineActionsType
+  actionProps: TimelineActionsType,
+  containerElementRef: RefObject<HTMLElement>
 ): JSX.Element {
   return (
     <SmartTimelineItem
       {...actionProps}
+      containerElementRef={containerElementRef}
       conversationId={conversationId}
       id={messageId}
       onHeightChange={createBoundOnHeightChange(onHeightChange, messageId)}

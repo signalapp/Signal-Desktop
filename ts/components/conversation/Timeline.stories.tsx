@@ -376,7 +376,13 @@ const actions = () => ({
   unblurAvatar: action('unblurAvatar'),
 });
 
-const renderItem = (id: string) => (
+const renderItem = (
+  id: string,
+  _conversationId: unknown,
+  _onHeightChange: unknown,
+  _actionProps: unknown,
+  containerElementRef: React.RefObject<HTMLElement>
+) => (
   <TimelineItem
     id=""
     isSelected={false}
@@ -384,6 +390,7 @@ const renderItem = (id: string) => (
     item={items[id]}
     i18n={i18n}
     interactionMode="keyboard"
+    containerElementRef={containerElementRef}
     conversationId=""
     renderContact={() => '*ContactName*'}
     renderUniversalTimerNotification={() => (

@@ -3,7 +3,7 @@
 
 import { debounce, get, isNumber, pick, identity } from 'lodash';
 import classNames from 'classnames';
-import React, { CSSProperties, ReactChild, ReactNode } from 'react';
+import React, { CSSProperties, ReactChild, ReactNode, RefObject } from 'react';
 import { createSelector } from 'reselect';
 import {
   AutoSizer,
@@ -107,7 +107,8 @@ type PropsHousekeepingType = {
     id: string,
     conversationId: string,
     onHeightChange: (messageId: string) => unknown,
-    actions: PropsActionsType
+    actions: PropsActionsType,
+    containerElementRef: RefObject<HTMLElement>
   ) => JSX.Element;
   renderLastSeenIndicator: (id: string) => JSX.Element;
   renderHeroRow: (
@@ -297,7 +298,9 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
 
   public resizeFlag = false;
 
-  public listRef = React.createRef<List>();
+  private readonly containerRef = React.createRef<HTMLDivElement>();
+
+  private readonly listRef = React.createRef<List>();
 
   public visibleRows: VisibleRowsType | undefined;
 
@@ -808,7 +811,13 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
           role="row"
         >
           <ErrorBoundary i18n={i18n} showDebugLog={() => window.showDebugLog()}>
-            {renderItem(messageId, id, this.resizeMessage, actions)}
+            {renderItem(
+              messageId,
+              id,
+              this.resizeMessage,
+              actions,
+              this.containerRef
+            )}
           </ErrorBoundary>
         </div>
       );
@@ -1502,6 +1511,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
           tabIndex={-1}
           onBlur={this.handleBlur}
           onKeyDown={this.handleKeyDown}
+          ref={this.containerRef}
         >
           {timelineWarning}
 
