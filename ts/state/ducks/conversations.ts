@@ -136,6 +136,7 @@ export type PropsForSearchResults = {
 export type PropsForAttachment = {
   id: number;
   contentType: string;
+  caption?: string;
   size: number;
   width?: number;
   height?: number;

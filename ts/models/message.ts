@@ -688,6 +688,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       screenshot,
       thumbnail,
       fileName,
+      caption,
     } = attachment;
 
     const isVoiceMessage =
@@ -696,6 +697,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     return {
       id,
       contentType,
+      caption,
       size: size || 0,
       width: width || 0,
       height: height || 0,
