@@ -1,7 +1,8 @@
 // Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
+import { noop } from 'lodash';
 import { CallNeedPermissionScreen } from './CallNeedPermissionScreen';
 import { CallScreen } from './CallScreen';
 import { CallingLobby } from './CallingLobby';
@@ -28,7 +29,6 @@ import {
   AcceptCallType,
   CancelCallType,
   DeclineCallType,
-  DirectCallStateType,
   HangUpType,
   KeyChangeOkType,
   SetGroupCallVideoRequestType,
@@ -55,26 +55,39 @@ export type PropsType = {
     demuxId: number
   ) => VideoFrameSource;
   getPresentingSources: () => void;
-  incomingCall?: {
-    call: DirectCallStateType;
-    conversation: ConversationType;
-  };
+  incomingCall?:
+    | {
+        callMode: CallMode.Direct;
+        conversation: ConversationType;
+        isVideoCall: boolean;
+      }
+    | {
+        callMode: CallMode.Group;
+        conversation: ConversationType;
+        otherMembersRung: Array<Pick<ConversationType, 'firstName' | 'title'>>;
+        ringer: Pick<ConversationType, 'firstName' | 'title'>;
+      };
   keyChangeOk: (_: KeyChangeOkType) => void;
   renderDeviceSelection: () => JSX.Element;
   renderSafetyNumberViewer: (props: SafetyNumberProps) => JSX.Element;
   startCall: (payload: StartCallType) => void;
   toggleParticipants: () => void;
   acceptCall: (_: AcceptCallType) => void;
+  bounceAppIconStart: () => unknown;
+  bounceAppIconStop: () => unknown;
   declineCall: (_: DeclineCallType) => void;
   i18n: LocalizerType;
   me: MeType;
+  notifyForCall: (title: string, isVideoCall: boolean) => unknown;
   openSystemPreferencesAction: () => unknown;
+  playRingtone: () => unknown;
   setGroupCallVideoRequest: (_: SetGroupCallVideoRequestType) => void;
   setLocalAudio: (_: SetLocalAudioType) => void;
   setLocalVideo: (_: SetLocalVideoType) => void;
   setLocalPreview: (_: SetLocalPreviewType) => void;
   setPresenting: (_?: PresentedSource) => void;
   setRendererCanvas: (_: SetRendererCanvasType) => void;
+  stopRingtone: () => unknown;
   hangUp: (_: HangUpType) => void;
   togglePip: () => void;
   toggleScreenRecordingPermissionsDialog: () => unknown;
@@ -330,7 +343,31 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
 };
 
 export const CallManager: React.FC<PropsType> = props => {
-  const { activeCall, incomingCall, acceptCall, declineCall, i18n } = props;
+  const {
+    acceptCall,
+    activeCall,
+    bounceAppIconStart,
+    bounceAppIconStop,
+    declineCall,
+    i18n,
+    incomingCall,
+    notifyForCall,
+    playRingtone,
+    stopRingtone,
+  } = props;
+
+  const shouldRing = getShouldRing(props);
+  useEffect(() => {
+    if (shouldRing) {
+      playRingtone();
+      return () => {
+        stopRingtone();
+      };
+    }
+
+    stopRingtone();
+    return noop;
+  }, [shouldRing, playRingtone, stopRingtone]);
 
   if (activeCall) {
     // `props` should logically have an `activeCall` at this point, but TypeScript can't
@@ -343,13 +380,40 @@ export const CallManager: React.FC<PropsType> = props => {
     return (
       <IncomingCallBar
         acceptCall={acceptCall}
+        bounceAppIconStart={bounceAppIconStart}
+        bounceAppIconStop={bounceAppIconStop}
         declineCall={declineCall}
         i18n={i18n}
-        call={incomingCall.call}
-        conversation={incomingCall.conversation}
+        notifyForCall={notifyForCall}
+        {...incomingCall}
       />
     );
   }
 
   return null;
 };
+
+function getShouldRing({
+  activeCall,
+  incomingCall,
+}: Readonly<Pick<PropsType, 'activeCall' | 'incomingCall'>>): boolean {
+  if (incomingCall) {
+    return !activeCall;
+  }
+
+  if (!activeCall) {
+    return false;
+  }
+
+  switch (activeCall.callMode) {
+    case CallMode.Direct:
+      return (
+        activeCall.callState === CallState.Prering ||
+        activeCall.callState === CallState.Ringing
+      );
+    case CallMode.Group:
+      return false;
+    default:
+      throw missingCaseError(activeCall);
+  }
+}

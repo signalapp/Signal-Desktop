@@ -53,20 +53,12 @@ const getCommonActiveCallData = () => ({
   showParticipantsList: boolean('showParticipantsList', false),
 });
 
-const getIncomingCallState = (extraProps = {}) => ({
-  ...extraProps,
-  callMode: CallMode.Direct as CallMode.Direct,
-  conversationId: '3051234567',
-  callState: CallState.Ringing,
-  isIncoming: true,
-  isVideoCall: boolean('isVideoCall', true),
-  hasRemoteVideo: true,
-});
-
 const createProps = (storyProps: Partial<PropsType> = {}): PropsType => ({
   ...storyProps,
   availableCameras: [],
   acceptCall: action('accept-call'),
+  bounceAppIconStart: action('bounce-app-icon-start'),
+  bounceAppIconStop: action('bounce-app-icon-stop'),
   cancelCall: action('cancel-call'),
   closeNeedPermissionScreen: action('close-need-permission-screen'),
   declineCall: action('decline-call'),
@@ -87,7 +79,9 @@ const createProps = (storyProps: Partial<PropsType> = {}): PropsType => ({
     }),
     uuid: 'cb0dd0c8-7393-41e9-a0aa-d631c4109541',
   },
+  notifyForCall: action('notify-for-call'),
   openSystemPreferencesAction: action('open-system-preferences-action'),
+  playRingtone: action('play-ringtone'),
   renderDeviceSelection: () => <div />,
   renderSafetyNumberViewer: (_: SafetyNumberViewerProps) => <div />,
   setGroupCallVideoRequest: action('set-group-call-video-request'),
@@ -97,6 +91,7 @@ const createProps = (storyProps: Partial<PropsType> = {}): PropsType => ({
   setPresenting: action('toggle-presenting'),
   setRendererCanvas: action('set-renderer-canvas'),
   startCall: action('start-call'),
+  stopRingtone: action('stop-ringtone'),
   toggleParticipants: action('toggle-participants'),
   togglePip: action('toggle-pip'),
   toggleScreenRecordingPermissionsDialog: action(
@@ -145,12 +140,33 @@ story.add('Ongoing Group Call', () => (
   />
 ));
 
-story.add('Ringing', () => (
+story.add('Ringing (direct call)', () => (
   <CallManager
     {...createProps({
       incomingCall: {
-        call: getIncomingCallState(),
+        callMode: CallMode.Direct as const,
         conversation: getConversation(),
+        isVideoCall: true,
+      },
+    })}
+  />
+));
+
+story.add('Ringing (group call)', () => (
+  <CallManager
+    {...createProps({
+      incomingCall: {
+        callMode: CallMode.Group as const,
+        conversation: {
+          ...getConversation(),
+          type: 'group',
+          title: 'Tahoe Trip',
+        },
+        otherMembersRung: [
+          { firstName: 'Morty', title: 'Morty Smith' },
+          { firstName: 'Summer', title: 'Summer Smith' },
+        ],
+        ringer: { firstName: 'Rick', title: 'Rick Sanchez' },
       },
     })}
   />

@@ -10,6 +10,7 @@ import {
   CallId,
   CallingMessage,
   CallLogLevel,
+  CallMessageUrgency,
   CallSettings,
   CallState,
   CanvasVideoRenderer,
@@ -24,13 +25,16 @@ import {
   HangupType,
   OpaqueMessage,
   PeekInfo,
+  RingCancelReason,
   RingRTC,
+  RingUpdate,
   UserId,
   VideoFrameSource,
   VideoRequest,
   BandwidthMode,
 } from 'ringrtc';
 import { uniqBy, noop } from 'lodash';
+import * as moment from 'moment';
 
 import {
   ActionsType as UxActionsType,
@@ -46,6 +50,7 @@ import {
   MediaDeviceSettings,
   PresentableSource,
   PresentedSource,
+  ProcessGroupCallRingRequestResult,
 } from '../types/Calling';
 import { LocalizerType } from '../types/Util';
 import { ConversationModel } from '../models/conversations';
@@ -72,12 +77,17 @@ import {
   REQUESTED_VIDEO_HEIGHT,
   REQUESTED_VIDEO_FRAMERATE,
 } from '../calling/constants';
+import { callingMessageToProto } from '../util/callingMessageToProto';
 import { notify } from './notify';
 import { getSendOptions } from '../util/getSendOptions';
 import { SignalService as Proto } from '../protobuf';
+import dataInterface from '../sql/Client';
 
-// TODO: remove once we move away from ArrayBuffers
-const FIXMEU8 = Uint8Array;
+const {
+  processGroupCallRingRequest,
+  processGroupCallRingCancelation,
+  cleanExpiredGroupCallRings,
+} = dataInterface;
 
 const RINGRTC_HTTP_METHOD_TO_OUR_HTTP_METHOD: Map<
   HttpMethod,
@@ -88,6 +98,10 @@ const RINGRTC_HTTP_METHOD_TO_OUR_HTTP_METHOD: Map<
   [HttpMethod.Post, 'POST'],
   [HttpMethod.Delete, 'DELETE'],
 ]);
+
+const CLEAN_EXPIRED_GROUP_CALL_RINGS_INTERVAL = moment
+  .duration(10, 'minutes')
+  .asMilliseconds();
 
 // We send group call update messages to tell other clients to peek, which triggers
 //   notifications, timeline messages, big green "Join" buttons, and so on. This enum
@@ -185,76 +199,6 @@ function protoToCallingMessage({
   };
 }
 
-function bufferToProto(
-  value: Buffer | { toArrayBuffer(): ArrayBuffer } | undefined
-): Uint8Array | undefined {
-  if (!value) {
-    return undefined;
-  }
-  if (value instanceof Uint8Array) {
-    return value;
-  }
-
-  return new FIXMEU8(value.toArrayBuffer());
-}
-
-function callingMessageToProto({
-  offer,
-  answer,
-  iceCandidates,
-  legacyHangup,
-  busy,
-  hangup,
-  supportsMultiRing,
-  destinationDeviceId,
-  opaque,
-}: CallingMessage): Proto.ICallingMessage {
-  return {
-    offer: offer
-      ? {
-          ...offer,
-          type: offer.type as number,
-          opaque: bufferToProto(offer.opaque),
-        }
-      : undefined,
-    answer: answer
-      ? {
-          ...answer,
-          opaque: bufferToProto(answer.opaque),
-        }
-      : undefined,
-    iceCandidates: iceCandidates
-      ? iceCandidates.map(candidate => {
-          return {
-            ...candidate,
-            opaque: bufferToProto(candidate.opaque),
-          };
-        })
-      : undefined,
-    legacyHangup: legacyHangup
-      ? {
-          ...legacyHangup,
-          type: legacyHangup.type as number,
-        }
-      : undefined,
-    busy,
-    hangup: hangup
-      ? {
-          ...hangup,
-          type: hangup.type as number,
-        }
-      : undefined,
-    supportsMultiRing,
-    destinationDeviceId,
-    opaque: opaque
-      ? {
-          ...opaque,
-          data: bufferToProto(opaque.data),
-        }
-      : undefined,
-  };
-}
-
 export class CallingClass {
   readonly videoCapturer: GumVideoCapturer;
 
@@ -271,6 +215,8 @@ export class CallingClass {
   private callsByConversation: { [conversationId: string]: Call | GroupCall };
 
   private hadLocalVideoBeforePresenting?: boolean;
+
+  private hasGivenOurUuidToRingRtc = false;
 
   constructor() {
     this.videoCapturer = new GumVideoCapturer({
@@ -299,10 +245,35 @@ export class CallingClass {
     RingRTC.handleLogMessage = this.handleLogMessage.bind(this);
     RingRTC.handleSendHttpRequest = this.handleSendHttpRequest.bind(this);
     RingRTC.handleSendCallMessage = this.handleSendCallMessage.bind(this);
+    RingRTC.handleSendCallMessageToGroup = this.handleSendCallMessageToGroup.bind(
+      this
+    );
+    RingRTC.handleGroupCallRingUpdate = this.handleGroupCallRingUpdate.bind(
+      this
+    );
+
+    this.attemptToGiveOurUuidToRingRtc();
 
     ipcRenderer.on('stop-screen-share', () => {
       uxActions.setPresenting();
     });
+
+    this.cleanExpiredGroupCallRingsAndLoop();
+  }
+
+  private attemptToGiveOurUuidToRingRtc(): void {
+    if (this.hasGivenOurUuidToRingRtc) {
+      return;
+    }
+
+    const ourUuid = window.textsecure.storage.user.getUuid();
+    if (!ourUuid) {
+      // This can happen if we're not linked. It's okay if we hit this case.
+      return;
+    }
+
+    RingRTC.setSelfUuid(Buffer.from(uuidToArrayBuffer(ourUuid)));
+    this.hasGivenOurUuidToRingRtc = true;
   }
 
   async startCallingLobby(
@@ -715,6 +686,8 @@ export class CallingClass {
     hasLocalAudio: boolean,
     hasLocalVideo: boolean
   ): void {
+    this.attemptToGiveOurUuidToRingRtc();
+
     const conversation = window.ConversationController.get(
       conversationId
     )?.format();
@@ -743,6 +716,13 @@ export class CallingClass {
     groupCall.setOutgoingAudioMuted(!hasLocalAudio);
     groupCall.setOutgoingVideoMuted(!hasLocalVideo);
     this.videoCapturer.enableCaptureAndSend(groupCall);
+
+    // This is a temporary flag to help all client teams (Desktop, iOS, and Android)
+    //   debug. Soon, this will be exposed in the UI (see DESKTOP-2113).
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    if (window.RING_WHEN_JOINING_GROUP_CALLS) {
+      groupCall.ringAll();
+    }
 
     groupCall.join();
   }
@@ -959,8 +939,11 @@ export class CallingClass {
     });
   }
 
-  async accept(conversationId: string, asVideoCall: boolean): Promise<void> {
-    window.log.info('CallingClass.accept()');
+  async acceptDirectCall(
+    conversationId: string,
+    asVideoCall: boolean
+  ): Promise<void> {
+    window.log.info('CallingClass.acceptDirectCall()');
 
     const callId = this.getCallIdForConversation(conversationId);
     if (!callId) {
@@ -980,16 +963,41 @@ export class CallingClass {
     }
   }
 
-  decline(conversationId: string): void {
-    window.log.info('CallingClass.decline()');
+  declineDirectCall(conversationId: string): void {
+    window.log.info('CallingClass.declineDirectCall()');
 
     const callId = this.getCallIdForConversation(conversationId);
     if (!callId) {
-      window.log.warn('Trying to decline a non-existent call');
+      window.log.warn(
+        'declineDirectCall: Trying to decline a non-existent call'
+      );
       return;
     }
 
     RingRTC.decline(callId);
+  }
+
+  declineGroupCall(conversationId: string, ringId: bigint): void {
+    window.log.info('CallingClass.declineGroupCall()');
+
+    this.attemptToGiveOurUuidToRingRtc();
+
+    const groupId = window.ConversationController.get(conversationId)?.get(
+      'groupId'
+    );
+    if (!groupId) {
+      window.log.error(
+        'declineGroupCall: could not find the group ID for that conversation'
+      );
+      return;
+    }
+    const groupIdBuffer = Buffer.from(Bytes.fromBase64(groupId));
+
+    RingRTC.cancelGroupRing(
+      groupIdBuffer,
+      ringId,
+      RingCancelReason.DeclinedByUser
+    );
   }
 
   hangup(conversationId: string): void {
@@ -1548,7 +1556,8 @@ export class CallingClass {
 
   private async handleSendCallMessage(
     recipient: Uint8Array,
-    data: Uint8Array
+    data: Uint8Array,
+    urgency: CallMessageUrgency
   ): Promise<boolean> {
     const userId = arrayBufferToUuid(typedArrayToArrayBuffer(recipient));
     if (!userId) {
@@ -1558,12 +1567,123 @@ export class CallingClass {
     const message = new CallingMessage();
     message.opaque = new OpaqueMessage();
     message.opaque.data = Buffer.from(data);
-    return this.handleOutgoingSignaling(userId, message);
+    return this.handleOutgoingSignaling(userId, message, urgency);
+  }
+
+  private async handleSendCallMessageToGroup(
+    groupIdBytes: Buffer,
+    data: Buffer,
+    urgency: CallMessageUrgency
+  ): Promise<void> {
+    this.attemptToGiveOurUuidToRingRtc();
+
+    const groupId = groupIdBytes.toString('base64');
+    const conversation = window.ConversationController.get(groupId);
+    if (!conversation) {
+      window.log.error(
+        'handleSendCallMessageToGroup(): could not find conversation'
+      );
+      return;
+    }
+
+    const timestamp = Date.now();
+
+    const callingMessage = new CallingMessage();
+    callingMessage.opaque = new OpaqueMessage();
+    callingMessage.opaque.data = data;
+    const contentMessage = new Proto.Content();
+    contentMessage.callingMessage = callingMessageToProto(
+      callingMessage,
+      urgency
+    );
+
+    // We "fire and forget" because sending this message is non-essential.
+    // We also don't sync this message.
+    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
+    await handleMessageSend(
+      window.Signal.Util.sendContentMessageToGroup({
+        contentHint: ContentHint.DEFAULT,
+        contentMessage,
+        conversation,
+        isPartialSend: false,
+        messageId: undefined,
+        recipients: conversation.getRecipients(),
+        sendOptions: await getSendOptions(conversation.attributes),
+        sendType: 'callingMessage',
+        timestamp,
+      }),
+      { messageIds: [], sendType: 'callingMessage' }
+    );
+  }
+
+  private async handleGroupCallRingUpdate(
+    groupIdBytes: Buffer,
+    ringId: bigint,
+    ringerBytes: Buffer,
+    update: RingUpdate
+  ): Promise<void> {
+    window.log.info(`handleGroupCallRingUpdate(): got ring update ${update}`);
+
+    this.attemptToGiveOurUuidToRingRtc();
+
+    const groupId = groupIdBytes.toString('base64');
+
+    const ringerUuid = arrayBufferToUuid(typedArrayToArrayBuffer(ringerBytes));
+    if (!ringerUuid) {
+      window.log.error('handleGroupCallRingUpdate(): ringerUuid was invalid');
+      return;
+    }
+
+    const conversation = window.ConversationController.get(groupId);
+    if (!conversation) {
+      window.log.error(
+        'handleGroupCallRingUpdate(): could not find conversation'
+      );
+      return;
+    }
+    const conversationId = conversation.id;
+
+    let shouldRing = false;
+
+    if (update === RingUpdate.Requested) {
+      const processResult = await processGroupCallRingRequest(ringId);
+      switch (processResult) {
+        case ProcessGroupCallRingRequestResult.ShouldRing:
+          shouldRing = true;
+          break;
+        case ProcessGroupCallRingRequestResult.RingWasPreviouslyCanceled:
+          RingRTC.cancelGroupRing(groupIdBytes, ringId, null);
+          break;
+        case ProcessGroupCallRingRequestResult.ThereIsAnotherActiveRing:
+          RingRTC.cancelGroupRing(groupIdBytes, ringId, RingCancelReason.Busy);
+          break;
+        default:
+          throw missingCaseError(processResult);
+      }
+    } else {
+      await processGroupCallRingCancelation(ringId);
+    }
+
+    if (shouldRing) {
+      window.log.info('handleGroupCallRingUpdate: ringing');
+      this.uxActions?.receiveIncomingGroupCall({
+        conversationId,
+        ringId,
+        ringerUuid,
+      });
+    } else {
+      window.log.info('handleGroupCallRingUpdate: canceling any existing ring');
+      this.uxActions?.cancelIncomingGroupCallRing({
+        conversationId,
+        ringId,
+      });
+    }
   }
 
   private async handleOutgoingSignaling(
     remoteUserId: UserId,
-    message: CallingMessage
+    message: CallingMessage,
+    urgency?: CallMessageUrgency
   ): Promise<boolean> {
     const conversation = window.ConversationController.get(remoteUserId);
     const sendOptions = conversation
@@ -1579,7 +1699,7 @@ export class CallingClass {
       const result = await handleMessageSend(
         window.textsecure.messaging.sendCallingMessage(
           remoteUserId,
-          callingMessageToProto(message),
+          callingMessageToProto(message, urgency),
           sendOptions
         ),
         { messageIds: [], sendType: 'callingMessage' }
@@ -1640,7 +1760,7 @@ export class CallingClass {
 
       this.attachToCall(conversation, call);
 
-      this.uxActions.receiveIncomingCall({
+      this.uxActions.receiveIncomingDirectCall({
         conversationId: conversation.id,
         isVideoCall: call.isVideoCall,
       });
@@ -1925,6 +2045,19 @@ export class CallingClass {
     }
 
     conversation.updateCallHistoryForGroupCall(peekInfo.eraId, creatorUuid);
+  }
+
+  private async cleanExpiredGroupCallRingsAndLoop(): Promise<void> {
+    try {
+      await cleanExpiredGroupCallRings();
+    } catch (err: unknown) {
+      // These errors are ignored here. They should be logged elsewhere and it's okay if
+      //   we don't do a cleanup this time.
+    }
+
+    setTimeout(() => {
+      this.cleanExpiredGroupCallRingsAndLoop();
+    }, CLEAN_EXPIRED_GROUP_CALL_RINGS_INTERVAL);
   }
 }
 

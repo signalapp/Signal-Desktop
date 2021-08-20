@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { createSelector } from 'reselect';
@@ -9,9 +9,16 @@ import {
   CallsByConversationType,
   DirectCallStateType,
   GroupCallStateType,
+  isAnybodyElseInGroupCall,
 } from '../ducks/calling';
-import { CallMode, CallState } from '../../types/Calling';
+import {
+  CallMode,
+  CallState,
+  GroupCallConnectionState,
+} from '../../types/Calling';
+import { getUserUuid } from './user';
 import { getOwn } from '../../util/getOwn';
+import { missingCaseError } from '../../util/missingCaseError';
 
 export type CallStateType = DirectCallStateType | GroupCallStateType;
 
@@ -55,20 +62,29 @@ export const isInCall = createSelector(
   (call: CallStateType | undefined): boolean => Boolean(call)
 );
 
-// In theory, there could be multiple incoming calls. In practice, neither RingRTC nor the
-//   UI are ready to handle this.
+// In theory, there could be multiple incoming calls, or an incoming call while there's
+//   an active call. In practice, the UI is not ready for this, and RingRTC doesn't
+//   support it for direct calls.
 export const getIncomingCall = createSelector(
   getCallsByConversation,
+  getUserUuid,
   (
-    callsByConversation: CallsByConversationType
-  ): undefined | DirectCallStateType => {
-    const result = Object.values(callsByConversation).find(
-      call =>
-        call.callMode === CallMode.Direct &&
-        call.isIncoming &&
-        call.callState === CallState.Ringing
-    );
-    // TypeScript needs a little help to be sure that this is a direct call.
-    return result?.callMode === CallMode.Direct ? result : undefined;
+    callsByConversation: CallsByConversationType,
+    ourUuid: string
+  ): undefined | DirectCallStateType | GroupCallStateType => {
+    return Object.values(callsByConversation).find(call => {
+      switch (call.callMode) {
+        case CallMode.Direct:
+          return call.isIncoming && call.callState === CallState.Ringing;
+        case CallMode.Group:
+          return (
+            call.ringerUuid &&
+            call.connectionState === GroupCallConnectionState.NotConnected &&
+            isAnybodyElseInGroupCall(call.peekInfo, ourUuid)
+          );
+        default:
+          throw missingCaseError(call);
+      }
+    });
   }
 );

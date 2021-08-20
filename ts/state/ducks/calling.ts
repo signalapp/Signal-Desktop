@@ -12,7 +12,6 @@ import { has, omit } from 'lodash';
 import { getOwn } from '../../util/getOwn';
 import { getPlatform } from '../selectors/user';
 import { missingCaseError } from '../../util/missingCaseError';
-import { notify } from '../../services/notify';
 import { calling } from '../../services/calling';
 import { StateType as RootStateType } from '../reducer';
 import {
@@ -29,10 +28,6 @@ import {
 } from '../../types/Calling';
 import { callingTones } from '../../util/callingTones';
 import { requestCameraPermissions } from '../../util/callingPermissions';
-import {
-  bounceAppIconStart,
-  bounceAppIconStop,
-} from '../../shims/bounceAppIcon';
 import { sleep } from '../../util/sleep';
 import { LatestQueue } from '../../util/LatestQueue';
 
@@ -68,6 +63,16 @@ export type DirectCallStateType = {
   hasRemoteVideo?: boolean;
 };
 
+type GroupCallRingStateType =
+  | {
+      ringId?: undefined;
+      ringerUuid?: undefined;
+    }
+  | {
+      ringId: bigint;
+      ringerUuid: string;
+    };
+
 export type GroupCallStateType = {
   callMode: CallMode.Group;
   conversationId: string;
@@ -75,7 +80,7 @@ export type GroupCallStateType = {
   joinState: GroupCallJoinState;
   peekInfo: GroupCallPeekInfoType;
   remoteParticipants: Array<GroupCallParticipantInfoType>;
-};
+} & GroupCallRingStateType;
 
 export type ActiveCallStateType = {
   conversationId: string;
@@ -120,6 +125,11 @@ export type CancelCallType = {
   conversationId: string;
 };
 
+type CancelIncomingGroupCallRingType = {
+  conversationId: string;
+  ringId: bigint;
+};
+
 export type DeclineCallType = {
   conversationId: string;
 };
@@ -150,9 +160,15 @@ export type KeyChangeOkType = {
   conversationId: string;
 };
 
-export type IncomingCallType = {
+export type IncomingDirectCallType = {
   conversationId: string;
   isVideoCall: boolean;
+};
+
+type IncomingGroupCallType = {
+  conversationId: string;
+  ringId: bigint;
+  ringerUuid: string;
 };
 
 type PeekNotConnectedGroupCallType = {
@@ -237,18 +253,28 @@ export const isAnybodyElseInGroupCall = (
   ourUuid: string
 ): boolean => uuids.some(id => id !== ourUuid);
 
+const getGroupCallRingState = (
+  call: Readonly<undefined | GroupCallStateType>
+): GroupCallRingStateType =>
+  call?.ringId === undefined
+    ? {}
+    : { ringId: call.ringId, ringerUuid: call.ringerUuid };
+
 // Actions
 
 const ACCEPT_CALL_PENDING = 'calling/ACCEPT_CALL_PENDING';
 const CANCEL_CALL = 'calling/CANCEL_CALL';
+const CANCEL_INCOMING_GROUP_CALL_RING =
+  'calling/CANCEL_INCOMING_GROUP_CALL_RING';
 const SHOW_CALL_LOBBY = 'calling/SHOW_CALL_LOBBY';
 const CALL_STATE_CHANGE_FULFILLED = 'calling/CALL_STATE_CHANGE_FULFILLED';
 const CHANGE_IO_DEVICE_FULFILLED = 'calling/CHANGE_IO_DEVICE_FULFILLED';
 const CLOSE_NEED_PERMISSION_SCREEN = 'calling/CLOSE_NEED_PERMISSION_SCREEN';
-const DECLINE_CALL = 'calling/DECLINE_CALL';
+const DECLINE_DIRECT_CALL = 'calling/DECLINE_DIRECT_CALL';
 const GROUP_CALL_STATE_CHANGE = 'calling/GROUP_CALL_STATE_CHANGE';
 const HANG_UP = 'calling/HANG_UP';
-const INCOMING_CALL = 'calling/INCOMING_CALL';
+const INCOMING_DIRECT_CALL = 'calling/INCOMING_DIRECT_CALL';
+const INCOMING_GROUP_CALL = 'calling/INCOMING_GROUP_CALL';
 const MARK_CALL_TRUSTED = 'calling/MARK_CALL_TRUSTED';
 const MARK_CALL_UNTRUSTED = 'calling/MARK_CALL_UNTRUSTED';
 const OUTGOING_CALL = 'calling/OUTGOING_CALL';
@@ -279,6 +305,11 @@ type CancelCallActionType = {
   type: 'calling/CANCEL_CALL';
 };
 
+type CancelIncomingGroupCallRingActionType = {
+  type: 'calling/CANCEL_INCOMING_GROUP_CALL_RING';
+  payload: CancelIncomingGroupCallRingType;
+};
+
 type CallLobbyActionType = {
   type: 'calling/SHOW_CALL_LOBBY';
   payload: ShowCallLobbyType;
@@ -300,7 +331,7 @@ type CloseNeedPermissionScreenActionType = {
 };
 
 type DeclineCallActionType = {
-  type: 'calling/DECLINE_CALL';
+  type: 'calling/DECLINE_DIRECT_CALL';
   payload: DeclineCallType;
 };
 
@@ -314,9 +345,14 @@ type HangUpActionType = {
   payload: HangUpType;
 };
 
-type IncomingCallActionType = {
-  type: 'calling/INCOMING_CALL';
-  payload: IncomingCallType;
+type IncomingDirectCallActionType = {
+  type: 'calling/INCOMING_DIRECT_CALL';
+  payload: IncomingDirectCallType;
+};
+
+type IncomingGroupCallActionType = {
+  type: 'calling/INCOMING_GROUP_CALL';
+  payload: IncomingGroupCallType;
 };
 
 type KeyChangedActionType = {
@@ -417,6 +453,7 @@ type ToggleSpeakerViewActionType = {
 export type CallingActionType =
   | AcceptCallPendingActionType
   | CancelCallActionType
+  | CancelIncomingGroupCallRingActionType
   | CallLobbyActionType
   | CallStateChangeFulfilledActionType
   | ChangeIODeviceFulfilledActionType
@@ -424,7 +461,8 @@ export type CallingActionType =
   | DeclineCallActionType
   | GroupCallStateChangeActionType
   | HangUpActionType
-  | IncomingCallActionType
+  | IncomingDirectCallActionType
+  | IncomingGroupCallActionType
   | KeyChangedActionType
   | KeyChangeOkActionType
   | OutgoingCallActionType
@@ -450,17 +488,30 @@ export type CallingActionType =
 function acceptCall(
   payload: AcceptCallType
 ): ThunkAction<void, RootStateType, unknown, AcceptCallPendingActionType> {
-  return async dispatch => {
+  return async (dispatch, getState) => {
+    const { conversationId, asVideoCall } = payload;
+
+    const call = getOwn(getState().calling.callsByConversation, conversationId);
+    if (!call) {
+      window.log.error('Trying to accept a non-existent call');
+      return;
+    }
+
+    switch (call.callMode) {
+      case CallMode.Direct:
+        await calling.acceptDirectCall(conversationId, asVideoCall);
+        break;
+      case CallMode.Group:
+        calling.joinGroupCall(conversationId, true, asVideoCall);
+        break;
+      default:
+        throw missingCaseError(call);
+    }
+
     dispatch({
       type: ACCEPT_CALL_PENDING,
       payload,
     });
-
-    try {
-      await calling.accept(payload.conversationId, payload.asVideoCall);
-    } catch (err) {
-      window.log.error(`Failed to acceptCall: ${err.stack}`);
-    }
   };
 }
 
@@ -473,16 +524,7 @@ function callStateChange(
   CallStateChangeFulfilledActionType
 > {
   return async dispatch => {
-    const { callState, isIncoming, title, isVideoCall } = payload;
-    if (callState === CallState.Ringing && isIncoming) {
-      await callingTones.playRingtone();
-      await showCallNotification(title, isVideoCall);
-      bounceAppIconStart();
-    }
-    if (callState !== CallState.Ringing) {
-      await callingTones.stopRingtone();
-      bounceAppIconStop();
-    }
+    const { callState } = payload;
     if (callState === CallState.Ended) {
       await callingTones.playEndCall();
       ipcRenderer.send('close-screen-share-controller');
@@ -519,30 +561,6 @@ function changeIODevice(
   };
 }
 
-async function showCallNotification(
-  title: string,
-  isVideoCall: boolean
-): Promise<void> {
-  const shouldNotify =
-    !window.isActive() && window.Events.getCallSystemNotification();
-  if (!shouldNotify) {
-    return;
-  }
-  notify({
-    title,
-    icon: isVideoCall
-      ? 'images/icons/v2/video-solid-24.svg'
-      : 'images/icons/v2/phone-right-solid-24.svg',
-    message: window.i18n(
-      isVideoCall ? 'incomingVideoCall' : 'incomingAudioCall'
-    ),
-    onNotificationClick: () => {
-      window.showWindow();
-    },
-    silent: false,
-  });
-}
-
 function closeNeedPermissionScreen(): CloseNeedPermissionScreenActionType {
   return {
     type: CLOSE_NEED_PERMISSION_SCREEN,
@@ -558,12 +576,56 @@ function cancelCall(payload: CancelCallType): CancelCallActionType {
   };
 }
 
-function declineCall(payload: DeclineCallType): DeclineCallActionType {
-  calling.decline(payload.conversationId);
-
+function cancelIncomingGroupCallRing(
+  payload: CancelIncomingGroupCallRingType
+): CancelIncomingGroupCallRingActionType {
   return {
-    type: DECLINE_CALL,
+    type: CANCEL_INCOMING_GROUP_CALL_RING,
     payload,
+  };
+}
+
+function declineCall(
+  payload: DeclineCallType
+): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  CancelIncomingGroupCallRingActionType | DeclineCallActionType
+> {
+  return (dispatch, getState) => {
+    const { conversationId } = payload;
+
+    const call = getOwn(getState().calling.callsByConversation, conversationId);
+    if (!call) {
+      window.log.error('Trying to decline a non-existent call');
+      return;
+    }
+
+    switch (call.callMode) {
+      case CallMode.Direct:
+        calling.declineDirectCall(conversationId);
+        dispatch({
+          type: DECLINE_DIRECT_CALL,
+          payload,
+        });
+        break;
+      case CallMode.Group: {
+        const { ringId } = call;
+        if (ringId === undefined) {
+          window.log.error('Trying to decline a group call without a ring ID');
+        } else {
+          calling.declineGroupCall(conversationId, ringId);
+          dispatch({
+            type: CANCEL_INCOMING_GROUP_CALL_RING,
+            payload: { conversationId, ringId },
+          });
+        }
+        break;
+      }
+      default:
+        throw missingCaseError(call);
+    }
   };
 }
 
@@ -697,11 +759,20 @@ function keyChangeOk(
   };
 }
 
-function receiveIncomingCall(
-  payload: IncomingCallType
-): IncomingCallActionType {
+function receiveIncomingDirectCall(
+  payload: IncomingDirectCallType
+): IncomingDirectCallActionType {
   return {
-    type: INCOMING_CALL,
+    type: INCOMING_DIRECT_CALL,
+    payload,
+  };
+}
+
+function receiveIncomingGroupCall(
+  payload: IncomingGroupCallType
+): IncomingGroupCallActionType {
+  return {
+    type: INCOMING_GROUP_CALL,
     payload,
   };
 }
@@ -718,8 +789,6 @@ function openSystemPreferencesAction(): ThunkAction<
 }
 
 function outgoingCall(payload: StartDirectCallType): OutgoingCallActionType {
-  callingTones.playRingtone();
-
   return {
     type: OUTGOING_CALL,
     payload,
@@ -1033,6 +1102,7 @@ export const actions = {
   acceptCall,
   callStateChange,
   cancelCall,
+  cancelIncomingGroupCallRing,
   changeIODevice,
   closeNeedPermissionScreen,
   declineCall,
@@ -1044,7 +1114,8 @@ export const actions = {
   openSystemPreferencesAction,
   outgoingCall,
   peekNotConnectedGroupCall,
-  receiveIncomingCall,
+  receiveIncomingDirectCall,
+  receiveIncomingGroupCall,
   refreshIODevices,
   remoteSharingScreenChange,
   remoteVideoChange,
@@ -1083,14 +1154,12 @@ export function getEmptyState(): CallingStateType {
   };
 }
 
-function getExistingPeekInfo(
+function getGroupCall(
   conversationId: string,
-  state: CallingStateType
-): undefined | GroupCallPeekInfoType {
-  const existingCall = getOwn(state.callsByConversation, conversationId);
-  return existingCall?.callMode === CallMode.Group
-    ? existingCall.peekInfo
-    : undefined;
+  state: Readonly<CallingStateType>
+): undefined | GroupCallStateType {
+  const call = getOwn(state.callsByConversation, conversationId);
+  return call?.callMode === CallMode.Group ? call : undefined;
 }
 
 function removeConversationFromState(
@@ -1112,33 +1181,38 @@ export function reducer(
   const { callsByConversation } = state;
 
   if (action.type === SHOW_CALL_LOBBY) {
+    const { conversationId } = action.payload;
+
     let call: DirectCallStateType | GroupCallStateType;
     switch (action.payload.callMode) {
       case CallMode.Direct:
         call = {
           callMode: CallMode.Direct,
-          conversationId: action.payload.conversationId,
+          conversationId,
           isIncoming: false,
           isVideoCall: action.payload.hasLocalVideo,
         };
         break;
-      case CallMode.Group:
+      case CallMode.Group: {
         // We expect to be in this state briefly. The Calling service should update the
         //   call state shortly.
+        const existingCall = getGroupCall(conversationId, state);
         call = {
           callMode: CallMode.Group,
-          conversationId: action.payload.conversationId,
+          conversationId,
           connectionState: action.payload.connectionState,
           joinState: action.payload.joinState,
           peekInfo: action.payload.peekInfo ||
-            getExistingPeekInfo(action.payload.conversationId, state) || {
+            existingCall?.peekInfo || {
               uuids: action.payload.remoteParticipants.map(({ uuid }) => uuid),
               maxDevices: Infinity,
               deviceCount: action.payload.remoteParticipants.length,
             },
           remoteParticipants: action.payload.remoteParticipants,
+          ...getGroupCallRingState(existingCall),
         };
         break;
+      }
       default:
         throw missingCaseError(action.payload);
     }
@@ -1229,11 +1303,32 @@ export function reducer(
     }
   }
 
-  if (action.type === DECLINE_CALL) {
+  if (action.type === CANCEL_INCOMING_GROUP_CALL_RING) {
+    const { conversationId, ringId } = action.payload;
+
+    const groupCall = getGroupCall(conversationId, state);
+    if (!groupCall || groupCall.ringId !== ringId) {
+      return state;
+    }
+
+    if (groupCall.connectionState === GroupCallConnectionState.NotConnected) {
+      return removeConversationFromState(state, conversationId);
+    }
+
+    return {
+      ...state,
+      callsByConversation: {
+        ...callsByConversation,
+        [conversationId]: omit(groupCall, ['ringId', 'ringerUuid']),
+      },
+    };
+  }
+
+  if (action.type === DECLINE_DIRECT_CALL) {
     return removeConversationFromState(state, action.payload.conversationId);
   }
 
-  if (action.type === INCOMING_CALL) {
+  if (action.type === INCOMING_DIRECT_CALL) {
     return {
       ...state,
       callsByConversation: {
@@ -1245,6 +1340,52 @@ export function reducer(
           isIncoming: true,
           isVideoCall: action.payload.isVideoCall,
         },
+      },
+    };
+  }
+
+  if (action.type === INCOMING_GROUP_CALL) {
+    const { conversationId, ringId, ringerUuid } = action.payload;
+
+    let groupCall: GroupCallStateType;
+    const existingGroupCall = getGroupCall(conversationId, state);
+    if (existingGroupCall) {
+      if (existingGroupCall.ringerUuid) {
+        window.log.info('Group call was already ringing');
+        return state;
+      }
+      if (existingGroupCall.joinState !== GroupCallJoinState.NotJoined) {
+        window.log.info("Got a ring for a call we're already in");
+        return state;
+      }
+
+      groupCall = {
+        ...existingGroupCall,
+        ringId,
+        ringerUuid,
+      };
+    } else {
+      groupCall = {
+        callMode: CallMode.Group,
+        conversationId,
+        connectionState: GroupCallConnectionState.NotConnected,
+        joinState: GroupCallJoinState.NotJoined,
+        peekInfo: {
+          uuids: [],
+          maxDevices: Infinity,
+          deviceCount: 0,
+        },
+        remoteParticipants: [],
+        ringId,
+        ringerUuid,
+      };
+    }
+
+    return {
+      ...state,
+      callsByConversation: {
+        ...callsByConversation,
+        [conversationId]: groupCall,
       },
     };
   }
@@ -1333,8 +1474,11 @@ export function reducer(
       remoteParticipants,
     } = action.payload;
 
+    const existingCall = getGroupCall(conversationId, state);
+    const existingRingState = getGroupCallRingState(existingCall);
+
     const newPeekInfo = peekInfo ||
-      getExistingPeekInfo(conversationId, state) || {
+      existingCall?.peekInfo || {
         uuids: remoteParticipants.map(({ uuid }) => uuid),
         maxDevices: Infinity,
         deviceCount: remoteParticipants.length,
@@ -1348,7 +1492,10 @@ export function reducer(
           ? undefined
           : state.activeCallState;
 
-      if (!isAnybodyElseInGroupCall(newPeekInfo, ourUuid)) {
+      if (
+        !isAnybodyElseInGroupCall(newPeekInfo, ourUuid) &&
+        (!existingCall || !existingCall.ringerUuid)
+      ) {
         return {
           ...state,
           callsByConversation: omit(callsByConversation, conversationId),
@@ -1366,6 +1513,13 @@ export function reducer(
           : state.activeCallState;
     }
 
+    let newRingState: GroupCallRingStateType;
+    if (joinState === GroupCallJoinState.NotJoined) {
+      newRingState = existingRingState;
+    } else {
+      newRingState = {};
+    }
+
     return {
       ...state,
       callsByConversation: {
@@ -1377,6 +1531,7 @@ export function reducer(
           joinState,
           peekInfo: newPeekInfo,
           remoteParticipants,
+          ...newRingState,
         },
       },
       activeCallState: newActiveCallState,
@@ -1386,25 +1541,21 @@ export function reducer(
   if (action.type === PEEK_NOT_CONNECTED_GROUP_CALL_FULFILLED) {
     const { conversationId, peekInfo, ourConversationId } = action.payload;
 
-    const existingCall = getOwn(state.callsByConversation, conversationId) || {
+    const existingCall: GroupCallStateType = getGroupCall(
+      conversationId,
+      state
+    ) || {
       callMode: CallMode.Group,
       conversationId,
       connectionState: GroupCallConnectionState.NotConnected,
       joinState: GroupCallJoinState.NotJoined,
       peekInfo: {
-        conversationIds: [],
+        uuids: [],
         maxDevices: Infinity,
         deviceCount: 0,
       },
       remoteParticipants: [],
     };
-
-    if (existingCall.callMode !== CallMode.Group) {
-      window.log.error(
-        'Unexpected state: trying to update a non-group call. Doing nothing'
-      );
-      return state;
-    }
 
     // This action should only update non-connected group calls. It's not necessarily a
     //   mistake if this action is dispatched "over" a connected call. Here's a valid
@@ -1419,7 +1570,10 @@ export function reducer(
       return state;
     }
 
-    if (!isAnybodyElseInGroupCall(peekInfo, ourConversationId)) {
+    if (
+      !isAnybodyElseInGroupCall(peekInfo, ourConversationId) ||
+      !existingCall.ringerUuid
+    ) {
       return removeConversationFromState(state, conversationId);
     }
 

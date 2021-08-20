@@ -25,6 +25,12 @@ import {
   SmartSafetyNumberViewer,
   Props as SafetyNumberViewerProps,
 } from './SafetyNumberViewer';
+import { notify } from '../../services/notify';
+import { callingTones } from '../../util/callingTones';
+import {
+  bounceAppIconStart,
+  bounceAppIconStop,
+} from '../../shims/bounceAppIcon';
 
 function renderDeviceSelection(): JSX.Element {
   return <SmartCallingDeviceSelection />;
@@ -37,6 +43,33 @@ function renderSafetyNumberViewer(props: SafetyNumberViewerProps): JSX.Element {
 const getGroupCallVideoFrameSource = callingService.getGroupCallVideoFrameSource.bind(
   callingService
 );
+
+async function notifyForCall(
+  title: string,
+  isVideoCall: boolean
+): Promise<void> {
+  const shouldNotify =
+    !window.isActive() && window.Events.getCallSystemNotification();
+  if (!shouldNotify) {
+    return;
+  }
+  notify({
+    title,
+    icon: isVideoCall
+      ? 'images/icons/v2/video-solid-24.svg'
+      : 'images/icons/v2/phone-right-solid-24.svg',
+    message: window.i18n(
+      isVideoCall ? 'incomingVideoCall' : 'incomingAudioCall'
+    ),
+    onNotificationClick: () => {
+      window.showWindow();
+    },
+    silent: false,
+  });
+}
+
+const playRingtone = callingTones.playRingtone.bind(callingTones);
+const stopRingtone = callingTones.stopRingtone.bind(callingTones);
 
 const mapStateToActiveCallProp = (
   state: StateType
@@ -221,14 +254,41 @@ const mapStateToIncomingCallProp = (state: StateType) => {
     return undefined;
   }
 
-  return {
-    call,
-    conversation,
-  };
+  switch (call.callMode) {
+    case CallMode.Direct:
+      return {
+        callMode: CallMode.Direct as const,
+        conversation,
+        isVideoCall: call.isVideoCall,
+      };
+    case CallMode.Group: {
+      if (!call.ringerUuid) {
+        window.log.error('The incoming group call has no ring state');
+        return undefined;
+      }
+
+      const conversationSelector = getConversationSelector(state);
+      const ringer = conversationSelector(call.ringerUuid);
+      const otherMembersRung = (conversation.sortedGroupMembers ?? []).filter(
+        c => c.id !== ringer.id && !c.isMe
+      );
+
+      return {
+        callMode: CallMode.Group as const,
+        conversation,
+        otherMembersRung,
+        ringer,
+      };
+    }
+    default:
+      throw missingCaseError(call);
+  }
 };
 
 const mapStateToProps = (state: StateType) => ({
   activeCall: mapStateToActiveCallProp(state),
+  bounceAppIconStart,
+  bounceAppIconStop,
   availableCameras: state.calling.availableCameras,
   getGroupCallVideoFrameSource,
   i18n: getIntl(state),
@@ -239,6 +299,9 @@ const mapStateToProps = (state: StateType) => ({
     //   according to the type. This ensures one is set.
     uuid: getUserUuid(state),
   },
+  notifyForCall,
+  playRingtone,
+  stopRingtone,
   renderDeviceSelection,
   renderSafetyNumberViewer,
 });

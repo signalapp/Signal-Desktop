@@ -13,6 +13,7 @@ import mkdirp from 'mkdirp';
 import rimraf from 'rimraf';
 import SQL, { Database, Statement } from 'better-sqlite3';
 import pProps from 'p-props';
+import * as moment from 'moment';
 
 import { v4 as generateUUID } from 'uuid';
 import {
@@ -42,6 +43,7 @@ import { isNotNil } from '../util/isNotNil';
 import { parseIntOrThrow } from '../util/parseIntOrThrow';
 import { formatCountForLogging } from '../logging/formatCountForLogging';
 import { ConversationColorType, CustomColorType } from '../types/Colors';
+import { ProcessGroupCallRingRequestResult } from '../types/Calling';
 
 import {
   AllItemsType,
@@ -93,8 +95,8 @@ type StickerRow = Readonly<{
 }>;
 
 type EmptyQuery = [];
-type ArrayQuery = Array<Array<null | number | string>>;
-type Query = { [key: string]: null | number | string | Buffer };
+type ArrayQuery = Array<Array<null | number | bigint | string>>;
+type Query = { [key: string]: null | number | bigint | string | Buffer };
 
 // This value needs to be below SQLITE_MAX_VARIABLE_NUMBER.
 const MAX_VARIABLE_COUNT = 100;
@@ -250,6 +252,10 @@ const dataInterface: ServerInterface = {
   getJobsInQueue,
   insertJob,
   deleteJob,
+
+  processGroupCallRingRequest,
+  processGroupCallRingCancelation,
+  cleanExpiredGroupCallRings,
 
   getStatisticsForLogging,
 
@@ -2089,6 +2095,27 @@ function updateToSchemaVersion39(currentVersion: number, db: Database) {
   console.log('updateToSchemaVersion39: success!');
 }
 
+function updateToSchemaVersion40(currentVersion: number, db: Database) {
+  if (currentVersion >= 40) {
+    return;
+  }
+
+  db.transaction(() => {
+    db.exec(
+      `
+      CREATE TABLE groupCallRings(
+        ringId INTEGER PRIMARY KEY,
+        isActive INTEGER NOT NULL,
+        createdAt INTEGER NOT NULL
+      );
+      `
+    );
+
+    db.pragma('user_version = 40');
+  })();
+  console.log('updateToSchemaVersion40: success!');
+}
+
 const SCHEMA_VERSIONS = [
   updateToSchemaVersion1,
   updateToSchemaVersion2,
@@ -2129,6 +2156,7 @@ const SCHEMA_VERSIONS = [
   updateToSchemaVersion37,
   updateToSchemaVersion38,
   updateToSchemaVersion39,
+  updateToSchemaVersion40,
 ];
 
 function updateSchema(db: Database): void {
@@ -5866,6 +5894,90 @@ async function deleteJob(id: string): Promise<void> {
   const db = getInstance();
 
   db.prepare<Query>('DELETE FROM jobs WHERE id = $id').run({ id });
+}
+
+async function processGroupCallRingRequest(
+  ringId: bigint
+): Promise<ProcessGroupCallRingRequestResult> {
+  const db = getInstance();
+
+  return db.transaction(() => {
+    let result: ProcessGroupCallRingRequestResult;
+
+    const wasRingPreviouslyCanceled = Boolean(
+      db
+        .prepare<Query>(
+          `
+          SELECT 1 FROM groupCallRings
+          WHERE ringId = $ringId AND isActive = 0
+          LIMIT 1;
+          `
+        )
+        .pluck(true)
+        .get({ ringId })
+    );
+
+    if (wasRingPreviouslyCanceled) {
+      result = ProcessGroupCallRingRequestResult.RingWasPreviouslyCanceled;
+    } else {
+      const isThereAnotherActiveRing = Boolean(
+        db
+          .prepare<EmptyQuery>(
+            `
+            SELECT 1 FROM groupCallRings
+            WHERE isActive = 1
+            LIMIT 1;
+            `
+          )
+          .pluck(true)
+          .get()
+      );
+      if (isThereAnotherActiveRing) {
+        result = ProcessGroupCallRingRequestResult.ThereIsAnotherActiveRing;
+      } else {
+        result = ProcessGroupCallRingRequestResult.ShouldRing;
+      }
+
+      db.prepare<Query>(
+        `
+        INSERT OR IGNORE INTO groupCallRings (ringId, isActive, createdAt)
+        VALUES ($ringId, 1, $createdAt);
+        `
+      );
+    }
+
+    return result;
+  })();
+}
+
+async function processGroupCallRingCancelation(ringId: bigint): Promise<void> {
+  const db = getInstance();
+
+  db.prepare<Query>(
+    `
+    INSERT INTO groupCallRings (ringId, isActive, createdAt)
+    VALUES ($ringId, 0, $createdAt)
+    ON CONFLICT (ringId) DO
+    UPDATE SET isActive = 0;
+    `
+  ).run({ ringId, createdAt: Date.now() });
+}
+
+// This age, in milliseconds, should be longer than any group call ring duration. Beyond
+//   that, it doesn't really matter what the value is.
+const MAX_GROUP_CALL_RING_AGE = moment.duration(30, 'minutes').asMilliseconds();
+
+async function cleanExpiredGroupCallRings(): Promise<void> {
+  const db = getInstance();
+
+  db.prepare<Query>(
+    `
+    DELETE FROM groupCallRings
+    WHERE createdAt < $expiredRingTime;
+    `
+  ).run({
+    expiredRingTime: Date.now() - MAX_GROUP_CALL_RING_AGE,
+  });
 }
 
 async function getStatisticsForLogging(): Promise<Record<string, string>> {

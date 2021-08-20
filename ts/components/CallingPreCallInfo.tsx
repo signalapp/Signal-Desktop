@@ -6,6 +6,7 @@ import type { ConversationType } from '../state/ducks/conversations';
 import type { LocalizerType } from '../types/Util';
 import { Avatar, AvatarSize } from './Avatar';
 import { Emojify } from './conversation/Emojify';
+import { getParticipantName } from '../util/callingGetParticipantName';
 import { missingCaseError } from '../util/missingCaseError';
 
 type PropsType = {
@@ -151,9 +152,3 @@ export const CallingPreCallInfo: FunctionComponent<PropsType> = ({
     </div>
   );
 };
-
-function getParticipantName(
-  participant: Readonly<Pick<ConversationType, 'firstName' | 'title'>>
-): string {
-  return participant.firstName || participant.title;
-}

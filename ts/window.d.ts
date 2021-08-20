@@ -513,6 +513,8 @@ declare global {
     GV2_ENABLE_STATE_PROCESSING: boolean;
     GV2_MIGRATION_DISABLE_ADD: boolean;
     GV2_MIGRATION_DISABLE_INVITE: boolean;
+    RING_WHEN_JOINING_GROUP_CALLS: boolean;
+
     RETRY_DELAY: boolean;
   }
 

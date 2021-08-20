@@ -13467,6 +13467,22 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/IncomingCallBar.js",
+    "line": "    const initialTitleRef = react_1.useRef(title);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-08-16T20:52:11.043Z",
+    "reasonDetail": "Doesn't interact with the DOM."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/IncomingCallBar.tsx",
+    "line": "  const initialTitleRef = useRef<string>(title);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-08-16T20:52:11.043Z",
+    "reasonDetail": "Doesn't interact with the DOM."
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/Input.js",
     "line": "    const innerRef = react_1.useRef(null);",
     "reasonCategory": "usageTrusted",

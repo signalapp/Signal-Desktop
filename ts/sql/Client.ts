@@ -32,6 +32,7 @@ import { assert } from '../util/assert';
 import { cleanDataForIpc } from './cleanDataForIpc';
 import { ReactionType } from '../types/Reactions';
 import { ConversationColorType, CustomColorType } from '../types/Colors';
+import type { ProcessGroupCallRingRequestResult } from '../types/Calling';
 
 import {
   ConversationModelCollectionType,
@@ -261,6 +262,10 @@ const dataInterface: ClientInterface = {
   getJobsInQueue,
   insertJob,
   deleteJob,
+
+  processGroupCallRingRequest,
+  processGroupCallRingCancelation,
+  cleanExpiredGroupCallRings,
 
   getStatisticsForLogging,
 
@@ -1609,6 +1614,20 @@ function insertJob(job: Readonly<StoredJob>): Promise<void> {
 
 function deleteJob(id: string): Promise<void> {
   return channels.deleteJob(id);
+}
+
+function processGroupCallRingRequest(
+  ringId: bigint
+): Promise<ProcessGroupCallRingRequestResult> {
+  return channels.processGroupCallRingRequest(ringId);
+}
+
+function processGroupCallRingCancelation(ringId: bigint): Promise<void> {
+  return channels.processGroupCallRingCancelation(ringId);
+}
+
+async function cleanExpiredGroupCallRings(): Promise<void> {
+  await channels.cleanExpiredGroupCallRings();
 }
 
 async function updateAllConversationColors(

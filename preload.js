@@ -49,6 +49,8 @@ try {
   window.GV2_MIGRATION_DISABLE_ADD = false;
   window.GV2_MIGRATION_DISABLE_INVITE = false;
 
+  window.RING_WHEN_JOINING_GROUP_CALLS = false;
+
   window.RETRY_DELAY = false;
 
   window.platform = process.platform;

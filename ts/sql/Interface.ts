@@ -15,6 +15,7 @@ import type { ConversationModel } from '../models/conversations';
 import type { StoredJob } from '../jobs/types';
 import type { ReactionType } from '../types/Reactions';
 import type { ConversationColorType, CustomColorType } from '../types/Colors';
+import type { ProcessGroupCallRingRequestResult } from '../types/Calling';
 import { StorageAccessType } from '../types/Storage.d';
 import type { AttachmentType } from '../types/Attachment';
 import { BodyRangesType } from '../types/Util';
@@ -440,6 +441,12 @@ export type DataInterface = {
   getJobsInQueue(queueType: string): Promise<Array<StoredJob>>;
   insertJob(job: Readonly<StoredJob>): Promise<void>;
   deleteJob(id: string): Promise<void>;
+
+  processGroupCallRingRequest(
+    ringId: bigint
+  ): Promise<ProcessGroupCallRingRequestResult>;
+  processGroupCallRingCancelation(ringId: bigint): Promise<void>;
+  cleanExpiredGroupCallRings(): Promise<void>;
 
   updateAllConversationColors: (
     conversationColor?: ConversationColorType,

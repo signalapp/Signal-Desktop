@@ -198,3 +198,9 @@ export type ChangeIODevicePayloadType =
   | { type: CallingDeviceType.CAMERA; selectedDevice: string }
   | { type: CallingDeviceType.MICROPHONE; selectedDevice: AudioDevice }
   | { type: CallingDeviceType.SPEAKER; selectedDevice: AudioDevice };
+
+export enum ProcessGroupCallRingRequestResult {
+  ShouldRing,
+  RingWasPreviouslyCanceled,
+  ThereIsAnotherActiveRing,
+}
