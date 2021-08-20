@@ -36,7 +36,7 @@ import { SignalService as Proto } from '../protobuf';
 const DAY = 24 * 60 * 60 * 1000;
 const MINIMUM_SIGNED_PREKEYS = 5;
 const ARCHIVE_AGE = 30 * DAY;
-const PREKEY_ROTATION_AGE = DAY;
+const PREKEY_ROTATION_AGE = DAY * 1.5;
 const PROFILE_KEY_LENGTH = 32;
 const SIGNED_KEY_GEN_BATCH_SIZE = 100;
 
@@ -323,10 +323,7 @@ export default class AccountManager extends EventTarget {
       const confirmedKeys = existingKeys.filter(key => key.confirmed);
       const mostRecent = confirmedKeys[0];
 
-      if (
-        confirmedKeys.length >= 2 ||
-        isMoreRecentThan(mostRecent?.created_at || 0, PREKEY_ROTATION_AGE)
-      ) {
+      if (isMoreRecentThan(mostRecent?.created_at || 0, PREKEY_ROTATION_AGE)) {
         window.log.warn(
           `rotateSignedPreKey: ${confirmedKeys.length} confirmed keys, most recent was created ${mostRecent?.created_at}. Cancelling rotation.`
         );
