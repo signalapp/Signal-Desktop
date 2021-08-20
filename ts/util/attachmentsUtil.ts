@@ -109,6 +109,7 @@ export async function getFile(attachment: StagedAttachmentType, maxMeasurements?
   const scaled = await autoScale(attachment, maxMeasurements);
   const fileRead = await readFile(scaled);
   return {
+    caption: attachment.caption,
     ...fileRead,
     url: undefined,
     flags: attachmentFlags || null,
