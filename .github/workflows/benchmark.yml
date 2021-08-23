@@ -91,6 +91,20 @@ jobs:
         RUN_COUNT: 100
         ELECTRON_ENABLE_STACK_DUMPING: on
 
+    - name: Run group send benchmarks
+      run: |
+        set -o pipefail
+        rm -rf /tmp/mock
+        xvfb-run --auto-servernum ts-node \
+          Mock-Server/scripts/group-send-test.ts \
+          ./node_modules/.bin/electron . | tee benchmark-group-send.log || \
+          (cat /tmp/mock/logs/{app,main}.log && exit 1)
+      timeout-minutes: 10
+      env:
+        NODE_ENV: production
+        RUN_COUNT: 100
+        ELECTRON_ENABLE_STACK_DUMPING: on
+
     - name: Clone benchmark repo
       uses: actions/checkout@v2
       with:
@@ -104,6 +118,7 @@ jobs:
         npm ci
         node ./bin/collect.js ../benchmark-startup.log data/startup.json
         node ./bin/collect.js ../benchmark-send.log data/send.json
+        node ./bin/collect.js ../benchmark-group-send.log data/group-send.json
         npm run build
         git config --global user.email "no-reply@signal.org"
         git config --global user.name "Signal Bot"
