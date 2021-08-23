@@ -114,6 +114,10 @@
     height: 100vh;
     overflow: scroll;
     width: 100%;
+
+    &::-webkit-scrollbar-corner {
+      background: transparent;
+    }
   }
 
   &__title {
