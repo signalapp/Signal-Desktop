@@ -378,7 +378,6 @@ try {
   window.emojiData = require('emoji-datasource');
   window.libphonenumber = require('google-libphonenumber').PhoneNumberUtil.getInstance();
   window.libphonenumber.PhoneNumberFormat = require('google-libphonenumber').PhoneNumberFormat;
-  window.loadImage = require('blueimp-load-image');
   window.getGuid = require('uuid/v4');
 
   const activeWindowService = new ActiveWindowService();

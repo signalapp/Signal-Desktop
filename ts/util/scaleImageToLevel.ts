@@ -1,9 +1,10 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import sharp from 'sharp';
 import loadImage from 'blueimp-load-image';
 
-import { IMAGE_JPEG } from '../types/MIME';
+import { MIMEType, IMAGE_JPEG } from '../types/MIME';
 import { canvasToBlob } from './canvasToBlob';
 import { getValue } from '../RemoteConfig';
 
@@ -21,6 +22,7 @@ const DEFAULT_LEVEL_DATA = {
   maxDimensions: 1600,
   quality: 0.7,
   size: MiB,
+  thresholdSize: 0.2 * MiB,
 };
 
 const MEDIA_QUALITY_LEVEL_DATA = new Map([
@@ -31,6 +33,7 @@ const MEDIA_QUALITY_LEVEL_DATA = new Map([
       maxDimensions: 2048,
       quality: 0.75,
       size: MiB * 1.5,
+      thresholdSize: 0.3 * MiB,
     },
   ],
   [
@@ -39,6 +42,7 @@ const MEDIA_QUALITY_LEVEL_DATA = new Map([
       maxDimensions: 4096,
       quality: 0.75,
       size: MiB * 3,
+      thresholdSize: 0.4 * MiB,
     },
   ],
 ]);
@@ -82,7 +86,7 @@ function getMediaQualityLevel(): MediaQualityLevels {
   return countryValues.get('*') || DEFAULT_LEVEL;
 }
 
-async function getCanvasBlob(
+async function getCanvasBlobAsJPEG(
   image: HTMLCanvasElement,
   dimensions: number,
   quality: number
@@ -98,10 +102,20 @@ async function getCanvasBlob(
   return canvasToBlob(canvas, IMAGE_JPEG, quality);
 }
 
+async function stripImageFileEXIFData(file: File | Blob): Promise<Blob> {
+  const arrayBuffer = await file.arrayBuffer();
+  const xArrayBuffer = await sharp(new Uint8Array(arrayBuffer)).toBuffer();
+  return new Blob([xArrayBuffer]);
+}
+
 export async function scaleImageToLevel(
   fileOrBlobOrURL: File | Blob,
+  contentType: MIMEType,
   sendAsHighQuality?: boolean
-): Promise<Blob> {
+): Promise<{
+  blob: Blob;
+  contentType: MIMEType;
+}> {
   let image: HTMLCanvasElement;
   try {
     const data = await loadImage(fileOrBlobOrURL, {
@@ -121,8 +135,16 @@ export async function scaleImageToLevel(
   const level = sendAsHighQuality
     ? MediaQualityLevels.Three
     : getMediaQualityLevel();
-  const { maxDimensions, quality, size } =
+  const { maxDimensions, quality, size, thresholdSize } =
     MEDIA_QUALITY_LEVEL_DATA.get(level) || DEFAULT_LEVEL_DATA;
+
+  if (fileOrBlobOrURL.size <= thresholdSize) {
+    const blob = await stripImageFileEXIFData(fileOrBlobOrURL);
+    return {
+      blob,
+      contentType,
+    };
+  }
 
   for (let i = 0; i < SCALABLE_DIMENSIONS.length; i += 1) {
     const scalableDimensions = SCALABLE_DIMENSIONS[i];
@@ -132,11 +154,18 @@ export async function scaleImageToLevel(
 
     // We need these operations to be in serial
     // eslint-disable-next-line no-await-in-loop
-    const blob = await getCanvasBlob(image, scalableDimensions, quality);
+    const blob = await getCanvasBlobAsJPEG(image, scalableDimensions, quality);
     if (blob.size <= size) {
-      return blob;
+      return {
+        blob,
+        contentType: IMAGE_JPEG,
+      };
     }
   }
 
-  return getCanvasBlob(image, MIN_DIMENSIONS, quality);
+  const blob = await getCanvasBlobAsJPEG(image, MIN_DIMENSIONS, quality);
+  return {
+    blob,
+    contentType: IMAGE_JPEG,
+  };
 }
