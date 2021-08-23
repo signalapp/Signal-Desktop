@@ -94,7 +94,7 @@ export type GroupV2InfoType = {
   revision: number;
   members: Array<string>;
 };
-type GroupV1InfoType = {
+export type GroupV1InfoType = {
   id: string;
   members: Array<string>;
 };

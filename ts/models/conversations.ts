@@ -15,7 +15,10 @@ import {
 import { AttachmentType } from '../types/Attachment';
 import { CallMode, CallHistoryDetailsType } from '../types/Calling';
 import * as Stickers from '../types/Stickers';
-import { GroupV2InfoType } from '../textsecure/SendMessage';
+import type {
+  GroupV1InfoType,
+  GroupV2InfoType,
+} from '../textsecure/SendMessage';
 import createTaskWithTimeout from '../textsecure/TaskWithTimeout';
 import { CallbackResultType } from '../textsecure/Types.d';
 import { ConversationType } from '../state/ducks/conversations';
@@ -1134,17 +1137,20 @@ export class ConversationModel extends window.Backbone
     };
   }
 
-  getGroupV1Info(): WhatIsThis {
+  getGroupV1Info(): GroupV1InfoType | undefined {
+    const groupId = this.get('groupId');
+    const groupVersion = this.get('groupVersion');
+
     if (
       isDirectConversation(this.attributes) ||
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      this.get('groupVersion')! > 0
+      !groupId ||
+      (groupVersion && groupVersion > 0)
     ) {
       return undefined;
     }
 
     return {
-      id: this.get('groupId'),
+      id: groupId,
       members: this.getRecipients(),
     };
   }
