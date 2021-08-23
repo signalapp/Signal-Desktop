@@ -118,6 +118,7 @@ const createProps = (): PropsType => ({
   ),
 
   isAudioNotificationsSupported: true,
+  isAutoDownloadUpdatesSupported: true,
   isAutoLaunchSupported: true,
   isHideMenuBarSupported: true,
   isNotificationAttentionSupported: true,

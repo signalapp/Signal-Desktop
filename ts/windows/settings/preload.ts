@@ -305,6 +305,7 @@ async function renderPreferences() {
 
     // Limited support features
     isAudioNotificationsSupported: Settings.isAudioNotificationSupported(),
+    isAutoDownloadUpdatesSupported: Settings.isAutoDownloadUpdatesSupported(),
     isAutoLaunchSupported: Settings.isAutoLaunchSupported(),
     isHideMenuBarSupported: Settings.isHideMenuBarSupported(),
     isNotificationAttentionSupported: Settings.isDrawAttentionSupported(),
