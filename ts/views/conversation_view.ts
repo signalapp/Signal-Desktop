@@ -1627,6 +1627,8 @@ Whisper.ConversationView = Whisper.View.extend({
       window.reduxActions.conversations.setSelectedConversationPanelDepth(0);
     }
 
+    this.removeLinkPreview();
+
     this.remove();
   },
 
