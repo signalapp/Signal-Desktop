@@ -98,6 +98,7 @@ export const GenericMessageItem = (props: {
   const regularProps: MessageRenderingProps = {
     ...props.messageProps.propsForMessage,
     firstMessageOfSeries: props.messageProps.firstMessageOfSeries,
+    lastMessageOfSeries: props.messageProps.lastMessageOfSeries,
     multiSelectMode,
     onQuoteClick,
   };

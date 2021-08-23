@@ -45,7 +45,7 @@ $themes: (
     receivedMessageBackground: #f5f5f5,
     sentMessageBackground: $accentLightTheme,
     receivedMessageText: $black,
-    sentMessageText: $black,
+    sentMessageText: $white,
     sessionShadow: 0 0 4px 0 rgba($black, 0.37),
     sessionShadowColor: rgba($black, 0.37),
     // left pane
@@ -94,9 +94,9 @@ $themes: (
       composeViewBackground: #1b1b1b,
     composeViewTextFieldBackground: #141414,
     receivedMessageBackground: #222325,
-    sentMessageBackground: #3f4146,
+    sentMessageBackground: $accentDarkTheme,
     receivedMessageText: $white,
-    sentMessageText: $white,
+    sentMessageText: $black,
     sessionShadow: 0 0 4px 0 rgba($white, 0.2),
     sessionShadowColor: rgba($white, 0.2),
     // left pane

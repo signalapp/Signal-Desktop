@@ -174,7 +174,7 @@
   "notificationMostRecentFrom": "Most recent from: $name$",
   "notificationFrom": "From:",
   "notificationMostRecent": "Most recent:",
-  "sendFailed": "Send Failed",
+  "sendFailed": "Send failed, use right click to get more infos.",
   "expiredWarning": "This version of Session has expired. Please upgrade to the latest version to continue messaging.",
   "upgrade": "Upgrade",
   "mediaMessage": "Media message",

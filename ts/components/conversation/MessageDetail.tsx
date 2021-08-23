@@ -103,7 +103,12 @@ export const MessageDetail = () => {
     <div className="message-detail-wrapper">
       <div className="module-message-detail">
         <div className="module-message-detail__message-container">
-          <Message {...message} firstMessageOfSeries={true} multiSelectMode={false} />
+          <Message
+            {...message}
+            firstMessageOfSeries={true}
+            lastMessageOfSeries={true}
+            multiSelectMode={false}
+          />
         </div>
         <table className="module-message-detail__info">
           <tbody>

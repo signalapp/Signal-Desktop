@@ -204,12 +204,12 @@ export type QuoteClickOptions = {
  */
 export type MessageRenderingProps = PropsForMessage & {
   disableMenu?: boolean;
-  collapseMetadata?: boolean;
   /** Note: this should be formatted for display */
   attachments?: Array<AttachmentTypeWithPath>; // vs Array<PropsForAttachment>;
 
   // whether or not to allow selecting the message
   multiSelectMode: boolean;
   firstMessageOfSeries: boolean;
+  lastMessageOfSeries: boolean;
   onQuoteClick?: (options: QuoteClickOptions) => Promise<void>;
 };

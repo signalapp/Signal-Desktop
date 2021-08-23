@@ -40,12 +40,6 @@
 }
 
 // Module: Message
-.module-message {
-  position: relative;
-  display: inline-flex;
-  flex-direction: row;
-  align-items: stretch;
-}
 
 .module-message--expired {
   animation: module-message__shake 0.2s linear infinite;
@@ -69,21 +63,6 @@
   }
 }
 
-// Spec: container < 438px
-.module-message--incoming {
-  margin-inline-start: 0;
-  margin-inline-end: 32px;
-}
-.module-message--outgoing {
-  float: right;
-  margin-inline-end: 0;
-  margin-inline-start: 32px;
-}
-
-.module-message:hover {
-  opacity: 1;
-}
-
 .module-message__error-container {
   width: 28px;
   position: relative;
@@ -104,17 +83,6 @@
 
 .module-message__error--incoming {
   right: 8px;
-}
-
-.module-message__container {
-  position: relative;
-  display: inline-block;
-  border-radius: $message-container-border-radius;
-  padding-inline-end: 12px;
-  padding-inline-start: 12px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  min-width: 0px;
 }
 
 .module-message__attachment-container {
@@ -398,10 +366,11 @@
 }
 .module-conversation__user,
 .module-message__author {
+  margin-top: $session-margin-sm;
+  margin-bottom: $session-margin-xs;
   font-size: 13px;
   font-weight: 300;
   line-height: 18px;
-  height: 18px;
   overflow-x: hidden;
   overflow-y: hidden;
   white-space: nowrap;
@@ -410,23 +379,6 @@
 .module-conversation__user__profile-name,
 .module-message__author__profile-name {
   font-style: italic;
-}
-
-.module-message__text {
-  color: $color-gray-90;
-  font-size: 14px;
-  line-height: 18px;
-  text-align: start;
-
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  word-break: break-word;
-  white-space: pre-wrap;
-
-  a {
-    text-decoration: underline;
-    color: $color-gray-90;
-  }
 }
 
 .module-message__typing-container {
@@ -499,66 +451,6 @@
 
 .module-embedded-contact__contact-method--incoming {
   color: $color-white-07;
-}
-
-// Module: Friend Request
-.module-message-friend-request {
-  width: 100%;
-}
-
-.module-message-friend-request__container {
-  flex: 1;
-}
-
-.module-friend-request__buttonContainer {
-  margin-top: 8px;
-  justify-content: space-around;
-  border-top: 1px solid $color-gray-90;
-  padding-top: 4px;
-}
-
-.module-friend-request__buttonContainer--incoming {
-  border-top: 1px solid $color-white-07;
-}
-
-.module-friend-request__buttonContainer button {
-  flex: 0.5;
-  padding: 8px;
-  background-color: transparent;
-  border: 0;
-  overflow: hidden;
-  outline: none;
-  color: $color-gray-90;
-}
-
-.module-friend-request__buttonContainer--incoming button {
-  color: $color-white;
-}
-
-.module-friend-request__buttonContainer button:first-of-type {
-  border-right: 1px solid $color-gray-90;
-}
-
-.module-friend-request__buttonContainer--incoming button:first-of-type {
-  border-right: 1px solid $color-white-07;
-}
-
-.module-friend-request__buttonContainer button:last-of-type {
-  border-right: 0;
-}
-
-.module-friend-request__buttonContainer--incoming button:last-of-type {
-  border-right: 0;
-}
-
-.module-friend-request__title {
-  padding-bottom: 4px;
-  color: $color-gray-60;
-  text-align: center;
-}
-
-.module-friend-request__title--incoming {
-  color: $color-white-08;
 }
 
 // Module: Contact Detail
@@ -820,10 +712,6 @@
   min-width: 0;
   display: block;
   text-align: center;
-}
-
-.module-conversation-header__title-text {
-  color: darkgrey;
 }
 
 .module-conversation-header__title-flex {
@@ -1842,10 +1730,6 @@
 
   min-height: 65px;
   margin: $session-margin-xs;
-  @include themify($themes) {
-    background-color: themed('sentMessageBackground');
-    border-radius: $session-margin-xs;
-  }
 }
 
 .module-staged-link-preview--is-loading {
@@ -2173,75 +2057,4 @@
 
 .module-left-pane__virtual-list {
   outline: none;
-}
-
-// All media query widths have 300px added to account for the left pane
-// And have been tweaked for smoother transitions
-
-.module-message__container {
-  // To limit messages with things forcing them wider, like long attachment names
-  max-width: 300px;
-}
-
-/* Spec: container > 438px and container < 593px*/
-@media (min-width: 800px) and (max-width: 925px) {
-  .module-message {
-    max-width: 374px;
-  }
-  .module-message__container {
-    max-width: 100%;
-  }
-
-  .module-message-friend-request {
-    width: 374px;
-  }
-
-  // Spec: container < 438px
-  .module-message--incoming {
-    margin-inline-start: 0;
-    margin-inline-end: auto;
-  }
-  .module-message--outgoing {
-    margin-inline-end: 0;
-    margin-inline-start: auto;
-  }
-
-  // To hide in larger breakpoints
-  .module-message__context__download {
-    display: none;
-  }
-  .module-message__context__reply {
-    display: none;
-  }
-}
-
-// Spec: container > 593px
-@media (min-width: 926px) {
-  .module-message {
-    max-width: 66%;
-  }
-  .module-message__container {
-    max-width: 100%;
-  }
-
-  .module-message-friend-request {
-    width: 66%;
-  }
-
-  .module-message--incoming {
-    margin-inline-start: 0;
-    margin-inline-end: auto;
-  }
-  .module-message--outgoing {
-    margin-inline-end: 0;
-    margin-inline-start: auto;
-  }
-
-  // To hide in larger breakpoints
-  .module-message__context__download {
-    display: none;
-  }
-  .module-message__context__reply {
-    display: none;
-  }
 }

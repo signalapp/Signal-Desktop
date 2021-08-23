@@ -372,7 +372,7 @@ async function handleExpirationTimerUpdate(
     source: 'handleDataMessage',
   });
 
-  await conversation.updateExpirationTimer(expireTimer, source, message.get('received_at'));
+  await conversation.updateExpireTimer(expireTimer, source, message.get('received_at'));
 }
 
 export async function handleMessageJob(

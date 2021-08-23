@@ -298,8 +298,8 @@ textarea {
 
     font-family: $session-font-default;
     font-weight: 300;
-    font-size: $session-font-xs;
-    line-height: $session-font-xs;
+    font-size: $session-font-sm;
+    line-height: $session-font-sm;
   }
 
   .module-contact-name {
@@ -327,13 +327,30 @@ textarea {
   margin-inline-end: 20px;
   padding-top: 5px;
   padding-inline-end: 4px;
-  margin-bottom: auto;
+  margin-top: auto;
+}
+
+.module-message--incoming {
+  margin-inline-start: 0;
+  margin-inline-end: 10px;
+}
+.module-message--outgoing {
+  margin-inline-end: 0;
+  margin-inline-start: 10px;
 }
 
 .module-message__container {
-  border-radius: $session_message-container-border-radius;
-  min-width: 150px;
+  position: relative;
+  display: inline-block;
+  padding-inline-end: 10px;
+  padding-inline-start: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   overflow: hidden;
+  min-width: 30px;
+  // To limit messages with things forcing them wider, like long attachment names
+  max-width: 300px;
+  align-items: center;
 }
 label {
   user-select: none;
@@ -1020,20 +1037,6 @@ label {
 
 .messages li {
   transition: $session-transition-duration !important;
-}
-
-.discussion-container {
-  .module-message {
-    font-family: $session-font-default;
-    border-radius: 5px;
-
-    &__text--incoming {
-      /* Add padding to large emojis in chat */
-      img.emoji.jumbo {
-        margin: $session-margin-sm 0px;
-      }
-    }
-  }
 }
 
 .bottom-bar {

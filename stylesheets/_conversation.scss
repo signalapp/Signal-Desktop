@@ -231,33 +231,10 @@
     align-items: center;
     margin-bottom: 7px;
     padding: 0px 15px;
-
-    .send-message {
-      flex-grow: 1;
-    }
   }
 
   .choose-file {
     float: left;
     height: 36px;
-  }
-  .send-message {
-    display: block;
-    max-height: 100px;
-    padding: 10px;
-    border-radius: 4px;
-    margin-top: 3px;
-    margin-bottom: 6px;
-    color: $color-light-90;
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    outline: 0;
-    z-index: 5;
-    resize: none;
-    font-size: 1em;
-    font-family: inherit;
-
-    &[disabled='disabled'] {
-      cursor: not-allowed;
-    }
   }
 }

@@ -75,10 +75,9 @@ export const getSortedMessagesOfSelectedConversation = createSelector(
     }
 
     const isPublic = convo.isPublic() || false;
-    const isPrivate = convo.isPrivate() || false;
     const sortedMessage = sortMessages(messages, isPublic);
 
-    return updateFirstMessageOfSeries(sortedMessage, { isPublic, isPrivate });
+    return updateFirstMessageOfSeries(sortedMessage);
   }
 );
 
@@ -257,7 +256,7 @@ export const getCurrentNotificationSettingText = createSelector(getSelectedConve
     case 'mentions_only':
       return window.i18n('notificationForConvo_mentions_only');
     case 'disabled':
-      return window.i18n('notificationForConvo_mentions_disabled');
+      return window.i18n('notificationForConvo_disabled');
     default:
       return window.i18n('notificationForConvo_all');
   }
@@ -383,35 +382,29 @@ export const getDraftForCurrentConversation = createSelector(
 /// Those calls are just related to ordering messages in the redux store.
 
 function updateFirstMessageOfSeries(
-  messageModelsProps: Array<MessageModelProps>,
-  convoOpts: { isPrivate: boolean; isPublic: boolean }
+  messageModelsProps: Array<MessageModelProps>
 ): Array<SortedMessageModelProps> {
   // messages are got from the more recent to the oldest, so we need to check if
   // the next messages in the list is still the same author.
   // The message is the first of the series if the next message is not from the same author
   const sortedMessageProps: Array<SortedMessageModelProps> = [];
 
-  if (convoOpts.isPrivate) {
-    // we don't really care do do that logic for private chats
-    return messageModelsProps.map(p => {
-      return { ...p, firstMessageOfSeries: true };
-    });
-  }
-
   for (let i = 0; i < messageModelsProps.length; i++) {
     const currentSender = messageModelsProps[i].propsForMessage?.authorPhoneNumber;
-    const nextSender =
+    // most recent message is at index 0, so the previous message sender is 1+index
+    const previousSender =
       i < messageModelsProps.length - 1
         ? messageModelsProps[i + 1].propsForMessage?.authorPhoneNumber
         : undefined;
-
+    const nextSender =
+      i > 0 ? messageModelsProps[i - 1].propsForMessage?.authorPhoneNumber : undefined;
     // Handle firstMessageOfSeries for conditional avatar rendering
 
-    if (i >= 0 && currentSender === nextSender) {
-      sortedMessageProps.push({ ...messageModelsProps[i], firstMessageOfSeries: false });
-    } else {
-      sortedMessageProps.push({ ...messageModelsProps[i], firstMessageOfSeries: true });
-    }
+    sortedMessageProps.push({
+      ...messageModelsProps[i],
+      firstMessageOfSeries: !(i >= 0 && currentSender === previousSender),
+      lastMessageOfSeries: currentSender !== nextSender,
+    });
   }
   return sortedMessageProps;
 }

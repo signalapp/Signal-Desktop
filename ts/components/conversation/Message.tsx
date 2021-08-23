@@ -6,7 +6,6 @@ import { Spinner } from '../basic/Spinner';
 import { MessageBody } from './MessageBody';
 import { ImageGrid } from './ImageGrid';
 import { Image } from './Image';
-import { ContactName } from './ContactName';
 import { Quote } from './Quote';
 
 import {
@@ -52,9 +51,13 @@ import { LightBoxOptions } from '../session/conversation/SessionConversation';
 import { MessageContextMenu } from './MessageContextMenu';
 import { ReadableMessage } from './ReadableMessage';
 import { getConversationController } from '../../session/conversations';
-import { MessageMetadata } from './message/MessageMetadata';
+import { Flex } from '../basic/Flex';
 import { SessionIcon } from '../session/icon/SessionIcon';
 import { SessionIconSize, SessionIconType } from '../session/icon/Icons';
+import moment from 'moment';
+import { ExpireTimer } from './ExpireTimer';
+import { OutgoingMessageStatus } from './message/OutgoingMessageStatus';
+import { MessageAuthorText } from './message/MessageAuthorText';
 
 // Same as MIN_WIDTH in ImageGrid.tsx
 const MINIMUM_LINK_PREVIEW_IMAGE_WIDTH = 200;
@@ -212,7 +215,6 @@ class MessageInner extends React.PureComponent<Props, State> {
       id,
       attachments,
       text,
-      collapseMetadata,
       conversationType,
       direction,
       quote,
@@ -253,7 +255,6 @@ class MessageInner extends React.PureComponent<Props, State> {
             attachments={attachments}
             withContentAbove={withContentAbove}
             withContentBelow={withContentBelow}
-            bottomOverlay={!collapseMetadata}
             onError={this.handleImageError}
             onClickAttachment={this.onClickOnImageGrid}
           />
@@ -458,20 +459,19 @@ class MessageInner extends React.PureComponent<Props, State> {
       authorName,
       authorPhoneNumber,
       authorProfileName,
-      collapseMetadata,
       isSenderAdmin,
       conversationType,
       direction,
       isPublic,
-      firstMessageOfSeries,
+      lastMessageOfSeries,
     } = this.props;
 
-    if (collapseMetadata || conversationType !== 'group' || direction === 'outgoing') {
+    if (conversationType !== 'group' || direction === 'outgoing') {
       return;
     }
     const userName = authorName || authorProfileName || authorPhoneNumber;
 
-    if (!firstMessageOfSeries) {
+    if (!lastMessageOfSeries) {
       return <div style={{ marginInlineEnd: '60px' }} key={`msg-avatar-${authorPhoneNumber}`} />;
     }
 
@@ -522,20 +522,20 @@ class MessageInner extends React.PureComponent<Props, State> {
     );
   }
 
-  public renderError(isCorrectSide: boolean) {
+  public renderStatus(isCorrectSide: boolean) {
     const { status, direction } = this.props;
 
-    if (!isCorrectSide || status !== 'error') {
+    if (!isCorrectSide) {
+      return null;
+    }
+    const isIncoming = direction === 'incoming';
+
+    const showStatus = !isIncoming && Boolean(status);
+    if (!showStatus) {
       return null;
     }
 
-    return (
-      <div className="module-message__error-container">
-        <div
-          className={classNames('module-message__error', `module-message__error--${direction}`)}
-        />
-      </div>
-    );
+    return <OutgoingMessageStatus status={status} />;
   }
 
   public getWidth(): number | undefined {
@@ -611,6 +611,12 @@ class MessageInner extends React.PureComponent<Props, State> {
       receivedAt,
       isUnread,
       text,
+      timestamp,
+      serverTimestamp,
+      expirationLength,
+      expirationTimestamp,
+      firstMessageOfSeries,
+      lastMessageOfSeries,
     } = this.props;
     const { expired, expiring } = this.state;
 
@@ -639,9 +645,16 @@ class MessageInner extends React.PureComponent<Props, State> {
 
     const isIncoming = direction === 'incoming';
 
+    if (isIncoming) {
+      divClasses.push('session-message-wrapper-incoming');
+    } else {
+      divClasses.push('session-message-wrapper-outgoing');
+    }
+
     const hasText = Boolean(text);
 
     const bgShouldBeTransparent = isShowingImage && !hasText;
+    const toolTipTitle = moment(serverTimestamp || timestamp).format('llll');
 
     return (
       <ReadableMessage
@@ -653,6 +666,12 @@ class MessageInner extends React.PureComponent<Props, State> {
         key={`readable-message-${messageId}`}
       >
         {this.renderAvatar()}
+        {!isIncoming && expirationLength && expirationTimestamp ? (
+          <ExpireTimer
+            expirationLength={expirationLength}
+            expirationTimestamp={expirationTimestamp}
+          />
+        ) : null}
         <div
           className={classNames(
             'module-message',
@@ -662,43 +681,44 @@ class MessageInner extends React.PureComponent<Props, State> {
           role="button"
           onClick={this.onClickOnMessageOuterContainer}
         >
-          {this.renderError(isIncoming)}
-
-          <div
-            className={classNames(
-              'module-message__container',
-              `module-message__container--${direction}`,
-              bgShouldBeTransparent
-                ? `module-message__container--${direction}--transparent`
-                : `module-message__container--${direction}--opaque`
-            )}
-            style={{
-              width: isShowingImage ? width : undefined,
-            }}
-            role="button"
-            onClick={this.onClickOnMessageInnerContainer}
-          >
-            {this.renderAuthor()}
-            {this.renderQuote()}
-            {this.renderAttachment()}
-            {this.renderPreview()}
-            {this.renderText()}
-            <MessageMetadata
+          {this.renderStatus(isIncoming)}
+          <Flex container={true} flexDirection="column">
+            <MessageAuthorText
+              authorName={this.props.authorName}
+              authorPhoneNumber={this.props.authorPhoneNumber}
+              authorProfileName={this.props.authorProfileName}
+              conversationType={this.props.conversationType}
               direction={this.props.direction}
-              messageId={this.props.id}
-              timestamp={this.props.timestamp}
-              collapseMetadata={this.props.collapseMetadata}
-              expirationLength={this.props.expirationLength}
-              isAdmin={this.props.isSenderAdmin}
-              serverTimestamp={this.props.serverTimestamp}
+              firstMessageOfSeries={this.props.firstMessageOfSeries}
               isPublic={this.props.isPublic}
-              status={this.props.status}
-              expirationTimestamp={this.props.expirationTimestamp}
-              text={this.props.text}
-              isShowingImage={this.isShowingImage()}
             />
-          </div>
-          {this.renderError(!isIncoming)}
+
+            <div
+              className={classNames(
+                'module-message__container',
+                `module-message__container--${direction}`,
+                bgShouldBeTransparent
+                  ? `module-message__container--${direction}--transparent`
+                  : `module-message__container--${direction}--opaque`,
+                firstMessageOfSeries
+                  ? `module-message__container--${direction}--first-of-series`
+                  : '',
+                lastMessageOfSeries ? `module-message__container--${direction}--last-of-series` : ''
+              )}
+              style={{
+                width: isShowingImage ? width : undefined,
+              }}
+              role="button"
+              onClick={this.onClickOnMessageInnerContainer}
+              title={toolTipTitle}
+            >
+              {this.renderQuote()}
+              {this.renderAttachment()}
+              {this.renderPreview()}
+              {this.renderText()}
+            </div>
+          </Flex>
+          {this.renderStatus(!isIncoming)}
 
           <MessageContextMenu
             authorPhoneNumber={this.props.authorPhoneNumber}
@@ -719,6 +739,12 @@ class MessageInner extends React.PureComponent<Props, State> {
             weAreAdmin={this.props.weAreAdmin}
           />
         </div>
+        {isIncoming && expirationLength && expirationTimestamp ? (
+          <ExpireTimer
+            expirationLength={expirationLength}
+            expirationTimestamp={expirationTimestamp}
+          />
+        ) : null}
       </ReadableMessage>
     );
   }
@@ -760,40 +786,6 @@ class MessageInner extends React.PureComponent<Props, State> {
       quoteId,
       referencedMessageNotFound,
     });
-  }
-
-  private renderAuthor() {
-    const {
-      authorName,
-      authorPhoneNumber,
-      authorProfileName,
-      conversationType,
-      direction,
-      isPublic,
-    } = this.props;
-
-    const title = authorName ? authorName : authorPhoneNumber;
-
-    if (direction !== 'incoming' || conversationType !== 'group' || !title) {
-      return null;
-    }
-
-    const shortenedPubkey = PubKey.shorten(authorPhoneNumber);
-
-    const displayedPubkey = authorProfileName ? shortenedPubkey : authorPhoneNumber;
-
-    return (
-      <div className="module-message__author">
-        <ContactName
-          phoneNumber={displayedPubkey}
-          name={authorName}
-          profileName={authorProfileName}
-          module="module-message__author"
-          boldProfileName={true}
-          shouldShowPubkey={Boolean(isPublic)}
-        />
-      </div>
-    );
   }
 
   private onMessageAvatarClick() {

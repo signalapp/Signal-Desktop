@@ -8,7 +8,7 @@ import { SessionButton, SessionButtonColor, SessionButtonType } from '../session
 import { ConversationAvatar } from '../session/usingClosedConversationDetails';
 import { MemoConversationHeaderMenu } from '../session/menu/ConversationHeaderMenu';
 import { contextMenu } from 'react-contexify';
-import styled, { useTheme } from 'styled-components';
+import styled from 'styled-components';
 import { ConversationNotificationSettingType } from '../../models/conversation';
 import {
   getConversationHeaderProps,
@@ -183,20 +183,11 @@ const BackButton = (props: { onGoBack: () => void; showBackButton: boolean }) =>
   );
 };
 
-interface StyledSubtitleContainerProps {
-  margin?: string;
-}
 export const StyledSubtitleContainer = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
-
-  span {
-    margin-bottom: ${(p: StyledSubtitleContainerProps) => {
-      return p.margin || '5px';
-    }};
-  }
 
   span:last-child {
     margin-bottom: 0;
@@ -219,7 +210,6 @@ export type ConversationHeaderTitleProps = {
 const ConversationHeaderTitle = () => {
   const headerTitleProps = useSelector(getConversationHeaderTitleProps);
   const notificationSetting = useSelector(getCurrentNotificationSettingText);
-  const marginXS = useTheme().common.margins.xs;
   if (!headerTitleProps) {
     return null;
   }
@@ -252,7 +242,7 @@ const ConversationHeaderTitle = () => {
   }
 
   let memberCountText = '';
-  if (isGroup && memberCount > 0) {
+  if (isGroup && memberCount > 0 && !isKickedFromGroup) {
     const count = String(memberCount);
     memberCountText = i18n('members', [count]);
   }
@@ -260,14 +250,17 @@ const ConversationHeaderTitle = () => {
   const notificationSubtitle = notificationSetting
     ? window.i18n('notificationSubtitle', notificationSetting)
     : null;
+  const fullTextSubtitle = memberCountText
+    ? `${memberCountText} ● ${notificationSubtitle}`
+    : `${notificationSubtitle}`;
+
   const title = profileName || name || phoneNumber;
 
   return (
     <div className="module-conversation-header__title">
       <span className="module-contact-name__profile-name">{title}</span>
-      <StyledSubtitleContainer margin={marginXS}>
-        {isKickedFromGroup ? null : <ConversationHeaderSubtitle text={memberCountText} />}
-        <ConversationHeaderSubtitle text={notificationSubtitle} />
+      <StyledSubtitleContainer>
+        <ConversationHeaderSubtitle text={fullTextSubtitle} />
       </StyledSubtitleContainer>
     </div>
   );

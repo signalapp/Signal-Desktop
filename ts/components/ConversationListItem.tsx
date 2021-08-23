@@ -195,7 +195,6 @@ const MessageItem = (props: {
   unreadCount: number;
 }) => {
   const { lastMessage, isTyping, unreadCount } = props;
-  const theme = useTheme();
 
   if (!lastMessage && !isTyping) {
     return null;
@@ -221,10 +220,7 @@ const MessageItem = (props: {
         )}
       </div>
       {lastMessage && lastMessage.status ? (
-        <OutgoingMessageStatus
-          status={lastMessage.status}
-          iconColor={theme.colors.textColorSubtle}
-        />
+        <OutgoingMessageStatus status={lastMessage.status} />
       ) : null}
     </div>
   );

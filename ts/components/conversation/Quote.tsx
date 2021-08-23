@@ -251,7 +251,16 @@ export const QuoteText = (props: any) => {
   return null;
 };
 
-export const QuoteAuthor = (props: any) => {
+type QuoteAuthorProps = {
+  authorPhoneNumber: string;
+  authorProfileName?: string;
+  authorName?: string;
+  isFromMe: boolean;
+  isIncoming: boolean;
+  showPubkeyForAuthor?: boolean;
+};
+
+const QuoteAuthor = (props: QuoteAuthorProps) => {
   const { authorProfileName, authorPhoneNumber, authorName, isFromMe, isIncoming } = props;
 
   return (
@@ -269,7 +278,7 @@ export const QuoteAuthor = (props: any) => {
           name={authorName}
           profileName={authorProfileName}
           compact={true}
-          shouldShowPubkey={false} // never show the pubkey for quoted messages author
+          shouldShowPubkey={Boolean(props.showPubkeyForAuthor)}
         />
       )}
     </div>
@@ -336,7 +345,14 @@ export const Quote = (props: QuotePropsWithListener) => {
         )}
       >
         <div className="module-quote__primary">
-          <QuoteAuthor {...props} />
+          <QuoteAuthor
+            authorName={props.authorName}
+            authorPhoneNumber={props.authorPhoneNumber}
+            authorProfileName={props.authorProfileName}
+            isFromMe={props.isFromMe}
+            isIncoming={props.isIncoming}
+            showPubkeyForAuthor={props.isPublic}
+          />
           <QuoteGenericFile {...props} />
           <QuoteText {...props} />
         </div>

@@ -308,6 +308,7 @@ async function getMessages(
 
 export type SortedMessageModelProps = MessageModelProps & {
   firstMessageOfSeries: boolean;
+  lastMessageOfSeries: boolean;
 };
 
 type FetchedMessageResults = {

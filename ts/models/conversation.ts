@@ -813,7 +813,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
   }
 
-  public async updateExpirationTimer(
+  public async updateExpireTimer(
     providedExpireTimer: any,
     providedSource?: string,
     receivedAt?: number, // is set if it comes from outside
