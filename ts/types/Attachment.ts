@@ -209,7 +209,11 @@ export async function autoOrientJPEG(
     attachment.data,
     attachment.contentType
   );
-  const xcodedDataBlob = await scaleImageToLevel(dataBlob, isIncoming);
+  const { blob: xcodedDataBlob } = await scaleImageToLevel(
+    dataBlob,
+    attachment.contentType,
+    isIncoming
+  );
   const xcodedDataArrayBuffer = await blobToArrayBuffer(xcodedDataBlob);
 
   // IMPORTANT: We overwrite the existing `data` `ArrayBuffer` losing the original

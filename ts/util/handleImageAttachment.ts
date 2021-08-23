@@ -73,7 +73,19 @@ export async function autoScale({
     return { contentType, file, fileName };
   }
 
-  const blob = await scaleImageToLevel(file, true);
+  const { blob, contentType: newContentType } = await scaleImageToLevel(
+    file,
+    contentType,
+    true
+  );
+
+  if (newContentType !== IMAGE_JPEG) {
+    return {
+      contentType,
+      file: blob,
+      fileName,
+    };
+  }
 
   const { name } = path.parse(fileName);
 
