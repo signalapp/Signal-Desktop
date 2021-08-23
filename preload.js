@@ -58,13 +58,18 @@ try {
   window.getAppInstance = () => config.appInstance;
   window.getVersion = () => config.version;
   window.getExpiration = () => {
+    const sixtyDays = 60 * 86400 * 1000;
     const remoteBuildExpiration = window.storage.get('remoteBuildExpiration');
+    const localBuildExpiration = window.Events.getAutoDownloadUpdate()
+      ? config.buildExpiration
+      : config.buildExpiration - sixtyDays;
+
     if (remoteBuildExpiration) {
       return remoteBuildExpiration < config.buildExpiration
         ? remoteBuildExpiration
-        : config.buildExpiration;
+        : localBuildExpiration;
     }
-    return config.buildExpiration;
+    return localBuildExpiration;
   };
   window.getNodeVersion = () => config.node_version;
   window.getHostName = () => config.hostname;

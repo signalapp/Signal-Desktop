@@ -18,7 +18,6 @@ import {
   getPrintableError,
   setUpdateListener,
   UpdaterInterface,
-  UpdateInformationType,
 } from './common';
 import { LoggerType } from '../types/Logging';
 import { hexToBinary, verifySignature } from './signature';
@@ -78,13 +77,23 @@ async function checkForUpdatesMaybeInstall(
 
   const { fileName: newFileName, version: newVersion } = result;
 
-  setUpdateListener(createUpdater(getMainWindow, result, logger));
-
   if (fileName !== newFileName || !version || gt(newVersion, version)) {
     const autoDownloadUpdates = await getAutoDownloadUpdateSetting(
       getMainWindow()
     );
     if (!autoDownloadUpdates) {
+      setUpdateListener(async () => {
+        logger.info(
+          'performUpdate: have not downloaded update, going to download'
+        );
+        await downloadAndInstall(
+          newFileName,
+          newVersion,
+          getMainWindow,
+          logger,
+          true
+        );
+      });
       getMainWindow().webContents.send(
         'show-update-dialog',
         DialogType.DownloadReady,
@@ -138,6 +147,23 @@ async function downloadAndInstall(
     }
 
     logger.info('downloadAndInstall: showing dialog...');
+    setUpdateListener(async () => {
+      try {
+        await verifyAndInstall(updateFilePath, newVersion, logger);
+        installing = true;
+      } catch (error) {
+        logger.info('createUpdater: showing general update failure dialog...');
+        getMainWindow().webContents.send(
+          'show-update-dialog',
+          DialogType.Cannot_Update
+        );
+
+        throw error;
+      }
+
+      markShouldQuit();
+      app.quit();
+    });
     getMainWindow().webContents.send('show-update-dialog', DialogType.Update, {
       version,
     });
@@ -252,41 +278,4 @@ async function spawn(
 
     setTimeout(resolve, 200);
   });
-}
-
-function createUpdater(
-  getMainWindow: () => BrowserWindow,
-  info: Pick<UpdateInformationType, 'fileName' | 'version'>,
-  logger: LoggerType
-) {
-  return async () => {
-    if (updateFilePath) {
-      try {
-        await verifyAndInstall(updateFilePath, version, logger);
-        installing = true;
-      } catch (error) {
-        logger.info('createUpdater: showing general update failure dialog...');
-        getMainWindow().webContents.send(
-          'show-update-dialog',
-          DialogType.Cannot_Update
-        );
-
-        throw error;
-      }
-
-      markShouldQuit();
-      app.quit();
-    } else {
-      logger.info(
-        'performUpdate: have not downloaded update, going to download'
-      );
-      await downloadAndInstall(
-        info.fileName,
-        info.version,
-        getMainWindow,
-        logger,
-        true
-      );
-    }
-  };
 }
