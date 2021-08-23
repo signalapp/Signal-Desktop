@@ -20,7 +20,6 @@ import {
   getPrintableError,
   setUpdateListener,
   UpdaterInterface,
-  UpdateInformationType,
 } from './common';
 import { LoggerType } from '../types/Logging';
 import { hexToBinary, verifySignature } from './signature';
@@ -75,13 +74,23 @@ async function checkForUpdatesMaybeInstall(
 
   const { fileName: newFileName, version: newVersion } = result;
 
-  setUpdateListener(createUpdater(getMainWindow, result, logger));
-
   if (fileName !== newFileName || !version || gt(newVersion, version)) {
     const autoDownloadUpdates = await getAutoDownloadUpdateSetting(
       getMainWindow()
     );
     if (!autoDownloadUpdates) {
+      setUpdateListener(async () => {
+        logger.info(
+          'performUpdate: have not downloaded update, going to download'
+        );
+        await downloadAndInstall(
+          newFileName,
+          newVersion,
+          getMainWindow,
+          logger,
+          true
+        );
+      });
       getMainWindow().webContents.send(
         'show-update-dialog',
         DialogType.DownloadReady,
@@ -166,6 +175,11 @@ async function downloadAndInstall(
     //   because Squirrel has cached the update file and will do the right thing.
     logger.info('downloadAndInstall: showing update dialog...');
 
+    setUpdateListener(() => {
+      logger.info('performUpdate: calling quitAndInstall...');
+      markShouldQuit();
+      autoUpdater.quitAndInstall();
+    });
     getMainWindow().webContents.send('show-update-dialog', DialogType.Update, {
       version,
     });
@@ -379,29 +393,4 @@ function shutdown(
       `shutdown: couldn't end response ${getPrintableError(endError)}`
     );
   }
-}
-
-function createUpdater(
-  getMainWindow: () => BrowserWindow,
-  info: Pick<UpdateInformationType, 'fileName' | 'version'>,
-  logger: LoggerType
-) {
-  return async () => {
-    if (updateFilePath) {
-      logger.info('performUpdate: calling quitAndInstall...');
-      markShouldQuit();
-      autoUpdater.quitAndInstall();
-    } else {
-      logger.info(
-        'performUpdate: have not downloaded update, going to download'
-      );
-      await downloadAndInstall(
-        info.fileName,
-        info.version,
-        getMainWindow,
-        logger,
-        true
-      );
-    }
-  };
 }
