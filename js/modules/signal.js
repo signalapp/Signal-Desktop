@@ -41,7 +41,6 @@ const {
 const { Emojify } = require('../../ts/components/conversation/Emojify');
 const { ErrorModal } = require('../../ts/components/ErrorModal');
 const { Lightbox } = require('../../ts/components/Lightbox');
-const { LightboxGallery } = require('../../ts/components/LightboxGallery');
 const {
   MediaGallery,
 } = require('../../ts/components/conversation/media-gallery/MediaGallery');
@@ -140,7 +139,6 @@ const VisualAttachment = require('./types/visual_attachment');
 const EmbeddedContact = require('../../ts/types/EmbeddedContact');
 const Conversation = require('./types/conversation');
 const Errors = require('../../ts/types/errors');
-const MediaGalleryMessage = require('../../ts/components/conversation/media-gallery/types/Message');
 const MessageType = require('./types/message');
 const MIME = require('../../ts/types/MIME');
 const SettingsType = require('../../ts/types/Settings');
@@ -349,7 +347,6 @@ exports.setup = (options = {}) => {
     Emojify,
     ErrorModal,
     Lightbox,
-    LightboxGallery,
     MediaGallery,
     MessageDetail,
     Quote,
@@ -357,9 +354,6 @@ exports.setup = (options = {}) => {
     StagedLinkPreview,
     DisappearingTimeDialog,
     SystemTraySettingsCheckboxes,
-    Types: {
-      Message: MediaGalleryMessage,
-    },
     WhatsNew,
   };
 

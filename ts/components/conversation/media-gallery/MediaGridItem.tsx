@@ -9,7 +9,7 @@ import {
   isVideoTypeSupported,
 } from '../../../util/GoogleChrome';
 import { LocalizerType } from '../../../types/Util';
-import { MediaItemType } from '../../LightboxGallery';
+import { MediaItemType } from '../../../types/MediaItem';
 
 export type Props = {
   mediaItem: MediaItemType;

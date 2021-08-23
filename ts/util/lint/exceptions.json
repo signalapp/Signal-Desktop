@@ -13538,27 +13538,46 @@
     "updated": "2020-07-21T18:34:59.251Z"
   },
   {
-    "rule": "React-createRef",
+    "rule": "React-useRef",
     "path": "ts/components/Lightbox.js",
-    "line": "        this.containerRef = react_1.default.createRef();",
+    "line": "    const containerRef = react_1.useRef(null);",
     "reasonCategory": "usageTrusted",
-    "updated": "2019-11-06T19:56:38.557Z",
-    "reasonDetail": "Used to double-check outside clicks"
+    "updated": "2021-08-23T18:39:37.081Z"
   },
   {
-    "rule": "React-createRef",
+    "rule": "React-useRef",
     "path": "ts/components/Lightbox.js",
-    "line": "        this.focusRef = react_1.default.createRef();",
+    "line": "    const focusRef = react_1.useRef(null);",
     "reasonCategory": "usageTrusted",
-    "updated": "2019-11-06T19:56:38.557Z",
-    "reasonDetail": "Used to manage focus"
+    "updated": "2021-08-23T18:39:37.081Z"
   },
   {
-    "rule": "React-createRef",
+    "rule": "React-useRef",
     "path": "ts/components/Lightbox.js",
-    "line": "        this.videoRef = react_1.default.createRef();",
+    "line": "    const videoRef = react_1.useRef(null);",
     "reasonCategory": "usageTrusted",
-    "updated": "2020-09-14T23:03:44.863Z"
+    "updated": "2021-08-23T18:39:37.081Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/Lightbox.tsx",
+    "line": "  const containerRef = useRef<HTMLDivElement | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-08-23T18:39:37.081Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/Lightbox.tsx",
+    "line": "  const focusRef = useRef<HTMLDivElement | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-08-23T18:39:37.081Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/Lightbox.tsx",
+    "line": "  const videoRef = useRef<HTMLVideoElement | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-08-23T18:39:37.081Z"
   },
   {
     "rule": "React-createRef",

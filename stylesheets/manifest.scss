@@ -11,7 +11,6 @@
 @import 'progress';
 @import 'modal';
 @import 'debugLog';
-@import 'lightbox';
 @import 'recorder';
 @import 'emoji';
 @import 'settings';
@@ -63,6 +62,7 @@
 @import './components/IncomingCallBar.scss';
 @import './components/Input.scss';
 @import './components/LeftPaneDialog.scss';
+@import './components/Lightbox.scss';
 @import './components/MediaQualitySelector.scss';
 @import './components/MessageAudio.scss';
 @import './components/MessageDetail.scss';
