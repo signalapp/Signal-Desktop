@@ -5689,6 +5689,7 @@ button.module-image__border-overlay:focus {
       display: flex;
       padding: 6px;
       position: absolute;
+      user-select: none;
       width: 100%;
       z-index: 2;
     }
