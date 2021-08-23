@@ -1632,7 +1632,7 @@
     "message": "Relay all calls through the Signal server to avoid revealing your IP address to your contact. Enabling will reduce call quality.",
     "description": "Details describing the always relay calls setting"
   },
-  "Preferences--permissions": {
+  "permissions": {
     "message": "Permissions",
     "description": "Header for permissions section of settings"
   },
@@ -6130,6 +6130,10 @@
         "example": "v7.7.7"
       }
     }
+  },
+  "WhatsNew__modal-title": {
+    "message": "What's New",
+    "description": "Title for the whats new modal"
   },
   "WhatsNew__v5.15--1": {
     "message": "No that's not speck of dust you need to flick off your monitor, there's now a dot for unplayed incoming audio messages.",

@@ -330,7 +330,7 @@ export const Preferences = ({
             </>
           )}
         </SettingsRow>
-        <SettingsRow title={i18n('Preferences--permissions')}>
+        <SettingsRow title={i18n('permissions')}>
           <Checkbox
             checked={hasMediaPermissions}
             label={i18n('mediaPermissionsDescription')}
