@@ -23,61 +23,55 @@ export type Props = {
   onClick?: () => void;
 };
 
-export class EmbeddedContact extends React.Component<Props> {
-  public render(): JSX.Element {
-    const {
-      contact,
-      i18n,
-      isIncoming,
-      onClick,
-      tabIndex,
-      withContentAbove,
-      withContentBelow,
-    } = this.props;
-    const module = 'embedded-contact';
-    const direction = isIncoming ? 'incoming' : 'outgoing';
+export const EmbeddedContact: React.FC<Props> = (props: Props) => {
+  const {
+    contact,
+    i18n,
+    isIncoming,
+    onClick,
+    tabIndex,
+    withContentAbove,
+    withContentBelow,
+  } = props;
+  const module = 'embedded-contact';
+  const direction = isIncoming ? 'incoming' : 'outgoing';
 
-    return (
-      <button
-        type="button"
-        className={classNames(
-          'module-embedded-contact',
-          `module-embedded-contact--${direction}`,
-          withContentAbove
-            ? 'module-embedded-contact--with-content-above'
-            : null,
-          withContentBelow
-            ? 'module-embedded-contact--with-content-below'
-            : null
-        )}
-        onKeyDown={(event: React.KeyboardEvent) => {
-          if (event.key !== 'Enter' && event.key !== 'Space') {
-            return;
-          }
+  return (
+    <button
+      type="button"
+      className={classNames(
+        'module-embedded-contact',
+        `module-embedded-contact--${direction}`,
+        withContentAbove ? 'module-embedded-contact--with-content-above' : null,
+        withContentBelow ? 'module-embedded-contact--with-content-below' : null
+      )}
+      onKeyDown={(event: React.KeyboardEvent) => {
+        if (event.key !== 'Enter' && event.key !== 'Space') {
+          return;
+        }
 
-          if (onClick) {
-            event.stopPropagation();
-            event.preventDefault();
+        if (onClick) {
+          event.stopPropagation();
+          event.preventDefault();
 
-            onClick();
-          }
-        }}
-        onClick={(event: React.MouseEvent) => {
-          if (onClick) {
-            event.stopPropagation();
-            event.preventDefault();
+          onClick();
+        }
+      }}
+      onClick={(event: React.MouseEvent) => {
+        if (onClick) {
+          event.stopPropagation();
+          event.preventDefault();
 
-            onClick();
-          }
-        }}
-        tabIndex={tabIndex}
-      >
-        {renderAvatar({ contact, i18n, size: 52, direction })}
-        <div className="module-embedded-contact__text-container">
-          {renderName({ contact, isIncoming, module })}
-          {renderContactShorthand({ contact, isIncoming, module })}
-        </div>
-      </button>
-    );
-  }
-}
+          onClick();
+        }
+      }}
+      tabIndex={tabIndex}
+    >
+      {renderAvatar({ contact, i18n, size: 52, direction })}
+      <div className="module-embedded-contact__text-container">
+        {renderName({ contact, isIncoming, module })}
+        {renderContactShorthand({ contact, isIncoming, module })}
+      </div>
+    </button>
+  );
+};

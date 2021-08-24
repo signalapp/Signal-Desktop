@@ -1,20 +1,35 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import { LocalizerType } from '../../types/Util';
+import { omit } from 'lodash';
 
+import { LocalizerType, ThemeType } from '../../types/Util';
+
+import { InteractionModeType } from '../../state/ducks/conversations';
 import {
   Message,
   Props as AllMessageProps,
   PropsActions as MessageActionsType,
   PropsData as MessageProps,
 } from './Message';
-
 import {
   CallingNotification,
   PropsActionsType as CallingNotificationActionsType,
 } from './CallingNotification';
+import {
+  ChatSessionRefreshedNotification,
+  PropsActionsType as PropsChatSessionRefreshedActionsType,
+} from './ChatSessionRefreshedNotification';
+import {
+  DeliveryIssueNotification,
+  PropsActionsType as DeliveryIssueActionProps,
+  PropsDataType as DeliveryIssueProps,
+} from './DeliveryIssueNotification';
+import {
+  ChangeNumberNotification,
+  PropsData as ChangeNumberNotificationProps,
+} from './ChangeNumberNotification';
 import { CallingNotificationType } from '../../util/callingNotification';
 import { InlineNotificationWrapper } from './InlineNotificationWrapper';
 import {
@@ -58,13 +73,21 @@ type CallHistoryType = {
   type: 'callHistory';
   data: CallingNotificationType;
 };
+type ChatSessionRefreshedType = {
+  type: 'chatSessionRefreshed';
+  data: null;
+};
+type DeliveryIssueType = {
+  type: 'deliveryIssue';
+  data: DeliveryIssueProps;
+};
 type LinkNotificationType = {
   type: 'linkNotification';
   data: null;
 };
 type MessageType = {
   type: 'message';
-  data: MessageProps;
+  data: Omit<MessageProps, 'renderingContext'>;
 };
 type UnsupportedMessageType = {
   type: 'unsupportedMessage';
@@ -73,6 +96,14 @@ type UnsupportedMessageType = {
 type TimerNotificationType = {
   type: 'timerNotification';
   data: TimerNotificationProps;
+};
+type UniversalTimerNotificationType = {
+  type: 'universalTimerNotification';
+  data: null;
+};
+type ChangeNumberNotificationType = {
+  type: 'changeNumberNotification';
+  data: ChangeNumberNotificationProps;
 };
 type SafetyNumberNotificationType = {
   type: 'safetyNumberNotification';
@@ -105,6 +136,8 @@ type ProfileChangeNotificationType = {
 
 export type TimelineItemType =
   | CallHistoryType
+  | ChatSessionRefreshedType
+  | DeliveryIssueType
   | GroupNotificationType
   | GroupV1MigrationType
   | GroupV2ChangeType
@@ -114,28 +147,34 @@ export type TimelineItemType =
   | ResetSessionNotificationType
   | SafetyNumberNotificationType
   | TimerNotificationType
+  | UniversalTimerNotificationType
+  | ChangeNumberNotificationType
   | UnsupportedMessageType
   | VerificationNotificationType;
 
 type PropsLocalType = {
   conversationId: string;
-  conversationAccepted: boolean;
   item?: TimelineItemType;
   id: string;
   isSelected: boolean;
   selectMessage: (messageId: string, conversationId: string) => unknown;
   renderContact: SmartContactRendererType;
+  renderUniversalTimerNotification: () => JSX.Element;
   i18n: LocalizerType;
+  interactionMode: InteractionModeType;
+  theme?: ThemeType;
 };
 
 type PropsActionsType = MessageActionsType &
   CallingNotificationActionsType &
+  DeliveryIssueActionProps &
+  PropsChatSessionRefreshedActionsType &
   UnsupportedMessageActionsType &
   SafetyNumberActionsType;
 
 export type PropsType = PropsLocalType &
   PropsActionsType &
-  Pick<AllMessageProps, 'renderEmojiPicker'>;
+  Pick<AllMessageProps, 'renderEmojiPicker' | 'renderAudioAttachment'>;
 
 export class TimelineItem extends React.PureComponent<PropsType> {
   public render(): JSX.Element | null {
@@ -145,8 +184,10 @@ export class TimelineItem extends React.PureComponent<PropsType> {
       isSelected,
       item,
       i18n,
+      theme,
       messageSizeChanged,
       renderContact,
+      renderUniversalTimerNotification,
       returnToActiveCall,
       selectMessage,
       startCallingLobby,
@@ -159,7 +200,15 @@ export class TimelineItem extends React.PureComponent<PropsType> {
     }
 
     if (item.type === 'message') {
-      return <Message {...this.props} {...item.data} i18n={i18n} />;
+      return (
+        <Message
+          {...omit(this.props, ['item'])}
+          {...item.data}
+          i18n={i18n}
+          theme={theme}
+          renderingContext="conversation/TimelineItem"
+        />
+      );
     }
 
     let notification;
@@ -180,6 +229,18 @@ export class TimelineItem extends React.PureComponent<PropsType> {
           {...item.data}
         />
       );
+    } else if (item.type === 'chatSessionRefreshed') {
+      notification = (
+        <ChatSessionRefreshedNotification
+          {...this.props}
+          {...item.data}
+          i18n={i18n}
+        />
+      );
+    } else if (item.type === 'deliveryIssue') {
+      notification = (
+        <DeliveryIssueNotification {...item.data} {...this.props} i18n={i18n} />
+      );
     } else if (item.type === 'linkNotification') {
       notification = (
         <div className="module-message-unsynced">
@@ -190,6 +251,12 @@ export class TimelineItem extends React.PureComponent<PropsType> {
     } else if (item.type === 'timerNotification') {
       notification = (
         <TimerNotification {...this.props} {...item.data} i18n={i18n} />
+      );
+    } else if (item.type === 'universalTimerNotification') {
+      notification = renderUniversalTimerNotification();
+    } else if (item.type === 'changeNumberNotification') {
+      notification = (
+        <ChangeNumberNotification {...this.props} {...item.data} i18n={i18n} />
       );
     } else if (item.type === 'safetyNumberNotification') {
       notification = (

@@ -16,13 +16,16 @@ import {
   VideoFrameSource,
 } from '../types/Calling';
 import { LocalizerType } from '../types/Util';
+import { AvatarColors } from '../types/Colors';
 import { CallBackgroundBlur } from './CallBackgroundBlur';
 import { Avatar, AvatarSize } from './Avatar';
-import { ConfirmationModal } from './ConfirmationModal';
+import { ConfirmationDialog } from './ConfirmationDialog';
 import { Intl } from './Intl';
 import { ContactName } from './conversation/ContactName';
 import { useIntersectionObserver } from '../util/hooks';
 import { MAX_FRAME_SIZE } from '../calling/constants';
+
+const MAX_TIME_TO_SHOW_STALE_VIDEO_FRAMES = 5000;
 
 type BasePropsType = {
   getFrameBuffer: () => ArrayBuffer;
@@ -54,23 +57,38 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
     const { getFrameBuffer, getGroupCallVideoFrameSource, i18n } = props;
 
     const {
+      acceptedMessageRequest,
       avatarPath,
       color,
       demuxId,
       hasRemoteAudio,
       hasRemoteVideo,
       isBlocked,
+      isMe,
       profileName,
+      sharedGroupNames,
       title,
       videoAspectRatio,
     } = props.remoteParticipant;
 
+    const [hasReceivedVideoRecently, setHasReceivedVideoRecently] = useState(
+      false
+    );
     const [isWide, setIsWide] = useState<boolean>(
       videoAspectRatio ? videoAspectRatio >= 1 : true
     );
     const [hasHover, setHover] = useState(false);
     const [showBlockInfo, setShowBlockInfo] = useState(false);
 
+    // We have some state (`hasReceivedVideoRecently`) and this ref. We can't have a
+    //   single state value like `lastReceivedVideoAt` because (1) it won't automatically
+    //   trigger a re-render after the video has become stale (2) it would cause a full
+    //   re-render of the component for every frame, which is way too often.
+    //
+    // Alternatively, we could create a timeout that's reset every time we get a video
+    //   frame (perhaps using a debounce function), but that becomes harder to clean up
+    //   when the component unmounts.
+    const lastReceivedVideoAt = useRef(-Infinity);
     const remoteVideoRef = useRef<HTMLCanvasElement | null>(null);
     const canvasContextRef = useRef<CanvasRenderingContext2D | null>(null);
 
@@ -82,12 +100,22 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
       ? intersectionObserverEntry.isIntersecting
       : true;
 
+    const wantsToShowVideo = hasRemoteVideo && !isBlocked && isVisible;
+    const hasVideoToShow = wantsToShowVideo && hasReceivedVideoRecently;
+
     const videoFrameSource = useMemo(
       () => getGroupCallVideoFrameSource(demuxId),
       [getGroupCallVideoFrameSource, demuxId]
     );
 
     const renderVideoFrame = useCallback(() => {
+      if (
+        Date.now() - lastReceivedVideoAt.current >
+        MAX_TIME_TO_SHOW_STALE_VIDEO_FRAMES
+      ) {
+        setHasReceivedVideoRecently(false);
+      }
+
       const canvasEl = remoteVideoRef.current;
       if (!canvasEl) {
         return;
@@ -102,7 +130,9 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
       //   for other participants, or pixel data from a previous frame. That's why we
       //   return early and use the `frameWidth` and `frameHeight`.
       const frameBuffer = getFrameBuffer();
-      const frameDimensions = videoFrameSource.receiveVideoFrame(frameBuffer);
+      const frameDimensions = videoFrameSource.receiveVideoFrame(
+        Buffer.from(frameBuffer)
+      );
       if (!frameDimensions) {
         return;
       }
@@ -130,8 +160,17 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
         0
       );
 
+      lastReceivedVideoAt.current = Date.now();
+
+      setHasReceivedVideoRecently(true);
       setIsWide(frameWidth > frameHeight);
     }, [getFrameBuffer, videoFrameSource]);
+
+    useEffect(() => {
+      if (!hasRemoteVideo) {
+        setHasReceivedVideoRecently(false);
+      }
+    }, [hasRemoteVideo]);
 
     useEffect(() => {
       if (!hasRemoteVideo || !isVisible) {
@@ -195,12 +234,12 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
     }
 
     const showHover = hasHover && !props.isInPip;
-    const canShowVideo = hasRemoteVideo && !isBlocked && isVisible;
 
     return (
       <>
         {showBlockInfo && (
-          <ConfirmationModal
+          <ConfirmationDialog
+            cancelText={i18n('ok')}
             i18n={i18n}
             onClose={() => {
               setShowBlockInfo(false);
@@ -221,18 +260,9 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
                 />
               </div>
             }
-            actions={[
-              {
-                text: i18n('ok'),
-                action: () => {
-                  setShowBlockInfo(false);
-                },
-                style: 'affirmative',
-              },
-            ]}
           >
             {i18n('calling__block-info')}
-          </ConfirmationModal>
+          </ConfirmationDialog>
         )}
 
         <div
@@ -259,10 +289,16 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
               />
             </div>
           )}
-          {canShowVideo ? (
+          {wantsToShowVideo && (
             <canvas
               className="module-ongoing-call__group-call-remote-participant__remote-video"
-              style={canvasStyles}
+              style={{
+                ...canvasStyles,
+                // If we want to show video but don't have any yet, we still render the
+                //   canvas invisibly. This lets us render frame data immediately without
+                //   having to juggle anything.
+                ...(hasVideoToShow ? {} : { display: 'none' }),
+              }}
               ref={canvasEl => {
                 remoteVideoRef.current = canvasEl;
                 if (canvasEl) {
@@ -276,7 +312,8 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
                 }
               }}
             />
-          ) : (
+          )}
+          {!hasVideoToShow && (
             <CallBackgroundBlur avatarPath={avatarPath} color={color}>
               {isBlocked ? (
                 <>
@@ -293,13 +330,16 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
                 </>
               ) : (
                 <Avatar
+                  acceptedMessageRequest={acceptedMessageRequest}
                   avatarPath={avatarPath}
-                  color={color || 'ultramarine'}
+                  color={color || AvatarColors[0]}
                   noteToSelf={false}
                   conversationType="direct"
                   i18n={i18n}
+                  isMe={isMe}
                   profileName={profileName}
                   title={title}
+                  sharedGroupNames={sharedGroupNames}
                   size={avatarSize}
                 />
               )}

@@ -11,10 +11,12 @@ import { InContactsIcon } from './InContactsIcon';
 import { LocalizerType } from '../types/Util';
 import { sortByTitle } from '../util/sortByTitle';
 import { ConversationType } from '../state/ducks/conversations';
+import { isInSystemContacts } from '../util/isInSystemContacts';
 
 type ParticipantType = ConversationType & {
-  hasAudio?: boolean;
-  hasVideo?: boolean;
+  hasRemoteAudio?: boolean;
+  hasRemoteVideo?: boolean;
+  presenting?: boolean;
 };
 
 export type PropsType = {
@@ -93,12 +95,17 @@ export const CallingParticipantsList = React.memo(
                 >
                   <div>
                     <Avatar
+                      acceptedMessageRequest={
+                        participant.acceptedMessageRequest
+                      }
                       avatarPath={participant.avatarPath}
                       color={participant.color}
                       conversationType="direct"
                       i18n={i18n}
+                      isMe={participant.isMe}
                       profileName={participant.profileName}
                       title={participant.title}
+                      sharedGroupNames={participant.sharedGroupNames}
                       size={32}
                     />
                     {participant.uuid === ourUuid ? (
@@ -112,7 +119,7 @@ export const CallingParticipantsList = React.memo(
                           module="module-calling-participants-list__name"
                           title={participant.title}
                         />
-                        {participant.name ? (
+                        {isInSystemContacts(participant) ? (
                           <span>
                             {' '}
                             <InContactsIcon
@@ -125,11 +132,14 @@ export const CallingParticipantsList = React.memo(
                     )}
                   </div>
                   <div>
-                    {participant.hasAudio === false ? (
+                    {participant.hasRemoteAudio === false ? (
                       <span className="module-calling-participants-list__muted--audio" />
                     ) : null}
-                    {participant.hasVideo === false ? (
+                    {participant.hasRemoteVideo === false ? (
                       <span className="module-calling-participants-list__muted--video" />
+                    ) : null}
+                    {participant.presenting ? (
+                      <span className="module-calling-participants-list__presenting" />
                     ) : null}
                   </div>
                 </li>

@@ -1,9 +1,11 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import classNames from 'classnames';
+import { Button, ButtonVariant } from './Button';
 import { LocalizerType } from '../types/Util';
+import { Modal } from './Modal';
+import { Theme } from '../util/theme';
 
 export type ActionSpec = {
   text: string;
@@ -12,12 +14,16 @@ export type ActionSpec = {
 };
 
 export type OwnProps = {
-  readonly actions: Array<ActionSpec>;
+  readonly moduleClassName?: string;
+  readonly actions?: Array<ActionSpec>;
   readonly cancelText?: string;
   readonly children?: React.ReactNode;
   readonly i18n: LocalizerType;
+  readonly onCancel?: () => unknown;
   readonly onClose: () => unknown;
   readonly title?: string | React.ReactNode;
+  readonly theme?: Theme;
+  readonly hasXButton?: boolean;
 };
 
 export type Props = OwnProps;
@@ -28,84 +34,86 @@ function focusRef(el: HTMLElement | null) {
   }
 }
 
-export const ConfirmationDialog = React.memo(
-  ({ i18n, onClose, cancelText, children, title, actions }: Props) => {
-    React.useEffect(() => {
-      const handler = ({ key }: KeyboardEvent) => {
-        if (key === 'Escape') {
-          onClose();
-        }
-      };
-      document.addEventListener('keydown', handler);
+function getButtonVariant(
+  buttonStyle?: 'affirmative' | 'negative'
+): ButtonVariant {
+  if (buttonStyle === 'affirmative') {
+    return ButtonVariant.Primary;
+  }
 
-      return () => {
-        document.removeEventListener('keydown', handler);
-      };
-    }, [onClose]);
+  if (buttonStyle === 'negative') {
+    return ButtonVariant.Destructive;
+  }
+
+  return ButtonVariant.Secondary;
+}
+
+export const ConfirmationDialog = React.memo(
+  ({
+    moduleClassName,
+    actions = [],
+    cancelText,
+    children,
+    i18n,
+    onCancel,
+    onClose,
+    theme,
+    title,
+    hasXButton,
+  }: Props) => {
+    const cancelAndClose = React.useCallback(() => {
+      if (onCancel) {
+        onCancel();
+      }
+      onClose();
+    }, [onCancel, onClose]);
 
     const handleCancel = React.useCallback(
       (e: React.MouseEvent) => {
         if (e.target === e.currentTarget) {
-          onClose();
+          cancelAndClose();
         }
       },
-      [onClose]
+      [cancelAndClose]
     );
 
-    const handleAction = React.useCallback(
-      (e: React.MouseEvent<HTMLButtonElement>) => {
-        if (e.currentTarget.dataset.action) {
-          const actionIndex = parseInt(e.currentTarget.dataset.action, 10);
-          const { action } = actions[actionIndex];
-          action();
-        }
-        onClose();
-      },
-      [onClose, actions]
-    );
+    const hasActions = Boolean(actions.length);
 
     return (
-      <div className="module-confirmation-dialog__container">
-        {title ? (
-          <h1 className="module-confirmation-dialog__container__title">
-            {title}
-          </h1>
-        ) : null}
-        <div className="module-confirmation-dialog__container__content">
-          {children}
-        </div>
-        {actions.length > 0 && (
-          <div className="module-confirmation-dialog__container__buttons">
-            <button
-              type="button"
-              onClick={handleCancel}
-              ref={focusRef}
-              className="module-confirmation-dialog__container__buttons__button"
+      <Modal
+        moduleClassName={moduleClassName}
+        i18n={i18n}
+        onClose={cancelAndClose}
+        title={title}
+        theme={theme}
+        hasXButton={hasXButton}
+      >
+        {children}
+        <Modal.ButtonFooter>
+          <Button
+            onClick={handleCancel}
+            ref={focusRef}
+            variant={
+              hasActions ? ButtonVariant.Secondary : ButtonVariant.Primary
+            }
+          >
+            {cancelText || i18n('confirmation-dialog--Cancel')}
+          </Button>
+          {actions.map((action, i) => (
+            <Button
+              key={action.text}
+              onClick={() => {
+                action.action();
+                onClose();
+              }}
+              data-action={i}
+              variant={getButtonVariant(action.style)}
             >
-              {cancelText || i18n('confirmation-dialog--Cancel')}
-            </button>
-            {actions.map((action, i) => (
-              <button
-                type="button"
-                key={action.text}
-                onClick={handleAction}
-                data-action={i}
-                className={classNames(
-                  'module-confirmation-dialog__container__buttons__button',
-                  action.style === 'affirmative'
-                    ? 'module-confirmation-dialog__container__buttons__button--affirmative'
-                    : null,
-                  action.style === 'negative'
-                    ? 'module-confirmation-dialog__container__buttons__button--negative'
-                    : null
-                )}
-              >
-                {action.text}
-              </button>
-            ))}
-          </div>
-        )}
-      </div>
+              {action.text}
+            </Button>
+          ))}
+        </Modal.ButtonFooter>
+      </Modal>
     );
   }
 );

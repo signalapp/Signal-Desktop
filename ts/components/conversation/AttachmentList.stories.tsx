@@ -11,8 +11,8 @@ import {
   AUDIO_MP3,
   IMAGE_GIF,
   IMAGE_JPEG,
-  MIMEType,
   VIDEO_MP4,
+  stringToMIMEType,
 } from '../../types/MIME';
 import { setup as setupI18n } from '../../../js/modules/i18n';
 import enMessages from '../../../_locales/en/messages.json';
@@ -60,6 +60,7 @@ story.add('Multiple Visual Attachments', () => {
           width: 112,
           url: '/fixtures/kitten-4-112-112.jpg',
           contentType: IMAGE_JPEG,
+          path: 'originalpath',
         },
       },
       {
@@ -82,7 +83,7 @@ story.add('Multiple with Non-Visual Types', () => {
         url: '/fixtures/tina-rolf-269345-unsplash.jpg',
       },
       {
-        contentType: 'text/plain' as MIMEType,
+        contentType: stringToMIMEType('text/plain'),
         fileName: 'lorem-ipsum.txt',
         url: '/fixtures/lorem-ipsum.txt',
       },
@@ -100,6 +101,7 @@ story.add('Multiple with Non-Visual Types', () => {
           width: 112,
           url: '/fixtures/kitten-4-112-112.jpg',
           contentType: IMAGE_JPEG,
+          path: 'originalpath',
         },
       },
       {

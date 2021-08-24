@@ -1,6 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { makeEnumParser } from './util/enum';
+
 // Many places rely on this enum being a string.
 export enum Environment {
   Development = 'development',
@@ -33,17 +35,10 @@ export function setEnvironment(env: Environment): void {
   environment = env;
 }
 
-const ENVIRONMENTS_BY_STRING = new Map<string, Environment>([
-  ['development', Environment.Development],
-  ['production', Environment.Production],
-  ['staging', Environment.Staging],
-  ['test', Environment.Test],
-  ['test-lib', Environment.TestLib],
-]);
-export function parseEnvironment(value: unknown): Environment {
-  if (typeof value !== 'string') {
-    return Environment.Production;
-  }
-  const result = ENVIRONMENTS_BY_STRING.get(value);
-  return result || Environment.Production;
-}
+export const parseEnvironment = makeEnumParser(
+  Environment,
+  Environment.Production
+);
+
+export const isTestEnvironment = (env: Environment): boolean =>
+  env === Environment.Test || env === Environment.TestLib;

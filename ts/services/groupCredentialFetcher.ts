@@ -11,6 +11,7 @@ import {
 } from '../util/zkgroup';
 
 import { GroupCredentialType } from '../textsecure/WebAPI';
+import { BackOff } from '../util/BackOff';
 import { sleep } from '../util/sleep';
 
 export const GROUP_CREDENTIALS_KEY = 'groupCredentials';
@@ -50,33 +51,28 @@ export async function initializeGroupCredentialFetcher(): Promise<void> {
   await runWithRetry(maybeFetchNewCredentials, { scheduleAnother: 4 * HOUR });
 }
 
-type BackoffType = {
-  [key: number]: number | undefined;
-  max: number;
-};
-const BACKOFF: BackoffType = {
-  0: SECOND,
-  1: 5 * SECOND,
-  2: 30 * SECOND,
-  3: 2 * MINUTE,
-  max: 5 * MINUTE,
-};
+const BACKOFF_TIMEOUTS = [
+  SECOND,
+  5 * SECOND,
+  30 * SECOND,
+  2 * MINUTE,
+  5 * MINUTE,
+];
 
 export async function runWithRetry(
   fn: () => Promise<void>,
   options: { scheduleAnother?: number } = {}
 ): Promise<void> {
-  let count = 0;
+  const backOff = new BackOff(BACKOFF_TIMEOUTS);
 
   // eslint-disable-next-line no-constant-condition
   while (true) {
     try {
-      count += 1;
       // eslint-disable-next-line no-await-in-loop
       await fn();
       return;
     } catch (error) {
-      const wait = BACKOFF[count] || BACKOFF.max;
+      const wait = backOff.getAndIncrement();
       window.log.info(
         `runWithRetry: ${fn.name} failed. Waiting ${wait}ms for retry. Error: ${error.stack}`
       );

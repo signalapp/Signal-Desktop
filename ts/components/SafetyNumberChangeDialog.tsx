@@ -1,14 +1,17 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
+import { noop } from 'lodash';
 
 import { Avatar } from './Avatar';
-import { ConfirmationModal } from './ConfirmationModal';
+import { ConfirmationDialog } from './ConfirmationDialog';
 import { InContactsIcon } from './InContactsIcon';
+import { Modal } from './Modal';
 
 import { ConversationType } from '../state/ducks/conversations';
 import { LocalizerType } from '../types/Util';
+import { isInSystemContacts } from '../util/isInSystemContacts';
 
 export type SafetyNumberProps = {
   contactID: string;
@@ -24,18 +27,17 @@ export type Props = {
   readonly renderSafetyNumber: (props: SafetyNumberProps) => JSX.Element;
 };
 
-type SafetyDialogContentProps = Props & {
-  readonly onView: (contact: ConversationType) => void;
-};
-
-const SafetyDialogContents = ({
+export const SafetyNumberChangeDialog = ({
   confirmText,
   contacts,
   i18n,
   onCancel,
   onConfirm,
-  onView,
-}: SafetyDialogContentProps): JSX.Element => {
+  renderSafetyNumber,
+}: Props): JSX.Element => {
+  const [selectedContact, setSelectedContact] = React.useState<
+    ConversationType | undefined
+  >(undefined);
   const cancelButtonRef = React.createRef<HTMLButtonElement>();
 
   React.useEffect(() => {
@@ -44,35 +46,65 @@ const SafetyDialogContents = ({
     }
   }, [cancelButtonRef, contacts]);
 
+  const onClose = selectedContact
+    ? () => {
+        setSelectedContact(undefined);
+      }
+    : onCancel;
+
+  if (selectedContact) {
+    return (
+      <Modal i18n={i18n} onClose={onClose}>
+        {renderSafetyNumber({ contactID: selectedContact.id, onClose })}
+      </Modal>
+    );
+  }
+
   return (
-    <>
-      <h1 className="module-sfn-dialog__title">
-        {i18n('safetyNumberChanges')}
-      </h1>
-      <div className="module-sfn-dialog__message">
+    <ConfirmationDialog
+      actions={[
+        {
+          action: onConfirm,
+          text: confirmText || i18n('sendMessageToContact'),
+          style: 'affirmative',
+        },
+      ]}
+      i18n={i18n}
+      onCancel={onClose}
+      onClose={noop}
+      title={i18n('safetyNumberChanges')}
+    >
+      <div className="module-SafetyNumberChangeDialog__message">
         {i18n('changedVerificationWarning')}
       </div>
-      <ul className="module-sfn-dialog__contacts">
+      <ul className="module-SafetyNumberChangeDialog__contacts">
         {contacts.map((contact: ConversationType) => {
           const shouldShowNumber = Boolean(contact.name || contact.profileName);
 
           return (
-            <li className="module-sfn-dialog__contact" key={contact.id}>
+            <li
+              className="module-SafetyNumberChangeDialog__contact"
+              key={contact.id}
+            >
               <Avatar
+                acceptedMessageRequest={contact.acceptedMessageRequest}
                 avatarPath={contact.avatarPath}
                 color={contact.color}
                 conversationType="direct"
                 i18n={i18n}
+                isMe={contact.isMe}
                 name={contact.name}
                 phoneNumber={contact.phoneNumber}
                 profileName={contact.profileName}
                 title={contact.title}
+                sharedGroupNames={contact.sharedGroupNames}
                 size={52}
+                unblurredAvatarPath={contact.unblurredAvatarPath}
               />
-              <div className="module-sfn-dialog__contact--wrapper">
-                <div className="module-sfn-dialog__contact--name">
+              <div className="module-SafetyNumberChangeDialog__contact--wrapper">
+                <div className="module-SafetyNumberChangeDialog__contact--name">
                   {contact.title}
-                  {contact.name ? (
+                  {isInSystemContacts(contact) ? (
                     <span>
                       {' '}
                       <InContactsIcon i18n={i18n} />
@@ -80,15 +112,15 @@ const SafetyDialogContents = ({
                   ) : null}
                 </div>
                 {shouldShowNumber ? (
-                  <div className="module-sfn-dialog__contact--number">
+                  <div className="module-SafetyNumberChangeDialog__contact--number">
                     {contact.phoneNumber}
                   </div>
                 ) : null}
               </div>
               <button
-                className="module-sfn-dialog__contact--view"
+                className="module-SafetyNumberChangeDialog__contact--view"
                 onClick={() => {
-                  onView(contact);
+                  setSelectedContact(contact);
                 }}
                 tabIndex={0}
                 type="button"
@@ -99,52 +131,6 @@ const SafetyDialogContents = ({
           );
         })}
       </ul>
-      <div className="module-sfn-dialog__actions">
-        <button
-          className="module-sfn-dialog__actions--cancel"
-          onClick={onCancel}
-          ref={cancelButtonRef}
-          tabIndex={0}
-          type="button"
-        >
-          {i18n('cancel')}
-        </button>
-        <button
-          className="module-sfn-dialog__actions--confirm"
-          onClick={onConfirm}
-          tabIndex={0}
-          type="button"
-        >
-          {confirmText || i18n('sendMessageToContact')}
-        </button>
-      </div>
-    </>
-  );
-};
-
-export const SafetyNumberChangeDialog = (props: Props): JSX.Element => {
-  const { i18n, onCancel, renderSafetyNumber } = props;
-  const [contact, setViewSafetyNumber] = React.useState<
-    ConversationType | undefined
-  >(undefined);
-
-  const onClose = contact
-    ? () => {
-        setViewSafetyNumber(undefined);
-      }
-    : onCancel;
-
-  return (
-    <ConfirmationModal actions={[]} i18n={i18n} onClose={onClose}>
-      {contact && renderSafetyNumber({ contactID: contact.id, onClose })}
-      {!contact && (
-        <SafetyDialogContents
-          {...props}
-          onView={selectedContact => {
-            setViewSafetyNumber(selectedContact);
-          }}
-        />
-      )}
-    </ConfirmationModal>
+    </ConfirmationDialog>
   );
 };

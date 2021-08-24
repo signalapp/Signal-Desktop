@@ -9,6 +9,7 @@ import { MediaGridItem } from './MediaGridItem';
 import { MediaItemType } from '../../LightboxGallery';
 import { missingCaseError } from '../../../util/missingCaseError';
 import { LocalizerType } from '../../../types/Util';
+import { getMessageTimestamp } from '../../../util/getMessageTimestamp';
 
 export type Props = {
   i18n: LocalizerType;
@@ -58,7 +59,7 @@ export class AttachmentSection extends React.Component<Props> {
               fileSize={attachment.size}
               shouldShowSeparator={shouldShowSeparator}
               onClick={onClick}
-              timestamp={message.received_at}
+              timestamp={getMessageTimestamp(message)}
             />
           );
         default:

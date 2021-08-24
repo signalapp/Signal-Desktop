@@ -11,13 +11,15 @@ import { showSettings } from '../shims/Whisper';
 import { Avatar } from './Avatar';
 import { AvatarPopup } from './AvatarPopup';
 import { LocalizerType } from '../types/Util';
-import { ColorType } from '../types/Colors';
+import { AvatarColorType } from '../types/Colors';
+import { ConversationType } from '../state/ducks/conversations';
 
 export type PropsType = {
   searchTerm: string;
   searchConversationName?: string;
   searchConversationId?: string;
   startSearchCounter: number;
+  selectedConversation: undefined | ConversationType;
 
   // To be used as an ID
   ourConversationId: string;
@@ -29,14 +31,19 @@ export type PropsType = {
   phoneNumber?: string;
   isMe?: boolean;
   name?: string;
-  color?: ColorType;
+  color?: AvatarColorType;
+  disabled?: boolean;
   isVerified?: boolean;
   profileName?: string;
   title: string;
   avatarPath?: string;
+  hasPendingUpdate: boolean;
 
   i18n: LocalizerType;
+
   updateSearchTerm: (searchTerm: string) => void;
+  startSearch: () => void;
+  searchInConversation: (id: string, name: string) => void;
   searchMessages: (
     query: string,
     options: {
@@ -53,11 +60,13 @@ export type PropsType = {
       noteToSelf: string;
     }
   ) => void;
-
+  startUpdate: () => unknown;
   clearConversationSearch: () => void;
   clearSearch: () => void;
 
   showArchivedConversations: () => void;
+  startComposing: () => void;
+  toggleProfileEditor: () => void;
 };
 
 type StateType = {
@@ -107,12 +116,6 @@ export class MainHeader extends React.Component<PropsType, StateType> {
     }
   };
 
-  public handleOutsideKeyDown = (event: KeyboardEvent): void => {
-    if (event.key === 'Escape') {
-      this.hideAvatarPopup();
-    }
-  };
-
   public showAvatarPopup = (): void => {
     const popperRoot = document.createElement('div');
     document.body.appendChild(popperRoot);
@@ -122,14 +125,12 @@ export class MainHeader extends React.Component<PropsType, StateType> {
       popperRoot,
     });
     document.addEventListener('click', this.handleOutsideClick);
-    document.addEventListener('keydown', this.handleOutsideKeyDown);
   };
 
   public hideAvatarPopup = (): void => {
     const { popperRoot } = this.state;
 
     document.removeEventListener('click', this.handleOutsideClick);
-    document.removeEventListener('keydown', this.handleOutsideKeyDown);
 
     this.setState({
       showingAvatarPopup: false,
@@ -141,11 +142,15 @@ export class MainHeader extends React.Component<PropsType, StateType> {
     }
   };
 
+  public componentDidMount(): void {
+    document.addEventListener('keydown', this.handleGlobalKeyDown);
+  }
+
   public componentWillUnmount(): void {
     const { popperRoot } = this.state;
 
     document.removeEventListener('click', this.handleOutsideClick);
-    document.removeEventListener('keydown', this.handleOutsideKeyDown);
+    document.removeEventListener('keydown', this.handleGlobalKeyDown);
 
     if (popperRoot && document.body.contains(popperRoot)) {
       document.body.removeChild(popperRoot);
@@ -204,7 +209,7 @@ export class MainHeader extends React.Component<PropsType, StateType> {
       updateSearchTerm(searchTerm);
     }
 
-    if (searchTerm.length < 2) {
+    if (searchTerm.length < 1) {
       return;
     }
 
@@ -225,7 +230,7 @@ export class MainHeader extends React.Component<PropsType, StateType> {
     this.setFocus();
   };
 
-  public handleKeyDown = (
+  public handleInputKeyDown = (
     event: React.KeyboardEvent<HTMLInputElement>
   ): void => {
     const {
@@ -262,6 +267,50 @@ export class MainHeader extends React.Component<PropsType, StateType> {
     event.stopPropagation();
   };
 
+  public handleGlobalKeyDown = (event: KeyboardEvent): void => {
+    const { showingAvatarPopup } = this.state;
+    const {
+      i18n,
+      selectedConversation,
+      startSearch,
+      searchInConversation,
+    } = this.props;
+
+    const { ctrlKey, metaKey, shiftKey, key } = event;
+    const commandKey = get(window, 'platform') === 'darwin' && metaKey;
+    const controlKey = get(window, 'platform') !== 'darwin' && ctrlKey;
+    const commandOrCtrl = commandKey || controlKey;
+    const commandAndCtrl = commandKey && ctrlKey;
+
+    if (showingAvatarPopup && key === 'Escape') {
+      this.hideAvatarPopup();
+    } else if (
+      commandOrCtrl &&
+      !commandAndCtrl &&
+      !shiftKey &&
+      (key === 'f' || key === 'F')
+    ) {
+      startSearch();
+
+      event.preventDefault();
+      event.stopPropagation();
+    } else if (
+      selectedConversation &&
+      commandOrCtrl &&
+      !commandAndCtrl &&
+      shiftKey &&
+      (key === 'f' || key === 'F')
+    ) {
+      const name = selectedConversation.isMe
+        ? i18n('noteToSelf')
+        : selectedConversation.title;
+      searchInConversation(selectedConversation.id, name);
+
+      event.preventDefault();
+      event.stopPropagation();
+    }
+  };
+
   public handleXButton = (): void => {
     const {
       searchConversationId,
@@ -294,15 +343,20 @@ export class MainHeader extends React.Component<PropsType, StateType> {
     const {
       avatarPath,
       color,
+      disabled,
+      hasPendingUpdate,
       i18n,
       name,
       phoneNumber,
       profileName,
-      title,
       searchConversationId,
       searchConversationName,
       searchTerm,
       showArchivedConversations,
+      startComposing,
+      startUpdate,
+      title,
+      toggleProfileEditor,
     } = this.props;
     const { showingAvatarPopup, popperRoot } = this.state;
 
@@ -310,24 +364,39 @@ export class MainHeader extends React.Component<PropsType, StateType> {
       ? i18n('searchIn', [searchConversationName])
       : i18n('search');
 
+    const isSearching = Boolean(
+      searchConversationId || searchTerm.trim().length
+    );
+
     return (
       <div className="module-main-header">
         <Manager>
           <Reference>
             {({ ref }) => (
-              <Avatar
-                avatarPath={avatarPath}
-                color={color}
-                conversationType="direct"
-                i18n={i18n}
-                name={name}
-                phoneNumber={phoneNumber}
-                profileName={profileName}
-                title={title}
-                size={28}
-                innerRef={ref}
-                onClick={this.showAvatarPopup}
-              />
+              <div className="module-main-header__avatar--container">
+                <Avatar
+                  acceptedMessageRequest
+                  avatarPath={avatarPath}
+                  className="module-main-header__avatar"
+                  color={color}
+                  conversationType="direct"
+                  i18n={i18n}
+                  isMe
+                  name={name}
+                  phoneNumber={phoneNumber}
+                  profileName={profileName}
+                  title={title}
+                  // `sharedGroupNames` makes no sense for yourself, but
+                  // `<Avatar>` needs it to determine blurring.
+                  sharedGroupNames={[]}
+                  size={28}
+                  innerRef={ref}
+                  onClick={this.showAvatarPopup}
+                />
+                {hasPendingUpdate && (
+                  <div className="module-main-header__avatar--badged" />
+                )}
+              </div>
             )}
           </Reference>
           {showingAvatarPopup && popperRoot
@@ -335,9 +404,11 @@ export class MainHeader extends React.Component<PropsType, StateType> {
                 <Popper placement="bottom-end">
                   {({ ref, style }) => (
                     <AvatarPopup
+                      acceptedMessageRequest
                       innerRef={ref}
                       i18n={i18n}
-                      style={style}
+                      isMe
+                      style={{ ...style, zIndex: 1 }}
                       color={color}
                       conversationType="direct"
                       name={name}
@@ -346,6 +417,14 @@ export class MainHeader extends React.Component<PropsType, StateType> {
                       title={title}
                       avatarPath={avatarPath}
                       size={28}
+                      hasPendingUpdate={hasPendingUpdate}
+                      startUpdate={startUpdate}
+                      // See the comment above about `sharedGroupNames`.
+                      sharedGroupNames={[]}
+                      onEditProfile={() => {
+                        toggleProfileEditor();
+                        this.hideAvatarPopup();
+                      }}
                       onViewPreferences={() => {
                         showSettings();
                         this.hideAvatarPopup();
@@ -385,6 +464,7 @@ export class MainHeader extends React.Component<PropsType, StateType> {
             />
           )}
           <input
+            disabled={disabled}
             type="text"
             ref={this.inputRef}
             className={classNames(
@@ -398,7 +478,7 @@ export class MainHeader extends React.Component<PropsType, StateType> {
             )}
             placeholder={placeholder}
             dir="auto"
-            onKeyDown={this.handleKeyDown}
+            onKeyDown={this.handleInputKeyDown}
             value={searchTerm}
             onChange={this.updateSearch}
           />
@@ -412,6 +492,15 @@ export class MainHeader extends React.Component<PropsType, StateType> {
             />
           ) : null}
         </div>
+        {!isSearching && (
+          <button
+            aria-label={i18n('newConversation')}
+            className="module-main-header__compose-icon"
+            onClick={startComposing}
+            title={i18n('newConversation')}
+            type="button"
+          />
+        )}
       </div>
     );
   }

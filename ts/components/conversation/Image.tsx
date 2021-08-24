@@ -6,16 +6,22 @@ import classNames from 'classnames';
 import { Blurhash } from 'react-blurhash';
 
 import { Spinner } from '../Spinner';
-import { LocalizerType } from '../../types/Util';
-import { AttachmentType, hasNotDownloaded } from '../../types/Attachment';
+import { LocalizerType, ThemeType } from '../../types/Util';
+import {
+  AttachmentType,
+  hasNotDownloaded,
+  defaultBlurHash,
+} from '../../types/Attachment';
 
 export type Props = {
   alt: string;
   attachment: AttachmentType;
-  url: string;
+  url?: string;
 
   height?: number;
   width?: number;
+  cropWidth?: number;
+  cropHeight?: number;
   tabIndex?: number;
 
   overlayText?: string;
@@ -37,6 +43,7 @@ export type Props = {
   blurHash?: string;
 
   i18n: LocalizerType;
+  theme?: ThemeType;
   onClick?: (attachment: AttachmentType) => void;
   onClickClose?: (attachment: AttachmentType) => void;
   onError?: () => void;
@@ -44,10 +51,10 @@ export type Props = {
 
 export class Image extends React.Component<Props> {
   private canClick() {
-    const { onClick, attachment, blurHash, url } = this.props;
+    const { onClick, attachment } = this.props;
     const { pending } = attachment || { pending: true };
 
-    return Boolean(onClick && !pending && (url || blurHash));
+    return Boolean(onClick && !pending);
   }
 
   public handleClick = (event: React.MouseEvent): void => {
@@ -150,13 +157,18 @@ export class Image extends React.Component<Props> {
       smallCurveTopLeft,
       softCorners,
       tabIndex,
+      theme,
       url,
       width = 0,
+      cropWidth = 0,
+      cropHeight = 0,
     } = this.props;
 
     const { caption, pending } = attachment || { caption: null, pending: true };
     const canClick = this.canClick();
     const imgNotDownloaded = hasNotDownloaded(attachment);
+
+    const resolvedBlurHash = blurHash || defaultBlurHash(theme);
 
     const overlayClassName = classNames('module-image__border-overlay', {
       'module-image__border-overlay--with-border': !noBorder,
@@ -181,7 +193,7 @@ export class Image extends React.Component<Props> {
         onKeyDown={this.handleKeyDown}
         tabIndex={tabIndex}
       >
-        {imgNotDownloaded ? <i /> : null}
+        {imgNotDownloaded ? <span /> : null}
       </button>
     ) : null;
 
@@ -196,8 +208,10 @@ export class Image extends React.Component<Props> {
           curveTopLeft ? 'module-image--curved-top-left' : null,
           curveTopRight ? 'module-image--curved-top-right' : null,
           smallCurveTopLeft ? 'module-image--small-curved-top-left' : null,
-          softCorners ? 'module-image--soft-corners' : null
+          softCorners ? 'module-image--soft-corners' : null,
+          cropWidth || cropHeight ? 'module-image--cropped' : null
         )}
+        style={{ width: width - cropWidth, height: height - cropHeight }}
       >
         {pending ? (
           this.renderPending()
@@ -210,9 +224,9 @@ export class Image extends React.Component<Props> {
             width={width}
             src={url}
           />
-        ) : blurHash ? (
+        ) : resolvedBlurHash ? (
           <Blurhash
-            hash={blurHash}
+            hash={resolvedBlurHash}
             width={width}
             height={height}
             style={{ display: 'block' }}

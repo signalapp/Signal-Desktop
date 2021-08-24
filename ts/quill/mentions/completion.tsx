@@ -14,6 +14,7 @@ import { Avatar } from '../../components/Avatar';
 import { LocalizerType } from '../../types/Util';
 import { MemberRepository } from '../memberRepository';
 import { matchBlotTextPartitions } from '../util';
+import { sameWidthModifier } from '../../util/popperUtil';
 
 export type MentionCompletionOptions = {
   i18n: LocalizerType;
@@ -218,25 +219,7 @@ export class MentionCompletion {
     }
 
     const element = createPortal(
-      <Popper
-        placement="top"
-        modifiers={{
-          width: {
-            enabled: true,
-            fn: oldData => {
-              const data = oldData;
-              const { width, left } = data.offsets.reference;
-
-              data.styles.width = `${width}px`;
-              data.offsets.popper.width = width;
-              data.offsets.popper.left = left;
-
-              return data;
-            },
-            order: 840,
-          },
-        }}
-      >
+      <Popper placement="top-start" modifiers={[sameWidthModifier]}>
         {({ ref, style }) => (
           <div
             ref={ref}
@@ -272,11 +255,15 @@ export class MentionCompletion {
                   )}
                 >
                   <Avatar
+                    acceptedMessageRequest={member.acceptedMessageRequest}
                     avatarPath={member.avatarPath}
                     conversationType="direct"
                     i18n={this.options.i18n}
+                    isMe={member.isMe}
+                    sharedGroupNames={member.sharedGroupNames}
                     size={28}
                     title={member.title}
+                    unblurredAvatarPath={member.unblurredAvatarPath}
                   />
                   <div className="module-composition-input__suggestions__title">
                     {member.title}

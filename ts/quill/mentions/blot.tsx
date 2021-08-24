@@ -67,6 +67,6 @@ export class MentionBlot extends Embed {
   constructor(node: Node) {
     super(node);
 
-    this.contentNode.removeAttribute('contenteditable');
+    this.contentNode.setAttribute('contenteditable', 'false');
   }
 }

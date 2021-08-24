@@ -1,13 +1,14 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
+import { sample } from 'lodash';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { v4 as generateUuid } from 'uuid';
 
 import { CallingParticipantsList, PropsType } from './CallingParticipantsList';
-import { Colors } from '../types/Colors';
+import { AvatarColors } from '../types/Colors';
 import { GroupCallRemoteParticipantType } from '../types/Calling';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import { setup as setupI18n } from '../../js/modules/i18n';
@@ -18,15 +19,16 @@ const i18n = setupI18n('en', enMessages);
 function createParticipant(
   participantProps: Partial<GroupCallRemoteParticipantType>
 ): GroupCallRemoteParticipantType {
-  const randomColor = Math.floor(Math.random() * Colors.length - 1);
   return {
     demuxId: 2,
     hasRemoteAudio: Boolean(participantProps.hasRemoteAudio),
     hasRemoteVideo: Boolean(participantProps.hasRemoteVideo),
+    presenting: Boolean(participantProps.presenting),
+    sharingScreen: Boolean(participantProps.sharingScreen),
     videoAspectRatio: 1.3,
     ...getDefaultConversation({
       avatarPath: participantProps.avatarPath,
-      color: Colors[randomColor],
+      color: sample(AvatarColors),
       isBlocked: Boolean(participantProps.isBlocked),
       name: participantProps.name,
       profileName: participantProps.title,
@@ -69,7 +71,7 @@ story.add('Many Participants', () => {
       }),
       createParticipant({
         hasRemoteAudio: true,
-        hasRemoteVideo: true,
+        presenting: true,
         name: 'Rage Trunks',
         title: 'Rage Trunks',
       }),

@@ -3,27 +3,31 @@
 
 /* eslint-disable class-methods-use-this */
 /* eslint-disable camelcase */
+import { compact } from 'lodash';
 import {
-  MessageModelCollectionType,
-  WhatIsThis,
-  MessageAttributesType,
   ConversationAttributesType,
+  MessageAttributesType,
+  MessageModelCollectionType,
+  QuotedMessageType,
   VerificationOptions,
+  WhatIsThis,
 } from '../model-types.d';
-import {
-  GroupV2PendingMembership,
-  GroupV2RequestingMembership,
-} from '../components/conversation/conversation-details/PendingInvites';
-import { GroupV2Membership } from '../components/conversation/conversation-details/ConversationDetailsMembershipList';
+import { AttachmentType } from '../types/Attachment';
 import { CallMode, CallHistoryDetailsType } from '../types/Calling';
-import { CallbackResultType, GroupV2InfoType } from '../textsecure/SendMessage';
+import * as Stickers from '../types/Stickers';
+import { GroupV2InfoType } from '../textsecure/SendMessage';
+import createTaskWithTimeout from '../textsecure/TaskWithTimeout';
+import { CallbackResultType } from '../textsecure/Types.d';
+import { ConversationType } from '../state/ducks/conversations';
 import {
-  ConversationType,
-  ConversationTypeType,
-} from '../state/ducks/conversations';
-import { ColorType } from '../types/Colors';
+  AvatarColorType,
+  ConversationColorType,
+  CustomColorType,
+} from '../types/Colors';
 import { MessageModel } from './messages';
 import { isMuted } from '../util/isMuted';
+import { isConversationSMSOnly } from '../util/isConversationSMSOnly';
+import { isConversationUnregistered } from '../util/isConversationUnregistered';
 import { missingCaseError } from '../util/missingCaseError';
 import { sniffImageMimeType } from '../util/sniffImageMimeType';
 import { MIMEType, IMAGE_WEBP } from '../types/MIME';
@@ -32,25 +36,58 @@ import {
   base64ToArrayBuffer,
   deriveAccessKey,
   fromEncodedBinaryToArrayBuffer,
-  getRandomBytes,
   stringFromBytes,
-  trimForDisplay,
-  verifyAccessKey,
 } from '../Crypto';
-import { GroupChangeClass } from '../textsecure.d';
+import * as Bytes from '../Bytes';
 import { BodyRangesType } from '../types/Util';
 import { getTextWithMentions } from '../util';
 import { migrateColor } from '../util/migrateColor';
+import { isNotNil } from '../util/isNotNil';
+import { ourProfileKeyService } from '../services/ourProfileKey';
+import { getSendOptions } from '../util/getSendOptions';
+import { isConversationAccepted } from '../util/isConversationAccepted';
+import { markConversationRead } from '../util/markConversationRead';
+import { handleMessageSend } from '../util/handleMessageSend';
+import { getConversationMembers } from '../util/getConversationMembers';
+import { sendReadReceiptsFor } from '../util/sendReadReceiptsFor';
+import { updateConversationsWithUuidLookup } from '../updateConversationsWithUuidLookup';
+import { ReadStatus } from '../messages/MessageReadStatus';
+import { SendStatus } from '../messages/MessageSendState';
+import {
+  concat,
+  filter,
+  map,
+  take,
+  repeat,
+  zipObject,
+} from '../util/iterables';
+import * as universalExpireTimer from '../util/universalExpireTimer';
+import { GroupNameCollisionsWithIdsByTitle } from '../util/groupMemberNameCollisions';
+import {
+  isDirectConversation,
+  isGroupV1,
+  isGroupV2,
+  isMe,
+} from '../util/whatTypeOfConversation';
+import { SignalService as Proto } from '../protobuf';
+import {
+  hasErrors,
+  isIncoming,
+  isTapToView,
+  getMessagePropStatus,
+} from '../state/selectors/message';
+import { Deletes } from '../messageModifiers/Deletes';
+import { Reactions, ReactionModel } from '../messageModifiers/Reactions';
+import { isAnnouncementGroupReady } from '../util/isAnnouncementGroupReady';
+import { getProfile } from '../util/getProfile';
+import { SEALED_SENDER } from '../types/SealedSender';
+import { getAvatarData } from '../util/getAvatarData';
+
+// TODO: remove once we move away from ArrayBuffers
+const FIXMEU8 = Uint8Array;
 
 /* eslint-disable more/no-then */
 window.Whisper = window.Whisper || {};
-
-const SEALED_SENDER = {
-  UNKNOWN: 0,
-  ENABLED: 1,
-  DISABLED: 2,
-  UNRESTRICTED: 3,
-};
 
 const { Services, Util } = window.Signal;
 const { Contact, Message } = window.Signal.Types;
@@ -65,31 +102,28 @@ const {
 } = window.Signal.Migrations;
 const { addStickerPackReference } = window.Signal.Data;
 
-const COLORS = [
-  'red',
-  'deep_orange',
-  'brown',
-  'pink',
-  'purple',
-  'indigo',
-  'blue',
-  'teal',
-  'green',
-  'light_green',
-  'blue_grey',
-  'ultramarine',
-];
-
 const THREE_HOURS = 3 * 60 * 60 * 1000;
+const FIVE_MINUTES = 1000 * 60 * 5;
+
+const JOB_REPORTING_THRESHOLD_MS = 25;
+
+const ATTRIBUTES_THAT_DONT_INVALIDATE_PROPS_CACHE = new Set([
+  'profileLastFetchedAt',
+]);
 
 type CustomError = Error & {
   identifier?: string;
   number?: string;
 };
 
-export class ConversationModel extends window.Backbone.Model<
-  ConversationAttributesType
-> {
+type CachedIdenticon = {
+  readonly url: string;
+  readonly content: string;
+  readonly color: AvatarColorType;
+};
+
+export class ConversationModel extends window.Backbone
+  .Model<ConversationAttributesType> {
   static COLORS: string;
 
   cachedProps?: ConversationType | null;
@@ -101,7 +135,7 @@ export class ConversationModel extends window.Backbone.Model<
     { senderId: string; timer: NodeJS.Timer }
   >;
 
-  contactCollection?: Backbone.Collection<WhatIsThis>;
+  contactCollection?: Backbone.Collection<ConversationModel>;
 
   debouncedUpdateLastMessage?: () => void;
 
@@ -118,15 +152,15 @@ export class ConversationModel extends window.Backbone.Model<
 
   jobQueue?: typeof window.PQueueType;
 
-  messageCollection?: MessageModelCollectionType;
-
-  ourNumber?: string;
-
   ourUuid?: string;
 
   storeName?: string | null;
 
   throttledBumpTyping: unknown;
+
+  throttledFetchSMSOnlyUUID?: () => Promise<void> | void;
+
+  throttledMaybeMigrateV1Group?: () => Promise<void> | void;
 
   typingRefreshTimer?: NodeJS.Timer | null;
 
@@ -134,9 +168,19 @@ export class ConversationModel extends window.Backbone.Model<
 
   verifiedEnum?: typeof window.textsecure.storage.protocol.VerifiedStatus;
 
-  intlCollator = new Intl.Collator();
+  intlCollator = new Intl.Collator(undefined, { sensitivity: 'base' });
+
+  lastSuccessfulGroupFetch?: number;
+
+  throttledUpdateSharedGroups?: () => Promise<void>;
 
   private cachedLatestGroupCallEraId?: string;
+
+  private cachedIdenticon?: CachedIdenticon;
+
+  private isFetchingUUID?: boolean;
+
+  private hasAddedHistoryDisclaimer?: boolean;
 
   // eslint-disable-next-line class-methods-use-this
   defaults(): Partial<ConversationAttributesType> {
@@ -149,24 +193,17 @@ export class ConversationModel extends window.Backbone.Model<
   }
 
   idForLogging(): string {
-    if (this.isPrivate()) {
+    if (isDirectConversation(this.attributes)) {
       const uuid = this.get('uuid');
       const e164 = this.get('e164');
       return `${uuid || e164} (${this.id})`;
     }
-    if (this.isGroupV2()) {
+    if (isGroupV2(this.attributes)) {
       return `groupv2(${this.get('groupId')})`;
     }
 
     const groupId = this.get('groupId');
     return `group(${groupId})`;
-  }
-
-  debugID(): string {
-    const uuid = this.get('uuid');
-    const e164 = this.get('e164');
-    const groupId = this.get('groupId');
-    return `group(${groupId}), sender(${uuid || e164}), id(${this.id})`;
   }
 
   // This is one of the few times that we want to collapse our uuid/e164 pair down into
@@ -175,21 +212,15 @@ export class ConversationModel extends window.Backbone.Model<
     return this.get('uuid') || this.get('e164');
   }
 
-  handleMessageError(message: unknown, errors: unknown): void {
-    this.trigger('messageError', message, errors);
-  }
-
   // eslint-disable-next-line class-methods-use-this
   getContactCollection(): Backbone.Collection<ConversationModel> {
     const collection = new window.Backbone.Collection<ConversationModel>();
-    const collator = new Intl.Collator();
+    const collator = new Intl.Collator(undefined, { sensitivity: 'base' });
     collection.comparator = (
       left: ConversationModel,
       right: ConversationModel
     ) => {
-      const leftLower = left.getTitle().toLowerCase();
-      const rightLower = right.getTitle().toLowerCase();
-      return collator.compare(leftLower, rightLower);
+      return collator.compare(left.getTitle(), right.getTitle());
     };
     return collection;
   }
@@ -201,7 +232,6 @@ export class ConversationModel extends window.Backbone.Model<
 
     this.storeName = 'conversations';
 
-    this.ourNumber = window.textsecure.storage.user.getNumber();
     this.ourUuid = window.textsecure.storage.user.getUuid();
     this.verifiedEnum = window.textsecure.storage.protocol.VerifiedStatus;
 
@@ -209,36 +239,30 @@ export class ConversationModel extends window.Backbone.Model<
     //   our first save to the database. Or first fetch from the database.
     this.initialPromise = Promise.resolve();
 
-    this.contactCollection = this.getContactCollection();
-    this.messageCollection = new window.Whisper.MessageCollection([], {
-      conversation: this,
-    });
-
-    this.messageCollection.on('change:errors', this.handleMessageError, this);
-    this.messageCollection.on('send-error', this.onMessageError, this);
-
     this.throttledBumpTyping = window._.throttle(this.bumpTyping, 300);
     this.debouncedUpdateLastMessage = window._.debounce(
       this.updateLastMessage.bind(this),
       200
     );
+    this.throttledUpdateSharedGroups =
+      this.throttledUpdateSharedGroups ||
+      window._.throttle(this.updateSharedGroups.bind(this), FIVE_MINUTES);
 
-    this.listenTo(
-      this.messageCollection,
-      'add remove destroy content-changed',
-      this.debouncedUpdateLastMessage
+    this.contactCollection = this.getContactCollection();
+    this.contactCollection.on(
+      'change:name change:profileName change:profileFamilyName change:e164',
+      this.debouncedUpdateLastMessage,
+      this
     );
-    this.listenTo(this.messageCollection, 'sent', this.updateLastMessage);
-    this.listenTo(this.messageCollection, 'send-error', this.updateLastMessage);
+    if (!isDirectConversation(this.attributes)) {
+      this.contactCollection.on(
+        'change:verified',
+        this.onMemberVerifiedChange.bind(this)
+      );
+    }
 
     this.on('newmessage', this.onNewMessage);
     this.on('change:profileKey', this.onChangeProfileKey);
-
-    // Listening for out-of-band data updates
-    this.on('delivered', this.updateAndMerge);
-    this.on('read', this.updateAndMerge);
-    this.on('expiration-change', this.updateAndMerge);
-    this.on('expired', this.onExpired);
 
     const sealedSender = this.get('sealedSender');
     if (sealedSender === undefined) {
@@ -249,59 +273,56 @@ export class ConversationModel extends window.Backbone.Model<
     this.unset('hasFetchedProfile');
     this.unset('tokens');
 
+    this.on('change:members change:membersV2', this.fetchContacts);
+
     this.typingRefreshTimer = null;
     this.typingPauseTimer = null;
 
     // We clear our cached props whenever we change so that the next call to format() will
     //   result in refresh via a getProps() call. See format() below.
     this.on('change', () => {
+      const changedKeys = Object.keys(this.changed || {});
+      const isPropsCacheStillValid = Boolean(
+        changedKeys.length &&
+          changedKeys.every(key =>
+            ATTRIBUTES_THAT_DONT_INVALIDATE_PROPS_CACHE.has(key)
+          )
+      );
+      if (isPropsCacheStillValid) {
+        return;
+      }
+
       if (this.cachedProps) {
         this.oldCachedProps = this.cachedProps;
       }
       this.cachedProps = null;
     });
-  }
 
-  isMe(): boolean {
-    const e164 = this.get('e164');
-    const uuid = this.get('uuid');
-    return Boolean(
-      (e164 && e164 === this.ourNumber) || (uuid && uuid === this.ourUuid)
+    // Set `isFetchingUUID` eagerly to avoid UI flicker when opening the
+    // conversation for the first time.
+    this.isFetchingUUID = this.isSMSOnly();
+
+    this.throttledFetchSMSOnlyUUID = window._.throttle(
+      this.fetchSMSOnlyUUID.bind(this),
+      FIVE_MINUTES
     );
-  }
+    this.throttledMaybeMigrateV1Group = window._.throttle(
+      this.maybeMigrateV1Group.bind(this),
+      FIVE_MINUTES
+    );
 
-  isGroupV1(): boolean {
-    const groupId = this.get('groupId');
-    if (!groupId) {
-      return false;
-    }
-
-    const buffer = fromEncodedBinaryToArrayBuffer(groupId);
-    return buffer.byteLength === window.Signal.Groups.ID_V1_LENGTH;
-  }
-
-  isGroupV2(): boolean {
-    const groupId = this.get('groupId');
-    if (!groupId) {
-      return false;
-    }
-
-    const groupVersion = this.get('groupVersion') || 0;
-
-    try {
-      return (
-        groupVersion === 2 &&
-        base64ToArrayBuffer(groupId).byteLength ===
-          window.Signal.Groups.ID_LENGTH
-      );
-    } catch (error) {
-      window.log.error('isGroupV2: Failed to process groupId in base64!');
-      return false;
+    const migratedColor = this.getColor();
+    if (this.get('color') !== migratedColor) {
+      this.set('color', migratedColor);
+      // Not saving the conversation here we're hoping it'll be saved elsewhere
+      // this may cause some color thrashing if Signal is restarted without
+      // the convo saving. If that is indeed the case and it's too disruptive
+      // we should add batched saving.
     }
   }
 
   isMemberRequestingToJoin(conversationId: string): boolean {
-    if (!this.isGroupV2()) {
+    if (!isGroupV2(this.attributes)) {
       return false;
     }
     const pendingAdminApprovalV2 = this.get('pendingAdminApprovalV2');
@@ -316,7 +337,7 @@ export class ConversationModel extends window.Backbone.Model<
   }
 
   isMemberPending(conversationId: string): boolean {
-    if (!this.isGroupV2()) {
+    if (!isGroupV2(this.attributes)) {
       return false;
     }
     const pendingMembersV2 = this.get('pendingMembersV2');
@@ -332,7 +353,7 @@ export class ConversationModel extends window.Backbone.Model<
   }
 
   isMemberAwaitingApproval(conversationId: string): boolean {
-    if (!this.isGroupV2()) {
+    if (!isGroupV2(this.attributes)) {
       return false;
     }
     const pendingAdminApprovalV2 = this.get('pendingAdminApprovalV2');
@@ -348,7 +369,7 @@ export class ConversationModel extends window.Backbone.Model<
   }
 
   isMember(conversationId: string): boolean {
-    if (!this.isGroupV2()) {
+    if (!isGroupV2(this.attributes)) {
       throw new Error(
         `isMember: Called for non-GroupV2 conversation ${this.idForLogging()}`
       );
@@ -367,7 +388,7 @@ export class ConversationModel extends window.Backbone.Model<
 
   async updateExpirationTimerInGroupV2(
     seconds?: number
-  ): Promise<GroupChangeClass.Actions | undefined> {
+  ): Promise<Proto.GroupChange.Actions | undefined> {
     const idLog = this.idForLogging();
     const current = this.get('expireTimer');
     const bothFalsey = Boolean(current) === false && Boolean(seconds) === false;
@@ -387,7 +408,7 @@ export class ConversationModel extends window.Backbone.Model<
 
   async promotePendingMember(
     conversationId: string
-  ): Promise<GroupChangeClass.Actions | undefined> {
+  ): Promise<Proto.GroupChange.Actions | undefined> {
     const idLog = this.idForLogging();
 
     // This user's pending state may have changed in the time between the user's
@@ -431,7 +452,7 @@ export class ConversationModel extends window.Backbone.Model<
 
   async approvePendingApprovalRequest(
     conversationId: string
-  ): Promise<GroupChangeClass.Actions | undefined> {
+  ): Promise<Proto.GroupChange.Actions | undefined> {
     const idLog = this.idForLogging();
 
     // This user's pending state may have changed in the time between the user's
@@ -466,7 +487,7 @@ export class ConversationModel extends window.Backbone.Model<
 
   async denyPendingApprovalRequest(
     conversationId: string
-  ): Promise<GroupChangeClass.Actions | undefined> {
+  ): Promise<Proto.GroupChange.Actions | undefined> {
     const idLog = this.idForLogging();
 
     // This user's pending state may have changed in the time between the user's
@@ -500,7 +521,7 @@ export class ConversationModel extends window.Backbone.Model<
   }
 
   async addPendingApprovalRequest(): Promise<
-    GroupChangeClass.Actions | undefined
+    Proto.GroupChange.Actions | undefined
   > {
     const idLog = this.idForLogging();
 
@@ -512,6 +533,16 @@ export class ConversationModel extends window.Backbone.Model<
       throw new Error(
         `addPendingApprovalRequest/${idLog}: No conversation found for conversation ${conversationId}`
       );
+    }
+
+    if (
+      this.get('announcementsOnly') &&
+      !toRequest.get('capabilities')?.announcementGroup
+    ) {
+      window.log.warn(
+        `addPendingApprovalRequest/${idLog}: member needs to upgrade.`
+      );
+      return undefined;
     }
 
     // We need the user's profileKeyCredential, which requires a roundtrip with the
@@ -548,7 +579,7 @@ export class ConversationModel extends window.Backbone.Model<
 
   async addMember(
     conversationId: string
-  ): Promise<GroupChangeClass.Actions | undefined> {
+  ): Promise<Proto.GroupChange.Actions | undefined> {
     const idLog = this.idForLogging();
 
     const toRequest = window.ConversationController.get(conversationId);
@@ -556,6 +587,16 @@ export class ConversationModel extends window.Backbone.Model<
       throw new Error(
         `addMember/${idLog}: No conversation found for conversation ${conversationId}`
       );
+    }
+
+    if (
+      this.get('announcementsOnly') &&
+      !toRequest.get('capabilities')?.announcementGroup
+    ) {
+      window.log.warn(
+        `addMember/${idLog}: ${conversationId} needs to upgrade.`
+      );
+      return undefined;
     }
 
     // We need the user's profileKeyCredential, which requires a roundtrip with the
@@ -592,7 +633,7 @@ export class ConversationModel extends window.Backbone.Model<
 
   async removePendingMember(
     conversationIds: Array<string>
-  ): Promise<GroupChangeClass.Actions | undefined> {
+  ): Promise<Proto.GroupChange.Actions | undefined> {
     const idLog = this.idForLogging();
 
     const uuids = conversationIds
@@ -638,7 +679,7 @@ export class ConversationModel extends window.Backbone.Model<
 
   async removeMember(
     conversationId: string
-  ): Promise<GroupChangeClass.Actions | undefined> {
+  ): Promise<Proto.GroupChange.Actions | undefined> {
     const idLog = this.idForLogging();
 
     // This user's pending state may have changed in the time between the user's
@@ -673,8 +714,8 @@ export class ConversationModel extends window.Backbone.Model<
 
   async toggleAdminChange(
     conversationId: string
-  ): Promise<GroupChangeClass.Actions | undefined> {
-    if (!this.isGroupV2()) {
+  ): Promise<Proto.GroupChange.Actions | undefined> {
+    if (!isGroupV2(this.attributes)) {
       return undefined;
     }
 
@@ -701,7 +742,7 @@ export class ConversationModel extends window.Backbone.Model<
       );
     }
 
-    const MEMBER_ROLES = window.textsecure.protobuf.Member.Role;
+    const MEMBER_ROLES = Proto.Member.Role;
 
     const role = this.isAdmin(conversationId)
       ? MEMBER_ROLES.DEFAULT
@@ -715,17 +756,20 @@ export class ConversationModel extends window.Backbone.Model<
   }
 
   async modifyGroupV2({
-    name,
-    inviteLinkPassword,
     createGroupChange,
+    extraConversationsForSend,
+    inviteLinkPassword,
+    name,
   }: {
-    name: string;
+    createGroupChange: () => Promise<Proto.GroupChange.Actions | undefined>;
+    extraConversationsForSend?: Array<string>;
     inviteLinkPassword?: string;
-    createGroupChange: () => Promise<GroupChangeClass.Actions | undefined>;
+    name: string;
   }): Promise<void> {
     await window.Signal.Groups.modifyGroupV2({
-      createGroupChange,
       conversation: this,
+      createGroupChange,
+      extraConversationsForSend,
       inviteLinkPassword,
       name,
     });
@@ -736,15 +780,14 @@ export class ConversationModel extends window.Backbone.Model<
   }
 
   isUnregistered(): boolean {
-    const now = Date.now();
-    const sixHoursAgo = now - 1000 * 60 * 60 * 6;
-    const discoveredUnregisteredAt = this.get('discoveredUnregisteredAt');
+    return isConversationUnregistered(this.attributes);
+  }
 
-    if (discoveredUnregisteredAt && discoveredUnregisteredAt > sixHoursAgo) {
-      return true;
-    }
-
-    return false;
+  isSMSOnly(): boolean {
+    return isConversationSMSOnly({
+      ...this.attributes,
+      type: isDirectConversation(this.attributes) ? 'direct' : 'unknown',
+    });
   }
 
   setUnregistered(): void {
@@ -756,6 +799,10 @@ export class ConversationModel extends window.Backbone.Model<
   }
 
   setRegistered(): void {
+    if (this.get('discoveredUnregisteredAt') === undefined) {
+      return;
+    }
+
     window.log.info(
       `Conversation ${this.idForLogging()} is registered once again`
     );
@@ -767,7 +814,7 @@ export class ConversationModel extends window.Backbone.Model<
 
   isGroupV1AndDisabled(): boolean {
     return (
-      this.isGroupV1() &&
+      isGroupV1(this.attributes) &&
       window.Signal.RemoteConfig.isEnabled('desktop.disableGV1')
     );
   }
@@ -775,17 +822,17 @@ export class ConversationModel extends window.Backbone.Model<
   isBlocked(): boolean {
     const uuid = this.get('uuid');
     if (uuid) {
-      return window.storage.isUuidBlocked(uuid);
+      return window.storage.blocked.isUuidBlocked(uuid);
     }
 
     const e164 = this.get('e164');
     if (e164) {
-      return window.storage.isBlocked(e164);
+      return window.storage.blocked.isBlocked(e164);
     }
 
     const groupId = this.get('groupId');
     if (groupId) {
-      return window.storage.isGroupBlocked(groupId);
+      return window.storage.blocked.isGroupBlocked(groupId);
     }
 
     return false;
@@ -797,19 +844,19 @@ export class ConversationModel extends window.Backbone.Model<
 
     const uuid = this.get('uuid');
     if (uuid) {
-      window.storage.addBlockedUuid(uuid);
+      window.storage.blocked.addBlockedUuid(uuid);
       blocked = true;
     }
 
     const e164 = this.get('e164');
     if (e164) {
-      window.storage.addBlockedNumber(e164);
+      window.storage.blocked.addBlockedNumber(e164);
       blocked = true;
     }
 
     const groupId = this.get('groupId');
     if (groupId) {
-      window.storage.addBlockedGroup(groupId);
+      window.storage.blocked.addBlockedGroup(groupId);
       blocked = true;
     }
 
@@ -824,19 +871,19 @@ export class ConversationModel extends window.Backbone.Model<
 
     const uuid = this.get('uuid');
     if (uuid) {
-      window.storage.removeBlockedUuid(uuid);
+      window.storage.blocked.removeBlockedUuid(uuid);
       unblocked = true;
     }
 
     const e164 = this.get('e164');
     if (e164) {
-      window.storage.removeBlockedNumber(e164);
+      window.storage.blocked.removeBlockedNumber(e164);
       unblocked = true;
     }
 
     const groupId = this.get('groupId');
     if (groupId) {
-      window.storage.removeBlockedGroup(groupId);
+      window.storage.blocked.removeBlockedGroup(groupId);
       unblocked = true;
     }
 
@@ -855,7 +902,7 @@ export class ConversationModel extends window.Backbone.Model<
     const after = this.get('profileSharing');
 
     if (!viaStorageServiceSync && Boolean(before) !== Boolean(after)) {
-      this.captureChange('profileSharing');
+      this.captureChange('enableProfileSharing');
     }
   }
 
@@ -867,7 +914,7 @@ export class ConversationModel extends window.Backbone.Model<
     const after = this.get('profileSharing');
 
     if (!viaStorageServiceSync && Boolean(before) !== Boolean(after)) {
-      this.captureChange('profileSharing');
+      this.captureChange('disableProfileSharing');
     }
   }
 
@@ -902,7 +949,7 @@ export class ConversationModel extends window.Backbone.Model<
 
   bumpTyping(): void {
     // We don't send typing messages if the setting is disabled
-    if (!window.storage.get('typingIndicators')) {
+    if (!window.Events.getTypingIndicatorSetting()) {
       return;
     }
 
@@ -961,22 +1008,70 @@ export class ConversationModel extends window.Backbone.Model<
     }
   }
 
-  async fetchLatestGroupV2Data(): Promise<void> {
-    if (!this.isGroupV2()) {
+  async fetchLatestGroupV2Data(
+    options: { force?: boolean } = {}
+  ): Promise<void> {
+    if (!isGroupV2(this.attributes)) {
       return;
     }
 
     await window.Signal.Groups.waitThenMaybeUpdateGroup({
+      force: options.force,
       conversation: this,
     });
   }
 
+  async fetchSMSOnlyUUID(): Promise<void> {
+    const { messaging } = window.textsecure;
+    if (!messaging) {
+      return;
+    }
+    if (!this.isSMSOnly()) {
+      return;
+    }
+
+    window.log.info(
+      `Fetching uuid for a sms-only conversation ${this.idForLogging()}`
+    );
+
+    this.isFetchingUUID = true;
+    this.trigger('change', this);
+
+    try {
+      // Attempt to fetch UUID
+      await updateConversationsWithUuidLookup({
+        conversationController: window.ConversationController,
+        conversations: [this],
+        messaging,
+      });
+    } finally {
+      // No redux update here
+      this.isFetchingUUID = false;
+      this.trigger('change', this);
+
+      window.log.info(
+        `Done fetching uuid for a sms-only conversation ${this.idForLogging()}`
+      );
+    }
+
+    if (!this.get('uuid')) {
+      return;
+    }
+
+    // On successful fetch - mark contact as registered.
+    this.setRegistered();
+  }
+
   isValid(): boolean {
-    return this.isPrivate() || this.isGroupV1() || this.isGroupV2();
+    return (
+      isDirectConversation(this.attributes) ||
+      isGroupV1(this.attributes) ||
+      isGroupV2(this.attributes)
+    );
   }
 
   async maybeMigrateV1Group(): Promise<void> {
-    if (!this.isGroupV1()) {
+    if (!isGroupV1(this.attributes)) {
       return;
     }
 
@@ -1012,16 +1107,20 @@ export class ConversationModel extends window.Backbone.Model<
     window.Signal.Data.updateConversation(this.attributes);
   }
 
-  getGroupV2Info(
-    options: { groupChange?: ArrayBuffer; includePendingMembers?: boolean } = {}
-  ): GroupV2InfoType | undefined {
-    const { groupChange, includePendingMembers } = options;
-
-    if (this.isPrivate() || !this.isGroupV2()) {
+  getGroupV2Info({
+    groupChange,
+    includePendingMembers,
+    extraConversationsForSend,
+  }: {
+    groupChange?: ArrayBuffer;
+    includePendingMembers?: boolean;
+    extraConversationsForSend?: Array<string>;
+  } = {}): GroupV2InfoType | undefined {
+    if (isDirectConversation(this.attributes) || !isGroupV2(this.attributes)) {
       return undefined;
     }
     return {
-      masterKey: window.Signal.Crypto.base64ToArrayBuffer(
+      masterKey: Bytes.fromBase64(
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         this.get('masterKey')!
       ),
@@ -1029,14 +1128,18 @@ export class ConversationModel extends window.Backbone.Model<
       revision: this.get('revision')!,
       members: this.getRecipients({
         includePendingMembers,
+        extraConversationsForSend,
       }),
-      groupChange,
+      groupChange: groupChange ? new FIXMEU8(groupChange) : undefined,
     };
   }
 
   getGroupV1Info(): WhatIsThis {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    if (this.isPrivate() || this.get('groupVersion')! > 0) {
+    if (
+      isDirectConversation(this.attributes) ||
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      this.get('groupVersion')! > 0
+    ) {
       return undefined;
     }
 
@@ -1053,47 +1156,84 @@ export class ConversationModel extends window.Backbone.Model<
       return undefined;
     }
 
-    if (this.isGroupV1()) {
+    if (isGroupV1(this.attributes)) {
       return fromEncodedBinaryToArrayBuffer(groupIdString);
     }
-    if (this.isGroupV2()) {
+    if (isGroupV2(this.attributes)) {
       return base64ToArrayBuffer(groupIdString);
     }
 
     return undefined;
   }
 
-  sendTypingMessage(isTyping: boolean): void {
+  async sendTypingMessage(isTyping: boolean): Promise<void> {
     if (!window.textsecure.messaging) {
       return;
     }
 
     // We don't send typing messages to our other devices
-    if (this.isMe()) {
+    if (isMe(this.attributes)) {
       return;
     }
 
-    const recipientId = this.isPrivate() ? this.getSendTarget() : undefined;
-    const groupId = this.getGroupIdBuffer();
-    const groupMembers = this.getRecipients();
+    await this.queueJob('sendTypingMessage', async () => {
+      const recipientId = isDirectConversation(this.attributes)
+        ? this.getSendTarget()
+        : undefined;
+      const groupId = this.getGroupIdBuffer();
+      const groupMembers = this.getRecipients();
 
-    // We don't send typing messages if our recipients list is empty
-    if (!this.isPrivate() && !groupMembers.length) {
-      return;
-    }
+      // We don't send typing messages if our recipients list is empty
+      if (!isDirectConversation(this.attributes) && !groupMembers.length) {
+        return;
+      }
 
-    const sendOptions = this.getSendOptions();
-    this.wrapSend(
-      window.textsecure.messaging.sendTypingMessage(
+      const timestamp = Date.now();
+      const contentMessage = window.textsecure.messaging.getTypingContentMessage(
         {
-          isTyping,
           recipientId,
           groupId,
           groupMembers,
-        },
-        sendOptions
-      )
-    );
+          isTyping,
+          timestamp,
+        }
+      );
+
+      const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
+
+      const sendOptions = {
+        ...(await getSendOptions(this.attributes)),
+        online: true,
+      };
+      if (isDirectConversation(this.attributes)) {
+        handleMessageSend(
+          window.textsecure.messaging.sendMessageProtoAndWait({
+            timestamp,
+            recipients: groupMembers,
+            proto: contentMessage,
+            contentHint: ContentHint.IMPLICIT,
+            groupId: undefined,
+            options: sendOptions,
+          }),
+          { messageIds: [], sendType: 'typing' }
+        );
+      } else {
+        handleMessageSend(
+          window.Signal.Util.sendContentMessageToGroup({
+            contentHint: ContentHint.IMPLICIT,
+            contentMessage,
+            conversation: this,
+            messageId: undefined,
+            online: true,
+            recipients: groupMembers,
+            sendOptions,
+            sendType: 'typing',
+            timestamp,
+          }),
+          { messageIds: [], sendType: 'typing' }
+        );
+      }
+    });
   }
 
   async cleanup(): Promise<void> {
@@ -1105,64 +1245,10 @@ export class ConversationModel extends window.Backbone.Model<
     );
   }
 
-  async updateAndMerge(message: MessageModel): Promise<void> {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    this.debouncedUpdateLastMessage!();
-
-    const mergeMessage = () => {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const existing = this.messageCollection!.get(message.id);
-      if (!existing) {
-        return;
-      }
-
-      existing.merge(message.attributes);
-    };
-
-    await this.inProgressFetch;
-    mergeMessage();
-  }
-
-  async onExpired(message: MessageModel): Promise<void> {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    this.debouncedUpdateLastMessage!();
-
-    const removeMessage = () => {
-      const { id } = message;
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const existing = this.messageCollection!.get(id);
-      if (!existing) {
-        return;
-      }
-
-      window.log.info('Remove expired message from collection', {
-        sentAt: existing.get('sent_at'),
-      });
-
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      this.messageCollection!.remove(id);
-      existing.trigger('expired');
-      existing.cleanup();
-
-      // An expired message only counts as decrementing the message count, not
-      // the sent message count
-      this.decrementMessageCount();
-    };
-
-    // If a fetch is in progress, then we need to wait until that's complete to
-    //   do this removal. Otherwise we could remove from messageCollection, then
-    //   the async database fetch could include the removed message.
-
-    await this.inProgressFetch;
-    removeMessage();
-  }
-
-  async onNewMessage(message: WhatIsThis): Promise<void> {
-    const uuid = message.get ? message.get('sourceUuid') : message.sourceUuid;
-    const e164 = message.get ? message.get('source') : message.source;
-    const sourceDevice = message.get
-      ? message.get('sourceDevice')
-      : message.sourceDevice;
+  async onNewMessage(message: MessageModel): Promise<void> {
+    const uuid = message.get('sourceUuid');
+    const e164 = message.get('source');
+    const sourceDevice = message.get('sourceDevice');
 
     const sourceId = window.ConversationController.ensureContactIds({
       uuid,
@@ -1173,32 +1259,21 @@ export class ConversationModel extends window.Backbone.Model<
     // Clear typing indicator for a given contact if we receive a message from them
     this.clearContactTypingTimer(typingToken);
 
+    this.addSingleMessage(message);
+
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     this.debouncedUpdateLastMessage!();
   }
 
-  // For outgoing messages, we can call this directly. We're already loaded.
-  addSingleMessage(message: MessageModel): MessageModel {
-    const { id } = message;
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const existing = this.messageCollection!.get(id);
-
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const model = this.messageCollection!.add(message, { merge: true });
-    model.setToExpire();
-
-    if (!existing) {
-      const { messagesAdded } = window.reduxActions.conversations;
-      const isNewMessage = true;
-      messagesAdded(
-        this.id,
-        [model.getReduxData()],
-        isNewMessage,
-        window.isActive()
-      );
-    }
-
-    return model;
+  addSingleMessage(message: MessageModel): void {
+    const { messagesAdded } = window.reduxActions.conversations;
+    const isNewMessage = true;
+    messagesAdded(
+      this.id,
+      [{ ...message.attributes }],
+      isNewMessage,
+      window.isActive()
+    );
   }
 
   // For incoming messages, they might arrive while we're in the middle of a bulk fetch
@@ -1229,29 +1304,34 @@ export class ConversationModel extends window.Backbone.Model<
     // We don't want to crash or have an infinite loop if we loop back into this function
     //   again. We'll log a warning and returned old cached props or throw an error.
     this.format = () => {
-      const { stack } = new Error('for stack');
-      window.log.warn(
-        `Conversation.format()/${this.idForLogging()} reentrant call! ${stack}`
-      );
       if (!this.oldCachedProps) {
         throw new Error(
           `Conversation.format()/${this.idForLogging()} reentrant call, no old cached props!`
         );
       }
+
+      const { stack } = new Error('for stack');
+      window.log.warn(
+        `Conversation.format()/${this.idForLogging()} reentrant call! ${stack}`
+      );
+
       return this.oldCachedProps;
     };
 
-    this.cachedProps = this.getProps();
-
-    this.format = oldFormat;
-
-    return this.cachedProps;
+    try {
+      this.cachedProps = this.getProps();
+      return this.cachedProps;
+    } finally {
+      this.format = oldFormat;
+    }
   }
 
   // Note: this should never be called directly. Use conversation.format() instead, which
   //   maintains a cache, and protects against reentrant calls.
   // Note: When writing code inside this function, do not call .format() on a conversation
   //   unless you are sure that it's not this very same conversation.
+  // Note: If you start relying on an attribute that is in
+  //   `ATTRIBUTES_THAT_DONT_INVALIDATE_PROPS_CACHE`, remove it from that list.
   private getProps(): ConversationType {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const color = this.getColor()!;
@@ -1280,13 +1360,13 @@ export class ConversationModel extends window.Backbone.Model<
     const ourConversationId = window.ConversationController.getOurConversationId();
 
     let groupVersion: undefined | 1 | 2;
-    if (this.isGroupV1()) {
+    if (isGroupV1(this.attributes)) {
       groupVersion = 1;
-    } else if (this.isGroupV2()) {
+    } else if (isGroupV2(this.attributes)) {
       groupVersion = 2;
     }
 
-    const sortedGroupMembers = this.isGroupV2()
+    const sortedGroupMembers = isGroupV2(this.attributes)
       ? this.getMembers()
           .sort((left, right) =>
             sortConversationTitles(left, right, this.intlCollator)
@@ -1294,6 +1374,8 @@ export class ConversationModel extends window.Backbone.Model<
           .map(member => member.format())
           .filter((member): member is ConversationType => member !== null)
       : undefined;
+
+    const { customColor, customColorId } = this.getCustomColorData();
 
     // TODO: DESKTOP-720
     /* eslint-disable @typescript-eslint/no-non-null-assertion */
@@ -1303,6 +1385,8 @@ export class ConversationModel extends window.Backbone.Model<
       e164: this.get('e164'),
 
       about: this.getAboutText(),
+      aboutText: this.get('about'),
+      aboutEmoji: this.get('aboutEmoji'),
       acceptedMessageRequest: this.getAccepted(),
       activeAt: this.get('active_at')!,
       areWePending: Boolean(
@@ -1312,26 +1396,38 @@ export class ConversationModel extends window.Backbone.Model<
         ourConversationId && this.isMemberAwaitingApproval(ourConversationId)
       ),
       areWeAdmin: this.areWeAdmin(),
+      avatars: getAvatarData(this.attributes),
       canChangeTimer: this.canChangeTimer(),
       canEditGroupInfo: this.canEditGroupInfo(),
-      avatarPath: this.getAvatarPath()!,
+      avatarPath: this.getAbsoluteAvatarPath(),
+      avatarHash: this.getAvatarHash(),
+      unblurredAvatarPath: this.getAbsoluteUnblurredAvatarPath(),
       color,
+      conversationColor: this.getConversationColor(),
+      customColor,
+      customColorId,
+      discoveredUnregisteredAt: this.get('discoveredUnregisteredAt'),
       draftBodyRanges,
       draftPreview,
       draftText,
+      familyName: this.get('profileFamilyName'),
       firstName: this.get('profileName')!,
+      groupDescription: this.get('description'),
       groupVersion,
       groupId: this.get('groupId'),
       groupLink: this.getGroupLink(),
       inboxPosition,
       isArchived: this.get('isArchived')!,
       isBlocked: this.isBlocked(),
-      isMe: this.isMe(),
+      isMe: isMe(this.attributes),
       isGroupV1AndDisabled: this.isGroupV1AndDisabled(),
+      isGroupV2Capable: isDirectConversation(this.attributes)
+        ? Boolean(this.get('capabilities')?.gv2)
+        : undefined,
       isPinned: this.get('isPinned'),
-      isMissingMandatoryProfileSharing: this.isMissingRequiredProfileSharing(),
       isUntrusted: this.isUntrusted(),
       isVerified: this.isVerified(),
+      isFetchingUUID: this.isFetchingUUID,
       lastMessage: {
         status: this.get('lastMessageStatus')!,
         text: this.get('lastMessage')!,
@@ -1342,27 +1438,45 @@ export class ConversationModel extends window.Backbone.Model<
       markedUnread: this.get('markedUnread')!,
       membersCount: this.getMembersCount(),
       memberships: this.getMemberships(),
+      messageCount: this.get('messageCount') || 0,
       pendingMemberships: this.getPendingMemberships(),
       pendingApprovalMemberships: this.getPendingApprovalMemberships(),
+      profileKey: this.get('profileKey'),
       messageRequestsEnabled,
       accessControlAddFromInviteLink: this.get('accessControl')
         ?.addFromInviteLink,
       accessControlAttributes: this.get('accessControl')?.attributes,
       accessControlMembers: this.get('accessControl')?.members,
+      announcementsOnly: Boolean(this.get('announcementsOnly')),
+      announcementsOnlyReady: this.canBeAnnouncementGroup(),
       expireTimer: this.get('expireTimer'),
       muteExpiresAt: this.get('muteExpiresAt')!,
+      dontNotifyForMentionsIfMuted: this.get('dontNotifyForMentionsIfMuted'),
       name: this.get('name')!,
       phoneNumber: this.getNumber()!,
       profileName: this.getProfileName()!,
+      profileSharing: this.get('profileSharing'),
       publicParams: this.get('publicParams'),
       secretParams: this.get('secretParams'),
-      sharedGroupNames: this.get('sharedGroupNames')!,
       shouldShowDraft,
       sortedGroupMembers,
       timestamp,
       title: this.getTitle()!,
-      type: (this.isPrivate() ? 'direct' : 'group') as ConversationTypeType,
+      searchableTitle: isMe(this.attributes)
+        ? window.i18n('noteToSelf')
+        : this.getTitle(),
       unreadCount: this.get('unreadCount')! || 0,
+      ...(isDirectConversation(this.attributes)
+        ? {
+            type: 'direct' as const,
+            sharedGroupNames: this.get('sharedGroupNames') || [],
+          }
+        : {
+            type: 'group' as const,
+            acknowledgedGroupNameCollisions:
+              this.get('acknowledgedGroupNameCollisions') || {},
+            sharedGroupNames: [],
+          }),
     };
 
     if (typingContact) {
@@ -1382,6 +1496,11 @@ export class ConversationModel extends window.Backbone.Model<
     const oldValue = this.get('e164');
     if (e164 && e164 !== oldValue) {
       this.set('e164', e164);
+
+      if (oldValue) {
+        this.addChangeNumberNotification();
+      }
+
       window.Signal.Data.updateConversation(this.attributes);
       this.trigger('idUpdated', this, 'e164', oldValue);
     }
@@ -1412,9 +1531,9 @@ export class ConversationModel extends window.Backbone.Model<
     window.Signal.Data.updateConversation(this.attributes);
   }
 
-  getMembersCount(): number {
-    if (this.isPrivate()) {
-      return 1;
+  getMembersCount(): number | undefined {
+    if (isDirectConversation(this.attributes)) {
+      return undefined;
     }
 
     const memberList = this.get('membersV2') || this.get('members');
@@ -1429,7 +1548,7 @@ export class ConversationModel extends window.Backbone.Model<
       return temporaryMemberCount;
     }
 
-    return 0;
+    return undefined;
   }
 
   decrementMessageCount(): void {
@@ -1485,9 +1604,10 @@ export class ConversationModel extends window.Backbone.Model<
       }
 
       const readMessages = messages.filter(
-        m => !m.hasErrors() && m.isIncoming()
+        m => !hasErrors(m.attributes) && isIncoming(m.attributes)
       );
       const receiptSpecs = readMessages.map(m => ({
+        messageId: m.id,
         senderE164: m.get('source'),
         senderUuid: m.get('sourceUuid'),
         senderId: window.ConversationController.ensureContactIds({
@@ -1495,12 +1615,12 @@ export class ConversationModel extends window.Backbone.Model<
           uuid: m.get('sourceUuid'),
         }),
         timestamp: m.get('sent_at'),
-        hasErrors: m.hasErrors(),
+        hasErrors: hasErrors(m.attributes),
       }));
 
       if (isLocalAction) {
         // eslint-disable-next-line no-await-in-loop
-        await this.sendReadReceiptsFor(receiptSpecs);
+        await sendReadReceiptsFor(this.attributes, receiptSpecs);
       }
 
       // eslint-disable-next-line no-await-in-loop
@@ -1509,9 +1629,7 @@ export class ConversationModel extends window.Backbone.Model<
           const registered = window.MessageController.register(m.id, m);
           const shouldSave = await registered.queueAttachmentDownloads();
           if (shouldSave) {
-            await window.Signal.Data.saveMessage(registered.attributes, {
-              Message: window.Whisper.Message,
-            });
+            await window.Signal.Data.saveMessage(registered.attributes);
           }
         })
       );
@@ -1523,8 +1641,7 @@ export class ConversationModel extends window.Backbone.Model<
     { fromSync = false, viaStorageServiceSync = false } = {}
   ): Promise<void> {
     try {
-      const messageRequestEnum =
-        window.textsecure.protobuf.SyncMessage.MessageRequestResponse.Type;
+      const messageRequestEnum = Proto.SyncMessage.MessageRequestResponse.Type;
       const isLocalAction = !fromSync && !viaStorageServiceSync;
       const ourConversationId = window.ConversationController.getOurConversationId();
 
@@ -1548,11 +1665,14 @@ export class ConversationModel extends window.Backbone.Model<
         }
 
         if (isLocalAction) {
-          if (this.isGroupV1() || this.isPrivate()) {
+          if (
+            isGroupV1(this.attributes) ||
+            isDirectConversation(this.attributes)
+          ) {
             this.sendProfileKeyUpdate();
           } else if (
             ourConversationId &&
-            this.isGroupV2() &&
+            isGroupV2(this.attributes) &&
             this.isMemberPending(ourConversationId)
           ) {
             await this.modifyGroupV2({
@@ -1562,7 +1682,7 @@ export class ConversationModel extends window.Backbone.Model<
             });
           } else if (
             ourConversationId &&
-            this.isGroupV2() &&
+            isGroupV2(this.attributes) &&
             this.isMember(ourConversationId)
           ) {
             window.log.info(
@@ -1580,9 +1700,12 @@ export class ConversationModel extends window.Backbone.Model<
         this.disableProfileSharing({ viaStorageServiceSync });
 
         if (isLocalAction) {
-          if (this.isGroupV1() || this.isPrivate()) {
+          if (
+            isGroupV1(this.attributes) ||
+            isDirectConversation(this.attributes)
+          ) {
             await this.leaveGroup();
-          } else if (this.isGroupV2()) {
+          } else if (isGroupV2(this.attributes)) {
             await this.leaveGroupV2();
           }
         }
@@ -1597,9 +1720,12 @@ export class ConversationModel extends window.Backbone.Model<
         if (isLocalAction) {
           this.trigger('unload', 'deleted from message request');
 
-          if (this.isGroupV1() || this.isPrivate()) {
+          if (
+            isGroupV1(this.attributes) ||
+            isDirectConversation(this.attributes)
+          ) {
             await this.leaveGroup();
-          } else if (this.isGroupV2()) {
+          } else if (isGroupV2(this.attributes)) {
             await this.leaveGroupV2();
           }
         }
@@ -1616,9 +1742,12 @@ export class ConversationModel extends window.Backbone.Model<
         if (isLocalAction) {
           this.trigger('unload', 'blocked and deleted from message request');
 
-          if (this.isGroupV1() || this.isPrivate()) {
+          if (
+            isGroupV1(this.attributes) ||
+            isDirectConversation(this.attributes)
+          ) {
             await this.leaveGroup();
-          } else if (this.isGroupV2()) {
+          } else if (isGroupV2(this.attributes)) {
             await this.leaveGroupV2();
           }
         }
@@ -1692,8 +1821,7 @@ export class ConversationModel extends window.Backbone.Model<
       }
     }
 
-    const messageRequestEnum =
-      window.textsecure.protobuf.SyncMessage.MessageRequestResponse.Type;
+    const messageRequestEnum = Proto.SyncMessage.MessageRequestResponse.Type;
 
     // Ensure active_at is set, because this is an event that justifies putting the group
     //   in the left pane.
@@ -1720,12 +1848,64 @@ export class ConversationModel extends window.Backbone.Model<
     });
   }
 
+  async addMembersV2(conversationIds: ReadonlyArray<string>): Promise<void> {
+    if (this.get('announcementsOnly')) {
+      const isEveryMemberCapable = conversationIds.every(conversationId => {
+        const model = window.ConversationController.get(conversationId);
+        return Boolean(model?.get('capabilities')?.announcementGroup);
+      });
+      if (!isEveryMemberCapable) {
+        const error = new Error(
+          'addMembersV2: some or all members need to upgrade.'
+        );
+        error.code = 'E_NO_CAPABILITY';
+        throw error;
+      }
+    }
+
+    await this.modifyGroupV2({
+      name: 'addMembersV2',
+      createGroupChange: () =>
+        window.Signal.Groups.buildAddMembersChange(
+          {
+            id: this.id,
+            publicParams: this.get('publicParams'),
+            revision: this.get('revision'),
+            secretParams: this.get('secretParams'),
+          },
+          conversationIds
+        ),
+    });
+  }
+
+  async updateGroupAttributesV2(
+    attributes: Readonly<{
+      avatar?: undefined | ArrayBuffer;
+      description?: string;
+      title?: string;
+    }>
+  ): Promise<void> {
+    await this.modifyGroupV2({
+      name: 'updateGroupAttributesV2',
+      createGroupChange: () =>
+        window.Signal.Groups.buildUpdateAttributesChange(
+          {
+            id: this.id,
+            publicParams: this.get('publicParams'),
+            revision: this.get('revision'),
+            secretParams: this.get('secretParams'),
+          },
+          attributes
+        ),
+    });
+  }
+
   async leaveGroupV2(): Promise<void> {
     const ourConversationId = window.ConversationController.getOurConversationId();
 
     if (
       ourConversationId &&
-      this.isGroupV2() &&
+      isGroupV2(this.attributes) &&
       this.isMemberPending(ourConversationId)
     ) {
       await this.modifyGroupV2({
@@ -1734,7 +1914,7 @@ export class ConversationModel extends window.Backbone.Model<
       });
     } else if (
       ourConversationId &&
-      this.isGroupV2() &&
+      isGroupV2(this.attributes) &&
       this.isMember(ourConversationId)
     ) {
       await this.modifyGroupV2({
@@ -1749,7 +1929,7 @@ export class ConversationModel extends window.Backbone.Model<
   }
 
   async toggleAdmin(conversationId: string): Promise<void> {
-    if (!this.isGroupV2()) {
+    if (!isGroupV2(this.attributes)) {
       return;
     }
 
@@ -1769,7 +1949,10 @@ export class ConversationModel extends window.Backbone.Model<
   async approvePendingMembershipFromGroupV2(
     conversationId: string
   ): Promise<void> {
-    if (this.isGroupV2() && this.isMemberRequestingToJoin(conversationId)) {
+    if (
+      isGroupV2(this.attributes) &&
+      this.isMemberRequestingToJoin(conversationId)
+    ) {
       await this.modifyGroupV2({
         name: 'approvePendingApprovalRequest',
         createGroupChange: () =>
@@ -1781,7 +1964,7 @@ export class ConversationModel extends window.Backbone.Model<
   async revokePendingMembershipsFromGroupV2(
     conversationIds: Array<string>
   ): Promise<void> {
-    if (!this.isGroupV2()) {
+    if (!isGroupV2(this.attributes)) {
       return;
     }
 
@@ -1792,37 +1975,49 @@ export class ConversationModel extends window.Backbone.Model<
       await this.modifyGroupV2({
         name: 'removePendingMember',
         createGroupChange: () => this.removePendingMember(conversationIds),
+        extraConversationsForSend: conversationIds,
       });
     } else if (this.isMemberRequestingToJoin(conversationId)) {
       await this.modifyGroupV2({
         name: 'denyPendingApprovalRequest',
         createGroupChange: () =>
           this.denyPendingApprovalRequest(conversationId),
+        extraConversationsForSend: [conversationId],
       });
     } else if (this.isMemberPending(conversationId)) {
       await this.modifyGroupV2({
         name: 'removePendingMember',
         createGroupChange: () => this.removePendingMember([conversationId]),
+        extraConversationsForSend: [conversationId],
       });
     }
   }
 
   async removeFromGroupV2(conversationId: string): Promise<void> {
-    if (this.isGroupV2() && this.isMemberRequestingToJoin(conversationId)) {
+    if (
+      isGroupV2(this.attributes) &&
+      this.isMemberRequestingToJoin(conversationId)
+    ) {
       await this.modifyGroupV2({
         name: 'denyPendingApprovalRequest',
         createGroupChange: () =>
           this.denyPendingApprovalRequest(conversationId),
+        extraConversationsForSend: [conversationId],
       });
-    } else if (this.isGroupV2() && this.isMemberPending(conversationId)) {
+    } else if (
+      isGroupV2(this.attributes) &&
+      this.isMemberPending(conversationId)
+    ) {
       await this.modifyGroupV2({
         name: 'removePendingMember',
         createGroupChange: () => this.removePendingMember([conversationId]),
+        extraConversationsForSend: [conversationId],
       });
-    } else if (this.isGroupV2() && this.isMember(conversationId)) {
+    } else if (isGroupV2(this.attributes) && this.isMember(conversationId)) {
       await this.modifyGroupV2({
         name: 'removeFromGroup',
         createGroupChange: () => this.removeMember(conversationId),
+        extraConversationsForSend: [conversationId],
       });
     } else {
       window.log.error(
@@ -1836,19 +2031,22 @@ export class ConversationModel extends window.Backbone.Model<
     //   server updates were successful.
     await this.applyMessageRequestResponse(response);
 
-    const { ourNumber, ourUuid } = this;
-    const { wrap, sendOptions } = window.ConversationController.prepareForSend(
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      ourNumber || ourUuid!,
-      {
-        syncMessage: true,
-      }
-    );
+    const ourConversation = window.ConversationController.getOurConversationOrThrow();
+    const sendOptions = await getSendOptions(ourConversation.attributes, {
+      syncMessage: true,
+    });
 
     const groupId = this.getGroupIdBuffer();
 
+    if (window.ConversationController.areWePrimaryDevice()) {
+      window.log.warn(
+        'syncMessageRequestResponse: We are primary device; not sending message request sync'
+      );
+      return;
+    }
+
     try {
-      await wrap(
+      await handleMessageSend(
         window.textsecure.messaging.syncMessageRequestResponse(
           {
             threadE164: this.get('e164'),
@@ -1857,7 +2055,8 @@ export class ConversationModel extends window.Backbone.Model<
             type: response,
           },
           sendOptions
-        )
+        ),
+        { messageIds: [], sendType: 'otherSync' }
       );
     } catch (result) {
       this.processSendResponse(result);
@@ -1887,10 +2086,6 @@ export class ConversationModel extends window.Backbone.Model<
     return true;
   }
 
-  onMessageError(): void {
-    this.updateVerified();
-  }
-
   async safeGetVerified(): Promise<number> {
     const promise = window.textsecure.storage.protocol.getVerified(this.id);
     return promise.catch(
@@ -1899,7 +2094,7 @@ export class ConversationModel extends window.Backbone.Model<
   }
 
   async updateVerified(): Promise<void> {
-    if (this.isPrivate()) {
+    if (isDirectConversation(this.attributes)) {
       await this.initialPromise;
       const verified = await this.safeGetVerified();
 
@@ -1916,31 +2111,35 @@ export class ConversationModel extends window.Backbone.Model<
     await Promise.all(
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       this.contactCollection!.map(async contact => {
-        if (!contact.isMe()) {
+        if (!isMe(contact.attributes)) {
           await contact.updateVerified();
         }
       })
     );
-
-    this.onMemberVerifiedChange();
   }
 
   setVerifiedDefault(options?: VerificationOptions): Promise<unknown> {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const { DEFAULT } = this.verifiedEnum!;
-    return this.queueJob(() => this._setVerified(DEFAULT, options));
+    return this.queueJob('setVerifiedDefault', () =>
+      this._setVerified(DEFAULT, options)
+    );
   }
 
   setVerified(options?: VerificationOptions): Promise<unknown> {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const { VERIFIED } = this.verifiedEnum!;
-    return this.queueJob(() => this._setVerified(VERIFIED, options));
+    return this.queueJob('setVerified', () =>
+      this._setVerified(VERIFIED, options)
+    );
   }
 
   setUnverified(options: VerificationOptions): Promise<unknown> {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const { UNVERIFIED } = this.verifiedEnum!;
-    return this.queueJob(() => this._setVerified(UNVERIFIED, options));
+    return this.queueJob('setUnverified', () =>
+      this._setVerified(UNVERIFIED, options)
+    );
   }
 
   async _setVerified(
@@ -1958,7 +2157,7 @@ export class ConversationModel extends window.Backbone.Model<
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const { VERIFIED, UNVERIFIED } = this.verifiedEnum!;
 
-    if (!this.isPrivate()) {
+    if (!isDirectConversation(this.attributes)) {
       throw new Error(
         'You cannot verify a group conversation. ' +
           'You must verify individual contacts.'
@@ -1973,8 +2172,7 @@ export class ConversationModel extends window.Backbone.Model<
       keyChange = await window.textsecure.storage.protocol.processVerifiedMessage(
         this.id,
         verified,
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        options.key!
+        options.key || undefined
       );
     } else {
       keyChange = await window.textsecure.storage.protocol.setVerified(
@@ -2013,10 +2211,8 @@ export class ConversationModel extends window.Backbone.Model<
     }
     if (!options.viaSyncMessage) {
       await this.sendVerifySyncMessage(
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        this.get('e164')!,
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        this.get('uuid')!,
+        this.get('e164'),
+        this.get('uuid'),
         verified
       );
     }
@@ -2025,49 +2221,67 @@ export class ConversationModel extends window.Backbone.Model<
   }
 
   async sendVerifySyncMessage(
-    e164: string,
-    uuid: string,
+    e164: string | undefined,
+    uuid: string | undefined,
     state: number
-  ): Promise<WhatIsThis> {
+  ): Promise<CallbackResultType | void> {
+    const identifier = uuid || e164;
+    if (!identifier) {
+      throw new Error(
+        'sendVerifySyncMessage: Neither e164 nor UUID were provided'
+      );
+    }
+
+    if (window.ConversationController.areWePrimaryDevice()) {
+      window.log.warn(
+        'sendVerifySyncMessage: We are primary device; not sending sync'
+      );
+      return;
+    }
+
     // Because syncVerification sends a (null) message to the target of the verify and
     //   a sync message to our own devices, we need to send the accessKeys down for both
     //   contacts. So we merge their sendOptions.
-    const { sendOptions } = window.ConversationController.prepareForSend(
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      this.ourNumber || this.ourUuid!,
-      { syncMessage: true }
-    );
-    const contactSendOptions = this.getSendOptions();
+    const ourConversation = window.ConversationController.getOurConversationOrThrow();
+    const sendOptions = await getSendOptions(ourConversation.attributes, {
+      syncMessage: true,
+    });
+    const contactSendOptions = await getSendOptions(this.attributes);
     const options = { ...sendOptions, ...contactSendOptions };
 
-    const promise = window.textsecure.storage.protocol.loadIdentityKey(e164);
-    return promise.then(key =>
-      this.wrapSend(
-        window.textsecure.messaging.syncVerification(
-          e164,
-          uuid,
-          state,
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          key!,
-          options
-        )
-      )
+    const key = await window.textsecure.storage.protocol.loadIdentityKey(
+      identifier
+    );
+    if (!key) {
+      throw new Error(
+        `sendVerifySyncMessage: No identity key found for identifier ${identifier}`
+      );
+    }
+
+    await handleMessageSend(
+      window.textsecure.messaging.syncVerification(
+        e164,
+        uuid,
+        state,
+        key,
+        options
+      ),
+      { messageIds: [], sendType: 'verificationSync' }
     );
   }
 
   isVerified(): boolean {
-    if (this.isPrivate()) {
+    if (isDirectConversation(this.attributes)) {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       return this.get('verified') === this.verifiedEnum!.VERIFIED;
     }
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    if (!this.contactCollection!.length) {
+
+    if (!this.contactCollection?.length) {
       return false;
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    return this.contactCollection!.every(contact => {
-      if (contact.isMe()) {
+    return this.contactCollection?.every(contact => {
+      if (isMe(contact.attributes)) {
         return true;
       }
       return contact.isVerified();
@@ -2075,7 +2289,7 @@ export class ConversationModel extends window.Backbone.Model<
   }
 
   isUnverified(): boolean {
-    if (this.isPrivate()) {
+    if (isDirectConversation(this.attributes)) {
       const verified = this.get('verified');
       return (
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -2084,17 +2298,13 @@ export class ConversationModel extends window.Backbone.Model<
         verified !== this.verifiedEnum!.DEFAULT
       );
     }
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    if (!this.contactCollection!.length) {
+
+    if (!this.contactCollection?.length) {
       return true;
     }
 
-    // Array.any does not exist. This is probably broken.
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    return this.contactCollection!.any(contact => {
-      if (contact.isMe()) {
+    return this.contactCollection?.some(contact => {
+      if (isMe(contact.attributes)) {
         return false;
       }
       return contact.isUnverified();
@@ -2102,15 +2312,14 @@ export class ConversationModel extends window.Backbone.Model<
   }
 
   getUnverified(): Backbone.Collection<ConversationModel> {
-    if (this.isPrivate()) {
+    if (isDirectConversation(this.attributes)) {
       return this.isUnverified()
         ? new window.Backbone.Collection([this])
         : new window.Backbone.Collection();
     }
     return new window.Backbone.Collection(
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      this.contactCollection!.filter(contact => {
-        if (contact.isMe()) {
+      this.contactCollection?.filter(contact => {
+        if (isMe(contact.attributes)) {
           return false;
         }
         return contact.isUnverified();
@@ -2118,8 +2327,8 @@ export class ConversationModel extends window.Backbone.Model<
     );
   }
 
-  setApproved(): boolean | void {
-    if (!this.isPrivate()) {
+  async setApproved(): Promise<void> {
+    if (!isDirectConversation(this.attributes)) {
       throw new Error(
         'You cannot set a group conversation as trusted. ' +
           'You must set individual contacts as trusted.'
@@ -2138,7 +2347,7 @@ export class ConversationModel extends window.Backbone.Model<
   }
 
   isUntrusted(): boolean {
-    if (this.isPrivate()) {
+    if (isDirectConversation(this.attributes)) {
       return this.safeIsUntrusted();
     }
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -2148,31 +2357,29 @@ export class ConversationModel extends window.Backbone.Model<
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     return this.contactCollection!.any(contact => {
-      if (contact.isMe()) {
+      if (isMe(contact.attributes)) {
         return false;
       }
       return contact.safeIsUntrusted();
     });
   }
 
-  getUntrusted(): Backbone.Collection {
-    if (this.isPrivate()) {
+  getUntrusted(): Backbone.Collection<ConversationModel> {
+    if (isDirectConversation(this.attributes)) {
       if (this.isUntrusted()) {
         return new window.Backbone.Collection([this]);
       }
       return new window.Backbone.Collection();
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const results = this.contactCollection!.map(contact => {
-      if (contact.isMe()) {
-        return [false, contact];
-      }
-      return [contact.isUntrusted(), contact];
-    });
-
     return new window.Backbone.Collection(
-      results.filter(result => result[0]).map(result => result[1])
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      this.contactCollection!.filter(contact => {
+        if (isMe(contact.attributes)) {
+          return false;
+        }
+        return contact.isUntrusted();
+      })
     );
   }
 
@@ -2182,23 +2389,6 @@ export class ConversationModel extends window.Backbone.Model<
 
   getMessageRequestResponseType(): number {
     return this.get('messageRequestResponseType') || 0;
-  }
-
-  isMissingRequiredProfileSharing(): boolean {
-    const mandatoryProfileSharingEnabled = window.Signal.RemoteConfig.isEnabled(
-      'desktop.mandatoryProfileSharing'
-    );
-
-    if (!mandatoryProfileSharingEnabled) {
-      return false;
-    }
-
-    const hasNoMessages = (this.get('messageCount') || 0) === 0;
-    if (hasNoMessages) {
-      return false;
-    }
-
-    return !this.get('profileSharing');
   }
 
   getAboutText(): string | undefined {
@@ -2224,43 +2414,7 @@ export class ConversationModel extends window.Backbone.Model<
    * of message requests
    */
   getAccepted(): boolean {
-    const messageRequestsEnabled = window.Signal.RemoteConfig.isEnabled(
-      'desktop.messageRequests'
-    );
-
-    if (!messageRequestsEnabled) {
-      return true;
-    }
-
-    if (this.isMe()) {
-      return true;
-    }
-
-    const messageRequestEnum =
-      window.textsecure.protobuf.SyncMessage.MessageRequestResponse.Type;
-    if (this.getMessageRequestResponseType() === messageRequestEnum.ACCEPT) {
-      return true;
-    }
-
-    const isFromOrAddedByTrustedContact = this.isFromOrAddedByTrustedContact();
-    const hasSentMessages = this.getSentMessageCount() > 0;
-    const hasMessagesBeforeMessageRequests =
-      (this.get('messageCountBeforeMessageRequests') || 0) > 0;
-    const hasNoMessages = (this.get('messageCount') || 0) === 0;
-
-    const isEmptyPrivateConvo = hasNoMessages && this.isPrivate();
-    const isEmptyWhitelistedGroup =
-      hasNoMessages && !this.isPrivate() && this.get('profileSharing');
-
-    return (
-      isFromOrAddedByTrustedContact ||
-      hasSentMessages ||
-      hasMessagesBeforeMessageRequests ||
-      // an empty group is the scenario where we need to rely on
-      // whether the profile has already been shared or not
-      isEmptyPrivateConvo ||
-      isEmptyWhitelistedGroup
-    );
+    return isConversationAccepted(this.attributes);
   }
 
   onMemberVerifiedChange(): void {
@@ -2277,6 +2431,83 @@ export class ConversationModel extends window.Backbone.Model<
     return this.setVerified();
   }
 
+  async addChatSessionRefreshed({
+    receivedAt,
+    receivedAtCounter,
+  }: {
+    receivedAt: number;
+    receivedAtCounter: number;
+  }): Promise<void> {
+    window.log.info(
+      `addChatSessionRefreshed: adding for ${this.idForLogging()}`,
+      { receivedAt }
+    );
+
+    const message = ({
+      conversationId: this.id,
+      type: 'chat-session-refreshed',
+      sent_at: receivedAt,
+      received_at: receivedAtCounter,
+      received_at_ms: receivedAt,
+      readStatus: ReadStatus.Unread,
+      // TODO: DESKTOP-722
+      // this type does not fully implement the interface it is expected to
+    } as unknown) as typeof window.Whisper.MessageAttributesType;
+
+    const id = await window.Signal.Data.saveMessage(message);
+    const model = window.MessageController.register(
+      id,
+      new window.Whisper.Message({
+        ...message,
+        id,
+      })
+    );
+
+    this.trigger('newmessage', model);
+  }
+
+  async addDeliveryIssue({
+    receivedAt,
+    receivedAtCounter,
+    senderUuid,
+    sentAt,
+  }: {
+    receivedAt: number;
+    receivedAtCounter: number;
+    senderUuid: string;
+    sentAt: number;
+  }): Promise<void> {
+    window.log.info(`addDeliveryIssue: adding for ${this.idForLogging()}`, {
+      sentAt,
+      senderUuid,
+    });
+
+    const message = ({
+      conversationId: this.id,
+      type: 'delivery-issue',
+      sourceUuid: senderUuid,
+      sent_at: receivedAt,
+      received_at: receivedAtCounter,
+      received_at_ms: receivedAt,
+      readStatus: ReadStatus.Unread,
+      // TODO: DESKTOP-722
+      // this type does not fully implement the interface it is expected to
+    } as unknown) as typeof window.Whisper.MessageAttributesType;
+
+    const id = await window.Signal.Data.saveMessage(message);
+    const model = window.MessageController.register(
+      id,
+      new window.Whisper.Message({
+        ...message,
+        id,
+      })
+    );
+
+    this.trigger('newmessage', model);
+
+    await this.notify(model);
+  }
+
   async addKeyChange(keyChangedId: string): Promise<void> {
     window.log.info(
       'adding key change advisory for',
@@ -2290,16 +2521,16 @@ export class ConversationModel extends window.Backbone.Model<
       conversationId: this.id,
       type: 'keychange',
       sent_at: this.get('timestamp'),
-      received_at: timestamp,
+      received_at: window.Signal.Util.incrementMessageCounter(),
+      received_at_ms: timestamp,
       key_changed: keyChangedId,
-      unread: 1,
+      readStatus: ReadStatus.Unread,
+      schemaVersion: Message.VERSION_NEEDED_FOR_DISPLAY,
       // TODO: DESKTOP-722
       // this type does not fully implement the interface it is expected to
     } as unknown) as typeof window.Whisper.MessageAttributesType;
 
-    const id = await window.Signal.Data.saveMessage(message, {
-      Message: window.Whisper.Message,
-    });
+    const id = await window.Signal.Data.saveMessage(message);
     const model = window.MessageController.register(
       id,
       new window.Whisper.Message({
@@ -2327,7 +2558,7 @@ export class ConversationModel extends window.Backbone.Model<
     const options = providedOptions || {};
     window._.defaults(options, { local: true });
 
-    if (this.isMe()) {
+    if (isMe(this.attributes)) {
       window.log.info(
         'refusing to add verified change advisory for our own number'
       );
@@ -2348,17 +2579,16 @@ export class ConversationModel extends window.Backbone.Model<
       conversationId: this.id,
       type: 'verified-change',
       sent_at: lastMessage,
-      received_at: timestamp,
+      received_at: window.Signal.Util.incrementMessageCounter(),
+      received_at_ms: timestamp,
       verifiedChanged: verifiedChangeId,
       verified,
       local: options.local,
-      unread: 1,
+      readStatus: ReadStatus.Unread,
       // TODO: DESKTOP-722
     } as unknown) as typeof window.Whisper.MessageAttributesType;
 
-    const id = await window.Signal.Data.saveMessage(message, {
-      Message: window.Whisper.Message,
-    });
+    const id = await window.Signal.Data.saveMessage(message);
     const model = window.MessageController.register(
       id,
       new window.Whisper.Message({
@@ -2369,7 +2599,7 @@ export class ConversationModel extends window.Backbone.Model<
 
     this.trigger('newmessage', model);
 
-    if (this.isPrivate()) {
+    if (isDirectConversation(this.attributes)) {
       window.ConversationController.getAllGroupsInvolvingId(this.id).then(
         groups => {
           window._.forEach(groups, group => {
@@ -2410,15 +2640,14 @@ export class ConversationModel extends window.Backbone.Model<
       conversationId: this.id,
       type: 'call-history',
       sent_at: timestamp,
-      received_at: timestamp,
-      unread,
+      received_at: window.Signal.Util.incrementMessageCounter(),
+      received_at_ms: timestamp,
+      readStatus: unread ? ReadStatus.Unread : ReadStatus.Read,
       callHistoryDetails: detailsToSave,
       // TODO: DESKTOP-722
     } as unknown) as typeof window.Whisper.MessageAttributesType;
 
-    const id = await window.Signal.Data.saveMessage(message, {
-      Message: window.Whisper.Message,
-    });
+    const id = await window.Signal.Data.saveMessage(message);
     const model = window.MessageController.register(
       id,
       new window.Whisper.Message({
@@ -2456,20 +2685,20 @@ export class ConversationModel extends window.Backbone.Model<
     profileChange: unknown,
     conversationId?: string
   ): Promise<void> {
+    const now = Date.now();
     const message = ({
       conversationId: this.id,
       type: 'profile-change',
-      sent_at: Date.now(),
-      received_at: Date.now(),
-      unread: true,
+      sent_at: now,
+      received_at: window.Signal.Util.incrementMessageCounter(),
+      received_at_ms: now,
+      readStatus: ReadStatus.Read,
       changedId: conversationId || this.id,
       profileChange,
       // TODO: DESKTOP-722
     } as unknown) as typeof window.Whisper.MessageAttributesType;
 
-    const id = await window.Signal.Data.saveMessage(message, {
-      Message: window.Whisper.Message,
-    });
+    const id = await window.Signal.Data.saveMessage(message);
     const model = window.MessageController.register(
       id,
       new window.Whisper.Message({
@@ -2480,7 +2709,7 @@ export class ConversationModel extends window.Backbone.Model<
 
     this.trigger('newmessage', model);
 
-    if (this.isPrivate()) {
+    if (isDirectConversation(this.attributes)) {
       window.ConversationController.getAllGroupsInvolvingId(this.id).then(
         groups => {
           window._.forEach(groups, group => {
@@ -2489,6 +2718,120 @@ export class ConversationModel extends window.Backbone.Model<
         }
       );
     }
+  }
+
+  async addNotification(
+    type: MessageAttributesType['type'],
+    extra: Partial<MessageAttributesType> = {}
+  ): Promise<string> {
+    const now = Date.now();
+    const message: Partial<MessageAttributesType> = {
+      ...extra,
+
+      conversationId: this.id,
+      type,
+      sent_at: now,
+      received_at: window.Signal.Util.incrementMessageCounter(),
+      received_at_ms: now,
+      readStatus: ReadStatus.Read,
+    };
+
+    const id = await window.Signal.Data.saveMessage(
+      // TODO: DESKTOP-722
+      message as MessageAttributesType
+    );
+    const model = window.MessageController.register(
+      id,
+      new window.Whisper.Message({
+        ...(message as MessageAttributesType),
+        id,
+      })
+    );
+
+    this.trigger('newmessage', model);
+
+    return id;
+  }
+
+  async maybeSetPendingUniversalTimer(
+    hasUserInitiatedMessages: boolean
+  ): Promise<void> {
+    if (!isDirectConversation(this.attributes)) {
+      return;
+    }
+
+    if (this.isSMSOnly()) {
+      return;
+    }
+
+    if (hasUserInitiatedMessages) {
+      await this.maybeApplyUniversalTimer(true);
+      return;
+    }
+
+    if (this.get('pendingUniversalTimer') || this.get('expireTimer')) {
+      return;
+    }
+
+    const expireTimer = universalExpireTimer.get();
+    if (!expireTimer) {
+      return;
+    }
+
+    const notificationId = await this.addNotification(
+      'universal-timer-notification'
+    );
+    this.set('pendingUniversalTimer', notificationId);
+  }
+
+  async maybeApplyUniversalTimer(forceRemove: boolean): Promise<void> {
+    const notificationId = this.get('pendingUniversalTimer');
+    if (!notificationId) {
+      return;
+    }
+
+    const message = window.MessageController.getById(notificationId);
+    if (message) {
+      message.cleanup();
+      window.Signal.Data.removeMessage(message.id, {
+        Message: window.Whisper.Message,
+      });
+    }
+
+    if (this.get('expireTimer') || forceRemove) {
+      this.set('pendingUniversalTimer', undefined);
+      return;
+    }
+
+    const expireTimer = universalExpireTimer.get();
+    if (expireTimer) {
+      // `updateExpirationTimer` calls `modifyGroupV2` and shouldn't be awaited
+      // since we run both on conversation's queue.
+      this.updateExpirationTimer(expireTimer);
+    }
+
+    this.set('pendingUniversalTimer', undefined);
+  }
+
+  async addChangeNumberNotification(): Promise<void> {
+    window.log.info(
+      `Conversation ${this.idForLogging()}: adding change number notification`
+    );
+
+    const convos = [
+      this,
+      ...(await window.ConversationController.getAllGroupsInvolvingId(this.id)),
+    ];
+
+    const sourceUuid = this.get('uuid');
+
+    await Promise.all(
+      convos.map(convo => {
+        return convo.addNotification('change-number-notification', {
+          sourceUuid,
+        });
+      })
+    );
   }
 
   async onReadMessage(
@@ -2506,19 +2849,13 @@ export class ConversationModel extends window.Backbone.Model<
 
     // Lastly, we don't send read syncs for any message marked read due to a read
     //   sync. That's a notification explosion we don't need.
-    return this.queueJob(() =>
+    return this.queueJob('onReadMessage', () =>
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       this.markRead(message.get('received_at')!, {
         sendReadReceipts: false,
         readAt,
       })
     );
-  }
-
-  getUnread(): Promise<MessageModelCollectionType> {
-    return window.Signal.Data.getUnreadByConversation(this.id, {
-      MessageCollection: window.Whisper.MessageCollection,
-    });
   }
 
   validate(attributes = this.attributes): string | null {
@@ -2550,8 +2887,11 @@ export class ConversationModel extends window.Backbone.Model<
   }
 
   validateNumber(): string | null {
-    if (this.isPrivate() && this.get('e164')) {
+    if (isDirectConversation(this.attributes) && this.get('e164')) {
       const regionCode = window.storage.get('regionCode');
+      if (!regionCode) {
+        throw new Error('No region code');
+      }
       const number = window.libphonenumber.util.parseNumber(
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         this.get('e164')!,
@@ -2566,16 +2906,21 @@ export class ConversationModel extends window.Backbone.Model<
         return null;
       }
 
-      return number.error || 'Invalid phone number';
+      let errorMessage: undefined | string;
+      if (number.error instanceof Error) {
+        errorMessage = number.error.message;
+      } else if (typeof number.error === 'string') {
+        errorMessage = number.error;
+      }
+      return errorMessage || 'Invalid phone number';
     }
 
     return null;
   }
 
   validateUuid(): string | null {
-    if (this.isPrivate() && this.get('uuid')) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      if (window.isValidGuid(this.get('uuid')!)) {
+    if (isDirectConversation(this.attributes) && this.get('uuid')) {
+      if (window.isValidGuid(this.get('uuid'))) {
         return null;
       }
 
@@ -2585,19 +2930,39 @@ export class ConversationModel extends window.Backbone.Model<
     return null;
   }
 
-  queueJob(callback: () => unknown | Promise<unknown>): Promise<WhatIsThis> {
+  queueJob<T>(name: string, callback: () => Promise<T>): Promise<T> {
     this.jobQueue = this.jobQueue || new window.PQueue({ concurrency: 1 });
 
-    const taskWithTimeout = window.textsecure.createTaskWithTimeout(
+    const taskWithTimeout = createTaskWithTimeout(
       callback,
       `conversation ${this.idForLogging()}`
     );
 
-    return this.jobQueue.add(taskWithTimeout);
+    const queuedAt = Date.now();
+    return this.jobQueue.add(async () => {
+      const startedAt = Date.now();
+      const waitTime = startedAt - queuedAt;
+
+      if (waitTime > JOB_REPORTING_THRESHOLD_MS) {
+        window.log.info(
+          `Conversation job ${name} was blocked for ${waitTime}ms`
+        );
+      }
+
+      try {
+        return await taskWithTimeout();
+      } finally {
+        const duration = Date.now() - startedAt;
+
+        if (duration > JOB_REPORTING_THRESHOLD_MS) {
+          window.log.info(`Conversation job ${name} took ${duration}ms`);
+        }
+      }
+    });
   }
 
   isAdmin(conversationId: string): boolean {
-    if (!this.isGroupV2()) {
+    if (!isGroupV2(this.attributes)) {
       return false;
     }
 
@@ -2607,41 +2972,28 @@ export class ConversationModel extends window.Backbone.Model<
       return false;
     }
 
-    const MEMBER_ROLES = window.textsecure.protobuf.Member.Role;
+    const MEMBER_ROLES = Proto.Member.Role;
 
     return member.role === MEMBER_ROLES.ADMINISTRATOR;
   }
 
-  getMemberships(): Array<GroupV2Membership> {
-    if (!this.isGroupV2()) {
+  private getMemberships(): Array<{
+    conversationId: string;
+    isAdmin: boolean;
+  }> {
+    if (!isGroupV2(this.attributes)) {
       return [];
     }
 
     const members = this.get('membersV2') || [];
-    return members
-      .map(member => {
-        const conversationModel = window.ConversationController.get(
-          member.conversationId
-        );
-        if (!conversationModel || conversationModel.isUnregistered()) {
-          return null;
-        }
-
-        return {
-          isAdmin:
-            member.role ===
-            window.textsecure.protobuf.Member.Role.ADMINISTRATOR,
-          metadata: member,
-          member: conversationModel.format(),
-        };
-      })
-      .filter(
-        (membership): membership is GroupV2Membership => membership !== null
-      );
+    return members.map(member => ({
+      isAdmin: member.role === Proto.Member.Role.ADMINISTRATOR,
+      conversationId: member.conversationId,
+    }));
   }
 
   getGroupLink(): string | undefined {
-    if (!this.isGroupV2()) {
+    if (!isGroupV2(this.attributes)) {
       return undefined;
     }
 
@@ -2652,105 +3004,55 @@ export class ConversationModel extends window.Backbone.Model<
     return window.Signal.Groups.buildGroupLink(this);
   }
 
-  getPendingMemberships(): Array<GroupV2PendingMembership> {
-    if (!this.isGroupV2()) {
+  private getPendingMemberships(): Array<{
+    addedByUserId?: string;
+    conversationId: string;
+  }> {
+    if (!isGroupV2(this.attributes)) {
       return [];
     }
 
     const members = this.get('pendingMembersV2') || [];
-    return members
-      .map(member => {
-        const conversationModel = window.ConversationController.get(
-          member.conversationId
-        );
-        if (!conversationModel || conversationModel.isUnregistered()) {
-          return null;
-        }
-
-        return {
-          metadata: member,
-          member: conversationModel.format(),
-        };
-      })
-      .filter(
-        (membership): membership is GroupV2PendingMembership =>
-          membership !== null
-      );
+    return members.map(member => ({
+      addedByUserId: member.addedByUserId,
+      conversationId: member.conversationId,
+    }));
   }
 
-  getPendingApprovalMemberships(): Array<GroupV2RequestingMembership> {
-    if (!this.isGroupV2()) {
+  private getPendingApprovalMemberships(): Array<{ conversationId: string }> {
+    if (!isGroupV2(this.attributes)) {
       return [];
     }
 
     const members = this.get('pendingAdminApprovalV2') || [];
-    return members
-      .map(member => {
-        const conversationModel = window.ConversationController.get(
-          member.conversationId
-        );
-        if (!conversationModel || conversationModel.isUnregistered()) {
-          return null;
-        }
-
-        return {
-          metadata: member,
-          member: conversationModel.format(),
-        };
-      })
-      .filter(
-        (membership): membership is GroupV2RequestingMembership =>
-          membership !== null
-      );
+    return members.map(member => ({
+      conversationId: member.conversationId,
+    }));
   }
 
   getMembers(
     options: { includePendingMembers?: boolean } = {}
   ): Array<ConversationModel> {
-    if (this.isPrivate()) {
-      return [this];
+    return compact(
+      getConversationMembers(this.attributes, options).map(conversationAttrs =>
+        window.ConversationController.get(conversationAttrs.id)
+      )
+    );
+  }
+
+  canBeAnnouncementGroup(): boolean {
+    if (!isGroupV2(this.attributes)) {
+      return false;
     }
 
-    if (this.get('membersV2')) {
-      const { includePendingMembers } = options;
-      const members: Array<{ conversationId: string }> = includePendingMembers
-        ? [
-            ...(this.get('membersV2') || []),
-            ...(this.get('pendingMembersV2') || []),
-          ]
-        : this.get('membersV2') || [];
-
-      return window._.compact(
-        members.map(member => {
-          const c = window.ConversationController.get(member.conversationId);
-
-          // In groups we won't sent to contacts we believe are unregistered
-          if (c && c.isUnregistered()) {
-            return null;
-          }
-
-          return c;
-        })
-      );
+    if (!isAnnouncementGroupReady()) {
+      return false;
     }
 
-    if (this.get('members')) {
-      return window._.compact(
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        this.get('members')!.map(id => {
-          const c = window.ConversationController.get(id);
-
-          // In groups we won't send to contacts we believe are unregistered
-          if (c && c.isUnregistered()) {
-            return null;
-          }
-
-          return c;
-        })
-      );
-    }
-
-    return [];
+    const members = getConversationMembers(this.attributes);
+    return members.every(conversationAttrs =>
+      Boolean(conversationAttrs.capabilities?.announcementGroup)
+    );
   }
 
   getMemberIds(): Array<string> {
@@ -2758,76 +3060,90 @@ export class ConversationModel extends window.Backbone.Model<
     return members.map(member => member.id);
   }
 
-  getRecipients(
-    options: { includePendingMembers?: boolean } = {}
-  ): Array<string> {
-    const { includePendingMembers } = options;
-
+  getRecipients({
+    includePendingMembers,
+    extraConversationsForSend,
+  }: {
+    includePendingMembers?: boolean;
+    extraConversationsForSend?: Array<string>;
+  } = {}): Array<string> {
     const members = this.getMembers({ includePendingMembers });
 
-    // Eliminate our
+    // There are cases where we need to send to someone we just removed from the group, to
+    //   let them know that we removed them. In that case, we need to send to more than
+    //   are currently in the group.
+    const extraConversations = extraConversationsForSend
+      ? extraConversationsForSend
+          .map(id => window.ConversationController.get(id))
+          .filter(isNotNil)
+      : [];
+
+    const unique = extraConversations.length
+      ? window._.unique([...members, ...extraConversations])
+      : members;
+
+    // Eliminate ourself
     return window._.compact(
-      members.map(member => (member.isMe() ? null : member.getSendTarget()))
+      unique.map(member =>
+        isMe(member.attributes) ? null : member.getSendTarget()
+      )
     );
   }
 
   async getQuoteAttachment(
-    attachments: Array<WhatIsThis>,
-    preview: Array<WhatIsThis>,
-    sticker: WhatIsThis
+    attachments?: Array<WhatIsThis>,
+    preview?: Array<WhatIsThis>,
+    sticker?: WhatIsThis
   ): Promise<WhatIsThis> {
     if (attachments && attachments.length) {
-      return Promise.all(
-        attachments
-          .filter(
-            attachment =>
-              attachment &&
-              attachment.contentType &&
-              !attachment.pending &&
-              !attachment.error
-          )
-          .slice(0, 1)
-          .map(async attachment => {
-            const { fileName, thumbnail, contentType } = attachment;
+      const validAttachments = filter(
+        attachments,
+        attachment => attachment && !attachment.pending && !attachment.error
+      );
+      const attachmentsToUse = take(validAttachments, 1);
 
-            return {
-              contentType,
-              // Our protos library complains about this field being undefined, so we
-              //   force it to null
-              fileName: fileName || null,
-              thumbnail: thumbnail
-                ? {
-                    ...(await loadAttachmentData(thumbnail)),
-                    objectUrl: getAbsoluteAttachmentPath(thumbnail.path),
-                  }
-                : null,
-            };
-          })
+      return Promise.all(
+        map(attachmentsToUse, async attachment => {
+          const { fileName, thumbnail, contentType } = attachment;
+
+          return {
+            contentType,
+            // Our protos library complains about this field being undefined, so we force
+            //   it to null
+            fileName: fileName || null,
+            thumbnail: thumbnail
+              ? {
+                  ...(await loadAttachmentData(thumbnail)),
+                  objectUrl: getAbsoluteAttachmentPath(thumbnail.path),
+                }
+              : null,
+          };
+        })
       );
     }
 
     if (preview && preview.length) {
-      return Promise.all(
-        preview
-          .filter(item => item && item.image)
-          .slice(0, 1)
-          .map(async attachment => {
-            const { image } = attachment;
-            const { contentType } = image;
+      const validPreviews = filter(preview, item => item && item.image);
+      const previewsToUse = take(validPreviews, 1);
 
-            return {
-              contentType,
-              // Our protos library complains about this field being undefined, so we
-              //   force it to null
-              fileName: null,
-              thumbnail: image
-                ? {
-                    ...(await loadAttachmentData(image)),
-                    objectUrl: getAbsoluteAttachmentPath(image.path),
-                  }
-                : null,
-            };
-          })
+      return Promise.all(
+        map(previewsToUse, async attachment => {
+          const { image } = attachment;
+          const { contentType } = image;
+
+          return {
+            contentType,
+            // Our protos library complains about this field being undefined, so we
+            //   force it to null
+            fileName: null,
+            thumbnail: image
+              ? {
+                  ...(await loadAttachmentData(image)),
+                  objectUrl: getAbsoluteAttachmentPath(image.path),
+                }
+              : null,
+          };
+        })
       );
     }
 
@@ -2853,7 +3169,7 @@ export class ConversationModel extends window.Backbone.Model<
 
   async makeQuote(
     quotedMessage: typeof window.Whisper.MessageType
-  ): Promise<WhatIsThis> {
+  ): Promise<QuotedMessageType> {
     const { getName } = Contact;
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const contact = quotedMessage.getContact()!;
@@ -2870,18 +3186,21 @@ export class ConversationModel extends window.Backbone.Model<
 
     return {
       authorUuid: contact.get('uuid'),
-      bodyRanges: quotedMessage.get('bodyRanges'),
-      id: quotedMessage.get('sent_at'),
-      text: body || embeddedContactName,
-      attachments: quotedMessage.isTapToView()
+      attachments: isTapToView(quotedMessage.attributes)
         ? [{ contentType: 'image/jpeg', fileName: null }]
         : await this.getQuoteAttachment(attachments, preview, sticker),
+      bodyRanges: quotedMessage.get('bodyRanges'),
+      id: quotedMessage.get('sent_at'),
+      isViewOnce: isTapToView(quotedMessage.attributes),
+      messageId: quotedMessage.get('id'),
+      referencedMessageNotFound: false,
+      text: body || embeddedContactName,
     };
   }
 
   async sendStickerMessage(packId: string, stickerId: number): Promise<void> {
-    const packData = window.Signal.Stickers.getStickerPack(packId);
-    const stickerData = window.Signal.Stickers.getSticker(packId, stickerId);
+    const packData = Stickers.getStickerPack(packId);
+    const stickerData = Stickers.getSticker(packId, stickerId);
     if (!stickerData || !packData) {
       window.log.warn(
         `Attempted to send nonexistent (${packId}, ${stickerId}) sticker!`
@@ -2923,34 +3242,30 @@ export class ConversationModel extends window.Backbone.Model<
       },
     };
 
-    this.sendMessage(null, [], null, [], sticker);
+    this.sendMessage(undefined, [], undefined, [], sticker);
     window.reduxActions.stickers.useSticker(packId, stickerId);
   }
 
-  async sendDeleteForEveryoneMessage(targetTimestamp: number): Promise<void> {
+  async sendDeleteForEveryoneMessage(options: {
+    id: string;
+    timestamp: number;
+  }): Promise<void> {
+    const { timestamp: targetTimestamp, id: messageId } = options;
     const timestamp = Date.now();
 
     if (timestamp - targetTimestamp > THREE_HOURS) {
       throw new Error('Cannot send DOE for a message older than three hours');
     }
 
-    const deleteModel = window.Whisper.Deletes.add({
+    const deleteModel = Deletes.getSingleton().add({
       targetSentTimestamp: targetTimestamp,
       fromId: window.ConversationController.getOurConversationId(),
     });
 
-    window.Whisper.Deletes.onDelete(deleteModel);
-
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const destination = this.getSendTarget()!;
-    const recipients = this.getRecipients();
 
-    let profileKey: ArrayBuffer | undefined;
-    if (this.get('profileSharing')) {
-      profileKey = window.storage.get('profileKey');
-    }
-
-    return this.queueJob(async () => {
+    await this.queueJob('sendDeleteForEveryone', async () => {
       window.log.info(
         'Sending deleteForEveryone to conversation',
         this.idForLogging(),
@@ -2958,73 +3273,94 @@ export class ConversationModel extends window.Backbone.Model<
         timestamp
       );
 
-      const attributes = ({
+      // We are only creating this model so we can use its sync message
+      // sending functionality. It will not be saved to the database.
+      const message = new window.Whisper.Message({
         id: window.getGuid(),
         type: 'outgoing',
         conversationId: this.get('id'),
         sent_at: timestamp,
-        received_at: timestamp,
-        recipients,
+        received_at: window.Signal.Util.incrementMessageCounter(),
+        received_at_ms: timestamp,
         deletedForEveryoneTimestamp: targetTimestamp,
-        // TODO: DESKTOP-722
-      } as unknown) as typeof window.Whisper.MessageAttributesType;
-
-      if (this.isPrivate()) {
-        attributes.destination = destination;
-      }
-
-      // We are only creating this model so we can use its sync message
-      // sending functionality. It will not be saved to the datbase.
-      const message = new window.Whisper.Message(attributes);
+        timestamp,
+      });
 
       // We're offline!
       if (!window.textsecure.messaging) {
         throw new Error('Cannot send DOE while offline!');
       }
 
-      const options = this.getSendOptions();
+      const sendOptions = await getSendOptions(this.attributes);
 
-      const promise = (() => {
-        if (this.isPrivate()) {
-          return window.textsecure.messaging.sendMessageToIdentifier(
-            destination,
-            undefined, // body
-            [], // attachments
-            undefined, // quote
-            [], // preview
-            undefined, // sticker
-            undefined, // reaction
-            targetTimestamp,
-            timestamp,
-            undefined, // expireTimer
-            profileKey,
-            options
-          );
+      const promise = (async () => {
+        let profileKey: ArrayBuffer | undefined;
+        if (this.get('profileSharing')) {
+          profileKey = await ourProfileKeyService.get();
         }
 
-        return window.textsecure.messaging.sendMessageToGroup(
-          {
+        const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
+
+        if (isDirectConversation(this.attributes)) {
+          return window.textsecure.messaging.sendMessageToIdentifier({
+            identifier: destination,
+            messageText: undefined,
+            attachments: [],
+            quote: undefined,
+            preview: [],
+            sticker: undefined,
+            reaction: undefined,
+            deletedForEveryoneTimestamp: targetTimestamp,
+            timestamp,
+            expireTimer: undefined,
+            contentHint: ContentHint.RESENDABLE,
+            groupId: undefined,
+            profileKey,
+            options: sendOptions,
+          });
+        }
+
+        return window.Signal.Util.sendToGroup({
+          groupSendOptions: {
             groupV1: this.getGroupV1Info(),
             groupV2: this.getGroupV2Info(),
             deletedForEveryoneTimestamp: targetTimestamp,
             timestamp,
             profileKey,
           },
-          options
-        );
+          conversation: this,
+          contentHint: ContentHint.RESENDABLE,
+          messageId,
+          sendOptions,
+          sendType: 'deleteForEveryone',
+        });
       })();
 
       // This is to ensure that the functions in send() and sendSyncMessage() don't save
       //   anything to the database.
       message.doNotSave = true;
 
-      return message.send(this.wrapSend(promise));
+      const result = await message.send(
+        handleMessageSend(promise, {
+          messageIds: [messageId],
+          sendType: 'deleteForEveryone',
+        })
+      );
+
+      if (!message.hasSuccessfulDelivery()) {
+        // This is handled by `conversation_view` which displays a toast on
+        //   send error.
+        throw new Error('No successful delivery for delete for everyone');
+      }
+      Deletes.getSingleton().onDelete(deleteModel);
+
+      return result;
     }).catch(error => {
       window.log.error(
         'Error sending deleteForEveryone',
         deleteModel,
         targetTimestamp,
-        error
+        error && error.stack
       );
 
       throw error;
@@ -3034,32 +3370,31 @@ export class ConversationModel extends window.Backbone.Model<
   async sendReactionMessage(
     reaction: { emoji: string; remove: boolean },
     target: {
+      messageId: string;
       targetAuthorUuid: string;
       targetTimestamp: number;
     }
   ): Promise<WhatIsThis> {
+    const { messageId } = target;
     const timestamp = Date.now();
     const outgoingReaction = { ...reaction, ...target };
-    const expireTimer = this.get('expireTimer');
 
-    const reactionModel = window.Whisper.Reactions.add({
+    const reactionModel = Reactions.getSingleton().add({
       ...outgoingReaction,
       fromId: window.ConversationController.getOurConversationId(),
       timestamp,
       fromSync: true,
     });
-    window.Whisper.Reactions.onReaction(reactionModel);
+
+    // Apply reaction optimistically
+    const oldReaction = await Reactions.getSingleton().onReaction(
+      reactionModel
+    );
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const destination = this.getSendTarget()!;
-    const recipients = this.getRecipients();
 
-    let profileKey: ArrayBuffer | undefined;
-    if (this.get('profileSharing')) {
-      profileKey = window.storage.get('profileKey');
-    }
-
-    return this.queueJob(async () => {
+    return this.queueJob('sendReactionMessage', async () => {
       window.log.info(
         'Sending reaction to conversation',
         this.idForLogging(),
@@ -3067,24 +3402,22 @@ export class ConversationModel extends window.Backbone.Model<
         timestamp
       );
 
-      const attributes = ({
+      await this.maybeApplyUniversalTimer(false);
+
+      const expireTimer = this.get('expireTimer');
+
+      // We are only creating this model so we can use its sync message
+      // sending functionality. It will not be saved to the database.
+      const message = new window.Whisper.Message({
         id: window.getGuid(),
         type: 'outgoing',
         conversationId: this.get('id'),
         sent_at: timestamp,
-        received_at: timestamp,
-        recipients,
+        received_at: window.Signal.Util.incrementMessageCounter(),
+        received_at_ms: timestamp,
         reaction: outgoingReaction,
-        // TODO: DESKTOP-722
-      } as unknown) as typeof window.Whisper.MessageAttributesType;
-
-      if (this.isPrivate()) {
-        attributes.destination = destination;
-      }
-
-      // We are only creating this model so we can use its sync message
-      // sending functionality. It will not be saved to the datbase.
-      const message = new window.Whisper.Message(attributes);
+        timestamp,
+      });
 
       // This is to ensure that the functions in send() and sendSyncMessage() don't save
       //   anything to the database.
@@ -3095,46 +3428,55 @@ export class ConversationModel extends window.Backbone.Model<
         throw new Error('Cannot send reaction while offline!');
       }
 
+      let profileKey: ArrayBuffer | undefined;
+      if (this.get('profileSharing')) {
+        profileKey = await ourProfileKeyService.get();
+      }
       // Special-case the self-send case - we send only a sync message
-      if (this.isMe()) {
-        const dataMessage = await window.textsecure.messaging.getMessageProto(
-          destination,
-          undefined, // body
-          [], // attachments
-          undefined, // quote
-          [], // preview
-          undefined, // sticker
-          outgoingReaction,
-          undefined, // deletedForEveryoneTimestamp
-          timestamp,
+      if (isMe(this.attributes)) {
+        const dataMessage = await window.textsecure.messaging.getDataMessage({
+          attachments: [],
+          // body
+          // deletedForEveryoneTimestamp
           expireTimer,
-          profileKey
-        );
-        return message.sendSyncMessageOnly(dataMessage);
+          preview: [],
+          profileKey,
+          // quote
+          reaction: outgoingReaction,
+          recipients: [destination],
+          // sticker
+          timestamp,
+        });
+        const result = await message.sendSyncMessageOnly(dataMessage);
+        Reactions.getSingleton().onReaction(reactionModel);
+        return result;
       }
 
-      const options = this.getSendOptions();
+      const options = await getSendOptions(this.attributes);
+      const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
       const promise = (() => {
-        if (this.isPrivate()) {
-          return window.textsecure.messaging.sendMessageToIdentifier(
-            destination,
-            undefined, // body
-            [], // attachments
-            undefined, // quote
-            [], // preview
-            undefined, // sticker
-            outgoingReaction,
-            undefined, // deletedForEveryoneTimestamp
+        if (isDirectConversation(this.attributes)) {
+          return window.textsecure.messaging.sendMessageToIdentifier({
+            identifier: destination,
+            messageText: undefined,
+            attachments: [],
+            quote: undefined,
+            preview: [],
+            sticker: undefined,
+            reaction: outgoingReaction,
+            deletedForEveryoneTimestamp: undefined,
             timestamp,
             expireTimer,
+            contentHint: ContentHint.RESENDABLE,
+            groupId: undefined,
             profileKey,
-            options
-          );
+            options,
+          });
         }
 
-        return window.textsecure.messaging.sendMessageToGroup(
-          {
+        return window.Signal.Util.sendToGroup({
+          groupSendOptions: {
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             groupV1: this.getGroupV1Info()!,
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -3144,19 +3486,44 @@ export class ConversationModel extends window.Backbone.Model<
             expireTimer,
             profileKey,
           },
-          options
-        );
+          conversation: this,
+          contentHint: ContentHint.RESENDABLE,
+          messageId,
+          sendOptions: options,
+          sendType: 'reaction',
+        });
       })();
 
-      return message.send(this.wrapSend(promise));
-    }).catch(error => {
-      window.log.error('Error sending reaction', reaction, target, error);
+      const result = await message.send(
+        handleMessageSend(promise, {
+          messageIds: [messageId],
+          sendType: 'reaction',
+        })
+      );
 
-      const reverseReaction = reactionModel.clone();
-      reverseReaction.set('remove', !reverseReaction.get('remove'));
-      window.Whisper.Reactions.onReaction(reverseReaction);
+      if (!message.hasSuccessfulDelivery()) {
+        // This is handled by `conversation_view` which displays a toast on
+        // send error.
+        throw new Error('No successful delivery for reaction');
+      }
 
-      throw error;
+      return result;
+    }).catch(() => {
+      let reverseReaction: ReactionModel;
+      if (oldReaction) {
+        // Either restore old reaction
+        reverseReaction = Reactions.getSingleton().add({
+          ...oldReaction,
+          fromId: window.ConversationController.getOurConversationId(),
+          timestamp,
+        });
+      } else {
+        // Or remove a new one on failure
+        reverseReaction = reactionModel.clone();
+        reverseReaction.set('remove', !reverseReaction.get('remove'));
+      }
+
+      Reactions.getSingleton().onReaction(reverseReaction);
     });
   }
 
@@ -3172,40 +3539,71 @@ export class ConversationModel extends window.Backbone.Model<
       return;
     }
     window.log.info('Sending profileKeyUpdate to conversation', id, recipients);
-    const profileKey = window.storage.get('profileKey');
-    await window.textsecure.messaging.sendProfileKeyUpdate(
-      profileKey,
-      recipients,
-      this.getSendOptions(),
-      this.get('groupId')
+    const profileKey = await ourProfileKeyService.get();
+    if (!profileKey) {
+      window.log.error(
+        'Attempted to send profileKeyUpdate but our profile key was not found'
+      );
+      return;
+    }
+
+    await handleMessageSend(
+      window.textsecure.messaging.sendProfileKeyUpdate(
+        profileKey,
+        recipients,
+        await getSendOptions(this.attributes),
+        this.get('groupId')
+      ),
+      { messageIds: [], sendType: 'profileKeyUpdate' }
     );
   }
 
   sendMessage(
-    body: string | null,
-    attachments: Array<WhatIsThis>,
-    quote: WhatIsThis,
-    preview: WhatIsThis,
+    body: string | undefined,
+    attachments: Array<AttachmentType>,
+    quote?: QuotedMessageType,
+    preview?: WhatIsThis,
     sticker?: WhatIsThis,
-    mentions?: BodyRangesType
+    mentions?: BodyRangesType,
+    {
+      dontClearDraft,
+      sendHQImages,
+      timestamp,
+    }: {
+      dontClearDraft?: boolean;
+      sendHQImages?: boolean;
+      timestamp?: number;
+    } = {}
   ): void {
+    if (this.isGroupV1AndDisabled()) {
+      return;
+    }
+
     this.clearTypingTimers();
 
     const { clearUnreadMetrics } = window.reduxActions.conversations;
     clearUnreadMetrics(this.id);
 
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const destination = this.getSendTarget()!;
-    const expireTimer = this.get('expireTimer');
-    const recipients = this.getRecipients();
-
-    let profileKey: ArrayBuffer | undefined;
-    if (this.get('profileSharing')) {
-      profileKey = window.storage.get('profileKey');
+    const mandatoryProfileSharingEnabled = window.Signal.RemoteConfig.isEnabled(
+      'desktop.mandatoryProfileSharing'
+    );
+    if (mandatoryProfileSharingEnabled && !this.get('profileSharing')) {
+      this.set({ profileSharing: true });
     }
 
-    this.queueJob(async () => {
-      const now = Date.now();
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const destination = this.getSendTarget()!;
+    const recipients = this.getRecipients();
+
+    if (timestamp) {
+      window.log.info(`sendMessage: Queueing send with timestamp ${timestamp}`);
+    }
+    this.queueJob('sendMessage', async () => {
+      const now = timestamp || Date.now();
+
+      await this.maybeApplyUniversalTimer(false);
+
+      const expireTimer = this.get('expireTimer');
 
       window.log.info(
         'Sending message to conversation',
@@ -3214,8 +3612,21 @@ export class ConversationModel extends window.Backbone.Model<
         now
       );
 
+      const recipientMaybeConversations = map(recipients, identifier =>
+        window.ConversationController.get(identifier)
+      );
+      const recipientConversations = filter(
+        recipientMaybeConversations,
+        isNotNil
+      );
+      const recipientConversationIds = concat(
+        map(recipientConversations, c => c.id),
+        [window.ConversationController.getOurConversationIdOrThrow()]
+      );
+
       // Here we move attachments to disk
       const messageWithSchema = await upgradeMessageSchema({
+        timestamp: now,
         type: 'outgoing',
         body,
         conversationId: this.id,
@@ -3223,61 +3634,75 @@ export class ConversationModel extends window.Backbone.Model<
         preview,
         attachments,
         sent_at: now,
-        received_at: now,
+        received_at: window.Signal.Util.incrementMessageCounter(),
+        received_at_ms: now,
         expireTimer,
         recipients,
         sticker,
         bodyRanges: mentions,
+        sendHQImages,
+        sendStateByConversationId: zipObject(
+          recipientConversationIds,
+          repeat({
+            status: SendStatus.Pending,
+            updatedAt: now,
+          })
+        ),
       });
 
-      if (this.isPrivate()) {
+      if (isDirectConversation(this.attributes)) {
         messageWithSchema.destination = destination;
       }
-      const attributes: MessageModel = {
+      const attributes: MessageAttributesType = {
         ...messageWithSchema,
         id: window.getGuid(),
       };
 
-      const model = this.addSingleMessage(attributes);
-      if (sticker) {
-        await addStickerPackReference(model.id, sticker.packId);
-      }
+      const model = new window.Whisper.Message(attributes);
       const message = window.MessageController.register(model.id, model);
       await window.Signal.Data.saveMessage(message.attributes, {
         forceSave: true,
-        Message: window.Whisper.Message,
       });
 
+      this.addSingleMessage(model);
+      if (sticker) {
+        await addStickerPackReference(model.id, sticker.packId);
+      }
+      const messageId = message.id;
+
+      const draftProperties = dontClearDraft
+        ? {}
+        : {
+            draft: null,
+            draftTimestamp: null,
+            lastMessage: model.getNotificationText(),
+            lastMessageStatus: 'sending' as const,
+          };
+
       this.set({
-        lastMessage: model.getNotificationText(),
-        lastMessageStatus: 'sending',
+        ...draftProperties,
         active_at: now,
         timestamp: now,
         isArchived: false,
-        draft: null,
-        draftTimestamp: null,
       });
+
       this.incrementSentMessageCount();
       window.Signal.Data.updateConversation(this.attributes);
 
       // We're offline!
       if (!window.textsecure.messaging) {
-        const errors = [
-          ...(this.contactCollection && this.contactCollection.length
-            ? this.contactCollection
-            : [this]),
-        ].map(contact => {
+        const errors = map(recipientConversationIds, conversationId => {
           const error = new Error('Network is not available') as CustomError;
           error.name = 'SendMessageNetworkError';
-          error.identifier = contact.get('id');
+          error.identifier = conversationId;
           return error;
         });
-        await message.saveErrors(errors);
+        await message.saveErrors([...errors]);
         return null;
       }
 
       const attachmentsWithData = await Promise.all(
-        messageWithSchema.attachments.map(loadAttachmentData)
+        messageWithSchema.attachments?.map(loadAttachmentData) ?? []
       );
 
       const {
@@ -3289,31 +3714,37 @@ export class ConversationModel extends window.Backbone.Model<
         now,
       });
 
+      let profileKey: ArrayBuffer | undefined;
+      if (this.get('profileSharing')) {
+        profileKey = await ourProfileKeyService.get();
+      }
+
       // Special-case the self-send case - we send only a sync message
-      if (this.isMe()) {
-        const dataMessage = await window.textsecure.messaging.getMessageProto(
-          destination,
-          messageBody,
-          finalAttachments,
-          quote,
-          preview,
-          sticker,
-          null, // reaction
-          undefined, // deletedForEveryoneTimestamp
-          now,
+      if (isMe(this.attributes)) {
+        const dataMessage = await window.textsecure.messaging.getDataMessage({
+          attachments: finalAttachments,
+          body: messageBody,
+          // deletedForEveryoneTimestamp
           expireTimer,
-          profileKey
-        );
+          preview,
+          profileKey,
+          quote,
+          // reaction
+          recipients: [destination],
+          sticker,
+          timestamp: now,
+        });
         return message.sendSyncMessageOnly(dataMessage);
       }
 
       const conversationType = this.get('type');
-      const options = this.getSendOptions();
+      const options = await getSendOptions(this.attributes);
+      const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
       let promise;
       if (conversationType === Message.GROUP) {
-        promise = window.textsecure.messaging.sendMessageToGroup(
-          {
+        promise = window.Signal.Util.sendToGroup({
+          groupSendOptions: {
             attachments: finalAttachments,
             expireTimer,
             groupV1: this.getGroupV1Info(),
@@ -3326,186 +3757,45 @@ export class ConversationModel extends window.Backbone.Model<
             timestamp: now,
             mentions,
           },
-          options
-        );
+          conversation: this,
+          contentHint: ContentHint.RESENDABLE,
+          messageId,
+          sendOptions: options,
+          sendType: 'message',
+        });
       } else {
-        promise = window.textsecure.messaging.sendMessageToIdentifier(
-          destination,
-          messageBody,
-          finalAttachments,
+        promise = window.textsecure.messaging.sendMessageToIdentifier({
+          identifier: destination,
+          messageText: messageBody,
+          attachments: finalAttachments,
           quote,
           preview,
           sticker,
-          null, // reaction
-          undefined, // deletedForEveryoneTimestamp
-          now,
+          reaction: null,
+          deletedForEveryoneTimestamp: undefined,
+          timestamp: now,
           expireTimer,
+          contentHint: ContentHint.RESENDABLE,
+          groupId: undefined,
           profileKey,
-          options
-        );
+          options,
+        });
       }
 
-      return message.send(this.wrapSend(promise));
-    });
-  }
-
-  async wrapSend(
-    promise: Promise<CallbackResultType | void | null>
-  ): Promise<CallbackResultType | void | null> {
-    return promise.then(
-      async result => {
-        // success
-        if (result) {
-          await this.handleMessageSendResult(
-            result.failoverIdentifiers,
-            result.unidentifiedDeliveries
-          );
-        }
-        return result;
-      },
-      async result => {
-        // failure
-        if (result) {
-          await this.handleMessageSendResult(
-            result.failoverIdentifiers,
-            result.unidentifiedDeliveries
-          );
-        }
-        throw result;
-      }
-    );
-  }
-
-  async handleMessageSendResult(
-    failoverIdentifiers: Array<string> | undefined,
-    unidentifiedDeliveries: Array<string> | undefined
-  ): Promise<void> {
-    await Promise.all(
-      (failoverIdentifiers || []).map(async identifier => {
-        const conversation = window.ConversationController.get(identifier);
-
-        if (
-          conversation &&
-          conversation.get('sealedSender') !== SEALED_SENDER.DISABLED
-        ) {
-          window.log.info(
-            `Setting sealedSender to DISABLED for conversation ${conversation.idForLogging()}`
-          );
-          conversation.set({
-            sealedSender: SEALED_SENDER.DISABLED,
-          });
-          window.Signal.Data.updateConversation(conversation.attributes);
-        }
-      })
-    );
-
-    await Promise.all(
-      (unidentifiedDeliveries || []).map(async identifier => {
-        const conversation = window.ConversationController.get(identifier);
-
-        if (
-          conversation &&
-          conversation.get('sealedSender') === SEALED_SENDER.UNKNOWN
-        ) {
-          if (conversation.get('accessKey')) {
-            window.log.info(
-              `Setting sealedSender to ENABLED for conversation ${conversation.idForLogging()}`
-            );
-            conversation.set({
-              sealedSender: SEALED_SENDER.ENABLED,
-            });
-          } else {
-            window.log.info(
-              `Setting sealedSender to UNRESTRICTED for conversation ${conversation.idForLogging()}`
-            );
-            conversation.set({
-              sealedSender: SEALED_SENDER.UNRESTRICTED,
-            });
-          }
-          window.Signal.Data.updateConversation(conversation.attributes);
-        }
-      })
-    );
-  }
-
-  getSendOptions(options = {}): WhatIsThis {
-    const senderCertificate = window.storage.get('senderCertificate');
-    const sendMetadata = this.getSendMetadata(options);
-
-    return {
-      senderCertificate,
-      sendMetadata,
-    };
-  }
-
-  getSendMetadata(
-    options: { syncMessage?: string; disableMeCheck?: boolean } = {}
-  ): WhatIsThis | null {
-    const { syncMessage, disableMeCheck } = options;
-
-    // START: this code has an Expiration date of ~2018/11/21
-    // We don't want to enable unidentified delivery for send unless it is
-    //   also enabled for our own account.
-    const myId = window.ConversationController.getOurConversationId();
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const me = window.ConversationController.get(myId)!;
-    if (!disableMeCheck && me.get('sealedSender') === SEALED_SENDER.DISABLED) {
-      return null;
-    }
-    // END
-
-    if (!this.isPrivate()) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const infoArray = this.contactCollection!.map(conversation =>
-        conversation.getSendMetadata(options)
+      return message.send(
+        handleMessageSend(promise, {
+          messageIds: [messageId],
+          sendType: 'message',
+        })
       );
-      return Object.assign({}, ...infoArray);
-    }
-
-    const accessKey = this.get('accessKey');
-    const sealedSender = this.get('sealedSender');
-
-    // We never send sync messages as sealed sender
-    if (syncMessage && this.isMe()) {
-      return null;
-    }
-
-    const e164 = this.get('e164');
-    const uuid = this.get('uuid');
-
-    // If we've never fetched user's profile, we default to what we have
-    if (sealedSender === SEALED_SENDER.UNKNOWN) {
-      const info = {
-        accessKey: accessKey || arrayBufferToBase64(getRandomBytes(16)),
-      };
-      return {
-        ...(e164 ? { [e164]: info } : {}),
-        ...(uuid ? { [uuid]: info } : {}),
-      };
-    }
-
-    if (sealedSender === SEALED_SENDER.DISABLED) {
-      return null;
-    }
-
-    const info = {
-      accessKey:
-        accessKey && sealedSender === SEALED_SENDER.ENABLED
-          ? accessKey
-          : arrayBufferToBase64(getRandomBytes(16)),
-    };
-
-    return {
-      ...(e164 ? { [e164]: info } : {}),
-      ...(uuid ? { [uuid]: info } : {}),
-    };
+    });
   }
 
   // Is this someone who is a contact, or are we sharing our profile with them?
   //   Or is the person who added us to this group a contact or are we sharing profile
   //   with them?
   isFromOrAddedByTrustedContact(): boolean {
-    if (this.isPrivate()) {
+    if (isDirectConversation(this.attributes)) {
       return Boolean(this.get('name')) || this.get('profileSharing');
     }
 
@@ -3520,7 +3810,7 @@ export class ConversationModel extends window.Backbone.Model<
     }
 
     return Boolean(
-      conv.isMe() || conv.get('name') || conv.get('profileSharing')
+      isMe(conv.attributes) || conv.get('name') || conv.get('profileSharing')
     );
   }
 
@@ -3535,18 +3825,19 @@ export class ConversationModel extends window.Backbone.Model<
     }
 
     const conversationId = this.id;
-    let [previewMessage, activityMessage] = await Promise.all([
-      window.Signal.Data.getLastConversationPreview({
-        conversationId,
-        ourConversationId,
-        Message: window.Whisper.Message,
-      }),
-      window.Signal.Data.getLastConversationActivity({
-        conversationId,
-        ourConversationId,
-        Message: window.Whisper.Message,
-      }),
-    ]);
+
+    const lastMessages = await window.Signal.Data.getLastConversationMessages({
+      conversationId,
+      ourConversationId,
+      Message: window.Whisper.Message,
+    });
+
+    // This runs as a job to avoid race conditions
+    this.queueJob('maybeSetPendingUniversalTimer', async () =>
+      this.maybeSetPendingUniversalTimer(lastMessages.hasUserInitiatedMessages)
+    );
+
+    let { preview: previewMessage, activity: activityMessage } = lastMessages;
 
     // Register the message with MessageController so that if it already exists
     // in memory we use that data instead of the data from the db which may
@@ -3586,7 +3877,9 @@ export class ConversationModel extends window.Backbone.Model<
       lastMessage:
         (previewMessage ? previewMessage.getNotificationText() : '') || '',
       lastMessageStatus:
-        (previewMessage ? previewMessage.getMessagePropStatus() : null) || null,
+        (previewMessage
+          ? getMessagePropStatus(previewMessage.attributes, ourConversationId)
+          : null) || null,
       timestamp,
       lastMessageDeletedForEveryone: previewMessage
         ? previewMessage.get('deletedForEveryone')
@@ -3606,7 +3899,9 @@ export class ConversationModel extends window.Backbone.Model<
 
     if (Boolean(before) !== Boolean(after)) {
       if (after) {
-        this.unpin();
+        // we're capturing a storage sync below so
+        // we don't need to capture it twice
+        this.unpin({ stopStorageSync: true });
       }
       this.captureChange('isArchived');
     }
@@ -3626,7 +3921,7 @@ export class ConversationModel extends window.Backbone.Model<
   }
 
   async refreshGroupLink(): Promise<void> {
-    if (!this.isGroupV2()) {
+    if (!isGroupV2(this.attributes)) {
       return;
     }
 
@@ -3649,7 +3944,7 @@ export class ConversationModel extends window.Backbone.Model<
   }
 
   async toggleGroupLink(value: boolean): Promise<void> {
-    if (!this.isGroupV2()) {
+    if (!isGroupV2(this.attributes)) {
       return;
     }
 
@@ -3667,7 +3962,7 @@ export class ConversationModel extends window.Backbone.Model<
       value
     );
 
-    const ACCESS_ENUM = window.textsecure.protobuf.AccessControl.AccessRequired;
+    const ACCESS_ENUM = Proto.AccessControl.AccessRequired;
     const addFromInviteLink = value
       ? ACCESS_ENUM.ANY
       : ACCESS_ENUM.UNSATISFIABLE;
@@ -3707,11 +4002,11 @@ export class ConversationModel extends window.Backbone.Model<
   }
 
   async updateAccessControlAddFromInviteLink(value: boolean): Promise<void> {
-    if (!this.isGroupV2()) {
+    if (!isGroupV2(this.attributes)) {
       return;
     }
 
-    const ACCESS_ENUM = window.textsecure.protobuf.AccessControl.AccessRequired;
+    const ACCESS_ENUM = Proto.AccessControl.AccessRequired;
 
     const addFromInviteLink = value
       ? ACCESS_ENUM.ADMINISTRATOR
@@ -3736,7 +4031,7 @@ export class ConversationModel extends window.Backbone.Model<
   }
 
   async updateAccessControlAttributes(value: number): Promise<void> {
-    if (!this.isGroupV2()) {
+    if (!isGroupV2(this.attributes)) {
       return;
     }
 
@@ -3749,7 +4044,7 @@ export class ConversationModel extends window.Backbone.Model<
         ),
     });
 
-    const ACCESS_ENUM = window.textsecure.protobuf.AccessControl.AccessRequired;
+    const ACCESS_ENUM = Proto.AccessControl.AccessRequired;
     this.set({
       accessControl: {
         addFromInviteLink:
@@ -3761,7 +4056,7 @@ export class ConversationModel extends window.Backbone.Model<
   }
 
   async updateAccessControlMembers(value: number): Promise<void> {
-    if (!this.isGroupV2()) {
+    if (!isGroupV2(this.attributes)) {
       return;
     }
 
@@ -3774,7 +4069,7 @@ export class ConversationModel extends window.Backbone.Model<
         ),
     });
 
-    const ACCESS_ENUM = window.textsecure.protobuf.AccessControl.AccessRequired;
+    const ACCESS_ENUM = Proto.AccessControl.AccessRequired;
     this.set({
       accessControl: {
         addFromInviteLink:
@@ -3785,13 +4080,30 @@ export class ConversationModel extends window.Backbone.Model<
     });
   }
 
+  async updateAnnouncementsOnly(value: boolean): Promise<void> {
+    if (!isGroupV2(this.attributes) || !this.canBeAnnouncementGroup()) {
+      return;
+    }
+
+    await this.modifyGroupV2({
+      name: 'updateAnnouncementsOnly',
+      createGroupChange: async () =>
+        window.Signal.Groups.buildAnnouncementsOnlyChange(
+          this.attributes,
+          value
+        ),
+    });
+
+    this.set({ announcementsOnly: value });
+  }
+
   async updateExpirationTimer(
     providedExpireTimer: number | undefined,
-    providedSource: unknown,
-    receivedAt: number,
+    providedSource?: unknown,
+    receivedAt?: number,
     options: { fromSync?: unknown; fromGroupUpdate?: unknown } = {}
   ): Promise<boolean | null | MessageModel | void> {
-    if (this.isGroupV2()) {
+    if (isGroupV2(this.attributes)) {
       if (providedSource || receivedAt) {
         throw new Error(
           'updateExpirationTimer: GroupV2 timers are not updated this way'
@@ -3836,18 +4148,23 @@ export class ConversationModel extends window.Backbone.Model<
     const timestamp = (receivedAt || Date.now()) - 1;
 
     this.set({ expireTimer });
+
+    // This call actually removes universal timer notification and clears
+    // the pending flags.
+    await this.maybeApplyUniversalTimer(true);
+
     window.Signal.Data.updateConversation(this.attributes);
 
     const model = new window.Whisper.Message(({
       // Even though this isn't reflected to the user, we want to place the last seen
       //   indicator above it. We set it to 'unread' to trigger that placement.
-      unread: 1,
+      readStatus: ReadStatus.Unread,
       conversationId: this.id,
       // No type; 'incoming' messages are specially treated by conversation.markRead()
       sent_at: timestamp,
-      received_at: timestamp,
-      flags:
-        window.textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
+      received_at: window.Signal.Util.incrementMessageCounter(),
+      received_at_ms: timestamp,
+      flags: Proto.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
       expirationTimerUpdate: {
         expireTimer,
         source,
@@ -3857,15 +4174,7 @@ export class ConversationModel extends window.Backbone.Model<
       // TODO: DESKTOP-722
     } as unknown) as MessageAttributesType);
 
-    if (this.isPrivate()) {
-      model.set({ destination: this.getSendTarget() });
-    }
-    if (model.isOutgoing()) {
-      model.set({ recipients: this.getRecipients() });
-    }
-    const id = await window.Signal.Data.saveMessage(model.attributes, {
-      Message: window.Whisper.Message,
-    });
+    const id = await window.Signal.Data.saveMessage(model.attributes);
 
     model.set({ id });
 
@@ -3877,35 +4186,36 @@ export class ConversationModel extends window.Backbone.Model<
       return message;
     }
 
+    const sendOptions = await getSendOptions(this.attributes);
+
     let profileKey;
     if (this.get('profileSharing')) {
-      profileKey = window.storage.get('profileKey');
+      profileKey = await ourProfileKeyService.get();
     }
-    const sendOptions = this.getSendOptions();
+
     let promise;
 
-    if (this.isMe()) {
-      const flags =
-        window.textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
-      const dataMessage = await window.textsecure.messaging.getMessageProto(
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        this.getSendTarget()!,
-        undefined, // body
-        [], // attachments
-        undefined, // quote
-        [], // preview
-        undefined, // sticker
-        undefined, // reaction
-        undefined, // deletedForEveryoneTimestamp
-        message.get('sent_at'),
+    if (isMe(this.attributes)) {
+      const flags = Proto.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
+      const dataMessage = await window.textsecure.messaging.getDataMessage({
+        attachments: [],
+        // body
+        // deletedForEveryoneTimestamp
         expireTimer,
+        flags,
+        preview: [],
         profileKey,
-        flags
-      );
+        // quote
+        // reaction
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        recipients: [this.getSendTarget()!],
+        // sticker
+        timestamp: message.get('sent_at'),
+      });
       return message.sendSyncMessageOnly(dataMessage);
     }
 
-    if (this.get('type') === 'private') {
+    if (isDirectConversation(this.attributes)) {
       promise = window.textsecure.messaging.sendExpirationTimerUpdateToIdentifier(
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         this.getSendTarget()!,
@@ -3926,49 +4236,45 @@ export class ConversationModel extends window.Backbone.Model<
       );
     }
 
-    await message.send(this.wrapSend(promise));
+    await message.send(
+      handleMessageSend(promise, {
+        messageIds: [],
+        sendType: 'expirationTimerUpdate',
+      })
+    );
 
     return message;
   }
 
-  async addMessageHistoryDisclaimer(): Promise<MessageModel> {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const lastMessage = this.messageCollection!.last();
-    if (lastMessage && lastMessage.get('type') === 'message-history-unsynced') {
-      // We do not need another message history disclaimer
-      return lastMessage;
-    }
-
+  async addMessageHistoryDisclaimer(): Promise<void> {
     const timestamp = Date.now();
+
+    if (this.hasAddedHistoryDisclaimer) {
+      window.log.warn(
+        `addMessageHistoryDisclaimer/${this.idForLogging()}: Refusing to add another this session`
+      );
+      return;
+    }
+    this.hasAddedHistoryDisclaimer = true;
 
     const model = new window.Whisper.Message(({
       type: 'message-history-unsynced',
       // Even though this isn't reflected to the user, we want to place the last seen
       //   indicator above it. We set it to 'unread' to trigger that placement.
-      unread: 1,
+      readStatus: ReadStatus.Unread,
       conversationId: this.id,
-      // No type; 'incoming' messages are specially treated by conversation.markRead()
       sent_at: timestamp,
-      received_at: timestamp,
+      received_at: window.Signal.Util.incrementMessageCounter(),
+      received_at_ms: timestamp,
       // TODO: DESKTOP-722
     } as unknown) as MessageAttributesType);
 
-    if (this.isPrivate()) {
-      model.set({ destination: this.id });
-    }
-    if (model.isOutgoing()) {
-      model.set({ recipients: this.getRecipients() });
-    }
-    const id = await window.Signal.Data.saveMessage(model.attributes, {
-      Message: window.Whisper.Message,
-    });
+    const id = await window.Signal.Data.saveMessage(model.attributes);
 
     model.set({ id });
 
     const message = window.MessageController.register(id, model);
     this.addSingleMessage(message);
-
-    return message;
   }
 
   isSearchable(): boolean {
@@ -3976,191 +4282,110 @@ export class ConversationModel extends window.Backbone.Model<
   }
 
   async endSession(): Promise<void> {
-    if (this.isPrivate()) {
+    if (isDirectConversation(this.attributes)) {
       const now = Date.now();
       const model = new window.Whisper.Message(({
         conversationId: this.id,
         type: 'outgoing',
         sent_at: now,
-        received_at: now,
+        received_at: window.Signal.Util.incrementMessageCounter(),
+        received_at_ms: now,
         destination: this.get('e164'),
         destinationUuid: this.get('uuid'),
         recipients: this.getRecipients(),
-        flags: window.textsecure.protobuf.DataMessage.Flags.END_SESSION,
+        flags: Proto.DataMessage.Flags.END_SESSION,
         // TODO: DESKTOP-722
       } as unknown) as MessageAttributesType);
 
-      const id = await window.Signal.Data.saveMessage(model.attributes, {
-        Message: window.Whisper.Message,
-      });
+      const id = await window.Signal.Data.saveMessage(model.attributes);
       model.set({ id });
 
       const message = window.MessageController.register(model.id, model);
       this.addSingleMessage(message);
 
-      const options = this.getSendOptions();
-      message.send(
-        this.wrapSend(
-          // TODO: DESKTOP-724
-          // resetSession returns `Array<void>` which is incompatible with the
-          // expected promise return values. `[]` is truthy and wrapSend assumes
-          // it's a valid callback result type
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          window.textsecure.messaging.resetSession(
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            this.get('uuid')!,
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            this.get('e164')!,
-            now,
-            options
-          )
-        )
-      );
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const uuid = this.get('uuid')!;
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const e164 = this.get('e164')!;
+
+      message.sendUtilityMessageWithRetry({
+        type: 'session-reset',
+        uuid,
+        e164,
+        now,
+      });
     }
   }
 
   async leaveGroup(): Promise<void> {
     const now = Date.now();
     if (this.get('type') === 'group') {
+      const groupId = this.get('groupId');
+
+      if (!groupId) {
+        throw new Error(`leaveGroup/${this.idForLogging()}: No groupId!`);
+      }
+
       const groupIdentifiers = this.getRecipients();
       this.set({ left: true });
       window.Signal.Data.updateConversation(this.attributes);
 
-      const model = new Whisper.Message(({
+      const model = new window.Whisper.Message(({
         group_update: { left: 'You' },
         conversationId: this.id,
         type: 'outgoing',
         sent_at: now,
-        received_at: now,
+        received_at: window.Signal.Util.incrementMessageCounter(),
+        received_at_ms: now,
         // TODO: DESKTOP-722
       } as unknown) as MessageAttributesType);
 
-      const id = await window.Signal.Data.saveMessage(model.attributes, {
-        Message: Whisper.Message,
-      });
+      const id = await window.Signal.Data.saveMessage(model.attributes);
       model.set({ id });
 
       const message = window.MessageController.register(model.id, model);
       this.addSingleMessage(message);
 
-      const options = this.getSendOptions();
+      const options = await getSendOptions(this.attributes);
       message.send(
-        this.wrapSend(
+        handleMessageSend(
           window.textsecure.messaging.leaveGroup(
-            this.id,
+            groupId,
             groupIdentifiers,
             options
-          )
+          ),
+          { messageIds: [], sendType: 'legacyGroupChange' }
         )
       );
     }
   }
 
   async markRead(
-    newestUnreadDate: number,
-    providedOptions: { readAt?: number; sendReadReceipts: boolean }
-  ): Promise<WhatIsThis> {
-    const options = providedOptions || {};
-    window._.defaults(options, { sendReadReceipts: true });
-
-    const conversationId = this.id;
-    window.Whisper.Notifications.removeBy({ conversationId });
-
-    let unreadMessages:
-      | MessageModelCollectionType
-      | Array<MessageModel> = await this.getUnread();
-    const oldUnread = unreadMessages.filter(
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      message => message.get('received_at')! <= newestUnreadDate
-    );
-
-    let read = await Promise.all(
-      window._.map(oldUnread, async providedM => {
-        const m = window.MessageController.register(providedM.id, providedM);
-
-        // Note that this will update the message in the database
-        await m.markRead(options.readAt);
-
-        return {
-          senderE164: m.get('source'),
-          senderUuid: m.get('sourceUuid'),
-          senderId: window.ConversationController.ensureContactIds({
-            e164: m.get('source'),
-            uuid: m.get('sourceUuid'),
-          }),
-          timestamp: m.get('sent_at'),
-          hasErrors: m.hasErrors(),
-        };
-      })
-    );
-
-    // Some messages we're marking read are local notifications with no sender
-    read = window._.filter(read, m => Boolean(m.senderId));
-    unreadMessages = unreadMessages.filter(m => Boolean(m.isIncoming()));
-
-    const unreadCount = unreadMessages.length - read.length;
-    this.set({ unreadCount });
-    window.Signal.Data.updateConversation(this.attributes);
-
-    // If a message has errors, we don't want to send anything out about it.
-    //   read syncs - let's wait for a client that really understands the message
-    //      to mark it read. we'll mark our local error read locally, though.
-    //   read receipts - here we can run into infinite loops, where each time the
-    //      conversation is viewed, another error message shows up for the contact
-    read = read.filter(item => !item.hasErrors);
-
-    if (read.length && options.sendReadReceipts) {
-      window.log.info(`Sending ${read.length} read syncs`);
-      // Because syncReadMessages sends to our other devices, and sendReadReceipts goes
-      //   to a contact, we need accessKeys for both.
-      const {
-        sendOptions,
-      } = window.ConversationController.prepareForSend(
-        window.ConversationController.getOurConversationId(),
-        { syncMessage: true }
-      );
-      await this.wrapSend(
-        window.textsecure.messaging.syncReadMessages(read, sendOptions)
-      );
-      await this.sendReadReceiptsFor(read);
+    newestUnreadId: number,
+    options: { readAt?: number; sendReadReceipts: boolean } = {
+      sendReadReceipts: true,
     }
-  }
+  ): Promise<void> {
+    await markConversationRead(this.attributes, newestUnreadId, options);
 
-  async sendReadReceiptsFor(items: Array<unknown>): Promise<void> {
-    // Only send read receipts for accepted conversations
-    if (window.storage.get('read-receipt-setting') && this.getAccepted()) {
-      window.log.info(`Sending ${items.length} read receipts`);
-      const convoSendOptions = this.getSendOptions();
-      const receiptsBySender = window._.groupBy(items, 'senderId');
+    const unreadCount = await window.Signal.Data.getUnreadCountForConversation(
+      this.id
+    );
 
-      await Promise.all(
-        window._.map(receiptsBySender, async (receipts, senderId) => {
-          const timestamps = window._.map(receipts, 'timestamp');
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          const c = window.ConversationController.get(senderId)!;
-          await this.wrapSend(
-            window.textsecure.messaging.sendReadReceipts(
-              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-              c.get('e164')!,
-              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-              c.get('uuid')!,
-              timestamps,
-              convoSendOptions
-            )
-          );
-        })
-      );
+    const prevUnreadCount = this.get('unreadCount');
+    if (prevUnreadCount !== unreadCount) {
+      this.set({ unreadCount });
+      window.Signal.Data.updateConversation(this.attributes);
     }
   }
 
   // This is an expensive operation we use to populate the message request hero row. It
   //   shows groups the current user has in common with this potential new contact.
   async updateSharedGroups(): Promise<void> {
-    if (!this.isPrivate()) {
+    if (!isDirectConversation(this.attributes)) {
       return;
     }
-    if (this.isMe()) {
+    if (isMe(this.attributes)) {
       return;
     }
 
@@ -4181,252 +4406,19 @@ export class ConversationModel extends window.Backbone.Model<
   }
 
   onChangeProfileKey(): void {
-    if (this.isPrivate()) {
+    if (isDirectConversation(this.attributes)) {
       this.getProfiles();
     }
   }
 
   getProfiles(): Promise<Array<void>> {
     // request all conversation members' keys
-    const conversations = (this.getMembers() as unknown) as Array<
-      ConversationModel
-    >;
+    const conversations = (this.getMembers() as unknown) as Array<ConversationModel>;
     return Promise.all(
-      window._.map(conversations, conversation => {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        this.getProfile(conversation.get('uuid')!, conversation.get('e164')!);
-      })
+      window._.map(conversations, conversation =>
+        getProfile(conversation.get('uuid'), conversation.get('e164'))
+      )
     );
-  }
-
-  async getProfile(providedUuid: string, providedE164: string): Promise<void> {
-    if (!window.textsecure.messaging) {
-      throw new Error(
-        'Conversation.getProfile: window.textsecure.messaging not available'
-      );
-    }
-
-    const id = window.ConversationController.ensureContactIds({
-      uuid: providedUuid,
-      e164: providedE164,
-    });
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const c = window.ConversationController.get(id)!;
-    const {
-      generateProfileKeyCredentialRequest,
-      getClientZkProfileOperations,
-      handleProfileKeyCredential,
-    } = Util.zkgroup;
-
-    const clientZkProfileCipher = getClientZkProfileOperations(
-      window.getServerPublicParams()
-    );
-
-    let profile;
-
-    try {
-      await Promise.all([
-        c.deriveAccessKeyIfNeeded(),
-        c.deriveProfileKeyVersionIfNeeded(),
-      ]);
-
-      const profileKey = c.get('profileKey');
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const uuid = c.get('uuid')!;
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const identifier = c.getSendTarget()!;
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const profileKeyVersionHex = c.get('profileKeyVersion')!;
-      const existingProfileKeyCredential = c.get('profileKeyCredential');
-
-      let profileKeyCredentialRequestHex;
-      let profileCredentialRequestContext;
-
-      if (
-        profileKey &&
-        uuid &&
-        profileKeyVersionHex &&
-        !existingProfileKeyCredential
-      ) {
-        window.log.info('Generating request...');
-        ({
-          requestHex: profileKeyCredentialRequestHex,
-          context: profileCredentialRequestContext,
-        } = generateProfileKeyCredentialRequest(
-          clientZkProfileCipher,
-          uuid,
-          profileKey
-        ));
-      }
-
-      const sendMetadata = c.getSendMetadata({ disableMeCheck: true }) || {};
-      const getInfo =
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        sendMetadata[c.get('uuid')!] || sendMetadata[c.get('e164')!] || {};
-
-      if (getInfo.accessKey) {
-        try {
-          profile = await window.textsecure.messaging.getProfile(identifier, {
-            accessKey: getInfo.accessKey,
-            profileKeyVersion: profileKeyVersionHex,
-            profileKeyCredentialRequest: profileKeyCredentialRequestHex,
-          });
-        } catch (error) {
-          if (error.code === 401 || error.code === 403) {
-            window.log.info(
-              `Setting sealedSender to DISABLED for conversation ${c.idForLogging()}`
-            );
-            c.set({ sealedSender: SEALED_SENDER.DISABLED });
-            profile = await window.textsecure.messaging.getProfile(identifier, {
-              profileKeyVersion: profileKeyVersionHex,
-              profileKeyCredentialRequest: profileKeyCredentialRequestHex,
-            });
-          } else {
-            throw error;
-          }
-        }
-      } else {
-        profile = await window.textsecure.messaging.getProfile(identifier, {
-          profileKeyVersion: profileKeyVersionHex,
-          profileKeyCredentialRequest: profileKeyCredentialRequestHex,
-        });
-      }
-
-      const identityKey = base64ToArrayBuffer(profile.identityKey);
-      const changed = await window.textsecure.storage.protocol.saveIdentity(
-        `${identifier}.1`,
-        identityKey,
-        false
-      );
-      if (changed) {
-        // save identity will close all sessions except for .1, so we
-        // must close that one manually.
-        const address = new window.libsignal.SignalProtocolAddress(
-          identifier,
-          1
-        );
-        window.log.info('closing session for', address.toString());
-        const sessionCipher = new window.libsignal.SessionCipher(
-          window.textsecure.storage.protocol,
-          address
-        );
-        await sessionCipher.closeOpenSessionForDevice();
-      }
-
-      const accessKey = c.get('accessKey');
-      if (
-        profile.unrestrictedUnidentifiedAccess &&
-        profile.unidentifiedAccess
-      ) {
-        window.log.info(
-          `Setting sealedSender to UNRESTRICTED for conversation ${c.idForLogging()}`
-        );
-        c.set({
-          sealedSender: SEALED_SENDER.UNRESTRICTED,
-        });
-      } else if (accessKey && profile.unidentifiedAccess) {
-        const haveCorrectKey = await verifyAccessKey(
-          base64ToArrayBuffer(accessKey),
-          base64ToArrayBuffer(profile.unidentifiedAccess)
-        );
-
-        if (haveCorrectKey) {
-          window.log.info(
-            `Setting sealedSender to ENABLED for conversation ${c.idForLogging()}`
-          );
-          c.set({
-            sealedSender: SEALED_SENDER.ENABLED,
-          });
-        } else {
-          window.log.info(
-            `Setting sealedSender to DISABLED for conversation ${c.idForLogging()}`
-          );
-          c.set({
-            sealedSender: SEALED_SENDER.DISABLED,
-          });
-        }
-      } else {
-        window.log.info(
-          `Setting sealedSender to DISABLED for conversation ${c.idForLogging()}`
-        );
-        c.set({
-          sealedSender: SEALED_SENDER.DISABLED,
-        });
-      }
-
-      if (profile.about) {
-        const key = c.get('profileKey');
-        if (key) {
-          const keyBuffer = base64ToArrayBuffer(key);
-          const decrypted = await window.textsecure.crypto.decryptProfile(
-            base64ToArrayBuffer(profile.about),
-            keyBuffer
-          );
-          c.set('about', stringFromBytes(trimForDisplay(decrypted)));
-        }
-      }
-
-      if (profile.aboutEmoji) {
-        const key = c.get('profileKey');
-        if (key) {
-          const keyBuffer = base64ToArrayBuffer(key);
-          const decrypted = await window.textsecure.crypto.decryptProfile(
-            base64ToArrayBuffer(profile.aboutEmoji),
-            keyBuffer
-          );
-          c.set('aboutEmoji', stringFromBytes(trimForDisplay(decrypted)));
-        }
-      }
-
-      if (profile.capabilities) {
-        c.set({ capabilities: profile.capabilities });
-      }
-      if (profileCredentialRequestContext && profile.credential) {
-        const profileKeyCredential = handleProfileKeyCredential(
-          clientZkProfileCipher,
-          profileCredentialRequestContext,
-          profile.credential
-        );
-        c.set({ profileKeyCredential });
-      }
-    } catch (error) {
-      if (error.code !== 403 && error.code !== 404) {
-        window.log.warn(
-          'getProfile failure:',
-          c.idForLogging(),
-          error && error.stack ? error.stack : error
-        );
-      } else {
-        await c.dropProfileKey();
-      }
-      return;
-    }
-
-    try {
-      await c.setEncryptedProfileName(profile.name);
-    } catch (error) {
-      window.log.warn(
-        'getProfile decryption failure:',
-        c.idForLogging(),
-        error && error.stack ? error.stack : error
-      );
-      await c.dropProfileKey();
-    }
-
-    try {
-      await c.setProfileAvatar(profile.avatar);
-    } catch (error) {
-      if (error.code === 403 || error.code === 404) {
-        window.log.info(
-          `Clearing profile avatar for conversation ${c.idForLogging()}`
-        );
-        c.set({
-          profileAvatar: null,
-        });
-      }
-    }
-
-    window.Signal.Data.updateConversation(c.attributes);
   }
 
   async setEncryptedProfileName(encryptedName: string): Promise<void> {
@@ -4464,7 +4456,7 @@ export class ConversationModel extends window.Backbone.Model<
     //   first/last name in their profile data.
     const nameChanged = oldName !== newName;
 
-    if (!this.isMe() && hadPreviousName && nameChanged) {
+    if (!isMe(this.attributes) && hadPreviousName && nameChanged) {
       const change = {
         type: 'name',
         oldName,
@@ -4475,13 +4467,18 @@ export class ConversationModel extends window.Backbone.Model<
     }
   }
 
-  async setProfileAvatar(avatarPath: string): Promise<void> {
-    if (!avatarPath) {
-      return;
+  async setProfileAvatar(avatarPath: undefined | null | string): Promise<void> {
+    if (isMe(this.attributes)) {
+      if (avatarPath) {
+        window.storage.put('avatarUrl', avatarPath);
+      } else {
+        window.storage.remove('avatarUrl');
+      }
     }
 
-    if (this.isMe()) {
-      window.storage.put('avatarUrl', avatarPath);
+    if (!avatarPath) {
+      this.set({ profileAvatar: undefined });
+      return;
     }
 
     const avatar = await window.textsecure.messaging.getAvatar(avatarPath);
@@ -4533,10 +4530,7 @@ export class ConversationModel extends window.Backbone.Model<
         sealedSender: SEALED_SENDER.UNKNOWN,
       });
 
-      if (
-        !viaStorageServiceSync &&
-        profileKey !== this.get('storageProfileKey')
-      ) {
+      if (!viaStorageServiceSync) {
         this.captureChange('profileKey');
       }
 
@@ -4548,39 +4542,6 @@ export class ConversationModel extends window.Backbone.Model<
       window.Signal.Data.updateConversation(this.attributes, {
         Conversation: window.Whisper.Conversation,
       });
-    }
-
-    if (viaStorageServiceSync) {
-      this.set({
-        storageProfileKey: profileKey,
-      });
-    }
-  }
-
-  async dropProfileKey(): Promise<void> {
-    if (this.get('profileKey')) {
-      window.log.info(
-        `Dropping profileKey, setting sealedSender to UNKNOWN for conversation ${this.idForLogging()}`
-      );
-      const profileAvatar = this.get('profileAvatar');
-      if (profileAvatar && profileAvatar.path) {
-        await deleteAttachmentData(profileAvatar.path);
-      }
-
-      this.set({
-        about: undefined,
-        aboutEmoji: undefined,
-        profileKey: undefined,
-        profileKeyVersion: undefined,
-        profileKeyCredential: null,
-        accessKey: null,
-        profileName: undefined,
-        profileFamilyName: undefined,
-        profileAvatar: null,
-        sealedSender: SEALED_SENDER.UNKNOWN,
-      });
-
-      window.Signal.Data.updateConversation(this.attributes);
     }
   }
 
@@ -4627,27 +4588,18 @@ export class ConversationModel extends window.Backbone.Model<
   }
 
   fetchContacts(): void {
-    if (this.isPrivate()) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      this.contactCollection!.reset([this]);
-    }
     const members = this.getMembers();
-    window._.forEach(members, member => {
-      this.listenTo(member, 'change:verified', this.onMemberVerifiedChange);
-    });
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     this.contactCollection!.reset(members);
   }
 
   async destroyMessages(): Promise<void> {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    this.messageCollection!.reset([]);
-
     this.set({
       lastMessage: null,
       timestamp: null,
       active_at: null,
+      pendingUniversalTimer: undefined,
     });
     window.Signal.Data.updateConversation(this.attributes);
 
@@ -4658,7 +4610,7 @@ export class ConversationModel extends window.Backbone.Model<
   }
 
   getTitle(): string {
-    if (this.isPrivate()) {
+    if (isDirectConversation(this.attributes)) {
       return (
         this.get('name') ||
         this.getProfileName() ||
@@ -4670,7 +4622,7 @@ export class ConversationModel extends window.Backbone.Model<
   }
 
   getProfileName(): string | undefined {
-    if (this.isPrivate()) {
+    if (isDirectConversation(this.attributes)) {
       return Util.combineNames(
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         this.get('profileName')!,
@@ -4682,7 +4634,7 @@ export class ConversationModel extends window.Backbone.Model<
   }
 
   getNumber(): string {
-    if (!this.isPrivate()) {
+    if (!isDirectConversation(this.attributes)) {
       return '';
     }
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -4722,32 +4674,76 @@ export class ConversationModel extends window.Backbone.Model<
     return initials.slice(0, 2).join('');
   }
 
-  isPrivate(): boolean {
-    return this.get('type') === 'private';
-  }
-
-  getColor(): ColorType {
-    if (!this.isPrivate()) {
-      return 'signal-blue';
-    }
-
+  getColor(): AvatarColorType {
     return migrateColor(this.get('color'));
   }
 
-  getAvatarPath(): string | undefined {
-    const avatar = this.isMe()
-      ? this.get('profileAvatar') || this.get('avatar')
-      : this.get('avatar') || this.get('profileAvatar');
+  getConversationColor(): ConversationColorType {
+    const defaultConversationColor = window.Events.getDefaultConversationColor();
 
-    if (!avatar || !avatar.path) {
-      return undefined;
+    return this.get('conversationColor') || defaultConversationColor.color;
+  }
+
+  getCustomColorData(): {
+    customColor?: CustomColorType;
+    customColorId?: string;
+  } {
+    const defaultConversationColor = window.Events.getDefaultConversationColor();
+
+    if (this.getConversationColor() !== 'custom') {
+      return {
+        customColor: undefined,
+        customColorId: undefined,
+      };
     }
 
-    return getAbsoluteAttachmentPath(avatar.path);
+    return {
+      customColor:
+        this.get('customColor') ||
+        defaultConversationColor.customColorData?.value,
+      customColorId:
+        this.get('customColorId') ||
+        defaultConversationColor.customColorData?.id,
+    };
+  }
+
+  private getAvatarPath(): undefined | string {
+    const avatar = isMe(this.attributes)
+      ? this.get('profileAvatar') || this.get('avatar')
+      : this.get('avatar') || this.get('profileAvatar');
+    return avatar?.path || undefined;
+  }
+
+  private getAvatarHash(): undefined | string {
+    const avatar = isMe(this.attributes)
+      ? this.get('profileAvatar') || this.get('avatar')
+      : this.get('avatar') || this.get('profileAvatar');
+    return avatar?.hash || undefined;
+  }
+
+  getAbsoluteAvatarPath(): string | undefined {
+    const avatarPath = this.getAvatarPath();
+    return avatarPath ? getAbsoluteAttachmentPath(avatarPath) : undefined;
+  }
+
+  getAbsoluteUnblurredAvatarPath(): string | undefined {
+    const unblurredAvatarPath = this.get('unblurredAvatarPath');
+    return unblurredAvatarPath
+      ? getAbsoluteAttachmentPath(unblurredAvatarPath)
+      : undefined;
+  }
+
+  unblurAvatar(): void {
+    const avatarPath = this.getAvatarPath();
+    if (avatarPath) {
+      this.set('unblurredAvatarPath', avatarPath);
+    } else {
+      this.unset('unblurredAvatarPath');
+    }
   }
 
   private canChangeTimer(): boolean {
-    if (this.isPrivate()) {
+    if (isDirectConversation(this.attributes)) {
       return true;
     }
 
@@ -4755,12 +4751,11 @@ export class ConversationModel extends window.Backbone.Model<
       return false;
     }
 
-    if (!this.isGroupV2()) {
+    if (!isGroupV2(this.attributes)) {
       return true;
     }
 
-    const accessControlEnum =
-      window.textsecure.protobuf.AccessControl.AccessRequired;
+    const accessControlEnum = Proto.AccessControl.AccessRequired;
     const accessControl = this.get('accessControl');
     const canAnyoneChangeTimer =
       accessControl &&
@@ -4774,23 +4769,27 @@ export class ConversationModel extends window.Backbone.Model<
   }
 
   canEditGroupInfo(): boolean {
-    if (!this.isGroupV2()) {
+    if (!isGroupV2(this.attributes)) {
+      return false;
+    }
+
+    if (this.get('left')) {
       return false;
     }
 
     return (
       this.areWeAdmin() ||
       this.get('accessControl')?.attributes ===
-        window.textsecure.protobuf.AccessControl.AccessRequired.MEMBER
+        Proto.AccessControl.AccessRequired.MEMBER
     );
   }
 
   areWeAdmin(): boolean {
-    if (!this.isGroupV2()) {
+    if (!isGroupV2(this.attributes)) {
       return false;
     }
 
-    const memberEnum = window.textsecure.protobuf.Member.Role;
+    const memberEnum = Proto.Member.Role;
     const members = this.get('membersV2') || [];
     const myId = window.ConversationController.getOurConversationId();
     const me = members.find(item => item.conversationId === myId);
@@ -4813,10 +4812,11 @@ export class ConversationModel extends window.Backbone.Model<
   // [X] whitelisted
   // [X] archived
   // [X] markedUnread
-  captureChange(property: string): void {
-    if (!window.Signal.RemoteConfig.isEnabled('desktop.storageWrite2')) {
+  // [X] dontNotifyForMentionsIfMuted
+  captureChange(logMessage: string): void {
+    if (!window.Signal.RemoteConfig.isEnabled('desktop.storageWrite3')) {
       window.log.info(
-        'conversation.captureChange: Returning early; desktop.storageWrite2 is falsey'
+        'conversation.captureChange: Returning early; desktop.storageWrite3 is falsey'
       );
 
       return;
@@ -4824,14 +4824,50 @@ export class ConversationModel extends window.Backbone.Model<
 
     window.log.info(
       'storageService[captureChange]',
-      property,
+      logMessage,
       this.idForLogging()
     );
     this.set({ needsStorageServiceSync: true });
 
-    this.queueJob(() => {
+    this.queueJob('captureChange', async () => {
       Services.storageServiceUploadJob();
     });
+  }
+
+  setMuteExpiration(
+    muteExpiresAt = 0,
+    { viaStorageServiceSync = false } = {}
+  ): void {
+    const prevExpiration = this.get('muteExpiresAt');
+
+    if (prevExpiration === muteExpiresAt) {
+      return;
+    }
+
+    // we use a timeoutId here so that we can reference the mute that was
+    // potentially set in the ConversationController. Specifically for a
+    // scenario where a conversation is already muted and we boot up the app,
+    // a timeout will be already set. But if we change the mute to a later
+    // date a new timeout would need to be set and the old one cleared. With
+    // this ID we can reference the existing timeout.
+    const timeoutId = this.getMuteTimeoutId();
+    window.Signal.Services.removeTimeout(timeoutId);
+
+    if (muteExpiresAt && muteExpiresAt < Number.MAX_SAFE_INTEGER) {
+      window.Signal.Services.onTimeout(
+        muteExpiresAt,
+        () => {
+          this.setMuteExpiration(0);
+        },
+        timeoutId
+      );
+    }
+
+    this.set({ muteExpiresAt });
+    if (!viaStorageServiceSync) {
+      this.captureChange('mutedUntilTimestamp');
+    }
+    window.Signal.Data.updateConversation(this.attributes);
   }
 
   isMuted(): boolean {
@@ -4842,12 +4878,31 @@ export class ConversationModel extends window.Backbone.Model<
     return `mute(${this.get('id')})`;
   }
 
-  async notify(message: WhatIsThis, reaction?: WhatIsThis): Promise<void> {
-    if (this.isMuted()) {
+  async notify(
+    message: Readonly<MessageModel>,
+    reaction?: WhatIsThis
+  ): Promise<void> {
+    // As a performance optimization don't perform any work if notifications are
+    // disabled.
+    if (!window.Whisper.Notifications.isEnabled) {
       return;
     }
 
-    if (!message.isIncoming() && !reaction) {
+    if (this.isMuted()) {
+      if (this.get('dontNotifyForMentionsIfMuted')) {
+        return;
+      }
+
+      const ourUuid = window.textsecure.storage.user.getUuid();
+      const mentionsMe = (message.get('bodyRanges') || []).some(
+        range => range.mentionUuid && range.mentionUuid === ourUuid
+      );
+      if (!mentionsMe) {
+        return;
+      }
+    }
+
+    if (!isIncoming(message.attributes) && !reaction) {
       return;
     }
 
@@ -4859,7 +4914,7 @@ export class ConversationModel extends window.Backbone.Model<
     const senderName = sender
       ? sender.getTitle()
       : window.i18n('unknownContact');
-    const senderTitle = this.isPrivate()
+    const senderTitle = isDirectConversation(this.attributes)
       ? senderName
       : window.i18n('notificationSenderInGroup', {
           sender: senderName,
@@ -4870,12 +4925,8 @@ export class ConversationModel extends window.Backbone.Model<
     const avatar = this.get('avatar') || this.get('profileAvatar');
     if (avatar && avatar.path) {
       notificationIconUrl = getAbsoluteAttachmentPath(avatar.path);
-    } else if (this.isPrivate()) {
-      notificationIconUrl = await new window.Whisper.IdenticonSVGView({
-        color: this.getColor(),
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        content: this.getInitials(this.get('name')!) || '#',
-      }).getDataUrl();
+    } else if (isDirectConversation(this.attributes)) {
+      notificationIconUrl = await this.getIdenticon();
     } else {
       // Not technically needed, but helps us be explicit: we don't show an icon for a
       //   group that doesn't have an icon.
@@ -4897,16 +4948,43 @@ export class ConversationModel extends window.Backbone.Model<
     });
   }
 
+  private async getIdenticon(): Promise<string> {
+    const color = this.getColor();
+    const name = this.get('name');
+
+    const content = (name && this.getInitials(name)) || '#';
+
+    const cached = this.cachedIdenticon;
+    if (cached && cached.content === content && cached.color === color) {
+      return cached.url;
+    }
+
+    const fresh = await new window.Whisper.IdenticonSVGView({
+      color,
+      content,
+    }).getDataUrl();
+
+    this.cachedIdenticon = { content, color, url: fresh };
+
+    return fresh;
+  }
+
   notifyTyping(options: {
     isTyping: boolean;
     senderId: string;
     fromMe: boolean;
-    senderDevice: string;
+    senderDevice: number;
   }): void {
     const { isTyping, senderId, fromMe, senderDevice } = options;
 
     // We don't do anything with typing messages from our other devices
     if (fromMe) {
+      return;
+    }
+
+    // Drop typing indicators for announcement only groups where the sender
+    // is not an admin
+    if (this.get('announcementsOnly') && !this.isAdmin(senderId)) {
       return;
     }
 
@@ -4958,15 +5036,14 @@ export class ConversationModel extends window.Backbone.Model<
     }
   }
 
-  getName(): string | undefined {
-    // eslint-disable-next-line no-useless-return
-    return;
-  }
-
   pin(): void {
+    if (this.get('isPinned')) {
+      return;
+    }
+
     window.log.info('pinning', this.idForLogging());
     const pinnedConversationIds = new Set(
-      window.storage.get<Array<string>>('pinnedConversationIds', [])
+      window.storage.get('pinnedConversationIds', new Array<string>())
     );
 
     pinnedConversationIds.add(this.id);
@@ -4974,23 +5051,29 @@ export class ConversationModel extends window.Backbone.Model<
     this.writePinnedConversations([...pinnedConversationIds]);
 
     this.set('isPinned', true);
-    window.Signal.Data.updateConversation(this.attributes);
 
     if (this.get('isArchived')) {
-      this.setArchived(false);
+      this.set({ isArchived: false });
     }
+    window.Signal.Data.updateConversation(this.attributes);
   }
 
-  unpin(): void {
+  unpin({ stopStorageSync = false } = {}): void {
+    if (!this.get('isPinned')) {
+      return;
+    }
+
     window.log.info('un-pinning', this.idForLogging());
 
     const pinnedConversationIds = new Set(
-      window.storage.get<Array<string>>('pinnedConversationIds', [])
+      window.storage.get('pinnedConversationIds', new Array<string>())
     );
 
     pinnedConversationIds.delete(this.id);
 
-    this.writePinnedConversations([...pinnedConversationIds]);
+    if (!stopStorageSync) {
+      this.writePinnedConversations([...pinnedConversationIds]);
+    }
 
     this.set('isPinned', false);
     window.Signal.Data.updateConversation(this.attributes);
@@ -5005,6 +5088,24 @@ export class ConversationModel extends window.Backbone.Model<
     if (me) {
       me.captureChange('pin');
     }
+  }
+
+  setDontNotifyForMentionsIfMuted(newValue: boolean): void {
+    const previousValue = Boolean(this.get('dontNotifyForMentionsIfMuted'));
+    if (previousValue === newValue) {
+      return;
+    }
+
+    this.set({ dontNotifyForMentionsIfMuted: newValue });
+    window.Signal.Data.updateConversation(this.attributes);
+    this.captureChange('dontNotifyForMentionsIfMuted');
+  }
+
+  acknowledgeGroupMemberNameCollisions(
+    groupNameCollisions: Readonly<GroupNameCollisionsWithIdsByTitle>
+  ): void {
+    this.set('acknowledgedGroupNameCollisions', groupNameCollisions);
+    window.Signal.Data.updateConversation(this.attributes);
   }
 }
 
@@ -5057,7 +5158,7 @@ window.Whisper.ConversationCollection = window.Backbone.Collection.extend({
     this.generateLookups(this.models);
   },
 
-  generateLookups(models: Array<WhatIsThis>) {
+  generateLookups(models: ReadonlyArray<ConversationModel>) {
     models.forEach(model => {
       const e164 = model.get('e164');
       if (e164) {
@@ -5103,13 +5204,13 @@ window.Whisper.ConversationCollection = window.Backbone.Collection.extend({
 
         // We create a new model if it's not already a model
         if (!item.get) {
-          hydratedData.push(new Whisper.Conversation(item));
+          hydratedData.push(new window.Whisper.Conversation(item));
         } else {
           hydratedData.push(item);
         }
       }
     } else if (!data.get) {
-      hydratedData = new Whisper.Conversation(data);
+      hydratedData = new window.Whisper.Conversation(data);
     } else {
       hydratedData = data;
     }
@@ -5146,10 +5247,6 @@ window.Whisper.ConversationCollection = window.Backbone.Collection.extend({
   },
 });
 
-window.Whisper.Conversation.COLORS = COLORS.concat(['grey', 'default']).join(
-  ' '
-);
-
 // This is a wrapper model used to display group members in the member list view, within
 //   the world of backbone, but layering another bit of group-specific data top of base
 //   conversation data.
@@ -5159,11 +5256,11 @@ window.Whisper.GroupMemberConversation = window.Backbone.Model.extend({
 
     if (!conversation) {
       throw new Error(
-        'GroupMemberConversation.initialze: conversation required!'
+        'GroupMemberConversation.initialize: conversation required!'
       );
     }
     if (!window._.isBoolean(isAdmin)) {
-      throw new Error('GroupMemberConversation.initialze: isAdmin required!');
+      throw new Error('GroupMemberConversation.initialize: isAdmin required!');
     }
 
     // If our underlying conversation changes, we change too
@@ -5191,7 +5288,7 @@ window.Whisper.GroupMemberConversation = window.Backbone.Model.extend({
   },
 
   isMe() {
-    return this.conversation.isMe();
+    return isMe(this.conversation.attributes);
   },
 });
 
@@ -5204,27 +5301,5 @@ const sortConversationTitles = (
   right: SortableByTitle,
   collator: Intl.Collator
 ) => {
-  const leftLower = left.getTitle().toLowerCase();
-  const rightLower = right.getTitle().toLowerCase();
-  return collator.compare(leftLower, rightLower);
+  return collator.compare(left.getTitle(), right.getTitle());
 };
-
-// We need a custom collection here to get the sorting we need
-window.Whisper.GroupConversationCollection = window.Backbone.Collection.extend({
-  model: window.Whisper.GroupMemberConversation,
-
-  initialize() {
-    this.collator = new Intl.Collator();
-  },
-
-  comparator(left: WhatIsThis, right: WhatIsThis) {
-    if (left.isAdmin && !right.isAdmin) {
-      return -1;
-    }
-    if (!left.isAdmin && right.isAdmin) {
-      return 1;
-    }
-
-    return sortConversationTitles(left, right, this.collator);
-  },
-});

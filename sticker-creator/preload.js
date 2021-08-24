@@ -9,16 +9,21 @@ const { readFile } = require('fs');
 const config = require('url').parse(window.location.toString(), true).query;
 const { noop, uniqBy } = require('lodash');
 const pMap = require('p-map');
+const client = require('@signalapp/signal-client');
+
+// It is important to call this as early as possible
+require('../ts/windows/context');
+
 const { deriveStickerPackKey } = require('../ts/Crypto');
+const { SignalService: Proto } = require('../ts/protobuf');
 const {
   getEnvironment,
   setEnvironment,
   parseEnvironment,
 } = require('../ts/environment');
-const { makeGetter } = require('../preload_utils');
+const { createSetting } = require('../ts/util/preload');
 
 const { dialog } = remote;
-const { nativeTheme } = remote.require('electron');
 
 const STICKER_SIZE = 512;
 const MIN_STICKER_DIMENSION = 10;
@@ -28,8 +33,9 @@ const MAX_ANIMATED_STICKER_BYTE_LENGTH = 300 * 1024;
 
 setEnvironment(parseEnvironment(config.environment));
 
+window.sqlInitializer = require('../ts/sql/initialize');
+
 window.ROOT_PATH = window.location.href.startsWith('file') ? '../../' : '/';
-window.PROTO_ROOT = '../../protos';
 window.getEnvironment = getEnvironment;
 window.getVersion = () => config.version;
 window.getGuid = require('uuid/v4');
@@ -38,7 +44,9 @@ window.Backbone = require('backbone');
 
 window.localeMessages = ipc.sendSync('locale-data');
 
-require('../ts/logging/set_up_renderer_logging');
+require('../ts/logging/set_up_renderer_logging').initialize();
+
+require('../ts/SignalProtocolStore');
 
 window.log.info('sticker-creator starting up...');
 
@@ -46,6 +54,20 @@ const Signal = require('../js/modules/signal');
 
 window.Signal = Signal.setup({});
 window.textsecure = require('../ts/textsecure').default;
+
+window.libsignal = window.libsignal || {};
+window.libsignal.HKDF = {};
+window.libsignal.HKDF.deriveSecrets = (input, salt, info) => {
+  const hkdf = client.HKDF.new(3);
+  const output = hkdf.deriveSecrets(
+    3 * 32,
+    Buffer.from(input),
+    Buffer.from(info),
+    Buffer.from(salt)
+  );
+  return [output.slice(0, 32), output.slice(32, 64), output.slice(64, 96)];
+};
+window.synchronousCrypto = require('../ts/util/synchronousCrypto');
 
 const { initialize: initializeWebAPI } = require('../ts/textsecure/WebAPI');
 const {
@@ -161,6 +183,7 @@ window.encryptAndUpload = async (
   cover,
   onProgress = noop
 ) => {
+  await window.sqlInitializer.goBackToMainProcess();
   const usernameItem = await window.Signal.Data.getItemById('uuid_id');
   const oldUsernameItem = await window.Signal.Data.getItemById('number_id');
   const passwordItem = await window.Signal.Data.getItemById('password');
@@ -182,13 +205,14 @@ window.encryptAndUpload = async (
   const { value: oldUsername } = oldUsernameItem;
   const { value: password } = passwordItem;
 
-  const packKey = window.libsignal.crypto.getRandomBytes(32);
+  const packKey = window.Signal.Crypto.getRandomBytes(32);
   const encryptionKey = await deriveStickerPackKey(packKey);
-  const iv = window.libsignal.crypto.getRandomBytes(16);
+  const iv = window.Signal.Crypto.getRandomBytes(16);
 
   const server = WebAPI.connect({
     username: username || oldUsername,
     password,
+    disableWebSockets: true,
   });
 
   const uniqueStickers = uniqBy(
@@ -196,24 +220,24 @@ window.encryptAndUpload = async (
     'imageData'
   );
 
-  const manifestProto = new window.textsecure.protobuf.StickerPack();
+  const manifestProto = new Proto.StickerPack();
   manifestProto.title = manifest.title;
   manifestProto.author = manifest.author;
   manifestProto.stickers = stickers.map(({ emoji }, id) => {
-    const s = new window.textsecure.protobuf.StickerPack.Sticker();
+    const s = new Proto.StickerPack.Sticker();
     s.id = id;
     s.emoji = emoji;
 
     return s;
   });
-  const coverSticker = new window.textsecure.protobuf.StickerPack.Sticker();
+  const coverSticker = new Proto.StickerPack.Sticker();
   coverSticker.id =
     uniqueStickers.length === stickers.length ? 0 : uniqueStickers.length - 1;
   coverSticker.emoji = '';
   manifestProto.cover = coverSticker;
 
   const encryptedManifest = await encrypt(
-    manifestProto.toArrayBuffer(),
+    Proto.StickerPack.encode(manifestProto).finish(),
     encryptionKey,
     iv
   );
@@ -251,11 +275,12 @@ async function encrypt(data, key, iv) {
   return ciphertext;
 }
 
-const getThemeSetting = makeGetter('theme-setting');
+const getThemeSetting = createSetting('theme-setting');
 
 async function resolveTheme() {
-  const theme = (await getThemeSetting()) || 'system';
+  const theme = (await getThemeSetting.getValue()) || 'system';
   if (process.platform === 'darwin' && theme === 'system') {
+    const { theme: nativeTheme } = window.SignalContext.nativeThemeListener;
     return nativeTheme.shouldUseDarkColors ? 'dark' : 'light';
   }
   return theme;
@@ -269,8 +294,6 @@ async function applyTheme() {
 
 window.addEventListener('DOMContentLoaded', applyTheme);
 
-nativeTheme.on('updated', () => {
-  applyTheme();
-});
+window.SignalContext.nativeThemeListener.subscribe(() => applyTheme());
 
 window.log.info('sticker-creator preload complete...');

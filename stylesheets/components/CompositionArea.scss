@@ -1,0 +1,183 @@
+.CompositionArea {
+  position: relative;
+  min-height: 42px;
+  padding-top: 6px;
+
+  &__placeholder {
+    flex-grow: 1;
+    margin: {
+      bottom: 6px;
+    }
+  }
+
+  &__row {
+    display: flex;
+    flex-direction: row;
+    &--center {
+      justify-content: center;
+    }
+    &--padded {
+      padding: 0 12px;
+    }
+    &--control-row {
+      margin-top: 8px;
+    }
+    &--column {
+      flex-direction: column;
+    }
+  }
+
+  &__button-cell {
+    margin-top: 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 100%;
+    flex-shrink: 0;
+    &--mic-active {
+      width: 150px;
+    }
+    &--large-right {
+      margin-left: auto;
+      margin-right: 4px;
+    }
+    &--large-right-mic-active {
+      margin-left: auto;
+      margin-right: 12px;
+    }
+  }
+  &__send-button {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: none;
+    border: none;
+    &::after {
+      display: block;
+      content: '';
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0;
+      @include color-svg('../images/icons/v2/send-24.svg', $color-ultramarine);
+    }
+  }
+  &__input {
+    flex-grow: 1;
+  }
+  $comp-area: &;
+  &__toggle-large {
+    width: 48px;
+    height: 24px;
+    position: absolute;
+    left: calc(50% - 24px);
+    top: -18px;
+    border-radius: 12px 12px 0 0;
+    pointer-events: none;
+
+    opacity: 0;
+    transition: opacity 200ms ease-out;
+
+    #{$comp-area}:hover & {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    @include light-theme() {
+      background-color: $color-white;
+    }
+
+    @include dark-theme() {
+      background-color: $color-gray-95;
+    }
+
+    &__button {
+      width: 48px;
+      height: 24px;
+      border: none;
+
+      @include light-theme() {
+        @include color-svg(
+          '../images/icons/v2/expand-up-20.svg',
+          $color-gray-45,
+          false
+        );
+      }
+
+      @include dark-theme() {
+        @include color-svg(
+          '../images/icons/v2/expand-up-20.svg',
+          $color-gray-45,
+          false
+        );
+      }
+
+      &--large-active {
+        @include light-theme() {
+          @include color-svg(
+            '../images/icons/v2/collapse-down-20.svg',
+            $color-gray-45,
+            false
+          );
+        }
+
+        @include dark-theme() {
+          @include color-svg(
+            '../images/icons/v2/collapse-down-20.svg',
+            $color-gray-45,
+            false
+          );
+        }
+      }
+    }
+  }
+  &__attachment-list {
+    width: 100%;
+  }
+
+  &--sms-only {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    // Note the margin in &__placeholder above
+    padding: 14px 16px 18px 16px;
+
+    &:not(.module-composition-area--pending) {
+      @include light-theme {
+        border-top: 1px solid $color-gray-05;
+      }
+      @include dark-theme {
+        border-top: 1px solid $color-gray-75;
+      }
+    }
+
+    &__title {
+      @include font-body-2-bold;
+      margin: 0 0 2px 0;
+
+      @include light-theme {
+        color: $color-gray-60;
+      }
+      @include dark-theme {
+        color: $color-gray-05;
+      }
+    }
+
+    &__body {
+      @include font-body-2;
+      text-align: center;
+
+      margin: 0;
+
+      @include light-theme {
+        color: $color-gray-60;
+      }
+      @include dark-theme {
+        color: $color-gray-05;
+      }
+    }
+  }
+}

@@ -14,10 +14,9 @@ const fakeAPI = {
   getAvatar: fakeCall,
   getDevices: fakeCall,
   // getKeysForIdentifier : fakeCall,
-  getMessageSocket: fakeCall,
   getMyKeys: fakeCall,
   getProfile: fakeCall,
-  getProvisioningSocket: fakeCall,
+  getProvisioningResource: fakeCall,
   putAttachment: fakeCall,
   registerKeys: fakeCall,
   requestVerificationSMS: fakeCall,
@@ -45,8 +44,9 @@ const fakeAPI = {
         msg.timestamp === undefined ||
         msg.relay !== undefined ||
         msg.destination !== undefined
-      )
+      ) {
         throw new Error('Invalid message');
+      }
 
       messagesSentMap[
         `${destination}.${messageArray[i].destinationDeviceId}`

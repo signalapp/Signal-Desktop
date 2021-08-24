@@ -1,87 +1,116 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
+import { isString } from 'lodash';
 
 import { action } from '@storybook/addon-actions';
 import { boolean, text } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
 
-import { Colors } from '../../types/Colors';
+import { ConversationColors } from '../../types/Colors';
 import { pngUrl } from '../../storybook/Fixtures';
 import { Message, Props as MessagesProps } from './Message';
-import { AUDIO_MP3, IMAGE_PNG, MIMEType, VIDEO_MP4 } from '../../types/MIME';
+import {
+  AUDIO_MP3,
+  IMAGE_PNG,
+  LONG_MESSAGE,
+  VIDEO_MP4,
+  stringToMIMEType,
+} from '../../types/MIME';
 import { Props, Quote } from './Quote';
+import { ReadStatus } from '../../messages/MessageReadStatus';
 import { setup as setupI18n } from '../../../js/modules/i18n';
 import enMessages from '../../../_locales/en/messages.json';
+import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
 
 const i18n = setupI18n('en', enMessages);
 
 const story = storiesOf('Components/Conversation/Quote', module);
 
 const defaultMessageProps: MessagesProps = {
-  authorId: 'some-id',
-  authorTitle: 'Person X',
+  author: getDefaultConversation({
+    id: 'some-id',
+    title: 'Person X',
+  }),
   canReply: true,
   canDeleteForEveryone: true,
   canDownload: true,
-  clearSelectedMessage: () => null,
+  checkForAccount: action('checkForAccount'),
+  clearSelectedMessage: action('default--clearSelectedMessage'),
+  conversationColor: 'crimson',
   conversationId: 'conversationId',
   conversationType: 'direct', // override
-  deleteMessage: () => null,
-  deleteMessageForEveryone: () => null,
+  deleteMessage: action('default--deleteMessage'),
+  deleteMessageForEveryone: action('default--deleteMessageForEveryone'),
   direction: 'incoming',
-  displayTapToViewMessage: () => null,
-  downloadAttachment: () => null,
+  displayTapToViewMessage: action('default--displayTapToViewMessage'),
+  downloadAttachment: action('default--downloadAttachment'),
+  doubleCheckMissingQuoteReference: action(
+    'default--doubleCheckMissingQuoteReference'
+  ),
   i18n,
   id: 'messageId',
+  renderingContext: 'storybook',
   interactionMode: 'keyboard',
   isBlocked: false,
   isMessageRequestAccepted: true,
-  kickOffAttachmentDownload: () => null,
-  openConversation: () => null,
-  openLink: () => null,
+  kickOffAttachmentDownload: action('default--kickOffAttachmentDownload'),
+  markAttachmentAsCorrupted: action('default--markAttachmentAsCorrupted'),
+  markViewed: action('default--markViewed'),
+  onHeightChange: action('onHeightChange'),
+  openConversation: action('default--openConversation'),
+  openLink: action('default--openLink'),
   previews: [],
-  reactToMessage: () => null,
+  reactToMessage: action('default--reactToMessage'),
+  readStatus: ReadStatus.Read,
   renderEmojiPicker: () => <div />,
-  replyToMessage: () => null,
-  retrySend: () => null,
-  scrollToQuotedMessage: () => null,
-  selectMessage: () => null,
-  showContactDetail: () => null,
-  showContactModal: () => null,
-  showExpiredIncomingTapToViewToast: () => null,
-  showExpiredOutgoingTapToViewToast: () => null,
-  showMessageDetail: () => null,
-  showVisualAttachment: () => null,
+  renderAudioAttachment: () => <div>*AudioAttachment*</div>,
+  replyToMessage: action('default--replyToMessage'),
+  retrySend: action('default--retrySend'),
+  scrollToQuotedMessage: action('default--scrollToQuotedMessage'),
+  selectMessage: action('default--selectMessage'),
+  showContactDetail: action('default--showContactDetail'),
+  showContactModal: action('default--showContactModal'),
+  showExpiredIncomingTapToViewToast: action(
+    'showExpiredIncomingTapToViewToast'
+  ),
+  showExpiredOutgoingTapToViewToast: action(
+    'showExpiredOutgoingTapToViewToast'
+  ),
+  showForwardMessageModal: action('default--showForwardMessageModal'),
+  showMessageDetail: action('default--showMessageDetail'),
+  showVisualAttachment: action('default--showVisualAttachment'),
   status: 'sent',
   text: 'This is really interesting.',
   timestamp: Date.now(),
 };
 
 const renderInMessage = ({
-  attachment,
-  authorColor,
   authorName,
   authorPhoneNumber,
   authorProfileName,
   authorTitle,
+  conversationColor,
   isFromMe,
+  rawAttachment,
+  isViewOnce,
   referencedMessageNotFound,
   text: quoteText,
 }: Props) => {
   const messageProps = {
     ...defaultMessageProps,
-    authorColor,
+    conversationColor,
     quote: {
-      attachment,
       authorId: 'an-author',
-      authorColor,
       authorName,
       authorPhoneNumber,
       authorProfileName,
       authorTitle,
+      conversationColor,
       isFromMe,
+      rawAttachment,
+      isViewOnce,
       referencedMessageNotFound,
       sentAt: Date.now() - 30 * 1000,
       text: quoteText,
@@ -98,8 +127,6 @@ const renderInMessage = ({
 };
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
-  attachment: overrideProps.attachment || undefined,
-  authorColor: overrideProps.authorColor || 'green',
   authorName: text('authorName', overrideProps.authorName || ''),
   authorPhoneNumber: text(
     'authorPhoneNumber',
@@ -110,16 +137,27 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
     overrideProps.authorProfileName || ''
   ),
   authorTitle: text('authorTitle', overrideProps.authorTitle || ''),
+  conversationColor: overrideProps.conversationColor || 'forest',
+  doubleCheckMissingQuoteReference:
+    overrideProps.doubleCheckMissingQuoteReference ||
+    action('doubleCheckMissingQuoteReference'),
   i18n,
   isFromMe: boolean('isFromMe', overrideProps.isFromMe || false),
   isIncoming: boolean('isIncoming', overrideProps.isIncoming || false),
   onClick: action('onClick'),
   onClose: action('onClose'),
+  rawAttachment: overrideProps.rawAttachment || undefined,
   referencedMessageNotFound: boolean(
     'referencedMessageNotFound',
     overrideProps.referencedMessageNotFound || false
   ),
-  text: text('text', overrideProps.text || 'A sample message from a pal'),
+  isViewOnce: boolean('isViewOnce', overrideProps.isViewOnce || false),
+  text: text(
+    'text',
+    isString(overrideProps.text)
+      ? overrideProps.text
+      : 'A sample message from a pal'
+  ),
   withContentAbove: boolean(
     'withContentAbove',
     overrideProps.withContentAbove || false
@@ -164,7 +202,9 @@ story.add('Incoming/Outgoing Colors', () => {
   const props = createProps({});
   return (
     <>
-      {Colors.map(color => renderInMessage({ ...props, authorColor: color }))}
+      {ConversationColors.map(color =>
+        renderInMessage({ ...props, conversationColor: color })
+      )}
     </>
   );
 });
@@ -184,7 +224,8 @@ story.add('Content Above', () => {
 
 story.add('Image Only', () => {
   const props = createProps({
-    attachment: {
+    text: '',
+    rawAttachment: {
       contentType: IMAGE_PNG,
       fileName: 'sax.png',
       isVoiceMessage: false,
@@ -194,14 +235,12 @@ story.add('Image Only', () => {
       },
     },
   });
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  props.text = undefined as any;
 
   return <Quote {...props} />;
 });
 story.add('Image Attachment', () => {
   const props = createProps({
-    attachment: {
+    rawAttachment: {
       contentType: IMAGE_PNG,
       fileName: 'sax.png',
       isVoiceMessage: false,
@@ -217,7 +256,21 @@ story.add('Image Attachment', () => {
 
 story.add('Image Attachment w/o Thumbnail', () => {
   const props = createProps({
-    attachment: {
+    rawAttachment: {
+      contentType: IMAGE_PNG,
+      fileName: 'sax.png',
+      isVoiceMessage: false,
+    },
+  });
+
+  return <Quote {...props} />;
+});
+
+story.add('Image Tap-to-View', () => {
+  const props = createProps({
+    text: '',
+    isViewOnce: true,
+    rawAttachment: {
       contentType: IMAGE_PNG,
       fileName: 'sax.png',
       isVoiceMessage: false,
@@ -229,7 +282,7 @@ story.add('Image Attachment w/o Thumbnail', () => {
 
 story.add('Video Only', () => {
   const props = createProps({
-    attachment: {
+    rawAttachment: {
       contentType: VIDEO_MP4,
       fileName: 'great-video.mp4',
       isVoiceMessage: false,
@@ -247,7 +300,7 @@ story.add('Video Only', () => {
 
 story.add('Video Attachment', () => {
   const props = createProps({
-    attachment: {
+    rawAttachment: {
       contentType: VIDEO_MP4,
       fileName: 'great-video.mp4',
       isVoiceMessage: false,
@@ -263,7 +316,21 @@ story.add('Video Attachment', () => {
 
 story.add('Video Attachment w/o Thumbnail', () => {
   const props = createProps({
-    attachment: {
+    rawAttachment: {
+      contentType: VIDEO_MP4,
+      fileName: 'great-video.mp4',
+      isVoiceMessage: false,
+    },
+  });
+
+  return <Quote {...props} />;
+});
+
+story.add('Video Tap-to-View', () => {
+  const props = createProps({
+    text: '',
+    isViewOnce: true,
+    rawAttachment: {
       contentType: VIDEO_MP4,
       fileName: 'great-video.mp4',
       isVoiceMessage: false,
@@ -275,7 +342,7 @@ story.add('Video Attachment w/o Thumbnail', () => {
 
 story.add('Audio Only', () => {
   const props = createProps({
-    attachment: {
+    rawAttachment: {
       contentType: AUDIO_MP3,
       fileName: 'great-video.mp3',
       isVoiceMessage: false,
@@ -289,7 +356,7 @@ story.add('Audio Only', () => {
 
 story.add('Audio Attachment', () => {
   const props = createProps({
-    attachment: {
+    rawAttachment: {
       contentType: AUDIO_MP3,
       fileName: 'great-video.mp3',
       isVoiceMessage: false,
@@ -301,7 +368,7 @@ story.add('Audio Attachment', () => {
 
 story.add('Voice Message Only', () => {
   const props = createProps({
-    attachment: {
+    rawAttachment: {
       contentType: AUDIO_MP3,
       fileName: 'great-video.mp3',
       isVoiceMessage: true,
@@ -315,7 +382,7 @@ story.add('Voice Message Only', () => {
 
 story.add('Voice Message Attachment', () => {
   const props = createProps({
-    attachment: {
+    rawAttachment: {
       contentType: AUDIO_MP3,
       fileName: 'great-video.mp3',
       isVoiceMessage: true,
@@ -327,8 +394,8 @@ story.add('Voice Message Attachment', () => {
 
 story.add('Other File Only', () => {
   const props = createProps({
-    attachment: {
-      contentType: 'application/json' as MIMEType,
+    rawAttachment: {
+      contentType: stringToMIMEType('application/json'),
       fileName: 'great-data.json',
       isVoiceMessage: false,
     },
@@ -339,11 +406,37 @@ story.add('Other File Only', () => {
   return <Quote {...props} />;
 });
 
+story.add('Media Tap-to-View', () => {
+  const props = createProps({
+    text: '',
+    isViewOnce: true,
+    rawAttachment: {
+      contentType: AUDIO_MP3,
+      fileName: 'great-video.mp3',
+      isVoiceMessage: false,
+    },
+  });
+
+  return <Quote {...props} />;
+});
+
 story.add('Other File Attachment', () => {
   const props = createProps({
-    attachment: {
-      contentType: 'application/json' as MIMEType,
+    rawAttachment: {
+      contentType: stringToMIMEType('application/json'),
       fileName: 'great-data.json',
+      isVoiceMessage: false,
+    },
+  });
+
+  return <Quote {...props} />;
+});
+
+story.add('Long message attachment (should be hidden)', () => {
+  const props = createProps({
+    rawAttachment: {
+      contentType: LONG_MESSAGE,
+      fileName: 'signal-long-message-123.txt',
       isVoiceMessage: false,
     },
   });
@@ -411,3 +504,22 @@ story.add('@mention + incoming + me', () => {
 
   return <Quote {...props} />;
 });
+
+story.add('Custom Color', () => (
+  <>
+    <Quote
+      {...createProps({ isIncoming: true, text: 'Solid + Gradient' })}
+      customColor={{
+        start: { hue: 82, saturation: 35 },
+      }}
+    />
+    <Quote
+      {...createProps()}
+      customColor={{
+        deg: 192,
+        start: { hue: 304, saturation: 85 },
+        end: { hue: 231, saturation: 76 },
+      }}
+    />
+  </>
+));

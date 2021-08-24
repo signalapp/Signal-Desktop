@@ -1,4 +1,4 @@
-// Copyright 2014-2020 Signal Messenger, LLC
+// Copyright 2014-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 const { join } = require('path');
@@ -22,12 +22,6 @@ module.exports = grunt => {
     components.push(bower.concat.app[i]);
   }
 
-  const libtextsecurecomponents = [];
-  // eslint-disable-next-line guard-for-in, no-restricted-syntax
-  for (const i in bower.concat.libtextsecure) {
-    libtextsecurecomponents.push(bower.concat.libtextsecure[i]);
-  }
-
   grunt.loadNpmTasks('grunt-sass');
 
   grunt.initConfig({
@@ -37,10 +31,6 @@ module.exports = grunt => {
         src: components,
         dest: 'js/components.js',
       },
-      libtextsecurecomponents: {
-        src: libtextsecurecomponents,
-        dest: 'libtextsecure/components.js',
-      },
       test: {
         src: [
           'node_modules/mocha/mocha.js',
@@ -49,26 +39,9 @@ module.exports = grunt => {
         ],
         dest: 'test/test.js',
       },
-      // TODO: Move errors back down?
-      libtextsecure: {
-        options: {
-          banner: ';(function() {\n',
-          footer: '})();\n',
-        },
-        src: [
-          'libtextsecure/libsignal-protocol.js',
-          'libtextsecure/protocol_wrapper.js',
-
-          'libtextsecure/storage/user.js',
-          'libtextsecure/storage/unprocessed.js',
-          'libtextsecure/protobufs.js',
-        ],
-        dest: 'js/libtextsecure.js',
-      },
       libtextsecuretest: {
         src: [
           'node_modules/jquery/dist/jquery.js',
-          'components/mock-socket/dist/mock-socket.js',
           'node_modules/mocha/mocha.js',
           'node_modules/chai/chai.js',
           'libtextsecure/test/_test.js',
@@ -104,29 +77,21 @@ module.exports = grunt => {
       },
     },
     watch: {
-      libtextsecure: {
-        files: ['./libtextsecure/*.js', './libtextsecure/storage/*.js'],
-        tasks: ['concat:libtextsecure'],
-      },
       protobuf: {
         files: ['./protos/SignalService.proto'],
         tasks: ['exec:build-protobuf'],
       },
       sass: {
-        files: ['./stylesheets/*.scss'],
+        files: ['./stylesheets/*.scss', './stylesheets/**/*.scss'],
         tasks: ['sass'],
-      },
-      transpile: {
-        files: ['./ts/**/*.ts', './ts/**/*.tsx'],
-        tasks: ['exec:transpile'],
       },
     },
     exec: {
-      'tx-pull-new': {
-        cmd: 'tx pull -a --minimum-perc=80',
+      'tx-pull-mostly-translated': {
+        cmd: 'tx pull --all --use-git-timestamps --minimum-perc=80',
       },
-      'tx-pull': {
-        cmd: 'tx pull',
+      'tx-pull-any-existing-translation': {
+        cmd: 'tx pull --use-git-timestamps',
       },
       transpile: {
         cmd: 'yarn transpile',
@@ -386,12 +351,18 @@ module.exports = grunt => {
           console.log('window opened');
         })
         .then(() =>
-          // Get the window's title
-          app.client.getTitle()
-        )
-        .then(title => {
           // Verify the window's title
-          assert.equal(title, packageJson.productName);
+          app.client.waitUntil(
+            async () =>
+              (await app.client.getTitle()) === packageJson.productName,
+            {
+              timeoutMsg: `Expected window title to be ${JSON.stringify(
+                packageJson.productName
+              )}`,
+            }
+          )
+        )
+        .then(() => {
           console.log('title ok');
         })
         .then(() => {
@@ -426,8 +397,8 @@ module.exports = grunt => {
   );
 
   grunt.registerTask('tx', [
-    'exec:tx-pull-new',
-    'exec:tx-pull',
+    'exec:tx-pull-mostly-translated',
+    'exec:tx-pull-any-existing-translation',
     'locale-patch',
   ]);
   grunt.registerTask('dev', ['default', 'watch']);

@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -13,7 +13,6 @@ import enMessages from '../../_locales/en/messages.json';
 const i18n = setupI18n('en', enMessages);
 
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
-  canPip: boolean('canPip', Boolean(overrideProps.canPip)),
   i18n,
   isGroupCall: boolean('isGroupCall', Boolean(overrideProps.isGroupCall)),
   message: overrideProps.message,
@@ -35,14 +34,18 @@ const story = storiesOf('Components/CallingHeader', module);
 
 story.add('Default', () => <CallingHeader {...createProps()} />);
 
-story.add('Has Pip', () => (
-  <CallingHeader {...createProps({ canPip: true })} />
+story.add('Lobby style', () => (
+  <CallingHeader
+    {...createProps()}
+    title={undefined}
+    togglePip={undefined}
+    onCancel={action('onClose')}
+  />
 ));
 
 story.add('With Participants', () => (
   <CallingHeader
     {...createProps({
-      canPip: true,
       isGroupCall: true,
       participantCount: 10,
     })}
@@ -52,7 +55,6 @@ story.add('With Participants', () => (
 story.add('With Participants (shown)', () => (
   <CallingHeader
     {...createProps({
-      canPip: true,
       isGroupCall: true,
       participantCount: 10,
       showParticipantsList: true,

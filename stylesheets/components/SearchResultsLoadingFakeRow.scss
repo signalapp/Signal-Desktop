@@ -1,0 +1,35 @@
+// Copyright 2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+// These styles should match the "real" contact/conversation row.
+.module-SearchResultsLoadingFakeRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 16px;
+  padding-right: 16px;
+
+  &__avatar {
+    width: 52px;
+    height: 52px;
+    border-radius: 100%;
+    @include search-results-loading-pulsating-background;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    justify-content: center;
+    margin-left: 12px;
+
+    &__header {
+      @include search-results-loading-box(50%);
+      margin-bottom: 8px;
+    }
+
+    &__message {
+      @include search-results-loading-box(90%);
+    }
+  }
+}

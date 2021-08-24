@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import { Emoji } from '../emoji/Emoji';
 import { convertShortName } from '../emoji/lib';
 import { Props as EmojiPickerProps } from '../emoji/EmojiPicker';
-import { useRestoreFocus } from '../../util/hooks';
+import { useRestoreFocus } from '../../util/hooks/useRestoreFocus';
 import { LocalizerType } from '../../types/Util';
 
 export type RenderEmojiPickerProps = Pick<Props, 'onClose' | 'style'> &
@@ -40,7 +40,6 @@ export const ReactionPicker = React.forwardRef<HTMLDivElement, Props>(
     ref
   ) => {
     const [pickingOther, setPickingOther] = React.useState(false);
-    const focusRef = React.useRef<HTMLButtonElement>(null);
 
     // Handle escape key
     React.useEffect(() => {
@@ -70,7 +69,7 @@ export const ReactionPicker = React.forwardRef<HTMLDivElement, Props>(
     );
 
     // Focus first button and restore focus on unmount
-    useRestoreFocus(focusRef);
+    const [focusRef] = useRestoreFocus();
 
     const otherSelected = selected && !emojis.includes(selected);
 

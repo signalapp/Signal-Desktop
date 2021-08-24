@@ -1,0 +1,16 @@
+# Copyright 2021 Signal Messenger, LLC
+# SPDX-License-Identifier: AGPL-3.0-only
+
+# If you're looking at `git blame` and want to omit Prettier-related changes, run the
+# following:
+#
+#     git blame --ignore-revs-file git-blame-ignored-prettier-revs MY_FILE
+#
+# [See the `git blame` documentation for more][0].
+#
+# [0]: https://git-scm.com/docs/git-blame#Documentation/git-blame.txt---ignore-revs-fileltfilegt
+
+d0a6bf400c17045aa5e788bb15603bf1061e6578
+a5a64f354f886ed30bcb6dc00a44f12571123962
+0d3b390129f170d60111320e6c8a9fcd5f48bf97
+bad4681ade04a5d3adb35c766635a38651689e5f

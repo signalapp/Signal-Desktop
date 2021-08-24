@@ -6,7 +6,9 @@ import * as sinon from 'sinon';
 import * as fs from 'fs';
 import * as path from 'path';
 import AbortController from 'abort-controller';
-import { MIMEType, IMAGE_JPEG } from '../../types/MIME';
+import { IMAGE_JPEG, stringToMIMEType } from '../../types/MIME';
+
+import { typedArrayToArrayBuffer } from '../../Crypto';
 
 import {
   fetchLinkPreviewImage,
@@ -120,6 +122,68 @@ describe('link preview fetching', () => {
           imageHref: 'https://example.com/image.jpg',
         }
       );
+    });
+
+    it('handles image href sources in the correct order', async () => {
+      const orderedImageHrefSources = [
+        {
+          tag:
+            '<meta property="og:image" content="https://example.com/og-image.jpg">',
+          expectedHref: 'https://example.com/og-image.jpg',
+        },
+        {
+          tag:
+            '<meta property="og:image:url" content="https://example.com/og-image-url.jpg">',
+          expectedHref: 'https://example.com/og-image-url.jpg',
+        },
+        {
+          tag:
+            '<link rel="apple-touch-icon" href="https://example.com/apple-touch-icon.jpg">',
+          expectedHref: 'https://example.com/apple-touch-icon.jpg',
+        },
+        {
+          tag:
+            '<link rel="apple-touch-icon-precomposed" href="https://example.com/apple-touch-icon-precomposed.jpg">',
+          expectedHref: 'https://example.com/apple-touch-icon-precomposed.jpg',
+        },
+        {
+          tag:
+            '<link rel="shortcut icon" href="https://example.com/shortcut-icon.jpg">',
+          expectedHref: 'https://example.com/shortcut-icon.jpg',
+        },
+        {
+          tag: '<link rel="icon" href="https://example.com/icon.jpg">',
+          expectedHref: 'https://example.com/icon.jpg',
+        },
+      ];
+      for (let i = orderedImageHrefSources.length - 1; i >= 0; i -= 1) {
+        const imageTags = orderedImageHrefSources
+          .slice(i)
+          .map(({ tag }) => tag)
+          // Reverse the array to make sure that we're prioritizing properly,
+          //   instead of just using whichever comes first.
+          .reverse();
+        const fakeFetch = stub().resolves(
+          makeResponse({
+            body: makeHtml([
+              '<meta property="og:title" content="test title">',
+              ...imageTags,
+            ]),
+          })
+        );
+
+        // eslint-disable-next-line no-await-in-loop
+        const val = await fetchLinkPreviewMetadata(
+          fakeFetch,
+          'https://example.com',
+          new AbortController().signal
+        );
+        assert.propertyVal(
+          val,
+          'imageHref',
+          orderedImageHrefSources[i].expectedHref
+        );
+      }
     });
 
     it('logs no warnings if everything goes smoothly', async () => {
@@ -425,7 +489,7 @@ describe('link preview fetching', () => {
       );
     });
 
-    it('allows an explitly inline Content-Disposition header', async () => {
+    it('allows an explicitly inline Content-Disposition header', async () => {
       const fakeFetch = stub().resolves(
         makeResponse({
           headers: { 'Content-Disposition': 'inline' },
@@ -780,8 +844,6 @@ describe('link preview fetching', () => {
     });
 
     it('stops reading bodies after 500 kilobytes', async function test() {
-      this.timeout(10000);
-
       const shouldNeverBeCalled = sinon.stub();
 
       const fakeFetch = stub().resolves(
@@ -790,10 +852,9 @@ describe('link preview fetching', () => {
             yield new TextEncoder().encode(
               '<!doctype html><head><title>foo bar</title>'
             );
-            const spaces = new Uint8Array(1024).fill(32);
-            for (let i = 0; i < 500; i += 1) {
-              yield spaces;
-            }
+            const spaces = new Uint8Array(250 * 1024).fill(32);
+            yield spaces;
+            yield spaces;
             shouldNeverBeCalled();
             yield new TextEncoder().encode(
               '<meta property="og:description" content="should be ignored">'
@@ -1093,8 +1154,8 @@ describe('link preview fetching', () => {
             new AbortController().signal
           ),
           {
-            data: fixture.buffer,
-            contentType: contentType as MIMEType,
+            data: typedArrayToArrayBuffer(fixture),
+            contentType: stringToMIMEType(contentType),
           }
         );
       });
@@ -1178,7 +1239,7 @@ describe('link preview fetching', () => {
           new AbortController().signal
         ),
         {
-          data: fixture.buffer,
+          data: typedArrayToArrayBuffer(fixture),
           contentType: IMAGE_JPEG,
         }
       );
@@ -1290,6 +1351,71 @@ describe('link preview fetching', () => {
             'User-Agent': 'WhatsApp/2',
           },
         })
+      );
+    });
+
+    it("doesn't read the image if the request was aborted before reading started", async () => {
+      const abortController = new AbortController();
+
+      const fixture = await readFixture('kitten-1-64-64.jpg');
+
+      const fakeFetch = stub().callsFake(() => {
+        const response = new Response(fixture, {
+          headers: {
+            'Content-Type': 'image/jpeg',
+            'Content-Length': fixture.length.toString(),
+          },
+        });
+        sinon
+          .stub(response, 'arrayBuffer')
+          .rejects(new Error('Should not be called'));
+        sinon.stub(response, 'blob').rejects(new Error('Should not be called'));
+        sinon.stub(response, 'text').rejects(new Error('Should not be called'));
+        sinon.stub(response, 'body').get(() => {
+          throw new Error('Should not be accessed');
+        });
+
+        abortController.abort();
+
+        return response;
+      });
+
+      assert.isNull(
+        await fetchLinkPreviewImage(
+          fakeFetch,
+          'https://example.com/img',
+          abortController.signal
+        )
+      );
+    });
+
+    it('returns null if the request was aborted after the image was read', async () => {
+      const abortController = new AbortController();
+
+      const fixture = await readFixture('kitten-1-64-64.jpg');
+
+      const fakeFetch = stub().callsFake(() => {
+        const response = new Response(fixture, {
+          headers: {
+            'Content-Type': 'image/jpeg',
+            'Content-Length': fixture.length.toString(),
+          },
+        });
+        const oldArrayBufferMethod = response.arrayBuffer.bind(response);
+        sinon.stub(response, 'arrayBuffer').callsFake(async () => {
+          const data = await oldArrayBufferMethod();
+          abortController.abort();
+          return data;
+        });
+        return response;
+      });
+
+      assert.isNull(
+        await fetchLinkPreviewImage(
+          fakeFetch,
+          'https://example.com/img',
+          abortController.signal
+        )
       );
     });
   });

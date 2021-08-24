@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { RequestInit, Response } from 'node-fetch';
-import { AbortSignal } from 'abort-controller';
+import type { AbortSignal as AbortSignalForNodeFetch } from 'abort-controller';
 
 import {
   IMAGE_GIF,
@@ -11,6 +11,7 @@ import {
   IMAGE_PNG,
   IMAGE_WEBP,
   MIMEType,
+  stringToMIMEType,
 } from '../types/MIME';
 
 const USER_AGENT = 'WhatsApp/2';
@@ -86,7 +87,7 @@ async function fetchWithRedirects(
     }
     urlsSeen.add(nextHrefToLoad);
 
-    // This `await` is deliberatly inside of a loop.
+    // This `await` is deliberately inside of a loop.
     // eslint-disable-next-line no-await-in-loop
     const response = await fetchFn(nextHrefToLoad, {
       ...options,
@@ -163,7 +164,7 @@ const parseContentType = (headerValue: string | null): ParsedContentType => {
   }
 
   return {
-    type: rawType as MIMEType,
+    type: stringToMIMEType(rawType),
     charset,
   };
 };
@@ -178,6 +179,38 @@ const parseContentLength = (headerValue: string | null): number => {
   }
   const result = parseInt(headerValue, 10);
   return Number.isNaN(result) ? Infinity : result;
+};
+
+type ValidCharset =
+  | 'ascii'
+  | 'utf8'
+  | 'utf-8'
+  | 'utf16le'
+  | 'ucs2'
+  | 'ucs-2'
+  | 'base64'
+  | 'latin1'
+  | 'binary'
+  | 'hex';
+
+const VALID_CHARSETS = new Set([
+  'ascii',
+  'utf8',
+  'utf-8',
+  'utf16le',
+  'ucs2',
+  'ucs-2',
+  'base64',
+  'latin1',
+  'binary',
+  'hex',
+]);
+
+const checkCharset = (charSet: string | null): charSet is ValidCharset => {
+  if (!charSet) {
+    return false;
+  }
+  return VALID_CHARSETS.has(charSet);
 };
 
 const emptyHtmlDocument = (): HTMLDocument =>
@@ -269,6 +302,9 @@ const getHtmlDocument = async (
 
       // This check exists to satisfy TypeScript; chunk should always be a Buffer.
       if (typeof chunk === 'string') {
+        if (!checkCharset(httpCharset)) {
+          throw new Error(`Invalid charset: ${httpCharset}`);
+        }
         chunk = Buffer.from(chunk, httpCharset || 'utf8');
       }
 
@@ -354,9 +390,10 @@ const parseMetadata = (
   const rawImageHref =
     getOpenGraphContent(document, ['og:image', 'og:image:url']) ||
     getLinkHrefAttribute(document, [
+      'apple-touch-icon',
+      'apple-touch-icon-precomposed',
       'shortcut icon',
       'icon',
-      'apple-touch-icon',
     ]);
   const imageUrl = rawImageHref ? maybeParseUrl(rawImageHref, href) : null;
   const imageHref = imageUrl ? imageUrl.href : null;
@@ -412,7 +449,7 @@ export async function fetchLinkPreviewMetadata(
         Accept: 'text/html,application/xhtml+xml',
         'User-Agent': USER_AGENT,
       },
-      signal: abortSignal,
+      signal: abortSignal as AbortSignalForNodeFetch,
     });
   } catch (err) {
     window.log.warn(
@@ -509,7 +546,7 @@ export async function fetchLinkPreviewImage(
         'User-Agent': USER_AGENT,
       },
       size: MAX_IMAGE_CONTENT_LENGTH,
-      signal: abortSignal,
+      signal: abortSignal as AbortSignalForNodeFetch,
     });
   } catch (err) {
     window.log.warn('fetchLinkPreviewImage: failed to fetch image; bailing');
@@ -558,6 +595,10 @@ export async function fetchLinkPreviewImage(
     data = await response.arrayBuffer();
   } catch (err) {
     window.log.warn('fetchLinkPreviewImage: failed to read body; bailing');
+    return null;
+  }
+
+  if (abortSignal.aborted) {
     return null;
   }
 

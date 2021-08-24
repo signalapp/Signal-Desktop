@@ -4,8 +4,10 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import { LocalizerType } from '../types/Util';
-import { Avatar } from './Avatar';
+import { Avatar, AvatarBlur } from './Avatar';
 import { Spinner } from './Spinner';
+import { Button, ButtonVariant } from './Button';
+import { GroupDescription } from './conversation/GroupDescription';
 
 import { PreJoinConversationType } from '../state/ducks/conversations';
 
@@ -34,6 +36,7 @@ export const GroupV2JoinDialog = React.memo((props: PropsType) => {
   const {
     approvalRequired,
     avatar,
+    groupDescription,
     i18n,
     join,
     memberCount,
@@ -44,9 +47,6 @@ export const GroupV2JoinDialog = React.memo((props: PropsType) => {
   const joinString = approvalRequired
     ? i18n('GroupV2--join--request-to-join-button')
     : i18n('GroupV2--join--join-button');
-  const promptString = approvalRequired
-    ? i18n('GroupV2--join--prompt-with-approval')
-    : i18n('GroupV2--join--prompt');
   const memberString =
     memberCount === 1
       ? i18n('GroupV2--join--member-count--single')
@@ -76,10 +76,14 @@ export const GroupV2JoinDialog = React.memo((props: PropsType) => {
       />
       <div className="module-group-v2-join-dialog__avatar">
         <Avatar
+          acceptedMessageRequest={false}
           avatarPath={avatar ? avatar.url : undefined}
+          blur={AvatarBlur.NoBlur}
           loading={avatar && !avatar.url}
           conversationType="group"
           title={title}
+          isMe={false}
+          sharedGroupNames={[]}
           size={80}
           i18n={i18n}
         />
@@ -88,32 +92,45 @@ export const GroupV2JoinDialog = React.memo((props: PropsType) => {
       <div className="module-group-v2-join-dialog__metadata">
         {i18n('GroupV2--join--group-metadata', [memberString])}
       </div>
-      <div className="module-group-v2-join-dialog__prompt">{promptString}</div>
+      {groupDescription && (
+        <div className="module-group-v2-join-dialog__description">
+          <GroupDescription i18n={i18n} title={title} text={groupDescription} />
+        </div>
+      )}
+      {approvalRequired ? (
+        <div className="module-group-v2-join-dialog__prompt--approval">
+          {i18n('GroupV2--join--prompt-with-approval')}
+        </div>
+      ) : (
+        <div className="module-group-v2-join-dialog__prompt">
+          {i18n('GroupV2--join--prompt')}
+        </div>
+      )}
       <div className="module-group-v2-join-dialog__buttons">
-        <button
+        <Button
           className={classNames(
             'module-group-v2-join-dialog__button',
             'module-group-v2-join-dialog__button--secondary'
           )}
           disabled={isWorking}
-          type="button"
           onClick={wrappedClose}
+          variant={ButtonVariant.Secondary}
         >
           {i18n('cancel')}
-        </button>
-        <button
+        </Button>
+        <Button
           className="module-group-v2-join-dialog__button"
           disabled={isWorking}
           ref={focusRef}
-          type="button"
           onClick={wrappedJoin}
+          variant={ButtonVariant.Primary}
         >
           {isJoining ? (
             <Spinner size="20px" svgSize="small" direction="on-avatar" />
           ) : (
             joinString
           )}
-        </button>
+        </Button>
       </div>
     </div>
   );

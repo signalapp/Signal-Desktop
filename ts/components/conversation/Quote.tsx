@@ -10,17 +10,18 @@ import * as GoogleChrome from '../../util/GoogleChrome';
 
 import { MessageBody } from './MessageBody';
 import { BodyRangesType, LocalizerType } from '../../types/Util';
-import { ColorType } from '../../types/Colors';
+import { ConversationColorType, CustomColorType } from '../../types/Colors';
 import { ContactName } from './ContactName';
 import { getTextWithMentions } from '../../util/getTextWithMentions';
+import { getCustomColorStyle } from '../../util/getCustomColorStyle';
 
 export type Props = {
-  attachment?: QuotedAttachmentType;
   authorTitle: string;
   authorPhoneNumber?: string;
   authorProfileName?: string;
   authorName?: string;
-  authorColor?: ColorType;
+  conversationColor: ConversationColorType;
+  customColor?: CustomColorType;
   bodyRanges?: BodyRangesType;
   i18n: LocalizerType;
   isFromMe: boolean;
@@ -29,7 +30,10 @@ export type Props = {
   onClick?: () => void;
   onClose?: () => void;
   text: string;
+  rawAttachment?: QuotedAttachmentType;
+  isViewOnce: boolean;
   referencedMessageNotFound: boolean;
+  doubleCheckMissingQuoteReference: () => unknown;
 };
 
 type State = {
@@ -38,7 +42,7 @@ type State = {
 
 export type QuotedAttachmentType = {
   contentType: MIME.MIMEType;
-  fileName: string;
+  fileName?: string;
   /** Not included in protobuf */
   isVoiceMessage: boolean;
   thumbnail?: Attachment;
@@ -55,11 +59,20 @@ function validateQuote(quote: Props): boolean {
     return true;
   }
 
-  if (quote.attachment) {
+  if (quote.rawAttachment) {
     return true;
   }
 
   return false;
+}
+
+// Long message attachments should not be shown.
+function getAttachment(
+  rawAttachment: undefined | QuotedAttachmentType
+): undefined | QuotedAttachmentType {
+  return rawAttachment && !MIME.isLongMessage(rawAttachment.contentType)
+    ? rawAttachment
+    : undefined;
 }
 
 function getObjectUrl(thumbnail: Attachment | undefined): string | undefined {
@@ -72,19 +85,32 @@ function getObjectUrl(thumbnail: Attachment | undefined): string | undefined {
 
 function getTypeLabel({
   i18n,
+  isViewOnce = false,
   contentType,
   isVoiceMessage,
 }: {
   i18n: LocalizerType;
+  isViewOnce?: boolean;
   contentType: MIME.MIMEType;
   isVoiceMessage: boolean;
 }): string | undefined {
   if (GoogleChrome.isVideoTypeSupported(contentType)) {
+    if (isViewOnce) {
+      return i18n('message--getDescription--disappearing-video');
+    }
     return i18n('video');
   }
   if (GoogleChrome.isImageTypeSupported(contentType)) {
+    if (isViewOnce) {
+      return i18n('message--getDescription--disappearing-photo');
+    }
     return i18n('photo');
   }
+
+  if (isViewOnce) {
+    return i18n('message--getDescription--disappearing-media');
+  }
+
   if (MIME.isAudio(contentType) && isVoiceMessage) {
     return i18n('voiceMessage');
   }
@@ -98,6 +124,17 @@ export class Quote extends React.Component<Props, State> {
     this.state = {
       imageBroken: false,
     };
+  }
+
+  componentDidMount(): void {
+    const {
+      doubleCheckMissingQuoteReference,
+      referencedMessageNotFound,
+    } = this.props;
+
+    if (referencedMessageNotFound) {
+      doubleCheckMissingQuoteReference();
+    }
   }
 
   public handleKeyDown = (
@@ -173,7 +210,8 @@ export class Quote extends React.Component<Props, State> {
   }
 
   public renderGenericFile(): JSX.Element | null {
-    const { attachment, isIncoming } = this.props;
+    const { rawAttachment, isIncoming } = this.props;
+    const attachment = getAttachment(rawAttachment);
 
     if (!attachment) {
       return null;
@@ -205,8 +243,9 @@ export class Quote extends React.Component<Props, State> {
   }
 
   public renderIconContainer(): JSX.Element | null {
-    const { attachment } = this.props;
+    const { rawAttachment, isViewOnce } = this.props;
     const { imageBroken } = this.state;
+    const attachment = getAttachment(rawAttachment);
 
     if (!attachment) {
       return null;
@@ -214,6 +253,10 @@ export class Quote extends React.Component<Props, State> {
 
     const { contentType, thumbnail } = attachment;
     const objectUrl = getObjectUrl(thumbnail);
+
+    if (isViewOnce) {
+      return this.renderIcon('view-once');
+    }
 
     if (GoogleChrome.isVideoTypeSupported(contentType)) {
       return objectUrl && !imageBroken
@@ -233,7 +276,14 @@ export class Quote extends React.Component<Props, State> {
   }
 
   public renderText(): JSX.Element | null {
-    const { bodyRanges, i18n, text, attachment, isIncoming } = this.props;
+    const {
+      bodyRanges,
+      i18n,
+      text,
+      rawAttachment,
+      isIncoming,
+      isViewOnce,
+    } = this.props;
 
     if (text) {
       const quoteText = bodyRanges
@@ -253,13 +303,20 @@ export class Quote extends React.Component<Props, State> {
       );
     }
 
+    const attachment = getAttachment(rawAttachment);
+
     if (!attachment) {
       return null;
     }
 
     const { contentType, isVoiceMessage } = attachment;
 
-    const typeLabel = getTypeLabel({ i18n, contentType, isVoiceMessage });
+    const typeLabel = getTypeLabel({
+      i18n,
+      isViewOnce,
+      contentType,
+      isVoiceMessage,
+    });
     if (typeLabel) {
       return (
         <div
@@ -348,7 +405,13 @@ export class Quote extends React.Component<Props, State> {
   }
 
   public renderReferenceWarning(): JSX.Element | null {
-    const { i18n, isIncoming, referencedMessageNotFound } = this.props;
+    const {
+      conversationColor,
+      customColor,
+      i18n,
+      isIncoming,
+      referencedMessageNotFound,
+    } = this.props;
 
     if (!referencedMessageNotFound) {
       return null;
@@ -358,8 +421,11 @@ export class Quote extends React.Component<Props, State> {
       <div
         className={classNames(
           'module-quote__reference-warning',
-          isIncoming ? 'module-quote__reference-warning--incoming' : null
+          isIncoming
+            ? `module-quote--incoming-${conversationColor}`
+            : `module-quote--outgoing-${conversationColor}`
         )}
+        style={{ ...getCustomColorStyle(customColor, true) }}
       >
         <div
           className={classNames(
@@ -385,7 +451,8 @@ export class Quote extends React.Component<Props, State> {
 
   public render(): JSX.Element | null {
     const {
-      authorColor,
+      conversationColor,
+      customColor,
       isIncoming,
       onClick,
       referencedMessageNotFound,
@@ -411,14 +478,15 @@ export class Quote extends React.Component<Props, State> {
             'module-quote',
             isIncoming ? 'module-quote--incoming' : 'module-quote--outgoing',
             isIncoming
-              ? `module-quote--incoming-${authorColor}`
-              : `module-quote--outgoing-${authorColor}`,
+              ? `module-quote--incoming-${conversationColor}`
+              : `module-quote--outgoing-${conversationColor}`,
             !onClick ? 'module-quote--no-click' : null,
             withContentAbove ? 'module-quote--with-content-above' : null,
             referencedMessageNotFound
               ? 'module-quote--with-reference-warning'
               : null
           )}
+          style={{ ...getCustomColorStyle(customColor, true) }}
         >
           <div className="module-quote__primary">
             {this.renderAuthor()}
@@ -474,7 +542,7 @@ function ThumbnailImage({
     <div
       className="module-quote__icon-container"
       style={
-        loadedSrc ? { backgroundImage: `url('${escape(loadedSrc)}')` } : {}
+        loadedSrc ? { backgroundImage: `url('${encodeURI(loadedSrc)}')` } : {}
       }
     >
       {children}

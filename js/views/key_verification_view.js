@@ -1,9 +1,7 @@
 // Copyright 2015-2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* global Backbone, Signal, Whisper */
-
-/* eslint-disable more/no-then */
+/* global Backbone, Signal, Whisper, $ */
 
 // eslint-disable-next-line func-names
 (function () {
@@ -11,7 +9,7 @@
 
   Whisper.KeyVerificationPanelView = Whisper.View.extend({
     className: 'panel',
-    templateName: 'key-verification',
+    template: () => $('#key-verification').html(),
     initialize(options) {
       this.render();
 

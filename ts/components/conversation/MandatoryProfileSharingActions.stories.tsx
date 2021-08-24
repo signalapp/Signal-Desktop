@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -28,7 +28,7 @@ const getBaseProps = (
     ? text('name', 'NYC Rock Climbers')
     : text('name', 'Cayce Bollard'),
   onBlock: action('block'),
-  onBlockAndDelete: action('onBlockAndDelete'),
+  onBlockAndReportSpam: action('onBlockAndReportSpam'),
   onDelete: action('delete'),
   onAccept: action('accept'),
 });

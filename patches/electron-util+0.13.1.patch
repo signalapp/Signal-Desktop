@@ -1,0 +1,22 @@
+diff --git a/node_modules/electron-util/index.d.ts b/node_modules/electron-util/index.d.ts
+index 8d493d5..3408e21 100644
+--- a/node_modules/electron-util/index.d.ts
++++ b/node_modules/electron-util/index.d.ts
+@@ -1,7 +1,7 @@
+ /// <reference lib="dom"/>
+ /// <reference types="electron"/>
+ /// <reference types="node"/>
+-import {AllElectron, Remote, BrowserWindow, Size, Rectangle, Session, MenuItemConstructorOptions, MenuItem} from 'electron';
++import {RemoteMainInterface, BrowserWindow, Size, Rectangle, Session, MenuItemConstructorOptions, MenuItem} from 'electron';
+ import {Options as NewGithubIssueUrlOptions} from 'new-github-issue-url';
+ import {RequireAtLeastOne} from 'type-fest';
+ 
+@@ -14,7 +14,7 @@ Access the Electron APIs in both the main and renderer process without having to
+ api.app.quit(); // The `app` API is usually only available in the main process.
+ ```
+ */
+-export const api: AllElectron | Remote;
++export const api: RemoteMainInterface;
+ 
+ /**
+ Check for various things.

@@ -42,6 +42,8 @@ const createProps = (
     demuxId: 123,
     hasRemoteAudio: false,
     hasRemoteVideo: true,
+    presenting: false,
+    sharingScreen: false,
     videoAspectRatio: 1.3,
     ...getDefaultConversation({
       isBlocked: Boolean(isBlocked),

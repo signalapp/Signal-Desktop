@@ -6,23 +6,26 @@
 window.React = require('react');
 window.ReactDOM = require('react-dom');
 
-const { ipcRenderer, remote } = require('electron');
+const { ipcRenderer } = require('electron');
 const url = require('url');
+
+// It is important to call this as early as possible
+require('./ts/windows/context');
+
 const i18n = require('./js/modules/i18n');
-const { ConfirmationModal } = require('./ts/components/ConfirmationModal');
-const { makeGetter, makeSetter } = require('./preload_utils');
+const { ConfirmationDialog } = require('./ts/components/ConfirmationDialog');
 const {
   getEnvironment,
   setEnvironment,
   parseEnvironment,
 } = require('./ts/environment');
 
-const { nativeTheme } = remote.require('electron');
-
 const config = url.parse(window.location.toString(), true).query;
 const { locale } = config;
 const localeMessages = ipcRenderer.sendSync('locale-data');
 setEnvironment(parseEnvironment(config.environment));
+
+const { createSetting } = require('./ts/util/preload');
 
 window.getEnvironment = getEnvironment;
 window.getVersion = () => config.version;
@@ -32,30 +35,23 @@ window.forCalling = config.forCalling === 'true';
 window.forCamera = config.forCamera === 'true';
 window.Signal = {
   Components: {
-    ConfirmationModal,
+    ConfirmationDialog,
   },
 };
 
-function setSystemTheme() {
-  window.systemTheme = nativeTheme.shouldUseDarkColors ? 'dark' : 'light';
-}
-
-setSystemTheme();
-
-window.subscribeToSystemThemeChange = fn => {
-  nativeTheme.on('updated', () => {
-    setSystemTheme();
-    fn();
-  });
-};
-
-require('./ts/logging/set_up_renderer_logging');
+require('./ts/logging/set_up_renderer_logging').initialize();
 
 window.closePermissionsPopup = () =>
   ipcRenderer.send('close-permissions-popup');
 
-window.setMediaPermissions = makeSetter('media-permissions');
-window.setMediaCameraPermissions = makeSetter('media-camera-permissions');
-window.getThemeSetting = makeGetter('theme-setting');
-window.setThemeSetting = makeSetter('theme-setting');
 window.Backbone = require('backbone');
+
+window.Settings = {
+  mediaCameraPermissions: createSetting('mediaCameraPermissions', {
+    getter: false,
+  }),
+  mediaPermissions: createSetting('mediaPermissions', {
+    getter: false,
+  }),
+  themeSetting: createSetting('themeSetting', { setter: false }),
+};

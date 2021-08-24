@@ -1,4 +1,4 @@
-// Copyright 2014-2020 Signal Messenger, LLC
+// Copyright 2014-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 // Global Settings, Variables, and Mixins
@@ -7,7 +7,7 @@
 @import 'mixins';
 @import 'global';
 
-// Components
+// Old style: components
 @import 'progress';
 @import 'modal';
 @import 'debugLog';
@@ -16,12 +16,67 @@
 @import 'emoji';
 @import 'settings';
 
-// Build the main view
+// Old style: main view
 @import 'index';
 @import 'conversation';
 
-// New CSS
+// Old style: modules
 @import 'modules';
 
-// Installer
+// Old style: installer
 @import 'options';
+
+// New style: components
+@import './components/AddGroupMembersModal.scss';
+@import './components/App.scss';
+@import './components/AnnouncementsOnlyGroupBanner.scss';
+@import './components/Avatar.scss';
+@import './components/AvatarEditor.scss';
+@import './components/AvatarModalButtons.scss';
+@import './components/AvatarPreview.scss';
+@import './components/AvatarTextEditor.scss';
+@import './components/BetterAvatarBubble.scss';
+@import './components/Button.scss';
+@import './components/CallingLobby.scss';
+@import './components/CallingLobbyJoinButton.scss';
+@import './components/CallingPreCallInfo.scss';
+@import './components/CallingScreenSharingController.scss';
+@import './components/CallingSelectPresentingSourcesModal.scss';
+@import './components/ChatColorPicker.scss';
+@import './components/Checkbox.scss';
+@import './components/CompositionArea.scss';
+@import './components/ContactName.scss';
+@import './components/ContactPill.scss';
+@import './components/ContactPills.scss';
+@import './components/ContactSpoofingReviewDialog.scss';
+@import './components/ContactSpoofingReviewDialogPerson.scss';
+@import './components/ConversationHeader.scss';
+@import './components/CustomColorEditor.scss';
+@import './components/DisappearingTimeDialog.scss';
+@import './components/DisappearingTimerSelect.scss';
+@import './components/EditConversationAttributesModal.scss';
+@import './components/ForwardMessageModal.scss';
+@import './components/GradientDial.scss';
+@import './components/GroupDescription.scss';
+@import './components/GroupDialog.scss';
+@import './components/GroupInput.scss';
+@import './components/IncomingCallBar.scss';
+@import './components/Input.scss';
+@import './components/LeftPaneDialog.scss';
+@import './components/MediaQualitySelector.scss';
+@import './components/MessageAudio.scss';
+@import './components/MessageDetail.scss';
+@import './components/Modal.scss';
+@import './components/Preferences.scss';
+@import './components/ProfileEditor.scss';
+@import './components/SafetyNumberChangeDialog.scss';
+@import './components/SafetyNumberViewer.scss';
+@import './components/SearchInput.scss';
+@import './components/SearchResultsLoadingFakeHeader.scss';
+@import './components/SearchResultsLoadingFakeRow.scss';
+@import './components/Select.scss';
+@import './components/Slider.scss';
+@import './components/Tabs.scss';
+@import './components/TimelineWarning.scss';
+@import './components/TimelineWarnings.scss';
+@import './components/WhatsNew.scss';

@@ -1,0 +1,30 @@
+// Copyright 2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.Checkbox {
+  &__container {
+    align-items: center;
+    display: flex;
+
+    input {
+      height: 18px;
+      width: 18px;
+    }
+  }
+
+  &__checkbox {
+    height: 18px;
+    margin-right: 20px;
+    width: 18px;
+  }
+
+  &__description {
+    @include font-subtitle;
+    @include light-theme {
+      color: $color-gray-60;
+    }
+    @include dark-theme {
+      color: $color-gray-25;
+    }
+  }
+}

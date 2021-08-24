@@ -6,44 +6,49 @@ import * as Backbone from 'backbone';
 import { GroupV2ChangeType } from './groups';
 import { LocalizerType, BodyRangeType, BodyRangesType } from './types/Util';
 import { CallHistoryDetailsFromDiskType } from './types/Calling';
-import { ColorType } from './types/Colors';
-import {
-  ConversationType,
-  MessageType,
-  LastMessageStatus,
-} from './state/ducks/conversations';
+import { CustomColorType } from './types/Colors';
+import { DeviceType } from './textsecure/Types';
 import { SendOptionsType } from './textsecure/SendMessage';
-import {
-  AccessRequiredEnum,
-  MemberRoleEnum,
-  SyncMessageClass,
-} from './textsecure.d';
+import { SendMessageChallengeData } from './textsecure/Errors';
 import { UserMessage } from './types/Message';
 import { MessageModel } from './models/messages';
 import { ConversationModel } from './models/conversations';
 import { ProfileNameChangeType } from './util/getStringForProfileChange';
 import { CapabilitiesType } from './textsecure/WebAPI';
+import { ReadStatus } from './messages/MessageReadStatus';
+import {
+  SendState,
+  SendStateByConversationId,
+} from './messages/MessageSendState';
+import { GroupNameCollisionsWithIdsByTitle } from './util/groupMemberNameCollisions';
+import { ConversationColorType } from './types/Colors';
+import { AttachmentType, ThumbnailType } from './types/Attachment';
+import { ContactType } from './types/Contact';
+import { SignalService as Proto } from './protobuf';
+import { AvatarDataType } from './types/Avatar';
+
+import AccessRequiredEnum = Proto.AccessControl.AccessRequired;
+import MemberRoleEnum = Proto.Member.Role;
 
 export type WhatIsThis = any;
 
-type DeletesAttributesType = {
-  fromId: string;
-  serverTimestamp: number;
-  targetSentTimestamp: number;
-};
-
-export declare class DeletesModelType extends Backbone.Model<
-  DeletesAttributesType
-> {
-  forMessage(message: MessageModel): Array<DeletesModelType>;
-  onDelete(doe: DeletesAttributesType): Promise<void>;
-}
+export type LastMessageStatus =
+  | 'paused'
+  | 'error'
+  | 'partial-sent'
+  | 'sending'
+  | 'sent'
+  | 'delivered'
+  | 'read'
+  | 'viewed';
 
 type TaskResultType = any;
 
 export type CustomError = Error & {
   identifier?: string;
   number?: string;
+  data?: object;
+  retryAfter?: number;
 };
 
 export type GroupMigrationType = {
@@ -52,76 +57,108 @@ export type GroupMigrationType = {
   invitedMembers: Array<GroupV2PendingMemberType>;
 };
 
-export type MessageAttributesType = {
-  bodyPending: boolean;
-  bodyRanges: BodyRangesType;
-  callHistoryDetails: CallHistoryDetailsFromDiskType;
-  changedId: string;
-  dataMessage: ArrayBuffer | null;
-  decrypted_at: number;
-  deletedForEveryone: boolean;
-  deletedForEveryoneTimestamp?: number;
-  delivered: number;
-  delivered_to: Array<string | null>;
-  errors: Array<CustomError> | null;
-  expirationStartTimestamp: number | null;
-  expireTimer: number;
-  expires_at: number;
-  groupMigration?: GroupMigrationType;
-  group_update: {
-    avatarUpdated: boolean;
-    joined: Array<string>;
-    left: string | 'You';
-    name: string;
-  };
-  hasAttachments: boolean;
-  hasFileAttachments: boolean;
-  hasVisualMediaAttachments: boolean;
-  isErased: boolean;
-  isTapToViewInvalid: boolean;
+export type QuotedMessageType = {
+  attachments: Array<typeof window.WhatIsThis>;
+  // `author` is an old attribute that holds the author's E164. We shouldn't use it for
+  //   new messages, but old messages might have this attribute.
+  author?: string;
+  authorUuid?: string;
+  bodyRanges?: BodyRangesType;
+  id: number;
+  referencedMessageNotFound: boolean;
   isViewOnce: boolean;
-  key_changed: string;
-  local: boolean;
-  logger: unknown;
-  message: unknown;
-  messageTimer: unknown;
-  profileChange: ProfileNameChangeType;
-  quote: {
-    attachments: Array<typeof window.WhatIsThis>;
-    author: string;
-    authorUuid: string;
-    bodyRanges: BodyRangesType;
-    id: string;
-    referencedMessageNotFound: boolean;
-    text: string;
-  } | null;
-  reactions: Array<{ fromId: string; emoji: string; timestamp: number }>;
-  read_by: Array<string | null>;
-  requiredProtocolVersion: number;
-  sent: boolean;
-  sourceDevice: string | number;
-  snippet: unknown;
-  supportedVersionAtReceive: unknown;
-  synced: boolean;
-  unidentifiedDeliveryReceived: boolean;
-  verified: boolean;
-  verifiedChanged: string;
+  text?: string;
+  messageId: string;
+};
+
+export type RetryOptions = Readonly<{
+  type: 'session-reset';
+  uuid: string;
+  e164: string;
+  now: number;
+}>;
+
+export type GroupV1Update = {
+  avatarUpdated?: boolean;
+  joined?: Array<string>;
+  left?: string | 'You';
+  name?: string;
+};
+
+export type MessageAttributesType = {
+  bodyPending?: boolean;
+  bodyRanges?: BodyRangesType;
+  callHistoryDetails?: CallHistoryDetailsFromDiskType;
+  changedId?: string;
+  dataMessage?: ArrayBuffer | null;
+  decrypted_at?: number;
+  deletedForEveryone?: boolean;
+  deletedForEveryoneTimestamp?: number;
+  errors?: Array<CustomError>;
+  expirationStartTimestamp?: number | null;
+  expireTimer?: number;
+  groupMigration?: GroupMigrationType;
+  group_update?: GroupV1Update;
+  hasAttachments?: boolean;
+  hasFileAttachments?: boolean;
+  hasVisualMediaAttachments?: boolean;
+  isErased?: boolean;
+  isTapToViewInvalid?: boolean;
+  isViewOnce?: boolean;
+  key_changed?: string;
+  local?: boolean;
+  logger?: unknown;
+  message?: unknown;
+  messageTimer?: unknown;
+  profileChange?: ProfileNameChangeType;
+  quote?: QuotedMessageType;
+  reactions?: Array<{
+    emoji: string;
+    fromId: string;
+    targetAuthorUuid: string;
+    targetTimestamp: number;
+    timestamp: number;
+  }>;
+  requiredProtocolVersion?: number;
+  retryOptions?: RetryOptions;
+  sourceDevice?: number;
+  supportedVersionAtReceive?: unknown;
+  synced?: boolean;
+  unidentifiedDeliveryReceived?: boolean;
+  verified?: boolean;
+  verifiedChanged?: string;
 
   id: string;
-  type?: string;
-  body: string;
-  attachments: Array<WhatIsThis>;
-  preview: Array<WhatIsThis>;
-  sticker: WhatIsThis;
-  sent_at: WhatIsThis;
-  sent_to: Array<string>;
-  unidentifiedDeliveries: Array<string>;
-  contact: Array<WhatIsThis>;
+  type:
+    | 'call-history'
+    | 'chat-session-refreshed'
+    | 'delivery-issue'
+    | 'group'
+    | 'group-v1-migration'
+    | 'group-v2-change'
+    | 'incoming'
+    | 'keychange'
+    | 'message-history-unsynced'
+    | 'outgoing'
+    | 'profile-change'
+    | 'timer-notification'
+    | 'universal-timer-notification'
+    | 'change-number-notification'
+    | 'verified-change';
+  body?: string;
+  attachments?: Array<AttachmentType>;
+  preview?: Array<WhatIsThis>;
+  sticker?: {
+    packId: string;
+    stickerId: number;
+    packKey: string;
+    data?: AttachmentType;
+  };
+  sent_at: number;
+  unidentifiedDeliveries?: Array<string>;
+  contact?: Array<ContactType>;
   conversationId: string;
-  recipients: Array<WhatIsThis>;
-  reaction: WhatIsThis;
-  destination?: WhatIsThis;
-  destinationUuid?: string;
+  reaction?: WhatIsThis;
 
   expirationTimerUpdate?: {
     expireTimer: number;
@@ -133,54 +170,77 @@ export type MessageAttributesType = {
   flags?: number;
   groupV2Change?: GroupV2ChangeType;
   // Required. Used to sort messages in the database for the conversation timeline.
-  received_at?: number;
+  received_at: number;
+  received_at_ms?: number;
   // More of a legacy feature, needed as we were updating the schema of messages in the
   //   background, when we were still in IndexedDB, before attachments had gone to disk
   // We set this so that the idle message upgrade process doesn't pick this message up
-  schemaVersion: number;
+  schemaVersion?: number;
+  // This should always be set for new messages, but older messages may not have them. We
+  //   may not have these for outbound messages, either, as we have not needed them.
+  serverGuid?: string;
   serverTimestamp?: number;
   source?: string;
   sourceUuid?: string;
 
-  unread: number;
   timestamp: number;
 
   // Backwards-compatibility with prerelease data schema
   invitedGV2Members?: Array<GroupV2PendingMemberType>;
   droppedGV2MemberIds?: Array<string>;
+
+  sendHQImages?: boolean;
+
+  // Should only be present for incoming messages
+  readStatus?: ReadStatus;
+
+  // Should only be present for outgoing messages
+  sendStateByConversationId?: SendStateByConversationId;
 };
 
 export type ConversationAttributesTypeType = 'private' | 'group';
 
 export type ConversationAttributesType = {
-  accessKey: string | null;
+  accessKey?: string | null;
   addedBy?: string;
   capabilities?: CapabilitiesType;
   color?: string;
-  discoveredUnregisteredAt: number;
-  draftAttachments: Array<unknown>;
-  draftBodyRanges: Array<BodyRangeType>;
-  draftTimestamp: number | null;
+  conversationColor?: ConversationColorType;
+  customColor?: CustomColorType;
+  customColorId?: string;
+  discoveredUnregisteredAt?: number;
+  draftAttachments?: Array<{
+    fileName?: string;
+    path?: string;
+    pending?: boolean;
+    screenshotPath?: string;
+  }>;
+  draftBodyRanges?: Array<BodyRangeType>;
+  draftTimestamp?: number | null;
   inbox_position: number;
   isPinned: boolean;
   lastMessageDeletedForEveryone: boolean;
-  lastMessageStatus: LastMessageStatus | null;
+  lastMessageStatus?: LastMessageStatus | null;
   markedUnread: boolean;
   messageCount: number;
-  messageCountBeforeMessageRequests: number;
-  messageRequestResponseType: number;
-  muteExpiresAt: number;
-  profileAvatar: WhatIsThis;
-  profileKeyCredential: string | null;
-  profileKeyVersion: string | null;
-  quotedMessageId: string;
-  sealedSender: unknown;
+  messageCountBeforeMessageRequests?: number | null;
+  messageRequestResponseType?: number;
+  muteExpiresAt?: number;
+  dontNotifyForMentionsIfMuted?: boolean;
+  profileAvatar?: null | {
+    hash: string;
+    path: string;
+  };
+  profileKeyCredential?: string | null;
+  profileKeyVersion?: string | null;
+  quotedMessageId?: string | null;
+  sealedSender?: unknown;
   sentMessageCount: number;
-  sharedGroupNames: Array<string>;
+  sharedGroupNames?: Array<string>;
 
   id: string;
   type: ConversationAttributesTypeType;
-  timestamp: number | null;
+  timestamp?: number | null;
 
   // Shared fields
   active_at?: number | null;
@@ -192,7 +252,7 @@ export type ConversationAttributesType = {
   needsVerification?: boolean;
   profileSharing: boolean;
   storageID?: string;
-  storageUnknownFields: string;
+  storageUnknownFields?: string;
   unreadCount?: number;
   version: number;
 
@@ -206,15 +266,16 @@ export type ConversationAttributesType = {
   profileFamilyName?: string;
   profileKey?: string;
   profileName?: string;
-  storageProfileKey?: string;
   verified?: number;
+  profileLastFetchedAt?: number;
+  pendingUniversalTimer?: string;
 
   // Group-only
   groupId?: string;
   // A shorthand, representing whether the user is part of the group. Not strictly for
   //   when the user manually left the group. But historically, that was the only way
   //   to leave a group.
-  left: boolean;
+  left?: boolean;
   groupVersion?: number;
 
   // GroupV1 only
@@ -226,6 +287,11 @@ export type ConversationAttributesType = {
   secretParams?: string;
   publicParams?: string;
   revision?: number;
+  senderKeyInfo?: {
+    createdAtDate: number;
+    distributionId: string;
+    memberDevices: Array<DeviceType>;
+  };
 
   // GroupV2 other fields
   accessControl?: {
@@ -233,11 +299,14 @@ export type ConversationAttributesType = {
     members: AccessRequiredEnum;
     addFromInviteLink: AccessRequiredEnum;
   };
+  announcementsOnly?: boolean;
   avatar?: {
     url: string;
     path: string;
     hash?: string;
   } | null;
+  avatars?: Array<AvatarDataType>;
+  description?: string;
   expireTimer?: number;
   membersV2?: Array<GroupV2MemberType>;
   pendingMembersV2?: Array<GroupV2PendingMemberType>;
@@ -245,10 +314,20 @@ export type ConversationAttributesType = {
   groupInviteLinkPassword?: string;
   previousGroupV1Id?: string;
   previousGroupV1Members?: Array<string>;
+  acknowledgedGroupNameCollisions?: GroupNameCollisionsWithIdsByTitle;
 
   // Used only when user is waiting for approval to join via link
   isTemporary?: boolean;
   temporaryMemberCount?: number;
+
+  // Avatars are blurred for some unapproved conversations, but users can manually unblur
+  //   them. If the avatar was unblurred and then changed, we don't update this value so
+  //   the new avatar gets blurred.
+  //
+  // This value is useless once the message request has been approved. We don't clean it
+  //   up but could. We don't persist it but could (though we'd probably want to clean it
+  //   up in that case).
+  unblurredAvatarPath?: string;
 };
 
 export type GroupV2MemberType = {
@@ -282,12 +361,23 @@ export type VerificationOptions = {
   viaSyncMessage?: boolean;
 };
 
-export declare class ConversationModelCollectionType extends Backbone.Collection<
-  ConversationModel
-> {
+export type ShallowChallengeError = CustomError & {
+  readonly retryAfter: number;
+  readonly data: SendMessageChallengeData;
+};
+
+export declare class ConversationModelCollectionType extends Backbone.Collection<ConversationModel> {
   resetLookups(): void;
 }
 
-export declare class MessageModelCollectionType extends Backbone.Collection<
-  MessageModel
-> {}
+export declare class MessageModelCollectionType extends Backbone.Collection<MessageModel> {}
+
+export type ReactionAttributesType = {
+  emoji: string;
+  remove?: boolean;
+  targetAuthorUuid: string;
+  targetTimestamp: number;
+  fromId?: string;
+  timestamp: number;
+  fromSync?: boolean;
+};

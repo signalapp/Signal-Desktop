@@ -13,6 +13,16 @@ let logAtLevel: LogAtLevelFnType = noop;
 let hasInitialized = false;
 
 type LogFn = (...args: ReadonlyArray<unknown>) => void;
+
+export type LoggerType = {
+  fatal: LogFn;
+  error: LogFn;
+  warn: LogFn;
+  info: LogFn;
+  debug: LogFn;
+  trace: LogFn;
+};
+
 export const fatal: LogFn = (...args) => logAtLevel(LogLevel.Fatal, ...args);
 export const error: LogFn = (...args) => logAtLevel(LogLevel.Error, ...args);
 export const warn: LogFn = (...args) => logAtLevel(LogLevel.Warn, ...args);

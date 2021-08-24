@@ -1,10 +1,11 @@
-<!-- Copyright 2017-2020 Signal Messenger, LLC -->
+<!-- Copyright 2017-2021 Signal Messenger, LLC -->
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <html>
-<head>
-  <meta http-equiv="Content-Security-Policy"
-    content="default-src 'none';
+  <head>
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none';
             child-src 'self';
             connect-src 'self' https: wss:;
             font-src 'self';
@@ -15,48 +16,61 @@
             object-src 'none';
             script-src 'self';
             style-src 'self' 'unsafe-inline';"
-  >
-  <link href="node_modules/sanitize.css/sanitize.css" rel="stylesheet" type="text/css" />
-  <link href="stylesheets/manifest.css" rel="stylesheet" type="text/css" />
-  <style>
-    body {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      overflow: hidden;
-      background-color: #3a76f0;
-      color: white;
-      font-size: 14px;
-    }
+    />
+    <link
+      href="node_modules/sanitize.css/sanitize.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link href="stylesheets/manifest.css" rel="stylesheet" type="text/css" />
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        overflow: hidden;
+        background-color: #3a76f0;
+        color: white;
+        font-size: 14px;
+      }
 
-    img {
-      margin-top: 1em;
-    }
+      img {
+        margin-top: 1em;
+      }
 
-    a {
-      color: white;
-    }
-  </style>
-</head>
-<body>
-  <div class='module-splash-screen'>
-    <div class='module-splash-screen__logo module-img--150'></div>
+      a {
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="module-splash-screen">
+      <div class="module-splash-screen__logo module-img--150"></div>
 
-    <div class='version'></div>
-    <div class='environment'></div>
-    <div>
-      <a href='https://signal.org'>signal.org</a>
+      <div class="version"></div>
+      <div class="environment"></div>
+      <div>
+        <a href="https://signal.org">signal.org</a>
+      </div>
+      <br />
+      <div>
+        <a
+          class="acknowledgments"
+          href="https://github.com/signalapp/Signal-Desktop/blob/development/ACKNOWLEDGMENTS.md"
+          >Software Acknowledgments</a
+        >
+      </div>
+      <div>
+        <a class="privacy" href="https://signal.org/legal"
+          >Terms &amp; Privacy Policy</a
+        >
+      </div>
     </div>
-    <br>
-    <div>
-      <a class="acknowledgments" href="https://github.com/signalapp/Signal-Desktop/blob/development/ACKNOWLEDGMENTS.md">Software Acknowledgments</a>
-    </div>
-    <div>
-      <a class="privacy" href="https://signal.org/legal">Terms &amp; Privacy Policy</a>
-    </div>
-  </div>
-  <script type='text/javascript' src='node_modules/jquery/dist/jquery.js'></script>
-  <script type='text/javascript' src='js/about_start.js'></script>
-</body>
+    <script
+      type="text/javascript"
+      src="node_modules/jquery/dist/jquery.js"
+    ></script>
+    <script type="text/javascript" src="js/about_start.js"></script>
+  </body>
 </html>

@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -19,36 +19,26 @@ const story = storiesOf(
   module
 );
 
-const conversation: ConversationType = {
+const conversation: ConversationType = getDefaultConversation({
   id: '',
   lastUpdated: 0,
-  markedUnread: false,
   memberships: Array(32).fill({ member: getDefaultConversation({}) }),
   pendingMemberships: Array(16).fill({ member: getDefaultConversation({}) }),
   title: 'Some Conversation',
   type: 'group',
-};
-
-class AccessEnum {
-  static ANY = 0;
-
-  static UNKNOWN = 1;
-
-  static MEMBER = 2;
-
-  static ADMINISTRATOR = 3;
-
-  static UNSATISFIABLE = 4;
-}
+  sharedGroupNames: [],
+  announcementsOnlyReady: true,
+  areWeAdmin: true,
+});
 
 const createProps = (): PropsType => ({
-  accessEnum: AccessEnum,
   conversation,
   i18n,
   setAccessControlAttributesSetting: action(
     'setAccessControlAttributesSetting'
   ),
   setAccessControlMembersSetting: action('setAccessControlMembersSetting'),
+  setAnnouncementsOnly: action('setAnnouncementsOnly'),
 });
 
 story.add('Basic', () => {
@@ -56,3 +46,34 @@ story.add('Basic', () => {
 
   return <GroupV2Permissions {...props} />;
 });
+
+story.add('Not admin', () => (
+  <GroupV2Permissions
+    {...createProps()}
+    conversation={getDefaultConversation({
+      announcementsOnly: true,
+      areWeAdmin: false,
+    })}
+  />
+));
+
+story.add('Admin but not announcement ready', () => (
+  <GroupV2Permissions
+    {...createProps()}
+    conversation={getDefaultConversation({
+      announcementsOnlyReady: false,
+      areWeAdmin: true,
+    })}
+  />
+));
+
+story.add('Admin, not announcement ready, but it was on', () => (
+  <GroupV2Permissions
+    {...createProps()}
+    conversation={getDefaultConversation({
+      announcementsOnly: true,
+      announcementsOnlyReady: false,
+      areWeAdmin: true,
+    })}
+  />
+));

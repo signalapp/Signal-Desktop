@@ -10,7 +10,6 @@ const { isFunction, isNumber } = require('lodash');
 const Message = require('./types/message');
 
 exports.processNext = async ({
-  BackboneMessage,
   BackboneMessageCollection,
   numMessagesPerBatch,
   upgradeMessageSchema,
@@ -18,12 +17,6 @@ exports.processNext = async ({
   saveMessage,
   maxVersion = Message.CURRENT_SCHEMA_VERSION,
 } = {}) => {
-  if (!isFunction(BackboneMessage)) {
-    throw new TypeError(
-      "'BackboneMessage' (Whisper.Message) constructor is required"
-    );
-  }
-
   if (!isFunction(BackboneMessageCollection)) {
     throw new TypeError(
       "'BackboneMessageCollection' (Whisper.MessageCollection)" +
@@ -72,11 +65,7 @@ exports.processNext = async ({
   const upgradeDuration = Date.now() - upgradeStartTime;
 
   const saveStartTime = Date.now();
-  await Promise.all(
-    upgradedMessages.map(message =>
-      saveMessage(message, { Message: BackboneMessage })
-    )
-  );
+  await Promise.all(upgradedMessages.map(message => saveMessage(message)));
   const saveDuration = Date.now() - saveStartTime;
 
   const totalDuration = Date.now() - startTime;

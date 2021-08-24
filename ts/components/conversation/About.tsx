@@ -1,4 +1,4 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
@@ -6,16 +6,20 @@ import React from 'react';
 import { Emojify } from './Emojify';
 
 export type PropsType = {
+  className?: string;
   text?: string;
 };
 
-export const About = ({ text }: PropsType): JSX.Element | null => {
+export const About = ({
+  className = 'module-about__text',
+  text,
+}: PropsType): JSX.Element | null => {
   if (!text) {
     return null;
   }
 
   return (
-    <span className="module-about__text" dir="auto">
+    <span className={className} dir="auto">
       <Emojify text={text || ''} />
     </span>
   );

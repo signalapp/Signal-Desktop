@@ -7,26 +7,25 @@ import { AddressInfo } from 'net';
 import { dirname } from 'path';
 
 import { v4 as getGuid } from 'uuid';
-import { app, autoUpdater, BrowserWindow, dialog, ipcMain } from 'electron';
+import { app, autoUpdater, BrowserWindow } from 'electron';
 import { get as getFromConfig } from 'config';
 import { gt } from 'semver';
 import got from 'got';
 
 import {
-  ACK_RENDER_TIMEOUT,
   checkForUpdates,
   deleteTempDir,
   downloadUpdate,
+  getAutoDownloadUpdateSetting,
   getPrintableError,
   setUpdateListener,
-  showCannotUpdateDialog,
-  showUpdateDialog,
+  UpdaterInterface,
+  UpdateInformationType,
 } from './common';
-import { LocaleType } from '../types/I18N';
 import { LoggerType } from '../types/Logging';
 import { hexToBinary, verifySignature } from './signature';
 import { markShouldQuit } from '../../app/window_state';
-import { Dialogs } from '../types/Dialogs';
+import { DialogType } from '../types/Dialogs';
 
 const SECOND = 1000;
 const MINUTE = SECOND * 60;
@@ -34,9 +33,8 @@ const INTERVAL = MINUTE * 30;
 
 export async function start(
   getMainWindow: () => BrowserWindow,
-  locale: LocaleType,
   logger: LoggerType
-): Promise<void> {
+): Promise<UpdaterInterface> {
   logger.info('macos/start: starting checks...');
 
   loggerForQuitHandler = logger;
@@ -44,15 +42,19 @@ export async function start(
 
   setInterval(async () => {
     try {
-      await checkDownloadAndInstall(getMainWindow, locale, logger);
+      await checkForUpdatesMaybeInstall(getMainWindow, logger);
     } catch (error) {
-      logger.error('macos/start: error:', getPrintableError(error));
+      logger.error(`macos/start: ${getPrintableError(error)}`);
     }
   }, INTERVAL);
 
-  setUpdateListener(createUpdater(logger));
+  await checkForUpdatesMaybeInstall(getMainWindow, logger);
 
-  await checkDownloadAndInstall(getMainWindow, locale, logger);
+  return {
+    async force(): Promise<void> {
+      return checkForUpdatesMaybeInstall(getMainWindow, logger, true);
+    },
+  };
 }
 
 let fileName: string;
@@ -60,28 +62,69 @@ let version: string;
 let updateFilePath: string;
 let loggerForQuitHandler: LoggerType;
 
-async function checkDownloadAndInstall(
+async function checkForUpdatesMaybeInstall(
   getMainWindow: () => BrowserWindow,
-  locale: LocaleType,
-  logger: LoggerType
+  logger: LoggerType,
+  force = false
 ) {
-  logger.info('checkDownloadAndInstall: checking for update...');
-  try {
-    const result = await checkForUpdates(logger);
-    if (!result) {
+  logger.info('checkForUpdatesMaybeInstall: checking for update...');
+  const result = await checkForUpdates(logger, force);
+  if (!result) {
+    return;
+  }
+
+  const { fileName: newFileName, version: newVersion } = result;
+
+  setUpdateListener(createUpdater(getMainWindow, result, logger));
+
+  if (fileName !== newFileName || !version || gt(newVersion, version)) {
+    const autoDownloadUpdates = await getAutoDownloadUpdateSetting(
+      getMainWindow()
+    );
+    if (!autoDownloadUpdates) {
+      getMainWindow().webContents.send(
+        'show-update-dialog',
+        DialogType.DownloadReady,
+        {
+          downloadSize: result.size,
+          version: result.version,
+        }
+      );
       return;
     }
+    await downloadAndInstall(newFileName, newVersion, getMainWindow, logger);
+  }
+}
 
-    const { fileName: newFileName, version: newVersion } = result;
-    if (fileName !== newFileName || !version || gt(newVersion, version)) {
-      deleteCache(updateFilePath, logger);
-      fileName = newFileName;
-      version = newVersion;
-      updateFilePath = await downloadUpdate(fileName, logger);
+async function downloadAndInstall(
+  newFileName: string,
+  newVersion: string,
+  getMainWindow: () => BrowserWindow,
+  logger: LoggerType,
+  updateOnProgress?: boolean
+) {
+  try {
+    const oldFileName = fileName;
+    const oldVersion = version;
+
+    deleteCache(updateFilePath, logger);
+    fileName = newFileName;
+    version = newVersion;
+    try {
+      updateFilePath = await downloadUpdate(
+        fileName,
+        logger,
+        updateOnProgress ? getMainWindow() : undefined
+      );
+    } catch (error) {
+      // Restore state in case of download error
+      fileName = oldFileName;
+      version = oldVersion;
+      throw error;
     }
 
     if (!updateFilePath) {
-      logger.info('checkDownloadAndInstall: no update file path. Skipping!');
+      logger.info('downloadAndInstall: no update file path. Skipping!');
       return;
     }
 
@@ -91,7 +134,7 @@ async function checkDownloadAndInstall(
       // Note: We don't delete the cache here, because we don't want to continually
       //   re-download the broken release. We will download it only once per launch.
       throw new Error(
-        `checkDownloadAndInstall: Downloaded update did not pass signature verification (version: '${version}'; fileName: '${fileName}')`
+        `downloadAndInstall: Downloaded update did not pass signature verification (version: '${version}'; fileName: '${fileName}')`
       );
     }
 
@@ -101,13 +144,19 @@ async function checkDownloadAndInstall(
       const readOnly = 'Cannot update while running on a read-only volume';
       const message: string = error.message || '';
       if (message.includes(readOnly)) {
-        logger.info('checkDownloadAndInstall: showing read-only dialog...');
-        showReadOnlyDialog(getMainWindow(), locale);
+        logger.info('downloadAndInstall: showing read-only dialog...');
+        getMainWindow().webContents.send(
+          'show-update-dialog',
+          DialogType.MacOS_Read_Only
+        );
       } else {
         logger.info(
-          'checkDownloadAndInstall: showing general update failure dialog...'
+          'downloadAndInstall: showing general update failure dialog...'
         );
-        showCannotUpdateDialog(getMainWindow(), locale);
+        getMainWindow().webContents.send(
+          'show-update-dialog',
+          DialogType.Cannot_Update
+        );
       }
 
       throw error;
@@ -115,12 +164,13 @@ async function checkDownloadAndInstall(
 
     // At this point, closing the app will cause the update to be installed automatically
     //   because Squirrel has cached the update file and will do the right thing.
+    logger.info('downloadAndInstall: showing update dialog...');
 
-    logger.info('checkDownloadAndInstall: showing update dialog...');
-
-    showUpdateDialog(getMainWindow(), locale, createUpdater(logger));
+    getMainWindow().webContents.send('show-update-dialog', DialogType.Update, {
+      version,
+    });
   } catch (error) {
-    logger.error('checkDownloadAndInstall: error', getPrintableError(error));
+    logger.error(`downloadAndInstall: ${getPrintableError(error)}`);
   }
 }
 
@@ -134,10 +184,7 @@ function deleteCache(filePath: string | null, logger: LoggerType) {
   if (filePath) {
     const tempDir = dirname(filePath);
     deleteTempDir(tempDir).catch(error => {
-      logger.error(
-        'quitHandler: error deleting temporary directory:',
-        getPrintableError(error)
-      );
+      logger.error(`quitHandler: ${getPrintableError(error)}`);
     });
   }
 }
@@ -153,10 +200,7 @@ async function handToAutoUpdate(
     let serverUrl: string;
 
     server.on('error', (error: Error) => {
-      logger.error(
-        'handToAutoUpdate: server had error',
-        getPrintableError(error)
-      );
+      logger.error(`handToAutoUpdate: ${getPrintableError(error)}`);
       shutdown(server, logger);
       reject(error);
     });
@@ -193,8 +237,10 @@ async function handToAutoUpdate(
       try {
         serverUrl = getServerUrl(server);
 
-        autoUpdater.on('error', (error: Error) => {
-          logger.error('autoUpdater: error', getPrintableError(error));
+        autoUpdater.on('error', (...args) => {
+          logger.error('autoUpdater: error', ...args.map(getPrintableError));
+
+          const [error] = args;
           reject(error);
         });
         autoUpdater.on('update-downloaded', () => {
@@ -234,8 +280,9 @@ function pipeUpdateToSquirrel(
 
   response.on('error', (error: Error) => {
     logger.error(
-      'pipeUpdateToSquirrel: update file download request had an error',
-      getPrintableError(error)
+      `pipeUpdateToSquirrel: update file download request had an error ${getPrintableError(
+        error
+      )}`
     );
     shutdown(server, logger);
     reject(error);
@@ -243,8 +290,9 @@ function pipeUpdateToSquirrel(
 
   readStream.on('error', (error: Error) => {
     logger.error(
-      'pipeUpdateToSquirrel: read stream error response:',
-      getPrintableError(error)
+      `pipeUpdateToSquirrel: read stream error response: ${getPrintableError(
+        error
+      )}`
     );
     shutdown(server, logger, response);
     reject(error);
@@ -319,7 +367,7 @@ function shutdown(
       server.close();
     }
   } catch (error) {
-    logger.error('shutdown: Error closing server', getPrintableError(error));
+    logger.error(`shutdown: Error closing server ${getPrintableError(error)}`);
   }
 
   try {
@@ -328,62 +376,32 @@ function shutdown(
     }
   } catch (endError) {
     logger.error(
-      "shutdown: couldn't end response",
-      getPrintableError(endError)
+      `shutdown: couldn't end response ${getPrintableError(endError)}`
     );
   }
 }
 
-export function showReadOnlyDialog(
-  mainWindow: BrowserWindow,
-  locale: LocaleType
-): void {
-  let ack = false;
-
-  ipcMain.once('show-update-dialog-ack', () => {
-    ack = true;
-  });
-
-  mainWindow.webContents.send('show-update-dialog', Dialogs.MacOS_Read_Only);
-
-  setTimeout(async () => {
-    if (!ack) {
-      await showFallbackReadOnlyDialog(mainWindow, locale);
-    }
-  }, ACK_RENDER_TIMEOUT);
-}
-
-let showingReadOnlyDialog = false;
-
-async function showFallbackReadOnlyDialog(
-  mainWindow: BrowserWindow,
-  locale: LocaleType
+function createUpdater(
+  getMainWindow: () => BrowserWindow,
+  info: Pick<UpdateInformationType, 'fileName' | 'version'>,
+  logger: LoggerType
 ) {
-  if (showingReadOnlyDialog) {
-    return;
-  }
-
-  const options = {
-    type: 'warning',
-    buttons: [locale.messages.ok.message],
-    title: locale.messages.cannotUpdate.message,
-    message: locale.i18n('readOnlyVolume', {
-      app: 'Signal.app',
-      folder: '/Applications',
-    }),
-  };
-
-  showingReadOnlyDialog = true;
-
-  await dialog.showMessageBox(mainWindow, options);
-
-  showingReadOnlyDialog = false;
-}
-
-function createUpdater(logger: LoggerType) {
-  return () => {
-    logger.info('performUpdate: calling quitAndInstall...');
-    markShouldQuit();
-    autoUpdater.quitAndInstall();
+  return async () => {
+    if (updateFilePath) {
+      logger.info('performUpdate: calling quitAndInstall...');
+      markShouldQuit();
+      autoUpdater.quitAndInstall();
+    } else {
+      logger.info(
+        'performUpdate: have not downloaded update, going to download'
+      );
+      await downloadAndInstall(
+        info.fileName,
+        info.version,
+        getMainWindow,
+        logger,
+        true
+      );
+    }
   };
 }

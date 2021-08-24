@@ -11,6 +11,7 @@ import { ContactDetail, Props } from './ContactDetail';
 import { AddressType, ContactFormType } from '../../types/Contact';
 import { setup as setupI18n } from '../../../js/modules/i18n';
 import enMessages from '../../../_locales/en/messages.json';
+import { IMAGE_GIF } from '../../types/MIME';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -73,6 +74,7 @@ const fullContact = {
   avatar: {
     avatar: {
       path: '/fixtures/giphy-GVNvOUpeYmI7e.gif',
+      contentType: IMAGE_GIF,
     },
     isProfile: true,
   },
@@ -208,6 +210,7 @@ story.add('Loading Avatar', () => {
     contact: {
       avatar: {
         avatar: {
+          contentType: IMAGE_GIF,
           pending: true,
         },
         isProfile: true,

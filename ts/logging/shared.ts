@@ -1,13 +1,37 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as bunyan from 'bunyan';
-import { redactAll } from '../../js/modules/privacy';
+import * as pino from 'pino';
+import { isRecord } from '../util/isRecord';
+import { redactAll } from '../util/privacy';
 import { missingCaseError } from '../util/missingCaseError';
 import { reallyJsonStringify } from '../util/reallyJsonStringify';
 
-// These match [Bunyan's recommendations][0].
-// [0]: https://www.npmjs.com/package/bunyan#levels
+export type FetchLogIpcData = {
+  capabilities: Record<string, unknown>;
+  remoteConfig: Record<string, unknown>;
+  statistics: Record<string, unknown>;
+  user: Record<string, unknown>;
+
+  // We expect `logEntries` to be `Array<LogEntryType>`, but we don't validate that
+  //   upfront—we only validate it when we go to log each line. This improves the
+  //   performance, because we don't have to iterate over every single log entry twice. It
+  //   also means we can log entries if only some of them are invalid.
+  logEntries: Array<unknown>;
+};
+
+// We don't use Zod here because it'd be slow parsing all of the log entries.
+//   Unfortunately, Zod is a bit slow even with `z.array(z.unknown())`.
+export const isFetchLogIpcData = (data: unknown): data is FetchLogIpcData =>
+  isRecord(data) &&
+  isRecord(data.capabilities) &&
+  isRecord(data.remoteConfig) &&
+  isRecord(data.statistics) &&
+  isRecord(data.user) &&
+  Array.isArray(data.logEntries);
+
+// These match [Pino's recommendations][0].
+// [0]: https://getpino.io/#/docs/api?id=loggerlevels-object
 export enum LogLevel {
   Fatal = 60,
   Error = 50,
@@ -17,41 +41,44 @@ export enum LogLevel {
   Trace = 10,
 }
 
-// These match [Bunyan's core fields][1].
-// [1]: https://www.npmjs.com/package/bunyan#core-fields
-export type LogEntryType = {
+// These match [Pino's core fields][1].
+// [1]: https://getpino.io/#/?id=usage
+export type LogEntryType = Readonly<{
   level: LogLevel;
   msg: string;
   time: string;
-};
+}>;
 
-const logLevels = new Set<LogLevel>([
-  LogLevel.Fatal,
-  LogLevel.Error,
-  LogLevel.Warn,
-  LogLevel.Info,
-  LogLevel.Debug,
-  LogLevel.Trace,
-]);
-function isLogLevel(value: unknown): value is LogLevel {
-  return typeof value === 'number' && logLevels.has(value);
-}
-
-function isValidTime(value: unknown): value is string {
-  return typeof value === 'string' && !Number.isNaN(new Date(value).getTime());
-}
-
-export function isLogEntry(value: unknown): value is LogEntryType {
-  if (!value || typeof value !== 'object' || Array.isArray(value)) {
+// The code below is performance sensitive since it runs for > 100k log entries
+// whenever we want to send the debug log. We can't use `zod` because it clones
+// the data on successful parse and ruins the performance.
+export const isLogEntry = (data: unknown): data is LogEntryType => {
+  if (!isRecord(data)) {
     return false;
   }
 
-  const { level, time, msg } = value as Record<string, unknown>;
+  const { level, msg, time } = data as Partial<LogEntryType>;
 
-  return typeof msg === 'string' && isLogLevel(level) && isValidTime(time);
-}
+  if (typeof level !== 'number') {
+    return false;
+  }
 
-export function getLogLevelString(value: LogLevel): bunyan.LogLevelString {
+  if (!LogLevel[level]) {
+    return false;
+  }
+
+  if (typeof msg !== 'string') {
+    return false;
+  }
+
+  if (typeof time !== 'string') {
+    return false;
+  }
+
+  return !Number.isNaN(new Date(time).getTime());
+};
+
+export function getLogLevelString(value: LogLevel): pino.Level {
   switch (value) {
     case LogLevel.Fatal:
       return 'fatal';

@@ -290,7 +290,9 @@ export function emojiToData(emoji: string): EmojiData | undefined {
   return getOwn(dataByEmoji, emoji);
 }
 
-function getCountOfAllMatches(str: string, regex: RegExp) {
+export function getEmojiCount(str: string): number {
+  const regex = emojiRegex();
+
   let match = regex.exec(str);
   let count = 0;
 
@@ -312,7 +314,7 @@ export function getSizeClass(str: string): SizeClassType {
     return '';
   }
 
-  const emojiCount = getCountOfAllMatches(str, emojiRegex());
+  const emojiCount = getEmojiCount(str);
 
   if (emojiCount > 8) {
     return '';

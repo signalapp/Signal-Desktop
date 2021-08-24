@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable-next-line max-classes-per-file */
@@ -8,6 +8,7 @@ import { storiesOf } from '@storybook/react';
 import { setup as setupI18n } from '../../../js/modules/i18n';
 import enMessages from '../../../_locales/en/messages.json';
 import { GroupV2ChangeType } from '../../groups';
+import { SignalService as Proto } from '../../protobuf';
 import { SmartContactRendererType } from '../../groupChange';
 import { GroupV2Change } from './GroupV2Change';
 
@@ -20,25 +21,8 @@ const CONTACT_C = 'CONTACT_C';
 const ADMIN_A = 'ADMIN_A';
 const INVITEE_A = 'INVITEE_A';
 
-class AccessControlEnum {
-  static UNKNOWN = 0;
-
-  static ANY = 1;
-
-  static MEMBER = 2;
-
-  static ADMINISTRATOR = 3;
-
-  static UNSATISFIABLE = 4;
-}
-
-class RoleEnum {
-  static UNKNOWN = 0;
-
-  static ADMINISTRATOR = 1;
-
-  static DEFAULT = 2;
-}
+const AccessControlEnum = Proto.AccessControl.AccessRequired;
+const RoleEnum = Proto.Member.Role;
 
 const renderContact: SmartContactRendererType = (conversationId: string) => (
   <React.Fragment key={conversationId}>
@@ -46,14 +30,13 @@ const renderContact: SmartContactRendererType = (conversationId: string) => (
   </React.Fragment>
 );
 
-const renderChange = (change: GroupV2ChangeType) => (
+const renderChange = (change: GroupV2ChangeType, groupName?: string) => (
   <GroupV2Change
-    AccessControlEnum={AccessControlEnum}
     change={change}
+    groupName={groupName}
     i18n={i18n}
     ourConversationId={OUR_ID}
     renderContact={renderContact}
-    RoleEnum={RoleEnum}
   />
 );
 
@@ -1319,6 +1302,140 @@ storiesOf('Components/Conversation/GroupV2Change', module)
           details: [
             {
               type: 'group-link-remove',
+            },
+          ],
+        })}
+      </>
+    );
+  })
+  .add('Description (Remove)', () => {
+    return (
+      <>
+        {renderChange({
+          from: OUR_ID,
+          details: [
+            {
+              removed: true,
+              type: 'description',
+            },
+          ],
+        })}
+        {renderChange({
+          from: ADMIN_A,
+          details: [
+            {
+              removed: true,
+              type: 'description',
+            },
+          ],
+        })}
+        {renderChange({
+          details: [
+            {
+              removed: true,
+              type: 'description',
+            },
+          ],
+        })}
+      </>
+    );
+  })
+  .add('Description (Change)', () => {
+    return (
+      <>
+        {renderChange(
+          {
+            from: OUR_ID,
+            details: [
+              {
+                type: 'description',
+                description:
+                  'This is a long description.\n\nWe need a dialog to view it all!\n\nIt has a link to https://example.com',
+              },
+            ],
+          },
+          'We do hikes 🌲'
+        )}
+        {renderChange(
+          {
+            from: ADMIN_A,
+            details: [
+              {
+                type: 'description',
+                description:
+                  'This is a long description.\n\nWe need a dialog to view it all!\n\nIt has a link to https://example.com',
+              },
+            ],
+          },
+          'We do hikes 🌲'
+        )}
+        {renderChange(
+          {
+            details: [
+              {
+                type: 'description',
+                description:
+                  'This is a long description.\n\nWe need a dialog to view it all!\n\nIt has a link to https://example.com',
+              },
+            ],
+          },
+          'We do hikes 🌲'
+        )}
+      </>
+    );
+  })
+  .add('Announcement Group (Change)', () => {
+    return (
+      <>
+        {renderChange({
+          from: OUR_ID,
+          details: [
+            {
+              type: 'announcements-only',
+              announcementsOnly: true,
+            },
+          ],
+        })}
+        {renderChange({
+          from: ADMIN_A,
+          details: [
+            {
+              type: 'announcements-only',
+              announcementsOnly: true,
+            },
+          ],
+        })}
+        {renderChange({
+          details: [
+            {
+              type: 'announcements-only',
+              announcementsOnly: true,
+            },
+          ],
+        })}
+        {renderChange({
+          from: OUR_ID,
+          details: [
+            {
+              type: 'announcements-only',
+              announcementsOnly: false,
+            },
+          ],
+        })}
+        {renderChange({
+          from: ADMIN_A,
+          details: [
+            {
+              type: 'announcements-only',
+              announcementsOnly: false,
+            },
+          ],
+        })}
+        {renderChange({
+          details: [
+            {
+              type: 'announcements-only',
+              announcementsOnly: false,
             },
           ],
         })}

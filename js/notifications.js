@@ -47,6 +47,7 @@
     //       isExpiringMessage: boolean;
     //       reaction: {
     //         emoji: string;
+    //         fromId: string;
     //       };
     //     }
     notificationData: null,
@@ -56,16 +57,51 @@
       this.update();
     },
 
-    removeBy({ conversationId, messageId }) {
-      const shouldClear =
-        Boolean(this.notificationData) &&
-        ((conversationId &&
-          this.notificationData.conversationId === conversationId) ||
-          (messageId && this.notificationData.messageId === messageId));
-      if (shouldClear) {
-        this.clear();
-        this.update();
+    // Remove the last notification if both conditions hold:
+    //
+    // 1. Either `conversationId` or `messageId` matches (if present)
+    // 2. `emoji`, `targetAuthorUuid`, `targetTimestamp` matches (if present)
+    removeBy({
+      conversationId,
+      messageId,
+      emoji,
+      targetAuthorUuid,
+      targetTimestamp,
+    }) {
+      if (!this.notificationData) {
+        return;
       }
+
+      let shouldClear = false;
+      if (
+        conversationId &&
+        this.notificationData.conversationId === conversationId
+      ) {
+        shouldClear = true;
+      }
+      if (messageId && this.notificationData.messageId === messageId) {
+        shouldClear = true;
+      }
+
+      if (!shouldClear) {
+        return;
+      }
+
+      const { reaction } = this.notificationData;
+      if (
+        reaction &&
+        emoji &&
+        targetAuthorUuid &&
+        targetTimestamp &&
+        (reaction.emoji !== emoji ||
+          reaction.targetAuthorUuid !== targetAuthorUuid ||
+          reaction.targetTimestamp !== targetTimestamp)
+      ) {
+        return;
+      }
+
+      this.clear();
+      this.update();
     },
 
     fastUpdate() {
@@ -124,7 +160,7 @@
         ({ notificationIconUrl } = this.notificationData);
 
         const shouldHideExpiringMessageBody =
-          isExpiringMessage && Signal.OS.isMacOS();
+          isExpiringMessage && (Signal.OS.isMacOS() || Signal.OS.isWindows());
         if (shouldHideExpiringMessageBody) {
           notificationMessage = i18n('newMessage');
         } else if (userSetting === SettingNames.NAME_ONLY) {

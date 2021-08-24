@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -9,6 +9,7 @@ export type PropsType = {
   readonly i18n: LocalizerType;
 };
 
+// TODO: This should use <Modal>. See DESKTOP-1038.
 export const ProgressDialog = React.memo(({ i18n }: PropsType) => {
   return (
     <div className="module-progress-dialog">

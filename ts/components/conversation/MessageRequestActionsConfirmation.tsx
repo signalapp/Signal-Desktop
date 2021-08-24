@@ -1,9 +1,9 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
 import { ContactName, PropsType as ContactNameProps } from './ContactName';
-import { ConfirmationModal } from '../ConfirmationModal';
+import { ConfirmationDialog } from '../ConfirmationDialog';
 import { Intl } from '../Intl';
 import { LocalizerType } from '../../types/Util';
 
@@ -19,7 +19,7 @@ export type Props = {
   conversationType: 'group' | 'direct';
   isBlocked?: boolean;
   onBlock(): unknown;
-  onBlockAndDelete(): unknown;
+  onBlockAndReportSpam(): unknown;
   onUnblock(): unknown;
   onDelete(): unknown;
   state: MessageRequestState;
@@ -31,7 +31,7 @@ export const MessageRequestActionsConfirmation = ({
   i18n,
   name,
   onBlock,
-  onBlockAndDelete,
+  onBlockAndReportSpam,
   onChangeState,
   onDelete,
   onUnblock,
@@ -42,7 +42,7 @@ export const MessageRequestActionsConfirmation = ({
 }: Props): JSX.Element | null => {
   if (state === MessageRequestState.blocking) {
     return (
-      <ConfirmationModal
+      <ConfirmationDialog
         i18n={i18n}
         onClose={() => {
           onChangeState(MessageRequestState.default);
@@ -64,26 +64,30 @@ export const MessageRequestActionsConfirmation = ({
           />
         }
         actions={[
+          ...(conversationType === 'direct'
+            ? [
+                {
+                  text: i18n('MessageRequests--block-and-report-spam'),
+                  action: onBlockAndReportSpam,
+                  style: 'negative' as const,
+                },
+              ]
+            : []),
           {
             text: i18n('MessageRequests--block'),
             action: onBlock,
             style: 'negative',
           },
-          {
-            text: i18n('MessageRequests--block-and-delete'),
-            action: onBlockAndDelete,
-            style: 'negative',
-          },
         ]}
       >
         {i18n(`MessageRequests--block-${conversationType}-confirm-body`)}
-      </ConfirmationModal>
+      </ConfirmationDialog>
     );
   }
 
   if (state === MessageRequestState.unblocking) {
     return (
-      <ConfirmationModal
+      <ConfirmationDialog
         i18n={i18n}
         onClose={() => {
           onChangeState(MessageRequestState.default);
@@ -113,13 +117,13 @@ export const MessageRequestActionsConfirmation = ({
         ]}
       >
         {i18n(`MessageRequests--unblock-${conversationType}-confirm-body`)}
-      </ConfirmationModal>
+      </ConfirmationDialog>
     );
   }
 
   if (state === MessageRequestState.deleting) {
     return (
-      <ConfirmationModal
+      <ConfirmationDialog
         i18n={i18n}
         onClose={() => {
           onChangeState(MessageRequestState.default);
@@ -149,7 +153,7 @@ export const MessageRequestActionsConfirmation = ({
         ]}
       >
         {i18n(`MessageRequests--delete-${conversationType}-confirm-body`)}
-      </ConfirmationModal>
+      </ConfirmationDialog>
     );
   }
 

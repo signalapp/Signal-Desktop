@@ -3,7 +3,7 @@
 
 import { createSelector } from 'reselect';
 
-import { LocalizerType } from '../../types/Util';
+import { LocalizerType, ThemeType } from '../../types/Util';
 
 import { StateType } from '../reducer';
 import { UserStateType } from '../ducks/user';
@@ -13,6 +13,11 @@ export const getUser = (state: StateType): UserStateType => state.user;
 export const getUserNumber = createSelector(
   getUser,
   (state: UserStateType): string => state.ourNumber
+);
+
+export const getUserDeviceId = createSelector(
+  getUser,
+  (state: UserStateType): number => state.ourDeviceId
 );
 
 export const getRegionCode = createSelector(
@@ -58,4 +63,9 @@ export const getPlatform = createSelector(
 export const getTempPath = createSelector(
   getUser,
   (state: UserStateType): string => state.tempPath
+);
+
+export const getTheme = createSelector(
+  getUser,
+  (state: UserStateType): ThemeType => state.theme
 );

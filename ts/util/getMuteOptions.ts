@@ -1,20 +1,42 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import moment from 'moment';
 import { LocalizerType } from '../types/Util';
+import { getMutedUntilText } from './getMutedUntilText';
+import { isMuted } from './isMuted';
 
-type MuteOption = {
+export type MuteOption = {
   name: string;
   disabled?: boolean;
   value: number;
 };
 
-export function getMuteOptions(i18n: LocalizerType): Array<MuteOption> {
+export function getMuteOptions(
+  muteExpiresAt: undefined | number,
+  i18n: LocalizerType
+): Array<MuteOption> {
   return [
+    ...(isMuted(muteExpiresAt)
+      ? [
+          {
+            name: getMutedUntilText(muteExpiresAt, i18n),
+            disabled: true,
+            value: -1,
+          },
+          {
+            name: i18n('unmute'),
+            value: 0,
+          },
+        ]
+      : []),
     {
       name: i18n('muteHour'),
       value: moment.duration(1, 'hour').as('milliseconds'),
+    },
+    {
+      name: i18n('muteEightHours'),
+      value: moment.duration(8, 'hour').as('milliseconds'),
     },
     {
       name: i18n('muteDay'),
@@ -25,8 +47,8 @@ export function getMuteOptions(i18n: LocalizerType): Array<MuteOption> {
       value: moment.duration(1, 'week').as('milliseconds'),
     },
     {
-      name: i18n('muteYear'),
-      value: moment.duration(1, 'year').as('milliseconds'),
+      name: i18n('muteAlways'),
+      value: Number.MAX_SAFE_INTEGER,
     },
   ];
 }

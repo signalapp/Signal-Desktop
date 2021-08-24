@@ -1,0 +1,245 @@
+// Copyright 2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.module-ForwardMessageModal {
+  $padding: 16px;
+  @include popper-shadow();
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  max-height: 90vh;
+  max-width: 360px;
+  width: 95%;
+
+  @include light-theme() {
+    background: $color-white;
+    color: $color-gray-90;
+  }
+
+  @include dark-theme() {
+    background: $color-gray-75;
+    color: $color-gray-05;
+  }
+
+  &--link-preview {
+    border-bottom: 1px solid $color-gray-15;
+    padding: 12px 16px;
+
+    @include dark-theme() {
+      border-color: $color-gray-60;
+    }
+  }
+
+  &__input {
+    &__input {
+      background: inherit;
+      border: none;
+      border-radius: 0;
+      height: 100%;
+
+      &:focus-within {
+        border: none;
+      }
+
+      @include dark-theme() {
+        border: none;
+
+        &:focus-within {
+          border: none;
+        }
+      }
+
+      @include keyboard-mode {
+        &:focus-within {
+          border: solid 1px $color-ultramarine;
+        }
+      }
+    }
+
+    &__input__scroller {
+      max-height: 300px;
+      min-height: 300px;
+      padding: 16px;
+      // Need more padding on the right to make room for floating emoji button
+      padding-right: 36px;
+    }
+  }
+
+  &__header {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    position: relative;
+
+    &--edit {
+      border-bottom: 1px solid $color-gray-15;
+
+      @include dark-theme() {
+        border-color: $color-gray-60;
+      }
+    }
+
+    &--close {
+      @include button-reset;
+      position: absolute;
+      top: 8px;
+      right: 16px;
+
+      height: 22px;
+      width: 22px;
+
+      @include light-theme {
+        @include color-svg('../images/icons/v2/x-24.svg', $color-gray-75);
+      }
+
+      @include dark-theme {
+        @include color-svg('../images/icons/v2/x-24.svg', $color-gray-15);
+      }
+
+      @include keyboard-mode {
+        &:focus {
+          background-color: $color-ultramarine;
+        }
+      }
+    }
+
+    &--back {
+      @include button-reset;
+
+      height: 24px;
+      left: 16px;
+      position: absolute;
+      width: 24px;
+
+      @include light-theme {
+        @include color-svg(
+          '../images/icons/v2/chevron-left-24.svg',
+          $color-gray-60
+        );
+      }
+
+      @include keyboard-mode {
+        &:focus {
+          @include color-svg(
+            '../images/icons/v2/chevron-left-24.svg',
+            $color-ultramarine
+          );
+        }
+      }
+
+      @include dark-theme {
+        @include color-svg(
+          '../images/icons/v2/chevron-left-24.svg',
+          $color-gray-25
+        );
+      }
+      @include dark-keyboard-mode {
+        &:hover {
+          @include color-svg(
+            '../images/icons/v2/chevron-left-24.svg',
+            $color-ultramarine-light
+          );
+        }
+      }
+    }
+
+    h1 {
+      @include font-body-1-bold;
+    }
+  }
+
+  &__list-wrapper {
+    flex-grow: 1;
+    overflow: hidden;
+  }
+
+  &__main-body {
+    display: flex;
+    flex-direction: column;
+    min-height: 300px;
+  }
+
+  &__text-edit-area {
+    height: 100%;
+    position: relative;
+  }
+
+  &__no-candidate-contacts {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__send-button {
+    align-items: center;
+    border: none;
+    border-radius: 100%;
+    display: flex;
+    height: 32px;
+    justify-content: center;
+    width: 32px;
+
+    &::after {
+      content: '';
+      display: block;
+      flex-shrink: 0;
+      height: 24px;
+      width: 24px;
+    }
+
+    &--continue {
+      &::after {
+        @include color-svg(
+          '../images/icons/v2/arrow-down-24.svg',
+          $color-white
+        );
+        transform: rotate(270deg);
+      }
+    }
+
+    &--forward {
+      &::after {
+        @include color-svg('../images/icons/v2/send-24.svg', $color-white);
+      }
+    }
+  }
+
+  &__emoji {
+    position: absolute;
+    right: 8px;
+    top: 8px;
+
+    button::after {
+      background-color: $color-black;
+    }
+  }
+
+  &__footer {
+    @include font-body-2;
+    align-items: center;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0;
+    padding: $padding;
+    position: relative;
+
+    @include light-theme {
+      background-color: $color-gray-02;
+      color: $color-gray-60;
+    }
+
+    @include dark-theme() {
+      background: $color-gray-65;
+      color: $color-gray-25;
+    }
+  }
+
+  // Disable cursor since images are non-clickable
+  .module-image__image {
+    cursor: inherit;
+  }
+}

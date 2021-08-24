@@ -1,63 +1,70 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { Dialogs } from '../../types/Dialogs';
+import { ThunkAction } from 'redux-thunk';
 import * as updateIpc from '../../shims/updateIpc';
-import { trigger } from '../../shims/events';
+import { DialogType } from '../../types/Dialogs';
+import { StateType as RootStateType } from '../reducer';
+import { onTimeout } from '../../services/timers';
 
 // State
 
 export type UpdatesStateType = {
-  dialogType: Dialogs;
+  dialogType: DialogType;
   didSnooze: boolean;
+  downloadSize?: number;
+  downloadedSize?: number;
   showEventsCount: number;
+  version?: string;
 };
 
 // Actions
 
-const ACK_RENDER = 'updates/ACK_RENDER';
 const DISMISS_DIALOG = 'updates/DISMISS_DIALOG';
 const SHOW_UPDATE_DIALOG = 'updates/SHOW_UPDATE_DIALOG';
 const SNOOZE_UPDATE = 'updates/SNOOZE_UPDATE';
 const START_UPDATE = 'updates/START_UPDATE';
+const UNSNOOZE_UPDATE = 'updates/UNSNOOZE_UPDATE';
 
-type AckRenderAction = {
-  type: 'updates/ACK_RENDER';
+export type UpdateDialogOptionsType = {
+  downloadSize?: number;
+  downloadedSize?: number;
+  version?: string;
 };
 
 type DismissDialogAction = {
-  type: 'updates/DISMISS_DIALOG';
+  type: typeof DISMISS_DIALOG;
 };
 
 export type ShowUpdateDialogAction = {
-  type: 'updates/SHOW_UPDATE_DIALOG';
-  payload: Dialogs;
+  type: typeof SHOW_UPDATE_DIALOG;
+  payload: {
+    dialogType: DialogType;
+    otherState: UpdateDialogOptionsType;
+  };
 };
 
 type SnoozeUpdateActionType = {
-  type: 'updates/SNOOZE_UPDATE';
+  type: typeof SNOOZE_UPDATE;
 };
 
 type StartUpdateAction = {
-  type: 'updates/START_UPDATE';
+  type: typeof START_UPDATE;
+};
+
+type UnsnoozeUpdateActionType = {
+  type: typeof UNSNOOZE_UPDATE;
+  payload: DialogType;
 };
 
 export type UpdatesActionType =
-  | AckRenderAction
   | DismissDialogAction
   | ShowUpdateDialogAction
   | SnoozeUpdateActionType
-  | StartUpdateAction;
+  | StartUpdateAction
+  | UnsnoozeUpdateActionType;
 
 // Action Creators
-
-function ackRender(): AckRenderAction {
-  updateIpc.ackRender();
-
-  return {
-    type: ACK_RENDER,
-  };
-}
 
 function dismissDialog(): DismissDialogAction {
   return {
@@ -65,22 +72,39 @@ function dismissDialog(): DismissDialogAction {
   };
 }
 
-function showUpdateDialog(dialogType: Dialogs): ShowUpdateDialogAction {
+function showUpdateDialog(
+  dialogType: DialogType,
+  updateDialogOptions: UpdateDialogOptionsType = {}
+): ShowUpdateDialogAction {
   return {
     type: SHOW_UPDATE_DIALOG,
-    payload: dialogType,
+    payload: {
+      dialogType,
+      otherState: updateDialogOptions,
+    },
   };
 }
 
-const SNOOZE_TIMER = 60 * 1000 * 30;
+const ONE_DAY = 24 * 60 * 60 * 1000;
 
-function snoozeUpdate(): SnoozeUpdateActionType {
-  setTimeout(() => {
-    trigger('snooze-update');
-  }, SNOOZE_TIMER);
+function snoozeUpdate(): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  SnoozeUpdateActionType | UnsnoozeUpdateActionType
+> {
+  return (dispatch, getState) => {
+    const { dialogType } = getState().updates;
+    onTimeout(Date.now() + ONE_DAY, () => {
+      dispatch({
+        type: UNSNOOZE_UPDATE,
+        payload: dialogType,
+      });
+    });
 
-  return {
-    type: SNOOZE_UPDATE,
+    dispatch({
+      type: SNOOZE_UPDATE,
+    });
   };
 }
 
@@ -93,7 +117,6 @@ function startUpdate(): StartUpdateAction {
 }
 
 export const actions = {
-  ackRender,
   dismissDialog,
   showUpdateDialog,
   snoozeUpdate,
@@ -104,7 +127,7 @@ export const actions = {
 
 function getEmptyState(): UpdatesStateType {
   return {
-    dialogType: Dialogs.None,
+    dialogType: DialogType.None,
     didSnooze: false,
     showEventsCount: 0,
   };
@@ -115,37 +138,46 @@ export function reducer(
   action: Readonly<UpdatesActionType>
 ): UpdatesStateType {
   if (action.type === SHOW_UPDATE_DIALOG) {
+    const { dialogType, otherState } = action.payload;
+
     return {
-      dialogType: action.payload,
-      didSnooze: state.didSnooze,
+      ...state,
+      ...otherState,
+      dialogType,
       showEventsCount: state.showEventsCount + 1,
     };
   }
 
   if (action.type === SNOOZE_UPDATE) {
     return {
-      dialogType: Dialogs.None,
+      ...state,
+      dialogType: DialogType.None,
       didSnooze: true,
-      showEventsCount: state.showEventsCount,
     };
   }
 
   if (action.type === START_UPDATE) {
     return {
-      dialogType: Dialogs.None,
-      didSnooze: state.didSnooze,
-      showEventsCount: state.showEventsCount,
+      ...state,
+      dialogType: DialogType.None,
     };
   }
 
   if (
     action.type === DISMISS_DIALOG &&
-    state.dialogType === Dialogs.MacOS_Read_Only
+    state.dialogType === DialogType.MacOS_Read_Only
   ) {
     return {
-      dialogType: Dialogs.None,
-      didSnooze: state.didSnooze,
-      showEventsCount: state.showEventsCount,
+      ...state,
+      dialogType: DialogType.None,
+    };
+  }
+
+  if (action.type === UNSNOOZE_UPDATE) {
+    return {
+      ...state,
+      dialogType: action.payload,
+      didSnooze: false,
     };
   }
 

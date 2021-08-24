@@ -11,18 +11,8 @@
     "webaudiorecorder": "https://github.com/higuma/web-audio-recorder-js.git"
   },
   "devDependencies": {
-    "mock-socket": "~0.3.2"
   },
   "preen": {
-    "bytebuffer": [
-      "dist/ByteBufferAB.js"
-    ],
-    "long": [
-      "dist/Long.js"
-    ],
-    "mock-socket": [
-      "dist/mock-socket.js"
-    ],
     "mp3lameencoder": [
       "lib/Mp3LameEncoder.js"
     ],
@@ -49,11 +39,6 @@
       "node_modules/intl-tel-input/build/js/intlTelInput.js",
       "components/autosize/**/*.js",
       "components/webaudiorecorder/lib/WebAudioRecorder.js"
-    ],
-    "libtextsecure": [
-      "components/long/**/*.js",
-      "components/bytebuffer/**/*.js",
-      "components/protobuf/**/*.js"
     ]
   }
 }

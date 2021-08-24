@@ -24,18 +24,16 @@
   const TOO_OLD = 409;
 
   Whisper.InstallView = Whisper.View.extend({
-    templateName: 'link-flow-template',
+    template: () => $('#link-flow-template').html(),
     className: 'main full-screen-flow',
     events: {
       'click .try-again': 'connect',
       'click .second': 'shutdown',
-      'click .finish': 'finishLinking',
       // the actual next step happens in confirmNumber() on submit form #link-phone
     },
     initialize(options = {}) {
       window.readyForUpdates();
 
-      this.didLink = false;
       this.selectStep(Steps.SCAN_QR_CODE);
       this.connect();
       this.on('disconnected', this.reconnect);
@@ -181,10 +179,6 @@
       this.$(DEVICE_NAME_SELECTOR).val(deviceName || window.getHostName());
       this.$(DEVICE_NAME_SELECTOR).focus();
     },
-    finishLinking() {
-      // We use a form so we get submit-on-enter behavior
-      this.$('#link-phone').submit();
-    },
     confirmNumber() {
       const tsp = textsecure.storage.protocol;
 
@@ -193,21 +187,11 @@
       this.setDeviceNameDefault();
 
       return new Promise(resolve => {
-        this.$('#link-phone').submit(e => {
-          e.stopPropagation();
-          e.preventDefault();
-
-          let name = this.$(DEVICE_NAME_SELECTOR).val();
-          name = name.replace(/\0/g, ''); // strip unicode null
-          if (name.trim().length === 0) {
-            this.$(DEVICE_NAME_SELECTOR).focus();
-            return null;
-          }
-
+        const onDeviceName = name => {
           this.selectStep(Steps.PROGRESS_BAR);
 
           const finish = () => {
-            this.didLink = true;
+            window.Signal.Util.postLinkExperience.start();
             return resolve(name);
           };
 
@@ -227,6 +211,26 @@
             );
             return finish();
           });
+        };
+
+        if (window.CI) {
+          onDeviceName(window.CI.deviceName);
+          return;
+        }
+
+        // eslint-disable-next-line consistent-return
+        this.$('#link-phone').submit(e => {
+          e.stopPropagation();
+          e.preventDefault();
+
+          let name = this.$(DEVICE_NAME_SELECTOR).val();
+          name = name.replace(/\0/g, ''); // strip unicode null
+          if (name.trim().length === 0) {
+            this.$(DEVICE_NAME_SELECTOR).focus();
+            return null;
+          }
+
+          onDeviceName(name);
         });
       });
     },

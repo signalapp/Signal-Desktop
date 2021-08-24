@@ -16,14 +16,14 @@ export async function longRunningTaskWrapper<T>({
   const ONE_SECOND = 1000;
   const TWO_SECONDS = 2000;
 
-  let progressView: typeof Whisper.ReactWrapperView | undefined;
+  let progressView: typeof window.Whisper.ReactWrapperView | undefined;
   let spinnerStart;
   let progressTimeout: NodeJS.Timeout | undefined = setTimeout(() => {
     window.log.info(`longRunningTaskWrapper/${idLog}: Creating spinner`);
 
     // Note: this component uses a portal to render itself into the top-level DOM. No
     //   need to attach it to the DOM here.
-    progressView = new Whisper.ReactWrapperView({
+    progressView = new window.Whisper.ReactWrapperView({
       className: 'progress-modal-wrapper',
       Component: window.Signal.Components.ProgressModal,
     });
@@ -76,7 +76,7 @@ export async function longRunningTaskWrapper<T>({
 
       // Note: this component uses a portal to render itself into the top-level DOM. No
       //   need to attach it to the DOM here.
-      const errorView = new Whisper.ReactWrapperView({
+      const errorView = new window.Whisper.ReactWrapperView({
         className: 'error-modal-wrapper',
         Component: window.Signal.Components.ErrorModal,
         props: {

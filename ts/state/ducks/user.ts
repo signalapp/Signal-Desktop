@@ -4,7 +4,7 @@
 import { trigger } from '../../shims/events';
 
 import { NoopActionType } from './noop';
-import { LocalizerType } from '../../types/Util';
+import { LocalizerType, ThemeType } from '../../types/Util';
 
 // State
 
@@ -13,12 +13,14 @@ export type UserStateType = {
   stickersPath: string;
   tempPath: string;
   ourConversationId: string;
+  ourDeviceId: number;
   ourUuid: string;
   ourNumber: string;
   platform: string;
   regionCode: string;
   i18n: LocalizerType;
   interactionMode: 'mouse' | 'keyboard';
+  theme: ThemeType;
 };
 
 // Actions
@@ -27,10 +29,12 @@ type UserChangedActionType = {
   type: 'USER_CHANGED';
   payload: {
     ourConversationId?: string;
+    ourDeviceId?: number;
     ourUuid?: string;
     ourNumber?: string;
     regionCode?: string;
     interactionMode?: 'mouse' | 'keyboard';
+    theme?: ThemeType;
   };
 };
 
@@ -45,10 +49,12 @@ export const actions = {
 
 function userChanged(attributes: {
   interactionMode?: 'mouse' | 'keyboard';
-  ourConversationId: string;
-  ourNumber: string;
-  ourUuid: string;
-  regionCode: string;
+  ourConversationId?: string;
+  ourDeviceId?: number;
+  ourNumber?: string;
+  ourUuid?: string;
+  regionCode?: string;
+  theme?: ThemeType;
 }): UserChangedActionType {
   return {
     type: 'USER_CHANGED',
@@ -73,12 +79,23 @@ export function getEmptyState(): UserStateType {
     stickersPath: 'missing',
     tempPath: 'missing',
     ourConversationId: 'missing',
+    ourDeviceId: 0,
     ourUuid: 'missing',
     ourNumber: 'missing',
     regionCode: 'missing',
     platform: 'missing',
     interactionMode: 'mouse',
-    i18n: () => 'missing',
+    theme: ThemeType.light,
+    i18n: Object.assign(
+      () => {
+        throw new Error('i18n not yet set up');
+      },
+      {
+        getLocale() {
+          throw new Error('i18n not yet set up');
+        },
+      }
+    ),
   };
 }
 

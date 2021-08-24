@@ -1,44 +1,37 @@
 // Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { z } from 'zod';
 import FormData from 'form-data';
 import { gzip } from 'zlib';
 import pify from 'pify';
-import got from 'got';
+import got, { Response } from 'got';
 import { getUserAgent } from '../util/getUserAgent';
+import { maybeParseUrl } from '../util/url';
 
 const BASE_URL = 'https://debuglogs.org';
 
-const isObject = (value: unknown): value is Record<string, unknown> =>
-  typeof value === 'object' && !Array.isArray(value) && Boolean(value);
+const tokenBodySchema = z
+  .object({
+    fields: z.record(z.unknown()),
+    url: z.string(),
+  })
+  .nonstrict();
 
 const parseTokenBody = (
-  body: unknown
+  rawBody: unknown
 ): { fields: Record<string, unknown>; url: string } => {
-  if (!isObject(body)) {
-    throw new Error('Token body is not an object');
-  }
+  const body = tokenBodySchema.parse(rawBody);
 
-  const { fields, url } = body as Record<string, unknown>;
-
-  if (!isObject(fields)) {
-    throw new Error('Token body\'s "fields" key is not an object');
-  }
-
-  if (typeof url !== 'string') {
-    throw new Error('Token body\'s "url" key is not a string');
-  }
-  let parsedUrl: URL;
-  try {
-    parsedUrl = new URL(url);
-  } catch (err) {
+  const parsedUrl = maybeParseUrl(body.url);
+  if (!parsedUrl) {
     throw new Error("Token body's URL was not a valid URL");
   }
   if (parsedUrl.protocol !== 'https:') {
     throw new Error("Token body's URL was not HTTPS");
   }
 
-  return { fields, url };
+  return body;
 };
 
 export const uploadDebugLogs = async (
@@ -50,9 +43,11 @@ export const uploadDebugLogs = async (
   const signedForm = await got.get(BASE_URL, { json: true, headers });
   const { fields, url } = parseTokenBody(signedForm.body);
 
+  const uploadKey = `${fields.key}.gz`;
+
   const form = new FormData();
   // The API expects `key` to be the first field:
-  form.append('key', fields.key);
+  form.append('key', uploadKey);
   Object.entries(fields)
     .filter(([key]) => key !== 'key')
     .forEach(([key, value]) => {
@@ -68,11 +63,20 @@ export const uploadDebugLogs = async (
   });
 
   window.log.info('Debug log upload starting...');
-  const { statusCode } = await got.post(url, { headers, body: form });
-  if (statusCode !== 204) {
-    throw new Error(`Failed to upload to S3, got status ${statusCode}`);
+  try {
+    const { statusCode, body } = await got.post(url, { headers, body: form });
+    if (statusCode !== 204) {
+      throw new Error(
+        `Failed to upload to S3, got status ${statusCode}, body '${body}'`
+      );
+    }
+  } catch (error) {
+    const response = error.response as Response<string>;
+    throw new Error(
+      `Got threw on upload to S3, got status ${response?.statusCode}, body '${response?.body}'  `
+    );
   }
   window.log.info('Debug log upload complete.');
 
-  return `${BASE_URL}/${fields.key}`;
+  return `${BASE_URL}/${uploadKey}`;
 };

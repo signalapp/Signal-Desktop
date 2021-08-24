@@ -1,13 +1,14 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
 import classNames from 'classnames';
 
-import { Avatar } from '../Avatar';
+import { Avatar, AvatarBlur } from '../Avatar';
 import { Spinner } from '../Spinner';
 
 import { LocalizerType } from '../../types/Util';
+import { AvatarColors } from '../../types/Colors';
 import { ContactType, getName } from '../../types/Contact';
 
 // This file starts with _ to keep it from showing up in the StyleGuide.
@@ -45,11 +46,15 @@ export function renderAvatar({
 
   return (
     <Avatar
+      acceptedMessageRequest={false}
       avatarPath={avatarPath}
-      color="grey"
+      blur={AvatarBlur.NoBlur}
+      color={AvatarColors[0]}
       conversationType="direct"
       i18n={i18n}
+      isMe
       title={title}
+      sharedGroupNames={[]}
       size={size}
     />
   );

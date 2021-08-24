@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable-next-line max-classes-per-file */
@@ -7,29 +7,24 @@ import { storiesOf } from '@storybook/react';
 import { isBoolean } from 'lodash';
 import { boolean } from '@storybook/addon-knobs';
 
+import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
 import { setup as setupI18n } from '../../../js/modules/i18n';
 import enMessages from '../../../_locales/en/messages.json';
 import { GroupV1Migration, PropsType } from './GroupV1Migration';
 
 const i18n = setupI18n('en', enMessages);
 
-const contact1 = {
+const contact1 = getDefaultConversation({
   title: 'Alice',
-  number: '+1 (300) 555-000',
+  phoneNumber: '+1 (300) 555-000',
   id: 'guid-1',
-  markedUnread: false,
-  type: 'direct' as const,
-  lastUpdated: Date.now(),
-};
+});
 
-const contact2 = {
+const contact2 = getDefaultConversation({
   title: 'Bob',
-  number: '+1 (300) 555-000',
+  phoneNumber: '+1 (300) 555-000',
   id: 'guid-2',
-  markedUnread: false,
-  type: 'direct' as const,
-  lastUpdated: Date.now(),
-};
+});
 
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   areWeInvited: boolean(

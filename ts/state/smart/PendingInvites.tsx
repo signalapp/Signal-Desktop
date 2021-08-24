@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { connect } from 'react-redux';
@@ -10,7 +10,9 @@ import {
 import { StateType } from '../reducer';
 
 import { getIntl } from '../selectors/user';
-import { getConversationSelector } from '../selectors/conversations';
+import { getConversationByIdSelector } from '../selectors/conversations';
+import { getGroupMemberships } from '../../util/getGroupMemberships';
+import { assert } from '../../util/assert';
 
 export type SmartPendingInvitesProps = {
   conversationId: string;
@@ -23,12 +25,17 @@ const mapStateToProps = (
   state: StateType,
   props: SmartPendingInvitesProps
 ): PropsType => {
-  const { conversationId } = props;
+  const conversationSelector = getConversationByIdSelector(state);
 
-  const conversation = getConversationSelector(state)(conversationId);
+  const conversation = conversationSelector(props.conversationId);
+  assert(
+    conversation,
+    '<SmartPendingInvites> expected a conversation to be found'
+  );
 
   return {
     ...props,
+    ...getGroupMemberships(conversation, conversationSelector),
     conversation,
     i18n: getIntl(state),
   };

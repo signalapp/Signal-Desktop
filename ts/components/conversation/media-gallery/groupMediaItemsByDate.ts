@@ -5,6 +5,7 @@ import moment from 'moment';
 import { compact, groupBy, sortBy } from 'lodash';
 
 import { MediaItemType } from '../../LightboxGallery';
+import { getMessageTimestamp } from '../../../util/getMessageTimestamp';
 
 // import { missingCaseError } from '../../../util/missingCaseError';
 
@@ -98,12 +99,8 @@ type GenericMediaItemWithSection<T> = {
   type: T;
   mediaItem: MediaItemType;
 };
-type MediaItemWithStaticSection = GenericMediaItemWithSection<
-  StaticSectionType
->;
-type MediaItemWithYearMonthSection = GenericMediaItemWithSection<
-  YearMonthSectionType
-> & {
+type MediaItemWithStaticSection = GenericMediaItemWithSection<StaticSectionType>;
+type MediaItemWithYearMonthSection = GenericMediaItemWithSection<YearMonthSectionType> & {
   year: number;
   month: number;
 };
@@ -120,7 +117,7 @@ const withSection = (referenceDateTime: moment.Moment) => (
   const thisMonth = moment(referenceDateTime).startOf('month');
 
   const { message } = mediaItem;
-  const mediaItemReceivedDate = moment.utc(message.received_at);
+  const mediaItemReceivedDate = moment.utc(getMessageTimestamp(message));
   if (mediaItemReceivedDate.isAfter(today)) {
     return {
       order: 0,

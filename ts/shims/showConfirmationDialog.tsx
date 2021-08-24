@@ -3,7 +3,7 @@
 
 // This file is here temporarily while we're switching off of Backbone into
 // React. In the future, and in React-land, please just import and use
-// ConfirmationModal directly. This is the thin API layer to bridge the gap
+// ConfirmationDialog directly. This is the thin API layer to bridge the gap
 // while we convert things over. Please delete this file once all usages are
 // ported over. Note: this file cannot have any imports/exports since it is
 // being included in a <script /> tag.
@@ -13,12 +13,12 @@ type ConfirmationDialogViewProps = {
   confirmStyle?: 'affirmative' | 'negative';
   message: string;
   okText: string;
-  reject?: () => void;
+  reject?: (error: Error) => void;
   resolve: () => void;
 };
 
-let confirmationDialogViewNode: HTMLElement | null = null;
-let confirmationDialogPreviousFocus: HTMLElement | null = null;
+let confirmationDialogViewNode: HTMLElement | undefined;
+let confirmationDialogPreviousFocus: HTMLElement | undefined;
 
 function removeConfirmationDialog() {
   if (!confirmationDialogViewNode) {
@@ -34,7 +34,7 @@ function removeConfirmationDialog() {
   ) {
     confirmationDialogPreviousFocus.focus();
   }
-  confirmationDialogViewNode = null;
+  confirmationDialogViewNode = undefined;
 }
 
 function showConfirmationDialog(options: ConfirmationDialogViewProps) {
@@ -49,11 +49,10 @@ function showConfirmationDialog(options: ConfirmationDialogViewProps) {
 
   window.ReactDOM.render(
     // eslint-disable-next-line react/react-in-jsx-scope, react/jsx-no-undef
-    <window.Signal.Components.ConfirmationModal
+    <window.Signal.Components.ConfirmationDialog
       actions={[
         {
           action: () => {
-            removeConfirmationDialog();
             options.resolve();
           },
           style: options.confirmStyle,
@@ -62,11 +61,13 @@ function showConfirmationDialog(options: ConfirmationDialogViewProps) {
       ]}
       cancelText={options.cancelText || window.i18n('cancel')}
       i18n={window.i18n}
+      onCancel={() => {
+        if (options.reject) {
+          options.reject(new Error('showConfirmationDialog: onCancel called'));
+        }
+      }}
       onClose={() => {
         removeConfirmationDialog();
-        if (options.reject) {
-          options.reject();
-        }
       }}
       title={options.message}
     />,

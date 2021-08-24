@@ -1,3 +1,6 @@
+// Copyright 2020-2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 package signalservice;
 
 option java_package         = "org.whispersystems.signalservice.internal.storage";
@@ -62,37 +65,47 @@ message ContactRecord {
     UNVERIFIED = 2;
   }
 
-  optional string        serviceUuid   = 1;
-  optional string        serviceE164   = 2;
-  optional bytes         profileKey    = 3;
-  optional bytes         identityKey   = 4;
-  optional IdentityState identityState = 5;
-  optional string        givenName     = 6;
-  optional string        familyName    = 7;
-  optional string        username      = 8;
-  optional bool          blocked       = 9;
-  optional bool          whitelisted   = 10;
-  optional bool          archived      = 11;
-  optional bool          markedUnread  = 12;
+  optional string        serviceUuid         = 1;
+  optional string        serviceE164         = 2;
+  optional bytes         profileKey          = 3;
+  optional bytes         identityKey         = 4;
+  optional IdentityState identityState       = 5;
+  optional string        givenName           = 6;
+  optional string        familyName          = 7;
+  optional string        username            = 8;
+  optional bool          blocked             = 9;
+  optional bool          whitelisted         = 10;
+  optional bool          archived            = 11;
+  optional bool          markedUnread        = 12;
+  optional uint64        mutedUntilTimestamp = 13;
 }
 
 message GroupV1Record {
-  optional bytes id           = 1;
-  optional bool  blocked      = 2;
-  optional bool  whitelisted  = 3;
-  optional bool  archived     = 4;
-  optional bool  markedUnread = 5;
+  optional bytes  id                  = 1;
+  optional bool   blocked             = 2;
+  optional bool   whitelisted         = 3;
+  optional bool   archived            = 4;
+  optional bool   markedUnread        = 5;
+  optional uint64 mutedUntilTimestamp = 6;
 }
 
 message GroupV2Record {
-  optional bytes masterKey    = 1;
-  optional bool  blocked      = 2;
-  optional bool  whitelisted  = 3;
-  optional bool  archived     = 4;
-  optional bool  markedUnread = 5;
+  optional bytes  masterKey                    = 1;
+  optional bool   blocked                      = 2;
+  optional bool   whitelisted                  = 3;
+  optional bool   archived                     = 4;
+  optional bool   markedUnread                 = 5;
+  optional uint64 mutedUntilTimestamp          = 6;
+  optional bool   dontNotifyForMentionsIfMuted = 7;
 }
 
 message AccountRecord {
+  enum PhoneNumberSharingMode {
+    EVERYBODY     = 0;
+    CONTACTS_ONLY = 1;
+    NOBODY        = 2;
+  }
+
   message PinnedConversation {
     message Contact {
       optional string uuid = 1;
@@ -106,16 +119,21 @@ message AccountRecord {
     }
   }
 
-  optional bytes              profileKey             = 1;
-  optional string             givenName              = 2;
-  optional string             familyName             = 3;
-  optional string             avatarUrl              = 4;
-  optional bool               noteToSelfArchived     = 5;
-  optional bool               readReceipts           = 6;
-  optional bool               sealedSenderIndicators = 7;
-  optional bool               typingIndicators       = 8;
-  optional bool               proxiedLinkPreviews    = 9;
-  optional bool               noteToSelfMarkedUnread = 10;
-  optional bool               linkPreviews           = 11;
-  repeated PinnedConversation pinnedConversations    = 14;
+  optional bytes                  profileKey                   = 1;
+  optional string                 givenName                    = 2;
+  optional string                 familyName                   = 3;
+  optional string                 avatarUrl                    = 4;
+  optional bool                   noteToSelfArchived           = 5;
+  optional bool                   readReceipts                 = 6;
+  optional bool                   sealedSenderIndicators       = 7;
+  optional bool                   typingIndicators             = 8;
+  optional bool                   proxiedLinkPreviews          = 9;
+  optional bool                   noteToSelfMarkedUnread       = 10;
+  optional bool                   linkPreviews                 = 11;
+  optional PhoneNumberSharingMode phoneNumberSharingMode       = 12;
+  optional bool                   notDiscoverableByPhoneNumber = 13;
+  repeated PinnedConversation     pinnedConversations          = 14;
+  optional uint32                 universalExpireTimer         = 17;
+  optional bool                   primarySendsSms              = 18;
+  optional string                 e164                         = 19;
 }

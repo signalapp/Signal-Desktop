@@ -1,4 +1,4 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
@@ -11,11 +11,10 @@ import { AttachmentType, isImageAttachment } from '../../types/Attachment';
 import { LocalizerType } from '../../types/Util';
 
 export type Props = {
-  isLoaded: boolean;
-  title: string;
-  description: null | string;
-  date: null | number;
-  domain: string;
+  title?: string;
+  description?: null | string;
+  date?: null | number;
+  domain?: string;
   image?: AttachmentType;
 
   i18n: LocalizerType;
@@ -23,7 +22,6 @@ export type Props = {
 };
 
 export const StagedLinkPreview: React.FC<Props> = ({
-  isLoaded,
   onClose,
   i18n,
   title,
@@ -33,6 +31,7 @@ export const StagedLinkPreview: React.FC<Props> = ({
   domain,
 }: Props) => {
   const isImage = isImageAttachment(image);
+  const isLoaded = Boolean(domain);
 
   return (
     <div
@@ -46,7 +45,7 @@ export const StagedLinkPreview: React.FC<Props> = ({
           {i18n('loadingPreview')}
         </div>
       ) : null}
-      {isLoaded && image && isImage ? (
+      {isLoaded && image && isImage && domain ? (
         <div className="module-staged-link-preview__icon-container">
           <Image
             alt={i18n('stagedPreviewThumbnail', [domain])}

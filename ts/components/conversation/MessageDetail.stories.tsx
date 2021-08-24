@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -7,8 +7,11 @@ import { action } from '@storybook/addon-actions';
 import { number } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
 
-import { Props as MessageProps } from './Message';
+import { PropsData as MessageDataPropsType } from './Message';
 import { MessageDetail, Props } from './MessageDetail';
+import { SendStatus } from '../../messages/MessageSendState';
+import { ReadStatus } from '../../messages/MessageReadStatus';
+import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
 import { setup as setupI18n } from '../../../js/modules/i18n';
 import enMessages from '../../../_locales/en/messages.json';
 
@@ -16,40 +19,24 @@ const i18n = setupI18n('en', enMessages);
 
 const story = storiesOf('Components/Conversation/MessageDetail', module);
 
-const defaultMessage: MessageProps = {
-  authorId: 'some-id',
-  authorTitle: 'Max',
+const defaultMessage: MessageDataPropsType = {
+  author: getDefaultConversation({
+    id: 'some-id',
+    title: 'Max',
+  }),
   canReply: true,
   canDeleteForEveryone: true,
   canDownload: true,
-  clearSelectedMessage: () => null,
+  conversationColor: 'crimson',
   conversationId: 'my-convo',
   conversationType: 'direct',
-  deleteMessage: action('deleteMessage'),
-  deleteMessageForEveryone: action('deleteMessageForEveryone'),
   direction: 'incoming',
-  displayTapToViewMessage: () => null,
-  downloadAttachment: () => null,
-  i18n,
   id: 'my-message',
-  interactionMode: 'keyboard',
+  renderingContext: 'storybook',
   isBlocked: false,
   isMessageRequestAccepted: true,
-  kickOffAttachmentDownload: action('kickOffAttachmentDownload'),
-  openConversation: () => null,
-  openLink: () => null,
   previews: [],
-  reactToMessage: () => null,
-  renderEmojiPicker: () => <div />,
-  replyToMessage: () => null,
-  retrySend: () => null,
-  scrollToQuotedMessage: () => null,
-  showContactDetail: () => null,
-  showContactModal: () => null,
-  showExpiredIncomingTapToViewToast: () => null,
-  showExpiredOutgoingTapToViewToast: () => null,
-  showMessageDetail: () => null,
-  showVisualAttachment: () => null,
+  readStatus: ReadStatus.Read,
   status: 'sent',
   text: 'A message from Max',
   timestamp: Date.now(),
@@ -58,24 +45,68 @@ const defaultMessage: MessageProps = {
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   contacts: overrideProps.contacts || [
     {
-      color: 'green',
+      ...getDefaultConversation({
+        title: 'Just Max',
+      }),
       isOutgoingKeyError: false,
       isUnidentifiedDelivery: false,
-      onSendAnyway: action('onSendAnyway'),
-      onShowSafetyNumber: action('onShowSafetyNumber'),
-      status: 'delivered',
-      title: 'Just Max',
+      status: SendStatus.Delivered,
     },
   ],
   errors: overrideProps.errors || [],
-  i18n,
   message: overrideProps.message || defaultMessage,
   receivedAt: number('receivedAt', overrideProps.receivedAt || Date.now()),
   sentAt: number('sentAt', overrideProps.sentAt || Date.now()),
+
+  i18n,
+  interactionMode: 'keyboard',
+
+  sendAnyway: action('onSendAnyway'),
+  showSafetyNumber: action('onShowSafetyNumber'),
+
+  checkForAccount: action('checkForAccount'),
+  clearSelectedMessage: action('clearSelectedMessage'),
+  deleteMessage: action('deleteMessage'),
+  deleteMessageForEveryone: action('deleteMessageForEveryone'),
+  displayTapToViewMessage: action('displayTapToViewMessage'),
+  downloadAttachment: action('downloadAttachment'),
+  doubleCheckMissingQuoteReference: action('doubleCheckMissingQuoteReference'),
+  kickOffAttachmentDownload: action('kickOffAttachmentDownload'),
+  markAttachmentAsCorrupted: action('markAttachmentAsCorrupted'),
+  markViewed: action('markViewed'),
+  openConversation: action('openConversation'),
+  openLink: action('openLink'),
+  reactToMessage: action('reactToMessage'),
+  renderAudioAttachment: () => <div>*AudioAttachment*</div>,
+  renderEmojiPicker: () => <div />,
+  replyToMessage: action('replyToMessage'),
+  retrySend: action('retrySend'),
+  showContactDetail: action('showContactDetail'),
+  showContactModal: action('showContactModal'),
+  showExpiredIncomingTapToViewToast: action(
+    'showExpiredIncomingTapToViewToast'
+  ),
+  showExpiredOutgoingTapToViewToast: action(
+    'showExpiredOutgoingTapToViewToast'
+  ),
+  showForwardMessageModal: action('showForwardMessageModal'),
+  showVisualAttachment: action('showVisualAttachment'),
 });
 
 story.add('Delivered Incoming', () => {
-  const props = createProps({});
+  const props = createProps({
+    contacts: [
+      {
+        ...getDefaultConversation({
+          color: 'forest',
+          title: 'Max',
+        }),
+        status: undefined,
+        isOutgoingKeyError: false,
+        isUnidentifiedDelivery: false,
+      },
+    ],
+  });
   return <MessageDetail {...props} />;
 });
 
@@ -94,49 +125,44 @@ story.add('Message Statuses', () => {
   const props = createProps({
     contacts: [
       {
-        color: 'green',
+        ...getDefaultConversation({
+          title: 'Max',
+        }),
         isOutgoingKeyError: false,
         isUnidentifiedDelivery: false,
-        onSendAnyway: action('onSendAnyway'),
-        onShowSafetyNumber: action('onShowSafetyNumber'),
-        status: 'sent',
-        title: 'Max',
+        status: SendStatus.Sent,
       },
       {
-        color: 'blue',
+        ...getDefaultConversation({
+          title: 'Sally',
+        }),
         isOutgoingKeyError: false,
         isUnidentifiedDelivery: false,
-        onSendAnyway: action('onSendAnyway'),
-        onShowSafetyNumber: action('onShowSafetyNumber'),
-        status: 'sending',
-        title: 'Sally',
+        status: SendStatus.Pending,
       },
       {
-        color: 'brown',
+        ...getDefaultConversation({
+          title: 'Terry',
+        }),
         isOutgoingKeyError: false,
         isUnidentifiedDelivery: false,
-        onSendAnyway: action('onSendAnyway'),
-        onShowSafetyNumber: action('onShowSafetyNumber'),
-        status: 'partial-sent',
-        title: 'Terry',
+        status: SendStatus.Failed,
       },
       {
-        color: 'light_green',
+        ...getDefaultConversation({
+          title: 'Theo',
+        }),
         isOutgoingKeyError: false,
         isUnidentifiedDelivery: false,
-        onSendAnyway: action('onSendAnyway'),
-        onShowSafetyNumber: action('onShowSafetyNumber'),
-        status: 'delivered',
-        title: 'Theo',
+        status: SendStatus.Delivered,
       },
       {
-        color: 'blue_grey',
+        ...getDefaultConversation({
+          title: 'Nikki',
+        }),
         isOutgoingKeyError: false,
         isUnidentifiedDelivery: false,
-        onSendAnyway: action('onSendAnyway'),
-        onShowSafetyNumber: action('onShowSafetyNumber'),
-        status: 'read',
-        title: 'Nikki',
+        status: SendStatus.Read,
       },
     ],
     message: {
@@ -187,16 +213,17 @@ story.add('All Errors', () => {
     },
     contacts: [
       {
-        color: 'green',
+        ...getDefaultConversation({
+          title: 'Max',
+        }),
         isOutgoingKeyError: true,
         isUnidentifiedDelivery: false,
-        onSendAnyway: action('onSendAnyway'),
-        onShowSafetyNumber: action('onShowSafetyNumber'),
-        status: 'error',
-        title: 'Max',
+        status: SendStatus.Failed,
       },
       {
-        color: 'blue',
+        ...getDefaultConversation({
+          title: 'Sally',
+        }),
         errors: [
           {
             name: 'Big Error',
@@ -205,19 +232,15 @@ story.add('All Errors', () => {
         ],
         isOutgoingKeyError: false,
         isUnidentifiedDelivery: true,
-        onSendAnyway: action('onSendAnyway'),
-        onShowSafetyNumber: action('onShowSafetyNumber'),
-        status: 'error',
-        title: 'Sally',
+        status: SendStatus.Failed,
       },
       {
-        color: 'brown',
+        ...getDefaultConversation({
+          title: 'Terry',
+        }),
         isOutgoingKeyError: true,
         isUnidentifiedDelivery: true,
-        onSendAnyway: action('onSendAnyway'),
-        onShowSafetyNumber: action('onShowSafetyNumber'),
-        status: 'error',
-        title: 'Terry',
+        status: SendStatus.Failed,
       },
     ],
   });

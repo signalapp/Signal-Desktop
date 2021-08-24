@@ -94,13 +94,17 @@ story.add('Override Popper Boundary', () => {
             {...createProps({
               direction: TooltipPlacement.Bottom,
             })}
-            popperModifiers={{
-              preventOverflow: {
-                boundariesElement: boundaryRef as HTMLElement,
-                // Only detect overflow on the left edge of the boundary
-                priority: ['left'],
+            popperModifiers={[
+              {
+                name: 'preventOverflow',
+                options: {
+                  boundary: boundaryRef as HTMLElement,
+                  // Only detect overflow on the x-axis
+
+                  mainAxis: true,
+                },
               },
-            }}
+            ]}
           >
             {Trigger}
           </Tooltip>

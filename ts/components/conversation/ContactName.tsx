@@ -2,25 +2,50 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
+import classNames from 'classnames';
 
-import { LocalizerType } from '../../types/Util';
 import { Emojify } from './Emojify';
+import { ContactNameColorType } from '../../types/Colors';
+import { LocalizerType } from '../../types/Util';
+import { getClassNamesFor } from '../../util/getClassNamesFor';
 
 export type PropsType = {
+  contactNameColor?: ContactNameColorType;
+  firstName?: string;
   i18n: LocalizerType;
-  title: string;
   module?: string;
   name?: string;
   phoneNumber?: string;
+  preferFirstName?: boolean;
   profileName?: string;
+  title: string;
 };
 
-export const ContactName = ({ module, title }: PropsType): JSX.Element => {
-  const prefix = module || 'module-contact-name';
+export const ContactName = ({
+  contactNameColor,
+  firstName,
+  module,
+  preferFirstName,
+  title,
+}: PropsType): JSX.Element => {
+  const getClassName = getClassNamesFor('module-contact-name', module);
+
+  let text: string;
+  if (preferFirstName) {
+    text = firstName || title || '';
+  } else {
+    text = title || '';
+  }
 
   return (
-    <span className={prefix} dir="auto">
-      <Emojify text={title || ''} />
+    <span
+      className={classNames(
+        getClassName(''),
+        contactNameColor ? getClassName(`--${contactNameColor}`) : null
+      )}
+      dir="auto"
+    >
+      <Emojify text={text} />
     </span>
   );
 };

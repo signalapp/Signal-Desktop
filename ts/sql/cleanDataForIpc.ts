@@ -3,7 +3,7 @@
 
 import { isPlainObject } from 'lodash';
 
-import { isIterable } from '../util/isIterable';
+import { isIterable } from '../util/iterables';
 
 /**
  * IPC arguments are serialized with the [structured clone algorithm][0], but we can only
@@ -37,6 +37,7 @@ type CleanedDataValue =
   | boolean
   | null
   | undefined
+  | Buffer
   | CleanedObject
   | CleanedArray;
 /* eslint-disable no-restricted-syntax */
@@ -108,6 +109,10 @@ function cleanDataInner(
       if (data instanceof ArrayBuffer) {
         pathsChanged.push(path);
         return undefined;
+      }
+
+      if (data instanceof Buffer) {
+        return data;
       }
 
       const dataAsRecord = data as Record<string, unknown>;

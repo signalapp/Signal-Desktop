@@ -1,9 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="56px" height="56px" viewBox="0 0 56 56" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 53 (72520) - https://sketchapp.com -->
-    <title>Interderminate Spinner - 56</title>
-    <desc>Created with Sketch.</desc>
-    <g id="Interderminate-Spinner---56" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <path d="M52.3599009,14.184516 C54.6768062,18.2609741 56,22.9759628 56,28 C56,43.463973 43.463973,56 28,56 L28,54 C42.3594035,54 54,42.3594035 54,28 C54,23.3403176 52.7742128,18.9669331 50.6275064,15.1847144 L52.3599009,14.184516 Z" id="Path" fill="#000000"></path>
-    </g>
-</svg>
+<svg height="56" viewBox="0 0 56 56" width="56" xmlns="http://www.w3.org/2000/svg"><path d="m52.3599009 14.184516c2.3169053 4.0764581 3.6400991 8.7914468 3.6400991 13.815484 0 15.463973-12.536027 28-28 28v-2c14.3594035 0 26-11.6405965 26-26 0-4.6596824-1.2257872-9.0330669-3.3724936-12.8152856z" fill-rule="evenodd"/></svg>

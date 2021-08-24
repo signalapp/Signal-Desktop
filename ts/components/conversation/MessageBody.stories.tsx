@@ -115,18 +115,19 @@ story.add('@Mention', () => {
 
 story.add('Multiple @Mentions', () => {
   const props = createProps({
+    // These are intentionally in a mixed order to test how we deal with that
     bodyRanges: [
-      {
-        start: 4,
-        length: 1,
-        mentionUuid: 'abc',
-        replacementText: 'Professor Farnsworth',
-      },
       {
         start: 2,
         length: 1,
         mentionUuid: 'def',
         replacementText: 'Philip J Fry',
+      },
+      {
+        start: 4,
+        length: 1,
+        mentionUuid: 'abc',
+        replacementText: 'Professor Farnsworth',
       },
       {
         start: 0,
@@ -144,17 +145,18 @@ story.add('Multiple @Mentions', () => {
 story.add('Complex MessageBody', () => {
   const props = createProps({
     bodyRanges: [
-      {
-        start: 80,
-        length: 1,
-        mentionUuid: 'xox',
-        replacementText: 'Cereal Killer',
-      },
+      // These are intentionally in a mixed order to test how we deal with that
       {
         start: 78,
         length: 1,
         mentionUuid: 'wer',
         replacementText: 'Acid Burn',
+      },
+      {
+        start: 80,
+        length: 1,
+        mentionUuid: 'xox',
+        replacementText: 'Cereal Killer',
       },
       {
         start: 4,

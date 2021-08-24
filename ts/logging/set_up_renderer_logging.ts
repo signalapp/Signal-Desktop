@@ -7,22 +7,32 @@
 
 import { ipcRenderer as ipc } from 'electron';
 import _ from 'lodash';
-import { levelFromName } from 'bunyan';
+import * as path from 'path';
+import pino from 'pino';
+import { createStream } from 'rotating-file-stream';
+
+import {
+  initLogger,
+  LogLevel as SignalClientLogLevel,
+} from '@signalapp/signal-client';
 
 import { uploadDebugLogs } from './debuglogs';
-import { redactAll } from '../../js/modules/privacy';
-import { createBatcher } from '../util/batcher';
+import { redactAll } from '../util/privacy';
 import {
+  FetchLogIpcData,
   LogEntryType,
   LogLevel,
   cleanArgs,
   getLogLevelString,
+  isFetchLogIpcData,
   isLogEntry,
 } from './shared';
 import * as log from './log';
 import { reallyJsonStringify } from '../util/reallyJsonStringify';
+import { Environment, getEnvironment } from '../environment';
 
 // To make it easier to visually scan logs, we make all levels the same length
+const levelFromName = pino().levels.values;
 const levelMaxLength: number = Object.keys(levelFromName).reduce(
   (maxLength, level) => Math.max(maxLength, level.length),
   0
@@ -45,21 +55,49 @@ if (window.console) {
 
 // The mechanics of preparing a log for publish
 
-function getHeader() {
-  let header = window.navigator.userAgent;
+const headerSectionTitle = (title: string) => `========= ${title} =========`;
 
-  header += ` node/${window.getNodeVersion()}`;
-  header += ` env/${window.getEnvironment()}`;
+const headerSection = (
+  title: string,
+  data: Readonly<Record<string, unknown>>
+): string => {
+  const sortedEntries = _.sortBy(Object.entries(data), ([key]) => key);
+  return [
+    headerSectionTitle(title),
+    ...sortedEntries.map(
+      ([key, value]) => `${key}: ${redactAll(String(value))}`
+    ),
+    '',
+  ].join('\n');
+};
 
-  return header;
-}
+const getHeader = ({
+  capabilities,
+  remoteConfig,
+  statistics,
+  user,
+}: Omit<FetchLogIpcData, 'logEntries'>): string =>
+  [
+    headerSection('System info', {
+      Time: Date.now(),
+      'User agent': window.navigator.userAgent,
+      'Node version': window.getNodeVersion(),
+      Environment: getEnvironment(),
+      'App version': window.getVersion(),
+    }),
+    headerSection('User info', user),
+    headerSection('Capabilities', capabilities),
+    headerSection('Remote config', remoteConfig),
+    headerSection('Statistics', statistics),
+    headerSectionTitle('Logs'),
+  ].join('\n');
 
 const getLevel = _.memoize((level: LogLevel): string => {
   const text = getLogLevelString(level);
   return text.toUpperCase().padEnd(levelMaxLength, ' ');
 });
 
-function formatLine(mightBeEntry: Readonly<unknown>): string {
+function formatLine(mightBeEntry: unknown): string {
   const entry: LogEntryType = isLogEntry(mightBeEntry)
     ? mightBeEntry
     : {
@@ -77,11 +115,15 @@ function fetch(): Promise<string> {
   return new Promise(resolve => {
     ipc.send('fetch-log');
 
-    ipc.on('fetched-log', (_event, logEntries: unknown) => {
+    ipc.on('fetched-log', (_event, data: unknown) => {
+      let header: string;
       let body: string;
-      if (Array.isArray(logEntries)) {
+      if (isFetchLogIpcData(data)) {
+        const { logEntries } = data;
+        header = getHeader(data);
         body = logEntries.map(formatLine).join('\n');
       } else {
+        header = headerSectionTitle('Partial logs');
         const entry: LogEntryType = {
           level: LogLevel.Error,
           msg: 'Invalid IPC data when fetching logs; dropping all logs',
@@ -90,41 +132,71 @@ function fetch(): Promise<string> {
         body = formatLine(entry);
       }
 
-      const result = `${getHeader()}\n${redactAll(body)}`;
+      const result = `${header}\n${body}`;
       resolve(result);
     });
   });
+}
+
+let globalLogger: undefined | pino.Logger;
+let shouldRestart = false;
+
+export function beforeRestart(): void {
+  shouldRestart = true;
+}
+
+export function initialize(): void {
+  if (globalLogger) {
+    throw new Error('Already called initialize!');
+  }
+
+  const basePath = ipc.sendSync('get-user-data-path');
+  const logFile = path.join(basePath, 'logs', 'app.log');
+  const stream = createStream(logFile, {
+    interval: '1d',
+    rotate: 3,
+  });
+
+  const onClose = () => {
+    globalLogger = undefined;
+
+    if (shouldRestart) {
+      initialize();
+    }
+  };
+
+  stream.on('close', onClose);
+  stream.on('error', onClose);
+
+  globalLogger = pino(
+    {
+      timestamp: pino.stdTimeFunctions.isoTime,
+    },
+    stream
+  );
 }
 
 const publish = uploadDebugLogs;
 
 // A modern logging interface for the browser
 
-const env = window.getEnvironment();
-const IS_PRODUCTION = env === 'production';
-
-const ipcBatcher = createBatcher({
-  wait: 500,
-  maxSize: 500,
-  processBatch: (items: Array<LogEntryType>) => {
-    ipc.send('batch-log', items);
-  },
-});
-
-// The Bunyan API: https://github.com/trentm/node-bunyan#log-method-api
 function logAtLevel(level: LogLevel, ...args: ReadonlyArray<unknown>): void {
-  if (!IS_PRODUCTION) {
+  if (getEnvironment() !== Environment.Production) {
     const prefix = getLogLevelString(level)
       .toUpperCase()
       .padEnd(levelMaxLength, ' ');
     console._log(prefix, now(), ...args);
   }
 
-  ipcBatcher.add({
-    level,
-    msg: cleanArgs(args),
-    time: new Date().toISOString(),
-  });
+  const levelString = getLogLevelString(level);
+  const msg = cleanArgs(args);
+
+  if (!globalLogger) {
+    throw new Error('Logger has not been initialized yet');
+    return;
+  }
+
+  globalLogger[levelString](msg);
 }
 
 log.setLogAtLevel(logAtLevel);
@@ -151,3 +223,36 @@ window.addEventListener('unhandledrejection', rejectionEvent => {
     error && error.stack ? error.stack : JSON.stringify(error);
   window.log.error(`Top-level unhandled promise rejection: ${errorString}`);
 });
+
+initLogger(
+  SignalClientLogLevel.Warn,
+  (
+    level: unknown,
+    target: string,
+    file: string | null,
+    line: number | null,
+    message: string
+  ) => {
+    let fileString = '';
+    if (file && line) {
+      fileString = ` ${file}:${line}`;
+    } else if (file) {
+      fileString = ` ${file}`;
+    }
+    const logString = `@signalapp/signal-client ${message} ${target}${fileString}`;
+
+    if (level === SignalClientLogLevel.Trace) {
+      log.trace(logString);
+    } else if (level === SignalClientLogLevel.Debug) {
+      log.debug(logString);
+    } else if (level === SignalClientLogLevel.Info) {
+      log.info(logString);
+    } else if (level === SignalClientLogLevel.Warn) {
+      log.warn(logString);
+    } else if (level === SignalClientLogLevel.Error) {
+      log.error(logString);
+    } else {
+      log.error(`${logString} (unknown log level ${level})`);
+    }
+  }
+);

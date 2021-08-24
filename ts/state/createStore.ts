@@ -15,6 +15,7 @@ import thunk from 'redux-thunk';
 import { createLogger } from 'redux-logger';
 
 import { reducer, StateType } from './reducer';
+import { dispatchItemsMiddleware } from '../shims/dispatchItemsMiddleware';
 
 declare global {
   // We want to extend `window`'s properties, so we need an interface.
@@ -49,6 +50,7 @@ const logger = createLogger({
 const middlewareList = [
   promise,
   thunk,
+  dispatchItemsMiddleware,
   ...(env === 'production' ? [] : [logger]),
 ];
 

@@ -7,7 +7,10 @@ import {
   ConversationHeader,
   OutgoingCallButtonStyle,
 } from '../../components/conversation/ConversationHeader';
-import { getConversationSelector } from '../selectors/conversations';
+import {
+  getConversationSelector,
+  isMissingRequiredProfileSharing,
+} from '../selectors/conversations';
 import { StateType } from '../reducer';
 import { CallMode } from '../../types/Calling';
 import {
@@ -15,10 +18,10 @@ import {
   getConversationCallMode,
 } from '../ducks/conversations';
 import { getActiveCall, isAnybodyElseInGroupCall } from '../ducks/calling';
-import { getUserConversationId, getIntl } from '../selectors/user';
+import { getUserUuid, getIntl } from '../selectors/user';
 import { getOwn } from '../../util/getOwn';
 import { missingCaseError } from '../../util/missingCaseError';
-import { isGroupCallingEnabled } from '../../util/isGroupCallingEnabled';
+import { isConversationSMSOnly } from '../../util/isConversationSMSOnly';
 
 export type OwnProps = {
   id: string;
@@ -33,6 +36,7 @@ export type OwnProps = {
   onSetMuteNotifications: (seconds: number) => void;
   onSetPin: (value: boolean) => void;
   onShowAllMedia: () => void;
+  onShowChatColorEditor: () => void;
   onShowContactModal: (contactId: string) => void;
   onShowGroupMembers: () => void;
 
@@ -60,13 +64,10 @@ const getOutgoingCallButtonStyle = (
     case CallMode.Direct:
       return OutgoingCallButtonStyle.Both;
     case CallMode.Group: {
-      if (!isGroupCallingEnabled()) {
-        return OutgoingCallButtonStyle.None;
-      }
       const call = getOwn(calling.callsByConversation, conversation.id);
       if (
         call?.callMode === CallMode.Group &&
-        isAnybodyElseInGroupCall(call.peekInfo, getUserConversationId(state))
+        isAnybodyElseInGroupCall(call.peekInfo, getUserUuid(state))
       ) {
         return OutgoingCallButtonStyle.Join;
       }
@@ -78,7 +79,9 @@ const getOutgoingCallButtonStyle = (
 };
 
 const mapStateToProps = (state: StateType, ownProps: OwnProps) => {
-  const conversation = getConversationSelector(state)(ownProps.id);
+  const { id } = ownProps;
+
+  const conversation = getConversationSelector(state)(id);
   if (!conversation) {
     throw new Error('Could not find conversation');
   }
@@ -86,13 +89,15 @@ const mapStateToProps = (state: StateType, ownProps: OwnProps) => {
   return {
     ...pick(conversation, [
       'acceptedMessageRequest',
+      'announcementsOnly',
+      'areWeAdmin',
       'avatarPath',
       'canChangeTimer',
       'color',
       'expireTimer',
+      'groupVersion',
       'isArchived',
       'isMe',
-      'isMissingMandatoryProfileSharing',
       'isPinned',
       'isVerified',
       'left',
@@ -101,11 +106,16 @@ const mapStateToProps = (state: StateType, ownProps: OwnProps) => {
       'name',
       'phoneNumber',
       'profileName',
+      'sharedGroupNames',
       'title',
       'type',
-      'groupVersion',
+      'unblurredAvatarPath',
     ]),
     conversationTitle: state.conversations.selectedConversationTitle,
+    isMissingMandatoryProfileSharing: isMissingRequiredProfileSharing(
+      conversation
+    ),
+    isSMSOnly: isConversationSMSOnly(conversation),
     i18n: getIntl(state),
     showBackButton: state.conversations.selectedConversationPanelDepth > 0,
     outgoingCallButtonStyle: getOutgoingCallButtonStyle(conversation, state),

@@ -11,9 +11,9 @@ import { Lightbox, Props } from './Lightbox';
 import {
   AUDIO_MP3,
   IMAGE_JPEG,
-  MIMEType,
   VIDEO_MP4,
   VIDEO_QUICKTIME,
+  stringToMIMEType,
 } from '../types/MIME';
 import { setup as setupI18n } from '../../js/modules/i18n';
 import enMessages from '../../_locales/en/messages.json';
@@ -42,11 +42,21 @@ story.add('Image', () => {
   return <Lightbox {...props} />;
 });
 
-story.add('Image with Caption', () => {
+story.add('Image with Caption (normal image)', () => {
   const props = createProps({
     caption:
       'This is the user-provided caption. It can get long and wrap onto multiple lines.',
     objectURL: '/fixtures/tina-rolf-269345-unsplash.jpg',
+  });
+
+  return <Lightbox {...props} />;
+});
+
+story.add('Image with Caption (all-white image)', () => {
+  const props = createProps({
+    caption:
+      'This is the user-provided caption. It should be visible on light backgrounds.',
+    objectURL: '/fixtures/2000x2000-white.png',
   });
 
   return <Lightbox {...props} />;
@@ -84,7 +94,7 @@ story.add('Video (View Once)', () => {
 
 story.add('Unsupported Image Type', () => {
   const props = createProps({
-    contentType: 'image/tiff' as MIMEType,
+    contentType: stringToMIMEType('image/tiff'),
     objectURL: 'unsupported-image.tiff',
   });
 
@@ -119,3 +129,18 @@ story.add('Including Next/Previous/Save Callbacks', () => {
 
   return <Lightbox {...props} />;
 });
+
+story.add('Custom children', () => (
+  <Lightbox {...createProps({})} contentType={undefined}>
+    <div
+      style={{
+        color: 'white',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      I am middle child
+    </div>
+  </Lightbox>
+));

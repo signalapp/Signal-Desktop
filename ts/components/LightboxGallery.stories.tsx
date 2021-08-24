@@ -40,7 +40,8 @@ story.add('Image and Video', () => {
         message: {
           attachments: [],
           id: 'image-msg',
-          received_at: Date.now(),
+          received_at: 1,
+          received_at_ms: Date.now(),
         },
         objectURL: '/fixtures/tina-rolf-269345-unsplash.jpg',
       },
@@ -55,7 +56,8 @@ story.add('Image and Video', () => {
         message: {
           attachments: [],
           id: 'video-msg',
-          received_at: Date.now(),
+          received_at: 2,
+          received_at_ms: Date.now(),
         },
         objectURL: '/fixtures/pixabay-Soap-Bubble-7141.mp4',
       },
@@ -79,7 +81,8 @@ story.add('Missing Media', () => {
         message: {
           attachments: [],
           id: 'image-msg',
-          received_at: Date.now(),
+          received_at: 3,
+          received_at_ms: Date.now(),
         },
         objectURL: undefined,
       },

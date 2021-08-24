@@ -1,0 +1,246 @@
+// Copyright 2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+$audio-attachment-button-size: 36px;
+$audio-attachment-button-margin-big: 12px;
+$audio-attachment-button-margin-small: 4px;
+
+.module-message__audio-attachment {
+  display: flex;
+  flex-direction: column;
+  margin-top: 2px;
+}
+
+.module-message__audio-attachment__button-and-waveform {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+/* The separator between audio and text */
+.module-message__audio-attachment--with-content-below {
+  border-bottom: 1px solid $color-white-alpha-20;
+  padding-bottom: 12px;
+  margin-bottom: 7px;
+
+  &.module-message__audio-attachment--incoming {
+    @include light-theme {
+      border-color: $color-black-alpha-20;
+    }
+    @include dark-theme {
+      border-color: $color-white-alpha-20;
+    }
+  }
+
+  .module-message__container--outgoing & {
+    border-color: $color-white-alpha-20;
+  }
+}
+
+.module-message__audio-attachment--with-content-above {
+  margin-top: 6px;
+}
+
+.module-message__audio-attachment__button,
+.module-message__audio-attachment__spinner {
+  @include button-reset;
+
+  flex-shrink: 0;
+  width: $audio-attachment-button-size;
+  height: $audio-attachment-button-size;
+  margin-right: $audio-attachment-button-margin-big;
+
+  outline: none;
+  border-radius: 18px;
+
+  @media (min-width: 0px) and (max-width: 799px) {
+    margin-right: $audio-attachment-button-margin-small;
+  }
+
+  &::before {
+    display: block;
+    height: 100%;
+    content: '';
+  }
+
+  @mixin audio-icon($name, $icon, $color) {
+    &--#{$name}::before {
+      @include color-svg('../images/icons/v2/#{$icon}.svg', $color, false);
+    }
+  }
+
+  @mixin all-audio-icons($color) {
+    @include audio-icon(play, play-solid-20, $color);
+    @include audio-icon(pause, pause-solid-20, $color);
+    @include audio-icon(download, arrow-down-20, $color);
+    @include audio-icon(pending, audio-spinner-arc-22, $color);
+  }
+
+  &--pending {
+    cursor: auto;
+  }
+
+  &--pending::before {
+    animation: spinner-arc-animation 1000ms linear infinite;
+  }
+
+  .module-message__audio-attachment--incoming & {
+    @include light-theme {
+      background: $color-white;
+
+      @include all-audio-icons($color-gray-60);
+    }
+    @include dark-theme {
+      background: $color-gray-60;
+
+      @include all-audio-icons($color-gray-15);
+    }
+  }
+
+  .module-message__audio-attachment--outgoing & {
+    background: $color-white-alpha-20;
+    @include all-audio-icons($color-white);
+  }
+}
+
+.module-message__audio-attachment__waveform {
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+
+  outline: 0;
+}
+
+.module-message__audio-attachment__button,
+.module-message__audio-attachment__spinner,
+.module-message__audio-attachment__waveform {
+  &:focus {
+    @include keyboard-mode {
+      outline: 2px solid $color-ultramarine;
+    }
+  }
+
+  .module-message__audio-attachment--outgoing & {
+    &:focus {
+      @include keyboard-mode {
+        outline: 2px solid $color-white-alpha-60;
+      }
+    }
+  }
+}
+
+.module-message__audio-attachment__waveform__bar {
+  display: inline-block;
+
+  width: 2px;
+  border-radius: 2px;
+  transition: height 250ms, background 250ms;
+
+  &:not(:first-of-type) {
+    margin-left: 2px;
+  }
+
+  .module-message__audio-attachment--incoming & {
+    @include light-theme {
+      background: $color-black-alpha-40;
+      &--active {
+        background: $color-black-alpha-80;
+      }
+    }
+    @include dark-theme {
+      background: $color-white-alpha-40;
+      &--active {
+        background: $color-white-alpha-70;
+      }
+    }
+  }
+
+  .module-message__audio-attachment--outgoing & {
+    background: $color-white-alpha-40;
+    &--active {
+      background: $color-white-alpha-80;
+    }
+  }
+}
+
+.module-message__audio-attachment__metadata {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  .module-message__audio-attachment--outgoing & {
+    flex-direction: row-reverse;
+  }
+
+  .module-message__audio-attachment--outgoing &,
+  .module-message__audio-attachment--with-content-below & {
+    margin-left: $audio-attachment-button-size +
+      $audio-attachment-button-margin-big;
+    @media (min-width: 0px) and (max-width: 799px) {
+      margin-left: $audio-attachment-button-size +
+        $audio-attachment-button-margin-small;
+    }
+  }
+}
+
+.module-message__audio-attachment__countdown {
+  $unplayed-dot-margin: 6px;
+
+  @include font-caption;
+  align-items: center;
+  display: flex;
+  flex-shrink: 1;
+  user-select: none;
+
+  &:after {
+    content: '';
+    display: block;
+    width: 6px;
+    height: 6px;
+    border-radius: 100%;
+    transition: background 100ms ease-out;
+  }
+
+  &--played:after {
+    background: transparent;
+  }
+
+  .module-message__audio-attachment--incoming & {
+    flex-direction: row-reverse;
+
+    &:after {
+      margin-right: $unplayed-dot-margin;
+    }
+
+    @include light-theme {
+      $color: $color-black-alpha-60;
+      color: $color;
+      &--unplayed:after {
+        background: $color;
+      }
+    }
+    @include dark-theme {
+      $color: $color-white-alpha-80;
+      color: $color;
+      &--unplayed:after {
+        background: $color;
+      }
+    }
+  }
+
+  .module-message__audio-attachment--outgoing & {
+    color: $color-white-alpha-80;
+
+    &:after {
+      margin-left: $unplayed-dot-margin;
+    }
+
+    &--unplayed:after {
+      background: $color-white-alpha-80;
+    }
+  }
+}

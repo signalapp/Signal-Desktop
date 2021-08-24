@@ -1,0 +1,104 @@
+diff --git a/node_modules/protobufjs/cli/lib/tsd-jsdoc/publish.js b/node_modules/protobufjs/cli/lib/tsd-jsdoc/publish.js
+index 3846a99..6c5688a 100644
+--- a/node_modules/protobufjs/cli/lib/tsd-jsdoc/publish.js
++++ b/node_modules/protobufjs/cli/lib/tsd-jsdoc/publish.js
+@@ -558,6 +558,13 @@ function handleClass(element, parent) {
+         handleElement(child, element);
+     });
+ 
++    writeln();
++    if (is_interface) {
++        writeln("__unknownFields?: ReadonlyArray<Uint8Array>;");
++    } else {
++        writeln("public __unknownFields?: ReadonlyArray<Uint8Array>;");
++    }
++
+     --indent;
+     writeln("}");
+ 
+diff --git a/node_modules/protobufjs/src/decoder.js b/node_modules/protobufjs/src/decoder.js
+index 491dd30..ec03e9f 100644
+--- a/node_modules/protobufjs/src/decoder.js
++++ b/node_modules/protobufjs/src/decoder.js
+@@ -21,6 +21,7 @@ function decoder(mtype) {
+         ("r=Reader.create(r)")
+     ("var c=l===undefined?r.len:r.pos+l,m=new this.ctor" + (mtype.fieldsArray.filter(function(field) { return field.map; }).length ? ",k,value" : ""))
+     ("while(r.pos<c){")
++        ("var unknownStartPos = r.pos")
+         ("var t=r.uint32()");
+     if (mtype.group) gen
+         ("if((t&7)===4)")
+@@ -28,6 +29,8 @@ function decoder(mtype) {
+     gen
+         ("switch(t>>>3){");
+ 
++    var unknownRef = "m" + util.safeProp("__unknownFields");
++
+     var i = 0;
+     for (; i < /* initializes */ mtype.fieldsArray.length; ++i) {
+         var field = mtype._fieldsArray[i].resolve(),
+@@ -109,6 +112,11 @@ function decoder(mtype) {
+     } gen
+             ("default:")
+                 ("r.skipType(t&7)")
++                ("if (!(%s)) {", unknownRef)
++                    ("%s = []", unknownRef)
++                ("}")
++
++                ("%s.push(r.buf.slice(unknownStartPos, r.pos))", unknownRef)
+                 ("break")
+ 
+         ("}")
+diff --git a/node_modules/protobufjs/src/encoder.js b/node_modules/protobufjs/src/encoder.js
+index c803e99..50cc3e6 100644
+--- a/node_modules/protobufjs/src/encoder.js
++++ b/node_modules/protobufjs/src/encoder.js
+@@ -36,6 +36,21 @@ function encoder(mtype) {
+     // "when a message is serialized its known fields should be written sequentially by field number"
+     var fields = /* initializes */ mtype.fieldsArray.slice().sort(util.compareFieldsById);
+ 
++    var unknownRef = "m" + util.safeProp("__unknownFields");
++
++    // Redecode unknown fields and apply them to the message before encoding
++    gen
++    ("var fullyUnknown=[]")
++    ("if(%s) {", unknownRef)
++      ("for(var i=0;i<%s.length;++i) {", unknownRef)
++        ("try {")
++          ("var known=this.ctor.decode(%s[i])", unknownRef)
++          ("fullyUnknown=fullyUnknown.concat(known.__unknownFields||[])")
++          ("m=Object.assign(known,m)")
++        ("}catch(_){}")
++      ("}")
++    ("}")
++
+     for (var i = 0; i < fields.length; ++i) {
+         var field    = fields[i].resolve(),
+             index    = mtype._fieldsArray.indexOf(field),
+@@ -94,6 +109,11 @@ function encoder(mtype) {
+         }
+     }
+ 
++    gen
++    ("for(var i=0;i<fullyUnknown.length;++i) {")
++        ("w.__unknownField(fullyUnknown[i])")
++    ("}")
++
+     return gen
+     ("return w");
+     /* eslint-enable no-unexpected-multiline, block-scoped-var, no-redeclare */
+diff --git a/node_modules/protobufjs/src/writer.js b/node_modules/protobufjs/src/writer.js
+index cc84a00..3fb6139 100644
+--- a/node_modules/protobufjs/src/writer.js
++++ b/node_modules/protobufjs/src/writer.js
+@@ -383,6 +383,10 @@ Writer.prototype.bytes = function write_bytes(value) {
+     return this.uint32(len)._push(writeBytes, len, value);
+ };
+ 
++Writer.prototype.__unknownField = function __unknownField(field) {
++    return this._push(writeBytes, field.length, field);
++};
++
+ /**
+  * Writes a string.
+  * @param {string} value Value to write

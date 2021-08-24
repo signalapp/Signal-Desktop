@@ -13,6 +13,8 @@ import {
   IMAGE_WEBP,
 } from '../../types/MIME';
 
+import { typedArrayToArrayBuffer } from '../../Crypto';
+
 import { sniffImageMimeType } from '../../util/sniffImageMimeType';
 
 describe('sniffImageMimeType', () => {
@@ -89,7 +91,9 @@ describe('sniffImageMimeType', () => {
   });
 
   it('handles ArrayBuffers', async () => {
-    const arrayBuffer = (await fixture('kitten-1-64-64.jpg')).buffer;
+    const arrayBuffer = typedArrayToArrayBuffer(
+      await fixture('kitten-1-64-64.jpg')
+    );
     assert.strictEqual(sniffImageMimeType(arrayBuffer), IMAGE_JPEG);
   });
 });

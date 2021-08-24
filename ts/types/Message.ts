@@ -1,9 +1,9 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable camelcase */
 
-import { Attachment } from './Attachment';
+import { AttachmentType } from './Attachment';
 import { ContactType } from './Contact';
 import { IndexableBoolean, IndexablePresence } from './IndexedDB';
 
@@ -19,7 +19,7 @@ export type IncomingMessage = Readonly<
   {
     type: 'incoming';
     // Required
-    attachments: Array<Attachment>;
+    attachments: Array<AttachmentType>;
     id: string;
     received_at: number;
 
@@ -44,23 +44,16 @@ export type OutgoingMessage = Readonly<
     type: 'outgoing';
 
     // Required
-    attachments: Array<Attachment>;
-    delivered: number;
-    delivered_to: Array<string>;
-    destination: string; // PhoneNumber
+    attachments: Array<AttachmentType>;
     expirationStartTimestamp: number;
     id: string;
     received_at: number;
-    sent: boolean;
-    sent_to: Array<string>; // Array<PhoneNumber>
 
     // Optional
     body?: string;
-    expires_at?: number;
     expireTimer?: number;
     messageTimer?: number; // deprecated
     isViewOnce?: number;
-    recipients?: Array<string>; // Array<PhoneNumber>
     synced: boolean;
   } & SharedMessageProperties &
     MessageSchemaVersion5 &

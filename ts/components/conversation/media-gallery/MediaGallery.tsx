@@ -12,6 +12,7 @@ import { groupMediaItemsByDate } from './groupMediaItemsByDate';
 import { ItemClickEvent } from './types/ItemClickEvent';
 import { missingCaseError } from '../../../util/missingCaseError';
 import { LocalizerType } from '../../../types/Util';
+import { getMessageTimestamp } from '../../../util/getMessageTimestamp';
 
 import { MediaItemType } from '../../LightboxGallery';
 
@@ -145,7 +146,7 @@ export class MediaGallery extends React.Component<Props, State> {
     const sections = groupMediaItemsByDate(now, mediaItems).map(section => {
       const first = section.mediaItems[0];
       const { message } = first;
-      const date = moment(message.received_at);
+      const date = moment(getMessageTimestamp(message));
       const header =
         section.type === 'yearMonth'
           ? date.format(MONTH_FORMAT)

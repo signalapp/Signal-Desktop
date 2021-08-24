@@ -16,7 +16,7 @@ import {
 
 import { Image } from './Image';
 
-import { LocalizerType } from '../../types/Util';
+import { LocalizerType, ThemeType } from '../../types/Util';
 
 export type Props = {
   attachments: Array<AttachmentType>;
@@ -28,10 +28,13 @@ export type Props = {
   tabIndex?: number;
 
   i18n: LocalizerType;
+  theme?: ThemeType;
 
   onError: () => void;
   onClick?: (attachment: AttachmentType) => void;
 };
+
+const GAP = 1;
 
 export const ImageGrid = ({
   attachments,
@@ -42,6 +45,7 @@ export const ImageGrid = ({
   onError,
   onClick,
   tabIndex,
+  theme,
   withContentAbove,
   withContentBelow,
 }: Props): JSX.Element | null => {
@@ -75,6 +79,7 @@ export const ImageGrid = ({
         <Image
           alt={getAlt(attachments[0], i18n)}
           i18n={i18n}
+          theme={theme}
           blurHash={attachments[0].blurHash}
           bottomOverlay={withBottomOverlay}
           noBorder={isSticker}
@@ -102,6 +107,7 @@ export const ImageGrid = ({
         <Image
           alt={getAlt(attachments[0], i18n)}
           i18n={i18n}
+          theme={theme}
           attachment={attachments[0]}
           blurHash={attachments[0].blurHash}
           bottomOverlay={withBottomOverlay}
@@ -109,8 +115,9 @@ export const ImageGrid = ({
           curveTopLeft={curveTopLeft}
           curveBottomLeft={curveBottomLeft}
           playIconOverlay={isVideoAttachment(attachments[0])}
-          height={149}
-          width={149}
+          height={150}
+          width={150}
+          cropWidth={GAP}
           url={getThumbnailUrl(attachments[0])}
           onClick={onClick}
           onError={onError}
@@ -118,14 +125,15 @@ export const ImageGrid = ({
         <Image
           alt={getAlt(attachments[1], i18n)}
           i18n={i18n}
+          theme={theme}
           blurHash={attachments[1].blurHash}
           bottomOverlay={withBottomOverlay}
           noBorder={false}
           curveTopRight={curveTopRight}
           curveBottomRight={curveBottomRight}
           playIconOverlay={isVideoAttachment(attachments[1])}
-          height={149}
-          width={149}
+          height={150}
+          width={150}
           attachment={attachments[1]}
           url={getThumbnailUrl(attachments[1])}
           onClick={onClick}
@@ -141,6 +149,7 @@ export const ImageGrid = ({
         <Image
           alt={getAlt(attachments[0], i18n)}
           i18n={i18n}
+          theme={theme}
           blurHash={attachments[0].blurHash}
           bottomOverlay={withBottomOverlay}
           noBorder={false}
@@ -149,7 +158,8 @@ export const ImageGrid = ({
           attachment={attachments[0]}
           playIconOverlay={isVideoAttachment(attachments[0])}
           height={200}
-          width={199}
+          width={200}
+          cropWidth={GAP}
           url={getUrl(attachments[0])}
           onClick={onClick}
           onError={onError}
@@ -158,10 +168,12 @@ export const ImageGrid = ({
           <Image
             alt={getAlt(attachments[1], i18n)}
             i18n={i18n}
+            theme={theme}
             blurHash={attachments[1].blurHash}
             curveTopRight={curveTopRight}
-            height={99}
-            width={99}
+            height={100}
+            width={100}
+            cropHeight={GAP}
             attachment={attachments[1]}
             playIconOverlay={isVideoAttachment(attachments[1])}
             url={getThumbnailUrl(attachments[1])}
@@ -171,12 +183,13 @@ export const ImageGrid = ({
           <Image
             alt={getAlt(attachments[2], i18n)}
             i18n={i18n}
+            theme={theme}
             blurHash={attachments[2].blurHash}
             bottomOverlay={withBottomOverlay}
             noBorder={false}
             curveBottomRight={curveBottomRight}
-            height={99}
-            width={99}
+            height={100}
+            width={100}
             attachment={attachments[2]}
             playIconOverlay={isVideoAttachment(attachments[2])}
             url={getThumbnailUrl(attachments[2])}
@@ -196,13 +209,16 @@ export const ImageGrid = ({
             <Image
               alt={getAlt(attachments[0], i18n)}
               i18n={i18n}
+              theme={theme}
               blurHash={attachments[0].blurHash}
               curveTopLeft={curveTopLeft}
               noBorder={false}
               attachment={attachments[0]}
               playIconOverlay={isVideoAttachment(attachments[0])}
-              height={149}
-              width={149}
+              height={150}
+              width={150}
+              cropHeight={GAP}
+              cropWidth={GAP}
               url={getThumbnailUrl(attachments[0])}
               onClick={onClick}
               onError={onError}
@@ -210,12 +226,14 @@ export const ImageGrid = ({
             <Image
               alt={getAlt(attachments[1], i18n)}
               i18n={i18n}
+              theme={theme}
               blurHash={attachments[1].blurHash}
               curveTopRight={curveTopRight}
               playIconOverlay={isVideoAttachment(attachments[1])}
               noBorder={false}
-              height={149}
-              width={149}
+              height={150}
+              width={150}
+              cropHeight={GAP}
               attachment={attachments[1]}
               url={getThumbnailUrl(attachments[1])}
               onClick={onClick}
@@ -226,13 +244,15 @@ export const ImageGrid = ({
             <Image
               alt={getAlt(attachments[2], i18n)}
               i18n={i18n}
+              theme={theme}
               blurHash={attachments[2].blurHash}
               bottomOverlay={withBottomOverlay}
               noBorder={false}
               curveBottomLeft={curveBottomLeft}
               playIconOverlay={isVideoAttachment(attachments[2])}
-              height={149}
-              width={149}
+              height={150}
+              width={150}
+              cropWidth={GAP}
               attachment={attachments[2]}
               url={getThumbnailUrl(attachments[2])}
               onClick={onClick}
@@ -241,13 +261,14 @@ export const ImageGrid = ({
             <Image
               alt={getAlt(attachments[3], i18n)}
               i18n={i18n}
+              theme={theme}
               blurHash={attachments[3].blurHash}
               bottomOverlay={withBottomOverlay}
               noBorder={false}
               curveBottomRight={curveBottomRight}
               playIconOverlay={isVideoAttachment(attachments[3])}
-              height={149}
-              width={149}
+              height={150}
+              width={150}
               attachment={attachments[3]}
               url={getThumbnailUrl(attachments[3])}
               onClick={onClick}
@@ -271,12 +292,14 @@ export const ImageGrid = ({
           <Image
             alt={getAlt(attachments[0], i18n)}
             i18n={i18n}
+            theme={theme}
             blurHash={attachments[0].blurHash}
             curveTopLeft={curveTopLeft}
             attachment={attachments[0]}
             playIconOverlay={isVideoAttachment(attachments[0])}
-            height={149}
-            width={149}
+            height={150}
+            width={150}
+            cropWidth={GAP}
             url={getThumbnailUrl(attachments[0])}
             onClick={onClick}
             onError={onError}
@@ -284,11 +307,12 @@ export const ImageGrid = ({
           <Image
             alt={getAlt(attachments[1], i18n)}
             i18n={i18n}
+            theme={theme}
             blurHash={attachments[1].blurHash}
             curveTopRight={curveTopRight}
             playIconOverlay={isVideoAttachment(attachments[1])}
-            height={149}
-            width={149}
+            height={150}
+            width={150}
             attachment={attachments[1]}
             url={getThumbnailUrl(attachments[1])}
             onClick={onClick}
@@ -299,13 +323,15 @@ export const ImageGrid = ({
           <Image
             alt={getAlt(attachments[2], i18n)}
             i18n={i18n}
+            theme={theme}
             blurHash={attachments[2].blurHash}
             bottomOverlay={withBottomOverlay}
             noBorder={isSticker}
             curveBottomLeft={curveBottomLeft}
             playIconOverlay={isVideoAttachment(attachments[2])}
-            height={99}
-            width={99}
+            height={100}
+            width={100}
+            cropWidth={GAP}
             attachment={attachments[2]}
             url={getThumbnailUrl(attachments[2])}
             onClick={onClick}
@@ -314,12 +340,14 @@ export const ImageGrid = ({
           <Image
             alt={getAlt(attachments[3], i18n)}
             i18n={i18n}
+            theme={theme}
             blurHash={attachments[3].blurHash}
             bottomOverlay={withBottomOverlay}
             noBorder={isSticker}
             playIconOverlay={isVideoAttachment(attachments[3])}
-            height={99}
-            width={98}
+            height={100}
+            width={100}
+            cropWidth={GAP}
             attachment={attachments[3]}
             url={getThumbnailUrl(attachments[3])}
             onClick={onClick}
@@ -328,13 +356,14 @@ export const ImageGrid = ({
           <Image
             alt={getAlt(attachments[4], i18n)}
             i18n={i18n}
+            theme={theme}
             blurHash={attachments[4].blurHash}
             bottomOverlay={withBottomOverlay}
             noBorder={isSticker}
             curveBottomRight={curveBottomRight}
             playIconOverlay={isVideoAttachment(attachments[4])}
-            height={99}
-            width={99}
+            height={100}
+            width={100}
             darkOverlay={moreMessagesOverlay}
             overlayText={moreMessagesOverlayText}
             attachment={attachments[4]}

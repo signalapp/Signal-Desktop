@@ -1,85 +1,390 @@
 // Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-// This allows us to pull in types despite the fact that this is not a module. We can't
-//   use normal import syntax, nor can we use 'import type' syntax, or this will be turned
-//   into a module, and we'll get the dreaded 'exports is not defined' error.
-// see https://github.com/microsoft/TypeScript/issues/41562
-type DataMessageClass = import('./textsecure.d').DataMessageClass;
-type WhatIsThis = import('./window.d').WhatIsThis;
+import { webFrame } from 'electron';
+import { isNumber, noop } from 'lodash';
+import { bindActionCreators } from 'redux';
+import { render, unstable_batchedUpdates as batchedUpdates } from 'react-dom';
 
-// eslint-disable-next-line func-names
-(async function () {
+import MessageReceiver from './textsecure/MessageReceiver';
+import { SessionResetsType, ProcessedDataMessage } from './textsecure/Types.d';
+import {
+  MessageAttributesType,
+  ConversationAttributesType,
+} from './model-types.d';
+import * as Bytes from './Bytes';
+import { typedArrayToArrayBuffer } from './Crypto';
+import { WhatIsThis, DeliveryReceiptBatcherItemType } from './window.d';
+import { getTitleBarVisibility, TitleBarVisibility } from './types/Settings';
+import { SocketStatus } from './types/SocketStatus';
+import { DEFAULT_CONVERSATION_COLOR } from './types/Colors';
+import { ChallengeHandler } from './challenge';
+import { isWindowDragElement } from './util/isWindowDragElement';
+import { assert, strictAssert } from './util/assert';
+import { dropNull } from './util/dropNull';
+import { normalizeUuid } from './util/normalizeUuid';
+import { filter } from './util/iterables';
+import { isNotNil } from './util/isNotNil';
+import { senderCertificateService } from './services/senderCertificate';
+import { routineProfileRefresh } from './routineProfileRefresh';
+import { isMoreRecentThan, isOlderThan } from './util/timestamp';
+import { isValidReactionEmoji } from './reactions/isValidReactionEmoji';
+import { ConversationModel } from './models/conversations';
+import { getMessageById } from './models/messages';
+import { createBatcher } from './util/batcher';
+import { updateConversationsWithUuidLookup } from './updateConversationsWithUuidLookup';
+import { initializeAllJobQueues } from './jobs/initializeAllJobQueues';
+import { removeStorageKeyJobQueue } from './jobs/removeStorageKeyJobQueue';
+import { ourProfileKeyService } from './services/ourProfileKey';
+import { shouldRespondWithProfileKey } from './util/shouldRespondWithProfileKey';
+import { LatestQueue } from './util/LatestQueue';
+import { parseIntOrThrow } from './util/parseIntOrThrow';
+import { getProfile } from './util/getProfile';
+import {
+  TypingEvent,
+  ErrorEvent,
+  DeliveryEvent,
+  SentEvent,
+  SentEventData,
+  ProfileKeyUpdateEvent,
+  MessageEvent,
+  MessageEventData,
+  ReadEvent,
+  ViewEvent,
+  ConfigurationEvent,
+  ViewOnceOpenSyncEvent,
+  MessageRequestResponseEvent,
+  FetchLatestEvent,
+  KeysEvent,
+  StickerPackEvent,
+  VerifiedEvent,
+  ReadSyncEvent,
+  ViewSyncEvent,
+  ContactEvent,
+  GroupEvent,
+  EnvelopeEvent,
+} from './textsecure/messageReceiverEvents';
+import type { WebAPIType } from './textsecure/WebAPI';
+import { isDirectConversation, isGroupV2 } from './util/whatTypeOfConversation';
+import { getSendOptions } from './util/getSendOptions';
+import { BackOff, FIBONACCI_TIMEOUTS } from './util/BackOff';
+import { handleMessageSend } from './util/handleMessageSend';
+import { AppViewType } from './state/ducks/app';
+import { isIncoming } from './state/selectors/message';
+import { actionCreators } from './state/actions';
+import { Deletes } from './messageModifiers/Deletes';
+import {
+  MessageReceipts,
+  MessageReceiptType,
+} from './messageModifiers/MessageReceipts';
+import { MessageRequests } from './messageModifiers/MessageRequests';
+import { Reactions } from './messageModifiers/Reactions';
+import { ReadSyncs } from './messageModifiers/ReadSyncs';
+import { ViewSyncs } from './messageModifiers/ViewSyncs';
+import { ViewOnceOpenSyncs } from './messageModifiers/ViewOnceOpenSyncs';
+import { ReadStatus } from './messages/MessageReadStatus';
+import {
+  SendStateByConversationId,
+  SendStatus,
+} from './messages/MessageSendState';
+import * as AttachmentDownloads from './messageModifiers/AttachmentDownloads';
+import * as Stickers from './types/Stickers';
+import { SignalService as Proto } from './protobuf';
+import { onRetryRequest, onDecryptionError } from './util/handleRetry';
+import { themeChanged } from './shims/themeChanged';
+import { createIPCEvents } from './util/createIPCEvents';
+
+const MAX_ATTACHMENT_DOWNLOAD_AGE = 3600 * 72 * 1000;
+
+export function isOverHourIntoPast(timestamp: number): boolean {
+  const HOUR = 1000 * 60 * 60;
+  return isNumber(timestamp) && isOlderThan(timestamp, HOUR);
+}
+
+export async function cleanupSessionResets(): Promise<void> {
+  const sessionResets = window.storage.get(
+    'sessionResets',
+    <SessionResetsType>{}
+  );
+
+  const keys = Object.keys(sessionResets);
+  keys.forEach(key => {
+    const timestamp = sessionResets[key];
+    if (!timestamp || isOverHourIntoPast(timestamp)) {
+      delete sessionResets[key];
+    }
+  });
+
+  await window.storage.put('sessionResets', sessionResets);
+}
+
+export async function startApp(): Promise<void> {
+  window.Whisper.events = window._.clone(window.Backbone.Events);
+  window.Signal.Util.MessageController.install();
+  window.Signal.conversationControllerStart();
+  window.startupProcessingQueue = new window.Signal.Util.StartupQueue();
+  window.attachmentDownloadQueue = [];
+  try {
+    window.log.info('Initializing SQL in renderer');
+    await window.sqlInitializer.initialize();
+    window.log.info('SQL initialized in renderer');
+  } catch (err) {
+    window.log.error(
+      'SQL failed to initialize',
+      err && err.stack ? err.stack : err
+    );
+  }
+
+  // Initialize WebAPI as early as possible
+  let server: WebAPIType | undefined;
+  let messageReceiver: MessageReceiver | undefined;
+  window.storage.onready(() => {
+    server = window.WebAPI.connect(
+      window.textsecure.storage.user.getWebAPICredentials()
+    );
+    window.textsecure.server = server;
+
+    initializeAllJobQueues({
+      server,
+    });
+
+    window.log.info('Initializing MessageReceiver');
+    messageReceiver = new MessageReceiver({
+      server,
+      storage: window.storage,
+      serverTrustRoot: window.getServerTrustRoot(),
+    });
+
+    // eslint-disable-next-line no-inner-declarations
+    function queuedEventListener<Args extends Array<unknown>>(
+      handler: (...args: Args) => Promise<void> | void,
+      track = true
+    ): (...args: Args) => void {
+      return (...args: Args): void => {
+        eventHandlerQueue.add(async () => {
+          try {
+            await handler(...args);
+          } finally {
+            // message/sent: Message.handleDataMessage has its own queue and will
+            //   trigger this event itself when complete.
+            // error: Error processing (below) also has its own queue and self-trigger.
+            if (track) {
+              window.Whisper.events.trigger('incrementProgress');
+            }
+          }
+        });
+      };
+    }
+
+    messageReceiver.addEventListener(
+      'envelope',
+      queuedEventListener(onEnvelopeReceived, false)
+    );
+    messageReceiver.addEventListener(
+      'message',
+      queuedEventListener(onMessageReceived, false)
+    );
+    messageReceiver.addEventListener(
+      'delivery',
+      queuedEventListener(onDeliveryReceipt)
+    );
+    messageReceiver.addEventListener(
+      'contact',
+      queuedEventListener(onContactReceived)
+    );
+    messageReceiver.addEventListener(
+      'contactSync',
+      queuedEventListener(onContactSyncComplete)
+    );
+    messageReceiver.addEventListener(
+      'group',
+      queuedEventListener(onGroupReceived)
+    );
+    messageReceiver.addEventListener(
+      'groupSync',
+      queuedEventListener(onGroupSyncComplete)
+    );
+    messageReceiver.addEventListener(
+      'sent',
+      queuedEventListener(onSentMessage, false)
+    );
+    messageReceiver.addEventListener(
+      'readSync',
+      queuedEventListener(onReadSync)
+    );
+    messageReceiver.addEventListener(
+      'viewSync',
+      queuedEventListener(onViewSync)
+    );
+    messageReceiver.addEventListener(
+      'read',
+      queuedEventListener(onReadReceipt)
+    );
+    messageReceiver.addEventListener(
+      'view',
+      queuedEventListener(onViewReceipt)
+    );
+    messageReceiver.addEventListener(
+      'verified',
+      queuedEventListener(onVerified)
+    );
+    messageReceiver.addEventListener(
+      'error',
+      queuedEventListener(onError, false)
+    );
+    messageReceiver.addEventListener(
+      'decryption-error',
+      queuedEventListener(onDecryptionError)
+    );
+    messageReceiver.addEventListener(
+      'retry-request',
+      queuedEventListener(onRetryRequest)
+    );
+    messageReceiver.addEventListener('empty', queuedEventListener(onEmpty));
+    messageReceiver.addEventListener(
+      'reconnect',
+      queuedEventListener(onReconnect)
+    );
+    messageReceiver.addEventListener(
+      'configuration',
+      queuedEventListener(onConfiguration)
+    );
+    messageReceiver.addEventListener('typing', queuedEventListener(onTyping));
+    messageReceiver.addEventListener(
+      'sticker-pack',
+      queuedEventListener(onStickerPack)
+    );
+    messageReceiver.addEventListener(
+      'viewOnceOpenSync',
+      queuedEventListener(onViewOnceOpenSync)
+    );
+    messageReceiver.addEventListener(
+      'messageRequestResponse',
+      queuedEventListener(onMessageRequestResponse)
+    );
+    messageReceiver.addEventListener(
+      'profileKeyUpdate',
+      queuedEventListener(onProfileKeyUpdate)
+    );
+    messageReceiver.addEventListener(
+      'fetchLatest',
+      queuedEventListener(onFetchLatestSync)
+    );
+    messageReceiver.addEventListener('keys', queuedEventListener(onKeysSync));
+  });
+
+  ourProfileKeyService.initialize(window.storage);
+
+  window.storage.onready(() => {
+    if (!window.storage.get('defaultConversationColor')) {
+      window.storage.put(
+        'defaultConversationColor',
+        DEFAULT_CONVERSATION_COLOR
+      );
+    }
+  });
+
+  let resolveOnAppView: (() => void) | undefined;
+  const onAppView = new Promise<void>(resolve => {
+    resolveOnAppView = resolve;
+  });
+
+  const reconnectBackOff = new BackOff(FIBONACCI_TIMEOUTS);
+
+  window.storage.onready(() => {
+    strictAssert(server, 'WebAPI not ready');
+
+    senderCertificateService.initialize({
+      server,
+      navigator,
+      onlineEventTarget: window,
+      storage: window.storage,
+    });
+  });
+
   const eventHandlerQueue = new window.PQueue({
     concurrency: 1,
     timeout: 1000 * 60 * 2,
   });
+
+  const profileKeyResponseQueue = new window.PQueue();
+  profileKeyResponseQueue.pause();
+
+  const lightSessionResetQueue = new window.PQueue();
+  window.Signal.Services.lightSessionResetQueue = lightSessionResetQueue;
+  lightSessionResetQueue.pause();
+
   window.Whisper.deliveryReceiptQueue = new window.PQueue({
     concurrency: 1,
     timeout: 1000 * 60 * 2,
   });
   window.Whisper.deliveryReceiptQueue.pause();
-  window.Whisper.deliveryReceiptBatcher = window.Signal.Util.createBatcher({
-    wait: 500,
-    maxSize: 500,
-    processBatch: async (items: WhatIsThis) => {
-      const byConversationId = _.groupBy(items, item =>
-        window.ConversationController.ensureContactIds({
-          e164: item.source,
-          uuid: item.sourceUuid,
-        })
-      );
-      const ids = Object.keys(byConversationId);
-
-      for (let i = 0, max = ids.length; i < max; i += 1) {
-        const conversationId = ids[i];
-        const timestamps = byConversationId[conversationId].map(
-          item => item.timestamp
+  window.Whisper.deliveryReceiptBatcher = window.Signal.Util.createBatcher<DeliveryReceiptBatcherItemType>(
+    {
+      name: 'Whisper.deliveryReceiptBatcher',
+      wait: 500,
+      maxSize: 100,
+      processBatch: async items => {
+        const byConversationId = window._.groupBy(items, item =>
+          window.ConversationController.ensureContactIds({
+            e164: item.source,
+            uuid: item.sourceUuid,
+          })
         );
+        const ids = Object.keys(byConversationId);
 
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        const c = window.ConversationController.get(conversationId)!;
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        const uuid = c.get('uuid')!;
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        const e164 = c.get('e164')!;
+        for (let i = 0, max = ids.length; i < max; i += 1) {
+          const conversationId = ids[i];
+          const ourItems = byConversationId[conversationId];
+          const timestamps = ourItems.map(item => item.timestamp);
+          const messageIds = ourItems.map(item => item.messageId);
 
-        c.queueJob(async () => {
-          try {
-            const {
-              wrap,
-              sendOptions,
-            } = window.ConversationController.prepareForSend(c.get('id'));
-            // eslint-disable-next-line no-await-in-loop
-            await wrap(
-              window.textsecure.messaging.sendDeliveryReceipt(
-                e164,
-                uuid,
-                timestamps,
-                sendOptions
-              )
+          const c = window.ConversationController.get(conversationId);
+          if (!c) {
+            window.log.warn(
+              `deliveryReceiptBatcher: Conversation ${conversationId} does not exist! ` +
+                `Will not send delivery receipts for timestamps ${timestamps}`
             );
-          } catch (error) {
-            window.log.error(
-              `Failed to send delivery receipt to ${e164}/${uuid} for timestamps ${timestamps}:`,
-              error && error.stack ? error.stack : error
-            );
+            continue;
           }
-        });
-      }
-    },
-  });
 
-  window.addEventListener('dblclick', (event: Event) => {
-    const target = event.target as HTMLElement;
-    const isDoubleClickOnTitleBar = Boolean(
-      target.classList.contains('module-title-bar-drag-area') ||
-        target.closest('module-title-bar-drag-area')
-    );
-    if (isDoubleClickOnTitleBar) {
-      window.titleBarDoubleClick();
+          const senderUuid = c.get('uuid');
+          const senderE164 = c.get('e164');
+
+          c.queueJob('sendDeliveryReceipt', async () => {
+            try {
+              const sendOptions = await getSendOptions(c.attributes);
+
+              // eslint-disable-next-line no-await-in-loop
+              await handleMessageSend(
+                window.textsecure.messaging.sendDeliveryReceipt({
+                  senderE164,
+                  senderUuid,
+                  timestamps,
+                  options: sendOptions,
+                }),
+                { messageIds, sendType: 'deliveryReceipt' }
+              );
+            } catch (error) {
+              window.log.error(
+                `Failed to send delivery receipt to ${senderE164}/${senderUuid} for timestamps ${timestamps}:`,
+                error && error.stack ? error.stack : error
+              );
+            }
+          });
+        }
+      },
     }
-  });
+  );
+
+  if (getTitleBarVisibility() === TitleBarVisibility.Hidden) {
+    window.addEventListener('dblclick', (event: Event) => {
+      const target = event.target as HTMLElement;
+      if (isWindowDragElement(target)) {
+        window.titleBarDoubleClick();
+      }
+    });
+  }
 
   // Globally disable drag and drop
   document.body.addEventListener(
@@ -116,9 +421,7 @@ type WhatIsThis = import('./window.d').WhatIsThis;
       clearSelectedMessage();
     }
     if (userChanged) {
-      userChanged({
-        interactionMode,
-      } as WhatIsThis);
+      userChanged({ interactionMode });
     }
   };
   window.enterMouseMode = () => {
@@ -134,7 +437,7 @@ type WhatIsThis = import('./window.d').WhatIsThis;
       clearSelectedMessage();
     }
     if (userChanged) {
-      userChanged({ interactionMode } as WhatIsThis);
+      userChanged({ interactionMode });
     }
   };
 
@@ -154,7 +457,7 @@ type WhatIsThis = import('./window.d').WhatIsThis;
 
   // Load these images now to ensure that they don't flicker on first use
   window.preloadedImages = [];
-  function preload(list: Array<WhatIsThis>) {
+  function preload(list: ReadonlyArray<string>) {
     for (let index = 0, max = list.length; index < max; index += 1) {
       const image = new Image();
       image.src = `./images/${list[index]}`;
@@ -187,56 +490,35 @@ type WhatIsThis = import('./window.d').WhatIsThis;
   window.log.info('environment:', window.getEnvironment());
 
   let idleDetector: WhatIsThis;
-  let initialLoadComplete = false;
   let newVersion = false;
 
-  window.owsDesktopApp = {};
   window.document.title = window.getTitle();
 
   window.Whisper.KeyChangeListener.init(window.textsecure.storage.protocol);
   window.textsecure.storage.protocol.on('removePreKey', () => {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    window.getAccountManager()!.refreshPreKeys();
+    window.getAccountManager().refreshPreKeys();
   });
 
-  let messageReceiver: WhatIsThis;
-  let preMessageReceiverStatus: WhatIsThis;
   window.getSocketStatus = () => {
-    if (messageReceiver) {
-      return messageReceiver.getStatus();
+    if (server === undefined) {
+      return SocketStatus.CLOSED;
     }
-    if (_.isNumber(preMessageReceiverStatus)) {
-      return preMessageReceiverStatus;
-    }
-    return WebSocket.CLOSED;
+    return server.getSocketStatus();
   };
-  window.Whisper.events = _.clone(window.Backbone.Events);
   let accountManager: typeof window.textsecure.AccountManager;
   window.getAccountManager = () => {
-    if (!accountManager) {
-      const OLD_USERNAME = window.storage.get('number_id');
-      const USERNAME = window.storage.get('uuid_id');
-      const PASSWORD = window.storage.get('password');
-      accountManager = new window.textsecure.AccountManager(
-        USERNAME || OLD_USERNAME,
-        PASSWORD
-      );
-      accountManager.addEventListener('registration', () => {
-        const ourNumber = window.textsecure.storage.user.getNumber();
-        const ourUuid = window.textsecure.storage.user.getUuid();
-        const user = {
-          regionCode: window.storage.get('regionCode'),
-          ourNumber,
-          ourUuid,
-          ourConversationId: window.ConversationController.getOurConversationId(),
-        };
-        window.Whisper.events.trigger('userChanged', user);
-
-        window.Signal.Util.Registration.markDone();
-        window.log.info('dispatching registration event');
-        window.Whisper.events.trigger('registration_done');
-      });
+    if (accountManager) {
+      return accountManager;
     }
+
+    accountManager = new window.textsecure.AccountManager(server);
+    accountManager.addEventListener('registration', () => {
+      window.Whisper.events.trigger('userChanged');
+
+      window.Signal.Util.Registration.markDone();
+      window.log.info('dispatching registration event');
+      window.Whisper.events.trigger('registration_done');
+    });
     return accountManager;
   };
 
@@ -298,7 +580,11 @@ type WhatIsThis = import('./window.d').WhatIsThis;
   window.log.info('Storage fetch');
   window.storage.fetch();
 
-  function mapOldThemeToNew(theme: WhatIsThis) {
+  function mapOldThemeToNew(
+    theme: Readonly<
+      'system' | 'light' | 'dark' | 'android' | 'ios' | 'android-dark'
+    >
+  ): 'system' | 'light' | 'dark' {
     switch (theme) {
       case 'dark':
       case 'light':
@@ -322,109 +608,29 @@ type WhatIsThis = import('./window.d').WhatIsThis;
     }
     first = false;
 
+    strictAssert(server !== undefined, 'WebAPI not ready');
+
+    cleanupSessionResets();
+
     // These make key operations available to IPC handlers created in preload.js
-    window.Events = {
-      getDeviceName: () => window.textsecure.storage.user.getDeviceName(),
-
-      getThemeSetting: () =>
-        window.storage.get(
-          'theme-setting',
-          window.platform === 'darwin' ? 'system' : 'light'
-        ),
-      setThemeSetting: (value: WhatIsThis) => {
-        window.storage.put('theme-setting', value);
-        onChangeTheme();
-      },
-      getHideMenuBar: () => window.storage.get('hide-menu-bar'),
-      setHideMenuBar: (value: WhatIsThis) => {
-        window.storage.put('hide-menu-bar', value);
-        window.setAutoHideMenuBar(value);
-        window.setMenuBarVisibility(!value);
-      },
-
-      getNotificationSetting: () =>
-        window.storage.get('notification-setting', 'message'),
-      setNotificationSetting: (value: WhatIsThis) =>
-        window.storage.put('notification-setting', value),
-      getNotificationDrawAttention: () =>
-        window.storage.get('notification-draw-attention', true),
-      setNotificationDrawAttention: (value: WhatIsThis) =>
-        window.storage.put('notification-draw-attention', value),
-      getAudioNotification: () => window.storage.get('audio-notification'),
-      setAudioNotification: (value: WhatIsThis) =>
-        window.storage.put('audio-notification', value),
-      getCountMutedConversations: () =>
-        window.storage.get('badge-count-muted-conversations', false),
-      setCountMutedConversations: (value: WhatIsThis) => {
-        window.storage.put('badge-count-muted-conversations', value);
-        window.Whisper.events.trigger('updateUnreadCount');
-      },
-      getCallRingtoneNotification: () =>
-        window.storage.get('call-ringtone-notification', true),
-      setCallRingtoneNotification: (value: WhatIsThis) =>
-        window.storage.put('call-ringtone-notification', value),
-      getCallSystemNotification: () =>
-        window.storage.get('call-system-notification', true),
-      setCallSystemNotification: (value: WhatIsThis) =>
-        window.storage.put('call-system-notification', value),
-      getIncomingCallNotification: () =>
-        window.storage.get('incoming-call-notification', true),
-      setIncomingCallNotification: (value: WhatIsThis) =>
-        window.storage.put('incoming-call-notification', value),
-
-      getSpellCheck: () => window.storage.get('spell-check', true),
-      setSpellCheck: (value: WhatIsThis) => {
-        window.storage.put('spell-check', value);
-      },
-
-      getAlwaysRelayCalls: () => window.storage.get('always-relay-calls'),
-      setAlwaysRelayCalls: (value: WhatIsThis) =>
-        window.storage.put('always-relay-calls', value),
-
-      // eslint-disable-next-line eqeqeq
-      isPrimary: () => window.textsecure.storage.user.getDeviceId() == '1',
-      getSyncRequest: () =>
-        new Promise((resolve, reject) => {
-          const syncRequest = window.getSyncRequest();
-          syncRequest.addEventListener('success', resolve);
-          syncRequest.addEventListener('timeout', reject);
-        }),
-      getLastSyncTime: () => window.storage.get('synced_at'),
-      setLastSyncTime: (value: WhatIsThis) =>
-        window.storage.put('synced_at', value),
-
-      addDarkOverlay: () => {
-        if ($('.dark-overlay').length) {
-          return;
-        }
-        $(document.body).prepend('<div class="dark-overlay"></div>');
-        $('.dark-overlay').on('click', () => $('.dark-overlay').remove());
-      },
-      removeDarkOverlay: () => $('.dark-overlay').remove(),
-      showKeyboardShortcuts: () => window.showKeyboardShortcuts(),
-
-      deleteAllData: () => {
-        const clearDataView = new window.Whisper.ClearDataView().render();
-        $('body').append(clearDataView.el);
-      },
-
+    window.Events = createIPCEvents({
       shutdown: async () => {
         window.log.info('background/shutdown');
         // Stop background processing
-        window.Signal.AttachmentDownloads.stop();
+        AttachmentDownloads.stop();
         if (idleDetector) {
           idleDetector.stop();
         }
 
         // Stop processing incoming messages
         if (messageReceiver) {
+          strictAssert(
+            server !== undefined,
+            'WebAPI should be initialized together with MessageReceiver'
+          );
+          server.unregisterRequestHandler(messageReceiver);
           await messageReceiver.stopProcessing();
           await window.waitForAllBatchers();
-        }
-
-        if (messageReceiver) {
-          messageReceiver.unregisterBatchers();
-          messageReceiver = null;
         }
 
         // A number of still-to-queue database queries might be waiting inside batchers.
@@ -437,120 +643,20 @@ type WhatIsThis = import('./window.d').WhatIsThis;
         // Shut down the data interface cleanly
         await window.Signal.Data.shutdown();
       },
+    });
 
-      showStickerPack: (packId: string, key: string) => {
-        // We can get these events even if the user has never linked this instance.
-        if (!window.Signal.Util.Registration.everDone()) {
-          window.log.warn('showStickerPack: Not registered, returning early');
-          return;
-        }
-        if (window.isShowingModal) {
-          window.log.warn(
-            'showStickerPack: Already showing modal, returning early'
-          );
-          return;
-        }
-        try {
-          window.isShowingModal = true;
-
-          // Kick off the download
-          window.Signal.Stickers.downloadEphemeralPack(packId, key);
-
-          const props = {
-            packId,
-            onClose: async () => {
-              window.isShowingModal = false;
-              stickerPreviewModalView.remove();
-              await window.Signal.Stickers.removeEphemeralPack(packId);
-            },
-          };
-
-          const stickerPreviewModalView = new window.Whisper.ReactWrapperView({
-            className: 'sticker-preview-modal-wrapper',
-            JSX: window.Signal.State.Roots.createStickerPreviewModal(
-              window.reduxStore,
-              props
-            ),
-          });
-        } catch (error) {
-          window.isShowingModal = false;
-          window.log.error(
-            'showStickerPack: Ran into an error!',
-            error && error.stack ? error.stack : error
-          );
-          const errorView = new window.Whisper.ReactWrapperView({
-            className: 'error-modal-wrapper',
-            Component: window.Signal.Components.ErrorModal,
-            props: {
-              onClose: () => {
-                errorView.remove();
-              },
-            },
-          });
-        }
-      },
-      showGroupViaLink: async (hash: string) => {
-        // We can get these events even if the user has never linked this instance.
-        if (!window.Signal.Util.Registration.everDone()) {
-          window.log.warn('showGroupViaLink: Not registered, returning early');
-          return;
-        }
-        if (window.isShowingModal) {
-          window.log.warn(
-            'showGroupViaLink: Already showing modal, returning early'
-          );
-          return;
-        }
-        try {
-          await window.Signal.Groups.joinViaLink(hash);
-        } catch (error) {
-          window.log.error(
-            'showGroupViaLink: Ran into an error!',
-            error && error.stack ? error.stack : error
-          );
-          const errorView = new window.Whisper.ReactWrapperView({
-            className: 'error-modal-wrapper',
-            Component: window.Signal.Components.ErrorModal,
-            props: {
-              title: window.i18n('GroupV2--join--general-join-failure--title'),
-              description: window.i18n('GroupV2--join--general-join-failure'),
-              onClose: () => {
-                errorView.remove();
-              },
-            },
-          });
-        }
-        window.isShowingModal = false;
-      },
-
-      unknownSignalLink: () => {
-        window.log.warn('unknownSignalLink: Showing error dialog');
-        const errorView = new window.Whisper.ReactWrapperView({
-          className: 'error-modal-wrapper',
-          Component: window.Signal.Components.ErrorModal,
-          props: {
-            description: window.i18n('unknown-sgnl-link'),
-            onClose: () => {
-              errorView.remove();
-            },
-          },
-        });
-      },
-
-      installStickerPack: async (packId: string, key: string) => {
-        window.Signal.Stickers.downloadStickerPack(packId, key, {
-          finalStatus: 'installed',
-        });
-      },
-    };
+    webFrame.setZoomFactor(window.Events.getZoomFactor());
 
     // How long since we were last running?
-    const now = Date.now();
-    const lastHeartbeat = window.storage.get('lastHeartbeat');
+    const lastHeartbeat = window.storage.get('lastHeartbeat', 0);
+    const previousLastStartup = window.storage.get('lastStartup');
     await window.storage.put('lastStartup', Date.now());
 
     const THIRTY_DAYS = 30 * 24 * 60 * 60 * 1000;
-    if (lastHeartbeat > 0 && now - lastHeartbeat > THIRTY_DAYS) {
+    if (lastHeartbeat > 0 && isOlderThan(lastHeartbeat, THIRTY_DAYS)) {
+      window.log.warn(
+        `This instance has not been used for 30 days. Last heartbeat: ${lastHeartbeat}. Last startup: ${previousLastStartup}.`
+      );
       await unlinkAndDisconnect();
     }
 
@@ -615,6 +721,13 @@ type WhatIsThis = import('./window.d').WhatIsThis;
         await window.Signal.Data.clearAllErrorStickerPackAttempts();
       }
 
+      if (window.isBeforeVersion(lastVersion, 'v5.2.0')) {
+        const legacySenderCertificateStorageKey = 'senderCertificateWithUuid';
+        await removeStorageKeyJobQueue.add({
+          key: legacySenderCertificateStorageKey,
+        });
+      }
+
       // This one should always be last - it could restart the app
       if (window.isBeforeVersion(lastVersion, 'v1.15.0-beta.5')) {
         await window.Signal.Logs.deleteAll();
@@ -626,7 +739,17 @@ type WhatIsThis = import('./window.d').WhatIsThis;
     Views.Initialization.setMessage(window.i18n('optimizingApplication'));
 
     if (newVersion) {
-      await window.Signal.Data.cleanupOrphanedAttachments();
+      // We've received reports that this update can take longer than two minutes, so we
+      //   allow it to continue and just move on in that timeout case.
+      try {
+        await window.Signal.Data.cleanupOrphanedAttachments();
+      } catch (error) {
+        window.log.error(
+          'background: Failed to cleanup orphaned attachments:',
+          error && error.stack ? error.stack : error
+        );
+      }
+
       // Don't block on the following operation
       window.Signal.Data.ensureFilePermissions();
     }
@@ -643,7 +766,6 @@ type WhatIsThis = import('./window.d').WhatIsThis;
 
       if (!isMigrationWithIndexComplete) {
         const batchWithIndex = await MessageDataMigrator.processNext({
-          BackboneMessage: window.Whisper.Message,
           BackboneMessageCollection: window.Whisper.MessageCollection,
           numMessagesPerBatch: NUM_MESSAGES_PER_BATCH,
           upgradeMessageSchema,
@@ -663,17 +785,93 @@ type WhatIsThis = import('./window.d').WhatIsThis;
       }
     });
 
-    window.Signal.conversationControllerStart();
-
     // We start this up before window.ConversationController.load() to
     // ensure that our feature flags are represented in the cached props
     // we generate on load of each convo.
-    window.Signal.RemoteConfig.initRemoteConfig();
+    window.Signal.RemoteConfig.initRemoteConfig(server);
+
+    let retryReceiptLifespan: number | undefined;
+    try {
+      retryReceiptLifespan = parseIntOrThrow(
+        window.Signal.RemoteConfig.getValue('desktop.retryReceiptLifespan'),
+        'retryReceiptLifeSpan'
+      );
+    } catch (error) {
+      window.log.warn(
+        'Failed to parse integer out of desktop.retryReceiptLifespan feature flag',
+        error && error.stack ? error.stack : error
+      );
+    }
+
+    const retryPlaceholders = new window.Signal.Util.RetryPlaceholders({
+      retryReceiptLifespan,
+    });
+    window.Signal.Services.retryPlaceholders = retryPlaceholders;
+
+    setInterval(async () => {
+      const now = Date.now();
+      const HOUR = 1000 * 60 * 60;
+      const DAY = 24 * HOUR;
+      let sentProtoMaxAge = 14 * DAY;
+
+      try {
+        sentProtoMaxAge = parseIntOrThrow(
+          window.Signal.RemoteConfig.getValue('desktop.retryRespondMaxAge'),
+          'retryRespondMaxAge'
+        );
+      } catch (error) {
+        window.log.warn(
+          'background/setInterval: Failed to parse integer from desktop.retryRespondMaxAge feature flag',
+          error && error.stack ? error.stack : error
+        );
+      }
+
+      try {
+        await window.Signal.Data.deleteSentProtosOlderThan(
+          now - sentProtoMaxAge
+        );
+      } catch (error) {
+        window.log.error(
+          'background/onready/setInterval: Error deleting sent protos: ',
+          error && error.stack ? error.stack : error
+        );
+      }
+
+      try {
+        const expired = await retryPlaceholders.getExpiredAndRemove();
+        window.log.info(
+          `retryPlaceholders/interval: Found ${expired.length} expired items`
+        );
+        expired.forEach(item => {
+          const { conversationId, senderUuid, sentAt } = item;
+          const conversation = window.ConversationController.get(
+            conversationId
+          );
+          if (conversation) {
+            const receivedAt = Date.now();
+            const receivedAtCounter = window.Signal.Util.incrementMessageCounter();
+            conversation.queueJob('addDeliveryIssue', () =>
+              conversation.addDeliveryIssue({
+                receivedAt,
+                receivedAtCounter,
+                senderUuid,
+                sentAt,
+              })
+            );
+          }
+        });
+      } catch (error) {
+        window.log.error(
+          'background/onready/setInterval: Error getting expired retry placeholders: ',
+          error && error.stack ? error.stack : error
+        );
+      }
+    }, FIVE_MINUTES);
 
     try {
       await Promise.all([
         window.ConversationController.load(),
-        window.Signal.Stickers.load(),
+        Stickers.load(),
         window.Signal.Emojis.load(),
         window.textsecure.storage.protocol.hydrateCaches(),
       ]);
@@ -690,8 +888,7 @@ type WhatIsThis = import('./window.d').WhatIsThis;
         window.reduxActions.network
       );
       window.Signal.Services.initializeUpdateListener(
-        window.reduxActions.updates,
-        window.Whisper.events
+        window.reduxActions.updates
       );
       window.Signal.Services.calling.initialize(
         window.reduxActions.calling,
@@ -713,6 +910,9 @@ type WhatIsThis = import('./window.d').WhatIsThis;
     const ourUuid = window.textsecure.storage.user.getUuid();
     const ourConversationId = window.ConversationController.getOurConversationId();
 
+    const themeSetting = window.Events.getThemeSetting();
+    const theme = themeSetting === 'system' ? window.systemTheme : themeSetting;
+
     const initialState = {
       conversations: {
         conversationLookup: window.Signal.Util.makeLookup(conversations, 'id'),
@@ -730,14 +930,16 @@ type WhatIsThis = import('./window.d').WhatIsThis;
         ),
         messagesByConversation: {},
         messagesLookup: {},
-        selectedConversation: undefined,
+        selectedConversationId: undefined,
         selectedMessage: undefined,
         selectedMessageCounter: 0,
+        selectedConversationPanelDepth: 0,
+        selectedConversationTitle: '',
         showArchived: false,
       },
       emojis: window.Signal.Emojis.getInitialState(),
       items: window.storage.getItemsState(),
-      stickers: window.Signal.Stickers.getInitialState(),
+      stickers: Stickers.getInitialState(),
       user: {
         attachmentsPath: window.baseAttachmentsPath,
         stickersPath: window.baseStickersPath,
@@ -749,66 +951,56 @@ type WhatIsThis = import('./window.d').WhatIsThis;
         platform: window.platform,
         i18n: window.i18n,
         interactionMode: window.getInteractionMode(),
+        theme,
       },
     };
 
     const store = window.Signal.State.createStore(initialState);
     window.reduxStore = store;
 
-    const actions: WhatIsThis = {};
-    window.reduxActions = actions;
-
     // Binding these actions to our redux store and exposing them allows us to update
     //   redux when things change in the backbone world.
-    actions.calling = window.Signal.State.bindActionCreators(
-      window.Signal.State.Ducks.calling.actions,
-      store.dispatch
-    );
-    actions.conversations = window.Signal.State.bindActionCreators(
-      window.Signal.State.Ducks.conversations.actions,
-      store.dispatch
-    );
-    actions.emojis = window.Signal.State.bindActionCreators(
-      window.Signal.State.Ducks.emojis.actions,
-      store.dispatch
-    );
-    actions.expiration = window.Signal.State.bindActionCreators(
-      window.Signal.State.Ducks.expiration.actions,
-      store.dispatch
-    );
-    actions.items = window.Signal.State.bindActionCreators(
-      window.Signal.State.Ducks.items.actions,
-      store.dispatch
-    );
-    actions.network = window.Signal.State.bindActionCreators(
-      window.Signal.State.Ducks.network.actions,
-      store.dispatch
-    );
-    actions.updates = window.Signal.State.bindActionCreators(
-      window.Signal.State.Ducks.updates.actions,
-      store.dispatch
-    );
-    actions.user = window.Signal.State.bindActionCreators(
-      window.Signal.State.Ducks.user.actions,
-      store.dispatch
-    );
-    actions.search = window.Signal.State.bindActionCreators(
-      window.Signal.State.Ducks.search.actions,
-      store.dispatch
-    );
-    actions.stickers = window.Signal.State.bindActionCreators(
-      window.Signal.State.Ducks.stickers.actions,
-      store.dispatch
-    );
+    window.reduxActions = {
+      accounts: bindActionCreators(actionCreators.accounts, store.dispatch),
+      app: bindActionCreators(actionCreators.app, store.dispatch),
+      audioPlayer: bindActionCreators(
+        actionCreators.audioPlayer,
+        store.dispatch
+      ),
+      calling: bindActionCreators(actionCreators.calling, store.dispatch),
+      composer: bindActionCreators(actionCreators.composer, store.dispatch),
+      conversations: bindActionCreators(
+        actionCreators.conversations,
+        store.dispatch
+      ),
+      emojis: bindActionCreators(actionCreators.emojis, store.dispatch),
+      expiration: bindActionCreators(actionCreators.expiration, store.dispatch),
+      globalModals: bindActionCreators(
+        actionCreators.globalModals,
+        store.dispatch
+      ),
+      items: bindActionCreators(actionCreators.items, store.dispatch),
+      linkPreviews: bindActionCreators(
+        actionCreators.linkPreviews,
+        store.dispatch
+      ),
+      network: bindActionCreators(actionCreators.network, store.dispatch),
+      safetyNumber: bindActionCreators(
+        actionCreators.safetyNumber,
+        store.dispatch
+      ),
+      search: bindActionCreators(actionCreators.search, store.dispatch),
+      stickers: bindActionCreators(actionCreators.stickers, store.dispatch),
+      updates: bindActionCreators(actionCreators.updates, store.dispatch),
+      user: bindActionCreators(actionCreators.user, store.dispatch),
+    };
 
     const {
       conversationAdded,
       conversationChanged,
       conversationRemoved,
       removeAllConversations,
-      messageExpired,
-    } = actions.conversations;
-    const { userChanged } = actions.user;
+    } = window.reduxActions.conversations;
 
     convoCollection.on('remove', conversation => {
       const { id } = conversation || {};
@@ -820,24 +1012,58 @@ type WhatIsThis = import('./window.d').WhatIsThis;
       }
       conversationAdded(conversation.id, conversation.format());
     });
-    convoCollection.on('change', conversation => {
-      if (!conversation) {
-        return;
-      }
+
+    const changedConvoBatcher = createBatcher<ConversationModel>({
+      name: 'changedConvoBatcher',
+      processBatch(batch) {
+        const deduped = new Set(batch);
+        window.log.info(
+          'changedConvoBatcher: deduped ' +
+            `${batch.length} into ${deduped.size}`
+        );
+
+        batchedUpdates(() => {
+          deduped.forEach(conversation => {
+            conversationChanged(conversation.id, conversation.format());
+          });
+        });
+      },
 
       // This delay ensures that the .format() call isn't synchronous as a
       //   Backbone property is changed. Important because our _byUuid/_byE164
       //   lookups aren't up-to-date as the change happens; just a little bit
       //   after.
-      setTimeout(
-        () => conversationChanged(conversation.id, conversation.format()),
-        1
-      );
+      wait: 1,
+      maxSize: Infinity,
+    });
+
+    convoCollection.on('change', conversation => {
+      if (!conversation) {
+        return;
+      }
+
+      changedConvoBatcher.add(conversation);
     });
     convoCollection.on('reset', removeAllConversations);
 
-    window.Whisper.events.on('messageExpired', messageExpired);
-    window.Whisper.events.on('userChanged', userChanged);
+    window.Whisper.events.on('userChanged', () => {
+      const newDeviceId = window.textsecure.storage.user.getDeviceId();
+      const newNumber = window.textsecure.storage.user.getNumber();
+      const newUuid = window.textsecure.storage.user.getUuid();
+      const ourConversation = window.ConversationController.getOurConversation();
+
+      if (ourConversation?.get('e164') !== newNumber) {
+        ourConversation?.set('e164', newNumber);
+      }
+
+      window.reduxActions.user.userChanged({
+        ourConversationId: ourConversation?.get('id'),
+        ourDeviceId: newDeviceId,
+        ourNumber: newNumber,
+        ourUuid: newUuid,
+        regionCode: window.storage.get('regionCode'),
+      });
+    });
 
     let shortcutGuideView: WhatIsThis | null = null;
 
@@ -863,96 +1089,16 @@ type WhatIsThis = import('./window.d').WhatIsThis;
       }
     };
 
-    function getConversationsToSearch() {
-      const state = store.getState();
-      const {
-        archivedConversations,
-        conversations: unpinnedConversations,
-        pinnedConversations,
-      } = window.Signal.State.Selectors.conversations.getLeftPaneLists(state);
-
-      return state.conversations.showArchived
-        ? archivedConversations
-        : [...pinnedConversations, ...unpinnedConversations];
-    }
-
-    function getConversationByIndex(index: WhatIsThis) {
-      const conversationsToSearch = getConversationsToSearch();
-
-      const target = conversationsToSearch[index];
-
-      if (target) {
-        return target.id;
-      }
-
-      return null;
-    }
-
-    function findConversation(
-      conversationId: WhatIsThis,
-      direction: WhatIsThis,
-      unreadOnly: WhatIsThis
-    ) {
-      const conversationsToSearch = getConversationsToSearch();
-
-      const increment = direction === 'up' ? -1 : 1;
-      let startIndex: WhatIsThis;
-
-      if (conversationId) {
-        const index = conversationsToSearch.findIndex(
-          (item: WhatIsThis) => item.id === conversationId
-        );
-        if (index >= 0) {
-          startIndex = index + increment;
-        }
-      } else {
-        startIndex = direction === 'up' ? conversationsToSearch.length - 1 : 0;
-      }
-
-      for (
-        let i = startIndex, max = conversationsToSearch.length;
-        i >= 0 && i < max;
-        i += increment
-      ) {
-        const target = conversationsToSearch[i];
-        if (!unreadOnly) {
-          return target.id;
-        }
-        if ((target.unreadCount || 0) > 0) {
-          return target.id;
-        }
-      }
-
-      return null;
-    }
-
-    const NUMBERS: Record<string, number> = {
-      '1': 1,
-      '2': 2,
-      '3': 3,
-      '4': 4,
-      '5': 5,
-      '6': 6,
-      '7': 7,
-      '8': 8,
-      '9': 9,
-    };
-
     document.addEventListener('keydown', event => {
-      const { altKey, ctrlKey, key, metaKey, shiftKey } = event;
+      const { ctrlKey, key, metaKey, shiftKey } = event;
 
-      const optionOrAlt = altKey;
       const commandKey = window.platform === 'darwin' && metaKey;
       const controlKey = window.platform !== 'darwin' && ctrlKey;
       const commandOrCtrl = commandKey || controlKey;
-      const commandAndCtrl = commandKey && ctrlKey;
 
       const state = store.getState();
-      const selectedId = state.conversations.selectedConversation;
+      const selectedId = state.conversations.selectedConversationId;
       const conversation = window.ConversationController.get(selectedId);
-      const isSearching = window.Signal.State.Selectors.search.isSearching(
-        state
-      );
 
       // NAVIGATION
 
@@ -974,13 +1120,19 @@ type WhatIsThis = import('./window.d').WhatIsThis;
 
         const targets: Array<HTMLElement | null> = [
           document.querySelector('.module-main-header .module-avatar-button'),
-          document.querySelector('.module-left-pane__to-inbox-button'),
-          document.querySelector('.module-main-header__search__input'),
-          document.querySelector('.module-left-pane__list'),
-          document.querySelector('.module-search-results'),
           document.querySelector(
-            '.module-composition-area .public-DraftEditor-content'
+            '.module-left-pane__header__contents__back-button'
           ),
+          document.querySelector('.module-main-header__search__input'),
+          document.querySelector('.module-main-header__compose-icon'),
+          document.querySelector(
+            '.module-left-pane__compose-search-form__input'
+          ),
+          document.querySelector(
+            '.module-conversation-list__item--contact-or-conversation'
+          ),
+          document.querySelector('.module-search-results'),
+          document.querySelector('.CompositionArea .ql-editor'),
         ];
         const focusedIndex = targets.findIndex(target => {
           if (!target || !focusedElement) {
@@ -1128,94 +1280,6 @@ type WhatIsThis = import('./window.d').WhatIsThis;
         return;
       }
 
-      // Change currently selected conversation by index
-      if (!isSearching && commandOrCtrl && NUMBERS[key]) {
-        const targetId = getConversationByIndex(
-          (NUMBERS[key] as WhatIsThis) - 1
-        );
-
-        if (targetId) {
-          window.Whisper.events.trigger('showConversation', targetId);
-          event.preventDefault();
-          event.stopPropagation();
-          return;
-        }
-      }
-
-      // Change currently selected conversation
-      // up/previous
-      if (
-        (!isSearching && optionOrAlt && !shiftKey && key === 'ArrowUp') ||
-        (!isSearching && commandOrCtrl && shiftKey && key === '[') ||
-        (!isSearching && ctrlKey && shiftKey && key === 'Tab')
-      ) {
-        const unreadOnly = false;
-        const targetId = findConversation(
-          conversation ? conversation.id : null,
-          'up',
-          unreadOnly
-        );
-
-        if (targetId) {
-          window.Whisper.events.trigger('showConversation', targetId);
-          event.preventDefault();
-          event.stopPropagation();
-          return;
-        }
-      }
-      // down/next
-      if (
-        (!isSearching && optionOrAlt && !shiftKey && key === 'ArrowDown') ||
-        (!isSearching && commandOrCtrl && shiftKey && key === ']') ||
-        (!isSearching && ctrlKey && key === 'Tab')
-      ) {
-        const unreadOnly = false;
-        const targetId = findConversation(
-          conversation ? conversation.id : null,
-          'down',
-          unreadOnly
-        );
-
-        if (targetId) {
-          window.Whisper.events.trigger('showConversation', targetId);
-          event.preventDefault();
-          event.stopPropagation();
-          return;
-        }
-      }
-      // previous unread
-      if (!isSearching && optionOrAlt && shiftKey && key === 'ArrowUp') {
-        const unreadOnly = true;
-        const targetId = findConversation(
-          conversation ? conversation.id : null,
-          'up',
-          unreadOnly
-        );
-
-        if (targetId) {
-          window.Whisper.events.trigger('showConversation', targetId);
-          event.preventDefault();
-          event.stopPropagation();
-          return;
-        }
-      }
-      // next unread
-      if (!isSearching && optionOrAlt && shiftKey && key === 'ArrowDown') {
-        const unreadOnly = true;
-        const targetId = findConversation(
-          conversation ? conversation.id : null,
-          'down',
-          unreadOnly
-        );
-
-        if (targetId) {
-          window.Whisper.events.trigger('showConversation', targetId);
-          event.preventDefault();
-          event.stopPropagation();
-          return;
-        }
-      }
-
       // Preferences - handled by Electron-managed keyboard shortcuts
 
       // Open the top-right menu for current conversation
@@ -1226,7 +1290,7 @@ type WhatIsThis = import('./window.d').WhatIsThis;
         (key === 'l' || key === 'L')
       ) {
         const button = document.querySelector(
-          '.module-conversation-header__more-button'
+          '.module-ConversationHeader__button--more'
         );
         if (!button) {
           return;
@@ -1258,40 +1322,6 @@ type WhatIsThis = import('./window.d').WhatIsThis;
         /* eslint-enable @typescript-eslint/no-explicit-any */
 
         button.dispatchEvent(mouseEvent);
-
-        event.preventDefault();
-        event.stopPropagation();
-        return;
-      }
-
-      // Search
-      if (
-        commandOrCtrl &&
-        !commandAndCtrl &&
-        !shiftKey &&
-        (key === 'f' || key === 'F')
-      ) {
-        const { startSearch } = actions.search;
-        startSearch();
-
-        event.preventDefault();
-        event.stopPropagation();
-        return;
-      }
-
-      // Search in conversation
-      if (
-        conversation &&
-        commandOrCtrl &&
-        !commandAndCtrl &&
-        shiftKey &&
-        (key === 'f' || key === 'F')
-      ) {
-        const { searchInConversation } = actions.search;
-        const name = conversation.isMe()
-          ? window.i18n('noteToSelf')
-          : conversation.getTitle();
-        searchInConversation(conversation.id, name);
 
         event.preventDefault();
         event.stopPropagation();
@@ -1357,21 +1387,13 @@ type WhatIsThis = import('./window.d').WhatIsThis;
         );
 
         // It's very likely that the act of archiving a conversation will set focus to
-        //   'none,' or the top-level body element. This resets it to the left pane,
-        //   whether in the normal conversation list or search results.
+        //   'none,' or the top-level body element. This resets it to the left pane.
         if (document.activeElement === document.body) {
           const leftPaneEl: HTMLElement | null = document.querySelector(
             '.module-left-pane__list'
           );
           if (leftPaneEl) {
             leftPaneEl.focus();
-          }
-
-          const searchResultsEl: HTMLElement | null = document.querySelector(
-            '.module-search-results'
-          );
-          if (searchResultsEl) {
-            searchResultsEl.focus();
           }
         }
 
@@ -1538,83 +1560,179 @@ type WhatIsThis = import('./window.d').WhatIsThis;
   }
 
   window.Whisper.events.on('setupAsNewDevice', () => {
-    const { appView } = window.owsDesktopApp;
-    if (appView) {
-      appView.openInstaller();
-    }
+    window.reduxActions.app.openInstaller();
   });
 
   window.Whisper.events.on('setupAsStandalone', () => {
-    const { appView } = window.owsDesktopApp;
-    if (appView) {
-      appView.openStandalone();
-    }
+    window.reduxActions.app.openStandalone();
   });
+
+  window.Whisper.events.on('powerMonitorSuspend', () => {
+    window.log.info('powerMonitor: suspend');
+  });
+
+  window.Whisper.events.on('powerMonitorResume', () => {
+    window.log.info('powerMonitor: resume');
+    server?.checkSockets();
+  });
+
+  const reconnectToWebSocketQueue = new LatestQueue();
+
+  const enqueueReconnectToWebSocket = () => {
+    reconnectToWebSocketQueue.add(async () => {
+      if (!server) {
+        window.log.info('reconnectToWebSocket: No server. Early return.');
+        return;
+      }
+
+      window.log.info('reconnectToWebSocket starting...');
+      await server.onOffline();
+      await server.onOnline();
+      window.log.info('reconnectToWebSocket complete.');
+    });
+  };
+
+  window.Whisper.events.on(
+    'mightBeUnlinked',
+    window._.debounce(enqueueReconnectToWebSocket, 1000, { maxWait: 5000 })
+  );
+
+  window.Whisper.events.on('unlinkAndDisconnect', unlinkAndDisconnect);
 
   function runStorageService() {
     window.Signal.Services.enableStorageService();
-    window.textsecure.messaging.sendRequestKeySyncMessage();
+
+    if (window.ConversationController.areWePrimaryDevice()) {
+      window.log.warn(
+        'background/runStorageService: We are primary device; not sending key sync request'
+      );
+      return;
+    }
+
+    handleMessageSend(window.textsecure.messaging.sendRequestKeySyncMessage(), {
+      messageIds: [],
+      sendType: 'otherSync',
+    });
   }
 
+  let challengeHandler: ChallengeHandler | undefined;
+
   async function start() {
+    challengeHandler = new ChallengeHandler({
+      storage: window.storage,
+
+      getMessageById,
+
+      requestChallenge(request) {
+        window.sendChallengeRequest(request);
+      },
+
+      async sendChallengeResponse(data) {
+        await window.textsecure.messaging.sendChallengeResponse(data);
+      },
+
+      onChallengeFailed() {
+        // TODO: DESKTOP-1530
+        // Display humanized `retryAfter`
+        window.Whisper.ToastView.show(
+          window.Whisper.CaptchaFailedToast,
+          document.getElementsByClassName('conversation-stack')[0] ||
+            document.body
+        );
+      },
+
+      onChallengeSolved() {
+        window.Whisper.ToastView.show(
+          window.Whisper.CaptchaSolvedToast,
+          document.getElementsByClassName('conversation-stack')[0] ||
+            document.body
+        );
+      },
+
+      setChallengeStatus(challengeStatus) {
+        window.reduxActions.network.setChallengeStatus(challengeStatus);
+      },
+    });
+
+    window.Whisper.events.on('challengeResponse', response => {
+      if (!challengeHandler) {
+        throw new Error('Expected challenge handler to be there');
+      }
+
+      challengeHandler.onResponse(response);
+    });
+
+    // Storage is ready because `start()` is called from `storage.onready()`
+    await challengeHandler.load();
+
+    window.Signal.challengeHandler = challengeHandler;
+
+    if (!window.storage.user.getNumber()) {
+      const ourConversation = window.ConversationController.getOurConversation();
+      const ourE164 = ourConversation?.get('e164');
+      if (ourE164) {
+        window.log.warn('Restoring E164 from our conversation');
+        window.storage.user.setNumber(ourE164);
+      }
+    }
+
     window.dispatchEvent(new Event('storage_ready'));
 
-    window.log.info('Cleanup: starting...');
-    const messagesForCleanup = await window.Signal.Data.getOutgoingWithoutExpiresAt(
-      {
-        MessageCollection: window.Whisper.MessageCollection,
-      }
-    );
+    window.log.info('Expiration start timestamp cleanup: starting...');
+    const messagesUnexpectedlyMissingExpirationStartTimestamp = await window.Signal.Data.getMessagesUnexpectedlyMissingExpirationStartTimestamp();
     window.log.info(
-      `Cleanup: Found ${messagesForCleanup.length} messages for cleanup`
+      `Expiration start timestamp cleanup: Found ${messagesUnexpectedlyMissingExpirationStartTimestamp.length} messages for cleanup`
     );
-    await Promise.all(
-      messagesForCleanup.map(async message => {
-        const delivered = message.get('delivered');
-        const sentAt = message.get('sent_at');
-        const expirationStartTimestamp = message.get(
-          'expirationStartTimestamp'
-        );
-
-        if (message.hasErrors()) {
-          return;
-        }
-
-        if (delivered) {
+    if (messagesUnexpectedlyMissingExpirationStartTimestamp.length) {
+      const newMessageAttributes = messagesUnexpectedlyMissingExpirationStartTimestamp.map(
+        message => {
+          const expirationStartTimestamp = Math.min(
+            ...filter(
+              [
+                // These messages should always have a sent_at, but we have fallbacks
+                //   just in case.
+                message.sent_at,
+                Date.now(),
+                // The query shouldn't return messages with expiration start timestamps,
+                //   but we're trying to be extra careful.
+                message.expirationStartTimestamp,
+              ],
+              isNotNil
+            )
+          );
           window.log.info(
-            `Cleanup: Starting timer for delivered message ${sentAt}`
+            `Expiration start timestamp cleanup: starting timer for ${message.type} message sent at ${message.sent_at}. Starting timer at ${message.expirationStartTimestamp}`
           );
-          message.set(
-            'expirationStartTimestamp',
-            expirationStartTimestamp || sentAt
-          );
-          await message.setToExpire();
-          return;
+          return {
+            ...message,
+            expirationStartTimestamp,
+          };
         }
+      );
 
-        window.log.info(`Cleanup: Deleting unsent message ${sentAt}`);
-        await window.Signal.Data.removeMessage(message.id, {
-          Message: window.Whisper.Message,
-        });
-        const conversation = message.getConversation();
-        if (conversation) {
-          await conversation.updateLastMessage();
-        }
-      })
-    );
-    window.log.info('Cleanup: complete');
+      await window.Signal.Data.saveMessages(newMessageAttributes);
+    }
+    window.log.info('Expiration start timestamp cleanup: complete');
 
     window.log.info('listening for registration events');
     window.Whisper.events.on('registration_done', () => {
       window.log.info('handling registration event');
+
+      strictAssert(server !== undefined, 'WebAPI not ready');
+      server.authenticate(
+        window.textsecure.storage.user.getWebAPICredentials()
+      );
       connect(true);
     });
 
     cancelInitializationMessage();
-    const appView = new window.Whisper.AppView({
-      el: $('body'),
-    });
-    window.owsDesktopApp.appView = appView;
+    render(
+      window.Signal.State.Roots.createApp(window.reduxStore),
+      document.getElementById('app-container')
+    );
+    const hideMenuBar = window.storage.get('hide-menu-bar', false);
+    window.setAutoHideMenuBar(hideMenuBar);
+    window.setMenuBarVisibility(!hideMenuBar);
 
     window.Whisper.WallClockListener.init(window.Whisper.events);
     window.Whisper.ExpiringMessagesListener.init(window.Whisper.events);
@@ -1622,22 +1740,14 @@ type WhatIsThis = import('./window.d').WhatIsThis;
 
     if (window.Signal.Util.Registration.everDone()) {
       connect();
-      appView.openInbox({
-        initialLoadComplete,
-      });
+      window.reduxActions.app.openInbox();
     } else {
-      appView.openInstaller();
+      window.reduxActions.app.openInstaller();
     }
 
-    window.Whisper.events.on('showDebugLog', () => {
-      appView.openDebugLog();
-    });
-    window.Whisper.events.on('unauthorized', () => {
-      appView.inboxView.networkStatusView.update();
-    });
     window.Whisper.events.on('contactsync', () => {
-      if (appView.installView) {
-        appView.openInbox();
+      if (window.reduxStore.getState().app.appView === AppViewType.Installer) {
+        window.reduxActions.app.openInbox();
       }
     });
 
@@ -1646,27 +1756,21 @@ type WhatIsThis = import('./window.d').WhatIsThis;
       window.Whisper.Notifications.fastClear()
     );
 
-    window.Whisper.events.on('showConversation', (id, messageId) => {
-      if (appView) {
-        appView.openConversation(id, messageId);
-      }
-    });
-
     window.Whisper.Notifications.on('click', (id, messageId) => {
       window.showWindow();
       if (id) {
-        appView.openConversation(id, messageId);
+        window.Whisper.events.trigger('showConversation', id, messageId);
       } else {
-        appView.openInbox({
-          initialLoadComplete,
-        });
+        window.reduxActions.app.openInbox();
       }
     });
 
     // Maybe refresh remote configuration when we become active
     window.registerForActive(async () => {
+      strictAssert(server !== undefined, 'WebAPI not ready');
+
       try {
-        await window.Signal.RemoteConfig.maybeRefreshRemoteConfig();
+        await window.Signal.RemoteConfig.maybeRefreshRemoteConfig(server);
       } catch (error) {
         if (error && window._.isNumber(error.code)) {
           window.log.warn(
@@ -1746,19 +1850,41 @@ type WhatIsThis = import('./window.d').WhatIsThis;
         }
 
         await window.storage.remove('manifestVersion');
-        await window.textsecure.messaging.sendRequestKeySyncMessage();
+
+        if (window.ConversationController.areWePrimaryDevice()) {
+          window.log.warn(
+            'onChange/desktop.storage: We are primary device; not sending key sync request'
+          );
+          return;
+        }
+
+        await handleMessageSend(
+          window.textsecure.messaging.sendRequestKeySyncMessage(),
+          { messageIds: [], sendType: 'otherSync' }
+        );
       }
     );
+
+    if (resolveOnAppView) {
+      resolveOnAppView();
+      resolveOnAppView = undefined;
+    }
   }
 
-  window.getSyncRequest = () =>
-    new window.textsecure.SyncRequest(
-      window.textsecure.messaging,
-      messageReceiver
-    );
+  window.getSyncRequest = (timeoutMillis?: number) => {
+    strictAssert(messageReceiver, 'MessageReceiver not initialized');
 
-  let disconnectTimer: WhatIsThis | null = null;
-  let reconnectTimer: WhatIsThis | null = null;
+    const syncRequest = new window.textsecure.SyncRequest(
+      window.textsecure.messaging,
+      messageReceiver,
+      timeoutMillis
+    );
+    syncRequest.start();
+    return syncRequest;
+  };
+
+  let disconnectTimer: NodeJS.Timeout | undefined;
+  let reconnectTimer: number | undefined;
   function onOffline() {
     window.log.info('offline');
 
@@ -1769,6 +1895,10 @@ type WhatIsThis = import('./window.d').WhatIsThis;
     //   we get an online event. This waits a bit after getting an 'offline' event
     //   before disconnecting the socket manually.
     disconnectTimer = setTimeout(disconnect, 1000);
+
+    if (challengeHandler) {
+      challengeHandler.onOffline();
+    }
   }
 
   function onOnline() {
@@ -1780,12 +1910,12 @@ type WhatIsThis = import('./window.d').WhatIsThis;
     if (disconnectTimer && isSocketOnline()) {
       window.log.warn('Already online. Had a blip in online/offline status.');
       clearTimeout(disconnectTimer);
-      disconnectTimer = null;
+      disconnectTimer = undefined;
       return;
     }
     if (disconnectTimer) {
       clearTimeout(disconnectTimer);
-      disconnectTimer = null;
+      disconnectTimer = undefined;
     }
 
     connect();
@@ -1794,20 +1924,26 @@ type WhatIsThis = import('./window.d').WhatIsThis;
   function isSocketOnline() {
     const socketStatus = window.getSocketStatus();
     return (
-      socketStatus === WebSocket.CONNECTING || socketStatus === WebSocket.OPEN
+      socketStatus === SocketStatus.CONNECTING ||
+      socketStatus === SocketStatus.OPEN
     );
   }
 
-  function disconnect() {
+  async function disconnect() {
     window.log.info('disconnect');
 
     // Clear timer, since we're only called when the timer is expired
-    disconnectTimer = null;
+    disconnectTimer = undefined;
 
-    if (messageReceiver) {
-      messageReceiver.close();
+    AttachmentDownloads.stop();
+    if (server !== undefined) {
+      strictAssert(
+        messageReceiver !== undefined,
+        'WebAPI should be initialized together with MessageReceiver'
+      );
+      await server.onOffline();
+      await messageReceiver.drain();
     }
-    window.Signal.AttachmentDownloads.stop();
   }
 
   let connectCount = 0;
@@ -1817,6 +1953,9 @@ type WhatIsThis = import('./window.d').WhatIsThis;
       window.log.warn('connect already running', { connectCount });
       return;
     }
+
+    strictAssert(server !== undefined, 'WebAPI not connected');
+
     try {
       connecting = true;
 
@@ -1824,7 +1963,7 @@ type WhatIsThis = import('./window.d').WhatIsThis;
 
       if (reconnectTimer) {
         clearTimeout(reconnectTimer);
-        reconnectTimer = null;
+        reconnectTimer = undefined;
       }
 
       // Bootstrap our online/offline detection, only the first time we connect
@@ -1844,32 +1983,13 @@ type WhatIsThis = import('./window.d').WhatIsThis;
         return;
       }
 
-      preMessageReceiverStatus = WebSocket.CONNECTING;
-
-      if (messageReceiver) {
-        await messageReceiver.stopProcessing();
-
-        await window.waitForAllBatchers();
-        messageReceiver.unregisterBatchers();
-
-        messageReceiver = null;
-      }
-
-      const OLD_USERNAME = window.storage.get('number_id');
-      const USERNAME = window.storage.get('uuid_id');
-      const PASSWORD = window.storage.get('password');
-      const mySignalingKey = window.storage.get('signaling_key');
-
-      window.textsecure.messaging = new window.textsecure.MessageSender(
-        USERNAME || OLD_USERNAME,
-        PASSWORD
-      );
+      window.textsecure.messaging = new window.textsecure.MessageSender(server);
 
       if (connectCount === 0) {
         try {
           // Force a re-fetch before we process our queue. We may want to turn on
           //   something which changes how we process incoming messages!
-          await window.Signal.RemoteConfig.refreshRemoteConfig();
+          await window.Signal.RemoteConfig.refreshRemoteConfig(server);
         } catch (error) {
           window.log.error(
             'connect: Error refreshing remote config:',
@@ -1878,41 +1998,21 @@ type WhatIsThis = import('./window.d').WhatIsThis;
         }
 
         try {
-          if (window.Signal.RemoteConfig.isEnabled('desktop.cds')) {
-            const lonelyE164s = window
-              .getConversations()
-              .filter(c =>
-                Boolean(
-                  c.isPrivate() &&
-                    c.get('e164') &&
-                    !c.get('uuid') &&
-                    !c.isEverUnregistered()
-                )
+          const lonelyE164Conversations = window
+            .getConversations()
+            .filter(c =>
+              Boolean(
+                isDirectConversation(c.attributes) &&
+                  c.get('e164') &&
+                  !c.get('uuid') &&
+                  !c.isEverUnregistered()
               )
-              .map(c => c.get('e164'))
-              .filter(Boolean) as Array<string>;
-
-            if (lonelyE164s.length > 0) {
-              const lookup = await window.textsecure.messaging.getUuidsForE164s(
-                lonelyE164s
-              );
-              const e164s = Object.keys(lookup);
-              e164s.forEach(e164 => {
-                const uuid = lookup[e164];
-                if (!uuid) {
-                  const byE164 = window.ConversationController.get(e164);
-                  if (byE164) {
-                    byE164.setUnregistered();
-                  }
-                }
-                window.ConversationController.ensureContactIds({
-                  e164,
-                  uuid,
-                  highTrust: true,
-                });
-              });
-            }
-          }
+            );
+          await updateConversationsWithUuidLookup({
+            conversationController: window.ConversationController,
+            conversations: lonelyE164Conversations,
+            messaging: window.textsecure.messaging,
+          });
         } catch (error) {
           window.log.error(
             'connect: Error fetching UUIDs for lonely e164s:',
@@ -1923,75 +2023,31 @@ type WhatIsThis = import('./window.d').WhatIsThis;
 
       connectCount += 1;
 
-      window.Whisper.deliveryReceiptQueue.pause(); // avoid flood of delivery receipts until we catch up
-      window.Whisper.Notifications.disable(); // avoid notification flood until empty
-
-      // initialize the socket and start listening for messages
-      window.log.info('Initializing socket and listening for messages');
-      const messageReceiverOptions = {
-        serverTrustRoot: window.getServerTrustRoot(),
-      };
-      messageReceiver = new window.textsecure.MessageReceiver(
-        OLD_USERNAME,
-        USERNAME,
-        PASSWORD,
-        mySignalingKey,
-        messageReceiverOptions as WhatIsThis
-      );
-      window.textsecure.messageReceiver = messageReceiver;
+      // To avoid a flood of operations before we catch up, we pause some queues.
+      profileKeyResponseQueue.pause();
+      lightSessionResetQueue.pause();
+      window.Whisper.deliveryReceiptQueue.pause();
+      window.Whisper.Notifications.disable();
 
       window.Signal.Services.initializeGroupCredentialFetcher();
 
-      preMessageReceiverStatus = null;
-
-      // eslint-disable-next-line no-inner-declarations
-      function addQueuedEventListener(name: WhatIsThis, handler: WhatIsThis) {
-        messageReceiver.addEventListener(name, (...args: Array<WhatIsThis>) =>
-          eventHandlerQueue.add(async () => {
-            try {
-              await handler(...args);
-            } finally {
-              // message/sent: Message.handleDataMessage has its own queue and will
-              //   trigger this event itself when complete.
-              // error: Error processing (below) also has its own queue and self-trigger.
-              if (name !== 'message' && name !== 'sent' && name !== 'error') {
-                window.Whisper.events.trigger('incrementProgress');
-              }
-            }
-          })
-        );
-      }
-
-      addQueuedEventListener('message', onMessageReceived);
-      addQueuedEventListener('delivery', onDeliveryReceipt);
-      addQueuedEventListener('contact', onContactReceived);
-      addQueuedEventListener('group', onGroupReceived);
-      addQueuedEventListener('sent', onSentMessage);
-      addQueuedEventListener('readSync', onReadSync);
-      addQueuedEventListener('read', onReadReceipt);
-      addQueuedEventListener('verified', onVerified);
-      addQueuedEventListener('error', onError);
-      addQueuedEventListener('empty', onEmpty);
-      addQueuedEventListener('reconnect', onReconnect);
-      addQueuedEventListener('configuration', onConfiguration);
-      addQueuedEventListener('typing', onTyping);
-      addQueuedEventListener('sticker-pack', onStickerPack);
-      addQueuedEventListener('viewSync', onViewSync);
-      addQueuedEventListener(
-        'messageRequestResponse',
-        onMessageRequestResponse
+      strictAssert(server !== undefined, 'WebAPI not initialized');
+      strictAssert(
+        messageReceiver !== undefined,
+        'MessageReceiver not initialized'
       );
-      addQueuedEventListener('profileKeyUpdate', onProfileKeyUpdate);
-      addQueuedEventListener('fetchLatest', onFetchLatestSync);
-      addQueuedEventListener('keys', onKeysSync);
+      messageReceiver.reset();
+      server.registerRequestHandler(messageReceiver);
 
-      window.Signal.AttachmentDownloads.start({
-        getMessageReceiver: () => messageReceiver,
+      // If coming here after `offline` event - connect again.
+      await server.onOnline();
+
+      AttachmentDownloads.start({
         logger: window.log,
       });
 
       if (connectCount === 1) {
-        window.Signal.Stickers.downloadQueuedPacks();
+        Stickers.downloadQueuedPacks();
         if (!newVersion) {
           runStorageService();
         }
@@ -2003,8 +2059,7 @@ type WhatIsThis = import('./window.d').WhatIsThis;
         !firstRun &&
         connectCount === 1 &&
         newVersion &&
-        // eslint-disable-next-line eqeqeq
-        window.textsecure.storage.user.getDeviceId() != '1'
+        window.textsecure.storage.user.getDeviceId() !== 1
       ) {
         window.log.info('Boot after upgrading. Requesting contact sync');
         window.getSyncRequest();
@@ -2012,11 +2067,10 @@ type WhatIsThis = import('./window.d').WhatIsThis;
         runStorageService();
 
         try {
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          const manager = window.getAccountManager()!;
+          const manager = window.getAccountManager();
           await Promise.all([
             manager.maybeUpdateDeviceName(),
-            manager.maybeDeleteSignalingKey(),
+            window.textsecure.storage.user.removeSignalingKey(),
           ]);
         } catch (e) {
           window.log.error(
@@ -2028,10 +2082,6 @@ type WhatIsThis = import('./window.d').WhatIsThis;
 
       const udSupportKey = 'hasRegisterSupportForUnauthenticatedDelivery';
       if (!window.storage.get(udSupportKey)) {
-        const server = window.WebAPI.connect({
-          username: USERNAME || OLD_USERNAME,
-          password: PASSWORD,
-        });
         try {
           await server.registerSupportForUnauthenticatedDelivery();
           window.storage.put(udSupportKey, true);
@@ -2047,22 +2097,22 @@ type WhatIsThis = import('./window.d').WhatIsThis;
 
       // If we didn't capture a UUID on registration, go get it from the server
       if (!window.textsecure.storage.user.getUuid()) {
-        const server = window.WebAPI.connect({
-          username: OLD_USERNAME,
-          password: PASSWORD,
-        });
         try {
           const { uuid } = await server.whoami();
-          window.textsecure.storage.user.setUuidAndDeviceId(
-            uuid,
-            deviceId as WhatIsThis
-          );
+          assert(deviceId, 'We should have device id');
+          window.textsecure.storage.user.setUuidAndDeviceId(uuid, deviceId);
           const ourNumber = window.textsecure.storage.user.getNumber();
+
+          assert(ourNumber, 'We should have number');
           const me = await window.ConversationController.getOrCreateAndWait(
             ourNumber,
             'private'
           );
           me.updateUuid(uuid);
+
+          await server.authenticate(
+            window.textsecure.storage.user.getWebAPICredentials()
+          );
         } catch (error) {
           window.log.error(
             'Error: Unable to retrieve UUID from service.',
@@ -2072,16 +2122,14 @@ type WhatIsThis = import('./window.d').WhatIsThis;
       }
 
       if (connectCount === 1) {
-        const server = window.WebAPI.connect({
-          username: USERNAME || OLD_USERNAME,
-          password: PASSWORD,
-        });
         try {
           // Note: we always have to register our capabilities all at once, so we do this
           //   after connect on every startup
           await server.registerCapabilities({
+            announcementGroup: true,
             'gv2-3': true,
             'gv1-migration': true,
+            senderKey: true,
           });
         } catch (error) {
           window.log.error(
@@ -2091,19 +2139,19 @@ type WhatIsThis = import('./window.d').WhatIsThis;
         }
       }
 
-      if (firstRun === true && deviceId !== '1') {
+      if (firstRun === true && deviceId !== 1) {
         const hasThemeSetting = Boolean(window.storage.get('theme-setting'));
         if (
           !hasThemeSetting &&
           window.textsecure.storage.get('userAgent') === 'OWI'
         ) {
-          window.storage.put('theme-setting', 'ios');
-          onChangeTheme();
+          window.storage.put(
+            'theme-setting',
+            await window.Events.getThemeSetting()
+          );
+          themeChanged();
         }
-        const syncRequest = new window.textsecure.SyncRequest(
-          window.textsecure.messaging,
-          messageReceiver
-        );
+        const syncRequest = window.getSyncRequest();
         window.Whisper.events.trigger('contactsync:begin');
         syncRequest.addEventListener('success', () => {
           window.log.info('sync successful');
@@ -2117,27 +2165,32 @@ type WhatIsThis = import('./window.d').WhatIsThis;
           runStorageService();
         });
 
-        const ourId = window.ConversationController.getOurConversationId();
-        const {
-          wrap,
-          sendOptions,
-        } = window.ConversationController.prepareForSend(ourId, {
+        const ourConversation = window.ConversationController.getOurConversationOrThrow();
+        const sendOptions = await getSendOptions(ourConversation.attributes, {
           syncMessage: true,
         });
 
-        const installedStickerPacks = window.Signal.Stickers.getInstalledStickerPacks();
+        const installedStickerPacks = Stickers.getInstalledStickerPacks();
         if (installedStickerPacks.length) {
-          const operations = installedStickerPacks.map((pack: WhatIsThis) => ({
+          const operations = installedStickerPacks.map(pack => ({
             packId: pack.id,
             packKey: pack.key,
             installed: true,
           }));
 
-          wrap(
+          if (window.ConversationController.areWePrimaryDevice()) {
+            window.log.warn(
+              'background/connect: We are primary device; not sending sticker pack sync'
+            );
+            return;
+          }
+
+          handleMessageSend(
             window.textsecure.messaging.sendStickerPackSync(
               operations,
               sendOptions
-            )
+            ),
+            { messageIds: [], sendType: 'otherSync' }
           ).catch(error => {
             window.log.error(
               'Failed to send installed sticker packs via sync message',
@@ -2149,18 +2202,38 @@ type WhatIsThis = import('./window.d').WhatIsThis;
 
       window.storage.onready(async () => {
         idleDetector.start();
+
+        // Kick off a profile refresh if necessary, but don't wait for it, as failure is
+        //   tolerable.
+        const ourConversationId = window.ConversationController.getOurConversationId();
+        if (ourConversationId) {
+          routineProfileRefresh({
+            allConversations: window.ConversationController.getAll(),
+            ourConversationId,
+            storage: window.storage,
+          });
+        } else {
+          assert(
+            false,
+            'Failed to fetch our conversation ID. Skipping routine profile refresh'
+          );
+        }
       });
+
+      if (!challengeHandler) {
+        throw new Error('Expected challenge handler to be initialized');
+      }
+
+      // Intentionally not awaiting
+      challengeHandler.onOnline();
+
+      reconnectBackOff.reset();
     } finally {
       connecting = false;
     }
   }
 
-  function onChangeTheme() {
-    const view = window.owsDesktopApp.appView;
-    if (view) {
-      view.applyTheme();
-    }
-  }
+  window.SignalContext.nativeThemeListener.subscribe(themeChanged);
 
   const FIVE_MINUTES = 5 * 60 * 1000;
 
@@ -2178,18 +2251,22 @@ type WhatIsThis = import('./window.d').WhatIsThis;
       window.log.info(
         'waitForEmptyEventQueue: Waiting for MessageReceiver empty event...'
       );
-      let resolve: WhatIsThis;
-      let reject: WhatIsThis;
-      const promise = new Promise((innerResolve, innerReject) => {
+      let resolve: undefined | (() => void);
+      let reject: undefined | ((error: Error) => void);
+      const promise = new Promise<void>((innerResolve, innerReject) => {
         resolve = innerResolve;
         reject = innerReject;
       });
 
-      const timeout = setTimeout(reject, FIVE_MINUTES);
+      const timeout = reject && setTimeout(reject, FIVE_MINUTES);
       const onEmptyOnce = () => {
-        messageReceiver.removeEventListener('empty', onEmptyOnce);
+        if (messageReceiver) {
+          messageReceiver.removeEventListener('empty', onEmptyOnce);
+        }
         clearTimeout(timeout);
-        resolve();
+        if (resolve) {
+          resolve();
+        }
       };
       messageReceiver.addEventListener('empty', onEmptyOnce);
 
@@ -2207,10 +2284,9 @@ type WhatIsThis = import('./window.d').WhatIsThis;
   async function onEmpty() {
     await Promise.all([
       window.waitForAllBatchers(),
-      window.waitForAllWaitBatchers(),
+      window.flushAllWaitBatchers(),
     ]);
     window.log.info('onEmpty: All outstanding database requests complete');
-    initialLoadComplete = true;
     window.readyForUpdates();
 
     // Start listeners here, after we get through our queue.
@@ -2218,32 +2294,79 @@ type WhatIsThis = import('./window.d').WhatIsThis;
       window.Whisper.events,
       newVersion
     );
-    window.Signal.RefreshSenderCertificate.initialize({
-      events: window.Whisper.events,
-      storage: window.storage,
-      navigator,
-      logger: window.log,
-    });
 
-    let interval: NodeJS.Timer | null = setInterval(() => {
-      const view = window.owsDesktopApp.appView;
-      if (view) {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        clearInterval(interval!);
-        interval = null;
-        view.onEmpty();
-        window.logAppLoadedEvent();
-      }
-    }, 500);
+    // Go back to main process before processing delayed actions
+    await window.sqlInitializer.goBackToMainProcess();
 
+    profileKeyResponseQueue.start();
+    lightSessionResetQueue.start();
     window.Whisper.deliveryReceiptQueue.start();
     window.Whisper.Notifications.enable();
+
+    await onAppView;
+
+    window.reduxActions.app.initialLoadComplete();
+
+    window.logAppLoadedEvent?.({
+      processedCount: messageReceiver && messageReceiver.getProcessedCount(),
+    });
+    if (messageReceiver) {
+      window.log.info(
+        'App loaded - messages:',
+        messageReceiver.getProcessedCount()
+      );
+    }
+
+    window.Signal.Util.setBatchingStrategy(false);
+
+    const attachmentDownloadQueue = window.attachmentDownloadQueue || [];
+
+    // NOTE: ts/models/messages.ts expects this global to become undefined
+    // once we stop processing the queue.
+    window.attachmentDownloadQueue = undefined;
+
+    const MAX_ATTACHMENT_MSGS_TO_DOWNLOAD = 250;
+    const attachmentsToDownload = attachmentDownloadQueue.filter(
+      (message, index) =>
+        index <= MAX_ATTACHMENT_MSGS_TO_DOWNLOAD ||
+        isMoreRecentThan(
+          message.getReceivedAt(),
+          MAX_ATTACHMENT_DOWNLOAD_AGE
+        ) ||
+        // Stickers and long text attachments has to be downloaded for UI
+        // to display the message properly.
+        message.hasRequiredAttachmentDownloads()
+    );
+    window.log.info(
+      'Downloading recent attachments of total attachments',
+      attachmentsToDownload.length,
+      attachmentDownloadQueue.length
+    );
+
+    if (window.startupProcessingQueue) {
+      window.startupProcessingQueue.flush();
+      window.startupProcessingQueue = undefined;
+    }
+
+    const messagesWithDownloads = await Promise.all(
+      attachmentsToDownload.map(message => message.queueAttachmentDownloads())
+    );
+    const messagesToSave: Array<MessageAttributesType> = [];
+    messagesWithDownloads.forEach((shouldSave, messageKey) => {
+      if (shouldSave) {
+        const message = attachmentsToDownload[messageKey];
+        messagesToSave.push(message.attributes);
+      }
+    });
+    await window.Signal.Data.saveMessages(messagesToSave);
   }
   function onReconnect() {
     // We disable notifications on first connect, but the same applies to reconnect. In
     //   scenarios where we're coming back from sleep, we can get offline/online events
     //   very fast, and it looks like a network blip. But we need to suppress
     //   notifications in these scenarios too. So we listen for 'reconnect' events.
+    profileKeyResponseQueue.pause();
+    lightSessionResetQueue.pause();
     window.Whisper.deliveryReceiptQueue.pause();
     window.Whisper.Notifications.disable();
   }
@@ -2262,10 +2385,7 @@ type WhatIsThis = import('./window.d').WhatIsThis;
       `incrementProgress: Message count is ${initialStartupCount}`
     );
 
-    const view = window.owsDesktopApp.appView;
-    if (view) {
-      view.onProgress(initialStartupCount);
-    }
+    window.Whisper.events.trigger('loadingProgress', initialStartupCount);
   }
 
   window.Whisper.events.on('manualConnect', manualConnect);
@@ -2279,7 +2399,7 @@ type WhatIsThis = import('./window.d').WhatIsThis;
     connect();
   }
 
-  function onConfiguration(ev: WhatIsThis) {
+  function onConfiguration(ev: ConfigurationEvent) {
     ev.confirm();
 
     const { configuration } = ev;
@@ -2290,7 +2410,7 @@ type WhatIsThis = import('./window.d').WhatIsThis;
       linkPreviews,
     } = configuration;
 
-    window.storage.put('read-receipt-setting', readReceipts);
+    window.storage.put('read-receipt-setting', Boolean(readReceipts));
 
     if (
       unidentifiedDeliveryIndicators === true ||
@@ -2311,7 +2431,7 @@ type WhatIsThis = import('./window.d').WhatIsThis;
     }
   }
 
-  function onTyping(ev: WhatIsThis) {
+  function onTyping(ev: TypingEvent) {
     // Note: this type of message is automatically removed from cache in MessageReceiver
 
     const { typing, sender, senderUuid, senderDevice } = ev;
@@ -2359,7 +2479,10 @@ type WhatIsThis = import('./window.d').WhatIsThis;
     }
 
     // We drop typing notifications in groups we're not a part of
-    if (!conversation.isPrivate() && !conversation.hasMember(ourId)) {
+    if (
+      !isDirectConversation(conversation.attributes) &&
+      !conversation.hasMember(ourId)
+    ) {
       window.log.warn(
         `Received typing indicator for group ${conversation.idForLogging()}, which we're not a part of. Dropping.`
       );
@@ -2374,12 +2497,12 @@ type WhatIsThis = import('./window.d').WhatIsThis;
     });
   }
 
-  async function onStickerPack(ev: WhatIsThis) {
+  async function onStickerPack(ev: StickerPackEvent) {
     ev.confirm();
 
-    const packs = ev.stickerPacks || [];
+    const packs = ev.stickerPacks;
 
-    packs.forEach((pack: WhatIsThis) => {
+    packs.forEach(pack => {
       const { id, key, isInstall, isRemove } = pack || {};
 
       if (!id || !key || (!isInstall && !isRemove)) {
@@ -2389,7 +2512,7 @@ type WhatIsThis = import('./window.d').WhatIsThis;
         return;
       }
 
-      const status = window.Signal.Stickers.getStickerPackStatus(id);
+      const status = Stickers.getStickerPackStatus(id);
 
       if (status === 'installed' && isRemove) {
         window.reduxActions.stickers.uninstallStickerPack(id, key, {
@@ -2401,7 +2524,7 @@ type WhatIsThis = import('./window.d').WhatIsThis;
             fromSync: true,
           });
         } else {
-          window.Signal.Stickers.downloadStickerPack(id, key, {
+          Stickers.downloadStickerPack(id, key, {
             finalStatus: 'installed',
             fromSync: true,
           });
@@ -2410,7 +2533,12 @@ type WhatIsThis = import('./window.d').WhatIsThis;
     });
   }
 
-  async function onContactReceived(ev: WhatIsThis) {
+  async function onContactSyncComplete() {
+    window.log.info('onContactSyncComplete');
+    await window.storage.put('synced_at', Date.now());
+  }
+
+  async function onContactReceived(ev: ContactEvent) {
     const details = ev.contactDetails;
 
     if (
@@ -2422,20 +2550,20 @@ type WhatIsThis = import('./window.d').WhatIsThis;
       // special case for syncing details about ourselves
       if (details.profileKey) {
         window.log.info('Got sync message with our own profile key');
-        window.storage.put('profileKey', details.profileKey);
+        ourProfileKeyService.set(typedArrayToArrayBuffer(details.profileKey));
       }
     }
 
-    const c = new window.Whisper.Conversation({
+    const c = new window.Whisper.Conversation(({
       e164: details.number,
       uuid: details.uuid,
       type: 'private',
-    } as WhatIsThis);
+    } as Partial<ConversationAttributesType>) as WhatIsThis);
     const validationError = c.validate();
     if (validationError) {
       window.log.error(
         'Invalid contact received:',
-        Errors.toLogFormat(validationError as WhatIsThis)
+        Errors.toLogFormat(validationError)
       );
       return;
     }
@@ -2448,21 +2576,10 @@ type WhatIsThis = import('./window.d').WhatIsThis;
       });
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const conversation = window.ConversationController.get(detailsId)!;
-      let activeAt = conversation.get('active_at');
-
-      // The idea is to make any new contact show up in the left pane. If
-      //   activeAt is null, then this contact has been purposefully hidden.
-      if (activeAt !== null) {
-        activeAt = activeAt || Date.now();
-      }
 
       if (details.profileKey) {
-        const profileKey = window.Signal.Crypto.arrayBufferToBase64(
-          details.profileKey
-        );
+        const profileKey = Bytes.toBase64(details.profileKey);
         conversation.setProfileKey(profileKey);
-      } else {
-        conversation.dropProfileKey();
       }
 
       if (typeof details.blocked !== 'undefined') {
@@ -2475,8 +2592,6 @@ type WhatIsThis = import('./window.d').WhatIsThis;
 
       conversation.set({
         name: details.name,
-        color: details.color,
-        active_at: activeAt,
         inbox_position: details.inboxPosition,
       });
 
@@ -2521,19 +2636,22 @@ type WhatIsThis = import('./window.d').WhatIsThis;
 
       if (details.verified) {
         const { verified } = details;
-        const verifiedEvent = new Event('verified');
-        verifiedEvent.verified = {
-          state: verified.state,
-          destination: verified.destination,
-          destinationUuid: verified.destinationUuid,
-          identityKey: verified.identityKey.toArrayBuffer(),
-        };
-        (verifiedEvent as WhatIsThis).viaContactSync = true;
+        const verifiedEvent = new VerifiedEvent(
+          {
+            state: dropNull(verified.state),
+            destination: dropNull(verified.destination),
+            destinationUuid: dropNull(verified.destinationUuid),
+            identityKey: verified.identityKey
+              ? typedArrayToArrayBuffer(verified.identityKey)
+              : undefined,
+            viaContactSync: true,
+          },
+          noop
+        );
         await onVerified(verifiedEvent);
       }
 
-      const { appView } = window.owsDesktopApp;
-      if (appView && appView.installView && appView.installView.didLink) {
+      if (window.Signal.Util.postLinkExperience.isActive()) {
         window.log.info(
           'onContactReceived: Adding the message history disclaimer on link'
         );
@@ -2544,25 +2662,21 @@ type WhatIsThis = import('./window.d').WhatIsThis;
     }
   }
 
+  async function onGroupSyncComplete() {
+    window.log.info('onGroupSyncComplete');
+    await window.storage.put('synced_at', Date.now());
+  }
+
   // Note: this handler is only for v1 groups received via 'group sync' messages
-  async function onGroupReceived(ev: WhatIsThis) {
+  async function onGroupReceived(ev: GroupEvent) {
     const details = ev.groupDetails;
     const { id } = details;
-
-    const idBuffer = window.Signal.Crypto.fromEncodedBinaryToArrayBuffer(id);
-    const idBytes = idBuffer.byteLength;
-    if (idBytes !== 16) {
-      window.log.error(
-        `onGroupReceived: Id was ${idBytes} bytes, expected 16 bytes. Dropping group.`
-      );
-      return;
-    }
 
     const conversation = await window.ConversationController.getOrCreateAndWait(
       id,
       'group'
     );
-    if (conversation.isGroupV2()) {
+    if (isGroupV2(conversation.attributes)) {
       window.log.warn(
         'Got group sync for v2 group: ',
         conversation.idForLogging()
@@ -2570,28 +2684,20 @@ type WhatIsThis = import('./window.d').WhatIsThis;
       return;
     }
 
-    const memberConversations = details.membersE164.map((e164: WhatIsThis) =>
+    const memberConversations = details.membersE164.map(e164 =>
       window.ConversationController.getOrCreate(e164, 'private')
     );
 
-    const members = memberConversations.map((c: WhatIsThis) => c.get('id'));
+    const members = memberConversations.map(c => c.get('id'));
 
-    const updates = {
+    const updates: Partial<ConversationAttributesType> = {
       name: details.name,
       members,
-      color: details.color,
       type: 'group',
       inbox_position: details.inboxPosition,
-    } as WhatIsThis;
+    };
 
     if (details.active) {
-      const activeAt = conversation.get('active_at');
-
-      // The idea is to make any new group show up in the left pane. If
-      //   activeAt is null, then this group has been purposefully hidden.
-      if (activeAt !== null) {
-        updates.active_at = activeAt || Date.now();
-      }
       updates.left = false;
     } else {
       updates.left = true;
@@ -2622,8 +2728,7 @@ type WhatIsThis = import('./window.d').WhatIsThis;
 
     window.Signal.Data.updateConversation(conversation.attributes);
 
-    const { appView } = window.owsDesktopApp;
-    if (appView && appView.installView && appView.installView.didLink) {
+    if (window.Signal.Util.postLinkExperience.isActive()) {
       window.log.info(
         'onGroupReceived: Adding the message history disclaimer on link'
       );
@@ -2651,8 +2756,16 @@ type WhatIsThis = import('./window.d').WhatIsThis;
     data,
     confirm,
     messageDescriptor,
-  }: WhatIsThis) {
-    const profileKey = data.message.profileKey.toString('base64');
+  }: {
+    data: MessageEventData;
+    confirm: () => void;
+    messageDescriptor: MessageDescriptor;
+  }) {
+    const { profileKey } = data.message;
+    strictAssert(
+      profileKey !== undefined,
+      'handleMessageReceivedProfileUpdate: missing profileKey'
+    );
     const sender = window.ConversationController.get(messageDescriptor.id);
 
     if (sender) {
@@ -2663,10 +2776,47 @@ type WhatIsThis = import('./window.d').WhatIsThis;
     return confirm();
   }
 
+  const respondWithProfileKeyBatcher = createBatcher<ConversationModel>({
+    name: 'respondWithProfileKeyBatcher',
+    processBatch(batch) {
+      const deduped = new Set(batch);
+      deduped.forEach(async sender => {
+        try {
+          if (!(await shouldRespondWithProfileKey(sender))) {
+            return;
+          }
+        } catch (error) {
+          window.log.error(
+            'respondWithProfileKeyBatcher error',
+            error && error.stack
+          );
+        }
+
+        sender.queueJob('sendProfileKeyUpdate', () =>
+          sender.sendProfileKeyUpdate()
+        );
+      });
+    },
+
+    wait: 200,
+    maxSize: Infinity,
+  });
+
+  function onEnvelopeReceived({ envelope }: EnvelopeEvent) {
+    const ourUuid = window.textsecure.storage.user.getUuid();
+    if (envelope.sourceUuid && envelope.sourceUuid !== ourUuid) {
+      window.ConversationController.ensureContactIds({
+        e164: envelope.source,
+        uuid: envelope.sourceUuid,
+        highTrust: true,
+      });
+    }
+  }
+
   // Note: We do very little in this function, since everything in handleDataMessage is
   //   inside a conversation-specific queue(). Any code here might run before an earlier
   //   message is processed in handleDataMessage().
-  function onMessageReceived(event: WhatIsThis) {
+  function onMessageReceived(event: MessageEvent) {
     const { data, confirm } = event;
 
     const messageDescriptor = getMessageDescriptor({
@@ -2676,7 +2826,7 @@ type WhatIsThis = import('./window.d').WhatIsThis;
       destinationUuid: data.sourceUuid,
     });
 
-    const { PROFILE_KEY_UPDATE } = window.textsecure.protobuf.DataMessage.Flags;
+    const { PROFILE_KEY_UPDATE } = Proto.DataMessage.Flags;
     // eslint-disable-next-line no-bitwise
     const isProfileUpdate = Boolean(data.message.flags & PROFILE_KEY_UPDATE);
     if (isProfileUpdate) {
@@ -2689,23 +2839,47 @@ type WhatIsThis = import('./window.d').WhatIsThis;
 
     const message = initIncomingMessage(data, messageDescriptor);
 
+    if (
+      isIncoming(message.attributes) &&
+      !message.get('unidentifiedDeliveryReceived')
+    ) {
+      const sender = message.getContact();
+
+      if (!sender) {
+        throw new Error('MessageModel has no sender.');
+      }
+
+      profileKeyResponseQueue.add(() => {
+        respondWithProfileKeyBatcher.add(sender);
+      });
+    }
+
     if (data.message.reaction) {
-      window.normalizeUuids(
-        data.message.reaction,
-        ['targetAuthorUuid'],
-        'background::onMessageReceived'
+      strictAssert(
+        data.message.reaction.targetAuthorUuid,
+        'Reaction without targetAuthorUuid'
+      );
+      const targetAuthorUuid = normalizeUuid(
+        data.message.reaction.targetAuthorUuid,
+        'DataMessage.Reaction.targetAuthorUuid'
       );
 
       const { reaction } = data.message;
+
+      if (!isValidReactionEmoji(reaction.emoji)) {
+        window.log.warn('Received an invalid reaction emoji. Dropping it');
+        confirm();
+        return Promise.resolve();
+      }
+
       window.log.info(
         'Queuing incoming reaction for',
         reaction.targetTimestamp
       );
-      const reactionModel = window.Whisper.Reactions.add({
+      const reactionModel = Reactions.getSingleton().add({
         emoji: reaction.emoji,
         remove: reaction.remove,
-        targetAuthorE164: reaction.targetAuthorE164,
-        targetAuthorUuid: reaction.targetAuthorUuid,
+        targetAuthorUuid,
         targetTimestamp: reaction.targetTimestamp,
         timestamp: Date.now(),
         fromId: window.ConversationController.ensureContactIds({
@@ -2714,7 +2888,7 @@ type WhatIsThis = import('./window.d').WhatIsThis;
         }),
       });
       // Note: We do not wait for completion here
-      window.Whisper.Reactions.onReaction(reactionModel);
+      Reactions.getSingleton().onReaction(reactionModel);
       confirm();
       return Promise.resolve();
     }
@@ -2722,7 +2896,7 @@ type WhatIsThis = import('./window.d').WhatIsThis;
     if (data.message.delete) {
       const { delete: del } = data.message;
       window.log.info('Queuing incoming DOE for', del.targetSentTimestamp);
-      const deleteModel = window.Whisper.Deletes.add({
+      const deleteModel = Deletes.getSingleton().add({
         targetSentTimestamp: del.targetSentTimestamp,
         serverTimestamp: data.serverTimestamp,
         fromId: window.ConversationController.ensureContactIds({
@@ -2731,7 +2905,7 @@ type WhatIsThis = import('./window.d').WhatIsThis;
         }),
       });
       // Note: We do not wait for completion here
-      window.Whisper.Deletes.onDelete(deleteModel);
+      Deletes.getSingleton().onDelete(deleteModel);
       confirm();
       return Promise.resolve();
     }
@@ -2746,7 +2920,7 @@ type WhatIsThis = import('./window.d').WhatIsThis;
     return Promise.resolve();
   }
 
-  async function onProfileKeyUpdate({ data, confirm }: WhatIsThis) {
+  async function onProfileKeyUpdate({ data, confirm }: ProfileKeyUpdateEvent) {
     const conversationId = window.ConversationController.ensureContactIds({
       e164: data.source,
       uuid: data.sourceUuid,
@@ -2788,7 +2962,11 @@ type WhatIsThis = import('./window.d').WhatIsThis;
     data,
     confirm,
     messageDescriptor,
-  }: WhatIsThis) {
+  }: {
+    data: SentEventData;
+    confirm: () => void;
+    messageDescriptor: MessageDescriptor;
+  }) {
     // First set profileSharing = true for the conversation we sent to
     const { id } = messageDescriptor;
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -2801,7 +2979,11 @@ type WhatIsThis = import('./window.d').WhatIsThis;
     const ourId = window.ConversationController.getOurConversationId();
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const me = window.ConversationController.get(ourId)!;
-    const profileKey = data.message.profileKey.toString('base64');
+    const { profileKey } = data.message;
+    strictAssert(
+      profileKey !== undefined,
+      'handleMessageSentProfileUpdate: missing profileKey'
+    );
 
     // Will do the save for us if needed
     await me.setProfileKey(profileKey);
@@ -2809,40 +2991,72 @@ type WhatIsThis = import('./window.d').WhatIsThis;
     return confirm();
   }
 
-  function createSentMessage(data: WhatIsThis, descriptor: WhatIsThis) {
+  function createSentMessage(
+    data: SentEventData,
+    descriptor: MessageDescriptor
+  ) {
     const now = Date.now();
-    let sentTo = [];
+    const timestamp = data.timestamp || now;
 
-    if (data.unidentifiedStatus && data.unidentifiedStatus.length) {
-      sentTo = data.unidentifiedStatus.map(
-        (item: WhatIsThis) => item.destinationUuid || item.destination
-      );
-      const unidentified = _.filter(data.unidentifiedStatus, item =>
+    const ourId = window.ConversationController.getOurConversationIdOrThrow();
+
+    const { unidentifiedStatus = [] } = data;
+
+    const sendStateByConversationId: SendStateByConversationId = unidentifiedStatus.reduce(
+      (result: SendStateByConversationId, { destinationUuid, destination }) => {
+        const conversationId = window.ConversationController.ensureContactIds({
+          uuid: destinationUuid,
+          e164: destination,
+          highTrust: true,
+        });
+        if (!conversationId || conversationId === ourId) {
+          return result;
+        }
+
+        return {
+          ...result,
+          [conversationId]: {
+            status: SendStatus.Sent,
+            updatedAt: timestamp,
+          },
+        };
+      },
+      {
+        [ourId]: {
+          status: SendStatus.Sent,
+          updatedAt: timestamp,
+        },
+      }
+    );
+
+    let unidentifiedDeliveries: Array<string> = [];
+    if (unidentifiedStatus.length) {
+      const unidentified = window._.filter(data.unidentifiedStatus, item =>
         Boolean(item.unidentified)
       );
-      // eslint-disable-next-line no-param-reassign
-      data.unidentifiedDeliveries = unidentified.map(
-        item => item.destinationUuid || item.destination
-      );
+      unidentifiedDeliveries = unidentified
+        .map(item => item.destinationUuid || item.destination)
+        .filter(isNotNil);
     }
 
-    return new window.Whisper.Message({
+    return new window.Whisper.Message(({
       source: window.textsecure.storage.user.getNumber(),
       sourceUuid: window.textsecure.storage.user.getUuid(),
       sourceDevice: data.device,
-      sent_at: data.timestamp,
+      sent_at: timestamp,
       serverTimestamp: data.serverTimestamp,
-      sent_to: sentTo,
-      received_at: now,
+      received_at: data.receivedAtCounter,
+      received_at_ms: data.receivedAtDate,
       conversationId: descriptor.id,
+      timestamp,
       type: 'outgoing',
-      sent: true,
-      unidentifiedDeliveries: data.unidentifiedDeliveries || [],
+      sendStateByConversationId,
+      unidentifiedDeliveries,
       expirationStartTimestamp: Math.min(
-        data.expirationStartTimestamp || data.timestamp || Date.now(),
-        Date.now()
+        data.expirationStartTimestamp || timestamp,
+        now
       ),
-    } as WhatIsThis);
+    } as Partial<MessageAttributesType>) as WhatIsThis);
   }
 
   // Works with 'sent' and 'message' data sent from MessageReceiver, with a little massage
@@ -2854,11 +3068,11 @@ type WhatIsThis = import('./window.d').WhatIsThis;
     destination,
     destinationUuid,
   }: {
-    message: DataMessageClass;
-    source: string;
-    sourceUuid: string;
-    destination: string;
-    destinationUuid: string;
+    message: ProcessedDataMessage;
+    source?: string;
+    sourceUuid?: string;
+    destination?: string;
+    destinationUuid?: string;
   }): MessageDescriptor => {
     if (message.groupV2) {
       const { id } = message.groupV2;
@@ -2886,9 +3100,6 @@ type WhatIsThis = import('./window.d').WhatIsThis;
 
       // Finally create the V2 group normally
       const conversationId = window.ConversationController.ensureGroup(id, {
-        // Note: We don't set active_at, because we don't want the group to show until
-        //   we have information about it beyond these initial details.
-        //   see maybeUpdateGroup().
         groupVersion: 2,
         masterKey: message.groupV2.masterKey,
         secretParams: message.groupV2.secretParams,
@@ -2959,17 +3170,22 @@ type WhatIsThis = import('./window.d').WhatIsThis;
   // Note: We do very little in this function, since everything in handleDataMessage is
   //   inside a conversation-specific queue(). Any code here might run before an earlier
   //   message is processed in handleDataMessage().
-  function onSentMessage(event: WhatIsThis) {
+  function onSentMessage(event: SentEvent) {
     const { data, confirm } = event;
+
+    const source = window.textsecure.storage.user.getNumber();
+    const sourceUuid = window.textsecure.storage.user.getUuid();
+    strictAssert(source && sourceUuid, 'Missing user number and uuid');
 
     const messageDescriptor = getMessageDescriptor({
       ...data,
+
       // 'sent' event: the sender is always us!
-      source: window.textsecure.storage.user.getNumber(),
-      sourceUuid: window.textsecure.storage.user.getUuid(),
+      source,
+      sourceUuid,
     });
 
-    const { PROFILE_KEY_UPDATE } = window.textsecure.protobuf.DataMessage.Flags;
+    const { PROFILE_KEY_UPDATE } = Proto.DataMessage.Flags;
     // eslint-disable-next-line no-bitwise
     const isProfileUpdate = Boolean(data.message.flags & PROFILE_KEY_UPDATE);
     if (isProfileUpdate) {
@@ -2983,26 +3199,35 @@ type WhatIsThis = import('./window.d').WhatIsThis;
     const message = createSentMessage(data, messageDescriptor);
 
     if (data.message.reaction) {
-      window.normalizeUuids(
-        data.message.reaction,
-        ['targetAuthorUuid'],
-        'background::onSentMessage'
+      strictAssert(
+        data.message.reaction.targetAuthorUuid,
+        'Reaction without targetAuthorUuid'
+      );
+      const targetAuthorUuid = normalizeUuid(
+        data.message.reaction.targetAuthorUuid,
+        'DataMessage.Reaction.targetAuthorUuid'
       );
 
       const { reaction } = data.message;
+
+      if (!isValidReactionEmoji(reaction.emoji)) {
+        window.log.warn('Received an invalid reaction emoji. Dropping it');
+        event.confirm();
+        return Promise.resolve();
+      }
+
       window.log.info('Queuing sent reaction for', reaction.targetTimestamp);
-      const reactionModel = window.Whisper.Reactions.add({
+      const reactionModel = Reactions.getSingleton().add({
         emoji: reaction.emoji,
         remove: reaction.remove,
-        targetAuthorE164: reaction.targetAuthorE164,
-        targetAuthorUuid: reaction.targetAuthorUuid,
+        targetAuthorUuid,
         targetTimestamp: reaction.targetTimestamp,
         timestamp: Date.now(),
         fromId: window.ConversationController.getOurConversationId(),
         fromSync: true,
       });
       // Note: We do not wait for completion here
-      window.Whisper.Reactions.onReaction(reactionModel);
+      Reactions.getSingleton().onReaction(reactionModel);
 
       event.confirm();
       return Promise.resolve();
@@ -3011,18 +3236,19 @@ type WhatIsThis = import('./window.d').WhatIsThis;
     if (data.message.delete) {
       const { delete: del } = data.message;
       window.log.info('Queuing sent DOE for', del.targetSentTimestamp);
-      const deleteModel = window.Whisper.Deletes.add({
+      const deleteModel = Deletes.getSingleton().add({
         targetSentTimestamp: del.targetSentTimestamp,
-        serverTimestamp: del.serverTimestamp,
+        serverTimestamp: data.serverTimestamp,
         fromId: window.ConversationController.getOurConversationId(),
       });
       // Note: We do not wait for completion here
-      window.Whisper.Deletes.onDelete(deleteModel);
+      Deletes.getSingleton().onDelete(deleteModel);
       confirm();
       return Promise.resolve();
     }
 
     if (handleGroupCallUpdateMessage(data.message, messageDescriptor)) {
+      event.confirm();
       return Promise.resolve();
     }
 
@@ -3040,35 +3266,40 @@ type WhatIsThis = import('./window.d').WhatIsThis;
   };
 
   function initIncomingMessage(
-    data: WhatIsThis,
+    data: MessageEventData,
     descriptor: MessageDescriptor
   ) {
-    return new window.Whisper.Message({
+    assert(
+      Boolean(data.receivedAtCounter),
+      `Did not receive receivedAtCounter for message: ${data.timestamp}`
+    );
+    return new window.Whisper.Message(({
       source: data.source,
       sourceUuid: data.sourceUuid,
       sourceDevice: data.sourceDevice,
       sent_at: data.timestamp,
+      serverGuid: data.serverGuid,
       serverTimestamp: data.serverTimestamp,
-      received_at: Date.now(),
+      received_at: data.receivedAtCounter,
+      received_at_ms: data.receivedAtDate,
       conversationId: descriptor.id,
       unidentifiedDeliveryReceived: data.unidentifiedDeliveryReceived,
       type: 'incoming',
-      unread: 1,
-    } as WhatIsThis);
+      readStatus: ReadStatus.Unread,
+      timestamp: data.timestamp,
+    } as Partial<MessageAttributesType>) as WhatIsThis);
   }
 
   // Returns `false` if this message isn't a group call message.
   function handleGroupCallUpdateMessage(
-    message: DataMessageClass,
+    message: ProcessedDataMessage,
     messageDescriptor: MessageDescriptor
   ): boolean {
     if (message.groupCallUpdate) {
       if (message.groupV2 && messageDescriptor.type === Message.GROUP) {
-        if (window.isGroupCallingEnabled()) {
-          window.reduxActions.calling.peekNotConnectedGroupCall({
-            conversationId: messageDescriptor.id,
-          });
-        }
+        window.reduxActions.calling.peekNotConnectedGroupCall({
+          conversationId: messageDescriptor.id,
+        });
         return true;
       }
       window.log.warn(
@@ -3082,12 +3313,10 @@ type WhatIsThis = import('./window.d').WhatIsThis;
     window.Whisper.events.trigger('unauthorized');
 
     if (messageReceiver) {
+      strictAssert(server !== undefined, 'WebAPI not initialized');
+      server.unregisterRequestHandler(messageReceiver);
       await messageReceiver.stopProcessing();
-
       await window.waitForAllBatchers();
-      messageReceiver.unregisterBatchers();
-
-      messageReceiver = null;
     }
 
     onEmpty();
@@ -3098,11 +3327,13 @@ type WhatIsThis = import('./window.d').WhatIsThis;
     window.Signal.Util.Registration.remove();
 
     const NUMBER_ID_KEY = 'number_id';
+    const UUID_ID_KEY = 'uuid_id';
     const VERSION_KEY = 'version';
     const LAST_PROCESSED_INDEX_KEY = 'attachmentMigration_lastProcessedIndex';
     const IS_MIGRATION_COMPLETE_KEY = 'attachmentMigration_isComplete';
 
     const previousNumberId = window.textsecure.storage.get(NUMBER_ID_KEY);
+    const previousUuidId = window.textsecure.storage.get(UUID_ID_KEY);
     const lastProcessedIndex = window.textsecure.storage.get(
       LAST_PROCESSED_INDEX_KEY
     );
@@ -3113,10 +3344,21 @@ type WhatIsThis = import('./window.d').WhatIsThis;
     try {
       await window.textsecure.storage.protocol.removeAllConfiguration();
 
+      // This was already done in the database with removeAllConfiguration; this does it
+      //   for all the conversation models in memory.
+      window.getConversations().forEach(conversation => {
+        // eslint-disable-next-line no-param-reassign
+        delete conversation.attributes.senderKeyInfo;
+      });
+
       // These two bits of data are important to ensure that the app loads up
       //   the conversation list, instead of showing just the QR code screen.
-      window.Signal.Util.Registration.markEverDone();
-      await window.textsecure.storage.put(NUMBER_ID_KEY, previousNumberId);
+      if (previousNumberId !== undefined) {
+        await window.textsecure.storage.put(NUMBER_ID_KEY, previousNumberId);
+      }
+      if (previousUuidId !== undefined) {
+        await window.textsecure.storage.put(UUID_ID_KEY, previousUuidId);
+      }
 
       // These two are important to ensure we don't rip through every message
       //   in the database attempting to upgrade it after starting up again.
@@ -3124,10 +3366,14 @@ type WhatIsThis = import('./window.d').WhatIsThis;
         IS_MIGRATION_COMPLETE_KEY,
         isMigrationComplete || false
       );
-      await window.textsecure.storage.put(
-        LAST_PROCESSED_INDEX_KEY,
-        lastProcessedIndex || null
-      );
+      if (lastProcessedIndex !== undefined) {
+        await window.textsecure.storage.put(
+          LAST_PROCESSED_INDEX_KEY,
+          lastProcessedIndex
+        );
+      } else {
+        await window.textsecure.storage.remove(LAST_PROCESSED_INDEX_KEY);
+      }
       await window.textsecure.storage.put(VERSION_KEY, window.getVersion());
 
       window.log.info('Successfully cleared local configuration');
@@ -3136,10 +3382,12 @@ type WhatIsThis = import('./window.d').WhatIsThis;
         'Something went wrong clearing local configuration',
         eraseError && eraseError.stack ? eraseError.stack : eraseError
       );
+    } finally {
+      window.Signal.Util.Registration.markEverDone();
     }
   }
 
-  function onError(ev: WhatIsThis) {
+  function onError(ev: ErrorEvent) {
     const { error } = ev;
     window.log.error('background onError:', Errors.toLogFormat(error));
 
@@ -3148,7 +3396,8 @@ type WhatIsThis = import('./window.d').WhatIsThis;
       error.name === 'HTTPError' &&
       (error.code === 401 || error.code === 403)
     ) {
-      return unlinkAndDisconnect();
+      unlinkAndDisconnect();
+      return;
     }
 
     if (
@@ -3158,136 +3407,52 @@ type WhatIsThis = import('./window.d').WhatIsThis;
     ) {
       // Failed to connect to server
       if (navigator.onLine) {
-        window.log.info('retrying in 1 minute');
-        reconnectTimer = setTimeout(connect, 60000);
+        const timeout = reconnectBackOff.getAndIncrement();
+
+        window.log.info(`retrying in ${timeout}ms`);
+        reconnectTimer = setTimeout(connect, timeout);
 
         window.Whisper.events.trigger('reconnectTimer');
+
+        // If we couldn't connect during startup - we should still switch SQL to
+        // the main process to avoid stalling UI.
+        window.sqlInitializer.goBackToMainProcess();
       }
-      return Promise.resolve();
+      return;
     }
 
-    if (ev.proto) {
-      if (error && error.name === 'MessageCounterError') {
-        if (ev.confirm) {
-          ev.confirm();
-        }
-        // Ignore this message. It is likely a duplicate delivery
-        // because the server lost our ack the first time.
-        return Promise.resolve();
-      }
-      const envelope = ev.proto;
-      const id = window.ConversationController.ensureContactIds({
-        e164: envelope.source,
-        uuid: envelope.sourceUuid,
-      });
-      if (!id) {
-        throw new Error('onError: ensureContactIds returned falsey id!');
-      }
-      const message = initIncomingMessage(envelope, {
-        type: Message.PRIVATE,
-        id,
-      });
-
-      const conversationId = message.get('conversationId');
-      const conversation = window.ConversationController.get(conversationId);
-
-      if (!conversation) {
-        window.log.warn(
-          'onError: No conversation id, cannot save error bubble'
-        );
-        ev.confirm();
-        return Promise.resolve();
-      }
-
-      // This matches the queueing behavior used in Message.handleDataMessage
-      conversation.queueJob(async () => {
-        const existingMessage = await window.Signal.Data.getMessageBySender(
-          message.attributes,
-          {
-            Message: window.Whisper.Message,
-          }
-        );
-        if (existingMessage) {
-          ev.confirm();
-          window.log.warn(
-            `Got duplicate error for message ${message.idForLogging()}`
-          );
-          return;
-        }
-
-        const model = new window.Whisper.Message({
-          ...message.attributes,
-          id: window.getGuid(),
-        });
-        await model.saveErrors(error || new Error('Error was null'), {
-          skipSave: true,
-        });
-
-        window.MessageController.register(model.id, model);
-        await window.Signal.Data.saveMessage(model.attributes, {
-          Message: window.Whisper.Message,
-          forceSave: true,
-        });
-
-        conversation.set({
-          active_at: Date.now(),
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          unreadCount: conversation.get('unreadCount')! + 1,
-        });
-
-        const conversationTimestamp = conversation.get('timestamp');
-        const messageTimestamp = model.get('timestamp');
-        if (
-          !conversationTimestamp ||
-          messageTimestamp > conversationTimestamp
-        ) {
-          conversation.set({ timestamp: model.get('sent_at') });
-        }
-
-        conversation.trigger('newmessage', model);
-        conversation.notify(model);
-
-        window.Whisper.events.trigger('incrementProgress');
-
-        if (ev.confirm) {
-          ev.confirm();
-        }
-
-        window.Signal.Data.updateConversation(conversation.attributes);
-      });
-    }
-
-    throw error;
+    window.log.warn('background onError: Doing nothing with incoming error');
   }
 
-  async function onViewSync(ev: WhatIsThis) {
+  async function onViewOnceOpenSync(ev: ViewOnceOpenSyncEvent) {
     ev.confirm();
 
     const { source, sourceUuid, timestamp } = ev;
-    window.log.info(`view sync ${source} ${timestamp}`);
+    window.log.info(`view once open sync ${source} ${timestamp}`);
 
-    const sync = window.Whisper.ViewSyncs.add({
+    const sync = ViewOnceOpenSyncs.getSingleton().add({
       source,
       sourceUuid,
       timestamp,
     });
 
-    window.Whisper.ViewSyncs.onSync(sync);
+    ViewOnceOpenSyncs.getSingleton().onSync(sync);
   }
 
-  async function onFetchLatestSync(ev: WhatIsThis) {
+  async function onFetchLatestSync(ev: FetchLatestEvent) {
     ev.confirm();
 
     const { eventType } = ev;
 
-    const FETCH_LATEST_ENUM =
-      window.textsecure.protobuf.SyncMessage.FetchLatest.Type;
+    const FETCH_LATEST_ENUM = Proto.SyncMessage.FetchLatest.Type;
 
     switch (eventType) {
-      case FETCH_LATEST_ENUM.LOCAL_PROFILE:
-        // Intentionally do nothing since we'll be receiving the
-        // window.storage manifest request and will update local profile along with that.
+      case FETCH_LATEST_ENUM.LOCAL_PROFILE: {
+        const ourUuid = window.textsecure.storage.user.getUuid();
+        const ourE164 = window.textsecure.storage.user.getNumber();
+        await getProfile(ourUuid, ourE164);
         break;
+      }
       case FETCH_LATEST_ENUM.STORAGE_MANIFEST:
         window.log.info('onFetchLatestSync: fetching latest manifest');
         await window.Signal.Services.runStorageServiceSyncJob();
@@ -3299,7 +3464,7 @@ type WhatIsThis = import('./window.d').WhatIsThis;
     }
   }
 
-  async function onKeysSync(ev: WhatIsThis) {
+  async function onKeysSync(ev: KeysEvent) {
     ev.confirm();
 
     const { storageServiceKey } = ev;
@@ -3320,7 +3485,7 @@ type WhatIsThis = import('./window.d').WhatIsThis;
     }
   }
 
-  async function onMessageRequestResponse(ev: WhatIsThis) {
+  async function onMessageRequestResponse(ev: MessageRequestResponseEvent) {
     ev.confirm();
 
     const {
@@ -3339,7 +3504,7 @@ type WhatIsThis = import('./window.d').WhatIsThis;
       messageRequestResponseType,
     });
 
-    const sync = window.Whisper.MessageRequests.add({
+    const sync = MessageRequests.getSingleton().add({
       threadE164,
       threadUuid,
       groupId,
@@ -3347,46 +3512,80 @@ type WhatIsThis = import('./window.d').WhatIsThis;
       type: messageRequestResponseType,
     });
 
-    window.Whisper.MessageRequests.onResponse(sync);
+    MessageRequests.getSingleton().onResponse(sync);
   }
 
-  function onReadReceipt(ev: WhatIsThis) {
-    const readAt = ev.timestamp;
-    const { envelopeTimestamp, timestamp, source, sourceUuid } = ev.read;
-    const reader = window.ConversationController.ensureContactIds({
-      e164: source,
-      uuid: sourceUuid,
-      highTrust: true,
+  function onReadReceipt(event: Readonly<ReadEvent>) {
+    onReadOrViewReceipt({
+      logTitle: 'read receipt',
+      event,
+      type: MessageReceiptType.Read,
     });
-    window.log.info(
-      'read receipt',
+  }
+
+  function onViewReceipt(event: Readonly<ViewEvent>): void {
+    onReadOrViewReceipt({
+      logTitle: 'view receipt',
+      event,
+      type: MessageReceiptType.View,
+    });
+  }
+
+  function onReadOrViewReceipt({
+    event,
+    logTitle,
+    type,
+  }: Readonly<{
+    event: ReadEvent | ViewEvent;
+    logTitle: string;
+    type: MessageReceiptType.Read | MessageReceiptType.View;
+  }>): void {
+    const {
+      envelopeTimestamp,
+      timestamp,
       source,
       sourceUuid,
+      sourceDevice,
+    } = event.receipt;
+    const sourceConversationId = window.ConversationController.ensureContactIds(
+      {
+        e164: source,
+        uuid: sourceUuid,
+        highTrust: true,
+      }
+    );
+    window.log.info(
+      logTitle,
+      source,
+      sourceUuid,
+      sourceDevice,
       envelopeTimestamp,
-      reader,
+      sourceConversationId,
       'for sent message',
       timestamp
     );
 
-    ev.confirm();
+    event.confirm();
 
-    if (!window.storage.get('read-receipt-setting') || !reader) {
+    if (!window.storage.get('read-receipt-setting') || !sourceConversationId) {
       return;
     }
 
-    const receipt = window.Whisper.ReadReceipts.add({
-      reader,
-      timestamp,
-      read_at: readAt,
+    const receipt = MessageReceipts.getSingleton().add({
+      messageSentAt: timestamp,
+      receiptTimestamp: envelopeTimestamp,
+      sourceConversationId,
+      sourceDevice,
+      type,
     });
 
     // Note: We do not wait for completion here
-    window.Whisper.ReadReceipts.onReceipt(receipt);
+    MessageReceipts.getSingleton().onReceipt(receipt);
   }
 
-  function onReadSync(ev: WhatIsThis) {
-    const readAt = ev.timestamp;
+  function onReadSync(ev: ReadSyncEvent) {
     const { envelopeTimestamp, sender, senderUuid, timestamp } = ev.read;
+    const readAt = envelopeTimestamp;
     const senderId = window.ConversationController.ensureContactIds({
       e164: sender,
       uuid: senderUuid,
@@ -3402,22 +3601,54 @@ type WhatIsThis = import('./window.d').WhatIsThis;
       timestamp
     );
 
-    const receipt = window.Whisper.ReadSyncs.add({
+    const receipt = ReadSyncs.getSingleton().add({
       senderId,
       sender,
       senderUuid,
       timestamp,
-      read_at: readAt,
+      readAt,
     });
 
     receipt.on('remove', ev.confirm);
 
     // Note: Here we wait, because we want read states to be in the database
     //   before we move on.
-    return window.Whisper.ReadSyncs.onReceipt(receipt);
+    return ReadSyncs.getSingleton().onSync(receipt);
   }
 
-  async function onVerified(ev: WhatIsThis) {
+  function onViewSync(ev: ViewSyncEvent) {
+    const { envelopeTimestamp, senderE164, senderUuid, timestamp } = ev.view;
+    const senderId = window.ConversationController.ensureContactIds({
+      e164: senderE164,
+      uuid: senderUuid,
+    });
+
+    window.log.info(
+      'view sync',
+      senderE164,
+      senderUuid,
+      envelopeTimestamp,
+      senderId,
+      'for message',
+      timestamp
+    );
+
+    const receipt = ViewSyncs.getSingleton().add({
+      senderId,
+      senderE164,
+      senderUuid,
+      timestamp,
+      viewedAt: envelopeTimestamp,
+    });
+
+    receipt.on('remove', ev.confirm);
+
+    // Note: Here we wait, because we want viewed states to be in the database
+    //   before we move on.
+    return ViewSyncs.getSingleton().onSync(receipt);
+  }
+
+  async function onVerified(ev: VerifiedEvent) {
     const e164 = ev.verified.destination;
     const uuid = ev.verified.destinationUuid;
     const key = ev.verified.identityKey;
@@ -3427,30 +3658,30 @@ type WhatIsThis = import('./window.d').WhatIsThis;
       ev.confirm();
     }
 
-    const c = new window.Whisper.Conversation({
+    const c = new window.Whisper.Conversation(({
       e164,
       uuid,
       type: 'private',
-    } as WhatIsThis);
+    } as Partial<ConversationAttributesType>) as WhatIsThis);
     const error = c.validate();
     if (error) {
       window.log.error(
         'Invalid verified sync received:',
         e164,
         uuid,
-        Errors.toLogFormat(error as WhatIsThis)
+        Errors.toLogFormat(error)
       );
       return;
     }
 
     switch (ev.verified.state) {
-      case window.textsecure.protobuf.Verified.State.DEFAULT:
+      case Proto.Verified.State.DEFAULT:
         state = 'DEFAULT';
         break;
-      case window.textsecure.protobuf.Verified.State.VERIFIED:
+      case Proto.Verified.State.VERIFIED:
         state = 'VERIFIED';
         break;
-      case window.textsecure.protobuf.Verified.State.UNVERIFIED:
+      case Proto.Verified.State.UNVERIFIED:
         state = 'UNVERIFIED';
         break;
       default:
@@ -3462,7 +3693,7 @@ type WhatIsThis = import('./window.d').WhatIsThis;
       e164,
       uuid,
       state,
-      ev.viaContactSync ? 'via contact sync' : ''
+      ev.verified.viaContactSync ? 'via contact sync' : ''
     );
 
     const verifiedId = window.ConversationController.ensureContactIds({
@@ -3474,7 +3705,7 @@ type WhatIsThis = import('./window.d').WhatIsThis;
     const contact = window.ConversationController.get(verifiedId)!;
     const options = {
       viaSyncMessage: true,
-      viaContactSync: ev.viaContactSync,
+      viaContactSync: ev.verified.viaContactSync,
       key,
     };
 
@@ -3487,7 +3718,7 @@ type WhatIsThis = import('./window.d').WhatIsThis;
     }
   }
 
-  function onDeliveryReceipt(ev: WhatIsThis) {
+  function onDeliveryReceipt(ev: DeliveryEvent) {
     const { deliveryReceipt } = ev;
     const {
       envelopeTimestamp,
@@ -3499,34 +3730,41 @@ type WhatIsThis = import('./window.d').WhatIsThis;
 
     ev.confirm();
 
-    const deliveredTo = window.ConversationController.ensureContactIds({
-      e164: source,
-      uuid: sourceUuid,
-      highTrust: true,
-    });
+    const sourceConversationId = window.ConversationController.ensureContactIds(
+      {
+        e164: source,
+        uuid: sourceUuid,
+        highTrust: true,
+      }
+    );
 
     window.log.info(
       'delivery receipt from',
       source,
       sourceUuid,
       sourceDevice,
-      deliveredTo,
+      sourceConversationId,
       envelopeTimestamp,
       'for sent message',
       timestamp
     );
 
-    if (!deliveredTo) {
+    if (!sourceConversationId) {
       window.log.info('no conversation for', source, sourceUuid);
       return;
     }
 
-    const receipt = window.Whisper.DeliveryReceipts.add({
-      timestamp,
-      deliveredTo,
+    const receipt = MessageReceipts.getSingleton().add({
+      messageSentAt: timestamp,
+      receiptTimestamp: envelopeTimestamp,
+      sourceConversationId,
+      sourceDevice,
+      type: MessageReceiptType.Delivery,
     });
 
     // Note: We don't wait for completion here
-    window.Whisper.DeliveryReceipts.onReceipt(receipt);
+    MessageReceipts.getSingleton().onReceipt(receipt);
   }
-})();
+}
+
+window.startApp = startApp;

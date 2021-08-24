@@ -4,7 +4,6 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable camelcase */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-/* eslint-disable no-await-in-loop */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -12,40 +11,60 @@
 import { join } from 'path';
 import mkdirp from 'mkdirp';
 import rimraf from 'rimraf';
-import PQueue from 'p-queue';
-import sql from '@journeyapps/sqlcipher';
-import { app, clipboard, dialog } from 'electron';
+import SQL, { Database, Statement } from 'better-sqlite3';
+import pProps from 'p-props';
 
-import pify from 'pify';
 import { v4 as generateUUID } from 'uuid';
 import {
   Dictionary,
   forEach,
   fromPairs,
+  isNil,
   isNumber,
-  isObject,
   isString,
   keyBy,
   last,
   map,
+  mapValues,
+  omit,
   pick,
 } from 'lodash';
 
-import { redactAll } from '../../js/modules/privacy';
-import { remove as removeUserConfig } from '../../app/user_config';
-import { combineNames } from '../util/combineNames';
-
+import { ReadStatus } from '../messages/MessageReadStatus';
 import { GroupV2MemberType } from '../model-types.d';
-import { LocaleMessagesType } from '../types/I18N';
+import { ReactionType } from '../types/Reactions';
+import { StoredJob } from '../jobs/types';
+import { assert } from '../util/assert';
+import { combineNames } from '../util/combineNames';
+import { dropNull } from '../util/dropNull';
+import { isNormalNumber } from '../util/isNormalNumber';
+import { isNotNil } from '../util/isNotNil';
+import { parseIntOrThrow } from '../util/parseIntOrThrow';
+import { formatCountForLogging } from '../logging/formatCountForLogging';
+import { ConversationColorType, CustomColorType } from '../types/Colors';
 
 import {
+  AllItemsType,
   AttachmentDownloadJobType,
+  ConversationMetricsType,
   ConversationType,
+  EmojiType,
   IdentityKeyType,
+  ItemKeyType,
   ItemType,
+  LastConversationMessagesServerType,
+  MessageMetricsType,
   MessageType,
+  MessageTypeUnhydrated,
   PreKeyType,
   SearchResultMessageType,
+  SenderKeyType,
+  SentMessageDBType,
+  SentMessagesType,
+  SentProtoType,
+  SentProtoWithMessageIdsType,
+  SentRecipientsDBType,
+  SentRecipientsType,
   ServerInterface,
   SessionType,
   SignedPreKeyType,
@@ -53,15 +72,32 @@ import {
   StickerPackType,
   StickerType,
   UnprocessedType,
+  UnprocessedUpdateType,
 } from './Interface';
 
-declare global {
-  // We want to extend `Function`'s properties, so we need to use an interface.
-  // eslint-disable-next-line no-restricted-syntax
-  interface Function {
-    needsSerial?: boolean;
-  }
-}
+type JSONRows = Array<{ readonly json: string }>;
+type ConversationRow = Readonly<{
+  json: string;
+  profileLastFetchedAt: null | number;
+}>;
+type ConversationRows = Array<ConversationRow>;
+type StickerRow = Readonly<{
+  id: number;
+  packId: string;
+  emoji: string | null;
+  height: number;
+  isCoverOnly: number;
+  lastUsed: number;
+  path: string;
+  width: number;
+}>;
+
+type EmptyQuery = [];
+type ArrayQuery = Array<Array<null | number | string>>;
+type Query = { [key: string]: null | number | string | Buffer };
+
+// This value needs to be below SQLITE_MAX_VARIABLE_NUMBER.
+const MAX_VARIABLE_COUNT = 100;
 
 // Because we can't force this module to conform to an interface, we narrow our exports
 //   to this one default export, which does conform to the interface.
@@ -96,14 +132,29 @@ const dataInterface: ServerInterface = {
   createOrUpdateItem,
   getItemById,
   getAllItems,
-  bulkAddItems,
   removeItemById,
   removeAllItems,
 
+  createOrUpdateSenderKey,
+  getSenderKeyById,
+  removeAllSenderKeys,
+  getAllSenderKeys,
+  removeSenderKeyById,
+
+  insertSentProto,
+  deleteSentProtosOlderThan,
+  deleteSentProtoByMessageId,
+  insertProtoRecipients,
+  deleteSentProtoRecipient,
+  getSentProtoByRecipient,
+  removeAllSentProtos,
+  getAllSentProtos,
+  _getAllSentProtoRecipients,
+  _getAllSentProtoMessageIds,
+
   createOrUpdateSession,
   createOrUpdateSessions,
-  getSessionById,
-  getSessionsById,
+  commitSessionsAndUnprocessed,
   bulkAddSessions,
   removeSessionById,
   removeSessionsByConversation,
@@ -122,6 +173,7 @@ const dataInterface: ServerInterface = {
   getAllConversationIds,
   getAllPrivateConversations,
   getAllGroupsInvolvingId,
+  updateAllConversationColors,
 
   searchConversations,
   searchMessages,
@@ -132,33 +184,35 @@ const dataInterface: ServerInterface = {
   saveMessages,
   removeMessage,
   removeMessages,
-  getUnreadByConversation,
+  getUnreadCountForConversation,
+  getUnreadByConversationAndMarkRead,
+  getUnreadReactionsAndMarkRead,
+  markReactionAsRead,
+  addReaction,
+  removeReactionFromConversation,
   getMessageBySender,
   getMessageById,
   _getAllMessages,
   getAllMessageIds,
   getMessagesBySentAt,
   getExpiredMessages,
-  getOutgoingWithoutExpiresAt,
-  getNextExpiringMessage,
-  getNextTapToViewMessageToAgeOut,
+  getMessagesUnexpectedlyMissingExpirationStartTimestamp,
+  getSoonestMessageExpiry,
+  getNextTapToViewMessageTimestampToAgeOut,
   getTapToViewMessagesNeedingErase,
   getOlderMessagesByConversation,
   getNewerMessagesByConversation,
   getMessageMetricsForConversation,
-  getLastConversationActivity,
-  getLastConversationPreview,
+  getLastConversationMessages,
   hasGroupCallHistoryMessage,
   migrateConversationMessages,
 
   getUnprocessedCount,
   getAllUnprocessed,
-  saveUnprocessed,
   updateUnprocessedAttempts,
   updateUnprocessedWithData,
   updateUnprocessedsWithData,
   getUnprocessedById,
-  saveUnprocesseds,
   removeUnprocessed,
   removeAllUnprocessed,
 
@@ -191,17 +245,48 @@ const dataInterface: ServerInterface = {
   getMessagesNeedingUpgrade,
   getMessagesWithVisualMediaAttachments,
   getMessagesWithFileAttachments,
+  getMessageServerGuidsForSpam,
+
+  getJobsInQueue,
+  insertJob,
+  deleteJob,
+
+  getStatisticsForLogging,
 
   // Server-only
 
   initialize,
+  initializeRenderer,
 
   removeKnownAttachments,
   removeKnownStickers,
   removeKnownDraftAttachments,
 };
-
 export default dataInterface;
+
+type DatabaseQueryCache = Map<string, Statement<Array<any>>>;
+
+const statementCache = new WeakMap<Database, DatabaseQueryCache>();
+
+function prepare<T>(db: Database, query: string): Statement<T> {
+  let dbCache = statementCache.get(db);
+  if (!dbCache) {
+    dbCache = new Map();
+    statementCache.set(db, dbCache);
+  }
+
+  let result = dbCache.get(query) as Statement<T>;
+  if (!result) {
+    result = db.prepare<T>(query);
+    dbCache.set(query, result);
+  }
+
+  return result;
+}
+
+function assertSync<T, X>(value: T extends Promise<X> ? never : T): T {
+  return value;
+}
 
 function objectToJSON(data: any) {
   return JSON.stringify(data);
@@ -209,551 +294,443 @@ function objectToJSON(data: any) {
 function jsonToObject(json: string): any {
   return JSON.parse(json);
 }
+function rowToConversation(row: ConversationRow): ConversationType {
+  const parsedJson = JSON.parse(row.json);
 
-async function openDatabase(filePath: string): Promise<sql.Database> {
-  return new Promise((resolve, reject) => {
-    let instance: sql.Database | undefined;
-    const callback = (error: Error | null) => {
-      if (error) {
-        reject(error);
+  let profileLastFetchedAt: undefined | number;
+  if (isNormalNumber(row.profileLastFetchedAt)) {
+    profileLastFetchedAt = row.profileLastFetchedAt;
+  } else {
+    assert(
+      isNil(row.profileLastFetchedAt),
+      'profileLastFetchedAt contained invalid data; defaulting to undefined'
+    );
+    profileLastFetchedAt = undefined;
+  }
 
-        return;
-      }
-      if (!instance) {
-        reject(new Error('openDatabase: Unable to get database instance'));
-
-        return;
-      }
-
-      resolve(instance);
-    };
-
-    instance = new sql.Database(filePath, callback);
-  });
-}
-
-type PromisifiedSQLDatabase = {
-  close: () => Promise<void>;
-  run: (statement: string, params?: { [key: string]: any }) => Promise<void>;
-  get: (statement: string, params?: { [key: string]: any }) => Promise<any>;
-  all: (
-    statement: string,
-    params?: { [key: string]: any }
-  ) => Promise<Array<any>>;
-  on: (event: 'trace', handler: (sql: string) => void) => void;
-};
-
-function promisify(rawInstance: sql.Database): PromisifiedSQLDatabase {
   return {
-    close: pify(rawInstance.close.bind(rawInstance)),
-    run: pify(rawInstance.run.bind(rawInstance)),
-    get: pify(rawInstance.get.bind(rawInstance)),
-    all: pify(rawInstance.all.bind(rawInstance)),
-    on: rawInstance.on.bind(rawInstance),
+    ...parsedJson,
+    profileLastFetchedAt,
+  };
+}
+function rowToSticker(row: StickerRow): StickerType {
+  return {
+    ...row,
+    isCoverOnly: Boolean(row.isCoverOnly),
+    emoji: dropNull(row.emoji),
   };
 }
 
-async function getSQLiteVersion(instance: PromisifiedSQLDatabase) {
-  const row = await instance.get('select sqlite_version() AS sqlite_version');
+function isRenderer() {
+  if (typeof process === 'undefined' || !process) {
+    return true;
+  }
 
-  return row.sqlite_version;
+  return process.type === 'renderer';
 }
 
-async function getSchemaVersion(instance: PromisifiedSQLDatabase) {
-  const row = await instance.get('PRAGMA schema_version;');
+function getSQLiteVersion(db: Database): string {
+  const { sqlite_version } = db
+    .prepare<EmptyQuery>('select sqlite_version() AS sqlite_version')
+    .get();
 
-  return row.schema_version;
+  return sqlite_version;
 }
 
-async function setUserVersion(
-  instance: PromisifiedSQLDatabase,
-  version: number
-) {
+function getSchemaVersion(db: Database): number {
+  return db.pragma('schema_version', { simple: true });
+}
+
+function setUserVersion(db: Database, version: number): void {
   if (!isNumber(version)) {
     throw new Error(`setUserVersion: version ${version} is not a number`);
   }
-  await instance.get(`PRAGMA user_version = ${version};`);
+  db.pragma(`user_version = ${version}`);
 }
-async function keyDatabase(instance: PromisifiedSQLDatabase, key: string) {
+function keyDatabase(db: Database, key: string): void {
   // https://www.zetetic.net/sqlcipher/sqlcipher-api/#key
-  await instance.run(`PRAGMA key = "x'${key}'";`);
+  db.pragma(`key = "x'${key}'"`);
 }
-async function getUserVersion(instance: PromisifiedSQLDatabase) {
-  const row = await instance.get('PRAGMA user_version;');
-
-  return row.user_version;
+function switchToWAL(db: Database): void {
+  // https://sqlite.org/wal.html
+  db.pragma('journal_mode = WAL');
+  db.pragma('synchronous = FULL');
+}
+function getUserVersion(db: Database): number {
+  return db.pragma('user_version', { simple: true });
 }
 
-async function getSQLCipherVersion(instance: PromisifiedSQLDatabase) {
-  const row = await instance.get('PRAGMA cipher_version;');
-  try {
-    return row.cipher_version;
-  } catch (e) {
-    return null;
+function getSQLCipherVersion(db: Database): string | undefined {
+  return db.pragma('cipher_version', { simple: true });
+}
+
+function getSQLCipherIntegrityCheck(db: Database): Array<string> | undefined {
+  const rows: Array<{ cipher_integrity_check: string }> = db.pragma(
+    'cipher_integrity_check'
+  );
+  if (rows.length === 0) {
+    return undefined;
   }
+  return rows.map(row => row.cipher_integrity_check);
 }
 
-async function getSQLCipherIntegrityCheck(instance: PromisifiedSQLDatabase) {
-  const row = await instance.get('PRAGMA cipher_integrity_check;');
-  if (row) {
-    return row.cipher_integrity_check;
+function getSQLIntegrityCheck(db: Database): string | undefined {
+  const checkResult = db.pragma('quick_check', { simple: true });
+  if (checkResult !== 'ok') {
+    return checkResult;
   }
 
-  return null;
+  return undefined;
 }
 
-async function getSQLIntegrityCheck(instance: PromisifiedSQLDatabase) {
-  const row = await instance.get('PRAGMA integrity_check;');
-  if (row && row.integrity_check !== 'ok') {
-    return row.integrity_check;
-  }
-
-  return null;
-}
-
-async function migrateSchemaVersion(instance: PromisifiedSQLDatabase) {
-  const userVersion = await getUserVersion(instance);
+function migrateSchemaVersion(db: Database): void {
+  const userVersion = getUserVersion(db);
   if (userVersion > 0) {
     return;
   }
 
-  const schemaVersion = await getSchemaVersion(instance);
+  const schemaVersion = getSchemaVersion(db);
   const newUserVersion = schemaVersion > 18 ? 16 : schemaVersion;
   console.log(
-    `migrateSchemaVersion: Migrating from schema_version ${schemaVersion} to user_version ${newUserVersion}`
+    'migrateSchemaVersion: Migrating from schema_version ' +
+      `${schemaVersion} to user_version ${newUserVersion}`
   );
 
-  await setUserVersion(instance, newUserVersion);
+  setUserVersion(db, newUserVersion);
 }
 
-async function openAndMigrateDatabase(filePath: string, key: string) {
-  let promisified: PromisifiedSQLDatabase | undefined;
+function openAndMigrateDatabase(filePath: string, key: string) {
+  let db: Database | undefined;
 
   // First, we try to open the database without any cipher changes
   try {
-    const instance = await openDatabase(filePath);
-    promisified = promisify(instance);
-    await keyDatabase(promisified, key);
+    db = new SQL(filePath);
+    keyDatabase(db, key);
+    switchToWAL(db);
+    migrateSchemaVersion(db);
 
-    await migrateSchemaVersion(promisified);
-
-    return promisified;
+    return db;
   } catch (error) {
-    if (promisified) {
-      await promisified.close();
+    if (db) {
+      db.close();
     }
     console.log('migrateDatabase: Migration without cipher change failed');
   }
 
   // If that fails, we try to open the database with 3.x compatibility to extract the
   //   user_version (previously stored in schema_version, blown away by cipher_migrate).
-  const instance1 = await openDatabase(filePath);
-  promisified = promisify(instance1);
-  await keyDatabase(promisified, key);
+  db = new SQL(filePath);
+  keyDatabase(db, key);
 
   // https://www.zetetic.net/blog/2018/11/30/sqlcipher-400-release/#compatability-sqlcipher-4-0-0
-  await promisified.run('PRAGMA cipher_compatibility = 3;');
-  await migrateSchemaVersion(promisified);
-  await promisified.close();
+  db.pragma('cipher_compatibility = 3');
+  migrateSchemaVersion(db);
+  db.close();
 
   // After migrating user_version -> schema_version, we reopen database, because we can't
   //   migrate to the latest ciphers after we've modified the defaults.
-  const instance2 = await openDatabase(filePath);
-  promisified = promisify(instance2);
-  await keyDatabase(promisified, key);
+  db = new SQL(filePath);
+  keyDatabase(db, key);
 
-  await promisified.run('PRAGMA cipher_migrate;');
+  db.pragma('cipher_migrate');
+  switchToWAL(db);
 
-  return promisified;
+  return db;
 }
 
 const INVALID_KEY = /[^0-9A-Fa-f]/;
-async function openAndSetUpSQLCipher(
-  filePath: string,
-  { key }: { key: string }
-) {
+function openAndSetUpSQLCipher(filePath: string, { key }: { key: string }) {
   const match = INVALID_KEY.exec(key);
   if (match) {
     throw new Error(`setupSQLCipher: key '${key}' is not valid`);
   }
 
-  const instance = await openAndMigrateDatabase(filePath, key);
+  const db = openAndMigrateDatabase(filePath, key);
 
   // Because foreign key support is not enabled by default!
-  await instance.run('PRAGMA foreign_keys = ON;');
+  db.pragma('foreign_keys = ON');
 
-  return instance;
+  return db;
 }
 
-async function updateToSchemaVersion1(
-  currentVersion: number,
-  instance: PromisifiedSQLDatabase
-) {
+function updateToSchemaVersion1(currentVersion: number, db: Database): void {
   if (currentVersion >= 1) {
     return;
   }
 
   console.log('updateToSchemaVersion1: starting...');
 
-  await instance.run('BEGIN TRANSACTION;');
+  db.transaction(() => {
+    db.exec(`
+      CREATE TABLE messages(
+        id STRING PRIMARY KEY ASC,
+        json TEXT,
 
-  try {
-    await instance.run(
-      `CREATE TABLE messages(
-      id STRING PRIMARY KEY ASC,
-      json TEXT,
+        unread INTEGER,
+        expires_at INTEGER,
+        sent_at INTEGER,
+        schemaVersion INTEGER,
+        conversationId STRING,
+        received_at INTEGER,
+        source STRING,
+        sourceDevice STRING,
+        hasAttachments INTEGER,
+        hasFileAttachments INTEGER,
+        hasVisualMediaAttachments INTEGER
+      );
+      CREATE INDEX messages_unread ON messages (
+        unread
+      );
+      CREATE INDEX messages_expires_at ON messages (
+        expires_at
+      );
+      CREATE INDEX messages_receipt ON messages (
+        sent_at
+      );
+      CREATE INDEX messages_schemaVersion ON messages (
+        schemaVersion
+      );
+      CREATE INDEX messages_conversation ON messages (
+        conversationId,
+        received_at
+      );
+      CREATE INDEX messages_duplicate_check ON messages (
+        source,
+        sourceDevice,
+        sent_at
+      );
+      CREATE INDEX messages_hasAttachments ON messages (
+        conversationId,
+        hasAttachments,
+        received_at
+      );
+      CREATE INDEX messages_hasFileAttachments ON messages (
+        conversationId,
+        hasFileAttachments,
+        received_at
+      );
+      CREATE INDEX messages_hasVisualMediaAttachments ON messages (
+        conversationId,
+        hasVisualMediaAttachments,
+        received_at
+      );
+      CREATE TABLE unprocessed(
+        id STRING,
+        timestamp INTEGER,
+        json TEXT
+      );
+      CREATE INDEX unprocessed_id ON unprocessed (
+        id
+      );
+      CREATE INDEX unprocessed_timestamp ON unprocessed (
+        timestamp
+      );
+    `);
 
-      unread INTEGER,
-      expires_at INTEGER,
-      sent_at INTEGER,
-      schemaVersion INTEGER,
-      conversationId STRING,
-      received_at INTEGER,
-      source STRING,
-      sourceDevice STRING,
-      hasAttachments INTEGER,
-      hasFileAttachments INTEGER,
-      hasVisualMediaAttachments INTEGER
-    );`
-    );
+    db.pragma('user_version = 1');
+  })();
 
-    await instance.run(`CREATE INDEX messages_unread ON messages (
-      unread
-    );`);
-    await instance.run(`CREATE INDEX messages_expires_at ON messages (
-      expires_at
-    );`);
-    await instance.run(`CREATE INDEX messages_receipt ON messages (
-      sent_at
-    );`);
-    await instance.run(`CREATE INDEX messages_schemaVersion ON messages (
-      schemaVersion
-    );`);
-
-    await instance.run(`CREATE INDEX messages_conversation ON messages (
-      conversationId,
-      received_at
-    );`);
-
-    await instance.run(`CREATE INDEX messages_duplicate_check ON messages (
-      source,
-      sourceDevice,
-      sent_at
-    );`);
-    await instance.run(`CREATE INDEX messages_hasAttachments ON messages (
-      conversationId,
-      hasAttachments,
-      received_at
-    );`);
-    await instance.run(`CREATE INDEX messages_hasFileAttachments ON messages (
-      conversationId,
-      hasFileAttachments,
-      received_at
-    );`);
-    await instance.run(`CREATE INDEX messages_hasVisualMediaAttachments ON messages (
-      conversationId,
-      hasVisualMediaAttachments,
-      received_at
-    );`);
-
-    await instance.run(`CREATE TABLE unprocessed(
-      id STRING,
-      timestamp INTEGER,
-      json TEXT
-    );`);
-    await instance.run(`CREATE INDEX unprocessed_id ON unprocessed (
-      id
-    );`);
-    await instance.run(`CREATE INDEX unprocessed_timestamp ON unprocessed (
-      timestamp
-    );`);
-
-    await instance.run('PRAGMA user_version = 1;');
-    await instance.run('COMMIT TRANSACTION;');
-
-    console.log('updateToSchemaVersion1: success!');
-  } catch (error) {
-    await instance.run('ROLLBACK;');
-    throw error;
-  }
+  console.log('updateToSchemaVersion1: success!');
 }
 
-async function updateToSchemaVersion2(
-  currentVersion: number,
-  instance: PromisifiedSQLDatabase
-) {
+function updateToSchemaVersion2(currentVersion: number, db: Database): void {
   if (currentVersion >= 2) {
     return;
   }
 
   console.log('updateToSchemaVersion2: starting...');
 
-  await instance.run('BEGIN TRANSACTION;');
+  db.transaction(() => {
+    db.exec(`
+      ALTER TABLE messages
+        ADD COLUMN expireTimer INTEGER;
 
-  try {
-    await instance.run(
-      `ALTER TABLE messages
-     ADD COLUMN expireTimer INTEGER;`
-    );
+      ALTER TABLE messages
+        ADD COLUMN expirationStartTimestamp INTEGER;
 
-    await instance.run(
-      `ALTER TABLE messages
-     ADD COLUMN expirationStartTimestamp INTEGER;`
-    );
+      ALTER TABLE messages
+        ADD COLUMN type STRING;
 
-    await instance.run(
-      `ALTER TABLE messages
-     ADD COLUMN type STRING;`
-    );
+      CREATE INDEX messages_expiring ON messages (
+        expireTimer,
+        expirationStartTimestamp,
+        expires_at
+      );
 
-    await instance.run(`CREATE INDEX messages_expiring ON messages (
-      expireTimer,
-      expirationStartTimestamp,
-      expires_at
-    );`);
-
-    await instance.run(
-      `UPDATE messages SET
-      expirationStartTimestamp = json_extract(json, '$.expirationStartTimestamp'),
-      expireTimer = json_extract(json, '$.expireTimer'),
-      type = json_extract(json, '$.type');`
-    );
-
-    await instance.run('PRAGMA user_version = 2;');
-    await instance.run('COMMIT TRANSACTION;');
-
-    console.log('updateToSchemaVersion2: success!');
-  } catch (error) {
-    await instance.run('ROLLBACK;');
-    throw error;
-  }
+      UPDATE messages SET
+        expirationStartTimestamp = json_extract(json, '$.expirationStartTimestamp'),
+        expireTimer = json_extract(json, '$.expireTimer'),
+        type = json_extract(json, '$.type');
+    `);
+    db.pragma('user_version = 2');
+  })();
+  console.log('updateToSchemaVersion2: success!');
 }
 
-async function updateToSchemaVersion3(
-  currentVersion: number,
-  instance: PromisifiedSQLDatabase
-) {
+function updateToSchemaVersion3(currentVersion: number, db: Database): void {
   if (currentVersion >= 3) {
     return;
   }
 
   console.log('updateToSchemaVersion3: starting...');
 
-  await instance.run('BEGIN TRANSACTION;');
+  db.transaction(() => {
+    db.exec(`
+      DROP INDEX messages_expiring;
+      DROP INDEX messages_unread;
 
-  try {
-    await instance.run('DROP INDEX messages_expiring;');
-    await instance.run('DROP INDEX messages_unread;');
+      CREATE INDEX messages_without_timer ON messages (
+        expireTimer,
+        expires_at,
+        type
+      ) WHERE expires_at IS NULL AND expireTimer IS NOT NULL;
 
-    await instance.run(`CREATE INDEX messages_without_timer ON messages (
-      expireTimer,
-      expires_at,
-      type
-    ) WHERE expires_at IS NULL AND expireTimer IS NOT NULL;`);
+      CREATE INDEX messages_unread ON messages (
+        conversationId,
+        unread
+      ) WHERE unread IS NOT NULL;
 
-    await instance.run(`CREATE INDEX messages_unread ON messages (
-      conversationId,
-      unread
-    ) WHERE unread IS NOT NULL;`);
+      ANALYZE;
+    `);
 
-    await instance.run('ANALYZE;');
-    await instance.run('PRAGMA user_version = 3;');
-    await instance.run('COMMIT TRANSACTION;');
+    db.pragma('user_version = 3');
+  })();
 
-    console.log('updateToSchemaVersion3: success!');
-  } catch (error) {
-    await instance.run('ROLLBACK;');
-    throw error;
-  }
+  console.log('updateToSchemaVersion3: success!');
 }
 
-async function updateToSchemaVersion4(
-  currentVersion: number,
-  instance: PromisifiedSQLDatabase
-) {
+function updateToSchemaVersion4(currentVersion: number, db: Database): void {
   if (currentVersion >= 4) {
     return;
   }
 
   console.log('updateToSchemaVersion4: starting...');
 
-  await instance.run('BEGIN TRANSACTION;');
+  db.transaction(() => {
+    db.exec(`
+      CREATE TABLE conversations(
+        id STRING PRIMARY KEY ASC,
+        json TEXT,
 
-  try {
-    await instance.run(
-      `CREATE TABLE conversations(
-      id STRING PRIMARY KEY ASC,
-      json TEXT,
+        active_at INTEGER,
+        type STRING,
+        members TEXT,
+        name TEXT,
+        profileName TEXT
+      );
+      CREATE INDEX conversations_active ON conversations (
+        active_at
+      ) WHERE active_at IS NOT NULL;
 
-      active_at INTEGER,
-      type STRING,
-      members TEXT,
-      name TEXT,
-      profileName TEXT
-    );`
-    );
+      CREATE INDEX conversations_type ON conversations (
+        type
+      ) WHERE type IS NOT NULL;
+    `);
 
-    await instance.run(`CREATE INDEX conversations_active ON conversations (
-      active_at
-    ) WHERE active_at IS NOT NULL;`);
+    db.pragma('user_version = 4');
+  })();
 
-    await instance.run(`CREATE INDEX conversations_type ON conversations (
-      type
-    ) WHERE type IS NOT NULL;`);
-
-    await instance.run('PRAGMA user_version = 4;');
-    await instance.run('COMMIT TRANSACTION;');
-
-    console.log('updateToSchemaVersion4: success!');
-  } catch (error) {
-    await instance.run('ROLLBACK;');
-    throw error;
-  }
+  console.log('updateToSchemaVersion4: success!');
 }
 
-async function updateToSchemaVersion6(
-  currentVersion: number,
-  instance: PromisifiedSQLDatabase
-) {
+function updateToSchemaVersion6(currentVersion: number, db: Database): void {
   if (currentVersion >= 6) {
     return;
   }
   console.log('updateToSchemaVersion6: starting...');
-  await instance.run('BEGIN TRANSACTION;');
 
-  try {
-    // key-value, ids are strings, one extra column
-    await instance.run(
-      `CREATE TABLE sessions(
-      id STRING PRIMARY KEY ASC,
-      number STRING,
-      json TEXT
-    );`
-    );
+  db.transaction(() => {
+    db.exec(`
+      -- key-value, ids are strings, one extra column
+      CREATE TABLE sessions(
+        id STRING PRIMARY KEY ASC,
+        number STRING,
+        json TEXT
+      );
+      CREATE INDEX sessions_number ON sessions (
+        number
+      ) WHERE number IS NOT NULL;
+      -- key-value, ids are strings
+      CREATE TABLE groups(
+        id STRING PRIMARY KEY ASC,
+        json TEXT
+      );
+      CREATE TABLE identityKeys(
+        id STRING PRIMARY KEY ASC,
+        json TEXT
+      );
+      CREATE TABLE items(
+        id STRING PRIMARY KEY ASC,
+        json TEXT
+      );
+      -- key-value, ids are integers
+      CREATE TABLE preKeys(
+        id INTEGER PRIMARY KEY ASC,
+        json TEXT
+      );
+      CREATE TABLE signedPreKeys(
+        id INTEGER PRIMARY KEY ASC,
+        json TEXT
+      );
+    `);
 
-    await instance.run(`CREATE INDEX sessions_number ON sessions (
-    number
-  ) WHERE number IS NOT NULL;`);
+    db.pragma('user_version = 6');
+  })();
 
-    // key-value, ids are strings
-    await instance.run(
-      `CREATE TABLE groups(
-      id STRING PRIMARY KEY ASC,
-      json TEXT
-    );`
-    );
-    await instance.run(
-      `CREATE TABLE identityKeys(
-      id STRING PRIMARY KEY ASC,
-      json TEXT
-    );`
-    );
-    await instance.run(
-      `CREATE TABLE items(
-      id STRING PRIMARY KEY ASC,
-      json TEXT
-    );`
-    );
-
-    // key-value, ids are integers
-    await instance.run(
-      `CREATE TABLE preKeys(
-      id INTEGER PRIMARY KEY ASC,
-      json TEXT
-    );`
-    );
-    await instance.run(
-      `CREATE TABLE signedPreKeys(
-      id INTEGER PRIMARY KEY ASC,
-      json TEXT
-    );`
-    );
-
-    await instance.run('PRAGMA user_version = 6;');
-    await instance.run('COMMIT TRANSACTION;');
-    console.log('updateToSchemaVersion6: success!');
-  } catch (error) {
-    await instance.run('ROLLBACK;');
-    throw error;
-  }
+  console.log('updateToSchemaVersion6: success!');
 }
 
-async function updateToSchemaVersion7(
-  currentVersion: number,
-  instance: PromisifiedSQLDatabase
-) {
+function updateToSchemaVersion7(currentVersion: number, db: Database): void {
   if (currentVersion >= 7) {
     return;
   }
   console.log('updateToSchemaVersion7: starting...');
-  await instance.run('BEGIN TRANSACTION;');
 
-  try {
-    // SQLite has been coercing our STRINGs into numbers, so we force it with TEXT
-    // We create a new table then copy the data into it, since we can't modify columns
+  db.transaction(() => {
+    db.exec(`
+      -- SQLite has been coercing our STRINGs into numbers, so we force it with TEXT
+      -- We create a new table then copy the data into it, since we can't modify columns
+      DROP INDEX sessions_number;
+      ALTER TABLE sessions RENAME TO sessions_old;
 
-    await instance.run('DROP INDEX sessions_number;');
-    await instance.run('ALTER TABLE sessions RENAME TO sessions_old;');
-
-    await instance.run(
-      `CREATE TABLE sessions(
+      CREATE TABLE sessions(
         id TEXT PRIMARY KEY,
         number TEXT,
         json TEXT
-      );`
-    );
-
-    await instance.run(`CREATE INDEX sessions_number ON sessions (
-      number
-    ) WHERE number IS NOT NULL;`);
-
-    await instance.run(`INSERT INTO sessions(id, number, json)
-      SELECT "+" || id, number, json FROM sessions_old;
+      );
+      CREATE INDEX sessions_number ON sessions (
+        number
+      ) WHERE number IS NOT NULL;
+      INSERT INTO sessions(id, number, json)
+        SELECT "+" || id, number, json FROM sessions_old;
+      DROP TABLE sessions_old;
     `);
 
-    await instance.run('DROP TABLE sessions_old;');
-
-    await instance.run('PRAGMA user_version = 7;');
-    await instance.run('COMMIT TRANSACTION;');
-    console.log('updateToSchemaVersion7: success!');
-  } catch (error) {
-    await instance.run('ROLLBACK;');
-    throw error;
-  }
+    db.pragma('user_version = 7');
+  })();
+  console.log('updateToSchemaVersion7: success!');
 }
 
-async function updateToSchemaVersion8(
-  currentVersion: number,
-  instance: PromisifiedSQLDatabase
-) {
+function updateToSchemaVersion8(currentVersion: number, db: Database): void {
   if (currentVersion >= 8) {
     return;
   }
   console.log('updateToSchemaVersion8: starting...');
-  await instance.run('BEGIN TRANSACTION;');
+  db.transaction(() => {
+    db.exec(`
+      -- First, we pull a new body field out of the message table's json blob
+      ALTER TABLE messages
+        ADD COLUMN body TEXT;
+      UPDATE messages SET body = json_extract(json, '$.body');
 
-  try {
-    // First, we pull a new body field out of the message table's json blob
-    await instance.run(
-      `ALTER TABLE messages
-     ADD COLUMN body TEXT;`
-    );
-    await instance.run(
-      "UPDATE messages SET body = json_extract(json, '$.body')"
-    );
-
-    // Then we create our full-text search table and populate it
-    await instance.run(`
+      -- Then we create our full-text search table and populate it
       CREATE VIRTUAL TABLE messages_fts
-      USING fts5(id UNINDEXED, body);
-    `);
-    await instance.run(`
-      INSERT INTO messages_fts(id, body)
-      SELECT id, body FROM messages;
-    `);
+        USING fts5(id UNINDEXED, body);
 
-    // Then we set up triggers to keep the full-text search table up to date
-    await instance.run(`
+      INSERT INTO messages_fts(id, body)
+        SELECT id, body FROM messages;
+
+      -- Then we set up triggers to keep the full-text search table up to date
       CREATE TRIGGER messages_on_insert AFTER INSERT ON messages BEGIN
         INSERT INTO messages_fts (
           id,
@@ -763,13 +740,9 @@ async function updateToSchemaVersion8(
           new.body
         );
       END;
-    `);
-    await instance.run(`
       CREATE TRIGGER messages_on_delete AFTER DELETE ON messages BEGIN
         DELETE FROM messages_fts WHERE id = old.id;
       END;
-    `);
-    await instance.run(`
       CREATE TRIGGER messages_on_update AFTER UPDATE ON messages BEGIN
         DELETE FROM messages_fts WHERE id = old.id;
         INSERT INTO messages_fts(
@@ -786,351 +759,285 @@ async function updateToSchemaVersion8(
     //   https://sqlite.org/fts5.html#the_highlight_function
     //   https://sqlite.org/fts5.html#the_snippet_function
 
-    await instance.run('PRAGMA user_version = 8;');
-    await instance.run('COMMIT TRANSACTION;');
-    console.log('updateToSchemaVersion8: success!');
-  } catch (error) {
-    await instance.run('ROLLBACK;');
-    throw error;
-  }
+    db.pragma('user_version = 8');
+  })();
+  console.log('updateToSchemaVersion8: success!');
 }
 
-async function updateToSchemaVersion9(
-  currentVersion: number,
-  instance: PromisifiedSQLDatabase
-) {
+function updateToSchemaVersion9(currentVersion: number, db: Database): void {
   if (currentVersion >= 9) {
     return;
   }
   console.log('updateToSchemaVersion9: starting...');
-  await instance.run('BEGIN TRANSACTION;');
 
-  try {
-    await instance.run(`CREATE TABLE attachment_downloads(
-      id STRING primary key,
-      timestamp INTEGER,
-      pending INTEGER,
-      json TEXT
-    );`);
+  db.transaction(() => {
+    db.exec(`
+      CREATE TABLE attachment_downloads(
+        id STRING primary key,
+        timestamp INTEGER,
+        pending INTEGER,
+        json TEXT
+      );
 
-    await instance.run(`CREATE INDEX attachment_downloads_timestamp
-      ON attachment_downloads (
-        timestamp
-    ) WHERE pending = 0;`);
-    await instance.run(`CREATE INDEX attachment_downloads_pending
-      ON attachment_downloads (
-        pending
-    ) WHERE pending != 0;`);
+      CREATE INDEX attachment_downloads_timestamp
+        ON attachment_downloads (
+          timestamp
+      ) WHERE pending = 0;
+      CREATE INDEX attachment_downloads_pending
+        ON attachment_downloads (
+          pending
+      ) WHERE pending != 0;
+    `);
 
-    await instance.run('PRAGMA user_version = 9;');
-    await instance.run('COMMIT TRANSACTION;');
-    console.log('updateToSchemaVersion9: success!');
-  } catch (error) {
-    await instance.run('ROLLBACK;');
-    throw error;
-  }
+    db.pragma('user_version = 9');
+  })();
+
+  console.log('updateToSchemaVersion9: success!');
 }
 
-async function updateToSchemaVersion10(
-  currentVersion: number,
-  instance: PromisifiedSQLDatabase
-) {
+function updateToSchemaVersion10(currentVersion: number, db: Database): void {
   if (currentVersion >= 10) {
     return;
   }
   console.log('updateToSchemaVersion10: starting...');
-  await instance.run('BEGIN TRANSACTION;');
+  db.transaction(() => {
+    db.exec(`
+      DROP INDEX unprocessed_id;
+      DROP INDEX unprocessed_timestamp;
+      ALTER TABLE unprocessed RENAME TO unprocessed_old;
 
-  try {
-    await instance.run('DROP INDEX unprocessed_id;');
-    await instance.run('DROP INDEX unprocessed_timestamp;');
-    await instance.run('ALTER TABLE unprocessed RENAME TO unprocessed_old;');
+      CREATE TABLE unprocessed(
+        id STRING,
+        timestamp INTEGER,
+        version INTEGER,
+        attempts INTEGER,
+        envelope TEXT,
+        decrypted TEXT,
+        source TEXT,
+        sourceDevice TEXT,
+        serverTimestamp INTEGER
+      );
 
-    await instance.run(`CREATE TABLE unprocessed(
-      id STRING,
-      timestamp INTEGER,
-      version INTEGER,
-      attempts INTEGER,
-      envelope TEXT,
-      decrypted TEXT,
-      source TEXT,
-      sourceDevice TEXT,
-      serverTimestamp INTEGER
-    );`);
+      CREATE INDEX unprocessed_id ON unprocessed (
+        id
+      );
+      CREATE INDEX unprocessed_timestamp ON unprocessed (
+        timestamp
+      );
 
-    await instance.run(`CREATE INDEX unprocessed_id ON unprocessed (
-      id
-    );`);
-    await instance.run(`CREATE INDEX unprocessed_timestamp ON unprocessed (
-      timestamp
-    );`);
+      INSERT INTO unprocessed (
+        id,
+        timestamp,
+        version,
+        attempts,
+        envelope,
+        decrypted,
+        source,
+        sourceDevice,
+        serverTimestamp
+      ) SELECT
+        id,
+        timestamp,
+        json_extract(json, '$.version'),
+        json_extract(json, '$.attempts'),
+        json_extract(json, '$.envelope'),
+        json_extract(json, '$.decrypted'),
+        json_extract(json, '$.source'),
+        json_extract(json, '$.sourceDevice'),
+        json_extract(json, '$.serverTimestamp')
+      FROM unprocessed_old;
 
-    await instance.run(`INSERT INTO unprocessed (
-      id,
-      timestamp,
-      version,
-      attempts,
-      envelope,
-      decrypted,
-      source,
-      sourceDevice,
-      serverTimestamp
-    ) SELECT
-      id,
-      timestamp,
-      json_extract(json, '$.version'),
-      json_extract(json, '$.attempts'),
-      json_extract(json, '$.envelope'),
-      json_extract(json, '$.decrypted'),
-      json_extract(json, '$.source'),
-      json_extract(json, '$.sourceDevice'),
-      json_extract(json, '$.serverTimestamp')
-    FROM unprocessed_old;
+      DROP TABLE unprocessed_old;
     `);
 
-    await instance.run('DROP TABLE unprocessed_old;');
-
-    await instance.run('PRAGMA user_version = 10;');
-    await instance.run('COMMIT TRANSACTION;');
-    console.log('updateToSchemaVersion10: success!');
-  } catch (error) {
-    await instance.run('ROLLBACK;');
-    throw error;
-  }
+    db.pragma('user_version = 10');
+  })();
+  console.log('updateToSchemaVersion10: success!');
 }
 
-async function updateToSchemaVersion11(
-  currentVersion: number,
-  instance: PromisifiedSQLDatabase
-) {
+function updateToSchemaVersion11(currentVersion: number, db: Database): void {
   if (currentVersion >= 11) {
     return;
   }
   console.log('updateToSchemaVersion11: starting...');
-  await instance.run('BEGIN TRANSACTION;');
 
-  try {
-    await instance.run('DROP TABLE groups;');
+  db.transaction(() => {
+    db.exec(`
+      DROP TABLE groups;
+    `);
 
-    await instance.run('PRAGMA user_version = 11;');
-    await instance.run('COMMIT TRANSACTION;');
-    console.log('updateToSchemaVersion11: success!');
-  } catch (error) {
-    await instance.run('ROLLBACK;');
-    throw error;
-  }
+    db.pragma('user_version = 11');
+  })();
+  console.log('updateToSchemaVersion11: success!');
 }
 
-async function updateToSchemaVersion12(
-  currentVersion: number,
-  instance: PromisifiedSQLDatabase
-) {
+function updateToSchemaVersion12(currentVersion: number, db: Database): void {
   if (currentVersion >= 12) {
     return;
   }
 
   console.log('updateToSchemaVersion12: starting...');
-  await instance.run('BEGIN TRANSACTION;');
+  db.transaction(() => {
+    db.exec(`
+      CREATE TABLE sticker_packs(
+        id TEXT PRIMARY KEY,
+        key TEXT NOT NULL,
 
-  try {
-    await instance.run(`CREATE TABLE sticker_packs(
-      id TEXT PRIMARY KEY,
-      key TEXT NOT NULL,
+        author STRING,
+        coverStickerId INTEGER,
+        createdAt INTEGER,
+        downloadAttempts INTEGER,
+        installedAt INTEGER,
+        lastUsed INTEGER,
+        status STRING,
+        stickerCount INTEGER,
+        title STRING
+      );
 
-      author STRING,
-      coverStickerId INTEGER,
-      createdAt INTEGER,
-      downloadAttempts INTEGER,
-      installedAt INTEGER,
-      lastUsed INTEGER,
-      status STRING,
-      stickerCount INTEGER,
-      title STRING
-    );`);
+      CREATE TABLE stickers(
+        id INTEGER NOT NULL,
+        packId TEXT NOT NULL,
 
-    await instance.run(`CREATE TABLE stickers(
-      id INTEGER NOT NULL,
-      packId TEXT NOT NULL,
+        emoji STRING,
+        height INTEGER,
+        isCoverOnly INTEGER,
+        lastUsed INTEGER,
+        path STRING,
+        width INTEGER,
 
-      emoji STRING,
-      height INTEGER,
-      isCoverOnly INTEGER,
-      lastUsed INTEGER,
-      path STRING,
-      width INTEGER,
+        PRIMARY KEY (id, packId),
+        CONSTRAINT stickers_fk
+          FOREIGN KEY (packId)
+          REFERENCES sticker_packs(id)
+          ON DELETE CASCADE
+      );
 
-      PRIMARY KEY (id, packId),
-      CONSTRAINT stickers_fk
-        FOREIGN KEY (packId)
-        REFERENCES sticker_packs(id)
-        ON DELETE CASCADE
-    );`);
+      CREATE INDEX stickers_recents
+        ON stickers (
+          lastUsed
+      ) WHERE lastUsed IS NOT NULL;
 
-    await instance.run(`CREATE INDEX stickers_recents
-      ON stickers (
-        lastUsed
-    ) WHERE lastUsed IS NOT NULL;`);
+      CREATE TABLE sticker_references(
+        messageId STRING,
+        packId TEXT,
+        CONSTRAINT sticker_references_fk
+          FOREIGN KEY(packId)
+          REFERENCES sticker_packs(id)
+          ON DELETE CASCADE
+      );
+    `);
 
-    await instance.run(`CREATE TABLE sticker_references(
-      messageId STRING,
-      packId TEXT,
-      CONSTRAINT sticker_references_fk
-        FOREIGN KEY(packId)
-        REFERENCES sticker_packs(id)
-        ON DELETE CASCADE
-    );`);
-
-    await instance.run('PRAGMA user_version = 12;');
-    await instance.run('COMMIT TRANSACTION;');
-    console.log('updateToSchemaVersion12: success!');
-  } catch (error) {
-    await instance.run('ROLLBACK;');
-    throw error;
-  }
+    db.pragma('user_version = 12');
+  })();
+  console.log('updateToSchemaVersion12: success!');
 }
 
-async function updateToSchemaVersion13(
-  currentVersion: number,
-  instance: PromisifiedSQLDatabase
-) {
+function updateToSchemaVersion13(currentVersion: number, db: Database): void {
   if (currentVersion >= 13) {
     return;
   }
 
   console.log('updateToSchemaVersion13: starting...');
-  await instance.run('BEGIN TRANSACTION;');
+  db.transaction(() => {
+    db.exec(`
+      ALTER TABLE sticker_packs ADD COLUMN attemptedStatus STRING;
+    `);
 
-  try {
-    await instance.run(
-      'ALTER TABLE sticker_packs ADD COLUMN attemptedStatus STRING;'
-    );
-
-    await instance.run('PRAGMA user_version = 13;');
-    await instance.run('COMMIT TRANSACTION;');
-    console.log('updateToSchemaVersion13: success!');
-  } catch (error) {
-    await instance.run('ROLLBACK;');
-    throw error;
-  }
+    db.pragma('user_version = 13');
+  })();
+  console.log('updateToSchemaVersion13: success!');
 }
 
-async function updateToSchemaVersion14(
-  currentVersion: number,
-  instance: PromisifiedSQLDatabase
-) {
+function updateToSchemaVersion14(currentVersion: number, db: Database): void {
   if (currentVersion >= 14) {
     return;
   }
 
   console.log('updateToSchemaVersion14: starting...');
-  await instance.run('BEGIN TRANSACTION;');
+  db.transaction(() => {
+    db.exec(`
+      CREATE TABLE emojis(
+        shortName STRING PRIMARY KEY,
+        lastUsage INTEGER
+      );
 
-  try {
-    await instance.run(`CREATE TABLE emojis(
-      shortName STRING PRIMARY KEY,
-      lastUsage INTEGER
-    );`);
+      CREATE INDEX emojis_lastUsage
+        ON emojis (
+          lastUsage
+      );
+    `);
 
-    await instance.run(`CREATE INDEX emojis_lastUsage
-      ON emojis (
-        lastUsage
-    );`);
+    db.pragma('user_version = 14');
+  })();
 
-    await instance.run('PRAGMA user_version = 14;');
-    await instance.run('COMMIT TRANSACTION;');
-    console.log('updateToSchemaVersion14: success!');
-  } catch (error) {
-    await instance.run('ROLLBACK;');
-    throw error;
-  }
+  console.log('updateToSchemaVersion14: success!');
 }
 
-async function updateToSchemaVersion15(
-  currentVersion: number,
-  instance: PromisifiedSQLDatabase
-) {
+function updateToSchemaVersion15(currentVersion: number, db: Database): void {
   if (currentVersion >= 15) {
     return;
   }
 
   console.log('updateToSchemaVersion15: starting...');
-  await instance.run('BEGIN TRANSACTION;');
+  db.transaction(() => {
+    db.exec(`
+      -- SQLite has again coerced our STRINGs into numbers, so we force it with TEXT
+      -- We create a new table then copy the data into it, since we can't modify columns
 
-  try {
-    // SQLite has again coerced our STRINGs into numbers, so we force it with TEXT
-    // We create a new table then copy the data into it, since we can't modify columns
+      DROP INDEX emojis_lastUsage;
+      ALTER TABLE emojis RENAME TO emojis_old;
 
-    await instance.run('DROP INDEX emojis_lastUsage;');
-    await instance.run('ALTER TABLE emojis RENAME TO emojis_old;');
+      CREATE TABLE emojis(
+        shortName TEXT PRIMARY KEY,
+        lastUsage INTEGER
+      );
+      CREATE INDEX emojis_lastUsage
+        ON emojis (
+          lastUsage
+      );
 
-    await instance.run(`CREATE TABLE emojis(
-      shortName TEXT PRIMARY KEY,
-      lastUsage INTEGER
-    );`);
-    await instance.run(`CREATE INDEX emojis_lastUsage
-      ON emojis (
-        lastUsage
-    );`);
+      DELETE FROM emojis WHERE shortName = 1;
+      INSERT INTO emojis(shortName, lastUsage)
+        SELECT shortName, lastUsage FROM emojis_old;
 
-    await instance.run('DELETE FROM emojis WHERE shortName = 1');
-    await instance.run(`INSERT INTO emojis(shortName, lastUsage)
-      SELECT shortName, lastUsage FROM emojis_old;
+      DROP TABLE emojis_old;
     `);
 
-    await instance.run('DROP TABLE emojis_old;');
-
-    await instance.run('PRAGMA user_version = 15;');
-    await instance.run('COMMIT TRANSACTION;');
-    console.log('updateToSchemaVersion15: success!');
-  } catch (error) {
-    await instance.run('ROLLBACK;');
-    throw error;
-  }
+    db.pragma('user_version = 15');
+  })();
+  console.log('updateToSchemaVersion15: success!');
 }
 
-async function updateToSchemaVersion16(
-  currentVersion: number,
-  instance: PromisifiedSQLDatabase
-) {
+function updateToSchemaVersion16(currentVersion: number, db: Database): void {
   if (currentVersion >= 16) {
     return;
   }
 
   console.log('updateToSchemaVersion16: starting...');
-  await instance.run('BEGIN TRANSACTION;');
+  db.transaction(() => {
+    db.exec(`
+      ALTER TABLE messages
+      ADD COLUMN messageTimer INTEGER;
+      ALTER TABLE messages
+      ADD COLUMN messageTimerStart INTEGER;
+      ALTER TABLE messages
+      ADD COLUMN messageTimerExpiresAt INTEGER;
+      ALTER TABLE messages
+      ADD COLUMN isErased INTEGER;
 
-  try {
-    await instance.run(
-      `ALTER TABLE messages
-      ADD COLUMN messageTimer INTEGER;`
-    );
-    await instance.run(
-      `ALTER TABLE messages
-      ADD COLUMN messageTimerStart INTEGER;`
-    );
-    await instance.run(
-      `ALTER TABLE messages
-      ADD COLUMN messageTimerExpiresAt INTEGER;`
-    );
-    await instance.run(
-      `ALTER TABLE messages
-      ADD COLUMN isErased INTEGER;`
-    );
+      CREATE INDEX messages_message_timer ON messages (
+        messageTimer,
+        messageTimerStart,
+        messageTimerExpiresAt,
+        isErased
+      ) WHERE messageTimer IS NOT NULL;
 
-    await instance.run(`CREATE INDEX messages_message_timer ON messages (
-      messageTimer,
-      messageTimerStart,
-      messageTimerExpiresAt,
-      isErased
-    ) WHERE messageTimer IS NOT NULL;`);
+      -- Updating full-text triggers to avoid anything with a messageTimer set
 
-    // Updating full-text triggers to avoid anything with a messageTimer set
+      DROP TRIGGER messages_on_insert;
+      DROP TRIGGER messages_on_delete;
+      DROP TRIGGER messages_on_update;
 
-    await instance.run('DROP TRIGGER messages_on_insert;');
-    await instance.run('DROP TRIGGER messages_on_delete;');
-    await instance.run('DROP TRIGGER messages_on_update;');
-
-    await instance.run(`
       CREATE TRIGGER messages_on_insert AFTER INSERT ON messages
       WHEN new.messageTimer IS NULL
       BEGIN
@@ -1142,13 +1049,9 @@ async function updateToSchemaVersion16(
           new.body
         );
       END;
-    `);
-    await instance.run(`
       CREATE TRIGGER messages_on_delete AFTER DELETE ON messages BEGIN
         DELETE FROM messages_fts WHERE id = old.id;
       END;
-    `);
-    await instance.run(`
       CREATE TRIGGER messages_on_update AFTER UPDATE ON messages
       WHEN new.messageTimer IS NULL
       BEGIN
@@ -1163,34 +1066,25 @@ async function updateToSchemaVersion16(
       END;
     `);
 
-    await instance.run('PRAGMA user_version = 16;');
-    await instance.run('COMMIT TRANSACTION;');
-    console.log('updateToSchemaVersion16: success!');
-  } catch (error) {
-    await instance.run('ROLLBACK;');
-    throw error;
-  }
+    db.pragma('user_version = 16');
+  })();
+  console.log('updateToSchemaVersion16: success!');
 }
 
-async function updateToSchemaVersion17(
-  currentVersion: number,
-  instance: PromisifiedSQLDatabase
-) {
+function updateToSchemaVersion17(currentVersion: number, db: Database): void {
   if (currentVersion >= 17) {
     return;
   }
 
   console.log('updateToSchemaVersion17: starting...');
-  await instance.run('BEGIN TRANSACTION;');
-
-  try {
+  db.transaction(() => {
     try {
-      await instance.run(
-        `ALTER TABLE messages
-        ADD COLUMN isViewOnce INTEGER;`
-      );
+      db.exec(`
+        ALTER TABLE messages
+        ADD COLUMN isViewOnce INTEGER;
 
-      await instance.run('DROP INDEX messages_message_timer;');
+        DROP INDEX messages_message_timer;
+      `);
     } catch (error) {
       console.log(
         'updateToSchemaVersion17: Message table already had isViewOnce column'
@@ -1198,22 +1092,23 @@ async function updateToSchemaVersion17(
     }
 
     try {
-      await instance.run('DROP INDEX messages_view_once;');
+      db.exec('DROP INDEX messages_view_once;');
     } catch (error) {
       console.log(
         'updateToSchemaVersion17: Index messages_view_once did not already exist'
       );
     }
-    await instance.run(`CREATE INDEX messages_view_once ON messages (
-      isErased
-    ) WHERE isViewOnce = 1;`);
 
-    // Updating full-text triggers to avoid anything with isViewOnce = 1
+    db.exec(`
+      CREATE INDEX messages_view_once ON messages (
+        isErased
+      ) WHERE isViewOnce = 1;
 
-    await instance.run('DROP TRIGGER messages_on_insert;');
-    await instance.run('DROP TRIGGER messages_on_update;');
+      -- Updating full-text triggers to avoid anything with isViewOnce = 1
 
-    await instance.run(`
+      DROP TRIGGER messages_on_insert;
+      DROP TRIGGER messages_on_update;
+
       CREATE TRIGGER messages_on_insert AFTER INSERT ON messages
       WHEN new.isViewOnce != 1
       BEGIN
@@ -1225,8 +1120,6 @@ async function updateToSchemaVersion17(
           new.body
         );
       END;
-    `);
-    await instance.run(`
       CREATE TRIGGER messages_on_update AFTER UPDATE ON messages
       WHEN new.isViewOnce != 1
       BEGIN
@@ -1241,45 +1134,32 @@ async function updateToSchemaVersion17(
       END;
     `);
 
-    await instance.run('PRAGMA user_version = 17;');
-    await instance.run('COMMIT TRANSACTION;');
-    console.log('updateToSchemaVersion17: success!');
-  } catch (error) {
-    await instance.run('ROLLBACK;');
-    throw error;
-  }
+    db.pragma('user_version = 17');
+  })();
+  console.log('updateToSchemaVersion17: success!');
 }
 
-async function updateToSchemaVersion18(
-  currentVersion: number,
-  instance: PromisifiedSQLDatabase
-) {
+function updateToSchemaVersion18(currentVersion: number, db: Database): void {
   if (currentVersion >= 18) {
     return;
   }
 
   console.log('updateToSchemaVersion18: starting...');
-  await instance.run('BEGIN TRANSACTION;');
+  db.transaction(() => {
+    db.exec(`
+      -- Delete and rebuild full-text search index to capture everything
 
-  try {
-    // Delete and rebuild full-text search index to capture everything
+      DELETE FROM messages_fts;
+      INSERT INTO messages_fts(messages_fts) VALUES('rebuild');
 
-    await instance.run('DELETE FROM messages_fts;');
-    await instance.run(
-      "INSERT INTO messages_fts(messages_fts) VALUES('rebuild');"
-    );
-
-    await instance.run(`
       INSERT INTO messages_fts(id, body)
       SELECT id, body FROM messages WHERE isViewOnce IS NULL OR isViewOnce != 1;
-    `);
 
-    // Fixing full-text triggers
+      -- Fixing full-text triggers
 
-    await instance.run('DROP TRIGGER messages_on_insert;');
-    await instance.run('DROP TRIGGER messages_on_update;');
+      DROP TRIGGER messages_on_insert;
+      DROP TRIGGER messages_on_update;
 
-    await instance.run(`
       CREATE TRIGGER messages_on_insert AFTER INSERT ON messages
       WHEN new.isViewOnce IS NULL OR new.isViewOnce != 1
       BEGIN
@@ -1291,8 +1171,6 @@ async function updateToSchemaVersion18(
           new.body
         );
       END;
-    `);
-    await instance.run(`
       CREATE TRIGGER messages_on_update AFTER UPDATE ON messages
       WHEN new.isViewOnce IS NULL OR new.isViewOnce != 1
       BEGIN
@@ -1307,126 +1185,93 @@ async function updateToSchemaVersion18(
       END;
     `);
 
-    await instance.run('PRAGMA user_version = 18;');
-    await instance.run('COMMIT TRANSACTION;');
-    console.log('updateToSchemaVersion18: success!');
-  } catch (error) {
-    await instance.run('ROLLBACK;');
-    throw error;
-  }
+    db.pragma('user_version = 18');
+  })();
+  console.log('updateToSchemaVersion18: success!');
 }
 
-async function updateToSchemaVersion19(
-  currentVersion: number,
-  instance: PromisifiedSQLDatabase
-) {
+function updateToSchemaVersion19(currentVersion: number, db: Database): void {
   if (currentVersion >= 19) {
     return;
   }
 
   console.log('updateToSchemaVersion19: starting...');
-  await instance.run('BEGIN TRANSACTION;');
+  db.transaction(() => {
+    db.exec(`
+      ALTER TABLE conversations
+      ADD COLUMN profileFamilyName TEXT;
+      ALTER TABLE conversations
+      ADD COLUMN profileFullName TEXT;
 
-  await instance.run(
-    `ALTER TABLE conversations
-     ADD COLUMN profileFamilyName TEXT;`
-  );
-  await instance.run(
-    `ALTER TABLE conversations
-     ADD COLUMN profileFullName TEXT;`
-  );
+      -- Preload new field with the profileName we already have
+      UPDATE conversations SET profileFullName = profileName;
+    `);
 
-  // Preload new field with the profileName we already have
-  await instance.run('UPDATE conversations SET profileFullName = profileName');
+    db.pragma('user_version = 19');
+  })();
 
-  try {
-    await instance.run('PRAGMA user_version = 19;');
-    await instance.run('COMMIT TRANSACTION;');
-    console.log('updateToSchemaVersion19: success!');
-  } catch (error) {
-    await instance.run('ROLLBACK;');
-    throw error;
-  }
+  console.log('updateToSchemaVersion19: success!');
 }
 
-async function updateToSchemaVersion20(
-  currentVersion: number,
-  instance: PromisifiedSQLDatabase
-) {
+function updateToSchemaVersion20(currentVersion: number, db: Database): void {
   if (currentVersion >= 20) {
     return;
   }
 
   console.log('updateToSchemaVersion20: starting...');
-  await instance.run('BEGIN TRANSACTION;');
-
-  try {
-    const migrationJobQueue = new PQueue({
-      concurrency: 10,
-      timeout: 1000 * 60 * 5,
-      throwOnTimeout: true,
-    });
+  db.transaction(() => {
     // The triggers on the messages table slow down this migration
     // significantly, so we drop them and recreate them later.
     // Drop triggers
-    const triggers = await instance.all(
-      'SELECT * FROM sqlite_master WHERE type = "trigger" AND tbl_name = "messages"'
-    );
+    const triggers = db
+      .prepare<EmptyQuery>(
+        'SELECT * FROM sqlite_master WHERE type = "trigger" AND tbl_name = "messages"'
+      )
+      .all();
 
     for (const trigger of triggers) {
-      await instance.run(`DROP TRIGGER ${trigger.name}`);
+      db.exec(`DROP TRIGGER ${trigger.name}`);
     }
 
     // Create new columns and indices
-    await instance.run('ALTER TABLE conversations ADD COLUMN e164 TEXT;');
-    await instance.run('ALTER TABLE conversations ADD COLUMN uuid TEXT;');
-    await instance.run('ALTER TABLE conversations ADD COLUMN groupId TEXT;');
-    await instance.run('ALTER TABLE messages ADD COLUMN sourceUuid TEXT;');
-    await instance.run(
-      'ALTER TABLE sessions RENAME COLUMN number TO conversationId;'
-    );
-    await instance.run(
-      'CREATE INDEX conversations_e164 ON conversations(e164);'
-    );
-    await instance.run(
-      'CREATE INDEX conversations_uuid ON conversations(uuid);'
-    );
-    await instance.run(
-      'CREATE INDEX conversations_groupId ON conversations(groupId);'
-    );
-    await instance.run(
-      'CREATE INDEX messages_sourceUuid on messages(sourceUuid);'
-    );
+    db.exec(`
+      ALTER TABLE conversations ADD COLUMN e164 TEXT;
+      ALTER TABLE conversations ADD COLUMN uuid TEXT;
+      ALTER TABLE conversations ADD COLUMN groupId TEXT;
+      ALTER TABLE messages ADD COLUMN sourceUuid TEXT;
+      ALTER TABLE sessions RENAME COLUMN number TO conversationId;
+      CREATE INDEX conversations_e164 ON conversations(e164);
+      CREATE INDEX conversations_uuid ON conversations(uuid);
+      CREATE INDEX conversations_groupId ON conversations(groupId);
+      CREATE INDEX messages_sourceUuid on messages(sourceUuid);
 
-    // Migrate existing IDs
-    await instance.run(
-      "UPDATE conversations SET e164 = '+' || id WHERE type = 'private';"
-    );
-    await instance.run(
-      "UPDATE conversations SET groupId = id WHERE type = 'group';"
-    );
+      -- Migrate existing IDs
+      UPDATE conversations SET e164 = '+' || id WHERE type = 'private';
+      UPDATE conversations SET groupId = id WHERE type = 'group';
+    `);
 
     // Drop invalid groups and any associated messages
-    const maybeInvalidGroups = await instance.all(
-      "SELECT * FROM conversations WHERE type = 'group' AND members IS NULL;"
-    );
+    const maybeInvalidGroups = db
+      .prepare<EmptyQuery>(
+        "SELECT * FROM conversations WHERE type = 'group' AND members IS NULL;"
+      )
+      .all();
     for (const group of maybeInvalidGroups) {
-      const json = JSON.parse(group.json);
+      const json: { id: string; members: Array<any> } = JSON.parse(group.json);
       if (!json.members || !json.members.length) {
-        await instance.run('DELETE FROM conversations WHERE id = $id;', {
-          $id: json.id,
+        db.prepare<Query>('DELETE FROM conversations WHERE id = $id;').run({
+          id: json.id,
         });
-        await instance.run('DELETE FROM messages WHERE conversationId = $id;', {
-          $id: json.id,
-        });
-        // await instance.run('DELETE FROM sessions WHERE conversationId = $id;', {
-        //   $id: json.id,
-        // });
+        db.prepare<Query>(
+          'DELETE FROM messages WHERE conversationId = $id;'
+        ).run({ id: json.id });
       }
     }
 
     // Generate new IDs and alter data
-    const allConversations = await instance.all('SELECT * FROM conversations;');
+    const allConversations = db
+      .prepare<EmptyQuery>('SELECT * FROM conversations;')
+      .all();
     const allConversationsByOldId = keyBy(allConversations, 'id');
 
     for (const row of allConversations) {
@@ -1441,71 +1286,91 @@ async function updateToSchemaVersion20(
       }
       const patch = JSON.stringify(patchObj);
 
-      await instance.run(
-        'UPDATE conversations SET id = $newId, json = JSON_PATCH(json, $patch) WHERE id = $oldId',
-        {
-          $newId: newId,
-          $oldId: oldId,
-          $patch: patch,
-        }
-      );
+      db.prepare<Query>(
+        `
+        UPDATE conversations
+        SET id = $newId, json = JSON_PATCH(json, $patch)
+        WHERE id = $oldId
+        `
+      ).run({
+        newId,
+        oldId,
+        patch,
+      });
       const messagePatch = JSON.stringify({ conversationId: newId });
-      await instance.run(
-        'UPDATE messages SET conversationId = $newId, json = JSON_PATCH(json, $patch) WHERE conversationId = $oldId',
-        { $newId: newId, $oldId: oldId, $patch: messagePatch }
-      );
+      db.prepare<Query>(
+        `
+        UPDATE messages
+        SET conversationId = $newId, json = JSON_PATCH(json, $patch)
+        WHERE conversationId = $oldId
+        `
+      ).run({ newId, oldId, patch: messagePatch });
     }
 
-    const groupConverations = await instance.all(
-      "SELECT * FROM conversations WHERE type = 'group';"
-    );
+    const groupConversations: Array<{
+      id: string;
+      members: string;
+      json: string;
+    }> = db
+      .prepare<EmptyQuery>(
+        `
+        SELECT id, members, json FROM conversations WHERE type = 'group';
+        `
+      )
+      .all();
 
     // Update group conversations, point members at new conversation ids
-    migrationJobQueue.addAll(
-      groupConverations.map(groupRow => async () => {
-        const members = groupRow.members.split(/\s?\+/).filter(Boolean);
-        const newMembers = [];
-        for (const m of members) {
-          const memberRow = allConversationsByOldId[m];
+    groupConversations.forEach(groupRow => {
+      const members = groupRow.members.split(/\s?\+/).filter(Boolean);
+      const newMembers = [];
+      for (const m of members) {
+        const memberRow = allConversationsByOldId[m];
 
-          if (memberRow) {
-            newMembers.push(memberRow.id);
-          } else {
-            // We didn't previously have a private conversation for this member,
-            // we need to create one
-            const id = generateUUID();
-            await saveConversation(
-              {
-                id,
-                e164: m,
-                type: 'private',
-                version: 2,
-                unreadCount: 0,
-                verified: 0,
-              },
-              instance
-            );
+        if (memberRow) {
+          newMembers.push(memberRow.id);
+        } else {
+          // We didn't previously have a private conversation for this member,
+          // we need to create one
+          const id = generateUUID();
+          saveConversation({
+            id,
+            e164: m,
+            type: 'private',
+            version: 2,
+            unreadCount: 0,
+            verified: 0,
 
-            newMembers.push(id);
-          }
+            // Not directly used by saveConversation, but are necessary
+            // for conversation model
+            inbox_position: 0,
+            isPinned: false,
+            lastMessageDeletedForEveryone: false,
+            markedUnread: false,
+            messageCount: 0,
+            sentMessageCount: 0,
+            profileSharing: false,
+          });
+
+          newMembers.push(id);
         }
-        const json = { ...jsonToObject(groupRow.json), members: newMembers };
-        const newMembersValue = newMembers.join(' ');
-        await instance.run(
-          'UPDATE conversations SET members = $newMembersValue, json = $newJsonValue WHERE id = $id',
-          {
-            $id: groupRow.id,
-            $newMembersValue: newMembersValue,
-            $newJsonValue: objectToJSON(json),
-          }
-        );
-      })
-    );
-    // Wait for group conversation updates to finish
-    await migrationJobQueue.onEmpty();
+      }
+      const json = { ...jsonToObject(groupRow.json), members: newMembers };
+      const newMembersValue = newMembers.join(' ');
+      db.prepare<Query>(
+        `
+        UPDATE conversations
+        SET members = $newMembersValue, json = $newJsonValue
+        WHERE id = $id
+        `
+      ).run({
+        id: groupRow.id,
+        newMembersValue,
+        newJsonValue: objectToJSON(json),
+      });
+    });
 
     // Update sessions to stable IDs
-    const allSessions = await instance.all('SELECT * FROM sessions;');
+    const allSessions = db.prepare<EmptyQuery>('SELECT * FROM sessions;').all();
     for (const session of allSessions) {
       // Not using patch here so we can explicitly delete a property rather than
       // implicitly delete via null
@@ -1516,72 +1381,63 @@ async function updateToSchemaVersion20(
         newJson.id = `${newJson.conversationId}.${newJson.deviceId}`;
       }
       delete newJson.number;
-      await instance.run(
+      db.prepare<Query>(
         `
         UPDATE sessions
         SET id = $newId, json = $newJson, conversationId = $newConversationId
         WHERE id = $oldId
-      `,
-        {
-          $newId: newJson.id,
-          $newJson: objectToJSON(newJson),
-          $oldId: session.id,
-          $newConversationId: newJson.conversationId,
-        }
-      );
+        `
+      ).run({
+        newId: newJson.id,
+        newJson: objectToJSON(newJson),
+        oldId: session.id,
+        newConversationId: newJson.conversationId,
+      });
     }
 
     // Update identity keys to stable IDs
-    const allIdentityKeys = await instance.all('SELECT * FROM identityKeys;');
+    const allIdentityKeys = db
+      .prepare<EmptyQuery>('SELECT * FROM identityKeys;')
+      .all();
     for (const identityKey of allIdentityKeys) {
       const newJson = JSON.parse(identityKey.json);
       newJson.id = allConversationsByOldId[newJson.id];
-      await instance.run(
+      db.prepare<Query>(
         `
         UPDATE identityKeys
         SET id = $newId, json = $newJson
         WHERE id = $oldId
-      `,
-        {
-          $newId: newJson.id,
-          $newJson: objectToJSON(newJson),
-          $oldId: identityKey.id,
-        }
-      );
+        `
+      ).run({
+        newId: newJson.id,
+        newJson: objectToJSON(newJson),
+        oldId: identityKey.id,
+      });
     }
 
     // Recreate triggers
     for (const trigger of triggers) {
-      await instance.run(trigger.sql);
+      db.exec(trigger.sql);
     }
 
-    await instance.run('PRAGMA user_version = 20;');
-    await instance.run('COMMIT TRANSACTION;');
-    console.log('updateToSchemaVersion20: success!');
-  } catch (error) {
-    await instance.run('ROLLBACK;');
-    throw error;
-  }
+    db.pragma('user_version = 20');
+  })();
+  console.log('updateToSchemaVersion20: success!');
 }
 
-async function updateToSchemaVersion21(
-  currentVersion: number,
-  instance: PromisifiedSQLDatabase
-) {
+function updateToSchemaVersion21(currentVersion: number, db: Database): void {
   if (currentVersion >= 21) {
     return;
   }
-  try {
-    await instance.run('BEGIN TRANSACTION;');
-    await instance.run(`
+
+  db.transaction(() => {
+    db.exec(`
       UPDATE conversations
       SET json = json_set(
         json,
         '$.messageCount',
         (SELECT count(*) FROM messages WHERE messages.conversationId = conversations.id)
       );
-    `);
-    await instance.run(`
       UPDATE conversations
       SET json = json_set(
         json,
@@ -1589,60 +1445,648 @@ async function updateToSchemaVersion21(
         (SELECT count(*) FROM messages WHERE messages.conversationId = conversations.id AND messages.type = 'outgoing')
       );
     `);
-    await instance.run('PRAGMA user_version = 21;');
-    await instance.run('COMMIT TRANSACTION;');
-    console.log('updateToSchemaVersion21: success!');
-  } catch (error) {
-    await instance.run('ROLLBACK');
-    throw error;
-  }
+    db.pragma('user_version = 21');
+  })();
+  console.log('updateToSchemaVersion21: success!');
 }
 
-async function updateToSchemaVersion22(
-  currentVersion: number,
-  instance: PromisifiedSQLDatabase
-) {
+function updateToSchemaVersion22(currentVersion: number, db: Database): void {
   if (currentVersion >= 22) {
     return;
   }
-  try {
-    await instance.run('BEGIN TRANSACTION;');
-    await instance.run(
-      `ALTER TABLE unprocessed
-     ADD COLUMN sourceUuid STRING;`
-    );
 
-    await instance.run('PRAGMA user_version = 22;');
-    await instance.run('COMMIT TRANSACTION;');
-    console.log('updateToSchemaVersion22: success!');
-  } catch (error) {
-    await instance.run('ROLLBACK');
-    throw error;
-  }
+  db.transaction(() => {
+    db.exec(`
+      ALTER TABLE unprocessed
+        ADD COLUMN sourceUuid STRING;
+    `);
+
+    db.pragma('user_version = 22');
+  })();
+  console.log('updateToSchemaVersion22: success!');
 }
 
-async function updateToSchemaVersion23(
-  currentVersion: number,
-  instance: PromisifiedSQLDatabase
-) {
+function updateToSchemaVersion23(currentVersion: number, db: Database): void {
   if (currentVersion >= 23) {
     return;
   }
-  try {
-    await instance.run('BEGIN TRANSACTION;');
 
-    // Remove triggers which keep full-text search up to date
-    await instance.run('DROP TRIGGER messages_on_insert;');
-    await instance.run('DROP TRIGGER messages_on_update;');
-    await instance.run('DROP TRIGGER messages_on_delete;');
+  db.transaction(() => {
+    db.exec(`
+      -- Remove triggers which keep full-text search up to date
+      DROP TRIGGER messages_on_insert;
+      DROP TRIGGER messages_on_update;
+      DROP TRIGGER messages_on_delete;
+    `);
 
-    await instance.run('PRAGMA user_version = 23;');
-    await instance.run('COMMIT TRANSACTION;');
-    console.log('updateToSchemaVersion23: success!');
-  } catch (error) {
-    await instance.run('ROLLBACK');
-    throw error;
+    db.pragma('user_version = 23');
+  })();
+  console.log('updateToSchemaVersion23: success!');
+}
+
+function updateToSchemaVersion24(currentVersion: number, db: Database): void {
+  if (currentVersion >= 24) {
+    return;
   }
+
+  db.transaction(() => {
+    db.exec(`
+      ALTER TABLE conversations
+      ADD COLUMN profileLastFetchedAt INTEGER;
+    `);
+
+    db.pragma('user_version = 24');
+  })();
+  console.log('updateToSchemaVersion24: success!');
+}
+
+async function updateToSchemaVersion25(currentVersion: number, db: Database) {
+  if (currentVersion >= 25) {
+    return;
+  }
+
+  db.transaction(() => {
+    db.exec(`
+      ALTER TABLE messages
+      RENAME TO old_messages
+    `);
+
+    const indicesToDrop = [
+      'messages_expires_at',
+      'messages_receipt',
+      'messages_schemaVersion',
+      'messages_conversation',
+      'messages_duplicate_check',
+      'messages_hasAttachments',
+      'messages_hasFileAttachments',
+      'messages_hasVisualMediaAttachments',
+      'messages_without_timer',
+      'messages_unread',
+      'messages_view_once',
+      'messages_sourceUuid',
+    ];
+    for (const index of indicesToDrop) {
+      db.exec(`DROP INDEX IF EXISTS ${index};`);
+    }
+
+    db.exec(`
+      --
+      -- Create a new table with a different primary key
+      --
+
+      CREATE TABLE messages(
+        rowid INTEGER PRIMARY KEY ASC,
+        id STRING UNIQUE,
+        json TEXT,
+        unread INTEGER,
+        expires_at INTEGER,
+        sent_at INTEGER,
+        schemaVersion INTEGER,
+        conversationId STRING,
+        received_at INTEGER,
+        source STRING,
+        sourceDevice STRING,
+        hasAttachments INTEGER,
+        hasFileAttachments INTEGER,
+        hasVisualMediaAttachments INTEGER,
+        expireTimer INTEGER,
+        expirationStartTimestamp INTEGER,
+        type STRING,
+        body TEXT,
+        messageTimer INTEGER,
+        messageTimerStart INTEGER,
+        messageTimerExpiresAt INTEGER,
+        isErased INTEGER,
+        isViewOnce INTEGER,
+        sourceUuid TEXT);
+
+      -- Create index in lieu of old PRIMARY KEY
+      CREATE INDEX messages_id ON messages (id ASC);
+
+      --
+      -- Recreate indices
+      --
+
+      CREATE INDEX messages_expires_at ON messages (expires_at);
+
+      CREATE INDEX messages_receipt ON messages (sent_at);
+
+      CREATE INDEX messages_schemaVersion ON messages (schemaVersion);
+
+      CREATE INDEX messages_conversation ON messages
+        (conversationId, received_at);
+
+      CREATE INDEX messages_duplicate_check ON messages
+        (source, sourceDevice, sent_at);
+
+      CREATE INDEX messages_hasAttachments ON messages
+        (conversationId, hasAttachments, received_at);
+
+      CREATE INDEX messages_hasFileAttachments ON messages
+        (conversationId, hasFileAttachments, received_at);
+
+      CREATE INDEX messages_hasVisualMediaAttachments ON messages
+        (conversationId, hasVisualMediaAttachments, received_at);
+
+      CREATE INDEX messages_without_timer ON messages
+        (expireTimer, expires_at, type)
+        WHERE expires_at IS NULL AND expireTimer IS NOT NULL;
+
+      CREATE INDEX messages_unread ON messages
+        (conversationId, unread) WHERE unread IS NOT NULL;
+
+      CREATE INDEX messages_view_once ON messages
+        (isErased) WHERE isViewOnce = 1;
+
+      CREATE INDEX messages_sourceUuid on messages(sourceUuid);
+
+      -- New index for searchMessages
+      CREATE INDEX messages_searchOrder on messages(received_at, sent_at);
+
+      --
+      -- Re-create messages_fts and add triggers
+      --
+
+      DROP TABLE messages_fts;
+
+      CREATE VIRTUAL TABLE messages_fts USING fts5(body);
+
+      CREATE TRIGGER messages_on_insert AFTER INSERT ON messages
+      WHEN new.isViewOnce IS NULL OR new.isViewOnce != 1
+      BEGIN
+        INSERT INTO messages_fts
+        (rowid, body)
+        VALUES
+        (new.rowid, new.body);
+      END;
+
+      CREATE TRIGGER messages_on_delete AFTER DELETE ON messages BEGIN
+        DELETE FROM messages_fts WHERE rowid = old.rowid;
+      END;
+
+      CREATE TRIGGER messages_on_update AFTER UPDATE ON messages
+      WHEN new.isViewOnce IS NULL OR new.isViewOnce != 1
+      BEGIN
+        DELETE FROM messages_fts WHERE rowid = old.rowid;
+        INSERT INTO messages_fts
+        (rowid, body)
+        VALUES
+        (new.rowid, new.body);
+      END;
+
+      --
+      -- Copy data over
+      --
+
+      INSERT INTO messages
+      (
+        id, json, unread, expires_at, sent_at, schemaVersion, conversationId,
+        received_at, source, sourceDevice, hasAttachments, hasFileAttachments,
+        hasVisualMediaAttachments, expireTimer, expirationStartTimestamp, type,
+        body, messageTimer, messageTimerStart, messageTimerExpiresAt, isErased,
+        isViewOnce, sourceUuid
+      )
+      SELECT
+        id, json, unread, expires_at, sent_at, schemaVersion, conversationId,
+        received_at, source, sourceDevice, hasAttachments, hasFileAttachments,
+        hasVisualMediaAttachments, expireTimer, expirationStartTimestamp, type,
+        body, messageTimer, messageTimerStart, messageTimerExpiresAt, isErased,
+        isViewOnce, sourceUuid
+      FROM old_messages;
+
+      -- Drop old database
+      DROP TABLE old_messages;
+    `);
+
+    db.pragma('user_version = 25');
+  })();
+  console.log('updateToSchemaVersion25: success!');
+}
+
+async function updateToSchemaVersion26(currentVersion: number, db: Database) {
+  if (currentVersion >= 26) {
+    return;
+  }
+
+  db.transaction(() => {
+    db.exec(`
+      DROP TRIGGER messages_on_insert;
+      DROP TRIGGER messages_on_update;
+
+      CREATE TRIGGER messages_on_insert AFTER INSERT ON messages
+      WHEN new.isViewOnce IS NULL OR new.isViewOnce != 1
+      BEGIN
+        INSERT INTO messages_fts
+        (rowid, body)
+        VALUES
+        (new.rowid, new.body);
+      END;
+
+      CREATE TRIGGER messages_on_update AFTER UPDATE ON messages
+      WHEN new.body != old.body AND
+        (new.isViewOnce IS NULL OR new.isViewOnce != 1)
+      BEGIN
+        DELETE FROM messages_fts WHERE rowid = old.rowid;
+        INSERT INTO messages_fts
+        (rowid, body)
+        VALUES
+        (new.rowid, new.body);
+      END;
+    `);
+
+    db.pragma('user_version = 26');
+  })();
+  console.log('updateToSchemaVersion26: success!');
+}
+
+async function updateToSchemaVersion27(currentVersion: number, db: Database) {
+  if (currentVersion >= 27) {
+    return;
+  }
+
+  db.transaction(() => {
+    db.exec(`
+      DELETE FROM messages_fts WHERE rowid IN
+        (SELECT rowid FROM messages WHERE body IS NULL);
+
+      DROP TRIGGER messages_on_update;
+
+      CREATE TRIGGER messages_on_update AFTER UPDATE ON messages
+      WHEN
+        new.body IS NULL OR
+        ((old.body IS NULL OR new.body != old.body) AND
+         (new.isViewOnce IS NULL OR new.isViewOnce != 1))
+      BEGIN
+        DELETE FROM messages_fts WHERE rowid = old.rowid;
+        INSERT INTO messages_fts
+        (rowid, body)
+        VALUES
+        (new.rowid, new.body);
+      END;
+
+      CREATE TRIGGER messages_on_view_once_update AFTER UPDATE ON messages
+      WHEN
+        new.body IS NOT NULL AND new.isViewOnce = 1
+      BEGIN
+        DELETE FROM messages_fts WHERE rowid = old.rowid;
+      END;
+    `);
+
+    db.pragma('user_version = 27');
+  })();
+  console.log('updateToSchemaVersion27: success!');
+}
+
+function updateToSchemaVersion28(currentVersion: number, db: Database) {
+  if (currentVersion >= 28) {
+    return;
+  }
+
+  db.transaction(() => {
+    db.exec(`
+      CREATE TABLE jobs(
+        id TEXT PRIMARY KEY,
+        queueType TEXT STRING NOT NULL,
+        timestamp INTEGER NOT NULL,
+        data STRING TEXT
+      );
+
+      CREATE INDEX jobs_timestamp ON jobs (timestamp);
+    `);
+
+    db.pragma('user_version = 28');
+  })();
+  console.log('updateToSchemaVersion28: success!');
+}
+
+function updateToSchemaVersion29(currentVersion: number, db: Database) {
+  if (currentVersion >= 29) {
+    return;
+  }
+
+  db.transaction(() => {
+    db.exec(`
+      CREATE TABLE reactions(
+        conversationId STRING,
+        emoji STRING,
+        fromId STRING,
+        messageReceivedAt INTEGER,
+        targetAuthorUuid STRING,
+        targetTimestamp INTEGER,
+        unread INTEGER
+      );
+
+      CREATE INDEX reactions_unread ON reactions (
+        unread,
+        conversationId
+      );
+
+      CREATE INDEX reaction_identifier ON reactions (
+        emoji,
+        targetAuthorUuid,
+        targetTimestamp
+      );
+    `);
+
+    db.pragma('user_version = 29');
+  })();
+  console.log('updateToSchemaVersion29: success!');
+}
+
+function updateToSchemaVersion30(currentVersion: number, db: Database) {
+  if (currentVersion >= 30) {
+    return;
+  }
+
+  db.transaction(() => {
+    db.exec(`
+      CREATE TABLE senderKeys(
+        id TEXT PRIMARY KEY NOT NULL,
+        senderId TEXT NOT NULL,
+        distributionId TEXT NOT NULL,
+        data BLOB NOT NULL,
+        lastUpdatedDate NUMBER NOT NULL
+      );
+    `);
+
+    db.pragma('user_version = 30');
+  })();
+  console.log('updateToSchemaVersion30: success!');
+}
+
+function updateToSchemaVersion31(currentVersion: number, db: Database): void {
+  if (currentVersion >= 31) {
+    return;
+  }
+  console.log('updateToSchemaVersion31: starting...');
+  db.transaction(() => {
+    db.exec(`
+      DROP INDEX unprocessed_id;
+      DROP INDEX unprocessed_timestamp;
+      ALTER TABLE unprocessed RENAME TO unprocessed_old;
+
+      CREATE TABLE unprocessed(
+        id STRING PRIMARY KEY ASC,
+        timestamp INTEGER,
+        version INTEGER,
+        attempts INTEGER,
+        envelope TEXT,
+        decrypted TEXT,
+        source TEXT,
+        sourceDevice TEXT,
+        serverTimestamp INTEGER,
+        sourceUuid STRING
+      );
+
+      CREATE INDEX unprocessed_timestamp ON unprocessed (
+        timestamp
+      );
+
+      INSERT OR REPLACE INTO unprocessed
+        (id, timestamp, version, attempts, envelope, decrypted, source,
+         sourceDevice, serverTimestamp, sourceUuid)
+      SELECT
+        id, timestamp, version, attempts, envelope, decrypted, source,
+         sourceDevice, serverTimestamp, sourceUuid
+      FROM unprocessed_old;
+
+      DROP TABLE unprocessed_old;
+    `);
+
+    db.pragma('user_version = 31');
+  })();
+  console.log('updateToSchemaVersion31: success!');
+}
+
+function updateToSchemaVersion32(currentVersion: number, db: Database) {
+  if (currentVersion >= 32) {
+    return;
+  }
+
+  db.transaction(() => {
+    db.exec(`
+      ALTER TABLE messages
+      ADD COLUMN serverGuid STRING NULL;
+
+      ALTER TABLE unprocessed
+      ADD COLUMN serverGuid STRING NULL;
+    `);
+
+    db.pragma('user_version = 32');
+  })();
+  console.log('updateToSchemaVersion32: success!');
+}
+
+function updateToSchemaVersion33(currentVersion: number, db: Database) {
+  if (currentVersion >= 33) {
+    return;
+  }
+
+  db.transaction(() => {
+    db.exec(`
+      -- These indexes should exist, but we add "IF EXISTS" for safety.
+      DROP INDEX IF EXISTS messages_expires_at;
+      DROP INDEX IF EXISTS messages_without_timer;
+
+      ALTER TABLE messages
+      ADD COLUMN
+      expiresAt INT
+      GENERATED ALWAYS
+      AS (expirationStartTimestamp + (expireTimer * 1000));
+
+      CREATE INDEX message_expires_at ON messages (
+        expiresAt
+      );
+
+      CREATE INDEX outgoing_messages_without_expiration_start_timestamp ON messages (
+        expireTimer, expirationStartTimestamp, type
+      )
+      WHERE expireTimer IS NOT NULL AND expirationStartTimestamp IS NULL;
+    `);
+
+    db.pragma('user_version = 33');
+  })();
+  console.log('updateToSchemaVersion33: success!');
+}
+
+function updateToSchemaVersion34(currentVersion: number, db: Database) {
+  if (currentVersion >= 34) {
+    return;
+  }
+
+  db.transaction(() => {
+    db.exec(`
+      -- This index should exist, but we add "IF EXISTS" for safety.
+      DROP INDEX IF EXISTS outgoing_messages_without_expiration_start_timestamp;
+
+      CREATE INDEX messages_unexpectedly_missing_expiration_start_timestamp ON messages (
+        expireTimer, expirationStartTimestamp, type
+      )
+      WHERE expireTimer IS NOT NULL AND expirationStartTimestamp IS NULL;
+    `);
+
+    db.pragma('user_version = 34');
+  })();
+  console.log('updateToSchemaVersion34: success!');
+}
+
+function updateToSchemaVersion35(currentVersion: number, db: Database) {
+  if (currentVersion >= 35) {
+    return;
+  }
+
+  db.transaction(() => {
+    db.exec(`
+      CREATE INDEX expiring_message_by_conversation_and_received_at
+      ON messages
+      (
+        expirationStartTimestamp,
+        expireTimer,
+        conversationId,
+        received_at
+      );
+    `);
+
+    db.pragma('user_version = 35');
+  })();
+  console.log('updateToSchemaVersion35: success!');
+}
+
+// Reverted
+function updateToSchemaVersion36(currentVersion: number, db: Database) {
+  if (currentVersion >= 36) {
+    return;
+  }
+
+  db.pragma('user_version = 36');
+  console.log('updateToSchemaVersion36: success!');
+}
+
+function updateToSchemaVersion37(currentVersion: number, db: Database) {
+  if (currentVersion >= 37) {
+    return;
+  }
+
+  db.transaction(() => {
+    db.exec(`
+      -- Create send log primary table
+
+      CREATE TABLE sendLogPayloads(
+        id INTEGER PRIMARY KEY ASC,
+
+        timestamp INTEGER NOT NULL,
+        contentHint INTEGER NOT NULL,
+        proto BLOB NOT NULL
+      );
+
+      CREATE INDEX sendLogPayloadsByTimestamp ON sendLogPayloads (timestamp);
+
+      -- Create send log recipients table with foreign key relationship to payloads
+
+      CREATE TABLE sendLogRecipients(
+        payloadId INTEGER NOT NULL,
+
+        recipientUuid STRING NOT NULL,
+        deviceId INTEGER NOT NULL,
+
+        PRIMARY KEY (payloadId, recipientUuid, deviceId),
+
+        CONSTRAINT sendLogRecipientsForeignKey
+          FOREIGN KEY (payloadId)
+          REFERENCES sendLogPayloads(id)
+          ON DELETE CASCADE
+      );
+
+      CREATE INDEX sendLogRecipientsByRecipient
+        ON sendLogRecipients (recipientUuid, deviceId);
+
+      -- Create send log messages table with foreign key relationship to payloads
+
+      CREATE TABLE sendLogMessageIds(
+        payloadId INTEGER NOT NULL,
+
+        messageId STRING NOT NULL,
+
+        PRIMARY KEY (payloadId, messageId),
+
+        CONSTRAINT sendLogMessageIdsForeignKey
+          FOREIGN KEY (payloadId)
+          REFERENCES sendLogPayloads(id)
+          ON DELETE CASCADE
+      );
+
+      CREATE INDEX sendLogMessageIdsByMessage
+        ON sendLogMessageIds (messageId);
+
+      -- Recreate messages table delete trigger with send log support
+
+      DROP TRIGGER messages_on_delete;
+
+      CREATE TRIGGER messages_on_delete AFTER DELETE ON messages BEGIN
+        DELETE FROM messages_fts WHERE rowid = old.rowid;
+        DELETE FROM sendLogPayloads WHERE id IN (
+          SELECT payloadId FROM sendLogMessageIds
+          WHERE messageId = old.id
+        );
+      END;
+
+      --- Add messageId column to reactions table to properly track proto associations
+
+      ALTER TABLE reactions ADD column messageId STRING;
+    `);
+
+    db.pragma('user_version = 37');
+  })();
+  console.log('updateToSchemaVersion37: success!');
+}
+
+function updateToSchemaVersion38(currentVersion: number, db: Database) {
+  if (currentVersion >= 38) {
+    return;
+  }
+
+  db.transaction(() => {
+    // TODO: Remove deprecated columns once sqlcipher is updated to support it
+    db.exec(`
+      DROP INDEX IF EXISTS messages_duplicate_check;
+
+      ALTER TABLE messages
+        RENAME COLUMN sourceDevice TO deprecatedSourceDevice;
+      ALTER TABLE messages
+        ADD COLUMN sourceDevice INTEGER;
+
+      UPDATE messages
+      SET
+        sourceDevice = CAST(deprecatedSourceDevice AS INTEGER),
+        deprecatedSourceDevice = NULL;
+
+      ALTER TABLE unprocessed
+        RENAME COLUMN sourceDevice TO deprecatedSourceDevice;
+      ALTER TABLE unprocessed
+        ADD COLUMN sourceDevice INTEGER;
+
+      UPDATE unprocessed
+      SET
+        sourceDevice = CAST(deprecatedSourceDevice AS INTEGER),
+        deprecatedSourceDevice = NULL;
+    `);
+
+    db.pragma('user_version = 38');
+  })();
+  console.log('updateToSchemaVersion38: success!');
+}
+
+function updateToSchemaVersion39(currentVersion: number, db: Database) {
+  if (currentVersion >= 39) {
+    return;
+  }
+
+  db.transaction(() => {
+    db.exec('ALTER TABLE messages RENAME COLUMN unread TO readStatus;');
+
+    db.pragma('user_version = 39');
+  })();
+  console.log('updateToSchemaVersion39: success!');
 }
 
 const SCHEMA_VERSIONS = [
@@ -1650,7 +2094,7 @@ const SCHEMA_VERSIONS = [
   updateToSchemaVersion2,
   updateToSchemaVersion3,
   updateToSchemaVersion4,
-  (_v: number, _i: PromisifiedSQLDatabase) => null, // version 5 was dropped
+  (_v: number, _i: Database) => null, // version 5 was dropped
   updateToSchemaVersion6,
   updateToSchemaVersion7,
   updateToSchemaVersion8,
@@ -1669,14 +2113,30 @@ const SCHEMA_VERSIONS = [
   updateToSchemaVersion21,
   updateToSchemaVersion22,
   updateToSchemaVersion23,
+  updateToSchemaVersion24,
+  updateToSchemaVersion25,
+  updateToSchemaVersion26,
+  updateToSchemaVersion27,
+  updateToSchemaVersion28,
+  updateToSchemaVersion29,
+  updateToSchemaVersion30,
+  updateToSchemaVersion31,
+  updateToSchemaVersion32,
+  updateToSchemaVersion33,
+  updateToSchemaVersion34,
+  updateToSchemaVersion35,
+  updateToSchemaVersion36,
+  updateToSchemaVersion37,
+  updateToSchemaVersion38,
+  updateToSchemaVersion39,
 ];
 
-async function updateSchema(instance: PromisifiedSQLDatabase) {
-  const sqliteVersion = await getSQLiteVersion(instance);
-  const sqlcipherVersion = await getSQLCipherVersion(instance);
-  const userVersion = await getUserVersion(instance);
+function updateSchema(db: Database): void {
+  const sqliteVersion = getSQLiteVersion(db);
+  const sqlcipherVersion = getSQLCipherVersion(db);
+  const userVersion = getUserVersion(db);
   const maxUserVersion = SCHEMA_VERSIONS.length;
-  const schemaVersion = await getSchemaVersion(instance);
+  const schemaVersion = getSchemaVersion(db);
 
   console.log(
     'updateSchema:\n',
@@ -1696,23 +2156,21 @@ async function updateSchema(instance: PromisifiedSQLDatabase) {
   for (let index = 0; index < maxUserVersion; index += 1) {
     const runSchemaUpdate = SCHEMA_VERSIONS[index];
 
-    // Yes, we really want to do this asynchronously, in order
-    await runSchemaUpdate(userVersion, instance);
+    runSchemaUpdate(userVersion, db);
   }
 }
 
-let globalInstance: PromisifiedSQLDatabase | undefined;
+let globalInstance: Database | undefined;
+let globalInstanceRenderer: Database | undefined;
 let databaseFilePath: string | undefined;
 let indexedDBPath: string | undefined;
 
 async function initialize({
   configDir,
   key,
-  messages,
 }: {
   configDir: string;
   key: string;
-  messages: LocaleMessagesType;
 }) {
   if (globalInstance) {
     throw new Error('Cannot initialize more than once!');
@@ -1724,9 +2182,6 @@ async function initialize({
   if (!isString(key)) {
     throw new Error('initialize: key is required!');
   }
-  if (!isObject(messages)) {
-    throw new Error('initialize: message is required!');
-  }
 
   indexedDBPath = join(configDir, 'IndexedDB');
 
@@ -1735,37 +2190,19 @@ async function initialize({
 
   databaseFilePath = join(dbDir, 'db.sqlite');
 
-  let promisified: PromisifiedSQLDatabase | undefined;
+  let db: Database | undefined;
 
   try {
-    promisified = await openAndSetUpSQLCipher(databaseFilePath, { key });
+    db = openAndSetUpSQLCipher(databaseFilePath, { key });
 
-    // if (promisified) {
-    //   promisified.on('trace', async statement => {
-    //     if (
-    //       !globalInstance ||
-    //       statement.startsWith('--') ||
-    //       statement.includes('COMMIT') ||
-    //       statement.includes('BEGIN') ||
-    //       statement.includes('ROLLBACK')
-    //     ) {
-    //       return;
-    //     }
+    // For profiling use:
+    // db.pragma('cipher_profile=\'sqlcipher.log\'');
 
-    //     // Note that this causes problems when attempting to commit transactions - this
-    //     //   statement is running, and we get at SQLITE_BUSY error. So we delay.
-    //     await new Promise(resolve => setTimeout(resolve, 1000));
-
-    //     const data = await promisified.get(`EXPLAIN QUERY PLAN ${statement}`);
-    //     console._log(`EXPLAIN QUERY PLAN ${statement}\n`, data && data.detail);
-    //   });
-    // }
-
-    await updateSchema(promisified);
+    updateSchema(db);
 
     // test database
 
-    const cipherIntegrityResult = await getSQLCipherIntegrityCheck(promisified);
+    const cipherIntegrityResult = getSQLCipherIntegrityCheck(db);
     if (cipherIntegrityResult) {
       console.log(
         'Database cipher integrity check failed:',
@@ -1775,63 +2212,86 @@ async function initialize({
         `Cipher integrity check failed: ${cipherIntegrityResult}`
       );
     }
-    const integrityResult = await getSQLIntegrityCheck(promisified);
+    const integrityResult = getSQLIntegrityCheck(db);
     if (integrityResult) {
       console.log('Database integrity check failed:', integrityResult);
       throw new Error(`Integrity check failed: ${integrityResult}`);
     }
 
     // At this point we can allow general access to the database
-    globalInstance = promisified;
+    globalInstance = db;
 
     // test database
     await getMessageCount();
   } catch (error) {
     console.log('Database startup error:', error.stack);
-    const buttonIndex = dialog.showMessageBoxSync({
-      buttons: [
-        messages.copyErrorAndQuit.message,
-        messages.deleteAndRestart.message,
-      ],
-      defaultId: 0,
-      detail: redactAll(error.stack),
-      message: messages.databaseError.message,
-      noLink: true,
-      type: 'error',
-    });
-
-    if (buttonIndex === 0) {
-      clipboard.writeText(
-        `Database startup error:\n\n${redactAll(error.stack)}`
-      );
-    } else {
-      if (promisified) {
-        await promisified.close();
-      }
-      await removeDB();
-      removeUserConfig();
-      app.relaunch();
+    if (db) {
+      db.close();
     }
-
-    app.exit(1);
-
-    return false;
+    throw error;
   }
-
-  return true;
 }
 
-async function close() {
-  if (!globalInstance) {
-    return;
+async function initializeRenderer({
+  configDir,
+  key,
+}: {
+  configDir: string;
+  key: string;
+}) {
+  if (!isRenderer()) {
+    throw new Error('Cannot call from main process.');
+  }
+  if (globalInstanceRenderer) {
+    throw new Error('Cannot initialize more than once!');
+  }
+  if (!isString(configDir)) {
+    throw new Error('initialize: configDir is required!');
+  }
+  if (!isString(key)) {
+    throw new Error('initialize: key is required!');
   }
 
-  const dbRef = globalInstance;
+  if (!indexedDBPath) {
+    indexedDBPath = join(configDir, 'IndexedDB');
+  }
+
+  const dbDir = join(configDir, 'sql');
+
+  if (!databaseFilePath) {
+    databaseFilePath = join(dbDir, 'db.sqlite');
+  }
+
+  let promisified: Database | undefined;
+
+  try {
+    promisified = openAndSetUpSQLCipher(databaseFilePath, { key });
+
+    // At this point we can allow general access to the database
+    globalInstanceRenderer = promisified;
+
+    // test database
+    await getMessageCount();
+  } catch (error) {
+    window.log.error('Database startup error:', error.stack);
+    throw error;
+  }
+}
+
+async function close(): Promise<void> {
+  for (const dbRef of [globalInstanceRenderer, globalInstance]) {
+    // SQLLite documentation suggests that we run `PRAGMA optimize` right
+    // before closing the database connection.
+    dbRef?.pragma('optimize');
+
+    dbRef?.close();
+  }
+
   globalInstance = undefined;
-  await dbRef.close();
+  globalInstanceRenderer = undefined;
 }
 
-async function removeDB() {
+async function removeDB(): Promise<void> {
   if (globalInstance) {
     throw new Error('removeDB: Cannot erase database when it is open!');
   }
@@ -1842,9 +2302,11 @@ async function removeDB() {
   }
 
   rimraf.sync(databaseFilePath);
+  rimraf.sync(`${databaseFilePath}-shm`);
+  rimraf.sync(`${databaseFilePath}-wal`);
 }
 
-async function removeIndexedDBFiles() {
+async function removeIndexedDBFiles(): Promise<void> {
   if (!indexedDBPath) {
     throw new Error(
       'removeIndexedDBFiles: Need to initialize and set indexedDBPath first!'
@@ -1856,7 +2318,14 @@ async function removeIndexedDBFiles() {
   indexedDBPath = undefined;
 }
 
-function getInstance(): PromisifiedSQLDatabase {
+function getInstance(): Database {
+  if (isRenderer()) {
+    if (!globalInstanceRenderer) {
+      throw new Error('getInstance: globalInstanceRenderer not set!');
+    }
+    return globalInstanceRenderer;
+  }
+
   if (!globalInstance) {
     throw new Error('getInstance: globalInstance not set!');
   }
@@ -1864,98 +2333,492 @@ function getInstance(): PromisifiedSQLDatabase {
   return globalInstance;
 }
 
+function batchMultiVarQuery<T>(
+  values: Array<T>,
+  query: (batch: Array<T>) => void
+): void {
+  const db = getInstance();
+  if (values.length > MAX_VARIABLE_COUNT) {
+    db.transaction(() => {
+      for (let i = 0; i < values.length; i += MAX_VARIABLE_COUNT) {
+        const batch = values.slice(i, i + MAX_VARIABLE_COUNT);
+        query(batch);
+      }
+    })();
+    return;
+  }
+
+  query(values);
+}
+
 const IDENTITY_KEYS_TABLE = 'identityKeys';
-async function createOrUpdateIdentityKey(data: IdentityKeyType) {
+function createOrUpdateIdentityKey(data: IdentityKeyType): Promise<void> {
   return createOrUpdate(IDENTITY_KEYS_TABLE, data);
 }
-async function getIdentityKeyById(id: string) {
+function getIdentityKeyById(id: string): Promise<IdentityKeyType | undefined> {
   return getById(IDENTITY_KEYS_TABLE, id);
 }
-async function bulkAddIdentityKeys(array: Array<IdentityKeyType>) {
+function bulkAddIdentityKeys(array: Array<IdentityKeyType>): Promise<void> {
   return bulkAdd(IDENTITY_KEYS_TABLE, array);
 }
-bulkAddIdentityKeys.needsSerial = true;
-async function removeIdentityKeyById(id: string) {
+function removeIdentityKeyById(id: string): Promise<void> {
   return removeById(IDENTITY_KEYS_TABLE, id);
 }
-async function removeAllIdentityKeys() {
+function removeAllIdentityKeys(): Promise<void> {
   return removeAllFromTable(IDENTITY_KEYS_TABLE);
 }
-async function getAllIdentityKeys() {
+function getAllIdentityKeys(): Promise<Array<IdentityKeyType>> {
   return getAllFromTable(IDENTITY_KEYS_TABLE);
 }
 
 const PRE_KEYS_TABLE = 'preKeys';
-async function createOrUpdatePreKey(data: PreKeyType) {
+function createOrUpdatePreKey(data: PreKeyType): Promise<void> {
   return createOrUpdate(PRE_KEYS_TABLE, data);
 }
-async function getPreKeyById(id: number) {
+function getPreKeyById(id: number): Promise<PreKeyType | undefined> {
   return getById(PRE_KEYS_TABLE, id);
 }
-async function bulkAddPreKeys(array: Array<PreKeyType>) {
+function bulkAddPreKeys(array: Array<PreKeyType>): Promise<void> {
   return bulkAdd(PRE_KEYS_TABLE, array);
 }
-bulkAddPreKeys.needsSerial = true;
-async function removePreKeyById(id: number) {
+function removePreKeyById(id: number): Promise<void> {
   return removeById(PRE_KEYS_TABLE, id);
 }
-async function removeAllPreKeys() {
+function removeAllPreKeys(): Promise<void> {
   return removeAllFromTable(PRE_KEYS_TABLE);
 }
-async function getAllPreKeys() {
+function getAllPreKeys(): Promise<Array<PreKeyType>> {
   return getAllFromTable(PRE_KEYS_TABLE);
 }
 
 const SIGNED_PRE_KEYS_TABLE = 'signedPreKeys';
-async function createOrUpdateSignedPreKey(data: SignedPreKeyType) {
+function createOrUpdateSignedPreKey(data: SignedPreKeyType): Promise<void> {
   return createOrUpdate(SIGNED_PRE_KEYS_TABLE, data);
 }
-async function getSignedPreKeyById(id: number) {
+function getSignedPreKeyById(
+  id: number
+): Promise<SignedPreKeyType | undefined> {
   return getById(SIGNED_PRE_KEYS_TABLE, id);
 }
-async function bulkAddSignedPreKeys(array: Array<SignedPreKeyType>) {
+function bulkAddSignedPreKeys(array: Array<SignedPreKeyType>): Promise<void> {
   return bulkAdd(SIGNED_PRE_KEYS_TABLE, array);
 }
-bulkAddSignedPreKeys.needsSerial = true;
-async function removeSignedPreKeyById(id: number) {
+function removeSignedPreKeyById(id: number): Promise<void> {
   return removeById(SIGNED_PRE_KEYS_TABLE, id);
 }
-async function removeAllSignedPreKeys() {
+function removeAllSignedPreKeys(): Promise<void> {
   return removeAllFromTable(SIGNED_PRE_KEYS_TABLE);
 }
-async function getAllSignedPreKeys() {
+async function getAllSignedPreKeys(): Promise<Array<SignedPreKeyType>> {
   const db = getInstance();
-  const rows = await db.all('SELECT json FROM signedPreKeys ORDER BY id ASC;');
+  const rows: JSONRows = db
+    .prepare<EmptyQuery>(
+      `
+      SELECT json
+      FROM signedPreKeys
+      ORDER BY id ASC;
+      `
+    )
+    .all();
 
-  return map(rows, row => jsonToObject(row.json));
+  return rows.map(row => jsonToObject(row.json));
 }
 
 const ITEMS_TABLE = 'items';
-async function createOrUpdateItem(data: ItemType) {
+function createOrUpdateItem<K extends ItemKeyType>(
+  data: ItemType<K>
+): Promise<void> {
   return createOrUpdate(ITEMS_TABLE, data);
 }
-async function getItemById(id: string) {
+function getItemById<K extends ItemKeyType>(
+  id: K
+): Promise<ItemType<K> | undefined> {
   return getById(ITEMS_TABLE, id);
 }
-async function getAllItems() {
+async function getAllItems(): Promise<AllItemsType> {
   const db = getInstance();
-  const rows = await db.all('SELECT json FROM items ORDER BY id ASC;');
+  const rows: JSONRows = db
+    .prepare<EmptyQuery>('SELECT json FROM items ORDER BY id ASC;')
+    .all();
 
-  return map(rows, row => jsonToObject(row.json));
+  const items = rows.map(row => jsonToObject(row.json));
+
+  const result: AllItemsType = Object.create(null);
+
+  for (const { id, value } of items) {
+    const key = id as ItemKeyType;
+    result[key] = value;
+  }
+
+  return result;
 }
-async function bulkAddItems(array: Array<ItemType>) {
-  return bulkAdd(ITEMS_TABLE, array);
-}
-bulkAddItems.needsSerial = true;
-async function removeItemById(id: string) {
+function removeItemById(id: ItemKeyType): Promise<void> {
   return removeById(ITEMS_TABLE, id);
 }
-async function removeAllItems() {
+function removeAllItems(): Promise<void> {
   return removeAllFromTable(ITEMS_TABLE);
 }
 
+async function createOrUpdateSenderKey(key: SenderKeyType): Promise<void> {
+  const db = getInstance();
+
+  prepare(
+    db,
+    `
+    INSERT OR REPLACE INTO senderKeys (
+      id,
+      senderId,
+      distributionId,
+      data,
+      lastUpdatedDate
+    ) values (
+      $id,
+      $senderId,
+      $distributionId,
+      $data,
+      $lastUpdatedDate
+    )
+    `
+  ).run(key);
+}
+async function getSenderKeyById(
+  id: string
+): Promise<SenderKeyType | undefined> {
+  const db = getInstance();
+  const row = prepare(db, 'SELECT * FROM senderKeys WHERE id = $id').get({
+    id,
+  });
+
+  return row;
+}
+async function removeAllSenderKeys(): Promise<void> {
+  const db = getInstance();
+  prepare<EmptyQuery>(db, 'DELETE FROM senderKeys').run();
+}
+async function getAllSenderKeys(): Promise<Array<SenderKeyType>> {
+  const db = getInstance();
+  const rows = prepare<EmptyQuery>(db, 'SELECT * FROM senderKeys').all();
+
+  return rows;
+}
+async function removeSenderKeyById(id: string): Promise<void> {
+  const db = getInstance();
+  prepare(db, 'DELETE FROM senderKeys WHERE id = $id').run({ id });
+}
+
+async function insertSentProto(
+  proto: SentProtoType,
+  options: {
+    recipients: SentRecipientsType;
+    messageIds: SentMessagesType;
+  }
+): Promise<number> {
+  const db = getInstance();
+  const { recipients, messageIds } = options;
+
+  // Note: we use `pluck` in this function to fetch only the first column of returned row.
+
+  return db.transaction(() => {
+    // 1. Insert the payload, fetching its primary key id
+    const info = prepare(
+      db,
+      `
+      INSERT INTO sendLogPayloads (
+        contentHint,
+        proto,
+        timestamp
+      ) VALUES (
+        $contentHint,
+        $proto,
+        $timestamp
+      );
+      `
+    ).run(proto);
+    const id = parseIntOrThrow(
+      info.lastInsertRowid,
+      'insertSentProto/lastInsertRowid'
+    );
+
+    // 2. Insert a record for each recipient device.
+    const recipientStatement = prepare(
+      db,
+      `
+      INSERT INTO sendLogRecipients (
+        payloadId,
+        recipientUuid,
+        deviceId
+      ) VALUES (
+        $id,
+        $recipientUuid,
+        $deviceId
+      );
+      `
+    );
+
+    const recipientUuids = Object.keys(recipients);
+    for (const recipientUuid of recipientUuids) {
+      const deviceIds = recipients[recipientUuid];
+
+      for (const deviceId of deviceIds) {
+        recipientStatement.run({
+          id,
+          recipientUuid,
+          deviceId,
+        });
+      }
+    }
+
+    // 2. Insert a record for each message referenced by this payload.
+    const messageStatement = prepare(
+      db,
+      `
+      INSERT INTO sendLogMessageIds (
+        payloadId,
+        messageId
+      ) VALUES (
+        $id,
+        $messageId
+      );
+      `
+    );
+
+    for (const messageId of messageIds) {
+      messageStatement.run({
+        id,
+        messageId,
+      });
+    }
+
+    return id;
+  })();
+}
+
+async function deleteSentProtosOlderThan(timestamp: number): Promise<void> {
+  const db = getInstance();
+
+  prepare(
+    db,
+    `
+    DELETE FROM sendLogPayloads
+    WHERE
+      timestamp IS NULL OR
+      timestamp < $timestamp;
+    `
+  ).run({
+    timestamp,
+  });
+}
+
+async function deleteSentProtoByMessageId(messageId: string): Promise<void> {
+  const db = getInstance();
+
+  prepare(
+    db,
+    `
+    DELETE FROM sendLogPayloads WHERE id IN (
+      SELECT payloadId FROM sendLogMessageIds
+      WHERE messageId = $messageId
+    );
+    `
+  ).run({
+    messageId,
+  });
+}
+
+async function insertProtoRecipients({
+  id,
+  recipientUuid,
+  deviceIds,
+}: {
+  id: number;
+  recipientUuid: string;
+  deviceIds: Array<number>;
+}): Promise<void> {
+  const db = getInstance();
+
+  db.transaction(() => {
+    const statement = prepare(
+      db,
+      `
+      INSERT INTO sendLogRecipients (
+        payloadId,
+        recipientUuid,
+        deviceId
+      ) VALUES (
+        $id,
+        $recipientUuid,
+        $deviceId
+      );
+      `
+    );
+
+    for (const deviceId of deviceIds) {
+      statement.run({
+        id,
+        recipientUuid,
+        deviceId,
+      });
+    }
+  })();
+}
+
+async function deleteSentProtoRecipient({
+  timestamp,
+  recipientUuid,
+  deviceId,
+}: {
+  timestamp: number;
+  recipientUuid: string;
+  deviceId: number;
+}): Promise<void> {
+  const db = getInstance();
+
+  // Note: we use `pluck` in this function to fetch only the first column of returned row.
+
+  db.transaction(() => {
+    // 1. Figure out what payload we're talking about.
+    const rows = prepare(
+      db,
+      `
+      SELECT sendLogPayloads.id FROM sendLogPayloads
+      INNER JOIN sendLogRecipients
+        ON sendLogRecipients.payloadId = sendLogPayloads.id
+      WHERE
+        sendLogPayloads.timestamp = $timestamp AND
+        sendLogRecipients.recipientUuid = $recipientUuid AND
+        sendLogRecipients.deviceId = $deviceId;
+     `
+    ).all({ timestamp, recipientUuid, deviceId });
+    if (!rows.length) {
+      return;
+    }
+    if (rows.length > 1) {
+      console.warn(
+        `deleteSentProtoRecipient: More than one payload matches recipient and timestamp ${timestamp}. Using the first.`
+      );
+      return;
+    }
+
+    const { id } = rows[0];
+
+    // 2. Delete the recipient/device combination in question.
+    prepare(
+      db,
+      `
+      DELETE FROM sendLogRecipients
+      WHERE
+        payloadId = $id AND
+        recipientUuid = $recipientUuid AND
+        deviceId = $deviceId;
+      `
+    ).run({ id, recipientUuid, deviceId });
+
+    // 3. See how many more recipient devices there were for this payload.
+    const remaining = prepare(
+      db,
+      'SELECT count(*) FROM sendLogRecipients WHERE payloadId = $id;'
+    )
+      .pluck(true)
+      .get({ id });
+
+    if (!isNumber(remaining)) {
+      throw new Error(
+        'deleteSentProtoRecipient: select count() returned non-number!'
+      );
+    }
+
+    if (remaining > 0) {
+      return;
+    }
+
+    // 4. Delete the entire payload if there are no more recipients left.
+    console.info(
+      `deleteSentProtoRecipient: Deleting proto payload for timestamp ${timestamp}`
+    );
+    prepare(db, 'DELETE FROM sendLogPayloads WHERE id = $id;').run({
+      id,
+    });
+  })();
+}
+
+async function getSentProtoByRecipient({
+  now,
+  recipientUuid,
+  timestamp,
+}: {
+  now: number;
+  recipientUuid: string;
+  timestamp: number;
+}): Promise<SentProtoWithMessageIdsType | undefined> {
+  const db = getInstance();
+
+  const HOUR = 1000 * 60 * 60;
+  const oneDayAgo = now - HOUR * 24;
+
+  await deleteSentProtosOlderThan(oneDayAgo);
+
+  const row = prepare(
+    db,
+    `
+    SELECT
+      sendLogPayloads.*,
+      GROUP_CONCAT(DISTINCT sendLogMessageIds.messageId) AS messageIds
+    FROM sendLogPayloads
+    INNER JOIN sendLogRecipients ON sendLogRecipients.payloadId = sendLogPayloads.id
+    LEFT JOIN sendLogMessageIds ON sendLogMessageIds.payloadId = sendLogPayloads.id
+    WHERE
+      sendLogPayloads.timestamp = $timestamp AND
+      sendLogRecipients.recipientUuid = $recipientUuid
+    GROUP BY sendLogPayloads.id;
+    `
+  ).get({
+    timestamp,
+    recipientUuid,
+  });
+
+  if (!row) {
+    return undefined;
+  }
+
+  const { messageIds } = row;
+  return {
+    ...row,
+    messageIds: messageIds ? messageIds.split(',') : [],
+  };
+}
+async function removeAllSentProtos(): Promise<void> {
+  const db = getInstance();
+  prepare<EmptyQuery>(db, 'DELETE FROM sendLogPayloads;').run();
+}
+async function getAllSentProtos(): Promise<Array<SentProtoType>> {
+  const db = getInstance();
+  const rows = prepare<EmptyQuery>(db, 'SELECT * FROM sendLogPayloads;').all();
+
+  return rows;
+}
+async function _getAllSentProtoRecipients(): Promise<
+  Array<SentRecipientsDBType>
+> {
+  const db = getInstance();
+  const rows = prepare<EmptyQuery>(
+    db,
+    'SELECT * FROM sendLogRecipients;'
+  ).all();
+
+  return rows;
+}
+async function _getAllSentProtoMessageIds(): Promise<Array<SentMessageDBType>> {
+  const db = getInstance();
+  const rows = prepare<EmptyQuery>(
+    db,
+    'SELECT * FROM sendLogMessageIds;'
+  ).all();
+
+  return rows;
+}
+
 const SESSIONS_TABLE = 'sessions';
-async function createOrUpdateSession(data: SessionType) {
+function createOrUpdateSessionSync(data: SessionType): void {
   const db = getInstance();
   const { id, conversationId } = data;
   if (!id) {
@@ -1969,8 +2832,10 @@ async function createOrUpdateSession(data: SessionType) {
     );
   }
 
-  await db.run(
-    `INSERT OR REPLACE INTO sessions (
+  prepare(
+    db,
+    `
+    INSERT OR REPLACE INTO sessions (
       id,
       conversationId,
       json
@@ -1978,108 +2843,138 @@ async function createOrUpdateSession(data: SessionType) {
       $id,
       $conversationId,
       $json
-    )`,
-    {
-      $id: id,
-      $conversationId: conversationId,
-      $json: objectToJSON(data),
-    }
-  );
-}
-async function createOrUpdateSessions(array: Array<SessionType>) {
-  const db = getInstance();
-  await db.run('BEGIN TRANSACTION;');
-
-  try {
-    await Promise.all([
-      ...map(array, async item => createOrUpdateSession(item)),
-    ]);
-    await db.run('COMMIT TRANSACTION;');
-  } catch (error) {
-    await db.run('ROLLBACK;');
-    throw error;
-  }
-}
-createOrUpdateSessions.needsSerial = true;
-
-async function getSessionById(id: string) {
-  return getById(SESSIONS_TABLE, id);
-}
-async function getSessionsById(conversationId: string) {
-  const db = getInstance();
-  const rows = await db.all(
-    'SELECT * FROM sessions WHERE conversationId = $conversationId;',
-    {
-      $conversationId: conversationId,
-    }
-  );
-
-  return map(rows, row => jsonToObject(row.json));
-}
-async function bulkAddSessions(array: Array<SessionType>) {
-  return bulkAdd(SESSIONS_TABLE, array);
-}
-bulkAddSessions.needsSerial = true;
-async function removeSessionById(id: string) {
-  return removeById(SESSIONS_TABLE, id);
-}
-async function removeSessionsByConversation(conversationId: string) {
-  const db = getInstance();
-  await db.run('DELETE FROM sessions WHERE conversationId = $conversationId;', {
-    $conversationId: conversationId,
+    )
+    `
+  ).run({
+    id,
+    conversationId,
+    json: objectToJSON(data),
   });
 }
-async function removeAllSessions() {
+async function createOrUpdateSession(data: SessionType): Promise<void> {
+  return createOrUpdateSessionSync(data);
+}
+
+async function createOrUpdateSessions(
+  array: Array<SessionType>
+): Promise<void> {
+  const db = getInstance();
+
+  db.transaction(() => {
+    for (const item of array) {
+      assertSync(createOrUpdateSessionSync(item));
+    }
+  })();
+}
+
+async function commitSessionsAndUnprocessed({
+  sessions,
+  unprocessed,
+}: {
+  sessions: Array<SessionType>;
+  unprocessed: Array<UnprocessedType>;
+}): Promise<void> {
+  const db = getInstance();
+
+  db.transaction(() => {
+    for (const item of sessions) {
+      assertSync(createOrUpdateSessionSync(item));
+    }
+
+    for (const item of unprocessed) {
+      assertSync(saveUnprocessedSync(item));
+    }
+  })();
+}
+
+function bulkAddSessions(array: Array<SessionType>): Promise<void> {
+  return bulkAdd(SESSIONS_TABLE, array);
+}
+function removeSessionById(id: string): Promise<void> {
+  return removeById(SESSIONS_TABLE, id);
+}
+async function removeSessionsByConversation(
+  conversationId: string
+): Promise<void> {
+  const db = getInstance();
+  db.prepare<Query>(
+    `
+    DELETE FROM sessions
+    WHERE conversationId = $conversationId;
+    `
+  ).run({
+    conversationId,
+  });
+}
+function removeAllSessions(): Promise<void> {
   return removeAllFromTable(SESSIONS_TABLE);
 }
-async function getAllSessions() {
+function getAllSessions(): Promise<Array<SessionType>> {
   return getAllFromTable(SESSIONS_TABLE);
 }
 
-async function createOrUpdate(table: string, data: any) {
+function createOrUpdateSync(
+  table: string,
+  data: Record<string, unknown> & { id: string | number }
+): void {
   const db = getInstance();
   const { id } = data;
   if (!id) {
     throw new Error('createOrUpdate: Provided data did not have a truthy id');
   }
 
-  await db.run(
-    `INSERT OR REPLACE INTO ${table} (
+  db.prepare<Query>(
+    `
+    INSERT OR REPLACE INTO ${table} (
       id,
       json
     ) values (
       $id,
       $json
-    )`,
-    {
-      $id: id,
-      $json: objectToJSON(data),
-    }
-  );
-}
-
-async function bulkAdd(table: string, array: Array<any>) {
-  const db = getInstance();
-  await db.run('BEGIN TRANSACTION;');
-
-  try {
-    await Promise.all([
-      ...map(array, async data => createOrUpdate(table, data)),
-    ]);
-
-    await db.run('COMMIT TRANSACTION;');
-  } catch (error) {
-    await db.run('ROLLBACK;');
-    throw error;
-  }
-}
-bulkAdd.needsSerial = true;
-
-async function getById(table: string, id: string | number) {
-  const db = getInstance();
-  const row = await db.get(`SELECT * FROM ${table} WHERE id = $id;`, {
-    $id: id,
+    )
+    `
+  ).run({
+    id,
+    json: objectToJSON(data),
   });
+}
+
+async function createOrUpdate(
+  table: string,
+  data: Record<string, unknown> & { id: string | number }
+): Promise<void> {
+  return createOrUpdateSync(table, data);
+}
+
+async function bulkAdd(
+  table: string,
+  array: Array<Record<string, unknown> & { id: string | number }>
+): Promise<void> {
+  const db = getInstance();
+
+  db.transaction(() => {
+    for (const data of array) {
+      assertSync(createOrUpdateSync(table, data));
+    }
+  })();
+}
+
+async function getById<T>(
+  table: string,
+  id: string | number
+): Promise<T | undefined> {
+  const db = getInstance();
+  const row = db
+    .prepare<Query>(
+      `
+      SELECT *
+      FROM ${table}
+      WHERE id = $id;
+      `
+    )
+    .get({
+      id,
+    });
 
   if (!row) {
     return undefined;
@@ -2088,11 +2983,19 @@ async function getById(table: string, id: string | number) {
   return jsonToObject(row.json);
 }
 
-async function removeById(table: string, id: string | number) {
+async function removeById(
+  table: string,
+  id: string | number | Array<string | number>
+): Promise<void> {
   const db = getInstance();
-  if (!Array.isArray(id)) {
-    await db.run(`DELETE FROM ${table} WHERE id = $id;`, { $id: id });
 
+  if (!Array.isArray(id)) {
+    db.prepare<Query>(
+      `
+      DELETE FROM ${table}
+      WHERE id = $id;
+      `
+    ).run({ id });
     return;
   }
 
@@ -2100,138 +3003,153 @@ async function removeById(table: string, id: string | number) {
     throw new Error('removeById: No ids to delete!');
   }
 
-  // Our node interface doesn't seem to allow you to replace one single ? with an array
-  await db.run(
-    `DELETE FROM ${table} WHERE id IN ( ${id.map(() => '?').join(', ')} );`,
-    id
-  );
+  const removeByIdsSync = (ids: Array<string | number>): void => {
+    db.prepare<ArrayQuery>(
+      `
+      DELETE FROM ${table}
+      WHERE id IN ( ${id.map(() => '?').join(', ')} );
+      `
+    ).run(ids);
+  };
+
+  batchMultiVarQuery(id, removeByIdsSync);
 }
 
-async function removeAllFromTable(table: string) {
+async function removeAllFromTable(table: string): Promise<void> {
   const db = getInstance();
-  await db.run(`DELETE FROM ${table};`);
+  db.prepare<EmptyQuery>(`DELETE FROM ${table};`).run();
 }
 
-async function getAllFromTable(table: string) {
+async function getAllFromTable<T>(table: string): Promise<Array<T>> {
   const db = getInstance();
-  const rows = await db.all(`SELECT json FROM ${table};`);
+  const rows: JSONRows = db
+    .prepare<EmptyQuery>(`SELECT json FROM ${table};`)
+    .all();
 
   return rows.map(row => jsonToObject(row.json));
 }
 
+function getCountFromTable(table: string): number {
+  const db = getInstance();
+  const result: null | number = db
+    .prepare<EmptyQuery>(`SELECT count(*) from ${table};`)
+    .pluck(true)
+    .get();
+  if (isNumber(result)) {
+    return result;
+  }
+  throw new Error(`getCountFromTable: Unable to get count from table ${table}`);
+}
+
 // Conversations
 
-async function getConversationCount() {
-  const db = getInstance();
-  const row = await db.get('SELECT count(*) from conversations;');
+async function getConversationCount(): Promise<number> {
+  return getCountFromTable('conversations');
+}
 
-  if (!row) {
-    throw new Error(
-      'getConversationCount: Unable to get count of conversations'
+function saveConversationSync(
+  data: ConversationType,
+  db = getInstance()
+): void {
+  const {
+    active_at,
+    e164,
+    groupId,
+    id,
+    members,
+    membersV2,
+    name,
+    profileFamilyName,
+    profileName,
+    profileLastFetchedAt,
+    type,
+    uuid,
+  } = data;
+
+  // prettier-ignore
+  const membersList = membersV2
+    ? membersV2.map((item: GroupV2MemberType) => item.conversationId).join(' ')
+    : members
+      ? members.join(' ')
+      : null;
+
+  db.prepare<Query>(
+    `
+    INSERT INTO conversations (
+      id,
+      json,
+
+      e164,
+      uuid,
+      groupId,
+
+      active_at,
+      type,
+      members,
+      name,
+      profileName,
+      profileFamilyName,
+      profileFullName,
+      profileLastFetchedAt
+    ) values (
+      $id,
+      $json,
+
+      $e164,
+      $uuid,
+      $groupId,
+
+      $active_at,
+      $type,
+      $members,
+      $name,
+      $profileName,
+      $profileFamilyName,
+      $profileFullName,
+      $profileLastFetchedAt
     );
-  }
+    `
+  ).run({
+    id,
+    json: objectToJSON(
+      omit(data, ['profileLastFetchedAt', 'unblurredAvatarPath'])
+    ),
 
-  return row['count(*)'];
+    e164: e164 || null,
+    uuid: uuid || null,
+    groupId: groupId || null,
+
+    active_at: active_at || null,
+    type,
+    members: membersList,
+    name: name || null,
+    profileName: profileName || null,
+    profileFamilyName: profileFamilyName || null,
+    profileFullName: combineNames(profileName, profileFamilyName) || null,
+    profileLastFetchedAt: profileLastFetchedAt || null,
+  });
 }
 
 async function saveConversation(
   data: ConversationType,
-  instance = getInstance()
-) {
-  const {
-    active_at,
-    e164,
-    groupId,
-    id,
-    members,
-    membersV2,
-    name,
-    profileFamilyName,
-    profileName,
-    type,
-    uuid,
-  } = data;
-
-  // prettier-ignore
-  const membersList = membersV2
-    ? membersV2.map((item: GroupV2MemberType) => item.conversationId).join(' ')
-    : members
-      ? members.join(' ')
-      : null;
-
-  await instance.run(
-    `INSERT INTO conversations (
-    id,
-    json,
-
-    e164,
-    uuid,
-    groupId,
-
-    active_at,
-    type,
-    members,
-    name,
-    profileName,
-    profileFamilyName,
-    profileFullName
-  ) values (
-    $id,
-    $json,
-
-    $e164,
-    $uuid,
-    $groupId,
-
-    $active_at,
-    $type,
-    $members,
-    $name,
-    $profileName,
-    $profileFamilyName,
-    $profileFullName
-  );`,
-    {
-      $id: id,
-      $json: objectToJSON(data),
-
-      $e164: e164,
-      $uuid: uuid,
-      $groupId: groupId,
-
-      $active_at: active_at,
-      $type: type,
-      $members: membersList,
-      $name: name,
-      $profileName: profileName,
-      $profileFamilyName: profileFamilyName,
-      $profileFullName: combineNames(profileName, profileFamilyName),
-    }
-  );
+  db = getInstance()
+): Promise<void> {
+  return saveConversationSync(data, db);
 }
 
 async function saveConversations(
   arrayOfConversations: Array<ConversationType>
-) {
+): Promise<void> {
   const db = getInstance();
-  await db.run('BEGIN TRANSACTION;');
 
-  try {
-    await Promise.all([
-      ...map(arrayOfConversations, async conversation =>
-        saveConversation(conversation)
-      ),
-    ]);
-
-    await db.run('COMMIT TRANSACTION;');
-  } catch (error) {
-    await db.run('ROLLBACK;');
-    throw error;
-  }
+  db.transaction(() => {
+    for (const conversation of arrayOfConversations) {
+      assertSync(saveConversationSync(conversation));
+    }
+  })();
 }
-saveConversations.needsSerial = true;
 
-async function updateConversation(data: ConversationType) {
+function updateConversationSync(data: ConversationType): void {
   const db = getInstance();
   const {
     id,
@@ -2242,6 +3160,7 @@ async function updateConversation(data: ConversationType) {
     name,
     profileName,
     profileFamilyName,
+    profileLastFetchedAt,
     e164,
     uuid,
   } = data;
@@ -2253,8 +3172,9 @@ async function updateConversation(data: ConversationType) {
       ? members.join(' ')
       : null;
 
-  await db.run(
-    `UPDATE conversations SET
+  db.prepare(
+    `
+    UPDATE conversations SET
       json = $json,
 
       e164 = $e164,
@@ -2266,43 +3186,64 @@ async function updateConversation(data: ConversationType) {
       name = $name,
       profileName = $profileName,
       profileFamilyName = $profileFamilyName,
-      profileFullName = $profileFullName
-    WHERE id = $id;`,
-    {
-      $id: id,
-      $json: objectToJSON(data),
+      profileFullName = $profileFullName,
+      profileLastFetchedAt = $profileLastFetchedAt
+    WHERE id = $id;
+    `
+  ).run({
+    id,
+    json: objectToJSON(
+      omit(data, ['profileLastFetchedAt', 'unblurredAvatarPath'])
+    ),
 
-      $e164: e164,
-      $uuid: uuid,
+    e164: e164 || null,
+    uuid: uuid || null,
 
-      $active_at: active_at,
-      $type: type,
-      $members: membersList,
-      $name: name,
-      $profileName: profileName,
-      $profileFamilyName: profileFamilyName,
-      $profileFullName: combineNames(profileName, profileFamilyName),
+    active_at: active_at || null,
+    type,
+    members: membersList,
+    name: name || null,
+    profileName: profileName || null,
+    profileFamilyName: profileFamilyName || null,
+    profileFullName: combineNames(profileName, profileFamilyName) || null,
+    profileLastFetchedAt: profileLastFetchedAt || null,
+  });
+}
+
+async function updateConversation(data: ConversationType): Promise<void> {
+  return updateConversationSync(data);
+}
+
+async function updateConversations(
+  array: Array<ConversationType>
+): Promise<void> {
+  const db = getInstance();
+
+  db.transaction(() => {
+    for (const item of array) {
+      assertSync(updateConversationSync(item));
     }
-  );
+  })();
 }
-async function updateConversations(array: Array<ConversationType>) {
-  const db = getInstance();
-  await db.run('BEGIN TRANSACTION;');
 
-  try {
-    await Promise.all([...map(array, async item => updateConversation(item))]);
-    await db.run('COMMIT TRANSACTION;');
-  } catch (error) {
-    await db.run('ROLLBACK;');
-    throw error;
-  }
+function removeConversationsSync(ids: Array<string>): void {
+  const db = getInstance();
+
+  // Our node interface doesn't seem to allow you to replace one single ? with an array
+  db.prepare<ArrayQuery>(
+    `
+    DELETE FROM conversations
+    WHERE id IN ( ${ids.map(() => '?').join(', ')} );
+    `
+  ).run(ids);
 }
-updateConversations.needsSerial = true;
 
-async function removeConversation(id: Array<string> | string) {
-  const db = getInstance();
+async function removeConversation(id: Array<string> | string): Promise<void> {
   if (!Array.isArray(id)) {
-    await db.run('DELETE FROM conversations WHERE id = $id;', { $id: id });
+    const db = getInstance();
+    db.prepare<Query>('DELETE FROM conversations WHERE id = $id;').run({
+      id,
+    });
 
     return;
   }
@@ -2311,76 +3252,99 @@ async function removeConversation(id: Array<string> | string) {
     throw new Error('removeConversation: No ids to delete!');
   }
 
-  // Our node interface doesn't seem to allow you to replace one single ? with an array
-  await db.run(
-    `DELETE FROM conversations WHERE id IN ( ${id
-      .map(() => '?')
-      .join(', ')} );`,
-    id
-  );
+  batchMultiVarQuery(id, removeConversationsSync);
 }
 
-async function getConversationById(id: string) {
+async function getConversationById(
+  id: string
+): Promise<ConversationType | undefined> {
   const db = getInstance();
-  const row = await db.get('SELECT * FROM conversations WHERE id = $id;', {
-    $id: id,
-  });
+  const row: { json: string } = db
+    .prepare<Query>('SELECT json FROM conversations WHERE id = $id;')
+    .get({ id });
 
   if (!row) {
-    return null;
+    return undefined;
   }
 
   return jsonToObject(row.json);
 }
 
-async function eraseStorageServiceStateFromConversations() {
+async function eraseStorageServiceStateFromConversations(): Promise<void> {
   const db = getInstance();
 
-  await db.run(
-    `UPDATE conversations SET
+  db.prepare<EmptyQuery>(
+    `
+    UPDATE conversations
+    SET
       json = json_remove(json, '$.storageID', '$.needsStorageServiceSync', '$.unknownFields', '$.storageProfileKey');
     `
-  );
+  ).run();
 }
 
-async function getAllConversations() {
+async function getAllConversations(): Promise<Array<ConversationType>> {
   const db = getInstance();
-  const rows = await db.all('SELECT json FROM conversations ORDER BY id ASC;');
+  const rows: ConversationRows = db
+    .prepare<EmptyQuery>(
+      `
+      SELECT json, profileLastFetchedAt
+      FROM conversations
+      ORDER BY id ASC;
+      `
+    )
+    .all();
 
-  return map(rows, row => jsonToObject(row.json));
+  return rows.map(row => rowToConversation(row));
 }
 
-async function getAllConversationIds() {
+async function getAllConversationIds(): Promise<Array<string>> {
   const db = getInstance();
-  const rows = await db.all('SELECT id FROM conversations ORDER BY id ASC;');
+  const rows: Array<{ id: string }> = db
+    .prepare<EmptyQuery>(
+      `
+      SELECT id FROM conversations ORDER BY id ASC;
+      `
+    )
+    .all();
 
-  return map(rows, row => row.id);
+  return rows.map(row => row.id);
 }
 
-async function getAllPrivateConversations() {
+async function getAllPrivateConversations(): Promise<Array<ConversationType>> {
   const db = getInstance();
-  const rows = await db.all(
-    `SELECT json FROM conversations WHERE
-      type = 'private'
-     ORDER BY id ASC;`
-  );
+  const rows: ConversationRows = db
+    .prepare<EmptyQuery>(
+      `
+      SELECT json, profileLastFetchedAt
+      FROM conversations
+      WHERE type = 'private'
+      ORDER BY id ASC;
+      `
+    )
+    .all();
 
-  return map(rows, row => jsonToObject(row.json));
+  return rows.map(row => rowToConversation(row));
 }
 
-async function getAllGroupsInvolvingId(id: string) {
+async function getAllGroupsInvolvingId(
+  id: string
+): Promise<Array<ConversationType>> {
   const db = getInstance();
-  const rows = await db.all(
-    `SELECT json FROM conversations WHERE
-      type = 'group' AND
-      members LIKE $id
-     ORDER BY id ASC;`,
-    {
-      $id: `%${id}%`,
-    }
-  );
+  const rows: ConversationRows = db
+    .prepare<Query>(
+      `
+      SELECT json, profileLastFetchedAt
+      FROM conversations WHERE
+        type = 'group' AND
+        members LIKE $id
+      ORDER BY id ASC;
+      `
+    )
+    .all({
+      id: `%${id}%`,
+    });
 
-  return map(rows, row => jsonToObject(row.json));
+  return rows.map(row => rowToConversation(row));
 }
 
 async function searchConversations(
@@ -2388,91 +3352,156 @@ async function searchConversations(
   { limit }: { limit?: number } = {}
 ): Promise<Array<ConversationType>> {
   const db = getInstance();
-  const rows = await db.all(
-    `SELECT json FROM conversations WHERE
-      (
-        e164 LIKE $e164 OR
-        name LIKE $name OR
-        profileFullName LIKE $profileFullName
-      )
-     ORDER BY active_at DESC
-     LIMIT $limit`,
-    {
-      $e164: `%${query}%`,
-      $name: `%${query}%`,
-      $profileFullName: `%${query}%`,
-      $limit: limit || 100,
-    }
-  );
+  const rows: ConversationRows = db
+    .prepare<Query>(
+      `
+      SELECT json, profileLastFetchedAt
+      FROM conversations WHERE
+        (
+          e164 LIKE $query OR
+          name LIKE $query OR
+          profileFullName LIKE $query
+        )
+      ORDER BY active_at DESC
+      LIMIT $limit
+      `
+    )
+    .all({
+      query: `%${query}%`,
+      limit: limit || 100,
+    });
 
-  return map(rows, row => jsonToObject(row.json));
+  return rows.map(row => rowToConversation(row));
 }
 
 async function searchMessages(
   query: string,
-  { limit }: { limit?: number } = {}
+  params: { limit?: number; conversationId?: string } = {}
 ): Promise<Array<SearchResultMessageType>> {
-  const db = getInstance();
-  const rows = await db.all(
-    `SELECT
-      messages.json,
-      snippet(messages_fts, -1, '<<left>>', '<<right>>', '...', 15) as snippet
-    FROM messages_fts
-    INNER JOIN messages on messages_fts.id = messages.id
-    WHERE
-      messages_fts match $query
-    ORDER BY messages.received_at DESC, messages.sent_at DESC
-    LIMIT $limit;`,
-    {
-      $query: query,
-      $limit: limit || 500,
-    }
-  );
+  const { limit = 500, conversationId } = params;
 
-  return map(rows, row => ({
-    json: row.json,
-    snippet: row.snippet,
-  }));
+  const db = getInstance();
+
+  // sqlite queries with a join on a virtual table (like FTS5) are de-optimized
+  // and can't use indices for ordering results. Instead an in-memory index of
+  // the join rows is sorted on the fly, and this becomes substantially
+  // slower when there are large columns in it (like `messages.json`).
+  //
+  // Thus here we take an indirect approach and store `rowid`s in a temporary
+  // table for all messages that match the FTS query. Then we create another
+  // table to sort and limit the results, and finally join on it when fetch
+  // the snippets and json. The benefit of this is that the `ORDER BY` and
+  // `LIMIT` happen without virtual table and are thus covered by
+  // `messages_searchOrder` index.
+  return db.transaction(() => {
+    db.exec(
+      `
+      CREATE TEMP TABLE tmp_results(rowid INTEGER PRIMARY KEY ASC);
+      CREATE TEMP TABLE tmp_filtered_results(rowid INTEGER PRIMARY KEY ASC);
+      `
+    );
+
+    db.prepare<Query>(
+      `
+        INSERT INTO tmp_results (rowid)
+        SELECT
+          rowid
+        FROM
+          messages_fts
+        WHERE
+          messages_fts.body MATCH $query;
+      `
+    ).run({ query });
+
+    if (conversationId === undefined) {
+      db.prepare<Query>(
+        `
+          INSERT INTO tmp_filtered_results (rowid)
+          SELECT
+            tmp_results.rowid
+          FROM
+            tmp_results
+          INNER JOIN
+            messages ON messages.rowid = tmp_results.rowid
+          ORDER BY messages.received_at DESC, messages.sent_at DESC
+          LIMIT $limit;
+        `
+      ).run({ limit });
+    } else {
+      db.prepare<Query>(
+        `
+          INSERT INTO tmp_filtered_results (rowid)
+          SELECT
+            tmp_results.rowid
+          FROM
+            tmp_results
+          INNER JOIN
+            messages ON messages.rowid = tmp_results.rowid
+          WHERE
+            messages.conversationId = $conversationId
+          ORDER BY messages.received_at DESC, messages.sent_at DESC
+          LIMIT $limit;
+        `
+      ).run({ conversationId, limit });
+    }
+
+    // The `MATCH` is necessary in order to for `snippet()` helper function to
+    // give us the right results. We can't call `snippet()` in the query above
+    // because it would bloat the temporary table with text data and we want
+    // to keep its size minimal for `ORDER BY` + `LIMIT` to be fast.
+    const result = db
+      .prepare<Query>(
+        `
+        SELECT
+          messages.json,
+          snippet(messages_fts, -1, '<<left>>', '<<right>>', '...', 10)
+            AS snippet
+        FROM tmp_filtered_results
+        INNER JOIN messages_fts
+          ON messages_fts.rowid = tmp_filtered_results.rowid
+        INNER JOIN messages
+          ON messages.rowid = tmp_filtered_results.rowid
+        WHERE
+          messages_fts.body MATCH $query
+        ORDER BY messages.received_at DESC, messages.sent_at DESC;
+        `
+      )
+      .all({ query });
+
+    db.exec(
+      `
+      DROP TABLE tmp_results;
+      DROP TABLE tmp_filtered_results;
+      `
+    );
+
+    return result;
+  })();
 }
 
 async function searchMessagesInConversation(
   query: string,
   conversationId: string,
-  { limit }: { limit?: number } = {}
+  { limit = 100 }: { limit?: number } = {}
 ): Promise<Array<SearchResultMessageType>> {
-  const db = getInstance();
-  const rows = await db.all(
-    `SELECT
-      messages.json,
-      snippet(messages_fts, -1, '<<left>>', '<<right>>', '...', 15) as snippet
-    FROM messages_fts
-    INNER JOIN messages on messages_fts.id = messages.id
-    WHERE
-      messages_fts match $query AND
-      messages.conversationId = $conversationId
-    ORDER BY messages.received_at DESC, messages.sent_at DESC
-    LIMIT $limit;`,
-    {
-      $query: query,
-      $conversationId: conversationId,
-      $limit: limit || 100,
-    }
-  );
-
-  return map(rows, row => ({
-    json: row.json,
-    snippet: row.snippet,
-  }));
+  return searchMessages(query, { conversationId, limit });
 }
 
-async function getMessageCount(conversationId?: string) {
+async function getMessageCount(conversationId?: string): Promise<number> {
+  if (conversationId === undefined) {
+    return getCountFromTable('messages');
+  }
+
   const db = getInstance();
-  const row = conversationId
-    ? await db.get(
-        'SELECT count(*) from messages WHERE conversationId = $conversationId;',
-        { $conversationId: conversationId }
-      )
-    : await db.get('SELECT count(*) from messages;');
+  const row: { 'count(*)': number } | undefined = db
+    .prepare<Query>(
+      `
+        SELECT count(*)
+        FROM messages
+        WHERE conversationId = $conversationId;
+        `
+    )
+    .get({ conversationId });
 
   if (!row) {
     throw new Error('getMessageCount: Unable to get count of messages');
@@ -2481,18 +3510,63 @@ async function getMessageCount(conversationId?: string) {
   return row['count(*)'];
 }
 
-async function saveMessage(
-  data: MessageType,
-  {
-    forceSave,
-    alreadyInTransaction,
-  }: { forceSave?: boolean; alreadyInTransaction?: boolean } = {}
-) {
+function hasUserInitiatedMessages(conversationId: string): boolean {
   const db = getInstance();
+
+  // We apply the limit in the sub-query so that `json_extract` wouldn't run
+  // for additional messages.
+  const row: { count: number } = db
+    .prepare<Query>(
+      `
+      SELECT COUNT(*) as count FROM
+        (
+          SELECT 1 FROM messages
+          WHERE
+            conversationId = $conversationId AND
+            (type IS NULL
+              OR
+              type NOT IN (
+                'profile-change',
+                'verified-change',
+                'message-history-unsynced',
+                'keychange',
+                'group-v1-migration',
+                'universal-timer-notification',
+                'change-number-notification',
+                'group-v2-change'
+              )
+            )
+          LIMIT 1
+        );
+      `
+    )
+    .get({ conversationId });
+
+  return row.count !== 0;
+}
+
+function saveMessageSync(
+  data: MessageType,
+  options?: { forceSave?: boolean; alreadyInTransaction?: boolean }
+): string {
+  const db = getInstance();
+
+  const { forceSave, alreadyInTransaction } = options || {};
+
+  if (!alreadyInTransaction) {
+    return db.transaction(() => {
+      return assertSync(
+        saveMessageSync(data, {
+          ...options,
+          alreadyInTransaction: true,
+        })
+      );
+    })();
+  }
+
   const {
     body,
     conversationId,
-    expires_at,
     hasAttachments,
     hasFileAttachments,
     hasVisualMediaAttachments,
@@ -2502,103 +3576,69 @@ async function saveMessage(
     received_at,
     schemaVersion,
     sent_at,
+    serverGuid,
     source,
     sourceUuid,
     sourceDevice,
     type,
-    unread,
+    readStatus,
     expireTimer,
     expirationStartTimestamp,
   } = data;
 
   const payload = {
-    $id: id,
-    $json: objectToJSON(data),
+    id,
+    json: objectToJSON(data),
 
-    $body: body,
-    $conversationId: conversationId,
-    $expirationStartTimestamp: expirationStartTimestamp,
-    $expires_at: expires_at,
-    $expireTimer: expireTimer,
-    $hasAttachments: hasAttachments,
-    $hasFileAttachments: hasFileAttachments,
-    $hasVisualMediaAttachments: hasVisualMediaAttachments,
-    $isErased: isErased,
-    $isViewOnce: isViewOnce,
-    $received_at: received_at,
-    $schemaVersion: schemaVersion,
-    $sent_at: sent_at,
-    $source: source,
-    $sourceUuid: sourceUuid,
-    $sourceDevice: sourceDevice,
-    $type: type,
-    $unread: unread,
+    body: body || null,
+    conversationId,
+    expirationStartTimestamp: expirationStartTimestamp || null,
+    expireTimer: expireTimer || null,
+    hasAttachments: hasAttachments ? 1 : 0,
+    hasFileAttachments: hasFileAttachments ? 1 : 0,
+    hasVisualMediaAttachments: hasVisualMediaAttachments ? 1 : 0,
+    isErased: isErased ? 1 : 0,
+    isViewOnce: isViewOnce ? 1 : 0,
+    received_at: received_at || null,
+    schemaVersion: schemaVersion || 0,
+    serverGuid: serverGuid || null,
+    sent_at: sent_at || null,
+    source: source || null,
+    sourceUuid: sourceUuid || null,
+    sourceDevice: sourceDevice || null,
+    type: type || null,
+    readStatus: readStatus ?? null,
   };
 
   if (id && !forceSave) {
-    if (!alreadyInTransaction) {
-      await db.run('BEGIN TRANSACTION;');
-    }
+    prepare(
+      db,
+      `
+      UPDATE messages SET
+        id = $id,
+        json = $json,
 
-    try {
-      await Promise.all([
-        db.run(
-          `UPDATE messages SET
-            id = $id,
-            json = $json,
-  
-            body = $body,
-            conversationId = $conversationId,
-            expirationStartTimestamp = $expirationStartTimestamp,
-            expires_at = $expires_at,
-            expireTimer = $expireTimer,
-            hasAttachments = $hasAttachments,
-            hasFileAttachments = $hasFileAttachments,
-            hasVisualMediaAttachments = $hasVisualMediaAttachments,
-            isErased = $isErased,
-            isViewOnce = $isViewOnce,
-            received_at = $received_at,
-            schemaVersion = $schemaVersion,
-            sent_at = $sent_at,
-            source = $source,
-            sourceUuid = $sourceUuid,
-            sourceDevice = $sourceDevice,
-            type = $type,
-            unread = $unread
-          WHERE id = $id;`,
-          payload
-        ),
-        db.run('DELETE FROM messages_fts WHERE id = $id;', {
-          $id: id,
-        }),
-      ]);
-
-      if (body) {
-        await db.run(
-          `INSERT INTO messages_fts(
-             id,
-             body
-           ) VALUES (
-             $id,
-             $body
-           );
-          `,
-          {
-            $id: id,
-            $body: body,
-          }
-        );
-      }
-
-      if (!alreadyInTransaction) {
-        await db.run('COMMIT TRANSACTION;');
-      }
-    } catch (error) {
-      if (!alreadyInTransaction) {
-        await db.run('ROLLBACK;');
-      }
-      throw error;
-    }
+        body = $body,
+        conversationId = $conversationId,
+        expirationStartTimestamp = $expirationStartTimestamp,
+        expireTimer = $expireTimer,
+        hasAttachments = $hasAttachments,
+        hasFileAttachments = $hasFileAttachments,
+        hasVisualMediaAttachments = $hasVisualMediaAttachments,
+        isErased = $isErased,
+        isViewOnce = $isViewOnce,
+        received_at = $received_at,
+        schemaVersion = $schemaVersion,
+        serverGuid = $serverGuid,
+        sent_at = $sent_at,
+        source = $source,
+        sourceUuid = $sourceUuid,
+        sourceDevice = $sourceDevice,
+        type = $type,
+        readStatus = $readStatus
+      WHERE id = $id;
+      `
+    ).run(payload);
 
     return id;
   }
@@ -2608,187 +3648,139 @@ async function saveMessage(
     id: id || generateUUID(),
   };
 
-  if (!alreadyInTransaction) {
-    await db.run('BEGIN TRANSACTION;');
-  }
+  prepare(
+    db,
+    `
+    INSERT INTO messages (
+      id,
+      json,
 
-  try {
-    await Promise.all([
-      db.run(
-        `INSERT INTO messages (
-          id,
-          json,
-  
-          body,
-          conversationId,
-          expirationStartTimestamp,
-          expires_at,
-          expireTimer,
-          hasAttachments,
-          hasFileAttachments,
-          hasVisualMediaAttachments,
-          isErased,
-          isViewOnce,
-          received_at,
-          schemaVersion,
-          sent_at,
-          source,
-          sourceUuid,
-          sourceDevice,
-          type,
-          unread
-        ) values (
-          $id,
-          $json,
-  
-          $body,
-          $conversationId,
-          $expirationStartTimestamp,
-          $expires_at,
-          $expireTimer,
-          $hasAttachments,
-          $hasFileAttachments,
-          $hasVisualMediaAttachments,
-          $isErased,
-          $isViewOnce,
-          $received_at,
-          $schemaVersion,
-          $sent_at,
-          $source,
-          $sourceUuid,
-          $sourceDevice,
-          $type,
-          $unread
-        );`,
-        {
-          ...payload,
-          $id: toCreate.id,
-          $json: objectToJSON(toCreate),
-        }
-      ),
-      db.run(
-        `INSERT INTO messages_fts(
-           id,
-           body
-         ) VALUES (
-           $id,
-           $body
-         );
-        `,
-        {
-          $id: id,
-          $body: body,
-        }
-      ),
-    ]);
+      body,
+      conversationId,
+      expirationStartTimestamp,
+      expireTimer,
+      hasAttachments,
+      hasFileAttachments,
+      hasVisualMediaAttachments,
+      isErased,
+      isViewOnce,
+      received_at,
+      schemaVersion,
+      serverGuid,
+      sent_at,
+      source,
+      sourceUuid,
+      sourceDevice,
+      type,
+      readStatus
+    ) values (
+      $id,
+      $json,
 
-    if (!alreadyInTransaction) {
-      await db.run('COMMIT TRANSACTION;');
-    }
-  } catch (error) {
-    if (!alreadyInTransaction) {
-      await db.run('ROLLBACK;');
-    }
-    throw error;
-  }
+      $body,
+      $conversationId,
+      $expirationStartTimestamp,
+      $expireTimer,
+      $hasAttachments,
+      $hasFileAttachments,
+      $hasVisualMediaAttachments,
+      $isErased,
+      $isViewOnce,
+      $received_at,
+      $schemaVersion,
+      $serverGuid,
+      $sent_at,
+      $source,
+      $sourceUuid,
+      $sourceDevice,
+      $type,
+      $readStatus
+    );
+    `
+  ).run({
+    ...payload,
+    id: toCreate.id,
+    json: objectToJSON(toCreate),
+  });
 
   return toCreate.id;
 }
-saveMessage.needsSerial = true;
+
+async function saveMessage(
+  data: MessageType,
+  options?: { forceSave?: boolean; alreadyInTransaction?: boolean }
+): Promise<string> {
+  return saveMessageSync(data, options);
+}
 
 async function saveMessages(
   arrayOfMessages: Array<MessageType>,
-  { forceSave }: { forceSave?: boolean } = {}
-) {
+  options?: { forceSave?: boolean }
+): Promise<void> {
   const db = getInstance();
-  await db.run('BEGIN TRANSACTION;');
+  const { forceSave } = options || {};
 
-  try {
-    await Promise.all([
-      ...map(arrayOfMessages, async message =>
-        saveMessage(message, { forceSave, alreadyInTransaction: true })
-      ),
-    ]);
-
-    await db.run('COMMIT TRANSACTION;');
-  } catch (error) {
-    await db.run('ROLLBACK;');
-    throw error;
-  }
+  db.transaction(() => {
+    for (const message of arrayOfMessages) {
+      assertSync(
+        saveMessageSync(message, { forceSave, alreadyInTransaction: true })
+      );
+    }
+  })();
 }
-saveMessages.needsSerial = true;
 
-async function removeMessage(id: string) {
+async function removeMessage(id: string): Promise<void> {
   const db = getInstance();
-  await db.run('BEGIN TRANSACTION;');
 
-  try {
-    await Promise.all([
-      db.run('DELETE FROM messages WHERE id = $id;', { $id: id }),
-      db.run('DELETE FROM messages_fts WHERE id = $id;', { $id: id }),
-    ]);
-
-    await db.run('COMMIT TRANSACTION;');
-  } catch (error) {
-    await db.run('ROLLBACK;');
-    throw error;
-  }
+  db.prepare<Query>('DELETE FROM messages WHERE id = $id;').run({ id });
 }
-removeMessage.needsSerial = true;
 
-async function removeMessages(ids: Array<string>) {
+function removeMessagesSync(ids: Array<string>): void {
   const db = getInstance();
-  await db.run('BEGIN TRANSACTION;');
 
-  try {
-    await Promise.all([
-      db.run(
-        `DELETE FROM messages WHERE id IN ( ${ids
-          .map(() => '?')
-          .join(', ')} );`,
-        ids
-      ),
-      db.run(
-        `DELETE FROM messages_fts WHERE id IN ( ${ids
-          .map(() => '?')
-          .join(', ')} );`,
-        ids
-      ),
-    ]);
-
-    await db.run('COMMIT TRANSACTION;');
-  } catch (error) {
-    await db.run('ROLLBACK;');
-    throw error;
-  }
+  db.prepare<ArrayQuery>(
+    `
+    DELETE FROM messages
+    WHERE id IN ( ${ids.map(() => '?').join(', ')} );
+    `
+  ).run(ids);
 }
-removeMessages.needsSerial = true;
 
-async function getMessageById(id: string) {
+async function removeMessages(ids: Array<string>): Promise<void> {
+  batchMultiVarQuery(ids, removeMessagesSync);
+}
+
+async function getMessageById(id: string): Promise<MessageType | undefined> {
   const db = getInstance();
-  const row = await db.get('SELECT * FROM messages WHERE id = $id;', {
-    $id: id,
-  });
+  const row = db
+    .prepare<Query>('SELECT json FROM messages WHERE id = $id;')
+    .get({
+      id,
+    });
 
   if (!row) {
-    return null;
+    return undefined;
   }
 
   return jsonToObject(row.json);
 }
 
-async function _getAllMessages() {
+async function _getAllMessages(): Promise<Array<MessageType>> {
   const db = getInstance();
-  const rows = await db.all('SELECT json FROM messages ORDER BY id ASC;');
+  const rows: JSONRows = db
+    .prepare<EmptyQuery>('SELECT json FROM messages ORDER BY id ASC;')
+    .all();
 
-  return map(rows, row => jsonToObject(row.json));
+  return rows.map(row => jsonToObject(row.json));
 }
 
-async function getAllMessageIds() {
+async function getAllMessageIds(): Promise<Array<string>> {
   const db = getInstance();
-  const rows = await db.all('SELECT id FROM messages ORDER BY id ASC;');
+  const rows: Array<{ id: string }> = db
+    .prepare<EmptyQuery>('SELECT id FROM messages ORDER BY id ASC;')
+    .all();
 
-  return map(rows, row => row.id);
+  return rows.map(row => row.id);
 }
 
 async function getMessageBySender({
@@ -2799,40 +3791,283 @@ async function getMessageBySender({
 }: {
   source: string;
   sourceUuid: string;
-  sourceDevice: string;
+  sourceDevice: number;
   sent_at: number;
-}) {
+}): Promise<Array<MessageType>> {
   const db = getInstance();
-  const rows = await db.all(
-    `SELECT json FROM messages WHERE
+  const rows: JSONRows = prepare(
+    db,
+    `
+    SELECT json FROM messages WHERE
       (source = $source OR sourceUuid = $sourceUuid) AND
       sourceDevice = $sourceDevice AND
-      sent_at = $sent_at;`,
-    {
-      $source: source,
-      $sourceUuid: sourceUuid,
-      $sourceDevice: sourceDevice,
-      $sent_at: sent_at,
-    }
-  );
+      sent_at = $sent_at;
+    `
+  ).all({
+    source,
+    sourceUuid,
+    sourceDevice,
+    sent_at,
+  });
 
-  return map(rows, row => jsonToObject(row.json));
+  return rows.map(row => jsonToObject(row.json));
 }
 
-async function getUnreadByConversation(conversationId: string) {
+async function getUnreadCountForConversation(
+  conversationId: string
+): Promise<number> {
   const db = getInstance();
-  const rows = await db.all(
-    `SELECT json FROM messages WHERE
-      unread = $unread AND
-      conversationId = $conversationId
-     ORDER BY received_at DESC, sent_at DESC;`,
-    {
-      $unread: 1,
-      $conversationId: conversationId,
-    }
-  );
+  const row = db
+    .prepare<Query>(
+      `
+      SELECT COUNT(*) AS unreadCount FROM messages
+      WHERE readStatus = ${ReadStatus.Unread} AND
+      conversationId = $conversationId AND
+      type = 'incoming';
+      `
+    )
+    .get({
+      conversationId,
+    });
+  return row.unreadCount;
+}
 
-  return map(rows, row => jsonToObject(row.json));
+async function getUnreadByConversationAndMarkRead(
+  conversationId: string,
+  newestUnreadId: number,
+  readAt?: number
+): Promise<
+  Array<Pick<MessageType, 'id' | 'source' | 'sourceUuid' | 'sent_at' | 'type'>>
+> {
+  const db = getInstance();
+  return db.transaction(() => {
+    const expirationStartTimestamp = Math.min(Date.now(), readAt ?? Infinity);
+    db.prepare<Query>(
+      `
+      UPDATE messages
+      INDEXED BY expiring_message_by_conversation_and_received_at
+      SET
+        expirationStartTimestamp = $expirationStartTimestamp,
+        json = json_patch(json, $jsonPatch)
+      WHERE
+        (
+          expirationStartTimestamp IS NULL OR
+          expirationStartTimestamp > $expirationStartTimestamp
+        ) AND
+        expireTimer IS NOT NULL AND
+        conversationId = $conversationId AND
+        received_at <= $newestUnreadId;
+      `
+    ).run({
+      conversationId,
+      expirationStartTimestamp,
+      jsonPatch: JSON.stringify({ expirationStartTimestamp }),
+      newestUnreadId,
+    });
+
+    const rows = db
+      .prepare<Query>(
+        `
+        SELECT id, json FROM messages
+        INDEXED BY messages_unread
+        WHERE
+          readStatus = ${ReadStatus.Unread} AND
+          conversationId = $conversationId AND
+          received_at <= $newestUnreadId
+        ORDER BY received_at DESC, sent_at DESC;
+        `
+      )
+      .all({
+        conversationId,
+        newestUnreadId,
+      });
+
+    db.prepare<Query>(
+      `
+        UPDATE messages
+        SET
+          readStatus = ${ReadStatus.Read},
+          json = json_patch(json, $jsonPatch)
+        WHERE
+          readStatus = ${ReadStatus.Unread} AND
+          conversationId = $conversationId AND
+          received_at <= $newestUnreadId;
+        `
+    ).run({
+      conversationId,
+      jsonPatch: JSON.stringify({ readStatus: ReadStatus.Read }),
+      newestUnreadId,
+    });
+
+    return rows.map(row => {
+      const json = jsonToObject(row.json);
+      return {
+        readStatus: ReadStatus.Read,
+        ...pick(json, [
+          'expirationStartTimestamp',
+          'id',
+          'sent_at',
+          'source',
+          'sourceUuid',
+          'type',
+        ]),
+      };
+    });
+  })();
+}
+
+async function getUnreadReactionsAndMarkRead(
+  conversationId: string,
+  newestUnreadId: number
+): Promise<
+  Array<
+    Pick<ReactionType, 'targetAuthorUuid' | 'targetTimestamp' | 'messageId'>
+  >
+> {
+  const db = getInstance();
+
+  return db.transaction(() => {
+    const unreadMessages = db
+      .prepare<Query>(
+        `
+        SELECT targetAuthorUuid, targetTimestamp, messageId
+        FROM reactions WHERE
+          unread = 1 AND
+          conversationId = $conversationId AND
+          messageReceivedAt <= $newestUnreadId;
+      `
+      )
+      .all({
+        conversationId,
+        newestUnreadId,
+      });
+
+    db.prepare(
+      `
+      UPDATE reactions SET
+      unread = 0 WHERE
+      conversationId = $conversationId AND
+      messageReceivedAt <= $newestUnreadId;
+    `
+    ).run({
+      conversationId,
+      newestUnreadId,
+    });
+
+    return unreadMessages;
+  })();
+}
+
+async function markReactionAsRead(
+  targetAuthorUuid: string,
+  targetTimestamp: number
+): Promise<ReactionType | undefined> {
+  const db = getInstance();
+  return db.transaction(() => {
+    const readReaction = db
+      .prepare(
+        `
+          SELECT *
+          FROM reactions
+          WHERE
+            targetAuthorUuid = $targetAuthorUuid AND
+            targetTimestamp = $targetTimestamp AND
+            unread = 1
+          ORDER BY rowId DESC
+          LIMIT 1;
+        `
+      )
+      .get({
+        targetAuthorUuid,
+        targetTimestamp,
+      });
+
+    db.prepare(
+      `
+        UPDATE reactions SET
+        unread = 0 WHERE
+        targetAuthorUuid = $targetAuthorUuid AND
+        targetTimestamp = $targetTimestamp;
+      `
+    ).run({
+      targetAuthorUuid,
+      targetTimestamp,
+    });
+
+    return readReaction;
+  })();
+}
+
+async function addReaction({
+  conversationId,
+  emoji,
+  fromId,
+  messageId,
+  messageReceivedAt,
+  targetAuthorUuid,
+  targetTimestamp,
+}: ReactionType): Promise<void> {
+  const db = getInstance();
+  await db
+    .prepare(
+      `INSERT INTO reactions (
+      conversationId,
+      emoji,
+      fromId,
+      messageId,
+      messageReceivedAt,
+      targetAuthorUuid,
+      targetTimestamp,
+      unread
+    ) VALUES (
+      $conversationId,
+      $emoji,
+      $fromId,
+      $messageId,
+      $messageReceivedAt,
+      $targetAuthorUuid,
+      $targetTimestamp,
+      $unread
+    );`
+    )
+    .run({
+      conversationId,
+      emoji,
+      fromId,
+      messageId,
+      messageReceivedAt,
+      targetAuthorUuid,
+      targetTimestamp,
+      unread: 1,
+    });
+}
+
+async function removeReactionFromConversation({
+  emoji,
+  fromId,
+  targetAuthorUuid,
+  targetTimestamp,
+}: {
+  emoji: string;
+  fromId: string;
+  targetAuthorUuid: string;
+  targetTimestamp: number;
+}): Promise<void> {
+  const db = getInstance();
+  await db
+    .prepare(
+      `DELETE FROM reactions WHERE
+      emoji = $emoji AND
+      fromId = $fromId AND
+      targetAuthorUuid = $targetAuthorUuid AND
+      targetTimestamp = $targetTimestamp;`
+    )
+    .run({
+      emoji,
+      fromId,
+      targetAuthorUuid,
+      targetTimestamp,
+    });
 }
 
 async function getOlderMessagesByConversation(
@@ -2848,46 +4083,52 @@ async function getOlderMessagesByConversation(
     sentAt?: number;
     messageId?: string;
   } = {}
-) {
+): Promise<Array<MessageTypeUnhydrated>> {
   const db = getInstance();
-  let rows;
+  let rows: JSONRows;
 
   if (messageId) {
-    rows = await db.all(
-      `SELECT json FROM messages WHERE
-       conversationId = $conversationId AND
-       id != $messageId AND
-       (
-         (received_at = $received_at AND sent_at < $sent_at) OR
-         received_at < $received_at
-       )
-     ORDER BY received_at DESC, sent_at DESC
-     LIMIT $limit;`,
-      {
-        $conversationId: conversationId,
-        $received_at: receivedAt,
-        $sent_at: sentAt,
-        $limit: limit,
-        $messageId: messageId,
-      }
-    );
+    rows = db
+      .prepare<Query>(
+        `
+        SELECT json FROM messages WHERE
+          conversationId = $conversationId AND
+          id != $messageId AND
+          (
+            (received_at = $received_at AND sent_at < $sent_at) OR
+            received_at < $received_at
+          )
+        ORDER BY received_at DESC, sent_at DESC
+        LIMIT $limit;
+        `
+      )
+      .all({
+        conversationId,
+        received_at: receivedAt,
+        sent_at: sentAt,
+        limit,
+        messageId,
+      });
   } else {
-    rows = await db.all(
-      `SELECT json FROM messages WHERE
-       conversationId = $conversationId AND
-       (
-         (received_at = $received_at AND sent_at < $sent_at) OR
-         received_at < $received_at
-       )
-     ORDER BY received_at DESC, sent_at DESC
-     LIMIT $limit;`,
-      {
-        $conversationId: conversationId,
-        $received_at: receivedAt,
-        $sent_at: sentAt,
-        $limit: limit,
-      }
-    );
+    rows = db
+      .prepare<Query>(
+        `
+        SELECT json FROM messages WHERE
+        conversationId = $conversationId AND
+        (
+          (received_at = $received_at AND sent_at < $sent_at) OR
+          received_at < $received_at
+        )
+        ORDER BY received_at DESC, sent_at DESC
+        LIMIT $limit;
+        `
+      )
+      .all({
+        conversationId,
+        received_at: receivedAt,
+        sent_at: sentAt,
+        limit,
+      });
   }
 
   return rows.reverse();
@@ -2900,184 +4141,241 @@ async function getNewerMessagesByConversation(
     receivedAt = 0,
     sentAt = 0,
   }: { limit?: number; receivedAt?: number; sentAt?: number } = {}
-) {
+): Promise<Array<MessageTypeUnhydrated>> {
   const db = getInstance();
-  const rows = await db.all(
-    `SELECT json FROM messages WHERE
-       conversationId = $conversationId AND
-       (
-         (received_at = $received_at AND sent_at > $sent_at) OR
-         received_at > $received_at
-       )
-     ORDER BY received_at ASC, sent_at ASC
-     LIMIT $limit;`,
-    {
-      $conversationId: conversationId,
-      $received_at: receivedAt,
-      $sent_at: sentAt,
-      $limit: limit,
-    }
-  );
+  const rows: JSONRows = db
+    .prepare<Query>(
+      `
+      SELECT json FROM messages WHERE
+        conversationId = $conversationId AND
+        (
+          (received_at = $received_at AND sent_at > $sent_at) OR
+          received_at > $received_at
+        )
+      ORDER BY received_at ASC, sent_at ASC
+      LIMIT $limit;
+      `
+    )
+    .all({
+      conversationId,
+      received_at: receivedAt,
+      sent_at: sentAt,
+      limit,
+    });
 
   return rows;
 }
-async function getOldestMessageForConversation(conversationId: string) {
+function getOldestMessageForConversation(
+  conversationId: string
+): MessageMetricsType | undefined {
   const db = getInstance();
-  const row = await db.get(
-    `SELECT * FROM messages WHERE
-       conversationId = $conversationId
-     ORDER BY received_at ASC, sent_at ASC
-     LIMIT 1;`,
-    {
-      $conversationId: conversationId,
-    }
-  );
+  const row = db
+    .prepare<Query>(
+      `
+      SELECT * FROM messages WHERE
+        conversationId = $conversationId
+      ORDER BY received_at ASC, sent_at ASC
+      LIMIT 1;
+      `
+    )
+    .get({
+      conversationId,
+    });
 
   if (!row) {
-    return null;
+    return undefined;
   }
 
   return row;
 }
-async function getNewestMessageForConversation(conversationId: string) {
+function getNewestMessageForConversation(
+  conversationId: string
+): MessageMetricsType | undefined {
   const db = getInstance();
-  const row = await db.get(
-    `SELECT * FROM messages WHERE
-       conversationId = $conversationId
-     ORDER BY received_at DESC, sent_at DESC
-     LIMIT 1;`,
-    {
-      $conversationId: conversationId,
-    }
-  );
+  const row = db
+    .prepare<Query>(
+      `
+      SELECT * FROM messages WHERE
+        conversationId = $conversationId
+      ORDER BY received_at DESC, sent_at DESC
+      LIMIT 1;
+      `
+    )
+    .get({
+      conversationId,
+    });
 
   if (!row) {
-    return null;
+    return undefined;
   }
 
   return row;
 }
 
-async function getLastConversationActivity({
+function getLastConversationActivity({
   conversationId,
   ourConversationId,
 }: {
   conversationId: string;
   ourConversationId: string;
-}): Promise<MessageType | null> {
+}): MessageType | undefined {
   const db = getInstance();
-  const row = await db.get(
-    `SELECT * FROM messages WHERE
-       conversationId = $conversationId AND
-       (type IS NULL 
-        OR
-        type NOT IN (
-          'profile-change',
-          'verified-change',
-          'message-history-unsynced',
-          'keychange',
-          'group-v1-migration'
+  const row = prepare(
+    db,
+    `
+      SELECT json FROM messages
+      WHERE
+        conversationId = $conversationId AND
+        (type IS NULL
+          OR
+          type NOT IN (
+            'profile-change',
+            'verified-change',
+            'message-history-unsynced',
+            'keychange',
+            'group-v1-migration',
+            'universal-timer-notification',
+            'change-number-notification'
+          )
+        ) AND
+        (
+          json_extract(json, '$.expirationTimerUpdate.fromSync') IS NULL
+          OR
+          json_extract(json, '$.expirationTimerUpdate.fromSync') != 1
+        ) AND NOT
+        (
+          type = 'group-v2-change' AND
+          json_extract(json, '$.groupV2Change.from') != $ourConversationId AND
+          json_extract(json, '$.groupV2Change.details.length') = 1 AND
+          json_extract(json, '$.groupV2Change.details[0].type') = 'member-remove' AND
+          json_extract(json, '$.groupV2Change.details[0].conversationId') != $ourConversationId
         )
-       ) AND
-       (
-         json_extract(json, '$.expirationTimerUpdate.fromSync') IS NULL
-         OR
-         json_extract(json, '$.expirationTimerUpdate.fromSync') != 1
-       ) AND NOT
-       (
-         type = 'group-v2-change' AND
-         json_extract(json, '$.groupV2Change.from') != $ourConversationId AND
-         json_extract(json, '$.groupV2Change.details.length') = 1 AND
-         json_extract(json, '$.groupV2Change.details[0].type') = 'member-remove' AND
-         json_extract(json, '$.groupV2Change.details[0].conversationId') != $ourConversationId
-       )
-     ORDER BY received_at DESC, sent_at DESC
-     LIMIT 1;`,
-    {
-      $conversationId: conversationId,
-      $ourConversationId: ourConversationId,
-    }
-  );
+      ORDER BY received_at DESC, sent_at DESC
+      LIMIT 1;
+      `
+  ).get({
+    conversationId,
+    ourConversationId,
+  });
 
   if (!row) {
-    return null;
+    return undefined;
   }
 
   return jsonToObject(row.json);
 }
-async function getLastConversationPreview({
+function getLastConversationPreview({
   conversationId,
   ourConversationId,
 }: {
   conversationId: string;
   ourConversationId: string;
-}): Promise<MessageType | null> {
+}): MessageType | undefined {
   const db = getInstance();
-  const row = await db.get(
-    `SELECT * FROM messages WHERE
-       conversationId = $conversationId AND
-       (
-        type IS NULL
-        OR
-        type NOT IN (
-          'profile-change',
-          'verified-change',
-          'message-history-unsynced',
-          'group-v1-migration'
+  const row = prepare(
+    db,
+    `
+      SELECT json FROM messages
+      WHERE
+        conversationId = $conversationId AND
+        (
+          type IS NULL
+          OR
+          type NOT IN (
+            'profile-change',
+            'verified-change',
+            'message-history-unsynced',
+            'group-v1-migration',
+            'universal-timer-notification',
+            'change-number-notification'
+          )
+        ) AND NOT
+        (
+          type = 'group-v2-change' AND
+          json_extract(json, '$.groupV2Change.from') != $ourConversationId AND
+          json_extract(json, '$.groupV2Change.details.length') = 1 AND
+          json_extract(json, '$.groupV2Change.details[0].type') = 'member-remove' AND
+          json_extract(json, '$.groupV2Change.details[0].conversationId') != $ourConversationId
         )
-       ) AND NOT
-       (
-         type = 'group-v2-change' AND
-         json_extract(json, '$.groupV2Change.from') != $ourConversationId AND
-         json_extract(json, '$.groupV2Change.details.length') = 1 AND
-         json_extract(json, '$.groupV2Change.details[0].type') = 'member-remove' AND
-         json_extract(json, '$.groupV2Change.details[0].conversationId') != $ourConversationId
-       )
-     ORDER BY received_at DESC, sent_at DESC
-     LIMIT 1;`,
-    {
-      $conversationId: conversationId,
-      $ourConversationId: ourConversationId,
-    }
-  );
+      ORDER BY received_at DESC, sent_at DESC
+      LIMIT 1;
+      `
+  ).get({
+    conversationId,
+    ourConversationId,
+  });
 
   if (!row) {
-    return null;
+    return undefined;
   }
 
   return jsonToObject(row.json);
 }
-async function getOldestUnreadMessageForConversation(conversationId: string) {
+
+async function getLastConversationMessages({
+  conversationId,
+  ourConversationId,
+}: {
+  conversationId: string;
+  ourConversationId: string;
+}): Promise<LastConversationMessagesServerType> {
   const db = getInstance();
-  const row = await db.get(
-    `SELECT * FROM messages WHERE
-       conversationId = $conversationId AND
-       unread = 1
-     ORDER BY received_at ASC, sent_at ASC
-     LIMIT 1;`,
-    {
-      $conversationId: conversationId,
-    }
-  );
+
+  return db.transaction(() => {
+    return {
+      activity: getLastConversationActivity({
+        conversationId,
+        ourConversationId,
+      }),
+      preview: getLastConversationPreview({
+        conversationId,
+        ourConversationId,
+      }),
+      hasUserInitiatedMessages: hasUserInitiatedMessages(conversationId),
+    };
+  })();
+}
+
+function getOldestUnreadMessageForConversation(
+  conversationId: string
+): MessageMetricsType | undefined {
+  const db = getInstance();
+  const row = db
+    .prepare<Query>(
+      `
+      SELECT * FROM messages WHERE
+        conversationId = $conversationId AND
+        readStatus = ${ReadStatus.Unread}
+      ORDER BY received_at ASC, sent_at ASC
+      LIMIT 1;
+      `
+    )
+    .get({
+      conversationId,
+    });
 
   if (!row) {
-    return null;
+    return undefined;
   }
 
   return row;
 }
 
-async function getTotalUnreadForConversation(conversationId: string) {
+function getTotalUnreadForConversation(conversationId: string): number {
   const db = getInstance();
-  const row = await db.get(
-    `SELECT count(id) from messages WHERE
-       conversationId = $conversationId AND
-       unread = 1;
-    `,
-    {
-      $conversationId: conversationId,
-    }
-  );
+  const row = db
+    .prepare<Query>(
+      `
+      SELECT count(id)
+      FROM messages
+      WHERE
+        conversationId = $conversationId AND
+        readStatus = ${ReadStatus.Unread};
+      `
+    )
+    .get({
+      conversationId,
+    });
 
   if (!row) {
     throw new Error('getTotalUnreadForConversation: Unable to get count');
@@ -3086,26 +4384,23 @@ async function getTotalUnreadForConversation(conversationId: string) {
   return row['count(id)'];
 }
 
-async function getMessageMetricsForConversation(conversationId: string) {
-  const results = await Promise.all([
-    getOldestMessageForConversation(conversationId),
-    getNewestMessageForConversation(conversationId),
-    getOldestUnreadMessageForConversation(conversationId),
-    getTotalUnreadForConversation(conversationId),
-  ]);
-
-  const [oldest, newest, oldestUnread, totalUnread] = results;
+async function getMessageMetricsForConversation(
+  conversationId: string
+): Promise<ConversationMetricsType> {
+  const oldest = getOldestMessageForConversation(conversationId);
+  const newest = getNewestMessageForConversation(conversationId);
+  const oldestUnread = getOldestUnreadMessageForConversation(conversationId);
+  const totalUnread = getTotalUnreadForConversation(conversationId);
 
   return {
-    oldest: oldest ? pick(oldest, ['received_at', 'sent_at', 'id']) : null,
-    newest: newest ? pick(newest, ['received_at', 'sent_at', 'id']) : null,
+    oldest: oldest ? pick(oldest, ['received_at', 'sent_at', 'id']) : undefined,
+    newest: newest ? pick(newest, ['received_at', 'sent_at', 'id']) : undefined,
     oldestUnread: oldestUnread
       ? pick(oldestUnread, ['received_at', 'sent_at', 'id'])
-      : null,
+      : undefined,
     totalUnread,
   };
 }
-getMessageMetricsForConversation.needsSerial = true;
 
 async function hasGroupCallHistoryMessage(
   conversationId: string,
@@ -3113,24 +4408,24 @@ async function hasGroupCallHistoryMessage(
 ): Promise<boolean> {
   const db = getInstance();
 
-  const row: unknown = await db.get(
-    `
-    SELECT count(*) FROM messages
-    WHERE conversationId = $conversationId
-    AND type = 'call-history'
-    AND json_extract(json, '$.callHistoryDetails.callMode') = 'Group'
-    AND json_extract(json, '$.callHistoryDetails.eraId') = $eraId
-    LIMIT 1;
-    `,
-    {
-      $conversationId: conversationId,
-      $eraId: eraId,
-    }
-  );
+  const row: { 'count(*)': number } | undefined = db
+    .prepare<Query>(
+      `
+      SELECT count(*) FROM messages
+      WHERE conversationId = $conversationId
+      AND type = 'call-history'
+      AND json_extract(json, '$.callHistoryDetails.callMode') = 'Group'
+      AND json_extract(json, '$.callHistoryDetails.eraId') = $eraId
+      LIMIT 1;
+      `
+    )
+    .get({
+      conversationId,
+      eraId,
+    });
 
-  if (typeof row === 'object' && row && !Array.isArray(row)) {
-    const count = Number((row as Record<string, unknown>)['count(*)']);
-    return Boolean(count);
+  if (row) {
+    return Boolean(row['count(*)']);
   }
   return false;
 }
@@ -3138,285 +4433,338 @@ async function hasGroupCallHistoryMessage(
 async function migrateConversationMessages(
   obsoleteId: string,
   currentId: string
-) {
+): Promise<void> {
   const db = getInstance();
 
-  await db.run(
-    `UPDATE messages SET
+  db.prepare<Query>(
+    `
+    UPDATE messages SET
       conversationId = $currentId,
       json = json_set(json, '$.conversationId', $currentId)
-     WHERE conversationId = $obsoleteId;`,
-    {
-      $obsoleteId: obsoleteId,
-      $currentId: currentId,
-    }
-  );
+    WHERE conversationId = $obsoleteId;
+    `
+  ).run({
+    obsoleteId,
+    currentId,
+  });
 }
-migrateConversationMessages.needsSerial = true;
 
-async function getMessagesBySentAt(sentAt: number) {
+async function getMessagesBySentAt(
+  sentAt: number
+): Promise<Array<MessageType>> {
   const db = getInstance();
-  const rows = await db.all(
-    `SELECT * FROM messages
-     WHERE sent_at = $sent_at
-     ORDER BY received_at DESC, sent_at DESC;`,
-    {
-      $sent_at: sentAt,
-    }
-  );
+  const rows: JSONRows = db
+    .prepare<Query>(
+      `
+      SELECT json FROM messages
+      WHERE sent_at = $sent_at
+      ORDER BY received_at DESC, sent_at DESC;
+      `
+    )
+    .all({
+      sent_at: sentAt,
+    });
 
-  return map(rows, row => jsonToObject(row.json));
+  return rows.map(row => jsonToObject(row.json));
 }
 
-async function getExpiredMessages() {
+async function getExpiredMessages(): Promise<Array<MessageType>> {
   const db = getInstance();
   const now = Date.now();
 
-  const rows = await db.all(
-    `SELECT json FROM messages WHERE
-      expires_at IS NOT NULL AND
-      expires_at <= $expires_at
-     ORDER BY expires_at ASC;`,
-    {
-      $expires_at: now,
-    }
-  );
+  const rows: JSONRows = db
+    .prepare<Query>(
+      `
+      SELECT json FROM messages WHERE
+        expiresAt IS NOT NULL AND
+        expiresAt <= $now
+      ORDER BY expiresAt ASC;
+      `
+    )
+    .all({ now });
 
-  return map(rows, row => jsonToObject(row.json));
+  return rows.map(row => jsonToObject(row.json));
 }
 
-async function getOutgoingWithoutExpiresAt() {
+async function getMessagesUnexpectedlyMissingExpirationStartTimestamp(): Promise<
+  Array<MessageType>
+> {
   const db = getInstance();
-  const rows = await db.all(`
-    SELECT json FROM messages
-    INDEXED BY messages_without_timer
-    WHERE
-      expireTimer > 0 AND
-      expires_at IS NULL AND
-      type IS 'outgoing'
-    ORDER BY expires_at ASC;
-  `);
+  const rows: JSONRows = db
+    .prepare<EmptyQuery>(
+      `
+      SELECT json FROM messages
+      INDEXED BY messages_unexpectedly_missing_expiration_start_timestamp
+      WHERE
+        expireTimer > 0 AND
+        expirationStartTimestamp IS NULL AND
+        (
+          type IS 'outgoing' OR
+          (type IS 'incoming' AND (
+            readStatus = ${ReadStatus.Read} OR
+            readStatus = ${ReadStatus.Viewed} OR
+            readStatus IS NULL
+          ))
+        );
+      `
+    )
+    .all();
 
-  return map(rows, row => jsonToObject(row.json));
+  return rows.map(row => jsonToObject(row.json));
 }
 
-async function getNextExpiringMessage() {
+async function getSoonestMessageExpiry(): Promise<undefined | number> {
   const db = getInstance();
 
-  // Note: we avoid 'IS NOT NULL' here because it does seem to bypass our index
-  const rows = await db.all(`
-    SELECT json FROM messages
-    WHERE expires_at > 0
-    ORDER BY expires_at ASC
-    LIMIT 1;
-  `);
+  // Note: we use `pluck` to only get the first column.
+  const result: null | number = db
+    .prepare<EmptyQuery>(
+      `
+      SELECT MIN(expiresAt)
+      FROM messages;
+      `
+    )
+    .pluck(true)
+    .get();
 
-  if (!rows || rows.length < 1) {
-    return null;
+  return result || undefined;
+}
+
+async function getNextTapToViewMessageTimestampToAgeOut(): Promise<
+  undefined | number
+> {
+  const db = getInstance();
+  const row = db
+    .prepare<EmptyQuery>(
+      `
+      SELECT json FROM messages
+      WHERE
+        isViewOnce = 1
+        AND (isErased IS NULL OR isErased != 1)
+      ORDER BY received_at ASC, sent_at ASC
+      LIMIT 1;
+      `
+    )
+    .get();
+
+  if (!row) {
+    return undefined;
   }
 
-  return jsonToObject(rows[0].json);
+  const data = jsonToObject(row.json);
+  const result = data.received_at_ms || data.received_at;
+  return isNormalNumber(result) ? result : undefined;
 }
 
-async function getNextTapToViewMessageToAgeOut() {
-  const db = getInstance();
-  const rows = await db.all(`
-    SELECT json FROM messages
-    WHERE
-      isViewOnce = 1
-      AND (isErased IS NULL OR isErased != 1)
-    ORDER BY received_at ASC, sent_at ASC
-    LIMIT 1;
-  `);
-
-  if (!rows || rows.length < 1) {
-    return null;
-  }
-
-  return jsonToObject(rows[0].json);
-}
-
-async function getTapToViewMessagesNeedingErase() {
+async function getTapToViewMessagesNeedingErase(): Promise<Array<MessageType>> {
   const db = getInstance();
   const THIRTY_DAYS_AGO = Date.now() - 30 * 24 * 60 * 60 * 1000;
 
-  const rows = await db.all(
-    `SELECT json FROM messages
-    WHERE
-      isViewOnce = 1
-      AND (isErased IS NULL OR isErased != 1)
-      AND received_at <= $THIRTY_DAYS_AGO
-    ORDER BY received_at ASC, sent_at ASC;`,
-    {
-      $THIRTY_DAYS_AGO: THIRTY_DAYS_AGO,
-    }
-  );
+  const rows: JSONRows = db
+    .prepare<Query>(
+      `
+      SELECT json
+      FROM messages
+      WHERE
+        isViewOnce = 1
+        AND (isErased IS NULL OR isErased != 1)
+        AND received_at <= $THIRTY_DAYS_AGO
+      ORDER BY received_at ASC, sent_at ASC;
+      `
+    )
+    .all({
+      THIRTY_DAYS_AGO,
+    });
 
-  return map(rows, row => jsonToObject(row.json));
+  return rows.map(row => jsonToObject(row.json));
 }
 
-async function saveUnprocessed(
-  data: UnprocessedType,
-  { forceSave }: { forceSave?: boolean } = {}
-) {
+function saveUnprocessedSync(data: UnprocessedType): string {
   const db = getInstance();
-  const { id, timestamp, version, attempts, envelope } = data;
+  const {
+    id,
+    timestamp,
+    version,
+    attempts,
+    envelope,
+    source,
+    sourceUuid,
+    sourceDevice,
+    serverGuid,
+    serverTimestamp,
+    decrypted,
+  } = data;
   if (!id) {
-    throw new Error('saveUnprocessed: id was falsey');
+    throw new Error('saveUnprocessedSync: id was falsey');
   }
 
-  if (forceSave) {
-    await db.run(
-      `INSERT INTO unprocessed (
-        id,
-        timestamp,
-        version,
-        attempts,
-        envelope
-      ) values (
-        $id,
-        $timestamp,
-        $version,
-        $attempts,
-        $envelope
-      );`,
-      {
-        $id: id,
-        $timestamp: timestamp,
-        $version: version,
-        $attempts: attempts,
-        $envelope: envelope,
-      }
+  prepare(
+    db,
+    `
+    INSERT OR REPLACE INTO unprocessed (
+      id,
+      timestamp,
+      version,
+      attempts,
+      envelope,
+      source,
+      sourceUuid,
+      sourceDevice,
+      serverGuid,
+      serverTimestamp,
+      decrypted
+    ) values (
+      $id,
+      $timestamp,
+      $version,
+      $attempts,
+      $envelope,
+      $source,
+      $sourceUuid,
+      $sourceDevice,
+      $serverGuid,
+      $serverTimestamp,
+      $decrypted
     );
-
-    return id;
-  }
-
-  await db.run(
-    `UPDATE unprocessed SET
-      timestamp = $timestamp,
-      version = $version,
-      attempts = $attempts,
-      envelope = $envelope
-    WHERE id = $id;`,
-    {
-      $id: id,
-      $timestamp: timestamp,
-      $version: version,
-      $attempts: attempts,
-      $envelope: envelope,
-    }
-  );
+    `
+  ).run({
+    id,
+    timestamp,
+    version,
+    attempts,
+    envelope: envelope || null,
+    source: source || null,
+    sourceUuid: sourceUuid || null,
+    sourceDevice: sourceDevice || null,
+    serverGuid: serverGuid || null,
+    serverTimestamp: serverTimestamp || null,
+    decrypted: decrypted || null,
+  });
 
   return id;
 }
 
-async function saveUnprocesseds(
-  arrayOfUnprocessed: Array<UnprocessedType>,
-  { forceSave }: { forceSave?: boolean } = {}
-) {
+async function updateUnprocessedAttempts(
+  id: string,
+  attempts: number
+): Promise<void> {
   const db = getInstance();
-  await db.run('BEGIN TRANSACTION;');
-
-  try {
-    await Promise.all([
-      ...map(arrayOfUnprocessed, async unprocessed =>
-        saveUnprocessed(unprocessed, { forceSave })
-      ),
-    ]);
-
-    await db.run('COMMIT TRANSACTION;');
-  } catch (error) {
-    await db.run('ROLLBACK;');
-    throw error;
-  }
-}
-saveUnprocesseds.needsSerial = true;
-
-async function updateUnprocessedAttempts(id: string, attempts: number) {
-  const db = getInstance();
-  await db.run('UPDATE unprocessed SET attempts = $attempts WHERE id = $id;', {
-    $id: id,
-    $attempts: attempts,
+  db.prepare<Query>(
+    `
+    UPDATE unprocessed
+    SET attempts = $attempts
+    WHERE id = $id;
+    `
+  ).run({
+    id,
+    attempts,
   });
 }
-async function updateUnprocessedWithData(id: string, data: UnprocessedType) {
-  const db = getInstance();
-  const { source, sourceUuid, sourceDevice, serverTimestamp, decrypted } = data;
 
-  await db.run(
-    `UPDATE unprocessed SET
+function updateUnprocessedWithDataSync(
+  id: string,
+  data: UnprocessedUpdateType
+): void {
+  const db = getInstance();
+  const {
+    source,
+    sourceUuid,
+    sourceDevice,
+    serverGuid,
+    serverTimestamp,
+    decrypted,
+  } = data;
+
+  prepare(
+    db,
+    `
+    UPDATE unprocessed SET
       source = $source,
       sourceUuid = $sourceUuid,
       sourceDevice = $sourceDevice,
+      serverGuid = $serverGuid,
       serverTimestamp = $serverTimestamp,
       decrypted = $decrypted
-    WHERE id = $id;`,
-    {
-      $id: id,
-      $source: source,
-      $sourceUuid: sourceUuid,
-      $sourceDevice: sourceDevice,
-      $serverTimestamp: serverTimestamp,
-      $decrypted: decrypted,
-    }
-  );
-}
-async function updateUnprocessedsWithData(
-  arrayOfUnprocessed: Array<UnprocessedType>
-) {
-  const db = getInstance();
-  await db.run('BEGIN TRANSACTION;');
-
-  try {
-    await Promise.all([
-      ...map(arrayOfUnprocessed, async ({ id, data }) =>
-        updateUnprocessedWithData(id, data)
-      ),
-    ]);
-
-    await db.run('COMMIT TRANSACTION;');
-  } catch (error) {
-    await db.run('ROLLBACK;');
-    throw error;
-  }
-}
-updateUnprocessedsWithData.needsSerial = true;
-
-async function getUnprocessedById(id: string) {
-  const db = getInstance();
-  const row = await db.get('SELECT * FROM unprocessed WHERE id = $id;', {
-    $id: id,
+    WHERE id = $id;
+    `
+  ).run({
+    id,
+    source: source || null,
+    sourceUuid: sourceUuid || null,
+    sourceDevice: sourceDevice || null,
+    serverGuid: serverGuid || null,
+    serverTimestamp: serverTimestamp || null,
+    decrypted: decrypted || null,
   });
+}
+
+async function updateUnprocessedWithData(
+  id: string,
+  data: UnprocessedUpdateType
+): Promise<void> {
+  return updateUnprocessedWithDataSync(id, data);
+}
+
+async function updateUnprocessedsWithData(
+  arrayOfUnprocessed: Array<{ id: string; data: UnprocessedUpdateType }>
+): Promise<void> {
+  const db = getInstance();
+
+  db.transaction(() => {
+    for (const { id, data } of arrayOfUnprocessed) {
+      assertSync(updateUnprocessedWithDataSync(id, data));
+    }
+  })();
+}
+
+async function getUnprocessedById(
+  id: string
+): Promise<UnprocessedType | undefined> {
+  const db = getInstance();
+  const row = db
+    .prepare<Query>('SELECT * FROM unprocessed WHERE id = $id;')
+    .get({
+      id,
+    });
 
   return row;
 }
 
-async function getUnprocessedCount() {
-  const db = getInstance();
-  const row = await db.get('SELECT count(*) from unprocessed;');
-
-  if (!row) {
-    throw new Error('getMessageCount: Unable to get count of unprocessed');
-  }
-
-  return row['count(*)'];
+async function getUnprocessedCount(): Promise<number> {
+  return getCountFromTable('unprocessed');
 }
 
-async function getAllUnprocessed() {
+async function getAllUnprocessed(): Promise<Array<UnprocessedType>> {
   const db = getInstance();
-  const rows = await db.all(
-    'SELECT * FROM unprocessed ORDER BY timestamp ASC;'
-  );
+  const rows = db
+    .prepare<EmptyQuery>(
+      `
+      SELECT *
+      FROM unprocessed
+      ORDER BY timestamp ASC;
+      `
+    )
+    .all();
 
   return rows;
 }
 
-async function removeUnprocessed(id: string) {
+function removeUnprocessedsSync(ids: Array<string>): void {
   const db = getInstance();
 
+  db.prepare<ArrayQuery>(
+    `
+    DELETE FROM unprocessed
+    WHERE id IN ( ${ids.map(() => '?').join(', ')} );
+    `
+  ).run(ids);
+}
+
+async function removeUnprocessed(id: string | Array<string>): Promise<void> {
   if (!Array.isArray(id)) {
-    await db.run('DELETE FROM unprocessed WHERE id = $id;', { $id: id });
+    const db = getInstance();
+
+    prepare(db, 'DELETE FROM unprocessed WHERE id = $id;').run({ id });
 
     return;
   }
@@ -3425,16 +4773,12 @@ async function removeUnprocessed(id: string) {
     throw new Error('removeUnprocessed: No ids to delete!');
   }
 
-  // Our node interface doesn't seem to allow you to replace one single ? with an array
-  await db.run(
-    `DELETE FROM unprocessed WHERE id IN ( ${id.map(() => '?').join(', ')} );`,
-    id
-  );
+  batchMultiVarQuery(id, removeUnprocessedsSync);
 }
 
-async function removeAllUnprocessed() {
+async function removeAllUnprocessed(): Promise<void> {
   const db = getInstance();
-  await db.run('DELETE FROM unprocessed;');
+  db.prepare<EmptyQuery>('DELETE FROM unprocessed;').run();
 }
 
 // Attachment Downloads
@@ -3443,25 +4787,31 @@ const ATTACHMENT_DOWNLOADS_TABLE = 'attachment_downloads';
 async function getNextAttachmentDownloadJobs(
   limit?: number,
   options: { timestamp?: number } = {}
-) {
+): Promise<Array<AttachmentDownloadJobType>> {
   const db = getInstance();
   const timestamp =
     options && options.timestamp ? options.timestamp : Date.now();
 
-  const rows = await db.all(
-    `SELECT json FROM attachment_downloads
-    WHERE pending = 0 AND timestamp < $timestamp
-    ORDER BY timestamp DESC
-    LIMIT $limit;`,
-    {
-      $limit: limit || 3,
-      $timestamp: timestamp,
-    }
-  );
+  const rows: JSONRows = db
+    .prepare<Query>(
+      `
+      SELECT json
+      FROM attachment_downloads
+      WHERE pending = 0 AND timestamp <= $timestamp
+      ORDER BY timestamp DESC
+      LIMIT $limit;
+      `
+    )
+    .all({
+      limit: limit || 3,
+      timestamp,
+    });
 
-  return map(rows, row => jsonToObject(row.json));
+  return rows.map(row => jsonToObject(row.json));
 }
-async function saveAttachmentDownloadJob(job: AttachmentDownloadJobType) {
+async function saveAttachmentDownloadJob(
+  job: AttachmentDownloadJobType
+): Promise<void> {
   const db = getInstance();
   const { id, pending, timestamp } = job;
   if (!id) {
@@ -3470,8 +4820,9 @@ async function saveAttachmentDownloadJob(job: AttachmentDownloadJobType) {
     );
   }
 
-  await db.run(
-    `INSERT OR REPLACE INTO attachment_downloads (
+  db.prepare<Query>(
+    `
+    INSERT OR REPLACE INTO attachment_downloads (
       id,
       pending,
       timestamp,
@@ -3481,41 +4832,51 @@ async function saveAttachmentDownloadJob(job: AttachmentDownloadJobType) {
       $pending,
       $timestamp,
       $json
-    )`,
-    {
-      $id: id,
-      $pending: pending,
-      $timestamp: timestamp,
-      $json: objectToJSON(job),
-    }
-  );
+    )
+    `
+  ).run({
+    id,
+    pending,
+    timestamp,
+    json: objectToJSON(job),
+  });
 }
-async function setAttachmentDownloadJobPending(id: string, pending: boolean) {
+async function setAttachmentDownloadJobPending(
+  id: string,
+  pending: boolean
+): Promise<void> {
   const db = getInstance();
-  await db.run(
-    'UPDATE attachment_downloads SET pending = $pending WHERE id = $id;',
-    {
-      $id: id,
-      $pending: pending,
-    }
-  );
+  db.prepare<Query>(
+    `
+    UPDATE attachment_downloads
+    SET pending = $pending
+    WHERE id = $id;
+    `
+  ).run({
+    id,
+    pending: pending ? 1 : 0,
+  });
 }
-async function resetAttachmentDownloadPending() {
+async function resetAttachmentDownloadPending(): Promise<void> {
   const db = getInstance();
-  await db.run(
-    'UPDATE attachment_downloads SET pending = 0 WHERE pending != 0;'
-  );
+  db.prepare<EmptyQuery>(
+    `
+    UPDATE attachment_downloads
+    SET pending = 0
+    WHERE pending != 0;
+    `
+  ).run();
 }
-async function removeAttachmentDownloadJob(id: string) {
+function removeAttachmentDownloadJob(id: string): Promise<void> {
   return removeById(ATTACHMENT_DOWNLOADS_TABLE, id);
 }
-async function removeAllAttachmentDownloadJobs() {
+function removeAllAttachmentDownloadJobs(): Promise<void> {
   return removeAllFromTable(ATTACHMENT_DOWNLOADS_TABLE);
 }
 
 // Stickers
 
-async function createOrUpdateStickerPack(pack: StickerPackType) {
+async function createOrUpdateStickerPack(pack: StickerPackType): Promise<void> {
   const db = getInstance();
   const {
     attemptedStatus,
@@ -3537,27 +4898,34 @@ async function createOrUpdateStickerPack(pack: StickerPackType) {
     );
   }
 
-  const rows = await db.all('SELECT id FROM sticker_packs WHERE id = $id;', {
-    $id: id,
-  });
+  const rows = db
+    .prepare<Query>(
+      `
+      SELECT id
+      FROM sticker_packs
+      WHERE id = $id;
+      `
+    )
+    .all({ id });
   const payload = {
-    $attemptedStatus: attemptedStatus,
-    $author: author,
-    $coverStickerId: coverStickerId,
-    $createdAt: createdAt || Date.now(),
-    $downloadAttempts: downloadAttempts || 1,
-    $id: id,
-    $installedAt: installedAt,
-    $key: key,
-    $lastUsed: lastUsed || null,
-    $status: status,
-    $stickerCount: stickerCount,
-    $title: title,
+    attemptedStatus: attemptedStatus ?? null,
+    author,
+    coverStickerId,
+    createdAt: createdAt || Date.now(),
+    downloadAttempts: downloadAttempts || 1,
+    id,
+    installedAt: installedAt ?? null,
+    key,
+    lastUsed: lastUsed || null,
+    status,
+    stickerCount,
+    title,
   };
 
   if (rows && rows.length) {
-    await db.run(
-      `UPDATE sticker_packs SET
+    db.prepare<Query>(
+      `
+      UPDATE sticker_packs SET
         attemptedStatus = $attemptedStatus,
         author = $author,
         coverStickerId = $coverStickerId,
@@ -3569,15 +4937,16 @@ async function createOrUpdateStickerPack(pack: StickerPackType) {
         status = $status,
         stickerCount = $stickerCount,
         title = $title
-      WHERE id = $id;`,
-      payload
-    );
+      WHERE id = $id;
+      `
+    ).run(payload);
 
     return;
   }
 
-  await db.run(
-    `INSERT INTO sticker_packs (
+  db.prepare<Query>(
+    `
+    INSERT INTO sticker_packs (
       attemptedStatus,
       author,
       coverStickerId,
@@ -3603,39 +4972,43 @@ async function createOrUpdateStickerPack(pack: StickerPackType) {
       $status,
       $stickerCount,
       $title
-    )`,
-    payload
-  );
+    )
+    `
+  ).run(payload);
 }
 async function updateStickerPackStatus(
   id: string,
   status: StickerPackStatusType,
   options?: { timestamp: number }
-) {
+): Promise<void> {
   const db = getInstance();
   const timestamp = options ? options.timestamp || Date.now() : Date.now();
   const installedAt = status === 'installed' ? timestamp : null;
 
-  await db.run(
-    `UPDATE sticker_packs
+  db.prepare<Query>(
+    `
+    UPDATE sticker_packs
     SET status = $status, installedAt = $installedAt
     WHERE id = $id;
-    )`,
-    {
-      $id: id,
-      $status: status,
-      $installedAt: installedAt,
-    }
-  );
+    `
+  ).run({
+    id,
+    status,
+    installedAt,
+  });
 }
 async function clearAllErrorStickerPackAttempts(): Promise<void> {
   const db = getInstance();
 
-  await db.run(
-    "UPDATE sticker_packs SET downloadAttempts = 0 WHERE status = 'error';"
-  );
+  db.prepare<EmptyQuery>(
+    `
+    UPDATE sticker_packs
+    SET downloadAttempts = 0
+    WHERE status = 'error';
+    `
+  ).run();
 }
-async function createOrUpdateSticker(sticker: StickerType) {
+async function createOrUpdateSticker(sticker: StickerType): Promise<void> {
   const db = getInstance();
   const {
     emoji,
@@ -3659,8 +5032,9 @@ async function createOrUpdateSticker(sticker: StickerType) {
     );
   }
 
-  await db.run(
-    `INSERT OR REPLACE INTO stickers (
+  db.prepare<Query>(
+    `
+    INSERT OR REPLACE INTO stickers (
       emoji,
       height,
       id,
@@ -3678,46 +5052,51 @@ async function createOrUpdateSticker(sticker: StickerType) {
       $packId,
       $path,
       $width
-    )`,
-    {
-      $emoji: emoji,
-      $height: height,
-      $id: id,
-      $isCoverOnly: isCoverOnly,
-      $lastUsed: lastUsed,
-      $packId: packId,
-      $path: path,
-      $width: width,
-    }
-  );
+    )
+    `
+  ).run({
+    emoji: emoji ?? null,
+    height,
+    id,
+    isCoverOnly: isCoverOnly ? 1 : 0,
+    lastUsed: lastUsed || null,
+    packId,
+    path,
+    width,
+  });
 }
 async function updateStickerLastUsed(
   packId: string,
   stickerId: number,
   lastUsed: number
-) {
+): Promise<void> {
   const db = getInstance();
-  await db.run(
-    `UPDATE stickers
+  db.prepare<Query>(
+    `
+    UPDATE stickers
     SET lastUsed = $lastUsed
-    WHERE id = $id AND packId = $packId;`,
-    {
-      $id: stickerId,
-      $packId: packId,
-      $lastUsed: lastUsed,
-    }
-  );
-  await db.run(
-    `UPDATE sticker_packs
+    WHERE id = $id AND packId = $packId;
+    `
+  ).run({
+    id: stickerId,
+    packId,
+    lastUsed,
+  });
+  db.prepare<Query>(
+    `
+    UPDATE sticker_packs
     SET lastUsed = $lastUsed
-    WHERE id = $id;`,
-    {
-      $id: packId,
-      $lastUsed: lastUsed,
-    }
-  );
+    WHERE id = $id;
+    `
+  ).run({
+    id: packId,
+    lastUsed,
+  });
 }
-async function addStickerPackReference(messageId: string, packId: string) {
+async function addStickerPackReference(
+  messageId: string,
+  packId: string
+): Promise<void> {
   const db = getInstance();
 
   if (!messageId) {
@@ -3731,21 +5110,25 @@ async function addStickerPackReference(messageId: string, packId: string) {
     );
   }
 
-  await db.run(
-    `INSERT OR REPLACE INTO sticker_references (
+  db.prepare<Query>(
+    `
+    INSERT OR REPLACE INTO sticker_references (
       messageId,
       packId
     ) values (
       $messageId,
       $packId
-    )`,
-    {
-      $messageId: messageId,
-      $packId: packId,
-    }
-  );
+    )
+    `
+  ).run({
+    messageId,
+    packId,
+  });
 }
-async function deleteStickerPackReference(messageId: string, packId: string) {
+async function deleteStickerPackReference(
+  messageId: string,
+  packId: string
+): Promise<ReadonlyArray<string> | undefined> {
   const db = getInstance();
 
   if (!messageId) {
@@ -3759,89 +5142,90 @@ async function deleteStickerPackReference(messageId: string, packId: string) {
     );
   }
 
-  try {
-    // We use an immediate transaction here to immediately acquire an exclusive lock,
-    //   which would normally only happen when we did our first write.
+  return db
+    .transaction(() => {
+      // We use an immediate transaction here to immediately acquire an exclusive lock,
+      //   which would normally only happen when we did our first write.
 
-    // We need this to ensure that our five queries are all atomic, with no other changes
-    //   happening while we do it:
-    // 1. Delete our target messageId/packId references
-    // 2. Check the number of references still pointing at packId
-    // 3. If that number is zero, get pack from sticker_packs database
-    // 4. If it's not installed, then grab all of its sticker paths
-    // 5. If it's not installed, then sticker pack (which cascades to all stickers and
-    //      references)
-    await db.run('BEGIN IMMEDIATE TRANSACTION;');
+      // We need this to ensure that our five queries are all atomic, with no
+      // other changes happening while we do it:
+      // 1. Delete our target messageId/packId references
+      // 2. Check the number of references still pointing at packId
+      // 3. If that number is zero, get pack from sticker_packs database
+      // 4. If it's not installed, then grab all of its sticker paths
+      // 5. If it's not installed, then sticker pack (which cascades to all
+      //    stickers and references)
+      db.prepare<Query>(
+        `
+        DELETE FROM sticker_references
+        WHERE messageId = $messageId AND packId = $packId;
+        `
+      ).run({
+        messageId,
+        packId,
+      });
 
-    await db.run(
-      `DELETE FROM sticker_references
-      WHERE messageId = $messageId AND packId = $packId;`,
-      {
-        $messageId: messageId,
-        $packId: packId,
+      const countRow = db
+        .prepare<Query>(
+          `
+          SELECT count(*) FROM sticker_references
+          WHERE packId = $packId;
+          `
+        )
+        .get({ packId });
+      if (!countRow) {
+        throw new Error(
+          'deleteStickerPackReference: Unable to get count of references'
+        );
       }
-    );
-
-    const countRow = await db.get(
-      `SELECT count(*) FROM sticker_references
-      WHERE packId = $packId;`,
-      { $packId: packId }
-    );
-    if (!countRow) {
-      throw new Error(
-        'deleteStickerPackReference: Unable to get count of references'
-      );
-    }
-    const count = countRow['count(*)'];
-    if (count > 0) {
-      await db.run('COMMIT TRANSACTION;');
-
-      return [];
-    }
-
-    const packRow = await db.get(
-      `SELECT status FROM sticker_packs
-      WHERE id = $packId;`,
-      { $packId: packId }
-    );
-    if (!packRow) {
-      console.log('deleteStickerPackReference: did not find referenced pack');
-      await db.run('COMMIT TRANSACTION;');
-
-      return [];
-    }
-    const { status } = packRow;
-
-    if (status === 'installed') {
-      await db.run('COMMIT TRANSACTION;');
-
-      return [];
-    }
-
-    const stickerPathRows = await db.all(
-      `SELECT path FROM stickers
-      WHERE packId = $packId;`,
-      {
-        $packId: packId,
+      const count = countRow['count(*)'];
+      if (count > 0) {
+        return undefined;
       }
-    );
-    await db.run(
-      `DELETE FROM sticker_packs
-      WHERE id = $packId;`,
-      { $packId: packId }
-    );
 
-    await db.run('COMMIT TRANSACTION;');
+      const packRow: { status: StickerPackStatusType } = db
+        .prepare<Query>(
+          `
+          SELECT status FROM sticker_packs
+          WHERE id = $packId;
+          `
+        )
+        .get({ packId });
+      if (!packRow) {
+        console.log('deleteStickerPackReference: did not find referenced pack');
+        return undefined;
+      }
+      const { status } = packRow;
 
-    return (stickerPathRows || []).map(row => row.path);
-  } catch (error) {
-    await db.run('ROLLBACK;');
-    throw error;
-  }
+      if (status === 'installed') {
+        return undefined;
+      }
+
+      const stickerPathRows: Array<{ path: string }> = db
+        .prepare<Query>(
+          `
+          SELECT path FROM stickers
+          WHERE packId = $packId;
+          `
+        )
+        .all({
+          packId,
+        });
+      db.prepare<Query>(
+        `
+        DELETE FROM sticker_packs
+        WHERE id = $packId;
+        `
+      ).run({
+        packId,
+      });
+
+      return (stickerPathRows || []).map(row => row.path);
+    })
+    .immediate();
 }
-deleteStickerPackReference.needsSerial = true;
 
-async function deleteStickerPack(packId: string) {
+async function deleteStickerPack(packId: string): Promise<Array<string>> {
   const db = getInstance();
 
   if (!packId) {
@@ -3850,248 +5234,286 @@ async function deleteStickerPack(packId: string) {
     );
   }
 
-  try {
-    // We use an immediate transaction here to immediately acquire an exclusive lock,
-    //   which would normally only happen when we did our first write.
+  return db
+    .transaction(() => {
+      // We use an immediate transaction here to immediately acquire an exclusive lock,
+      //   which would normally only happen when we did our first write.
 
-    // We need this to ensure that our two queries are atomic, with no other changes
-    //   happening while we do it:
-    // 1. Grab all of target pack's sticker paths
-    // 2. Delete sticker pack (which cascades to all stickers and references)
-    await db.run('BEGIN IMMEDIATE TRANSACTION;');
+      // We need this to ensure that our two queries are atomic, with no other changes
+      //   happening while we do it:
+      // 1. Grab all of target pack's sticker paths
+      // 2. Delete sticker pack (which cascades to all stickers and references)
 
-    const stickerPathRows = await db.all(
-      `SELECT path FROM stickers
-      WHERE packId = $packId;`,
-      {
-        $packId: packId,
-      }
-    );
-    await db.run(
-      `DELETE FROM sticker_packs
-      WHERE id = $packId;`,
-      { $packId: packId }
-    );
+      const stickerPathRows: Array<{ path: string }> = db
+        .prepare<Query>(
+          `
+          SELECT path FROM stickers
+          WHERE packId = $packId;
+          `
+        )
+        .all({
+          packId,
+        });
+      db.prepare<Query>(
+        `
+        DELETE FROM sticker_packs
+        WHERE id = $packId;
+        `
+      ).run({ packId });
 
-    await db.run('COMMIT TRANSACTION;');
-
-    return (stickerPathRows || []).map(row => row.path);
-  } catch (error) {
-    await db.run('ROLLBACK;');
-    throw error;
-  }
+      return (stickerPathRows || []).map(row => row.path);
+    })
+    .immediate();
 }
-deleteStickerPack.needsSerial = true;
 
-async function getStickerCount() {
+async function getStickerCount(): Promise<number> {
+  return getCountFromTable('stickers');
+}
+async function getAllStickerPacks(): Promise<Array<StickerPackType>> {
   const db = getInstance();
 
-  const row = await db.get('SELECT count(*) from stickers;');
-
-  if (!row) {
-    throw new Error('getStickerCount: Unable to get count of stickers');
-  }
-
-  return row['count(*)'];
-}
-async function getAllStickerPacks() {
-  const db = getInstance();
-
-  const rows = await db.all(
-    `SELECT * FROM sticker_packs
-    ORDER BY installedAt DESC, createdAt DESC`
-  );
+  const rows = db
+    .prepare<EmptyQuery>(
+      `
+      SELECT * FROM sticker_packs
+      ORDER BY installedAt DESC, createdAt DESC
+      `
+    )
+    .all();
 
   return rows || [];
 }
-async function getAllStickers() {
+async function getAllStickers(): Promise<Array<StickerType>> {
   const db = getInstance();
 
-  const rows = await db.all(
-    `SELECT * FROM stickers
-    ORDER BY packId ASC, id ASC`
-  );
+  const rows = db
+    .prepare<EmptyQuery>(
+      `
+      SELECT * FROM stickers
+      ORDER BY packId ASC, id ASC
+      `
+    )
+    .all();
 
-  return rows || [];
+  return (rows || []).map(row => rowToSticker(row));
 }
-async function getRecentStickers({ limit }: { limit?: number } = {}) {
+async function getRecentStickers({ limit }: { limit?: number } = {}): Promise<
+  Array<StickerType>
+> {
   const db = getInstance();
 
   // Note: we avoid 'IS NOT NULL' here because it does seem to bypass our index
-  const rows = await db.all(
-    `SELECT stickers.* FROM stickers
-    JOIN sticker_packs on stickers.packId = sticker_packs.id
-    WHERE stickers.lastUsed > 0 AND sticker_packs.status = 'installed'
-    ORDER BY stickers.lastUsed DESC
-    LIMIT $limit`,
-    {
-      $limit: limit || 24,
-    }
-  );
+  const rows = db
+    .prepare<Query>(
+      `
+      SELECT stickers.* FROM stickers
+      JOIN sticker_packs on stickers.packId = sticker_packs.id
+      WHERE stickers.lastUsed > 0 AND sticker_packs.status = 'installed'
+      ORDER BY stickers.lastUsed DESC
+      LIMIT $limit
+      `
+    )
+    .all({
+      limit: limit || 24,
+    });
 
-  return rows || [];
+  return (rows || []).map(row => rowToSticker(row));
 }
 
 // Emojis
 async function updateEmojiUsage(
   shortName: string,
   timeUsed: number = Date.now()
-) {
+): Promise<void> {
   const db = getInstance();
-  await db.run('BEGIN TRANSACTION;');
 
-  try {
-    const rows = await db.get(
-      'SELECT * FROM emojis WHERE shortName = $shortName;',
-      {
-        $shortName: shortName,
-      }
-    );
+  db.transaction(() => {
+    const rows = db
+      .prepare<Query>(
+        `
+        SELECT * FROM emojis
+        WHERE shortName = $shortName;
+        `
+      )
+      .get({
+        shortName,
+      });
 
     if (rows) {
-      await db.run(
-        'UPDATE emojis SET lastUsage = $timeUsed WHERE shortName = $shortName;',
-        { $shortName: shortName, $timeUsed: timeUsed }
-      );
+      db.prepare<Query>(
+        `
+        UPDATE emojis
+        SET lastUsage = $timeUsed
+        WHERE shortName = $shortName;
+        `
+      ).run({ shortName, timeUsed });
     } else {
-      await db.run(
-        'INSERT INTO emojis(shortName, lastUsage) VALUES ($shortName, $timeUsed);',
-        { $shortName: shortName, $timeUsed: timeUsed }
-      );
+      db.prepare<Query>(
+        `
+        INSERT INTO emojis(shortName, lastUsage)
+        VALUES ($shortName, $timeUsed);
+        `
+      ).run({ shortName, timeUsed });
     }
-
-    await db.run('COMMIT TRANSACTION;');
-  } catch (error) {
-    await db.run('ROLLBACK;');
-    throw error;
-  }
+  })();
 }
-updateEmojiUsage.needsSerial = true;
 
-async function getRecentEmojis(limit = 32) {
+async function getRecentEmojis(limit = 32): Promise<Array<EmojiType>> {
   const db = getInstance();
-  const rows = await db.all(
-    'SELECT * FROM emojis ORDER BY lastUsage DESC LIMIT $limit;',
-    {
-      $limit: limit,
-    }
-  );
+  const rows = db
+    .prepare<Query>(
+      `
+      SELECT *
+      FROM emojis
+      ORDER BY lastUsage DESC
+      LIMIT $limit;
+      `
+    )
+    .all({ limit });
 
   return rows || [];
 }
 
 // All data in database
-async function removeAll() {
+async function removeAll(): Promise<void> {
   const db = getInstance();
-  await db.run('BEGIN TRANSACTION;');
 
-  try {
-    await Promise.all([
-      db.run('DELETE FROM conversations;'),
-      db.run('DELETE FROM identityKeys;'),
-      db.run('DELETE FROM items;'),
-      db.run('DELETE FROM messages;'),
-      db.run('DELETE FROM preKeys;'),
-      db.run('DELETE FROM sessions;'),
-      db.run('DELETE FROM signedPreKeys;'),
-      db.run('DELETE FROM unprocessed;'),
-      db.run('DELETE FROM attachment_downloads;'),
-      db.run('DELETE FROM messages_fts;'),
-      db.run('DELETE FROM stickers;'),
-      db.run('DELETE FROM sticker_packs;'),
-      db.run('DELETE FROM sticker_references;'),
-    ]);
-
-    await db.run('COMMIT TRANSACTION;');
-  } catch (error) {
-    await db.run('ROLLBACK;');
-    throw error;
-  }
+  db.transaction(() => {
+    db.exec(`
+      DELETE FROM conversations;
+      DELETE FROM identityKeys;
+      DELETE FROM items;
+      DELETE FROM messages;
+      DELETE FROM preKeys;
+      DELETE FROM senderKeys;
+      DELETE FROM sessions;
+      DELETE FROM signedPreKeys;
+      DELETE FROM unprocessed;
+      DELETE FROM attachment_downloads;
+      DELETE FROM messages_fts;
+      DELETE FROM stickers;
+      DELETE FROM sticker_packs;
+      DELETE FROM sticker_references;
+      DELETE FROM jobs;
+    `);
+  })();
 }
-removeAll.needsSerial = true;
 
 // Anything that isn't user-visible data
-async function removeAllConfiguration() {
+async function removeAllConfiguration(): Promise<void> {
   const db = getInstance();
-  await db.run('BEGIN TRANSACTION;');
 
-  try {
-    await Promise.all([
-      db.run('DELETE FROM identityKeys;'),
-      db.run('DELETE FROM items;'),
-      db.run('DELETE FROM preKeys;'),
-      db.run('DELETE FROM sessions;'),
-      db.run('DELETE FROM signedPreKeys;'),
-      db.run('DELETE FROM unprocessed;'),
-    ]);
-
-    await db.run('COMMIT TRANSACTION;');
-  } catch (error) {
-    await db.run('ROLLBACK;');
-    throw error;
-  }
+  db.transaction(() => {
+    db.exec(
+      `
+      DELETE FROM identityKeys;
+      DELETE FROM items;
+      DELETE FROM preKeys;
+      DELETE FROM senderKeys;
+      DELETE FROM sessions;
+      DELETE FROM signedPreKeys;
+      DELETE FROM unprocessed;
+      DELETE FROM jobs;
+    `
+    );
+    db.exec(
+      "UPDATE conversations SET json = json_remove(json, '$.senderKeyInfo');"
+    );
+  })();
 }
-removeAllConfiguration.needsSerial = true;
 
 async function getMessagesNeedingUpgrade(
   limit: number,
   { maxVersion }: { maxVersion: number }
-) {
+): Promise<Array<MessageType>> {
   const db = getInstance();
-  const rows = await db.all(
-    `SELECT json FROM messages
-     WHERE schemaVersion IS NULL OR schemaVersion < $maxVersion
-     LIMIT $limit;`,
-    {
-      $maxVersion: maxVersion,
-      $limit: limit,
-    }
-  );
+  const rows: JSONRows = db
+    .prepare<Query>(
+      `
+      SELECT json
+      FROM messages
+      WHERE schemaVersion IS NULL OR schemaVersion < $maxVersion
+      LIMIT $limit;
+      `
+    )
+    .all({
+      maxVersion,
+      limit,
+    });
 
-  return map(rows, row => jsonToObject(row.json));
+  return rows.map(row => jsonToObject(row.json));
 }
 
 async function getMessagesWithVisualMediaAttachments(
   conversationId: string,
   { limit }: { limit: number }
-) {
+): Promise<Array<MessageType>> {
   const db = getInstance();
-  const rows = await db.all(
-    `SELECT json FROM messages WHERE
-      conversationId = $conversationId AND
-      hasVisualMediaAttachments = 1
-     ORDER BY received_at DESC, sent_at DESC
-     LIMIT $limit;`,
-    {
-      $conversationId: conversationId,
-      $limit: limit,
-    }
-  );
+  const rows: JSONRows = db
+    .prepare<Query>(
+      `
+      SELECT json FROM messages WHERE
+        conversationId = $conversationId AND
+        hasVisualMediaAttachments = 1
+      ORDER BY received_at DESC, sent_at DESC
+      LIMIT $limit;
+      `
+    )
+    .all({
+      conversationId,
+      limit,
+    });
 
-  return map(rows, row => jsonToObject(row.json));
+  return rows.map(row => jsonToObject(row.json));
 }
 
 async function getMessagesWithFileAttachments(
   conversationId: string,
   { limit }: { limit: number }
-) {
+): Promise<Array<MessageType>> {
   const db = getInstance();
-  const rows = await db.all(
-    `SELECT json FROM messages WHERE
-      conversationId = $conversationId AND
-      hasFileAttachments = 1
-     ORDER BY received_at DESC, sent_at DESC
-     LIMIT $limit;`,
-    {
-      $conversationId: conversationId,
-      $limit: limit,
-    }
-  );
+  const rows = db
+    .prepare<Query>(
+      `
+      SELECT json FROM messages WHERE
+        conversationId = $conversationId AND
+        hasFileAttachments = 1
+      ORDER BY received_at DESC, sent_at DESC
+      LIMIT $limit;
+      `
+    )
+    .all({
+      conversationId,
+      limit,
+    });
 
   return map(rows, row => jsonToObject(row.json));
 }
 
-function getExternalFilesForMessage(message: MessageType) {
+async function getMessageServerGuidsForSpam(
+  conversationId: string
+): Promise<Array<string>> {
+  const db = getInstance();
+
+  // The server's maximum is 3, which is why you see `LIMIT 3` in this query. Note that we
+  //   use `pluck` here to only get the first column!
+  return db
+    .prepare<Query>(
+      `
+      SELECT serverGuid
+      FROM messages
+      WHERE conversationId = $conversationId
+      AND type = 'incoming'
+      AND serverGuid IS NOT NULL
+      ORDER BY received_at DESC, sent_at DESC
+      LIMIT 3;
+      `
+    )
+    .pluck(true)
+    .all({ conversationId });
+}
+
+function getExternalFilesForMessage(message: MessageType): Array<string> {
   const { attachments, contact, quote, preview, sticker } = message;
   const files: Array<string> = [];
 
@@ -4151,7 +5573,9 @@ function getExternalFilesForMessage(message: MessageType) {
   return files;
 }
 
-function getExternalFilesForConversation(conversation: ConversationType) {
+function getExternalFilesForConversation(
+  conversation: Pick<ConversationType, 'avatar' | 'profileAvatar'>
+): Array<string> {
   const { avatar, profileAvatar } = conversation;
   const files: Array<string> = [];
 
@@ -4166,7 +5590,9 @@ function getExternalFilesForConversation(conversation: ConversationType) {
   return files;
 }
 
-function getExternalDraftFilesForConversation(conversation: ConversationType) {
+function getExternalDraftFilesForConversation(
+  conversation: Pick<ConversationType, 'draftAttachments'>
+): Array<string> {
   const draftAttachments = conversation.draftAttachments || [];
   const files: Array<string> = [];
 
@@ -4184,7 +5610,9 @@ function getExternalDraftFilesForConversation(conversation: ConversationType) {
   return files;
 }
 
-async function removeKnownAttachments(allAttachments: Array<string>) {
+async function removeKnownAttachments(
+  allAttachments: Array<string>
+): Promise<Array<string>> {
   const db = getInstance();
   const lookup: Dictionary<boolean> = fromPairs(
     map(allAttachments, file => [file, true])
@@ -4201,21 +5629,24 @@ async function removeKnownAttachments(allAttachments: Array<string>) {
   let id: string | number = '';
 
   while (!complete) {
-    const rows = await db.all(
-      `SELECT json FROM messages
-       WHERE id > $id
-       ORDER BY id ASC
-       LIMIT $chunkSize;`,
-      {
-        $id: id,
-        $chunkSize: chunkSize,
-      }
-    );
+    const rows: JSONRows = db
+      .prepare<Query>(
+        `
+        SELECT json FROM messages
+        WHERE id > $id
+        ORDER BY id ASC
+        LIMIT $chunkSize;
+        `
+      )
+      .all({
+        id,
+        chunkSize,
+      });
 
-    const messages: Array<MessageType> = map(rows, row =>
+    const messages: Array<MessageType> = rows.map(row =>
       jsonToObject(row.json)
     );
-    forEach(messages, message => {
+    messages.forEach(message => {
       const externalFiles = getExternalFilesForMessage(message);
       forEach(externalFiles, file => {
         delete lookup[file];
@@ -4244,23 +5675,26 @@ async function removeKnownAttachments(allAttachments: Array<string>) {
   );
 
   while (!complete) {
-    const rows = await db.all(
-      `SELECT json FROM conversations
-       WHERE id > $id
-       ORDER BY id ASC
-       LIMIT $chunkSize;`,
-      {
-        $id: id,
-        $chunkSize: chunkSize,
-      }
-    );
+    const rows = db
+      .prepare<Query>(
+        `
+        SELECT json FROM conversations
+        WHERE id > $id
+        ORDER BY id ASC
+        LIMIT $chunkSize;
+        `
+      )
+      .all({
+        id,
+        chunkSize,
+      });
 
     const conversations: Array<ConversationType> = map(rows, row =>
       jsonToObject(row.json)
     );
-    forEach(conversations, conversation => {
+    conversations.forEach(conversation => {
       const externalFiles = getExternalFilesForConversation(conversation);
-      forEach(externalFiles, file => {
+      externalFiles.forEach(file => {
         delete lookup[file];
       });
     });
@@ -4278,14 +5712,16 @@ async function removeKnownAttachments(allAttachments: Array<string>) {
   return Object.keys(lookup);
 }
 
-async function removeKnownStickers(allStickers: Array<string>) {
+async function removeKnownStickers(
+  allStickers: Array<string>
+): Promise<Array<string>> {
   const db = getInstance();
   const lookup: Dictionary<boolean> = fromPairs(
     map(allStickers, file => [file, true])
   );
   const chunkSize = 50;
 
-  const total = await getStickerCount();
+  const total = getStickerCount();
   console.log(
     `removeKnownStickers: About to iterate through ${total} stickers`
   );
@@ -4295,23 +5731,26 @@ async function removeKnownStickers(allStickers: Array<string>) {
   let rowid = 0;
 
   while (!complete) {
-    const rows = await db.all(
-      `SELECT rowid, path FROM stickers
-       WHERE rowid > $rowid
-       ORDER BY rowid ASC
-       LIMIT $chunkSize;`,
-      {
-        $rowid: rowid,
-        $chunkSize: chunkSize,
-      }
-    );
+    const rows: Array<{ rowid: number; path: string }> = db
+      .prepare<Query>(
+        `
+        SELECT rowid, path FROM stickers
+        WHERE rowid > $rowid
+        ORDER BY rowid ASC
+        LIMIT $chunkSize;
+        `
+      )
+      .all({
+        rowid,
+        chunkSize,
+      });
 
-    const files: Array<StickerType> = map(rows, row => row.path);
-    forEach(files, file => {
+    const files: Array<string> = rows.map(row => row.path);
+    files.forEach(file => {
       delete lookup[file];
     });
 
-    const lastSticker: StickerType | undefined = last(rows);
+    const lastSticker = last(rows);
     if (lastSticker) {
       ({ rowid } = lastSticker);
     }
@@ -4324,7 +5763,9 @@ async function removeKnownStickers(allStickers: Array<string>) {
   return Object.keys(lookup);
 }
 
-async function removeKnownDraftAttachments(allStickers: Array<string>) {
+async function removeKnownDraftAttachments(
+  allStickers: Array<string>
+): Promise<Array<string>> {
   const db = getInstance();
   const lookup: Dictionary<boolean> = fromPairs(
     map(allStickers, file => [file, true])
@@ -4340,26 +5781,29 @@ async function removeKnownDraftAttachments(allStickers: Array<string>) {
   let count = 0;
   // Though conversations.id is a string, this ensures that, when coerced, this
   //   value is still a string but it's smaller than every other string.
-  let id = 0;
+  let id: number | string = 0;
 
   while (!complete) {
-    const rows = await db.all(
-      `SELECT json FROM conversations
-       WHERE id > $id
-       ORDER BY id ASC
-       LIMIT $chunkSize;`,
-      {
-        $id: id,
-        $chunkSize: chunkSize,
-      }
-    );
+    const rows: JSONRows = db
+      .prepare<Query>(
+        `
+        SELECT json FROM conversations
+        WHERE id > $id
+        ORDER BY id ASC
+        LIMIT $chunkSize;
+        `
+      )
+      .all({
+        id,
+        chunkSize,
+      });
 
-    const conversations: Array<ConversationType> = map(rows, row =>
+    const conversations: Array<ConversationType> = rows.map(row =>
       jsonToObject(row.json)
     );
-    forEach(conversations, conversation => {
+    conversations.forEach(conversation => {
       const externalFiles = getExternalDraftFilesForConversation(conversation);
-      forEach(externalFiles, file => {
+      externalFiles.forEach(file => {
         delete lookup[file];
       });
     });
@@ -4377,4 +5821,82 @@ async function removeKnownDraftAttachments(allStickers: Array<string>) {
   );
 
   return Object.keys(lookup);
+}
+
+async function getJobsInQueue(queueType: string): Promise<Array<StoredJob>> {
+  const db = getInstance();
+
+  return db
+    .prepare<Query>(
+      `
+      SELECT id, timestamp, data
+      FROM jobs
+      WHERE queueType = $queueType
+      ORDER BY timestamp;
+      `
+    )
+    .all({ queueType })
+    .map(row => ({
+      id: row.id,
+      queueType,
+      timestamp: row.timestamp,
+      data: isNotNil(row.data) ? JSON.parse(row.data) : undefined,
+    }));
+}
+
+async function insertJob(job: Readonly<StoredJob>): Promise<void> {
+  const db = getInstance();
+
+  db.prepare<Query>(
+    `
+      INSERT INTO jobs
+      (id, queueType, timestamp, data)
+      VALUES
+      ($id, $queueType, $timestamp, $data);
+    `
+  ).run({
+    id: job.id,
+    queueType: job.queueType,
+    timestamp: job.timestamp,
+    data: isNotNil(job.data) ? JSON.stringify(job.data) : null,
+  });
+}
+
+async function deleteJob(id: string): Promise<void> {
+  const db = getInstance();
+
+  db.prepare<Query>('DELETE FROM jobs WHERE id = $id').run({ id });
+}
+
+async function getStatisticsForLogging(): Promise<Record<string, string>> {
+  const counts = await pProps({
+    messageCount: getMessageCount(),
+    conversationCount: getConversationCount(),
+    sessionCount: getCountFromTable('sessions'),
+    senderKeyCount: getCountFromTable('senderKeys'),
+  });
+  return mapValues(counts, formatCountForLogging);
+}
+
+async function updateAllConversationColors(
+  conversationColor?: ConversationColorType,
+  customColorData?: {
+    id: string;
+    value: CustomColorType;
+  }
+): Promise<void> {
+  const db = getInstance();
+
+  db.prepare<Query>(
+    `
+    UPDATE conversations
+    SET json = JSON_PATCH(json, $patch);
+    `
+  ).run({
+    patch: JSON.stringify({
+      conversationColor: conversationColor || null,
+      customColor: customColorData?.value || null,
+      customColorId: customColorData?.id || null,
+    }),
+  });
 }

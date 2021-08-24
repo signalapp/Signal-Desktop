@@ -52,7 +52,8 @@ const createRandomFile = (
     contentType,
     message: {
       id: random(now).toString(),
-      received_at: random(startTime, startTime + timeWindow),
+      received_at: Math.floor(Math.random() * 10),
+      received_at_ms: random(startTime, startTime + timeWindow),
       attachments: [],
     },
     attachment: {

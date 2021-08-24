@@ -4,8 +4,8 @@
 const { isFunction, isObject, isString, omit } = require('lodash');
 
 const Contact = require('./contact');
-const Attachment = require('./attachment');
-const Errors = require('./errors');
+const Attachment = require('../../../ts/types/Attachment');
+const Errors = require('../../../ts/types/errors');
 const SchemaVersion = require('./schema_version');
 const {
   initializeAttachmentMetadata,
@@ -170,7 +170,7 @@ exports._withSchemaVersion = ({ schemaVersion, upgrade }) => {
 //                         Promise Message
 exports._mapAttachments = upgradeAttachment => async (message, context) => {
   const upgradeWithContext = attachment =>
-    upgradeAttachment(attachment, context);
+    upgradeAttachment(attachment, context, message);
   const attachments = await Promise.all(
     (message.attachments || []).map(upgradeWithContext)
   );
@@ -458,7 +458,11 @@ exports.processNewAttachment = async (
     throw new TypeError('context.logger is required');
   }
 
-  const rotatedAttachment = await Attachment.autoOrientJPEG(attachment);
+  const rotatedAttachment = await Attachment.autoOrientJPEG(
+    attachment,
+    undefined,
+    { isIncoming: true }
+  );
   const onDiskAttachment = await Attachment.migrateDataToFileSystem(
     rotatedAttachment,
     { writeNewAttachmentData }

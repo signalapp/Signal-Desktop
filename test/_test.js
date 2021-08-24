@@ -5,7 +5,6 @@
 
 mocha.setup('bdd');
 window.assert = chai.assert;
-window.PROTO_ROOT = '../protos';
 
 const OriginalReporter = mocha._reporter;
 
@@ -75,7 +74,20 @@ function deleteIndexedDB() {
 
 /* Delete the database before running any tests */
 before(async () => {
+  window.Signal.Util.MessageController.install();
+
   await deleteIndexedDB();
+  try {
+    window.log.info('Initializing SQL in renderer');
+    const isTesting = true;
+    await window.sqlInitializer.initialize(isTesting);
+    window.log.info('SQL initialized in renderer');
+  } catch (err) {
+    window.log.error(
+      'SQL failed to initialize',
+      err && err.stack ? err.stack : err
+    );
+  }
   await window.Signal.Data.removeAll();
   await window.storage.fetch();
 });

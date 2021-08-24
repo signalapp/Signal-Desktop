@@ -1,9 +1,9 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
 import classNames from 'classnames';
-import { useRestoreFocus } from '../util/hooks';
+import { useRestoreFocus } from '../util/hooks/useRestoreFocus';
 import { LocalizerType } from '../types/Util';
 
 export type Props = {
@@ -32,6 +32,7 @@ type KeyType =
   | 'J'
   | 'L'
   | 'M'
+  | 'N'
   | 'P'
   | 'R'
   | 'S'
@@ -83,6 +84,10 @@ const NAVIGATION_SHORTCUTS: Array<ShortcutType> = [
   {
     description: 'Keyboard--open-conversation-menu',
     keys: [['commandOrCtrl', 'shift', 'L']],
+  },
+  {
+    description: 'Keyboard--new-conversation',
+    keys: [['commandOrCtrl', 'N']],
   },
   {
     description: 'Keyboard--search',
@@ -200,12 +205,11 @@ const CALLING_SHORTCUTS: Array<ShortcutType> = [
 ];
 
 export const ShortcutGuide = (props: Props): JSX.Element => {
-  const focusRef = React.useRef<HTMLDivElement>(null);
   const { i18n, close, hasInstalledStickers, platform } = props;
   const isMacOS = platform === 'darwin';
 
   // Restore focus on teardown
-  useRestoreFocus(focusRef);
+  const [focusRef] = useRestoreFocus();
 
   return (
     <div className="module-shortcut-guide">

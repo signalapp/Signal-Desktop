@@ -2,11 +2,17 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { Dictionary, omit, reject } from 'lodash';
+import type {
+  StickerPackStatusType,
+  StickerType as StickerDBType,
+  StickerPackType as StickerPackDBType,
+} from '../../sql/Interface';
 import dataInterface from '../../sql/Client';
 import {
   downloadStickerPack as externalDownloadStickerPack,
   maybeDeletePack,
-} from '../../../js/modules/stickers';
+  RecentStickerType,
+} from '../../types/Stickers';
 import { sendStickerPackSync } from '../../shims/textsecure';
 import { trigger } from '../../shims/events';
 
@@ -20,49 +26,6 @@ const {
 
 // State
 
-export type StickerDBType = {
-  readonly id: number;
-  readonly packId: string;
-
-  readonly emoji: string;
-  readonly isCoverOnly: string;
-  readonly lastUsed: number;
-  readonly path: string;
-};
-
-export const StickerPackStatuses = [
-  'known',
-  'ephemeral',
-  'downloaded',
-  'installed',
-  'pending',
-  'error',
-] as const;
-
-export type StickerPackStatus = typeof StickerPackStatuses[number];
-
-export type StickerPackDBType = {
-  readonly id: string;
-  readonly key: string;
-
-  readonly attemptedStatus: 'downloaded' | 'installed' | 'ephemeral';
-  readonly author: string;
-  readonly coverStickerId: number;
-  readonly createdAt: number;
-  readonly downloadAttempts: number;
-  readonly installedAt: number | null;
-  readonly lastUsed: number;
-  readonly status: StickerPackStatus;
-  readonly stickerCount: number;
-  readonly stickers: Dictionary<StickerDBType>;
-  readonly title: string;
-};
-
-export type RecentStickerType = {
-  readonly stickerId: number;
-  readonly packId: string;
-};
-
 export type StickersStateType = {
   readonly installedPack: string | null;
   readonly packs: Dictionary<StickerPackDBType>;
@@ -75,23 +38,23 @@ export type StickersStateType = {
 export type StickerType = {
   readonly id: number;
   readonly packId: string;
-  readonly emoji: string;
+  readonly emoji?: string;
   readonly url: string;
 };
 
-export type StickerPackType = {
-  readonly id: string;
-  readonly key: string;
-  readonly title: string;
-  readonly author: string;
-  readonly isBlessed: boolean;
-  readonly cover?: StickerType;
-  readonly lastUsed: number;
-  readonly attemptedStatus?: 'downloaded' | 'installed' | 'ephemeral';
-  readonly status: StickerPackStatus;
-  readonly stickers: Array<StickerType>;
-  readonly stickerCount: number;
-};
+export type StickerPackType = Readonly<{
+  id: string;
+  key: string;
+  title: string;
+  author: string;
+  isBlessed: boolean;
+  cover?: StickerType;
+  lastUsed?: number;
+  attemptedStatus?: 'downloaded' | 'installed' | 'ephemeral';
+  status: StickerPackStatusType;
+  stickers: Array<StickerType>;
+  stickerCount: number;
+}>;
 
 // Actions
 
@@ -128,7 +91,7 @@ type UninstallStickerPackPayloadType = {
   packId: string;
   fromSync: boolean;
   status: 'downloaded';
-  installedAt: null;
+  installedAt?: undefined;
   recentStickers: Array<RecentStickerType>;
 };
 type UninstallStickerPackAction = {
@@ -306,7 +269,7 @@ async function doUninstallStickerPack(
     packId,
     fromSync,
     status,
-    installedAt: null,
+    installedAt: undefined,
     recentStickers: recentStickers.map(item => ({
       packId: item.packId,
       stickerId: item.id,

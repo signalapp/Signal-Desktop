@@ -7,7 +7,7 @@ const {
   findLinks,
   isLinkSafeToPreview,
   isLinkSneaky,
-} = require('../../js/modules/link_previews');
+} = require('../../ts/types/LinkPreview');
 
 describe('Link previews', () => {
   describe('#isLinkSafeToPreview', () => {
@@ -49,6 +49,15 @@ describe('Link previews', () => {
         'https://github.com/signalapp/Signal-Desktop',
         'https://github.com/signalapp/Signal-Android',
       ];
+
+      const actual = findLinks(text);
+      assert.deepEqual(expected, actual);
+    });
+
+    it('returns all links after emojis without spaces in between', () => {
+      const text = '😎https://github.com/signalapp/Signal-Desktop😛';
+
+      const expected = ['https://github.com/signalapp/Signal-Desktop'];
 
       const actual = findLinks(text);
       assert.deepEqual(expected, actual);
@@ -148,6 +157,8 @@ describe('Link previews', () => {
     describe('auth', () => {
       it('returns true for hrefs with auth (or pretend auth)', () => {
         assert.isTrue(isLinkSneaky('https://user:pass@example.com'));
+        assert.isTrue(isLinkSneaky('https://user:@example.com'));
+        assert.isTrue(isLinkSneaky('https://:pass@example.com'));
         assert.isTrue(
           isLinkSneaky('http://whatever.com&login=someuser@77777777')
         );

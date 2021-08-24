@@ -5,9 +5,9 @@ import React from 'react';
 
 import classNames from 'classnames';
 
-import emojiRegex from 'emoji-regex';
-
 import { RenderTextCallbackType } from '../../types/Util';
+import { splitByEmoji } from '../../util/emoji';
+import { missingCaseError } from '../../util/missingCaseError';
 import { emojiToImage, SizeClassType } from '../emoji/lib';
 
 // Some of this logic taken from emoji-js/replacement
@@ -19,23 +19,23 @@ function getImageTag({
   sizeClass,
   key,
 }: {
-  match: RegExpExecArray;
+  match: string;
   sizeClass?: SizeClassType;
   key: string | number;
-}) {
-  const img = emojiToImage(match[0]);
+}): JSX.Element | string {
+  const img = emojiToImage(match);
 
   if (!img) {
-    return match[0];
+    return match;
   }
 
   return (
     <img
       key={key}
       src={img}
-      aria-label={match[0]}
+      aria-label={match}
       className={classNames('emoji', sizeClass)}
-      title={match[0]}
+      alt={match}
     />
   );
 }
@@ -53,15 +53,8 @@ export class Emojify extends React.Component<Props> {
     renderNonEmoji: ({ text }) => text,
   };
 
-  public render():
-    | JSX.Element
-    | string
-    | null
-    | Array<JSX.Element | string | null> {
+  public render(): null | Array<JSX.Element | string | null> {
     const { text, sizeClass, renderNonEmoji } = this.props;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const results: Array<any> = [];
-    const regex = emojiRegex();
 
     // We have to do this, because renderNonEmoji is not required in our Props object,
     //  but it is always provided via defaultProps.
@@ -69,33 +62,16 @@ export class Emojify extends React.Component<Props> {
       return null;
     }
 
-    let match = regex.exec(text);
-    let last = 0;
-    let count = 1;
-
-    if (!match) {
-      return renderNonEmoji({ text, key: 0 });
-    }
-
-    while (match) {
-      if (last < match.index) {
-        const textWithNoEmoji = text.slice(last, match.index);
-        count += 1;
-        results.push(renderNonEmoji({ text: textWithNoEmoji, key: count }));
+    return splitByEmoji(text).map(({ type, value: match }, index) => {
+      if (type === 'emoji') {
+        return getImageTag({ match, sizeClass, key: index });
       }
 
-      count += 1;
-      results.push(getImageTag({ match, sizeClass, key: count }));
+      if (type === 'text') {
+        return renderNonEmoji({ text: match, key: index });
+      }
 
-      last = regex.lastIndex;
-      match = regex.exec(text);
-    }
-
-    if (last < text.length) {
-      count += 1;
-      results.push(renderNonEmoji({ text: text.slice(last), key: count }));
-    }
-
-    return results;
+      throw missingCaseError(type);
+    });
   }
 }

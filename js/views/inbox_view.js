@@ -1,11 +1,12 @@
-// Copyright 2014-2020 Signal Messenger, LLC
+// Copyright 2014-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* global
   ConversationController,
   i18n,
   Whisper,
-  Signal
+  Signal,
+  $
 */
 
 // eslint-disable-next-line func-names
@@ -26,7 +27,6 @@
       if (id !== this.el.lastChild.id) {
         const view = new Whisper.ConversationView({
           model: conversation,
-          window: this.model.window,
         });
         this.listenTo(conversation, 'unload', () =>
           this.onUnload(conversation)
@@ -51,6 +51,14 @@
       // Make sure poppers are positioned properly
       window.dispatchEvent(new Event('resize'));
     },
+    unload() {
+      const { lastConversation } = this;
+      if (!lastConversation) {
+        return;
+      }
+
+      lastConversation.trigger('unload', 'force unload requested');
+    },
     onUnload(conversation) {
       if (this.lastConversation === conversation) {
         this.stopListening(this.lastConversation);
@@ -60,7 +68,7 @@
   });
 
   Whisper.AppLoadingScreen = Whisper.View.extend({
-    templateName: 'app-loading-screen',
+    template: () => $('#app-loading-screen').html(),
     className: 'app-loading-screen',
     updateProgress(count) {
       if (count > 0) {
@@ -74,7 +82,7 @@
   });
 
   Whisper.InboxView = Whisper.View.extend({
-    templateName: 'two-column',
+    template: () => $('#two-column').html(),
     className: 'inbox index',
     initialize(options = {}) {
       this.ready = false;
@@ -85,10 +93,42 @@
         model: { window: options.window },
       });
 
+      this.renderWhatsNew();
+
       Whisper.events.on('refreshConversation', ({ oldId, newId }) => {
         const convo = this.conversation_stack.lastConversation;
         if (convo && convo.get('id') === oldId) {
           this.conversation_stack.open(newId);
+        }
+      });
+
+      // Close current opened conversation to reload the group information once
+      // linked.
+      Whisper.events.on('setupAsNewDevice', () => {
+        this.conversation_stack.unload();
+      });
+
+      window.Whisper.events.on('showConversation', async (id, messageId) => {
+        const conversation = await ConversationController.getOrCreateAndWait(
+          id,
+          'private'
+        );
+
+        conversation.setMarkedUnread(false);
+
+        const { openConversationExternal } = window.reduxActions.conversations;
+        if (openConversationExternal) {
+          openConversationExternal(conversation.id, messageId);
+        }
+
+        this.conversation_stack.open(conversation, messageId);
+        this.focusConversation();
+      });
+
+      window.Whisper.events.on('loadingProgress', count => {
+        const view = this.appLoadingScreen;
+        if (view) {
+          view.updateProgress(count);
         }
       });
 
@@ -99,7 +139,6 @@
         this.startConnectionListener();
       } else {
         this.setupLeftPane();
-        this.setupCallManagerUI();
       }
 
       Whisper.events.on('pack-install-failed', () => {
@@ -110,20 +149,23 @@
     },
     render_attributes: {
       welcomeToSignal: i18n('welcomeToSignal'),
-      selectAContact: i18n('selectAContact'),
+      // TODO DESKTOP-1451: add back the selectAContact message
+      selectAContact: '',
     },
     events: {
       click: 'onClick',
     },
-    setupCallManagerUI() {
-      if (this.callManagerView) {
+    renderWhatsNew() {
+      if (this.whatsNewView) {
         return;
       }
-      this.callManagerView = new Whisper.ReactWrapperView({
-        className: 'call-manager-wrapper',
-        JSX: Signal.State.Roots.createCallManager(window.reduxStore),
+      this.whatsNewView = new Whisper.ReactWrapperView({
+        Component: window.Signal.Components.WhatsNew,
+        props: {
+          i18n: window.i18n,
+        },
       });
-      this.$('.call-manager-placeholder').append(this.callManagerView.el);
+      this.$('.whats-new-placeholder').append(this.whatsNewView.el);
     },
     setupLeftPane() {
       if (this.leftPaneView) {
@@ -140,15 +182,15 @@
       this.interval = setInterval(() => {
         const status = window.getSocketStatus();
         switch (status) {
-          case WebSocket.CONNECTING:
+          case 'CONNECTING':
             break;
-          case WebSocket.OPEN:
+          case 'OPEN':
             clearInterval(this.interval);
             // if we've connected, we can wait for real empty event
             this.interval = null;
             break;
-          case WebSocket.CLOSING:
-          case WebSocket.CLOSED:
+          case 'CLOSING':
+          case 'CLOSED':
             clearInterval(this.interval);
             this.interval = null;
             // if we failed to connect, we pretend we got an empty event
@@ -156,7 +198,7 @@
             break;
           default:
             window.log.warn(
-              'startConnectionListener: Found unexpected socket status; calling onEmpty() manually.'
+              `startConnectionListener: Found unexpected socket status ${status}; calling onEmpty() manually.`
             );
             this.onEmpty();
             break;
@@ -165,7 +207,6 @@
     },
     onEmpty() {
       this.setupLeftPane();
-      this.setupCallManagerUI();
 
       const view = this.appLoadingScreen;
       if (view) {
@@ -180,12 +221,6 @@
         }
       }
     },
-    onProgress(count) {
-      const view = this.appLoadingScreen;
-      if (view) {
-        view.updateProgress(count);
-      }
-    },
     focusConversation(e) {
       if (e && this.$(e.target).closest('.placeholder').length) {
         return;
@@ -193,30 +228,6 @@
 
       this.$('#header, .gutter').addClass('inactive');
       this.$('.conversation-stack').removeClass('inactive');
-    },
-    focusHeader() {
-      this.$('.conversation-stack').addClass('inactive');
-      this.$('#header, .gutter').removeClass('inactive');
-      this.$('.conversation:first .menu').trigger('close');
-    },
-    reloadBackgroundPage() {
-      window.location.reload();
-    },
-    async openConversation(id, messageId) {
-      const conversation = await ConversationController.getOrCreateAndWait(
-        id,
-        'private'
-      );
-
-      conversation.setMarkedUnread(false);
-
-      const { openConversationExternal } = window.reduxActions.conversations;
-      if (openConversationExternal) {
-        openConversationExternal(id, messageId);
-      }
-
-      this.conversation_stack.open(conversation, messageId);
-      this.focusConversation();
     },
     closeRecording(e) {
       if (e && this.$(e.target).closest('.capture-audio').length > 0) {

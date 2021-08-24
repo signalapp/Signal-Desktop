@@ -3,6 +3,7 @@
 
 import {
   applyNewAvatar,
+  decryptGroupDescription,
   decryptGroupTitle,
   deriveGroupFields,
   getPreJoinGroupInfo,
@@ -10,13 +11,15 @@ import {
   LINK_VERSION_ERROR,
   parseGroupLink,
 } from '../groups';
-import { arrayBufferToBase64, base64ToArrayBuffer } from '../Crypto';
+import * as Bytes from '../Bytes';
 import { longRunningTaskWrapper } from '../util/longRunningTaskWrapper';
+import { isGroupV1 } from '../util/whatTypeOfConversation';
+import { explodePromise } from '../util/explodePromise';
 
-import type { GroupJoinInfoClass } from '../textsecure.d';
 import type { ConversationAttributesType } from '../model-types.d';
 import type { ConversationModel } from '../models/conversations';
 import type { PreJoinConversationType } from '../state/ducks/conversations';
+import { SignalService as Proto } from '../protobuf';
 
 export async function joinViaLink(hash: string): Promise<void> {
   let inviteLinkPassword: string;
@@ -40,11 +43,11 @@ export async function joinViaLink(hash: string): Promise<void> {
     return;
   }
 
-  const data = deriveGroupFields(base64ToArrayBuffer(masterKey));
-  const id = arrayBufferToBase64(data.id);
+  const data = deriveGroupFields(Bytes.fromBase64(masterKey));
+  const id = Bytes.toBase64(data.id);
   const logId = `groupv2(${id})`;
-  const secretParams = arrayBufferToBase64(data.secretParams);
-  const publicParams = arrayBufferToBase64(data.publicParams);
+  const secretParams = Bytes.toBase64(data.secretParams);
+  const publicParams = Bytes.toBase64(data.publicParams);
 
   const existingConversation =
     window.ConversationController.get(id) ||
@@ -58,17 +61,17 @@ export async function joinViaLink(hash: string): Promise<void> {
     window.log.warn(
       `joinViaLink/${logId}: Already a member of group, opening conversation`
     );
-    window.reduxActions.conversations.openConversationInternal(
-      existingConversation.id
-    );
-    window.window.Whisper.ToastView.show(
+    window.reduxActions.conversations.openConversationInternal({
+      conversationId: existingConversation.id,
+    });
+    window.Whisper.ToastView.show(
       window.Whisper.AlreadyGroupMemberToast,
       document.getElementsByClassName('conversation-stack')[0]
     );
     return;
   }
 
-  let result: GroupJoinInfoClass;
+  let result: Proto.GroupJoinInfo;
 
   try {
     result = await longRunningTaskWrapper({
@@ -96,7 +99,7 @@ export async function joinViaLink(hash: string): Promise<void> {
     return;
   }
 
-  const ACCESS_ENUM = window.textsecure.protobuf.AccessControl.AccessRequired;
+  const ACCESS_ENUM = Proto.AccessControl.AccessRequired;
   if (
     result.addFromInviteLink !== ACCESS_ENUM.ADMINISTRATOR &&
     result.addFromInviteLink !== ACCESS_ENUM.ANY
@@ -123,6 +126,10 @@ export async function joinViaLink(hash: string): Promise<void> {
   const title =
     decryptGroupTitle(result.title, secretParams) ||
     window.i18n('unknownGroup');
+  const groupDescription = decryptGroupDescription(
+    result.descriptionBytes,
+    secretParams
+  );
 
   if (
     approvalRequired &&
@@ -132,9 +139,9 @@ export async function joinViaLink(hash: string): Promise<void> {
     window.log.warn(
       `joinViaLink/${logId}: Already awaiting approval, opening conversation`
     );
-    window.reduxActions.conversations.openConversationInternal(
-      existingConversation.id
-    );
+    window.reduxActions.conversations.openConversationInternal({
+      conversationId: existingConversation.id,
+    });
 
     window.Whisper.ToastView.show(
       window.Whisper.AlreadyRequestedToJoinToast,
@@ -162,13 +169,14 @@ export async function joinViaLink(hash: string): Promise<void> {
     return {
       approvalRequired,
       avatar,
+      groupDescription,
       memberCount,
       title,
     };
   };
 
   // Explode a promise so we know when this whole join process is complete
-  const { promise, resolve, reject } = explodePromise();
+  const { promise, resolve, reject } = explodePromise<void>();
 
   const closeDialog = async () => {
     try {
@@ -221,9 +229,9 @@ export async function joinViaLink(hash: string): Promise<void> {
             window.log.warn(
               `joinViaLink/${logId}: User is part of group on second check, opening conversation`
             );
-            window.reduxActions.conversations.openConversationInternal(
-              targetConversation.id
-            );
+            window.reduxActions.conversations.openConversationInternal({
+              conversationId: targetConversation.id,
+            });
             return;
           }
 
@@ -279,7 +287,7 @@ export async function joinViaLink(hash: string): Promise<void> {
               );
             }
 
-            if (targetConversation.isGroupV1()) {
+            if (isGroupV1(targetConversation.attributes)) {
               await targetConversation.joinGroupV2ViaLinkAndMigrate({
                 approvalRequired,
                 inviteLinkPassword,
@@ -302,9 +310,9 @@ export async function joinViaLink(hash: string): Promise<void> {
               );
             }
 
-            window.reduxActions.conversations.openConversationInternal(
-              targetConversation.id
-            );
+            window.reduxActions.conversations.openConversationInternal({
+              conversationId: targetConversation.id,
+            });
           } catch (error) {
             // Delete newly-created conversation if we encountered any errors
             if (tempConversation) {
@@ -333,7 +341,7 @@ export async function joinViaLink(hash: string): Promise<void> {
 
   window.log.info(`joinViaLink/${logId}: Showing modal`);
 
-  let groupV2InfoDialog = new Whisper.ReactWrapperView({
+  let groupV2InfoDialog = new window.Whisper.ReactWrapperView({
     className: 'group-v2-join-dialog-wrapper',
     JSX: window.Signal.State.Roots.createGroupV2JoinModal(window.reduxStore, {
       join,
@@ -397,27 +405,4 @@ function showErrorDialog(description: string, title: string) {
       },
     },
   });
-}
-
-function explodePromise(): {
-  promise: Promise<void>;
-  resolve: () => void;
-  reject: (error: Error) => void;
-} {
-  let resolve: () => void;
-  let reject: (error: Error) => void;
-
-  const promise = new Promise<void>((innerResolve, innerReject) => {
-    resolve = innerResolve;
-    reject = innerReject;
-  });
-
-  return {
-    promise,
-    // Typescript thinks that resolve and reject can be undefined here.
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    resolve: resolve!,
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    reject: reject!,
-  };
 }

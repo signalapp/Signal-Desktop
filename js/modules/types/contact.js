@@ -3,7 +3,7 @@
 
 const { omit, compact, map } = require('lodash');
 
-const { toLogFormat } = require('./errors');
+const { toLogFormat } = require('../../../ts/types/errors');
 const { SignalService } = require('../../../ts/protobuf');
 const { parse: parsePhoneNumber } = require('../../../ts/types/PhoneNumber');
 

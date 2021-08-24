@@ -19,6 +19,7 @@ import {
 import { Emoji } from '../../components/emoji/Emoji';
 import { EmojiPickDataType } from '../../components/emoji/EmojiPicker';
 import { getBlotTextPartitions, matchBlotTextPartitions } from '../util';
+import { sameWidthModifier } from '../../util/popperUtil';
 
 const Keyboard = Quill.import('modules/keyboard');
 
@@ -265,25 +266,7 @@ export class EmojiCompletion {
     }
 
     const element = createPortal(
-      <Popper
-        placement="top"
-        modifiers={{
-          width: {
-            enabled: true,
-            fn: oldData => {
-              const data = oldData;
-              const { width, left } = data.offsets.reference;
-
-              data.styles.width = `${width}px`;
-              data.offsets.popper.width = width;
-              data.offsets.popper.left = left;
-
-              return data;
-            },
-            order: 840,
-          },
-        }}
-      >
+      <Popper placement="top-start" modifiers={[sameWidthModifier]}>
         {({ ref, style }) => (
           <div
             ref={ref}

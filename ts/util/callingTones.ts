@@ -14,7 +14,7 @@ class CallingTones {
 
   // eslint-disable-next-line class-methods-use-this
   async playEndCall(): Promise<void> {
-    const canPlayTone = await window.getCallRingtoneNotification();
+    const canPlayTone = window.Events.getCallRingtoneNotification();
     if (!canPlayTone) {
       return;
     }
@@ -32,7 +32,7 @@ class CallingTones {
         this.ringtone = undefined;
       }
 
-      const canPlayTone = await window.getCallRingtoneNotification();
+      const canPlayTone = window.Events.getCallRingtoneNotification();
       if (!canPlayTone) {
         return;
       }
@@ -53,6 +53,20 @@ class CallingTones {
         this.ringtone = undefined;
       }
     });
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  async someonePresenting() {
+    const canPlayTone = window.Events.getCallRingtoneNotification();
+    if (!canPlayTone) {
+      return;
+    }
+
+    const tone = new Sound({
+      src: 'sounds/navigation_selection-complete-celebration.ogg',
+    });
+
+    await tone.play();
   }
 }
 

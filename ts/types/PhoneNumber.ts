@@ -7,7 +7,7 @@ import { instance, PhoneNumberFormat } from '../util/libphonenumberInstance';
 function _format(
   phoneNumber: string,
   options: {
-    ourRegionCode: string;
+    ourRegionCode?: string;
   }
 ) {
   try {

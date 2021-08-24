@@ -1,12 +1,25 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
 import * as sinon from 'sinon';
 import { setup as setupI18n } from '../../../js/modules/i18n';
 import enMessages from '../../../_locales/en/messages.json';
+import { SendStatus } from '../../messages/MessageSendState';
+import MessageSender from '../../textsecure/SendMessage';
+import { WebAPIType } from '../../textsecure/WebAPI';
+import { CallbackResultType } from '../../textsecure/Types.d';
+import type { StorageAccessType } from '../../types/Storage.d';
+import { SignalService as Proto } from '../../protobuf';
 
 describe('Message', () => {
+  const STORAGE_KEYS_TO_RESTORE: Array<keyof StorageAccessType> = [
+    'number_id',
+    'uuid_id',
+  ];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const oldStorageValues = new Map<keyof StorageAccessType, any>();
+
   const i18n = setupI18n('en', enMessages);
 
   const attributes = {
@@ -22,23 +35,35 @@ describe('Message', () => {
   const ourUuid = window.getGuid();
 
   function createMessage(attrs: { [key: string]: unknown }) {
-    const messages = new Whisper.MessageCollection();
-    return messages.add(attrs);
+    const messages = new window.Whisper.MessageCollection();
+    return messages.add({
+      received_at: Date.now(),
+      ...attrs,
+    });
   }
 
   before(async () => {
     window.ConversationController.reset();
     await window.ConversationController.load();
+
+    STORAGE_KEYS_TO_RESTORE.forEach(key => {
+      oldStorageValues.set(key, window.textsecure.storage.get(key));
+    });
     window.textsecure.storage.put('number_id', `${me}.2`);
     window.textsecure.storage.put('uuid_id', `${ourUuid}.2`);
   });
 
   after(async () => {
-    window.textsecure.storage.put('number_id', null);
-    window.textsecure.storage.put('uuid_id', null);
-
     await window.Signal.Data.removeAll();
     await window.storage.fetch();
+
+    oldStorageValues.forEach((oldValue, key) => {
+      if (oldValue) {
+        window.textsecure.storage.put(key, oldValue);
+      } else {
+        window.textsecure.storage.remove(key);
+      }
+    });
   });
 
   beforeEach(function beforeEach() {
@@ -51,61 +76,98 @@ describe('Message', () => {
 
   // NOTE: These tests are incomplete.
   describe('send', () => {
-    it("saves the result's dataMessage", async () => {
-      const message = createMessage({ type: 'outgoing', source });
+    let oldMessageSender: undefined | MessageSender;
 
-      const fakeDataMessage = new ArrayBuffer(0);
-      const result = {
-        dataMessage: fakeDataMessage,
-      };
-      const promise = Promise.resolve(result);
-      await message.send(promise);
+    beforeEach(function beforeEach() {
+      oldMessageSender = window.textsecure.messaging;
 
-      assert.strictEqual(message.get('dataMessage'), fakeDataMessage);
+      window.textsecure.messaging =
+        oldMessageSender ?? new MessageSender({} as WebAPIType);
+      this.sandbox
+        .stub(window.textsecure.messaging, 'sendSyncMessage')
+        .resolves({});
     });
 
-    it('updates the `sent` attribute', async () => {
-      const message = createMessage({ type: 'outgoing', source, sent: false });
-
-      await message.send(Promise.resolve({}));
-
-      assert.isTrue(message.get('sent'));
+    afterEach(() => {
+      if (oldMessageSender) {
+        window.textsecure.messaging = oldMessageSender;
+      } else {
+        // `window.textsecure.messaging` can be undefined in tests. Instead of updating
+        //   the real type, I just ignore it.
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        delete (window.textsecure as any).messaging;
+      }
     });
 
-    it("triggers the 'done' event on success", async () => {
-      const message = createMessage({ type: 'outgoing', source });
+    it('updates `sendStateByConversationId`', async function test() {
+      this.sandbox.useFakeTimers(1234);
 
-      let callCount = 0;
-      message.on('done', () => {
-        callCount += 1;
+      const ourConversationId = window.ConversationController.getOurConversationIdOrThrow();
+      const conversation1 = await window.ConversationController.getOrCreateAndWait(
+        'a072df1d-7cee-43e2-9e6b-109710a2131c',
+        'private'
+      );
+      const conversation2 = await window.ConversationController.getOrCreateAndWait(
+        '62bd8ef1-68da-4cfd-ac1f-3ea85db7473e',
+        'private'
+      );
+
+      const message = createMessage({
+        type: 'outgoing',
+        conversationId: (
+          await window.ConversationController.getOrCreateAndWait(
+            '71cc190f-97ba-4c61-9d41-0b9444d721f9',
+            'group'
+          )
+        ).id,
+        sendStateByConversationId: {
+          [ourConversationId]: {
+            status: SendStatus.Pending,
+            updatedAt: 123,
+          },
+          [conversation1.id]: {
+            status: SendStatus.Pending,
+            updatedAt: 123,
+          },
+          [conversation2.id]: {
+            status: SendStatus.Pending,
+            updatedAt: 456,
+          },
+        },
       });
 
-      await message.send(Promise.resolve({}));
+      const fakeDataMessage = new ArrayBuffer(0);
+      const conversation1Uuid = conversation1.get('uuid');
+      const ignoredUuid = window.getGuid();
 
-      assert.strictEqual(callCount, 1);
-    });
+      if (!conversation1Uuid) {
+        throw new Error('Test setup failed: conversation1 should have a UUID');
+      }
 
-    it("triggers the 'sent' event on success", async () => {
-      const message = createMessage({ type: 'outgoing', source });
+      const promise = Promise.resolve<CallbackResultType>({
+        successfulIdentifiers: [conversation1Uuid, ignoredUuid],
+        errors: [
+          Object.assign(new Error('failed'), {
+            identifier: conversation2.get('uuid'),
+          }),
+        ],
+        dataMessage: fakeDataMessage,
+      });
 
-      const listener = sinon.spy();
-      message.on('sent', listener);
+      await message.send(promise);
 
-      await message.send(Promise.resolve({}));
-
-      sinon.assert.calledOnce(listener);
-      sinon.assert.calledWith(listener, message);
-    });
-
-    it("triggers the 'done' event on failure", async () => {
-      const message = createMessage({ type: 'outgoing', source });
-
-      const listener = sinon.spy();
-      message.on('done', listener);
-
-      await message.send(Promise.reject(new Error('something went wrong!')));
-
-      sinon.assert.calledOnce(listener);
+      const result = message.get('sendStateByConversationId') || {};
+      assert.hasAllKeys(result, [
+        ourConversationId,
+        conversation1.id,
+        conversation2.id,
+      ]);
+      assert.strictEqual(result[ourConversationId]?.status, SendStatus.Sent);
+      assert.strictEqual(result[ourConversationId]?.updatedAt, 1234);
+      assert.strictEqual(result[conversation1.id]?.status, SendStatus.Sent);
+      assert.strictEqual(result[conversation1.id]?.updatedAt, 1234);
+      assert.strictEqual(result[conversation2.id]?.status, SendStatus.Failed);
+      assert.strictEqual(result[conversation2.id]?.updatedAt, 1234);
     });
 
     it('saves errors from promise rejections with errors', async () => {
@@ -136,49 +198,18 @@ describe('Message', () => {
 
   describe('getContact', () => {
     it('gets outgoing contact', () => {
-      const messages = new Whisper.MessageCollection();
+      const messages = new window.Whisper.MessageCollection();
       const message = messages.add(attributes);
       message.getContact();
     });
 
     it('gets incoming contact', () => {
-      const messages = new Whisper.MessageCollection();
+      const messages = new window.Whisper.MessageCollection();
       const message = messages.add({
         type: 'incoming',
         source,
       });
       message.getContact();
-    });
-  });
-
-  describe('isIncoming', () => {
-    it('checks if is incoming message', () => {
-      const messages = new Whisper.MessageCollection();
-      let message = messages.add(attributes);
-      assert.notOk(message.isIncoming());
-      message = messages.add({ type: 'incoming' });
-      assert.ok(message.isIncoming());
-    });
-  });
-
-  describe('isOutgoing', () => {
-    it('checks if is outgoing message', () => {
-      const messages = new Whisper.MessageCollection();
-      let message = messages.add(attributes);
-      assert.ok(message.isOutgoing());
-      message = messages.add({ type: 'incoming' });
-      assert.notOk(message.isOutgoing());
-    });
-  });
-
-  describe('isGroupUpdate', () => {
-    it('checks if is group update', () => {
-      const messages = new Whisper.MessageCollection();
-      let message = messages.add(attributes);
-      assert.notOk(message.isGroupUpdate());
-
-      message = messages.add({ group_update: true });
-      assert.ok(message.isGroupUpdate());
     });
   });
 
@@ -448,8 +479,7 @@ describe('Message', () => {
         title: 'voice message',
         attachment: {
           contentType: 'audio/ogg',
-          flags:
-            window.textsecure.protobuf.AttachmentPointer.Flags.VOICE_MESSAGE,
+          flags: Proto.AttachmentPointer.Flags.VOICE_MESSAGE,
         },
         expectedText: 'Voice Message',
         expectedEmoji: '🎤',
@@ -581,22 +611,11 @@ describe('Message', () => {
       );
     });
   });
-
-  describe('isEndSession', () => {
-    it('checks if it is end of the session', () => {
-      const messages = new Whisper.MessageCollection();
-      let message = messages.add(attributes);
-      assert.notOk(message.isEndSession());
-
-      message = messages.add({ type: 'incoming', source, flags: true });
-      assert.ok(message.isEndSession());
-    });
-  });
 });
 
 describe('MessageCollection', () => {
   it('should be ordered oldest to newest', () => {
-    const messages = new Whisper.MessageCollection();
+    const messages = new window.Whisper.MessageCollection();
     // Timestamps
     const today = Date.now();
     const tomorrow = today + 12345;

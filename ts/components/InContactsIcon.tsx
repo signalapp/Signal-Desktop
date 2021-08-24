@@ -20,14 +20,17 @@ export const InContactsIcon = (props: PropsType): JSX.Element => {
   return (
     <Tooltip
       content={i18n('contactInAddressBook')}
-      popperModifiers={{
-        preventOverflow: {
-          boundariesElement:
-            titleContainerRef && (titleContainerRef.current as HTMLElement),
-          // Only detect overflow on the left edge of the boundary
-          priority: ['left'],
+      popperModifiers={[
+        {
+          name: 'preventOverflow',
+          options: {
+            boundary:
+              titleContainerRef && (titleContainerRef.current as HTMLElement),
+            // Only detect overflow on the x-axis
+            mainAxis: true,
+          },
         },
-      }}
+      ]}
     >
       <span
         aria-label={i18n('contactInAddressBook')}

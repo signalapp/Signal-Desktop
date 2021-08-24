@@ -7,19 +7,17 @@ import MessageReceiver from './MessageReceiver';
 import utils from './Helpers';
 import Crypto from './Crypto';
 import { ContactBuffer, GroupBuffer } from './ContactsParser';
-import createTaskWithTimeout from './TaskWithTimeout';
 import SyncRequest from './SyncRequest';
 import MessageSender from './SendMessage';
 import StringView from './StringView';
-import Storage from './Storage';
+import { Storage } from './Storage';
 import * as WebAPI from './WebAPI';
 import WebSocketResource from './WebsocketResources';
 
 export const textsecure = {
-  createTaskWithTimeout,
   crypto: Crypto,
   utils,
-  storage: Storage,
+  storage: new Storage(),
 
   AccountManager,
   ContactBuffer,

@@ -1,0 +1,21 @@
+// Copyright 2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.module-ContactPills {
+  @include smooth-scroll;
+
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+  max-height: 88px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  padding-left: 12px;
+
+  .module-ContactPill {
+    margin: 4px 6px;
+    max-width: calc(
+      100% - 15px
+    ); // 6px for the right margin and 9px for the scrollbar
+  }
+}
