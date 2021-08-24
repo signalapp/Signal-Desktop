@@ -122,6 +122,16 @@ export const CallScreen: React.FC<PropsType> = ({
     }
   }, [getPresentingSources, presentingSource, setPresenting]);
 
+  const [controlsHover, setControlsHover] = useState(false);
+
+  const onControlsMouseEnter = useCallback(() => {
+    setControlsHover(true);
+  }, [setControlsHover]);
+
+  const onControlsMouseLeave = useCallback(() => {
+    setControlsHover(false);
+  }, [setControlsHover]);
+
   const [acceptedDuration, setAcceptedDuration] = useState<number | null>(null);
   const [showControls, setShowControls] = useState(true);
 
@@ -146,14 +156,14 @@ export const CallScreen: React.FC<PropsType> = ({
   }, [joinedAt]);
 
   useEffect(() => {
-    if (!showControls || stickyControls) {
+    if (!showControls || stickyControls || controlsHover) {
       return noop;
     }
     const timer = setTimeout(() => {
       setShowControls(false);
     }, 5000);
     return clearInterval.bind(null, timer);
-  }, [showControls, stickyControls]);
+  }, [showControls, stickyControls, controlsHover]);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent): void => {
@@ -370,6 +380,8 @@ export const CallScreen: React.FC<PropsType> = ({
             'module-ongoing-call__footer__actions',
             controlsFadeClass
           )}
+          onMouseEnter={onControlsMouseEnter}
+          onMouseLeave={onControlsMouseLeave}
         >
           <CallingButton
             buttonType={presentingButtonType}
