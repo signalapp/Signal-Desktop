@@ -1501,6 +1501,40 @@ describe('SignalProtocolStore', () => {
 
       await store.archiveSiblingSessions(id, { zone });
     });
+
+    it('can be concurrently re-entered after waiting', async () => {
+      const a = new Zone('a');
+      const b = new Zone('b');
+
+      const order: Array<number> = [];
+      const promises: Array<Promise<unknown>> = [];
+
+      // 1. Enter zone "a"
+      // 2. Wait for zone "a" to be left to enter zone "b" twice
+      // 3. Verify that both zone "b" tasks ran in parallel
+
+      promises.push(store.withZone(a, 'a', async () => order.push(1)));
+      promises.push(
+        store.withZone(b, 'b', async () => {
+          order.push(2);
+          await Promise.resolve();
+          order.push(22);
+        })
+      );
+      promises.push(
+        store.withZone(b, 'b', async () => {
+          order.push(3);
+          await Promise.resolve();
+          order.push(33);
+        })
+      );
+      await Promise.resolve();
+      await Promise.resolve();
+
+      await Promise.all(promises);
+
+      assert.deepEqual(order, [1, 2, 3, 22, 33]);
+    });
   });
 
   describe('Not yet processed messages', () => {
