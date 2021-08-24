@@ -202,22 +202,6 @@
   },
   {
     "rule": "jQuery-$(",
-    "path": "js/views/clear_data_view.js",
-    "line": "    template: () => $('#clear-data').html(),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-02-26T18:44:56.450Z",
-    "reasonDetail": "Static selector, read-only access"
-  },
-  {
-    "rule": "jQuery-html(",
-    "path": "js/views/clear_data_view.js",
-    "line": "    template: () => $('#clear-data').html(),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-02-26T18:44:56.450Z",
-    "reasonDetail": "Static selector, read-only access"
-  },
-  {
-    "rule": "jQuery-$(",
     "path": "js/views/debug_log_view.js",
     "line": "          el: this.$('.result'),",
     "reasonCategory": "usageTrusted",
@@ -14160,22 +14144,6 @@
     "reasonDetail": "Legacy code"
   },
   {
-    "rule": "jQuery-$(",
-    "path": "ts/util/createIPCEvents.js",
-    "line": "            $('body').append(clearDataView.el);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-08-18T18:22:55.307Z",
-    "reasonDetail": "Legacy code"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "ts/util/createIPCEvents.js",
-    "line": "            $('body').append(clearDataView.el);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-08-18T18:22:55.307Z",
-    "reasonDetail": "Legacy code"
-  },
-  {
     "rule": "jQuery-prepend(",
     "path": "ts/util/createIPCEvents.js",
     "line": "            $(document.body).prepend('<div class=\"dark-overlay\"></div>');",
@@ -14211,22 +14179,6 @@
     "rule": "jQuery-$(",
     "path": "ts/util/createIPCEvents.ts",
     "line": "    removeDarkOverlay: () => $('.dark-overlay').remove(),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-08-18T18:22:55.307Z",
-    "reasonDetail": "Legacy code"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/util/createIPCEvents.ts",
-    "line": "      $('body').append(clearDataView.el);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-08-18T18:22:55.307Z",
-    "reasonDetail": "Legacy code"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "ts/util/createIPCEvents.ts",
-    "line": "      $('body').append(clearDataView.el);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-08-18T18:22:55.307Z",
     "reasonDetail": "Legacy code"

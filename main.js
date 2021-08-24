@@ -1666,6 +1666,9 @@ ipc.on('close-settings', () => {
 });
 
 ipc.on('delete-all-data', () => {
+  if (settingsWindow) {
+    settingsWindow.close();
+  }
   if (mainWindow && mainWindow.webContents) {
     mainWindow.webContents.send('delete-all-data');
   }
