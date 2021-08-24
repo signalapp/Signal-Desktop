@@ -374,20 +374,7 @@ function doRecordsConflict(
 ): boolean {
   const idForLogging = conversation.idForLogging();
 
-  const localKeys = Object.keys(localRecord);
-  const remoteKeys = Object.keys(remoteRecord);
-
-  if (localKeys.length !== remoteKeys.length) {
-    window.log.info(
-      'storageService.doRecordsConflict: Local keys do not match remote keys',
-      idForLogging,
-      localKeys.join(','),
-      remoteKeys.join(',')
-    );
-    return true;
-  }
-
-  return localKeys.some((key: string): boolean => {
+  return Object.keys(remoteRecord).some((key: string): boolean => {
     const localValue = localRecord[key];
     const remoteValue = remoteRecord[key];
 
