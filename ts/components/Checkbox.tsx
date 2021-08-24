@@ -1,7 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import React, { useMemo } from 'react';
+import { v4 as uuid } from 'uuid';
 
 import { getClassNamesFor } from '../util/getClassNamesFor';
 
@@ -25,6 +26,7 @@ export const Checkbox = ({
   onChange,
 }: PropsType): JSX.Element => {
   const getClassName = getClassNamesFor('Checkbox', moduleClassName);
+  const id = useMemo(() => `${name}::${uuid()}`, [name]);
   return (
     <div className={getClassName('')}>
       <div className={getClassName('__container')}>
@@ -32,13 +34,14 @@ export const Checkbox = ({
           <input
             checked={Boolean(checked)}
             disabled={disabled}
+            id={id}
             name={name}
             onChange={ev => onChange(ev.target.checked)}
             type="checkbox"
           />
         </div>
         <div>
-          <label htmlFor={name}>{label}</label>
+          <label htmlFor={id}>{label}</label>
           <div className={getClassName('__description')}>{description}</div>
         </div>
       </div>
