@@ -9,9 +9,10 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import moment from 'moment';
 import classNames from 'classnames';
+import moment from 'moment';
 import { createPortal } from 'react-dom';
+import { noop } from 'lodash';
 
 import * as GoogleChrome from '../util/GoogleChrome';
 import { AttachmentType, isGIF } from '../types/Attachment';
@@ -20,12 +21,14 @@ import { ConversationType } from '../state/ducks/conversations';
 import { IMAGE_PNG, isImage, isVideo } from '../types/MIME';
 import { LocalizerType } from '../types/Util';
 import { MediaItemType, MessageAttributesType } from '../types/MediaItem';
+import { formatDuration } from '../util/formatDuration';
 
 export type PropsType = {
   children?: ReactNode;
   close: () => void;
   getConversation?: (id: string) => ConversationType;
   i18n: LocalizerType;
+  isViewOnce?: boolean;
   media: Array<MediaItemType>;
   onForward?: (messageId: string) => void;
   onSave?: (options: {
@@ -42,20 +45,24 @@ export function Lightbox({
   getConversation,
   media,
   i18n,
+  isViewOnce = false,
   onForward,
   onSave,
-  selectedIndex: initialSelectedIndex,
+  selectedIndex: initialSelectedIndex = 0,
 }: PropsType): JSX.Element | null {
   const [root, setRoot] = React.useState<HTMLElement | undefined>();
   const [selectedIndex, setSelectedIndex] = useState<number>(
-    initialSelectedIndex || 0
+    initialSelectedIndex
   );
 
   const [previousFocus, setPreviousFocus] = useState<HTMLElement | undefined>();
+  const [videoElement, setVideoElement] = useState<HTMLVideoElement | null>(
+    null
+  );
+  const [videoTime, setVideoTime] = useState<number | undefined>();
   const [zoomed, setZoomed] = useState(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const focusRef = useRef<HTMLDivElement | null>(null);
-  const videoRef = useRef<HTMLVideoElement | null>(null);
 
   const restorePreviousFocus = useCallback(() => {
     if (previousFocus && previousFocus.focus) {
@@ -72,6 +79,13 @@ export function Lightbox({
       Math.min(prevSelectedIndex + 1, media.length - 1)
     );
   }, [media]);
+
+  const onTimeUpdate = useCallback(() => {
+    if (!videoElement) {
+      return;
+    }
+    setVideoTime(videoElement.currentTime);
+  }, [setVideoTime, videoElement]);
 
   const handleSave = () => {
     const mediaItem = media[selectedIndex];
@@ -130,18 +144,17 @@ export function Lightbox({
     close();
   };
 
-  const playVideo = () => {
-    const video = videoRef.current;
-    if (!video) {
+  const playVideo = useCallback(() => {
+    if (!videoElement) {
       return;
     }
 
-    if (video.paused) {
-      video.play();
+    if (videoElement.paused) {
+      videoElement.play();
     } else {
-      video.pause();
+      videoElement.pause();
     }
-  };
+  }, [videoElement]);
 
   useEffect(() => {
     const div = document.createElement('div');
@@ -176,22 +189,22 @@ export function Lightbox({
   }, [onKeyDown]);
 
   useEffect(() => {
-    // Wait until we're added to the DOM. ConversationView first creates this
-    // view, then appends its elements into the DOM.
-    const timeout = window.setTimeout(() => {
-      playVideo();
+    playVideo();
 
-      if (focusRef && focusRef.current) {
-        focusRef.current.focus();
-      }
-    });
+    if (focusRef && focusRef.current) {
+      focusRef.current.focus();
+    }
 
-    return () => {
-      if (timeout) {
-        window.clearTimeout(timeout);
-      }
-    };
-  }, [selectedIndex]);
+    if (videoElement && isViewOnce) {
+      videoElement.addEventListener('timeupdate', onTimeUpdate);
+
+      return () => {
+        videoElement.removeEventListener('timeupdate', onTimeUpdate);
+      };
+    }
+
+    return noop;
+  }, [isViewOnce, onTimeUpdate, playVideo, videoElement]);
 
   const { attachment, contentType, loop = false, objectURL, message } =
     media[selectedIndex] || {};
@@ -248,14 +261,14 @@ export function Lightbox({
         );
       }
     } else if (isVideoTypeSupported) {
-      const shouldLoop = loop || isGIF([attachment]);
+      const shouldLoop = loop || isGIF([attachment]) || isViewOnce;
       content = (
         <video
           className="Lightbox__object"
           controls={!shouldLoop}
           key={objectURL}
           loop={shouldLoop}
-          ref={videoRef}
+          ref={setVideoElement}
         >
           <source src={objectURL} />
         </video>
@@ -388,6 +401,11 @@ export function Lightbox({
           </div>
           {!zoomed && (
             <div className="Lightbox__footer">
+              {isViewOnce && videoTime ? (
+                <div className="Lightbox__timestamp">
+                  {formatDuration(videoTime)}
+                </div>
+              ) : null}
               {caption ? (
                 <div className="Lightbox__caption">{caption}</div>
               ) : null}

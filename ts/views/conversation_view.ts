@@ -2602,7 +2602,19 @@ Whisper.ConversationView = Whisper.View.extend({
                 contentType: attachment.contentType,
                 index,
                 attachment,
-                message,
+                message: {
+                  attachments: message.attachments || [],
+                  conversationId:
+                    window.ConversationController.get(
+                      window.ConversationController.ensureContactIds({
+                        uuid: message.sourceUuid,
+                        e164: message.source,
+                      })
+                    )?.id || message.conversationId,
+                  id: message.id,
+                  received_at: message.received_at,
+                  received_at_ms: Number(message.received_at_ms),
+                },
               };
             });
         })
@@ -2652,22 +2664,9 @@ Whisper.ConversationView = Whisper.View.extend({
           }
 
           case 'media': {
-            const selectedIndex = media.findIndex(
-              mediaMessage => mediaMessage.attachment.path === attachment.path
-            );
-            this.lightboxGalleryView = new Whisper.ReactWrapperView({
-              className: 'lightbox-wrapper',
-              Component: window.Signal.Components.Lightbox,
-              props: {
-                media,
-                onSave: saveAttachment,
-                selectedIndex,
-              },
-              onClose: () => window.Signal.Backbone.Views.Lightbox.hide(),
-            });
-            window.Signal.Backbone.Views.Lightbox.show(
-              this.lightboxGalleryView.el
-            );
+            const selectedMedia =
+              media.find(item => attachment.path === item.path) || media[0];
+            this.showLightboxForMedia(selectedMedia, media);
             break;
           }
 
@@ -2947,12 +2946,25 @@ Whisper.ConversationView = Whisper.View.extend({
       const { path, contentType } = tempAttachment;
 
       return {
-        objectURL: getAbsoluteTempPath(path),
-        contentType,
-        onSave: null, // important so download button is omitted
+        media: [
+          {
+            attachment: tempAttachment,
+            objectURL: getAbsoluteTempPath(path),
+            contentType,
+            index: 0,
+            message: {
+              attachments: message.get('attachments'),
+              id: message.get('id'),
+              conversationId: message.get('conversationId'),
+              received_at: message.get('received_at'),
+              received_at_ms: message.get('received_at_ms'),
+            },
+          },
+        ],
         isViewOnce: true,
       };
     };
+
     this.lightboxView = new Whisper.ReactWrapperView({
       className: 'lightbox-wrapper',
       Component: window.Signal.Components.Lightbox,
@@ -3044,8 +3056,7 @@ Whisper.ConversationView = Whisper.View.extend({
 
   showLightboxForMedia(
     selectedMediaItem: MediaItemType,
-    media: Array<MediaItemType> = [],
-    loop = false
+    media: Array<MediaItemType> = []
   ) {
     const onSave = async (options: WhatIsThis = {}) => {
       const fullPath = await window.Signal.Types.Attachment.save({
@@ -3071,7 +3082,6 @@ Whisper.ConversationView = Whisper.View.extend({
       Component: window.Signal.Components.Lightbox,
       props: {
         getConversation: getConversationSelector(window.reduxStore.getState()),
-        loop,
         media,
         onForward: this.showForwardMessageModal.bind(this),
         onSave,
@@ -3127,7 +3137,13 @@ Whisper.ConversationView = Whisper.View.extend({
         message: {
           attachments: message.get('attachments'),
           id: message.get('id'),
-          conversationId: message.get('conversationId'),
+          conversationId:
+            window.ConversationController.get(
+              window.ConversationController.ensureContactIds({
+                uuid: message.get('sourceUuid'),
+                e164: message.get('source'),
+              })
+            )?.id || message.get('conversationId'),
           received_at: message.get('received_at'),
           received_at_ms: message.get('received_at_ms'),
         },
@@ -3140,7 +3156,7 @@ Whisper.ConversationView = Whisper.View.extend({
     const selectedMedia =
       media.find(item => attachment.path === item.path) || media[0];
 
-    this.showLightboxForMedia(selectedMedia, media, loop);
+    this.showLightboxForMedia(selectedMedia, media);
   },
 
   showContactModal(contactId: string) {

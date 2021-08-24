@@ -13537,13 +13537,6 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/Lightbox.js",
-    "line": "    const videoRef = react_1.useRef(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-08-23T18:39:37.081Z"
-  },
-  {
-    "rule": "React-useRef",
     "path": "ts/components/Lightbox.tsx",
     "line": "  const containerRef = useRef<HTMLDivElement | null>(null);",
     "reasonCategory": "usageTrusted",
@@ -13553,13 +13546,6 @@
     "rule": "React-useRef",
     "path": "ts/components/Lightbox.tsx",
     "line": "  const focusRef = useRef<HTMLDivElement | null>(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-08-23T18:39:37.081Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/Lightbox.tsx",
-    "line": "  const videoRef = useRef<HTMLVideoElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-08-23T18:39:37.081Z"
   },

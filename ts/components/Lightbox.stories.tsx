@@ -52,6 +52,7 @@ function createMediaItem(
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   close: action('close'),
   i18n,
+  isViewOnce: Boolean(overrideProps.isViewOnce),
   media: overrideProps.media || [],
   onSave: action('onSave'),
   selectedIndex: number('selectedIndex', overrideProps.selectedIndex || 0),
@@ -286,5 +287,20 @@ story.add('Conversation Header', () => (
         objectURL: '/fixtures/pixabay-Soap-Bubble-7141.mp4',
       }),
     ]}
+  />
+));
+
+story.add('View Once Video', () => (
+  <Lightbox
+    {...createProps({
+      isViewOnce: true,
+      media: [
+        createMediaItem({
+          contentType: VIDEO_MP4,
+          objectURL: '/fixtures/pixabay-Soap-Bubble-7141.mp4',
+        }),
+      ],
+    })}
+    isViewOnce
   />
 ));
