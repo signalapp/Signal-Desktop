@@ -2219,7 +2219,7 @@
     "description": "When a person inputs a number that is invalid"
   },
   "unlinkedWarning": {
-    "message": "Relink Signal Desktop to your mobile device to continue messaging."
+    "message": "Click to relink Signal Desktop to your mobile device to continue messaging."
   },
   "unlinked": {
     "message": "Unlinked"

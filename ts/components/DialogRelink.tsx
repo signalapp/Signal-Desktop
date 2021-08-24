@@ -11,7 +11,7 @@ export type PropsType = {
   relinkDevice: () => void;
 };
 
-export const RelinkDialog = ({
+export const DialogRelink = ({
   i18n,
   isRegistrationDone,
   relinkDevice,
@@ -22,14 +22,18 @@ export const RelinkDialog = ({
 
   return (
     <div className="LeftPaneDialog LeftPaneDialog--warning">
+      <div className="LeftPaneDialog__icon LeftPaneDialog__icon--relink" />
       <div className="LeftPaneDialog__message">
         <h3>{i18n('unlinked')}</h3>
-        <span>{i18n('unlinkedWarning')}</span>
-      </div>
-      <div className="LeftPaneDialog__actions">
-        <button onClick={relinkDevice} type="button">
-          {i18n('relink')}
-        </button>
+        <div>
+          <button
+            className="LeftPaneDialog__action-text"
+            onClick={relinkDevice}
+            type="button"
+          >
+            {i18n('unlinkedWarning')}
+          </button>
+        </div>
       </div>
     </div>
   );
