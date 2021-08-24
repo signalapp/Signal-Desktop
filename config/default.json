@@ -1,5 +1,5 @@
 {
-  "serverUrl": "https://textsecure-service-staging.whispersystems.org",
+  "serverUrl": "https://chat.staging.signal.org",
   "storageUrl": "https://storage-staging.signal.org",
   "directoryUrl": "https://api-staging.directory.signal.org",
   "directoryEnclaveId": "c98e00a4e3ff977a56afefe7362a27e4961e4f19e211febfbb19b897e6b80b15",

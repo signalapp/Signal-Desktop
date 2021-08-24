@@ -1,5 +1,5 @@
 {
-  "serverUrl": "https://textsecure-service.whispersystems.org",
+  "serverUrl": "https://chat.signal.org",
   "storageUrl": "https://storage.signal.org",
   "directoryUrl": "https://api.directory.signal.org",
   "cdn": {
