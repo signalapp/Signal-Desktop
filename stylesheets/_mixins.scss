@@ -155,10 +155,13 @@
 
 // Icons
 
-@mixin color-svg($svg, $color, $stretch: true) {
+@mixin color-svg($svg, $color, $stretch: true, $mask-origin: null) {
   -webkit-mask: url($svg) no-repeat center;
   @if $stretch {
     -webkit-mask-size: 100%;
+  }
+  @if $mask-origin {
+    -webkit-mask-origin: $mask-origin;
   }
   background-color: $color;
 }
