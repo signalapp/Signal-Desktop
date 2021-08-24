@@ -204,6 +204,11 @@ const EventsMixin = (function EventsMixin(this: unknown) {
 
 type SessionCacheEntry = CacheEntryType<SessionType, SessionRecord>;
 
+type ZoneQueueEntryType = Readonly<{
+  zone: Zone;
+  callback(): void;
+}>;
+
 export class SignalProtocolStore extends EventsMixin {
   // Enums used across the app
 
@@ -236,7 +241,7 @@ export class SignalProtocolStore extends EventsMixin {
 
   private currentZoneDepth = 0;
 
-  private readonly zoneQueue: Array<() => void> = [];
+  private readonly zoneQueue: Array<ZoneQueueEntryType> = [];
 
   private pendingSessions = new Map<string, SessionCacheEntry>();
 
@@ -659,7 +664,7 @@ export class SignalProtocolStore extends EventsMixin {
       );
 
       return new Promise<T>((resolve, reject) => {
-        this.zoneQueue.push(async () => {
+        const callback = async () => {
           const duration = Date.now() - start;
           window.log.info(`${debugName}: unlocked after ${duration}ms`);
 
@@ -670,7 +675,9 @@ export class SignalProtocolStore extends EventsMixin {
           } catch (error) {
             reject(error);
           }
-        });
+        };
+
+        this.zoneQueue.push({ zone, callback });
       });
     }
 
@@ -750,7 +757,7 @@ export class SignalProtocolStore extends EventsMixin {
       this.currentZone = zone;
 
       if (zone !== GLOBAL_ZONE) {
-        window.log.info(`enterZone(${zone.name}:${name})`);
+        window.log.info(`SignalProtocolStore.enterZone(${zone.name}:${name})`);
       }
     }
   }
@@ -769,13 +776,31 @@ export class SignalProtocolStore extends EventsMixin {
     }
 
     if (zone !== GLOBAL_ZONE) {
-      window.log.info(`leaveZone(${zone.name})`);
+      window.log.info(`SignalProtocolStore.leaveZone(${zone.name})`);
     }
 
     this.currentZone = undefined;
+
     const next = this.zoneQueue.shift();
-    if (next) {
-      next();
+    if (!next) {
+      return;
+    }
+
+    const toEnter = [next];
+
+    while (this.zoneQueue[0]?.zone === next.zone) {
+      const elem = this.zoneQueue.shift();
+      assert(elem, 'Zone element should be present');
+
+      toEnter.push(elem);
+    }
+
+    window.log.info(
+      `SignalProtocolStore: running blocked ${toEnter.length} jobs in ` +
+        `zone ${next.zone.name}`
+    );
+    for (const { callback } of toEnter) {
+      callback();
     }
   }
 
