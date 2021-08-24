@@ -18,6 +18,7 @@ import {
   getSelectedMessageIds,
   isMessageDetailView,
   isMessageSelectionMode,
+  isRightPanelShowing,
 } from '../../state/selectors/conversations';
 import { useDispatch, useSelector } from 'react-redux';
 import { useMembersAvatars } from '../../hooks/useMembersAvatar';
@@ -25,6 +26,7 @@ import { useMembersAvatars } from '../../hooks/useMembersAvatar';
 import { deleteMessagesById } from '../../interactions/conversationInteractions';
 import {
   closeMessageDetailsView,
+  closeRightPanel,
   NotificationForConvoOption,
   openRightPanel,
   resetSelectedMessageIds,
@@ -210,6 +212,8 @@ export type ConversationHeaderTitleProps = {
 const ConversationHeaderTitle = () => {
   const headerTitleProps = useSelector(getConversationHeaderTitleProps);
   const notificationSetting = useSelector(getCurrentNotificationSettingText);
+  const isRightPanelOn = useSelector(isRightPanelShowing);
+  const dispatch = useDispatch();
   if (!headerTitleProps) {
     return null;
   }
@@ -257,7 +261,17 @@ const ConversationHeaderTitle = () => {
   const title = profileName || name || phoneNumber;
 
   return (
-    <div className="module-conversation-header__title">
+    <div
+      className="module-conversation-header__title"
+      onClick={() => {
+        if (isRightPanelOn) {
+          dispatch(closeRightPanel());
+        } else {
+          dispatch(openRightPanel());
+        }
+      }}
+      role="button"
+    >
       <span className="module-contact-name__profile-name">{title}</span>
       <StyledSubtitleContainer>
         <ConversationHeaderSubtitle text={fullTextSubtitle} />

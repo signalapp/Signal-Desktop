@@ -16,8 +16,6 @@ import { Image } from './Image';
 
 type Props = {
   attachments: Array<AttachmentTypeWithPath>;
-  withContentAbove?: boolean;
-  withContentBelow?: boolean;
   bottomOverlay?: boolean;
 
   onError: () => void;
@@ -26,23 +24,9 @@ type Props = {
 
 export const ImageGrid = (props: Props) => {
   // tslint:disable-next-line max-func-body-length */
-  const {
-    attachments,
-    bottomOverlay,
-    onError,
-    onClickAttachment,
-    withContentAbove,
-    withContentBelow,
-  } = props;
+  const { attachments, bottomOverlay, onError, onClickAttachment } = props;
 
-  const curveTopLeft = !Boolean(withContentAbove);
-  const curveTopRight = curveTopLeft;
-
-  const curveBottom = !Boolean(withContentBelow);
-  const curveBottomLeft = curveBottom;
-  const curveBottomRight = curveBottom;
-
-  const withBottomOverlay = Boolean(bottomOverlay && curveBottom);
+  const withBottomOverlay = Boolean(bottomOverlay);
 
   if (!attachments || !attachments.length) {
     return null;
@@ -56,10 +40,6 @@ export const ImageGrid = (props: Props) => {
         <Image
           alt={getAlt(attachments[0])}
           bottomOverlay={withBottomOverlay}
-          curveTopLeft={curveTopLeft}
-          curveTopRight={curveTopRight}
-          curveBottomLeft={curveBottomLeft}
-          curveBottomRight={curveBottomRight}
           attachment={attachments[0]}
           playIconOverlay={isVideoAttachment(attachments[0])}
           height={height}
@@ -79,8 +59,6 @@ export const ImageGrid = (props: Props) => {
           alt={getAlt(attachments[0])}
           attachment={attachments[0]}
           bottomOverlay={withBottomOverlay}
-          curveTopLeft={curveTopLeft}
-          curveBottomLeft={curveBottomLeft}
           playIconOverlay={isVideoAttachment(attachments[0])}
           height={149}
           width={149}
@@ -91,8 +69,6 @@ export const ImageGrid = (props: Props) => {
         <Image
           alt={getAlt(attachments[1])}
           bottomOverlay={withBottomOverlay}
-          curveTopRight={curveTopRight}
-          curveBottomRight={curveBottomRight}
           playIconOverlay={isVideoAttachment(attachments[1])}
           height={149}
           width={149}
@@ -111,8 +87,6 @@ export const ImageGrid = (props: Props) => {
         <Image
           alt={getAlt(attachments[0])}
           bottomOverlay={withBottomOverlay}
-          curveTopLeft={curveTopLeft}
-          curveBottomLeft={curveBottomLeft}
           attachment={attachments[0]}
           playIconOverlay={isVideoAttachment(attachments[0])}
           height={200}
@@ -124,7 +98,6 @@ export const ImageGrid = (props: Props) => {
         <div className="module-image-grid__column">
           <Image
             alt={getAlt(attachments[1])}
-            curveTopRight={curveTopRight}
             height={99}
             width={99}
             attachment={attachments[1]}
@@ -136,7 +109,6 @@ export const ImageGrid = (props: Props) => {
           <Image
             alt={getAlt(attachments[2])}
             bottomOverlay={withBottomOverlay}
-            curveBottomRight={curveBottomRight}
             height={99}
             width={99}
             attachment={attachments[2]}
@@ -157,7 +129,6 @@ export const ImageGrid = (props: Props) => {
           <div className="module-image-grid__row">
             <Image
               alt={getAlt(attachments[0])}
-              curveTopLeft={curveTopLeft}
               attachment={attachments[0]}
               playIconOverlay={isVideoAttachment(attachments[0])}
               height={149}
@@ -168,7 +139,6 @@ export const ImageGrid = (props: Props) => {
             />
             <Image
               alt={getAlt(attachments[1])}
-              curveTopRight={curveTopRight}
               playIconOverlay={isVideoAttachment(attachments[1])}
               height={149}
               width={149}
@@ -182,7 +152,6 @@ export const ImageGrid = (props: Props) => {
             <Image
               alt={getAlt(attachments[2])}
               bottomOverlay={withBottomOverlay}
-              curveBottomLeft={curveBottomLeft}
               playIconOverlay={isVideoAttachment(attachments[2])}
               height={149}
               width={149}
@@ -194,7 +163,6 @@ export const ImageGrid = (props: Props) => {
             <Image
               alt={getAlt(attachments[3])}
               bottomOverlay={withBottomOverlay}
-              curveBottomRight={curveBottomRight}
               playIconOverlay={isVideoAttachment(attachments[3])}
               height={149}
               width={149}
@@ -218,7 +186,6 @@ export const ImageGrid = (props: Props) => {
         <div className="module-image-grid__row">
           <Image
             alt={getAlt(attachments[0])}
-            curveTopLeft={curveTopLeft}
             attachment={attachments[0]}
             playIconOverlay={isVideoAttachment(attachments[0])}
             height={149}
@@ -229,7 +196,6 @@ export const ImageGrid = (props: Props) => {
           />
           <Image
             alt={getAlt(attachments[1])}
-            curveTopRight={curveTopRight}
             playIconOverlay={isVideoAttachment(attachments[1])}
             height={149}
             width={149}
@@ -243,7 +209,6 @@ export const ImageGrid = (props: Props) => {
           <Image
             alt={getAlt(attachments[2])}
             bottomOverlay={withBottomOverlay}
-            curveBottomLeft={curveBottomLeft}
             playIconOverlay={isVideoAttachment(attachments[2])}
             height={99}
             width={99}
@@ -266,7 +231,6 @@ export const ImageGrid = (props: Props) => {
           <Image
             alt={getAlt(attachments[4])}
             bottomOverlay={withBottomOverlay}
-            curveBottomRight={curveBottomRight}
             playIconOverlay={isVideoAttachment(attachments[4])}
             height={99}
             width={99}

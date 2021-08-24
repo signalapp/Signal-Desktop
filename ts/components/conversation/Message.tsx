@@ -211,26 +211,13 @@ class MessageInner extends React.PureComponent<Props, State> {
 
   // tslint:disable-next-line max-func-body-length cyclomatic-complexity
   public renderAttachment() {
-    const {
-      id,
-      attachments,
-      text,
-      conversationType,
-      direction,
-      quote,
-      isTrustedForAttachmentDownload,
-    } = this.props;
+    const { id, attachments, direction, isTrustedForAttachmentDownload } = this.props;
     const { imageBroken } = this.state;
 
     if (!attachments || !attachments[0]) {
       return null;
     }
     const firstAttachment = attachments[0];
-
-    // For attachments which aren't full-frame
-    const withContentBelow = Boolean(text);
-    const withContentAbove =
-      Boolean(quote) || (conversationType === 'group' && direction === 'incoming');
     const displayImage = canDisplayImage(attachments);
 
     if (!isTrustedForAttachmentDownload) {
@@ -244,17 +231,9 @@ class MessageInner extends React.PureComponent<Props, State> {
         (isVideo(attachments) && hasVideoScreenshot(attachments)))
     ) {
       return (
-        <div
-          className={classNames(
-            'module-message__attachment-container',
-            withContentAbove ? 'module-message__attachment-container--with-content-above' : null,
-            withContentBelow ? 'module-message__attachment-container--with-content-below' : null
-          )}
-        >
+        <div className={classNames('module-message__attachment-container')}>
           <ImageGrid
             attachments={attachments}
-            withContentAbove={withContentAbove}
-            withContentBelow={withContentBelow}
             onError={this.handleImageError}
             onClickAttachment={this.onClickOnImageGrid}
           />
@@ -281,13 +260,7 @@ class MessageInner extends React.PureComponent<Props, State> {
       const isDangerous = isFileDangerous(fileName || '');
 
       return (
-        <div
-          className={classNames(
-            'module-message__generic-attachment',
-            withContentBelow ? 'module-message__generic-attachment--with-content-below' : null,
-            withContentAbove ? 'module-message__generic-attachment--with-content-above' : null
-          )}
-        >
+        <div className={classNames('module-message__generic-attachment')}>
           {pending ? (
             <div className="module-message__generic-attachment__spinner-container">
               <Spinner size="small" direction={direction} />
@@ -337,7 +310,7 @@ class MessageInner extends React.PureComponent<Props, State> {
 
   // tslint:disable-next-line cyclomatic-complexity
   public renderPreview() {
-    const { attachments, conversationType, direction, previews, quote } = this.props;
+    const { attachments, previews } = this.props;
 
     // Attachments take precedence over Link Previews
     if (attachments && attachments.length) {
@@ -353,41 +326,19 @@ class MessageInner extends React.PureComponent<Props, State> {
       return null;
     }
 
-    const withContentAbove =
-      Boolean(quote) || (conversationType === 'group' && direction === 'incoming');
-
     const previewHasImage = first.image && isImageAttachment(first.image);
     const width = first.image && first.image.width;
     const isFullSizeImage = width && width >= MINIMUM_LINK_PREVIEW_IMAGE_WIDTH;
 
     return (
-      <div
-        role="button"
-        className={classNames(
-          'module-message__link-preview',
-          withContentAbove ? 'module-message__link-preview--with-content-above' : null
-        )}
-      >
+      <div role="button" className={classNames('module-message__link-preview')}>
         {first.image && previewHasImage && isFullSizeImage ? (
-          <ImageGrid
-            attachments={[first.image]}
-            withContentAbove={withContentAbove}
-            withContentBelow={true}
-            onError={this.handleImageError}
-          />
+          <ImageGrid attachments={[first.image]} onError={this.handleImageError} />
         ) : null}
-        <div
-          className={classNames(
-            'module-message__link-preview__content',
-            withContentAbove || isFullSizeImage
-              ? 'module-message__link-preview__content--with-content-above'
-              : null
-          )}
-        >
+        <div className={classNames('module-message__link-preview__content')}>
           {first.image && previewHasImage && !isFullSizeImage ? (
             <div className="module-message__link-preview__image_container">
               <Image
-                smallCurveTopLeft={!withContentAbove}
                 softCorners={true}
                 alt={window.i18n('previewThumbnail', [first.domain])}
                 height={72}
@@ -423,13 +374,11 @@ class MessageInner extends React.PureComponent<Props, State> {
   }
 
   public renderQuote() {
-    const { conversationType, direction, quote, isPublic, convoId } = this.props;
+    const { direction, quote } = this.props;
 
     if (!quote || !quote.authorPhoneNumber || !quote.messageId) {
       return null;
     }
-    const withContentAbove = conversationType === 'group' && direction === 'incoming';
-
     const shortenedPubkey = PubKey.shorten(quote.authorPhoneNumber);
 
     const displayedPubkey = quote.authorProfileName ? shortenedPubkey : quote.authorPhoneNumber;
@@ -440,15 +389,11 @@ class MessageInner extends React.PureComponent<Props, State> {
         text={quote.text}
         attachment={quote.attachment}
         isIncoming={direction === 'incoming'}
-        conversationType={conversationType}
-        convoId={convoId}
-        isPublic={isPublic}
         authorPhoneNumber={displayedPubkey}
         authorProfileName={quote.authorProfileName}
         authorName={quote.authorName}
         referencedMessageNotFound={quote.referencedMessageNotFound}
         isFromMe={quote.isFromMe}
-        withContentAbove={withContentAbove}
       />
     );
   }
@@ -538,6 +483,18 @@ class MessageInner extends React.PureComponent<Props, State> {
     return <OutgoingMessageStatus status={status} />;
   }
 
+  public renderExpireTimer(isCorrectSide: boolean) {
+    const { expirationLength, expirationTimestamp } = this.props;
+
+    if (!(isCorrectSide && expirationLength && expirationTimestamp)) {
+      return null;
+    }
+
+    return (
+      <ExpireTimer expirationLength={expirationLength} expirationTimestamp={expirationTimestamp} />
+    );
+  }
+
   public getWidth(): number | undefined {
     const { attachments, previews } = this.props;
 
@@ -600,8 +557,7 @@ class MessageInner extends React.PureComponent<Props, State> {
     return false;
   }
 
-  // tslint:disable-next-line: cyclomatic-complexity
-  // tslint:disable-next-line: max-func-body-length
+  // tslint:disable-next-line: cyclomatic-complexity cyclomatic-complexity
   public render() {
     const {
       direction,
@@ -610,142 +566,122 @@ class MessageInner extends React.PureComponent<Props, State> {
       selectedMessages,
       receivedAt,
       isUnread,
-      text,
-      timestamp,
-      serverTimestamp,
-      expirationLength,
-      expirationTimestamp,
-      firstMessageOfSeries,
-      lastMessageOfSeries,
     } = this.props;
-    const { expired, expiring } = this.state;
+    const { expired } = this.state;
 
     if (expired) {
       return null;
     }
 
     const selected = selectedMessages.includes(messageId) || false;
-
-    const width = this.getWidth();
-    const isShowingImage = this.isShowingImage();
-
-    const divClasses = ['session-message-wrapper'];
-
-    if (selected) {
-      divClasses.push('message-selected');
-    }
-
-    if (conversationType === 'group') {
-      divClasses.push('public-chat-message-wrapper');
-    }
-
-    if (this.props.quotedMessageToAnimate === messageId) {
-      divClasses.push('flash-green-once');
-    }
-
+    const isGroup = conversationType === 'group';
+    const isQuotedMessageToAnimate = this.props.quotedMessageToAnimate === messageId;
     const isIncoming = direction === 'incoming';
-
-    if (isIncoming) {
-      divClasses.push('session-message-wrapper-incoming');
-    } else {
-      divClasses.push('session-message-wrapper-outgoing');
-    }
-
-    const hasText = Boolean(text);
-
-    const bgShouldBeTransparent = isShowingImage && !hasText;
-    const toolTipTitle = moment(serverTimestamp || timestamp).format('llll');
 
     return (
       <ReadableMessage
         messageId={messageId}
-        className={classNames(divClasses)}
+        className={classNames(
+          'session-message-wrapper',
+          selected && 'message-selected',
+          isGroup && 'public-chat-message-wrapper',
+          isQuotedMessageToAnimate && 'flash-green-once',
+          isIncoming ? 'session-message-wrapper-incoming' : 'session-message-wrapper-outgoing'
+        )}
         onContextMenu={this.handleContextMenu}
         receivedAt={receivedAt}
         isUnread={isUnread}
         key={`readable-message-${messageId}`}
       >
         {this.renderAvatar()}
-        {!isIncoming && expirationLength && expirationTimestamp ? (
-          <ExpireTimer
-            expirationLength={expirationLength}
-            expirationTimestamp={expirationTimestamp}
-          />
-        ) : null}
-        <div
-          className={classNames(
-            'module-message',
-            `module-message--${direction}`,
-            expiring ? 'module-message--expired' : null
-          )}
-          role="button"
-          onClick={this.onClickOnMessageOuterContainer}
-        >
-          {this.renderStatus(isIncoming)}
-          <Flex container={true} flexDirection="column">
-            <MessageAuthorText
-              authorName={this.props.authorName}
-              authorPhoneNumber={this.props.authorPhoneNumber}
-              authorProfileName={this.props.authorProfileName}
-              conversationType={this.props.conversationType}
-              direction={this.props.direction}
-              firstMessageOfSeries={this.props.firstMessageOfSeries}
-              isPublic={this.props.isPublic}
-            />
-
-            <div
-              className={classNames(
-                'module-message__container',
-                `module-message__container--${direction}`,
-                bgShouldBeTransparent
-                  ? `module-message__container--${direction}--transparent`
-                  : `module-message__container--${direction}--opaque`,
-                firstMessageOfSeries
-                  ? `module-message__container--${direction}--first-of-series`
-                  : '',
-                lastMessageOfSeries ? `module-message__container--${direction}--last-of-series` : ''
-              )}
-              style={{
-                width: isShowingImage ? width : undefined,
-              }}
-              role="button"
-              onClick={this.onClickOnMessageInnerContainer}
-              title={toolTipTitle}
-            >
-              {this.renderQuote()}
-              {this.renderAttachment()}
-              {this.renderPreview()}
-              {this.renderText()}
-            </div>
-          </Flex>
-          {this.renderStatus(!isIncoming)}
-
-          <MessageContextMenu
-            authorPhoneNumber={this.props.authorPhoneNumber}
-            convoId={this.props.convoId}
-            contextMenuId={this.ctxMenuID}
-            direction={this.props.direction}
-            isBlocked={this.props.isBlocked}
-            isDeletable={this.props.isDeletable}
-            messageId={this.props.id}
-            text={this.props.text}
-            timestamp={this.props.timestamp}
-            serverTimestamp={this.props.serverTimestamp}
-            attachments={this.props.attachments}
-            isAdmin={this.props.isSenderAdmin}
-            isOpenGroupV2={this.props.isOpenGroupV2}
-            isPublic={this.props.isPublic}
-            status={this.props.status}
-            weAreAdmin={this.props.weAreAdmin}
-          />
-        </div>
-        {isIncoming && expirationLength && expirationTimestamp ? (
-          <ExpireTimer
-            expirationLength={expirationLength}
-            expirationTimestamp={expirationTimestamp}
-          />
-        ) : null}
+        {this.renderExpireTimer(!isIncoming)}
+        {this.renderMessageContentWithStatuses()}
+        {this.renderExpireTimer(isIncoming)}
       </ReadableMessage>
+    );
+  }
+
+  private renderMessageContentWithStatuses() {
+    const { expiring } = this.state;
+    const { direction } = this.props;
+    const isIncoming = direction === 'incoming';
+
+    return (
+      <div
+        className={classNames(
+          'module-message',
+          `module-message--${direction}`,
+          expiring ? 'module-message--expired' : null
+        )}
+        role="button"
+        onClick={this.onClickOnMessageOuterContainer}
+      >
+        {this.renderStatus(isIncoming)}
+        <Flex container={true} flexDirection="column">
+          <MessageAuthorText
+            authorName={this.props.authorName}
+            authorPhoneNumber={this.props.authorPhoneNumber}
+            authorProfileName={this.props.authorProfileName}
+            direction={this.props.direction}
+            firstMessageOfSeries={this.props.firstMessageOfSeries}
+          />
+
+          {this.renderMessageContent()}
+        </Flex>
+        {this.renderStatus(!isIncoming)}
+
+        {this.renderContextMenu()}
+      </div>
+    );
+  }
+
+  private renderMessageContent() {
+    const {
+      direction,
+      text,
+      timestamp,
+      serverTimestamp,
+      firstMessageOfSeries,
+      lastMessageOfSeries,
+    } = this.props;
+
+    const width = this.getWidth();
+    const isShowingImage = this.isShowingImage();
+    const hasText = Boolean(text);
+    const hasQuote = !_.isEmpty(this.props.quote);
+    const hasContentAfterAttachmentAndQuote =
+      !_.isEmpty(this.props.previews) || !_.isEmpty(this.props.text);
+
+    const bgShouldBeTransparent = isShowingImage && !hasText && !hasQuote;
+    const toolTipTitle = moment(serverTimestamp || timestamp).format('llll');
+
+    return (
+      <div
+        className={classNames(
+          'module-message__container',
+          `module-message__container--${direction}`,
+          bgShouldBeTransparent
+            ? `module-message__container--${direction}--transparent`
+            : `module-message__container--${direction}--opaque`,
+          firstMessageOfSeries ? `module-message__container--${direction}--first-of-series` : '',
+          lastMessageOfSeries ? `module-message__container--${direction}--last-of-series` : ''
+        )}
+        style={{
+          width: isShowingImage ? width : undefined,
+        }}
+        role="button"
+        onClick={this.onClickOnMessageInnerContainer}
+        title={toolTipTitle}
+      >
+        {this.renderQuote()}
+        {this.renderAttachment()}
+        {hasContentAfterAttachmentAndQuote ? (
+          <Flex padding="5px 5px 10px 5px">
+            {this.renderPreview()}
+            {this.renderText()}
+          </Flex>
+        ) : null}
+      </div>
     );
   }
 
@@ -763,6 +699,29 @@ class MessageInner extends React.PureComponent<Props, State> {
         event: e,
       });
     }
+  }
+
+  private renderContextMenu() {
+    return (
+      <MessageContextMenu
+        authorPhoneNumber={this.props.authorPhoneNumber}
+        convoId={this.props.convoId}
+        contextMenuId={this.ctxMenuID}
+        direction={this.props.direction}
+        isBlocked={this.props.isBlocked}
+        isDeletable={this.props.isDeletable}
+        messageId={this.props.id}
+        text={this.props.text}
+        timestamp={this.props.timestamp}
+        serverTimestamp={this.props.serverTimestamp}
+        attachments={this.props.attachments}
+        isAdmin={this.props.isSenderAdmin}
+        isOpenGroupV2={this.props.isOpenGroupV2}
+        isPublic={this.props.isPublic}
+        status={this.props.status}
+        weAreAdmin={this.props.weAreAdmin}
+      />
+    );
   }
 
   private onQuoteClick(e: any) {

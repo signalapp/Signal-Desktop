@@ -85,78 +85,14 @@
   right: 8px;
 }
 
-.module-message__attachment-container {
-  // Entirely to ensure that images are centered if they aren't full width of bubble
-  text-align: center;
-  position: relative;
-
-  margin-inline-start: -12px;
-  margin-inline-end: -12px;
-  margin-top: -10px;
-  margin-bottom: -10px;
-
-  border-radius: $session_message-container-border-radius;
-  overflow: hidden;
-  // no background by default for the attachment container
-}
-
-.module-message--outgoing {
-  .module-message__attachment-container--with-content-below,
-  .module-message__attachment-container--with-content-above {
-    background: none;
-  }
-}
-
-.module-message--incoming {
-  .module-message__attachment-container--with-content-below,
-  .module-message__attachment-container--with-content-above {
-    background: none;
-  }
-}
-
-.module-message__attachment-container--with-content-below {
-  margin-bottom: 7px;
-  border-bottom-left-radius: 0px;
-  border-bottom-right-radius: 0px;
-}
-
-.module-message__attachment-container--with-content-above {
-  margin-top: 4px;
-  border-top-left-radius: 0px;
-  border-top-right-radius: 0px;
-}
-
 .module-message__img-attachment {
-  margin-bottom: -3px;
-
-  // redundant with attachment-container, but we get cursor flashing on move otherwise
   cursor: pointer;
-}
-
-.module-message__audio-attachment {
-  margin-top: 2px;
-}
-
-.module-message__audio-attachment--with-content-below {
-  margin-bottom: 5px;
-}
-
-.module-message__audio-attachment--with-content-above {
-  margin-top: 6px;
 }
 
 .module-message__generic-attachment {
   display: flex;
   flex-direction: row;
   align-items: center;
-}
-
-.module-message__generic-attachment--with-content-below {
-  padding-bottom: 6px;
-}
-
-.module-message__generic-attachment--with-content-above {
-  padding-top: 4px;
 }
 
 .module-message__generic-attachment__icon-container {
@@ -269,12 +205,6 @@
   border-top-right-radius: $session_message-container-border-radius;
 }
 
-.module-message__link-preview--with-content-above {
-  margin-top: 4px;
-  border-top-left-radius: 0px;
-  border-top-right-radius: 0px;
-}
-
 .module-message__link-preview__content {
   padding: 8px;
   border-top-left-radius: $session_message-container-border-radius;
@@ -284,13 +214,6 @@
   flex-direction: row;
   align-items: flex-start;
   border: 1px solid $color-black-015;
-}
-
-.module-message__link-preview__content--with-content-above {
-  border-top: none;
-  border-bottom: none;
-  border-top-left-radius: 0px;
-  border-top-right-radius: 0px;
 }
 
 .module-message__link-preview__image_container {
@@ -389,70 +312,6 @@
   align-items: center;
 }
 
-// Module: Embedded Contact
-
-.module-embedded-contact {
-  // Cursor is always a pointer because this component is always wired up to the contact detail screen
-  cursor: pointer;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.module-embedded-contact--with-content-above {
-  padding-top: 4px;
-}
-
-.module-embedded-contact--with-content-below {
-  padding-bottom: 4px;
-}
-
-.module-embedded-contact__spinner-container {
-  padding-inline-start: 5px;
-  padding-inline-end: 5px;
-}
-
-.module-embedded-contact__text-container {
-  flex-grow: 1;
-  margin-inline-start: 8px;
-
-  max-width: calc(100% - 58px);
-}
-
-.module-embedded-contact__contact-name {
-  font-size: 14px;
-  line-height: 18px;
-  font-weight: 300;
-  margin-top: 6px;
-  color: $color-gray-90;
-
-  max-width: 100%;
-  white-space: nowrap;
-  overflow-x: hidden;
-  text-overflow: ellipsis;
-}
-
-.module-embedded-contact__contact-name--incoming {
-  color: $color-white;
-}
-
-.module-embedded-contact__contact-method {
-  font-size: 11px;
-  line-height: 16px;
-  letter-spacing: 0.3px;
-  margin-top: 3px;
-  color: $color-gray-60;
-
-  max-width: 100%;
-  white-space: nowrap;
-  overflow-x: hidden;
-  text-overflow: ellipsis;
-}
-
-.module-embedded-contact__contact-method--incoming {
-  color: $color-white-07;
-}
-
 // Module: Contact Detail
 
 .module-contact-detail {
@@ -541,45 +400,6 @@
 .module-group-notification__contact {
   font-family: $session-font-default;
   font-weight: bold;
-}
-
-// Module: Reset Session Notification
-
-.module-reset-session-notification {
-  margin-top: 14px;
-  font-size: 14px;
-  line-height: 20px;
-  letter-spacing: 0.3px;
-  color: $color-gray-60;
-  text-align: center;
-}
-
-.module-verification-notification__button {
-  margin-top: 5px;
-  display: inline-block;
-  cursor: pointer;
-  font-size: 13px;
-  font-weight: 300;
-  line-height: 18px;
-  padding: 12px;
-  color: $color-loki-green;
-  background-color: $color-light-02;
-  border-radius: 4px;
-}
-
-// Module: Verification Notification
-
-.module-verification-notification {
-  margin-top: 14px;
-  font-size: 14px;
-  line-height: 20px;
-  letter-spacing: 0.3px;
-  color: $color-gray-60;
-  text-align: center;
-}
-
-.module-verification-notification__contact {
-  font-weight: 300;
 }
 
 // Module: Timer Notification
@@ -751,6 +571,7 @@
   align-items: center;
 
   -webkit-user-select: text;
+  cursor: pointer;
 
   .module-contact-name__profile-name {
     width: 100%;
@@ -1226,22 +1047,6 @@
   border-radius: 4px;
 }
 
-.module-image--curved-top-left {
-  border-top-left-radius: $session_message-container-border-radius;
-}
-.module-image--curved-top-right {
-  border-top-right-radius: $session_message-container-border-radius;
-}
-.module-image--curved-bottom-left {
-  border-bottom-left-radius: $session_message-container-border-radius;
-}
-.module-image--curved-bottom-right {
-  border-bottom-right-radius: $session_message-container-border-radius;
-}
-.module-image--small-curved-top-left {
-  border-top-left-radius: 10px;
-}
-
 .module-image__border-overlay {
   position: absolute;
   top: 0;
@@ -1249,7 +1054,6 @@
   z-index: 1;
   left: 0;
   right: 0;
-  box-shadow: inset 0px 0px 0px 1px $color-black-015;
 }
 
 .module-image__border-overlay--dark {
@@ -1265,10 +1069,7 @@
 
 .module-image__image {
   object-fit: cover;
-  // redundant with attachment-container, but we get cursor flashing on move otherwise
   cursor: pointer;
-
-  margin-bottom: -3px;
 }
 
 .module-image__bottom-overlay {
@@ -1345,10 +1146,6 @@
   align-items: center;
 
   margin: -1px;
-}
-
-.module-image-grid--one-image {
-  margin-bottom: -5px;
 }
 
 .module-image-grid__column {

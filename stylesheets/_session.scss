@@ -342,10 +342,6 @@ textarea {
 .module-message__container {
   position: relative;
   display: inline-block;
-  padding-inline-end: 10px;
-  padding-inline-start: 10px;
-  padding-top: 10px;
-  padding-bottom: 10px;
   overflow: hidden;
   min-width: 30px;
   // To limit messages with things forcing them wider, like long attachment names
@@ -355,12 +351,17 @@ textarea {
 label {
   user-select: none;
 }
+.module-message__attachment-container {
+  // Entirely to ensure that images are centered if they aren't full width of bubble
+  text-align: center;
+  position: relative;
 
-.module-message__attachment-container,
-.module-image--curved-bottom-right,
-.module-image--curved-top-left,
-.module-image--curved-top-right,
-.module-image--curved-bottom-left {
+  border-radius: $session_message-container-border-radius;
+  overflow: hidden;
+  // no background by default for the attachment container
+}
+
+.module-message__attachment-container {
   border-top-left-radius: $session_message-container-border-radius;
   border-top-right-radius: $session_message-container-border-radius;
   border-bottom-left-radius: $session_message-container-border-radius;

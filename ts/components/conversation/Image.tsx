@@ -17,12 +17,6 @@ type Props = {
 
   bottomOverlay?: boolean;
   closeButton?: boolean;
-  curveBottomLeft?: boolean;
-  curveBottomRight?: boolean;
-  curveTopLeft?: boolean;
-  curveTopRight?: boolean;
-
-  smallCurveTopLeft?: boolean;
 
   darkOverlay?: boolean;
   playIconOverlay?: boolean;
@@ -40,10 +34,6 @@ export const Image = (props: Props) => {
     attachment,
     bottomOverlay,
     closeButton,
-    curveBottomLeft,
-    curveBottomRight,
-    curveTopLeft,
-    curveTopRight,
     darkOverlay,
     height,
     onClick,
@@ -51,7 +41,6 @@ export const Image = (props: Props) => {
     onError,
     overlayText,
     playIconOverlay,
-    smallCurveTopLeft,
     softCorners,
     url,
     width,
@@ -83,11 +72,6 @@ export const Image = (props: Props) => {
       className={classNames(
         'module-image',
         canClick ? 'module-image__with-click-handler' : null,
-        curveBottomLeft ? 'module-image--curved-bottom-left' : null,
-        curveBottomRight ? 'module-image--curved-bottom-right' : null,
-        curveTopLeft ? 'module-image--curved-top-left' : null,
-        curveTopRight ? 'module-image--curved-top-right' : null,
-        smallCurveTopLeft ? 'module-image--small-curved-top-left' : null,
         softCorners ? 'module-image--soft-corners' : null
       )}
     >
@@ -125,11 +109,6 @@ export const Image = (props: Props) => {
       <div
         className={classNames(
           'module-image__border-overlay',
-          curveTopLeft ? 'module-image--curved-top-left' : null,
-          curveTopRight ? 'module-image--curved-top-right' : null,
-          curveBottomLeft ? 'module-image--curved-bottom-left' : null,
-          curveBottomRight ? 'module-image--curved-bottom-right' : null,
-          smallCurveTopLeft ? 'module-image--small-curved-top-left' : null,
           softCorners ? 'module-image--soft-corners' : null,
           darkOverlay ? 'module-image__border-overlay--dark' : null
         )}
@@ -146,15 +125,7 @@ export const Image = (props: Props) => {
           className="module-image__close-button"
         />
       ) : null}
-      {bottomOverlay ? (
-        <div
-          className={classNames(
-            'module-image__bottom-overlay',
-            curveBottomLeft ? 'module-image--curved-bottom-left' : null,
-            curveBottomRight ? 'module-image--curved-bottom-right' : null
-          )}
-        />
-      ) : null}
+      {bottomOverlay ? <div className={classNames('module-image__bottom-overlay')} /> : null}
       {!(pending || loading) && playIconOverlay ? (
         <div className="module-image__play-overlay__circle">
           <div className="module-image__play-overlay__icon" />

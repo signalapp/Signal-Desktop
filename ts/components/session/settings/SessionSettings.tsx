@@ -363,6 +363,7 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
                 title: window.i18n('linkPreviewsTitle'),
                 message: window.i18n('linkPreviewsConfirmMessage'),
                 okTheme: SessionButtonColor.Danger,
+                // onClickOk:
               })
             );
           }

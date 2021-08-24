@@ -48,6 +48,37 @@ export const getSelectedConversation = createSelector(
   }
 );
 
+/**
+ * Returns true if the current conversation selected is a group conversation.
+ * Returns false if the current conversation selected is not a group conversation, or none are selected
+ */
+export const isGroupConversation = createSelector(
+  getSelectedConversation,
+  (state: ReduxConversationType | undefined): boolean => {
+    return state?.type === 'group' || false;
+  }
+);
+
+/**
+ * Returns true if the current conversation selected is a closed group and false otherwise.
+ */
+export const isClosedGroupConversation = createSelector(
+  getSelectedConversation,
+  (state: ReduxConversationType | undefined): boolean => {
+    return (state?.type === 'group' && !state.isPublic) || false;
+  }
+);
+
+/**
+ * Returns true if the current conversation selected is a public group and false otherwise.
+ */
+export const isPublicGroupConversation = createSelector(
+  getSelectedConversation,
+  (state: ReduxConversationType | undefined): boolean => {
+    return (state?.type === 'group' && state.isPublic) || false;
+  }
+);
+
 export const getOurPrimaryConversation = createSelector(
   getConversations,
   (state: ConversationsStateType): ReduxConversationType =>

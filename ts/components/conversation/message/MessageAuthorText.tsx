@@ -1,7 +1,11 @@
 import React from 'react';
-import { ConversationTypeEnum } from '../../../models/conversation';
+import { useSelector } from 'react-redux';
 import { MessageModelType } from '../../../models/messageType';
 import { PubKey } from '../../../session/types/PubKey';
+import {
+  isGroupConversation,
+  isPublicGroupConversation,
+} from '../../../state/selectors/conversations';
 import { Flex } from '../../basic/Flex';
 import { ContactName } from '../ContactName';
 
@@ -9,9 +13,7 @@ export type MessageAuthorProps = {
   authorName: string | null;
   authorProfileName: string | null;
   authorPhoneNumber: string;
-  conversationType: ConversationTypeEnum;
   direction: MessageModelType;
-  isPublic: boolean;
   firstMessageOfSeries: boolean;
 };
 
@@ -20,15 +22,16 @@ export const MessageAuthorText = (props: MessageAuthorProps) => {
     authorName,
     authorPhoneNumber,
     authorProfileName,
-    conversationType,
     direction,
-    isPublic,
     firstMessageOfSeries,
   } = props;
 
+  const isPublic = useSelector(isPublicGroupConversation);
+  const isGroup = useSelector(isGroupConversation);
+
   const title = authorName ? authorName : authorPhoneNumber;
 
-  if (direction !== 'incoming' || conversationType !== 'group' || !title || !firstMessageOfSeries) {
+  if (direction !== 'incoming' || !isGroup || !title || !firstMessageOfSeries) {
     return null;
   }
 
@@ -37,17 +40,15 @@ export const MessageAuthorText = (props: MessageAuthorProps) => {
   const displayedPubkey = authorProfileName ? shortenedPubkey : authorPhoneNumber;
 
   return (
-    <div className="module-message__author">
-      <Flex container={true}>
-        <ContactName
-          phoneNumber={displayedPubkey}
-          name={authorName}
-          profileName={authorProfileName}
-          module="module-message__author"
-          boldProfileName={true}
-          shouldShowPubkey={Boolean(isPublic)}
-        />
-      </Flex>
-    </div>
+    <Flex container={true}>
+      <ContactName
+        phoneNumber={displayedPubkey}
+        name={authorName}
+        profileName={authorProfileName}
+        module="module-message__author"
+        boldProfileName={true}
+        shouldShowPubkey={Boolean(isPublic)}
+      />
+    </Flex>
   );
 };
