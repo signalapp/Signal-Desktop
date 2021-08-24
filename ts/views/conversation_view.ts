@@ -1673,15 +1673,7 @@ Whisper.ConversationView = Whisper.View.extend({
     const { files } = e.originalEvent.dataTransfer;
     for (let i = 0, max = files.length; i < max; i += 1) {
       const file = files[i];
-      try {
-        // eslint-disable-next-line no-await-in-loop
-        await this.maybeAddAttachment(file);
-      } catch (error) {
-        window.log.error(
-          'ConversationView/onDrop: Failed to add attachment:',
-          error && error.stack ? error.stack : error
-        );
-      }
+      this.maybeAddAttachment(file);
     }
   },
 
@@ -1800,8 +1792,7 @@ Whisper.ConversationView = Whisper.View.extend({
     const draftAttachments = (model.get('draftAttachments') || []).filter(
       draftAttachment =>
         !draftAttachment.pending &&
-        nodePath.parse(String(draftAttachment.fileName)).name !==
-          attachment.fileName
+        draftAttachment.fileName !== attachment.fileName
     );
     this.model.set({
       draftAttachments: [...draftAttachments, onDisk],
@@ -1949,12 +1940,10 @@ Whisper.ConversationView = Whisper.View.extend({
 
   updateAttachmentsView() {
     const { model }: { model: ConversationModel } = this;
-    const draftAttachments = this.model.get('draftAttachments') || [];
+    const draftAttachments = model.get('draftAttachments') || [];
     window.reduxActions.composer.replaceAttachments(
       model.get('id'),
-      draftAttachments.map((att: AttachmentType) =>
-        this.resolveOnDiskAttachment(att)
-      )
+      draftAttachments.map(att => this.resolveOnDiskAttachment(att))
     );
     this.toggleMicrophone();
     if (this.hasFiles()) {
@@ -2034,13 +2023,15 @@ Whisper.ConversationView = Whisper.View.extend({
         window.Signal.Util.GoogleChrome.isImageTypeSupported(fileType) ||
         isHeic(fileType)
       ) {
+        const fileName = nodePath.parse(file.name).name;
         // Add a pending attachment since transcoding may take a while
         this.model.set({
           draftAttachments: [
             ...draftAttachments,
             {
               contentType: IMAGE_JPEG,
-              fileName: nodePath.parse(file.name).name,
+              fileName,
+              path: file.name,
               pending: true,
             },
           ],
@@ -2048,6 +2039,18 @@ Whisper.ConversationView = Whisper.View.extend({
         this.updateAttachmentsView();
 
         attachment = await handleImageAttachment(file);
+
+        const hasDraftAttachmentPending = (
+          model.get('draftAttachments') || []
+        ).some(
+          draftAttachment =>
+            draftAttachment.pending && draftAttachment.fileName === fileName
+        );
+
+        // User has canceled the draft so we don't need to continue processing
+        if (!hasDraftAttachmentPending) {
+          return;
+        }
       } else if (
         window.Signal.Util.GoogleChrome.isVideoTypeSupported(fileType)
       ) {
