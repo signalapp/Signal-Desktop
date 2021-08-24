@@ -76,6 +76,7 @@ export type PropsType = {
 
   // Other props
   addCustomColor: (color: CustomColorType) => unknown;
+  closeSettings: () => unknown;
   doDeleteAllData: () => unknown;
   editCustomColor: (colorId: string, color: CustomColorType) => unknown;
   getConversationsWithCustomColor: (
@@ -158,6 +159,7 @@ export const Preferences = ({
   availableMicrophones,
   availableSpeakers,
   blockedCount,
+  closeSettings,
   customColors,
   defaultConversationColor,
   deviceName = '',
@@ -248,6 +250,22 @@ export const Preferences = ({
     document.body.classList.toggle('light-theme', theme === ThemeType.light);
     document.body.classList.toggle('dark-theme', theme === ThemeType.dark);
   }, [theme]);
+
+  useEffect(() => {
+    const handler = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        closeSettings();
+
+        event.preventDefault();
+        event.stopPropagation();
+      }
+    };
+    document.addEventListener('keydown', handler);
+
+    return () => {
+      document.removeEventListener('keydown', handler);
+    };
+  }, [closeSettings]);
 
   const onZoomSelectChange = useCallback(
     (value: string) => {
