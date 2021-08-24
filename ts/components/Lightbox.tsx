@@ -1,291 +1,137 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { ReactNode } from 'react';
-
+import React, {
+  MouseEvent,
+  ReactNode,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
+import moment from 'moment';
 import classNames from 'classnames';
-import is from '@sindresorhus/is';
+import { createPortal } from 'react-dom';
 
 import * as GoogleChrome from '../util/GoogleChrome';
-import * as MIME from '../types/MIME';
-
-import { formatDuration } from '../util/formatDuration';
+import { AttachmentType, isGIF } from '../types/Attachment';
+import { Avatar, AvatarSize } from './Avatar';
+import { ConversationType } from '../state/ducks/conversations';
+import { IMAGE_PNG, isImage, isVideo } from '../types/MIME';
 import { LocalizerType } from '../types/Util';
+import { MediaItemType, MessageAttributesType } from '../types/MediaItem';
 
-const Colors = {
-  ICON_SECONDARY: '#b9b9b9',
-};
-
-const colorSVG = (url: string, color: string) => {
-  return {
-    WebkitMask: `url(${url}) no-repeat center`,
-    WebkitMaskSize: '100%',
-    backgroundColor: color,
-  };
-};
-
-export type Props = {
+export type PropsType = {
   children?: ReactNode;
   close: () => void;
-  contentType: MIME.MIMEType | undefined;
+  getConversation?: (id: string) => ConversationType;
   i18n: LocalizerType;
-  objectURL: string;
-  caption?: string;
-  isViewOnce: boolean;
-  loop?: boolean;
-  onNext?: () => void;
-  onPrevious?: () => void;
-  onSave?: () => void;
-};
-type State = {
-  videoTime?: number;
+  media: Array<MediaItemType>;
+  onForward?: (messageId: string) => void;
+  onSave?: (options: {
+    attachment: AttachmentType;
+    message: MessageAttributesType;
+    index: number;
+  }) => void;
+  selectedIndex?: number;
 };
 
-const CONTROLS_WIDTH = 50;
-const CONTROLS_SPACING = 10;
+export function Lightbox({
+  children,
+  close,
+  getConversation,
+  media,
+  i18n,
+  onForward,
+  onSave,
+  selectedIndex: initialSelectedIndex,
+}: PropsType): JSX.Element | null {
+  const [root, setRoot] = React.useState<HTMLElement | undefined>();
+  const [selectedIndex, setSelectedIndex] = useState<number>(
+    initialSelectedIndex || 0
+  );
 
-const styles = {
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.9)',
-    zIndex: 10,
-  } as React.CSSProperties,
-  buttonContainer: {
-    backgroundColor: 'transparent',
-    border: 'none',
-    display: 'flex',
-    flexDirection: 'column',
-    outline: 'none',
-    width: '100%',
-    padding: 0,
-  } as React.CSSProperties,
-  mainContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    flexGrow: 1,
-    paddingTop: 40,
-    paddingLeft: 40,
-    paddingRight: 40,
-    paddingBottom: 0,
-    // To ensure that a large image doesn't overflow the flex layout
-    minHeight: '50px',
-    outline: 'none',
-  } as React.CSSProperties,
-  objectContainer: {
-    position: 'relative',
-    flexGrow: 1,
-    display: 'inline-flex',
-    justifyContent: 'center',
-  } as React.CSSProperties,
-  object: {
-    flexGrow: 1,
-    flexShrink: 1,
-    maxWidth: '100%',
-    maxHeight: '100%',
-    objectFit: 'contain',
-    outline: 'none',
-  } as React.CSSProperties,
-  img: {
-    position: 'absolute',
-    left: '50%',
-    top: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 'auto',
-    height: 'auto',
-    maxWidth: '100%',
-    maxHeight: '100%',
-    objectFit: 'contain',
-    outline: 'none',
-  } as React.CSSProperties,
-  caption: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    textAlign: 'center',
-    color: 'white',
-    fontWeight: 'bold',
-    textShadow: '0 0 1px black, 0 0 2px black, 0 0 3px black, 0 0 4px black',
-    padding: '1em',
-    paddingLeft: '3em',
-    paddingRight: '3em',
-    backgroundColor: 'rgba(192, 192, 192, .20)',
-  } as React.CSSProperties,
-  controlsOffsetPlaceholder: {
-    width: CONTROLS_WIDTH,
-    marginRight: CONTROLS_SPACING,
-    flexShrink: 0,
-  },
-  controls: {
-    width: CONTROLS_WIDTH,
-    flexShrink: 0,
-    display: 'flex',
-    flexDirection: 'column',
-    marginLeft: CONTROLS_SPACING,
-  } as React.CSSProperties,
-  navigationContainer: {
-    flexShrink: 0,
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    padding: 10,
-  } as React.CSSProperties,
-  saveButton: {
-    marginTop: 10,
-  },
-  countdownContainer: {
-    padding: 8,
-  },
-  iconButtonPlaceholder: {
-    // Dimensions match `.iconButton`:
-    display: 'inline-block',
-    width: 50,
-    height: 50,
-  },
-  timestampPill: {
-    borderRadius: '15px',
-    backgroundColor: '#000000',
-    color: '#eeefef',
-    fontSize: '16px',
-    letterSpacing: '0px',
-    lineHeight: '18px',
-    // This cast is necessary or typescript chokes
-    textAlign: 'center' as const,
-    padding: '6px',
-    paddingLeft: '18px',
-    paddingRight: '18px',
-  },
-};
+  const [previousFocus, setPreviousFocus] = useState<HTMLElement | undefined>();
+  const [zoomed, setZoomed] = useState(false);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const focusRef = useRef<HTMLDivElement | null>(null);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
 
-type IconButtonProps = {
-  i18n: LocalizerType;
-  onClick?: () => void;
-  style?: React.CSSProperties;
-  type: 'save' | 'close' | 'previous' | 'next';
-};
-
-const IconButton = ({ i18n, onClick, style, type }: IconButtonProps) => {
-  const clickHandler = (event: React.MouseEvent<HTMLButtonElement>): void => {
-    event.preventDefault();
-    if (!onClick) {
-      return;
+  const restorePreviousFocus = useCallback(() => {
+    if (previousFocus && previousFocus.focus) {
+      previousFocus.focus();
     }
+  }, [previousFocus]);
 
-    onClick();
+  const onPrevious = useCallback(() => {
+    setSelectedIndex(prevSelectedIndex => Math.max(prevSelectedIndex - 1, 0));
+  }, []);
+
+  const onNext = useCallback(() => {
+    setSelectedIndex(prevSelectedIndex =>
+      Math.min(prevSelectedIndex + 1, media.length - 1)
+    );
+  }, [media]);
+
+  const handleSave = () => {
+    const mediaItem = media[selectedIndex];
+    const { attachment, message, index } = mediaItem;
+
+    onSave?.({ attachment, message, index });
   };
 
-  return (
-    <button
-      onClick={clickHandler}
-      className={classNames('iconButton', type)}
-      style={style}
-      aria-label={i18n(type)}
-      type="button"
-    />
-  );
-};
+  const handleForward = () => {
+    close();
+    const mediaItem = media[selectedIndex];
+    onForward?.(mediaItem.message.id);
+  };
 
-const IconButtonPlaceholder = () => (
-  <div style={styles.iconButtonPlaceholder} />
-);
+  const onKeyDown = useCallback(
+    (event: KeyboardEvent) => {
+      switch (event.key) {
+        case 'Escape':
+          if (zoomed) {
+            setZoomed(false);
+          } else {
+            close();
+          }
 
-const Icon = ({
-  i18n,
-  onClick,
-  url,
-}: {
-  i18n: LocalizerType;
-  onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
-  url: string;
-}) => (
-  <button
-    style={{
-      ...styles.object,
-      ...colorSVG(url, Colors.ICON_SECONDARY),
-      maxWidth: 200,
-    }}
-    onClick={onClick}
-    aria-label={i18n('unsupportedAttachment')}
-    type="button"
-  />
-);
+          event.preventDefault();
+          event.stopPropagation();
 
-export class Lightbox extends React.Component<Props, State> {
-  public readonly containerRef = React.createRef<HTMLDivElement>();
+          break;
 
-  public readonly videoRef = React.createRef<HTMLVideoElement>();
+        case 'ArrowLeft':
+          if (onPrevious) {
+            onPrevious();
 
-  public readonly focusRef = React.createRef<HTMLDivElement>();
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          break;
 
-  public previousFocus: HTMLElement | null = null;
+        case 'ArrowRight':
+          if (onNext) {
+            onNext();
 
-  public constructor(props: Props) {
-    super(props);
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          break;
 
-    this.state = {};
-  }
-
-  public componentDidMount(): void {
-    this.previousFocus = document.activeElement as HTMLElement;
-
-    const { isViewOnce } = this.props;
-
-    const useCapture = true;
-    document.addEventListener('keydown', this.onKeyDown, useCapture);
-
-    const video = this.getVideo();
-    if (video && isViewOnce) {
-      video.addEventListener('timeupdate', this.onTimeUpdate);
-    }
-
-    // Wait until we're added to the DOM. ConversationView first creates this view, then
-    //   appends its elements into the DOM.
-    setTimeout(() => {
-      this.playVideo();
-
-      if (this.focusRef && this.focusRef.current) {
-        this.focusRef.current.focus();
+        default:
       }
-    });
-  }
+    },
+    [close, onNext, onPrevious, zoomed]
+  );
 
-  public componentWillUnmount(): void {
-    if (this.previousFocus && this.previousFocus.focus) {
-      this.previousFocus.focus();
-    }
+  const stopPropagationAndClose = (event: MouseEvent<HTMLElement>) => {
+    event.stopPropagation();
+    close();
+  };
 
-    const { isViewOnce } = this.props;
-
-    const useCapture = true;
-    document.removeEventListener('keydown', this.onKeyDown, useCapture);
-
-    const video = this.getVideo();
-    if (video && isViewOnce) {
-      video.removeEventListener('timeupdate', this.onTimeUpdate);
-    }
-  }
-
-  public getVideo(): HTMLVideoElement | null {
-    if (!this.videoRef) {
-      return null;
-    }
-
-    const { current } = this.videoRef;
-    if (!current) {
-      return null;
-    }
-
-    return current;
-  }
-
-  public playVideo(): void {
-    const video = this.getVideo();
+  const playVideo = () => {
+    const video = videoRef.current;
     if (!video) {
       return;
     }
@@ -295,238 +141,333 @@ export class Lightbox extends React.Component<Props, State> {
     } else {
       video.pause();
     }
-  }
+  };
 
-  public render(): JSX.Element {
-    const {
-      caption,
-      children,
-      contentType,
-      i18n,
-      isViewOnce,
-      loop = false,
-      objectURL,
-      onNext,
-      onPrevious,
-      onSave,
-    } = this.props;
-    const { videoTime } = this.state;
+  useEffect(() => {
+    const div = document.createElement('div');
+    document.body.appendChild(div);
+    setRoot(div);
 
-    return (
-      <div
-        className="module-lightbox"
-        style={styles.container}
-        onClick={this.onContainerClick}
-        onKeyUp={this.onContainerKeyUp}
-        ref={this.containerRef}
-        role="presentation"
-      >
-        <div style={styles.mainContainer} tabIndex={-1} ref={this.focusRef}>
-          <div style={styles.controlsOffsetPlaceholder} />
-          <div style={styles.objectContainer}>
-            {!is.undefined(contentType)
-              ? this.renderObject({
-                  objectURL,
-                  contentType,
-                  i18n,
-                  isViewOnce,
-                  loop,
-                })
-              : children}
-            {caption ? <div style={styles.caption}>{caption}</div> : null}
-          </div>
-          <div style={styles.controls}>
-            <IconButton i18n={i18n} type="close" onClick={this.onClose} />
-            {onSave ? (
-              <IconButton
-                i18n={i18n}
-                type="save"
-                onClick={onSave}
-                style={styles.saveButton}
-              />
-            ) : null}
-          </div>
-        </div>
-        {isViewOnce && videoTime && is.number(videoTime) ? (
-          <div style={styles.navigationContainer}>
-            <div style={styles.timestampPill}>{formatDuration(videoTime)}</div>
-          </div>
-        ) : (
-          <div style={styles.navigationContainer}>
-            {onPrevious ? (
-              <IconButton i18n={i18n} type="previous" onClick={onPrevious} />
-            ) : (
-              <IconButtonPlaceholder />
-            )}
-            {onNext ? (
-              <IconButton i18n={i18n} type="next" onClick={onNext} />
-            ) : (
-              <IconButtonPlaceholder />
-            )}
-          </div>
-        )}
-      </div>
-    );
-  }
+    return () => {
+      document.body.removeChild(div);
+      setRoot(undefined);
+    };
+  }, []);
 
-  private readonly renderObject = ({
-    objectURL,
-    contentType,
-    i18n,
-    isViewOnce,
-    loop,
-  }: {
-    objectURL: string;
-    contentType: MIME.MIMEType;
-    i18n: LocalizerType;
-    isViewOnce: boolean;
-    loop: boolean;
-  }) => {
-    const isImageTypeSupported = GoogleChrome.isImageTypeSupported(contentType);
-    if (isImageTypeSupported) {
-      return (
-        <button
-          type="button"
-          style={styles.buttonContainer}
-          onClick={this.onObjectClick}
-        >
-          <img
-            alt={i18n('lightboxImageAlt')}
-            style={styles.img}
-            src={objectURL}
-            onContextMenu={this.onContextMenu}
-          />
-        </button>
-      );
+  useEffect(() => {
+    if (!previousFocus) {
+      setPreviousFocus(document.activeElement as HTMLElement);
     }
+  }, [previousFocus]);
 
+  useEffect(() => {
+    return () => {
+      restorePreviousFocus();
+    };
+  }, [restorePreviousFocus]);
+
+  useEffect(() => {
+    const useCapture = true;
+    document.addEventListener('keydown', onKeyDown, useCapture);
+
+    return () => {
+      document.removeEventListener('keydown', onKeyDown, useCapture);
+    };
+  }, [onKeyDown]);
+
+  useEffect(() => {
+    // Wait until we're added to the DOM. ConversationView first creates this
+    // view, then appends its elements into the DOM.
+    const timeout = window.setTimeout(() => {
+      playVideo();
+
+      if (focusRef && focusRef.current) {
+        focusRef.current.focus();
+      }
+    });
+
+    return () => {
+      if (timeout) {
+        window.clearTimeout(timeout);
+      }
+    };
+  }, [selectedIndex]);
+
+  const { attachment, contentType, loop = false, objectURL, message } =
+    media[selectedIndex] || {};
+  const caption = attachment?.caption;
+
+  let content: JSX.Element;
+  if (!contentType) {
+    content = <>{children}</>;
+  } else {
+    const isImageTypeSupported = GoogleChrome.isImageTypeSupported(contentType);
     const isVideoTypeSupported = GoogleChrome.isVideoTypeSupported(contentType);
-    if (isVideoTypeSupported) {
-      return (
+    const isUnsupportedImageType =
+      !isImageTypeSupported && isImage(contentType);
+    const isUnsupportedVideoType =
+      !isVideoTypeSupported && isVideo(contentType);
+
+    if (isImageTypeSupported) {
+      if (objectURL) {
+        content = (
+          <button
+            className="Lightbox__zoom-button"
+            onClick={() => setZoomed(!zoomed)}
+            type="button"
+          >
+            <img
+              alt={i18n('lightboxImageAlt')}
+              className="Lightbox__object"
+              onContextMenu={(event: MouseEvent<HTMLImageElement>) => {
+                // These are the only image types supported by Electron's NativeImage
+                if (
+                  event &&
+                  contentType !== IMAGE_PNG &&
+                  !/image\/jpe?g/g.test(contentType)
+                ) {
+                  event.preventDefault();
+                }
+              }}
+              src={objectURL}
+            />
+          </button>
+        );
+      } else {
+        content = (
+          <button
+            aria-label={i18n('lightboxImageAlt')}
+            className={classNames({
+              Lightbox__object: true,
+              Lightbox__unsupported: true,
+              'Lightbox__unsupported--missing': true,
+            })}
+            onClick={stopPropagationAndClose}
+            type="button"
+          />
+        );
+      }
+    } else if (isVideoTypeSupported) {
+      const shouldLoop = loop || isGIF([attachment]);
+      content = (
         <video
-          ref={this.videoRef}
-          loop={loop || isViewOnce}
-          controls={!loop && !isViewOnce}
-          style={styles.object}
+          className="Lightbox__object"
+          controls={!shouldLoop}
           key={objectURL}
+          loop={shouldLoop}
+          ref={videoRef}
         >
           <source src={objectURL} />
         </video>
       );
+    } else if (isUnsupportedImageType || isUnsupportedVideoType) {
+      content = (
+        <button
+          aria-label={i18n('unsupportedAttachment')}
+          className={classNames({
+            Lightbox__object: true,
+            Lightbox__unsupported: true,
+            'Lightbox__unsupported--image': isUnsupportedImageType,
+            'Lightbox__unsupported--video': isUnsupportedVideoType,
+          })}
+          onClick={stopPropagationAndClose}
+          type="button"
+        />
+      );
+    } else {
+      window.log.info('Lightbox: Unexpected content type', { contentType });
+
+      content = (
+        <button
+          aria-label={i18n('unsupportedAttachment')}
+          className="Lightbox__object Lightbox__unsupported Lightbox__unsupported--file"
+          onClick={stopPropagationAndClose}
+          type="button"
+        />
+      );
     }
+  }
 
-    const isUnsupportedImageType =
-      !isImageTypeSupported && MIME.isImage(contentType);
-    const isUnsupportedVideoType =
-      !isVideoTypeSupported && MIME.isVideo(contentType);
-    if (isUnsupportedImageType || isUnsupportedVideoType) {
-      const iconUrl = isUnsupportedVideoType
-        ? 'images/movie.svg'
-        : 'images/image.svg';
+  const hasNext = selectedIndex < media.length - 1;
+  const hasPrevious = selectedIndex > 0;
 
-      return <Icon i18n={i18n} url={iconUrl} onClick={this.onObjectClick} />;
-    }
+  return root
+    ? createPortal(
+        <div
+          className="Lightbox Lightbox__container"
+          onClick={(event: MouseEvent<HTMLDivElement>) => {
+            if (containerRef && event.target !== containerRef.current) {
+              return;
+            }
+            close();
+          }}
+          onKeyUp={(event: React.KeyboardEvent<HTMLDivElement>) => {
+            if (
+              (containerRef && event.target !== containerRef.current) ||
+              event.keyCode !== 27
+            ) {
+              return;
+            }
 
-    window.log.info('Lightbox: Unexpected content type', { contentType });
+            close();
+          }}
+          ref={containerRef}
+          role="presentation"
+        >
+          <div
+            className="Lightbox__main-container"
+            tabIndex={-1}
+            ref={focusRef}
+          >
+            {!zoomed && (
+              <div className="Lightbox__header">
+                {getConversation ? (
+                  <LightboxHeader
+                    getConversation={getConversation}
+                    i18n={i18n}
+                    message={message}
+                  />
+                ) : (
+                  <div />
+                )}
+                <div className="Lightbox__controls">
+                  {onForward ? (
+                    <button
+                      aria-label={i18n('forwardMessage')}
+                      className="Lightbox__button Lightbox__button--forward"
+                      onClick={handleForward}
+                      type="button"
+                    />
+                  ) : null}
+                  {onSave ? (
+                    <button
+                      aria-label={i18n('save')}
+                      className="Lightbox__button Lightbox__button--save"
+                      onClick={handleSave}
+                      type="button"
+                    />
+                  ) : null}
+                  <button
+                    aria-label={i18n('close')}
+                    className="Lightbox__button Lightbox__button--close"
+                    onClick={close}
+                    type="button"
+                  />
+                </div>
+              </div>
+            )}
+            <div
+              className={classNames('Lightbox__object--container', {
+                'Lightbox__object--container--zoomed': zoomed,
+              })}
+            >
+              {content}
+            </div>
+            {hasPrevious && (
+              <div className="Lightbox__nav-prev">
+                <button
+                  aria-label={i18n('previous')}
+                  className="Lightbox__button Lightbox__button--previous"
+                  disabled={zoomed}
+                  onClick={onPrevious}
+                  type="button"
+                />
+              </div>
+            )}
+            {hasNext && (
+              <div className="Lightbox__nav-next">
+                <button
+                  aria-label={i18n('next')}
+                  className="Lightbox__button Lightbox__button--next"
+                  disabled={zoomed}
+                  onClick={onNext}
+                  type="button"
+                />
+              </div>
+            )}
+          </div>
+          {!zoomed && (
+            <div className="Lightbox__footer">
+              {caption ? (
+                <div className="Lightbox__caption">{caption}</div>
+              ) : null}
+              {media.length > 1 && (
+                <div className="Lightbox__thumbnails--container">
+                  <div
+                    className="Lightbox__thumbnails"
+                    style={{
+                      marginLeft:
+                        0 - (selectedIndex * 64 + selectedIndex * 8 + 32),
+                    }}
+                  >
+                    {media.map((item, index) => (
+                      <button
+                        className={classNames({
+                          Lightbox__thumbnail: true,
+                          'Lightbox__thumbnail--selected':
+                            index === selectedIndex,
+                        })}
+                        key={item.thumbnailObjectUrl}
+                        type="button"
+                        onClick={() => setSelectedIndex(index)}
+                      >
+                        {item.thumbnailObjectUrl ? (
+                          <img
+                            alt={i18n('lightboxImageAlt')}
+                            src={item.thumbnailObjectUrl}
+                          />
+                        ) : (
+                          <div className="Lightbox__thumbnail--unavailable" />
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+        </div>,
+        root
+      )
+    : null;
+}
 
-    return (
-      <Icon i18n={i18n} onClick={this.onObjectClick} url="images/file.svg" />
-    );
-  };
+function LightboxHeader({
+  getConversation,
+  i18n,
+  message,
+}: {
+  getConversation: (id: string) => ConversationType;
+  i18n: LocalizerType;
+  message: MessageAttributesType;
+}): JSX.Element {
+  const conversation = getConversation(message.conversationId);
 
-  private readonly onContextMenu = (
-    event: React.MouseEvent<HTMLImageElement>
-  ) => {
-    const { contentType = '' } = this.props;
-
-    // These are the only image types supported by Electron's NativeImage
-    if (
-      event &&
-      contentType !== 'image/png' &&
-      !/image\/jpe?g/g.test(contentType)
-    ) {
-      event.preventDefault();
-    }
-  };
-
-  private readonly onClose = () => {
-    const { close } = this.props;
-    if (!close) {
-      return;
-    }
-
-    close();
-  };
-
-  private readonly onTimeUpdate = () => {
-    const video = this.getVideo();
-    if (!video) {
-      return;
-    }
-    this.setState({
-      videoTime: video.currentTime,
-    });
-  };
-
-  private readonly onKeyDown = (event: KeyboardEvent) => {
-    const { onNext, onPrevious } = this.props;
-    switch (event.key) {
-      case 'Escape':
-        this.onClose();
-
-        event.preventDefault();
-        event.stopPropagation();
-
-        break;
-
-      case 'ArrowLeft':
-        if (onPrevious) {
-          onPrevious();
-
-          event.preventDefault();
-          event.stopPropagation();
-        }
-        break;
-
-      case 'ArrowRight':
-        if (onNext) {
-          onNext();
-
-          event.preventDefault();
-          event.stopPropagation();
-        }
-        break;
-
-      default:
-    }
-  };
-
-  private readonly onContainerClick = (
-    event: React.MouseEvent<HTMLDivElement>
-  ) => {
-    if (this.containerRef && event.target !== this.containerRef.current) {
-      return;
-    }
-    this.onClose();
-  };
-
-  private readonly onContainerKeyUp = (
-    event: React.KeyboardEvent<HTMLDivElement>
-  ) => {
-    if (
-      (this.containerRef && event.target !== this.containerRef.current) ||
-      event.keyCode !== 27
-    ) {
-      return;
-    }
-
-    this.onClose();
-  };
-
-  private readonly onObjectClick = (
-    event: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>
-  ) => {
-    event.stopPropagation();
-    this.onClose();
-  };
+  return (
+    <div className="Lightbox__header--container">
+      <div className="Lightbox__header--avatar">
+        <Avatar
+          acceptedMessageRequest={conversation.acceptedMessageRequest}
+          avatarPath={conversation.avatarPath}
+          color={conversation.color}
+          conversationType={conversation.type}
+          i18n={i18n}
+          isMe={conversation.isMe}
+          name={conversation.name}
+          phoneNumber={conversation.e164}
+          profileName={conversation.profileName}
+          sharedGroupNames={conversation.sharedGroupNames}
+          size={AvatarSize.THIRTY_TWO}
+          title={conversation.title}
+          unblurredAvatarPath={conversation.unblurredAvatarPath}
+        />
+      </div>
+      <div className="Lightbox__header--content">
+        <div className="Lightbox__header--name">{conversation.title}</div>
+        <div className="Lightbox__header--timestamp">
+          {moment(message.received_at_ms).format('L LT')}
+        </div>
+      </div>
+    </div>
+  );
 }

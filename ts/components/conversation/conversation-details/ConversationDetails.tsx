@@ -8,7 +8,7 @@ import { assert } from '../../../util/assert';
 import { getMutedUntilText } from '../../../util/getMutedUntilText';
 
 import { LocalizerType } from '../../../types/Util';
-import { MediaItemType } from '../../LightboxGallery';
+import { MediaItemType } from '../../../types/MediaItem';
 import { missingCaseError } from '../../../util/missingCaseError';
 
 import { DisappearingTimerSelect } from '../../DisappearingTimerSelect';

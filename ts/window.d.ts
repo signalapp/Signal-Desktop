@@ -96,7 +96,6 @@ import { ContactDetail } from './components/conversation/ContactDetail';
 import { ContactModal } from './components/conversation/ContactModal';
 import { ErrorModal } from './components/ErrorModal';
 import { Lightbox } from './components/Lightbox';
-import { LightboxGallery } from './components/LightboxGallery';
 import { MediaGallery } from './components/conversation/media-gallery/MediaGallery';
 import { MessageDetail } from './components/conversation/MessageDetail';
 import { ProgressModal } from './components/ProgressModal';
@@ -421,7 +420,6 @@ declare global {
         DisappearingTimeDialog: typeof DisappearingTimeDialog;
         ErrorModal: typeof ErrorModal;
         Lightbox: typeof Lightbox;
-        LightboxGallery: typeof LightboxGallery;
         MediaGallery: typeof MediaGallery;
         MessageDetail: typeof MessageDetail;
         ProgressModal: typeof ProgressModal;

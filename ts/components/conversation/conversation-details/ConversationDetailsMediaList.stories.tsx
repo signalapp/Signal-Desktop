@@ -17,7 +17,7 @@ import {
   createPreparedMediaItems,
   createRandomMedia,
 } from '../media-gallery/AttachmentSection.stories';
-import { MediaItemType } from '../../LightboxGallery';
+import { MediaItemType } from '../../../types/MediaItem';
 import { getDefaultConversation } from '../../../test-both/helpers/getDefaultConversation';
 
 const i18n = setupI18n('en', enMessages);

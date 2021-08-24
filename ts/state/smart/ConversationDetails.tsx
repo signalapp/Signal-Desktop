@@ -15,7 +15,7 @@ import {
 } from '../selectors/conversations';
 import { getGroupMemberships } from '../../util/getGroupMemberships';
 import { getIntl } from '../selectors/user';
-import { MediaItemType } from '../../components/LightboxGallery';
+import { MediaItemType } from '../../types/MediaItem';
 import { assert } from '../../util/assert';
 import { SignalService as Proto } from '../../protobuf';
 

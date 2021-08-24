@@ -9,12 +9,13 @@ import {
   groupMediaItemsByDate,
   Section,
 } from '../../../components/conversation/media-gallery/groupMediaItemsByDate';
-import { MediaItemType } from '../../../components/LightboxGallery';
+import { MediaItemType } from '../../../types/MediaItem';
 
 const toMediaItem = (date: Date): MediaItemType => ({
   objectURL: date.toUTCString(),
   index: 0,
   message: {
+    conversationId: '1234',
     id: 'id',
     received_at: date.getTime(),
     received_at_ms: date.getTime(),
@@ -56,6 +57,7 @@ describe('groupMediaItemsByDate', () => {
             objectURL: 'Thu, 12 Apr 2018 12:00:00 GMT',
             index: 0,
             message: {
+              conversationId: '1234',
               id: 'id',
               received_at: 1523534400000,
               received_at_ms: 1523534400000,
@@ -71,6 +73,7 @@ describe('groupMediaItemsByDate', () => {
             objectURL: 'Thu, 12 Apr 2018 00:01:00 GMT',
             index: 0,
             message: {
+              conversationId: '1234',
               id: 'id',
               received_at: 1523491260000,
               received_at_ms: 1523491260000,
@@ -91,6 +94,7 @@ describe('groupMediaItemsByDate', () => {
             objectURL: 'Wed, 11 Apr 2018 23:59:00 GMT',
             index: 0,
             message: {
+              conversationId: '1234',
               id: 'id',
               received_at: 1523491140000,
               received_at_ms: 1523491140000,
@@ -111,6 +115,7 @@ describe('groupMediaItemsByDate', () => {
             objectURL: 'Mon, 09 Apr 2018 00:01:00 GMT',
             index: 0,
             message: {
+              conversationId: '1234',
               id: 'id',
               received_at: 1523232060000,
               received_at_ms: 1523232060000,
@@ -131,6 +136,7 @@ describe('groupMediaItemsByDate', () => {
             objectURL: 'Sun, 08 Apr 2018 23:59:00 GMT',
             index: 0,
             message: {
+              conversationId: '1234',
               id: 'id',
               received_at: 1523231940000,
               received_at_ms: 1523231940000,
@@ -146,6 +152,7 @@ describe('groupMediaItemsByDate', () => {
             objectURL: 'Sun, 01 Apr 2018 00:01:00 GMT',
             index: 0,
             message: {
+              conversationId: '1234',
               id: 'id',
               received_at: 1522540860000,
               received_at_ms: 1522540860000,
@@ -168,6 +175,7 @@ describe('groupMediaItemsByDate', () => {
             objectURL: 'Sat, 31 Mar 2018 23:59:00 GMT',
             index: 0,
             message: {
+              conversationId: '1234',
               id: 'id',
               received_at: 1522540740000,
               received_at_ms: 1522540740000,
@@ -183,6 +191,7 @@ describe('groupMediaItemsByDate', () => {
             objectURL: 'Thu, 01 Mar 2018 14:00:00 GMT',
             index: 0,
             message: {
+              conversationId: '1234',
               id: 'id',
               received_at: 1519912800000,
               received_at_ms: 1519912800000,
@@ -205,6 +214,7 @@ describe('groupMediaItemsByDate', () => {
             objectURL: 'Mon, 28 Feb 2011 23:59:00 GMT',
             index: 0,
             message: {
+              conversationId: '1234',
               id: 'id',
               received_at: 1298937540000,
               received_at_ms: 1298937540000,
@@ -220,6 +230,7 @@ describe('groupMediaItemsByDate', () => {
             objectURL: 'Tue, 01 Feb 2011 10:00:00 GMT',
             index: 0,
             message: {
+              conversationId: '1234',
               id: 'id',
               received_at: 1296554400000,
               received_at_ms: 1296554400000,

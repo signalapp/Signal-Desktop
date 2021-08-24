@@ -26,7 +26,7 @@ import {
   MessageAttributesType,
 } from '../model-types.d';
 import { LinkPreviewType } from '../types/message/LinkPreviews';
-import { MediaItemType } from '../components/LightboxGallery';
+import { MediaItemType } from '../types/MediaItem';
 import { MessageModel } from '../models/messages';
 import { assert } from '../util/assert';
 import { maybeParseUrl } from '../util/url';
@@ -47,7 +47,10 @@ import {
   isTapToView,
 } from '../state/selectors/message';
 import { isMessageUnread } from '../util/isMessageUnread';
-import { getMessagesByConversation } from '../state/selectors/conversations';
+import {
+  getConversationSelector,
+  getMessagesByConversation,
+} from '../state/selectors/conversations';
 import { ConversationDetailsMembershipList } from '../components/conversation/conversation-details/ConversationDetailsMembershipList';
 import { showSafetyNumberChangeDialog } from '../shims/showSafetyNumberChangeDialog';
 import {
@@ -2651,7 +2654,7 @@ Whisper.ConversationView = Whisper.View.extend({
             );
             this.lightboxGalleryView = new Whisper.ReactWrapperView({
               className: 'lightbox-wrapper',
-              Component: window.Signal.Components.LightboxGallery,
+              Component: window.Signal.Components.Lightbox,
               props: {
                 media,
                 onSave: saveAttachment,
@@ -3036,10 +3039,10 @@ Whisper.ConversationView = Whisper.View.extend({
     });
   },
 
-  // TODO: DESKTOP-1133 (DRY up these lightboxes)
   showLightboxForMedia(
-    selectedMediaItem: WhatIsThis,
-    media: Array<WhatIsThis> = []
+    selectedMediaItem: MediaItemType,
+    media: Array<MediaItemType> = [],
+    loop = false
   ) {
     const onSave = async (options: WhatIsThis = {}) => {
       const fullPath = await window.Signal.Types.Attachment.save({
@@ -3062,11 +3065,14 @@ Whisper.ConversationView = Whisper.View.extend({
 
     this.lightboxGalleryView = new Whisper.ReactWrapperView({
       className: 'lightbox-wrapper',
-      Component: window.Signal.Components.LightboxGallery,
+      Component: window.Signal.Components.Lightbox,
       props: {
+        getConversation: getConversationSelector(window.reduxStore.getState()),
+        loop,
         media,
+        onForward: this.showForwardMessageModal.bind(this),
         onSave,
-        selectedIndex,
+        selectedIndex: selectedIndex >= 0 ? selectedIndex : 0,
       },
       onClose: () => window.Signal.Backbone.Views.Lightbox.hide(),
     });
@@ -3093,7 +3099,7 @@ Whisper.ConversationView = Whisper.View.extend({
       return;
     }
 
-    const { contentType, path } = attachment;
+    const { contentType } = attachment;
 
     if (
       !window.Signal.Util.GoogleChrome.isImageTypeSupported(contentType) &&
@@ -3115,71 +3121,23 @@ Whisper.ConversationView = Whisper.View.extend({
         contentType: item.contentType,
         loop,
         index,
-        message,
+        message: {
+          attachments: message.get('attachments'),
+          id: message.get('id'),
+          conversationId: message.get('conversationId'),
+          received_at: message.get('received_at'),
+          received_at_ms: message.get('received_at_ms'),
+        },
         attachment: item,
+        thumbnailObjectUrl:
+          item.thumbnail?.objectUrl ||
+          getAbsoluteAttachmentPath(item.thumbnail?.path ?? ''),
       }));
 
-    if (media.length === 1) {
-      const props = {
-        objectURL: getAbsoluteAttachmentPath(path ?? ''),
-        contentType,
-        caption: attachment.caption,
-        loop,
-        onSave: () => {
-          const timestamp = message.get('sent_at');
-          this.downloadAttachment({ attachment, timestamp, message });
-        },
-      };
-      this.lightboxView = new Whisper.ReactWrapperView({
-        className: 'lightbox-wrapper',
-        Component: window.Signal.Components.Lightbox,
-        props,
-        onClose: () => {
-          window.Signal.Backbone.Views.Lightbox.hide();
-          this.stopListening(message);
-        },
-      });
-      this.listenTo(message, 'expired', () => this.lightboxView.remove());
-      window.Signal.Backbone.Views.Lightbox.show(this.lightboxView.el);
-      return;
-    }
+    const selectedMedia =
+      media.find(item => attachment.path === item.path) || media[0];
 
-    const selectedIndex = window._.findIndex(
-      media,
-      item => attachment.path === item.path
-    );
-
-    const onSave = async (options: WhatIsThis = {}) => {
-      const fullPath = await window.Signal.Types.Attachment.save({
-        attachment: options.attachment,
-        index: options.index + 1,
-        readAttachmentData,
-        saveAttachmentToDisk,
-        timestamp: options.message.get('sent_at'),
-      });
-
-      if (fullPath) {
-        this.showToast(Whisper.FileSavedToast, { fullPath });
-      }
-    };
-
-    const props = {
-      media,
-      loop,
-      selectedIndex: selectedIndex >= 0 ? selectedIndex : 0,
-      onSave,
-    };
-    this.lightboxGalleryView = new Whisper.ReactWrapperView({
-      className: 'lightbox-wrapper',
-      Component: window.Signal.Components.LightboxGallery,
-      props,
-      onClose: () => {
-        window.Signal.Backbone.Views.Lightbox.hide();
-        this.stopListening(message);
-      },
-    });
-    this.listenTo(message, 'expired', () => this.lightboxGalleryView.remove());
-    window.Signal.Backbone.Views.Lightbox.show(this.lightboxGalleryView.el);
+    this.showLightboxForMedia(selectedMedia, media, loop);
   },
 
   showContactModal(contactId: string) {
@@ -3605,9 +3563,15 @@ Whisper.ConversationView = Whisper.View.extend({
                 contentType: attachment.contentType,
                 index,
                 attachment,
-                // this message is a valid structure, but doesn't work with ts
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                message: message as any,
+                message: {
+                  attachments: message.attachments || [],
+                  conversationId:
+                    window.ConversationController.get(message.sourceUuid)?.id ||
+                    message.conversationId,
+                  id: message.id,
+                  received_at: message.received_at,
+                  received_at_ms: Number(message.received_at_ms),
+                },
               };
             }
           ),

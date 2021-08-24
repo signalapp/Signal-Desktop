@@ -42,7 +42,7 @@ import {
 } from '../../model-types.d';
 import { BodyRangeType } from '../../types/Util';
 import { CallMode } from '../../types/Calling';
-import { MediaItemType } from '../../components/LightboxGallery';
+import { MediaItemType } from '../../types/MediaItem';
 import {
   getGroupSizeRecommendedLimit,
   getGroupSizeHardLimit,
