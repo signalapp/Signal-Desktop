@@ -22,6 +22,7 @@ import { calling } from '../services/calling';
 import { getConversationsWithCustomColorSelector } from '../state/selectors/conversations';
 import { getCustomColors } from '../state/selectors/items';
 import { themeChanged } from '../shims/themeChanged';
+import { renderClearingDataView } from '../shims/renderClearingDataView';
 
 import * as universalExpireTimer from './universalExpireTimer';
 import { PhoneNumberDiscoverability } from './phoneNumberDiscoverability';
@@ -376,8 +377,7 @@ export function createIPCEvents(
     deleteAllData: async () => {
       await window.sqlInitializer.goBackToMainProcess();
 
-      const clearDataView = new window.Whisper.ClearDataView().render();
-      $('body').append(clearDataView.el);
+      renderClearingDataView();
     },
 
     showStickerPack: (packId, key) => {

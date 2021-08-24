@@ -14,6 +14,7 @@ import {
 import { Button, ButtonVariant } from './Button';
 import { ChatColorPicker } from './ChatColorPicker';
 import { Checkbox } from './Checkbox';
+import { ConfirmationDialog } from './ConfirmationDialog';
 import { ConversationType } from '../state/ducks/conversations';
 import {
   ConversationColorType,
@@ -234,6 +235,7 @@ export const Preferences = ({
   whoCanSeeMe,
   zoomFactor,
 }: PropsType): JSX.Element => {
+  const [confirmDelete, setConfirmDelete] = useState(false);
   const [page, setPage] = useState<Page>(Page.General);
   const [showSyncFailed, setShowSyncFailed] = useState(false);
   const [nowSyncing, setNowSyncing] = useState(false);
@@ -912,7 +914,7 @@ export const Preferences = ({
             right={
               <div className="Preferences__right-button">
                 <Button
-                  onClick={doDeleteAllData}
+                  onClick={() => setConfirmDelete(true)}
                   variant={ButtonVariant.SecondaryDestructive}
                 >
                   {i18n('clearDataButton')}
@@ -921,6 +923,24 @@ export const Preferences = ({
             }
           />
         </SettingsRow>
+        {confirmDelete ? (
+          <ConfirmationDialog
+            actions={[
+              {
+                action: doDeleteAllData,
+                style: 'negative',
+                text: i18n('clearDataButton'),
+              },
+            ]}
+            i18n={i18n}
+            onClose={() => {
+              setConfirmDelete(false);
+            }}
+            title={i18n('deleteAllDataHeader')}
+          >
+            {i18n('deleteAllDataBody')}
+          </ConfirmationDialog>
+        ) : null}
       </>
     );
   } else if (page === Page.ChatColor) {
