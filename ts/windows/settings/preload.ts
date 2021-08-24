@@ -291,6 +291,7 @@ async function renderPreferences() {
 
     // Actions and other props
     addCustomColor: ipcAddCustomColor,
+    closeSettings: () => ipcRenderer.send('close-settings'),
     doDeleteAllData: () => ipcRenderer.send('delete-all-data'),
     editCustomColor: ipcEditCustomColor,
     getConversationsWithCustomColor: ipcGetConversationsWithCustomColor,

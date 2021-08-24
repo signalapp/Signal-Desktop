@@ -101,8 +101,9 @@ const createProps = (): PropsType => ({
   zoomFactor: 1,
 
   addCustomColor: action('addCustomColor'),
-  editCustomColor: action('editCustomColor'),
+  closeSettings: action('closeSettings'),
   doDeleteAllData: action('doDeleteAllData'),
+  editCustomColor: action('editCustomColor'),
   getConversationsWithCustomColor: () => Promise.resolve([]),
   initialSpellCheckSetting: true,
   makeSyncRequest: () => {
