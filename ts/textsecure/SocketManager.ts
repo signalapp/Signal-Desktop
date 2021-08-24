@@ -41,12 +41,13 @@ export type SocketManagerOptions = Readonly<{
   proxyUrl?: string;
 }>;
 
-// This class manages two websocket resource:
+// This class manages two websocket resources:
 //
 // - Authenticated WebSocketResource which uses supplied WebAPICredentials and
 //   automatically reconnects on closed socket (using back off)
-// - Unauthenticated WebSocketResource that is created on demand and reconnected
-//   every 5 minutes.
+// - Unauthenticated WebSocketResource that is created on the first outgoing
+//   unauthenticated request and is periodically rotated (5 minutes since first
+//   activity on the socket).
 //
 // Incoming requests on authenticated resource are funneled into the registered
 // request handlers (`registerRequestHandler`) or queued internally until at
@@ -60,6 +61,8 @@ export class SocketManager extends EventListener {
   private authenticated?: AbortableProcess<WebSocketResource>;
 
   private unauthenticated?: AbortableProcess<WebSocketResource>;
+
+  private unauthenticatedExpirationTimer?: NodeJS.Timeout;
 
   private credentials?: WebAPICredentials;
 
@@ -273,6 +276,7 @@ export class SocketManager extends EventListener {
       resource = await this.getAuthenticatedResource();
     } else {
       resource = await this.getUnauthenticatedResource();
+      await this.startUnauthenticatedExpirationTimer(resource);
     }
 
     const { path } = URL.parse(url);
@@ -374,10 +378,15 @@ export class SocketManager extends EventListener {
     window.log.info('SocketManager.onOffline');
     this.isOffline = true;
 
-    this.authenticated?.abort();
-    this.unauthenticated?.abort();
-    this.authenticated = undefined;
-    this.unauthenticated = undefined;
+    const { authenticated, unauthenticated } = this;
+    if (authenticated) {
+      authenticated.abort();
+      this.dropAuthenticated(authenticated);
+    }
+    if (unauthenticated) {
+      unauthenticated.abort();
+      this.dropUnauthenticated(unauthenticated);
+    }
   }
 
   //
@@ -421,21 +430,7 @@ export class SocketManager extends EventListener {
 
     window.log.info('SocketManager: connected unauthenticated socket');
 
-    let timer: NodeJS.Timeout | undefined = setTimeout(() => {
-      window.log.info(
-        'SocketManager: shutting down unauthenticated socket after timeout'
-      );
-      timer = undefined;
-      unauthenticated.shutdown();
-      this.dropUnauthenticated(process);
-    }, FIVE_MINUTES);
-
     unauthenticated.addEventListener('close', ({ code, reason }): void => {
-      if (timer !== undefined) {
-        clearTimeout(timer);
-        timer = undefined;
-      }
-
       if (this.unauthenticated !== process) {
         return;
       }
@@ -577,10 +572,9 @@ export class SocketManager extends EventListener {
   private dropAuthenticated(
     process: AbortableProcess<WebSocketResource>
   ): void {
-    strictAssert(
-      this.authenticated === process,
-      'Authenticated resource mismatch'
-    );
+    if (this.authenticated !== process) {
+      return;
+    }
 
     this.incomingRequestQueue = [];
     this.authenticated = undefined;
@@ -590,11 +584,62 @@ export class SocketManager extends EventListener {
   private dropUnauthenticated(
     process: AbortableProcess<WebSocketResource>
   ): void {
-    strictAssert(
-      this.unauthenticated === process,
-      'Unauthenticated resource mismatch'
-    );
+    if (this.unauthenticated !== process) {
+      return;
+    }
+
     this.unauthenticated = undefined;
+    if (!this.unauthenticatedExpirationTimer) {
+      return;
+    }
+    clearTimeout(this.unauthenticatedExpirationTimer);
+    this.unauthenticatedExpirationTimer = undefined;
+  }
+
+  private async startUnauthenticatedExpirationTimer(
+    expected: WebSocketResource
+  ): Promise<void> {
+    const process = this.unauthenticated;
+    strictAssert(
+      process !== undefined,
+      'Unauthenticated socket must be connected'
+    );
+
+    const unauthenticated = await process.getResult();
+    strictAssert(
+      unauthenticated === expected,
+      'Unauthenticated resource should be the same'
+    );
+
+    if (this.unauthenticatedExpirationTimer) {
+      return;
+    }
+
+    window.log.info(
+      'SocketManager: starting expiration timer for unauthenticated socket'
+    );
+    this.unauthenticatedExpirationTimer = setTimeout(async () => {
+      window.log.info(
+        'SocketManager: shutting down unauthenticated socket after timeout'
+      );
+      unauthenticated.shutdown();
+
+      // The socket is either deliberately closed or reconnected already
+      if (this.unauthenticated !== process) {
+        return;
+      }
+
+      this.dropUnauthenticated(process);
+
+      try {
+        await this.getUnauthenticatedResource();
+      } catch (error) {
+        window.log.warn(
+          'SocketManager: failed to reconnect unauthenticated socket ' +
+            `due to error: ${Errors.toLogFormat(error)}`
+        );
+      }
+    }, FIVE_MINUTES);
   }
 
   private queueOrHandleRequest(req: IncomingWebSocketRequest): void {
