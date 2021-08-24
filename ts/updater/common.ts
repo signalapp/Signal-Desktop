@@ -132,11 +132,11 @@ export async function downloadUpdate(
     validatePath(tempDir, targetUpdatePath);
     validatePath(tempDir, targetSignaturePath);
 
-    logger.info(`downloadUpdate: Downloading ${signatureUrl}`);
+    logger.info(`downloadUpdate: Downloading signature ${signatureUrl}`);
     const { body } = await get(signatureUrl, getGotOptions());
     await writeFile(targetSignaturePath, body);
 
-    logger.info(`downloadUpdate: Downloading ${updateFileUrl}`);
+    logger.info(`downloadUpdate: Downloading update ${updateFileUrl}`);
     const downloadStream = stream(updateFileUrl, getGotOptions());
     const writeStream = createWriteStream(targetUpdatePath);
 
@@ -350,6 +350,7 @@ export function getCliOptions<T>(options: ParserConfiguration['options']): T {
 }
 
 export function setUpdateListener(performUpdateCallback: () => void): void {
+  ipcMain.removeAllListeners('start-update');
   ipcMain.once('start-update', performUpdateCallback);
 }
 
