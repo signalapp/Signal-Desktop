@@ -678,6 +678,14 @@ export async function startApp(): Promise<void> {
         `New version detected: ${currentVersion}; previous: ${lastVersion}`
       );
 
+      const remoteBuildExpiration = window.storage.get('remoteBuildExpiration');
+      if (remoteBuildExpiration) {
+        window.log.info(
+          `Clearing remoteBuildExpiration. Previous value was ${remoteBuildExpiration}`
+        );
+        window.storage.remove('remoteBuildExpiration');
+      }
+
       const themeSetting = window.Events.getThemeSetting();
       const newThemeSetting = mapOldThemeToNew(themeSetting);
 
@@ -1990,6 +1998,24 @@ export async function startApp(): Promise<void> {
           // Force a re-fetch before we process our queue. We may want to turn on
           //   something which changes how we process incoming messages!
           await window.Signal.RemoteConfig.refreshRemoteConfig(server);
+
+          const expiration = window.Signal.RemoteConfig.getValue(
+            'desktop.clientExpiration'
+          );
+          if (expiration) {
+            const remoteBuildExpirationTimestamp = window.Signal.Util.parseRemoteClientExpiration(
+              expiration as string
+            );
+            if (remoteBuildExpirationTimestamp) {
+              window.storage.put(
+                'remoteBuildExpiration',
+                remoteBuildExpirationTimestamp
+              );
+              window.reduxActions.expiration.hydrateExpirationStatus(
+                window.Signal.Util.hasExpired()
+              );
+            }
+          }
         } catch (error) {
           window.log.error(
             'connect: Error refreshing remote config:',
