@@ -448,7 +448,7 @@ function _updateJob(id: number, data: ClientJobUpdateType) {
         window.log.error(
           `Detected corruption. Restarting the application immediately. Error: ${error.message}`
         );
-        window.restart();
+        ipcRenderer?.send('database-error', error.message);
       }
 
       return reject(error);

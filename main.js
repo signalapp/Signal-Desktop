@@ -1143,6 +1143,42 @@ async function initializeSQL() {
 
 const sqlInitPromise = initializeSQL();
 
+const onDatabaseError = async error => {
+  const buttonIndex = dialog.showMessageBoxSync({
+    buttons: [
+      locale.messages.copyErrorAndQuit.message,
+      locale.messages.deleteAndRestart.message,
+    ],
+    defaultId: 0,
+    detail: redactAll(error),
+    message: locale.messages.databaseError.message,
+    noLink: true,
+    type: 'error',
+  });
+
+  if (buttonIndex === 0) {
+    clipboard.writeText(`Database startup error:\n\n${redactAll(error)}`);
+  } else {
+    await sql.removeDB();
+    removeUserConfig();
+    app.relaunch();
+  }
+
+  app.exit(1);
+};
+
+ipc.on('database-error', (event, error) => {
+  if (mainWindow) {
+    mainWindow.close();
+  }
+  mainWindow = undefined;
+
+  // Prevent window from re-opening
+  ready = false;
+
+  onDatabaseError(error);
+});
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
@@ -1300,29 +1336,8 @@ app.on('ready', async () => {
   const { error: sqlError } = await sqlInitPromise;
   if (sqlError) {
     console.log('sql.initialize was unsuccessful; returning early');
-    const buttonIndex = dialog.showMessageBoxSync({
-      buttons: [
-        locale.messages.copyErrorAndQuit.message,
-        locale.messages.deleteAndRestart.message,
-      ],
-      defaultId: 0,
-      detail: redactAll(sqlError.stack),
-      message: locale.messages.databaseError.message,
-      noLink: true,
-      type: 'error',
-    });
 
-    if (buttonIndex === 0) {
-      clipboard.writeText(
-        `Database startup error:\n\n${redactAll(sqlError.stack)}`
-      );
-    } else {
-      await sql.removeDB();
-      removeUserConfig();
-      app.relaunch();
-    }
-
-    app.exit(1);
+    await onDatabaseError(sqlError.stack);
 
     return;
   }
