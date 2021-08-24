@@ -5301,13 +5301,15 @@ button.module-image__border-overlay:focus {
 }
 
 .module-calling-button {
-  $size: 22px;
+  @mixin icon($path) {
+    @include color-svg($path, $color-white, $mask-origin: padding-box);
+    height: 24px;
+    width: 24px;
+  }
 
   &__participants {
-    @include color-svg('../images/icons/v2/group-solid-24.svg', $color-white);
+    @include icon('../images/icons/v2/group-solid-24.svg');
     display: inline-block;
-    height: $size;
-    width: $size;
 
     &--container {
       @include button-reset;
@@ -5332,42 +5334,23 @@ button.module-image__border-overlay:focus {
   }
 
   &__settings {
-    @include color-svg(
-      '../images/icons/v2/settings-solid-16.svg',
-      $color-white
-    );
-    height: $size;
-    width: $size;
+    @include icon('../images/icons/v2/settings-solid-16.svg');
   }
 
   &__grid-view {
-    @include color-svg(
-      '../images/icons/v2/grid-view-solid-24.svg',
-      $color-white
-    );
-    height: $size;
-    width: $size;
+    @include icon('../images/icons/v2/grid-view-solid-24.svg');
   }
 
   &__speaker-view {
-    @include color-svg(
-      '../images/icons/v2/speaker-view-solid-24.svg',
-      $color-white
-    );
-    height: $size;
-    width: $size;
+    @include icon('../images/icons/v2/speaker-view-solid-24.svg');
   }
 
   &__pip {
-    @include color-svg('../images/icons/v2/pip-minimize-24.svg', $color-white);
-    height: $size;
-    width: $size;
+    @include icon('../images/icons/v2/pip-minimize-24.svg');
   }
 
   &__cancel {
-    @include color-svg('../images/icons/v2/x-24.svg', $color-white);
-    height: $size;
-    width: $size;
+    @include icon('../images/icons/v2/x-24.svg');
   }
 }
 
