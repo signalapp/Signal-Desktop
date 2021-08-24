@@ -6,7 +6,7 @@ import { storiesOf } from '@storybook/react';
 import { boolean } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
-import { RelinkDialog } from './RelinkDialog';
+import { DialogRelink } from './DialogRelink';
 import { setup as setupI18n } from '../../js/modules/i18n';
 import enMessages from '../../_locales/en/messages.json';
 
@@ -27,19 +27,19 @@ const permutations = [
   },
 ];
 
-storiesOf('Components/RelinkDialog', module)
+storiesOf('Components/DialogRelink', module)
   .add('Knobs Playground', () => {
     const isRegistrationDone = boolean('isRegistrationDone', false);
 
     return (
-      <RelinkDialog {...defaultProps} isRegistrationDone={isRegistrationDone} />
+      <DialogRelink {...defaultProps} isRegistrationDone={isRegistrationDone} />
     );
   })
   .add('Iterations', () => {
     return permutations.map(({ props, title }) => (
       <>
         <h3>{title}</h3>
-        <RelinkDialog {...defaultProps} {...props} />
+        <DialogRelink {...defaultProps} {...props} />
       </>
     ));
   });

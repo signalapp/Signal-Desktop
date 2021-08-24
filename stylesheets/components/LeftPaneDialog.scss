@@ -46,6 +46,11 @@
     margin-right: 18px;
     background-color: $color-white;
 
+    &--relink {
+      -webkit-mask: url('../images/icons/v2/link-broken-16.svg') no-repeat
+        center;
+    }
+
     &--network {
       -webkit-mask: url('../images/icons/v2/offline-22.svg') no-repeat center;
     }
