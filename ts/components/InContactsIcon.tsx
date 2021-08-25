@@ -9,12 +9,12 @@ import { LocalizerType } from '../types/Util';
 
 type PropsType = {
   className?: string;
-  titleContainerRef?: React.RefObject<HTMLDivElement>;
+  tooltipContainerRef?: React.RefObject<HTMLElement>;
   i18n: LocalizerType;
 };
 
 export const InContactsIcon = (props: PropsType): JSX.Element => {
-  const { className, i18n, titleContainerRef } = props;
+  const { className, i18n, tooltipContainerRef } = props;
 
   /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
   return (
@@ -24,10 +24,7 @@ export const InContactsIcon = (props: PropsType): JSX.Element => {
         {
           name: 'preventOverflow',
           options: {
-            boundary:
-              titleContainerRef && (titleContainerRef.current as HTMLElement),
-            // Only detect overflow on the x-axis
-            mainAxis: true,
+            boundary: tooltipContainerRef?.current || undefined,
           },
         },
       ]}

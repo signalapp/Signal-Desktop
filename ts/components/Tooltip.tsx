@@ -5,8 +5,10 @@ import React from 'react';
 import classNames from 'classnames';
 import { noop } from 'lodash';
 import { Manager, Reference, Popper, PopperProps } from 'react-popper';
+
 import { Theme, themeClassName } from '../util/theme';
 import { multiRef } from '../util/multiRef';
+import { offsetDistanceModifier } from '../util/popperUtil';
 
 type EventWrapperPropsType = {
   children: React.ReactNode;
@@ -79,7 +81,7 @@ export const Tooltip: React.FC<PropsType> = ({
   direction,
   sticky,
   theme,
-  popperModifiers,
+  popperModifiers = [],
 }) => {
   const [isHovering, setIsHovering] = React.useState(false);
 
@@ -98,7 +100,10 @@ export const Tooltip: React.FC<PropsType> = ({
           </TooltipEventWrapper>
         )}
       </Reference>
-      <Popper placement={direction} modifiers={popperModifiers || undefined}>
+      <Popper
+        placement={direction}
+        modifiers={[offsetDistanceModifier(12), ...popperModifiers]}
+      >
         {({ arrowProps, placement, ref, style }) =>
           showTooltip && (
             <div

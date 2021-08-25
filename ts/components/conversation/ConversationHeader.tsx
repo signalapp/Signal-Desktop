@@ -166,7 +166,7 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
           <InContactsIcon
             className="module-ConversationHeader__header__info__title__in-contacts-icon"
             i18n={i18n}
-            titleContainerRef={this.titleContainerRef}
+            tooltipContainerRef={this.titleContainerRef}
           />
         ) : null}
       </div>
@@ -579,13 +579,16 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
     }
 
     const contents = (
-      <>
+      <div
+        className="module-conversation-header__title-container"
+        ref={this.titleContainerRef}
+      >
         {this.renderAvatar()}
         <div className="module-ConversationHeader__header__info">
           {this.renderHeaderInfoTitle()}
           {this.renderHeaderInfoSubtitle()}
         </div>
-      </>
+      </div>
     );
 
     if (onClick) {
@@ -653,12 +656,7 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
               ref={measureRef}
             >
               {this.renderBackButton()}
-              <div
-                className="module-conversation-header__title-container"
-                ref={this.titleContainerRef}
-              >
-                {this.renderHeader()}
-              </div>
+              {this.renderHeader()}
               {!isSMSOnly && this.renderOutgoingCallButtons()}
               {this.renderSearchButton()}
               {this.renderMoreButton(triggerId)}
