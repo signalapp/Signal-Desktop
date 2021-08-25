@@ -631,8 +631,6 @@ export type WhisperType = {
     ) => void;
   };
 
-  IdenticonSVGView: WhatIsThis;
-
   ExpiringMessagesListener: {
     init: (events: Backbone.Events) => void;
     update: () => void;
