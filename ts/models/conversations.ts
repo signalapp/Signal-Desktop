@@ -895,6 +895,9 @@ export class ConversationModel extends window.Backbone
   }
 
   enableProfileSharing({ viaStorageServiceSync = false } = {}): void {
+    window.log.info(
+      `enableProfileSharing: ${this.idForLogging()} storage? ${viaStorageServiceSync}`
+    );
     const before = this.get('profileSharing');
 
     this.set({ profileSharing: true });
@@ -907,6 +910,9 @@ export class ConversationModel extends window.Backbone
   }
 
   disableProfileSharing({ viaStorageServiceSync = false } = {}): void {
+    window.log.info(
+      `disableProfileSharing: ${this.idForLogging()} storage? ${viaStorageServiceSync}`
+    );
     const before = this.get('profileSharing');
 
     this.set({ profileSharing: false });
