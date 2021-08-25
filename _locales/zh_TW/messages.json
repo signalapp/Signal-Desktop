@@ -183,6 +183,10 @@
         "message": "聊天顏色",
         "description": "One of the menu options available in the Avatar Popup menu"
     },
+    "avatarMenuUpdateAvailable": {
+        "message": "更新 Signal",
+        "description": "One of the menu options available in the Avatar Popup menu"
+    },
     "loading": {
         "message": "載入中...",
         "description": "Message shown on the loading screen before we've loaded any messages"
@@ -650,15 +654,15 @@
         "description": "Displayed when the desktop client cannot connect to the server."
     },
     "connecting": {
-        "message": "連線中",
+        "message": "連線中...",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "connect": {
-        "message": "連結",
+        "message": "點擊以重新連接。",
         "description": "Shown to allow the user to manually attempt a reconnect."
     },
     "connectingHangOn": {
-        "message": "很快就好…",
+        "message": "應該不會久",
         "description": "Subtext description for when the client is connecting to the server."
     },
     "offline": {
@@ -806,6 +810,20 @@
     "welcomeToSignal": {
         "message": "歡迎來到 Signal",
         "description": ""
+    },
+    "whatsNew": {
+        "message": "在此更新中查看$whatsNew$",
+        "description": "Shown in the main window",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "what's new"
+            }
+        }
+    },
+    "viewReleaseNotes": {
+        "message": "有什麼更新",
+        "description": "Clickable link that displays the latest release notes"
     },
     "selectAContact": {
         "message": "選擇一個聯絡人或群組開始聊天。",
@@ -1271,7 +1289,7 @@
         "message": "連結新裝置",
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
-    "deviceName": {
+    "Preferences--device-name": {
         "message": "裝置名稱",
         "description": "The label in settings panel shown for the user-provided name for this desktop instance"
     },
@@ -1307,7 +1325,7 @@
         "message": "再試一次",
         "description": ""
     },
-    "theme": {
+    "Preferences--theme": {
         "message": "主題",
         "description": "Header for theme settings"
     },
@@ -1329,7 +1347,11 @@
     },
     "calling__call-is-full": {
         "message": "通話人數已滿",
-        "description": "Button label in the call lobby when you can't join because the call is full"
+        "description": "Text in the call lobby when you can't join because the call is full"
+    },
+    "calling__button--video__label": {
+        "message": "相機",
+        "description": "Label under the video button"
     },
     "calling__button--video-disabled": {
         "message": "相機已關閉",
@@ -1343,6 +1365,10 @@
         "message": "開啟相機",
         "description": "Button tooltip label for turning on the camera"
     },
+    "calling__button--audio__label": {
+        "message": "靜音對話",
+        "description": "Label under the audio button"
+    },
     "calling__button--audio-disabled": {
         "message": "麥克風已關閉",
         "description": "Button tooltip label when the microphone is disabled"
@@ -1354,6 +1380,10 @@
     "calling__button--audio-on": {
         "message": "麥克風關閉靜音",
         "description": "Button tooltip label for turning on the microphone"
+    },
+    "calling__button--presenting__label": {
+        "message": "分享",
+        "description": "Label under the share screen button"
     },
     "calling__button--presenting-disabled": {
         "message": "展示已關閉",
@@ -1371,11 +1401,11 @@
         "message": "你的相機已關閉",
         "description": "Label in the calling lobby indicating that your camera is off"
     },
-    "calling__lobby-summary--zero": {
+    "calling__pre-call-info--empty-group": {
         "message": "沒有人在這裡",
         "description": "Shown in the calling lobby to describe who is in the call"
     },
-    "calling__lobby-summary--single": {
+    "calling__pre-call-info--1-person-in-call": {
         "message": "$first$正在此通話中",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
@@ -1385,11 +1415,11 @@
             }
         }
     },
-    "calling__lobby-summary--self": {
+    "calling__pre-call-info--another-device-in-call": {
         "message": "你的其他裝置之一正在通話中",
         "description": "Shown in the calling lobby to describe when it is just you"
     },
-    "calling__lobby-summary--double": {
+    "calling__pre-call-info--2-people-in-call": {
         "message": "$first$ 和 $second$ 都在此通話中",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
@@ -1403,7 +1433,7 @@
             }
         }
     },
-    "calling__lobby-summary--triple": {
+    "calling__pre-call-info--3-people-in-call": {
         "message": "$first$, $second$, 和 $third$ 都在此通話中",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
@@ -1421,11 +1451,81 @@
             }
         }
     },
-    "calling__lobby-summary--many": {
+    "calling__pre-call-info--many-people-in-call": {
         "message": "$first$, $second$, 和 $others$ 其他人等都在此通話中 ",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "others": {
+                "content": "$3",
+                "example": "5"
+            }
+        }
+    },
+    "calling__pre-call-info--will-ring-1": {
+        "message": "Signal會給$person$打電話",
+        "description": "Shown in the calling lobby to describe who will be rung",
+        "placeholders": {
+            "person": {
+                "content": "$1",
+                "example": "Sam"
+            }
+        }
+    },
+    "calling__pre-call-info--will-notify-1": {
+        "message": "$person$ 會被通知",
+        "description": "Shown in the calling lobby to describe who will be notified",
+        "placeholders": {
+            "person": {
+                "content": "$1",
+                "example": "Sam"
+            }
+        }
+    },
+    "calling__pre-call-info--will-notify-2": {
+        "message": "$first$ 和 $second$ 會被通知",
+        "description": "Shown in the calling lobby to describe who will be notified",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            }
+        }
+    },
+    "calling__pre-call-info--will-notify-3": {
+        "message": "$first$、$second$，及$third$會被通知",
+        "description": "Shown in the calling lobby to describe who will be notified",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "third": {
+                "content": "$3",
+                "example": "April"
+            }
+        }
+    },
+    "calling__pre-call-info--will-notify-many": {
+        "message": "$first$、$second$，和$others$  等其他人會被通知",
+        "description": "Shown in the calling lobby to describe who will be notified",
+        "placeholders": {
+            "person": {
                 "content": "$1",
                 "example": "Sam"
             },
@@ -1561,7 +1661,7 @@
         "message": "透過 Signal 伺服器轉發通話，來避免透露你的 IP 位址給你的聯絡人。啟用時，會降低通話品質。",
         "description": "Details describing the always relay calls setting"
     },
-    "permissions": {
+    "Preferences--permissions": {
         "message": "權限",
         "description": "Header for permissions section of settings"
     },
@@ -1578,7 +1678,7 @@
         "description": "Header for general options on the settings screen"
     },
     "spellCheckDescription": {
-        "message": "啟用拼寫檢查",
+        "message": "在訊息撰寫框中的檢查拼寫文字",
         "description": "Description of the spell check setting"
     },
     "spellCheckWillBeEnabled": {
@@ -1602,7 +1702,7 @@
         "description": "Description for the automatic launch setting"
     },
     "clearDataHeader": {
-        "message": "清除資料",
+        "message": "清除應用程式資料",
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "clearDataExplanation": {
@@ -1740,7 +1840,7 @@
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
-        "message": "升級",
+        "message": "點擊進入signal.org/download",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "mediaMessage": {
@@ -1752,7 +1852,7 @@
         "description": "Error message displayed when sending to an unregistered user."
     },
     "sync": {
-        "message": "聯絡人",
+        "message": "匯入聯絡人",
         "description": "Label for contact and group sync settings"
     },
     "syncExplanation": {
@@ -2162,11 +2262,15 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Signal 有更新可用",
+        "message": "有可用更新",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "新版本的 Signal 已可供使用。",
+        "message": "點擊重新啟動Signal",
+        "description": ""
+    },
+    "downloadNewVersionMessage": {
+        "message": "點擊下載更新",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
@@ -4940,7 +5044,7 @@
         "description": "Displayed while checking if the contact is SMS-only"
     },
     "countMutedConversationsDescription": {
-        "message": "計算靜音對話的圖示上的計數",
+        "message": "在徽章計數中包括靜音對話",
         "description": "Description for counting muted conversations in badge setting"
     },
     "ContactModal--message": {
@@ -5734,7 +5838,7 @@
         }
     },
     "ErrorBoundaryNotification__text": {
-        "message": "由於內部錯誤，無法顯示訊息。 單擊以提交偵錯日誌。",
+        "message": "無法顯示此訊息。 點擊提交偵錯日誌。",
         "description": "An error notification displayed when message fails to render due to an internal error"
     },
     "GroupDescription__read-more": {
@@ -5896,5 +6000,169 @@
     "LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
         "message": "群組頭像",
         "description": "Title for the avatar picker in the group creation flow"
+    },
+    "Preferences__button--general": {
+        "message": "一般",
+        "description": "Button to switch the settings view"
+    },
+    "Preferences__button--appearance": {
+        "message": "介面設定",
+        "description": "Button to switch the settings view"
+    },
+    "Preferences__button--chats": {
+        "message": "聊天",
+        "description": "Button to switch the settings view"
+    },
+    "Preferences__button--calls": {
+        "message": "通話",
+        "description": "Button to switch the settings view"
+    },
+    "Preferences__button--notifications": {
+        "message": "通知",
+        "description": "Button to switch the settings view"
+    },
+    "Preferences__button--privacy": {
+        "message": "隱私權",
+        "description": "Button to switch the settings view"
+    },
+    "Preferences--lastSynced": {
+        "message": "最後匯入時間在$date$ $time$",
+        "description": "Label for date and time of last sync operation",
+        "placeholders": {
+            "date": {
+                "content": "$1",
+                "example": "6/9/2020"
+            },
+            "time": {
+                "content": "$2",
+                "example": "7:37:25 PM"
+            }
+        }
+    },
+    "Preferences--system": {
+        "message": "系統",
+        "description": "Title for system type settings"
+    },
+    "Preferences--zoom": {
+        "message": "縮放等級",
+        "description": "Label for changing the zoom level"
+    },
+    "Preferences__link-previews--title": {
+        "message": "建立連結預覽",
+        "description": "Title for the generate link previews setting"
+    },
+    "Preferences__link-previews--description": {
+        "message": "要變更此設定，請在你的行動裝置上開啟 Signal 應用程式並到設定 > 聊天",
+        "description": "Description for the generate link previews setting"
+    },
+    "Preferences--advanced": {
+        "message": "進階",
+        "description": "Title for advanced settings"
+    },
+    "Preferences--notification-content": {
+        "message": "通知內容",
+        "description": "Label for the notification content setting select box"
+    },
+    "Preferences--blocked": {
+        "message": "已封鎖",
+        "description": "Label for blocked contacts setting"
+    },
+    "Preferences--blocked-count-singular": {
+        "message": "$num$ 個聯絡人",
+        "description": "Number of contacts blocked singular",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "1"
+            }
+        }
+    },
+    "Preferences--blocked-count-plural": {
+        "message": "$num$ 個聯絡人",
+        "description": "Number of contacts blocked plural",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "20"
+            }
+        }
+    },
+    "Preferences__who-can--title": {
+        "message": "誰可以...",
+        "description": "Title for the 'who can do X' setting"
+    },
+    "Preferences__privacy--description": {
+        "message": "要變更這些設定，請在你的行動裝置上開啟 Signal 應用程式並至設定 > 隱私權",
+        "description": "Description for the 'who can do X' setting"
+    },
+    "Preferences__who-can--everybody": {
+        "message": "每個人",
+        "description": "Option for who can see my X select"
+    },
+    "Preferences__who-can--contacts": {
+        "message": "我的聯絡人",
+        "description": "Option for who can see my X select"
+    },
+    "Preferences__who-can--nobody": {
+        "message": "沒有人",
+        "description": "Option for who can see my X select"
+    },
+    "Preferences--messaging": {
+        "message": "傳訊",
+        "description": "Title for the messaging settings"
+    },
+    "Preferences--see-me": {
+        "message": "查看我的電話號碼",
+        "description": "Label for the see my phone number setting"
+    },
+    "Preferences--find-me": {
+        "message": "透過我的電話號碼找到我",
+        "description": "Label for the find me by my phone number setting"
+    },
+    "Preferences--read-receipts": {
+        "message": "已讀標記",
+        "description": "Label for the read receipts setting"
+    },
+    "Preferences--typing-indicators": {
+        "message": "打字狀態",
+        "description": "Label for the typing indicators setting"
+    },
+    "Preferences--updates": {
+        "message": "更新",
+        "description": "Header for settings having to do with updates"
+    },
+    "Preferences__download-update": {
+        "message": "自動下載更新",
+        "description": "Label for checkbox for the auto download updates setting"
+    },
+    "DialogUpdate--version-available": {
+        "message": "更新到可用的 $version$ 版本",
+        "description": "Tooltip for new update available",
+        "placeholders": {
+            "status": {
+                "content": "$1",
+                "example": "v7.7.7"
+            }
+        }
+    },
+    "WhatsNew__v5.15--1": {
+        "message": "不，這不是你需要從顯示器上清除的灰塵，現在有一個點用於未播放的傳入與音訊息。",
+        "description": "Release notes for v5.15"
+    },
+    "WhatsNew__v5.15--2": {
+        "message": "通話大廳進行了一些改造和翻新，我們甚至不必再融資。",
+        "description": "Release notes for v5.15"
+    },
+    "WhatsNew__v5.15--3": {
+        "message": "新的設定視窗更好更快。 繼續變更縮放等級，切換主題，設定自定義自動銷毀計時器",
+        "description": "Release notes for v5.15"
+    },
+    "WhatsNew__v5.15--4": {
+        "message": "你現在可以選擇何時下載和執行 Signal 的更新。 對話也進行了小改動。 查看新設定視窗中的設定選項。",
+        "description": "Release notes for v5.15"
+    },
+    "WhatsNew__v5.15--5": {
+        "message": "更正了許多錯誤，並且還有一些性能上的改進。 謝謝大家的回報！",
+        "description": "Release notes for v5.15"
     }
 }

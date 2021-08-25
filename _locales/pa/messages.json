@@ -1,6 +1,6 @@
 {
     "softwareAcknowledgments": {
-        "message": "ਸਾੱਫ਼ਟਵੇਅਰ ਆਭਾਰ",
+        "message": "ਸਾਫਟਵੇਅਰ ਆਭਾਰ",
         "description": "Shown in the about box for the link to software acknowledgments"
     },
     "privacyPolicy": {
@@ -8,7 +8,7 @@
         "description": "Shown in the about box for the link to https://signal.org/legal"
     },
     "copyErrorAndQuit": {
-        "message": "ਤਰੁੱਟੀ ਨੂੰ ਕਾਪੀ ਕਰੋ ਤੇ ਬਾਹਰ ਨਿਕਲੋ",
+        "message": "ਗਲਤੀ ਨੂੰ ਕਾਪੀ ਕਰੋ ਤੇ ਬਾਹਰ ਨਿਕਲੋ",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
     },
     "unknownContact": {
@@ -100,7 +100,7 @@
         "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
     },
     "editMenuDelete": {
-        "message": "ਮਿਟਾਓ",
+        "message": "ਹਟਾਓ",
         "description": "Edit menu command to remove the selected text"
     },
     "editMenuSelectAll": {
@@ -181,6 +181,10 @@
     },
     "avatarMenuChatColors": {
         "message": "ਚੈਟ ਦਾ ਰੰਗ",
+        "description": "One of the menu options available in the Avatar Popup menu"
+    },
+    "avatarMenuUpdateAvailable": {
+        "message": "Signal ਨੂੰ ਅੱਪਡੇਟ ਕਰੋ",
         "description": "One of the menu options available in the Avatar Popup menu"
     },
     "loading": {
@@ -528,7 +532,7 @@
         "description": ""
     },
     "incomingError": {
-        "message": "ਆਉਣ ਵਾਲੇ ਸੁਨੇਹੇ ਨੂੰ ਸੰਭਾਲਣ ਵਿੱਚ ਤਰੁੱਟੀ",
+        "message": "ਆਉਣ ਵਾਲੇ ਸੁਨੇਹੇ ਨੂੰ ਸੰਭਾਲਣ ਵਿੱਚ ਗਲਤੀ",
         "description": ""
     },
     "media": {
@@ -646,19 +650,19 @@
         "description": ""
     },
     "disconnected": {
-        "message": "ਕਨੈਕਸ਼ਨ ਬੰਦ",
+        "message": "ਕੁਨੈਕਸ਼ਨ ਬੰਦ",
         "description": "Displayed when the desktop client cannot connect to the server."
     },
     "connecting": {
-        "message": "ਕਨੈਕਟ ਕਰ ਰਿਹਾ ਹੈ",
+        "message": "ਕਨੈਕਟ ਕਰ ਰਿਹਾ ਹੈ ...",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "connect": {
-        "message": "ਕਨੈਕਟ ਕਰੋ",
+        "message": "ਮੁੜ-ਕਨੈਕਟ ਕਰਨ ਲਈ ਕਲਿੱਕ ਕਰੋ।",
         "description": "Shown to allow the user to manually attempt a reconnect."
     },
     "connectingHangOn": {
-        "message": "ਲੰਮਾ ਸਮਾਂ ਨਹੀ ਲੱਗਣਾ ਚਾਹੀਦਾ…",
+        "message": "Shouldn't be long",
         "description": "Subtext description for when the client is connecting to the server."
     },
     "offline": {
@@ -806,6 +810,20 @@
     "welcomeToSignal": {
         "message": "Signal ਵਿੱਚ ਤੁਹਾਡਾ ਸੁਆਗਤ ਹੈ",
         "description": ""
+    },
+    "whatsNew": {
+        "message": "ਇਸ ਅੱਪਡੇਟ ਲਈ $whatsNew$ਨੂੰ ਵੇਖੋ ",
+        "description": "Shown in the main window",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "what's new"
+            }
+        }
+    },
+    "viewReleaseNotes": {
+        "message": "ਨਵਾਂ ਕੀ ਹੈ",
+        "description": "Clickable link that displays the latest release notes"
     },
     "selectAContact": {
         "message": "ਚੈਟ ਕਰਨਾ ਸ਼ੁਰੂ ਕਰਨ ਲਈ ਕੋਈ ਸੰਪਰਕ ਜਾਂ ਗਰੁੱਪ ਚੁਣੋ।",
@@ -1026,7 +1044,7 @@
         "description": ""
     },
     "done": {
-        "message": "ਹੋ ਗਿਆ",
+        "message": "ਮੁਕੰਮਲ",
         "description": "Label for done"
     },
     "on": {
@@ -1202,7 +1220,7 @@
         }
     },
     "ChangeNumber--notification": {
-        "message": "$sender$ changed their number to a new number",
+        "message": "$sender$ਨੇ ਆਪਣਾ ਨੰਬਰ ਨਵੇਂ ਨੰਬਰ ਨਾਲ ਬਦਲਿਆ ਹੈ ",
         "description": "Shown in timeline when a member of a conversation changes their phone number",
         "placeholders": {
             "sender": {
@@ -1271,7 +1289,7 @@
         "message": "ਨਵੀਂ ਡਿਵਾਈਸ ਨੂੰ ਲਿੰਕ ਕਰੋ",
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
-    "deviceName": {
+    "Preferences--device-name": {
         "message": "ਡਿਵਾਈਸ ਦਾ ਨਾਂ",
         "description": "The label in settings panel shown for the user-provided name for this desktop instance"
     },
@@ -1307,8 +1325,8 @@
         "message": "ਫਿਰ ਕੋਸ਼ਿਸ਼ ਕਰੋ",
         "description": ""
     },
-    "theme": {
-        "message": "ਵਿਸ਼ਾ",
+    "Preferences--theme": {
+        "message": "ਥੀਮ",
         "description": "Header for theme settings"
     },
     "calling": {
@@ -1329,7 +1347,11 @@
     },
     "calling__call-is-full": {
         "message": "ਕਾਲ ਭਰੀ ਹੋਈ ਹੈ",
-        "description": "Button label in the call lobby when you can't join because the call is full"
+        "description": "Text in the call lobby when you can't join because the call is full"
+    },
+    "calling__button--video__label": {
+        "message": "ਕੈਮਰਾ ",
+        "description": "Label under the video button"
     },
     "calling__button--video-disabled": {
         "message": "ਕੈਮਰਾ ਅਸਮਰੱਥ ਹੈ",
@@ -1343,6 +1365,10 @@
         "message": "ਕੈਮਰਾ ਚਾਲੂ ਕਰੋ",
         "description": "Button tooltip label for turning on the camera"
     },
+    "calling__button--audio__label": {
+        "message": "ਚੁੱਪ",
+        "description": "Label under the audio button"
+    },
     "calling__button--audio-disabled": {
         "message": "ਮਾਈਕਰੋਫ਼ੋਨ ਅਸਮਰੱਥ",
         "description": "Button tooltip label when the microphone is disabled"
@@ -1354,6 +1380,10 @@
     "calling__button--audio-on": {
         "message": "ਮਾਈਕ ਨੂੰ ਅਨਮਿਊਟ ਕਰੋ",
         "description": "Button tooltip label for turning on the microphone"
+    },
+    "calling__button--presenting__label": {
+        "message": "ਸਾਂਝਾ ਕਰੋ",
+        "description": "Label under the share screen button"
     },
     "calling__button--presenting-disabled": {
         "message": "ਪੇਸ਼ ਕਰਨਾ ਅਸਮਰੱਥ ਹੈ",
@@ -1371,11 +1401,11 @@
         "message": "ਤੁਹਾਡਾ ਕੈਮਰਾ ਬੰਦ ਹੈ",
         "description": "Label in the calling lobby indicating that your camera is off"
     },
-    "calling__lobby-summary--zero": {
+    "calling__pre-call-info--empty-group": {
         "message": "ਇੱਥੇ ਹੋਰ ਕੋਈ ਨਹੀਂ ਹੈ",
         "description": "Shown in the calling lobby to describe who is in the call"
     },
-    "calling__lobby-summary--single": {
+    "calling__pre-call-info--1-person-in-call": {
         "message": "$first$ ਇਸ ਕਾਲ ਵਿੱਚ ਹੈ",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
@@ -1385,11 +1415,11 @@
             }
         }
     },
-    "calling__lobby-summary--self": {
+    "calling__pre-call-info--another-device-in-call": {
         "message": "ਤੁਹਾਡੀਆਂ ਹੋਰ ਡਿਵਾਈਸਾਂ ਵਿੱਚੋਂ ਇੱਕ ਇਸ ਕਾਲ ਵਿੱਚ ਹੈ",
         "description": "Shown in the calling lobby to describe when it is just you"
     },
-    "calling__lobby-summary--double": {
+    "calling__pre-call-info--2-people-in-call": {
         "message": "$first$ ਅਤੇ $second$ ਇਸ ਕਾਲ ਵਿੱਚ ਹਨ",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
@@ -1403,7 +1433,7 @@
             }
         }
     },
-    "calling__lobby-summary--triple": {
+    "calling__pre-call-info--3-people-in-call": {
         "message": "$first$, $second$ ਅਤੇ $third$ ਇਸ ਕਾਲ ਵਿੱਚ ਹਨ",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
@@ -1421,11 +1451,81 @@
             }
         }
     },
-    "calling__lobby-summary--many": {
+    "calling__pre-call-info--many-people-in-call": {
         "message": "$first$, $second$ ਅਤੇ $others$ ਹੋਰ ਇਸ ਕਾਲ ਵਿੱਚ ਹਨ",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "others": {
+                "content": "$3",
+                "example": "5"
+            }
+        }
+    },
+    "calling__pre-call-info--will-ring-1": {
+        "message": "Signal will ring $person$",
+        "description": "Shown in the calling lobby to describe who will be rung",
+        "placeholders": {
+            "person": {
+                "content": "$1",
+                "example": "Sam"
+            }
+        }
+    },
+    "calling__pre-call-info--will-notify-1": {
+        "message": "$person$ ਨੂੰ ਸੂਚਿਤ ਕੀਤਾ ਜਾਵੇਗਾ",
+        "description": "Shown in the calling lobby to describe who will be notified",
+        "placeholders": {
+            "person": {
+                "content": "$1",
+                "example": "Sam"
+            }
+        }
+    },
+    "calling__pre-call-info--will-notify-2": {
+        "message": "$first$ and $second$ will be notified",
+        "description": "Shown in the calling lobby to describe who will be notified",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            }
+        }
+    },
+    "calling__pre-call-info--will-notify-3": {
+        "message": "$first$, $second$, and $third$ will be notified",
+        "description": "Shown in the calling lobby to describe who will be notified",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "third": {
+                "content": "$3",
+                "example": "April"
+            }
+        }
+    },
+    "calling__pre-call-info--will-notify-many": {
+        "message": "$first$, $second$, and $others$ others will be notified",
+        "description": "Shown in the calling lobby to describe who will be notified",
+        "placeholders": {
+            "person": {
                 "content": "$1",
                 "example": "Sam"
             },
@@ -1561,7 +1661,7 @@
         "message": "ਆਪਣੇ ਸੰਪਰਕ ਨੂੰ ਤੁਹਾਡੇ IP ਦਾ ਪਤਾ ਲੱਗਣ ਤੋਂ ਬਚਾਉਣ ਲਈ Signal ਸਰਵਰ ਰਾਹੀਂ ਸਾਰੀਆਂ ਕਾਲਾਂ ਨੂੰ ਰੀਲੇਅ ਕਰੋ। ਸਮਰੱਥ ਬਣਾਉਣ ਨਾਲ ਕਾਲ ਦੀ ਗੁਣਵੱਤਾ ਘਟੇਗੀ।",
         "description": "Details describing the always relay calls setting"
     },
-    "permissions": {
+    "Preferences--permissions": {
         "message": "ਇਜਾਜ਼ਤਾਂ",
         "description": "Header for permissions section of settings"
     },
@@ -1578,7 +1678,7 @@
         "description": "Header for general options on the settings screen"
     },
     "spellCheckDescription": {
-        "message": "ਸ਼ਬਦ-ਜੋੜ ਦੀ ਜਾਂਚ ਸਮਰੱਥ ਕਰੋ",
+        "message": "Spell check text entered in message composition box",
         "description": "Description of the spell check setting"
     },
     "spellCheckWillBeEnabled": {
@@ -1602,7 +1702,7 @@
         "description": "Description for the automatic launch setting"
     },
     "clearDataHeader": {
-        "message": "ਡੇਟਾ ਮਿਟਾਓ",
+        "message": "ਐਪਲੀਕੇਸ਼ਨ ਦੇ ਡਾਟੇ ਨੂੰ ਮਿਟਾਓ",
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "clearDataExplanation": {
@@ -1740,7 +1840,7 @@
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
-        "message": "ਅੱਪਗ੍ਰੇਡ ਕਰੋ",
+        "message": "signal.org/download ‘ਤੇ ਜਾਣ ਲਈ ਕਲਿੱਕ ਕਰੋ",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "mediaMessage": {
@@ -1752,7 +1852,7 @@
         "description": "Error message displayed when sending to an unregistered user."
     },
     "sync": {
-        "message": "ਸੰਪਰਕ",
+        "message": "Import contacts",
         "description": "Label for contact and group sync settings"
     },
     "syncExplanation": {
@@ -1912,7 +2012,7 @@
         }
     },
     "audioNotificationDescription": {
-        "message": "ਆਡੀਓ ਨੋਟੀਫਿਕੇਸ਼ਨ ਚਲਾਓ",
+        "message": "Play notification sounds",
         "description": "Description for audio notification setting"
     },
     "callRingtoneNotificationDescription": {
@@ -2162,11 +2262,15 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Signal ਅੱਪਡੇਟ ਮੌਜੂਦ",
+        "message": "ਅੱਪਡੇਟ ਮੌਜੂਦ ਹੈ",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "Signal ਦਾ ਨਵਾਂ ਸੰਸਕਰਣ ਮੌਜੂਦ ਹੈ।",
+        "message": "Signal ਮੁੜ-ਚਾਲੂ ਕਰਨ ਲਈ ਕਲਿੱਕ ਕਰੋ",
+        "description": ""
+    },
+    "downloadNewVersionMessage": {
+        "message": "ਅੱਪਡੇਟ ਡਾਊਨਲੋਡ ਕਰਨ ਲਈ ਕਲਿੱਕ ਕਰੋ",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
@@ -4940,7 +5044,7 @@
         "description": "Displayed while checking if the contact is SMS-only"
     },
     "countMutedConversationsDescription": {
-        "message": "ਬੈਜ ਕਾਊਂਟ ਵਿੱਚ ਮਿਊਟ ਕੀਤੀਆਂ ਗੱਲਬਾਤਾਂ ਦੀ ਗਿਣਤੀ ਕਰੋ",
+        "message": "Include muted conversations in badge count",
         "description": "Description for counting muted conversations in badge setting"
     },
     "ContactModal--message": {
@@ -5734,7 +5838,7 @@
         }
     },
     "ErrorBoundaryNotification__text": {
-        "message": "Failed to display the message due to an internal error. Click to submit a debug log.",
+        "message": "Couldn't display this message. Click to submit a debug log.",
         "description": "An error notification displayed when message fails to render due to an internal error"
     },
     "GroupDescription__read-more": {
@@ -5890,11 +5994,175 @@
         "description": "Label for the avatar selector"
     },
     "AvatarColorPicker--choose": {
-        "message": "Choose a color",
+        "message": "ਰੰਗ ਚੁਣੋ",
         "description": "Label for when you need to choose your fighter, err color"
     },
     "LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
         "message": "Group Avatar",
         "description": "Title for the avatar picker in the group creation flow"
+    },
+    "Preferences__button--general": {
+        "message": "ਆਮ",
+        "description": "Button to switch the settings view"
+    },
+    "Preferences__button--appearance": {
+        "message": "ਦਿੱਖ",
+        "description": "Button to switch the settings view"
+    },
+    "Preferences__button--chats": {
+        "message": "ਚੈਟਾਂ",
+        "description": "Button to switch the settings view"
+    },
+    "Preferences__button--calls": {
+        "message": "ਕਾਲਾਂ ",
+        "description": "Button to switch the settings view"
+    },
+    "Preferences__button--notifications": {
+        "message": "ਸੂਚਨਾਵਾਂ",
+        "description": "Button to switch the settings view"
+    },
+    "Preferences__button--privacy": {
+        "message": "ਪਰਦੇਦਾਰੀ",
+        "description": "Button to switch the settings view"
+    },
+    "Preferences--lastSynced": {
+        "message": "Last import at $date$ $time$",
+        "description": "Label for date and time of last sync operation",
+        "placeholders": {
+            "date": {
+                "content": "$1",
+                "example": "6/9/2020"
+            },
+            "time": {
+                "content": "$2",
+                "example": "7:37:25 PM"
+            }
+        }
+    },
+    "Preferences--system": {
+        "message": "ਸਿਸਟਮ",
+        "description": "Title for system type settings"
+    },
+    "Preferences--zoom": {
+        "message": "Zoom level",
+        "description": "Label for changing the zoom level"
+    },
+    "Preferences__link-previews--title": {
+        "message": "ਲਿੰਕ ਝਲਕ ਤਿਆਰ ਕਰੋ",
+        "description": "Title for the generate link previews setting"
+    },
+    "Preferences__link-previews--description": {
+        "message": "To change this setting, open the Signal app on your mobile device and navigate to Settings > Chats",
+        "description": "Description for the generate link previews setting"
+    },
+    "Preferences--advanced": {
+        "message": "ਤਕਨੀਕੀ",
+        "description": "Title for advanced settings"
+    },
+    "Preferences--notification-content": {
+        "message": "Notification content",
+        "description": "Label for the notification content setting select box"
+    },
+    "Preferences--blocked": {
+        "message": "ਪਾਬੰਦੀ ਲੱਗਾ",
+        "description": "Label for blocked contacts setting"
+    },
+    "Preferences--blocked-count-singular": {
+        "message": "$num$ਸੰਪਰਕ",
+        "description": "Number of contacts blocked singular",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "1"
+            }
+        }
+    },
+    "Preferences--blocked-count-plural": {
+        "message": "$num$ਸੰਪਰਕ",
+        "description": "Number of contacts blocked plural",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "20"
+            }
+        }
+    },
+    "Preferences__who-can--title": {
+        "message": "ਕੌਣ...",
+        "description": "Title for the 'who can do X' setting"
+    },
+    "Preferences__privacy--description": {
+        "message": "To change these settings, open the Signal app on your mobile device and navigate to Settings > Privacy",
+        "description": "Description for the 'who can do X' setting"
+    },
+    "Preferences__who-can--everybody": {
+        "message": "ਹਰ ਕੋਈ",
+        "description": "Option for who can see my X select"
+    },
+    "Preferences__who-can--contacts": {
+        "message": "ਮੇਰੇ ਸੰਪਰਕ",
+        "description": "Option for who can see my X select"
+    },
+    "Preferences__who-can--nobody": {
+        "message": "ਕੋਈ ਵੀ ਨਹੀਂ",
+        "description": "Option for who can see my X select"
+    },
+    "Preferences--messaging": {
+        "message": "ਸੁਨੇਹੇ ਲੈਣ-ਦੇਣ",
+        "description": "Title for the messaging settings"
+    },
+    "Preferences--see-me": {
+        "message": "ਮੇਰੇ ਫੋਨ ਨੰਬਰ ਵੇਖਾਓ",
+        "description": "Label for the see my phone number setting"
+    },
+    "Preferences--find-me": {
+        "message": "Find me by my phone number",
+        "description": "Label for the find me by my phone number setting"
+    },
+    "Preferences--read-receipts": {
+        "message": "ਪੜ੍ਹੀਆਂ ਹੋਇਆਂ ਰਸੀਦਾਂ",
+        "description": "Label for the read receipts setting"
+    },
+    "Preferences--typing-indicators": {
+        "message": "ਲਿਖਣ ਦੇ ਸੰਕੇਤ",
+        "description": "Label for the typing indicators setting"
+    },
+    "Preferences--updates": {
+        "message": "ਅੱਪਡੇਟ",
+        "description": "Header for settings having to do with updates"
+    },
+    "Preferences__download-update": {
+        "message": "ਅੱਪਡੇਟ ਆਪਣੇ-ਆਪ ਡਾਊਨਲੋਡ ਕਰੋ",
+        "description": "Label for checkbox for the auto download updates setting"
+    },
+    "DialogUpdate--version-available": {
+        "message": "$version$ਵਰਜ਼ਨ ਲਈ ਅੱਪਡੇਟ ਮੌਜੂਦ ਹੈ",
+        "description": "Tooltip for new update available",
+        "placeholders": {
+            "status": {
+                "content": "$1",
+                "example": "v7.7.7"
+            }
+        }
+    },
+    "WhatsNew__v5.15--1": {
+        "message": "No that's not speck of dust you need to flick off your monitor, there's now a dot for unplayed incoming audio messages.",
+        "description": "Release notes for v5.15"
+    },
+    "WhatsNew__v5.15--2": {
+        "message": "The calling lobby got some remodeling and renovations done and we didn't even have to refinance.",
+        "description": "Release notes for v5.15"
+    },
+    "WhatsNew__v5.15--3": {
+        "message": "The new preferences window is better and faster. Go ahead and change your zoom level, toggle the theme, set a custom disappearing timer.",
+        "description": "Release notes for v5.15"
+    },
+    "WhatsNew__v5.15--4": {
+        "message": "You can now choose when to download and apply new updates for Signal. The dialogs got a small makeover too. Check out the setting in the new preferences window.",
+        "description": "Release notes for v5.15"
+    },
+    "WhatsNew__v5.15--5": {
+        "message": "Squashed lots of bugs and there are some performance improvements as well. Thank you all for your reports!",
+        "description": "Release notes for v5.15"
     }
 }

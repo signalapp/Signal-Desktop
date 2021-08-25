@@ -183,6 +183,10 @@
         "message": "Couleur de la conversation",
         "description": "One of the menu options available in the Avatar Popup menu"
     },
+    "avatarMenuUpdateAvailable": {
+        "message": "Mettre Signal à jour",
+        "description": "One of the menu options available in the Avatar Popup menu"
+    },
     "loading": {
         "message": "Chargement…",
         "description": "Message shown on the loading screen before we've loaded any messages"
@@ -650,15 +654,15 @@
         "description": "Displayed when the desktop client cannot connect to the server."
     },
     "connecting": {
-        "message": "Connexion",
+        "message": "Connexion…",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "connect": {
-        "message": "Se connecter",
+        "message": "Cliquez pour vous reconnecter.",
         "description": "Shown to allow the user to manually attempt a reconnect."
     },
     "connectingHangOn": {
-        "message": "Ça ne devrait pas être long…",
+        "message": "Ça ne devrait pas être long",
         "description": "Subtext description for when the client is connecting to the server."
     },
     "offline": {
@@ -806,6 +810,20 @@
     "welcomeToSignal": {
         "message": "Bienvenue sur Signal",
         "description": ""
+    },
+    "whatsNew": {
+        "message": "Consultez $whatsNew$ de cette mise à jour",
+        "description": "Shown in the main window",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "what's new"
+            }
+        }
+    },
+    "viewReleaseNotes": {
+        "message": "les nouveautés",
+        "description": "Clickable link that displays the latest release notes"
     },
     "selectAContact": {
         "message": "Sélectionnez un contact ou un groupe pour lancer une conversation.",
@@ -1271,7 +1289,7 @@
         "message": "Relier un nouvel appareil",
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
-    "deviceName": {
+    "Preferences--device-name": {
         "message": "Nom de l’appareil ",
         "description": "The label in settings panel shown for the user-provided name for this desktop instance"
     },
@@ -1307,7 +1325,7 @@
         "message": "Réessayer",
         "description": ""
     },
-    "theme": {
+    "Preferences--theme": {
         "message": "Thème",
         "description": "Header for theme settings"
     },
@@ -1329,7 +1347,11 @@
     },
     "calling__call-is-full": {
         "message": "L’appel est complet",
-        "description": "Button label in the call lobby when you can't join because the call is full"
+        "description": "Text in the call lobby when you can't join because the call is full"
+    },
+    "calling__button--video__label": {
+        "message": "Appareil photo",
+        "description": "Label under the video button"
     },
     "calling__button--video-disabled": {
         "message": "L’appareil photo est désactivé",
@@ -1343,6 +1365,10 @@
         "message": "Activer l’appareil photo",
         "description": "Button tooltip label for turning on the camera"
     },
+    "calling__button--audio__label": {
+        "message": "Sourdine",
+        "description": "Label under the audio button"
+    },
     "calling__button--audio-disabled": {
         "message": "Le microphone a été désactivé",
         "description": "Button tooltip label when the microphone is disabled"
@@ -1354,6 +1380,10 @@
     "calling__button--audio-on": {
         "message": "Réactiver le microphone",
         "description": "Button tooltip label for turning on the microphone"
+    },
+    "calling__button--presenting__label": {
+        "message": "Partager",
+        "description": "Label under the share screen button"
     },
     "calling__button--presenting-disabled": {
         "message": "Présentation désactivée",
@@ -1371,11 +1401,11 @@
         "message": "Votre caméra est désactivée",
         "description": "Label in the calling lobby indicating that your camera is off"
     },
-    "calling__lobby-summary--zero": {
+    "calling__pre-call-info--empty-group": {
         "message": "Il n’y a personne d’autre ici",
         "description": "Shown in the calling lobby to describe who is in the call"
     },
-    "calling__lobby-summary--single": {
+    "calling__pre-call-info--1-person-in-call": {
         "message": "$first$ fait partie de cet appel",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
@@ -1385,11 +1415,11 @@
             }
         }
     },
-    "calling__lobby-summary--self": {
+    "calling__pre-call-info--another-device-in-call": {
         "message": "Un de vos autres appareils fait partie de cet appel",
         "description": "Shown in the calling lobby to describe when it is just you"
     },
-    "calling__lobby-summary--double": {
+    "calling__pre-call-info--2-people-in-call": {
         "message": "$first$ et $second$ font partie de cet appel",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
@@ -1403,7 +1433,7 @@
             }
         }
     },
-    "calling__lobby-summary--triple": {
+    "calling__pre-call-info--3-people-in-call": {
         "message": "$first$, $second$ et $third$ font partie de cet appel",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
@@ -1421,11 +1451,81 @@
             }
         }
     },
-    "calling__lobby-summary--many": {
+    "calling__pre-call-info--many-people-in-call": {
         "message": "$first$, $second$ et $others$ autres personnes font partie de cet appel",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "others": {
+                "content": "$3",
+                "example": "5"
+            }
+        }
+    },
+    "calling__pre-call-info--will-ring-1": {
+        "message": "Signal will ring $person$",
+        "description": "Shown in the calling lobby to describe who will be rung",
+        "placeholders": {
+            "person": {
+                "content": "$1",
+                "example": "Sam"
+            }
+        }
+    },
+    "calling__pre-call-info--will-notify-1": {
+        "message": "$person$ sera notifié",
+        "description": "Shown in the calling lobby to describe who will be notified",
+        "placeholders": {
+            "person": {
+                "content": "$1",
+                "example": "Sam"
+            }
+        }
+    },
+    "calling__pre-call-info--will-notify-2": {
+        "message": "$first$ et $second$ seront notifiés",
+        "description": "Shown in the calling lobby to describe who will be notified",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            }
+        }
+    },
+    "calling__pre-call-info--will-notify-3": {
+        "message": "$first$, $second$ et $third$ seront notifiés",
+        "description": "Shown in the calling lobby to describe who will be notified",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "third": {
+                "content": "$3",
+                "example": "April"
+            }
+        }
+    },
+    "calling__pre-call-info--will-notify-many": {
+        "message": "$first$, $second$ et $others$ autres seront notifiés",
+        "description": "Shown in the calling lobby to describe who will be notified",
+        "placeholders": {
+            "person": {
                 "content": "$1",
                 "example": "Sam"
             },
@@ -1561,7 +1661,7 @@
         "message": "Relayer tous les appels par le serveur Signal pour éviter de divulguer votre adresse IP à votre contact. L’activation de cette option réduira la qualité des appels.",
         "description": "Details describing the always relay calls setting"
     },
-    "permissions": {
+    "Preferences--permissions": {
         "message": "Autorisations",
         "description": "Header for permissions section of settings"
     },
@@ -1578,7 +1678,7 @@
         "description": "Header for general options on the settings screen"
     },
     "spellCheckDescription": {
-        "message": "Activer la vérification orthographique",
+        "message": "Spell check text entered in message composition box",
         "description": "Description of the spell check setting"
     },
     "spellCheckWillBeEnabled": {
@@ -1602,7 +1702,7 @@
         "description": "Description for the automatic launch setting"
     },
     "clearDataHeader": {
-        "message": "Suppression des données",
+        "message": "Clear application data",
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "clearDataExplanation": {
@@ -1740,7 +1840,7 @@
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
-        "message": "Mettre à niveau",
+        "message": "Click to go to signal.org/download",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "mediaMessage": {
@@ -1752,7 +1852,7 @@
         "description": "Error message displayed when sending to an unregistered user."
     },
     "sync": {
-        "message": "Contacts",
+        "message": "Import contacts",
         "description": "Label for contact and group sync settings"
     },
     "syncExplanation": {
@@ -1912,7 +2012,7 @@
         }
     },
     "audioNotificationDescription": {
-        "message": "Jouer une notification sonore",
+        "message": "Jouer les sons de notification",
         "description": "Description for audio notification setting"
     },
     "callRingtoneNotificationDescription": {
@@ -2162,11 +2262,15 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Une mise à jour de Signal est proposée",
+        "message": "Mise à jour disponible",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "Une nouvelle version de Signal est proposée.",
+        "message": "Cliquez pour redémarrer Signal",
+        "description": ""
+    },
+    "downloadNewVersionMessage": {
+        "message": "Cliquez pour télécharger la mise à jour",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
@@ -4940,7 +5044,7 @@
         "description": "Displayed while checking if the contact is SMS-only"
     },
     "countMutedConversationsDescription": {
-        "message": "Compter les conversations en sourdine dans la pastille de comptage",
+        "message": "Inclure les conversations en sourdine dans la pastille de comptage",
         "description": "Description for counting muted conversations in badge setting"
     },
     "ContactModal--message": {
@@ -5114,7 +5218,7 @@
         "description": "In the conversation notifications settings, this is the label for the mentions option"
     },
     "ConversationNotificationsSettings__mentions__info": {
-        "message": "Receive notifications when you're mentioned in muted chats",
+        "message": "Recevoir des notifications quand vous êtes mentionné dans des conversations en sourdine",
         "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
     },
     "ConversationNotificationsSettings__mentions__select__always-notify": {
@@ -5122,7 +5226,7 @@
         "description": "In the conversation notifications settings, this is the option that always notifies you for @mentions"
     },
     "ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
-        "message": "Don't notify if muted",
+        "message": "Ne pas m’avertir en sourdine",
         "description": "In the conversation notifications settings, this is the option that doesn't notify you for @mentions if the conversation is muted"
     },
     "GroupLinkManagement--clipboard": {
@@ -5734,7 +5838,7 @@
         }
     },
     "ErrorBoundaryNotification__text": {
-        "message": "Failed to display the message due to an internal error. Click to submit a debug log.",
+        "message": "Couldn't display this message. Click to submit a debug log.",
         "description": "An error notification displayed when message fails to render due to an internal error"
     },
     "GroupDescription__read-more": {
@@ -5896,5 +6000,169 @@
     "LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
         "message": "Group Avatar",
         "description": "Title for the avatar picker in the group creation flow"
+    },
+    "Preferences__button--general": {
+        "message": "Général",
+        "description": "Button to switch the settings view"
+    },
+    "Preferences__button--appearance": {
+        "message": "Apparence",
+        "description": "Button to switch the settings view"
+    },
+    "Preferences__button--chats": {
+        "message": "Conversations",
+        "description": "Button to switch the settings view"
+    },
+    "Preferences__button--calls": {
+        "message": "Appels",
+        "description": "Button to switch the settings view"
+    },
+    "Preferences__button--notifications": {
+        "message": "Notifications",
+        "description": "Button to switch the settings view"
+    },
+    "Preferences__button--privacy": {
+        "message": "Confidentialité",
+        "description": "Button to switch the settings view"
+    },
+    "Preferences--lastSynced": {
+        "message": "Last import at $date$ $time$",
+        "description": "Label for date and time of last sync operation",
+        "placeholders": {
+            "date": {
+                "content": "$1",
+                "example": "6/9/2020"
+            },
+            "time": {
+                "content": "$2",
+                "example": "7:37:25 PM"
+            }
+        }
+    },
+    "Preferences--system": {
+        "message": "Système",
+        "description": "Title for system type settings"
+    },
+    "Preferences--zoom": {
+        "message": "Zoom level",
+        "description": "Label for changing the zoom level"
+    },
+    "Preferences__link-previews--title": {
+        "message": "Générer des aperçus de lien",
+        "description": "Title for the generate link previews setting"
+    },
+    "Preferences__link-previews--description": {
+        "message": "To change this setting, open the Signal app on your mobile device and navigate to Settings > Chats",
+        "description": "Description for the generate link previews setting"
+    },
+    "Preferences--advanced": {
+        "message": "Avancés",
+        "description": "Title for advanced settings"
+    },
+    "Preferences--notification-content": {
+        "message": "Notification content",
+        "description": "Label for the notification content setting select box"
+    },
+    "Preferences--blocked": {
+        "message": "Bloquée",
+        "description": "Label for blocked contacts setting"
+    },
+    "Preferences--blocked-count-singular": {
+        "message": "$num$ contact",
+        "description": "Number of contacts blocked singular",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "1"
+            }
+        }
+    },
+    "Preferences--blocked-count-plural": {
+        "message": "$num$ contacts",
+        "description": "Number of contacts blocked plural",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "20"
+            }
+        }
+    },
+    "Preferences__who-can--title": {
+        "message": "Qui peut…",
+        "description": "Title for the 'who can do X' setting"
+    },
+    "Preferences__privacy--description": {
+        "message": "Pour modifier ces paramètres, ouvrez l’application Signal sur votre appareil mobile et naviguez dans Paramètres > Confidentialité",
+        "description": "Description for the 'who can do X' setting"
+    },
+    "Preferences__who-can--everybody": {
+        "message": "Tout le monde",
+        "description": "Option for who can see my X select"
+    },
+    "Preferences__who-can--contacts": {
+        "message": "Mes contacts",
+        "description": "Option for who can see my X select"
+    },
+    "Preferences__who-can--nobody": {
+        "message": "Personne",
+        "description": "Option for who can see my X select"
+    },
+    "Preferences--messaging": {
+        "message": "Messagerie",
+        "description": "Title for the messaging settings"
+    },
+    "Preferences--see-me": {
+        "message": "Voir mon numéro de téléphone",
+        "description": "Label for the see my phone number setting"
+    },
+    "Preferences--find-me": {
+        "message": "Me trouver avec mon numéro de téléphone",
+        "description": "Label for the find me by my phone number setting"
+    },
+    "Preferences--read-receipts": {
+        "message": "Accusés de lecture",
+        "description": "Label for the read receipts setting"
+    },
+    "Preferences--typing-indicators": {
+        "message": "Indicateurs de saisie",
+        "description": "Label for the typing indicators setting"
+    },
+    "Preferences--updates": {
+        "message": "Mises à jour",
+        "description": "Header for settings having to do with updates"
+    },
+    "Preferences__download-update": {
+        "message": "Télécharger automatiquement les mises à jour",
+        "description": "Label for checkbox for the auto download updates setting"
+    },
+    "DialogUpdate--version-available": {
+        "message": "Update to version $version$ available",
+        "description": "Tooltip for new update available",
+        "placeholders": {
+            "status": {
+                "content": "$1",
+                "example": "v7.7.7"
+            }
+        }
+    },
+    "WhatsNew__v5.15--1": {
+        "message": "No that's not speck of dust you need to flick off your monitor, there's now a dot for unplayed incoming audio messages.",
+        "description": "Release notes for v5.15"
+    },
+    "WhatsNew__v5.15--2": {
+        "message": "The calling lobby got some remodeling and renovations done and we didn't even have to refinance.",
+        "description": "Release notes for v5.15"
+    },
+    "WhatsNew__v5.15--3": {
+        "message": "The new preferences window is better and faster. Go ahead and change your zoom level, toggle the theme, set a custom disappearing timer.",
+        "description": "Release notes for v5.15"
+    },
+    "WhatsNew__v5.15--4": {
+        "message": "You can now choose when to download and apply new updates for Signal. The dialogs got a small makeover too. Check out the setting in the new preferences window.",
+        "description": "Release notes for v5.15"
+    },
+    "WhatsNew__v5.15--5": {
+        "message": "Squashed lots of bugs and there are some performance improvements as well. Thank you all for your reports!",
+        "description": "Release notes for v5.15"
     }
 }
