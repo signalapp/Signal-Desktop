@@ -137,6 +137,7 @@ export const MessageAttachment = (props: Props) => {
         onClick={(e: any) => {
           e.stopPropagation();
         }}
+        style={{ padding: '5px 10px' }}
       >
         <AudioPlayerWithEncryptedFile
           src={firstAttachment.url}
