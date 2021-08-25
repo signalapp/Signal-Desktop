@@ -795,7 +795,8 @@ export default class MessageReceiver
 
         window.log.info(
           'MessageReceiver.decryptAndCacheBatch storing ' +
-            `${decrypted.length} decrypted envelopes`
+            `${decrypted.length} decrypted envelopes, keeping ` +
+            `${failed.length} failed envelopes.`
         );
 
         // Store both decrypted and failed unprocessed envelopes
@@ -926,10 +927,6 @@ export default class MessageReceiver
 
     const task = createTaskWithTimeout(async (): Promise<DecryptResult> => {
       const unsealedEnvelope = await this.unsealEnvelope(stores, envelope);
-      if (!unsealedEnvelope) {
-        // Envelope was dropped
-        return { envelope, plaintext: undefined };
-      }
 
       logId = this.getEnvelopeId(unsealedEnvelope);
 
@@ -950,10 +947,7 @@ export default class MessageReceiver
       } else {
         window.log.error(...args);
       }
-      return {
-        plaintext: undefined,
-        envelope,
-      };
+      throw error;
     }
   }
 
@@ -1002,12 +996,12 @@ export default class MessageReceiver
   private async unsealEnvelope(
     stores: LockedStores,
     envelope: ProcessedEnvelope
-  ): Promise<UnsealedEnvelope | undefined> {
+  ): Promise<UnsealedEnvelope> {
     const logId = this.getEnvelopeId(envelope);
 
     if (this.stoppingProcessing) {
-      window.log.info(`MessageReceiver.unsealEnvelope(${logId}): dropping`);
-      return undefined;
+      window.log.warn(`MessageReceiver.unsealEnvelope(${logId}): dropping`);
+      throw new Error('Sealed envelope dropped due to stopping processing');
     }
 
     if (envelope.type !== Proto.Envelope.Type.UNIDENTIFIED_SENDER) {
@@ -1068,10 +1062,10 @@ export default class MessageReceiver
     const logId = this.getEnvelopeId(envelope);
 
     if (this.stoppingProcessing) {
-      window.log.info(
+      window.log.warn(
         `MessageReceiver.decryptEnvelope(${logId}): dropping unsealed`
       );
-      return { plaintext: undefined, envelope };
+      throw new Error('Unsealed envelope dropped due to stopping processing');
     }
 
     if (envelope.type === Proto.Envelope.Type.RECEIPT) {
