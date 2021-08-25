@@ -85,6 +85,7 @@ import { isAnnouncementGroupReady } from '../util/isAnnouncementGroupReady';
 import { getProfile } from '../util/getProfile';
 import { SEALED_SENDER } from '../types/SealedSender';
 import { getAvatarData } from '../util/getAvatarData';
+import { createIdenticon } from '../util/createIdenticon';
 
 // TODO: remove once we move away from ArrayBuffers
 const FIXMEU8 = Uint8Array;
@@ -4963,14 +4964,11 @@ export class ConversationModel extends window.Backbone
       return cached.url;
     }
 
-    const fresh = await new window.Whisper.IdenticonSVGView({
-      color,
-      content,
-    }).getDataUrl();
+    const url = await createIdenticon(color, content);
 
-    this.cachedIdenticon = { content, color, url: fresh };
+    this.cachedIdenticon = { content, color, url };
 
-    return fresh;
+    return url;
   }
 
   notifyTyping(options: {

@@ -314,30 +314,6 @@
   },
   {
     "rule": "jQuery-$(",
-    "path": "js/views/identicon_svg_view.js",
-    "line": "    template: () => $('#identicon-svg').html(),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-02-26T18:44:56.450Z",
-    "reasonDetail": "Static selector, read-only access"
-  },
-  {
-    "rule": "jQuery-html(",
-    "path": "js/views/identicon_svg_view.js",
-    "line": "      const html = this.render().$el.html();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-15T00:38:04.183Z",
-    "reasonDetail": "Getting the value, not setting it"
-  },
-  {
-    "rule": "jQuery-html(",
-    "path": "js/views/identicon_svg_view.js",
-    "line": "    template: () => $('#identicon-svg').html(),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-02-26T18:44:56.450Z",
-    "reasonDetail": "Static selector, read-only access"
-  },
-  {
-    "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.left-pane-placeholder').append(this.leftPaneView.el);",
     "reasonCategory": "usageTrusted",
