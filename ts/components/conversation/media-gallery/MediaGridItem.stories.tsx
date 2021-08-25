@@ -50,6 +50,7 @@ const createMediaItem = (
     id: 'id',
     received_at: Date.now(),
     received_at_ms: Date.now(),
+    sent_at: Date.now(),
   },
 });
 
