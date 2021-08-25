@@ -454,7 +454,6 @@ export interface MessageCreationData {
   serverTimestamp: any;
 
   // Needed for synced outgoing messages
-  unidentifiedStatus: any; // ???
   expirationStartTimestamp: any; // ???
   destination: string;
 }

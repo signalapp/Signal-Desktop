@@ -26,7 +26,7 @@ type ReadableMessageProps = {
   className?: string;
   receivedAt: number | undefined;
   isUnread: boolean;
-  onContextMenu?: (e: any) => void;
+  onContextMenu?: (e: React.MouseEvent<HTMLElement>) => void;
 };
 
 const debouncedTriggerLoadMore = _.debounce(

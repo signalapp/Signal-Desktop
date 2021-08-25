@@ -678,16 +678,6 @@
   font-weight: 300;
 }
 
-.module-message-detail__contact__unidentified-delivery-icon {
-  margin-inline-start: 6px;
-  margin-inline-end: 10px;
-
-  width: 20px;
-  height: 20px;
-  display: inline-block;
-  @include color-svg('../images/unidentified-delivery.svg', $color-gray-60);
-}
-
 // Module: Media Gallery
 
 .module-media-gallery {

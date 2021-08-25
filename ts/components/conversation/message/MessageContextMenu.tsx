@@ -1,40 +1,51 @@
 import React, { useCallback } from 'react';
 
-import { AttachmentTypeWithPath } from '../../types/Attachment';
 import { animation, Item, Menu } from 'react-contexify';
 
-import { MessageInteraction } from '../../interactions';
-import { getMessageById } from '../../data/data';
-import { deleteMessagesById, replyToMessage } from '../../interactions/conversationInteractions';
-import { showMessageDetailsView, toggleSelectedMessageId } from '../../state/ducks/conversations';
-import { saveAttachmentToDisk } from '../../util/attachmentsUtil';
+import { MessageInteraction } from '../../../interactions';
+import { getMessageById } from '../../../data/data';
+import { deleteMessagesById, replyToMessage } from '../../../interactions/conversationInteractions';
+import {
+  showMessageDetailsView,
+  toggleSelectedMessageId,
+} from '../../../state/ducks/conversations';
+import { saveAttachmentToDisk } from '../../../util/attachmentsUtil';
 import {
   addSenderAsModerator,
   removeSenderFromModerator,
-} from '../../interactions/messageInteractions';
-import { MessageDeliveryStatus, MessageModelType } from '../../models/messageType';
-import { pushUnblockToSend } from '../../session/utils/Toast';
+} from '../../../interactions/messageInteractions';
+import { MessageRenderingProps } from '../../../models/messageType';
+import { pushUnblockToSend } from '../../../session/utils/Toast';
+import { useSelector } from 'react-redux';
+import { getMessageContextMenuProps } from '../../../state/selectors/conversations';
 
-export type PropsForMessageContextMenu = {
-  messageId: string;
-  authorPhoneNumber: string;
-  direction: MessageModelType;
-  timestamp: number;
-  serverTimestamp?: number;
-  convoId: string;
-  isPublic?: boolean;
-  isBlocked: boolean;
-  attachments?: Array<AttachmentTypeWithPath>;
-  status?: MessageDeliveryStatus | null;
-  isOpenGroupV2?: boolean;
-  isDeletable: boolean;
-  text: string | null;
-  isAdmin?: boolean;
-  weAreAdmin?: boolean;
-  contextMenuId: string;
-};
+export type MessageContextMenuSelectorProps = Pick<
+  MessageRenderingProps,
+  | 'attachments'
+  | 'authorPhoneNumber'
+  | 'convoId'
+  | 'direction'
+  | 'status'
+  | 'isDeletable'
+  | 'isPublic'
+  | 'isOpenGroupV2'
+  | 'weAreAdmin'
+  | 'isSenderAdmin'
+  | 'text'
+  | 'serverTimestamp'
+  | 'timestamp'
+  | 'isBlocked'
+>;
 
-export const MessageContextMenu = (props: PropsForMessageContextMenu) => {
+type Props = { messageId: string; contextMenuId: string };
+
+// tslint:disable: max-func-body-length cyclomatic-complexity
+export const MessageContextMenu = (props: Props) => {
+  const selected = useSelector(state => getMessageContextMenuProps(state as any, props.messageId));
+
+  if (!selected) {
+    return null;
+  }
   const {
     attachments,
     authorPhoneNumber,
@@ -42,17 +53,16 @@ export const MessageContextMenu = (props: PropsForMessageContextMenu) => {
     direction,
     status,
     isDeletable,
-    messageId,
-    contextMenuId,
     isPublic,
     isOpenGroupV2,
     weAreAdmin,
-    isAdmin,
+    isSenderAdmin,
     text,
     serverTimestamp,
     timestamp,
     isBlocked,
-  } = props;
+  } = selected;
+  const { messageId, contextMenuId } = props;
   const showRetry = status === 'error' && direction === 'outgoing';
   const multipleAttachments = attachments && attachments.length > 1;
 
@@ -174,10 +184,10 @@ export const MessageContextMenu = (props: PropsForMessageContextMenu) => {
       {weAreAdmin && isOpenGroupV2 ? (
         <Item onClick={onUnban}>{window.i18n('unbanUser')}</Item>
       ) : null}
-      {weAreAdmin && isPublic && !isAdmin ? (
+      {weAreAdmin && isPublic && !isSenderAdmin ? (
         <Item onClick={addModerator}>{window.i18n('addAsModerator')}</Item>
       ) : null}
-      {weAreAdmin && isPublic && isAdmin ? (
+      {weAreAdmin && isPublic && isSenderAdmin ? (
         <Item onClick={removeModerator}>{window.i18n('removeFromModerators')}</Item>
       ) : null}
     </Menu>

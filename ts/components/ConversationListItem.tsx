@@ -227,7 +227,7 @@ const MessageItem = (props: {
 };
 
 const AvatarItem = (props: {
-  avatarPath?: string;
+  avatarPath: string | null;
   conversationId: string;
   memberAvatars?: Array<ConversationAvatar>;
   name?: string;

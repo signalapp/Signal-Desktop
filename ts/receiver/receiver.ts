@@ -318,7 +318,6 @@ export async function handleOpenGroupV2Message(
       receivedAt: Date.now(),
       destination: conversationId,
       timestamp: sentTimestamp,
-      unidentifiedStatus: undefined,
       expirationStartTimestamp: undefined,
       source: sender,
       message: dataMessage,

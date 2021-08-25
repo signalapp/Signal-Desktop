@@ -43,7 +43,7 @@ export type ConversationHeaderProps = {
 
   phoneNumber: string;
   profileName?: string;
-  avatarPath?: string;
+  avatarPath: string | null;
 
   isMe: boolean;
   isGroup: boolean;
@@ -139,7 +139,7 @@ const ExpirationLength = (props: { expirationSettingName?: string }) => {
 };
 
 const AvatarHeader = (props: {
-  avatarPath?: string;
+  avatarPath: string | null;
   memberAvatars?: Array<ConversationAvatar>;
   name?: string;
   phoneNumber: string;

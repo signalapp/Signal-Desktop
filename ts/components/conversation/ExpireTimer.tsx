@@ -7,7 +7,8 @@ import { SessionIcon, SessionIconSize } from '../session/icon';
 
 type Props = {
   expirationLength: number;
-  expirationTimestamp: number;
+  expirationTimestamp: number | null;
+  isCorrectSide: boolean;
 };
 
 const ExpireTimerCount = styled.div<{
@@ -33,20 +34,26 @@ const ExpireTimerBucket = styled.div`
 `;
 
 export const ExpireTimer = (props: Props) => {
-  const { expirationLength, expirationTimestamp } = props;
+  const { expirationLength, expirationTimestamp, isCorrectSide } = props;
 
-  const initialTimeLeft = Math.max(Math.round((expirationTimestamp - Date.now()) / 1000), 0);
+  const initialTimeLeft = Math.max(Math.round(((expirationTimestamp || 0) - Date.now()) / 1000), 0);
   const [timeLeft, setTimeLeft] = useState(initialTimeLeft);
   const theme = useTheme();
 
   const update = useCallback(() => {
-    const newTimeLeft = Math.max(Math.round((expirationTimestamp - Date.now()) / 1000), 0);
-    if (newTimeLeft !== timeLeft) {
-      setTimeLeft(newTimeLeft);
+    if (expirationTimestamp) {
+      const newTimeLeft = Math.max(Math.round((expirationTimestamp - Date.now()) / 1000), 0);
+      if (newTimeLeft !== timeLeft) {
+        setTimeLeft(newTimeLeft);
+      }
     }
   }, [expirationTimestamp, timeLeft, setTimeLeft]);
 
   const updateFrequency = 500;
+
+  if (!(isCorrectSide && expirationLength && expirationTimestamp)) {
+    return null;
+  }
 
   useInterval(update, updateFrequency);
 

@@ -31,7 +31,7 @@ export type QuotePropsWithoutListener = {
 };
 
 export type QuotePropsWithListener = QuotePropsWithoutListener & {
-  onClick?: (e: any) => void;
+  onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
 };
 
 export interface QuotedAttachmentType {

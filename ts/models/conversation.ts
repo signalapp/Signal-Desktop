@@ -25,7 +25,7 @@ import {
   actions as conversationActions,
   conversationChanged,
   LastMessageStatusType,
-  MessageModelProps,
+  MessageModelPropsWithoutConvoProps,
   NotificationForConvoOption,
   ReduxConversationType,
 } from '../state/ducks/conversations';
@@ -417,7 +417,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       isSelected: false,
       id: this.id as string,
       activeAt: this.get('active_at'),
-      avatarPath: this.getAvatarPath() || undefined,
+      avatarPath: this.getAvatarPath() || null,
       type: this.isPrivate() ? ConversationTypeEnum.PRIVATE : ConversationTypeEnum.GROUP,
       weAreAdmin: this.isAdmin(ourNumber),
       isGroup: !this.isPrivate(),
@@ -1003,7 +1003,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     if (oldUnreadNowReadAttrs?.length) {
       await saveMessages(oldUnreadNowReadAttrs);
     }
-    const allProps: Array<MessageModelProps> = [];
+    const allProps: Array<MessageModelPropsWithoutConvoProps> = [];
 
     for (const nowRead of oldUnreadNowRead) {
       allProps.push(nowRead.getProps());

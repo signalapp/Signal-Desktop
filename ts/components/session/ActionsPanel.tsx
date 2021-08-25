@@ -45,7 +45,7 @@ import { loadDefaultRooms } from '../../opengroup/opengroupV2/ApiUtil';
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
 
 import { ActionPanelOnionStatusLight } from '../dialog/OnionStatusPathDialog';
-const Section = (props: { type: SectionType; avatarPath?: string }) => {
+const Section = (props: { type: SectionType; avatarPath?: string | null }) => {
   const ourNumber = useSelector(getOurNumber);
   const unreadMessageCount = useSelector(getUnreadMessageCount);
   const theme = useSelector(getTheme);

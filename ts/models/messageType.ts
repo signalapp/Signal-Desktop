@@ -1,6 +1,6 @@
 import _ from 'underscore';
 import { v4 as uuidv4 } from 'uuid';
-import { PropsForMessage } from '../state/ducks/conversations';
+import { PropsForMessageWithConvoProps } from '../state/ducks/conversations';
 import { AttachmentTypeWithPath } from '../types/Attachment';
 
 export type MessageModelType = 'incoming' | 'outgoing';
@@ -202,7 +202,7 @@ export type QuoteClickOptions = {
  * Those props are the one generated from a single Message improved by the one by the app itself.
  * Some of the one added comes from the MessageList, some from redux, etc..
  */
-export type MessageRenderingProps = PropsForMessage & {
+export type MessageRenderingProps = PropsForMessageWithConvoProps & {
   disableMenu?: boolean;
   /** Note: this should be formatted for display */
   attachments?: Array<AttachmentTypeWithPath>; // vs Array<PropsForAttachment>;

@@ -1,20 +1,13 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import {
-  MessageRenderingProps,
-  PropsForDataExtractionNotification,
-  QuoteClickOptions,
-} from '../../../models/messageType';
+import { PropsForDataExtractionNotification, QuoteClickOptions } from '../../../models/messageType';
 import {
   PropsForExpirationTimer,
   PropsForGroupInvitation,
   PropsForGroupUpdate,
   SortedMessageModelProps,
 } from '../../../state/ducks/conversations';
-import {
-  getFirstUnreadMessageId,
-  isMessageSelectionMode,
-} from '../../../state/selectors/conversations';
+import { getFirstUnreadMessageId } from '../../../state/selectors/conversations';
 import { DataExtractionNotification } from '../../conversation/DataExtractionNotification';
 import { GroupInvitation } from '../../conversation/GroupInvitation';
 import { GroupNotification } from '../../conversation/GroupNotification';
@@ -87,25 +80,15 @@ export const GenericMessageItem = (props: {
   messageProps: SortedMessageModelProps;
   scrollToQuoteMessage: (options: QuoteClickOptions) => Promise<void>;
 }) => {
-  const multiSelectMode = useSelector(isMessageSelectionMode);
-
   const messageId = props.messageId;
 
   const onQuoteClick = props.messageProps.propsForMessage.quote
     ? props.scrollToQuoteMessage
     : undefined;
 
-  const regularProps: MessageRenderingProps = {
-    ...props.messageProps.propsForMessage,
-    firstMessageOfSeries: props.messageProps.firstMessageOfSeries,
-    lastMessageOfSeries: props.messageProps.lastMessageOfSeries,
-    multiSelectMode,
-    onQuoteClick,
-  };
-
   return (
     <React.Fragment key={messageId}>
-      <Message {...regularProps} multiSelectMode={multiSelectMode} key={messageId} />
+      <Message messageId={messageId} onQuoteClick={onQuoteClick} key={messageId} />
       <UnreadIndicator messageId={messageId} />
     </React.Fragment>
   );
