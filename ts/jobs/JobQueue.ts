@@ -10,6 +10,7 @@ import { ParsedJob, StoredJob, JobQueueStore } from './types';
 import { assert } from '../util/assert';
 import * as log from '../logging/log';
 import { JobLogger } from './JobLogger';
+import * as Errors from '../types/errors';
 
 const noopOnCompleteCallbacks = {
   resolve: noop,
@@ -226,7 +227,9 @@ export abstract class JobQueue<T> {
       } catch (err: unknown) {
         result = { success: false, err };
         log.error(
-          `${this.logPrefix} job ${storedJob.id} failed on attempt ${attempt}`
+          `${this.logPrefix} job ${
+            storedJob.id
+          } failed on attempt ${attempt}. ${Errors.toLogFormat(err)}`
         );
       }
     }
