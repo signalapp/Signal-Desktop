@@ -4690,18 +4690,14 @@ export class ConversationModel extends window.Backbone
     return migrateColor(this.get('color'));
   }
 
-  getConversationColor(): ConversationColorType {
-    const defaultConversationColor = window.Events.getDefaultConversationColor();
-
-    return this.get('conversationColor') || defaultConversationColor.color;
+  getConversationColor(): ConversationColorType | undefined {
+    return this.get('conversationColor');
   }
 
   getCustomColorData(): {
     customColor?: CustomColorType;
     customColorId?: string;
   } {
-    const defaultConversationColor = window.Events.getDefaultConversationColor();
-
     if (this.getConversationColor() !== 'custom') {
       return {
         customColor: undefined,
@@ -4710,12 +4706,8 @@ export class ConversationModel extends window.Backbone
     }
 
     return {
-      customColor:
-        this.get('customColor') ||
-        defaultConversationColor.customColorData?.value,
-      customColorId:
-        this.get('customColorId') ||
-        defaultConversationColor.customColorData?.id,
+      customColor: this.get('customColor'),
+      customColorId: this.get('customColorId'),
     };
   }
 

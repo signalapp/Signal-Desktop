@@ -44,7 +44,6 @@ import {
 } from '../../types/EmbeddedContact';
 import { AssertProps, BodyRangesType } from '../../types/Util';
 import { LinkPreviewType } from '../../types/message/LinkPreviews';
-import { ConversationColors } from '../../types/Colors';
 import { CallMode } from '../../types/Calling';
 import { SignalService as Proto } from '../../protobuf';
 import { AttachmentType, isVoiceMessage } from '../../types/Attachment';
@@ -428,6 +427,8 @@ export const getPropsForQuote = createSelectorCreator(memoizeByRoot, isEqual)(
     const firstAttachment = quote.attachments && quote.attachments[0];
     const conversation = getConversation(message, conversationSelector);
 
+    const defaultConversationColor = window.Events.getDefaultConversationColor();
+
     return {
       authorId,
       authorName,
@@ -436,8 +437,10 @@ export const getPropsForQuote = createSelectorCreator(memoizeByRoot, isEqual)(
       authorTitle,
       bodyRanges: processBodyRanges(quote, { conversationSelector }),
       conversationColor:
-        conversation.conversationColor ?? ConversationColors[0],
-      customColor: conversation.customColor,
+        conversation.conversationColor || defaultConversationColor.color,
+      customColor:
+        conversation.customColor ||
+        defaultConversationColor.customColorData?.value,
       isFromMe,
       rawAttachment: firstAttachment
         ? processQuoteAttachment(firstAttachment)
@@ -546,6 +549,8 @@ const getShallowPropsForMessage = createSelectorCreator(memoizeByRoot, isEqual)(
       author.id
     );
 
+    const defaultConversationColor = window.Events.getDefaultConversationColor();
+
     return {
       canDeleteForEveryone: canDeleteForEveryone(message),
       canDownload: canDownload(message, conversationSelector),
@@ -553,10 +558,12 @@ const getShallowPropsForMessage = createSelectorCreator(memoizeByRoot, isEqual)(
       contact: getPropsForEmbeddedContact(message, regionCode, accountSelector),
       contactNameColor,
       conversationColor:
-        conversation?.conversationColor ?? ConversationColors[0],
+        conversation.conversationColor || defaultConversationColor.color,
       conversationId,
       conversationType: isGroup ? 'group' : 'direct',
-      customColor: conversation?.customColor,
+      customColor:
+        conversation.customColor ||
+        defaultConversationColor.customColorData?.value,
       deletedForEveryone: message.deletedForEveryone || false,
       direction: isIncoming(message) ? 'incoming' : 'outgoing',
       expirationLength,
