@@ -228,6 +228,7 @@
 
     &--forward {
       &::before {
+        transform: scaleX(-1);
         @include color-svg(
           '../images/icons/v2/reply-solid-24.svg',
           $color-gray-15

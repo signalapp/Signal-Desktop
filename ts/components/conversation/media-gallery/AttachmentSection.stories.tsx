@@ -56,6 +56,7 @@ const createRandomFile = (
       received_at: Math.floor(Math.random() * 10),
       received_at_ms: random(startTime, startTime + timeWindow),
       attachments: [],
+      sent_at: Date.now(),
     },
     attachment: {
       url: '',

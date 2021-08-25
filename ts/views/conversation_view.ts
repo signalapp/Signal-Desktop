@@ -26,7 +26,10 @@ import {
   MessageAttributesType,
 } from '../model-types.d';
 import { LinkPreviewType } from '../types/message/LinkPreviews';
-import { MediaItemType } from '../types/MediaItem';
+import {
+  MediaItemType,
+  MessageAttributesType as MediaItemMessageType,
+} from '../types/MediaItem';
 import { MessageModel } from '../models/messages';
 import { assert } from '../util/assert';
 import { maybeParseUrl } from '../util/url';
@@ -2614,6 +2617,7 @@ Whisper.ConversationView = Whisper.View.extend({
                   id: message.id,
                   received_at: message.received_at,
                   received_at_ms: Number(message.received_at_ms),
+                  sent_at: message.sent_at,
                 },
               };
             });
@@ -2958,6 +2962,7 @@ Whisper.ConversationView = Whisper.View.extend({
               conversationId: message.get('conversationId'),
               received_at: message.get('received_at'),
               received_at_ms: message.get('received_at_ms'),
+              sent_at: message.get('sent_at'),
             },
           },
         ],
@@ -3058,13 +3063,21 @@ Whisper.ConversationView = Whisper.View.extend({
     selectedMediaItem: MediaItemType,
     media: Array<MediaItemType> = []
   ) {
-    const onSave = async (options: WhatIsThis = {}) => {
+    const onSave = async ({
+      attachment,
+      message,
+      index,
+    }: {
+      attachment: AttachmentType;
+      message: MediaItemMessageType;
+      index: number;
+    }) => {
       const fullPath = await window.Signal.Types.Attachment.save({
-        attachment: options.attachment,
-        index: options.index + 1,
+        attachment,
+        index: index + 1,
         readAttachmentData,
         saveAttachmentToDisk,
-        timestamp: options.message.get('sent_at'),
+        timestamp: message.sent_at,
       });
 
       if (fullPath) {
@@ -3146,6 +3159,7 @@ Whisper.ConversationView = Whisper.View.extend({
             )?.id || message.get('conversationId'),
           received_at: message.get('received_at'),
           received_at_ms: message.get('received_at_ms'),
+          sent_at: message.get('sent_at'),
         },
         attachment: item,
         thumbnailObjectUrl:
@@ -3590,6 +3604,7 @@ Whisper.ConversationView = Whisper.View.extend({
                   id: message.id,
                   received_at: message.received_at,
                   received_at_ms: Number(message.received_at_ms),
+                  sent_at: message.sent_at,
                 },
               };
             }

@@ -12,6 +12,8 @@ export type MessageAttributesType = {
   received_at: number;
   // eslint-disable-next-line camelcase
   received_at_ms: number;
+  // eslint-disable-next-line camelcase
+  sent_at: number;
 };
 
 export type MediaItemType = {
