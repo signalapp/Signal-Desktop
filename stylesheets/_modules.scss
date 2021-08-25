@@ -4275,7 +4275,12 @@ button.module-image__border-overlay:focus {
   }
 
   @include only-when-page-is-visible {
-    animation: typing-animation 1600ms ease infinite;
+    animation: {
+      name: typing-animation;
+      duration: 1600ms;
+      timing-function: ease;
+      iteration-count: infinite;
+    }
   }
 }
 
