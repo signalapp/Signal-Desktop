@@ -1777,9 +1777,6 @@ describe('both/state/ducks/conversations', () => {
     });
 
     it('resetAllChatColors', async () => {
-      window.storage.put('defaultConversationColor', {
-        color: 'crimson',
-      });
       const dispatch = sinon.spy();
       await resetAllChatColors()(dispatch, getState, null);
 
@@ -1787,37 +1784,15 @@ describe('both/state/ducks/conversations', () => {
       const nextState = reducer(getState().conversations, action);
 
       sinon.assert.calledOnce(dispatch);
-      assert.equal(
-        nextState.conversationLookup.abc.conversationColor,
-        'crimson'
-      );
-      assert.equal(
-        nextState.conversationLookup.def.conversationColor,
-        'crimson'
-      );
-      assert.equal(
-        nextState.conversationLookup.ghi.conversationColor,
-        'crimson'
-      );
-      assert.equal(
-        nextState.conversationLookup.jkl.conversationColor,
-        'crimson'
-      );
-      assert.equal(
-        nextState.conversationsByUuid.abc.conversationColor,
-        'crimson'
-      );
-      assert.equal(
-        nextState.conversationsByUuid.def.conversationColor,
-        'crimson'
-      );
-      assert.equal(
-        nextState.conversationsByE164.ghi.conversationColor,
-        'crimson'
-      );
-      assert.equal(
-        nextState.conversationsByGroupId.jkl.conversationColor,
-        'crimson'
+      assert.isUndefined(nextState.conversationLookup.abc.conversationColor);
+      assert.isUndefined(nextState.conversationLookup.def.conversationColor);
+      assert.isUndefined(nextState.conversationLookup.ghi.conversationColor);
+      assert.isUndefined(nextState.conversationLookup.jkl.conversationColor);
+      assert.isUndefined(nextState.conversationsByUuid.abc.conversationColor);
+      assert.isUndefined(nextState.conversationsByUuid.def.conversationColor);
+      assert.isUndefined(nextState.conversationsByE164.ghi.conversationColor);
+      assert.isUndefined(
+        nextState.conversationsByGroupId.jkl.conversationColor
       );
       window.storage.remove('defaultConversationColor');
     });

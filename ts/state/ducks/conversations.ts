@@ -32,8 +32,6 @@ import {
   AvatarColorType,
   ConversationColorType,
   CustomColorType,
-  DefaultConversationColorType,
-  DEFAULT_CONVERSATION_COLOR,
 } from '../../types/Colors';
 import {
   LastMessageStatus,
@@ -409,7 +407,6 @@ type CustomColorRemovedActionType = {
   type: typeof CUSTOM_COLOR_REMOVED;
   payload: {
     colorId: string;
-    defaultConversationColor: DefaultConversationColorType;
   };
 };
 type SetPreJoinConversationActionType = {
@@ -987,16 +984,10 @@ function removeCustomColorOnConversations(
       await window.Signal.Data.updateConversations(conversationsToUpdate);
     }
 
-    const defaultConversationColor = window.storage.get(
-      'defaultConversationColor',
-      DEFAULT_CONVERSATION_COLOR
-    );
-
     dispatch({
       type: CUSTOM_COLOR_REMOVED,
       payload: {
         colorId,
-        defaultConversationColor,
       },
     });
   };
@@ -1023,16 +1014,11 @@ function resetAllChatColors(): ThunkAction<
       delete conversation.attributes.customColorId;
     });
 
-    const defaultConversationColor = window.storage.get(
-      'defaultConversationColor',
-      DEFAULT_CONVERSATION_COLOR
-    );
-
     dispatch({
       type: COLORS_CHANGED,
       payload: {
-        conversationColor: defaultConversationColor.color,
-        customColorData: defaultConversationColor.customColorData,
+        conversationColor: undefined,
+        customColorData: undefined,
       },
     });
   };
@@ -3046,7 +3032,7 @@ export function reducer(
 
   if (action.type === CUSTOM_COLOR_REMOVED) {
     const { conversationLookup } = state;
-    const { colorId, defaultConversationColor } = action.payload;
+    const { colorId } = action.payload;
 
     const nextState = {
       ...state,
@@ -3061,9 +3047,9 @@ export function reducer(
 
       const changed = {
         ...existing,
-        conversationColor: defaultConversationColor.color,
-        customColor: defaultConversationColor.customColorData?.value,
-        customColorId: defaultConversationColor.customColorData?.id,
+        conversationColor: undefined,
+        customColor: undefined,
+        customColorId: undefined,
       };
 
       Object.assign(

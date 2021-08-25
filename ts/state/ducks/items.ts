@@ -216,6 +216,7 @@ function removeCustomColor(
     };
 
     dispatch(putItem('customColors', nextCustomColors));
+    resetDefaultChatColor()(dispatch, getState, null);
   };
 }
 
