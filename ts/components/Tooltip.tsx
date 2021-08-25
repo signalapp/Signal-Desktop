@@ -4,7 +4,8 @@
 import React from 'react';
 import classNames from 'classnames';
 import { noop } from 'lodash';
-import { Manager, Reference, Popper, PopperProps } from 'react-popper';
+import { Manager, Reference, Popper } from 'react-popper';
+import { StrictModifiers } from '@popperjs/core';
 
 import { Theme, themeClassName } from '../util/theme';
 import { multiRef } from '../util/multiRef';
@@ -70,7 +71,7 @@ export enum TooltipPlacement {
 export type PropsType = {
   content: string | JSX.Element;
   direction?: TooltipPlacement;
-  popperModifiers?: PopperProps<'preventOverflow'>['modifiers'];
+  popperModifiers?: Array<StrictModifiers>;
   sticky?: boolean;
   theme?: Theme;
 };
