@@ -88,6 +88,7 @@ export type ActiveCallStateType = {
   hasLocalVideo: boolean;
   isInSpeakerView: boolean;
   joinedAt?: number;
+  outgoingRing: boolean;
   pip: boolean;
   presentingSource?: PresentedSource;
   presentingSourcesAvailable?: Array<PresentableSource>;
@@ -286,6 +287,7 @@ const REMOTE_VIDEO_CHANGE = 'calling/REMOTE_VIDEO_CHANGE';
 const RETURN_TO_ACTIVE_CALL = 'calling/RETURN_TO_ACTIVE_CALL';
 const SET_LOCAL_AUDIO_FULFILLED = 'calling/SET_LOCAL_AUDIO_FULFILLED';
 const SET_LOCAL_VIDEO_FULFILLED = 'calling/SET_LOCAL_VIDEO_FULFILLED';
+const SET_OUTGOING_RING = 'calling/SET_OUTGOING_RING';
 const SET_PRESENTING = 'calling/SET_PRESENTING';
 const SET_PRESENTING_SOURCES = 'calling/SET_PRESENTING_SOURCES';
 const TOGGLE_NEEDS_SCREEN_RECORDING_PERMISSIONS =
@@ -420,6 +422,11 @@ type SetPresentingSourcesActionType = {
   payload: Array<PresentableSource>;
 };
 
+type SetOutgoingRingActionType = {
+  type: 'calling/SET_OUTGOING_RING';
+  payload: boolean;
+};
+
 type ShowCallLobbyActionType = {
   type: 'calling/SHOW_CALL_LOBBY';
   payload: ShowCallLobbyType;
@@ -474,6 +481,7 @@ export type CallingActionType =
   | SetLocalAudioActionType
   | SetLocalVideoFulfilledActionType
   | SetPresentingSourcesActionType
+  | SetOutgoingRingActionType
   | ShowCallLobbyActionType
   | StartDirectCallActionType
   | ToggleNeedsScreenRecordingPermissionsActionType
@@ -502,7 +510,7 @@ function acceptCall(
         await calling.acceptDirectCall(conversationId, asVideoCall);
         break;
       case CallMode.Group:
-        calling.joinGroupCall(conversationId, true, asVideoCall);
+        calling.joinGroupCall(conversationId, true, asVideoCall, false);
         break;
       default:
         throw missingCaseError(call);
@@ -1020,6 +1028,13 @@ function setPresenting(
   };
 }
 
+function setOutgoingRing(payload: boolean): SetOutgoingRingActionType {
+  return {
+    type: SET_OUTGOING_RING,
+    payload,
+  };
+}
+
 function startCallingLobby(
   payload: StartCallingLobbyType
 ): ThunkAction<void, RootStateType, unknown, never> {
@@ -1040,7 +1055,7 @@ function showCallLobby(payload: ShowCallLobbyType): CallLobbyActionType {
 function startCall(
   payload: StartCallType
 ): ThunkAction<void, RootStateType, unknown, StartDirectCallActionType> {
-  return dispatch => {
+  return (dispatch, getState) => {
     switch (payload.callMode) {
       case CallMode.Direct:
         calling.startOutgoingDirectCall(
@@ -1053,15 +1068,20 @@ function startCall(
           payload,
         });
         break;
-      case CallMode.Group:
+      case CallMode.Group: {
+        const outgoingRing = Boolean(
+          getState().calling.activeCallState?.outgoingRing
+        );
         calling.joinGroupCall(
           payload.conversationId,
           payload.hasLocalAudio,
-          payload.hasLocalVideo
+          payload.hasLocalVideo,
+          outgoingRing
         );
         // The calling service should already be wired up to Redux so we don't need to
         //   dispatch anything here.
         break;
+      }
       default:
         throw missingCaseError(payload.callMode);
     }
@@ -1126,6 +1146,7 @@ export const actions = {
   setLocalVideo,
   setPresenting,
   setRendererCanvas,
+  setOutgoingRing,
   showCallLobby,
   startCall,
   startCallingLobby,
@@ -1184,6 +1205,7 @@ export function reducer(
     const { conversationId } = action.payload;
 
     let call: DirectCallStateType | GroupCallStateType;
+    let outgoingRing: boolean;
     switch (action.payload.callMode) {
       case CallMode.Direct:
         call = {
@@ -1192,6 +1214,7 @@ export function reducer(
           isIncoming: false,
           isVideoCall: action.payload.hasLocalVideo,
         };
+        outgoingRing = true;
         break;
       case CallMode.Group: {
         // We expect to be in this state briefly. The Calling service should update the
@@ -1211,6 +1234,8 @@ export function reducer(
           remoteParticipants: action.payload.remoteParticipants,
           ...getGroupCallRingState(existingCall),
         };
+        outgoingRing =
+          !call.peekInfo.uuids.length && !call.remoteParticipants.length;
         break;
       }
       default:
@@ -1232,6 +1257,7 @@ export function reducer(
         safetyNumberChangedUuids: [],
         settingsDialogOpen: false,
         showParticipantsList: false,
+        outgoingRing,
       },
     };
   }
@@ -1258,6 +1284,7 @@ export function reducer(
         safetyNumberChangedUuids: [],
         settingsDialogOpen: false,
         showParticipantsList: false,
+        outgoingRing: true,
       },
     };
   }
@@ -1279,6 +1306,7 @@ export function reducer(
         safetyNumberChangedUuids: [],
         settingsDialogOpen: false,
         showParticipantsList: false,
+        outgoingRing: false,
       },
     };
   }
@@ -1412,6 +1440,7 @@ export function reducer(
         safetyNumberChangedUuids: [],
         settingsDialogOpen: false,
         showParticipantsList: false,
+        outgoingRing: true,
       },
     };
   }
@@ -1511,6 +1540,18 @@ export function reducer(
               hasLocalVideo,
             }
           : state.activeCallState;
+    }
+
+    if (
+      newActiveCallState &&
+      newActiveCallState.outgoingRing &&
+      newActiveCallState.conversationId === conversationId &&
+      isAnybodyElseInGroupCall(newPeekInfo, ourUuid)
+    ) {
+      newActiveCallState = {
+        ...newActiveCallState,
+        outgoingRing: false,
+      };
     }
 
     let newRingState: GroupCallRingStateType;
@@ -1797,6 +1838,22 @@ export function reducer(
       activeCallState: {
         ...activeCallState,
         presentingSourcesAvailable: action.payload,
+      },
+    };
+  }
+
+  if (action.type === SET_OUTGOING_RING) {
+    const { activeCallState } = state;
+    if (!activeCallState) {
+      window.log.warn('Cannot set outgoing ring when there is no active call');
+      return state;
+    }
+
+    return {
+      ...state,
+      activeCallState: {
+        ...activeCallState,
+        outgoingRing: action.payload,
       },
     };
   }

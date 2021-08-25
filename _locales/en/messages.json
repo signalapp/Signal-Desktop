@@ -1368,6 +1368,22 @@
     "message": "Stop presenting",
     "description": "Button tooltip label for stopping screen sharing"
   },
+  "calling__button--ring__label": {
+    "message": "Ring",
+    "description": "Label under the ring button"
+  },
+  "calling__button--ring__disabled-because-group-is-too-large": {
+    "message": "Group is too large to ring the participants.",
+    "description": "Button tooltip label when you can't ring because the group is too large"
+  },
+  "calling__button--ring__off": {
+    "message": "Notify, don't ring",
+    "description": "Button tooltip label for turning ringing off"
+  },
+  "calling__button--ring__on": {
+    "message": "Enable ringing",
+    "description": "Button tooltip label for turning ringing on"
+  },
   "calling__your-video-is-off": {
     "message": "Your camera is off",
     "description": "Label in the calling lobby indicating that your camera is off"
@@ -1447,6 +1463,56 @@
       "person": {
         "content": "$1",
         "example": "Sam"
+      }
+    }
+  },
+  "calling__pre-call-info--will-ring-2": {
+    "message": "Signal will ring $first$ and $second$",
+    "description": "Shown in the calling lobby to describe who will be rang",
+    "placeholders": {
+      "first": {
+        "content": "$1",
+        "example": "Sam"
+      },
+      "second": {
+        "content": "$2",
+        "example": "Cayce"
+      }
+    }
+  },
+  "calling__pre-call-info--will-ring-3": {
+    "message": "Signal will ring $first$, $second$, and $third$",
+    "description": "Shown in the calling lobby to describe who will be rang",
+    "placeholders": {
+      "first": {
+        "content": "$1",
+        "example": "Sam"
+      },
+      "second": {
+        "content": "$2",
+        "example": "Cayce"
+      },
+      "third": {
+        "content": "$3",
+        "example": "April"
+      }
+    }
+  },
+  "calling__pre-call-info--will-ring-many": {
+    "message": "Signal will ring $first$, $second$, and $others$ others",
+    "description": "Shown in the calling lobby to describe who will be rang",
+    "placeholders": {
+      "person": {
+        "content": "$1",
+        "example": "Sam"
+      },
+      "second": {
+        "content": "$2",
+        "example": "Cayce"
+      },
+      "others": {
+        "content": "$3",
+        "example": "5"
       }
     }
   },
@@ -3489,10 +3555,6 @@
         "example": "5"
       }
     }
-  },
-  "outgoingCallPrering": {
-    "message": "Calling...",
-    "description": "Shown in the call screen when placing an outgoing call that isn't ringing yet"
   },
   "outgoingCallRinging": {
     "message": "Ringing...",

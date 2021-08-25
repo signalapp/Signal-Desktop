@@ -30,6 +30,7 @@ type ActiveCallBaseType = {
   isInSpeakerView: boolean;
   isSharingScreen?: boolean;
   joinedAt?: number;
+  outgoingRing: boolean;
   pip: boolean;
   presentingSource?: PresentedSource;
   presentingSourcesAvailable?: Array<PresentableSource>;
@@ -60,7 +61,7 @@ type ActiveGroupCallType = ActiveCallBaseType & {
   joinState: GroupCallJoinState;
   maxDevices: number;
   deviceCount: number;
-  groupMembers: Array<Pick<ConversationType, 'firstName' | 'title' | 'uuid'>>;
+  groupMembers: Array<Pick<ConversationType, 'id' | 'firstName' | 'title'>>;
   peekedParticipants: Array<ConversationType>;
   remoteParticipants: Array<GroupCallRemoteParticipantType>;
 };

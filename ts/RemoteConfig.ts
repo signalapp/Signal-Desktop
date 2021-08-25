@@ -9,6 +9,7 @@ export type ConfigKeyType =
   | 'desktop.announcementGroup'
   | 'desktop.clientExpiration'
   | 'desktop.disableGV1'
+  | 'desktop.groupCallOutboundRing'
   | 'desktop.groupCalling'
   | 'desktop.gv2'
   | 'desktop.internalUser'

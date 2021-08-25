@@ -19,6 +19,7 @@ import {
   CallEndedReason,
   CallMode,
   CallState,
+  GroupCallConnectionState,
   GroupCallJoinState,
   GroupCallVideoRequest,
   PresentedSource,
@@ -40,6 +41,8 @@ import {
 } from '../state/ducks/calling';
 import { LocalizerType } from '../types/Util';
 import { missingCaseError } from '../util/missingCaseError';
+
+const GROUP_CALL_RING_DURATION = 60 * 1000;
 
 type MeType = ConversationType & {
   uuid: string;
@@ -77,6 +80,8 @@ export type PropsType = {
   bounceAppIconStop: () => unknown;
   declineCall: (_: DeclineCallType) => void;
   i18n: LocalizerType;
+  isGroupCallOutboundRingEnabled: boolean;
+  maxGroupCallRingSize: number;
   me: MeType;
   notifyForCall: (title: string, isVideoCall: boolean) => unknown;
   openSystemPreferencesAction: () => unknown;
@@ -85,6 +90,7 @@ export type PropsType = {
   setLocalAudio: (_: SetLocalAudioType) => void;
   setLocalVideo: (_: SetLocalVideoType) => void;
   setLocalPreview: (_: SetLocalPreviewType) => void;
+  setOutgoingRing: (_: boolean) => void;
   setPresenting: (_?: PresentedSource) => void;
   setRendererCanvas: (_: SetRendererCanvasType) => void;
   stopRingtone: () => unknown;
@@ -106,9 +112,11 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
   closeNeedPermissionScreen,
   hangUp,
   i18n,
+  isGroupCallOutboundRingEnabled,
   keyChangeOk,
   getGroupCallVideoFrameSource,
   getPresentingSources,
+  maxGroupCallRingSize,
   me,
   openSystemPreferencesAction,
   renderDeviceSelection,
@@ -119,6 +127,7 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
   setLocalVideo,
   setPresenting,
   setRendererCanvas,
+  setOutgoingRing,
   startCall,
   toggleParticipants,
   togglePip,
@@ -136,6 +145,7 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
     presentingSourcesAvailable,
     settingsDialogOpen,
     showParticipantsList,
+    outgoingRing,
   } = activeCall;
 
   const cancelActiveCall = useCallback(() => {
@@ -178,7 +188,7 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
   let showCallLobby: boolean;
   let groupMembers:
     | undefined
-    | Array<Pick<ConversationType, 'firstName' | 'title' | 'uuid'>>;
+    | Array<Pick<ConversationType, 'id' | 'firstName' | 'title'>>;
 
   switch (activeCall.callMode) {
     case CallMode.Direct: {
@@ -222,14 +232,18 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
           hasLocalVideo={hasLocalVideo}
           i18n={i18n}
           isGroupCall={activeCall.callMode === CallMode.Group}
+          isGroupCallOutboundRingEnabled={isGroupCallOutboundRingEnabled}
           isCallFull={isCallFull}
+          maxGroupCallRingSize={maxGroupCallRingSize}
           me={me}
           onCallCanceled={cancelActiveCall}
           onJoinCall={joinActiveCall}
+          outgoingRing={outgoingRing}
           peekedParticipants={peekedParticipants}
           setLocalPreview={setLocalPreview}
           setLocalAudio={setLocalAudio}
           setLocalVideo={setLocalVideo}
+          setOutgoingRing={setOutgoingRing}
           showParticipantsList={showParticipantsList}
           toggleParticipants={toggleParticipants}
           toggleSettings={toggleSettings}
@@ -287,6 +301,7 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
         activeCall={activeCall}
         getPresentingSources={getPresentingSources}
         getGroupCallVideoFrameSource={getGroupCallVideoFrameSourceForActiveCall}
+        groupMembers={groupMembers}
         hangUp={hangUp}
         i18n={i18n}
         joinedAt={joinedAt}
@@ -354,6 +369,7 @@ export const CallManager: React.FC<PropsType> = props => {
     notifyForCall,
     playRingtone,
     stopRingtone,
+    setOutgoingRing,
   } = props;
 
   const shouldRing = getShouldRing(props);
@@ -368,6 +384,21 @@ export const CallManager: React.FC<PropsType> = props => {
     stopRingtone();
     return noop;
   }, [shouldRing, playRingtone, stopRingtone]);
+
+  const hasActiveCall = Boolean(activeCall);
+  const isGroupCall = activeCall?.callMode === CallMode.Group;
+  useEffect(() => {
+    if (!hasActiveCall || !isGroupCall) {
+      return noop;
+    }
+
+    const timeout = setTimeout(() => {
+      setOutgoingRing(false);
+    }, GROUP_CALL_RING_DURATION);
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [hasActiveCall, setOutgoingRing, isGroupCall]);
 
   if (activeCall) {
     // `props` should logically have an `activeCall` at this point, but TypeScript can't
@@ -412,7 +443,14 @@ function getShouldRing({
         activeCall.callState === CallState.Ringing
       );
     case CallMode.Group:
-      return false;
+      return (
+        activeCall.outgoingRing &&
+        (activeCall.connectionState === GroupCallConnectionState.Connecting ||
+          activeCall.connectionState === GroupCallConnectionState.Connected) &&
+        activeCall.joinState !== GroupCallJoinState.NotJoined &&
+        !activeCall.remoteParticipants.length &&
+        (activeCall.conversation.sortedGroupMembers || []).length >= 2
+      );
     default:
       throw missingCaseError(activeCall);
   }

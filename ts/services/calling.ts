@@ -684,7 +684,8 @@ export class CallingClass {
   public joinGroupCall(
     conversationId: string,
     hasLocalAudio: boolean,
-    hasLocalVideo: boolean
+    hasLocalVideo: boolean,
+    shouldRing: boolean
   ): void {
     this.attemptToGiveOurUuidToRingRtc();
 
@@ -717,10 +718,7 @@ export class CallingClass {
     groupCall.setOutgoingVideoMuted(!hasLocalVideo);
     this.videoCapturer.enableCaptureAndSend(groupCall);
 
-    // This is a temporary flag to help all client teams (Desktop, iOS, and Android)
-    //   debug. Soon, this will be exposed in the UI (see DESKTOP-2113).
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    if (window.RING_WHEN_JOINING_GROUP_CALLS) {
+    if (shouldRing) {
       groupCall.ringAll();
     }
 

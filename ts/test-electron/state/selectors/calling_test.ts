@@ -54,6 +54,7 @@ describe('state/selectors/calling', () => {
       isInSpeakerView: false,
       showParticipantsList: false,
       safetyNumberChangedUuids: [],
+      outgoingRing: true,
       pip: false,
       settingsDialogOpen: false,
     },

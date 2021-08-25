@@ -48,6 +48,7 @@ const getCommonActiveCallData = () => ({
   hasLocalAudio: boolean('hasLocalAudio', true),
   hasLocalVideo: boolean('hasLocalVideo', false),
   isInSpeakerView: boolean('isInSpeakerView', false),
+  outgoingRing: boolean('outgoingRing', true),
   pip: boolean('pip', false),
   settingsDialogOpen: boolean('settingsDialogOpen', false),
   showParticipantsList: boolean('showParticipantsList', false),
@@ -67,7 +68,9 @@ const createProps = (storyProps: Partial<PropsType> = {}): PropsType => ({
   getPresentingSources: action('get-presenting-sources'),
   hangUp: action('hang-up'),
   i18n,
+  isGroupCallOutboundRingEnabled: true,
   keyChangeOk: action('key-change-ok'),
+  maxGroupCallRingSize: 16,
   me: {
     ...getDefaultConversation({
       color: select(
@@ -90,6 +93,7 @@ const createProps = (storyProps: Partial<PropsType> = {}): PropsType => ({
   setLocalVideo: action('set-local-video'),
   setPresenting: action('toggle-presenting'),
   setRendererCanvas: action('set-renderer-canvas'),
+  setOutgoingRing: action('set-outgoing-ring'),
   startCall: action('start-call'),
   stopRingtone: action('stop-ringtone'),
   toggleParticipants: action('toggle-participants'),

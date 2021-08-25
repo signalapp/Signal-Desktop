@@ -46,6 +46,7 @@ describe('calling duck', () => {
       isInSpeakerView: false,
       showParticipantsList: false,
       safetyNumberChangedUuids: [],
+      outgoingRing: true,
       pip: false,
       settingsDialogOpen: false,
     },
@@ -118,6 +119,7 @@ describe('calling duck', () => {
       isInSpeakerView: false,
       showParticipantsList: false,
       safetyNumberChangedUuids: [],
+      outgoingRing: false,
       pip: false,
       settingsDialogOpen: false,
     },
@@ -423,6 +425,7 @@ describe('calling duck', () => {
             isInSpeakerView: false,
             showParticipantsList: false,
             safetyNumberChangedUuids: [],
+            outgoingRing: false,
             pip: false,
             settingsDialogOpen: false,
           });
@@ -514,6 +517,7 @@ describe('calling duck', () => {
             isInSpeakerView: false,
             showParticipantsList: false,
             safetyNumberChangedUuids: [],
+            outgoingRing: false,
             pip: false,
             settingsDialogOpen: false,
           });
@@ -1224,6 +1228,7 @@ describe('calling duck', () => {
           isInSpeakerView: false,
           showParticipantsList: false,
           safetyNumberChangedUuids: [],
+          outgoingRing: false,
           pip: false,
           settingsDialogOpen: false,
         });
@@ -1263,6 +1268,62 @@ describe('calling duck', () => {
         );
         assert.isTrue(result.activeCallState?.hasLocalAudio);
         assert.isTrue(result.activeCallState?.hasLocalVideo);
+      });
+
+      it("doesn't stop ringing if nobody is in the call", () => {
+        const state = {
+          ...stateWithActiveGroupCall,
+          activeCallState: {
+            ...stateWithActiveGroupCall.activeCallState,
+            outgoingRing: true,
+          },
+        };
+        const result = reducer(
+          state,
+          getAction({
+            conversationId: 'fake-group-call-conversation-id',
+            connectionState: GroupCallConnectionState.Connected,
+            joinState: GroupCallJoinState.Joined,
+            hasLocalAudio: true,
+            hasLocalVideo: true,
+            peekInfo: {
+              uuids: [],
+              maxDevices: 16,
+              deviceCount: 0,
+            },
+            remoteParticipants: [],
+          })
+        );
+
+        assert.isTrue(result.activeCallState?.outgoingRing);
+      });
+
+      it('stops ringing if someone enters the call', () => {
+        const state = {
+          ...stateWithActiveGroupCall,
+          activeCallState: {
+            ...stateWithActiveGroupCall.activeCallState,
+            outgoingRing: true,
+          },
+        };
+        const result = reducer(
+          state,
+          getAction({
+            conversationId: 'fake-group-call-conversation-id',
+            connectionState: GroupCallConnectionState.Connected,
+            joinState: GroupCallJoinState.Joined,
+            hasLocalAudio: true,
+            hasLocalVideo: true,
+            peekInfo: {
+              uuids: ['1b9e4d42-1f56-45c5-b6f4-d1be5a54fefa'],
+              maxDevices: 16,
+              deviceCount: 1,
+            },
+            remoteParticipants: [],
+          })
+        );
+
+        assert.isFalse(result.activeCallState?.outgoingRing);
       });
     });
 
@@ -1519,6 +1580,24 @@ describe('calling duck', () => {
       });
     });
 
+    describe('setOutgoingRing', () => {
+      const { setOutgoingRing } = actions;
+
+      it('enables a desire to ring', () => {
+        const action = setOutgoingRing(true);
+        const result = reducer(stateWithActiveGroupCall, action);
+
+        assert.isTrue(result.activeCallState?.outgoingRing);
+      });
+
+      it('disables a desire to ring', () => {
+        const action = setOutgoingRing(false);
+        const result = reducer(stateWithActiveDirectCall, action);
+
+        assert.isFalse(result.activeCallState?.outgoingRing);
+      });
+    });
+
     describe('showCallLobby', () => {
       const { showCallLobby } = actions;
 
@@ -1548,6 +1627,7 @@ describe('calling duck', () => {
           safetyNumberChangedUuids: [],
           pip: false,
           settingsDialogOpen: false,
+          outgoingRing: true,
         });
       });
 
@@ -1610,6 +1690,7 @@ describe('calling duck', () => {
           result.activeCallState?.conversationId,
           'fake-conversation-id'
         );
+        assert.isFalse(result.activeCallState?.outgoingRing);
       });
 
       it('chooses fallback peek info if none is sent and there is no existing call', () => {
@@ -1841,6 +1922,7 @@ describe('calling duck', () => {
           safetyNumberChangedUuids: [],
           pip: false,
           settingsDialogOpen: false,
+          outgoingRing: true,
         });
       });
 

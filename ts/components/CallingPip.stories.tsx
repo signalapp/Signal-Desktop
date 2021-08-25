@@ -40,6 +40,7 @@ const getCommonActiveCallData = () => ({
   hasLocalVideo: boolean('hasLocalVideo', false),
   isInSpeakerView: boolean('isInSpeakerView', false),
   joinedAt: Date.now(),
+  outgoingRing: true,
   pip: true,
   settingsDialogOpen: false,
   showParticipantsList: false,

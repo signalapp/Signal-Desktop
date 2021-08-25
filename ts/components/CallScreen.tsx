@@ -1,7 +1,13 @@
 // Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, {
+  ReactNode,
+  useState,
+  useRef,
+  useEffect,
+  useCallback,
+} from 'react';
 import { noop } from 'lodash';
 import classNames from 'classnames';
 import {
@@ -13,6 +19,7 @@ import {
 } from '../state/ducks/calling';
 import { Avatar } from './Avatar';
 import { CallingHeader } from './CallingHeader';
+import { CallingPreCallInfo, RingMode } from './CallingPreCallInfo';
 import { CallingButton, CallingButtonType } from './CallingButton';
 import { CallBackgroundBlur } from './CallBackgroundBlur';
 import {
@@ -20,11 +27,13 @@ import {
   CallMode,
   CallState,
   GroupCallConnectionState,
+  GroupCallJoinState,
   GroupCallVideoRequest,
   PresentedSource,
   VideoFrameSource,
 } from '../types/Calling';
 import { AvatarColors, AvatarColorType } from '../types/Colors';
+import type { ConversationType } from '../state/ducks/conversations';
 import { CallingToastManager } from './CallingToastManager';
 import { DirectCallRemoteParticipant } from './DirectCallRemoteParticipant';
 import { GroupCallRemoteParticipants } from './GroupCallRemoteParticipants';
@@ -37,16 +46,19 @@ export type PropsType = {
   activeCall: ActiveCallType;
   getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
   getPresentingSources: () => void;
+  groupMembers?: Array<Pick<ConversationType, 'id' | 'firstName' | 'title'>>;
   hangUp: (_: HangUpType) => void;
   i18n: LocalizerType;
   joinedAt?: number;
   me: {
     avatarPath?: string;
     color?: AvatarColorType;
+    id: string;
     name?: string;
     phoneNumber?: string;
     profileName?: string;
     title: string;
+    uuid: string;
   };
   openSystemPreferencesAction: () => unknown;
   setGroupCallVideoRequest: (_: Array<GroupCallVideoRequest>) => void;
@@ -67,6 +79,7 @@ export const CallScreen: React.FC<PropsType> = ({
   activeCall,
   getGroupCallVideoFrameSource,
   getPresentingSources,
+  groupMembers,
   hangUp,
   i18n,
   joinedAt,
@@ -198,36 +211,50 @@ export const CallScreen: React.FC<PropsType> = ({
     remoteParticipant => remoteParticipant.hasRemoteVideo
   );
 
+  let isRinging: boolean;
+  let hasCallStarted: boolean;
   let headerMessage: string | undefined;
   let headerTitle: string | undefined;
   let isConnected: boolean;
   let participantCount: number;
-  let remoteParticipantsElement: JSX.Element;
+  let remoteParticipantsElement: ReactNode;
 
   switch (activeCall.callMode) {
-    case CallMode.Direct:
-      headerMessage = renderHeaderMessage(
+    case CallMode.Direct: {
+      isRinging =
+        activeCall.callState === CallState.Prering ||
+        activeCall.callState === CallState.Ringing;
+      hasCallStarted = !isRinging;
+      headerMessage = renderDirectCallHeaderMessage(
         i18n,
         activeCall.callState || CallState.Prering,
         acceptedDuration
       );
-      headerTitle = conversation.title;
+      headerTitle = isRinging ? undefined : conversation.title;
       isConnected = activeCall.callState === CallState.Accepted;
       participantCount = isConnected ? 2 : 0;
-      remoteParticipantsElement = (
+      remoteParticipantsElement = hasCallStarted ? (
         <DirectCallRemoteParticipant
           conversation={conversation}
           hasRemoteVideo={hasRemoteVideo}
           i18n={i18n}
           setRendererCanvas={setRendererCanvas}
         />
+      ) : (
+        <div className="module-ongoing-call__direct-call-ringing-spacer" />
       );
       break;
+    }
     case CallMode.Group:
+      isRinging =
+        activeCall.outgoingRing && !activeCall.remoteParticipants.length;
+      hasCallStarted = activeCall.joinState !== GroupCallJoinState.NotJoined;
       participantCount = activeCall.remoteParticipants.length + 1;
       headerMessage = undefined;
 
-      if (currentPresenter) {
+      if (isRinging) {
+        headerTitle = undefined;
+      } else if (currentPresenter) {
         headerTitle = i18n('calling__presenting--person-ongoing', [
           currentPresenter.title,
         ]);
@@ -301,7 +328,10 @@ export const CallScreen: React.FC<PropsType> = ({
         'module-calling__container',
         `module-ongoing-call__container--${getCallModeClassSuffix(
           activeCall.callMode
-        )}`
+        )}`,
+        `module-ongoing-call__container--${
+          hasCallStarted ? 'call-started' : 'call-not-started'
+        }`
       )}
       onMouseMove={() => {
         setShowControls(true);
@@ -335,6 +365,15 @@ export const CallScreen: React.FC<PropsType> = ({
           toggleSpeakerView={toggleSpeakerView}
         />
       </div>
+      {isRinging && (
+        <CallingPreCallInfo
+          conversation={conversation}
+          groupMembers={groupMembers}
+          i18n={i18n}
+          me={me}
+          ringMode={RingMode.IsRinging}
+        />
+      )}
       {remoteParticipantsElement}
       {isSendingVideo && isLonelyInGroup ? (
         <div className="module-ongoing-call__local-preview-fullsize">
@@ -457,22 +496,18 @@ function getCallModeClassSuffix(
   }
 }
 
-function renderHeaderMessage(
+function renderDirectCallHeaderMessage(
   i18n: LocalizerType,
   callState: CallState,
   acceptedDuration: null | number
 ): string | undefined {
-  let message;
-  if (callState === CallState.Prering) {
-    message = i18n('outgoingCallPrering');
-  } else if (callState === CallState.Ringing) {
-    message = i18n('outgoingCallRinging');
-  } else if (callState === CallState.Reconnecting) {
-    message = i18n('callReconnecting');
-  } else if (callState === CallState.Accepted && acceptedDuration) {
-    message = i18n('callDuration', [renderDuration(acceptedDuration)]);
+  if (callState === CallState.Reconnecting) {
+    return i18n('callReconnecting');
   }
-  return message;
+  if (callState === CallState.Accepted && acceptedDuration) {
+    return i18n('callDuration', [renderDuration(acceptedDuration)]);
+  }
+  return undefined;
 }
 
 function renderDuration(ms: number): string {

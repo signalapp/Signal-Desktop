@@ -229,6 +229,11 @@
   text-shadow: 0 0 4px $color-black-alpha-40;
 }
 
+@mixin lonely-local-video-preview {
+  object-fit: cover;
+  opacity: 0.6;
+}
+
 // --- Buttons
 
 // Individual traits
