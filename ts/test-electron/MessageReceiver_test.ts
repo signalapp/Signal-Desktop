@@ -22,8 +22,16 @@ describe('MessageReceiver', () => {
   const uuid = 'aaaaaaaa-bbbb-4ccc-9ddd-eeeeeeeeeeee';
   const deviceId = 1;
 
+  beforeEach(async () => {
+    await window.storage.protocol.hydrateCaches();
+  });
+
+  afterEach(async () => {
+    await window.storage.protocol.removeAllUnprocessed();
+  });
+
   describe('connecting', () => {
-    it('generates decryption-error event when it cannot decrypt', done => {
+    it('generates decryption-error event when it cannot decrypt', async () => {
       const messageReceiver = new MessageReceiver({
         server: {} as WebAPIType,
         storage: window.storage,
@@ -52,14 +60,18 @@ describe('MessageReceiver', () => {
         )
       );
 
-      messageReceiver.addEventListener(
-        'decryption-error',
-        (error: DecryptionErrorEvent) => {
-          assert.strictEqual(error.decryptionError.senderUuid, uuid);
-          assert.strictEqual(error.decryptionError.senderDevice, deviceId);
-          done();
-        }
-      );
+      await new Promise<void>(resolve => {
+        messageReceiver.addEventListener(
+          'decryption-error',
+          (error: DecryptionErrorEvent) => {
+            assert.strictEqual(error.decryptionError.senderUuid, uuid);
+            assert.strictEqual(error.decryptionError.senderDevice, deviceId);
+            resolve();
+          }
+        );
+      });
+
+      await messageReceiver.drain();
     });
   });
 });
