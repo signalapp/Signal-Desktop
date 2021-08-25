@@ -296,9 +296,13 @@ export class SwarmPolling {
       );
     } catch (e) {
       if (e.message === ERROR_CODE_NO_CONNECT) {
-        window.inboxStore?.dispatch(updateIsOnline(false));
+        if (window.inboxStore?.getState().onionPaths.isOnline) {
+          window.inboxStore?.dispatch(updateIsOnline(false));
+        }
       } else {
-        window.inboxStore?.dispatch(updateIsOnline(true));
+        if (!window.inboxStore?.getState().onionPaths.isOnline) {
+          window.inboxStore?.dispatch(updateIsOnline(true));
+        }
       }
       window?.log?.info('pollNodeForKey failed with', e.message);
       return null;

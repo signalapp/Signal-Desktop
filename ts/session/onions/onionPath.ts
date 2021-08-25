@@ -142,9 +142,13 @@ export async function getOnionPath(toExclude?: Snode): Promise<Array<Snode>> {
   }
 
   if (onionPaths.length <= 0) {
-    window.inboxStore?.dispatch(updateOnionPaths([]));
+    if (!_.isEmpty(window.inboxStore?.getState().onionPaths.snodePaths)) {
+      window.inboxStore?.dispatch(updateOnionPaths([]));
+    }
   } else {
-    window.inboxStore?.dispatch(updateOnionPaths(onionPaths));
+    if (!_.isEqual(window.inboxStore?.getState().onionPaths.snodePaths, onionPaths)) {
+      window.inboxStore?.dispatch(updateOnionPaths(onionPaths));
+    }
   }
 
   const onionPathsWithoutExcluded = toExclude
