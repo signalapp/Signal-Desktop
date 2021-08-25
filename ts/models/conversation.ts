@@ -1036,7 +1036,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         (m: any) => m.get('received_at') > newestUnreadDate
       );
       const ourNumber = UserUtils.getOurPubKeyStrFromCache();
-      return !stillUnread.some(m => m.getPropsForMessage()?.text?.indexOf(`@${ourNumber}`) !== -1);
+      return !stillUnread.some(m => m.get('body')?.indexOf(`@${ourNumber}`) !== -1);
     })();
 
     if (mentionRead) {

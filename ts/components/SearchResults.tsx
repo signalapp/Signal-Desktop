@@ -1,5 +1,4 @@
 import React from 'react';
-import { PropsForSearchResults } from '../state/ducks/conversations';
 import {
   ConversationListItemProps,
   MemoConversationListItemWithDetails,
@@ -9,7 +8,6 @@ export type SearchResultsProps = {
   contacts: Array<ConversationListItemProps>;
   conversations: Array<ConversationListItemProps>;
   hideMessagesHeader: boolean;
-  messages: Array<PropsForSearchResults>;
   searchTerm: string;
 };
 
@@ -25,12 +23,11 @@ const ContactsItem = (props: { header: string; items: Array<ConversationListItem
 };
 
 export const SearchResults = (props: SearchResultsProps) => {
-  const { conversations, contacts, messages, searchTerm } = props;
+  const { conversations, contacts, searchTerm } = props;
 
   const haveConversations = conversations && conversations.length;
   const haveContacts = contacts && contacts.length;
-  const haveMessages = messages && messages.length;
-  const noResults = !haveConversations && !haveContacts && !haveMessages;
+  const noResults = !haveConversations && !haveContacts;
 
   return (
     <div className="module-search-results">

@@ -37,7 +37,6 @@ import {
   PropsForGroupUpdateName,
   PropsForGroupUpdateRemove,
   PropsForMessageWithoutConvoProps,
-  PropsForSearchResults,
 } from '../state/ducks/conversations';
 import { VisibleMessage } from '../session/messages/outgoing/visibleMessage/VisibleMessage';
 import { buildSyncMessage } from '../session/utils/syncUtils';
@@ -88,7 +87,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     perfStart(`getPropsMessage-${this.id}`);
     const messageProps: MessageModelPropsWithoutConvoProps = {
       propsForMessage: this.getPropsForMessage(),
-      propsForSearchResult: this.getPropsForSearchResult(),
       propsForDataExtractionNotification: this.getPropsForDataExtractionNotification(),
       propsForGroupInvitation: this.getPropsForGroupInvitation(),
       propsForGroupNotification: this.getPropsForGroupNotification(),
@@ -495,25 +493,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     }
 
     return 'sending';
-  }
-
-  public getPropsForSearchResult(): PropsForSearchResults {
-    const fromNumber = this.getSource();
-    const from = this.findAndFormatContact(fromNumber);
-
-    const toNumber = this.get('conversationId');
-    const to = this.findAndFormatContact(toNumber);
-
-    return {
-      from,
-      to,
-      // isSelected: this.isSelected,
-      id: this.id as string,
-      conversationId: this.get('conversationId'),
-      source: this.get('source'),
-      receivedAt: this.get('received_at'),
-      snippet: this.get('snippet'),
-    };
   }
 
   public getPropsForMessage(options: any = {}): PropsForMessageWithoutConvoProps {
