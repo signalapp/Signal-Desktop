@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { ReactNode, CSSProperties, FunctionComponent } from 'react';
+import React, { ReactNode, FunctionComponent } from 'react';
 import classNames from 'classnames';
 import { isBoolean, isNumber } from 'lodash';
 
@@ -9,8 +9,8 @@ import { Avatar, AvatarSize } from '../Avatar';
 import { Timestamp } from '../conversation/Timestamp';
 import { isConversationUnread } from '../../util/isConversationUnread';
 import { cleanId } from '../_util';
-import { ColorType } from '../../types/Colors';
 import { LocalizerType } from '../../types/Util';
+import { ConversationType } from '../../state/ducks/conversations';
 
 const BASE_CLASS_NAME =
   'module-conversation-list__item--contact-or-conversation';
@@ -23,33 +23,39 @@ export const MESSAGE_TEXT_CLASS_NAME = `${MESSAGE_CLASS_NAME}__text`;
 const CHECKBOX_CLASS_NAME = `${BASE_CLASS_NAME}__checkbox`;
 
 type PropsType = {
-  avatarPath?: string;
   checked?: boolean;
-  color?: ColorType;
   conversationType: 'group' | 'direct';
   disabled?: boolean;
   headerDate?: number;
   headerName: ReactNode;
-  i18n: LocalizerType;
   id?: string;
-  isMe?: boolean;
+  i18n: LocalizerType;
   isNoteToSelf?: boolean;
   isSelected: boolean;
   markedUnread?: boolean;
   messageId?: string;
   messageStatusIcon?: ReactNode;
   messageText?: ReactNode;
-  name?: string;
   onClick?: () => void;
-  phoneNumber?: string;
-  profileName?: string;
-  style: CSSProperties;
-  title: string;
   unreadCount?: number;
-};
+} & Pick<
+  ConversationType,
+  | 'acceptedMessageRequest'
+  | 'avatarPath'
+  | 'color'
+  | 'isMe'
+  | 'markedUnread'
+  | 'name'
+  | 'phoneNumber'
+  | 'profileName'
+  | 'sharedGroupNames'
+  | 'title'
+  | 'unblurredAvatarPath'
+>;
 
 export const BaseConversationListItem: FunctionComponent<PropsType> = React.memo(
-  ({
+  function BaseConversationListItem({
+    acceptedMessageRequest,
     avatarPath,
     checked,
     color,
@@ -69,10 +75,11 @@ export const BaseConversationListItem: FunctionComponent<PropsType> = React.memo
     onClick,
     phoneNumber,
     profileName,
-    style,
+    sharedGroupNames,
     title,
+    unblurredAvatarPath,
     unreadCount,
-  }) => {
+  }) {
     const isUnread = isConversationUnread({ markedUnread, unreadCount });
 
     const isAvatarNoteToSelf = isBoolean(isNoteToSelf)
@@ -112,16 +119,20 @@ export const BaseConversationListItem: FunctionComponent<PropsType> = React.memo
       <>
         <div className={`${BASE_CLASS_NAME}__avatar-container`}>
           <Avatar
+            acceptedMessageRequest={acceptedMessageRequest}
             avatarPath={avatarPath}
             color={color}
-            noteToSelf={isAvatarNoteToSelf}
             conversationType={conversationType}
+            noteToSelf={isAvatarNoteToSelf}
             i18n={i18n}
+            isMe={isMe}
             name={name}
             phoneNumber={phoneNumber}
             profileName={profileName}
             title={title}
+            sharedGroupNames={sharedGroupNames}
             size={AvatarSize.FIFTY_TWO}
+            unblurredAvatarPath={unblurredAvatarPath}
           />
           {isUnread && (
             <div className={`${BASE_CLASS_NAME}__unread-count`}>
@@ -185,7 +196,6 @@ export const BaseConversationListItem: FunctionComponent<PropsType> = React.memo
             { [`${BASE_CLASS_NAME}--is-checkbox--disabled`]: disabled }
           )}
           data-id={id ? cleanId(id) : undefined}
-          style={style}
           // `onClick` is will double-fire if we're enabled. We want it to fire when we're
           //   disabled so we can show any "can't add contact" modals, etc. This won't
           //   work for keyboard users, though, because labels are not tabbable.
@@ -206,7 +216,6 @@ export const BaseConversationListItem: FunctionComponent<PropsType> = React.memo
           data-id={id ? cleanId(id) : undefined}
           disabled={disabled}
           onClick={onClick}
-          style={style}
           type="button"
         >
           {contents}
@@ -215,11 +224,7 @@ export const BaseConversationListItem: FunctionComponent<PropsType> = React.memo
     }
 
     return (
-      <div
-        className={commonClassNames}
-        data-id={id ? cleanId(id) : undefined}
-        style={style}
-      >
+      <div className={commonClassNames} data-id={id ? cleanId(id) : undefined}>
         {contents}
       </div>
     );

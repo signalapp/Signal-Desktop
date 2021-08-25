@@ -1,3 +1,6 @@
+// Copyright 2020-2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
 package signalservice;
 
 option java_package         = "org.whispersystems.signalservice.internal.storage";
@@ -87,12 +90,13 @@ message GroupV1Record {
 }
 
 message GroupV2Record {
-  optional bytes  masterKey           = 1;
-  optional bool   blocked             = 2;
-  optional bool   whitelisted         = 3;
-  optional bool   archived            = 4;
-  optional bool   markedUnread        = 5;
-  optional uint64 mutedUntilTimestamp = 6;
+  optional bytes  masterKey                    = 1;
+  optional bool   blocked                      = 2;
+  optional bool   whitelisted                  = 3;
+  optional bool   archived                     = 4;
+  optional bool   markedUnread                 = 5;
+  optional uint64 mutedUntilTimestamp          = 6;
+  optional bool   dontNotifyForMentionsIfMuted = 7;
 }
 
 message AccountRecord {
@@ -129,4 +133,7 @@ message AccountRecord {
   optional PhoneNumberSharingMode phoneNumberSharingMode       = 12;
   optional bool                   notDiscoverableByPhoneNumber = 13;
   repeated PinnedConversation     pinnedConversations          = 14;
+  optional uint32                 universalExpireTimer         = 17;
+  optional bool                   primarySendsSms              = 18;
+  optional string                 e164                         = 19;
 }

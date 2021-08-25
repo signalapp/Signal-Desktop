@@ -3,6 +3,8 @@
 
 const { ipcRenderer } = require('electron');
 
+const { beforeRestart } = require('../../ts/logging/set_up_renderer_logging');
+
 /* eslint-env node */
 
 module.exports = {
@@ -11,6 +13,9 @@ module.exports = {
 
 function deleteAll() {
   return new Promise((resolve, reject) => {
+    // Restart logging again when the file stream close
+    beforeRestart();
+
     ipcRenderer.once('delete-all-logs-complete', resolve);
 
     setTimeout(() => {

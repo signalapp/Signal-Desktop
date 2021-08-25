@@ -1,101 +1,160 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable max-classes-per-file */
 
-import { ByteBufferClass } from '../window.d';
-import { AttachmentType } from './SendMessage';
+import { Reader } from 'protobufjs';
 
-type ProtobufConstructorType = {
-  decode: (data: ArrayBuffer) => ProtobufType;
+import { SignalService as Proto } from '../protobuf';
+import { normalizeUuid } from '../util/normalizeUuid';
+import { typedArrayToArrayBuffer } from '../Crypto';
+
+import Avatar = Proto.ContactDetails.IAvatar;
+
+type OptionalAvatar = { avatar?: Avatar | null };
+
+type DecoderBase<Message extends OptionalAvatar> = {
+  decodeDelimited(reader: Reader): Message | undefined;
 };
 
-type ProtobufType = {
-  avatar?: PackedAttachmentType;
-  profileKey?: any;
-  uuid?: string;
-  members: Array<string>;
+export type MessageWithAvatar<Message extends OptionalAvatar> = Omit<
+  Message,
+  'avatar'
+> & {
+  avatar?: (Avatar & { data: ArrayBuffer }) | null;
 };
 
-export type PackedAttachmentType = AttachmentType & {
-  length: number;
-};
+export type ModifiedGroupDetails = MessageWithAvatar<Proto.GroupDetails>;
 
-export class ProtoParser {
-  buffer: ByteBufferClass;
+export type ModifiedContactDetails = MessageWithAvatar<Proto.ContactDetails>;
 
-  protobuf: ProtobufConstructorType;
+// TODO: remove once we move away from ArrayBuffers
+const FIXMEU8 = Uint8Array;
 
-  constructor(arrayBuffer: ArrayBuffer, protobuf: ProtobufConstructorType) {
-    this.protobuf = protobuf;
-    this.buffer = new window.dcodeIO.ByteBuffer();
-    this.buffer.append(arrayBuffer);
-    this.buffer.offset = 0;
-    this.buffer.limit = arrayBuffer.byteLength;
+class ParserBase<
+  Message extends OptionalAvatar,
+  Decoder extends DecoderBase<Message>
+> {
+  protected readonly reader: Reader;
+
+  constructor(arrayBuffer: ArrayBuffer, private readonly decoder: Decoder) {
+    this.reader = new Reader(new FIXMEU8(arrayBuffer));
   }
 
-  next(): ProtobufType | undefined | null {
+  protected decodeDelimited(): MessageWithAvatar<Message> | undefined {
+    if (this.reader.pos === this.reader.len) {
+      return undefined; // eof
+    }
+
     try {
-      if (this.buffer.limit === this.buffer.offset) {
-        return undefined; // eof
-      }
-      const len = this.buffer.readVarint32();
-      const nextBuffer = this.buffer
-        .slice(this.buffer.offset, this.buffer.offset + len)
-        .toArrayBuffer();
+      const proto = this.decoder.decodeDelimited(this.reader);
 
-      const proto = this.protobuf.decode(nextBuffer);
-      this.buffer.skip(len);
-
-      if (proto.avatar) {
-        const attachmentLen = proto.avatar.length;
-        proto.avatar.data = this.buffer
-          .slice(this.buffer.offset, this.buffer.offset + attachmentLen)
-          .toArrayBuffer();
-        this.buffer.skip(attachmentLen);
+      if (!proto) {
+        return undefined;
       }
 
-      if (proto.profileKey) {
-        proto.profileKey = proto.profileKey.toArrayBuffer();
+      if (!proto.avatar) {
+        return {
+          ...proto,
+          avatar: null,
+        };
       }
 
-      if (proto.uuid) {
-        window.normalizeUuids(
-          proto,
-          ['uuid'],
-          'ProtoParser::next (proto.uuid)'
-        );
-      }
+      const attachmentLen = proto.avatar.length ?? 0;
+      const avatarData = this.reader.buf.slice(
+        this.reader.pos,
+        this.reader.pos + attachmentLen
+      );
+      this.reader.skip(attachmentLen);
 
-      if (proto.members) {
-        window.normalizeUuids(
-          proto,
-          proto.members.map((_member, i) => `members.${i}.uuid`),
-          'ProtoParser::next (proto.members)'
-        );
-      }
+      return {
+        ...proto,
 
-      return proto;
+        avatar: {
+          ...proto.avatar,
+
+          data: typedArrayToArrayBuffer(avatarData),
+        },
+      };
     } catch (error) {
       window.log.error(
         'ProtoParser.next error:',
         error && error.stack ? error.stack : error
       );
+      return undefined;
+    }
+  }
+}
+
+export class GroupBuffer extends ParserBase<
+  Proto.GroupDetails,
+  typeof Proto.GroupDetails
+> {
+  constructor(arrayBuffer: ArrayBuffer) {
+    super(arrayBuffer, Proto.GroupDetails);
+  }
+
+  public next(): ModifiedGroupDetails | undefined {
+    const proto = this.decodeDelimited();
+    if (!proto) {
+      return undefined;
     }
 
-    return null;
+    if (!proto.members) {
+      return proto;
+    }
+    return {
+      ...proto,
+      members: proto.members.map((member, i) => {
+        if (!member.uuid) {
+          return member;
+        }
+
+        return {
+          ...member,
+          uuid: normalizeUuid(member.uuid, `GroupBuffer.member[${i}].uuid`),
+        };
+      }),
+    };
   }
 }
 
-export class GroupBuffer extends ProtoParser {
+export class ContactBuffer extends ParserBase<
+  Proto.ContactDetails,
+  typeof Proto.ContactDetails
+> {
   constructor(arrayBuffer: ArrayBuffer) {
-    super(arrayBuffer, window.textsecure.protobuf.GroupDetails as any);
+    super(arrayBuffer, Proto.ContactDetails);
   }
-}
 
-export class ContactBuffer extends ProtoParser {
-  constructor(arrayBuffer: ArrayBuffer) {
-    super(arrayBuffer, window.textsecure.protobuf.ContactDetails as any);
+  public next(): ModifiedContactDetails | undefined {
+    const proto = this.decodeDelimited();
+    if (!proto) {
+      return undefined;
+    }
+
+    if (!proto.uuid) {
+      return proto;
+    }
+
+    const { verified } = proto;
+
+    return {
+      ...proto,
+
+      verified:
+        verified && verified.destinationUuid
+          ? {
+              ...verified,
+
+              destinationUuid: normalizeUuid(
+                verified.destinationUuid,
+                'ContactBuffer.verified.destinationUuid'
+              ),
+            }
+          : verified,
+
+      uuid: normalizeUuid(proto.uuid, 'ContactBuffer.uuid'),
+    };
   }
 }

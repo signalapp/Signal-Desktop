@@ -6,80 +6,89 @@ import React from 'react';
 import { ConversationType } from '../../../state/ducks/conversations';
 import { LocalizerType } from '../../../types/Util';
 import { getAccessControlOptions } from '../../../util/getAccessControlOptions';
-import { AccessControlClass } from '../../../textsecure.d';
+import { SignalService as Proto } from '../../../protobuf';
 
 import { PanelRow } from './PanelRow';
 import { PanelSection } from './PanelSection';
+import { Select } from '../../Select';
 
 export type PropsType = {
-  accessEnum: typeof AccessControlClass.AccessRequired;
   conversation?: ConversationType;
   i18n: LocalizerType;
   setAccessControlAttributesSetting: (value: number) => void;
   setAccessControlMembersSetting: (value: number) => void;
+  setAnnouncementsOnly: (value: boolean) => void;
 };
 
-export const GroupV2Permissions: React.ComponentType<PropsType> = ({
-  accessEnum,
+export const GroupV2Permissions = ({
   conversation,
   i18n,
   setAccessControlAttributesSetting,
   setAccessControlMembersSetting,
-}) => {
+  setAnnouncementsOnly,
+}: PropsType): JSX.Element => {
   if (conversation === undefined) {
     throw new Error('GroupV2Permissions rendered without a conversation');
   }
 
-  const updateAccessControlAttributes = (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    setAccessControlAttributesSetting(Number(event.target.value));
+  const updateAccessControlAttributes = (value: string) => {
+    setAccessControlAttributesSetting(Number(value));
   };
-  const updateAccessControlMembers = (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    setAccessControlMembersSetting(Number(event.target.value));
+  const updateAccessControlMembers = (value: string) => {
+    setAccessControlMembersSetting(Number(value));
   };
-  const accessControlOptions = getAccessControlOptions(accessEnum, i18n);
+  const AccessControlEnum = Proto.AccessControl.AccessRequired;
+  const updateAnnouncementsOnly = (value: string) => {
+    setAnnouncementsOnly(Number(value) === AccessControlEnum.ADMINISTRATOR);
+  };
+  const accessControlOptions = getAccessControlOptions(i18n);
+  const announcementsOnlyValue = String(
+    conversation.announcementsOnly
+      ? AccessControlEnum.ADMINISTRATOR
+      : AccessControlEnum.MEMBER
+  );
+
+  const showAnnouncementsOnlyPermission =
+    conversation.areWeAdmin &&
+    (conversation.announcementsOnly || conversation.announcementsOnlyReady);
 
   return (
     <PanelSection>
       <PanelRow
-        label={i18n('ConversationDetails--group-info-label')}
-        info={i18n('ConversationDetails--group-info-info')}
-        right={
-          <div className="module-conversation-details-select">
-            <select
-              onChange={updateAccessControlAttributes}
-              value={conversation.accessControlAttributes}
-            >
-              {accessControlOptions.map(({ name, value }) => (
-                <option aria-label={name} key={name} value={value}>
-                  {name}
-                </option>
-              ))}
-            </select>
-          </div>
-        }
-      />
-      <PanelRow
         label={i18n('ConversationDetails--add-members-label')}
         info={i18n('ConversationDetails--add-members-info')}
         right={
-          <div className="module-conversation-details-select">
-            <select
-              onChange={updateAccessControlMembers}
-              value={conversation.accessControlMembers}
-            >
-              {accessControlOptions.map(({ name, value }) => (
-                <option aria-label={name} key={name} value={value}>
-                  {name}
-                </option>
-              ))}
-            </select>
-          </div>
+          <Select
+            onChange={updateAccessControlMembers}
+            options={accessControlOptions}
+            value={String(conversation.accessControlMembers)}
+          />
         }
       />
+      <PanelRow
+        label={i18n('ConversationDetails--group-info-label')}
+        info={i18n('ConversationDetails--group-info-info')}
+        right={
+          <Select
+            onChange={updateAccessControlAttributes}
+            options={accessControlOptions}
+            value={String(conversation.accessControlAttributes)}
+          />
+        }
+      />
+      {showAnnouncementsOnlyPermission && (
+        <PanelRow
+          label={i18n('ConversationDetails--announcement-label')}
+          info={i18n('ConversationDetails--announcement-info')}
+          right={
+            <Select
+              onChange={updateAnnouncementsOnly}
+              options={accessControlOptions}
+              value={announcementsOnlyValue}
+            />
+          }
+        />
+      )}
     </PanelSection>
   );
 };

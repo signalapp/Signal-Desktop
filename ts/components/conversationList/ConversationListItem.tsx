@@ -1,12 +1,7 @@
 // Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, {
-  useCallback,
-  CSSProperties,
-  FunctionComponent,
-  ReactNode,
-} from 'react';
+import React, { useCallback, FunctionComponent, ReactNode } from 'react';
 import classNames from 'classnames';
 
 import {
@@ -18,7 +13,7 @@ import { ContactName } from '../conversation/ContactName';
 import { TypingAnimation } from '../conversation/TypingAnimation';
 
 import { LocalizerType } from '../../types/Util';
-import { ColorType } from '../../types/Colors';
+import { ConversationType } from '../../state/ducks/conversations';
 
 const MESSAGE_STATUS_ICON_CLASS_NAME = `${MESSAGE_TEXT_CLASS_NAME}__status-icon`;
 
@@ -27,52 +22,48 @@ export const MessageStatuses = [
   'sent',
   'delivered',
   'read',
+  'paused',
   'error',
   'partial-sent',
 ] as const;
 
 export type MessageStatusType = typeof MessageStatuses[number];
 
-export type PropsData = {
-  id: string;
-  phoneNumber?: string;
-  color?: ColorType;
-  profileName?: string;
-  title: string;
-  name?: string;
-  type: 'group' | 'direct';
-  avatarPath?: string;
-  isMe?: boolean;
-  muteExpiresAt?: number;
-
-  lastUpdated?: number;
-  unreadCount?: number;
-  markedUnread?: boolean;
-  isSelected?: boolean;
-
-  acceptedMessageRequest?: boolean;
-  draftPreview?: string;
-  shouldShowDraft?: boolean;
-
-  typingContact?: unknown;
-  lastMessage?: {
-    status: MessageStatusType;
-    text: string;
-    deletedForEveryone?: boolean;
-  };
-  isPinned?: boolean;
-};
+export type PropsData = Pick<
+  ConversationType,
+  | 'acceptedMessageRequest'
+  | 'avatarPath'
+  | 'color'
+  | 'draftPreview'
+  | 'id'
+  | 'isMe'
+  | 'isPinned'
+  | 'isSelected'
+  | 'lastMessage'
+  | 'lastUpdated'
+  | 'markedUnread'
+  | 'muteExpiresAt'
+  | 'name'
+  | 'phoneNumber'
+  | 'profileName'
+  | 'sharedGroupNames'
+  | 'shouldShowDraft'
+  | 'title'
+  | 'type'
+  | 'typingContact'
+  | 'unblurredAvatarPath'
+  | 'unreadCount'
+>;
 
 type PropsHousekeeping = {
   i18n: LocalizerType;
-  style: CSSProperties;
   onClick: (id: string) => void;
 };
 
 export type Props = PropsData & PropsHousekeeping;
 
 export const ConversationListItem: FunctionComponent<Props> = React.memo(
-  ({
+  function ConversationListItem({
     acceptedMessageRequest,
     avatarPath,
     color,
@@ -89,13 +80,14 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
     onClick,
     phoneNumber,
     profileName,
+    sharedGroupNames,
     shouldShowDraft,
-    style,
     title,
     type,
     typingContact,
+    unblurredAvatarPath,
     unreadCount,
-  }) => {
+  }) {
     const headerName = isMe ? (
       i18n('noteToSelf')
     ) : (
@@ -180,6 +172,7 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
 
     return (
       <BaseConversationListItem
+        acceptedMessageRequest={acceptedMessageRequest}
         avatarPath={avatarPath}
         color={color}
         conversationType={type}
@@ -196,9 +189,10 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
         onClick={onClickItem}
         phoneNumber={phoneNumber}
         profileName={profileName}
-        style={style}
+        sharedGroupNames={sharedGroupNames}
         title={title}
         unreadCount={unreadCount}
+        unblurredAvatarPath={unblurredAvatarPath}
       />
     );
   }

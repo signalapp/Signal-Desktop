@@ -7,6 +7,7 @@ import { noop } from 'lodash';
 import { Manager, Reference, Popper } from 'react-popper';
 import { Theme, themeClassName } from '../util/theme';
 import { multiRef } from '../util/multiRef';
+import { offsetDistanceModifier } from '../util/popperUtil';
 
 type EventWrapperPropsType = {
   children: React.ReactNode;
@@ -96,7 +97,7 @@ export const Tooltip: React.FC<PropsType> = ({
           </TooltipEventWrapper>
         )}
       </Reference>
-      <Popper placement={direction}>
+      <Popper placement={direction} modifiers={[offsetDistanceModifier(12)]}>
         {({ arrowProps, placement, ref, style }) =>
           showTooltip && (
             <div

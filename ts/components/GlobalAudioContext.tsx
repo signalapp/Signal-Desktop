@@ -9,6 +9,7 @@ import { WaveformCache } from '../types/Audio';
 
 const MAX_WAVEFORM_COUNT = 1000;
 const MAX_PARALLEL_COMPUTE = 8;
+const MAX_AUDIO_DURATION = 15 * 60; // 15 minutes
 
 export type ComputePeaksResult = {
   duration: number;
@@ -26,6 +27,8 @@ export type Contents = {
 //   `audioContext` global, however, as the browser limits the number that can be
 //   created.)
 const audioContext = new AudioContext();
+audioContext.suspend();
+
 const waveformCache: WaveformCache = new LRU({
   max: MAX_WAVEFORM_COUNT,
 });
@@ -34,6 +37,36 @@ const inProgressMap = new Map<string, Promise<ComputePeaksResult>>();
 const computeQueue = new PQueue({
   concurrency: MAX_PARALLEL_COMPUTE,
 });
+
+async function getAudioDuration(
+  url: string,
+  buffer: ArrayBuffer
+): Promise<number> {
+  const blob = new Blob([buffer]);
+  const blobURL = URL.createObjectURL(blob);
+
+  const audio = new Audio();
+  audio.muted = true;
+  audio.src = blobURL;
+
+  await new Promise<void>((resolve, reject) => {
+    audio.addEventListener('loadedmetadata', () => {
+      resolve();
+    });
+
+    audio.addEventListener('error', event => {
+      const error = new Error(
+        `Failed to load audio from: ${url} due to error: ${event.type}`
+      );
+      reject(error);
+    });
+  });
+
+  if (Number.isNaN(audio.duration)) {
+    throw new Error(`Invalid audio duration for: ${url}`);
+  }
+  return audio.duration;
+}
 
 /**
  * Load audio from `url`, decode PCM data, and compute RMS peaks for displaying
@@ -61,10 +94,21 @@ async function doComputePeaks(
   const response = await fetch(url);
   const raw = await response.arrayBuffer();
 
+  const duration = await getAudioDuration(url, raw);
+
+  const peaks = new Array(barCount).fill(0);
+  if (duration > MAX_AUDIO_DURATION) {
+    window.log.info(
+      `GlobalAudioContext: audio ${url} duration ${duration}s is too long`
+    );
+    const emptyResult = { peaks, duration };
+    waveformCache.set(url, emptyResult);
+    return emptyResult;
+  }
+
   const data = await audioContext.decodeAudioData(raw);
 
   // Compute RMS peaks
-  const peaks = new Array(barCount).fill(0);
   const norms = new Array(barCount).fill(0);
 
   const samplesPerPeak = data.length / peaks.length;
@@ -94,7 +138,7 @@ async function doComputePeaks(
     peaks[i] /= max;
   }
 
-  const result = { peaks, duration: data.duration };
+  const result = { peaks, duration };
   waveformCache.set(url, result);
   return result;
 }
@@ -118,10 +162,11 @@ export async function computePeaks(
   const promise = computeQueue.add(() => doComputePeaks(url, barCount));
 
   inProgressMap.set(computeKey, promise);
-  const result = await promise;
-  inProgressMap.delete(computeKey);
-
-  return result;
+  try {
+    return await promise;
+  } finally {
+    inProgressMap.delete(computeKey);
+  }
 }
 
 const globalContents: Contents = {
@@ -132,7 +177,8 @@ const globalContents: Contents = {
 export const GlobalAudioContext = React.createContext<Contents>(globalContents);
 
 export type GlobalAudioProps = {
-  conversationId: string;
+  conversationId: string | undefined;
+  isPaused: boolean;
   children?: React.ReactNode | React.ReactChildren;
 };
 
@@ -142,6 +188,7 @@ export type GlobalAudioProps = {
  */
 export const GlobalAudioProvider: React.FC<GlobalAudioProps> = ({
   conversationId,
+  isPaused,
   children,
 }) => {
   // When moving between conversations - stop audio
@@ -150,6 +197,13 @@ export const GlobalAudioProvider: React.FC<GlobalAudioProps> = ({
       globalContents.audio.pause();
     };
   }, [conversationId]);
+
+  // Pause when requested by parent
+  React.useEffect(() => {
+    if (isPaused) {
+      globalContents.audio.pause();
+    }
+  }, [isPaused]);
 
   return (
     <GlobalAudioContext.Provider value={globalContents}>

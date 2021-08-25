@@ -23,6 +23,7 @@ jobs:
       with:
         repository: 'signalapp/Mock-Signal-Server-Private'
         path: 'Mock-Server'
+        ref: 'alpha'
         token: ${{ secrets.AUTOMATED_GITHUB_PAT }}
 
     - name: Setup node.js
@@ -30,7 +31,7 @@ jobs:
       with:
         node-version: '14.16.0'
     - name: Install global dependencies
-      run: npm install -g yarn@1.22.10 ts-node
+      run: npm install -g yarn@1.22.10 typescript@4.3.5 ts-node@10.2.0
 
     - name: Install xvfb
       run: sudo apt-get install xvfb
@@ -40,7 +41,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: node_modules
-        key: ${{ runner.os }}-${{ hashFiles('yarn.lock') }}
+        key: ${{ runner.os }}-${{ hashFiles('yarn.lock', 'patches/**') }}
 
     - name: Install Desktop node_modules
       if: steps.cache-desktop-modules.outputs.cache-hit != 'true'
@@ -56,23 +57,56 @@ jobs:
       run: yarn build:webpack
 
     - name: Copy CI configuration
-      run: cp -rf ./Mock-Server/config/local-development.json ./config/
+      run: |
+        cp -rf ./Mock-Server/config/local-development.json \
+          ./config/local-development.json
+        cp -rf ./config/local-development.json ./config/local-production.json
 
     - name: Setup hosts
       run: sudo echo "127.0.0.1 mock.signal.org" | sudo tee -a /etc/hosts
 
-    - name: Run benchmarks
+    - name: Run startup benchmarks
       run: |
-        xvfb-run --auto-servernum \
-          ts-node Mock-Server/scripts/load-test.ts ./node_modules/.bin/electron . | tee benchmark.log || \
-          (cat /home/runner/.config/Signal-mock/logs/{app,main}.log && exit 1)
+        set -o pipefail
+        rm -rf /tmp/mock
+        xvfb-run --auto-servernum ts-node Mock-Server/scripts/load-test.ts \
+          ./node_modules/.bin/electron . | tee benchmark-startup.log || \
+          (cat /tmp/mock/logs/{app,main}.log && exit 1)
       timeout-minutes: 10
       env:
+        NODE_ENV: production
         RUN_COUNT: 10
         ELECTRON_ENABLE_STACK_DUMPING: on
 
-    - name: Upload benchmark log
-      uses: actions/upload-artifact@v2
+    - name: Run send benchmarks
+      run: |
+        set -o pipefail
+        rm -rf /tmp/mock
+        xvfb-run --auto-servernum ts-node Mock-Server/scripts/send-test.ts \
+          ./node_modules/.bin/electron . | tee benchmark-send.log || \
+          (cat /tmp/mock/logs/{app,main}.log && exit 1)
+      timeout-minutes: 10
+      env:
+        NODE_ENV: production
+        RUN_COUNT: 100
+        ELECTRON_ENABLE_STACK_DUMPING: on
+
+    - name: Clone benchmark repo
+      uses: actions/checkout@v2
       with:
-        name: benchmark.log
-        path: benchmark.log
+        repository: 'signalapp/Signal-Desktop-Benchmarks-Private'
+        path: 'benchmark-results'
+        token: ${{ secrets.AUTOMATED_GITHUB_PAT }}
+
+    - name: Push benchmark repo
+      working-directory: benchmark-results
+      run: |
+        npm ci
+        node ./bin/collect.js ../benchmark-startup.log data/startup.json
+        node ./bin/collect.js ../benchmark-send.log data/send.json
+        npm run build
+        git config --global user.email "no-reply@signal.org"
+        git config --global user.name "Signal Bot"
+        git add .
+        git commit --message "${GITHUB_REF} ${GITHUB_SHA}"
+        git push --force origin main

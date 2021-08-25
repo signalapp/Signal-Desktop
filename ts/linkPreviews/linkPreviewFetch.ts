@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { RequestInit, Response } from 'node-fetch';
-import { AbortSignal } from 'abort-controller';
+import type { AbortSignal as AbortSignalForNodeFetch } from 'abort-controller';
 
 import {
   IMAGE_GIF,
@@ -11,6 +11,7 @@ import {
   IMAGE_PNG,
   IMAGE_WEBP,
   MIMEType,
+  stringToMIMEType,
 } from '../types/MIME';
 
 const USER_AGENT = 'WhatsApp/2';
@@ -163,7 +164,7 @@ const parseContentType = (headerValue: string | null): ParsedContentType => {
   }
 
   return {
-    type: rawType as MIMEType,
+    type: stringToMIMEType(rawType),
     charset,
   };
 };
@@ -448,7 +449,7 @@ export async function fetchLinkPreviewMetadata(
         Accept: 'text/html,application/xhtml+xml',
         'User-Agent': USER_AGENT,
       },
-      signal: abortSignal,
+      signal: abortSignal as AbortSignalForNodeFetch,
     });
   } catch (err) {
     window.log.warn(
@@ -545,7 +546,7 @@ export async function fetchLinkPreviewImage(
         'User-Agent': USER_AGENT,
       },
       size: MAX_IMAGE_CONTENT_LENGTH,
-      signal: abortSignal,
+      signal: abortSignal as AbortSignalForNodeFetch,
     });
   } catch (err) {
     window.log.warn('fetchLinkPreviewImage: failed to fetch image; bailing');
@@ -594,6 +595,10 @@ export async function fetchLinkPreviewImage(
     data = await response.arrayBuffer();
   } catch (err) {
     window.log.warn('fetchLinkPreviewImage: failed to read body; bailing');
+    return null;
+  }
+
+  if (abortSignal.aborted) {
     return null;
   }
 

@@ -40,7 +40,7 @@ describe('uploadDebugLogs', () => {
   it('makes a request to get the S3 bucket, then uploads it there', async function test() {
     assert.strictEqual(
       await uploadDebugLogs('hello world', '1.2.3'),
-      'https://debuglogs.org/abc123'
+      'https://debuglogs.org/abc123.gz'
     );
 
     sinon.assert.calledOnce(this.fakeGet);

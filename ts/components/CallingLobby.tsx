@@ -1,9 +1,8 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { ReactNode } from 'react';
-import Measure from 'react-measure';
-import { debounce } from 'lodash';
+import React from 'react';
+import classNames from 'classnames';
 import {
   SetLocalAudioType,
   SetLocalPreviewType,
@@ -13,25 +12,32 @@ import { CallingButton, CallingButtonType } from './CallingButton';
 import { TooltipPlacement } from './Tooltip';
 import { CallBackgroundBlur } from './CallBackgroundBlur';
 import { CallingHeader } from './CallingHeader';
-import { Spinner } from './Spinner';
-import { ColorType } from '../types/Colors';
+import { CallingPreCallInfo } from './CallingPreCallInfo';
+import {
+  CallingLobbyJoinButton,
+  CallingLobbyJoinButtonVariant,
+} from './CallingLobbyJoinButton';
+import { AvatarColorType } from '../types/Colors';
 import { LocalizerType } from '../types/Util';
 import { ConversationType } from '../state/ducks/conversations';
-import {
-  REQUESTED_VIDEO_WIDTH,
-  REQUESTED_VIDEO_HEIGHT,
-} from '../calling/constants';
-
-// We request dimensions but may not get them depending on the user's webcam. This is our
-//   fallback while we don't know.
-const VIDEO_ASPECT_RATIO_FALLBACK =
-  REQUESTED_VIDEO_WIDTH / REQUESTED_VIDEO_HEIGHT;
 
 export type PropsType = {
   availableCameras: Array<MediaDeviceInfo>;
-  conversation: {
-    title: string;
-  };
+  conversation: Pick<
+    ConversationType,
+    | 'acceptedMessageRequest'
+    | 'avatarPath'
+    | 'color'
+    | 'isMe'
+    | 'name'
+    | 'phoneNumber'
+    | 'profileName'
+    | 'sharedGroupNames'
+    | 'title'
+    | 'type'
+    | 'unblurredAvatarPath'
+  >;
+  groupMembers?: Array<Pick<ConversationType, 'title'>>;
   hasLocalAudio: boolean;
   hasLocalVideo: boolean;
   i18n: LocalizerType;
@@ -39,7 +45,7 @@ export type PropsType = {
   isCallFull?: boolean;
   me: {
     avatarPath?: string;
-    color?: ColorType;
+    color?: AvatarColorType;
     uuid: string;
   };
   onCallCanceled: () => void;
@@ -56,6 +62,7 @@ export type PropsType = {
 export const CallingLobby = ({
   availableCameras,
   conversation,
+  groupMembers,
   hasLocalAudio,
   hasLocalVideo,
   i18n,
@@ -72,18 +79,9 @@ export const CallingLobby = ({
   toggleParticipants,
   toggleSettings,
 }: PropsType): JSX.Element => {
-  const [
-    localPreviewContainerWidth,
-    setLocalPreviewContainerWidth,
-  ] = React.useState<null | number>(null);
-  const [
-    localPreviewContainerHeight,
-    setLocalPreviewContainerHeight,
-  ] = React.useState<null | number>(null);
-  const [localVideoAspectRatio, setLocalVideoAspectRatio] = React.useState(
-    VIDEO_ASPECT_RATIO_FALLBACK
-  );
   const localVideoRef = React.useRef<null | HTMLVideoElement>(null);
+
+  const shouldShowLocalVideo = hasLocalVideo && availableCameras.length > 0;
 
   const toggleAudio = React.useCallback((): void => {
     setLocalAudio({ enabled: !hasLocalAudio });
@@ -93,24 +91,6 @@ export const CallingLobby = ({
     setLocalVideo({ enabled: !hasLocalVideo });
   }, [hasLocalVideo, setLocalVideo]);
 
-  const hasEverMeasured =
-    localPreviewContainerWidth !== null && localPreviewContainerHeight !== null;
-  const setLocalPreviewContainerDimensions = React.useMemo(() => {
-    const set = (bounds: Readonly<{ width: number; height: number }>) => {
-      setLocalPreviewContainerWidth(bounds.width);
-      setLocalPreviewContainerHeight(bounds.height);
-    };
-
-    if (hasEverMeasured) {
-      return debounce(set, 100, { maxWait: 3000 });
-    }
-    return set;
-  }, [
-    hasEverMeasured,
-    setLocalPreviewContainerWidth,
-    setLocalPreviewContainerHeight,
-  ]);
-
   React.useEffect(() => {
     setLocalPreview({ element: localVideoRef });
 
@@ -118,21 +98,6 @@ export const CallingLobby = ({
       setLocalPreview({ element: undefined });
     };
   }, [setLocalPreview]);
-
-  // This isn't perfect because it doesn't react to changes in the webcam's aspect ratio.
-  //   For example, if you changed from Webcam A to Webcam B and Webcam B had a different
-  //   aspect ratio, we wouldn't update.
-  //
-  // Unfortunately, RingRTC (1) doesn't update these dimensions with the "real" camera
-  //   dimensions (2) doesn't give us any hooks or callbacks. For now, this works okay.
-  //   We have `object-fit: contain` in the CSS in case we're wrong; not ideal, but
-  //   usable.
-  React.useEffect(() => {
-    const videoEl = localVideoRef.current;
-    if (hasLocalVideo && videoEl && videoEl.width && videoEl.height) {
-      setLocalVideoAspectRatio(videoEl.width / videoEl.height);
-    }
-  }, [hasLocalVideo, setLocalVideoAspectRatio]);
 
   React.useEffect(() => {
     function handleKeyDown(event: KeyboardEvent): void {
@@ -171,179 +136,89 @@ export const CallingLobby = ({
     ? CallingButtonType.AUDIO_ON
     : CallingButtonType.AUDIO_OFF;
 
-  // It should be rare to see yourself in this list, but it's possible if (1) you rejoin
-  //   quickly, causing the server to return stale state (2) you have joined on another
-  //   device.
-  const participantNames = peekedParticipants.map(participant =>
-    participant.uuid === me.uuid
-      ? i18n('you')
-      : participant.firstName || participant.title
-  );
-  const hasYou = peekedParticipants.some(
-    participant => participant.uuid === me.uuid
-  );
-
   const canJoin = !isCallFull && !isCallConnecting;
 
-  let joinButtonChildren: ReactNode;
+  let callingLobbyJoinButtonVariant: CallingLobbyJoinButtonVariant;
   if (isCallFull) {
-    joinButtonChildren = i18n('calling__call-is-full');
+    callingLobbyJoinButtonVariant = CallingLobbyJoinButtonVariant.CallIsFull;
   } else if (isCallConnecting) {
-    joinButtonChildren = <Spinner svgSize="small" />;
+    callingLobbyJoinButtonVariant = CallingLobbyJoinButtonVariant.Loading;
   } else if (peekedParticipants.length) {
-    joinButtonChildren = i18n('calling__join');
+    callingLobbyJoinButtonVariant = CallingLobbyJoinButtonVariant.Join;
   } else {
-    joinButtonChildren = i18n('calling__start');
-  }
-
-  let localPreviewStyles: React.CSSProperties;
-  // It'd be nice to use `hasEverMeasured` here, too, but TypeScript isn't smart enough
-  //   to understand the logic here.
-  if (
-    localPreviewContainerWidth !== null &&
-    localPreviewContainerHeight !== null
-  ) {
-    const containerAspectRatio =
-      localPreviewContainerWidth / localPreviewContainerHeight;
-    localPreviewStyles =
-      containerAspectRatio < localVideoAspectRatio
-        ? {
-            width: '100%',
-            height: Math.floor(
-              localPreviewContainerWidth / localVideoAspectRatio
-            ),
-          }
-        : {
-            width: Math.floor(
-              localPreviewContainerHeight * localVideoAspectRatio
-            ),
-            height: '100%',
-          };
-  } else {
-    localPreviewStyles = { display: 'none' };
+    callingLobbyJoinButtonVariant = CallingLobbyJoinButtonVariant.Start;
   }
 
   return (
     <div className="module-calling__container">
+      {shouldShowLocalVideo ? (
+        <video
+          className="module-CallingLobby__local-preview module-CallingLobby__local-preview--camera-is-on"
+          ref={localVideoRef}
+          autoPlay
+        />
+      ) : (
+        <CallBackgroundBlur
+          className="module-CallingLobby__local-preview module-CallingLobby__local-preview--camera-is-off"
+          avatarPath={me.avatarPath}
+          color={me.color}
+        />
+      )}
+
       <CallingHeader
-        title={conversation.title}
         i18n={i18n}
         isGroupCall={isGroupCall}
         participantCount={peekedParticipants.length}
         showParticipantsList={showParticipantsList}
         toggleParticipants={toggleParticipants}
         toggleSettings={toggleSettings}
+        onCancel={onCallCanceled}
       />
 
-      <Measure
-        bounds
-        onResize={({ bounds }) => {
-          if (!bounds) {
-            window.log.error('We should be measuring bounds');
-            return;
-          }
-          setLocalPreviewContainerDimensions(bounds);
-        }}
-      >
-        {({ measureRef }) => (
-          <div
-            ref={measureRef}
-            className="module-calling-lobby__local-preview-container"
-          >
-            <div
-              className="module-calling-lobby__local-preview"
-              style={localPreviewStyles}
-            >
-              {hasLocalVideo && availableCameras.length > 0 ? (
-                <video
-                  className="module-calling-lobby__local-preview__video-on"
-                  ref={localVideoRef}
-                  autoPlay
-                />
-              ) : (
-                <CallBackgroundBlur avatarPath={me.avatarPath} color={me.color}>
-                  <div className="module-calling-lobby__local-preview__video-off__icon" />
-                  <span className="module-calling-lobby__local-preview__video-off__text">
-                    {i18n('calling__your-video-is-off')}
-                  </span>
-                </CallBackgroundBlur>
-              )}
+      <CallingPreCallInfo
+        conversation={conversation}
+        groupMembers={groupMembers}
+        i18n={i18n}
+        isCallFull={isCallFull}
+        me={me}
+        peekedParticipants={peekedParticipants}
+      />
 
-              <div className="module-calling__buttons">
-                <CallingButton
-                  buttonType={videoButtonType}
-                  i18n={i18n}
-                  onClick={toggleVideo}
-                  tooltipDirection={TooltipPlacement.Top}
-                />
-                <CallingButton
-                  buttonType={audioButtonType}
-                  i18n={i18n}
-                  onClick={toggleAudio}
-                  tooltipDirection={TooltipPlacement.Top}
-                />
-              </div>
-            </div>
-          </div>
+      <div
+        className={classNames(
+          'module-CallingLobby__camera-is-off',
+          `module-CallingLobby__camera-is-off--${
+            shouldShowLocalVideo ? 'invisible' : 'visible'
+          }`
         )}
-      </Measure>
-
-      {isGroupCall ? (
-        <div className="module-calling-lobby__info">
-          {participantNames.length === 0 &&
-            i18n('calling__lobby-summary--zero')}
-          {participantNames.length === 1 &&
-            hasYou &&
-            i18n('calling__lobby-summary--self')}
-          {participantNames.length === 1 &&
-            !hasYou &&
-            i18n('calling__lobby-summary--single', participantNames)}
-          {participantNames.length === 2 &&
-            i18n('calling__lobby-summary--double', {
-              first: participantNames[0],
-              second: participantNames[1],
-            })}
-          {participantNames.length === 3 &&
-            i18n('calling__lobby-summary--triple', {
-              first: participantNames[0],
-              second: participantNames[1],
-              third: participantNames[2],
-            })}
-          {participantNames.length > 3 &&
-            i18n('calling__lobby-summary--many', {
-              first: participantNames[0],
-              second: participantNames[1],
-              others: String(participantNames.length - 2),
-            })}
-        </div>
-      ) : null}
-
-      <div className="module-calling-lobby__actions">
-        <button
-          className="module-button__gray module-calling-lobby__button"
-          onClick={onCallCanceled}
-          tabIndex={0}
-          type="button"
-        >
-          {i18n('cancel')}
-        </button>
-        <button
-          className="module-button__green module-calling-lobby__button"
-          disabled={!canJoin}
-          onClick={
-            canJoin
-              ? () => {
-                  setIsCallConnecting(true);
-                  onJoinCall();
-                }
-              : undefined
-          }
-          tabIndex={0}
-          type="button"
-        >
-          {joinButtonChildren}
-        </button>
+      >
+        {i18n('calling__your-video-is-off')}
       </div>
+
+      <div className="module-calling__buttons module-calling__buttons--inline">
+        <CallingButton
+          buttonType={videoButtonType}
+          i18n={i18n}
+          onClick={toggleVideo}
+          tooltipDirection={TooltipPlacement.Top}
+        />
+        <CallingButton
+          buttonType={audioButtonType}
+          i18n={i18n}
+          onClick={toggleAudio}
+          tooltipDirection={TooltipPlacement.Top}
+        />
+      </div>
+
+      <CallingLobbyJoinButton
+        disabled={!canJoin}
+        i18n={i18n}
+        onClick={() => {
+          setIsCallConnecting(true);
+          onJoinCall();
+        }}
+        variant={callingLobbyJoinButtonVariant}
+      />
     </div>
   );
 };

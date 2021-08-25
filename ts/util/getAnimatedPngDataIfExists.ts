@@ -39,7 +39,11 @@ export function getAnimatedPngDataIfExists(
 
   let numPlays: void | number;
 
-  const dataView = new DataView(bytes.buffer);
+  const dataView = new DataView(
+    bytes.buffer,
+    bytes.byteOffset,
+    bytes.byteLength
+  );
 
   let i = PNG_SIGNATURE.length;
   while (i < bytes.byteLength && i <= MAX_BYTES_TO_READ) {

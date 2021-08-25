@@ -72,7 +72,7 @@ export const getSearchResults = createSelector(
   (
     state: SearchStateType,
     conversationLookup: ConversationLookupType
-  ): LeftPaneSearchPropsType => {
+  ): Omit<LeftPaneSearchPropsType, 'primarySendsSms'> => {
     const {
       contactIds,
       conversationIds,
@@ -143,7 +143,7 @@ export const getCachedSelectorForMessageSearchResult = createSelector(
           id: message.id,
           conversationId: message.conversationId,
           sentAt: message.sent_at,
-          snippet: message.snippet,
+          snippet: message.snippet || '',
           bodyRanges: bodyRanges.map((bodyRange: BodyRangeType) => {
             const conversation = conversationSelector(bodyRange.mentionUuid);
 
@@ -152,7 +152,7 @@ export const getCachedSelectorForMessageSearchResult = createSelector(
               replacementText: conversation.title,
             };
           }),
-          body: message.body,
+          body: message.body || '',
 
           isSelected: Boolean(
             selectedMessageId && message.id === selectedMessageId
@@ -200,6 +200,9 @@ export const getMessageSearchResultSelector = createSelector(
       if (type === 'incoming') {
         from = conversationSelector(sourceUuid || source);
         to = conversationSelector(conversationId);
+        if (from === to) {
+          to = conversationSelector(ourConversationId);
+        }
       } else if (type === 'outgoing') {
         from = conversationSelector(ourConversationId);
         to = conversationSelector(conversationId);

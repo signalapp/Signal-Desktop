@@ -34,6 +34,7 @@ import {
 } from '../quill/util';
 import { SignalClipboard } from '../quill/signal-clipboard';
 import { DirectionalBlot } from '../quill/block/blot';
+import { getClassNamesFor } from '../util/getClassNamesFor';
 
 Quill.register('formats/emoji', EmojiBlot);
 Quill.register('formats/mention', MentionBlot);
@@ -73,25 +74,19 @@ export type Props = {
   ): unknown;
   onTextTooLong(): unknown;
   onPickEmoji(o: EmojiPickDataType): unknown;
-  onSubmit(message: string, mentions: Array<BodyRangeType>): unknown;
+  onSubmit(
+    message: string,
+    mentions: Array<BodyRangeType>,
+    timestamp: number
+  ): unknown;
   getQuotedMessage(): unknown;
   clearQuotedMessage(): unknown;
 };
 
 const MAX_LENGTH = 64 * 1024;
+const BASE_CLASS_NAME = 'module-composition-input';
 
-function getClassName(
-  moduleClassName?: string,
-  modifier?: string | null
-): string | undefined {
-  if (!moduleClassName || !modifier) {
-    return undefined;
-  }
-
-  return `${moduleClassName}${modifier}`;
-}
-
-export const CompositionInput: React.ComponentType<Props> = props => {
+export function CompositionInput(props: Props): React.ReactElement {
   const {
     i18n,
     disabled,
@@ -108,9 +103,10 @@ export const CompositionInput: React.ComponentType<Props> = props => {
     sortedGroupMembers,
   } = props;
 
-  const [emojiCompletionElement, setEmojiCompletionElement] = React.useState<
-    JSX.Element
-  >();
+  const [
+    emojiCompletionElement,
+    setEmojiCompletionElement,
+  ] = React.useState<JSX.Element>();
   const [
     lastSelectionRange,
     setLastSelectionRange,
@@ -226,6 +222,7 @@ export const CompositionInput: React.ComponentType<Props> = props => {
   };
 
   const submit = () => {
+    const timestamp = Date.now();
     const quill = quillRef.current;
 
     if (quill === undefined) {
@@ -234,8 +231,10 @@ export const CompositionInput: React.ComponentType<Props> = props => {
 
     const [text, mentions] = getTextAndMentions();
 
-    window.log.info(`Submitting a message with ${mentions.length} mentions`);
-    onSubmit(text, mentions);
+    window.log.info(
+      `CompositionInput: Submitting message ${timestamp} with ${mentions.length} mentions`
+    );
+    onSubmit(text, mentions, timestamp);
   };
 
   if (inputApi) {
@@ -506,7 +505,7 @@ export const CompositionInput: React.ComponentType<Props> = props => {
 
       return (
         <ReactQuill
-          className="module-composition-input__quill"
+          className={`${BASE_CLASS_NAME}__quill`}
           onChange={() => callbacksRef.current.onChange()}
           defaultValue={delta}
           modules={{
@@ -621,29 +620,19 @@ export const CompositionInput: React.ComponentType<Props> = props => {
   // eslint-disable-next-line max-len
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 
+  const getClassName = getClassNamesFor(BASE_CLASS_NAME, moduleClassName);
+
   return (
     <Manager>
       <Reference>
         {({ ref }) => (
-          <div
-            className={classNames(
-              'module-composition-input__input',
-              getClassName(moduleClassName, '__input')
-            )}
-            ref={ref}
-          >
+          <div className={getClassName('__input')} ref={ref}>
             <div
               ref={scrollerRef}
               onClick={focus}
               className={classNames(
-                'module-composition-input__input__scroller',
-                large
-                  ? 'module-composition-input__input__scroller--large'
-                  : null,
-                getClassName(moduleClassName, '__scroller'),
-                large
-                  ? getClassName(moduleClassName, '__scroller--large')
-                  : null
+                getClassName('__input__scroller'),
+                large ? getClassName('__input__scroller--large') : null
               )}
             >
               {reactQuill}
@@ -655,4 +644,4 @@ export const CompositionInput: React.ComponentType<Props> = props => {
       </Reference>
     </Manager>
   );
-};
+}

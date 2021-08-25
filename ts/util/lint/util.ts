@@ -1,11 +1,11 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable no-console */
 
 import { readFileSync } from 'fs';
 
-import { orderBy } from 'lodash';
+import { omit, orderBy } from 'lodash';
 
 import { ExceptionType } from './types';
 
@@ -25,5 +25,19 @@ export function loadJSON<T>(target: string): T {
 export function sortExceptions(
   exceptions: Array<ExceptionType>
 ): Array<ExceptionType> {
-  return orderBy(exceptions, ['path', 'lineNumber', 'rule']);
+  return orderBy(exceptions, [
+    'path',
+    'rule',
+    'reasonCategory',
+    'updated',
+    'reasonDetail',
+  ]).map(removeLegacyAttributes);
+}
+
+// This is here in case any open changesets still touch `lineNumber`. We should remove
+//   this after 2021-06-01 to be conservative.
+function removeLegacyAttributes(
+  exception: Readonly<ExceptionType>
+): ExceptionType {
+  return omit(exception, ['lineNumber']);
 }

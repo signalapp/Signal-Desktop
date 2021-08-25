@@ -1,7 +1,7 @@
 // Copyright 2018-2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 import classNames from 'classnames';
 import is from '@sindresorhus/is';
@@ -25,12 +25,14 @@ const colorSVG = (url: string, color: string) => {
 };
 
 export type Props = {
+  children?: ReactNode;
   close: () => void;
   contentType: MIME.MIMEType | undefined;
   i18n: LocalizerType;
   objectURL: string;
   caption?: string;
   isViewOnce: boolean;
+  loop?: boolean;
   onNext?: () => void;
   onPrevious?: () => void;
   onSave?: () => void;
@@ -52,6 +54,7 @@ const styles = {
     top: 0,
     bottom: 0,
     backgroundColor: 'rgba(0, 0, 0, 0.9)',
+    zIndex: 10,
   } as React.CSSProperties,
   buttonContainer: {
     backgroundColor: 'transparent',
@@ -107,6 +110,8 @@ const styles = {
     right: 0,
     textAlign: 'center',
     color: 'white',
+    fontWeight: 'bold',
+    textShadow: '0 0 1px black, 0 0 2px black, 0 0 3px black, 0 0 4px black',
     padding: '1em',
     paddingLeft: '3em',
     paddingRight: '3em',
@@ -295,9 +300,11 @@ export class Lightbox extends React.Component<Props, State> {
   public render(): JSX.Element {
     const {
       caption,
+      children,
       contentType,
       i18n,
       isViewOnce,
+      loop = false,
       objectURL,
       onNext,
       onPrevious,
@@ -318,8 +325,14 @@ export class Lightbox extends React.Component<Props, State> {
           <div style={styles.controlsOffsetPlaceholder} />
           <div style={styles.objectContainer}>
             {!is.undefined(contentType)
-              ? this.renderObject({ objectURL, contentType, i18n, isViewOnce })
-              : null}
+              ? this.renderObject({
+                  objectURL,
+                  contentType,
+                  i18n,
+                  isViewOnce,
+                  loop,
+                })
+              : children}
             {caption ? <div style={styles.caption}>{caption}</div> : null}
           </div>
           <div style={styles.controls}>
@@ -361,11 +374,13 @@ export class Lightbox extends React.Component<Props, State> {
     contentType,
     i18n,
     isViewOnce,
+    loop,
   }: {
     objectURL: string;
     contentType: MIME.MIMEType;
     i18n: LocalizerType;
     isViewOnce: boolean;
+    loop: boolean;
   }) => {
     const isImageTypeSupported = GoogleChrome.isImageTypeSupported(contentType);
     if (isImageTypeSupported) {
@@ -390,8 +405,8 @@ export class Lightbox extends React.Component<Props, State> {
       return (
         <video
           ref={this.videoRef}
-          loop={isViewOnce}
-          controls={!isViewOnce}
+          loop={loop || isViewOnce}
+          controls={!loop && !isViewOnce}
           style={styles.object}
           key={objectURL}
         >

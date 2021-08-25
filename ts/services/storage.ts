@@ -6,19 +6,14 @@ import pMap from 'p-map';
 
 import Crypto from '../textsecure/Crypto';
 import dataInterface from '../sql/Client';
+import * as Bytes from '../Bytes';
 import {
   arrayBufferToBase64,
   base64ToArrayBuffer,
   deriveStorageItemKey,
   deriveStorageManifestKey,
+  typedArrayToArrayBuffer,
 } from '../Crypto';
-import {
-  ManifestRecordClass,
-  ManifestRecordIdentifierClass,
-  StorageItemClass,
-  StorageManifestClass,
-  StorageRecordClass,
-} from '../textsecure.d';
 import {
   mergeAccountRecord,
   mergeContactRecord,
@@ -30,18 +25,31 @@ import {
   toGroupV2Record,
 } from './storageRecordOps';
 import { ConversationModel } from '../models/conversations';
+import { strictAssert } from '../util/assert';
+import { BackOff } from '../util/BackOff';
+import { handleMessageSend } from '../util/handleMessageSend';
 import { storageJobQueue } from '../util/JobQueue';
 import { sleep } from '../util/sleep';
 import { isMoreRecentThan } from '../util/timestamp';
+import { normalizeNumber } from '../util/normalizeNumber';
 import { isStorageWriteFeatureEnabled } from '../storage/isFeatureEnabled';
+import { ourProfileKeyService } from './ourProfileKey';
+import {
+  ConversationTypes,
+  typeofConversation,
+} from '../util/whatTypeOfConversation';
+import { SignalService as Proto } from '../protobuf';
+
+type IManifestRecordIdentifier = Proto.ManifestRecord.IIdentifier;
+
+// TODO: remove once we move away from ArrayBuffers
+const FIXMEU8 = Uint8Array;
 
 const {
   eraseStorageServiceStateFromConversations,
   updateConversation,
 } = dataInterface;
 
-let consecutiveStops = 0;
-let consecutiveConflicts = 0;
 const uploadBucket: Array<number> = [];
 
 const validRecordTypes = new Set([
@@ -52,24 +60,18 @@ const validRecordTypes = new Set([
   4, // ACCOUNT
 ]);
 
-type BackoffType = {
-  [key: number]: number | undefined;
-  max: number;
-};
 const SECOND = 1000;
 const MINUTE = 60 * SECOND;
-const BACKOFF: BackoffType = {
-  0: SECOND,
-  1: 5 * SECOND,
-  2: 30 * SECOND,
-  3: 2 * MINUTE,
-  max: 5 * MINUTE,
-};
 
-function backOff(count: number) {
-  const ms = BACKOFF[count] || BACKOFF.max;
-  return sleep(ms);
-}
+const backOff = new BackOff([
+  SECOND,
+  5 * SECOND,
+  30 * SECOND,
+  2 * MINUTE,
+  5 * MINUTE,
+]);
+
+const conflictBackOff = new BackOff([SECOND, 5 * SECOND, 30 * SECOND]);
 
 function redactStorageID(storageID: string): string {
   return storageID.substring(0, 3);
@@ -84,15 +86,18 @@ type UnknownRecord = RemoteRecord;
 
 async function encryptRecord(
   storageID: string | undefined,
-  storageRecord: StorageRecordClass
-): Promise<StorageItemClass> {
-  const storageItem = new window.textsecure.protobuf.StorageItem();
+  storageRecord: Proto.IStorageRecord
+): Promise<Proto.StorageItem> {
+  const storageItem = new Proto.StorageItem();
 
   const storageKeyBuffer = storageID
     ? base64ToArrayBuffer(String(storageID))
     : generateStorageID();
 
   const storageKeyBase64 = window.storage.get('storageKey');
+  if (!storageKeyBase64) {
+    throw new Error('No storage key');
+  }
   const storageKey = base64ToArrayBuffer(storageKeyBase64);
   const storageItemKey = await deriveStorageItemKey(
     storageKey,
@@ -100,12 +105,12 @@ async function encryptRecord(
   );
 
   const encryptedRecord = await Crypto.encryptProfile(
-    storageRecord.toArrayBuffer(),
+    typedArrayToArrayBuffer(Proto.StorageRecord.encode(storageRecord).finish()),
     storageItemKey
   );
 
-  storageItem.key = storageKeyBuffer;
-  storageItem.value = encryptedRecord;
+  storageItem.key = new FIXMEU8(storageKeyBuffer);
+  storageItem.value = new FIXMEU8(encryptedRecord);
 
   return storageItem;
 }
@@ -120,13 +125,13 @@ type GeneratedManifestType = {
     storageID: string | undefined;
   }>;
   deleteKeys: Array<ArrayBuffer>;
-  newItems: Set<StorageItemClass>;
-  storageManifest: StorageManifestClass;
+  newItems: Set<Proto.IStorageItem>;
+  storageManifest: Proto.IStorageManifest;
 };
 
 async function generateManifest(
   version: number,
-  previousManifest?: ManifestRecordClass,
+  previousManifest?: Proto.IManifestRecord,
   isNewManifest = false
 ): Promise<GeneratedManifestType> {
   window.log.info(
@@ -137,37 +142,39 @@ async function generateManifest(
 
   await window.ConversationController.checkForConflicts();
 
-  const ITEM_TYPE = window.textsecure.protobuf.ManifestRecord.Identifier.Type;
+  const ITEM_TYPE = Proto.ManifestRecord.Identifier.Type;
 
   const conversationsToUpdate = [];
   const insertKeys: Array<string> = [];
   const deleteKeys: Array<ArrayBuffer> = [];
-  const manifestRecordKeys: Set<ManifestRecordIdentifierClass> = new Set();
-  const newItems: Set<StorageItemClass> = new Set();
+  const manifestRecordKeys: Set<IManifestRecordIdentifier> = new Set();
+  const newItems: Set<Proto.IStorageItem> = new Set();
 
   const conversations = window.getConversations();
   for (let i = 0; i < conversations.length; i += 1) {
     const conversation = conversations.models[i];
-    const identifier = new window.textsecure.protobuf.ManifestRecord.Identifier();
+    const identifier = new Proto.ManifestRecord.Identifier();
 
     let storageRecord;
-    if (conversation.isMe()) {
-      storageRecord = new window.textsecure.protobuf.StorageRecord();
+
+    const conversationType = typeofConversation(conversation.attributes);
+    if (conversationType === ConversationTypes.Me) {
+      storageRecord = new Proto.StorageRecord();
       // eslint-disable-next-line no-await-in-loop
       storageRecord.account = await toAccountRecord(conversation);
       identifier.type = ITEM_TYPE.ACCOUNT;
-    } else if (conversation.isPrivate()) {
-      storageRecord = new window.textsecure.protobuf.StorageRecord();
+    } else if (conversationType === ConversationTypes.Direct) {
+      storageRecord = new Proto.StorageRecord();
       // eslint-disable-next-line no-await-in-loop
       storageRecord.contact = await toContactRecord(conversation);
       identifier.type = ITEM_TYPE.CONTACT;
-    } else if (conversation.isGroupV2()) {
-      storageRecord = new window.textsecure.protobuf.StorageRecord();
+    } else if (conversationType === ConversationTypes.GroupV2) {
+      storageRecord = new Proto.StorageRecord();
       // eslint-disable-next-line no-await-in-loop
       storageRecord.groupV2 = await toGroupV2Record(conversation);
       identifier.type = ITEM_TYPE.GROUPV2;
-    } else if (conversation.isGroupV1()) {
-      storageRecord = new window.textsecure.protobuf.StorageRecord();
+    } else if (conversationType === ConversationTypes.GroupV1) {
+      storageRecord = new Proto.StorageRecord();
       // eslint-disable-next-line no-await-in-loop
       storageRecord.groupV1 = await toGroupV1Record(conversation);
       identifier.type = ITEM_TYPE.GROUPV1;
@@ -253,15 +260,17 @@ async function generateManifest(
   // When updating the manifest, ensure all "unknown" keys are added to the
   // new manifest, so we don't inadvertently delete something we don't understand
   unknownRecordsArray.forEach((record: UnknownRecord) => {
-    const identifier = new window.textsecure.protobuf.ManifestRecord.Identifier();
+    const identifier = new Proto.ManifestRecord.Identifier();
     identifier.type = record.itemType;
-    identifier.raw = base64ToArrayBuffer(record.storageID);
+    identifier.raw = Bytes.fromBase64(record.storageID);
 
     manifestRecordKeys.add(identifier);
   });
 
-  const recordsWithErrors: ReadonlyArray<UnknownRecord> =
-    window.storage.get('storage-service-error-records') || [];
+  const recordsWithErrors: ReadonlyArray<UnknownRecord> = window.storage.get(
+    'storage-service-error-records',
+    new Array<UnknownRecord>()
+  );
 
   window.log.info(
     'storageService.generateManifest: adding records that had errors in the previous merge',
@@ -271,9 +280,9 @@ async function generateManifest(
   // These records failed to merge in the previous fetchManifest, but we still
   // need to include them so that the manifest is complete
   recordsWithErrors.forEach((record: UnknownRecord) => {
-    const identifier = new window.textsecure.protobuf.ManifestRecord.Identifier();
+    const identifier = new Proto.ManifestRecord.Identifier();
     identifier.type = record.itemType;
-    identifier.raw = base64ToArrayBuffer(record.storageID);
+    identifier.raw = Bytes.fromBase64(record.storageID);
 
     manifestRecordKeys.add(identifier);
   });
@@ -288,7 +297,8 @@ async function generateManifest(
     //   This can be broken down into two parts:
     //     There are no duplicate type+raw pairs
     //     There are no duplicate raw bytes
-    const storageID = arrayBufferToBase64(identifier.raw);
+    strictAssert(identifier.raw, 'manifest record key without raw identifier');
+    const storageID = Bytes.toBase64(identifier.raw);
     const typeAndRaw = `${identifier.type}+${storageID}`;
     if (
       rawDuplicates.has(identifier.raw) ||
@@ -330,11 +340,13 @@ async function generateManifest(
   rawDuplicates.clear();
   typeRawDuplicates.clear();
 
-  const storageKeyDuplicates = new Set();
+  const storageKeyDuplicates = new Set<string>();
 
   newItems.forEach(storageItem => {
     // Ensure there are no duplicate StorageIdentifiers in your list of inserts
-    const storageID = storageItem.key;
+    strictAssert(storageItem.key, 'New storage item without key');
+
+    const storageID = Bytes.toBase64(storageItem.key);
     if (storageKeyDuplicates.has(storageID)) {
       window.log.info(
         'storageService.generateManifest: removing duplicate identifier from inserts',
@@ -355,16 +367,18 @@ async function generateManifest(
     const pendingDeletes: Set<string> = new Set();
 
     const remoteKeys: Set<string> = new Set();
-    previousManifest.keys.forEach(
-      (identifier: ManifestRecordIdentifierClass) => {
-        const storageID = arrayBufferToBase64(identifier.raw.toArrayBuffer());
+    (previousManifest.keys ?? []).forEach(
+      (identifier: IManifestRecordIdentifier) => {
+        strictAssert(identifier.raw, 'Identifier without raw field');
+        const storageID = Bytes.toBase64(identifier.raw);
         remoteKeys.add(storageID);
       }
     );
 
     const localKeys: Set<string> = new Set();
-    manifestRecordKeys.forEach((identifier: ManifestRecordIdentifierClass) => {
-      const storageID = arrayBufferToBase64(identifier.raw);
+    manifestRecordKeys.forEach((identifier: IManifestRecordIdentifier) => {
+      strictAssert(identifier.raw, 'Identifier without raw field');
+      const storageID = Bytes.toBase64(identifier.raw);
       localKeys.add(storageID);
 
       if (!remoteKeys.has(storageID)) {
@@ -401,24 +415,29 @@ async function generateManifest(
     });
   }
 
-  const manifestRecord = new window.textsecure.protobuf.ManifestRecord();
+  const manifestRecord = new Proto.ManifestRecord();
   manifestRecord.version = version;
   manifestRecord.keys = Array.from(manifestRecordKeys);
 
   const storageKeyBase64 = window.storage.get('storageKey');
+  if (!storageKeyBase64) {
+    throw new Error('No storage key');
+  }
   const storageKey = base64ToArrayBuffer(storageKeyBase64);
   const storageManifestKey = await deriveStorageManifestKey(
     storageKey,
     version
   );
   const encryptedManifest = await Crypto.encryptProfile(
-    manifestRecord.toArrayBuffer(),
+    typedArrayToArrayBuffer(
+      Proto.ManifestRecord.encode(manifestRecord).finish()
+    ),
     storageManifestKey
   );
 
-  const storageManifest = new window.textsecure.protobuf.StorageManifest();
+  const storageManifest = new Proto.StorageManifest();
   storageManifest.version = version;
-  storageManifest.value = encryptedManifest;
+  storageManifest.value = new FIXMEU8(encryptedManifest);
 
   return {
     conversationsToUpdate,
@@ -454,14 +473,16 @@ async function uploadManifest(
       deleteKeys.length
     );
 
-    const writeOperation = new window.textsecure.protobuf.WriteOperation();
+    const writeOperation = new Proto.WriteOperation();
     writeOperation.manifest = storageManifest;
     writeOperation.insertItem = Array.from(newItems);
-    writeOperation.deleteKey = deleteKeys;
+    writeOperation.deleteKey = deleteKeys.map(key => new FIXMEU8(key));
 
     window.log.info('storageService.uploadManifest: uploading...', version);
     await window.textsecure.messaging.modifyStorageRecords(
-      writeOperation.toArrayBuffer(),
+      typedArrayToArrayBuffer(
+        Proto.WriteOperation.encode(writeOperation).finish()
+      ),
       {
         credentials,
       }
@@ -487,16 +508,15 @@ async function uploadManifest(
     );
 
     if (err.code === 409) {
-      if (consecutiveConflicts > 3) {
+      if (conflictBackOff.isFull()) {
         window.log.error(
           'storageService.uploadManifest: Exceeded maximum consecutive conflicts'
         );
         return;
       }
-      consecutiveConflicts += 1;
 
       window.log.info(
-        `storageService.uploadManifest: Conflict found with v${version}, running sync job times(${consecutiveConflicts})`
+        `storageService.uploadManifest: Conflict found with v${version}, running sync job times(${conflictBackOff.getIndex()})`
       );
 
       throw err;
@@ -510,9 +530,20 @@ async function uploadManifest(
     version
   );
   window.storage.put('manifestVersion', version);
-  consecutiveConflicts = 0;
-  consecutiveStops = 0;
-  await window.textsecure.messaging.sendFetchManifestSyncMessage();
+  conflictBackOff.reset();
+  backOff.reset();
+
+  if (window.ConversationController.areWePrimaryDevice()) {
+    window.log.warn(
+      'uploadManifest: We are primary device; not sending sync manifest'
+    );
+    return;
+  }
+
+  await handleMessageSend(
+    window.textsecure.messaging.sendFetchManifestSyncMessage(),
+    { messageIds: [], sendType: 'otherSync' }
+  );
 }
 
 async function stopStorageServiceSync() {
@@ -520,27 +551,38 @@ async function stopStorageServiceSync() {
 
   await window.storage.remove('storageKey');
 
-  if (consecutiveStops < 5) {
-    await backOff(consecutiveStops);
+  if (backOff.isFull()) {
     window.log.info(
-      'storageService.stopStorageServiceSync: requesting new keys'
+      'storageService.stopStorageServiceSync: too many consecutive stops'
     );
-    consecutiveStops += 1;
-    setTimeout(() => {
-      if (!window.textsecure.messaging) {
-        throw new Error(
-          'storageService.stopStorageServiceSync: We are offline!'
-        );
-      }
-      window.textsecure.messaging.sendRequestKeySyncMessage();
-    });
+    return;
   }
+
+  await sleep(backOff.getAndIncrement());
+  window.log.info('storageService.stopStorageServiceSync: requesting new keys');
+  setTimeout(() => {
+    if (!window.textsecure.messaging) {
+      throw new Error('storageService.stopStorageServiceSync: We are offline!');
+    }
+
+    if (window.ConversationController.areWePrimaryDevice()) {
+      window.log.warn(
+        'stopStorageServiceSync: We are primary device; not sending key sync request'
+      );
+      return;
+    }
+
+    handleMessageSend(window.textsecure.messaging.sendRequestKeySyncMessage(), {
+      messageIds: [],
+      sendType: 'otherSync',
+    });
+  });
 }
 
 async function createNewManifest() {
   window.log.info('storageService.createNewManifest: creating new manifest');
 
-  const version = window.storage.get('manifestVersion') || 0;
+  const version = window.storage.get('manifestVersion', 0);
 
   const {
     conversationsToUpdate,
@@ -558,28 +600,32 @@ async function createNewManifest() {
 }
 
 async function decryptManifest(
-  encryptedManifest: StorageManifestClass
-): Promise<ManifestRecordClass> {
+  encryptedManifest: Proto.IStorageManifest
+): Promise<Proto.ManifestRecord> {
   const { version, value } = encryptedManifest;
 
   const storageKeyBase64 = window.storage.get('storageKey');
+  if (!storageKeyBase64) {
+    throw new Error('No storage key');
+  }
   const storageKey = base64ToArrayBuffer(storageKeyBase64);
   const storageManifestKey = await deriveStorageManifestKey(
     storageKey,
-    typeof version === 'number' ? version : version.toNumber()
+    normalizeNumber(version ?? 0)
   );
 
+  strictAssert(value, 'StorageManifest has no value field');
   const decryptedManifest = await Crypto.decryptProfile(
-    typeof value.toArrayBuffer === 'function' ? value.toArrayBuffer() : value,
+    typedArrayToArrayBuffer(value),
     storageManifestKey
   );
 
-  return window.textsecure.protobuf.ManifestRecord.decode(decryptedManifest);
+  return Proto.ManifestRecord.decode(new FIXMEU8(decryptedManifest));
 }
 
 async function fetchManifest(
-  manifestVersion: string
-): Promise<ManifestRecordClass | undefined> {
+  manifestVersion: number
+): Promise<Proto.ManifestRecord | undefined> {
   window.log.info('storageService.fetchManifest');
 
   if (!window.textsecure.messaging) {
@@ -596,8 +642,8 @@ async function fetchManifest(
         greaterThanVersion: manifestVersion,
       }
     );
-    const encryptedManifest = window.textsecure.protobuf.StorageManifest.decode(
-      manifestBinary
+    const encryptedManifest = Proto.StorageManifest.decode(
+      new FIXMEU8(manifestBinary)
     );
 
     // if we don't get a value we're assuming that there's no newer manifest
@@ -635,7 +681,7 @@ async function fetchManifest(
 type MergeableItemType = {
   itemType: number;
   storageID: string;
-  storageRecord: StorageRecordClass;
+  storageRecord: Proto.IStorageRecord;
 };
 
 type MergedRecordType = UnknownRecord & {
@@ -649,7 +695,7 @@ async function mergeRecord(
 ): Promise<MergedRecordType> {
   const { itemType, storageID, storageRecord } = itemToMerge;
 
-  const ITEM_TYPE = window.textsecure.protobuf.ManifestRecord.Identifier.Type;
+  const ITEM_TYPE = Proto.ManifestRecord.Identifier.Type;
 
   let hasConflict = false;
   let isUnsupported = false;
@@ -699,18 +745,16 @@ async function mergeRecord(
 }
 
 async function processManifest(
-  manifest: ManifestRecordClass
+  manifest: Proto.IManifestRecord
 ): Promise<boolean> {
   if (!window.textsecure.messaging) {
     throw new Error('storageService.processManifest: We are offline!');
   }
 
   const remoteKeysTypeMap = new Map();
-  manifest.keys.forEach((identifier: ManifestRecordIdentifierClass) => {
-    remoteKeysTypeMap.set(
-      arrayBufferToBase64(identifier.raw.toArrayBuffer()),
-      identifier.type
-    );
+  (manifest.keys || []).forEach(({ raw, type }: IManifestRecordIdentifier) => {
+    strictAssert(raw, 'Identifier without raw field');
+    remoteKeysTypeMap.set(Bytes.toBase64(raw), type);
   });
 
   const remoteKeys = new Set(remoteKeysTypeMap.keys());
@@ -800,6 +844,9 @@ async function processRemoteRecords(
   remoteOnlyRecords: Map<string, RemoteRecord>
 ): Promise<number> {
   const storageKeyBase64 = window.storage.get('storageKey');
+  if (!storageKeyBase64) {
+    throw new Error('No storage key');
+  }
   const storageKey = base64ToArrayBuffer(storageKeyBase64);
 
   window.log.info(
@@ -807,21 +854,21 @@ async function processRemoteRecords(
     remoteOnlyRecords.size
   );
 
-  const readOperation = new window.textsecure.protobuf.ReadOperation();
+  const readOperation = new Proto.ReadOperation();
   readOperation.readKey = Array.from(remoteOnlyRecords.keys()).map(
-    base64ToArrayBuffer
+    Bytes.fromBase64
   );
 
   const credentials = window.storage.get('storageCredentials');
   const storageItemsBuffer = await window.textsecure.messaging.getStorageRecords(
-    readOperation.toArrayBuffer(),
+    typedArrayToArrayBuffer(Proto.ReadOperation.encode(readOperation).finish()),
     {
       credentials,
     }
   );
 
-  const storageItems = window.textsecure.protobuf.StorageItems.decode(
-    storageItemsBuffer
+  const storageItems = Proto.StorageItems.decode(
+    new FIXMEU8(storageItemsBuffer)
   );
 
   if (!storageItems.items) {
@@ -834,7 +881,7 @@ async function processRemoteRecords(
   const decryptedStorageItems = await pMap(
     storageItems.items,
     async (
-      storageRecordWrapper: StorageItemClass
+      storageRecordWrapper: Proto.IStorageItem
     ): Promise<MergeableItemType> => {
       const { key, value: storageItemCiphertext } = storageRecordWrapper;
 
@@ -848,7 +895,7 @@ async function processRemoteRecords(
         );
       }
 
-      const base64ItemID = arrayBufferToBase64(key.toArrayBuffer());
+      const base64ItemID = Bytes.toBase64(key);
 
       const storageItemKey = await deriveStorageItemKey(
         storageKey,
@@ -858,7 +905,7 @@ async function processRemoteRecords(
       let storageItemPlaintext;
       try {
         storageItemPlaintext = await Crypto.decryptProfile(
-          storageItemCiphertext.toArrayBuffer(),
+          typedArrayToArrayBuffer(storageItemCiphertext),
           storageItemKey
         );
       } catch (err) {
@@ -869,8 +916,8 @@ async function processRemoteRecords(
         throw err;
       }
 
-      const storageRecord = window.textsecure.protobuf.StorageRecord.decode(
-        storageItemPlaintext
+      const storageRecord = Proto.StorageRecord.decode(
+        new FIXMEU8(storageItemPlaintext)
       );
 
       const remoteRecord = remoteOnlyRecords.get(base64ItemID);
@@ -893,7 +940,7 @@ async function processRemoteRecords(
   // Merge Account records last since it contains the pinned conversations
   // and we need all other records merged first before we can find the pinned
   // records in our db
-  const ITEM_TYPE = window.textsecure.protobuf.ManifestRecord.Identifier.Type;
+  const ITEM_TYPE = Proto.ManifestRecord.Identifier.Type;
   const sortedStorageItems = decryptedStorageItems.sort((_, b) =>
     b.itemType === ITEM_TYPE.ACCOUNT ? -1 : 1
   );
@@ -912,8 +959,10 @@ async function processRemoteRecords(
     // Collect full map of previously and currently unknown records
     const unknownRecords: Map<string, UnknownRecord> = new Map();
 
-    const unknownRecordsArray: ReadonlyArray<UnknownRecord> =
-      window.storage.get('storage-service-unknown-records') || [];
+    const unknownRecordsArray: ReadonlyArray<UnknownRecord> = window.storage.get(
+      'storage-service-unknown-records',
+      new Array<UnknownRecord>()
+    );
     unknownRecordsArray.forEach((record: UnknownRecord) => {
       unknownRecords.set(record.storageID, record);
     });
@@ -969,7 +1018,7 @@ async function processRemoteRecords(
       return conflictCount;
     }
 
-    consecutiveConflicts = 0;
+    conflictBackOff.reset();
   } catch (err) {
     window.log.error(
       'storageService.processRemoteRecords: failed!',
@@ -980,7 +1029,7 @@ async function processRemoteRecords(
   return 0;
 }
 
-async function sync(): Promise<ManifestRecordClass | undefined> {
+async function sync(): Promise<Proto.ManifestRecord | undefined> {
   if (!isStorageWriteFeatureEnabled()) {
     window.log.info(
       'storageService.sync: Not starting desktop.storage is falsey'
@@ -995,7 +1044,7 @@ async function sync(): Promise<ManifestRecordClass | undefined> {
 
   window.log.info('storageService.sync: starting...');
 
-  let manifest: ManifestRecordClass | undefined;
+  let manifest: Proto.ManifestRecord | undefined;
   try {
     // If we've previously interacted with strage service, update 'fetchComplete' record
     const previousFetchComplete = window.storage.get('storageFetchComplete');
@@ -1013,7 +1062,11 @@ async function sync(): Promise<ManifestRecordClass | undefined> {
       return undefined;
     }
 
-    const version = manifest.version.toNumber();
+    strictAssert(
+      manifest.version !== undefined && manifest.version !== null,
+      'Manifest without version'
+    );
+    const version = normalizeNumber(manifest.version);
 
     window.log.info(
       `storageService.sync: manifest versions - previous: ${localManifestVersion}, current: ${version}`
@@ -1075,12 +1128,23 @@ async function upload(fromSync = false): Promise<void> {
     window.log.info(
       'storageService.upload: no storageKey, requesting new keys'
     );
-    consecutiveStops = 0;
-    await window.textsecure.messaging.sendRequestKeySyncMessage();
+    backOff.reset();
+
+    if (window.ConversationController.areWePrimaryDevice()) {
+      window.log.warn(
+        'upload: We are primary device; not sending key sync request'
+      );
+      return;
+    }
+
+    await handleMessageSend(
+      window.textsecure.messaging.sendRequestKeySyncMessage(),
+      { messageIds: [], sendType: 'otherSync' }
+    );
     return;
   }
 
-  let previousManifest: ManifestRecordClass | undefined;
+  let previousManifest: Proto.ManifestRecord | undefined;
   if (!fromSync) {
     // Syncing before we upload so that we repair any unknown records and
     // records with errors as well as ensure that we have the latest up to date
@@ -1088,7 +1152,7 @@ async function upload(fromSync = false): Promise<void> {
     previousManifest = await sync();
   }
 
-  const localManifestVersion = window.storage.get('manifestVersion') || 0;
+  const localManifestVersion = window.storage.get('manifestVersion', 0);
   const version = Number(localManifestVersion) + 1;
 
   window.log.info(
@@ -1101,7 +1165,7 @@ async function upload(fromSync = false): Promise<void> {
     await uploadManifest(version, generatedManifest);
   } catch (err) {
     if (err.code === 409) {
-      await backOff(consecutiveConflicts);
+      await sleep(conflictBackOff.getAndIncrement());
       window.log.info('storageService.upload: pushing sync on the queue');
       // The sync job will check for conflicts and as part of that conflict
       // check if an item needs sync and doesn't match with the remote record
@@ -1156,7 +1220,9 @@ export const runStorageServiceSyncJob = debounce(() => {
     return;
   }
 
-  storageJobQueue(async () => {
-    await sync();
-  }, `sync v${window.storage.get('manifestVersion')}`);
+  ourProfileKeyService.blockGetWithPromise(
+    storageJobQueue(async () => {
+      await sync();
+    }, `sync v${window.storage.get('manifestVersion')}`)
+  );
 }, 500);

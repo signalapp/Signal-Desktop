@@ -63,10 +63,7 @@ export async function forEachRelevantFile(
   await pMap(
     gitFiles,
     async (file: string) => {
-      if (
-        FILES_TO_IGNORE.has(path.basename(file)) ||
-        path.relative(rootPath, file).startsWith('components')
-      ) {
+      if (FILES_TO_IGNORE.has(path.basename(file))) {
         return;
       }
 

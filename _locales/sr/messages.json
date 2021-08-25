@@ -55,6 +55,10 @@
         "message": "Поставке…",
         "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
     },
+    "appMenuServices": {
+        "message": "Сервиси",
+        "description": "Application menu item for macOS 'Services'"
+    },
     "appMenuHide": {
         "message": "Сакриј",
         "description": "Application menu command to hide the window"
@@ -173,6 +177,10 @@
     },
     "avatarMenuViewArchive": {
         "message": "Погледај архиву",
+        "description": "One of the menu options available in the Avatar Popup menu"
+    },
+    "avatarMenuChatColors": {
+        "message": "Боја преписке",
         "description": "One of the menu options available in the Avatar Popup menu"
     },
     "loading": {
@@ -613,6 +621,10 @@
             }
         }
     },
+    "decryptionErrorToast": {
+        "message": "Десктоп је налетио на грешку у дешифрирању. Кликните да бисте послали дневник за уклањање грешака.",
+        "description": "An error popup when we haven't added an error for decryption error."
+    },
     "oneNonImageAtATimeToast": {
         "message": "Када укључујете прилог што није слика, ограничење је један прилог по поруци.",
         "description": "An error popup when the user has attempted to add an attachment"
@@ -665,6 +677,10 @@
         "message": "Извештај о грешкама",
         "description": "View menu item to open the debug log (title case)"
     },
+    "forceUpdate": {
+        "message": "Форсирати ажурирање",
+        "description": "View menu item to force the app to update download and install"
+    },
     "helpMenuShowKeyboardShortcuts": {
         "message": "Прикажи тастерске пречице",
         "description": "Item under the help menu, pops up a screen showing the application's keyboard shortcuts"
@@ -700,6 +716,10 @@
     "aboutSignalDesktop": {
         "message": "О Signal Desktop",
         "description": "Item under the Help menu, which opens a small about window"
+    },
+    "screenShareWindow": {
+        "message": "Дељење екрана",
+        "description": "Title for screen sharing window"
     },
     "speech": {
         "message": "Говор",
@@ -749,6 +769,10 @@
             }
         }
     },
+    "noSearchResults--sms-only": {
+        "message": "SMS/MMS контакти нису доступни на Десктопу.",
+        "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
+    },
     "noSearchResultsInConversation": {
         "message": "Нема резултата за „$searchTerm$“ у $conversationName$",
         "description": "Shown in the search left pane when no results were found",
@@ -769,6 +793,10 @@
     },
     "contactsHeader": {
         "message": "Контакти",
+        "description": "Shown to separate the types of search results"
+    },
+    "groupsHeader": {
+        "message": "Групе",
         "description": "Shown to separate the types of search results"
     },
     "messagesHeader": {
@@ -933,6 +961,10 @@
         "message": "Слика",
         "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
     },
+    "text": {
+        "message": "Текст",
+        "description": "Label for the word 'text'"
+    },
     "cannotUpdate": {
         "message": "Ажурирање није могуће",
         "description": "Shown as the title of our update error dialogs on windows"
@@ -993,6 +1025,10 @@
         "message": "Прихвати",
         "description": ""
     },
+    "done": {
+        "message": "Готово",
+        "description": "Label for done"
+    },
     "on": {
         "message": "Укључено",
         "description": "Label for when something is turned on"
@@ -1002,16 +1038,12 @@
         "description": "Label for when something is turned off"
     },
     "deleteWarning": {
-        "message": "Кликом на „избриши“ трајно ћете уклонити ову поруку само са ваших уређаја.",
+        "message": "Ова порука ће бити избрисана са овог уређаја.",
         "description": "Text shown in the confirmation dialog for deleting a message locally"
     },
     "deleteForEveryoneWarning": {
         "message": "Ова порука ће бити избрисана за све конверзацији ако користе најновију верзију апликације Signal. Моћи ће да виде да сте избрисали поруку.",
         "description": "Text shown in the confirmation dialog for deleting a message for everyone"
-    },
-    "deleteThisMessage": {
-        "message": "Обриши ову поруку",
-        "description": ""
     },
     "from": {
         "message": "Од",
@@ -1071,6 +1103,10 @@
         "message": "Морате разменити бар једну поруку са овим дописником. Шифра за дописивање ће се створити након прве преписке.",
         "description": ""
     },
+    "back": {
+        "message": "Назад",
+        "description": "Generic label for back"
+    },
     "goBack": {
         "message": "Вратите се",
         "description": "Label for back button in a conversation"
@@ -1082,6 +1118,10 @@
     "retrySend": {
         "message": "Покушај поново слање",
         "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
+    },
+    "forwardMessage": {
+        "message": "Проследи поруку",
+        "description": "Shown on the drop-down menu for an individual message, forwards a message"
     },
     "deleteMessage": {
         "message": "Обриши поруку за мене",
@@ -1102,6 +1142,74 @@
     "sessionEnded": {
         "message": "Безбедна сесија ресетована",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
+    },
+    "ChatRefresh--notification": {
+        "message": "Чет сесија је освежена",
+        "description": "Shown in timeline when a error happened, and the session was automatically reset."
+    },
+    "ChatRefresh--learnMore": {
+        "message": "Сазнај више",
+        "description": "Shown in timeline when session is automatically reset, to provide access to a popup info dialog"
+    },
+    "ChatRefresh--summary": {
+        "message": "Signal користи потпуно шифровање и можда ће понекад морати да освежи Вашу сесију ћаскања. Ово не утиче на безбедност вашег ћаскања, али можда сте пропустили поруку овог контакта и можете да затражите да је поново пошаље.",
+        "description": "Shown on explainer dialog available from chat session refreshed timeline events"
+    },
+    "ChatRefresh--contactSupport": {
+        "message": "Контактирајте подршку",
+        "description": "Shown on explainer dialog available from chat session refreshed timeline events"
+    },
+    "DeliveryIssue--preview": {
+        "message": "Проблем у испоруци",
+        "description": "Shown in left pane preview when message delivery issue happens"
+    },
+    "DeliveryIssue--notification": {
+        "message": "Порука од $sender$ није могла да се испоручи",
+        "description": "Shown in timeline when message delivery issue happens",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "DeliveryIssue--learnMore": {
+        "message": "Сазнај више",
+        "description": "Shown in timeline when message delivery issue happens, to provide access to a popup info dialog"
+    },
+    "DeliveryIssue--title": {
+        "message": "Проблем у испоруци",
+        "description": "Shown on explainer dialog available from delivery issue timeline events"
+    },
+    "DeliveryIssue--summary": {
+        "message": "Порука, налепница, реакција, потврда о читању или медиј од $sender$ није могло да се испоручи. Можда су то покушали да вам пошаљу директно или у групи.",
+        "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "DeliveryIssue--summary--group": {
+        "message": "Порука, налепница, реакција, потврда о читању или медиј од $sender$ није вам достављен.",
+        "description": "Shown on explainer dialog available from delivery issue timeline events in groups",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "ChangeNumber--notification": {
+        "message": "$sender$ променио свој број на нови број",
+        "description": "Shown in timeline when a member of a conversation changes their phone number",
+        "placeholders": {
+            "sender": {
+                "content": "$1",
+                "example": "Sam"
+            }
+        }
     },
     "quoteThumbnailAlt": {
         "message": "Сличица слике из цитиране поруке",
@@ -1247,6 +1355,18 @@
         "message": "Укључи микрофон",
         "description": "Button tooltip label for turning on the microphone"
     },
+    "calling__button--presenting-disabled": {
+        "message": "Презентација онемогућена",
+        "description": "Button tooltip label for when screen sharing is disabled"
+    },
+    "calling__button--presenting-on": {
+        "message": "Покретање презентације",
+        "description": "Button tooltip label for starting to share screen"
+    },
+    "calling__button--presenting-off": {
+        "message": "Заустављање презентације",
+        "description": "Button tooltip label for stopping screen sharing"
+    },
     "calling__your-video-is-off": {
         "message": "Ваша камера је искључена",
         "description": "Label in the calling lobby indicating that your camera is off"
@@ -1359,6 +1479,80 @@
         "message": "Померање надоле",
         "description": "Label for the \"scroll down\" button in a call's overflow area"
     },
+    "calling__presenting--notification-title": {
+        "message": "Презентујете свима.",
+        "description": "Title for the share screen notification"
+    },
+    "calling__presenting--notification-body": {
+        "message": "Кликните овде да бисте се вратили на позив када сте спремни да престанете да презентирате.",
+        "description": "Body text for the share screen notification"
+    },
+    "calling__presenting--info": {
+        "message": "Signal дели $window$.",
+        "description": "Text that appears in the screen sharing controller to inform person that they are presenting",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Application"
+            }
+        }
+    },
+    "calling__presenting--stop": {
+        "message": "Заустави презентецију",
+        "description": "Button for stopping screen sharing"
+    },
+    "calling__presenting--you-stopped": {
+        "message": "Зауставили сте презентацију",
+        "description": "Toast that appears when someone stops presenting"
+    },
+    "calling__presenting--person-ongoing": {
+        "message": "$name$ презентира",
+        "description": "Title of call when someone is presenting",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Maddie"
+            }
+        }
+    },
+    "calling__presenting--person-stopped": {
+        "message": "$name$ је зауставио прентентирање",
+        "description": "Toast that appears when someone stops presenting",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Maddie"
+            }
+        }
+    },
+    "calling__presenting--permission-title": {
+        "message": "Дозвола је потребна",
+        "description": "Shown as the title for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--macos-permission-description": {
+        "message": "Signal-у је потребна дозвола за приступ екрану вашег рачунара.",
+        "description": "Shown as the description for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--permission-instruction-step1": {
+        "message": "Отворите системске поставке.",
+        "description": "Shown as the description for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--permission-instruction-step2": {
+        "message": "Кликните на икону закључавања на доњем левом делу и унесите лозинку рачунара.",
+        "description": "Shown as the description for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--permission-instruction-step3": {
+        "message": "Са десне стране одаберите поље поред Signal-а. Ако не видите Signal у листи, кликните на + и додајте га.",
+        "description": "Shown as the description for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--permission-open": {
+        "message": "Отворите системске поставке",
+        "description": "The button that opens your system preferences for the needs screen record permissions modal"
+    },
+    "calling__presenting--permission-cancel": {
+        "message": "Одбаци",
+        "description": "The cancel button for the needs screen record permissions modal"
+    },
     "alwaysRelayCallsDescription": {
         "message": "Увек преусмеравај позиве",
         "description": "Description of the always relay calls setting"
@@ -1384,8 +1578,8 @@
         "description": "Header for general options on the settings screen"
     },
     "spellCheckDescription": {
-        "message": "Омогућите проверу правописа текста унетог у зони за састављање поруке",
-        "description": "Description of the media permission description"
+        "message": "Омогућити проверу правописа",
+        "description": "Description of the spell check setting"
     },
     "spellCheckWillBeEnabled": {
         "message": "Провера правописа биће омогућена на следеће покретање Signal-а.",
@@ -1394,6 +1588,18 @@
     "spellCheckWillBeDisabled": {
         "message": "Провера правописа биће онемогућена на следеће покретање Signal-а.",
         "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
+    },
+    "SystemTraySetting__minimize-to-system-tray": {
+        "message": "Минимизирати у систему",
+        "description": "In the settings, shown next to the checkbox option for minimizing to the system tray"
+    },
+    "SystemTraySetting__minimize-to-and-start-in-system-tray": {
+        "message": "Покрени минимизиван у систему",
+        "description": "In the settings, shown next to the checkbox option for starting in the system tray"
+    },
+    "autoLaunchDescription": {
+        "message": "Покренути са системом",
+        "description": "Description for the automatic launch setting"
     },
     "clearDataHeader": {
         "message": "Очистити податке",
@@ -1508,6 +1714,10 @@
     "sendFailed": {
         "message": "Слање неуспешно",
         "description": "Shown on outgoing message if it fails to send"
+    },
+    "sendPaused": {
+        "message": "Слање паузирано",
+        "description": "Shown on outgoing message if it cannot be sent immediately"
     },
     "partiallySent": {
         "message": "Делимично послато, кликните за детаље",
@@ -1661,105 +1871,13 @@
             }
         }
     },
-    "timerOption_0_seconds": {
+    "disappearingMessages__off": {
         "message": "искљ.",
         "description": "Label for option to turn off message expiration in the timer menu"
     },
-    "timerOption_5_seconds": {
-        "message": "5 секунди",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_10_seconds": {
-        "message": "10 секунди",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_30_seconds": {
-        "message": "30 секунди",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_1_minute": {
-        "message": "1 минут",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_5_minutes": {
-        "message": "5 минута",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_30_minutes": {
-        "message": "30 минута",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_1_hour": {
-        "message": "1 час",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_6_hours": {
-        "message": "6 сати",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_12_hours": {
-        "message": "12 сати",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_1_day": {
-        "message": "1 дан",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_1_week": {
-        "message": "1 недеља",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
     "disappearingMessages": {
         "message": "Самонестајуће поруке",
-        "description": "Conversation menu option to enable disappearing messages"
-    },
-    "timerOption_0_seconds_abbreviated": {
-        "message": "искљ.",
-        "description": "Short format indicating current timer setting in the conversation list snippet"
-    },
-    "timerOption_5_seconds_abbreviated": {
-        "message": "5 сек",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_10_seconds_abbreviated": {
-        "message": "10 сек",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_30_seconds_abbreviated": {
-        "message": "30 сек",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_1_minute_abbreviated": {
-        "message": "1 мин",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_5_minutes_abbreviated": {
-        "message": "5 мин",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_30_minutes_abbreviated": {
-        "message": "30 мин",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_1_hour_abbreviated": {
-        "message": "1 ч",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_6_hours_abbreviated": {
-        "message": "6 ч",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_12_hours_abbreviated": {
-        "message": "12 ч",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_1_day_abbreviated": {
-        "message": "1 д",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_1_week_abbreviated": {
-        "message": "1 нед",
-        "description": "Very short format indicating current timer setting in the conversation header"
+        "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
     },
     "disappearingMessagesDisabled": {
         "message": "Нестајуће поруке искључене",
@@ -1908,6 +2026,116 @@
     "startConversation": {
         "message": "Започните нов разговор...",
         "description": "Label underneath number a user enters that is not an existing contact"
+    },
+    "newConversation": {
+        "message": "Нова преписка",
+        "description": "Label for header when starting a new conversation"
+    },
+    "contactSearchPlaceholder": {
+        "message": "Претрага по имену или броју телефона",
+        "description": "Placeholder to use when searching for contacts in the composer"
+    },
+    "noContactsFound": {
+        "message": "Није пронађен ниједан контакт",
+        "description": "Label shown when there are no contacts to compose to"
+    },
+    "noConversationsFound": {
+        "message": "Није пронађен ниједна преписка",
+        "description": "Label shown when there are no conversations to compose to"
+    },
+    "chooseGroupMembers__title": {
+        "message": "Одаберите чланове",
+        "description": "The title for the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__back-button": {
+        "message": "Назад",
+        "description": "Used as alt-text of the back button on the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__skip": {
+        "message": "Прескочи",
+        "description": "The 'skip' button text in the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__next": {
+        "message": "Даље",
+        "description": "The 'next' button text in the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__maximum-group-size__title": {
+        "message": "Достигнута максимална величина групе",
+        "description": "Shown in the alert when you add the maximum number of group members"
+    },
+    "chooseGroupMembers__maximum-group-size__body": {
+        "message": "Групе „Signal“-а могу имати највише $max$ чланова.",
+        "description": "Shown in the alert when you add the maximum number of group members",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "1000"
+            }
+        }
+    },
+    "chooseGroupMembers__maximum-recommended-group-size__title": {
+        "message": "Достигнуто је препоручено ограничење чланова",
+        "description": "Shown in the alert when you add the maximum recommended number of group members"
+    },
+    "chooseGroupMembers__maximum-recommended-group-size__body": {
+        "message": "Групе у Signal-у имају најбољи учинак са $max$чланова или мање. Додавање више чланова проузроковаће кашњења у слању и примању порука.",
+        "description": "Shown in the alert when you add the maximum recommended number of group members",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "150"
+            }
+        }
+    },
+    "chooseGroupMembers__cant-add-member__title": {
+        "message": "Не може да се дода члан",
+        "description": "Shown in the alert when you try to add someone who can't be added to a group"
+    },
+    "chooseGroupMembers__cant-add-member__body": {
+        "message": "\"$name$\" не може се додати групи јер користе стару верзију Signal-а. Можете их додати у групу након што ажурирају Signal.",
+        "description": "Shown in the alert when you try to add someone who can't be added to a group",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "Jane Doe"
+            }
+        }
+    },
+    "setGroupMetadata__title": {
+        "message": "Дајте назив групи",
+        "description": "The title for the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__back-button": {
+        "message": "Повратак на избор чланова",
+        "description": "Used as alt-text of the back button on the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__group-name-placeholder": {
+        "message": "Назив групе (обавезно)",
+        "description": "The placeholder for the group name placeholder"
+    },
+    "setGroupMetadata__group-description-placeholder": {
+        "message": "Опис",
+        "description": "The placeholder for the group description"
+    },
+    "setGroupMetadata__create-group": {
+        "message": "Направи",
+        "description": "The 'create group' button text in the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__members-header": {
+        "message": "Чланови",
+        "description": "The header for the members list in the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__error-message": {
+        "message": "Није могуће направити ову групу. Проверите да ли сте повезани на интернет и покушајте поново.",
+        "description": "Shown in the modal when we can't create a group"
+    },
+    "updateGroupAttributes__title": {
+        "message": "Уређивање групе",
+        "description": "Shown in the modal when we want to update a group"
+    },
+    "updateGroupAttributes__error-message": {
+        "message": "Није могуће ажурирати ову групу. Проверите да ли сте повезани на интернет и покушајте поново.",
+        "description": "Shown in the modal when we can't update a group"
     },
     "notSupportedSMS": {
         "message": "СМС/ММС поруке нису подржане",
@@ -2081,15 +2309,15 @@
     },
     "message--getDescription--disappearing-media": {
         "message": "Једнократни медиј",
-        "description": "Shown in notifications and in the left pane after view-once message is deleted."
+        "description": "Shown in notifications and in the left pane after view-once message is deleted. Also shown when quoting a view once media."
     },
     "message--getDescription--disappearing-photo": {
         "message": "Једнократна фотографија",
-        "description": "Shown in notifications and in the left pane when a message is a view once photo."
+        "description": "Shown in notifications and in the left pane when a message is a view once photo. Also shown when quoting a view once photo."
     },
     "message--getDescription--disappearing-video": {
         "message": "Једнократни видео",
-        "description": "Shown in notifications and in the left pane when a message is a view once video."
+        "description": "Shown in notifications and in the left pane when a message is a view once video. Also shown when quoting a view once video."
     },
     "message--deletedForEveryone": {
         "message": "Ова порука је избрисана.",
@@ -2351,6 +2579,10 @@
     },
     "Keyboard--open-conversation-menu": {
         "message": "Отвори мени преписке",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--new-conversation": {
+        "message": "Започните нов разговор",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--archive-conversation": {
@@ -2847,9 +3079,13 @@
             }
         }
     },
-    "MessageRequests--block-and-delete": {
-        "message": "Блокирај и избриши",
-        "description": "Shown as a button to let the user block and delete a message request"
+    "MessageRequests--block-and-report-spam": {
+        "message": "Пријавити нежељену пошту и блокирати",
+        "description": "Shown as a button to let the user block a message request and report spam"
+    },
+    "MessageRequests--block-and-report-spam-success-toast": {
+        "message": "Пријављено као нежељена пошта и блокирано.",
+        "description": "Shown in a toast when you successfully block a user and report them as spam"
     },
     "MessageRequests--block-direct-confirm-title": {
         "message": "Блокирати $name$?",
@@ -2969,8 +3205,8 @@
             }
         }
     },
-    "ConversationHero--membership-1": {
-        "message": "Члан од $group$.",
+    "member-of-1-group": {
+        "message": "Члан $group$",
         "description": "Shown in the conversation hero to indicate this user is a member of a mutual group",
         "placeholders": {
             "group": {
@@ -2979,8 +3215,8 @@
             }
         }
     },
-    "ConversationHero--membership-2": {
-        "message": "Члан од $group1$ и $group2$.",
+    "member-of-2-groups": {
+        "message": "Члан $group1$ и $group2$",
         "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups",
         "placeholders": {
             "group1": {
@@ -2993,8 +3229,8 @@
             }
         }
     },
-    "ConversationHero--membership-3": {
-        "message": "Члан од $group1$, $group2$, и $group3$.",
+    "member-of-3-groups": {
+        "message": "Члан $group1$, $group2$, и $group3$",
         "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
         "placeholders": {
             "group1": {
@@ -3011,8 +3247,8 @@
             }
         }
     },
-    "ConversationHero--membership-extra": {
-        "message": "Члан од $group1$, $group2$, $group3$, и још $remainingCount$.",
+    "member-of-more-than-3-groups": {
+        "message": "Члан $group1$, $group2$, $group3$, и још $remainingCount$.",
         "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
         "placeholders": {
             "group1": {
@@ -3042,6 +3278,14 @@
                 "example": "Jeff Smith"
             }
         }
+    },
+    "no-groups-in-common": {
+        "message": "Нема заједничких група",
+        "description": "Shown to indicate this user is not a member of any groups"
+    },
+    "no-groups-in-common-warning": {
+        "message": "Нема заједничких група. Пажљиво прегледајте захтеве.",
+        "description": "When a user has no common groups, show this warning"
     },
     "acceptCall": {
         "message": "Јави се",
@@ -3217,6 +3461,32 @@
         "message": "Напусти позив",
         "description": "Title for hang up button"
     },
+    "calling__SelectPresentingSourcesModal--title": {
+        "message": "Дељење Вашег екрана",
+        "description": "Title for the select your screen sharing sources modal"
+    },
+    "calling__SelectPresentingSourcesModal--confirm": {
+        "message": "Дељење екрана",
+        "description": "Confirm button for sharing screen modal"
+    },
+    "calling__SelectPresentingSourcesModal--entireScreen": {
+        "message": "Цео екран",
+        "description": "Title for the select your screen sharing sources modal and 'Entire Screen' source"
+    },
+    "calling__SelectPresentingSourcesModal--screen": {
+        "message": "Екран $id$",
+        "description": "Title for `Screen #N` source in screen sharing sources modal and overlay",
+        "placeholders": {
+            "id": {
+                "content": "$1",
+                "example": "1"
+            }
+        }
+    },
+    "calling__SelectPresentingSourcesModal--window": {
+        "message": "Прозор",
+        "description": "Title for the select your screen sharing sources modal"
+    },
     "callingDeviceSelection__label--video": {
         "message": "Видео запис",
         "description": "Label for video input selector"
@@ -3241,8 +3511,16 @@
         "message": "Утишај обавештења",
         "description": "Label for the mute notifications drop-down selector"
     },
+    "notMuted": {
+        "message": "Није утишано",
+        "description": "Label when the conversation is not muted"
+    },
     "muteHour": {
         "message": "Утишај на један сат",
+        "description": "Label for muting the conversation"
+    },
+    "muteEightHours": {
+        "message": "Утишај 8 сати",
         "description": "Label for muting the conversation"
     },
     "muteDay": {
@@ -3253,13 +3531,17 @@
         "message": "Утишај на недељу дана",
         "description": "Label for muting the conversation"
     },
-    "muteYear": {
-        "message": "Утишај на годину дана",
+    "muteAlways": {
+        "message": "Утишај заувек",
         "description": "Label for muting the conversation"
     },
     "unmute": {
         "message": "Укључи обавештења",
         "description": "Label for unmuting the conversation"
+    },
+    "muteExpirationLabelAlways": {
+        "message": "Заувек утишано",
+        "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
     },
     "muteExpirationLabel": {
         "message": "Утишано $duration$",
@@ -3290,6 +3572,18 @@
     "unknown-sgnl-link": {
         "message": "Нажалост ова sgnl:// веза нема смисла!",
         "description": "Shown if you click on a sgnl:// link not currently supported by Desktop"
+    },
+    "GroupV2--cannot-send": {
+        "message": "Не можете да шаљете поруке тој групи.",
+        "description": "Shown in toast when you attempt to forward a message to an announcement only group"
+    },
+    "GroupV2--add--missing-capability": {
+        "message": "Ове особе не могу бити додати у групу док не ажурирају Signal.",
+        "description": "Shown in a confirmation dialog when members who cannot view announcement only group cannot be added"
+    },
+    "GroupV2--cannot-start-group-call": {
+        "message": "Само админи групе могу започети позив.",
+        "description": "Shown in toast when a non-admin starts a group call in an announcements only group"
     },
     "GroupV2--join--invalid-link--title": {
         "message": "Неисправна веза",
@@ -3388,12 +3682,16 @@
         "description": "Shown if something went wrong when you try to join via a group link"
     },
     "GroupV2--join--general-join-failure": {
-        "message": "Придруживање преко ове везе није успело. Покушајте поново касније.",
+        "message": "Нисам могао да се придружим групи. Покушајте поново касније.",
         "description": "Shown if something went wrong when you try to join via a group link"
     },
     "GroupV2--admin": {
         "message": "Администратор",
         "description": "Label for a group administrator"
+    },
+    "GroupV2--only-admins": {
+        "message": "Само администратори",
+        "description": "Label for group administrators -- used in drop-downs to select permissions that apply to admins"
     },
     "GroupV2--all-members": {
         "message": "Сви чланови",
@@ -4423,6 +4721,78 @@
         "message": "Веза до групе је ресетована.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
+    "GroupV2--description--remove--you": {
+        "message": "Уклонили сте опис групе.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--description--remove--other": {
+        "message": "$memberName$ је уклонио/ла опис групе.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--description--remove--unknown": {
+        "message": "Опис групе је уклоњен.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--description--change--you": {
+        "message": "Променили сте опис групе.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--description--change--other": {
+        "message": "$memberName$ је променио/ла опис групе.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--description--change--unknown": {
+        "message": "Опис групе је промењен.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--announcements--admin--you": {
+        "message": "Променили сте подешавања групе како би се омогућили да само админи шаљу поруке.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--announcements--admin--other": {
+        "message": "$memberName$ је променио/ла подешавања групне како би само омогућили администраторима да шаљу поруке.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--announcements--admin--unknown": {
+        "message": "Група је промењена како би се омогућили да само админи шаљу поруке.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--announcements--member--you": {
+        "message": "Променили сте подешавања групе како би се омогућили свим члановима да шаљу поруке.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--announcements--member--other": {
+        "message": "$memberName$ је променио/ла подешавања групне како би омогућили све чланове да шаљу поруке.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--announcements--member--unknown": {
+        "message": "Група је промењена како би се омогућили да сви чланови шаљу поруке.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
     "GroupV1--Migration--disabled": {
         "message": "Надоградите ову групу да бисте активирали нове функције попут @помињања и администратора. Чланови који нису поделили своје име или слику у овој групи биће позвани да се придруже. $learnMore$",
         "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1).",
@@ -4557,6 +4927,18 @@
         "message": "Закачи фајл",
         "description": "Aria label for file attachment button in composition area"
     },
+    "CompositionArea--sms-only__title": {
+        "message": "Ова особа не користи Signal",
+        "description": "Title for the composition area for the SMS-only contact"
+    },
+    "CompositionArea--sms-only__body": {
+        "message": "Signal Десктоп не подржава писање контакту који не користи Signal. Затражите од те особе да инсталира Signal за сигурније искуство писањем порука.",
+        "description": "Body for the composition area for the SMS-only contact"
+    },
+    "CompositionArea--sms-only__spinner-label": {
+        "message": "Провера статуса регистрације контаката",
+        "description": "Displayed while checking if the contact is SMS-only"
+    },
     "countMutedConversationsDescription": {
         "message": "Уброј утишане преписке у броју значке",
         "description": "Description for counting muted conversations in badge setting"
@@ -4597,6 +4979,10 @@
         "message": "Уклони из групе",
         "description": "Button text for remove from group button in Group Contact Details modal"
     },
+    "showChatColorEditor": {
+        "message": "Боја ћаскања",
+        "description": "This is a button in the conversation context menu to show the chat color editor"
+    },
     "showConversationDetails": {
         "message": "Поставке групе",
         "description": "This is a button in the conversation context menu to show group settings"
@@ -4613,12 +4999,16 @@
         "message": "Када је омогућено, поруке послате и примљене у овој групи нестаће након што су прочитане.",
         "description": "This is the info about the disappearing messages setting"
     },
+    "ConversationDetails--notifications": {
+        "message": "Обавештења",
+        "description": "This is the label for notifications in the conversation details screen"
+    },
     "ConversationDetails--group-info-label": {
         "message": "Ко може да уређује информације о групи",
         "description": "This is the label for the 'who can edit the group' panel"
     },
     "ConversationDetails--group-info-info": {
-        "message": "Изаберите ко може уређивати име групе, слику и трајање нестајућих порука.",
+        "message": "Изаберите ко може мењати име групе, слику и трајање нестајућих порука.",
         "description": "This is the additional info for the 'who can edit the group' panel"
     },
     "ConversationDetails--add-members-label": {
@@ -4628,6 +5018,14 @@
     "ConversationDetails--add-members-info": {
         "message": "Изаберите ко може додати чланове у ову групу.",
         "description": "This is the additional info for the 'who can add members' panel"
+    },
+    "ConversationDetails--announcement-label": {
+        "message": "Ко може да шаље поруке",
+        "description": "This is the additional info for the 'who can send messages' panel"
+    },
+    "ConversationDetails--announcement-info": {
+        "message": "Изаберите ко може шаље поруке у ову групу.",
+        "description": "This is the additional info for the 'who can send mesages' panel"
     },
     "ConversationDetails--requests-and-invites": {
         "message": "Захтеви & позиве",
@@ -4640,6 +5038,10 @@
     "ConversationDetailsActions--block-group": {
         "message": "Блокирај групу",
         "description": "This is a button to block a group"
+    },
+    "ConversationDetailsActions--leave-group-must-choose-new-admin": {
+        "message": "Пре него што напустите, морате да изаберете барем једног администратора за ову групу.",
+        "description": "Shown if, before leaving a group, you need to choose an admin"
     },
     "ConversationDetailsActions--leave-group-modal-title": {
         "message": "Да ли заиста желите да напустите?",
@@ -4699,9 +5101,29 @@
             }
         }
     },
+    "ConversationDetailsMembershipList--add-members": {
+        "message": "Додај чланове",
+        "description": "The button that you can click to add new members"
+    },
     "ConversationDetailsMembershipList--show-all": {
         "message": "Погледај све",
         "description": "This is a button on the conversation details to show all members"
+    },
+    "ConversationNotificationsSettings__mentions__label": {
+        "message": "Помињања",
+        "description": "In the conversation notifications settings, this is the label for the mentions option"
+    },
+    "ConversationNotificationsSettings__mentions__info": {
+        "message": "Примање обавештења када сте поменути у утишаним ћаскањима",
+        "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
+    },
+    "ConversationNotificationsSettings__mentions__select__always-notify": {
+        "message": "Увек обавести",
+        "description": "In the conversation notifications settings, this is the option that always notifies you for @mentions"
+    },
+    "ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
+        "message": "Не обавештавај ако је Мутирано",
+        "description": "In the conversation notifications settings, this is the option that doesn't notify you for @mentions if the conversation is muted"
     },
     "GroupLinkManagement--clipboard": {
         "message": "Веза до групе копирана",
@@ -4856,5 +5278,623 @@
     "PendingInvites--info": {
         "message": "Детаљи о људима позваним у ову групу не приказују се док се не придруже. Позвани ће видети поруке тек када се придруже групи.",
         "description": "Information shown below the invite list"
+    },
+    "AvatarInput--no-photo-label--group": {
+        "message": "Додај фотографију групи",
+        "description": "The label for the avatar uploader when no group photo is selected"
+    },
+    "AvatarInput--no-photo-label--profile": {
+        "message": "Додајте слику",
+        "description": "The label for the avatar uploader when no profile photo is selected"
+    },
+    "AvatarInput--change-photo-label": {
+        "message": "Промени фотографију",
+        "description": "The label for the avatar uploader when a photo is selected"
+    },
+    "AvatarInput--upload-photo-choice": {
+        "message": "Отпремити фотографију",
+        "description": "The button text when you click on an uploaded avatar and want to upload a new one"
+    },
+    "AvatarInput--remove-photo-choice": {
+        "message": "Уклони слику",
+        "description": "The button text when you click on an uploaded avatar and want to remove it"
+    },
+    "ContactPill--remove": {
+        "message": "Уклони контакт",
+        "description": "The label for the 'remove' button on the contact pill"
+    },
+    "ComposeErrorDialog--close": {
+        "message": "У реду",
+        "description": "The text on the button when there's an error in the composer"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--title--one": {
+        "message": "Позивница послата",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--title--many": {
+        "message": "$count$ позивнице су послате",
+        "description": "When creating a new group and inviting users, this is shown in the dialog",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--one": {
+        "message": "Не можете аутоматски додати $name$ у овој групи.",
+        "description": "When creating a new group and inviting users, this is shown in the dialog",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Jane Doe"
+            }
+        }
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--many": {
+        "message": "Не можете аутоматски додати ове кориснике у овој групи.",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--info-paragraph": {
+        "message": "Позвани су да се придруже и неће видети групне поруке док не прихвате.",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--learn-more": {
+        "message": "Сазнај више",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "AddGroupMembersModal--title": {
+        "message": "Додај чланове",
+        "description": "When adding new members to an existing group, this is shown in the dialog"
+    },
+    "AddGroupMembersModal--continue-to-confirm": {
+        "message": "Сачувај",
+        "description": "When adding new members to an existing group, this is shown in the dialog"
+    },
+    "AddGroupMembersModal--confirm-title--one": {
+        "message": "Додати $person$ у „$group$“?",
+        "description": "When adding new members to an existing group, this is shown in the confirmation dialog",
+        "placeholders": {
+            "person": {
+                "content": "$1",
+                "example": "Jane Doe"
+            },
+            "group": {
+                "content": "$2",
+                "example": "Tahoe Trip"
+            }
+        }
+    },
+    "AddGroupMembersModal--confirm-title--many": {
+        "message": "Додати $count$ члана у  „$group$“?",
+        "description": "When adding new members to an existing group, this is shown in the confirmation dialog",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "5"
+            },
+            "group": {
+                "content": "$2",
+                "example": "Tahoe Trip"
+            }
+        }
+    },
+    "AddGroupMembersModal--confirm-button--one": {
+        "message": "Додај члана",
+        "description": "When adding new members to an existing group, this is shown on the confirmation dialog button"
+    },
+    "AddGroupMembersModal--confirm-button--many": {
+        "message": "Додај чланове",
+        "description": "When adding new members to an existing group, this is shown on the confirmation dialog button"
+    },
+    "createNewGroupButton": {
+        "message": "Нова група",
+        "description": "The text of the button to create new groups"
+    },
+    "selectContact": {
+        "message": "Изаберите контакт",
+        "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)"
+    },
+    "deselectContact": {
+        "message": "Скини одабир контакта",
+        "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)"
+    },
+    "cannotSelectContact": {
+        "message": "Не могу да изаберем контакт",
+        "description": "The label for contact checkboxes that are disabled"
+    },
+    "alreadyAMember": {
+        "message": "Већ је члан",
+        "description": "The label for contact checkboxes that are disabled because they're already a member"
+    },
+    "MessageAudio--play": {
+        "message": "Пусти аудио прилог",
+        "description": "Aria label for audio attachment's Play button"
+    },
+    "MessageAudio--pause": {
+        "message": "паузирај аудио прилог",
+        "description": "Aria label for audio attachment's Pause button"
+    },
+    "MessageAudio--download": {
+        "message": "Преузми аудио прилог",
+        "description": "Aria label for audio attachment's Download button"
+    },
+    "MessageAudio--pending": {
+        "message": "Преузимање аудио прилога...",
+        "description": "Aria label for pending audio attachment spinner"
+    },
+    "MessageAudio--slider": {
+        "message": "Брзина репродукције аудио прилога",
+        "description": "Aria label for audio attachment's playback time slider"
+    },
+    "emptyInboxMessage": {
+        "message": "Кликни на $composeIcon$ и потражи контакте или групе за слање поруке.",
+        "description": "Shown in the left-pane when the inbox is empty",
+        "placeholders": {
+            "composeIcon": {
+                "content": "$1",
+                "example": "compose button"
+            }
+        }
+    },
+    "composeIcon": {
+        "message": "дугме саставка",
+        "description": "Shown in the left-pane when the inbox is empty. Describes the button that composes a new message."
+    },
+    "ForwardMessageModal--continue": {
+        "message": "Настави",
+        "description": "aria-label for the 'next' button in the forward a message modal dialog"
+    },
+    "MessageRequestWarning__learn-more": {
+        "message": "Сазнај више",
+        "description": "Shown on the message request warning. Clicking this button will open a dialog with more information"
+    },
+    "MessageRequestWarning__dialog__details": {
+        "message": "Немате заједничких група са овом особом. Пажљиво прегледајте захтеве пре него што прихватите тако да бисте избегли нежељене поруке.",
+        "description": "Shown in the message request warning dialog. Gives more information about message requests"
+    },
+    "MessageRequestWarning__dialog__learn-even-more": {
+        "message": "O захтевима за разговор",
+        "description": "Shown in the message request warning dialog. Clicking this button will open a page on Signal's support site"
+    },
+    "ContactSpoofing__same-name": {
+        "message": "Пажљиво прегледајте захтеве. Signal је пронашао други контакт са истим називом. $link$",
+        "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else",
+        "placeholders": {
+            "link": {
+                "content": "$1",
+                "example": "Review request"
+            }
+        }
+    },
+    "ContactSpoofing__same-name-in-group": {
+        "message": "$count$ чланови/а групе имају исто име. $link$",
+        "description": "Shown in the timeline warning when you multiple group members have the same name",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "3"
+            },
+            "link": {
+                "content": "$2",
+                "example": "Tap to review"
+            }
+        }
+    },
+    "ContactSpoofing__same-name__link": {
+        "message": "Прегледајте захтев",
+        "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else"
+    },
+    "ContactSpoofing__same-name-in-group__link": {
+        "message": "Кликните за преглед",
+        "description": "Shown in the timeline warning when you multiple group members have the same name"
+    },
+    "ContactSpoofingReviewDialog__title": {
+        "message": "Прегледајте захтев",
+        "description": "Title for the contact name spoofing review dialog"
+    },
+    "ContactSpoofingReviewDialog__description": {
+        "message": "Ако нисте сигурни од кога потиче захтев, прегледајте доње контакте и предузмите мере.",
+        "description": "Description for the contact spoofing review dialog"
+    },
+    "ContactSpoofingReviewDialog__possibly-unsafe-title": {
+        "message": "Захтев",
+        "description": "Header in the contact spoofing review dialog, shown above the potentially-unsafe user"
+    },
+    "ContactSpoofingReviewDialog__safe-title": {
+        "message": "Ваш контакт",
+        "description": "Header in the contact spoofing review dialog, shown above the \"safe\" user"
+    },
+    "ContactSpoofingReviewDialog__group__title": {
+        "message": "Прегледајте чланове",
+        "description": "Title for the contact name spoofing review dialog in groups"
+    },
+    "ContactSpoofingReviewDialog__group__description": {
+        "message": "$count$ чланова групе имају слично име, прегледајте чланове у наставку и одаберите акцију.",
+        "description": "Description for the group contact spoofing review dialog"
+    },
+    "ContactSpoofingReviewDialog__group__members-header": {
+        "message": "Чланови",
+        "description": "Header in the group contact spoofing review dialog. After this header, there will be a list of members"
+    },
+    "ContactSpoofingReviewDialog__group__name-change-info": {
+        "message": "Недавно су променили име профила од $oldName$ на $newName$",
+        "description": "In the group contact spoofing review dialog, this text is shown when someone has changed their name recently",
+        "placeholders": {
+            "oldName": {
+                "content": "$1",
+                "example": "Jane Doe"
+            },
+            "newName": {
+                "content": "$2",
+                "example": "Doe Jane"
+            }
+        }
+    },
+    "RemoveGroupMemberConfirmation__remove-button": {
+        "message": "Уклони из групе",
+        "description": "When confirming the removal of a group member, show this text in the button"
+    },
+    "RemoveGroupMemberConfirmation__description": {
+        "message": "Уклонити „$name$“ из групе?",
+        "description": "When confirming the removal of a group member, show this text in the dialog",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Jane Doe"
+            }
+        }
+    },
+    "CaptchaDialog__title": {
+        "message": "Верификујте да би се наставило преписивање",
+        "description": "Header in the captcha dialog"
+    },
+    "CaptchaDialog__first-paragraph": {
+        "message": "Да бисте спречили спем у Signаl-у, испуните верификацију.",
+        "description": "First paragraph in the captcha dialog"
+    },
+    "CaptchaDialog__second-paragraph": {
+        "message": "Након верификације, можете наставити са порукама. Било која паузирана порука ће аутоматски бити послана.",
+        "description": "First paragraph in the captcha dialog"
+    },
+    "CaptchaDialog--can-close__title": {
+        "message": "Наставити без верификације?",
+        "description": "Header in the captcha dialog that can be closed"
+    },
+    "CaptchaDialog--can-close__body": {
+        "message": "Ако одлучите да прескочите верификацију, можда ћете пропустити поруке од других људи и ваше поруке можда не могу да се пошаљу.",
+        "description": "Body of the captcha dialog that can be closed"
+    },
+    "CaptchaDialog--can_close__skip-verification": {
+        "message": "Прескочити оверу",
+        "description": "Skip button of the captcha dialog that can be closed"
+    },
+    "verificationComplete": {
+        "message": "Верификација је завршена.",
+        "description": "Displayed after successful captcha"
+    },
+    "verificationFailed": {
+        "message": "Овера није успела. Покушајте поново касније.",
+        "description": "Displayed after unsuccessful captcha"
+    },
+    "deleteForEveryoneFailed": {
+        "message": "Није успело да се избрише порука за све. Покушајте поново касније.",
+        "description": "Displayed when delete-for-everyone has failed to send to all recepients"
+    },
+    "ChatColorPicker__delete--title": {
+        "message": "Обрисати боју",
+        "description": "Confirm title for deleting custom color"
+    },
+    "ChatColorPicker__delete--message": {
+        "message": "Ова прилагођена боја користи се у $num$ ћаскања. Да ли желите да је избришете из свих ћаскања?",
+        "description": "Confirm message for deleting custom color",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "ChatColorPicker__global-chat-color": {
+        "message": "Општа боја ћаскања",
+        "description": "Modal title for the chat color picker and editor for all conversations"
+    },
+    "ChatColorPicker__menu-title": {
+        "message": "Боја преписке",
+        "description": "View title for the chat color picker and editor"
+    },
+    "ChatColorPicker__reset": {
+        "message": "Рисетовати боје ћаскања",
+        "description": "Button label for resetting chat colors"
+    },
+    "ChatColorPicker__resetDefault": {
+        "message": "Рисетовати боје ћаскања",
+        "description": "Confirmation dialog title for resetting all chat colors or only the global default one"
+    },
+    "ChatColorPicker__resetAll": {
+        "message": "Рисетовати све боје ћаскања",
+        "description": "Button label for resetting all chat colors"
+    },
+    "ChatColorPicker__confirm-reset-default": {
+        "message": "Вратити на подразумевано",
+        "description": "Button label for resetting only global chat color"
+    },
+    "ChatColorPicker__confirm-reset": {
+        "message": "Ресетуј",
+        "description": "Confirm button label for resetting chat colors"
+    },
+    "ChatColorPicker__confirm-reset-message": {
+        "message": "Да ли желите да надјачате све боје за ћаскање?",
+        "description": "Modal message text for confirming resetting of chat colors"
+    },
+    "ChatColorPicker__custom-color--label": {
+        "message": "Прикажи уредник боје",
+        "description": "aria-label for custom color editor button"
+    },
+    "ChatColorPicker__sampleBubble1": {
+        "message": "Ево прегледа боје ћаскања.",
+        "description": "An example message bubble for selecting the chat color"
+    },
+    "ChatColorPicker__sampleBubble2": {
+        "message": "Други облачић.",
+        "description": "An example message bubble for selecting the chat color"
+    },
+    "ChatColorPicker__sampleBubble3": {
+        "message": "Само ви видите боју.",
+        "description": "An example message bubble for selecting the chat color"
+    },
+    "ChatColorPicker__context--edit": {
+        "message": "Променити боју",
+        "description": "Option in the custom color bubble context menu"
+    },
+    "ChatColorPicker__context--duplicate": {
+        "message": "Дупликат",
+        "description": "Option in the custom color bubble context menu"
+    },
+    "ChatColorPicker__context--delete": {
+        "message": "Избриши",
+        "description": "Option in the custom color bubble context menu"
+    },
+    "CustomColorEditor__solid": {
+        "message": "Солидно",
+        "description": "Tab label for selecting solid colors"
+    },
+    "CustomColorEditor__gradient": {
+        "message": "Градијент",
+        "description": "Tab label for selecting a gradient"
+    },
+    "CustomColorEditor__hue": {
+        "message": "Нијанса",
+        "description": "Label for the hue slider"
+    },
+    "CustomColorEditor__saturation": {
+        "message": "Засићење боје",
+        "description": "Label for the saturation slider"
+    },
+    "CustomColorEditor__title": {
+        "message": "Прилагодити боју",
+        "description": "Modal title for the custom color editor"
+    },
+    "customDisappearingTimeOption": {
+        "message": "Прилагодити време...",
+        "description": "Text for an option in Disappearing Messages menu and Conversation Details Disappearing Messages setting when no user value is available"
+    },
+    "selectedCustomDisappearingTimeOption": {
+        "message": "Прилагодити време",
+        "description": "Text for an option in Conversation Details Disappearing Messages setting when user previously selected custom time"
+    },
+    "DisappearingTimeDialog__title": {
+        "message": "Прилагодити време",
+        "description": "Title for the custom disappearing message timeout dialog"
+    },
+    "DisappearingTimeDialog__body": {
+        "message": "Изаберите прилагођено време за нестајуће поруке.",
+        "description": "Body for the custom disappearing message timeout dialog"
+    },
+    "DisappearingTimeDialog__set": {
+        "message": "Поставити",
+        "description": "Text for the dialog button confirming the custom disappearing message timeout"
+    },
+    "DisappearingTimeDialog__seconds": {
+        "message": "Секунди",
+        "description": "Name of the 'seconds' unit select for the custom disappearing message timeout dialog"
+    },
+    "DisappearingTimeDialog__minutes": {
+        "message": "Минута",
+        "description": "Name of the 'minutes' unit select for the custom disappearing message timeout dialog"
+    },
+    "DisappearingTimeDialog__hours": {
+        "message": "Сата",
+        "description": "Name of the 'hours' unit select for the custom disappearing message timeout dialog"
+    },
+    "DisappearingTimeDialog__days": {
+        "message": "Дана",
+        "description": "Name of the 'days' unit select for the custom disappearing message timeout dialog"
+    },
+    "DisappearingTimeDialog__weeks": {
+        "message": "Недеља",
+        "description": "Name of the 'weeks' unit select for the custom disappearing message timeout dialog"
+    },
+    "settings__DisappearingMessages__footer": {
+        "message": "Подесите подразумевани тајмер нестајања поруке за све нове преписке које сте започели.",
+        "description": "Footer for the Disappearing Messages settings section"
+    },
+    "settings__DisappearingMessages__timer__label": {
+        "message": "Подразумевани тајмер за нове преписке",
+        "description": "Label for the Disapearring Messages default timer setting"
+    },
+    "UniversalTimerNotification__text": {
+        "message": "Време нестајања поруке биће постављено на $timeValue$ када их шаљете.",
+        "description": "A message displayed when default disappearing message timeout is about to be applied",
+        "placeholders": {
+            "timeValue": {
+                "content": "$1",
+                "example": "1 week"
+            }
+        }
+    },
+    "ErrorBoundaryNotification__text": {
+        "message": "Није успело приказати поруку због интерне грешке. Кликните да бисте послали дневник за уклањање грешака.",
+        "description": "An error notification displayed when message fails to render due to an internal error"
+    },
+    "GroupDescription__read-more": {
+        "message": "прочитајте више",
+        "description": "Button text when the group description is too long"
+    },
+    "EditConversationAttributesModal__description-warning": {
+        "message": "Описи групе биће видљиви члановима ове групе и особама које су позване.",
+        "description": "Label text shown when editing group description"
+    },
+    "ConversationDetailsHeader--add-group-description": {
+        "message": "Додај опис групи...",
+        "description": "Placeholder text in the details header for those that can edit the group description"
+    },
+    "MediaQualitySelector--button": {
+        "message": "Одабрати кбалитет медија",
+        "description": "aria-label for the media quality selector button"
+    },
+    "MediaQualitySelector--title": {
+        "message": "Квалитет медија",
+        "description": "Popup selector title"
+    },
+    "MediaQualitySelector--standard-quality-title": {
+        "message": "Стандардно",
+        "description": "Title for option for standard quality"
+    },
+    "MediaQualitySelector--standard-quality-description": {
+        "message": "Брже, мање података",
+        "description": "Description of standard quality selector"
+    },
+    "MediaQualitySelector--high-quality-title": {
+        "message": "Висок",
+        "description": "Title for option for high quality"
+    },
+    "MediaQualitySelector--high-quality-description": {
+        "message": "Спорије, више података",
+        "description": "Description of high quality selector"
+    },
+    "MessageDetailsHeader--Failed": {
+        "message": "Није послато",
+        "description": "In the message details screen, shown above contacts where the message failed to deliver"
+    },
+    "MessageDetailsHeader--Pending": {
+        "message": "На чекању",
+        "description": "In the message details screen, shown above contacts where the message is still sending"
+    },
+    "MessageDetailsHeader--Sent": {
+        "message": "Послато",
+        "description": "In the message details screen, shown above contacts where the message has been sent (but not delivered, read, or viewed)"
+    },
+    "MessageDetailsHeader--Delivered": {
+        "message": "Достављено",
+        "description": "In the message details screen, shown above contacts who have received your message"
+    },
+    "MessageDetailsHeader--Read": {
+        "message": "Прочитао",
+        "description": "In the message details screen, shown above contacts who have read this message"
+    },
+    "MessageDetailsHeader--Viewed": {
+        "message": "Погледао",
+        "description": "In the message details screen, shown above contacts who have viewed this message"
+    },
+    "ProfileEditor--about": {
+        "message": "О контакту",
+        "description": "Default text for about field"
+    },
+    "ProfileEditor--about-placeholder": {
+        "message": "Напишите нешто о себи...",
+        "description": "Placeholder text for about input field"
+    },
+    "ProfileEditor--first-name": {
+        "message": "Име (потребно)",
+        "description": "Placeholder text for first name field"
+    },
+    "ProfileEditor--last-name": {
+        "message": "Презиме (опционо)",
+        "description": "Placeholder text for last name field"
+    },
+    "ConfirmDiscardDialog--discard": {
+        "message": "Да ли желите да одбаците измене?",
+        "description": "ConfirmationDialog text for discarding changes"
+    },
+    "ProfileEditor--info": {
+        "message": "Ваш профил је енкриптован. Биће видљив вашим контактима када започнете или прихватите ново ћаскање. $learnMore$",
+        "description": "Information shown at the bottom of the profile editor section",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "Learn More."
+            }
+        }
+    },
+    "ProfileEditor--learnMore": {
+        "message": "Сазнај више",
+        "description": "Text that links to a support article"
+    },
+    "Bio--speak-freely": {
+        "message": "Говорите слободно",
+        "description": "A default bio option"
+    },
+    "Bio--encrypted": {
+        "message": "Шифровано",
+        "description": "A default bio option"
+    },
+    "Bio--free-to-chat": {
+        "message": "Доступан за ћаскање",
+        "description": "A default bio option"
+    },
+    "Bio--coffee-lover": {
+        "message": "Љубитељ кафе",
+        "description": "A default bio option"
+    },
+    "Bio--taking-break": {
+        "message": "Правим паузу",
+        "description": "A default bio option"
+    },
+    "ProfileEditorModal--profile": {
+        "message": "Профил",
+        "description": "Title for profile editing"
+    },
+    "ProfileEditorModal--name": {
+        "message": "Ваше име",
+        "description": "Title for editing your name"
+    },
+    "ProfileEditorModal--about": {
+        "message": "О контакту",
+        "description": "Title for about editing"
+    },
+    "ProfileEditorModal--error": {
+        "message": "Ваш профил није могао да се ажурира. Покушајте поново.",
+        "description": "Error message when something goes wrong updating your profile."
+    },
+    "AnnouncementsOnlyGroupBanner--modal": {
+        "message": "Послати поруку админу",
+        "description": "Modal title for the list of admins in a group"
+    },
+    "AnnouncementsOnlyGroupBanner--announcements-only": {
+        "message": "Само $admins$ може да шаље поруке",
+        "description": "Displayed if sending of messages is disabled to non-admins",
+        "placeholders": {
+            "admins": {
+                "content": "$1",
+                "example": "admins"
+            }
+        }
+    },
+    "AnnouncementsOnlyGroupBanner--admins": {
+        "message": "админи",
+        "description": "Clickable text describing administrators of a group, used in the message an admin label"
+    },
+    "AvatarEditor--choose": {
+        "message": "Одаберите аватар",
+        "description": "Label for the avatar selector"
+    },
+    "AvatarColorPicker--choose": {
+        "message": "Изаберите боју",
+        "description": "Label for when you need to choose your fighter, err color"
+    },
+    "LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
+        "message": "Аватар групе",
+        "description": "Title for the avatar picker in the group creation flow"
     }
 }

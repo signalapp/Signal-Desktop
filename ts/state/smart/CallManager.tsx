@@ -15,6 +15,7 @@ import { getIncomingCall } from '../selectors/calling';
 import {
   ActiveCallType,
   CallMode,
+  CallState,
   GroupCallRemoteParticipantType,
 } from '../../types/Calling';
 import { StateType } from '../reducer';
@@ -78,12 +79,25 @@ const mapStateToActiveCallProp = (
     isInSpeakerView: activeCallState.isInSpeakerView,
     joinedAt: activeCallState.joinedAt,
     pip: activeCallState.pip,
+    presentingSource: activeCallState.presentingSource,
+    presentingSourcesAvailable: activeCallState.presentingSourcesAvailable,
     settingsDialogOpen: activeCallState.settingsDialogOpen,
+    showNeedsScreenRecordingPermissionsWarning: Boolean(
+      activeCallState.showNeedsScreenRecordingPermissionsWarning
+    ),
     showParticipantsList: activeCallState.showParticipantsList,
   };
 
   switch (call.callMode) {
     case CallMode.Direct:
+      if (
+        call.isIncoming &&
+        (call.callState === CallState.Prering ||
+          call.callState === CallState.Ringing)
+      ) {
+        return;
+      }
+
       return {
         ...baseResult,
         callEndedReason: call.callEndedReason,
@@ -93,13 +107,30 @@ const mapStateToActiveCallProp = (
         remoteParticipants: [
           {
             hasRemoteVideo: Boolean(call.hasRemoteVideo),
+            presenting: Boolean(call.isSharingScreen),
+            title: conversation.title,
+            uuid: conversation.uuid,
           },
         ],
       };
     case CallMode.Group: {
       const conversationsWithSafetyNumberChanges: Array<ConversationType> = [];
+      const groupMembers: Array<ConversationType> = [];
       const remoteParticipants: Array<GroupCallRemoteParticipantType> = [];
       const peekedParticipants: Array<ConversationType> = [];
+
+      const { memberships = [] } = conversation;
+      for (let i = 0; i < memberships.length; i += 1) {
+        const { conversationId } = memberships[i];
+        const member = conversationSelectorByUuid(conversationId);
+
+        if (!member) {
+          window.log.error('Group member has no corresponding conversation');
+          continue;
+        }
+
+        groupMembers.push(member);
+      }
 
       for (let i = 0; i < call.remoteParticipants.length; i += 1) {
         const remoteParticipant = call.remoteParticipants[i];
@@ -119,6 +150,8 @@ const mapStateToActiveCallProp = (
           demuxId: remoteParticipant.demuxId,
           hasRemoteAudio: remoteParticipant.hasRemoteAudio,
           hasRemoteVideo: remoteParticipant.hasRemoteVideo,
+          presenting: remoteParticipant.presenting,
+          sharingScreen: remoteParticipant.sharingScreen,
           speakerTime: remoteParticipant.speakerTime,
           videoAspectRatio: remoteParticipant.videoAspectRatio,
         });
@@ -164,6 +197,7 @@ const mapStateToActiveCallProp = (
         connectionState: call.connectionState,
         conversationsWithSafetyNumberChanges,
         deviceCount: call.peekInfo.deviceCount,
+        groupMembers,
         joinState: call.joinState,
         maxDevices: call.peekInfo.maxDevices,
         peekedParticipants,

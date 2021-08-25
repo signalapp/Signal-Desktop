@@ -1,12 +1,7 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, {
-  useCallback,
-  CSSProperties,
-  FunctionComponent,
-  ReactNode,
-} from 'react';
+import React, { useCallback, FunctionComponent, ReactNode } from 'react';
 import { escapeRegExp } from 'lodash';
 
 import { MessageBodyHighlight } from './MessageBodyHighlight';
@@ -14,8 +9,8 @@ import { ContactName } from '../conversation/ContactName';
 
 import { assert } from '../../util/assert';
 import { BodyRangesType, LocalizerType } from '../../types/Util';
-import { ColorType } from '../../types/Colors';
 import { BaseConversationListItem } from './BaseConversationListItem';
+import { ConversationType } from '../../state/ducks/conversations';
 
 export type PropsDataType = {
   isSelected?: boolean;
@@ -29,15 +24,19 @@ export type PropsDataType = {
   body: string;
   bodyRanges: BodyRangesType;
 
-  from: {
-    phoneNumber?: string;
-    title: string;
-    isMe?: boolean;
-    name?: string;
-    color?: ColorType;
-    profileName?: string;
-    avatarPath?: string;
-  };
+  from: Pick<
+    ConversationType,
+    | 'acceptedMessageRequest'
+    | 'avatarPath'
+    | 'color'
+    | 'isMe'
+    | 'name'
+    | 'phoneNumber'
+    | 'profileName'
+    | 'sharedGroupNames'
+    | 'title'
+    | 'unblurredAvatarPath'
+  >;
 
   to: {
     groupName?: string;
@@ -55,7 +54,6 @@ type PropsHousekeepingType = {
     conversationId: string;
     messageId?: string;
   }) => void;
-  style: CSSProperties;
 };
 
 export type PropsType = PropsDataType & PropsHousekeepingType;
@@ -145,7 +143,7 @@ function getFilteredBodyRanges(
 }
 
 export const MessageSearchResult: FunctionComponent<PropsType> = React.memo(
-  ({
+  function MessageSearchResult({
     body,
     bodyRanges,
     conversationId,
@@ -155,15 +153,14 @@ export const MessageSearchResult: FunctionComponent<PropsType> = React.memo(
     openConversationInternal,
     sentAt,
     snippet,
-    style,
     to,
-  }) => {
+  }) {
     const onClickItem = useCallback(() => {
       openConversationInternal({ conversationId, messageId: id });
     }, [openConversationInternal, conversationId, id]);
 
     if (!from || !to) {
-      return <div style={style} />;
+      return <div />;
     }
 
     const isNoteToSelf = from.isMe && to.isMe;
@@ -192,6 +189,7 @@ export const MessageSearchResult: FunctionComponent<PropsType> = React.memo(
 
     return (
       <BaseConversationListItem
+        acceptedMessageRequest={from.acceptedMessageRequest}
         avatarPath={from.avatarPath}
         color={from.color}
         conversationType="direct"
@@ -207,8 +205,9 @@ export const MessageSearchResult: FunctionComponent<PropsType> = React.memo(
         onClick={onClickItem}
         phoneNumber={from.phoneNumber}
         profileName={from.profileName}
-        style={style}
+        sharedGroupNames={from.sharedGroupNames}
         title={from.title}
+        unblurredAvatarPath={from.unblurredAvatarPath}
       />
     );
   }

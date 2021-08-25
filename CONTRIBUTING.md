@@ -43,7 +43,7 @@ Install the [Xcode Command-Line Tools](http://osxdaily.com/2014/02/12/install-co
 ### Linux
 
 1.  Pick your favorite package manager.
-1.  Install `python` (Python 2.7+)
+1.  Install `python` (Python 3.6+)
 1.  Install `gcc`
 1.  Install `g++`
 1.  Install `make`
@@ -258,7 +258,7 @@ and [iOS](https://github.com/signalapp/Signal-iOS/blob/master/BUILDING.md) proje
 
 Then you can set up your development build of Signal Desktop as normal. If you've already
 set up as a standalone install, you can switch by opening the DevTools (View -> Toggle
-Developer Tools) and entering this into the Console and pressing enter: `window.owsDesktopApp.appView.openInstaller();`
+Developer Tools) and entering this into the Console and pressing enter: `window.reduxActions.app.openInstaller();`
 
 ## Changing to production
 

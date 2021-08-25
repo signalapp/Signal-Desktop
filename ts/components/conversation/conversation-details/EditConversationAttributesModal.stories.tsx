@@ -22,11 +22,17 @@ type PropsType = ComponentProps<typeof EditConversationAttributesModal>;
 
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   avatarPath: undefined,
+  conversationId: '123',
   i18n,
+  initiallyFocusDescription: false,
   onClose: action('onClose'),
   makeRequest: action('onMakeRequest'),
   requestState: RequestState.Inactive,
   title: 'Bing Bong Group',
+  deleteAvatarFromDisk: action('deleteAvatarFromDisk'),
+  replaceAvatar: action('replaceAvatar'),
+  saveAvatarToDisk: action('saveAvatarToDisk'),
+  userAvatarData: [],
   ...overrideProps,
 });
 
@@ -39,6 +45,12 @@ story.add('Avatar and title', () => (
     {...createProps({
       avatarPath: '/fixtures/kitten-3-64-64.jpg',
     })}
+  />
+));
+
+story.add('Initially focusing description', () => (
+  <EditConversationAttributesModal
+    {...createProps({ title: 'Has title', initiallyFocusDescription: true })}
   />
 ));
 

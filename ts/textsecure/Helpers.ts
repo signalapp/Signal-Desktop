@@ -6,36 +6,20 @@
 /* eslint-disable no-proto */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { ByteBufferClass } from '../window.d';
-
-let ByteBuffer: ByteBufferClass | undefined;
 const arrayBuffer = new ArrayBuffer(0);
 const uint8Array = new Uint8Array();
 
-let StaticByteBufferProto: any;
 const StaticArrayBufferProto = (arrayBuffer as any).__proto__;
 const StaticUint8ArrayProto = (uint8Array as any).__proto__;
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 function getString(thing: any): string {
-  // Note: we must make this at runtime because it's loaded in the browser context
-  if (!ByteBuffer) {
-    ByteBuffer = new window.dcodeIO.ByteBuffer();
-  }
-
-  if (!StaticByteBufferProto) {
-    StaticByteBufferProto = (ByteBuffer as any).__proto__;
-  }
-
   if (thing === Object(thing)) {
     if (thing.__proto__ === StaticUint8ArrayProto) {
       return String.fromCharCode.apply(null, thing);
     }
     if (thing.__proto__ === StaticArrayBufferProto) {
       return getString(new Uint8Array(thing));
-    }
-    if (thing.__proto__ === StaticByteBufferProto) {
-      return thing.toString('binary');
     }
   }
   return thing;
@@ -48,8 +32,7 @@ function getStringable(thing: any): boolean {
     typeof thing === 'boolean' ||
     (thing === Object(thing) &&
       (thing.__proto__ === StaticArrayBufferProto ||
-        thing.__proto__ === StaticUint8ArrayProto ||
-        thing.__proto__ === StaticByteBufferProto))
+        thing.__proto__ === StaticUint8ArrayProto))
   );
 }
 

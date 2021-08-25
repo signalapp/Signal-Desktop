@@ -10,16 +10,32 @@ export enum CallMode {
   Group = 'Group',
 }
 
+export type PresentableSource = {
+  appIcon?: string;
+  id: string;
+  name: string;
+  isScreen: boolean;
+  thumbnail: string;
+};
+
+export type PresentedSource = {
+  id: string;
+  name: string;
+};
+
 type ActiveCallBaseType = {
   conversation: ConversationType;
   hasLocalAudio: boolean;
   hasLocalVideo: boolean;
   isInSpeakerView: boolean;
+  isSharingScreen?: boolean;
   joinedAt?: number;
   pip: boolean;
+  presentingSource?: PresentedSource;
+  presentingSourcesAvailable?: Array<PresentableSource>;
   settingsDialogOpen: boolean;
+  showNeedsScreenRecordingPermissionsWarning?: boolean;
   showParticipantsList: boolean;
-  showSafetyNumberDialog?: boolean;
 };
 
 type ActiveDirectCallType = ActiveCallBaseType & {
@@ -30,6 +46,9 @@ type ActiveDirectCallType = ActiveCallBaseType & {
   remoteParticipants: [
     {
       hasRemoteVideo: boolean;
+      presenting: boolean;
+      title: string;
+      uuid?: string;
     }
   ];
 };
@@ -41,6 +60,7 @@ type ActiveGroupCallType = ActiveCallBaseType & {
   joinState: GroupCallJoinState;
   maxDevices: number;
   deviceCount: number;
+  groupMembers: Array<Pick<ConversationType, 'firstName' | 'title' | 'uuid'>>;
   peekedParticipants: Array<ConversationType>;
   remoteParticipants: Array<GroupCallRemoteParticipantType>;
 };
@@ -100,6 +120,8 @@ export type GroupCallRemoteParticipantType = ConversationType & {
   demuxId: number;
   hasRemoteAudio: boolean;
   hasRemoteVideo: boolean;
+  presenting: boolean;
+  sharingScreen: boolean;
   speakerTime?: number;
   videoAspectRatio: number;
 };
@@ -113,7 +135,7 @@ export type GroupCallVideoRequest = {
 
 // Should match RingRTC's VideoFrameSource
 export type VideoFrameSource = {
-  receiveVideoFrame(buffer: ArrayBuffer): [number, number] | undefined;
+  receiveVideoFrame(buffer: Buffer): [number, number] | undefined;
 };
 
 // Must be kept in sync with RingRTC.AudioDevice
@@ -134,12 +156,15 @@ export enum CallingDeviceType {
   SPEAKER,
 }
 
-export type MediaDeviceSettings = {
-  availableMicrophones: Array<AudioDevice>;
-  selectedMicrophone: AudioDevice | undefined;
-  availableSpeakers: Array<AudioDevice>;
-  selectedSpeaker: AudioDevice | undefined;
+export type AvailableIODevicesType = {
   availableCameras: Array<MediaDeviceInfo>;
+  availableMicrophones: Array<AudioDevice>;
+  availableSpeakers: Array<AudioDevice>;
+};
+
+export type MediaDeviceSettings = AvailableIODevicesType & {
+  selectedMicrophone: AudioDevice | undefined;
+  selectedSpeaker: AudioDevice | undefined;
   selectedCamera: string | undefined;
 };
 

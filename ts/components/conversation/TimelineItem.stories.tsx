@@ -10,7 +10,10 @@ import { EmojiPicker } from '../emoji/EmojiPicker';
 import { setup as setupI18n } from '../../../js/modules/i18n';
 import enMessages from '../../../_locales/en/messages.json';
 import { PropsType as TimelineItemProps, TimelineItem } from './TimelineItem';
+import { UniversalTimerNotification } from './UniversalTimerNotification';
 import { CallMode } from '../../types/Calling';
+import { AvatarColors } from '../../types/Colors';
+import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -33,14 +36,18 @@ const renderContact = (conversationId: string) => (
   <React.Fragment key={conversationId}>{conversationId}</React.Fragment>
 );
 
+const renderUniversalTimerNotification = () => (
+  <UniversalTimerNotification i18n={i18n} expireTimer={3600} />
+);
+
 const getDefaultProps = () => ({
   conversationId: 'conversation-id',
-  conversationAccepted: true,
   id: 'asdf',
   isSelected: false,
   interactionMode: 'keyboard' as const,
   selectMessage: action('selectMessage'),
   reactToMessage: action('reactToMessage'),
+  checkForAccount: action('checkForAccount'),
   clearSelectedMessage: action('clearSelectedMessage'),
   contactSupport: action('contactSupport'),
   replyToMessage: action('replyToMessage'),
@@ -48,7 +55,9 @@ const getDefaultProps = () => ({
   deleteMessage: action('deleteMessage'),
   deleteMessageForEveryone: action('deleteMessageForEveryone'),
   kickOffAttachmentDownload: action('kickOffAttachmentDownload'),
+  learnMoreAboutDeliveryIssue: action('learnMoreAboutDeliveryIssue'),
   markAttachmentAsCorrupted: action('markAttachmentAsCorrupted'),
+  markViewed: action('markViewed'),
   showMessageDetail: action('showMessageDetail'),
   openConversation: action('openConversation'),
   showContactDetail: action('showContactDetail'),
@@ -57,12 +66,14 @@ const getDefaultProps = () => ({
   showVisualAttachment: action('showVisualAttachment'),
   downloadAttachment: action('downloadAttachment'),
   displayTapToViewMessage: action('displayTapToViewMessage'),
+  doubleCheckMissingQuoteReference: action('doubleCheckMissingQuoteReference'),
   showExpiredIncomingTapToViewToast: action(
     'showExpiredIncomingTapToViewToast'
   ),
   showExpiredOutgoingTapToViewToast: action(
     'showExpiredIncomingTapToViewToast'
   ),
+  onHeightChange: action('onHeightChange'),
   openLink: action('openLink'),
   scrollToQuotedMessage: action('scrollToQuotedMessage'),
   downloadNewVersion: action('downloadNewVersion'),
@@ -72,6 +83,7 @@ const getDefaultProps = () => ({
   returnToActiveCall: action('returnToActiveCall'),
 
   renderContact,
+  renderUniversalTimerNotification,
   renderEmojiPicker,
   renderAudioAttachment: () => <div>*AudioAttachment*</div>,
 });
@@ -84,8 +96,10 @@ storiesOf('Components/Conversation/TimelineItem', module)
         id: 'id-1',
         direction: 'incoming',
         timestamp: Date.now(),
-        authorPhoneNumber: '(202) 555-2001',
-        authorColor: 'green',
+        author: {
+          phoneNumber: '(202) 555-2001',
+          color: AvatarColors[0],
+        },
         text: '🔥',
       },
     } as TimelineItemProps['item'];
@@ -97,9 +111,30 @@ storiesOf('Components/Conversation/TimelineItem', module)
       {
         type: 'timerNotification',
         data: {
-          type: 'fromOther',
           phoneNumber: '(202) 555-0000',
-          timespan: '1 hour',
+          expireTimer: 60,
+          ...getDefaultConversation(),
+          type: 'fromOther',
+        },
+      },
+      {
+        type: 'chatSessionRefreshed',
+      },
+      {
+        type: 'deliveryIssue',
+        data: {
+          sender: getDefaultConversation(),
+        },
+      },
+      {
+        type: 'universalTimerNotification',
+        data: null,
+      },
+      {
+        type: 'changeNumberNotification',
+        data: {
+          sender: getDefaultConversation(),
+          timestamp: Date.now(),
         },
       },
       {
@@ -365,7 +400,6 @@ storiesOf('Components/Conversation/TimelineItem', module)
               item={item as TimelineItemProps['item']}
               i18n={i18n}
             />
-            <hr />
           </React.Fragment>
         ))}
       </>

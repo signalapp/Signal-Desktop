@@ -7,7 +7,7 @@ import { text } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
 import { AttachmentType } from '../../types/Attachment';
-import { MIMEType } from '../../types/MIME';
+import { stringToMIMEType } from '../../types/MIME';
 import { setup as setupI18n } from '../../../js/modules/i18n';
 import enMessages from '../../../_locales/en/messages.json';
 import { Props, StagedGenericAttachment } from './StagedGenericAttachment';
@@ -28,17 +28,16 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
 const createAttachment = (
   props: Partial<AttachmentType> = {}
 ): AttachmentType => ({
-  contentType: text(
-    'attachment contentType',
-    props.contentType || ''
-  ) as MIMEType,
+  contentType: stringToMIMEType(
+    text('attachment contentType', props.contentType || '')
+  ),
   fileName: text('attachment fileName', props.fileName || ''),
   url: '',
 });
 
 story.add('Text File', () => {
   const attachment = createAttachment({
-    contentType: 'text/plain' as MIMEType,
+    contentType: stringToMIMEType('text/plain'),
     fileName: 'manifesto.txt',
   });
   const props = createProps({ attachment });
@@ -48,7 +47,7 @@ story.add('Text File', () => {
 
 story.add('Long Name', () => {
   const attachment = createAttachment({
-    contentType: 'text/plain' as MIMEType,
+    contentType: stringToMIMEType('text/plain'),
     fileName: 'this-is-my-very-important-manifesto-you-must-read-it.txt',
   });
   const props = createProps({ attachment });
@@ -58,7 +57,7 @@ story.add('Long Name', () => {
 
 story.add('Long Extension', () => {
   const attachment = createAttachment({
-    contentType: 'text/plain' as MIMEType,
+    contentType: stringToMIMEType('text/plain'),
     fileName: 'manifesto.reallylongtxt',
   });
   const props = createProps({ attachment });

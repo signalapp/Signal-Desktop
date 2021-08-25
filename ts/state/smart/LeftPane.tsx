@@ -1,8 +1,9 @@
 // Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { CSSProperties } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
+import { get } from 'lodash';
 import { mapDispatchToProps } from '../actions';
 import {
   LeftPane,
@@ -16,15 +17,17 @@ import { ComposerStep, OneTimeModalState } from '../ducks/conversations';
 import { getSearchResults, isSearching } from '../selectors/search';
 import { getIntl, getRegionCode } from '../selectors/user';
 import {
-  getCandidateContactsForNewGroup,
   getCantAddContactForModal,
-  getComposeContacts,
-  getComposeGroups,
+  getComposeAvatarData,
   getComposeGroupAvatar,
+  getComposeGroupExpireTimer,
   getComposeGroupName,
   getComposeSelectedContacts,
   getComposerConversationSearchTerm,
   getComposerStep,
+  getFilteredCandidateContactsForNewGroup,
+  getFilteredComposeContacts,
+  getFilteredComposeGroups,
   getLeftPaneLists,
   getMaximumGroupSizeModalState,
   getRecommendedGroupSizeModalState,
@@ -33,6 +36,7 @@ import {
   getShowArchived,
   hasGroupCreationError,
   isCreatingGroup,
+  isEditingAvatar,
 } from '../selectors/conversations';
 
 import { SmartExpiredBuildDialog } from './ExpiredBuildDialog';
@@ -41,6 +45,7 @@ import { SmartMessageSearchResult } from './MessageSearchResult';
 import { SmartNetworkStatus } from './NetworkStatus';
 import { SmartRelinkDialog } from './RelinkDialog';
 import { SmartUpdateDialog } from './UpdateDialog';
+import { SmartCaptchaDialog } from './CaptchaDialog';
 
 // Workaround: A react component's required properties are filtering up through connect()
 //   https://github.com/DefinitelyTyped/DefinitelyTyped/issues/31363
@@ -54,11 +59,8 @@ function renderExpiredBuildDialog(): JSX.Element {
 function renderMainHeader(): JSX.Element {
   return <SmartMainHeader />;
 }
-function renderMessageSearchResult(
-  id: string,
-  style: CSSProperties
-): JSX.Element {
-  return <FilteredSmartMessageSearchResult id={id} style={style} />;
+function renderMessageSearchResult(id: string): JSX.Element {
+  return <FilteredSmartMessageSearchResult id={id} />;
 }
 function renderNetworkStatus(): JSX.Element {
   return <SmartNetworkStatus />;
@@ -68,6 +70,9 @@ function renderRelinkDialog(): JSX.Element {
 }
 function renderUpdateDialog(): JSX.Element {
   return <SmartUpdateDialog />;
+}
+function renderCaptchaDialog({ onSkip }: { onSkip(): void }): JSX.Element {
+  return <SmartCaptchaDialog onSkip={onSkip} />;
 }
 
 const getModeSpecificProps = (
@@ -84,8 +89,13 @@ const getModeSpecificProps = (
         };
       }
       if (isSearching(state)) {
+        const primarySendsSms = Boolean(
+          get(state.items, ['primarySendsSms'], false)
+        );
+
         return {
           mode: LeftPaneMode.Search,
+          primarySendsSms,
           ...getSearchResults(state),
         };
       }
@@ -96,15 +106,15 @@ const getModeSpecificProps = (
     case ComposerStep.StartDirectConversation:
       return {
         mode: LeftPaneMode.Compose,
-        composeContacts: getComposeContacts(state),
-        composeGroups: getComposeGroups(state),
+        composeContacts: getFilteredComposeContacts(state),
+        composeGroups: getFilteredComposeGroups(state),
         regionCode: getRegionCode(state),
         searchTerm: getComposerConversationSearchTerm(state),
       };
     case ComposerStep.ChooseGroupMembers:
       return {
         mode: LeftPaneMode.ChooseGroupMembers,
-        candidateContacts: getCandidateContactsForNewGroup(state),
+        candidateContacts: getFilteredCandidateContactsForNewGroup(state),
         cantAddContactForModal: getCantAddContactForModal(state),
         isShowingRecommendedGroupSizeModal:
           getRecommendedGroupSizeModalState(state) ===
@@ -119,9 +129,12 @@ const getModeSpecificProps = (
         mode: LeftPaneMode.SetGroupMetadata,
         groupAvatar: getComposeGroupAvatar(state),
         groupName: getComposeGroupName(state),
+        groupExpireTimer: getComposeGroupExpireTimer(state),
         hasError: hasGroupCreationError(state),
         isCreating: isCreatingGroup(state),
+        isEditingAvatar: isEditingAvatar(state),
         selectedContacts: getComposeSelectedContacts(state),
+        userAvatarData: getComposeAvatarData(state),
       };
     default:
       throw missingCaseError(composerStep);
@@ -136,12 +149,14 @@ const mapStateToProps = (state: StateType) => {
     showArchived: getShowArchived(state),
     i18n: getIntl(state),
     regionCode: getRegionCode(state),
+    challengeStatus: state.network.challengeStatus,
     renderExpiredBuildDialog,
     renderMainHeader,
     renderMessageSearchResult,
     renderNetworkStatus,
     renderRelinkDialog,
     renderUpdateDialog,
+    renderCaptchaDialog,
   };
 };
 

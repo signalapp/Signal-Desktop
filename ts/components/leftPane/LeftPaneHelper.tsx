@@ -5,6 +5,11 @@ import { ChangeEvent, ReactChild } from 'react';
 
 import { Row } from '../ConversationList';
 import { LocalizerType } from '../../types/Util';
+import {
+  DeleteAvatarFromDiskActionType,
+  ReplaceAvatarActionType,
+  SaveAvatarToDiskActionType,
+} from '../../types/Avatar';
 
 export enum FindDirection {
   Up,
@@ -40,24 +45,25 @@ export abstract class LeftPaneHelper<T> {
     return undefined;
   }
 
-  shouldRenderNetworkStatusAndUpdateDialog(): boolean {
-    return false;
-  }
-
   getPreRowsNode(
     _: Readonly<{
       clearGroupCreationError: () => void;
       closeCantAddContactToGroupModal: () => unknown;
       closeMaximumGroupSizeModal: () => unknown;
       closeRecommendedGroupSizeModal: () => unknown;
+      composeDeleteAvatarFromDisk: DeleteAvatarFromDiskActionType;
+      composeReplaceAvatar: ReplaceAvatarActionType;
+      composeSaveAvatarToDisk: SaveAvatarToDiskActionType;
       createGroup: () => unknown;
       i18n: LocalizerType;
       setComposeGroupAvatar: (_: undefined | ArrayBuffer) => unknown;
       setComposeGroupName: (_: string) => unknown;
+      setComposeGroupExpireTimer: (_: number) => void;
       onChangeComposeSearchTerm: (
         event: ChangeEvent<HTMLInputElement>
       ) => unknown;
       removeSelectedContact: (_: string) => unknown;
+      toggleComposeEditingAvatar: () => unknown;
     }>
   ): null | ReactChild {
     return null;

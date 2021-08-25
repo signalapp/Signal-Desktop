@@ -5,10 +5,11 @@ import * as React from 'react';
 import { isBoolean } from 'lodash';
 
 import { action } from '@storybook/addon-actions';
-import { boolean, number, text, select } from '@storybook/addon-knobs';
+import { boolean, number, select, text } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
 
-import { Colors } from '../../types/Colors';
+import { SignalService } from '../../protobuf';
+import { ConversationColors } from '../../types/Colors';
 import { EmojiPicker } from '../emoji/EmojiPicker';
 import { Message, Props, AudioAttachmentProps } from './Message';
 import {
@@ -16,14 +17,16 @@ import {
   IMAGE_JPEG,
   IMAGE_PNG,
   IMAGE_WEBP,
-  MIMEType,
   VIDEO_MP4,
+  stringToMIMEType,
 } from '../../types/MIME';
+import { ReadStatus } from '../../messages/MessageReadStatus';
 import { MessageAudio } from './MessageAudio';
 import { computePeaks } from '../GlobalAudioContext';
 import { setup as setupI18n } from '../../../js/modules/i18n';
 import enMessages from '../../../_locales/en/messages.json';
 import { pngUrl } from '../../storybook/Fixtures';
+import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -45,19 +48,23 @@ const renderEmojiPicker: Props['renderEmojiPicker'] = ({
 );
 
 const MessageAudioContainer: React.FC<AudioAttachmentProps> = props => {
-  const [activeAudioID, setActiveAudioID] = React.useState<string | undefined>(
-    undefined
-  );
+  const [active, setActive] = React.useState<{
+    id?: string;
+    context?: string;
+  }>({});
   const audio = React.useMemo(() => new Audio(), []);
 
   return (
     <MessageAudio
       {...props}
       id="storybook"
+      renderingContext="storybook"
       audio={audio}
       computePeaks={computePeaks}
-      setActiveAudioID={setActiveAudioID}
-      activeAudioID={activeAudioID}
+      setActiveAudioID={(id, context) => setActive({ id, context })}
+      onFirstPlayed={action('onFirstPlayed')}
+      activeAudioID={active.id}
+      activeAudioContext={active.context}
     />
   );
 };
@@ -68,16 +75,18 @@ const renderAudioAttachment: Props['renderAudioAttachment'] = props => (
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   attachments: overrideProps.attachments,
-  authorId: overrideProps.authorId || 'some-id',
-  authorColor: select('authorColor', Colors, Colors[0]),
-  authorAvatarPath: overrideProps.authorAvatarPath,
-  authorTitle: text('authorTitle', overrideProps.authorTitle || ''),
+  author: overrideProps.author || getDefaultConversation(),
+  reducedMotion: boolean('reducedMotion', false),
   bodyRanges: overrideProps.bodyRanges,
   canReply: true,
   canDownload: true,
   canDeleteForEveryone: overrideProps.canDeleteForEveryone || false,
+  checkForAccount: action('checkForAccount'),
   clearSelectedMessage: action('clearSelectedMessage'),
   collapseMetadata: overrideProps.collapseMetadata,
+  conversationColor:
+    overrideProps.conversationColor ||
+    select('conversationColor', ConversationColors, ConversationColors[0]),
   conversationId: text('conversationId', overrideProps.conversationId || ''),
   conversationType: overrideProps.conversationType || 'direct',
   deletedForEveryone: overrideProps.deletedForEveryone,
@@ -87,6 +96,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   disableScroll: overrideProps.disableScroll,
   direction: overrideProps.direction || 'incoming',
   displayTapToViewMessage: action('displayTapToViewMessage'),
+  doubleCheckMissingQuoteReference: action('doubleCheckMissingQuoteReference'),
   downloadAttachment: action('downloadAttachment'),
   expirationLength:
     number('expirationLength', overrideProps.expirationLength || 0) ||
@@ -96,6 +106,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
     undefined,
   i18n,
   id: text('id', overrideProps.id || ''),
+  renderingContext: 'storybook',
   interactionMode: overrideProps.interactionMode || 'keyboard',
   isSticker: isBoolean(overrideProps.isSticker)
     ? overrideProps.isSticker
@@ -111,11 +122,17 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   isTapToViewExpired: overrideProps.isTapToViewExpired,
   kickOffAttachmentDownload: action('kickOffAttachmentDownload'),
   markAttachmentAsCorrupted: action('markAttachmentAsCorrupted'),
+  markViewed: action('markViewed'),
+  onHeightChange: action('onHeightChange'),
   openConversation: action('openConversation'),
   openLink: action('openLink'),
   previews: overrideProps.previews || [],
   reactions: overrideProps.reactions,
   reactToMessage: action('reactToMessage'),
+  readStatus:
+    overrideProps.readStatus === undefined
+      ? ReadStatus.Read
+      : overrideProps.readStatus,
   renderEmojiPicker,
   renderAudioAttachment,
   replyToMessage: action('replyToMessage'),
@@ -134,7 +151,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   showMessageDetail: action('showMessageDetail'),
   showVisualAttachment: action('showVisualAttachment'),
   status: overrideProps.status || 'sent',
-  text: text('text', overrideProps.text || ''),
+  text: overrideProps.text || text('text', ''),
   textPending: boolean('textPending', overrideProps.textPending || false),
   timestamp: number('timestamp', overrideProps.timestamp || Date.now()),
 });
@@ -212,7 +229,7 @@ story.add('Pending', () => {
 
 story.add('Collapsed Metadata', () => {
   const props = createProps({
-    authorTitle: 'Fred Willard',
+    author: getDefaultConversation({ title: 'Fred Willard' }),
     collapseMetadata: true,
     conversationType: 'group',
     text: 'Hello there from a pal!',
@@ -246,83 +263,83 @@ story.add('Reactions (wider message)', () => {
     reactions: [
       {
         emoji: '👍',
-        from: {
+        from: getDefaultConversation({
           isMe: true,
           id: '+14155552672',
           phoneNumber: '+14155552672',
           name: 'Me',
           title: 'Me',
-        },
+        }),
         timestamp: Date.now() - 10,
       },
       {
         emoji: '👍',
-        from: {
+        from: getDefaultConversation({
           id: '+14155552672',
           phoneNumber: '+14155552672',
           name: 'Amelia Briggs',
           title: 'Amelia',
-        },
+        }),
         timestamp: Date.now() - 10,
       },
       {
         emoji: '👍',
-        from: {
+        from: getDefaultConversation({
           id: '+14155552673',
           phoneNumber: '+14155552673',
           name: 'Amelia Briggs',
           title: 'Amelia',
-        },
+        }),
         timestamp: Date.now() - 10,
       },
       {
         emoji: '😂',
-        from: {
+        from: getDefaultConversation({
           id: '+14155552674',
           phoneNumber: '+14155552674',
           name: 'Amelia Briggs',
           title: 'Amelia',
-        },
+        }),
         timestamp: Date.now() - 10,
       },
       {
         emoji: '😂',
-        from: {
+        from: getDefaultConversation({
           id: '+14155552676',
           phoneNumber: '+14155552676',
           name: 'Amelia Briggs',
           title: 'Amelia',
-        },
+        }),
         timestamp: Date.now() - 10,
       },
       {
         emoji: '😡',
-        from: {
+        from: getDefaultConversation({
           id: '+14155552677',
           phoneNumber: '+14155552677',
           name: 'Amelia Briggs',
           title: 'Amelia',
-        },
+        }),
         timestamp: Date.now() - 10,
       },
       {
         emoji: '👎',
-        from: {
+        from: getDefaultConversation({
           id: '+14155552678',
           phoneNumber: '+14155552678',
           name: 'Amelia Briggs',
           title: 'Amelia',
-        },
+        }),
         timestamp: Date.now() - 10,
       },
       {
         emoji: '❤️',
-        from: {
+        from: getDefaultConversation({
           id: '+14155552679',
           phoneNumber: '+14155552679',
           name: 'Amelia Briggs',
           title: 'Amelia',
-        },
+        }),
         timestamp: Date.now() - 10,
       },
     ],
@@ -338,83 +355,83 @@ story.add('Reactions (short message)', () => {
     reactions: [
       {
         emoji: '👍',
-        from: {
+        from: getDefaultConversation({
           isMe: true,
           id: '+14155552672',
           phoneNumber: '+14155552672',
           name: 'Me',
           title: 'Me',
-        },
+        }),
         timestamp: Date.now(),
       },
       {
         emoji: '👍',
-        from: {
+        from: getDefaultConversation({
           id: '+14155552672',
           phoneNumber: '+14155552672',
           name: 'Amelia Briggs',
           title: 'Amelia',
-        },
+        }),
         timestamp: Date.now(),
       },
       {
         emoji: '👍',
-        from: {
+        from: getDefaultConversation({
           id: '+14155552673',
           phoneNumber: '+14155552673',
           name: 'Amelia Briggs',
           title: 'Amelia',
-        },
+        }),
         timestamp: Date.now(),
       },
       {
         emoji: '😂',
-        from: {
+        from: getDefaultConversation({
           id: '+14155552674',
           phoneNumber: '+14155552674',
           name: 'Amelia Briggs',
           title: 'Amelia',
-        },
+        }),
         timestamp: Date.now(),
       },
       {
         emoji: '😂',
-        from: {
+        from: getDefaultConversation({
           id: '+14155552676',
           phoneNumber: '+14155552676',
           name: 'Amelia Briggs',
           title: 'Amelia',
-        },
+        }),
         timestamp: Date.now(),
       },
       {
         emoji: '😡',
-        from: {
+        from: getDefaultConversation({
           id: '+14155552677',
           phoneNumber: '+14155552677',
           name: 'Amelia Briggs',
           title: 'Amelia',
-        },
+        }),
         timestamp: Date.now(),
       },
       {
         emoji: '👎',
-        from: {
+        from: getDefaultConversation({
           id: '+14155552678',
           phoneNumber: '+14155552678',
           name: 'Amelia Briggs',
           title: 'Amelia',
-        },
+        }),
         timestamp: Date.now(),
       },
       {
         emoji: '❤️',
-        from: {
+        from: getDefaultConversation({
           id: '+14155552679',
           phoneNumber: '+14155552679',
           name: 'Amelia Briggs',
           title: 'Amelia',
-        },
+        }),
         timestamp: Date.now(),
       },
     ],
@@ -425,7 +442,7 @@ story.add('Reactions (short message)', () => {
 
 story.add('Avatar in Group', () => {
   const props = createProps({
-    authorAvatarPath: pngUrl,
+    author: getDefaultConversation({ avatarPath: pngUrl }),
     conversationType: 'group',
     status: 'sent',
     text: 'Hello it is me, the saxophone.',
@@ -476,6 +493,15 @@ story.add('Error', () => {
   const props = createProps({
     status: 'error',
     text: 'I hope you get this.',
+  });
+
+  return renderBothDirections(props);
+});
+
+story.add('Paused', () => {
+  const props = createProps({
+    status: 'paused',
+    text: 'I am up to a challenge',
   });
 
   return renderBothDirections(props);
@@ -705,6 +731,53 @@ story.add('Image', () => {
   return renderBothDirections(props);
 });
 
+for (let i = 2; i <= 5; i += 1) {
+  story.add(`Multiple Images x${i}`, () => {
+    const props = createProps({
+      attachments: [
+        {
+          url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+          fileName: 'tina-rolf-269345-unsplash.jpg',
+          contentType: IMAGE_JPEG,
+          width: 128,
+          height: 128,
+        },
+        {
+          url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+          fileName: 'tina-rolf-269345-unsplash.jpg',
+          contentType: IMAGE_JPEG,
+          width: 128,
+          height: 128,
+        },
+        {
+          url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+          fileName: 'tina-rolf-269345-unsplash.jpg',
+          contentType: IMAGE_JPEG,
+          width: 128,
+          height: 128,
+        },
+        {
+          url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+          fileName: 'tina-rolf-269345-unsplash.jpg',
+          contentType: IMAGE_JPEG,
+          width: 128,
+          height: 128,
+        },
+        {
+          url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+          fileName: 'tina-rolf-269345-unsplash.jpg',
+          contentType: IMAGE_JPEG,
+          width: 128,
+          height: 128,
+        },
+      ].slice(0, i),
+      status: 'sent',
+    });
+
+    return renderBothDirections(props);
+  });
+}
+
 story.add('Image with Caption', () => {
   const props = createProps({
     attachments: [
@@ -723,13 +796,134 @@ story.add('Image with Caption', () => {
   return renderBothDirections(props);
 });
 
+story.add('GIF', () => {
+  const props = createProps({
+    attachments: [
+      {
+        contentType: VIDEO_MP4,
+        flags: SignalService.AttachmentPointer.Flags.GIF,
+        fileName: 'cat-gif.mp4',
+        url: '/fixtures/cat-gif.mp4',
+        width: 400,
+        height: 332,
+      },
+    ],
+    status: 'sent',
+  });
+
+  return renderBothDirections(props);
+});
+
+story.add('GIF in a group', () => {
+  const props = createProps({
+    attachments: [
+      {
+        contentType: VIDEO_MP4,
+        flags: SignalService.AttachmentPointer.Flags.GIF,
+        fileName: 'cat-gif.mp4',
+        url: '/fixtures/cat-gif.mp4',
+        width: 400,
+        height: 332,
+      },
+    ],
+    conversationType: 'group',
+    status: 'sent',
+  });
+
+  return renderBothDirections(props);
+});
+
+story.add('Not Downloaded GIF', () => {
+  const props = createProps({
+    attachments: [
+      {
+        contentType: VIDEO_MP4,
+        flags: SignalService.AttachmentPointer.Flags.GIF,
+        fileName: 'cat-gif.mp4',
+        fileSize: '188.61 KB',
+        blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        width: 400,
+        height: 332,
+      },
+    ],
+    status: 'sent',
+  });
+
+  return renderBothDirections(props);
+});
+
+story.add('Pending GIF', () => {
+  const props = createProps({
+    attachments: [
+      {
+        pending: true,
+        contentType: VIDEO_MP4,
+        flags: SignalService.AttachmentPointer.Flags.GIF,
+        fileName: 'cat-gif.mp4',
+        fileSize: '188.61 KB',
+        blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        width: 400,
+        height: 332,
+      },
+    ],
+    status: 'sent',
+  });
+
+  return renderBothDirections(props);
+});
+
 story.add('Audio', () => {
+  const Wrapper = () => {
+    const [isPlayed, setIsPlayed] = React.useState(false);
+
+    const messageProps = createProps({
+      attachments: [
+        {
+          contentType: AUDIO_MP3,
+          fileName: 'incompetech-com-Agnus-Dei-X.mp3',
+          url: '/fixtures/incompetech-com-Agnus-Dei-X.mp3',
+        },
+      ],
+      ...(isPlayed
+        ? {
+            status: 'viewed',
+            readStatus: ReadStatus.Viewed,
+          }
+        : {
+            status: 'read',
+            readStatus: ReadStatus.Read,
+          }),
+    });
+
+    return (
+      <>
+        <button
+          type="button"
+          onClick={() => {
+            setIsPlayed(old => !old);
+          }}
+          style={{
+            display: 'block',
+            marginBottom: '2em',
+          }}
+        >
+          Toggle played
+        </button>
+        {renderBothDirections(messageProps)}
+      </>
+    );
+  };
+
+  return <Wrapper />;
+});
+
+story.add('Long Audio', () => {
   const props = createProps({
     attachments: [
       {
         contentType: AUDIO_MP3,
-        fileName: 'incompetech-com-Agnus-Dei-X.mp3',
-        url: '/fixtures/incompetech-com-Agnus-Dei-X.mp3',
+        fileName: 'long-audio.mp3',
+        url: '/fixtures/long-audio.mp3',
       },
     ],
     status: 'sent',
@@ -787,7 +981,7 @@ story.add('Other File Type', () => {
   const props = createProps({
     attachments: [
       {
-        contentType: 'text/plain' as MIMEType,
+        contentType: stringToMIMEType('text/plain'),
         fileName: 'my-resume.txt',
         url: 'my-resume.txt',
       },
@@ -802,7 +996,7 @@ story.add('Other File Type with Caption', () => {
   const props = createProps({
     attachments: [
       {
-        contentType: 'text/plain' as MIMEType,
+        contentType: stringToMIMEType('text/plain'),
         fileName: 'my-resume.txt',
         url: 'my-resume.txt',
       },
@@ -818,7 +1012,7 @@ story.add('Other File Type with Long Filename', () => {
   const props = createProps({
     attachments: [
       {
-        contentType: 'text/plain' as MIMEType,
+        contentType: stringToMIMEType('text/plain'),
         fileName:
           'INSERT-APP-NAME_INSERT-APP-APPLE-ID_AppStore_AppsGamesWatch.psd.zip',
         url: 'a2/a2334324darewer4234',
@@ -909,7 +1103,9 @@ story.add('Dangerous File Type', () => {
   const props = createProps({
     attachments: [
       {
-        contentType: 'application/vnd.microsoft.portable-executable' as MIMEType,
+        contentType: stringToMIMEType(
+          'application/vnd.microsoft.portable-executable'
+        ),
         fileName: 'terrible.exe',
         url: 'terrible.exe',
       },
@@ -921,15 +1117,17 @@ story.add('Dangerous File Type', () => {
 });
 
 story.add('Colors', () => {
-  const defaultProps = createProps({
-    text:
-      'Hello there from a pal! I am sending a long message so that it will wrap a bit, since I like that look.',
-  });
-
   return (
     <>
-      {Colors.map(color => (
-        <Message {...defaultProps} authorColor={color} />
+      {ConversationColors.map(color => (
+        <div key={color}>
+          {renderBothDirections(
+            createProps({
+              conversationColor: color,
+              text: `Here is a preview of the chat color: ${color}. The color is visible to only you.`,
+            })
+          )}
+        </div>
       ))}
     </>
   );
@@ -996,3 +1194,25 @@ story.add('Not approved, with link preview', () => {
 
   return renderBothDirections(props);
 });
+
+story.add('Custom Color', () => (
+  <>
+    <Message
+      {...createProps({ text: 'Solid.' })}
+      direction="outgoing"
+      customColor={{
+        start: { hue: 82, saturation: 35 },
+      }}
+    />
+    <br style={{ clear: 'both' }} />
+    <Message
+      {...createProps({ text: 'Gradient.' })}
+      direction="outgoing"
+      customColor={{
+        deg: 192,
+        start: { hue: 304, saturation: 85 },
+        end: { hue: 231, saturation: 76 },
+      }}
+    />
+  </>
+));

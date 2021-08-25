@@ -18,28 +18,36 @@
   }
 
   @include button-reset;
-  @include font-body-1-bold;
-
   border-radius: 4px;
   padding: 8px 16px;
   text-align: center;
   user-select: none;
 
   @include keyboard-mode {
-    @include focus-box-shadow($color-white, $ultramarine-ui-light);
+    @include focus-box-shadow($color-white, $color-ultramarine);
   }
 
   @include dark-keyboard-mode {
-    @include focus-box-shadow($color-black, $ultramarine-brand-light);
+    @include focus-box-shadow($color-black, $color-ultramarine-icon);
   }
 
   &:disabled {
     cursor: not-allowed;
   }
 
+  &--medium {
+    @include font-body-1-bold;
+  }
+
+  &--small {
+    @include font-body-2;
+    @include rounded-corners;
+    padding: 6px 12px;
+  }
+
   &--primary {
     $color: $color-white;
-    $background-color: $ultramarine-ui-light;
+    $background-color: $color-ultramarine;
 
     color: $color;
     background: $background-color;
@@ -72,7 +80,7 @@
       }
 
       &--affirmative {
-        color: $ultramarine-ui-light;
+        color: $color-ultramarine;
       }
 
       &--destructive {
@@ -95,7 +103,7 @@
       }
 
       &--affirmative {
-        color: $ultramarine-ui-dark;
+        color: $color-ultramarine-light;
       }
 
       &--destructive {
@@ -110,6 +118,28 @@
     $color: $color-white;
     $background-color: $color-accent-red;
 
+    color: $color;
+    background: $background-color;
+
+    &:disabled {
+      color: fade-out($color, 0.4);
+      background: fade-out($background-color, 0.6);
+    }
+
+    @include light-theme {
+      @include hover-and-active-states($background-color, $color-black);
+    }
+
+    @include dark-theme {
+      @include hover-and-active-states($background-color, $color-white);
+    }
+  }
+
+  &--calling {
+    $color: $color-white;
+    $background-color: $color-accent-green;
+
+    @include rounded-corners;
     color: $color;
     background: $background-color;
 

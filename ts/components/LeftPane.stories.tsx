@@ -4,86 +4,67 @@
 import * as React from 'react';
 
 import { action } from '@storybook/addon-actions';
+import { select } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
 
 import { LeftPane, LeftPaneMode, PropsType } from './LeftPane';
-import { PropsData as ConversationListItemPropsType } from './conversationList/ConversationListItem';
+import { CaptchaDialog } from './CaptchaDialog';
+import { ConversationType } from '../state/ducks/conversations';
 import { MessageSearchResult } from './conversationList/MessageSearchResult';
 import { setup as setupI18n } from '../../js/modules/i18n';
 import enMessages from '../../_locales/en/messages.json';
+import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 
 const i18n = setupI18n('en', enMessages);
 
 const story = storiesOf('Components/LeftPane', module);
 
-const defaultConversations: Array<ConversationListItemPropsType> = [
-  {
+const defaultConversations: Array<ConversationType> = [
+  getDefaultConversation({
     id: 'fred-convo',
-    isSelected: false,
-    lastUpdated: Date.now(),
-    markedUnread: false,
     title: 'Fred Willard',
-    type: 'direct',
-  },
-  {
+  }),
+  getDefaultConversation({
     id: 'marc-convo',
     isSelected: true,
-    lastUpdated: Date.now(),
-    markedUnread: false,
     title: 'Marc Barraca',
-    type: 'direct',
-  },
+  }),
 ];
 
-const defaultGroups: Array<ConversationListItemPropsType> = [
-  {
+const defaultGroups: Array<ConversationType> = [
+  getDefaultConversation({
     id: 'biking-group',
-    isSelected: false,
-    lastUpdated: Date.now(),
-    markedUnread: false,
     title: 'Mtn Biking Arizona 🚵☀️⛰',
     type: 'group',
-  },
-  {
+    sharedGroupNames: [],
+  }),
+  getDefaultConversation({
     id: 'dance-group',
-    isSelected: false,
-    lastUpdated: Date.now(),
-    markedUnread: false,
     title: 'Are we dancers? 💃',
     type: 'group',
-  },
+    sharedGroupNames: [],
+  }),
 ];
 
-const defaultArchivedConversations: Array<ConversationListItemPropsType> = [
-  {
+const defaultArchivedConversations: Array<ConversationType> = [
+  getDefaultConversation({
     id: 'michelle-archive-convo',
-    isSelected: false,
-    lastUpdated: Date.now(),
-    markedUnread: false,
     title: 'Michelle Mercure',
-    type: 'direct',
-  },
+    isArchived: true,
+  }),
 ];
 
-const pinnedConversations: Array<ConversationListItemPropsType> = [
-  {
+const pinnedConversations: Array<ConversationType> = [
+  getDefaultConversation({
     id: 'philly-convo',
     isPinned: true,
-    isSelected: false,
-    lastUpdated: Date.now(),
-    markedUnread: false,
     title: 'Philip Glass',
-    type: 'direct',
-  },
-  {
+  }),
+  getDefaultConversation({
     id: 'robbo-convo',
     isPinned: true,
-    isSelected: false,
-    lastUpdated: Date.now(),
-    markedUnread: false,
     title: 'Robert Moog',
-    type: 'direct',
-  },
+  }),
 ];
 
 const defaultModeSpecificProps = {
@@ -101,14 +82,23 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   closeCantAddContactToGroupModal: action('closeCantAddContactToGroupModal'),
   closeMaximumGroupSizeModal: action('closeMaximumGroupSizeModal'),
   closeRecommendedGroupSizeModal: action('closeRecommendedGroupSizeModal'),
+  composeDeleteAvatarFromDisk: action('composeDeleteAvatarFromDisk'),
+  composeReplaceAvatar: action('composeReplaceAvatar'),
+  composeSaveAvatarToDisk: action('composeSaveAvatarToDisk'),
   createGroup: action('createGroup'),
   i18n,
   modeSpecificProps: defaultModeSpecificProps,
   openConversationInternal: action('openConversationInternal'),
   regionCode: 'US',
+  challengeStatus: select(
+    'challengeStatus',
+    ['idle', 'required', 'pending'],
+    'idle'
+  ),
+  setChallengeStatus: action('setChallengeStatus'),
   renderExpiredBuildDialog: () => <div />,
   renderMainHeader: () => <div />,
-  renderMessageSearchResult: (id: string, style: React.CSSProperties) => (
+  renderMessageSearchResult: (id: string) => (
     <MessageSearchResult
       body="Lorem ipsum wow"
       bodyRanges={[]}
@@ -119,18 +109,26 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
       openConversationInternal={action('openConversationInternal')}
       sentAt={1587358800000}
       snippet="Lorem <<left>>ipsum<<right>> wow"
-      style={style}
       to={defaultConversations[1]}
     />
   ),
   renderNetworkStatus: () => <div />,
   renderRelinkDialog: () => <div />,
   renderUpdateDialog: () => <div />,
+  renderCaptchaDialog: () => (
+    <CaptchaDialog
+      i18n={i18n}
+      isPending={overrideProps.challengeStatus === 'pending'}
+      onContinue={action('onCaptchaContinue')}
+      onSkip={action('onCaptchaSkip')}
+    />
+  ),
   selectedConversationId: undefined,
   selectedMessageId: undefined,
   setComposeSearchTerm: action('setComposeSearchTerm'),
   setComposeGroupAvatar: action('setComposeGroupAvatar'),
   setComposeGroupName: action('setComposeGroupName'),
+  setComposeGroupExpireTimer: action('setComposeGroupExpireTimer'),
   showArchivedConversations: action('showArchivedConversations'),
   showInbox: action('showInbox'),
   startComposing: action('startComposing'),
@@ -139,6 +137,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
     'startNewConversationFromPhoneNumber'
   ),
   startSettingGroupMetadata: action('startSettingGroupMetadata'),
+  toggleComposeEditingAvatar: action('toggleComposeEditingAvatar'),
   toggleConversationInChooseMembers: action(
     'toggleConversationInChooseMembers'
   ),
@@ -254,6 +253,22 @@ story.add('Search: no results when searching everywhere', () => (
         contactResults: emptySearchResultsGroup,
         messageResults: emptySearchResultsGroup,
         searchTerm: 'foo bar',
+        primarySendsSms: false,
+      },
+    })}
+  />
+));
+
+story.add('Search: no results when searching everywhere (SMS)', () => (
+  <LeftPane
+    {...createProps({
+      modeSpecificProps: {
+        mode: LeftPaneMode.Search,
+        conversationResults: emptySearchResultsGroup,
+        contactResults: emptySearchResultsGroup,
+        messageResults: emptySearchResultsGroup,
+        searchTerm: 'foo bar',
+        primarySendsSms: true,
       },
     })}
   />
@@ -269,6 +284,7 @@ story.add('Search: no results when searching in a conversation', () => (
         messageResults: emptySearchResultsGroup,
         searchConversationName: 'Bing Bong',
         searchTerm: 'foo bar',
+        primarySendsSms: false,
       },
     })}
   />
@@ -283,6 +299,7 @@ story.add('Search: all results loading', () => (
         contactResults: { isLoading: true },
         messageResults: { isLoading: true },
         searchTerm: 'foo bar',
+        primarySendsSms: false,
       },
     })}
   />
@@ -300,6 +317,7 @@ story.add('Search: some results loading', () => (
         contactResults: { isLoading: true },
         messageResults: { isLoading: true },
         searchTerm: 'foo bar',
+        primarySendsSms: false,
       },
     })}
   />
@@ -317,6 +335,7 @@ story.add('Search: has conversations and contacts, but not messages', () => (
         contactResults: { isLoading: false, results: defaultConversations },
         messageResults: { isLoading: false, results: [] },
         searchTerm: 'foo bar',
+        primarySendsSms: false,
       },
     })}
   />
@@ -340,6 +359,7 @@ story.add('Search: all results', () => (
           ],
         },
         searchTerm: 'foo bar',
+        primarySendsSms: false,
       },
     })}
   />
@@ -464,6 +484,92 @@ story.add('Compose: some contacts, some groups, with a search term', () => (
         composeGroups: defaultGroups,
         regionCode: 'US',
         searchTerm: 'ar',
+      },
+    })}
+  />
+));
+
+// Captcha flow
+
+story.add('Captcha dialog: required', () => (
+  <LeftPane
+    {...createProps({
+      modeSpecificProps: {
+        mode: LeftPaneMode.Inbox,
+        pinnedConversations,
+        conversations: defaultConversations,
+        archivedConversations: [],
+      },
+      challengeStatus: 'required',
+    })}
+  />
+));
+
+story.add('Captcha dialog: pending', () => (
+  <LeftPane
+    {...createProps({
+      modeSpecificProps: {
+        mode: LeftPaneMode.Inbox,
+        pinnedConversations,
+        conversations: defaultConversations,
+        archivedConversations: [],
+      },
+      challengeStatus: 'pending',
+    })}
+  />
+));
+
+// Set group metadata
+
+story.add('Group Metadata: No Timer', () => (
+  <LeftPane
+    {...createProps({
+      modeSpecificProps: {
+        mode: LeftPaneMode.SetGroupMetadata,
+        groupAvatar: undefined,
+        groupName: 'Group 1',
+        groupExpireTimer: 0,
+        hasError: false,
+        isCreating: false,
+        isEditingAvatar: false,
+        selectedContacts: defaultConversations,
+        userAvatarData: [],
+      },
+    })}
+  />
+));
+
+story.add('Group Metadata: Regular Timer', () => (
+  <LeftPane
+    {...createProps({
+      modeSpecificProps: {
+        mode: LeftPaneMode.SetGroupMetadata,
+        groupAvatar: undefined,
+        groupName: 'Group 1',
+        groupExpireTimer: 24 * 3600,
+        hasError: false,
+        isCreating: false,
+        isEditingAvatar: false,
+        selectedContacts: defaultConversations,
+        userAvatarData: [],
+      },
+    })}
+  />
+));
+
+story.add('Group Metadata: Custom Timer', () => (
+  <LeftPane
+    {...createProps({
+      modeSpecificProps: {
+        mode: LeftPaneMode.SetGroupMetadata,
+        groupAvatar: undefined,
+        groupName: 'Group 1',
+        groupExpireTimer: 7 * 3600,
+        hasError: false,
+        isCreating: false,
+        isEditingAvatar: false,
+        selectedContacts: defaultConversations,
+        userAvatarData: [],
       },
     })}
   />

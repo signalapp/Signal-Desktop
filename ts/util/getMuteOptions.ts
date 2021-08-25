@@ -3,6 +3,8 @@
 
 import moment from 'moment';
 import { LocalizerType } from '../types/Util';
+import { getMutedUntilText } from './getMutedUntilText';
+import { isMuted } from './isMuted';
 
 export type MuteOption = {
   name: string;
@@ -10,8 +12,24 @@ export type MuteOption = {
   value: number;
 };
 
-export function getMuteOptions(i18n: LocalizerType): Array<MuteOption> {
+export function getMuteOptions(
+  muteExpiresAt: undefined | number,
+  i18n: LocalizerType
+): Array<MuteOption> {
   return [
+    ...(isMuted(muteExpiresAt)
+      ? [
+          {
+            name: getMutedUntilText(muteExpiresAt, i18n),
+            disabled: true,
+            value: -1,
+          },
+          {
+            name: i18n('unmute'),
+            value: 0,
+          },
+        ]
+      : []),
     {
       name: i18n('muteHour'),
       value: moment.duration(1, 'hour').as('milliseconds'),

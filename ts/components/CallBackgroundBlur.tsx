@@ -3,24 +3,30 @@
 
 import React from 'react';
 import classNames from 'classnames';
-import { ColorType } from '../types/Colors';
+import { AvatarColorType } from '../types/Colors';
 
 export type PropsType = {
   avatarPath?: string;
-  children: React.ReactNode;
-  color?: ColorType;
+  children?: React.ReactNode;
+  className?: string;
+  color?: AvatarColorType;
 };
 
 export const CallBackgroundBlur = ({
   avatarPath,
   children,
+  className,
   color,
 }: PropsType): JSX.Element => {
   return (
     <div
-      className={classNames('module-calling__background', {
-        [`module-background-color__${color || 'default'}`]: !avatarPath,
-      })}
+      className={classNames(
+        'module-calling__background',
+        {
+          [`module-background-color__${color || 'default'}`]: !avatarPath,
+        },
+        className
+      )}
     >
       {avatarPath && (
         <div

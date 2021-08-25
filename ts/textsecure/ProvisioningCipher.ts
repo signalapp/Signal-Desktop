@@ -4,8 +4,21 @@
 /* eslint-disable more/no-then */
 /* eslint-disable max-classes-per-file */
 
-import { KeyPairType } from '../libsignal.d';
-import { ProvisionEnvelopeClass } from '../textsecure.d';
+import { KeyPairType } from './Types.d';
+import {
+  decryptAes256CbcPkcsPadding,
+  deriveSecrets,
+  bytesFromString,
+  verifyHmacSha256,
+  typedArrayToArrayBuffer,
+} from '../Crypto';
+import { calculateAgreement, createKeyPair, generateKeyPair } from '../Curve';
+import { SignalService as Proto } from '../protobuf';
+import { strictAssert } from '../util/assert';
+import { normalizeUuid } from '../util/normalizeUuid';
+
+// TODO: remove once we move away from ArrayBuffers
+const FIXMEU8 = Uint8Array;
 
 type ProvisionDecryptResult = {
   identityKeyPair: KeyPairType;
@@ -21,10 +34,14 @@ class ProvisioningCipherInner {
   keyPair?: KeyPairType;
 
   async decrypt(
-    provisionEnvelope: ProvisionEnvelopeClass
+    provisionEnvelope: Proto.ProvisionEnvelope
   ): Promise<ProvisionDecryptResult> {
-    const masterEphemeral = provisionEnvelope.publicKey.toArrayBuffer();
-    const message = provisionEnvelope.body.toArrayBuffer();
+    strictAssert(
+      provisionEnvelope.publicKey && provisionEnvelope.body,
+      'Missing required fields in ProvisionEnvelope'
+    );
+    const masterEphemeral = provisionEnvelope.publicKey;
+    const message = provisionEnvelope.body;
     if (new Uint8Array(message)[0] !== 1) {
       throw new Error('Bad version number on ProvisioningMessage');
     }
@@ -38,73 +55,62 @@ class ProvisioningCipherInner {
       throw new Error('ProvisioningCipher.decrypt: No keypair!');
     }
 
-    return window.libsignal.Curve.async
-      .calculateAgreement(masterEphemeral, this.keyPair.privKey)
-      .then(async ecRes =>
-        window.libsignal.HKDF.deriveSecrets(
-          ecRes,
-          new ArrayBuffer(32),
-          'TextSecure Provisioning Message'
-        )
-      )
-      .then(async keys =>
-        window.libsignal.crypto
-          .verifyMAC(ivAndCiphertext, keys[1], mac, 32)
-          .then(async () =>
-            window.libsignal.crypto.decrypt(keys[0], ciphertext, iv)
-          )
-      )
-      .then(async plaintext => {
-        const provisionMessage = window.textsecure.protobuf.ProvisionMessage.decode(
-          plaintext
-        );
-        const privKey = provisionMessage.identityKeyPrivate.toArrayBuffer();
+    const ecRes = calculateAgreement(
+      typedArrayToArrayBuffer(masterEphemeral),
+      this.keyPair.privKey
+    );
+    const keys = deriveSecrets(
+      ecRes,
+      new ArrayBuffer(32),
+      bytesFromString('TextSecure Provisioning Message')
+    );
+    await verifyHmacSha256(
+      typedArrayToArrayBuffer(ivAndCiphertext),
+      keys[1],
+      typedArrayToArrayBuffer(mac),
+      32
+    );
 
-        return window.libsignal.Curve.async
-          .createKeyPair(privKey)
-          .then(keyPair => {
-            window.normalizeUuids(
-              provisionMessage,
-              ['uuid'],
-              'ProvisioningCipher.decrypt'
-            );
+    const plaintext = await decryptAes256CbcPkcsPadding(
+      keys[0],
+      typedArrayToArrayBuffer(ciphertext),
+      typedArrayToArrayBuffer(iv)
+    );
+    const provisionMessage = Proto.ProvisionMessage.decode(
+      new FIXMEU8(plaintext)
+    );
+    const privKey = provisionMessage.identityKeyPrivate;
+    strictAssert(privKey, 'Missing identityKeyPrivate in ProvisionMessage');
 
-            const ret: ProvisionDecryptResult = {
-              identityKeyPair: keyPair,
-              number: provisionMessage.number,
-              uuid: provisionMessage.uuid,
-              provisioningCode: provisionMessage.provisioningCode,
-              userAgent: provisionMessage.userAgent,
-              readReceipts: provisionMessage.readReceipts,
-            };
-            if (provisionMessage.profileKey) {
-              ret.profileKey = provisionMessage.profileKey.toArrayBuffer();
-            }
-            return ret;
-          });
-      });
+    const keyPair = createKeyPair(typedArrayToArrayBuffer(privKey));
+
+    const { uuid } = provisionMessage;
+    strictAssert(uuid, 'Missing uuid in provisioning message');
+
+    const ret: ProvisionDecryptResult = {
+      identityKeyPair: keyPair,
+      number: provisionMessage.number,
+      uuid: normalizeUuid(uuid, 'ProvisionMessage.uuid'),
+      provisioningCode: provisionMessage.provisioningCode,
+      userAgent: provisionMessage.userAgent,
+      readReceipts: provisionMessage.readReceipts,
+    };
+    if (provisionMessage.profileKey) {
+      ret.profileKey = typedArrayToArrayBuffer(provisionMessage.profileKey);
+    }
+    return ret;
   }
 
   async getPublicKey(): Promise<ArrayBuffer> {
-    return Promise.resolve()
-      .then(async () => {
-        if (!this.keyPair) {
-          return window.libsignal.Curve.async
-            .generateKeyPair()
-            .then(keyPair => {
-              this.keyPair = keyPair;
-            });
-        }
+    if (!this.keyPair) {
+      this.keyPair = generateKeyPair();
+    }
 
-        return null;
-      })
-      .then(() => {
-        if (!this.keyPair) {
-          throw new Error('ProvisioningCipher.decrypt: No keypair!');
-        }
+    if (!this.keyPair) {
+      throw new Error('ProvisioningCipher.decrypt: No keypair!');
+    }
 
-        return this.keyPair.pubKey;
-      });
+    return this.keyPair.pubKey;
   }
 }
 
@@ -117,7 +123,7 @@ export default class ProvisioningCipher {
   }
 
   decrypt: (
-    provisionEnvelope: ProvisionEnvelopeClass
+    provisionEnvelope: Proto.ProvisionEnvelope
   ) => Promise<ProvisionDecryptResult>;
 
   getPublicKey: () => Promise<ArrayBuffer>;

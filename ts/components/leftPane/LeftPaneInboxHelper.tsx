@@ -19,18 +19,12 @@ export type LeftPaneInboxPropsType = {
 
 /* eslint-disable class-methods-use-this */
 
-export class LeftPaneInboxHelper extends LeftPaneHelper<
-  LeftPaneInboxPropsType
-> {
+export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> {
   private readonly conversations: ReadonlyArray<ConversationListItemPropsType>;
 
-  private readonly archivedConversations: ReadonlyArray<
-    ConversationListItemPropsType
-  >;
+  private readonly archivedConversations: ReadonlyArray<ConversationListItemPropsType>;
 
-  private readonly pinnedConversations: ReadonlyArray<
-    ConversationListItemPropsType
-  >;
+  private readonly pinnedConversations: ReadonlyArray<ConversationListItemPropsType>;
 
   constructor({
     conversations,
@@ -42,10 +36,6 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<
     this.conversations = conversations;
     this.archivedConversations = archivedConversations;
     this.pinnedConversations = pinnedConversations;
-  }
-
-  shouldRenderNetworkStatusAndUpdateDialog(): boolean {
-    return true;
   }
 
   getRowCount(): number {

@@ -4,45 +4,48 @@
 import { ComponentProps } from 'react';
 import { connect } from 'react-redux';
 
-import {
-  MessageDetail,
-  Contact,
-} from '../../components/conversation/MessageDetail';
-import { PropsData as MessagePropsDataType } from '../../components/conversation/Message';
-import { mapDispatchToProps } from '../actions';
+import { MessageDetail } from '../../components/conversation/MessageDetail';
 
+import { mapDispatchToProps } from '../actions';
 import { StateType } from '../reducer';
 import { getIntl, getInteractionMode } from '../selectors/user';
 import { renderAudioAttachment } from './renderAudioAttachment';
 import { renderEmojiPicker } from './renderEmojiPicker';
+import { getContactNameColorSelector } from '../selectors/conversations';
 
 type MessageDetailProps = ComponentProps<typeof MessageDetail>;
 
-export type OwnProps = {
-  contacts: Array<Contact>;
-  errors: Array<Error>;
-  message: MessagePropsDataType;
-  receivedAt: number;
-  sentAt: number;
-} & Pick<
+export { Contact } from '../../components/conversation/MessageDetail';
+
+export type OwnProps = Pick<
   MessageDetailProps,
   | 'clearSelectedMessage'
+  | 'checkForAccount'
+  | 'contacts'
   | 'deleteMessage'
   | 'deleteMessageForEveryone'
   | 'displayTapToViewMessage'
   | 'downloadAttachment'
+  | 'doubleCheckMissingQuoteReference'
+  | 'errors'
   | 'kickOffAttachmentDownload'
   | 'markAttachmentAsCorrupted'
+  | 'markViewed'
+  | 'message'
   | 'openConversation'
   | 'openLink'
   | 'reactToMessage'
+  | 'receivedAt'
   | 'replyToMessage'
   | 'retrySend'
+  | 'sendAnyway'
+  | 'sentAt'
   | 'showContactDetail'
   | 'showContactModal'
   | 'showExpiredIncomingTapToViewToast'
   | 'showExpiredOutgoingTapToViewToast'
   | 'showForwardMessageModal'
+  | 'showSafetyNumber'
   | 'showVisualAttachment'
 >;
 
@@ -57,13 +60,19 @@ const mapStateToProps = (
     receivedAt,
     sentAt,
 
+    sendAnyway,
+    showSafetyNumber,
+
+    checkForAccount,
     clearSelectedMessage,
     deleteMessage,
     deleteMessageForEveryone,
     displayTapToViewMessage,
     downloadAttachment,
+    doubleCheckMissingQuoteReference,
     kickOffAttachmentDownload,
     markAttachmentAsCorrupted,
+    markViewed,
     openConversation,
     openLink,
     reactToMessage,
@@ -77,8 +86,17 @@ const mapStateToProps = (
     showVisualAttachment,
   } = props;
 
+  const contactNameColor =
+    message.conversationType === 'group'
+      ? getContactNameColorSelector(state)(
+          message.conversationId,
+          message.author.id
+        )
+      : undefined;
+
   return {
     contacts,
+    contactNameColor,
     errors,
     message,
     receivedAt,
@@ -87,13 +105,19 @@ const mapStateToProps = (
     i18n: getIntl(state),
     interactionMode: getInteractionMode(state),
 
+    sendAnyway,
+    showSafetyNumber,
+
+    checkForAccount,
     clearSelectedMessage,
     deleteMessage,
     deleteMessageForEveryone,
     displayTapToViewMessage,
     downloadAttachment,
+    doubleCheckMissingQuoteReference,
     kickOffAttachmentDownload,
     markAttachmentAsCorrupted,
+    markViewed,
     openConversation,
     openLink,
     reactToMessage,

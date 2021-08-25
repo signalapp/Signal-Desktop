@@ -3,9 +3,11 @@
 
 /* eslint-disable camelcase */
 
-export enum Dialogs {
-  None,
-  Update,
-  Cannot_Update,
-  MacOS_Read_Only,
+export enum DialogType {
+  None = 'None',
+  Update = 'Update',
+  Cannot_Update = 'Cannot_Update',
+  MacOS_Read_Only = 'MacOS_Read_Only',
+  DownloadReady = 'DownloadReady',
+  Downloading = 'Downloading',
 }

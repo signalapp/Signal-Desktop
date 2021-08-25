@@ -1,8 +1,13 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { Buffer } from 'buffer';
 import pProps from 'p-props';
 import { chunk } from 'lodash';
+import Long from 'long';
+import { HKDF } from '@signalapp/signal-client';
+
+import { calculateAgreement, generateKeyPair } from './Curve';
 
 import {
   CipherType,
@@ -12,6 +17,14 @@ import {
   hash,
   sign,
 } from './util/synchronousCrypto';
+
+// Generate a number between zero and 16383
+export function generateRegistrationId(): number {
+  const id = new Uint16Array(getRandomBytes(2))[0];
+
+  // eslint-disable-next-line no-bitwise
+  return id & 0x3fff;
+}
 
 export function typedArrayToArrayBuffer(typedArray: Uint8Array): ArrayBuffer {
   const ab = new ArrayBuffer(typedArray.length);
@@ -24,37 +37,43 @@ export function typedArrayToArrayBuffer(typedArray: Uint8Array): ArrayBuffer {
 }
 
 export function arrayBufferToBase64(arrayBuffer: ArrayBuffer): string {
-  return window.dcodeIO.ByteBuffer.wrap(arrayBuffer).toString('base64');
+  // NOTE: We can't use `Bytes.toBase64` here because this runs in both
+  // node and electron contexts.
+  return Buffer.from(arrayBuffer).toString('base64');
 }
 
 export function arrayBufferToHex(arrayBuffer: ArrayBuffer): string {
-  return window.dcodeIO.ByteBuffer.wrap(arrayBuffer).toString('hex');
+  return Buffer.from(arrayBuffer).toString('hex');
 }
 
 export function base64ToArrayBuffer(base64string: string): ArrayBuffer {
-  return window.dcodeIO.ByteBuffer.wrap(base64string, 'base64').toArrayBuffer();
+  return typedArrayToArrayBuffer(Buffer.from(base64string, 'base64'));
 }
 
 export function hexToArrayBuffer(hexString: string): ArrayBuffer {
-  return window.dcodeIO.ByteBuffer.wrap(hexString, 'hex').toArrayBuffer();
+  return typedArrayToArrayBuffer(Buffer.from(hexString, 'hex'));
 }
 
 export function fromEncodedBinaryToArrayBuffer(key: string): ArrayBuffer {
-  return window.dcodeIO.ByteBuffer.wrap(key, 'binary').toArrayBuffer();
+  return typedArrayToArrayBuffer(Buffer.from(key, 'binary'));
+}
+
+export function arrayBufferToEncodedBinary(arrayBuffer: ArrayBuffer): string {
+  return Buffer.from(arrayBuffer).toString('binary');
 }
 
 export function bytesFromString(string: string): ArrayBuffer {
-  return window.dcodeIO.ByteBuffer.wrap(string, 'utf8').toArrayBuffer();
+  return typedArrayToArrayBuffer(Buffer.from(string));
 }
 export function stringFromBytes(buffer: ArrayBuffer): string {
-  return window.dcodeIO.ByteBuffer.wrap(buffer).toString('utf8');
+  return Buffer.from(buffer).toString();
 }
 export function hexFromBytes(buffer: ArrayBuffer): string {
-  return window.dcodeIO.ByteBuffer.wrap(buffer).toString('hex');
+  return Buffer.from(buffer).toString('hex');
 }
 
 export function bytesFromHexString(string: string): ArrayBuffer {
-  return window.dcodeIO.ByteBuffer.wrap(string, 'hex').toArrayBuffer();
+  return typedArrayToArrayBuffer(Buffer.from(string, 'hex'));
 }
 
 export async function deriveStickerPackKey(
@@ -63,13 +82,28 @@ export async function deriveStickerPackKey(
   const salt = getZeroes(32);
   const info = bytesFromString('Sticker Pack');
 
-  const [part1, part2] = await window.libsignal.HKDF.deriveSecrets(
-    packKey,
-    salt,
-    info
-  );
+  const [part1, part2] = await deriveSecrets(packKey, salt, info);
 
   return concatenateBytes(part1, part2);
+}
+
+export function deriveSecrets(
+  input: ArrayBuffer,
+  salt: ArrayBuffer,
+  info: ArrayBuffer
+): [ArrayBuffer, ArrayBuffer, ArrayBuffer] {
+  const hkdf = HKDF.new(3);
+  const output = hkdf.deriveSecrets(
+    3 * 32,
+    Buffer.from(input),
+    Buffer.from(info),
+    Buffer.from(salt)
+  );
+  return [
+    typedArrayToArrayBuffer(output.slice(0, 32)),
+    typedArrayToArrayBuffer(output.slice(32, 64)),
+    typedArrayToArrayBuffer(output.slice(64, 96)),
+  ];
 }
 
 export async function deriveMasterKeyFromGroupV1(
@@ -78,11 +112,7 @@ export async function deriveMasterKeyFromGroupV1(
   const salt = getZeroes(32);
   const info = bytesFromString('GV2 Migration');
 
-  const [part1] = await window.libsignal.HKDF.deriveSecrets(
-    groupV1Id,
-    salt,
-    info
-  );
+  const [part1] = await deriveSecrets(groupV1Id, salt, info);
 
   return part1;
 }
@@ -94,13 +124,19 @@ export async function computeHash(data: ArrayBuffer): Promise<string> {
 
 // High-level Operations
 
+export type EncryptedDeviceName = {
+  ephemeralPublic: ArrayBuffer;
+  syntheticIv: ArrayBuffer;
+  ciphertext: ArrayBuffer;
+};
+
 export async function encryptDeviceName(
   deviceName: string,
   identityPublic: ArrayBuffer
-): Promise<Record<string, ArrayBuffer>> {
+): Promise<EncryptedDeviceName> {
   const plaintext = bytesFromString(deviceName);
-  const ephemeralKeyPair = await window.libsignal.KeyHelper.generateIdentityKeyPair();
-  const masterSecret = await window.libsignal.Curve.async.calculateAgreement(
+  const ephemeralKeyPair = generateKeyPair();
+  const masterSecret = calculateAgreement(
     identityPublic,
     ephemeralKeyPair.privKey
   );
@@ -122,21 +158,10 @@ export async function encryptDeviceName(
 }
 
 export async function decryptDeviceName(
-  {
-    ephemeralPublic,
-    syntheticIv,
-    ciphertext,
-  }: {
-    ephemeralPublic: ArrayBuffer;
-    syntheticIv: ArrayBuffer;
-    ciphertext: ArrayBuffer;
-  },
+  { ephemeralPublic, syntheticIv, ciphertext }: EncryptedDeviceName,
   identityPrivate: ArrayBuffer
 ): Promise<string> {
-  const masterSecret = await window.libsignal.Curve.async.calculateAgreement(
-    ephemeralPublic,
-    identityPrivate
-  );
+  const masterSecret = calculateAgreement(ephemeralPublic, identityPrivate);
 
   const key2 = await hmacSha256(masterSecret, bytesFromString('cipher'));
   const cipherKey = await hmacSha256(key2, syntheticIv);
@@ -187,8 +212,8 @@ export async function encryptFile(
   uniqueId: ArrayBuffer,
   plaintext: ArrayBuffer
 ): Promise<ArrayBuffer> {
-  const ephemeralKeyPair = await window.libsignal.KeyHelper.generateIdentityKeyPair();
-  const agreement = await window.libsignal.Curve.async.calculateAgreement(
+  const ephemeralKeyPair = generateKeyPair();
+  const agreement = calculateAgreement(
     staticPublicKey,
     ephemeralKeyPair.privKey
   );
@@ -206,10 +231,7 @@ export async function decryptFile(
 ): Promise<ArrayBuffer> {
   const ephemeralPublicKey = getFirstBytes(data, PUB_KEY_LENGTH);
   const ciphertext = getBytes(data, PUB_KEY_LENGTH, data.byteLength);
-  const agreement = await window.libsignal.Curve.async.calculateAgreement(
-    ephemeralPublicKey,
-    staticPrivateKey
-  );
+  const agreement = calculateAgreement(ephemeralPublicKey, staticPrivateKey);
 
   const key = await hmacSha256(agreement, uniqueId);
 
@@ -275,14 +297,14 @@ export async function encryptSymmetric(
   const cipherKey = await hmacSha256(key, nonce);
   const macKey = await hmacSha256(key, cipherKey);
 
-  const cipherText = await _encryptAes256CbcPkcsPadding(
+  const ciphertext = await encryptAes256CbcPkcsPadding(
     cipherKey,
-    iv,
-    plaintext
+    plaintext,
+    iv
   );
-  const mac = getFirstBytes(await hmacSha256(macKey, cipherText), MAC_LENGTH);
+  const mac = getFirstBytes(await hmacSha256(macKey, ciphertext), MAC_LENGTH);
 
-  return concatenateBytes(nonce, cipherText, mac);
+  return concatenateBytes(nonce, ciphertext, mac);
 }
 
 export async function decryptSymmetric(
@@ -292,7 +314,7 @@ export async function decryptSymmetric(
   const iv = getZeroes(IV_LENGTH);
 
   const nonce = getFirstBytes(data, NONCE_LENGTH);
-  const cipherText = getBytes(
+  const ciphertext = getBytes(
     data,
     NONCE_LENGTH,
     data.byteLength - NONCE_LENGTH - MAC_LENGTH
@@ -303,7 +325,7 @@ export async function decryptSymmetric(
   const macKey = await hmacSha256(key, cipherKey);
 
   const ourMac = getFirstBytes(
-    await hmacSha256(macKey, cipherText),
+    await hmacSha256(macKey, ciphertext),
     MAC_LENGTH
   );
   if (!constantTimeEqual(theirMac, ourMac)) {
@@ -312,7 +334,7 @@ export async function decryptSymmetric(
     );
   }
 
-  return _decryptAes256CbcPkcsPadding(cipherKey, iv, cipherText);
+  return decryptAes256CbcPkcsPadding(cipherKey, ciphertext, iv);
 }
 
 export function constantTimeEqual(
@@ -343,10 +365,37 @@ export async function hmacSha256(
   return sign(key, plaintext);
 }
 
-export async function _encryptAes256CbcPkcsPadding(
+// We use part of the constantTimeEqual algorithm from below here, but we allow ourMac
+//   to be longer than the passed-in length. This allows easy comparisons against
+//   arbitrary MAC lengths.
+export async function verifyHmacSha256(
+  plaintext: ArrayBuffer,
   key: ArrayBuffer,
-  iv: ArrayBuffer,
-  plaintext: ArrayBuffer
+  theirMac: ArrayBuffer,
+  length: number
+): Promise<void> {
+  const ourMac = await hmacSha256(key, plaintext);
+
+  if (theirMac.byteLength !== length || ourMac.byteLength < length) {
+    throw new Error('Bad MAC length');
+  }
+  const a = new Uint8Array(theirMac);
+  const b = new Uint8Array(ourMac);
+  let result = 0;
+
+  for (let i = 0; i < theirMac.byteLength; i += 1) {
+    // eslint-disable-next-line no-bitwise
+    result |= a[i] ^ b[i];
+  }
+  if (result !== 0) {
+    throw new Error('Bad MAC');
+  }
+}
+
+export async function encryptAes256CbcPkcsPadding(
+  key: ArrayBuffer,
+  plaintext: ArrayBuffer,
+  iv: ArrayBuffer
 ): Promise<ArrayBuffer> {
   const algorithm = {
     name: 'AES-CBC',
@@ -369,10 +418,10 @@ export async function _encryptAes256CbcPkcsPadding(
   return window.crypto.subtle.encrypt(algorithm, cryptoKey, plaintext);
 }
 
-export async function _decryptAes256CbcPkcsPadding(
+export async function decryptAes256CbcPkcsPadding(
   key: ArrayBuffer,
-  iv: ArrayBuffer,
-  plaintext: ArrayBuffer
+  ciphertext: ArrayBuffer,
+  iv: ArrayBuffer
 ): Promise<ArrayBuffer> {
   const algorithm = {
     name: 'AES-CBC',
@@ -392,7 +441,7 @@ export async function _decryptAes256CbcPkcsPadding(
     ['decrypt']
   );
 
-  return window.crypto.subtle.decrypt(algorithm, cryptoKey, plaintext);
+  return window.crypto.subtle.decrypt(algorithm, cryptoKey, ciphertext);
 }
 
 export async function encryptAesCtr(
@@ -531,7 +580,7 @@ export function getViewOfArrayBuffer(
   const source = new Uint8Array(buffer);
   const result = source.slice(start, finish);
 
-  return result.buffer;
+  return window.Signal.Crypto.typedArrayToArrayBuffer(result);
 }
 
 export function concatenateBytes(
@@ -619,15 +668,20 @@ export async function encryptCdsDiscoveryRequest(
   phoneNumbers: ReadonlyArray<string>
 ): Promise<Record<string, unknown>> {
   const nonce = getRandomBytes(32);
-  const numbersArray = new window.dcodeIO.ByteBuffer(
-    phoneNumbers.length * 8,
-    window.dcodeIO.ByteBuffer.BIG_ENDIAN
+  const numbersArray = Buffer.concat(
+    phoneNumbers.map(number => {
+      // Long.fromString handles numbers with or without a leading '+'
+      return new Uint8Array(Long.fromString(number).toBytesBE());
+    })
   );
-  phoneNumbers.forEach(number => {
-    // Long.fromString handles numbers with or without a leading '+'
-    numbersArray.writeLong(window.dcodeIO.ByteBuffer.Long.fromString(number));
-  });
-  const queryDataPlaintext = concatenateBytes(nonce, numbersArray.buffer);
+
+  // We've written to the array, so offset === byteLength; we need to reset it. Then we'll
+  //   have access to everything in the array when we generate an ArrayBuffer from it.
+  const queryDataPlaintext = concatenateBytes(
+    nonce,
+    typedArrayToArrayBuffer(numbersArray)
+  );
+
   const queryDataKey = getRandomBytes(32);
   const commitment = sha256(queryDataPlaintext);
   const iv = getRandomBytes(12);
@@ -680,9 +734,11 @@ export function uuidToArrayBuffer(uuid: string): ArrayBuffer {
     return new ArrayBuffer(0);
   }
 
-  return Uint8Array.from(
-    chunk(uuid.replace(/-/g, ''), 2).map(pair => parseInt(pair.join(''), 16))
-  ).buffer;
+  return typedArrayToArrayBuffer(
+    Uint8Array.from(
+      chunk(uuid.replace(/-/g, ''), 2).map(pair => parseInt(pair.join(''), 16))
+    )
+  );
 }
 
 export function arrayBufferToUuid(
@@ -733,7 +789,5 @@ export function trimForDisplay(arrayBuffer: ArrayBuffer): ArrayBuffer {
       break;
     }
   }
-  return window.dcodeIO.ByteBuffer.wrap(padded)
-    .slice(0, paddingEnd)
-    .toArrayBuffer();
+  return typedArrayToArrayBuffer(padded.slice(0, paddingEnd));
 }

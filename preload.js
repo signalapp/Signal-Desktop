@@ -11,23 +11,24 @@ let preloadEndTime = 0;
 try {
   const electron = require('electron');
   const semver = require('semver');
-  const client = require('libsignal-client');
   const _ = require('lodash');
-  const { installGetter, installSetter } = require('./preload_utils');
+
+  // It is important to call this as early as possible
+  require('./ts/windows/context');
+
   const {
     getEnvironment,
     setEnvironment,
     parseEnvironment,
     Environment,
   } = require('./ts/environment');
+  const ipc = electron.ipcRenderer;
 
   const { remote } = electron;
   const { app } = remote;
-  const { nativeTheme } = remote.require('electron');
 
   window.sqlInitializer = require('./ts/sql/initialize');
 
-  window.PROTO_ROOT = 'protos';
   const config = require('url').parse(window.location.toString(), true).query;
 
   setEnvironment(parseEnvironment(config.environment));
@@ -47,6 +48,8 @@ try {
 
   window.GV2_MIGRATION_DISABLE_ADD = false;
   window.GV2_MIGRATION_DISABLE_INVITE = false;
+
+  window.RETRY_DELAY = false;
 
   window.platform = process.platform;
   window.getTitle = () => title;
@@ -69,18 +72,9 @@ try {
   window.getServerPublicParams = () => config.serverPublicParams;
   window.getSfuUrl = () => config.sfuUrl;
   window.isBehindProxy = () => Boolean(config.proxyUrl);
-
-  function setSystemTheme() {
-    window.systemTheme = nativeTheme.shouldUseDarkColors ? 'dark' : 'light';
-  }
-
-  setSystemTheme();
-
-  window.subscribeToSystemThemeChange = fn => {
-    nativeTheme.on('updated', () => {
-      setSystemTheme();
-      fn();
-    });
+  window.getAutoLaunch = () => app.getLoginItemSettings().openAtLogin;
+  window.setAutoLaunch = value => {
+    app.setLoginItemSettings({ openAtLogin: Boolean(value) });
   };
 
   window.isBeforeVersion = (toCheck, baseVersion) => {
@@ -106,14 +100,13 @@ try {
     }
   };
 
-  const ipc = electron.ipcRenderer;
   const localeMessages = ipc.sendSync('locale-data');
 
   window.setBadgeCount = count => ipc.send('set-badge-count', count);
 
   let connectStartTime = 0;
 
-  window.logMessageReceiverConnect = () => {
+  window.logAuthenticatedConnect = () => {
     if (connectStartTime === 0) {
       connectStartTime = Date.now();
     }
@@ -150,6 +143,12 @@ try {
   window.setMenuBarVisibility = visibility =>
     ipc.send('set-menu-bar-visibility', visibility);
 
+  window.updateSystemTraySetting = (
+    systemTraySetting /* : Readonly<SystemTraySetting> */
+  ) => {
+    ipc.send('update-system-tray-setting', systemTraySetting);
+  };
+
   window.restart = () => {
     window.log.info('restart');
     ipc.send('restart');
@@ -158,12 +157,48 @@ try {
     window.log.info('shutdown');
     ipc.send('shutdown');
   };
+  window.showDebugLog = () => {
+    window.log.info('showDebugLog');
+    ipc.send('show-debug-log');
+  };
 
   window.closeAbout = () => ipc.send('close-about');
   window.readyForUpdates = () => ipc.send('ready-for-updates');
 
   window.updateTrayIcon = unreadCount =>
     ipc.send('update-tray-icon', unreadCount);
+
+  ipc.on('additional-log-data-request', async event => {
+    const ourConversation = window.ConversationController.getOurConversation();
+    const ourCapabilities = ourConversation
+      ? ourConversation.get('capabilities')
+      : undefined;
+
+    const remoteConfig = window.storage.get('remoteConfig') || {};
+
+    let statistics;
+    try {
+      statistics = await window.Signal.Data.getStatisticsForLogging();
+    } catch (error) {
+      statistics = {};
+    }
+
+    event.sender.send('additional-log-data-response', {
+      capabilities: ourCapabilities || {},
+      remoteConfig: _.mapValues(remoteConfig, ({ value, enabled }) => {
+        const enableString = enabled ? 'enabled' : 'disabled';
+        const valueString = value && value !== 'TRUE' ? ` ${value}` : '';
+        return `${enableString}${valueString}`;
+      }),
+      statistics,
+      user: {
+        deviceId: window.textsecure.storage.user.getDeviceId(),
+        e164: window.textsecure.storage.user.getNumber(),
+        uuid: window.textsecure.storage.user.getUuid(),
+        conversationId: ourConversation && ourConversation.id,
+      },
+    });
+  });
 
   ipc.on('set-up-as-new-device', () => {
     Whisper.events.trigger('setupAsNewDevice');
@@ -172,6 +207,21 @@ try {
   ipc.on('set-up-as-standalone', () => {
     Whisper.events.trigger('setupAsStandalone');
   });
+
+  ipc.on('challenge:response', (_event, response) => {
+    Whisper.events.trigger('challengeResponse', response);
+  });
+
+  ipc.on('power-channel:suspend', () => {
+    Whisper.events.trigger('powerMonitorSuspend');
+  });
+
+  ipc.on('power-channel:resume', () => {
+    Whisper.events.trigger('powerMonitorResume');
+  });
+
+  window.sendChallengeRequest = request =>
+    ipc.send('challenge:request', request);
 
   {
     let isFullScreen = config.isFullScreen === 'true';
@@ -203,141 +253,7 @@ try {
     window.Events.removeDarkOverlay();
   });
 
-  installGetter('device-name', 'getDeviceName');
-
-  installGetter('theme-setting', 'getThemeSetting');
-  installSetter('theme-setting', 'setThemeSetting');
-  installGetter('hide-menu-bar', 'getHideMenuBar');
-  installSetter('hide-menu-bar', 'setHideMenuBar');
-
-  installGetter('notification-setting', 'getNotificationSetting');
-  installSetter('notification-setting', 'setNotificationSetting');
-  installGetter('notification-draw-attention', 'getNotificationDrawAttention');
-  installSetter('notification-draw-attention', 'setNotificationDrawAttention');
-  installGetter('audio-notification', 'getAudioNotification');
-  installSetter('audio-notification', 'setAudioNotification');
-  installGetter(
-    'badge-count-muted-conversations',
-    'getCountMutedConversations'
-  );
-  installSetter(
-    'badge-count-muted-conversations',
-    'setCountMutedConversations'
-  );
-
-  window.getCountMutedConversations = () =>
-    new Promise((resolve, reject) => {
-      ipc.once(
-        'get-success-badge-count-muted-conversations',
-        (_event, error, value) => {
-          if (error) {
-            return reject(new Error(error));
-          }
-
-          return resolve(value);
-        }
-      );
-      ipc.send('get-badge-count-muted-conversations');
-    });
-
-  installGetter('spell-check', 'getSpellCheck');
-  installSetter('spell-check', 'setSpellCheck');
-
-  installGetter('always-relay-calls', 'getAlwaysRelayCalls');
-  installSetter('always-relay-calls', 'setAlwaysRelayCalls');
-
-  installGetter('call-ringtone-notification', 'getCallRingtoneNotification');
-  installSetter('call-ringtone-notification', 'setCallRingtoneNotification');
-
-  window.getCallRingtoneNotification = () =>
-    new Promise((resolve, reject) => {
-      ipc.once(
-        'get-success-call-ringtone-notification',
-        (_event, error, value) => {
-          if (error) {
-            return reject(new Error(error));
-          }
-
-          return resolve(value);
-        }
-      );
-      ipc.send('get-call-ringtone-notification');
-    });
-
-  installGetter('call-system-notification', 'getCallSystemNotification');
-  installSetter('call-system-notification', 'setCallSystemNotification');
-
-  window.getCallSystemNotification = () =>
-    new Promise((resolve, reject) => {
-      ipc.once(
-        'get-success-call-system-notification',
-        (_event, error, value) => {
-          if (error) {
-            return reject(new Error(error));
-          }
-
-          return resolve(value);
-        }
-      );
-      ipc.send('get-call-system-notification');
-    });
-
-  installGetter('incoming-call-notification', 'getIncomingCallNotification');
-  installSetter('incoming-call-notification', 'setIncomingCallNotification');
-
-  window.getIncomingCallNotification = () =>
-    new Promise((resolve, reject) => {
-      ipc.once(
-        'get-success-incoming-call-notification',
-        (_event, error, value) => {
-          if (error) {
-            return reject(new Error(error));
-          }
-
-          return resolve(value);
-        }
-      );
-      ipc.send('get-incoming-call-notification');
-    });
-
-  window.getAlwaysRelayCalls = () =>
-    new Promise((resolve, reject) => {
-      ipc.once('get-success-always-relay-calls', (_event, error, value) => {
-        if (error) {
-          return reject(new Error(error));
-        }
-
-        return resolve(value);
-      });
-      ipc.send('get-always-relay-calls');
-    });
-
-  window.getMediaPermissions = () =>
-    new Promise((resolve, reject) => {
-      ipc.once('get-success-media-permissions', (_event, error, value) => {
-        if (error) {
-          return reject(new Error(error));
-        }
-
-        return resolve(value);
-      });
-      ipc.send('get-media-permissions');
-    });
-
-  window.getMediaCameraPermissions = () =>
-    new Promise((resolve, reject) => {
-      ipc.once(
-        'get-success-media-camera-permissions',
-        (_event, error, value) => {
-          if (error) {
-            return reject(new Error(error));
-          }
-
-          return resolve(value);
-        }
-      );
-      ipc.send('get-media-camera-permissions');
-    });
+  require('./ts/windows/preload');
 
   window.getBuiltInImages = () =>
     new Promise((resolve, reject) => {
@@ -351,15 +267,16 @@ try {
       ipc.send('get-built-in-images');
     });
 
-  installGetter('is-primary', 'isPrimary');
-  installGetter('sync-request', 'getSyncRequest');
-  installGetter('sync-time', 'getLastSyncTime');
-  installSetter('sync-time', 'setLastSyncTime');
-
-  ipc.on('delete-all-data', () => {
+  ipc.on('delete-all-data', async () => {
     const { deleteAllData } = window.Events;
-    if (deleteAllData) {
-      deleteAllData();
+    if (!deleteAllData) {
+      return;
+    }
+
+    try {
+      await deleteAllData();
+    } catch (error) {
+      window.log.error('delete-all-data: error', error && error.stack);
     }
   });
 
@@ -426,6 +343,7 @@ try {
 
   window.nodeSetImmediate = setImmediate;
 
+  window.Backbone = require('backbone');
   window.textsecure = require('./ts/textsecure').default;
   window.synchronousCrypto = require('./ts/util/synchronousCrypto');
 
@@ -450,21 +368,16 @@ try {
     window.nodeSetImmediate(() => {});
   }, 1000);
 
-  const { autoOrientImage } = require('./js/modules/auto_orient_image');
   const { imageToBlurHash } = require('./ts/util/imageToBlurHash');
-  const { isGroupCallingEnabled } = require('./ts/util/isGroupCallingEnabled');
+  const { isValidGuid } = require('./ts/util/isValidGuid');
   const { ActiveWindowService } = require('./ts/services/ActiveWindowService');
 
-  window.autoOrientImage = autoOrientImage;
-  window.dataURLToBlobSync = require('blueimp-canvas-to-blob');
   window.imageToBlurHash = imageToBlurHash;
   window.emojiData = require('emoji-datasource');
-  window.filesize = require('filesize');
   window.libphonenumber = require('google-libphonenumber').PhoneNumberUtil.getInstance();
   window.libphonenumber.PhoneNumberFormat = require('google-libphonenumber').PhoneNumberFormat;
   window.loadImage = require('blueimp-load-image');
   window.getGuid = require('uuid/v4');
-  window.isGroupCallingEnabled = isGroupCallingEnabled;
 
   const activeWindowService = new ActiveWindowService();
   activeWindowService.initialize(window.document, ipc);
@@ -476,37 +389,18 @@ try {
     activeWindowService
   );
 
-  window.isValidGuid = maybeGuid =>
-    /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i.test(
-      maybeGuid
-    );
+  window.Accessibility = {
+    reducedMotionSetting: Boolean(config.reducedMotionSetting),
+  };
+
+  window.isValidGuid = isValidGuid;
   // https://stackoverflow.com/a/23299989
   window.isValidE164 = maybeE164 => /^\+?[1-9]\d{1,14}$/.test(maybeE164);
-
-  window.normalizeUuids = (obj, paths, context) => {
-    if (!obj) {
-      return;
-    }
-    paths.forEach(path => {
-      const val = _.get(obj, path);
-      if (val) {
-        if (!val || !window.isValidGuid(val)) {
-          window.log.warn(
-            `Normalizing invalid uuid: ${val} at path ${path} in context "${context}"`
-          );
-        }
-        if (val && val.toLowerCase) {
-          _.set(obj, path, val.toLowerCase());
-        }
-      }
-    });
-  };
 
   window.React = require('react');
   window.ReactDOM = require('react-dom');
   window.moment = require('moment');
   window.PQueue = require('p-queue').default;
-  window.Backbone = require('backbone');
 
   const Signal = require('./js/modules/signal');
   const i18n = require('./js/modules/i18n');
@@ -528,18 +422,23 @@ try {
   window.baseStickersPath = Attachments.getStickersPath(userDataPath);
   window.baseTempPath = Attachments.getTempPath(userDataPath);
   window.baseDraftPath = Attachments.getDraftPath(userDataPath);
+
+  const { addSensitivePath } = require('./ts/util/privacy');
+
+  addSensitivePath(window.baseAttachmentsPath);
+
   window.Signal = Signal.setup({
     Attachments,
     userDataPath,
     getRegionCode: () => window.storage.get('regionCode'),
     logger: window.log,
   });
-  window.CI = config.enableCI
-    ? {
-        setProvisioningURL: url => ipc.send('set-provisioning-url', url),
-        deviceName: title,
-      }
-    : undefined;
+
+  if (config.enableCI) {
+    const { CI, electronRequire } = require('./ts/CI');
+    window.CI = new CI(title);
+    window.electronRequire = electronRequire;
+  }
 
   // these need access to window.Signal:
   require('./ts/models/messages');
@@ -548,130 +447,10 @@ try {
   require('./ts/backbone/views/whisper_view');
   require('./ts/backbone/views/toast_view');
   require('./ts/views/conversation_view');
-  require('./ts/LibSignalStore');
+  require('./ts/SignalProtocolStore');
   require('./ts/background');
 
-  function wrapWithPromise(fn) {
-    return (...args) => Promise.resolve(fn(...args));
-  }
-  const externalCurve = {
-    generateKeyPair: () => {
-      const privKey = client.PrivateKey.generate();
-      const pubKey = privKey.getPublicKey();
-
-      return {
-        privKey: privKey.serialize().buffer,
-        pubKey: pubKey.serialize().buffer,
-      };
-    },
-    createKeyPair: incomingKey => {
-      const incomingKeyBuffer = Buffer.from(incomingKey);
-
-      if (incomingKeyBuffer.length !== 32) {
-        throw new Error('key must be 32 bytes long');
-      }
-
-      // eslint-disable-next-line no-bitwise
-      incomingKeyBuffer[0] &= 248;
-      // eslint-disable-next-line no-bitwise
-      incomingKeyBuffer[31] &= 127;
-      // eslint-disable-next-line no-bitwise
-      incomingKeyBuffer[31] |= 64;
-
-      const privKey = client.PrivateKey.deserialize(incomingKeyBuffer);
-      const pubKey = privKey.getPublicKey();
-
-      return {
-        privKey: privKey.serialize().buffer,
-        pubKey: pubKey.serialize().buffer,
-      };
-    },
-    calculateAgreement: (pubKey, privKey) => {
-      const pubKeyBuffer = Buffer.from(pubKey);
-      const privKeyBuffer = Buffer.from(privKey);
-
-      const pubKeyObj = client.PublicKey.deserialize(
-        Buffer.concat([
-          Buffer.from([0x05]),
-          externalCurve.validatePubKeyFormat(pubKeyBuffer),
-        ])
-      );
-      const privKeyObj = client.PrivateKey.deserialize(privKeyBuffer);
-      const sharedSecret = privKeyObj.agree(pubKeyObj);
-      return sharedSecret.buffer;
-    },
-    verifySignature: (pubKey, message, signature) => {
-      const pubKeyBuffer = Buffer.from(pubKey);
-      const messageBuffer = Buffer.from(message);
-      const signatureBuffer = Buffer.from(signature);
-
-      const pubKeyObj = client.PublicKey.deserialize(pubKeyBuffer);
-      const result = !pubKeyObj.verify(messageBuffer, signatureBuffer);
-
-      return result;
-    },
-    calculateSignature: (privKey, message) => {
-      const privKeyBuffer = Buffer.from(privKey);
-      const messageBuffer = Buffer.from(message);
-
-      const privKeyObj = client.PrivateKey.deserialize(privKeyBuffer);
-      const signature = privKeyObj.sign(messageBuffer);
-      return signature.buffer;
-    },
-    validatePubKeyFormat: pubKey => {
-      if (
-        pubKey === undefined ||
-        ((pubKey.byteLength !== 33 || new Uint8Array(pubKey)[0] !== 5) &&
-          pubKey.byteLength !== 32)
-      ) {
-        throw new Error('Invalid public key');
-      }
-      if (pubKey.byteLength === 33) {
-        return pubKey.slice(1);
-      }
-
-      return pubKey;
-    },
-  };
-  externalCurve.ECDHE = externalCurve.calculateAgreement;
-  externalCurve.Ed25519Sign = externalCurve.calculateSignature;
-  externalCurve.Ed25519Verify = externalCurve.verifySignature;
-  const externalCurveAsync = {
-    generateKeyPair: wrapWithPromise(externalCurve.generateKeyPair),
-    createKeyPair: wrapWithPromise(externalCurve.createKeyPair),
-    calculateAgreement: wrapWithPromise(externalCurve.calculateAgreement),
-    verifySignature: async (...args) => {
-      // The async verifySignature function has a different signature than the
-      //   sync function
-      const verifyFailed = externalCurve.verifySignature(...args);
-      if (verifyFailed) {
-        throw new Error('Invalid signature');
-      }
-    },
-    calculateSignature: wrapWithPromise(externalCurve.calculateSignature),
-    validatePubKeyFormat: wrapWithPromise(externalCurve.validatePubKeyFormat),
-    ECDHE: wrapWithPromise(externalCurve.ECDHE),
-    Ed25519Sign: wrapWithPromise(externalCurve.Ed25519Sign),
-    Ed25519Verify: wrapWithPromise(externalCurve.Ed25519Verify),
-  };
-  window.libsignal = window.libsignal || {};
-  window.libsignal.externalCurve = externalCurve;
-  window.libsignal.externalCurveAsync = externalCurveAsync;
-
-  window.libsignal.HKDF = {};
-  window.libsignal.HKDF.deriveSecrets = (input, salt, info) => {
-    const hkdf = client.HKDF.new(3);
-    const output = hkdf.deriveSecrets(
-      3 * 32,
-      Buffer.from(input),
-      Buffer.from(info),
-      Buffer.from(salt)
-    );
-    return [output.slice(0, 32), output.slice(32, 64), output.slice(64, 96)];
-  };
-
   // Pulling these in separately since they access filesystem, electron
-  window.Signal.Backup = require('./js/modules/backup');
   window.Signal.Debug = require('./js/modules/debug');
   window.Signal.Logs = require('./js/modules/logs');
 
@@ -688,7 +467,7 @@ try {
   });
 
   if (config.environment === 'test') {
-    require('./preload_test.js');
+    require('./preload_test');
   }
 } catch (error) {
   /* eslint-disable no-console */

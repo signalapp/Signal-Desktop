@@ -1,0 +1,156 @@
+@keyframes progress-animation {
+  0% {
+    background-position: 100%;
+  }
+  100% {
+    background-position: -100%;
+  }
+}
+
+.LeftPaneDialog {
+  align-items: center;
+  background: $color-ultramarine;
+  color: $color-white;
+  display: flex;
+  min-height: 64px;
+  padding: 12px 18px;
+
+  &__container {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+  }
+
+  &__container-close {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  &__spinner-container {
+    margin-right: 18px;
+  }
+
+  &__spinner {
+    &__arc {
+      background-color: $color-black;
+    }
+
+    &__circle {
+      background-color: $color-accent-yellow;
+    }
+  }
+
+  &__icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 18px;
+    background-color: $color-white;
+
+    &--network {
+      -webkit-mask: url('../images/icons/v2/offline-22.svg') no-repeat center;
+    }
+
+    &--update {
+      -webkit-mask: url('../images/icons/v2/refresh-24.svg') no-repeat center;
+    }
+  }
+
+  &__action-text {
+    @include button-reset;
+    text-decoration: none;
+  }
+
+  &__close-button {
+    @include button-reset;
+
+    border-radius: 4px;
+    float: right;
+    height: 24px;
+    width: 24px;
+
+    &::before {
+      -webkit-mask: url('../images/icons/v2/x-24.svg') no-repeat center;
+      background-color: $color-white;
+      content: '';
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    &:hover,
+    &:focus {
+      background-color: $color-white-alpha-20;
+    }
+    &:active {
+      background-color: $color-white-alpha-20;
+    }
+  }
+
+  &__message {
+    width: 100%;
+
+    h3 {
+      @include font-body-1-bold;
+      padding: 0px;
+      margin: 0px;
+      margin-bottom: 8px;
+    }
+    span {
+      @include font-body-1;
+      display: inline-block;
+    }
+    a {
+      font-weight: bold;
+      text-decoration: none;
+    }
+  }
+
+  &--error {
+    background-color: $color-accent-red;
+  }
+
+  &--warning {
+    background-color: $color-accent-yellow;
+    color: $color-black;
+
+    a {
+      color: $color-black;
+    }
+
+    .LeftPaneDialog__icon {
+      background-color: $color-black;
+    }
+
+    .LeftPaneDialog__close-button::before {
+      background-color: $color-black;
+    }
+  }
+
+  &__progress {
+    &--container {
+      background: $color-white-alpha-20;
+      border-radius: 2px;
+      height: 4px;
+      max-width: 210px;
+      overflow: hidden;
+      width: 100%;
+    }
+
+    &--bar {
+      animation: progress-animation 2s linear infinite;
+      background: linear-gradient(
+        90deg,
+        $color-white-alpha-40,
+        $color-white-alpha-60,
+        $color-white-alpha-90,
+        $color-white-alpha-60,
+        $color-white-alpha-40
+      );
+      background-size: 200% 100%;
+      border-radius: 2px;
+      display: block;
+      height: 100%;
+      transition: width 500ms ease-out;
+    }
+  }
+}

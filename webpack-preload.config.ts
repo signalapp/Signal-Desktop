@@ -10,6 +10,7 @@ const context = __dirname;
 const { NODE_ENV: mode = 'development' } = process.env;
 
 const EXTERNAL_MODULE = new Set([
+  '@signalapp/signal-client',
   'backbone',
   'better-sqlite3',
   'ffi-napi',
@@ -17,7 +18,7 @@ const EXTERNAL_MODULE = new Set([
   'fsevents',
   'got',
   'jquery',
-  'libsignal-client',
+  'mac-screen-capture-permissions',
   'node-fetch',
   'node-sass',
   'pino',
@@ -30,7 +31,10 @@ const EXTERNAL_MODULE = new Set([
   'zkgroup',
 
   // Uses fast-glob and dynamic requires
-  './preload_test.js',
+  './preload_test',
+
+  // Needs to exports `electronRequire`
+  './ts/CI',
 ]);
 
 const preloadConfig: Configuration = {
@@ -42,10 +46,11 @@ const preloadConfig: Configuration = {
   optimization: {
     minimizer: [
       new TerserPlugin({
+        parallel: true,
         terserOptions: {
-          mangle: {
-            keep_fnames: true,
-          },
+          mangle: false,
+          keep_classnames: true,
+          keep_fnames: true,
         },
       }),
     ],

@@ -19,7 +19,7 @@ export type Props = {
 } & Omit<ContactNameProps, 'module' | 'i18n'> &
   Pick<
     MessageRequestActionsConfirmationProps,
-    'conversationType' | 'onBlock' | 'onBlockAndDelete' | 'onDelete'
+    'conversationType' | 'onBlock' | 'onBlockAndReportSpam' | 'onDelete'
   >;
 
 export const MandatoryProfileSharingActions = ({
@@ -29,7 +29,7 @@ export const MandatoryProfileSharingActions = ({
   name,
   onAccept,
   onBlock,
-  onBlockAndDelete,
+  onBlockAndReportSpam,
   onDelete,
   phoneNumber,
   profileName,
@@ -43,7 +43,7 @@ export const MandatoryProfileSharingActions = ({
         <MessageRequestActionsConfirmation
           i18n={i18n}
           onBlock={onBlock}
-          onBlockAndDelete={onBlockAndDelete}
+          onBlockAndReportSpam={onBlockAndReportSpam}
           onUnblock={() => {
             throw new Error(
               'Should not be able to unblock from MandatoryProfileSharingActions'

@@ -4,6 +4,8 @@
 import React from 'react';
 import classNames from 'classnames';
 
+import { getClassNamesFor } from '../util/getClassNamesFor';
+
 export const SpinnerSvgSizes = ['small', 'normal'] as const;
 export type SpinnerSvgSize = typeof SpinnerSvgSizes[number];
 
@@ -11,54 +13,62 @@ export const SpinnerDirections = [
   'outgoing',
   'incoming',
   'on-background',
+  'on-captcha',
   'on-progress-dialog',
   'on-avatar',
 ] as const;
 export type SpinnerDirection = typeof SpinnerDirections[number];
 
 export type Props = {
-  moduleClassName?: string;
+  ariaLabel?: string;
   direction?: SpinnerDirection;
+  moduleClassName?: string;
+  role?: string;
   size?: string;
   svgSize: SpinnerSvgSize;
 };
 
 export const Spinner = ({
+  ariaLabel,
+  direction,
   moduleClassName,
+  role,
   size,
   svgSize,
-  direction,
-}: Props): JSX.Element => (
-  <div
-    className={classNames(
-      'module-spinner__container',
-      `module-spinner__container--${svgSize}`,
-      direction ? `module-spinner__container--${direction}` : null,
-      direction ? `module-spinner__container--${svgSize}-${direction}` : null,
-      moduleClassName ? `${moduleClassName}__container` : null
-    )}
-    style={{
-      height: size,
-      width: size,
-    }}
-  >
+}: Props): JSX.Element => {
+  const getClassName = getClassNamesFor('module-spinner', moduleClassName);
+
+  return (
     <div
       className={classNames(
-        'module-spinner__circle',
-        `module-spinner__circle--${svgSize}`,
-        direction ? `module-spinner__circle--${direction}` : null,
-        direction ? `module-spinner__circle--${svgSize}-${direction}` : null,
-        moduleClassName ? `${moduleClassName}__circle` : null
+        getClassName('__container'),
+        getClassName(`__container--${svgSize}`),
+        getClassName(direction && `__container--${direction}`),
+        getClassName(direction && `__container--${svgSize}-${direction}`)
       )}
-    />
-    <div
-      className={classNames(
-        'module-spinner__arc',
-        `module-spinner__arc--${svgSize}`,
-        direction ? `module-spinner__arc--${direction}` : null,
-        direction ? `module-spinner__arc--${svgSize}-${direction}` : null,
-        moduleClassName ? `${moduleClassName}__arc` : null
-      )}
-    />
-  </div>
-);
+      role={role}
+      aria-label={ariaLabel}
+      style={{
+        height: size,
+        width: size,
+      }}
+    >
+      <div
+        className={classNames(
+          getClassName('__circle'),
+          getClassName(`__circle--${svgSize}`),
+          getClassName(direction && `__circle--${direction}`),
+          getClassName(direction && `__circle--${svgSize}-${direction}`)
+        )}
+      />
+      <div
+        className={classNames(
+          getClassName('__arc'),
+          getClassName(`__arc--${svgSize}`),
+          getClassName(direction && `__arc--${direction}`),
+          getClassName(direction && `__arc--${svgSize}-${direction}`)
+        )}
+      />
+    </div>
+  );
+};

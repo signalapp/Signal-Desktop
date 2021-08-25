@@ -1,12 +1,10 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { CSSProperties, FunctionComponent } from 'react';
+import React, { FunctionComponent } from 'react';
 
-type PropsType = {
-  style: CSSProperties;
-};
+type PropsType = Record<string, never>;
 
-export const SearchResultsLoadingFakeHeader: FunctionComponent<PropsType> = ({
-  style,
-}) => <div className="module-SearchResultsLoadingFakeHeader" style={style} />;
+export const SearchResultsLoadingFakeHeader: FunctionComponent<PropsType> = () => (
+  <div className="module-SearchResultsLoadingFakeHeader" />
+);

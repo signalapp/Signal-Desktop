@@ -20,13 +20,13 @@ tsconfig.tsbuildinfo
 # generated files
 js/components.js
 js/util_worker.js
-js/libtextsecure.js
 libtextsecure/components.js
 libtextsecure/test/test.js
 stylesheets/*.css
 test/test.js
 
 # React / TypeScript
+app/*.js
 ts/**/*.js
 ts/protobuf/*.d.ts
 sticker-creator/**/*.js

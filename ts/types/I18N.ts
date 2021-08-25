@@ -12,10 +12,12 @@ export type ReplacementValuesType<T> = {
   [key: string]: T;
 };
 
+export type LocalizerType = (
+  key: string,
+  placeholders: Array<string> | ReplacementValuesType<string>
+) => string;
+
 export type LocaleType = {
-  i18n: (
-    key: string,
-    placeholders: Array<string> | ReplacementValuesType<string>
-  ) => string;
+  i18n: LocalizerType;
   messages: LocaleMessagesType;
 };

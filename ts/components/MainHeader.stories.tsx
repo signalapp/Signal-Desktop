@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -45,6 +45,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   title: requiredText('title', overrideProps.title),
   name: optionalText('name', overrideProps.name),
   avatarPath: optionalText('avatarPath', overrideProps.avatarPath),
+  hasPendingUpdate: Boolean(overrideProps.hasPendingUpdate),
 
   i18n,
 
@@ -55,9 +56,11 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   searchInConversation: action('searchInConversation'),
   clearConversationSearch: action('clearConversationSearch'),
   clearSearch: action('clearSearch'),
+  startUpdate: action('startUpdate'),
 
   showArchivedConversations: action('showArchivedConversations'),
   startComposing: action('startComposing'),
+  toggleProfileEditor: action('toggleProfileEditor'),
 });
 
 story.add('Basic', () => {
@@ -111,6 +114,12 @@ story.add('Searching Conversation with Term', () => {
     searchConversationId: 'group-id-1',
     searchConversationName: 'Everyone',
   });
+
+  return <MainHeader {...props} />;
+});
+
+story.add('Update Available', () => {
+  const props = createProps({ hasPendingUpdate: true });
 
   return <MainHeader {...props} />;
 });

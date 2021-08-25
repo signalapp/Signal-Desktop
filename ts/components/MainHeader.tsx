@@ -11,7 +11,7 @@ import { showSettings } from '../shims/Whisper';
 import { Avatar } from './Avatar';
 import { AvatarPopup } from './AvatarPopup';
 import { LocalizerType } from '../types/Util';
-import { ColorType } from '../types/Colors';
+import { AvatarColorType } from '../types/Colors';
 import { ConversationType } from '../state/ducks/conversations';
 
 export type PropsType = {
@@ -31,11 +31,13 @@ export type PropsType = {
   phoneNumber?: string;
   isMe?: boolean;
   name?: string;
-  color?: ColorType;
+  color?: AvatarColorType;
+  disabled?: boolean;
   isVerified?: boolean;
   profileName?: string;
   title: string;
   avatarPath?: string;
+  hasPendingUpdate: boolean;
 
   i18n: LocalizerType;
 
@@ -58,11 +60,13 @@ export type PropsType = {
       noteToSelf: string;
     }
   ) => void;
+  startUpdate: () => unknown;
   clearConversationSearch: () => void;
   clearSearch: () => void;
 
   showArchivedConversations: () => void;
   startComposing: () => void;
+  toggleProfileEditor: () => void;
 };
 
 type StateType = {
@@ -339,16 +343,20 @@ export class MainHeader extends React.Component<PropsType, StateType> {
     const {
       avatarPath,
       color,
+      disabled,
+      hasPendingUpdate,
       i18n,
       name,
-      startComposing,
       phoneNumber,
       profileName,
-      title,
       searchConversationId,
       searchConversationName,
       searchTerm,
       showArchivedConversations,
+      startComposing,
+      startUpdate,
+      title,
+      toggleProfileEditor,
     } = this.props;
     const { showingAvatarPopup, popperRoot } = this.state;
 
@@ -365,20 +373,30 @@ export class MainHeader extends React.Component<PropsType, StateType> {
         <Manager>
           <Reference>
             {({ ref }) => (
-              <Avatar
-                avatarPath={avatarPath}
-                className="module-main-header__avatar"
-                color={color}
-                conversationType="direct"
-                i18n={i18n}
-                name={name}
-                phoneNumber={phoneNumber}
-                profileName={profileName}
-                title={title}
-                size={28}
-                innerRef={ref}
-                onClick={this.showAvatarPopup}
-              />
+              <div className="module-main-header__avatar--container">
+                <Avatar
+                  acceptedMessageRequest
+                  avatarPath={avatarPath}
+                  className="module-main-header__avatar"
+                  color={color}
+                  conversationType="direct"
+                  i18n={i18n}
+                  isMe
+                  name={name}
+                  phoneNumber={phoneNumber}
+                  profileName={profileName}
+                  title={title}
+                  // `sharedGroupNames` makes no sense for yourself, but
+                  // `<Avatar>` needs it to determine blurring.
+                  sharedGroupNames={[]}
+                  size={28}
+                  innerRef={ref}
+                  onClick={this.showAvatarPopup}
+                />
+                {hasPendingUpdate && (
+                  <div className="module-main-header__avatar--badged" />
+                )}
+              </div>
             )}
           </Reference>
           {showingAvatarPopup && popperRoot
@@ -386,8 +404,10 @@ export class MainHeader extends React.Component<PropsType, StateType> {
                 <Popper placement="bottom-end">
                   {({ ref, style }) => (
                     <AvatarPopup
+                      acceptedMessageRequest
                       innerRef={ref}
                       i18n={i18n}
+                      isMe
                       style={{ ...style, zIndex: 1 }}
                       color={color}
                       conversationType="direct"
@@ -397,6 +417,14 @@ export class MainHeader extends React.Component<PropsType, StateType> {
                       title={title}
                       avatarPath={avatarPath}
                       size={28}
+                      hasPendingUpdate={hasPendingUpdate}
+                      startUpdate={startUpdate}
+                      // See the comment above about `sharedGroupNames`.
+                      sharedGroupNames={[]}
+                      onEditProfile={() => {
+                        toggleProfileEditor();
+                        this.hideAvatarPopup();
+                      }}
                       onViewPreferences={() => {
                         showSettings();
                         this.hideAvatarPopup();
@@ -436,6 +464,7 @@ export class MainHeader extends React.Component<PropsType, StateType> {
             />
           )}
           <input
+            disabled={disabled}
             type="text"
             ref={this.inputRef}
             className={classNames(

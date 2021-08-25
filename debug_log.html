@@ -1,10 +1,11 @@
-<!-- Copyright 2018-2020 Signal Messenger, LLC -->
+<!-- Copyright 2018-2021 Signal Messenger, LLC -->
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <html>
-<head>
-  <meta http-equiv="Content-Security-Policy"
-    content="default-src 'none';
+  <head>
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none';
             child-src 'self';
             connect-src 'self' https: wss:;
             font-src 'self';
@@ -15,46 +16,48 @@
             object-src 'none';
             script-src 'self';
             style-src 'self' 'unsafe-inline';"
-  >
-  <link href="node_modules/sanitize.css/sanitize.css" rel="stylesheet" type="text/css" />
-  <link href="stylesheets/manifest.css" rel="stylesheet" type="text/css" />
-<style>
-</style>
-</head>
-<body class='debug-log-window'>
-</body>
-<script type='text/x-tmpl-mustache' id='debug-log'>
-  <div class='content'>
-    <div>
-      <a class='x close' alt='close debug log' href='#'></a>
-      <h1> {{ title }} </h1>
-      <p> {{ debugLogExplanation }}</p>
+    />
+    <link
+      href="node_modules/sanitize.css/sanitize.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link href="stylesheets/manifest.css" rel="stylesheet" type="text/css" />
+    <style></style>
+  </head>
+  <body class="debug-log-window"></body>
+  <script type="text/x-tmpl-mustache" id="debug-log">
+    <div class='content'>
+      <div>
+        <a class='x close' alt='close debug log' href='#'></a>
+        <h1> {{ title }} </h1>
+        <p> {{ debugLogExplanation }}</p>
+      </div>
+      <textarea class='textarea' spellcheck='false' rows='5'></textarea>
+      <div class='buttons'>
+        <button class='grey submit'>{{ submit }}</button>
+      </div>
+      <div class='result'>
+      </div>
     </div>
-    <textarea class='textarea' spellcheck='false' rows='5'></textarea>
-    <div class='buttons'>
-      <button class='grey submit'>{{ submit }}</button>
+  </script>
+  <script type="text/x-tmpl-mustache" id="debug-log-link">
+    <div class='input-group clearfix'>
+      <input type='text' class='link' readonly value='{{ url }}' />
+      <a class='copy' alt='{{ debugLogCopyAlt }}' target='_blank' href='{{ url }}'>{{ debugLogCopy }}</a>
     </div>
-    <div class='result'>
-    </div>
-  </div>
-</script>
-<script type='text/x-tmpl-mustache' id='debug-log-link'>
-  <div class='input-group clearfix'>
-    <input type='text' class='link' readonly value='{{ url }}' />
-    <a class='copy' alt='{{ debugLogCopyAlt }}' target='_blank' href='{{ url }}'>{{ debugLogCopy }}</a>
-  </div>
-  <p>
-    <a class='report-link' target='_blank'
-        href='https://support.signal.org/hc/requests/new'>
-        {{ reportIssue }}
-    </a>
-  </p>
-</script>
-<script type='text/x-tmpl-mustache' id='toast'>
-  {{ toastMessage }}
-</script>
-<script type='text/javascript' src='js/components.js'></script>
-<script type='text/javascript' src='ts/backboneJquery.js'></script>
-<script type='text/javascript' src='js/views/debug_log_view.js'></script>
-<script type='text/javascript' src='js/debug_log_start.js'></script>
+    <p>
+      <a class='report-link' target='_blank'
+          href='https://support.signal.org/hc/requests/new'>
+          {{ reportIssue }}
+      </a>
+    </p>
+  </script>
+  <script type="text/x-tmpl-mustache" id="toast">
+    {{ toastMessage }}
+  </script>
+  <script type="text/javascript" src="js/components.js"></script>
+  <script type="text/javascript" src="ts/backboneJquery.js"></script>
+  <script type="text/javascript" src="js/views/debug_log_view.js"></script>
+  <script type="text/javascript" src="js/debug_log_start.js"></script>
 </html>

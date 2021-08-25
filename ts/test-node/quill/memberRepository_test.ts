@@ -1,12 +1,13 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
 
 import { ConversationType } from '../../state/ducks/conversations';
 import { MemberRepository } from '../../quill/memberRepository';
+import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
 
-const memberMahershala: ConversationType = {
+const memberMahershala: ConversationType = getDefaultConversation({
   id: '555444',
   uuid: 'abcdefg',
   title: 'Pal',
@@ -17,9 +18,9 @@ const memberMahershala: ConversationType = {
   lastUpdated: Date.now(),
   markedUnread: false,
   areWeAdmin: false,
-};
+});
 
-const memberShia: ConversationType = {
+const memberShia: ConversationType = getDefaultConversation({
   id: '333222',
   uuid: 'hijklmno',
   title: 'Buddy',
@@ -30,11 +31,11 @@ const memberShia: ConversationType = {
   lastUpdated: Date.now(),
   markedUnread: false,
   areWeAdmin: false,
-};
+});
 
 const members: Array<ConversationType> = [memberMahershala, memberShia];
 
-const singleMember: ConversationType = {
+const singleMember: ConversationType = getDefaultConversation({
   id: '666777',
   uuid: 'pqrstuv',
   title: 'The Guy',
@@ -45,7 +46,7 @@ const singleMember: ConversationType = {
   lastUpdated: Date.now(),
   markedUnread: false,
   areWeAdmin: false,
-};
+});
 
 describe('MemberRepository', () => {
   describe('#updateMembers', () => {
@@ -118,11 +119,32 @@ describe('MemberRepository', () => {
       });
     });
 
+    describe('given a prefix-matching string on name', () => {
+      it('returns the match', () => {
+        const memberRepository = new MemberRepository(members);
+        const results = memberRepository.search('dude');
+        assert.deepEqual(results, [memberShia]);
+      });
+    });
+
     describe('given a prefix-matching string on title', () => {
       it('returns the match', () => {
         const memberRepository = new MemberRepository(members);
-        const results = memberRepository.search('d');
+        const results = memberRepository.search('bud');
         assert.deepEqual(results, [memberShia]);
+      });
+
+      it('handles titles with Unicode bidi characters, which some contacts have', () => {
+        const memberShiaBidi: ConversationType = {
+          ...memberShia,
+          title: '\u2086Buddyo\u2069',
+        };
+        const memberRepository = new MemberRepository([
+          memberMahershala,
+          memberShiaBidi,
+        ]);
+        const results = memberRepository.search('bud');
+        assert.deepEqual(results, [memberShiaBidi]);
       });
     });
 

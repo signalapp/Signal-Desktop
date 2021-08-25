@@ -7,8 +7,10 @@ import { LoggerType } from '../../types/Logging';
 
 import {
   isSgnlHref,
+  isCaptchaHref,
   isSignalHttpsLink,
   parseSgnlHref,
+  parseCaptchaHref,
   parseSignalHttpsLink,
 } from '../../util/sgnlHref';
 
@@ -26,65 +28,71 @@ const explodingLogger: LoggerType = {
 };
 
 describe('sgnlHref', () => {
-  describe('isSgnlHref', () => {
-    it('returns false for non-strings', () => {
-      const logger = {
-        ...explodingLogger,
-        warn: Sinon.spy(),
-      };
+  [
+    { protocol: 'sgnl', check: isSgnlHref, name: 'isSgnlHref' },
+    { protocol: 'signalcaptcha', check: isCaptchaHref, name: 'isCaptchaHref' },
+  ].forEach(({ protocol, check, name }) => {
+    describe(name, () => {
+      it('returns false for non-strings', () => {
+        const logger = {
+          ...explodingLogger,
+          warn: Sinon.spy(),
+        };
 
-      const castToString = (value: unknown): string => value as string;
+        const castToString = (value: unknown): string => value as string;
 
-      assert.isFalse(isSgnlHref(castToString(undefined), logger));
-      assert.isFalse(isSgnlHref(castToString(null), logger));
-      assert.isFalse(isSgnlHref(castToString(123), logger));
+        assert.isFalse(check(castToString(undefined), logger));
+        assert.isFalse(check(castToString(null), logger));
+        assert.isFalse(check(castToString(123), logger));
 
-      Sinon.assert.calledThrice(logger.warn);
-    });
+        Sinon.assert.calledThrice(logger.warn);
+      });
 
-    it('returns false for invalid URLs', () => {
-      assert.isFalse(isSgnlHref('', explodingLogger));
-      assert.isFalse(isSgnlHref('sgnl', explodingLogger));
-      assert.isFalse(isSgnlHref('sgnl://::', explodingLogger));
-    });
+      it('returns false for invalid URLs', () => {
+        assert.isFalse(check('', explodingLogger));
+        assert.isFalse(check(protocol, explodingLogger));
+        assert.isFalse(check(`${protocol}://::`, explodingLogger));
+      });
 
-    it('returns false if the protocol is not "sgnl:"', () => {
-      assert.isFalse(isSgnlHref('https://example', explodingLogger));
-      assert.isFalse(
-        isSgnlHref(
-          'https://signal.art/addstickers/?pack_id=abc',
-          explodingLogger
-        )
-      );
-      assert.isFalse(isSgnlHref('signal://example', explodingLogger));
-    });
+      it(`returns false if the protocol is not "${protocol}:"`, () => {
+        assert.isFalse(check('https://example', explodingLogger));
+        assert.isFalse(
+          check('https://signal.art/addstickers/?pack_id=abc', explodingLogger)
+        );
+        assert.isFalse(check('signal://example', explodingLogger));
+      });
 
-    it('returns true if the protocol is "sgnl:"', () => {
-      assert.isTrue(isSgnlHref('sgnl://', explodingLogger));
-      assert.isTrue(isSgnlHref('sgnl://example', explodingLogger));
-      assert.isTrue(isSgnlHref('sgnl://example.com', explodingLogger));
-      assert.isTrue(isSgnlHref('SGNL://example', explodingLogger));
-      assert.isTrue(isSgnlHref('sgnl://example?foo=bar', explodingLogger));
-      assert.isTrue(isSgnlHref('sgnl://example/', explodingLogger));
-      assert.isTrue(isSgnlHref('sgnl://example#', explodingLogger));
+      it(`returns true if the protocol is "${protocol}:"`, () => {
+        assert.isTrue(check(`${protocol}://`, explodingLogger));
+        assert.isTrue(check(`${protocol}://example`, explodingLogger));
+        assert.isTrue(check(`${protocol}://example.com`, explodingLogger));
+        assert.isTrue(
+          check(`${protocol.toUpperCase()}://example`, explodingLogger)
+        );
+        assert.isTrue(check(`${protocol}://example?foo=bar`, explodingLogger));
+        assert.isTrue(check(`${protocol}://example/`, explodingLogger));
+        assert.isTrue(check(`${protocol}://example#`, explodingLogger));
 
-      assert.isTrue(isSgnlHref('sgnl:foo', explodingLogger));
+        assert.isTrue(check(`${protocol}:foo`, explodingLogger));
 
-      assert.isTrue(isSgnlHref('sgnl://user:pass@example', explodingLogger));
-      assert.isTrue(isSgnlHref('sgnl://example.com:1234', explodingLogger));
-      assert.isTrue(
-        isSgnlHref('sgnl://example.com/extra/path/data', explodingLogger)
-      );
-      assert.isTrue(
-        isSgnlHref('sgnl://example/?foo=bar#hash', explodingLogger)
-      );
-    });
+        assert.isTrue(
+          check(`${protocol}://user:pass@example`, explodingLogger)
+        );
+        assert.isTrue(check(`${protocol}://example.com:1234`, explodingLogger));
+        assert.isTrue(
+          check(`${protocol}://example.com/extra/path/data`, explodingLogger)
+        );
+        assert.isTrue(
+          check(`${protocol}://example/?foo=bar#hash`, explodingLogger)
+        );
+      });
 
-    it('accepts URL objects', () => {
-      const invalid = new URL('https://example.com');
-      assert.isFalse(isSgnlHref(invalid, explodingLogger));
-      const valid = new URL('sgnl://example');
-      assert.isTrue(isSgnlHref(valid, explodingLogger));
+      it('accepts URL objects', () => {
+        const invalid = new URL('https://example.com');
+        assert.isFalse(check(invalid, explodingLogger));
+        const valid = new URL(`${protocol}://example`);
+        assert.isTrue(check(valid, explodingLogger));
+      });
     });
   });
 
@@ -252,6 +260,31 @@ describe('sgnlHref', () => {
         'args',
         new Map([['foo[bar][baz]', 'foobarbaz']])
       );
+    });
+  });
+
+  describe('parseCaptchaHref', () => {
+    it('throws on invalid URLs', () => {
+      ['', 'sgnl', 'https://example/?foo=bar'].forEach(href => {
+        assert.throws(
+          () => parseCaptchaHref(href, explodingLogger),
+          'Not a captcha href'
+        );
+      });
+    });
+
+    it('parses the command for URLs with no arguments', () => {
+      [
+        'signalcaptcha://foo',
+        'signalcaptcha://foo?x=y',
+        'signalcaptcha://a:b@foo?x=y',
+        'signalcaptcha://foo#hash',
+        'signalcaptcha://foo/',
+      ].forEach(href => {
+        assert.deepEqual(parseCaptchaHref(href, explodingLogger), {
+          captcha: 'foo',
+        });
+      });
     });
   });
 

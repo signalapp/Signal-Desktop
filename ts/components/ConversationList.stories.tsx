@@ -24,32 +24,21 @@ const i18n = setupI18n('en', enMessages);
 const story = storiesOf('Components/ConversationList', module);
 
 const defaultConversations: Array<ConversationListItemPropsType> = [
-  {
+  getDefaultConversation({
     id: 'fred-convo',
-    isSelected: false,
-    lastUpdated: Date.now(),
-    markedUnread: false,
     title: 'Fred Willard',
-    type: 'direct',
-  },
-  {
+  }),
+  getDefaultConversation({
     id: 'marc-convo',
     isSelected: true,
-    lastUpdated: Date.now(),
-    markedUnread: false,
     unreadCount: 12,
     title: 'Marc Barraca',
-    type: 'direct',
-  },
-  {
+  }),
+  getDefaultConversation({
     id: 'long-name-convo',
-    isSelected: false,
-    lastUpdated: Date.now(),
-    markedUnread: false,
     title:
       'Pablo Diego José Francisco de Paula Juan Nepomuceno María de los Remedios Cipriano de la Santísima Trinidad Ruiz y Picasso',
-    type: 'direct',
-  },
+  }),
   getDefaultConversation(),
 ];
 
@@ -65,7 +54,7 @@ const createProps = (rows: ReadonlyArray<Row>): PropsType => ({
   onSelectConversation: action('onSelectConversation'),
   onClickArchiveButton: action('onClickArchiveButton'),
   onClickContactCheckbox: action('onClickContactCheckbox'),
-  renderMessageSearchResult: (id: string, style: React.CSSProperties) => (
+  renderMessageSearchResult: (id: string) => (
     <MessageSearchResult
       body="Lorem ipsum wow"
       bodyRanges={[]}
@@ -76,7 +65,6 @@ const createProps = (rows: ReadonlyArray<Row>): PropsType => ({
       openConversationInternal={action('openConversationInternal')}
       sentAt={1587358800000}
       snippet="Lorem <<left>>ipsum<<right>> wow"
-      style={style}
       to={defaultConversations[1]}
     />
   ),
@@ -247,6 +235,7 @@ story.add('Contact checkboxes: disabled', () => (
       'lastUpdated',
       new Date(overrideProps.lastUpdated || Date.now() - 5 * 60 * 1000)
     ),
+    sharedGroupNames: [],
   });
 
   const renderConversation = (
@@ -298,6 +287,7 @@ story.add('Contact checkboxes: disabled', () => (
   story.add('Conversation: Typing Status', () =>
     renderConversation({
       typingContact: {
+        ...getDefaultConversation(),
         name: 'Someone Here',
       },
     })

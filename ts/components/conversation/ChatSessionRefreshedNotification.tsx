@@ -5,7 +5,6 @@ import React, { useCallback, useState, ReactElement } from 'react';
 
 import { LocalizerType } from '../../types/Util';
 
-import { ModalHost } from '../ModalHost';
 import { ChatSessionRefreshedDialog } from './ChatSessionRefreshedDialog';
 
 type PropsHousekeepingType = {
@@ -50,13 +49,11 @@ export function ChatSessionRefreshedNotification(
         {i18n('ChatRefresh--learnMore')}
       </button>
       {isDialogOpen ? (
-        <ModalHost onClose={closeDialog}>
-          <ChatSessionRefreshedDialog
-            onClose={closeDialog}
-            contactSupport={wrappedContactSupport}
-            i18n={i18n}
-          />
-        </ModalHost>
+        <ChatSessionRefreshedDialog
+          onClose={closeDialog}
+          contactSupport={wrappedContactSupport}
+          i18n={i18n}
+        />
       ) : null}
     </div>
   );

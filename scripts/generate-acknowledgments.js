@@ -16,7 +16,7 @@ const {
 const SKIPPED_DEPENDENCIES = new Set([
   'ringrtc',
   'zkgroup',
-  'libsignal-client',
+  '@signalapp/signal-client',
 ]);
 
 const rootDir = join(__dirname, '..');

@@ -7,7 +7,7 @@ import { join } from 'path';
 import { Worker } from 'worker_threads';
 
 const ASAR_PATTERN = /app\.asar$/;
-const MIN_TRACE_DURATION = 10;
+const MIN_TRACE_DURATION = 40;
 
 export type InitializeOptions = {
   readonly configDir: string;
@@ -21,6 +21,9 @@ export type WorkerRequest =
     }
   | {
       readonly type: 'close';
+    }
+  | {
+      readonly type: 'removeDB';
     }
   | {
       readonly type: 'sqlCall';
@@ -115,6 +118,10 @@ export class MainSQL {
 
     await this.send({ type: 'close' });
     await this.onExit;
+  }
+
+  public async removeDB(): Promise<void> {
+    await this.send({ type: 'removeDB' });
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

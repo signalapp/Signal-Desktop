@@ -1,50 +1,49 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { get, throttle } from 'lodash';
-import { WebAPIType } from './textsecure/WebAPI';
+
+import type { WebAPIType } from './textsecure/WebAPI';
 
 export type ConfigKeyType =
-  | 'desktop.cds'
+  | 'desktop.announcementGroup'
   | 'desktop.clientExpiration'
   | 'desktop.disableGV1'
   | 'desktop.groupCalling'
   | 'desktop.gv2'
+  | 'desktop.internalUser'
   | 'desktop.mandatoryProfileSharing'
+  | 'desktop.mediaQuality.levels'
   | 'desktop.messageRequests'
+  | 'desktop.retryReceiptLifespan'
+  | 'desktop.retryRespondMaxAge'
+  | 'desktop.screensharing2'
+  | 'desktop.senderKey.send'
+  | 'desktop.senderKey.retry'
+  | 'desktop.sendSenderKey2'
   | 'desktop.storage'
   | 'desktop.storageWrite3'
-  | 'global.groupsv2.maxGroupSize'
-  | 'global.groupsv2.groupSizeHardLimit';
+  | 'global.calling.maxGroupCallRingSize'
+  | 'global.groupsv2.groupSizeHardLimit'
+  | 'global.groupsv2.maxGroupSize';
 type ConfigValueType = {
   name: ConfigKeyType;
   enabled: boolean;
   enabledAt?: number;
   value?: unknown;
 };
-type ConfigMapType = { [key: string]: ConfigValueType };
+export type ConfigMapType = { [key: string]: ConfigValueType };
 type ConfigListenerType = (value: ConfigValueType) => unknown;
 type ConfigListenersMapType = {
   [key: string]: Array<ConfigListenerType>;
 };
 
-function getServer(): WebAPIType {
-  const OLD_USERNAME = window.storage.get<string>('number_id');
-  const USERNAME = window.storage.get<string>('uuid_id');
-  const PASSWORD = window.storage.get<string>('password');
-
-  return window.WebAPI.connect({
-    username: (USERNAME || OLD_USERNAME) as string,
-    password: PASSWORD as string,
-  });
-}
-
 let config: ConfigMapType = {};
 const listeners: ConfigListenersMapType = {};
 
-export async function initRemoteConfig(): Promise<void> {
+export async function initRemoteConfig(server: WebAPIType): Promise<void> {
   config = window.storage.get('remoteConfig') || {};
-  await maybeRefreshRemoteConfig();
+  await maybeRefreshRemoteConfig(server);
 }
 
 export function onChange(
@@ -60,9 +59,10 @@ export function onChange(
   };
 }
 
-export const refreshRemoteConfig = async (): Promise<void> => {
+export const refreshRemoteConfig = async (
+  server: WebAPIType
+): Promise<void> => {
   const now = Date.now();
-  const server = getServer();
   const newConfig = await server.getConfig();
 
   // Process new configuration in light of the old configuration

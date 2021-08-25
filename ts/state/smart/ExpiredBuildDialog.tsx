@@ -3,7 +3,7 @@
 
 import { connect } from 'react-redux';
 import { mapDispatchToProps } from '../actions';
-import { ExpiredBuildDialog } from '../../components/ExpiredBuildDialog';
+import { DialogExpiredBuild } from '../../components/DialogExpiredBuild';
 import { StateType } from '../reducer';
 import { getIntl } from '../selectors/user';
 
@@ -16,4 +16,4 @@ const mapStateToProps = (state: StateType) => {
 
 const smart = connect(mapStateToProps, mapDispatchToProps);
 
-export const SmartExpiredBuildDialog = smart(ExpiredBuildDialog);
+export const SmartExpiredBuildDialog = smart(DialogExpiredBuild);

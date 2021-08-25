@@ -13,6 +13,7 @@ export type UserStateType = {
   stickersPath: string;
   tempPath: string;
   ourConversationId: string;
+  ourDeviceId: number;
   ourUuid: string;
   ourNumber: string;
   platform: string;
@@ -28,6 +29,7 @@ type UserChangedActionType = {
   type: 'USER_CHANGED';
   payload: {
     ourConversationId?: string;
+    ourDeviceId?: number;
     ourUuid?: string;
     ourNumber?: string;
     regionCode?: string;
@@ -48,6 +50,7 @@ export const actions = {
 function userChanged(attributes: {
   interactionMode?: 'mouse' | 'keyboard';
   ourConversationId?: string;
+  ourDeviceId?: number;
   ourNumber?: string;
   ourUuid?: string;
   regionCode?: string;
@@ -76,13 +79,23 @@ export function getEmptyState(): UserStateType {
     stickersPath: 'missing',
     tempPath: 'missing',
     ourConversationId: 'missing',
+    ourDeviceId: 0,
     ourUuid: 'missing',
     ourNumber: 'missing',
     regionCode: 'missing',
     platform: 'missing',
     interactionMode: 'mouse',
     theme: ThemeType.light,
-    i18n: () => 'missing',
+    i18n: Object.assign(
+      () => {
+        throw new Error('i18n not yet set up');
+      },
+      {
+        getLocale() {
+          throw new Error('i18n not yet set up');
+        },
+      }
+    ),
   };
 }
 

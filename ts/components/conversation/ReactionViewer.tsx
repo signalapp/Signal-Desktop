@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -7,23 +7,26 @@ import classNames from 'classnames';
 import { ContactName } from './ContactName';
 import { Avatar, Props as AvatarProps } from '../Avatar';
 import { Emoji } from '../emoji/Emoji';
-import { useRestoreFocus } from '../../util/hooks';
-import { ColorType } from '../../types/Colors';
+import { useRestoreFocus } from '../../util/hooks/useRestoreFocus';
+import { ConversationType } from '../../state/ducks/conversations';
 import { emojiToData, EmojiData } from '../emoji/lib';
 
 export type Reaction = {
   emoji: string;
   timestamp: number;
-  from: {
-    id: string;
-    color?: ColorType;
-    avatarPath?: string;
-    name?: string;
-    profileName?: string;
-    title: string;
-    isMe?: boolean;
-    phoneNumber?: string;
-  };
+  from: Pick<
+    ConversationType,
+    | 'acceptedMessageRequest'
+    | 'avatarPath'
+    | 'color'
+    | 'id'
+    | 'isMe'
+    | 'name'
+    | 'phoneNumber'
+    | 'profileName'
+    | 'sharedGroupNames'
+    | 'title'
+  >;
 };
 
 export type OwnProps = {
@@ -121,8 +124,6 @@ export const ReactionViewer = React.forwardRef<HTMLDivElement, Props>(
       selectedReactionCategory,
       setSelectedReactionCategory,
     ] = React.useState(pickedReaction || 'all');
-    const focusRef = React.useRef<HTMLButtonElement>(null);
-
     // Handle escape key
     React.useEffect(() => {
       const handler = (e: KeyboardEvent) => {
@@ -139,7 +140,7 @@ export const ReactionViewer = React.forwardRef<HTMLDivElement, Props>(
     }, [onClose]);
 
     // Focus first button and restore focus on unmount
-    useRestoreFocus(focusRef);
+    const [focusRef] = useRestoreFocus();
 
     // If we have previously selected a reaction type that is no longer present
     // (removed on another device, for instance) we should select another
@@ -212,9 +213,12 @@ export const ReactionViewer = React.forwardRef<HTMLDivElement, Props>(
             >
               <div className="module-reaction-viewer__body__row__avatar">
                 <Avatar
+                  acceptedMessageRequest={from.acceptedMessageRequest}
                   avatarPath={from.avatarPath}
                   conversationType="direct"
+                  sharedGroupNames={from.sharedGroupNames}
                   size={32}
+                  isMe={from.isMe}
                   color={from.color}
                   name={from.name}
                   profileName={from.profileName}

@@ -4,7 +4,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-bitwise */
 /* eslint-disable more/no-then */
-import { ByteBufferClass } from '../window.d';
+import {
+  decryptAes256CbcPkcsPadding,
+  encryptAes256CbcPkcsPadding,
+  getRandomBytes as outerGetRandomBytes,
+  hmacSha256,
+  sha256,
+  verifyHmacSha256,
+  base64ToArrayBuffer,
+  typedArrayToArrayBuffer,
+} from '../Crypto';
 
 declare global {
   // this is fixed in already, and won't be necessary when the new definitions
@@ -74,7 +83,7 @@ declare global {
         | DhImportKeyParams
         | AesKeyAlgorithm,
       extractable: boolean,
-      keyUsages: string[]
+      keyUsages: Array<string>
     ): Promise<CryptoKey>;
 
     importKey(
@@ -100,7 +109,7 @@ declare global {
         | DhImportKeyParams
         | AesKeyAlgorithm,
       extractable: boolean,
-      keyUsages: string[]
+      keyUsages: Array<string>
     ): Promise<CryptoKey>;
   }
 }
@@ -108,7 +117,14 @@ declare global {
 const PROFILE_IV_LENGTH = 12; // bytes
 const PROFILE_KEY_LENGTH = 32; // bytes
 const PROFILE_TAG_LENGTH = 128; // bits
-const PROFILE_NAME_PADDED_LENGTH = 53; // bytes
+
+// bytes
+export const PaddedLengths = {
+  Name: [53, 257],
+  About: [128, 254, 512],
+  AboutEmoji: [32],
+  PaymentAddress: [554],
+};
 
 type EncryptedAttachment = {
   ciphertext: ArrayBuffer;
@@ -134,58 +150,11 @@ async function verifyDigest(
     });
 }
 
-function calculateDigest(data: ArrayBuffer) {
-  return window.crypto.subtle.digest({ name: 'SHA-256' }, data);
-}
-
 const Crypto = {
-  // Decrypts message into a raw string
-  async decryptWebsocketMessage(
-    message: ByteBufferClass,
-    signalingKey: ArrayBuffer
-  ): Promise<ArrayBuffer> {
-    const decodedMessage = message.toArrayBuffer();
-
-    if (signalingKey.byteLength !== 52) {
-      throw new Error('Got invalid length signalingKey');
-    }
-    if (decodedMessage.byteLength < 1 + 16 + 10) {
-      throw new Error('Got invalid length message');
-    }
-    if (new Uint8Array(decodedMessage)[0] !== 1) {
-      throw new Error(
-        `Got bad version number: ${new Uint8Array(decodedMessage)[0]}`
-      );
-    }
-
-    const aesKey = signalingKey.slice(0, 32);
-    const macKey = signalingKey.slice(32, 32 + 20);
-
-    const iv = decodedMessage.slice(1, 1 + 16);
-    const ciphertext = decodedMessage.slice(
-      1 + 16,
-      decodedMessage.byteLength - 10
-    );
-    const ivAndCiphertext = decodedMessage.slice(
-      0,
-      decodedMessage.byteLength - 10
-    );
-    const mac = decodedMessage.slice(
-      decodedMessage.byteLength - 10,
-      decodedMessage.byteLength
-    );
-
-    return window.libsignal.crypto
-      .verifyMAC(ivAndCiphertext, macKey, mac, 10)
-      .then(async () =>
-        window.libsignal.crypto.decrypt(aesKey, ciphertext, iv)
-      );
-  },
-
   async decryptAttachment(
     encryptedBin: ArrayBuffer,
     keys: ArrayBuffer,
-    theirDigest: ArrayBuffer
+    theirDigest?: ArrayBuffer
   ): Promise<ArrayBuffer> {
     if (keys.byteLength !== 64) {
       throw new Error('Got invalid length attachment keys');
@@ -205,18 +174,13 @@ const Crypto = {
       encryptedBin.byteLength
     );
 
-    return window.libsignal.crypto
-      .verifyMAC(ivAndCiphertext, macKey, mac, 32)
-      .then(async () => {
-        if (theirDigest) {
-          return verifyDigest(encryptedBin, theirDigest);
-        }
+    await verifyHmacSha256(ivAndCiphertext, macKey, mac, 32);
 
-        return null;
-      })
-      .then(async () =>
-        window.libsignal.crypto.decrypt(aesKey, ciphertext, iv)
-      );
+    if (theirDigest) {
+      await verifyDigest(encryptedBin, theirDigest);
+    }
+
+    return decryptAes256CbcPkcsPadding(aesKey, ciphertext, iv);
   },
 
   async encryptAttachment(
@@ -239,36 +203,30 @@ const Crypto = {
     const aesKey = keys.slice(0, 32);
     const macKey = keys.slice(32, 64);
 
-    return window.libsignal.crypto
-      .encrypt(aesKey, plaintext, iv)
-      .then(async ciphertext => {
-        const ivAndCiphertext = new Uint8Array(16 + ciphertext.byteLength);
-        ivAndCiphertext.set(new Uint8Array(iv));
-        ivAndCiphertext.set(new Uint8Array(ciphertext), 16);
+    const ciphertext = await encryptAes256CbcPkcsPadding(aesKey, plaintext, iv);
 
-        return window.libsignal.crypto
-          .calculateMAC(macKey, ivAndCiphertext.buffer as ArrayBuffer)
-          .then(async mac => {
-            const encryptedBin = new Uint8Array(
-              16 + ciphertext.byteLength + 32
-            );
-            encryptedBin.set(ivAndCiphertext);
-            encryptedBin.set(new Uint8Array(mac), 16 + ciphertext.byteLength);
-            return calculateDigest(encryptedBin.buffer as ArrayBuffer).then(
-              digest => ({
-                ciphertext: encryptedBin.buffer,
-                digest,
-              })
-            );
-          });
-      });
+    const ivAndCiphertext = new Uint8Array(16 + ciphertext.byteLength);
+    ivAndCiphertext.set(new Uint8Array(iv));
+    ivAndCiphertext.set(new Uint8Array(ciphertext), 16);
+
+    const mac = await hmacSha256(macKey, ivAndCiphertext.buffer as ArrayBuffer);
+
+    const encryptedBin = new Uint8Array(16 + ciphertext.byteLength + 32);
+    encryptedBin.set(ivAndCiphertext);
+    encryptedBin.set(new Uint8Array(mac), 16 + ciphertext.byteLength);
+    const digest = await sha256(encryptedBin.buffer as ArrayBuffer);
+
+    return {
+      ciphertext: encryptedBin.buffer,
+      digest,
+    };
   },
 
   async encryptProfile(
     data: ArrayBuffer,
     key: ArrayBuffer
   ): Promise<ArrayBuffer> {
-    const iv = window.libsignal.crypto.getRandomBytes(PROFILE_IV_LENGTH);
+    const iv = outerGetRandomBytes(PROFILE_IV_LENGTH);
     if (key.byteLength !== PROFILE_KEY_LENGTH) {
       throw new Error('Got invalid length profile key');
     }
@@ -334,23 +292,27 @@ const Crypto = {
       );
   },
 
-  async encryptProfileName(
-    name: ArrayBuffer,
-    key: ArrayBuffer
+  async encryptProfileItemWithPadding(
+    item: ArrayBuffer,
+    profileKey: ArrayBuffer,
+    paddedLengths: typeof PaddedLengths[keyof typeof PaddedLengths]
   ): Promise<ArrayBuffer> {
-    const padded = new Uint8Array(PROFILE_NAME_PADDED_LENGTH);
-    padded.set(new Uint8Array(name));
-    return Crypto.encryptProfile(padded.buffer as ArrayBuffer, key);
+    const paddedLength = paddedLengths.find(
+      (length: number) => item.byteLength <= length
+    );
+    if (!paddedLength) {
+      throw new Error('Oversized value');
+    }
+    const padded = new Uint8Array(paddedLength);
+    padded.set(new Uint8Array(item));
+    return Crypto.encryptProfile(padded.buffer as ArrayBuffer, profileKey);
   },
 
   async decryptProfileName(
     encryptedProfileName: string,
     key: ArrayBuffer
   ): Promise<{ given: ArrayBuffer; family: ArrayBuffer | null }> {
-    const data = window.dcodeIO.ByteBuffer.wrap(
-      encryptedProfileName,
-      'base64'
-    ).toArrayBuffer();
+    const data = base64ToArrayBuffer(encryptedProfileName);
     return Crypto.decryptProfile(data, key).then(decrypted => {
       const padded = new Uint8Array(decrypted);
 
@@ -376,20 +338,16 @@ const Crypto = {
       const foundFamilyName = familyEnd > givenEnd + 1;
 
       return {
-        given: window.dcodeIO.ByteBuffer.wrap(padded)
-          .slice(0, givenEnd)
-          .toArrayBuffer(),
+        given: typedArrayToArrayBuffer(padded.slice(0, givenEnd)),
         family: foundFamilyName
-          ? window.dcodeIO.ByteBuffer.wrap(padded)
-              .slice(givenEnd + 1, familyEnd)
-              .toArrayBuffer()
+          ? typedArrayToArrayBuffer(padded.slice(givenEnd + 1, familyEnd))
           : null,
       };
     });
   },
 
   getRandomBytes(size: number): ArrayBuffer {
-    return window.libsignal.crypto.getRandomBytes(size);
+    return outerGetRandomBytes(size);
   },
 };
 

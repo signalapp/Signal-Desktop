@@ -10,11 +10,13 @@ import { StateType } from '../reducer';
 import { TimelineItem } from '../../components/conversation/TimelineItem';
 import { getIntl, getInteractionMode, getTheme } from '../selectors/user';
 import {
+  getConversationSelector,
   getMessageSelector,
   getSelectedMessage,
 } from '../selectors/conversations';
 
 import { SmartContactName } from './ContactName';
+import { SmartUniversalTimerNotification } from './UniversalTimerNotification';
 
 type ExternalProps = {
   id: string;
@@ -31,6 +33,10 @@ function renderContact(conversationId: string): JSX.Element {
   return <FilteredSmartContactName conversationId={conversationId} />;
 }
 
+function renderUniversalTimerNotification(): JSX.Element {
+  return <SmartUniversalTimerNotification />;
+}
+
 const mapStateToProps = (state: StateType, props: ExternalProps) => {
   const { id, conversationId } = props;
 
@@ -40,12 +46,17 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
   const selectedMessage = getSelectedMessage(state);
   const isSelected = Boolean(selectedMessage && id === selectedMessage.id);
 
+  const conversation = getConversationSelector(state)(conversationId);
+
   return {
     item,
     id,
     conversationId,
+    conversationColor: conversation?.conversationColor,
+    customColor: conversation?.customColor,
     isSelected,
     renderContact,
+    renderUniversalTimerNotification,
     i18n: getIntl(state),
     interactionMode: getInteractionMode(state),
     theme: getTheme(state),

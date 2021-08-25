@@ -3,27 +3,30 @@
 
 import { assert } from 'chai';
 import * as sinon from 'sinon';
-import { v4 as uuid } from 'uuid';
 import { RowType } from '../../../components/ConversationList';
+import { getDefaultConversation } from '../../../test-both/helpers/getDefaultConversation';
 
 import { LeftPaneSetGroupMetadataHelper } from '../../../components/leftPane/LeftPaneSetGroupMetadataHelper';
 
-describe('LeftPaneSetGroupMetadataHelper', () => {
-  const fakeContact = () => ({
-    id: uuid(),
-    title: uuid(),
-    type: 'direct' as const,
-  });
+function getComposeState() {
+  return {
+    groupAvatar: undefined,
+    groupExpireTimer: 0,
+    groupName: '',
+    hasError: false,
+    isCreating: false,
+    isEditingAvatar: false,
+    selectedContacts: [],
+    userAvatarData: [],
+  };
+}
 
+describe('LeftPaneSetGroupMetadataHelper', () => {
   describe('getBackAction', () => {
     it('returns the "show composer" action if a request is not active', () => {
       const showChooseGroupMembers = sinon.fake();
       const helper = new LeftPaneSetGroupMetadataHelper({
-        groupAvatar: undefined,
-        groupName: '',
-        hasError: false,
-        isCreating: false,
-        selectedContacts: [],
+        ...getComposeState(),
       });
 
       assert.strictEqual(
@@ -34,11 +37,9 @@ describe('LeftPaneSetGroupMetadataHelper', () => {
 
     it("returns undefined (i.e., you can't go back) if a request is active", () => {
       const helper = new LeftPaneSetGroupMetadataHelper({
-        groupAvatar: undefined,
+        ...getComposeState(),
         groupName: 'Foo Bar',
-        hasError: false,
         isCreating: true,
-        selectedContacts: [],
       });
 
       assert.isUndefined(
@@ -51,11 +52,7 @@ describe('LeftPaneSetGroupMetadataHelper', () => {
     it('returns 0 if there are no contacts', () => {
       assert.strictEqual(
         new LeftPaneSetGroupMetadataHelper({
-          groupAvatar: undefined,
-          groupName: '',
-          hasError: false,
-          isCreating: false,
-          selectedContacts: [],
+          ...getComposeState(),
         }).getRowCount(),
         0
       );
@@ -64,11 +61,11 @@ describe('LeftPaneSetGroupMetadataHelper', () => {
     it('returns the number of candidate contacts + 2 if there are any', () => {
       assert.strictEqual(
         new LeftPaneSetGroupMetadataHelper({
-          groupAvatar: undefined,
-          groupName: '',
-          hasError: false,
-          isCreating: false,
-          selectedContacts: [fakeContact(), fakeContact()],
+          ...getComposeState(),
+          selectedContacts: [
+            getDefaultConversation(),
+            getDefaultConversation(),
+          ],
         }).getRowCount(),
         4
       );
@@ -79,22 +76,18 @@ describe('LeftPaneSetGroupMetadataHelper', () => {
     it('returns undefined if there are no contacts', () => {
       assert.isUndefined(
         new LeftPaneSetGroupMetadataHelper({
-          groupAvatar: undefined,
-          groupName: '',
-          hasError: false,
-          isCreating: false,
-          selectedContacts: [],
+          ...getComposeState(),
         }).getRow(0)
       );
     });
 
     it('returns a header, then the contacts, then a blank space if there are contacts', () => {
-      const selectedContacts = [fakeContact(), fakeContact()];
+      const selectedContacts = [
+        getDefaultConversation(),
+        getDefaultConversation(),
+      ];
       const helper = new LeftPaneSetGroupMetadataHelper({
-        groupAvatar: undefined,
-        groupName: '',
-        hasError: false,
-        isCreating: false,
+        ...getComposeState(),
         selectedContacts,
       });
 

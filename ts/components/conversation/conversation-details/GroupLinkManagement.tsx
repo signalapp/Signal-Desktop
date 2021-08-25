@@ -4,14 +4,16 @@
 import React from 'react';
 
 import { ConversationDetailsIcon } from './ConversationDetailsIcon';
+import { SignalService as Proto } from '../../../protobuf';
 import { ConversationType } from '../../../state/ducks/conversations';
 import { LocalizerType } from '../../../types/Util';
 import { PanelRow } from './PanelRow';
 import { PanelSection } from './PanelSection';
-import { AccessControlClass } from '../../../textsecure.d';
+import { Select } from '../../Select';
+
+const AccessControlEnum = Proto.AccessControl.AccessRequired;
 
 export type PropsType = {
-  accessEnum: typeof AccessControlClass.AccessRequired;
   changeHasGroupLink: (value: boolean) => void;
   conversation?: ConversationType;
   copyGroupLink: (groupLink: string) => void;
@@ -22,7 +24,6 @@ export type PropsType = {
 };
 
 export const GroupLinkManagement: React.ComponentType<PropsType> = ({
-  accessEnum,
   changeHasGroupLink,
   conversation,
   copyGroupLink,
@@ -36,17 +37,19 @@ export const GroupLinkManagement: React.ComponentType<PropsType> = ({
   }
 
   const createEventHandler = (handleEvent: (x: boolean) => void) => {
-    return (event: React.ChangeEvent<HTMLSelectElement>) => {
-      handleEvent(event.target.value === 'true');
+    return (value: string) => {
+      handleEvent(value === 'true');
     };
   };
 
   const membersNeedAdminApproval =
-    conversation.accessControlAddFromInviteLink === accessEnum.ADMINISTRATOR;
+    conversation.accessControlAddFromInviteLink ===
+    AccessControlEnum.ADMINISTRATOR;
 
   const hasGroupLink =
     conversation.groupLink &&
-    conversation.accessControlAddFromInviteLink !== accessEnum.UNSATISFIABLE;
+    conversation.accessControlAddFromInviteLink !==
+      AccessControlEnum.UNSATISFIABLE;
   const groupLinkInfo = hasGroupLink ? conversation.groupLink : '';
 
   return (
@@ -57,19 +60,20 @@ export const GroupLinkManagement: React.ComponentType<PropsType> = ({
           label={i18n('ConversationDetails--group-link')}
           right={
             isAdmin ? (
-              <div className="module-conversation-details-select">
-                <select
-                  onChange={createEventHandler(changeHasGroupLink)}
-                  value={String(Boolean(hasGroupLink))}
-                >
-                  <option value="true" aria-label={i18n('on')}>
-                    {i18n('on')}
-                  </option>
-                  <option value="false" aria-label={i18n('off')}>
-                    {i18n('off')}
-                  </option>
-                </select>
-              </div>
+              <Select
+                onChange={createEventHandler(changeHasGroupLink)}
+                options={[
+                  {
+                    text: i18n('on'),
+                    value: 'true',
+                  },
+                  {
+                    text: i18n('off'),
+                    value: 'false',
+                  },
+                ]}
+                value={String(Boolean(hasGroupLink))}
+              />
             ) : null
           }
         />
@@ -112,21 +116,22 @@ export const GroupLinkManagement: React.ComponentType<PropsType> = ({
                 info={i18n('GroupLinkManagement--approve-info')}
                 label={i18n('GroupLinkManagement--approve-label')}
                 right={
-                  <div className="module-conversation-details-select">
-                    <select
-                      onChange={createEventHandler(
-                        setAccessControlAddFromInviteLinkSetting
-                      )}
-                      value={String(membersNeedAdminApproval)}
-                    >
-                      <option value="true" aria-label={i18n('on')}>
-                        {i18n('on')}
-                      </option>
-                      <option value="false" aria-label={i18n('off')}>
-                        {i18n('off')}
-                      </option>
-                    </select>
-                  </div>
+                  <Select
+                    onChange={createEventHandler(
+                      setAccessControlAddFromInviteLinkSetting
+                    )}
+                    options={[
+                      {
+                        text: i18n('on'),
+                        value: 'true',
+                      },
+                      {
+                        text: i18n('off'),
+                        value: 'false',
+                      },
+                    ]}
+                    value={String(membersNeedAdminApproval)}
+                  />
                 }
               />
             </PanelSection>

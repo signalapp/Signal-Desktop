@@ -1,19 +1,20 @@
 // Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { debounce, reduce, uniq, without } from 'lodash';
+import { debounce, uniq, without } from 'lodash';
 import PQueue from 'p-queue';
 
 import dataInterface from './sql/Client';
 import {
   ConversationModelCollectionType,
-  WhatIsThis,
   ConversationAttributesTypeType,
 } from './model-types.d';
-import { SendOptionsType, CallbackResultType } from './textsecure/SendMessage';
 import { ConversationModel } from './models/conversations';
 import { maybeDeriveGroupV2Id } from './groups';
 import { assert } from './util/assert';
+import { isValidGuid } from './util/isValidGuid';
+import { map, reduce } from './util/iterables';
+import { isGroupV1, isGroupV2 } from './util/whatTypeOfConversation';
 
 const MAX_MESSAGE_BODY_LENGTH = 64 * 1024;
 
@@ -100,7 +101,7 @@ export function start(): void {
       };
 
       const newUnreadCount = reduce(
-        this.map((m: ConversationModel) =>
+        map(this, (m: ConversationModel) =>
           canCount(m) ? getUnreadCount(m) : 0
         ),
         (item: number, memo: number) => (item || 0) + memo,
@@ -238,7 +239,7 @@ export class ConversationController {
       }
 
       try {
-        if (conversation.isGroupV1()) {
+        if (isGroupV1(conversation.attributes)) {
           await maybeDeriveGroupV2Id(conversation);
         }
         await saveConversation(conversation.attributes);
@@ -306,6 +307,29 @@ export class ConversationController {
       );
     }
     return conversationId;
+  }
+
+  getOurConversation(): ConversationModel | undefined {
+    const conversationId = this.getOurConversationId();
+    return conversationId ? this.get(conversationId) : undefined;
+  }
+
+  getOurConversationOrThrow(): ConversationModel {
+    const conversation = this.getOurConversation();
+    if (!conversation) {
+      throw new Error(
+        'getOurConversationOrThrow: Failed to fetch our own conversation'
+      );
+    }
+
+    return conversation;
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  areWePrimaryDevice(): boolean {
+    const ourDeviceId = window.textsecure.storage.user.getDeviceId();
+
+    return ourDeviceId === 1;
   }
 
   /**
@@ -557,7 +581,7 @@ export class ConversationController {
       }
 
       let groupV2Id: undefined | string;
-      if (conversation.isGroupV1()) {
+      if (isGroupV1(conversation.attributes)) {
         // eslint-disable-next-line no-await-in-loop
         await maybeDeriveGroupV2Id(conversation);
         groupV2Id = conversation.get('derivedGroupV2Id');
@@ -565,7 +589,7 @@ export class ConversationController {
           groupV2Id,
           'checkForConflicts: expected the group V2 ID to have been derived, but it was falsy'
         );
-      } else if (conversation.isGroupV2()) {
+      } else if (isGroupV2(conversation.attributes)) {
         groupV2Id = conversation.get('groupId');
       }
 
@@ -574,7 +598,7 @@ export class ConversationController {
         if (!existing) {
           byGroupV2Id[groupV2Id] = conversation;
         } else {
-          const logParenthetical = conversation.isGroupV1()
+          const logParenthetical = isGroupV1(conversation.attributes)
             ? ' (derived from a GV1 group ID)'
             : '';
           window.log.warn(
@@ -582,7 +606,10 @@ export class ConversationController {
           );
 
           // Prefer the GV2 group.
-          if (conversation.isGroupV2() && !existing.isGroupV2()) {
+          if (
+            isGroupV2(conversation.attributes) &&
+            !isGroupV2(existing.attributes)
+          ) {
             // eslint-disable-next-line no-await-in-loop
             await this.combineConversations(conversation, existing);
             byGroupV2Id[groupV2Id] = conversation;
@@ -709,7 +736,7 @@ export class ConversationController {
   async getConversationForTargetMessage(
     targetFromId: string,
     targetTimestamp: number
-  ): Promise<boolean | ConversationModel | null | undefined> {
+  ): Promise<ConversationModel | null | undefined> {
     const messages = await getMessagesBySentAt(targetTimestamp, {
       MessageCollection: window.Whisper.MessageCollection,
     });
@@ -720,27 +747,6 @@ export class ConversationController {
     }
 
     return null;
-  }
-
-  async prepareForSend(
-    id: string | undefined,
-    options?: WhatIsThis
-  ): Promise<{
-    wrap: (
-      promise: Promise<CallbackResultType | void | null>
-    ) => Promise<CallbackResultType | void | null>;
-    sendOptions: SendOptionsType | undefined;
-  }> {
-    // id is any valid conversation identifier
-    const conversation = this.get(id);
-    const sendOptions = conversation
-      ? await conversation.getSendOptions(options)
-      : undefined;
-    const wrap = conversation
-      ? conversation.wrapSend.bind(conversation)
-      : async (promise: Promise<CallbackResultType | void | null>) => promise;
-
-    return { wrap, sendOptions };
   }
 
   async getAllGroupsInvolvingId(
@@ -837,6 +843,18 @@ export class ConversationController {
                   draft: draft.slice(0, MAX_MESSAGE_BODY_LENGTH),
                 });
                 updateConversation(conversation.attributes);
+              }
+
+              // Clean up the conversations that have UUID as their e164.
+              const e164 = conversation.get('e164');
+              const uuid = conversation.get('uuid');
+              if (isValidGuid(e164) && uuid) {
+                conversation.set({ e164: undefined });
+                updateConversation(conversation.attributes);
+
+                window.log.info(
+                  `Cleaning up conversation(${uuid}) with invalid e164`
+                );
               }
             } catch (error) {
               window.log.error(

@@ -3,6 +3,7 @@
 
 import { isNumber } from 'lodash';
 import { parseIntOrThrow } from '../util/parseIntOrThrow';
+import { parseIntWithFallback } from '../util/parseIntWithFallback';
 import { getValue, ConfigKeyType } from '../RemoteConfig';
 
 function makeGetter(configKey: ConfigKeyType): (fallback?: number) => number {
@@ -24,6 +25,10 @@ function makeGetter(configKey: ConfigKeyType): (fallback?: number) => number {
 export const getGroupSizeRecommendedLimit = makeGetter(
   'global.groupsv2.maxGroupSize'
 );
+
 export const getGroupSizeHardLimit = makeGetter(
   'global.groupsv2.groupSizeHardLimit'
 );
+
+export const getMaxGroupCallRingSize = (): number =>
+  parseIntWithFallback(getValue('global.calling.maxGroupCallRingSize'), 16);

@@ -14,6 +14,7 @@ export type ActionSpec = {
 };
 
 export type OwnProps = {
+  readonly moduleClassName?: string;
   readonly actions?: Array<ActionSpec>;
   readonly cancelText?: string;
   readonly children?: React.ReactNode;
@@ -22,6 +23,7 @@ export type OwnProps = {
   readonly onClose: () => unknown;
   readonly title?: string | React.ReactNode;
   readonly theme?: Theme;
+  readonly hasXButton?: boolean;
 };
 
 export type Props = OwnProps;
@@ -48,6 +50,7 @@ function getButtonVariant(
 
 export const ConfirmationDialog = React.memo(
   ({
+    moduleClassName,
     actions = [],
     cancelText,
     children,
@@ -56,6 +59,7 @@ export const ConfirmationDialog = React.memo(
     onClose,
     theme,
     title,
+    hasXButton,
   }: Props) => {
     const cancelAndClose = React.useCallback(() => {
       if (onCancel) {
@@ -76,9 +80,16 @@ export const ConfirmationDialog = React.memo(
     const hasActions = Boolean(actions.length);
 
     return (
-      <Modal i18n={i18n} onClose={cancelAndClose} title={title} theme={theme}>
+      <Modal
+        moduleClassName={moduleClassName}
+        i18n={i18n}
+        onClose={cancelAndClose}
+        title={title}
+        theme={theme}
+        hasXButton={hasXButton}
+      >
         {children}
-        <Modal.Footer>
+        <Modal.ButtonFooter>
           <Button
             onClick={handleCancel}
             ref={focusRef}
@@ -101,7 +112,7 @@ export const ConfirmationDialog = React.memo(
               {action.text}
             </Button>
           ))}
-        </Modal.Footer>
+        </Modal.ButtonFooter>
       </Modal>
     );
   }

@@ -55,6 +55,10 @@
     "message": "Preferences…",
     "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
   },
+  "appMenuServices": {
+    "message": "Services",
+    "description": "Application menu item for macOS 'Services'"
+  },
   "appMenuHide": {
     "message": "Hide",
     "description": "Application menu command to hide the window"
@@ -173,6 +177,14 @@
   },
   "avatarMenuViewArchive": {
     "message": "View Archive",
+    "description": "One of the menu options available in the Avatar Popup menu"
+  },
+  "avatarMenuChatColors": {
+    "message": "Chat Color",
+    "description": "One of the menu options available in the Avatar Popup menu"
+  },
+  "avatarMenuUpdateAvailable": {
+    "message": "Update Signal",
     "description": "One of the menu options available in the Avatar Popup menu"
   },
   "loading": {
@@ -605,6 +617,10 @@
       }
     }
   },
+  "decryptionErrorToast": {
+    "message": "Desktop ran into a decryption error. Click to submit a debug log.",
+    "description": "An error popup when we haven't added an error for decryption error."
+  },
   "oneNonImageAtATimeToast": {
     "message": "When including a non-image attachment, the limit is one attachment per message.",
     "description": "An error popup when the user has attempted to add an attachment"
@@ -628,15 +644,15 @@
     "description": "Displayed when the desktop client cannot connect to the server."
   },
   "connecting": {
-    "message": "Connecting",
+    "message": "Connecting...",
     "description": "Displayed when the desktop client is currently connecting to the server."
   },
   "connect": {
-    "message": "Connect",
+    "message": "Click to reconnect.",
     "description": "Shown to allow the user to manually attempt a reconnect."
   },
   "connectingHangOn": {
-    "message": "Shouldn't be long...",
+    "message": "Shouldn't be long",
     "description": "Subtext description for when the client is connecting to the server."
   },
   "offline": {
@@ -654,6 +670,10 @@
   "debugLog": {
     "message": "Debug Log",
     "description": "View menu item to open the debug log (title case)"
+  },
+  "forceUpdate": {
+    "message": "Force Update",
+    "description": "View menu item to force the app to update download and install"
   },
   "helpMenuShowKeyboardShortcuts": {
     "message": "Show Keyboard Shortcuts",
@@ -690,6 +710,10 @@
   "aboutSignalDesktop": {
     "message": "About Signal Desktop",
     "description": "Item under the Help menu, which opens a small about window"
+  },
+  "screenShareWindow": {
+    "message": "Sharing screen",
+    "description": "Title for screen sharing window"
   },
   "speech": {
     "message": "Speech",
@@ -739,6 +763,10 @@
       }
     }
   },
+  "noSearchResults--sms-only": {
+    "message": "SMS/MMS contacts are not available on Desktop.",
+    "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
+  },
   "noSearchResultsInConversation": {
     "message": "No results for \"$searchTerm$\" in $conversationName$",
     "description": "Shown in the search left pane when no results were found",
@@ -771,6 +799,20 @@
   },
   "welcomeToSignal": {
     "message": "Welcome to Signal"
+  },
+  "whatsNew": {
+    "message": "See $whatsNew$ in this update",
+    "description": "Shown in the main window",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "what's new"
+      }
+    }
+  },
+  "viewReleaseNotes": {
+    "message": "what's new",
+    "description": "Clickable link that displays the latest release notes"
   },
   "selectAContact": {
     "message": "Select a contact or group to start chatting."
@@ -925,6 +967,10 @@
     "message": "Photo",
     "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
   },
+  "text": {
+    "message": "Text",
+    "description": "Label for the word 'text'"
+  },
   "cannotUpdate": {
     "message": "Cannot Update",
     "description": "Shown as the title of our update error dialogs on windows"
@@ -977,6 +1023,10 @@
   "accept": {
     "message": "Accept"
   },
+  "done": {
+    "message": "Done",
+    "description": "Label for done"
+  },
   "on": {
     "message": "On",
     "description": "Label for when something is turned on"
@@ -992,9 +1042,6 @@
   "deleteForEveryoneWarning": {
     "message": "This message will be deleted for everyone in the conversation if they’re on a recent version of Signal. They will be able to see that you deleted a message.",
     "description": "Text shown in the confirmation dialog for deleting a message for everyone"
-  },
-  "deleteThisMessage": {
-    "message": "Delete this message"
   },
   "from": {
     "message": "From",
@@ -1105,6 +1152,58 @@
     "message": "Contact Support",
     "description": "Shown on explainer dialog available from chat session refreshed timeline events"
   },
+  "DeliveryIssue--preview": {
+    "message": "Delivery issue",
+    "description": "Shown in left pane preview when message delivery issue happens"
+  },
+  "DeliveryIssue--notification": {
+    "message": "A message from $sender$ couldn’t be delivered",
+    "description": "Shown in timeline when message delivery issue happens",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Alice"
+      }
+    }
+  },
+  "DeliveryIssue--learnMore": {
+    "message": "Learn More",
+    "description": "Shown in timeline when message delivery issue happens, to provide access to a popup info dialog"
+  },
+  "DeliveryIssue--title": {
+    "message": "Delivery Issue",
+    "description": "Shown on explainer dialog available from delivery issue timeline events"
+  },
+  "DeliveryIssue--summary": {
+    "message": "A message, sticker, reaction, read receipt or media couldn’t be delivered to you from $sender$. They may have tried sending it to you directly, or in a group.",
+    "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Alice"
+      }
+    }
+  },
+  "DeliveryIssue--summary--group": {
+    "message": "A message, sticker, reaction, read receipt or media couldn’t be delivered to you from $sender$ in this chat.",
+    "description": "Shown on explainer dialog available from delivery issue timeline events in groups",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Alice"
+      }
+    }
+  },
+  "ChangeNumber--notification": {
+    "message": "$sender$ changed their number to a new number",
+    "description": "Shown in timeline when a member of a conversation changes their phone number",
+    "placeholders": {
+      "sender": {
+        "content": "$1",
+        "example": "Sam"
+      }
+    }
+  },
   "quoteThumbnailAlt": {
     "message": "Thumbnail of image from quoted message",
     "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
@@ -1165,7 +1264,7 @@
     "message": "Link New Device",
     "description": "The menu option shown in Signal iOS to add a new linked device"
   },
-  "deviceName": {
+  "Preferences--device-name": {
     "message": "Device name",
     "description": "The label in settings panel shown for the user-provided name for this desktop instance"
   },
@@ -1197,7 +1296,7 @@
   "installTryAgain": {
     "message": "Try again"
   },
-  "theme": {
+  "Preferences--theme": {
     "message": "Theme",
     "description": "Header for theme settings"
   },
@@ -1219,7 +1318,11 @@
   },
   "calling__call-is-full": {
     "message": "Call is full",
-    "description": "Button label in the call lobby when you can't join because the call is full"
+    "description": "Text in the call lobby when you can't join because the call is full"
+  },
+  "calling__button--video__label": {
+    "message": "Camera",
+    "description": "Label under the video button"
   },
   "calling__button--video-disabled": {
     "message": "Camera disabled",
@@ -1233,6 +1336,10 @@
     "message": "Turn on camera",
     "description": "Button tooltip label for turning on the camera"
   },
+  "calling__button--audio__label": {
+    "message": "Mute",
+    "description": "Label under the audio button"
+  },
   "calling__button--audio-disabled": {
     "message": "Microphone disabled",
     "description": "Button tooltip label when the microphone is disabled"
@@ -1245,15 +1352,31 @@
     "message": "Unmute mic",
     "description": "Button tooltip label for turning on the microphone"
   },
+  "calling__button--presenting__label": {
+    "message": "Share",
+    "description": "Label under the share screen button"
+  },
+  "calling__button--presenting-disabled": {
+    "message": "Presenting disabled",
+    "description": "Button tooltip label for when screen sharing is disabled"
+  },
+  "calling__button--presenting-on": {
+    "message": "Start presenting",
+    "description": "Button tooltip label for starting to share screen"
+  },
+  "calling__button--presenting-off": {
+    "message": "Stop presenting",
+    "description": "Button tooltip label for stopping screen sharing"
+  },
   "calling__your-video-is-off": {
     "message": "Your camera is off",
     "description": "Label in the calling lobby indicating that your camera is off"
   },
-  "calling__lobby-summary--zero": {
+  "calling__pre-call-info--empty-group": {
     "message": "No one else is here",
     "description": "Shown in the calling lobby to describe who is in the call"
   },
-  "calling__lobby-summary--single": {
+  "calling__pre-call-info--1-person-in-call": {
     "message": "$first$ is in this call",
     "description": "Shown in the calling lobby to describe who is in the call",
     "placeholders": {
@@ -1263,11 +1386,11 @@
       }
     }
   },
-  "calling__lobby-summary--self": {
+  "calling__pre-call-info--another-device-in-call": {
     "message": "One of your other devices is in this call",
     "description": "Shown in the calling lobby to describe when it is just you"
   },
-  "calling__lobby-summary--double": {
+  "calling__pre-call-info--2-people-in-call": {
     "message": "$first$ and $second$ are in this call",
     "description": "Shown in the calling lobby to describe who is in the call",
     "placeholders": {
@@ -1281,7 +1404,7 @@
       }
     }
   },
-  "calling__lobby-summary--triple": {
+  "calling__pre-call-info--3-people-in-call": {
     "message": "$first$, $second$, and $third$ are in this call",
     "description": "Shown in the calling lobby to describe who is in the call",
     "placeholders": {
@@ -1299,11 +1422,81 @@
       }
     }
   },
-  "calling__lobby-summary--many": {
+  "calling__pre-call-info--many-people-in-call": {
     "message": "$first$, $second$, and $others$ others are in this call",
     "description": "Shown in the calling lobby to describe who is in the call",
     "placeholders": {
       "first": {
+        "content": "$1",
+        "example": "Sam"
+      },
+      "second": {
+        "content": "$2",
+        "example": "Cayce"
+      },
+      "others": {
+        "content": "$3",
+        "example": "5"
+      }
+    }
+  },
+  "calling__pre-call-info--will-ring-1": {
+    "message": "Signal will ring $person$",
+    "description": "Shown in the calling lobby to describe who will be rung",
+    "placeholders": {
+      "person": {
+        "content": "$1",
+        "example": "Sam"
+      }
+    }
+  },
+  "calling__pre-call-info--will-notify-1": {
+    "message": "$person$ will be notified",
+    "description": "Shown in the calling lobby to describe who will be notified",
+    "placeholders": {
+      "person": {
+        "content": "$1",
+        "example": "Sam"
+      }
+    }
+  },
+  "calling__pre-call-info--will-notify-2": {
+    "message": "$first$ and $second$ will be notified",
+    "description": "Shown in the calling lobby to describe who will be notified",
+    "placeholders": {
+      "first": {
+        "content": "$1",
+        "example": "Sam"
+      },
+      "second": {
+        "content": "$2",
+        "example": "Cayce"
+      }
+    }
+  },
+  "calling__pre-call-info--will-notify-3": {
+    "message": "$first$, $second$, and $third$ will be notified",
+    "description": "Shown in the calling lobby to describe who will be notified",
+    "placeholders": {
+      "first": {
+        "content": "$1",
+        "example": "Sam"
+      },
+      "second": {
+        "content": "$2",
+        "example": "Cayce"
+      },
+      "third": {
+        "content": "$3",
+        "example": "April"
+      }
+    }
+  },
+  "calling__pre-call-info--will-notify-many": {
+    "message": "$first$, $second$, and $others$ others will be notified",
+    "description": "Shown in the calling lobby to describe who will be notified",
+    "placeholders": {
+      "person": {
         "content": "$1",
         "example": "Sam"
       },
@@ -1357,6 +1550,80 @@
     "message": "Scroll down",
     "description": "Label for the \"scroll down\" button in a call's overflow area"
   },
+  "calling__presenting--notification-title": {
+    "message": "You're presenting to everyone.",
+    "description": "Title for the share screen notification"
+  },
+  "calling__presenting--notification-body": {
+    "message": "Click here to return to the call when you're ready to stop presenting.",
+    "description": "Body text for the share screen notification"
+  },
+  "calling__presenting--info": {
+    "message": "Signal is sharing $window$.",
+    "description": "Text that appears in the screen sharing controller to inform person that they are presenting",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Application"
+      }
+    }
+  },
+  "calling__presenting--stop": {
+    "message": "Stop sharing",
+    "description": "Button for stopping screen sharing"
+  },
+  "calling__presenting--you-stopped": {
+    "message": "You stopped presenting",
+    "description": "Toast that appears when someone stops presenting"
+  },
+  "calling__presenting--person-ongoing": {
+    "message": "$name$ is presenting",
+    "description": "Title of call when someone is presenting",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Maddie"
+      }
+    }
+  },
+  "calling__presenting--person-stopped": {
+    "message": "$name$ stopped presenting",
+    "description": "Toast that appears when someone stops presenting",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Maddie"
+      }
+    }
+  },
+  "calling__presenting--permission-title": {
+    "message": "Permission needed",
+    "description": "Shown as the title for the modal that requests screen recording permissions"
+  },
+  "calling__presenting--macos-permission-description": {
+    "message": "Signal needs permission to access your computer's screen recording.",
+    "description": "Shown as the description for the modal that requests screen recording permissions"
+  },
+  "calling__presenting--permission-instruction-step1": {
+    "message": "Go to System Preferences.",
+    "description": "Shown as the description for the modal that requests screen recording permissions"
+  },
+  "calling__presenting--permission-instruction-step2": {
+    "message": "Click on the lock icon on the bottom left and enter your computer’s password.",
+    "description": "Shown as the description for the modal that requests screen recording permissions"
+  },
+  "calling__presenting--permission-instruction-step3": {
+    "message": "On the right, check the box next to Signal. If you don’t see Signal in the list, click the + to add it.",
+    "description": "Shown as the description for the modal that requests screen recording permissions"
+  },
+  "calling__presenting--permission-open": {
+    "message": "Open System Preferences",
+    "description": "The button that opens your system preferences for the needs screen record permissions modal"
+  },
+  "calling__presenting--permission-cancel": {
+    "message": "Dismiss",
+    "description": "The cancel button for the needs screen record permissions modal"
+  },
   "alwaysRelayCallsDescription": {
     "message": "Always relay calls",
     "description": "Description of the always relay calls setting"
@@ -1365,7 +1632,7 @@
     "message": "Relay all calls through the Signal server to avoid revealing your IP address to your contact. Enabling will reduce call quality.",
     "description": "Details describing the always relay calls setting"
   },
-  "permissions": {
+  "Preferences--permissions": {
     "message": "Permissions",
     "description": "Header for permissions section of settings"
   },
@@ -1382,8 +1649,8 @@
     "description": "Header for general options on the settings screen"
   },
   "spellCheckDescription": {
-    "message": "Enable spell check of text entered in message composition box",
-    "description": "Description of the media permission description"
+    "message": "Spell check text entered in message composition box",
+    "description": "Description of the spell check setting"
   },
   "spellCheckWillBeEnabled": {
     "message": "Spell check will be enabled the next time Signal starts.",
@@ -1393,8 +1660,20 @@
     "message": "Spell check will be disabled the next time Signal starts.",
     "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
   },
+  "SystemTraySetting__minimize-to-system-tray": {
+    "message": "Minimize to system tray",
+    "description": "In the settings, shown next to the checkbox option for minimizing to the system tray"
+  },
+  "SystemTraySetting__minimize-to-and-start-in-system-tray": {
+    "message": "Start minimized to tray",
+    "description": "In the settings, shown next to the checkbox option for starting in the system tray"
+  },
+  "autoLaunchDescription": {
+    "message": "Open at computer login",
+    "description": "Description for the automatic launch setting"
+  },
   "clearDataHeader": {
-    "message": "Clear Data",
+    "message": "Clear application data",
     "description": "Header in the settings dialog for the section dealing with data deletion"
   },
   "clearDataExplanation": {
@@ -1505,6 +1784,10 @@
     "message": "Send failed",
     "description": "Shown on outgoing message if it fails to send"
   },
+  "sendPaused": {
+    "message": "Send paused",
+    "description": "Shown on outgoing message if it cannot be sent immediately"
+  },
   "partiallySent": {
     "message": "Partially sent, click for details",
     "description": "Shown on outgoing message if it is partially sent"
@@ -1526,7 +1809,7 @@
     "description": "Warning notification that this version of the app has expired"
   },
   "upgrade": {
-    "message": "Upgrade",
+    "message": "Click to go to signal.org/download",
     "description": "Label text for button to upgrade the app to the latest version"
   },
   "mediaMessage": {
@@ -1538,7 +1821,7 @@
     "description": "Error message displayed when sending to an unregistered user."
   },
   "sync": {
-    "message": "Contacts",
+    "message": "Import contacts",
     "description": "Label for contact and group sync settings"
   },
   "syncExplanation": {
@@ -1657,105 +1940,13 @@
       }
     }
   },
-  "timerOption_0_seconds": {
+  "disappearingMessages__off": {
     "message": "off",
     "description": "Label for option to turn off message expiration in the timer menu"
   },
-  "timerOption_5_seconds": {
-    "message": "5 seconds",
-    "description": "Label for a selectable option in the message expiration timer menu"
-  },
-  "timerOption_10_seconds": {
-    "message": "10 seconds",
-    "description": "Label for a selectable option in the message expiration timer menu"
-  },
-  "timerOption_30_seconds": {
-    "message": "30 seconds",
-    "description": "Label for a selectable option in the message expiration timer menu"
-  },
-  "timerOption_1_minute": {
-    "message": "1 minute",
-    "description": "Label for a selectable option in the message expiration timer menu"
-  },
-  "timerOption_5_minutes": {
-    "message": "5 minutes",
-    "description": "Label for a selectable option in the message expiration timer menu"
-  },
-  "timerOption_30_minutes": {
-    "message": "30 minutes",
-    "description": "Label for a selectable option in the message expiration timer menu"
-  },
-  "timerOption_1_hour": {
-    "message": "1 hour",
-    "description": "Label for a selectable option in the message expiration timer menu"
-  },
-  "timerOption_6_hours": {
-    "message": "6 hours",
-    "description": "Label for a selectable option in the message expiration timer menu"
-  },
-  "timerOption_12_hours": {
-    "message": "12 hours",
-    "description": "Label for a selectable option in the message expiration timer menu"
-  },
-  "timerOption_1_day": {
-    "message": "1 day",
-    "description": "Label for a selectable option in the message expiration timer menu"
-  },
-  "timerOption_1_week": {
-    "message": "1 week",
-    "description": "Label for a selectable option in the message expiration timer menu"
-  },
   "disappearingMessages": {
     "message": "Disappearing messages",
-    "description": "Conversation menu option to enable disappearing messages"
-  },
-  "timerOption_0_seconds_abbreviated": {
-    "message": "off",
-    "description": "Short format indicating current timer setting in the conversation list snippet"
-  },
-  "timerOption_5_seconds_abbreviated": {
-    "message": "5s",
-    "description": "Very short format indicating current timer setting in the conversation header"
-  },
-  "timerOption_10_seconds_abbreviated": {
-    "message": "10s",
-    "description": "Very short format indicating current timer setting in the conversation header"
-  },
-  "timerOption_30_seconds_abbreviated": {
-    "message": "30s",
-    "description": "Very short format indicating current timer setting in the conversation header"
-  },
-  "timerOption_1_minute_abbreviated": {
-    "message": "1m",
-    "description": "Very short format indicating current timer setting in the conversation header"
-  },
-  "timerOption_5_minutes_abbreviated": {
-    "message": "5m",
-    "description": "Very short format indicating current timer setting in the conversation header"
-  },
-  "timerOption_30_minutes_abbreviated": {
-    "message": "30m",
-    "description": "Very short format indicating current timer setting in the conversation header"
-  },
-  "timerOption_1_hour_abbreviated": {
-    "message": "1h",
-    "description": "Very short format indicating current timer setting in the conversation header"
-  },
-  "timerOption_6_hours_abbreviated": {
-    "message": "6h",
-    "description": "Very short format indicating current timer setting in the conversation header"
-  },
-  "timerOption_12_hours_abbreviated": {
-    "message": "12h",
-    "description": "Very short format indicating current timer setting in the conversation header"
-  },
-  "timerOption_1_day_abbreviated": {
-    "message": "1d",
-    "description": "Very short format indicating current timer setting in the conversation header"
-  },
-  "timerOption_1_week_abbreviated": {
-    "message": "1w",
-    "description": "Very short format indicating current timer setting in the conversation header"
+    "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
   },
   "disappearingMessagesDisabled": {
     "message": "Disappearing messages disabled",
@@ -1790,7 +1981,7 @@
     }
   },
   "audioNotificationDescription": {
-    "message": "Play audio notification",
+    "message": "Play notification sounds",
     "description": "Description for audio notification setting"
   },
   "callRingtoneNotificationDescription": {
@@ -1991,6 +2182,10 @@
     "message": "Group name (required)",
     "description": "The placeholder for the group name placeholder"
   },
+  "setGroupMetadata__group-description-placeholder": {
+    "message": "Description",
+    "description": "The placeholder for the group description"
+  },
   "setGroupMetadata__create-group": {
     "message": "Create",
     "description": "The 'create group' button text in the 'set group metadata' left pane screen"
@@ -2004,7 +2199,7 @@
     "description": "Shown in the modal when we can't create a group"
   },
   "updateGroupAttributes__title": {
-    "message": "Edit group name and photo",
+    "message": "Edit group",
     "description": "Shown in the modal when we want to update a group"
   },
   "updateGroupAttributes__error-message": {
@@ -2033,10 +2228,13 @@
     "message": "Relink"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Signal update available"
+    "message": "Update available"
   },
   "autoUpdateNewVersionMessage": {
-    "message": "There is a new version of Signal available."
+    "message": "Click to restart Signal"
+  },
+  "downloadNewVersionMessage": {
+    "message": "Click to download update"
   },
   "autoUpdateNewVersionInstructions": {
     "message": "Press Restart Signal to apply the updates."
@@ -2176,15 +2374,15 @@
   },
   "message--getDescription--disappearing-media": {
     "message": "View-once Media",
-    "description": "Shown in notifications and in the left pane after view-once message is deleted."
+    "description": "Shown in notifications and in the left pane after view-once message is deleted. Also shown when quoting a view once media."
   },
   "message--getDescription--disappearing-photo": {
     "message": "View-once Photo",
-    "description": "Shown in notifications and in the left pane when a message is a view once photo."
+    "description": "Shown in notifications and in the left pane when a message is a view once photo. Also shown when quoting a view once photo."
   },
   "message--getDescription--disappearing-video": {
     "message": "View-once Video",
-    "description": "Shown in notifications and in the left pane when a message is a view once video."
+    "description": "Shown in notifications and in the left pane when a message is a view once video. Also shown when quoting a view once video."
   },
   "message--deletedForEveryone": {
     "message": "This message was deleted.",
@@ -2942,9 +3140,13 @@
       }
     }
   },
-  "MessageRequests--block-and-delete": {
-    "message": "Block and Delete",
-    "description": "Shown as a button to let the user block and delete a message request"
+  "MessageRequests--block-and-report-spam": {
+    "message": "Report Spam and Block",
+    "description": "Shown as a button to let the user block a message request and report spam"
+  },
+  "MessageRequests--block-and-report-spam-success-toast": {
+    "message": "Reported as spam and blocked.",
+    "description": "Shown in a toast when you successfully block a user and report them as spam"
   },
   "MessageRequests--block-direct-confirm-title": {
     "message": "Block $name$?",
@@ -3064,8 +3266,8 @@
       }
     }
   },
-  "ConversationHero--membership-1": {
-    "message": "Member of $group$.",
+  "member-of-1-group": {
+    "message": "Member of $group$",
     "description": "Shown in the conversation hero to indicate this user is a member of a mutual group",
     "placeholders": {
       "group": {
@@ -3074,8 +3276,8 @@
       }
     }
   },
-  "ConversationHero--membership-2": {
-    "message": "Member of $group1$ and $group2$.",
+  "member-of-2-groups": {
+    "message": "Member of $group1$ and $group2$",
     "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups",
     "placeholders": {
       "group1": {
@@ -3088,8 +3290,8 @@
       }
     }
   },
-  "ConversationHero--membership-3": {
-    "message": "Member of $group1$, $group2$, and $group3$.",
+  "member-of-3-groups": {
+    "message": "Member of $group1$, $group2$, and $group3$",
     "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
     "placeholders": {
       "group1": {
@@ -3106,8 +3308,8 @@
       }
     }
   },
-  "ConversationHero--membership-extra": {
-    "message": "Member of $group1$, $group2$, $group3$ and $remainingCount$ more.",
+  "member-of-more-than-3-groups": {
+    "message": "Member of $group1$, $group2$, $group3$ and $remainingCount$ more",
     "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
     "placeholders": {
       "group1": {
@@ -3139,8 +3341,12 @@
     }
   },
   "no-groups-in-common": {
-    "message": "No groups in common.",
+    "message": "No groups in common",
     "description": "Shown to indicate this user is not a member of any groups"
+  },
+  "no-groups-in-common-warning": {
+    "message": "No groups in common. Review requests carefully.",
+    "description": "When a user has no common groups, show this warning"
   },
   "acceptCall": {
     "message": "Answer",
@@ -3316,6 +3522,32 @@
     "message": "Leave call",
     "description": "Title for hang up button"
   },
+  "calling__SelectPresentingSourcesModal--title": {
+    "message": "Share your screen",
+    "description": "Title for the select your screen sharing sources modal"
+  },
+  "calling__SelectPresentingSourcesModal--confirm": {
+    "message": "Share screen",
+    "description": "Confirm button for sharing screen modal"
+  },
+  "calling__SelectPresentingSourcesModal--entireScreen": {
+    "message": "Entire screen",
+    "description": "Title for the select your screen sharing sources modal and 'Entire Screen' source"
+  },
+  "calling__SelectPresentingSourcesModal--screen": {
+    "message": "Screen $id$",
+    "description": "Title for `Screen #N` source in screen sharing sources modal and overlay",
+    "placeholders": {
+      "id": {
+        "content": "$1",
+        "example": "1"
+      }
+    }
+  },
+  "calling__SelectPresentingSourcesModal--window": {
+    "message": "A window",
+    "description": "Title for the select your screen sharing sources modal"
+  },
   "callingDeviceSelection__label--video": {
     "message": "Video",
     "description": "Label for video input selector"
@@ -3339,6 +3571,10 @@
   "muteNotificationsTitle": {
     "message": "Mute notifications",
     "description": "Label for the mute notifications drop-down selector"
+  },
+  "notMuted": {
+    "message": "Not muted",
+    "description": "Label when the conversation is not muted"
   },
   "muteHour": {
     "message": "Mute for one hour",
@@ -3401,6 +3637,18 @@
     "description": "Shown if you click on a sgnl:// link not currently supported by Desktop"
   },
 
+  "GroupV2--cannot-send": {
+    "message": "You cannot send messages to that group.",
+    "description": "Shown in toast when you attempt to forward a message to an announcement only group"
+  },
+  "GroupV2--add--missing-capability": {
+    "message": "These people cannot be added to the group until they upgrade Signal.",
+    "description": "Shown in a confirmation dialog when members who cannot view announcement only group cannot be added"
+  },
+  "GroupV2--cannot-start-group-call": {
+    "message": "Only admins of the group can start a call.",
+    "description": "Shown in toast when a non-admin starts a group call in an announcements only group"
+  },
   "GroupV2--join--invalid-link--title": {
     "message": "Invalid Link",
     "description": "Shown if we are unable to parse a group link"
@@ -3500,7 +3748,7 @@
     "description": "Shown if something went wrong when you try to join via a group link"
   },
   "GroupV2--join--general-join-failure": {
-    "message": "Joining via this link failed. Try joining again later.",
+    "message": "Couldn't join group. Try again later.",
     "description": "Shown if something went wrong when you try to join via a group link"
   },
 
@@ -4561,6 +4809,80 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
 
+  "GroupV2--description--remove--you": {
+    "message": "You removed the group description.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "GroupV2--description--remove--other": {
+    "message": "$memberName$ removed the group description.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "adminName": {
+        "content": "$1",
+        "example": "Alice"
+      }
+    }
+  },
+  "GroupV2--description--remove--unknown": {
+    "message": "The group description was removed.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "GroupV2--description--change--you": {
+    "message": "You changed the group description.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "GroupV2--description--change--other": {
+    "message": "$memberName$ changed the group description.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "adminName": {
+        "content": "$1",
+        "example": "Alice"
+      }
+    }
+  },
+  "GroupV2--description--change--unknown": {
+    "message": "The group description was changed.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+
+  "GroupV2--announcements--admin--you": {
+    "message": "You changed the group settings to only allow admins to send messages.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "GroupV2--announcements--admin--other": {
+    "message": "$memberName$ changed the group settings to only allow admins to send messages.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "adminName": {
+        "content": "$1",
+        "example": "Alice"
+      }
+    }
+  },
+  "GroupV2--announcements--admin--unknown": {
+    "message": "The group was changed to only allow admins to send messages.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "GroupV2--announcements--member--you": {
+    "message": "You changed the group settings to allow all members to send messages.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "GroupV2--announcements--member--other": {
+    "message": "$memberName$ changed the group settings to allow all members to send messages.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "adminName": {
+        "content": "$1",
+        "example": "Alice"
+      }
+    }
+  },
+  "GroupV2--announcements--member--unknown": {
+    "message": "The group was changed to allow all members to send messages.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+
   "GroupV1--Migration--disabled": {
     "message": "Upgrade this group to activate new features like @mentions and admins. Members who have not shared their name or photo in this group will be invited to join. $learnMore$",
     "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1).",
@@ -4695,8 +5017,20 @@
     "message": "Attach file",
     "description": "Aria label for file attachment button in composition area"
   },
+  "CompositionArea--sms-only__title": {
+    "message": "This person isn’t using Signal",
+    "description": "Title for the composition area for the SMS-only contact"
+  },
+  "CompositionArea--sms-only__body": {
+    "message": "Signal Desktop does not support messaging non-Signal contacts. Ask this person to install Signal for a more secure messaging experience.",
+    "description": "Body for the composition area for the SMS-only contact"
+  },
+  "CompositionArea--sms-only__spinner-label": {
+    "message": "Checking contact's registration status",
+    "description": "Displayed while checking if the contact is SMS-only"
+  },
   "countMutedConversationsDescription": {
-    "message": "Count muted conversations in badge count",
+    "message": "Include muted conversations in badge count",
     "description": "Description for counting muted conversations in badge setting"
   },
   "ContactModal--message": {
@@ -4735,6 +5069,10 @@
     "message": "Remove from group",
     "description": "Button text for remove from group button in Group Contact Details modal"
   },
+  "showChatColorEditor": {
+    "message": "Chat color",
+    "description": "This is a button in the conversation context menu to show the chat color editor"
+  },
   "showConversationDetails": {
     "message": "Group settings",
     "description": "This is a button in the conversation context menu to show group settings"
@@ -4751,12 +5089,16 @@
     "message": "When enabled, messages sent and received in this group will disappear after they've been seen.",
     "description": "This is the info about the disappearing messages setting"
   },
+  "ConversationDetails--notifications": {
+    "message": "Notifications",
+    "description": "This is the label for notifications in the conversation details screen"
+  },
   "ConversationDetails--group-info-label": {
     "message": "Who can edit group info",
     "description": "This is the label for the 'who can edit the group' panel"
   },
   "ConversationDetails--group-info-info": {
-    "message": "Choose who can edit group name, avatar, and disappearing messages timer.",
+    "message": "Choose who can edit group name, photo, description, and disappearing messages timer.",
     "description": "This is the additional info for the 'who can edit the group' panel"
   },
   "ConversationDetails--add-members-label": {
@@ -4766,6 +5108,14 @@
   "ConversationDetails--add-members-info": {
     "message": "Choose who can add members to this group.",
     "description": "This is the additional info for the 'who can add members' panel"
+  },
+  "ConversationDetails--announcement-label": {
+    "message": "Who can send messages",
+    "description": "This is the additional info for the 'who can send messages' panel"
+  },
+  "ConversationDetails--announcement-info": {
+    "message": "Choose who can send messages to the group.",
+    "description": "This is the additional info for the 'who can send mesages' panel"
   },
   "ConversationDetails--requests-and-invites": {
     "message": "Requests & Invites",
@@ -4848,6 +5198,22 @@
   "ConversationDetailsMembershipList--show-all": {
     "message": "See all",
     "description": "This is a button on the conversation details to show all members"
+  },
+  "ConversationNotificationsSettings__mentions__label": {
+    "message": "Mentions",
+    "description": "In the conversation notifications settings, this is the label for the mentions option"
+  },
+  "ConversationNotificationsSettings__mentions__info": {
+    "message": "Receive notifications when you're mentioned in muted chats",
+    "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
+  },
+  "ConversationNotificationsSettings__mentions__select__always-notify": {
+    "message": "Always notify",
+    "description": "In the conversation notifications settings, this is the option that always notifies you for @mentions"
+  },
+  "ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
+    "message": "Don't notify if muted",
+    "description": "In the conversation notifications settings, this is the option that doesn't notify you for @mentions if the conversation is muted"
   },
   "GroupLinkManagement--clipboard": {
     "message": "Group link copied.",
@@ -5007,6 +5373,10 @@
     "message": "Add a group photo",
     "description": "The label for the avatar uploader when no group photo is selected"
   },
+  "AvatarInput--no-photo-label--profile": {
+    "message": "Add a photo",
+    "description": "The label for the avatar uploader when no profile photo is selected"
+  },
   "AvatarInput--change-photo-label": {
     "message": "Change photo",
     "description": "The label for the avatar uploader when a photo is selected"
@@ -5164,5 +5534,621 @@
   "ForwardMessageModal--continue": {
     "message": "Continue",
     "description": "aria-label for the 'next' button in the forward a message modal dialog"
+  },
+  "MessageRequestWarning__learn-more": {
+    "message": "Learn more",
+    "description": "Shown on the message request warning. Clicking this button will open a dialog with more information"
+  },
+  "MessageRequestWarning__dialog__details": {
+    "message": "You have no groups in common with this person. Review requests carefully before accepting to avoid unwanted messages.",
+    "description": "Shown in the message request warning dialog. Gives more information about message requests"
+  },
+  "MessageRequestWarning__dialog__learn-even-more": {
+    "message": "About Message Requests",
+    "description": "Shown in the message request warning dialog. Clicking this button will open a page on Signal's support site"
+  },
+  "ContactSpoofing__same-name": {
+    "message": "Review requests carefully. Signal found another contact with the same name. $link$",
+    "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else",
+    "placeholders": {
+      "link": {
+        "content": "$1",
+        "example": "Review request"
+      }
+    }
+  },
+  "ContactSpoofing__same-name-in-group": {
+    "message": "$count$ group members have the same name. $link$",
+    "description": "Shown in the timeline warning when you multiple group members have the same name",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      },
+      "link": {
+        "content": "$2",
+        "example": "Tap to review"
+      }
+    }
+  },
+  "ContactSpoofing__same-name__link": {
+    "message": "Review request",
+    "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else"
+  },
+  "ContactSpoofing__same-name-in-group__link": {
+    "message": "Click to review",
+    "description": "Shown in the timeline warning when you multiple group members have the same name"
+  },
+  "ContactSpoofingReviewDialog__title": {
+    "message": "Review request",
+    "description": "Title for the contact name spoofing review dialog"
+  },
+  "ContactSpoofingReviewDialog__description": {
+    "message": "If you're not sure who the request is from, review the contacts below and take action.",
+    "description": "Description for the contact spoofing review dialog"
+  },
+  "ContactSpoofingReviewDialog__possibly-unsafe-title": {
+    "message": "Request",
+    "description": "Header in the contact spoofing review dialog, shown above the potentially-unsafe user"
+  },
+  "ContactSpoofingReviewDialog__safe-title": {
+    "message": "Your contact",
+    "description": "Header in the contact spoofing review dialog, shown above the \"safe\" user"
+  },
+  "ContactSpoofingReviewDialog__group__title": {
+    "message": "Review members",
+    "description": "Title for the contact name spoofing review dialog in groups"
+  },
+  "ContactSpoofingReviewDialog__group__description": {
+    "message": "$count$ group members have similar names. Review the members below or choose to take action.",
+    "description": "Description for the group contact spoofing review dialog"
+  },
+  "ContactSpoofingReviewDialog__group__members-header": {
+    "message": "Members",
+    "description": "Header in the group contact spoofing review dialog. After this header, there will be a list of members"
+  },
+  "ContactSpoofingReviewDialog__group__name-change-info": {
+    "message": "Recently changed their profile name from $oldName$ to $newName$",
+    "description": "In the group contact spoofing review dialog, this text is shown when someone has changed their name recently",
+    "placeholders": {
+      "oldName": {
+        "content": "$1",
+        "example": "Jane Doe"
+      },
+      "newName": {
+        "content": "$2",
+        "example": "Doe Jane"
+      }
+    }
+  },
+  "RemoveGroupMemberConfirmation__remove-button": {
+    "message": "Remove from group",
+    "description": "When confirming the removal of a group member, show this text in the button"
+  },
+  "RemoveGroupMemberConfirmation__description": {
+    "message": "Remove \"$name$\" from the group?",
+    "description": "When confirming the removal of a group member, show this text in the dialog",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Jane Doe"
+      }
+    }
+  },
+  "CaptchaDialog__title": {
+    "message": "Verify to continue messaging",
+    "description": "Header in the captcha dialog"
+  },
+  "CaptchaDialog__first-paragraph": {
+    "message": "To help prevent spam on Signal, please complete verification.",
+    "description": "First paragraph in the captcha dialog"
+  },
+  "CaptchaDialog__second-paragraph": {
+    "message": "After verifying, you can continue messaging. Any paused messages will automatically be sent.",
+    "description": "First paragraph in the captcha dialog"
+  },
+  "CaptchaDialog--can-close__title": {
+    "message": "Continue without verifying?",
+    "description": "Header in the captcha dialog that can be closed"
+  },
+  "CaptchaDialog--can-close__body": {
+    "message": "If you choose to skip verification, you may miss messages from other people and your messages may fail to send.",
+    "description": "Body of the captcha dialog that can be closed"
+  },
+  "CaptchaDialog--can_close__skip-verification": {
+    "message": "Skip verification",
+    "description": "Skip button of the captcha dialog that can be closed"
+  },
+  "verificationComplete": {
+    "message": "Verification complete.",
+    "description": "Displayed after successful captcha"
+  },
+  "verificationFailed": {
+    "message": "Verification failed. Please retry later.",
+    "description": "Displayed after unsuccessful captcha"
+  },
+  "deleteForEveryoneFailed": {
+    "message": "Failed to delete message for everyone. Please retry later.",
+    "description": "Displayed when delete-for-everyone has failed to send to all recepients"
+  },
+  "ChatColorPicker__delete--title": {
+    "message": "Delete color",
+    "description": "Confirm title for deleting custom color"
+  },
+  "ChatColorPicker__delete--message": {
+    "message": "This custom color is used in $num$ chats. Do you want to delete it for all chats?",
+    "description": "Confirm message for deleting custom color",
+    "placeholders": {
+      "num": {
+        "content": "$1",
+        "example": "5"
+      }
+    }
+  },
+  "ChatColorPicker__global-chat-color": {
+    "message": "Global Chat Color",
+    "description": "Modal title for the chat color picker and editor for all conversations"
+  },
+  "ChatColorPicker__menu-title": {
+    "message": "Chat Color",
+    "description": "View title for the chat color picker and editor"
+  },
+  "ChatColorPicker__reset": {
+    "message": "Reset chat color",
+    "description": "Button label for resetting chat colors"
+  },
+  "ChatColorPicker__resetDefault": {
+    "message": "Reset Chat Colors",
+    "description": "Confirmation dialog title for resetting all chat colors or only the global default one"
+  },
+  "ChatColorPicker__resetAll": {
+    "message": "Reset all chat colors",
+    "description": "Button label for resetting all chat colors"
+  },
+  "ChatColorPicker__confirm-reset-default": {
+    "message": "Reset default",
+    "description": "Button label for resetting only global chat color"
+  },
+  "ChatColorPicker__confirm-reset": {
+    "message": "Reset",
+    "description": "Confirm button label for resetting chat colors"
+  },
+  "ChatColorPicker__confirm-reset-message": {
+    "message": "Would you like to override all chat colors?",
+    "description": "Modal message text for confirming resetting of chat colors"
+  },
+  "ChatColorPicker__custom-color--label": {
+    "message": "Show custom color editor",
+    "description": "aria-label for custom color editor button"
+  },
+  "ChatColorPicker__sampleBubble1": {
+    "message": "Here's a preview of the chat color.",
+    "description": "An example message bubble for selecting the chat color"
+  },
+  "ChatColorPicker__sampleBubble2": {
+    "message": "Another bubble.",
+    "description": "An example message bubble for selecting the chat color"
+  },
+  "ChatColorPicker__sampleBubble3": {
+    "message": "The color is visible to only you.",
+    "description": "An example message bubble for selecting the chat color"
+  },
+  "ChatColorPicker__context--edit": {
+    "message": "Edit color",
+    "description": "Option in the custom color bubble context menu"
+  },
+  "ChatColorPicker__context--duplicate": {
+    "message": "Duplicate",
+    "description": "Option in the custom color bubble context menu"
+  },
+  "ChatColorPicker__context--delete": {
+    "message": "Delete",
+    "description": "Option in the custom color bubble context menu"
+  },
+  "CustomColorEditor__solid": {
+    "message": "Solid",
+    "description": "Tab label for selecting solid colors"
+  },
+  "CustomColorEditor__gradient": {
+    "message": "Gradient",
+    "description": "Tab label for selecting a gradient"
+  },
+  "CustomColorEditor__hue": {
+    "message": "Hue",
+    "description": "Label for the hue slider"
+  },
+  "CustomColorEditor__saturation": {
+    "message": "Saturation",
+    "description": "Label for the saturation slider"
+  },
+  "CustomColorEditor__title": {
+    "message": "Custom Color",
+    "description": "Modal title for the custom color editor"
+  },
+  "customDisappearingTimeOption": {
+    "message": "Custom time...",
+    "description": "Text for an option in Disappearing Messages menu and Conversation Details Disappearing Messages setting when no user value is available"
+  },
+  "selectedCustomDisappearingTimeOption": {
+    "message": "Custom time",
+    "description": "Text for an option in Conversation Details Disappearing Messages setting when user previously selected custom time"
+  },
+  "DisappearingTimeDialog__title": {
+    "message": "Custom Time",
+    "description": "Title for the custom disappearing message timeout dialog"
+  },
+  "DisappearingTimeDialog__body": {
+    "message": "Choose a custom time for disappearing messages.",
+    "description": "Body for the custom disappearing message timeout dialog"
+  },
+  "DisappearingTimeDialog__set": {
+    "message": "Set",
+    "description": "Text for the dialog button confirming the custom disappearing message timeout"
+  },
+  "DisappearingTimeDialog__seconds": {
+    "message": "Seconds",
+    "description": "Name of the 'seconds' unit select for the custom disappearing message timeout dialog"
+  },
+  "DisappearingTimeDialog__minutes": {
+    "message": "Minutes",
+    "description": "Name of the 'minutes' unit select for the custom disappearing message timeout dialog"
+  },
+  "DisappearingTimeDialog__hours": {
+    "message": "Hours",
+    "description": "Name of the 'hours' unit select for the custom disappearing message timeout dialog"
+  },
+  "DisappearingTimeDialog__days": {
+    "message": "Days",
+    "description": "Name of the 'days' unit select for the custom disappearing message timeout dialog"
+  },
+  "DisappearingTimeDialog__weeks": {
+    "message": "Weeks",
+    "description": "Name of the 'weeks' unit select for the custom disappearing message timeout dialog"
+  },
+  "settings__DisappearingMessages__footer": {
+    "message": "Set a default disappearing message timer for all new chats started by you.",
+    "description": "Footer for the Disappearing Messages settings section"
+  },
+  "settings__DisappearingMessages__timer__label": {
+    "message": "Default timer for new chats",
+    "description": "Label for the Disapearring Messages default timer setting"
+  },
+  "UniversalTimerNotification__text": {
+    "message": "The disappearing message time will be set to $timeValue$ when you message them.",
+    "description": "A message displayed when default disappearing message timeout is about to be applied",
+    "placeholders": {
+      "timeValue": {
+        "content": "$1",
+        "example": "1 week"
+      }
+    }
+  },
+  "ErrorBoundaryNotification__text": {
+    "message": "Couldn't display this message. Click to submit a debug log.",
+    "description": "An error notification displayed when message fails to render due to an internal error"
+  },
+  "GroupDescription__read-more": {
+    "message": "read more",
+    "description": "Button text when the group description is too long"
+  },
+  "EditConversationAttributesModal__description-warning": {
+    "message": "Group descriptions will be visible to members of this group and people who have been invited.",
+    "description": "Label text shown when editing group description"
+  },
+  "ConversationDetailsHeader--add-group-description": {
+    "message": "Add group description...",
+    "description": "Placeholder text in the details header for those that can edit the group description"
+  },
+  "MediaQualitySelector--button": {
+    "message": "Select media quality",
+    "description": "aria-label for the media quality selector button"
+  },
+  "MediaQualitySelector--title": {
+    "message": "Media Quality",
+    "description": "Popup selector title"
+  },
+  "MediaQualitySelector--standard-quality-title": {
+    "message": "Standard",
+    "description": "Title for option for standard quality"
+  },
+  "MediaQualitySelector--standard-quality-description": {
+    "message": "Faster, less data",
+    "description": "Description of standard quality selector"
+  },
+  "MediaQualitySelector--high-quality-title": {
+    "message": "High",
+    "description": "Title for option for high quality"
+  },
+  "MediaQualitySelector--high-quality-description": {
+    "message": "Slower, more data",
+    "description": "Description of high quality selector"
+  },
+  "MessageDetailsHeader--Failed": {
+    "message": "Not sent",
+    "description": "In the message details screen, shown above contacts where the message failed to deliver"
+  },
+  "MessageDetailsHeader--Pending": {
+    "message": "Pending",
+    "description": "In the message details screen, shown above contacts where the message is still sending"
+  },
+  "MessageDetailsHeader--Sent": {
+    "message": "Sent to",
+    "description": "In the message details screen, shown above contacts where the message has been sent (but not delivered, read, or viewed)"
+  },
+  "MessageDetailsHeader--Delivered": {
+    "message": "Delivered to",
+    "description": "In the message details screen, shown above contacts who have received your message"
+  },
+  "MessageDetailsHeader--Read": {
+    "message": "Read by",
+    "description": "In the message details screen, shown above contacts who have read this message"
+  },
+  "MessageDetailsHeader--Viewed": {
+    "message": "Viewed by",
+    "description": "In the message details screen, shown above contacts who have viewed this message"
+  },
+  "ProfileEditor--about": {
+    "message": "About",
+    "description": "Default text for about field"
+  },
+  "ProfileEditor--about-placeholder": {
+    "message": "Write something about yourself...",
+    "description": "Placeholder text for about input field"
+  },
+  "ProfileEditor--first-name": {
+    "message": "First Name (Required)",
+    "description": "Placeholder text for first name field"
+  },
+  "ProfileEditor--last-name": {
+    "message": "Last Name (Optional)",
+    "description": "Placeholder text for last name field"
+  },
+  "ConfirmDiscardDialog--discard": {
+    "message": "Would you like to discard these changes?",
+    "description": "ConfirmationDialog text for discarding changes"
+  },
+  "ProfileEditor--info": {
+    "message": "Your profile is encrypted. Your profile and changes to it will be visible to your contacts and when you start or accept new chats. $learnMore$",
+    "description": "Information shown at the bottom of the profile editor section",
+    "placeholders": {
+      "learnMore": {
+        "content": "$1",
+        "example": "Learn More."
+      }
+    }
+  },
+  "ProfileEditor--learnMore": {
+    "message": "Learn More",
+    "description": "Text that links to a support article"
+  },
+  "Bio--speak-freely": {
+    "message": "Speak Freely",
+    "description": "A default bio option"
+  },
+  "Bio--encrypted": {
+    "message": "Encrypted",
+    "description": "A default bio option"
+  },
+  "Bio--free-to-chat": {
+    "message": "Free to chat",
+    "description": "A default bio option"
+  },
+  "Bio--coffee-lover": {
+    "message": "Coffee lover",
+    "description": "A default bio option"
+  },
+  "Bio--taking-break": {
+    "message": "Taking a break",
+    "description": "A default bio option"
+  },
+  "ProfileEditorModal--profile": {
+    "message": "Profile",
+    "description": "Title for profile editing"
+  },
+  "ProfileEditorModal--name": {
+    "message": "Your Name",
+    "description": "Title for editing your name"
+  },
+  "ProfileEditorModal--about": {
+    "message": "About",
+    "description": "Title for about editing"
+  },
+  "ProfileEditorModal--error": {
+    "message": "Your profile could not be updated. Please try again.",
+    "description": "Error message when something goes wrong updating your profile."
+  },
+  "AnnouncementsOnlyGroupBanner--modal": {
+    "message": "Message an admin",
+    "description": "Modal title for the list of admins in a group"
+  },
+  "AnnouncementsOnlyGroupBanner--announcements-only": {
+    "message": "Only $admins$ can send messages",
+    "description": "Displayed if sending of messages is disabled to non-admins",
+    "placeholders": {
+      "admins": {
+        "content": "$1",
+        "example": "admins"
+      }
+    }
+  },
+  "AnnouncementsOnlyGroupBanner--admins": {
+    "message": "admins",
+    "description": "Clickable text describing administrators of a group, used in the message an admin label"
+  },
+  "AvatarEditor--choose": {
+    "message": "Select an avatar",
+    "description": "Label for the avatar selector"
+  },
+  "AvatarColorPicker--choose": {
+    "message": "Choose a color",
+    "description": "Label for when you need to choose your fighter, err color"
+  },
+  "LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
+    "message": "Group Avatar",
+    "description": "Title for the avatar picker in the group creation flow"
+  },
+  "Preferences__button--general": {
+    "message": "General",
+    "description": "Button to switch the settings view"
+  },
+  "Preferences__button--appearance": {
+    "message": "Appearance",
+    "description": "Button to switch the settings view"
+  },
+  "Preferences__button--chats": {
+    "message": "Chats",
+    "description": "Button to switch the settings view"
+  },
+  "Preferences__button--calls": {
+    "message": "Calls",
+    "description": "Button to switch the settings view"
+  },
+  "Preferences__button--notifications": {
+    "message": "Notifications",
+    "description": "Button to switch the settings view"
+  },
+  "Preferences__button--privacy": {
+    "message": "Privacy",
+    "description": "Button to switch the settings view"
+  },
+  "Preferences--lastSynced": {
+    "message": "Last import at $date$ $time$",
+    "description": "Label for date and time of last sync operation",
+    "placeholders": {
+      "date": {
+        "content": "$1",
+        "example": "6/9/2020"
+      },
+      "time": {
+        "content": "$2",
+        "example": "7:37:25 PM"
+      }
+    }
+  },
+  "Preferences--system": {
+    "message": "System",
+    "description": "Title for system type settings"
+  },
+  "Preferences--zoom": {
+    "message": "Zoom level",
+    "description": "Label for changing the zoom level"
+  },
+  "Preferences__link-previews--title": {
+    "message": "Generate link previews",
+    "description": "Title for the generate link previews setting"
+  },
+  "Preferences__link-previews--description": {
+    "message": "To change this setting, open the Signal app on your mobile device and navigate to Settings > Chats",
+    "description": "Description for the generate link previews setting"
+  },
+  "Preferences--advanced": {
+    "message": "Advanced",
+    "description": "Title for advanced settings"
+  },
+  "Preferences--notification-content": {
+    "message": "Notification content",
+    "description": "Label for the notification content setting select box"
+  },
+  "Preferences--blocked": {
+    "message": "Blocked",
+    "description": "Label for blocked contacts setting"
+  },
+  "Preferences--blocked-count-singular": {
+    "message": "$num$ contact",
+    "description": "Number of contacts blocked singular",
+    "placeholders": {
+      "num": {
+        "content": "$1",
+        "example": "1"
+      }
+    }
+  },
+  "Preferences--blocked-count-plural": {
+    "message": "$num$ contacts",
+    "description": "Number of contacts blocked plural",
+    "placeholders": {
+      "num": {
+        "content": "$1",
+        "example": "20"
+      }
+    }
+  },
+  "Preferences__who-can--title": {
+    "message": "Who can...",
+    "description": "Title for the 'who can do X' setting"
+  },
+  "Preferences__privacy--description": {
+    "message": "To change these settings, open the Signal app on your mobile device and navigate to Settings > Privacy",
+    "description": "Description for the 'who can do X' setting"
+  },
+  "Preferences__who-can--everybody": {
+    "message": "Everybody",
+    "description": "Option for who can see my X select"
+  },
+  "Preferences__who-can--contacts": {
+    "message": "My Contacts",
+    "description": "Option for who can see my X select"
+  },
+  "Preferences__who-can--nobody": {
+    "message": "Nobody",
+    "description": "Option for who can see my X select"
+  },
+  "Preferences--messaging": {
+    "message": "Messaging",
+    "description": "Title for the messaging settings"
+  },
+  "Preferences--see-me": {
+    "message": "See my phone number",
+    "description": "Label for the see my phone number setting"
+  },
+  "Preferences--find-me": {
+    "message": "Find me by my phone number",
+    "description": "Label for the find me by my phone number setting"
+  },
+  "Preferences--read-receipts": {
+    "message": "Read receipts",
+    "description": "Label for the read receipts setting"
+  },
+  "Preferences--typing-indicators": {
+    "message": "Typing indicators",
+    "description": "Label for the typing indicators setting"
+  },
+  "Preferences--updates": {
+    "message": "Updates",
+    "description": "Header for settings having to do with updates"
+  },
+  "Preferences__download-update": {
+    "message": "Automatically download updates",
+    "description": "Label for checkbox for the auto download updates setting"
+  },
+  "DialogUpdate--version-available": {
+    "message": "Update to version $version$ available",
+    "description": "Tooltip for new update available",
+    "placeholders": {
+      "status": {
+        "content": "$1",
+        "example": "v7.7.7"
+      }
+    }
+  },
+  "WhatsNew__v5.15--1": {
+    "message": "No that's not speck of dust you need to flick off your monitor, there's now a dot for unplayed incoming audio messages.",
+    "description": "Release notes for v5.15"
+  },
+  "WhatsNew__v5.15--2": {
+    "message": "The calling lobby got some remodeling and renovations done and we didn't even have to refinance.",
+    "description": "Release notes for v5.15"
+  },
+  "WhatsNew__v5.15--3": {
+    "message": "The new preferences window is better and faster. Go ahead and change your zoom level, toggle the theme, set a custom disappearing timer.",
+    "description": "Release notes for v5.15"
+  },
+  "WhatsNew__v5.15--4": {
+    "message": "You can now choose when to download and apply new updates for Signal. The dialogs got a small makeover too. Check out the setting in the new preferences window.",
+    "description": "Release notes for v5.15"
+  },
+  "WhatsNew__v5.15--5": {
+    "message": "Squashed lots of bugs and there are some performance improvements as well. Thank you all for your reports!",
+    "description": "Release notes for v5.15"
   }
 }

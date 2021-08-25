@@ -3,7 +3,7 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import { useRestoreFocus } from '../../util/hooks';
+import { useRestoreFocus } from '../../util/hooks/useRestoreFocus';
 import { StickerPackType, StickerType } from '../../state/ducks/stickers';
 import { LocalizerType } from '../../types/Util';
 
@@ -70,7 +70,6 @@ export const StickerPicker = React.memo(
       }: Props,
       ref
     ) => {
-      const focusRef = React.useRef<HTMLButtonElement>(null);
       const tabIds = React.useMemo(
         () => ['recents', ...packs.map(({ id }) => id)],
         [packs]
@@ -124,7 +123,7 @@ export const StickerPicker = React.memo(
       }, [onClose]);
 
       // Focus popup on after initial render, restore focus on teardown
-      useRestoreFocus(focusRef);
+      const [focusRef] = useRestoreFocus();
 
       const isEmpty = stickers.length === 0;
       const addPackRef = isEmpty ? focusRef : undefined;

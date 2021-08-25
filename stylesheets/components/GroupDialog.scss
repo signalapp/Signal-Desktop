@@ -43,10 +43,10 @@
 
     &:focus {
       @include keyboard-mode {
-        background-color: $ultramarine-ui-light;
+        background-color: $color-ultramarine;
       }
       @include dark-keyboard-mode {
-        background-color: $ultramarine-ui-dark;
+        background-color: $color-ultramarine-light;
       }
     }
   }

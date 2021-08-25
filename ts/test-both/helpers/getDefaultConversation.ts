@@ -4,6 +4,7 @@
 import { v4 as generateUuid } from 'uuid';
 import { sample } from 'lodash';
 import { ConversationType } from '../../state/ducks/conversations';
+import { getRandomColor } from './getRandomColor';
 
 const FIRST_NAMES = [
   'James',
@@ -311,8 +312,8 @@ const LAST_NAMES = [
   'Jimenez',
 ];
 
-const getFirstName = (): string => sample(FIRST_NAMES) || 'Test';
-const getLastName = (): string => sample(LAST_NAMES) || 'Test';
+export const getFirstName = (): string => sample(FIRST_NAMES) || 'Test';
+export const getLastName = (): string => sample(LAST_NAMES) || 'Test';
 
 export function getDefaultConversation(
   overrideProps: Partial<ConversationType> = {}
@@ -321,12 +322,16 @@ export function getDefaultConversation(
   const lastName = getLastName();
 
   return {
+    acceptedMessageRequest: true,
+    e164: '+1300555000',
+    color: getRandomColor(),
+    firstName,
     id: generateUuid(),
     isGroupV2Capable: true,
+    isMe: false,
     lastUpdated: Date.now(),
     markedUnread: Boolean(overrideProps.markedUnread),
-    e164: '+1300555000',
-    firstName,
+    sharedGroupNames: [],
     title: `${firstName} ${lastName}`,
     type: 'direct' as const,
     uuid: generateUuid(),

@@ -12,8 +12,10 @@
  * https://developer.mozilla.org/en-US/docs/Web/API/EventTarget
  */
 
+export type EventHandler = (event: any) => unknown;
+
 export default class EventTarget {
-  listeners?: { [type: string]: Array<Function> };
+  listeners?: { [type: string]: Array<EventHandler> };
 
   dispatchEvent(ev: Event): Array<unknown> {
     if (!(ev instanceof Event)) {
@@ -36,7 +38,7 @@ export default class EventTarget {
     return results;
   }
 
-  addEventListener(eventName: string, callback: Function): void {
+  addEventListener(eventName: string, callback: EventHandler): void {
     if (typeof eventName !== 'string') {
       throw new Error('First argument expects a string');
     }
@@ -54,7 +56,7 @@ export default class EventTarget {
     this.listeners[eventName] = listeners;
   }
 
-  removeEventListener(eventName: string, callback: Function): void {
+  removeEventListener(eventName: string, callback: EventHandler): void {
     if (typeof eventName !== 'string') {
       throw new Error('First argument expects a string');
     }

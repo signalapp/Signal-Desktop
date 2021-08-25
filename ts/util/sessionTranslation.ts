@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { get, isFinite, isInteger, isString } from 'lodash';
-import { HKDF } from 'libsignal-client';
 
 import { signal } from '../protobuf/compiled';
 import {
   bytesFromString,
+  deriveSecrets,
   fromEncodedBinaryToArrayBuffer,
   typedArrayToArrayBuffer,
 } from '../Crypto';
@@ -142,7 +142,8 @@ function toProtobufSession(
   proto.localIdentityPublic = new Uint8Array(ourData.identityKeyPublic);
   proto.localRegistrationId = ourData.registrationId;
 
-  proto.previousCounter = getInteger(session, 'currentRatchet.previousCounter');
+  proto.previousCounter =
+    getInteger(session, 'currentRatchet.previousCounter') + 1;
   proto.remoteIdentityPublic = binaryToUint8Array(
     session,
     'indexInfo.remoteIdentityKey',
@@ -150,7 +151,7 @@ function toProtobufSession(
   );
   proto.remoteRegistrationId = getInteger(session, 'registrationId');
   proto.rootKey = binaryToUint8Array(session, 'currentRatchet.rootKey', 32);
-  proto.sessionVersion = 1;
+  proto.sessionVersion = 3;
 
   // Note: currently unused
   // proto.needsRefresh = null;
@@ -291,7 +292,7 @@ function toProtobufChain(
   const proto = new Chain();
 
   const protoChainKey = new Chain.ChainKey();
-  protoChainKey.index = getInteger(chain, 'chainKey.counter');
+  protoChainKey.index = getInteger(chain, 'chainKey.counter') + 1;
   if (chain.chainKey?.key !== undefined) {
     protoChainKey.key = binaryToUint8Array(chain, 'chainKey.key', 32);
   }
@@ -300,7 +301,7 @@ function toProtobufChain(
   const messageKeys = Object.entries(chain.messageKeys || {});
   proto.messageKeys = messageKeys.map(entry => {
     const protoMessageKey = new SessionStructure.Chain.MessageKey();
-    protoMessageKey.index = getInteger(entry, '0');
+    protoMessageKey.index = getInteger(entry, '0') + 1;
     const key = binaryToUint8Array(entry, '1', 32);
 
     const { cipherKey, macKey, iv } = translateMessageKey(key);
@@ -318,25 +319,6 @@ function toProtobufChain(
 // Utility functions
 
 const WHISPER_MESSAGE_KEYS = 'WhisperMessageKeys';
-
-function deriveSecrets(
-  input: ArrayBuffer,
-  salt: ArrayBuffer,
-  info: ArrayBuffer
-): Array<ArrayBuffer> {
-  const hkdf = HKDF.new(3);
-  const output = hkdf.deriveSecrets(
-    3 * 32,
-    Buffer.from(input),
-    Buffer.from(info),
-    Buffer.from(salt)
-  );
-  return [
-    typedArrayToArrayBuffer(output.slice(0, 32)),
-    typedArrayToArrayBuffer(output.slice(32, 64)),
-    typedArrayToArrayBuffer(output.slice(64, 96)),
-  ];
-}
 
 function translateMessageKey(key: Uint8Array) {
   const input = key.buffer;

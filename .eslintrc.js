@@ -15,14 +15,6 @@ const rules = {
     },
   ],
 
-  // Overrides recommended by typescript-eslint
-  //   https://github.com/typescript-eslint/typescript-eslint/releases/tag/v4.0.0
-  '@typescript-eslint/no-redeclare': 'error',
-  '@typescript-eslint/no-shadow': 'error',
-  '@typescript-eslint/no-useless-constructor': ['error'],
-  'no-shadow': 'off',
-  'no-useless-constructor': 'off',
-
   // prevents us from accidentally checking in exclusive tests (`.only`):
   'mocha/no-exclusive-tests': 'error',
 
@@ -34,9 +26,6 @@ const rules = {
 
   // useful for unused or internal fields
   'no-underscore-dangle': 'off',
-
-  // useful for unused parameters
-  '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
 
   // though we have a logger, we still remap console to log to disk
   'no-console': 'error',
@@ -93,9 +82,6 @@ const rules = {
 
   'jsx-a11y/label-has-associated-control': ['error', { assert: 'either' }],
 
-  // Upgrade from a warning
-  '@typescript-eslint/explicit-module-boundary-types': 'error',
-
   'no-restricted-syntax': [
     'error',
     {
@@ -128,6 +114,29 @@ const rules = {
   curly: 'error',
 };
 
+const typescriptRules = {
+  ...rules,
+
+  '@typescript-eslint/array-type': ['error', { default: 'generic' }],
+
+  // Overrides recommended by typescript-eslint
+  //   https://github.com/typescript-eslint/typescript-eslint/releases/tag/v4.0.0
+  '@typescript-eslint/no-redeclare': 'error',
+  '@typescript-eslint/no-shadow': 'error',
+  '@typescript-eslint/no-useless-constructor': ['error'],
+  'no-shadow': 'off',
+  'no-useless-constructor': 'off',
+
+  // useful for unused parameters
+  '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+
+  // Upgrade from a warning
+  '@typescript-eslint/explicit-module-boundary-types': 'error',
+
+  // Already enforced by TypeScript
+  'consistent-return': 'off',
+};
+
 module.exports = {
   root: true,
   settings: {
@@ -143,7 +152,7 @@ module.exports = {
 
   overrides: [
     {
-      files: ['ts/**/*.ts', 'ts/**/*.tsx'],
+      files: ['ts/**/*.ts', 'ts/**/*.tsx', 'app/**/*.ts'],
       parser: '@typescript-eslint/parser',
       parserOptions: {
         project: 'tsconfig.json',
@@ -160,7 +169,7 @@ module.exports = {
         'plugin:react/recommended',
         'airbnb-typescript-prettier',
       ],
-      rules,
+      rules: typescriptRules,
     },
     {
       files: ['sticker-creator/**/*.ts', 'sticker-creator/**/*.tsx'],
@@ -180,12 +189,12 @@ module.exports = {
         'plugin:react/recommended',
         'airbnb-typescript-prettier',
       ],
-      rules,
+      rules: typescriptRules,
     },
     {
       files: ['**/*.stories.tsx', 'ts/build/**', 'ts/test-*/**'],
       rules: {
-        ...rules,
+        ...typescriptRules,
         'import/no-extraneous-dependencies': 'off',
         'react/no-array-index-key': 'off',
       },

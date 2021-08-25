@@ -31,15 +31,13 @@ class FakeGroupCallVideoFrameSource implements VideoFrameSource {
     this.dimensions = [width, height];
   }
 
-  receiveVideoFrame(
-    destinationBuffer: ArrayBuffer
-  ): [number, number] | undefined {
+  receiveVideoFrame(destinationBuffer: Buffer): [number, number] | undefined {
     // Simulate network jitter. Also improves performance when testing.
     if (Math.random() < 0.5) {
       return undefined;
     }
 
-    new Uint8Array(destinationBuffer).set(this.sourceArray);
+    destinationBuffer.set(this.sourceArray);
     return this.dimensions;
   }
 }

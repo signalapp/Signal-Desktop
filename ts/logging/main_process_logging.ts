@@ -7,7 +7,7 @@
 
 import * as path from 'path';
 import * as fs from 'fs';
-import { app, ipcMain as ipc } from 'electron';
+import { BrowserWindow, app, ipcMain as ipc } from 'electron';
 import pinoms from 'pino-multi-stream';
 import pino from 'pino';
 import * as mkdirp from 'mkdirp';
@@ -17,9 +17,11 @@ import { read as readLastLines } from 'read-last-lines';
 import rimraf from 'rimraf';
 import { createStream } from 'rotating-file-stream';
 
+import { setLogAtLevel } from './log';
 import { Environment, getEnvironment } from '../environment';
 
 import {
+  FetchLogIpcData,
   LogEntryType,
   LogLevel,
   cleanArgs,
@@ -38,13 +40,16 @@ declare global {
 }
 
 let globalLogger: undefined | pinoms.Logger;
+let shouldRestart = false;
 
 const isRunningFromConsole =
   Boolean(process.stdout.isTTY) ||
   getEnvironment() === Environment.Test ||
   getEnvironment() === Environment.TestLib;
 
-export async function initialize(): Promise<pinoms.Logger> {
+export async function initialize(
+  getMainWindow: () => undefined | BrowserWindow
+): Promise<pinoms.Logger> {
   if (globalLogger) {
     throw new Error('Already called initialize!');
   }
@@ -74,13 +79,16 @@ export async function initialize(): Promise<pinoms.Logger> {
     rotate: 3,
   });
 
-  stream.on('close', () => {
+  const onClose = () => {
     globalLogger = undefined;
-  });
 
-  stream.on('error', () => {
-    globalLogger = undefined;
-  });
+    if (shouldRestart) {
+      initialize(getMainWindow);
+    }
+  };
+
+  stream.on('close', onClose);
+  stream.on('error', onClose);
 
   const streams: pinoms.Streams = [];
   streams.push({ stream });
@@ -97,18 +105,50 @@ export async function initialize(): Promise<pinoms.Logger> {
     timestamp: pino.stdTimeFunctions.isoTime,
   });
 
-  ipc.on('fetch-log', event => {
-    fetch(logPath).then(
-      data => {
-        event.sender.send('fetched-log', data);
-      },
-      error => {
-        logger.error(`Problem loading log from disk: ${error.stack}`);
+  ipc.on('fetch-log', async event => {
+    const mainWindow = getMainWindow();
+    if (!mainWindow) {
+      logger.info('Logs were requested, but the main window is missing');
+      return;
+    }
+
+    let data: FetchLogIpcData;
+    try {
+      const [logEntries, rest] = await Promise.all([
+        fetchLogs(logPath),
+        fetchAdditionalLogData(mainWindow),
+      ]);
+      data = {
+        logEntries,
+        ...rest,
+      };
+    } catch (error) {
+      logger.error(`Problem loading log data: ${error.stack}`);
+      return;
+    }
+
+    try {
+      event.sender.send('fetched-log', data);
+    } catch (err: unknown) {
+      // NOTE(evanhahn): We don't want to send a message to a window that's closed.
+      //   I wanted to use `event.sender.isDestroyed()` but that seems to fail.
+      //   Instead, we attempt the send and catch the failure as best we can.
+      const hasUserClosedWindow = isProbablyObjectHasBeenDestroyedError(err);
+      if (hasUserClosedWindow) {
+        logger.info('Logs were requested, but it seems the window was closed');
+      } else {
+        logger.error(
+          'Problem replying with fetched logs',
+          err instanceof Error && err.stack ? err.stack : err
+        );
       }
-    );
+    }
   });
 
   ipc.on('delete-all-logs', async event => {
+    // Restart logging when the streams will close
+    shouldRestart = true;
+
     try {
       await deleteAllLogs(logPath);
     } catch (error) {
@@ -266,7 +306,7 @@ export function fetchLog(logFile: string): Promise<Array<LogEntryType>> {
 }
 
 // Exported for testing only.
-export function fetch(logPath: string): Promise<Array<LogEntryType>> {
+export function fetchLogs(logPath: string): Promise<Array<LogEntryType>> {
   const files = fs.readdirSync(logPath);
   const paths = files.map(file => path.join(logPath, file));
 
@@ -286,6 +326,16 @@ export function fetch(logPath: string): Promise<Array<LogEntryType>> {
   });
 }
 
+export const fetchAdditionalLogData = (
+  mainWindow: BrowserWindow
+): Promise<Omit<FetchLogIpcData, 'logEntries'>> =>
+  new Promise(resolve => {
+    mainWindow.webContents.send('additional-log-data-request');
+    ipc.once('additional-log-data-response', (_event, data) => {
+      resolve(data);
+    });
+  });
+
 function logAtLevel(level: LogLevel, ...args: ReadonlyArray<unknown>) {
   if (globalLogger) {
     const levelString = getLogLevelString(level);
@@ -295,8 +345,14 @@ function logAtLevel(level: LogLevel, ...args: ReadonlyArray<unknown>) {
   }
 }
 
+function isProbablyObjectHasBeenDestroyedError(err: unknown): boolean {
+  return err instanceof Error && err.message === 'Object has been destroyed';
+}
+
 // This blows up using mocha --watch, so we ensure it is run just once
 if (!console._log) {
+  setLogAtLevel(logAtLevel);
+
   console._log = console.log;
   console.log = _.partial(logAtLevel, LogLevel.Info);
   console._error = console.error;

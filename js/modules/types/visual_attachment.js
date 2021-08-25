@@ -1,15 +1,15 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* global document, URL, Blob */
 
 const loadImage = require('blueimp-load-image');
-const dataURLToBlobSync = require('blueimp-canvas-to-blob');
 const { blobToArrayBuffer } = require('blob-util');
-const { toLogFormat } = require('./errors');
+const { toLogFormat } = require('../../../ts/types/errors');
 const {
   arrayBufferToObjectURL,
 } = require('../../../ts/util/arrayBufferToObjectURL');
+const { canvasToBlob } = require('../../../ts/util/canvasToBlob');
 
 exports.blobToArrayBuffer = blobToArrayBuffer;
 
@@ -40,7 +40,7 @@ exports.makeImageThumbnail = ({
   new Promise((resolve, reject) => {
     const image = document.createElement('img');
 
-    image.addEventListener('load', () => {
+    image.addEventListener('load', async () => {
       // using components/blueimp-load-image
 
       // first, make the correct size
@@ -63,9 +63,12 @@ exports.makeImageThumbnail = ({
         minHeight: size,
       });
 
-      const blob = dataURLToBlobSync(canvas.toDataURL(contentType));
-
-      resolve(blob);
+      try {
+        const blob = await canvasToBlob(canvas, contentType);
+        resolve(blob);
+      } catch (err) {
+        reject(err);
+      }
     });
 
     image.addEventListener('error', error => {
@@ -88,7 +91,7 @@ exports.makeVideoScreenshot = ({
       video.currentTime = 1.0;
     }
 
-    function capture() {
+    async function capture() {
       const canvas = document.createElement('canvas');
       canvas.width = video.videoWidth;
       canvas.height = video.videoHeight;
@@ -96,12 +99,15 @@ exports.makeVideoScreenshot = ({
         .getContext('2d')
         .drawImage(video, 0, 0, canvas.width, canvas.height);
 
-      const image = dataURLToBlobSync(canvas.toDataURL(contentType));
-
       video.addEventListener('loadeddata', seek);
       video.removeEventListener('seeked', capture);
 
-      resolve(image);
+      try {
+        const image = canvasToBlob(canvas, contentType);
+        resolve(image);
+      } catch (err) {
+        reject(err);
+      }
     }
 
     video.addEventListener('loadeddata', seek);

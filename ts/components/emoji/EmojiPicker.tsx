@@ -160,6 +160,7 @@ export const EmojiPicker = React.memo(
             event.stopPropagation();
           } else if (
             !searchMode &&
+            !event.ctrlKey &&
             ![
               'ArrowUp',
               'ArrowDown',

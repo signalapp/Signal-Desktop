@@ -4,27 +4,32 @@
 import { connect } from 'react-redux';
 
 import { StateType } from '../reducer';
+import { mapDispatchToProps } from '../actions';
 import {
   ConversationDetails,
   StateProps,
 } from '../../components/conversation/conversation-details/ConversationDetails';
 import {
-  getComposableContacts,
-  getConversationSelector,
+  getCandidateContactsForNewGroup,
+  getConversationByIdSelector,
 } from '../selectors/conversations';
+import { getGroupMemberships } from '../../util/getGroupMemberships';
 import { getIntl } from '../selectors/user';
 import { MediaItemType } from '../../components/LightboxGallery';
+import { assert } from '../../util/assert';
+import { SignalService as Proto } from '../../protobuf';
 
 export type SmartConversationDetailsProps = {
   addMembers: (conversationIds: ReadonlyArray<string>) => Promise<void>;
   conversationId: string;
-  hasGroupLink: boolean;
   loadRecentMediaItems: (limit: number) => void;
   setDisappearingMessages: (seconds: number) => void;
   showAllMedia: () => void;
   showContactModal: (conversationId: string) => void;
+  showGroupChatColorEditor: () => void;
   showGroupLinkManagement: () => void;
   showGroupV2Permissions: () => void;
+  showConversationNotificationsSettings: () => void;
   showPendingInvites: () => void;
   showLightboxForMedia: (
     selectedMediaItem: MediaItemType,
@@ -40,17 +45,26 @@ export type SmartConversationDetailsProps = {
   onLeave: () => void;
 };
 
+const ACCESS_ENUM = Proto.AccessControl.AccessRequired;
+
 const mapStateToProps = (
   state: StateType,
   props: SmartConversationDetailsProps
 ): StateProps => {
-  const conversation = getConversationSelector(state)(props.conversationId);
-  const canEditGroupInfo =
-    conversation && conversation.canEditGroupInfo
-      ? conversation.canEditGroupInfo
-      : false;
-  const isAdmin = Boolean(conversation?.areWeAdmin);
-  const candidateContactsToAdd = getComposableContacts(state);
+  const conversationSelector = getConversationByIdSelector(state);
+  const conversation = conversationSelector(props.conversationId);
+  assert(
+    conversation,
+    '<SmartConversationDetails> expected a conversation to be found'
+  );
+
+  const canEditGroupInfo = Boolean(conversation.canEditGroupInfo);
+  const isAdmin = Boolean(conversation.areWeAdmin);
+  const candidateContactsToAdd = getCandidateContactsForNewGroup(state);
+
+  const hasGroupLink =
+    Boolean(conversation.groupLink) &&
+    conversation.accessControlAddFromInviteLink !== ACCESS_ENUM.UNSATISFIABLE;
 
   return {
     ...props,
@@ -59,9 +73,12 @@ const mapStateToProps = (
     conversation,
     i18n: getIntl(state),
     isAdmin,
+    ...getGroupMemberships(conversation, conversationSelector),
+    userAvatarData: conversation.avatars || [],
+    hasGroupLink,
   };
 };
 
-const smart = connect(mapStateToProps);
+const smart = connect(mapStateToProps, mapDispatchToProps);
 
 export const SmartConversationDetails = smart(ConversationDetails);
