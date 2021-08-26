@@ -183,6 +183,10 @@
         "message": "Standaardgesprekskleur kiezen",
         "description": "One of the menu options available in the Avatar Popup menu"
     },
+    "avatarMenuUpdateAvailable": {
+        "message": "Signal bijwerken",
+        "description": "One of the menu options available in the Avatar Popup menu"
+    },
     "loading": {
         "message": "Bezig met laden …",
         "description": "Message shown on the loading screen before we've loaded any messages"
@@ -650,15 +654,15 @@
         "description": "Displayed when the desktop client cannot connect to the server."
     },
     "connecting": {
-        "message": "Verbinding aan het maken",
+        "message": "Aan het verbinden …",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "connect": {
-        "message": "Verbinding maken",
+        "message": "Klik hier om opnieuw verbinding te maken.",
         "description": "Shown to allow the user to manually attempt a reconnect."
     },
     "connectingHangOn": {
-        "message": "Dit zou niet lang moeten duren …",
+        "message": "Dit zou niet lang moeten duren",
         "description": "Subtext description for when the client is connecting to the server."
     },
     "offline": {
@@ -806,6 +810,20 @@
     "welcomeToSignal": {
         "message": "Welkom bij Signal",
         "description": ""
+    },
+    "whatsNew": {
+        "message": "Lees hier $whatsNew$ in deze versie",
+        "description": "Shown in the main window",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "what's new"
+            }
+        }
+    },
+    "viewReleaseNotes": {
+        "message": "wat er nieuw is",
+        "description": "Clickable link that displays the latest release notes"
     },
     "selectAContact": {
         "message": "Selecteer een contactpersoon of groep om een gesprek te openen.",
@@ -1271,7 +1289,7 @@
         "message": "Nieuw apparaat koppelen",
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
-    "deviceName": {
+    "Preferences--device-name": {
         "message": "Apparaatnaam",
         "description": "The label in settings panel shown for the user-provided name for this desktop instance"
     },
@@ -1307,7 +1325,7 @@
         "message": "Opnieuw proberen",
         "description": ""
     },
-    "theme": {
+    "Preferences--theme": {
         "message": "Thema",
         "description": "Header for theme settings"
     },
@@ -1329,7 +1347,11 @@
     },
     "calling__call-is-full": {
         "message": "De oproep is vol",
-        "description": "Button label in the call lobby when you can't join because the call is full"
+        "description": "Text in the call lobby when you can't join because the call is full"
+    },
+    "calling__button--video__label": {
+        "message": "Camera",
+        "description": "Label under the video button"
     },
     "calling__button--video-disabled": {
         "message": "Camera uitgeschakeld",
@@ -1343,6 +1365,10 @@
         "message": "Camera inschakelen",
         "description": "Button tooltip label for turning on the camera"
     },
+    "calling__button--audio__label": {
+        "message": "Dempen",
+        "description": "Label under the audio button"
+    },
     "calling__button--audio-disabled": {
         "message": "Microfoon uitgeschakeld",
         "description": "Button tooltip label when the microphone is disabled"
@@ -1354,6 +1380,10 @@
     "calling__button--audio-on": {
         "message": "Microfoon niet langer dempen",
         "description": "Button tooltip label for turning on the microphone"
+    },
+    "calling__button--presenting__label": {
+        "message": "Delen via andere app",
+        "description": "Label under the share screen button"
     },
     "calling__button--presenting-disabled": {
         "message": "Scherm laten zien is uitgeschakeld",
@@ -1371,11 +1401,11 @@
         "message": "Je camera staat uit",
         "description": "Label in the calling lobby indicating that your camera is off"
     },
-    "calling__lobby-summary--zero": {
+    "calling__pre-call-info--empty-group": {
         "message": "Er is niemand behalve jij in dit gesprek",
         "description": "Shown in the calling lobby to describe who is in the call"
     },
-    "calling__lobby-summary--single": {
+    "calling__pre-call-info--1-person-in-call": {
         "message": "$first$ is aanwezig in deze oproep",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
@@ -1385,11 +1415,11 @@
             }
         }
     },
-    "calling__lobby-summary--self": {
+    "calling__pre-call-info--another-device-in-call": {
         "message": "Een van je andere apparaten neemt deel aan deze oproep",
         "description": "Shown in the calling lobby to describe when it is just you"
     },
-    "calling__lobby-summary--double": {
+    "calling__pre-call-info--2-people-in-call": {
         "message": "$first$ en $second$ zijn aanwezig in deze oproep",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
@@ -1403,7 +1433,7 @@
             }
         }
     },
-    "calling__lobby-summary--triple": {
+    "calling__pre-call-info--3-people-in-call": {
         "message": "$first$, $second$ en $third$ zijn aanwezig in deze oproep",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
@@ -1421,11 +1451,81 @@
             }
         }
     },
-    "calling__lobby-summary--many": {
+    "calling__pre-call-info--many-people-in-call": {
         "message": ",$first$ $second$ en $others$ anderen zijn aanwezig in deze oproep",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "others": {
+                "content": "$3",
+                "example": "5"
+            }
+        }
+    },
+    "calling__pre-call-info--will-ring-1": {
+        "message": "Signal zal $person$ bellen",
+        "description": "Shown in the calling lobby to describe who will be rung",
+        "placeholders": {
+            "person": {
+                "content": "$1",
+                "example": "Sam"
+            }
+        }
+    },
+    "calling__pre-call-info--will-notify-1": {
+        "message": "$person$ zal een melding krijgen",
+        "description": "Shown in the calling lobby to describe who will be notified",
+        "placeholders": {
+            "person": {
+                "content": "$1",
+                "example": "Sam"
+            }
+        }
+    },
+    "calling__pre-call-info--will-notify-2": {
+        "message": "$first$ en $second$ zullen een melding krijgen",
+        "description": "Shown in the calling lobby to describe who will be notified",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            }
+        }
+    },
+    "calling__pre-call-info--will-notify-3": {
+        "message": "$first$, $second$ en $third$ zullen een melding krijgen",
+        "description": "Shown in the calling lobby to describe who will be notified",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "third": {
+                "content": "$3",
+                "example": "April"
+            }
+        }
+    },
+    "calling__pre-call-info--will-notify-many": {
+        "message": "$first$, $second$ en $others$ anderen zullen een melding krijgen",
+        "description": "Shown in the calling lobby to describe who will be notified",
+        "placeholders": {
+            "person": {
                 "content": "$1",
                 "example": "Sam"
             },
@@ -1561,7 +1661,7 @@
         "message": "Om te voorkomen dat je gesprekspartner je IP-adres kan achterhalen worden Signal-oproepen met niet-contactpersonen altijd omgeleid via de Signal-server. Door deze optie in te schakelen wordt dat ook gedaan voor Signal-oproepen met contacten die wel in je contactenlijst staan. Dit leidt echter tot een verminderde geluids- en videokwaliteit.",
         "description": "Details describing the always relay calls setting"
     },
-    "permissions": {
+    "Preferences--permissions": {
         "message": "Toestemmingen",
         "description": "Header for permissions section of settings"
     },
@@ -1578,7 +1678,7 @@
         "description": "Header for general options on the settings screen"
     },
     "spellCheckDescription": {
-        "message": "Gebruik spellingscontrole voor de tekst in het berichtinvoerveld",
+        "message": "Voer spellingscontrole uit op de tekst die in het invoerveld is ingevoerd",
         "description": "Description of the spell check setting"
     },
     "spellCheckWillBeEnabled": {
@@ -1602,7 +1702,7 @@
         "description": "Description for the automatic launch setting"
     },
     "clearDataHeader": {
-        "message": "Gegevens wissen",
+        "message": "Applicatiegegevens wissen",
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "clearDataExplanation": {
@@ -1740,7 +1840,7 @@
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
-        "message": "Opwaarderen",
+        "message": "Klik hier op signal.org/download te openen",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "mediaMessage": {
@@ -1752,7 +1852,7 @@
         "description": "Error message displayed when sending to an unregistered user."
     },
     "sync": {
-        "message": "Contacten",
+        "message": "Contactpersonen importeren",
         "description": "Label for contact and group sync settings"
     },
     "syncExplanation": {
@@ -1912,7 +2012,7 @@
         }
     },
     "audioNotificationDescription": {
-        "message": "Bij meldingen geluid afspelen",
+        "message": "Meldingsgeluid afspelen",
         "description": "Description for audio notification setting"
     },
     "callRingtoneNotificationDescription": {
@@ -2162,11 +2262,15 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Nieuwe versie van Signal beschikbaar",
+        "message": "Nieuwe versie beschikbaar",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "Er is een nieuwe versie van Signal beschikbaar.",
+        "message": "Klik hier om Signal opnieuw te starten",
+        "description": ""
+    },
+    "downloadNewVersionMessage": {
+        "message": "Klik hier om de nieuwe versie te downloaden",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
@@ -5486,7 +5590,7 @@
         "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else"
     },
     "ContactSpoofing__same-name-in-group__link": {
-        "message": "Tik hier om te vergelijken",
+        "message": "Klik hier om ze te vergelijken",
         "description": "Shown in the timeline warning when you multiple group members have the same name"
     },
     "ContactSpoofingReviewDialog__title": {
@@ -5716,7 +5820,7 @@
         "description": "Name of the 'weeks' unit select for the custom disappearing message timeout dialog"
     },
     "settings__DisappearingMessages__footer": {
-        "message": "Stel in dat elk bericht in gesprekken die jij zelf begint een bepaalde tijd nadat het is gezien voor iedereen moet worden gewist.",
+        "message": "Stel in dat berichten in alle nieuwe gesprekken die jij zelf begint een bepaalde tijd nadat ze gezien zijn voor zowel jou als je gesprekspartner vanzelf worden gewist.",
         "description": "Footer for the Disappearing Messages settings section"
     },
     "settings__DisappearingMessages__timer__label": {
@@ -5734,7 +5838,7 @@
         }
     },
     "ErrorBoundaryNotification__text": {
-        "message": "Kan het bericht niet afleveren vanwege een ‘interne fout’. Klik hier om een foutopsporingslog te uploaden.",
+        "message": "Dit bericht kan niet worden weergegeven. Klik hier om een foutopsporingslog te uploaden.",
         "description": "An error notification displayed when message fails to render due to an internal error"
     },
     "GroupDescription__read-more": {
@@ -5896,5 +6000,169 @@
     "LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
         "message": "Groepsafbeelding",
         "description": "Title for the avatar picker in the group creation flow"
+    },
+    "Preferences__button--general": {
+        "message": "Algemeen",
+        "description": "Button to switch the settings view"
+    },
+    "Preferences__button--appearance": {
+        "message": "Uiterlijk",
+        "description": "Button to switch the settings view"
+    },
+    "Preferences__button--chats": {
+        "message": "Gesprekken",
+        "description": "Button to switch the settings view"
+    },
+    "Preferences__button--calls": {
+        "message": "Oproepen",
+        "description": "Button to switch the settings view"
+    },
+    "Preferences__button--notifications": {
+        "message": "Meldingen",
+        "description": "Button to switch the settings view"
+    },
+    "Preferences__button--privacy": {
+        "message": "Privacy",
+        "description": "Button to switch the settings view"
+    },
+    "Preferences--lastSynced": {
+        "message": "Meest recent geimporteerd op $date$ om $time$",
+        "description": "Label for date and time of last sync operation",
+        "placeholders": {
+            "date": {
+                "content": "$1",
+                "example": "6/9/2020"
+            },
+            "time": {
+                "content": "$2",
+                "example": "7:37:25 PM"
+            }
+        }
+    },
+    "Preferences--system": {
+        "message": "Systeemstandaard volgen",
+        "description": "Title for system type settings"
+    },
+    "Preferences--zoom": {
+        "message": "Vergrotingsniveau",
+        "description": "Label for changing the zoom level"
+    },
+    "Preferences__link-previews--title": {
+        "message": "Voorbeeldafbeeldingen genereren",
+        "description": "Title for the generate link previews setting"
+    },
+    "Preferences__link-previews--description": {
+        "message": "Open de Signal app op je mobiele telefoon en navigeer naar Instellingen > Gesprekken om deze instellingen te veranderen",
+        "description": "Description for the generate link previews setting"
+    },
+    "Preferences--advanced": {
+        "message": "Geavanceerd",
+        "description": "Title for advanced settings"
+    },
+    "Preferences--notification-content": {
+        "message": "Meldingsinhoud",
+        "description": "Label for the notification content setting select box"
+    },
+    "Preferences--blocked": {
+        "message": "Geblokkeerd",
+        "description": "Label for blocked contacts setting"
+    },
+    "Preferences--blocked-count-singular": {
+        "message": "$num$ persoon",
+        "description": "Number of contacts blocked singular",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "1"
+            }
+        }
+    },
+    "Preferences--blocked-count-plural": {
+        "message": "$num$ personen",
+        "description": "Number of contacts blocked plural",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "20"
+            }
+        }
+    },
+    "Preferences__who-can--title": {
+        "message": "Wie kan …",
+        "description": "Title for the 'who can do X' setting"
+    },
+    "Preferences__privacy--description": {
+        "message": "Open de Signal app op je mobiele telefoon en navigeer naar Instellingen > Privacy om deze instellingen te veranderen",
+        "description": "Description for the 'who can do X' setting"
+    },
+    "Preferences__who-can--everybody": {
+        "message": "Iedereen",
+        "description": "Option for who can see my X select"
+    },
+    "Preferences__who-can--contacts": {
+        "message": "Mijn contactpersonen",
+        "description": "Option for who can see my X select"
+    },
+    "Preferences__who-can--nobody": {
+        "message": "Niemand",
+        "description": "Option for who can see my X select"
+    },
+    "Preferences--messaging": {
+        "message": "Berichten",
+        "description": "Title for the messaging settings"
+    },
+    "Preferences--see-me": {
+        "message": "Mijn telefoonnummer zien",
+        "description": "Label for the see my phone number setting"
+    },
+    "Preferences--find-me": {
+        "message": "Ik wil vindbaar zijn op basis van mijn telefoonnummer",
+        "description": "Label for the find me by my phone number setting"
+    },
+    "Preferences--read-receipts": {
+        "message": "Leesbevestigingen",
+        "description": "Label for the read receipts setting"
+    },
+    "Preferences--typing-indicators": {
+        "message": "Typindicatoren",
+        "description": "Label for the typing indicators setting"
+    },
+    "Preferences--updates": {
+        "message": "Nieuwe versies",
+        "description": "Header for settings having to do with updates"
+    },
+    "Preferences__download-update": {
+        "message": "Nieuwe versies automatisch downloaden",
+        "description": "Label for checkbox for the auto download updates setting"
+    },
+    "DialogUpdate--version-available": {
+        "message": "Nieuwe versie $version$ is beschikbaar",
+        "description": "Tooltip for new update available",
+        "placeholders": {
+            "status": {
+                "content": "$1",
+                "example": "v7.7.7"
+            }
+        }
+    },
+    "WhatsNew__v5.15--1": {
+        "message": "Je ziet vanaf nu een stip op binnengekomen audioberichten die je nog niet hebt beluisterd.",
+        "description": "Release notes for v5.15"
+    },
+    "WhatsNew__v5.15--2": {
+        "message": "Het belscherm is vernieuwd",
+        "description": "Release notes for v5.15"
+    },
+    "WhatsNew__v5.15--3": {
+        "message": "Het voorkeurenscherm is vernieuwd en opent ook sneller. Neem een keer een kijkje om te zien of er nog iets is wat je anders wilt instellen.",
+        "description": "Release notes for v5.15"
+    },
+    "WhatsNew__v5.15--4": {
+        "message": "Je kunt vanaf nu kiezen wanneer je nieuwe versies wilt downloaden en installeren. Je vindt deze instelling in het voorkeurenmenu.",
+        "description": "Release notes for v5.15"
+    },
+    "WhatsNew__v5.15--5": {
+        "message": "Veel fouten opgelost en ook een aantal verbeteringing voor de prestaties. Bedankt voor jullie terugkoppeling!",
+        "description": "Release notes for v5.15"
     }
 }

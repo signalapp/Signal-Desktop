@@ -4,7 +4,7 @@
         "description": "Shown in the about box for the link to software acknowledgments"
     },
     "privacyPolicy": {
-        "message": "Licens- och sekretessvillkor",
+        "message": "Licens- och integritetspolicy",
         "description": "Shown in the about box for the link to https://signal.org/legal"
     },
     "copyErrorAndQuit": {
@@ -181,6 +181,10 @@
     },
     "avatarMenuChatColors": {
         "message": "Chattfärg",
+        "description": "One of the menu options available in the Avatar Popup menu"
+    },
+    "avatarMenuUpdateAvailable": {
+        "message": "Uppdatera Signal",
         "description": "One of the menu options available in the Avatar Popup menu"
     },
     "loading": {
@@ -650,15 +654,15 @@
         "description": "Displayed when the desktop client cannot connect to the server."
     },
     "connecting": {
-        "message": "Ansluter",
+        "message": "Ansluter...",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "connect": {
-        "message": "Anslut",
+        "message": "Klicka för att återansluta.",
         "description": "Shown to allow the user to manually attempt a reconnect."
     },
     "connectingHangOn": {
-        "message": "Borde inte ta lång tid...",
+        "message": "Borde inte ta lång tid",
         "description": "Subtext description for when the client is connecting to the server."
     },
     "offline": {
@@ -806,6 +810,20 @@
     "welcomeToSignal": {
         "message": "Välkommen till Signal",
         "description": ""
+    },
+    "whatsNew": {
+        "message": "Se $whatsNew$ i den här uppdateringen",
+        "description": "Shown in the main window",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "what's new"
+            }
+        }
+    },
+    "viewReleaseNotes": {
+        "message": "vad är nytt",
+        "description": "Clickable link that displays the latest release notes"
     },
     "selectAContact": {
         "message": "Välj en kontakt eller grupp för att börja chatta.",
@@ -1271,7 +1289,7 @@
         "message": "Länka ny enhet",
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
-    "deviceName": {
+    "Preferences--device-name": {
         "message": "Enhetsnamn",
         "description": "The label in settings panel shown for the user-provided name for this desktop instance"
     },
@@ -1307,7 +1325,7 @@
         "message": "Försök igen",
         "description": ""
     },
-    "theme": {
+    "Preferences--theme": {
         "message": "Tema",
         "description": "Header for theme settings"
     },
@@ -1329,7 +1347,11 @@
     },
     "calling__call-is-full": {
         "message": "Samtalet är fullt",
-        "description": "Button label in the call lobby when you can't join because the call is full"
+        "description": "Text in the call lobby when you can't join because the call is full"
+    },
+    "calling__button--video__label": {
+        "message": "Kamera",
+        "description": "Label under the video button"
     },
     "calling__button--video-disabled": {
         "message": "Kameran inaktiverad",
@@ -1343,6 +1365,10 @@
         "message": "Aktivera kameran",
         "description": "Button tooltip label for turning on the camera"
     },
+    "calling__button--audio__label": {
+        "message": "Tysta",
+        "description": "Label under the audio button"
+    },
     "calling__button--audio-disabled": {
         "message": "Mikrofon inaktiverad",
         "description": "Button tooltip label when the microphone is disabled"
@@ -1354,6 +1380,10 @@
     "calling__button--audio-on": {
         "message": "Slå på mikrofonen",
         "description": "Button tooltip label for turning on the microphone"
+    },
+    "calling__button--presenting__label": {
+        "message": "Dela",
+        "description": "Label under the share screen button"
     },
     "calling__button--presenting-disabled": {
         "message": "Presentera inaktiverat",
@@ -1371,11 +1401,11 @@
         "message": "Din kamera är avstängd",
         "description": "Label in the calling lobby indicating that your camera is off"
     },
-    "calling__lobby-summary--zero": {
+    "calling__pre-call-info--empty-group": {
         "message": "Ingen annan är här",
         "description": "Shown in the calling lobby to describe who is in the call"
     },
-    "calling__lobby-summary--single": {
+    "calling__pre-call-info--1-person-in-call": {
         "message": "$first$ är i det här samtalet",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
@@ -1385,12 +1415,12 @@
             }
         }
     },
-    "calling__lobby-summary--self": {
-        "message": "En av dina andra enheter finns i detta samtal",
+    "calling__pre-call-info--another-device-in-call": {
+        "message": "En av dina andra enheter finns i det här samtalet",
         "description": "Shown in the calling lobby to describe when it is just you"
     },
-    "calling__lobby-summary--double": {
-        "message": "$first$ och $second$ är i detta samtal",
+    "calling__pre-call-info--2-people-in-call": {
+        "message": "$first$ och $second$ är i det här samtalet",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
@@ -1403,8 +1433,8 @@
             }
         }
     },
-    "calling__lobby-summary--triple": {
-        "message": "$first$, $second$ och $third$ är i detta samtal",
+    "calling__pre-call-info--3-people-in-call": {
+        "message": "$first$, $second$ och $third$ är i det här samtalet",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
@@ -1421,11 +1451,81 @@
             }
         }
     },
-    "calling__lobby-summary--many": {
-        "message": "$first$, $second$ och $others$ andra är i detta samtal",
+    "calling__pre-call-info--many-people-in-call": {
+        "message": "$first$, $second$ och $others$ andra är i det här samtalet",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "others": {
+                "content": "$3",
+                "example": "5"
+            }
+        }
+    },
+    "calling__pre-call-info--will-ring-1": {
+        "message": "Signal kommer att ringa $person$",
+        "description": "Shown in the calling lobby to describe who will be rung",
+        "placeholders": {
+            "person": {
+                "content": "$1",
+                "example": "Sam"
+            }
+        }
+    },
+    "calling__pre-call-info--will-notify-1": {
+        "message": "$person$ kommer att meddelas",
+        "description": "Shown in the calling lobby to describe who will be notified",
+        "placeholders": {
+            "person": {
+                "content": "$1",
+                "example": "Sam"
+            }
+        }
+    },
+    "calling__pre-call-info--will-notify-2": {
+        "message": "$first$ och $second$ kommer att meddelas",
+        "description": "Shown in the calling lobby to describe who will be notified",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            }
+        }
+    },
+    "calling__pre-call-info--will-notify-3": {
+        "message": "$first$, $second$ och $third$ kommer att meddelas",
+        "description": "Shown in the calling lobby to describe who will be notified",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "third": {
+                "content": "$3",
+                "example": "April"
+            }
+        }
+    },
+    "calling__pre-call-info--will-notify-many": {
+        "message": "$first$, $second$ och $others$ andra kommer att meddelas",
+        "description": "Shown in the calling lobby to describe who will be notified",
+        "placeholders": {
+            "person": {
                 "content": "$1",
                 "example": "Sam"
             },
@@ -1561,7 +1661,7 @@
         "message": "Slussa alla samtal via Signal-servern för att undvika att avslöja din IP-adress för din kontakt. Aktivering försämrar samtalskvaliteten.",
         "description": "Details describing the always relay calls setting"
     },
-    "permissions": {
+    "Preferences--permissions": {
         "message": "Behörigheter",
         "description": "Header for permissions section of settings"
     },
@@ -1578,7 +1678,7 @@
         "description": "Header for general options on the settings screen"
     },
     "spellCheckDescription": {
-        "message": "Aktivera stavningskontroll",
+        "message": "Stavningskontrollera text som skrivs i meddelandefältet",
         "description": "Description of the spell check setting"
     },
     "spellCheckWillBeEnabled": {
@@ -1602,11 +1702,11 @@
         "description": "Description for the automatic launch setting"
     },
     "clearDataHeader": {
-        "message": "Rensa data",
+        "message": "Rensa programdata",
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "clearDataExplanation": {
-        "message": "Detta rensar alla data i programmet, ta bort alla meddelanden och sparad kontoinformation.",
+        "message": "Det här rensar alla data i programmet, tar bort alla meddelanden och sparad kontoinformation.",
         "description": "Text describing what the clear data button will do."
     },
     "clearDataButton": {
@@ -1618,7 +1718,7 @@
         "description": "Header of the full-screen delete data confirmation screen"
     },
     "deleteAllDataBody": {
-        "message": "Du är på väg att ta bort allt av detta programs sparade kontoinformation, inklusive alla kontakter och alla meddelanden. Du kan alltid länka din mobila enhet igen, men det återställer inte borttagna meddelanden.",
+        "message": "Du är på väg att ta bort allt av det här programmets sparade kontoinformation, inklusive alla kontakter och alla meddelanden. Du kan alltid länka din mobila enhet igen, men det återställer inte borttagna meddelanden.",
         "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
     },
     "deleteAllDataButton": {
@@ -1740,7 +1840,7 @@
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
-        "message": "Uppgradera",
+        "message": "Klicka för att gå till signal.org/download",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "mediaMessage": {
@@ -1752,7 +1852,7 @@
         "description": "Error message displayed when sending to an unregistered user."
     },
     "sync": {
-        "message": "Kontakter",
+        "message": "Importera kontakter",
         "description": "Label for contact and group sync settings"
     },
     "syncExplanation": {
@@ -1912,7 +2012,7 @@
         }
     },
     "audioNotificationDescription": {
-        "message": "Spela ljudavisering",
+        "message": "Spela aviseringsljud",
         "description": "Description for audio notification setting"
     },
     "callRingtoneNotificationDescription": {
@@ -2162,11 +2262,15 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Uppdatering för Signal tillgänglig",
+        "message": "Uppdatering tillgänglig",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "Det finns en ny version av Signal tillgänglig.",
+        "message": "Klicka för att starta om Signal",
+        "description": ""
+    },
+    "downloadNewVersionMessage": {
+        "message": "Klicka för att hämta uppdateringen",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
@@ -4940,7 +5044,7 @@
         "description": "Displayed while checking if the contact is SMS-only"
     },
     "countMutedConversationsDescription": {
-        "message": "Antal tystade konversationer i märkesräkning",
+        "message": "Inkludera tysta konversationer i märkesräkning",
         "description": "Description for counting muted conversations in badge setting"
     },
     "ContactModal--message": {
@@ -5734,7 +5838,7 @@
         }
     },
     "ErrorBoundaryNotification__text": {
-        "message": "Det gick inte att visa meddelandet på grund av ett internt fel. Klicka här för att skicka en felsökningslogg.",
+        "message": "Det här meddelandet kunde inte visas. Klicka för att skicka en felsökningslogg.",
         "description": "An error notification displayed when message fails to render due to an internal error"
     },
     "GroupDescription__read-more": {
@@ -5896,5 +6000,169 @@
     "LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
         "message": "Gruppavatar",
         "description": "Title for the avatar picker in the group creation flow"
+    },
+    "Preferences__button--general": {
+        "message": "Allmänt",
+        "description": "Button to switch the settings view"
+    },
+    "Preferences__button--appearance": {
+        "message": "Utseende",
+        "description": "Button to switch the settings view"
+    },
+    "Preferences__button--chats": {
+        "message": "Chattar",
+        "description": "Button to switch the settings view"
+    },
+    "Preferences__button--calls": {
+        "message": "Samtal",
+        "description": "Button to switch the settings view"
+    },
+    "Preferences__button--notifications": {
+        "message": "Aviseringar",
+        "description": "Button to switch the settings view"
+    },
+    "Preferences__button--privacy": {
+        "message": "Integritet",
+        "description": "Button to switch the settings view"
+    },
+    "Preferences--lastSynced": {
+        "message": "Senaste importen vid $date$ $time$",
+        "description": "Label for date and time of last sync operation",
+        "placeholders": {
+            "date": {
+                "content": "$1",
+                "example": "6/9/2020"
+            },
+            "time": {
+                "content": "$2",
+                "example": "7:37:25 PM"
+            }
+        }
+    },
+    "Preferences--system": {
+        "message": "System",
+        "description": "Title for system type settings"
+    },
+    "Preferences--zoom": {
+        "message": "Zoomnivå",
+        "description": "Label for changing the zoom level"
+    },
+    "Preferences__link-previews--title": {
+        "message": "Skapa länkförhandsgranskningar",
+        "description": "Title for the generate link previews setting"
+    },
+    "Preferences__link-previews--description": {
+        "message": "Om du vill ändra den här inställningen öppnar du appen Signal på din mobila enhet och navigerar till Inställningar > Chattar",
+        "description": "Description for the generate link previews setting"
+    },
+    "Preferences--advanced": {
+        "message": "Avancerat",
+        "description": "Title for advanced settings"
+    },
+    "Preferences--notification-content": {
+        "message": "Aviseringsinnehåll",
+        "description": "Label for the notification content setting select box"
+    },
+    "Preferences--blocked": {
+        "message": "Blockerade",
+        "description": "Label for blocked contacts setting"
+    },
+    "Preferences--blocked-count-singular": {
+        "message": "$num$ kontakt",
+        "description": "Number of contacts blocked singular",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "1"
+            }
+        }
+    },
+    "Preferences--blocked-count-plural": {
+        "message": "$num$ kontakter",
+        "description": "Number of contacts blocked plural",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "20"
+            }
+        }
+    },
+    "Preferences__who-can--title": {
+        "message": "Vem kan...",
+        "description": "Title for the 'who can do X' setting"
+    },
+    "Preferences__privacy--description": {
+        "message": "För att ändra dessa inställningar, öppna appen Signal på din mobila enhet och navigera till Inställningar > Integritet",
+        "description": "Description for the 'who can do X' setting"
+    },
+    "Preferences__who-can--everybody": {
+        "message": "Alla",
+        "description": "Option for who can see my X select"
+    },
+    "Preferences__who-can--contacts": {
+        "message": "Mina kontakter",
+        "description": "Option for who can see my X select"
+    },
+    "Preferences__who-can--nobody": {
+        "message": "Ingen",
+        "description": "Option for who can see my X select"
+    },
+    "Preferences--messaging": {
+        "message": "Meddelanden",
+        "description": "Title for the messaging settings"
+    },
+    "Preferences--see-me": {
+        "message": "Se mitt telefonnummer",
+        "description": "Label for the see my phone number setting"
+    },
+    "Preferences--find-me": {
+        "message": "Hitta mig efter mitt telefonnummer",
+        "description": "Label for the find me by my phone number setting"
+    },
+    "Preferences--read-receipts": {
+        "message": "Läskvitton",
+        "description": "Label for the read receipts setting"
+    },
+    "Preferences--typing-indicators": {
+        "message": "Skrivindikatorer",
+        "description": "Label for the typing indicators setting"
+    },
+    "Preferences--updates": {
+        "message": "Uppdateringar",
+        "description": "Header for settings having to do with updates"
+    },
+    "Preferences__download-update": {
+        "message": "Hämta uppdateringar automatiskt",
+        "description": "Label for checkbox for the auto download updates setting"
+    },
+    "DialogUpdate--version-available": {
+        "message": "Uppdatering till version $version$ tillgänglig",
+        "description": "Tooltip for new update available",
+        "placeholders": {
+            "status": {
+                "content": "$1",
+                "example": "v7.7.7"
+            }
+        }
+    },
+    "WhatsNew__v5.15--1": {
+        "message": "Nej, det är inget damm som du behöver för att få bort din bildskärm, det finns nu en prick för ouppspelade inkommande ljudmeddelanden.",
+        "description": "Release notes for v5.15"
+    },
+    "WhatsNew__v5.15--2": {
+        "message": "Den uppringande lobbyn fick lite ombyggnationer och renoveringar och vi behövde inte ens refinansiera.",
+        "description": "Release notes for v5.15"
+    },
+    "WhatsNew__v5.15--3": {
+        "message": "Det nya inställningsfönstret är bättre och snabbare. Gå vidare och ändra din zoomnivå, växla temat, ställ in en anpassad försvinnande tid.",
+        "description": "Release notes for v5.15"
+    },
+    "WhatsNew__v5.15--4": {
+        "message": "Du kan nu välja när du vill hämta och tillämpa nya uppdateringar för Signal. Dialogrutorna fick också en liten uppdatering. Kolla in inställningen i det nya inställningsfönstret.",
+        "description": "Release notes for v5.15"
+    },
+    "WhatsNew__v5.15--5": {
+        "message": "Krossade massor av buggar och det finns några prestandaförbättringar också. Tack alla för era rapporter!",
+        "description": "Release notes for v5.15"
     }
 }
