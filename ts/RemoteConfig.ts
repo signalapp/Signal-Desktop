@@ -21,7 +21,7 @@ export type ConfigKeyType =
   | 'desktop.screensharing2'
   | 'desktop.senderKey.send'
   | 'desktop.senderKey.retry'
-  | 'desktop.sendSenderKey2'
+  | 'desktop.sendSenderKey3'
   | 'desktop.storage'
   | 'desktop.storageWrite3'
   | 'global.calling.maxGroupCallRingSize'
