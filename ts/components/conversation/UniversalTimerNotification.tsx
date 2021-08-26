@@ -11,8 +11,6 @@ export type Props = {
   expireTimer: number;
 };
 
-const CSS_MODULE = 'module-universal-timer-notification';
-
 export const UniversalTimerNotification: React.FC<Props> = props => {
   const { i18n, expireTimer } = props;
 
@@ -23,15 +21,14 @@ export const UniversalTimerNotification: React.FC<Props> = props => {
   const timeValue = expirationTimer.format(i18n, expireTimer);
 
   return (
-    <div className={CSS_MODULE}>
-      <div className={`${CSS_MODULE}__icon-container`}>
-        <div className={`${CSS_MODULE}__icon`} />
-        <div className={`${CSS_MODULE}__icon-label`}>{timeValue}</div>
-      </div>
-      <div className={`${CSS_MODULE}__message`}>
-        {i18n('UniversalTimerNotification__text', {
-          timeValue,
-        })}
+    <div className="SystemMessage">
+      <div className="SystemMessage__icon SystemMessage__icon--timer" />
+      <div className="SystemMessage__text">
+        <div>
+          {i18n('UniversalTimerNotification__text', {
+            timeValue,
+          })}
+        </div>
       </div>
     </div>
   );

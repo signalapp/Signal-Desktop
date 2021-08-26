@@ -2,13 +2,17 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useState, useEffect } from 'react';
+import classNames from 'classnames';
 import Measure from 'react-measure';
+import { noop } from 'lodash';
 
+import { Button, ButtonSize, ButtonVariant } from '../Button';
 import { Timestamp } from './Timestamp';
 import { LocalizerType } from '../../types/Util';
 import { CallMode } from '../../types/Calling';
 import {
   CallingNotificationType,
+  getCallingIcon,
   getCallingNotificationText,
 } from '../../util/callingNotification';
 import { usePrevious } from '../../util/hooks';
@@ -48,16 +52,18 @@ export const CallingNotification: React.FC<PropsType> = React.memo(props => {
     }
   }, [height, previousHeight, conversationId, messageId, messageSizeChanged]);
 
+  let hasButton = false;
   let timestamp: number;
-  let callType: 'audio' | 'video';
+  let wasMissed = false;
   switch (props.callMode) {
     case CallMode.Direct:
       timestamp = props.acceptedTime || props.endedTime;
-      callType = props.wasVideoCall ? 'video' : 'audio';
+      wasMissed =
+        props.wasIncoming && !props.acceptedTime && !props.wasDeclined;
       break;
     case CallMode.Group:
+      hasButton = !props.ended;
       timestamp = props.startedTime;
-      callType = 'video';
       break;
     default:
       window.log.error(
@@ -65,6 +71,8 @@ export const CallingNotification: React.FC<PropsType> = React.memo(props => {
       );
       return null;
   }
+
+  const icon = getCallingIcon(props);
 
   return (
     <Measure
@@ -79,24 +87,33 @@ export const CallingNotification: React.FC<PropsType> = React.memo(props => {
     >
       {({ measureRef }) => (
         <div
-          className={`module-message-calling--notification module-message-calling--${callType}`}
+          className={classNames('SystemMessage', 'SystemMessage--multiline', {
+            'SystemMessage--error': wasMissed,
+          })}
           ref={measureRef}
         >
-          <div className={`module-message-calling--${callType}__icon`} />
-          {getCallingNotificationText(props, i18n)}
-          <div>
-            <Timestamp
-              i18n={i18n}
-              timestamp={timestamp}
-              extended
-              direction="outgoing"
-              withImageNoCaption={false}
-              withSticker={false}
-              withTapToViewExpired={false}
-              module="module-message__metadata__date"
+          <div className="SystemMessage__line">
+            <div
+              className={`SystemMessage__icon SystemMessage__icon--${icon}`}
             />
+            <div>
+              {getCallingNotificationText(props, i18n)} &middot;{' '}
+              <Timestamp
+                direction="outgoing"
+                extended
+                i18n={i18n}
+                timestamp={timestamp}
+                withImageNoCaption={false}
+                withSticker={false}
+                withTapToViewExpired={false}
+              />
+            </div>
           </div>
-          <CallingNotificationButton {...props} />
+          {hasButton ? (
+            <div className="SystemMessage__line">
+              <CallingNotificationButton {...props} />
+            </div>
+          ) : null}
         </div>
       )}
     </Measure>
@@ -120,7 +137,7 @@ function CallingNotificationButton(props: PropsType) {
 
   let buttonText: string;
   let disabledTooltipText: undefined | string;
-  let onClick: undefined | (() => void);
+  let onClick: () => void;
   if (activeCallConversationId) {
     if (activeCallConversationId === conversationId) {
       buttonText = i18n('calling__return');
@@ -130,6 +147,7 @@ function CallingNotificationButton(props: PropsType) {
       disabledTooltipText = i18n(
         'calling__call-notification__button__in-another-call-tooltip'
       );
+      onClick = noop;
     }
   } else if (deviceCount >= maxDevices) {
     buttonText = i18n('calling__call-is-full');
@@ -137,6 +155,7 @@ function CallingNotificationButton(props: PropsType) {
       'calling__call-notification__button__call-full-tooltip',
       [String(deviceCount)]
     );
+    onClick = noop;
   } else {
     buttonText = i18n('calling__join');
     onClick = () => {
@@ -145,14 +164,14 @@ function CallingNotificationButton(props: PropsType) {
   }
 
   const button = (
-    <button
-      className="module-message-calling--notification__button"
+    <Button
       disabled={Boolean(disabledTooltipText)}
       onClick={onClick}
-      type="button"
+      size={ButtonSize.Small}
+      variant={ButtonVariant.SystemMessage}
     >
       {buttonText}
-    </button>
+    </Button>
   );
 
   if (disabledTooltipText) {

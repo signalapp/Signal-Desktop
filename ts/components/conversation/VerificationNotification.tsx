@@ -52,32 +52,33 @@ export class VerificationNotification extends React.Component<Props> {
     const id = this.getStringId();
 
     return (
-      <Intl
-        id={id}
-        components={[
-          <ContactName
-            key="external-1"
-            name={contact.name}
-            profileName={contact.profileName}
-            phoneNumber={contact.phoneNumber}
-            title={contact.title}
-            module="module-verification-notification__contact"
-            i18n={i18n}
-          />,
-        ]}
-        i18n={i18n}
-      />
+      <div className="SystemMessage__text">
+        <Intl
+          id={id}
+          components={[
+            <ContactName
+              key="external-1"
+              name={contact.name}
+              profileName={contact.profileName}
+              phoneNumber={contact.phoneNumber}
+              title={contact.title}
+              module="module-verification-notification__contact"
+              i18n={i18n}
+            />,
+          ]}
+          i18n={i18n}
+        />
+      </div>
     );
   }
 
   public render(): JSX.Element {
     const { type } = this.props;
-    const suffix =
-      type === 'markVerified' ? 'mark-verified' : 'mark-not-verified';
+    const suffix = type === 'markVerified' ? 'verified' : 'verified-not';
 
     return (
-      <div className="module-verification-notification">
-        <div className={`module-verification-notification__icon--${suffix}`} />
+      <div className="SystemMessage">
+        <div className={`SystemMessage__icon SystemMessage__icon--${suffix}`} />
         {this.renderContents()}
       </div>
     );

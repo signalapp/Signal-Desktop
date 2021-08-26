@@ -119,17 +119,24 @@ storiesOf('Components/Conversation/TimelineItem', module)
         },
       },
       {
+        type: 'universalTimerNotification',
+        data: null,
+      },
+      {
         type: 'chatSessionRefreshed',
+      },
+      {
+        type: 'safetyNumberNotification',
+        data: {
+          isGroup: false,
+          contact: getDefaultConversation(),
+        },
       },
       {
         type: 'deliveryIssue',
         data: {
           sender: getDefaultConversation(),
         },
-      },
-      {
-        type: 'universalTimerNotification',
-        data: null,
       },
       {
         type: 'changeNumberNotification',
@@ -255,7 +262,7 @@ storiesOf('Components/Conversation/TimelineItem', module)
       {
         type: 'callHistory',
         data: {
-          // missed (neither accepted nor declined) outgoing audio
+          // unanswered (neither accepted nor declined) outgoing audio
           callMode: CallMode.Direct,
           wasDeclined: false,
           wasIncoming: false,
@@ -266,7 +273,7 @@ storiesOf('Components/Conversation/TimelineItem', module)
       {
         type: 'callHistory',
         data: {
-          // missed (neither accepted nor declined) outgoing video
+          // unanswered (neither accepted nor declined) outgoing video
           callMode: CallMode.Direct,
           wasDeclined: false,
           wasIncoming: false,
@@ -388,6 +395,71 @@ storiesOf('Components/Conversation/TimelineItem', module)
           deviceCount: 0,
           maxDevices: 16,
           startedTime: Date.now(),
+        },
+      },
+      {
+        type: 'linkNotification',
+        data: null,
+      },
+      {
+        type: 'profileChange',
+        data: {
+          change: {
+            type: 'name',
+            oldName: 'Fred',
+            newName: 'John',
+          },
+          changedContact: getDefaultConversation(),
+        },
+      },
+      {
+        type: 'resetSessionNotification',
+        data: null,
+      },
+      {
+        type: 'unsupportedMessage',
+        data: {
+          canProcessNow: true,
+          contact: getDefaultConversation(),
+        },
+      },
+      {
+        type: 'unsupportedMessage',
+        data: {
+          canProcessNow: false,
+          contact: getDefaultConversation(),
+        },
+      },
+      {
+        type: 'verificationNotification',
+        data: {
+          type: 'markVerified',
+          isLocal: false,
+          contact: getDefaultConversation(),
+        },
+      },
+      {
+        type: 'verificationNotification',
+        data: {
+          type: 'markVerified',
+          isLocal: true,
+          contact: getDefaultConversation(),
+        },
+      },
+      {
+        type: 'verificationNotification',
+        data: {
+          type: 'markNotVerified',
+          isLocal: false,
+          contact: getDefaultConversation(),
+        },
+      },
+      {
+        type: 'verificationNotification',
+        data: {
+          type: 'markNotVerified',
+          isLocal: true,
+          contact: getDefaultConversation(),
         },
       },
     ];

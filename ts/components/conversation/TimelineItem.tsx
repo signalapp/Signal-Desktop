@@ -246,8 +246,8 @@ export class TimelineItem extends React.PureComponent<PropsType> {
       );
     } else if (item.type === 'linkNotification') {
       notification = (
-        <div className="module-message-unsynced">
-          <div className="module-message-unsynced__icon" />
+        <div className="SystemMessage">
+          <div className="SystemMessage__icon SystemMessage__icon--unsynced" />
           {i18n('messageHistoryUnsynced')}
         </div>
       );

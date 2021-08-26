@@ -1,7 +1,6 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import sharp from 'sharp';
 import loadImage from 'blueimp-load-image';
 
 import { MIMEType, IMAGE_JPEG } from '../types/MIME';
@@ -107,7 +106,9 @@ async function stripImageFileEXIFData(
   type: MIMEType
 ): Promise<Blob> {
   const arrayBuffer = await file.arrayBuffer();
-  const xArrayBuffer = await sharp(new Uint8Array(arrayBuffer)).toBuffer();
+  const xArrayBuffer = await window
+    .sharp(new Uint8Array(arrayBuffer))
+    .toBuffer();
   return new Blob([xArrayBuffer], { type });
 }
 

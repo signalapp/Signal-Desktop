@@ -3,6 +3,7 @@
 
 import * as React from 'react';
 
+import { Button, ButtonSize, ButtonVariant } from '../Button';
 import { LocalizerType } from '../../types/Util';
 import { ConversationType } from '../../state/ducks/conversations';
 import { Intl } from '../Intl';
@@ -34,28 +35,40 @@ export function GroupV1Migration(props: PropsType): React.ReactElement {
   }, [setShowingDialog]);
 
   return (
-    <div className="module-group-v1-migration">
-      <div className="module-group-v1-migration--icon" />
-      <div className="module-group-v1-migration--text">
-        {i18n('GroupV1--Migration--was-upgraded')}
-      </div>
-      {areWeInvited ? (
-        <div className="module-group-v1-migration--text">
-          {i18n('GroupV1--Migration--invited--you')}
+    <div className="SystemMessage SystemMessage--multiline">
+      <div className="SystemMessage__line">
+        <div className="SystemMessage__icon SystemMessage__icon--group" />
+        <div>
+          <div>{i18n('GroupV1--Migration--was-upgraded')}</div>
+          <div>
+            {areWeInvited ? (
+              i18n('GroupV1--Migration--invited--you')
+            ) : (
+              <>
+                {renderUsers(
+                  invitedMembers,
+                  i18n,
+                  'GroupV1--Migration--invited'
+                )}
+                {renderUsers(
+                  droppedMembers,
+                  i18n,
+                  'GroupV1--Migration--removed'
+                )}
+              </>
+            )}
+          </div>
         </div>
-      ) : (
-        <>
-          {renderUsers(invitedMembers, i18n, 'GroupV1--Migration--invited')}
-          {renderUsers(droppedMembers, i18n, 'GroupV1--Migration--removed')}
-        </>
-      )}
-      <button
-        type="button"
-        className="module-group-v1-migration--button"
-        onClick={showDialog}
-      >
-        {i18n('GroupV1--Migration--learn-more')}
-      </button>
+      </div>
+      <div className="SystemMessage__line">
+        <Button
+          onClick={showDialog}
+          size={ButtonSize.Small}
+          variant={ButtonVariant.SystemMessage}
+        >
+          {i18n('GroupV1--Migration--learn-more')}
+        </Button>
+      </div>
       {showingDialog ? (
         <GroupV1MigrationDialog
           areWeInvited={areWeInvited}

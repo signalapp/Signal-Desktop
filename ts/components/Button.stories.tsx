@@ -11,20 +11,21 @@ const story = storiesOf('Components/Button', module);
 
 story.add('Kitchen sink', () => (
   <>
-    {[ButtonSize.Medium, ButtonSize.Small].map(size => (
-      <React.Fragment key={size}>
-        {[
-          ButtonVariant.Primary,
-          ButtonVariant.Secondary,
-          ButtonVariant.SecondaryAffirmative,
-          ButtonVariant.SecondaryDestructive,
-          ButtonVariant.Destructive,
-          ButtonVariant.Calling,
-        ].map(variant => (
-          <React.Fragment key={variant}>
+    {[
+      ButtonVariant.Primary,
+      ButtonVariant.Secondary,
+      ButtonVariant.SecondaryAffirmative,
+      ButtonVariant.SecondaryDestructive,
+      ButtonVariant.Destructive,
+      ButtonVariant.Calling,
+      ButtonVariant.SystemMessage,
+    ].map(variant => (
+      <React.Fragment key={variant}>
+        {[ButtonSize.Medium, ButtonSize.Small].map(size => (
+          <React.Fragment key={size}>
             <p>
               <Button onClick={action('onClick')} size={size} variant={variant}>
-                Hello world
+                {variant}
               </Button>
             </p>
             <p>
@@ -34,7 +35,7 @@ story.add('Kitchen sink', () => (
                 size={size}
                 variant={variant}
               >
-                Hello world
+                {variant}
               </Button>
             </p>
           </React.Fragment>

@@ -95,17 +95,15 @@ export const TimerNotification: FunctionComponent<Props> = props => {
   }
 
   return (
-    <div className="module-timer-notification">
-      <div className="module-timer-notification__icon-container">
-        <div
-          className={classNames(
-            'module-timer-notification__icon',
-            disabled ? 'module-timer-notification__icon--disabled' : null
-          )}
-        />
-        <div className="module-timer-notification__icon-label">{timespan}</div>
-      </div>
-      <div className="module-timer-notification__message">{message}</div>
+    <div className="SystemMessage">
+      <div
+        className={classNames(
+          'SystemMessage__icon',
+          'SystemMessage__icon--timer',
+          disabled ? 'SystemMessage__icon--timer-disabled' : null
+        )}
+      />
+      <div>{message}</div>
     </div>
   );
 };

@@ -10,7 +10,5 @@ export type Props = {
 };
 
 export const ResetSessionNotification = ({ i18n }: Props): JSX.Element => (
-  <div className="module-reset-session-notification">
-    {i18n('sessionEnded')}
-  </div>
+  <div className="SystemMessage">{i18n('sessionEnded')}</div>
 );

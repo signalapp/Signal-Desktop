@@ -21,14 +21,12 @@ export type PropsHousekeeping = {
 
 export type Props = PropsData & PropsHousekeeping;
 
-const CSS_MODULE = 'module-change-number-notification';
-
 export const ChangeNumberNotification: React.FC<Props> = props => {
   const { i18n, sender, timestamp } = props;
 
   return (
-    <div className={CSS_MODULE}>
-      <span className={`${CSS_MODULE}__icon`} />
+    <div className="SystemMessage">
+      <span className="SystemMessage__icon SystemMessage__icon--phone" />
       <Intl
         id="ChangeNumber--notification"
         components={{

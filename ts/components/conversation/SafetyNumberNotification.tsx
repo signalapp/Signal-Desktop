@@ -3,6 +3,7 @@
 
 import React from 'react';
 
+import { Button, ButtonSize, ButtonVariant } from '../Button';
 import { ContactName } from './ContactName';
 import { Intl } from '../Intl';
 import { LocalizerType } from '../../types/Util';
@@ -41,38 +42,42 @@ export const SafetyNumberNotification = ({
     : 'safetyNumberChanged';
 
   return (
-    <div className="module-safety-number-notification">
-      <div className="module-safety-number-notification__icon" />
-      <div className="module-safety-number-notification__text">
-        <Intl
-          id={changeKey}
-          components={[
-            <span
-              key="external-1"
-              className="module-safety-number-notification__contact"
-            >
-              <ContactName
-                name={contact.name}
-                profileName={contact.profileName}
-                phoneNumber={contact.phoneNumber}
-                title={contact.title}
-                module="module-safety-number-notification__contact"
-                i18n={i18n}
-              />
-            </span>,
-          ]}
-          i18n={i18n}
-        />
+    <div className="SystemMessage SystemMessage--multiline">
+      <div className="SystemMessage__line">
+        <div className="SystemMessage__icon SystemMessage__icon--safety-number" />
+        <span>
+          <Intl
+            id={changeKey}
+            components={[
+              <span
+                key="external-1"
+                className="module-safety-number-notification__contact"
+              >
+                <ContactName
+                  name={contact.name}
+                  profileName={contact.profileName}
+                  phoneNumber={contact.phoneNumber}
+                  title={contact.title}
+                  module="module-safety-number-notification__contact"
+                  i18n={i18n}
+                />
+              </span>,
+            ]}
+            i18n={i18n}
+          />
+        </span>
       </div>
-      <button
-        type="button"
-        onClick={() => {
-          showIdentity(contact.id);
-        }}
-        className="module-safety-number-notification__button"
-      >
-        {i18n('verifyNewNumber')}
-      </button>
+      <div className="SystemMessage__line">
+        <Button
+          onClick={() => {
+            showIdentity(contact.id);
+          }}
+          size={ButtonSize.Small}
+          variant={ButtonVariant.SystemMessage}
+        >
+          {i18n('verifyNewNumber')}
+        </Button>
+      </div>
     </div>
   );
 };

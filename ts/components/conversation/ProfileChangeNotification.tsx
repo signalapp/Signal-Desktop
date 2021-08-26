@@ -22,8 +22,8 @@ export function ProfileChangeNotification(props: PropsType): JSX.Element {
   const message = getStringForProfileChange(change, changedContact, i18n);
 
   return (
-    <div className="module-profile-change-notification">
-      <div className="module-profile-change-notification--icon" />
+    <div className="SystemMessage">
+      <div className="SystemMessage__icon SystemMessage__icon--profile" />
       <Emojify text={message} />
     </div>
   );

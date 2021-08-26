@@ -56,8 +56,17 @@ storiesOf('Components/Conversation/GroupV2Change', module)
               removed: false,
             },
             {
+              type: 'description',
+              description:
+                'This is a long description.\n\nWe need a dialog to view it all!\n\nIt has a link to https://example.com',
+            },
+            {
               type: 'member-add',
               conversationId: OUR_ID,
+            },
+            {
+              type: 'description',
+              description: 'Another description',
             },
             {
               type: 'member-privilege',

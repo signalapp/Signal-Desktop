@@ -5,6 +5,7 @@ import React, { useCallback, useState, ReactElement } from 'react';
 
 import { LocalizerType } from '../../types/Util';
 
+import { Button, ButtonSize, ButtonVariant } from '../Button';
 import { ChatSessionRefreshedDialog } from './ChatSessionRefreshedDialog';
 
 type PropsHousekeepingType = {
@@ -36,18 +37,20 @@ export function ChatSessionRefreshedNotification(
   }, [contactSupport, setIsDialogOpen]);
 
   return (
-    <div className="module-chat-session-refreshed-notification">
-      <div className="module-chat-session-refreshed-notification__first-line">
-        <span className="module-chat-session-refreshed-notification__icon" />
+    <div className="SystemMessage SystemMessage--multiline">
+      <div className="SystemMessage__line">
+        <span className="SystemMessage__icon SystemMessage__icon--session-refresh" />
         {i18n('ChatRefresh--notification')}
       </div>
-      <button
-        type="button"
-        onClick={openDialog}
-        className="module-chat-session-refreshed-notification__button"
-      >
-        {i18n('ChatRefresh--learnMore')}
-      </button>
+      <div className="SystemMessage__line">
+        <Button
+          onClick={openDialog}
+          size={ButtonSize.Small}
+          variant={ButtonVariant.SystemMessage}
+        >
+          {i18n('ChatRefresh--learnMore')}
+        </Button>
+      </div>
       {isDialogOpen ? (
         <ChatSessionRefreshedDialog
           onClose={closeDialog}

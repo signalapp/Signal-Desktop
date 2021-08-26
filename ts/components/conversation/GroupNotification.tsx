@@ -157,19 +157,21 @@ export class GroupNotification extends React.Component<Props> {
     );
 
     return (
-      <div className="module-group-notification">
-        {isLeftOnly ? null : (
-          <>
-            {fromLabel}
-            <br />
-          </>
-        )}
-        {(changes || []).map((change, i) => (
-          // eslint-disable-next-line react/no-array-index-key
-          <div key={i} className="module-group-notification__change">
-            {this.renderChange(change, from)}
-          </div>
-        ))}
+      <div className="SystemMessage">
+        <div>
+          {isLeftOnly ? null : (
+            <>
+              {fromLabel}
+              <br />
+            </>
+          )}
+          {(changes || []).map((change, i) => (
+            // eslint-disable-next-line react/no-array-index-key
+            <div key={i} className="module-group-notification__change">
+              {this.renderChange(change, from)}
+            </div>
+          ))}
+        </div>
       </div>
     );
   }
