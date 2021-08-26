@@ -1573,12 +1573,14 @@ export class ConversationModel extends window.Backbone
     window.Signal.Data.updateConversation(this.attributes);
   }
 
-  incrementSentMessageCount(): void {
+  incrementSentMessageCount({ save = true }: { save?: boolean } = {}): void {
     this.set({
       messageCount: (this.get('messageCount') || 0) + 1,
       sentMessageCount: (this.get('sentMessageCount') || 0) + 1,
     });
-    window.Signal.Data.updateConversation(this.attributes);
+    if (save) {
+      window.Signal.Data.updateConversation(this.attributes);
+    }
   }
 
   decrementSentMessageCount(): void {
@@ -3714,7 +3716,7 @@ export class ConversationModel extends window.Backbone
         isArchived: false,
       });
 
-      this.incrementSentMessageCount();
+      this.incrementSentMessageCount({ save: false });
 
       const renderDuration = Date.now() - renderStart;
 
