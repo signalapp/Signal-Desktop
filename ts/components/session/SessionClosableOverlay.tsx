@@ -48,7 +48,6 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
     this.inputRef = React.createRef();
     this.onKeyUp = this.onKeyUp.bind(this);
     this.onGroupNameChanged = this.onGroupNameChanged.bind(this);
-
   }
 
   public componentDidMount() {
@@ -60,7 +59,6 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
   }
   public componentWillUnmount() {
     window.removeEventListener('keyup', this.onKeyUp);
-
   }
 
   public getContacts() {

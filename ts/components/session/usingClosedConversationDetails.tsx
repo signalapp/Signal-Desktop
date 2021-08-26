@@ -55,7 +55,7 @@ export function usingClosedConversationDetails(WrappedComponent: any) {
         const memberConvos = _.compact(members.map(m => getConversationController().get(m.key)));
         const memberAvatars = memberConvos.map(m => {
           return {
-            avatarPath: m.getAvatar()?.url || undefined,
+            avatarPath: m.getAvatarPath() || undefined,
             id: m.id,
             name: m.get('name') || m.get('profileName') || m.id,
           };

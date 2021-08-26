@@ -48,6 +48,8 @@ import {
   SendMessageType,
 } from '../components/session/conversation/SessionCompositionBox';
 import { ed25519Str } from '../session/onions/onionPath';
+import { getDecryptedMediaUrl } from '../session/crypto/DecryptedAttachmentsManager';
+import { IMAGE_JPEG } from '../types/MIME';
 
 export enum ConversationTypeEnum {
   GROUP = 'group',
@@ -1375,21 +1377,21 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     return null;
   }
-  public getAvatar() {
-    const url = this.getAvatarPath();
-
-    return { url: url || null };
-  }
 
   public async getNotificationIcon() {
-    return new Promise(resolve => {
-      const avatar = this.getAvatar();
-      if (avatar.url) {
-        resolve(avatar.url);
-      } else {
-        resolve(new window.Whisper.IdenticonSVGView(avatar).getDataUrl());
+    const avatarUrl = this.getAvatarPath();
+    const noIconUrl = 'images/session/session_icon_32.png';
+    if (avatarUrl) {
+      const decryptedAvatarUrl = await getDecryptedMediaUrl(avatarUrl, IMAGE_JPEG);
+
+      if (!decryptedAvatarUrl) {
+        window.log.warn('Could not decrypt avatar stored locally for getNotificationIcon..');
+        return noIconUrl;
       }
-    });
+      return decryptedAvatarUrl;
+    } else {
+      return noIconUrl;
+    }
   }
 
   public async notify(message: MessageModel) {
@@ -1430,7 +1432,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       ConversationTypeEnum.PRIVATE
     );
 
-    const iconUrl = await convo.getNotificationIcon();
+    const iconUrl = await this.getNotificationIcon();
 
     const messageJSON = message.toJSON();
     const messageSentAt = messageJSON.sent_at;
