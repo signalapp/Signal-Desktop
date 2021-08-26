@@ -26,6 +26,7 @@ import {
 } from './storageRecordOps';
 import { ConversationModel } from '../models/conversations';
 import { strictAssert } from '../util/assert';
+import * as durations from '../util/durations';
 import { BackOff } from '../util/BackOff';
 import { handleMessageSend } from '../util/handleMessageSend';
 import { storageJobQueue } from '../util/JobQueue';
@@ -60,18 +61,19 @@ const validRecordTypes = new Set([
   4, // ACCOUNT
 ]);
 
-const SECOND = 1000;
-const MINUTE = 60 * SECOND;
-
 const backOff = new BackOff([
-  SECOND,
-  5 * SECOND,
-  30 * SECOND,
-  2 * MINUTE,
-  5 * MINUTE,
+  durations.SECOND,
+  5 * durations.SECOND,
+  30 * durations.SECOND,
+  2 * durations.MINUTE,
+  5 * durations.MINUTE,
 ]);
 
-const conflictBackOff = new BackOff([SECOND, 5 * SECOND, 30 * SECOND]);
+const conflictBackOff = new BackOff([
+  durations.SECOND,
+  5 * durations.SECOND,
+  30 * durations.SECOND,
+]);
 
 function redactStorageID(storageID: string): string {
   return storageID.substring(0, 3);
@@ -1112,7 +1114,7 @@ async function upload(fromSync = false): Promise<void> {
     if (uploadBucket.length >= 3) {
       const [firstMostRecentWrite] = uploadBucket;
 
-      if (isMoreRecentThan(5 * MINUTE, firstMostRecentWrite)) {
+      if (isMoreRecentThan(5 * durations.MINUTE, firstMostRecentWrite)) {
         throw new Error(
           'storageService.uploadManifest: too many writes too soon.'
         );

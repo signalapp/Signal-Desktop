@@ -11,6 +11,7 @@ import {
 } from '../util/zkgroup';
 
 import { GroupCredentialType } from '../textsecure/WebAPI';
+import * as durations from '../util/durations';
 import { BackOff } from '../util/BackOff';
 import { sleep } from '../util/sleep';
 
@@ -26,13 +27,8 @@ type NextCredentialsType = {
   tomorrow: GroupCredentialType;
 };
 
-const SECOND = 1000;
-const MINUTE = 60 * SECOND;
-const HOUR = 60 * MINUTE;
-const DAY = 24 * HOUR;
-
 function getTodayInEpoch() {
-  return Math.floor(Date.now() / DAY);
+  return Math.floor(Date.now() / durations.DAY);
 }
 
 let started = false;
@@ -48,15 +44,17 @@ export async function initializeGroupCredentialFetcher(): Promise<void> {
   // Because we fetch eight days of credentials at a time, we really only need to run
   //   this about once a week. But there's no problem running it more often; it will do
   //   nothing if no new credentials are needed, and will only request needed credentials.
-  await runWithRetry(maybeFetchNewCredentials, { scheduleAnother: 4 * HOUR });
+  await runWithRetry(maybeFetchNewCredentials, {
+    scheduleAnother: 4 * durations.HOUR,
+  });
 }
 
 const BACKOFF_TIMEOUTS = [
-  SECOND,
-  5 * SECOND,
-  30 * SECOND,
-  2 * MINUTE,
-  5 * MINUTE,
+  durations.SECOND,
+  5 * durations.SECOND,
+  30 * durations.SECOND,
+  2 * durations.MINUTE,
+  5 * durations.MINUTE,
 ];
 
 export async function runWithRetry(

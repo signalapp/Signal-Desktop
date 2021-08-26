@@ -19,6 +19,7 @@ import {
   setUpdateListener,
   UpdaterInterface,
 } from './common';
+import * as durations from '../util/durations';
 import { LoggerType } from '../types/Logging';
 import { hexToBinary, verifySignature } from './signature';
 import { markShouldQuit } from '../../app/window_state';
@@ -27,9 +28,7 @@ import { DialogType } from '../types/Dialogs';
 const readdir = pify(readdirCallback);
 const unlink = pify(unlinkCallback);
 
-const SECOND = 1000;
-const MINUTE = SECOND * 60;
-const INTERVAL = MINUTE * 30;
+const INTERVAL = 30 * durations.MINUTE;
 
 let fileName: string;
 let version: string;

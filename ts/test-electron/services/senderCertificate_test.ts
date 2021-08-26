@@ -8,6 +8,7 @@ import { assert } from 'chai';
 import * as sinon from 'sinon';
 import { v4 as uuid } from 'uuid';
 import Long from 'long';
+import * as durations from '../../util/durations';
 import * as Bytes from '../../Bytes';
 import { typedArrayToArrayBuffer } from '../../Crypto';
 import { SenderCertificateMode } from '../../textsecure/OutgoingMessage';
@@ -18,7 +19,7 @@ import { SenderCertificateService } from '../../services/senderCertificate';
 import SenderCertificate = Proto.SenderCertificate;
 
 describe('SenderCertificateService', () => {
-  const FIFTEEN_MINUTES = 15 * 60 * 1000;
+  const FIFTEEN_MINUTES = 15 * durations.MINUTE;
 
   let fakeValidCertificate: SenderCertificate;
   let fakeValidCertificateExpiry: number;

@@ -2,13 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { MessageModel } from '../models/messages';
+import * as durations from './durations';
 import { map, filter } from './iterables';
 import { isNotNil } from './isNotNil';
 
-const SECOND = 1000;
-const MINUTE = SECOND * 60;
-const FIVE_MINUTES = MINUTE * 5;
-const HOUR = MINUTE * 60;
+const FIVE_MINUTES = 5 * durations.MINUTE;
 
 type LookupItemType = {
   timestamp: number;
@@ -121,6 +119,6 @@ export class MessageController {
   }
 
   startCleanupInterval(): NodeJS.Timeout | number {
-    return setInterval(this.cleanup.bind(this), HOUR);
+    return setInterval(this.cleanup.bind(this), durations.HOUR);
   }
 }

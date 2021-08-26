@@ -1,10 +1,10 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as moment from 'moment';
+import * as durations from './durations';
 
 const BACKOFF_FACTOR = 1.9;
-const MAX_BACKOFF = moment.duration(15, 'minutes').asMilliseconds();
+const MAX_BACKOFF = 15 * durations.MINUTE;
 
 /**
  * For a given attempt, how long should we sleep (in milliseconds)?

@@ -23,6 +23,7 @@ import dataInterface from './sql/Client';
 import { toWebSafeBase64, fromWebSafeBase64 } from './util/webSafeBase64';
 import { assert, strictAssert } from './util/assert';
 import { isMoreRecentThan } from './util/timestamp';
+import * as durations from './util/durations';
 import { normalizeUuid } from './util/normalizeUuid';
 import { dropNull } from './util/dropNull';
 import {
@@ -1252,9 +1253,8 @@ export async function modifyGroupV2({
     );
   }
 
-  const ONE_MINUTE = 1000 * 60;
   const startTime = Date.now();
-  const timeoutTime = startTime + ONE_MINUTE;
+  const timeoutTime = startTime + durations.MINUTE;
 
   const MAX_ATTEMPTS = 5;
 
@@ -2723,7 +2723,7 @@ type MaybeUpdatePropsType = {
   force?: boolean;
 };
 
-const FIVE_MINUTES = 1000 * 60 * 5;
+const FIVE_MINUTES = 5 * durations.MINUTE;
 
 export async function waitThenMaybeUpdateGroup(
   options: MaybeUpdatePropsType,

@@ -14,6 +14,7 @@ import { strictAssert } from '../util/assert';
 import { explodePromise } from '../util/explodePromise';
 import { BackOff, FIBONACCI_TIMEOUTS } from '../util/BackOff';
 import { getUserAgent } from '../util/getUserAgent';
+import * as durations from '../util/durations';
 import { sleep } from '../util/sleep';
 import { SocketStatus } from '../types/SocketStatus';
 import * as Errors from '../types/errors';
@@ -30,9 +31,9 @@ import { WebAPICredentials, IRequestHandler } from './Types.d';
 // TODO: remove once we move away from ArrayBuffers
 const FIXMEU8 = Uint8Array;
 
-const TEN_SECONDS = 1000 * 10;
+const TEN_SECONDS = 10 * durations.SECOND;
 
-const FIVE_MINUTES = 5 * 60 * 1000;
+const FIVE_MINUTES = 5 * durations.MINUTE;
 
 export type SocketManagerOptions = Readonly<{
   url: string;

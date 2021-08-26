@@ -27,6 +27,7 @@ import { connection as WebSocket, IMessage } from 'websocket';
 
 import EventTarget, { EventHandler } from './EventTarget';
 
+import * as durations from '../util/durations';
 import { dropNull } from '../util/dropNull';
 import { isOlderThan } from '../util/timestamp';
 import { strictAssert } from '../util/assert';
@@ -34,7 +35,7 @@ import { normalizeNumber } from '../util/normalizeNumber';
 import * as Errors from '../types/errors';
 import { SignalService as Proto } from '../protobuf';
 
-const THIRTY_SECONDS = 30 * 1000;
+const THIRTY_SECONDS = 30 * durations.SECOND;
 
 const MAX_MESSAGE_SIZE = 64 * 1024;
 
@@ -385,7 +386,7 @@ export type KeepAliveOptionsType = {
 
 const KEEPALIVE_INTERVAL_MS = 55000; // 55 seconds + 5 seconds for closing the
 // socket above.
-const MAX_KEEPALIVE_INTERVAL_MS = 300 * 1000; // 5 minutes
+const MAX_KEEPALIVE_INTERVAL_MS = 5 * durations.MINUTE;
 
 class KeepAlive {
   private keepAliveTimer: NodeJS.Timeout | undefined;

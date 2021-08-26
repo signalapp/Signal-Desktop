@@ -19,6 +19,7 @@ import { getTitleBarVisibility, TitleBarVisibility } from './types/Settings';
 import { SocketStatus } from './types/SocketStatus';
 import { DEFAULT_CONVERSATION_COLOR } from './types/Colors';
 import { ChallengeHandler } from './challenge';
+import * as durations from './util/durations';
 import { isWindowDragElement } from './util/isWindowDragElement';
 import { assert, strictAssert } from './util/assert';
 import { dropNull } from './util/dropNull';
@@ -2261,7 +2262,7 @@ export async function startApp(): Promise<void> {
 
   window.SignalContext.nativeThemeListener.subscribe(themeChanged);
 
-  const FIVE_MINUTES = 5 * 60 * 1000;
+  const FIVE_MINUTES = 5 * durations.MINUTE;
 
   // Note: once this function returns, there still might be messages being processed on
   //   a given conversation's queue. But we have processed all events from the websocket.

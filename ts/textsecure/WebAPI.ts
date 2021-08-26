@@ -30,6 +30,7 @@ import { z } from 'zod';
 import Long from 'long';
 
 import { assert, strictAssert } from '../util/assert';
+import * as durations from '../util/durations';
 import { getUserAgent } from '../util/getUserAgent';
 import { toWebSafeBase64 } from '../util/webSafeBase64';
 import { SocketStatus } from '../types/SocketStatus';
@@ -266,7 +267,7 @@ function _validateResponse(response: any, schema: any) {
   return true;
 }
 
-const FIVE_MINUTES = 1000 * 60 * 5;
+const FIVE_MINUTES = 5 * durations.MINUTE;
 
 type AgentCacheType = {
   [name: string]: {

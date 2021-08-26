@@ -4,7 +4,7 @@
 /* eslint-disable class-methods-use-this */
 
 import * as z from 'zod';
-import * as moment from 'moment';
+import * as durations from '../util/durations';
 import type { LoggerType } from '../logging/log';
 import { exponentialBackoffMaxAttempts } from '../util/exponentialBackoff';
 import { runReadOrViewSyncJob } from './helpers/runReadOrViewSyncJob';
@@ -12,7 +12,7 @@ import { runReadOrViewSyncJob } from './helpers/runReadOrViewSyncJob';
 import { JobQueue } from './JobQueue';
 import { jobQueueDatabaseStore } from './JobQueueDatabaseStore';
 
-const MAX_RETRY_TIME = moment.duration(1, 'day').asMilliseconds();
+const MAX_RETRY_TIME = durations.DAY;
 
 const viewSyncJobDataSchema = z.object({
   viewSyncs: z.array(

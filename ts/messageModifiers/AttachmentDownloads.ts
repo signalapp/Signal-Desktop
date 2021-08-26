@@ -5,6 +5,7 @@ import { isNumber, omit } from 'lodash';
 import { v4 as getGuid } from 'uuid';
 
 import dataInterface from '../sql/Client';
+import * as durations from '../util/durations';
 import { downloadAttachment } from '../util/downloadAttachment';
 import { stringFromBytes } from '../Crypto';
 import {
@@ -28,15 +29,12 @@ const {
 
 const MAX_ATTACHMENT_JOB_PARALLELISM = 3;
 
-const SECOND = 1000;
-const MINUTE = 60 * SECOND;
-const HOUR = 60 * MINUTE;
-const TICK_INTERVAL = MINUTE;
+const TICK_INTERVAL = durations.MINUTE;
 
 const RETRY_BACKOFF: Record<number, number> = {
-  1: 30 * SECOND,
-  2: 30 * MINUTE,
-  3: 6 * HOUR,
+  1: 30 * durations.SECOND,
+  2: 30 * durations.MINUTE,
+  3: 6 * durations.HOUR,
 };
 
 let enabled = false;

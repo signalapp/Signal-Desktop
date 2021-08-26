@@ -13,7 +13,6 @@ import mkdirp from 'mkdirp';
 import rimraf from 'rimraf';
 import SQL, { Database, Statement } from 'better-sqlite3';
 import pProps from 'p-props';
-import * as moment from 'moment';
 
 import { v4 as generateUUID } from 'uuid';
 import {
@@ -41,6 +40,7 @@ import { dropNull } from '../util/dropNull';
 import { isNormalNumber } from '../util/isNormalNumber';
 import { isNotNil } from '../util/isNotNil';
 import { parseIntOrThrow } from '../util/parseIntOrThrow';
+import * as durations from '../util/durations';
 import { formatCountForLogging } from '../logging/formatCountForLogging';
 import { ConversationColorType, CustomColorType } from '../types/Colors';
 import { ProcessGroupCallRingRequestResult } from '../types/Calling';
@@ -5965,7 +5965,7 @@ async function processGroupCallRingCancelation(ringId: bigint): Promise<void> {
 
 // This age, in milliseconds, should be longer than any group call ring duration. Beyond
 //   that, it doesn't really matter what the value is.
-const MAX_GROUP_CALL_RING_AGE = moment.duration(30, 'minutes').asMilliseconds();
+const MAX_GROUP_CALL_RING_AGE = 30 * durations.MINUTE;
 
 async function cleanExpiredGroupCallRings(): Promise<void> {
   const db = getInstance();

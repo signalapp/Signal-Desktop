@@ -56,6 +56,7 @@ import { sendReadReceiptsFor } from '../util/sendReadReceiptsFor';
 import { updateConversationsWithUuidLookup } from '../updateConversationsWithUuidLookup';
 import { ReadStatus } from '../messages/MessageReadStatus';
 import { SendStatus } from '../messages/MessageSendState';
+import * as durations from '../util/durations';
 import {
   concat,
   filter,
@@ -106,8 +107,8 @@ const {
 } = window.Signal.Migrations;
 const { addStickerPackReference } = window.Signal.Data;
 
-const THREE_HOURS = 3 * 60 * 60 * 1000;
-const FIVE_MINUTES = 1000 * 60 * 5;
+const THREE_HOURS = durations.HOUR * 3;
+const FIVE_MINUTES = durations.MINUTE * 5;
 
 const JOB_REPORTING_THRESHOLD_MS = 25;
 

@@ -3,7 +3,7 @@
 /* eslint-disable class-methods-use-this */
 
 import * as z from 'zod';
-import * as moment from 'moment';
+import * as durations from '../util/durations';
 import { strictAssert } from '../util/assert';
 import { waitForOnline } from '../util/waitForOnline';
 import { isDone as isDeviceLinked } from '../util/registration';
@@ -16,7 +16,7 @@ import { jobQueueDatabaseStore } from './JobQueueDatabaseStore';
 import { parseIntWithFallback } from '../util/parseIntWithFallback';
 import type { WebAPIType } from '../textsecure/WebAPI';
 
-const RETRY_WAIT_TIME = moment.duration(1, 'minute').asMilliseconds();
+const RETRY_WAIT_TIME = durations.MINUTE;
 const RETRYABLE_4XX_FAILURE_STATUSES = new Set([
   404,
   408,

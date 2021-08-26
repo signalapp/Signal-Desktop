@@ -29,6 +29,7 @@ import { arrayBufferToBase64, base64ToArrayBuffer } from '../Crypto';
 import { CURRENT_SCHEMA_VERSION } from '../../js/modules/types/message';
 import { createBatcher } from '../util/batcher';
 import { assert } from '../util/assert';
+import * as durations from '../util/durations';
 import { cleanDataForIpc } from './cleanDataForIpc';
 import { ReactionType } from '../types/Reactions';
 import { ConversationColorType, CustomColorType } from '../types/Colors';
@@ -82,7 +83,7 @@ if (ipcRenderer && ipcRenderer.setMaxListeners) {
   window.log.warn('sql/Client: ipcRenderer is not available!');
 }
 
-const DATABASE_UPDATE_TIMEOUT = 2 * 60 * 1000; // two minutes
+const DATABASE_UPDATE_TIMEOUT = 2 * durations.MINUTE;
 
 const MIN_TRACE_DURATION = 10;
 

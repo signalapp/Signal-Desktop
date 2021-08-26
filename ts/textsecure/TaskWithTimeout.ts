@@ -1,12 +1,14 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import * as durations from '../util/durations';
+
 export default function createTaskWithTimeout<T, Args extends Array<unknown>>(
   task: (...args: Args) => Promise<T>,
   id: string,
   options: { timeout?: number } = {}
 ): (...args: Args) => Promise<T> {
-  const timeout = options.timeout || 1000 * 60 * 2; // two minutes
+  const timeout = options.timeout || 2 * durations.MINUTE;
 
   const errorForStack = new Error('for stack');
 

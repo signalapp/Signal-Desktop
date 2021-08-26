@@ -28,6 +28,7 @@ import * as universalExpireTimer from './universalExpireTimer';
 import { PhoneNumberDiscoverability } from './phoneNumberDiscoverability';
 import { PhoneNumberSharingMode } from './phoneNumberSharingMode';
 import { assert } from './assert';
+import * as durations from './durations';
 import { isPhoneNumberSharingEnabled } from './isPhoneNumberSharingEnabled';
 
 type ThemeType = 'light' | 'dark' | 'system';
@@ -333,7 +334,7 @@ export function createIPCEvents(
     isPrimary: () => window.textsecure.storage.user.getDeviceId() === 1,
     syncRequest: () =>
       new Promise<void>((resolve, reject) => {
-        const FIVE_MINUTES = 5 * 60 * 60 * 1000;
+        const FIVE_MINUTES = 5 * durations.MINUTE;
         const syncRequest = window.getSyncRequest(FIVE_MINUTES);
         syncRequest.addEventListener('success', () => resolve());
         syncRequest.addEventListener('timeout', () =>

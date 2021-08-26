@@ -34,7 +34,6 @@ import {
   BandwidthMode,
 } from 'ringrtc';
 import { uniqBy, noop } from 'lodash';
-import * as moment from 'moment';
 
 import {
   ActionsType as UxActionsType,
@@ -63,6 +62,7 @@ import {
 import { assert } from '../util/assert';
 import { dropNull, shallowDropNull } from '../util/dropNull';
 import { getOwn } from '../util/getOwn';
+import * as durations from '../util/durations';
 import { handleMessageSend } from '../util/handleMessageSend';
 import {
   fetchMembershipProof,
@@ -99,9 +99,7 @@ const RINGRTC_HTTP_METHOD_TO_OUR_HTTP_METHOD: Map<
   [HttpMethod.Delete, 'DELETE'],
 ]);
 
-const CLEAN_EXPIRED_GROUP_CALL_RINGS_INTERVAL = moment
-  .duration(10, 'minutes')
-  .asMilliseconds();
+const CLEAN_EXPIRED_GROUP_CALL_RINGS_INTERVAL = 10 * durations.MINUTE;
 
 // We send group call update messages to tell other clients to peek, which triggers
 //   notifications, timeline messages, big green "Join" buttons, and so on. This enum
