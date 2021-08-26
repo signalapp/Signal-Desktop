@@ -337,7 +337,7 @@ export const ConversationList: React.FC<PropsType> = ({
       rowHeight={calculateRowHeight}
       rowRenderer={renderRow}
       scrollToIndex={scrollToRowIndex}
-      style={{ overflow: scrollable ? 'auto' : 'hidden' }}
+      style={{ overflow: scrollable ? 'overlay' : 'hidden' }}
       tabIndex={-1}
       width={width}
     />

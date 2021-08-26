@@ -5746,6 +5746,23 @@ button.module-image__border-overlay:focus {
 // Module: conversation list
 
 .module-conversation-list {
+  &::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    visibility: hidden;
+    width: 6px;
+
+    @include light-theme {
+      background: $color-black-alpha-40;
+    }
+    @include dark-theme {
+      background: $color-white-alpha-40;
+    }
+  }
+
+  &:hover::-webkit-scrollbar-thumb {
+    visibility: visible;
+  }
+
   &--scroll-behavior {
     &-default {
       @include smooth-scroll;

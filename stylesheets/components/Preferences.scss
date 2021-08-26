@@ -112,7 +112,7 @@
 
   &__settings-pane {
     height: 100vh;
-    overflow: scroll;
+    overflow: overlay;
     width: 100%;
 
     &::-webkit-scrollbar-corner {
