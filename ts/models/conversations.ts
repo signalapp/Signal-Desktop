@@ -111,6 +111,7 @@ const THREE_HOURS = durations.HOUR * 3;
 const FIVE_MINUTES = durations.MINUTE * 5;
 
 const JOB_REPORTING_THRESHOLD_MS = 25;
+const SEND_REPORTING_THRESHOLD_MS = 25;
 
 const ATTRIBUTES_THAT_DONT_INVALIDATE_PROPS_CACHE = new Set([
   'profileLastFetchedAt',
@@ -3674,9 +3675,22 @@ export class ConversationModel extends window.Backbone
 
       const model = new window.Whisper.Message(attributes);
       const message = window.MessageController.register(model.id, model);
+
+      const dbStart = Date.now();
+
       await window.Signal.Data.saveMessage(message.attributes, {
         forceSave: true,
       });
+
+      const dbDuration = Date.now() - dbStart;
+      if (dbDuration > SEND_REPORTING_THRESHOLD_MS) {
+        window.log.info(
+          `ConversationModel(${this.idForLogging()}.sendMessage(${now}): ` +
+            `db save took ${dbDuration}ms`
+        );
+      }
+
+      const renderStart = Date.now();
 
       this.addSingleMessage(model);
       if (sticker) {
@@ -3701,6 +3715,16 @@ export class ConversationModel extends window.Backbone
       });
 
       this.incrementSentMessageCount();
+
+      const renderDuration = Date.now() - renderStart;
+
+      if (renderDuration > SEND_REPORTING_THRESHOLD_MS) {
+        window.log.info(
+          `ConversationModel(${this.idForLogging()}.sendMessage(${now}): ` +
+            `render save took ${renderDuration}ms`
+        );
+      }
+
       window.Signal.Data.updateConversation(this.attributes);
 
       // We're offline!
