@@ -147,7 +147,7 @@ export async function sendContentMessageToGroup({
   const ourConversation = window.ConversationController.get(ourConversationId);
 
   if (
-    isEnabled('desktop.sendSenderKey2') &&
+    isEnabled('desktop.sendSenderKey3') &&
     ourConversation?.get('capabilities')?.senderKey &&
     RemoteConfig.isEnabled('desktop.senderKey.send') &&
     isGroupV2(conversation.attributes)
