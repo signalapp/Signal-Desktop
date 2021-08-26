@@ -27,6 +27,7 @@ const createConversation = (): ConversationType =>
     type: 'group',
     lastUpdated: 0,
     title: text('conversation title', 'Some Conversation'),
+    groupDescription: text('description', 'This is a group description'),
   });
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
@@ -48,4 +49,32 @@ story.add('Editable', () => {
   const props = createProps({ canEdit: true });
 
   return <ConversationDetailsHeader {...props} />;
+});
+
+story.add('Basic no-description', () => {
+  const props = createProps();
+
+  return (
+    <ConversationDetailsHeader
+      {...props}
+      conversation={getDefaultConversation({
+        title: 'My Group',
+        type: 'group',
+      })}
+    />
+  );
+});
+
+story.add('Editable no-description', () => {
+  const props = createProps({ canEdit: true });
+
+  return (
+    <ConversationDetailsHeader
+      {...props}
+      conversation={getDefaultConversation({
+        title: 'My Group',
+        type: 'group',
+      })}
+    />
+  );
 });

@@ -568,7 +568,7 @@ export async function mergeGroupV1Record(
     // still V1, because the storageItem that we'll put into manifest will have
     // a different record type.
     window.log.info(
-      'storageService.mergeGroupV1Record marking v1 ' +
+      'storageService.mergeGroupV1Record marking v1' +
         ' group for an update to v2',
       conversation.idForLogging()
     );
