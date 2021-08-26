@@ -6146,23 +6146,23 @@
         }
     },
     "WhatsNew__v5.15--1": {
-        "message": "No that's not speck of dust you need to flick off your monitor, there's now a dot for unplayed incoming audio messages.",
+        "message": "Hayır, monitörünüzde kalmış bir toz lekesi değil, artık oynatılmamış gelen sesli iletiler için küçük bir nokta var.",
         "description": "Release notes for v5.15"
     },
     "WhatsNew__v5.15--2": {
-        "message": "The calling lobby got some remodeling and renovations done and we didn't even have to refinance.",
+        "message": "Arama lobisinde tadilat yapıldı ve yeniden finanse etmek zorunda bile kalmadık.",
         "description": "Release notes for v5.15"
     },
     "WhatsNew__v5.15--3": {
-        "message": "The new preferences window is better and faster. Go ahead and change your zoom level, toggle the theme, set a custom disappearing timer.",
+        "message": "Yeni tercihler penceresi daha iyi ve daha hızlıdır. Devam edin ve yakınlaştırma seviyenizi değiştirin, temayı değiştirin, özel bir kaybolan ileti zamanlayıcısı ayarlayın.",
         "description": "Release notes for v5.15"
     },
     "WhatsNew__v5.15--4": {
-        "message": "You can now choose when to download and apply new updates for Signal. The dialogs got a small makeover too. Check out the setting in the new preferences window.",
+        "message": "Artık Signal için yeni güncellemelerin ne zaman indirileceğini ve uygulanacağını seçebilirsiniz. Diyaloglar da küçük bir değişime uğradı. Yeni tercihler penceresindeki ayarı inceleyin.",
         "description": "Release notes for v5.15"
     },
     "WhatsNew__v5.15--5": {
-        "message": "Squashed lots of bugs and there are some performance improvements as well. Thank you all for your reports!",
+        "message": "Bir sürü hata düzeltildi ve bazı performans iyileştirmeleri yapıldı. Raporlarınız için hepinize teşekkür ederiz!",
         "description": "Release notes for v5.15"
     }
 }

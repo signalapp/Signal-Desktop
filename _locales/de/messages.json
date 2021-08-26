@@ -1470,7 +1470,7 @@
         }
     },
     "calling__pre-call-info--will-ring-1": {
-        "message": "Signal wird $person$ anklingeln",
+        "message": "Signal wird bei $person$ klingeln",
         "description": "Shown in the calling lobby to describe who will be rung",
         "placeholders": {
             "person": {

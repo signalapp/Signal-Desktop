@@ -596,7 +596,7 @@
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
     },
     "stagedPreviewThumbnail": {
-        "message": "Preparando miniatura de vista previa de enlace para  $domain$",
+        "message": "Preparando miniatura de vista previa de enlace para $domain$",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
@@ -606,7 +606,7 @@
         }
     },
     "previewThumbnail": {
-        "message": "Miniatura de vista previa para  $domain$",
+        "message": "Miniatura de vista previa para $domain$",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
@@ -662,7 +662,7 @@
         "description": "Shown to allow the user to manually attempt a reconnect."
     },
     "connectingHangOn": {
-        "message": "No tomará mucho tiempo ... ",
+        "message": "No tomará mucho tiempo",
         "description": "Subtext description for when the client is connecting to the server."
     },
     "offline": {
@@ -988,7 +988,7 @@
         "description": "Shown as the title of our update error dialogs on windows"
     },
     "cannotUpdateDetail": {
-        "message": "Signal Desktop no ha podido actualizarse, a pesar que una nueva versión está disponible. Ve a  $url$ e instala la nueva versión.  Después, contacta con el soporte o envía un informe del fallo explicando el problema.",
+        "message": "Signal Desktop no ha podido actualizarse, a pesar que una nueva versión está disponible. Ve a $url$ e instala la nueva versión. Después, contacta con el soporte o envía un informe del fallo explicando el problema.",
         "description": "Shown if a general error happened while trying to install update package",
         "placeholders": {
             "url": {
@@ -998,7 +998,7 @@
         }
     },
     "readOnlyVolume": {
-        "message": "Signal Desktop está probablemente en cuarentena en macOS y la aplicación no se podrá actualizar automáticamente. Intenta transferir  $app$ a la carpeta  $folder$ con Finder.",
+        "message": "Signal Desktop está probablemente en cuarentena en macOS y la aplicación no se podrá actualizar automáticamente. Intenta transferir $app$ a la carpeta $folder$ con Finder.",
         "description": "Shown on MacOS if running on a read-only volume and we cannot update",
         "placeholders": {
             "app": {
@@ -1230,7 +1230,7 @@
         }
     },
     "quoteThumbnailAlt": {
-        "message": "Miniatura de imagen de mensaje citado",
+        "message": "Miniatura de imagen en mensaje citado",
         "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
     },
     "imageAttachmentAlt": {
@@ -1416,7 +1416,7 @@
         }
     },
     "calling__pre-call-info--another-device-in-call": {
-        "message": "Uno de tus otros disposivos ya está en esta llamada",
+        "message": "Uno de tus otros dispositivos ya participa en esta llamada",
         "description": "Shown in the calling lobby to describe when it is just you"
     },
     "calling__pre-call-info--2-people-in-call": {
@@ -3532,7 +3532,7 @@
         }
     },
     "calling__call-notification__button__in-another-call-tooltip": {
-        "message": "Ya estás en una llamada",
+        "message": "Ya participas en una llamada",
         "description": "Tooltip in disabled notification button when you're on another call"
     },
     "calling__call-notification__button__call-full-tooltip": {
@@ -4862,11 +4862,11 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--admin--you": {
-        "message": "Has modificado los ajustes del grupo para solo permitir a admins enviar mensajes.",
+        "message": "Has modificado los ajustes del grupo para permitir solo a admins enviar mensajes.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--admin--other": {
-        "message": "$memberName$ ha modificado los ajustes del grupo para solo permitir a admins enviar mensajes.",
+        "message": "$memberName$ ha modificado los ajustes del grupo para permitir solo a admins enviar mensajes.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4876,7 +4876,7 @@
         }
     },
     "GroupV2--announcements--admin--unknown": {
-        "message": "Se han modificado los ajustes del grupo para solo permitir a admins enviar mensajes.",
+        "message": "Se han modificado los ajustes del grupo para permitir solo a admins enviar mensajes.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--member--you": {
@@ -6052,7 +6052,7 @@
         "description": "Title for the generate link previews setting"
     },
     "Preferences__link-previews--description": {
-        "message": "Para modificar esta opción, abre Signal en tu teléfono y vete a «Ajustes > Chats»",
+        "message": "Para modificar esta opción, abre Signal en tu móvil y vete a Ajustes > Chats",
         "description": "Description for the generate link previews setting"
     },
     "Preferences--advanced": {
@@ -6092,7 +6092,7 @@
         "description": "Title for the 'who can do X' setting"
     },
     "Preferences__privacy--description": {
-        "message": "Para modificar estas opciones, abre Signal en tu teléfono y ve a «Ajustes > Privacidad»",
+        "message": "Para modificar estas opciones, abre Signal en tu móvil y vete a Ajustes > Privacidad",
         "description": "Description for the 'who can do X' setting"
     },
     "Preferences__who-can--everybody": {

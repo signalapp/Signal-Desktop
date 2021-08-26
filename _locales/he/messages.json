@@ -6162,7 +6162,7 @@
         "description": "Release notes for v5.15"
     },
     "WhatsNew__v5.15--5": {
-        "message": "Squashed lots of bugs and there are some performance improvements as well. Thank you all for your reports!",
+        "message": "סילקנו מלא תקלים ויש גם כמה שיפורי ביצועים. תודה לכולם על הדיווחים!",
         "description": "Release notes for v5.15"
     }
 }
