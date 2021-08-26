@@ -1,4 +1,3 @@
-import promise from 'redux-promise-middleware';
 import { createLogger } from 'redux-logger';
 import { configureStore } from '@reduxjs/toolkit';
 import { rootReducer } from './reducer';
@@ -6,7 +5,6 @@ import { persistReducer } from 'redux-persist';
 
 // tslint:disable-next-line: no-submodule-imports match-default-export-name
 import storage from 'redux-persist/lib/storage';
-
 // @ts-ignore
 const env = window.getEnvironment();
 

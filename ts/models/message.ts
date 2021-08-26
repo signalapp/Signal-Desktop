@@ -80,10 +80,10 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
     window.contextMenuShown = false;
 
-    this.getProps();
+    this.getMessageModelProps();
   }
 
-  public getProps(): MessageModelPropsWithoutConvoProps {
+  public getMessageModelProps(): MessageModelPropsWithoutConvoProps {
     perfStart(`getPropsMessage-${this.id}`);
     const messageProps: MessageModelPropsWithoutConvoProps = {
       propsForMessage: this.getPropsForMessage(),
@@ -1121,7 +1121,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     }
   }
   private dispatchMessageUpdate() {
-    updatesToDispatch.set(this.id, this.getProps());
+    updatesToDispatch.set(this.id, this.getMessageModelProps());
     trotthledAllMessagesDispatch();
   }
 }

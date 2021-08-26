@@ -300,7 +300,7 @@ async function getMessages(
   });
 
   const messageProps: Array<MessageModelPropsWithoutConvoProps> = messageSet.models.map(m =>
-    m.getProps()
+    m.getMessageModelProps()
   );
   return messageProps;
 }
@@ -326,11 +326,11 @@ export const fetchMessagesForConversation = createAsyncThunk(
   }): Promise<FetchedMessageResults> => {
     const beforeTimestamp = Date.now();
     // tslint:disable-next-line: no-console
-    console.time('fetchMessagesForConversation');
+    perfStart('fetchMessagesForConversation');
     const messagesProps = await getMessages(conversationKey, count);
     const afterTimestamp = Date.now();
     // tslint:disable-next-line: no-console
-    console.timeEnd('fetchMessagesForConversation');
+    perfEnd('fetchMessagesForConversation', 'fetchMessagesForConversation');
 
     const time = afterTimestamp - beforeTimestamp;
     window?.log?.info(`Loading ${messagesProps.length} messages took ${time}ms to load.`);
@@ -824,10 +824,16 @@ export async function openConversationWithMessages(args: {
   messageId?: string;
 }) {
   const { conversationKey, messageId } = args;
+  perfStart('getFirstUnreadMessageIdInConversation');
   const firstUnreadIdOnOpen = await getFirstUnreadMessageIdInConversation(conversationKey);
+  perfEnd('getFirstUnreadMessageIdInConversation', 'getFirstUnreadMessageIdInConversation');
 
   // preload 30 messages
+  perfStart('getMessages');
+
   const initialMessages = await getMessages(conversationKey, 30);
+  perfEnd('getMessages', 'getMessages');
+  console.warn('initialMessages', initialMessages);
 
   window.inboxStore?.dispatch(
     actions.openConversationExternal({

@@ -454,7 +454,7 @@ export async function handleMessageJob(
 
     updatesToDispatch.set(message.id, {
       conversationKey: conversation.id,
-      messageModelProps: message.getProps(),
+      messageModelProps: message.getMessageModelProps(),
     });
     trotthledAllMessagesAddedDispatch();
     if (message.get('unread')) {

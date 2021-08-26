@@ -48,15 +48,17 @@ export class SessionModal extends React.PureComponent<Props, State> {
     this.close = this.close.bind(this);
     this.onKeyUp = this.onKeyUp.bind(this);
     this.node = null;
-
-    window.addEventListener('keyup', this.onKeyUp);
   }
 
   public componentDidMount() {
+    window.addEventListener('keyup', this.onKeyUp);
+
     document.addEventListener('mousedown', this.handleClick, false);
   }
 
   public componentWillUnmount() {
+    window.removeEventListener('keyup', this.onKeyUp);
+
     document.removeEventListener('mousedown', this.handleClick, false);
   }
 
@@ -118,7 +120,6 @@ export class SessionModal extends React.PureComponent<Props, State> {
       isVisible: false,
     });
 
-    window.removeEventListener('keyup', this.onKeyUp);
     document.removeEventListener('mousedown', this.handleClick, false);
 
     if (this.props.onClose) {

@@ -5,7 +5,6 @@ import {
   PropsForExpirationTimer,
   PropsForGroupInvitation,
   PropsForGroupUpdate,
-  SortedMessageModelProps,
 } from '../../../state/ducks/conversations';
 import { getFirstUnreadMessageId } from '../../../state/selectors/conversations';
 import { DataExtractionNotification } from '../../conversation/DataExtractionNotification';
@@ -77,18 +76,13 @@ export const TimerNotificationItem = (props: { timerProps: PropsForExpirationTim
 
 export const GenericMessageItem = (props: {
   messageId: string;
-  messageProps: SortedMessageModelProps;
   scrollToQuoteMessage: (options: QuoteClickOptions) => Promise<void>;
 }) => {
   const messageId = props.messageId;
 
-  const onQuoteClick = props.messageProps.propsForMessage.quote
-    ? props.scrollToQuoteMessage
-    : undefined;
-
   return (
     <React.Fragment key={messageId}>
-      <Message messageId={messageId} onQuoteClick={onQuoteClick} key={messageId} />
+      <Message messageId={messageId} onQuoteClick={props.scrollToQuoteMessage} key={messageId} />
       <UnreadIndicator messageId={messageId} />
     </React.Fragment>
   );

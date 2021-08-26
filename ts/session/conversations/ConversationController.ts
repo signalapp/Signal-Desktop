@@ -120,7 +120,7 @@ export class ConversationController {
         window.inboxStore?.dispatch(
           conversationActions.conversationAdded({
             id: conversation.id,
-            data: conversation.getProps(),
+            data: conversation.getConversationModelProps(),
           })
         );
       }
@@ -249,7 +249,7 @@ export class ConversationController {
         window.inboxStore?.dispatch(
           conversationActions.conversationChanged({
             id: conversation.id,
-            data: conversation.getProps(),
+            data: conversation.getConversationModelProps(),
           })
         );
         window.inboxStore?.dispatch(conversationActions.conversationRemoved(conversation.id));

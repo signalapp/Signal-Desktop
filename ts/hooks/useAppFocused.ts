@@ -1,31 +1,29 @@
 import { remote } from 'electron';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { isElectronWindowFocused } from '../session/utils/WindowUtils';
+import { setIsAppFocused } from '../state/ducks/section';
+import { getIsAppFocused } from '../state/selectors/section';
 
 export function useAppIsFocused() {
-  const [isAppFocused, setIsAppFocused] = useState(false);
+  const dispatch = useDispatch();
+  const isFocused = useSelector(getIsAppFocused);
 
   useEffect(() => {
-    setIsAppFocused(isElectronWindowFocused());
+    dispatch(setIsAppFocused(isElectronWindowFocused()));
   }, []);
 
-  const onFocusCallback = useCallback(
-    (_event, win) => {
-      if (win.webContents.id === 1) {
-        setIsAppFocused(true);
-      }
-    },
-    [setIsAppFocused]
-  );
+  const onFocusCallback = useCallback((_event, win) => {
+    if (win.webContents.id === 1) {
+      dispatch(setIsAppFocused(true));
+    }
+  }, []);
 
-  const onBlurCallback = useCallback(
-    (_event, win) => {
-      if (win.webContents.id === 1) {
-        setIsAppFocused(false);
-      }
-    },
-    [setIsAppFocused]
-  );
+  const onBlurCallback = useCallback((_event, win) => {
+    if (win.webContents.id === 1) {
+      dispatch(setIsAppFocused(false));
+    }
+  }, []);
 
   useEffect(() => {
     remote.app.on('browser-window-focus', onFocusCallback);
@@ -36,5 +34,5 @@ export function useAppIsFocused() {
     };
   });
 
-  return isAppFocused;
+  return isFocused;
 }

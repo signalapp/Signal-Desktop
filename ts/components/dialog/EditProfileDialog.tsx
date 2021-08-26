@@ -49,8 +49,14 @@ export class EditProfileDialog extends React.Component<{}, State> {
     };
 
     this.inputEl = React.createRef();
+  }
 
+  public componentDidMount() {
     window.addEventListener('keyup', this.onKeyUp);
+  }
+
+  public componentWillUnmount() {
+    window.removeEventListener('keyup', this.onKeyUp);
   }
 
   public render() {

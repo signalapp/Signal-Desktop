@@ -173,7 +173,7 @@ const removeAllV1OpenGroups = async () => {
       if (window.inboxStore) {
         window.inboxStore?.dispatch(conversationRemoved(v1Convo.id));
         window.inboxStore?.dispatch(
-          conversationChanged({ id: v1Convo.id, data: v1Convo.getProps() })
+          conversationChanged({ id: v1Convo.id, data: v1Convo.getConversationModelProps() })
         );
       }
     } catch (e) {

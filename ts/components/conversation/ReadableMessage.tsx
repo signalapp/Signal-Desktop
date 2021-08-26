@@ -3,7 +3,6 @@ import React, { useCallback } from 'react';
 import { InView } from 'react-intersection-observer';
 import { useDispatch, useSelector } from 'react-redux';
 import { getMessageById } from '../../data/data';
-import { useAppIsFocused } from '../../hooks/useAppFocused';
 import { Constants } from '../../session';
 import { getConversationController } from '../../session/conversations';
 import {
@@ -19,6 +18,7 @@ import {
   getOldestMessageId,
   getSelectedConversationKey,
 } from '../../state/selectors/conversations';
+import { getIsAppFocused } from '../../state/selectors/section';
 
 type ReadableMessageProps = {
   children: React.ReactNode;
@@ -45,7 +45,7 @@ const debouncedTriggerLoadMore = _.debounce(
 export const ReadableMessage = (props: ReadableMessageProps) => {
   const { messageId, onContextMenu, className, receivedAt, isUnread } = props;
 
-  const isAppFocused = useAppIsFocused();
+  const isAppFocused = useSelector(getIsAppFocused);
   const dispatch = useDispatch();
   //         onVisible={haveDoneFirstScrollProp ? onVisible : noop}
 

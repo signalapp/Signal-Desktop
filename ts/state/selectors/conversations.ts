@@ -126,6 +126,58 @@ export const getSortedMessagesOfSelectedConversation = createSelector(
   }
 );
 
+export type MessagePropsType =
+  | 'group-notification'
+  | 'group-invitation'
+  | 'data-extraction'
+  | 'timer-notification'
+  | 'regular-message';
+
+export const getSortedMessagesTypesOfSelectedConversation = createSelector(
+  getMessagesOfSelectedConversation,
+  (
+    sortedMessages
+  ): Array<{
+    messageType: MessagePropsType;
+    props: any;
+  }> => {
+    return sortedMessages.map(msg => {
+      if (msg.propsForDataExtractionNotification) {
+        return {
+          messageType: 'data-extraction',
+          props: { ...msg.propsForDataExtractionNotification, messageId: msg.propsForMessage.id },
+        };
+      }
+
+      if (msg.propsForGroupInvitation) {
+        return {
+          messageType: 'group-invitation',
+          props: { ...msg.propsForGroupInvitation, messageId: msg.propsForMessage.id },
+        };
+      }
+
+      if (msg.propsForGroupNotification) {
+        return {
+          messageType: 'group-notification',
+          props: { ...msg.propsForGroupNotification, messageId: msg.propsForMessage.id },
+        };
+      }
+
+      if (msg.propsForTimerNotification) {
+        return {
+          messageType: 'data-extraction',
+          props: { ...msg.propsForTimerNotification, messageId: msg.propsForMessage.id },
+        };
+      }
+
+      return {
+        messageType: 'regular-message',
+        props: { messageId: msg.propsForMessage.id },
+      };
+    });
+  }
+);
+
 function getConversationTitle(
   conversation: ReduxConversationType,
   testingi18n?: LocalizerType

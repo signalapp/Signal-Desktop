@@ -223,7 +223,9 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     this.typingRefreshTimer = null;
     this.typingPauseTimer = null;
     this.lastReadTimestamp = 0;
-    window.inboxStore?.dispatch(conversationChanged({ id: this.id, data: this.getProps() }));
+    window.inboxStore?.dispatch(
+      conversationChanged({ id: this.id, data: this.getConversationModelProps() })
+    );
   }
 
   public idForLogging() {
@@ -407,7 +409,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     return this.get('moderators');
   }
 
-  public getProps(): ReduxConversationType {
+  public getConversationModelProps(): ReduxConversationType {
     const groupAdmins = this.getGroupAdmins();
     const members = this.isGroup() && !this.isPublic() ? this.get('members') : [];
     const ourNumber = UserUtils.getOurPubKeyStrFromCache();
@@ -804,13 +806,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       lastMessageStatus: lastMessageStatusModel,
       lastMessageNotificationText: lastMessageModel ? lastMessageModel.getNotificationText() : null,
     });
-    // Because we're no longer using Backbone-integrated saves, we need to manually
-    //   clear the changed fields here so our hasChanged() check below is useful.
-    (this as any).changed = {};
     this.set(lastMessageUpdate);
-    if (this.hasChanged()) {
-      await this.commit();
-    }
+    await this.commit();
   }
 
   public async updateExpireTimer(
@@ -917,7 +914,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       conversationChanged({
         id: this.id,
         data: {
-          ...this.getProps(),
+          ...this.getConversationModelProps(),
           isSelected: false,
         },
       })
@@ -945,7 +942,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     window.inboxStore?.dispatch(
       conversationActions.messageAdded({
         conversationKey: this.id,
-        messageModelProps: model.getProps(),
+        messageModelProps: model.getMessageModelProps(),
       })
     );
     const unreadCount = await this.getUnreadCount();
@@ -1006,7 +1003,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const allProps: Array<MessageModelPropsWithoutConvoProps> = [];
 
     for (const nowRead of oldUnreadNowRead) {
-      allProps.push(nowRead.getProps());
+      allProps.push(nowRead.getMessageModelProps());
     }
 
     if (allProps.length) {

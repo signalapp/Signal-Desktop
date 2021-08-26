@@ -199,7 +199,7 @@ const MessageItem = (props: {
   if (!lastMessage && !isTyping) {
     return null;
   }
-  const text = lastMessage && lastMessage.text ? lastMessage.text : '';
+  const text = lastMessage?.text || '';
 
   if (isEmpty(text)) {
     return null;
@@ -280,7 +280,7 @@ const ConversationListItem = (props: Props) => {
   const membersAvatar = useMembersAvatars(props);
 
   const openConvo = useCallback(
-    async (e: any) => {
+    async (e: React.MouseEvent<HTMLDivElement>) => {
       // mousedown is invoked sooner than onClick, but for both right and left click
       if (e.button === 0) {
         await openConversationWithMessages({ conversationKey: conversationId });
@@ -294,6 +294,10 @@ const ConversationListItem = (props: Props) => {
       <div
         role="button"
         onMouseDown={openConvo}
+        onMouseUp={e => {
+          e.stopPropagation();
+          e.preventDefault();
+        }}
         onContextMenu={(e: any) => {
           contextMenu.show({
             id: triggerId,
