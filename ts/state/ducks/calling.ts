@@ -1612,7 +1612,7 @@ export function reducer(
     }
 
     if (
-      !isAnybodyElseInGroupCall(peekInfo, ourConversationId) ||
+      !isAnybodyElseInGroupCall(peekInfo, ourConversationId) &&
       !existingCall.ringerUuid
     ) {
       return removeConversationFromState(state, conversationId);
