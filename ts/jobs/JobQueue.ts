@@ -125,9 +125,6 @@ export abstract class JobQueue<T> {
     log.info(`${this.logPrefix} starting to stream jobs`);
 
     const stream = this.store.stream(this.queueType);
-    // We want to enqueue the jobs in sequence, not in parallel. `for await ... of` is a
-    //   good way to do that.
-    // eslint-disable-next-line no-restricted-syntax
     for await (const storedJob of stream) {
       this.enqueueStoredJob(storedJob);
     }

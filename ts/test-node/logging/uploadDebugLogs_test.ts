@@ -95,9 +95,6 @@ describe('uploadDebugLogs', () => {
       { fields: { key: '123' }, url: 'not a valid URL' },
     ];
 
-    // We want to make sure these run serially, so we can't use `Promise.all`. They're
-    //   async, so we can't use `forEach`. `for ... of` is a reasonable option here.
-    // eslint-disable-next-line no-restricted-syntax
     for (const body of bodies) {
       this.fakeGet.resolves({ body });
 

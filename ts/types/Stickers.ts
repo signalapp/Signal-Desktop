@@ -1,6 +1,5 @@
 // Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-/* eslint-disable no-restricted-syntax */
 
 import { isNumber, pick, reject, groupBy, values } from 'lodash';
 import pMap from 'p-map';

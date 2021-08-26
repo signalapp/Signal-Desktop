@@ -1,6 +1,5 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-/* eslint-disable no-restricted-syntax */
 
 // `ChallengeHandler` is responsible for:
 // 1. tracking the messages that failed to send with 428 error and could be

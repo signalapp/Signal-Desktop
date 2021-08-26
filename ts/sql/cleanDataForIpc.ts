@@ -129,9 +129,6 @@ function cleanDataInner(
         const result: CleanedArray = [];
         let index = 0;
         pathsChanged.push(path);
-        // `for ... of` is the cleanest way to go through "generic" iterables without
-        //   a helper library.
-        // eslint-disable-next-line no-restricted-syntax
         for (const value of dataAsRecord) {
           result.push(
             cleanDataInner(

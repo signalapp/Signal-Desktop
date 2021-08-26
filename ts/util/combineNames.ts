@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable camelcase */
@@ -56,7 +56,6 @@ export function combineNames(
 }
 
 function isAllCKJV(name: string): boolean {
-  // eslint-disable-next-line no-restricted-syntax
   for (const codePoint of name) {
     if (!isCKJV(codePoint)) {
       return false;

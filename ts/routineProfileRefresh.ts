@@ -1,9 +1,6 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-// We use `for ... of` to deal with iterables in several places in this file.
-/* eslint-disable no-restricted-syntax */
-
 import { isNil, sortBy } from 'lodash';
 import PQueue from 'p-queue';
 

@@ -293,8 +293,6 @@ const getHtmlDocument = async (
   let bytesLoadedSoFar = 0;
 
   try {
-    // `for ... of` is much cleaner here, so we allow it.
-    /* eslint-disable no-restricted-syntax */
     for await (let chunk of body) {
       if (abortSignal.aborted) {
         break;
@@ -322,7 +320,6 @@ const getHtmlDocument = async (
         break;
       }
     }
-    /* eslint-enable no-restricted-syntax */
   } catch (err) {
     window.log.warn(
       'getHtmlDocument: error when reading body; continuing with what we got'

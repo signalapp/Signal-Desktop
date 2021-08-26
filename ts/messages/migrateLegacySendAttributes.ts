@@ -45,7 +45,6 @@ export function migrateLegacySendAttributes(
     return undefined;
   }
 
-  /* eslint-disable no-restricted-syntax */
   const pendingSendState: SendState = {
     status: SendStatus.Pending,
     updatedAt: message.sent_at,
@@ -129,7 +128,6 @@ export function migrateLegacySendAttributes(
   }
 
   return sendStateByConversationId;
-  /* eslint-enable no-restricted-syntax */
 }
 
 function getConversationIdsFromErrors(

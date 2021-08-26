@@ -1237,7 +1237,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
     const recipients: Array<string> = [];
     const newSendStateByConversationId = { ...oldSendStateByConversationId };
-    // eslint-disable-next-line no-restricted-syntax
     for (const [conversationId, sendState] of Object.entries(
       oldSendStateByConversationId
     )) {

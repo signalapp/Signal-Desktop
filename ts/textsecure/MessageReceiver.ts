@@ -4,7 +4,6 @@
 /* eslint-disable no-bitwise */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable camelcase */
-/* eslint-disable no-restricted-syntax */
 
 import { isNumber, map } from 'lodash';
 import PQueue from 'p-queue';

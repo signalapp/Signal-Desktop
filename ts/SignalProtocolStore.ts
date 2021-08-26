@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable class-methods-use-this */
-/* eslint-disable no-restricted-syntax */
 
 import PQueue from 'p-queue';
 import { isNumber } from 'lodash';
