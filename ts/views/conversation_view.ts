@@ -1634,6 +1634,7 @@ Whisper.ConversationView = Whisper.View.extend({
     }
 
     this.removeLinkPreview();
+    this.disableLinkPreviews = true;
 
     this.remove();
   },
