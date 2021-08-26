@@ -6,6 +6,7 @@ import moment from 'moment';
 
 import { Modal } from './Modal';
 import { Intl } from './Intl';
+import { Emojify } from './conversation/Emojify';
 import { LocalizerType } from '../types/Util';
 
 export type PropsType = {
@@ -25,14 +26,12 @@ export const WhatsNew = ({ i18n }: PropsType): JSX.Element => {
 
   const viewReleaseNotes = () => {
     setReleaseNotes({
-      date: new Date('08/17/2021'),
+      date: new Date('08/26/2021'),
       version: window.getVersion(),
       features: [
-        'WhatsNew__v5.15--1',
-        'WhatsNew__v5.15--2',
-        'WhatsNew__v5.15--3',
-        'WhatsNew__v5.15--4',
-        'WhatsNew__v5.15--5',
+        'WhatsNew__v5.16--1',
+        'WhatsNew__v5.16--2',
+        'WhatsNew__v5.16--3',
       ],
     });
   };
@@ -54,7 +53,13 @@ export const WhatsNew = ({ i18n }: PropsType): JSX.Element => {
             <ul>
               {releaseNotes.features.map(featureKey => (
                 <li key={featureKey}>
-                  <Intl i18n={i18n} id={featureKey} />
+                  <Intl
+                    i18n={i18n}
+                    id={featureKey}
+                    renderText={({ key, text }) => (
+                      <Emojify key={key} text={text} />
+                    )}
+                  />
                 </li>
               ))}
             </ul>

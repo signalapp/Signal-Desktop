@@ -6298,5 +6298,17 @@
   "WhatsNew__v5.15--5": {
     "message": "Squashed lots of bugs and there are some performance improvements as well. Thank you all for your reports!",
     "description": "Release notes for v5.15"
+  },
+  "WhatsNew__v5.16--1": {
+    "message": "An improved media lightbox means no surprises as you progress through a gallery of images or videos, and you can pretend you’re really in a dark room by zooming to hide those pesky buttons.",
+    "description": "Release notes for v5.16"
+  },
+  "WhatsNew__v5.16--2": {
+    "message": "Fixed a bug where reacting to a message was tricky, because we put the picker off screen. That's now fixed, and you can 😮 to your ❤️'s content.",
+    "description": "Release notes for v5.16"
+  },
+  "WhatsNew__v5.16--3": {
+    "message": "If you hover over the buttons while on a call, they stay visible instead of disappearing. Nothing hides from your eagle eye, not even these buttons!",
+    "description": "Release notes for v5.16"
   }
 }
