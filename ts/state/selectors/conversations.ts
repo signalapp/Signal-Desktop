@@ -46,6 +46,10 @@ export const getConversationLookup = createSelector(
   }
 );
 
+export const getConversationsCount = createSelector(getConversationLookup, (state): number => {
+  return Object.values(state).length;
+});
+
 export const getSelectedConversationKey = createSelector(
   getConversations,
   (state: ConversationsStateType): string | undefined => {

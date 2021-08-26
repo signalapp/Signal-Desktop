@@ -8,6 +8,8 @@ import { disableRecoveryPhrasePrompt } from '../../state/ducks/userConfig';
 import { getShowRecoveryPhrasePrompt } from '../../state/selectors/userConfig';
 import { recoveryPhraseModal } from '../../state/ducks/modalDialog';
 import { Flex } from '../basic/Flex';
+import { getFocusedSection } from '../../state/selectors/section';
+import { SectionType } from '../../state/ducks/section';
 
 const Tab = ({
   isSelected,
@@ -71,6 +73,8 @@ export const LeftPaneSectionHeader = (props: Props) => {
 export const LeftPaneBanner = () => {
   const dispatch = useDispatch();
 
+  const section = useSelector(getFocusedSection);
+
   const showRecoveryPhraseModal = () => {
     dispatch(
       recoveryPhraseModal({
@@ -80,6 +84,10 @@ export const LeftPaneBanner = () => {
       })
     );
   };
+
+  if (section !== SectionType.Message) {
+    return null;
+  }
 
   const BannerInner = () => {
     return (

@@ -33,12 +33,16 @@ export const persistConfig = {
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 // Exclude logger if we're in production mode
-const disableLogging = env === 'production' || true; // ALWAYS TURNED OFF
-const middlewareList = disableLogging ? [promise] : [promise, logger];
+const disableLogging = true; //; env === 'production' || true; // ALWAYS TURNED OFF
+const middlewareList = disableLogging ? [] : [logger];
 
 export const createStore = (initialState: any) =>
   configureStore({
     reducer: persistedReducer,
     preloadedState: initialState,
-    middleware: (getDefaultMiddleware: any) => getDefaultMiddleware().concat(middlewareList),
+    middleware: (getDefaultMiddleware: any) =>
+      getDefaultMiddleware({
+        serializableCheck: false,
+        immutableCheck: false,
+      }).concat(middlewareList),
   });
