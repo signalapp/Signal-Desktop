@@ -1,5 +1,5 @@
 import _, { noop } from 'lodash';
-import React, { createContext, useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import { InView } from 'react-intersection-observer';
 import { useDispatch, useSelector } from 'react-redux';
 import { getMessageById } from '../../data/data';
@@ -42,14 +42,11 @@ const debouncedTriggerLoadMore = _.debounce(
   100
 );
 
-export const IsMessageVisibleContext = createContext(false);
-
 export const ReadableMessage = (props: ReadableMessageProps) => {
   const { messageId, onContextMenu, className, receivedAt, isUnread } = props;
 
   const isAppFocused = useSelector(getIsAppFocused);
   const dispatch = useDispatch();
-  //         onVisible={haveDoneFirstScrollProp ? onVisible : noop}
 
   const selectedConversationKey = useSelector(getSelectedConversationKey);
   const loadedMessagesLength = useSelector(getLoadedMessagesLength);
@@ -58,8 +55,6 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
   const oldestMessageId = useSelector(getOldestMessageId);
   const fetchingMore = useSelector(areMoreMessagesBeingFetched);
   const shouldMarkReadWhenVisible = isUnread;
-
-  const [isMessageVisible, setMessageIsVisible] = useState(false);
 
   const onVisible = useCallback(
     // tslint:disable-next-line: cyclomatic-complexity
@@ -98,9 +93,6 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
           ((inView as any).type === 'focus' && (inView as any).returnValue === true)) &&
         isAppFocused
       ) {
-        if (isMessageVisible !== true) {
-          setMessageIsVisible(true);
-        }
         if (shouldMarkReadWhenVisible) {
           const found = await getMessageById(messageId);
 
@@ -140,9 +132,7 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
       triggerOnce={false}
       trackVisibility={true}
     >
-      <IsMessageVisibleContext.Provider value={isMessageVisible}>
-        {props.children}
-      </IsMessageVisibleContext.Provider>
+      {props.children}
     </InView>
   );
 };

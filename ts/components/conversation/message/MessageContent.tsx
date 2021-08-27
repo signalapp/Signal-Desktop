@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import moment from 'moment';
-import React, { useCallback, useState } from 'react';
+import React, { createContext, useCallback, useState } from 'react';
+import { InView } from 'react-intersection-observer';
 import { useSelector } from 'react-redux';
 import _ from 'underscore';
 import { MessageRenderingProps, QuoteClickOptions } from '../../../models/messageType';
@@ -89,12 +90,26 @@ function onClickOnMessageInnerContainer(event: React.MouseEvent<HTMLDivElement>)
   }
 }
 
+export const IsMessageVisibleContext = createContext(false);
+
 export const MessageContent = (props: Props) => {
   const contentProps = useSelector(state =>
     getMessageContentSelectorProps(state as any, props.messageId)
   );
+  const [isMessageVisible, setMessageIsVisible] = useState(false);
 
   const [imageBroken, setImageBroken] = useState(false);
+
+  const onVisible = (inView: boolean | Object) => {
+    if (
+      inView === true ||
+      ((inView as any).type === 'focus' && (inView as any).returnValue === true)
+    ) {
+      if (isMessageVisible !== true) {
+        setMessageIsVisible(true);
+      }
+    }
+  };
 
   const handleImageError = useCallback(() => {
     setImageBroken(true);
@@ -147,18 +162,28 @@ export const MessageContent = (props: Props) => {
       onClick={onClickOnMessageInnerContainer}
       title={toolTipTitle}
     >
-      <MessageQuote messageId={props.messageId} onQuoteClick={props.onQuoteClick} />
-      <MessageAttachment
-        messageId={props.messageId}
-        imageBroken={imageBroken}
-        handleImageError={handleImageError}
-      />
-      {hasContentAfterAttachmentAndQuote ? (
-        <Flex padding="10px">
-          <MessagePreview messageId={props.messageId} handleImageError={handleImageError} />
-          <MessageText messageId={props.messageId} />
-        </Flex>
-      ) : null}
+      <InView
+        id={`inview-content-${props.messageId}`}
+        onChange={onVisible}
+        threshold={0}
+        rootMargin="500px 0px 500px 0px"
+        triggerOnce={false}
+      >
+        <IsMessageVisibleContext.Provider value={isMessageVisible}>
+          <MessageQuote messageId={props.messageId} onQuoteClick={props.onQuoteClick} />
+          <MessageAttachment
+            messageId={props.messageId}
+            imageBroken={imageBroken}
+            handleImageError={handleImageError}
+          />
+          {hasContentAfterAttachmentAndQuote ? (
+            <Flex padding="10px">
+              <MessagePreview messageId={props.messageId} handleImageError={handleImageError} />
+              <MessageText messageId={props.messageId} />
+            </Flex>
+          ) : null}
+        </IsMessageVisibleContext.Provider>
+      </InView>
     </div>
   );
 };
