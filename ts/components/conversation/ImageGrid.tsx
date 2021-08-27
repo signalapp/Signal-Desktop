@@ -8,7 +8,6 @@ import {
   getAlt,
   getImageDimensions,
   getThumbnailUrl,
-  getUrl,
   isVideoAttachment,
 } from '../../types/Attachment';
 
@@ -44,7 +43,7 @@ export const ImageGrid = (props: Props) => {
           playIconOverlay={isVideoAttachment(attachments[0])}
           height={height}
           width={width}
-          url={getUrl(attachments[0])}
+          url={getThumbnailUrl(attachments[0])}
           onClick={onClickAttachment}
           onError={onError}
         />
@@ -91,7 +90,7 @@ export const ImageGrid = (props: Props) => {
           playIconOverlay={isVideoAttachment(attachments[0])}
           height={200}
           width={199}
-          url={getUrl(attachments[0])}
+          url={getThumbnailUrl(attachments[0])}
           onClick={onClickAttachment}
           onError={onError}
         />

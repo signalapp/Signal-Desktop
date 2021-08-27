@@ -8,10 +8,10 @@ import { SignalService } from '../protobuf';
 import { isImageTypeSupported, isVideoTypeSupported } from '../util/GoogleChrome';
 import { fromHexToArray } from '../session/utils/String';
 
-const MAX_WIDTH = 300;
-const MAX_HEIGHT = MAX_WIDTH * 1.5;
-const MIN_WIDTH = 200;
-const MIN_HEIGHT = 50;
+const MAX_WIDTH = 200;
+const MAX_HEIGHT = MAX_WIDTH;
+const MIN_WIDTH = MAX_WIDTH;
+const MIN_HEIGHT = MAX_WIDTH;
 
 // Used for display
 

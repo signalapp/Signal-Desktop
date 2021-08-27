@@ -202,7 +202,7 @@ exports.save = AttachmentTS.save;
 exports.getFileExtension = AttachmentTS.getFileExtension;
 exports.arrayBufferFromFile = AttachmentTS.arrayBufferFromFile;
 
-const THUMBNAIL_SIZE = 150;
+const THUMBNAIL_SIZE = 200;
 const THUMBNAIL_CONTENT_TYPE = 'image/png';
 
 exports.captureDimensionsAndScreenshot = async (
