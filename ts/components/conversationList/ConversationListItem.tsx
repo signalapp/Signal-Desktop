@@ -130,7 +130,7 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
                     {i18n('ConversationListItem--draft-prefix')}
                   </span>
                   <MessageBody
-                    text={(draftPreview || '').split('\n')[0]}
+                    text={truncateMessageText(draftPreview)}
                     disableJumbomoji
                     disableLinks
                     i18n={i18n}
@@ -144,7 +144,7 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
                 </span>
               ) : (
                 <MessageBody
-                  text={(messageBody || '').split('\n')[0]}
+                  text={truncateMessageText(messageBody)}
                   disableJumbomoji
                   disableLinks
                   i18n={i18n}
@@ -197,3 +197,7 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
     );
   }
 );
+
+function truncateMessageText(text: undefined | string = ''): string {
+  return text.split('\n', 1)[0];
+}
