@@ -152,7 +152,6 @@
     "@types/lodash": "4.14.106",
     "@types/mkdirp": "0.5.2",
     "@types/mocha": "5.0.0",
-    "@types/moment": "^2.13.0",
     "@types/node-fetch": "^2.5.7",
     "@types/pify": "3.0.2",
     "@types/qs": "6.5.1",

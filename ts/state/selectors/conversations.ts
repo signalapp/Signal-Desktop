@@ -149,12 +149,24 @@ export const getSortedMessagesTypesOfSelectedConversation = createSelector(
   getMessagesOfSelectedConversation,
   getFirstUnreadMessageId,
   (sortedMessages, firstUnreadId) => {
-    return sortedMessages.map(msg => {
+    // we want to show the date break if there is a large jump in time
+    // remember that messages are sorted from the most recent to the oldest
+    return sortedMessages.map((msg, index) => {
       const isFirstUnread = Boolean(firstUnreadId === msg.propsForMessage.id);
+      const messageTimestamp = msg.propsForMessage.serverTimestamp || msg.propsForMessage.timestamp;
+      const previousMessageTimestamp =
+        index + 1 >= sortedMessages.length
+          ? 0
+          : sortedMessages[index + 1].propsForMessage.serverTimestamp ||
+            sortedMessages[index + 1].propsForMessage.timestamp;
+      // more than 10 minutes
+      const showDateBreak =
+        messageTimestamp - previousMessageTimestamp > 10 * 60 * 1000 ? messageTimestamp : undefined;
 
       if (msg.propsForDataExtractionNotification) {
         return {
           showUnreadIndicator: isFirstUnread,
+          showDateBreak,
           message: {
             messageType: 'data-extraction',
             props: { ...msg.propsForDataExtractionNotification, messageId: msg.propsForMessage.id },
@@ -165,6 +177,7 @@ export const getSortedMessagesTypesOfSelectedConversation = createSelector(
       if (msg.propsForGroupInvitation) {
         return {
           showUnreadIndicator: isFirstUnread,
+          showDateBreak,
           message: {
             messageType: 'group-invitation',
             props: { ...msg.propsForGroupInvitation, messageId: msg.propsForMessage.id },
@@ -175,6 +188,7 @@ export const getSortedMessagesTypesOfSelectedConversation = createSelector(
       if (msg.propsForGroupNotification) {
         return {
           showUnreadIndicator: isFirstUnread,
+          showDateBreak,
           message: {
             messageType: 'group-notification',
             props: { ...msg.propsForGroupNotification, messageId: msg.propsForMessage.id },
@@ -185,6 +199,7 @@ export const getSortedMessagesTypesOfSelectedConversation = createSelector(
       if (msg.propsForTimerNotification) {
         return {
           showUnreadIndicator: isFirstUnread,
+          showDateBreak,
           message: {
             messageType: 'timer-notification',
             props: { ...msg.propsForTimerNotification, messageId: msg.propsForMessage.id },
@@ -194,6 +209,7 @@ export const getSortedMessagesTypesOfSelectedConversation = createSelector(
 
       return {
         showUnreadIndicator: isFirstUnread,
+        showDateBreak,
         message: {
           messageType: 'regular-message',
           props: { messageId: msg.propsForMessage.id },

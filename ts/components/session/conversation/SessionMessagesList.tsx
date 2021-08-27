@@ -11,6 +11,7 @@ import { DataExtractionNotification } from '../../conversation/DataExtractionNot
 import { GroupInvitation } from '../../conversation/GroupInvitation';
 import { GroupNotification } from '../../conversation/GroupNotification';
 import { Message } from '../../conversation/Message';
+import { MessageDateBreak } from '../../conversation/message/DateBreak';
 import { TimerNotification } from '../../conversation/TimerNotification';
 import { SessionLastSeenIndicator } from './SessionLastSeenIndicator';
 
@@ -26,26 +27,38 @@ export const SessionMessagesList = (props: {
         const unreadIndicator = messageProps.showUnreadIndicator ? (
           <SessionLastSeenIndicator key={`unread-indicator-${messageId}`} />
         ) : null;
+
+        const dateBreak =
+          messageProps.showDateBreak !== undefined ? (
+            <MessageDateBreak
+              key={`date-break-${messageId}`}
+              timestamp={messageProps.showDateBreak}
+            />
+          ) : null;
         if (messageProps.message?.messageType === 'group-notification') {
           const msgProps = messageProps.message.props as PropsForGroupUpdate;
-          return [<GroupNotification key={messageId} {...msgProps} />, unreadIndicator];
+          return [<GroupNotification key={messageId} {...msgProps} />, dateBreak, unreadIndicator];
         }
 
         if (messageProps.message?.messageType === 'group-invitation') {
           const msgProps = messageProps.message.props as PropsForGroupInvitation;
-          return [<GroupInvitation key={messageId} {...msgProps} />, unreadIndicator];
+          return [<GroupInvitation key={messageId} {...msgProps} />, dateBreak, unreadIndicator];
         }
 
         if (messageProps.message?.messageType === 'data-extraction') {
           const msgProps = messageProps.message.props as PropsForDataExtractionNotification;
 
-          return [<DataExtractionNotification key={messageId} {...msgProps} />, unreadIndicator];
+          return [
+            <DataExtractionNotification key={messageId} {...msgProps} />,
+            dateBreak,
+            unreadIndicator,
+          ];
         }
 
         if (messageProps.message?.messageType === 'timer-notification') {
           const msgProps = messageProps.message.props as PropsForExpirationTimer;
 
-          return [<TimerNotification key={messageId} {...msgProps} />, unreadIndicator];
+          return [<TimerNotification key={messageId} {...msgProps} />, dateBreak, unreadIndicator];
         }
 
         if (!messageProps) {
@@ -58,6 +71,7 @@ export const SessionMessagesList = (props: {
             onQuoteClick={props.scrollToQuoteMessage}
             key={messageId}
           />,
+          dateBreak,
           unreadIndicator,
         ];
       })}
