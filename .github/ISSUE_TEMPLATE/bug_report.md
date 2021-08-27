@@ -69,7 +69,7 @@ Operating System:
 
 Linked Device Version:
 
-<!-- Android: Settings -> Advanced,  iOS: Settings -> General -> About -->
+<!-- Android: Settings -> Help,  iOS: Settings -> General -> About -->
 
 ### Link to Debug Log
 
