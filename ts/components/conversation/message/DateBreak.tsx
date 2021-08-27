@@ -15,15 +15,19 @@ const DateBreakText = styled.div`
   color: ${props => props.theme.colors.lastSeenIndicatorTextColor};
 `;
 
-export const MessageDateBreak = (props: { timestamp: number }) => {
-  const { timestamp } = props;
-  moment().calendar();
-
-  const text = moment().calendar(timestamp, {
+export const MessageDateBreak = (props: { timestamp: number; messageId: string }) => {
+  const { timestamp, messageId } = props;
+  const text = moment(timestamp).calendar(undefined, {
+    lastDay: '[Yesterday at] LT',
+    sameDay: '[Today at] LT',
+    nextDay: '[Tomorrow at] LT',
+    lastWeek: '[last] dddd [at] LT',
+    nextWeek: 'dddd [at] LT',
     sameElse: 'llll',
   });
+
   return (
-    <DateBreakContainer id={`date-break-${timestamp}`}>
+    <DateBreakContainer id={`date-break-${messageId}`}>
       <DateBreakText>{text}</DateBreakText>
     </DateBreakContainer>
   );

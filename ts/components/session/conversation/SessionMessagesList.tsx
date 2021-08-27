@@ -33,6 +33,7 @@ export const SessionMessagesList = (props: {
             <MessageDateBreak
               key={`date-break-${messageId}`}
               timestamp={messageProps.showDateBreak}
+              messageId={messageId}
             />
           ) : null;
         if (messageProps.message?.messageType === 'group-notification') {
