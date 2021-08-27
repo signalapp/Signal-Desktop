@@ -1,5 +1,5 @@
 import _, { noop } from 'lodash';
-import React, { useCallback, useState } from 'react';
+import React, { createContext, useCallback, useState } from 'react';
 import { InView } from 'react-intersection-observer';
 import { useDispatch, useSelector } from 'react-redux';
 import { getMessageById } from '../../data/data';
@@ -42,6 +42,8 @@ const debouncedTriggerLoadMore = _.debounce(
   100
 );
 
+export const IsMessageVisibleContext = createContext(false);
+
 export const ReadableMessage = (props: ReadableMessageProps) => {
   const { messageId, onContextMenu, className, receivedAt, isUnread } = props;
 
@@ -57,7 +59,10 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
   const fetchingMore = useSelector(areMoreMessagesBeingFetched);
   const shouldMarkReadWhenVisible = isUnread;
 
+  const [isMessageVisible, setMessageIsVisible] = useState(false);
+
   const onVisible = useCallback(
+    // tslint:disable-next-line: cyclomatic-complexity
     async (inView: boolean | Object) => {
       // when the view first loads, it needs to scroll to the unread messages.
       // we need to disable the inview on the first loading
@@ -91,15 +96,19 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
       if (
         (inView === true ||
           ((inView as any).type === 'focus' && (inView as any).returnValue === true)) &&
-        shouldMarkReadWhenVisible &&
         isAppFocused
       ) {
-        const found = await getMessageById(messageId);
+        if (isMessageVisible !== true) {
+          setMessageIsVisible(true);
+        }
+        if (shouldMarkReadWhenVisible) {
+          const found = await getMessageById(messageId);
 
-        if (found && Boolean(found.get('unread'))) {
-          // mark the message as read.
-          // this will trigger the expire timer.
-          await found.markRead(Date.now());
+          if (found && Boolean(found.get('unread'))) {
+            // mark the message as read.
+            // this will trigger the expire timer.
+            await found.markRead(Date.now());
+          }
         }
       }
     },
@@ -131,7 +140,9 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
       triggerOnce={false}
       trackVisibility={true}
     >
-      {props.children}
+      <IsMessageVisibleContext.Provider value={isMessageVisible}>
+        {props.children}
+      </IsMessageVisibleContext.Provider>
     </InView>
   );
 };

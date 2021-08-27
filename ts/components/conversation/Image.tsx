@@ -8,7 +8,7 @@ import { useEncryptedFileFetch } from '../../hooks/useEncryptedFileFetch';
 type Props = {
   alt: string;
   attachment: AttachmentTypeWithPath | AttachmentType;
-  url: string;
+  url: string | undefined; // url is undefined if the message is not visible yet
 
   height?: number;
   width?: number;
@@ -51,12 +51,22 @@ export const Image = (props: Props) => {
     return false;
   }, []);
 
-  const { caption, pending } = attachment || { caption: null, pending: true };
+  const onErrorUrlFilterering = useCallback(() => {
+    if (url && onError) {
+      onError();
+    }
+    return;
+  }, [url, onError]);
+
+  const { caption } = attachment || { caption: null };
+  let { pending } = attachment || { pending: true };
+  if (!url) {
+    // force pending to true if the url is undefined, so we show a loader while decrypting the attachemtn
+    pending = true;
+  }
   const canClick = onClick && !pending;
   const role = canClick ? 'button' : undefined;
-
-  const { loading, urlToLoad } = useEncryptedFileFetch(url, attachment.contentType);
-
+  const { loading, urlToLoad } = useEncryptedFileFetch(url || '', attachment.contentType);
   // data will be url if loading is finished and '' if not
   const srcData = !loading ? urlToLoad : '';
 
@@ -89,7 +99,7 @@ export const Image = (props: Props) => {
         </div>
       ) : (
         <img
-          onError={onError}
+          onError={onErrorUrlFilterering}
           className="module-image__image"
           alt={alt}
           height={height}

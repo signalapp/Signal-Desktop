@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import classNames from 'classnames';
 
 import {
@@ -12,18 +12,19 @@ import {
 } from '../../types/Attachment';
 
 import { Image } from './Image';
+import { IsMessageVisibleContext } from './ReadableMessage';
 
 type Props = {
   attachments: Array<AttachmentTypeWithPath>;
   bottomOverlay?: boolean;
-
   onError: () => void;
   onClickAttachment?: (attachment: AttachmentTypeWithPath | AttachmentType) => void;
 };
-
+// tslint:disable: cyclomatic-complexity max-func-body-length use-simple-attributes
 export const ImageGrid = (props: Props) => {
-  // tslint:disable-next-line max-func-body-length */
   const { attachments, bottomOverlay, onError, onClickAttachment } = props;
+
+  const isMessageVisible = useContext(IsMessageVisibleContext);
 
   const withBottomOverlay = Boolean(bottomOverlay);
 
@@ -43,7 +44,7 @@ export const ImageGrid = (props: Props) => {
           playIconOverlay={isVideoAttachment(attachments[0])}
           height={height}
           width={width}
-          url={getThumbnailUrl(attachments[0])}
+          url={isMessageVisible ? getThumbnailUrl(attachments[0]) : undefined}
           onClick={onClickAttachment}
           onError={onError}
         />
@@ -61,7 +62,7 @@ export const ImageGrid = (props: Props) => {
           playIconOverlay={isVideoAttachment(attachments[0])}
           height={149}
           width={149}
-          url={getThumbnailUrl(attachments[0])}
+          url={isMessageVisible ? getThumbnailUrl(attachments[0]) : undefined}
           onClick={onClickAttachment}
           onError={onError}
         />
@@ -72,7 +73,7 @@ export const ImageGrid = (props: Props) => {
           height={149}
           width={149}
           attachment={attachments[1]}
-          url={getThumbnailUrl(attachments[1])}
+          url={isMessageVisible ? getThumbnailUrl(attachments[1]) : undefined}
           onClick={onClickAttachment}
           onError={onError}
         />
@@ -90,7 +91,7 @@ export const ImageGrid = (props: Props) => {
           playIconOverlay={isVideoAttachment(attachments[0])}
           height={200}
           width={199}
-          url={getThumbnailUrl(attachments[0])}
+          url={isMessageVisible ? getThumbnailUrl(attachments[0]) : undefined}
           onClick={onClickAttachment}
           onError={onError}
         />
@@ -101,7 +102,7 @@ export const ImageGrid = (props: Props) => {
             width={99}
             attachment={attachments[1]}
             playIconOverlay={isVideoAttachment(attachments[1])}
-            url={getThumbnailUrl(attachments[1])}
+            url={isMessageVisible ? getThumbnailUrl(attachments[1]) : undefined}
             onClick={onClickAttachment}
             onError={onError}
           />
@@ -112,7 +113,7 @@ export const ImageGrid = (props: Props) => {
             width={99}
             attachment={attachments[2]}
             playIconOverlay={isVideoAttachment(attachments[2])}
-            url={getThumbnailUrl(attachments[2])}
+            url={isMessageVisible ? getThumbnailUrl(attachments[2]) : undefined}
             onClick={onClickAttachment}
             onError={onError}
           />
@@ -132,7 +133,7 @@ export const ImageGrid = (props: Props) => {
               playIconOverlay={isVideoAttachment(attachments[0])}
               height={149}
               width={149}
-              url={getThumbnailUrl(attachments[0])}
+              url={isMessageVisible ? getThumbnailUrl(attachments[0]) : undefined}
               onClick={onClickAttachment}
               onError={onError}
             />
@@ -142,7 +143,7 @@ export const ImageGrid = (props: Props) => {
               height={149}
               width={149}
               attachment={attachments[1]}
-              url={getThumbnailUrl(attachments[1])}
+              url={isMessageVisible ? getThumbnailUrl(attachments[1]) : undefined}
               onClick={onClickAttachment}
               onError={onError}
             />
@@ -155,7 +156,7 @@ export const ImageGrid = (props: Props) => {
               height={149}
               width={149}
               attachment={attachments[2]}
-              url={getThumbnailUrl(attachments[2])}
+              url={isMessageVisible ? getThumbnailUrl(attachments[2]) : undefined}
               onClick={onClickAttachment}
               onError={onError}
             />
@@ -166,7 +167,7 @@ export const ImageGrid = (props: Props) => {
               height={149}
               width={149}
               attachment={attachments[3]}
-              url={getThumbnailUrl(attachments[3])}
+              url={isMessageVisible ? getThumbnailUrl(attachments[3]) : undefined}
               onClick={onClickAttachment}
               onError={onError}
             />
@@ -189,7 +190,7 @@ export const ImageGrid = (props: Props) => {
             playIconOverlay={isVideoAttachment(attachments[0])}
             height={149}
             width={149}
-            url={getThumbnailUrl(attachments[0])}
+            url={isMessageVisible ? getThumbnailUrl(attachments[0]) : undefined}
             onClick={onClickAttachment}
             onError={onError}
           />
@@ -199,7 +200,7 @@ export const ImageGrid = (props: Props) => {
             height={149}
             width={149}
             attachment={attachments[1]}
-            url={getThumbnailUrl(attachments[1])}
+            url={isMessageVisible ? getThumbnailUrl(attachments[1]) : undefined}
             onClick={onClickAttachment}
             onError={onError}
           />
@@ -212,7 +213,7 @@ export const ImageGrid = (props: Props) => {
             height={99}
             width={99}
             attachment={attachments[2]}
-            url={getThumbnailUrl(attachments[2])}
+            url={isMessageVisible ? getThumbnailUrl(attachments[2]) : undefined}
             onClick={onClickAttachment}
             onError={onError}
           />
@@ -223,7 +224,7 @@ export const ImageGrid = (props: Props) => {
             height={99}
             width={98}
             attachment={attachments[3]}
-            url={getThumbnailUrl(attachments[3])}
+            url={isMessageVisible ? getThumbnailUrl(attachments[3]) : undefined}
             onClick={onClickAttachment}
             onError={onError}
           />
@@ -236,7 +237,7 @@ export const ImageGrid = (props: Props) => {
             darkOverlay={moreMessagesOverlay}
             overlayText={moreMessagesOverlayText}
             attachment={attachments[4]}
-            url={getThumbnailUrl(attachments[4])}
+            url={isMessageVisible ? getThumbnailUrl(attachments[4]) : undefined}
             onClick={onClickAttachment}
             onError={onError}
           />

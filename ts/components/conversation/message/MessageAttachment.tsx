@@ -49,6 +49,7 @@ type Props = {
   imageBroken: boolean;
   handleImageError: () => void;
 };
+// tslint:disable: use-simple-attributes
 
 // tslint:disable-next-line max-func-body-length cyclomatic-complexity
 export const MessageAttachment = (props: Props) => {
@@ -57,7 +58,6 @@ export const MessageAttachment = (props: Props) => {
   const dispatch = useDispatch();
   const attachmentProps = useSelector(state => getMessageAttachmentProps(state as any, messageId));
   const multiSelectMode = useSelector(isMessageSelectionMode);
-
   const onClickOnImageGrid = useCallback(
     (attachment: AttachmentTypeWithPath | AttachmentType) => {
       if (multiSelectMode) {

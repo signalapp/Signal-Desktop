@@ -11,10 +11,10 @@ export const useEncryptedFileFetch = (url: string, contentType: string) => {
   const mountedRef = useRef(true);
 
   async function fetchUrl() {
-    perfStart(`getDecryptedMediaUrl${url}`);
+    perfStart(`getDecryptedMediaUrl-${url}`);
 
     const decryptedUrl = await getDecryptedMediaUrl(url, contentType);
-    perfEnd(`getDecryptedMediaUrl${url}`, 'getDecryptedMediaUrl');
+    perfEnd(`getDecryptedMediaUrl-${url}`, `getDecryptedMediaUrl-${url}`);
 
     if (mountedRef.current) {
       setUrlToLoad(decryptedUrl);
