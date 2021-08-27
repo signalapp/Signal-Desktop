@@ -133,7 +133,7 @@ export abstract class JobQueue<T> {
   /**
    * Add a job, which should cause it to be enqueued and run.
    *
-   * If `streamJobs` has not been called yet, it will be called.
+   * If `streamJobs` has not been called yet, this will throw an error.
    */
   async add(data: Readonly<T>): Promise<Job<T>> {
     if (!this.started) {
