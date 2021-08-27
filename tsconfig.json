@@ -27,6 +27,9 @@
     // Strict Type-Checking Options
     "strict": true, // Enable all strict type-checking options.
 
+    // As a temporary measure
+    "useUnknownInCatchVariables": false,
+
     // Additional Checks
     "noUnusedLocals": true, // Report errors on unused locals.
     "noUnusedParameters": true, // Report errors on unused parameters.

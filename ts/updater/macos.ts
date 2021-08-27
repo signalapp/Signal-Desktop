@@ -8,7 +8,7 @@ import { dirname } from 'path';
 
 import { v4 as getGuid } from 'uuid';
 import { app, autoUpdater, BrowserWindow } from 'electron';
-import { get as getFromConfig } from 'config';
+import config from 'config';
 import { gt } from 'semver';
 import got from 'got';
 
@@ -136,7 +136,7 @@ async function downloadAndInstall(
       return;
     }
 
-    const publicKey = hexToBinary(getFromConfig('updatesPublicKey'));
+    const publicKey = hexToBinary(config.get('updatesPublicKey'));
     const verified = await verifySignature(updateFilePath, version, publicKey);
     if (!verified) {
       // Note: We don't delete the cache here, because we don't want to continually

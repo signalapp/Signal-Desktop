@@ -6,7 +6,7 @@ import { spawn as spawnEmitter, SpawnOptions } from 'child_process';
 import { readdir as readdirCallback, unlink as unlinkCallback } from 'fs';
 
 import { app, BrowserWindow } from 'electron';
-import { get as getFromConfig } from 'config';
+import config from 'config';
 import { gt } from 'semver';
 import pify from 'pify';
 
@@ -135,7 +135,7 @@ async function downloadAndInstall(
       throw error;
     }
 
-    const publicKey = hexToBinary(getFromConfig('updatesPublicKey'));
+    const publicKey = hexToBinary(config.get('updatesPublicKey'));
     const verified = await verifySignature(updateFilePath, version, publicKey);
     if (!verified) {
       // Note: We don't delete the cache here, because we don't want to continually
@@ -216,7 +216,7 @@ async function verifyAndInstall(
     return;
   }
 
-  const publicKey = hexToBinary(getFromConfig('updatesPublicKey'));
+  const publicKey = hexToBinary(config.get('updatesPublicKey'));
   const verified = await verifySignature(updateFilePath, newVersion, publicKey);
   if (!verified) {
     throw new Error(

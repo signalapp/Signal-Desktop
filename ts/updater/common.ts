@@ -15,7 +15,7 @@ import { createParser, ParserConfiguration } from 'dashdash';
 import ProxyAgent from 'proxy-agent';
 import { FAILSAFE_SCHEMA, safeLoad } from 'js-yaml';
 import { gt } from 'semver';
-import { get as getFromConfig } from 'config';
+import config from 'config';
 import { get, GotOptions, stream } from 'got';
 import { v4 as getGuid } from 'uuid';
 import pify from 'pify';
@@ -188,10 +188,10 @@ export function getUpdateCheckUrl(): string {
 }
 
 export function getUpdatesBase(): string {
-  return getFromConfig('updatesUrl');
+  return config.get('updatesUrl');
 }
 export function getCertificateAuthority(): string {
-  return getFromConfig('certificateAuthority');
+  return config.get('certificateAuthority');
 }
 export function getProxyUrl(): string | undefined {
   return process.env.HTTPS_PROXY || process.env.https_proxy;

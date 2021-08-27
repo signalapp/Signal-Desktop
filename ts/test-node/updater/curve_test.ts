@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { get as getFromConfig } from 'config';
+import config from 'config';
 
 import { keyPair, sign, verify } from '../../updater/curve';
 
@@ -25,7 +25,7 @@ describe('updater/curve', () => {
       'hex'
     );
     const publicKey = Buffer.from(
-      getFromConfig<string>('updatesPublicKey'),
+      config.get<string>('updatesPublicKey'),
       'hex'
     );
 
