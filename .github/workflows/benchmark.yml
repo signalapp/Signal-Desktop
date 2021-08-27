@@ -16,6 +16,9 @@ jobs:
     - name: Get other system specs
       run: uname -a
 
+    - name: Configure git to use HTTPS
+      run: git config --global url."https://${{ secrets.AUTOMATED_GITHUB_PAT }}:x-oauth-basic@github.com".insteadOf ssh://git@github.com
+
     - name: Clone Desktop repo
       uses: actions/checkout@v2
     - name: Clone Mock-Server repo
@@ -23,7 +26,7 @@ jobs:
       with:
         repository: 'signalapp/Mock-Signal-Server-Private'
         path: 'Mock-Server'
-        ref: 'alpha'
+        ref: 'main'
         token: ${{ secrets.AUTOMATED_GITHUB_PAT }}
 
     - name: Setup node.js
