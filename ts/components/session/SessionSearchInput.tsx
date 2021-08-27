@@ -3,11 +3,11 @@ import { useSelector } from 'react-redux';
 import { getConversationsCount } from '../../state/selectors/conversations';
 import { SessionIconButton, SessionIconSize, SessionIconType } from './icon';
 
-interface Props {
+type Props = {
   searchString: string;
   onChange: any;
   placeholder: string;
-}
+};
 
 export const SessionSearchInput = (props: Props) => {
   const { searchString, onChange, placeholder } = props;

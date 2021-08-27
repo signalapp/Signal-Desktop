@@ -660,9 +660,9 @@ const conversationsSlice = createSlice({
         return state;
       }
 
+      // keep the unread visible just like in other apps. It will be shown until the user changes convo
       return {
         ...state,
-        firstUnreadMessageId: undefined,
       };
     },
 
@@ -833,7 +833,6 @@ export async function openConversationWithMessages(args: {
 
   const initialMessages = await getMessages(conversationKey, 30);
   perfEnd('getMessages', 'getMessages');
-  console.warn('initialMessages', initialMessages);
 
   window.inboxStore?.dispatch(
     actions.openConversationExternal({

@@ -348,7 +348,9 @@ async function createWindow() {
 
   if (config.get('openDevTools')) {
     // Open the DevTools.
-    mainWindow.webContents.openDevTools();
+    mainWindow.webContents.openDevTools({
+      mode: 'bottom',
+    });
   }
 
   captureClicks(mainWindow);

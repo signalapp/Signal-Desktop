@@ -1,14 +1,18 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { QuoteClickOptions } from '../../../models/messageType';
-import { getSortedMessagesTypesOfSelectedConversation } from '../../../state/selectors/conversations';
+import { PropsForDataExtractionNotification, QuoteClickOptions } from '../../../models/messageType';
 import {
-  DataExtractionNotificationItem,
-  GenericMessageItem,
-  GroupInvitationItem,
-  GroupUpdateItem,
-  TimerNotificationItem,
-} from './SessionMessagesTypes';
+  PropsForExpirationTimer,
+  PropsForGroupInvitation,
+  PropsForGroupUpdate,
+} from '../../../state/ducks/conversations';
+import { getSortedMessagesTypesOfSelectedConversation } from '../../../state/selectors/conversations';
+import { DataExtractionNotification } from '../../conversation/DataExtractionNotification';
+import { GroupInvitation } from '../../conversation/GroupInvitation';
+import { GroupNotification } from '../../conversation/GroupNotification';
+import { Message } from '../../conversation/Message';
+import { TimerNotification } from '../../conversation/TimerNotification';
+import { SessionLastSeenIndicator } from './SessionLastSeenIndicator';
 
 export const SessionMessagesList = (props: {
   scrollToQuoteMessage: (options: QuoteClickOptions) => Promise<void>;
@@ -18,55 +22,44 @@ export const SessionMessagesList = (props: {
   return (
     <>
       {messagesProps.map(messageProps => {
-        if (messageProps.messageType === 'group-notification') {
-          return (
-            <GroupUpdateItem
-              key={messageProps.props.messageId}
-              groupNotificationProps={messageProps.props}
-            />
-          );
+        const messageId = messageProps.message.props.messageId;
+        const unreadIndicator = messageProps.showUnreadIndicator ? (
+          <SessionLastSeenIndicator key={`unread-indicator-${messageId}`} />
+        ) : null;
+        if (messageProps.message?.messageType === 'group-notification') {
+          const msgProps = messageProps.message.props as PropsForGroupUpdate;
+          return [<GroupNotification key={messageId} {...msgProps} />, unreadIndicator];
         }
 
-        if (messageProps.messageType === 'group-invitation') {
-          return (
-            <GroupInvitationItem
-              key={messageProps.props.messageId}
-              propsForGroupInvitation={messageProps.props}
-            />
-          );
+        if (messageProps.message?.messageType === 'group-invitation') {
+          const msgProps = messageProps.message.props as PropsForGroupInvitation;
+          return [<GroupInvitation key={messageId} {...msgProps} />, unreadIndicator];
         }
 
-        if (messageProps.messageType === 'data-extraction') {
-          return (
-            <DataExtractionNotificationItem
-              key={messageProps.props.messageId}
-              propsForDataExtractionNotification={messageProps.props}
-            />
-          );
+        if (messageProps.message?.messageType === 'data-extraction') {
+          const msgProps = messageProps.message.props as PropsForDataExtractionNotification;
+
+          return [<DataExtractionNotification key={messageId} {...msgProps} />, unreadIndicator];
         }
 
-        if (messageProps.messageType === 'timer-notification') {
-          return (
-            <TimerNotificationItem
-              key={messageProps.props.messageId}
-              timerProps={messageProps.props}
-            />
-          );
+        if (messageProps.message?.messageType === 'timer-notification') {
+          const msgProps = messageProps.message.props as PropsForExpirationTimer;
+
+          return [<TimerNotification key={messageId} {...msgProps} />, unreadIndicator];
         }
 
         if (!messageProps) {
           return null;
         }
 
-        // firstMessageOfSeries tells us to render the avatar only for the first message
-        // in a series of messages from the same user
-        return (
-          <GenericMessageItem
-            key={messageProps.props.messageId}
-            messageId={messageProps.props.messageId}
-            scrollToQuoteMessage={props.scrollToQuoteMessage}
-          />
-        );
+        return [
+          <Message
+            messageId={messageId}
+            onQuoteClick={props.scrollToQuoteMessage}
+            key={messageId}
+          />,
+          unreadIndicator,
+        ];
       })}
     </>
   );

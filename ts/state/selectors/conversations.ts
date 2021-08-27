@@ -130,53 +130,74 @@ export const getSortedMessagesOfSelectedConversation = createSelector(
   }
 );
 
+export const getFirstUnreadMessageId = createSelector(
+  getConversations,
+  (state: ConversationsStateType): string | undefined => {
+    return state.firstUnreadMessageId;
+  }
+);
+
 export type MessagePropsType =
   | 'group-notification'
   | 'group-invitation'
   | 'data-extraction'
   | 'timer-notification'
-  | 'regular-message';
+  | 'regular-message'
+  | 'unread-indicator';
 
 export const getSortedMessagesTypesOfSelectedConversation = createSelector(
   getMessagesOfSelectedConversation,
-  (
-    sortedMessages
-  ): Array<{
-    messageType: MessagePropsType;
-    props: any;
-  }> => {
+  getFirstUnreadMessageId,
+  (sortedMessages, firstUnreadId) => {
     return sortedMessages.map(msg => {
+      const isFirstUnread = Boolean(firstUnreadId === msg.propsForMessage.id);
+
       if (msg.propsForDataExtractionNotification) {
         return {
-          messageType: 'data-extraction',
-          props: { ...msg.propsForDataExtractionNotification, messageId: msg.propsForMessage.id },
+          showUnreadIndicator: isFirstUnread,
+          message: {
+            messageType: 'data-extraction',
+            props: { ...msg.propsForDataExtractionNotification, messageId: msg.propsForMessage.id },
+          },
         };
       }
 
       if (msg.propsForGroupInvitation) {
         return {
-          messageType: 'group-invitation',
-          props: { ...msg.propsForGroupInvitation, messageId: msg.propsForMessage.id },
+          showUnreadIndicator: isFirstUnread,
+          message: {
+            messageType: 'group-invitation',
+            props: { ...msg.propsForGroupInvitation, messageId: msg.propsForMessage.id },
+          },
         };
       }
 
       if (msg.propsForGroupNotification) {
         return {
-          messageType: 'group-notification',
-          props: { ...msg.propsForGroupNotification, messageId: msg.propsForMessage.id },
+          showUnreadIndicator: isFirstUnread,
+          message: {
+            messageType: 'group-notification',
+            props: { ...msg.propsForGroupNotification, messageId: msg.propsForMessage.id },
+          },
         };
       }
 
       if (msg.propsForTimerNotification) {
         return {
-          messageType: 'data-extraction',
-          props: { ...msg.propsForTimerNotification, messageId: msg.propsForMessage.id },
+          showUnreadIndicator: isFirstUnread,
+          message: {
+            messageType: 'timer-notification',
+            props: { ...msg.propsForTimerNotification, messageId: msg.propsForMessage.id },
+          },
         };
       }
 
       return {
-        messageType: 'regular-message',
-        props: { messageId: msg.propsForMessage.id },
+        showUnreadIndicator: isFirstUnread,
+        message: {
+          messageType: 'regular-message',
+          props: { messageId: msg.propsForMessage.id },
+        },
       };
     });
   }
@@ -537,13 +558,6 @@ function sortMessages(
 
   return messagesSorted;
 }
-
-export const getFirstUnreadMessageId = createSelector(
-  getConversations,
-  (state: ConversationsStateType): string | undefined => {
-    return state.firstUnreadMessageId;
-  }
-);
 
 export const getMostRecentMessageId = createSelector(
   getSortedMessagesOfSelectedConversation,

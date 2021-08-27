@@ -42,7 +42,7 @@ export const createStore = (initialState: any) =>
     preloadedState: initialState,
     middleware: (getDefaultMiddleware: any) =>
       getDefaultMiddleware({
-        serializableCheck: false,
-        immutableCheck: false,
+        serializableCheck: true,
+        immutableCheck: true,
       }).concat(middlewareList),
   });
