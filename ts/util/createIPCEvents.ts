@@ -21,6 +21,7 @@ import { ConversationType } from '../state/ducks/conversations';
 import { calling } from '../services/calling';
 import { getConversationsWithCustomColorSelector } from '../state/selectors/conversations';
 import { getCustomColors } from '../state/selectors/items';
+import { trigger } from '../shims/events';
 import { themeChanged } from '../shims/themeChanged';
 import { renderClearingDataView } from '../shims/renderClearingDataView';
 
@@ -30,6 +31,7 @@ import { PhoneNumberSharingMode } from './phoneNumberSharingMode';
 import { assert } from './assert';
 import * as durations from './durations';
 import { isPhoneNumberSharingEnabled } from './isPhoneNumberSharingEnabled';
+import { parseE164FromSignalDotMeHash } from './sgnlHref';
 
 type ThemeType = 'light' | 'dark' | 'system';
 type NotificationSettingType = 'message' | 'name' | 'count' | 'off';
@@ -92,6 +94,7 @@ export type IPCEventsCallbacksType = {
   removeDarkOverlay: () => void;
   resetAllChatColors: () => void;
   resetDefaultChatColor: () => void;
+  showConversationViaSignalDotMe: (hash: string) => void;
   showKeyboardShortcuts: () => void;
   showGroupViaLink: (x: string) => Promise<void>;
   showStickerPack: (packId: string, key: string) => void;
@@ -465,19 +468,33 @@ export function createIPCEvents(
       }
       window.isShowingModal = false;
     },
+    showConversationViaSignalDotMe(hash: string) {
+      if (!window.Signal.Util.Registration.everDone()) {
+        window.log.info(
+          'showConversationViaSignalDotMe: Not registered, returning early'
+        );
+        return;
+      }
+
+      const maybeE164 = parseE164FromSignalDotMeHash(hash);
+      if (maybeE164) {
+        trigger('showConversation', maybeE164);
+        return;
+      }
+
+      window.log.info('showConversationViaSignalDotMe: invalid E164');
+      if (window.isShowingModal) {
+        window.log.info(
+          'showConversationViaSignalDotMe: a modal is already showing. Doing nothing'
+        );
+      } else {
+        showUnknownSgnlLinkModal();
+      }
+    },
 
     unknownSignalLink: () => {
       window.log.warn('unknownSignalLink: Showing error dialog');
-      const errorView = new window.Whisper.ReactWrapperView({
-        className: 'error-modal-wrapper',
-        Component: window.Signal.Components.ErrorModal,
-        props: {
-          description: window.i18n('unknown-sgnl-link'),
-          onClose: () => {
-            errorView.remove();
-          },
-        },
-      });
+      showUnknownSgnlLinkModal();
     },
 
     installStickerPack: async (packId, key) => {
@@ -493,4 +510,17 @@ export function createIPCEvents(
 
     ...overrideEvents,
   };
+}
+
+function showUnknownSgnlLinkModal(): void {
+  const errorView = new window.Whisper.ReactWrapperView({
+    className: 'error-modal-wrapper',
+    Component: window.Signal.Components.ErrorModal,
+    props: {
+      description: window.i18n('unknown-sgnl-link'),
+      onClose: () => {
+        errorView.remove();
+      },
+    },
+  });
 }

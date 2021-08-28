@@ -1744,25 +1744,25 @@ function handleSgnlHref(incomingHref) {
     ({ command, args, hash } = parseSignalHttpsLink(incomingHref, logger));
   }
 
-  if (command === 'addstickers' && mainWindow && mainWindow.webContents) {
-    console.log('Opening sticker pack from sgnl protocol link');
-    const packId = args.get('pack_id');
-    const packKeyHex = args.get('pack_key');
-    const packKey = packKeyHex
-      ? Buffer.from(packKeyHex, 'hex').toString('base64')
-      : '';
-    mainWindow.webContents.send('show-sticker-pack', { packId, packKey });
-  } else if (
-    command === 'signal.group' &&
-    hash &&
-    mainWindow &&
-    mainWindow.webContents
-  ) {
-    console.log('Showing group from sgnl protocol link');
-    mainWindow.webContents.send('show-group-via-link', { hash });
-  } else if (mainWindow && mainWindow.webContents) {
-    console.log('Showing warning that we cannot process link');
-    mainWindow.webContents.send('unknown-sgnl-link');
+  if (mainWindow && mainWindow.webContents) {
+    if (command === 'addstickers') {
+      console.log('Opening sticker pack from sgnl protocol link');
+      const packId = args.get('pack_id');
+      const packKeyHex = args.get('pack_key');
+      const packKey = packKeyHex
+        ? Buffer.from(packKeyHex, 'hex').toString('base64')
+        : '';
+      mainWindow.webContents.send('show-sticker-pack', { packId, packKey });
+    } else if (command === 'signal.group' && hash) {
+      console.log('Showing group from sgnl protocol link');
+      mainWindow.webContents.send('show-group-via-link', { hash });
+    } else if (command === 'signal.me' && hash) {
+      console.log('Showing conversation from sgnl protocol link');
+      mainWindow.webContents.send('show-conversation-via-signal.me', { hash });
+    } else {
+      console.log('Showing warning that we cannot process link');
+      mainWindow.webContents.send('unknown-sgnl-link');
+    }
   } else {
     console.error('Unhandled sgnl link');
   }

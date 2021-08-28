@@ -229,7 +229,6 @@ declare global {
     isBeforeVersion: (version: string, anotherVersion: string) => boolean;
     isFullScreen: () => boolean;
     isValidGuid: typeof isValidGuid;
-    isValidE164: (maybeE164: unknown) => boolean;
     libphonenumber: {
       util: {
         getRegionCodeForNumber: (number: string) => string;

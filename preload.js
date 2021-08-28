@@ -12,6 +12,7 @@ try {
   const electron = require('electron');
   const semver = require('semver');
   const _ = require('lodash');
+  const { strictAssert } = require('./ts/util/assert');
 
   // It is important to call this as early as possible
   require('./ts/windows/context');
@@ -301,6 +302,16 @@ try {
     }
   });
 
+  ipc.on('show-conversation-via-signal.me', (_event, info) => {
+    const { hash } = info;
+    strictAssert(typeof hash === 'string', 'Got an invalid hash over IPC');
+
+    const { showConversationViaSignalDotMe } = window.Events;
+    if (showConversationViaSignalDotMe) {
+      showConversationViaSignalDotMe(hash);
+    }
+  });
+
   ipc.on('unknown-sgnl-link', () => {
     const { unknownSignalLink } = window.Events;
     if (unknownSignalLink) {
@@ -398,8 +409,6 @@ try {
   };
 
   window.isValidGuid = isValidGuid;
-  // https://stackoverflow.com/a/23299989
-  window.isValidE164 = maybeE164 => /^\+?[1-9]\d{1,14}$/.test(maybeE164);
 
   window.React = require('react');
   window.ReactDOM = require('react-dom');

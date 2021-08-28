@@ -3,6 +3,9 @@
 
 import { LoggerType } from '../types/Logging';
 import { maybeParseUrl } from './url';
+import { isValidE164 } from './isValidE164';
+
+const SIGNAL_DOT_ME_HASH_PREFIX = 'p/';
 
 function parseUrl(value: string | URL, logger: LoggerType): undefined | URL {
   if (value instanceof URL) {
@@ -41,7 +44,9 @@ export function isSignalHttpsLink(
       !url.password &&
       !url.port &&
       url.protocol === 'https:' &&
-      (url.host === 'signal.group' || url.host === 'signal.art')
+      (url.host === 'signal.group' ||
+        url.host === 'signal.art' ||
+        url.host === 'signal.me')
   );
 }
 
@@ -119,7 +124,7 @@ export function parseSignalHttpsLink(
     };
   }
 
-  if (url.host === 'signal.group') {
+  if (url.host === 'signal.group' || url.host === 'signal.me') {
     return {
       command: url.host,
       args: new Map<string, string>(),
@@ -128,4 +133,13 @@ export function parseSignalHttpsLink(
   }
 
   return { command: null, args: new Map<never, never>() };
+}
+
+export function parseE164FromSignalDotMeHash(hash: string): undefined | string {
+  if (!hash.startsWith(SIGNAL_DOT_ME_HASH_PREFIX)) {
+    return;
+  }
+
+  const maybeE164 = hash.slice(SIGNAL_DOT_ME_HASH_PREFIX.length);
+  return isValidE164(maybeE164, true) ? maybeE164 : undefined;
 }

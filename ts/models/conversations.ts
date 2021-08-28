@@ -33,6 +33,7 @@ import { isConversationSMSOnly } from '../util/isConversationSMSOnly';
 import { isConversationUnregistered } from '../util/isConversationUnregistered';
 import { missingCaseError } from '../util/missingCaseError';
 import { sniffImageMimeType } from '../util/sniffImageMimeType';
+import { isValidE164 } from '../util/isValidE164';
 import { MIMEType, IMAGE_WEBP } from '../types/MIME';
 import {
   arrayBufferToBase64,
@@ -232,7 +233,7 @@ export class ConversationModel extends window.Backbone
   }
 
   initialize(attributes: Partial<ConversationAttributesType> = {}): void {
-    if (window.isValidE164(attributes.id)) {
+    if (isValidE164(attributes.id, false)) {
       this.set({ id: window.getGuid(), e164: attributes.id });
     }
 
