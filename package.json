@@ -366,6 +366,7 @@
         "node_modules/@signalapp/signal-client/build/*.node"
       ],
       "target": [
+        "AppImage",
         "deb"
       ],
       "icon": "build/icons/png"
