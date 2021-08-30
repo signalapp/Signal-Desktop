@@ -13,6 +13,8 @@ import { SessionWrapperModal } from '../session/SessionWrapperModal';
 import { SpacerLG } from '../basic/Text';
 import { useDispatch } from 'react-redux';
 import { updateInviteContactModal } from '../../state/ducks/modalDialog';
+// tslint:disable-next-line: no-submodule-imports
+import useKey from 'react-use/lib/useKey';
 
 type Props = {
   conversationId: string;
@@ -67,7 +69,6 @@ const InviteContactsDialogInner = (props: Props) => {
   );
 
   const closeDialog = () => {
-    window.removeEventListener('keyup', onKeyUp);
     dispatch(updateInviteContactModal(null));
   };
 
@@ -87,19 +88,13 @@ const InviteContactsDialogInner = (props: Props) => {
     closeDialog();
   };
 
-  const onKeyUp = (event: any) => {
-    switch (event.key) {
-      case 'Enter':
-        onClickOK();
-        break;
-      case 'Esc':
-      case 'Escape':
-        closeDialog();
-        break;
-      default:
-    }
-  };
-  window.addEventListener('keyup', onKeyUp);
+  useKey((event: KeyboardEvent) => {
+    return event.key === 'Enter';
+  }, onClickOK);
+
+  useKey((event: KeyboardEvent) => {
+    return event.key === 'Esc' || event.key === 'Escape';
+  }, closeDialog);
 
   const titleText = `${window.i18n('addingContacts')} ${chatName}`;
   const cancelText = window.i18n('cancel');

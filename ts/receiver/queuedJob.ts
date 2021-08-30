@@ -10,7 +10,7 @@ import { ConversationModel, ConversationTypeEnum } from '../models/conversation'
 import { MessageModel } from '../models/message';
 import { getMessageController } from '../session/messages';
 import { getMessageById, getMessagesBySentAt } from '../../ts/data/data';
-import { MessageModelProps, messagesAdded } from '../state/ducks/conversations';
+import { MessageModelPropsWithoutConvoProps, messagesAdded } from '../state/ducks/conversations';
 import { updateProfileOneAtATime } from './dataMessage';
 import Long from 'long';
 
@@ -372,7 +372,7 @@ async function handleExpirationTimerUpdate(
     source: 'handleDataMessage',
   });
 
-  await conversation.updateExpirationTimer(expireTimer, source, message.get('received_at'));
+  await conversation.updateExpireTimer(expireTimer, source, message.get('received_at'));
 }
 
 export async function handleMessageJob(
@@ -454,7 +454,7 @@ export async function handleMessageJob(
 
     updatesToDispatch.set(message.id, {
       conversationKey: conversation.id,
-      messageModelProps: message.getProps(),
+      messageModelProps: message.getMessageModelProps(),
     });
     trotthledAllMessagesAddedDispatch();
     if (message.get('unread')) {
@@ -482,5 +482,5 @@ const trotthledAllMessagesAddedDispatch = _.throttle(() => {
 
 const updatesToDispatch: Map<
   string,
-  { conversationKey: string; messageModelProps: MessageModelProps }
+  { conversationKey: string; messageModelProps: MessageModelPropsWithoutConvoProps }
 > = new Map();

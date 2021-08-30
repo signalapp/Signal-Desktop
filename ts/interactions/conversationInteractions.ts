@@ -330,9 +330,9 @@ export async function setDisappearingMessagesByConvoId(
   const conversation = getConversationController().get(conversationId);
 
   if (!seconds || seconds <= 0) {
-    await conversation.updateExpirationTimer(null);
+    await conversation.updateExpireTimer(null);
   } else {
-    await conversation.updateExpirationTimer(seconds);
+    await conversation.updateExpireTimer(seconds);
   }
 }
 

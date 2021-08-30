@@ -195,12 +195,11 @@ const MessageItem = (props: {
   unreadCount: number;
 }) => {
   const { lastMessage, isTyping, unreadCount } = props;
-  const theme = useTheme();
 
   if (!lastMessage && !isTyping) {
     return null;
   }
-  const text = lastMessage && lastMessage.text ? lastMessage.text : '';
+  const text = lastMessage?.text || '';
 
   if (isEmpty(text)) {
     return null;
@@ -221,17 +220,14 @@ const MessageItem = (props: {
         )}
       </div>
       {lastMessage && lastMessage.status ? (
-        <OutgoingMessageStatus
-          status={lastMessage.status}
-          iconColor={theme.colors.textColorSubtle}
-        />
+        <OutgoingMessageStatus status={lastMessage.status} />
       ) : null}
     </div>
   );
 };
 
 const AvatarItem = (props: {
-  avatarPath?: string;
+  avatarPath: string | null;
   conversationId: string;
   memberAvatars?: Array<ConversationAvatar>;
   name?: string;
@@ -284,7 +280,7 @@ const ConversationListItem = (props: Props) => {
   const membersAvatar = useMembersAvatars(props);
 
   const openConvo = useCallback(
-    async (e: any) => {
+    async (e: React.MouseEvent<HTMLDivElement>) => {
       // mousedown is invoked sooner than onClick, but for both right and left click
       if (e.button === 0) {
         await openConversationWithMessages({ conversationKey: conversationId });
@@ -298,6 +294,10 @@ const ConversationListItem = (props: Props) => {
       <div
         role="button"
         onMouseDown={openConvo}
+        onMouseUp={e => {
+          e.stopPropagation();
+          e.preventDefault();
+        }}
         onContextMenu={(e: any) => {
           contextMenu.show({
             id: triggerId,

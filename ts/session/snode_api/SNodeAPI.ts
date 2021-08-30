@@ -578,12 +578,16 @@ export async function retrieveNextMessages(
 
   try {
     const json = JSON.parse(result.body);
-    window.inboxStore?.dispatch(updateIsOnline(true));
+    if (!window.inboxStore?.getState().onionPaths.isOnline) {
+      window.inboxStore?.dispatch(updateIsOnline(true));
+    }
 
     return json.messages || [];
   } catch (e) {
     window?.log?.warn('exception while parsing json of nextMessage:', e);
-    window.inboxStore?.dispatch(updateIsOnline(true));
+    if (!window.inboxStore?.getState().onionPaths.isOnline) {
+      window.inboxStore?.dispatch(updateIsOnline(true));
+    }
     throw new Error(
       `loki_message:::_retrieveNextMessages - exception while parsing json of nextMessage ${targetNode.ip}:${targetNode.port}: ${e?.message}`
     );

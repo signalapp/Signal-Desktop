@@ -148,7 +148,6 @@
       }
 
       drawAttention();
-
       this.lastNotification = new Notification(title, {
         body: window.platform === 'linux' ? filter(message) : message,
         icon: iconUrl,

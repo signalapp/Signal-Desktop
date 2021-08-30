@@ -142,9 +142,18 @@ export async function getOnionPath(toExclude?: Snode): Promise<Array<Snode>> {
   }
 
   if (onionPaths.length <= 0) {
-    window.inboxStore?.dispatch(updateOnionPaths([]));
+    if (!_.isEmpty(window.inboxStore?.getState().onionPaths.snodePaths)) {
+      window.inboxStore?.dispatch(updateOnionPaths([]));
+    }
   } else {
-    window.inboxStore?.dispatch(updateOnionPaths(onionPaths));
+    const ipsOnly = onionPaths.map(m =>
+      m.map(c => {
+        return { ip: c.ip };
+      })
+    );
+    if (!_.isEqual(window.inboxStore?.getState().onionPaths.snodePaths, ipsOnly)) {
+      window.inboxStore?.dispatch(updateOnionPaths(ipsOnly));
+    }
   }
 
   const onionPathsWithoutExcluded = toExclude

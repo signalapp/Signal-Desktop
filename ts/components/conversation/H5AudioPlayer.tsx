@@ -84,6 +84,7 @@ export const AudioPlayerWithEncryptedFile = (props: {
   return (
     <H5AudioPlayer
       src={urlToLoad}
+      preload="metadata"
       layout="horizontal-reverse"
       showSkipControls={false}
       showJumpControls={false}
@@ -93,7 +94,6 @@ export const AudioPlayerWithEncryptedFile = (props: {
       ref={player}
       customControlsSection={[
         RHAP_UI.MAIN_CONTROLS,
-        RHAP_UI.VOLUME,
         <div className="speedButton" key="togglePlaybackSpeed">
           <SessionButton
             text={`${playbackSpeed}x`}

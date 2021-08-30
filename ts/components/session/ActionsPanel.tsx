@@ -45,7 +45,7 @@ import { loadDefaultRooms } from '../../opengroup/opengroupV2/ApiUtil';
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
 
 import { ActionPanelOnionStatusLight } from '../dialog/OnionStatusPathDialog';
-const Section = (props: { type: SectionType; avatarPath?: string }) => {
+const Section = (props: { type: SectionType; avatarPath?: string | null }) => {
   const ourNumber = useSelector(getOurNumber);
   const unreadMessageCount = useSelector(getUnreadMessageCount);
   const theme = useSelector(getTheme);
@@ -173,7 +173,7 @@ const removeAllV1OpenGroups = async () => {
       if (window.inboxStore) {
         window.inboxStore?.dispatch(conversationRemoved(v1Convo.id));
         window.inboxStore?.dispatch(
-          conversationChanged({ id: v1Convo.id, data: v1Convo.getProps() })
+          conversationChanged({ id: v1Convo.id, data: v1Convo.getConversationModelProps() })
         );
       }
     } catch (e) {

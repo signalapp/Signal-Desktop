@@ -23,13 +23,8 @@ export const isSearching = createSelector(getSearch, (state: SearchStateType) =>
 });
 
 export const getSearchResults = createSelector(
-  [getSearch, getConversationLookup, getSelectedConversationKey, getSelectedMessage],
-  (
-    state: SearchStateType,
-    lookup: ConversationLookupType,
-    selectedConversation?: string,
-    selectedMessage?: string
-  ) => {
+  [getSearch, getConversationLookup, getSelectedConversationKey],
+  (state: SearchStateType, lookup: ConversationLookupType, selectedConversation?: string) => {
     return {
       contacts: compact(
         state.contacts.map(id => {
@@ -65,16 +60,7 @@ export const getSearchResults = createSelector(
         })
       ),
       hideMessagesHeader: false,
-      messages: state.messages.map(message => {
-        if (message.id === selectedMessage) {
-          return {
-            ...message,
-            isSelected: true,
-          };
-        }
 
-        return message;
-      }),
       searchTerm: state.query,
     };
   }

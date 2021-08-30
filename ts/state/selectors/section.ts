@@ -15,3 +15,8 @@ export const getFocusedSettingsSection = createSelector(
   getSection,
   (state: SectionStateType): SessionSettingCategory | undefined => state.focusedSettingsSection
 );
+
+export const getIsAppFocused = createSelector(
+  getSection,
+  (state: SectionStateType): boolean => state.isAppFocused
+);

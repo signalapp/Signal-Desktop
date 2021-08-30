@@ -93,14 +93,19 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
     void this.hasPassword();
 
     this.onKeyUp = this.onKeyUp.bind(this);
-    window.addEventListener('keyup', this.onKeyUp);
   }
 
   public componentDidMount() {
+    window.addEventListener('keyup', this.onKeyUp);
+
     const mediaSetting = window.getSettingValue('media-permissions');
     this.setState({ mediaSetting });
 
     setTimeout(() => ($('#password-lock-input') as any).focus(), 100);
+  }
+
+  public componentWillUnmount() {
+    window.removeEventListener('keyup', this.onKeyUp);
   }
 
   /* tslint:disable-next-line:max-func-body-length */
@@ -363,6 +368,7 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
                 title: window.i18n('linkPreviewsTitle'),
                 message: window.i18n('linkPreviewsConfirmMessage'),
                 okTheme: SessionButtonColor.Danger,
+                // onClickOk:
               })
             );
           }

@@ -255,8 +255,8 @@
   "userUnbanFailed": "Sblocco fallito!",
   "banUser": "Banna utente",
   "banUserConfirm": "Are you sure you want to ban user?",
-  "banUserAndDeleteAll": "Ban and Delete All",
-  "banUserAndDeleteAllConfirm": "Are you sure you want to ban the user and delete all his messages?",
+  "banUserAndDeleteAll": "Banna ed elimina tutto",
+  "banUserAndDeleteAllConfirm": "Sei sicuro di voler bannare l'utente ed eliminare tutti i suoi messaggi?",
   "userBanned": "User banned successfully",
   "userBanFailed": "Ban fallito!",
   "leaveGroup": "Abbandona Il Gruppo",
@@ -356,7 +356,7 @@
   "beginYourSession": "Inizia<br />la tua<br />Session.",
   "welcomeToYourSession": "Benvenuto su Session",
   "newSession": "Nuova sessione",
-  "searchFor...": "Search for conversations or contacts",
+  "searchFor...": "Ricerca conversazioni o contatti",
   "enterSessionID": "Inserisci la Sessione ID",
   "enterSessionIDOfRecipient": "Inserisci la Sessione ID del destinatario",
   "usersCanShareTheir...": "Gli utenti possono condividere la propria Sessione ID accedendo alle impostazioni del proprio account e toccando Condividi la Sessione ID o condividendo il proprio codice QR.",
@@ -419,5 +419,5 @@
   "latestUnreadIsAbove": "Il primo messaggio non letto è sopra",
   "sendRecoveryPhraseTitle": "Invio Frase Di Recupero",
   "sendRecoveryPhraseMessage": "Stai tentando di inviare la frase di recupero che può essere utilizzata per accedere al tuo account. Sei sicuro di voler inviare questo messaggio?",
-  "notificationSubtitle": "Notifications - $setting$"
+  "notificationSubtitle": "Notifiche - $setting$"
 }

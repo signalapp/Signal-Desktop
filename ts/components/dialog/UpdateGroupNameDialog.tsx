@@ -39,7 +39,14 @@ export class UpdateGroupNameDialog extends React.Component<Props, State> {
       avatar: this.convo.getAvatarPath(),
     };
     this.inputEl = React.createRef();
+  }
+
+  public componentDidMount() {
     window.addEventListener('keyup', this.onKeyUp);
+  }
+
+  public componentWillUnmount() {
+    window.removeEventListener('keyup', this.onKeyUp);
   }
 
   public onClickOK() {

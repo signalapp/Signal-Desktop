@@ -60,13 +60,11 @@
 }
 
 .mention-profile-name {
-  color: rgb(194, 244, 255);
-  background-color: rgb(66, 121, 150);
-  text-decoration: underline;
   border-radius: 4px;
   margin: 2px;
   padding: 2px;
   user-select: none;
+  font-weight: bold;
 }
 
 .mention-profile-name-us {

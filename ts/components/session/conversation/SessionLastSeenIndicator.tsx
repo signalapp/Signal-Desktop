@@ -3,7 +3,8 @@ import styled from 'styled-components';
 
 const LastSeenBarContainer = styled.div`
   padding-bottom: 35px;
-  margin-inline-start: 28px;
+  margin-inline-start: 10rem;
+  margin-inline-end: 10rem;
   padding-top: 28px;
   overflow: hidden;
 `;
@@ -17,7 +18,7 @@ const LastSeenBar = styled.div`
 const LastSeenText = styled.div`
   margin-top: 3px;
   font-size: 11px;
-  line-height: 16px;
+  line-height: 26px;
   letter-spacing: 0.3px;
   text-transform: uppercase;
   text-align: center;

@@ -150,8 +150,6 @@
   "savedTheFile": "Media saved by $name$",
   "linkPreviewsTitle": "Send Link Previews",
   "linkPreviewDescription": "Previews are supported for most urls",
-  "startInTrayTitle": "Start in Tray",
-  "startInTrayDescription": "Start Session as a minified app ",
   "linkPreviewsConfirmMessage": "You will not have full metadata protection when sending or receiving link previews.",
   "mediaPermissionsTitle": "Microphone and Camera",
   "mediaPermissionsDescription": "Allow access to camera and microphone",
@@ -339,8 +337,10 @@
   "onlyAdminCanRemoveMembersDesc": "Only the creator of the group can remove users",
   "createAccount": "Create account",
   "signIn": "Sign In",
+  "startInTrayTitle": "Start in Tray",
+  "startInTrayDescription": "Start Session as a minified app ",
   "yourUniqueSessionID": "Say hello to your Session ID",
-  "signupSessionIDBlurb": "Your Session ID is the unique address people can use to contact you on Session. With no connection to your real identity, your Session ID is totally anonymous and private by design.",
+  "allUsersAreRandomly...": "Your Session ID is the unique address people can use to contact you on Session. With no connection to your real identity, your Session ID is totally anonymous and private by design.",
   "getStarted": "Get started",
   "createSessionID": "Create Session ID",
   "recoveryPhrase": "Recovery Phrase",
@@ -421,7 +421,6 @@
   "latestUnreadIsAbove": "First unread message is above",
   "sendRecoveryPhraseTitle": "Sending Recovery Phrase",
   "sendRecoveryPhraseMessage": "You are attempting to send your recovery phrase which can be used to access your account. Are you sure you want to send this message?",
-  "notificationSubtitle": "Notifications - $setting$",
   "dialogClearAllDataDeletionFailedTitle": "Data not deleted",
   "dialogClearAllDataDeletionFailedDesc": "Data not deleted with an unknown error. Do you want to delete data from just this device?",
   "dialogClearAllDataDeletionFailedTitleQuestion": "Do you want to delete data from just this device?",
@@ -431,5 +430,6 @@
   "entireAccount": "Entire Account",
   "recoveryPhraseSecureTitle": "You're almost finished!",
   "recoveryPhraseRevealMessage": "Secure your account by saving your recovery phrase. Reveal your recovery phrase then store it safely to secure it.",
-  "recoveryPhraseRevealButtonText": "Reveal Recovery Phrase"
+  "recoveryPhraseRevealButtonText": "Reveal Recovery Phrase",
+  "notificationSubtitle": "Notifications - $setting$"
 }

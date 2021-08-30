@@ -72,7 +72,7 @@ export const lightTheme: DefaultTheme = {
     receivedMessageBackground: '#f5f5f5',
     sentMessageBackground: accentLightTheme,
     receivedMessageText: black,
-    sentMessageText: black,
+    sentMessageText: white,
     sessionShadow: `0 0 4px 0 ${black}5E`,
     sessionShadowColor: `${black}5E`,
     // left pane
@@ -130,9 +130,9 @@ export const darkTheme = {
     composeViewBackground: '#1b1b1b',
     composeViewTextFieldBackground: '#141414',
     receivedMessageBackground: '#222325',
-    sentMessageBackground: '#3f4146',
+    sentMessageBackground: accentDarkTheme,
     receivedMessageText: white,
-    sentMessageText: white,
+    sentMessageText: black,
     sessionShadow: `0 0 4px 0 ${white}33`,
     sessionShadowColor: `${white}33`,
     // left pane

@@ -38,7 +38,7 @@ export function useMembersAvatars(conversation: ReduxConversationType | undefine
         );
         const memberAvatars = memberConvos.map(m => {
           return {
-            avatarPath: m.getAvatar()?.url || undefined,
+            avatarPath: m.getAvatarPath() || undefined,
             id: m.id as string,
             name: (m.get('name') || m.get('profileName') || m.id) as string,
           };

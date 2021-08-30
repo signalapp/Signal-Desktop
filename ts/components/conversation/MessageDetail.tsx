@@ -8,7 +8,10 @@ import { Message } from './Message';
 import { deleteMessagesById } from '../../interactions/conversationInteractions';
 import { useSelector } from 'react-redux';
 import { ContactPropsMessageDetail } from '../../state/ducks/conversations';
-import { getMessageDetailsViewProps } from '../../state/selectors/conversations';
+import {
+  getMessageDetailsViewProps,
+  getMessageIsDeletable,
+} from '../../state/selectors/conversations';
 
 const AvatarItem = (props: { contact: ContactPropsMessageDetail }) => {
   const { avatarPath, phoneNumber, name, profileName } = props.contact;
@@ -92,18 +95,20 @@ export const MessageDetail = () => {
   const { i18n } = window;
 
   const messageDetailProps = useSelector(getMessageDetailsViewProps);
-
+  const isDeletable = useSelector(state =>
+    getMessageIsDeletable(state as any, messageDetailProps?.messageId || '')
+  );
   if (!messageDetailProps) {
     return null;
   }
 
-  const { errors, message, receivedAt, sentAt } = messageDetailProps;
+  const { errors, receivedAt, sentAt, convoId, direction, messageId } = messageDetailProps;
 
   return (
     <div className="message-detail-wrapper">
       <div className="module-message-detail">
         <div className="module-message-detail__message-container">
-          <Message {...message} firstMessageOfSeries={true} multiSelectMode={false} />
+          <Message messageId={messageId} isDetailView={true} />
         </div>
         <table className="module-message-detail__info">
           <tbody>
@@ -134,17 +139,13 @@ export const MessageDetail = () => {
             ) : null}
             <tr>
               <td className="module-message-detail__label">
-                {message.direction === 'incoming' ? i18n('from') : i18n('to')}
+                {direction === 'incoming' ? i18n('from') : i18n('to')}
               </td>
             </tr>
           </tbody>
         </table>
         <ContactsItem contacts={messageDetailProps.contacts} />
-        <DeleteButtonItem
-          convoId={messageDetailProps.message.convoId}
-          messageId={messageDetailProps.message.id}
-          isDeletable={messageDetailProps.message.isDeletable}
-        />
+        <DeleteButtonItem convoId={convoId} messageId={messageId} isDeletable={isDeletable} />
       </div>
     </div>
   );

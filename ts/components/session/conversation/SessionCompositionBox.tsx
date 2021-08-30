@@ -166,7 +166,7 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
   }
 
   public componentDidMount() {
-    setTimeout(this.focusCompositionBox, 100);
+    setTimeout(this.focusCompositionBox, 500);
 
     const div = this.container;
     div?.addEventListener('paste', this.handlePaste);

@@ -93,10 +93,6 @@ export const SessionQuotedMessageComposition = () => {
               attachment={firstImageAttachment}
               height={100}
               width={100}
-              curveTopLeft={true}
-              curveTopRight={true}
-              curveBottomLeft={true}
-              curveBottomRight={true}
               url={firstImageAttachment.thumbnail.objectUrl}
             />
           )}
