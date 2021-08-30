@@ -57,19 +57,19 @@ export const SessionToast = (props: Props) => {
   if (!toastIcon) {
     switch (type) {
       case SessionToastType.Info:
-        toastIcon = SessionIconType.Info;
+        toastIcon = 'info';
         break;
       case SessionToastType.Success:
-        toastIcon = SessionIconType.Check;
+        toastIcon = 'check';
         break;
       case SessionToastType.Error:
-        toastIcon = SessionIconType.Error;
+        toastIcon = 'error';
         break;
       case SessionToastType.Warning:
-        toastIcon = SessionIconType.Warning;
+        toastIcon = 'warning';
         break;
       default:
-        toastIcon = SessionIconType.Info;
+        toastIcon = 'info';
     }
   }
 

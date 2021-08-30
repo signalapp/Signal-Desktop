@@ -96,19 +96,19 @@ const Section = (props: { type: SectionType; avatarPath?: string | null }) => {
   let iconType: SessionIconType;
   switch (type) {
     case SectionType.Message:
-      iconType = SessionIconType.ChatBubble;
+      iconType = 'chatBubble';
       break;
     case SectionType.Contact:
-      iconType = SessionIconType.Users;
+      iconType = 'users';
       break;
     case SectionType.Settings:
-      iconType = SessionIconType.Gear;
+      iconType = 'gear';
       break;
     case SectionType.Moon:
-      iconType = SessionIconType.Moon;
+      iconType = 'moon';
       break;
     default:
-      iconType = SessionIconType.Moon;
+      iconType = 'moon';
   }
   const iconColor = undefined;
 

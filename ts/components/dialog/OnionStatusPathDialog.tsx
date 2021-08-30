@@ -18,7 +18,7 @@ import {
 } from '../../state/selectors/onions';
 import { getTheme } from '../../state/selectors/theme';
 import { Flex } from '../basic/Flex';
-import { SessionIcon, SessionIconButton, SessionIconType } from '../session/icon';
+import { SessionIcon, SessionIconButton } from '../session/icon';
 import { SessionSpinner } from '../session/SessionSpinner';
 import { SessionWrapperModal } from '../session/SessionWrapperModal';
 
@@ -123,7 +123,7 @@ export const ModalStatusLight = (props: StatusLightType) => {
         iconColor={color}
         glowDuration={glowDuration}
         glowStartDelay={glowStartDelay}
-        iconType={SessionIconType.Circle}
+        iconType="circle"
         iconSize={'tiny'}
         theme={theme}
       />
@@ -160,7 +160,7 @@ export const ActionPanelOnionStatusLight = (props: {
   return (
     <SessionIconButton
       iconSize={'small'}
-      iconType={SessionIconType.Circle}
+      iconType="circle"
       iconColor={iconColor}
       onClick={handleClick}
       glowDuration={10}

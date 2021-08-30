@@ -4,7 +4,7 @@ import { getMessageById, getMessagesByConversation } from '../../../data/data';
 import { getConversationController } from '../../../session/conversations';
 import { AttachmentDownloads } from '../../../session/utils';
 import { updateConfirmModal } from '../../../state/ducks/modalDialog';
-import { SessionIcon, SessionIconType } from '../../session/icon';
+import { SessionIcon } from '../../session/icon';
 import { SessionButtonColor } from '../../session/SessionButton';
 
 const StyledTrustSenderUI = styled.div`
@@ -83,7 +83,7 @@ export const ClickToTrustSender = (props: { messageId: string }) => {
 
   return (
     <StyledTrustSenderUI onClick={openConfirmationModal}>
-      <SessionIcon iconSize={'small'} iconType={SessionIconType.Gallery} />
+      <SessionIcon iconSize={'small'} iconType="gallery" />
       <ClickToDownload>{window.i18n('clickToTrustContact')}</ClickToDownload>
     </StyledTrustSenderUI>
   );

@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import { SessionIconButton, SessionIconType } from '../session/icon';
+import { SessionIconButton } from '../session/icon';
 import { useTheme } from 'styled-components';
 import { PropsForGroupInvitation } from '../../state/ducks/conversations';
 import { acceptOpenGroupInvitation } from '../../interactions/messageInteractions';
@@ -27,7 +27,7 @@ export const GroupInvitation = (props: PropsForGroupInvitation) => {
         <div className={classNames(classes)}>
           <div className="contents">
             <SessionIconButton
-              iconType={SessionIconType.Plus}
+              iconType="plus"
               iconColor={theme.colors.accent}
               theme={theme}
               iconSize={'large'}

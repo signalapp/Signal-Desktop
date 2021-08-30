@@ -82,7 +82,7 @@ export class SessionModal extends React.PureComponent<Props, State> {
               <div className="session-modal__header__close">
                 {showExitIcon ? (
                   <SessionIconButton
-                    iconType={SessionIconType.Exit}
+                    iconType="exit"
                     iconSize={'small'}
                     onClick={this.close}
                     theme={this.props.theme}

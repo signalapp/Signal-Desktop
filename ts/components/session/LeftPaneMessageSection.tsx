@@ -14,7 +14,6 @@ import { SessionSearchInput } from './SessionSearchInput';
 import { cleanSearchTerm } from '../../util/cleanSearchTerm';
 import { RowRendererParamsType } from '../LeftPane';
 import { SessionClosableOverlay, SessionClosableOverlayType } from './SessionClosableOverlay';
-import { SessionIconType } from './icon';
 import { ContactType } from './SessionMemberListItem';
 import { SessionButton, SessionButtonColor, SessionButtonType } from './SessionButton';
 import { PubKey } from '../../session/types';
@@ -133,7 +132,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     return (
       <LeftPaneSectionHeader
         label={window.i18n('messagesHeader')}
-        buttonIcon={SessionIconType.Plus}
+        buttonIcon="plus"
         buttonClicked={this.handleNewSessionButtonClick}
       />
     );

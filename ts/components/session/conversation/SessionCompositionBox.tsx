@@ -4,7 +4,7 @@ import _, { debounce } from 'lodash';
 import { AttachmentType } from '../../../types/Attachment';
 import * as MIME from '../../../types/MIME';
 
-import { SessionIconButton, SessionIconType } from '../icon';
+import { SessionIconButton } from '../icon';
 import { SessionEmojiPanel } from './SessionEmojiPanel';
 import { SessionRecording } from './SessionRecording';
 
@@ -92,7 +92,7 @@ const AddStagedAttachmentButton = (props: { onClick: () => void }) => {
   const theme = useTheme();
   return (
     <SessionIconButton
-      iconType={SessionIconType.PlusThin}
+      iconType="plusThin"
       backgroundColor={theme.colors.composeViewButtonBackground}
       iconSize={'huge2'}
       borderRadius="300px"
@@ -107,7 +107,7 @@ const StartRecordingButton = (props: { onClick: () => void }) => {
 
   return (
     <SessionIconButton
-      iconType={SessionIconType.Microphone}
+      iconType="microphone"
       iconSize={'huge2'}
       backgroundColor={theme.colors.composeViewButtonBackground}
       borderRadius="300px"
@@ -121,7 +121,7 @@ const ToggleEmojiButton = (props: { onClick: () => void }) => {
   const theme = useTheme();
   return (
     <SessionIconButton
-      iconType={SessionIconType.Emoji}
+      iconType="emoji"
       backgroundColor={theme.colors.composeViewButtonBackground}
       iconSize={'huge2'}
       borderRadius="300px"
@@ -136,7 +136,7 @@ const SendMessageButton = (props: { onClick: () => void }) => {
   return (
     <div className="send-message-button">
       <SessionIconButton
-        iconType={SessionIconType.Send}
+        iconType="send"
         backgroundColor={theme.colors.composeViewButtonBackground}
         iconSize={'huge2'}
         iconRotation={90}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { SessionIconButton, SessionIconType } from '../icon';
+import { SessionIconButton } from '../icon';
 import { Avatar, AvatarSize } from '../../Avatar';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../SessionButton';
 import { SessionDropdown } from '../SessionDropdown';
@@ -135,7 +135,7 @@ const HeaderItem = () => {
   return (
     <div className="group-settings-header">
       <SessionIconButton
-        iconType={SessionIconType.Chevron}
+        iconType="chevron"
         iconSize={'medium'}
         iconRotation={270}
         onClick={() => {
@@ -153,8 +153,8 @@ const HeaderItem = () => {
       <div className="invite-friends-container">
         {showInviteContacts && (
           <SessionIconButton
-            iconType={SessionIconType.AddUser}
-            iconSize={'medium'}
+            iconType="addUser"
+            iconSize="medium"
             onClick={() => {
               if (selectedConversation) {
                 showInviteContactByConvoId(selectedConversation.id);

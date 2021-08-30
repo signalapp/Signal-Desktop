@@ -22,7 +22,7 @@ import {
 } from '../state/ducks/conversations';
 import _ from 'underscore';
 import { useMembersAvatars } from '../hooks/useMembersAvatar';
-import { SessionIcon, SessionIconType } from './session/icon';
+import { SessionIcon } from './session/icon';
 import { useSelector } from 'react-redux';
 import { SectionType } from '../state/ducks/section';
 import { getFocusedSection } from '../state/selectors/section';
@@ -85,11 +85,7 @@ const HeaderItem = (props: {
 
   const pinIcon =
     isMessagesSection && isPinned ? (
-      <SessionIcon
-        iconType={SessionIconType.Pin}
-        iconColor={theme.colors.textColorSubtle}
-        iconSize={'tiny'}
-      />
+      <SessionIcon iconType="pin" iconColor={theme.colors.textColorSubtle} iconSize={'tiny'} />
     ) : null;
 
   const NotificationSettingIcon = () => {
@@ -102,19 +98,11 @@ const HeaderItem = (props: {
         return null;
       case 'disabled':
         return (
-          <SessionIcon
-            iconType={SessionIconType.Mute}
-            iconColor={theme.colors.textColorSubtle}
-            iconSize={'tiny'}
-          />
+          <SessionIcon iconType="mute" iconColor={theme.colors.textColorSubtle} iconSize={'tiny'} />
         );
       case 'mentions_only':
         return (
-          <SessionIcon
-            iconType={SessionIconType.BellMention}
-            iconColor={theme.colors.textColorSubtle}
-            iconSize={'tiny'}
-          />
+          <SessionIcon iconType="bell" iconColor={theme.colors.textColorSubtle} iconSize={'tiny'} />
         );
       default:
         return null;

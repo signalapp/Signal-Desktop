@@ -3,7 +3,7 @@ import React from 'react';
 import { Intl } from '../Intl';
 
 import { missingCaseError } from '../../util/missingCaseError';
-import { SessionIcon, SessionIconType } from '../session/icon';
+import { SessionIcon } from '../session/icon';
 import { PropsForExpirationTimer } from '../../state/ducks/conversations';
 import { ReadableMessage } from './ReadableMessage';
 
@@ -46,11 +46,7 @@ export const TimerNotification = (props: PropsForExpirationTimer) => {
       <div className="module-timer-notification" id={`msg-${props.messageId}`}>
         <div className="module-timer-notification__message">
           <div>
-            <SessionIcon
-              iconType={SessionIconType.Stopwatch}
-              iconSize={'small'}
-              iconColor={'#ABABAB'}
-            />
+            <SessionIcon iconType="stopwatch" iconSize={'small'} iconColor={'#ABABAB'} />
           </div>
 
           <div>

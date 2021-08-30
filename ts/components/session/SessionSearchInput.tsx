@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { getConversationsCount } from '../../state/selectors/conversations';
-import { SessionIconButton, SessionIconType } from './icon';
+import { SessionIconButton } from './icon';
 
 type Props = {
   searchString: string;
@@ -21,7 +21,7 @@ export const SessionSearchInput = (props: Props) => {
 
   return (
     <div className="session-search-input">
-      <SessionIconButton iconSize={'medium'} iconType={SessionIconType.Search} />
+      <SessionIconButton iconSize={'medium'} iconType="search" />
       <input
         value={searchString}
         onChange={e => onChange(e.target.value)}

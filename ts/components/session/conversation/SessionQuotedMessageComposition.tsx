@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { Flex } from '../../basic/Flex';
-import { SessionIcon, SessionIconButton, SessionIconType } from '../icon';
+import { SessionIcon, SessionIconButton } from '../icon';
 import styled, { useTheme } from 'styled-components';
 import { getAlt, isAudio } from '../../../types/Attachment';
 import { Image } from '../../conversation/Image';
@@ -77,7 +77,7 @@ export const SessionQuotedMessageComposition = () => {
       >
         <ReplyingTo>{window.i18n('replyingToMessage')}</ReplyingTo>
         <SessionIconButton
-          iconType={SessionIconType.Exit}
+          iconType="exit"
           iconSize={'small'}
           onClick={removeQuotedMessage}
           theme={theme}
@@ -98,7 +98,7 @@ export const SessionQuotedMessageComposition = () => {
           )}
 
           {hasAudioAttachment && (
-            <SessionIcon iconType={SessionIconType.Microphone} iconSize={'huge'} theme={theme} />
+            <SessionIcon iconType="microphone" iconSize="huge" theme={theme} />
           )}
         </Flex>
       </QuotedMessageCompositionReply>

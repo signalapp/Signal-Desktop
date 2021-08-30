@@ -10,7 +10,7 @@ import {
   getSortedMessagesOfSelectedConversation,
 } from '../../state/selectors/conversations';
 import { getAudioAutoplay } from '../../state/selectors/userConfig';
-import { SessionIcon, SessionIconType } from '../session/icon';
+import { SessionIcon } from '../session/icon';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../session/SessionButton';
 
 export const AudioPlayerWithEncryptedFile = (props: {
@@ -109,7 +109,7 @@ export const AudioPlayerWithEncryptedFile = (props: {
       customIcons={{
         play: (
           <SessionIcon
-            iconType={SessionIconType.Play}
+            iconType="play"
             iconSize={'small'}
             iconColor={theme.colors.textColorSubtle}
             theme={theme}
@@ -117,7 +117,7 @@ export const AudioPlayerWithEncryptedFile = (props: {
         ),
         pause: (
           <SessionIcon
-            iconType={SessionIconType.Pause}
+            iconType="pause"
             iconSize={'small'}
             iconColor={theme.colors.textColorSubtle}
             theme={theme}

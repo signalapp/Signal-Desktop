@@ -1,7 +1,7 @@
 import React from 'react';
 
 import classNames from 'classnames';
-import { SessionIconButton, SessionIconType } from './icon';
+import { SessionIconButton } from './icon';
 import { DefaultTheme } from 'styled-components';
 
 interface Props {
@@ -109,7 +109,7 @@ export class SessionInput extends React.PureComponent<Props, State> {
   private renderShowHideButton() {
     return (
       <SessionIconButton
-        iconType={SessionIconType.Eye}
+        iconType="eye"
         iconSize={'medium'}
         onClick={() => {
           this.setState({

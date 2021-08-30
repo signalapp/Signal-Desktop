@@ -143,7 +143,7 @@ const IconButton = ({ onClick, type, theme }: IconButtonProps) => {
     onClick();
   };
   let iconRotation = 0;
-  let iconType = SessionIconType.Chevron;
+  let iconType: SessionIconType = 'chevron';
   switch (type) {
     case 'next':
       iconRotation = 270;
@@ -152,10 +152,10 @@ const IconButton = ({ onClick, type, theme }: IconButtonProps) => {
       iconRotation = 90;
       break;
     case 'close':
-      iconType = SessionIconType.Exit;
+      iconType = 'exit';
       break;
     case 'save':
-      iconType = SessionIconType.Upload;
+      iconType = 'upload';
       iconRotation = 180;
 
       break;

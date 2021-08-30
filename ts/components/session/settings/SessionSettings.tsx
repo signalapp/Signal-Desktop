@@ -20,7 +20,7 @@ import { unblockConvoById } from '../../../interactions/conversationInteractions
 import { toggleAudioAutoplay } from '../../../state/ducks/userConfig';
 import { sessionPassword, updateConfirmModal } from '../../../state/ducks/modalDialog';
 import { PasswordAction } from '../../dialog/SessionPasswordDialog';
-import { SessionIconButton, SessionIconType } from '../icon';
+import { SessionIconButton } from '../icon';
 import { ToastUtils } from '../../../session/utils';
 
 export enum SessionSettingCategory {
@@ -250,11 +250,7 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
       <div className="session-settings__version-info">
         <span className="text-selectable">v{window.versionInfo.version}</span>
         <span>
-          <SessionIconButton
-            iconSize={'medium'}
-            iconType={SessionIconType.Oxen}
-            onClick={openOxenWebsite}
-          />
+          <SessionIconButton iconSize={'medium'} iconType="oxen" onClick={openOxenWebsite} />
         </span>
         <span className="text-selectable">{window.versionInfo.commitHash}</span>
       </div>

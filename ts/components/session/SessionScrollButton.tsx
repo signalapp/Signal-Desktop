@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import styled, { ThemeContext } from 'styled-components';
 import { getShowScrollButton } from '../../state/selectors/conversations';
 
-import { SessionIconButton, SessionIconType } from './icon';
+import { SessionIconButton } from './icon';
 
 type Props = {
   onClick?: () => any;
@@ -24,7 +24,7 @@ export const SessionScrollButton = (props: Props) => {
   return (
     <SessionScrollButtonDiv theme={themeContext}>
       <SessionIconButton
-        iconType={SessionIconType.Chevron}
+        iconType="chevron"
         iconSize={'huge'}
         isHidden={!show}
         onClick={props.onClick}

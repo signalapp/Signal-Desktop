@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { SessionIcon, SessionIconType } from './icon';
+import { SessionIcon } from './icon';
 import { SessionButton, SessionButtonColor, SessionButtonType } from './SessionButton';
 import { Constants } from '../../session';
 import { DefaultTheme, withTheme } from 'styled-components';
@@ -68,15 +68,10 @@ class SessionPasswordPromptInner extends React.PureComponent<{ theme: DefaultThe
       />
     );
     const infoIcon = this.state.clearDataView ? (
-      <SessionIcon
-        iconType={SessionIconType.Warning}
-        iconSize={35}
-        iconColor="#ce0000"
-        theme={this.props.theme}
-      />
+      <SessionIcon iconType="warning" iconSize={35} iconColor="#ce0000" theme={this.props.theme} />
     ) : (
       <SessionIcon
-        iconType={SessionIconType.Lock}
+        iconType="lock"
         iconSize={35}
         iconColor={Constants.UI.COLORS.GREEN}
         theme={this.props.theme}

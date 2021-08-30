@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import classNames from 'classnames';
 
-import { SessionIconButton, SessionIconType } from './icon/';
+import { SessionIconButton } from './icon/';
 import { SessionButton } from './SessionButton';
 import { useTheme } from 'styled-components';
 
@@ -85,7 +85,7 @@ export const SessionWrapperModal = (props: SessionWrapperModalType) => {
               <div className="session-modal__header__close">
                 {showExitIcon ? (
                   <SessionIconButton
-                    iconType={SessionIconType.Exit}
+                    iconType="exit"
                     iconSize={'small'}
                     onClick={props.onClose}
                     theme={theme}
