@@ -8,12 +8,14 @@ export type SessionIconProps = {
   iconSize: SessionIconSize | number;
   iconColor?: string;
   iconRotation?: number;
+  iconPadding?: string;
   rotateDuration?: number;
   glowDuration?: number;
-  borderRadius?: number;
+  borderRadius?: string;
   glowStartDelay?: number;
   noScale?: boolean;
   theme?: DefaultTheme;
+  backgroundColor?: string;
 };
 
 const getIconDimensionFromIconSize = (iconSize: SessionIconSize | number) => {
@@ -46,11 +48,13 @@ type StyledSvgProps = {
   height: string | number;
   iconRotation: number;
   rotateDuration?: number;
-  borderRadius?: number;
+  borderRadius?: string;
+  iconPadding?: string;
   glowDuration?: number;
   glowStartDelay?: number;
   noScale?: boolean;
   iconColor?: string;
+  backgroundColor?: string;
 };
 
 const rotate = keyframes`
@@ -125,7 +129,10 @@ const Svg = React.memo(styled.svg<StyledSvgProps>`
   transform: ${props => `rotate(${props.iconRotation}deg)`};
   animation: ${props => animation(props)};
   border-radius: ${props => props.borderRadius};
+  background-color: ${props => (props.backgroundColor ? props.backgroundColor : '')};
+  border-radius: ${props => (props.borderRadius ? props.borderRadius : '')};
   filter: ${props => (props.noScale ? `drop-shadow(0px 0px 4px ${props.iconColor})` : '')};
+  padding: ${props => (props.iconPadding ? props.iconPadding : '')};
 `);
 //tslint:enable no-unnecessary-callback-wrapper
 
@@ -140,7 +147,9 @@ const SessionSvg = (props: {
   glowDuration?: number;
   glowStartDelay?: number;
   noScale?: boolean;
-  borderRadius?: number;
+  borderRadius?: string;
+  backgroundColor?: string;
+  iconPadding?: string;
   theme: DefaultTheme;
 }) => {
   const colorSvg = props.iconColor || props?.theme?.colors.textColor;
@@ -155,6 +164,9 @@ const SessionSvg = (props: {
     glowStartDelay: props.glowStartDelay,
     iconColor: props.iconColor,
     noScale: props.noScale,
+    backgroundColor: props.backgroundColor,
+    borderRadius: props.borderRadius,
+    iconPadding: props.iconPadding,
   };
 
   return (

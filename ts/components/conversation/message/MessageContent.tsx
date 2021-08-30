@@ -177,7 +177,7 @@ export const MessageContent = (props: Props) => {
             handleImageError={handleImageError}
           />
           {hasContentAfterAttachmentAndQuote ? (
-            <Flex padding="10px">
+            <Flex padding="7px">
               <MessagePreview messageId={props.messageId} handleImageError={handleImageError} />
               <MessageText messageId={props.messageId} />
             </Flex>

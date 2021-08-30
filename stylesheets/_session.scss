@@ -354,16 +354,19 @@ label {
   // Entirely to ensure that images are centered if they aren't full width of bubble
   text-align: center;
   position: relative;
-
-  border-radius: $session_message-container-border-radius;
   overflow: hidden;
-  // no background by default for the attachment container
+
+  border-top-left-radius: $session_message-container-border-radius;
+  border-bottom-left-radius: $session_message-container-border-radius;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
 
-.module-message__attachment-container {
-  border-top-left-radius: $session_message-container-border-radius;
+.module-message__container--outgoing--first-of-series {
   border-top-right-radius: $session_message-container-border-radius;
-  border-bottom-left-radius: $session_message-container-border-radius;
+}
+
+.module-message__container--outgoing--last-of-series {
   border-bottom-right-radius: $session_message-container-border-radius;
 }
 

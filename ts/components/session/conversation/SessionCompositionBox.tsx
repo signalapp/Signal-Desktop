@@ -88,6 +88,66 @@ export type SendMessageType = {
   groupInvitation: { url: string | undefined; name: string } | undefined;
 };
 
+const AddStagedAttachmentButton = (props: { onClick: () => void }) => {
+  const theme = useTheme();
+  return (
+    <SessionIconButton
+      iconType={SessionIconType.PlusThin}
+      backgroundColor={theme.colors.composeViewButtonBackground}
+      iconSize={'huge2'}
+      borderRadius="300px"
+      iconPadding="8px"
+      onClick={props.onClick}
+    />
+  );
+};
+
+const StartRecordingButton = (props: { onClick: () => void }) => {
+  const theme = useTheme();
+
+  return (
+    <SessionIconButton
+      iconType={SessionIconType.Microphone}
+      iconSize={'huge2'}
+      backgroundColor={theme.colors.composeViewButtonBackground}
+      borderRadius="300px"
+      iconPadding="6px"
+      onClick={props.onClick}
+    />
+  );
+};
+
+const ToggleEmojiButton = (props: { onClick: () => void }) => {
+  const theme = useTheme();
+  return (
+    <SessionIconButton
+      iconType={SessionIconType.Emoji}
+      backgroundColor={theme.colors.composeViewButtonBackground}
+      iconSize={'huge2'}
+      borderRadius="300px"
+      iconPadding="6px"
+      onClick={props.onClick}
+    />
+  );
+};
+
+const SendMessageButton = (props: { onClick: () => void }) => {
+  const theme = useTheme();
+  return (
+    <div className="send-message-button">
+      <SessionIconButton
+        iconType={SessionIconType.Send}
+        backgroundColor={theme.colors.composeViewButtonBackground}
+        iconSize={'huge2'}
+        iconRotation={90}
+        borderRadius="300px"
+        iconPadding="6px"
+        onClick={props.onClick}
+      />
+    </div>
+  );
+};
+
 interface Props {
   sendMessage: (msg: SendMessageType) => void;
   draft: string;
@@ -339,13 +399,7 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
 
     return (
       <>
-        {typingEnabled && (
-          <SessionIconButton
-            iconType={SessionIconType.CirclePlus}
-            iconSize={SessionIconSize.Large}
-            onClick={this.onChooseAttachment}
-          />
-        )}
+        {typingEnabled && <AddStagedAttachmentButton onClick={this.onChooseAttachment} />}
 
         <input
           className="hidden"
@@ -356,13 +410,7 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
           onChange={this.onChoseAttachment}
         />
 
-        {typingEnabled && (
-          <SessionIconButton
-            iconType={SessionIconType.Microphone}
-            iconSize={SessionIconSize.Huge}
-            onClick={this.onLoadVoiceNoteView}
-          />
-        )}
+        {typingEnabled && <StartRecordingButton onClick={this.onLoadVoiceNoteView} />}
 
         <div
           className="send-message-input"
@@ -375,21 +423,8 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
           {this.renderTextArea()}
         </div>
 
-        {typingEnabled && (
-          <SessionIconButton
-            iconType={SessionIconType.Emoji}
-            iconSize={'large'}
-            onClick={this.toggleEmojiPanel}
-          />
-        )}
-        <div className="send-message-button">
-          <SessionIconButton
-            iconType={SessionIconType.Send}
-            iconSize={'large'}
-            iconRotation={90}
-            onClick={this.onSendMessage}
-          />
-        </div>
+        {typingEnabled && <ToggleEmojiButton onClick={this.toggleEmojiPanel} />}
+        <SendMessageButton onClick={this.onSendMessage} />
 
         {typingEnabled && (
           <div ref={ref => (this.emojiPanel = ref)} onKeyDown={this.onKeyDown} role="button">
