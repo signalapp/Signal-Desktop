@@ -6,11 +6,53 @@ import type { LoggerType } from '../../logging/log';
 import { getSendOptions } from '../../util/getSendOptions';
 import { handleMessageSend, SendTypesType } from '../../util/handleMessageSend';
 import { isNotNil } from '../../util/isNotNil';
+import { strictAssert } from '../../util/assert';
+import { isRecord } from '../../util/isRecord';
 
 import { commonShouldJobContinue } from './commonShouldJobContinue';
 import { handleCommonJobRequestError } from './handleCommonJobRequestError';
 
 const CHUNK_SIZE = 100;
+
+export type SyncType = {
+  messageId?: string;
+  senderE164?: string;
+  senderUuid?: string;
+  timestamp: number;
+};
+
+/**
+ * Parse what _should_ be an array of `SyncType`s.
+ *
+ * Notably, `null`s made it into the job system and caused jobs to fail. This cleans that
+ * up in addition to validating the data.
+ */
+export function parseRawSyncDataArray(value: unknown): Array<SyncType> {
+  strictAssert(Array.isArray(value), 'syncs are not an array');
+  return value.map((item: unknown) => {
+    strictAssert(isRecord(item), 'sync is not an object');
+
+    const { messageId, senderE164, senderUuid, timestamp } = item;
+    strictAssert(typeof timestamp === 'number', 'timestamp should be a number');
+
+    return {
+      messageId: parseOptionalString('messageId', messageId),
+      senderE164: parseOptionalString('senderE164', senderE164),
+      senderUuid: parseOptionalString('senderUuid', senderUuid),
+      timestamp,
+    };
+  });
+}
+
+function parseOptionalString(name: string, value: unknown): undefined | string {
+  if (typeof value === 'string') {
+    return value;
+  }
+  if (value === undefined || value === null) {
+    return undefined;
+  }
+  throw new Error(`${name} was not a string`);
+}
 
 export async function runReadOrViewSyncJob({
   attempt,
@@ -24,12 +66,7 @@ export async function runReadOrViewSyncJob({
   isView: boolean;
   log: LoggerType;
   maxRetryTime: number;
-  syncs: ReadonlyArray<{
-    messageId?: string;
-    senderE164?: string;
-    senderUuid?: string;
-    timestamp: number;
-  }>;
+  syncs: ReadonlyArray<SyncType>;
   timestamp: number;
 }>): Promise<void> {
   let sendType: SendTypesType;
