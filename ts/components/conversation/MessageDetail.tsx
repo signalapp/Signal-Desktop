@@ -15,7 +15,6 @@ import {
 } from './Message';
 import { LocalizerType } from '../../types/Util';
 import { ConversationType } from '../../state/ducks/conversations';
-import { assert } from '../../util/assert';
 import { groupBy } from '../../util/mapUtil';
 import { ContactNameColorType } from '../../types/Colors';
 import { SendStatus } from '../../messages/MessageSendState';
@@ -42,7 +41,7 @@ export type Contact = Pick<
   errors?: Array<Error>;
 };
 
-export type Props = {
+export type PropsData = {
   // An undefined status means they were the sender and it's an incoming message. If
   //   `undefined` is a status, there should be no other items in the array; if there are
   //   any defined statuses, `undefined` shouldn't be present.
@@ -57,16 +56,11 @@ export type Props = {
   sendAnyway: (contactId: string, messageId: string) => unknown;
   showSafetyNumber: (contactId: string) => void;
   i18n: LocalizerType;
-} & Pick<
+} & Pick<MessagePropsType, 'interactionMode'>;
+
+export type PropsBackboneActions = Pick<
   MessagePropsType,
-  | 'checkForAccount'
-  | 'clearSelectedMessage'
-  | 'deleteMessage'
-  | 'deleteMessageForEveryone'
   | 'displayTapToViewMessage'
-  | 'downloadAttachment'
-  | 'doubleCheckMissingQuoteReference'
-  | 'interactionMode'
   | 'kickOffAttachmentDownload'
   | 'markAttachmentAsCorrupted'
   | 'markViewed'
@@ -84,6 +78,16 @@ export type Props = {
   | 'showForwardMessageModal'
   | 'showVisualAttachment'
 >;
+
+export type PropsReduxActions = Pick<
+  MessagePropsType,
+  | 'clearSelectedMessage'
+  | 'doubleCheckMissingQuoteReference'
+  | 'checkForAccount'
+>;
+
+export type ExternalProps = PropsData & PropsBackboneActions;
+export type Props = PropsData & PropsBackboneActions & PropsReduxActions;
 
 const contactSortCollator = new Intl.Collator();
 
@@ -263,10 +267,7 @@ export class MessageDetail extends React.Component<Props> {
       checkForAccount,
       clearSelectedMessage,
       contactNameColor,
-      deleteMessage,
-      deleteMessageForEveryone,
       displayTapToViewMessage,
-      downloadAttachment,
       doubleCheckMissingQuoteReference,
       i18n,
       interactionMode,
@@ -302,12 +303,18 @@ export class MessageDetail extends React.Component<Props> {
             clearSelectedMessage={clearSelectedMessage}
             contactNameColor={contactNameColor}
             containerElementRef={this.messageContainerRef}
-            deleteMessage={deleteMessage}
-            deleteMessageForEveryone={deleteMessageForEveryone}
+            deleteMessage={() =>
+              window.log.warn('MessageDetail: deleteMessage called!')
+            }
+            deleteMessageForEveryone={() =>
+              window.log.warn('MessageDetail: deleteMessageForEveryone called!')
+            }
             disableMenu
             disableScroll
             displayTapToViewMessage={displayTapToViewMessage}
-            downloadAttachment={downloadAttachment}
+            downloadAttachment={() =>
+              window.log.warn('MessageDetail: deleteMessageForEveryone called!')
+            }
             doubleCheckMissingQuoteReference={doubleCheckMissingQuoteReference}
             i18n={i18n}
             interactionMode={interactionMode}
@@ -324,10 +331,7 @@ export class MessageDetail extends React.Component<Props> {
             retrySend={retrySend}
             showForwardMessageModal={showForwardMessageModal}
             scrollToQuotedMessage={() => {
-              assert(
-                false,
-                'scrollToQuotedMessage should never be called because scrolling is disabled'
-              );
+              window.log.warn('MessageDetail: scrollToQuotedMessage called!');
             }}
             showContactDetail={showContactDetail}
             showContactModal={showContactModal}
@@ -338,9 +342,8 @@ export class MessageDetail extends React.Component<Props> {
               showExpiredOutgoingTapToViewToast
             }
             showMessageDetail={() => {
-              assert(
-                false,
-                "showMessageDetail should never be called because the menu is disabled (and we're already in the message detail!)"
+              window.log.warn(
+                'MessageDetail: deleteMessageForEveryone called!'
               );
             }}
             showVisualAttachment={showVisualAttachment}

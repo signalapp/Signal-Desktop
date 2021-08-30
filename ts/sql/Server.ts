@@ -5624,6 +5624,10 @@ function getExternalDraftFilesForConversation(
   const files: Array<string> = [];
 
   forEach(draftAttachments, attachment => {
+    if (attachment.pending) {
+      return;
+    }
+
     const { path: file, screenshotPath } = attachment;
     if (file) {
       files.push(file);

@@ -44,6 +44,7 @@ const rules = {
   ],
 
   'no-continue': 'off',
+  'lines-between-class-members': 'off',
 
   // Prettier overrides:
   'arrow-parens': 'off',

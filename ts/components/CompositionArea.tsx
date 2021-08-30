@@ -40,6 +40,16 @@ import { LinkPreviewWithDomain } from '../types/LinkPreview';
 import { ConversationType } from '../state/ducks/conversations';
 import { AnnouncementsOnlyGroupBanner } from './AnnouncementsOnlyGroupBanner';
 
+export type CompositionAPIType = {
+  focusInput: () => void;
+  isDirty: () => boolean;
+  setDisabled: (disabled: boolean) => void;
+  setShowMic: (showMic: boolean) => void;
+  setMicActive: (micActive: boolean) => void;
+  reset: InputApi['reset'];
+  resetEmojiResults: InputApi['resetEmojiResults'];
+};
+
 export type OwnProps = {
   readonly i18n: LocalizerType;
   readonly areWePending?: boolean;
@@ -55,15 +65,7 @@ export type OwnProps = {
   readonly left?: boolean;
   readonly messageRequestsEnabled?: boolean;
   readonly acceptedMessageRequest?: boolean;
-  readonly compositionApi?: React.MutableRefObject<{
-    focusInput: () => void;
-    isDirty: () => boolean;
-    setDisabled: (disabled: boolean) => void;
-    setShowMic: (showMic: boolean) => void;
-    setMicActive: (micActive: boolean) => void;
-    reset: InputApi['reset'];
-    resetEmojiResults: InputApi['resetEmojiResults'];
-  }>;
+  readonly compositionApi?: React.MutableRefObject<CompositionAPIType>;
   readonly micCellEl?: HTMLElement;
   readonly draftAttachments: Array<AttachmentType>;
   readonly shouldSendHighQualityAttachments: boolean;

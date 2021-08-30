@@ -73,28 +73,55 @@ export type DownloadedAttachmentType = AttachmentType & {
   data: ArrayBuffer;
 };
 
-type BaseAttachmentDraftType = {
+export type BaseAttachmentDraftType = {
   blurHash?: string;
   contentType: MIME.MIMEType;
   fileName: string;
+  path: string;
   screenshotContentType?: string;
   screenshotSize?: number;
   size: number;
 };
 
-export type InMemoryAttachmentDraftType = {
-  data?: ArrayBuffer;
-  screenshotData?: ArrayBuffer;
-} & BaseAttachmentDraftType;
+export type InMemoryAttachmentDraftType =
+  | ({
+      data?: ArrayBuffer;
+      pending: false;
+      screenshotData?: ArrayBuffer;
+    } & BaseAttachmentDraftType)
+  | {
+      contentType: MIME.MIMEType;
+      fileName: string;
+      path: string;
+      pending: true;
+    };
 
-export type OnDiskAttachmentDraftType = {
-  path?: string;
-  screenshotPath?: string;
-} & BaseAttachmentDraftType;
+export type OnDiskAttachmentDraftType =
+  | ({
+      caption?: string;
+      pending: false;
+      screenshotPath?: string;
+    } & BaseAttachmentDraftType)
+  | {
+      contentType: MIME.MIMEType;
+      fileName: string;
+      path: string;
+      pending: true;
+    };
 
-export type AttachmentDraftType = {
-  url: string;
-} & BaseAttachmentDraftType;
+export type AttachmentDraftType =
+  | ({
+      url: string;
+      screenshotPath?: string;
+      caption?: string;
+      pending: false;
+    } & BaseAttachmentDraftType)
+  | {
+      contentType: MIME.MIMEType;
+      fileName: string;
+      path: string;
+      pending: true;
+    };
 
 export type ThumbnailType = {
   height: number;

@@ -110,16 +110,6 @@
   overflow-y: auto;
 }
 
-.discussion-container {
-  @include light-theme {
-    background-color: $color-white;
-  }
-
-  @include dark-theme {
-    background-color: $color-gray-95;
-  }
-}
-
 .typing-bubble-wrapper {
   margin-bottom: 20px;
 }

@@ -16,7 +16,7 @@ export async function longRunningTaskWrapper<T>({
   const ONE_SECOND = 1000;
   const TWO_SECONDS = 2000;
 
-  let progressView: typeof window.Whisper.ReactWrapperView | undefined;
+  let progressView: Backbone.View | undefined;
   let spinnerStart;
   let progressTimeout: NodeJS.Timeout | undefined = setTimeout(() => {
     window.log.info(`longRunningTaskWrapper/${idLog}: Creating spinner`);
@@ -76,11 +76,13 @@ export async function longRunningTaskWrapper<T>({
 
       // Note: this component uses a portal to render itself into the top-level DOM. No
       //   need to attach it to the DOM here.
-      const errorView = new window.Whisper.ReactWrapperView({
+      const errorView: Backbone.View = new window.Whisper.ReactWrapperView({
         className: 'error-modal-wrapper',
         Component: window.Signal.Components.ErrorModal,
         props: {
-          onClose: () => errorView.remove(),
+          onClose: (): void => {
+            errorView.remove();
+          },
         },
       });
     }

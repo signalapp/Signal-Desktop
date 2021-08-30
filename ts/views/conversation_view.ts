@@ -3,6 +3,8 @@
 
 import nodePath from 'path';
 import { unstable_batchedUpdates as batchedUpdates } from 'react-dom';
+import { debounce, flatten, omit, pick, reject, throttle } from 'lodash';
+import { render } from 'mustache';
 
 import {
   AttachmentDraftType,
@@ -13,10 +15,12 @@ import {
 } from '../types/Attachment';
 import type { StickerPackType as StickerPackDBType } from '../sql/Interface';
 import * as Stickers from '../types/Stickers';
+import { BodyRangeType, BodyRangesType } from '../types/Util';
 import {
   IMAGE_JPEG,
   IMAGE_WEBP,
   isHeic,
+  MIMEType,
   stringToMIMEType,
 } from '../types/MIME';
 import { ConversationModel } from '../models/conversations';
@@ -24,6 +28,8 @@ import {
   GroupV2PendingMemberType,
   MessageModelCollectionType,
   MessageAttributesType,
+  ConversationModelCollectionType,
+  QuotedMessageType,
 } from '../model-types.d';
 import { LinkPreviewType } from '../types/message/LinkPreviews';
 import {
@@ -31,7 +37,7 @@ import {
   MessageAttributesType as MediaItemMessageType,
 } from '../types/MediaItem';
 import { MessageModel } from '../models/messages';
-import { assert } from '../util/assert';
+import { strictAssert } from '../util/assert';
 import { maybeParseUrl } from '../util/url';
 import { addReportSpamJob } from '../jobs/helpers/addReportSpamJob';
 import { reportSpamJobQueue } from '../jobs/reportSpamJobQueue';
@@ -57,8 +63,8 @@ import {
 import { ConversationDetailsMembershipList } from '../components/conversation/conversation-details/ConversationDetailsMembershipList';
 import { showSafetyNumberChangeDialog } from '../shims/showSafetyNumberChangeDialog';
 import {
-  LinkPreviewImage,
   LinkPreviewResult,
+  LinkPreviewImage,
   LinkPreviewWithDomain,
 } from '../types/LinkPreview';
 import * as LinkPreview from '../types/LinkPreview';
@@ -72,7 +78,10 @@ import { markViewed } from '../services/MessageUpdater';
 import { viewedReceiptsJobQueue } from '../jobs/viewedReceiptsJobQueue';
 import { viewSyncJobQueue } from '../jobs/viewSyncJobQueue';
 import type { EmbeddedContactType } from '../types/EmbeddedContact';
-import type { WhatIsThis } from '../window.d';
+import type { AnyViewClass, BasicReactWrapperViewClass } from '../window.d';
+import { isNotNil } from '../util/isNotNil';
+import { dropNull } from '../util/dropNull';
+import { CompositionAPIType } from '../components/CompositionArea';
 
 type AttachmentOptions = {
   messageId: string;
@@ -112,6 +121,68 @@ const {
   getMessagesBySentAt,
   getNewerMessagesByConversation,
 } = window.Signal.Data;
+
+type MessageActionsType = {
+  deleteMessage: (messageId: string) => unknown;
+  deleteMessageForEveryone: (messageId: string) => unknown;
+  displayTapToViewMessage: (messageId: string) => unknown;
+  downloadAttachment: (options: {
+    attachment: AttachmentType;
+    timestamp: number;
+    isDangerous: boolean;
+  }) => unknown;
+  downloadNewVersion: () => unknown;
+  kickOffAttachmentDownload: (
+    options: Readonly<{ messageId: string }>
+  ) => unknown;
+  markAttachmentAsCorrupted: (options: AttachmentOptions) => unknown;
+  markViewed: (messageId: string) => unknown;
+  openConversation: (conversationId: string, messageId?: string) => unknown;
+  openLink: (url: string) => unknown;
+  reactToMessage: (
+    messageId: string,
+    reaction: { emoji: string; remove: boolean }
+  ) => unknown;
+  replyToMessage: (messageId: string) => unknown;
+  retrySend: (messageId: string) => unknown;
+  sendAnyway: (contactId: string, messageId: string) => unknown;
+  showContactDetail: (options: {
+    contact: EmbeddedContactType;
+    signalAccount?: string;
+  }) => unknown;
+  showContactModal: (contactId: string) => unknown;
+  showSafetyNumber: (contactId: string) => unknown;
+  showExpiredIncomingTapToViewToast: () => unknown;
+  showExpiredOutgoingTapToViewToast: () => unknown;
+  showForwardMessageModal: (messageId: string) => unknown;
+  showIdentity: (conversationId: string) => unknown;
+  showMessageDetail: (messageId: string) => unknown;
+  showVisualAttachment: (options: {
+    attachment: AttachmentType;
+    messageId: string;
+    showSingle?: boolean;
+  }) => unknown;
+};
+
+type MediaType = {
+  path: string;
+  objectURL: string;
+  thumbnailObjectUrl?: string;
+  contentType: MIMEType;
+  index: number;
+  attachment: AttachmentType;
+  message: {
+    attachments: Array<AttachmentType>;
+    conversationId: string;
+    id: string;
+    // eslint-disable-next-line camelcase
+    received_at: number;
+    // eslint-disable-next-line camelcase
+    received_at_ms: number;
+    // eslint-disable-next-line camelcase
+    sent_at: number;
+  };
+};
 
 Whisper.ExpiredToast = Whisper.ToastView.extend({
   render_attributes() {
@@ -421,28 +492,69 @@ const ReportedSpamAndBlockedToast = Whisper.ToastView.extend({
     window.i18n('MessageRequests--block-and-report-spam-success-toast'),
 });
 
-Whisper.ConversationLoadingScreen = Whisper.View.extend({
-  template: () => $('#conversation-loading-screen').html(),
-  className: 'conversation-loading-screen',
-});
+export class ConversationView extends window.Backbone.View<ConversationModel> {
+  // Debounced functions
+  private debouncedMaybeGrabLinkPreview: (
+    message: string,
+    caretLocation?: number
+  ) => void;
+  private debouncedSaveDraft: (
+    messageText: string,
+    bodyRanges: Array<BodyRangeType>
+  ) => Promise<void>;
+  private lazyUpdateVerified: () => void;
 
-Whisper.ConversationView = Whisper.View.extend({
-  className() {
-    const { model }: { model: ConversationModel } = this;
-    return ['conversation', model.get('type')].join(' ');
-  },
-  id() {
-    const { model }: { model: ConversationModel } = this;
-    return `conversation-${model.cid}`;
-  },
-  template: () => $('#conversation').html(),
-  render_attributes() {
-    return {
-      'send-message': window.i18n('sendMessage'),
-    };
-  },
-  initialize() {
-    const { model }: { model: ConversationModel } = this;
+  // Composing messages
+  private compositionApi: {
+    current?: CompositionAPIType;
+  } = { current: undefined };
+  private sendStart?: number;
+  private voiceNoteAttachment?: AttachmentType;
+
+  // Quotes
+  private quote?: QuotedMessageType;
+  private quotedMessage?: MessageModel;
+
+  // Previews
+  private currentlyMatchedLink?: string;
+  private disableLinkPreviews?: boolean;
+  private excludedPreviewUrls: Array<string> = [];
+  private linkPreviewAbortController?: AbortController;
+  private preview?: Array<LinkPreviewResult>;
+
+  // Sub-views
+  private captionEditorView?: Backbone.View;
+  private captureAudioView?: Backbone.View;
+  private compositionAreaView?: Backbone.View;
+  private contactModalView?: Backbone.View;
+  private forwardMessageModal?: Backbone.View;
+  private lightboxView?: BasicReactWrapperViewClass;
+  private migrationDialog?: Backbone.View;
+  private stickerPreviewModalView?: Backbone.View;
+  private timelineView?: Backbone.View;
+  private titleView?: Backbone.View;
+
+  // Panel support
+  private panels: Array<AnyViewClass> = [];
+  private previousFocus?: HTMLElement;
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  constructor(...args: Array<any>) {
+    super(...args);
+
+    this.lazyUpdateVerified = debounce(
+      this.model.updateVerified.bind(this.model),
+      1000 // one second
+    );
+    this.model.throttledGetProfiles =
+      this.model.throttledGetProfiles ||
+      throttle(this.model.getProfiles.bind(this.model), FIVE_MINUTES);
+
+    this.debouncedMaybeGrabLinkPreview = debounce(
+      this.maybeGrabLinkPreview.bind(this),
+      200
+    );
+    this.debouncedSaveDraft = debounce(this.saveDraft.bind(this), 200);
 
     // Events on Conversation model
     this.listenTo(this.model, 'destroy', this.stopListening);
@@ -471,53 +583,70 @@ Whisper.ConversationView = Whisper.View.extend({
         this.setQuoteMessage(target);
       }
     );
-    this.listenTo(model, 'save-attachment', this.downloadAttachmentWrapper);
-    this.listenTo(model, 'delete-message', this.deleteMessage);
-    this.listenTo(model, 'remove-link-review', this.removeLinkPreview);
-    this.listenTo(model, 'remove-all-draft-attachments', this.clearAttachments);
-
-    this.lazyUpdateVerified = window._.debounce(
-      model.updateVerified.bind(model),
-      1000 // one second
+    this.listenTo(
+      this.model,
+      'save-attachment',
+      this.downloadAttachmentWrapper
     );
-    this.model.throttledGetProfiles =
-      this.model.throttledGetProfiles ||
-      window._.throttle(this.model.getProfiles.bind(this.model), FIVE_MINUTES);
-
-    this.debouncedMaybeGrabLinkPreview = window._.debounce(
-      this.maybeGrabLinkPreview.bind(this),
-      200
+    this.listenTo(this.model, 'delete-message', this.deleteMessage);
+    this.listenTo(this.model, 'remove-link-review', this.removeLinkPreview);
+    this.listenTo(
+      this.model,
+      'remove-all-draft-attachments',
+      this.clearAttachments
     );
-    this.debouncedSaveDraft = window._.debounce(this.saveDraft.bind(this), 200);
 
     this.render();
-
-    this.loadingScreen = new Whisper.ConversationLoadingScreen();
-    this.loadingScreen.render();
-    this.loadingScreen.$el.prependTo(this.$('.discussion-container'));
 
     this.setupHeader();
     this.setupTimeline();
     this.setupCompositionArea();
-
-    this.linkPreviewAbortController = null;
     this.updateAttachmentsView();
-  },
+  }
 
-  events: {
-    'click .capture-audio .microphone': 'captureAudio',
-    'change input.file-input': 'onChoseAttachment',
+  // eslint-disable-next-line class-methods-use-this
+  events(): Record<string, string> {
+    return {
+      'click .capture-audio .microphone': 'captureAudio',
+      'change input.file-input': 'onChoseAttachment',
 
-    dragover: 'onDragOver',
-    dragleave: 'onDragLeave',
-    drop: 'onDrop',
-    paste: 'onPaste',
-  },
+      drop: 'onDrop',
+      paste: 'onPaste',
+    };
+  }
 
-  getMuteExpirationLabel() {
-    const { model }: { model: ConversationModel } = this;
-    const muteExpiresAt = model.get('muteExpiresAt');
-    if (!model.isMuted()) {
+  // We need this ignore because the backbone types really want this to be a string
+  //   property, but the property isn't set until after super() is run, meaning that this
+  //   classname wouldn't be applied when Backbone creates our el.
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  // eslint-disable-next-line class-methods-use-this
+  className(): string {
+    return 'conversation';
+  }
+
+  // Same situation as className().
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  // eslint-disable-next-line class-methods-use-this
+  id(): string {
+    return `conversation-${this.model.cid}`;
+  }
+
+  // Backbone.View<ConversationModel> is demanded as the return type here, and we can't
+  //   satisfy it because of the above difference in signature: className is a function
+  //   when it should be a plain string property.
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  render(): ConversationView {
+    const template = $('#conversation').html();
+    this.$el.html(render(template, {}));
+    return this;
+  }
+
+  getMuteExpirationLabel(): string | undefined {
+    const muteExpiresAt = this.model.get('muteExpiresAt');
+    if (!this.model.isMuted()) {
       return;
     }
 
@@ -531,19 +660,15 @@ Whisper.ConversationView = Whisper.View.extend({
 
     // eslint-disable-next-line consistent-return
     return expires.format('M/D/YY, hh:mm A');
-  },
+  }
 
   setMuteExpiration(ms = 0): void {
-    const { model }: { model: ConversationModel } = this;
-
-    model.setMuteExpiration(
+    this.model.setMuteExpiration(
       ms >= Number.MAX_SAFE_INTEGER ? ms : Date.now() + ms
     );
-  },
+  }
 
-  setPin(value: boolean) {
-    const { model }: { model: ConversationModel } = this;
-
+  setPin(value: boolean): void {
     if (value) {
       const pinnedConversationIds = window.storage.get(
         'pinnedConversationIds',
@@ -554,21 +679,19 @@ Whisper.ConversationView = Whisper.View.extend({
         this.showToast(Whisper.PinnedConversationsFullToast);
         return;
       }
-      model.pin();
+      this.model.pin();
     } else {
-      model.unpin();
+      this.model.unpin();
     }
-  },
+  }
 
-  setupHeader() {
-    const { model }: { model: ConversationModel } = this;
-
+  setupHeader(): void {
     this.titleView = new Whisper.ReactWrapperView({
       className: 'title-wrapper',
       JSX: window.Signal.State.Roots.createConversationHeader(
         window.reduxStore,
         {
-          id: model.id,
+          id: this.model.id,
 
           onShowContactModal: this.showContactModal.bind(this),
           onSetDisappearingMessages: (seconds: number) =>
@@ -577,10 +700,10 @@ Whisper.ConversationView = Whisper.View.extend({
           onResetSession: () => this.endSession(),
           onSearchInConversation: () => {
             const { searchInConversation } = window.reduxActions.search;
-            const name = isMe(model.attributes)
+            const name = isMe(this.model.attributes)
               ? window.i18n('noteToSelf')
-              : model.getTitle();
-            searchInConversation(model.id, name);
+              : this.model.getTitle();
+            searchInConversation(this.model.id, name);
           },
           onSetMuteNotifications: this.setMuteExpiration.bind(this),
           onSetPin: this.setPin.bind(this),
@@ -598,7 +721,7 @@ Whisper.ConversationView = Whisper.View.extend({
                 'onOutgoingAudioCallInConversation: call is deemed "safe". Making call'
               );
               await window.Signal.Services.calling.startCallingLobby(
-                model.id,
+                this.model.id,
                 isVideoCall
               );
               window.log.info(
@@ -617,7 +740,10 @@ Whisper.ConversationView = Whisper.View.extend({
             );
             const isVideoCall = true;
 
-            if (model.get('announcementsOnly') && !model.areWeAdmin()) {
+            if (
+              this.model.get('announcementsOnly') &&
+              !this.model.areWeAdmin()
+            ) {
               this.showToast(Whisper.CannotStartGroupCallToast);
               return;
             }
@@ -627,7 +753,7 @@ Whisper.ConversationView = Whisper.View.extend({
                 'onOutgoingVideoCallInConversation: call is deemed "safe". Making call'
               );
               await window.Signal.Services.calling.startCallingLobby(
-                model.id,
+                this.model.id,
                 isVideoCall
               );
               window.log.info(
@@ -660,8 +786,8 @@ Whisper.ConversationView = Whisper.View.extend({
           },
 
           onArchive: () => {
-            model.setArchived(true);
-            model.trigger('unload', 'archive');
+            this.model.setArchived(true);
+            this.model.trigger('unload', 'archive');
 
             Whisper.ToastView.show(
               Whisper.ConversationArchivedToast,
@@ -669,7 +795,7 @@ Whisper.ConversationView = Whisper.View.extend({
             );
           },
           onMarkUnread: () => {
-            model.setMarkedUnread(true);
+            this.model.setMarkedUnread(true);
 
             Whisper.ToastView.show(
               Whisper.ConversationMarkedUnreadToast,
@@ -677,7 +803,7 @@ Whisper.ConversationView = Whisper.View.extend({
             );
           },
           onMoveToInbox: () => {
-            model.setArchived(false);
+            this.model.setArchived(false);
 
             Whisper.ToastView.show(
               Whisper.ConversationUnarchivedToast,
@@ -689,15 +815,10 @@ Whisper.ConversationView = Whisper.View.extend({
     });
     this.$('.conversation-header').append(this.titleView.el);
     window.reduxActions.conversations.setSelectedConversationHeaderTitle();
-  },
+  }
 
-  setupCompositionArea() {
+  setupCompositionArea(): void {
     window.reduxActions.composer.resetComposer();
-
-    const { model }: { model: ConversationModel } = this;
-
-    const compositionApi = { current: null };
-    this.compositionApi = compositionApi;
 
     const micCellEl = $(`
         <div class="capture-audio">
@@ -708,56 +829,56 @@ Whisper.ConversationView = Whisper.View.extend({
     const messageRequestEnum = Proto.SyncMessage.MessageRequestResponse.Type;
 
     const props = {
-      id: model.id,
-      compositionApi,
+      id: this.model.id,
+      compositionApi: this.compositionApi,
       onClickAddPack: () => this.showStickerManager(),
       onPickSticker: (packId: string, stickerId: number) =>
         this.sendStickerMessage({ packId, stickerId }),
       onSubmit: (
         message: string,
-        mentions: typeof window.Whisper.BodyRangesType,
+        mentions: BodyRangesType,
         timestamp: number
       ) => this.sendMessage(message, mentions, { timestamp }),
       onEditorStateChange: (
         msg: string,
-        bodyRanges: Array<typeof window.Whisper.BodyRangeType>,
+        bodyRanges: Array<BodyRangeType>,
         caretLocation?: number
       ) => this.onEditorStateChange(msg, bodyRanges, caretLocation),
       onTextTooLong: () => this.showToast(Whisper.MessageBodyTooLongToast),
       onChooseAttachment: this.onChooseAttachment.bind(this),
-      getQuotedMessage: () => model.get('quotedMessageId'),
+      getQuotedMessage: () => this.model.get('quotedMessageId'),
       clearQuotedMessage: () => this.setQuoteMessage(null),
       micCellEl,
       onAccept: () => {
         this.syncMessageRequestResponse(
           'onAccept',
-          model,
+          this.model,
           messageRequestEnum.ACCEPT
         );
       },
       onBlock: () => {
         this.syncMessageRequestResponse(
           'onBlock',
-          model,
+          this.model,
           messageRequestEnum.BLOCK
         );
       },
       onUnblock: () => {
         this.syncMessageRequestResponse(
           'onUnblock',
-          model,
+          this.model,
           messageRequestEnum.ACCEPT
         );
       },
       onDelete: () => {
         this.syncMessageRequestResponse(
           'onDelete',
-          model,
+          this.model,
           messageRequestEnum.DELETE
         );
       },
       onBlockAndReportSpam: () => {
-        this.blockAndReportSpam(model);
+        this.blockAndReportSpam(this.model);
       },
       onStartGroupMigration: () => this.startMigrationToGV2(),
       onCancelJoinRequest: async () => {
@@ -770,7 +891,7 @@ Whisper.ConversationView = Whisper.View.extend({
           resolve: () => {
             this.longRunningTaskWrapper({
               name: 'onCancelJoinRequest',
-              task: async () => model.cancelJoinRequest(),
+              task: async () => this.model.cancelJoinRequest(),
             });
           },
         });
@@ -784,7 +905,7 @@ Whisper.ConversationView = Whisper.View.extend({
         window.reduxActions.composer.setMediaQualitySetting(isHQ);
       },
 
-      onClickQuotedMessage: (id?: string) => this.scrollToMessage(id),
+      onClickQuotedMessage: (id: string) => this.scrollToMessage(id),
 
       onCloseLinkPreview: () => {
         this.disableLinkPreviews = true;
@@ -804,7 +925,7 @@ Whisper.ConversationView = Whisper.View.extend({
 
     // Finally, add it to the DOM
     this.$('.CompositionArea__placeholder').append(this.compositionAreaView.el);
-  },
+  }
 
   async longRunningTaskWrapper<T>({
     name,
@@ -813,16 +934,15 @@ Whisper.ConversationView = Whisper.View.extend({
     name: string;
     task: () => Promise<T>;
   }): Promise<T> {
-    const { model }: { model: ConversationModel } = this;
-    const idForLogging = model.idForLogging();
+    const idForLogging = this.model.idForLogging();
     return window.Signal.Util.longRunningTaskWrapper({
       name,
       idForLogging,
       task,
     });
-  },
+  }
 
-  getMessageActions() {
+  getMessageActions(): MessageActionsType {
     const reactToMessage = (
       messageId: string,
       reaction: { emoji: string; remove: boolean }
@@ -847,7 +967,7 @@ Whisper.ConversationView = Whisper.View.extend({
     const showContactModal = (contactId: string) => {
       this.showContactModal(contactId);
     };
-    const openConversation = (conversationId: string, messageId: string) => {
+    const openConversation = (conversationId: string, messageId?: string) => {
       this.openConversation(conversationId, messageId);
     };
     const showContactDetail = (options: {
@@ -955,6 +1075,7 @@ Whisper.ConversationView = Whisper.View.extend({
       );
       this.showToast(Whisper.TapToViewExpiredOutgoingToast);
     };
+
     const showForwardMessageModal = this.showForwardMessageModal.bind(this);
 
     return {
@@ -982,12 +1103,9 @@ Whisper.ConversationView = Whisper.View.extend({
       showMessageDetail,
       showVisualAttachment,
     };
-  },
+  }
 
-  setupTimeline() {
-    const { model }: { model: ConversationModel } = this;
-    const { id } = model;
-
+  setupTimeline(): void {
     const messageRequestEnum = Proto.SyncMessage.MessageRequestResponse.Type;
 
     const contactSupport = () => {
@@ -1012,7 +1130,7 @@ Whisper.ConversationView = Whisper.View.extend({
     ) => {
       const { authorId, sentAt } = options;
 
-      const conversationId = model.id;
+      const conversationId = this.model.id;
       const messages = await getMessagesBySentAt(sentAt, {
         MessageCollection: Whisper.MessageCollection,
       });
@@ -1038,7 +1156,7 @@ Whisper.ConversationView = Whisper.View.extend({
         setMessagesLoading,
         repairOldestMessage,
       } = window.reduxActions.conversations;
-      const conversationId = model.id;
+      const conversationId = this.model.id;
 
       setMessagesLoading(conversationId, true);
       const finish = this.setInProgressFetch();
@@ -1074,7 +1192,7 @@ Whisper.ConversationView = Whisper.View.extend({
         const cleaned = await this.cleanModels(models);
         const isNewMessage = false;
         messagesAdded(
-          id,
+          this.model.id,
           cleaned.map((messageModel: MessageModel) => ({
             ...messageModel.attributes,
           })),
@@ -1094,7 +1212,7 @@ Whisper.ConversationView = Whisper.View.extend({
         setMessagesLoading,
         repairNewestMessage,
       } = window.reduxActions.conversations;
-      const conversationId = model.id;
+      const conversationId = this.model.id;
 
       setMessagesLoading(conversationId, true);
       const finish = this.setInProgressFetch();
@@ -1111,7 +1229,7 @@ Whisper.ConversationView = Whisper.View.extend({
 
         const receivedAt = message.get('received_at');
         const sentAt = message.get('sent_at');
-        const models = await getNewerMessagesByConversation(model.id, {
+        const models = await getNewerMessagesByConversation(conversationId, {
           receivedAt,
           sentAt,
           limit: 30,
@@ -1129,7 +1247,7 @@ Whisper.ConversationView = Whisper.View.extend({
         const cleaned = await this.cleanModels(models);
         const isNewMessage = false;
         messagesAdded(
-          id,
+          conversationId,
           cleaned.map((messageModel: MessageModel) => ({
             ...messageModel.attributes,
           })),
@@ -1155,7 +1273,7 @@ Whisper.ConversationView = Whisper.View.extend({
         throw new Error(`markMessageRead: failed to load message ${messageId}`);
       }
 
-      await model.markRead(message.get('received_at'));
+      await this.model.markRead(message.get('received_at'));
     };
 
     const createMessageRequestResponseHandler = (
@@ -1164,9 +1282,8 @@ Whisper.ConversationView = Whisper.View.extend({
     ): ((conversationId: string) => void) => conversationId => {
       const conversation = window.ConversationController.get(conversationId);
       if (!conversation) {
-        assert(
-          false,
-          `Expected a conversation to be found in ${name}. Doing nothing`
+        window.log.error(
+          `createMessageRequestResponseHandler: Expected a conversation to be found in ${name}. Doing nothing`
         );
         return;
       }
@@ -1176,14 +1293,14 @@ Whisper.ConversationView = Whisper.View.extend({
     this.timelineView = new Whisper.ReactWrapperView({
       className: 'timeline-wrapper',
       JSX: window.Signal.State.Roots.createTimeline(window.reduxStore, {
-        id,
+        id: this.model.id,
 
         ...this.getMessageActions(),
 
         acknowledgeGroupMemberNameCollisions: (
           groupNameCollisions: Readonly<GroupNameCollisionsWithIdsByTitle>
         ): void => {
-          model.acknowledgeGroupMemberNameCollisions(groupNameCollisions);
+          this.model.acknowledgeGroupMemberNameCollisions(groupNameCollisions);
         },
         contactSupport,
         learnMoreAboutDeliveryIssue,
@@ -1201,9 +1318,8 @@ Whisper.ConversationView = Whisper.View.extend({
             conversationId
           );
           if (!conversation) {
-            assert(
-              false,
-              'Expected a conversation to be found in onBlockAndReportSpam. Doing nothing'
+            window.log.error(
+              `onBlockAndReportSpam: Expected a conversation to be found for ${conversationId}. Doing nothing.`
             );
             return;
           }
@@ -1221,25 +1337,26 @@ Whisper.ConversationView = Whisper.View.extend({
         removeMember: (conversationId: string) => {
           this.longRunningTaskWrapper({
             name: 'removeMember',
-            task: () => model.removeFromGroupV2(conversationId),
+            task: () => this.model.removeFromGroupV2(conversationId),
           });
         },
         scrollToQuotedMessage,
         unblurAvatar: () => {
-          model.unblurAvatar();
+          this.model.unblurAvatar();
         },
-        updateSharedGroups: model.throttledUpdateSharedGroups,
+        updateSharedGroups: this.model.throttledUpdateSharedGroups,
       }),
     });
 
     this.$('.timeline-placeholder').append(this.timelineView.el);
-  },
+  }
 
-  showToast(
+  private showToast(
     ToastView: typeof window.Whisper.ToastView,
-    options: WhatIsThis,
-    element: Element
-  ) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    options?: any,
+    element?: Element
+  ): void {
     const toast = new ToastView(options);
 
     if (element) {
@@ -1254,8 +1371,9 @@ Whisper.ConversationView = Whisper.View.extend({
     }
 
     toast.render();
-  },
+  }
 
+  // eslint-disable-next-line class-methods-use-this
   async cleanModels(
     collection: MessageModelCollectionType | Array<MessageModel>
   ): Promise<Array<MessageModel>> {
@@ -1288,10 +1406,9 @@ Whisper.ConversationView = Whisper.View.extend({
     }
 
     return result;
-  },
+  }
 
-  async scrollToMessage(messageId: string) {
-    const { model }: { model: ConversationModel } = this;
+  async scrollToMessage(messageId: string): Promise<void> {
     const message = await getMessageById(messageId, {
       Message: Whisper.Message,
     });
@@ -1309,45 +1426,45 @@ Whisper.ConversationView = Whisper.View.extend({
 
     // Message might be in memory, but not in the redux anymore because
     // we call `messageReset()` in `loadAndScroll()`.
-    const messagesByConversation = getMessagesByConversation(state)[model.id];
+    const messagesByConversation = getMessagesByConversation(state)[
+      this.model.id
+    ];
     if (!messagesByConversation?.messageIds.includes(messageId)) {
       isInMemory = false;
     }
 
     if (isInMemory) {
       const { scrollToMessage } = window.reduxActions.conversations;
-      scrollToMessage(model.id, messageId);
+      scrollToMessage(this.model.id, messageId);
       return;
     }
 
     this.loadAndScroll(messageId);
-  },
+  }
 
-  setInProgressFetch() {
-    const { model }: { model: ConversationModel } = this;
+  setInProgressFetch(): () => unknown {
     let resolvePromise: (value?: unknown) => void;
-    model.inProgressFetch = new Promise(resolve => {
+    this.model.inProgressFetch = new Promise(resolve => {
       resolvePromise = resolve;
     });
 
     const finish = () => {
       resolvePromise();
-      this.model.inProgressFetch = null;
+      this.model.inProgressFetch = undefined;
     };
 
     return finish;
-  },
+  }
 
   async loadAndScroll(
     messageId: string,
     options?: { disableScroll?: boolean }
-  ) {
-    const { model }: { model: ConversationModel } = this;
+  ): Promise<void> {
     const {
       messagesReset,
       setMessagesLoading,
     } = window.reduxActions.conversations;
-    const conversationId = model.id;
+    const conversationId = this.model.id;
 
     setMessagesLoading(conversationId, true);
     const finish = this.setInProgressFetch();
@@ -1399,7 +1516,7 @@ Whisper.ConversationView = Whisper.View.extend({
     } finally {
       finish();
     }
-  },
+  }
 
   async loadNewestMessages(
     newestMessageId: string | undefined,
@@ -1409,9 +1526,7 @@ Whisper.ConversationView = Whisper.View.extend({
       messagesReset,
       setMessagesLoading,
     } = window.reduxActions.conversations;
-    const { model }: { model: ConversationModel } = this;
-
-    const conversationId = model.id;
+    const conversationId = this.model.id;
 
     setMessagesLoading(conversationId, true);
     const finish = this.setInProgressFetch();
@@ -1442,7 +1557,7 @@ Whisper.ConversationView = Whisper.View.extend({
       //   oldest messages, to ensure that the ConversationHero is shown. We don't want to
       //   scroll directly to the oldest message, because that could scroll the hero off
       //   the screen.
-      if (!newestMessageId && !model.getAccepted() && metrics.oldest) {
+      if (!newestMessageId && !this.model.getAccepted() && metrics.oldest) {
         this.loadAndScroll(metrics.oldest.id, { disableScroll: true });
         return;
       }
@@ -1484,13 +1599,12 @@ Whisper.ConversationView = Whisper.View.extend({
     } finally {
       finish();
     }
-  },
+  }
 
   async startMigrationToGV2(): Promise<void> {
-    const { model }: { model: ConversationModel } = this;
-    const logId = model.idForLogging();
+    const logId = this.model.idForLogging();
 
-    if (!isGroupV1(model.attributes)) {
+    if (!isGroupV1(this.model.attributes)) {
       throw new Error(
         `startMigrationToGV2/${logId}: Cannot start, not a GroupV1 group`
       );
@@ -1509,7 +1623,7 @@ Whisper.ConversationView = Whisper.View.extend({
 
       this.longRunningTaskWrapper({
         name: 'initiateMigrationToGroupV2',
-        task: () => window.Signal.Groups.initiateMigrationToGroupV2(model),
+        task: () => window.Signal.Groups.initiateMigrationToGroupV2(this.model),
       });
     };
 
@@ -1520,7 +1634,7 @@ Whisper.ConversationView = Whisper.View.extend({
       pendingMembersV2,
     } = await this.longRunningTaskWrapper({
       name: 'getGroupMigrationMembers',
-      task: () => window.Signal.Groups.getGroupMigrationMembers(model),
+      task: () => window.Signal.Groups.getGroupMigrationMembers(this.model),
     });
 
     const invitedMemberIds = pendingMembersV2.map(
@@ -1541,12 +1655,12 @@ Whisper.ConversationView = Whisper.View.extend({
         }
       ),
     });
-  },
+  }
 
-  onChooseAttachment() {
+  onChooseAttachment(): void {
     this.$('input.file-input').click();
-  },
-  async onChoseAttachment() {
+  }
+  async onChoseAttachment(): Promise<void> {
     const fileField = this.$('input.file-input');
     const files = fileField.prop('files');
 
@@ -1557,21 +1671,20 @@ Whisper.ConversationView = Whisper.View.extend({
       this.toggleMicrophone();
     }
 
-    fileField.val(null);
-  },
+    fileField.val([]);
+  }
 
-  unload(reason: string) {
-    const { model }: { model: ConversationModel } = this;
+  unload(reason: string): void {
     window.log.info(
       'unloading conversation',
-      model.idForLogging(),
+      this.model.idForLogging(),
       'due to:',
       reason
     );
 
     const { conversationUnloaded } = window.reduxActions.conversations;
     if (conversationUnloaded) {
-      conversationUnloaded(model.id);
+      conversationUnloaded(this.model.id);
     }
 
     if (this.model.get('draftChanged')) {
@@ -1591,12 +1704,12 @@ Whisper.ConversationView = Whisper.View.extend({
       // We don't wait here; we need to take down the view
       this.saveModel();
 
-      model.updateLastMessage();
+      this.model.updateLastMessage();
     }
 
-    this.titleView.remove();
-    this.timelineView.remove();
-    this.compositionAreaView.remove();
+    this.titleView?.remove();
+    this.timelineView?.remove();
+    this.compositionAreaView?.remove();
 
     if (this.captionEditorView) {
       this.captionEditorView.remove();
@@ -1604,26 +1717,14 @@ Whisper.ConversationView = Whisper.View.extend({
     if (this.contactModalView) {
       this.contactModalView.remove();
     }
-    if (this.stickerButtonView) {
-      this.stickerButtonView.remove();
-    }
     if (this.stickerPreviewModalView) {
       this.stickerPreviewModalView.remove();
     }
     if (this.captureAudioView) {
       this.captureAudioView.remove();
     }
-    if (this.lastSeenIndicator) {
-      this.lastSeenIndicator.remove();
-    }
-    if (this.scrollDownButton) {
-      this.scrollDownButton.remove();
-    }
     if (this.lightboxView) {
       this.lightboxView.remove();
-    }
-    if (this.lightboxGalleryView) {
-      this.lightboxGalleryView.remove();
     }
     if (this.panels && this.panels.length) {
       for (let i = 0, max = this.panels.length; i < max; i += 1) {
@@ -1637,66 +1738,69 @@ Whisper.ConversationView = Whisper.View.extend({
     this.disableLinkPreviews = true;
 
     this.remove();
-  },
+  }
 
-  navigateTo(url: string) {
+  // eslint-disable-next-line class-methods-use-this
+  navigateTo(url: string): void {
     window.location.href = url;
-  },
+  }
 
-  downloadNewVersion() {
+  downloadNewVersion(): void {
     this.navigateTo('https://signal.org/download');
-  },
+  }
 
-  onDragOver(e: WhatIsThis) {
-    if (e.originalEvent.dataTransfer.types[0] !== 'Files') {
+  async onDrop(e: JQuery.TriggeredEvent): Promise<void> {
+    if (!e.originalEvent) {
+      return;
+    }
+    const event = e.originalEvent as DragEvent;
+    if (!event.dataTransfer) {
       return;
     }
 
-    e.stopPropagation();
-    e.preventDefault();
-    this.$el.addClass('dropoff');
-  },
-
-  onDragLeave(e: WhatIsThis) {
-    if (e.originalEvent.dataTransfer.types[0] !== 'Files') {
-      return;
-    }
-
-    e.stopPropagation();
-    e.preventDefault();
-  },
-
-  async onDrop(e: WhatIsThis) {
-    if (e.originalEvent.dataTransfer.types[0] !== 'Files') {
+    if (event.dataTransfer.types[0] !== 'Files') {
       return;
     }
 
     e.stopPropagation();
     e.preventDefault();
 
-    const { files } = e.originalEvent.dataTransfer;
+    const { files } = event.dataTransfer;
     for (let i = 0, max = files.length; i < max; i += 1) {
       const file = files[i];
       this.maybeAddAttachment(file);
     }
-  },
+  }
 
-  onPaste(e: WhatIsThis) {
-    const { items } = e.originalEvent.clipboardData;
-    let imgBlob = null;
+  onPaste(e: JQuery.TriggeredEvent): void {
+    if (!e.originalEvent) {
+      return;
+    }
+    const event = e.originalEvent as ClipboardEvent;
+    if (!event.clipboardData) {
+      return;
+    }
+    const { items } = event.clipboardData;
+
+    const anyImages = [...items].some(
+      item => item.type.split('/')[0] === 'image'
+    );
+    if (!anyImages) {
+      return;
+    }
+
+    e.stopPropagation();
+    e.preventDefault();
+
     for (let i = 0; i < items.length; i += 1) {
       if (items[i].type.split('/')[0] === 'image') {
-        imgBlob = items[i].getAsFile();
+        const file = items[i].getAsFile();
+        if (file) {
+          this.maybeAddAttachment(file);
+        }
       }
     }
-    if (imgBlob !== null) {
-      const file = imgBlob;
-      this.maybeAddAttachment(file);
-
-      e.stopPropagation();
-      e.preventDefault();
-    }
-  },
+  }
 
   syncMessageRequestResponse(
     name: string,
@@ -1707,7 +1811,7 @@ Whisper.ConversationView = Whisper.View.extend({
       name,
       task: model.syncMessageRequestResponse.bind(model, messageRequestType),
     });
-  },
+  }
 
   blockAndReportSpam(model: ConversationModel): Promise<void> {
     const messageRequestEnum = Proto.SyncMessage.MessageRequestResponse.Type;
@@ -1727,38 +1831,58 @@ Whisper.ConversationView = Whisper.View.extend({
         this.showToast(ReportedSpamAndBlockedToast);
       },
     });
-  },
+  }
 
-  onClickAttachment(attachment: WhatIsThis) {
-    const getProps = () => ({
-      url: attachment.url,
-      caption: attachment.caption,
-      attachment,
-      onSave,
-    });
+  onClickAttachment(attachment: AttachmentDraftType): void {
+    if (attachment.pending) {
+      throw new Error(
+        'onClickAttachment: Cannot click to edit pending attachment'
+      );
+    }
 
-    const onSave = (caption: WhatIsThis) => {
+    const getProps = () => {
+      if (attachment.pending) {
+        throw new Error(
+          'onClickAttachment/onSave: Cannot render pending attachment'
+        );
+      }
+
+      return {
+        url: attachment.url,
+        caption: attachment.caption,
+        attachment,
+        onSave,
+      };
+    };
+
+    const onSave = (caption?: string) => {
+      const attachments = this.model.get('draftAttachments') || [];
       this.model.set({
-        draftAttachments: this.model
-          .get('draftAttachments')
-          .map((item: WhatIsThis) => {
-            if (
-              (item.path && item.path === attachment.path) ||
-              (item.screenshotPath &&
-                item.screenshotPath === attachment.screenshotPath)
-            ) {
-              return {
-                ...attachment,
-                caption,
-              };
-            }
-
+        draftAttachments: attachments.map((item: OnDiskAttachmentDraftType) => {
+          if (item.pending || attachment.pending) {
             return item;
-          }),
+          }
+
+          if (
+            (item.path && item.path === attachment.path) ||
+            (item.screenshotPath &&
+              item.screenshotPath === attachment.screenshotPath)
+          ) {
+            return {
+              ...attachment,
+              caption,
+            };
+          }
+
+          return item;
+        }),
         draftChanged: true,
       });
 
-      this.captionEditorView.remove();
+      if (this.captionEditorView) {
+        this.captionEditorView.remove();
+        this.captionEditorView = undefined;
+      }
       window.Signal.Backbone.Views.Lightbox.hide();
 
       this.updateAttachmentsView();
@@ -1772,31 +1896,28 @@ Whisper.ConversationView = Whisper.View.extend({
       onClose: () => window.Signal.Backbone.Views.Lightbox.hide(),
     });
     window.Signal.Backbone.Views.Lightbox.show(this.captionEditorView.el);
-  },
+  }
 
-  async deleteDraftAttachment(attachment: AttachmentType) {
+  // eslint-disable-next-line class-methods-use-this
+  async deleteDraftAttachment(attachment: AttachmentType): Promise<void> {
     if (attachment.screenshotPath) {
       await deleteDraftFile(attachment.screenshotPath);
     }
     if (attachment.path) {
       await deleteDraftFile(attachment.path);
     }
-  },
+  }
 
-  async saveModel() {
-    const { model }: { model: ConversationModel } = this;
-    window.Signal.Data.updateConversation(model.attributes);
-  },
+  async saveModel(): Promise<void> {
+    window.Signal.Data.updateConversation(this.model.attributes);
+  }
 
-  async addAttachment(attachment: InMemoryAttachmentDraftType) {
-    const { model }: { model: ConversationModel } = this;
+  async addAttachment(attachment: InMemoryAttachmentDraftType): Promise<void> {
     const onDisk = await this.writeDraftAttachment(attachment);
 
     // Remove any pending attachments that were transcoding
-    const draftAttachments = (model.get('draftAttachments') || []).filter(
-      draftAttachment =>
-        !draftAttachment.pending &&
-        draftAttachment.fileName !== attachment.fileName
+    const draftAttachments = (this.model.get('draftAttachments') || []).filter(
+      draftAttachment => draftAttachment.path !== attachment.path
     );
     this.model.set({
       draftAttachments: [...draftAttachments, onDisk],
@@ -1804,12 +1925,17 @@ Whisper.ConversationView = Whisper.View.extend({
     this.updateAttachmentsView();
 
     await this.saveModel();
-  },
+  }
 
+  // eslint-disable-next-line class-methods-use-this
   resolveOnDiskAttachment(
     attachment: OnDiskAttachmentDraftType
   ): AttachmentDraftType {
     let url = '';
+    if (attachment.pending) {
+      return attachment;
+    }
+
     if (attachment.screenshotPath) {
       url = getAbsoluteDraftPath(attachment.screenshotPath);
     } else if (attachment.path) {
@@ -1819,19 +1945,25 @@ Whisper.ConversationView = Whisper.View.extend({
         'resolveOnDiskAttachment: Attachment was missing both screenshotPath and path fields'
       );
     }
-
     return {
-      ...attachment,
+      ...pick(attachment, [
+        'blurHash',
+        'caption',
+        'contentType',
+        'fileName',
+        'path',
+        'size',
+      ]),
+      pending: false,
       url,
     };
-  },
+  }
 
-  async onCloseAttachment(attachment: Pick<AttachmentType, 'path'>) {
-    const { model }: { model: ConversationModel } = this;
-    const draftAttachments = model.get('draftAttachments') || [];
+  async onCloseAttachment(attachment: AttachmentType): Promise<void> {
+    const draftAttachments = this.model.get('draftAttachments') || [];
 
     this.model.set({
-      draftAttachments: window._.reject(
+      draftAttachments: reject(
         draftAttachments,
         item => item.path === attachment.path
       ),
@@ -1842,13 +1974,12 @@ Whisper.ConversationView = Whisper.View.extend({
 
     await this.saveModel();
     await this.deleteDraftAttachment(attachment);
-  },
+  }
 
-  async clearAttachments() {
-    const { model }: { model: ConversationModel } = this;
-    this.voiceNoteAttachment = null;
+  async clearAttachments(): Promise<void> {
+    this.voiceNoteAttachment = undefined;
 
-    const draftAttachments = model.get('draftAttachments') || [];
+    const draftAttachments = this.model.get('draftAttachments') || [];
     this.model.set({
       draftAttachments: [],
       draftChanged: true,
@@ -1865,33 +1996,33 @@ Whisper.ConversationView = Whisper.View.extend({
         )
       ),
     ]);
-  },
+  }
 
-  hasFiles() {
-    const { model }: { model: ConversationModel } = this;
-    const draftAttachments = model.get('draftAttachments') || [];
+  hasFiles(): boolean {
+    const draftAttachments = this.model.get('draftAttachments') || [];
     return draftAttachments.length > 0;
-  },
+  }
 
-  async getFiles() {
-    const { model }: { model: ConversationModel } = this;
+  async getFiles(): Promise<Array<AttachmentType>> {
     if (this.voiceNoteAttachment) {
       // We don't need to pull these off disk; we return them as-is
       return [this.voiceNoteAttachment];
     }
 
-    const draftAttachments = model.get('draftAttachments') || [];
-    const files = window._.compact(
-      await Promise.all(
-        draftAttachments.map(attachment => this.getFile(attachment))
-      )
+    const draftAttachments = this.model.get('draftAttachments') || [];
+    const items = await Promise.all(
+      draftAttachments.map(attachment => this.getFile(attachment))
     );
-    return files;
-  },
 
-  async getFile(attachment?: AttachmentType) {
-    if (!attachment) {
-      return Promise.resolve();
+    return items.filter(isNotNil);
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  async getFile(
+    attachment?: OnDiskAttachmentDraftType
+  ): Promise<AttachmentType | undefined> {
+    if (!attachment || attachment.pending) {
+      return;
     }
 
     const data = await readDraftData(attachment.path);
@@ -1899,84 +2030,98 @@ Whisper.ConversationView = Whisper.View.extend({
       window.log.error(
         `Attachment size from disk ${data.byteLength} did not match attachment size ${attachment.size}`
       );
-      return null;
+      return;
     }
 
     return {
-      ...window._.pick(attachment, [
-        'contentType',
-        'fileName',
-        'size',
-        'caption',
-        'blurHash',
-      ]),
+      ...attachment,
       data,
     };
-  },
+  }
 
+  // eslint-disable-next-line class-methods-use-this
   arrayBufferFromFile(file: Blob): Promise<ArrayBuffer> {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve, rejectPromise) => {
       const FR = new FileReader();
-      FR.onload = (e: WhatIsThis) => {
-        resolve(e.target.result);
+      FR.onload = () => {
+        if (!FR.result || typeof FR.result === 'string') {
+          rejectPromise(new Error('arrayBufferFromFile: No result!'));
+          return;
+        }
+        resolve(FR.result);
       };
-      FR.onerror = reject;
-      FR.onabort = reject;
+      FR.onerror = rejectPromise;
+      FR.onabort = rejectPromise;
       FR.readAsArrayBuffer(file);
     });
-  },
+  }
 
   showFileSizeError({
     limit,
     units,
     u,
   }: Readonly<{
-    limit: WhatIsThis;
-    units: WhatIsThis;
-    u: WhatIsThis;
-  }>) {
+    limit: number;
+    units: Array<string>;
+    u: number;
+  }>): void {
     const toast = new Whisper.FileSizeToast({
       model: { limit, units: units[u] },
     });
     toast.$el.insertAfter(this.$el);
     toast.render();
-  },
+  }
 
-  updateAttachmentsView() {
-    const { model }: { model: ConversationModel } = this;
-    const draftAttachments = model.get('draftAttachments') || [];
+  updateAttachmentsView(): void {
+    const draftAttachments = this.model.get('draftAttachments') || [];
     window.reduxActions.composer.replaceAttachments(
-      model.get('id'),
-      draftAttachments.map(att => this.resolveOnDiskAttachment(att))
+      this.model.get('id'),
+      draftAttachments.map((att: OnDiskAttachmentDraftType) =>
+        this.resolveOnDiskAttachment(att)
+      )
     );
     this.toggleMicrophone();
     if (this.hasFiles()) {
       this.removeLinkPreview();
     }
-  },
+  }
 
+  // eslint-disable-next-line class-methods-use-this
   async writeDraftAttachment(
     attachment: InMemoryAttachmentDraftType
   ): Promise<OnDiskAttachmentDraftType> {
-    let toWrite = attachment;
+    let toWrite: OnDiskAttachmentDraftType | undefined;
 
-    if (toWrite.data) {
-      const path = await writeNewDraftData(toWrite.data);
+    if (attachment.pending) {
+      throw new Error('writeDraftAttachment: Cannot write pending attachment');
+    }
+    if (attachment.data) {
+      const path = await writeNewDraftData(attachment.data);
       toWrite = {
-        ...window._.omit(toWrite, ['data']),
+        ...omit(attachment, ['data']),
         path,
+        pending: false,
       };
     }
-    if (toWrite.screenshotData) {
-      const screenshotPath = await writeNewDraftData(toWrite.screenshotData);
+
+    if (attachment.pending) {
+      throw new Error('writeDraftAttachment: Cannot write pending attachment');
+    }
+    if (attachment.screenshotData) {
+      const screenshotPath = await writeNewDraftData(attachment.screenshotData);
       toWrite = {
-        ...window._.omit(toWrite, ['screenshotData']),
+        ...omit(attachment, ['screenshotData']),
         screenshotPath,
+        pending: false,
       };
+    }
+
+    if (!toWrite) {
+      throw new Error('writeDraftAttachment: Neither data nor screenshotData!');
     }
 
     return toWrite;
-  },
+  }
 
   async maybeAddAttachment(file: File): Promise<void> {
     if (!file) {
@@ -1994,17 +2139,15 @@ Whisper.ConversationView = Whisper.View.extend({
       return;
     }
 
-    const { model }: { model: ConversationModel } = this;
-
-    const draftAttachments = model.get('draftAttachments') || [];
+    const draftAttachments = this.model.get('draftAttachments') || [];
     if (draftAttachments.length >= 32) {
       this.showToast(Whisper.MaxAttachmentsToast);
       return;
     }
 
-    const haveNonImage = window._.any(
-      draftAttachments,
-      (attachment: WhatIsThis) => !MIME.isImage(attachment.contentType)
+    const haveNonImage = draftAttachments.some(
+      (attachment: OnDiskAttachmentDraftType) =>
+        !MIME.isImage(attachment.contentType)
     );
     // You can't add another attachment if you already have a non-image staged
     if (haveNonImage) {
@@ -2028,6 +2171,7 @@ Whisper.ConversationView = Whisper.View.extend({
         isHeic(fileType)
       ) {
         const fileName = nodePath.parse(file.name).name;
+        const path = file.name;
         // Add a pending attachment since transcoding may take a while
         this.model.set({
           draftAttachments: [
@@ -2035,7 +2179,7 @@ Whisper.ConversationView = Whisper.View.extend({
             {
               contentType: IMAGE_JPEG,
               fileName,
-              path: file.name,
+              path,
               pending: true,
             },
           ],
@@ -2045,10 +2189,10 @@ Whisper.ConversationView = Whisper.View.extend({
         attachment = await handleImageAttachment(file);
 
         const hasDraftAttachmentPending = (
-          model.get('draftAttachments') || []
+          this.model.get('draftAttachments') || []
         ).some(
           draftAttachment =>
-            draftAttachment.pending && draftAttachment.fileName === fileName
+            draftAttachment.pending && draftAttachment.path === path
         );
 
         // User has canceled the draft so we don't need to continue processing
@@ -2062,10 +2206,12 @@ Whisper.ConversationView = Whisper.View.extend({
       } else {
         const data = await this.arrayBufferFromFile(file);
         attachment = {
-          data,
-          size: data.byteLength,
           contentType: fileType,
+          data,
           fileName: file.name,
+          path: file.name,
+          pending: false,
+          size: data.byteLength,
         };
       }
     } catch (e) {
@@ -2075,10 +2221,12 @@ Whisper.ConversationView = Whisper.View.extend({
       );
       const data = await this.arrayBufferFromFile(file);
       attachment = {
-        data,
-        size: data.byteLength,
         contentType: fileType,
+        data,
         fileName: file.name,
+        path: file.name,
+        pending: false,
+        size: data.byteLength,
       };
     }
 
@@ -2106,9 +2254,9 @@ Whisper.ConversationView = Whisper.View.extend({
 
       this.showToast(Whisper.UnableToLoadToast);
     }
-  },
+  }
 
-  isSizeOkay(attachment: Readonly<AttachmentType>) {
+  isSizeOkay(attachment: Readonly<AttachmentType>): boolean {
     const limitKb = window.Signal.Types.Attachment.getUploadSizeLimitKb(
       attachment.contentType
     );
@@ -2128,7 +2276,7 @@ Whisper.ConversationView = Whisper.View.extend({
     }
 
     return true;
-  },
+  }
 
   async handleVideoAttachment(
     file: Readonly<File>
@@ -2150,21 +2298,26 @@ Whisper.ConversationView = Whisper.View.extend({
       const data = await this.arrayBufferFromFile(file);
 
       return {
+        contentType: stringToMIMEType(file.type),
+        data,
         fileName: file.name,
+        path: file.name,
+        pending: false,
         screenshotContentType,
         screenshotData,
         screenshotSize: screenshotData.byteLength,
-        contentType: stringToMIMEType(file.type),
-        data,
         size: data.byteLength,
       };
     } finally {
       URL.revokeObjectURL(objectUrl);
     }
-  },
+  }
 
-  markAllAsVerifiedDefault(unverified: ReadonlyArray<ConversationModel>) {
-    return Promise.all(
+  // eslint-disable-next-line class-methods-use-this
+  async markAllAsVerifiedDefault(
+    unverified: ReadonlyArray<ConversationModel>
+  ): Promise<void> {
+    await Promise.all(
       unverified.map(contact => {
         if (contact.isUnverified()) {
           return contact.setVerifiedDefault();
@@ -2173,22 +2326,25 @@ Whisper.ConversationView = Whisper.View.extend({
         return null;
       })
     );
-  },
+  }
 
-  markAllAsApproved(untrusted: ReadonlyArray<ConversationModel>) {
-    return Promise.all(untrusted.map(contact => contact.setApproved()));
-  },
+  // eslint-disable-next-line class-methods-use-this
+  async markAllAsApproved(
+    untrusted: ReadonlyArray<ConversationModel>
+  ): Promise<void> {
+    await Promise.all(untrusted.map(contact => contact.setApproved()));
+  }
 
-  toggleMicrophone() {
-    this.compositionApi.current.setShowMic(!this.hasFiles());
-  },
+  toggleMicrophone(): void {
+    this.compositionApi.current?.setShowMic(!this.hasFiles());
+  }
 
-  captureAudio(e?: Event) {
+  captureAudio(e?: Event): void {
     if (e) {
       e.preventDefault();
     }
 
-    if (this.compositionApi.current.isDirty()) {
+    if (this.compositionApi.current?.isDirty()) {
       return;
     }
 
@@ -2204,7 +2360,7 @@ Whisper.ConversationView = Whisper.View.extend({
 
     if (this.captureAudioView) {
       this.captureAudioView.remove();
-      this.captureAudioView = null;
+      this.captureAudioView = undefined;
     }
 
     this.captureAudioView = new Whisper.RecorderView();
@@ -2216,12 +2372,12 @@ Whisper.ConversationView = Whisper.View.extend({
     view.on('closed', this.endCaptureAudio.bind(this));
     view.$el.appendTo(this.$('.capture-audio'));
     view.$('.finish').focus();
-    this.compositionApi.current.setMicActive(true);
+    this.compositionApi.current?.setMicActive(true);
 
     this.disableMessageField();
     this.$('.microphone').hide();
-  },
-  handleAudioConfirm(blob: Blob, lostFocus?: boolean) {
+  }
+  handleAudioConfirm(blob: Blob, lostFocus?: boolean): void {
     window.showConfirmationDialog({
       confirmStyle: 'negative',
       cancelText: window.i18n('discard'),
@@ -2233,8 +2389,8 @@ Whisper.ConversationView = Whisper.View.extend({
         await this.handleAudioCapture(blob);
       },
     });
-  },
-  async handleAudioCapture(blob: Blob) {
+  }
+  async handleAudioCapture(blob: Blob): Promise<void> {
     if (this.hasFiles()) {
       throw new Error('A voice note cannot be sent with other attachments');
     }
@@ -2243,30 +2399,28 @@ Whisper.ConversationView = Whisper.View.extend({
 
     // These aren't persisted to disk; they are meant to be sent immediately
     this.voiceNoteAttachment = {
-      contentType: blob.type,
+      contentType: stringToMIMEType(blob.type),
       data,
       size: data.byteLength,
       flags: Proto.AttachmentPointer.Flags.VOICE_MESSAGE,
     };
 
     // Note: The RecorderView removes itself on send
-    this.captureAudioView = null;
+    this.captureAudioView = undefined;
 
     this.sendMessage();
-  },
-  endCaptureAudio() {
+  }
+  endCaptureAudio(): void {
     this.enableMessageField();
     this.$('.microphone').show();
 
     // Note: The RecorderView removes itself on close
-    this.captureAudioView = null;
+    this.captureAudioView = undefined;
 
-    this.compositionApi.current.setMicActive(false);
-  },
+    this.compositionApi.current?.setMicActive(false);
+  }
 
-  async onOpened(messageId: string) {
-    const { model }: { model: ConversationModel } = this;
-
+  async onOpened(messageId: string): Promise<void> {
     if (messageId) {
       const message = await getMessageById(messageId, {
         Message: Whisper.Message,
@@ -2282,50 +2436,50 @@ Whisper.ConversationView = Whisper.View.extend({
 
     const { retryPlaceholders } = window.Signal.Services;
     if (retryPlaceholders) {
-      await retryPlaceholders.findByConversationAndMarkOpened(model.id);
+      await retryPlaceholders.findByConversationAndMarkOpened(this.model.id);
     }
 
-    this.loadNewestMessages();
-    model.updateLastMessage();
+    this.loadNewestMessages(undefined, undefined);
+    this.model.updateLastMessage();
 
     this.focusMessageField();
 
-    const quotedMessageId = model.get('quotedMessageId');
+    const quotedMessageId = this.model.get('quotedMessageId');
     if (quotedMessageId) {
       this.setQuoteMessage(quotedMessageId);
     }
 
-    model.fetchLatestGroupV2Data();
-    assert(
-      model.throttledMaybeMigrateV1Group !== undefined,
+    this.model.fetchLatestGroupV2Data();
+    strictAssert(
+      this.model.throttledMaybeMigrateV1Group !== undefined,
       'Conversation model should be initialized'
     );
-    model.throttledMaybeMigrateV1Group();
-    assert(
-      model.throttledFetchSMSOnlyUUID !== undefined,
+    this.model.throttledMaybeMigrateV1Group();
+    strictAssert(
+      this.model.throttledFetchSMSOnlyUUID !== undefined,
       'Conversation model should be initialized'
     );
-    model.throttledFetchSMSOnlyUUID();
+    this.model.throttledFetchSMSOnlyUUID();
 
-    const statusPromise = this.model.throttledGetProfiles();
-    // eslint-disable-next-line more/no-then
-    this.statusFetch = statusPromise.then(() =>
-      // eslint-disable-next-line more/no-then
-      model.updateVerified().then(() => {
-        this.statusFetch = null;
-      })
+    strictAssert(
+      this.model.throttledGetProfiles !== undefined,
+      'Conversation model should be initialized'
     );
-  },
+    await this.model.throttledGetProfiles();
 
-  async retrySend(messageId: string) {
+    this.model.updateVerified();
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  async retrySend(messageId: string): Promise<void> {
     const message = window.MessageController.getById(messageId);
     if (!message) {
       throw new Error(`retrySend: Message ${messageId} missing!`);
     }
     await message.retrySend();
-  },
+  }
 
-  showForwardMessageModal(messageId: string) {
+  showForwardMessageModal(messageId: string): void {
     const message = window.MessageController.getById(messageId);
     if (!message) {
       throw new Error(`showForwardMessageModal: Message ${messageId} missing!`);
@@ -2352,9 +2506,9 @@ Whisper.ConversationView = Whisper.View.extend({
                 linkPreview
               );
 
-              if (didForwardSuccessfully) {
+              if (didForwardSuccessfully && this.forwardMessageModal) {
                 this.forwardMessageModal.remove();
-                this.forwardMessageModal = null;
+                this.forwardMessageModal = undefined;
               }
             } catch (err) {
               window.log.warn(
@@ -2366,13 +2520,15 @@ Whisper.ConversationView = Whisper.View.extend({
           isSticker: Boolean(message.get('sticker')),
           messageBody: message.getRawText(),
           onClose: () => {
-            this.forwardMessageModal.remove();
-            this.forwardMessageModal = null;
+            if (this.forwardMessageModal) {
+              this.forwardMessageModal.remove();
+              this.forwardMessageModal = undefined;
+            }
             this.resetLinkPreview();
           },
           onEditorStateChange: (
             messageText: string,
-            _: Array<typeof window.Whisper.BodyRangeType>,
+            _: Array<BodyRangeType>,
             caretLocation?: number
           ) => {
             if (!attachments.length) {
@@ -2383,13 +2539,13 @@ Whisper.ConversationView = Whisper.View.extend({
             this.showToast(
               Whisper.MessageBodyTooLongToast,
               {},
-              document.querySelector('.module-ForwardMessageModal')
+              document.querySelector('.module-ForwardMessageModal') || undefined
             ),
         }
       ),
     });
     this.forwardMessageModal.render();
-  },
+  }
 
   async maybeForwardMessage(
     message: MessageModel,
@@ -2545,16 +2701,15 @@ Whisper.ConversationView = Whisper.View.extend({
     this.resetLinkPreview();
 
     return true;
-  },
+  }
 
-  async showAllMedia() {
+  async showAllMedia(): Promise<void> {
     // We fetch more documents than media as they don’t require to be loaded
     // into memory right away. Revisit this once we have infinite scrolling:
     const DEFAULT_MEDIA_FETCH_COUNT = 50;
     const DEFAULT_DOCUMENTS_FETCH_COUNT = 150;
 
-    const { model }: { model: ConversationModel } = this;
-    const conversationId = model.get('id');
+    const conversationId = this.model.get('id');
 
     const getProps = async () => {
       const rawMedia = await window.Signal.Data.getMessagesWithVisualMediaAttachments(
@@ -2587,22 +2742,29 @@ Whisper.ConversationView = Whisper.View.extend({
         }
       }
 
-      const media = window._.flatten(
+      const media: Array<MediaType> = flatten(
         rawMedia.map(message => {
-          const { attachments } = message;
-          return (attachments || [])
-            .filter(
-              (attachment: AttachmentType) =>
-                attachment.thumbnail && !attachment.pending && !attachment.error
-            )
-            .map((attachment: WhatIsThis, index: number) => {
-              const { thumbnail } = attachment;
+          return (message.attachments || []).map(
+            (
+              attachment: AttachmentType,
+              index: number
+            ): MediaType | undefined => {
+              if (
+                !attachment.path ||
+                !attachment.thumbnail ||
+                attachment.pending ||
+                attachment.error
+              ) {
+                return;
+              }
 
+              const { thumbnail } = attachment;
               return {
+                path: attachment.path,
                 objectURL: getAbsoluteAttachmentPath(attachment.path),
                 thumbnailObjectUrl: thumbnail
                   ? getAbsoluteAttachmentPath(thumbnail.path)
-                  : null,
+                  : undefined,
                 contentType: attachment.contentType,
                 index,
                 attachment,
@@ -2621,9 +2783,10 @@ Whisper.ConversationView = Whisper.View.extend({
                   sent_at: message.sent_at,
                 },
               };
-            });
+            }
+          );
         })
-      );
+      ).filter(isNotNil);
 
       // Unlike visual media, only one non-image attachment is supported
       const documents = rawDocuments
@@ -2661,7 +2824,15 @@ Whisper.ConversationView = Whisper.View.extend({
         }
       };
 
-      const onItemClick = async ({ message, attachment, type }: WhatIsThis) => {
+      const onItemClick = async ({
+        message,
+        attachment,
+        type,
+      }: {
+        message: MessageAttributesType;
+        attachment: AttachmentType;
+        type: 'documents' | 'media';
+      }) => {
         switch (type) {
           case 'documents': {
             saveAttachment({ message, attachment });
@@ -2725,35 +2896,30 @@ Whisper.ConversationView = Whisper.View.extend({
     });
 
     this.listenBack(view);
-  },
+  }
 
-  focusMessageField() {
+  focusMessageField(): void {
     if (this.panels && this.panels.length) {
       return;
     }
 
-    const { compositionApi } = this;
+    this.compositionApi.current?.focusInput();
+  }
 
-    if (compositionApi && compositionApi.current) {
-      compositionApi.current.focusInput();
-    }
-  },
+  disableMessageField(): void {
+    this.compositionApi.current?.setDisabled(true);
+  }
 
-  disableMessageField() {
-    this.compositionApi.current.setDisabled(true);
-  },
+  enableMessageField(): void {
+    this.compositionApi.current?.setDisabled(false);
+  }
 
-  enableMessageField() {
-    this.compositionApi.current.setDisabled(false);
-  },
+  resetEmojiResults(): void {
+    this.compositionApi.current?.resetEmojiResults();
+  }
 
-  resetEmojiResults() {
-    this.compositionApi.current.resetEmojiResults(false);
-  },
-
-  showGV1Members() {
-    const { model }: { model: ConversationModel } = this;
-    const { contactCollection } = model;
+  showGV1Members(): void {
+    const { contactCollection } = this.model;
 
     const memberships =
       contactCollection?.map((conversation: ConversationModel) => {
@@ -2777,12 +2943,13 @@ Whisper.ConversationView = Whisper.View.extend({
 
     this.listenBack(view);
     view.render();
-  },
+  }
 
+  // eslint-disable-next-line class-methods-use-this
   forceSend({
     contactId,
     messageId,
-  }: Readonly<{ contactId: string; messageId: string }>) {
+  }: Readonly<{ contactId: string; messageId: string }>): void {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const contact = window.ConversationController.get(contactId)!;
     const message = window.MessageController.getById(messageId);
@@ -2819,16 +2986,14 @@ Whisper.ConversationView = Whisper.View.extend({
         message.resend(sendTarget);
       },
     });
-  },
+  }
 
-  showSafetyNumber(id: string) {
-    const { model }: { model: ConversationModel } = this;
-
+  showSafetyNumber(id?: string): void {
     let conversation: undefined | ConversationModel;
 
-    if (!id && isDirectConversation(model.attributes)) {
+    if (!id && isDirectConversation(this.model.attributes)) {
       // eslint-disable-next-line prefer-destructuring
-      conversation = model;
+      conversation = this.model;
     } else {
       conversation = window.ConversationController.get(id);
     }
@@ -2838,9 +3003,12 @@ Whisper.ConversationView = Whisper.View.extend({
       });
       this.listenBack(view);
     }
-  },
+  }
 
-  downloadAttachmentWrapper(messageId: string) {
+  downloadAttachmentWrapper(
+    messageId: string,
+    providedAttachment?: AttachmentType
+  ): void {
     const message = window.MessageController.getById(messageId);
     if (!message) {
       throw new Error(
@@ -2853,13 +3021,16 @@ Whisper.ConversationView = Whisper.View.extend({
       return;
     }
 
-    const attachment = attachments[0];
+    const attachment =
+      providedAttachment && attachments.includes(providedAttachment)
+        ? providedAttachment
+        : attachments[0];
     const { fileName } = attachment;
 
     const isDangerous = window.Signal.Util.isFileDangerous(fileName || '');
 
     this.downloadAttachment({ attachment, timestamp, isDangerous });
-  },
+  }
 
   async downloadAttachment({
     attachment,
@@ -2869,7 +3040,7 @@ Whisper.ConversationView = Whisper.View.extend({
     attachment: AttachmentType;
     timestamp: number;
     isDangerous: boolean;
-  }) {
+  }): Promise<void> {
     if (isDangerous) {
       this.showToast(Whisper.DangerousFileTypeToast);
       return;
@@ -2885,9 +3056,9 @@ Whisper.ConversationView = Whisper.View.extend({
     if (fullPath) {
       this.showToast(Whisper.FileSavedToast, { fullPath });
     }
-  },
+  }
 
-  async displayTapToViewMessage(messageId: string) {
+  async displayTapToViewMessage(messageId: string): Promise<void> {
     window.log.info('displayTapToViewMessage: attempting to display message');
 
     const message = window.MessageController.getById(messageId);
@@ -2932,7 +3103,7 @@ Whisper.ConversationView = Whisper.View.extend({
       }
 
       const { lightboxView } = this;
-      this.lightboxView = null;
+      this.lightboxView = undefined;
 
       this.stopListening(message);
       window.Signal.Backbone.Views.Lightbox.hide();
@@ -2942,8 +3113,8 @@ Whisper.ConversationView = Whisper.View.extend({
     };
     this.listenTo(message, 'expired', closeLightbox);
     this.listenTo(message, 'change', () => {
-      if (this.lightBoxView) {
-        this.lightBoxView.update(getProps());
+      if (this.lightboxView) {
+        this.lightboxView.update(getProps());
       }
     });
 
@@ -2962,7 +3133,7 @@ Whisper.ConversationView = Whisper.View.extend({
               id: message.get('id'),
               conversationId: message.get('conversationId'),
               received_at: message.get('received_at'),
-              received_at_ms: message.get('received_at_ms'),
+              received_at_ms: Number(message.get('received_at_ms')),
               sent_at: message.get('sent_at'),
             },
           },
@@ -2981,9 +3152,9 @@ Whisper.ConversationView = Whisper.View.extend({
     window.Signal.Backbone.Views.Lightbox.show(this.lightboxView.el);
 
     window.log.info('displayTapToViewMessage: showed lightbox');
-  },
+  }
 
-  deleteMessage(messageId: string) {
+  deleteMessage(messageId: string): void {
     const message = window.MessageController.getById(messageId);
     if (!message) {
       throw new Error(`deleteMessage: Message ${messageId} missing!`);
@@ -3006,9 +3177,9 @@ Whisper.ConversationView = Whisper.View.extend({
         this.resetPanel();
       },
     });
-  },
+  }
 
-  deleteMessageForEveryone(messageId: string) {
+  deleteMessageForEveryone(messageId: string): void {
     const message = window.MessageController.getById(messageId);
     if (!message) {
       throw new Error(
@@ -3037,16 +3208,18 @@ Whisper.ConversationView = Whisper.View.extend({
         this.resetPanel();
       },
     });
-  },
+  }
 
-  showStickerPackPreview(packId: string, packKey: string) {
+  showStickerPackPreview(packId: string, packKey: string): void {
     Stickers.downloadEphemeralPack(packId, packKey);
 
     const props = {
       packId,
       onClose: async () => {
-        this.stickerPreviewModalView.remove();
-        this.stickerPreviewModalView = null;
+        if (this.stickerPreviewModalView) {
+          this.stickerPreviewModalView.remove();
+          this.stickerPreviewModalView = undefined;
+        }
         await Stickers.removeEphemeralPack(packId);
       },
     };
@@ -3058,12 +3231,12 @@ Whisper.ConversationView = Whisper.View.extend({
         props
       ),
     });
-  },
+  }
 
   showLightboxForMedia(
     selectedMediaItem: MediaItemType,
     media: Array<MediaItemType> = []
-  ) {
+  ): void {
     const onSave = async ({
       attachment,
       message,
@@ -3091,7 +3264,7 @@ Whisper.ConversationView = Whisper.View.extend({
         mediaItem.attachment.path === selectedMediaItem.attachment.path
     );
 
-    this.lightboxGalleryView = new Whisper.ReactWrapperView({
+    this.lightboxView = new Whisper.ReactWrapperView({
       className: 'lightbox-wrapper',
       Component: window.Signal.Components.Lightbox,
       props: {
@@ -3104,8 +3277,8 @@ Whisper.ConversationView = Whisper.View.extend({
       onClose: () => window.Signal.Backbone.Views.Lightbox.hide(),
     });
 
-    window.Signal.Backbone.Views.Lightbox.show(this.lightboxGalleryView.el);
-  },
+    window.Signal.Backbone.Views.Lightbox.show(this.lightboxView.el);
+  }
 
   showLightbox({
     attachment,
@@ -3114,7 +3287,7 @@ Whisper.ConversationView = Whisper.View.extend({
     attachment: AttachmentType;
     messageId: string;
     showSingle?: boolean;
-  }) {
+  }): void {
     const message = window.MessageController.getById(messageId);
     if (!message) {
       throw new Error(`showLightbox: Message ${messageId} missing!`);
@@ -3132,7 +3305,7 @@ Whisper.ConversationView = Whisper.View.extend({
       !window.Signal.Util.GoogleChrome.isImageTypeSupported(contentType) &&
       !window.Signal.Util.GoogleChrome.isVideoTypeSupported(contentType)
     ) {
-      this.downloadAttachment({ attachment, message });
+      this.downloadAttachmentWrapper(messageId, attachment);
       return;
     }
 
@@ -3149,7 +3322,7 @@ Whisper.ConversationView = Whisper.View.extend({
         loop,
         index,
         message: {
-          attachments: message.get('attachments'),
+          attachments: message.get('attachments') || [],
           id: message.get('id'),
           conversationId:
             window.ConversationController.get(
@@ -3159,7 +3332,7 @@ Whisper.ConversationView = Whisper.View.extend({
               })
             )?.id || message.get('conversationId'),
           received_at: message.get('received_at'),
-          received_at_ms: message.get('received_at_ms'),
+          received_at_ms: Number(message.get('received_at_ms')),
           sent_at: message.get('sent_at'),
         },
         attachment: item,
@@ -3172,25 +3345,23 @@ Whisper.ConversationView = Whisper.View.extend({
       media.find(item => attachment.path === item.path) || media[0];
 
     this.showLightboxForMedia(selectedMedia, media);
-  },
+  }
 
-  showContactModal(contactId: string) {
-    const { model }: { model: ConversationModel } = this;
-
+  showContactModal(contactId: string): void {
     if (this.contactModalView) {
       this.contactModalView.remove();
-      this.contactModalView = null;
+      this.contactModalView = undefined;
     }
 
-    this.previousFocus = document.activeElement;
+    this.previousFocus = document.activeElement as HTMLElement;
 
     const hideContactModal = () => {
       if (this.contactModalView) {
         this.contactModalView.remove();
-        this.contactModalView = null;
+        this.contactModalView = undefined;
         if (this.previousFocus && this.previousFocus.focus) {
           this.previousFocus.focus();
-          this.previousFocus = null;
+          this.previousFocus = undefined;
         }
       }
     };
@@ -3198,7 +3369,7 @@ Whisper.ConversationView = Whisper.View.extend({
     this.contactModalView = new Whisper.ReactWrapperView({
       JSX: window.Signal.State.Roots.createContactModal(window.reduxStore, {
         contactId,
-        currentConversationId: model.id,
+        currentConversationId: this.model.id,
         onClose: hideContactModal,
         openConversation: (conversationId: string) => {
           hideContactModal();
@@ -3206,7 +3377,7 @@ Whisper.ConversationView = Whisper.View.extend({
         },
         removeMember: (conversationId: string) => {
           hideContactModal();
-          model.removeFromGroupV2(conversationId);
+          this.model.removeFromGroupV2(conversationId);
         },
         showSafetyNumber: (conversationId: string) => {
           hideContactModal();
@@ -3215,7 +3386,7 @@ Whisper.ConversationView = Whisper.View.extend({
         toggleAdmin: (conversationId: string) => {
           hideContactModal();
 
-          const isAdmin = model.isAdmin(conversationId);
+          const isAdmin = this.model.isAdmin(conversationId);
           const conversationModel = window.ConversationController.get(
             conversationId
           );
@@ -3239,7 +3410,7 @@ Whisper.ConversationView = Whisper.View.extend({
             okText: isAdmin
               ? window.i18n('ContactModal--rm-admin')
               : window.i18n('ContactModal--make-admin'),
-            resolve: () => model.toggleAdmin(conversationId),
+            resolve: () => this.model.toggleAdmin(conversationId),
           });
         },
         updateSharedGroups: () => {
@@ -3252,18 +3423,16 @@ Whisper.ConversationView = Whisper.View.extend({
     });
 
     this.contactModalView.render();
-  },
+  }
 
-  showGroupLinkManagement() {
-    const { model }: { model: ConversationModel } = this;
-
+  showGroupLinkManagement(): void {
     const view = new Whisper.ReactWrapperView({
       className: 'panel',
       JSX: window.Signal.State.Roots.createGroupLinkManagement(
         window.reduxStore,
         {
           changeHasGroupLink: this.changeHasGroupLink.bind(this),
-          conversationId: model.id,
+          conversationId: this.model.id,
           copyGroupLink: this.copyGroupLink.bind(this),
           generateNewGroupLink: this.generateNewGroupLink.bind(this),
           setAccessControlAddFromInviteLinkSetting: this.setAccessControlAddFromInviteLinkSetting.bind(
@@ -3276,17 +3445,15 @@ Whisper.ConversationView = Whisper.View.extend({
 
     this.listenBack(view);
     view.render();
-  },
+  }
 
-  showGroupV2Permissions() {
-    const { model }: { model: ConversationModel } = this;
-
+  showGroupV2Permissions(): void {
     const view = new Whisper.ReactWrapperView({
       className: 'panel',
       JSX: window.Signal.State.Roots.createGroupV2Permissions(
         window.reduxStore,
         {
-          conversationId: model.id,
+          conversationId: this.model.id,
           setAccessControlAttributesSetting: this.setAccessControlAttributesSetting.bind(
             this
           ),
@@ -3301,21 +3468,19 @@ Whisper.ConversationView = Whisper.View.extend({
 
     this.listenBack(view);
     view.render();
-  },
+  }
 
-  showPendingInvites() {
-    const { model }: { model: ConversationModel } = this;
-
+  showPendingInvites(): void {
     const view = new Whisper.ReactWrapperView({
       className: 'panel',
       JSX: window.Signal.State.Roots.createPendingInvites(window.reduxStore, {
-        conversationId: model.id,
+        conversationId: this.model.id,
         ourConversationId: window.ConversationController.getOurConversationId(),
         approvePendingMembership: (conversationId: string) => {
-          model.approvePendingMembershipFromGroupV2(conversationId);
+          this.model.approvePendingMembershipFromGroupV2(conversationId);
         },
         revokePendingMemberships: conversationIds => {
-          model.revokePendingMembershipsFromGroupV2(conversationIds);
+          this.model.revokePendingMembershipsFromGroupV2(conversationIds);
         },
       }),
     });
@@ -3323,19 +3488,17 @@ Whisper.ConversationView = Whisper.View.extend({
 
     this.listenBack(view);
     view.render();
-  },
+  }
 
-  showConversationNotificationsSettings() {
-    const { model }: { model: ConversationModel } = this;
-
+  showConversationNotificationsSettings(): void {
     const view = new Whisper.ReactWrapperView({
       className: 'panel',
       JSX: window.Signal.State.Roots.createConversationNotificationsSettings(
         window.reduxStore,
         {
-          conversationId: model.id,
-          setDontNotifyForMentionsIfMuted: model.setDontNotifyForMentionsIfMuted.bind(
-            model
+          conversationId: this.model.id,
+          setDontNotifyForMentionsIfMuted: this.model.setDontNotifyForMentionsIfMuted.bind(
+            this.model
           ),
           setMuteExpiration: this.setMuteExpiration.bind(this),
         }
@@ -3345,15 +3508,13 @@ Whisper.ConversationView = Whisper.View.extend({
 
     this.listenBack(view);
     view.render();
-  },
+  }
 
-  showChatColorEditor() {
-    const { model }: { model: ConversationModel } = this;
-
+  showChatColorEditor(): void {
     const view = new Whisper.ReactWrapperView({
       className: 'panel',
       JSX: window.Signal.State.Roots.createChatColorPicker(window.reduxStore, {
-        conversationId: model.get('id'),
+        conversationId: this.model.get('id'),
       }),
     });
 
@@ -3361,14 +3522,14 @@ Whisper.ConversationView = Whisper.View.extend({
 
     this.listenBack(view);
     view.render();
-  },
+  }
 
-  showConversationDetails() {
+  showConversationDetails(): void {
     // Run a getProfiles in case member's capabilities have changed
     // Redux should cover us on the return here so no need to await this.
-    this.model.throttledGetProfiles();
-
-    const { model }: { model: ConversationModel } = this;
+    if (this.model.throttledGetProfiles) {
+      this.model.throttledGetProfiles();
+    }
 
     const messageRequestEnum = Proto.SyncMessage.MessageRequestResponse.Type;
 
@@ -3378,21 +3539,21 @@ Whisper.ConversationView = Whisper.View.extend({
     const onLeave = () => {
       this.longRunningTaskWrapper({
         name: 'onLeave',
-        task: () => model.leaveGroupV2(),
+        task: () => this.model.leaveGroupV2(),
       });
     };
 
     const onBlock = () => {
       this.syncMessageRequestResponse(
         'onBlock',
-        model,
+        this.model,
         messageRequestEnum.BLOCK
       );
     };
 
     const props = {
-      addMembers: model.addMembersV2.bind(model),
-      conversationId: model.get('id'),
+      addMembers: this.model.addMembersV2.bind(this.model),
+      conversationId: this.model.get('id'),
       loadRecentMediaItems: this.loadRecentMediaItems.bind(this),
       setDisappearingMessages: this.setDisappearingMessages.bind(this),
       showAllMedia: this.showAllMedia.bind(this),
@@ -3405,7 +3566,9 @@ Whisper.ConversationView = Whisper.View.extend({
       ),
       showPendingInvites: this.showPendingInvites.bind(this),
       showLightboxForMedia: this.showLightboxForMedia.bind(this),
-      updateGroupAttributes: model.updateGroupAttributesV2.bind(model),
+      updateGroupAttributes: this.model.updateGroupAttributesV2.bind(
+        this.model
+      ),
       onLeave,
       onBlock,
     };
@@ -3421,9 +3584,9 @@ Whisper.ConversationView = Whisper.View.extend({
 
     this.listenBack(view);
     view.render();
-  },
+  }
 
-  showMessageDetail(messageId: string) {
+  showMessageDetail(messageId: string): void {
     const message = window.MessageController.getById(messageId);
     if (!message) {
       throw new Error(`showMessageDetail: Message ${messageId} missing!`);
@@ -3461,9 +3624,9 @@ Whisper.ConversationView = Whisper.View.extend({
 
     this.listenBack(view);
     view.render();
-  },
+  }
 
-  showStickerManager() {
+  showStickerManager(): void {
     const view = new Whisper.ReactWrapperView({
       className: ['sticker-manager-wrapper', 'panel'].join(' '),
       JSX: window.Signal.State.Roots.createStickerManager(window.reduxStore),
@@ -3474,7 +3637,7 @@ Whisper.ConversationView = Whisper.View.extend({
 
     this.listenBack(view);
     view.render();
-  },
+  }
 
   showContactDetail({
     contact,
@@ -3482,7 +3645,7 @@ Whisper.ConversationView = Whisper.View.extend({
   }: {
     contact: EmbeddedContactType;
     signalAccount?: string;
-  }) {
+  }): void {
     const view = new Whisper.ReactWrapperView({
       Component: window.Signal.Components.ContactDetail,
       className: 'contact-detail-pane panel',
@@ -3501,17 +3664,25 @@ Whisper.ConversationView = Whisper.View.extend({
     });
 
     this.listenBack(view);
-  },
+  }
 
-  async openConversation(conversationId: string) {
-    window.Whisper.events.trigger('showConversation', conversationId);
-  },
+  // eslint-disable-next-line class-methods-use-this
+  async openConversation(
+    conversationId: string,
+    messageId?: string
+  ): Promise<void> {
+    window.Whisper.events.trigger(
+      'showConversation',
+      conversationId,
+      messageId
+    );
+  }
 
-  listenBack(view: WhatIsThis) {
+  listenBack(view: AnyViewClass): void {
     this.panels = this.panels || [];
 
     if (this.panels.length === 0) {
-      this.previousFocus = document.activeElement;
+      this.previousFocus = document.activeElement as HTMLElement;
     }
 
     this.panels.unshift(view);
@@ -3526,8 +3697,8 @@ Whisper.ConversationView = Whisper.View.extend({
     window.reduxActions.conversations.setSelectedConversationHeaderTitle(
       view.headerTitle
     );
-  },
-  resetPanel() {
+  }
+  resetPanel(): void {
     if (!this.panels || !this.panels.length) {
       return;
     }
@@ -3540,21 +3711,23 @@ Whisper.ConversationView = Whisper.View.extend({
       this.previousFocus.focus
     ) {
       this.previousFocus.focus();
-      this.previousFocus = null;
+      this.previousFocus = undefined;
     }
 
     if (this.panels.length > 0) {
       this.panels[0].$el.fadeIn(250);
     }
 
-    view.$el.addClass('panel--remove').one('transitionend', () => {
-      view.remove();
+    if (view) {
+      view.$el.addClass('panel--remove').one('transitionend', () => {
+        view.remove();
 
-      if (this.panels.length === 0) {
-        // Make sure poppers are positioned properly
-        window.dispatchEvent(new Event('resize'));
-      }
-    });
+        if (this.panels.length === 0) {
+          // Make sure poppers are positioned properly
+          window.dispatchEvent(new Event('resize'));
+        }
+      });
+    }
 
     window.reduxActions.conversations.setSelectedConversationPanelDepth(
       this.panels.length
@@ -3562,13 +3735,13 @@ Whisper.ConversationView = Whisper.View.extend({
     window.reduxActions.conversations.setSelectedConversationHeaderTitle(
       this.panels[0]?.headerTitle
     );
-  },
+  }
 
-  endSession() {
+  endSession(): void {
     const { model }: { model: ConversationModel } = this;
 
     model.endSession();
-  },
+  }
 
   async loadRecentMediaItems(limit: number): Promise<void> {
     const { model }: { model: ConversationModel } = this;
@@ -3618,9 +3791,9 @@ Whisper.ConversationView = Whisper.View.extend({
       model.id,
       loadedRecentMediaItems
     );
-  },
+  }
 
-  async setDisappearingMessages(seconds: number) {
+  async setDisappearingMessages(seconds: number): Promise<void> {
     const { model }: { model: ConversationModel } = this;
 
     const valueToSet = seconds > 0 ? seconds : undefined;
@@ -3629,23 +3802,23 @@ Whisper.ConversationView = Whisper.View.extend({
       name: 'updateExpirationTimer',
       task: async () => model.updateExpirationTimer(valueToSet),
     });
-  },
+  }
 
-  async changeHasGroupLink(value: boolean) {
+  async changeHasGroupLink(value: boolean): Promise<void> {
     const { model }: { model: ConversationModel } = this;
 
     await this.longRunningTaskWrapper({
       name: 'toggleGroupLink',
       task: async () => model.toggleGroupLink(value),
     });
-  },
+  }
 
-  async copyGroupLink(groupLink: string) {
+  async copyGroupLink(groupLink: string): Promise<void> {
     await navigator.clipboard.writeText(groupLink);
     this.showToast(Whisper.GroupLinkCopiedToast);
-  },
+  }
 
-  async generateNewGroupLink() {
+  async generateNewGroupLink(): Promise<void> {
     const { model }: { model: ConversationModel } = this;
 
     window.showConfirmationDialog({
@@ -3659,7 +3832,7 @@ Whisper.ConversationView = Whisper.View.extend({
         });
       },
     });
-  },
+  }
 
   async setAccessControlAddFromInviteLinkSetting(
     value: boolean
@@ -3670,7 +3843,7 @@ Whisper.ConversationView = Whisper.View.extend({
       name: 'updateAccessControlAddFromInviteLink',
       task: async () => model.updateAccessControlAddFromInviteLink(value),
     });
-  },
+  }
 
   async setAccessControlAttributesSetting(value: number): Promise<void> {
     const { model }: { model: ConversationModel } = this;
@@ -3679,7 +3852,7 @@ Whisper.ConversationView = Whisper.View.extend({
       name: 'updateAccessControlAttributes',
       task: async () => model.updateAccessControlAttributes(value),
     });
-  },
+  }
 
   async setAccessControlMembersSetting(value: number): Promise<void> {
     const { model }: { model: ConversationModel } = this;
@@ -3688,7 +3861,7 @@ Whisper.ConversationView = Whisper.View.extend({
       name: 'updateAccessControlMembers',
       task: async () => model.updateAccessControlMembers(value),
     });
-  },
+  }
 
   async setAnnouncementsOnly(value: boolean): Promise<void> {
     const { model }: { model: ConversationModel } = this;
@@ -3697,9 +3870,9 @@ Whisper.ConversationView = Whisper.View.extend({
       name: 'updateAnnouncementsOnly',
       task: async () => model.updateAnnouncementsOnly(value),
     });
-  },
+  }
 
-  async destroyMessages() {
+  async destroyMessages(): Promise<void> {
     const { model }: { model: ConversationModel } = this;
 
     window.showConfirmationDialog({
@@ -3720,13 +3893,13 @@ Whisper.ConversationView = Whisper.View.extend({
         window.log.info('destroyMessages: User canceled delete');
       },
     });
-  },
+  }
 
-  async isCallSafe() {
+  async isCallSafe(): Promise<boolean> {
     const contacts = await this.getUntrustedContacts();
     if (contacts && contacts.length) {
       const callAnyway = await this.showSendAnywayDialog(
-        contacts,
+        contacts.models,
         window.i18n('callAnyway')
       );
       if (!callAnyway) {
@@ -3738,12 +3911,13 @@ Whisper.ConversationView = Whisper.View.extend({
     }
 
     return true;
-  },
+  }
 
+  // eslint-disable-next-line class-methods-use-this
   showSendAnywayDialog(
     contacts: Array<ConversationModel>,
     confirmText?: string
-  ) {
+  ): Promise<boolean> {
     return new Promise(resolve => {
       showSafetyNumberChangeDialog({
         confirmText,
@@ -3756,12 +3930,12 @@ Whisper.ConversationView = Whisper.View.extend({
         },
       });
     });
-  },
+  }
 
   async sendReactionMessage(
     messageId: string,
     reaction: { emoji: string; remove: boolean }
-  ) {
+  ): Promise<void> {
     const messageModel = messageId
       ? await getMessageById(messageId, {
           Message: Whisper.Message,
@@ -3770,28 +3944,38 @@ Whisper.ConversationView = Whisper.View.extend({
 
     try {
       if (!messageModel) {
-        throw new Error('Message not found');
+        throw new Error('sendReactionMessage: Message not found');
+      }
+      const targetAuthorUuid = messageModel.getSourceUuid();
+      if (!targetAuthorUuid) {
+        throw new Error(
+          `sendReactionMessage: Message ${messageModel.idForLogging()} had no source uuid! Cannot send reaction.`
+        );
       }
 
       await this.model.sendReactionMessage(reaction, {
         messageId,
-        targetAuthorUuid: messageModel.getSourceUuid(),
+        targetAuthorUuid,
         targetTimestamp: messageModel.get('sent_at'),
       });
     } catch (error) {
       window.log.error('Error sending reaction', error, messageId, reaction);
       this.showToast(Whisper.ReactionFailedToast);
     }
-  },
+  }
 
-  async sendStickerMessage(options: { packId: string; stickerId: number }) {
+  async sendStickerMessage(options: {
+    packId: string;
+    stickerId: number;
+    force?: boolean;
+  }): Promise<void> {
     const { model }: { model: ConversationModel } = this;
 
     try {
       const contacts = await this.getUntrustedContacts(options);
 
       if (contacts && contacts.length) {
-        const sendAnyway = await this.showSendAnywayDialog(contacts);
+        const sendAnyway = await this.showSendAnywayDialog(contacts.models);
         if (sendAnyway) {
           this.sendStickerMessage({ ...options, force: true });
         }
@@ -3811,9 +3995,11 @@ Whisper.ConversationView = Whisper.View.extend({
         error && error.stack ? error.stack : error
       );
     }
-  },
+  }
 
-  async getUntrustedContacts(options: { force?: boolean } = {}) {
+  async getUntrustedContacts(
+    options: { force?: boolean } = {}
+  ): Promise<null | ConversationModelCollectionType> {
     const { model }: { model: ConversationModel } = this;
 
     // This will go to the trust store for the latest identity key information,
@@ -3823,7 +4009,7 @@ Whisper.ConversationView = Whisper.View.extend({
 
     if (options.force) {
       if (unverifiedContacts.length) {
-        await this.markAllAsVerifiedDefault(unverifiedContacts);
+        await this.markAllAsVerifiedDefault(unverifiedContacts.models);
         // We only want force to break us through one layer of checks
         // eslint-disable-next-line no-param-reassign
         options.force = false;
@@ -3836,16 +4022,16 @@ Whisper.ConversationView = Whisper.View.extend({
 
     if (options.force) {
       if (untrustedContacts.length) {
-        await this.markAllAsApproved(untrustedContacts);
+        await this.markAllAsApproved(untrustedContacts.models);
       }
     } else if (untrustedContacts.length) {
       return untrustedContacts;
     }
 
     return null;
-  },
+  }
 
-  async setQuoteMessage(messageId: null | string) {
+  async setQuoteMessage(messageId: null | string): Promise<void> {
     const { model }: { model: ConversationModel } = this;
 
     const message: MessageModel | undefined = messageId
@@ -3869,8 +4055,8 @@ Whisper.ConversationView = Whisper.View.extend({
       return;
     }
 
-    this.quote = null;
-    this.quotedMessage = null;
+    this.quote = undefined;
+    this.quotedMessage = undefined;
 
     const existing = model.get('quotedMessageId');
     if (existing !== messageId) {
@@ -3898,9 +4084,9 @@ Whisper.ConversationView = Whisper.View.extend({
     }
 
     this.renderQuotedMessage();
-  },
+  }
 
-  renderQuotedMessage() {
+  renderQuotedMessage(): void {
     const { model }: { model: ConversationModel } = this;
 
     if (!this.quotedMessage) {
@@ -3912,7 +4098,7 @@ Whisper.ConversationView = Whisper.View.extend({
       conversationId: model.id,
       quote: this.quote,
     });
-  },
+  }
 
   showInvalidMessageToast(messageText?: string): boolean {
     const { model }: { model: ConversationModel } = this;
@@ -3925,16 +4111,22 @@ Whisper.ConversationView = Whisper.View.extend({
     if (!model.isValid()) {
       ToastView = Whisper.InvalidConversationToast;
     }
+
+    const e164 = this.model.get('e164');
+    const uuid = this.model.get('uuid');
     if (
       isDirectConversation(this.model.attributes) &&
-      (window.storage.blocked.isBlocked(this.model.get('e164')) ||
-        window.storage.blocked.isUuidBlocked(this.model.get('uuid')))
+      ((e164 && window.storage.blocked.isBlocked(e164)) ||
+        (uuid && window.storage.blocked.isUuidBlocked(uuid)))
     ) {
       ToastView = Whisper.BlockedToast;
     }
+
+    const groupId = this.model.get('groupId');
     if (
       !isDirectConversation(this.model.attributes) &&
-      window.storage.blocked.isGroupBlocked(this.model.get('groupId'))
+      groupId &&
+      window.storage.blocked.isGroupBlocked(groupId)
     ) {
       ToastView = Whisper.BlockedGroupToast;
     }
@@ -3952,13 +4144,13 @@ Whisper.ConversationView = Whisper.View.extend({
     }
 
     return false;
-  },
+  }
 
   async sendMessage(
     message = '',
-    mentions = [],
+    mentions: BodyRangesType = [],
     options: { timestamp?: number; force?: boolean } = {}
-  ) {
+  ): Promise<void> {
     const { model }: { model: ConversationModel } = this;
     const timestamp = options.timestamp || Date.now();
 
@@ -3969,7 +4161,7 @@ Whisper.ConversationView = Whisper.View.extend({
       this.disableMessageField();
 
       if (contacts && contacts.length) {
-        const sendAnyway = await this.showSendAnywayDialog(contacts);
+        const sendAnyway = await this.showSendAnywayDialog(contacts.models);
         if (sendAnyway) {
           this.sendMessage(message, mentions, { force: true, timestamp });
           return;
@@ -4021,7 +4213,7 @@ Whisper.ConversationView = Whisper.View.extend({
           }
         );
 
-        this.compositionApi.current.reset();
+        this.compositionApi.current?.reset();
         model.setMarkedUnread(false);
         this.setQuoteMessage(null);
         this.resetLinkPreview();
@@ -4036,22 +4228,22 @@ Whisper.ConversationView = Whisper.View.extend({
     } finally {
       this.enableMessageField();
     }
-  },
+  }
 
   onEditorStateChange(
     messageText: string,
-    bodyRanges: Array<typeof window.Whisper.BodyRangeType>,
+    bodyRanges: Array<BodyRangeType>,
     caretLocation?: number
-  ) {
+  ): void {
     this.maybeBumpTyping(messageText);
     this.debouncedSaveDraft(messageText, bodyRanges);
     this.debouncedMaybeGrabLinkPreview(messageText, caretLocation);
-  },
+  }
 
   async saveDraft(
     messageText: string,
-    bodyRanges: Array<typeof window.Whisper.BodyRangeType>
-  ) {
+    bodyRanges: Array<BodyRangeType>
+  ): Promise<void> {
     const { model }: { model: ConversationModel } = this;
 
     const trimmed =
@@ -4076,9 +4268,9 @@ Whisper.ConversationView = Whisper.View.extend({
       });
       await this.saveModel();
     }
-  },
+  }
 
-  maybeGrabLinkPreview(message: string, caretLocation?: number) {
+  maybeGrabLinkPreview(message: string, caretLocation?: number): void {
     // Don't generate link previews if user has turned them off
     if (!window.Events.getLinkPreviewSetting()) {
       return;
@@ -4106,11 +4298,11 @@ Whisper.ConversationView = Whisper.View.extend({
 
     const links = LinkPreview.findLinks(message, caretLocation);
     const { currentlyMatchedLink } = this;
-    if (links.includes(currentlyMatchedLink)) {
+    if (currentlyMatchedLink && links.includes(currentlyMatchedLink)) {
       return;
     }
 
-    this.currentlyMatchedLink = null;
+    this.currentlyMatchedLink = undefined;
     this.excludedPreviewUrls = this.excludedPreviewUrls || [];
 
     const link = links.find(
@@ -4124,28 +4316,29 @@ Whisper.ConversationView = Whisper.View.extend({
     }
 
     this.addLinkPreview(link);
-  },
+  }
 
-  resetLinkPreview() {
+  resetLinkPreview(): void {
     this.disableLinkPreviews = false;
     this.excludedPreviewUrls = [];
     this.removeLinkPreview();
-  },
+  }
 
-  removeLinkPreview() {
-    (this.preview || []).forEach((item: WhatIsThis) => {
+  removeLinkPreview(): void {
+    (this.preview || []).forEach((item: LinkPreviewResult) => {
       if (item.url) {
         URL.revokeObjectURL(item.url);
       }
     });
-    this.preview = null;
-    this.currentlyMatchedLink = null;
+    this.preview = undefined;
+    this.currentlyMatchedLink = undefined;
     this.linkPreviewAbortController?.abort();
-    this.linkPreviewAbortController = null;
+    this.linkPreviewAbortController = undefined;
 
     window.reduxActions.linkPreviews.removeLinkPreview();
-  },
+  }
 
+  // eslint-disable-next-line class-methods-use-this
   async getStickerPackPreview(
     url: string,
     abortSignal: Readonly<AbortSignal>
@@ -4212,16 +4405,16 @@ Whisper.ConversationView = Whisper.View.extend({
       }
 
       return {
-        title,
-        url,
+        date: null,
+        description: null,
         image: {
           ...sticker,
           data,
           size: data.byteLength,
           contentType: IMAGE_WEBP,
         },
-        description: null,
-        date: null,
+        title,
+        url,
       };
     } catch (error) {
       window.log.error(
@@ -4234,8 +4427,9 @@ Whisper.ConversationView = Whisper.View.extend({
         await Stickers.removeEphemeralPack(id);
       }
     }
-  },
+  }
 
+  // eslint-disable-next-line class-methods-use-this
   async getGroupPreview(
     url: string,
     abortSignal: Readonly<AbortSignal>
@@ -4313,13 +4507,13 @@ Whisper.ConversationView = Whisper.View.extend({
     }
 
     return {
-      title,
-      description,
-      url,
-      image,
       date: null,
+      description,
+      image,
+      title,
+      url,
     };
-  },
+  }
 
   async getPreview(
     url: string,
@@ -4406,15 +4600,15 @@ Whisper.ConversationView = Whisper.View.extend({
     }
 
     return {
+      date: date || null,
+      description: description || null,
+      image,
       title,
       url,
-      image,
-      description,
-      date,
     };
-  },
+  }
 
-  async addLinkPreview(url: string) {
+  async addLinkPreview(url: string): Promise<void> {
     if (this.currentlyMatchedLink === url) {
       window.log.warn(
         'addLinkPreview should not be called with the same URL like this'
@@ -4422,13 +4616,13 @@ Whisper.ConversationView = Whisper.View.extend({
       return;
     }
 
-    (this.preview || []).forEach((item: WhatIsThis) => {
+    (this.preview || []).forEach((item: LinkPreviewResult) => {
       if (item.url) {
         URL.revokeObjectURL(item.url);
       }
     });
     window.reduxActions.linkPreviews.removeLinkPreview();
-    this.preview = null;
+    this.preview = undefined;
 
     // Cancel other in-flight link preview requests.
     if (this.linkPreviewAbortController) {
@@ -4473,7 +4667,7 @@ Whisper.ConversationView = Whisper.View.extend({
         return;
       }
 
-      if (result.image) {
+      if (result.image && result.image.data) {
         const blob = new Blob([result.image.data], {
           type: result.image.contentType,
         });
@@ -4484,7 +4678,13 @@ Whisper.ConversationView = Whisper.View.extend({
         return;
       }
 
-      window.reduxActions.linkPreviews.addLinkPreview(result);
+      window.reduxActions.linkPreviews.addLinkPreview({
+        ...result,
+        description: dropNull(result.description),
+        date: dropNull(result.date),
+        domain: LinkPreview.getDomain(result.url),
+        isStickerPack: LinkPreview.isStickerPack(result.url),
+      });
       this.preview = [result];
       this.renderLinkPreview();
     } catch (error) {
@@ -4497,9 +4697,9 @@ Whisper.ConversationView = Whisper.View.extend({
     } finally {
       clearTimeout(timeout);
     }
-  },
+  }
 
-  renderLinkPreview() {
+  renderLinkPreview(): void {
     if (this.forwardMessageModal) {
       return;
     }
@@ -4507,9 +4707,9 @@ Whisper.ConversationView = Whisper.View.extend({
       Boolean(this.currentlyMatchedLink),
       this.getLinkPreviewWithDomain()
     );
-  },
+  }
 
-  getLinkPreviewForSend(message: string) {
+  getLinkPreviewForSend(message: string): Array<LinkPreviewType> {
     // Don't generate link previews if user has turned them off
     if (!window.storage.get('linkPreviews', false)) {
       return [];
@@ -4527,19 +4727,29 @@ Whisper.ConversationView = Whisper.View.extend({
         //   the message. This can happen if you have a link preview, then quickly delete
         //   the link and send the message.
         .filter(({ url }: Readonly<{ url: string }>) => urlsInMessage.has(url))
-        .map((item: WhatIsThis) => {
+        .map((item: LinkPreviewResult) => {
           if (item.image) {
             // We eliminate the ObjectURL here, unneeded for send or save
             return {
               ...item,
-              image: window._.omit(item.image, 'url'),
+              image: omit(item.image, 'url'),
+              description: dropNull(item.description),
+              date: dropNull(item.date),
+              domain: LinkPreview.getDomain(item.url),
+              isStickerPack: LinkPreview.isStickerPack(item.url),
             };
           }
 
-          return item;
+          return {
+            ...item,
+            description: dropNull(item.description),
+            date: dropNull(item.date),
+            domain: LinkPreview.getDomain(item.url),
+            isStickerPack: LinkPreview.isStickerPack(item.url),
+          };
         })
     );
-  },
+  }
 
   getLinkPreviewWithDomain(): LinkPreviewWithDomain | undefined {
     if (!this.preview || !this.preview.length) {
@@ -4551,13 +4761,15 @@ Whisper.ConversationView = Whisper.View.extend({
       ...preview,
       domain: LinkPreview.getDomain(preview.url),
     };
-  },
+  }
 
   // Called whenever the user changes the message composition field. But only
   //   fires if there's content in the message field after the change.
-  maybeBumpTyping(messageText: string) {
-    if (messageText.length) {
+  maybeBumpTyping(messageText: string): void {
+    if (messageText.length && this.model.throttledBumpTyping) {
       this.model.throttledBumpTyping();
     }
-  },
-});
+  }
+}
+
+window.Whisper.ConversationView = ConversationView;

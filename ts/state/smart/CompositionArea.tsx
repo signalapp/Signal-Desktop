@@ -27,7 +27,7 @@ import {
 
 type ExternalProps = {
   id: string;
-  onClickQuotedMessage: (id?: string) => unknown;
+  onClickQuotedMessage: (id: string) => unknown;
 };
 
 const mapStateToProps = (state: StateType, props: ExternalProps) => {
@@ -92,8 +92,12 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
           ourConversationId: getUserConversationId(state),
         })
       : undefined,
-    onClickQuotedMessage: () =>
-      onClickQuotedMessage(quotedMessage?.quote?.messageId),
+    onClickQuotedMessage: () => {
+      const messageId = quotedMessage?.quote?.messageId;
+      if (messageId) {
+        onClickQuotedMessage(messageId);
+      }
+    },
     // Emojis
     recentEmojis,
     skinTone: get(state, ['items', 'skinTone'], 0),

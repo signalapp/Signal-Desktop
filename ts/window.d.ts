@@ -120,6 +120,7 @@ import { StateType } from './state/reducer';
 import { SystemTraySetting } from './types/SystemTraySetting';
 import { CI } from './CI';
 import { IPCEventsType } from './util/createIPCEvents';
+import { ConversationView } from './views/conversation_view';
 
 export { Long } from 'long';
 
@@ -576,8 +577,33 @@ export type LoggerType = {
 
 export type LogFunctionType = (...args: Array<unknown>) => void;
 
+export class AnyViewClass extends window.Backbone.View<any> {
+  public headerTitle?: string;
+  static show(view: typeof AnyViewClass, element: Element): void;
+
+  constructor(options?: any);
+}
+
+export class BasicReactWrapperViewClass extends AnyViewClass {
+  public update(options: any): void;
+}
+
 export type WhisperType = {
+  Conversation: typeof ConversationModel;
+  ConversationCollection: typeof ConversationModelCollectionType;
+  Message: typeof MessageModel;
+  MessageCollection: typeof MessageModelCollectionType;
+
+  GroupMemberConversation: WhatIsThis;
+  KeyChangeListener: WhatIsThis;
+  RotateSignedPreKeyListener: WhatIsThis;
+  WallClockListener: WhatIsThis;
+
+  deliveryReceiptQueue: PQueue;
+  deliveryReceiptBatcher: BatcherType<DeliveryReceiptBatcherItemType>;
   events: Backbone.Events;
+  activeConfirmationView: WhatIsThis;
+
   Database: {
     open: () => Promise<IDBDatabase>;
     handleDOMException: (
@@ -586,38 +612,6 @@ export type WhisperType = {
       reject: Function
     ) => void;
   };
-  ConversationCollection: typeof ConversationModelCollectionType;
-  ConversationCollectionType: ConversationModelCollectionType;
-  Conversation: typeof ConversationModel;
-  ConversationType: ConversationModel;
-  MessageCollection: typeof MessageModelCollectionType;
-  MessageCollectionType: MessageModelCollectionType;
-  MessageAttributesType: MessageAttributesType;
-  Message: typeof MessageModel;
-  MessageType: MessageModel;
-  GroupMemberConversation: WhatIsThis;
-  KeyChangeListener: WhatIsThis;
-  ClearDataView: WhatIsThis;
-  ReactWrapperView: WhatIsThis;
-  activeConfirmationView: WhatIsThis;
-  ToastView: typeof window.Whisper.View & {
-    show: (view: typeof Backbone.View, el: Element) => void;
-  };
-  ConversationArchivedToast: WhatIsThis;
-  ConversationUnarchivedToast: WhatIsThis;
-  ConversationMarkedUnreadToast: WhatIsThis;
-  WallClockListener: WhatIsThis;
-  BannerView: any;
-  RecorderView: any;
-  GroupMemberList: any;
-  GroupLinkCopiedToast: typeof Backbone.View;
-  InboxView: typeof window.Whisper.View;
-  InstallView: typeof window.Whisper.View;
-  StandaloneRegistrationView: typeof window.Whisper.View;
-  KeyVerificationPanelView: any;
-  SafetyNumberChangeDialogView: any;
-  BodyRangesType: BodyRangesType;
-  BodyRangeType: BodyRangeType;
 
   Notifications: {
     isEnabled: boolean;
@@ -643,45 +637,60 @@ export type WhisperType = {
     update: () => void;
   };
 
-  deliveryReceiptQueue: PQueue;
-  deliveryReceiptBatcher: BatcherType<DeliveryReceiptBatcherItemType>;
-  RotateSignedPreKeyListener: WhatIsThis;
+  // Backbone views
 
-  AlreadyGroupMemberToast: typeof window.Whisper.ToastView;
-  AlreadyRequestedToJoinToast: typeof window.Whisper.ToastView;
-  BlockedGroupToast: typeof window.Whisper.ToastView;
-  BlockedToast: typeof window.Whisper.ToastView;
-  CannotMixImageAndNonImageAttachmentsToast: typeof window.Whisper.ToastView;
-  CaptchaSolvedToast: typeof window.Whisper.ToastView;
-  CaptchaFailedToast: typeof window.Whisper.ToastView;
-  CannotStartGroupCallToast: typeof window.Whisper.ToastView;
-  DangerousFileTypeToast: typeof window.Whisper.ToastView;
-  DecryptionErrorToast: typeof window.Whisper.ToastView;
-  ExpiredToast: typeof window.Whisper.ToastView;
-  FileSavedToast: typeof window.Whisper.ToastView;
-  FileSizeToast: any;
-  FoundButNotLoadedToast: typeof window.Whisper.ToastView;
-  InvalidConversationToast: typeof window.Whisper.ToastView;
-  LeftGroupToast: typeof window.Whisper.ToastView;
-  MaxAttachmentsToast: typeof window.Whisper.ToastView;
-  MessageBodyTooLongToast: typeof window.Whisper.ToastView;
-  OneNonImageAtATimeToast: typeof window.Whisper.ToastView;
-  OriginalNoLongerAvailableToast: typeof window.Whisper.ToastView;
-  OriginalNotFoundToast: typeof window.Whisper.ToastView;
-  PinnedConversationsFullToast: typeof window.Whisper.ToastView;
-  ReactionFailedToast: typeof window.Whisper.ToastView;
-  DeleteForEveryoneFailedToast: typeof window.Whisper.ToastView;
-  TapToViewExpiredIncomingToast: typeof window.Whisper.ToastView;
-  TapToViewExpiredOutgoingToast: typeof window.Whisper.ToastView;
-  TimerConflictToast: typeof window.Whisper.ToastView;
-  UnableToLoadToast: typeof window.Whisper.ToastView;
-  VoiceNoteLimit: typeof window.Whisper.ToastView;
-  VoiceNoteMustBeOnlyAttachmentToast: typeof window.Whisper.ToastView;
+  // Modernized
+  ConversationView: typeof ConversationView;
 
-  ConversationLoadingScreen: typeof window.Whisper.View;
-  ConversationView: typeof window.Whisper.View;
-  View: typeof Backbone.View & {
-    Templates: Record<string, string>;
-  };
-  DisappearingTimeDialog: typeof window.Whisper.View | undefined;
+  // Note: we can no longer use 'View.extend' once we've moved to Typescript's preferred
+  //   'extend View' syntax. Thus, we'll need to typescriptify most of it at once.
+
+  // Toast
+  AlreadyGroupMemberToast: typeof AnyViewClass;
+  AlreadyRequestedToJoinToast: typeof AnyViewClass;
+  BlockedGroupToast: typeof AnyViewClass;
+  BlockedToast: typeof AnyViewClass;
+  CannotMixImageAndNonImageAttachmentsToast: typeof AnyViewClass;
+  CaptchaSolvedToast: typeof AnyViewClass;
+  CaptchaFailedToast: typeof AnyViewClass;
+  CannotStartGroupCallToast: typeof AnyViewClass;
+  ConversationArchivedToast: typeof AnyViewClass;
+  ConversationUnarchivedToast: typeof AnyViewClass;
+  ConversationMarkedUnreadToast: typeof AnyViewClass;
+  DangerousFileTypeToast: typeof AnyViewClass;
+  DecryptionErrorToast: typeof AnyViewClass;
+  ExpiredToast: typeof AnyViewClass;
+  FileSavedToast: typeof AnyViewClass;
+  FileSizeToast: typeof AnyViewClass;
+  FoundButNotLoadedToast: typeof AnyViewClass;
+  GroupLinkCopiedToast: typeof AnyViewClass;
+  InvalidConversationToast: typeof AnyViewClass;
+  LeftGroupToast: typeof AnyViewClass;
+  MaxAttachmentsToast: typeof AnyViewClass;
+  MessageBodyTooLongToast: typeof AnyViewClass;
+  OneNonImageAtATimeToast: typeof AnyViewClass;
+  OriginalNoLongerAvailableToast: typeof AnyViewClass;
+  OriginalNotFoundToast: typeof AnyViewClass;
+  PinnedConversationsFullToast: typeof AnyViewClass;
+  ReactionFailedToast: typeof AnyViewClass;
+  DeleteForEveryoneFailedToast: typeof AnyViewClass;
+  TapToViewExpiredIncomingToast: typeof AnyViewClass;
+  TapToViewExpiredOutgoingToast: typeof AnyViewClass;
+  TimerConflictToast: typeof AnyViewClass;
+  UnableToLoadToast: typeof AnyViewClass;
+  VoiceNoteLimit: typeof AnyViewClass;
+  VoiceNoteMustBeOnlyAttachmentToast: typeof AnyViewClass;
+
+  ClearDataView: typeof AnyViewClass;
+  ConversationLoadingScreen: typeof AnyViewClass;
+  GroupMemberList: typeof AnyViewClass;
+  InboxView: typeof AnyViewClass;
+  InstallView: typeof AnyViewClass;
+  KeyVerificationPanelView: typeof AnyViewClass;
+  ReactWrapperView: typeof BasicReactWrapperViewClass;
+  RecorderView: typeof AnyViewClass;
+  SafetyNumberChangeDialogView: typeof AnyViewClass;
+  StandaloneRegistrationView: typeof AnyViewClass;
+  ToastView: typeof AnyViewClass;
+  View: typeof AnyViewClass;
 };

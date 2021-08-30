@@ -22,7 +22,11 @@ import {
 } from './messages/MessageSendState';
 import { GroupNameCollisionsWithIdsByTitle } from './util/groupMemberNameCollisions';
 import { ConversationColorType } from './types/Colors';
-import { AttachmentType, ThumbnailType } from './types/Attachment';
+import {
+  AttachmentType,
+  ThumbnailType,
+  OnDiskAttachmentDraftType,
+} from './types/Attachment';
 import { EmbeddedContactType } from './types/EmbeddedContact';
 import { SignalService as Proto } from './protobuf';
 import { AvatarDataType } from './types/Avatar';
@@ -209,12 +213,8 @@ export type ConversationAttributesType = {
   customColor?: CustomColorType;
   customColorId?: string;
   discoveredUnregisteredAt?: number;
-  draftAttachments?: Array<{
-    fileName?: string;
-    path?: string;
-    pending?: boolean;
-    screenshotPath?: string;
-  }>;
+  draftChanged?: boolean;
+  draftAttachments?: Array<OnDiskAttachmentDraftType>;
   draftBodyRanges?: Array<BodyRangeType>;
   draftTimestamp?: number | null;
   inbox_position: number;

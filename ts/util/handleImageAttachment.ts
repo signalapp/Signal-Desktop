@@ -48,11 +48,13 @@ export async function handleImageAttachment(
   const blurHash = await imageToBlurHash(resizedBlob);
 
   return {
-    fileName: fileName || file.name,
+    blurHash,
     contentType,
     data,
+    fileName: fileName || file.name,
+    path: file.name,
+    pending: false,
     size: data.byteLength,
-    blurHash,
   };
 }
 

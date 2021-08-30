@@ -66,10 +66,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
 
   checkForAccount: action('checkForAccount'),
   clearSelectedMessage: action('clearSelectedMessage'),
-  deleteMessage: action('deleteMessage'),
-  deleteMessageForEveryone: action('deleteMessageForEveryone'),
   displayTapToViewMessage: action('displayTapToViewMessage'),
-  downloadAttachment: action('downloadAttachment'),
   doubleCheckMissingQuoteReference: action('doubleCheckMissingQuoteReference'),
   kickOffAttachmentDownload: action('kickOffAttachmentDownload'),
   markAttachmentAsCorrupted: action('markAttachmentAsCorrupted'),

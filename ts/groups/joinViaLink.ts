@@ -341,7 +341,9 @@ export async function joinViaLink(hash: string): Promise<void> {
 
   window.log.info(`joinViaLink/${logId}: Showing modal`);
 
-  let groupV2InfoDialog = new window.Whisper.ReactWrapperView({
+  let groupV2InfoDialog:
+    | Backbone.View
+    | undefined = new window.Whisper.ReactWrapperView({
     className: 'group-v2-join-dialog-wrapper',
     JSX: window.Signal.State.Roots.createGroupV2JoinModal(window.reduxStore, {
       join,

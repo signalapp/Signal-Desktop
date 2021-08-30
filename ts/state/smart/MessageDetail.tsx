@@ -1,10 +1,12 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { ComponentProps } from 'react';
 import { connect } from 'react-redux';
 
-import { MessageDetail } from '../../components/conversation/MessageDetail';
+import {
+  MessageDetail,
+  ExternalProps as MessageDetailProps,
+} from '../../components/conversation/MessageDetail';
 
 import { mapDispatchToProps } from '../actions';
 import { StateType } from '../reducer';
@@ -13,40 +15,10 @@ import { renderAudioAttachment } from './renderAudioAttachment';
 import { renderEmojiPicker } from './renderEmojiPicker';
 import { getContactNameColorSelector } from '../selectors/conversations';
 
-type MessageDetailProps = ComponentProps<typeof MessageDetail>;
-
 export { Contact } from '../../components/conversation/MessageDetail';
-
-export type OwnProps = Pick<
+export type OwnProps = Omit<
   MessageDetailProps,
-  | 'clearSelectedMessage'
-  | 'checkForAccount'
-  | 'contacts'
-  | 'deleteMessage'
-  | 'deleteMessageForEveryone'
-  | 'displayTapToViewMessage'
-  | 'downloadAttachment'
-  | 'doubleCheckMissingQuoteReference'
-  | 'errors'
-  | 'kickOffAttachmentDownload'
-  | 'markAttachmentAsCorrupted'
-  | 'markViewed'
-  | 'message'
-  | 'openConversation'
-  | 'openLink'
-  | 'reactToMessage'
-  | 'receivedAt'
-  | 'replyToMessage'
-  | 'retrySend'
-  | 'sendAnyway'
-  | 'sentAt'
-  | 'showContactDetail'
-  | 'showContactModal'
-  | 'showExpiredIncomingTapToViewToast'
-  | 'showExpiredOutgoingTapToViewToast'
-  | 'showForwardMessageModal'
-  | 'showSafetyNumber'
-  | 'showVisualAttachment'
+  'i18n' | 'interactionMode' | 'renderAudioAttachment' | 'renderEmojiPicker'
 >;
 
 const mapStateToProps = (
@@ -63,13 +35,7 @@ const mapStateToProps = (
     sendAnyway,
     showSafetyNumber,
 
-    checkForAccount,
-    clearSelectedMessage,
-    deleteMessage,
-    deleteMessageForEveryone,
     displayTapToViewMessage,
-    downloadAttachment,
-    doubleCheckMissingQuoteReference,
     kickOffAttachmentDownload,
     markAttachmentAsCorrupted,
     markViewed,
@@ -108,13 +74,7 @@ const mapStateToProps = (
     sendAnyway,
     showSafetyNumber,
 
-    checkForAccount,
-    clearSelectedMessage,
-    deleteMessage,
-    deleteMessageForEveryone,
     displayTapToViewMessage,
-    downloadAttachment,
-    doubleCheckMissingQuoteReference,
     kickOffAttachmentDownload,
     markAttachmentAsCorrupted,
     markViewed,

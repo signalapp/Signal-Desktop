@@ -6,6 +6,7 @@
 import { compact } from 'lodash';
 import {
   ConversationAttributesType,
+  ConversationModelCollectionType,
   MessageAttributesType,
   MessageModelCollectionType,
   QuotedMessageType,
@@ -163,11 +164,13 @@ export class ConversationModel extends window.Backbone
 
   storeName?: string | null;
 
-  throttledBumpTyping: unknown;
+  throttledBumpTyping?: () => void;
 
   throttledFetchSMSOnlyUUID?: () => Promise<void> | void;
 
   throttledMaybeMigrateV1Group?: () => Promise<void> | void;
+
+  throttledGetProfiles?: () => Promise<void>;
 
   typingRefreshTimer?: NodeJS.Timer | null;
 
@@ -2329,13 +2332,13 @@ export class ConversationModel extends window.Backbone
     });
   }
 
-  getUnverified(): Backbone.Collection<ConversationModel> {
+  getUnverified(): ConversationModelCollectionType {
     if (isDirectConversation(this.attributes)) {
       return this.isUnverified()
-        ? new window.Backbone.Collection([this])
-        : new window.Backbone.Collection();
+        ? new window.Whisper.ConversationCollection([this])
+        : new window.Whisper.ConversationCollection();
     }
-    return new window.Backbone.Collection(
+    return new window.Whisper.ConversationCollection(
       this.contactCollection?.filter(contact => {
         if (isMe(contact.attributes)) {
           return false;
@@ -2382,15 +2385,15 @@ export class ConversationModel extends window.Backbone
     });
   }
 
-  getUntrusted(): Backbone.Collection<ConversationModel> {
+  getUntrusted(): ConversationModelCollectionType {
     if (isDirectConversation(this.attributes)) {
       if (this.isUntrusted()) {
-        return new window.Backbone.Collection([this]);
+        return new window.Whisper.ConversationCollection([this]);
       }
-      return new window.Backbone.Collection();
+      return new window.Whisper.ConversationCollection();
     }
 
-    return new window.Backbone.Collection(
+    return new window.Whisper.ConversationCollection(
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       this.contactCollection!.filter(contact => {
         if (isMe(contact.attributes)) {
@@ -2470,7 +2473,7 @@ export class ConversationModel extends window.Backbone
       readStatus: ReadStatus.Unread,
       // TODO: DESKTOP-722
       // this type does not fully implement the interface it is expected to
-    } as unknown) as typeof window.Whisper.MessageAttributesType;
+    } as unknown) as MessageAttributesType;
 
     const id = await window.Signal.Data.saveMessage(message);
     const model = window.MessageController.register(
@@ -2510,7 +2513,7 @@ export class ConversationModel extends window.Backbone
       readStatus: ReadStatus.Unread,
       // TODO: DESKTOP-722
       // this type does not fully implement the interface it is expected to
-    } as unknown) as typeof window.Whisper.MessageAttributesType;
+    } as unknown) as MessageAttributesType;
 
     const id = await window.Signal.Data.saveMessage(message);
     const model = window.MessageController.register(
@@ -2546,7 +2549,7 @@ export class ConversationModel extends window.Backbone
       schemaVersion: Message.VERSION_NEEDED_FOR_DISPLAY,
       // TODO: DESKTOP-722
       // this type does not fully implement the interface it is expected to
-    } as unknown) as typeof window.Whisper.MessageAttributesType;
+    } as unknown) as MessageAttributesType;
 
     const id = await window.Signal.Data.saveMessage(message);
     const model = window.MessageController.register(
@@ -2604,7 +2607,7 @@ export class ConversationModel extends window.Backbone
       local: options.local,
       readStatus: ReadStatus.Unread,
       // TODO: DESKTOP-722
-    } as unknown) as typeof window.Whisper.MessageAttributesType;
+    } as unknown) as MessageAttributesType;
 
     const id = await window.Signal.Data.saveMessage(message);
     const model = window.MessageController.register(
@@ -2663,7 +2666,7 @@ export class ConversationModel extends window.Backbone
       readStatus: unread ? ReadStatus.Unread : ReadStatus.Read,
       callHistoryDetails: detailsToSave,
       // TODO: DESKTOP-722
-    } as unknown) as typeof window.Whisper.MessageAttributesType;
+    } as unknown) as MessageAttributesType;
 
     const id = await window.Signal.Data.saveMessage(message);
     const model = window.MessageController.register(
@@ -2714,7 +2717,7 @@ export class ConversationModel extends window.Backbone
       changedId: conversationId || this.id,
       profileChange,
       // TODO: DESKTOP-722
-    } as unknown) as typeof window.Whisper.MessageAttributesType;
+    } as unknown) as MessageAttributesType;
 
     const id = await window.Signal.Data.saveMessage(message);
     const model = window.MessageController.register(
@@ -3185,9 +3188,7 @@ export class ConversationModel extends window.Backbone
     return [];
   }
 
-  async makeQuote(
-    quotedMessage: typeof window.Whisper.MessageType
-  ): Promise<QuotedMessageType> {
+  async makeQuote(quotedMessage: MessageModel): Promise<QuotedMessageType> {
     const { getName } = EmbeddedContact;
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const contact = quotedMessage.getContact()!;
@@ -4452,10 +4453,10 @@ export class ConversationModel extends window.Backbone
     }
   }
 
-  getProfiles(): Promise<Array<void>> {
+  async getProfiles(): Promise<void> {
     // request all conversation members' keys
     const conversations = (this.getMembers() as unknown) as Array<ConversationModel>;
-    return Promise.all(
+    await Promise.all(
       window._.map(conversations, conversation =>
         getProfile(conversation.get('uuid'), conversation.get('e164'))
       )
