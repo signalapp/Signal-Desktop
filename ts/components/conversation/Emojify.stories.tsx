@@ -96,3 +96,19 @@ story.add('Custom Text Render', () => {
 
   return <Emojify {...props} />;
 });
+
+story.add('Tens of thousands of emoji', () => {
+  const props = createProps({
+    text: '💅'.repeat(40000),
+  });
+
+  return <Emojify {...props} />;
+});
+
+story.add('Tens of thousands of emoji, interspersed with text', () => {
+  const props = createProps({
+    text: '💅 hi '.repeat(40000),
+  });
+
+  return <Emojify {...props} />;
+});
