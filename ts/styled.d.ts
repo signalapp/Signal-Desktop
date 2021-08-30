@@ -28,53 +28,24 @@ declare module 'styled-components' {
       accentButton: string;
       warning: string;
       destructive: string;
-      cellBackground: string;
-      modalBackground: string;
-      fakeChatBubbleBackground: string;
-      // input
-      inputBackground: string;
       // text
       textColor: string;
       textColorSubtle: string;
-      textColorSubtleNoOpacity: string;
       textColorOpposite: string;
-      textHighlight: string;
       textAccent: string;
-      // inbox
-      inboxBackground: string;
-      // buttons
-      backgroundPrimary: string;
-      foregroundPrimary: string;
-      buttonGreen: string;
       // conversation view
-      composeViewBackground: string;
-      composeViewTextFieldBackground: string;
-      receivedMessageBackground: string;
+      composeViewButtonBackground: string;
       sentMessageBackground: string;
-      receivedMessageText: string;
       sentMessageText: string;
       sessionShadow: string;
-      sessionShadowColor: string;
       // left pane
-      conversationList: string;
-      conversationItemHasUnread: string;
-      conversationItemSelected: string;
       clickableHovered: string;
       sessionBorder: string;
       sessionBorderColor: string;
-      sessionBorderHighContrast: string;
-      sessionUnreadBorder: string;
-      leftpaneOverlayBackground: string;
       recoveryPhraseBannerBackground: string;
-      // scrollbars
-      scrollBarTrack: string;
-      scrollBarThumb: string;
       // pill divider:
       pillDividerColor: string;
-      pillDividerTextColor: string;
       // context menu
-      contextMenuBackground: string;
-      filterSessionText: string;
       lastSeenIndicatorColor: string;
       lastSeenIndicatorTextColor: string;
       quoteBottomBarBackground: string;

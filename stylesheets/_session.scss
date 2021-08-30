@@ -1039,50 +1039,6 @@ label {
   transition: $session-transition-duration !important;
 }
 
-.bottom-bar {
-  .compose {
-    max-height: 200px;
-  }
-
-  .send-message-container {
-    display: flex;
-    flex-grow: 1;
-    height: 48px;
-    margin-bottom: -5px;
-  }
-
-  textarea.send-message {
-    @include themify($themes) {
-      background: themed('composeViewBackground');
-      color: themed('textColor');
-    }
-    border: none;
-    margin: 0px;
-    padding: 0px $session-margin-lg;
-    font-size: $session-font-md;
-    line-height: 1.3em;
-    align-self: center;
-  }
-}
-
-.bottom-bar form {
-  &.send {
-    @include themify($themes) {
-      background: themed('composeViewBackground');
-    }
-  }
-
-  &.active textarea {
-    border: none;
-  }
-}
-
-.dark-theme .bottom-bar .send-message[disabled='disabled'] {
-  @include themify($themes) {
-    background: themed('composeViewBackground');
-  }
-}
-
 .session-radio-group fieldset {
   border: none;
   margin-inline-start: $session-margin-sm;

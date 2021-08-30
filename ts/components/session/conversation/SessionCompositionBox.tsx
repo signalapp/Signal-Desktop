@@ -55,6 +55,7 @@ import { connect } from 'react-redux';
 import { StateType } from '../../../state/reducer';
 import { getTheme } from '../../../state/selectors/theme';
 import { removeAllStagedAttachmentsInConversation } from '../../../state/ducks/stagedAttachments';
+import { useTheme } from 'styled-components';
 
 export interface ReplyingToMessageProps {
   convoId: string;

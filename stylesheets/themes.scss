@@ -41,7 +41,6 @@ $themes: (
     buttonGreen: #272726,
     // conversation view
       composeViewBackground: #fcfcfc,
-    composeViewTextFieldBackground: #ededed,
     receivedMessageBackground: #f5f5f5,
     sentMessageBackground: $accentLightTheme,
     receivedMessageText: $black,
@@ -65,9 +64,6 @@ $themes: (
     // context menu
       contextMenuBackground: #f5f5f5,
     filterSessionText: brightness(0) saturate(100%),
-    lastSeenIndicatorColor: #62656a,
-    lastSeenIndicatorTextColor: #070c14,
-    quoteBottomBarBackground: #f0f0f0,
   ),
   dark: (
     accent: $accentDarkTheme,
@@ -91,9 +87,8 @@ $themes: (
     foregroundPrimary: $white,
     buttonGreen: $accentDarkTheme,
     // conversation view
-      composeViewBackground: #1b1b1b,
-    composeViewTextFieldBackground: #141414,
-    receivedMessageBackground: #222325,
+      composeViewBackground: #171717,
+    receivedMessageBackground: #2d2d2d,
     sentMessageBackground: $accentDarkTheme,
     receivedMessageText: $white,
     sentMessageText: $black,
@@ -116,9 +111,6 @@ $themes: (
     // context menu
       contextMenuBackground: #212121,
     filterSessionText: none,
-    lastSeenIndicatorColor: #353535,
-    lastSeenIndicatorTextColor: #a8a9aa,
-    quoteBottomBarBackground: #404040,
   ),
 );
 
