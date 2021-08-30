@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -167,7 +167,7 @@ export class SendMessageChallengeError extends ReplayableError {
     const headers = httpError.responseHeaders || {};
 
     this.retryAfter =
-      Date.now() + parseRetryAfter(headers['retry-after'].toString());
+      Date.now() + parseRetryAfter((headers['retry-after'] ?? 0).toString());
 
     appendStack(this, httpError);
   }
