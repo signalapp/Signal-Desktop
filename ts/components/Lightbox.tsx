@@ -6,7 +6,7 @@ import is from '@sindresorhus/is';
 
 import * as GoogleChrome from '../util/GoogleChrome';
 import * as MIME from '../types/MIME';
-import { SessionIconButton, SessionIconSize, SessionIconType } from './session/icon';
+import { SessionIconButton, SessionIconType } from './session/icon';
 import { Flex } from './basic/Flex';
 import { DefaultTheme } from 'styled-components';
 // useCss has some issues on our setup. so import it directly
@@ -166,7 +166,7 @@ const IconButton = ({ onClick, type, theme }: IconButtonProps) => {
   return (
     <SessionIconButton
       iconType={iconType}
-      iconSize={SessionIconSize.Huge}
+      iconSize={'huge'}
       iconRotation={iconRotation}
       // the lightbox has a dark background
       iconColor="white"

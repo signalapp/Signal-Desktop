@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import { SessionIcon, SessionIconSize, SessionIconType } from './icon';
+import { SessionIcon, SessionIconType } from './icon';
 import styled, { useTheme } from 'styled-components';
 import { SessionButton, SessionButtonType } from './SessionButton';
 import { useDispatch, useSelector } from 'react-redux';
@@ -56,12 +56,7 @@ export const LeftPaneSectionHeader = (props: Props) => {
         {label && <Tab label={label} type={0} isSelected={true} key={label} />}
         {buttonIcon && (
           <SessionButton onClick={buttonClicked} key="compose">
-            <SessionIcon
-              iconType={buttonIcon}
-              iconSize={SessionIconSize.Small}
-              iconColor="white"
-              theme={theme}
-            />
+            <SessionIcon iconType={buttonIcon} iconSize={'small'} iconColor="white" theme={theme} />
           </SessionButton>
         )}
       </div>

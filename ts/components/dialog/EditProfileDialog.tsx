@@ -6,7 +6,7 @@ import { Avatar, AvatarSize } from '../Avatar';
 
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../session/SessionButton';
 
-import { SessionIconButton, SessionIconSize, SessionIconType } from '../session/icon';
+import { SessionIconButton, SessionIconType } from '../session/icon';
 import { PillDivider } from '../session/PillDivider';
 import { SyncUtils, ToastUtils, UserUtils } from '../../session/utils';
 import { MAX_USERNAME_LENGTH } from '../session/registration/RegistrationStages';
@@ -150,7 +150,7 @@ export class EditProfileDialog extends React.Component<{}, State> {
             <div className="qr-view-button">
               <SessionIconButton
                 iconType={SessionIconType.QR}
-                iconSize={SessionIconSize.Small}
+                iconSize={'small'}
                 iconColor={'rgb(0, 0, 0)'}
                 onClick={() => {
                   this.setState(state => ({ ...state, mode: 'qr' }));
@@ -185,7 +185,7 @@ export class EditProfileDialog extends React.Component<{}, State> {
           <p>{name}</p>
           <SessionIconButton
             iconType={SessionIconType.Pencil}
-            iconSize={SessionIconSize.Medium}
+            iconSize={'medium'}
             onClick={() => {
               this.setState({ mode: 'edit' });
             }}

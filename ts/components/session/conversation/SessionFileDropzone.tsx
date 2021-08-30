@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import styled, { ThemeContext } from 'styled-components';
 import { Flex } from '../../basic/Flex';
-import { SessionIcon, SessionIconSize, SessionIconType } from '../icon';
+import { SessionIcon, SessionIconType } from '../icon';
 
 const DropZoneContainer = styled.div`
   display: inline-block;
@@ -32,7 +32,7 @@ export const SessionFileDropzone = () => {
       <DropZoneWithBorder>
         <Flex container={true} justifyContent="space-around" height="100%" alignItems="center">
           <SessionIcon
-            iconSize={SessionIconSize.Max}
+            iconSize={'max'}
             iconType={SessionIconType.CirclePlus}
             theme={themeContext}
           />

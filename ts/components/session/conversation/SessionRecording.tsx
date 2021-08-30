@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
 
-import { SessionIconButton, SessionIconSize, SessionIconType } from '../icon';
+import { SessionIconButton, SessionIconType } from '../icon';
 import { Constants } from '../../../session';
 import { ToastUtils } from '../../../session/utils';
 import autoBind from 'auto-bind';
@@ -130,7 +130,7 @@ class SessionRecordingInner extends React.Component<Props, State> {
             {isRecording && (
               <SessionIconButton
                 iconType={SessionIconType.Pause}
-                iconSize={SessionIconSize.Medium}
+                iconSize={'medium'}
                 iconColor={Constants.UI.COLORS.DANGER_ALT}
                 onClick={actionPauseFn}
               />
@@ -138,31 +138,28 @@ class SessionRecordingInner extends React.Component<Props, State> {
             {actionPauseAudio && (
               <SessionIconButton
                 iconType={SessionIconType.Pause}
-                iconSize={SessionIconSize.Medium}
+                iconSize={'medium'}
                 onClick={actionPauseFn}
               />
             )}
             {hasRecordingAndPaused && (
               <SessionIconButton
                 iconType={SessionIconType.Play}
-                iconSize={SessionIconSize.Medium}
+                iconSize={'medium'}
                 onClick={this.playAudio}
               />
             )}
             {hasRecording && (
               <SessionIconButton
                 iconType={SessionIconType.Delete}
-                iconSize={SessionIconSize.Medium}
+                iconSize={'medium'}
                 onClick={this.onDeleteVoiceMessage}
               />
             )}
           </StyledFlexWrapper>
 
           {actionDefault && (
-            <SessionIconButton
-              iconType={SessionIconType.Microphone}
-              iconSize={SessionIconSize.Huge}
-            />
+            <SessionIconButton iconType={SessionIconType.Microphone} iconSize={'huge'} />
           )}
         </div>
 
@@ -188,7 +185,7 @@ class SessionRecordingInner extends React.Component<Props, State> {
           >
             <SessionIconButton
               iconType={SessionIconType.Send}
-              iconSize={SessionIconSize.Large}
+              iconSize={'large'}
               iconRotation={90}
               onClick={this.onSendVoiceMessage}
             />

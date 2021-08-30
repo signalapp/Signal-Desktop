@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 
-import { SessionIcon, SessionIconSize, SessionIconType } from './icon/';
+import { SessionIcon, SessionIconType } from './icon/';
 import { Flex } from '../basic/Flex';
 import styled, { ThemeContext } from 'styled-components';
 import { noop } from 'lodash';
@@ -50,7 +50,7 @@ export const SessionToast = (props: Props) => {
   const theme = useContext(ThemeContext);
 
   const toastDesc = description ? description : '';
-  const toastIconSize = toastDesc ? SessionIconSize.Huge : SessionIconSize.Medium;
+  const toastIconSize = toastDesc ? 'huge' : 'medium';
 
   // Set a custom icon or allow the theme to define the icon
   let toastIcon = icon || undefined;

@@ -26,6 +26,9 @@ const SessionIconButtonInner = (props: SProps) => {
     glowStartDelay,
     noScale,
     isHidden,
+    backgroundColor,
+    borderRadius,
+    iconPadding,
   } = props;
   const clickHandler = (e: any) => {
     if (props.onClick) {
@@ -52,6 +55,9 @@ const SessionIconButtonInner = (props: SProps) => {
         glowDuration={glowDuration}
         glowStartDelay={glowStartDelay}
         noScale={noScale}
+        backgroundColor={backgroundColor}
+        borderRadius={borderRadius}
+        iconPadding={iconPadding}
       />
       {Boolean(notificationCount) && <SessionNotificationCount count={notificationCount} />}
     </div>

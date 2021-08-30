@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React from 'react';
 import { isImageAttachment } from '../../../types/Attachment';
-import { SessionIcon, SessionIconSize, SessionIconType } from '../../session/icon';
+import { SessionIcon, SessionIconType } from '../../session/icon';
 import { ImageGrid } from '../ImageGrid';
 import { Image } from '../Image';
 import { MINIMUM_LINK_PREVIEW_IMAGE_WIDTH } from '../Message';
@@ -63,7 +63,7 @@ export const MessagePreview = (props: Props) => {
           <div className="module-message__link-preview__icon_container">
             <div className="module-message__link-preview__icon_container__inner">
               <div className="module-message__link-preview__icon-container__circle-background">
-                <SessionIcon iconType={SessionIconType.Link} iconSize={SessionIconSize.Small} />
+                <SessionIcon iconType={SessionIconType.Link} iconSize={'small'} />
               </div>
             </div>
           </div>

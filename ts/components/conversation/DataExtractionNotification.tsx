@@ -3,7 +3,7 @@ import { useTheme } from 'styled-components';
 import { PropsForDataExtractionNotification } from '../../models/messageType';
 import { SignalService } from '../../protobuf';
 import { Flex } from '../basic/Flex';
-import { SessionIcon, SessionIconSize, SessionIconType } from '../session/icon';
+import { SessionIcon, SessionIconType } from '../session/icon';
 import { SpacerXS, Text } from '../basic/Text';
 import { ReadableMessage } from './ReadableMessage';
 
@@ -35,7 +35,7 @@ export const DataExtractionNotification = (props: PropsForDataExtractionNotifica
         <SessionIcon
           iconType={SessionIconType.Upload}
           theme={theme}
-          iconSize={SessionIconSize.Small}
+          iconSize={'small'}
           iconRotation={180}
         />
         <SpacerXS />

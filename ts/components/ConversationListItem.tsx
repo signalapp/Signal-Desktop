@@ -22,7 +22,7 @@ import {
 } from '../state/ducks/conversations';
 import _ from 'underscore';
 import { useMembersAvatars } from '../hooks/useMembersAvatar';
-import { SessionIcon, SessionIconSize, SessionIconType } from './session/icon';
+import { SessionIcon, SessionIconType } from './session/icon';
 import { useSelector } from 'react-redux';
 import { SectionType } from '../state/ducks/section';
 import { getFocusedSection } from '../state/selectors/section';
@@ -88,7 +88,7 @@ const HeaderItem = (props: {
       <SessionIcon
         iconType={SessionIconType.Pin}
         iconColor={theme.colors.textColorSubtle}
-        iconSize={SessionIconSize.Tiny}
+        iconSize={'tiny'}
       />
     ) : null;
 
@@ -105,7 +105,7 @@ const HeaderItem = (props: {
           <SessionIcon
             iconType={SessionIconType.Mute}
             iconColor={theme.colors.textColorSubtle}
-            iconSize={SessionIconSize.Tiny}
+            iconSize={'tiny'}
           />
         );
       case 'mentions_only':
@@ -113,7 +113,7 @@ const HeaderItem = (props: {
           <SessionIcon
             iconType={SessionIconType.BellMention}
             iconColor={theme.colors.textColorSubtle}
-            iconSize={SessionIconSize.Tiny}
+            iconSize={'tiny'}
           />
         );
       default:

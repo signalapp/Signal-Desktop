@@ -4,7 +4,7 @@ import _, { debounce } from 'lodash';
 import { AttachmentType } from '../../../types/Attachment';
 import * as MIME from '../../../types/MIME';
 
-import { SessionIconButton, SessionIconSize, SessionIconType } from '../icon';
+import { SessionIconButton, SessionIconType } from '../icon';
 import { SessionEmojiPanel } from './SessionEmojiPanel';
 import { SessionRecording } from './SessionRecording';
 
@@ -377,14 +377,14 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
         {typingEnabled && (
           <SessionIconButton
             iconType={SessionIconType.Emoji}
-            iconSize={SessionIconSize.Large}
+            iconSize={'large'}
             onClick={this.toggleEmojiPanel}
           />
         )}
         <div className="send-message-button">
           <SessionIconButton
             iconType={SessionIconType.Send}
-            iconSize={SessionIconSize.Large}
+            iconSize={'large'}
             iconRotation={90}
             onClick={this.onSendMessage}
           />

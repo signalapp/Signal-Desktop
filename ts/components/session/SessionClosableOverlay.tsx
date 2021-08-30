@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { SessionIconButton, SessionIconSize, SessionIconType } from './icon';
+import { SessionIconButton, SessionIconType } from './icon';
 import { SessionIdEditable } from './SessionIdEditable';
 import { ContactType, SessionMemberListItem } from './SessionMemberListItem';
 import { ReduxConversationType } from '../../state/ducks/conversations';
@@ -147,7 +147,7 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
       <div className="module-left-pane-overlay">
         <div className="exit">
           <SessionIconButton
-            iconSize={SessionIconSize.Small}
+            iconSize={'small'}
             iconType={SessionIconType.Exit}
             onClick={onCloseClick}
           />

@@ -5,7 +5,6 @@ import { LibsignalProtocol } from '../../libtextsecure/libsignal-protocol';
 import { SignalInterface } from '../../js/modules/signal';
 
 import { LibTextsecure } from '../libtextsecure';
-import { ConfirmationDialogParams } from '../background';
 
 import { Store } from 'redux';
 import { DefaultTheme } from 'styled-components';

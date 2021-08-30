@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { AccentText } from './AccentText';
 
 import { RegistrationStages } from './registration/RegistrationStages';
-import { SessionIconButton, SessionIconSize, SessionIconType } from './icon';
+import { SessionIconButton, SessionIconType } from './icon';
 import { SessionToastContainer } from './SessionToastContainer';
 import { lightTheme, SessionTheme } from '../../state/ducks/SessionTheme';
 import { setSignInByLinking } from '../../session/utils/User';
@@ -19,7 +19,7 @@ export const SessionRegistrationView = () => {
         <div className="session-content-header">
           <div className="session-content-close-button">
             <SessionIconButton
-              iconSize={SessionIconSize.Medium}
+              iconSize={'medium'}
               iconType={SessionIconType.Exit}
               onClick={() => {
                 window.close();

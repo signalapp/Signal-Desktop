@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import { SessionButton, SessionButtonColor, SessionButtonType } from './SessionButton';
-import { SessionIcon, SessionIconSize, SessionIconType } from './icon';
+import { SessionIcon, SessionIconType } from './icon';
 import { SessionSettingCategory } from './settings/SessionSettings';
 import { LeftPaneSectionHeader } from './LeftPaneSectionHeader';
 import { useDispatch, useSelector } from 'react-redux';
@@ -61,7 +61,7 @@ const LeftPaneSettingsCategoryRow = (props: { item: any }) => {
       <div>
         {item.id === focusedSettingsSection && (
           <SessionIcon
-            iconSize={SessionIconSize.Medium}
+            iconSize={'medium'}
             iconType={SessionIconType.Chevron}
             iconRotation={270}
             theme={theme}

@@ -62,14 +62,7 @@ export enum SessionIconType {
   Timer60 = 'timer60',
 }
 
-export enum SessionIconSize {
-  Tiny = 'tiny',
-  Small = 'small',
-  Medium = 'medium',
-  Large = 'large',
-  Huge = 'huge',
-  Max = 'max',
-}
+export type SessionIconSize = 'tiny' | 'small' | 'medium' | 'large' | 'huge' | 'huge2' | 'max';
 
 export const icons = {
   [SessionIconType.AddUser]: {

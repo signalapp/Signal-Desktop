@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { SessionIconButton, SessionIconSize, SessionIconType } from './icon';
+import { SessionIconButton, SessionIconType } from './icon';
 import { Avatar, AvatarSize } from '../Avatar';
 import { darkTheme, lightTheme } from '../../state/ducks/SessionTheme';
 import { SessionToastContainer } from './SessionToastContainer';
@@ -118,7 +118,7 @@ const Section = (props: { type: SectionType; avatarPath?: string | null }) => {
         <ActionPanelOnionStatusLight handleClick={handleClick} isSelected={isSelected} />
       ) : (
         <SessionIconButton
-          iconSize={SessionIconSize.Medium}
+          iconSize={'medium'}
           iconType={iconType}
           iconColor={iconColor}
           notificationCount={unreadToShow}

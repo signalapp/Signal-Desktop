@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 
 import { Avatar, AvatarSize } from '../Avatar';
-import { SessionIcon, SessionIconSize, SessionIconType } from './icon';
+import { SessionIcon, SessionIconType } from './icon';
 import { Constants } from '../../session';
 import { useTheme } from 'styled-components';
 import { PubKey } from '../../session/types';
@@ -76,7 +76,7 @@ export const SessionMemberListItem = (props: Props) => {
       <span className={classNames('session-member-item__checkmark', isSelected && 'selected')}>
         <SessionIcon
           iconType={SessionIconType.Check}
-          iconSize={SessionIconSize.Medium}
+          iconSize={'medium'}
           iconColor={Constants.UI.COLORS.GREEN}
           theme={theme}
         />

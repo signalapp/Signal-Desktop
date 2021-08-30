@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import classNames from 'classnames';
 
-import { SessionIcon, SessionIconSize, SessionIconType } from './icon/';
+import { SessionIcon, SessionIconType } from './icon/';
 import { ThemeContext } from 'styled-components';
 
 export enum SessionDropDownItemType {
@@ -38,7 +38,7 @@ export const SessionDropdownItem = (props: Props) => {
       role="button"
       onClick={clickHandler}
     >
-      {icon ? <SessionIcon iconType={icon} iconSize={SessionIconSize.Small} theme={theme} /> : ''}
+      {icon ? <SessionIcon iconType={icon} iconSize={'small'} theme={theme} /> : ''}
       <div className="item-content">{content}</div>
     </div>
   );

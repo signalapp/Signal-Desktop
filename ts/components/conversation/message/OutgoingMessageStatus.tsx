@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, { useTheme } from 'styled-components';
 import { MessageDeliveryStatus } from '../../../models/messageType';
-import { SessionIcon, SessionIconSize, SessionIconType } from '../../session/icon';
+import { SessionIcon, SessionIconType } from '../../session/icon';
 
 const MessageStatusSendingContainer = styled.div`
   display: inline-block;
@@ -17,7 +17,7 @@ const MessageStatusSending = () => {
         rotateDuration={2}
         iconColor={iconColor}
         iconType={SessionIconType.Sending}
-        iconSize={SessionIconSize.Tiny}
+        iconSize={'tiny'}
       />
     </MessageStatusSendingContainer>
   );
@@ -28,11 +28,7 @@ const MessageStatusSent = () => {
 
   return (
     <MessageStatusSendingContainer>
-      <SessionIcon
-        iconColor={iconColor}
-        iconType={SessionIconType.CircleCheck}
-        iconSize={SessionIconSize.Tiny}
-      />
+      <SessionIcon iconColor={iconColor} iconType={SessionIconType.CircleCheck} iconSize={'tiny'} />
     </MessageStatusSendingContainer>
   );
 };
@@ -45,7 +41,7 @@ const MessageStatusRead = () => {
       <SessionIcon
         iconColor={iconColor}
         iconType={SessionIconType.DoubleCheckCircleFilled}
-        iconSize={SessionIconSize.Tiny}
+        iconSize={'tiny'}
       />
     </MessageStatusSendingContainer>
   );
@@ -58,7 +54,7 @@ const MessageStatusError = () => {
       <SessionIcon
         iconColor={theme.colors.destructive}
         iconType={SessionIconType.Error}
-        iconSize={SessionIconSize.Tiny}
+        iconSize={'tiny'}
       />
     </MessageStatusSendingContainer>
   );

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import classNames from 'classnames';
-import { SessionIconButton, SessionIconSize, SessionIconType } from './icon';
+import { SessionIconButton, SessionIconType } from './icon';
 import { DefaultTheme } from 'styled-components';
 
 interface Props {
@@ -110,7 +110,7 @@ export class SessionInput extends React.PureComponent<Props, State> {
     return (
       <SessionIconButton
         iconType={SessionIconType.Eye}
-        iconSize={SessionIconSize.Medium}
+        iconSize={'medium'}
         onClick={() => {
           this.setState({
             forceShow: !this.state.forceShow,

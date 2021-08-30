@@ -21,17 +21,19 @@ const getIconDimensionFromIconSize = (iconSize: SessionIconSize | number) => {
     return iconSize;
   } else {
     switch (iconSize) {
-      case SessionIconSize.Tiny:
+      case 'tiny':
         return 12;
-      case SessionIconSize.Small:
+      case 'small':
         return 15;
-      case SessionIconSize.Medium:
+      case 'medium':
         return 20;
-      case SessionIconSize.Large:
+      case 'large':
         return 25;
-      case SessionIconSize.Huge:
+      case 'huge':
         return 30;
-      case SessionIconSize.Max:
+      case 'huge2':
+        return 40;
+      case 'max':
         return 80;
       default:
         return 20;
@@ -174,9 +176,11 @@ export const SessionIcon = (props: SessionIconProps) => {
     borderRadius,
     glowStartDelay,
     noScale,
+    backgroundColor,
+    iconPadding,
   } = props;
   let { iconSize, iconRotation } = props;
-  iconSize = iconSize || SessionIconSize.Medium;
+  iconSize = iconSize || 'medium';
   iconRotation = iconRotation || 0;
 
   const themeToUse = theme || useTheme() || lightTheme;
@@ -201,6 +205,8 @@ export const SessionIcon = (props: SessionIconProps) => {
       borderRadius={borderRadius}
       iconRotation={iconRotation}
       iconColor={iconColor}
+      backgroundColor={backgroundColor}
+      iconPadding={iconPadding}
       theme={themeToUse}
     />
   );
