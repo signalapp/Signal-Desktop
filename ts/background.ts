@@ -94,6 +94,7 @@ import { SignalService as Proto } from './protobuf';
 import { onRetryRequest, onDecryptionError } from './util/handleRetry';
 import { themeChanged } from './shims/themeChanged';
 import { createIPCEvents } from './util/createIPCEvents';
+import { RemoveAllConfiguration } from './types/RemoveAllConfiguration';
 
 const MAX_ATTACHMENT_DOWNLOAD_AGE = 3600 * 72 * 1000;
 
@@ -658,7 +659,7 @@ export async function startApp(): Promise<void> {
       window.log.warn(
         `This instance has not been used for 30 days. Last heartbeat: ${lastHeartbeat}. Last startup: ${previousLastStartup}.`
       );
-      await unlinkAndDisconnect();
+      await unlinkAndDisconnect(RemoveAllConfiguration.Soft);
     }
 
     // Start heartbeat timer
@@ -3336,7 +3337,9 @@ export async function startApp(): Promise<void> {
     return false;
   }
 
-  async function unlinkAndDisconnect() {
+  async function unlinkAndDisconnect(
+    mode: RemoveAllConfiguration
+  ): Promise<void> {
     window.Whisper.events.trigger('unauthorized');
 
     if (messageReceiver) {
@@ -3369,7 +3372,7 @@ export async function startApp(): Promise<void> {
     );
 
     try {
-      await window.textsecure.storage.protocol.removeAllConfiguration();
+      await window.textsecure.storage.protocol.removeAllConfiguration(mode);
 
       // This was already done in the database with removeAllConfiguration; this does it
       //   for all the conversation models in memory.
@@ -3423,7 +3426,7 @@ export async function startApp(): Promise<void> {
       error.name === 'HTTPError' &&
       (error.code === 401 || error.code === 403)
     ) {
-      unlinkAndDisconnect();
+      unlinkAndDisconnect(RemoveAllConfiguration.Full);
       return;
     }
 

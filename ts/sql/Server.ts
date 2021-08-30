@@ -32,17 +32,20 @@ import {
 import { ReadStatus } from '../messages/MessageReadStatus';
 import { GroupV2MemberType } from '../model-types.d';
 import { ReactionType } from '../types/Reactions';
+import { STORAGE_UI_KEYS } from '../types/StorageUIKeys';
 import { StoredJob } from '../jobs/types';
 import { assert } from '../util/assert';
 import { combineNames } from '../util/combineNames';
 import { dropNull } from '../util/dropNull';
 import { isNormalNumber } from '../util/isNormalNumber';
 import { isNotNil } from '../util/isNotNil';
+import { missingCaseError } from '../util/missingCaseError';
 import { parseIntOrThrow } from '../util/parseIntOrThrow';
 import * as durations from '../util/durations';
 import { formatCountForLogging } from '../logging/formatCountForLogging';
 import { ConversationColorType, CustomColorType } from '../types/Colors';
 import { ProcessGroupCallRingRequestResult } from '../types/Calling';
+import { RemoveAllConfiguration } from '../types/RemoveAllConfiguration';
 
 import {
   AllItemsType,
@@ -5427,22 +5430,46 @@ async function removeAll(): Promise<void> {
 }
 
 // Anything that isn't user-visible data
-async function removeAllConfiguration(): Promise<void> {
+async function removeAllConfiguration(
+  mode = RemoveAllConfiguration.Full
+): Promise<void> {
   const db = getInstance();
 
   db.transaction(() => {
     db.exec(
       `
       DELETE FROM identityKeys;
-      DELETE FROM items;
       DELETE FROM preKeys;
       DELETE FROM senderKeys;
       DELETE FROM sessions;
       DELETE FROM signedPreKeys;
       DELETE FROM unprocessed;
       DELETE FROM jobs;
-    `
+      `
     );
+
+    if (mode === RemoveAllConfiguration.Full) {
+      db.exec(
+        `
+        DELETE FROM items;
+        `
+      );
+    } else if (mode === RemoveAllConfiguration.Soft) {
+      const itemIds: ReadonlyArray<string> = db
+        .prepare<EmptyQuery>('SELECT id FROM items')
+        .pluck(true)
+        .all();
+
+      const allowedSet = new Set<string>(STORAGE_UI_KEYS);
+      for (const id of itemIds) {
+        if (!allowedSet.has(id)) {
+          removeById('items', id);
+        }
+      }
+    } else {
+      throw missingCaseError(mode);
+    }
+
     db.exec(
       "UPDATE conversations SET json = json_remove(json, '$.senderKeyInfo');"
     );

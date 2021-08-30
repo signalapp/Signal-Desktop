@@ -45,6 +45,7 @@ import {
   UnprocessedUpdateType,
 } from './textsecure/Types.d';
 import { getSendOptions } from './util/getSendOptions';
+import type { RemoveAllConfiguration } from './types/RemoveAllConfiguration';
 
 const TIMESTAMP_THRESHOLD = 5 * 1000; // 5 seconds
 
@@ -1949,8 +1950,8 @@ export class SignalProtocolStore extends EventsMixin {
     await window.ConversationController.load();
   }
 
-  async removeAllConfiguration(): Promise<void> {
-    await window.Signal.Data.removeAllConfiguration();
+  async removeAllConfiguration(mode: RemoveAllConfiguration): Promise<void> {
+    await window.Signal.Data.removeAllConfiguration(mode);
     await this.hydrateCaches();
 
     window.storage.reset();

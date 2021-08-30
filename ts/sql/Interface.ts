@@ -19,6 +19,7 @@ import type { ProcessGroupCallRingRequestResult } from '../types/Calling';
 import { StorageAccessType } from '../types/Storage.d';
 import type { AttachmentType } from '../types/Attachment';
 import { BodyRangesType } from '../types/Util';
+import type { RemoveAllConfiguration } from '../types/RemoveAllConfiguration';
 
 export type AttachmentDownloadJobTypeType =
   | 'long-message'
@@ -416,7 +417,7 @@ export type DataInterface = {
   getRecentEmojis: (limit?: number) => Promise<Array<EmojiType>>;
 
   removeAll: () => Promise<void>;
-  removeAllConfiguration: () => Promise<void>;
+  removeAllConfiguration: (type?: RemoveAllConfiguration) => Promise<void>;
 
   getMessagesNeedingUpgrade: (
     limit: number,

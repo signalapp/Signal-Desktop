@@ -33,6 +33,7 @@ import { cleanDataForIpc } from './cleanDataForIpc';
 import { ReactionType } from '../types/Reactions';
 import { ConversationColorType, CustomColorType } from '../types/Colors';
 import type { ProcessGroupCallRingRequestResult } from '../types/Calling';
+import type { RemoveAllConfiguration } from '../types/RemoveAllConfiguration';
 
 import {
   ConversationModelCollectionType,
@@ -1527,8 +1528,8 @@ async function removeAll() {
   await channels.removeAll();
 }
 
-async function removeAllConfiguration() {
-  await channels.removeAllConfiguration();
+async function removeAllConfiguration(type?: RemoveAllConfiguration) {
+  await channels.removeAllConfiguration(type);
 }
 
 async function cleanupOrphanedAttachments() {

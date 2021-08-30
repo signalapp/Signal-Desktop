@@ -30,6 +30,8 @@ export type ThemeSettingType = 'system' | 'light' | 'dark';
 
 export type NotificationSettingType = 'message' | 'name' | 'count' | 'off';
 
+// This should be in sync with `UI_CONFIGURATION_KEYS` in
+// `ts/textsecure/Storage.ts`.
 export type StorageAccessType = {
   'always-relay-calls': boolean;
   'audio-notification': boolean;
