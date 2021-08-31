@@ -52,6 +52,7 @@ import {
   AttachmentDownloadJobType,
   ConversationMetricsType,
   ConversationType,
+  DeleteSentProtoRecipientOptionsType,
   EmojiType,
   IdentityKeyType,
   ItemKeyType,
@@ -2708,82 +2709,87 @@ async function insertProtoRecipients({
   })();
 }
 
-async function deleteSentProtoRecipient({
-  timestamp,
-  recipientUuid,
-  deviceId,
-}: {
-  timestamp: number;
-  recipientUuid: string;
-  deviceId: number;
-}): Promise<void> {
+async function deleteSentProtoRecipient(
+  options:
+    | DeleteSentProtoRecipientOptionsType
+    | ReadonlyArray<DeleteSentProtoRecipientOptionsType>
+): Promise<void> {
   const db = getInstance();
 
-  // Note: we use `pluck` in this function to fetch only the first column of returned row.
+  const items = Array.isArray(options) ? options : [options];
+
+  // Note: we use `pluck` in this function to fetch only the first column of
+  // returned row.
 
   db.transaction(() => {
-    // 1. Figure out what payload we're talking about.
-    const rows = prepare(
-      db,
-      `
-      SELECT sendLogPayloads.id FROM sendLogPayloads
-      INNER JOIN sendLogRecipients
-        ON sendLogRecipients.payloadId = sendLogPayloads.id
-      WHERE
-        sendLogPayloads.timestamp = $timestamp AND
-        sendLogRecipients.recipientUuid = $recipientUuid AND
-        sendLogRecipients.deviceId = $deviceId;
-     `
-    ).all({ timestamp, recipientUuid, deviceId });
-    if (!rows.length) {
-      return;
-    }
-    if (rows.length > 1) {
-      console.warn(
-        `deleteSentProtoRecipient: More than one payload matches recipient and timestamp ${timestamp}. Using the first.`
+    for (const item of items) {
+      const { timestamp, recipientUuid, deviceId } = item;
+
+      // 1. Figure out what payload we're talking about.
+      const rows = prepare(
+        db,
+        `
+        SELECT sendLogPayloads.id FROM sendLogPayloads
+        INNER JOIN sendLogRecipients
+          ON sendLogRecipients.payloadId = sendLogPayloads.id
+        WHERE
+          sendLogPayloads.timestamp = $timestamp AND
+          sendLogRecipients.recipientUuid = $recipientUuid AND
+          sendLogRecipients.deviceId = $deviceId;
+       `
+      ).all({ timestamp, recipientUuid, deviceId });
+      if (!rows.length) {
+        continue;
+      }
+      if (rows.length > 1) {
+        console.warn(
+          'deleteSentProtoRecipient: More than one payload matches ' +
+            `recipient and timestamp ${timestamp}. Using the first.`
+        );
+        continue;
+      }
+
+      const { id } = rows[0];
+
+      // 2. Delete the recipient/device combination in question.
+      prepare(
+        db,
+        `
+        DELETE FROM sendLogRecipients
+        WHERE
+          payloadId = $id AND
+          recipientUuid = $recipientUuid AND
+          deviceId = $deviceId;
+        `
+      ).run({ id, recipientUuid, deviceId });
+
+      // 3. See how many more recipient devices there were for this payload.
+      const remaining = prepare(
+        db,
+        'SELECT count(*) FROM sendLogRecipients WHERE payloadId = $id;'
+      )
+        .pluck(true)
+        .get({ id });
+
+      if (!isNumber(remaining)) {
+        throw new Error(
+          'deleteSentProtoRecipient: select count() returned non-number!'
+        );
+      }
+
+      if (remaining > 0) {
+        continue;
+      }
+
+      // 4. Delete the entire payload if there are no more recipients left.
+      console.info(
+        'deleteSentProtoRecipient: ' +
+          `Deleting proto payload for timestamp ${timestamp}`
       );
-      return;
+      prepare(db, 'DELETE FROM sendLogPayloads WHERE id = $id;').run({
+        id,
+      });
     }
-
-    const { id } = rows[0];
-
-    // 2. Delete the recipient/device combination in question.
-    prepare(
-      db,
-      `
-      DELETE FROM sendLogRecipients
-      WHERE
-        payloadId = $id AND
-        recipientUuid = $recipientUuid AND
-        deviceId = $deviceId;
-      `
-    ).run({ id, recipientUuid, deviceId });
-
-    // 3. See how many more recipient devices there were for this payload.
-    const remaining = prepare(
-      db,
-      'SELECT count(*) FROM sendLogRecipients WHERE payloadId = $id;'
-    )
-      .pluck(true)
-      .get({ id });
-
-    if (!isNumber(remaining)) {
-      throw new Error(
-        'deleteSentProtoRecipient: select count() returned non-number!'
-      );
-    }
-
-    if (remaining > 0) {
-      return;
-    }
-
-    // 4. Delete the entire payload if there are no more recipients left.
-    console.info(
-      `deleteSentProtoRecipient: Deleting proto payload for timestamp ${timestamp}`
-    );
-    prepare(db, 'DELETE FROM sendLogPayloads WHERE id = $id;').run({
-      id,
-    });
   })();
 }
 

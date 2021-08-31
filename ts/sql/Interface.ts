@@ -215,6 +215,12 @@ export type LastConversationMessagesType = {
   hasUserInitiatedMessages: boolean;
 };
 
+export type DeleteSentProtoRecipientOptionsType = Readonly<{
+  timestamp: number;
+  recipientUuid: string;
+  deviceId: number;
+}>;
+
 export type DataInterface = {
   close: () => Promise<void>;
   removeDB: () => Promise<void>;
@@ -267,11 +273,11 @@ export type DataInterface = {
     recipientUuid: string;
     deviceIds: Array<number>;
   }) => Promise<void>;
-  deleteSentProtoRecipient: (options: {
-    timestamp: number;
-    recipientUuid: string;
-    deviceId: number;
-  }) => Promise<void>;
+  deleteSentProtoRecipient: (
+    options:
+      | DeleteSentProtoRecipientOptionsType
+      | ReadonlyArray<DeleteSentProtoRecipientOptionsType>
+  ) => Promise<void>;
   getSentProtoByRecipient: (options: {
     now: number;
     recipientUuid: string;

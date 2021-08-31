@@ -13,11 +13,13 @@ import { isOutgoing } from '../state/selectors/message';
 import { isDirectConversation } from '../util/whatTypeOfConversation';
 import { getOwn } from '../util/getOwn';
 import { missingCaseError } from '../util/missingCaseError';
+import { createWaitBatcher } from '../util/waitBatcher';
 import {
   SendActionType,
   SendStatus,
   sendStateReducer,
 } from '../messages/MessageSendState';
+import type { DeleteSentProtoRecipientOptionsType } from '../sql/Interface';
 import dataInterface from '../sql/Client';
 
 const { deleteSentProtoRecipient } = dataInterface;
@@ -39,6 +41,18 @@ type MessageReceiptAttributesType = {
 class MessageReceiptModel extends Model<MessageReceiptAttributesType> {}
 
 let singleton: MessageReceipts | undefined;
+
+const deleteSentProtoBatcher = createWaitBatcher({
+  name: 'deleteSentProtoBatcher',
+  wait: 250,
+  maxSize: 30,
+  async processBatch(items: Array<DeleteSentProtoRecipientOptionsType>) {
+    window.log.info(
+      `MessageReceipts: Batching ${items.length} sent proto recipients deletes`
+    );
+    await deleteSentProtoRecipient(items);
+  },
+});
 
 async function getTargetMessage(
   sourceId: string,
@@ -202,7 +216,7 @@ export class MessageReceipts extends Collection<MessageReceiptModel> {
         const deviceId = receipt.get('sourceDevice');
 
         if (recipientUuid && deviceId) {
-          await deleteSentProtoRecipient({
+          await deleteSentProtoBatcher.add({
             timestamp: messageSentAt,
             recipientUuid,
             deviceId,

@@ -416,6 +416,49 @@ describe('sendLog', () => {
       assert.lengthOf(await getAllSentProtos(), 0);
       assert.lengthOf(await _getAllSentProtoRecipients(), 0);
     });
+
+    it('deletes multiple recipients in a single transaction', async () => {
+      const timestamp = Date.now();
+
+      const recipientUuid1 = getGuid();
+      const recipientUuid2 = getGuid();
+      const proto = {
+        contentHint: 1,
+        proto: Buffer.from(getRandomBytes(128)),
+        timestamp,
+      };
+      await insertSentProto(proto, {
+        messageIds: [getGuid()],
+        recipients: {
+          [recipientUuid1]: [1, 2],
+          [recipientUuid2]: [1],
+        },
+      });
+
+      assert.lengthOf(await getAllSentProtos(), 1);
+      assert.lengthOf(await _getAllSentProtoRecipients(), 3);
+
+      await deleteSentProtoRecipient([
+        {
+          timestamp,
+          recipientUuid: recipientUuid1,
+          deviceId: 1,
+        },
+        {
+          timestamp,
+          recipientUuid: recipientUuid1,
+          deviceId: 2,
+        },
+        {
+          timestamp,
+          recipientUuid: recipientUuid2,
+          deviceId: 1,
+        },
+      ]);
+
+      assert.lengthOf(await getAllSentProtos(), 0);
+      assert.lengthOf(await _getAllSentProtoRecipients(), 0);
+    });
   });
 
   describe('#getSentProtoByRecipient', () => {

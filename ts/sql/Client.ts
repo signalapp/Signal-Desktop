@@ -48,6 +48,7 @@ import {
   ClientJobType,
   ClientSearchResultMessageType,
   ConversationType,
+  DeleteSentProtoRecipientOptionsType,
   IdentityKeyType,
   ItemKeyType,
   ItemType,
@@ -825,11 +826,11 @@ async function insertProtoRecipients(options: {
 }): Promise<void> {
   await channels.insertProtoRecipients(options);
 }
-async function deleteSentProtoRecipient(options: {
-  timestamp: number;
-  recipientUuid: string;
-  deviceId: number;
-}): Promise<void> {
+async function deleteSentProtoRecipient(
+  options:
+    | DeleteSentProtoRecipientOptionsType
+    | ReadonlyArray<DeleteSentProtoRecipientOptionsType>
+): Promise<void> {
   await channels.deleteSentProtoRecipient(options);
 }
 
