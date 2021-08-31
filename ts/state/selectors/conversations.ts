@@ -146,9 +146,10 @@ export type MessagePropsType =
   | 'unread-indicator';
 
 export const getSortedMessagesTypesOfSelectedConversation = createSelector(
-  getMessagesOfSelectedConversation,
+  getSortedMessagesOfSelectedConversation,
   getFirstUnreadMessageId,
   (sortedMessages, firstUnreadId) => {
+    const maxMessagesBetweenTwoDateBreaks = 5;
     // we want to show the date break if there is a large jump in time
     // remember that messages are sorted from the most recent to the oldest
     return sortedMessages.map((msg, index) => {
@@ -159,9 +160,11 @@ export const getSortedMessagesTypesOfSelectedConversation = createSelector(
           ? 0
           : sortedMessages[index + 1].propsForMessage.serverTimestamp ||
             sortedMessages[index + 1].propsForMessage.timestamp;
-      // more than 10 minutes
+
       const showDateBreak =
-        messageTimestamp - previousMessageTimestamp > 10 * 60 * 1000 ? messageTimestamp : undefined;
+        messageTimestamp - previousMessageTimestamp > maxMessagesBetweenTwoDateBreaks * 60 * 1000
+          ? messageTimestamp
+          : undefined;
 
       if (msg.propsForDataExtractionNotification) {
         return {

@@ -31,7 +31,6 @@ class SessionPasswordPromptInner extends React.PureComponent<{ theme: DefaultThe
   }
 
   public componentDidMount() {
-    console.warn('this.inputRef', this.inputRef);
     setTimeout(() => {
       this.inputRef?.focus();
     }, 100);

@@ -1011,14 +1011,16 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     await this.commit();
   }
 
-  public async commit() {
+  public async commit(triggerUIUpdate = true) {
     if (!this.attributes.id) {
       throw new Error('A message always needs an id');
     }
 
     perfStart(`messageCommit-${this.attributes.id}`);
     const id = await saveMessage(this.attributes);
-    this.dispatchMessageUpdate();
+    if (triggerUIUpdate) {
+      this.dispatchMessageUpdate();
+    }
     perfEnd(`messageCommit-${this.attributes.id}`, 'messageCommit');
 
     return id;

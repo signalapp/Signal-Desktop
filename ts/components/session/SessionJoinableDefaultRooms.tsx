@@ -143,7 +143,7 @@ const SessionJoinableRoomRow = (props: JoinableRoomProps) => {
         <SessionJoinableRoomName {...props} />
       </PillContainerHoverable>
 
-      {showTooltip && <StyledToolTip>{props.name}</StyledToolTip>}
+      {showTooltip && false && <StyledToolTip>{props.name}</StyledToolTip>}
     </PillTooltipWrapper>
   );
 };

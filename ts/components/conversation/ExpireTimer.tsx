@@ -50,12 +50,11 @@ export const ExpireTimer = (props: Props) => {
   }, [expirationTimestamp, timeLeft, setTimeLeft]);
 
   const updateFrequency = 500;
+  useInterval(update, updateFrequency);
 
   if (!(isCorrectSide && expirationLength && expirationTimestamp)) {
     return null;
   }
-
-  useInterval(update, updateFrequency);
 
   const expireTimerColor = theme.colors.textColor;
 
