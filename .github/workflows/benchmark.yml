@@ -51,7 +51,7 @@ jobs:
       run: yarn install --frozen-lockfile
 
     - name: Install Mock-Server node_modules
-      run: npm ci
+      run: yarn install --frozen-lockfile
       working-directory: Mock-Server
 
     - name: Build typescript
