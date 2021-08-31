@@ -1607,7 +1607,9 @@ export async function startApp(): Promise<void> {
     window._.debounce(enqueueReconnectToWebSocket, 1000, { maxWait: 5000 })
   );
 
-  window.Whisper.events.on('unlinkAndDisconnect', unlinkAndDisconnect);
+  window.Whisper.events.on('unlinkAndDisconnect', () => {
+    unlinkAndDisconnect(RemoveAllConfiguration.Full);
+  });
 
   function runStorageService() {
     window.Signal.Services.enableStorageService();
