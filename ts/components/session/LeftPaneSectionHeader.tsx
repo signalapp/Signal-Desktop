@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import { SessionIcon, SessionIconType } from './icon';
-import styled, { useTheme } from 'styled-components';
+import styled from 'styled-components';
 import { SessionButton, SessionButtonType } from './SessionButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { disableRecoveryPhrasePrompt } from '../../state/ducks/userConfig';
@@ -47,7 +47,6 @@ type Props = {
 
 export const LeftPaneSectionHeader = (props: Props) => {
   const { label, buttonIcon, buttonClicked } = props;
-  const theme = useTheme();
   const showRecoveryPhrasePrompt = useSelector(getShowRecoveryPhrasePrompt);
 
   return (
@@ -56,7 +55,7 @@ export const LeftPaneSectionHeader = (props: Props) => {
         {label && <Tab label={label} type={0} isSelected={true} key={label} />}
         {buttonIcon && (
           <SessionButton onClick={buttonClicked} key="compose">
-            <SessionIcon iconType={buttonIcon} iconSize={'small'} iconColor="white" theme={theme} />
+            <SessionIcon iconType={buttonIcon} iconSize={'small'} iconColor="white" />
           </SessionButton>
         )}
       </div>
@@ -97,8 +96,6 @@ export const LeftPaneBanner = () => {
     );
   };
 
-  const theme = useTheme();
-
   return (
     <StyledLeftPaneBanner>
       <StyledProgressBarContainer>
@@ -107,11 +104,7 @@ export const LeftPaneBanner = () => {
       <StyledBannerTitle>
         {window.i18n('recoveryPhraseSecureTitle')} <span>90%</span>
       </StyledBannerTitle>
-      <Flex
-        flexDirection="column"
-        justifyContent="space-between"
-        padding={`${theme.common.margins.sm}`}
-      >
+      <Flex flexDirection="column" justifyContent="space-between" padding={'var(--margins-sm)'}>
         <BannerInner />
       </Flex>
     </StyledLeftPaneBanner>
@@ -157,10 +150,10 @@ const StyledBannerInner = styled.div`
   }
 
   .left-pane-banner___phrase {
-    margin-top: ${props => props.theme.common.margins.md};
+    margin-top: var(--margins-md);
   }
 
   .session-button {
-    margin-top: ${props => props.theme.common.margins.sm};
+    margin-top: var(--margins-sm);
   }
 `;

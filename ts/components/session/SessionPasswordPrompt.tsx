@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { SessionIcon } from './icon';
 import { SessionButton, SessionButtonColor, SessionButtonType } from './SessionButton';
 import { Constants } from '../../session';
-import { DefaultTheme, withTheme } from 'styled-components';
+import { withTheme } from 'styled-components';
 import autoBind from 'auto-bind';
 
 interface State {
@@ -15,7 +15,7 @@ interface State {
 
 export const MAX_LOGIN_TRIES = 3;
 
-class SessionPasswordPromptInner extends React.PureComponent<{ theme: DefaultTheme }, State> {
+class SessionPasswordPromptInner extends React.PureComponent<{}, State> {
   private inputRef?: any;
 
   constructor(props: any) {
@@ -67,14 +67,9 @@ class SessionPasswordPromptInner extends React.PureComponent<{ theme: DefaultThe
       />
     );
     const infoIcon = this.state.clearDataView ? (
-      <SessionIcon iconType="warning" iconSize={35} iconColor="#ce0000" theme={this.props.theme} />
+      <SessionIcon iconType="warning" iconSize={35} iconColor="#ce0000" />
     ) : (
-      <SessionIcon
-        iconType="lock"
-        iconSize={35}
-        iconColor={Constants.UI.COLORS.GREEN}
-        theme={this.props.theme}
-      />
+      <SessionIcon iconType="lock" iconSize={35} iconColor={Constants.UI.COLORS.GREEN} />
     );
     const errorSection = !this.state.clearDataView && (
       <div className="password-prompt-error-section">

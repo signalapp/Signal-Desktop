@@ -87,10 +87,10 @@ const StyledRoomName = styled(Flex)`
 `;
 
 const StyledToolTip = styled.div`
-  padding: ${props => props.theme.common.margins.sm};
-  background: ${props => props.theme.colors.clickableHovered};
-  font-size: ${props => props.theme.common.fonts.xs};
-  border: 1px solid ${props => props.theme.colors.pillDividerColor};
+  padding: var(--margins-sm);
+  background: var(--color-clickable-hovered);
+  font-size: var(--font-size-xs);
+  border: 1px solid var(--color-pill-divider);
   display: inline-block;
   position: absolute;
   white-space: normal;

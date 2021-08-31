@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, { useTheme } from 'styled-components';
+import styled from 'styled-components';
 import { MessageDeliveryStatus } from '../../../models/messageType';
 import { SessionIcon } from '../../session/icon';
 
@@ -10,7 +10,7 @@ const MessageStatusSendingContainer = styled.div`
 `;
 
 const MessageStatusSending = () => {
-  const iconColor = useTheme().colors.textColor;
+  const iconColor = 'var(--color-text)';
   return (
     <MessageStatusSendingContainer>
       <SessionIcon rotateDuration={2} iconColor={iconColor} iconType="sending" iconSize={'tiny'} />
@@ -19,7 +19,7 @@ const MessageStatusSending = () => {
 };
 
 const MessageStatusSent = () => {
-  const iconColor = useTheme().colors.textColor;
+  const iconColor = 'var(--color-text)';
 
   return (
     <MessageStatusSendingContainer>
@@ -29,7 +29,7 @@ const MessageStatusSent = () => {
 };
 
 const MessageStatusRead = () => {
-  const iconColor = useTheme().colors.textColor;
+  const iconColor = 'var(--color-text)';
 
   return (
     <MessageStatusSendingContainer>
@@ -39,10 +39,9 @@ const MessageStatusRead = () => {
 };
 
 const MessageStatusError = () => {
-  const theme = useTheme();
   return (
     <MessageStatusSendingContainer title={window.i18n('sendFailed')}>
-      <SessionIcon iconColor={theme.colors.destructive} iconType="error" iconSize={'tiny'} />
+      <SessionIcon iconColor={'var(--color-destructibe'} iconType="error" iconSize={'tiny'} />
     </MessageStatusSendingContainer>
   );
 };

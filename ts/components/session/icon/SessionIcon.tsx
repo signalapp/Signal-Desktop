@@ -1,7 +1,6 @@
 import React from 'react';
 import { icons, SessionIconSize, SessionIconType } from '../icon';
-import styled, { css, DefaultTheme, keyframes, useTheme } from 'styled-components';
-import { lightTheme } from '../../../state/ducks/SessionTheme';
+import styled, { css, keyframes } from 'styled-components';
 
 export type SessionIconProps = {
   iconType: SessionIconType;
@@ -14,7 +13,6 @@ export type SessionIconProps = {
   borderRadius?: string;
   glowStartDelay?: number;
   noScale?: boolean;
-  theme?: DefaultTheme;
   backgroundColor?: string;
 };
 
@@ -150,9 +148,8 @@ const SessionSvg = (props: {
   borderRadius?: string;
   backgroundColor?: string;
   iconPadding?: string;
-  theme: DefaultTheme;
 }) => {
-  const colorSvg = props.iconColor || props?.theme?.colors.textColor;
+  const colorSvg = props.iconColor || 'var(--colors-text)';
   const pathArray = props.path instanceof Array ? props.path : [props.path];
   const propsToPick = {
     width: props.width,
@@ -182,7 +179,6 @@ export const SessionIcon = (props: SessionIconProps) => {
   const {
     iconType,
     iconColor,
-    theme,
     rotateDuration,
     glowDuration,
     borderRadius,
@@ -195,14 +191,9 @@ export const SessionIcon = (props: SessionIconProps) => {
   iconSize = iconSize || 'medium';
   iconRotation = iconRotation || 0;
 
-  const themeToUse = theme || useTheme() || lightTheme;
-
   const iconDimensions = getIconDimensionFromIconSize(iconSize);
   const iconDef = icons[iconType];
   const ratio = iconDef?.ratio || 1;
-  if (!themeToUse) {
-    window?.log?.error('Missing theme props in SessionIcon');
-  }
 
   return (
     <SessionSvg
@@ -219,7 +210,6 @@ export const SessionIcon = (props: SessionIconProps) => {
       iconColor={iconColor}
       backgroundColor={backgroundColor}
       iconPadding={iconPadding}
-      theme={themeToUse}
     />
   );
 };

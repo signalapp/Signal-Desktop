@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { SessionIconButton, SessionIconType } from './icon';
 import { Avatar, AvatarSize } from '../Avatar';
-import { darkTheme, lightTheme } from '../../state/ducks/SessionTheme';
 import { SessionToastContainer } from './SessionToastContainer';
 import { getConversationController } from '../../session/conversations';
 import { syncConfigurationIfNeeded } from '../../session/utils/syncUtils';
@@ -23,7 +22,6 @@ import {
   getOurPrimaryConversation,
   getUnreadMessageCount,
 } from '../../state/selectors/conversations';
-import { getTheme } from '../../state/selectors/theme';
 import { applyTheme } from '../../state/ducks/theme';
 import { getFocusedSection } from '../../state/selectors/section';
 import { useInterval } from '../../hooks/useInterval';
@@ -48,7 +46,6 @@ import { ActionPanelOnionStatusLight } from '../dialog/OnionStatusPathDialog';
 const Section = (props: { type: SectionType; avatarPath?: string | null }) => {
   const ourNumber = useSelector(getOurNumber);
   const unreadMessageCount = useSelector(getUnreadMessageCount);
-  const theme = useSelector(getTheme);
   const dispatch = useDispatch();
   const { type, avatarPath } = props;
 
@@ -64,7 +61,7 @@ const Section = (props: { type: SectionType; avatarPath?: string | null }) => {
       const updatedTheme = themeFromSettings === 'dark' ? 'light' : 'dark';
       window.setTheme(updatedTheme);
 
-      const newThemeObject = updatedTheme === 'dark' ? darkTheme : lightTheme;
+      const newThemeObject = updatedTheme === 'dark' ? 'dark' : 'light';
       dispatch(applyTheme(newThemeObject));
     } else if (type === SectionType.PathIndicator) {
       // Show Path Indicator Modal
@@ -124,7 +121,6 @@ const Section = (props: { type: SectionType; avatarPath?: string | null }) => {
           notificationCount={unreadToShow}
           onClick={handleClick}
           isSelected={isSelected}
-          theme={theme}
         />
       )}
     </>
@@ -137,7 +133,7 @@ const setupTheme = () => {
   const theme = window.Events.getThemeSetting();
   window.setTheme(theme);
 
-  const newThemeObject = theme === 'dark' ? darkTheme : lightTheme;
+  const newThemeObject = theme === 'dark' ? 'dark' : 'light';
   window?.inboxStore?.dispatch(applyTheme(newThemeObject));
 };
 

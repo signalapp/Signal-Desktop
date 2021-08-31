@@ -2,7 +2,6 @@ import React from 'react';
 
 import classNames from 'classnames';
 import { SessionIconButton } from './icon';
-import { DefaultTheme } from 'styled-components';
 
 interface Props {
   label?: string;
@@ -16,7 +15,6 @@ interface Props {
   onEnterPressed?: any;
   autoFocus?: boolean;
   ref?: any;
-  theme: DefaultTheme;
 }
 
 interface State {
@@ -116,7 +114,6 @@ export class SessionInput extends React.PureComponent<Props, State> {
             forceShow: !this.state.forceShow,
           });
         }}
-        theme={this.props.theme}
       />
     );
   }

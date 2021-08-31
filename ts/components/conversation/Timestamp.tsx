@@ -25,7 +25,7 @@ const TimestampContainerListItem = styled.div`
   white-space: nowrap;
   text-overflow: ellipsis;
   text-transform: uppercase;
-  color: ${props => props.theme.colors.textColor};
+  color: var(--color-text);
 `;
 
 const TimestampContainerNotListItem = styled.div`
@@ -34,7 +34,7 @@ const TimestampContainerNotListItem = styled.div`
   letter-spacing: 0.3px;
   text-transform: uppercase;
   user-select: none;
-  color: ${props => props.theme.colors.textColor};
+  color: var(--color-text);
 `;
 
 export const Timestamp = (props: Props) => {

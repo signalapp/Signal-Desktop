@@ -1,5 +1,4 @@
-import React, { useContext, useState } from 'react';
-import { ThemeContext } from 'styled-components';
+import React, { useState } from 'react';
 
 import { SessionIcon, SessionIconType } from './icon/';
 import { SessionDropdownItem, SessionDropDownItemType } from './SessionDropdownItem';
@@ -23,7 +22,6 @@ type Props = {
 export const SessionDropdown = (props: Props) => {
   const { label, options } = props;
   const [expanded, setExpanded] = useState(!!props.expanded);
-  const theme = useContext(ThemeContext);
   const chevronOrientation = expanded ? 180 : 0;
 
   return (
@@ -36,12 +34,7 @@ export const SessionDropdown = (props: Props) => {
         role="button"
       >
         {label}
-        <SessionIcon
-          iconType="chevron"
-          iconSize={'small'}
-          iconRotation={chevronOrientation}
-          theme={theme}
-        />
+        <SessionIcon iconType="chevron" iconSize={'small'} iconRotation={chevronOrientation} />
       </div>
 
       {expanded && (

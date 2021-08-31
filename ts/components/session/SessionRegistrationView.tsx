@@ -4,7 +4,7 @@ import { AccentText } from './AccentText';
 import { RegistrationStages } from './registration/RegistrationStages';
 import { SessionIconButton } from './icon';
 import { SessionToastContainer } from './SessionToastContainer';
-import { lightTheme, SessionTheme } from '../../state/ducks/SessionTheme';
+import { SessionTheme } from '../../state/ducks/SessionTheme';
 import { setSignInByLinking } from '../../session/utils/User';
 
 export const SessionRegistrationView = () => {
@@ -12,9 +12,9 @@ export const SessionRegistrationView = () => {
     setSignInByLinking(false);
   }, []);
   return (
-    <SessionTheme theme={lightTheme}>
+    <SessionTheme>
       <div className="session-content">
-        <SessionToastContainer theme={lightTheme} />
+        <SessionToastContainer />
         <div id="error" className="collapse" />
         <div className="session-content-header">
           <div className="session-content-close-button">
@@ -24,7 +24,6 @@ export const SessionRegistrationView = () => {
               onClick={() => {
                 window.close();
               }}
-              theme={lightTheme}
             />
           </div>
           <div className="session-content-session-button">

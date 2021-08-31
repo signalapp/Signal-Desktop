@@ -8,12 +8,10 @@ import * as GoogleChrome from '../util/GoogleChrome';
 import * as MIME from '../types/MIME';
 import { SessionIconButton, SessionIconType } from './session/icon';
 import { Flex } from './basic/Flex';
-import { DefaultTheme } from 'styled-components';
 // useCss has some issues on our setup. so import it directly
 // tslint:disable-next-line: no-submodule-imports
 import useUnmount from 'react-use/lib/useUnmount';
 import { useEncryptedFileFetch } from '../hooks/useEncryptedFileFetch';
-import { darkTheme } from '../state/ducks/SessionTheme';
 import { useDispatch } from 'react-redux';
 import { showLightBox } from '../state/ducks/conversations';
 
@@ -132,10 +130,9 @@ interface IconButtonProps {
   onClick?: () => void;
   style?: React.CSSProperties;
   type: 'save' | 'close' | 'previous' | 'next';
-  theme: DefaultTheme;
 }
 
-const IconButton = ({ onClick, type, theme }: IconButtonProps) => {
+const IconButton = ({ onClick, type }: IconButtonProps) => {
   const clickHandler = (_event: React.MouseEvent<HTMLAnchorElement>): void => {
     if (!onClick) {
       return;
@@ -171,7 +168,6 @@ const IconButton = ({ onClick, type, theme }: IconButtonProps) => {
       // the lightbox has a dark background
       iconColor="white"
       onClick={clickHandler}
-      theme={theme}
     />
   );
 };
@@ -275,7 +271,7 @@ export const Lightbox = (props: Props) => {
   const videoRef = useRef<any>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   // there is no theme in use on the lightbox
-  const theme = darkTheme;
+  // const theme = darkTheme;
   const dispatch = useDispatch();
   const { caption, contentType, objectURL, onNext, onPrevious, onSave } = props;
 
@@ -320,26 +316,19 @@ export const Lightbox = (props: Props) => {
               onClick={() => {
                 dispatch(showLightBox(undefined));
               }}
-              theme={theme}
             />
           </Flex>
 
-          {onSave ? (
-            <IconButton type="save" onClick={onSave} style={styles.saveButton} theme={theme} />
-          ) : null}
+          {onSave ? <IconButton type="save" onClick={onSave} style={styles.saveButton} /> : null}
         </div>
       </div>
       <div style={styles.navigationContainer as any}>
         {onPrevious ? (
-          <IconButton type="previous" onClick={onPrevious} theme={theme} />
+          <IconButton type="previous" onClick={onPrevious} />
         ) : (
           <IconButtonPlaceholder />
         )}
-        {onNext ? (
-          <IconButton type="next" onClick={onNext} theme={theme} />
-        ) : (
-          <IconButtonPlaceholder />
-        )}
+        {onNext ? <IconButton type="next" onClick={onNext} /> : <IconButtonPlaceholder />}
       </div>
     </div>
   );

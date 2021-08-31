@@ -2,7 +2,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import H5AudioPlayer, { RHAP_UI } from 'react-h5-audio-player';
 import { useDispatch, useSelector } from 'react-redux';
-import { useTheme } from 'styled-components';
 import { useEncryptedFileFetch } from '../../hooks/useEncryptedFileFetch';
 import { setNextMessageToPlayId } from '../../state/ducks/conversations';
 import {
@@ -18,8 +17,6 @@ export const AudioPlayerWithEncryptedFile = (props: {
   contentType: string;
   messageId: string;
 }) => {
-  const theme = useTheme();
-
   const dispatch = useDispatch();
   const [playbackSpeed, setPlaybackSpeed] = useState(1.0);
   const { urlToLoad } = useEncryptedFileFetch(props.src, props.contentType);
@@ -97,7 +94,6 @@ export const AudioPlayerWithEncryptedFile = (props: {
         <div className="speedButton" key="togglePlaybackSpeed">
           <SessionButton
             text={`${playbackSpeed}x`}
-            theme={theme}
             onClick={() => {
               setPlaybackSpeed(playbackSpeed === 1 ? 1.5 : 1);
             }}
@@ -111,16 +107,14 @@ export const AudioPlayerWithEncryptedFile = (props: {
           <SessionIcon
             iconType="play"
             iconSize={'small'}
-            iconColor={theme.colors.textColorSubtle}
-            theme={theme}
+            iconColor={'var(--color-text-color-subtle)'}
           />
         ),
         pause: (
           <SessionIcon
             iconType="pause"
             iconSize={'small'}
-            iconColor={theme.colors.textColorSubtle}
-            theme={theme}
+            iconColor={'var(--color-text-color-subtle)'}
           />
         ),
       }}

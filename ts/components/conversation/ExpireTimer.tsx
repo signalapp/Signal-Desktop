@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react';
 
 import { getTimerBucketIcon } from '../../util/timer';
 import { useInterval } from '../../hooks/useInterval';
-import styled, { useTheme } from 'styled-components';
+import styled from 'styled-components';
 import { SessionIcon } from '../session/icon';
 
 type Props = {
@@ -30,7 +30,7 @@ const ExpireTimerBucket = styled.div`
   letter-spacing: 0.3px;
   text-transform: uppercase;
   user-select: none;
-  color: ${props => props.theme.colors.textColor};
+  color: var(--color-text);
 `;
 
 export const ExpireTimer = (props: Props) => {
@@ -38,7 +38,6 @@ export const ExpireTimer = (props: Props) => {
 
   const initialTimeLeft = Math.max(Math.round(((expirationTimestamp || 0) - Date.now()) / 1000), 0);
   const [timeLeft, setTimeLeft] = useState(initialTimeLeft);
-  const theme = useTheme();
 
   const update = useCallback(() => {
     if (expirationTimestamp) {
@@ -56,7 +55,7 @@ export const ExpireTimer = (props: Props) => {
     return null;
   }
 
-  const expireTimerColor = theme.colors.textColor;
+  const expireTimerColor = 'var(--color-text-color)';
 
   if (timeLeft <= 60) {
     return <ExpireTimerCount color={expireTimerColor}>{timeLeft}</ExpireTimerCount>;
@@ -65,7 +64,7 @@ export const ExpireTimer = (props: Props) => {
 
   return (
     <ExpireTimerBucket>
-      <SessionIcon iconType={bucket} iconSize={'tiny'} iconColor={expireTimerColor} theme={theme} />
+      <SessionIcon iconType={bucket} iconSize={'tiny'} iconColor={expireTimerColor} />
     </ExpireTimerBucket>
   );
 };

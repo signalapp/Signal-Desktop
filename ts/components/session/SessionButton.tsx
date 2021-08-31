@@ -1,6 +1,5 @@
 import React, { ReactNode } from 'react';
 import classNames from 'classnames';
-import { DefaultTheme } from 'styled-components';
 
 export enum SessionButtonType {
   Brand = 'brand',
@@ -31,7 +30,6 @@ type Props = {
   buttonColor: SessionButtonColor;
   onClick: any;
   children?: ReactNode;
-  theme: DefaultTheme;
 };
 
 export const SessionButton = (props: Props) => {

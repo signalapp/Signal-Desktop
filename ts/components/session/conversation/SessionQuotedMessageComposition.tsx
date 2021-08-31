@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { Flex } from '../../basic/Flex';
 import { SessionIcon, SessionIconButton } from '../icon';
-import styled, { useTheme } from 'styled-components';
+import styled from 'styled-components';
 import { getAlt, isAudio } from '../../../types/Attachment';
 import { Image } from '../../conversation/Image';
 import { AUDIO_MP3 } from '../../../types/MIME';
@@ -11,16 +11,16 @@ import { quoteMessage } from '../../../state/ducks/conversations';
 
 const QuotedMessageComposition = styled.div`
   width: 100%;
-  padding-inline-end: ${props => props.theme.common.margins.md};
-  padding-inline-start: ${props => props.theme.common.margins.md};
+  padding-inline-end: var(--margins-md);
+  padding-inline-start: var(--margins-md);
 `;
 
 const QuotedMessageCompositionReply = styled.div`
-  background: ${props => props.theme.colors.quoteBottomBarBackground};
-  border-radius: ${props => props.theme.common.margins.sm};
-  padding: ${props => props.theme.common.margins.xs};
-  box-shadow: ${props => props.theme.colors.sessionShadow};
-  margin: ${props => props.theme.common.margins.xs};
+  background: var(--color-quote-bottom-bar-background);
+  border-radius: var(--margins-sm);
+  padding: var(--margins-xs);
+  box-shadow: --color-session-shadow;
+  margin: var(--margins-xs);
 `;
 
 const Subtle = styled.div`
@@ -30,15 +30,14 @@ const Subtle = styled.div`
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   display: -webkit-box;
-  color: ${props => props.theme.colors.textColor};
+  color: var(--color-text);
 `;
 
 const ReplyingTo = styled.div`
-  color: ${props => props.theme.colors.textColor};
+  color: var(--color-text);
 `;
 
 export const SessionQuotedMessageComposition = () => {
-  const theme = useTheme();
   const quotedMessageProps = useSelector(getQuotedMessage);
 
   const dispatch = useDispatch();
@@ -68,23 +67,18 @@ export const SessionQuotedMessageComposition = () => {
   }
 
   return (
-    <QuotedMessageComposition theme={theme}>
+    <QuotedMessageComposition>
       <Flex
         container={true}
         justifyContent="space-between"
         flexGrow={1}
-        margin={theme.common.margins.xs}
+        margin={'var(--margins-xs)'}
       >
         <ReplyingTo>{window.i18n('replyingToMessage')}</ReplyingTo>
-        <SessionIconButton
-          iconType="exit"
-          iconSize={'small'}
-          onClick={removeQuotedMessage}
-          theme={theme}
-        />
+        <SessionIconButton iconType="exit" iconSize={'small'} onClick={removeQuotedMessage} />
       </Flex>
       <QuotedMessageCompositionReply>
-        <Flex container={true} justifyContent="space-between" margin={theme.common.margins.xs}>
+        <Flex container={true} justifyContent="space-between" margin={'var(--margins-xs)'}>
           <Subtle>{(hasAttachments && window.i18n('mediaMessage')) || body}</Subtle>
 
           {hasImageAttachment && (
@@ -97,9 +91,7 @@ export const SessionQuotedMessageComposition = () => {
             />
           )}
 
-          {hasAudioAttachment && (
-            <SessionIcon iconType="microphone" iconSize="huge" theme={theme} />
-          )}
+          {hasAudioAttachment && <SessionIcon iconType="microphone" iconSize="huge" />}
         </Flex>
       </QuotedMessageCompositionReply>
     </QuotedMessageComposition>

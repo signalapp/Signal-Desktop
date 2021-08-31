@@ -1,15 +1,14 @@
 export const APPLY_THEME = 'APPLY_THEME';
-export type ThemeStateType = typeof lightTheme;
 
+export type ThemeStateType = 'light' | 'dark';
 export const applyTheme = (theme: ThemeStateType) => {
   return {
     type: APPLY_THEME,
     payload: theme,
   };
 };
-import { lightTheme } from './SessionTheme';
 
-export const initialThemeState = lightTheme;
+export const initialThemeState: ThemeStateType = 'light';
 
 export const reducer = (
   state: any = initialThemeState,

@@ -13,7 +13,7 @@ import { ConversationAvatar } from './session/usingClosedConversationDetails';
 import { MemoConversationListItemContextMenu } from './session/menu/ConversationListItemContextMenu';
 import { createPortal } from 'react-dom';
 import { OutgoingMessageStatus } from './conversation/message/OutgoingMessageStatus';
-import styled, { useTheme } from 'styled-components';
+import styled from 'styled-components';
 import { PubKey } from '../session/types';
 import {
   LastMessageType,
@@ -72,7 +72,6 @@ const HeaderItem = (props: {
     name,
     currentNotificationSetting,
   } = props;
-  const theme = useTheme();
 
   let atSymbol = null;
   let unreadCountDiv = null;
@@ -85,7 +84,7 @@ const HeaderItem = (props: {
 
   const pinIcon =
     isMessagesSection && isPinned ? (
-      <SessionIcon iconType="pin" iconColor={theme.colors.textColorSubtle} iconSize={'tiny'} />
+      <SessionIcon iconType="pin" iconColor={'var(--text-color-subtle)'} iconSize={'tiny'} />
     ) : null;
 
   const NotificationSettingIcon = () => {
@@ -98,11 +97,11 @@ const HeaderItem = (props: {
         return null;
       case 'disabled':
         return (
-          <SessionIcon iconType="mute" iconColor={theme.colors.textColorSubtle} iconSize={'tiny'} />
+          <SessionIcon iconType="mute" iconColor={'var(--text-color-subtle)'} iconSize={'tiny'} />
         );
       case 'mentions_only':
         return (
-          <SessionIcon iconType="bell" iconColor={theme.colors.textColorSubtle} iconSize={'tiny'} />
+          <SessionIcon iconType="bell" iconColor={'var(--text-color-subtle)'} iconSize={'tiny'} />
         );
       default:
         return null;

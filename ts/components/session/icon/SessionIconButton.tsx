@@ -2,14 +2,12 @@ import React from 'react';
 import classNames from 'classnames';
 import { SessionIcon, SessionIconProps } from '../icon';
 import { SessionNotificationCount } from '../SessionNotificationCount';
-import { DefaultTheme, useTheme } from 'styled-components';
 import _ from 'lodash';
 
 interface SProps extends SessionIconProps {
   onClick?: any;
   notificationCount?: number;
   isSelected?: boolean;
-  theme?: DefaultTheme;
   isHidden?: boolean;
 }
 
@@ -21,7 +19,6 @@ const SessionIconButtonInner = (props: SProps) => {
     iconRotation,
     isSelected,
     notificationCount,
-    theme,
     glowDuration,
     glowStartDelay,
     noScale,
@@ -37,8 +34,6 @@ const SessionIconButtonInner = (props: SProps) => {
     }
   };
 
-  const themeToUSe = theme || useTheme();
-
   return (
     <div
       className={classNames('session-icon-button', iconSize, isSelected ? 'no-opacity' : '')}
@@ -51,7 +46,6 @@ const SessionIconButtonInner = (props: SProps) => {
         iconSize={iconSize}
         iconColor={iconColor}
         iconRotation={iconRotation}
-        theme={themeToUSe}
         glowDuration={glowDuration}
         glowStartDelay={glowStartDelay}
         noScale={noScale}

@@ -7,7 +7,6 @@ import { MediaGallery } from '../../conversation/media-gallery/MediaGallery';
 import _ from 'lodash';
 import { Constants } from '../../../session';
 import { AttachmentTypeWithPath } from '../../../types/Attachment';
-import { useTheme } from 'styled-components';
 import {
   getMessagesWithFileAttachments,
   getMessagesWithVisualMediaAttachments,
@@ -110,7 +109,6 @@ async function getMediaGalleryProps(
 
 const HeaderItem = () => {
   const selectedConversation = useSelector(getSelectedConversation);
-  const theme = useTheme();
   const dispatch = useDispatch();
   const memberDetails = useMembersAvatars(selectedConversation);
 
@@ -141,7 +139,6 @@ const HeaderItem = () => {
         onClick={() => {
           dispatch(closeRightPanel());
         }}
-        theme={theme}
       />
       <Avatar
         avatarPath={avatarPath || ''}
@@ -160,7 +157,6 @@ const HeaderItem = () => {
                 showInviteContactByConvoId(selectedConversation.id);
               }
             }}
-            theme={theme}
           />
         )}
       </div>

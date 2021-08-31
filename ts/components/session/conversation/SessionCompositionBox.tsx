@@ -55,7 +55,6 @@ import { connect } from 'react-redux';
 import { StateType } from '../../../state/reducer';
 import { getTheme } from '../../../state/selectors/theme';
 import { removeAllStagedAttachmentsInConversation } from '../../../state/ducks/stagedAttachments';
-import { useTheme } from 'styled-components';
 
 export interface ReplyingToMessageProps {
   convoId: string;
@@ -89,11 +88,10 @@ export type SendMessageType = {
 };
 
 const AddStagedAttachmentButton = (props: { onClick: () => void }) => {
-  const theme = useTheme();
   return (
     <SessionIconButton
       iconType="plusThin"
-      backgroundColor={theme.colors.composeViewButtonBackground}
+      backgroundColor={'var(--color-compose-view-background)'}
       iconSize={'huge2'}
       borderRadius="300px"
       iconPadding="8px"
@@ -103,13 +101,11 @@ const AddStagedAttachmentButton = (props: { onClick: () => void }) => {
 };
 
 const StartRecordingButton = (props: { onClick: () => void }) => {
-  const theme = useTheme();
-
   return (
     <SessionIconButton
       iconType="microphone"
       iconSize={'huge2'}
-      backgroundColor={theme.colors.composeViewButtonBackground}
+      backgroundColor={'var(--color-compose-view-background)'}
       borderRadius="300px"
       iconPadding="6px"
       onClick={props.onClick}
@@ -118,11 +114,10 @@ const StartRecordingButton = (props: { onClick: () => void }) => {
 };
 
 const ToggleEmojiButton = (props: { onClick: () => void }) => {
-  const theme = useTheme();
   return (
     <SessionIconButton
       iconType="emoji"
-      backgroundColor={theme.colors.composeViewButtonBackground}
+      backgroundColor="var(--color-quote-bottom-bar-background)"
       iconSize={'huge2'}
       borderRadius="300px"
       iconPadding="6px"
@@ -132,12 +127,11 @@ const ToggleEmojiButton = (props: { onClick: () => void }) => {
 };
 
 const SendMessageButton = (props: { onClick: () => void }) => {
-  const theme = useTheme();
   return (
     <div className="send-message-button">
       <SessionIconButton
         iconType="send"
-        backgroundColor={theme.colors.composeViewButtonBackground}
+        backgroundColor={'var(--color-compose-view-background)'}
         iconSize={'huge2'}
         iconRotation={90}
         borderRadius="300px"

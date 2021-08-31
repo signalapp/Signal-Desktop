@@ -1,7 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { DefaultTheme } from 'styled-components';
 import { SessionIconButton, SessionIconType } from '../session/icon';
 import { SessionButtonColor, SessionButtonType } from '../session/SessionButton';
 
@@ -23,7 +22,6 @@ interface Props {
     text: string;
     onClick?: any;
   }>;
-  theme: DefaultTheme;
 }
 
 interface State {
@@ -81,12 +79,7 @@ export class SessionModal extends React.PureComponent<Props, State> {
             <div className={classNames('session-modal__header', headerReverse && 'reverse')}>
               <div className="session-modal__header__close">
                 {showExitIcon ? (
-                  <SessionIconButton
-                    iconType="exit"
-                    iconSize={'small'}
-                    onClick={this.close}
-                    theme={this.props.theme}
-                  />
+                  <SessionIconButton iconType="exit" iconSize={'small'} onClick={this.close} />
                 ) : null}
               </div>
               <div className="session-modal__header__title">{title}</div>
@@ -100,7 +93,6 @@ export class SessionModal extends React.PureComponent<Props, State> {
                           iconSize={'large'}
                           iconRotation={iconItem.iconRotation}
                           onClick={iconItem.onClick}
-                          theme={this.props.theme}
                         />
                       );
                     })
