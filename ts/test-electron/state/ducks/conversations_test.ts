@@ -45,6 +45,7 @@ const {
   closeRecommendedGroupSizeModal,
   createGroup,
   messageSizeChanged,
+  messageStoppedByMissingVerification,
   openConversationInternal,
   repairNewestMessage,
   repairOldestMessage,
@@ -884,6 +885,35 @@ describe('both/state/ducks/conversations', () => {
           result.messagesByConversation[conversationId]
             ?.heightChangeMessageIds || [],
           [messageId]
+        );
+      });
+    });
+
+    describe('MESSAGE_STOPPED_BY_MISSING_VERIFICATION', () => {
+      it('adds messages that need conversation verification, removing duplicates', () => {
+        const first = reducer(
+          getEmptyState(),
+          messageStoppedByMissingVerification('message 1', ['convo 1'])
+        );
+        const second = reducer(
+          first,
+          messageStoppedByMissingVerification('message 1', ['convo 2'])
+        );
+        const third = reducer(
+          second,
+          messageStoppedByMissingVerification('message 2', [
+            'convo 1',
+            'convo 3',
+          ])
+        );
+
+        assert.deepStrictEqual(
+          third.outboundMessagesPendingConversationVerification,
+          {
+            'convo 1': ['message 1', 'message 2'],
+            'convo 2': ['message 1'],
+            'convo 3': ['message 2'],
+          }
         );
       });
     });

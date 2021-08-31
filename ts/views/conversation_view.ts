@@ -145,7 +145,6 @@ type MessageActionsType = {
   ) => unknown;
   replyToMessage: (messageId: string) => unknown;
   retrySend: (messageId: string) => unknown;
-  sendAnyway: (contactId: string, messageId: string) => unknown;
   showContactDetail: (options: {
     contact: EmbeddedContactType;
     signalAccount?: string;
@@ -1057,9 +1056,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     const downloadNewVersion = () => {
       this.downloadNewVersion();
     };
-    const sendAnyway = (contactId: string, messageId: string) => {
-      this.forceSend({ contactId, messageId });
-    };
     const showSafetyNumber = (contactId: string) => {
       this.showSafetyNumber(contactId);
     };
@@ -1092,7 +1088,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       reactToMessage,
       replyToMessage,
       retrySend,
-      sendAnyway,
       showContactDetail,
       showContactModal,
       showSafetyNumber,
@@ -2657,7 +2652,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
                 }
               : undefined;
 
-            conversation.sendMessage(
+            conversation.enqueueMessageForSend(
               undefined, // body
               [],
               undefined, // quote
@@ -2683,7 +2678,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
                 )
             );
 
-            conversation.sendMessage(
+            conversation.enqueueMessageForSend(
               messageBody || undefined,
               attachmentsToSend,
               undefined, // quote
@@ -2943,49 +2938,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
     this.listenBack(view);
     view.render();
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  forceSend({
-    contactId,
-    messageId,
-  }: Readonly<{ contactId: string; messageId: string }>): void {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const contact = window.ConversationController.get(contactId)!;
-    const message = window.MessageController.getById(messageId);
-    if (!message) {
-      throw new Error(`forceSend: Message ${messageId} missing!`);
-    }
-
-    window.showConfirmationDialog({
-      confirmStyle: 'negative',
-      message: window.i18n('identityKeyErrorOnSend', {
-        name1: contact.getTitle(),
-        name2: contact.getTitle(),
-      }),
-      okText: window.i18n('sendAnyway'),
-      resolve: async () => {
-        await contact.updateVerified();
-
-        if (contact.isUnverified()) {
-          await contact.setVerifiedDefault();
-        }
-
-        const untrusted = await contact.isUntrusted();
-        if (untrusted) {
-          contact.setApproved();
-        }
-
-        const sendTarget = contact.getSendTarget();
-        if (!sendTarget) {
-          throw new Error(
-            `forceSend: Contact ${contact.idForLogging()} had no sendTarget!`
-          );
-        }
-
-        message.resend(sendTarget);
-      },
-    });
   }
 
   showSafetyNumber(id?: string): void {
@@ -4200,7 +4152,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       window.log.info('Send pre-checks took', sendDelta, 'milliseconds');
 
       batchedUpdates(() => {
-        model.sendMessage(
+        model.enqueueMessageForSend(
           message,
           attachments,
           this.quote,

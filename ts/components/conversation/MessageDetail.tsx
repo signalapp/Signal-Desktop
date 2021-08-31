@@ -53,7 +53,6 @@ export type PropsData = {
   receivedAt: number;
   sentAt: number;
 
-  sendAnyway: (contactId: string, messageId: string) => unknown;
   showSafetyNumber: (contactId: string) => void;
   i18n: LocalizerType;
 } & Pick<MessagePropsType, 'interactionMode'>;
@@ -145,7 +144,7 @@ export class MessageDetail extends React.Component<Props> {
   }
 
   public renderContact(contact: Contact): JSX.Element {
-    const { i18n, message, showSafetyNumber, sendAnyway } = this.props;
+    const { i18n, showSafetyNumber } = this.props;
     const errors = contact.errors || [];
 
     const errorComponent = contact.isOutgoingKeyError ? (
@@ -156,13 +155,6 @@ export class MessageDetail extends React.Component<Props> {
           onClick={() => showSafetyNumber(contact.id)}
         >
           {i18n('showSafetyNumber')}
-        </button>
-        <button
-          type="button"
-          className="module-message-detail__contact__send-anyway"
-          onClick={() => sendAnyway(contact.id, message.id)}
-        >
-          {i18n('sendAnyway')}
         </button>
       </div>
     ) : null;

@@ -27,11 +27,14 @@ import {
   getConversationByIdSelector,
   getConversationsByTitleSelector,
   getConversationSelector,
+  getConversationsStoppingMessageSendBecauseOfVerification,
   getFilteredCandidateContactsForNewGroup,
   getFilteredComposeContacts,
   getFilteredComposeGroups,
   getInvitedContactsForNewlyCreatedGroup,
   getMaximumGroupSizeModalState,
+  getMessageIdsPendingBecauseOfVerification,
+  getNumberOfMessagesPendingBecauseOfVerification,
   getPlaceholderContact,
   getRecommendedGroupSizeModalState,
   getSelectedConversation,
@@ -263,6 +266,100 @@ describe('both/state/selectors/conversations', () => {
       const thirdActual = thirdSelector(id);
 
       assert.notStrictEqual(actual, thirdActual);
+    });
+  });
+
+  describe('#getConversationsStoppingMessageSendBecauseOfVerification', () => {
+    it('returns an empty array if there are no conversations stopping send', () => {
+      const state = getEmptyRootState();
+
+      assert.isEmpty(
+        getConversationsStoppingMessageSendBecauseOfVerification(state)
+      );
+    });
+
+    it('returns all conversations stopping message send', () => {
+      const convo1 = makeConversation('abc');
+      const convo2 = makeConversation('def');
+      const state = {
+        ...getEmptyRootState(),
+        conversations: {
+          ...getEmptyState(),
+          conversationLookup: {
+            def: convo2,
+            abc: convo1,
+          },
+          outboundMessagesPendingConversationVerification: {
+            def: ['message 2', 'message 3'],
+            abc: ['message 1', 'message 2'],
+          },
+        },
+      };
+
+      assert.deepEqual(
+        getConversationsStoppingMessageSendBecauseOfVerification(state),
+        [convo1, convo2]
+      );
+    });
+  });
+
+  describe('#getMessageIdsPendingBecauseOfVerification', () => {
+    it('returns an empty set if there are no conversations stopping send', () => {
+      const state = getEmptyRootState();
+
+      assert.deepEqual(
+        getMessageIdsPendingBecauseOfVerification(state),
+        new Set()
+      );
+    });
+
+    it('returns a set of unique pending messages', () => {
+      const state = {
+        ...getEmptyRootState(),
+        conversations: {
+          ...getEmptyState(),
+          outboundMessagesPendingConversationVerification: {
+            abc: ['message 2', 'message 3'],
+            def: ['message 1', 'message 2'],
+            ghi: ['message 4'],
+          },
+        },
+      };
+
+      assert.deepEqual(
+        getMessageIdsPendingBecauseOfVerification(state),
+        new Set(['message 1', 'message 2', 'message 3', 'message 4'])
+      );
+    });
+  });
+
+  describe('#getNumberOfMessagesPendingBecauseOfVerification', () => {
+    it('returns 0 if there are no conversations stopping send', () => {
+      const state = getEmptyRootState();
+
+      assert.strictEqual(
+        getNumberOfMessagesPendingBecauseOfVerification(state),
+        0
+      );
+    });
+
+    it('returns a count of unique pending messages', () => {
+      const state = {
+        ...getEmptyRootState(),
+        conversations: {
+          ...getEmptyState(),
+          outboundMessagesPendingConversationVerification: {
+            abc: ['message 2', 'message 3'],
+            def: ['message 1', 'message 2'],
+            ghi: ['message 4'],
+          },
+        },
+      };
+
+      assert.strictEqual(
+        getNumberOfMessagesPendingBecauseOfVerification(state),
+        4
+      );
     });
   });
 

@@ -32,7 +32,6 @@ const mapStateToProps = (
     receivedAt,
     sentAt,
 
-    sendAnyway,
     showSafetyNumber,
 
     displayTapToViewMessage,
@@ -71,7 +70,6 @@ const mapStateToProps = (
     i18n: getIntl(state),
     interactionMode: getInteractionMode(state),
 
-    sendAnyway,
     showSafetyNumber,
 
     displayTapToViewMessage,

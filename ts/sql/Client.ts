@@ -40,6 +40,7 @@ import {
   MessageModelCollectionType,
 } from '../model-types.d';
 import { StoredJob } from '../jobs/types';
+import { formatJobForInsert } from '../jobs/formatJobForInsert';
 
 import {
   AttachmentDownloadJobType,
@@ -206,6 +207,7 @@ const dataInterface: ClientInterface = {
 
   getMessageBySender,
   getMessageById,
+  getMessagesById,
   getAllMessageIds,
   getMessagesBySentAt,
   getExpiredMessages,
@@ -1070,9 +1072,12 @@ async function getMessageCount(conversationId?: string) {
 
 async function saveMessage(
   data: MessageType,
-  options?: { forceSave?: boolean }
+  options: { jobToInsert?: Readonly<StoredJob>; forceSave?: boolean } = {}
 ) {
-  const id = await channels.saveMessage(_cleanMessageData(data), options);
+  const id = await channels.saveMessage(_cleanMessageData(data), {
+    ...options,
+    jobToInsert: options.jobToInsert && formatJobForInsert(options.jobToInsert),
+  });
 
   window.Whisper.ExpiringMessagesListener.update();
   window.Whisper.TapToViewMessagesListener.update();
@@ -1122,6 +1127,13 @@ async function getMessageById(
   }
 
   return new Message(message);
+}
+
+async function getMessagesById(messageIds: Array<string>) {
+  if (!messageIds.length) {
+    return [];
+  }
+  return channels.getMessagesById(messageIds);
 }
 
 // For testing only

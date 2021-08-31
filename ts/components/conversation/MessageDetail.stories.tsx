@@ -61,7 +61,6 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   i18n,
   interactionMode: 'keyboard',
 
-  sendAnyway: action('onSendAnyway'),
   showSafetyNumber: action('onShowSafetyNumber'),
 
   checkForAccount: action('checkForAccount'),

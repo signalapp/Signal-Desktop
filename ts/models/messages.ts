@@ -1,7 +1,7 @@
 // Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { isEmpty, isEqual, noop, omit, union } from 'lodash';
+import { isEmpty, isEqual, mapValues, noop, omit, union } from 'lodash';
 import {
   CustomError,
   GroupV1Update,
@@ -43,7 +43,6 @@ import {
 import * as Stickers from '../types/Stickers';
 import { AttachmentType, isImage, isVideo } from '../types/Attachment';
 import { IMAGE_WEBP, stringToMIMEType } from '../types/MIME';
-import { ourProfileKeyService } from '../services/ourProfileKey';
 import { ReadStatus } from '../messages/MessageReadStatus';
 import {
   SendActionType,
@@ -112,6 +111,8 @@ import { ViewOnceOpenSyncs } from '../messageModifiers/ViewOnceOpenSyncs';
 import * as AttachmentDownloads from '../messageModifiers/AttachmentDownloads';
 import * as LinkPreview from '../types/LinkPreview';
 import { SignalService as Proto } from '../protobuf';
+import { normalMessageSendJobQueue } from '../jobs/normalMessageSendJobQueue';
+import type { PreviewType as OutgoingPreviewType } from '../textsecure/SendMessage';
 
 /* eslint-disable camelcase */
 /* eslint-disable more/no-then */
@@ -134,10 +135,6 @@ const {
 } = window.Signal.Types;
 const {
   deleteExternalMessageFiles,
-  loadAttachmentData,
-  loadQuoteData,
-  loadPreviewData,
-  loadStickerData,
   upgradeMessageSchema,
 } = window.Signal.Migrations;
 const { getTextWithMentions, GoogleChrome } = window.Signal.Util;
@@ -189,6 +186,12 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   private pendingMarkRead?: number;
 
   syncPromise?: Promise<CallbackResultType | void>;
+
+  cachedOutgoingPreviewData?: Array<OutgoingPreviewType>;
+
+  cachedOutgoingQuoteData?: WhatIsThis;
+
+  cachedOutgoingStickerData?: WhatIsThis;
 
   initialize(attributes: unknown): void {
     if (_.isObject(attributes)) {
@@ -1200,42 +1203,27 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     return window.ConversationController.getOrCreate(source, 'private');
   }
 
-  // Send infrastructure
-  // One caller today: event handler for the 'Retry Send' entry in triple-dot menu
-  async retrySend(): Promise<string | null | void | Array<void>> {
-    if (!window.textsecure.messaging) {
-      window.log.error('retrySend: Cannot retry since we are offline!');
-      return null;
-    }
-
+  async retrySend(): Promise<void> {
     const retryOptions = this.get('retryOptions');
-
-    this.set({ errors: undefined, retryOptions: undefined });
-
     if (retryOptions) {
+      if (!window.textsecure.messaging) {
+        window.log.error('retrySend: Cannot retry since we are offline!');
+        return;
+      }
+      this.unset('errors');
+      this.unset('retryOptions');
       return this.sendUtilityMessageWithRetry(retryOptions);
     }
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const conversation = this.getConversation()!;
-    const currentRecipients = new Set<string>(
-      conversation
-        .getRecipients()
-        .map(identifier =>
-          window.ConversationController.getConversationId(identifier)
-        )
-        .filter(isNotNil)
-    );
 
-    const profileKey = conversation.get('profileSharing')
-      ? await ourProfileKeyService.get()
-      : undefined;
+    const currentConversationRecipients = conversation.getRecipientConversationIds();
 
     // Determine retry recipients and get their most up-to-date addressing information
     const oldSendStateByConversationId =
       this.get('sendStateByConversationId') || {};
 
-    const recipients: Array<string> = [];
     const newSendStateByConversationId = { ...oldSendStateByConversationId };
     for (const [conversationId, sendState] of Object.entries(
       oldSendStateByConversationId
@@ -1244,15 +1232,12 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         continue;
       }
 
-      const isStillInConversation = currentRecipients.has(conversationId);
-      if (!isStillInConversation) {
-        continue;
-      }
-
-      const recipient = window.ConversationController.get(
-        conversationId
-      )?.getSendTarget();
-      if (!recipient) {
+      const recipient = window.ConversationController.get(conversationId);
+      if (
+        !recipient ||
+        (!currentConversationRecipients.has(conversationId) &&
+          !isMe(recipient.attributes))
+      ) {
         continue;
       }
 
@@ -1263,133 +1248,15 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           updatedAt: Date.now(),
         }
       );
-      recipients.push(recipient);
     }
 
     this.set('sendStateByConversationId', newSendStateByConversationId);
 
-    await window.Signal.Data.saveMessage(this.attributes);
-
-    if (!recipients.length) {
-      window.log.warn('retrySend: Nobody to send to!');
-      return undefined;
-    }
-
-    const attachmentsWithData = await Promise.all(
-      (this.get('attachments') || []).map(loadAttachmentData)
-    );
-    const {
-      body,
-      attachments,
-    } = window.Whisper.Message.getLongMessageAttachment({
-      body: this.get('body'),
-      attachments: attachmentsWithData,
-      now: this.get('sent_at'),
-    });
-
-    const quoteWithData = await loadQuoteData(this.get('quote'));
-    const previewWithData = await loadPreviewData(this.get('preview'));
-    const stickerWithData = await loadStickerData(this.get('sticker'));
-    const ourNumber = window.textsecure.storage.user.getNumber();
-
-    // Special-case the self-send case - we send only a sync message
-    if (
-      recipients.length === 1 &&
-      (recipients[0] === ourNumber || recipients[0] === this.OUR_UUID)
-    ) {
-      const dataMessage = await window.textsecure.messaging.getDataMessage({
-        attachments,
-        body,
-        deletedForEveryoneTimestamp: this.get('deletedForEveryoneTimestamp'),
-        expireTimer: this.get('expireTimer'),
-        // flags
-        mentions: this.get('bodyRanges'),
-        preview: previewWithData,
-        profileKey,
-        quote: quoteWithData,
-        reaction: null,
-        recipients,
-        sticker: stickerWithData,
-        timestamp: this.get('sent_at'),
-      });
-
-      return this.sendSyncMessageOnly(dataMessage);
-    }
-
-    let promise;
-    const options = await getSendOptions(conversation.attributes);
-
-    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
-
-    if (isDirectConversation(conversation.attributes)) {
-      const [identifier] = recipients;
-
-      promise = window.textsecure.messaging.sendMessageToIdentifier({
-        identifier,
-        messageText: body,
-        attachments,
-        quote: quoteWithData,
-        preview: previewWithData,
-        sticker: stickerWithData,
-        reaction: null,
-        deletedForEveryoneTimestamp: this.get('deletedForEveryoneTimestamp'),
-        timestamp: this.get('sent_at'),
-        expireTimer: this.get('expireTimer'),
-        contentHint: ContentHint.RESENDABLE,
-        groupId: undefined,
-        profileKey,
-        options,
-      });
-    } else {
-      const initialGroupV2 = conversation.getGroupV2Info();
-      const groupId = conversation.get('groupId');
-      if (!groupId) {
-        throw new Error("retrySend: Conversation didn't have groupId");
+    await normalMessageSendJobQueue.add(
+      { messageId: this.id, conversationId: conversation.id },
+      async jobToInsert => {
+        await window.Signal.Data.saveMessage(this.attributes, { jobToInsert });
       }
-
-      const groupV2 = initialGroupV2
-        ? {
-            ...initialGroupV2,
-            members: recipients,
-          }
-        : undefined;
-      const groupV1 = groupV2
-        ? undefined
-        : {
-            id: groupId,
-            members: recipients,
-          };
-
-      promise = window.Signal.Util.sendToGroup({
-        groupSendOptions: {
-          messageText: body,
-          timestamp: this.get('sent_at'),
-          attachments,
-          quote: quoteWithData,
-          preview: previewWithData,
-          sticker: stickerWithData,
-          expireTimer: this.get('expireTimer'),
-          mentions: this.get('bodyRanges'),
-          profileKey,
-          groupV2,
-          groupV1,
-        },
-        conversation,
-        contentHint: ContentHint.RESENDABLE,
-        // Important to ensure that we don't consider this recipient list to be the
-        //   entire member list.
-        isPartialSend: true,
-        messageId: this.id,
-        sendOptions: options,
-        sendType: 'messageRetry',
-      });
-    }
-
-    return this.send(
-      handleMessageSend(promise, {
-        messageIds: [this.id],
-        sendType: 'messageRetry',
-      })
     );
   }
 
@@ -1414,118 +1281,20 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     return isEmpty(withoutMe) || someSendStatus(withoutMe, isSent);
   }
 
-  // Called when the user ran into an error with a specific user, wants to send to them
-  //   One caller today: ConversationView.forceSend()
-  async resend(identifier: string): Promise<void | null | Array<void>> {
-    const error = this.removeOutgoingErrors(identifier);
-    if (!error) {
-      window.log.warn(
-        'resend: requested number was not present in errors. continuing.'
-      );
-    }
-
-    if (this.isErased()) {
-      window.log.warn('resend: message is erased; refusing to resend');
-      return null;
-    }
-
-    const profileKey = undefined;
-    const attachmentsWithData = await Promise.all(
-      (this.get('attachments') || []).map(loadAttachmentData)
-    );
-    const {
-      body,
-      attachments,
-    } = window.Whisper.Message.getLongMessageAttachment({
-      body: this.get('body'),
-      attachments: attachmentsWithData,
-      now: this.get('sent_at'),
-    });
-
-    const quoteWithData = await loadQuoteData(this.get('quote'));
-    const previewWithData = await loadPreviewData(this.get('preview'));
-    const stickerWithData = await loadStickerData(this.get('sticker'));
-    const ourNumber = window.textsecure.storage.user.getNumber();
-
-    // Special-case the self-send case - we send only a sync message
-    if (identifier === ourNumber || identifier === this.OUR_UUID) {
-      const dataMessage = await window.textsecure.messaging.getDataMessage({
-        attachments,
-        body,
-        deletedForEveryoneTimestamp: this.get('deletedForEveryoneTimestamp'),
-        expireTimer: this.get('expireTimer'),
-        mentions: this.get('bodyRanges'),
-        preview: previewWithData,
-        profileKey,
-        quote: quoteWithData,
-        reaction: null,
-        recipients: [identifier],
-        sticker: stickerWithData,
-        timestamp: this.get('sent_at'),
-      });
-
-      return this.sendSyncMessageOnly(dataMessage);
-    }
-
-    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
-    const parentConversation = this.getConversation();
-    const groupId = parentConversation?.get('groupId');
-
-    const recipientConversation = window.ConversationController.get(identifier);
-    const sendOptions = recipientConversation
-      ? await getSendOptions(recipientConversation.attributes)
-      : undefined;
-    const group =
-      groupId && isGroupV1(parentConversation?.attributes)
-        ? {
-            id: groupId,
-            type: Proto.GroupContext.Type.DELIVER,
-          }
-        : undefined;
-
-    const timestamp = this.get('sent_at');
-    const contentMessage = await window.textsecure.messaging.getContentMessage({
-      attachments,
-      body,
-      expireTimer: this.get('expireTimer'),
-      group,
-      groupV2: parentConversation?.getGroupV2Info(),
-      preview: previewWithData,
-      quote: quoteWithData,
-      mentions: this.get('bodyRanges'),
-      recipients: [identifier],
-      sticker: stickerWithData,
-      timestamp,
-    });
-
-    if (parentConversation) {
-      const senderKeyInfo = parentConversation.get('senderKeyInfo');
-      if (senderKeyInfo && senderKeyInfo.distributionId) {
-        const senderKeyDistributionMessage = await window.textsecure.messaging.getSenderKeyDistributionMessage(
-          senderKeyInfo.distributionId
-        );
-
-        contentMessage.senderKeyDistributionMessage = senderKeyDistributionMessage.serialize();
-      }
-    }
-
-    const promise = window.textsecure.messaging.sendMessageProtoAndWait({
-      timestamp,
-      recipients: [identifier],
-      proto: contentMessage,
-      contentHint: ContentHint.RESENDABLE,
-      groupId:
-        groupId && isGroupV2(parentConversation?.attributes)
-          ? groupId
-          : undefined,
-      options: sendOptions,
-    });
-
-    return this.send(
-      handleMessageSend(promise, {
-        messageIds: [this.id],
-        sendType: 'messageRetry',
-      })
+  /**
+   * Change any Pending send state to Failed. Note that this will not mark successful
+   * sends failed.
+   */
+  public markFailed(): void {
+    const now = Date.now();
+    this.set(
+      'sendStateByConversationId',
+      mapValues(this.get('sendStateByConversationId') || {}, sendState =>
+        sendStateReducer(sendState, {
+          type: SendActionType.Failed,
+          updatedAt: now,
+        })
+      )
     );
   }
 
@@ -1552,7 +1321,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   }
 
   async send(
-    promise: Promise<CallbackResultType | void | null>
+    promise: Promise<CallbackResultType | void | null>,
+    saveErrors?: (errors: Array<Error>) => void
   ): Promise<void | Array<void>> {
     const updateLeftPane =
       this.getConversation()?.debouncedUpdateLastMessage || noop;
@@ -1655,7 +1425,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         window.ConversationController.get(error.identifier) ||
         window.ConversationController.get(error.number);
 
-      if (conversation) {
+      if (conversation && !saveErrors) {
         const previousSendState = getOwn(
           sendStateByConversationId,
           conversation.id
@@ -1719,8 +1489,12 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     attributesToUpdate.errors = [];
 
     this.set(attributesToUpdate);
-    // We skip save because we'll save in the next step.
-    this.saveErrors(errorsToSave, { skipSave: true });
+    if (saveErrors) {
+      saveErrors(errorsToSave);
+    } else {
+      // We skip save because we'll save in the next step.
+      this.saveErrors(errorsToSave, { skipSave: true });
+    }
 
     if (!this.doNotSave) {
       await window.Signal.Data.saveMessage(this.attributes);
@@ -1733,6 +1507,14 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     }
 
     await Promise.all(promises);
+
+    const isTotalSuccess: boolean =
+      result.success && !this.get('errors')?.length;
+    if (isTotalSuccess) {
+      delete this.cachedOutgoingPreviewData;
+      delete this.cachedOutgoingQuoteData;
+      delete this.cachedOutgoingStickerData;
+    }
 
     updateLeftPane();
   }
@@ -1779,7 +1561,10 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     throw new Error(`Unsupported retriable type: ${options.type}`);
   }
 
-  async sendSyncMessageOnly(dataMessage: ArrayBuffer): Promise<void> {
+  async sendSyncMessageOnly(
+    dataMessage: ArrayBuffer,
+    saveErrors?: (errors: Array<Error>) => void
+  ): Promise<void> {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const conv = this.getConversation()!;
     this.set({ dataMessage });
@@ -1800,9 +1585,16 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
             : undefined,
       });
     } catch (result) {
-      const errors = (result && result.errors) || [new Error('Unknown error')];
-      // We don't save because we're about to save below.
-      this.saveErrors(errors, { skipSave: true });
+      const resultErrors = result?.errors;
+      const errors = Array.isArray(resultErrors)
+        ? resultErrors
+        : [new Error('Unknown error')];
+      if (saveErrors) {
+        saveErrors(errors);
+      } else {
+        // We don't save because we're about to save below.
+        this.saveErrors(errors, { skipSave: true });
+      }
     } finally {
       await window.Signal.Data.saveMessage(this.attributes);
 

@@ -67,6 +67,7 @@ import {
 import {
   SendStatus,
   isDelivered,
+  isFailed,
   isMessageJustForMe,
   isRead,
   isSent,
@@ -1234,7 +1235,10 @@ export function getMessagePropStatus(
       sendStateByConversationId[ourConversationId]?.status ??
       SendStatus.Pending;
     const sent = isSent(status);
-    if (hasErrors(message)) {
+    if (
+      hasErrors(message) ||
+      someSendStatus(sendStateByConversationId, isFailed)
+    ) {
       return sent ? 'partial-sent' : 'error';
     }
     return sent ? 'viewed' : 'sending';
@@ -1248,7 +1252,10 @@ export function getMessagePropStatus(
     SendStatus.Pending
   );
 
-  if (hasErrors(message)) {
+  if (
+    hasErrors(message) ||
+    someSendStatus(sendStateByConversationId, isFailed)
+  ) {
     return isSent(highestSuccessfulStatus) ? 'partial-sent' : 'error';
   }
   if (isViewed(highestSuccessfulStatus)) {

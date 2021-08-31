@@ -77,7 +77,7 @@ export type SendOptionsType = {
   online?: boolean;
 };
 
-type PreviewType = {
+export type PreviewType = {
   url: string;
   title: string;
   image?: AttachmentType;

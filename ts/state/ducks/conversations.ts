@@ -45,12 +45,16 @@ import {
   getGroupSizeRecommendedLimit,
   getGroupSizeHardLimit,
 } from '../../groups/limits';
+import { getMessagesById } from '../../messages/getMessagesById';
 import { isMessageUnread } from '../../util/isMessageUnread';
 import { toggleSelectedContactForGroupAddition } from '../../groups/toggleSelectedContactForGroupAddition';
 import { GroupNameCollisionsWithIdsByTitle } from '../../util/groupMemberNameCollisions';
 import { ContactSpoofingType } from '../../util/contactSpoofing';
 import { writeProfile } from '../../services/writeProfile';
-import { getMe } from '../selectors/conversations';
+import {
+  getMe,
+  getMessageIdsPendingBecauseOfVerification,
+} from '../selectors/conversations';
 import { AvatarDataType, getDefaultAvatars } from '../../types/Avatar';
 import { getAvatarData } from '../../util/getAvatarData';
 import { isSameAvatarData } from '../../util/isSameAvatarData';
@@ -302,6 +306,15 @@ export type ConversationsStateType = {
   composer?: ComposerStateType;
   contactSpoofingReview?: ContactSpoofingReviewStateType;
 
+  /**
+   * Each key is a conversation ID. Each value is an array of message IDs stopped by that
+   * conversation being unverified.
+   */
+  outboundMessagesPendingConversationVerification: Record<
+    string,
+    Array<string>
+  >;
+
   // Note: it's very important that both of these locations are always kept up to date
   messagesLookup: MessageLookupType;
   messagesByConversation: MessagesByConversationType;
@@ -336,14 +349,21 @@ export const getConversationCallMode = (
 
 export const COLORS_CHANGED = 'conversations/COLORS_CHANGED';
 export const COLOR_SELECTED = 'conversations/COLOR_SELECTED';
+const CANCEL_MESSAGES_PENDING_CONVERSATION_VERIFICATION =
+  'conversations/CANCEL_MESSAGES_PENDING_CONVERSATION_VERIFICATION';
 const COMPOSE_TOGGLE_EDITING_AVATAR =
   'conversations/compose/COMPOSE_TOGGLE_EDITING_AVATAR';
 const COMPOSE_ADD_AVATAR = 'conversations/compose/ADD_AVATAR';
 const COMPOSE_REMOVE_AVATAR = 'conversations/compose/REMOVE_AVATAR';
 const COMPOSE_REPLACE_AVATAR = 'conversations/compose/REPLACE_AVATAR';
 const CUSTOM_COLOR_REMOVED = 'conversations/CUSTOM_COLOR_REMOVED';
+const MESSAGE_STOPPED_BY_MISSING_VERIFICATION =
+  'conversations/MESSAGE_STOPPED_BY_MISSING_VERIFICATION';
 const REPLACE_AVATARS = 'conversations/REPLACE_AVATARS';
 
+type CancelMessagesPendingConversationVerificationActionType = {
+  type: typeof CANCEL_MESSAGES_PENDING_CONVERSATION_VERIFICATION;
+};
 type CantAddContactToGroupActionType = {
   type: 'CANT_ADD_CONTACT_TO_GROUP';
   payload: {
@@ -463,6 +483,13 @@ export type MessageSelectedActionType = {
   payload: {
     messageId: string;
     conversationId: string;
+  };
+};
+type MessageStoppedByMissingVerificationActionType = {
+  type: typeof MESSAGE_STOPPED_BY_MISSING_VERIFICATION;
+  payload: {
+    messageId: string;
+    untrustedConversationIds: ReadonlyArray<string>;
   };
 };
 export type MessageChangedActionType = {
@@ -656,6 +683,7 @@ type ReplaceAvatarsActionType = {
   };
 };
 export type ConversationActionType =
+  | CancelMessagesPendingConversationVerificationActionType
   | CantAddContactToGroupActionType
   | ClearChangedMessagesActionType
   | ClearGroupCreationErrorActionType
@@ -679,6 +707,7 @@ export type ConversationActionType =
   | CreateGroupPendingActionType
   | CreateGroupRejectedActionType
   | CustomColorRemovedActionType
+  | MessageStoppedByMissingVerificationActionType
   | MessageChangedActionType
   | MessageDeletedActionType
   | MessageSelectedActionType
@@ -716,6 +745,7 @@ export type ConversationActionType =
 // Action Creators
 
 export const actions = {
+  cancelMessagesPendingConversationVerification,
   cantAddContactToGroup,
   clearChangedMessages,
   clearGroupCreationError,
@@ -737,6 +767,7 @@ export const actions = {
   createGroup,
   deleteAvatarFromDisk,
   doubleCheckMissingQuoteReference,
+  messageStoppedByMissingVerification,
   messageChanged,
   messageDeleted,
   messageSizeChanged,
@@ -775,6 +806,7 @@ export const actions = {
   startSettingGroupMetadata,
   toggleConversationInChooseMembers,
   toggleComposeEditingAvatar,
+  verifyConversationsStoppingMessageSend,
 };
 
 function filterAvatarData(
@@ -1074,6 +1106,26 @@ function toggleComposeEditingAvatar(): ToggleComposeEditingAvatarActionType {
   };
 }
 
+function verifyConversationsStoppingMessageSend(): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  never
+> {
+  return async (_dispatch, getState) => {
+    const conversationIds = Object.keys(
+      getState().conversations.outboundMessagesPendingConversationVerification
+    );
+
+    await Promise.all(
+      conversationIds.map(async conversationId => {
+        const conversation = window.ConversationController.get(conversationId);
+        await conversation?.setVerifiedDefault();
+      })
+    );
+  };
+}
+
 function composeSaveAvatarToDisk(
   avatarData: AvatarDataType
 ): ThunkAction<void, RootStateType, unknown, ComposeSaveAvatarActionType> {
@@ -1128,6 +1180,31 @@ function composeReplaceAvatar(
   };
 }
 
+function cancelMessagesPendingConversationVerification(): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  CancelMessagesPendingConversationVerificationActionType
+> {
+  return async (dispatch, getState) => {
+    const messageIdsPending = getMessageIdsPendingBecauseOfVerification(
+      getState()
+    );
+    const messagesStopped = await getMessagesById([...messageIdsPending]);
+    messagesStopped.forEach(message => {
+      message.markFailed();
+    });
+
+    dispatch({
+      type: CANCEL_MESSAGES_PENDING_CONVERSATION_VERIFICATION,
+    });
+
+    await window.Signal.Data.saveMessages(
+      messagesStopped.map(message => message.attributes)
+    );
+  };
+}
+
 function cantAddContactToGroup(
   conversationId: string
 ): CantAddContactToGroupActionType {
@@ -1162,8 +1239,21 @@ function conversationChanged(
   id: string,
   data: ConversationType
 ): ThunkAction<void, RootStateType, unknown, ConversationChangedActionType> {
-  return dispatch => {
+  return async (dispatch, getState) => {
     calling.groupMembersChanged(id);
+
+    if (!data.isUntrusted) {
+      const messageIdsPending =
+        getOwn(
+          getState().conversations
+            .outboundMessagesPendingConversationVerification,
+          id
+        ) ?? [];
+      const messagesPending = await getMessagesById(messageIdsPending);
+      messagesPending.forEach(message => {
+        message.retrySend();
+      });
+    }
 
     dispatch({
       type: 'CONVERSATION_CHANGED',
@@ -1260,6 +1350,19 @@ function selectMessage(
     payload: {
       messageId,
       conversationId,
+    },
+  };
+}
+
+function messageStoppedByMissingVerification(
+  messageId: string,
+  untrustedConversationIds: ReadonlyArray<string>
+): MessageStoppedByMissingVerificationActionType {
+  return {
+    type: MESSAGE_STOPPED_BY_MISSING_VERIFICATION,
+    payload: {
+      messageId,
+      untrustedConversationIds,
     },
   };
 }
@@ -1651,6 +1754,7 @@ export function getEmptyState(): ConversationsStateType {
     conversationsByE164: {},
     conversationsByUuid: {},
     conversationsByGroupId: {},
+    outboundMessagesPendingConversationVerification: {},
     messagesByConversation: {},
     messagesLookup: {},
     selectedMessageCounter: 0,
@@ -1799,6 +1903,13 @@ export function reducer(
   state: Readonly<ConversationsStateType> = getEmptyState(),
   action: Readonly<ConversationActionType>
 ): ConversationsStateType {
+  if (action.type === CANCEL_MESSAGES_PENDING_CONVERSATION_VERIFICATION) {
+    return {
+      ...state,
+      outboundMessagesPendingConversationVerification: {},
+    };
+  }
+
   if (action.type === 'CANT_ADD_CONTACT_TO_GROUP') {
     const { composer } = state;
     if (composer?.step !== ComposerStep.ChooseGroupMembers) {
@@ -1887,6 +1998,9 @@ export function reducer(
         [id]: data,
       },
       ...updateConversationLookups(data, undefined, state),
+      outboundMessagesPendingConversationVerification: data.isUntrusted
+        ? state.outboundMessagesPendingConversationVerification
+        : omit(state.outboundMessagesPendingConversationVerification, id),
     };
   }
   if (action.type === 'CONVERSATION_CHANGED') {
@@ -1933,6 +2047,9 @@ export function reducer(
         [id]: data,
       },
       ...updateConversationLookups(data, existing, state),
+      outboundMessagesPendingConversationVerification: data.isUntrusted
+        ? state.outboundMessagesPendingConversationVerification
+        : omit(state.outboundMessagesPendingConversationVerification, id),
     };
   }
   if (action.type === 'CONVERSATION_REMOVED') {
@@ -2035,6 +2152,31 @@ export function reducer(
       ...state,
       selectedMessage: messageId,
       selectedMessageCounter: state.selectedMessageCounter + 1,
+    };
+  }
+  if (action.type === MESSAGE_STOPPED_BY_MISSING_VERIFICATION) {
+    const { messageId, untrustedConversationIds } = action.payload;
+
+    const newOutboundMessagesPendingConversationVerification = {
+      ...state.outboundMessagesPendingConversationVerification,
+    };
+    untrustedConversationIds.forEach(conversationId => {
+      const existingPendingMessageIds =
+        getOwn(
+          newOutboundMessagesPendingConversationVerification,
+          conversationId
+        ) ?? [];
+      if (!existingPendingMessageIds.includes(messageId)) {
+        newOutboundMessagesPendingConversationVerification[conversationId] = [
+          ...existingPendingMessageIds,
+          messageId,
+        ];
+      }
+    });
+
+    return {
+      ...state,
+      outboundMessagesPendingConversationVerification: newOutboundMessagesPendingConversationVerification,
     };
   }
   if (action.type === 'MESSAGE_CHANGED') {

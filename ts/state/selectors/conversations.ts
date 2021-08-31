@@ -18,6 +18,7 @@ import {
   PreJoinConversationType,
 } from '../ducks/conversations';
 import { getOwn } from '../../util/getOwn';
+import { isNotNil } from '../../util/isNotNil';
 import { deconstructLookup } from '../../util/deconstructLookup';
 import { PropsDataType as TimelinePropsType } from '../../components/conversation/Timeline';
 import { TimelineItemType } from '../../components/conversation/TimelineItem';
@@ -27,6 +28,7 @@ import { filterAndSortConversationsByTitle } from '../../util/filterAndSortConve
 import { ContactNameColors, ContactNameColorType } from '../../types/Colors';
 import { AvatarDataType } from '../../types/Avatar';
 import { isInSystemContacts } from '../../util/isInSystemContacts';
+import { sortByTitle } from '../../util/sortByTitle';
 import { isGroupV2 } from '../../util/whatTypeOfConversation';
 
 import {
@@ -955,4 +957,52 @@ export const getGroupAdminsSelector = createSelector(
       return admins;
     };
   }
+);
+
+const getOutboundMessagesPendingConversationVerification = createSelector(
+  getConversations,
+  (
+    conversations: Readonly<ConversationsStateType>
+  ): Record<string, Array<string>> =>
+    conversations.outboundMessagesPendingConversationVerification
+);
+
+const getConversationIdsStoppingMessageSendBecauseOfVerification = createSelector(
+  getOutboundMessagesPendingConversationVerification,
+  (outboundMessagesPendingConversationVerification): Array<string> =>
+    Object.keys(outboundMessagesPendingConversationVerification)
+);
+
+export const getConversationsStoppingMessageSendBecauseOfVerification = createSelector(
+  getConversationByIdSelector,
+  getConversationIdsStoppingMessageSendBecauseOfVerification,
+  (
+    conversationSelector: (id: string) => undefined | ConversationType,
+    conversationIds: ReadonlyArray<string>
+  ): Array<ConversationType> => {
+    const conversations = conversationIds
+      .map(conversationId => conversationSelector(conversationId))
+      .filter(isNotNil);
+    return sortByTitle(conversations);
+  }
+);
+
+export const getMessageIdsPendingBecauseOfVerification = createSelector(
+  getOutboundMessagesPendingConversationVerification,
+  (outboundMessagesPendingConversationVerification): Set<string> => {
+    const result = new Set<string>();
+    Object.values(outboundMessagesPendingConversationVerification).forEach(
+      messageGroup => {
+        messageGroup.forEach(messageId => {
+          result.add(messageId);
+        });
+      }
+    );
+    return result;
+  }
+);
+
+export const getNumberOfMessagesPendingBecauseOfVerification = createSelector(
+  getMessageIdsPendingBecauseOfVerification,
+  (messageIds: Readonly<Set<string>>): number => messageIds.size
 );

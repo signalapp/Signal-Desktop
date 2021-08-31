@@ -307,9 +307,13 @@ export type DataInterface = {
     options?: { limit?: number }
   ) => Promise<Array<ConversationType>>;
 
+  getMessagesById: (messageIds: Array<string>) => Promise<Array<MessageType>>;
   saveMessage: (
     data: MessageType,
-    options?: { forceSave?: boolean }
+    options?: {
+      jobToInsert?: StoredJob;
+      forceSave?: boolean;
+    }
   ) => Promise<string>;
   saveMessages: (
     arrayOfMessages: Array<MessageType>,

@@ -29,6 +29,7 @@ import {
   CustomColorType,
 } from '../types/Colors';
 import { MessageModel } from './messages';
+import { strictAssert } from '../util/assert';
 import { isMuted } from '../util/isMuted';
 import { isConversationSMSOnly } from '../util/isConversationSMSOnly';
 import { isConversationUnregistered } from '../util/isConversationUnregistered';
@@ -82,6 +83,7 @@ import {
   isTapToView,
   getMessagePropStatus,
 } from '../state/selectors/message';
+import { normalMessageSendJobQueue } from '../jobs/normalMessageSendJobQueue';
 import { Deletes } from '../messageModifiers/Deletes';
 import { Reactions, ReactionModel } from '../messageModifiers/Reactions';
 import { isAnnouncementGroupReady } from '../util/isAnnouncementGroupReady';
@@ -118,11 +120,6 @@ const SEND_REPORTING_THRESHOLD_MS = 25;
 const ATTRIBUTES_THAT_DONT_INVALIDATE_PROPS_CACHE = new Set([
   'profileLastFetchedAt',
 ]);
-
-type CustomError = Error & {
-  identifier?: string;
-  number?: string;
-};
 
 type CachedIdenticon = {
   readonly url: string;
@@ -3111,6 +3108,10 @@ export class ConversationModel extends window.Backbone
     );
   }
 
+  getRecipientConversationIds(): Set<string> {
+    return new Set(map(this.getMembers(), conversation => conversation.id));
+  }
+
   async getQuoteAttachment(
     attachments?: Array<WhatIsThis>,
     preview?: Array<WhatIsThis>,
@@ -3261,7 +3262,7 @@ export class ConversationModel extends window.Backbone
       },
     };
 
-    this.sendMessage(undefined, [], undefined, [], sticker);
+    this.enqueueMessageForSend(undefined, [], undefined, [], sticker);
     window.reduxActions.stickers.useSticker(packId, stickerId);
   }
 
@@ -3577,7 +3578,7 @@ export class ConversationModel extends window.Backbone
     );
   }
 
-  sendMessage(
+  async enqueueMessageForSend(
     body: string | undefined,
     attachments: Array<AttachmentType>,
     quote?: QuotedMessageType,
@@ -3593,7 +3594,7 @@ export class ConversationModel extends window.Backbone
       sendHQImages?: boolean;
       timestamp?: number;
     } = {}
-  ): void {
+  ): Promise<void> {
     if (this.isGroupV1AndDisabled()) {
       return;
     }
@@ -3614,223 +3615,134 @@ export class ConversationModel extends window.Backbone
     const destination = this.getSendTarget()!;
     const recipients = this.getRecipients();
 
-    if (timestamp) {
-      window.log.info(`sendMessage: Queueing send with timestamp ${timestamp}`);
-    }
-    this.queueJob('sendMessage', async () => {
-      const now = timestamp || Date.now();
+    const now = timestamp || Date.now();
 
-      await this.maybeApplyUniversalTimer(false);
+    await this.maybeApplyUniversalTimer(false);
 
-      const expireTimer = this.get('expireTimer');
+    const expireTimer = this.get('expireTimer');
 
-      window.log.info(
-        'Sending message to conversation',
-        this.idForLogging(),
-        'with timestamp',
-        now
-      );
+    window.log.info(
+      'Sending message to conversation',
+      this.idForLogging(),
+      'with timestamp',
+      now
+    );
 
-      const recipientMaybeConversations = map(recipients, identifier =>
-        window.ConversationController.get(identifier)
-      );
-      const recipientConversations = filter(
-        recipientMaybeConversations,
-        isNotNil
-      );
-      const recipientConversationIds = concat(
-        map(recipientConversations, c => c.id),
-        [window.ConversationController.getOurConversationIdOrThrow()]
-      );
+    const recipientMaybeConversations = map(recipients, identifier =>
+      window.ConversationController.get(identifier)
+    );
+    const recipientConversations = filter(
+      recipientMaybeConversations,
+      isNotNil
+    );
+    const recipientConversationIds = concat(
+      map(recipientConversations, c => c.id),
+      [window.ConversationController.getOurConversationIdOrThrow()]
+    );
 
-      // Here we move attachments to disk
-      const messageWithSchema = await upgradeMessageSchema({
-        timestamp: now,
-        type: 'outgoing',
-        body,
-        conversationId: this.id,
-        quote,
-        preview,
-        attachments,
-        sent_at: now,
-        received_at: window.Signal.Util.incrementMessageCounter(),
-        received_at_ms: now,
-        expireTimer,
-        recipients,
-        sticker,
-        bodyRanges: mentions,
-        sendHQImages,
-        sendStateByConversationId: zipObject(
-          recipientConversationIds,
-          repeat({
-            status: SendStatus.Pending,
-            updatedAt: now,
-          })
-        ),
-      });
-
-      if (isDirectConversation(this.attributes)) {
-        messageWithSchema.destination = destination;
-      }
-      const attributes: MessageAttributesType = {
-        ...messageWithSchema,
-        id: window.getGuid(),
-      };
-
-      const model = new window.Whisper.Message(attributes);
-      const message = window.MessageController.register(model.id, model);
-
-      const dbStart = Date.now();
-
-      await window.Signal.Data.saveMessage(message.attributes, {
-        forceSave: true,
-      });
-
-      const dbDuration = Date.now() - dbStart;
-      if (dbDuration > SEND_REPORTING_THRESHOLD_MS) {
-        window.log.info(
-          `ConversationModel(${this.idForLogging()}.sendMessage(${now}): ` +
-            `db save took ${dbDuration}ms`
-        );
-      }
-
-      const renderStart = Date.now();
-
-      this.addSingleMessage(model);
-      if (sticker) {
-        await addStickerPackReference(model.id, sticker.packId);
-      }
-      const messageId = message.id;
-
-      const draftProperties = dontClearDraft
-        ? {}
-        : {
-            draft: null,
-            draftTimestamp: null,
-            lastMessage: model.getNotificationText(),
-            lastMessageStatus: 'sending' as const,
-          };
-
-      this.set({
-        ...draftProperties,
-        active_at: now,
-        timestamp: now,
-        isArchived: false,
-      });
-
-      this.incrementSentMessageCount({ save: false });
-
-      const renderDuration = Date.now() - renderStart;
-
-      if (renderDuration > SEND_REPORTING_THRESHOLD_MS) {
-        window.log.info(
-          `ConversationModel(${this.idForLogging()}.sendMessage(${now}): ` +
-            `render save took ${renderDuration}ms`
-        );
-      }
-
-      window.Signal.Data.updateConversation(this.attributes);
-
-      // We're offline!
-      if (!window.textsecure.messaging) {
-        const errors = map(recipientConversationIds, conversationId => {
-          const error = new Error('Network is not available') as CustomError;
-          error.name = 'SendMessageNetworkError';
-          error.identifier = conversationId;
-          return error;
-        });
-        await message.saveErrors([...errors]);
-        return null;
-      }
-
-      const attachmentsWithData = await Promise.all(
-        messageWithSchema.attachments?.map(loadAttachmentData) ?? []
-      );
-
-      const {
-        body: messageBody,
-        attachments: finalAttachments,
-      } = window.Whisper.Message.getLongMessageAttachment({
-        body,
-        attachments: attachmentsWithData,
-        now,
-      });
-
-      let profileKey: ArrayBuffer | undefined;
-      if (this.get('profileSharing')) {
-        profileKey = await ourProfileKeyService.get();
-      }
-
-      // Special-case the self-send case - we send only a sync message
-      if (isMe(this.attributes)) {
-        const dataMessage = await window.textsecure.messaging.getDataMessage({
-          attachments: finalAttachments,
-          body: messageBody,
-          // deletedForEveryoneTimestamp
-          expireTimer,
-          preview,
-          profileKey,
-          quote,
-          // reaction
-          recipients: [destination],
-          sticker,
-          timestamp: now,
-        });
-        return message.sendSyncMessageOnly(dataMessage);
-      }
-
-      const conversationType = this.get('type');
-      const options = await getSendOptions(this.attributes);
-      const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
-
-      let promise;
-      if (conversationType === Message.GROUP) {
-        promise = window.Signal.Util.sendToGroup({
-          groupSendOptions: {
-            attachments: finalAttachments,
-            expireTimer,
-            groupV1: this.getGroupV1Info(),
-            groupV2: this.getGroupV2Info(),
-            messageText: messageBody,
-            preview,
-            profileKey,
-            quote,
-            sticker,
-            timestamp: now,
-            mentions,
-          },
-          conversation: this,
-          contentHint: ContentHint.RESENDABLE,
-          messageId,
-          sendOptions: options,
-          sendType: 'message',
-        });
-      } else {
-        promise = window.textsecure.messaging.sendMessageToIdentifier({
-          identifier: destination,
-          messageText: messageBody,
-          attachments: finalAttachments,
-          quote,
-          preview,
-          sticker,
-          reaction: null,
-          deletedForEveryoneTimestamp: undefined,
-          timestamp: now,
-          expireTimer,
-          contentHint: ContentHint.RESENDABLE,
-          groupId: undefined,
-          profileKey,
-          options,
-        });
-      }
-
-      return message.send(
-        handleMessageSend(promise, {
-          messageIds: [messageId],
-          sendType: 'message',
+    // Here we move attachments to disk
+    const messageWithSchema = await upgradeMessageSchema({
+      timestamp: now,
+      type: 'outgoing',
+      body,
+      conversationId: this.id,
+      quote,
+      preview,
+      attachments,
+      sent_at: now,
+      received_at: window.Signal.Util.incrementMessageCounter(),
+      received_at_ms: now,
+      expireTimer,
+      recipients,
+      sticker,
+      bodyRanges: mentions,
+      sendHQImages,
+      sendStateByConversationId: zipObject(
+        recipientConversationIds,
+        repeat({
+          status: SendStatus.Pending,
+          updatedAt: now,
         })
-      );
+      ),
     });
+
+    if (isDirectConversation(this.attributes)) {
+      messageWithSchema.destination = destination;
+    }
+    const attributes: MessageAttributesType = {
+      ...messageWithSchema,
+      id: window.getGuid(),
+    };
+
+    const model = new window.Whisper.Message(attributes);
+    const message = window.MessageController.register(model.id, model);
+    message.cachedOutgoingPreviewData = preview;
+    message.cachedOutgoingQuoteData = quote;
+    message.cachedOutgoingStickerData = sticker;
+
+    const dbStart = Date.now();
+
+    strictAssert(
+      typeof message.attributes.timestamp === 'number',
+      'Expected a timestamp'
+    );
+
+    await normalMessageSendJobQueue.add(
+      { messageId: message.id, conversationId: this.id },
+      async jobToInsert => {
+        window.log.info(
+          `enqueueMessageForSend: saving message ${message.id} and job ${jobToInsert.id}`
+        );
+        await window.Signal.Data.saveMessage(message.attributes, {
+          jobToInsert,
+          forceSave: true,
+        });
+      }
+    );
+
+    const dbDuration = Date.now() - dbStart;
+    if (dbDuration > SEND_REPORTING_THRESHOLD_MS) {
+      window.log.info(
+        `ConversationModel(${this.idForLogging()}.sendMessage(${now}): ` +
+          `db save took ${dbDuration}ms`
+      );
+    }
+
+    const renderStart = Date.now();
+
+    this.addSingleMessage(model);
+    if (sticker) {
+      await addStickerPackReference(model.id, sticker.packId);
+    }
+
+    const draftProperties = dontClearDraft
+      ? {}
+      : {
+          draft: null,
+          draftTimestamp: null,
+          lastMessage: model.getNotificationText(),
+          lastMessageStatus: 'sending' as const,
+        };
+
+    this.set({
+      ...draftProperties,
+      active_at: now,
+      timestamp: now,
+      isArchived: false,
+    });
+
+    this.incrementSentMessageCount({ save: false });
+
+    const renderDuration = Date.now() - renderStart;
+
+    if (renderDuration > SEND_REPORTING_THRESHOLD_MS) {
+      window.log.info(
+        `ConversationModel(${this.idForLogging()}.sendMessage(${now}): ` +
+          `render save took ${renderDuration}ms`
+      );
+    }
+
+    window.Signal.Data.updateConversation(this.attributes);
   }
 
   // Is this someone who is a contact, or are we sharing our profile with them?

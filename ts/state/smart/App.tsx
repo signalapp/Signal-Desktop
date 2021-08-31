@@ -4,18 +4,34 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { App, PropsType } from '../../components/App';
+import { App } from '../../components/App';
 import { SmartCallManager } from './CallManager';
 import { SmartGlobalModalContainer } from './GlobalModalContainer';
+import { SmartSafetyNumberViewer } from './SafetyNumberViewer';
 import { StateType } from '../reducer';
-import { getTheme } from '../selectors/user';
+import { getIntl, getTheme } from '../selectors/user';
+import {
+  getConversationsStoppingMessageSendBecauseOfVerification,
+  getNumberOfMessagesPendingBecauseOfVerification,
+} from '../selectors/conversations';
 import { mapDispatchToProps } from '../actions';
+import type { SafetyNumberProps } from '../../components/SafetyNumberChangeDialog';
 
-const mapStateToProps = (state: StateType): PropsType => {
+const mapStateToProps = (state: StateType) => {
   return {
     ...state.app,
+    conversationsStoppingMessageSendBecauseOfVerification: getConversationsStoppingMessageSendBecauseOfVerification(
+      state
+    ),
+    i18n: getIntl(state),
+    numberOfMessagesPendingBecauseOfVerification: getNumberOfMessagesPendingBecauseOfVerification(
+      state
+    ),
     renderCallManager: () => <SmartCallManager />,
     renderGlobalModalContainer: () => <SmartGlobalModalContainer />,
+    renderSafetyNumber: (props: SafetyNumberProps) => (
+      <SmartSafetyNumberViewer {...props} />
+    ),
     theme: getTheme(state),
   };
 };

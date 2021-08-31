@@ -136,12 +136,23 @@ export abstract class JobQueue<T> {
    * If `streamJobs` has not been called yet, this will throw an error.
    */
   async add(data: Readonly<T>): Promise<Job<T>> {
+    this.throwIfNotStarted();
+
+    const job = this.createJob(data);
+    await this.store.insert(job);
+    log.info(`${this.logPrefix} added new job ${job.id}`);
+    return job;
+  }
+
+  protected throwIfNotStarted(): void {
     if (!this.started) {
       throw new Error(
         `${this.logPrefix} has not started streaming. Make sure to call streamJobs().`
       );
     }
+  }
 
+  protected createJob(data: Readonly<T>): Job<T> {
     const id = uuid();
     const timestamp = Date.now();
 
@@ -158,11 +169,7 @@ export abstract class JobQueue<T> {
       }
     })();
 
-    log.info(`${this.logPrefix} added new job ${id}`);
-
-    const job = new Job(id, timestamp, this.queueType, data, completion);
-    await this.store.insert(job);
-    return job;
+    return new Job(id, timestamp, this.queueType, data, completion);
   }
 
   private async enqueueStoredJob(storedJob: Readonly<StoredJob>) {

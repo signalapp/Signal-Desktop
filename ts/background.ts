@@ -940,6 +940,7 @@ export async function startApp(): Promise<void> {
         ),
         messagesByConversation: {},
         messagesLookup: {},
+        outboundMessagesPendingConversationVerification: {},
         selectedConversationId: undefined,
         selectedMessage: undefined,
         selectedMessageCounter: 0,

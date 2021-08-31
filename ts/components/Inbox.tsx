@@ -1,8 +1,14 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useEffect, useRef } from 'react';
+import React, { ReactNode, useEffect, useRef } from 'react';
 import * as Backbone from 'backbone';
+import {
+  SafetyNumberChangeDialog,
+  SafetyNumberProps,
+} from './SafetyNumberChangeDialog';
+import type { ConversationType } from '../state/ducks/conversations';
+import type { LocalizerType } from '../types/Util';
 
 type InboxViewType = Backbone.View & {
   onEmpty?: () => void;
@@ -14,10 +20,24 @@ type InboxViewOptionsType = Backbone.ViewOptions & {
 };
 
 export type PropsType = {
+  cancelMessagesPendingConversationVerification: () => void;
+  conversationsStoppingMessageSendBecauseOfVerification: Array<ConversationType>;
   hasInitialLoadCompleted: boolean;
+  i18n: LocalizerType;
+  numberOfMessagesPendingBecauseOfVerification: number;
+  renderSafetyNumber: (props: SafetyNumberProps) => JSX.Element;
+  verifyConversationsStoppingMessageSend: () => void;
 };
 
-export const Inbox = ({ hasInitialLoadCompleted }: PropsType): JSX.Element => {
+export const Inbox = ({
+  cancelMessagesPendingConversationVerification,
+  conversationsStoppingMessageSendBecauseOfVerification,
+  hasInitialLoadCompleted,
+  i18n,
+  numberOfMessagesPendingBecauseOfVerification,
+  renderSafetyNumber,
+  verifyConversationsStoppingMessageSend,
+}: PropsType): JSX.Element => {
   const hostRef = useRef<HTMLDivElement | null>(null);
   const viewRef = useRef<InboxViewType | undefined>(undefined);
 
@@ -47,5 +67,30 @@ export const Inbox = ({ hasInitialLoadCompleted }: PropsType): JSX.Element => {
     }
   }, [hasInitialLoadCompleted, viewRef]);
 
-  return <div className="inbox index" ref={hostRef} />;
+  let safetyNumberChangeDialog: ReactNode;
+  if (conversationsStoppingMessageSendBecauseOfVerification.length) {
+    const confirmText: string =
+      numberOfMessagesPendingBecauseOfVerification === 1
+        ? i18n('safetyNumberChangeDialog__pending-messages--1')
+        : i18n('safetyNumberChangeDialog__pending-messages--many', [
+            numberOfMessagesPendingBecauseOfVerification.toString(),
+          ]);
+    safetyNumberChangeDialog = (
+      <SafetyNumberChangeDialog
+        confirmText={confirmText}
+        contacts={conversationsStoppingMessageSendBecauseOfVerification}
+        i18n={i18n}
+        onCancel={cancelMessagesPendingConversationVerification}
+        onConfirm={verifyConversationsStoppingMessageSend}
+        renderSafetyNumber={renderSafetyNumber}
+      />
+    );
+  }
+
+  return (
+    <>
+      <div className="inbox index" ref={hostRef} />
+      {safetyNumberChangeDialog}
+    </>
+  );
 };

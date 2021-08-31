@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useEffect } from 'react';
+import React, { ComponentProps, useEffect } from 'react';
 import classNames from 'classnames';
 
 import { AppViewType } from '../state/ducks/app';
@@ -11,20 +11,25 @@ import { StandaloneRegistration } from './StandaloneRegistration';
 import { ThemeType } from '../types/Util';
 import { usePageVisibility } from '../util/hooks';
 
-export type PropsType = {
+type PropsType = {
   appView: AppViewType;
-  hasInitialLoadCompleted: boolean;
   renderCallManager: () => JSX.Element;
   renderGlobalModalContainer: () => JSX.Element;
   theme: ThemeType;
-};
+} & ComponentProps<typeof Inbox>;
 
 export const App = ({
   appView,
+  cancelMessagesPendingConversationVerification,
+  conversationsStoppingMessageSendBecauseOfVerification,
   hasInitialLoadCompleted,
+  i18n,
+  numberOfMessagesPendingBecauseOfVerification,
   renderCallManager,
   renderGlobalModalContainer,
+  renderSafetyNumber,
   theme,
+  verifyConversationsStoppingMessageSend,
 }: PropsType): JSX.Element => {
   let contents;
 
@@ -33,7 +38,25 @@ export const App = ({
   } else if (appView === AppViewType.Standalone) {
     contents = <StandaloneRegistration />;
   } else if (appView === AppViewType.Inbox) {
-    contents = <Inbox hasInitialLoadCompleted={hasInitialLoadCompleted} />;
+    contents = (
+      <Inbox
+        cancelMessagesPendingConversationVerification={
+          cancelMessagesPendingConversationVerification
+        }
+        conversationsStoppingMessageSendBecauseOfVerification={
+          conversationsStoppingMessageSendBecauseOfVerification
+        }
+        hasInitialLoadCompleted={hasInitialLoadCompleted}
+        i18n={i18n}
+        numberOfMessagesPendingBecauseOfVerification={
+          numberOfMessagesPendingBecauseOfVerification
+        }
+        renderSafetyNumber={renderSafetyNumber}
+        verifyConversationsStoppingMessageSend={
+          verifyConversationsStoppingMessageSend
+        }
+      />
+    );
   }
 
   // This are here so that themes are properly applied to anything that is
