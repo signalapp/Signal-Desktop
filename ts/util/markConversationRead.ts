@@ -99,10 +99,7 @@ export async function markConversationRead(
     senderId?: string;
     timestamp: number;
     hasErrors?: string;
-  }> = [
-    ...unreadMessagesSyncData,
-    ...Array.from(unreadReactionSyncData.values()),
-  ];
+  }> = [...unreadMessagesSyncData, ...unreadReactionSyncData.values()];
 
   if (readSyncs.length && options.sendReadReceipts) {
     window.log.info(`Sending ${readSyncs.length} read syncs`);
