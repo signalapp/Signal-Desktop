@@ -57,7 +57,7 @@ export class SessionPasswordDialog extends React.Component<Props, State> {
         : [window.i18n('enterPassword'), window.i18n('confirmPassword')];
 
     const confirmButtonColor =
-      passwordAction === 'remove' ? SessionButtonColor.Danger : SessionButtonColor.Primary;
+      passwordAction === 'remove' ? SessionButtonColor.Danger : SessionButtonColor.Green;
 
     return (
       <SessionWrapperModal

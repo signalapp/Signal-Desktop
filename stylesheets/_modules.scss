@@ -41,28 +41,6 @@
 
 // Module: Message
 
-.module-message--expired {
-  animation: module-message__shake 0.2s linear infinite;
-}
-
-@keyframes module-message__shake {
-  0% {
-    transform: translateX(0px);
-  }
-  25% {
-    transform: translateX(-5px);
-  }
-  50% {
-    transform: translateX(0px);
-  }
-  75% {
-    transform: translateX(5px);
-  }
-  100% {
-    transform: translateX(0px);
-  }
-}
-
 .module-message__error-container {
   width: 28px;
   position: relative;
@@ -184,9 +162,7 @@
 .module-message__generic-attachment__file-size--incoming,
 .module-message__generic-attachment__file-size--outgoing,
 .module-message__generic-attachment__file-name--incoming {
-  @include themify($themes) {
-    color: themed('textColor');
-  }
+  color: var(--color-text);
 }
 
 .module-message__generic-attachment__file-size {
@@ -386,10 +362,9 @@
 
 .module-group-notification__change,
 .module-timer-notification__message {
-  @include themify($themes) {
-    background: themed('fakeChatBubbleBackground');
-    color: themed('textColor');
-  }
+  background: var(--color-fake-chat-bubble-background);
+  color: var(--color-text);
+
   width: 90%;
   max-width: 700px;
   margin: 10px auto;
@@ -558,9 +533,7 @@
   font-size: 16px;
   line-height: 24px;
   font-weight: 300;
-  @include themify($themes) {
-    color: themed('textColor');
-  }
+  color: var(--color-text);
 
   // width of avatar (28px) and our 6px left margin
   max-width: calc(100% - 34px);
@@ -634,9 +607,7 @@
 }
 
 .module-message-detail__unix-timestamp {
-  @include themify($themes) {
-    color: subtle(themed('textColor'));
-  }
+  color: subtle(var(--color-text));
 }
 
 .module-message-detail__delete-button-container {
@@ -889,9 +860,7 @@
   }
 
   &--is-blocked {
-    @include themify($themes) {
-      border-left: 4px solid themed('destructive') !important;
-    }
+    border-left: 4px solid var(--color-destructive) !important;
   }
 }
 
@@ -961,7 +930,6 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-top: 5px;
 }
 
 .module-conversation-list-item__message__text {
@@ -977,6 +945,9 @@
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  .text-selectable {
+    user-select: none;
+  }
 }
 
 .module-conversation-list-item__message__text--has-unread {
@@ -1437,19 +1408,18 @@
   display: flex;
 
   input::placeholder {
-    color: rgba($black, 0.6);
+    color: rgba(black, 0.6);
   }
 
   .session-input-with-label-container {
-    @include themify($themes) {
-      background-color: #fcfcfc;
-      color: $black;
-    }
+    background-color: #fcfcfc;
+    color: black;
+
     width: 30vw;
     border-radius: 100px;
     #session-input-floating-label {
       padding: $session-margin-sm;
-      color: $black;
+      color: black;
     }
 
     label.session-input-with-label-container.filled {
@@ -1524,9 +1494,8 @@
   align-items: center;
 }
 .module-staged-link-preview__loading {
-  @include themify($themes) {
-    color: themed('sentMessageText');
-  }
+  color: var(--color-sent-message-text);
+
   font-size: 14px;
   text-align: center;
   flex-grow: 1;
@@ -1597,9 +1566,7 @@
   top: 0;
   left: 0;
 
-  @include themify($themes) {
-    @include color-svg('../images/spinner-56.svg', themed('textColor'));
-  }
+  @include color-svg('../images/spinner-56.svg', var(--color-text));
 
   z-index: 3;
   height: 56px;
@@ -1658,15 +1625,11 @@
 }
 
 .module-spinner__circle--incoming {
-  @include themify($themes) {
-    background-color: rgba(themed('receivedMessageText'), 0.2);
-  }
+  background-color: rgba(var(--color-received-message-text), 0.2);
 }
 
 .module-spinner__circle--outgoing {
-  @include themify($themes) {
-    background-color: rgba(themed('sentMessageText'), 0.2);
-  }
+  background-color: rgba(var(--color-sent-message-text), 0.2);
 }
 
 // Module: Highlighted Message Body

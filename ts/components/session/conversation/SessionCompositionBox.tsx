@@ -91,7 +91,7 @@ const AddStagedAttachmentButton = (props: { onClick: () => void }) => {
   return (
     <SessionIconButton
       iconType="plusThin"
-      backgroundColor={'var(--color-compose-view-background)'}
+      backgroundColor={'var(--color-compose-view-button-background)'}
       iconSize={'huge2'}
       borderRadius="300px"
       iconPadding="8px"
@@ -105,7 +105,7 @@ const StartRecordingButton = (props: { onClick: () => void }) => {
     <SessionIconButton
       iconType="microphone"
       iconSize={'huge2'}
-      backgroundColor={'var(--color-compose-view-background)'}
+      backgroundColor={'var(--color-compose-view-button-background)'}
       borderRadius="300px"
       iconPadding="6px"
       onClick={props.onClick}
@@ -117,7 +117,7 @@ const ToggleEmojiButton = (props: { onClick: () => void }) => {
   return (
     <SessionIconButton
       iconType="emoji"
-      backgroundColor="var(--color-quote-bottom-bar-background)"
+      backgroundColor="var(--color-compose-view-button-background)"
       iconSize={'huge2'}
       borderRadius="300px"
       iconPadding="6px"
@@ -131,7 +131,7 @@ const SendMessageButton = (props: { onClick: () => void }) => {
     <div className="send-message-button">
       <SessionIconButton
         iconType="send"
-        backgroundColor={'var(--color-compose-view-background)'}
+        backgroundColor={'var(--color-compose-view-button-background)'}
         iconSize={'huge2'}
         iconRotation={90}
         borderRadius="300px"

@@ -976,6 +976,7 @@ export const getGenericReadableMessageSelectorProps = createSelector(
       conversationType,
       expirationLength,
       expirationTimestamp,
+      isExpired,
       isUnread,
       receivedAt,
       isKickedFromGroup,
@@ -987,6 +988,8 @@ export const getGenericReadableMessageSelectorProps = createSelector(
       expirationLength,
       expirationTimestamp,
       isUnread,
+      isExpired,
+      convoId: props.propsForMessage.convoId,
       receivedAt,
       isKickedFromGroup,
     };

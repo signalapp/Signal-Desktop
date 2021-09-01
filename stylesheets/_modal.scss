@@ -187,11 +187,9 @@
   }
 
   input {
-    @include themify($themes) {
-      background-color: themed('inputBackground');
-      color: themed('textColor');
-      border: themed('sessionBorder');
-    }
+    background-color: var(--color-input-background);
+    color: var(--color-text);
+    border: var(--border-session);
   }
 }
 
@@ -218,9 +216,7 @@
     position: relative;
 
     .module-avatar {
-      @include themify($themes) {
-        box-shadow: 0px 0px 13px 0.5px themed('sessionShadowColor');
-      }
+      box-shadow: 0px 0px 13px 0.5px var(--color-session-shadow);
     }
 
     .qr-view-button {
@@ -264,9 +260,8 @@
       padding: 0px $session-margin-lg;
       font-family: $session-font-default;
       font-weight: 100;
-      @include themify($themes) {
-        color: themed('textColor');
-      }
+      color: var(--color-text);
+
       font-size: $session-font-md;
       padding: 0px $session-margin-sm;
     }
@@ -286,11 +281,9 @@
       border-radius: 5px;
       text-align: center;
       font-size: $session-font-md;
-      @include themify($themes) {
-        background: themed('inputBackground');
-        color: themed('textColor');
-        border: themed('sessionBorder');
-      }
+      background: var(--color-input-background);
+      color: var(--color-text);
+      border: var(--border-session);
     }
 
     &-uneditable {

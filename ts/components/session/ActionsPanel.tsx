@@ -43,6 +43,7 @@ import { loadDefaultRooms } from '../../opengroup/opengroupV2/ApiUtil';
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
 
 import { ActionPanelOnionStatusLight } from '../dialog/OnionStatusPathDialog';
+import { switchHtmlToDarkTheme, switchHtmlToLightTheme } from '../../state/ducks/SessionTheme';
 const Section = (props: { type: SectionType; avatarPath?: string | null }) => {
   const ourNumber = useSelector(getOurNumber);
   const unreadMessageCount = useSelector(getUnreadMessageCount);
@@ -60,6 +61,11 @@ const Section = (props: { type: SectionType; avatarPath?: string | null }) => {
       const themeFromSettings = window.Events.getThemeSetting();
       const updatedTheme = themeFromSettings === 'dark' ? 'light' : 'dark';
       window.setTheme(updatedTheme);
+      if (updatedTheme === 'dark') {
+        switchHtmlToDarkTheme();
+      } else {
+        switchHtmlToLightTheme();
+      }
 
       const newThemeObject = updatedTheme === 'dark' ? 'dark' : 'light';
       dispatch(applyTheme(newThemeObject));
@@ -132,7 +138,11 @@ const cleanUpMediasInterval = DURATION.MINUTES * 30;
 const setupTheme = () => {
   const theme = window.Events.getThemeSetting();
   window.setTheme(theme);
-
+  if (theme === 'dark') {
+    switchHtmlToDarkTheme();
+  } else {
+    switchHtmlToLightTheme();
+  }
   const newThemeObject = theme === 'dark' ? 'dark' : 'light';
   window?.inboxStore?.dispatch(applyTheme(newThemeObject));
 };

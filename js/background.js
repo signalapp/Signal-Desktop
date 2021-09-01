@@ -311,10 +311,6 @@
     }
 
     window.setTheme = newTheme => {
-      $(document.body)
-        .removeClass('dark-theme')
-        .removeClass('light-theme')
-        .addClass(`${newTheme}-theme`);
       window.Events.setThemeSetting(newTheme);
     };
 

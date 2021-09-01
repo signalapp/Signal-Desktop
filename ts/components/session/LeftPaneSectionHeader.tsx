@@ -115,11 +115,11 @@ const StyledProgressBarContainer = styled.div`
   width: 100%;
   height: 5px;
   flex-direction: row;
-  background: ${p => p.theme.colors.sessionBorderColor};
+  background: var(--color-session-border);
 `;
 
 const StyledProgressBarInner = styled.div`
-  background: ${p => p.theme.colors.accent};
+  background: var(--color-accent);
   width: 90%;
   transition: width 0.5s ease-in;
   height: 100%;
@@ -127,21 +127,20 @@ const StyledProgressBarInner = styled.div`
 
 export const StyledBannerTitle = styled.div`
   line-height: 1.3;
-  font-size: ${p => p.theme.common.fonts.md};
+  font-size: var(--font-size-md);
   font-weight: bold;
-  margin: ${p => p.theme.common.margins.sm} ${p => p.theme.common.margins.sm} 0
-    ${p => p.theme.common.margins.sm};
+  margin: var(--margins-sm) var(--margins-sm) 0 var(--margins-sm);
 
   span {
-    color: ${p => p.theme.colors.textAccent};
+    color: var(--color-text-accent);
   }
 `;
 
 export const StyledLeftPaneBanner = styled.div`
-  background: ${p => p.theme.colors.recoveryPhraseBannerBackground};
+  background: var(--color-recovery-phrase-banner-background);
   display: flex;
   flex-direction: column;
-  border-bottom: ${p => p.theme.colors.sessionBorder};
+  border-bottom: var(--session-border);
 `;
 
 const StyledBannerInner = styled.div`

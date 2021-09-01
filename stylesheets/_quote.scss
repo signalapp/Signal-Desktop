@@ -11,9 +11,7 @@
   border-left-style: solid;
 
   &__primary__type-label {
-    @include themify($themes) {
-      border-color: themed('textColor');
-    }
+    border-color: var(--color-text);
   }
 }
 
@@ -21,38 +19,28 @@
 .module-quote {
   &--outgoing {
     .module-quote__primary__author {
-      @include themify($themes) {
-        color: themed('sentMessageText');
-        font-weight: bold;
-      }
+      color: var(--color-sent-message-text);
+      font-weight: bold;
     }
     .module-quote__primary__text {
-      @include themify($themes) {
-        color: themed('sentMessageText');
-      }
+      color: var(--color-sent-message-text);
+
       a {
-        @include themify($themes) {
-          color: themed('sentMessageText');
-        }
+        color: var(--color-sent-message-text);
       }
     }
   }
 
   &--incoming {
     .module-quote__primary__author {
-      @include themify($themes) {
-        color: themed('receivedMessageText');
-        font-weight: bold;
-      }
+      color: var(--color-received-message-text);
+      font-weight: bold;
     }
     .module-quote__primary__text {
-      @include themify($themes) {
-        color: themed('receivedMessageText');
-      }
+      color: var(--color-received-message-text);
+
       a {
-        @include themify($themes) {
-          color: themed('receivedMessageText');
-        }
+        color: var(--color-received-message-text);
       }
     }
   }

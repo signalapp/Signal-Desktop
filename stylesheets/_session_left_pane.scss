@@ -4,9 +4,7 @@ $session-compose-margin: 20px;
   width: 380px !important;
   transition: $session-transition-duration;
 
-  @include themify($themes) {
-    background: themed('cellBackground');
-  }
+  background: var(--color-cell-background);
 }
 
 .module-conversation {
@@ -17,9 +15,7 @@ $session-compose-margin: 20px;
       font-weight: bold;
       font-size: 15px;
 
-      @include themify($themes) {
-        color: themed('textColorSubtle');
-      }
+      color: var(--color-text-subtle);
     }
   }
 
@@ -27,37 +23,27 @@ $session-compose-margin: 20px;
     transition: $session-transition-duration;
 
     &:hover {
-      @include themify($themes) {
-        background: themed('clickableHovered');
-      }
+      background: var(--color-clickable-hovered);
     }
 
     &--is-selected {
-      @include themify($themes) {
-        background: themed('conversationItemSelected');
-      }
+      background: var(--color-conversation-item-selected);
 
       .module-conversation__user__profile-number,
       .module-conversation__user__profile-name,
       .module-conversation-list-item__message__text {
-        @include themify($themes) {
-          color: themed('textColor');
-        }
+        color: var(--color-text);
       }
     }
 
     &--has-unread {
-      @include themify($themes) {
-        border-left: themed('sessionUnreadBorder');
-        background: themed('conversationItemHasUnread');
-      }
+      border-left: var(--border-unread);
+      background: var(--color-conversation-item-has-unread);
     }
 
     &__unread-count {
-      @include themify($themes) {
-        color: themed('textColor');
-        background: themed('clickableHovered');
-      }
+      color: var(--color-text);
+      background: var(--color-clickable-hovered);
 
       position: static !important;
       font-weight: 700 !important;
@@ -75,9 +61,7 @@ $session-compose-margin: 20px;
     &__message__text {
       color: $session-shade-17;
       &--has-unread {
-        @include themify($themes) {
-          color: themed('textColor');
-        }
+        color: var(--color-text);
       }
     }
 
@@ -88,9 +72,7 @@ $session-compose-margin: 20px;
 
     &__header__name--with-unread .module-conversation__user__profile-number,
     &__header__name--with-unread .module-conversation__user__profile-name {
-      @include themify($themes) {
-        color: themed('textColor');
-      }
+      color: var(--color-text);
     }
   }
 }
@@ -114,9 +96,7 @@ $session-compose-margin: 20px;
     display: inline-flex;
     flex-direction: column;
 
-    @include themify($themes) {
-      border-right: themed('sessionBorder');
-    }
+    border-right: var(--border-session);
 
     .module-avatar,
     .session-icon-button {
@@ -162,7 +142,6 @@ $session-compose-margin: 20px;
   }
 
   &__title {
-    cursor: pointer;
     padding-inline-end: $session-margin-sm;
     padding-inline-start: $session-margin-sm;
     transition: $session-transition-duration;
@@ -180,9 +159,8 @@ $session-compose-margin: 20px;
   }
 
   &-overlay {
-    @include themify($themes) {
-      background: themed('leftpaneOverlayBackground');
-    }
+    background: var(--color-left-pane-overlay-background);
+
     display: flex;
     flex-direction: column;
     flex-grow: 1;
@@ -197,7 +175,6 @@ $session-compose-margin: 20px;
     h2 {
       margin-top: 0px;
     }
-
     h3,
     h2 {
       text-align: center;
@@ -206,13 +183,13 @@ $session-compose-margin: 20px;
     h3 {
       padding-top: 22px;
       position: relative;
+      margin-bottom: 6px;
 
       .green-border {
         position: absolute;
-        @include themify($themes) {
-          color: themed('accent');
-          background-color: themed('accent');
-        }
+        color: var(--color-accent);
+        background-color: var(--color-accent);
+
         height: 5px;
         left: -10px;
         right: -10px;
@@ -286,9 +263,7 @@ $session-compose-margin: 20px;
   flex-grow: 1;
   transition: $session-transition-duration;
 
-  @include themify($themes) {
-    background: themed('conversationList');
-  }
+  background: var(--color-conversation-list);
 
   .left-pane-contact-bottom-buttons .session-button {
     vertical-align: middle;
@@ -332,9 +307,8 @@ $session-compose-margin: 20px;
     font-family: $session-font-default;
     text-overflow: ellipsis;
     background: none;
-    @include themify($themes) {
-      color: themed('textColor');
-    }
+    color: var(--color-text);
+
     &:focus {
       outline: none !important;
     }
@@ -364,9 +338,8 @@ $session-compose-margin: 20px;
   .session-text-logo {
     margin-top: 10px;
     width: 250px;
-    @include themify($themes) {
-      filter: themed('filterSessionText');
-    }
+    filter: var(--filter-session-text);
+
     transition: 0s;
     .path {
       fill: red;
@@ -386,47 +359,7 @@ $session-compose-margin: 20px;
     flex-grow: 1;
     height: $composition-container-height;
 
-    @include themify($themes) {
-      border: themed('sessionBorder');
-    }
-  }
-}
-
-.contacts-dropdown {
-  width: -webkit-fill-available;
-
-  &-row {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    padding: 8px 20px;
-    margin: 0px $session-compose-margin;
-
-    // FIXME themify once this component is enabled back
-    // @at-root .light-theme #{&} {
-    //   background: $session-shade-15;
-    //   color: $session-color-black;
-    // }
-    // @at-root .dark-theme #{&} {
-    //   background: $session-shade-4;
-    //   color: $session-color-light-grey;
-    // }
-
-    &-selected,
-    &:hover {
-      font-weight: bold;
-
-      // FIXME themify once this component is enabled back
-
-      // @at-root .light-theme #{&} {
-      //   color: $session-color-black;
-      //   background: $session-color-white;
-      // }
-      // @at-root .dark-theme #{&} {
-      //   color: $session-color-white;
-      //   background: $session-shade-8;
-      // }
-    }
+    border: var(--border-session);
   }
 }
 
@@ -503,15 +436,11 @@ $session-compose-margin: 20px;
     }
 
     &.active {
-      @include themify($themes) {
-        background: themed('conversationItemSelected');
-      }
+      background: var(--color-conversation-item-selected);
     }
 
     &:hover {
-      @include themify($themes) {
-        background: themed('clickableHovered');
-      }
+      background: var(--color-clickable-hovered);
     }
 
     &__buttons {
@@ -568,9 +497,8 @@ $session-compose-margin: 20px;
   margin: 50px 0 50px;
 
   .panel-text-divider-line {
-    @include themify($themes) {
-      border-bottom: 1px solid themed('pillDividerColor');
-    }
+    border-bottom: 1px solid var(--color-pill-divider);
+
     line-height: 0.1em;
     flex-grow: 1;
     height: 1px;
@@ -580,10 +508,9 @@ $session-compose-margin: 20px;
   span {
     padding: 5px 10px;
     border-radius: 50px;
-    @include themify($themes) {
-      color: themed('pillDividerTextColor');
-      border: 1px solid themed('pillDividerColor');
-    }
+    color: var(--color-pill-divider-text);
+    border: 1px solid var(--color-pill-divider);
+
     font-family: $session-font-default;
     font-size: $session-font-sm;
   }

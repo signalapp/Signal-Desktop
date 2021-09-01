@@ -1,4 +1,7 @@
 // Module: Avatar
+$borderAvatarColor: unquote(
+  '#00000059'
+); // search for references on ts TODO: make this exposed on ts
 
 .module-avatar {
   position: relative;
