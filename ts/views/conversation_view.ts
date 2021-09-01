@@ -2089,37 +2089,23 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
   async writeDraftAttachment(
     attachment: InMemoryAttachmentDraftType
   ): Promise<OnDiskAttachmentDraftType> {
-    let toWrite: OnDiskAttachmentDraftType | undefined;
-
     if (attachment.pending) {
       throw new Error('writeDraftAttachment: Cannot write pending attachment');
     }
+
+    const result: OnDiskAttachmentDraftType = {
+      ...omit(attachment, ['data', 'screenshotData']),
+      pending: false,
+    };
     if (attachment.data) {
-      const path = await writeNewDraftData(attachment.data);
-      toWrite = {
-        ...omit(attachment, ['data']),
-        path,
-        pending: false,
-      };
-    }
-
-    if (attachment.pending) {
-      throw new Error('writeDraftAttachment: Cannot write pending attachment');
+      result.path = await writeNewDraftData(attachment.data);
     }
     if (attachment.screenshotData) {
-      const screenshotPath = await writeNewDraftData(attachment.screenshotData);
-      toWrite = {
-        ...omit(attachment, ['screenshotData']),
-        screenshotPath,
-        pending: false,
-      };
+      result.screenshotPath = await writeNewDraftData(
+        attachment.screenshotData
+      );
     }
-
-    if (!toWrite) {
-      throw new Error('writeDraftAttachment: Neither data nor screenshotData!');
-    }
-
-    return toWrite;
+    return result;
   }
 
   async maybeAddAttachment(file: File): Promise<void> {
