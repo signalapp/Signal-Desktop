@@ -388,6 +388,7 @@ export const ConversationDetails: React.ComponentType<Props> = ({
         i18n={i18n}
         cannotLeaveBecauseYouAreLastAdmin={cannotLeaveBecauseYouAreLastAdmin}
         conversationTitle={conversation.title}
+        left={Boolean(conversation.left)}
         onLeave={onLeave}
         onBlock={onBlock}
       />

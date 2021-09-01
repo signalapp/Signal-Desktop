@@ -28,6 +28,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
     ? overrideProps.cannotLeaveBecauseYouAreLastAdmin
     : false,
   conversationTitle: overrideProps.conversationTitle || '',
+  left: isBoolean(overrideProps.left) ? overrideProps.left : false,
   onBlock: action('onBlock'),
   onLeave: action('onLeave'),
   i18n,
@@ -35,6 +36,12 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
 
 story.add('Basic', () => {
   const props = createProps();
+
+  return <ConversationDetailsActions {...props} />;
+});
+
+story.add('Left the group', () => {
+  const props = createProps({ left: true });
 
   return <ConversationDetailsActions {...props} />;
 });
