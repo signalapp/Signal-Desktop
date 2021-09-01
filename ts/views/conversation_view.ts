@@ -898,7 +898,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
       onAddAttachment: this.onChooseAttachment.bind(this),
       onClickAttachment: this.onClickAttachment.bind(this),
-      onCloseAttachment: this.onCloseAttachment.bind(this),
+      onCloseAttachment: this.removeDraftAttachment.bind(this),
       onClearAttachments: this.clearAttachments.bind(this),
       onSelectMediaQuality: (isHQ: boolean) => {
         window.reduxActions.composer.setMediaQualitySetting(isHQ);
@@ -1894,7 +1894,9 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  async deleteDraftAttachment(attachment: AttachmentType): Promise<void> {
+  async deleteDraftAttachment(
+    attachment: Pick<AttachmentType, 'screenshotPath' | 'path'>
+  ): Promise<void> {
     if (attachment.screenshotPath) {
       await deleteDraftFile(attachment.screenshotPath);
     }
@@ -1915,7 +1917,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       draftAttachment => draftAttachment.path !== attachment.path
     );
     this.model.set({
-      draftAttachments: [...draftAttachments, onDisk],
+      draftAttachments: [onDisk, ...draftAttachments],
     });
     this.updateAttachmentsView();
 
@@ -1954,7 +1956,9 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     };
   }
 
-  async onCloseAttachment(attachment: AttachmentType): Promise<void> {
+  async removeDraftAttachment(
+    attachment: Pick<AttachmentType, 'path' | 'screenshotPath'>
+  ): Promise<void> {
     const draftAttachments = this.model.get('draftAttachments') || [];
 
     this.model.set({
@@ -2158,29 +2162,28 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       return;
     }
 
-    let attachment: InMemoryAttachmentDraftType;
+    // Add a pending attachment since async processing happens below
+    const path = file.name;
+    const fileName = nodePath.parse(file.name).name;
+    this.model.set({
+      draftAttachments: [
+        ...draftAttachments,
+        {
+          contentType: fileType,
+          fileName,
+          path,
+          pending: true,
+        },
+      ],
+    });
+    this.updateAttachmentsView();
 
+    let attachment: InMemoryAttachmentDraftType;
     try {
       if (
         window.Signal.Util.GoogleChrome.isImageTypeSupported(fileType) ||
         isHeic(fileType)
       ) {
-        const fileName = nodePath.parse(file.name).name;
-        const path = file.name;
-        // Add a pending attachment since transcoding may take a while
-        this.model.set({
-          draftAttachments: [
-            ...draftAttachments,
-            {
-              contentType: IMAGE_JPEG,
-              fileName,
-              path,
-              pending: true,
-            },
-          ],
-        });
-        this.updateAttachmentsView();
-
         attachment = await handleImageAttachment(file);
 
         const hasDraftAttachmentPending = (
@@ -2227,7 +2230,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
     try {
       if (!this.isSizeOkay(attachment)) {
-        return;
+        this.removeDraftAttachment(attachment);
       }
     } catch (error) {
       window.log.error(
@@ -2235,6 +2238,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         error && error.stack ? error.stack : error
       );
 
+      this.removeDraftAttachment(attachment);
       this.showToast(Whisper.UnableToLoadToast);
       return;
     }
