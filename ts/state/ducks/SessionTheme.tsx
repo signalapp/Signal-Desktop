@@ -137,6 +137,7 @@ export const switchHtmlToDarkTheme = () => {
   document.documentElement.style.setProperty('--color-background-primary', darkBackgroundPrimary);
   document.documentElement.style.setProperty('--color-button-green', darkButtonGreen);
   document.documentElement.style.setProperty('--color-modal-background', darkModalBackground);
+  document.documentElement.style.setProperty('--border-session', darkColorSessionBorder);
 };
 
 // LIGHT COLORS
@@ -151,8 +152,8 @@ const lightColorComposeViewBg = '#efefef';
 const lightColorSentMessageBg = accentLightTheme;
 const lightColorSentMessageText = white;
 const lightColorClickableHovered = '#dfdfdf';
-const lightColorSessionBorder = `1px solid ${borderLightThemeColor}`;
 const lightColorSessionBorderColor = borderLightThemeColor;
+const lightColorSessionBorder = `1px solid ${lightColorSessionBorderColor}`;
 const lightColorRecoveryPhraseBannerBg = white;
 const lightColorPillDivider = `${black}1A`;
 const lightColorLastSeenIndicator = '#62656a';
@@ -274,9 +275,10 @@ export const switchHtmlToLightTheme = () => {
   document.documentElement.style.setProperty('--color-background-primary', lightBackgroundPrimary);
   document.documentElement.style.setProperty('--color-button-green', lightButtonGreen);
   document.documentElement.style.setProperty('--color-modal-background', lightModalBackground);
+  document.documentElement.style.setProperty('--border-session', lightColorSessionBorder);
 };
 
-// default to dark theme
+// default to light theme
 export const SessionGlobalStyles = createGlobalStyle`
   html {
     /* FONTS */
@@ -296,50 +298,50 @@ export const SessionGlobalStyles = createGlobalStyle`
     /* ANIMATIONS */
     --default-duration: '0.25s';
     /* FILTERS */
-    --filter-session-text: ${darkFilterSessionText};
+    --filter-session-text: ${lightFilterSessionText};
     /* BORDERS */
-    --border-unread: ${darkUnreadBorder};
-    --border-session:  ${darkColorSessionBorder};
+    --border-unread: ${lightUnreadBorder};
+    --border-session:  ${lightColorSessionBorder};
 
     /* COLORS NOT CHANGING BETWEEN THEMES */
     --color-warning:  ${warning};
     --color-destructive:  ${destructive};
     /* COLORS */
-    --color-accent: ${darkColorAccent};
-    --color-accent-button:  ${darkColorAccentButton};
+    --color-accent: ${lightColorAccent};
+    --color-accent-button:  ${lightColorAccentButton};
 
-    --color-text:  ${darkColorText};
-    --color-text-subtle:  ${darkColorTextSubtle};
-    --color-text-accent:  ${darkColorTextAccent};
-    --color-text-opposite:  ${darkColorTextOpposite};
+    --color-text:  ${lightColorText};
+    --color-text-subtle:  ${lightColorTextSubtle};
+    --color-text-accent:  ${lightColorTextAccent};
+    --color-text-opposite:  ${lightColorTextOpposite};
 
-    --color-session-shadow: ${darkColorSessionShadow};
-    --color-compose-view-button-background: ${darkColorComposeViewBg};
-    --color-sent-message-background:  ${darkColorSentMessageBg};
-    --color-sent-message-text:  ${darkColorSentMessageText};
-    --color-clickable-hovered: ${darkColorClickableHovered};
-    --color-session-border:  ${darkColorSessionBorderColor};
-    --color-recovery-phrase-banner-background: ${darkColorRecoveryPhraseBannerBg};
-    --color-pill-divider:  ${darkColorPillDivider};
-    --color-last-seen-indicator: ${darkColorLastSeenIndicator};
-    --color-last-seen-indicator-text:  ${darkColorLastSeenIndicatorText};
-    --color-quote-bottom-bar-background:  ${darkColorQuoteBottomBarBg};
-    --color-cell-background: ${darkColorCellBackground};
-    --color-pill-divider-text:  ${darkColorPillDividerText};
-    --color-input-background: ${darkInputBackground};
-    --color-scroll-bar-thumb: ${darkScrollbarThumb};
-    --color-scroll-bar-track: ${darkScrollbarTrack};
-    --color-fake-chat-bubble-background: ${darkFakeChatBubbleBg};
-    --color-inbox-background: ${darkInboxBackground};
-    --color-left-pane-overlay-background: ${darkLeftPaneOverlayBg};
-    --color-conversation-item-selected: ${darkConversationItemSelected};
-    --color-conversation-item-has-unread: ${darkConversationItemHasUnread};
-    --color-conversation-list: ${darkConversationList};
-    --color-text-highlight: ${darkTextHighlight};
-    --color-foreground-primary: ${darkForegroundPrimary};
-    --color-background-primary: ${darkBackgroundPrimary};
-    --color-button-green: ${darkButtonGreen};
-    --color-modal-background: ${darkModalBackground};
+    --color-session-shadow: ${lightColorSessionShadow};
+    --color-compose-view-button-background: ${lightColorComposeViewBg};
+    --color-sent-message-background:  ${lightColorSentMessageBg};
+    --color-sent-message-text:  ${lightColorSentMessageText};
+    --color-clickable-hovered: ${lightColorClickableHovered};
+    --color-session-border:  ${lightColorSessionBorderColor};
+    --color-recovery-phrase-banner-background: ${lightColorRecoveryPhraseBannerBg};
+    --color-pill-divider:  ${lightColorPillDivider};
+    --color-last-seen-indicator: ${lightColorLastSeenIndicator};
+    --color-last-seen-indicator-text:  ${lightColorLastSeenIndicatorText};
+    --color-quote-bottom-bar-background:  ${lightColorQuoteBottomBarBg};
+    --color-cell-background: ${lightColorCellBackground};
+    --color-pill-divider-text:  ${lightColorPillDividerText};
+    --color-input-background: ${lightInputBackground};
+    --color-scroll-bar-thumb: ${lightScrollbarThumb};
+    --color-scroll-bar-track: ${lightScrollbarTrack};
+    --color-fake-chat-bubble-background: ${lightFakeChatBubbleBg};
+    --color-inbox-background: ${lightInboxBackground};
+    --color-left-pane-overlay-background: ${lightLeftPaneOverlayBg};
+    --color-conversation-item-selected: ${lightConversationItemSelected};
+    --color-conversation-item-has-unread: ${lightConversationItemHasUnread};
+    --color-conversation-list: ${lightConversationList};
+    --color-text-highlight: ${lightTextHighlight};
+    --color-foreground-primary: ${lightForegroundPrimary};
+    --color-background-primary: ${lightBackgroundPrimary};
+    --color-button-green: ${lightButtonGreen};
+    --color-modal-background: ${lightModalBackground};
 
 
   };

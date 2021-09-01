@@ -270,8 +270,6 @@ export const LightboxObject = ({
 export const Lightbox = (props: Props) => {
   const videoRef = useRef<any>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  // there is no theme in use on the lightbox
-  // const theme = darkTheme;
   const dispatch = useDispatch();
   const { caption, contentType, objectURL, onNext, onPrevious, onSave } = props;
 

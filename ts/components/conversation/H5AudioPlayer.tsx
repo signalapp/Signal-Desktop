@@ -104,18 +104,10 @@ export const AudioPlayerWithEncryptedFile = (props: {
       ]}
       customIcons={{
         play: (
-          <SessionIcon
-            iconType="play"
-            iconSize={'small'}
-            iconColor={'var(--color-text-color-subtle)'}
-          />
+          <SessionIcon iconType="play" iconSize={'small'} iconColor={'var(--color-text-subtle)'} />
         ),
         pause: (
-          <SessionIcon
-            iconType="pause"
-            iconSize={'small'}
-            iconColor={'var(--color-text-color-subtle)'}
-          />
+          <SessionIcon iconType="pause" iconSize={'small'} iconColor={'var(--color-text-subtle)'} />
         ),
       }}
     />

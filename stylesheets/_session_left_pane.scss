@@ -2,8 +2,7 @@ $session-compose-margin: 20px;
 
 .gutter {
   width: 380px !important;
-  transition: $session-transition-duration;
-
+  transition: none;
   background: var(--color-cell-background);
 }
 
@@ -261,7 +260,7 @@ $session-compose-margin: 20px;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  transition: $session-transition-duration;
+  transition: none;
 
   background: var(--color-conversation-list);
 

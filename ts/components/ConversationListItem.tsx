@@ -84,7 +84,7 @@ const HeaderItem = (props: {
 
   const pinIcon =
     isMessagesSection && isPinned ? (
-      <SessionIcon iconType="pin" iconColor={'var(--text-color-subtle)'} iconSize={'tiny'} />
+      <SessionIcon iconType="pin" iconColor={'var(--color-text-subtle)'} iconSize={'tiny'} />
     ) : null;
 
   const NotificationSettingIcon = () => {
@@ -97,11 +97,11 @@ const HeaderItem = (props: {
         return null;
       case 'disabled':
         return (
-          <SessionIcon iconType="mute" iconColor={'var(--text-color-subtle)'} iconSize={'tiny'} />
+          <SessionIcon iconType="mute" iconColor={'var(--color-text-subtle)'} iconSize={'tiny'} />
         );
       case 'mentions_only':
         return (
-          <SessionIcon iconType="bell" iconColor={'var(--text-color-subtle)'} iconSize={'tiny'} />
+          <SessionIcon iconType="bell" iconColor={'var(--color-text-subtle)'} iconSize={'tiny'} />
         );
       default:
         return null;

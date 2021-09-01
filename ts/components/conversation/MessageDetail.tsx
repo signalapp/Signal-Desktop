@@ -124,16 +124,14 @@ export const MessageDetail = () => {
             <tr>
               <td className="module-message-detail__label">{i18n('sent')}</td>
               <td>
-                {moment(sentAt).format('LLLL')}{' '}
-                <span className="module-message-detail__unix-timestamp">({sentAt})</span>
+                {moment(sentAt).format('LLLL')} <span>({sentAt})</span>
               </td>
             </tr>
             {receivedAt ? (
               <tr>
                 <td className="module-message-detail__label">{i18n('received')}</td>
                 <td>
-                  {moment(receivedAt).format('LLLL')}{' '}
-                  <span className="module-message-detail__unix-timestamp">({receivedAt})</span>
+                  {moment(receivedAt).format('LLLL')} <span>({receivedAt})</span>
                 </td>
               </tr>
             ) : null}

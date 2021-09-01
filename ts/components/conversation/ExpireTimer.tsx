@@ -55,7 +55,7 @@ export const ExpireTimer = (props: Props) => {
     return null;
   }
 
-  const expireTimerColor = 'var(--color-text-color)';
+  const expireTimerColor = 'var(--color-text)';
 
   if (timeLeft <= 60) {
     return <ExpireTimerCount color={expireTimerColor}>{timeLeft}</ExpireTimerCount>;

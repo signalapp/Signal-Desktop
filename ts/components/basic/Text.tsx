@@ -15,7 +15,7 @@ const StyledDefaultText = styled.div<TextProps>`
   padding: ${props => (props.padding ? props.padding : '')};
   text-align: ${props => (props.textAlign ? props.textAlign : '')};
   font-family: var(--font-default);
-  color: ${props => (props.subtle ? 'var(--color-text-color-subtle)' : 'var(--color-text-color)')};
+  color: ${props => (props.subtle ? 'var(--color-text-subtle)' : 'var(--color-text)')};
 `;
 
 export const Text = (props: TextProps) => {
