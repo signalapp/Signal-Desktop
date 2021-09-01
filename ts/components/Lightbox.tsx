@@ -301,8 +301,8 @@ export function Lightbox({
     }
   }
 
-  const hasNext = selectedIndex < media.length - 1;
-  const hasPrevious = selectedIndex > 0;
+  const hasNext = !zoomed && selectedIndex < media.length - 1;
+  const hasPrevious = !zoomed && selectedIndex > 0;
 
   return root
     ? createPortal(
@@ -381,7 +381,6 @@ export function Lightbox({
                 <button
                   aria-label={i18n('previous')}
                   className="Lightbox__button Lightbox__button--previous"
-                  disabled={zoomed}
                   onClick={onPrevious}
                   type="button"
                 />
@@ -392,7 +391,6 @@ export function Lightbox({
                 <button
                   aria-label={i18n('next')}
                   className="Lightbox__button Lightbox__button--next"
-                  disabled={zoomed}
                   onClick={onNext}
                   type="button"
                 />
