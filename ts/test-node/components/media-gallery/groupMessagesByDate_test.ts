@@ -1,4 +1,4 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
@@ -10,6 +10,15 @@ import {
   Section,
 } from '../../../components/conversation/media-gallery/groupMediaItemsByDate';
 import { MediaItemType } from '../../../types/MediaItem';
+
+const testDate = (
+  year: number,
+  month: number,
+  day: number,
+  hour: number,
+  minute: number,
+  second = 0
+): Date => new Date(Date.UTC(year, month - 1, day, hour, minute, second, 0));
 
 const toMediaItem = (date: Date): MediaItemType => ({
   objectURL: date.toUTCString(),
@@ -31,23 +40,23 @@ const toMediaItem = (date: Date): MediaItemType => ({
 
 describe('groupMediaItemsByDate', () => {
   it('should group mediaItems', () => {
-    const referenceTime = new Date('2018-04-12T18:00Z').getTime(); // Thu
+    const referenceTime = testDate(2018, 4, 12, 18, 0, 0).getTime(); // Thu
     const input: Array<MediaItemType> = shuffle([
       // Today
-      toMediaItem(new Date('2018-04-12T12:00Z')), // Thu
-      toMediaItem(new Date('2018-04-12T00:01Z')), // Thu
+      toMediaItem(testDate(2018, 4, 12, 12, 0)), // Thu
+      toMediaItem(testDate(2018, 4, 12, 0, 1)), // Thu
       // This week
-      toMediaItem(new Date('2018-04-11T23:59Z')), // Wed
-      toMediaItem(new Date('2018-04-09T00:01Z')), // Mon
+      toMediaItem(testDate(2018, 4, 11, 23, 59)), // Wed
+      toMediaItem(testDate(2018, 4, 9, 0, 1)), // Mon
       // This month
-      toMediaItem(new Date('2018-04-08T23:59Z')), // Sun
-      toMediaItem(new Date('2018-04-01T00:01Z')),
+      toMediaItem(testDate(2018, 4, 8, 23, 59)), // Sun
+      toMediaItem(testDate(2018, 4, 1, 0, 1)),
       // March 2018
-      toMediaItem(new Date('2018-03-31T23:59Z')),
-      toMediaItem(new Date('2018-03-01T14:00Z')),
+      toMediaItem(testDate(2018, 3, 31, 23, 59)),
+      toMediaItem(testDate(2018, 3, 1, 14, 0)),
       // February 2011
-      toMediaItem(new Date('2011-02-28T23:59Z')),
-      toMediaItem(new Date('2011-02-01T10:00Z')),
+      toMediaItem(testDate(2011, 2, 28, 23, 59)),
+      toMediaItem(testDate(2011, 2, 1, 10, 0)),
     ]);
 
     const expected: Array<Section> = [
