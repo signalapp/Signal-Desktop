@@ -67,6 +67,7 @@ import {
   autoScale,
   handleImageAttachment,
 } from '../util/handleImageAttachment';
+import { replaceIndex } from '../util/replaceIndex';
 import { ReadStatus } from '../messages/MessageReadStatus';
 import { markViewed } from '../services/MessageUpdater';
 import { viewedReceiptsJobQueue } from '../jobs/viewedReceiptsJobQueue';
@@ -778,7 +779,7 @@ Whisper.ConversationView = Whisper.View.extend({
 
       onAddAttachment: this.onChooseAttachment.bind(this),
       onClickAttachment: this.onClickAttachment.bind(this),
-      onCloseAttachment: this.onCloseAttachment.bind(this),
+      onCloseAttachment: this.removeDraftAttachment.bind(this),
       onClearAttachments: this.clearAttachments.bind(this),
       onSelectMediaQuality: (isHQ: boolean) => {
         window.reduxActions.composer.setMediaQualitySetting(isHQ);
@@ -1774,7 +1775,9 @@ Whisper.ConversationView = Whisper.View.extend({
     window.Signal.Backbone.Views.Lightbox.show(this.captionEditorView.el);
   },
 
-  async deleteDraftAttachment(attachment: AttachmentType) {
+  async deleteDraftAttachment(
+    attachment: Pick<AttachmentType, 'screenshotPath' | 'path'>
+  ): Promise<void> {
     if (attachment.screenshotPath) {
       await deleteDraftFile(attachment.screenshotPath);
     }
@@ -1788,18 +1791,32 @@ Whisper.ConversationView = Whisper.View.extend({
     window.Signal.Data.updateConversation(model.attributes);
   },
 
-  async addAttachment(attachment: InMemoryAttachmentDraftType) {
+  async addAttachment({
+    attachment,
+    path,
+    fileName,
+  }: Readonly<{
+    attachment: InMemoryAttachmentDraftType;
+    path: string;
+    fileName: string;
+  }>) {
     const { model }: { model: ConversationModel } = this;
     const onDisk = await this.writeDraftAttachment(attachment);
 
-    // Remove any pending attachments that were transcoding
-    const draftAttachments = (model.get('draftAttachments') || []).filter(
+    const oldDraftAttachments = model.get('draftAttachments') || [];
+
+    // NOTE: This check is a bit naïve but will be properly fixed in v5.17.0+. This should
+    //   only affect v5.16.
+    const indexToReplace = oldDraftAttachments.findIndex(
       draftAttachment =>
-        !draftAttachment.pending &&
-        draftAttachment.fileName !== attachment.fileName
+        draftAttachment.pending &&
+        (draftAttachment.path === path || draftAttachment.fileName === fileName)
     );
-    this.model.set({
-      draftAttachments: [...draftAttachments, onDisk],
+    model.set({
+      draftAttachments:
+        indexToReplace === -1
+          ? [onDisk, ...oldDraftAttachments]
+          : replaceIndex(oldDraftAttachments, indexToReplace, onDisk),
     });
     this.updateAttachmentsView();
 
@@ -1826,9 +1843,10 @@ Whisper.ConversationView = Whisper.View.extend({
     };
   },
 
-  async onCloseAttachment(attachment: Pick<AttachmentType, 'path'>) {
-    const { model }: { model: ConversationModel } = this;
-    const draftAttachments = model.get('draftAttachments') || [];
+  async removeDraftAttachment(
+    attachment: Pick<AttachmentType, 'path' | 'screenshotPath'>
+  ): Promise<void> {
+    const draftAttachments = this.model.get('draftAttachments') || [];
 
     this.model.set({
       draftAttachments: window._.reject(
@@ -1964,6 +1982,7 @@ Whisper.ConversationView = Whisper.View.extend({
       const path = await writeNewDraftData(toWrite.data);
       toWrite = {
         ...window._.omit(toWrite, ['data']),
+        pending: false,
         path,
       };
     }
@@ -1971,6 +1990,7 @@ Whisper.ConversationView = Whisper.View.extend({
       const screenshotPath = await writeNewDraftData(toWrite.screenshotData);
       toWrite = {
         ...window._.omit(toWrite, ['screenshotData']),
+        pending: false,
         screenshotPath,
       };
     }
@@ -2020,35 +2040,39 @@ Whisper.ConversationView = Whisper.View.extend({
       return;
     }
 
-    let attachment: InMemoryAttachmentDraftType;
+    // Add a pending attachment since async processing happens below
+    const path = file.name;
+    const fileName = nodePath.parse(file.name).name;
+    this.model.set({
+      draftAttachments: [
+        ...draftAttachments,
+        {
+          contentType: fileType,
+          fileName,
+          path,
+          pending: true,
+        },
+      ],
+    });
+    this.updateAttachmentsView();
 
+    let attachment: InMemoryAttachmentDraftType;
     try {
       if (
         window.Signal.Util.GoogleChrome.isImageTypeSupported(fileType) ||
         isHeic(fileType)
       ) {
-        const fileName = nodePath.parse(file.name).name;
-        // Add a pending attachment since transcoding may take a while
-        this.model.set({
-          draftAttachments: [
-            ...draftAttachments,
-            {
-              contentType: IMAGE_JPEG,
-              fileName,
-              path: file.name,
-              pending: true,
-            },
-          ],
-        });
-        this.updateAttachmentsView();
-
         attachment = await handleImageAttachment(file);
 
+        // NOTE: This check is a bit naïve but will be properly fixed in v5.17.0+. This
+        //   should only affect v5.16.
         const hasDraftAttachmentPending = (
           model.get('draftAttachments') || []
         ).some(
           draftAttachment =>
-            draftAttachment.pending && draftAttachment.fileName === fileName
+            draftAttachment.pending &&
+            (draftAttachment.path === path ||
+              draftAttachment.fileName === fileName)
         );
 
         // User has canceled the draft so we don't need to continue processing
@@ -2084,7 +2108,7 @@ Whisper.ConversationView = Whisper.View.extend({
 
     try {
       if (!this.isSizeOkay(attachment)) {
-        return;
+        this.removeDraftAttachment(attachment);
       }
     } catch (error) {
       window.log.error(
@@ -2092,12 +2116,13 @@ Whisper.ConversationView = Whisper.View.extend({
         error && error.stack ? error.stack : error
       );
 
+      this.removeDraftAttachment(attachment);
       this.showToast(Whisper.UnableToLoadToast);
       return;
     }
 
     try {
-      await this.addAttachment(attachment);
+      await this.addAttachment({ attachment, path, fileName });
     } catch (error) {
       window.log.error(
         'Error saving draft attachment:',

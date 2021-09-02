@@ -66,7 +66,7 @@ export const AttachmentList = ({
           const isImage = isImageAttachment(attachment);
           const isVideo = isVideoAttachment(attachment);
 
-          if (isImage || isVideo) {
+          if (isImage || isVideo || attachment.pending) {
             const clickCallback =
               attachments.length > 1 ? onClickAttachment : undefined;
 
