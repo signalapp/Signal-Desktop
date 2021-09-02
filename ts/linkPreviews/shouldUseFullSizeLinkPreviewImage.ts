@@ -10,7 +10,7 @@ export function shouldUseFullSizeLinkPreviewImage({
   isStickerPack,
   image,
 }: Readonly<LinkPreviewType>): boolean {
-  if (isStickerPack || !isImageAttachment(image)) {
+  if (isStickerPack || !image || !isImageAttachment(image)) {
     return false;
   }
 

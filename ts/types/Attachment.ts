@@ -626,9 +626,7 @@ export function isImage(attachments?: Array<AttachmentType>): boolean {
   );
 }
 
-export function isImageAttachment(
-  attachment?: AttachmentType
-): attachment is AttachmentType {
+export function isImageAttachment(attachment?: AttachmentType): boolean {
   return Boolean(
     attachment &&
       attachment.contentType &&
@@ -640,7 +638,9 @@ export function canBeTranscoded(
   attachment?: AttachmentType
 ): attachment is AttachmentType {
   return Boolean(
-    isImageAttachment(attachment) && !MIME.isGif(attachment.contentType)
+    attachment &&
+      isImageAttachment(attachment) &&
+      !MIME.isGif(attachment.contentType)
   );
 }
 

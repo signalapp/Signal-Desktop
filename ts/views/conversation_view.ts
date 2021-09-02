@@ -3084,6 +3084,11 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       };
     };
 
+    if (this.lightboxView) {
+      this.lightboxView.remove();
+      this.lightboxView = undefined;
+    }
+
     this.lightboxView = new Whisper.ReactWrapperView({
       className: 'lightbox-wrapper',
       Component: window.Signal.Components.Lightbox,
@@ -3205,6 +3210,11 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       mediaItem =>
         mediaItem.attachment.path === selectedMediaItem.attachment.path
     );
+
+    if (this.lightboxView) {
+      this.lightboxView.remove();
+      this.lightboxView = undefined;
+    }
 
     this.lightboxView = new Whisper.ReactWrapperView({
       className: 'lightbox-wrapper',

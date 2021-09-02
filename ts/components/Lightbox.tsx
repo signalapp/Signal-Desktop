@@ -22,6 +22,7 @@ import { IMAGE_PNG, isImage, isVideo } from '../types/MIME';
 import { LocalizerType } from '../types/Util';
 import { MediaItemType, MessageAttributesType } from '../types/MediaItem';
 import { formatDuration } from '../util/formatDuration';
+import { useRestoreFocus } from '../util/hooks/useRestoreFocus';
 
 export type PropsType = {
   children?: ReactNode;
@@ -55,20 +56,13 @@ export function Lightbox({
     initialSelectedIndex
   );
 
-  const [previousFocus, setPreviousFocus] = useState<HTMLElement | undefined>();
   const [videoElement, setVideoElement] = useState<HTMLVideoElement | null>(
     null
   );
   const [videoTime, setVideoTime] = useState<number | undefined>();
   const [zoomed, setZoomed] = useState(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const focusRef = useRef<HTMLDivElement | null>(null);
-
-  const restorePreviousFocus = useCallback(() => {
-    if (previousFocus && previousFocus.focus) {
-      previousFocus.focus();
-    }
-  }, [previousFocus]);
+  const [focusRef] = useRestoreFocus();
 
   const onPrevious = useCallback(() => {
     setSelectedIndex(prevSelectedIndex => Math.max(prevSelectedIndex - 1, 0));
@@ -168,18 +162,6 @@ export function Lightbox({
   }, []);
 
   useEffect(() => {
-    if (!previousFocus) {
-      setPreviousFocus(document.activeElement as HTMLElement);
-    }
-  }, [previousFocus]);
-
-  useEffect(() => {
-    return () => {
-      restorePreviousFocus();
-    };
-  }, [restorePreviousFocus]);
-
-  useEffect(() => {
     const useCapture = true;
     document.addEventListener('keydown', onKeyDown, useCapture);
 
@@ -190,10 +172,6 @@ export function Lightbox({
 
   useEffect(() => {
     playVideo();
-
-    if (focusRef && focusRef.current) {
-      focusRef.current.focus();
-    }
 
     if (videoElement && isViewOnce) {
       videoElement.addEventListener('timeupdate', onTimeUpdate);

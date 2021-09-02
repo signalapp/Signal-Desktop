@@ -56,6 +56,9 @@ export function Modal({
 
   return (
     <ModalHost noMouseClose={noMouseClose} onClose={onClose} theme={theme}>
+      {/* We don't want the click event to propagate to its container node. */}
+      {/* eslint-disable jsx-a11y/no-static-element-interactions */}
+      {/* eslint-disable jsx-a11y/click-events-have-key-events */}
       <div
         className={classNames(
           getClassName(''),
@@ -63,7 +66,12 @@ export function Modal({
           hasStickyButtons && getClassName('--sticky-buttons')
         )}
         ref={modalRef}
+        onClick={event => {
+          event.stopPropagation();
+        }}
       >
+        {/* eslint-enable jsx-a11y/no-static-element-interactions */}
+        {/* eslint-enable jsx-a11y/click-events-have-key-events */}
         {hasHeader && (
           <div className={getClassName('__header')}>
             {hasXButton && (
