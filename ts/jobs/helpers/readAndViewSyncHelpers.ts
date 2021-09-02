@@ -90,11 +90,12 @@ export async function runReadOrViewSyncJob({
     return;
   }
 
+  const timeRemaining = timestamp + maxRetryTime - Date.now();
+
   const shouldContinue = await commonShouldJobContinue({
     attempt,
     log,
-    maxRetryTime,
-    timestamp,
+    timeRemaining,
   });
   if (!shouldContinue) {
     return;
@@ -117,6 +118,6 @@ export async function runReadOrViewSyncJob({
       })
     );
   } catch (err: unknown) {
-    handleCommonJobRequestError(err, log);
+    await handleCommonJobRequestError({ err, log, timeRemaining });
   }
 }

@@ -286,7 +286,7 @@ function getContentType(response: Response) {
 }
 
 type FetchHeaderListType = { [name: string]: string };
-type HeaderListType = { [name: string]: string | ReadonlyArray<string> };
+export type HeaderListType = { [name: string]: string | ReadonlyArray<string> };
 type HTTPCodeType = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
 
 type RedactUrl = (url: string) => string;

@@ -6,7 +6,8 @@
 
 import { parseRetryAfter } from '../util/parseRetryAfter';
 
-import { CallbackResultType } from './Types.d';
+import type { CallbackResultType } from './Types.d';
+import type { HeaderListType } from './WebAPI';
 
 function appendStack(newError: Error, originalError: Error) {
   // eslint-disable-next-line no-param-reassign
@@ -129,6 +130,8 @@ export class OutgoingMessageError extends ReplayableError {
 export class SendMessageNetworkError extends ReplayableError {
   identifier: string;
 
+  responseHeaders?: HeaderListType | undefined;
+
   constructor(identifier: string, _m: unknown, httpError: Error) {
     super({
       name: 'SendMessageNetworkError',
@@ -137,6 +140,7 @@ export class SendMessageNetworkError extends ReplayableError {
 
     [this.identifier] = identifier.split('.');
     this.code = httpError.code;
+    this.responseHeaders = httpError.responseHeaders;
 
     appendStack(this, httpError);
   }
@@ -166,8 +170,7 @@ export class SendMessageChallengeError extends ReplayableError {
 
     const headers = httpError.responseHeaders || {};
 
-    this.retryAfter =
-      Date.now() + parseRetryAfter((headers['retry-after'] ?? 0).toString());
+    this.retryAfter = Date.now() + parseRetryAfter(headers['retry-after']);
 
     appendStack(this, httpError);
   }

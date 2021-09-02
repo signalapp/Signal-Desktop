@@ -39,11 +39,12 @@ export class ViewedReceiptsJobQueue extends JobQueue<ViewedReceiptsJobData> {
     }: Readonly<{ data: ViewedReceiptsJobData; timestamp: number }>,
     { attempt, log }: Readonly<{ attempt: number; log: LoggerType }>
   ): Promise<void> {
+    const timeRemaining = timestamp + MAX_RETRY_TIME - Date.now();
+
     const shouldContinue = await commonShouldJobContinue({
       attempt,
       log,
-      maxRetryTime: MAX_RETRY_TIME,
-      timestamp,
+      timeRemaining,
     });
     if (!shouldContinue) {
       return;
@@ -52,7 +53,7 @@ export class ViewedReceiptsJobQueue extends JobQueue<ViewedReceiptsJobData> {
     try {
       await sendViewedReceipt(data.viewedReceipt);
     } catch (err: unknown) {
-      handleCommonJobRequestError(err, log);
+      await handleCommonJobRequestError({ err, log, timeRemaining });
     }
   }
 }

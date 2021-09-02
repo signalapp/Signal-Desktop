@@ -6,16 +6,21 @@ import { assert } from 'chai';
 import { parseRetryAfter } from '../../util/parseRetryAfter';
 
 describe('parseRetryAfter', () => {
-  it('should return 0 on invalid input', () => {
+  it('should return 1 second when passed non-strings', () => {
+    assert.equal(parseRetryAfter(undefined), 1000);
+    assert.equal(parseRetryAfter(1234), 1000);
+  });
+
+  it('should return 1 second with invalid strings', () => {
     assert.equal(parseRetryAfter('nope'), 1000);
     assert.equal(parseRetryAfter('1ff'), 1000);
   });
 
-  it('should return milleseconds on valid input', () => {
+  it('should return milliseconds on valid input', () => {
     assert.equal(parseRetryAfter('100'), 100000);
   });
 
-  it('should return apply minimum value', () => {
+  it('should return 1 second at minimum', () => {
     assert.equal(parseRetryAfter('0'), 1000);
     assert.equal(parseRetryAfter('-1'), 1000);
   });

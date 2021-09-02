@@ -3,11 +3,17 @@
 
 import type { LoggerType } from '../../logging/log';
 import { parseIntWithFallback } from '../../util/parseIntWithFallback';
+import { sleepFor413RetryAfterTimeIfApplicable } from './sleepFor413RetryAfterTimeIfApplicable';
 
-export function handleCommonJobRequestError(
-  err: unknown,
-  log: LoggerType
-): void {
+export async function handleCommonJobRequestError({
+  err,
+  log,
+  timeRemaining,
+}: Readonly<{
+  err: unknown;
+  log: LoggerType;
+  timeRemaining: number;
+}>): Promise<void> {
   if (!(err instanceof Error)) {
     throw err;
   }
@@ -17,6 +23,8 @@ export function handleCommonJobRequestError(
     log.info('server responded with 508. Giving up on this job');
     return;
   }
+
+  await sleepFor413RetryAfterTimeIfApplicable({ err, log, timeRemaining });
 
   throw err;
 }

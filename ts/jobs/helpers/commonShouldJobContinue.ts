@@ -10,17 +10,12 @@ import { isDone as isDeviceLinked } from '../../util/registration';
 export async function commonShouldJobContinue({
   attempt,
   log,
-  maxRetryTime,
-  timestamp,
+  timeRemaining,
 }: Readonly<{
   attempt: number;
   log: LoggerType;
-  maxRetryTime: number;
-  timestamp: number;
+  timeRemaining: number;
 }>): Promise<boolean> {
-  const maxJobAge = timestamp + maxRetryTime;
-  const timeRemaining = maxJobAge - Date.now();
-
   if (timeRemaining <= 0) {
     log.info("giving up because it's been too long");
     return false;

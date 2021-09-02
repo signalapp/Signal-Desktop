@@ -468,9 +468,7 @@ export class ChallengeHandler {
         throw error;
       }
 
-      const retryAfter = parseRetryAfter(
-        error.responseHeaders['retry-after'].toString()
-      );
+      const retryAfter = parseRetryAfter(error.responseHeaders['retry-after']);
 
       window.log.info(`challenge: retry after ${retryAfter}ms`);
       this.options.onChallengeFailed(retryAfter);

@@ -7,6 +7,7 @@ import PQueue from 'p-queue';
 import type { LoggerType } from '../logging/log';
 import { exponentialBackoffMaxAttempts } from '../util/exponentialBackoff';
 import { commonShouldJobContinue } from './helpers/commonShouldJobContinue';
+import { sleepFor413RetryAfterTimeIfApplicable } from './helpers/sleepFor413RetryAfterTimeIfApplicable';
 import type { MessageModel } from '../models/messages';
 import { getMessageById } from '../messages/getMessageById';
 import type { ConversationModel } from '../models/conversations';
@@ -123,6 +124,7 @@ export class NormalMessageSendJobQueue extends JobQueue<NormalMessageSendJobData
     const { messageId, conversationId } = data;
 
     await this.enqueue(conversationId, async () => {
+      const timeRemaining = timestamp + MAX_RETRY_TIME - Date.now();
       const isFinalAttempt = attempt >= MAX_ATTEMPTS;
 
       // We don't immediately use this value because we may want to mark the message
@@ -130,8 +132,7 @@ export class NormalMessageSendJobQueue extends JobQueue<NormalMessageSendJobData
       const shouldContinue = await commonShouldJobContinue({
         attempt,
         log,
-        maxRetryTime: MAX_RETRY_TIME,
-        timestamp,
+        timeRemaining,
       });
 
       await window.ConversationController.loadPromise();
@@ -345,6 +346,18 @@ export class NormalMessageSendJobQueue extends JobQueue<NormalMessageSendJobData
         if (serverAskedUsToStop) {
           log.info('server responded with 508. Giving up on this job');
           return;
+        }
+
+        if (!isFinalAttempt) {
+          const maybe413Error: undefined | Error = messageSendErrors.find(
+            (messageSendError: unknown) =>
+              messageSendError instanceof Error && messageSendError.code === 413
+          );
+          await sleepFor413RetryAfterTimeIfApplicable({
+            err: maybe413Error,
+            log,
+            timeRemaining,
+          });
         }
 
         throw err;
