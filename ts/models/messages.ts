@@ -2479,7 +2479,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           const isV2GroupUpdate =
             initialMessage.groupV2 &&
             _.isNumber(initialMessage.groupV2.revision) &&
-            (!existingRevision ||
+            (!_.isNumber(existingRevision) ||
               initialMessage.groupV2.revision > existingRevision);
 
           if (isV2GroupUpdate && initialMessage.groupV2) {
