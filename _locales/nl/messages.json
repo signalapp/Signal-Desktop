@@ -1397,6 +1397,22 @@
         "message": "Stoppen met scherm laten zien",
         "description": "Button tooltip label for stopping screen sharing"
     },
+    "calling__button--ring__label": {
+        "message": "Bellen",
+        "description": "Label under the ring button"
+    },
+    "calling__button--ring__disabled-because-group-is-too-large": {
+        "message": "De groep is te groot om de leden te bellen.",
+        "description": "Button tooltip label when you can't ring because the group is too large"
+    },
+    "calling__button--ring__off": {
+        "message": "Geef wel een melding maar geen beltoon",
+        "description": "Button tooltip label for turning ringing off"
+    },
+    "calling__button--ring__on": {
+        "message": "Laat een beltoon horen als ik gebeld wordt",
+        "description": "Button tooltip label for turning ringing on"
+    },
     "calling__your-video-is-off": {
         "message": "Je camera staat uit",
         "description": "Label in the calling lobby indicating that your camera is off"
@@ -1476,6 +1492,56 @@
             "person": {
                 "content": "$1",
                 "example": "Sam"
+            }
+        }
+    },
+    "calling__pre-call-info--will-ring-2": {
+        "message": "Signal belt $first$ en $second$",
+        "description": "Shown in the calling lobby to describe who will be rang",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            }
+        }
+    },
+    "calling__pre-call-info--will-ring-3": {
+        "message": "Signal belt $first$, $second$ en $third$",
+        "description": "Shown in the calling lobby to describe who will be rang",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "third": {
+                "content": "$3",
+                "example": "April"
+            }
+        }
+    },
+    "calling__pre-call-info--will-ring-many": {
+        "message": "Signal belt $first$, $second$ en nog $others$ anderen",
+        "description": "Shown in the calling lobby to describe who will be rang",
+        "placeholders": {
+            "person": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "others": {
+                "content": "$3",
+                "example": "5"
             }
         }
     },
@@ -1661,7 +1727,7 @@
         "message": "Om te voorkomen dat je gesprekspartner je IP-adres kan achterhalen worden Signal-oproepen met niet-contactpersonen altijd omgeleid via de Signal-server. Door deze optie in te schakelen wordt dat ook gedaan voor Signal-oproepen met contacten die wel in je contactenlijst staan. Dit leidt echter tot een verminderde geluids- en videokwaliteit.",
         "description": "Details describing the always relay calls setting"
     },
-    "Preferences--permissions": {
+    "permissions": {
         "message": "Toestemmingen",
         "description": "Header for permissions section of settings"
     },
@@ -2250,7 +2316,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "Koppel Signal-Desktop opnieuw aan je mobiele apparaat om je gesprekken voort te kunnen zetten.",
+        "message": "Klik hier om Signal-Desktop te koppelen aan de Signal app op je telefoon. Dit is nodig om Signal-Desktop te kunnen gebruiken.",
         "description": ""
     },
     "unlinked": {
@@ -3384,7 +3450,7 @@
         }
     },
     "no-groups-in-common": {
-        "message": "Geen gemeenschappelijke groepen",
+        "message": "Geen andere gemeenschappelijke groepen",
         "description": "Shown to indicate this user is not a member of any groups"
     },
     "no-groups-in-common-warning": {
@@ -3451,9 +3517,87 @@
         "message": "Inkomende video-oproep …",
         "description": "Shown in both the incoming call bar and notification for an incoming video call"
     },
-    "outgoingCallPrering": {
-        "message": "Oproep aan het starten …",
-        "description": "Shown in the call screen when placing an outgoing call that isn't ringing yet"
+    "incomingGroupCall__ringing-you": {
+        "message": "$ringer$ belt je",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-1-other": {
+        "message": "$ringer$ belt jou en $otherMember$",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "otherMember": {
+                "content": "$2",
+                "example": "Bob"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-2-others": {
+        "message": "$ringer$ belt jou, $first$ en $second$",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "first": {
+                "content": "$2",
+                "example": "Bob"
+            },
+            "second": {
+                "content": "$3",
+                "example": "Charlie"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-3-others": {
+        "message": "$ringer$ belt jou, $first$, $second$ en 1 ander",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "first": {
+                "content": "$2",
+                "example": "Bob"
+            },
+            "second": {
+                "content": "$3",
+                "example": "Charlie"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-many": {
+        "message": "$ringer$ belt jou, $first$, $second$ en $remaining$ anderen",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "first": {
+                "content": "$2",
+                "example": "Bob"
+            },
+            "second": {
+                "content": "$3",
+                "example": "Charlie"
+            },
+            "remaining": {
+                "content": "$4",
+                "example": "5"
+            }
+        }
     },
     "outgoingCallRinging": {
         "message": "Gaat over …",
@@ -5586,7 +5730,7 @@
         }
     },
     "ContactSpoofing__same-name__link": {
-        "message": "Lidmaatschapsverzoeken vergelijken",
+        "message": "Personen vergelijken",
         "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else"
     },
     "ContactSpoofing__same-name-in-group__link": {
@@ -5594,19 +5738,19 @@
         "description": "Shown in the timeline warning when you multiple group members have the same name"
     },
     "ContactSpoofingReviewDialog__title": {
-        "message": "Lidmaatschapsverzoeken vergelijken",
+        "message": "Personen vergelijken",
         "description": "Title for the contact name spoofing review dialog"
     },
     "ContactSpoofingReviewDialog__description": {
-        "message": "Vergelijk als je niet zeker bent van wie het lidmaatschapsverzoek afkomstig is de personen hieronder en neem actie indien je denkt dat een van hen zich probeert voor te doen als de ander.",
+        "message": "Vergelijk, als je niet zeker bent van wie het gespreksverzoek afkomstig is, de personen hieronder en neem actie indien je denkt dat een van hen zich probeert voor te doen als de ander.",
         "description": "Description for the contact spoofing review dialog"
     },
     "ContactSpoofingReviewDialog__possibly-unsafe-title": {
-        "message": "Lidmaatschapsverzoek",
+        "message": "Wil een gesprek met je beginnen",
         "description": "Header in the contact spoofing review dialog, shown above the potentially-unsafe user"
     },
     "ContactSpoofingReviewDialog__safe-title": {
-        "message": "Je contactpersoon",
+        "message": "Persoon die in je contactenlijst staat",
         "description": "Header in the contact spoofing review dialog, shown above the \"safe\" user"
     },
     "ContactSpoofingReviewDialog__group__title": {
@@ -6145,6 +6289,10 @@
             }
         }
     },
+    "WhatsNew__modal-title": {
+        "message": "wat er nieuw is",
+        "description": "Title for the whats new modal"
+    },
     "WhatsNew__v5.15--1": {
         "message": "Je ziet vanaf nu een stip op binnengekomen audioberichten die je nog niet hebt beluisterd.",
         "description": "Release notes for v5.15"
@@ -6164,5 +6312,17 @@
     "WhatsNew__v5.15--5": {
         "message": "Veel fouten opgelost en ook een aantal verbeteringing voor de prestaties. Bedankt voor jullie terugkoppeling!",
         "description": "Release notes for v5.15"
+    },
+    "WhatsNew__v5.16--1": {
+        "message": "Een verbeterde achtergrond bij get weergeven van afbeeldingen en video's waardoor je niet meer wordt verblind in een donkere kamer. En als je de media vergroot dan worden de knoppen verborgen.",
+        "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.16--2": {
+        "message": "Fout opgelost waarbij de emoji picker mogelijk buiten de randen van je scherm werd weergegeven. Je kunt nu weer met emojis reageren.",
+        "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.16--3": {
+        "message": "Als je tijdens een oproep je cursor over de knoppen laat zweven dan blijven de knoppen zichtbaar.",
+        "description": "Release notes for v5.16"
     }
 }

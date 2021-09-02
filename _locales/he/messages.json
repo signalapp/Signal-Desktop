@@ -1397,6 +1397,22 @@
         "message": "הפסק לשתף מסך",
         "description": "Button tooltip label for stopping screen sharing"
     },
+    "calling__button--ring__label": {
+        "message": "צלצל",
+        "description": "Label under the ring button"
+    },
+    "calling__button--ring__disabled-because-group-is-too-large": {
+        "message": "הקבוצה גדולה מדי כדי לצלצל אל המשתתפים.",
+        "description": "Button tooltip label when you can't ring because the group is too large"
+    },
+    "calling__button--ring__off": {
+        "message": "יידע, אל תצלצל",
+        "description": "Button tooltip label for turning ringing off"
+    },
+    "calling__button--ring__on": {
+        "message": "אפשר צלצול אל אחרים",
+        "description": "Button tooltip label for turning ringing on"
+    },
     "calling__your-video-is-off": {
         "message": "המצלמה שלך כבויה",
         "description": "Label in the calling lobby indicating that your camera is off"
@@ -1476,6 +1492,56 @@
             "person": {
                 "content": "$1",
                 "example": "Sam"
+            }
+        }
+    },
+    "calling__pre-call-info--will-ring-2": {
+        "message": "Signal יצלצל אל $first$ ואל $second$",
+        "description": "Shown in the calling lobby to describe who will be rang",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            }
+        }
+    },
+    "calling__pre-call-info--will-ring-3": {
+        "message": "Signal יצלצל אל $first$, $second$ ואל $third$",
+        "description": "Shown in the calling lobby to describe who will be rang",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "third": {
+                "content": "$3",
+                "example": "April"
+            }
+        }
+    },
+    "calling__pre-call-info--will-ring-many": {
+        "message": "Signal יצלצל אל $first$, $second$ ואל $others$ אחרים",
+        "description": "Shown in the calling lobby to describe who will be rang",
+        "placeholders": {
+            "person": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "others": {
+                "content": "$3",
+                "example": "5"
             }
         }
     },
@@ -1661,7 +1727,7 @@
         "message": "שדר מחדש את כל השיחות דרך שרת Signal כדי למנוע את חשיפת כתובת ה־IP שלך אל איש הקשר שלך. אפשור יפחית איכות שיחות.",
         "description": "Details describing the always relay calls setting"
     },
-    "Preferences--permissions": {
+    "permissions": {
         "message": "הרשאות",
         "description": "Header for permissions section of settings"
     },
@@ -2250,7 +2316,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "קשר מחדש את Signal Desktop אל המכשיר הנייד שלך כדי להמשיך בשליחת הודעות.",
+        "message": "לחץ כדי לקשר מחדש את Signal Desktop אל המכשיר הנייד שלך כדי להמשיך בשליחת הודעות.",
         "description": ""
     },
     "unlinked": {
@@ -3451,9 +3517,87 @@
         "message": "שיחת וידאו נכנסת…",
         "description": "Shown in both the incoming call bar and notification for an incoming video call"
     },
-    "outgoingCallPrering": {
-        "message": "מתקשר...",
-        "description": "Shown in the call screen when placing an outgoing call that isn't ringing yet"
+    "incomingGroupCall__ringing-you": {
+        "message": "$ringer$ מתקשר/ת אליך",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-1-other": {
+        "message": "$ringer$ מתקשר/ת אליך ואל $otherMember$",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "otherMember": {
+                "content": "$2",
+                "example": "Bob"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-2-others": {
+        "message": "$ringer$ מתקשר/ת אליך, $first$ ואל $second$",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "first": {
+                "content": "$2",
+                "example": "Bob"
+            },
+            "second": {
+                "content": "$3",
+                "example": "Charlie"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-3-others": {
+        "message": "$ringer$ מתקשר/ת אליך, $first$, $second$ ואל 1 אחר",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "first": {
+                "content": "$2",
+                "example": "Bob"
+            },
+            "second": {
+                "content": "$3",
+                "example": "Charlie"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-many": {
+        "message": "$ringer$ מתקשר/ת אליך, $first$, $second$ ואל $remaining$ אחרים",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "first": {
+                "content": "$2",
+                "example": "Bob"
+            },
+            "second": {
+                "content": "$3",
+                "example": "Charlie"
+            },
+            "remaining": {
+                "content": "$4",
+                "example": "5"
+            }
+        }
     },
     "outgoingCallRinging": {
         "message": "מצלצל…",
@@ -6145,12 +6289,16 @@
             }
         }
     },
+    "WhatsNew__modal-title": {
+        "message": "מה חדש",
+        "description": "Title for the whats new modal"
+    },
     "WhatsNew__v5.15--1": {
-        "message": "No that's not speck of dust you need to flick off your monitor, there's now a dot for unplayed incoming audio messages.",
+        "message": "לא זה לא גרגיר אבק שאתה צריך להעיף מהצג שלך, יש עכשיו נקודה עבור הודעות שמע בלתי מנוגנות.",
         "description": "Release notes for v5.15"
     },
     "WhatsNew__v5.15--2": {
-        "message": "The calling lobby got some remodeling and renovations done and we didn't even have to refinance.",
+        "message": "מבואת ההתקשרות קיבלה דיגום מחדש ושיפוצים.",
         "description": "Release notes for v5.15"
     },
     "WhatsNew__v5.15--3": {
@@ -6164,5 +6312,17 @@
     "WhatsNew__v5.15--5": {
         "message": "סילקנו מלא תקלים ויש גם כמה שיפורי ביצועים. תודה לכולם על הדיווחים!",
         "description": "Release notes for v5.15"
+    },
+    "WhatsNew__v5.16--1": {
+        "message": "An improved media lightbox means no surprises as you progress through a gallery of images or videos, and you can pretend you’re really in a dark room by zooming to hide those pesky buttons.",
+        "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.16--2": {
+        "message": "תקל תוקן שבו תגובה אל הודעה הייתה ערמומית, מאחר ששמנו את הבורר מחוץ למסך. זה תוקן עכשיו, ואתה יכול 😮 אל התוכן ה־❤️ שלך.",
+        "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.16--3": {
+        "message": "אם תרחף מעל הכפתורים בזמן שיחה, הם יישארו נראים במקום להיעלם. כלום לא מסתתר מעין הנשר שלך, אפילו לא הכפתורים האלו!",
+        "description": "Release notes for v5.16"
     }
 }

@@ -812,7 +812,7 @@
         "description": ""
     },
     "whatsNew": {
-        "message": "Siehe $whatsNew$ dieser Aktualisierung",
+        "message": "$whatsNew$ in dieser Aktualisierung",
         "description": "Shown in the main window",
         "placeholders": {
             "name": {
@@ -822,7 +822,7 @@
         }
     },
     "viewReleaseNotes": {
-        "message": "was ist neu",
+        "message": "Was ist neu",
         "description": "Clickable link that displays the latest release notes"
     },
     "selectAContact": {
@@ -1397,6 +1397,22 @@
         "message": "Präsentation stoppen",
         "description": "Button tooltip label for stopping screen sharing"
     },
+    "calling__button--ring__label": {
+        "message": "Klingeln",
+        "description": "Label under the ring button"
+    },
+    "calling__button--ring__disabled-because-group-is-too-large": {
+        "message": "Gruppe ist zu groß, um die Teilnehmer anzuklingeln.",
+        "description": "Button tooltip label when you can't ring because the group is too large"
+    },
+    "calling__button--ring__off": {
+        "message": "Benachrichtigen, nicht klingeln",
+        "description": "Button tooltip label for turning ringing off"
+    },
+    "calling__button--ring__on": {
+        "message": "Klingeln aktivieren",
+        "description": "Button tooltip label for turning ringing on"
+    },
     "calling__your-video-is-off": {
         "message": "Deine Kamera ist ausgeschaltet",
         "description": "Label in the calling lobby indicating that your camera is off"
@@ -1452,7 +1468,7 @@
         }
     },
     "calling__pre-call-info--many-people-in-call": {
-        "message": "$first$, $second$ und $others$ Weitere nehmen an diesem Anruf teil",
+        "message": "$first$, $second$ und $others$ weitere Personen nehmen an diesem Anruf teil",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
@@ -1479,8 +1495,58 @@
             }
         }
     },
+    "calling__pre-call-info--will-ring-2": {
+        "message": "Signal wird bei $first$ und $second$ klingeln",
+        "description": "Shown in the calling lobby to describe who will be rang",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            }
+        }
+    },
+    "calling__pre-call-info--will-ring-3": {
+        "message": "Signal wird bei $first$, $second$ und $third$ klingeln",
+        "description": "Shown in the calling lobby to describe who will be rang",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "third": {
+                "content": "$3",
+                "example": "April"
+            }
+        }
+    },
+    "calling__pre-call-info--will-ring-many": {
+        "message": "Signal wird bei $first$, $second$ und $others$ weiteren Personen klingeln",
+        "description": "Shown in the calling lobby to describe who will be rang",
+        "placeholders": {
+            "person": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "others": {
+                "content": "$3",
+                "example": "5"
+            }
+        }
+    },
     "calling__pre-call-info--will-notify-1": {
-        "message": "$person$ wird benachrichtigt",
+        "message": "$person$ wird benachrichtigt werden",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "person": {
@@ -1490,7 +1556,7 @@
         }
     },
     "calling__pre-call-info--will-notify-2": {
-        "message": "$first$ und $second$ werden benachrichtigt",
+        "message": "$first$ und $second$ werden benachrichtigt werden",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "first": {
@@ -1504,7 +1570,7 @@
         }
     },
     "calling__pre-call-info--will-notify-3": {
-        "message": "$first$, $second$ und $third$ werden benachrichtigt",
+        "message": "$first$, $second$ und $third$ werden benachrichtigt werden",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "first": {
@@ -1522,7 +1588,7 @@
         }
     },
     "calling__pre-call-info--will-notify-many": {
-        "message": "$first$, $second$ und $others$ Weitere werden benachrichtigt",
+        "message": "$first$, $second$ und $others$ weitere Personen werden benachrichtigt werden",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "person": {
@@ -1661,7 +1727,7 @@
         "message": "Alle Anrufe über den Signal-Server leiten, um die eigene IP-Adresse gegenüber Kontakten nicht offenzulegen. Dies verringert die Anrufqualität.",
         "description": "Details describing the always relay calls setting"
     },
-    "Preferences--permissions": {
+    "permissions": {
         "message": "Berechtigungen",
         "description": "Header for permissions section of settings"
     },
@@ -2250,7 +2316,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "Kopple Signal Desktop erneut mit deinem Mobilgerät, um weiter zu kommunizieren.",
+        "message": "Anklicken, um Signal Desktop erneut mit deinem Mobilgerät zu koppeln und so weiterhin Nachrichten austauschen zu können.",
         "description": ""
     },
     "unlinked": {
@@ -3451,9 +3517,87 @@
         "message": "Eingehender Videoanruf …",
         "description": "Shown in both the incoming call bar and notification for an incoming video call"
     },
-    "outgoingCallPrering": {
-        "message": "Anrufen …",
-        "description": "Shown in the call screen when placing an outgoing call that isn't ringing yet"
+    "incomingGroupCall__ringing-you": {
+        "message": "$ringer$ ruft dich gerade an",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-1-other": {
+        "message": "$ringer$ ruft dich und $otherMember$ gerade an",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "otherMember": {
+                "content": "$2",
+                "example": "Bob"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-2-others": {
+        "message": "$ringer$ ruft dich, $first$ und $second$ gerade an",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "first": {
+                "content": "$2",
+                "example": "Bob"
+            },
+            "second": {
+                "content": "$3",
+                "example": "Charlie"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-3-others": {
+        "message": "$ringer$ ruft dich, $first$, $second$ und 1 weitere Person gerade an ",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "first": {
+                "content": "$2",
+                "example": "Bob"
+            },
+            "second": {
+                "content": "$3",
+                "example": "Charlie"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-many": {
+        "message": "$ringer$ ruft dich, $first$, $second$ und $remaining$ weitere Personen gerade an ",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "first": {
+                "content": "$2",
+                "example": "Bob"
+            },
+            "second": {
+                "content": "$3",
+                "example": "Charlie"
+            },
+            "remaining": {
+                "content": "$4",
+                "example": "5"
+            }
+        }
     },
     "outgoingCallRinging": {
         "message": "Klingeln …",
@@ -5124,7 +5268,7 @@
         "description": "This is the additional info for the 'who can add members' panel"
     },
     "ConversationDetails--announcement-label": {
-        "message": "Wer kann Nachrichten senden",
+        "message": "Wer darf Nachrichten senden",
         "description": "This is the additional info for the 'who can send messages' panel"
     },
     "ConversationDetails--announcement-info": {
@@ -5976,7 +6120,7 @@
         "description": "Modal title for the list of admins in a group"
     },
     "AnnouncementsOnlyGroupBanner--announcements-only": {
-        "message": "Nur $admins$ können Nachrichten senden",
+        "message": "Nur $admins$ dürfen Nachrichten senden",
         "description": "Displayed if sending of messages is disabled to non-admins",
         "placeholders": {
             "admins": {
@@ -6052,7 +6196,7 @@
         "description": "Title for the generate link previews setting"
     },
     "Preferences__link-previews--description": {
-        "message": "Um diese Einstellung zu ändern, öffne Signal auf deinem Mobilgerät und gehe zu Signal-Einstellungen > Unterhaltungen",
+        "message": "Um diese Einstellung zu ändern, öffne die Signal-App auf deinem Mobilgerät und gehe dort zu »Einstellungen« → »Unterhaltungen«",
         "description": "Description for the generate link previews setting"
     },
     "Preferences--advanced": {
@@ -6064,7 +6208,7 @@
         "description": "Label for the notification content setting select box"
     },
     "Preferences--blocked": {
-        "message": "Blockierte Nutzer",
+        "message": "Blockiert",
         "description": "Label for blocked contacts setting"
     },
     "Preferences--blocked-count-singular": {
@@ -6092,7 +6236,7 @@
         "description": "Title for the 'who can do X' setting"
     },
     "Preferences__privacy--description": {
-        "message": "Um diese Einstellung zu ändern, öffne Signal auf deinem Mobilgerät und gehe zu Signal-Einstellungen > Datenschutz",
+        "message": "Um diese Einstellung zu ändern, öffne die Signal-App auf deinem Mobilgerät und gehe dort zu »Einstellungen« → »Datenschutz«",
         "description": "Description for the 'who can do X' setting"
     },
     "Preferences__who-can--everybody": {
@@ -6132,7 +6276,7 @@
         "description": "Header for settings having to do with updates"
     },
     "Preferences__download-update": {
-        "message": "automatisches Herunterladen von Aktualisierungen",
+        "message": "Aktualisierungen automatisch herunterladen",
         "description": "Label for checkbox for the auto download updates setting"
     },
     "DialogUpdate--version-available": {
@@ -6145,12 +6289,16 @@
             }
         }
     },
+    "WhatsNew__modal-title": {
+        "message": "Was ist neu",
+        "description": "Title for the whats new modal"
+    },
     "WhatsNew__v5.15--1": {
-        "message": "Nein, das ist kein Staubkörnchen, das du von deinem Monitor entfernen müsst, es gibt jetzt einen Punkt für nicht abgespielte eingehende Audionachrichten.",
+        "message": "Nein, das ist kein Staubkorn, das du von deinem Monitor entfernen musst, es gibt jetzt einen Punkt für eingegangene, nicht abgespielte Audionachrichten.",
         "description": "Release notes for v5.15"
     },
     "WhatsNew__v5.15--2": {
-        "message": "Die Anruf-Lobby wurde umgebaut und renoviert und wir mussten nicht einmal refinanzieren.",
+        "message": "Die Anruf-Lobby wurde umgebaut und renoviert, und wir mussten nicht einmal refinanzieren.",
         "description": "Release notes for v5.15"
     },
     "WhatsNew__v5.15--3": {
@@ -6158,11 +6306,23 @@
         "description": "Release notes for v5.15"
     },
     "WhatsNew__v5.15--4": {
-        "message": "Du kannst jetzt einstellen wann neue Aktualisierungen für Signal heruntergeladen und installiert werden. Den Dialog haben wir auch leicht überarbeitet. Die Einstellungen findest du im neuen Menü.",
+        "message": "Du kannst jetzt einstellen, wann neue Aktualisierungen für Signal heruntergeladen und installiert werden. Die Dialoge haben wir auch leicht überarbeitet. Die Einstellung findest du im neuen Einstellungsfenster.",
         "description": "Release notes for v5.15"
     },
     "WhatsNew__v5.15--5": {
         "message": "Es wurden viele Fehler beseitigt und es gibt auch einige Leistungsverbesserungen. Danke euch allen für eure Meldungen!",
         "description": "Release notes for v5.15"
+    },
+    "WhatsNew__v5.16--1": {
+        "message": "Eine verbesserte Medien-Lightbox bedeutet keine Überraschungen, während du dich durch eine Galerie von Bildern oder Videos bewegst. Und du kannst so tun, als ob du dich wirklich in einem dunklen Raum befindest, indem du heranzoomst, um diese lästigen Schaltflächen auszublenden.",
+        "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.16--2": {
+        "message": "Es wurde ein Fehler behoben, bei dem das Reagieren auf eine Nachricht schwierig war, da die Auswahl nicht auf dem Bildschirm war.",
+        "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.16--3": {
+        "message": "Wenn du während eines Anrufs mit der Maus über die Anrufschaltflächen fährst, bleiben diese sichtbar und verschwinden nicht. Nichts verbirgt sich vor deinem Adlerauge, nicht einmal diese Schaltflächen! ",
+        "description": "Release notes for v5.16"
     }
 }

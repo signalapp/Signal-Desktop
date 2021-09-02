@@ -1397,6 +1397,22 @@
         "message": "停止展示",
         "description": "Button tooltip label for stopping screen sharing"
     },
+    "calling__button--ring__label": {
+        "message": "撥電話",
+        "description": "Label under the ring button"
+    },
+    "calling__button--ring__disabled-because-group-is-too-large": {
+        "message": "群組太大，無法給參與者打電話。",
+        "description": "Button tooltip label when you can't ring because the group is too large"
+    },
+    "calling__button--ring__off": {
+        "message": "通知，但不要去電",
+        "description": "Button tooltip label for turning ringing off"
+    },
+    "calling__button--ring__on": {
+        "message": "開啟通話",
+        "description": "Button tooltip label for turning ringing on"
+    },
     "calling__your-video-is-off": {
         "message": "你的相機已關閉",
         "description": "Label in the calling lobby indicating that your camera is off"
@@ -1476,6 +1492,56 @@
             "person": {
                 "content": "$1",
                 "example": "Sam"
+            }
+        }
+    },
+    "calling__pre-call-info--will-ring-2": {
+        "message": "Signal會去電給 $first$ 和 $second$",
+        "description": "Shown in the calling lobby to describe who will be rang",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            }
+        }
+    },
+    "calling__pre-call-info--will-ring-3": {
+        "message": "Signal會去電給 $first$、$second$，及 $third$",
+        "description": "Shown in the calling lobby to describe who will be rang",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "third": {
+                "content": "$3",
+                "example": "April"
+            }
+        }
+    },
+    "calling__pre-call-info--will-ring-many": {
+        "message": "Signal會去電給 $first$、$second$，和 $others$及其他人",
+        "description": "Shown in the calling lobby to describe who will be rang",
+        "placeholders": {
+            "person": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "others": {
+                "content": "$3",
+                "example": "5"
             }
         }
     },
@@ -1661,7 +1727,7 @@
         "message": "透過 Signal 伺服器轉發通話，來避免透露你的 IP 位址給你的聯絡人。啟用時，會降低通話品質。",
         "description": "Details describing the always relay calls setting"
     },
-    "Preferences--permissions": {
+    "permissions": {
         "message": "權限",
         "description": "Header for permissions section of settings"
     },
@@ -2250,7 +2316,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "將您的手機重新連結至 Signal 桌面版以繼續聊天",
+        "message": "單擊將 Signal 電腦版重新連結到你的行動裝置以繼續傳送訊息。",
         "description": ""
     },
     "unlinked": {
@@ -3451,9 +3517,87 @@
         "message": "來電視訊電話...",
         "description": "Shown in both the incoming call bar and notification for an incoming video call"
     },
-    "outgoingCallPrering": {
-        "message": "撥打中",
-        "description": "Shown in the call screen when placing an outgoing call that isn't ringing yet"
+    "incomingGroupCall__ringing-you": {
+        "message": "$ringer$ 將撥電話給你",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-1-other": {
+        "message": "$ringer$ 正在撥電話給你及 $otherMember$",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "otherMember": {
+                "content": "$2",
+                "example": "Bob"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-2-others": {
+        "message": "$ringer$ 正在撥電話給你、$first$，和 $second$",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "first": {
+                "content": "$2",
+                "example": "Bob"
+            },
+            "second": {
+                "content": "$3",
+                "example": "Charlie"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-3-others": {
+        "message": "$ringer$ 正在撥電話給你、$first$、$second$，及1 位其他人",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "first": {
+                "content": "$2",
+                "example": "Bob"
+            },
+            "second": {
+                "content": "$3",
+                "example": "Charlie"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-many": {
+        "message": "$ringer$ 正在撥電話給你、$first$、$second$，和 $remaining$ 及其他人",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "first": {
+                "content": "$2",
+                "example": "Bob"
+            },
+            "second": {
+                "content": "$3",
+                "example": "Charlie"
+            },
+            "remaining": {
+                "content": "$4",
+                "example": "5"
+            }
+        }
     },
     "outgoingCallRinging": {
         "message": "響鈴中...",
@@ -6145,6 +6289,10 @@
             }
         }
     },
+    "WhatsNew__modal-title": {
+        "message": "有甚麼新的",
+        "description": "Title for the whats new modal"
+    },
     "WhatsNew__v5.15--1": {
         "message": "不，這不是你需要從顯示器上清除的灰塵，現在有一個點用於未播放的傳入與音訊息。",
         "description": "Release notes for v5.15"
@@ -6164,5 +6312,17 @@
     "WhatsNew__v5.15--5": {
         "message": "更正了許多錯誤，並且還有一些性能上的改進。 謝謝大家的回報！",
         "description": "Release notes for v5.15"
+    },
+    "WhatsNew__v5.16--1": {
+        "message": "改善的媒體燈箱意味著你在瀏覽圖片或影片庫時不會感到詫異，而且你可以透過放大隱藏那些惱人的按鈕來假裝自己真的在暗房裡。",
+        "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.16--2": {
+        "message": "修復了對訊息做出回應棘手的錯誤，因為我們將選擇器移出了螢幕。 現在已修復，你可以😮 到你 ❤️ 的內容。",
+        "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.16--3": {
+        "message": "如果你在通話時將滑鼠游標停在按鈕上，它們將保持可見而不是消失。 沒有什麼能躲過你的鷹眼，即使是這些按鈕！",
+        "description": "Release notes for v5.16"
     }
 }

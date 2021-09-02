@@ -1397,6 +1397,22 @@
         "message": "Ndal paraqitje",
         "description": "Button tooltip label for stopping screen sharing"
     },
+    "calling__button--ring__label": {
+        "message": "Bjeri ziles",
+        "description": "Label under the ring button"
+    },
+    "calling__button--ring__disabled-because-group-is-too-large": {
+        "message": "Grupi është shumë i madh për t’u rënë ziles së pjesëmarrësve.",
+        "description": "Button tooltip label when you can't ring because the group is too large"
+    },
+    "calling__button--ring__off": {
+        "message": "Njofto, mos i bjer ziles",
+        "description": "Button tooltip label for turning ringing off"
+    },
+    "calling__button--ring__on": {
+        "message": "Aktivizo rënien e ziles",
+        "description": "Button tooltip label for turning ringing on"
+    },
     "calling__your-video-is-off": {
         "message": "Kamera juaj është e fikur",
         "description": "Label in the calling lobby indicating that your camera is off"
@@ -1476,6 +1492,56 @@
             "person": {
                 "content": "$1",
                 "example": "Sam"
+            }
+        }
+    },
+    "calling__pre-call-info--will-ring-2": {
+        "message": "Signal-i do t’i bjerë ziles për $first$ dhe $second$",
+        "description": "Shown in the calling lobby to describe who will be rang",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            }
+        }
+    },
+    "calling__pre-call-info--will-ring-3": {
+        "message": "Signal-i do t’i bjerë ziles për $first$, $second$, dhe $third$",
+        "description": "Shown in the calling lobby to describe who will be rang",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "third": {
+                "content": "$3",
+                "example": "April"
+            }
+        }
+    },
+    "calling__pre-call-info--will-ring-many": {
+        "message": "Signal-i do t’i bjerë ziles për $first$, $second$, dhe $others$ të tjerë",
+        "description": "Shown in the calling lobby to describe who will be rang",
+        "placeholders": {
+            "person": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "others": {
+                "content": "$3",
+                "example": "5"
             }
         }
     },
@@ -1661,7 +1727,7 @@
         "message": "Kaloji krejt thirrjet përmes shërbyesit Signal për të shmangur zbulimin e adresës tuaj IP nga kontakti juaj. Aktivizimi do të ulë cilësinë e thirrjes.",
         "description": "Details describing the always relay calls setting"
     },
-    "Preferences--permissions": {
+    "permissions": {
         "message": "Leje",
         "description": "Header for permissions section of settings"
     },
@@ -1678,7 +1744,7 @@
         "description": "Header for general options on the settings screen"
     },
     "spellCheckDescription": {
-        "message": "Spell check text entered in message composition box",
+        "message": "Te kuadrati i hartimit të mesazhit u dha tekst kontrollori drejtshkrimi",
         "description": "Description of the spell check setting"
     },
     "spellCheckWillBeEnabled": {
@@ -2250,7 +2316,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "Që të vazhdoni shkëmbim mesazhesh, rilidheni Signal-in për Desktop me pajisjen tuaj celulare.",
+        "message": "Klikoni që të rilidhni Signal-in për Desktop me pajisjen tuaj celulare, që të vazhdohet puna me mesazhet.",
         "description": ""
     },
     "unlinked": {
@@ -3451,9 +3517,87 @@
         "message": "Thirrje video ardhëse…",
         "description": "Shown in both the incoming call bar and notification for an incoming video call"
     },
-    "outgoingCallPrering": {
-        "message": "Po thirret…",
-        "description": "Shown in the call screen when placing an outgoing call that isn't ringing yet"
+    "incomingGroupCall__ringing-you": {
+        "message": "$ringer$ po ju thërret",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-1-other": {
+        "message": "$ringer$ po ju thërret ju dhe $otherMember$",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "otherMember": {
+                "content": "$2",
+                "example": "Bob"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-2-others": {
+        "message": "$ringer$ po ju thërret ju, $first$, dhe $second$",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "first": {
+                "content": "$2",
+                "example": "Bob"
+            },
+            "second": {
+                "content": "$3",
+                "example": "Charlie"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-3-others": {
+        "message": "$ringer$ po ju thërret ju, $first$, $second$, dhe 1 tjetër",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "first": {
+                "content": "$2",
+                "example": "Bob"
+            },
+            "second": {
+                "content": "$3",
+                "example": "Charlie"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-many": {
+        "message": "$ringer$ po ju thërret ju, $first$, $second$, dhe $remaining$ të tjerë",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "first": {
+                "content": "$2",
+                "example": "Bob"
+            },
+            "second": {
+                "content": "$3",
+                "example": "Charlie"
+            },
+            "remaining": {
+                "content": "$4",
+                "example": "5"
+            }
+        }
     },
     "outgoingCallRinging": {
         "message": "Po i bihet ziles…",
@@ -6145,24 +6289,40 @@
             }
         }
     },
+    "WhatsNew__modal-title": {
+        "message": "Ç’ka të Re",
+        "description": "Title for the whats new modal"
+    },
     "WhatsNew__v5.15--1": {
-        "message": "No that's not speck of dust you need to flick off your monitor, there's now a dot for unplayed incoming audio messages.",
+        "message": "Jo, s’është pluhur që duhet fshirë nga monitori, tani është një pikë për mesazhe audio ardhës të padëgjuar ende.",
         "description": "Release notes for v5.15"
     },
     "WhatsNew__v5.15--2": {
-        "message": "The calling lobby got some remodeling and renovations done and we didn't even have to refinance.",
+        "message": "Hollit të thirrjeve iu bë ca rimodelim dhe rinovime dhe as që na u desh t’i rifinanconim.",
         "description": "Release notes for v5.15"
     },
     "WhatsNew__v5.15--3": {
-        "message": "The new preferences window is better and faster. Go ahead and change your zoom level, toggle the theme, set a custom disappearing timer.",
+        "message": "Dritarja e re e parapëlqimeve tani është më e mirë dhe më e shpejtë. Jepini dhe ndryshoni shkallën tuaj për zmadhim/zvogëlim, ndërroni temën, caktoni një kohëmatës vetjak për mesazhe që treten.",
         "description": "Release notes for v5.15"
     },
     "WhatsNew__v5.15--4": {
-        "message": "You can now choose when to download and apply new updates for Signal. The dialogs got a small makeover too. Check out the setting in the new preferences window.",
+        "message": "Tani mund të zgjidhni kur të shkarkohet dhe të aplikohen përditësime të reja të Signal-it. Dialogëve iu bënë gjithashtu disa ndryshime të vockla. Shiheni rregullimin përkatës te dritarja e re e parapëlqimeve.",
         "description": "Release notes for v5.15"
     },
     "WhatsNew__v5.15--5": {
-        "message": "Squashed lots of bugs and there are some performance improvements as well. Thank you all for your reports!",
+        "message": "U ndreqën thasë me të meta dhe ka edhe disa përmirësime të funksionimit. Faleminderit për krejt njoftimet rreth tyre!",
         "description": "Release notes for v5.15"
+    },
+    "WhatsNew__v5.16--1": {
+        "message": "Një “lightbox” medias i përmirësuar s’duhet të jetë surprizë, teksa përparoni nëpër një galeri figurash dhe videosh, dhe mund të pretendoni se gjendeni vërtet në një dhomë të errët duke zmadhuar  për të fshehur ata butonat e bezdisur.",
+        "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.16--2": {
+        "message": "U ndreq një e metë nën të cilën reagimi ndaj një mesazhi qe i ngatërruar, ngaqë zgjedhësin e kishim shmangur nga ekrani. Tanimë kjo është ndrequr, dhe mund të 😮 ndaj lëndës së ❤️ tuaj.",
+        "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.16--3": {
+        "message": "Nëse kaloni kursorin sipër butonave, teksa jeni në një thirrje, mbeten të dukshëm, në vend se të zhduken. Syve tuaj shqiponjë nuk u fshihet asgjë, as madje këta butona!",
+        "description": "Release notes for v5.16"
     }
 }

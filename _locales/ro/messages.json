@@ -96,7 +96,7 @@
         "description": "Edit menu command to insert text from clipboard at cursor location"
     },
     "editMenuPasteAndMatchStyle": {
-        "message": "Stil Lipire și Potrivire",
+        "message": "Lipire și Potrivire Stil",
         "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
     },
     "editMenuDelete": {
@@ -164,7 +164,7 @@
         "description": "Label for context button next to each message"
     },
     "contextMenuCopyLink": {
-        "message": "Copiază Link-ul",
+        "message": "Copiază Linkul",
         "description": "Shown in the context menu for a link to indicate that the user can copy the link"
     },
     "contextMenuCopyImage": {
@@ -468,7 +468,7 @@
         "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogCopyAlt": {
-        "message": "Copiază link-ul în clipboard",
+        "message": "Copiază linkul în clipboard",
         "description": "Shown as the alt text for the copy button on the debug log screen"
     },
     "debugLogLinkCopied": {
@@ -596,7 +596,7 @@
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
     },
     "stagedPreviewThumbnail": {
-        "message": "Miniatură ciornă a previzualizări pentru $domain$",
+        "message": "Miniatură schiță a previzualizări pentru $domain$",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
@@ -616,7 +616,7 @@
         }
     },
     "stagedImageAttachment": {
-        "message": "Ciornă atașament imagine: $path$",
+        "message": "Schiță atașament imagine: $path$",
         "description": "Alt text for staged attachments",
         "placeholders": {
             "path": {
@@ -1397,6 +1397,22 @@
         "message": "Opriți prezentarea",
         "description": "Button tooltip label for stopping screen sharing"
     },
+    "calling__button--ring__label": {
+        "message": "Sună",
+        "description": "Label under the ring button"
+    },
+    "calling__button--ring__disabled-because-group-is-too-large": {
+        "message": "Grupul este prea mare pentru a apela participanții.",
+        "description": "Button tooltip label when you can't ring because the group is too large"
+    },
+    "calling__button--ring__off": {
+        "message": "Notifică, dar nu suna",
+        "description": "Button tooltip label for turning ringing off"
+    },
+    "calling__button--ring__on": {
+        "message": "Activează soneria",
+        "description": "Button tooltip label for turning ringing on"
+    },
     "calling__your-video-is-off": {
         "message": "Camera ta este oprită",
         "description": "Label in the calling lobby indicating that your camera is off"
@@ -1476,6 +1492,56 @@
             "person": {
                 "content": "$1",
                 "example": "Sam"
+            }
+        }
+    },
+    "calling__pre-call-info--will-ring-2": {
+        "message": "Signal va suna la $first$ și $second$",
+        "description": "Shown in the calling lobby to describe who will be rang",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            }
+        }
+    },
+    "calling__pre-call-info--will-ring-3": {
+        "message": "Signal va suna la $first$, $second$ și $third$",
+        "description": "Shown in the calling lobby to describe who will be rang",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "third": {
+                "content": "$3",
+                "example": "April"
+            }
+        }
+    },
+    "calling__pre-call-info--will-ring-many": {
+        "message": "Signal va suna la $first$, $second$ și $others$ alții",
+        "description": "Shown in the calling lobby to describe who will be rang",
+        "placeholders": {
+            "person": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "others": {
+                "content": "$3",
+                "example": "5"
             }
         }
     },
@@ -1661,7 +1727,7 @@
         "message": "Redirecționați toate apelurile către serverul Signal pentru a evita aflarea adresei IP de către contact tău. Activarea va reduce calitatea apelului.",
         "description": "Details describing the always relay calls setting"
     },
-    "Preferences--permissions": {
+    "permissions": {
         "message": "Permisiuni",
         "description": "Header for permissions section of settings"
     },
@@ -2250,7 +2316,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "Asociază din nou Signal Desktop la dispozitivul tău mobil pentru a putea comunica din nou.",
+        "message": "Apăsați pentru a asocia din nou Signal Desktop cu dispozitivul dvs. mobil și pentru a continua să trimiteți mesaje.",
         "description": ""
     },
     "unlinked": {
@@ -2766,11 +2832,11 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--remove-draft-link-preview": {
-        "message": "Eliminați previzualizarea link-ului",
+        "message": "Eliminați schița previzualizării linkului",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--remove-draft-attachments": {
-        "message": "Șterge toate atașamentele de tip ciornă",
+        "message": "Șterge toate atașamentele de tip schiță",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--conversation-by-index": {
@@ -3384,7 +3450,7 @@
         }
     },
     "no-groups-in-common": {
-        "message": "Nu există grupuri în comun",
+        "message": "Nu aveți grupuri în comun",
         "description": "Shown to indicate this user is not a member of any groups"
     },
     "no-groups-in-common-warning": {
@@ -3451,9 +3517,87 @@
         "message": "Apel de intrare video...",
         "description": "Shown in both the incoming call bar and notification for an incoming video call"
     },
-    "outgoingCallPrering": {
-        "message": "Apel în curs...",
-        "description": "Shown in the call screen when placing an outgoing call that isn't ringing yet"
+    "incomingGroupCall__ringing-you": {
+        "message": "$ringer$ vă apelează",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-1-other": {
+        "message": "$ringer$ apelează pe dvs. și $otherMember$",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "otherMember": {
+                "content": "$2",
+                "example": "Bob"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-2-others": {
+        "message": "$ringer$ apelează pe dvs, $first$ și $second$",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "first": {
+                "content": "$2",
+                "example": "Bob"
+            },
+            "second": {
+                "content": "$3",
+                "example": "Charlie"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-3-others": {
+        "message": "$ringer$ apelează pe dvs, $first$, $second$ și 1 altul",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "first": {
+                "content": "$2",
+                "example": "Bob"
+            },
+            "second": {
+                "content": "$3",
+                "example": "Charlie"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-many": {
+        "message": "$ringer$ apelează pe dvs, $first$, $second$ și $remaining$ alții",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "first": {
+                "content": "$2",
+                "example": "Bob"
+            },
+            "second": {
+                "content": "$3",
+                "example": "Charlie"
+            },
+            "remaining": {
+                "content": "$4",
+                "example": "5"
+            }
+        }
     },
     "outgoingCallRinging": {
         "message": "Sună...",
@@ -6145,6 +6289,10 @@
             }
         }
     },
+    "WhatsNew__modal-title": {
+        "message": "Ce este nou",
+        "description": "Title for the whats new modal"
+    },
     "WhatsNew__v5.15--1": {
         "message": "Nu, acela nu este un punct de praf pe care trebuie să-l ștergeți de pe monitor, există acum un punct pentru mesajele audio primite dar neredate.",
         "description": "Release notes for v5.15"
@@ -6164,5 +6312,17 @@
     "WhatsNew__v5.15--5": {
         "message": "Am rezolvat o mulțime de erori și am făcut de asemenea și câteva îmbunătățiri de performanță. Mulțumim tuturor pentru rapoartele voastre!",
         "description": "Release notes for v5.15"
+    },
+    "WhatsNew__v5.16--1": {
+        "message": "Un lightbox îmbunătățit pentru fișiere media vă scutește de surprize pe măsură ce parcurgeți o galerie de imagini sau videoclipuri, puteți pretinde că vă aflați cu adevărat într-o cameră întunecată, făcând zoom pentru a ascunde acele butoane supărătoare.",
+        "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.16--2": {
+        "message": "S-a remediat o eroare care crea dificultăți în a reacționa la un mesaj, deoarece selectorul era pus în afara ecranului. Această eroare este acum rezolvată, iar dvs. puteți 😮 după placul ❤️.",
+        "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.16--3": {
+        "message": "Dacă țineți cursorul deasupra butoanelor în timpul unui apel, aceasta vor rămâne vizibile în loc să dispară. Nimic nu se poate ascunde de ochiul dvs. de vultur, nici măcar aceste butoane!",
+        "description": "Release notes for v5.16"
     }
 }

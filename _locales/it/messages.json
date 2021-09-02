@@ -1397,6 +1397,22 @@
         "message": "Interrompi la presentazione",
         "description": "Button tooltip label for stopping screen sharing"
     },
+    "calling__button--ring__label": {
+        "message": "Squilla",
+        "description": "Label under the ring button"
+    },
+    "calling__button--ring__disabled-because-group-is-too-large": {
+        "message": "Il gruppo è troppo grande per squillare ai partecipanti.",
+        "description": "Button tooltip label when you can't ring because the group is too large"
+    },
+    "calling__button--ring__off": {
+        "message": "Notifica, non squillare",
+        "description": "Button tooltip label for turning ringing off"
+    },
+    "calling__button--ring__on": {
+        "message": "Attiva squillo",
+        "description": "Button tooltip label for turning ringing on"
+    },
     "calling__your-video-is-off": {
         "message": "La tua videocamera è disattivata",
         "description": "Label in the calling lobby indicating that your camera is off"
@@ -1476,6 +1492,56 @@
             "person": {
                 "content": "$1",
                 "example": "Sam"
+            }
+        }
+    },
+    "calling__pre-call-info--will-ring-2": {
+        "message": "Signal squillerà a $first$ e $second$",
+        "description": "Shown in the calling lobby to describe who will be rang",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            }
+        }
+    },
+    "calling__pre-call-info--will-ring-3": {
+        "message": "Signal squillerà a $first$, $second$, e $third$",
+        "description": "Shown in the calling lobby to describe who will be rang",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "third": {
+                "content": "$3",
+                "example": "April"
+            }
+        }
+    },
+    "calling__pre-call-info--will-ring-many": {
+        "message": "Signal squillerà a $first$, $second$, e altri $others$",
+        "description": "Shown in the calling lobby to describe who will be rang",
+        "placeholders": {
+            "person": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "others": {
+                "content": "$3",
+                "example": "5"
             }
         }
     },
@@ -1661,7 +1727,7 @@
         "message": "Ritrasmetti le chiamate attraverso i server di Signal per non rivelare il tuo indirizzo IP ai tuoi contatti. Abilitandolo verrà ridotta la qualità della chiamata.",
         "description": "Details describing the always relay calls setting"
     },
-    "Preferences--permissions": {
+    "permissions": {
         "message": "Permessi",
         "description": "Header for permissions section of settings"
     },
@@ -2250,7 +2316,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "Ricollega Signal Desktop al tuo dispositivo mobile per continuare a inviare messaggi.",
+        "message": "Clicca per ricollegare Signal Desktop al tuo dispositivo mobile per continuare a inviare messaggi.",
         "description": ""
     },
     "unlinked": {
@@ -3451,9 +3517,87 @@
         "message": "Videochiamata in arrivo...",
         "description": "Shown in both the incoming call bar and notification for an incoming video call"
     },
-    "outgoingCallPrering": {
-        "message": "Chiamata...",
-        "description": "Shown in the call screen when placing an outgoing call that isn't ringing yet"
+    "incomingGroupCall__ringing-you": {
+        "message": "$ringer$ ti sta chiamando",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-1-other": {
+        "message": "$ringer$ sta chiamando te e $otherMember$",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "otherMember": {
+                "content": "$2",
+                "example": "Bob"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-2-others": {
+        "message": "$ringer$ sta chiamando te, $first$, e $second$",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "first": {
+                "content": "$2",
+                "example": "Bob"
+            },
+            "second": {
+                "content": "$3",
+                "example": "Charlie"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-3-others": {
+        "message": "$ringer$ sta chiamando te, $first$, $second$, e 1 altro",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "first": {
+                "content": "$2",
+                "example": "Bob"
+            },
+            "second": {
+                "content": "$3",
+                "example": "Charlie"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-many": {
+        "message": "$ringer$ sta chiamando te, $first$, $second$, e altri $remaining$",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "first": {
+                "content": "$2",
+                "example": "Bob"
+            },
+            "second": {
+                "content": "$3",
+                "example": "Charlie"
+            },
+            "remaining": {
+                "content": "$4",
+                "example": "5"
+            }
+        }
     },
     "outgoingCallRinging": {
         "message": "Sta squillando...",
@@ -6145,6 +6289,10 @@
             }
         }
     },
+    "WhatsNew__modal-title": {
+        "message": "Cosa c'è di nuovo",
+        "description": "Title for the whats new modal"
+    },
     "WhatsNew__v5.15--1": {
         "message": "No, non è un granello di polvere che devi togliere dal tuo monitor, ora c'è un puntino sui messaggi audio in entrata non riprodotti.",
         "description": "Release notes for v5.15"
@@ -6164,5 +6312,17 @@
     "WhatsNew__v5.15--5": {
         "message": "Sono stati sistemati molti bug e ci sono anche alcuni miglioramenti delle prestazioni. Grazie a tutti per le vostre segnalazioni!",
         "description": "Release notes for v5.15"
+    },
+    "WhatsNew__v5.16--1": {
+        "message": "Una lightbox media migliorata significa nessuna sorpresa mentre si scorre una galleria di immagini o video, e si può far finta di essere davvero in una stanza buia con lo zoom per nascondere quei pulsanti fastidiosi.",
+        "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.16--2": {
+        "message": "Risolto un bug per cui reagire a un messaggio era difficile, perché mettevamo il selezionatore fuori dallo schermo. Ora è stato risolto e puoi 😮 al tuo contenuto del ❤️.",
+        "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.16--3": {
+        "message": "Se passi sopra i pulsanti durante una chiamata, rimangono visibili invece di scomparire. Niente si nasconde al tuo occhio d'aquila, nemmeno questi pulsanti!",
+        "description": "Release notes for v5.16"
     }
 }
