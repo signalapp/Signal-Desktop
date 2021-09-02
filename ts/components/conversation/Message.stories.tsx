@@ -1062,6 +1062,25 @@ story.add('TapToView Video', () => {
   return renderBothDirections(props);
 });
 
+story.add('TapToView GIF', () => {
+  const props = createProps({
+    attachments: [
+      {
+        contentType: VIDEO_MP4,
+        flags: SignalService.AttachmentPointer.Flags.GIF,
+        fileName: 'cat-gif.mp4',
+        url: '/fixtures/cat-gif.mp4',
+        width: 400,
+        height: 332,
+      },
+    ],
+    isTapToView: true,
+    status: 'sent',
+  });
+
+  return renderBothDirections(props);
+});
+
 story.add('TapToView Expired', () => {
   const props = createProps({
     attachments: [

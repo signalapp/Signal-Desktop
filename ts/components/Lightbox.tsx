@@ -188,6 +188,11 @@ export function Lightbox({
     };
   }, [onKeyDown]);
 
+  const { attachment, contentType, loop = false, objectURL, message } =
+    media[selectedIndex] || {};
+
+  const isAttachmentGIF = isGIF([attachment]);
+
   useEffect(() => {
     playVideo();
 
@@ -195,19 +200,21 @@ export function Lightbox({
       focusRef.current.focus();
     }
 
-    if (videoElement && isViewOnce) {
-      videoElement.addEventListener('timeupdate', onTimeUpdate);
-
-      return () => {
-        videoElement.removeEventListener('timeupdate', onTimeUpdate);
-      };
+    if (!videoElement || !isViewOnce) {
+      return noop;
     }
 
-    return noop;
-  }, [isViewOnce, onTimeUpdate, playVideo, videoElement]);
+    if (isAttachmentGIF) {
+      return noop;
+    }
 
-  const { attachment, contentType, loop = false, objectURL, message } =
-    media[selectedIndex] || {};
+    videoElement.addEventListener('timeupdate', onTimeUpdate);
+
+    return () => {
+      videoElement.removeEventListener('timeupdate', onTimeUpdate);
+    };
+  }, [isViewOnce, isAttachmentGIF, onTimeUpdate, playVideo, videoElement]);
+
   const caption = attachment?.caption;
 
   let content: JSX.Element;
@@ -261,7 +268,8 @@ export function Lightbox({
         );
       }
     } else if (isVideoTypeSupported) {
-      const shouldLoop = loop || isGIF([attachment]) || isViewOnce;
+      const shouldLoop = loop || isAttachmentGIF || isViewOnce;
+
       content = (
         <video
           className="Lightbox__object"
