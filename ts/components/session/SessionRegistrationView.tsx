@@ -2,10 +2,12 @@ import React, { useEffect } from 'react';
 import { AccentText } from './AccentText';
 
 import { RegistrationStages } from './registration/RegistrationStages';
-import { SessionIconButton } from './icon';
+import { SessionIcon } from './icon';
 import { SessionToastContainer } from './SessionToastContainer';
 import { SessionTheme } from '../../state/ducks/SessionTheme';
 import { setSignInByLinking } from '../../session/utils/User';
+import { Flex } from '../basic/Flex';
+import { SpacerLG } from '../basic/Text';
 
 export const SessionRegistrationView = () => {
   useEffect(() => {
@@ -13,32 +15,32 @@ export const SessionRegistrationView = () => {
   }, []);
   return (
     <SessionTheme>
-      <div className="session-content">
+      <Flex
+        className="session-content"
+        width="100vw"
+        height="100vh"
+        alignItems="center"
+        flexDirection="column"
+        container={true}
+      >
         <SessionToastContainer />
-        <div id="error" className="collapse" />
-        <div className="session-content-header">
-          <div className="session-content-close-button">
-            <SessionIconButton
-              iconSize={'medium'}
-              iconType="exit"
-              onClick={() => {
-                window.close();
-              }}
-            />
-          </div>
-          <div className="session-content-session-button">
-            <img alt="brand" src="./images/session/brand.svg" />
-          </div>
-        </div>
-        <div className="session-content-body">
-          <div className="session-content-accent">
-            <AccentText />
-          </div>
-          <div className="session-content-registration">
-            <RegistrationStages />
-          </div>
-        </div>
-      </div>
+        <SpacerLG />
+        <SpacerLG />
+
+        <SessionIcon iconSize={150} iconType="brand" />
+        <SpacerLG />
+
+        <SpacerLG />
+        <SpacerLG />
+        <SpacerLG />
+
+        <AccentText />
+        <SpacerLG />
+        <SpacerLG />
+        <SpacerLG />
+
+        <RegistrationStages />
+      </Flex>
     </SessionTheme>
   );
 };

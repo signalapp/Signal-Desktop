@@ -530,18 +530,6 @@ label {
   }
 }
 
-.device-pairing-dialog {
-  &__desc {
-    font-weight: 300;
-    font-size: $session-font-sm;
-    margin-bottom: $session-margin-lg;
-  }
-
-  &__secret-words {
-    margin-bottom: $session-margin-md;
-  }
-}
-
 .session-modal__body {
   display: flex;
   flex-direction: column;
