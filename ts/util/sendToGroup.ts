@@ -5,6 +5,7 @@ import { differenceWith, omit, partition } from 'lodash';
 import PQueue from 'p-queue';
 
 import {
+  ErrorCode,
   groupEncrypt,
   ProtocolAddress,
   sealedSenderMultiRecipientEncrypt,
@@ -512,6 +513,25 @@ export async function sendToGroupViaSenderKey(options: {
         ...options,
         recursionCount: recursionCount + 1,
       });
+    }
+    if (error.code === ErrorCode.InvalidRegistrationId && error.addr) {
+      const address = error.addr as ProtocolAddress;
+      const name = address.name();
+
+      const brokenAccount = window.ConversationController.get(name);
+      if (brokenAccount) {
+        window.log.warn(
+          `sendToGroupViaSenderKey/${logId}: Disabling sealed sender for ${brokenAccount.idForLogging()}`
+        );
+        brokenAccount.set({ sealedSender: SEALED_SENDER.DISABLED });
+        window.Signal.Data.updateConversation(brokenAccount.attributes);
+
+        // Now that we've eliminate this problematic account, we can try the send again.
+        return sendToGroupViaSenderKey({
+          ...options,
+          recursionCount: recursionCount + 1,
+        });
+      }
     }
 
     throw new Error(

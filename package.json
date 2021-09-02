@@ -73,7 +73,7 @@
   },
   "dependencies": {
     "@popperjs/core": "2.9.2",
-    "@signalapp/signal-client": "0.8.4",
+    "@signalapp/signal-client": "0.9.0",
     "@sindresorhus/is": "0.8.0",
     "@types/pino": "6.3.6",
     "@types/pino-multi-stream": "5.1.0",
