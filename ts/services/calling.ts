@@ -40,6 +40,7 @@ import {
   GroupCallPeekInfoType,
 } from '../state/ducks/calling';
 import { getConversationCallMode } from '../state/ducks/conversations';
+import { isConversationTooBigToRing } from '../conversations/isConversationTooBigToRing';
 import {
   AudioDevice,
   AvailableIODevicesType,
@@ -378,6 +379,9 @@ export class CallingClass {
         this.uxActions.showCallLobby({
           callMode: CallMode.Group,
           conversationId: conversationProps.id,
+          isConversationTooBigToRing: isConversationTooBigToRing(
+            conversationProps
+          ),
           ...this.formatGroupCallForRedux(groupCall),
         });
         break;

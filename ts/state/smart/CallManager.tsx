@@ -12,7 +12,6 @@ import { getMe, getConversationSelector } from '../selectors/conversations';
 import { getActiveCall } from '../ducks/calling';
 import { ConversationType } from '../ducks/conversations';
 import { getIncomingCall } from '../selectors/calling';
-import { getMaxGroupCallRingSize } from '../../groups/limits';
 import { isGroupCallOutboundRingEnabled } from '../../util/isGroupCallOutboundRingEnabled';
 import {
   ActiveCallType,
@@ -297,7 +296,6 @@ const mapStateToProps = (state: StateType) => ({
   i18n: getIntl(state),
   isGroupCallOutboundRingEnabled: isGroupCallOutboundRingEnabled(),
   incomingCall: mapStateToIncomingCallProp(state),
-  maxGroupCallRingSize: getMaxGroupCallRingSize(),
   me: {
     ...getMe(state),
     // `getMe` returns a `ConversationType` which might not have a UUID, at least

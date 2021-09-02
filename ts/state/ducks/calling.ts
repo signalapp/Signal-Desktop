@@ -11,6 +11,7 @@ import {
 import { has, omit } from 'lodash';
 import { getOwn } from '../../util/getOwn';
 import { getPlatform } from '../selectors/user';
+import { isConversationTooBigToRing } from '../../conversations/isConversationTooBigToRing';
 import { missingCaseError } from '../../util/missingCaseError';
 import { calling } from '../../services/calling';
 import { StateType as RootStateType } from '../reducer';
@@ -30,6 +31,7 @@ import { callingTones } from '../../util/callingTones';
 import { requestCameraPermissions } from '../../util/callingPermissions';
 import { sleep } from '../../util/sleep';
 import { LatestQueue } from '../../util/LatestQueue';
+import type { ConversationChangedActionType } from './conversations';
 
 // State
 
@@ -228,6 +230,7 @@ export type ShowCallLobbyType =
       joinState: GroupCallJoinState;
       hasLocalAudio: boolean;
       hasLocalVideo: boolean;
+      isConversationTooBigToRing: boolean;
       peekInfo?: GroupCallPeekInfoType;
       remoteParticipants: Array<GroupCallParticipantInfoType>;
     };
@@ -465,6 +468,7 @@ export type CallingActionType =
   | CallStateChangeFulfilledActionType
   | ChangeIODeviceFulfilledActionType
   | CloseNeedPermissionScreenActionType
+  | ConversationChangedActionType
   | DeclineCallActionType
   | GroupCallStateChangeActionType
   | HangUpActionType
@@ -1069,9 +1073,22 @@ function startCall(
         });
         break;
       case CallMode.Group: {
-        const outgoingRing = Boolean(
-          getState().calling.activeCallState?.outgoingRing
-        );
+        let outgoingRing: boolean;
+
+        const state = getState();
+        const { activeCallState } = state.calling;
+        if (activeCallState?.outgoingRing) {
+          const conversation = getOwn(
+            state.conversations.conversationLookup,
+            activeCallState.conversationId
+          );
+          outgoingRing = Boolean(
+            conversation && !isConversationTooBigToRing(conversation)
+          );
+        } else {
+          outgoingRing = false;
+        }
+
         calling.joinGroupCall(
           payload.conversationId,
           payload.hasLocalAudio,
@@ -1220,6 +1237,7 @@ export function reducer(
         // We expect to be in this state briefly. The Calling service should update the
         //   call state shortly.
         const existingCall = getGroupCall(conversationId, state);
+        const ringState = getGroupCallRingState(existingCall);
         call = {
           callMode: CallMode.Group,
           conversationId,
@@ -1232,10 +1250,13 @@ export function reducer(
               deviceCount: action.payload.remoteParticipants.length,
             },
           remoteParticipants: action.payload.remoteParticipants,
-          ...getGroupCallRingState(existingCall),
+          ...ringState,
         };
         outgoingRing =
-          !call.peekInfo.uuids.length && !call.remoteParticipants.length;
+          !ringState.ringId &&
+          !call.peekInfo.uuids.length &&
+          !call.remoteParticipants.length &&
+          !action.payload.isConversationTooBigToRing;
         break;
       }
       default:
@@ -1349,6 +1370,25 @@ export function reducer(
         ...callsByConversation,
         [conversationId]: omit(groupCall, ['ringId', 'ringerUuid']),
       },
+    };
+  }
+
+  if (action.type === 'CONVERSATION_CHANGED') {
+    const activeCall = getActiveCall(state);
+    const { activeCallState } = state;
+    if (
+      !activeCallState?.outgoingRing ||
+      activeCallState.conversationId !== action.payload.id ||
+      activeCall?.callMode !== CallMode.Group ||
+      activeCall.joinState !== GroupCallJoinState.NotJoined ||
+      !isConversationTooBigToRing(action.payload.data)
+    ) {
+      return state;
+    }
+
+    return {
+      ...state,
+      activeCallState: { ...activeCallState, outgoingRing: false },
     };
   }
 

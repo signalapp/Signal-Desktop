@@ -81,7 +81,6 @@ export type PropsType = {
   declineCall: (_: DeclineCallType) => void;
   i18n: LocalizerType;
   isGroupCallOutboundRingEnabled: boolean;
-  maxGroupCallRingSize: number;
   me: MeType;
   notifyForCall: (title: string, isVideoCall: boolean) => unknown;
   openSystemPreferencesAction: () => unknown;
@@ -116,7 +115,6 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
   keyChangeOk,
   getGroupCallVideoFrameSource,
   getPresentingSources,
-  maxGroupCallRingSize,
   me,
   openSystemPreferencesAction,
   renderDeviceSelection,
@@ -234,7 +232,6 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
           isGroupCall={activeCall.callMode === CallMode.Group}
           isGroupCallOutboundRingEnabled={isGroupCallOutboundRingEnabled}
           isCallFull={isCallFull}
-          maxGroupCallRingSize={maxGroupCallRingSize}
           me={me}
           onCallCanceled={cancelActiveCall}
           onJoinCall={joinActiveCall}

@@ -70,7 +70,6 @@ const createProps = (storyProps: Partial<PropsType> = {}): PropsType => ({
   i18n,
   isGroupCallOutboundRingEnabled: true,
   keyChangeOk: action('key-change-ok'),
-  maxGroupCallRingSize: 16,
   me: {
     ...getDefaultConversation({
       color: select(

@@ -57,7 +57,6 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => {
     isGroupCall,
     isGroupCallOutboundRingEnabled: true,
     isCallFull: boolean('isCallFull', overrideProps.isCallFull || false),
-    maxGroupCallRingSize: overrideProps.maxGroupCallRingSize || 16,
     me: overrideProps.me || {
       color: AvatarColors[0],
       id: generateUuid(),

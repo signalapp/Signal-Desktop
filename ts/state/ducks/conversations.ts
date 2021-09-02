@@ -443,7 +443,7 @@ type ConversationAddedActionType = {
     data: ConversationType;
   };
 };
-type ConversationChangedActionType = {
+export type ConversationChangedActionType = {
   type: 'CONVERSATION_CHANGED';
   payload: {
     id: string;

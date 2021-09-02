@@ -20,6 +20,7 @@ import {
 import { AvatarColorType } from '../types/Colors';
 import { LocalizerType } from '../types/Util';
 import { ConversationType } from '../state/ducks/conversations';
+import { isConversationTooBigToRing } from '../conversations/isConversationTooBigToRing';
 
 export type PropsType = {
   availableCameras: Array<MediaDeviceInfo>;
@@ -29,6 +30,7 @@ export type PropsType = {
     | 'avatarPath'
     | 'color'
     | 'isMe'
+    | 'memberships'
     | 'name'
     | 'phoneNumber'
     | 'profileName'
@@ -44,7 +46,6 @@ export type PropsType = {
   isGroupCall: boolean;
   isGroupCallOutboundRingEnabled: boolean;
   isCallFull?: boolean;
-  maxGroupCallRingSize: number;
   me: {
     avatarPath?: string;
     id: string;
@@ -74,7 +75,6 @@ export const CallingLobby = ({
   isGroupCall = false,
   isGroupCallOutboundRingEnabled,
   isCallFull = false,
-  maxGroupCallRingSize,
   me,
   onCallCanceled,
   onJoinCall,
@@ -150,21 +150,30 @@ export const CallingLobby = ({
     ? CallingButtonType.AUDIO_ON
     : CallingButtonType.AUDIO_OFF;
 
+  const isGroupTooLargeToRing = isConversationTooBigToRing(conversation);
+
   const isRingButtonVisible: boolean =
     isGroupCall &&
     isGroupCallOutboundRingEnabled &&
     peekedParticipants.length === 0 &&
     (groupMembers || []).length > 1;
 
-  const preCallInfoRingMode: RingMode =
-    isGroupCall && !outgoingRing ? RingMode.WillNotRing : RingMode.WillRing;
+  let preCallInfoRingMode: RingMode;
+  if (isGroupCall) {
+    preCallInfoRingMode =
+      outgoingRing && !isGroupTooLargeToRing
+        ? RingMode.WillRing
+        : RingMode.WillNotRing;
+  } else {
+    preCallInfoRingMode = RingMode.WillRing;
+  }
 
   let ringButtonType:
     | CallingButtonType.RING_DISABLED
     | CallingButtonType.RING_ON
     | CallingButtonType.RING_OFF;
   if (isRingButtonVisible) {
-    if ((groupMembers || []).length > maxGroupCallRingSize) {
+    if (isGroupTooLargeToRing) {
       ringButtonType = CallingButtonType.RING_DISABLED;
     } else if (outgoingRing) {
       ringButtonType = CallingButtonType.RING_ON;
