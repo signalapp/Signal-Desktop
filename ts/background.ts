@@ -515,7 +515,7 @@ export async function startApp(): Promise<void> {
 
     accountManager = new window.textsecure.AccountManager(server);
     accountManager.addEventListener('registration', () => {
-      window.Whisper.events.trigger('userChanged');
+      window.Whisper.events.trigger('userChanged', false);
 
       window.Signal.Util.Registration.markDone();
       window.log.info('dispatching registration event');
@@ -1057,7 +1057,7 @@ export async function startApp(): Promise<void> {
     });
     convoCollection.on('reset', removeAllConversations);
 
-    window.Whisper.events.on('userChanged', () => {
+    window.Whisper.events.on('userChanged', (reconnect = false) => {
       const newDeviceId = window.textsecure.storage.user.getDeviceId();
       const newNumber = window.textsecure.storage.user.getNumber();
       const newUuid = window.textsecure.storage.user.getUuid();
@@ -1074,6 +1074,11 @@ export async function startApp(): Promise<void> {
         ourUuid: newUuid,
         regionCode: window.storage.get('regionCode'),
       });
+
+      if (reconnect) {
+        window.log.info('background: reconnecting websocket on user change');
+        enqueueReconnectToWebSocket();
+      }
     });
 
     let shortcutGuideView: WhatIsThis | null = null;
