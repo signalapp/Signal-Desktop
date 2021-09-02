@@ -41,7 +41,10 @@ export class User {
 
     window.log.info('storage.user: number changed');
 
-    await this.storage.put('number_id', `${number}.${deviceId}`);
+    await Promise.all([
+      this.storage.put('number_id', `${number}.${deviceId}`),
+      this.storage.remove('senderCertificate'),
+    ]);
 
     // Notify redux about phone number change
     window.Whisper.events.trigger('userChanged');
