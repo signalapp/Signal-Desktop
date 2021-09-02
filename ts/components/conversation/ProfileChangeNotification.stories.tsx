@@ -47,4 +47,21 @@ storiesOf('Components/Conversation/ProfileChangeNotification', module)
         }}
       />
     );
+  })
+  .add('From contact with long names before and after', () => {
+    return (
+      <ProfileChangeNotification
+        i18n={i18n}
+        changedContact={getDefaultConversation({
+          id: 'some-guid',
+          type: 'direct',
+          title: 'Mr. Fire 🔥',
+        })}
+        change={{
+          type: 'name',
+          oldName: '💅🤷🏽‍♀️🏯'.repeat(50),
+          newName: '☎️🎉🏝'.repeat(50),
+        }}
+      />
+    );
   });
