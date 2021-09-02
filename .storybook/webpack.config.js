@@ -31,11 +31,5 @@ module.exports = ({ config }) => {
     net: 'net',
   };
 
-  config.plugins.unshift(
-    new webpack.IgnorePlugin({
-      resourceRegExp: /sharp$/,
-    })
-  );
-
   return config;
 };

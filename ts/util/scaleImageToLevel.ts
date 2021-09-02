@@ -101,17 +101,6 @@ async function getCanvasBlobAsJPEG(
   return canvasToBlob(canvas, IMAGE_JPEG, quality);
 }
 
-async function stripImageFileEXIFData(
-  file: File | Blob,
-  type: MIMEType
-): Promise<Blob> {
-  const arrayBuffer = await file.arrayBuffer();
-  const xArrayBuffer = await window
-    .sharp(new Uint8Array(arrayBuffer))
-    .toBuffer();
-  return new Blob([xArrayBuffer], { type });
-}
-
 export async function scaleImageToLevel(
   fileOrBlobOrURL: File | Blob,
   contentType: MIMEType,
@@ -143,7 +132,7 @@ export async function scaleImageToLevel(
     MEDIA_QUALITY_LEVEL_DATA.get(level) || DEFAULT_LEVEL_DATA;
 
   if (fileOrBlobOrURL.size <= thresholdSize) {
-    const blob = await stripImageFileEXIFData(fileOrBlobOrURL, contentType);
+    const blob = await canvasToBlob(image, contentType);
     return {
       blob,
       contentType,
