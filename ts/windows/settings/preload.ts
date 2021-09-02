@@ -43,6 +43,9 @@ window.ReactDOM = ReactDOM;
 window.getEnvironment = getEnvironment;
 window.getVersion = () => String(config.version);
 window.i18n = i18n.setup(locale, localeMessages);
+function doneRendering() {
+  ipcRenderer.send('settings-done-rendering');
+}
 
 const settingAudioNotification = createSetting('audioNotification');
 const settingAutoDownloadUpdate = createSetting('autoDownloadUpdate');
@@ -157,9 +160,9 @@ function getSystemTraySettingValues(
   };
 }
 
-async function renderPreferences() {
+window.renderPreferences = async () => {
   if (!renderComponent) {
-    setTimeout(renderPreferences, 100);
+    setTimeout(window.renderPreferences, 100);
     return;
   }
 
@@ -293,6 +296,7 @@ async function renderPreferences() {
     addCustomColor: ipcAddCustomColor,
     closeSettings: () => ipcRenderer.send('close-settings'),
     doDeleteAllData: () => ipcRenderer.send('delete-all-data'),
+    doneRendering,
     editCustomColor: ipcEditCustomColor,
     getConversationsWithCustomColor: ipcGetConversationsWithCustomColor,
     initialSpellCheckSetting:
@@ -377,13 +381,11 @@ async function renderPreferences() {
   function reRender<Value>(f: (value: Value) => Promise<Value>) {
     return async (value: Value) => {
       await f(value);
-      renderPreferences();
+      window.renderPreferences();
     };
   }
 
   renderComponent(Preferences, props);
-}
-
-ipcRenderer.on('render', renderPreferences);
+};
 
 initializeLogging();

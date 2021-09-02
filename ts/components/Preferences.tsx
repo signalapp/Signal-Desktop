@@ -78,6 +78,7 @@ export type PropsType = {
   addCustomColor: (color: CustomColorType) => unknown;
   closeSettings: () => unknown;
   doDeleteAllData: () => unknown;
+  doneRendering: () => unknown;
   editCustomColor: (colorId: string, color: CustomColorType) => unknown;
   getConversationsWithCustomColor: (
     colorId: string
@@ -164,6 +165,7 @@ export const Preferences = ({
   defaultConversationColor,
   deviceName = '',
   doDeleteAllData,
+  doneRendering,
   editCustomColor,
   getConversationsWithCustomColor,
   hasAudioNotifications,
@@ -250,6 +252,10 @@ export const Preferences = ({
     document.body.classList.toggle('light-theme', theme === ThemeType.light);
     document.body.classList.toggle('dark-theme', theme === ThemeType.dark);
   }, [theme]);
+
+  useEffect(() => {
+    doneRendering();
+  }, [doneRendering]);
 
   useEffect(() => {
     const handler = (event: KeyboardEvent) => {

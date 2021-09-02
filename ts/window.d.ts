@@ -177,15 +177,6 @@ declare global {
 
     WhatIsThis: WhatIsThis;
 
-    SignalModule: {
-      registerReactRenderer: (
-        f: <P extends {}>(
-          component: FunctionComponent<P> | ComponentClass<P>,
-          props?: (Attributes & P) | null
-        ) => void
-      ) => void;
-    };
-
     registerScreenShareControllerRenderer: (
       f: (
         component: typeof CallingScreenSharingController,
@@ -513,6 +504,17 @@ declare global {
     GV2_MIGRATION_DISABLE_INVITE: boolean;
 
     RETRY_DELAY: boolean;
+
+    // These elements are only available in the Settings window
+    SignalModule: {
+      registerReactRenderer: (
+        f: <P extends {}>(
+          component: FunctionComponent<P> | ComponentClass<P>,
+          props?: (Attributes & P) | null
+        ) => void
+      ) => void;
+    };
+    renderPreferences: () => unknown;
   }
 
   // We want to extend `Error`, so we need an interface.

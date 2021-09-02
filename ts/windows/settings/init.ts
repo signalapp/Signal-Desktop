@@ -9,3 +9,5 @@ window.SignalModule.registerReactRenderer((Component, props) => {
     document.getElementById('app')
   );
 });
+
+window.renderPreferences();

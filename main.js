@@ -907,17 +907,16 @@ function showSettingsWindow() {
   settingsWindow.loadURL(prepareFileUrl([__dirname, 'settings.html']));
 
   settingsWindow.on('closed', () => {
-    removeDarkOverlay();
     settingsWindow = null;
   });
 
-  settingsWindow.once('ready-to-show', () => {
-    settingsWindow.show();
-    settingsWindow.webContents.send('render');
-
-    if (config.get('openDevTools')) {
-      settingsWindow.webContents.openDevTools();
+  ipc.once('settings-done-rendering', () => {
+    if (!settingsWindow) {
+      console.warn('settings-done-rendering: no settingsWindow available!');
+      return;
     }
+
+    settingsWindow.show();
   });
 }
 
