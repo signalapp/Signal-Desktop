@@ -2,30 +2,18 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
+import loadImage from 'blueimp-load-image';
 import { IMAGE_JPEG, IMAGE_PNG } from '../../types/MIME';
-import * as log from '../../logging/log';
 
 import { scaleImageToLevel } from '../../util/scaleImageToLevel';
 
 describe('scaleImageToLevel', () => {
   // NOTE: These tests are incomplete.
 
-  let objectUrlsToRevoke: Array<string>;
-  function createObjectUrl(blob: Blob): string {
-    const result = URL.createObjectURL(blob);
-    objectUrlsToRevoke.push(result);
-    return result;
+  async function getBlob(path: string): Promise<Blob> {
+    const response = await fetch(path);
+    return response.blob();
   }
-
-  beforeEach(() => {
-    objectUrlsToRevoke = [];
-  });
-
-  afterEach(() => {
-    objectUrlsToRevoke.forEach(objectUrl => {
-      URL.revokeObjectURL(objectUrl);
-    });
-  });
 
   it("doesn't scale images that are already small enough", async () => {
     const testCases = [
@@ -46,16 +34,11 @@ describe('scaleImageToLevel', () => {
     await Promise.all(
       testCases.map(
         async ({ path, contentType, expectedWidth, expectedHeight }) => {
-          const blob = await (await fetch(path)).blob();
+          const blob = await getBlob(path);
           const scaled = await scaleImageToLevel(blob, contentType, true);
 
-          const {
-            width,
-            height,
-          } = await window.Signal.Types.VisualAttachment.getImageDimensions({
-            objectUrl: createObjectUrl(scaled.blob),
-            logger: log,
-          });
+          const data = await loadImage(scaled.blob, { orientation: true });
+          const { originalWidth: width, originalHeight: height } = data;
 
           assert.strictEqual(width, expectedWidth);
           assert.strictEqual(height, expectedHeight);
@@ -63,6 +46,19 @@ describe('scaleImageToLevel', () => {
           assert.strictEqual(scaled.blob.type, contentType);
         }
       )
+    );
+  });
+
+  it('removes EXIF data from small images', async () => {
+    const original = await getBlob('../fixtures/kitten-2-64-64.jpg');
+    assert.isDefined(
+      (await loadImage(original, { meta: true, orientation: true })).exif,
+      'Test setup failure: expected fixture to have EXIF data'
+    );
+
+    const scaled = await scaleImageToLevel(original, IMAGE_JPEG, true);
+    assert.isUndefined(
+      (await loadImage(scaled.blob, { meta: true, orientation: true })).exif
     );
   });
 });

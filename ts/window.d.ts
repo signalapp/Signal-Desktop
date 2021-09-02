@@ -7,7 +7,6 @@ import { DeepPartial, Store } from 'redux';
 import * as Backbone from 'backbone';
 import * as Underscore from 'underscore';
 import moment from 'moment';
-import sharp from 'sharp';
 import PQueue from 'p-queue/dist';
 import { Attributes, ComponentClass, FunctionComponent, Ref } from 'react';
 import { imageToBlurHash } from './util/imageToBlurHash';
@@ -163,7 +162,6 @@ declare global {
     _: typeof Underscore;
     $: typeof jQuery;
 
-    sharp: typeof sharp;
     moment: typeof moment;
     imageToBlurHash: typeof imageToBlurHash;
     loadImage: any;

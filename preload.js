@@ -414,7 +414,6 @@ try {
   window.ReactDOM = require('react-dom');
   window.moment = require('moment');
   window.PQueue = require('p-queue').default;
-  window.sharp = require('sharp');
 
   const Signal = require('./js/modules/signal');
   const i18n = require('./js/modules/i18n');
