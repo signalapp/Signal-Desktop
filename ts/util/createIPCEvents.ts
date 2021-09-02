@@ -107,6 +107,7 @@ export type IPCEventsCallbacksType = {
     customColor?: { id: string; value: CustomColorType }
   ) => void;
   getDefaultConversationColor: () => DefaultConversationColorType;
+  setPassiveZoomFactor: (factor: number) => Promise<void>;
 };
 
 type ValuesWithGetters = Omit<
@@ -166,10 +167,8 @@ export function createIPCEvents(
     getDeviceName: () => window.textsecure.storage.user.getDeviceName(),
 
     getZoomFactor: () => window.storage.get('zoomFactor', 1),
-    setZoomFactor: (zoomFactor: ZoomFactorType) => {
-      const numZoomFactor = zoomFactor;
-      webFrame.setZoomFactor(numZoomFactor);
-      return window.storage.put('zoomFactor', numZoomFactor);
+    setZoomFactor: async (zoomFactor: ZoomFactorType) => {
+      webFrame.setZoomFactor(zoomFactor);
     },
 
     getPreferredAudioInputDevice: () =>
@@ -507,6 +506,9 @@ export function createIPCEvents(
 
     getMediaPermissions: window.getMediaPermissions,
     getMediaCameraPermissions: window.getMediaCameraPermissions,
+
+    setPassiveZoomFactor: zoomFactor =>
+      window.storage.put('zoomFactor', zoomFactor),
 
     ...overrideEvents,
   };

@@ -24,7 +24,7 @@ export type SerializedCertificateType = {
   serialized: ArrayBuffer;
 };
 
-export type ZoomFactorType = 0.75 | 1 | 1.25 | 1.5 | 2;
+export type ZoomFactorType = 0.75 | 1 | 1.25 | 1.5 | 2 | number;
 
 export type ThemeSettingType = 'system' | 'light' | 'dark';
 

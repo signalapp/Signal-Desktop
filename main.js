@@ -310,6 +310,27 @@ function handleCommonWindowEvents(window) {
     console.error(`Preload error in ${preloadPath}: `, error.message);
   });
 
+  // Works only for mainWindow because it has `enablePreferredSizeMode`
+  let lastZoomFactor = window.webContents.getZoomFactor();
+  const onZoomChanged = () => {
+    const zoomFactor = mainWindow.webContents.getZoomFactor();
+    if (lastZoomFactor === zoomFactor) {
+      return;
+    }
+
+    if (window.webContents) {
+      window.webContents.send('callbacks:call:setPassiveZoomFactor', [
+        zoomFactor,
+      ]);
+      if (settingsWindow && settingsWindow.webContents) {
+        settingsWindow.webContents.send('render');
+      }
+    }
+
+    lastZoomFactor = zoomFactor;
+  };
+  window.webContents.on('preferred-size-changed', onZoomChanged);
+
   nativeThemeNotifier.addWindow(window);
 }
 
@@ -386,6 +407,7 @@ async function createWindow() {
       nativeWindowOpen: true,
       spellcheck: await getSpellCheckSetting(),
       backgroundThrottling: false,
+      enablePreferredSizeMode: true,
     },
     icon: windowIcon,
     ..._.pick(windowConfig, ['autoHideMenuBar', 'width', 'height', 'x', 'y']),

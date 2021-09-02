@@ -154,6 +154,29 @@ enum Page {
   ChatColor = 'ChatColor',
 }
 
+const DEFAULT_ZOOM_FACTORS = [
+  {
+    text: '75%',
+    value: 0.75,
+  },
+  {
+    text: '100%',
+    value: 1,
+  },
+  {
+    text: '125%',
+    value: 1.25,
+  },
+  {
+    text: '150%',
+    value: 1.5,
+  },
+  {
+    text: '200%',
+    value: 2,
+  },
+];
+
 export const Preferences = ({
   addCustomColor,
   availableCameras,
@@ -386,6 +409,18 @@ export const Preferences = ({
       </>
     );
   } else if (page === Page.Appearance) {
+    let zoomFactors = DEFAULT_ZOOM_FACTORS;
+
+    if (!zoomFactors.some(({ value }) => value === zoomFactor)) {
+      zoomFactors = [
+        ...zoomFactors,
+        {
+          text: `${Math.round(zoomFactor * 100)}%`,
+          value: zoomFactor,
+        },
+      ].sort((a, b) => a.value - b.value);
+    }
+
     settings = (
       <>
         <div className="Preferences__title">
@@ -438,28 +473,7 @@ export const Preferences = ({
             right={
               <Select
                 onChange={onZoomSelectChange}
-                options={[
-                  {
-                    text: '75%',
-                    value: 0.75,
-                  },
-                  {
-                    text: '100%',
-                    value: 1,
-                  },
-                  {
-                    text: '125%',
-                    value: 1.25,
-                  },
-                  {
-                    text: '150%',
-                    value: 1.5,
-                  },
-                  {
-                    text: '200%',
-                    value: 2,
-                  },
-                ]}
+                options={zoomFactors}
                 value={zoomFactor}
               />
             }
