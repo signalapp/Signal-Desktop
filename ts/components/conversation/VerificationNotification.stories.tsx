@@ -26,7 +26,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   i18n,
   type: overrideProps.type || 'markVerified',
   isLocal: boolean('isLocal', overrideProps.isLocal !== false),
-  contact,
+  contact: overrideProps.contact || contact,
 });
 
 story.add('Mark as Verified', () => {
@@ -49,6 +49,21 @@ story.add('Mark as Verified Remotely', () => {
 
 story.add('Mark as Not Verified Remotely', () => {
   const props = createProps({ type: 'markNotVerified', isLocal: false });
+
+  return <VerificationNotification {...props} />;
+});
+
+story.add('Long name', () => {
+  const longName = '🎆🍬🏈'.repeat(50);
+
+  const props = createProps({
+    type: 'markVerified',
+    contact: {
+      ...contact,
+      profileName: longName,
+      title: longName,
+    },
+  });
 
   return <VerificationNotification {...props} />;
 });

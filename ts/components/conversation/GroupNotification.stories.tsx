@@ -14,6 +14,8 @@ const i18n = setupI18n('en', enMessages);
 
 type GroupNotificationStory = [string, Array<Props>];
 
+const longName = '🍷🐓🥶'.repeat(50);
+
 const stories: Array<GroupNotificationStory> = [
   [
     'Combo',
@@ -379,6 +381,24 @@ const stories: Array<GroupNotificationStory> = [
         from: {
           title: 'Alice',
           name: 'Alice',
+          phoneNumber: '(202) 555-1000',
+        },
+        changes: [
+          {
+            type: 'general',
+          },
+        ],
+        i18n,
+      },
+    ],
+  ],
+  [
+    'Long name',
+    [
+      {
+        from: {
+          title: longName,
+          name: longName,
           phoneNumber: '(202) 555-1000',
         },
         changes: [

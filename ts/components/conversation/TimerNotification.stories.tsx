@@ -62,6 +62,26 @@ story.add('Set By Other', () => {
   );
 });
 
+story.add('Set By Other (with a long name)', () => {
+  const longName = '🦴🧩📴'.repeat(50);
+
+  const props = createProps({
+    expireTimer: moment.duration(1, 'hour').asSeconds(),
+    type: 'fromOther',
+    phoneNumber: '(202) 555-1000',
+    profileName: longName,
+    title: longName,
+  });
+
+  return (
+    <>
+      <TimerNotification {...props} />
+      <div style={{ padding: '1em' }} />
+      <TimerNotification {...props} disabled />
+    </>
+  );
+});
+
 story.add('Set By You', () => {
   const props = createProps({
     expireTimer: moment.duration(1, 'hour').asSeconds(),

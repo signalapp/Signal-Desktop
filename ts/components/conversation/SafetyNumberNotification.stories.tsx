@@ -54,3 +54,14 @@ stories.add('Direct Conversation', () => {
 
   return <SafetyNumberNotification {...props} />;
 });
+
+stories.add('Long name in group', () => {
+  const props = createProps({
+    isGroup: true,
+    contact: createContact({
+      title: '🐈‍⬛🍕🎂'.repeat(50),
+    }),
+  });
+
+  return <SafetyNumberNotification {...props} />;
+});

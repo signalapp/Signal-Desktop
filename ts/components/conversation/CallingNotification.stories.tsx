@@ -74,6 +74,25 @@ const getCommonProps = () => ({
   ));
 });
 
+story.add('Group call: started by someone with a long name', () => {
+  const longName = '😤🪐🦆'.repeat(50);
+
+  return (
+    <CallingNotification
+      {...getCommonProps()}
+      callMode={CallMode.Group}
+      creator={{
+        isMe: false,
+        title: longName,
+      }}
+      deviceCount={15}
+      ended={false}
+      maxDevices={16}
+      startedTime={1618894800000}
+    />
+  );
+});
+
 story.add('Group call: active, call full', () => (
   <CallingNotification
     {...getCommonProps()}
