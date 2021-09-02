@@ -49,13 +49,15 @@ export function DeliveryIssueNotification(
     <div className="SystemMessage SystemMessage--multiline">
       <div className="SystemMessage__line">
         <span className="SystemMessage__icon SystemMessage__icon--info" />
-        <Intl
-          id="DeliveryIssue--notification"
-          components={{
-            sender: <Emojify text={sender.firstName || sender.title} />,
-          }}
-          i18n={i18n}
-        />
+        <span>
+          <Intl
+            id="DeliveryIssue--notification"
+            components={{
+              sender: <Emojify text={sender.firstName || sender.title} />,
+            }}
+            i18n={i18n}
+          />
+        </span>
       </div>
       <div className="SystemMessage__line">
         <Button
