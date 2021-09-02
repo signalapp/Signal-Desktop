@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { ConversationAttributesType } from '../model-types.d';
+import { ConversationType } from '../state/ducks/conversations';
 import { base64ToArrayBuffer, fromEncodedBinaryToArrayBuffer } from '../Crypto';
 
 export enum ConversationTypes {
@@ -12,9 +13,13 @@ export enum ConversationTypes {
 }
 
 export function isDirectConversation(
-  conversationAttrs: Pick<ConversationAttributesType, 'type'>
+  conversationAttrs:
+    | Pick<ConversationAttributesType, 'type'>
+    | Pick<ConversationType, 'type'>
 ): boolean {
-  return conversationAttrs.type === 'private';
+  return (
+    conversationAttrs.type === 'private' || conversationAttrs.type === 'direct'
+  );
 }
 
 export function isMe(conversationAttrs: ConversationAttributesType): boolean {

@@ -29,7 +29,11 @@ import { ContactNameColors, ContactNameColorType } from '../../types/Colors';
 import { AvatarDataType } from '../../types/Avatar';
 import { isInSystemContacts } from '../../util/isInSystemContacts';
 import { sortByTitle } from '../../util/sortByTitle';
-import { isGroupV2 } from '../../util/whatTypeOfConversation';
+import {
+  isDirectConversation,
+  isGroupV1,
+  isGroupV2,
+} from '../../util/whatTypeOfConversation';
 
 import {
   getIntl,
@@ -922,8 +926,13 @@ export const getConversationsWithCustomColorSelector = createSelector(
 export function isMissingRequiredProfileSharing(
   conversation: ConversationType
 ): boolean {
+  const doesConversationRequireIt =
+    !conversation.left &&
+    (isGroupV1(conversation) || isDirectConversation(conversation));
+
   return Boolean(
-    !conversation.profileSharing &&
+    doesConversationRequireIt &&
+      !conversation.profileSharing &&
       window.Signal.RemoteConfig.isEnabled('desktop.mandatoryProfileSharing') &&
       conversation.messageCount &&
       conversation.messageCount > 0
