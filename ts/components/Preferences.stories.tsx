@@ -103,6 +103,7 @@ const createProps = (): PropsType => ({
   addCustomColor: action('addCustomColor'),
   closeSettings: action('closeSettings'),
   doDeleteAllData: action('doDeleteAllData'),
+  doneRendering: action('doneRendering'),
   editCustomColor: action('editCustomColor'),
   getConversationsWithCustomColor: () => Promise.resolve([]),
   initialSpellCheckSetting: true,
