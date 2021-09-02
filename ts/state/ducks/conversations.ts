@@ -663,6 +663,7 @@ const conversationsSlice = createSlice({
       // keep the unread visible just like in other apps. It will be shown until the user changes convo
       return {
         ...state,
+        firstUnreadMessageId: undefined,
       };
     },
 

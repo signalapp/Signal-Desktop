@@ -84,7 +84,12 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
 
     if (isSameConvo && snapShot?.realScrollTop && prevMsgLength !== newMsgLength) {
       if (messageAddedWasMoreRecentOne) {
-        currentRef.scrollTop = -(currentRef.scrollHeight - snapShot.realScrollTop);
+        if (snapShot.scrollHeight - snapShot.realScrollTop < 50) {
+          // consider that we were scrolled to bottom
+          currentRef.scrollTop = 0;
+        } else {
+          currentRef.scrollTop = -(currentRef.scrollHeight - snapShot.realScrollTop);
+        }
       } else {
         currentRef.scrollTop = snapShot.fakeScrollTop;
       }

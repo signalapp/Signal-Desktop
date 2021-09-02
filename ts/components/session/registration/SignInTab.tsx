@@ -10,6 +10,7 @@ import {
   signInWithRecovery,
 } from './RegistrationStages';
 import { RegistrationUserDetails } from './RegistrationUserDetails';
+import { GoBackMainMenuButton } from './SignUpTab';
 import { TermsAndConditions } from './TermsAndConditions';
 
 export enum SignInMode {
@@ -91,9 +92,8 @@ const SignInButtons = (props: {
 };
 
 export const SignInTab = () => {
-  const { setRegistrationPhase } = useContext(RegistrationContext);
+  const { setRegistrationPhase, signInMode, setSignInMode } = useContext(RegistrationContext);
 
-  const [signInMode, setSignInMode] = useState(SignInMode.Default);
   const [recoveryPhrase, setRecoveryPhrase] = useState('');
   const [recoveryPhraseError, setRecoveryPhraseError] = useState(undefined as string | undefined);
   const [displayName, setDisplayName] = useState('');
@@ -135,24 +135,28 @@ export const SignInTab = () => {
   return (
     <div className="session-registration__content">
       {signInMode !== SignInMode.Default && (
-        <RegistrationUserDetails
-          showDisplayNameField={showDisplayNameField}
-          showSeedField={true}
-          displayName={displayName}
-          handlePressEnter={continueYourSession}
-          onDisplayNameChanged={(name: string) => {
-            const sanitizedName = name.replace(window.displayNameRegex, '');
-            const trimName = sanitizedName.trim();
-            setDisplayName(sanitizedName);
-            setDisplayNameError(!trimName ? window.i18n('displayNameEmpty') : undefined);
-          }}
-          onSeedChanged={(seed: string) => {
-            setRecoveryPhrase(seed);
-            setRecoveryPhraseError(!seed ? window.i18n('recoveryPhraseEmpty') : undefined);
-          }}
-          recoveryPhrase={recoveryPhrase}
-          stealAutoFocus={true}
-        />
+        <>
+          <GoBackMainMenuButton />
+
+          <RegistrationUserDetails
+            showDisplayNameField={showDisplayNameField}
+            showSeedField={true}
+            displayName={displayName}
+            handlePressEnter={continueYourSession}
+            onDisplayNameChanged={(name: string) => {
+              const sanitizedName = name.replace(window.displayNameRegex, '');
+              const trimName = sanitizedName.trim();
+              setDisplayName(sanitizedName);
+              setDisplayNameError(!trimName ? window.i18n('displayNameEmpty') : undefined);
+            }}
+            onSeedChanged={(seed: string) => {
+              setRecoveryPhrase(seed);
+              setRecoveryPhraseError(!seed ? window.i18n('recoveryPhraseEmpty') : undefined);
+            }}
+            recoveryPhrase={recoveryPhrase}
+            stealAutoFocus={true}
+          />
+        </>
       )}
 
       <SignInButtons

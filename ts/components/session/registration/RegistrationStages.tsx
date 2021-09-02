@@ -2,8 +2,8 @@ import React, { createContext, useEffect, useState } from 'react';
 import { PromiseUtils, StringUtils, ToastUtils, UserUtils } from '../../../session/utils';
 import { getConversationController } from '../../../session/conversations';
 import { createOrUpdateItem, removeAll } from '../../../data/data';
-import { SignUpTab } from './SignUpTab';
-import { SignInTab } from './SignInTab';
+import { SignUpMode, SignUpTab } from './SignUpTab';
+import { SignInMode, SignInTab } from './SignInTab';
 import { trigger } from '../../../shims/events';
 import {
   generateMnemonic,
@@ -159,14 +159,22 @@ export enum RegistrationPhase {
 
 interface RegistrationPhaseContext {
   registrationPhase: RegistrationPhase;
+  signUpMode: SignUpMode;
+  signInMode: SignInMode;
   setRegistrationPhase: (phase: RegistrationPhase) => void;
+  setSignInMode: (phase: SignInMode) => void;
+  setSignUpMode: (phase: SignUpMode) => void;
   generatedRecoveryPhrase: string;
   hexGeneratedPubKey: string;
 }
 
 export const RegistrationContext = createContext<RegistrationPhaseContext>({
   registrationPhase: RegistrationPhase.Start,
+  signInMode: SignInMode.Default,
+  signUpMode: SignUpMode.Default,
   setRegistrationPhase: () => undefined,
+  setSignUpMode: () => undefined,
+  setSignInMode: () => undefined,
   generatedRecoveryPhrase: '',
   hexGeneratedPubKey: '',
 });
@@ -175,6 +183,8 @@ export const RegistrationStages = () => {
   const [generatedRecoveryPhrase, setGeneratedRecoveryPhrase] = useState('');
   const [hexGeneratedPubKey, setHexGeneratedPubKey] = useState('');
   const [registrationPhase, setRegistrationPhase] = useState(RegistrationPhase.Start);
+  const [signInMode, setSignInMode] = useState(SignInMode.Default);
+  const [signUpMode, setSignUpMode] = useState(SignUpMode.Default);
 
   useEffect(() => {
     void generateMnemonicAndKeyPair();
@@ -206,6 +216,10 @@ export const RegistrationStages = () => {
       <RegistrationContext.Provider
         value={{
           registrationPhase,
+          signInMode,
+          signUpMode,
+          setSignInMode,
+          setSignUpMode,
           setRegistrationPhase,
           generatedRecoveryPhrase,
           hexGeneratedPubKey,
