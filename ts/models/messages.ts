@@ -3324,33 +3324,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   }
 }
 
-export async function getMessageById(
-  messageId: string
-): Promise<MessageModel | undefined> {
-  let message = window.MessageController.getById(messageId);
-  if (message) {
-    return message;
-  }
-
-  try {
-    message = await window.Signal.Data.getMessageById(messageId, {
-      Message: window.Whisper.Message,
-    });
-  } catch (error) {
-    window.log.error(
-      `failed to load message with id ${messageId} ` +
-        `due to error ${error && error.stack}`
-    );
-  }
-
-  if (!message) {
-    return undefined;
-  }
-
-  message = window.MessageController.register(message.id, message);
-  return message;
-}
-
 window.Whisper.Message = MessageModel;
 
 window.Whisper.Message.getLongMessageAttachment = ({
