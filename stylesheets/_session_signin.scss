@@ -1,13 +1,17 @@
 .session {
   &-content {
     background-color: #f9f9f9;
+
+    .session-button.brand-outline.brand.green:hover {
+      background-color: var(--color-accent);
+    }
     &-accent {
       &-text {
         font-family: $session-font-accent;
         .title {
-          font-size: 100px;
+          font-size: 90px;
           font-weight: 700;
-          line-height: 120px;
+          line-height: 100px;
         }
       }
     }

@@ -23,23 +23,25 @@ export const SessionRegistrationView = () => {
         flexDirection="column"
         container={true}
       >
-        <SessionToastContainer />
-        <SpacerLG />
-        <SpacerLG />
+        <Flex container={true} margin="auto" alignItems="center" flexDirection="column">
+          <SessionToastContainer />
+          <SpacerLG />
+          <SpacerLG />
 
-        <SessionIcon iconSize={150} iconType="brand" />
-        <SpacerLG />
+          <SessionIcon iconSize={150} iconType="brand" />
+          <SpacerLG />
 
-        <SpacerLG />
-        <SpacerLG />
-        <SpacerLG />
+          <SpacerLG />
+          <SpacerLG />
+          <SpacerLG />
 
-        <AccentText />
-        <SpacerLG />
-        <SpacerLG />
-        <SpacerLG />
+          <AccentText />
+          <SpacerLG />
+          <SpacerLG />
+          <SpacerLG />
 
-        <RegistrationStages />
+          <RegistrationStages />
+        </Flex>
       </Flex>
     </SessionTheme>
   );
