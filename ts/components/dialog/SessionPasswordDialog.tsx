@@ -3,7 +3,6 @@ import React from 'react';
 import { SessionButton, SessionButtonColor } from '../session/SessionButton';
 import { missingCaseError, PasswordUtil } from '../../util';
 import { ToastUtils } from '../../session/utils';
-import { SessionIconType } from '../session/icon';
 import { getPasswordHash } from '../../data/data';
 import { SessionWrapperModal } from '../session/SessionWrapperModal';
 import { SpacerLG, SpacerSM } from '../basic/Text';
@@ -58,7 +57,7 @@ export class SessionPasswordDialog extends React.Component<Props, State> {
         : [window.i18n('enterPassword'), window.i18n('confirmPassword')];
 
     const confirmButtonColor =
-      passwordAction === 'remove' ? SessionButtonColor.Danger : SessionButtonColor.Primary;
+      passwordAction === 'remove' ? SessionButtonColor.Danger : SessionButtonColor.Green;
 
     return (
       <SessionWrapperModal
@@ -170,7 +169,7 @@ export class SessionPasswordDialog extends React.Component<Props, State> {
       'setPasswordSuccessToast',
       window.i18n('setPasswordTitle'),
       window.i18n('setPasswordToastDescription'),
-      SessionIconType.Lock
+      'lock'
     );
 
     this.props.onOk();
@@ -209,7 +208,7 @@ export class SessionPasswordDialog extends React.Component<Props, State> {
       'setPasswordSuccessToast',
       window.i18n('changePasswordTitle'),
       window.i18n('changePasswordToastDescription'),
-      SessionIconType.Lock
+      'lock'
     );
 
     this.props.onOk();

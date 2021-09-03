@@ -23,7 +23,7 @@ import { ConversationModel, ConversationTypeEnum } from './conversation';
 import {
   FindAndFormatContactType,
   LastMessageStatusType,
-  MessageModelProps,
+  MessageModelPropsWithoutConvoProps,
   MessagePropsDetails,
   messagesChanged,
   PropsForAttachment,
@@ -36,12 +36,10 @@ import {
   PropsForGroupUpdateKicked,
   PropsForGroupUpdateName,
   PropsForGroupUpdateRemove,
-  PropsForMessage,
-  PropsForSearchResults,
+  PropsForMessageWithoutConvoProps,
 } from '../state/ducks/conversations';
 import { VisibleMessage } from '../session/messages/outgoing/visibleMessage/VisibleMessage';
 import { buildSyncMessage } from '../session/utils/syncUtils';
-import { isOpenGroupV2 } from '../opengroup/utils/OpenGroupUtils';
 import {
   uploadAttachmentsV2,
   uploadLinkPreviewsV2,
@@ -82,14 +80,13 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
     window.contextMenuShown = false;
 
-    this.getProps();
+    this.getMessageModelProps();
   }
 
-  public getProps(): MessageModelProps {
+  public getMessageModelProps(): MessageModelPropsWithoutConvoProps {
     perfStart(`getPropsMessage-${this.id}`);
-    const messageProps: MessageModelProps = {
+    const messageProps: MessageModelPropsWithoutConvoProps = {
       propsForMessage: this.getPropsForMessage(),
-      propsForSearchResult: this.getPropsForSearchResult(),
       propsForDataExtractionNotification: this.getPropsForDataExtractionNotification(),
       propsForGroupInvitation: this.getPropsForGroupInvitation(),
       propsForGroupNotification: this.getPropsForGroupNotification(),
@@ -361,7 +358,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     const contactModel = this.findContact(pubkey);
     let profileName;
     let isMe = false;
-    UserUtils.getOurPubKeyStrFromCache();
+
     if (pubkey === UserUtils.getOurPubKeyStrFromCache()) {
       profileName = window.i18n('you');
       isMe = true;
@@ -498,59 +495,18 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     return 'sending';
   }
 
-  public getPropsForSearchResult(): PropsForSearchResults {
-    const fromNumber = this.getSource();
-    const from = this.findAndFormatContact(fromNumber);
-
-    const toNumber = this.get('conversationId');
-    const to = this.findAndFormatContact(toNumber);
-
-    return {
-      from,
-      to,
-      // isSelected: this.isSelected,
-      id: this.id as string,
-      conversationId: this.get('conversationId'),
-      source: this.get('source'),
-      receivedAt: this.get('received_at'),
-      snippet: this.get('snippet'),
-    };
-  }
-
-  public getPropsForMessage(options: any = {}): PropsForMessage {
-    const ourPubkey = UserUtils.getOurPubKeyStrFromCache();
+  public getPropsForMessage(options: any = {}): PropsForMessageWithoutConvoProps {
     const sender = this.getSource();
-    const senderContact = this.findAndFormatContact(sender);
-    const senderContactModel = this.findContact(sender);
-
-    const authorAvatarPath = senderContactModel ? senderContactModel.getAvatarPath() : null;
-
     const expirationLength = this.get('expireTimer') * 1000;
     const expireTimerStart = this.get('expirationStartTimestamp');
     const expirationTimestamp =
       expirationLength && expireTimerStart ? expireTimerStart + expirationLength : null;
 
-    const conversation = this.getConversation();
-
-    const isGroup = !!conversation && !conversation.isPrivate();
-    const isBlocked = conversation?.isBlocked() || false;
-    const isPublic = !!this.get('isPublic');
-    const isPublicOpenGroupV2 = isOpenGroupV2(this.getConversation()?.id || '');
-
     const attachments = this.get('attachments') || [];
     const isTrustedForAttachmentDownload = this.isTrustedForAttachmentDownload();
-    const groupAdmins = (isGroup && conversation?.get('groupAdmins')) || [];
-    const weAreAdmin = groupAdmins.includes(ourPubkey) || false;
-    // a message is deletable if
-    // either we sent it,
-    // or the convo is not a public one (in this case, we will only be able to delete for us)
-    // or the convo is public and we are an admin
-    const isDeletable = sender === ourPubkey || !isPublic || (isPublic && !!weAreAdmin);
 
-    const isSenderAdmin = groupAdmins.includes(sender);
-
-    const props: PropsForMessage = {
-      text: this.createNonBreakingLastSeparator(this.get('body')),
+    const props: PropsForMessageWithoutConvoProps = {
+      text: this.createNonBreakingLastSeparator(this.get('body') || null),
       id: this.id as string,
       direction: (this.isIncoming() ? 'incoming' : 'outgoing') as MessageModelType,
       timestamp: this.get('sent_at') || 0,
@@ -558,35 +514,24 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       serverTimestamp: this.get('serverTimestamp'),
       serverId: this.get('serverId'),
       status: this.getMessagePropStatus(),
-      authorName: senderContact.name,
-      authorProfileName: senderContact.profileName,
-      authorPhoneNumber: senderContact.phoneNumber,
-      conversationType: isGroup ? ConversationTypeEnum.GROUP : ConversationTypeEnum.PRIVATE,
+      authorPhoneNumber: sender,
       convoId: this.get('conversationId'),
       attachments: attachments
         .filter((attachment: any) => !attachment.error)
         .map((attachment: any) => this.getPropsForAttachment(attachment)),
       previews: this.getPropsForPreview(),
       quote: this.getPropsForQuote(options),
-      authorAvatarPath,
       isUnread: this.isUnread(),
       expirationLength,
       expirationTimestamp,
-      isPublic,
-      isBlocked,
-      isOpenGroupV2: isPublicOpenGroupV2,
-      isKickedFromGroup: conversation?.get('isKickedFromGroup') || false,
-      isTrustedForAttachmentDownload,
-      weAreAdmin,
-      isDeletable,
-      isSenderAdmin,
       isExpired: this.isExpired(),
+      isTrustedForAttachmentDownload,
     };
 
     return props;
   }
 
-  public createNonBreakingLastSeparator(text?: string) {
+  public createNonBreakingLastSeparator(text: string | null) {
     if (!text) {
       return null;
     }
@@ -770,12 +715,10 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     const toRet: MessagePropsDetails = {
       sentAt: this.get('sent_at') || 0,
       receivedAt: this.get('received_at') || 0,
-      message: {
-        ...this.getPropsForMessage(),
-        // To ensure that group avatar doesn't show up
-        conversationType: ConversationTypeEnum.PRIVATE,
-      },
+      convoId: this.get('conversationId'),
+      messageId: this.get('id'),
       errors,
+      direction: this.get('direction'),
       contacts: sortedContacts || [],
     };
 
@@ -1068,14 +1011,16 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     await this.commit();
   }
 
-  public async commit() {
+  public async commit(triggerUIUpdate = true) {
     if (!this.attributes.id) {
       throw new Error('A message always needs an id');
     }
 
     perfStart(`messageCommit-${this.attributes.id}`);
     const id = await saveMessage(this.attributes);
-    this.dispatchMessageUpdate();
+    if (triggerUIUpdate) {
+      this.dispatchMessageUpdate();
+    }
     perfEnd(`messageCommit-${this.attributes.id}`, 'messageCommit');
 
     return id;
@@ -1084,6 +1029,9 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   public async markRead(readAt: number) {
     this.markReadNoCommit(readAt);
     await this.commit();
+    // the line below makes sure that getNextExpiringMessage will find this message as expiring.
+    // getNextExpiringMessage is used on app start to clean already expired messages which should have been removed already, but are not
+    await this.setToExpire();
 
     const convo = this.getConversation();
     if (convo) {
@@ -1178,7 +1126,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     }
   }
   private dispatchMessageUpdate() {
-    updatesToDispatch.set(this.id, this.getProps());
+    updatesToDispatch.set(this.id, this.getMessageModelProps());
     trotthledAllMessagesDispatch();
   }
 }
@@ -1191,7 +1139,7 @@ const trotthledAllMessagesDispatch = _.throttle(() => {
   updatesToDispatch.clear();
 }, 1000);
 
-const updatesToDispatch: Map<string, MessageModelProps> = new Map();
+const updatesToDispatch: Map<string, MessageModelPropsWithoutConvoProps> = new Map();
 export class MessageCollection extends Backbone.Collection<MessageModel> {}
 
 MessageCollection.prototype.model = MessageModel;

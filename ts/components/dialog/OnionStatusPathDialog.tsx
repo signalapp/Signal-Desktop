@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import ip2country from 'ip2country';
 import countryLookup from 'country-code-lookup';
-import { useTheme } from 'styled-components';
 import { Snode } from '../../data/data';
 import { onionPathModal } from '../../state/ducks/modalDialog';
 import {
@@ -16,9 +15,8 @@ import {
   getIsOnline,
   getOnionPathsCount,
 } from '../../state/selectors/onions';
-import { getTheme } from '../../state/selectors/theme';
 import { Flex } from '../basic/Flex';
-import { SessionIcon, SessionIconButton, SessionIconSize, SessionIconType } from '../session/icon';
+import { SessionIcon, SessionIconButton } from '../session/icon';
 import { SessionSpinner } from '../session/SessionSpinner';
 import { SessionWrapperModal } from '../session/SessionWrapperModal';
 
@@ -98,13 +96,12 @@ export type OnionNodeStatusLightType = {
  */
 export const OnionNodeStatusLight = (props: OnionNodeStatusLightType): JSX.Element => {
   const { glowStartDelay, glowDuration } = props;
-  const theme = useTheme();
 
   return (
     <ModalStatusLight
       glowDuration={glowDuration}
       glowStartDelay={glowStartDelay}
-      color={theme.colors.accent}
+      color={'var(--color-accent)'}
     />
   );
 };
@@ -114,18 +111,16 @@ export const OnionNodeStatusLight = (props: OnionNodeStatusLightType): JSX.Eleme
  */
 export const ModalStatusLight = (props: StatusLightType) => {
   const { glowStartDelay, glowDuration, color } = props;
-  const theme = useSelector(getTheme);
 
   return (
     <div className="onion__growing-icon">
       <SessionIcon
-        borderRadius={50}
+        borderRadius={'50px'}
         iconColor={color}
         glowDuration={glowDuration}
         glowStartDelay={glowStartDelay}
-        iconType={SessionIconType.Circle}
-        iconSize={SessionIconSize.Tiny}
-        theme={theme}
+        iconType="circle"
+        iconSize={'tiny'}
       />
     </div>
   );
@@ -140,15 +135,14 @@ export const ActionPanelOnionStatusLight = (props: {
 }) => {
   const { isSelected, handleClick } = props;
 
-  const theme = useTheme();
   const onionPathsCount = useSelector(getOnionPathsCount);
   const firstPathLength = useSelector(getFirstOnionPathLength);
   const isOnline = useSelector(getIsOnline);
 
   // Set icon color based on result
-  const red = theme.colors.destructive;
-  const green = theme.colors.accent;
-  const orange = theme.colors.warning;
+  const red = 'var(--color-destructive)';
+  const green = 'var(--color-accent)';
+  const orange = 'var(--color-warning)';
 
   // start with red
   let iconColor = red;
@@ -159,15 +153,14 @@ export const ActionPanelOnionStatusLight = (props: {
 
   return (
     <SessionIconButton
-      iconSize={SessionIconSize.Small}
-      iconType={SessionIconType.Circle}
+      iconSize={'small'}
+      iconType="circle"
       iconColor={iconColor}
       onClick={handleClick}
       glowDuration={10}
       glowStartDelay={0}
       noScale={true}
       isSelected={isSelected}
-      theme={theme}
     />
   );
 };

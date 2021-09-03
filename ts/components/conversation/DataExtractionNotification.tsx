@@ -1,14 +1,12 @@
 import React from 'react';
-import { useTheme } from 'styled-components';
 import { PropsForDataExtractionNotification } from '../../models/messageType';
 import { SignalService } from '../../protobuf';
 import { Flex } from '../basic/Flex';
-import { SessionIcon, SessionIconSize, SessionIconType } from '../session/icon';
+import { SessionIcon } from '../session/icon';
 import { SpacerXS, Text } from '../basic/Text';
 import { ReadableMessage } from './ReadableMessage';
 
 export const DataExtractionNotification = (props: PropsForDataExtractionNotification) => {
-  const theme = useTheme();
   const { name, type, source, messageId, isUnread, receivedAt } = props;
 
   let contentText: string;
@@ -29,15 +27,10 @@ export const DataExtractionNotification = (props: PropsForDataExtractionNotifica
         container={true}
         flexDirection="column"
         alignItems="center"
-        margin={theme.common.margins.sm}
+        margin={'var(--margins-sm)'}
         id={`msg-${messageId}`}
       >
-        <SessionIcon
-          iconType={SessionIconType.Upload}
-          theme={theme}
-          iconSize={SessionIconSize.Small}
-          iconRotation={180}
-        />
+        <SessionIcon iconType="upload" iconSize={'small'} iconRotation={180} />
         <SpacerXS />
         <Text text={contentText} subtle={true} />
       </Flex>

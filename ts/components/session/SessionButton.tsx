@@ -1,6 +1,5 @@
 import React, { ReactNode } from 'react';
 import classNames from 'classnames';
-import { DefaultTheme } from 'styled-components';
 
 export enum SessionButtonType {
   Brand = 'brand',
@@ -16,10 +15,8 @@ export enum SessionButtonColor {
   Green = 'green',
   White = 'white',
   Primary = 'primary',
-  Secondary = 'secondary',
   Success = 'success',
   Danger = 'danger',
-  DangerAlt = 'danger-alt',
   Warning = 'warning',
   None = '',
 }
@@ -31,7 +28,6 @@ type Props = {
   buttonColor: SessionButtonColor;
   onClick: any;
   children?: ReactNode;
-  theme: DefaultTheme;
 };
 
 export const SessionButton = (props: Props) => {

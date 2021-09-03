@@ -2,7 +2,6 @@ import * as GoogleChrome from './GoogleChrome';
 import { arrayBufferToObjectURL } from './arrayBufferToObjectURL';
 import { isFileDangerous } from './isFileDangerous';
 import { missingCaseError } from './missingCaseError';
-import { migrateColor } from './migrateColor';
 import { makeLookup } from './makeLookup';
 import * as PasswordUtil from './passwordUtils';
 import * as AttachmentUtil from './attachmentsUtil';
@@ -15,7 +14,6 @@ export {
   GoogleChrome,
   isFileDangerous,
   makeLookup,
-  migrateColor,
   missingCaseError,
   PasswordUtil,
   AttachmentUtil,

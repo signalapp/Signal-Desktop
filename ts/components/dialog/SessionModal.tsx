@@ -1,8 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { DefaultTheme } from 'styled-components';
-import { SessionIconButton, SessionIconSize, SessionIconType } from '../session/icon';
+import { SessionIconButton, SessionIconType } from '../session/icon';
 import { SessionButtonColor, SessionButtonType } from '../session/SessionButton';
 
 interface Props {
@@ -23,7 +22,6 @@ interface Props {
     text: string;
     onClick?: any;
   }>;
-  theme: DefaultTheme;
 }
 
 interface State {
@@ -48,15 +46,17 @@ export class SessionModal extends React.PureComponent<Props, State> {
     this.close = this.close.bind(this);
     this.onKeyUp = this.onKeyUp.bind(this);
     this.node = null;
-
-    window.addEventListener('keyup', this.onKeyUp);
   }
 
   public componentDidMount() {
+    window.addEventListener('keyup', this.onKeyUp);
+
     document.addEventListener('mousedown', this.handleClick, false);
   }
 
   public componentWillUnmount() {
+    window.removeEventListener('keyup', this.onKeyUp);
+
     document.removeEventListener('mousedown', this.handleClick, false);
   }
 
@@ -79,12 +79,7 @@ export class SessionModal extends React.PureComponent<Props, State> {
             <div className={classNames('session-modal__header', headerReverse && 'reverse')}>
               <div className="session-modal__header__close">
                 {showExitIcon ? (
-                  <SessionIconButton
-                    iconType={SessionIconType.Exit}
-                    iconSize={SessionIconSize.Small}
-                    onClick={this.close}
-                    theme={this.props.theme}
-                  />
+                  <SessionIconButton iconType="exit" iconSize={'small'} onClick={this.close} />
                 ) : null}
               </div>
               <div className="session-modal__header__title">{title}</div>
@@ -95,10 +90,9 @@ export class SessionModal extends React.PureComponent<Props, State> {
                         <SessionIconButton
                           key={iconItem.iconType}
                           iconType={iconItem.iconType}
-                          iconSize={SessionIconSize.Large}
+                          iconSize={'large'}
                           iconRotation={iconItem.iconRotation}
                           onClick={iconItem.onClick}
-                          theme={this.props.theme}
                         />
                       );
                     })
@@ -118,7 +112,6 @@ export class SessionModal extends React.PureComponent<Props, State> {
       isVisible: false,
     });
 
-    window.removeEventListener('keyup', this.onKeyUp);
     document.removeEventListener('mousedown', this.handleClick, false);
 
     if (this.props.onClose) {

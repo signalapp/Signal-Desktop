@@ -7,106 +7,40 @@
   flex-direction: row;
   align-items: stretch;
   overflow: hidden;
-  border-radius: 4px;
   border-left-width: 4px;
   border-left-style: solid;
 
-  @include themify($themes) {
-    border-color: themed('accentButton');
-  }
-
   &__primary__type-label {
-    @include themify($themes) {
-      border-color: themed('textColor');
-    }
-  }
-}
-
-// This is related to the bottomBar quote&mention logic
-.bottom-bar .module-quote {
-  margin: 0;
-  border-left-style: none;
-  @include themify($themes) {
-    background: themed('quoteBottomBarBackground');
-  }
-
-  .module-quote__primary__author {
-    @include themify($themes) {
-      color: themed('textColor');
-    }
-  }
-  .module-quote__primary__text {
-    @include themify($themes) {
-      @include session-color-subtle(themed('textColor'));
-    }
-    a {
-      @include themify($themes) {
-        @include session-color-subtle(themed('textColor'));
-      }
-    }
-  }
-
-  // close button when quoting a message
-  &__close {
-    &-container {
-      @include themify($themes) {
-        background: themed('backgroundPrimary');
-      }
-    }
-
-    &-button {
-      @include themify($themes) {
-        @include color-svg('../images/x.svg', themed('foregroundPrimary'));
-      }
-    }
+    border-color: var(--color-text);
   }
 }
 
 // This is related to the quote logic inside messages
 .module-quote {
-  &--incoming {
-    @include themify($themes) {
-      background: themed('sentMessageBackground');
-    }
-  }
-
   &--outgoing {
-    @include themify($themes) {
-      background: themed('receivedMessageBackground');
-    }
     .module-quote__primary__author {
-      @include themify($themes) {
-        color: themed('sentMessageText');
-        font-weight: bold;
-      }
+      color: var(--color-sent-message-text);
+      font-weight: bold;
     }
     .module-quote__primary__text {
-      @include themify($themes) {
-        @include session-color-subtle(themed('sentMessageText'));
-      }
+      color: var(--color-sent-message-text);
+
       a {
-        @include themify($themes) {
-          @include session-color-subtle(themed('sentMessageText'));
-        }
+        color: var(--color-sent-message-text);
       }
     }
   }
 
   &--incoming {
     .module-quote__primary__author {
-      @include themify($themes) {
-        color: themed('receivedMessageText');
-        font-weight: bold;
-      }
+      color: var(--color-received-message-text);
+      font-weight: bold;
     }
     .module-quote__primary__text {
-      @include themify($themes) {
-        @include session-color-subtle(themed('receivedMessageText'));
-      }
+      color: var(--color-received-message-text);
+
       a {
-        @include themify($themes) {
-          @include session-color-subtle(themed('receivedMessageText'));
-        }
+        color: var(--color-received-message-text);
       }
     }
   }
@@ -145,14 +79,9 @@
 }
 
 .module-quote-container {
-  margin-inline-start: -6px;
-  margin-inline-end: -6px;
-  margin-top: -4px;
   margin-bottom: 5px;
-}
-
-.module-quote-container--with-content-above {
-  margin-top: 3px;
+  margin-top: 10px;
+  padding-left: 10px;
 }
 
 .module-quote--no-click {
@@ -163,8 +92,6 @@
   flex-grow: 1;
   padding-inline-start: 8px;
   padding-inline-end: 8px;
-  padding-top: 7px;
-  padding-bottom: 7px;
 
   max-width: 100%;
 }
@@ -174,6 +101,7 @@
   line-height: 18px;
   font-weight: 300;
   color: $color-gray-90;
+  margin-bottom: 5px;
 
   overflow-x: hidden;
   white-space: nowrap;
@@ -187,12 +115,7 @@
 .module-quote__primary__text {
   font-size: 14px;
   line-height: 18px;
-  color: $color-gray-90;
   text-align: start;
-
-  a {
-    color: $color-gray-90;
-  }
 
   overflow-wrap: break-word;
   word-wrap: break-word;
@@ -201,14 +124,8 @@
 
   overflow: hidden;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
-
-  // Note: -webkit-line-clamp doesn't work for RTL text, and it forces you to use
-  //   ... as the truncation indicator. That's not a solution that works well for
-  //   all languages. More resources:
-  //     - http://hackingui.com/front-end/a-pure-css-solution-for-multiline-text-truncation/
-  //     - https://medium.com/mofed/css-line-clamp-the-good-the-bad-and-the-straight-up-broken-865413f16e5
 }
 
 .module-quote__primary__type-label {
@@ -350,18 +267,6 @@
     color: $color-gray-90;
     font-size: 13px;
     line-height: 18px;
-  }
-}
-
-.bottom-bar .member-item {
-  @include themify($themes) {
-    border-bottom: themed('sessionBorder');
-  }
-
-  &:hover {
-    @include themify($themes) {
-      background: themed('clickableHovered');
-    }
   }
 }
 

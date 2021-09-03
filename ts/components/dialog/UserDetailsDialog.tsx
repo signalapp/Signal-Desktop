@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
+// tslint:disable no-submodule-imports
 
-// tslint:disable-next-line: no-submodule-imports
+import useCopyToClipboard from 'react-use/lib/useCopyToClipboard';
+
 import useKey from 'react-use/lib/useKey';
 import { ConversationTypeEnum } from '../../models/conversation';
 import { getConversationController } from '../../session/conversations';
 import { openConversationWithMessages } from '../../state/ducks/conversations';
 import { updateUserDetailsModal } from '../../state/ducks/modalDialog';
 import { Avatar, AvatarSize } from '../Avatar';
-import { SpacerMD } from '../basic/Text';
+import { SpacerLG } from '../basic/Text';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../session/SessionButton';
 import { SessionIdEditable } from '../session/SessionIdEditable';
 import { SessionWrapperModal } from '../session/SessionWrapperModal';
@@ -23,6 +25,8 @@ export const UserDetailsDialog = (props: Props) => {
 
   const size = isEnlargedImageShown ? AvatarSize.HUGE : AvatarSize.XL;
   const userName = props.userName || props.conversationId;
+
+  const [_, copyToClipboard] = useCopyToClipboard();
 
   function closeDialog() {
     window.inboxStore?.dispatch(updateUserDetailsModal(null));
@@ -63,14 +67,22 @@ export const UserDetailsDialog = (props: Props) => {
         </div>
       </div>
 
-      <SpacerMD />
+      <SpacerLG />
       <SessionIdEditable editable={false} text={convo.id} />
 
       <div className="session-modal__button-group__center">
         <SessionButton
-          text={window.i18n('startConversation')}
+          text={window.i18n('copy')}
           buttonType={SessionButtonType.Default}
           buttonColor={SessionButtonColor.Primary}
+          onClick={() => {
+            copyToClipboard(props.conversationId);
+          }}
+        />
+        <SessionButton
+          text={window.i18n('startConversation')}
+          buttonType={SessionButtonType.Default}
+          buttonColor={SessionButtonColor.Green}
           onClick={onClickStartConversation}
         />
       </div>

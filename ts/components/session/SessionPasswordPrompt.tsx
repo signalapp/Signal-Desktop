@@ -1,10 +1,11 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { SessionIcon, SessionIconType } from './icon';
+import { SessionIcon } from './icon';
 import { SessionButton, SessionButtonColor, SessionButtonType } from './SessionButton';
 import { Constants } from '../../session';
-import { DefaultTheme, withTheme } from 'styled-components';
+import { withTheme } from 'styled-components';
+import autoBind from 'auto-bind';
 
 interface State {
   error: string;
@@ -14,8 +15,8 @@ interface State {
 
 export const MAX_LOGIN_TRIES = 3;
 
-class SessionPasswordPromptInner extends React.PureComponent<{ theme: DefaultTheme }, State> {
-  private readonly inputRef: React.RefObject<HTMLInputElement>;
+class SessionPasswordPromptInner extends React.PureComponent<{}, State> {
+  private inputRef?: any;
 
   constructor(props: any) {
     super(props);
@@ -26,16 +27,13 @@ class SessionPasswordPromptInner extends React.PureComponent<{ theme: DefaultThe
       clearDataView: false,
     };
 
-    this.onKeyUp = this.onKeyUp.bind(this);
-
-    this.initLogin = this.initLogin.bind(this);
-    this.initClearDataView = this.initClearDataView.bind(this);
-
-    this.inputRef = React.createRef();
+    autoBind(this);
   }
 
   public componentDidMount() {
-    (this.inputRef.current as HTMLInputElement).focus();
+    setTimeout(() => {
+      this.inputRef?.focus();
+    }, 100);
   }
 
   public render() {
@@ -63,23 +61,15 @@ class SessionPasswordPromptInner extends React.PureComponent<{ theme: DefaultThe
         defaultValue=""
         placeholder={' '}
         onKeyUp={this.onKeyUp}
-        ref={this.inputRef}
+        ref={input => {
+          this.inputRef = input;
+        }}
       />
     );
     const infoIcon = this.state.clearDataView ? (
-      <SessionIcon
-        iconType={SessionIconType.Warning}
-        iconSize={35}
-        iconColor="#ce0000"
-        theme={this.props.theme}
-      />
+      <SessionIcon iconType="warning" iconSize={35} iconColor="#ce0000" />
     ) : (
-      <SessionIcon
-        iconType={SessionIconType.Lock}
-        iconSize={35}
-        iconColor={Constants.UI.COLORS.GREEN}
-        theme={this.props.theme}
-      />
+      <SessionIcon iconType="lock" iconSize={35} iconColor={Constants.UI.COLORS.GREEN} />
     );
     const errorSection = !this.state.clearDataView && (
       <div className="password-prompt-error-section">
@@ -138,7 +128,7 @@ class SessionPasswordPromptInner extends React.PureComponent<{ theme: DefaultThe
   }
 
   private async initLogin() {
-    const passPhrase = String((this.inputRef.current as HTMLInputElement).value);
+    const passPhrase = String((this.inputRef as HTMLInputElement).value);
     await this.onLogin(passPhrase);
   }
 

@@ -65,17 +65,58 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
     }
   }
 
-  public componentDidUpdate(prevProps: Props) {
+  public componentDidUpdate(
+    prevProps: Props,
+    _prevState: any,
+    snapShot: { fakeScrollTop: number; realScrollTop: number; scrollHeight: number }
+  ) {
+    // this was hard to write, it should be hard to read
+    // just make sure you don't remove that as a bug in chrome makes the column-reverse do bad things
+    // https://bugs.chromium.org/p/chromium/issues/detail?id=1189195&q=column-reverse&can=2#makechanges
+    const currentRef = this.props.messageContainerRef.current;
     const isSameConvo = prevProps.conversationKey === this.props.conversationKey;
-    if (
-      !isSameConvo ||
-      (prevProps.messagesProps.length === 0 && this.props.messagesProps.length !== 0)
-    ) {
+    const prevMsgLength = prevProps.messagesProps.length;
+    const newMsgLength = this.props.messagesProps.length;
+
+    const prevFirstMesssageId = prevProps.messagesProps[0]?.propsForMessage.id;
+    const newFirstMesssageId = this.props.messagesProps[0]?.propsForMessage.id;
+    const messageAddedWasMoreRecentOne = prevFirstMesssageId !== newFirstMesssageId;
+
+    if (isSameConvo && snapShot?.realScrollTop && prevMsgLength !== newMsgLength) {
+      if (messageAddedWasMoreRecentOne) {
+        if (snapShot.scrollHeight - snapShot.realScrollTop < 50) {
+          // consider that we were scrolled to bottom
+          currentRef.scrollTop = 0;
+        } else {
+          currentRef.scrollTop = -(currentRef.scrollHeight - snapShot.realScrollTop);
+        }
+      } else {
+        currentRef.scrollTop = snapShot.fakeScrollTop;
+      }
+    }
+    if (!isSameConvo || (prevMsgLength === 0 && newMsgLength !== 0)) {
       this.setupTimeoutResetQuotedHighlightedMessage(this.props.animateQuotedMessageId);
 
       // displayed conversation changed. We have a bit of cleaning to do here
       this.initialMessageLoadingPosition();
     }
+  }
+
+  public getSnapshotBeforeUpdate() {
+    const messageContainer = this.props.messageContainerRef.current;
+
+    const scrollTop = messageContainer.scrollTop;
+    const scrollHeight = messageContainer.scrollHeight;
+
+    // as we use column-reverse for displaying message list
+    // the top is < 0
+    // tslint:disable-next-line: restrict-plus-operands
+    const realScrollTop = scrollHeight + scrollTop;
+    return {
+      realScrollTop,
+      fakeScrollTop: scrollTop,
+      scrollHeight: scrollHeight,
+    };
   }
 
   public render() {

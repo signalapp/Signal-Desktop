@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { SessionButton } from '../session/SessionButton';
+import { SessionButton, SessionButtonColor } from '../session/SessionButton';
 import { ToastUtils, UserUtils } from '../../session/utils';
 import { PasswordUtil } from '../../util';
 import { getPasswordHash } from '../../data/data';
@@ -111,17 +111,18 @@ const Seed = (props: SeedProps) => {
         <i className="session-modal__text-highlight">{recoveryPhrase}</i>
       </div>
       <SpacerLG />
-      <div className="qr-image">
-        <QRCode value={hexEncodedSeed} bgColor={bgColor} fgColor={fgColor} level="L" />
-      </div>
-      <SpacerLG />
       <div className="session-modal__button-group">
         <SessionButton
           text={i18n('copy')}
+          buttonColor={SessionButtonColor.Green}
           onClick={() => {
             copyRecoveryPhrase(recoveryPhrase);
           }}
         />
+      </div>
+      <SpacerLG />
+      <div className="qr-image">
+        <QRCode value={hexEncodedSeed} bgColor={bgColor} fgColor={fgColor} level="L" />
       </div>
     </>
   );
@@ -190,7 +191,6 @@ const SessionSeedModalInner = (props: ModalInnerProps) => {
           )}
         </SessionWrapperModal>
       )}
-      :
     </>
   );
 };

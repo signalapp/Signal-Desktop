@@ -17,13 +17,16 @@ import { QuotedAttachmentType } from '../../components/conversation/Quote';
 import { perfEnd, perfStart } from '../../session/utils/Performance';
 import { omit } from 'lodash';
 
-export type MessageModelProps = {
-  propsForMessage: PropsForMessage;
-  propsForSearchResult: PropsForSearchResults | null;
+export type MessageModelPropsWithoutConvoProps = {
+  propsForMessage: PropsForMessageWithoutConvoProps;
   propsForGroupInvitation: PropsForGroupInvitation | null;
   propsForTimerNotification: PropsForExpirationTimer | null;
   propsForDataExtractionNotification: PropsForDataExtractionNotification | null;
   propsForGroupNotification: PropsForGroupUpdate | null;
+};
+
+export type MessageModelPropsWithConvoProps = SortedMessageModelProps & {
+  propsForMessage: PropsForMessageWithConvoProps;
 };
 
 export type ContactPropsMessageDetail = {
@@ -40,10 +43,11 @@ export type ContactPropsMessageDetail = {
 export type MessagePropsDetails = {
   sentAt: number;
   receivedAt: number;
-
-  message: PropsForMessage;
   errors: Array<Error>;
   contacts: Array<ContactPropsMessageDetail>;
+  convoId: string;
+  messageId: string;
+  direction: MessageModelType;
 };
 
 export type LastMessageStatusType = MessageDeliveryStatus | null;
@@ -123,16 +127,6 @@ export type PropsForGroupInvitation = {
   isUnread: boolean;
 };
 
-export type PropsForSearchResults = {
-  from: FindAndFormatContactType;
-  to: FindAndFormatContactType;
-  id: string;
-  conversationId: string;
-  source: string;
-  receivedAt: number | undefined;
-  snippet?: string; //not sure about the type of snippet
-};
-
 export type PropsForAttachment = {
   id: number;
   contentType: string;
@@ -162,20 +156,17 @@ export type PropsForAttachment = {
   } | null;
 };
 
-export type PropsForMessage = {
+export type PropsForMessageWithoutConvoProps = {
   text: string | null;
-  id: string;
+  id: string; // messageId
   direction: MessageModelType;
   timestamp: number;
   receivedAt: number | undefined;
   serverTimestamp: number | undefined;
   serverId: number | undefined;
   status: LastMessageStatusType | null;
-  authorName: string | null;
-  authorProfileName: string | null;
-  authorPhoneNumber: string;
-  conversationType: ConversationTypeEnum;
-  convoId: string;
+  authorPhoneNumber: string; // this is the sender
+  convoId: string; // this is the conversation in which this message was sent
   attachments: Array<PropsForAttachment>;
   previews: Array<any>;
   quote?: {
@@ -188,18 +179,24 @@ export type PropsForMessage = {
     messageId?: string;
     referencedMessageNotFound: boolean;
   } | null;
-  authorAvatarPath: string | null;
   isUnread: boolean;
   expirationLength: number;
   expirationTimestamp: number | null;
+  isExpired: boolean;
+  isTrustedForAttachmentDownload: boolean;
+};
+
+export type PropsForMessageWithConvoProps = PropsForMessageWithoutConvoProps & {
+  authorName: string | null;
+  authorProfileName: string | null;
+  conversationType: ConversationTypeEnum;
+  authorAvatarPath: string | null;
   isPublic: boolean;
   isOpenGroupV2: boolean;
   isKickedFromGroup: boolean;
-  isTrustedForAttachmentDownload: boolean;
   weAreAdmin: boolean;
   isSenderAdmin: boolean;
   isDeletable: boolean;
-  isExpired: boolean;
   isBlocked: boolean;
 };
 
@@ -233,7 +230,7 @@ export interface ReduxConversationType {
   isKickedFromGroup: boolean;
   subscriberCount: number;
   left: boolean;
-  avatarPath?: string; // absolute filepath to the avatar
+  avatarPath: string | null; // absolute filepath to the avatar
   groupAdmins?: Array<string>; // admins for closed groups and moderators for open groups
   members: Array<string>; // members for closed groups only
 
@@ -255,7 +252,7 @@ export type ConversationLookupType = {
 export type ConversationsStateType = {
   conversationLookup: ConversationLookupType;
   selectedConversation?: string;
-  messages: Array<MessageModelProps>;
+  messages: Array<MessageModelPropsWithoutConvoProps>;
   firstUnreadMessageId: string | undefined;
   messageDetailProps?: MessagePropsDetails;
   showRightPanel: boolean;
@@ -281,7 +278,7 @@ export type MentionsMembersType = Array<{
 async function getMessages(
   conversationKey: string,
   numMessagesToFetch: number
-): Promise<Array<MessageModelProps>> {
+): Promise<Array<MessageModelPropsWithoutConvoProps>> {
   const conversation = getConversationController().get(conversationKey);
   if (!conversation) {
     // no valid conversation, early return
@@ -302,17 +299,20 @@ async function getMessages(
     limit: msgCount,
   });
 
-  const messageProps: Array<MessageModelProps> = messageSet.models.map(m => m.getProps());
+  const messageProps: Array<MessageModelPropsWithoutConvoProps> = messageSet.models.map(m =>
+    m.getMessageModelProps()
+  );
   return messageProps;
 }
 
-export type SortedMessageModelProps = MessageModelProps & {
+export type SortedMessageModelProps = MessageModelPropsWithoutConvoProps & {
   firstMessageOfSeries: boolean;
+  lastMessageOfSeries: boolean;
 };
 
 type FetchedMessageResults = {
   conversationKey: string;
-  messagesProps: Array<MessageModelProps>;
+  messagesProps: Array<MessageModelPropsWithoutConvoProps>;
 };
 
 export const fetchMessagesForConversation = createAsyncThunk(
@@ -326,11 +326,11 @@ export const fetchMessagesForConversation = createAsyncThunk(
   }): Promise<FetchedMessageResults> => {
     const beforeTimestamp = Date.now();
     // tslint:disable-next-line: no-console
-    console.time('fetchMessagesForConversation');
+    perfStart('fetchMessagesForConversation');
     const messagesProps = await getMessages(conversationKey, count);
     const afterTimestamp = Date.now();
     // tslint:disable-next-line: no-console
-    console.timeEnd('fetchMessagesForConversation');
+    perfEnd('fetchMessagesForConversation', 'fetchMessagesForConversation');
 
     const time = afterTimestamp - beforeTimestamp;
     window?.log?.info(`Loading ${messagesProps.length} messages took ${time}ms to load.`);
@@ -364,7 +364,7 @@ function handleMessageAdded(
   state: ConversationsStateType,
   payload: {
     conversationKey: string;
-    messageModelProps: MessageModelProps;
+    messageModelProps: MessageModelPropsWithoutConvoProps;
   }
 ) {
   const { messages } = state;
@@ -395,7 +395,10 @@ function handleMessageAdded(
   return state;
 }
 
-function handleMessageChanged(state: ConversationsStateType, changedMessage: MessageModelProps) {
+function handleMessageChanged(
+  state: ConversationsStateType,
+  changedMessage: MessageModelPropsWithoutConvoProps
+) {
   const messageInStoreIndex = state?.messages?.findIndex(
     m => m.propsForMessage.id === changedMessage.propsForMessage.id
   );
@@ -416,7 +419,10 @@ function handleMessageChanged(state: ConversationsStateType, changedMessage: Mes
   return state;
 }
 
-function handleMessagesChanged(state: ConversationsStateType, payload: Array<MessageModelProps>) {
+function handleMessagesChanged(
+  state: ConversationsStateType,
+  payload: Array<MessageModelPropsWithoutConvoProps>
+) {
   payload.forEach(element => {
     // tslint:disable-next-line: no-parameter-reassignment
     state = handleMessageChanged(state, element);
@@ -588,7 +594,7 @@ const conversationsSlice = createSlice({
       state: ConversationsStateType,
       action: PayloadAction<{
         conversationKey: string;
-        messageModelProps: MessageModelProps;
+        messageModelProps: MessageModelPropsWithoutConvoProps;
       }>
     ) {
       return handleMessageAdded(state, action.payload);
@@ -598,7 +604,7 @@ const conversationsSlice = createSlice({
       action: PayloadAction<
         Array<{
           conversationKey: string;
-          messageModelProps: MessageModelProps;
+          messageModelProps: MessageModelPropsWithoutConvoProps;
         }>
       >
     ) {
@@ -612,12 +618,15 @@ const conversationsSlice = createSlice({
       return state;
     },
 
-    messageChanged(state: ConversationsStateType, action: PayloadAction<MessageModelProps>) {
+    messageChanged(
+      state: ConversationsStateType,
+      action: PayloadAction<MessageModelPropsWithoutConvoProps>
+    ) {
       return handleMessageChanged(state, action.payload);
     },
     messagesChanged(
       state: ConversationsStateType,
-      action: PayloadAction<Array<MessageModelProps>>
+      action: PayloadAction<Array<MessageModelPropsWithoutConvoProps>>
     ) {
       return handleMessagesChanged(state, action.payload);
     },
@@ -651,6 +660,7 @@ const conversationsSlice = createSlice({
         return state;
       }
 
+      // keep the unread visible just like in other apps. It will be shown until the user changes convo
       return {
         ...state,
         firstUnreadMessageId: undefined,
@@ -662,7 +672,7 @@ const conversationsSlice = createSlice({
       action: PayloadAction<{
         id: string;
         firstUnreadIdOnOpen: string | undefined;
-        initialMessages: Array<MessageModelProps>;
+        initialMessages: Array<MessageModelPropsWithoutConvoProps>;
         messageId?: string;
       }>
     ) {
@@ -815,10 +825,15 @@ export async function openConversationWithMessages(args: {
   messageId?: string;
 }) {
   const { conversationKey, messageId } = args;
+  perfStart('getFirstUnreadMessageIdInConversation');
   const firstUnreadIdOnOpen = await getFirstUnreadMessageIdInConversation(conversationKey);
+  perfEnd('getFirstUnreadMessageIdInConversation', 'getFirstUnreadMessageIdInConversation');
 
   // preload 30 messages
+  perfStart('getMessages');
+
   const initialMessages = await getMessages(conversationKey, 30);
+  perfEnd('getMessages', 'getMessages');
 
   window.inboxStore?.dispatch(
     actions.openConversationExternal({

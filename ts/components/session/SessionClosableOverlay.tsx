@@ -1,8 +1,7 @@
 import React from 'react';
 
-import { SessionIconButton, SessionIconSize, SessionIconType } from './icon';
+import { SessionIconButton } from './icon';
 import { SessionIdEditable } from './SessionIdEditable';
-import { UserSearchDropdown } from './UserSearchDropdown';
 import { ContactType, SessionMemberListItem } from './SessionMemberListItem';
 import { ReduxConversationType } from '../../state/ducks/conversations';
 import { SessionButton, SessionButtonColor, SessionButtonType } from './SessionButton';
@@ -48,14 +47,17 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
     this.inputRef = React.createRef();
     this.onKeyUp = this.onKeyUp.bind(this);
     this.onGroupNameChanged = this.onGroupNameChanged.bind(this);
-
-    window.addEventListener('keyup', this.onKeyUp);
   }
 
   public componentDidMount() {
+    window.addEventListener('keyup', this.onKeyUp);
+
     if (this.inputRef.current) {
       this.inputRef.current.focus();
     }
+  }
+  public componentWillUnmount() {
+    window.removeEventListener('keyup', this.onKeyUp);
   }
 
   public getContacts() {
@@ -97,16 +99,7 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
 
   // tslint:disable-next-line max-func-body-length cyclomatic-complexity */
   public render(): JSX.Element {
-    const {
-      overlayMode,
-      onCloseClick,
-      onChangeSessionID,
-      showSpinner,
-      searchTerm,
-      updateSearch,
-      searchResults,
-      onButtonClick,
-    } = this.props;
+    const { overlayMode, onCloseClick, onChangeSessionID, showSpinner, onButtonClick } = this.props;
 
     const { groupName, selectedMembers } = this.state;
 
@@ -153,11 +146,7 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
     return (
       <div className="module-left-pane-overlay">
         <div className="exit">
-          <SessionIconButton
-            iconSize={SessionIconSize.Small}
-            iconType={SessionIconType.Exit}
-            onClick={onCloseClick}
-          />
+          <SessionIconButton iconSize={'small'} iconType="exit" onClick={onCloseClick} />
         </div>
 
         <SpacerMD />
@@ -215,16 +204,7 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
 
         {descriptionLong && <div className="session-description-long">{descriptionLong}</div>}
         {isMessageView && false && <h4>{window.i18n('or')}</h4>}
-        {/* FIXME enable back those two items when they are working */}
         {isOpenGroupView && <SessionJoinableRooms onRoomClicked={this.props.onCloseClick} />}
-        {isMessageView && false && (
-          <UserSearchDropdown
-            searchTerm={searchTerm || ''}
-            updateSearch={updateSearch}
-            placeholder={window.i18n('searchFor...')}
-            searchResults={searchResults}
-          />
-        )}
 
         <SessionButton
           buttonColor={SessionButtonColor.Green}

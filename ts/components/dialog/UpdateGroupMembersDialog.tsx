@@ -109,8 +109,14 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
       admins,
       isAdmin,
     };
+  }
 
+  public componentDidMount() {
     window.addEventListener('keyup', this.onKeyUp);
+  }
+
+  public componentWillUnmount() {
+    window.removeEventListener('keyup', this.onKeyUp);
   }
 
   public onClickOK() {
@@ -243,8 +249,6 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
   }
 
   private closeDialog() {
-    window.removeEventListener('keyup', this.onKeyUp);
-
     window.inboxStore?.dispatch(updateGroupMembersModal(null));
   }
 

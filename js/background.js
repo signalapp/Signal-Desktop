@@ -140,7 +140,7 @@
       getHideMenuBar: () => storage.get('hide-menu-bar'),
       setHideMenuBar: value => {
         storage.put('hide-menu-bar', value);
-        window.setAutoHideMenuBar(value);
+        window.setAutoHideMenuBar(false);
         window.setMenuBarVisibility(!value);
       },
 
@@ -311,10 +311,6 @@
     }
 
     window.setTheme = newTheme => {
-      $(document.body)
-        .removeClass('dark-theme')
-        .removeClass('light-theme')
-        .addClass(`${newTheme}-theme`);
       window.Events.setThemeSetting(newTheme);
     };
 

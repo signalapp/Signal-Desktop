@@ -2,13 +2,13 @@ import React from 'react';
 
 import { Avatar, AvatarSize } from '../Avatar';
 
-import { SessionIconButton, SessionIconSize, SessionIconType } from '../session/icon';
+import { SessionIconButton } from '../session/icon';
 
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../session/SessionButton';
 import { ConversationAvatar } from '../session/usingClosedConversationDetails';
 import { MemoConversationHeaderMenu } from '../session/menu/ConversationHeaderMenu';
 import { contextMenu } from 'react-contexify';
-import styled, { useTheme } from 'styled-components';
+import styled from 'styled-components';
 import { ConversationNotificationSettingType } from '../../models/conversation';
 import {
   getConversationHeaderProps,
@@ -18,6 +18,7 @@ import {
   getSelectedMessageIds,
   isMessageDetailView,
   isMessageSelectionMode,
+  isRightPanelShowing,
 } from '../../state/selectors/conversations';
 import { useDispatch, useSelector } from 'react-redux';
 import { useMembersAvatars } from '../../hooks/useMembersAvatar';
@@ -25,6 +26,7 @@ import { useMembersAvatars } from '../../hooks/useMembersAvatar';
 import { deleteMessagesById } from '../../interactions/conversationInteractions';
 import {
   closeMessageDetailsView,
+  closeRightPanel,
   NotificationForConvoOption,
   openRightPanel,
   resetSelectedMessageIds,
@@ -41,7 +43,7 @@ export type ConversationHeaderProps = {
 
   phoneNumber: string;
   profileName?: string;
-  avatarPath?: string;
+  avatarPath: string | null;
 
   isMe: boolean;
   isGroup: boolean;
@@ -82,11 +84,7 @@ const SelectionOverlay = (props: {
   return (
     <div className="message-selection-overlay">
       <div className="close-button">
-        <SessionIconButton
-          iconType={SessionIconType.Exit}
-          iconSize={SessionIconSize.Medium}
-          onClick={onCloseOverlay}
-        />
+        <SessionIconButton iconType="exit" iconSize={'medium'} onClick={onCloseOverlay} />
       </div>
 
       <div className="button-group">
@@ -116,7 +114,7 @@ const TripleDotsMenu = (props: { triggerId: string; showBackButton: boolean }) =
         });
       }}
     >
-      <SessionIconButton iconType={SessionIconType.Ellipses} iconSize={SessionIconSize.Medium} />
+      <SessionIconButton iconType="ellipses" iconSize={'medium'} />
     </div>
   );
 };
@@ -137,7 +135,7 @@ const ExpirationLength = (props: { expirationSettingName?: string }) => {
 };
 
 const AvatarHeader = (props: {
-  avatarPath?: string;
+  avatarPath: string | null;
   memberAvatars?: Array<ConversationAvatar>;
   name?: string;
   phoneNumber: string;
@@ -174,29 +172,15 @@ const BackButton = (props: { onGoBack: () => void; showBackButton: boolean }) =>
   }
 
   return (
-    <SessionIconButton
-      iconType={SessionIconType.Chevron}
-      iconSize={SessionIconSize.Large}
-      iconRotation={90}
-      onClick={onGoBack}
-    />
+    <SessionIconButton iconType="chevron" iconSize={'large'} iconRotation={90} onClick={onGoBack} />
   );
 };
 
-interface StyledSubtitleContainerProps {
-  margin?: string;
-}
 export const StyledSubtitleContainer = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
-
-  span {
-    margin-bottom: ${(p: StyledSubtitleContainerProps) => {
-      return p.margin || '5px';
-    }};
-  }
 
   span:last-child {
     margin-bottom: 0;
@@ -219,7 +203,8 @@ export type ConversationHeaderTitleProps = {
 const ConversationHeaderTitle = () => {
   const headerTitleProps = useSelector(getConversationHeaderTitleProps);
   const notificationSetting = useSelector(getCurrentNotificationSettingText);
-  const marginXS = useTheme().common.margins.xs;
+  const isRightPanelOn = useSelector(isRightPanelShowing);
+  const dispatch = useDispatch();
   if (!headerTitleProps) {
     return null;
   }
@@ -252,7 +237,7 @@ const ConversationHeaderTitle = () => {
   }
 
   let memberCountText = '';
-  if (isGroup && memberCount > 0) {
+  if (isGroup && memberCount > 0 && !isKickedFromGroup) {
     const count = String(memberCount);
     memberCountText = i18n('members', [count]);
   }
@@ -260,14 +245,27 @@ const ConversationHeaderTitle = () => {
   const notificationSubtitle = notificationSetting
     ? window.i18n('notificationSubtitle', notificationSetting)
     : null;
+  const fullTextSubtitle = memberCountText
+    ? `${memberCountText} ● ${notificationSubtitle}`
+    : `${notificationSubtitle}`;
+
   const title = profileName || name || phoneNumber;
 
   return (
-    <div className="module-conversation-header__title">
+    <div
+      className="module-conversation-header__title"
+      onClick={() => {
+        if (isRightPanelOn) {
+          dispatch(closeRightPanel());
+        } else {
+          dispatch(openRightPanel());
+        }
+      }}
+      role="button"
+    >
       <span className="module-contact-name__profile-name">{title}</span>
-      <StyledSubtitleContainer margin={marginXS}>
-        {isKickedFromGroup ? null : <ConversationHeaderSubtitle text={memberCountText} />}
-        <ConversationHeaderSubtitle text={notificationSubtitle} />
+      <StyledSubtitleContainer>
+        <ConversationHeaderSubtitle text={fullTextSubtitle} />
       </StyledSubtitleContainer>
     </div>
   );

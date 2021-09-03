@@ -25,7 +25,7 @@ import {
   actions as conversationActions,
   conversationChanged,
   LastMessageStatusType,
-  MessageModelProps,
+  MessageModelPropsWithoutConvoProps,
   NotificationForConvoOption,
   ReduxConversationType,
 } from '../state/ducks/conversations';
@@ -48,6 +48,8 @@ import {
   SendMessageType,
 } from '../components/session/conversation/SessionCompositionBox';
 import { ed25519Str } from '../session/onions/onionPath';
+import { getDecryptedMediaUrl } from '../session/crypto/DecryptedAttachmentsManager';
+import { IMAGE_JPEG } from '../types/MIME';
 
 export enum ConversationTypeEnum {
   GROUP = 'group',
@@ -200,9 +202,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     this.throttledBumpTyping = _.throttle(this.bumpTyping, 300);
     this.updateLastMessage = _.throttle(this.bouncyUpdateLastMessage.bind(this), 1000, {
       trailing: true,
+      leading: true,
     });
     this.triggerUIRefresh = _.throttle(this.triggerUIRefresh, 1000, {
       trailing: true,
+      leading: true,
     });
     this.throttledNotify = _.debounce(this.notify, 500, { maxWait: 5000, trailing: true });
     //start right away the function is called, and wait 1sec before calling it again
@@ -223,7 +227,9 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     this.typingRefreshTimer = null;
     this.typingPauseTimer = null;
     this.lastReadTimestamp = 0;
-    window.inboxStore?.dispatch(conversationChanged({ id: this.id, data: this.getProps() }));
+    window.inboxStore?.dispatch(
+      conversationChanged({ id: this.id, data: this.getConversationModelProps() })
+    );
   }
 
   public idForLogging() {
@@ -407,7 +413,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     return this.get('moderators');
   }
 
-  public getProps(): ReduxConversationType {
+  public getConversationModelProps(): ReduxConversationType {
     const groupAdmins = this.getGroupAdmins();
     const members = this.isGroup() && !this.isPublic() ? this.get('members') : [];
     const ourNumber = UserUtils.getOurPubKeyStrFromCache();
@@ -417,7 +423,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       isSelected: false,
       id: this.id as string,
       activeAt: this.get('active_at'),
-      avatarPath: this.getAvatarPath() || undefined,
+      avatarPath: this.getAvatarPath() || null,
       type: this.isPrivate() ? ConversationTypeEnum.PRIVATE : ConversationTypeEnum.GROUP,
       weAreAdmin: this.isAdmin(ourNumber),
       isGroup: !this.isPrivate(),
@@ -804,16 +810,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       lastMessageStatus: lastMessageStatusModel,
       lastMessageNotificationText: lastMessageModel ? lastMessageModel.getNotificationText() : null,
     });
-    // Because we're no longer using Backbone-integrated saves, we need to manually
-    //   clear the changed fields here so our hasChanged() check below is useful.
-    (this as any).changed = {};
     this.set(lastMessageUpdate);
-    if (this.hasChanged()) {
-      await this.commit();
-    }
+    await this.commit();
   }
 
-  public async updateExpirationTimer(
+  public async updateExpireTimer(
     providedExpireTimer: any,
     providedSource?: string,
     receivedAt?: number, // is set if it comes from outside
@@ -917,7 +918,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       conversationChanged({
         id: this.id,
         data: {
-          ...this.getProps(),
+          ...this.getConversationModelProps(),
           isSelected: false,
         },
       })
@@ -935,7 +936,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public async addSingleMessage(messageAttributes: MessageAttributesOptionals, setToExpire = true) {
     const model = new MessageModel(messageAttributes);
 
-    const messageId = await model.commit();
+    // no need to trigger a UI update now, we trigger a messageAdded just below
+    const messageId = await model.commit(false);
     model.set({ id: messageId });
 
     if (setToExpire) {
@@ -945,7 +947,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     window.inboxStore?.dispatch(
       conversationActions.messageAdded({
         conversationKey: this.id,
-        messageModelProps: model.getProps(),
+        messageModelProps: model.getMessageModelProps(),
       })
     );
     const unreadCount = await this.getUnreadCount();
@@ -1003,10 +1005,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     if (oldUnreadNowReadAttrs?.length) {
       await saveMessages(oldUnreadNowReadAttrs);
     }
-    const allProps: Array<MessageModelProps> = [];
+    const allProps: Array<MessageModelPropsWithoutConvoProps> = [];
 
     for (const nowRead of oldUnreadNowRead) {
-      allProps.push(nowRead.getProps());
+      allProps.push(nowRead.getMessageModelProps());
     }
 
     if (allProps.length) {
@@ -1036,7 +1038,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         (m: any) => m.get('received_at') > newestUnreadDate
       );
       const ourNumber = UserUtils.getOurPubKeyStrFromCache();
-      return !stillUnread.some(m => m.getPropsForMessage()?.text?.indexOf(`@${ourNumber}`) !== -1);
+      return !stillUnread.some(m => m.get('body')?.indexOf(`@${ourNumber}`) !== -1);
     })();
 
     if (mentionRead) {
@@ -1378,21 +1380,21 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     return null;
   }
-  public getAvatar() {
-    const url = this.getAvatarPath();
-
-    return { url: url || null };
-  }
 
   public async getNotificationIcon() {
-    return new Promise(resolve => {
-      const avatar = this.getAvatar();
-      if (avatar.url) {
-        resolve(avatar.url);
-      } else {
-        resolve(new window.Whisper.IdenticonSVGView(avatar).getDataUrl());
+    const avatarUrl = this.getAvatarPath();
+    const noIconUrl = 'images/session/session_icon_32.png';
+    if (avatarUrl) {
+      const decryptedAvatarUrl = await getDecryptedMediaUrl(avatarUrl, IMAGE_JPEG);
+
+      if (!decryptedAvatarUrl) {
+        window.log.warn('Could not decrypt avatar stored locally for getNotificationIcon..');
+        return noIconUrl;
       }
-    });
+      return decryptedAvatarUrl;
+    } else {
+      return noIconUrl;
+    }
   }
 
   public async notify(message: MessageModel) {
@@ -1433,7 +1435,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       ConversationTypeEnum.PRIVATE
     );
 
-    const iconUrl = await convo.getNotificationIcon();
+    const iconUrl = await this.getNotificationIcon();
 
     const messageJSON = message.toJSON();
     const messageSentAt = messageJSON.sent_at;

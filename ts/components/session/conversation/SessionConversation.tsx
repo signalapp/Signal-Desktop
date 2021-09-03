@@ -14,7 +14,7 @@ import { AttachmentUtil, GoogleChrome } from '../../../util';
 import { ConversationHeaderWithDetails } from '../../conversation/ConversationHeader';
 import { SessionRightPanelWithDetails } from './SessionRightPanel';
 import { SessionTheme } from '../../../state/ducks/SessionTheme';
-import styled, { DefaultTheme } from 'styled-components';
+import styled from 'styled-components';
 import { SessionMessagesListContainer } from './SessionMessagesListContainer';
 import { LightboxGallery, MediaItemType } from '../../LightboxGallery';
 
@@ -57,7 +57,6 @@ interface Props {
   ourNumber: string;
   selectedConversationKey: string;
   selectedConversation?: ReduxConversationType;
-  theme: DefaultTheme;
   messagesProps: Array<SortedMessageModelProps>;
   selectedMessages: Array<string>;
   showMessageDetails: boolean;
@@ -75,8 +74,8 @@ const SessionUnreadAboveIndicator = styled.div`
   margin: 1em;
   display: flex;
   justify-content: center;
-  background: ${props => props.theme.colors.sentMessageBackground};
-  color: ${props => props.theme.colors.sentMessageText};
+  background: var(--color-sent-message-background);
+  color: var(--color-sent-message-text);
 `;
 
 const UnreadAboveIndicator = () => {
@@ -246,7 +245,7 @@ export class SessionConversation extends React.Component<Props, State> {
     const selectionMode = selectedMessages.length > 0;
 
     return (
-      <SessionTheme theme={this.props.theme}>
+      <SessionTheme>
         <div className="conversation-header">
           <ConversationHeaderWithDetails />
         </div>

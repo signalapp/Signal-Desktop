@@ -2,9 +2,8 @@ import React from 'react';
 import classNames from 'classnames';
 
 import { Avatar, AvatarSize } from '../Avatar';
-import { SessionIcon, SessionIconSize, SessionIconType } from './icon';
+import { SessionIcon } from './icon';
 import { Constants } from '../../session';
-import { useTheme } from 'styled-components';
 import { PubKey } from '../../session/types';
 
 export interface ContactType {
@@ -55,7 +54,6 @@ export const SessionMemberListItem = (props: Props) => {
     isSelected ? unselectMember() : selectMember();
   };
 
-  const theme = useTheme();
   const name = member.authorProfileName || PubKey.shorten(member.authorPhoneNumber);
 
   return (
@@ -74,12 +72,7 @@ export const SessionMemberListItem = (props: Props) => {
         <span className="session-member-item__name">{name}</span>
       </div>
       <span className={classNames('session-member-item__checkmark', isSelected && 'selected')}>
-        <SessionIcon
-          iconType={SessionIconType.Check}
-          iconSize={SessionIconSize.Medium}
-          iconColor={Constants.UI.COLORS.GREEN}
-          theme={theme}
-        />
+        <SessionIcon iconType="check" iconSize={'medium'} iconColor={Constants.UI.COLORS.GREEN} />
       </span>
     </div>
   );

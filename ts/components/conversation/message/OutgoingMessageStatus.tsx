@@ -1,81 +1,60 @@
 import React from 'react';
-import styled, { useTheme } from 'styled-components';
+import styled from 'styled-components';
 import { MessageDeliveryStatus } from '../../../models/messageType';
-import { SessionIcon, SessionIconSize, SessionIconType } from '../../session/icon';
-import { OpacityMetadataComponent } from './MessageMetadata';
+import { SessionIcon } from '../../session/icon';
 
-const MessageStatusSendingContainer = styled(props => <OpacityMetadataComponent {...props} />)`
+const MessageStatusSendingContainer = styled.div`
   display: inline-block;
   margin-bottom: 2px;
   margin-inline-start: 5px;
 `;
 
-const MessageStatusSending = (props: { iconColor: string }) => {
+const MessageStatusSending = () => {
+  const iconColor = 'var(--color-text)';
   return (
     <MessageStatusSendingContainer>
-      <SessionIcon
-        rotateDuration={2}
-        iconColor={props.iconColor}
-        iconType={SessionIconType.Sending}
-        iconSize={SessionIconSize.Tiny}
-      />
+      <SessionIcon rotateDuration={2} iconColor={iconColor} iconType="sending" iconSize={'tiny'} />
     </MessageStatusSendingContainer>
   );
 };
 
-const MessageStatusSent = (props: { iconColor: string }) => {
+const MessageStatusSent = () => {
+  const iconColor = 'var(--color-text)';
+
   return (
     <MessageStatusSendingContainer>
-      <SessionIcon
-        iconColor={props.iconColor}
-        iconType={SessionIconType.CircleCheck}
-        iconSize={SessionIconSize.Tiny}
-      />
+      <SessionIcon iconColor={iconColor} iconType="circleCheck" iconSize={'tiny'} />
     </MessageStatusSendingContainer>
   );
 };
 
-const MessageStatusRead = (props: { iconColor: string }) => {
+const MessageStatusRead = () => {
+  const iconColor = 'var(--color-text)';
+
   return (
     <MessageStatusSendingContainer>
-      <SessionIcon
-        iconColor={props.iconColor}
-        iconType={SessionIconType.DoubleCheckCircleFilled}
-        iconSize={SessionIconSize.Tiny}
-      />
+      <SessionIcon iconColor={iconColor} iconType="doubleCheckCircleFilled" iconSize={'tiny'} />
     </MessageStatusSendingContainer>
   );
 };
 
 const MessageStatusError = () => {
-  const theme = useTheme();
   return (
-    <MessageStatusSendingContainer>
-      <SessionIcon
-        iconColor={theme.colors.destructive}
-        iconType={SessionIconType.Error}
-        iconSize={SessionIconSize.Tiny}
-      />
+    <MessageStatusSendingContainer title={window.i18n('sendFailed')}>
+      <SessionIcon iconColor={'var(--color-destructibe'} iconType="error" iconSize={'tiny'} />
     </MessageStatusSendingContainer>
   );
 };
 
-export const OutgoingMessageStatus = (props: {
-  status?: MessageDeliveryStatus | null;
-  iconColor: string;
-  isInMessageView?: boolean;
-}) => {
+export const OutgoingMessageStatus = (props: { status?: MessageDeliveryStatus | null }) => {
   switch (props.status) {
     case 'sending':
-      return <MessageStatusSending {...props} />;
+      return <MessageStatusSending />;
     case 'sent':
-      return <MessageStatusSent {...props} />;
+      return <MessageStatusSent />;
     case 'read':
-      return <MessageStatusRead {...props} />;
+      return <MessageStatusRead />;
     case 'error':
-      if (props.isInMessageView) {
-        return null;
-      }
       return <MessageStatusError />;
     default:
       return null;

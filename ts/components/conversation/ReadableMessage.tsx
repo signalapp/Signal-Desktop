@@ -3,7 +3,6 @@ import React, { useCallback } from 'react';
 import { InView } from 'react-intersection-observer';
 import { useDispatch, useSelector } from 'react-redux';
 import { getMessageById } from '../../data/data';
-import { useAppIsFocused } from '../../hooks/useAppFocused';
 import { Constants } from '../../session';
 import { getConversationController } from '../../session/conversations';
 import {
@@ -19,6 +18,7 @@ import {
   getOldestMessageId,
   getSelectedConversationKey,
 } from '../../state/selectors/conversations';
+import { getIsAppFocused } from '../../state/selectors/section';
 
 type ReadableMessageProps = {
   children: React.ReactNode;
@@ -26,7 +26,7 @@ type ReadableMessageProps = {
   className?: string;
   receivedAt: number | undefined;
   isUnread: boolean;
-  onContextMenu?: (e: any) => void;
+  onContextMenu?: (e: React.MouseEvent<HTMLElement>) => void;
 };
 
 const debouncedTriggerLoadMore = _.debounce(
@@ -45,9 +45,8 @@ const debouncedTriggerLoadMore = _.debounce(
 export const ReadableMessage = (props: ReadableMessageProps) => {
   const { messageId, onContextMenu, className, receivedAt, isUnread } = props;
 
-  const isAppFocused = useAppIsFocused();
+  const isAppFocused = useSelector(getIsAppFocused);
   const dispatch = useDispatch();
-  //         onVisible={haveDoneFirstScrollProp ? onVisible : noop}
 
   const selectedConversationKey = useSelector(getSelectedConversationKey);
   const loadedMessagesLength = useSelector(getLoadedMessagesLength);
@@ -58,6 +57,7 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
   const shouldMarkReadWhenVisible = isUnread;
 
   const onVisible = useCallback(
+    // tslint:disable-next-line: cyclomatic-complexity
     async (inView: boolean | Object) => {
       // when the view first loads, it needs to scroll to the unread messages.
       // we need to disable the inview on the first loading
@@ -91,15 +91,16 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
       if (
         (inView === true ||
           ((inView as any).type === 'focus' && (inView as any).returnValue === true)) &&
-        shouldMarkReadWhenVisible &&
         isAppFocused
       ) {
-        const found = await getMessageById(messageId);
+        if (shouldMarkReadWhenVisible) {
+          const found = await getMessageById(messageId);
 
-        if (found && Boolean(found.get('unread'))) {
-          // mark the message as read.
-          // this will trigger the expire timer.
-          await found.markRead(Date.now());
+          if (found && Boolean(found.get('unread'))) {
+            // mark the message as read.
+            // this will trigger the expire timer.
+            await found.markRead(Date.now());
+          }
         }
       }
     },

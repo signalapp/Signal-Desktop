@@ -4,7 +4,7 @@ import _, { debounce } from 'lodash';
 import { AttachmentType } from '../../../types/Attachment';
 import * as MIME from '../../../types/MIME';
 
-import { SessionIconButton, SessionIconSize, SessionIconType } from '../icon';
+import { SessionIconButton } from '../icon';
 import { SessionEmojiPanel } from './SessionEmojiPanel';
 import { SessionRecording } from './SessionRecording';
 
@@ -87,6 +87,61 @@ export type SendMessageType = {
   groupInvitation: { url: string | undefined; name: string } | undefined;
 };
 
+const AddStagedAttachmentButton = (props: { onClick: () => void }) => {
+  return (
+    <SessionIconButton
+      iconType="plusThin"
+      backgroundColor={'var(--color-compose-view-button-background)'}
+      iconSize={'huge2'}
+      borderRadius="300px"
+      iconPadding="8px"
+      onClick={props.onClick}
+    />
+  );
+};
+
+const StartRecordingButton = (props: { onClick: () => void }) => {
+  return (
+    <SessionIconButton
+      iconType="microphone"
+      iconSize={'huge2'}
+      backgroundColor={'var(--color-compose-view-button-background)'}
+      borderRadius="300px"
+      iconPadding="6px"
+      onClick={props.onClick}
+    />
+  );
+};
+
+const ToggleEmojiButton = (props: { onClick: () => void }) => {
+  return (
+    <SessionIconButton
+      iconType="emoji"
+      backgroundColor="var(--color-compose-view-button-background)"
+      iconSize={'huge2'}
+      borderRadius="300px"
+      iconPadding="6px"
+      onClick={props.onClick}
+    />
+  );
+};
+
+const SendMessageButton = (props: { onClick: () => void }) => {
+  return (
+    <div className="send-message-button">
+      <SessionIconButton
+        iconType="send"
+        backgroundColor={'var(--color-compose-view-button-background)'}
+        iconSize={'huge2'}
+        iconRotation={90}
+        borderRadius="300px"
+        iconPadding="6px"
+        onClick={props.onClick}
+      />
+    </div>
+  );
+};
+
 interface Props {
   sendMessage: (msg: SendMessageType) => void;
   draft: string;
@@ -166,7 +221,7 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
   }
 
   public componentDidMount() {
-    setTimeout(this.focusCompositionBox, 100);
+    setTimeout(this.focusCompositionBox, 500);
 
     const div = this.container;
     div?.addEventListener('paste', this.handlePaste);
@@ -338,13 +393,7 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
 
     return (
       <>
-        {typingEnabled && (
-          <SessionIconButton
-            iconType={SessionIconType.CirclePlus}
-            iconSize={SessionIconSize.Large}
-            onClick={this.onChooseAttachment}
-          />
-        )}
+        {typingEnabled && <AddStagedAttachmentButton onClick={this.onChooseAttachment} />}
 
         <input
           className="hidden"
@@ -355,13 +404,7 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
           onChange={this.onChoseAttachment}
         />
 
-        {typingEnabled && (
-          <SessionIconButton
-            iconType={SessionIconType.Microphone}
-            iconSize={SessionIconSize.Huge}
-            onClick={this.onLoadVoiceNoteView}
-          />
-        )}
+        {typingEnabled && <StartRecordingButton onClick={this.onLoadVoiceNoteView} />}
 
         <div
           className="send-message-input"
@@ -374,21 +417,8 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
           {this.renderTextArea()}
         </div>
 
-        {typingEnabled && (
-          <SessionIconButton
-            iconType={SessionIconType.Emoji}
-            iconSize={SessionIconSize.Large}
-            onClick={this.toggleEmojiPanel}
-          />
-        )}
-        <div className="send-message-button">
-          <SessionIconButton
-            iconType={SessionIconType.Send}
-            iconSize={SessionIconSize.Large}
-            iconRotation={90}
-            onClick={this.onSendMessage}
-          />
-        </div>
+        {typingEnabled && <ToggleEmojiButton onClick={this.toggleEmojiPanel} />}
+        <SendMessageButton onClick={this.onSendMessage} />
 
         {typingEnabled && (
           <div ref={ref => (this.emojiPanel = ref)} onKeyDown={this.onKeyDown} role="button">

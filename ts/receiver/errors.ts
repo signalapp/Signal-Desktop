@@ -38,7 +38,7 @@ export async function onError(ev: any) {
     window.inboxStore?.dispatch(
       conversationActions.messageAdded({
         conversationKey: conversation.id,
-        messageModelProps: message.getProps(),
+        messageModelProps: message.getMessageModelProps(),
       })
     );
 

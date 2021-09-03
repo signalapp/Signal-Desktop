@@ -40,49 +40,6 @@
 }
 
 // Module: Message
-.module-message {
-  position: relative;
-  display: inline-flex;
-  flex-direction: row;
-  align-items: stretch;
-}
-
-.module-message--expired {
-  animation: module-message__shake 0.2s linear infinite;
-}
-
-@keyframes module-message__shake {
-  0% {
-    transform: translateX(0px);
-  }
-  25% {
-    transform: translateX(-5px);
-  }
-  50% {
-    transform: translateX(0px);
-  }
-  75% {
-    transform: translateX(5px);
-  }
-  100% {
-    transform: translateX(0px);
-  }
-}
-
-// Spec: container < 438px
-.module-message--incoming {
-  margin-inline-start: 0;
-  margin-inline-end: 32px;
-}
-.module-message--outgoing {
-  float: right;
-  margin-inline-end: 0;
-  margin-inline-start: 32px;
-}
-
-.module-message:hover {
-  opacity: 1;
-}
 
 .module-message__error-container {
   width: 28px;
@@ -106,89 +63,15 @@
   right: 8px;
 }
 
-.module-message__container {
-  position: relative;
-  display: inline-block;
-  border-radius: $message-container-border-radius;
-  padding-inline-end: 12px;
-  padding-inline-start: 12px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  min-width: 0px;
-}
-
-.module-message__attachment-container {
-  // Entirely to ensure that images are centered if they aren't full width of bubble
-  text-align: center;
-  position: relative;
-
-  margin-inline-start: -12px;
-  margin-inline-end: -12px;
-  margin-top: -10px;
-  margin-bottom: -10px;
-
-  border-radius: $session_message-container-border-radius;
-  overflow: hidden;
-  // no background by default for the attachment container
-}
-
-.module-message--outgoing {
-  .module-message__attachment-container--with-content-below,
-  .module-message__attachment-container--with-content-above {
-    background: none;
-  }
-}
-
-.module-message--incoming {
-  .module-message__attachment-container--with-content-below,
-  .module-message__attachment-container--with-content-above {
-    background: none;
-  }
-}
-
-.module-message__attachment-container--with-content-below {
-  margin-bottom: 7px;
-  border-bottom-left-radius: 0px;
-  border-bottom-right-radius: 0px;
-}
-
-.module-message__attachment-container--with-content-above {
-  margin-top: 4px;
-  border-top-left-radius: 0px;
-  border-top-right-radius: 0px;
-}
-
 .module-message__img-attachment {
-  margin-bottom: -3px;
-
-  // redundant with attachment-container, but we get cursor flashing on move otherwise
   cursor: pointer;
-}
-
-.module-message__audio-attachment {
-  margin-top: 2px;
-}
-
-.module-message__audio-attachment--with-content-below {
-  margin-bottom: 5px;
-}
-
-.module-message__audio-attachment--with-content-above {
-  margin-top: 6px;
 }
 
 .module-message__generic-attachment {
   display: flex;
   flex-direction: row;
   align-items: center;
-}
-
-.module-message__generic-attachment--with-content-below {
-  padding-bottom: 6px;
-}
-
-.module-message__generic-attachment--with-content-above {
-  padding-top: 4px;
+  padding: 10px;
 }
 
 .module-message__generic-attachment__icon-container {
@@ -279,9 +162,7 @@
 .module-message__generic-attachment__file-size--incoming,
 .module-message__generic-attachment__file-size--outgoing,
 .module-message__generic-attachment__file-name--incoming {
-  @include themify($themes) {
-    color: themed('textColor');
-  }
+  color: var(--color-text);
 }
 
 .module-message__generic-attachment__file-size {
@@ -301,12 +182,6 @@
   border-top-right-radius: $session_message-container-border-radius;
 }
 
-.module-message__link-preview--with-content-above {
-  margin-top: 4px;
-  border-top-left-radius: 0px;
-  border-top-right-radius: 0px;
-}
-
 .module-message__link-preview__content {
   padding: 8px;
   border-top-left-radius: $session_message-container-border-radius;
@@ -316,13 +191,6 @@
   flex-direction: row;
   align-items: flex-start;
   border: 1px solid $color-black-015;
-}
-
-.module-message__link-preview__content--with-content-above {
-  border-top: none;
-  border-bottom: none;
-  border-top-left-radius: 0px;
-  border-top-right-radius: 0px;
 }
 
 .module-message__link-preview__image_container {
@@ -398,10 +266,11 @@
 }
 .module-conversation__user,
 .module-message__author {
+  margin-top: $session-margin-sm;
+  margin-bottom: $session-margin-xs;
   font-size: 13px;
   font-weight: 300;
   line-height: 18px;
-  height: 18px;
   overflow-x: hidden;
   overflow-y: hidden;
   white-space: nowrap;
@@ -412,153 +281,12 @@
   font-style: italic;
 }
 
-.module-message__text {
-  color: $color-gray-90;
-  font-size: 14px;
-  line-height: 18px;
-  text-align: start;
-
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  word-break: break-word;
-  white-space: pre-wrap;
-
-  a {
-    text-decoration: underline;
-    color: $color-gray-90;
-  }
-}
-
 .module-message__typing-container {
   height: 16px;
   padding-bottom: 20px;
   display: flex;
   flex-direction: row;
   align-items: center;
-}
-
-// Module: Embedded Contact
-
-.module-embedded-contact {
-  // Cursor is always a pointer because this component is always wired up to the contact detail screen
-  cursor: pointer;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.module-embedded-contact--with-content-above {
-  padding-top: 4px;
-}
-
-.module-embedded-contact--with-content-below {
-  padding-bottom: 4px;
-}
-
-.module-embedded-contact__spinner-container {
-  padding-inline-start: 5px;
-  padding-inline-end: 5px;
-}
-
-.module-embedded-contact__text-container {
-  flex-grow: 1;
-  margin-inline-start: 8px;
-
-  max-width: calc(100% - 58px);
-}
-
-.module-embedded-contact__contact-name {
-  font-size: 14px;
-  line-height: 18px;
-  font-weight: 300;
-  margin-top: 6px;
-  color: $color-gray-90;
-
-  max-width: 100%;
-  white-space: nowrap;
-  overflow-x: hidden;
-  text-overflow: ellipsis;
-}
-
-.module-embedded-contact__contact-name--incoming {
-  color: $color-white;
-}
-
-.module-embedded-contact__contact-method {
-  font-size: 11px;
-  line-height: 16px;
-  letter-spacing: 0.3px;
-  margin-top: 3px;
-  color: $color-gray-60;
-
-  max-width: 100%;
-  white-space: nowrap;
-  overflow-x: hidden;
-  text-overflow: ellipsis;
-}
-
-.module-embedded-contact__contact-method--incoming {
-  color: $color-white-07;
-}
-
-// Module: Friend Request
-.module-message-friend-request {
-  width: 100%;
-}
-
-.module-message-friend-request__container {
-  flex: 1;
-}
-
-.module-friend-request__buttonContainer {
-  margin-top: 8px;
-  justify-content: space-around;
-  border-top: 1px solid $color-gray-90;
-  padding-top: 4px;
-}
-
-.module-friend-request__buttonContainer--incoming {
-  border-top: 1px solid $color-white-07;
-}
-
-.module-friend-request__buttonContainer button {
-  flex: 0.5;
-  padding: 8px;
-  background-color: transparent;
-  border: 0;
-  overflow: hidden;
-  outline: none;
-  color: $color-gray-90;
-}
-
-.module-friend-request__buttonContainer--incoming button {
-  color: $color-white;
-}
-
-.module-friend-request__buttonContainer button:first-of-type {
-  border-right: 1px solid $color-gray-90;
-}
-
-.module-friend-request__buttonContainer--incoming button:first-of-type {
-  border-right: 1px solid $color-white-07;
-}
-
-.module-friend-request__buttonContainer button:last-of-type {
-  border-right: 0;
-}
-
-.module-friend-request__buttonContainer--incoming button:last-of-type {
-  border-right: 0;
-}
-
-.module-friend-request__title {
-  padding-bottom: 4px;
-  color: $color-gray-60;
-  text-align: center;
-}
-
-.module-friend-request__title--incoming {
-  color: $color-white-08;
 }
 
 // Module: Contact Detail
@@ -634,10 +362,9 @@
 
 .module-group-notification__change,
 .module-timer-notification__message {
-  @include themify($themes) {
-    background: themed('fakeChatBubbleBackground');
-    color: themed('textColor');
-  }
+  background: var(--color-fake-chat-bubble-background);
+  color: var(--color-text);
+
   width: 90%;
   max-width: 700px;
   margin: 10px auto;
@@ -649,45 +376,6 @@
 .module-group-notification__contact {
   font-family: $session-font-default;
   font-weight: bold;
-}
-
-// Module: Reset Session Notification
-
-.module-reset-session-notification {
-  margin-top: 14px;
-  font-size: 14px;
-  line-height: 20px;
-  letter-spacing: 0.3px;
-  color: $color-gray-60;
-  text-align: center;
-}
-
-.module-verification-notification__button {
-  margin-top: 5px;
-  display: inline-block;
-  cursor: pointer;
-  font-size: 13px;
-  font-weight: 300;
-  line-height: 18px;
-  padding: 12px;
-  color: $color-loki-green;
-  background-color: $color-light-02;
-  border-radius: 4px;
-}
-
-// Module: Verification Notification
-
-.module-verification-notification {
-  margin-top: 14px;
-  font-size: 14px;
-  line-height: 20px;
-  letter-spacing: 0.3px;
-  color: $color-gray-60;
-  text-align: center;
-}
-
-.module-verification-notification__contact {
-  font-weight: 300;
 }
 
 // Module: Timer Notification
@@ -822,10 +510,6 @@
   text-align: center;
 }
 
-.module-conversation-header__title-text {
-  color: darkgrey;
-}
-
 .module-conversation-header__title-flex {
   margin-inline-start: auto;
   margin-inline-end: auto;
@@ -849,9 +533,7 @@
   font-size: 16px;
   line-height: 24px;
   font-weight: 300;
-  @include themify($themes) {
-    color: themed('textColor');
-  }
+  color: var(--color-text);
 
   // width of avatar (28px) and our 6px left margin
   max-width: calc(100% - 34px);
@@ -863,6 +545,7 @@
   align-items: center;
 
   -webkit-user-select: text;
+  cursor: pointer;
 
   .module-contact-name__profile-name {
     width: 100%;
@@ -923,12 +606,6 @@
   padding-inline-end: 5px;
 }
 
-.module-message-detail__unix-timestamp {
-  @include themify($themes) {
-    color: subtle(themed('textColor'));
-  }
-}
-
 .module-message-detail__delete-button-container {
   text-align: center;
   margin-top: 10px;
@@ -967,16 +644,6 @@
 .module-message-detail__contact__error {
   color: $session-color-danger;
   font-weight: 300;
-}
-
-.module-message-detail__contact__unidentified-delivery-icon {
-  margin-inline-start: 6px;
-  margin-inline-end: 10px;
-
-  width: 20px;
-  height: 20px;
-  display: inline-block;
-  @include color-svg('../images/unidentified-delivery.svg', $color-gray-60);
 }
 
 // Module: Media Gallery
@@ -1189,9 +856,7 @@
   }
 
   &--is-blocked {
-    @include themify($themes) {
-      border-left: 4px solid themed('destructive') !important;
-    }
+    border-left: 4px solid var(--color-destructive) !important;
   }
 }
 
@@ -1261,7 +926,6 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-top: 5px;
 }
 
 .module-conversation-list-item__message__text {
@@ -1277,6 +941,9 @@
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  .text-selectable {
+    user-select: none;
+  }
 }
 
 .module-conversation-list-item__message__text--has-unread {
@@ -1338,22 +1005,6 @@
   border-radius: 4px;
 }
 
-.module-image--curved-top-left {
-  border-top-left-radius: $session_message-container-border-radius;
-}
-.module-image--curved-top-right {
-  border-top-right-radius: $session_message-container-border-radius;
-}
-.module-image--curved-bottom-left {
-  border-bottom-left-radius: $session_message-container-border-radius;
-}
-.module-image--curved-bottom-right {
-  border-bottom-right-radius: $session_message-container-border-radius;
-}
-.module-image--small-curved-top-left {
-  border-top-left-radius: 10px;
-}
-
 .module-image__border-overlay {
   position: absolute;
   top: 0;
@@ -1361,7 +1012,6 @@
   z-index: 1;
   left: 0;
   right: 0;
-  box-shadow: inset 0px 0px 0px 1px $color-black-015;
 }
 
 .module-image__border-overlay--dark {
@@ -1377,10 +1027,7 @@
 
 .module-image__image {
   object-fit: cover;
-  // redundant with attachment-container, but we get cursor flashing on move otherwise
   cursor: pointer;
-
-  margin-bottom: -3px;
 }
 
 .module-image__bottom-overlay {
@@ -1457,10 +1104,6 @@
   align-items: center;
 
   margin: -1px;
-}
-
-.module-image-grid--one-image {
-  margin-bottom: -5px;
 }
 
 .module-image-grid__column {
@@ -1761,19 +1404,18 @@
   display: flex;
 
   input::placeholder {
-    color: rgba($black, 0.6);
+    color: rgba(black, 0.6);
   }
 
   .session-input-with-label-container {
-    @include themify($themes) {
-      background-color: #fcfcfc;
-      color: $black;
-    }
+    background-color: #fcfcfc;
+    color: black;
+
     width: 30vw;
     border-radius: 100px;
     #session-input-floating-label {
       padding: $session-margin-sm;
-      color: $black;
+      color: black;
     }
 
     label.session-input-with-label-container.filled {
@@ -1842,19 +1484,14 @@
 
   min-height: 65px;
   margin: $session-margin-xs;
-  @include themify($themes) {
-    background-color: themed('sentMessageBackground');
-    border-radius: $session-margin-xs;
-  }
 }
 
 .module-staged-link-preview--is-loading {
   align-items: center;
 }
 .module-staged-link-preview__loading {
-  @include themify($themes) {
-    color: themed('sentMessageText');
-  }
+  color: var(--color-sent-message-text);
+
   font-size: 14px;
   text-align: center;
   flex-grow: 1;
@@ -1925,9 +1562,7 @@
   top: 0;
   left: 0;
 
-  @include themify($themes) {
-    @include color-svg('../images/spinner-56.svg', themed('textColor'));
-  }
+  @include color-svg('../images/spinner-56.svg', var(--color-text));
 
   z-index: 3;
   height: 56px;
@@ -1986,15 +1621,11 @@
 }
 
 .module-spinner__circle--incoming {
-  @include themify($themes) {
-    background-color: rgba(themed('receivedMessageText'), 0.2);
-  }
+  background-color: rgba(var(--color-received-message-text), 0.2);
 }
 
 .module-spinner__circle--outgoing {
-  @include themify($themes) {
-    background-color: rgba(themed('sentMessageText'), 0.2);
-  }
+  background-color: rgba(var(--color-sent-message-text), 0.2);
 }
 
 // Module: Highlighted Message Body
@@ -2173,75 +1804,4 @@
 
 .module-left-pane__virtual-list {
   outline: none;
-}
-
-// All media query widths have 300px added to account for the left pane
-// And have been tweaked for smoother transitions
-
-.module-message__container {
-  // To limit messages with things forcing them wider, like long attachment names
-  max-width: 300px;
-}
-
-/* Spec: container > 438px and container < 593px*/
-@media (min-width: 800px) and (max-width: 925px) {
-  .module-message {
-    max-width: 374px;
-  }
-  .module-message__container {
-    max-width: 100%;
-  }
-
-  .module-message-friend-request {
-    width: 374px;
-  }
-
-  // Spec: container < 438px
-  .module-message--incoming {
-    margin-inline-start: 0;
-    margin-inline-end: auto;
-  }
-  .module-message--outgoing {
-    margin-inline-end: 0;
-    margin-inline-start: auto;
-  }
-
-  // To hide in larger breakpoints
-  .module-message__context__download {
-    display: none;
-  }
-  .module-message__context__reply {
-    display: none;
-  }
-}
-
-// Spec: container > 593px
-@media (min-width: 926px) {
-  .module-message {
-    max-width: 66%;
-  }
-  .module-message__container {
-    max-width: 100%;
-  }
-
-  .module-message-friend-request {
-    width: 66%;
-  }
-
-  .module-message--incoming {
-    margin-inline-start: 0;
-    margin-inline-end: auto;
-  }
-  .module-message--outgoing {
-    margin-inline-end: 0;
-    margin-inline-start: auto;
-  }
-
-  // To hide in larger breakpoints
-  .module-message__context__download {
-    display: none;
-  }
-  .module-message__context__reply {
-    display: none;
-  }
 }

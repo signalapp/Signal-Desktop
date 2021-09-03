@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   joinOpenGroupV2WithUIEvents,
   parseOpenGroupV2,
@@ -12,7 +12,7 @@ import { Flex } from '../basic/Flex';
 import { PillContainerHoverable, PillTooltipWrapper } from '../basic/PillContainer';
 import { H3 } from '../basic/Text';
 import { SessionSpinner } from './SessionSpinner';
-import styled, { DefaultTheme, useTheme } from 'styled-components';
+import styled from 'styled-components';
 // tslint:disable: no-void-expression
 
 export type JoinableRoomProps = {
@@ -25,34 +25,50 @@ export type JoinableRoomProps = {
 };
 
 const SessionJoinableRoomAvatar = (props: JoinableRoomProps) => {
+  const dispatch = useDispatch();
   useEffect(() => {
+    let isCancelled = false;
+
     try {
       const parsedInfos = parseOpenGroupV2(props.completeUrl);
       if (parsedInfos) {
         if (props.base64Data) {
           return;
         }
+        if (isCancelled) {
+          return;
+        }
         void downloadPreviewOpenGroupV2(parsedInfos)
           .then(base64 => {
+            if (isCancelled) {
+              return;
+            }
             const payload = {
               roomId: props.roomId,
               base64Data: base64 || '',
             };
-            window.inboxStore?.dispatch(updateDefaultBase64RoomData(payload));
+            dispatch(updateDefaultBase64RoomData(payload));
           })
           .catch(e => {
+            if (isCancelled) {
+              return;
+            }
             window?.log?.warn('downloadPreviewOpenGroupV2 failed', e);
             const payload = {
               roomId: props.roomId,
               base64Data: '',
             };
-            window.inboxStore?.dispatch(updateDefaultBase64RoomData(payload));
+            dispatch(updateDefaultBase64RoomData(payload));
           });
       }
     } catch (e) {
       window?.log?.warn(e);
     }
+    return () => {
+      isCancelled = true;
+    };
   }, [props.imageId, props.completeUrl]);
+
   return (
     <Avatar
       size={AvatarSize.XS}
@@ -70,11 +86,11 @@ const StyledRoomName = styled(Flex)`
   padding: 0 10px;
 `;
 
-const StyledToolTip = styled.div<{ theme: DefaultTheme }>`
-  padding: ${props => props.theme.common.margins.sm};
-  background: ${props => props.theme.colors.clickableHovered};
-  font-size: ${props => props.theme.common.fonts.xs};
-  border: 1px solid ${props => props.theme.colors.pillDividerColor};
+const StyledToolTip = styled.div`
+  padding: var(--margins-sm);
+  background: var(--color-clickable-hovered);
+  font-size: var(--font-size-xs);
+  border: 1px solid var(--color-pill-divider);
   display: inline-block;
   position: absolute;
   white-space: normal;
@@ -101,28 +117,16 @@ const SessionJoinableRoomName = (props: JoinableRoomProps) => {
 };
 
 const SessionJoinableRoomRow = (props: JoinableRoomProps) => {
-  const [hoverDelayReached, setHoverDelayReached] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
-  const [delayHandler, setDelayHandler] = useState<null | number>(null);
-  const theme: DefaultTheme = useTheme();
 
   const handleMouseEnter = () => {
     setIsHovering(true);
-    setDelayHandler(
-      setTimeout(() => {
-        setHoverDelayReached(true);
-      }, 750)
-    );
   };
   const handleMouseLeave = () => {
     setIsHovering(false);
-    setHoverDelayReached(false);
-    if (delayHandler) {
-      clearTimeout(delayHandler);
-    }
   };
 
-  const showTooltip = hoverDelayReached && isHovering;
+  const showTooltip = isHovering;
 
   return (
     <PillTooltipWrapper>
@@ -139,7 +143,7 @@ const SessionJoinableRoomRow = (props: JoinableRoomProps) => {
         <SessionJoinableRoomName {...props} />
       </PillContainerHoverable>
 
-      {showTooltip && <StyledToolTip theme={theme}>{props.name}</StyledToolTip>}
+      {showTooltip && false && <StyledToolTip>{props.name}</StyledToolTip>}
     </PillTooltipWrapper>
   );
 };

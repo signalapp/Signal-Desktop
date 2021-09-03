@@ -1,5 +1,3 @@
-@import 'themes.scss';
-
 * {
   box-sizing: border-box;
 }
@@ -24,18 +22,15 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  @include themify($themes) {
-    background: themed('scrollBarThumb');
-    border: solid 2px themed('textColorOpposite');
-  }
+  background: var(--color-scroll-bar-thumb);
+  border: solid 2px var(--color-text-opposite);
+
   &:hover {
     background: $color-light-45;
   }
 }
 ::-webkit-scrollbar-track {
-  @include themify($themes) {
-    background: themed('scrollBarTrack');
-  }
+  background: var(--color-scroll-bar-track);
 }
 
 audio {

@@ -7,7 +7,6 @@ import { AttachmentType } from '../types/Attachment';
 
 import { SessionInput } from './session/SessionInput';
 import { SessionButton, SessionButtonColor, SessionButtonType } from './session/SessionButton';
-import { darkTheme } from '../state/ducks/SessionTheme';
 import autoBind from 'auto-bind';
 
 interface Props {
@@ -97,7 +96,6 @@ export class CaptionEditor extends React.Component<Props, State> {
               onValueChanged={this.onChange}
               onEnterPressed={this.onSave}
               value={caption}
-              theme={darkTheme}
             />
             <SessionButton
               text={window.i18n('save')}

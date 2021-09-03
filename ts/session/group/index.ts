@@ -271,7 +271,7 @@ export async function updateOrCreateClosedGroup(details: GroupInfo) {
   if (expireTimer === undefined || typeof expireTimer !== 'number') {
     return;
   }
-  await conversation.updateExpirationTimer(
+  await conversation.updateExpireTimer(
     expireTimer,
     UserUtils.getOurPubKeyStrFromCache(),
     Date.now(),

@@ -38,10 +38,9 @@
 }
 
 .member-item {
-  @include themify($themes) {
-    background-color: themed('cellBackground');
-    color: themed('textColor');
-  }
+  background-color: var(--color-cell-background);
+  color: var(--color-text);
+
   padding: 4px;
 
   white-space: nowrap;
@@ -60,13 +59,11 @@
 }
 
 .mention-profile-name {
-  color: rgb(194, 244, 255);
-  background-color: rgb(66, 121, 150);
-  text-decoration: underline;
   border-radius: 4px;
   margin: 2px;
   padding: 2px;
   user-select: none;
+  font-weight: bold;
 }
 
 .mention-profile-name-us {
@@ -79,9 +76,8 @@
 }
 
 .at-symbol {
-  @include themify($themes) {
-    background-color: themed('accent');
-  }
+  background-color: var(--color-accent);
+
   color: $color-black;
   text-align: center;
   margin-top: 0px;

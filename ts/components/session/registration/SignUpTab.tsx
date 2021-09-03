@@ -1,8 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { Flex } from '../../basic/Flex';
+import { SessionIconButton } from '../icon';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../SessionButton';
 import { SessionIdEditable } from '../SessionIdEditable';
 import { RegistrationContext, RegistrationPhase, signUp } from './RegistrationStages';
 import { RegistrationUserDetails } from './RegistrationUserDetails';
+import { SignInMode } from './SignInTab';
 import { TermsAndConditions } from './TermsAndConditions';
 
 export enum SignUpMode {
@@ -41,12 +44,32 @@ const SignUpDefault = (props: { createSessionID: () => void }) => {
   );
 };
 
+export const GoBackMainMenuButton = () => {
+  const { setRegistrationPhase, setSignInMode, setSignUpMode } = useContext(RegistrationContext);
+  return (
+    <SessionIconButton
+      iconSize="huge"
+      iconType="arrow"
+      iconPadding="5px"
+      onClick={() => {
+        setRegistrationPhase(RegistrationPhase.Start);
+        setSignInMode(SignInMode.Default);
+        setSignUpMode(SignUpMode.Default);
+      }}
+    />
+  );
+};
+
 const SignUpSessionIDShown = (props: { continueSignUp: () => void }) => {
   return (
     <div className="session-registration__content">
-      <div className="session-registration__unique-session-id">
-        {window.i18n('yourUniqueSessionID')}
-      </div>
+      <Flex flexDirection="row" container={true} alignItems="center">
+        <GoBackMainMenuButton />
+
+        <div className="session-registration__unique-session-id">
+          {window.i18n('yourUniqueSessionID')}
+        </div>
+      </Flex>
       <SessionIdEditable editable={false} placeholder={undefined} />
       <div className="session-description-long">{window.i18n('signupSessionIDBlurb')}</div>
       <ContinueSignUpButton continueSignUp={props.continueSignUp} />
@@ -56,11 +79,13 @@ const SignUpSessionIDShown = (props: { continueSignUp: () => void }) => {
 };
 
 export const SignUpTab = () => {
-  const { setRegistrationPhase, generatedRecoveryPhrase, hexGeneratedPubKey } = useContext(
-    RegistrationContext
-  );
-
-  const [signUpMode, setSignUpMode] = useState(SignUpMode.Default);
+  const {
+    signUpMode,
+    setRegistrationPhase,
+    generatedRecoveryPhrase,
+    hexGeneratedPubKey,
+    setSignUpMode,
+  } = useContext(RegistrationContext);
   const [displayName, setDisplayName] = useState('');
   const [displayNameError, setDisplayNameError] = useState('');
 
@@ -106,10 +131,12 @@ export const SignUpTab = () => {
 
   return (
     <div className="session-registration__content">
-      <div className="session-registration__welcome-session">
-        {window.i18n('welcomeToYourSession')}
-      </div>
-
+      <Flex flexDirection="row" container={true} alignItems="center">
+        <GoBackMainMenuButton />
+        <Flex className="session-registration__welcome-session" padding="20px">
+          {window.i18n('welcomeToYourSession')}
+        </Flex>
+      </Flex>
       <RegistrationUserDetails
         showDisplayNameField={true}
         showSeedField={false}

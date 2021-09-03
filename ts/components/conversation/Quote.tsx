@@ -1,6 +1,6 @@
 // tslint:disable:react-this-binding-issue
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import classNames from 'classnames';
 
 import * as MIME from '../../../ts/types/MIME';
@@ -9,9 +9,15 @@ import * as GoogleChrome from '../../../ts/util/GoogleChrome';
 import { MessageBody } from './MessageBody';
 import { ContactName } from './ContactName';
 import { PubKey } from '../../session/types';
-import { ConversationTypeEnum } from '../../models/conversation';
 
 import { useEncryptedFileFetch } from '../../hooks/useEncryptedFileFetch';
+import { useSelector } from 'react-redux';
+import {
+  getSelectedConversationKey,
+  isGroupConversation,
+  isPublicGroupConversation,
+} from '../../state/selectors/conversations';
+import { noop } from 'underscore';
 
 export type QuotePropsWithoutListener = {
   attachment?: QuotedAttachmentType;
@@ -20,16 +26,12 @@ export type QuotePropsWithoutListener = {
   authorName?: string;
   isFromMe: boolean;
   isIncoming: boolean;
-  conversationType: ConversationTypeEnum;
-  convoId: string;
-  isPublic?: boolean;
-  withContentAbove: boolean;
   text: string | null;
   referencedMessageNotFound: boolean;
 };
 
 export type QuotePropsWithListener = QuotePropsWithoutListener & {
-  onClick?: (e: any) => void;
+  onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
 };
 
 export interface QuotedAttachmentType {
@@ -107,7 +109,12 @@ export const QuoteIcon = (props: any) => {
   );
 };
 
-export const QuoteImage = (props: any) => {
+export const QuoteImage = (props: {
+  handleImageErrorBound: () => void;
+  url: string;
+  contentType: string;
+  icon?: string;
+}) => {
   const { url, icon, contentType, handleImageErrorBound } = props;
 
   const { loading, urlToLoad } = useEncryptedFileFetch(url, contentType);
@@ -144,7 +151,9 @@ export const QuoteImage = (props: any) => {
   );
 };
 
-export const QuoteGenericFile = (props: any) => {
+export const QuoteGenericFile = (
+  props: Pick<QuotePropsWithoutListener, 'attachment' | 'isIncoming'>
+) => {
   const { attachment, isIncoming } = props;
 
   if (!attachment) {
@@ -176,7 +185,12 @@ export const QuoteGenericFile = (props: any) => {
   );
 };
 
-export const QuoteIconContainer = (props: any) => {
+export const QuoteIconContainer = (
+  props: Pick<QuotePropsWithoutListener, 'attachment'> & {
+    handleImageErrorBound: () => void;
+    imageBroken: boolean;
+  }
+) => {
   const { attachment, imageBroken, handleImageErrorBound } = props;
 
   if (!attachment) {
@@ -188,7 +202,12 @@ export const QuoteIconContainer = (props: any) => {
 
   if (GoogleChrome.isVideoTypeSupported(contentType)) {
     return objectUrl && !imageBroken ? (
-      <QuoteImage url={objectUrl} icon={'play'} />
+      <QuoteImage
+        url={objectUrl}
+        contentType={MIME.IMAGE_JPEG}
+        icon="play"
+        handleImageErrorBound={noop}
+      />
     ) : (
       <QuoteIcon icon="movie" />
     );
@@ -210,9 +229,12 @@ export const QuoteIconContainer = (props: any) => {
   return null;
 };
 
-export const QuoteText = (props: any) => {
-  const { text, attachment, isIncoming, conversationType, convoId } = props;
-  const isGroup = conversationType === ConversationTypeEnum.GROUP;
+export const QuoteText = (
+  props: Pick<QuotePropsWithoutListener, 'text' | 'attachment' | 'isIncoming'>
+) => {
+  const { text, attachment, isIncoming } = props;
+  const isGroup = useSelector(isGroupConversation);
+  const convoId = useSelector(getSelectedConversationKey);
 
   if (text) {
     return (
@@ -251,7 +273,16 @@ export const QuoteText = (props: any) => {
   return null;
 };
 
-export const QuoteAuthor = (props: any) => {
+type QuoteAuthorProps = {
+  authorPhoneNumber: string;
+  authorProfileName?: string;
+  authorName?: string;
+  isFromMe: boolean;
+  isIncoming: boolean;
+  showPubkeyForAuthor?: boolean;
+};
+
+const QuoteAuthor = (props: QuoteAuthorProps) => {
   const { authorProfileName, authorPhoneNumber, authorName, isFromMe, isIncoming } = props;
 
   return (
@@ -269,14 +300,16 @@ export const QuoteAuthor = (props: any) => {
           name={authorName}
           profileName={authorProfileName}
           compact={true}
-          shouldShowPubkey={false} // never show the pubkey for quoted messages author
+          shouldShowPubkey={Boolean(props.showPubkeyForAuthor)}
         />
       )}
     </div>
   );
 };
 
-export const QuoteReferenceWarning = (props: any) => {
+export const QuoteReferenceWarning = (
+  props: Pick<QuotePropsWithoutListener, 'isIncoming' | 'referencedMessageNotFound'>
+) => {
   const { isIncoming, referencedMessageNotFound } = props;
 
   if (!referencedMessageNotFound) {
@@ -309,21 +342,21 @@ export const QuoteReferenceWarning = (props: any) => {
 };
 
 export const Quote = (props: QuotePropsWithListener) => {
-  const handleImageErrorBound = null;
+  const [imageBroken, setImageBroken] = useState(false);
+  const handleImageErrorBound = () => {
+    setImageBroken(true);
+  };
 
-  const { isIncoming, onClick, referencedMessageNotFound, withContentAbove } = props;
+  const isPublic = useSelector(isPublicGroupConversation);
 
   if (!validateQuote(props)) {
     return null;
   }
 
+  const { isIncoming, referencedMessageNotFound, attachment, text, onClick } = props;
+
   return (
-    <div
-      className={classNames(
-        'module-quote-container',
-        withContentAbove ? 'module-quote-container--with-content-above' : null
-      )}
-    >
+    <div className={classNames('module-quote-container')}>
       <div
         onClick={onClick}
         role="button"
@@ -331,18 +364,31 @@ export const Quote = (props: QuotePropsWithListener) => {
           'module-quote',
           isIncoming ? 'module-quote--incoming' : 'module-quote--outgoing',
           !onClick ? 'module-quote--no-click' : null,
-          withContentAbove ? 'module-quote--with-content-above' : null,
           referencedMessageNotFound ? 'module-quote--with-reference-warning' : null
         )}
       >
         <div className="module-quote__primary">
-          <QuoteAuthor {...props} />
+          <QuoteAuthor
+            authorName={props.authorName}
+            authorPhoneNumber={props.authorPhoneNumber}
+            authorProfileName={props.authorProfileName}
+            isFromMe={props.isFromMe}
+            isIncoming={props.isIncoming}
+            showPubkeyForAuthor={isPublic}
+          />
           <QuoteGenericFile {...props} />
-          <QuoteText {...props} />
+          <QuoteText isIncoming={isIncoming} text={text} attachment={attachment} />
         </div>
-        <QuoteIconContainer {...props} handleImageErrorBound={handleImageErrorBound} />
+        <QuoteIconContainer
+          attachment={attachment}
+          handleImageErrorBound={handleImageErrorBound}
+          imageBroken={imageBroken}
+        />
       </div>
-      <QuoteReferenceWarning {...props} />
+      <QuoteReferenceWarning
+        isIncoming={isIncoming}
+        referencedMessageNotFound={referencedMessageNotFound}
+      />
     </div>
   );
 };

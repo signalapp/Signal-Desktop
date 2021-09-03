@@ -1,6 +1,5 @@
 import classNames from 'classnames';
 import React from 'react';
-import { lightTheme } from '../../../state/ducks/SessionTheme';
 import { SessionInput } from '../SessionInput';
 import { MAX_USERNAME_LENGTH } from './RegistrationStages';
 
@@ -21,7 +20,6 @@ const DisplayNameInput = (props: {
       maxLength={MAX_USERNAME_LENGTH}
       onValueChanged={props.onDisplayNameChanged}
       onEnterPressed={props.handlePressEnter}
-      theme={lightTheme}
     />
   );
 };
@@ -43,7 +41,6 @@ const RecoveryPhraseInput = (props: {
       enableShowHide={true}
       onValueChanged={props.onSeedChanged}
       onEnterPressed={props.handlePressEnter}
-      theme={lightTheme}
     />
   );
 };

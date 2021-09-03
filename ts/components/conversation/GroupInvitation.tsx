@@ -1,14 +1,12 @@
 import React from 'react';
 import classNames from 'classnames';
-import { SessionIconButton, SessionIconSize, SessionIconType } from '../session/icon';
-import { useTheme } from 'styled-components';
+import { SessionIconButton } from '../session/icon';
 import { PropsForGroupInvitation } from '../../state/ducks/conversations';
 import { acceptOpenGroupInvitation } from '../../interactions/messageInteractions';
 import { ReadableMessage } from './ReadableMessage';
 
 export const GroupInvitation = (props: PropsForGroupInvitation) => {
   const { messageId, receivedAt, isUnread } = props;
-  const theme = useTheme();
   const classes = ['group-invitation'];
 
   if (props.direction === 'outgoing') {
@@ -27,10 +25,9 @@ export const GroupInvitation = (props: PropsForGroupInvitation) => {
         <div className={classNames(classes)}>
           <div className="contents">
             <SessionIconButton
-              iconType={SessionIconType.Plus}
-              iconColor={theme.colors.accent}
-              theme={theme}
-              iconSize={SessionIconSize.Large}
+              iconType="plus"
+              iconColor={'var(--color-accent)'}
+              iconSize={'large'}
               onClick={() => {
                 acceptOpenGroupInvitation(props.acceptUrl, props.serverName);
               }}

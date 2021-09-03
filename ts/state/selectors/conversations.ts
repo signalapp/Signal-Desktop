@@ -5,7 +5,8 @@ import {
   ConversationLookupType,
   ConversationsStateType,
   MentionsMembersType,
-  MessageModelProps,
+  MessageModelPropsWithConvoProps,
+  MessageModelPropsWithoutConvoProps,
   MessagePropsDetails,
   ReduxConversationType,
   SortedMessageModelProps,
@@ -22,6 +23,19 @@ import {
 import { LightBoxOptions } from '../../components/session/conversation/SessionConversation';
 import { ReplyingToMessageProps } from '../../components/session/conversation/SessionCompositionBox';
 import { getConversationController } from '../../session/conversations';
+import { UserUtils } from '../../session/utils';
+import { MessageAvatarSelectorProps } from '../../components/conversation/message/MessageAvatar';
+import _ from 'lodash';
+import { MessagePreviewSelectorProps } from '../../components/conversation/message/MessagePreview';
+import { MessageQuoteSelectorProps } from '../../components/conversation/message/MessageQuote';
+import { MessageStatusSelectorProps } from '../../components/conversation/message/MessageStatus';
+import { MessageTextSelectorProps } from '../../components/conversation/message/MessageText';
+import { MessageContextMenuSelectorProps } from '../../components/conversation/message/MessageContextMenu';
+import { MessageAuthorSelectorProps } from '../../components/conversation/message/MessageAuthorText';
+import { MessageAttachmentSelectorProps } from '../../components/conversation/message/MessageAttachment';
+import { MessageContentSelectorProps } from '../../components/conversation/message/MessageContent';
+import { MessageContentWithStatusSelectorProps } from '../../components/conversation/message/MessageContentWithStatus';
+import { GenericReadableMessageSelectorProps } from '../../components/conversation/message/GenericReadableMessage';
 
 export const getConversations = (state: StateType): ConversationsStateType => state.conversations;
 
@@ -31,6 +45,10 @@ export const getConversationLookup = createSelector(
     return state.conversationLookup;
   }
 );
+
+export const getConversationsCount = createSelector(getConversationLookup, (state): number => {
+  return Object.values(state).length;
+});
 
 export const getSelectedConversationKey = createSelector(
   getConversations,
@@ -48,6 +66,37 @@ export const getSelectedConversation = createSelector(
   }
 );
 
+/**
+ * Returns true if the current conversation selected is a group conversation.
+ * Returns false if the current conversation selected is not a group conversation, or none are selected
+ */
+export const isGroupConversation = createSelector(
+  getSelectedConversation,
+  (state: ReduxConversationType | undefined): boolean => {
+    return state?.type === 'group' || false;
+  }
+);
+
+/**
+ * Returns true if the current conversation selected is a closed group and false otherwise.
+ */
+export const isClosedGroupConversation = createSelector(
+  getSelectedConversation,
+  (state: ReduxConversationType | undefined): boolean => {
+    return (state?.type === 'group' && !state.isPublic) || false;
+  }
+);
+
+/**
+ * Returns true if the current conversation selected is a public group and false otherwise.
+ */
+export const isPublicGroupConversation = createSelector(
+  getSelectedConversation,
+  (state: ReduxConversationType | undefined): boolean => {
+    return (state?.type === 'group' && state.isPublic) || false;
+  }
+);
+
 export const getOurPrimaryConversation = createSelector(
   getConversations,
   (state: ConversationsStateType): ReduxConversationType =>
@@ -56,13 +105,13 @@ export const getOurPrimaryConversation = createSelector(
 
 const getMessagesOfSelectedConversation = createSelector(
   getConversations,
-  (state: ConversationsStateType): Array<MessageModelProps> => state.messages
+  (state: ConversationsStateType): Array<MessageModelPropsWithoutConvoProps> => state.messages
 );
 
 // Redux recommends to do filtered and deriving state in a selector rather than ourself
 export const getSortedMessagesOfSelectedConversation = createSelector(
   getMessagesOfSelectedConversation,
-  (messages: Array<MessageModelProps>): Array<SortedMessageModelProps> => {
+  (messages: Array<MessageModelPropsWithoutConvoProps>): Array<SortedMessageModelProps> => {
     if (messages.length === 0) {
       return [];
     }
@@ -75,10 +124,101 @@ export const getSortedMessagesOfSelectedConversation = createSelector(
     }
 
     const isPublic = convo.isPublic() || false;
-    const isPrivate = convo.isPrivate() || false;
     const sortedMessage = sortMessages(messages, isPublic);
 
-    return updateFirstMessageOfSeries(sortedMessage, { isPublic, isPrivate });
+    return updateFirstMessageOfSeries(sortedMessage);
+  }
+);
+
+export const getFirstUnreadMessageId = createSelector(
+  getConversations,
+  (state: ConversationsStateType): string | undefined => {
+    return state.firstUnreadMessageId;
+  }
+);
+
+export type MessagePropsType =
+  | 'group-notification'
+  | 'group-invitation'
+  | 'data-extraction'
+  | 'timer-notification'
+  | 'regular-message'
+  | 'unread-indicator';
+
+export const getSortedMessagesTypesOfSelectedConversation = createSelector(
+  getSortedMessagesOfSelectedConversation,
+  getFirstUnreadMessageId,
+  (sortedMessages, firstUnreadId) => {
+    const maxMessagesBetweenTwoDateBreaks = 5;
+    // we want to show the date break if there is a large jump in time
+    // remember that messages are sorted from the most recent to the oldest
+    return sortedMessages.map((msg, index) => {
+      const isFirstUnread = Boolean(firstUnreadId === msg.propsForMessage.id);
+      const messageTimestamp = msg.propsForMessage.serverTimestamp || msg.propsForMessage.timestamp;
+      const previousMessageTimestamp =
+        index + 1 >= sortedMessages.length
+          ? 0
+          : sortedMessages[index + 1].propsForMessage.serverTimestamp ||
+            sortedMessages[index + 1].propsForMessage.timestamp;
+
+      const showDateBreak =
+        messageTimestamp - previousMessageTimestamp > maxMessagesBetweenTwoDateBreaks * 60 * 1000
+          ? messageTimestamp
+          : undefined;
+
+      if (msg.propsForDataExtractionNotification) {
+        return {
+          showUnreadIndicator: isFirstUnread,
+          showDateBreak,
+          message: {
+            messageType: 'data-extraction',
+            props: { ...msg.propsForDataExtractionNotification, messageId: msg.propsForMessage.id },
+          },
+        };
+      }
+
+      if (msg.propsForGroupInvitation) {
+        return {
+          showUnreadIndicator: isFirstUnread,
+          showDateBreak,
+          message: {
+            messageType: 'group-invitation',
+            props: { ...msg.propsForGroupInvitation, messageId: msg.propsForMessage.id },
+          },
+        };
+      }
+
+      if (msg.propsForGroupNotification) {
+        return {
+          showUnreadIndicator: isFirstUnread,
+          showDateBreak,
+          message: {
+            messageType: 'group-notification',
+            props: { ...msg.propsForGroupNotification, messageId: msg.propsForMessage.id },
+          },
+        };
+      }
+
+      if (msg.propsForTimerNotification) {
+        return {
+          showUnreadIndicator: isFirstUnread,
+          showDateBreak,
+          message: {
+            messageType: 'timer-notification',
+            props: { ...msg.propsForTimerNotification, messageId: msg.propsForMessage.id },
+          },
+        };
+      }
+
+      return {
+        showUnreadIndicator: isFirstUnread,
+        showDateBreak,
+        message: {
+          messageType: 'regular-message',
+          props: { messageId: msg.propsForMessage.id },
+        },
+      };
+    });
   }
 );
 
@@ -257,7 +397,7 @@ export const getCurrentNotificationSettingText = createSelector(getSelectedConve
     case 'mentions_only':
       return window.i18n('notificationForConvo_mentions_only');
     case 'disabled':
-      return window.i18n('notificationForConvo_mentions_disabled');
+      return window.i18n('notificationForConvo_disabled');
     default:
       return window.i18n('notificationForConvo_all');
   }
@@ -383,43 +523,37 @@ export const getDraftForCurrentConversation = createSelector(
 /// Those calls are just related to ordering messages in the redux store.
 
 function updateFirstMessageOfSeries(
-  messageModelsProps: Array<MessageModelProps>,
-  convoOpts: { isPrivate: boolean; isPublic: boolean }
+  messageModelsProps: Array<MessageModelPropsWithoutConvoProps>
 ): Array<SortedMessageModelProps> {
   // messages are got from the more recent to the oldest, so we need to check if
   // the next messages in the list is still the same author.
   // The message is the first of the series if the next message is not from the same author
   const sortedMessageProps: Array<SortedMessageModelProps> = [];
 
-  if (convoOpts.isPrivate) {
-    // we don't really care do do that logic for private chats
-    return messageModelsProps.map(p => {
-      return { ...p, firstMessageOfSeries: true };
-    });
-  }
-
   for (let i = 0; i < messageModelsProps.length; i++) {
     const currentSender = messageModelsProps[i].propsForMessage?.authorPhoneNumber;
-    const nextSender =
+    // most recent message is at index 0, so the previous message sender is 1+index
+    const previousSender =
       i < messageModelsProps.length - 1
         ? messageModelsProps[i + 1].propsForMessage?.authorPhoneNumber
         : undefined;
-
+    const nextSender =
+      i > 0 ? messageModelsProps[i - 1].propsForMessage?.authorPhoneNumber : undefined;
     // Handle firstMessageOfSeries for conditional avatar rendering
 
-    if (i >= 0 && currentSender === nextSender) {
-      sortedMessageProps.push({ ...messageModelsProps[i], firstMessageOfSeries: false });
-    } else {
-      sortedMessageProps.push({ ...messageModelsProps[i], firstMessageOfSeries: true });
-    }
+    sortedMessageProps.push({
+      ...messageModelsProps[i],
+      firstMessageOfSeries: !(i >= 0 && currentSender === previousSender),
+      lastMessageOfSeries: currentSender !== nextSender,
+    });
   }
   return sortedMessageProps;
 }
 
 function sortMessages(
-  messages: Array<MessageModelProps>,
+  messages: Array<MessageModelPropsWithoutConvoProps>,
   isPublic: boolean
-): Array<MessageModelProps> {
+): Array<MessageModelPropsWithoutConvoProps> {
   // we order by serverTimestamp for public convos
   // be sure to update the sorting order to fetch messages from the DB too at getMessagesByConversation
   if (isPublic) {
@@ -444,23 +578,16 @@ function sortMessages(
   return messagesSorted;
 }
 
-export const getFirstUnreadMessageId = createSelector(
-  getConversations,
-  (state: ConversationsStateType): string | undefined => {
-    return state.firstUnreadMessageId;
-  }
-);
-
 export const getMostRecentMessageId = createSelector(
   getSortedMessagesOfSelectedConversation,
-  (messages: Array<MessageModelProps>): string | undefined => {
+  (messages: Array<MessageModelPropsWithoutConvoProps>): string | undefined => {
     return messages.length ? messages[0].propsForMessage.id : undefined;
   }
 );
 
 export const getOldestMessageId = createSelector(
   getSortedMessagesOfSelectedConversation,
-  (messages: Array<MessageModelProps>): string | undefined => {
+  (messages: Array<MessageModelPropsWithoutConvoProps>): string | undefined => {
     const oldest =
       messages.length > 0 ? messages[messages.length - 1].propsForMessage.id : undefined;
 
@@ -487,5 +614,386 @@ export const isFirstUnreadMessageIdAbove = createSelector(
     );
 
     return isNotPresent;
+  }
+);
+
+const getMessageId = (_whatever: any, id: string) => id;
+
+export const getMessagePropsByMessageId = createSelector(
+  getConversations,
+  getSortedMessagesOfSelectedConversation,
+  getConversationLookup,
+  getMessageId,
+  (
+    _convoState,
+    messages: Array<SortedMessageModelProps>,
+    conversations,
+    id
+  ): MessageModelPropsWithConvoProps | undefined => {
+    const foundMessageProps: SortedMessageModelProps | undefined = messages?.find(
+      m => m?.propsForMessage?.id === id
+    );
+
+    if (!foundMessageProps || !foundMessageProps.propsForMessage.convoId) {
+      return undefined;
+    }
+    const authorPhoneNumber = foundMessageProps?.propsForMessage?.authorPhoneNumber;
+
+    const foundMessageConversation = conversations[foundMessageProps.propsForMessage.convoId];
+    if (!foundMessageConversation || !authorPhoneNumber) {
+      return undefined;
+    }
+
+    const foundSenderConversation = conversations[authorPhoneNumber];
+    if (!foundSenderConversation) {
+      return undefined;
+    }
+
+    const ourPubkey = UserUtils.getOurPubKeyStrFromCache();
+    const isGroup = !foundMessageConversation.isPrivate;
+    const isPublic = foundMessageConversation.isPublic;
+
+    const groupAdmins = (isGroup && foundMessageConversation.groupAdmins) || [];
+    const weAreAdmin = groupAdmins.includes(ourPubkey) || false;
+    // a message is deletable if
+    // either we sent it,
+    // or the convo is not a public one (in this case, we will only be able to delete for us)
+    // or the convo is public and we are an admin
+    const isDeletable = authorPhoneNumber === ourPubkey || !isPublic || (isPublic && !!weAreAdmin);
+    const isSenderAdmin = groupAdmins.includes(authorPhoneNumber);
+    const senderIsUs = authorPhoneNumber === ourPubkey;
+
+    const authorName = foundSenderConversation.name || null;
+    const authorProfileName = senderIsUs ? window.i18n('you') : foundSenderConversation.profileName;
+
+    const messageProps: MessageModelPropsWithConvoProps = {
+      ...foundMessageProps,
+      propsForMessage: {
+        ...foundMessageProps.propsForMessage,
+        isBlocked: foundMessageConversation.isBlocked,
+        isPublic,
+        isOpenGroupV2: isPublic,
+        isSenderAdmin,
+        isDeletable,
+        weAreAdmin,
+        conversationType: foundMessageConversation.type,
+        authorPhoneNumber,
+        authorAvatarPath: foundSenderConversation.avatarPath,
+        isKickedFromGroup: foundMessageConversation.isKickedFromGroup,
+        authorProfileName,
+        authorName,
+      },
+    };
+
+    return messageProps;
+  }
+);
+
+export const getMessageAvatarProps = createSelector(getMessagePropsByMessageId, (props):
+  | MessageAvatarSelectorProps
+  | undefined => {
+  if (!props || _.isEmpty(props)) {
+    return undefined;
+  }
+
+  const {
+    authorAvatarPath,
+    authorName,
+    authorPhoneNumber,
+    authorProfileName,
+    conversationType,
+    direction,
+    isPublic,
+    isSenderAdmin,
+  } = props.propsForMessage;
+
+  const { lastMessageOfSeries } = props;
+
+  const messageAvatarProps: MessageAvatarSelectorProps = {
+    authorAvatarPath,
+    authorName,
+    authorPhoneNumber,
+    authorProfileName,
+    conversationType,
+    direction,
+    isPublic,
+    isSenderAdmin,
+    lastMessageOfSeries,
+  };
+
+  return messageAvatarProps;
+});
+
+export const getMessagePreviewProps = createSelector(getMessagePropsByMessageId, (props):
+  | MessagePreviewSelectorProps
+  | undefined => {
+  if (!props || _.isEmpty(props)) {
+    return undefined;
+  }
+
+  const { attachments, previews } = props.propsForMessage;
+
+  const msgProps: MessagePreviewSelectorProps = {
+    attachments,
+    previews,
+  };
+
+  return msgProps;
+});
+
+export const getMessageQuoteProps = createSelector(getMessagePropsByMessageId, (props):
+  | MessageQuoteSelectorProps
+  | undefined => {
+  if (!props || _.isEmpty(props)) {
+    return undefined;
+  }
+
+  const { direction, quote } = props.propsForMessage;
+
+  const msgProps: MessageQuoteSelectorProps = {
+    direction,
+    quote,
+  };
+
+  return msgProps;
+});
+
+export const getMessageStatusProps = createSelector(getMessagePropsByMessageId, (props):
+  | MessageStatusSelectorProps
+  | undefined => {
+  if (!props || _.isEmpty(props)) {
+    return undefined;
+  }
+
+  const { direction, status } = props.propsForMessage;
+
+  const msgProps: MessageStatusSelectorProps = {
+    direction,
+    status,
+  };
+
+  return msgProps;
+});
+
+export const getMessageTextProps = createSelector(getMessagePropsByMessageId, (props):
+  | MessageTextSelectorProps
+  | undefined => {
+  if (!props || _.isEmpty(props)) {
+    return undefined;
+  }
+
+  const { conversationType, convoId, direction, status, text } = props.propsForMessage;
+
+  const msgProps: MessageTextSelectorProps = {
+    conversationType,
+    convoId,
+    direction,
+    status,
+    text,
+  };
+
+  return msgProps;
+});
+
+export const getMessageContextMenuProps = createSelector(getMessagePropsByMessageId, (props):
+  | MessageContextMenuSelectorProps
+  | undefined => {
+  if (!props || _.isEmpty(props)) {
+    return undefined;
+  }
+
+  const {
+    attachments,
+    authorPhoneNumber,
+    convoId,
+    direction,
+    status,
+    isDeletable,
+    isPublic,
+    isOpenGroupV2,
+    weAreAdmin,
+    isSenderAdmin,
+    text,
+    serverTimestamp,
+    timestamp,
+    isBlocked,
+  } = props.propsForMessage;
+
+  const msgProps: MessageContextMenuSelectorProps = {
+    attachments,
+    authorPhoneNumber,
+    convoId,
+    direction,
+    status,
+    isDeletable,
+    isPublic,
+    isOpenGroupV2,
+    weAreAdmin,
+    isSenderAdmin,
+    text,
+    serverTimestamp,
+    timestamp,
+    isBlocked,
+  };
+
+  return msgProps;
+});
+
+export const getMessageAuthorProps = createSelector(getMessagePropsByMessageId, (props):
+  | MessageAuthorSelectorProps
+  | undefined => {
+  if (!props || _.isEmpty(props)) {
+    return undefined;
+  }
+
+  const { authorName, authorPhoneNumber, authorProfileName, direction } = props.propsForMessage;
+  const { firstMessageOfSeries } = props;
+
+  const msgProps: MessageAuthorSelectorProps = {
+    authorName,
+    authorPhoneNumber,
+    authorProfileName,
+    direction,
+    firstMessageOfSeries,
+  };
+
+  return msgProps;
+});
+
+export const getMessageIsDeletable = createSelector(
+  getMessagePropsByMessageId,
+  (props): boolean => {
+    if (!props || _.isEmpty(props)) {
+      return false;
+    }
+
+    return props.propsForMessage.isDeletable;
+  }
+);
+
+export const getMessageAttachmentProps = createSelector(getMessagePropsByMessageId, (props):
+  | MessageAttachmentSelectorProps
+  | undefined => {
+  if (!props || _.isEmpty(props)) {
+    return undefined;
+  }
+
+  const {
+    attachments,
+    direction,
+    isTrustedForAttachmentDownload,
+    timestamp,
+    serverTimestamp,
+    authorPhoneNumber,
+    convoId,
+  } = props.propsForMessage;
+  const msgProps: MessageAttachmentSelectorProps = {
+    attachments,
+    direction,
+    isTrustedForAttachmentDownload,
+    timestamp,
+    serverTimestamp,
+    authorPhoneNumber,
+    convoId,
+  };
+
+  return msgProps;
+});
+
+export const getIsMessageSelected = createSelector(
+  getMessagePropsByMessageId,
+  getSelectedMessageIds,
+  (props, selectedIds): boolean => {
+    if (!props || _.isEmpty(props)) {
+      return false;
+    }
+
+    const { id } = props.propsForMessage;
+
+    return selectedIds.includes(id);
+  }
+);
+
+export const getMessageContentSelectorProps = createSelector(getMessagePropsByMessageId, (props):
+  | MessageContentSelectorProps
+  | undefined => {
+  if (!props || _.isEmpty(props)) {
+    return undefined;
+  }
+
+  const {
+    text,
+    direction,
+    timestamp,
+    serverTimestamp,
+    previews,
+    attachments,
+    quote,
+  } = props.propsForMessage;
+
+  const { firstMessageOfSeries, lastMessageOfSeries } = props;
+  const msgProps: MessageContentSelectorProps = {
+    direction,
+    firstMessageOfSeries,
+    lastMessageOfSeries,
+    serverTimestamp,
+    text,
+    timestamp,
+    previews,
+    quote,
+    attachments,
+  };
+
+  return msgProps;
+});
+
+export const getMessageContentWithStatusesSelectorProps = createSelector(
+  getMessagePropsByMessageId,
+  (props): MessageContentWithStatusSelectorProps | undefined => {
+    if (!props || _.isEmpty(props)) {
+      return undefined;
+    }
+
+    const { direction } = props.propsForMessage;
+
+    const msgProps: MessageContentWithStatusSelectorProps = {
+      direction,
+    };
+
+    return msgProps;
+  }
+);
+
+export const getGenericReadableMessageSelectorProps = createSelector(
+  getMessagePropsByMessageId,
+  (props): GenericReadableMessageSelectorProps | undefined => {
+    if (!props || _.isEmpty(props)) {
+      return undefined;
+    }
+
+    const {
+      direction,
+      conversationType,
+      expirationLength,
+      expirationTimestamp,
+      isExpired,
+      isUnread,
+      receivedAt,
+      isKickedFromGroup,
+    } = props.propsForMessage;
+
+    const msgProps: GenericReadableMessageSelectorProps = {
+      direction,
+      conversationType,
+      expirationLength,
+      expirationTimestamp,
+      isUnread,
+      isExpired,
+      convoId: props.propsForMessage.convoId,
+      receivedAt,
+      isKickedFromGroup,
+    };
+
+    return msgProps;
   }
 );

@@ -23,7 +23,7 @@ const Mention = (props: MentionProps) => {
     const className = classNames('mention-profile-name', us && 'mention-profile-name-us');
 
     const displayedName = foundConvo.getContactProfileNameOrShortenedPubKey();
-    return <span className={className}>{displayedName}</span>;
+    return <span className={className}>@{displayedName}</span>;
   } else {
     return <span className="mention-profile-name">{PubKey.shorten(props.text)}</span>;
   }

@@ -63,9 +63,7 @@
     align-items: center;
     justify-content: space-between;
     height: $main-view-header-height;
-    @include themify($themes) {
-      background: themed('cellBackground');
-    }
+    background: var(--color-cell-background);
 
     .close-button {
       float: left;
@@ -115,10 +113,8 @@
     outline: none;
     position: relative;
 
-    @include themify($themes) {
-      border-left: themed('sessionBorder');
-      border-top: themed('sessionBorder');
-    }
+    border-left: var(--border-session);
+    border-top: var(--border-session);
 
     &__blocking-overlay {
       background-color: rgba(0, 0, 0, 0.8);
@@ -144,9 +140,7 @@
 
     &.show {
       display: flex;
-      @include themify($themes) {
-        background: themed('inboxBackground');
-      }
+      background: var(--color-inbox-background);
     }
   }
 }
@@ -162,23 +156,14 @@
   padding: $session-margin-sm $session-margin-lg $session-margin-lg;
 }
 
-.session-message-wrapper {
-  letter-spacing: 0.03em;
-  margin-top: 3px;
-  margin-bottom: 3px;
-  display: flex;
-}
-
 .composition-container {
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 0px $session-margin-md;
   min-height: min-content;
-  @include themify($themes) {
-    background: themed('composeViewBackground');
-    border-top: themed('sessionBorder');
-  }
+  background: var(--color-cell-background);
+  border-top: var(--border-session);
 
   .session-icon-button {
     // & > .session-icon-button {
@@ -217,9 +202,8 @@
       min-height: $composition-container-height / 3;
       max-height: 3 * $composition-container-height;
       margin-right: $session-margin-md;
-      @include themify($themes) {
-        color: themed('textColor');
-      }
+      color: var(--color-text);
+
       background: transparent;
       resize: none;
       display: flex;
@@ -514,9 +498,7 @@ $rhap_font-family: inherit !default;
 }
 
 .rhap_volume-button {
-  @include themify($themes) {
-    color: subtle(themed('textColor'));
-  }
+  color: subtle(var(--color-text));
 }
 
 .rhap_volume-container div[role='progressbar'] {
@@ -524,9 +506,8 @@ $rhap_font-family: inherit !default;
 }
 
 .rhap_time {
-  @include themify($themes) {
-    color: subtle(themed('textColor'));
-  }
+  color: subtle(var(--color-text));
+
   font-size: 12px;
 }
 
@@ -536,35 +517,23 @@ $rhap_font-family: inherit !default;
   z-index: 0;
   width: 100%;
   height: 5px;
-  @include themify($themes) {
-    background-color: rgba(themed('textColor'), 0.3);
-  }
+  background-color: var(--color-text);
+
   border-radius: 2px;
 }
 
 .rhap_progress-filled {
-  @include themify($themes) {
-    background-color: rgba(themed('accent'), 0.6);
-  }
-  padding-left: 5px;
-}
+  background-color: rgba(var(--color-accent), 0.6);
 
-// special case for light theme, outgoing message (accent color on accent color background is not readable)
-.light-theme .module-message--outgoing {
-  .rhap_progress-filled {
-    @include themify($themes) {
-      background-color: rgba(themed('textColor'), 0.6);
-    }
-  }
+  padding-left: 5px;
 }
 
 .rhap_download-progress {
   height: 100%;
   position: absolute;
   z-index: 1;
-  @include themify($themes) {
-    background-color: subtle(themed('textColor'));
-  }
+  background-color: subtle(var(--color-text));
+
   border-radius: 2px;
 }
 

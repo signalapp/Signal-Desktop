@@ -250,7 +250,7 @@ export async function handleNewClosedGroup(
         ecKeyPairAlreadyExistingConvo.toHexKeyPair()
       );
 
-      await maybeConvo.updateExpirationTimer(expireTimer, sender, Date.now());
+      await maybeConvo.updateExpireTimer(expireTimer, sender, Date.now());
 
       if (isKeyPairAlreadyHere) {
         window.log.info('Dropping already saved keypair for group', groupId);
@@ -306,7 +306,7 @@ export async function handleNewClosedGroup(
   // Having that timestamp set will allow us to pickup incoming group update which were sent between
   // envelope.timestamp and Date.now(). And we need to listen to those (some might even remove us)
   convo.set('lastJoinedTimestamp', envelopeTimestamp);
-  await convo.updateExpirationTimer(expireTimer, sender, envelopeTimestamp);
+  await convo.updateExpireTimer(expireTimer, sender, envelopeTimestamp);
   convo.updateLastMessage();
 
   await convo.commit();

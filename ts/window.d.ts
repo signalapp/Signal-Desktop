@@ -5,10 +5,8 @@ import { LibsignalProtocol } from '../../libtextsecure/libsignal-protocol';
 import { SignalInterface } from '../../js/modules/signal';
 
 import { LibTextsecure } from '../libtextsecure';
-import { ConfirmationDialogParams } from '../background';
 
 import { Store } from 'redux';
-import { DefaultTheme } from 'styled-components';
 
 import { ConversationCollection, ConversationModel } from './models/conversation';
 import { ConversationType } from './state/ducks/conversations';

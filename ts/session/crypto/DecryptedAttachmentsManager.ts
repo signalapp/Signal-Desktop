@@ -15,6 +15,7 @@ import { DURATION } from '../constants';
 // add a way to remove the blob when the attachment file path is removed (message removed?)
 // do not hardcode the password
 const urlToDecryptedBlobMap = new Map<string, { decrypted: string; lastAccessTimestamp: number }>();
+const urlToDecryptingPromise = new Map<string, Promise<string>>();
 
 export const cleanUpOldDecryptedMedias = () => {
   const currentTimestamp = Date.now();
@@ -31,6 +32,8 @@ export const cleanUpOldDecryptedMedias = () => {
       countKept++;
     }
   }
+  urlToDecryptedBlobMap.clear();
+  urlToDecryptingPromise.clear();
   window?.log?.info(`Clean medias blobs: cleaned/kept: ${countCleaned}:${countKept}`);
 };
 
@@ -59,29 +62,68 @@ export const getDecryptedMediaUrl = async (url: string, contentType: string): Pr
 
       return existingObjUrl;
     } else {
-      const encryptedFileContent = await fse.readFile(url);
-      const decryptedContent = await decryptAttachmentBuffer(toArrayBuffer(encryptedFileContent));
-      if (decryptedContent?.length) {
-        const arrayBuffer = decryptedContent.buffer;
-        const { makeObjectUrl } = window.Signal.Types.VisualAttachment;
-        const obj = makeObjectUrl(arrayBuffer, contentType);
-
-        if (!urlToDecryptedBlobMap.has(url)) {
-          urlToDecryptedBlobMap.set(url, {
-            decrypted: obj,
-            lastAccessTimestamp: Date.now(),
-          });
-        }
-        return obj;
-      } else {
-        // failed to decrypt, fallback to url image loading
-        // it might be a media we received before the update encrypting attachments locally.
-        return url;
+      if (urlToDecryptingPromise.has(url)) {
+        return urlToDecryptingPromise.get(url) as Promise<string>;
       }
+
+      urlToDecryptingPromise.set(
+        url,
+        new Promise(async resolve => {
+          const encryptedFileContent = await fse.readFile(url);
+          const decryptedContent = await decryptAttachmentBuffer(
+            toArrayBuffer(encryptedFileContent)
+          );
+          if (decryptedContent?.length) {
+            const arrayBuffer = decryptedContent.buffer;
+            const { makeObjectUrl } = window.Signal.Types.VisualAttachment;
+            const obj = makeObjectUrl(arrayBuffer, contentType);
+
+            if (!urlToDecryptedBlobMap.has(url)) {
+              urlToDecryptedBlobMap.set(url, {
+                decrypted: obj,
+                lastAccessTimestamp: Date.now(),
+              });
+            }
+            urlToDecryptingPromise.delete(url);
+            resolve(obj);
+            return;
+          } else {
+            // failed to decrypt, fallback to url image loading
+            // it might be a media we received before the update encrypting attachments locally.
+            urlToDecryptingPromise.delete(url);
+            resolve(url);
+            return;
+          }
+        })
+      );
+
+      return urlToDecryptingPromise.get(url) as Promise<string>;
     }
   } else {
     // Not sure what we got here. Just return the file.
 
     return url;
   }
+};
+
+/**
+ *
+ * Returns the already decrypted URL or null
+ */
+export const getAlreadyDecryptedMediaUrl = (url: string): string | null => {
+  if (!url) {
+    return null;
+  }
+  if (url.startsWith('blob:')) {
+    return url;
+  } else if (
+    window.Signal.Migrations.attachmentsPath &&
+    url.startsWith(window.Signal.Migrations.attachmentsPath)
+  ) {
+    if (urlToDecryptedBlobMap.has(url)) {
+      const existingObjUrl = urlToDecryptedBlobMap.get(url)?.decrypted as string;
+      return existingObjUrl;
+    }
+  }
+  return null;
 };

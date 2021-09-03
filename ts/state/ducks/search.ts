@@ -1,12 +1,9 @@
 import { AdvancedSearchOptions, SearchOptions } from '../../types/Search';
 import { cleanSearchTerm } from '../../util/cleanSearchTerm';
 import { searchConversations, searchMessages } from '../../../ts/data/data';
-import { makeLookup } from '../../util/makeLookup';
 
-import { PropsForSearchResults, ReduxConversationType } from './conversations';
+import { ReduxConversationType } from './conversations';
 import { PubKey } from '../../session/types';
-import { MessageModel } from '../../models/message';
-import { MessageModelType } from '../../models/messageType';
 import { ConversationTypeEnum } from '../../models/conversation';
 
 // State
@@ -15,11 +12,7 @@ export type SearchStateType = {
   query: string;
   normalizedPhoneNumber?: string;
   // We need to store messages here, because they aren't anywhere else in state
-  messages: Array<PropsForSearchResults>;
   selectedMessage?: string;
-  messageLookup: {
-    [key: string]: PropsForSearchResults;
-  };
   // For conversations we store just the id, and pull conversation props in the selector
   conversations: Array<string>;
   contacts: Array<string>;
@@ -29,7 +22,6 @@ export type SearchStateType = {
 type SearchResultsPayloadType = {
   query: string;
   normalizedPhoneNumber?: string;
-  messages: Array<PropsForSearchResults>;
   conversations: Array<string>;
   contacts: Array<string>;
 };
@@ -102,7 +94,6 @@ async function doSearch(query: string, options: SearchOptions): Promise<SearchRe
     normalizedPhoneNumber: PubKey.normalize(query),
     conversations,
     contacts,
-    messages: getMessageProps(filteredMessages) || [],
   };
 }
 export function clearSearch(): ClearSearchActionType {
@@ -200,23 +191,6 @@ function getAdvancedSearchOptionsFromQuery(query: string): AdvancedSearchOptions
   return filters;
 }
 
-const getMessageProps = (messages: Array<PropsForSearchResults>) => {
-  if (!messages || !messages.length) {
-    return [];
-  }
-
-  return messages.map(message => {
-    const overridenProps = {
-      ...message,
-      type: 'incoming' as MessageModelType,
-    };
-
-    const model = new MessageModel(overridenProps);
-
-    return model.getPropsForSearchResult();
-  });
-};
-
 async function queryMessages(query: string) {
   try {
     const normalized = cleanSearchTerm(query);
@@ -271,8 +245,6 @@ async function queryConversationsAndContacts(providedQuery: string, options: Sea
 
 export const initialSearchState: SearchStateType = {
   query: '',
-  messages: [],
-  messageLookup: {},
   conversations: [],
   contacts: [],
 };
@@ -302,13 +274,12 @@ export function reducer(state: SearchStateType | undefined, action: SEARCH_TYPES
 
   if (action.type === 'SEARCH_RESULTS_FULFILLED') {
     const { payload } = action;
-    const { query, messages, normalizedPhoneNumber, conversations, contacts } = payload;
+    const { query, normalizedPhoneNumber, conversations, contacts } = payload;
 
     // Reject if the associated query is not the most recent user-provided query
     if (state.query !== query) {
       return state;
     }
-    const filteredMessage = messages.filter(message => message !== undefined);
 
     return {
       ...state,
@@ -316,8 +287,6 @@ export function reducer(state: SearchStateType | undefined, action: SEARCH_TYPES
       normalizedPhoneNumber,
       conversations,
       contacts,
-      messages: filteredMessage,
-      messageLookup: makeLookup(filteredMessage, 'id'),
     };
   }
 

@@ -1,9 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import classNames from 'classnames';
 
-import { SessionIconButton, SessionIconSize, SessionIconType } from './icon/';
+import { SessionIconButton } from './icon/';
 import { SessionButton } from './SessionButton';
-import { useTheme } from 'styled-components';
 
 // tslint:disable-next-line: no-submodule-imports
 import useKey from 'react-use/lib/useKey';
@@ -37,8 +36,6 @@ export const SessionWrapperModal = (props: SessionWrapperModalType) => {
     headerReverse,
     additionalClassName,
   } = props;
-
-  const theme = useTheme();
 
   useKey(
     'Esc',
@@ -84,12 +81,7 @@ export const SessionWrapperModal = (props: SessionWrapperModalType) => {
             <div className={classNames('session-modal__header', headerReverse && 'reverse')}>
               <div className="session-modal__header__close">
                 {showExitIcon ? (
-                  <SessionIconButton
-                    iconType={SessionIconType.Exit}
-                    iconSize={SessionIconSize.Small}
-                    onClick={props.onClose}
-                    theme={theme}
-                  />
+                  <SessionIconButton iconType="exit" iconSize={'small'} onClick={props.onClose} />
                 ) : null}
               </div>
               <div className="session-modal__header__title">{title}</div>
@@ -100,10 +92,9 @@ export const SessionWrapperModal = (props: SessionWrapperModalType) => {
                         <SessionIconButton
                           key={iconItem.iconType}
                           iconType={iconItem.iconType}
-                          iconSize={SessionIconSize.Large}
+                          iconSize={'large'}
                           iconRotation={iconItem.iconRotation}
                           onClick={iconItem.onClick}
-                          theme={theme}
                         />
                       );
                     })

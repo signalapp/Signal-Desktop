@@ -2,20 +2,16 @@ import React, { useCallback, useState } from 'react';
 
 import { getTimerBucketIcon } from '../../util/timer';
 import { useInterval } from '../../hooks/useInterval';
-import styled, { DefaultTheme } from 'styled-components';
-import { OpacityMetadataComponent } from './message/MessageMetadata';
-import { SessionIcon, SessionIconSize } from '../session/icon';
-import { MessageModelType } from '../../models/messageType';
+import styled from 'styled-components';
+import { SessionIcon } from '../session/icon';
 
 type Props = {
-  withImageNoCaption: boolean;
   expirationLength: number;
-  expirationTimestamp: number;
-  direction: MessageModelType;
-  theme: DefaultTheme;
+  expirationTimestamp: number | null;
+  isCorrectSide: boolean;
 };
 
-const ExpireTimerCount = styled(props => <OpacityMetadataComponent {...props} />)<{
+const ExpireTimerCount = styled.div<{
   color: string;
 }>`
   margin-inline-start: 6px;
@@ -27,36 +23,39 @@ const ExpireTimerCount = styled(props => <OpacityMetadataComponent {...props} />
   color: ${props => props.color};
 `;
 
-const ExpireTimerBucket = styled(props => <OpacityMetadataComponent {...props} />)<{
-  color: string;
-}>`
+const ExpireTimerBucket = styled.div`
   margin-inline-start: 6px;
   font-size: 11px;
   line-height: 16px;
   letter-spacing: 0.3px;
   text-transform: uppercase;
   user-select: none;
-  color: ${props => props.color};
+  color: var(--color-text);
 `;
 
 export const ExpireTimer = (props: Props) => {
-  const { expirationLength, expirationTimestamp, withImageNoCaption } = props;
+  const { expirationLength, expirationTimestamp, isCorrectSide } = props;
 
-  const initialTimeLeft = Math.max(Math.round((expirationTimestamp - Date.now()) / 1000), 0);
+  const initialTimeLeft = Math.max(Math.round(((expirationTimestamp || 0) - Date.now()) / 1000), 0);
   const [timeLeft, setTimeLeft] = useState(initialTimeLeft);
 
   const update = useCallback(() => {
-    const newTimeLeft = Math.max(Math.round((expirationTimestamp - Date.now()) / 1000), 0);
-    if (newTimeLeft !== timeLeft) {
-      setTimeLeft(newTimeLeft);
+    if (expirationTimestamp) {
+      const newTimeLeft = Math.max(Math.round((expirationTimestamp - Date.now()) / 1000), 0);
+      if (newTimeLeft !== timeLeft) {
+        setTimeLeft(newTimeLeft);
+      }
     }
   }, [expirationTimestamp, timeLeft, setTimeLeft]);
 
   const updateFrequency = 500;
-
   useInterval(update, updateFrequency);
 
-  const expireTimerColor = withImageNoCaption ? 'white' : props.theme.colors.textColor;
+  if (!(isCorrectSide && expirationLength && expirationTimestamp)) {
+    return null;
+  }
+
+  const expireTimerColor = 'var(--color-text)';
 
   if (timeLeft <= 60) {
     return <ExpireTimerCount color={expireTimerColor}>{timeLeft}</ExpireTimerCount>;
@@ -65,12 +64,7 @@ export const ExpireTimer = (props: Props) => {
 
   return (
     <ExpireTimerBucket>
-      <SessionIcon
-        iconType={bucket}
-        iconSize={SessionIconSize.Tiny}
-        iconColor={expireTimerColor}
-        theme={props.theme}
-      />
+      <SessionIcon iconType={bucket} iconSize={'tiny'} iconColor={expireTimerColor} />
     </ExpireTimerBucket>
   );
 };

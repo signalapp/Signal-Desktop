@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import moment from 'moment';
 
 import { formatRelativeTime } from '../../util/formatRelativeTime';
 import { useInterval } from '../../hooks/useInterval';
-import styled, { useTheme } from 'styled-components';
-import { OpacityMetadataComponent } from './message/MessageMetadata';
+import styled from 'styled-components';
 
 type Props = {
   timestamp?: number;
@@ -16,9 +15,7 @@ type Props = {
 
 const UPDATE_FREQUENCY = 60 * 1000;
 
-const TimestampContainerListItem = styled(props => <OpacityMetadataComponent {...props} />)<{
-  color: string;
-}>`
+const TimestampContainerListItem = styled.div`
   flex-shrink: 0;
   margin-inline-start: 6px;
   font-size: 11px;
@@ -28,33 +25,29 @@ const TimestampContainerListItem = styled(props => <OpacityMetadataComponent {..
   white-space: nowrap;
   text-overflow: ellipsis;
   text-transform: uppercase;
-  color: ${props => props.theme.colors.textColor};
+  color: var(--color-text);
 `;
 
-const TimestampContainerNotListItem = styled(props => <OpacityMetadataComponent {...props} />)<{
-  color: string;
-}>`
+const TimestampContainerNotListItem = styled.div`
   font-size: 11px;
   line-height: 16px;
   letter-spacing: 0.3px;
   text-transform: uppercase;
   user-select: none;
-  color: ${props => props.timestampColor};
+  color: var(--color-text);
 `;
 
 export const Timestamp = (props: Props) => {
   const [_lastUpdated, setLastUpdated] = useState(Date.now());
   // this is kind of a hack, but we use lastUpdated just to trigger a refresh.
   // formatRelativeTime() will print the correct moment.
-  const update = () => {
+  const update = useCallback(() => {
     setLastUpdated(Date.now());
-  };
-
-  const theme = useTheme();
+  }, []);
 
   useInterval(update, UPDATE_FREQUENCY);
 
-  const { timestamp, withImageNoCaption, extended } = props;
+  const { timestamp, extended } = props;
 
   if (timestamp === null || timestamp === undefined) {
     return null;
@@ -78,18 +71,9 @@ export const Timestamp = (props: Props) => {
     dateString = dateString.replace('minutes', 'mins').replace('minute', 'min');
   }
 
-  const timestampColor = withImageNoCaption ? 'white' : theme.colors.textColor;
   const title = moment(timestamp).format('llll');
   if (props.isConversationListItem) {
-    return (
-      <TimestampContainerListItem timestampColor={timestampColor} title={title}>
-        {dateString}
-      </TimestampContainerListItem>
-    );
+    return <TimestampContainerListItem title={title}>{dateString}</TimestampContainerListItem>;
   }
-  return (
-    <TimestampContainerNotListItem timestampColor={timestampColor} title={title}>
-      {dateString}
-    </TimestampContainerNotListItem>
-  );
+  return <TimestampContainerNotListItem title={title}>{dateString}</TimestampContainerNotListItem>;
 };

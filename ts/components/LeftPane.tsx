@@ -11,7 +11,6 @@ import { useSelector } from 'react-redux';
 import { getLeftPaneLists } from '../state/selectors/conversations';
 import { getQuery, getSearchResults, isSearching } from '../state/selectors/search';
 import { SectionType } from '../state/ducks/section';
-import { getTheme } from '../state/selectors/theme';
 
 // from https://github.com/bvaughn/react-virtualized/blob/fb3484ed5dcc41bffae8eab029126c0fb8f7abc0/source/List/types.js#L5
 export type RowRendererParamsType = {
@@ -63,10 +62,8 @@ const LeftPaneSection = () => {
 };
 
 export const LeftPane = () => {
-  const theme = useSelector(getTheme);
-
   return (
-    <SessionTheme theme={theme}>
+    <SessionTheme>
       <div className="module-left-pane-session">
         <ActionsPanel />
 

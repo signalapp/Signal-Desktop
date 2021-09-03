@@ -76,7 +76,7 @@ export class SessionInboxView extends React.Component<any, State> {
     // Here we set up a full redux store with initial state for our LeftPane Root
     const convoCollection = getConversationController().getConversations();
     const conversations = convoCollection.map((conversation: ConversationModel) =>
-      conversation.getProps()
+      conversation.getConversationModelProps()
     );
 
     const filledConversations = conversations.map((conv: any) => {

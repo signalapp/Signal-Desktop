@@ -172,7 +172,7 @@ export function pushYouLeftTheGroup() {
 }
 
 export function pushDeleted() {
-  pushToastSuccess('deleted', window.i18n('deleted'), undefined, SessionIconType.Check);
+  pushToastSuccess('deleted', window.i18n('deleted'), undefined, 'check');
 }
 
 export function pushCannotRemoveCreatorFromGroup() {

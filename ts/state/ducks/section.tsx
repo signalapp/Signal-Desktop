@@ -2,6 +2,7 @@ import { SessionSettingCategory } from '../../components/session/settings/Sessio
 
 export const FOCUS_SECTION = 'FOCUS_SECTION';
 export const FOCUS_SETTINGS_SECTION = 'FOCUS_SETTINGS_SECTION';
+export const IS_APP_FOCUSED = 'IS_APP_FOCUSED';
 
 export enum SectionType {
   Profile,
@@ -23,6 +24,11 @@ type FocusSettingsSectionActionType = {
   payload: SessionSettingCategory;
 };
 
+type IsAppFocusedActionType = {
+  type: 'IS_APP_FOCUSED';
+  payload: boolean;
+};
+
 export function showLeftPaneSection(section: SectionType): FocusSectionActionType {
   return {
     type: FOCUS_SECTION,
@@ -31,6 +37,13 @@ export function showLeftPaneSection(section: SectionType): FocusSectionActionTyp
 }
 
 type SectionActionTypes = FocusSectionActionType | FocusSettingsSectionActionType;
+
+export function setIsAppFocused(focused: boolean): IsAppFocusedActionType {
+  return {
+    type: IS_APP_FOCUSED,
+    payload: focused,
+  };
+}
 
 export function showSettingsSection(
   category: SessionSettingCategory
@@ -46,14 +59,16 @@ export const actions = {
   showSettingsSection,
 };
 
-export const initialSectionState = {
+export const initialSectionState: SectionStateType = {
   focusedSection: SectionType.Message,
   focusedSettingsSection: undefined,
+  isAppFocused: false,
 };
 
 export type SectionStateType = {
   focusedSection: SectionType;
   focusedSettingsSection?: SessionSettingCategory;
+  isAppFocused: boolean;
 };
 
 export const reducer = (
@@ -73,6 +88,7 @@ export const reducer = (
 
       if (castedPayload !== SectionType.Settings) {
         return {
+          ...state,
           focusedSection: castedPayload,
           focusedSettingsSection: undefined,
         };
@@ -88,6 +104,12 @@ export const reducer = (
       return {
         ...state,
         focusedSettingsSection: payload,
+      };
+
+    case IS_APP_FOCUSED:
+      return {
+        ...state,
+        isAppFocused: payload,
       };
     default:
       return state;

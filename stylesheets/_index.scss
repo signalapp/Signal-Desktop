@@ -1,10 +1,12 @@
 .inbox {
   height: 100%;
   overflow: hidden;
+  transition: none;
 }
 
 .inbox.index {
   display: flex;
+  background-color: var(--color-inbox-background);
 }
 
 .edit-profile-dialog,

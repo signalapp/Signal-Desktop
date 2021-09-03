@@ -1,7 +1,6 @@
-import React, { useContext, useState } from 'react';
-import { ThemeContext } from 'styled-components';
+import React, { useState } from 'react';
 
-import { SessionIcon, SessionIconSize, SessionIconType } from './icon/';
+import { SessionIcon, SessionIconType } from './icon/';
 import { SessionDropdownItem, SessionDropDownItemType } from './SessionDropdownItem';
 
 // THIS IS DROPDOWN ACCORDIAN STYLE OPTIONS SELECTOR ELEMENT, NOT A CONTEXTMENU
@@ -23,7 +22,6 @@ type Props = {
 export const SessionDropdown = (props: Props) => {
   const { label, options } = props;
   const [expanded, setExpanded] = useState(!!props.expanded);
-  const theme = useContext(ThemeContext);
   const chevronOrientation = expanded ? 180 : 0;
 
   return (
@@ -36,12 +34,7 @@ export const SessionDropdown = (props: Props) => {
         role="button"
       >
         {label}
-        <SessionIcon
-          iconType={SessionIconType.Chevron}
-          iconSize={SessionIconSize.Small}
-          iconRotation={chevronOrientation}
-          theme={theme}
-        />
+        <SessionIcon iconType="chevron" iconSize={'small'} iconRotation={chevronOrientation} />
       </div>
 
       {expanded && (

@@ -25,7 +25,6 @@ export const ContactName = (props: Props) => {
   } = props;
   const prefix = module ? module : 'module-contact-name';
 
-  const title = name ? name : phoneNumber;
   const shouldShowProfile = Boolean(profileName || name);
   const styles = (boldProfileName
     ? {
@@ -41,7 +40,7 @@ export const ContactName = (props: Props) => {
 
   const pubKeyElement = shouldShowPubkey ? (
     <span className={`${prefix}__profile-number`}>
-      <Emojify text={title} />
+      <Emojify text={phoneNumber} />
     </span>
   ) : null;
 

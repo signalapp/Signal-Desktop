@@ -291,15 +291,6 @@
     "reasonDetail": "Protected from arbitrary input"
   },
   {
-    "rule": "jQuery-html(",
-    "path": "js/views/identicon_svg_view.js",
-    "line": "      const html = this.render().$el.html();",
-    "lineNumber": 19,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-15T00:38:04.183Z",
-    "reasonDetail": "Getting the value, not setting it"
-  },
-  {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "        let $el = this.$(`#${id}`);",

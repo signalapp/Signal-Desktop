@@ -12,7 +12,6 @@
     initialize() {
       this.inboxView = null;
 
-      this.applyTheme();
       this.applyRtl();
       this.applyHideMenu();
     },
@@ -26,13 +25,6 @@
       if (rtlLocales.includes(loc)) {
         this.$el.addClass('rtl');
       }
-    },
-    applyTheme() {
-      const theme = storage.get('theme-setting') || 'light';
-      this.$el
-        .removeClass('light-theme')
-        .removeClass('dark-theme')
-        .addClass(`${theme}-theme`);
     },
     applyHideMenu() {
       const hideMenuBar = storage.get('hide-menu-bar', true);

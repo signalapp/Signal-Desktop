@@ -13,7 +13,7 @@ import { ConversationAvatar } from './session/usingClosedConversationDetails';
 import { MemoConversationListItemContextMenu } from './session/menu/ConversationListItemContextMenu';
 import { createPortal } from 'react-dom';
 import { OutgoingMessageStatus } from './conversation/message/OutgoingMessageStatus';
-import styled, { useTheme } from 'styled-components';
+import styled from 'styled-components';
 import { PubKey } from '../session/types';
 import {
   LastMessageType,
@@ -22,7 +22,7 @@ import {
 } from '../state/ducks/conversations';
 import _ from 'underscore';
 import { useMembersAvatars } from '../hooks/useMembersAvatar';
-import { SessionIcon, SessionIconSize, SessionIconType } from './session/icon';
+import { SessionIcon } from './session/icon';
 import { useSelector } from 'react-redux';
 import { SectionType } from '../state/ducks/section';
 import { getFocusedSection } from '../state/selectors/section';
@@ -72,7 +72,6 @@ const HeaderItem = (props: {
     name,
     currentNotificationSetting,
   } = props;
-  const theme = useTheme();
 
   let atSymbol = null;
   let unreadCountDiv = null;
@@ -85,11 +84,7 @@ const HeaderItem = (props: {
 
   const pinIcon =
     isMessagesSection && isPinned ? (
-      <SessionIcon
-        iconType={SessionIconType.Pin}
-        iconColor={theme.colors.textColorSubtle}
-        iconSize={SessionIconSize.Tiny}
-      />
+      <SessionIcon iconType="pin" iconColor={'var(--color-text-subtle)'} iconSize={'tiny'} />
     ) : null;
 
   const NotificationSettingIcon = () => {
@@ -102,19 +97,11 @@ const HeaderItem = (props: {
         return null;
       case 'disabled':
         return (
-          <SessionIcon
-            iconType={SessionIconType.Mute}
-            iconColor={theme.colors.textColorSubtle}
-            iconSize={SessionIconSize.Tiny}
-          />
+          <SessionIcon iconType="mute" iconColor={'var(--color-text-subtle)'} iconSize={'tiny'} />
         );
       case 'mentions_only':
         return (
-          <SessionIcon
-            iconType={SessionIconType.BellMention}
-            iconColor={theme.colors.textColorSubtle}
-            iconSize={SessionIconSize.Tiny}
-          />
+          <SessionIcon iconType="bell" iconColor={'var(--color-text-subtle)'} iconSize={'tiny'} />
         );
       default:
         return null;
@@ -195,12 +182,11 @@ const MessageItem = (props: {
   unreadCount: number;
 }) => {
   const { lastMessage, isTyping, unreadCount } = props;
-  const theme = useTheme();
 
   if (!lastMessage && !isTyping) {
     return null;
   }
-  const text = lastMessage && lastMessage.text ? lastMessage.text : '';
+  const text = lastMessage?.text || '';
 
   if (isEmpty(text)) {
     return null;
@@ -221,17 +207,14 @@ const MessageItem = (props: {
         )}
       </div>
       {lastMessage && lastMessage.status ? (
-        <OutgoingMessageStatus
-          status={lastMessage.status}
-          iconColor={theme.colors.textColorSubtle}
-        />
+        <OutgoingMessageStatus status={lastMessage.status} />
       ) : null}
     </div>
   );
 };
 
 const AvatarItem = (props: {
-  avatarPath?: string;
+  avatarPath: string | null;
   conversationId: string;
   memberAvatars?: Array<ConversationAvatar>;
   name?: string;
@@ -284,7 +267,7 @@ const ConversationListItem = (props: Props) => {
   const membersAvatar = useMembersAvatars(props);
 
   const openConvo = useCallback(
-    async (e: any) => {
+    async (e: React.MouseEvent<HTMLDivElement>) => {
       // mousedown is invoked sooner than onClick, but for both right and left click
       if (e.button === 0) {
         await openConversationWithMessages({ conversationKey: conversationId });
@@ -298,6 +281,10 @@ const ConversationListItem = (props: Props) => {
       <div
         role="button"
         onMouseDown={openConvo}
+        onMouseUp={e => {
+          e.stopPropagation();
+          e.preventDefault();
+        }}
         onContextMenu={(e: any) => {
           contextMenu.show({
             id: triggerId,
