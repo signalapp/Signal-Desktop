@@ -11,49 +11,7 @@
   border-left-style: solid;
 
   &__primary__type-label {
-    @include themify($themes) {
-      border-color: themed('textColor');
-    }
-  }
-}
-
-// This is related to the bottomBar quote&mention logic
-.bottom-bar .module-quote {
-  margin: 0;
-  border-left-style: none;
-  @include themify($themes) {
-    background: themed('quoteBottomBarBackground');
-  }
-
-  .module-quote__primary__author {
-    @include themify($themes) {
-      color: themed('textColor');
-    }
-  }
-  .module-quote__primary__text {
-    @include themify($themes) {
-      color: themed('textColor');
-    }
-    a {
-      @include themify($themes) {
-        color: themed('textColor');
-      }
-    }
-  }
-
-  // close button when quoting a message
-  &__close {
-    &-container {
-      @include themify($themes) {
-        background: themed('backgroundPrimary');
-      }
-    }
-
-    &-button {
-      @include themify($themes) {
-        @include color-svg('../images/x.svg', themed('foregroundPrimary'));
-      }
-    }
+    border-color: var(--color-text);
   }
 }
 
@@ -61,38 +19,28 @@
 .module-quote {
   &--outgoing {
     .module-quote__primary__author {
-      @include themify($themes) {
-        color: themed('sentMessageText');
-        font-weight: bold;
-      }
+      color: var(--color-sent-message-text);
+      font-weight: bold;
     }
     .module-quote__primary__text {
-      @include themify($themes) {
-        color: themed('sentMessageText');
-      }
+      color: var(--color-sent-message-text);
+
       a {
-        @include themify($themes) {
-          color: themed('sentMessageText');
-        }
+        color: var(--color-sent-message-text);
       }
     }
   }
 
   &--incoming {
     .module-quote__primary__author {
-      @include themify($themes) {
-        color: themed('receivedMessageText');
-        font-weight: bold;
-      }
+      color: var(--color-received-message-text);
+      font-weight: bold;
     }
     .module-quote__primary__text {
-      @include themify($themes) {
-        color: themed('receivedMessageText');
-      }
+      color: var(--color-received-message-text);
+
       a {
-        @include themify($themes) {
-          color: themed('receivedMessageText');
-        }
+        color: var(--color-received-message-text);
       }
     }
   }
@@ -319,18 +267,6 @@
     color: $color-gray-90;
     font-size: 13px;
     line-height: 18px;
-  }
-}
-
-.bottom-bar .member-item {
-  @include themify($themes) {
-    border-bottom: themed('sessionBorder');
-  }
-
-  &:hover {
-    @include themify($themes) {
-      background: themed('clickableHovered');
-    }
   }
 }
 

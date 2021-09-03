@@ -105,3 +105,25 @@ export const getDecryptedMediaUrl = async (url: string, contentType: string): Pr
     return url;
   }
 };
+
+/**
+ *
+ * Returns the already decrypted URL or null
+ */
+export const getAlreadyDecryptedMediaUrl = (url: string): string | null => {
+  if (!url) {
+    return null;
+  }
+  if (url.startsWith('blob:')) {
+    return url;
+  } else if (
+    window.Signal.Migrations.attachmentsPath &&
+    url.startsWith(window.Signal.Migrations.attachmentsPath)
+  ) {
+    if (urlToDecryptedBlobMap.has(url)) {
+      const existingObjUrl = urlToDecryptedBlobMap.get(url)?.decrypted as string;
+      return existingObjUrl;
+    }
+  }
+  return null;
+};

@@ -1,7 +1,7 @@
-import React, { useContext } from 'react';
-import styled, { ThemeContext } from 'styled-components';
+import React from 'react';
+import styled from 'styled-components';
 import { Flex } from '../../basic/Flex';
-import { SessionIcon, SessionIconSize, SessionIconType } from '../icon';
+import { SessionIcon } from '../icon';
 
 const DropZoneContainer = styled.div`
   display: inline-block;
@@ -12,8 +12,8 @@ const DropZoneContainer = styled.div`
 `;
 
 const DropZoneWithBorder = styled.div`
-  border: dashed 4px ${props => props.theme.colors.accent};
-  background-color: ${props => props.theme.colors.clickableHovered};
+  border: dashed 4px var(--color-accent);
+  background-color: var(--color-clickable-hovered);
   position: absolute;
   top: 0;
   bottom: 0;
@@ -25,17 +25,11 @@ const DropZoneWithBorder = styled.div`
 `;
 
 export const SessionFileDropzone = () => {
-  const themeContext = useContext(ThemeContext);
-
   return (
     <DropZoneContainer>
       <DropZoneWithBorder>
         <Flex container={true} justifyContent="space-around" height="100%" alignItems="center">
-          <SessionIcon
-            iconSize={SessionIconSize.Max}
-            iconType={SessionIconType.CirclePlus}
-            theme={themeContext}
-          />
+          <SessionIcon iconSize={'max'} iconType="circlePlus" />
         </Flex>
       </DropZoneWithBorder>
     </DropZoneContainer>

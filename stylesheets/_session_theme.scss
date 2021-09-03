@@ -1,22 +1,9 @@
 // Messages
-@import 'themes.scss';
-
-// body.dark-theme {
-//   @include themify($themes) {
-//     background-color: themed('cellBackground');
-//   }
-//   color: red;
-
-//   background-color: blue
-// }
-
 .conversation {
   background: none !important;
 }
 .module-conversation-header {
-  @include themify($themes) {
-    background: themed('cellBackground');
-  }
+  background: var(--color-cell-background);
 }
 
 .module-message {
@@ -45,9 +32,7 @@
 
   &__container--incoming {
     &--opaque {
-      @include themify($themes) {
-        background: themed('receivedMessageBackground');
-      }
+      background: var(--color-received-message-background);
     }
 
     &--transparent {
@@ -68,14 +53,11 @@
     }
 
     .module-message__text {
-      @include themify($themes) {
-        color: themed('receivedMessageText');
-      }
+      color: var(--color-received-message-text);
+
       a {
         text-decoration: underline;
-        @include themify($themes) {
-          color: themed('receivedMessageText');
-        }
+        color: var(--color-received-message-text);
       }
     }
   }
@@ -87,9 +69,7 @@
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
     &--opaque {
-      @include themify($themes) {
-        background: themed('sentMessageBackground');
-      }
+      background: var(--color-sent-message-background);
     }
 
     &--transparent {
@@ -105,14 +85,11 @@
     }
 
     .module-message__text {
-      @include themify($themes) {
-        color: themed('sentMessageText');
-      }
+      color: var(--color-sent-message-text);
+
       a {
         text-decoration: underline;
-        @include themify($themes) {
-          color: themed('sentMessageText');
-        }
+        color: var(--color-sent-message-text);
       }
     }
   }
@@ -130,9 +107,7 @@
   &.message-selected {
     .module-message {
       &__container {
-        @include themify($themes) {
-          box-shadow: themed('sessionShadow');
-        }
+        box-shadow: var(--color-session-shadow);
       }
     }
   }
@@ -143,10 +118,8 @@
 }
 
 .inbox {
-  @include themify($themes) {
-    background: themed('inboxBackground');
-    color: themed('textColor');
-  }
+  background: var(--color-inbox-background);
+  color: var(--color-text);
 }
 
 .conversation {
@@ -164,35 +137,30 @@ h1 {
   margin: 0;
 
   &.active {
-    @include themify($themes) {
-      color: themed('textColor');
-    }
+    color: var(--color-text);
   }
 }
 
 h2 {
   @include session-h-title;
-  @include themify($themes) {
-    color: themed('textColor');
-  }
+  color: var(--color-text);
+
   font-size: 22px;
   text-align: center;
 }
 
 h3 {
   @include session-h-title;
-  @include themify($themes) {
-    color: themed('textColor');
-  }
+  color: var(--color-text);
+
   font-size: 18px;
   padding-top: 22px;
 }
 
 h4 {
   @include session-h-title;
-  @include themify($themes) {
-    color: themed('textColor');
-  }
+  color: var(--color-text);
+
   font-size: 17px;
   text-align: center;
 }

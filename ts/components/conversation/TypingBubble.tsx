@@ -17,7 +17,7 @@ const TypingBubbleContainer = styled.div<TypingBubbleProps>`
   display: flow-root;
   padding-bottom: ${props => (props.isTyping ? '4px' : '0px')};
   padding-top: ${props => (props.isTyping ? '4px' : '0px')};
-  transition: ${props => props.theme.common.animations.defaultDuration};
+  transition: var(--default-duration);
   padding-inline-end: 16px;
   padding-inline-start: 4px;
   overflow: hidden;

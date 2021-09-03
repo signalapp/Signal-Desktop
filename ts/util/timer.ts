@@ -16,40 +16,40 @@ export function getIncrement(length: number): number {
 export function getTimerBucketIcon(expiration: number, length: number): SessionIconType {
   const delta = expiration - Date.now();
   if (delta < 0) {
-    return SessionIconType.Timer60;
+    return 'timer60';
   }
   if (delta > length) {
-    return SessionIconType.Timer00;
+    return 'timer00';
   }
   const bucket = Math.round((delta / length) * 12);
 
   const padded = padStart(String(bucket * 5), 2, '0');
   switch (padded) {
     case '00':
-      return SessionIconType.Timer00;
+      return 'timer00';
     case '05':
-      return SessionIconType.Timer05;
+      return 'timer05';
     case '10':
-      return SessionIconType.Timer10;
+      return 'timer10';
     case '15':
-      return SessionIconType.Timer15;
+      return 'timer15';
     case '20':
-      return SessionIconType.Timer20;
+      return 'timer20';
     case '25':
-      return SessionIconType.Timer25;
+      return 'timer25';
     case '30':
-      return SessionIconType.Timer30;
+      return 'timer30';
     case '35':
-      return SessionIconType.Timer35;
+      return 'timer35';
     case '40':
-      return SessionIconType.Timer40;
+      return 'timer40';
     case '45':
-      return SessionIconType.Timer45;
+      return 'timer45';
     case '50':
-      return SessionIconType.Timer50;
+      return 'timer50';
     case '55':
-      return SessionIconType.Timer55;
+      return 'timer55';
     default:
-      return SessionIconType.Timer60;
+      return 'timer60';
   }
 }

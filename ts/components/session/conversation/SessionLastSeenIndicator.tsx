@@ -12,7 +12,7 @@ const LastSeenBarContainer = styled.div`
 const LastSeenBar = styled.div`
   width: 100%;
   height: 2px;
-  background-color: ${props => props.theme.colors.lastSeenIndicatorColor};
+  background-color: var(--color-last-seen-indicator);
 `;
 
 const LastSeenText = styled.div`
@@ -23,7 +23,7 @@ const LastSeenText = styled.div`
   text-transform: uppercase;
   text-align: center;
 
-  color: ${props => props.theme.colors.lastSeenIndicatorTextColor};
+  color: var(--color-last-seen-indicator-text);
 `;
 
 export const SessionLastSeenIndicator = () => {

@@ -2,7 +2,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import H5AudioPlayer, { RHAP_UI } from 'react-h5-audio-player';
 import { useDispatch, useSelector } from 'react-redux';
-import { useTheme } from 'styled-components';
 import { useEncryptedFileFetch } from '../../hooks/useEncryptedFileFetch';
 import { setNextMessageToPlayId } from '../../state/ducks/conversations';
 import {
@@ -10,7 +9,7 @@ import {
   getSortedMessagesOfSelectedConversation,
 } from '../../state/selectors/conversations';
 import { getAudioAutoplay } from '../../state/selectors/userConfig';
-import { SessionIcon, SessionIconSize, SessionIconType } from '../session/icon';
+import { SessionIcon } from '../session/icon';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../session/SessionButton';
 
 export const AudioPlayerWithEncryptedFile = (props: {
@@ -18,8 +17,6 @@ export const AudioPlayerWithEncryptedFile = (props: {
   contentType: string;
   messageId: string;
 }) => {
-  const theme = useTheme();
-
   const dispatch = useDispatch();
   const [playbackSpeed, setPlaybackSpeed] = useState(1.0);
   const { urlToLoad } = useEncryptedFileFetch(props.src, props.contentType);
@@ -97,7 +94,6 @@ export const AudioPlayerWithEncryptedFile = (props: {
         <div className="speedButton" key="togglePlaybackSpeed">
           <SessionButton
             text={`${playbackSpeed}x`}
-            theme={theme}
             onClick={() => {
               setPlaybackSpeed(playbackSpeed === 1 ? 1.5 : 1);
             }}
@@ -108,20 +104,10 @@ export const AudioPlayerWithEncryptedFile = (props: {
       ]}
       customIcons={{
         play: (
-          <SessionIcon
-            iconType={SessionIconType.Play}
-            iconSize={SessionIconSize.Small}
-            iconColor={theme.colors.textColorSubtle}
-            theme={theme}
-          />
+          <SessionIcon iconType="play" iconSize={'small'} iconColor={'var(--color-text-subtle)'} />
         ),
         pause: (
-          <SessionIcon
-            iconType={SessionIconType.Pause}
-            iconSize={SessionIconSize.Small}
-            iconColor={theme.colors.textColorSubtle}
-            theme={theme}
-          />
+          <SessionIcon iconType="pause" iconSize={'small'} iconColor={'var(--color-text-subtle)'} />
         ),
       }}
     />

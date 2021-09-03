@@ -1,8 +1,7 @@
 import React from 'react';
 
 import classNames from 'classnames';
-import { SessionIconButton, SessionIconSize, SessionIconType } from './icon';
-import { DefaultTheme } from 'styled-components';
+import { SessionIconButton } from './icon';
 
 interface Props {
   label?: string;
@@ -16,7 +15,6 @@ interface Props {
   onEnterPressed?: any;
   autoFocus?: boolean;
   ref?: any;
-  theme: DefaultTheme;
 }
 
 interface State {
@@ -109,14 +107,13 @@ export class SessionInput extends React.PureComponent<Props, State> {
   private renderShowHideButton() {
     return (
       <SessionIconButton
-        iconType={SessionIconType.Eye}
-        iconSize={SessionIconSize.Medium}
+        iconType="eye"
+        iconSize={'medium'}
         onClick={() => {
           this.setState({
             forceShow: !this.state.forceShow,
           });
         }}
-        theme={this.props.theme}
       />
     );
   }

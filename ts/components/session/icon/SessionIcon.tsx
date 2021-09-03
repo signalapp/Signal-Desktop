@@ -1,19 +1,19 @@
 import React from 'react';
 import { icons, SessionIconSize, SessionIconType } from '../icon';
-import styled, { css, DefaultTheme, keyframes, useTheme } from 'styled-components';
-import { lightTheme } from '../../../state/ducks/SessionTheme';
+import styled, { css, keyframes } from 'styled-components';
 
 export type SessionIconProps = {
   iconType: SessionIconType;
   iconSize: SessionIconSize | number;
   iconColor?: string;
   iconRotation?: number;
+  iconPadding?: string;
   rotateDuration?: number;
   glowDuration?: number;
-  borderRadius?: number;
+  borderRadius?: string;
   glowStartDelay?: number;
   noScale?: boolean;
-  theme?: DefaultTheme;
+  backgroundColor?: string;
 };
 
 const getIconDimensionFromIconSize = (iconSize: SessionIconSize | number) => {
@@ -21,17 +21,19 @@ const getIconDimensionFromIconSize = (iconSize: SessionIconSize | number) => {
     return iconSize;
   } else {
     switch (iconSize) {
-      case SessionIconSize.Tiny:
+      case 'tiny':
         return 12;
-      case SessionIconSize.Small:
+      case 'small':
         return 15;
-      case SessionIconSize.Medium:
+      case 'medium':
         return 20;
-      case SessionIconSize.Large:
+      case 'large':
         return 25;
-      case SessionIconSize.Huge:
+      case 'huge':
         return 30;
-      case SessionIconSize.Max:
+      case 'huge2':
+        return 40;
+      case 'max':
         return 80;
       default:
         return 20;
@@ -44,11 +46,13 @@ type StyledSvgProps = {
   height: string | number;
   iconRotation: number;
   rotateDuration?: number;
-  borderRadius?: number;
+  borderRadius?: string;
+  iconPadding?: string;
   glowDuration?: number;
   glowStartDelay?: number;
   noScale?: boolean;
   iconColor?: string;
+  backgroundColor?: string;
 };
 
 const rotate = keyframes`
@@ -123,7 +127,10 @@ const Svg = React.memo(styled.svg<StyledSvgProps>`
   transform: ${props => `rotate(${props.iconRotation}deg)`};
   animation: ${props => animation(props)};
   border-radius: ${props => props.borderRadius};
+  background-color: ${props => (props.backgroundColor ? props.backgroundColor : '')};
+  border-radius: ${props => (props.borderRadius ? props.borderRadius : '')};
   filter: ${props => (props.noScale ? `drop-shadow(0px 0px 4px ${props.iconColor})` : '')};
+  padding: ${props => (props.iconPadding ? props.iconPadding : '')};
 `);
 //tslint:enable no-unnecessary-callback-wrapper
 
@@ -138,10 +145,11 @@ const SessionSvg = (props: {
   glowDuration?: number;
   glowStartDelay?: number;
   noScale?: boolean;
-  borderRadius?: number;
-  theme: DefaultTheme;
+  borderRadius?: string;
+  backgroundColor?: string;
+  iconPadding?: string;
 }) => {
-  const colorSvg = props.iconColor || props?.theme?.colors.textColor;
+  const colorSvg = props.iconColor || 'var(--colors-text)';
   const pathArray = props.path instanceof Array ? props.path : [props.path];
   const propsToPick = {
     width: props.width,
@@ -153,6 +161,9 @@ const SessionSvg = (props: {
     glowStartDelay: props.glowStartDelay,
     iconColor: props.iconColor,
     noScale: props.noScale,
+    backgroundColor: props.backgroundColor,
+    borderRadius: props.borderRadius,
+    iconPadding: props.iconPadding,
   };
 
   return (
@@ -168,25 +179,21 @@ export const SessionIcon = (props: SessionIconProps) => {
   const {
     iconType,
     iconColor,
-    theme,
     rotateDuration,
     glowDuration,
     borderRadius,
     glowStartDelay,
     noScale,
+    backgroundColor,
+    iconPadding,
   } = props;
   let { iconSize, iconRotation } = props;
-  iconSize = iconSize || SessionIconSize.Medium;
+  iconSize = iconSize || 'medium';
   iconRotation = iconRotation || 0;
-
-  const themeToUse = theme || useTheme() || lightTheme;
 
   const iconDimensions = getIconDimensionFromIconSize(iconSize);
   const iconDef = icons[iconType];
   const ratio = iconDef?.ratio || 1;
-  if (!themeToUse) {
-    window?.log?.error('Missing theme props in SessionIcon');
-  }
 
   return (
     <SessionSvg
@@ -201,7 +208,8 @@ export const SessionIcon = (props: SessionIconProps) => {
       borderRadius={borderRadius}
       iconRotation={iconRotation}
       iconColor={iconColor}
-      theme={themeToUse}
+      backgroundColor={backgroundColor}
+      iconPadding={iconPadding}
     />
   );
 };

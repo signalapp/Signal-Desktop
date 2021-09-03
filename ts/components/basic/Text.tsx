@@ -1,28 +1,21 @@
 import React from 'react';
-import styled, { DefaultTheme } from 'styled-components';
+import styled from 'styled-components';
 
 type TextProps = {
   text: string;
   subtle?: boolean;
-  opposite?: boolean;
   maxWidth?: string;
   padding?: string;
   textAlign?: 'center';
-  theme?: DefaultTheme;
 };
 
 const StyledDefaultText = styled.div<TextProps>`
-  transition: ${props => props.theme.common.animations.defaultDuration};
+  transition: var(--default-duration);
   max-width: ${props => (props.maxWidth ? props.maxWidth : '')};
   padding: ${props => (props.padding ? props.padding : '')};
   text-align: ${props => (props.textAlign ? props.textAlign : '')};
-  font-family: ${props => props.theme.common.fonts.sessionFontDefault};
-  color: ${props =>
-    props.opposite
-      ? props.theme.colors.textColorOpposite
-      : props.subtle
-      ? props.theme.colors.textColorSubtle
-      : props.theme.colors.textColor};
+  font-family: var(--font-default);
+  color: ${props => (props.subtle ? 'var(--color-text-subtle)' : 'var(--color-text)')};
 `;
 
 export const Text = (props: TextProps) => {
@@ -31,18 +24,17 @@ export const Text = (props: TextProps) => {
 
 type SpacerProps = {
   size: 'lg' | 'md' | 'sm' | 'xs';
-  theme?: DefaultTheme;
 };
 
 const SpacerStyled = styled.div<SpacerProps>`
   height: ${props =>
     props.size === 'lg'
-      ? props.theme.common.margins.lg
+      ? 'var(--margins-lg)'
       : props.size === 'md'
-      ? props.theme.common.margins.md
+      ? 'var(--margins-nd)'
       : props.size === 'sm'
-      ? props.theme.common.margins.sm
-      : props.theme.common.margins.xs};
+      ? 'var(--margins-sm)'
+      : 'var(--margins-xs)'};
 `;
 
 const Spacer = (props: SpacerProps) => {
@@ -66,15 +58,12 @@ export const SpacerXS = () => {
 
 type H3Props = {
   text: string;
-  opposite?: boolean;
 };
 
 const StyledH3 = styled.div<H3Props>`
-  transition: ${props => props.theme.common.animations.defaultDuration};
-  font-family: ${props => props.theme.common.fonts.sessionFontDefault};
-  color: ${props =>
-    props.opposite ? props.theme.colors.textColorOpposite : props.theme.colors.textColor};
-  font-size: ${props => props.theme.common.fonts.md};
+  transition: var(--default-duration);
+  font-family: var(--font-default);
+  font-size: var(--font-size-md);
   font-weight: 700;
 `;
 

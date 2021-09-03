@@ -15,13 +15,12 @@ import {
   hasLinkPreviewPopupBeenDisplayed,
 } from '../../../../ts/data/data';
 import { shell } from 'electron';
-import { SessionConfirmDialogProps } from '../../dialog/SessionConfirm';
 import { mapDispatchToProps } from '../../../state/actions';
 import { unblockConvoById } from '../../../interactions/conversationInteractions';
 import { toggleAudioAutoplay } from '../../../state/ducks/userConfig';
 import { sessionPassword, updateConfirmModal } from '../../../state/ducks/modalDialog';
 import { PasswordAction } from '../../dialog/SessionPasswordDialog';
-import { SessionIconButton, SessionIconSize, SessionIconType } from '../icon';
+import { SessionIconButton } from '../icon';
 import { ToastUtils } from '../../../session/utils';
 
 export enum SessionSettingCategory {
@@ -54,10 +53,6 @@ interface State {
   shouldLockSettings: boolean | null;
 }
 
-interface ConfirmationDialogParams extends SessionConfirmDialogProps {
-  shouldShowConfirm: boolean | undefined;
-}
-
 interface LocalSettingType {
   category: SessionSettingCategory;
   description: string | undefined;
@@ -70,7 +65,6 @@ interface LocalSettingType {
   type: SessionSettingType | undefined;
   setFn: any;
   onClick: any;
-  confirmationDialogParams: ConfirmationDialogParams | undefined;
 }
 
 class SettingsViewInner extends React.Component<SettingsViewProps, State> {
@@ -162,7 +156,6 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
                     onClick={onClickFn}
                     onSliderChange={sliderFn}
                     content={content}
-                    confirmationDialogParams={setting.confirmationDialogParams}
                   />
                 )}
               </div>
@@ -257,11 +250,7 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
       <div className="session-settings__version-info">
         <span className="text-selectable">v{window.versionInfo.version}</span>
         <span>
-          <SessionIconButton
-            iconSize={SessionIconSize.Medium}
-            iconType={SessionIconType.Oxen}
-            onClick={openOxenWebsite}
-          />
+          <SessionIconButton iconSize={'medium'} iconType="oxen" onClick={openOxenWebsite} />
         </span>
         <span className="text-selectable">{window.versionInfo.commitHash}</span>
       </div>
@@ -335,7 +324,6 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
         content: { defaultValue: true },
         comparisonValue: undefined,
         onClick: undefined,
-        confirmationDialogParams: undefined,
       },
       {
         id: 'spell-check',
@@ -348,7 +336,6 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
         content: { defaultValue: true },
         comparisonValue: undefined,
         onClick: undefined,
-        confirmationDialogParams: undefined,
       },
       {
         id: 'link-preview-setting',
@@ -376,7 +363,6 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
         content: undefined,
         comparisonValue: undefined,
         onClick: undefined,
-        confirmationDialogParams: undefined,
       },
 
       {
@@ -403,7 +389,6 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
         content: undefined,
         comparisonValue: undefined,
         onClick: undefined,
-        confirmationDialogParams: undefined,
       },
       {
         id: 'audio-message-autoplay-setting',
@@ -420,7 +405,6 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
         },
         comparisonValue: undefined,
         onClick: undefined,
-        confirmationDialogParams: undefined,
       },
 
       {
@@ -459,7 +443,6 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
             ],
           },
         },
-        confirmationDialogParams: undefined,
       },
       {
         id: 'zoom-factor-setting',
@@ -479,7 +462,6 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
           defaultValue: 100,
           info: (value: number) => `${value}%`,
         },
-        confirmationDialogParams: undefined,
       },
       {
         id: 'help-translation',
@@ -497,7 +479,6 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
           buttonText: window.i18n('helpUsTranslateSession'),
           buttonColor: SessionButtonColor.Primary,
         },
-        confirmationDialogParams: undefined,
       },
       {
         id: 'media-permissions',
@@ -510,7 +491,6 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
         content: undefined,
         comparisonValue: undefined,
         onClick: undefined,
-        confirmationDialogParams: undefined,
       },
       {
         id: 'read-receipt-setting',
@@ -523,7 +503,6 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
         comparisonValue: undefined,
         onClick: undefined,
         content: {},
-        confirmationDialogParams: undefined,
       },
       {
         id: 'typing-indicators-setting',
@@ -536,7 +515,6 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
         comparisonValue: undefined,
         onClick: undefined,
         content: {},
-        confirmationDialogParams: undefined,
       },
       {
         id: 'auto-update',
@@ -549,7 +527,6 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
         comparisonValue: undefined,
         onClick: undefined,
         content: {},
-        confirmationDialogParams: undefined,
       },
       {
         id: 'set-password',
@@ -567,7 +544,6 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
         onClick: () => {
           this.displayPasswordModal('set');
         },
-        confirmationDialogParams: undefined,
       },
       {
         id: 'change-password',
@@ -585,7 +561,6 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
         onClick: () => {
           this.displayPasswordModal('change');
         },
-        confirmationDialogParams: undefined,
       },
       {
         id: 'remove-password',
@@ -603,7 +578,6 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
         onClick: () => {
           this.displayPasswordModal('remove');
         },
-        confirmationDialogParams: undefined,
       },
     ];
   }
@@ -651,7 +625,6 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
         },
         hidden: false,
         onClick: undefined,
-        confirmationDialogParams: undefined,
       });
     }
 
@@ -668,7 +641,6 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
           setFn: undefined,
           hidden: false,
           onClick: undefined,
-          confirmationDialogParams: undefined,
         },
       ];
     }

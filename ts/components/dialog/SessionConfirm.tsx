@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { SessionButton, SessionButtonColor } from '../session/SessionButton';
 import { SessionHtmlRenderer } from '../session/SessionHTMLRenderer';
 import { SessionIcon, SessionIconSize, SessionIconType } from '../session/icon';
-import { DefaultTheme, useTheme, withTheme } from 'styled-components';
 import { SessionWrapperModal } from '../session/SessionWrapperModal';
 import { updateConfirmModal } from '../../state/ducks/modalDialog';
 import { SpacerLG } from '../basic/Text';
@@ -24,12 +23,11 @@ export interface SessionConfirmDialogProps {
   closeTheme?: SessionButtonColor;
   sessionIcon?: SessionIconType;
   iconSize?: SessionIconSize;
-  theme?: DefaultTheme;
   shouldShowConfirm?: boolean | undefined;
   showExitIcon?: boolean | undefined;
 }
 
-const SessionConfirmInner = (props: SessionConfirmDialogProps) => {
+export const SessionConfirm = (props: SessionConfirmDialogProps) => {
   const {
     title = '',
     message = '',
@@ -51,8 +49,6 @@ const SessionConfirmInner = (props: SessionConfirmDialogProps) => {
   const okText = props.okText || window.i18n('ok');
   const cancelText = props.cancelText || window.i18n('cancel');
   const showHeader = !!props.title;
-
-  const theme = useTheme();
 
   const messageSubText = messageSub ? 'session-confirm-main-message' : 'subtle';
 
@@ -102,7 +98,7 @@ const SessionConfirmInner = (props: SessionConfirmDialogProps) => {
       <div className="session-modal__centered">
         {sessionIcon && iconSize && (
           <>
-            <SessionIcon iconType={sessionIcon} iconSize={iconSize} theme={theme} />
+            <SessionIcon iconType={sessionIcon} iconSize={iconSize} />
             <SpacerLG />
           </>
         )}
@@ -130,5 +126,3 @@ const SessionConfirmInner = (props: SessionConfirmDialogProps) => {
     </SessionWrapperModal>
   );
 };
-
-export const SessionConfirm = withTheme(SessionConfirmInner);

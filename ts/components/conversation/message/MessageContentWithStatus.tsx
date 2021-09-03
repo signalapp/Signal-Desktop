@@ -18,7 +18,6 @@ export type MessageContentWithStatusSelectorProps = Pick<MessageRenderingProps, 
 
 type Props = {
   messageId: string;
-  expiring: boolean;
   onQuoteClick: (quote: QuoteClickOptions) => void;
   ctxMenuID: string;
   isDetailView?: boolean;
@@ -58,7 +57,7 @@ export const MessageContentWithStatuses = (props: Props) => {
     [window.contextMenuShown, props?.messageId, multiSelectMode, props?.isDetailView]
   );
 
-  const { messageId, expiring, onQuoteClick, ctxMenuID, isDetailView } = props;
+  const { messageId, onQuoteClick, ctxMenuID, isDetailView } = props;
   if (!contentProps) {
     return null;
   }
@@ -67,11 +66,7 @@ export const MessageContentWithStatuses = (props: Props) => {
 
   return (
     <div
-      className={classNames(
-        'module-message',
-        `module-message--${direction}`,
-        expiring ? 'module-message--expired' : null
-      )}
+      className={classNames('module-message', `module-message--${direction}`)}
       role="button"
       onClick={onClickOnMessageOuterContainer}
     >

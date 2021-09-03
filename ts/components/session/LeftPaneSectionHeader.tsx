@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
-import { SessionIcon, SessionIconSize, SessionIconType } from './icon';
-import styled, { useTheme } from 'styled-components';
+import { SessionIcon, SessionIconType } from './icon';
+import styled from 'styled-components';
 import { SessionButton, SessionButtonType } from './SessionButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { disableRecoveryPhrasePrompt } from '../../state/ducks/userConfig';
@@ -47,7 +47,6 @@ type Props = {
 
 export const LeftPaneSectionHeader = (props: Props) => {
   const { label, buttonIcon, buttonClicked } = props;
-  const theme = useTheme();
   const showRecoveryPhrasePrompt = useSelector(getShowRecoveryPhrasePrompt);
 
   return (
@@ -56,12 +55,7 @@ export const LeftPaneSectionHeader = (props: Props) => {
         {label && <Tab label={label} type={0} isSelected={true} key={label} />}
         {buttonIcon && (
           <SessionButton onClick={buttonClicked} key="compose">
-            <SessionIcon
-              iconType={buttonIcon}
-              iconSize={SessionIconSize.Small}
-              iconColor="white"
-              theme={theme}
-            />
+            <SessionIcon iconType={buttonIcon} iconSize={'small'} iconColor="white" />
           </SessionButton>
         )}
       </div>
@@ -102,8 +96,6 @@ export const LeftPaneBanner = () => {
     );
   };
 
-  const theme = useTheme();
-
   return (
     <StyledLeftPaneBanner>
       <StyledProgressBarContainer>
@@ -112,11 +104,7 @@ export const LeftPaneBanner = () => {
       <StyledBannerTitle>
         {window.i18n('recoveryPhraseSecureTitle')} <span>90%</span>
       </StyledBannerTitle>
-      <Flex
-        flexDirection="column"
-        justifyContent="space-between"
-        padding={`${theme.common.margins.sm}`}
-      >
+      <Flex flexDirection="column" justifyContent="space-between" padding={'var(--margins-sm)'}>
         <BannerInner />
       </Flex>
     </StyledLeftPaneBanner>
@@ -127,11 +115,11 @@ const StyledProgressBarContainer = styled.div`
   width: 100%;
   height: 5px;
   flex-direction: row;
-  background: ${p => p.theme.colors.sessionBorderColor};
+  background: var(--color-session-border);
 `;
 
 const StyledProgressBarInner = styled.div`
-  background: ${p => p.theme.colors.accent};
+  background: var(--color-accent);
   width: 90%;
   transition: width 0.5s ease-in;
   height: 100%;
@@ -139,21 +127,20 @@ const StyledProgressBarInner = styled.div`
 
 export const StyledBannerTitle = styled.div`
   line-height: 1.3;
-  font-size: ${p => p.theme.common.fonts.md};
+  font-size: var(--font-size-md);
   font-weight: bold;
-  margin: ${p => p.theme.common.margins.sm} ${p => p.theme.common.margins.sm} 0
-    ${p => p.theme.common.margins.sm};
+  margin: var(--margins-sm) var(--margins-sm) 0 var(--margins-sm);
 
   span {
-    color: ${p => p.theme.colors.textAccent};
+    color: var(--color-text-accent);
   }
 `;
 
 export const StyledLeftPaneBanner = styled.div`
-  background: ${p => p.theme.colors.recoveryPhraseBannerBackground};
+  background: var(--color-recovery-phrase-banner-background);
   display: flex;
   flex-direction: column;
-  border-bottom: ${p => p.theme.colors.sessionBorder};
+  border-bottom: var(--session-border);
 `;
 
 const StyledBannerInner = styled.div`
@@ -162,10 +149,10 @@ const StyledBannerInner = styled.div`
   }
 
   .left-pane-banner___phrase {
-    margin-top: ${props => props.theme.common.margins.md};
+    margin-top: var(--margins-md);
   }
 
   .session-button {
-    margin-top: ${props => props.theme.common.margins.sm};
+    margin-top: var(--margins-sm);
   }
 `;

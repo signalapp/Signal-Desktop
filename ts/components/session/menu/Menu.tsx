@@ -79,12 +79,20 @@ function showDeleteContact(
   return (!isMe && !isGroup) || (isGroup && (isGroupLeft || isKickedFromGroup || isPublic));
 }
 
-function showAddModerators(isAdmin: boolean, isKickedFromGroup: boolean): boolean {
-  return !isKickedFromGroup && isAdmin;
+function showAddModerators(
+  isAdmin: boolean,
+  isPublic: boolean,
+  isKickedFromGroup: boolean
+): boolean {
+  return !isKickedFromGroup && isAdmin && isPublic;
 }
 
-function showRemoveModerators(isAdmin: boolean, isKickedFromGroup: boolean): boolean {
-  return !isKickedFromGroup && isAdmin;
+function showRemoveModerators(
+  isAdmin: boolean,
+  isPublic: boolean,
+  isKickedFromGroup: boolean
+): boolean {
+  return !isKickedFromGroup && isAdmin && isPublic;
 }
 
 function showUpdateGroupName(isAdmin: boolean, isKickedFromGroup: boolean, left: boolean): boolean {
@@ -252,10 +260,11 @@ export function getUpdateGroupNameMenuItem(
 
 export function getRemoveModeratorsMenuItem(
   isAdmin: boolean | undefined,
+  isPublic: boolean | undefined,
   isKickedFromGroup: boolean | undefined,
   conversationId: string
 ): JSX.Element | null {
-  if (showRemoveModerators(Boolean(isAdmin), Boolean(isKickedFromGroup))) {
+  if (showRemoveModerators(Boolean(isAdmin), Boolean(isPublic), Boolean(isKickedFromGroup))) {
     return (
       <Item
         onClick={() => {
@@ -271,10 +280,11 @@ export function getRemoveModeratorsMenuItem(
 
 export function getAddModeratorsMenuItem(
   isAdmin: boolean | undefined,
+  isPublic: boolean | undefined,
   isKickedFromGroup: boolean | undefined,
   conversationId: string
 ): JSX.Element | null {
-  if (showAddModerators(Boolean(isAdmin), Boolean(isKickedFromGroup))) {
+  if (showAddModerators(Boolean(isAdmin), Boolean(isPublic), Boolean(isKickedFromGroup))) {
     return (
       <Item
         onClick={() => {

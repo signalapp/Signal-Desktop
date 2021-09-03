@@ -5,41 +5,6 @@
   z-index: 2;
 }
 
-.message-container {
-  list-style: none;
-
-  li {
-    margin-bottom: 2px;
-
-    &::after {
-      visibility: hidden;
-      display: block;
-      font-size: 0;
-      content: ' ';
-      clear: both;
-      height: 0;
-    }
-  }
-}
-
-.module-message__check-box {
-  color: rgb(97, 97, 97);
-  font-size: 20px;
-  padding: 4px;
-  user-select: none;
-  display: inline;
-}
-
-.check-box-container {
-  align-items: center;
-  flex-direction: row;
-  display: inline-flex;
-}
-
-.check-box-selected {
-  opacity: 1;
-}
-
 .public-chat-message-wrapper {
   padding-inline-start: 10px;
   padding-inline-end: 10px;
@@ -51,14 +16,13 @@
 }
 
 .group-invitation {
-  @include themify($themes) {
-    background: themed('receivedMessageBackground');
-  }
+  background: var(--color-received-message-background);
+
   &.invitation-outgoing {
-    @include themify($themes) {
-      background: themed('sentMessageBackground');
-    }
+    background: var(--color-sent-message-background);
+    align-self: flex-end;
   }
+
   display: inline-block;
   margin: 4px 16px;
   padding: 4px;
@@ -91,150 +55,27 @@
       flex-direction: column;
 
       padding: 0px 12px;
-
+      color: var(--color-text-opposite);
       .group-name {
         font-weight: bold;
         font-size: 18px;
       }
 
       .group-address {
-        color: grey;
+        color: var(--color-text);
       }
     }
 
     .session-icon-button {
-      @include themify($themes) {
-        background-color: themed('accent');
-        box-shadow: none;
-      }
+      background-color: var(--color-accent);
+      box-shadow: none;
+
       filter: brightness(1.05);
       svg path {
         transition: $session-transition-duration;
         opacity: 0.6;
-        @include themify($themes) {
-          fill: themed('textColorOpposite');
-        }
+        fill: var(--color-text-opposite);
       }
     }
-  }
-}
-
-.dark-theme {
-  .group-invitation {
-    background-color: #242424;
-    border-color: #303030;
-    box-shadow: none;
-
-    .title {
-      color: lightgrey;
-    }
-  }
-}
-
-.invitation-outgoing {
-  align-self: flex-end;
-}
-
-.typing-bubble-wrapper {
-  margin-bottom: 20px;
-}
-
-.contact-detail-pane {
-  overflow-y: scroll;
-  padding-top: 40px;
-  padding-bottom: 40px;
-}
-
-// We need to use the wrapper because the conversation view calculates the height of all
-//   things in the composition area. A margin on an inner div won't be included in that
-//   height calculation.
-.bottom-bar .quote-wrapper {
-  margin-inline-start: 37px;
-  margin-inline-end: 73px;
-  margin-top: 3px;
-  margin-bottom: -5px;
-}
-
-.bottom-bar .preview-wrapper {
-  margin-top: 3px;
-  margin-inline-start: 37px;
-  margin-inline-end: 73px;
-  margin-bottom: 2px;
-}
-
-.bottom-bar {
-  box-sizing: content-box;
-  $button-width: 36px;
-  @include themify($themes) {
-    border-top: themed('sessionBorder');
-  }
-
-  form.send {
-    margin-bottom: 0px;
-    background: $color-white;
-
-    &.video-attachment {
-      .image-container {
-        position: relative;
-      }
-
-      .outer {
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-
-        text-align: center;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        .play.icon {
-          height: 30px;
-          width: 30px;
-
-          @include color-svg('../images/play.svg', white);
-        }
-      }
-    }
-  }
-
-  .attachment-previews {
-    padding: 0 36px;
-    margin-bottom: 3px;
-
-    .attachment-preview {
-      padding: 13px 10px 0;
-    }
-    img {
-      border: 2px solid #ddd;
-      border-radius: $border-radius;
-      max-height: 100px;
-    }
-
-    .close {
-      position: absolute;
-      top: 5px;
-      right: 2px;
-      background: #999;
-
-      &:hover {
-        background: $grey;
-      }
-    }
-  }
-
-  .flex {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin-bottom: 7px;
-    padding: 0px 15px;
-  }
-
-  .choose-file {
-    float: left;
-    height: 36px;
   }
 }

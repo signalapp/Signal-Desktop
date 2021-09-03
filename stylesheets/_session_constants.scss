@@ -187,7 +187,6 @@ $session-subtle-factor: 0.6;
 // Default Components
 $session-search-input-height: 34px;
 $main-view-header-height: 63px;
-$session-conversation-header-height: 60px;
 $session-left-pane-width: 300px;
 
 // Various Components
@@ -205,7 +204,6 @@ $session-margin-lg: 20px;
 
 // Animations
 $session-transition-duration: 0.25s;
-$session-fadein-duration: 0.1s;
 
 @keyframes fadein {
   from {

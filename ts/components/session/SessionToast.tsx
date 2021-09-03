@@ -1,8 +1,8 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
-import { SessionIcon, SessionIconSize, SessionIconType } from './icon/';
+import { SessionIcon, SessionIconType } from './icon/';
 import { Flex } from '../basic/Flex';
-import styled, { ThemeContext } from 'styled-components';
+import styled from 'styled-components';
 import { noop } from 'lodash';
 
 export enum SessionToastType {
@@ -23,53 +23,51 @@ type Props = {
 };
 
 const TitleDiv = styled.div`
-  font-size: ${props => props.theme.common.fonts.md};
-  line-height: ${props => props.theme.common.fonts.md};
-  font-family: ${props => props.theme.common.fonts.sessionFontDefault};
-  color: ${props => props.theme.colors.textColor};
+  font-size: var(--font-size-md);
+  line-height: var(--font-size-md);
+  font-family: var(--font-default);
+  color: var(--color-text);
   text-overflow: ellipsis;
 `;
 
 const DescriptionDiv = styled.div`
-  font-size: ${props => props.theme.common.fonts.sm};
-  color: ${props => props.theme.colors.textColorSubtle};
+  font-size: var(--font-size-sm);
+  color: var(--color-text-subtle);
   text-overflow: ellipsis;
-  font-family: ${props => props.theme.common.fonts.sessionFontDefault};
-  padding-bottom: ${props => props.theme.common.fonts.xs};
-  padding-top: ${props => props.theme.common.fonts.xs};
+  font-family: var(--font-default);
+  padding-bottom: var(--font-size-xs);
+  padding-top: var(--font-size-xs);
 `;
 
 const IconDiv = styled.div`
   flex-shrink: 0;
-  padding-inline-end: ${props => props.theme.common.margins.xs};
+  padding-inline-end: var(--margins-xs);
 `;
 
 export const SessionToast = (props: Props) => {
   const { title, description, type, icon } = props;
 
-  const theme = useContext(ThemeContext);
-
   const toastDesc = description ? description : '';
-  const toastIconSize = toastDesc ? SessionIconSize.Huge : SessionIconSize.Medium;
+  const toastIconSize = toastDesc ? 'huge' : 'medium';
 
   // Set a custom icon or allow the theme to define the icon
   let toastIcon = icon || undefined;
   if (!toastIcon) {
     switch (type) {
       case SessionToastType.Info:
-        toastIcon = SessionIconType.Info;
+        toastIcon = 'info';
         break;
       case SessionToastType.Success:
-        toastIcon = SessionIconType.Check;
+        toastIcon = 'check';
         break;
       case SessionToastType.Error:
-        toastIcon = SessionIconType.Error;
+        toastIcon = 'error';
         break;
       case SessionToastType.Warning:
-        toastIcon = SessionIconType.Warning;
+        toastIcon = 'warning';
         break;
       default:
-        toastIcon = SessionIconType.Info;
+        toastIcon = 'info';
     }
   }
 
@@ -77,7 +75,7 @@ export const SessionToast = (props: Props) => {
     // tslint:disable-next-line: use-simple-attributes
     <Flex container={true} alignItems="center" onClick={props?.onToastClick || noop}>
       <IconDiv>
-        <SessionIcon iconType={toastIcon} iconSize={toastIconSize} theme={theme} />
+        <SessionIcon iconType={toastIcon} iconSize={toastIconSize} />
       </IconDiv>
       <Flex
         container={true}

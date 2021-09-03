@@ -1011,14 +1011,16 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     await this.commit();
   }
 
-  public async commit() {
+  public async commit(triggerUIUpdate = true) {
     if (!this.attributes.id) {
       throw new Error('A message always needs an id');
     }
 
     perfStart(`messageCommit-${this.attributes.id}`);
     const id = await saveMessage(this.attributes);
-    this.dispatchMessageUpdate();
+    if (triggerUIUpdate) {
+      this.dispatchMessageUpdate();
+    }
     perfEnd(`messageCommit-${this.attributes.id}`, 'messageCommit');
 
     return id;
@@ -1027,6 +1029,9 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   public async markRead(readAt: number) {
     this.markReadNoCommit(readAt);
     await this.commit();
+    // the line below makes sure that getNextExpiringMessage will find this message as expiring.
+    // getNextExpiringMessage is used on app start to clean already expired messages which should have been removed already, but are not
+    await this.setToExpire();
 
     const convo = this.getConversation();
     if (convo) {

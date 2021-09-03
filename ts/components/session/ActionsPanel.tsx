@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { SessionIconButton, SessionIconSize, SessionIconType } from './icon';
+import { SessionIconButton, SessionIconType } from './icon';
 import { Avatar, AvatarSize } from '../Avatar';
-import { darkTheme, lightTheme } from '../../state/ducks/SessionTheme';
 import { SessionToastContainer } from './SessionToastContainer';
 import { getConversationController } from '../../session/conversations';
 import { syncConfigurationIfNeeded } from '../../session/utils/syncUtils';
@@ -23,7 +22,6 @@ import {
   getOurPrimaryConversation,
   getUnreadMessageCount,
 } from '../../state/selectors/conversations';
-import { getTheme } from '../../state/selectors/theme';
 import { applyTheme } from '../../state/ducks/theme';
 import { getFocusedSection } from '../../state/selectors/section';
 import { useInterval } from '../../hooks/useInterval';
@@ -45,10 +43,10 @@ import { loadDefaultRooms } from '../../opengroup/opengroupV2/ApiUtil';
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
 
 import { ActionPanelOnionStatusLight } from '../dialog/OnionStatusPathDialog';
+import { switchHtmlToDarkTheme, switchHtmlToLightTheme } from '../../state/ducks/SessionTheme';
 const Section = (props: { type: SectionType; avatarPath?: string | null }) => {
   const ourNumber = useSelector(getOurNumber);
   const unreadMessageCount = useSelector(getUnreadMessageCount);
-  const theme = useSelector(getTheme);
   const dispatch = useDispatch();
   const { type, avatarPath } = props;
 
@@ -63,8 +61,13 @@ const Section = (props: { type: SectionType; avatarPath?: string | null }) => {
       const themeFromSettings = window.Events.getThemeSetting();
       const updatedTheme = themeFromSettings === 'dark' ? 'light' : 'dark';
       window.setTheme(updatedTheme);
+      if (updatedTheme === 'dark') {
+        switchHtmlToDarkTheme();
+      } else {
+        switchHtmlToLightTheme();
+      }
 
-      const newThemeObject = updatedTheme === 'dark' ? darkTheme : lightTheme;
+      const newThemeObject = updatedTheme === 'dark' ? 'dark' : 'light';
       dispatch(applyTheme(newThemeObject));
     } else if (type === SectionType.PathIndicator) {
       // Show Path Indicator Modal
@@ -96,19 +99,19 @@ const Section = (props: { type: SectionType; avatarPath?: string | null }) => {
   let iconType: SessionIconType;
   switch (type) {
     case SectionType.Message:
-      iconType = SessionIconType.ChatBubble;
+      iconType = 'chatBubble';
       break;
     case SectionType.Contact:
-      iconType = SessionIconType.Users;
+      iconType = 'users';
       break;
     case SectionType.Settings:
-      iconType = SessionIconType.Gear;
+      iconType = 'gear';
       break;
     case SectionType.Moon:
-      iconType = SessionIconType.Moon;
+      iconType = 'moon';
       break;
     default:
-      iconType = SessionIconType.Moon;
+      iconType = 'moon';
   }
   const iconColor = undefined;
 
@@ -118,13 +121,12 @@ const Section = (props: { type: SectionType; avatarPath?: string | null }) => {
         <ActionPanelOnionStatusLight handleClick={handleClick} isSelected={isSelected} />
       ) : (
         <SessionIconButton
-          iconSize={SessionIconSize.Medium}
+          iconSize={'medium'}
           iconType={iconType}
           iconColor={iconColor}
           notificationCount={unreadToShow}
           onClick={handleClick}
           isSelected={isSelected}
-          theme={theme}
         />
       )}
     </>
@@ -136,8 +138,12 @@ const cleanUpMediasInterval = DURATION.MINUTES * 30;
 const setupTheme = () => {
   const theme = window.Events.getThemeSetting();
   window.setTheme(theme);
-
-  const newThemeObject = theme === 'dark' ? darkTheme : lightTheme;
+  if (theme === 'dark') {
+    switchHtmlToDarkTheme();
+  } else {
+    switchHtmlToLightTheme();
+  }
+  const newThemeObject = theme === 'dark' ? 'dark' : 'light';
   window?.inboxStore?.dispatch(applyTheme(newThemeObject));
 };
 

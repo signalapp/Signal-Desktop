@@ -202,9 +202,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     this.throttledBumpTyping = _.throttle(this.bumpTyping, 300);
     this.updateLastMessage = _.throttle(this.bouncyUpdateLastMessage.bind(this), 1000, {
       trailing: true,
+      leading: true,
     });
     this.triggerUIRefresh = _.throttle(this.triggerUIRefresh, 1000, {
       trailing: true,
+      leading: true,
     });
     this.throttledNotify = _.debounce(this.notify, 500, { maxWait: 5000, trailing: true });
     //start right away the function is called, and wait 1sec before calling it again
@@ -934,7 +936,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public async addSingleMessage(messageAttributes: MessageAttributesOptionals, setToExpire = true) {
     const model = new MessageModel(messageAttributes);
 
-    const messageId = await model.commit();
+    // no need to trigger a UI update now, we trigger a messageAdded just below
+    const messageId = await model.commit(false);
     model.set({ id: messageId });
 
     if (setToExpire) {

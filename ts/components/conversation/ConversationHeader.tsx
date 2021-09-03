@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Avatar, AvatarSize } from '../Avatar';
 
-import { SessionIconButton, SessionIconSize, SessionIconType } from '../session/icon';
+import { SessionIconButton } from '../session/icon';
 
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../session/SessionButton';
 import { ConversationAvatar } from '../session/usingClosedConversationDetails';
@@ -84,11 +84,7 @@ const SelectionOverlay = (props: {
   return (
     <div className="message-selection-overlay">
       <div className="close-button">
-        <SessionIconButton
-          iconType={SessionIconType.Exit}
-          iconSize={SessionIconSize.Medium}
-          onClick={onCloseOverlay}
-        />
+        <SessionIconButton iconType="exit" iconSize={'medium'} onClick={onCloseOverlay} />
       </div>
 
       <div className="button-group">
@@ -118,7 +114,7 @@ const TripleDotsMenu = (props: { triggerId: string; showBackButton: boolean }) =
         });
       }}
     >
-      <SessionIconButton iconType={SessionIconType.Ellipses} iconSize={SessionIconSize.Medium} />
+      <SessionIconButton iconType="ellipses" iconSize={'medium'} />
     </div>
   );
 };
@@ -176,12 +172,7 @@ const BackButton = (props: { onGoBack: () => void; showBackButton: boolean }) =>
   }
 
   return (
-    <SessionIconButton
-      iconType={SessionIconType.Chevron}
-      iconSize={SessionIconSize.Large}
-      iconRotation={90}
-      onClick={onGoBack}
-    />
+    <SessionIconButton iconType="chevron" iconSize={'large'} iconRotation={90} onClick={onGoBack} />
   );
 };
 

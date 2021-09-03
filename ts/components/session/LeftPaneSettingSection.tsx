@@ -1,13 +1,12 @@
 import React from 'react';
 import classNames from 'classnames';
 import { SessionButton, SessionButtonColor, SessionButtonType } from './SessionButton';
-import { SessionIcon, SessionIconSize, SessionIconType } from './icon';
+import { SessionIcon } from './icon';
 import { SessionSettingCategory } from './settings/SessionSettings';
 import { LeftPaneSectionHeader } from './LeftPaneSectionHeader';
 import { useDispatch, useSelector } from 'react-redux';
 import { showSettingsSection } from '../../state/ducks/section';
 import { getFocusedSettingsSection } from '../../state/selectors/section';
-import { getTheme } from '../../state/selectors/theme';
 import { recoveryPhraseModal, updateDeleteAccountModal } from '../../state/ducks/modalDialog';
 
 const getCategories = () => {
@@ -39,7 +38,6 @@ const LeftPaneSettingsCategoryRow = (props: { item: any }) => {
   const { item } = props;
 
   const dispatch = useDispatch();
-  const theme = useSelector(getTheme);
   const focusedSettingsSection = useSelector(getFocusedSettingsSection);
 
   return (
@@ -60,12 +58,7 @@ const LeftPaneSettingsCategoryRow = (props: { item: any }) => {
 
       <div>
         {item.id === focusedSettingsSection && (
-          <SessionIcon
-            iconSize={SessionIconSize.Medium}
-            iconType={SessionIconType.Chevron}
-            iconRotation={270}
-            theme={theme}
-          />
+          <SessionIcon iconSize={'medium'} iconType="chevron" iconRotation={270} />
         )}
       </div>
     </div>

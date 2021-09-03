@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { SessionIconButton, SessionIconSize, SessionIconType } from '../icon';
+import { SessionIconButton } from '../icon';
 import { Avatar, AvatarSize } from '../../Avatar';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../SessionButton';
 import { SessionDropdown } from '../SessionDropdown';
@@ -7,7 +7,6 @@ import { MediaGallery } from '../../conversation/media-gallery/MediaGallery';
 import _ from 'lodash';
 import { Constants } from '../../../session';
 import { AttachmentTypeWithPath } from '../../../types/Attachment';
-import { useTheme } from 'styled-components';
 import {
   getMessagesWithFileAttachments,
   getMessagesWithVisualMediaAttachments,
@@ -110,7 +109,6 @@ async function getMediaGalleryProps(
 
 const HeaderItem = () => {
   const selectedConversation = useSelector(getSelectedConversation);
-  const theme = useTheme();
   const dispatch = useDispatch();
   const memberDetails = useMembersAvatars(selectedConversation);
 
@@ -135,13 +133,12 @@ const HeaderItem = () => {
   return (
     <div className="group-settings-header">
       <SessionIconButton
-        iconType={SessionIconType.Chevron}
-        iconSize={SessionIconSize.Medium}
+        iconType="chevron"
+        iconSize={'medium'}
         iconRotation={270}
         onClick={() => {
           dispatch(closeRightPanel());
         }}
-        theme={theme}
       />
       <Avatar
         avatarPath={avatarPath || ''}
@@ -153,14 +150,13 @@ const HeaderItem = () => {
       <div className="invite-friends-container">
         {showInviteContacts && (
           <SessionIconButton
-            iconType={SessionIconType.AddUser}
-            iconSize={SessionIconSize.Medium}
+            iconType="addUser"
+            iconSize="medium"
             onClick={() => {
               if (selectedConversation) {
                 showInviteContactByConvoId(selectedConversation.id);
               }
             }}
-            theme={theme}
           />
         )}
       </div>
