@@ -1397,6 +1397,22 @@
         "message": "Təqdimatı dayandır",
         "description": "Button tooltip label for stopping screen sharing"
     },
+    "calling__button--ring__label": {
+        "message": "Zəng",
+        "description": "Label under the ring button"
+    },
+    "calling__button--ring__disabled-because-group-is-too-large": {
+        "message": "Qrup, iştirakçılara zəng etmək üçün çox böyükdür.",
+        "description": "Button tooltip label when you can't ring because the group is too large"
+    },
+    "calling__button--ring__off": {
+        "message": "Bildir, zəngsiz",
+        "description": "Button tooltip label for turning ringing off"
+    },
+    "calling__button--ring__on": {
+        "message": "Zəngi fəallaşdır",
+        "description": "Button tooltip label for turning ringing on"
+    },
     "calling__your-video-is-off": {
         "message": "Kameranız bağlıdır",
         "description": "Label in the calling lobby indicating that your camera is off"
@@ -1476,6 +1492,56 @@
             "person": {
                 "content": "$1",
                 "example": "Sam"
+            }
+        }
+    },
+    "calling__pre-call-info--will-ring-2": {
+        "message": "Signal, $first$ və $second$ əlaqələrinə zəng edəcək",
+        "description": "Shown in the calling lobby to describe who will be rang",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            }
+        }
+    },
+    "calling__pre-call-info--will-ring-3": {
+        "message": "Signal, $first$, $second$ və $third$ əlaqələrinə zəng edəcək",
+        "description": "Shown in the calling lobby to describe who will be rang",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "third": {
+                "content": "$3",
+                "example": "April"
+            }
+        }
+    },
+    "calling__pre-call-info--will-ring-many": {
+        "message": "Signal, $first$, $second$ və digər $others$ nəfərə zəng edəcək",
+        "description": "Shown in the calling lobby to describe who will be rang",
+        "placeholders": {
+            "person": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "others": {
+                "content": "$3",
+                "example": "5"
             }
         }
     },
@@ -1661,7 +1727,7 @@
         "message": "IP ünvanınızı əlaqənizə göstərməmək üçün bütün zəngləri Signal serveri üzərindən həyata keçirin. Fəallaşdırsanız, zəngin keyfiyyəti aşağı düşəcək.",
         "description": "Details describing the always relay calls setting"
     },
-    "Preferences--permissions": {
+    "permissions": {
         "message": "İcazələr",
         "description": "Header for permissions section of settings"
     },
@@ -2250,7 +2316,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "Mesajlaşmağa davam etmək üçün mobil cihazınızla Signal Masaüstü arasında yenidən əlaqə yaradın.",
+        "message": "Mesajlaşmağa davam etmək üçün Signal Masaüstü ilə cihazınızı əlaqələndirmək üçün klikləyin.",
         "description": ""
     },
     "unlinked": {
@@ -3451,9 +3517,87 @@
         "message": "Gələn görüntülü zəng...",
         "description": "Shown in both the incoming call bar and notification for an incoming video call"
     },
-    "outgoingCallPrering": {
-        "message": "Zəng edilir...",
-        "description": "Shown in the call screen when placing an outgoing call that isn't ringing yet"
+    "incomingGroupCall__ringing-you": {
+        "message": "$ringer$ sizə zəng edir",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-1-other": {
+        "message": "$ringer$, sizə və $otherMember$ əlaqəsinə zəng edir",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "otherMember": {
+                "content": "$2",
+                "example": "Bob"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-2-others": {
+        "message": "$ringer$, sizə, $first$ və $second$ əlaqəsinə zəng edir",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "first": {
+                "content": "$2",
+                "example": "Bob"
+            },
+            "second": {
+                "content": "$3",
+                "example": "Charlie"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-3-others": {
+        "message": "$ringer$, sizə, $first$, $second$ və digər 1 nəfərə zəng edir ",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "first": {
+                "content": "$2",
+                "example": "Bob"
+            },
+            "second": {
+                "content": "$3",
+                "example": "Charlie"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-many": {
+        "message": "$ringer$, sizə, $first$, $second$ və digər $remaining$ nəfərə zəng edir",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "first": {
+                "content": "$2",
+                "example": "Bob"
+            },
+            "second": {
+                "content": "$3",
+                "example": "Charlie"
+            },
+            "remaining": {
+                "content": "$4",
+                "example": "5"
+            }
+        }
     },
     "outgoingCallRinging": {
         "message": "Çalır...",
@@ -5250,7 +5394,7 @@
         "description": "Title for the approve new members select area"
     },
     "GroupLinkManagement--approve-info": {
-        "message": "Qrup bağlantısı vasitəsilə qoşulan yeni üzvləri təsdiqləmək üçün bir admin tələb et",
+        "message": "Qrup bağlantısı vasitəsilə qoşulan yeni üzvlərin admin tərəfindən təsdiqlənməsi tələb olunsun.",
         "description": "Description for the approve new members select area"
     },
     "PendingInvites--tab-requests": {
@@ -6145,6 +6289,10 @@
             }
         }
     },
+    "WhatsNew__modal-title": {
+        "message": "Yeni nə var",
+        "description": "Title for the whats new modal"
+    },
     "WhatsNew__v5.15--1": {
         "message": "Xeyr. Bu, monitorunuzda təmizlənə bilən ləkə deyil, artıq oxudulmamış gələn səsli mesajlar üçün nöqtə var.",
         "description": "Release notes for v5.15"
@@ -6164,5 +6312,17 @@
     "WhatsNew__v5.15--5": {
         "message": "Həddindən çox xəta aradan qaldırıldı və bəzi performans təkmilləşdirmələri edildi. Hesabatlarınız üçün təşəkkürlər!",
         "description": "Release notes for v5.15"
+    },
+    "WhatsNew__v5.16--1": {
+        "message": "Təkmilləşdirilmiş media işıq qutusu, bir təsvir və ya video qalereyasında irəliləyərkən heç bir süprizlə qarşılaşmayacağınız mənasını verir və bu bezdirici düymələri gizlətmək üçün yaxınlaşdıraraq həqiqətən bir qaranlıq otaqda imiş kimi davrana bilərsiniz.",
+        "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.16--2": {
+        "message": "Seçicini ekrandan götürdüyümüz üçün bir mesaja reaksiya verməyin çətin olduğu xəta aradan qaldırıldı. Bu artıq düzəldildi və sevdiyiniz məzmunlara 😮 reaksiyası verə bilərsiniz.",
+        "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.16--3": {
+        "message": "Zəng əsnasında bu düymələrin üzərinə gəlsəniz, onlar itməyəcək, əksinə görünən formada qalacaq. Qartalın gözündən heç nə qaçmaz, düymələr belə!",
+        "description": "Release notes for v5.16"
     }
 }

@@ -658,11 +658,11 @@
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "connect": {
-        "message": "Click to reconnect.",
+        "message": "Κλικ για επανασύνδεση.",
         "description": "Shown to allow the user to manually attempt a reconnect."
     },
     "connectingHangOn": {
-        "message": "Shouldn't be long",
+        "message": "Δεν θα πάρει πολύ",
         "description": "Subtext description for when the client is connecting to the server."
     },
     "offline": {
@@ -812,7 +812,7 @@
         "description": ""
     },
     "whatsNew": {
-        "message": "See $whatsNew$ in this update",
+        "message": "Δες $whatsNew$ σε αυτή την αναβάθμιση",
         "description": "Shown in the main window",
         "placeholders": {
             "name": {
@@ -822,7 +822,7 @@
         }
     },
     "viewReleaseNotes": {
-        "message": "what's new",
+        "message": "τι είναι καινούργιο",
         "description": "Clickable link that displays the latest release notes"
     },
     "selectAContact": {
@@ -1397,6 +1397,22 @@
         "message": "Λήξη παρουσίασης",
         "description": "Button tooltip label for stopping screen sharing"
     },
+    "calling__button--ring__label": {
+        "message": "Ring",
+        "description": "Label under the ring button"
+    },
+    "calling__button--ring__disabled-because-group-is-too-large": {
+        "message": "Group is too large to ring the participants.",
+        "description": "Button tooltip label when you can't ring because the group is too large"
+    },
+    "calling__button--ring__off": {
+        "message": "Notify, don't ring",
+        "description": "Button tooltip label for turning ringing off"
+    },
+    "calling__button--ring__on": {
+        "message": "Enable ringing",
+        "description": "Button tooltip label for turning ringing on"
+    },
     "calling__your-video-is-off": {
         "message": "Η κάμερά σου είναι απενεργοποιημένη",
         "description": "Label in the calling lobby indicating that your camera is off"
@@ -1479,8 +1495,58 @@
             }
         }
     },
+    "calling__pre-call-info--will-ring-2": {
+        "message": "Signal will ring $first$ and $second$",
+        "description": "Shown in the calling lobby to describe who will be rang",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            }
+        }
+    },
+    "calling__pre-call-info--will-ring-3": {
+        "message": "Signal will ring $first$, $second$, and $third$",
+        "description": "Shown in the calling lobby to describe who will be rang",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "third": {
+                "content": "$3",
+                "example": "April"
+            }
+        }
+    },
+    "calling__pre-call-info--will-ring-many": {
+        "message": "Signal will ring $first$, $second$, and $others$ others",
+        "description": "Shown in the calling lobby to describe who will be rang",
+        "placeholders": {
+            "person": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "others": {
+                "content": "$3",
+                "example": "5"
+            }
+        }
+    },
     "calling__pre-call-info--will-notify-1": {
-        "message": "$person$ will be notified",
+        "message": "Ο/Η $person$ θα ειδοποιηθεί",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "person": {
@@ -1490,7 +1556,7 @@
         }
     },
     "calling__pre-call-info--will-notify-2": {
-        "message": "$first$ and $second$ will be notified",
+        "message": "Οι $first$ και $second$ θα ειδοποιηθούν",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "first": {
@@ -1504,7 +1570,7 @@
         }
     },
     "calling__pre-call-info--will-notify-3": {
-        "message": "$first$, $second$, and $third$ will be notified",
+        "message": "Οι $first$, $second$ και $third$ θα ειδοποιηθούν",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "first": {
@@ -1522,7 +1588,7 @@
         }
     },
     "calling__pre-call-info--will-notify-many": {
-        "message": "$first$, $second$, and $others$ others will be notified",
+        "message": "Οι $first$, $second$ και $others$ ακόμα θα ειδοποιηθούν",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "person": {
@@ -1661,7 +1727,7 @@
         "message": "Αναμετάδοση όλων των κλήσεων μέσω του σέρβερ Signal για να αποφύγεις την αποκάλυψη της διεύθυνσης IP σου στην επαφή. Η ενεργοποίηση θα ρίξει την ποιότητα των κλήσεων.",
         "description": "Details describing the always relay calls setting"
     },
-    "Preferences--permissions": {
+    "permissions": {
         "message": "Άδειες",
         "description": "Header for permissions section of settings"
     },
@@ -1678,7 +1744,7 @@
         "description": "Header for general options on the settings screen"
     },
     "spellCheckDescription": {
-        "message": "Spell check text entered in message composition box",
+        "message": "Ορθογραφικός έλεγχς κειμένου που εισάγεται στο πεδίο σύνταξης μηνυμάτων",
         "description": "Description of the spell check setting"
     },
     "spellCheckWillBeEnabled": {
@@ -1702,7 +1768,7 @@
         "description": "Description for the automatic launch setting"
     },
     "clearDataHeader": {
-        "message": "Clear application data",
+        "message": "Εκκαθάριση δεδομένων εφαρμογής",
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "clearDataExplanation": {
@@ -1840,7 +1906,7 @@
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
-        "message": "Click to go to signal.org/download",
+        "message": "Κλικ για μετάβαση στο signal.org/download",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "mediaMessage": {
@@ -1852,7 +1918,7 @@
         "description": "Error message displayed when sending to an unregistered user."
     },
     "sync": {
-        "message": "Import contacts",
+        "message": "Εισαγωγή επαφών",
         "description": "Label for contact and group sync settings"
     },
     "syncExplanation": {
@@ -2012,7 +2078,7 @@
         }
     },
     "audioNotificationDescription": {
-        "message": "Play notification sounds",
+        "message": "Αναπαραγωγή ήχων ειδοποιήσεων",
         "description": "Description for audio notification setting"
     },
     "callRingtoneNotificationDescription": {
@@ -2250,7 +2316,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "Επανασύνδεσε το Signal Desktop με το κινητό σου για να συνεχίσεις την ανταλλαγή μηνυμάτων.",
+        "message": "Κάνε κλικ για επανασύνδεση του Signal Desktop με το κινητό σου για να συνεχίσεις να συνομιλείς.",
         "description": ""
     },
     "unlinked": {
@@ -2262,15 +2328,15 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Update available",
+        "message": "Διαθέσιμη αναβάθμιση",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "Click to restart Signal",
+        "message": "Κάνε κλικ για επανεκκίνηση του Signal",
         "description": ""
     },
     "downloadNewVersionMessage": {
-        "message": "Click to download update",
+        "message": "Κάνε κλικ για λήψη της αναβάθμισης",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
@@ -3451,9 +3517,87 @@
         "message": "Εισερχόμενη βιντεοκλήση...",
         "description": "Shown in both the incoming call bar and notification for an incoming video call"
     },
-    "outgoingCallPrering": {
-        "message": "Καλεί...",
-        "description": "Shown in the call screen when placing an outgoing call that isn't ringing yet"
+    "incomingGroupCall__ringing-you": {
+        "message": "Ο/Η $ringer$ σε καλεί",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-1-other": {
+        "message": "Ο/Η $ringer$ καλεί εσένα και τον/την $otherMember$",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "otherMember": {
+                "content": "$2",
+                "example": "Bob"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-2-others": {
+        "message": "Ο/Η $ringer$ καλεί εσένα και τους $first$ και $second$.",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "first": {
+                "content": "$2",
+                "example": "Bob"
+            },
+            "second": {
+                "content": "$3",
+                "example": "Charlie"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-3-others": {
+        "message": "Ο/Η $ringer$ καλεί εσένα, τους $first$, $second$ και 1 ακόμη",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "first": {
+                "content": "$2",
+                "example": "Bob"
+            },
+            "second": {
+                "content": "$3",
+                "example": "Charlie"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-many": {
+        "message": "Ο/Η $ringer$ καλεί εσένα, τους $first$, $second$ και $remaining$ ακόμη",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "first": {
+                "content": "$2",
+                "example": "Bob"
+            },
+            "second": {
+                "content": "$3",
+                "example": "Charlie"
+            },
+            "remaining": {
+                "content": "$4",
+                "example": "5"
+            }
+        }
     },
     "outgoingCallRinging": {
         "message": "Χτυπάει...",
@@ -5044,7 +5188,7 @@
         "description": "Displayed while checking if the contact is SMS-only"
     },
     "countMutedConversationsDescription": {
-        "message": "Include muted conversations in badge count",
+        "message": "Να συμπεριλαμβάνονται οι σιγασμένες συνομιλίες στο μετρητή ειδοποιήσεων",
         "description": "Description for counting muted conversations in badge setting"
     },
     "ContactModal--message": {
@@ -5838,7 +5982,7 @@
         }
     },
     "ErrorBoundaryNotification__text": {
-        "message": "Couldn't display this message. Click to submit a debug log.",
+        "message": "Αυτό το μήνυμα δεν μπορεί να εμφανιστεί. Πάτα εδώ για καταχώριση αρχείου καταγραφής αποσφαλμάτωσης.",
         "description": "An error notification displayed when message fails to render due to an internal error"
     },
     "GroupDescription__read-more": {
@@ -6026,7 +6170,7 @@
         "description": "Button to switch the settings view"
     },
     "Preferences--lastSynced": {
-        "message": "Last import at $date$ $time$",
+        "message": "Τελευταία εισαγωγή στις $date$ $time$",
         "description": "Label for date and time of last sync operation",
         "placeholders": {
             "date": {
@@ -6044,7 +6188,7 @@
         "description": "Title for system type settings"
     },
     "Preferences--zoom": {
-        "message": "Zoom level",
+        "message": "Επίπεδο zoom",
         "description": "Label for changing the zoom level"
     },
     "Preferences__link-previews--title": {
@@ -6052,7 +6196,7 @@
         "description": "Title for the generate link previews setting"
     },
     "Preferences__link-previews--description": {
-        "message": "To change this setting, open the Signal app on your mobile device and navigate to Settings > Chats",
+        "message": "Για να αλλάξεις αυτή τη ρύθμιση, άνοιξε το Signal στο κινητό σου και πήγαινε στις Ρυθμίσεις > Συνομιλίες",
         "description": "Description for the generate link previews setting"
     },
     "Preferences--advanced": {
@@ -6060,7 +6204,7 @@
         "description": "Title for advanced settings"
     },
     "Preferences--notification-content": {
-        "message": "Notification content",
+        "message": "Περιεχόμενο ειδοποίησης",
         "description": "Label for the notification content setting select box"
     },
     "Preferences--blocked": {
@@ -6068,7 +6212,7 @@
         "description": "Label for blocked contacts setting"
     },
     "Preferences--blocked-count-singular": {
-        "message": "$num$ contact",
+        "message": "$num$ επαφή",
         "description": "Number of contacts blocked singular",
         "placeholders": {
             "num": {
@@ -6078,7 +6222,7 @@
         }
     },
     "Preferences--blocked-count-plural": {
-        "message": "$num$ contacts",
+        "message": "$num$ επαφές",
         "description": "Number of contacts blocked plural",
         "placeholders": {
             "num": {
@@ -6092,7 +6236,7 @@
         "description": "Title for the 'who can do X' setting"
     },
     "Preferences__privacy--description": {
-        "message": "To change these settings, open the Signal app on your mobile device and navigate to Settings > Privacy",
+        "message": "Για να αλλάξεις αυτές τις ρυθμίσεις, άνοιξε το Signal στο κινητό σου και πήγαινε στις Ρυθμίσεις > Ιδιωτικότητα",
         "description": "Description for the 'who can do X' setting"
     },
     "Preferences__who-can--everybody": {
@@ -6116,7 +6260,7 @@
         "description": "Label for the see my phone number setting"
     },
     "Preferences--find-me": {
-        "message": "Find me by my phone number",
+        "message": "Βρες με μέσω του αριθμού τηλεφώνου μου",
         "description": "Label for the find me by my phone number setting"
     },
     "Preferences--read-receipts": {
@@ -6128,15 +6272,15 @@
         "description": "Label for the typing indicators setting"
     },
     "Preferences--updates": {
-        "message": "Updates",
+        "message": "Αναβαθμίσεις",
         "description": "Header for settings having to do with updates"
     },
     "Preferences__download-update": {
-        "message": "Automatically download updates",
+        "message": "Αυτόματη λήψη αναβαθμίσεων",
         "description": "Label for checkbox for the auto download updates setting"
     },
     "DialogUpdate--version-available": {
-        "message": "Update to version $version$ available",
+        "message": "Αναβάθμιση στη διαθέσιμη έκδοση $version$",
         "description": "Tooltip for new update available",
         "placeholders": {
             "status": {
@@ -6145,8 +6289,12 @@
             }
         }
     },
+    "WhatsNew__modal-title": {
+        "message": "Νέες δυνατότητες",
+        "description": "Title for the whats new modal"
+    },
     "WhatsNew__v5.15--1": {
-        "message": "No that's not speck of dust you need to flick off your monitor, there's now a dot for unplayed incoming audio messages.",
+        "message": "Όχι, δεν θέλει καθάρισμα η οθόνη σου. Υπάρχει πλέον μια κουκίδα για τα εισερχόμενα ηχητικά μηνύματα που δεν έχεις ακούσει.",
         "description": "Release notes for v5.15"
     },
     "WhatsNew__v5.15--2": {
@@ -6154,15 +6302,27 @@
         "description": "Release notes for v5.15"
     },
     "WhatsNew__v5.15--3": {
-        "message": "The new preferences window is better and faster. Go ahead and change your zoom level, toggle the theme, set a custom disappearing timer.",
+        "message": "Το νεο παράθυρο προτιμήσεων είναι καλύτερο και γρηγορότερο. Μπορείς να αλλάξεις το επίπεδο zoom, το θέμα και να ορίσεις ένα προσαρμοσμένο χρόνο εξαφάνισης μηνυμάτων.",
         "description": "Release notes for v5.15"
     },
     "WhatsNew__v5.15--4": {
-        "message": "You can now choose when to download and apply new updates for Signal. The dialogs got a small makeover too. Check out the setting in the new preferences window.",
+        "message": "Μπορείς να επιλέξεις πότε να κατεβάσεις και να εγκαταστήσεις νέες αναβαθμίσεις του Signal. Οι διάλογοι έλαβαν επίσης κάποιες μικρές αλλαγές. Δες τα στο νέο παράθυρο προτιμήσεων.",
         "description": "Release notes for v5.15"
     },
     "WhatsNew__v5.15--5": {
-        "message": "Squashed lots of bugs and there are some performance improvements as well. Thank you all for your reports!",
+        "message": "Αντιμετωπίσαμε πολλά bugs και βελτιώσαμε την απόδοση. Ευχαριστούμε για όλες τις αναφορές!",
         "description": "Release notes for v5.15"
+    },
+    "WhatsNew__v5.16--1": {
+        "message": "An improved media lightbox means no surprises as you progress through a gallery of images or videos, and you can pretend you’re really in a dark room by zooming to hide those pesky buttons.",
+        "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.16--2": {
+        "message": "Φτιάξαμε ένα πρόβλημα όπου ήταν δύσκολο να αντιδράσεις σε μηνύματα, επειδή ο επιλογέας ήταν εκτός οθόνης. Αυτό επιδιορθώθηκε, οπότε μπορείς να ❤️ ελεύθερα.",
+        "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.16--3": {
+        "message": "Αν κρατάς το ποντίκι πάνω από τα κουμπιά σε μια κλήση, θα μείνουν φανερά αντί να εξαφανίζονται.",
+        "description": "Release notes for v5.16"
     }
 }

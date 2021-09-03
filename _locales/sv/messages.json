@@ -1397,6 +1397,22 @@
         "message": "Sluta presentera",
         "description": "Button tooltip label for stopping screen sharing"
     },
+    "calling__button--ring__label": {
+        "message": "Ring",
+        "description": "Label under the ring button"
+    },
+    "calling__button--ring__disabled-because-group-is-too-large": {
+        "message": "Gruppen är för stor för att ringa deltagarna.",
+        "description": "Button tooltip label when you can't ring because the group is too large"
+    },
+    "calling__button--ring__off": {
+        "message": "Meddela, ring inte",
+        "description": "Button tooltip label for turning ringing off"
+    },
+    "calling__button--ring__on": {
+        "message": "Aktivera ringning",
+        "description": "Button tooltip label for turning ringing on"
+    },
     "calling__your-video-is-off": {
         "message": "Din kamera är avstängd",
         "description": "Label in the calling lobby indicating that your camera is off"
@@ -1470,12 +1486,62 @@
         }
     },
     "calling__pre-call-info--will-ring-1": {
-        "message": "Signal kommer att ringa $person$",
+        "message": "Signal ringer $person$",
         "description": "Shown in the calling lobby to describe who will be rung",
         "placeholders": {
             "person": {
                 "content": "$1",
                 "example": "Sam"
+            }
+        }
+    },
+    "calling__pre-call-info--will-ring-2": {
+        "message": "Signal ringer $first$ och $second$",
+        "description": "Shown in the calling lobby to describe who will be rang",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            }
+        }
+    },
+    "calling__pre-call-info--will-ring-3": {
+        "message": "Signal ringer $first$, $second$ och $third$",
+        "description": "Shown in the calling lobby to describe who will be rang",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "third": {
+                "content": "$3",
+                "example": "April"
+            }
+        }
+    },
+    "calling__pre-call-info--will-ring-many": {
+        "message": "Signal ringer $first$, $second$ och $others$ andra",
+        "description": "Shown in the calling lobby to describe who will be rang",
+        "placeholders": {
+            "person": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "others": {
+                "content": "$3",
+                "example": "5"
             }
         }
     },
@@ -1661,7 +1727,7 @@
         "message": "Slussa alla samtal via Signal-servern för att undvika att avslöja din IP-adress för din kontakt. Aktivering försämrar samtalskvaliteten.",
         "description": "Details describing the always relay calls setting"
     },
-    "Preferences--permissions": {
+    "permissions": {
         "message": "Behörigheter",
         "description": "Header for permissions section of settings"
     },
@@ -2250,7 +2316,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "Länka igen Signal Desktop till din mobila enhet för att fortsätta skicka meddelanden.",
+        "message": "Klicka för att återlänka Signal Desktop till din mobila enhet för att fortsätta skicka meddelanden.",
         "description": ""
     },
     "unlinked": {
@@ -3451,9 +3517,87 @@
         "message": "Inkommande videosamtal...",
         "description": "Shown in both the incoming call bar and notification for an incoming video call"
     },
-    "outgoingCallPrering": {
-        "message": "Ringer...",
-        "description": "Shown in the call screen when placing an outgoing call that isn't ringing yet"
+    "incomingGroupCall__ringing-you": {
+        "message": "$ringer$ ringer dig",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-1-other": {
+        "message": "$ringer$ ringer dig och $otherMember$",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "otherMember": {
+                "content": "$2",
+                "example": "Bob"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-2-others": {
+        "message": "$ringer$ ringer dig, $first$ och $second$",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "first": {
+                "content": "$2",
+                "example": "Bob"
+            },
+            "second": {
+                "content": "$3",
+                "example": "Charlie"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-3-others": {
+        "message": "$ringer$ ringer dig, $first$, $second$ och 1 annan",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "first": {
+                "content": "$2",
+                "example": "Bob"
+            },
+            "second": {
+                "content": "$3",
+                "example": "Charlie"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-many": {
+        "message": "$ringer$ ringer dig, $first$, $second$ och $remaining$ andra",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "first": {
+                "content": "$2",
+                "example": "Bob"
+            },
+            "second": {
+                "content": "$3",
+                "example": "Charlie"
+            },
+            "remaining": {
+                "content": "$4",
+                "example": "5"
+            }
+        }
     },
     "outgoingCallRinging": {
         "message": "Ringer...",
@@ -6145,6 +6289,10 @@
             }
         }
     },
+    "WhatsNew__modal-title": {
+        "message": "Vad är nytt",
+        "description": "Title for the whats new modal"
+    },
     "WhatsNew__v5.15--1": {
         "message": "Nej, det är inget damm som du behöver för att få bort din bildskärm, det finns nu en prick för ouppspelade inkommande ljudmeddelanden.",
         "description": "Release notes for v5.15"
@@ -6154,7 +6302,7 @@
         "description": "Release notes for v5.15"
     },
     "WhatsNew__v5.15--3": {
-        "message": "Det nya inställningsfönstret är bättre och snabbare. Gå vidare och ändra din zoomnivå, växla temat, ställ in en anpassad försvinnande tid.",
+        "message": "Det nya inställningsfönstret är bättre och snabbare. Fortsätt och ändra din zoomnivå, växla temat, ställ in en anpassad försvinnande tid.",
         "description": "Release notes for v5.15"
     },
     "WhatsNew__v5.15--4": {
@@ -6164,5 +6312,17 @@
     "WhatsNew__v5.15--5": {
         "message": "Krossade massor av buggar och det finns några prestandaförbättringar också. Tack alla för era rapporter!",
         "description": "Release notes for v5.15"
+    },
+    "WhatsNew__v5.16--1": {
+        "message": "En förbättrad medieljuslåda innebär inga överraskningar när du går igenom ett galleri med bilder eller videor, och du kan låtsas att du verkligen är i ett mörkt rum genom att zooma för att dölja de irriterande knapparna.",
+        "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.16--2": {
+        "message": "Rättade ett fel där det var svårt att reagera på ett meddelande, eftersom vi stängde av väljaren från skärmen. Det är nu åtgärdat, och du kan 😮 till ditt ❤️ innehåll.",
+        "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.16--3": {
+        "message": "Om du håller muspekaren över knapparna under ett samtal förblir de synliga istället för att försvinna. Inget döljer sig för ditt örnöga, inte ens dessa knappar!",
+        "description": "Release notes for v5.16"
     }
 }

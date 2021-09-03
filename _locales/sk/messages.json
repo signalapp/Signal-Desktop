@@ -180,7 +180,7 @@
         "description": "One of the menu options available in the Avatar Popup menu"
     },
     "avatarMenuChatColors": {
-        "message": "Farba chatu",
+        "message": "Farba konverzácie",
         "description": "One of the menu options available in the Avatar Popup menu"
     },
     "avatarMenuUpdateAvailable": {
@@ -214,7 +214,7 @@
         "description": "Shown as a header for pinned conversations in the left pane"
     },
     "LeftPane--chats": {
-        "message": "Chat",
+        "message": "Konverzácie",
         "description": "Shown as a header for non-pinned conversations in the left pane"
     },
     "archiveHelperText": {
@@ -242,7 +242,7 @@
         "description": "Undoes Archive Conversation action, and unpins the conversation from the top of the conversation list"
     },
     "pinnedConversationsFull": {
-        "message": "Môžete pripnúť najviac 4 chaty",
+        "message": "Môžete pripnúť najviac 4 konverzácie",
         "description": ""
     },
     "chooseDirectory": {
@@ -1060,7 +1060,7 @@
         "description": "Text shown in the confirmation dialog for deleting a message locally"
     },
     "deleteForEveryoneWarning": {
-        "message": "Táto správa sa vymaže všetkým v chate, čo používajú modernú verziu aplikácie Signal. Členovia budú vidieť, že ste vymazali správu.",
+        "message": "Táto správa sa vymaže všetkým v konverzácií, čo používajú modernú verziu aplikácie Signal. Členovia budú vidieť, že ste vymazali správu.",
         "description": "Text shown in the confirmation dialog for deleting a message for everyone"
     },
     "from": {
@@ -1162,7 +1162,7 @@
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "ChatRefresh--notification": {
-        "message": "Chatové stretnutie obnovené",
+        "message": "Konverzačné stretnutie obnovené",
         "description": "Shown in timeline when a error happened, and the session was automatically reset."
     },
     "ChatRefresh--learnMore": {
@@ -1170,7 +1170,7 @@
         "description": "Shown in timeline when session is automatically reset, to provide access to a popup info dialog"
     },
     "ChatRefresh--summary": {
-        "message": "Signal používa koncové šifrovanie a občas môže potrebovať obnoviť vašu chatovú reláciu. Toto nemá vplyv na bezpečnosť vášho chatu, ale mohla by vám uniknúť správa od tohto kontaktu a môžete používateľa požiadať, aby vám ju poslal znovu.",
+        "message": "Signal používa koncové šifrovanie a občas môže potrebovať obnoviť vašu konverzačnú reláciu. Toto nemá vplyv na bezpečnosť vašej konverzácie, ale mohla by vám uniknúť správa od tohto kontaktu a môžete používateľa požiadať, aby vám ju poslal znovu.",
         "description": "Shown on explainer dialog available from chat session refreshed timeline events"
     },
     "ChatRefresh--contactSupport": {
@@ -1397,6 +1397,22 @@
         "message": "Prestať prezentovať",
         "description": "Button tooltip label for stopping screen sharing"
     },
+    "calling__button--ring__label": {
+        "message": "Zvoniť",
+        "description": "Label under the ring button"
+    },
+    "calling__button--ring__disabled-because-group-is-too-large": {
+        "message": "Skupina je príliš veľká na to, aby vyzváňala účastníkom.",
+        "description": "Button tooltip label when you can't ring because the group is too large"
+    },
+    "calling__button--ring__off": {
+        "message": "Upozornenie, nezvoniť",
+        "description": "Button tooltip label for turning ringing off"
+    },
+    "calling__button--ring__on": {
+        "message": "Povoliť zvonenie",
+        "description": "Button tooltip label for turning ringing on"
+    },
     "calling__your-video-is-off": {
         "message": "Váš fotoaparát je vypnutý",
         "description": "Label in the calling lobby indicating that your camera is off"
@@ -1476,6 +1492,56 @@
             "person": {
                 "content": "$1",
                 "example": "Sam"
+            }
+        }
+    },
+    "calling__pre-call-info--will-ring-2": {
+        "message": "Signal zazvoní $first$ a $second$",
+        "description": "Shown in the calling lobby to describe who will be rang",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            }
+        }
+    },
+    "calling__pre-call-info--will-ring-3": {
+        "message": "Signal zazvoní $first$, $second$ a $third$",
+        "description": "Shown in the calling lobby to describe who will be rang",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "third": {
+                "content": "$3",
+                "example": "April"
+            }
+        }
+    },
+    "calling__pre-call-info--will-ring-many": {
+        "message": "Signal zazvoní $first$, $second$ a $others$ ďalším",
+        "description": "Shown in the calling lobby to describe who will be rang",
+        "placeholders": {
+            "person": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "others": {
+                "content": "$3",
+                "example": "5"
             }
         }
     },
@@ -1661,7 +1727,7 @@
         "message": "Smerovať všetky hovory cez server Signal pre zabránenie odhaleniu vašej IP adresy kontaktu. Zapnutie zníži kvalitu hovoru.",
         "description": "Details describing the always relay calls setting"
     },
-    "Preferences--permissions": {
+    "permissions": {
         "message": "Povolenia",
         "description": "Header for permissions section of settings"
     },
@@ -1678,11 +1744,11 @@
         "description": "Header for general options on the settings screen"
     },
     "spellCheckDescription": {
-        "message": "Text na kontrolu pravopisu zadaný do textového poľa",
+        "message": "Kontrolovať pravopis textu zadaného do textového poľa",
         "description": "Description of the spell check setting"
     },
     "spellCheckWillBeEnabled": {
-        "message": "Kontrola pravopisu bude zapnutá po nasledujúcom štarte Signalu.",
+        "message": "Kontrola pravopisu bude zapnutá po nasledujúcom štarte Signal-u.",
         "description": "Shown when the user enables spellcheck to indicate that they must restart Signal."
     },
     "spellCheckWillBeDisabled": {
@@ -1698,7 +1764,7 @@
         "description": "In the settings, shown next to the checkbox option for starting in the system tray"
     },
     "autoLaunchDescription": {
-        "message": "Otvoriť pri prihlásení do počítača",
+        "message": "Spustiť pri prihlásení do počítača",
         "description": "Description for the automatic launch setting"
     },
     "clearDataHeader": {
@@ -2016,7 +2082,7 @@
         "description": "Description for audio notification setting"
     },
     "callRingtoneNotificationDescription": {
-        "message": "Prehrávať zvuky pri príchodzom hovore",
+        "message": "Prehrať zvuky pri prichádzajúcom hovore",
         "description": "Description for call ringtone notification setting"
     },
     "callSystemNotificationDescription": {
@@ -2120,7 +2186,7 @@
         "description": "Label text for the setting that controls whether new notifications draw attention to the window"
     },
     "hideMenuBar": {
-        "message": "Skryť ponuku",
+        "message": "Skryť riadok s ponukou",
         "description": "Label text for menu bar visibility setting"
     },
     "startConversation": {
@@ -2250,7 +2316,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "Pre pokračovanie znovu pripojte Signal Desktop k vašemu mobilnému zariadeniu.",
+        "message": "Kliknutím znova prepojíte aplikáciu Signal Desktop s mobilným zariadením a budete môcť pokračovať v odosielaní správ.",
         "description": ""
     },
     "unlinked": {
@@ -3262,7 +3328,7 @@
         "description": "Shown as a button to share your profile, necessary to continue messaging in a conversation"
     },
     "MessageRequests--profile-sharing--group": {
-        "message": "Pokračovať v chate v tejto skupine a zdieľať vaše meno a fotku s jej členmi? $learnMore$",
+        "message": "Pokračovať v konverzácií v tejto skupine a zdieľať vaše meno a fotku s jej členmi? $learnMore$",
         "description": "Shown when user hasn't shared their profile in a group yet",
         "placeholders": {
             "learnMore": {
@@ -3272,7 +3338,7 @@
         }
     },
     "MessageRequests--profile-sharing--direct": {
-        "message": "Pokračovať v chate s používateľom $firstName$ a zdieľať s ním vaše meno a fotku? $learnMore$",
+        "message": "Pokračovať v konverzácií s používateľom $firstName$ a zdieľať s ním vaše meno a fotku? $learnMore$",
         "description": "Shown when user hasn't shared their profile in a 1:1 conversation yet",
         "placeholders": {
             "firstName": {
@@ -3451,9 +3517,87 @@
         "message": "Prichádzajúci videohovor...",
         "description": "Shown in both the incoming call bar and notification for an incoming video call"
     },
-    "outgoingCallPrering": {
-        "message": "Uskutočňovanie hovoru...",
-        "description": "Shown in the call screen when placing an outgoing call that isn't ringing yet"
+    "incomingGroupCall__ringing-you": {
+        "message": "$ringer$ vám volá",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-1-other": {
+        "message": "$ringer$ volá vám a $otherMember$",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "otherMember": {
+                "content": "$2",
+                "example": "Bob"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-2-others": {
+        "message": "$ringer$ volá vám. $first$ a $second$",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "first": {
+                "content": "$2",
+                "example": "Bob"
+            },
+            "second": {
+                "content": "$3",
+                "example": "Charlie"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-3-others": {
+        "message": "$ringer$ volá vám. $first$, $second$ a 1 ďalšiemu",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "first": {
+                "content": "$2",
+                "example": "Bob"
+            },
+            "second": {
+                "content": "$3",
+                "example": "Charlie"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-many": {
+        "message": "$ringer$ volá vám. $first$, $second$ a $remaining$ ďalším",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "first": {
+                "content": "$2",
+                "example": "Bob"
+            },
+            "second": {
+                "content": "$3",
+                "example": "Charlie"
+            },
+            "remaining": {
+                "content": "$4",
+                "example": "5"
+            }
+        }
     },
     "outgoingCallRinging": {
         "message": "Zvoní...",
@@ -5044,7 +5188,7 @@
         "description": "Displayed while checking if the contact is SMS-only"
     },
     "countMutedConversationsDescription": {
-        "message": "Zahrnúť do počtu pri ikone stlmené konverzácie",
+        "message": "Zahrnúť do počtu neprečítaných správ pri ikone aj stlmené konverzácie",
         "description": "Description for counting muted conversations in badge setting"
     },
     "ContactModal--message": {
@@ -5084,7 +5228,7 @@
         "description": "Button text for remove from group button in Group Contact Details modal"
     },
     "showChatColorEditor": {
-        "message": "Farba chatu",
+        "message": "Farba konverzácie",
         "description": "This is a button in the conversation context menu to show the chat color editor"
     },
     "showConversationDetails": {
@@ -5704,7 +5848,7 @@
         "description": "Modal title for the chat color picker and editor for all conversations"
     },
     "ChatColorPicker__menu-title": {
-        "message": "Farba chatu",
+        "message": "Farba konverzácie",
         "description": "View title for the chat color picker and editor"
     },
     "ChatColorPicker__reset": {
@@ -5712,7 +5856,7 @@
         "description": "Button label for resetting chat colors"
     },
     "ChatColorPicker__resetDefault": {
-        "message": "Resetovať farby chatov",
+        "message": "Resetovať farby konverzácií",
         "description": "Confirmation dialog title for resetting all chat colors or only the global default one"
     },
     "ChatColorPicker__resetAll": {
@@ -5728,7 +5872,7 @@
         "description": "Confirm button label for resetting chat colors"
     },
     "ChatColorPicker__confirm-reset-message": {
-        "message": "Chceli by ste prestaviť farby všetkých chatov?",
+        "message": "Chceli by ste prestaviť farby všetkých konverzácií?",
         "description": "Modal message text for confirming resetting of chat colors"
     },
     "ChatColorPicker__custom-color--label": {
@@ -6010,7 +6154,7 @@
         "description": "Button to switch the settings view"
     },
     "Preferences__button--chats": {
-        "message": "Chat",
+        "message": "Konverzácie",
         "description": "Button to switch the settings view"
     },
     "Preferences__button--calls": {
@@ -6145,6 +6289,10 @@
             }
         }
     },
+    "WhatsNew__modal-title": {
+        "message": "Čo je nové",
+        "description": "Title for the whats new modal"
+    },
     "WhatsNew__v5.15--1": {
         "message": "Nie, nie je to žiadna čiastočka prachu, ktorú musíte odhodiť z monitora, teraz je tu bodka za neprehrané prichádzajúce zvukové správy.",
         "description": "Release notes for v5.15"
@@ -6164,5 +6312,17 @@
     "WhatsNew__v5.15--5": {
         "message": "Vymazalo veľa chýb a existuje aj niekoľko vylepšení výkonu. Ďakujem vám všetkým za vaše správy!",
         "description": "Release notes for v5.15"
+    },
+    "WhatsNew__v5.16--1": {
+        "message": "Vylepšený mediálny lightbox znamená, už žiadne prekvapenie, pri prechádzaní galériou obrázkov, alebo videí. Môžete predstierať, že ste skutočne v tmavej miestnosti a priblížením skryjete tie otravné tlačidlá.",
+        "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.16--2": {
+        "message": "Opravená chyba, pri ktorej bolo reagovanie na správu zložité, lebo sme vybrali nástroj mimo obrazovka. Teraz je to už v poriadku a vy môžete 😮 k svojmu ❤️ obsahu.",
+        "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.16--3": {
+        "message": "Ak počas hovoru umiestnite kurzor myši na tlačidlá, zostanú viditeľné namiesto toho aby zmizli. Pred vašim orlím okom sa nič neskrýva, dokonca ani tieto gombíky!",
+        "description": "Release notes for v5.16"
     }
 }
