@@ -12604,6 +12604,27 @@
     "reasonDetail": "isn't jquery"
   },
   {
+    "rule": "eval",
+    "path": "node_modules/vm2/lib/main.js",
+    "line": "\t * @param {boolean} [options.eval=true] - Allow the dynamic evaluation of code via eval(code) or Function(code)().<br>",
+    "reasonCategory": "exampleCode",
+    "updated": "2021-09-02T23:51:29.928Z"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/vm2/lib/main.js",
+    "line": "\t * @param {boolean} [options.eval=true] - Allow the dynamic evaluation of code via eval(code) or Function(code)().<br>",
+    "reasonCategory": "exampleCode",
+    "updated": "2021-09-02T23:51:29.928Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/vm2/lib/main.js",
+    "line": "\twrap(prefix, suffix) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-09-02T23:51:29.928Z"
+  },
+  {
     "rule": "jQuery-wrap(",
     "path": "node_modules/webpack-log/node_modules/ansi-colors/index.js",
     "line": "  while (n-- > 0) str = wrap(colors.styles[stack[n]], str, nl);",
