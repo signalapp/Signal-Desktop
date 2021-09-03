@@ -33,7 +33,7 @@ const contacts: Array<ContactType> = times(50, index =>
 const contactPillProps = (
   overrideProps?: ContactType
 ): ContactPillPropsType => ({
-  ...(overrideProps ||
+  ...(overrideProps ??
     getDefaultConversation({
       avatarPath: gifUrl,
       firstName: 'John',
