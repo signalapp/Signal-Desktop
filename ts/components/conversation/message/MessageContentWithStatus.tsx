@@ -8,7 +8,6 @@ import {
   getMessageContentWithStatusesSelectorProps,
   isMessageSelectionMode,
 } from '../../../state/selectors/conversations';
-import { Flex } from '../../basic/Flex';
 import { MessageAuthorText } from './MessageAuthorText';
 import { MessageContent } from './MessageContent';
 import { MessageContextMenu } from './MessageContextMenu';
@@ -71,7 +70,7 @@ export const MessageContentWithStatuses = (props: Props) => {
       onClick={onClickOnMessageOuterContainer}
     >
       <MessageStatus messageId={messageId} isCorrectSide={isIncoming} />
-      <Flex container={true} flexDirection="column">
+      <div>
         <MessageAuthorText messageId={messageId} />
 
         <MessageContent
@@ -79,7 +78,7 @@ export const MessageContentWithStatuses = (props: Props) => {
           isDetailView={isDetailView}
           onQuoteClick={onQuoteClick}
         />
-      </Flex>
+      </div>
       <MessageStatus messageId={messageId} isCorrectSide={!isIncoming} />
       <MessageContextMenu messageId={messageId} contextMenuId={ctxMenuID} />
     </div>

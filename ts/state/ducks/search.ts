@@ -61,7 +61,7 @@ export const actions = {
 export function search(query: string, options: SearchOptions): SearchResultsKickoffActionType {
   return {
     type: 'SEARCH_RESULTS',
-    payload: doSearch(query, options),
+    payload: doSearch(query, options), // this uses redux-promise-middleware
   };
 }
 
