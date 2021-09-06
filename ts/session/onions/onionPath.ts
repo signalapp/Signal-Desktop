@@ -425,7 +425,7 @@ async function buildNewOnionPathsWorker() {
   );
   // TODO: select one guard node and 2 other nodes randomly
   let otherNodes = _.differenceBy(allNodes, guardNodes, 'pubkey_ed25519');
-  if (otherNodes.length < SnodePool.minSnodePoolCount) {
+  if (otherNodes.length <= SnodePool.minSnodePoolCount) {
     window?.log?.warn(
       'LokiSnodeAPI::buildNewOnionPaths - Too few nodes to build an onion path! Refreshing pool and retrying'
     );
