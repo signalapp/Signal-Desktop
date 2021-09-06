@@ -67,7 +67,7 @@ describe('OnionPathsErrors', () => {
 
   beforeEach(async () => {
     guardPubkeys = TestUtils.generateFakePubKeys(3).map(n => n.key);
-    otherNodesPubkeys = TestUtils.generateFakePubKeys(12).map(n => n.key);
+    otherNodesPubkeys = TestUtils.generateFakePubKeys(13).map(n => n.key);
 
     SNodeAPI.Onions.resetSnodeFailureCount();
 

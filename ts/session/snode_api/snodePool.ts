@@ -268,7 +268,7 @@ export async function refreshRandomPool(forceRefresh = false): Promise<void> {
       if (fetchedFromDb?.length) {
         window?.log?.info(`refreshRandomPool: fetched from db ${fetchedFromDb.length} snodes.`);
         randomSnodePool = fetchedFromDb;
-        if (randomSnodePool.length < minSnodePoolCount) {
+        if (randomSnodePool.length <= minSnodePoolCount) {
           window?.log?.warn('refreshRandomPool: not enough snodes in db, going to fetch from seed');
         } else {
           return;
@@ -279,9 +279,9 @@ export async function refreshRandomPool(forceRefresh = false): Promise<void> {
     }
 
     // we don't have nodes to fetch the pool from them, so call the seed node instead.
-    if (randomSnodePool.length < minSnodePoolCount) {
+    if (randomSnodePool.length <= minSnodePoolCount) {
       window?.log?.info(
-        `refreshRandomPool: NOT enough snodes to fetch from them ${randomSnodePool.length} < ${minSnodePoolCount}, so falling back to seedNodes ${seedNodes?.length}`
+        `refreshRandomPool: NOT enough snodes to fetch from them ${randomSnodePool.length} <= ${minSnodePoolCount}, so falling back to seedNodes ${seedNodes?.length}`
       );
 
       randomSnodePool = await exports.refreshRandomPoolDetail(seedNodes);
