@@ -5,6 +5,7 @@ import { SessionIcon } from '../../session/icon';
 
 const MessageStatusSendingContainer = styled.div`
   display: inline-block;
+  align-self: flex-end;
   margin-bottom: 2px;
   margin-inline-start: 5px;
 `;
@@ -41,7 +42,7 @@ const MessageStatusRead = () => {
 const MessageStatusError = () => {
   return (
     <MessageStatusSendingContainer title={window.i18n('sendFailed')}>
-      <SessionIcon iconColor={'var(--color-destructibe'} iconType="error" iconSize={'tiny'} />
+      <SessionIcon iconColor={'var(--color-destructive'} iconType="error" iconSize={'tiny'} />
     </MessageStatusSendingContainer>
   );
 };

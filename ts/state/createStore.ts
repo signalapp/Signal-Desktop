@@ -2,6 +2,8 @@ import { createLogger } from 'redux-logger';
 import { configureStore } from '@reduxjs/toolkit';
 import { rootReducer } from './reducer';
 import { persistReducer } from 'redux-persist';
+// tslint:disable-next-line: match-default-export-name
+import promiseMiddleware from 'redux-promise-middleware';
 
 // tslint:disable-next-line: no-submodule-imports match-default-export-name
 import storage from 'redux-persist/lib/storage';
@@ -34,7 +36,7 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 // Exclude logger if we're in production mode
 const disableLogging = true; //; env === 'production' || true; // ALWAYS TURNED OFF
-const middlewareList = disableLogging ? [] : [logger];
+const middlewareList = disableLogging ? [promiseMiddleware] : [logger, promiseMiddleware];
 
 export const createStore = (initialState: any) =>
   configureStore({
