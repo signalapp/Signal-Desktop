@@ -160,7 +160,7 @@ function getSystemTraySettingValues(
   };
 }
 
-window.renderPreferences = async () => {
+const renderPreferences = async () => {
   if (!renderComponent) {
     setTimeout(window.renderPreferences, 100);
     return;
@@ -373,7 +373,13 @@ window.renderPreferences = async () => {
     onUniversalExpireTimerChange: reRender(
       settingUniversalExpireTimer.setValue
     ),
-    onZoomFactorChange: reRender(settingZoomFactor.setValue),
+
+    // Zoom factor change doesn't require immediate rerender since it will:
+    // 1. Update the zoom factor in the main window
+    // 2. Trigger `preferred-size-changed` in the main process
+    // 3. Finally result in `window.storage` update which will cause the
+    //    rerender.
+    onZoomFactorChange: settingZoomFactor.setValue,
 
     i18n: window.i18n,
   };
@@ -381,11 +387,14 @@ window.renderPreferences = async () => {
   function reRender<Value>(f: (value: Value) => Promise<Value>) {
     return async (value: Value) => {
       await f(value);
-      window.renderPreferences();
+      renderPreferences();
     };
   }
 
   renderComponent(Preferences, props);
 };
+window.renderPreferences = renderPreferences;
 
 initializeLogging();
+
+ipcRenderer.on('render', () => renderPreferences());

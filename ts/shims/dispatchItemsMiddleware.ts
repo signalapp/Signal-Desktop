@@ -9,6 +9,7 @@ import { COLORS_CHANGED, COLOR_SELECTED } from '../state/ducks/conversations';
 export const dispatchItemsMiddleware: Middleware = ({
   getState,
 }) => next => action => {
+  const result = next(action);
   if (
     action.type === 'items/PUT' ||
     action.type === 'items/PUT_EXTERNAL' ||
@@ -20,6 +21,5 @@ export const dispatchItemsMiddleware: Middleware = ({
   ) {
     ipcRenderer.send('preferences-changed', getState().items);
   }
-
-  return next(action);
+  return result;
 };

@@ -319,12 +319,7 @@ function handleCommonWindowEvents(window) {
     }
 
     if (window.webContents) {
-      window.webContents.send('callbacks:call:setPassiveZoomFactor', [
-        zoomFactor,
-      ]);
-      if (settingsWindow && settingsWindow.webContents) {
-        settingsWindow.webContents.send('render');
-      }
+      window.webContents.send('callbacks:call:persistZoomFactor', [zoomFactor]);
     }
 
     lastZoomFactor = zoomFactor;
