@@ -498,7 +498,7 @@ export const Preferences = ({
             {i18n('Preferences__button--chats')}
           </div>
         </div>
-        <SettingsRow title="Chats">
+        <SettingsRow title={i18n('Preferences__button--chats')}>
           <Checkbox
             checked={hasSpellCheck}
             description={spellCheckDirtyText}
@@ -588,7 +588,7 @@ export const Preferences = ({
             onChange={onCallRingtoneNotificationChange}
           />
         </SettingsRow>
-        <SettingsRow title="Devices">
+        <SettingsRow title={i18n('Preferences__devices')}>
           <Control
             left={
               <>
@@ -715,7 +715,7 @@ export const Preferences = ({
         <SettingsRow>
           <Checkbox
             checked={hasNotifications}
-            label="Enable notifications"
+            label={i18n('Preferences__enable-notifications')}
             moduleClassName="Preferences__checkbox"
             name="notifications"
             onChange={onNotificationsChange}
