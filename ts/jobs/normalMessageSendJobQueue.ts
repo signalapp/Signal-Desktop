@@ -95,23 +95,23 @@ export class NormalMessageSendJobQueue extends JobQueue<NormalMessageSendJobData
     return { messageId, conversationId };
   }
 
-  private getQueue(queueKey: string): PQueue {
-    const existingQueue = this.queues.get(queueKey);
+  protected getInMemoryQueue({
+    data,
+  }: Readonly<{ data: NormalMessageSendJobData }>): PQueue {
+    const { conversationId } = data;
+
+    const existingQueue = this.queues.get(conversationId);
     if (existingQueue) {
       return existingQueue;
     }
 
     const newQueue = new PQueue({ concurrency: 1 });
     newQueue.once('idle', () => {
-      this.queues.delete(queueKey);
+      this.queues.delete(conversationId);
     });
 
-    this.queues.set(queueKey, newQueue);
+    this.queues.set(conversationId, newQueue);
     return newQueue;
-  }
-
-  private enqueue(queueKey: string, fn: () => Promise<void>): Promise<void> {
-    return this.getQueue(queueKey).add(fn);
   }
 
   protected async run(
@@ -121,248 +121,244 @@ export class NormalMessageSendJobQueue extends JobQueue<NormalMessageSendJobData
     }: Readonly<{ data: NormalMessageSendJobData; timestamp: number }>,
     { attempt, log }: Readonly<{ attempt: number; log: LoggerType }>
   ): Promise<void> {
-    const { messageId, conversationId } = data;
+    const { messageId } = data;
 
-    await this.enqueue(conversationId, async () => {
-      const timeRemaining = timestamp + MAX_RETRY_TIME - Date.now();
-      const isFinalAttempt = attempt >= MAX_ATTEMPTS;
+    const timeRemaining = timestamp + MAX_RETRY_TIME - Date.now();
+    const isFinalAttempt = attempt >= MAX_ATTEMPTS;
 
-      // We don't immediately use this value because we may want to mark the message
-      //   failed before doing so.
-      const shouldContinue = await commonShouldJobContinue({
-        attempt,
-        log,
-        timeRemaining,
+    // We don't immediately use this value because we may want to mark the message
+    //   failed before doing so.
+    const shouldContinue = await commonShouldJobContinue({
+      attempt,
+      log,
+      timeRemaining,
+    });
+
+    await window.ConversationController.loadPromise();
+
+    const message = await getMessageById(messageId);
+    if (!message) {
+      log.info(
+        `message ${messageId} was not found, maybe because it was deleted. Giving up on sending it`
+      );
+      return;
+    }
+
+    if (!isOutgoing(message.attributes)) {
+      log.error(
+        `message ${messageId} was not an outgoing message to begin with. This is probably a bogus job. Giving up on sending it`
+      );
+      return;
+    }
+
+    if (message.isErased() || message.get('deletedForEveryone')) {
+      log.info(`message ${messageId} was erased. Giving up on sending it`);
+      return;
+    }
+
+    let messageSendErrors: Array<Error> = [];
+
+    // We don't want to save errors on messages unless we're giving up. If it's our
+    //   final attempt, we know upfront that we want to give up. However, we might also
+    //   want to give up if (1) we get a 508 from the server, asking us to please stop
+    //   (2) we get a 428 from the server, flagging the message for spam (3) some other
+    //   reason not known at the time of this writing.
+    //
+    // This awkward callback lets us hold onto errors we might want to save, so we can
+    //   decide whether to save them later on.
+    const saveErrors = isFinalAttempt
+      ? undefined
+      : (errors: Array<Error>) => {
+          messageSendErrors = errors;
+        };
+
+    if (!shouldContinue) {
+      log.info(`message ${messageId} ran out of time. Giving up on sending it`);
+      await markMessageFailed(message, messageSendErrors);
+      return;
+    }
+
+    try {
+      const conversation = message.getConversation();
+      if (!conversation) {
+        throw new Error(
+          `could not find conversation for message with ID ${messageId}`
+        );
+      }
+
+      const {
+        allRecipientIdentifiers,
+        recipientIdentifiersWithoutMe,
+        untrustedConversationIds,
+      } = getMessageRecipients({
+        message,
+        conversation,
       });
 
-      await window.ConversationController.loadPromise();
-
-      const message = await getMessageById(messageId);
-      if (!message) {
+      if (untrustedConversationIds.length) {
         log.info(
-          `message ${messageId} was not found, maybe because it was deleted. Giving up on sending it`
+          `message ${messageId} sending blocked because ${untrustedConversationIds.length} conversation(s) were untrusted. Giving up on the job, but it may be reborn later`
+        );
+        window.reduxActions.conversations.messageStoppedByMissingVerification(
+          messageId,
+          untrustedConversationIds
         );
         return;
       }
 
-      if (!isOutgoing(message.attributes)) {
-        log.error(
-          `message ${messageId} was not an outgoing message to begin with. This is probably a bogus job. Giving up on sending it`
+      if (!allRecipientIdentifiers.length) {
+        log.warn(
+          `trying to send message ${messageId} but it looks like it was already sent to everyone. This is unexpected, but we're giving up`
         );
         return;
       }
 
-      if (message.isErased() || message.get('deletedForEveryone')) {
-        log.info(`message ${messageId} was erased. Giving up on sending it`);
-        return;
-      }
+      const {
+        attachments,
+        body,
+        deletedForEveryoneTimestamp,
+        expireTimer,
+        mentions,
+        messageTimestamp,
+        preview,
+        profileKey,
+        quote,
+        sticker,
+      } = await getMessageSendData({ conversation, message });
 
-      let messageSendErrors: Array<Error> = [];
+      let messageSendPromise: Promise<unknown>;
 
-      // We don't want to save errors on messages unless we're giving up. If it's our
-      //   final attempt, we know upfront that we want to give up. However, we might also
-      //   want to give up if (1) we get a 508 from the server, asking us to please stop
-      //   (2) we get a 428 from the server, flagging the message for spam (3) some other
-      //   reason not known at the time of this writing.
-      //
-      // This awkward callback lets us hold onto errors we might want to save, so we can
-      //   decide whether to save them later on.
-      const saveErrors = isFinalAttempt
-        ? undefined
-        : (errors: Array<Error>) => {
-            messageSendErrors = errors;
-          };
-
-      if (!shouldContinue) {
-        log.info(
-          `message ${messageId} ran out of time. Giving up on sending it`
-        );
-        await markMessageFailed(message, messageSendErrors);
-        return;
-      }
-
-      try {
-        const conversation = message.getConversation();
-        if (!conversation) {
-          throw new Error(
-            `could not find conversation for message with ID ${messageId}`
-          );
-        }
-
-        const {
-          allRecipientIdentifiers,
-          recipientIdentifiersWithoutMe,
-          untrustedConversationIds,
-        } = getMessageRecipients({
-          message,
-          conversation,
-        });
-
-        if (untrustedConversationIds.length) {
-          log.info(
-            `message ${messageId} sending blocked because ${untrustedConversationIds.length} conversation(s) were untrusted. Giving up on the job, but it may be reborn later`
-          );
-          window.reduxActions.conversations.messageStoppedByMissingVerification(
-            messageId,
-            untrustedConversationIds
-          );
-          return;
-        }
-
-        if (!allRecipientIdentifiers.length) {
-          log.warn(
-            `trying to send message ${messageId} but it looks like it was already sent to everyone. This is unexpected, but we're giving up`
-          );
-          return;
-        }
-
-        const {
+      if (recipientIdentifiersWithoutMe.length === 0) {
+        log.info('sending sync message only');
+        const dataMessage = await window.textsecure.messaging.getDataMessage({
           attachments,
           body,
           deletedForEveryoneTimestamp,
           expireTimer,
-          mentions,
-          messageTimestamp,
           preview,
           profileKey,
           quote,
+          recipients: allRecipientIdentifiers,
           sticker,
-        } = await getMessageSendData({ conversation, message });
-
-        let messageSendPromise: Promise<unknown>;
-
-        if (recipientIdentifiersWithoutMe.length === 0) {
-          log.info('sending sync message only');
-          const dataMessage = await window.textsecure.messaging.getDataMessage({
-            attachments,
-            body,
-            deletedForEveryoneTimestamp,
-            expireTimer,
-            preview,
-            profileKey,
-            quote,
-            recipients: allRecipientIdentifiers,
-            sticker,
-            timestamp: messageTimestamp,
-          });
-          messageSendPromise = message.sendSyncMessageOnly(
-            dataMessage,
-            saveErrors
-          );
-        } else {
-          const conversationType = conversation.get('type');
-          const sendOptions = await getSendOptions(conversation.attributes);
-          const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
-
-          let innerPromise: Promise<CallbackResultType>;
-          if (conversationType === Message.GROUP) {
-            log.info('sending group message');
-            innerPromise = window.Signal.Util.sendToGroup({
-              groupSendOptions: {
-                attachments,
-                deletedForEveryoneTimestamp,
-                expireTimer,
-                groupV1: updateRecipients(
-                  conversation.getGroupV1Info(),
-                  recipientIdentifiersWithoutMe
-                ),
-                groupV2: updateRecipients(
-                  conversation.getGroupV2Info(),
-                  recipientIdentifiersWithoutMe
-                ),
-                messageText: body,
-                preview,
-                profileKey,
-                quote,
-                sticker,
-                timestamp: messageTimestamp,
-                mentions,
-              },
-              conversation,
-              contentHint: ContentHint.RESENDABLE,
-              messageId,
-              sendOptions,
-              sendType: 'message',
-            });
-          } else {
-            log.info('sending direct message');
-            innerPromise = window.textsecure.messaging.sendMessageToIdentifier({
-              identifier: recipientIdentifiersWithoutMe[0],
-              messageText: body,
-              attachments,
-              quote,
-              preview,
-              sticker,
-              reaction: null,
-              deletedForEveryoneTimestamp,
-              timestamp: messageTimestamp,
-              expireTimer,
-              contentHint: ContentHint.RESENDABLE,
-              groupId: undefined,
-              profileKey,
-              options: sendOptions,
-            });
-          }
-
-          messageSendPromise = message.send(
-            handleMessageSend(innerPromise, {
-              messageIds: [messageId],
-              sendType: 'message',
-            }),
-            saveErrors
-          );
-        }
-
-        await messageSendPromise;
-
-        if (
-          getLastChallengeError({
-            errors: messageSendErrors,
-          })
-        ) {
-          log.info(
-            `message ${messageId} hit a spam challenge. Not retrying any more`
-          );
-          await message.saveErrors(messageSendErrors);
-          return;
-        }
-
-        const didFullySend =
-          !messageSendErrors.length || didSendToEveryone(message);
-        if (!didFullySend) {
-          throw new Error('message did not fully send');
-        }
-      } catch (err: unknown) {
-        const serverAskedUsToStop: boolean = messageSendErrors.some(
-          (messageSendError: unknown) =>
-            messageSendError instanceof Error &&
-            parseIntWithFallback(messageSendError.code, -1) === 508
+          timestamp: messageTimestamp,
+        });
+        messageSendPromise = message.sendSyncMessageOnly(
+          dataMessage,
+          saveErrors
         );
+      } else {
+        const conversationType = conversation.get('type');
+        const sendOptions = await getSendOptions(conversation.attributes);
+        const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
-        if (isFinalAttempt || serverAskedUsToStop) {
-          await markMessageFailed(message, messageSendErrors);
-        }
-
-        if (serverAskedUsToStop) {
-          log.info('server responded with 508. Giving up on this job');
-          return;
-        }
-
-        if (!isFinalAttempt) {
-          const maybe413Error: undefined | Error = messageSendErrors.find(
-            (messageSendError: unknown) =>
-              messageSendError instanceof Error && messageSendError.code === 413
-          );
-          await sleepFor413RetryAfterTimeIfApplicable({
-            err: maybe413Error,
-            log,
-            timeRemaining,
+        let innerPromise: Promise<CallbackResultType>;
+        if (conversationType === Message.GROUP) {
+          log.info('sending group message');
+          innerPromise = window.Signal.Util.sendToGroup({
+            groupSendOptions: {
+              attachments,
+              deletedForEveryoneTimestamp,
+              expireTimer,
+              groupV1: updateRecipients(
+                conversation.getGroupV1Info(),
+                recipientIdentifiersWithoutMe
+              ),
+              groupV2: updateRecipients(
+                conversation.getGroupV2Info(),
+                recipientIdentifiersWithoutMe
+              ),
+              messageText: body,
+              preview,
+              profileKey,
+              quote,
+              sticker,
+              timestamp: messageTimestamp,
+              mentions,
+            },
+            conversation,
+            contentHint: ContentHint.RESENDABLE,
+            messageId,
+            sendOptions,
+            sendType: 'message',
+          });
+        } else {
+          log.info('sending direct message');
+          innerPromise = window.textsecure.messaging.sendMessageToIdentifier({
+            identifier: recipientIdentifiersWithoutMe[0],
+            messageText: body,
+            attachments,
+            quote,
+            preview,
+            sticker,
+            reaction: null,
+            deletedForEveryoneTimestamp,
+            timestamp: messageTimestamp,
+            expireTimer,
+            contentHint: ContentHint.RESENDABLE,
+            groupId: undefined,
+            profileKey,
+            options: sendOptions,
           });
         }
 
-        throw err;
+        messageSendPromise = message.send(
+          handleMessageSend(innerPromise, {
+            messageIds: [messageId],
+            sendType: 'message',
+          }),
+          saveErrors
+        );
       }
-    });
+
+      await messageSendPromise;
+
+      if (
+        getLastChallengeError({
+          errors: messageSendErrors,
+        })
+      ) {
+        log.info(
+          `message ${messageId} hit a spam challenge. Not retrying any more`
+        );
+        await message.saveErrors(messageSendErrors);
+        return;
+      }
+
+      const didFullySend =
+        !messageSendErrors.length || didSendToEveryone(message);
+      if (!didFullySend) {
+        throw new Error('message did not fully send');
+      }
+    } catch (err: unknown) {
+      const serverAskedUsToStop: boolean = messageSendErrors.some(
+        (messageSendError: unknown) =>
+          messageSendError instanceof Error &&
+          parseIntWithFallback(messageSendError.code, -1) === 508
+      );
+
+      if (isFinalAttempt || serverAskedUsToStop) {
+        await markMessageFailed(message, messageSendErrors);
+      }
+
+      if (serverAskedUsToStop) {
+        log.info('server responded with 508. Giving up on this job');
+        return;
+      }
+
+      if (!isFinalAttempt) {
+        const maybe413Error: undefined | Error = messageSendErrors.find(
+          (messageSendError: unknown) =>
+            messageSendError instanceof Error && messageSendError.code === 413
+        );
+        await sleepFor413RetryAfterTimeIfApplicable({
+          err: maybe413Error,
+          log,
+          timeRemaining,
+        });
+      }
+
+      throw err;
+    }
   }
 }
 

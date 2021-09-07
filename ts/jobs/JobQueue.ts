@@ -1,6 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import PQueue from 'p-queue';
 import { v4 as uuid } from 'uuid';
 import { noop } from 'lodash';
 
@@ -59,6 +60,8 @@ export abstract class JobQueue<T> {
       reject: (err: unknown) => void;
     }
   >();
+
+  private readonly defaultInMemoryQueue = new PQueue();
 
   private started = false;
 
@@ -172,6 +175,10 @@ export abstract class JobQueue<T> {
     return new Job(id, timestamp, this.queueType, data, completion);
   }
 
+  protected getInMemoryQueue(_parsedJob: ParsedJob<T>): PQueue {
+    return this.defaultInMemoryQueue;
+  }
+
   private async enqueueStoredJob(storedJob: Readonly<StoredJob>) {
     assert(
       storedJob.queueType === this.queueType,
@@ -205,38 +212,46 @@ export abstract class JobQueue<T> {
       data: parsedData,
     };
 
+    const queue: PQueue = this.getInMemoryQueue(parsedJob);
+
     const logger = new JobLogger(parsedJob, this.logger);
 
-    let result:
+    const result:
       | undefined
       | { success: true }
-      | { success: false; err: unknown };
+      | { success: false; err: unknown } = await queue.add(async () => {
+      for (let attempt = 1; attempt <= this.maxAttempts; attempt += 1) {
+        const isFinalAttempt = attempt === this.maxAttempts;
 
-    for (let attempt = 1; attempt <= this.maxAttempts; attempt += 1) {
-      logger.attempt = attempt;
+        logger.attempt = attempt;
 
-      log.info(
-        `${this.logPrefix} running job ${storedJob.id}, attempt ${attempt} of ${this.maxAttempts}`
-      );
-      try {
-        // We want an `await` in the loop, as we don't want a single job running more
-        //   than once at a time. Ideally, the job will succeed on the first attempt.
-        // eslint-disable-next-line no-await-in-loop
-        await this.run(parsedJob, { attempt, log: logger });
-        result = { success: true };
         log.info(
-          `${this.logPrefix} job ${storedJob.id} succeeded on attempt ${attempt}`
+          `${this.logPrefix} running job ${storedJob.id}, attempt ${attempt} of ${this.maxAttempts}`
         );
-        break;
-      } catch (err: unknown) {
-        result = { success: false, err };
-        log.error(
-          `${this.logPrefix} job ${
-            storedJob.id
-          } failed on attempt ${attempt}. ${Errors.toLogFormat(err)}`
-        );
+        try {
+          // We want an `await` in the loop, as we don't want a single job running more
+          //   than once at a time. Ideally, the job will succeed on the first attempt.
+          // eslint-disable-next-line no-await-in-loop
+          await this.run(parsedJob, { attempt, log: logger });
+          log.info(
+            `${this.logPrefix} job ${storedJob.id} succeeded on attempt ${attempt}`
+          );
+          return { success: true };
+        } catch (err: unknown) {
+          log.error(
+            `${this.logPrefix} job ${
+              storedJob.id
+            } failed on attempt ${attempt}. ${Errors.toLogFormat(err)}`
+          );
+          if (isFinalAttempt) {
+            return { success: false, err };
+          }
+        }
       }
-    }
+
+      // This should never happen. See the assertion below.
+      return undefined;
+    });
 
     await this.store.delete(storedJob.id);
 
