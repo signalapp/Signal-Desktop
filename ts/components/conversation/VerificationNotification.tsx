@@ -1,9 +1,9 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-// import classNames from 'classnames';
 
+import { SystemMessage } from './SystemMessage';
 import { ContactName } from './ContactName';
 import { Intl } from '../Intl';
 import { LocalizerType } from '../../types/Util';
@@ -52,35 +52,28 @@ export class VerificationNotification extends React.Component<Props> {
     const id = this.getStringId();
 
     return (
-      <div className="SystemMessage__text">
-        <Intl
-          id={id}
-          components={[
-            <ContactName
-              key="external-1"
-              name={contact.name}
-              profileName={contact.profileName}
-              phoneNumber={contact.phoneNumber}
-              title={contact.title}
-              module="module-verification-notification__contact"
-              i18n={i18n}
-            />,
-          ]}
-          i18n={i18n}
-        />
-      </div>
+      <Intl
+        id={id}
+        components={[
+          <ContactName
+            key="external-1"
+            name={contact.name}
+            profileName={contact.profileName}
+            phoneNumber={contact.phoneNumber}
+            title={contact.title}
+            module="module-verification-notification__contact"
+            i18n={i18n}
+          />,
+        ]}
+        i18n={i18n}
+      />
     );
   }
 
   public render(): JSX.Element {
     const { type } = this.props;
-    const suffix = type === 'markVerified' ? 'verified' : 'verified-not';
+    const icon = type === 'markVerified' ? 'verified' : 'verified-not';
 
-    return (
-      <div className="SystemMessage">
-        <div className={`SystemMessage__icon SystemMessage__icon--${suffix}`} />
-        {this.renderContents()}
-      </div>
-    );
+    return <SystemMessage icon={icon} contents={this.renderContents()} />;
   }
 }

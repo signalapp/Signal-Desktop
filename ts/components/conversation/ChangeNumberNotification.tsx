@@ -7,6 +7,7 @@ import { ConversationType } from '../../state/ducks/conversations';
 import { LocalizerType } from '../../types/Util';
 import { Intl } from '../Intl';
 
+import { SystemMessage } from './SystemMessage';
 import { Timestamp } from './Timestamp';
 import { Emojify } from './Emojify';
 
@@ -25,17 +26,21 @@ export const ChangeNumberNotification: React.FC<Props> = props => {
   const { i18n, sender, timestamp } = props;
 
   return (
-    <div className="SystemMessage">
-      <span className="SystemMessage__icon SystemMessage__icon--phone" />
-      <Intl
-        id="ChangeNumber--notification"
-        components={{
-          sender: <Emojify text={sender.firstName || sender.title} />,
-        }}
-        i18n={i18n}
-      />
-      &nbsp;·&nbsp;
-      <Timestamp i18n={i18n} timestamp={timestamp} />
-    </div>
+    <SystemMessage
+      contents={
+        <>
+          <Intl
+            id="ChangeNumber--notification"
+            components={{
+              sender: <Emojify text={sender.firstName || sender.title} />,
+            }}
+            i18n={i18n}
+          />
+          &nbsp;·&nbsp;
+          <Timestamp i18n={i18n} timestamp={timestamp} />
+        </>
+      }
+      icon="phone"
+    />
   );
 };

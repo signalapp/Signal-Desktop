@@ -1,9 +1,9 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import classNames from 'classnames';
 
+import { SystemMessage } from './SystemMessage';
 import { Button, ButtonSize, ButtonVariant } from '../Button';
 import { ContactName } from './ContactName';
 import { Intl } from '../Intl';
@@ -48,54 +48,47 @@ export const UnsupportedMessage = ({
     ? 'Message--from-me-unsupported-message-ask-to-resend'
     : 'Message--from-me-unsupported-message';
   const stringId = isMe ? meStringId : otherStringId;
+  const icon = canProcessNow ? 'unsupported--can-process' : 'unsupported';
 
   return (
-    <div className="SystemMessage SystemMessage--multiline">
-      <div className="SystemMessage__line SystemMessage__text">
-        <div
-          className={classNames(
-            'SystemMessage__icon',
-            'SystemMessage__icon--unsupported',
-            {
-              'SystemMessage__icon--unsupported--can-process': canProcessNow,
-            }
-          )}
+    <SystemMessage
+      icon={icon}
+      contents={
+        <Intl
+          id={stringId}
+          components={[
+            <span
+              key="external-1"
+              className="module-unsupported-message__contact"
+            >
+              <ContactName
+                name={contact.name}
+                profileName={contact.profileName}
+                phoneNumber={contact.phoneNumber}
+                title={contact.title}
+                module="module-unsupported-message__contact"
+                i18n={i18n}
+              />
+            </span>,
+          ]}
+          i18n={i18n}
         />
-        <span>
-          <Intl
-            id={stringId}
-            components={[
-              <span
-                key="external-1"
-                className="module-unsupported-message__contact"
-              >
-                <ContactName
-                  name={contact.name}
-                  profileName={contact.profileName}
-                  phoneNumber={contact.phoneNumber}
-                  title={contact.title}
-                  module="module-unsupported-message__contact"
-                  i18n={i18n}
-                />
-              </span>,
-            ]}
-            i18n={i18n}
-          />
-        </span>
-      </div>
-      {canProcessNow ? null : (
-        <div className="SystemMessage__line">
-          <Button
-            onClick={() => {
-              downloadNewVersion();
-            }}
-            size={ButtonSize.Small}
-            variant={ButtonVariant.SystemMessage}
-          >
-            {i18n('Message--update-signal')}
-          </Button>
-        </div>
-      )}
-    </div>
+      }
+      button={
+        canProcessNow ? undefined : (
+          <div className="SystemMessage__line">
+            <Button
+              onClick={() => {
+                downloadNewVersion();
+              }}
+              size={ButtonSize.Small}
+              variant={ButtonVariant.SystemMessage}
+            >
+              {i18n('Message--update-signal')}
+            </Button>
+          </div>
+        )
+      }
+    />
   );
 };

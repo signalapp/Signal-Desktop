@@ -4,6 +4,7 @@
 import React, { useCallback, useState, ReactElement } from 'react';
 
 import { Button, ButtonSize, ButtonVariant } from '../Button';
+import { SystemMessage } from './SystemMessage';
 import { ConversationType } from '../../state/ducks/conversations';
 import { LocalizerType } from '../../types/Util';
 import { Intl } from '../Intl';
@@ -46,10 +47,9 @@ export function DeliveryIssueNotification(
   }
 
   return (
-    <div className="SystemMessage SystemMessage--multiline">
-      <div className="SystemMessage__line">
-        <span className="SystemMessage__icon SystemMessage__icon--info" />
-        <span>
+    <>
+      <SystemMessage
+        contents={
           <Intl
             id="DeliveryIssue--notification"
             components={{
@@ -57,17 +57,18 @@ export function DeliveryIssueNotification(
             }}
             i18n={i18n}
           />
-        </span>
-      </div>
-      <div className="SystemMessage__line">
-        <Button
-          onClick={openDialog}
-          size={ButtonSize.Small}
-          variant={ButtonVariant.SystemMessage}
-        >
-          {i18n('DeliveryIssue--learnMore')}
-        </Button>
-      </div>
+        }
+        icon="info"
+        button={
+          <Button
+            onClick={openDialog}
+            size={ButtonSize.Small}
+            variant={ButtonVariant.SystemMessage}
+          >
+            {i18n('DeliveryIssue--learnMore')}
+          </Button>
+        }
+      />
       {isDialogOpen ? (
         <DeliveryIssueDialog
           i18n={i18n}
@@ -77,6 +78,6 @@ export function DeliveryIssueNotification(
           onClose={closeDialog}
         />
       ) : null}
-    </div>
+    </>
   );
 }

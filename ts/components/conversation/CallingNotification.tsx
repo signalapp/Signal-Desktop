@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useState, useEffect } from 'react';
-import classNames from 'classnames';
 import Measure from 'react-measure';
 import { noop } from 'lodash';
 
+import { SystemMessage } from './SystemMessage';
 import { Button, ButtonSize, ButtonVariant } from '../Button';
 import { Timestamp } from './Timestamp';
 import { LocalizerType } from '../../types/Util';
@@ -86,17 +86,12 @@ export const CallingNotification: React.FC<PropsType> = React.memo(props => {
       }}
     >
       {({ measureRef }) => (
-        <div
-          className={classNames('SystemMessage', 'SystemMessage--multiline', {
-            'SystemMessage--error': wasMissed,
-          })}
-          ref={measureRef}
-        >
-          <div className="SystemMessage__line">
-            <div
-              className={`SystemMessage__icon SystemMessage__icon--${icon}`}
-            />
-            <div>
+        <SystemMessage
+          button={
+            hasButton ? <CallingNotificationButton {...props} /> : undefined
+          }
+          contents={
+            <>
               {getCallingNotificationText(props, i18n)} &middot;{' '}
               <Timestamp
                 direction="outgoing"
@@ -107,14 +102,12 @@ export const CallingNotification: React.FC<PropsType> = React.memo(props => {
                 withSticker={false}
                 withTapToViewExpired={false}
               />
-            </div>
-          </div>
-          {hasButton ? (
-            <div className="SystemMessage__line">
-              <CallingNotificationButton {...props} />
-            </div>
-          ) : null}
-        </div>
+            </>
+          }
+          icon={icon}
+          isError={wasMissed}
+          ref={measureRef}
+        />
       )}
     </Measure>
   );
