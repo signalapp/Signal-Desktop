@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { FunctionComponent, ReactNode } from 'react';
-import classNames from 'classnames';
 
 import { ContactName } from './ContactName';
+import { SystemMessage } from './SystemMessage';
 import { Intl } from '../Intl';
 import { LocalizerType } from '../../types/Util';
 import * as expirationTimer from '../../util/expirationTimer';
@@ -94,16 +94,7 @@ export const TimerNotification: FunctionComponent<Props> = props => {
       break;
   }
 
-  return (
-    <div className="SystemMessage">
-      <div
-        className={classNames(
-          'SystemMessage__icon',
-          'SystemMessage__icon--timer',
-          disabled ? 'SystemMessage__icon--timer-disabled' : null
-        )}
-      />
-      <div>{message}</div>
-    </div>
-  );
+  const icon = disabled ? 'timer-disabled' : 'timer';
+
+  return <SystemMessage icon={icon} contents={message} />;
 };

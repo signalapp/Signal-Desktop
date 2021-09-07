@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { ReactElement, useState } from 'react';
-import classNames from 'classnames';
 import { get } from 'lodash';
 
 import { ReplacementValuesType } from '../../types/I18N';
@@ -10,6 +9,7 @@ import { FullJSXType, Intl } from '../Intl';
 import { LocalizerType } from '../../types/Util';
 import { GroupDescriptionText } from '../GroupDescriptionText';
 import { Button, ButtonSize, ButtonVariant } from '../Button';
+import { SystemMessage } from './SystemMessage';
 
 import { GroupV2ChangeType, GroupV2ChangeDetailType } from '../../groups';
 
@@ -110,17 +110,11 @@ function GroupV2Detail({
     detail.type === 'description' && get(detail, 'description');
 
   return (
-    <div
-      className={classNames('SystemMessage', {
-        'SystemMessage--multiline': Boolean(newGroupDescription),
-      })}
-    >
-      <div className="SystemMessage__line">
-        <div className={`SystemMessage__icon SystemMessage__icon--${icon}`} />
-        <div className="SystemMessage__text">{text}</div>
-      </div>
-      {newGroupDescription ? (
-        <div className="SystemMessage__line">
+    <SystemMessage
+      icon={icon}
+      contents={text}
+      button={
+        newGroupDescription ? (
           <Button
             onClick={() => onButtonClick(newGroupDescription)}
             size={ButtonSize.Small}
@@ -128,9 +122,9 @@ function GroupV2Detail({
           >
             {i18n('view')}
           </Button>
-        </div>
-      ) : null}
-    </div>
+        ) : undefined
+      }
+    />
   );
 }
 

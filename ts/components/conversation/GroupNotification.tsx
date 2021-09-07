@@ -1,10 +1,11 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { compact, flatten } from 'lodash';
 
 import { ContactName } from './ContactName';
+import { SystemMessage } from './SystemMessage';
 import { Intl } from '../Intl';
 import { LocalizerType } from '../../types/Util';
 
@@ -133,12 +134,15 @@ export class GroupNotification extends React.Component<Props> {
   }
 
   public render(): JSX.Element {
-    const { changes, i18n, from } = this.props;
+    const { changes: rawChanges, i18n, from } = this.props;
+
+    // This check is just to be extra careful, and can probably be removed.
+    const changes: Array<Change> = Array.isArray(rawChanges) ? rawChanges : [];
 
     // Leave messages are always from the person leaving, so we omit the fromLabel if
     //   the change is a 'leave.'
-    const isLeftOnly =
-      changes && changes.length === 1 && changes[0].type === 'remove';
+    const firstChange: undefined | Change = changes[0];
+    const isLeftOnly = changes.length === 1 && firstChange?.type === 'remove';
 
     const fromContact = (
       <ContactName
@@ -156,23 +160,23 @@ export class GroupNotification extends React.Component<Props> {
       <Intl i18n={i18n} id="updatedTheGroup" components={[fromContact]} />
     );
 
-    return (
-      <div className="SystemMessage">
-        <div>
-          {isLeftOnly ? null : (
-            <>
-              {fromLabel}
-              <br />
-            </>
-          )}
-          {(changes || []).map((change, i) => (
+    let contents: ReactNode;
+    if (isLeftOnly) {
+      contents = this.renderChange(firstChange, from);
+    } else {
+      contents = (
+        <>
+          <p>{fromLabel}</p>
+          {changes.map((change, i) => (
             // eslint-disable-next-line react/no-array-index-key
-            <div key={i} className="module-group-notification__change">
+            <p key={i} className="module-group-notification__change">
               {this.renderChange(change, from)}
-            </div>
+            </p>
           ))}
-        </div>
-      </div>
-    );
+        </>
+      );
+    }
+
+    return <SystemMessage contents={contents} icon="group" />;
   }
 }

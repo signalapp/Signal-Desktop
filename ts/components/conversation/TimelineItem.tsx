@@ -26,6 +26,7 @@ import {
   PropsActionsType as DeliveryIssueActionProps,
   PropsDataType as DeliveryIssueProps,
 } from './DeliveryIssueNotification';
+import { LinkNotification } from './LinkNotification';
 import {
   ChangeNumberNotification,
   PropsData as ChangeNumberNotificationProps,
@@ -245,12 +246,7 @@ export class TimelineItem extends React.PureComponent<PropsType> {
         <DeliveryIssueNotification {...item.data} {...this.props} i18n={i18n} />
       );
     } else if (item.type === 'linkNotification') {
-      notification = (
-        <div className="SystemMessage">
-          <div className="SystemMessage__icon SystemMessage__icon--unsynced" />
-          {i18n('messageHistoryUnsynced')}
-        </div>
-      );
+      notification = <LinkNotification i18n={i18n} />;
     } else if (item.type === 'timerNotification') {
       notification = (
         <TimerNotification {...this.props} {...item.data} i18n={i18n} />
