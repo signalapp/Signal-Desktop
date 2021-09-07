@@ -34,6 +34,34 @@ const DEFAULT_EMOJI_LIST = [
   'cry',
 ];
 
+const EmojiButton = React.forwardRef<
+  HTMLButtonElement,
+  {
+    emoji: string;
+    onSelect: () => unknown;
+    selected: boolean;
+    title?: string;
+  }
+>(({ emoji, onSelect, selected, title }, ref) => (
+  <button
+    type="button"
+    key={emoji}
+    ref={ref}
+    tabIndex={0}
+    className={classNames(
+      'module-ReactionPicker__button',
+      'module-ReactionPicker__button--emoji',
+      selected && 'module-ReactionPicker__button--selected'
+    )}
+    onClick={e => {
+      e.stopPropagation();
+      onSelect();
+    }}
+  >
+    <Emoji size={48} emoji={emoji} title={title} />
+  </button>
+));
+
 export const ReactionPicker = React.forwardRef<HTMLDivElement, Props>(
   (
     { i18n, selected, onClose, skinTone, onPick, renderEmojiPicker, style },
@@ -64,70 +92,69 @@ export const ReactionPicker = React.forwardRef<HTMLDivElement, Props>(
       [onPick]
     );
 
+    // Focus first button and restore focus on unmount
+    const [focusRef] = useRestoreFocus();
+
+    if (pickingOther) {
+      return renderEmojiPicker({ onPickEmoji, onClose, style, ref });
+    }
+
     const emojis = DEFAULT_EMOJI_LIST.map(shortName =>
       convertShortName(shortName, skinTone)
     );
 
-    // Focus first button and restore focus on unmount
-    const [focusRef] = useRestoreFocus();
-
     const otherSelected = selected && !emojis.includes(selected);
 
-    return pickingOther ? (
-      renderEmojiPicker({ onPickEmoji, onClose, style, ref })
-    ) : (
-      <div ref={ref} style={style} className="module-reaction-picker">
+    let moreButton: React.ReactNode;
+    if (otherSelected) {
+      moreButton = (
+        <EmojiButton
+          emoji={selected}
+          onSelect={() => {
+            onPick(selected);
+          }}
+          selected
+          title={i18n('Reactions--remove')}
+        />
+      );
+    } else {
+      moreButton = (
+        <button
+          aria-label={i18n('ReactionsViewer--more')}
+          className="module-ReactionPicker__button module-ReactionPicker__button--more"
+          onClick={event => {
+            event.stopPropagation();
+            setPickingOther(true);
+          }}
+          tabIndex={0}
+          title={i18n('ReactionsViewer--more')}
+          type="button"
+        >
+          <div className="module-ReactionPicker__button--more__dot" />
+          <div className="module-ReactionPicker__button--more__dot" />
+          <div className="module-ReactionPicker__button--more__dot" />
+        </button>
+      );
+    }
+
+    return (
+      <div ref={ref} style={style} className="module-ReactionPicker">
         {emojis.map((emoji, index) => {
           const maybeFocusRef = index === 0 ? focusRef : undefined;
 
           return (
-            <button
-              type="button"
+            <EmojiButton
+              emoji={emoji}
               key={emoji}
-              ref={maybeFocusRef}
-              tabIndex={0}
-              className={classNames(
-                'module-reaction-picker__emoji-btn',
-                emoji === selected
-                  ? 'module-reaction-picker__emoji-btn--selected'
-                  : null
-              )}
-              onClick={e => {
-                e.stopPropagation();
+              onSelect={() => {
                 onPick(emoji);
               }}
-              title={emoji}
-            >
-              <div className="module-reaction-picker__emoji-btn__emoji">
-                <Emoji size={48} emoji={emoji} />
-              </div>
-            </button>
+              ref={maybeFocusRef}
+              selected={emoji === selected}
+            />
           );
         })}
-        <button
-          type="button"
-          className={classNames(
-            'module-reaction-picker__emoji-btn',
-            otherSelected
-              ? 'module-reaction-picker__emoji-btn--selected'
-              : 'module-reaction-picker__emoji-btn--more'
-          )}
-          onClick={e => {
-            e.stopPropagation();
-            if (otherSelected && selected) {
-              onPick(selected);
-            } else {
-              setPickingOther(true);
-            }
-          }}
-          title={i18n('ReactionsViewer--more')}
-        >
-          {otherSelected ? (
-            <div className="module-reaction-picker__emoji-btn__emoji">
-              <Emoji size={48} emoji={selected} />
-            </div>
-          ) : null}
-        </button>
+        {moreButton}
       </div>
     );
   }
