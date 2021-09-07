@@ -198,6 +198,12 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
   }
 );
 
-function truncateMessageText(text: undefined | string = ''): string {
+// This takes `unknown` because, sometimes, values from the database don't match our
+//   types. In the long term, we should fix that. In the short term, this smooths over the
+//   problem.
+function truncateMessageText(text: unknown): string {
+  if (typeof text !== 'string') {
+    return '';
+  }
   return text.split('\n', 1)[0];
 }
