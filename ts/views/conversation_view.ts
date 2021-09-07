@@ -1357,7 +1357,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     if (element) {
       toast.$el.appendTo(element);
     } else {
-      const lightboxEl = $('.module-lightbox');
+      const lightboxEl = $('.Lightbox');
       if (lightboxEl.length > 0) {
         toast.$el.appendTo(lightboxEl);
       } else {
@@ -2464,8 +2464,19 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     await message.retrySend();
   }
 
-  showForwardMessageModal(messageId: string): void {
-    const message = window.MessageController.getById(messageId);
+  async showForwardMessageModal(messageId: string): Promise<void> {
+    const messageFromCache = window.MessageController.getById(messageId);
+    if (!messageFromCache) {
+      window.log.info(
+        'showForwardMessageModal: Fetching message from database'
+      );
+    }
+    const message =
+      messageFromCache ||
+      (await window.Signal.Data.getMessageById(messageId, {
+        Message: window.Whisper.Message,
+      }));
+
     if (!message) {
       throw new Error(`showForwardMessageModal: Message ${messageId} missing!`);
     }

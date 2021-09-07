@@ -473,7 +473,7 @@ try {
     );
     const link = e.target.closest('a');
     const selection = Boolean(window.getSelection().toString());
-    const image = e.target.closest('.module-lightbox img');
+    const image = e.target.closest('.Lightbox img');
     if (!editable && !selection && !link && !image) {
       e.preventDefault();
     }

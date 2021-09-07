@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, {
-  MouseEvent,
   ReactNode,
   useCallback,
   useEffect,
@@ -64,15 +63,31 @@ export function Lightbox({
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [focusRef] = useRestoreFocus();
 
-  const onPrevious = useCallback(() => {
-    setSelectedIndex(prevSelectedIndex => Math.max(prevSelectedIndex - 1, 0));
-  }, []);
+  const onPrevious = useCallback(
+    (
+      event: KeyboardEvent | React.MouseEvent<HTMLButtonElement, MouseEvent>
+    ) => {
+      event.preventDefault();
+      event.stopPropagation();
 
-  const onNext = useCallback(() => {
-    setSelectedIndex(prevSelectedIndex =>
-      Math.min(prevSelectedIndex + 1, media.length - 1)
-    );
-  }, [media]);
+      setSelectedIndex(prevSelectedIndex => Math.max(prevSelectedIndex - 1, 0));
+    },
+    []
+  );
+
+  const onNext = useCallback(
+    (
+      event: KeyboardEvent | React.MouseEvent<HTMLButtonElement, MouseEvent>
+    ) => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      setSelectedIndex(prevSelectedIndex =>
+        Math.min(prevSelectedIndex + 1, media.length - 1)
+      );
+    },
+    [media]
+  );
 
   const onTimeUpdate = useCallback(() => {
     if (!videoElement) {
@@ -81,14 +96,24 @@ export function Lightbox({
     setVideoTime(videoElement.currentTime);
   }, [setVideoTime, videoElement]);
 
-  const handleSave = () => {
+  const handleSave = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    event.stopPropagation();
+    event.preventDefault();
+
     const mediaItem = media[selectedIndex];
     const { attachment, message, index } = mediaItem;
 
     onSave?.({ attachment, message, index });
   };
 
-  const handleForward = () => {
+  const handleForward = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    event.preventDefault();
+    event.stopPropagation();
+
     close();
     const mediaItem = media[selectedIndex];
     onForward?.(mediaItem.message.id);
@@ -98,11 +123,7 @@ export function Lightbox({
     (event: KeyboardEvent) => {
       switch (event.key) {
         case 'Escape':
-          if (zoomed) {
-            setZoomed(false);
-          } else {
-            close();
-          }
+          close();
 
           event.preventDefault();
           event.stopPropagation();
@@ -110,31 +131,23 @@ export function Lightbox({
           break;
 
         case 'ArrowLeft':
-          if (onPrevious) {
-            onPrevious();
-
-            event.preventDefault();
-            event.stopPropagation();
-          }
+          onPrevious(event);
           break;
 
         case 'ArrowRight':
-          if (onNext) {
-            onNext();
-
-            event.preventDefault();
-            event.stopPropagation();
-          }
+          onNext(event);
           break;
 
         default:
       }
     },
-    [close, onNext, onPrevious, zoomed]
+    [close, onNext, onPrevious]
   );
 
-  const stopPropagationAndClose = (event: MouseEvent<HTMLElement>) => {
+  const onClose = (event: React.MouseEvent<HTMLElement>) => {
     event.stopPropagation();
+    event.preventDefault();
+
     close();
   };
 
@@ -173,7 +186,7 @@ export function Lightbox({
   const { attachment, contentType, loop = false, objectURL, message } =
     media[selectedIndex] || {};
 
-  const isAttachmentGIF = isGIF([attachment]);
+  const isAttachmentGIF = isGIF(attachment ? [attachment] : undefined);
 
   useEffect(() => {
     playVideo();
@@ -211,13 +224,20 @@ export function Lightbox({
         content = (
           <button
             className="Lightbox__zoom-button"
-            onClick={() => setZoomed(!zoomed)}
+            onClick={(
+              event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+            ) => {
+              event.preventDefault();
+              event.stopPropagation();
+
+              setZoomed(!zoomed);
+            }}
             type="button"
           >
             <img
               alt={i18n('lightboxImageAlt')}
               className="Lightbox__object"
-              onContextMenu={(event: MouseEvent<HTMLImageElement>) => {
+              onContextMenu={(event: React.MouseEvent<HTMLImageElement>) => {
                 // These are the only image types supported by Electron's NativeImage
                 if (
                   event &&
@@ -240,7 +260,7 @@ export function Lightbox({
               Lightbox__unsupported: true,
               'Lightbox__unsupported--missing': true,
             })}
-            onClick={stopPropagationAndClose}
+            onClick={onClose}
             type="button"
           />
         );
@@ -269,7 +289,7 @@ export function Lightbox({
             'Lightbox__unsupported--image': isUnsupportedImageType,
             'Lightbox__unsupported--video': isUnsupportedVideoType,
           })}
-          onClick={stopPropagationAndClose}
+          onClick={onClose}
           type="button"
         />
       );
@@ -280,7 +300,7 @@ export function Lightbox({
         <button
           aria-label={i18n('unsupportedAttachment')}
           className="Lightbox__object Lightbox__unsupported Lightbox__unsupported--file"
-          onClick={stopPropagationAndClose}
+          onClick={onClose}
           type="button"
         />
       );
@@ -294,10 +314,10 @@ export function Lightbox({
     ? createPortal(
         <div
           className="Lightbox Lightbox__container"
-          onClick={(event: MouseEvent<HTMLDivElement>) => {
-            if (containerRef && event.target !== containerRef.current) {
-              return;
-            }
+          onClick={(event: React.MouseEvent<HTMLDivElement>) => {
+            event.stopPropagation();
+            event.preventDefault();
+
             close();
           }}
           onKeyUp={(event: React.KeyboardEvent<HTMLDivElement>) => {
@@ -411,7 +431,14 @@ export function Lightbox({
                         })}
                         key={item.thumbnailObjectUrl}
                         type="button"
-                        onClick={() => setSelectedIndex(index)}
+                        onClick={(
+                          event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+                        ) => {
+                          event.stopPropagation();
+                          event.preventDefault();
+
+                          setSelectedIndex(index);
+                        }}
                       >
                         {item.thumbnailObjectUrl ? (
                           <img
