@@ -1198,7 +1198,12 @@ export class Message extends React.PureComponent<Props, State> {
         <button
           type="button"
           className="module-message__author-avatar"
-          onClick={() => showContactModal(author.id)}
+          onClick={(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+            event.stopPropagation();
+            event.preventDefault();
+
+            showContactModal(author.id);
+          }}
           tabIndex={0}
         >
           <Avatar
