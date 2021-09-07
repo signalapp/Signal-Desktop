@@ -107,7 +107,7 @@ export type IPCEventsCallbacksType = {
     customColor?: { id: string; value: CustomColorType }
   ) => void;
   getDefaultConversationColor: () => DefaultConversationColorType;
-  setPassiveZoomFactor: (factor: number) => Promise<void>;
+  persistZoomFactor: (factor: number) => Promise<void>;
 };
 
 type ValuesWithGetters = Omit<
@@ -507,7 +507,7 @@ export function createIPCEvents(
     getMediaPermissions: window.getMediaPermissions,
     getMediaCameraPermissions: window.getMediaCameraPermissions,
 
-    setPassiveZoomFactor: zoomFactor =>
+    persistZoomFactor: zoomFactor =>
       window.storage.put('zoomFactor', zoomFactor),
 
     ...overrideEvents,

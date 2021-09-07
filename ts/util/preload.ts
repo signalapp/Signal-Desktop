@@ -181,7 +181,7 @@ export function installCallback<Name extends keyof IPCEventsCallbacksType>(
       );
     } catch (error) {
       ipcRenderer.send(
-        `callbacks:call-success;${name}`,
+        `callbacks:call-success:${name}`,
         error && error.stack ? error.stack : error
       );
     }
