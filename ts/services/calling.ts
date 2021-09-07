@@ -215,8 +215,6 @@ export class CallingClass {
 
   private hadLocalVideoBeforePresenting?: boolean;
 
-  private hasGivenOurUuidToRingRtc = false;
-
   constructor() {
     this.videoCapturer = new GumVideoCapturer({
       maxWidth: REQUESTED_VIDEO_WIDTH,
@@ -252,6 +250,9 @@ export class CallingClass {
     );
 
     this.attemptToGiveOurUuidToRingRtc();
+    window.Whisper.events.on('userChanged', () => {
+      this.attemptToGiveOurUuidToRingRtc();
+    });
 
     ipcRenderer.on('stop-screen-share', () => {
       uxActions.setPresenting();
@@ -261,10 +262,6 @@ export class CallingClass {
   }
 
   private attemptToGiveOurUuidToRingRtc(): void {
-    if (this.hasGivenOurUuidToRingRtc) {
-      return;
-    }
-
     const ourUuid = window.textsecure.storage.user.getUuid();
     if (!ourUuid) {
       // This can happen if we're not linked. It's okay if we hit this case.
@@ -272,7 +269,6 @@ export class CallingClass {
     }
 
     RingRTC.setSelfUuid(Buffer.from(uuidToArrayBuffer(ourUuid)));
-    this.hasGivenOurUuidToRingRtc = true;
   }
 
   async startCallingLobby(
@@ -689,8 +685,6 @@ export class CallingClass {
     hasLocalVideo: boolean,
     shouldRing: boolean
   ): void {
-    this.attemptToGiveOurUuidToRingRtc();
-
     const conversation = window.ConversationController.get(
       conversationId
     )?.format();
@@ -979,8 +973,6 @@ export class CallingClass {
 
   declineGroupCall(conversationId: string, ringId: bigint): void {
     window.log.info('CallingClass.declineGroupCall()');
-
-    this.attemptToGiveOurUuidToRingRtc();
 
     const groupId = window.ConversationController.get(conversationId)?.get(
       'groupId'
@@ -1575,8 +1567,6 @@ export class CallingClass {
     data: Buffer,
     urgency: CallMessageUrgency
   ): Promise<void> {
-    this.attemptToGiveOurUuidToRingRtc();
-
     const groupId = groupIdBytes.toString('base64');
     const conversation = window.ConversationController.get(groupId);
     if (!conversation) {
@@ -1623,8 +1613,6 @@ export class CallingClass {
     update: RingUpdate
   ): Promise<void> {
     window.log.info(`handleGroupCallRingUpdate(): got ring update ${update}`);
-
-    this.attemptToGiveOurUuidToRingRtc();
 
     const groupId = groupIdBytes.toString('base64');
 
