@@ -307,9 +307,12 @@ async function goBackToMainProcess(): Promise<void> {
   window.log.info('data.goBackToMainProcess: switching to main process');
 
   // Close the database in the renderer process.
-  await close();
+  const closePromise = close();
 
+  // It should be the last query we run in renderer process
   shouldUseRendererProcess = false;
+
+  await closePromise;
 
   // Print query statistics for whole startup
   const entries = Array.from(startupQueries.entries());
