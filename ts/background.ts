@@ -1237,7 +1237,7 @@ export async function startApp(): Promise<void> {
           return;
         }
 
-        const lightBox = document.querySelector('.module-lightbox');
+        const lightBox = document.querySelector('.Lightbox');
         if (lightBox) {
           return;
         }

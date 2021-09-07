@@ -5836,7 +5836,7 @@ async function removeKnownStickers(
   );
   const chunkSize = 50;
 
-  const total = getStickerCount();
+  const total = await getStickerCount();
   console.log(
     `removeKnownStickers: About to iterate through ${total} stickers`
   );
