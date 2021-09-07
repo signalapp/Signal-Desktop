@@ -6155,7 +6155,7 @@
   },
   "Preferences__button--chats": {
     "message": "Chats",
-    "description": "Button to switch the settings view"
+    "description": "Button to switch the settings view (and a title of pane)"
   },
   "Preferences__button--calls": {
     "message": "Calls",
@@ -6278,6 +6278,14 @@
   "Preferences__download-update": {
     "message": "Automatically download updates",
     "description": "Label for checkbox for the auto download updates setting"
+  },
+  "Preferences__enable-notifications": {
+    "message": "Enable notifications",
+    "description": "Label for checkbox for the notifications setting"
+  },
+  "Preferences__devices": {
+    "message": "Devices",
+    "description": "Label for Device list in call settings pane"
   },
   "DialogUpdate--version-available": {
     "message": "Update to version $version$ available",
