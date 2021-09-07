@@ -487,7 +487,7 @@ async function getMessageSendData({
     attachments,
     body,
     deletedForEveryoneTimestamp: message.get('deletedForEveryoneTimestamp'),
-    expireTimer: conversation.get('expireTimer'),
+    expireTimer: message.get('expireTimer'),
     mentions: message.get('bodyRanges'),
     messageTimestamp,
     preview,
