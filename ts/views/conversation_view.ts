@@ -2009,9 +2009,13 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     ]);
   }
 
-  hasFiles(): boolean {
+  hasFiles(options: { includePending: boolean }): boolean {
     const draftAttachments = this.model.get('draftAttachments') || [];
-    return draftAttachments.length > 0;
+    if (options.includePending) {
+      return draftAttachments.length > 0;
+    }
+
+    return draftAttachments.some(item => !item.pending);
   }
 
   async getFiles(): Promise<Array<AttachmentType>> {
@@ -2092,7 +2096,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       )
     );
     this.toggleMicrophone();
-    if (this.hasFiles()) {
+    if (this.hasFiles({ includePending: true })) {
       this.removeLinkPreview();
     }
   }
@@ -2333,7 +2337,9 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
   }
 
   toggleMicrophone(): void {
-    this.compositionApi.current?.setShowMic(!this.hasFiles());
+    this.compositionApi.current?.setShowMic(
+      !this.hasFiles({ includePending: true })
+    );
   }
 
   captureAudio(e?: Event): void {
@@ -2345,7 +2351,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       return;
     }
 
-    if (this.hasFiles()) {
+    if (this.hasFiles({ includePending: true })) {
       this.showToast(Whisper.VoiceNoteMustBeOnlyAttachmentToast);
       return;
     }
@@ -2388,7 +2394,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     });
   }
   async handleAudioCapture(blob: Blob): Promise<void> {
-    if (this.hasFiles()) {
+    if (this.hasFiles({ includePending: true })) {
       throw new Error('A voice note cannot be sent with other attachments');
     }
 
@@ -4162,7 +4168,11 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     }
 
     try {
-      if (!message.length && !this.hasFiles() && !this.voiceNoteAttachment) {
+      if (
+        !message.length &&
+        !this.hasFiles({ includePending: false }) &&
+        !this.voiceNoteAttachment
+      ) {
         return;
       }
 
@@ -4255,7 +4265,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       return;
     }
     // If we have attachments, don't add link preview
-    if (this.hasFiles()) {
+    if (this.hasFiles({ includePending: true })) {
       return;
     }
     // If we're behind a user-configured proxy, we don't support link previews
