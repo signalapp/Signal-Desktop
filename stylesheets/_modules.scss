@@ -4443,10 +4443,22 @@ button.module-image__border-overlay:focus {
 .module-spinner__circle--small {
   -webkit-mask: url('../images/spinner-track-24.svg') no-repeat center;
   -webkit-mask-size: 100%;
+
+  // For specificity
+  @include dark-theme {
+    -webkit-mask: url('../images/spinner-track-24.svg') no-repeat center;
+    -webkit-mask-size: 100%;
+  }
 }
 .module-spinner__arc--small {
   -webkit-mask: url('../images/spinner-24.svg') no-repeat center;
   -webkit-mask-size: 100%;
+
+  // For specificity
+  @include dark-theme {
+    -webkit-mask: url('../images/spinner-24.svg') no-repeat center;
+    -webkit-mask-size: 100%;
+  }
 }
 
 .module-spinner__circle--incoming {

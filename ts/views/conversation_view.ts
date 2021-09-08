@@ -1913,12 +1913,24 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     const onDisk = await this.writeDraftAttachment(attachment);
 
     // Remove any pending attachments that were transcoding
-    const draftAttachments = (this.model.get('draftAttachments') || []).filter(
-      draftAttachment => draftAttachment.path !== attachment.path
+    const draftAttachments = this.model.get('draftAttachments') || [];
+    const index = draftAttachments.findIndex(
+      draftAttachment => draftAttachment.path === attachment.path
     );
-    this.model.set({
-      draftAttachments: [onDisk, ...draftAttachments],
-    });
+    if (index < 0) {
+      window.log.warn(
+        `addAttachment: Failed to find pending attachment with path ${attachment.path}`
+      );
+      this.model.set({
+        draftAttachments: [...draftAttachments, onDisk],
+      });
+    } else {
+      const toUpdate = [...draftAttachments];
+      toUpdate.splice(index, 1, onDisk);
+      this.model.set({
+        draftAttachments: toUpdate,
+      });
+    }
     this.updateAttachmentsView();
 
     await this.saveModel();
