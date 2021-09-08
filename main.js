@@ -313,7 +313,7 @@ function handleCommonWindowEvents(window) {
   // Works only for mainWindow because it has `enablePreferredSizeMode`
   let lastZoomFactor = window.webContents.getZoomFactor();
   const onZoomChanged = () => {
-    const zoomFactor = mainWindow.webContents.getZoomFactor();
+    const zoomFactor = window.webContents.getZoomFactor();
     if (lastZoomFactor === zoomFactor) {
       return;
     }
@@ -1157,9 +1157,16 @@ async function initializeSQL() {
   return { ok: true };
 }
 
-const sqlInitPromise = initializeSQL();
-
 const onDatabaseError = async error => {
+  // Prevent window from re-opening
+  ready = false;
+
+  if (mainWindow) {
+    mainWindow.webContents.send('callbacks:call:closeDB', []);
+    mainWindow.close();
+  }
+  mainWindow = undefined;
+
   const buttonIndex = dialog.showMessageBoxSync({
     buttons: [
       locale.messages.copyErrorAndQuit.message,
@@ -1183,15 +1190,30 @@ const onDatabaseError = async error => {
   app.exit(1);
 };
 
-ipc.on('database-error', (event, error) => {
-  if (mainWindow) {
-    mainWindow.close();
+const runSQLCorruptionHandler = async () => {
+  // This is a glorified event handler. Normally, this promise never resolves,
+  // but if there is a corruption error triggered by any query that we run
+  // against the database - the promise will resolve and we will call
+  // `onDatabaseError`.
+  const error = await sql.whenCorrupted();
+
+  const message =
+    'Detected sql corruption in main process. ' +
+    `Restarting the application immediately. Error: ${error.message}`;
+  if (logger) {
+    logger.error(message);
+  } else {
+    console.error(message);
   }
-  mainWindow = undefined;
 
-  // Prevent window from re-opening
-  ready = false;
+  await onDatabaseError(error.stack);
+};
 
+runSQLCorruptionHandler();
+
+const sqlInitPromise = initializeSQL();
+
+ipc.on('database-error', (event, error) => {
   onDatabaseError(error);
 });
 

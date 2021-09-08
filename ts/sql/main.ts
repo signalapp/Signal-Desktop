@@ -6,6 +6,9 @@
 import { join } from 'path';
 import { Worker } from 'worker_threads';
 
+import { explodePromise } from '../util/explodePromise';
+import { isCorruptionError } from './errors';
+
 const ASAR_PATTERN = /app\.asar$/;
 const MIN_TRACE_DURATION = 40;
 
@@ -58,6 +61,10 @@ export class MainSQL {
 
   private readonly onExit: Promise<void>;
 
+  // This promise is resolved when any of the queries that we run against the
+  // database reject with a corruption error (see `isCorruptionError`)
+  private readonly onCorruption: Promise<Error>;
+
   private seq = 0;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -77,6 +84,12 @@ export class MainSQL {
       join(scriptDir, isBundled ? 'mainWorker.bundle.js' : 'mainWorker.js')
     );
 
+    const {
+      promise: onCorruption,
+      resolve: resolveCorruption,
+    } = explodePromise<Error>();
+    this.onCorruption = onCorruption;
+
     this.worker.on('message', (wrappedResponse: WrappedWorkerResponse) => {
       const { seq, error, response } = wrappedResponse;
 
@@ -87,7 +100,12 @@ export class MainSQL {
       }
 
       if (error) {
-        pair.reject(new Error(error));
+        const errorObj = new Error(error);
+        if (isCorruptionError(errorObj)) {
+          resolveCorruption(errorObj);
+        }
+
+        pair.reject(errorObj);
       } else {
         pair.resolve(response);
       }
@@ -109,6 +127,10 @@ export class MainSQL {
 
     this.onReady = undefined;
     this.isReady = true;
+  }
+
+  public whenCorrupted(): Promise<Error> {
+    return this.onCorruption;
   }
 
   public async close(): Promise<void> {

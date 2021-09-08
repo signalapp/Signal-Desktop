@@ -374,25 +374,6 @@ function getSQLCipherVersion(db: Database): string | undefined {
   return db.pragma('cipher_version', { simple: true });
 }
 
-function getSQLCipherIntegrityCheck(db: Database): Array<string> | undefined {
-  const rows: Array<{ cipher_integrity_check: string }> = db.pragma(
-    'cipher_integrity_check'
-  );
-  if (rows.length === 0) {
-    return undefined;
-  }
-  return rows.map(row => row.cipher_integrity_check);
-}
-
-function getSQLIntegrityCheck(db: Database): string | undefined {
-  const checkResult = db.pragma('quick_check', { simple: true });
-  if (checkResult !== 'ok') {
-    return checkResult;
-  }
-
-  return undefined;
-}
-
 function migrateSchemaVersion(db: Database): void {
   const userVersion = getUserVersion(db);
   if (userVersion > 0) {
@@ -2232,24 +2213,6 @@ async function initialize({
 
     updateSchema(db);
 
-    // test database
-
-    const cipherIntegrityResult = getSQLCipherIntegrityCheck(db);
-    if (cipherIntegrityResult) {
-      console.log(
-        'Database cipher integrity check failed:',
-        cipherIntegrityResult
-      );
-      throw new Error(
-        `Cipher integrity check failed: ${cipherIntegrityResult}`
-      );
-    }
-    const integrityResult = getSQLIntegrityCheck(db);
-    if (integrityResult) {
-      console.log('Database integrity check failed:', integrityResult);
-      throw new Error(`Integrity check failed: ${integrityResult}`);
-    }
-
     // At this point we can allow general access to the database
     globalInstance = db;
 
@@ -2325,7 +2288,12 @@ async function close(): Promise<void> {
 
 async function removeDB(): Promise<void> {
   if (globalInstance) {
-    throw new Error('removeDB: Cannot erase database when it is open!');
+    try {
+      globalInstance.close();
+    } catch (error) {
+      console.log('removeDB: Failed to close database:', error.stack);
+    }
+    globalInstance = undefined;
   }
   if (!databaseFilePath) {
     throw new Error(

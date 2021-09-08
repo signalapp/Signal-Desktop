@@ -84,6 +84,7 @@ export type IPCEventsCallbacksType = {
   addCustomColor: (customColor: CustomColorType) => void;
   addDarkOverlay: () => void;
   deleteAllData: () => Promise<void>;
+  closeDB: () => Promise<void>;
   editCustomColor: (colorId: string, customColor: CustomColorType) => void;
   getConversationsWithCustomColor: (x: string) => Array<ConversationType>;
   installStickerPack: (packId: string, key: string) => Promise<void>;
@@ -381,6 +382,10 @@ export function createIPCEvents(
       await window.sqlInitializer.goBackToMainProcess();
 
       renderClearingDataView();
+    },
+
+    closeDB: async () => {
+      await window.sqlInitializer.goBackToMainProcess();
     },
 
     showStickerPack: (packId, key) => {

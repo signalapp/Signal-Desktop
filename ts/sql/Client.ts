@@ -74,6 +74,7 @@ import {
   UnprocessedUpdateType,
 } from './Interface';
 import Server from './Server';
+import { isCorruptionError } from './errors';
 import { MessageModel } from '../models/messages';
 import { ConversationModel } from '../models/conversations';
 
@@ -446,18 +447,6 @@ function _updateJob(id: number, data: ClientJobUpdateType) {
         `SQL channel job ${id} (${fnName}) failed in ${end - start}ms`
       );
 
-      if (
-        error &&
-        error.message &&
-        (error.message.includes('SQLITE_CORRUPT') ||
-          error.message.includes('database disk image is malformed'))
-      ) {
-        window.log.error(
-          `Detected corruption. Restarting the application immediately. Error: ${error.message}`
-        );
-        ipcRenderer?.send('database-error', error.message);
-      }
-
       return reject(error);
     },
   };
@@ -528,25 +517,37 @@ function makeChannel(fnName: string) {
       const serverFnName = fnName as keyof ServerInterface;
       const start = Date.now();
 
-      // Ignoring this error TS2556: Expected 3 arguments, but got 0 or more.
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      const result = Server[serverFnName](...args);
-
-      const duration = Date.now() - start;
-
-      startupQueries.set(
-        serverFnName,
-        (startupQueries.get(serverFnName) || 0) + duration
-      );
-
-      if (duration > MIN_TRACE_DURATION || _DEBUG) {
-        window.log.info(
-          `Renderer SQL channel job (${fnName}) succeeded in ${duration}ms`
+      try {
+        // Ignoring this error TS2556: Expected 3 arguments, but got 0 or more.
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        return await Server[serverFnName](...args);
+      } catch (error) {
+        if (isCorruptionError(error)) {
+          window.log.error(
+            'Detected sql corruption in renderer process. ' +
+              `Restarting the application immediately. Error: ${error.message}`
+          );
+          ipcRenderer?.send('database-error', error.stack);
+        }
+        window.log.error(
+          `Renderer SQL channel job (${fnName}) error ${error.message}`
         );
-      }
+        throw error;
+      } finally {
+        const duration = Date.now() - start;
 
-      return result;
+        startupQueries.set(
+          serverFnName,
+          (startupQueries.get(serverFnName) || 0) + duration
+        );
+
+        if (duration > MIN_TRACE_DURATION || _DEBUG) {
+          window.log.info(
+            `Renderer SQL channel job (${fnName}) completed in ${duration}ms`
+          );
+        }
+      }
     }
 
     const jobId = _makeJob(fnName);
