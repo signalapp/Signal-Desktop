@@ -120,14 +120,14 @@ export const ReactionPicker = React.forwardRef<HTMLDivElement, Props>(
     } else {
       moreButton = (
         <button
-          aria-label={i18n('ReactionsViewer--more')}
+          aria-label={i18n('Reactions--more')}
           className="module-ReactionPicker__button module-ReactionPicker__button--more"
           onClick={event => {
             event.stopPropagation();
             setPickingOther(true);
           }}
           tabIndex={0}
-          title={i18n('ReactionsViewer--more')}
+          title={i18n('Reactions--more')}
           type="button"
         >
           <div className="module-ReactionPicker__button--more__dot" />
