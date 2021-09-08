@@ -2096,7 +2096,7 @@
         "description": "Description for audio notification setting"
     },
     "callRingtoneNotificationDescription": {
-        "message": "呼び出し音を再生する",
+        "message": "呼び出し音を鳴らす",
         "description": "Description for call ringtone notification setting"
     },
     "callSystemNotificationDescription": {
@@ -3179,11 +3179,15 @@
         "message": "Sticker Pack Creatorを使うには、Signalを携帯電話とデスクトップで設定してください。",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
+    "Reactions--remove": {
+        "message": "リアクションを削除",
+        "description": ""
+    },
     "Reactions--error": {
         "message": "リアクションを送信に失敗しました。再度お試しください。",
         "description": "Shown when a reaction fails to send"
     },
-    "ReactionsViewer--more": {
+    "Reactions--more": {
         "message": "さらに",
         "description": "Use in the reaction picker as the alt text for the 'more' button"
     },
@@ -6169,7 +6173,7 @@
     },
     "Preferences__button--chats": {
         "message": "チャット",
-        "description": "Button to switch the settings view"
+        "description": "Button to switch the settings view (and a title of pane)"
     },
     "Preferences__button--calls": {
         "message": "通話",
@@ -6292,6 +6296,14 @@
     "Preferences__download-update": {
         "message": "アップデートを自動でダウンロードする",
         "description": "Label for checkbox for the auto download updates setting"
+    },
+    "Preferences__enable-notifications": {
+        "message": "通知を有効にする",
+        "description": "Label for checkbox for the notifications setting"
+    },
+    "Preferences__devices": {
+        "message": "端末",
+        "description": "Label for Device list in call settings pane"
     },
     "DialogUpdate--version-available": {
         "message": "バージョン$version$へのアップデートがあります",

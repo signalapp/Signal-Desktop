@@ -3179,11 +3179,15 @@
         "message": "Norėdami naudoti lipdukų paketo kūrėją, nusistatykite Signal savo telefone ir staliniame kompiuteryje",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
+    "Reactions--remove": {
+        "message": "Šalinti reakciją",
+        "description": ""
+    },
     "Reactions--error": {
         "message": "Nepavyko išsiųsti reakcijos. Bandykite dar kartą.",
         "description": "Shown when a reaction fails to send"
     },
-    "ReactionsViewer--more": {
+    "Reactions--more": {
         "message": "Daugiau",
         "description": "Use in the reaction picker as the alt text for the 'more' button"
     },
@@ -6169,7 +6173,7 @@
     },
     "Preferences__button--chats": {
         "message": "Pokalbiai",
-        "description": "Button to switch the settings view"
+        "description": "Button to switch the settings view (and a title of pane)"
     },
     "Preferences__button--calls": {
         "message": "Skambučiai",
@@ -6292,6 +6296,14 @@
     "Preferences__download-update": {
         "message": "Automatiškai atsisiųsti atnaujinimus",
         "description": "Label for checkbox for the auto download updates setting"
+    },
+    "Preferences__enable-notifications": {
+        "message": "Įjungti pranešimus",
+        "description": "Label for checkbox for the notifications setting"
+    },
+    "Preferences__devices": {
+        "message": "Įrenginiai",
+        "description": "Label for Device list in call settings pane"
     },
     "DialogUpdate--version-available": {
         "message": "Yra prieinamas atnaujinimas į versiją $version$",

@@ -3179,11 +3179,15 @@
         "message": "Vänligen ställ in Signal på din telefon och ditt skrivbord för att använda skaparen av klistermärkepaket",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
+    "Reactions--remove": {
+        "message": "Ta bort reaktionen",
+        "description": ""
+    },
     "Reactions--error": {
         "message": "Det gick inte att skicka reaktion. Vänligen försök igen.",
         "description": "Shown when a reaction fails to send"
     },
-    "ReactionsViewer--more": {
+    "Reactions--more": {
         "message": "Mer",
         "description": "Use in the reaction picker as the alt text for the 'more' button"
     },
@@ -6169,7 +6173,7 @@
     },
     "Preferences__button--chats": {
         "message": "Chattar",
-        "description": "Button to switch the settings view"
+        "description": "Button to switch the settings view (and a title of pane)"
     },
     "Preferences__button--calls": {
         "message": "Samtal",
@@ -6292,6 +6296,14 @@
     "Preferences__download-update": {
         "message": "Hämta uppdateringar automatiskt",
         "description": "Label for checkbox for the auto download updates setting"
+    },
+    "Preferences__enable-notifications": {
+        "message": "Aktivera aviseringar",
+        "description": "Label for checkbox for the notifications setting"
+    },
+    "Preferences__devices": {
+        "message": "Enheter",
+        "description": "Label for Device list in call settings pane"
     },
     "DialogUpdate--version-available": {
         "message": "Uppdatering till version $version$ tillgänglig",

@@ -3179,11 +3179,15 @@
         "message": "لطفاً سیگنال را روی تلفن و دسکتاپ خود نصب کنید تا از ایجادکنندهٔ بستهٔ استیکر استفاده کنید",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
+    "Reactions--remove": {
+        "message": "Remove reaction",
+        "description": ""
+    },
     "Reactions--error": {
         "message": "ناموفقیت در ارسال واکنش. لطفاً دوباره تلاش کنید.",
         "description": "Shown when a reaction fails to send"
     },
-    "ReactionsViewer--more": {
+    "Reactions--more": {
         "message": "بیشتر",
         "description": "Use in the reaction picker as the alt text for the 'more' button"
     },
@@ -6169,7 +6173,7 @@
     },
     "Preferences__button--chats": {
         "message": "گفتگوها",
-        "description": "Button to switch the settings view"
+        "description": "Button to switch the settings view (and a title of pane)"
     },
     "Preferences__button--calls": {
         "message": "تماس‌ها",
@@ -6292,6 +6296,14 @@
     "Preferences__download-update": {
         "message": "بارگیری خودکار به‌روزرسانی‌ها",
         "description": "Label for checkbox for the auto download updates setting"
+    },
+    "Preferences__enable-notifications": {
+        "message": "Enable notifications",
+        "description": "Label for checkbox for the notifications setting"
+    },
+    "Preferences__devices": {
+        "message": "دستگاه ها",
+        "description": "Label for Device list in call settings pane"
     },
     "DialogUpdate--version-available": {
         "message": "به‌روزرسانی به نسخهٔ $version$ موجود است",

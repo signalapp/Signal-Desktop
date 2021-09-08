@@ -3179,11 +3179,15 @@
         "message": "Pre používanie nástroja na vytvorenie nálepiek si musíte nastaviť Signal na telefóne a počítači",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
+    "Reactions--remove": {
+        "message": "Odstrániť reakciu",
+        "description": ""
+    },
     "Reactions--error": {
         "message": "Nepodarilo sa mi odoslať reakciu. Skúste to prosím znovu",
         "description": "Shown when a reaction fails to send"
     },
-    "ReactionsViewer--more": {
+    "Reactions--more": {
         "message": "Viac",
         "description": "Use in the reaction picker as the alt text for the 'more' button"
     },
@@ -6169,7 +6173,7 @@
     },
     "Preferences__button--chats": {
         "message": "Konverzácie",
-        "description": "Button to switch the settings view"
+        "description": "Button to switch the settings view (and a title of pane)"
     },
     "Preferences__button--calls": {
         "message": "Volania",
@@ -6292,6 +6296,14 @@
     "Preferences__download-update": {
         "message": "Automaticky sťahovať aktualizácie",
         "description": "Label for checkbox for the auto download updates setting"
+    },
+    "Preferences__enable-notifications": {
+        "message": "Povoliť upozornenia",
+        "description": "Label for checkbox for the notifications setting"
+    },
+    "Preferences__devices": {
+        "message": "Zariadenia",
+        "description": "Label for Device list in call settings pane"
     },
     "DialogUpdate--version-available": {
         "message": "Aktualizácia na verziu $version$ je k dispozícii",

@@ -420,7 +420,7 @@
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "safetyNumberChangeDialog__pending-messages--many": {
-        "message": "Send $count$ pending messages",
+        "message": "Kirim $count$ pesan tertunda",
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
         "placeholders": {
             "count": {
@@ -676,7 +676,7 @@
         "description": "Shown to allow the user to manually attempt a reconnect."
     },
     "connectingHangOn": {
-        "message": "Shouldn't be long",
+        "message": "Tidak akan lama",
         "description": "Subtext description for when the client is connecting to the server."
     },
     "offline": {
@@ -1420,11 +1420,11 @@
         "description": "Button tooltip label when you can't ring because the group is too large"
     },
     "calling__button--ring__off": {
-        "message": "Notify, don't ring",
+        "message": "Kirim notifikasi, jangan deringkan",
         "description": "Button tooltip label for turning ringing off"
     },
     "calling__button--ring__on": {
-        "message": "Enable ringing",
+        "message": "Aktifkan dering",
         "description": "Button tooltip label for turning ringing on"
     },
     "calling__your-video-is-off": {
@@ -1500,7 +1500,7 @@
         }
     },
     "calling__pre-call-info--will-ring-1": {
-        "message": "Signal will ring $person$",
+        "message": "Signal akan memanggil $person$",
         "description": "Shown in the calling lobby to describe who will be rung",
         "placeholders": {
             "person": {
@@ -1510,7 +1510,7 @@
         }
     },
     "calling__pre-call-info--will-ring-2": {
-        "message": "Signal will ring $first$ and $second$",
+        "message": "Signal akan memanggil $first$ dan $second$",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "first": {
@@ -1524,7 +1524,7 @@
         }
     },
     "calling__pre-call-info--will-ring-3": {
-        "message": "Signal will ring $first$, $second$, and $third$",
+        "message": "Signal akan memanggil  $first$, $second$, dan $third$",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "first": {
@@ -1542,7 +1542,7 @@
         }
     },
     "calling__pre-call-info--will-ring-many": {
-        "message": "Signal will ring $first$, $second$, and $others$ others",
+        "message": "Signal akan memanggil  $first$, $second$, dan $others$ lainnya",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "person": {
@@ -1560,7 +1560,7 @@
         }
     },
     "calling__pre-call-info--will-notify-1": {
-        "message": "$person$ will be notified",
+        "message": "$person$ akan diberi tahu",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "person": {
@@ -1570,7 +1570,7 @@
         }
     },
     "calling__pre-call-info--will-notify-2": {
-        "message": "$first$ and $second$ will be notified",
+        "message": "$first$ dan $second$ akan diberi tahu",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "first": {
@@ -1584,7 +1584,7 @@
         }
     },
     "calling__pre-call-info--will-notify-3": {
-        "message": "$first$, $second$, and $third$ will be notified",
+        "message": "$first$, $second$, dan$third$ akan diberi tahu",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "first": {
@@ -1602,7 +1602,7 @@
         }
     },
     "calling__pre-call-info--will-notify-many": {
-        "message": "$first$, $second$, and $others$ others will be notified",
+        "message": "$first$, $second$, dan $others$ lainnya akan diberi tahu",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "person": {
@@ -2346,7 +2346,7 @@
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "Click to restart Signal",
+        "message": "Klik untuk memulai Signal kembali",
         "description": ""
     },
     "downloadNewVersionMessage": {
@@ -3179,11 +3179,15 @@
         "message": "Atur Signal pada ponsel dan komputer Anda untuk membuat koleksi stiker pribadi.",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
+    "Reactions--remove": {
+        "message": "Remove reaction",
+        "description": ""
+    },
     "Reactions--error": {
         "message": "Gagal mengiirim stiker/emoji. Silahkan coba lagi.",
         "description": "Shown when a reaction fails to send"
     },
-    "ReactionsViewer--more": {
+    "Reactions--more": {
         "message": "Selanjutnya",
         "description": "Use in the reaction picker as the alt text for the 'more' button"
     },
@@ -6169,7 +6173,7 @@
     },
     "Preferences__button--chats": {
         "message": "Percakapan",
-        "description": "Button to switch the settings view"
+        "description": "Button to switch the settings view (and a title of pane)"
     },
     "Preferences__button--calls": {
         "message": "Panggilan",
@@ -6202,7 +6206,7 @@
         "description": "Title for system type settings"
     },
     "Preferences--zoom": {
-        "message": "Zoom level",
+        "message": "Level pembesaran",
         "description": "Label for changing the zoom level"
     },
     "Preferences__link-previews--title": {
@@ -6226,7 +6230,7 @@
         "description": "Label for blocked contacts setting"
     },
     "Preferences--blocked-count-singular": {
-        "message": "$num$ contact",
+        "message": "$num$ kontak",
         "description": "Number of contacts blocked singular",
         "placeholders": {
             "num": {
@@ -6236,7 +6240,7 @@
         }
     },
     "Preferences--blocked-count-plural": {
-        "message": "$num$ contacts",
+        "message": "$num$ kontak",
         "description": "Number of contacts blocked plural",
         "placeholders": {
             "num": {
@@ -6293,8 +6297,16 @@
         "message": "Unduh pembaruan secara otomatis",
         "description": "Label for checkbox for the auto download updates setting"
     },
+    "Preferences__enable-notifications": {
+        "message": "Aktifkan notifikasi",
+        "description": "Label for checkbox for the notifications setting"
+    },
+    "Preferences__devices": {
+        "message": "Perangkat",
+        "description": "Label for Device list in call settings pane"
+    },
     "DialogUpdate--version-available": {
-        "message": "Update to version $version$ available",
+        "message": "Pembaruan $version$ tersedia",
         "description": "Tooltip for new update available",
         "placeholders": {
             "status": {

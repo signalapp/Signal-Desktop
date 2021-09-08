@@ -3179,11 +3179,15 @@
         "message": "Setttu upp Signal á símanum þínum og tölvu ttil að nota Sticker Pack Creator límmerkjahönnunarforritið",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
+    "Reactions--remove": {
+        "message": "Remove reaction",
+        "description": ""
+    },
     "Reactions--error": {
         "message": "Mistókst að senda viðbrögð. Prófaðu aftur síðar",
         "description": "Shown when a reaction fails to send"
     },
-    "ReactionsViewer--more": {
+    "Reactions--more": {
         "message": "Meira",
         "description": "Use in the reaction picker as the alt text for the 'more' button"
     },
@@ -6169,7 +6173,7 @@
     },
     "Preferences__button--chats": {
         "message": "Spjöll",
-        "description": "Button to switch the settings view"
+        "description": "Button to switch the settings view (and a title of pane)"
     },
     "Preferences__button--calls": {
         "message": "Símtöl",
@@ -6292,6 +6296,14 @@
     "Preferences__download-update": {
         "message": "Sótt uppfærslur sjálfkrafa",
         "description": "Label for checkbox for the auto download updates setting"
+    },
+    "Preferences__enable-notifications": {
+        "message": "Enable notifications",
+        "description": "Label for checkbox for the notifications setting"
+    },
+    "Preferences__devices": {
+        "message": "Devices",
+        "description": "Label for Device list in call settings pane"
     },
     "DialogUpdate--version-available": {
         "message": "Uppfærsla í útgáfu $version$ er tiltæk",

@@ -3179,11 +3179,15 @@
         "message": "Por favor, vincule o Signal no desktop ao seu telefone para usar o Criador de pacote de figurinhas",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
+    "Reactions--remove": {
+        "message": "Remover reação",
+        "description": ""
+    },
     "Reactions--error": {
         "message": "Falha ao enviar reação. Por favor, tente novamente.",
         "description": "Shown when a reaction fails to send"
     },
-    "ReactionsViewer--more": {
+    "Reactions--more": {
         "message": "Mais",
         "description": "Use in the reaction picker as the alt text for the 'more' button"
     },
@@ -6169,7 +6173,7 @@
     },
     "Preferences__button--chats": {
         "message": "Conversas",
-        "description": "Button to switch the settings view"
+        "description": "Button to switch the settings view (and a title of pane)"
     },
     "Preferences__button--calls": {
         "message": "Chamadas",
@@ -6292,6 +6296,14 @@
     "Preferences__download-update": {
         "message": "Baixar atualizações automaticamente",
         "description": "Label for checkbox for the auto download updates setting"
+    },
+    "Preferences__enable-notifications": {
+        "message": "Exibir notificações",
+        "description": "Label for checkbox for the notifications setting"
+    },
+    "Preferences__devices": {
+        "message": "Dispositivos",
+        "description": "Label for Device list in call settings pane"
     },
     "DialogUpdate--version-available": {
         "message": "Atualização disponível para a versão $version$",

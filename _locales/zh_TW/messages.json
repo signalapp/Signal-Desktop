@@ -3179,11 +3179,15 @@
         "message": "請在手機和桌上型電腦設定 Signal 以使用貼圖包編輯器",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
+    "Reactions--remove": {
+        "message": "移除回應",
+        "description": ""
+    },
     "Reactions--error": {
         "message": "傳送回應失敗。請再試一次。",
         "description": "Shown when a reaction fails to send"
     },
-    "ReactionsViewer--more": {
+    "Reactions--more": {
         "message": "更多",
         "description": "Use in the reaction picker as the alt text for the 'more' button"
     },
@@ -6169,7 +6173,7 @@
     },
     "Preferences__button--chats": {
         "message": "聊天",
-        "description": "Button to switch the settings view"
+        "description": "Button to switch the settings view (and a title of pane)"
     },
     "Preferences__button--calls": {
         "message": "通話",
@@ -6292,6 +6296,14 @@
     "Preferences__download-update": {
         "message": "自動下載更新",
         "description": "Label for checkbox for the auto download updates setting"
+    },
+    "Preferences__enable-notifications": {
+        "message": "啟動通知",
+        "description": "Label for checkbox for the notifications setting"
+    },
+    "Preferences__devices": {
+        "message": "裝置",
+        "description": "Label for Device list in call settings pane"
     },
     "DialogUpdate--version-available": {
         "message": "更新到可用的 $version$ 版本",

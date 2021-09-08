@@ -3179,11 +3179,15 @@
         "message": "Stiker Paket Yaradıcını istifadə etmək üçün zəhmət olmasa Signal-ı telefon və masaüstündə quraşdırın",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
+    "Reactions--remove": {
+        "message": "Reaksiyanı sil",
+        "description": ""
+    },
     "Reactions--error": {
         "message": "Reaksiya göndərilmədi. Zəhmət olmasa yenidən sınayın.",
         "description": "Shown when a reaction fails to send"
     },
-    "ReactionsViewer--more": {
+    "Reactions--more": {
         "message": "Daha çox",
         "description": "Use in the reaction picker as the alt text for the 'more' button"
     },
@@ -6169,7 +6173,7 @@
     },
     "Preferences__button--chats": {
         "message": "Söhbətlər",
-        "description": "Button to switch the settings view"
+        "description": "Button to switch the settings view (and a title of pane)"
     },
     "Preferences__button--calls": {
         "message": "Zənglər",
@@ -6292,6 +6296,14 @@
     "Preferences__download-update": {
         "message": "Yeniləmələri avto-endir",
         "description": "Label for checkbox for the auto download updates setting"
+    },
+    "Preferences__enable-notifications": {
+        "message": "Bildirişləri fəallaşdır",
+        "description": "Label for checkbox for the notifications setting"
+    },
+    "Preferences__devices": {
+        "message": "Cihazlar",
+        "description": "Label for Device list in call settings pane"
     },
     "DialogUpdate--version-available": {
         "message": "$version$ versiyası mövcuddur",

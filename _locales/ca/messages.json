@@ -416,11 +416,11 @@
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "safetyNumberChangeDialog__pending-messages--1": {
-        "message": "Send pending message",
+        "message": "Envia el missatge pendent",
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "safetyNumberChangeDialog__pending-messages--many": {
-        "message": "Send $count$ pending messages",
+        "message": "Envia els $count$ missatges pendents",
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
         "placeholders": {
             "count": {
@@ -3179,11 +3179,15 @@
         "message": "Configureu el Signal del telèfon i de l'escriptori perquè usi el Creador de paquets d'adhesius.",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
+    "Reactions--remove": {
+        "message": "Remove reaction",
+        "description": ""
+    },
     "Reactions--error": {
         "message": "Ha fallat enviar la reacció. Torneu-ho a provar.",
         "description": "Shown when a reaction fails to send"
     },
-    "ReactionsViewer--more": {
+    "Reactions--more": {
         "message": "Més",
         "description": "Use in the reaction picker as the alt text for the 'more' button"
     },
@@ -6169,7 +6173,7 @@
     },
     "Preferences__button--chats": {
         "message": "Converses",
-        "description": "Button to switch the settings view"
+        "description": "Button to switch the settings view (and a title of pane)"
     },
     "Preferences__button--calls": {
         "message": "Trucades",
@@ -6292,6 +6296,14 @@
     "Preferences__download-update": {
         "message": "Baixa les actualitzacions automàticament",
         "description": "Label for checkbox for the auto download updates setting"
+    },
+    "Preferences__enable-notifications": {
+        "message": "Enable notifications",
+        "description": "Label for checkbox for the notifications setting"
+    },
+    "Preferences__devices": {
+        "message": "Devices",
+        "description": "Label for Device list in call settings pane"
     },
     "DialogUpdate--version-available": {
         "message": "Actualització a la versió $version$ disponible",

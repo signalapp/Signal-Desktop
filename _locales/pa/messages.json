@@ -3179,11 +3179,15 @@
         "message": "ਸਟਿੱਕਰ ਪੈਕ ਤਿਆਰਕਰਤਾ ਨੂੰ ਵਰਤਣ ਲਈ ਕਿਰਪਾ ਕਰਕੇ ਆਪਣੇ ਫ਼ੋਨ ਅਤੇ ਡੈਸਕਟਾੱਪ ’ਤੇ Signal ਸਥਾਪਤ ਕਰੋ",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
+    "Reactions--remove": {
+        "message": "Remove reaction",
+        "description": ""
+    },
     "Reactions--error": {
         "message": "ਪ੍ਰਤਿਕਿਰਿਆ ਭੇਜਣ ਵਿੱਚ ਅਸਫ਼ਲ। ਕਿਰਪਾ ਕਰਕੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।",
         "description": "Shown when a reaction fails to send"
     },
-    "ReactionsViewer--more": {
+    "Reactions--more": {
         "message": "ਹੋਰ",
         "description": "Use in the reaction picker as the alt text for the 'more' button"
     },
@@ -6169,7 +6173,7 @@
     },
     "Preferences__button--chats": {
         "message": "ਚੈਟਾਂ",
-        "description": "Button to switch the settings view"
+        "description": "Button to switch the settings view (and a title of pane)"
     },
     "Preferences__button--calls": {
         "message": "ਕਾਲਾਂ ",
@@ -6292,6 +6296,14 @@
     "Preferences__download-update": {
         "message": "ਅੱਪਡੇਟ ਆਪਣੇ-ਆਪ ਡਾਊਨਲੋਡ ਕਰੋ",
         "description": "Label for checkbox for the auto download updates setting"
+    },
+    "Preferences__enable-notifications": {
+        "message": "Enable notifications",
+        "description": "Label for checkbox for the notifications setting"
+    },
+    "Preferences__devices": {
+        "message": "Devices",
+        "description": "Label for Device list in call settings pane"
     },
     "DialogUpdate--version-available": {
         "message": "$version$ਵਰਜ਼ਨ ਲਈ ਅੱਪਡੇਟ ਮੌਜੂਦ ਹੈ",
