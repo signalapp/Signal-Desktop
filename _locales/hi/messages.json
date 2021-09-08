@@ -415,6 +415,20 @@
         "message": "हो सकता है कि निम्नलिखित लोगों ने रीइंस्टॉल किया हो या डिवाइसेस को बदल लिया हो। गोपनीयता को सुनिश्चित करने के लिए उनके साथ अपने सुरक्षा नंबर को वेरिफाई करें।",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
+    "safetyNumberChangeDialog__pending-messages--1": {
+        "message": "Send pending message",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
+    },
+    "safetyNumberChangeDialog__pending-messages--many": {
+        "message": "Send $count$ pending messages",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": 123
+            }
+        }
+    },
     "identityKeyErrorOnSend": {
         "message": "$name1$ के साथ आपका सुरक्षा नंबर बदल गया है। इसका मतलब या तो यह हो सकता है कि कोई आपके संवाद को रोकने का प्रयास कर रहा है या बस $name2$ ने Signal को री-इंस्टॉल किया है। आप इस संपर्क के साथ अपने सुरक्षा नंबर को वेरिफाई करना चाह सकता हैं।",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
@@ -6324,5 +6338,13 @@
     "WhatsNew__v5.16--3": {
         "message": "If you hover over the buttons while on a call, they stay visible instead of disappearing. Nothing hides from your eagle eye, not even these buttons!",
         "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.17--1": {
+        "message": "Try out the new 'send messages' permission to restrict who can send messages in your groups. Great for organizing an event, making an announcement, or just shouting from the rooftops. All members must be on the latest version of Signal for the setting to appear.",
+        "description": "Release notes for v5.17"
+    },
+    "WhatsNew__v5.17--2": {
+        "message": "You can now send messages wherever and whenever you are: on a plane, in a tunnel, or that sad moment when your internet just cut out. It will eventually get through; messages now automatically retry for up to 24 hours.",
+        "description": "Release notes for v5.17"
     }
 }

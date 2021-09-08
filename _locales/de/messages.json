@@ -415,6 +415,20 @@
         "message": "Die folgenden Personen haben Signal vielleicht erneut installiert oder das Gerät gewechselt. Verifiziert eure gemeinsame Sicherheitsnummer zur Sicherstellung der Privatsphäre.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
+    "safetyNumberChangeDialog__pending-messages--1": {
+        "message": "Ausstehende Nachricht senden",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
+    },
+    "safetyNumberChangeDialog__pending-messages--many": {
+        "message": "$count$ ausstehende Nachrichten senden",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": 123
+            }
+        }
+    },
     "identityKeyErrorOnSend": {
         "message": "Deine Sicherheitsnummer mit $name1$ hat sich geändert. Dies könnte bedeuten, dass jemand versucht, eure Kommunikation abzuhören, oder aber $name2$ hat Signal einfach erneut installiert. Vielleicht möchtest du die neue Sicherheitsnummer mit diesem Kontakt verifizieren.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
@@ -6324,5 +6338,13 @@
     "WhatsNew__v5.16--3": {
         "message": "Wenn du während eines Anrufs mit der Maus über die Anrufschaltflächen fährst, bleiben diese sichtbar und verschwinden nicht. Nichts verbirgt sich vor deinem Adlerauge, nicht einmal diese Schaltflächen! ",
         "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.17--1": {
+        "message": "Probiere die neue Berechtigung »Nachrichten senden« aus, um einzuschränken, wer in deinen Gruppen Nachrichten senden darf. Großartig, um eine Veranstaltung zu organisieren, eine Ankündigung zu machen oder einfach nur von den Dächern zu schreien. Alle Gruppenmitglieder müssen die neueste Version von Signal verwenden, damit die Einstellung angezeigt wird. ",
+        "description": "Release notes for v5.17"
+    },
+    "WhatsNew__v5.17--2": {
+        "message": "Du kannst nun Nachrichten versenden, wo und wann immer du bist: in einem Flugzeug, einem Tunnel oder einem dieser traurigen Momente, wenn gerade deine Internetverbindung zusammenbricht. Irgendwann wird sie durchkommen, denn Nachrichten werden nun für bis zu 24 Stunden automatisch erneut versendet.",
+        "description": "Release notes for v5.17"
     }
 }

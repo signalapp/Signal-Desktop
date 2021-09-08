@@ -415,6 +415,20 @@
         "message": "Nasledujúce osoby si možno preinštalovali alebo zmenili zariadenia. Overte si s nimi vaše bezpečnostné číslo pre zaistenie súkromia.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
+    "safetyNumberChangeDialog__pending-messages--1": {
+        "message": "Odoslať čakajúcu správu",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
+    },
+    "safetyNumberChangeDialog__pending-messages--many": {
+        "message": "Odoslať $count$ čakajúce správy",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": 123
+            }
+        }
+    },
     "identityKeyErrorOnSend": {
         "message": "Vaše bezpečnostné číslo s $name1$ sa zmenilo. Môže to znamenať, že sa niekto snaží odpočúvať vašu komunikáciu, alebo si len $name2$ znovu nainštaloval/a Signal. V prípade potreby bezpečnostné číslo tohto kontaktu znovu overte.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
@@ -6324,5 +6338,13 @@
     "WhatsNew__v5.16--3": {
         "message": "Ak počas hovoru umiestnite kurzor myši na tlačidlá, zostanú viditeľné namiesto toho aby zmizli. Pred vašim orlím okom sa nič neskrýva, dokonca ani tieto gombíky!",
         "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.17--1": {
+        "message": "Vyskúšajte nové povolenie na odosielanie správ a obmedzte tým, kto môže odosielať správy vo vašich skupinách. Skvelé na zorganizovanie akcie, oznámenie, alebo len kričanie zo striech. Na zobrazenie nastavenia musia mať všetci členovia najnovšiu verziu Signal.",
+        "description": "Release notes for v5.17"
+    },
+    "WhatsNew__v5.17--2": {
+        "message": "Teraz môžete odosielať správy kedykoľvek a kdekoľvek ste: v lietadle, v tuneli alebo v tom smutnom momente, keď vám vypadne internet. Nakoniec to prejde; správy sa teraz automaticky opakujú až 24 hodín.",
+        "description": "Release notes for v5.17"
     }
 }

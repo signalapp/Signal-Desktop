@@ -415,6 +415,20 @@
         "message": "Следующие люди могли переустановить Signal или сменить устройства. Подтвердите ваш код безопасности с ними, чтобы обеспечить конфиденциальность.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
+    "safetyNumberChangeDialog__pending-messages--1": {
+        "message": "Отправить ожидающее сообщение",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
+    },
+    "safetyNumberChangeDialog__pending-messages--many": {
+        "message": "Отправить $count$ ожидающих сообщений",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": 123
+            }
+        }
+    },
     "identityKeyErrorOnSend": {
         "message": "Ваш код безопасности с $name1$ изменился. Это может означать, что кто-то пытается перехватить вашу переписку и звонки или что $name2$ просто переустановил(-а) Signal. Возможно, вы захотите подтвердить ваш код безопасности с этим контактом.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
@@ -6324,5 +6338,13 @@
     "WhatsNew__v5.16--3": {
         "message": "Когда курсор находится над кнопками во время звонка, они остаются видимыми, вместо того чтобы исчезать.",
         "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.17--1": {
+        "message": "Попробуйте новое разрешение «отправлять сообщения», чтобы ограничить, кто может отправлять сообщения в ваших группах. Подходит для организации событий и для объявлений. Все участники должны быть на новейшей версии Signal, чтобы эта настройка появилась.",
+        "description": "Release notes for v5.17"
+    },
+    "WhatsNew__v5.17--2": {
+        "message": "Теперь вы можете отправлять сообщения где и когда угодно: на самолёте, в туннеле или в тот грустный момент, когда ваш интернет прекратил работать. Они в конце концов дойдут: отправка сообщений теперь автоматически повторяется в течении 24 часов.",
+        "description": "Release notes for v5.17"
     }
 }

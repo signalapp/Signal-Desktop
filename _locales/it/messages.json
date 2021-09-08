@@ -415,6 +415,20 @@
         "message": "Le seguenti persone potrebbero aver reinstallato o cambiato i dispositivi. Verifica il tuo numero di sicurezza con loro per garantire la privacy.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
+    "safetyNumberChangeDialog__pending-messages--1": {
+        "message": "Invia messaggio in attesa",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
+    },
+    "safetyNumberChangeDialog__pending-messages--many": {
+        "message": "Invia $count$ messaggi in attesa",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": 123
+            }
+        }
+    },
     "identityKeyErrorOnSend": {
         "message": "Il numero di sicurezza con $name1$ è cambiato. Questo potrebbe significare che qualcuno sta cercando di intercettare la tua comunicazione o che $name2$ ha semplicemente reinstallato Signal. Potresti voler verificare il tuo numero di sicurezza con questo contatto.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
@@ -6324,5 +6338,13 @@
     "WhatsNew__v5.16--3": {
         "message": "Se passi sopra i pulsanti durante una chiamata, rimangono visibili invece di scomparire. Niente si nasconde al tuo occhio d'aquila, nemmeno questi pulsanti!",
         "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.17--1": {
+        "message": "Prova il nuovo permesso 'invia messaggi' per limitare chi può inviare messaggi nei tuoi gruppi. Ottimo per organizzare un evento, fare un annuncio o semplicemente gridare dai tetti. Tutti i membri devono avere l'ultima versione di Signal perché l'impostazione appaia.",
+        "description": "Release notes for v5.17"
+    },
+    "WhatsNew__v5.17--2": {
+        "message": "Ora puoi inviare messaggi ovunque e in qualsiasi momento: su un aereo, in un tunnel, o in quel triste momento in cui internet è saltato. Alla fine lo invierai; i messaggi ora riprovano a inviarsi automaticamente fino a 24 ore.",
+        "description": "Release notes for v5.17"
     }
 }

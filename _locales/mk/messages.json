@@ -415,6 +415,20 @@
         "message": "Следниве луѓе можно е да ги преинсталирале или промениле уредите. Проверете го Вашиот сигурносен број со нив за да ја осигурате приватноста.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
+    "safetyNumberChangeDialog__pending-messages--1": {
+        "message": "Send pending message",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
+    },
+    "safetyNumberChangeDialog__pending-messages--many": {
+        "message": "Send $count$ pending messages",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": 123
+            }
+        }
+    },
     "identityKeyErrorOnSend": {
         "message": "Вашиот сигурносен број со $name1$ е променет. Оваа може да значи дека некој се обидува да ја пресретне Вашата комуникација или пак дека$name2$ го има реинсталирано Signal. Не е лошо да го проверите проверите сигурносниот број со овој контакт.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
@@ -6324,5 +6338,13 @@
     "WhatsNew__v5.16--3": {
         "message": "If you hover over the buttons while on a call, they stay visible instead of disappearing. Nothing hides from your eagle eye, not even these buttons!",
         "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.17--1": {
+        "message": "Try out the new 'send messages' permission to restrict who can send messages in your groups. Great for organizing an event, making an announcement, or just shouting from the rooftops. All members must be on the latest version of Signal for the setting to appear.",
+        "description": "Release notes for v5.17"
+    },
+    "WhatsNew__v5.17--2": {
+        "message": "You can now send messages wherever and whenever you are: on a plane, in a tunnel, or that sad moment when your internet just cut out. It will eventually get through; messages now automatically retry for up to 24 hours.",
+        "description": "Release notes for v5.17"
     }
 }

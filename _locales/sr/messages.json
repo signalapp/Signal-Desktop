@@ -415,6 +415,20 @@
         "message": "Следеће особе су вероватно реинсталирале или промениле уређаје. За гаранцију приватности, оверите сигурносне бројеве са њима.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
+    "safetyNumberChangeDialog__pending-messages--1": {
+        "message": "Пошаљи поруке на чекању",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
+    },
+    "safetyNumberChangeDialog__pending-messages--many": {
+        "message": "Послати $count$ поруке на чекању",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": 123
+            }
+        }
+    },
     "identityKeyErrorOnSend": {
         "message": "Шифра преписке са $name1$ је промењена. Ово значи или да неко пресреће вашу преписку, или је $name2$ једноставно извршио поновну инсталацију Signal-а. Можда би требало да пoтврдите шифру преписке са овим контактом.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
@@ -1406,11 +1420,11 @@
         "description": "Button tooltip label when you can't ring because the group is too large"
     },
     "calling__button--ring__off": {
-        "message": "Notify, don't ring",
+        "message": "Нотификација, без звона",
         "description": "Button tooltip label for turning ringing off"
     },
     "calling__button--ring__on": {
-        "message": "Enable ringing",
+        "message": "Упали звоно",
         "description": "Button tooltip label for turning ringing on"
     },
     "calling__your-video-is-off": {
@@ -1496,7 +1510,7 @@
         }
     },
     "calling__pre-call-info--will-ring-2": {
-        "message": "Signal will ring $first$ and $second$",
+        "message": "Signal ће зати $first$ и $second$",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "first": {
@@ -1510,7 +1524,7 @@
         }
     },
     "calling__pre-call-info--will-ring-3": {
-        "message": "Signal will ring $first$, $second$, and $third$",
+        "message": "Signal ће зати $first$, $second$, и $third$",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "first": {
@@ -1528,7 +1542,7 @@
         }
     },
     "calling__pre-call-info--will-ring-many": {
-        "message": "Signal will ring $first$, $second$, and $others$ others",
+        "message": "Signal ће звати $first$, $second$, и још $others$",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "person": {
@@ -2316,7 +2330,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "Click to relink Signal Desktop to your mobile device to continue messaging.",
+        "message": "Кликните да бисте повезали Signal Desktop на ваш мобилни уређај за наставак порука.",
         "description": ""
     },
     "unlinked": {
@@ -3518,7 +3532,7 @@
         "description": "Shown in both the incoming call bar and notification for an incoming video call"
     },
     "incomingGroupCall__ringing-you": {
-        "message": "$ringer$ is calling you",
+        "message": "$ringer$ вас зове",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3528,7 +3542,7 @@
         }
     },
     "incomingGroupCall__ringing-1-other": {
-        "message": "$ringer$ is calling you and $otherMember$",
+        "message": "$ringer$ зове вас и $otherMember$",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3542,7 +3556,7 @@
         }
     },
     "incomingGroupCall__ringing-2-others": {
-        "message": "$ringer$ is calling you, $first$, and $second$",
+        "message": "$ringer$ зове вас, $first$, и $second$",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3560,7 +3574,7 @@
         }
     },
     "incomingGroupCall__ringing-3-others": {
-        "message": "$ringer$ is calling you, $first$, $second$, and 1 other",
+        "message": "$ringer$ зове вас, $first$, $second$, и још једну особу",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3578,7 +3592,7 @@
         }
     },
     "incomingGroupCall__ringing-many": {
-        "message": "$ringer$ is calling you, $first$, $second$, and $remaining$ others",
+        "message": "$ringer$ зове вас, $first$, $second$, и још $remaining$ особе",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -6290,7 +6304,7 @@
         }
     },
     "WhatsNew__modal-title": {
-        "message": "What's New",
+        "message": "Шта ново",
         "description": "Title for the whats new modal"
     },
     "WhatsNew__v5.15--1": {
@@ -6324,5 +6338,13 @@
     "WhatsNew__v5.16--3": {
         "message": "If you hover over the buttons while on a call, they stay visible instead of disappearing. Nothing hides from your eagle eye, not even these buttons!",
         "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.17--1": {
+        "message": "Try out the new 'send messages' permission to restrict who can send messages in your groups. Great for organizing an event, making an announcement, or just shouting from the rooftops. All members must be on the latest version of Signal for the setting to appear.",
+        "description": "Release notes for v5.17"
+    },
+    "WhatsNew__v5.17--2": {
+        "message": "You can now send messages wherever and whenever you are: on a plane, in a tunnel, or that sad moment when your internet just cut out. It will eventually get through; messages now automatically retry for up to 24 hours.",
+        "description": "Release notes for v5.17"
     }
 }

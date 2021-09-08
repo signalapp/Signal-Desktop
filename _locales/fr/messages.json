@@ -415,6 +415,20 @@
         "message": "Les personnes suivantes ont peut-être réinstallé Signal ou changé d’appareil. Pour assurer la confidentialité, confirmez votre numéro de sécurité avec elles.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
+    "safetyNumberChangeDialog__pending-messages--1": {
+        "message": "Send pending message",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
+    },
+    "safetyNumberChangeDialog__pending-messages--many": {
+        "message": "Send $count$ pending messages",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": 123
+            }
+        }
+    },
     "identityKeyErrorOnSend": {
         "message": "Votre numéro de sécurité avec $name1$ a changé. Cela pourrait signifier soit que quelqu’un tente d’intercepter votre communication, soit que $name2$ a simplement réinstallé Signal. Vous devriez peut-être confirmer votre numéro de sécurité avec ce contact.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
@@ -6142,7 +6156,7 @@
         "description": "Label for when you need to choose your fighter, err color"
     },
     "LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
-        "message": "Group Avatar",
+        "message": "Avatar du groupe",
         "description": "Title for the avatar picker in the group creation flow"
     },
     "Preferences__button--general": {
@@ -6204,7 +6218,7 @@
         "description": "Title for advanced settings"
     },
     "Preferences--notification-content": {
-        "message": "Notification content",
+        "message": "Contenu des notifications",
         "description": "Label for the notification content setting select box"
     },
     "Preferences--blocked": {
@@ -6280,7 +6294,7 @@
         "description": "Label for checkbox for the auto download updates setting"
     },
     "DialogUpdate--version-available": {
-        "message": "Update to version $version$ available",
+        "message": "Une mise à jour vers la version $version$ est proposée",
         "description": "Tooltip for new update available",
         "placeholders": {
             "status": {
@@ -6290,7 +6304,7 @@
         }
     },
     "WhatsNew__modal-title": {
-        "message": "What's New",
+        "message": "Les nouveautés",
         "description": "Title for the whats new modal"
     },
     "WhatsNew__v5.15--1": {
@@ -6324,5 +6338,13 @@
     "WhatsNew__v5.16--3": {
         "message": "If you hover over the buttons while on a call, they stay visible instead of disappearing. Nothing hides from your eagle eye, not even these buttons!",
         "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.17--1": {
+        "message": "Try out the new 'send messages' permission to restrict who can send messages in your groups. Great for organizing an event, making an announcement, or just shouting from the rooftops. All members must be on the latest version of Signal for the setting to appear.",
+        "description": "Release notes for v5.17"
+    },
+    "WhatsNew__v5.17--2": {
+        "message": "You can now send messages wherever and whenever you are: on a plane, in a tunnel, or that sad moment when your internet just cut out. It will eventually get through; messages now automatically retry for up to 24 hours.",
+        "description": "Release notes for v5.17"
     }
 }

@@ -415,6 +415,20 @@
         "message": "هؤلاء الأشخاص قاموا بإعادة تثبيت التطبيق أو قاموا بتغير أجهزتهم. يرجى تأكيد رقم الأمان معهم لضمان الخصوصية.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
+    "safetyNumberChangeDialog__pending-messages--1": {
+        "message": "إرسال الرسائل المعلقة",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
+    },
+    "safetyNumberChangeDialog__pending-messages--many": {
+        "message": "إرسال $count$ رسالة معلقة",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": 123
+            }
+        }
+    },
     "identityKeyErrorOnSend": {
         "message": "تم تغيير رقم أمانك مع $name1$.  قد يعني هذا أن أحدهم يحاول اعتراض اتصالاتك أو ببساطة أن $name2$ قام بإعادة تثبيت Signal. قد تريد التحقق من رمز أمانك مع هذا الشخص.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
@@ -658,11 +672,11 @@
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "connect": {
-        "message": "Click to reconnect.",
+        "message": "يُرجى الضغط على زر الفأرة لإعادة الاتصال.",
         "description": "Shown to allow the user to manually attempt a reconnect."
     },
     "connectingHangOn": {
-        "message": "Shouldn't be long",
+        "message": "لن يستغرق وقتا طويلا",
         "description": "Subtext description for when the client is connecting to the server."
     },
     "offline": {
@@ -812,7 +826,7 @@
         "description": ""
     },
     "whatsNew": {
-        "message": "See $whatsNew$ in this update",
+        "message": "يُرجى تفقد $whatsNew$ حول هذا التحديث",
         "description": "Shown in the main window",
         "placeholders": {
             "name": {
@@ -822,7 +836,7 @@
         }
     },
     "viewReleaseNotes": {
-        "message": "what's new",
+        "message": "ما الجديد",
         "description": "Clickable link that displays the latest release notes"
     },
     "selectAContact": {
@@ -1220,7 +1234,7 @@
         }
     },
     "ChangeNumber--notification": {
-        "message": "$sender$ changed their number to a new number",
+        "message": "لقد استُبدِل رقم $sender$ برقم جديد",
         "description": "Shown in timeline when a member of a conversation changes their phone number",
         "placeholders": {
             "sender": {
@@ -1398,19 +1412,19 @@
         "description": "Button tooltip label for stopping screen sharing"
     },
     "calling__button--ring__label": {
-        "message": "Ring",
+        "message": "رنين الاتصال",
         "description": "Label under the ring button"
     },
     "calling__button--ring__disabled-because-group-is-too-large": {
-        "message": "Group is too large to ring the participants.",
+        "message": "إن المجموعة كبيرة جدا لكي يرن التطبيق على المشاركين.",
         "description": "Button tooltip label when you can't ring because the group is too large"
     },
     "calling__button--ring__off": {
-        "message": "Notify, don't ring",
+        "message": "الإشعار فقط، بدون أن يرن",
         "description": "Button tooltip label for turning ringing off"
     },
     "calling__button--ring__on": {
-        "message": "Enable ringing",
+        "message": "تفعيل رنين الاتصال",
         "description": "Button tooltip label for turning ringing on"
     },
     "calling__your-video-is-off": {
@@ -1486,7 +1500,7 @@
         }
     },
     "calling__pre-call-info--will-ring-1": {
-        "message": "Signal will ring $person$",
+        "message": "سوف يرن Signal على $person$",
         "description": "Shown in the calling lobby to describe who will be rung",
         "placeholders": {
             "person": {
@@ -1496,7 +1510,7 @@
         }
     },
     "calling__pre-call-info--will-ring-2": {
-        "message": "Signal will ring $first$ and $second$",
+        "message": "سوف يرن Signal على $first$ و$second$",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "first": {
@@ -1510,7 +1524,7 @@
         }
     },
     "calling__pre-call-info--will-ring-3": {
-        "message": "Signal will ring $first$, $second$, and $third$",
+        "message": "سوف يرن Signal على $first$، $second$ و$third$",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "first": {
@@ -1528,7 +1542,7 @@
         }
     },
     "calling__pre-call-info--will-ring-many": {
-        "message": "Signal will ring $first$, $second$, and $others$ others",
+        "message": "سوف يرن Signal على $first$، $second$ و $others$ آخرين ",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "person": {
@@ -1546,7 +1560,7 @@
         }
     },
     "calling__pre-call-info--will-notify-1": {
-        "message": "$person$ will be notified",
+        "message": "سيتم إشعار $person$",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "person": {
@@ -1556,7 +1570,7 @@
         }
     },
     "calling__pre-call-info--will-notify-2": {
-        "message": "$first$ and $second$ will be notified",
+        "message": "سيتم إشعار $first$ و$second$",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "first": {
@@ -1570,7 +1584,7 @@
         }
     },
     "calling__pre-call-info--will-notify-3": {
-        "message": "$first$, $second$, and $third$ will be notified",
+        "message": "سيتم إشعار $first$، $second$ و$third$ آخرين",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "first": {
@@ -1588,7 +1602,7 @@
         }
     },
     "calling__pre-call-info--will-notify-many": {
-        "message": "$first$, $second$, and $others$ others will be notified",
+        "message": "سيتم إشعار $first$ و$second$ و $others$ آخرين",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "person": {
@@ -1744,7 +1758,7 @@
         "description": "Header for general options on the settings screen"
     },
     "spellCheckDescription": {
-        "message": "Spell check text entered in message composition box",
+        "message": "القيام بالتدقيق الإملائي للنص المكتوب في مربع التحرير",
         "description": "Description of the spell check setting"
     },
     "spellCheckWillBeEnabled": {
@@ -1768,7 +1782,7 @@
         "description": "Description for the automatic launch setting"
     },
     "clearDataHeader": {
-        "message": "Clear application data",
+        "message": "محو بيانات التطبيق",
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "clearDataExplanation": {
@@ -1906,7 +1920,7 @@
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
-        "message": "Click to go to signal.org/download",
+        "message": "‫يُرجى الضغط على زر الفأرة لزيارة signal.org/download",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "mediaMessage": {
@@ -1918,7 +1932,7 @@
         "description": "Error message displayed when sending to an unregistered user."
     },
     "sync": {
-        "message": "Import contacts",
+        "message": "استيراد جهات الاتصال",
         "description": "Label for contact and group sync settings"
     },
     "syncExplanation": {
@@ -2078,7 +2092,7 @@
         }
     },
     "audioNotificationDescription": {
-        "message": "Play notification sounds",
+        "message": "تشغيل أصوات الإشعارات",
         "description": "Description for audio notification setting"
     },
     "callRingtoneNotificationDescription": {
@@ -2316,7 +2330,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "Click to relink Signal Desktop to your mobile device to continue messaging.",
+        "message": "يُرجى الضغط على زر الفأرة لإعادة ربط Signal Desktop مع جهازك المحمول للاستمرار في التراسُل.",
         "description": ""
     },
     "unlinked": {
@@ -2328,15 +2342,15 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Update available",
+        "message": "هناك تحديث جديد",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "Click to restart Signal",
+        "message": "يُرجى الضغط على زر الفأرة لإعادة تشغيل Signal",
         "description": ""
     },
     "downloadNewVersionMessage": {
-        "message": "Click to download update",
+        "message": "يُرجى الضغط على زر الفأرة لتنزيل التحديث",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
@@ -3518,7 +3532,7 @@
         "description": "Shown in both the incoming call bar and notification for an incoming video call"
     },
     "incomingGroupCall__ringing-you": {
-        "message": "$ringer$ is calling you",
+        "message": "هناك اتصال بك من $ringer$",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3528,7 +3542,7 @@
         }
     },
     "incomingGroupCall__ringing-1-other": {
-        "message": "$ringer$ is calling you and $otherMember$",
+        "message": "هناك اتصال بك وبـ $otherMember$ من $ringer$",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3542,7 +3556,7 @@
         }
     },
     "incomingGroupCall__ringing-2-others": {
-        "message": "$ringer$ is calling you, $first$, and $second$",
+        "message": "هناك اتصال بك وبـ$first$ وبـ$second$ من $ringer$",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3560,7 +3574,7 @@
         }
     },
     "incomingGroupCall__ringing-3-others": {
-        "message": "$ringer$ is calling you, $first$, $second$, and 1 other",
+        "message": "هناك اتصال بك وبـ$first$ وبـ $second$، و بفرد آخر من $ringer$",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3578,7 +3592,7 @@
         }
     },
     "incomingGroupCall__ringing-many": {
-        "message": "$ringer$ is calling you, $first$, $second$, and $remaining$ others",
+        "message": "هناك اتصال بك وبـ $first$ وبـ $second$، وبـ $remaining$ أفراد آخرين من $ringer$",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -5188,7 +5202,7 @@
         "description": "Displayed while checking if the contact is SMS-only"
     },
     "countMutedConversationsDescription": {
-        "message": "Include muted conversations in badge count",
+        "message": "احتساب المحادثات المكتومة في شارة التعداد",
         "description": "Description for counting muted conversations in badge setting"
     },
     "ContactModal--message": {
@@ -5362,7 +5376,7 @@
         "description": "In the conversation notifications settings, this is the label for the mentions option"
     },
     "ConversationNotificationsSettings__mentions__info": {
-        "message": "Receive notifications when you're mentioned in muted chats",
+        "message": "استلام اﻹشعارات إذا ذُكر اسمك في المحادثات المكتومة",
         "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
     },
     "ConversationNotificationsSettings__mentions__select__always-notify": {
@@ -5370,7 +5384,7 @@
         "description": "In the conversation notifications settings, this is the option that always notifies you for @mentions"
     },
     "ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
-        "message": "Don't notify if muted",
+        "message": "لا داعي لإشعاري إذا كانت صامتة",
         "description": "In the conversation notifications settings, this is the option that doesn't notify you for @mentions if the conversation is muted"
     },
     "GroupLinkManagement--clipboard": {
@@ -5982,7 +5996,7 @@
         }
     },
     "ErrorBoundaryNotification__text": {
-        "message": "Couldn't display this message. Click to submit a debug log.",
+        "message": "لقد تعذر عرض هذه الرسالة. يُرجى إرسال سِجل التصحيح.",
         "description": "An error notification displayed when message fails to render due to an internal error"
     },
     "GroupDescription__read-more": {
@@ -6138,11 +6152,11 @@
         "description": "Label for the avatar selector"
     },
     "AvatarColorPicker--choose": {
-        "message": "Choose a color",
+        "message": "اختيار لون ما",
         "description": "Label for when you need to choose your fighter, err color"
     },
     "LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
-        "message": "Group Avatar",
+        "message": "صورة المجموعة",
         "description": "Title for the avatar picker in the group creation flow"
     },
     "Preferences__button--general": {
@@ -6170,7 +6184,7 @@
         "description": "Button to switch the settings view"
     },
     "Preferences--lastSynced": {
-        "message": "Last import at $date$ $time$",
+        "message": "‫آخر استيراد منذ $date$‏$time$",
         "description": "Label for date and time of last sync operation",
         "placeholders": {
             "date": {
@@ -6188,7 +6202,7 @@
         "description": "Title for system type settings"
     },
     "Preferences--zoom": {
-        "message": "Zoom level",
+        "message": "مستوى التقريب",
         "description": "Label for changing the zoom level"
     },
     "Preferences__link-previews--title": {
@@ -6196,7 +6210,7 @@
         "description": "Title for the generate link previews setting"
     },
     "Preferences__link-previews--description": {
-        "message": "To change this setting, open the Signal app on your mobile device and navigate to Settings > Chats",
+        "message": "لتعديل هذا الإعداد، يُرجى فتح تطبيق Signal في جهازك المحمول ثم الذهاب إلى الإعدادات ثم المحادثات",
         "description": "Description for the generate link previews setting"
     },
     "Preferences--advanced": {
@@ -6204,7 +6218,7 @@
         "description": "Title for advanced settings"
     },
     "Preferences--notification-content": {
-        "message": "Notification content",
+        "message": "محتوى الإشعار",
         "description": "Label for the notification content setting select box"
     },
     "Preferences--blocked": {
@@ -6212,7 +6226,7 @@
         "description": "Label for blocked contacts setting"
     },
     "Preferences--blocked-count-singular": {
-        "message": "$num$ contact",
+        "message": "$num$ جهة اتصال",
         "description": "Number of contacts blocked singular",
         "placeholders": {
             "num": {
@@ -6222,7 +6236,7 @@
         }
     },
     "Preferences--blocked-count-plural": {
-        "message": "$num$ contacts",
+        "message": "$num$ جهات الاتصال",
         "description": "Number of contacts blocked plural",
         "placeholders": {
             "num": {
@@ -6236,7 +6250,7 @@
         "description": "Title for the 'who can do X' setting"
     },
     "Preferences__privacy--description": {
-        "message": "To change these settings, open the Signal app on your mobile device and navigate to Settings > Privacy",
+        "message": "لتعديل هذا الإعداد، يُرجى فتح تطبيق Signal في جهازك المحمول ثم الذهاب إلى الإعدادات ثم الخصوصية",
         "description": "Description for the 'who can do X' setting"
     },
     "Preferences__who-can--everybody": {
@@ -6260,7 +6274,7 @@
         "description": "Label for the see my phone number setting"
     },
     "Preferences--find-me": {
-        "message": "Find me by my phone number",
+        "message": "اعثر علي برقم هاتفي",
         "description": "Label for the find me by my phone number setting"
     },
     "Preferences--read-receipts": {
@@ -6272,15 +6286,15 @@
         "description": "Label for the typing indicators setting"
     },
     "Preferences--updates": {
-        "message": "Updates",
+        "message": "التحديثات",
         "description": "Header for settings having to do with updates"
     },
     "Preferences__download-update": {
-        "message": "Automatically download updates",
+        "message": "تنزيل التحديثات تلقائيا",
         "description": "Label for checkbox for the auto download updates setting"
     },
     "DialogUpdate--version-available": {
-        "message": "Update to version $version$ available",
+        "message": "إن اﻹصدار $version$ متاح حاليا",
         "description": "Tooltip for new update available",
         "placeholders": {
             "status": {
@@ -6290,7 +6304,7 @@
         }
     },
     "WhatsNew__modal-title": {
-        "message": "What's New",
+        "message": "ما الجديد",
         "description": "Title for the whats new modal"
     },
     "WhatsNew__v5.15--1": {
@@ -6324,5 +6338,13 @@
     "WhatsNew__v5.16--3": {
         "message": "If you hover over the buttons while on a call, they stay visible instead of disappearing. Nothing hides from your eagle eye, not even these buttons!",
         "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.17--1": {
+        "message": "Try out the new 'send messages' permission to restrict who can send messages in your groups. Great for organizing an event, making an announcement, or just shouting from the rooftops. All members must be on the latest version of Signal for the setting to appear.",
+        "description": "Release notes for v5.17"
+    },
+    "WhatsNew__v5.17--2": {
+        "message": "You can now send messages wherever and whenever you are: on a plane, in a tunnel, or that sad moment when your internet just cut out. It will eventually get through; messages now automatically retry for up to 24 hours.",
+        "description": "Release notes for v5.17"
     }
 }

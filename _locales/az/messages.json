@@ -415,6 +415,20 @@
         "message": "Aşağıdakı şəxslər yenidən quraşdırmış və ya cihazlarını dəyişdirmiş ola bilər. Gizliliyinizə əmin olmaq üçün güvənlik nömrənizi təsdiqləyin.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
+    "safetyNumberChangeDialog__pending-messages--1": {
+        "message": "Gözləyən mesajı göndər",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
+    },
+    "safetyNumberChangeDialog__pending-messages--many": {
+        "message": "Gözləyən $count$ mesajı göndər",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": 123
+            }
+        }
+    },
     "identityKeyErrorOnSend": {
         "message": "$name1$ ilə  olan güvənlik nömrəniz dəyişdirildi. Unutmayın, bu dəyişiklik, kiminsə rabitənizi kəsməyə çaılşdığı və ya sadəcə $name2$  əlaqəsinin Signal-ı yenidən quraşdırdığı mənasını verə bilər. Bu əlaqə ilə güvənlik nömrənizi təsdiqləmək istəyə bilərsiniz.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
@@ -6324,5 +6338,13 @@
     "WhatsNew__v5.16--3": {
         "message": "Zəng əsnasında bu düymələrin üzərinə gəlsəniz, onlar itməyəcək, əksinə görünən formada qalacaq. Qartalın gözündən heç nə qaçmaz, düymələr belə!",
         "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.17--1": {
+        "message": "Qruplarınızda kimlərin mesaj göndərə biləcəyini məhdudlaşdırmaq üçün yeni \"mesaj göndərmə\" icazəsini sınaqdan keçirin. Bir tədbir təşkil etmək və bir elan yayımlamaq üçün möhtəşəm bir özəllikdir. Tənzimləmənin görünməsi üçün bütün üzvlər Signal-ı ən son versiyaya yeniləməlidir.",
+        "description": "Release notes for v5.17"
+    },
+    "WhatsNew__v5.17--2": {
+        "message": "Artıq harada və nə vaxt olmasından asılı olmayaraq, mesajları göndərə bilərsiniz: təyyarədə, tuneldə və ya sizi məyus edən internetin kəsildiyi o an. Axır-əvvəl göndəriləcək; artıq mesajlar 24 saata qədər avtomatik olaraq göndərməyə çalışılır.",
+        "description": "Release notes for v5.17"
     }
 }

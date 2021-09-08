@@ -415,6 +415,20 @@
         "message": "Este posibil ca următoarele persoane să fi reinstalat sau schimbat dispozitivele. Verificați numărul de siguranță cu acestea pentru a vă asigura confidențialitatea.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
+    "safetyNumberChangeDialog__pending-messages--1": {
+        "message": "Trimite mesajul în așteptare",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
+    },
+    "safetyNumberChangeDialog__pending-messages--many": {
+        "message": "Trimite $count$ mesaje în așteptare",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": 123
+            }
+        }
+    },
     "identityKeyErrorOnSend": {
         "message": "Numărul dvs. de siguranță cu $name1$ s-a modificat. Asta ar putea să însemne fie că cineva încearcă să intercepteze comunicarea voastră fie că $name2$ pur și simplu a reinstalat Signal. Ar trebui să verificați numărul dvs. de siguranță cu acest contact.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
@@ -6324,5 +6338,13 @@
     "WhatsNew__v5.16--3": {
         "message": "Dacă țineți cursorul deasupra butoanelor în timpul unui apel, aceasta vor rămâne vizibile în loc să dispară. Nimic nu se poate ascunde de ochiul dvs. de vultur, nici măcar aceste butoane!",
         "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.17--1": {
+        "message": "Încercați noua permisiune \"trimitere mesaje\" pentru a limita cine poate trimite mesaje in grupurile dvs. Ideală pentru a organiza un eveniment, a face un anunț, sau doar pentru a da sfoară în țară. Toți membri grupului trebuie să folosească cea mai recentă versiune Signal pentru ca setarea să fie vizibilă.",
+        "description": "Release notes for v5.17"
+    },
+    "WhatsNew__v5.17--2": {
+        "message": "Acum puteți trimite mesaje de oriunde și oricând: din avion, dintr-un tunel, ori în acele momente triste în care internetul este căzut. Acestea vor fi expediate până la urmă; acum mesajele se retrimit automat pe o durată de până la 24 de ore.",
+        "description": "Release notes for v5.17"
     }
 }

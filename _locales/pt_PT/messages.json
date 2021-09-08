@@ -415,6 +415,20 @@
         "message": "As seguintes pessoas podem ter reinstalado ou mudado de dispositivo. Verifique o seu número de segurança com eles para assegurar a privacidade.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
+    "safetyNumberChangeDialog__pending-messages--1": {
+        "message": "Enviar mensagem pendente",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
+    },
+    "safetyNumberChangeDialog__pending-messages--many": {
+        "message": "Enviar $count$ mensagens pendentes",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": 123
+            }
+        }
+    },
     "identityKeyErrorOnSend": {
         "message": "O seu número de segurança com $name1$ foi alterado. Isto poderá querer significar que alguém está a tentar intercetar as suas comunicações ou que $name2$ simplesmente reinstalou o Signal. Se desejar confirme o seu número de segurança com este contacto.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
@@ -2182,7 +2196,7 @@
         "description": "Description for the Note to Self conversation"
     },
     "notificationDrawAttention": {
-        "message": "Chamar atenção para esta janela quando chega uma notificação",
+        "message": "Alertar para esta janela ao chegar uma notificação",
         "description": "Label text for the setting that controls whether new notifications draw attention to the window"
     },
     "hideMenuBar": {
@@ -6324,5 +6338,13 @@
     "WhatsNew__v5.16--3": {
         "message": "Se você passar o rato sobre os botões durante uma chamada, eles permanecerão visíveis em vez de desaparecerem. Nada se esconde do seu olho de águia, nem mesmo esses botões! ",
         "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.17--1": {
+        "message": "Conheça a nova permissão 'enviar mensagens' num grupo. Ela existe para restringir quem pode enviar mensagens no grupo. Ótimo recurso para organizar um evento ou para criar um canal de anúncios. Lembramos que todos os membros do grupo devem atualizar o Signal para a versão mais recente, de modo a usufruírem dessa definição.",
+        "description": "Release notes for v5.17"
+    },
+    "WhatsNew__v5.17--2": {
+        "message": "Agora você pode enviar mensagens onde estiver e quando quiser: num avião, num túnel ou quando o seu equipamento estiver desligado da internet. Assim que retomar a ligação à internet, dentro de 24 horas, as mensagens pendentes serão enviadas automaticamente.",
+        "description": "Release notes for v5.17"
     }
 }

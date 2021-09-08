@@ -415,6 +415,20 @@
         "message": "Gali būti, kad šie žmonės iš naujo įdiegė programėlę ar pakeitė įrenginį. Patvirtinkite savo saugumo numerį su kiekvienu iš jų, kad užtikrintumėte privatumą.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
+    "safetyNumberChangeDialog__pending-messages--1": {
+        "message": "Siųsti laukiančią žinutę",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
+    },
+    "safetyNumberChangeDialog__pending-messages--many": {
+        "message": "Siųsti laukiančias žinutes: $count$",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": 123
+            }
+        }
+    },
     "identityKeyErrorOnSend": {
         "message": "Jūsų saugumo numeris su $name1$ pasikeitė. Tai gali reikšti, kad kažkas bando perimti jūsų susirašinėjimą arba, kad $name2$, tiesiog, iš naujo įdiegė Signal. Jūs, tikriausiai, norėtumėte patvirtinti savo saugumo numerį su šiuo adresatu.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
@@ -6324,5 +6338,13 @@
     "WhatsNew__v5.16--3": {
         "message": "Jei skambučio metu užvesite pelę virš mygtukų, jie išliks matomi, o ne išnyks.  Niekas negali pasislėpti nuo jūsų žvilgsnio, netgi šie mygtukai!",
         "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.17--1": {
+        "message": "Išbandykite naują „žinučių siuntimo“ leidimą, kad apribotumėte, kas gali siųsti žinutes grupėje. Puikiai tinka organizuojant renginį, skelbiant apie įvykius ar dalinantis džiaugsmais. Norint, kad nustatymas būtų rodomas, visi dalyviai privalo naudoti naujausią Signal versiją.",
+        "description": "Release notes for v5.17"
+    },
+    "WhatsNew__v5.17--2": {
+        "message": "Dabar, galite siųsti žinutes bet kur ir bet kada: lėktuve, tunelyje, ar tą liūdną akimirką, kai dingo internetas. Galų gale jos bus išsiųstos; dabar, 24 valandų laikotarpyje bus bandoma išsiųsti žinutes.",
+        "description": "Release notes for v5.17"
     }
 }

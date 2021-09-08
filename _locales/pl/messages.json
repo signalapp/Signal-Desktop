@@ -415,6 +415,20 @@
         "message": "Następujące osoby mogły ponownie zainstalować aplikację lub zmienić urządzenie. Zweryfikuj wasze numery bezpieczeństwa, aby zapewnić prywatność.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
+    "safetyNumberChangeDialog__pending-messages--1": {
+        "message": "Wyślij oczekującą wiadomość",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
+    },
+    "safetyNumberChangeDialog__pending-messages--many": {
+        "message": "Wyślij $count$ oczekujących wiadomości",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": 123
+            }
+        }
+    },
     "identityKeyErrorOnSend": {
         "message": "Numer bezpieczeństwa dla $name1$ uległ zmianie. Może to oznaczać, że ktoś próbuje przechwycić Twoją komunikację albo że $name2$ po prostu przeinstalował(a) Signal. Możesz chcieć zweryfikować numer bezpieczeństwa z tym kontaktem.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
@@ -5180,7 +5194,7 @@
         "description": "Title for the composition area for the SMS-only contact"
     },
     "CompositionArea--sms-only__body": {
-        "message": "Signal Desktop nie obsługuje wysyłania wiadomości do kontaktów niekorzystających z Signal. Poproś tę osobę, aby zainstalowała Signal , by móc komunikować się bezpieczniej.",
+        "message": "Signal Desktop nie obsługuje wysyłania wiadomości do kontaktów niekorzystających z Signal. Poproś tę osobę, aby zainstalowała Signal, by móc komunikować się bezpieczniej.",
         "description": "Body for the composition area for the SMS-only contact"
     },
     "CompositionArea--sms-only__spinner-label": {
@@ -6324,5 +6338,13 @@
     "WhatsNew__v5.16--3": {
         "message": "Jeśli, w trakcie rozmowy, zatrzymasz kursor nad przyciskami, pozostaną one widoczne, zamiast zniknąć. Nic nie skryje się przed Twoim, sokolim wzrokiem, nawet te przyciski!",
         "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.17--1": {
+        "message": "Wypróbuj nowe uprawnienie \"wysyłanie wiadomości\", aby ograniczyć, kto może wysyłać wiadomości w Twoich grupach. Świetna opcja do organizacji wydarzenia albo ogłaszania czegoś. Wszyscy członkowie grupy muszą używać najnowszej wersji aplikacji Signal, aby pojawiła się ta opcja.",
+        "description": "Release notes for v5.17"
+    },
+    "WhatsNew__v5.17--2": {
+        "message": "Teraz możesz wysyłać wiadomości kiedykolwiek zechcesz i gdziekolwiek jesteś: w samolocie, tunelu, czy w smutnej chwili, gdy Twój internet nie działa. Wiadomość zostanie w końcu wysłana, gdyż Desktop automatycznie próbuje teraz, przez 24 godziny, wysłać niewysłane wiadomości.",
+        "description": "Release notes for v5.17"
     }
 }

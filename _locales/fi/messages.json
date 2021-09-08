@@ -415,6 +415,20 @@
         "message": "Seuraavat henkilöt ovat saattaneet uudelleenasentaa tai vaihtaneet laitteita. Varmenna turvanumerosi heidän kanssaan yksityisyyden takaamiseksi.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
+    "safetyNumberChangeDialog__pending-messages--1": {
+        "message": "Send pending message",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
+    },
+    "safetyNumberChangeDialog__pending-messages--many": {
+        "message": "Send $count$ pending messages",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": 123
+            }
+        }
+    },
     "identityKeyErrorOnSend": {
         "message": "Turvanumerosi yhteystiedon $name1$ kanssa on vaihtunut. Tämä voi tarkoittaa joko sitä, että joku yrittää kaapata viestiliikennettänne, tai sitä, että $name2$ on yksinkertaisesti uudelleenasentanut Signalin. Saatat haluta varmentaa turvanumerosi tämän yhteystiedon kanssa.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
@@ -1298,7 +1312,7 @@
         "description": "The header shown on the 'choose device name' screen in the device linking process"
     },
     "finishLinkingPhone": {
-        "message": "Viimeistele yhdistys puhelimeen",
+        "message": "Viimeistele puhelinyhteys",
         "description": "The text on the button to finish the linking process, after choosing the device name"
     },
     "initialSync": {
@@ -1314,7 +1328,7 @@
         "description": ""
     },
     "installTooOld": {
-        "message": "Päivitä Signal tällä laitteella linkittääksesi puhelimesi.",
+        "message": "Tämän laitteen Signal on päivitettävä ennen puhelimen yhdistämistä.",
         "description": ""
     },
     "installErrorHeader": {
@@ -2316,7 +2330,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "Napsauta linkittääksesi Signal Desktopin uudelleen mobiililaitteeseesi jatkaaksesi viestien lähettämistä.",
+        "message": "Yhdistä mobiililaite tähän tietokoneeseen napsauttamalla",
         "description": ""
     },
     "unlinked": {
@@ -6324,5 +6338,13 @@
     "WhatsNew__v5.16--3": {
         "message": "Jos viet hiiren painikkeiden päälle puhelun aikana, ne pysyvät näkyvissä katoamisen sijasta. Mikään ei piiloutu kotkasilmäsi edestä, eivät edes nämä painikkeet!",
         "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.17--1": {
+        "message": "Try out the new 'send messages' permission to restrict who can send messages in your groups. Great for organizing an event, making an announcement, or just shouting from the rooftops. All members must be on the latest version of Signal for the setting to appear.",
+        "description": "Release notes for v5.17"
+    },
+    "WhatsNew__v5.17--2": {
+        "message": "You can now send messages wherever and whenever you are: on a plane, in a tunnel, or that sad moment when your internet just cut out. It will eventually get through; messages now automatically retry for up to 24 hours.",
+        "description": "Release notes for v5.17"
     }
 }

@@ -415,6 +415,20 @@
         "message": "Personat vijues mund të kenë riinstaluar ose ndryshuar pajisjet. Për të siguruar privatësi, verifikoni me ta numrin tuaj të sigurisë.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
+    "safetyNumberChangeDialog__pending-messages--1": {
+        "message": "Dërgo mesazhe të mbajtur pezull",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
+    },
+    "safetyNumberChangeDialog__pending-messages--many": {
+        "message": "Dërgo $count$ mesazhe të mbajtur pezull",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": 123
+            }
+        }
+    },
     "identityKeyErrorOnSend": {
         "message": "Numri juaj i sigurisë me $name1$ ka ndryshuar. Kjo do të mund të thoshte se dikush po rreket të përgjojë komunikimin tuaj, ose se$name2$ thjesht ka riinstaluar Signal-in. Mund të donit të verifikonit numrin tuaj të sigurisë me këtë kontakt.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
@@ -6324,5 +6338,13 @@
     "WhatsNew__v5.16--3": {
         "message": "Nëse kaloni kursorin sipër butonave, teksa jeni në një thirrje, mbeten të dukshëm, në vend se të zhduken. Syve tuaj shqiponjë nuk u fshihet asgjë, as madje këta butona!",
         "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.17--1": {
+        "message": "Provoni lejen e re “të dërgojë mesazhe”, për të kufizuar se cilët mund të dërgojnë mesazhe te grupi juaj. E shkëlqyer për organizim veprimtarish, bërje lajmërimesh, ose thjesht për të bërtitur që prej çatisë. Që kjo të shfaqet, krejt anëtarët duhet të jenë nën versionin më të ri të Signal-it.",
+        "description": "Release notes for v5.17"
+    },
+    "WhatsNew__v5.17--2": {
+        "message": "Tani mund të dërgoni mesazhe kurdo dhe kudo që gjendeni: në avion, në tunel, ose në atë çastin e trishtuar kur interneti juaj u ndërpre. Tek e fundit do të dërgohet; për mesazhet tanimë riprovohet automatikisht deri në 24 orë.",
+        "description": "Release notes for v5.17"
     }
 }

@@ -415,6 +415,20 @@
         "message": "Följande personer kan ha installerat om eller bytt enheter. Verifiera ditt säkerhetsnummer med dem för att säkerställa integriteten.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
+    "safetyNumberChangeDialog__pending-messages--1": {
+        "message": "Skicka väntande meddelande",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
+    },
+    "safetyNumberChangeDialog__pending-messages--many": {
+        "message": "Skicka $count$ väntande meddelanden",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": 123
+            }
+        }
+    },
     "identityKeyErrorOnSend": {
         "message": "Ditt säkerhetsnummer med $name1$ har ändrats. Det kan antingen innebära att någon försöker avläsa din kommunikation eller att $name2$ helt enkelt har installerat om Signal. Du kanske vill verifiera ditt säkerhetsnummer med denna kontakt.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
@@ -1020,7 +1034,7 @@
         "description": ""
     },
     "discard": {
-        "message": "Släng",
+        "message": "Kassera",
         "description": ""
     },
     "failedToSend": {
@@ -6324,5 +6338,13 @@
     "WhatsNew__v5.16--3": {
         "message": "Om du håller muspekaren över knapparna under ett samtal förblir de synliga istället för att försvinna. Inget döljer sig för ditt örnöga, inte ens dessa knappar!",
         "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.17--1": {
+        "message": "Prova den nya behörigheten \"skicka meddelanden\" för att begränsa vem som kan skicka meddelanden i dina grupper. Perfekt för att organisera ett evenemang, göra ett tillkännagivande eller bara skrika från hustaken. Alla medlemmar måste ha den senaste versionen av Signal för att inställningen ska visas.",
+        "description": "Release notes for v5.17"
+    },
+    "WhatsNew__v5.17--2": {
+        "message": "Du kan nu skicka meddelanden var och när du är: på ett flygplan, i en tunnel, eller det sorgliga ögonblicket när ditt internet bara stängdes av. Det kommer så småningom att komma fram; meddelanden försöker nu automatiskt skicka igen i upp till 24 timmar.",
+        "description": "Release notes for v5.17"
     }
 }

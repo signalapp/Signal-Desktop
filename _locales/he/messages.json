@@ -415,6 +415,20 @@
         "message": "האנשים הבאים ייתכן התקינו מחדש את היישום או שינו מכשירים. וודא את מספר הביטחון שלך איתם כדי להבטיח פרטיות.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
+    "safetyNumberChangeDialog__pending-messages--1": {
+        "message": "שלח הודעה ממתינה",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
+    },
+    "safetyNumberChangeDialog__pending-messages--many": {
+        "message": "שלח $count$ הודעות ממתינות",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": 123
+            }
+        }
+    },
     "identityKeyErrorOnSend": {
         "message": "מספר הביטחון שלך עם $name1$ השתנה. זה יכול להעיד שמישהו מנסה ליירט את התקשורת שלך או כי $name2$ פשוט התקין מחדש את Signal. ייתכן שתרצה לוודא את מספר הביטחון שלך עם איש קשה זה.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
@@ -6324,5 +6338,13 @@
     "WhatsNew__v5.16--3": {
         "message": "אם תרחף מעל הכפתורים בזמן שיחה, הם יישארו נראים במקום להיעלם. כלום לא מסתתר מעין הנשר שלך, אפילו לא הכפתורים האלו!",
         "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.17--1": {
+        "message": "נסה את ההרשאה 'שלח הודעות' החדשה כדי להגביל מי יכול לשלוח הודעות בקבוצות שלך. מעולה לצורך ארגון אירוע, ביצוע הכרזה, או רק צעקה מהגגות. כל חברי הקבוצה חייבים להשתמש בגרסה האחרונה של Signal כדי שההגדרה תופיע.",
+        "description": "Release notes for v5.17"
+    },
+    "WhatsNew__v5.17--2": {
+        "message": "אתה יכול עכשיו לשלוח הודעות בכל מקום ובכל זמן: במטוס, במנהרה, או ברגע העצוב הזה כשכאינטרנט שלך נפל. היא לבסוף תישלח; הודעות יקבלו ניסיונות שליחה עד 24 שעות.",
+        "description": "Release notes for v5.17"
     }
 }

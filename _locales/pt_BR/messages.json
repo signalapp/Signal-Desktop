@@ -415,6 +415,20 @@
         "message": "É possível que as seguintes pessoas tenham reinstalado o Signal ou mudado de aparelho. Verifique o seu número de segurança com elas para garantir a sua privacidade e a delas.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
+    "safetyNumberChangeDialog__pending-messages--1": {
+        "message": "Enviar mensagem pendente",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
+    },
+    "safetyNumberChangeDialog__pending-messages--many": {
+        "message": "Enviar $count$ mensagens pendentes",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": 123
+            }
+        }
+    },
     "identityKeyErrorOnSend": {
         "message": "Seu número de segurança com $name1$ foi alterado. Isto pode significar que alguém está tentando interceptar sua comunicação ou que $name2$ simplesmente reinstalou o Signal. Você pode querer verificar seu número de segurança com este contato.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
@@ -6324,5 +6338,13 @@
     "WhatsNew__v5.16--3": {
         "message": "Anteriormente, se você passasse o mouse sobre os botões durante uma chamada, eles desapareceriam. A partir de agora, esses botões permanecerão visíveis ao seu olhar!",
         "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.17--1": {
+        "message": "Conheça a nova permissão 'enviar mensagens' em um grupo. Ela existe para restringir quem pode enviar mensagens no grupo. Ótimo recurso para organizar um evento ou para criar um canal de anúncios. Lembramos que todos os membros do grupo devem atualizar o Signal para a versão mais recente, de modo a usufruírem dessa configuração.",
+        "description": "Release notes for v5.17"
+    },
+    "WhatsNew__v5.17--2": {
+        "message": "Agora você pode enviar mensagens onde e quando estiver: em um avião, em um túnel ou quando o seu aparelho estiver desconectado da internet. Assim que a conexão de internet retornar, dentro de 24 horas, as mensagens pendentes serão enviadas automaticamente.",
+        "description": "Release notes for v5.17"
     }
 }

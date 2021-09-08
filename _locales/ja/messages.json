@@ -415,6 +415,20 @@
         "message": "以下の方はアプリを再インストールしたか端末を変更した可能性があります。プライバシーを保証するために安全番号を検証してください。",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
+    "safetyNumberChangeDialog__pending-messages--1": {
+        "message": "保留中のメッセージを送信",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
+    },
+    "safetyNumberChangeDialog__pending-messages--many": {
+        "message": "保留中の$count$件のメッセージを送信",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": 123
+            }
+        }
+    },
     "identityKeyErrorOnSend": {
         "message": "$name1$ に対する安全番号が変更されました。だれかが通信を傍受しようとしているかも知れませんし、$name2$ がSignalを再インストールしただけかも知れません。この連絡先に対する安全番号を検証することをお勧めします。",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
@@ -6314,15 +6328,23 @@
         "description": "Release notes for v5.15"
     },
     "WhatsNew__v5.16--1": {
-        "message": "An improved media lightbox means no surprises as you progress through a gallery of images or videos, and you can pretend you’re really in a dark room by zooming to hide those pesky buttons.",
+        "message": "改良されたメディアライトボックスでは、画像や動画のギャラリーを見ても驚くことはありません。また、ズームして厄介なボタンを隠すことで、本物の暗室にいるかのように見せることができます。",
         "description": "Release notes for v5.16"
     },
     "WhatsNew__v5.16--2": {
-        "message": "Fixed a bug where reacting to a message was tricky, because we put the picker off screen. That's now fixed, and you can 😮 to your ❤️'s content.",
+        "message": "メッセージに反応する際に、ピッカーを画面外に出してしまったために、反応しづらかったバグを修正しました。これが修正されて、あなたの❤️の内容に合わせて😮することができるようになりました。",
         "description": "Release notes for v5.16"
     },
     "WhatsNew__v5.16--3": {
-        "message": "If you hover over the buttons while on a call, they stay visible instead of disappearing. Nothing hides from your eagle eye, not even these buttons!",
+        "message": "通話中にボタンの上にカーソルを置くと、ボタンが消えずに表示されます。あなたの視線から隠れるものは、このボタンにもありません。",
         "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.17--1": {
+        "message": "★ 新しい「メッセージ送信」機能を使って、グループ内でメッセージを送信できる人を制限してみましょう。イベントを開催したり、告知をしたり、屋上から大声で叫んだりするのに最適です。この設定が表示されるには、すべてのメンバーが最新バージョンのSignalを使用している必要があります。",
+        "description": "Release notes for v5.17"
+    },
+    "WhatsNew__v5.17--2": {
+        "message": "飛行機の中、トンネルの中、インターネットが切れてしまったときなど、いつでもどこでもメッセージを送ることができます。メッセージは最大24時間まで自動的に再試行されます。",
+        "description": "Release notes for v5.17"
     }
 }

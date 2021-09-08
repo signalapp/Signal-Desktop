@@ -415,6 +415,20 @@
         "message": "以下使用者可能已重新安裝或更換了裝置。與他們一起驗證你的安全碼，以確保隱私性。",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
+    "safetyNumberChangeDialog__pending-messages--1": {
+        "message": "傳送待處理的訊息",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
+    },
+    "safetyNumberChangeDialog__pending-messages--many": {
+        "message": "傳送給 $count$待處理的訊息",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": 123
+            }
+        }
+    },
     "identityKeyErrorOnSend": {
         "message": "你的$name1$的安全碼已更改。 這可能意味著有人試圖攔截你的通訊，或者$name2$只是重新安裝了Signal。 你可以希望透過此聯絡人驗證你的安全碼。",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
@@ -6324,5 +6338,13 @@
     "WhatsNew__v5.16--3": {
         "message": "如果你在通話時將滑鼠游標停在按鈕上，它們將保持可見而不是消失。 沒有什麼能躲過你的鷹眼，即使是這些按鈕！",
         "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.17--1": {
+        "message": "試試新的“傳送訊息”權限來限制哪些人可以在你的群組中傳送訊息。 此非常適合團體活動、發佈公告或只是想大叫讓大家都知道。 所有成員必須使用最新版本的 Signal 才能顯示此設定。",
+        "description": "Release notes for v5.17"
+    },
+    "WhatsNew__v5.17--2": {
+        "message": "你現在可以隨時隨地傳送訊息：在飛機上、隧道中，或者網路中斷的難過時刻。它最終會過去； 訊息現在會自動重試長達 24 小時。",
+        "description": "Release notes for v5.17"
     }
 }

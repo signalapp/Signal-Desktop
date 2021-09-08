@@ -415,6 +415,20 @@
         "message": "Las siguientes personas pueden haber reinstalado Signal o cambiado su dispositivo. Verifica tus cifras de seguridad con ellas para asegurar vuestra privacidad.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
+    "safetyNumberChangeDialog__pending-messages--1": {
+        "message": "Enviar mensaje pendiente",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
+    },
+    "safetyNumberChangeDialog__pending-messages--many": {
+        "message": "Enviar $count$ mensajes pendientes",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": 123
+            }
+        }
+    },
     "identityKeyErrorOnSend": {
         "message": "Tus cifras de seguridad con $name1$ han cambiado, lo que significaría que alguien ha tratado de interceptar la comunicación o que $name2$ símplemente ha reinstalado Signal.  Tal vez desees verificar las cifras de seguridad con esta persona.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
@@ -2316,7 +2330,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "Haz clic para volver a enlazar Signal Desktop con tu dispositivo móvil para continuar enviando mensajes.",
+        "message": "Haz clic para volver a enlazar Signal Desktop con tu dispositivo móvil y continuar enviando mensajes.",
         "description": ""
     },
     "unlinked": {
@@ -6318,11 +6332,19 @@
         "description": "Release notes for v5.16"
     },
     "WhatsNew__v5.16--2": {
-        "message": "Hemos arreglado un fallo en las reacciones a mensajes. Ahora puedes 😮 y ❤️ esos mensajes especiales.",
+        "message": "Hemos arreglado un fallo en las reacciones a mensajes. Ahora puedes reaccionar con 😮 ó ❤️ a esos mensajes especiales.",
         "description": "Release notes for v5.16"
     },
     "WhatsNew__v5.16--3": {
         "message": "Durante una llamada puedes mover tu puntero sobre los botones de control sin que desaparezcan.",
         "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.17--1": {
+        "message": "Permite solo a l@s admins enviar mensajes en tu grupo con la nueva opción de «enviar mensajes». Ideal para organizar un evento, hacer un anuncio, o solo para gritar desde los tejados. Tod@s l@s participantes deben usar la versión más actual de Signal para poder activar esta opción.",
+        "description": "Release notes for v5.17"
+    },
+    "WhatsNew__v5.17--2": {
+        "message": "Ahora puedes enviar mensajes sin importar dónde estás: En un avión, en un túnel o en ese momento en el que internet se ha cortado. El mensaje se enviará una vez que vuelvas a tener conexión: Signal hará múltiples intentos hasta un máximo de 24 horas.",
+        "description": "Release notes for v5.17"
     }
 }
