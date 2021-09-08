@@ -26,7 +26,7 @@ export const WhatsNew = ({ i18n }: PropsType): JSX.Element => {
 
   const viewReleaseNotes = () => {
     setReleaseNotes({
-      date: new Date('09/02/2021'),
+      date: new Date('09/08/2021'),
       version: window.getVersion(),
       features: ['WhatsNew__v5.17--1', 'WhatsNew__v5.17--2'],
     });
