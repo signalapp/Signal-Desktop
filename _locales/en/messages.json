@@ -3140,7 +3140,7 @@
     "message": "Failed to send reaction. Please try again.",
     "description": "Shown when a reaction fails to send"
   },
-  "ReactionsViewer--more": {
+  "Reactions--more": {
     "message": "More",
     "description": "Use in the reaction picker as the alt text for the 'more' button"
   },

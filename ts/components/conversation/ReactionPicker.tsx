@@ -120,7 +120,7 @@ export const ReactionPicker = React.forwardRef<HTMLDivElement, Props>(
               setPickingOther(true);
             }
           }}
-          title={i18n('ReactionsViewer--more')}
+          title={i18n('Reactions--more')}
         >
           {otherSelected ? (
             <div className="module-reaction-picker__emoji-btn__emoji">
