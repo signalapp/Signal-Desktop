@@ -618,6 +618,9 @@ export async function startApp(): Promise<void> {
     window.Events = createIPCEvents({
       shutdown: async () => {
         window.log.info('background/shutdown');
+
+        window.Signal.Util.flushMessageCounter();
+
         // Stop background processing
         AttachmentDownloads.stop();
         if (idleDetector) {

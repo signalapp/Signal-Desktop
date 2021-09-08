@@ -17,6 +17,16 @@ export function incrementMessageCounter(): number {
   return receivedAtCounter;
 }
 
-const debouncedUpdateLastReceivedAt = debounce(() => {
-  localStorage.setItem('lastReceivedAtCounter', String(receivedAtCounter));
-}, 500);
+export function flushMessageCounter(): void {
+  debouncedUpdateLastReceivedAt.flush();
+}
+
+const debouncedUpdateLastReceivedAt = debounce(
+  () => {
+    localStorage.setItem('lastReceivedAtCounter', String(receivedAtCounter));
+  },
+  25,
+  {
+    maxWait: 25,
+  }
+);
