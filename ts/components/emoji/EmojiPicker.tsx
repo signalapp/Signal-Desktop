@@ -32,7 +32,7 @@ export type OwnProps = {
   readonly onPickEmoji: (o: EmojiPickDataType) => unknown;
   readonly doSend?: () => unknown;
   readonly skinTone?: number;
-  readonly onSetSkinTone?: (tone: number) => unknown;
+  readonly onSetSkinTone: (tone: number) => unknown;
   readonly recentEmojis?: Array<string>;
   readonly onClickSettings?: () => unknown;
   readonly onClose?: () => unknown;

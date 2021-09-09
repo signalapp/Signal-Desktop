@@ -5,6 +5,7 @@ import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { StateType } from '../reducer';
 import { useActions as usePreferredReactionsActions } from '../ducks/preferredReactions';
+import { useActions as useItemsActions } from '../ducks/items';
 
 import { getIntl } from '../selectors/user';
 import {
@@ -22,6 +23,7 @@ import {
 type ExternalProps = Omit<
   Props,
   | 'i18n'
+  | 'onSetSkinTone'
   | 'openCustomizePreferredReactionsModal'
   | 'preferredReactionEmoji'
   | 'selectionStyle'
@@ -35,6 +37,7 @@ export const SmartReactionPicker = React.forwardRef<
   const {
     openCustomizePreferredReactionsModal,
   } = usePreferredReactionsActions();
+  const { onSetSkinTone } = useItemsActions();
 
   const i18n = useSelector<StateType, LocalizerType>(getIntl);
 
@@ -49,6 +52,7 @@ export const SmartReactionPicker = React.forwardRef<
   return (
     <ReactionPicker
       i18n={i18n}
+      onSetSkinTone={onSetSkinTone}
       openCustomizePreferredReactionsModal={
         openCustomizePreferredReactionsModal
       }

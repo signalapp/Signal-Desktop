@@ -30,15 +30,16 @@ const preferredReactionEmoji = [
 const renderEmojiPicker: ReactionPickerProps['renderEmojiPicker'] = ({
   onClose,
   onPickEmoji,
+  onSetSkinTone,
   ref,
 }) => (
   <EmojiPicker
     i18n={i18n}
     skinTone={0}
-    onSetSkinTone={action('EmojiPicker::onSetSkinTone')}
     ref={ref}
     onClose={onClose}
     onPickEmoji={onPickEmoji}
+    onSetSkinTone={onSetSkinTone}
   />
 );
 
@@ -48,6 +49,7 @@ storiesOf('Components/Conversation/ReactionPicker', module)
       <ReactionPicker
         i18n={i18n}
         onPick={action('onPick')}
+        onSetSkinTone={action('onSetSkinTone')}
         openCustomizePreferredReactionsModal={action(
           'openCustomizePreferredReactionsModal'
         )}
@@ -65,6 +67,7 @@ storiesOf('Components/Conversation/ReactionPicker', module)
           i18n={i18n}
           selected={e}
           onPick={action('onPick')}
+          onSetSkinTone={action('onSetSkinTone')}
           openCustomizePreferredReactionsModal={action(
             'openCustomizePreferredReactionsModal'
           )}
@@ -83,6 +86,7 @@ storiesOf('Components/Conversation/ReactionPicker', module)
           i18n={i18n}
           selected={e}
           onPick={action('onPick')}
+          onSetSkinTone={action('onSetSkinTone')}
           openCustomizePreferredReactionsModal={action(
             'openCustomizePreferredReactionsModal'
           )}

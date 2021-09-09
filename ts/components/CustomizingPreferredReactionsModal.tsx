@@ -134,6 +134,7 @@ export function CustomizingPreferredReactionsModal({
           hasMoreButton={false}
           i18n={i18n}
           onPick={onPick}
+          onSetSkinTone={shouldNotBeCalled}
           ref={setReferenceElement}
           preferredReactionEmoji={draftPreferredReactions}
           selected={selected}

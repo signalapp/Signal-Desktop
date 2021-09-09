@@ -17,7 +17,10 @@ export enum ReactionPickerSelectionStyle {
 }
 
 export type RenderEmojiPickerProps = Pick<Props, 'onClose' | 'style'> &
-  Pick<EmojiPickerProps, 'onClickSettings' | 'onPickEmoji'> & {
+  Pick<
+    EmojiPickerProps,
+    'onClickSettings' | 'onPickEmoji' | 'onSetSkinTone'
+  > & {
     ref: React.Ref<HTMLDivElement>;
   };
 
@@ -28,6 +31,7 @@ export type OwnProps = {
   selectionStyle: ReactionPickerSelectionStyle;
   onClose?: () => unknown;
   onPick: (emoji: string) => unknown;
+  onSetSkinTone: (tone: number) => unknown;
   openCustomizePreferredReactionsModal?: () => unknown;
   preferredReactionEmoji: Array<string>;
   renderEmojiPicker: (props: RenderEmojiPickerProps) => React.ReactElement;
@@ -71,6 +75,7 @@ export const ReactionPicker = React.forwardRef<HTMLDivElement, Props>(
       i18n,
       onClose,
       onPick,
+      onSetSkinTone,
       openCustomizePreferredReactionsModal,
       preferredReactionEmoji,
       renderEmojiPicker,
@@ -114,6 +119,7 @@ export const ReactionPicker = React.forwardRef<HTMLDivElement, Props>(
         onClickSettings: openCustomizePreferredReactionsModal,
         onClose,
         onPickEmoji,
+        onSetSkinTone,
         ref,
         style,
       });
