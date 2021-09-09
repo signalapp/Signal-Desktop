@@ -382,10 +382,12 @@ export const CallManager: React.FC<PropsType> = props => {
     return noop;
   }, [shouldRing, playRingtone, stopRingtone]);
 
-  const hasActiveCall = Boolean(activeCall);
-  const isGroupCall = activeCall?.callMode === CallMode.Group;
+  const mightBeRingingOutgoingGroupCall =
+    activeCall?.callMode === CallMode.Group &&
+    activeCall.outgoingRing &&
+    activeCall.joinState !== GroupCallJoinState.NotJoined;
   useEffect(() => {
-    if (!hasActiveCall || !isGroupCall) {
+    if (!mightBeRingingOutgoingGroupCall) {
       return noop;
     }
 
@@ -395,7 +397,7 @@ export const CallManager: React.FC<PropsType> = props => {
     return () => {
       clearTimeout(timeout);
     };
-  }, [hasActiveCall, setOutgoingRing, isGroupCall]);
+  }, [mightBeRingingOutgoingGroupCall, setOutgoingRing]);
 
   if (activeCall) {
     // `props` should logically have an `activeCall` at this point, but TypeScript can't
