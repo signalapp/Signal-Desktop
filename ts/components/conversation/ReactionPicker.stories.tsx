@@ -92,7 +92,7 @@ storiesOf('Components/Conversation/ReactionPicker', module)
           skinTone={select(
             'skinTone',
             { 0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5 },
-            0
+            5
           )}
         />
       </div>
