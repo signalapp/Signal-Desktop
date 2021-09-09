@@ -244,7 +244,7 @@
     "core-js": "2.6.9",
     "cross-env": "5.2.0",
     "css-loader": "3.2.0",
-    "electron": "13.1.8",
+    "electron": "13.3.0",
     "electron-builder": "22.11.7",
     "electron-mocha": "8.1.1",
     "electron-notarize": "0.1.1",
