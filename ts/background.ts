@@ -2171,6 +2171,7 @@ export async function startApp(): Promise<void> {
             'gv2-3': true,
             'gv1-migration': true,
             senderKey: true,
+            changeNumber: true,
           });
         } catch (error) {
           window.log.error(
