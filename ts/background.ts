@@ -89,6 +89,7 @@ import {
   SendStatus,
 } from './messages/MessageSendState';
 import * as AttachmentDownloads from './messageModifiers/AttachmentDownloads';
+import * as preferredReactions from './state/ducks/preferredReactions';
 import * as Stickers from './types/Stickers';
 import { SignalService as Proto } from './protobuf';
 import { onRetryRequest, onDecryptionError } from './util/handleRetry';
@@ -953,6 +954,7 @@ export async function startApp(): Promise<void> {
       },
       emojis: window.Signal.Emojis.getInitialState(),
       items: window.storage.getItemsState(),
+      preferredReactions: preferredReactions.getInitialState(),
       stickers: Stickers.getInitialState(),
       user: {
         attachmentsPath: window.baseAttachmentsPath,

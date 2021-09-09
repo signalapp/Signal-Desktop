@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -9,10 +9,23 @@ import { action } from '@storybook/addon-actions';
 import { select } from '@storybook/addon-knobs';
 import { setup as setupI18n } from '../../../js/modules/i18n';
 import enMessages from '../../../_locales/en/messages.json';
-import { Props as ReactionPickerProps, ReactionPicker } from './ReactionPicker';
+import {
+  Props as ReactionPickerProps,
+  ReactionPicker,
+  ReactionPickerSelectionStyle,
+} from './ReactionPicker';
 import { EmojiPicker } from '../emoji/EmojiPicker';
 
 const i18n = setupI18n('en', enMessages);
+
+const preferredReactionEmoji = [
+  'heart',
+  'thumbsup',
+  'thumbsdown',
+  'joy',
+  'open_mouth',
+  'cry',
+];
 
 const renderEmojiPicker: ReactionPickerProps['renderEmojiPicker'] = ({
   onClose,
@@ -35,7 +48,12 @@ storiesOf('Components/Conversation/ReactionPicker', module)
       <ReactionPicker
         i18n={i18n}
         onPick={action('onPick')}
+        openCustomizePreferredReactionsModal={action(
+          'openCustomizePreferredReactionsModal'
+        )}
+        preferredReactionEmoji={preferredReactionEmoji}
         renderEmojiPicker={renderEmojiPicker}
+        selectionStyle={ReactionPickerSelectionStyle.Picker}
         skinTone={0}
       />
     );
@@ -47,7 +65,12 @@ storiesOf('Components/Conversation/ReactionPicker', module)
           i18n={i18n}
           selected={e}
           onPick={action('onPick')}
+          openCustomizePreferredReactionsModal={action(
+            'openCustomizePreferredReactionsModal'
+          )}
+          preferredReactionEmoji={preferredReactionEmoji}
           renderEmojiPicker={renderEmojiPicker}
+          selectionStyle={ReactionPickerSelectionStyle.Picker}
           skinTone={0}
         />
       </div>
@@ -60,7 +83,12 @@ storiesOf('Components/Conversation/ReactionPicker', module)
           i18n={i18n}
           selected={e}
           onPick={action('onPick')}
+          openCustomizePreferredReactionsModal={action(
+            'openCustomizePreferredReactionsModal'
+          )}
+          preferredReactionEmoji={preferredReactionEmoji}
           renderEmojiPicker={renderEmojiPicker}
+          selectionStyle={ReactionPickerSelectionStyle.Picker}
           skinTone={select(
             'skinTone',
             { 0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5 },

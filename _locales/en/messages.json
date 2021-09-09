@@ -1244,7 +1244,11 @@
   },
   "save": {
     "message": "Save",
-    "description": "Used as a 'commit changes' button in the Caption Editor for outgoing image attachments"
+    "description": "Used on save buttons"
+  },
+  "reset": {
+    "message": "Reset",
+    "description": "Used on reset buttons"
   },
   "fileIconAlt": {
     "message": "File icon",
@@ -6300,6 +6304,18 @@
         "example": "v7.7.7"
       }
     }
+  },
+  "CustomizingPreferredReactions__title": {
+    "message": "Customize default reactions",
+    "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
+  },
+  "CustomizingPreferredReactions__subtitle": {
+    "message": "Click to replace an emoji",
+    "description": "Instructions in the modal for customizing the preferred reactions."
+  },
+  "CustomizingPreferredReactions__had-save-error": {
+    "message": "There was an error when saving your settings. Please try again.",
+    "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
   "WhatsNew__modal-title": {
     "message": "What's New",

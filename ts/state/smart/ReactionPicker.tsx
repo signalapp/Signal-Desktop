@@ -1,32 +1,62 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
 import { useSelector } from 'react-redux';
-import { get } from 'lodash';
 import { StateType } from '../reducer';
+import { useActions as usePreferredReactionsActions } from '../ducks/preferredReactions';
 
 import { getIntl } from '../selectors/user';
+import {
+  getEmojiSkinTone,
+  getPreferredReactionEmoji,
+} from '../selectors/items';
 
 import { LocalizerType } from '../../types/Util';
 import {
   ReactionPicker,
+  ReactionPickerSelectionStyle,
   Props,
 } from '../../components/conversation/ReactionPicker';
 
-type ExternalProps = Omit<Props, 'skinTone' | 'i18n'>;
+type ExternalProps = Omit<
+  Props,
+  | 'i18n'
+  | 'openCustomizePreferredReactionsModal'
+  | 'preferredReactionEmoji'
+  | 'selectionStyle'
+  | 'skinTone'
+>;
 
 export const SmartReactionPicker = React.forwardRef<
   HTMLDivElement,
   ExternalProps
 >((props, ref) => {
+  const {
+    openCustomizePreferredReactionsModal,
+  } = usePreferredReactionsActions();
+
   const i18n = useSelector<StateType, LocalizerType>(getIntl);
 
+  const preferredReactionEmoji = useSelector<StateType, Array<string>>(
+    getPreferredReactionEmoji
+  );
+
   const skinTone = useSelector<StateType, number>(state =>
-    get(state, ['items', 'skinTone'], 0)
+    getEmojiSkinTone(state)
   );
 
   return (
-    <ReactionPicker ref={ref} skinTone={skinTone} i18n={i18n} {...props} />
+    <ReactionPicker
+      i18n={i18n}
+      openCustomizePreferredReactionsModal={
+        openCustomizePreferredReactionsModal
+      }
+      preferredReactionEmoji={preferredReactionEmoji}
+      ref={ref}
+      selectionStyle={ReactionPickerSelectionStyle.Picker}
+      skinTone={skinTone}
+      {...props}
+    />
   );
 });

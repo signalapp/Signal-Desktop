@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { connect } from 'react-redux';
-import { get } from 'lodash';
 import { mapDispatchToProps } from '../actions';
 import {
   ForwardMessageModal,
@@ -14,6 +13,7 @@ import { LinkPreviewType } from '../../types/message/LinkPreviews';
 import { getAllComposableConversations } from '../selectors/conversations';
 import { getLinkPreview } from '../selectors/linkPreviews';
 import { getIntl } from '../selectors/user';
+import { getEmojiSkinTone } from '../selectors/items';
 import { selectRecentEmojis } from '../selectors/emojis';
 import { AttachmentType } from '../../types/Attachment';
 
@@ -52,7 +52,7 @@ const mapStateToProps = (
 
   const candidateConversations = getAllComposableConversations(state);
   const recentEmojis = selectRecentEmojis(state);
-  const skinTone = get(state, ['items', 'skinTone'], 0);
+  const skinTone = getEmojiSkinTone(state);
   const linkPreview = getLinkPreview(state);
 
   return {

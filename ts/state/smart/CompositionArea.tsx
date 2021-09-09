@@ -10,6 +10,7 @@ import { isConversationSMSOnly } from '../../util/isConversationSMSOnly';
 
 import { selectRecentEmojis } from '../selectors/emojis';
 import { getIntl, getUserConversationId } from '../selectors/user';
+import { getEmojiSkinTone } from '../selectors/items';
 import {
   getConversationSelector,
   getGroupAdminsSelector,
@@ -100,7 +101,7 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     },
     // Emojis
     recentEmojis,
-    skinTone: get(state, ['items', 'skinTone'], 0),
+    skinTone: getEmojiSkinTone(state),
     // Stickers
     receivedPacks,
     installedPack,

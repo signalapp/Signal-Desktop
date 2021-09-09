@@ -39,6 +39,7 @@ import {
 import { MessageModel } from '../models/messages';
 import { strictAssert } from '../util/assert';
 import { maybeParseUrl } from '../util/url';
+import { replaceIndex } from '../util/replaceIndex';
 import { addReportSpamJob } from '../jobs/helpers/addReportSpamJob';
 import { reportSpamJobQueue } from '../jobs/reportSpamJobQueue';
 import { GroupNameCollisionsWithIdsByTitle } from '../util/groupMemberNameCollisions';
@@ -1925,10 +1926,8 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         draftAttachments: [...draftAttachments, onDisk],
       });
     } else {
-      const toUpdate = [...draftAttachments];
-      toUpdate.splice(index, 1, onDisk);
       this.model.set({
-        draftAttachments: toUpdate,
+        draftAttachments: replaceIndex(draftAttachments, index, onDisk),
       });
     }
     this.updateAttachmentsView();

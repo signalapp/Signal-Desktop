@@ -1,38 +1,40 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
 import classNames from 'classnames';
+import * as log from '../../logging/log';
 import { Emoji } from '../emoji/Emoji';
 import { convertShortName } from '../emoji/lib';
 import { Props as EmojiPickerProps } from '../emoji/EmojiPicker';
+import { missingCaseError } from '../../util/missingCaseError';
 import { useRestoreFocus } from '../../util/hooks/useRestoreFocus';
 import { LocalizerType } from '../../types/Util';
 
+export enum ReactionPickerSelectionStyle {
+  Picker,
+  Menu,
+}
+
 export type RenderEmojiPickerProps = Pick<Props, 'onClose' | 'style'> &
-  Pick<EmojiPickerProps, 'onPickEmoji'> & {
+  Pick<EmojiPickerProps, 'onClickSettings' | 'onPickEmoji'> & {
     ref: React.Ref<HTMLDivElement>;
   };
 
 export type OwnProps = {
+  hasMoreButton?: boolean;
   i18n: LocalizerType;
   selected?: string;
+  selectionStyle: ReactionPickerSelectionStyle;
   onClose?: () => unknown;
   onPick: (emoji: string) => unknown;
+  openCustomizePreferredReactionsModal?: () => unknown;
+  preferredReactionEmoji: Array<string>;
   renderEmojiPicker: (props: RenderEmojiPickerProps) => React.ReactElement;
   skinTone: number;
 };
 
 export type Props = OwnProps & Pick<React.HTMLProps<HTMLDivElement>, 'style'>;
-
-const DEFAULT_EMOJI_LIST = [
-  'heart',
-  'thumbsup',
-  'thumbsdown',
-  'joy',
-  'open_mouth',
-  'cry',
-];
 
 const EmojiButton = React.forwardRef<
   HTMLButtonElement,
@@ -64,7 +66,19 @@ const EmojiButton = React.forwardRef<
 
 export const ReactionPicker = React.forwardRef<HTMLDivElement, Props>(
   (
-    { i18n, selected, onClose, skinTone, onPick, renderEmojiPicker, style },
+    {
+      hasMoreButton = true,
+      i18n,
+      onClose,
+      onPick,
+      openCustomizePreferredReactionsModal,
+      preferredReactionEmoji,
+      renderEmojiPicker,
+      selected,
+      selectionStyle,
+      skinTone,
+      style,
+    },
     ref
   ) => {
     const [pickingOther, setPickingOther] = React.useState(false);
@@ -96,17 +110,25 @@ export const ReactionPicker = React.forwardRef<HTMLDivElement, Props>(
     const [focusRef] = useRestoreFocus();
 
     if (pickingOther) {
-      return renderEmojiPicker({ onPickEmoji, onClose, style, ref });
+      return renderEmojiPicker({
+        onClickSettings: openCustomizePreferredReactionsModal,
+        onClose,
+        onPickEmoji,
+        ref,
+        style,
+      });
     }
 
-    const emojis = DEFAULT_EMOJI_LIST.map(shortName =>
+    const emojis = preferredReactionEmoji.map(shortName =>
       convertShortName(shortName, skinTone)
     );
 
     const otherSelected = selected && !emojis.includes(selected);
 
     let moreButton: React.ReactNode;
-    if (otherSelected) {
+    if (!hasMoreButton) {
+      moreButton = undefined;
+    } else if (otherSelected) {
       moreButton = (
         <EmojiButton
           emoji={selected}
@@ -137,8 +159,30 @@ export const ReactionPicker = React.forwardRef<HTMLDivElement, Props>(
       );
     }
 
+    let selectionStyleClassName: string;
+    switch (selectionStyle) {
+      case ReactionPickerSelectionStyle.Picker:
+        selectionStyleClassName = 'module-ReactionPicker--picker-style';
+        break;
+      case ReactionPickerSelectionStyle.Menu:
+        selectionStyleClassName = 'module-ReactionPicker--menu-style';
+        break;
+      default:
+        log.error(missingCaseError(selectionStyle));
+        selectionStyleClassName = 'module-ReactionPicker--picker-style';
+        break;
+    }
+
     return (
-      <div ref={ref} style={style} className="module-ReactionPicker">
+      <div
+        ref={ref}
+        style={style}
+        className={classNames(
+          'module-ReactionPicker',
+          selectionStyleClassName,
+          selected ? 'module-ReactionPicker--something-selected' : undefined
+        )}
+      >
         {emojis.map((emoji, index) => {
           const maybeFocusRef = index === 0 ? focusRef : undefined;
 

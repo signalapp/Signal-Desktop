@@ -29,6 +29,8 @@ export type ItemsStateType = {
   readonly defaultConversationColor?: DefaultConversationColorType;
 
   readonly customColors?: CustomColorsItemType;
+
+  readonly preferredReactionEmoji?: Array<string>;
 };
 
 // Actions

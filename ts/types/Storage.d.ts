@@ -110,6 +110,7 @@ export type StorageAccessType = {
   unidentifiedDeliveryIndicators: boolean;
   groupCredentials: Array<GroupCredentialType>;
   lastReceivedAtCounter: number;
+  preferredReactionEmoji: Array<string>;
   skinTone: number;
   unreadCount: number;
   'challenge:retry-message-ids': ReadonlyArray<{

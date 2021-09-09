@@ -9,6 +9,8 @@
   $emoji-size-from-component: 48px;
   $big-emoji-size: 42px;
 
+  $root-selector: &;
+
   @include rounded-corners;
   align-items: center;
   border-style: solid;
@@ -19,7 +21,6 @@
   padding: 3px 7px;
   position: relative;
   user-select: none;
-  z-index: 2;
 
   @media (prefers-reduced-motion: no-preference) {
     animation: {
@@ -48,55 +49,19 @@
     justify-content: center;
     position: relative;
 
-    @media (prefers-reduced-motion: no-preference) {
-      // Prevent animation jank
-      opacity: 0;
-
-      animation: {
-        name: module-ReactionPicker__button-appear;
-        duration: 400ms;
-        timing-function: $ease-out-expo;
-        fill-mode: forwards;
-        // This delay is a fallback in case there are more than the expected number of
-        //   buttons.
-        delay: #{$max-expected-buttons * 10ms};
-      }
-    }
-    @for $i from 0 through $max-expected-buttons {
-      &:nth-of-type(#{$i + 1}) {
-        animation-delay: #{$i * 10ms};
-      }
-    }
-
     &--emoji {
       $emoji-button-selector: &;
 
       height: $button-size;
       width: $button-size;
+      @media (prefers-reduced-motion: no-preference) {
+        transition: background 200ms $ease-out-expo;
+      }
 
       .module-emoji {
         transform: scale($button-content-size / $emoji-size-from-component);
         @media (prefers-reduced-motion: no-preference) {
           transition: transform 400ms $ease-out-expo;
-        }
-      }
-
-      @mixin focused-emoji {
-        @media (prefers-reduced-motion: no-preference) {
-          .module-emoji {
-            transform: scale($big-emoji-size / $emoji-size-from-component)
-              translateY(-16px);
-          }
-        }
-      }
-
-      &:hover {
-        @include focused-emoji;
-      }
-
-      @include keyboard-mode {
-        &:focus {
-          @include focused-emoji;
         }
       }
     }
@@ -117,6 +82,11 @@
         &:hover {
           background: $color-gray-05;
         }
+        @include keyboard-mode {
+          &:focus {
+            background: $color-gray-05;
+          }
+        }
       }
 
       @include dark-theme {
@@ -124,6 +94,11 @@
 
         &:hover {
           background: $color-gray-45;
+        }
+        @include dark-keyboard-mode {
+          &:focus {
+            background: $color-gray-45;
+          }
         }
       }
 
@@ -146,14 +121,101 @@
         }
       }
     }
+  }
 
-    &--selected {
-      @include light-theme {
-        background: $color-black-alpha-20;
+  &--picker-style {
+    z-index: 2;
+
+    #{$root-selector}__button {
+      @media (prefers-reduced-motion: no-preference) {
+        // Prevent animation jank
+        opacity: 0;
+
+        animation: {
+          name: module-ReactionPicker__button-appear;
+          duration: 400ms;
+          timing-function: $ease-out-expo;
+          fill-mode: forwards;
+          // This delay is a fallback in case there are more than the expected number of
+          //   buttons.
+          delay: #{$max-expected-buttons * 10ms};
+        }
       }
 
-      @include dark-theme {
-        background: $color-white-alpha-20;
+      @for $i from 0 through $max-expected-buttons {
+        &:nth-of-type(#{$i + 1}) {
+          animation-delay: #{$i * 10ms};
+        }
+      }
+
+      &--emoji {
+        @mixin focus-or-hover-styles {
+          .module-emoji {
+            transform: scale($big-emoji-size / $emoji-size-from-component)
+              translateY(-16px);
+          }
+        }
+        &:hover {
+          @include focus-or-hover-styles;
+        }
+        @include keyboard-mode {
+          &:focus {
+            @include focus-or-hover-styles;
+          }
+        }
+      }
+
+      &--selected {
+        @include light-theme {
+          background: $color-black-alpha-20;
+        }
+
+        @include dark-theme {
+          background: $color-white-alpha-20;
+        }
+      }
+    }
+  }
+
+  &--menu-style {
+    #{$root-selector}__button {
+      $light-focus-or-hover-background: $color-black-alpha-20;
+      $dark-focus-or-hover-background: $color-white-alpha-40;
+
+      &:hover {
+        @include light-theme {
+          background: $light-focus-or-hover-background;
+        }
+        @include dark-theme {
+          background: $dark-focus-or-hover-background;
+        }
+      }
+      @include keyboard-mode {
+        &:focus {
+          background: $light-focus-or-hover-background;
+        }
+      }
+      @include dark-keyboard-mode {
+        &:focus {
+          background: $dark-focus-or-hover-background;
+        }
+      }
+
+      #{$root-selector}--something-selected {
+        opacity: 0.4;
+      }
+
+      &--selected {
+        opacity: 1;
+
+        .module-emoji {
+          transform: scale($big-emoji-size / $emoji-size-from-component);
+        }
+
+        @media (prefers-reduced-motion: no-preference) {
+          animation: module-ReactionPicker__button-selected 1s ease-in-out
+            infinite alternate;
+        }
       }
     }
   }
@@ -178,5 +240,15 @@
   to {
     transform: translate3d(0, 0, 0);
     opacity: 1;
+  }
+}
+
+@keyframes module-ReactionPicker__button-selected {
+  from {
+    transform: rotate(-8deg);
+  }
+
+  to {
+    transform: rotate(8deg);
   }
 }

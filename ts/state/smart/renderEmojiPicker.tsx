@@ -8,6 +8,7 @@ import { SmartEmojiPicker } from './EmojiPicker';
 
 export function renderEmojiPicker({
   ref,
+  onClickSettings,
   onPickEmoji,
   onClose,
   style,
@@ -15,6 +16,7 @@ export function renderEmojiPicker({
   return (
     <SmartEmojiPicker
       ref={ref}
+      onClickSettings={onClickSettings}
       onPickEmoji={onPickEmoji}
       onClose={onClose}
       style={style}
