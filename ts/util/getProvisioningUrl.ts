@@ -7,9 +7,8 @@ export function getProvisioningUrl(
   uuid: string,
   publicKey: ArrayBuffer
 ): string {
-  const params = new URLSearchParams({
-    uuid,
-    pub_key: arrayBufferToBase64(publicKey),
-  });
-  return `tsdevice:/?${params.toString()}`;
+  const url = new URL('sgnl://linkdevice');
+  url.searchParams.set('uuid', uuid);
+  url.searchParams.set('pub_key', arrayBufferToBase64(publicKey));
+  return url.toString();
 }

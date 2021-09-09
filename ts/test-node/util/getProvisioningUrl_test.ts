@@ -8,6 +8,10 @@ import { typedArrayToArrayBuffer } from '../../Crypto';
 
 import { getProvisioningUrl } from '../../util/getProvisioningUrl';
 
+// It'd be nice to run these tests in the renderer, too, but [Chromium's `URL` doesn't
+//   handle `sgnl:` links correctly][0].
+//
+// [0]: https://bugs.chromium.org/p/chromium/issues/detail?id=869291
 describe('getProvisioningUrl', () => {
   it('returns a URL with a UUID and public key', () => {
     const uuid = 'a08bf1fd-1799-427f-a551-70af747e3956';
@@ -16,8 +20,8 @@ describe('getProvisioningUrl', () => {
     const result = getProvisioningUrl(uuid, typedArrayToArrayBuffer(publicKey));
     const resultUrl = new URL(result);
 
-    assert(result.startsWith('tsdevice:/?'));
-    assert.strictEqual(resultUrl.protocol, 'tsdevice:');
+    assert.strictEqual(resultUrl.protocol, 'sgnl:');
+    assert.strictEqual(resultUrl.host, 'linkdevice');
     assert.strictEqual(size(resultUrl.searchParams.entries()), 2);
     assert.strictEqual(resultUrl.searchParams.get('uuid'), uuid);
     assert.strictEqual(resultUrl.searchParams.get('pub_key'), 'CQgHBgUEAw==');
