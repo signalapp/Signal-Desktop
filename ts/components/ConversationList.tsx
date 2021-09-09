@@ -160,7 +160,7 @@ export const ConversationList: React.FC<PropsType> = ({
     if (shouldRecomputeRowHeights && list) {
       list.recomputeRowHeights();
     }
-  }, [shouldRecomputeRowHeights]);
+  });
 
   const calculateRowHeight = useCallback(
     ({ index }: { index: number }): number => {
