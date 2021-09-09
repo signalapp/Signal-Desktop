@@ -13,8 +13,8 @@ import {
   ReactionPickerSelectionStyle,
 } from './conversation/ReactionPicker';
 import { EmojiPicker } from './emoji/EmojiPicker';
+import { DEFAULT_PREFERRED_REACTION_EMOJI_SHORT_NAMES } from '../reactions/constants';
 import { convertShortName } from './emoji/lib';
-import { DEFAULT_PREFERRED_REACTION_EMOJI } from '../reactions/constants';
 import { offsetDistanceModifier } from '../util/popperUtil';
 
 type PropsType = {
@@ -94,20 +94,16 @@ export function CustomizingPreferredReactionsModal({
     };
   }, [isSomethingSelected, popperElement, deselectDraftEmoji]);
 
-  const emojis = draftPreferredReactions.map(shortName =>
-    convertShortName(shortName, skinTone)
-  );
-
   const selected =
     typeof selectedDraftEmojiIndex === 'number'
-      ? emojis[selectedDraftEmojiIndex]
+      ? draftPreferredReactions[selectedDraftEmojiIndex]
       : undefined;
 
   const onPick = isSaving
     ? noop
     : (pickedEmoji: string) => {
         selectDraftEmojiToBeReplaced(
-          emojis.findIndex(emoji => emoji === pickedEmoji)
+          draftPreferredReactions.findIndex(emoji => emoji === pickedEmoji)
         );
       };
 
@@ -117,7 +113,12 @@ export function CustomizingPreferredReactionsModal({
   );
   const canReset =
     !isSaving &&
-    !isEqual(DEFAULT_PREFERRED_REACTION_EMOJI, draftPreferredReactions);
+    !isEqual(
+      DEFAULT_PREFERRED_REACTION_EMOJI_SHORT_NAMES.map(shortName =>
+        convertShortName(shortName, skinTone)
+      ),
+      draftPreferredReactions
+    );
   const canSave = !isSaving && hasChanged;
 
   return (
@@ -140,7 +141,6 @@ export function CustomizingPreferredReactionsModal({
           selected={selected}
           selectionStyle={ReactionPickerSelectionStyle.Menu}
           renderEmojiPicker={shouldNotBeCalled}
-          skinTone={skinTone}
         />
         {hadSaveError
           ? i18n('CustomizingPreferredReactions__had-save-error')
@@ -155,8 +155,12 @@ export function CustomizingPreferredReactionsModal({
         >
           <EmojiPicker
             i18n={i18n}
-            onPickEmoji={({ shortName }) => {
-              replaceSelectedDraftEmoji(shortName);
+            onPickEmoji={pickedEmoji => {
+              const emoji = convertShortName(
+                pickedEmoji.shortName,
+                pickedEmoji.skinTone
+              );
+              replaceSelectedDraftEmoji(emoji);
             }}
             skinTone={skinTone}
             onSetSkinTone={onSetSkinTone}

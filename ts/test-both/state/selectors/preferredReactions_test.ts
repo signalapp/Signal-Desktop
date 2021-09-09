@@ -28,22 +28,8 @@ describe('both/state/selectors/preferredReactions', () => {
         getIsCustomizingPreferredReactions(
           getRootState({
             customizePreferredReactionsModal: {
-              draftPreferredReactions: [
-                'sparkles',
-                'sparkle',
-                'sparkler',
-                'shark',
-                'sparkling_heart',
-                'parking',
-              ],
-              originalPreferredReactions: [
-                'blue_heart',
-                'thumbsup',
-                'thumbsdown',
-                'joy',
-                'open_mouth',
-                'cry',
-              ],
+              draftPreferredReactions: ['✨', '❇️', '🎇', '🦈', '💖', '🅿️'],
+              originalPreferredReactions: ['💙', '👍', '👎', '😂', '😮', '😢'],
               selectedDraftEmojiIndex: undefined,
               isSaving: false as const,
               hadSaveError: false,

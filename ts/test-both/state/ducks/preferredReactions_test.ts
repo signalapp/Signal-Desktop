@@ -3,9 +3,8 @@
 
 import { assert } from 'chai';
 import * as sinon from 'sinon';
-import { reducer as rootReducer } from '../../../state/reducer';
+import { StateType, reducer as rootReducer } from '../../../state/reducer';
 import { noopAction } from '../../../state/ducks/noop';
-import { DEFAULT_PREFERRED_REACTION_EMOJI } from '../../../reactions/constants';
 
 import {
   PreferredReactionsStateType,
@@ -15,9 +14,12 @@ import {
 } from '../../../state/ducks/preferredReactions';
 
 describe('preferred reactions duck', () => {
-  const getEmptyRootState = () => rootReducer(undefined, noopAction());
+  const getEmptyRootState = (): StateType =>
+    rootReducer(undefined, noopAction());
 
-  const getRootState = (preferredReactions: PreferredReactionsStateType) => ({
+  const getRootState = (
+    preferredReactions: PreferredReactionsStateType
+  ): StateType => ({
     ...getEmptyRootState(),
     preferredReactions,
   });
@@ -25,22 +27,8 @@ describe('preferred reactions duck', () => {
   const stateWithOpenCustomizationModal = {
     ...getInitialState(),
     customizePreferredReactionsModal: {
-      draftPreferredReactions: [
-        'sparkles',
-        'sparkle',
-        'sparkler',
-        'shark',
-        'sparkling_heart',
-        'parking',
-      ],
-      originalPreferredReactions: [
-        'blue_heart',
-        'thumbsup',
-        'thumbsdown',
-        'joy',
-        'open_mouth',
-        'cry',
-      ],
+      draftPreferredReactions: ['✨', '❇️', '🎇', '🦈', '💖', '🅿️'],
+      originalPreferredReactions: ['💙', '👍', '👎', '😂', '😮', '😢'],
       selectedDraftEmojiIndex: undefined,
       isSaving: false as const,
       hadSaveError: false,
@@ -120,15 +108,26 @@ describe('preferred reactions duck', () => {
     const { openCustomizePreferredReactionsModal } = actions;
 
     it('opens the customization modal with defaults if no value was stored', () => {
+      const emptyRootState = getEmptyRootState();
+      const rootState = {
+        ...emptyRootState,
+        items: {
+          ...emptyRootState.items,
+          skinTone: 5,
+        },
+      };
+
       const dispatch = sinon.spy();
-      openCustomizePreferredReactionsModal()(dispatch, getEmptyRootState, null);
+      openCustomizePreferredReactionsModal()(dispatch, () => rootState, null);
       const [action] = dispatch.getCall(0).args;
 
-      const result = reducer(getEmptyRootState().preferredReactions, action);
+      const result = reducer(rootState.preferredReactions, action);
+
+      const expectedEmoji = ['❤️', '👍🏿', '👎🏿', '😂', '😮', '😢'];
 
       assert.deepEqual(result.customizePreferredReactionsModal, {
-        draftPreferredReactions: DEFAULT_PREFERRED_REACTION_EMOJI,
-        originalPreferredReactions: DEFAULT_PREFERRED_REACTION_EMOJI,
+        draftPreferredReactions: expectedEmoji,
+        originalPreferredReactions: expectedEmoji,
         selectedDraftEmojiIndex: undefined,
         isSaving: false,
         hadSaveError: false,
@@ -136,14 +135,7 @@ describe('preferred reactions duck', () => {
     });
 
     it('opens the customization modal with stored values', () => {
-      const storedPreferredReactionEmoji = [
-        'sparkles',
-        'sparkle',
-        'sparkler',
-        'shark',
-        'sparkling_heart',
-        'parking',
-      ];
+      const storedPreferredReactionEmoji = ['✨', '❇️', '🎇', '🦈', '💖', '🅿️'];
 
       const emptyRootState = getEmptyRootState();
       const state = {
@@ -175,21 +167,21 @@ describe('preferred reactions duck', () => {
 
     it('is a no-op if the customization modal is not open', () => {
       const state = getInitialState();
-      const action = replaceSelectedDraftEmoji('cat');
+      const action = replaceSelectedDraftEmoji('🦈');
       const result = reducer(state, action);
 
       assert.strictEqual(result, state);
     });
 
     it('is a no-op if no emoji is selected', () => {
-      const action = replaceSelectedDraftEmoji('cat');
+      const action = replaceSelectedDraftEmoji('💅');
       const result = reducer(stateWithOpenCustomizationModal, action);
 
       assert.strictEqual(result, stateWithOpenCustomizationModal);
     });
 
     it('is a no-op if the new emoji is already in the list', () => {
-      const action = replaceSelectedDraftEmoji('shark');
+      const action = replaceSelectedDraftEmoji('✨');
       const result = reducer(
         stateWithOpenCustomizationModalAndSelectedEmoji,
         action
@@ -202,7 +194,7 @@ describe('preferred reactions duck', () => {
     });
 
     it('replaces the selected draft emoji and deselects', () => {
-      const action = replaceSelectedDraftEmoji('cat');
+      const action = replaceSelectedDraftEmoji('🐱');
       const result = reducer(
         stateWithOpenCustomizationModalAndSelectedEmoji,
         action
@@ -210,7 +202,7 @@ describe('preferred reactions duck', () => {
 
       assert.deepStrictEqual(
         result.customizePreferredReactionsModal?.draftPreferredReactions,
-        ['sparkles', 'cat', 'sparkler', 'shark', 'sparkling_heart', 'parking']
+        ['✨', '🐱', '🎇', '🦈', '💖', '🅿️']
       );
       assert.isUndefined(
         result.customizePreferredReactionsModal?.selectedDraftEmojiIndex
@@ -221,30 +213,39 @@ describe('preferred reactions duck', () => {
   describe('resetDraftEmoji', () => {
     const { resetDraftEmoji } = actions;
 
+    function getAction(rootState: Readonly<StateType>) {
+      const dispatch = sinon.spy();
+      resetDraftEmoji()(dispatch, () => rootState, null);
+      const [action] = dispatch.getCall(0).args;
+      return action;
+    }
+
     it('is a no-op if the customization modal is not open', () => {
-      const state = getInitialState();
-      const action = resetDraftEmoji();
+      const rootState = getEmptyRootState();
+      const state = rootState.preferredReactions;
+      const action = getAction(rootState);
       const result = reducer(state, action);
 
       assert.strictEqual(result, state);
     });
 
     it('resets the draft emoji to the defaults', () => {
-      const action = resetDraftEmoji();
-      const result = reducer(stateWithOpenCustomizationModal, action);
+      const rootState = getRootState(stateWithOpenCustomizationModal);
+      const action = getAction(rootState);
+      const result = reducer(rootState.preferredReactions, action);
 
       assert.deepEqual(
         result.customizePreferredReactionsModal?.draftPreferredReactions,
-        DEFAULT_PREFERRED_REACTION_EMOJI
+        ['❤️', '👍', '👎', '😂', '😮', '😢']
       );
     });
 
     it('deselects any selected emoji', () => {
-      const action = resetDraftEmoji();
-      const result = reducer(
-        stateWithOpenCustomizationModalAndSelectedEmoji,
-        action
+      const rootState = getRootState(
+        stateWithOpenCustomizationModalAndSelectedEmoji
       );
+      const action = getAction(rootState);
+      const result = reducer(rootState.preferredReactions, action);
 
       assert.isUndefined(
         result.customizePreferredReactionsModal?.selectedDraftEmojiIndex

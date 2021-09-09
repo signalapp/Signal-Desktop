@@ -10,6 +10,7 @@ import { Props as EmojiPickerProps } from '../emoji/EmojiPicker';
 import { missingCaseError } from '../../util/missingCaseError';
 import { useRestoreFocus } from '../../util/hooks/useRestoreFocus';
 import { LocalizerType } from '../../types/Util';
+import { canCustomizePreferredReactions } from '../../util/canCustomizePreferredReactions';
 
 export enum ReactionPickerSelectionStyle {
   Picker,
@@ -35,7 +36,6 @@ export type OwnProps = {
   openCustomizePreferredReactionsModal?: () => unknown;
   preferredReactionEmoji: Array<string>;
   renderEmojiPicker: (props: RenderEmojiPickerProps) => React.ReactElement;
-  skinTone: number;
 };
 
 export type Props = OwnProps & Pick<React.HTMLProps<HTMLDivElement>, 'style'>;
@@ -81,7 +81,6 @@ export const ReactionPicker = React.forwardRef<HTMLDivElement, Props>(
       renderEmojiPicker,
       selected,
       selectionStyle,
-      skinTone,
       style,
     },
     ref
@@ -116,7 +115,9 @@ export const ReactionPicker = React.forwardRef<HTMLDivElement, Props>(
 
     if (pickingOther) {
       return renderEmojiPicker({
-        onClickSettings: openCustomizePreferredReactionsModal,
+        onClickSettings: canCustomizePreferredReactions()
+          ? openCustomizePreferredReactionsModal
+          : undefined,
         onClose,
         onPickEmoji,
         onSetSkinTone,
@@ -125,11 +126,8 @@ export const ReactionPicker = React.forwardRef<HTMLDivElement, Props>(
       });
     }
 
-    const emojis = preferredReactionEmoji.map(shortName =>
-      convertShortName(shortName, skinTone)
-    );
-
-    const otherSelected = selected && !emojis.includes(selected);
+    const otherSelected =
+      selected && !preferredReactionEmoji.includes(selected);
 
     let moreButton: React.ReactNode;
     if (!hasMoreButton) {
@@ -189,7 +187,7 @@ export const ReactionPicker = React.forwardRef<HTMLDivElement, Props>(
           selected ? 'module-ReactionPicker--something-selected' : undefined
         )}
       >
-        {emojis.map((emoji, index) => {
+        {preferredReactionEmoji.map((emoji, index) => {
           const maybeFocusRef = index === 0 ? focusRef : undefined;
 
           return (

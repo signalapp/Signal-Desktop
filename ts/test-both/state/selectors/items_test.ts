@@ -9,7 +9,6 @@ import {
 } from '../../../state/selectors/items';
 import type { StateType } from '../../../state/reducer';
 import type { ItemsStateType } from '../../../state/ducks/items';
-import { DEFAULT_PREFERRED_REACTION_EMOJI } from '../../../reactions/constants';
 
 describe('both/state/selectors/items', () => {
   // Note: we would like to use the full reducer here, to get a real empty state object
@@ -74,30 +73,28 @@ describe('both/state/selectors/items', () => {
   describe('#getPreferredReactionEmoji', () => {
     // See also: the tests for the `getPreferredReactionEmoji` helper.
 
+    const expectedDefault = ['❤️', '👍🏿', '👎🏿', '😂', '😮', '😢'];
+
     it('returns the default set if no value is stored', () => {
-      const state = getRootState({});
+      const state = getRootState({ skinTone: 5 });
       const actual = getPreferredReactionEmoji(state);
 
-      assert.deepStrictEqual(actual, DEFAULT_PREFERRED_REACTION_EMOJI);
+      assert.deepStrictEqual(actual, expectedDefault);
     });
 
     it('returns the default set if the stored value is invalid', () => {
-      const state = getRootState({ preferredReactionEmoji: ['garbage!!'] });
+      const state = getRootState({
+        skinTone: 5,
+        preferredReactionEmoji: ['garbage!!'],
+      });
       const actual = getPreferredReactionEmoji(state);
 
-      assert.deepStrictEqual(actual, DEFAULT_PREFERRED_REACTION_EMOJI);
+      assert.deepStrictEqual(actual, expectedDefault);
     });
 
     it('returns a custom set of emoji', () => {
-      const preferredReactionEmoji = [
-        'sparkles',
-        'sparkle',
-        'sparkler',
-        'shark',
-        'sparkling_heart',
-        'parking',
-      ];
-      const state = getRootState({ preferredReactionEmoji });
+      const preferredReactionEmoji = ['✨', '❇️', '🤙🏻', '🦈', '💖', '🅿️'];
+      const state = getRootState({ skinTone: 5, preferredReactionEmoji });
       const actual = getPreferredReactionEmoji(state);
 
       assert.deepStrictEqual(actual, preferredReactionEmoji);

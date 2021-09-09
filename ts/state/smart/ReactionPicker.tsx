@@ -8,10 +8,7 @@ import { useActions as usePreferredReactionsActions } from '../ducks/preferredRe
 import { useActions as useItemsActions } from '../ducks/items';
 
 import { getIntl } from '../selectors/user';
-import {
-  getEmojiSkinTone,
-  getPreferredReactionEmoji,
-} from '../selectors/items';
+import { getPreferredReactionEmoji } from '../selectors/items';
 
 import { LocalizerType } from '../../types/Util';
 import {
@@ -45,10 +42,6 @@ export const SmartReactionPicker = React.forwardRef<
     getPreferredReactionEmoji
   );
 
-  const skinTone = useSelector<StateType, number>(state =>
-    getEmojiSkinTone(state)
-  );
-
   return (
     <ReactionPicker
       i18n={i18n}
@@ -59,7 +52,6 @@ export const SmartReactionPicker = React.forwardRef<
       preferredReactionEmoji={preferredReactionEmoji}
       ref={ref}
       selectionStyle={ReactionPickerSelectionStyle.Picker}
-      skinTone={skinTone}
       {...props}
     />
   );

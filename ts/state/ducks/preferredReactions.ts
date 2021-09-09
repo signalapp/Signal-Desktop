@@ -8,8 +8,10 @@ import * as Errors from '../../types/errors';
 import { replaceIndex } from '../../util/replaceIndex';
 import { useBoundActions } from '../../util/hooks';
 import type { StateType as RootStateType } from '../reducer';
-import { DEFAULT_PREFERRED_REACTION_EMOJI } from '../../reactions/constants';
+import { DEFAULT_PREFERRED_REACTION_EMOJI_SHORT_NAMES } from '../../reactions/constants';
 import { getPreferredReactionEmoji } from '../../reactions/getPreferredReactionEmoji';
+import { getEmojiSkinTone } from '../selectors/items';
+import { convertShortName } from '../../components/emoji/lib';
 
 // State
 
@@ -61,7 +63,10 @@ type ReplaceSelectedDraftEmojiActionType = {
   payload: string;
 };
 
-type ResetDraftEmojiActionType = { type: typeof RESET_DRAFT_EMOJI };
+type ResetDraftEmojiActionType = {
+  type: typeof RESET_DRAFT_EMOJI;
+  payload: { skinTone: number };
+};
 
 type SavePreferredReactionsFulfilledActionType = {
   type: typeof SAVE_PREFERRED_REACTIONS_FULFILLED;
@@ -109,8 +114,10 @@ function openCustomizePreferredReactionsModal(): ThunkAction<
   OpenCustomizePreferredReactionsModalActionType
 > {
   return (dispatch, getState) => {
+    const state = getState();
     const originalPreferredReactions = getPreferredReactionEmoji(
-      getState().items.preferredReactionEmoji
+      getState().items.preferredReactionEmoji,
+      getEmojiSkinTone(state)
     );
     dispatch({
       type: OPEN_CUSTOMIZE_PREFERRED_REACTIONS_MODAL,
@@ -128,8 +135,16 @@ function replaceSelectedDraftEmoji(
   };
 }
 
-function resetDraftEmoji(): ResetDraftEmojiActionType {
-  return { type: RESET_DRAFT_EMOJI };
+function resetDraftEmoji(): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  ResetDraftEmojiActionType
+> {
+  return (dispatch, getState) => {
+    const skinTone = getEmojiSkinTone(getState());
+    dispatch({ type: RESET_DRAFT_EMOJI, payload: { skinTone } });
+  };
 }
 
 function savePreferredReactions(): ThunkAction<
@@ -253,7 +268,8 @@ export function reducer(
         },
       };
     }
-    case RESET_DRAFT_EMOJI:
+    case RESET_DRAFT_EMOJI: {
+      const { skinTone } = action.payload;
       if (!state.customizePreferredReactionsModal) {
         return state;
       }
@@ -261,10 +277,13 @@ export function reducer(
         ...state,
         customizePreferredReactionsModal: {
           ...state.customizePreferredReactionsModal,
-          draftPreferredReactions: DEFAULT_PREFERRED_REACTION_EMOJI,
+          draftPreferredReactions: DEFAULT_PREFERRED_REACTION_EMOJI_SHORT_NAMES.map(
+            shortName => convertShortName(shortName, skinTone)
+          ),
           selectedDraftEmojiIndex: undefined,
         },
       };
+    }
     case SAVE_PREFERRED_REACTIONS_PENDING:
       if (!state.customizePreferredReactionsModal) {
         return state;

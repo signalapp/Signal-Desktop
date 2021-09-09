@@ -8,6 +8,7 @@ import type { WebAPIType } from './textsecure/WebAPI';
 export type ConfigKeyType =
   | 'desktop.announcementGroup'
   | 'desktop.clientExpiration'
+  | 'desktop.customizePreferredReactions'
   | 'desktop.disableGV1'
   | 'desktop.groupCallOutboundRing'
   | 'desktop.groupCalling'

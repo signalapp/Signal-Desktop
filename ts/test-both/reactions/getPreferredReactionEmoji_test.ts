@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { DEFAULT_PREFERRED_REACTION_EMOJI } from '../../reactions/constants';
+import { DEFAULT_PREFERRED_REACTION_EMOJI_SHORT_NAMES } from '../../reactions/constants';
 
 import { getPreferredReactionEmoji } from '../../reactions/getPreferredReactionEmoji';
 
@@ -12,35 +12,34 @@ describe('getPreferredReactionEmoji', () => {
       // Invalid types
       undefined,
       null,
-      DEFAULT_PREFERRED_REACTION_EMOJI.join(','),
+      DEFAULT_PREFERRED_REACTION_EMOJI_SHORT_NAMES.join(','),
       // Invalid lengths
       [],
-      DEFAULT_PREFERRED_REACTION_EMOJI.slice(0, 3),
-      [...DEFAULT_PREFERRED_REACTION_EMOJI, 'sparkles'],
+      DEFAULT_PREFERRED_REACTION_EMOJI_SHORT_NAMES.slice(0, 3),
+      [...DEFAULT_PREFERRED_REACTION_EMOJI_SHORT_NAMES, '✨'],
       // Non-strings in the array
-      ['heart', 'thumbsdown', undefined, 'joy', 'open_mouth', 'cry'],
-      ['heart', 'thumbsdown', 99, 'joy', 'open_mouth', 'cry'],
+      ['❤️', '👍', undefined, '😂', '😮', '😢'],
+      ['❤️', '👍', 99, '😂', '😮', '😢'],
       // Invalid emoji
-      ['heart', 'thumbsdown', 'gorbage!!', 'joy', 'open_mouth', 'cry'],
+      ['❤️', '👍', 'x', '😂', '😮', '😢'],
+      ['❤️', '👍', 'garbage!!', '😂', '😮', '😢'],
+      ['❤️', '👍', '✨✨', '😂', '😮', '😢'],
       // Has duplicates
-      ['heart', 'thumbsdown', 'joy', 'joy', 'open_mouth', 'cry'],
+      ['❤️', '👍', '👍', '😂', '😮', '😢'],
     ].forEach(input => {
-      assert.deepStrictEqual(
-        getPreferredReactionEmoji(input),
-        DEFAULT_PREFERRED_REACTION_EMOJI
-      );
+      assert.deepStrictEqual(getPreferredReactionEmoji(input, 2), [
+        '❤️',
+        '👍🏼',
+        '👎🏼',
+        '😂',
+        '😮',
+        '😢',
+      ]);
     });
   });
 
   it('returns a custom set if passed a valid value', () => {
-    const input = [
-      'sparkles',
-      'sparkle',
-      'sparkler',
-      'shark',
-      'sparkling_heart',
-      'parking',
-    ];
-    assert.deepStrictEqual(getPreferredReactionEmoji(input), input);
+    const input = ['✨', '❇️', '🎇', '🦈', '💖', '🅿️'];
+    assert.deepStrictEqual(getPreferredReactionEmoji(input, 3), input);
   });
 });

@@ -26,6 +26,8 @@ describe('isValidReactionEmoji', () => {
 
   it('returns true for strings that are exactly 1 emoji', () => {
     assert.isTrue(isValidReactionEmoji('🇺🇸'));
+    assert.isTrue(isValidReactionEmoji('👍'));
+    assert.isTrue(isValidReactionEmoji('👍🏾'));
     assert.isTrue(isValidReactionEmoji('👩‍❤️‍👩'));
   });
 });

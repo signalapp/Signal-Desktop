@@ -65,6 +65,10 @@ export const getEmojiSkinTone = createSelector(
 
 export const getPreferredReactionEmoji = createSelector(
   getItems,
-  (state: Readonly<ItemsStateType>): Array<string> =>
-    getPreferredReactionEmojiFromStoredValue(state.preferredReactionEmoji)
+  getEmojiSkinTone,
+  (state: Readonly<ItemsStateType>, skinTone: number): Array<string> =>
+    getPreferredReactionEmojiFromStoredValue(
+      state.preferredReactionEmoji,
+      skinTone
+    )
 );
