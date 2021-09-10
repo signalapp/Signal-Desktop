@@ -23,6 +23,7 @@ type PropsType = {
   i18n: LocalizerType;
   isSaving: boolean;
   originalPreferredReactions: Array<string>;
+  recentEmojis: Array<string>;
   selectedDraftEmojiIndex: undefined | number;
   skinTone: number;
 
@@ -44,6 +45,7 @@ export function CustomizingPreferredReactionsModal({
   isSaving,
   onSetSkinTone,
   originalPreferredReactions,
+  recentEmojis,
   replaceSelectedDraftEmoji,
   resetDraftEmoji,
   savePreferredReactions,
@@ -162,6 +164,7 @@ export function CustomizingPreferredReactionsModal({
               );
               replaceSelectedDraftEmoji(emoji);
             }}
+            recentEmojis={recentEmojis}
             skinTone={skinTone}
             onSetSkinTone={onSetSkinTone}
             onClose={() => {

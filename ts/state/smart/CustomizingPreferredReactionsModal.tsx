@@ -10,6 +10,7 @@ import { useActions as usePreferredReactionsActions } from '../ducks/preferredRe
 import { useActions as useItemsActions } from '../ducks/items';
 import { getIntl } from '../selectors/user';
 import { getEmojiSkinTone } from '../selectors/items';
+import { useRecentEmojis } from '../selectors/emojis';
 import { getCustomizeModalState } from '../selectors/preferredReactions';
 
 import { CustomizingPreferredReactionsModal } from '../../components/CustomizingPreferredReactionsModal';
@@ -30,6 +31,8 @@ export function SmartCustomizingPreferredReactionsModal(): JSX.Element {
     );
   }
 
+  const recentEmojis = useRecentEmojis();
+
   const skinTone = useSelector<StateType, number>(state =>
     getEmojiSkinTone(state)
   );
@@ -38,6 +41,7 @@ export function SmartCustomizingPreferredReactionsModal(): JSX.Element {
     <CustomizingPreferredReactionsModal
       i18n={i18n}
       onSetSkinTone={onSetSkinTone}
+      recentEmojis={recentEmojis}
       skinTone={skinTone}
       {...preferredReactionsActions}
       {...customizeModalState}

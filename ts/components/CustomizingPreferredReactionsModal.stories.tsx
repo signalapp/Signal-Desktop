@@ -29,6 +29,7 @@ const defaultProps: ComponentProps<
   isSaving: false,
   onSetSkinTone: action('onSetSkinTone'),
   originalPreferredReactions: ['❤️', '👍', '👎', '😂', '😮', '😢'],
+  recentEmojis: ['cake'],
   replaceSelectedDraftEmoji: action('replaceSelectedDraftEmoji'),
   resetDraftEmoji: action('resetDraftEmoji'),
   savePreferredReactions: action('savePreferredReactions'),
