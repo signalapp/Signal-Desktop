@@ -5371,7 +5371,10 @@ button.module-image__border-overlay:focus {
   }
 
   &__local-preview-fullsize {
+    align-items: center;
+    display: flex;
     height: 100%;
+    justify-content: center;
     left: 0;
     position: absolute;
     top: 0;
@@ -5380,6 +5383,12 @@ button.module-image__border-overlay:focus {
 
     video {
       @include lonely-local-video-preview;
+    }
+
+    &--presenting {
+      video {
+        transform: none;
+      }
     }
   }
 
