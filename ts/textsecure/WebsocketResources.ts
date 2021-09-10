@@ -188,6 +188,10 @@ export default class WebSocketResource extends EventTarget {
         id,
       },
     }).finish();
+    strictAssert(
+      bytes.length <= MAX_MESSAGE_SIZE,
+      'WebSocket request byte size exceeded'
+    );
 
     strictAssert(!this.shuttingDown, 'Cannot send request, shutting down');
     this.addActive(id);
@@ -210,10 +214,6 @@ export default class WebSocketResource extends EventTarget {
       });
     });
 
-    strictAssert(
-      bytes.length <= MAX_MESSAGE_SIZE,
-      'WebSocket request byte size exceeded'
-    );
     this.socket.sendBytes(Buffer.from(bytes));
 
     return promise;
