@@ -233,6 +233,10 @@ export class NormalMessageSendJobQueue extends JobQueue<NormalMessageSendJobData
         const dataMessage = await window.textsecure.messaging.getDataMessage({
           attachments,
           body,
+          groupV2: updateRecipients(
+            conversation.getGroupV2Info(),
+            recipientIdentifiersWithoutMe
+          ),
           deletedForEveryoneTimestamp,
           expireTimer,
           preview,
