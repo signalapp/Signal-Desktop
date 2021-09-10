@@ -376,19 +376,21 @@ const actions = () => ({
   unblurAvatar: action('unblurAvatar'),
 });
 
-const renderItem = (
-  id: string,
-  _conversationId: unknown,
-  _onHeightChange: unknown,
-  _actionProps: unknown,
-  containerElementRef: React.RefObject<HTMLElement>
-) => (
+const renderItem = ({
+  messageId,
+  containerElementRef,
+}: {
+  messageId: string;
+  containerElementRef: React.RefObject<HTMLElement>;
+}) => (
   <TimelineItem
     id=""
     isSelected={false}
     renderEmojiPicker={() => <div />}
     renderReactionPicker={() => <div />}
-    item={items[id]}
+    item={items[messageId]}
+    previousItem={undefined}
+    nextItem={undefined}
     i18n={i18n}
     interactionMode="keyboard"
     containerElementRef={containerElementRef}

@@ -103,13 +103,15 @@ type PropsHousekeepingType = {
 
   i18n: LocalizerType;
 
-  renderItem: (
-    id: string,
-    conversationId: string,
-    onHeightChange: (messageId: string) => unknown,
-    actions: PropsActionsType,
-    containerElementRef: RefObject<HTMLElement>
-  ) => JSX.Element;
+  renderItem: (props: {
+    actions: PropsActionsType;
+    containerElementRef: RefObject<HTMLElement>;
+    conversationId: string;
+    messageId: string;
+    nextMessageId: undefined | string;
+    onHeightChange: (messageId: string) => unknown;
+    previousMessageId: undefined | string;
+  }) => JSX.Element;
   renderLastSeenIndicator: (id: string) => JSX.Element;
   renderHeroRow: (
     id: string,
@@ -797,7 +799,9 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
           `Attempted to render item with undefined index - row ${row}`
         );
       }
+      const previousMessageId: undefined | string = items[itemIndex - 1];
       const messageId = items[itemIndex];
+      const nextMessageId: undefined | string = items[itemIndex + 1];
       stableKey = messageId;
 
       const actions = getActions(this.props);
@@ -811,13 +815,15 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
           role="row"
         >
           <ErrorBoundary i18n={i18n} showDebugLog={() => window.showDebugLog()}>
-            {renderItem(
-              messageId,
-              id,
-              this.resizeMessage,
+            {renderItem({
               actions,
-              this.containerRef
-            )}
+              containerElementRef: this.containerRef,
+              conversationId: id,
+              messageId,
+              nextMessageId,
+              onHeightChange: this.resizeMessage,
+              previousMessageId,
+            })}
           </ErrorBoundary>
         </div>
       );

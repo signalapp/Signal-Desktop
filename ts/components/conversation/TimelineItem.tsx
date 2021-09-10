@@ -165,6 +165,8 @@ type PropsLocalType = {
   i18n: LocalizerType;
   interactionMode: InteractionModeType;
   theme?: ThemeType;
+  previousItem: undefined | TimelineItemType;
+  nextItem: undefined | TimelineItemType;
 };
 
 type PropsActionsType = MessageActionsType &
@@ -192,6 +194,7 @@ export class TimelineItem extends React.PureComponent<PropsType> {
       i18n,
       theme,
       messageSizeChanged,
+      nextItem,
       renderContact,
       renderUniversalTimerNotification,
       returnToActiveCall,
@@ -231,6 +234,7 @@ export class TimelineItem extends React.PureComponent<PropsType> {
           i18n={i18n}
           messageId={id}
           messageSizeChanged={messageSizeChanged}
+          nextItem={nextItem}
           returnToActiveCall={returnToActiveCall}
           startCallingLobby={startCallingLobby}
           {...item.data}

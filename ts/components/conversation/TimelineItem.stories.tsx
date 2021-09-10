@@ -86,6 +86,8 @@ const getDefaultProps = () => ({
   messageSizeChanged: action('messageSizeChanged'),
   startCallingLobby: action('startCallingLobby'),
   returnToActiveCall: action('returnToActiveCall'),
+  previousItem: undefined,
+  nextItem: undefined,
 
   renderContact,
   renderUniversalTimerNotification,

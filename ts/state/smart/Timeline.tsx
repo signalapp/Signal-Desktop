@@ -63,19 +63,31 @@ const createBoundOnHeightChange = memoizee(
   { max: 500 }
 );
 
-function renderItem(
-  messageId: string,
-  conversationId: string,
-  onHeightChange: (messageId: string) => unknown,
-  actionProps: TimelineActionsType,
-  containerElementRef: RefObject<HTMLElement>
-): JSX.Element {
+function renderItem({
+  actionProps,
+  containerElementRef,
+  conversationId,
+  messageId,
+  nextMessageId,
+  onHeightChange,
+  previousMessageId,
+}: {
+  actionProps: TimelineActionsType;
+  containerElementRef: RefObject<HTMLElement>;
+  conversationId: string;
+  messageId: string;
+  nextMessageId: undefined | string;
+  onHeightChange: (messageId: string) => unknown;
+  previousMessageId: undefined | string;
+}): JSX.Element {
   return (
     <SmartTimelineItem
       {...actionProps}
       containerElementRef={containerElementRef}
       conversationId={conversationId}
-      id={messageId}
+      messageId={messageId}
+      previousMessageId={previousMessageId}
+      nextMessageId={nextMessageId}
       onHeightChange={createBoundOnHeightChange(onHeightChange, messageId)}
       renderEmojiPicker={renderEmojiPicker}
       renderReactionPicker={renderReactionPicker}

@@ -1322,6 +1322,14 @@
     "message": "Calling",
     "description": "Header for calling options on the settings screen"
   },
+  "calling__call-back": {
+    "message": "Call Back",
+    "description": "Button to call someone back"
+  },
+  "calling__call-again": {
+    "message": "Call Again",
+    "description": "Button to call someone again"
+  },
   "calling__start": {
     "message": "Start Call",
     "description": "Button label in the call lobby for starting a call"

@@ -1,7 +1,7 @@
 // Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useState, useEffect } from 'react';
+import React, { ReactNode, useState, useEffect } from 'react';
 import Measure from 'react-measure';
 import { noop } from 'lodash';
 
@@ -18,6 +18,7 @@ import {
 import { usePrevious } from '../../util/hooks';
 import { missingCaseError } from '../../util/missingCaseError';
 import { Tooltip, TooltipPlacement } from '../Tooltip';
+import type { TimelineItemType } from './TimelineItem';
 
 export type PropsActionsType = {
   messageSizeChanged: (messageId: string, conversationId: string) => void;
@@ -32,6 +33,7 @@ type PropsHousekeeping = {
   i18n: LocalizerType;
   conversationId: string;
   messageId: string;
+  nextItem: undefined | TimelineItemType;
 };
 
 type PropsType = CallingNotificationType & PropsActionsType & PropsHousekeeping;
@@ -52,7 +54,6 @@ export const CallingNotification: React.FC<PropsType> = React.memo(props => {
     }
   }, [height, previousHeight, conversationId, messageId, messageSizeChanged]);
 
-  let hasButton = false;
   let timestamp: number;
   let wasMissed = false;
   switch (props.callMode) {
@@ -62,7 +63,6 @@ export const CallingNotification: React.FC<PropsType> = React.memo(props => {
         props.wasIncoming && !props.acceptedTime && !props.wasDeclined;
       break;
     case CallMode.Group:
-      hasButton = !props.ended;
       timestamp = props.startedTime;
       break;
     default:
@@ -87,9 +87,7 @@ export const CallingNotification: React.FC<PropsType> = React.memo(props => {
     >
       {({ measureRef }) => (
         <SystemMessage
-          button={
-            hasButton ? <CallingNotificationButton {...props} /> : undefined
-          }
+          button={renderCallingNotificationButton(props)}
           contents={
             <>
               {getCallingNotificationText(props, i18n)} &middot;{' '}
@@ -113,47 +111,70 @@ export const CallingNotification: React.FC<PropsType> = React.memo(props => {
   );
 });
 
-function CallingNotificationButton(props: PropsType) {
-  if (props.callMode !== CallMode.Group || props.ended) {
-    return null;
-  }
-
+function renderCallingNotificationButton(
+  props: Readonly<PropsType>
+): ReactNode {
   const {
-    activeCallConversationId,
     conversationId,
-    deviceCount,
     i18n,
-    maxDevices,
+    nextItem,
     returnToActiveCall,
     startCallingLobby,
   } = props;
 
+  if (nextItem?.type === 'callHistory') {
+    return null;
+  }
+
   let buttonText: string;
   let disabledTooltipText: undefined | string;
   let onClick: () => void;
-  if (activeCallConversationId) {
-    if (activeCallConversationId === conversationId) {
-      buttonText = i18n('calling__return');
-      onClick = returnToActiveCall;
-    } else {
-      buttonText = i18n('calling__join');
-      disabledTooltipText = i18n(
-        'calling__call-notification__button__in-another-call-tooltip'
-      );
-      onClick = noop;
+
+  switch (props.callMode) {
+    case CallMode.Direct: {
+      const { wasIncoming, wasVideoCall } = props;
+      buttonText = wasIncoming
+        ? i18n('calling__call-back')
+        : i18n('calling__call-again');
+      onClick = () => {
+        startCallingLobby({ conversationId, isVideoCall: wasVideoCall });
+      };
+      break;
     }
-  } else if (deviceCount >= maxDevices) {
-    buttonText = i18n('calling__call-is-full');
-    disabledTooltipText = i18n(
-      'calling__call-notification__button__call-full-tooltip',
-      [String(deviceCount)]
-    );
-    onClick = noop;
-  } else {
-    buttonText = i18n('calling__join');
-    onClick = () => {
-      startCallingLobby({ conversationId, isVideoCall: true });
-    };
+    case CallMode.Group: {
+      if (props.ended) {
+        return null;
+      }
+      const { activeCallConversationId, deviceCount, maxDevices } = props;
+      if (activeCallConversationId) {
+        if (activeCallConversationId === conversationId) {
+          buttonText = i18n('calling__return');
+          onClick = returnToActiveCall;
+        } else {
+          buttonText = i18n('calling__join');
+          disabledTooltipText = i18n(
+            'calling__call-notification__button__in-another-call-tooltip'
+          );
+          onClick = noop;
+        }
+      } else if (deviceCount >= maxDevices) {
+        buttonText = i18n('calling__call-is-full');
+        disabledTooltipText = i18n(
+          'calling__call-notification__button__call-full-tooltip',
+          [String(deviceCount)]
+        );
+        onClick = noop;
+      } else {
+        buttonText = i18n('calling__join');
+        onClick = () => {
+          startCallingLobby({ conversationId, isVideoCall: true });
+        };
+      }
+      break;
+    }
+    default:
+      window.log.error(missingCaseError(props));
+      return null;
   }
 
   const button = (
