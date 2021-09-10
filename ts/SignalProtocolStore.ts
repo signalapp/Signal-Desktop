@@ -990,10 +990,12 @@ export class SignalProtocolStore extends EventsMixin {
       }
       const { uuid, deviceId } = qualifiedAddress;
 
-      const conversation = window.ConversationController.get(uuid.toString());
+      const conversationId = window.ConversationController.ensureContactIds({
+        uuid: uuid.toString(),
+      });
       strictAssert(
-        conversation !== undefined,
-        `Conversation not found for uuid: ${uuid}`
+        conversationId !== undefined,
+        'storeSession: Ensure contact ids failed'
       );
       const id = qualifiedAddress.toString();
 
@@ -1002,7 +1004,7 @@ export class SignalProtocolStore extends EventsMixin {
           id,
           version: 2,
           ourUuid: qualifiedAddress.ourUuid.toString(),
-          conversationId: conversation.id,
+          conversationId: new UUID(conversationId).toString(),
           uuid: uuid.toString(),
           deviceId,
           record: record.serialize().toString('base64'),
@@ -1166,7 +1168,10 @@ export class SignalProtocolStore extends EventsMixin {
       window.log.info('removeAllSessions: deleting sessions for', identifier);
 
       const id = window.ConversationController.getConversationId(identifier);
-      strictAssert(id, `Conversation not found: ${identifier}`);
+      strictAssert(
+        id,
+        `removeAllSessions: Conversation not found: ${identifier}`
+      );
 
       const entries = Array.from(this.sessions.values());
 

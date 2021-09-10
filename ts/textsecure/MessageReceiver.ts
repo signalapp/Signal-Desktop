@@ -1566,13 +1566,23 @@ export default class MessageReceiver
     let p: Promise<void> = Promise.resolve();
     // eslint-disable-next-line no-bitwise
     if (msg.flags && msg.flags & Proto.DataMessage.Flags.END_SESSION) {
-      const identifier = destination || destinationUuid;
-      if (!identifier) {
+      if (destinationUuid) {
+        p = this.handleEndSession(new UUID(destinationUuid));
+      } else if (destination) {
+        const theirUuid = UUID.lookup(destination);
+        if (theirUuid) {
+          p = this.handleEndSession(theirUuid);
+        } else {
+          window.log.warn(
+            `handleSentMessage: uuid not found for ${destination}`
+          );
+          p = Promise.resolve();
+        }
+      } else {
         throw new Error(
           'MessageReceiver.handleSentMessage: Cannot end session with falsey destination'
         );
       }
-      p = this.handleEndSession(identifier);
     }
     await p;
 
@@ -1647,7 +1657,7 @@ export default class MessageReceiver
     await this.checkGroupV1Data(msg);
 
     if (msg.flags && msg.flags & Proto.DataMessage.Flags.END_SESSION) {
-      p = this.handleEndSession(destination);
+      p = this.handleEndSession(new UUID(destination));
     }
 
     if (msg.flags && msg.flags & Proto.DataMessage.Flags.PROFILE_KEY_UPDATE) {
@@ -2557,14 +2567,10 @@ export default class MessageReceiver
     return downloadAttachment(this.server, cleaned);
   }
 
-  private async handleEndSession(identifier: string): Promise<void> {
-    const theirUuid = UUID.lookup(identifier);
-    if (!theirUuid) {
-      window.log.warn(`handleEndSession: uuid not found for ${identifier}`);
-      return;
-    }
-
-    window.log.info(`handleEndSession: closing sessions for ${identifier}`);
+  private async handleEndSession(theirUuid: UUID): Promise<void> {
+    window.log.info(
+      `handleEndSession: closing sessions for ${theirUuid.toString()}`
+    );
     await this.storage.protocol.archiveAllSessions(theirUuid);
   }
 

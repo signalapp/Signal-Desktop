@@ -1664,7 +1664,7 @@ export default class MessageSender {
     proto.timestamp = timestamp;
 
     const identifier = uuid || e164;
-    const theirUuid = UUID.checkedLookup(identifier);
+    const theirUuid = uuid ? new UUID(uuid) : UUID.checkedLookup(e164);
 
     const logError = (prefix: string) => (error: Error) => {
       window.log.error(prefix, error && error.stack ? error.stack : error);
