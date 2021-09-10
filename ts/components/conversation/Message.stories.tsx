@@ -480,6 +480,19 @@ story.add('Deleted', () => {
   return renderBothDirections(props);
 });
 
+story.add('Deleted with expireTimer', () => {
+  const props = createProps({
+    timestamp: Date.now() - 60 * 1000,
+    conversationType: 'group',
+    deletedForEveryone: true,
+    expirationLength: 5 * 60 * 1000,
+    expirationTimestamp: Date.now() + 3 * 60 * 1000,
+    status: 'sent',
+  });
+
+  return renderBothDirections(props);
+});
+
 story.add('Can delete for everyone', () => {
   const props = createProps({
     status: 'read',

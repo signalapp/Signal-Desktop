@@ -587,6 +587,7 @@ export class Message extends React.PureComponent<Props, State> {
     const {
       attachments,
       collapseMetadata,
+      deletedForEveryone,
       direction,
       expirationLength,
       expirationTimestamp,
@@ -613,6 +614,7 @@ export class Message extends React.PureComponent<Props, State> {
 
     return (
       <MessageMetadata
+        deletedForEveryone={deletedForEveryone}
         direction={direction}
         expirationLength={expirationLength}
         expirationTimestamp={expirationTimestamp}
@@ -2080,7 +2082,12 @@ export class Message extends React.PureComponent<Props, State> {
     const { isTapToView, deletedForEveryone } = this.props;
 
     if (deletedForEveryone) {
-      return this.renderText();
+      return (
+        <>
+          {this.renderText()}
+          {this.renderMetadata()}
+        </>
+      );
     }
 
     if (isTapToView) {

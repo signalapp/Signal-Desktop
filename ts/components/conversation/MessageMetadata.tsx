@@ -11,6 +11,7 @@ import { Timestamp } from './Timestamp';
 import { Spinner } from '../Spinner';
 
 type PropsType = {
+  deletedForEveryone?: boolean;
   direction: DirectionType;
   expirationLength?: number;
   expirationTimestamp?: number;
@@ -28,6 +29,7 @@ type PropsType = {
 
 export const MessageMetadata: FunctionComponent<PropsType> = props => {
   const {
+    deletedForEveryone,
     direction,
     expirationLength,
     expirationTimestamp,
@@ -130,7 +132,8 @@ export const MessageMetadata: FunctionComponent<PropsType> = props => {
           <Spinner svgSize="small" size="14px" direction={direction} />
         </div>
       ) : null}
-      {!textPending &&
+      {!deletedForEveryone &&
+      !textPending &&
       direction === 'outgoing' &&
       status !== 'error' &&
       status !== 'partial-sent' ? (
