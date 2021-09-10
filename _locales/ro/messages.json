@@ -1234,7 +1234,7 @@
         }
     },
     "ChangeNumber--notification": {
-        "message": "$sender$ și-a schimbat numărul de telefon",
+        "message": "$sender$ și-a schimbat numărul de telefon cu unul nou",
         "description": "Shown in timeline when a member of a conversation changes their phone number",
         "placeholders": {
             "sender": {
@@ -2196,7 +2196,7 @@
         "description": "Description for the Note to Self conversation"
     },
     "notificationDrawAttention": {
-        "message": "Atrageți atenția asupra acestei ferestre atunci când sosește o notificare",
+        "message": "Atrage atenția asupra acestei ferestre atunci când sosește o notificare",
         "description": "Label text for the setting that controls whether new notifications draw attention to the window"
     },
     "hideMenuBar": {
@@ -3180,7 +3180,7 @@
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
     "Reactions--remove": {
-        "message": "Remove reaction",
+        "message": "Eliminați reacția",
         "description": ""
     },
     "Reactions--error": {
@@ -5206,7 +5206,7 @@
         "description": "Displayed while checking if the contact is SMS-only"
     },
     "countMutedConversationsDescription": {
-        "message": "Includeți conversațiile pe silențios în numărul de pe insignă",
+        "message": "Include conversațiile pe silențios în numărul de pe insignă",
         "description": "Description for counting muted conversations in badge setting"
     },
     "ContactModal--message": {
@@ -6298,7 +6298,7 @@
         "description": "Label for checkbox for the auto download updates setting"
     },
     "Preferences__enable-notifications": {
-        "message": "Enable notifications",
+        "message": "Activare notificări",
         "description": "Label for checkbox for the notifications setting"
     },
     "Preferences__devices": {

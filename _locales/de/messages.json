@@ -1122,7 +1122,7 @@
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
-        "message": "Falls du die Sicherheit deiner Ende-zu-Ende-Verschlüsselung mit $name$ verifizieren möchtest, vergleiche bitte die oben dargestellte Nummer mit jener auf dem Gerät deines Kontakts.",
+        "message": "Falls du die Sicherheit deiner Ende-zu-Ende-Verschlüsselung mit $name$ verifizieren möchtest, vergleiche bitte die oben dargestellten Zahlen mit jenen auf dem Gerät deines Kontakts.",
         "description": "",
         "placeholders": {
             "name": {

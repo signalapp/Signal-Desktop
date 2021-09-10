@@ -1412,11 +1412,11 @@
         "description": "Button tooltip label for stopping screen sharing"
     },
     "calling__button--ring__label": {
-        "message": "Ring",
+        "message": "Dering",
         "description": "Label under the ring button"
     },
     "calling__button--ring__disabled-because-group-is-too-large": {
-        "message": "Group is too large to ring the participants.",
+        "message": "Grup terlalu besar untuk menghubungi peserta",
         "description": "Button tooltip label when you can't ring because the group is too large"
     },
     "calling__button--ring__off": {
@@ -6188,7 +6188,7 @@
         "description": "Button to switch the settings view"
     },
     "Preferences--lastSynced": {
-        "message": "Last import at $date$ $time$",
+        "message": "Impor terakhir pada  $date$ $time$",
         "description": "Label for date and time of last sync operation",
         "placeholders": {
             "date": {
@@ -6222,7 +6222,7 @@
         "description": "Title for advanced settings"
     },
     "Preferences--notification-content": {
-        "message": "Notification content",
+        "message": "Konten notifikasi",
         "description": "Label for the notification content setting select box"
     },
     "Preferences--blocked": {
@@ -6254,7 +6254,7 @@
         "description": "Title for the 'who can do X' setting"
     },
     "Preferences__privacy--description": {
-        "message": "To change these settings, open the Signal app on your mobile device and navigate to Settings > Privacy",
+        "message": "Untuk mengubah pengaturan ini, buka aplikasi Signal di ponsel Anda dan akses Pengaturan > Privasi",
         "description": "Description for the 'who can do X' setting"
     },
     "Preferences__who-can--everybody": {

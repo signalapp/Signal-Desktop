@@ -6324,7 +6324,7 @@
         "description": "Release notes for v5.15"
     },
     "WhatsNew__v5.15--2": {
-        "message": "The calling lobby got some remodeling and renovations done and we didn't even have to refinance.",
+        "message": "Κάναμε ανακαίνιση και επανασχεδίαση στο λομπι των κλήσεων.",
         "description": "Release notes for v5.15"
     },
     "WhatsNew__v5.15--3": {
@@ -6352,11 +6352,11 @@
         "description": "Release notes for v5.16"
     },
     "WhatsNew__v5.17--1": {
-        "message": "Try out the new 'send messages' permission to restrict who can send messages in your groups. Great for organizing an event, making an announcement, or just shouting from the rooftops. All members must be on the latest version of Signal for the setting to appear.",
+        "message": "Δοκίμασε τη νέα άδεια \"αποστολής μηνυμάτων\" για να περιορίσεις ποιοί μπορούν να στείλουν μηνύματα στις ομάδες σου. Ιδανικό για διοργάνωση εκδηλώσεων και για ομάδες όπου γίνονται ανακοινώσεις. Όλα τα μέλη θα πρέπει να έχουν την τελευταία έκδοση του Signal για να εμφανιστεί αυτή η ρύθμιση.",
         "description": "Release notes for v5.17"
     },
     "WhatsNew__v5.17--2": {
-        "message": "You can now send messages wherever and whenever you are: on a plane, in a tunnel, or that sad moment when your internet just cut out. It will eventually get through; messages now automatically retry for up to 24 hours.",
+        "message": "Μπορείς πλέον να στείλεις μηνύματα ανεξάρτητα από το αν είσαι συνδεμένος/η στο διαδίκτυο. Τα μηνύματα θα ξαναδοκιμάζουν να σταλθούν αυτόματα για 24 ώρες.",
         "description": "Release notes for v5.17"
     }
 }

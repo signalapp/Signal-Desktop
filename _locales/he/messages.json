@@ -3180,7 +3180,7 @@
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
     "Reactions--remove": {
-        "message": "Remove reaction",
+        "message": "הסר תגובה",
         "description": ""
     },
     "Reactions--error": {
@@ -6298,7 +6298,7 @@
         "description": "Label for checkbox for the auto download updates setting"
     },
     "Preferences__enable-notifications": {
-        "message": "Enable notifications",
+        "message": "אפשר התראות",
         "description": "Label for checkbox for the notifications setting"
     },
     "Preferences__devices": {
@@ -6340,7 +6340,7 @@
         "description": "Release notes for v5.15"
     },
     "WhatsNew__v5.16--1": {
-        "message": "An improved media lightbox means no surprises as you progress through a gallery of images or videos, and you can pretend you’re really in a dark room by zooming to hide those pesky buttons.",
+        "message": "תיבה משופרת של מדיה אומרת שאין הפתעות בזמן שאתה מתקדם דרך גלריה של תמונות או סרטונים, ואתה יכול להעמיד פנים שאתה באמת בחדר חשוך ע״י התקרבות כדי להסתיר את הכפתורים המעצבנים האלו.",
         "description": "Release notes for v5.16"
     },
     "WhatsNew__v5.16--2": {
