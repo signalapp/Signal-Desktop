@@ -387,6 +387,7 @@ const renderItem = (
     id=""
     isSelected={false}
     renderEmojiPicker={() => <div />}
+    renderReactionPicker={() => <div />}
     item={items[id]}
     i18n={i18n}
     interactionMode="keyboard"

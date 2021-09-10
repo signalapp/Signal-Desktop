@@ -47,6 +47,8 @@ const renderEmojiPicker: Props['renderEmojiPicker'] = ({
   />
 );
 
+const renderReactionPicker: Props['renderReactionPicker'] = () => <div />;
+
 const MessageAudioContainer: React.FC<AudioAttachmentProps> = props => {
   const [active, setActive] = React.useState<{
     id?: string;
@@ -135,6 +137,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
       ? ReadStatus.Read
       : overrideProps.readStatus,
   renderEmojiPicker,
+  renderReactionPicker,
   renderAudioAttachment,
   replyToMessage: action('replyToMessage'),
   retrySend: action('retrySend'),

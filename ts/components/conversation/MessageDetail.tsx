@@ -68,6 +68,7 @@ export type PropsBackboneActions = Pick<
   | 'reactToMessage'
   | 'renderAudioAttachment'
   | 'renderEmojiPicker'
+  | 'renderReactionPicker'
   | 'replyToMessage'
   | 'retrySend'
   | 'showContactDetail'
@@ -271,6 +272,7 @@ export class MessageDetail extends React.Component<Props> {
       reactToMessage,
       renderAudioAttachment,
       renderEmojiPicker,
+      renderReactionPicker,
       replyToMessage,
       retrySend,
       showContactDetail,
@@ -319,6 +321,7 @@ export class MessageDetail extends React.Component<Props> {
             reactToMessage={reactToMessage}
             renderAudioAttachment={renderAudioAttachment}
             renderEmojiPicker={renderEmojiPicker}
+            renderReactionPicker={renderReactionPicker}
             replyToMessage={replyToMessage}
             retrySend={retrySend}
             showForwardMessageModal={showForwardMessageModal}

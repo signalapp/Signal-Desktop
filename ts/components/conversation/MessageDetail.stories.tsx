@@ -75,6 +75,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   reactToMessage: action('reactToMessage'),
   renderAudioAttachment: () => <div>*AudioAttachment*</div>,
   renderEmojiPicker: () => <div />,
+  renderReactionPicker: () => <div />,
   replyToMessage: action('replyToMessage'),
   retrySend: action('retrySend'),
   showContactDetail: action('showContactDetail'),

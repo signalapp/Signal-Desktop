@@ -176,7 +176,10 @@ type PropsActionsType = MessageActionsType &
 
 export type PropsType = PropsLocalType &
   PropsActionsType &
-  Pick<AllMessageProps, 'renderEmojiPicker' | 'renderAudioAttachment'>;
+  Pick<
+    AllMessageProps,
+    'renderEmojiPicker' | 'renderAudioAttachment' | 'renderReactionPicker'
+  >;
 
 export class TimelineItem extends React.PureComponent<PropsType> {
   public render(): JSX.Element | null {

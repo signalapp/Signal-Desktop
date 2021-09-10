@@ -66,6 +66,7 @@ const defaultMessageProps: MessagesProps = {
   reactToMessage: action('default--reactToMessage'),
   readStatus: ReadStatus.Read,
   renderEmojiPicker: () => <div />,
+  renderReactionPicker: () => <div />,
   renderAudioAttachment: () => <div>*AudioAttachment*</div>,
   replyToMessage: action('default--replyToMessage'),
   retrySend: action('default--retrySend'),

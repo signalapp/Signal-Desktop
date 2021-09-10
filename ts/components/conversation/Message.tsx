@@ -63,7 +63,7 @@ import {
 } from '../../types/Colors';
 import { createRefMerger } from '../_util';
 import { emojiToData } from '../emoji/lib';
-import { SmartReactionPicker } from '../../state/smart/ReactionPicker';
+import type { SmartReactionPicker } from '../../state/smart/ReactionPicker';
 import { getCustomColorStyle } from '../../util/getCustomColorStyle';
 import { offsetDistanceModifier } from '../../util/popperUtil';
 
@@ -197,6 +197,9 @@ export type PropsHousekeeping = {
   disableScroll?: boolean;
   collapseMetadata?: boolean;
   renderAudioAttachment: (props: AudioAttachmentProps) => JSX.Element;
+  renderReactionPicker: (
+    props: React.ComponentProps<typeof SmartReactionPicker>
+  ) => JSX.Element;
 };
 
 export type PropsActions = {
@@ -1319,6 +1322,7 @@ export class Message extends React.PureComponent<Props, State> {
       isTapToView,
       reactToMessage,
       renderEmojiPicker,
+      renderReactionPicker,
       replyToMessage,
       selectedReaction,
     } = this.props;
@@ -1459,22 +1463,22 @@ export class Message extends React.PureComponent<Props, State> {
                 this.popperPreventOverflowModifier(),
               ]}
             >
-              {({ ref, style }) => (
-                <SmartReactionPicker
-                  ref={ref}
-                  style={style}
-                  selected={selectedReaction}
-                  onClose={this.toggleReactionPicker}
-                  onPick={emoji => {
+              {({ ref, style }) =>
+                renderReactionPicker({
+                  ref,
+                  style,
+                  selected: selectedReaction,
+                  onClose: this.toggleReactionPicker,
+                  onPick: emoji => {
                     this.toggleReactionPicker(true);
                     reactToMessage(id, {
                       emoji,
                       remove: emoji === selectedReaction,
                     });
-                  }}
-                  renderEmojiPicker={renderEmojiPicker}
-                />
-              )}
+                  },
+                  renderEmojiPicker,
+                })
+              }
             </Popper>,
             reactionPickerRoot
           )}

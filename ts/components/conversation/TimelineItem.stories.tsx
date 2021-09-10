@@ -32,6 +32,10 @@ const renderEmojiPicker: TimelineItemProps['renderEmojiPicker'] = ({
   />
 );
 
+const renderReactionPicker: TimelineItemProps['renderReactionPicker'] = () => (
+  <div />
+);
+
 const renderContact = (conversationId: string) => (
   <React.Fragment key={conversationId}>{conversationId}</React.Fragment>
 );
@@ -86,6 +90,7 @@ const getDefaultProps = () => ({
   renderContact,
   renderUniversalTimerNotification,
   renderEmojiPicker,
+  renderReactionPicker,
   renderAudioAttachment: () => <div>*AudioAttachment*</div>,
 });
 

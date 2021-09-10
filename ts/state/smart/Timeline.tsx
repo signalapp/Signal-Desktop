@@ -33,6 +33,7 @@ import { SmartHeroRow } from './HeroRow';
 import { SmartTimelineLoadingRow } from './TimelineLoadingRow';
 import { renderAudioAttachment } from './renderAudioAttachment';
 import { renderEmojiPicker } from './renderEmojiPicker';
+import { renderReactionPicker } from './renderReactionPicker';
 
 import { getOwn } from '../../util/getOwn';
 import { assert } from '../../util/assert';
@@ -77,6 +78,7 @@ function renderItem(
       id={messageId}
       onHeightChange={createBoundOnHeightChange(onHeightChange, messageId)}
       renderEmojiPicker={renderEmojiPicker}
+      renderReactionPicker={renderReactionPicker}
       renderAudioAttachment={renderAudioAttachment}
     />
   );
