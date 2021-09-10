@@ -124,6 +124,14 @@
         userSetting,
       });
 
+      const shouldDrawAttention = storage.get(
+        'notification-draw-attention',
+        true
+      );
+      if (shouldDrawAttention) {
+        drawAttention();
+      }
+
       if (status.type !== 'ok') {
         window.log.info(
           `Not updating notifications; notification status is ${status.type}. ${
@@ -189,14 +197,6 @@
         }
         notificationTitle = 'Signal';
         notificationMessage = i18n('newMessage');
-      }
-
-      const shouldDrawAttention = storage.get(
-        'notification-draw-attention',
-        true
-      );
-      if (shouldDrawAttention) {
-        drawAttention();
       }
 
       this.lastNotification = window.Signal.Services.notify({
