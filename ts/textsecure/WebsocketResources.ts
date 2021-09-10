@@ -37,7 +37,7 @@ import { SignalService as Proto } from '../protobuf';
 
 const THIRTY_SECONDS = 30 * durations.SECOND;
 
-const MAX_MESSAGE_SIZE = 64 * 1024;
+const MAX_MESSAGE_SIZE = 256 * 1024;
 
 export class IncomingWebSocketRequest {
   private readonly id: Long | number;
