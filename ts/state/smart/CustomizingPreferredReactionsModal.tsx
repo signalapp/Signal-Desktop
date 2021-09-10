@@ -25,17 +25,18 @@ export function SmartCustomizingPreferredReactionsModal(): JSX.Element {
     StateType,
     ReturnType<typeof getCustomizeModalState>
   >(state => getCustomizeModalState(state));
-  if (!customizeModalState) {
-    throw new Error(
-      '<SmartCustomizingPreferredReactionsModal> requires a modal'
-    );
-  }
 
   const recentEmojis = useRecentEmojis();
 
   const skinTone = useSelector<StateType, number>(state =>
     getEmojiSkinTone(state)
   );
+
+  if (!customizeModalState) {
+    throw new Error(
+      '<SmartCustomizingPreferredReactionsModal> requires a modal'
+    );
+  }
 
   return (
     <CustomizingPreferredReactionsModal
