@@ -53,6 +53,7 @@ import {
   ProcessGroupCallRingRequestResult,
 } from '../types/Calling';
 import { LocalizerType } from '../types/Util';
+import { UUID } from '../types/UUID';
 import { ConversationModel } from '../models/conversations';
 import * as Bytes from '../Bytes';
 import {
@@ -60,7 +61,6 @@ import {
   arrayBufferToUuid,
   typedArrayToArrayBuffer,
 } from '../Crypto';
-import { assert } from '../util/assert';
 import { dropNull, shallowDropNull } from '../util/dropNull';
 import { getOwn } from '../util/getOwn';
 import * as durations from '../util/durations';
@@ -262,7 +262,7 @@ export class CallingClass {
   }
 
   private attemptToGiveOurUuidToRingRtc(): void {
-    const ourUuid = window.textsecure.storage.user.getUuid();
+    const ourUuid = window.textsecure.storage.user.getUuid()?.toString();
     if (!ourUuid) {
       // This can happen if we're not linked. It's okay if we hit this case.
       return;
@@ -1392,15 +1392,17 @@ export class CallingClass {
       return;
     }
 
-    const remoteUserId = envelope.sourceUuid || envelope.source;
+    const remoteUserId = envelope.sourceUuid;
     const remoteDeviceId = this.parseDeviceId(envelope.sourceDevice);
     if (!remoteUserId || !remoteDeviceId || !this.localDeviceId) {
       window.log.error('Missing identifier, ignoring call message.');
       return;
     }
 
-    const senderIdentityRecord = window.textsecure.storage.protocol.getIdentityRecord(
-      remoteUserId
+    const { storage } = window.textsecure;
+
+    const senderIdentityRecord = await storage.protocol.getOrMigrateIdentityRecord(
+      new UUID(remoteUserId)
     );
     if (!senderIdentityRecord) {
       window.log.error(
@@ -1410,14 +1412,9 @@ export class CallingClass {
     }
     const senderIdentityKey = senderIdentityRecord.publicKey.slice(1); // Ignore the type header, it is not used.
 
-    const ourIdentifier =
-      window.textsecure.storage.user.getUuid() ||
-      window.textsecure.storage.user.getNumber();
-    assert(ourIdentifier, 'We should have either uuid or number');
+    const ourUuid = storage.user.getCheckedUuid();
 
-    const receiverIdentityRecord = window.textsecure.storage.protocol.getIdentityRecord(
-      ourIdentifier
-    );
+    const receiverIdentityRecord = storage.protocol.getIdentityRecord(ourUuid);
     if (!receiverIdentityRecord) {
       window.log.error(
         'Missing receiver identity record; ignoring call message.'

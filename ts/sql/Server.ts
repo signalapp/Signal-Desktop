@@ -30,6 +30,7 @@ import {
 } from 'lodash';
 
 import { ReadStatus } from '../messages/MessageReadStatus';
+import Helpers from '../textsecure/Helpers';
 import { GroupV2MemberType } from '../model-types.d';
 import { ReactionType } from '../types/Reactions';
 import { STORAGE_UI_KEYS } from '../types/StorageUIKeys';
@@ -40,6 +41,7 @@ import { dropNull } from '../util/dropNull';
 import { isNormalNumber } from '../util/isNormalNumber';
 import { isNotNil } from '../util/isNotNil';
 import { missingCaseError } from '../util/missingCaseError';
+import { isValidGuid } from '../util/isValidGuid';
 import { parseIntOrThrow } from '../util/parseIntOrThrow';
 import * as durations from '../util/durations';
 import { formatCountForLogging } from '../logging/formatCountForLogging';
@@ -55,6 +57,7 @@ import {
   DeleteSentProtoRecipientOptionsType,
   EmojiType,
   IdentityKeyType,
+  IdentityKeyIdType,
   ItemKeyType,
   ItemType,
   LastConversationMessagesServerType,
@@ -62,8 +65,10 @@ import {
   MessageType,
   MessageTypeUnhydrated,
   PreKeyType,
+  PreKeyIdType,
   SearchResultMessageType,
   SenderKeyType,
+  SenderKeyIdType,
   SentMessageDBType,
   SentMessagesType,
   SentProtoType,
@@ -72,7 +77,9 @@ import {
   SentRecipientsType,
   ServerInterface,
   SessionType,
+  SessionIdType,
   SignedPreKeyType,
+  SignedPreKeyIdType,
   StickerPackStatusType,
   StickerPackType,
   StickerType,
@@ -2101,6 +2108,336 @@ function updateToSchemaVersion40(currentVersion: number, db: Database) {
   console.log('updateToSchemaVersion40: success!');
 }
 
+function updateToSchemaVersion41(currentVersion: number, db: Database) {
+  if (currentVersion >= 41) {
+    return;
+  }
+
+  const getConversationUuid = db.prepare<Query>(
+    `
+    SELECT uuid
+    FROM
+      conversations
+    WHERE
+      id = $conversationId
+    `
+  );
+
+  const clearSessionsAndKeys = () => {
+    // ts/background.ts will ask user to relink so all that matters here is
+    // to maintain an invariant:
+    //
+    // After this migration all sessions and keys are prefixed by
+    // "uuid:".
+    db.exec(
+      `
+      DELETE FROM senderKeys;
+      DELETE FROM sessions;
+      DELETE FROM signedPreKeys;
+      DELETE FROM preKeys;
+      `
+    );
+
+    assertSync(removeById<string>('items', 'identityKey', db));
+    assertSync(removeById<string>('items', 'registrationId', db));
+  };
+
+  const moveIdentityKeyToMap = (ourUuid: string) => {
+    type IdentityKeyType = {
+      privKey: string;
+      publicKey: string;
+    };
+
+    const identityKey = assertSync(
+      getById<string, { value: IdentityKeyType }>('items', 'identityKey', db)
+    );
+
+    type RegistrationId = number;
+
+    const registrationId = assertSync(
+      getById<string, { value: RegistrationId }>('items', 'registrationId', db)
+    );
+
+    if (identityKey) {
+      assertSync(
+        createOrUpdateSync<ItemKeyType>(
+          'items',
+          {
+            id: 'identityKeyMap',
+            value: {
+              [ourUuid]: identityKey.value,
+            },
+          },
+          db
+        )
+      );
+    }
+
+    if (registrationId) {
+      assertSync(
+        createOrUpdateSync<ItemKeyType>(
+          'items',
+          {
+            id: 'registrationIdMap',
+            value: {
+              [ourUuid]: registrationId.value,
+            },
+          },
+          db
+        )
+      );
+    }
+
+    assertSync(removeById<string>('items', 'identityKey', db));
+    assertSync(removeById<string>('items', 'registrationId', db));
+  };
+
+  const prefixKeys = (ourUuid: string) => {
+    for (const table of ['signedPreKeys', 'preKeys']) {
+      // Add numeric `keyId` field to keys
+      db.prepare<EmptyQuery>(
+        `
+        UPDATE ${table}
+        SET
+          json = json_insert(
+            json,
+            '$.keyId',
+            json_extract(json, '$.id')
+          )
+        `
+      ).run();
+
+      // Update id to include suffix and add `ourUuid` field
+      db.prepare<Query>(
+        `
+        UPDATE ${table}
+        SET
+          id = $ourUuid || ':' || id,
+          json = json_set(
+            json,
+            '$.id',
+            $ourUuid || ':' || json_extract(json, '$.id'),
+            '$.ourUuid',
+            $ourUuid
+          )
+        `
+      ).run({ ourUuid });
+    }
+
+    const senderKeys: ReadonlyArray<{
+      id: string;
+      senderId: string;
+    }> = db.prepare<EmptyQuery>('SELECT id, senderId FROM senderKeys').all();
+
+    console.log(`Updating ${senderKeys.length} sender keys`);
+
+    const updateSenderKey = db.prepare<Query>(
+      `
+      UPDATE senderKeys
+      SET
+        id = $newId,
+        senderId = $newSenderId
+      WHERE
+        id = $id
+      `
+    );
+
+    const deleteSenderKey = db.prepare<Query>(
+      'DELETE FROM senderKeys WHERE id = $id'
+    );
+
+    let updated = 0;
+    let deleted = 0;
+    for (const { id, senderId } of senderKeys) {
+      const [conversationId] = Helpers.unencodeNumber(senderId);
+      const { uuid } = getConversationUuid.get({ conversationId });
+
+      if (!uuid) {
+        deleted += 1;
+        deleteSenderKey.run({ id });
+        continue;
+      }
+
+      updated += 1;
+      updateSenderKey.run({
+        id,
+        newId: `${ourUuid}:${id.replace(conversationId, uuid)}`,
+        newSenderId: `${senderId.replace(conversationId, uuid)}`,
+      });
+    }
+
+    console.log(
+      `Updated ${senderKeys.length} sender keys: ` +
+        `updated: ${updated}, deleted: ${deleted}`
+    );
+  };
+
+  const updateSessions = (ourUuid: string) => {
+    // Use uuid instead of conversation id in existing sesions and prefix id
+    // with ourUuid.
+    //
+    // Set ourUuid column and field in json
+    const allSessions = db
+      .prepare<EmptyQuery>('SELECT id, conversationId FROM SESSIONS')
+      .all();
+
+    console.log(`Updating ${allSessions.length} sessions`);
+
+    const updateSession = db.prepare<Query>(
+      `
+      UPDATE sessions
+      SET
+        id = $newId,
+        ourUuid = $ourUuid,
+        uuid = $uuid,
+        json = json_set(
+          sessions.json,
+          '$.id',
+          $newId,
+          '$.uuid',
+          $uuid,
+          '$.ourUuid',
+          $ourUuid
+        )
+      WHERE
+        id = $id
+      `
+    );
+
+    const deleteSession = db.prepare<Query>(
+      'DELETE FROM sessions WHERE id = $id'
+    );
+
+    let updated = 0;
+    let deleted = 0;
+    for (const { id, conversationId } of allSessions) {
+      const { uuid } = getConversationUuid.get({ conversationId });
+      if (!uuid) {
+        deleted += 1;
+        deleteSession.run({ id });
+        continue;
+      }
+
+      const newId = `${ourUuid}:${id.replace(conversationId, uuid)}`;
+
+      updated += 1;
+      updateSession.run({
+        id,
+        newId,
+        uuid,
+        ourUuid,
+      });
+    }
+
+    console.log(
+      `Updated ${allSessions.length} sessions: ` +
+        `updated: ${updated}, deleted: ${deleted}`
+    );
+  };
+
+  const updateIdentityKeys = () => {
+    const identityKeys: ReadonlyArray<{
+      id: string;
+    }> = db.prepare<EmptyQuery>('SELECT id FROM identityKeys').all();
+
+    console.log(`Updating ${identityKeys.length} identity keys`);
+
+    const updateIdentityKey = db.prepare<Query>(
+      `
+      UPDATE identityKeys
+      SET
+        id = $newId,
+        json = json_set(
+          identityKeys.json,
+          '$.id',
+          $newId
+        )
+      WHERE
+        id = $id
+      `
+    );
+
+    let migrated = 0;
+    for (const { id } of identityKeys) {
+      const { uuid } = getConversationUuid.get({ conversationId: id });
+
+      let newId: string;
+      if (uuid) {
+        migrated += 1;
+        newId = uuid;
+      } else {
+        newId = `conversation:${id}`;
+      }
+
+      updateIdentityKey.run({ id, newId });
+    }
+
+    console.log(`Migrated ${migrated} identity keys`);
+  };
+
+  db.transaction(() => {
+    db.exec(
+      `
+      -- Change type of 'id' column from INTEGER to STRING
+
+      ALTER TABLE preKeys
+      RENAME TO old_preKeys;
+
+      ALTER TABLE signedPreKeys
+      RENAME TO old_signedPreKeys;
+
+      CREATE TABLE preKeys(
+        id STRING PRIMARY KEY ASC,
+        json TEXT
+      );
+      CREATE TABLE signedPreKeys(
+        id STRING PRIMARY KEY ASC,
+        json TEXT
+      );
+
+      -- sqlite handles the type conversion
+      INSERT INTO preKeys SELECT * FROM old_preKeys;
+      INSERT INTO signedPreKeys SELECT * FROM old_signedPreKeys;
+
+      DROP TABLE old_preKeys;
+      DROP TABLE old_signedPreKeys;
+
+      -- Alter sessions
+
+      ALTER TABLE sessions
+        ADD COLUMN ourUuid STRING;
+
+      ALTER TABLE sessions
+        ADD COLUMN uuid STRING;
+      `
+    );
+
+    const ourUuid = getOurUuid(db);
+
+    if (!isValidGuid(ourUuid)) {
+      console.error(
+        'updateToSchemaVersion41: no uuid is available clearing sessions'
+      );
+
+      clearSessionsAndKeys();
+
+      db.pragma('user_version = 41');
+      return;
+    }
+
+    prefixKeys(ourUuid);
+
+    updateSessions(ourUuid);
+
+    moveIdentityKeyToMap(ourUuid);
+
+    updateIdentityKeys();
+
+    db.pragma('user_version = 41');
+  })();
+  console.log('updateToSchemaVersion41: success!');
+}
+
 const SCHEMA_VERSIONS = [
   updateToSchemaVersion1,
   updateToSchemaVersion2,
@@ -2142,6 +2479,7 @@ const SCHEMA_VERSIONS = [
   updateToSchemaVersion38,
   updateToSchemaVersion39,
   updateToSchemaVersion40,
+  updateToSchemaVersion41,
 ];
 
 function updateSchema(db: Database): void {
@@ -2171,6 +2509,23 @@ function updateSchema(db: Database): void {
 
     runSchemaUpdate(userVersion, db);
   }
+}
+
+function getOurUuid(db: Database): string | undefined {
+  const UUID_ID: ItemKeyType = 'uuid_id';
+
+  const row: { json: string } | undefined = db
+    .prepare<Query>('SELECT json FROM items WHERE id = $id;')
+    .get({ id: UUID_ID });
+
+  if (!row) {
+    return undefined;
+  }
+
+  const { value } = JSON.parse(row.json);
+
+  const [ourUuid] = Helpers.unencodeNumber(String(value).toLowerCase());
+  return ourUuid;
 }
 
 let globalInstance: Database | undefined;
@@ -2370,13 +2725,15 @@ const IDENTITY_KEYS_TABLE = 'identityKeys';
 function createOrUpdateIdentityKey(data: IdentityKeyType): Promise<void> {
   return createOrUpdate(IDENTITY_KEYS_TABLE, data);
 }
-function getIdentityKeyById(id: string): Promise<IdentityKeyType | undefined> {
+async function getIdentityKeyById(
+  id: IdentityKeyIdType
+): Promise<IdentityKeyType | undefined> {
   return getById(IDENTITY_KEYS_TABLE, id);
 }
 function bulkAddIdentityKeys(array: Array<IdentityKeyType>): Promise<void> {
   return bulkAdd(IDENTITY_KEYS_TABLE, array);
 }
-function removeIdentityKeyById(id: string): Promise<void> {
+async function removeIdentityKeyById(id: IdentityKeyIdType): Promise<void> {
   return removeById(IDENTITY_KEYS_TABLE, id);
 }
 function removeAllIdentityKeys(): Promise<void> {
@@ -2390,13 +2747,15 @@ const PRE_KEYS_TABLE = 'preKeys';
 function createOrUpdatePreKey(data: PreKeyType): Promise<void> {
   return createOrUpdate(PRE_KEYS_TABLE, data);
 }
-function getPreKeyById(id: number): Promise<PreKeyType | undefined> {
+async function getPreKeyById(
+  id: PreKeyIdType
+): Promise<PreKeyType | undefined> {
   return getById(PRE_KEYS_TABLE, id);
 }
 function bulkAddPreKeys(array: Array<PreKeyType>): Promise<void> {
   return bulkAdd(PRE_KEYS_TABLE, array);
 }
-function removePreKeyById(id: number): Promise<void> {
+async function removePreKeyById(id: PreKeyIdType): Promise<void> {
   return removeById(PRE_KEYS_TABLE, id);
 }
 function removeAllPreKeys(): Promise<void> {
@@ -2410,15 +2769,15 @@ const SIGNED_PRE_KEYS_TABLE = 'signedPreKeys';
 function createOrUpdateSignedPreKey(data: SignedPreKeyType): Promise<void> {
   return createOrUpdate(SIGNED_PRE_KEYS_TABLE, data);
 }
-function getSignedPreKeyById(
-  id: number
+async function getSignedPreKeyById(
+  id: SignedPreKeyIdType
 ): Promise<SignedPreKeyType | undefined> {
   return getById(SIGNED_PRE_KEYS_TABLE, id);
 }
 function bulkAddSignedPreKeys(array: Array<SignedPreKeyType>): Promise<void> {
   return bulkAdd(SIGNED_PRE_KEYS_TABLE, array);
 }
-function removeSignedPreKeyById(id: number): Promise<void> {
+async function removeSignedPreKeyById(id: SignedPreKeyIdType): Promise<void> {
   return removeById(SIGNED_PRE_KEYS_TABLE, id);
 }
 function removeAllSignedPreKeys(): Promise<void> {
@@ -2445,7 +2804,7 @@ function createOrUpdateItem<K extends ItemKeyType>(
 ): Promise<void> {
   return createOrUpdate(ITEMS_TABLE, data);
 }
-function getItemById<K extends ItemKeyType>(
+async function getItemById<K extends ItemKeyType>(
   id: K
 ): Promise<ItemType<K> | undefined> {
   return getById(ITEMS_TABLE, id);
@@ -2467,7 +2826,7 @@ async function getAllItems(): Promise<AllItemsType> {
 
   return result;
 }
-function removeItemById(id: ItemKeyType): Promise<void> {
+async function removeItemById(id: ItemKeyType): Promise<void> {
   return removeById(ITEMS_TABLE, id);
 }
 function removeAllItems(): Promise<void> {
@@ -2497,7 +2856,7 @@ async function createOrUpdateSenderKey(key: SenderKeyType): Promise<void> {
   ).run(key);
 }
 async function getSenderKeyById(
-  id: string
+  id: SenderKeyIdType
 ): Promise<SenderKeyType | undefined> {
   const db = getInstance();
   const row = prepare(db, 'SELECT * FROM senderKeys WHERE id = $id').get({
@@ -2516,7 +2875,7 @@ async function getAllSenderKeys(): Promise<Array<SenderKeyType>> {
 
   return rows;
 }
-async function removeSenderKeyById(id: string): Promise<void> {
+async function removeSenderKeyById(id: SenderKeyIdType): Promise<void> {
   const db = getInstance();
   prepare(db, 'DELETE FROM senderKeys WHERE id = $id').run({ id });
 }
@@ -2840,7 +3199,7 @@ async function _getAllSentProtoMessageIds(): Promise<Array<SentMessageDBType>> {
 const SESSIONS_TABLE = 'sessions';
 function createOrUpdateSessionSync(data: SessionType): void {
   const db = getInstance();
-  const { id, conversationId } = data;
+  const { id, conversationId, ourUuid, uuid } = data;
   if (!id) {
     throw new Error(
       'createOrUpdateSession: Provided data did not have a truthy id'
@@ -2858,16 +3217,22 @@ function createOrUpdateSessionSync(data: SessionType): void {
     INSERT OR REPLACE INTO sessions (
       id,
       conversationId,
+      ourUuid,
+      uuid,
       json
     ) values (
       $id,
       $conversationId,
+      $ourUuid,
+      $uuid,
       $json
     )
     `
   ).run({
     id,
     conversationId,
+    ourUuid,
+    uuid,
     json: objectToJSON(data),
   });
 }
@@ -2910,7 +3275,7 @@ async function commitSessionsAndUnprocessed({
 function bulkAddSessions(array: Array<SessionType>): Promise<void> {
   return bulkAdd(SESSIONS_TABLE, array);
 }
-function removeSessionById(id: string): Promise<void> {
+async function removeSessionById(id: SessionIdType): Promise<void> {
   return removeById(SESSIONS_TABLE, id);
 }
 async function removeSessionsByConversation(
@@ -2933,11 +3298,11 @@ function getAllSessions(): Promise<Array<SessionType>> {
   return getAllFromTable(SESSIONS_TABLE);
 }
 
-function createOrUpdateSync(
+function createOrUpdateSync<Key extends string | number>(
   table: string,
-  data: Record<string, unknown> & { id: string | number }
+  data: Record<string, unknown> & { id: Key },
+  db = getInstance()
 ): void {
-  const db = getInstance();
   const { id } = data;
   if (!id) {
     throw new Error('createOrUpdate: Provided data did not have a truthy id');
@@ -2979,11 +3344,11 @@ async function bulkAdd(
   })();
 }
 
-async function getById<T>(
+function getById<Key extends string | number, Result = unknown>(
   table: string,
-  id: string | number
-): Promise<T | undefined> {
-  const db = getInstance();
+  id: Key,
+  db = getInstance()
+): Result | undefined {
   const row = db
     .prepare<Query>(
       `
@@ -3003,12 +3368,11 @@ async function getById<T>(
   return jsonToObject(row.json);
 }
 
-async function removeById(
+function removeById<Key extends string | number>(
   table: string,
-  id: string | number | Array<string | number>
-): Promise<void> {
-  const db = getInstance();
-
+  id: Key | Array<Key>,
+  db = getInstance()
+): void {
   if (!Array.isArray(id)) {
     db.prepare<Query>(
       `
@@ -4922,7 +5286,7 @@ async function resetAttachmentDownloadPending(): Promise<void> {
     `
   ).run();
 }
-function removeAttachmentDownloadJob(id: string): Promise<void> {
+async function removeAttachmentDownloadJob(id: string): Promise<void> {
   return removeById(ATTACHMENT_DOWNLOADS_TABLE, id);
 }
 function removeAllAttachmentDownloadJobs(): Promise<void> {

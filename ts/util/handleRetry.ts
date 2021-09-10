@@ -15,6 +15,8 @@ import { isGroupV2 } from './whatTypeOfConversation';
 import { isOlderThan } from './timestamp';
 import { parseIntOrThrow } from './parseIntOrThrow';
 import * as RemoteConfig from '../RemoteConfig';
+import { Address } from '../types/Address';
+import { QualifiedAddress } from '../types/QualifiedAddress';
 
 import { ConversationModel } from '../models/conversations';
 import {
@@ -184,7 +186,11 @@ async function archiveSessionOnMatch({
     return;
   }
 
-  const address = `${requesterUuid}.${requesterDevice}`;
+  const ourUuid = window.textsecure.storage.user.getCheckedUuid();
+  const address = new QualifiedAddress(
+    ourUuid,
+    Address.create(requesterUuid, requesterDevice)
+  );
   const session = await window.textsecure.storage.protocol.loadSession(address);
 
   if (session && session.currentRatchetKeyMatches(ratchetKey)) {
@@ -500,9 +506,10 @@ function scheduleSessionReset(senderUuid: string, senderDevice: number) {
   }
 
   lightSessionResetQueue.add(() => {
+    const ourUuid = window.textsecure.storage.user.getCheckedUuid();
+
     window.textsecure.storage.protocol.lightSessionReset(
-      senderUuid,
-      senderDevice
+      new QualifiedAddress(ourUuid, Address.create(senderUuid, senderDevice))
     );
   });
 }

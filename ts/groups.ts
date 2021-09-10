@@ -550,19 +550,12 @@ function buildGroupProto(
     );
   }
 
-  const me = window.ConversationController.get(ourConversationId);
-  if (!me) {
-    throw new Error(
-      `buildGroupProto/${logId}: unable to find our own conversation!`
-    );
-  }
+  const ourUuid = window.storage.user.getCheckedUuid();
 
-  const ourUuid = me.get('uuid');
-  if (!ourUuid) {
-    throw new Error(`buildGroupProto/${logId}: unable to find our own uuid!`);
-  }
-
-  const ourUuidCipherTextBuffer = encryptUuid(clientZkGroupCipher, ourUuid);
+  const ourUuidCipherTextBuffer = encryptUuid(
+    clientZkGroupCipher,
+    ourUuid.toString()
+  );
 
   proto.membersPendingProfileKey = (attributes.pendingMembersV2 || []).map(
     item => {
@@ -627,15 +620,11 @@ export async function buildAddMembersChange(
   );
   const clientZkGroupCipher = getClientZkGroupCipher(secretParams);
 
-  const ourConversationId = window.ConversationController.getOurConversationIdOrThrow();
-  const ourConversation = window.ConversationController.get(ourConversationId);
-  const ourUuid = ourConversation?.get('uuid');
-  if (!ourUuid) {
-    throw new Error(
-      `buildAddMembersChange/${logId}: unable to find our own UUID!`
-    );
-  }
-  const ourUuidCipherTextBuffer = encryptUuid(clientZkGroupCipher, ourUuid);
+  const ourUuid = window.storage.user.getCheckedUuid();
+  const ourUuidCipherTextBuffer = encryptUuid(
+    clientZkGroupCipher,
+    ourUuid.toString()
+  );
 
   const now = Date.now();
 
@@ -1727,10 +1716,12 @@ export async function createGroupV2({
     timestamp,
   });
 
+  const ourUuid = window.storage.user.getCheckedUuid();
+
   const createdTheGroupMessage: MessageAttributesType = {
     ...generateBasicMessage(),
     type: 'group-v2-change',
-    sourceUuid: conversation.ourUuid,
+    sourceUuid: ourUuid.toString(),
     conversationId: conversation.id,
     received_at: window.Signal.Util.incrementMessageCounter(),
     received_at_ms: timestamp,

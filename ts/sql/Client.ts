@@ -50,14 +50,17 @@ import {
   ConversationType,
   DeleteSentProtoRecipientOptionsType,
   IdentityKeyType,
+  IdentityKeyIdType,
   ItemKeyType,
   ItemType,
   LastConversationMessagesType,
   MessageType,
   MessageTypeUnhydrated,
   PreKeyType,
+  PreKeyIdType,
   SearchResultMessageType,
   SenderKeyType,
+  SenderKeyIdType,
   SentMessageDBType,
   SentMessagesType,
   SentProtoType,
@@ -66,7 +69,9 @@ import {
   SentRecipientsType,
   ServerInterface,
   SessionType,
+  SessionIdType,
   SignedPreKeyType,
+  SignedPreKeyIdType,
   StickerPackStatusType,
   StickerPackType,
   StickerType,
@@ -634,17 +639,10 @@ async function removeIndexedDBFiles() {
 
 const IDENTITY_KEY_KEYS = ['publicKey'];
 async function createOrUpdateIdentityKey(data: IdentityKeyType) {
-  const updated = keysFromArrayBuffer(IDENTITY_KEY_KEYS, {
-    ...data,
-    id: window.ConversationController.getConversationId(data.id),
-  });
+  const updated = keysFromArrayBuffer(IDENTITY_KEY_KEYS, data);
   await channels.createOrUpdateIdentityKey(updated);
 }
-async function getIdentityKeyById(identifier: string) {
-  const id = window.ConversationController.getConversationId(identifier);
-  if (!id) {
-    throw new Error('getIdentityKeyById: unable to find conversationId');
-  }
+async function getIdentityKeyById(id: IdentityKeyIdType) {
   const data = await channels.getIdentityKeyById(id);
 
   return keysToArrayBuffer(IDENTITY_KEY_KEYS, data);
@@ -655,11 +653,7 @@ async function bulkAddIdentityKeys(array: Array<IdentityKeyType>) {
   );
   await channels.bulkAddIdentityKeys(updated);
 }
-async function removeIdentityKeyById(identifier: string) {
-  const id = window.ConversationController.getConversationId(identifier);
-  if (!id) {
-    throw new Error('removeIdentityKeyById: unable to find conversationId');
-  }
+async function removeIdentityKeyById(id: IdentityKeyIdType) {
   await channels.removeIdentityKeyById(id);
 }
 async function removeAllIdentityKeys() {
@@ -677,7 +671,7 @@ async function createOrUpdatePreKey(data: PreKeyType) {
   const updated = keysFromArrayBuffer(PRE_KEY_KEYS, data);
   await channels.createOrUpdatePreKey(updated);
 }
-async function getPreKeyById(id: number) {
+async function getPreKeyById(id: PreKeyIdType) {
   const data = await channels.getPreKeyById(id);
 
   return keysToArrayBuffer(PRE_KEY_KEYS, data);
@@ -686,7 +680,7 @@ async function bulkAddPreKeys(array: Array<PreKeyType>) {
   const updated = map(array, data => keysFromArrayBuffer(PRE_KEY_KEYS, data));
   await channels.bulkAddPreKeys(updated);
 }
-async function removePreKeyById(id: number) {
+async function removePreKeyById(id: PreKeyIdType) {
   await channels.removePreKeyById(id);
 }
 async function removeAllPreKeys() {
@@ -705,7 +699,7 @@ async function createOrUpdateSignedPreKey(data: SignedPreKeyType) {
   const updated = keysFromArrayBuffer(PRE_KEY_KEYS, data);
   await channels.createOrUpdateSignedPreKey(updated);
 }
-async function getSignedPreKeyById(id: number) {
+async function getSignedPreKeyById(id: SignedPreKeyIdType) {
   const data = await channels.getSignedPreKeyById(id);
 
   return keysToArrayBuffer(PRE_KEY_KEYS, data);
@@ -721,7 +715,7 @@ async function bulkAddSignedPreKeys(array: Array<SignedPreKeyType>) {
   const updated = map(array, data => keysFromArrayBuffer(PRE_KEY_KEYS, data));
   await channels.bulkAddSignedPreKeys(updated);
 }
-async function removeSignedPreKeyById(id: number) {
+async function removeSignedPreKeyById(id: SignedPreKeyIdType) {
   await channels.removeSignedPreKeyById(id);
 }
 async function removeAllSignedPreKeys() {
@@ -731,7 +725,6 @@ async function removeAllSignedPreKeys() {
 // Items
 
 const ITEM_KEYS: Partial<Record<ItemKeyType, Array<string>>> = {
-  identityKey: ['value.pubKey', 'value.privKey'],
   senderCertificate: ['value.serialized'],
   senderCertificateNoE164: ['value.serialized'],
   profileKey: ['value'],
@@ -749,7 +742,9 @@ async function createOrUpdateItem<K extends ItemKeyType>(data: ItemType<K>) {
 
   await channels.createOrUpdateItem(updated);
 }
-async function getItemById<K extends ItemKeyType>(id: K): Promise<ItemType<K>> {
+async function getItemById<K extends ItemKeyType>(
+  id: K
+): Promise<ItemType<K> | undefined> {
   const keys = ITEM_KEYS[id];
   const data = await channels.getItemById(id);
 
@@ -788,7 +783,7 @@ async function createOrUpdateSenderKey(key: SenderKeyType): Promise<void> {
   await channels.createOrUpdateSenderKey(key);
 }
 async function getSenderKeyById(
-  id: string
+  id: SenderKeyIdType
 ): Promise<SenderKeyType | undefined> {
   return channels.getSenderKeyById(id);
 }
@@ -798,7 +793,7 @@ async function removeAllSenderKeys(): Promise<void> {
 async function getAllSenderKeys(): Promise<Array<SenderKeyType>> {
   return channels.getAllSenderKeys();
 }
-async function removeSenderKeyById(id: string): Promise<void> {
+async function removeSenderKeyById(id: SenderKeyIdType): Promise<void> {
   return channels.removeSenderKeyById(id);
 }
 
@@ -879,7 +874,7 @@ async function commitSessionsAndUnprocessed(options: {
 async function bulkAddSessions(array: Array<SessionType>) {
   await channels.bulkAddSessions(array);
 }
-async function removeSessionById(id: string) {
+async function removeSessionById(id: SessionIdType) {
   await channels.removeSessionById(id);
 }
 

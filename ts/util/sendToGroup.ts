@@ -20,6 +20,9 @@ import {
   SenderCertificateMode,
   SendLogCallbackType,
 } from '../textsecure/OutgoingMessage';
+import { Address } from '../types/Address';
+import { QualifiedAddress } from '../types/QualifiedAddress';
+import { UUID } from '../types/UUID';
 import { isEnabled } from '../RemoteConfig';
 
 import { isOlderThan } from './timestamp';
@@ -286,10 +289,14 @@ export async function sendToGroupViaSenderKey(options: {
   }
 
   // 2. Fetch all devices we believe we'll be sending to
+  const ourUuid = window.textsecure.storage.user.getCheckedUuid();
   const {
     devices: currentDevices,
     emptyIdentifiers,
-  } = await window.textsecure.storage.protocol.getOpenDevices(recipients);
+  } = await window.textsecure.storage.protocol.getOpenDevices(
+    ourUuid,
+    recipients
+  );
 
   // 3. If we have no open sessions with people we believe we are sending to, and we
   //   believe that any have signal accounts, fetch their prekey bundle and start
@@ -669,7 +676,13 @@ async function markIdentifierUnregistered(identifier: string) {
   conversation.setUnregistered();
   window.Signal.Data.updateConversation(conversation.attributes);
 
-  await window.textsecure.storage.protocol.archiveAllSessions(identifier);
+  const uuid = UUID.lookup(identifier);
+  if (!uuid) {
+    window.log.warn(`No uuid found for ${identifier}`);
+    return;
+  }
+
+  await window.textsecure.storage.protocol.archiveAllSessions(uuid);
 }
 
 function isIdentifierRegistered(identifier: string) {
@@ -695,10 +708,13 @@ async function handle409Response(logId: string, error: Error) {
 
         // Archive sessions with devices that have been removed
         if (devices.extraDevices && devices.extraDevices.length > 0) {
+          const ourUuid = window.textsecure.storage.user.getCheckedUuid();
+
           await _waitForAll({
             tasks: devices.extraDevices.map(deviceId => async () => {
-              const address = `${uuid}.${deviceId}`;
-              await window.textsecure.storage.protocol.archiveSession(address);
+              await window.textsecure.storage.protocol.archiveSession(
+                new QualifiedAddress(ourUuid, Address.create(uuid, deviceId))
+              );
             }),
           });
         }
@@ -727,11 +743,14 @@ async function handle410Response(
       tasks: parsed.data.map(item => async () => {
         const { uuid, devices } = item;
         if (devices.staleDevices && devices.staleDevices.length > 0) {
+          const ourUuid = window.textsecure.storage.user.getCheckedUuid();
+
           // First, archive our existing sessions with these devices
           await _waitForAll({
             tasks: devices.staleDevices.map(deviceId => async () => {
-              const address = `${uuid}.${deviceId}`;
-              await window.textsecure.storage.protocol.archiveSession(address);
+              await window.textsecure.storage.protocol.archiveSession(
+                new QualifiedAddress(ourUuid, Address.create(uuid, deviceId))
+              );
             }),
           });
 
@@ -822,24 +841,24 @@ async function encryptForSenderKey({
   distributionId: string;
   groupId: string;
 }): Promise<Buffer> {
-  const ourUuid = window.textsecure.storage.user.getUuid();
+  const ourUuid = window.textsecure.storage.user.getCheckedUuid();
   const ourDeviceId = window.textsecure.storage.user.getDeviceId();
-  if (!ourUuid || !ourDeviceId) {
+  if (!ourDeviceId) {
     throw new Error(
       'encryptForSenderKey: Unable to fetch our uuid or deviceId'
     );
   }
 
   const sender = ProtocolAddress.new(
-    ourUuid,
+    ourUuid.toString(),
     parseIntOrThrow(ourDeviceId, 'encryptForSenderKey, ourDeviceId')
   );
   const ourAddress = getOurAddress();
-  const senderKeyStore = new SenderKeys();
+  const senderKeyStore = new SenderKeys({ ourUuid });
   const message = Buffer.from(padMessage(new FIXMEU8(contentMessage)));
 
   const ciphertextMessage = await window.textsecure.storage.protocol.enqueueSenderKeyJob(
-    ourAddress,
+    new QualifiedAddress(ourUuid, ourAddress),
     () => groupEncrypt(sender, distributionId, senderKeyStore, message)
   );
 
@@ -874,9 +893,14 @@ async function encryptForSenderKey({
 
       return 1;
     })
-    .map(device => ProtocolAddress.new(device.identifier, device.id));
-  const identityKeyStore = new IdentityKeys();
-  const sessionStore = new Sessions();
+    .map(device => {
+      return ProtocolAddress.new(
+        UUID.checkedLookup(device.identifier).toString(),
+        device.id
+      );
+    });
+  const identityKeyStore = new IdentityKeys({ ourUuid });
+  const sessionStore = new Sessions({ ourUuid });
   return sealedSenderMultiRecipientEncrypt(
     content,
     recipients,
@@ -998,13 +1022,13 @@ export function _analyzeSenderKeyDevices(
   };
 }
 
-function getOurAddress(): string {
-  const ourUuid = window.textsecure.storage.user.getUuid();
+function getOurAddress(): Address {
+  const ourUuid = window.textsecure.storage.user.getCheckedUuid();
   const ourDeviceId = window.textsecure.storage.user.getDeviceId();
-  if (!ourUuid || !ourDeviceId) {
-    throw new Error('getOurAddress: Unable to fetch our uuid or deviceId');
+  if (!ourDeviceId) {
+    throw new Error('getOurAddress: Unable to fetch our deviceId');
   }
-  return `${ourUuid}.${ourDeviceId}`;
+  return new Address(ourUuid, ourDeviceId);
 }
 
 async function resetSenderKey(conversation: ConversationModel): Promise<void> {
@@ -1023,7 +1047,7 @@ async function resetSenderKey(conversation: ConversationModel): Promise<void> {
   }
 
   const { distributionId } = senderKeyInfo;
-  const address = getOurAddress();
+  const ourAddress = getOurAddress();
 
   // Note: We preserve existing distributionId to minimize space for sender key storage
   conversation.set({
@@ -1035,8 +1059,9 @@ async function resetSenderKey(conversation: ConversationModel): Promise<void> {
   });
   window.Signal.Data.updateConversation(conversation.attributes);
 
+  const ourUuid = window.storage.user.getCheckedUuid();
   await window.textsecure.storage.protocol.removeSenderKey(
-    address,
+    new QualifiedAddress(ourUuid, ourAddress),
     distributionId
   );
 }

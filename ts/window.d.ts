@@ -117,6 +117,9 @@ import { MessageController } from './util/MessageController';
 import { isValidGuid } from './util/isValidGuid';
 import { StateType } from './state/reducer';
 import { SystemTraySetting } from './types/SystemTraySetting';
+import { UUID } from './types/UUID';
+import { Address } from './types/Address';
+import { QualifiedAddress } from './types/QualifiedAddress';
 import { CI } from './CI';
 import { IPCEventsType } from './util/createIPCEvents';
 import { ConversationView } from './views/conversation_view';
@@ -396,6 +399,9 @@ declare global {
           path: string;
         };
         VisualAttachment: any;
+        UUID: typeof UUID;
+        Address: typeof Address;
+        QualifiedAddress: typeof QualifiedAddress;
       };
       Util: typeof Util;
       GroupChange: {
@@ -595,7 +601,6 @@ export type WhisperType = {
   MessageCollection: typeof MessageModelCollectionType;
 
   GroupMemberConversation: WhatIsThis;
-  KeyChangeListener: WhatIsThis;
   RotateSignedPreKeyListener: WhatIsThis;
   WallClockListener: WhatIsThis;
 

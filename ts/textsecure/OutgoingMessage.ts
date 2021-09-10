@@ -32,6 +32,9 @@ import {
 } from './Errors';
 import { CallbackResultType, CustomError } from './Types.d';
 import { isValidNumber } from '../types/PhoneNumber';
+import { Address } from '../types/Address';
+import { QualifiedAddress } from '../types/QualifiedAddress';
+import { UUID } from '../types/UUID';
 import { Sessions, IdentityKeys } from '../LibSignalStores';
 import { typedArrayToArrayBuffer as toArrayBuffer } from '../Crypto';
 import { updateConversationsWithUuidLookup } from '../updateConversationsWithUuidLookup';
@@ -237,9 +240,11 @@ export default class OutgoingMessage {
     recurse?: boolean
   ): () => Promise<void> {
     return async () => {
-      const deviceIds = await window.textsecure.storage.protocol.getDeviceIds(
-        identifier
-      );
+      const ourUuid = window.textsecure.storage.user.getCheckedUuid();
+      const deviceIds = await window.textsecure.storage.protocol.getDeviceIds({
+        ourUuid,
+        identifier,
+      });
       if (deviceIds.length === 0) {
         this.registerError(
           identifier,
@@ -386,9 +391,12 @@ export default class OutgoingMessage {
 
     // We don't send to ourselves unless sealedSender is enabled
     const ourNumber = window.textsecure.storage.user.getNumber();
-    const ourUuid = window.textsecure.storage.user.getUuid();
+    const ourUuid = window.textsecure.storage.user.getCheckedUuid();
     const ourDeviceId = window.textsecure.storage.user.getDeviceId();
-    if ((identifier === ourNumber || identifier === ourUuid) && !sealedSender) {
+    if (
+      (identifier === ourNumber || identifier === ourUuid.toString()) &&
+      !sealedSender
+    ) {
       deviceIds = reject(
         deviceIds,
         deviceId =>
@@ -399,18 +407,22 @@ export default class OutgoingMessage {
       );
     }
 
-    const sessionStore = new Sessions();
-    const identityKeyStore = new IdentityKeys();
+    const sessionStore = new Sessions({ ourUuid });
+    const identityKeyStore = new IdentityKeys({ ourUuid });
 
     return Promise.all(
       deviceIds.map(async destinationDeviceId => {
-        const address = `${identifier}.${destinationDeviceId}`;
+        const theirUuid = UUID.checkedLookup(identifier);
+        const address = new QualifiedAddress(
+          ourUuid,
+          new Address(theirUuid, destinationDeviceId)
+        );
 
         return window.textsecure.storage.protocol.enqueueSessionJob<SendMetadata>(
           address,
           async () => {
             const protocolAddress = ProtocolAddress.new(
-              identifier,
+              theirUuid.toString(),
               destinationDeviceId
             );
 
@@ -566,7 +578,10 @@ export default class OutgoingMessage {
             p = Promise.all(
               error.response.staleDevices.map(async (deviceId: number) => {
                 await window.textsecure.storage.protocol.archiveSession(
-                  `${identifier}.${deviceId}`
+                  new QualifiedAddress(
+                    ourUuid,
+                    new Address(UUID.checkedLookup(identifier), deviceId)
+                  )
                 );
               })
             );
@@ -595,7 +610,7 @@ export default class OutgoingMessage {
 
           window.log.info('closing all sessions for', identifier);
           window.textsecure.storage.protocol
-            .archiveAllSessions(identifier)
+            .archiveAllSessions(UUID.checkedLookup(identifier))
             .then(
               () => {
                 throw error;
@@ -623,10 +638,13 @@ export default class OutgoingMessage {
     identifier: string,
     deviceIdsToRemove: Array<number>
   ): Promise<void> {
+    const ourUuid = window.textsecure.storage.user.getCheckedUuid();
+    const theirUuid = UUID.checkedLookup(identifier);
+
     await Promise.all(
       deviceIdsToRemove.map(async deviceId => {
         await window.textsecure.storage.protocol.archiveSession(
-          `${identifier}.${deviceId}`
+          new QualifiedAddress(ourUuid, new Address(theirUuid, deviceId))
         );
       })
     );
@@ -675,9 +693,11 @@ export default class OutgoingMessage {
         );
       }
 
-      const deviceIds = await window.textsecure.storage.protocol.getDeviceIds(
-        identifier
-      );
+      const ourUuid = window.textsecure.storage.user.getCheckedUuid();
+      const deviceIds = await window.textsecure.storage.protocol.getDeviceIds({
+        ourUuid,
+        identifier,
+      });
       if (deviceIds.length === 0) {
         await this.getKeysForIdentifier(identifier);
       }

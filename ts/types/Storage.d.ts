@@ -30,6 +30,14 @@ export type ThemeSettingType = 'system' | 'light' | 'dark';
 
 export type NotificationSettingType = 'message' | 'name' | 'count' | 'off';
 
+export type IdentityKeyMap = Record<
+  string,
+  {
+    privKey: string;
+    pubKey: string;
+  }
+>;
+
 // This should be in sync with `STORAGE_UI_KEYS` in `ts/types/StorageUIKeys.ts`.
 export type StorageAccessType = {
   'always-relay-calls': boolean;
@@ -55,7 +63,7 @@ export type StorageAccessType = {
   customColors: CustomColorsItemType;
   device_name: string;
   hasRegisterSupportForUnauthenticatedDelivery: boolean;
-  identityKey: KeyPairType;
+  identityKeyMap: IdentityKeyMap;
   lastHeartbeat: number;
   lastStartup: number;
   lastAttemptedToRefreshProfilesAt: number;
@@ -64,7 +72,7 @@ export type StorageAccessType = {
   password: string;
   profileKey: ArrayBuffer;
   regionCode: string;
-  registrationId: number;
+  registrationIdMap: Record<string, number>;
   remoteBuildExpiration: number;
   sessionResets: SessionResetsType;
   showStickerPickerHint: boolean;

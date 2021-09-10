@@ -5,6 +5,7 @@ import { WebAPICredentials } from '../Types.d';
 
 import { strictAssert } from '../../util/assert';
 import { StorageInterface } from '../../types/Storage.d';
+import { UUID } from '../../types/UUID';
 
 import Helpers from '../Helpers';
 
@@ -56,10 +57,16 @@ export class User {
     return Helpers.unencodeNumber(numberId)[0];
   }
 
-  public getUuid(): string | undefined {
+  public getUuid(): UUID | undefined {
     const uuid = this.storage.get('uuid_id');
     if (uuid === undefined) return undefined;
-    return Helpers.unencodeNumber(uuid.toLowerCase())[0];
+    return new UUID(Helpers.unencodeNumber(uuid.toLowerCase())[0]);
+  }
+
+  public getCheckedUuid(): UUID {
+    const uuid = this.getUuid();
+    strictAssert(uuid !== undefined, 'Must have our own uuid');
+    return uuid;
   }
 
   public getDeviceId(): number | undefined {

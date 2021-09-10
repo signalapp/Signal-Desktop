@@ -7,6 +7,7 @@ import PQueue from 'p-queue';
 import dataInterface from './sql/Client';
 import {
   ConversationModelCollectionType,
+  ConversationAttributesType,
   ConversationAttributesTypeType,
 } from './model-types.d';
 import { ConversationModel } from './models/conversations';
@@ -15,6 +16,9 @@ import { assert } from './util/assert';
 import { isValidGuid } from './util/isValidGuid';
 import { map, reduce } from './util/iterables';
 import { isGroupV1, isGroupV2 } from './util/whatTypeOfConversation';
+import { UUID } from './types/UUID';
+import { Address } from './types/Address';
+import { QualifiedAddress } from './types/QualifiedAddress';
 
 const MAX_MESSAGE_BODY_LENGTH = 64 * 1024;
 
@@ -156,7 +160,7 @@ export class ConversationController {
   }
 
   dangerouslyCreateAndAdd(
-    attributes: Partial<ConversationModel>
+    attributes: Partial<ConversationAttributesType>
   ): ConversationModel {
     return this._conversations.add(attributes);
   }
@@ -295,7 +299,7 @@ export class ConversationController {
 
   getOurConversationId(): string | undefined {
     const e164 = window.textsecure.storage.user.getNumber();
-    const uuid = window.textsecure.storage.user.getUuid();
+    const uuid = window.textsecure.storage.user.getUuid()?.toString();
     return this.ensureContactIds({ e164, uuid, highTrust: true });
   }
 
@@ -639,13 +643,14 @@ export class ConversationController {
     }
 
     const obsoleteId = obsolete.get('id');
+    const obsoleteUuid = obsolete.get('uuid');
     const currentId = current.get('id');
     window.log.warn('combineConversations: Combining two conversations', {
       obsolete: obsoleteId,
       current: currentId,
     });
 
-    if (conversationType === 'private') {
+    if (conversationType === 'private' && obsoleteUuid) {
       if (!current.get('profileKey') && obsolete.get('profileKey')) {
         window.log.warn(
           'combineConversations: Copying profile key from old to new contact'
@@ -661,21 +666,30 @@ export class ConversationController {
       window.log.warn(
         'combineConversations: Delete all sessions tied to old conversationId'
       );
-      const deviceIds = await window.textsecure.storage.protocol.getDeviceIds(
-        obsoleteId
-      );
+      const ourUuid = window.textsecure.storage.user.getCheckedUuid();
+      const deviceIds = await window.textsecure.storage.protocol.getDeviceIds({
+        ourUuid,
+        identifier: obsoleteUuid,
+      });
       await Promise.all(
         deviceIds.map(async deviceId => {
-          await window.textsecure.storage.protocol.removeSession(
-            `${obsoleteId}.${deviceId}`
+          const addr = new QualifiedAddress(
+            ourUuid,
+            Address.create(obsoleteUuid, deviceId)
           );
+          await window.textsecure.storage.protocol.removeSession(addr);
         })
       );
 
       window.log.warn(
         'combineConversations: Delete all identity information tied to old conversationId'
       );
-      await window.textsecure.storage.protocol.removeIdentityKey(obsoleteId);
+
+      if (obsoleteUuid) {
+        await window.textsecure.storage.protocol.removeIdentityKey(
+          new UUID(obsoleteUuid)
+        );
+      }
 
       window.log.warn(
         'combineConversations: Ensure that all V1 groups have new conversationId instead of old'

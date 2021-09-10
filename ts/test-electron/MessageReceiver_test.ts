@@ -6,6 +6,7 @@
      */
 
 import { assert } from 'chai';
+import { v4 as getGuid } from 'uuid';
 
 import MessageReceiver from '../textsecure/MessageReceiver';
 import { IncomingWebSocketRequest } from '../textsecure/WebsocketResources';
@@ -22,11 +23,20 @@ describe('MessageReceiver', () => {
   const uuid = 'aaaaaaaa-bbbb-4ccc-9ddd-eeeeeeeeeeee';
   const deviceId = 1;
 
+  let oldUuid: string | undefined;
+  let oldDeviceId: number | undefined;
+
   beforeEach(async () => {
+    oldUuid = window.storage.user.getUuid()?.toString();
+    oldDeviceId = window.storage.user.getDeviceId();
+    await window.storage.user.setUuidAndDeviceId(getGuid(), 2);
     await window.storage.protocol.hydrateCaches();
   });
 
   afterEach(async () => {
+    if (oldUuid !== undefined && oldDeviceId !== undefined) {
+      await window.storage.user.setUuidAndDeviceId(oldUuid, oldDeviceId);
+    }
     await window.storage.protocol.removeAllUnprocessed();
   });
 

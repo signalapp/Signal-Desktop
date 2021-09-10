@@ -189,6 +189,8 @@ try {
       statistics = {};
     }
 
+    const ourUuid = window.textsecure.storage.user.getUuid();
+
     event.sender.send('additional-log-data-response', {
       capabilities: ourCapabilities || {},
       remoteConfig: _.mapValues(remoteConfig, ({ value, enabled }) => {
@@ -200,7 +202,7 @@ try {
       user: {
         deviceId: window.textsecure.storage.user.getDeviceId(),
         e164: window.textsecure.storage.user.getNumber(),
-        uuid: window.textsecure.storage.user.getUuid(),
+        uuid: ourUuid && ourUuid.toString(),
         conversationId: ourConversation && ourConversation.id,
       },
     });

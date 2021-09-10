@@ -18,6 +18,9 @@ import {
 
 import { assert } from '../util/assert';
 import { parseIntOrThrow } from '../util/parseIntOrThrow';
+import { Address } from '../types/Address';
+import { QualifiedAddress } from '../types/QualifiedAddress';
+import { UUID } from '../types/UUID';
 import { SenderKeys } from '../LibSignalStores';
 import {
   ChallengeType,
@@ -737,14 +740,14 @@ export default class MessageSender {
     }
 
     const myE164 = window.textsecure.storage.user.getNumber();
-    const myUuid = window.textsecure.storage.user.getUuid();
+    const myUuid = window.textsecure.storage.user.getUuid()?.toString();
 
     const groupMembers = groupV2?.members || groupV1?.members || [];
 
     // We should always have a UUID but have this check just in case we don't.
     let isNotMe: (recipient: string) => boolean;
     if (myUuid) {
-      isNotMe = r => r !== myE164 && r !== myUuid;
+      isNotMe = r => r !== myE164 && r !== myUuid.toString();
     } else {
       isNotMe = r => r !== myE164;
     }
@@ -1030,8 +1033,7 @@ export default class MessageSender {
     isUpdate?: boolean;
     options?: SendOptionsType;
   }>): Promise<CallbackResultType> {
-    const myNumber = window.textsecure.storage.user.getNumber();
-    const myUuid = window.textsecure.storage.user.getUuid();
+    const myUuid = window.textsecure.storage.user.getCheckedUuid();
 
     const dataMessage = Proto.DataMessage.decode(
       new FIXMEU8(encodedDataMessage)
@@ -1086,7 +1088,7 @@ export default class MessageSender {
     const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
     return this.sendIndividualProto({
-      identifier: myUuid || myNumber,
+      identifier: myUuid.toString(),
       proto: contentMessage,
       timestamp,
       contentHint: ContentHint.RESENDABLE,
@@ -1097,8 +1099,7 @@ export default class MessageSender {
   async sendRequestBlockSyncMessage(
     options?: Readonly<SendOptionsType>
   ): Promise<CallbackResultType> {
-    const myNumber = window.textsecure.storage.user.getNumber();
-    const myUuid = window.textsecure.storage.user.getUuid();
+    const myUuid = window.textsecure.storage.user.getCheckedUuid();
 
     const request = new Proto.SyncMessage.Request();
     request.type = Proto.SyncMessage.Request.Type.BLOCKED;
@@ -1110,7 +1111,7 @@ export default class MessageSender {
     const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
     return this.sendIndividualProto({
-      identifier: myUuid || myNumber,
+      identifier: myUuid.toString(),
       proto: contentMessage,
       timestamp: Date.now(),
       contentHint: ContentHint.IMPLICIT,
@@ -1121,8 +1122,7 @@ export default class MessageSender {
   async sendRequestConfigurationSyncMessage(
     options?: Readonly<SendOptionsType>
   ): Promise<CallbackResultType> {
-    const myNumber = window.textsecure.storage.user.getNumber();
-    const myUuid = window.textsecure.storage.user.getUuid();
+    const myUuid = window.textsecure.storage.user.getCheckedUuid();
 
     const request = new Proto.SyncMessage.Request();
     request.type = Proto.SyncMessage.Request.Type.CONFIGURATION;
@@ -1134,7 +1134,7 @@ export default class MessageSender {
     const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
     return this.sendIndividualProto({
-      identifier: myUuid || myNumber,
+      identifier: myUuid.toString(),
       proto: contentMessage,
       timestamp: Date.now(),
       contentHint: ContentHint.IMPLICIT,
@@ -1145,8 +1145,7 @@ export default class MessageSender {
   async sendRequestGroupSyncMessage(
     options?: Readonly<SendOptionsType>
   ): Promise<CallbackResultType> {
-    const myNumber = window.textsecure.storage.user.getNumber();
-    const myUuid = window.textsecure.storage.user.getUuid();
+    const myUuid = window.textsecure.storage.user.getCheckedUuid();
 
     const request = new Proto.SyncMessage.Request();
     request.type = Proto.SyncMessage.Request.Type.GROUPS;
@@ -1158,7 +1157,7 @@ export default class MessageSender {
     const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
     return this.sendIndividualProto({
-      identifier: myUuid || myNumber,
+      identifier: myUuid.toString(),
       proto: contentMessage,
       timestamp: Date.now(),
       contentHint: ContentHint.IMPLICIT,
@@ -1169,8 +1168,7 @@ export default class MessageSender {
   async sendRequestContactSyncMessage(
     options?: Readonly<SendOptionsType>
   ): Promise<CallbackResultType> {
-    const myNumber = window.textsecure.storage.user.getNumber();
-    const myUuid = window.textsecure.storage.user.getUuid();
+    const myUuid = window.textsecure.storage.user.getCheckedUuid();
 
     const request = new Proto.SyncMessage.Request();
     request.type = Proto.SyncMessage.Request.Type.CONTACTS;
@@ -1182,7 +1180,7 @@ export default class MessageSender {
     const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
     return this.sendIndividualProto({
-      identifier: myUuid || myNumber,
+      identifier: myUuid.toString(),
       proto: contentMessage,
       timestamp: Date.now(),
       contentHint: ContentHint.IMPLICIT,
@@ -1193,8 +1191,7 @@ export default class MessageSender {
   async sendFetchManifestSyncMessage(
     options?: Readonly<SendOptionsType>
   ): Promise<CallbackResultType> {
-    const myUuid = window.textsecure.storage.user.getUuid();
-    const myNumber = window.textsecure.storage.user.getNumber();
+    const myUuid = window.textsecure.storage.user.getCheckedUuid();
 
     const fetchLatest = new Proto.SyncMessage.FetchLatest();
     fetchLatest.type = Proto.SyncMessage.FetchLatest.Type.STORAGE_MANIFEST;
@@ -1207,7 +1204,7 @@ export default class MessageSender {
     const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
     return this.sendIndividualProto({
-      identifier: myUuid || myNumber,
+      identifier: myUuid.toString(),
       proto: contentMessage,
       timestamp: Date.now(),
       contentHint: ContentHint.IMPLICIT,
@@ -1218,8 +1215,7 @@ export default class MessageSender {
   async sendFetchLocalProfileSyncMessage(
     options?: Readonly<SendOptionsType>
   ): Promise<CallbackResultType> {
-    const myUuid = window.textsecure.storage.user.getUuid();
-    const myNumber = window.textsecure.storage.user.getNumber();
+    const myUuid = window.textsecure.storage.user.getCheckedUuid();
 
     const fetchLatest = new Proto.SyncMessage.FetchLatest();
     fetchLatest.type = Proto.SyncMessage.FetchLatest.Type.LOCAL_PROFILE;
@@ -1232,7 +1228,7 @@ export default class MessageSender {
     const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
     return this.sendIndividualProto({
-      identifier: myUuid || myNumber,
+      identifier: myUuid.toString(),
       proto: contentMessage,
       timestamp: Date.now(),
       contentHint: ContentHint.IMPLICIT,
@@ -1243,8 +1239,7 @@ export default class MessageSender {
   async sendRequestKeySyncMessage(
     options?: Readonly<SendOptionsType>
   ): Promise<CallbackResultType> {
-    const myUuid = window.textsecure.storage.user.getUuid();
-    const myNumber = window.textsecure.storage.user.getNumber();
+    const myUuid = window.textsecure.storage.user.getCheckedUuid();
 
     const request = new Proto.SyncMessage.Request();
     request.type = Proto.SyncMessage.Request.Type.KEYS;
@@ -1257,7 +1252,7 @@ export default class MessageSender {
     const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
     return this.sendIndividualProto({
-      identifier: myUuid || myNumber,
+      identifier: myUuid.toString(),
       proto: contentMessage,
       timestamp: Date.now(),
       contentHint: ContentHint.IMPLICIT,
@@ -1273,8 +1268,7 @@ export default class MessageSender {
     }>,
     options?: Readonly<SendOptionsType>
   ): Promise<CallbackResultType> {
-    const myNumber = window.textsecure.storage.user.getNumber();
-    const myUuid = window.textsecure.storage.user.getUuid();
+    const myUuid = window.textsecure.storage.user.getCheckedUuid();
 
     const syncMessage = this.createSyncMessage();
     syncMessage.read = [];
@@ -1289,7 +1283,7 @@ export default class MessageSender {
     const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
     return this.sendIndividualProto({
-      identifier: myUuid || myNumber,
+      identifier: myUuid.toString(),
       proto: contentMessage,
       timestamp: Date.now(),
       contentHint: ContentHint.RESENDABLE,
@@ -1305,8 +1299,7 @@ export default class MessageSender {
     }>,
     options?: SendOptionsType
   ): Promise<CallbackResultType> {
-    const myNumber = window.textsecure.storage.user.getNumber();
-    const myUuid = window.textsecure.storage.user.getUuid();
+    const myUuid = window.textsecure.storage.user.getCheckedUuid();
 
     const syncMessage = this.createSyncMessage();
     syncMessage.viewed = views.map(view => new Proto.SyncMessage.Viewed(view));
@@ -1316,7 +1309,7 @@ export default class MessageSender {
     const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
     return this.sendIndividualProto({
-      identifier: myUuid || myNumber,
+      identifier: myUuid.toString(),
       proto: contentMessage,
       timestamp: Date.now(),
       contentHint: ContentHint.RESENDABLE,
@@ -1330,8 +1323,7 @@ export default class MessageSender {
     timestamp: number,
     options?: Readonly<SendOptionsType>
   ): Promise<CallbackResultType> {
-    const myNumber = window.textsecure.storage.user.getNumber();
-    const myUuid = window.textsecure.storage.user.getUuid();
+    const myUuid = window.textsecure.storage.user.getCheckedUuid();
 
     const syncMessage = this.createSyncMessage();
 
@@ -1349,7 +1341,7 @@ export default class MessageSender {
     const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
     return this.sendIndividualProto({
-      identifier: myUuid || myNumber,
+      identifier: myUuid.toString(),
       proto: contentMessage,
       timestamp: Date.now(),
       contentHint: ContentHint.RESENDABLE,
@@ -1366,8 +1358,7 @@ export default class MessageSender {
     }>,
     options?: Readonly<SendOptionsType>
   ): Promise<CallbackResultType> {
-    const myNumber = window.textsecure.storage.user.getNumber();
-    const myUuid = window.textsecure.storage.user.getUuid();
+    const myUuid = window.textsecure.storage.user.getCheckedUuid();
 
     const syncMessage = this.createSyncMessage();
 
@@ -1390,7 +1381,7 @@ export default class MessageSender {
     const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
     return this.sendIndividualProto({
-      identifier: myUuid || myNumber,
+      identifier: myUuid.toString(),
       proto: contentMessage,
       timestamp: Date.now(),
       contentHint: ContentHint.RESENDABLE,
@@ -1406,8 +1397,7 @@ export default class MessageSender {
     }>,
     options?: Readonly<SendOptionsType>
   ): Promise<CallbackResultType> {
-    const myNumber = window.textsecure.storage.user.getNumber();
-    const myUuid = window.textsecure.storage.user.getUuid();
+    const myUuid = window.textsecure.storage.user.getCheckedUuid();
     const ENUM = Proto.SyncMessage.StickerPackOperation.Type;
 
     const packOperations = operations.map(item => {
@@ -1430,7 +1420,7 @@ export default class MessageSender {
     const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
     return this.sendIndividualProto({
-      identifier: myUuid || myNumber,
+      identifier: myUuid.toString(),
       proto: contentMessage,
       timestamp: Date.now(),
       contentHint: ContentHint.IMPLICIT,
@@ -1445,8 +1435,7 @@ export default class MessageSender {
     identityKey: Readonly<ArrayBuffer>,
     options?: Readonly<SendOptionsType>
   ): Promise<CallbackResultType> {
-    const myNumber = window.textsecure.storage.user.getNumber();
-    const myUuid = window.textsecure.storage.user.getUuid();
+    const myUuid = window.textsecure.storage.user.getCheckedUuid();
     const now = Date.now();
 
     if (!destinationE164 && !destinationUuid) {
@@ -1488,7 +1477,7 @@ export default class MessageSender {
     const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
     return this.sendIndividualProto({
-      identifier: myUuid || myNumber,
+      identifier: myUuid.toString(),
       proto: secondMessage,
       timestamp: now,
       contentHint: ContentHint.RESENDABLE,
@@ -1675,6 +1664,7 @@ export default class MessageSender {
     proto.timestamp = timestamp;
 
     const identifier = uuid || e164;
+    const theirUuid = UUID.checkedLookup(identifier);
 
     const logError = (prefix: string) => (error: Error) => {
       window.log.error(prefix, error && error.stack ? error.stack : error);
@@ -1684,7 +1674,7 @@ export default class MessageSender {
     const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
     const sendToContactPromise = window.textsecure.storage.protocol
-      .archiveAllSessions(identifier)
+      .archiveAllSessions(theirUuid)
       .catch(logError('resetSession/archiveAllSessions1 error:'))
       .then(async () => {
         window.log.info(
@@ -1706,14 +1696,14 @@ export default class MessageSender {
       })
       .then(async result => {
         await window.textsecure.storage.protocol
-          .archiveAllSessions(identifier)
+          .archiveAllSessions(theirUuid)
           .catch(logError('resetSession/archiveAllSessions2 error:'));
 
         return result;
       });
 
     const myNumber = window.textsecure.storage.user.getNumber();
-    const myUuid = window.textsecure.storage.user.getUuid();
+    const myUuid = window.textsecure.storage.user.getUuid()?.toString();
     // We already sent the reset session to our other devices in the code above!
     if ((e164 && e164 === myNumber) || (uuid && uuid === myUuid)) {
       return sendToContactPromise;
@@ -1882,7 +1872,7 @@ export default class MessageSender {
       : undefined;
 
     const myE164 = window.textsecure.storage.user.getNumber();
-    const myUuid = window.textsecure.storage.user.getUuid();
+    const myUuid = window.textsecure.storage.user.getUuid()?.toString();
     const identifiers = recipients.filter(id => id !== myE164 && id !== myUuid);
 
     if (identifiers.length === 0) {
@@ -1921,20 +1911,21 @@ export default class MessageSender {
   async getSenderKeyDistributionMessage(
     distributionId: string
   ): Promise<SenderKeyDistributionMessage> {
-    const ourUuid = window.textsecure.storage.user.getUuid();
-    if (!ourUuid) {
-      throw new Error(
-        'getSenderKeyDistributionMessage: Failed to fetch our UUID!'
-      );
-    }
+    const ourUuid = window.textsecure.storage.user.getCheckedUuid();
     const ourDeviceId = parseIntOrThrow(
       window.textsecure.storage.user.getDeviceId(),
       'getSenderKeyDistributionMessage'
     );
 
-    const protocolAddress = ProtocolAddress.new(ourUuid, ourDeviceId);
-    const address = `${ourUuid}.${ourDeviceId}`;
-    const senderKeyStore = new SenderKeys();
+    const protocolAddress = ProtocolAddress.new(
+      ourUuid.toString(),
+      ourDeviceId
+    );
+    const address = new QualifiedAddress(
+      ourUuid,
+      new Address(ourUuid, ourDeviceId)
+    );
+    const senderKeyStore = new SenderKeys({ ourUuid });
 
     return window.textsecure.storage.protocol.enqueueSenderKeyJob(
       address,
@@ -2044,7 +2035,7 @@ export default class MessageSender {
     options?: Readonly<SendOptionsType>
   ): Promise<CallbackResultType> {
     const myNumber = window.textsecure.storage.user.getNumber();
-    const myUuid = window.textsecure.storage.user.getUuid();
+    const myUuid = window.textsecure.storage.user.getUuid()?.toString();
     const recipients = groupIdentifiers.filter(
       identifier => identifier !== myNumber && identifier !== myUuid
     );

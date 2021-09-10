@@ -142,6 +142,9 @@ const Errors = require('../../ts/types/errors');
 const MessageType = require('./types/message');
 const MIME = require('../../ts/types/MIME');
 const SettingsType = require('../../ts/types/Settings');
+const { UUID } = require('../../ts/types/UUID');
+const { Address } = require('../../ts/types/Address');
+const { QualifiedAddress } = require('../../ts/types/QualifiedAddress');
 
 // Views
 const Initialization = require('./views/initialization');
@@ -430,6 +433,9 @@ exports.setup = (options = {}) => {
     MIME,
     Settings: SettingsType,
     VisualAttachment,
+    UUID,
+    Address,
+    QualifiedAddress,
   };
 
   const Views = {

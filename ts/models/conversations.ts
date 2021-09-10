@@ -37,6 +37,7 @@ import { missingCaseError } from '../util/missingCaseError';
 import { sniffImageMimeType } from '../util/sniffImageMimeType';
 import { isValidE164 } from '../util/isValidE164';
 import { MIMEType, IMAGE_WEBP } from '../types/MIME';
+import { UUID } from '../types/UUID';
 import {
   arrayBufferToBase64,
   base64ToArrayBuffer,
@@ -157,8 +158,6 @@ export class ConversationModel extends window.Backbone
 
   jobQueue?: typeof window.PQueueType;
 
-  ourUuid?: string;
-
   storeName?: string | null;
 
   throttledBumpTyping?: () => void;
@@ -239,7 +238,6 @@ export class ConversationModel extends window.Backbone
 
     this.storeName = 'conversations';
 
-    this.ourUuid = window.textsecure.storage.user.getUuid();
     this.verifiedEnum = window.textsecure.storage.protocol.VerifiedStatus;
 
     // This may be overridden by window.ConversationController.getOrCreate, and signify
@@ -2105,7 +2103,14 @@ export class ConversationModel extends window.Backbone
   }
 
   async safeGetVerified(): Promise<number> {
-    const promise = window.textsecure.storage.protocol.getVerified(this.id);
+    const uuid = this.get('uuid');
+    if (!uuid) {
+      return window.textsecure.storage.protocol.VerifiedStatus.DEFAULT;
+    }
+
+    const promise = window.textsecure.storage.protocol.getVerified(
+      new UUID(uuid)
+    );
     return promise.catch(
       () => window.textsecure.storage.protocol.VerifiedStatus.DEFAULT
     );
@@ -2182,20 +2187,30 @@ export class ConversationModel extends window.Backbone
       );
     }
 
+    const uuid = this.get('uuid');
     const beginningVerified = this.get('verified');
     let keyChange;
     if (options.viaSyncMessage) {
+      strictAssert(
+        uuid,
+        `Sync message didn't update uuid for conversation: ${this.id}`
+      );
+
       // handle the incoming key from the sync messages - need different
       // behavior if that key doesn't match the current key
       keyChange = await window.textsecure.storage.protocol.processVerifiedMessage(
-        this.id,
+        new UUID(uuid),
         verified,
         options.key || undefined
       );
-    } else {
+    } else if (uuid) {
       keyChange = await window.textsecure.storage.protocol.setVerified(
-        this.id,
+        new UUID(uuid),
         verified
+      );
+    } else {
+      window.log.warn(
+        `_setVerified(${this.id}): no uuid to update protocol storage`
       );
     }
 
@@ -2227,12 +2242,8 @@ export class ConversationModel extends window.Backbone
         local: !options.viaSyncMessage,
       });
     }
-    if (!options.viaSyncMessage) {
-      await this.sendVerifySyncMessage(
-        this.get('e164'),
-        this.get('uuid'),
-        verified
-      );
+    if (!options.viaSyncMessage && uuid) {
+      await this.sendVerifySyncMessage(this.get('e164'), uuid, verified);
     }
 
     return keyChange;
@@ -2240,7 +2251,7 @@ export class ConversationModel extends window.Backbone
 
   async sendVerifySyncMessage(
     e164: string | undefined,
-    uuid: string | undefined,
+    uuid: string,
     state: number
   ): Promise<CallbackResultType | void> {
     const identifier = uuid || e164;
@@ -2268,7 +2279,7 @@ export class ConversationModel extends window.Backbone
     const options = { ...sendOptions, ...contactSendOptions };
 
     const key = await window.textsecure.storage.protocol.loadIdentityKey(
-      identifier
+      UUID.checkedLookup(identifier)
     );
     if (!key) {
       throw new Error(
@@ -2353,12 +2364,20 @@ export class ConversationModel extends window.Backbone
       );
     }
 
-    return window.textsecure.storage.protocol.setApproval(this.id, true);
+    const uuid = this.get('uuid');
+    if (!uuid) {
+      window.log.warn(`setApproved(${this.id}): no uuid, ignoring`);
+      return;
+    }
+
+    return window.textsecure.storage.protocol.setApproval(new UUID(uuid), true);
   }
 
   safeIsUntrusted(): boolean {
+    const uuid = this.get('uuid');
     try {
-      return window.textsecure.storage.protocol.isUntrusted(this.id);
+      strictAssert(uuid, `No uuid for conversation: ${this.id}`);
+      return window.textsecure.storage.protocol.isUntrusted(new UUID(uuid));
     } catch (err) {
       return false;
     }
@@ -2526,11 +2545,11 @@ export class ConversationModel extends window.Backbone
     await this.notify(model);
   }
 
-  async addKeyChange(keyChangedId: string): Promise<void> {
+  async addKeyChange(keyChangedId: UUID): Promise<void> {
     window.log.info(
       'adding key change advisory for',
       this.idForLogging(),
-      keyChangedId,
+      keyChangedId.toString(),
       this.get('timestamp')
     );
 
@@ -2541,7 +2560,7 @@ export class ConversationModel extends window.Backbone
       sent_at: this.get('timestamp'),
       received_at: window.Signal.Util.incrementMessageCounter(),
       received_at_ms: timestamp,
-      key_changed: keyChangedId,
+      key_changed: keyChangedId.toString(),
       readStatus: ReadStatus.Unread,
       schemaVersion: Message.VERSION_NEEDED_FOR_DISPLAY,
       // TODO: DESKTOP-722
@@ -4839,7 +4858,7 @@ export class ConversationModel extends window.Backbone
         return;
       }
 
-      const ourUuid = window.textsecure.storage.user.getUuid();
+      const ourUuid = window.textsecure.storage.user.getUuid()?.toString();
       const mentionsMe = (message.get('bodyRanges') || []).some(
         range => range.mentionUuid && range.mentionUuid === ourUuid
       );

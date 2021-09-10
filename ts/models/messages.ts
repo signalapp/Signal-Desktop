@@ -221,7 +221,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
     this.CURRENT_PROTOCOL_VERSION = Proto.DataMessage.ProtocolVersion.CURRENT;
     this.INITIAL_PROTOCOL_VERSION = Proto.DataMessage.ProtocolVersion.INITIAL;
-    this.OUR_UUID = window.textsecure.storage.user.getUuid();
+    this.OUR_UUID = window.textsecure.storage.user.getUuid()?.toString();
 
     this.on('change', this.notifyRedux);
   }
@@ -2881,7 +2881,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
             const profileKey = dataMessage.profileKey.toString('base64');
             if (
               source === window.textsecure.storage.user.getNumber() ||
-              sourceUuid === window.textsecure.storage.user.getUuid()
+              sourceUuid ===
+                window.textsecure.storage.user.getUuid()?.toString()
             ) {
               conversation.set({ profileSharing: true });
             } else if (isDirectConversation(conversation.attributes)) {

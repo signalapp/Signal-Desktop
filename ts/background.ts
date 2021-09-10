@@ -66,6 +66,7 @@ import {
   EnvelopeEvent,
 } from './textsecure/messageReceiverEvents';
 import type { WebAPIType } from './textsecure/WebAPI';
+import * as KeyChangeListener from './textsecure/KeyChangeListener';
 import { isDirectConversation, isGroupV2 } from './util/whatTypeOfConversation';
 import { getSendOptions } from './util/getSendOptions';
 import { BackOff, FIBONACCI_TIMEOUTS } from './util/BackOff';
@@ -497,7 +498,7 @@ export async function startApp(): Promise<void> {
 
   window.document.title = window.getTitle();
 
-  window.Whisper.KeyChangeListener.init(window.textsecure.storage.protocol);
+  KeyChangeListener.init(window.textsecure.storage.protocol);
   window.textsecure.storage.protocol.on('removePreKey', () => {
     window.getAccountManager().refreshPreKeys();
   });
@@ -921,7 +922,7 @@ export async function startApp(): Promise<void> {
       conversation.format()
     );
     const ourNumber = window.textsecure.storage.user.getNumber();
-    const ourUuid = window.textsecure.storage.user.getUuid();
+    const ourUuid = window.textsecure.storage.user.getUuid()?.toString();
     const ourConversationId = window.ConversationController.getOurConversationId();
 
     const themeSetting = window.Events.getThemeSetting();
@@ -1065,7 +1066,7 @@ export async function startApp(): Promise<void> {
     window.Whisper.events.on('userChanged', (reconnect = false) => {
       const newDeviceId = window.textsecure.storage.user.getDeviceId();
       const newNumber = window.textsecure.storage.user.getNumber();
-      const newUuid = window.textsecure.storage.user.getUuid();
+      const newUuid = window.textsecure.storage.user.getUuid()?.toString();
       const ourConversation = window.ConversationController.getOurConversation();
 
       if (ourConversation?.get('e164') !== newNumber) {
@@ -2136,30 +2137,9 @@ export async function startApp(): Promise<void> {
 
       const deviceId = window.textsecure.storage.user.getDeviceId();
 
-      // If we didn't capture a UUID on registration, go get it from the server
       if (!window.textsecure.storage.user.getUuid()) {
-        try {
-          const { uuid } = await server.whoami();
-          assert(deviceId, 'We should have device id');
-          window.textsecure.storage.user.setUuidAndDeviceId(uuid, deviceId);
-          const ourNumber = window.textsecure.storage.user.getNumber();
-
-          assert(ourNumber, 'We should have number');
-          const me = await window.ConversationController.getOrCreateAndWait(
-            ourNumber,
-            'private'
-          );
-          me.updateUuid(uuid);
-
-          await server.authenticate(
-            window.textsecure.storage.user.getWebAPICredentials()
-          );
-        } catch (error) {
-          window.log.error(
-            'Error: Unable to retrieve UUID from service.',
-            error && error.stack ? error.stack : error
-          );
-        }
+        window.log.error('UUID not captured during registration, unlinking');
+        return unlinkAndDisconnect(RemoveAllConfiguration.Full);
       }
 
       if (connectCount === 1) {
@@ -2587,7 +2567,7 @@ export async function startApp(): Promise<void> {
       (details.number &&
         details.number === window.textsecure.storage.user.getNumber()) ||
       (details.uuid &&
-        details.uuid === window.textsecure.storage.user.getUuid())
+        details.uuid === window.textsecure.storage.user.getUuid()?.toString())
     ) {
       // special case for syncing details about ourselves
       if (details.profileKey) {
@@ -2845,7 +2825,7 @@ export async function startApp(): Promise<void> {
   });
 
   function onEnvelopeReceived({ envelope }: EnvelopeEvent) {
-    const ourUuid = window.textsecure.storage.user.getUuid();
+    const ourUuid = window.textsecure.storage.user.getUuid()?.toString();
     if (envelope.sourceUuid && envelope.sourceUuid !== ourUuid) {
       window.ConversationController.ensureContactIds({
         e164: envelope.source,
@@ -3083,7 +3063,7 @@ export async function startApp(): Promise<void> {
 
     return new window.Whisper.Message(({
       source: window.textsecure.storage.user.getNumber(),
-      sourceUuid: window.textsecure.storage.user.getUuid(),
+      sourceUuid: window.textsecure.storage.user.getUuid()?.toString(),
       sourceDevice: data.device,
       sent_at: timestamp,
       serverTimestamp: data.serverTimestamp,
@@ -3216,7 +3196,7 @@ export async function startApp(): Promise<void> {
     const { data, confirm } = event;
 
     const source = window.textsecure.storage.user.getNumber();
-    const sourceUuid = window.textsecure.storage.user.getUuid();
+    const sourceUuid = window.textsecure.storage.user.getUuid()?.toString();
     strictAssert(source && sourceUuid, 'Missing user number and uuid');
 
     const messageDescriptor = getMessageDescriptor({
@@ -3492,7 +3472,7 @@ export async function startApp(): Promise<void> {
 
     switch (eventType) {
       case FETCH_LATEST_ENUM.LOCAL_PROFILE: {
-        const ourUuid = window.textsecure.storage.user.getUuid();
+        const ourUuid = window.textsecure.storage.user.getUuid()?.toString();
         const ourE164 = window.textsecure.storage.user.getNumber();
         await getProfile(ourUuid, ourE164);
         break;

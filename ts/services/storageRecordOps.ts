@@ -35,6 +35,8 @@ import {
 } from '../util/universalExpireTimer';
 import { ourProfileKeyService } from './ourProfileKey';
 import { isGroupV1, isGroupV2 } from '../util/whatTypeOfConversation';
+import { UUID } from '../types/UUID';
+import * as Errors from '../types/errors';
 import { SignalService as Proto } from '../protobuf';
 
 const { updateConversation } = dataInterface;
@@ -118,9 +120,19 @@ export async function toContactRecord(
   if (profileKey) {
     contactRecord.profileKey = Bytes.fromBase64(String(profileKey));
   }
-  const identityKey = await window.textsecure.storage.protocol.loadIdentityKey(
-    conversation.id
-  );
+
+  let maybeUuid: UUID | undefined;
+  try {
+    maybeUuid = uuid ? new UUID(uuid) : undefined;
+  } catch (error) {
+    window.log.warn(
+      `Invalid uuid in contact record: ${Errors.toLogFormat(error)}`
+    );
+  }
+
+  const identityKey = maybeUuid
+    ? await window.textsecure.storage.protocol.loadIdentityKey(maybeUuid)
+    : undefined;
   if (identityKey) {
     contactRecord.identityKey = new FIXMEU8(identityKey);
   }
@@ -722,6 +734,11 @@ export async function mergeContactRecord(
 
   const e164 = contactRecord.serviceE164 || undefined;
   const uuid = contactRecord.serviceUuid || undefined;
+
+  // All contacts must have UUID
+  if (!uuid) {
+    return false;
+  }
 
   const id = window.ConversationController.ensureContactIds({
     e164,

@@ -1,43 +1,56 @@
 // Copyright 2017-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* global ConversationController, SignalProtocolStore, Whisper */
+import { assert } from 'chai';
+import { v4 as getGuid } from 'uuid';
+
+import { getRandomBytes } from '../../Crypto';
+import { Address } from '../../types/Address';
+import { UUID } from '../../types/UUID';
+import { SignalProtocolStore } from '../../SignalProtocolStore';
+import type { ConversationModel } from '../../models/conversations';
+import * as KeyChangeListener from '../../textsecure/KeyChangeListener';
+
+const { Whisper } = window;
 
 describe('KeyChangeListener', () => {
-  const STORAGE_KEYS_TO_RESTORE = ['number_id', 'uuid_id'];
-  const oldStorageValues = new Map();
+  let oldNumberId: string | undefined;
+  let oldUuidId: string | undefined;
 
-  const phoneNumberWithKeyChange = '+13016886524'; // nsa
-  const addressString = `${phoneNumberWithKeyChange}.1`;
-  const oldKey = window.Signal.Crypto.getRandomBytes(33);
-  const newKey = window.Signal.Crypto.getRandomBytes(33);
-  let store;
+  const ourUuid = getGuid();
+  const uuidWithKeyChange = getGuid();
+  const address = Address.create(uuidWithKeyChange, 1);
+  const oldKey = getRandomBytes(33);
+  const newKey = getRandomBytes(33);
+  let store: SignalProtocolStore;
 
   before(async () => {
     window.ConversationController.reset();
     await window.ConversationController.load();
 
-    STORAGE_KEYS_TO_RESTORE.forEach(key => {
-      oldStorageValues.set(key, window.textsecure.storage.get(key));
-    });
-    window.textsecure.storage.put('number_id', '+14155555556.2');
-    window.textsecure.storage.put('uuid_id', `${window.getGuid()}.2`);
+    const { storage } = window.textsecure;
+
+    oldNumberId = storage.get('number_id');
+    oldUuidId = storage.get('uuid_id');
+    await storage.put('number_id', '+14155555556.2');
+    await storage.put('uuid_id', `${ourUuid}.2`);
   });
 
   after(async () => {
     await window.Signal.Data.removeAll();
-    await window.storage.fetch();
 
-    oldStorageValues.forEach((oldValue, key) => {
-      if (oldValue) {
-        window.textsecure.storage.put(key, oldValue);
-      } else {
-        window.textsecure.storage.remove(key);
-      }
-    });
+    const { storage } = window.textsecure;
+    await storage.fetch();
+
+    if (oldNumberId) {
+      await storage.put('number_id', oldNumberId);
+    }
+    if (oldUuidId) {
+      await storage.put('uuid_id', oldUuidId);
+    }
   });
 
-  let convo;
+  let convo: ConversationModel;
 
   beforeEach(async () => {
     window.ConversationController.reset();
@@ -45,46 +58,46 @@ describe('KeyChangeListener', () => {
     await window.ConversationController.loadPromise();
 
     convo = window.ConversationController.dangerouslyCreateAndAdd({
-      id: phoneNumberWithKeyChange,
+      id: uuidWithKeyChange,
       type: 'private',
     });
     await window.Signal.Data.saveConversation(convo.attributes);
 
     store = new SignalProtocolStore();
     await store.hydrateCaches();
-    Whisper.KeyChangeListener.init(store);
-    return store.saveIdentity(addressString, oldKey);
+    KeyChangeListener.init(store);
+    return store.saveIdentity(address, oldKey);
   });
 
   afterEach(async () => {
     await window.Signal.Data.removeAllMessagesInConversation(convo.id, {
-      logId: phoneNumberWithKeyChange,
+      logId: uuidWithKeyChange,
       MessageCollection: Whisper.MessageCollection,
     });
     await window.Signal.Data.removeConversation(convo.id, {
       Conversation: Whisper.Conversation,
     });
 
-    await store.removeIdentityKey(phoneNumberWithKeyChange);
+    await store.removeIdentityKey(new UUID(uuidWithKeyChange));
   });
 
   describe('When we have a conversation with this contact', () => {
     it('generates a key change notice in the private conversation with this contact', done => {
       const original = convo.addKeyChange;
-      convo.addKeyChange = keyChangedId => {
-        assert.equal(phoneNumberWithKeyChange, keyChangedId);
+      convo.addKeyChange = async keyChangedId => {
+        assert.equal(uuidWithKeyChange, keyChangedId.toString());
         convo.addKeyChange = original;
         done();
       };
-      store.saveIdentity(addressString, newKey);
+      store.saveIdentity(address, newKey);
     });
   });
 
   describe('When we have a group with this contact', () => {
-    let groupConvo;
+    let groupConvo: ConversationModel;
 
     beforeEach(async () => {
-      groupConvo = ConversationController.dangerouslyCreateAndAdd({
+      groupConvo = window.ConversationController.dangerouslyCreateAndAdd({
         id: 'groupId',
         type: 'group',
         members: [convo.id],
@@ -94,7 +107,7 @@ describe('KeyChangeListener', () => {
 
     afterEach(async () => {
       await window.Signal.Data.removeAllMessagesInConversation(groupConvo.id, {
-        logId: phoneNumberWithKeyChange,
+        logId: uuidWithKeyChange,
         MessageCollection: Whisper.MessageCollection,
       });
       await window.Signal.Data.removeConversation(groupConvo.id, {
@@ -104,13 +117,13 @@ describe('KeyChangeListener', () => {
 
     it('generates a key change notice in the group conversation with this contact', done => {
       const original = groupConvo.addKeyChange;
-      groupConvo.addKeyChange = keyChangedId => {
-        assert.equal(phoneNumberWithKeyChange, keyChangedId);
+      groupConvo.addKeyChange = async keyChangedId => {
+        assert.equal(uuidWithKeyChange, keyChangedId.toString());
         groupConvo.addKeyChange = original;
         done();
       };
 
-      store.saveIdentity(addressString, newKey);
+      store.saveIdentity(address, newKey);
     });
   });
 });

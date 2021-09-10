@@ -166,6 +166,11 @@ async function generateManifest(
       storageRecord.account = await toAccountRecord(conversation);
       identifier.type = ITEM_TYPE.ACCOUNT;
     } else if (conversationType === ConversationTypes.Direct) {
+      // Contacts must have UUID
+      if (!conversation.get('uuid')) {
+        continue;
+      }
+
       storageRecord = new Proto.StorageRecord();
       // eslint-disable-next-line no-await-in-loop
       storageRecord.contact = await toContactRecord(conversation);

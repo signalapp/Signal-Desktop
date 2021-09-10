@@ -3,6 +3,9 @@
 
 import { ProfileKeyCredentialRequestContext } from 'zkgroup';
 import { SEALED_SENDER } from '../types/SealedSender';
+import { Address } from '../types/Address';
+import { QualifiedAddress } from '../types/QualifiedAddress';
+import { UUID } from '../types/UUID';
 import {
   base64ToArrayBuffer,
   stringFromBytes,
@@ -54,6 +57,7 @@ export async function getProfile(
     const uuid = c.get('uuid')!;
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const identifier = c.getSendTarget()!;
+    const targetUuid = UUID.checkedLookup(identifier);
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const profileKeyVersionHex = c.get('profileKeyVersion')!;
     const existingProfileKeyCredential = c.get('profileKeyCredential');
@@ -115,15 +119,16 @@ export async function getProfile(
 
     const identityKey = base64ToArrayBuffer(profile.identityKey);
     const changed = await window.textsecure.storage.protocol.saveIdentity(
-      `${identifier}.1`,
+      new Address(targetUuid, 1),
       identityKey,
       false
     );
     if (changed) {
       // save identity will close all sessions except for .1, so we
       // must close that one manually.
+      const ourUuid = window.textsecure.storage.user.getCheckedUuid();
       await window.textsecure.storage.protocol.archiveSession(
-        `${identifier}.1`
+        new QualifiedAddress(ourUuid, new Address(targetUuid, 1))
       );
     }
 
