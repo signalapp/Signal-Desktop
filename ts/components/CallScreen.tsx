@@ -211,6 +211,8 @@ export const CallScreen: React.FC<PropsType> = ({
     remoteParticipant => remoteParticipant.hasRemoteVideo
   );
 
+  const isSendingVideo = hasLocalVideo || presentingSource;
+
   let isRinging: boolean;
   let hasCallStarted: boolean;
   let headerMessage: string | undefined;
@@ -278,9 +280,80 @@ export const CallScreen: React.FC<PropsType> = ({
       throw missingCaseError(activeCall);
   }
 
-  const isLonelyInGroup =
+  let lonelyInGroupNode: ReactNode;
+  let localPreviewNode: ReactNode;
+  if (
     activeCall.callMode === CallMode.Group &&
-    !activeCall.remoteParticipants.length;
+    !activeCall.remoteParticipants.length
+  ) {
+    lonelyInGroupNode = (
+      <div
+        className={classNames(
+          'module-ongoing-call__local-preview-fullsize',
+          presentingSource &&
+            'module-ongoing-call__local-preview-fullsize--presenting'
+        )}
+      >
+        {isSendingVideo ? (
+          <video ref={localVideoRef} autoPlay />
+        ) : (
+          <CallBackgroundBlur avatarPath={me.avatarPath} color={me.color}>
+            <Avatar
+              acceptedMessageRequest
+              avatarPath={me.avatarPath}
+              color={me.color || AvatarColors[0]}
+              noteToSelf={false}
+              conversationType="direct"
+              i18n={i18n}
+              isMe
+              name={me.name}
+              phoneNumber={me.phoneNumber}
+              profileName={me.profileName}
+              title={me.title}
+              // `sharedGroupNames` makes no sense for yourself, but `<Avatar>` needs it
+              //   to determine blurring.
+              sharedGroupNames={[]}
+              size={80}
+            />
+            <div className="module-calling__camera-is-off">
+              {i18n('calling__your-video-is-off')}
+            </div>
+          </CallBackgroundBlur>
+        )}
+      </div>
+    );
+  } else {
+    localPreviewNode = isSendingVideo ? (
+      <video
+        className={classNames(
+          'module-ongoing-call__footer__local-preview__video',
+          presentingSource &&
+            'module-ongoing-call__footer__local-preview__video--presenting'
+        )}
+        ref={localVideoRef}
+        autoPlay
+      />
+    ) : (
+      <CallBackgroundBlur avatarPath={me.avatarPath} color={me.color}>
+        <Avatar
+          acceptedMessageRequest
+          avatarPath={me.avatarPath}
+          color={me.color || AvatarColors[0]}
+          noteToSelf={false}
+          conversationType="direct"
+          i18n={i18n}
+          isMe
+          name={me.name}
+          phoneNumber={me.phoneNumber}
+          profileName={me.profileName}
+          title={me.title}
+          // See comment above about `sharedGroupNames`.
+          sharedGroupNames={[]}
+          size={80}
+        />
+      </CallBackgroundBlur>
+    );
+  }
 
   let videoButtonType: CallingButtonType;
   if (presentingSource) {
@@ -305,12 +378,6 @@ export const CallScreen: React.FC<PropsType> = ({
   });
 
   const isGroupCall = activeCall.callMode === CallMode.Group;
-  const localPreviewVideoClass = classNames({
-    'module-ongoing-call__footer__local-preview__video': true,
-    'module-ongoing-call__footer__local-preview__video--presenting': Boolean(
-      presentingSource
-    ),
-  });
 
   let presentingButtonType: CallingButtonType;
   if (presentingSource) {
@@ -320,7 +387,6 @@ export const CallScreen: React.FC<PropsType> = ({
   } else {
     presentingButtonType = CallingButtonType.PRESENTING_OFF;
   }
-  const isSendingVideo = hasLocalVideo || presentingSource;
 
   return (
     <div
@@ -375,41 +441,7 @@ export const CallScreen: React.FC<PropsType> = ({
         />
       )}
       {remoteParticipantsElement}
-      {isSendingVideo && isLonelyInGroup ? (
-        <div className="module-ongoing-call__local-preview-fullsize">
-          <video
-            className={localPreviewVideoClass}
-            ref={localVideoRef}
-            autoPlay
-          />
-        </div>
-      ) : null}
-      {!isSendingVideo && isLonelyInGroup ? (
-        <div className="module-ongoing-call__local-preview-fullsize">
-          <CallBackgroundBlur avatarPath={me.avatarPath} color={me.color}>
-            <Avatar
-              acceptedMessageRequest
-              avatarPath={me.avatarPath}
-              color={me.color || AvatarColors[0]}
-              noteToSelf={false}
-              conversationType="direct"
-              i18n={i18n}
-              isMe
-              name={me.name}
-              phoneNumber={me.phoneNumber}
-              profileName={me.profileName}
-              title={me.title}
-              // `sharedGroupNames` makes no sense for yourself, but `<Avatar>` needs it
-              //   to determine blurring.
-              sharedGroupNames={[]}
-              size={80}
-            />
-            <div className="module-calling__camera-is-off">
-              {i18n('calling__your-video-is-off')}
-            </div>
-          </CallBackgroundBlur>
-        </div>
-      ) : null}
+      {lonelyInGroupNode}
       <div className="module-ongoing-call__footer">
         {/* This layout-only element is not ideal.
             See the comment in _modules.css for more. */}
@@ -450,33 +482,7 @@ export const CallScreen: React.FC<PropsType> = ({
             'module-ongoing-call__footer__local-preview--audio-muted': !hasLocalAudio,
           })}
         >
-          {isSendingVideo && !isLonelyInGroup ? (
-            <video
-              className={localPreviewVideoClass}
-              ref={localVideoRef}
-              autoPlay
-            />
-          ) : null}
-          {!isSendingVideo && !isLonelyInGroup ? (
-            <CallBackgroundBlur avatarPath={me.avatarPath} color={me.color}>
-              <Avatar
-                acceptedMessageRequest
-                avatarPath={me.avatarPath}
-                color={me.color || AvatarColors[0]}
-                noteToSelf={false}
-                conversationType="direct"
-                i18n={i18n}
-                isMe
-                name={me.name}
-                phoneNumber={me.phoneNumber}
-                profileName={me.profileName}
-                title={me.title}
-                // See comment above about `sharedGroupNames`.
-                sharedGroupNames={[]}
-                size={80}
-              />
-            </CallBackgroundBlur>
-          ) : null}
+          {localPreviewNode}
         </div>
       </div>
     </div>

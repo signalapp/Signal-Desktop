@@ -230,8 +230,11 @@
 }
 
 @mixin lonely-local-video-preview {
-  object-fit: cover;
-  opacity: 0.6;
+  max-height: calc(100% - 24px);
+  height: auto;
+  transform: rotateY(180deg);
+  width: calc(100% - 24px);
+  border-radius: 8px;
 }
 
 // --- Buttons
