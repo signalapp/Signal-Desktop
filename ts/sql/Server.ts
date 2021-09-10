@@ -2113,15 +2113,17 @@ function updateToSchemaVersion41(currentVersion: number, db: Database) {
     return;
   }
 
-  const getConversationUuid = db.prepare<Query>(
-    `
-    SELECT uuid
-    FROM
-      conversations
-    WHERE
-      id = $conversationId
-    `
-  );
+  const getConversationUuid = db
+    .prepare<Query>(
+      `
+      SELECT uuid
+      FROM
+        conversations
+      WHERE
+        id = $conversationId
+      `
+    )
+    .pluck();
 
   const clearSessionsAndKeys = () => {
     // ts/background.ts will ask user to relink so all that matters here is
@@ -2250,7 +2252,7 @@ function updateToSchemaVersion41(currentVersion: number, db: Database) {
     let deleted = 0;
     for (const { id, senderId } of senderKeys) {
       const [conversationId] = Helpers.unencodeNumber(senderId);
-      const { uuid } = getConversationUuid.get({ conversationId });
+      const uuid = getConversationUuid.get({ conversationId });
 
       if (!uuid) {
         deleted += 1;
@@ -2311,7 +2313,7 @@ function updateToSchemaVersion41(currentVersion: number, db: Database) {
     let updated = 0;
     let deleted = 0;
     for (const { id, conversationId } of allSessions) {
-      const { uuid } = getConversationUuid.get({ conversationId });
+      const uuid = getConversationUuid.get({ conversationId });
       if (!uuid) {
         deleted += 1;
         deleteSession.run({ id });
@@ -2359,7 +2361,7 @@ function updateToSchemaVersion41(currentVersion: number, db: Database) {
 
     let migrated = 0;
     for (const { id } of identityKeys) {
-      const { uuid } = getConversationUuid.get({ conversationId: id });
+      const uuid = getConversationUuid.get({ conversationId: id });
 
       let newId: string;
       if (uuid) {
