@@ -25,7 +25,7 @@ export type Props = {
   bodyRanges?: BodyRangesType;
   i18n: LocalizerType;
   isFromMe: boolean;
-  isIncoming: boolean;
+  isIncoming?: boolean;
   withContentAbove: boolean;
   onClick?: () => void;
   onClose?: () => void;
@@ -33,7 +33,7 @@ export type Props = {
   rawAttachment?: QuotedAttachmentType;
   isViewOnce: boolean;
   referencedMessageNotFound: boolean;
-  doubleCheckMissingQuoteReference: () => unknown;
+  doubleCheckMissingQuoteReference?: () => unknown;
 };
 
 type State = {
@@ -133,7 +133,7 @@ export class Quote extends React.Component<Props, State> {
     } = this.props;
 
     if (referencedMessageNotFound) {
-      doubleCheckMissingQuoteReference();
+      doubleCheckMissingQuoteReference?.();
     }
   }
 

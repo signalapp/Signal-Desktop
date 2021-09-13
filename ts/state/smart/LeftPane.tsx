@@ -47,11 +47,7 @@ import { SmartRelinkDialog } from './RelinkDialog';
 import { SmartUpdateDialog } from './UpdateDialog';
 import { SmartCaptchaDialog } from './CaptchaDialog';
 
-// Workaround: A react component's required properties are filtering up through connect()
-//   https://github.com/DefinitelyTyped/DefinitelyTyped/issues/31363
-/* eslint-disable @typescript-eslint/no-explicit-any */
-const FilteredSmartMessageSearchResult = SmartMessageSearchResult as any;
-/* eslint-enable @typescript-eslint/no-explicit-any */
+const FilteredSmartMessageSearchResult = SmartMessageSearchResult;
 
 function renderExpiredBuildDialog(): JSX.Element {
   return <SmartExpiredBuildDialog />;

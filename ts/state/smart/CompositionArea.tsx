@@ -7,6 +7,7 @@ import { mapDispatchToProps } from '../actions';
 import { CompositionArea } from '../../components/CompositionArea';
 import { StateType } from '../reducer';
 import { isConversationSMSOnly } from '../../util/isConversationSMSOnly';
+import { dropNull } from '../../util/dropNull';
 
 import { selectRecentEmojis } from '../selectors/emojis';
 import { getIntl, getUserConversationId } from '../selectors/user';
@@ -60,9 +61,10 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     ['showStickersIntroduction'],
     false
   );
-  const showPickerHint =
+  const showPickerHint = Boolean(
     get(state.items, ['showStickerPickerHint'], false) &&
-    receivedPacks.length > 0;
+      receivedPacks.length > 0
+  );
 
   const {
     attachments: draftAttachments,
@@ -77,8 +79,6 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
   return {
     // Base
     i18n: getIntl(state),
-    draftText,
-    draftBodyRanges,
     // AttachmentsList
     draftAttachments,
     // MediaQualitySelector
@@ -123,6 +123,9 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     announcementsOnly,
     areWeAdmin,
     groupAdmins: getGroupAdminsSelector(state)(conversation.id),
+
+    draftText: dropNull(draftText),
+    draftBodyRanges,
   };
 };
 
@@ -138,5 +141,4 @@ const dispatchPropsMap = {
 
 const smart = connect(mapStateToProps, dispatchPropsMap);
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const SmartCompositionArea = smart(CompositionArea as any);
+export const SmartCompositionArea = smart(CompositionArea);

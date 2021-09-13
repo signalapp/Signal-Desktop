@@ -575,7 +575,7 @@ export function getExtensionForDisplay({
   return undefined;
 }
 
-export function isAudio(attachments?: Array<AttachmentType>): boolean {
+export function isAudio(attachments?: ReadonlyArray<AttachmentType>): boolean {
   return Boolean(
     attachments &&
       attachments[0] &&
@@ -585,7 +585,9 @@ export function isAudio(attachments?: Array<AttachmentType>): boolean {
   );
 }
 
-export function canDisplayImage(attachments?: Array<AttachmentType>): boolean {
+export function canDisplayImage(
+  attachments?: ReadonlyArray<AttachmentType>
+): boolean {
   const { height, width } =
     attachments && attachments[0] ? attachments[0] : { height: 0, width: 0 };
 
@@ -617,7 +619,7 @@ export function getUrl(attachment: AttachmentType): string | undefined {
   return attachment.url;
 }
 
-export function isImage(attachments?: Array<AttachmentType>): boolean {
+export function isImage(attachments?: ReadonlyArray<AttachmentType>): boolean {
   return Boolean(
     attachments &&
       attachments[0] &&
@@ -644,7 +646,7 @@ export function canBeTranscoded(
   );
 }
 
-export function hasImage(attachments?: Array<AttachmentType>): boolean {
+export function hasImage(attachments?: ReadonlyArray<AttachmentType>): boolean {
   return Boolean(
     attachments &&
       attachments[0] &&
@@ -652,7 +654,7 @@ export function hasImage(attachments?: Array<AttachmentType>): boolean {
   );
 }
 
-export function isVideo(attachments?: Array<AttachmentType>): boolean {
+export function isVideo(attachments?: ReadonlyArray<AttachmentType>): boolean {
   if (!attachments || attachments.length === 0) {
     return false;
   }
@@ -732,7 +734,7 @@ export function getImageDimensions(
 }
 
 export function areAllAttachmentsVisual(
-  attachments?: Array<AttachmentType>
+  attachments?: ReadonlyArray<AttachmentType>
 ): boolean {
   if (!attachments) {
     return false;
@@ -750,7 +752,7 @@ export function areAllAttachmentsVisual(
 }
 
 export function getGridDimensions(
-  attachments?: Array<AttachmentType>
+  attachments?: ReadonlyArray<AttachmentType>
 ): null | DimensionsType {
   if (!attachments || !attachments.length) {
     return null;

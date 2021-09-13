@@ -13,7 +13,7 @@ import { getMessageSearchResultSelector } from '../selectors/search';
 
 type SmartProps = {
   id: string;
-  style: CSSProperties;
+  style?: CSSProperties;
 };
 
 function mapStateToProps(state: StateType, ourProps: SmartProps) {

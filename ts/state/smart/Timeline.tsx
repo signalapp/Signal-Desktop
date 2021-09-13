@@ -243,6 +243,7 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
   const { id, ...actions } = props;
 
   const conversation = getConversationSelector(state)(id);
+
   const conversationMessages = getConversationMessagesSelector(state)(id);
   const selectedMessage = getSelectedMessage(state);
 
@@ -279,5 +280,4 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
 
 const smart = connect(mapStateToProps, mapDispatchToProps);
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const SmartTimeline = smart(Timeline as any);
+export const SmartTimeline = smart(Timeline);

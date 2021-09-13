@@ -26,11 +26,7 @@ type ExternalProps = {
   previousMessageId: undefined | string;
 };
 
-// Workaround: A react component's required properties are filtering up through connect()
-//   https://github.com/DefinitelyTyped/DefinitelyTyped/issues/31363
-/* eslint-disable @typescript-eslint/no-explicit-any */
-const FilteredSmartContactName = SmartContactName as any;
-/* eslint-enable @typescript-eslint/no-explicit-any */
+const FilteredSmartContactName = SmartContactName;
 
 function renderContact(conversationId: string): JSX.Element {
   return <FilteredSmartContactName conversationId={conversationId} />;

@@ -888,10 +888,19 @@ export const getConversationMessagesSelector = createSelector(
     conversationMessagesSelector: CachedConversationMessagesSelectorType,
     messagesByConversation: MessagesByConversationType
   ) => {
-    return (id: string): TimelinePropsType | undefined => {
+    return (id: string): TimelinePropsType => {
       const conversation = messagesByConversation[id];
       if (!conversation) {
-        return undefined;
+        // TODO: DESKTOP-2340
+        return {
+          haveNewest: false,
+          haveOldest: false,
+          isLoadingMessages: false,
+          resetCounter: 0,
+          scrollToIndexCounter: 0,
+          totalUnread: 0,
+          items: [],
+        };
       }
 
       return conversationMessagesSelector(conversation);

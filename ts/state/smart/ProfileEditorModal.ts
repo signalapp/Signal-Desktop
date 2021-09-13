@@ -16,7 +16,8 @@ import { selectRecentEmojis } from '../selectors/emojis';
 
 function mapStateToProps(
   state: StateType
-): PropsDataType & ProfileEditorModalPropsType {
+): Omit<PropsDataType, 'onEditStateChange' | 'onProfileChanged'> &
+  ProfileEditorModalPropsType {
   const {
     avatarPath,
     avatars: userAvatarData = [],

@@ -77,7 +77,7 @@ export type PropsDataType = {
   haveOldest: boolean;
   isLoadingMessages: boolean;
   isNearBottom?: boolean;
-  items: Array<string>;
+  items: ReadonlyArray<string>;
   loadCountdownStart?: number;
   messageHeightChangeIndex?: number;
   oldestUnreadIndex?: number;
@@ -104,7 +104,7 @@ type PropsHousekeepingType = {
   i18n: LocalizerType;
 
   renderItem: (props: {
-    actions: PropsActionsType;
+    actionProps: PropsActionsType;
     containerElementRef: RefObject<HTMLElement>;
     conversationId: string;
     messageId: string;
@@ -804,7 +804,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
       const nextMessageId: undefined | string = items[itemIndex + 1];
       stableKey = messageId;
 
-      const actions = getActions(this.props);
+      const actionProps = getActions(this.props);
 
       rowContents = (
         <div
@@ -816,7 +816,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
         >
           <ErrorBoundary i18n={i18n} showDebugLog={() => window.showDebugLog()}>
             {renderItem({
-              actions,
+              actionProps,
               containerElementRef: this.containerRef,
               conversationId: id,
               messageId,

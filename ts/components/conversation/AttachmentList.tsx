@@ -15,14 +15,14 @@ import {
   isVideoAttachment,
 } from '../../types/Attachment';
 
-export type Props = {
-  attachments: Array<AttachmentType>;
+export type Props = Readonly<{
+  attachments: ReadonlyArray<AttachmentType>;
   i18n: LocalizerType;
   onAddAttachment?: () => void;
   onClickAttachment?: (attachment: AttachmentType) => void;
   onClose?: () => void;
   onCloseAttachment: (attachment: AttachmentType) => void;
-};
+}>;
 
 const IMAGE_WIDTH = 120;
 const IMAGE_HEIGHT = 120;
