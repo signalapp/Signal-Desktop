@@ -13,6 +13,7 @@ try {
   const semver = require('semver');
   const _ = require('lodash');
   const { strictAssert } = require('./ts/util/assert');
+  const { parseIntWithFallback } = require('./ts/util/parseIntWithFallback');
 
   // It is important to call this as early as possible
   require('./ts/windows/context');
@@ -58,6 +59,7 @@ try {
   window.getEnvironment = getEnvironment;
   window.getAppInstance = () => config.appInstance;
   window.getVersion = () => config.version;
+  window.getBuildCreation = () => parseIntWithFallback(config.buildCreation, 0);
   window.getExpiration = () => {
     const sixtyDays = 60 * 86400 * 1000;
     const remoteBuildExpiration = window.storage.get('remoteBuildExpiration');

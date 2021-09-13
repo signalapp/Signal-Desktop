@@ -199,6 +199,7 @@ declare global {
     getAccountManager: () => AccountManager;
     getBuiltInImages: () => Promise<Array<string>>;
     getConversations: () => ConversationModelCollectionType;
+    getBuildCreation: () => number;
     getEnvironment: typeof getEnvironment;
     getExpiration: () => string;
     getGuid: () => string;

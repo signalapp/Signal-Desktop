@@ -253,6 +253,7 @@ function prepareUrl(
     name: packageJson.productName,
     locale: locale.name,
     version: app.getVersion(),
+    buildCreation: config.get('buildCreation'),
     buildExpiration: config.get('buildExpiration'),
     serverUrl: config.get('serverUrl'),
     storageUrl: config.get('storageUrl'),

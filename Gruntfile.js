@@ -158,10 +158,11 @@ module.exports = grunt => {
     grunt.task.requires('gitinfo');
     const gitinfo = grunt.config.get('gitinfo');
     const committed = gitinfo.local.branch.current.lastCommitTime;
-    const time = Date.parse(committed) + 1000 * 60 * 60 * 24 * 90;
+    const buildCreation = Date.parse(committed);
+    const buildExpiration = buildCreation + 1000 * 60 * 60 * 24 * 90;
     grunt.file.write(
       'config/local-production.json',
-      `${JSON.stringify({ buildExpiration: time })}\n`
+      `${JSON.stringify({ buildCreation, buildExpiration })}\n`
     );
   });
 
