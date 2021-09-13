@@ -348,7 +348,7 @@ export class OpenGroupServerPoller {
       // ==> At this point all those results need to trigger conversation updates, so update what we have to update
       await handleCompactPollResults(this.serverUrl, compactFetchResults);
     } catch (e) {
-      window?.log?.warn('Got error while compact fetch:', e);
+      window?.log?.warn('Got error while compact fetch:', e.message);
     } finally {
       this.isPolling = false;
     }

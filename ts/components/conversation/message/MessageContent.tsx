@@ -177,10 +177,12 @@ export const MessageContent = (props: Props) => {
             handleImageError={handleImageError}
           />
           {hasContentAfterAttachmentAndQuote ? (
-            <Flex padding="7px" container={true} flexDirection="column">
+            <>
               <MessagePreview messageId={props.messageId} handleImageError={handleImageError} />
-              <MessageText messageId={props.messageId} />
-            </Flex>
+              <Flex padding="7px" container={true} flexDirection="column">
+                <MessageText messageId={props.messageId} />
+              </Flex>
+            </>
           ) : null}
         </IsMessageVisibleContext.Provider>
       </InView>

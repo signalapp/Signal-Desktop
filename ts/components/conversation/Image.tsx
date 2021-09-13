@@ -21,6 +21,7 @@ type Props = {
   darkOverlay?: boolean;
   playIconOverlay?: boolean;
   softCorners?: boolean;
+  forceSquare?: boolean;
 
   onClick?: (attachment: AttachmentTypeWithPath | AttachmentType) => void;
   onClickClose?: (attachment: AttachmentTypeWithPath | AttachmentType) => void;
@@ -42,6 +43,7 @@ export const Image = (props: Props) => {
     overlayText,
     playIconOverlay,
     softCorners,
+    forceSquare,
     url,
     width,
   } = props;
@@ -84,13 +86,17 @@ export const Image = (props: Props) => {
         canClick ? 'module-image__with-click-handler' : null,
         softCorners ? 'module-image--soft-corners' : null
       )}
+      style={{
+        maxHeight: `${height}px`,
+        maxWidth: `${width}px`,
+      }}
     >
       {pending || loading ? (
         <div
           className="module-image__loading-placeholder"
           style={{
-            height: `${height}px`,
-            width: `${width}px`,
+            maxHeight: `${height}px`,
+            maxWidth: `${width}px`,
             lineHeight: `${height}px`,
             textAlign: 'center',
           }}
@@ -100,10 +106,17 @@ export const Image = (props: Props) => {
       ) : (
         <img
           onError={onErrorUrlFilterering}
-          className="module-image__image"
+          className={classNames(
+            'module-image__image',
+            forceSquare ? 'module-image__image-cover' : ''
+          )}
           alt={alt}
-          height={height}
-          width={width}
+          style={{
+            maxHeight: `${height}px`,
+            maxWidth: `${width}px`,
+            width: forceSquare ? `${width}px` : '',
+            height: forceSquare ? `${height}px` : '',
+          }}
           src={srcData}
           onDragStart={onDragStart}
         />

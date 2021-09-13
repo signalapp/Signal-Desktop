@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { Image } from './Image';
 
 import { AttachmentType, isImageAttachment } from '../../types/Attachment';
+import { SessionSpinner } from '../session/SessionSpinner';
 
 type Props = {
   isLoaded: boolean;
@@ -24,16 +25,16 @@ export const StagedLinkPreview = (props: Props) => {
     return <></>;
   }
 
+  const isLoading = !isLoaded;
+
   return (
     <div
       className={classNames(
         'module-staged-link-preview',
-        !isLoaded ? 'module-staged-link-preview--is-loading' : null
+        isLoading ? 'module-staged-link-preview--is-loading' : null
       )}
     >
-      {!isLoaded ? (
-        <div className="module-staged-link-preview__loading">{window.i18n('loading')}</div>
-      ) : null}
+      {isLoading ? <SessionSpinner loading={isLoading} /> : null}
       {isLoaded && image && isImage ? (
         <div className="module-staged-link-preview__icon-container">
           <Image

@@ -211,7 +211,7 @@ export class OpenGroupManagerV2 {
 
       return conversation;
     } catch (e) {
-      window?.log?.warn('Failed to join open group v2', e);
+      window?.log?.warn('Failed to join open group v2', e.message);
       await removeV2OpenGroupRoom(conversationId);
       // throw new Error(window.i18n('connectToServerFail'));
       return undefined;

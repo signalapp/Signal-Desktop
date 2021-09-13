@@ -79,6 +79,7 @@ export const StagedAttachmentList = (props: Props) => {
                 playIconOverlay={isVideoAttachment(attachment)}
                 height={IMAGE_HEIGHT}
                 width={IMAGE_WIDTH}
+                forceSquare={true}
                 url={getUrl(attachment)}
                 closeButton={true}
                 onClick={clickCallback}

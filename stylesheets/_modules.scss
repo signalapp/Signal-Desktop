@@ -174,18 +174,12 @@
 
 .module-message__link-preview {
   cursor: pointer;
-  margin-inline-start: -12px;
-  margin-inline-end: -12px;
-  margin-top: -10px;
-  margin-bottom: 5px;
   border-top-left-radius: $session_message-container-border-radius;
   border-top-right-radius: $session_message-container-border-radius;
 }
 
 .module-message__link-preview__content {
   padding: 8px;
-  border-top-left-radius: $session_message-container-border-radius;
-  border-top-right-radius: $session_message-container-border-radius;
   background-color: $color-white;
   display: flex;
   flex-direction: row;
@@ -1027,8 +1021,12 @@
 }
 
 .module-image__image {
-  object-fit: cover;
+  object-fit: contain;
   cursor: pointer;
+
+  &-cover {
+    object-fit: cover;
+  }
 }
 
 .module-image__bottom-overlay {
@@ -1489,9 +1487,10 @@
 
 .module-staged-link-preview--is-loading {
   align-items: center;
+  justify-content: center;
 }
 .module-staged-link-preview__loading {
-  color: var(--color-sent-message-text);
+  color: var(--color-text);
 
   font-size: 14px;
   text-align: center;

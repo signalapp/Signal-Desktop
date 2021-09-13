@@ -56,7 +56,7 @@ export async function allowOnlyOneAtATime(
         }
         // tslint:disable-next-line: no-dynamic-delete
         delete snodeGlobalLocks[name]; // clear lock
-        throw e;
+        reject(e);
       }
       // clear timeout timer
       if (timeoutMs) {

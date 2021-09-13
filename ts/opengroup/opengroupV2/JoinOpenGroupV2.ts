@@ -94,8 +94,8 @@ async function joinOpenGroupV2(room: OpenGroupV2Room, fromConfigMessage: boolean
       await forceSyncConfigurationNowIfNeeded();
     }
   } catch (e) {
-    window?.log?.error('Could not join open group v2', e);
-    throw new Error(e);
+    window?.log?.error('Could not join open group v2', e.message);
+    throw e;
   }
 }
 
@@ -157,7 +157,7 @@ export async function joinOpenGroupV2WithUIEvents(
       }
     }
   } catch (error) {
-    window?.log?.warn('got error while joining open group:', error);
+    window?.log?.warn('got error while joining open group:', error.message);
     if (showToasts) {
       ToastUtils.pushToastError('connectToServerFail', window.i18n('connectToServerFail'));
     }
