@@ -248,10 +248,7 @@ export function reducer(
         draftPreferredReactions,
         selectedDraftEmojiIndex,
       } = customizePreferredReactionsModal;
-      if (
-        selectedDraftEmojiIndex === undefined ||
-        draftPreferredReactions.includes(newEmoji)
-      ) {
+      if (selectedDraftEmojiIndex === undefined) {
         return state;
       }
 

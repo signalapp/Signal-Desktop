@@ -180,19 +180,6 @@ describe('preferred reactions duck', () => {
       assert.strictEqual(result, stateWithOpenCustomizationModal);
     });
 
-    it('is a no-op if the new emoji is already in the list', () => {
-      const action = replaceSelectedDraftEmoji('✨');
-      const result = reducer(
-        stateWithOpenCustomizationModalAndSelectedEmoji,
-        action
-      );
-
-      assert.strictEqual(
-        result,
-        stateWithOpenCustomizationModalAndSelectedEmoji
-      );
-    });
-
     it('replaces the selected draft emoji and deselects', () => {
       const action = replaceSelectedDraftEmoji('🐱');
       const result = reducer(

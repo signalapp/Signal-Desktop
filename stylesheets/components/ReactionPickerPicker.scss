@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-.module-ReactionPicker {
+.module-ReactionPickerPicker {
   $button-size: 40px;
   $button-content-size: 28px;
   $max-expected-buttons: 7;
@@ -24,7 +24,7 @@
 
   @media (prefers-reduced-motion: no-preference) {
     animation: {
-      name: module-ReactionPicker__appear;
+      name: module-ReactionPickerPicker__appear;
       duration: 400ms;
       timing-function: $ease-out-expo;
       fill-mode: forwards;
@@ -132,7 +132,7 @@
         opacity: 0;
 
         animation: {
-          name: module-ReactionPicker__button-appear;
+          name: module-ReactionPickerPicker__button-appear;
           duration: 400ms;
           timing-function: $ease-out-expo;
           fill-mode: forwards;
@@ -213,7 +213,7 @@
         }
 
         @media (prefers-reduced-motion: no-preference) {
-          animation: module-ReactionPicker__button-selected 1s ease-in-out
+          animation: module-ReactionPickerPicker__button-selected 1s ease-in-out
             infinite alternate;
         }
       }
@@ -221,7 +221,7 @@
   }
 }
 
-@keyframes module-ReactionPicker__appear {
+@keyframes module-ReactionPickerPicker__appear {
   from {
     opacity: 0;
   }
@@ -231,7 +231,7 @@
   }
 }
 
-@keyframes module-ReactionPicker__button-appear {
+@keyframes module-ReactionPickerPicker__button-appear {
   from {
     transform: translate3d(0, 24px, 0);
     opacity: 0;
@@ -243,7 +243,7 @@
   }
 }
 
-@keyframes module-ReactionPicker__button-selected {
+@keyframes module-ReactionPickerPicker__button-selected {
   from {
     transform: rotate(-8deg);
   }

@@ -1267,9 +1267,7 @@ export async function startApp(): Promise<void> {
           return;
         }
 
-        const reactionPicker = document.querySelector(
-          '.module-reaction-picker'
-        );
+        const reactionPicker = document.querySelector('.module-ReactionPicker');
         if (reactionPicker) {
           return;
         }

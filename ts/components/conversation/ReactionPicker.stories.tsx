@@ -8,11 +8,7 @@ import { action } from '@storybook/addon-actions';
 
 import { setup as setupI18n } from '../../../js/modules/i18n';
 import enMessages from '../../../_locales/en/messages.json';
-import {
-  Props as ReactionPickerProps,
-  ReactionPicker,
-  ReactionPickerSelectionStyle,
-} from './ReactionPicker';
+import { Props as ReactionPickerProps, ReactionPicker } from './ReactionPicker';
 import { EmojiPicker } from '../emoji/EmojiPicker';
 
 const i18n = setupI18n('en', enMessages);
@@ -47,7 +43,6 @@ storiesOf('Components/Conversation/ReactionPicker', module)
         )}
         preferredReactionEmoji={preferredReactionEmoji}
         renderEmojiPicker={renderEmojiPicker}
-        selectionStyle={ReactionPickerSelectionStyle.Picker}
       />
     );
   })
@@ -64,7 +59,6 @@ storiesOf('Components/Conversation/ReactionPicker', module)
           )}
           preferredReactionEmoji={preferredReactionEmoji}
           renderEmojiPicker={renderEmojiPicker}
-          selectionStyle={ReactionPickerSelectionStyle.Picker}
         />
       </div>
     ));

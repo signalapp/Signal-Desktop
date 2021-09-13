@@ -13,7 +13,6 @@ import { getPreferredReactionEmoji } from '../selectors/items';
 import { LocalizerType } from '../../types/Util';
 import {
   ReactionPicker,
-  ReactionPickerSelectionStyle,
   Props,
 } from '../../components/conversation/ReactionPicker';
 
@@ -51,7 +50,6 @@ export const SmartReactionPicker = React.forwardRef<
       }
       preferredReactionEmoji={preferredReactionEmoji}
       ref={ref}
-      selectionStyle={ReactionPickerSelectionStyle.Picker}
       {...props}
     />
   );

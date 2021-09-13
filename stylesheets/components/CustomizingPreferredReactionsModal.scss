@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 .module-CustomizingPreferredReactionsModal {
-  &__reaction-picker-wrapper {
+  &__small-emoji-picker-wrapper {
     @include font-subtitle;
     align-items: center;
     display: flex;
@@ -19,7 +19,7 @@
       color: $color-gray-25;
     }
 
-    .module-ReactionPicker {
+    .module-ReactionPickerPicker {
       margin-bottom: 2rem;
     }
   }

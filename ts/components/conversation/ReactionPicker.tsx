@@ -2,20 +2,17 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import classNames from 'classnames';
-import * as log from '../../logging/log';
-import { Emoji } from '../emoji/Emoji';
 import { convertShortName } from '../emoji/lib';
 import { Props as EmojiPickerProps } from '../emoji/EmojiPicker';
-import { missingCaseError } from '../../util/missingCaseError';
 import { useRestoreFocus } from '../../util/hooks/useRestoreFocus';
 import { LocalizerType } from '../../types/Util';
 import { canCustomizePreferredReactions } from '../../util/canCustomizePreferredReactions';
-
-export enum ReactionPickerSelectionStyle {
-  Picker,
-  Menu,
-}
+import {
+  ReactionPickerPicker,
+  ReactionPickerPickerEmojiButton,
+  ReactionPickerPickerMoreButton,
+  ReactionPickerPickerStyle,
+} from '../ReactionPickerPicker';
 
 export type RenderEmojiPickerProps = Pick<Props, 'onClose' | 'style'> &
   Pick<
@@ -26,10 +23,8 @@ export type RenderEmojiPickerProps = Pick<Props, 'onClose' | 'style'> &
   };
 
 export type OwnProps = {
-  hasMoreButton?: boolean;
   i18n: LocalizerType;
   selected?: string;
-  selectionStyle: ReactionPickerSelectionStyle;
   onClose?: () => unknown;
   onPick: (emoji: string) => unknown;
   onSetSkinTone: (tone: number) => unknown;
@@ -40,38 +35,9 @@ export type OwnProps = {
 
 export type Props = OwnProps & Pick<React.HTMLProps<HTMLDivElement>, 'style'>;
 
-const EmojiButton = React.forwardRef<
-  HTMLButtonElement,
-  {
-    emoji: string;
-    onSelect: () => unknown;
-    selected: boolean;
-    title?: string;
-  }
->(({ emoji, onSelect, selected, title }, ref) => (
-  <button
-    type="button"
-    key={emoji}
-    ref={ref}
-    tabIndex={0}
-    className={classNames(
-      'module-ReactionPicker__button',
-      'module-ReactionPicker__button--emoji',
-      selected && 'module-ReactionPicker__button--selected'
-    )}
-    onClick={e => {
-      e.stopPropagation();
-      onSelect();
-    }}
-  >
-    <Emoji size={48} emoji={emoji} title={title} />
-  </button>
-));
-
 export const ReactionPicker = React.forwardRef<HTMLDivElement, Props>(
   (
     {
-      hasMoreButton = true,
       i18n,
       onClose,
       onPick,
@@ -80,7 +46,6 @@ export const ReactionPicker = React.forwardRef<HTMLDivElement, Props>(
       preferredReactionEmoji,
       renderEmojiPicker,
       selected,
-      selectionStyle,
       style,
     },
     ref
@@ -130,80 +95,63 @@ export const ReactionPicker = React.forwardRef<HTMLDivElement, Props>(
       selected && !preferredReactionEmoji.includes(selected);
 
     let moreButton: React.ReactNode;
-    if (!hasMoreButton) {
-      moreButton = undefined;
-    } else if (otherSelected) {
+    if (otherSelected) {
       moreButton = (
-        <EmojiButton
+        <ReactionPickerPickerEmojiButton
           emoji={selected}
-          onSelect={() => {
+          onClick={() => {
             onPick(selected);
           }}
-          selected
+          isSelected
           title={i18n('Reactions--remove')}
         />
       );
     } else {
       moreButton = (
-        <button
-          aria-label={i18n('Reactions--more')}
-          className="module-ReactionPicker__button module-ReactionPicker__button--more"
-          onClick={event => {
-            event.stopPropagation();
+        <ReactionPickerPickerMoreButton
+          i18n={i18n}
+          onClick={() => {
             setPickingOther(true);
           }}
-          tabIndex={0}
-          title={i18n('Reactions--more')}
-          type="button"
-        >
-          <div className="module-ReactionPicker__button--more__dot" />
-          <div className="module-ReactionPicker__button--more__dot" />
-          <div className="module-ReactionPicker__button--more__dot" />
-        </button>
+        />
       );
     }
 
-    let selectionStyleClassName: string;
-    switch (selectionStyle) {
-      case ReactionPickerSelectionStyle.Picker:
-        selectionStyleClassName = 'module-ReactionPicker--picker-style';
-        break;
-      case ReactionPickerSelectionStyle.Menu:
-        selectionStyleClassName = 'module-ReactionPicker--menu-style';
-        break;
-      default:
-        log.error(missingCaseError(selectionStyle));
-        selectionStyleClassName = 'module-ReactionPicker--picker-style';
-        break;
-    }
+    // This logic is here to avoid selecting duplicate emoji.
+    let hasSelectedSomething = false;
 
     return (
-      <div
+      <ReactionPickerPicker
+        isSomethingSelected={typeof selected === 'number'}
+        pickerStyle={ReactionPickerPickerStyle.Picker}
         ref={ref}
         style={style}
-        className={classNames(
-          'module-ReactionPicker',
-          selectionStyleClassName,
-          selected ? 'module-ReactionPicker--something-selected' : undefined
-        )}
       >
         {preferredReactionEmoji.map((emoji, index) => {
           const maybeFocusRef = index === 0 ? focusRef : undefined;
 
+          const isSelected = !hasSelectedSomething && emoji === selected;
+          if (isSelected) {
+            hasSelectedSomething = true;
+          }
+
           return (
-            <EmojiButton
+            <ReactionPickerPickerEmojiButton
               emoji={emoji}
-              key={emoji}
-              onSelect={() => {
+              isSelected={isSelected}
+              // The index is the only thing that uniquely identifies the emoji, because
+              //   there can be duplicates in the list.
+              // eslint-disable-next-line react/no-array-index-key
+              key={index}
+              onClick={() => {
                 onPick(emoji);
               }}
               ref={maybeFocusRef}
-              selected={emoji === selected}
             />
           );
         })}
         {moreButton}
-      </div>
+      </ReactionPickerPicker>
     );
   }
 );

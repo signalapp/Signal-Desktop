@@ -9,9 +9,10 @@ import type { LocalizerType } from '../types/Util';
 import { Modal } from './Modal';
 import { Button, ButtonVariant } from './Button';
 import {
-  ReactionPicker,
-  ReactionPickerSelectionStyle,
-} from './conversation/ReactionPicker';
+  ReactionPickerPicker,
+  ReactionPickerPickerEmojiButton,
+  ReactionPickerPickerStyle,
+} from './ReactionPickerPicker';
 import { EmojiPicker } from './emoji/EmojiPicker';
 import { DEFAULT_PREFERRED_REACTION_EMOJI_SHORT_NAMES } from '../reactions/constants';
 import { convertShortName } from './emoji/lib';
@@ -96,19 +97,6 @@ export function CustomizingPreferredReactionsModal({
     };
   }, [isSomethingSelected, popperElement, deselectDraftEmoji]);
 
-  const selected =
-    typeof selectedDraftEmojiIndex === 'number'
-      ? draftPreferredReactions[selectedDraftEmojiIndex]
-      : undefined;
-
-  const onPick = isSaving
-    ? noop
-    : (pickedEmoji: string) => {
-        selectDraftEmojiToBeReplaced(
-          draftPreferredReactions.findIndex(emoji => emoji === pickedEmoji)
-        );
-      };
-
   const hasChanged = !isEqual(
     originalPreferredReactions,
     draftPreferredReactions
@@ -132,25 +120,32 @@ export function CustomizingPreferredReactionsModal({
       }}
       title={i18n('CustomizingPreferredReactions__title')}
     >
-      <div className="module-CustomizingPreferredReactionsModal__reaction-picker-wrapper">
-        <ReactionPicker
-          hasMoreButton={false}
-          i18n={i18n}
-          onPick={onPick}
-          onSetSkinTone={shouldNotBeCalled}
+      <div className="module-CustomizingPreferredReactionsModal__small-emoji-picker-wrapper">
+        <ReactionPickerPicker
+          isSomethingSelected={isSomethingSelected}
+          pickerStyle={ReactionPickerPickerStyle.Menu}
           ref={setReferenceElement}
-          preferredReactionEmoji={draftPreferredReactions}
-          selected={selected}
-          selectionStyle={ReactionPickerSelectionStyle.Menu}
-          renderEmojiPicker={shouldNotBeCalled}
-        />
+        >
+          {draftPreferredReactions.map((emoji, index) => (
+            <ReactionPickerPickerEmojiButton
+              emoji={emoji}
+              // The index is the only thing that uniquely identifies the emoji, because
+              //   there can be duplicates in the list.
+              // eslint-disable-next-line react/no-array-index-key
+              key={index}
+              onClick={() => {
+                selectDraftEmojiToBeReplaced(index);
+              }}
+              isSelected={index === selectedDraftEmojiIndex}
+            />
+          ))}
+        </ReactionPickerPicker>
         {hadSaveError
           ? i18n('CustomizingPreferredReactions__had-save-error')
           : i18n('CustomizingPreferredReactions__subtitle')}
       </div>
       {isSomethingSelected && (
         <div
-          className="module-CustomizingPreferredReactionsModal__emoji-picker-wrapper"
           ref={setPopperElement}
           style={emojiPickerPopper.styles.popper}
           {...emojiPickerPopper.attributes.popper}
@@ -194,8 +189,4 @@ export function CustomizingPreferredReactionsModal({
       </Modal.ButtonFooter>
     </Modal>
   );
-}
-
-function shouldNotBeCalled(): React.ReactElement {
-  throw new Error('This should not be called');
 }

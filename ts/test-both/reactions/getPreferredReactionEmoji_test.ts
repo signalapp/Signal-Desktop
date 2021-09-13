@@ -24,8 +24,6 @@ describe('getPreferredReactionEmoji', () => {
       ['❤️', '👍', 'x', '😂', '😮', '😢'],
       ['❤️', '👍', 'garbage!!', '😂', '😮', '😢'],
       ['❤️', '👍', '✨✨', '😂', '😮', '😢'],
-      // Has duplicates
-      ['❤️', '👍', '👍', '😂', '😮', '😢'],
     ].forEach(input => {
       assert.deepStrictEqual(getPreferredReactionEmoji(input, 2), [
         '❤️',

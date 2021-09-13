@@ -15,15 +15,10 @@ export function getPreferredReactionEmoji(
   const isStoredValueValid =
     Array.isArray(storedValue) &&
     storedValue.length === PREFERRED_REACTION_EMOJI_COUNT &&
-    storedValue.every(isValidReactionEmoji) &&
-    !hasDuplicates(storedValue);
+    storedValue.every(isValidReactionEmoji);
   return isStoredValueValid
     ? storedValue
     : DEFAULT_PREFERRED_REACTION_EMOJI_SHORT_NAMES.map(shortName =>
         convertShortName(shortName, skinTone)
       );
-}
-
-function hasDuplicates(arr: ReadonlyArray<unknown>): boolean {
-  return new Set(arr).size !== arr.length;
 }
