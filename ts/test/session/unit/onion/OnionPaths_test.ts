@@ -7,11 +7,13 @@ import { describe } from 'mocha';
 
 import { TestUtils } from '../../../test-utils';
 import * as SNodeAPI from '../../../../session/snode_api';
+import * as Data from '../../../../../ts/data/data';
 
 import chaiAsPromised from 'chai-as-promised';
 import * as OnionPaths from '../../../../session/onions/onionPath';
 import { Snode } from '../../../../data/data';
 import { generateFakeSnodes, generateFakeSnodeWithEdKey } from '../../../test-utils/utils';
+import { SeedNodeAPI } from '../../../../session/seed_node_api';
 chai.use(chaiAsPromised as any);
 chai.should();
 
@@ -26,11 +28,16 @@ const fakeSnodePool: Array<Snode> = [
   generateFakeSnodeWithEdKey(guard1ed),
   generateFakeSnodeWithEdKey(guard2ed),
   generateFakeSnodeWithEdKey(guard3ed),
-  ...generateFakeSnodes(3),
+  ...generateFakeSnodes(9),
 ];
 
 const fakeGuardNodesEd25519 = [guard1ed, guard2ed, guard3ed];
 const fakeGuardNodes = fakeSnodePool.filter(m => fakeGuardNodesEd25519.includes(m.pubkey_ed25519));
+const fakeGuardNodesFromDB: Array<Data.GuardNode> = fakeGuardNodesEd25519.map(ed25519PubKey => {
+  return {
+    ed25519PubKey,
+  };
+});
 
 // tslint:disable-next-line: max-func-body-length
 describe('OnionPaths', () => {
@@ -38,38 +45,39 @@ describe('OnionPaths', () => {
   const sandbox = sinon.createSandbox();
   let oldOnionPaths: Array<Array<Snode>>;
 
-  beforeEach(async () => {
-    // Utils Stubs
-    OnionPaths.clearTestOnionPath();
-
-    sandbox.stub(OnionPaths, 'selectGuardNodes').resolves(fakeGuardNodes);
-    sandbox.stub(SNodeAPI.SNodeAPI, 'getSnodePoolFromSnode').resolves(fakeGuardNodes);
-    TestUtils.stubData('getGuardNodes').resolves(fakeGuardNodesEd25519);
-    TestUtils.stubData('createOrUpdateItem').resolves();
-    TestUtils.stubWindow('getSeedNodeList', () => ['seednode1']);
-    // tslint:disable: no-void-expression no-console
-
-    TestUtils.stubWindowLog();
-
-    sandbox.stub(SNodeAPI.SnodePool, 'refreshRandomPoolDetail').resolves(fakeSnodePool);
-    SNodeAPI.Onions.resetSnodeFailureCount();
-    OnionPaths.resetPathFailureCount();
-    // get a copy of what old ones look like
-    await OnionPaths.getOnionPath();
-
-    oldOnionPaths = OnionPaths.TEST_getTestOnionPath();
-    if (oldOnionPaths.length !== 3) {
-      throw new Error(`onion path length not enough ${oldOnionPaths.length}`);
-    }
-    // this just triggers a build of the onionPaths
-  });
-
-  afterEach(() => {
-    TestUtils.restoreStubs();
-    sandbox.restore();
-  });
-
   describe('dropSnodeFromPath', () => {
+    beforeEach(async () => {
+      // Utils Stubs
+      OnionPaths.clearTestOnionPath();
+
+      sandbox.stub(OnionPaths, 'selectGuardNodes').resolves(fakeGuardNodes);
+      sandbox.stub(SNodeAPI.SNodeAPI, 'TEST_getSnodePoolFromSnode').resolves(fakeGuardNodes);
+      sandbox.stub(Data, 'getSnodePoolFromDb').resolves(fakeSnodePool);
+
+      TestUtils.stubData('getGuardNodes').resolves(fakeGuardNodesFromDB);
+      TestUtils.stubData('createOrUpdateItem').resolves();
+      TestUtils.stubWindow('getSeedNodeList', () => ['seednode1']);
+      // tslint:disable: no-void-expression no-console
+
+      TestUtils.stubWindowLog();
+
+      sandbox.stub(SeedNodeAPI, 'fetchSnodePoolFromSeedNodeWithRetries').resolves(fakeSnodePool);
+      SNodeAPI.Onions.resetSnodeFailureCount();
+      OnionPaths.resetPathFailureCount();
+      // get a copy of what old ones look like
+      await OnionPaths.getOnionPath({});
+
+      oldOnionPaths = OnionPaths.TEST_getTestOnionPath();
+      if (oldOnionPaths.length !== 3) {
+        throw new Error(`onion path length not enough ${oldOnionPaths.length}`);
+      }
+      // this just triggers a build of the onionPaths
+    });
+
+    afterEach(() => {
+      TestUtils.restoreStubs();
+      sandbox.restore();
+    });
     describe('with valid snode pool', () => {
       it('rebuilds after removing last snode on path', async () => {
         await OnionPaths.dropSnodeFromPath(oldOnionPaths[2][2].pubkey_ed25519);

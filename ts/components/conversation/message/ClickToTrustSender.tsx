@@ -50,10 +50,14 @@ export const ClickToTrustSender = (props: { messageId: string }) => {
           await Promise.all(
             messagesInConvo.map(async message => {
               const msgAttachments = message.get('attachments');
+              const messagePreviews = message.get('preview');
               if (message.get('direction') !== 'incoming') {
                 return;
               }
-              if (!msgAttachments || msgAttachments.length === 0) {
+              if (
+                (!msgAttachments || msgAttachments.length === 0) &&
+                (!messagePreviews || messagePreviews.length === 0)
+              ) {
                 return;
               }
 
@@ -71,6 +75,28 @@ export const ClickToTrustSender = (props: { messageId: string }) => {
                   });
                 })
               );
+
+              const preview = await Promise.all(
+                (messagePreviews || []).map(async (item: any, index: any) => {
+                  if (!item.image) {
+                    return item;
+                  }
+
+                  const image = message.isTrustedForAttachmentDownload()
+                    ? await AttachmentDownloads.addJob(item.image, {
+                        messageId: message.id,
+                        type: 'preview',
+                        index,
+                        isOpenGroupV2: false,
+                        openGroupV2Details: undefined,
+                      })
+                    : null;
+
+                  return { ...item, image };
+                })
+              );
+
+              message.set({ preview });
 
               message.set({ attachments: downloadedAttachments });
               await message.commit();

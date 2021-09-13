@@ -75,18 +75,6 @@
     appendStack(this, error);
   }
 
-  function SeedNodeError(message) {
-    this.name = 'SeedNodeError';
-    this.message = message;
-    Error.call(this, message);
-
-    // Maintains proper stack trace, where our error was thrown (only available on V8)
-    //   via https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error
-    if (Error.captureStackTrace) {
-      Error.captureStackTrace(this);
-    }
-  }
-
   function HTTPError(message, response) {
     this.name = 'HTTPError';
     this.message = `${response.status} Error: ${message}`;
@@ -114,7 +102,6 @@
   window.textsecure.SendMessageNetworkError = SendMessageNetworkError;
   window.textsecure.ReplayableError = ReplayableError;
   window.textsecure.EmptySwarmError = EmptySwarmError;
-  window.textsecure.SeedNodeError = SeedNodeError;
   window.textsecure.HTTPError = HTTPError;
   window.textsecure.NotFoundError = NotFoundError;
   window.textsecure.TimestampError = TimestampError;

@@ -7,7 +7,6 @@ export interface LibTextsecure {
   SendMessageNetworkError: any;
   ReplayableError: any;
   EmptySwarmError: any;
-  SeedNodeError: any;
   HTTPError: any;
   NotFoundError: any;
   TimestampError: any;

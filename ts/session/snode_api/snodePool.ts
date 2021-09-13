@@ -1,15 +1,14 @@
 import _ from 'lodash';
 
-import { getSnodePoolFromSnodes, getSnodesFromSeedUrl, requestSnodesForPubkey } from './SNodeAPI';
+import { getSnodePoolFromSnodes, requestSnodesForPubkey } from './SNodeAPI';
 
 import * as Data from '../../../ts/data/data';
 
-import { allowOnlyOneAtATime } from '../utils/Promise';
 import pRetry from 'p-retry';
 import { ed25519Str } from '../onions/onionPath';
 import { OnionPaths } from '../onions';
-import { Onions } from '.';
-
+import { Onions, SnodePool } from '.';
+import { SeedNodeAPI } from '../seed_node_api';
 /**
  * If we get less than this snode in a swarm, we fetch new snodes for this pubkey
  */
@@ -22,6 +21,11 @@ const minSwarmSnodeCount = 3;
 export const minSnodePoolCount = 12;
 
 /**
+ * If we get less than this amount of snodes (24), lets try to get an updated list from those while we can
+ */
+export const minSnodePoolCountBeforeRefreshFromSnodes = minSnodePoolCount * 2;
+
+/**
  * If we do a request to fetch nodes from snodes and they don't return at least
  * the same `requiredSnodesForAgreement` snodes we consider that this is not a valid return.
  *
@@ -29,64 +33,16 @@ export const minSnodePoolCount = 12;
  */
 export const requiredSnodesForAgreement = 24;
 
-// This should be renamed to `allNodes` or something
-export let randomSnodePool: Array<Data.Snode> = [];
+let randomSnodePool: Array<Data.Snode> = [];
+
+// tslint:disable-next-line: function-name
+export function TEST_resetState() {
+  randomSnodePool = [];
+  swarmCache.clear();
+}
 
 // We only store nodes' identifiers here,
 const swarmCache: Map<string, Array<string>> = new Map();
-
-export type SeedNode = {
-  url: string;
-};
-
-// just get the filtered list
-async function tryGetSnodeListFromLokidSeednode(
-  seedNodes: Array<SeedNode>
-): Promise<Array<Data.Snode>> {
-  window?.log?.info('tryGetSnodeListFromLokidSeednode starting...');
-
-  if (!seedNodes.length) {
-    window?.log?.info('loki_snode_api::tryGetSnodeListFromLokidSeednode - seedNodes are empty');
-    return [];
-  }
-
-  const seedNode = _.sample(seedNodes);
-  if (!seedNode) {
-    window?.log?.warn(
-      'loki_snode_api::tryGetSnodeListFromLokidSeednode - Could not select random snodes from',
-      seedNodes
-    );
-    return [];
-  }
-  let snodes = [];
-  try {
-    const tryUrl = new URL(seedNode.url);
-
-    snodes = await getSnodesFromSeedUrl(tryUrl);
-    // throw before clearing the lock, so the retries can kick in
-    if (snodes.length === 0) {
-      window?.log?.warn(
-        `loki_snode_api::tryGetSnodeListFromLokidSeednode - ${seedNode.url} did not return any snodes`
-      );
-      // does this error message need to be exactly this?
-      throw new window.textsecure.SeedNodeError('Failed to contact seed node');
-    }
-
-    return snodes;
-  } catch (e) {
-    window?.log?.warn(
-      'LokiSnodeAPI::tryGetSnodeListFromLokidSeednode - error',
-      e.code,
-      e.message,
-      'on',
-      seedNode
-    );
-    if (snodes.length === 0) {
-      throw new window.textsecure.SeedNodeError('Failed to contact seed node');
-    }
-  }
-  return [];
-}
 
 /**
  * Drop a snode from the snode pool. This does not update the swarm containing this snode.
@@ -97,28 +53,34 @@ export async function dropSnodeFromSnodePool(snodeEd25519: string) {
   const exists = _.some(randomSnodePool, x => x.pubkey_ed25519 === snodeEd25519);
   if (exists) {
     _.remove(randomSnodePool, x => x.pubkey_ed25519 === snodeEd25519);
-    await Data.updateSnodePoolOnDb(JSON.stringify(randomSnodePool));
-
     window?.log?.warn(
-      `Marking ${ed25519Str(snodeEd25519)} as unreachable, ${
+      `Droppping ${ed25519Str(snodeEd25519)} from snode pool. ${
         randomSnodePool.length
       } snodes remaining in randomPool`
     );
+    await Data.updateSnodePoolOnDb(JSON.stringify(randomSnodePool));
   }
 }
 
 /**
  *
- * @param excluding can be used to exclude some nodes from the random list. Useful to rebuild a path excluding existing node already in a path
+ * excludingEd25519Snode can be used to exclude some nodes from the random list.
+ * Useful to rebuild a path excluding existing node already in a path
  */
 export async function getRandomSnode(excludingEd25519Snode?: Array<string>): Promise<Data.Snode> {
-  // resolve random snode
-  if (randomSnodePool.length === 0) {
-    // Should not this be saved to the database?
-    await refreshRandomPool();
+  // make sure we have a few snodes in the pool excluding the one passed as args
+  const requiredCount = minSnodePoolCount + (excludingEd25519Snode?.length || 0);
+  if (randomSnodePool.length < requiredCount) {
+    await getSnodePoolFromDBOrFetchFromSeed(excludingEd25519Snode?.length);
 
-    if (randomSnodePool.length === 0) {
-      throw new window.textsecure.SeedNodeError('Invalid seed node response');
+    if (randomSnodePool.length < requiredCount) {
+      window?.log?.warn(
+        `getRandomSnode: failed to fetch snodes from seed. Current pool: ${randomSnodePool.length}`
+      );
+
+      throw new Error(
+        `getRandomSnode: failed to fetch snodes from seed. Current pool: ${randomSnodePool.length}, required count: ${requiredCount}`
+      );
     }
   }
   // We know the pool can't be empty at this point
@@ -131,211 +93,156 @@ export async function getRandomSnode(excludingEd25519Snode?: Array<string>): Pro
     e => !excludingEd25519Snode.includes(e.pubkey_ed25519)
   );
   if (!snodePoolExcluding || !snodePoolExcluding.length) {
-    if (window?.textsecure) {
-      throw new window.textsecure.SeedNodeError(
-        'Not enough snodes with excluding length',
-        excludingEd25519Snode.length
-      );
-    }
     // used for tests
-    throw new Error('SeedNodeError');
+    throw new Error(`Not enough snodes with excluding length ${excludingEd25519Snode.length}`);
   }
   return _.sample(snodePoolExcluding) as Data.Snode;
 }
 
 /**
- * This function force the snode poll to be refreshed from a random seed node again.
+ * This function force the snode poll to be refreshed from a random seed node or snodes if we have enough of them.
  * This should be called once in a day or so for when the app it kept on.
  */
 export async function forceRefreshRandomSnodePool(): Promise<Array<Data.Snode>> {
-  await refreshRandomPool(true);
+  try {
+    await getSnodePoolFromDBOrFetchFromSeed();
 
+    window?.log?.info(
+      `forceRefreshRandomSnodePool: enough snodes to fetch from them, so we try using them ${randomSnodePool.length}`
+    );
+
+    // this function throws if it does not have enough snodes to do it
+    await tryToGetConsensusWithSnodesWithRetries();
+    if (randomSnodePool.length < minSnodePoolCountBeforeRefreshFromSnodes) {
+      throw new Error('forceRefreshRandomSnodePool still too small after refetching from snodes');
+    }
+  } catch (e) {
+    window?.log?.warn(
+      'forceRefreshRandomSnodePool: Failed to fetch snode pool from snodes. Fetching from seed node instead:',
+      e.message
+    );
+
+    // if that fails to get enough snodes, even after retries, well we just have to retry later.
+    try {
+      await SnodePool.TEST_fetchFromSeedWithRetriesAndWriteToDb();
+    } catch (e) {
+      window?.log?.warn(
+        'forceRefreshRandomSnodePool: Failed to fetch snode pool from seed. Fetching from seed node instead:',
+        e.message
+      );
+    }
+  }
+
+  return randomSnodePool;
+}
+
+/**
+ * Fetches from DB if snode pool is not cached, and returns it if the length is >= 12.
+ * If length is < 12, fetches from seed an updated list of snodes
+ */
+export async function getSnodePoolFromDBOrFetchFromSeed(
+  countToAddToRequirement = 0
+): Promise<Array<Data.Snode>> {
+  if (randomSnodePool && randomSnodePool.length > minSnodePoolCount + countToAddToRequirement) {
+    return randomSnodePool;
+  }
+  const fetchedFromDb = await Data.getSnodePoolFromDb();
+
+  if (!fetchedFromDb || fetchedFromDb.length <= minSnodePoolCount + countToAddToRequirement) {
+    window?.log?.warn(
+      `getSnodePoolFromDBOrFetchFromSeed: not enough snodes in db (${fetchedFromDb?.length}), Fetching from seed node instead... `
+    );
+    // if that fails to get enough snodes, even after retries, well we just have to retry later.
+    // this call does not throw
+    await SnodePool.TEST_fetchFromSeedWithRetriesAndWriteToDb();
+
+    return randomSnodePool;
+  }
+
+  // write to memory only if it is valid.
+  randomSnodePool = fetchedFromDb;
   return randomSnodePool;
 }
 
 export async function getRandomSnodePool(): Promise<Array<Data.Snode>> {
-  if (randomSnodePool.length === 0) {
-    await refreshRandomPool();
+  if (randomSnodePool.length <= minSnodePoolCount) {
+    await getSnodePoolFromDBOrFetchFromSeed();
   }
   return randomSnodePool;
 }
 
-async function getSnodeListFromLokidSeednode(
-  seedNodes: Array<SeedNode>,
-  retries = 0
-): Promise<Array<Data.Snode>> {
-  const SEED_NODE_RETRIES = 3;
-  window?.log?.info('getSnodeListFromLokidSeednode starting...');
-  if (!seedNodes.length) {
-    window?.log?.info('loki_snode_api::getSnodeListFromLokidSeednode - seedNodes are empty');
-    return [];
-  }
-  let snodes: Array<Data.Snode> = [];
-  try {
-    snodes = await tryGetSnodeListFromLokidSeednode(seedNodes);
-  } catch (e) {
-    window?.log?.warn('loki_snode_api::getSnodeListFromLokidSeednode - error', e.code, e.message);
-    // handle retries in case of temporary hiccups
-    if (retries < SEED_NODE_RETRIES) {
-      setTimeout(async () => {
-        window?.log?.info(
-          'loki_snode_api::getSnodeListFromLokidSeednode - Retrying initialising random snode pool, try #',
-          retries,
-          'seed nodes total',
-          seedNodes.length
-        );
-        try {
-          await getSnodeListFromLokidSeednode(seedNodes, retries + 1);
-        } catch (e) {
-          window?.log?.warn('getSnodeListFromLokidSeednode failed retr y #', retries, e);
-        }
-      }, retries * retries * 5000);
-    } else {
-      window?.log?.error('loki_snode_api::getSnodeListFromLokidSeednode - failing');
-      throw new window.textsecure.SeedNodeError('Failed to contact seed node');
-    }
-  }
-  return snodes;
-}
-
 /**
- * Fetch all snodes from a seed nodes if we don't have enough snodes to make the request ourself.
- * Exported only for tests. This is not to be used by the app directly
- * @param seedNodes the seednodes to use to fetch snodes details
+ * This function tries to fetch snodes list from seednodes and handle retries.
+ * It will write the updated snode list to the db once it succeeded.
+ * It also resets the onionpaths failure count and snode failure count.
+ * This function does not throw.
  */
-export async function refreshRandomPoolDetail(
-  seedNodes: Array<SeedNode>
-): Promise<Array<Data.Snode>> {
-  let snodes = [];
-  try {
-    window?.log?.info(`refreshRandomPoolDetail with seedNodes.length ${seedNodes.length}`);
-
-    snodes = await getSnodeListFromLokidSeednode(seedNodes);
-    // make sure order of the list is random, so we get version in a non-deterministic way
-    snodes = _.shuffle(snodes);
-    // commit changes to be live
-    // we'll update the version (in case they upgrade) every cycle
-    const fetchSnodePool = snodes.map((snode: any) => ({
-      ip: snode.public_ip,
-      port: snode.storage_port,
-      pubkey_x25519: snode.pubkey_x25519,
-      pubkey_ed25519: snode.pubkey_ed25519,
-      version: '',
-    }));
-    window?.log?.info(
-      'LokiSnodeAPI::refreshRandomPool - Refreshed random snode pool with',
-      snodes.length,
-      'snodes'
-    );
-    return fetchSnodePool;
-  } catch (e) {
-    window?.log?.warn('LokiSnodeAPI::refreshRandomPool - error', e.code, e.message);
-    /*
-        log.error(
-          'LokiSnodeAPI:::refreshRandomPoolPromise -  Giving up trying to contact seed node'
-        );
-        */
-    if (snodes.length === 0) {
-      throw new window.textsecure.SeedNodeError('Failed to contact seed node');
-    }
-    return [];
-  }
-}
-/**
- * This function runs only once at a time, and fetches the snode pool from a random seed node,
- *  or if we have enough snodes, fetches the snode pool from one of the snode.
- */
-export async function refreshRandomPool(forceRefresh = false): Promise<void> {
+// tslint:disable: function-name
+export async function TEST_fetchFromSeedWithRetriesAndWriteToDb() {
   const seedNodes = window.getSeedNodeList();
 
   if (!seedNodes || !seedNodes.length) {
     window?.log?.error(
-      'LokiSnodeAPI:::refreshRandomPool - getSeedNodeList has not been loaded yet'
+      'LokiSnodeAPI:::fetchFromSeedWithRetriesAndWriteToDb - getSeedNodeList has not been loaded yet'
     );
 
     return;
   }
-  window?.log?.info("right before allowOnlyOneAtATime 'refreshRandomPool'");
+  try {
+    randomSnodePool = await SeedNodeAPI.fetchSnodePoolFromSeedNodeWithRetries(seedNodes);
+    await Data.updateSnodePoolOnDb(JSON.stringify(randomSnodePool));
 
-  return allowOnlyOneAtATime('refreshRandomPool', async () => {
-    window?.log?.info("running allowOnlyOneAtATime 'refreshRandomPool'");
+    OnionPaths.resetPathFailureCount();
+    Onions.resetSnodeFailureCount();
+  } catch (e) {
+    window?.log?.error(
+      'LokiSnodeAPI:::fetchFromSeedWithRetriesAndWriteToDb - Failed to fetch snode poll from seed node with retries. Error:',
+      e
+    );
+  }
+}
 
-    // if we have forceRefresh set, we want to request snodes from snodes or from the seed server.
-    if (randomSnodePool.length === 0 && !forceRefresh) {
-      const fetchedFromDb = await Data.getSnodePoolFromDb();
-      // write to memory only if it is valid.
-      // if the size is not enough. we will contact a seed node.
-      if (fetchedFromDb?.length) {
-        window?.log?.info(`refreshRandomPool: fetched from db ${fetchedFromDb.length} snodes.`);
-        randomSnodePool = fetchedFromDb;
-        if (randomSnodePool.length <= minSnodePoolCount) {
-          window?.log?.warn('refreshRandomPool: not enough snodes in db, going to fetch from seed');
-        } else {
-          return;
-        }
-      } else {
-        window?.log?.warn('refreshRandomPool: did not find snodes in db.');
+/**
+ * This function retries a few times to get a consensus between 3 snodes of at least 24 snodes in the snode pool.
+ *
+ * If a consensus cannot be made, this function throws an error and the caller needs to call the fetch snodes from seed.
+ *
+ */
+async function tryToGetConsensusWithSnodesWithRetries() {
+  // let this request try 4 (3+1) times. If all those requests end up without having a consensus,
+  // fetch the snode pool from one of the seed nodes (see the catch).
+  return pRetry(
+    async () => {
+      const commonNodes = await getSnodePoolFromSnodes();
+
+      if (!commonNodes || commonNodes.length < requiredSnodesForAgreement) {
+        // throwing makes trigger a retry if we have some left.
+        window?.log?.info(
+          `tryToGetConsensusWithSnodesWithRetries: Not enough common nodes ${commonNodes?.length}`
+        );
+        throw new Error('Not enough common nodes.');
       }
-    }
-
-    // we don't have nodes to fetch the pool from them, so call the seed node instead.
-    if (randomSnodePool.length <= minSnodePoolCount) {
       window?.log?.info(
-        `refreshRandomPool: NOT enough snodes to fetch from them ${randomSnodePool.length} <= ${minSnodePoolCount}, so falling back to seedNodes ${seedNodes?.length}`
+        'Got consensus: updating snode list with snode pool length:',
+        commonNodes.length
       );
-
-      randomSnodePool = await exports.refreshRandomPoolDetail(seedNodes);
+      randomSnodePool = commonNodes;
       await Data.updateSnodePoolOnDb(JSON.stringify(randomSnodePool));
-      return;
-    }
-    try {
-      window?.log?.info(
-        `refreshRandomPool: enough snodes to fetch from them, so we try using them ${randomSnodePool.length}`
-      );
-
-      // let this request try 3 (3+1) times. If all those requests end up without having a consensus,
-      // fetch the snode pool from one of the seed nodes (see the catch).
-      await pRetry(
-        async () => {
-          const commonNodes = await getSnodePoolFromSnodes();
-
-          if (!commonNodes || commonNodes.length < requiredSnodesForAgreement) {
-            // throwing makes trigger a retry if we have some left.
-            window?.log?.info(`refreshRandomPool: Not enough common nodes ${commonNodes?.length}`);
-            throw new Error('Not enough common nodes.');
-          }
-          window?.log?.info('updating snode list with snode pool length:', commonNodes.length);
-          randomSnodePool = commonNodes;
-          OnionPaths.resetPathFailureCount();
-          Onions.resetSnodeFailureCount();
-
-          await Data.updateSnodePoolOnDb(JSON.stringify(randomSnodePool));
-        },
-        {
-          retries: 3,
-          factor: 1,
-          minTimeout: 1000,
-          onFailedAttempt: e => {
-            window?.log?.warn(
-              `getSnodePoolFromSnodes attempt #${e.attemptNumber} failed. ${e.retriesLeft} retries left...`
-            );
-          },
-        }
-      );
-    } catch (e) {
-      window?.log?.warn(
-        'Failed to fetch snode pool from snodes. Fetching from seed node instead:',
-        e
-      );
-
-      // fallback to a seed node fetch of the snode pool
-      randomSnodePool = await exports.refreshRandomPoolDetail(seedNodes);
 
       OnionPaths.resetPathFailureCount();
       Onions.resetSnodeFailureCount();
-      await Data.updateSnodePoolOnDb(JSON.stringify(randomSnodePool));
+    },
+    {
+      retries: 3,
+      factor: 1,
+      minTimeout: 1000,
+      onFailedAttempt: e => {
+        window?.log?.warn(
+          `tryToGetConsensusWithSnodesWithRetries attempt #${e.attemptNumber} failed. ${e.retriesLeft} retries left...`
+        );
+      },
     }
-  });
+  );
 }
 
 /**
@@ -348,6 +255,10 @@ export async function dropSnodeFromSwarmIfNeeded(
   snodeToDropEd25519: string
 ): Promise<void> {
   // this call either used the cache or fetch the swarm from the db
+  window?.log?.warn(
+    `Dropping ${ed25519Str(snodeToDropEd25519)} from swarm of ${ed25519Str(pubkey)}`
+  );
+
   const existingSwarm = await getSwarmFromCacheOrDb(pubkey);
 
   if (!existingSwarm.includes(snodeToDropEd25519)) {

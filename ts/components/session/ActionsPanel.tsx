@@ -14,9 +14,12 @@ import {
   removeConversation,
   removeOneOpenGroupV1Message,
 } from '../../data/data';
-import { OnionPaths } from '../../session/onions';
 import { getMessageQueue } from '../../session/sending';
 import { useDispatch, useSelector } from 'react-redux';
+// tslint:disable: no-submodule-imports
+import useInterval from 'react-use/lib/useInterval';
+import useTimeoutFn from 'react-use/lib/useTimeoutFn';
+
 import { getOurNumber } from '../../state/selectors/user';
 import {
   getOurPrimaryConversation,
@@ -24,7 +27,6 @@ import {
 } from '../../state/selectors/conversations';
 import { applyTheme } from '../../state/ducks/theme';
 import { getFocusedSection } from '../../state/selectors/section';
-import { useInterval } from '../../hooks/useInterval';
 import { clearSearch } from '../../state/ducks/search';
 import { SectionType, showLeftPaneSection } from '../../state/ducks/section';
 
@@ -204,11 +206,6 @@ const triggerAvatarReUploadIfNeeded = async () => {
  * This function is called only once: on app startup with a logged in user
  */
 const doAppStartUp = () => {
-  if (window.lokiFeatureFlags.useOnionRequests || window.lokiFeatureFlags.useFileOnionRequests) {
-    // Initialize paths for onion requests
-    void OnionPaths.buildNewOnionPathsOneAtATime();
-  }
-
   // init the messageQueue. In the constructor, we add all not send messages
   // this call does nothing except calling the constructor, which will continue sending message in the pipeline
   void getMessageQueue().processAllPending();
@@ -271,8 +268,15 @@ export const ActionsPanel = () => {
   }, DURATION.DAYS * 2);
 
   useInterval(() => {
+    // trigger an updates from the snodes every hour
+
     void forceRefreshRandomSnodePool();
-  }, DURATION.DAYS * 1);
+  }, DURATION.HOURS * 1);
+
+  useTimeoutFn(() => {
+    // trigger an updates from the snodes after 5 minutes, once
+    void forceRefreshRandomSnodePool();
+  }, DURATION.MINUTES * 5);
 
   useInterval(() => {
     // this won't be run every days, but if the app stays open for more than 10 days
