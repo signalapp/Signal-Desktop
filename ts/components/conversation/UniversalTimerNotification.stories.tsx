@@ -14,8 +14,8 @@ const story = storiesOf('Components/UniversalTimerNotification', module);
 
 const i18n = setupI18n('en', enMessages);
 
-EXPIRE_TIMERS.forEach(({ value, label }) => {
+EXPIRE_TIMERS.forEach(({ value: ms, label }) => {
   story.add(`Initial value: ${label}`, () => {
-    return <UniversalTimerNotification i18n={i18n} expireTimer={value} />;
+    return <UniversalTimerNotification i18n={i18n} expireTimer={ms / 1000} />;
   });
 });
