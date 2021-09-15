@@ -307,7 +307,7 @@ export default class WebSocketResource extends EventTarget {
       );
 
       if (this.shuttingDown) {
-        incomingRequest.respond(500, 'Shutting down');
+        incomingRequest.respond(-1, 'Shutting down');
         return;
       }
 
@@ -343,7 +343,7 @@ export default class WebSocketResource extends EventTarget {
 
     for (const resolve of outgoing.values()) {
       resolve({
-        status: 500,
+        status: -1,
         message: 'Connection closed',
         response: undefined,
         headers: [],
