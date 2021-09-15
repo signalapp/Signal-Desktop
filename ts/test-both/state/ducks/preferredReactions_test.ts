@@ -243,13 +243,33 @@ describe('preferred reactions duck', () => {
   describe('savePreferredReactions', () => {
     const { savePreferredReactions } = actions;
 
+    // We want to create a fake ConversationController for testing purposes, and we need
+    //   to sidestep typechecking to do that.
+    /* eslint-disable @typescript-eslint/no-explicit-any */
+
     let storagePutStub: sinon.SinonStub;
+    let captureChangeStub: sinon.SinonStub;
+    let oldConversationController: any;
+
     beforeEach(() => {
       storagePutStub = sinonSandbox.stub(window.storage, 'put').resolves();
+
+      oldConversationController = window.ConversationController;
+
+      captureChangeStub = sinonSandbox.stub();
+      window.ConversationController = {
+        getOurConversationOrThrow: (): any => ({
+          captureChange: captureChangeStub,
+        }),
+      } as any;
+    });
+
+    afterEach(() => {
+      window.ConversationController = oldConversationController;
     });
 
     describe('thunk', () => {
-      it('saves the preferred reaction emoji to storage', async () => {
+      it('saves the preferred reaction emoji to local storage', async () => {
         await savePreferredReactions()(
           sinon.spy(),
           () => getRootState(stateWithOpenCustomizationModal),
@@ -262,6 +282,16 @@ describe('preferred reactions duck', () => {
           stateWithOpenCustomizationModal.customizePreferredReactionsModal
             .draftPreferredReactions
         );
+      });
+
+      it('on success, enqueues a storage service upload', async () => {
+        await savePreferredReactions()(
+          sinon.spy(),
+          () => getRootState(stateWithOpenCustomizationModal),
+          null
+        );
+
+        sinon.assert.calledOnce(captureChangeStub);
       });
 
       it('on success, dispatches a pending action followed by a fulfilled action', async () => {
@@ -298,6 +328,18 @@ describe('preferred reactions duck', () => {
         sinon.assert.calledWith(dispatch, {
           type: 'preferredReactions/SAVE_PREFERRED_REACTIONS_REJECTED',
         });
+      });
+
+      it('on failure, does not enqueue a storage service upload', async () => {
+        storagePutStub.rejects(new Error('something went wrong'));
+
+        await savePreferredReactions()(
+          sinon.spy(),
+          () => getRootState(stateWithOpenCustomizationModal),
+          null
+        );
+
+        sinon.assert.notCalled(captureChangeStub);
       });
     });
 

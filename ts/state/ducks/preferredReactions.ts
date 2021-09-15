@@ -9,7 +9,7 @@ import { replaceIndex } from '../../util/replaceIndex';
 import { useBoundActions } from '../../util/hooks';
 import type { StateType as RootStateType } from '../reducer';
 import { DEFAULT_PREFERRED_REACTION_EMOJI_SHORT_NAMES } from '../../reactions/constants';
-import { getPreferredReactionEmoji } from '../../reactions/getPreferredReactionEmoji';
+import { getPreferredReactionEmoji } from '../../reactions/preferredReactionEmoji';
 import { getEmojiSkinTone } from '../selectors/items';
 import { convertShortName } from '../../components/emoji/lib';
 
@@ -165,15 +165,25 @@ function savePreferredReactions(): ThunkAction<
       return;
     }
 
+    let succeeded = false;
+
     dispatch({ type: SAVE_PREFERRED_REACTIONS_PENDING });
     try {
       await window.storage.put(
         'preferredReactionEmoji',
         draftPreferredReactions
       );
-      dispatch({ type: SAVE_PREFERRED_REACTIONS_FULFILLED });
+      succeeded = true;
     } catch (err: unknown) {
       log.warn(Errors.toLogFormat(err));
+    }
+
+    if (succeeded) {
+      dispatch({ type: SAVE_PREFERRED_REACTIONS_FULFILLED });
+      window.ConversationController.getOurConversationOrThrow().captureChange(
+        'preferredReactionEmoji'
+      );
+    } else {
       dispatch({ type: SAVE_PREFERRED_REACTIONS_REJECTED });
     }
   };

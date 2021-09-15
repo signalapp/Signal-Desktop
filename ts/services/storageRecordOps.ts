@@ -35,6 +35,7 @@ import {
 } from '../util/universalExpireTimer';
 import { ourProfileKeyService } from './ourProfileKey';
 import { isGroupV1, isGroupV2 } from '../util/whatTypeOfConversation';
+import * as preferredReactionEmoji from '../reactions/preferredReactionEmoji';
 import { UUID } from '../types/UUID';
 import * as Errors from '../types/errors';
 import { SignalService as Proto } from '../protobuf';
@@ -199,6 +200,13 @@ export async function toAccountRecord(
   const accountE164 = window.storage.get('accountE164');
   if (accountE164 !== undefined) {
     accountRecord.e164 = accountE164;
+  }
+
+  const rawPreferredReactionEmoji = window.storage.get(
+    'preferredReactionEmoji'
+  );
+  if (preferredReactionEmoji.canBeSynced(rawPreferredReactionEmoji)) {
+    accountRecord.preferredReactionEmoji = rawPreferredReactionEmoji;
   }
 
   const universalExpireTimer = getUniversalExpireTimer();
@@ -836,6 +844,7 @@ export async function mergeAccountRecord(
     primarySendsSms,
     universalExpireTimer,
     e164: accountE164,
+    preferredReactionEmoji: rawPreferredReactionEmoji,
   } = accountRecord;
 
   window.storage.put('read-receipt-setting', Boolean(readReceipts));
@@ -859,6 +868,10 @@ export async function mergeAccountRecord(
   if (typeof accountE164 === 'string' && accountE164) {
     window.storage.put('accountE164', accountE164);
     window.storage.user.setNumber(accountE164);
+  }
+
+  if (preferredReactionEmoji.canBeSynced(rawPreferredReactionEmoji)) {
+    window.storage.put('preferredReactionEmoji', rawPreferredReactionEmoji);
   }
 
   setUniversalExpireTimer(universalExpireTimer || 0);

@@ -13,7 +13,7 @@ import {
   CustomColorType,
   DEFAULT_CONVERSATION_COLOR,
 } from '../../types/Colors';
-import { getPreferredReactionEmoji as getPreferredReactionEmojiFromStoredValue } from '../../reactions/getPreferredReactionEmoji';
+import { getPreferredReactionEmoji as getPreferredReactionEmojiFromStoredValue } from '../../reactions/preferredReactionEmoji';
 
 export const getItems = (state: StateType): ItemsStateType => state.items;
 

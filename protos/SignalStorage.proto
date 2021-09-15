@@ -136,4 +136,5 @@ message AccountRecord {
   optional uint32                 universalExpireTimer         = 17;
   optional bool                   primarySendsSms              = 18;
   optional string                 e164                         = 19;
+  repeated string                 preferredReactionEmoji       = 20;
 }
