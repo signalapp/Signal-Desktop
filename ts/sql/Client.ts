@@ -277,6 +277,8 @@ const dataInterface: ClientInterface = {
   processGroupCallRingCancelation,
   cleanExpiredGroupCallRings,
 
+  getMaxMessageCounter,
+
   getStatisticsForLogging,
 
   // Test-only
@@ -1654,6 +1656,10 @@ async function updateAllConversationColors(
     conversationColor,
     customColorData
   );
+}
+
+function getMaxMessageCounter(): Promise<number | undefined> {
+  return channels.getMaxMessageCounter();
 }
 
 function getStatisticsForLogging(): Promise<Record<string, string>> {

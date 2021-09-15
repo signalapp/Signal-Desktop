@@ -139,6 +139,8 @@ export async function startApp(): Promise<void> {
     );
   }
 
+  await window.Signal.Util.initializeMessageCounter();
+
   // Initialize WebAPI as early as possible
   let server: WebAPIType | undefined;
   let messageReceiver: MessageReceiver | undefined;

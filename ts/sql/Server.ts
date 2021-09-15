@@ -268,6 +268,8 @@ const dataInterface: ServerInterface = {
   processGroupCallRingCancelation,
   cleanExpiredGroupCallRings,
 
+  getMaxMessageCounter,
+
   getStatisticsForLogging,
 
   // Server-only
@@ -6491,6 +6493,25 @@ async function cleanExpiredGroupCallRings(): Promise<void> {
   ).run({
     expiredRingTime: Date.now() - MAX_GROUP_CALL_RING_AGE,
   });
+}
+
+async function getMaxMessageCounter(): Promise<number | undefined> {
+  const db = getInstance();
+
+  return db
+    .prepare<EmptyQuery>(
+      `
+    SELECT MAX(counter)
+    FROM
+      (
+        SELECT MAX(received_at) AS counter FROM messages
+        UNION
+        SELECT MAX(timestamp) AS counter FROM unprocessed
+      )
+    `
+    )
+    .pluck()
+    .get();
 }
 
 async function getStatisticsForLogging(): Promise<Record<string, string>> {

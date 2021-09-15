@@ -15,6 +15,7 @@ import { getTextWithMentions } from './getTextWithMentions';
 import { getUserAgent } from './getUserAgent';
 import { hasExpired } from './hasExpired';
 import {
+  initializeMessageCounter,
   incrementMessageCounter,
   flushMessageCounter,
 } from './incrementMessageCounter';
@@ -61,6 +62,7 @@ export {
   getUserAgent,
   hasExpired,
   incrementMessageCounter,
+  initializeMessageCounter,
   isFileDangerous,
   longRunningTaskWrapper,
   makeLookup,

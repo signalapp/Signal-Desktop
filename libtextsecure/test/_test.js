@@ -77,4 +77,6 @@ before(async () => {
       err && err.stack ? err.stack : err
     );
   }
+
+  await window.Signal.Util.initializeMessageCounter();
 });

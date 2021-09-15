@@ -486,6 +486,7 @@ export type DataInterface = {
     }
   ) => Promise<void>;
 
+  getMaxMessageCounter(): Promise<number | undefined>;
   getStatisticsForLogging(): Promise<Record<string, string>>;
 };
 
