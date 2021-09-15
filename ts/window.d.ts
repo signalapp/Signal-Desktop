@@ -141,27 +141,12 @@ type ConfirmationDialogViewProps = {
   resolve: () => void;
 };
 
-// This is the subset of `window.FontFace` that we need. We should delete this after
-//   upgrading to TypeScript 4.4, which will include a full declaration in [its official
-//   DOM type definitions][0].
-//
-// [0]: https://github.com/microsoft/TypeScript/blob/03dff41c9f2038f66fb358e5c23ebd7271145978/lib/lib.dom.d.ts#L5343-L5364
-declare class FontFace {
-  constructor(
-    family: string,
-    source: string | ArrayBuffer | ArrayBufferView,
-    descriptors?: unknown
-  );
-  load(): Promise<FontFace>;
-}
-
 declare global {
   // We want to extend `window`'s properties, so we need an interface.
   // eslint-disable-next-line no-restricted-syntax
   interface Window {
     startApp: () => void;
 
-    FontFace: typeof FontFace;
     _: typeof Underscore;
     $: typeof jQuery;
 
