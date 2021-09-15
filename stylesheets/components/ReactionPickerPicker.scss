@@ -179,30 +179,15 @@
 
   &--menu-style {
     #{$root-selector}__button {
-      $light-focus-or-hover-background: $color-black-alpha-20;
-      $dark-focus-or-hover-background: $color-white-alpha-40;
-
-      &:hover {
-        @include light-theme {
-          background: $light-focus-or-hover-background;
-        }
-        @include dark-theme {
-          background: $dark-focus-or-hover-background;
-        }
-      }
       @include keyboard-mode {
         &:focus {
-          background: $light-focus-or-hover-background;
+          background: $color-black-alpha-20;
         }
       }
       @include dark-keyboard-mode {
         &:focus {
-          background: $dark-focus-or-hover-background;
+          background: $color-white-alpha-40;
         }
-      }
-
-      #{$root-selector}--something-selected {
-        opacity: 0.4;
       }
 
       &--selected {
@@ -213,9 +198,18 @@
         }
 
         @media (prefers-reduced-motion: no-preference) {
-          animation: module-ReactionPickerPicker__button-selected 1s ease-in-out
-            infinite alternate;
+          animation: module-ReactionPickerPicker__button-selected 200ms
+            ease-in-out infinite alternate;
         }
+      }
+    }
+
+    // These selectors are unpleasant, but we want to match "menu style" and "something is
+    //   selected" classes on the same element.
+    @at-root #{&}#{$root-selector}--something-selected {
+      #{$root-selector}__button:not(#{$root-selector}__button--selected) {
+        opacity: 0.4;
+        transform: scale(0.9);
       }
     }
   }
