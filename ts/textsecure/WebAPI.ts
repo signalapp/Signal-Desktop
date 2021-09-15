@@ -755,7 +755,7 @@ type AjaxOptionsType = {
 };
 
 export type WebAPIConnectOptionsType = WebAPICredentials & {
-  disableWebSockets?: boolean;
+  useWebSocket?: boolean;
 };
 
 export type WebAPIConnectType = {
@@ -964,6 +964,7 @@ export type WebAPIType = {
     Array<{ name: string; enabled: boolean; value: string | null }>
   >;
   authenticate: (credentials: WebAPICredentials) => Promise<void>;
+  logout: () => Promise<void>;
   getSocketStatus: () => SocketStatus;
   registerRequestHandler: (handler: IRequestHandler) => void;
   unregisterRequestHandler: (handler: IRequestHandler) => void;
@@ -1078,7 +1079,7 @@ export function initialize({
   function connect({
     username: initialUsername,
     password: initialPassword,
-    disableWebSockets = false,
+    useWebSocket = true,
   }: WebAPIConnectOptionsType) {
     let username = initialUsername;
     let password = initialPassword;
@@ -1096,7 +1097,7 @@ export function initialize({
       window.Whisper.events.trigger('unlinkAndDisconnect');
     });
 
-    if (!disableWebSockets) {
+    if (useWebSocket) {
       socketManager.authenticate({ username, password });
     }
 
@@ -1109,6 +1110,7 @@ export function initialize({
       registerRequestHandler,
       unregisterRequestHandler,
       authenticate,
+      logout,
       confirmCode,
       createGroup,
       fetchLinkPreviewImage,
@@ -1166,11 +1168,11 @@ export function initialize({
         param.urlParameters = '';
       }
 
-      const useWebSocket =
-        !disableWebSockets && WEBSOCKET_CALLS.has(param.call);
+      const useWebSocketForEndpoint =
+        useWebSocket && WEBSOCKET_CALLS.has(param.call);
 
       return _outerAjax(null, {
-        socketManager: useWebSocket ? socketManager : undefined,
+        socketManager: useWebSocketForEndpoint ? socketManager : undefined,
         basicAuth: param.basicAuth,
         certificateAuthority,
         contentType: param.contentType || 'application/json; charset=utf-8',
@@ -1221,8 +1223,17 @@ export function initialize({
       username = newUsername;
       password = newPassword;
 
-      if (!disableWebSockets) {
+      if (useWebSocket) {
         await socketManager.authenticate({ username, password });
+      }
+    }
+
+    async function logout() {
+      username = '';
+      password = '';
+
+      if (useWebSocket) {
+        await socketManager.logout();
       }
     }
 
@@ -1530,10 +1541,7 @@ export function initialize({
       // Reset old websocket credentials and disconnect.
       // AccountManager is our only caller and it will trigger
       // `registration_done` which will update credentials.
-      await socketManager.authenticate({
-        username: '',
-        password: '',
-      });
+      await logout();
 
       // Update REST credentials, though. We need them for the call below
       username = number;

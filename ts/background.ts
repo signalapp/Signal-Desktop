@@ -636,7 +636,7 @@ export async function startApp(): Promise<void> {
             'WebAPI should be initialized together with MessageReceiver'
           );
           server.unregisterRequestHandler(messageReceiver);
-          await messageReceiver.stopProcessing();
+          messageReceiver.stopProcessing();
           await window.waitForAllBatchers();
         }
 
@@ -3334,18 +3334,23 @@ export async function startApp(): Promise<void> {
   ): Promise<void> {
     window.Whisper.events.trigger('unauthorized');
 
+    window.log.warn(
+      'unlinkAndDisconnect: Client is no longer authorized; ' +
+        'deleting local configuration'
+    );
+
     if (messageReceiver) {
+      window.log.info('unlinkAndDisconnect: logging out');
       strictAssert(server !== undefined, 'WebAPI not initialized');
       server.unregisterRequestHandler(messageReceiver);
-      await messageReceiver.stopProcessing();
+      messageReceiver.stopProcessing();
+
+      await server.logout();
       await window.waitForAllBatchers();
     }
 
     onEmpty();
 
-    window.log.warn(
-      'Client is no longer authorized; deleting local configuration'
-    );
     window.Signal.Util.Registration.remove();
 
     const NUMBER_ID_KEY = 'number_id';
@@ -3364,6 +3369,7 @@ export async function startApp(): Promise<void> {
     );
 
     try {
+      window.log.info('unlinkAndDisconnect: removing configuration');
       await window.textsecure.storage.protocol.removeAllConfiguration(mode);
 
       // This was already done in the database with removeAllConfiguration; this does it
@@ -3398,10 +3404,13 @@ export async function startApp(): Promise<void> {
       }
       await window.textsecure.storage.put(VERSION_KEY, window.getVersion());
 
-      window.log.info('Successfully cleared local configuration');
+      window.log.info(
+        'unlinkAndDisconnect: Successfully cleared local configuration'
+      );
     } catch (eraseError) {
       window.log.error(
-        'Something went wrong clearing local configuration',
+        'unlinkAndDisconnect: Something went wrong clearing ' +
+          'local configuration',
         eraseError && eraseError.stack ? eraseError.stack : eraseError
       );
     } finally {

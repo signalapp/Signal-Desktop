@@ -187,13 +187,17 @@ export class SocketManager extends EventListener {
       authenticated = await process.getResult();
       this.status = SocketStatus.OPEN;
     } catch (error) {
-      strictAssert(this.authenticated === process, 'Someone stole our socket');
-      this.dropAuthenticated(process);
-
       window.log.warn(
         'SocketManager: authenticated socket connection failed with ' +
           `error: ${Errors.toLogFormat(error)}`
       );
+
+      // The socket was deliberately closed, don't follow up
+      if (this.authenticated !== process) {
+        return;
+      }
+
+      this.dropAuthenticated(process);
 
       if (error instanceof HTTPError) {
         const { code } = error;
@@ -387,6 +391,16 @@ export class SocketManager extends EventListener {
       unauthenticated.abort();
       this.dropUnauthenticated(unauthenticated);
     }
+  }
+
+  public async logout(): Promise<void> {
+    const { authenticated } = this;
+    if (authenticated) {
+      authenticated.abort();
+      this.dropAuthenticated(authenticated);
+    }
+
+    this.credentials = undefined;
   }
 
   //
