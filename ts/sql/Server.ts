@@ -2125,6 +2125,36 @@ function updateToSchemaVersion41(currentVersion: number, db: Database) {
     )
     .pluck();
 
+  const getConversationStats = db.prepare<Query>(
+    `
+      SELECT uuid, e164, active_at
+      FROM
+        conversations
+      WHERE
+        id = $conversationId
+      `
+  );
+
+  const compareConvoRecency = (a: string, b: string): number => {
+    const aStats = getConversationStats.get({ conversationId: a });
+    const bStats = getConversationStats.get({ conversationId: b });
+
+    const isAComplete = Boolean(aStats?.uuid && aStats?.e164);
+    const isBComplete = Boolean(bStats?.uuid && bStats?.e164);
+
+    if (!isAComplete && !isBComplete) {
+      return 0;
+    }
+    if (!isAComplete) {
+      return -1;
+    }
+    if (!isBComplete) {
+      return 1;
+    }
+
+    return aStats.active_at - bStats.active_at;
+  };
+
   const clearSessionsAndKeys = () => {
     // ts/background.ts will ask user to relink so all that matters here is
     // to maintain an invariant:
@@ -2196,20 +2226,7 @@ function updateToSchemaVersion41(currentVersion: number, db: Database) {
 
   const prefixKeys = (ourUuid: string) => {
     for (const table of ['signedPreKeys', 'preKeys']) {
-      // Add numeric `keyId` field to keys
-      db.prepare<EmptyQuery>(
-        `
-        UPDATE ${table}
-        SET
-          json = json_insert(
-            json,
-            '$.keyId',
-            json_extract(json, '$.id')
-          )
-        `
-      ).run();
-
-      // Update id to include suffix and add `ourUuid` field
+      // Update id to include suffix, add `ourUuid` and `keyId` fields.
       db.prepare<Query>(
         `
         UPDATE ${table}
@@ -2219,17 +2236,26 @@ function updateToSchemaVersion41(currentVersion: number, db: Database) {
             json,
             '$.id',
             $ourUuid || ':' || json_extract(json, '$.id'),
+            '$.keyId',
+            json_extract(json, '$.id'),
             '$.ourUuid',
             $ourUuid
           )
         `
       ).run({ ourUuid });
     }
+  };
 
+  const updateSenderKeys = (ourUuid: string) => {
     const senderKeys: ReadonlyArray<{
       id: string;
       senderId: string;
-    }> = db.prepare<EmptyQuery>('SELECT id, senderId FROM senderKeys').all();
+      lastUpdatedDate: number;
+    }> = db
+      .prepare<EmptyQuery>(
+        'SELECT id, senderId, lastUpdatedDate FROM senderKeys'
+      )
+      .all();
 
     console.log(`Updating ${senderKeys.length} sender keys`);
 
@@ -2248,9 +2274,18 @@ function updateToSchemaVersion41(currentVersion: number, db: Database) {
       'DELETE FROM senderKeys WHERE id = $id'
     );
 
+    const pastKeys = new Map<
+      string,
+      {
+        conversationId: string;
+        lastUpdatedDate: number;
+      }
+    >();
+
     let updated = 0;
     let deleted = 0;
-    for (const { id, senderId } of senderKeys) {
+    let skipped = 0;
+    for (const { id, senderId, lastUpdatedDate } of senderKeys) {
       const [conversationId] = Helpers.unencodeNumber(senderId);
       const uuid = getConversationUuid.get({ conversationId });
 
@@ -2260,17 +2295,40 @@ function updateToSchemaVersion41(currentVersion: number, db: Database) {
         continue;
       }
 
-      updated += 1;
+      const newId = `${ourUuid}:${id.replace(conversationId, uuid)}`;
+
+      const existing = pastKeys.get(newId);
+
+      // We are going to delete on of the keys anyway
+      if (existing) {
+        skipped += 1;
+      } else {
+        updated += 1;
+      }
+
+      const isOlder =
+        existing &&
+        (lastUpdatedDate < existing.lastUpdatedDate ||
+          compareConvoRecency(conversationId, existing.conversationId) < 0);
+      if (isOlder) {
+        deleteSenderKey.run({ id });
+        continue;
+      } else if (existing) {
+        deleteSenderKey.run({ id: newId });
+      }
+
+      pastKeys.set(newId, { conversationId, lastUpdatedDate });
+
       updateSenderKey.run({
         id,
-        newId: `${ourUuid}:${id.replace(conversationId, uuid)}`,
+        newId,
         newSenderId: `${senderId.replace(conversationId, uuid)}`,
       });
     }
 
     console.log(
       `Updated ${senderKeys.length} sender keys: ` +
-        `updated: ${updated}, deleted: ${deleted}`
+        `updated: ${updated}, deleted: ${deleted}, skipped: ${skipped}`
     );
   };
 
@@ -2310,8 +2368,16 @@ function updateToSchemaVersion41(currentVersion: number, db: Database) {
       'DELETE FROM sessions WHERE id = $id'
     );
 
+    const pastSessions = new Map<
+      string,
+      {
+        conversationId: string;
+      }
+    >();
+
     let updated = 0;
     let deleted = 0;
+    let skipped = 0;
     for (const { id, conversationId } of allSessions) {
       const uuid = getConversationUuid.get({ conversationId });
       if (!uuid) {
@@ -2322,7 +2388,27 @@ function updateToSchemaVersion41(currentVersion: number, db: Database) {
 
       const newId = `${ourUuid}:${id.replace(conversationId, uuid)}`;
 
-      updated += 1;
+      const existing = pastSessions.get(newId);
+
+      // We are going to delete on of the keys anyway
+      if (existing) {
+        skipped += 1;
+      } else {
+        updated += 1;
+      }
+
+      const isOlder =
+        existing &&
+        compareConvoRecency(conversationId, existing.conversationId) < 0;
+      if (isOlder) {
+        deleteSession.run({ id });
+        continue;
+      } else if (existing) {
+        deleteSession.run({ id: newId });
+      }
+
+      pastSessions.set(newId, { conversationId });
+
       updateSession.run({
         id,
         newId,
@@ -2333,7 +2419,7 @@ function updateToSchemaVersion41(currentVersion: number, db: Database) {
 
     console.log(
       `Updated ${allSessions.length} sessions: ` +
-        `updated: ${updated}, deleted: ${deleted}`
+        `updated: ${updated}, deleted: ${deleted}, skipped: ${skipped}`
     );
   };
 
@@ -2429,6 +2515,8 @@ function updateToSchemaVersion41(currentVersion: number, db: Database) {
 
     prefixKeys(ourUuid);
 
+    updateSenderKeys(ourUuid);
+
     updateSessions(ourUuid);
 
     moveIdentityKeyToMap(ourUuid);
@@ -2440,7 +2528,7 @@ function updateToSchemaVersion41(currentVersion: number, db: Database) {
   console.log('updateToSchemaVersion41: success!');
 }
 
-const SCHEMA_VERSIONS = [
+export const SCHEMA_VERSIONS = [
   updateToSchemaVersion1,
   updateToSchemaVersion2,
   updateToSchemaVersion3,
@@ -2484,7 +2572,7 @@ const SCHEMA_VERSIONS = [
   updateToSchemaVersion41,
 ];
 
-function updateSchema(db: Database): void {
+export function updateSchema(db: Database) {
   const sqliteVersion = getSQLiteVersion(db);
   const sqlcipherVersion = getSQLCipherVersion(db);
   const userVersion = getUserVersion(db);
@@ -2502,7 +2590,8 @@ function updateSchema(db: Database): void {
 
   if (userVersion > maxUserVersion) {
     throw new Error(
-      `SQL: User version is ${userVersion} but the expected maximum version is ${maxUserVersion}. Did you try to start an old version of Signal?`
+      `SQL: User version is ${userVersion} but the expected maximum version ` +
+        `is ${maxUserVersion}. Did you try to start an old version of Signal?`
     );
   }
 
