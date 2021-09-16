@@ -295,7 +295,12 @@ export class Quote extends React.Component<Props, State> {
             isIncoming ? 'module-quote__primary__text--incoming' : null
           )}
         >
-          <MessageBody disableLinks text={quoteText} i18n={i18n} />
+          <MessageBody
+            disableLinks
+            disableJumbomoji
+            text={quoteText}
+            i18n={i18n}
+          />
         </div>
       );
     }
