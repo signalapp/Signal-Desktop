@@ -28,6 +28,27 @@ export const onsNameRegex = '^\\w([\\w-]*[\\w])?$';
 
 export const ERROR_CODE_NO_CONNECT = 'ENETUNREACH: No network connection.';
 
+let latestTimestampOffset = Number.MAX_SAFE_INTEGER;
+
+function handleTimestampOffset(request: string, snodeTimestamp: number) {
+  if (snodeTimestamp && _.isNumber(snodeTimestamp) && snodeTimestamp > 1609419600 * 1000) {
+    // first january 2021. Arbitrary, just want to make sure the return timestamp is somehow valid and not some crazy low value
+    const now = Date.now();
+    window?.log?.info(`timestamp offset from request ${request}:  ${now - snodeTimestamp}ms`);
+    latestTimestampOffset = now - snodeTimestamp;
+  }
+}
+
+export function getLatestTimestampOffset() {
+  if (latestTimestampOffset === Number.MAX_SAFE_INTEGER) {
+    window.log.warn('latestTimestampOffset is not set yet');
+    return 0;
+  }
+  window.log.info('latestTimestampOffset is ', latestTimestampOffset);
+
+  return latestTimestampOffset;
+}
+
 export type SendParams = {
   pubKey: string;
   ttl: string;
@@ -44,13 +65,13 @@ async function requestSnodesForPubkeyWithTargetNodeRetryable(
   const params = {
     pubKey,
   };
+
   const result = await snodeRpc({
     method: 'get_snodes_for_pubkey',
     params,
     targetNode,
     associatedWith: pubKey,
   });
-
   if (!result) {
     window?.log?.warn(
       `LokiSnodeAPI::requestSnodesForPubkeyWithTargetNodeRetryable - lokiRpc on ${targetNode.ip}:${targetNode.port} returned falsish value`,
@@ -77,6 +98,7 @@ async function requestSnodesForPubkeyWithTargetNodeRetryable(
     }
 
     const snodes = json.snodes.filter((tSnode: any) => tSnode.ip !== '0.0.0.0');
+    handleTimestampOffset('get_snodes_for_pubkey', json.t);
     return snodes;
   } catch (e) {
     throw new Error('Invalid json');
@@ -175,6 +197,7 @@ export async function getSessionIDForOnsName(onsNameCase: string) {
 
     try {
       parsedBody = JSON.parse(result.body);
+      handleTimestampOffset('ons_resolve', parsedBody.t);
     } catch (e) {
       window?.log?.warn('ONSresolve: failed to parse ons result body', result.body);
       throw new Error('ONSresolve: json ONS resovle');
@@ -374,6 +397,7 @@ export async function TEST_getSnodePoolFromSnode(targetNode: Snode): Promise<Arr
         pubkey_x25519: snode.pubkey_x25519,
         pubkey_ed25519: snode.pubkey_ed25519,
       })) as Array<Snode>;
+    handleTimestampOffset('get_service_nodes', json.t);
 
     // we the return list by the snode is already made of uniq snodes
     return _.compact(snodes);
@@ -387,6 +411,7 @@ export async function storeOnNode(targetNode: Snode, params: SendParams): Promis
   try {
     // no retry here. If an issue is with the path this is handled in lokiOnionFetch
     // if there is an issue with the targetNode, we still send a few times this request to a few snodes in // already so it's handled
+
     const result = await snodeRpc({
       method: 'store',
       params,
@@ -394,11 +419,18 @@ export async function storeOnNode(targetNode: Snode, params: SendParams): Promis
       associatedWith: params.pubKey,
     });
 
-    if (!result || result.status !== 200) {
+    if (!result || result.status !== 200 || !result.body) {
       return false;
     }
 
-    return true;
+    try {
+      const parsed = JSON.parse(result.body);
+      handleTimestampOffset('store', parsed.t);
+      return true;
+    } catch (e) {
+      window?.log?.warn('Failed to parse "store" result: ', e.msg);
+    }
+    return false;
   } catch (e) {
     window?.log?.warn(
       'loki_message:::store - send error:',
@@ -445,6 +477,8 @@ export async function retrieveNextMessages(
     if (!window.inboxStore?.getState().onionPaths.isOnline) {
       window.inboxStore?.dispatch(updateIsOnline(true));
     }
+
+    handleTimestampOffset('retrieve', json.t);
 
     return json.messages || [];
   } catch (e) {

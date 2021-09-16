@@ -317,8 +317,6 @@ window.models = require('./ts/models');
 window.Signal = window.Signal || {};
 window.Signal.Data = require('./ts/data/data');
 
-window.getMessageController = () => window.libsession.Messages.getMessageController();
-
 window.Signal.Logs = require('./js/modules/logs');
 
 window.addEventListener('contextmenu', e => {

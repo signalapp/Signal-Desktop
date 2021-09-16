@@ -35,18 +35,16 @@ describe('Message Utils', () => {
 
       const rawMessage = await MessageUtils.toRawMessage(device, message);
 
-      expect(Object.keys(rawMessage)).to.have.length(6);
+      expect(Object.keys(rawMessage)).to.have.length(5);
       expect(rawMessage.identifier).to.exist;
       expect(rawMessage.device).to.exist;
       expect(rawMessage.encryption).to.exist;
       expect(rawMessage.plainTextBuffer).to.exist;
-      expect(rawMessage.timestamp).to.exist;
       expect(rawMessage.ttl).to.exist;
 
       expect(rawMessage.identifier).to.equal(message.identifier);
       expect(rawMessage.device).to.equal(device.key);
       expect(rawMessage.plainTextBuffer).to.deep.equal(message.plainTextBuffer());
-      expect(rawMessage.timestamp).to.equal(message.timestamp);
       expect(rawMessage.ttl).to.equal(message.ttl());
     });
 

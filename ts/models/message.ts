@@ -47,7 +47,6 @@ import {
 } from '../session/utils/AttachmentsV2';
 import { OpenGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
 import { getV2OpenGroupRoom } from '../data/opengroups';
-import { getMessageController } from '../session/messages';
 import { isUsFromCache } from '../session/utils/User';
 import { perfEnd, perfStart } from '../session/utils/Performance';
 import { AttachmentTypeWithPath } from '../types/Attachment';
@@ -268,7 +267,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   }
 
   public async cleanup() {
-    getMessageController().unregister(this.id);
     await window.Signal.Migrations.deleteExternalMessageFiles(this.attributes);
   }
 

@@ -1,7 +1,6 @@
 import { initIncomingMessage } from './dataMessage';
 import { toNumber } from 'lodash';
 import { getConversationController } from '../session/conversations';
-import { getMessageController } from '../session/messages';
 import { actions as conversationActions } from '../state/ducks/conversations';
 import { ConversationTypeEnum } from '../models/conversation';
 
@@ -34,7 +33,6 @@ export async function onError(ev: any) {
 
     conversation.updateLastMessage();
     await conversation.notify(message);
-    getMessageController().register(message.id, message);
     window.inboxStore?.dispatch(
       conversationActions.messageAdded({
         conversationKey: conversation.id,

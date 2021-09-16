@@ -3,6 +3,8 @@
 import chai from 'chai';
 import * as sinon from 'sinon';
 import { describe } from 'mocha';
+import { randomBytes } from 'crypto';
+import * as Data from '../../../../../ts/data/data';
 
 import { GroupUtils, PromiseUtils, UserUtils } from '../../../../session/utils';
 import { TestUtils } from '../../../../test/test-utils';
@@ -15,6 +17,7 @@ import { ClosedGroupMessage } from '../../../../session/messages/outgoing/contro
 
 import chaiAsPromised from 'chai-as-promised';
 import { MessageSentHandler } from '../../../../session/sending/MessageSentHandler';
+
 chai.use(chaiAsPromised as any);
 chai.should();
 
@@ -42,7 +45,7 @@ describe('MessageQueue', () => {
     sandbox.stub(UserUtils, 'getOurPubKeyStrFromCache').returns(ourNumber);
 
     // Message Sender Stubs
-    sendStub = sandbox.stub(MessageSender, 'send').resolves();
+    sendStub = sandbox.stub(MessageSender, 'send');
     messageSentHandlerFailedStub = sandbox
       .stub(MessageSentHandler as any, 'handleMessageSentFailure')
       .resolves();
@@ -56,6 +59,7 @@ describe('MessageQueue', () => {
     // Init Queue
     pendingMessageCache = new PendingMessageCacheStub();
     messageQueueStub = new MessageQueue(pendingMessageCache);
+    TestUtils.stubWindowLog();
   });
 
   afterEach(() => {
@@ -108,8 +112,12 @@ describe('MessageQueue', () => {
 
     describe('events', () => {
       it('should send a success event if message was sent', done => {
-        const device = TestUtils.generateFakePubKey();
+        sandbox.stub(Data, 'getMessageById').resolves();
         const message = TestUtils.generateVisibleMessage();
+
+        sendStub.resolves({ effectiveTimestamp: Date.now(), wrappedEnvelope: randomBytes(10) });
+        const device = TestUtils.generateFakePubKey();
+        sandbox.stub(MessageSender, 'getMinRetryTimeout').returns(10);
         const waitForMessageSentEvent = async () =>
           new Promise<void>(resolve => {
             resolve();

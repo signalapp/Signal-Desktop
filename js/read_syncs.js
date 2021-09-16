@@ -1,7 +1,6 @@
 /* global
   Backbone,
   Whisper,
-  getMessageController
 */
 
 /* eslint-disable more/no-then */
@@ -53,33 +52,32 @@
           return;
         }
 
-        const message = getMessageController().register(found.id, found);
         const readAt = receipt.get('read_at');
 
         // If message is unread, we mark it read. Otherwise, we update the expiration
         //   timer to the time specified by the read sync if it's earlier than
         //   the previous read time.
-        if (message.isUnread() && window.isFocused()) {
-          await message.markRead(readAt);
+        if (found.isUnread() && window.isFocused()) {
+          await found.markRead(readAt);
 
           // onReadMessage may result in messages older than this one being
           //   marked read. We want those messages to have the same expire timer
           //   start time as this one, so we pass the readAt value through.
-          const conversation = message.getConversation();
+          const conversation = found.getConversation();
           if (conversation) {
-            conversation.onReadMessage(message, readAt);
+            conversation.onReadMessage(found, readAt);
           }
         } else {
           const now = Date.now();
-          const existingTimestamp = message.get('expirationStartTimestamp');
+          const existingTimestamp = found.get('expirationStartTimestamp');
           const expirationStartTimestamp = Math.min(
             now,
             Math.min(existingTimestamp || now, readAt || now)
           );
-          message.set({ expirationStartTimestamp });
+          found.set({ expirationStartTimestamp });
 
           const force = true;
-          await message.setToExpire(force);
+          await found.setToExpire(force);
         }
 
         this.remove(receipt);

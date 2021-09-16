@@ -9,11 +9,17 @@ import { TestUtils } from '..';
 import { OpenGroupRequestCommonType } from '../../../opengroup/opengroupV2/ApiUtil';
 import { OpenGroupVisibleMessage } from '../../../session/messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
 
-export function generateVisibleMessage(identifier?: string): VisibleMessage {
+export function generateVisibleMessage({
+  identifier,
+  timestamp,
+}: {
+  identifier?: string;
+  timestamp?: number;
+} = {}): VisibleMessage {
   return new VisibleMessage({
     body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
     identifier: identifier ?? uuid(),
-    timestamp: Date.now(),
+    timestamp: timestamp || Date.now(),
     attachments: undefined,
     quote: undefined,
     expireTimer: undefined,

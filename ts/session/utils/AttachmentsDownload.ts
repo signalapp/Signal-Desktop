@@ -12,7 +12,6 @@ import {
 } from '../../../ts/data/data';
 import { MessageModel } from '../../models/message';
 import { downloadAttachment, downloadAttachmentOpenGroupV2 } from '../../receiver/attachments';
-import { getMessageController } from '../messages';
 
 const MAX_ATTACHMENT_JOB_PARALLELISM = 3;
 
@@ -131,14 +130,13 @@ async function _maybeStartJob() {
 async function _runJob(job: any) {
   const { id, messageId, attachment, type, index, attempts, isOpenGroupV2, openGroupV2Details } =
     job || {};
-  let message;
-
+  let found: MessageModel | undefined | null;
   try {
     if (!job || !attachment || !messageId) {
       throw new Error(`_runJob: Key information required for job was missing. Job id: ${id}`);
     }
 
-    const found = await getMessageById(messageId);
+    found = await getMessageById(messageId);
     if (!found) {
       logger.error('_runJob: Source message not found, deleting job');
       await _finishJob(null, id);
@@ -161,8 +159,6 @@ async function _runJob(job: any) {
       return;
     }
 
-    message = getMessageController().register(found.id, found);
-
     const pending = true;
     await setAttachmentDownloadJobPending(id, pending);
 
@@ -180,11 +176,11 @@ async function _runJob(job: any) {
         logger.warn(
           `_runJob: Got 404 from server, marking attachment ${
             attachment.id
-          } from message ${message.idForLogging()} as permanent error`
+          } from message ${found.idForLogging()} as permanent error`
         );
 
-        await _finishJob(message, id);
-        await _addAttachmentToMessage(message, _markAttachmentAsError(attachment), { type, index });
+        await _finishJob(found, id);
+        await _addAttachmentToMessage(found, _markAttachmentAsError(attachment), { type, index });
 
         return;
       }
@@ -193,27 +189,27 @@ async function _runJob(job: any) {
 
     const upgradedAttachment = await window.Signal.Migrations.processNewAttachment(downloaded);
 
-    await _addAttachmentToMessage(message, upgradedAttachment, { type, index });
+    await _addAttachmentToMessage(found, upgradedAttachment, { type, index });
 
-    await _finishJob(message, id);
+    await _finishJob(found, id);
   } catch (error) {
     // tslint:disable: restrict-plus-operands
     const currentAttempt: 1 | 2 | 3 = (attempts || 0) + 1;
 
     if (currentAttempt >= 3) {
       logger.error(
-        `_runJob: ${currentAttempt} failed attempts, marking attachment ${id} from message ${message?.idForLogging()} as permament error:`,
+        `_runJob: ${currentAttempt} failed attempts, marking attachment ${id} from message ${found?.idForLogging()} as permament error:`,
         error && error.stack ? error.stack : error
       );
 
-      await _finishJob(message || null, id);
-      await _addAttachmentToMessage(message, _markAttachmentAsError(attachment), { type, index });
+      await _finishJob(found || null, id);
+      await _addAttachmentToMessage(found, _markAttachmentAsError(attachment), { type, index });
 
       return;
     }
 
     logger.error(
-      `_runJob: Failed to download attachment type ${type} for message ${message?.idForLogging()}, attempt ${currentAttempt}:`,
+      `_runJob: Failed to download attachment type ${type} for message ${found?.idForLogging()}, attempt ${currentAttempt}:`,
       error && error.stack ? error.stack : error
     );
 

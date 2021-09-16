@@ -16,7 +16,6 @@ import { ClosedGroupMemberLeftMessage } from '../messages/outgoing/controlMessag
 import { ConversationModel, ConversationTypeEnum } from '../../models/conversation';
 import { MessageModel } from '../../models/message';
 import { MessageModelType } from '../../models/messageType';
-import { getMessageController } from '../messages';
 import {
   addKeyPairToCacheAndDBIfNeeded,
   distributingClosedGroupEncryptionKeyPairs,
@@ -30,6 +29,7 @@ import { ClosedGroupNewMessage } from '../messages/outgoing/controlMessage/group
 import { ClosedGroupRemovedMembersMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupRemovedMembersMessage';
 import { updateOpenGroupV2 } from '../../opengroup/opengroupV2/OpenGroupUpdate';
 import { getSwarmPollingInstance } from '../snode_api';
+import { getLatestTimestampOffset } from '../snode_api/SNodeAPI';
 
 export type GroupInfo = {
   id: string;
@@ -109,21 +109,18 @@ export async function initiateGroupUpdate(
   if (diff.newName?.length) {
     const nameOnlyDiff: GroupDiff = { newName: diff.newName };
     const dbMessageName = await addUpdateMessage(convo, nameOnlyDiff, 'outgoing', Date.now());
-    getMessageController().register(dbMessageName.id as string, dbMessageName);
     await sendNewName(convo, diff.newName, dbMessageName.id as string);
   }
 
   if (diff.joiningMembers?.length) {
     const joiningOnlyDiff: GroupDiff = { joiningMembers: diff.joiningMembers };
     const dbMessageAdded = await addUpdateMessage(convo, joiningOnlyDiff, 'outgoing', Date.now());
-    getMessageController().register(dbMessageAdded.id as string, dbMessageAdded);
     await sendAddedMembers(convo, diff.joiningMembers, dbMessageAdded.id as string, updateObj);
   }
 
   if (diff.leavingMembers?.length) {
     const leavingOnlyDiff: GroupDiff = { leavingMembers: diff.leavingMembers };
     const dbMessageLeaving = await addUpdateMessage(convo, leavingOnlyDiff, 'outgoing', Date.now());
-    getMessageController().register(dbMessageLeaving.id as string, dbMessageLeaving);
     const stillMembers = members;
     await sendRemovedMembers(
       convo,
@@ -312,17 +309,17 @@ export async function leaveClosedGroup(groupId: string) {
   await convo.commit();
 
   const source = UserUtils.getOurPubKeyStrFromCache();
+  const diffTimestamp = Date.now() - getLatestTimestampOffset();
 
   const dbMessage = await convo.addSingleMessage({
     group_update: { left: 'You' },
     conversationId: groupId,
     source,
     type: 'outgoing',
-    sent_at: now,
+    sent_at: diffTimestamp,
     received_at: now,
     expireTimer: 0,
   });
-  getMessageController().register(dbMessage.id as string, dbMessage);
   // Send the update to the group
   const ourLeavingMessage = new ClosedGroupMemberLeftMessage({
     timestamp: Date.now(),

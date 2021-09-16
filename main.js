@@ -667,6 +667,8 @@ async function removeDB() {
   await sql.removeDB(userDir);
 
   try {
+    console.warn('Remove DB: removing.', userDir);
+
     userConfig.remove();
     ephemeralConfig.remove();
   } catch (e) {

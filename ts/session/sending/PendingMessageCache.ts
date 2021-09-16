@@ -20,8 +20,8 @@ export class PendingMessageCache {
 
   public async getAllPending(): Promise<Array<RawMessage>> {
     await this.loadFromDBIfNeeded();
-    // Get all pending from cache, sorted with oldest first
-    return [...this.cache].sort((a, b) => a.timestamp - b.timestamp);
+    // Get all pending from cache
+    return [...this.cache];
   }
 
   public async getForDevice(device: PubKey): Promise<Array<RawMessage>> {
@@ -71,7 +71,7 @@ export class PendingMessageCache {
 
     // Remove item from cache and sync with database
     const updatedCache = this.cache.filter(
-      cached => !(cached.device === message.device && cached.timestamp === message.timestamp)
+      cached => !(cached.device === message.device && cached.identifier === message.identifier)
     );
     this.cache = updatedCache;
     this.callbacks.delete(message.identifier);
@@ -82,7 +82,7 @@ export class PendingMessageCache {
 
   public find(message: RawMessage): RawMessage | undefined {
     // Find a message in the cache
-    return this.cache.find(m => m.device === message.device && m.timestamp === message.timestamp);
+    return this.cache.find(m => m.device === message.device && m.identifier === message.identifier);
   }
 
   public async clear() {
