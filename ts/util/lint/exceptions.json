@@ -852,48 +852,6 @@
     "updated": "2021-04-06T04:01:59.934Z"
   },
   {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/@chanzuckerberg/axe-storybook-testing/node_modules/cliui/build/lib/index.js",
-    "line": "                wrapped = mixin.wrap(col.text, this.negatePadding(col), { hard: true }).split('\\n');",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-06T04:01:59.934Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/@chanzuckerberg/axe-storybook-testing/node_modules/cliui/build/lib/string-utils.js",
-    "line": "export function wrap(str, width) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-06T04:01:59.934Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/@chanzuckerberg/axe-storybook-testing/node_modules/yargs/build/lib/completion-templates.js",
-    "line": "    type_list=$({{app_path}} --get-yargs-completions \"\\${args[@]}\")",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-06T04:01:59.934Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/@chanzuckerberg/axe-storybook-testing/node_modules/yargs/build/lib/completion-templates.js",
-    "line": "    COMPREPLY=( $(compgen -W \"\\${type_list}\" -- \\${cur_word}) )",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-06T04:01:59.934Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/@chanzuckerberg/axe-storybook-testing/node_modules/yargs/build/lib/completion-templates.js",
-    "line": "  IFS=$'\\n' reply=($(COMP_CWORD=\"$((CURRENT-1))\" COMP_LINE=\"$BUFFER\" COMP_POINT=\"$CURSOR\" {{app_path}} --get-yargs-completions \"\\${words[@]}\"))",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-06T04:01:59.934Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/@chanzuckerberg/axe-storybook-testing/node_modules/yargs/build/lib/yargs-factory.js",
-    "line": "        usage.wrap(cols);",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-06T04:01:59.934Z"
-  },
-  {
     "rule": "jQuery-append(",
     "path": "node_modules/@discoveryjs/json-ext/dist/json-ext.js",
     "line": "    function append(array, elements) {",
@@ -8116,6 +8074,22 @@
     "updated": "2019-03-09T00:08:44.242Z"
   },
   {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/log-symbols/node_modules/ansi-styles/index.js",
+    "line": "\t\t\tstyles[name] = wrap(identity, offset);",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-09-16T20:26:31.296Z",
+    "reasonDetail": "Not jQuery."
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/log-symbols/node_modules/ansi-styles/index.js",
+    "line": "\t\t\tstyles[name] = wrap(suite[targetSpace], offset);",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-09-16T20:26:31.296Z",
+    "reasonDetail": "Not jQuery."
+  },
+  {
     "rule": "jQuery-$(",
     "path": "node_modules/loose-envify/node_modules/js-tokens/index.js",
     "reasonCategory": "falseMatch",
@@ -12655,6 +12629,67 @@
     "line": "        headers.append(key, value)",
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/workerpool/dist/worker.js",
+    "line": "var requireFoolWebpack = eval('typeof require !== \\'undefined\\'' + ' ? require' + ' : function (module) { throw new Error(\\'Module \" + module + \" not found.\\') }');",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-09-16T20:26:31.296Z",
+    "reasonDetail": "Dev-only dependency."
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/workerpool/dist/workerpool.js",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-09-16T20:26:31.296Z",
+    "reasonDetail": "Dev-only dependency."
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/workerpool/dist/workerpool.js",
+    "line": "var requireFoolWebpack = eval('typeof require !== \\'undefined\\' ' + '? require ' + ': function (module) { throw new Error(\\'Module \" + module + \" not found.\\') }');",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-09-16T20:26:31.296Z",
+    "reasonDetail": "Dev-only dependency."
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/workerpool/dist/workerpool.js",
+    "line": "var requireFoolWebpack = eval('typeof require !== \\'undefined\\'' + ' ? require' + ' : function (module) { throw new Error(\\'Module \" + module + \" not found.\\') }');",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-09-16T20:26:31.296Z",
+    "reasonDetail": "Dev-only dependency."
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/workerpool/dist/workerpool.min.js",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-09-16T20:26:31.296Z",
+    "reasonDetail": "Dev-only dependency."
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/workerpool/src/generated/embeddedWorker.js",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-09-16T20:26:31.296Z",
+    "reasonDetail": "Dev-only dependency."
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/workerpool/src/requireFoolWebpack.js",
+    "line": "var requireFoolWebpack = eval(",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-09-16T20:26:31.296Z",
+    "reasonDetail": "Dev-only dependency."
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/workerpool/src/worker.js",
+    "line": "var requireFoolWebpack = eval(",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-09-16T20:26:31.296Z",
+    "reasonDetail": "Dev-only dependency."
   },
   {
     "rule": "jQuery-$(",
