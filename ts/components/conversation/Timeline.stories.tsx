@@ -418,6 +418,7 @@ const renderHeroRow = () => (
     profileName={getProfileName()}
     phoneNumber={getPhoneNumber()}
     conversationType="direct"
+    onHeightChange={action('onHeightChange in ConversationHero')}
     sharedGroupNames={['NYC Rock Climbers', 'Dinner Party']}
     unblurAvatar={action('unblurAvatar')}
     updateSharedGroups={noop}

@@ -19,7 +19,7 @@ export type Props = {
   i18n: LocalizerType;
   isMe: boolean;
   membersCount?: number;
-  onHeightChange?: () => unknown;
+  onHeightChange: () => unknown;
   phoneNumber?: string;
   sharedGroupNames?: Array<string>;
   unblurAvatar: () => void;
@@ -134,7 +134,7 @@ export const ConversationHero = ({
     }
 
     window.log.info('ConversationHero: calling onHeightChange');
-    onHeightChange?.();
+    onHeightChange();
   }, [
     about,
     conversationType,
