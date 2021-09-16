@@ -662,6 +662,7 @@ function getDefaultSQLKey() {
 }
 
 async function removeDB() {
+  // this don't remove attachments and stuff like that...
   const userDir = await getRealPath(app.getPath('userData'));
   await sql.removeDB(userDir);
 

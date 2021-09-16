@@ -71,7 +71,7 @@ const SignUpSessionIDShown = (props: { continueSignUp: () => void }) => {
         </div>
       </Flex>
       <SessionIdEditable editable={false} placeholder={undefined} />
-      <div className="session-description-long">{window.i18n('signupSessionIDBlurb')}</div>
+      <div className="session-description-long">{window.i18n('allUsersAreRandomly...')}</div>
       <ContinueSignUpButton continueSignUp={props.continueSignUp} />
       <TermsAndConditions />
     </div>

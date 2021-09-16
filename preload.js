@@ -156,11 +156,6 @@ window.restart = () => {
   ipc.send('restart');
 };
 
-window.resetDatabase = () => {
-  window.log.info('reset database');
-  ipc.send('resetDatabase');
-};
-
 ipc.on('mediaPermissionsChanged', () => {
   Whisper.events.trigger('mediaPermissionsChanged');
 });
