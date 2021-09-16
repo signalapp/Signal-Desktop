@@ -1447,7 +1447,6 @@ export class Message extends React.PureComponent<Props, State> {
         </div>
         {reactionPickerRoot &&
           createPortal(
-            // eslint-disable-next-line consistent-return
             <Popper
               placement="top"
               modifiers={[
@@ -1758,7 +1757,7 @@ export class Message extends React.PureComponent<Props, State> {
       return;
     }
 
-    // eslint-disable-next-line consistent-return, no-nested-ternary
+    // eslint-disable-next-line no-nested-ternary
     return isTapToViewError
       ? i18n('incomingError')
       : direction === 'outgoing'

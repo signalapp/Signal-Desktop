@@ -341,7 +341,6 @@ export default class AccountManager extends EventTarget {
         return;
       }
 
-      // eslint-disable-next-line consistent-return
       return store
         .getIdentityKeyPair(ourUuid)
         .then(

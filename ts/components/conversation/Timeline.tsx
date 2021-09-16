@@ -368,7 +368,6 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
       return;
     }
 
-    // eslint-disable-next-line consistent-return
     return list.Grid;
   };
 
@@ -381,7 +380,6 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
       return;
     }
 
-    // eslint-disable-next-line consistent-return
     return grid._scrollingContainer as HTMLDivElement;
   };
 
@@ -894,7 +892,6 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
       return;
     }
 
-    // eslint-disable-next-line consistent-return
     return index;
   }
 
@@ -904,7 +901,6 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
       return;
     }
 
-    // eslint-disable-next-line consistent-return
     return this.fromItemIndexToRow(oldestUnreadIndex) - 1;
   }
 
@@ -916,7 +912,6 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
 
     const last = items.length - 1;
 
-    // eslint-disable-next-line consistent-return
     return this.fromItemIndexToRow(last) + 1;
   }
 

@@ -654,11 +654,9 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     const expires = window.moment(muteExpiresAt);
 
     if (today.isSame(expires, 'day')) {
-      // eslint-disable-next-line consistent-return
       return expires.format('hh:mm A');
     }
 
-    // eslint-disable-next-line consistent-return
     return expires.format('M/D/YY, hh:mm A');
   }
 

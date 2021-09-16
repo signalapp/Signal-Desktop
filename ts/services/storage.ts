@@ -660,7 +660,6 @@ async function fetchManifest(
     }
 
     try {
-      // eslint-disable-next-line consistent-return
       return decryptManifest(encryptedManifest);
     } catch (err) {
       await stopStorageServiceSync();

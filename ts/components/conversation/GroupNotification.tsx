@@ -118,7 +118,6 @@ export class GroupNotification extends React.Component<Props> {
           <Intl i18n={i18n} id={leftKey} components={[otherPeopleWithCommas]} />
         );
       case 'general':
-        // eslint-disable-next-line consistent-return
         return;
       default:
         throw missingCaseError(type);
