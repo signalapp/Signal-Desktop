@@ -49,7 +49,6 @@ export const ModalContainer = () => {
 
   return (
     <>
-      {confirmModalState && <SessionConfirm {...confirmModalState} />}
       {inviteModalState && <InviteContactsDialog {...inviteModalState} />}
       {addModeratorsModalState && <AddModeratorsDialog {...addModeratorsModalState} />}
       {removeModeratorsModalState && <RemoveModeratorsDialog {...removeModeratorsModalState} />}
@@ -67,6 +66,7 @@ export const ModalContainer = () => {
       )}
       {sessionPasswordModalState && <SessionPasswordDialog {...sessionPasswordModalState} />}
       {deleteAccountModalState && <DeleteAccountModal {...deleteAccountModalState} />}
+      {confirmModalState && <SessionConfirm {...confirmModalState} />}
     </>
   );
 };

@@ -507,19 +507,6 @@ export const getMentionsInput = createSelector(
   (state: ConversationsStateType): MentionsMembersType => state.mentionMembers
 );
 
-export const getDraftForCurrentConversation = createSelector(
-  getConversations,
-  (state: ConversationsStateType): string => {
-    if (state.selectedConversation) {
-      return (
-        state.draftsForConversations.find(c => c.conversationKey === state.selectedConversation)
-          ?.draft || ''
-      );
-    }
-    return '';
-  }
-);
-
 /// Those calls are just related to ordering messages in the redux store.
 
 function updateFirstMessageOfSeries(

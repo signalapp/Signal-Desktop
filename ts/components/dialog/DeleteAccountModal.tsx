@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { ed25519Str } from '../../session/onions/onionPath';
 import { forceNetworkDeletion } from '../../session/snode_api/SNodeAPI';
 import { forceSyncConfigurationNowIfNeeded } from '../../session/utils/syncUtils';
@@ -127,31 +128,54 @@ async function deleteEverythingAndNetworkData() {
 
 export const DeleteAccountModal = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
 
-  const onDeleteEverythingLocallyOnly = async () => {
-    setIsLoading(true);
-    try {
-      window.log.warn('Deleting everything excluding network data');
+  const onDeleteEverythingLocallyOnly = () => {
+    dispatch(
+      updateConfirmModal({
+        message: window.i18n('areYouSureDeleteDeviceOnly'),
+        okText: window.i18n('iAmSure'),
+        okTheme: SessionButtonColor.Danger,
+        onClickOk: async () => {
+          setIsLoading(true);
+          try {
+            window.log.warn('Deleting everything on device but keeping network data');
 
-      await sendConfigMessageAndDeleteEverything();
-    } catch (e) {
-      window.log.warn(e);
-    } finally {
-      setIsLoading(false);
-    }
-
-    window.inboxStore?.dispatch(updateConfirmModal(null));
+            await sendConfigMessageAndDeleteEverything();
+          } catch (e) {
+            window.log.warn(e);
+          } finally {
+            setIsLoading(false);
+          }
+        },
+        onClickClose: () => {
+          window.inboxStore?.dispatch(updateConfirmModal(null));
+        },
+      })
+    );
   };
-  const onDeleteEverythingAndNetworkData = async () => {
-    setIsLoading(true);
-    try {
-      window.log.warn('Deleting everything including network data');
-      await deleteEverythingAndNetworkData();
-    } catch (e) {
-      window.log.warn(e);
-    } finally {
-      setIsLoading(false);
-    }
+  const onDeleteEverythingAndNetworkData = () => {
+    dispatch(
+      updateConfirmModal({
+        message: window.i18n('areYouSureDeleteEntireAccount'),
+        okText: window.i18n('iAmSure'),
+        okTheme: SessionButtonColor.Danger,
+        onClickOk: async () => {
+          setIsLoading(true);
+          try {
+            window.log.warn('Deleting everything including network data');
+            await deleteEverythingAndNetworkData();
+          } catch (e) {
+            window.log.warn(e);
+          } finally {
+            setIsLoading(false);
+          }
+        },
+        onClickClose: () => {
+          window.inboxStore?.dispatch(updateConfirmModal(null));
+        },
+      })
+    );
   };
 
   /**
