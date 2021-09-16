@@ -18,11 +18,6 @@ const DateBreakText = styled.div`
 export const MessageDateBreak = (props: { timestamp: number; messageId: string }) => {
   const { timestamp, messageId } = props;
   const text = moment(timestamp).calendar(undefined, {
-    lastDay: '[Yesterday at] LT',
-    sameDay: '[Today at] LT',
-    nextDay: '[Tomorrow at] LT',
-    lastWeek: '[last] dddd [at] LT',
-    nextWeek: 'dddd [at] LT',
     sameElse: 'llll',
   });
 
