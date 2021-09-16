@@ -4,7 +4,6 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable camelcase */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { join } from 'path';
@@ -48,6 +47,7 @@ import { formatCountForLogging } from '../logging/formatCountForLogging';
 import { ConversationColorType, CustomColorType } from '../types/Colors';
 import { ProcessGroupCallRingRequestResult } from '../types/Calling';
 import { RemoveAllConfiguration } from '../types/RemoveAllConfiguration';
+import type { LoggerType } from '../types/Logging';
 
 import {
   AllItemsType,
@@ -391,7 +391,7 @@ function migrateSchemaVersion(db: Database): void {
 
   const schemaVersion = getSchemaVersion(db);
   const newUserVersion = schemaVersion > 18 ? 16 : schemaVersion;
-  console.log(
+  logger.info(
     'migrateSchemaVersion: Migrating from schema_version ' +
       `${schemaVersion} to user_version ${newUserVersion}`
   );
@@ -414,7 +414,7 @@ function openAndMigrateDatabase(filePath: string, key: string) {
     if (db) {
       db.close();
     }
-    console.log('migrateDatabase: Migration without cipher change failed');
+    logger.info('migrateDatabase: Migration without cipher change failed');
   }
 
   // If that fails, we try to open the database with 3.x compatibility to extract the
@@ -458,7 +458,7 @@ function updateToSchemaVersion1(currentVersion: number, db: Database): void {
     return;
   }
 
-  console.log('updateToSchemaVersion1: starting...');
+  logger.info('updateToSchemaVersion1: starting...');
 
   db.transaction(() => {
     db.exec(`
@@ -530,7 +530,7 @@ function updateToSchemaVersion1(currentVersion: number, db: Database): void {
     db.pragma('user_version = 1');
   })();
 
-  console.log('updateToSchemaVersion1: success!');
+  logger.info('updateToSchemaVersion1: success!');
 }
 
 function updateToSchemaVersion2(currentVersion: number, db: Database): void {
@@ -538,7 +538,7 @@ function updateToSchemaVersion2(currentVersion: number, db: Database): void {
     return;
   }
 
-  console.log('updateToSchemaVersion2: starting...');
+  logger.info('updateToSchemaVersion2: starting...');
 
   db.transaction(() => {
     db.exec(`
@@ -564,7 +564,7 @@ function updateToSchemaVersion2(currentVersion: number, db: Database): void {
     `);
     db.pragma('user_version = 2');
   })();
-  console.log('updateToSchemaVersion2: success!');
+  logger.info('updateToSchemaVersion2: success!');
 }
 
 function updateToSchemaVersion3(currentVersion: number, db: Database): void {
@@ -572,7 +572,7 @@ function updateToSchemaVersion3(currentVersion: number, db: Database): void {
     return;
   }
 
-  console.log('updateToSchemaVersion3: starting...');
+  logger.info('updateToSchemaVersion3: starting...');
 
   db.transaction(() => {
     db.exec(`
@@ -596,7 +596,7 @@ function updateToSchemaVersion3(currentVersion: number, db: Database): void {
     db.pragma('user_version = 3');
   })();
 
-  console.log('updateToSchemaVersion3: success!');
+  logger.info('updateToSchemaVersion3: success!');
 }
 
 function updateToSchemaVersion4(currentVersion: number, db: Database): void {
@@ -604,7 +604,7 @@ function updateToSchemaVersion4(currentVersion: number, db: Database): void {
     return;
   }
 
-  console.log('updateToSchemaVersion4: starting...');
+  logger.info('updateToSchemaVersion4: starting...');
 
   db.transaction(() => {
     db.exec(`
@@ -630,14 +630,14 @@ function updateToSchemaVersion4(currentVersion: number, db: Database): void {
     db.pragma('user_version = 4');
   })();
 
-  console.log('updateToSchemaVersion4: success!');
+  logger.info('updateToSchemaVersion4: success!');
 }
 
 function updateToSchemaVersion6(currentVersion: number, db: Database): void {
   if (currentVersion >= 6) {
     return;
   }
-  console.log('updateToSchemaVersion6: starting...');
+  logger.info('updateToSchemaVersion6: starting...');
 
   db.transaction(() => {
     db.exec(`
@@ -677,14 +677,14 @@ function updateToSchemaVersion6(currentVersion: number, db: Database): void {
     db.pragma('user_version = 6');
   })();
 
-  console.log('updateToSchemaVersion6: success!');
+  logger.info('updateToSchemaVersion6: success!');
 }
 
 function updateToSchemaVersion7(currentVersion: number, db: Database): void {
   if (currentVersion >= 7) {
     return;
   }
-  console.log('updateToSchemaVersion7: starting...');
+  logger.info('updateToSchemaVersion7: starting...');
 
   db.transaction(() => {
     db.exec(`
@@ -708,14 +708,14 @@ function updateToSchemaVersion7(currentVersion: number, db: Database): void {
 
     db.pragma('user_version = 7');
   })();
-  console.log('updateToSchemaVersion7: success!');
+  logger.info('updateToSchemaVersion7: success!');
 }
 
 function updateToSchemaVersion8(currentVersion: number, db: Database): void {
   if (currentVersion >= 8) {
     return;
   }
-  console.log('updateToSchemaVersion8: starting...');
+  logger.info('updateToSchemaVersion8: starting...');
   db.transaction(() => {
     db.exec(`
       -- First, we pull a new body field out of the message table's json blob
@@ -761,14 +761,14 @@ function updateToSchemaVersion8(currentVersion: number, db: Database): void {
 
     db.pragma('user_version = 8');
   })();
-  console.log('updateToSchemaVersion8: success!');
+  logger.info('updateToSchemaVersion8: success!');
 }
 
 function updateToSchemaVersion9(currentVersion: number, db: Database): void {
   if (currentVersion >= 9) {
     return;
   }
-  console.log('updateToSchemaVersion9: starting...');
+  logger.info('updateToSchemaVersion9: starting...');
 
   db.transaction(() => {
     db.exec(`
@@ -792,14 +792,14 @@ function updateToSchemaVersion9(currentVersion: number, db: Database): void {
     db.pragma('user_version = 9');
   })();
 
-  console.log('updateToSchemaVersion9: success!');
+  logger.info('updateToSchemaVersion9: success!');
 }
 
 function updateToSchemaVersion10(currentVersion: number, db: Database): void {
   if (currentVersion >= 10) {
     return;
   }
-  console.log('updateToSchemaVersion10: starting...');
+  logger.info('updateToSchemaVersion10: starting...');
   db.transaction(() => {
     db.exec(`
       DROP INDEX unprocessed_id;
@@ -852,14 +852,14 @@ function updateToSchemaVersion10(currentVersion: number, db: Database): void {
 
     db.pragma('user_version = 10');
   })();
-  console.log('updateToSchemaVersion10: success!');
+  logger.info('updateToSchemaVersion10: success!');
 }
 
 function updateToSchemaVersion11(currentVersion: number, db: Database): void {
   if (currentVersion >= 11) {
     return;
   }
-  console.log('updateToSchemaVersion11: starting...');
+  logger.info('updateToSchemaVersion11: starting...');
 
   db.transaction(() => {
     db.exec(`
@@ -868,7 +868,7 @@ function updateToSchemaVersion11(currentVersion: number, db: Database): void {
 
     db.pragma('user_version = 11');
   })();
-  console.log('updateToSchemaVersion11: success!');
+  logger.info('updateToSchemaVersion11: success!');
 }
 
 function updateToSchemaVersion12(currentVersion: number, db: Database): void {
@@ -876,7 +876,7 @@ function updateToSchemaVersion12(currentVersion: number, db: Database): void {
     return;
   }
 
-  console.log('updateToSchemaVersion12: starting...');
+  logger.info('updateToSchemaVersion12: starting...');
   db.transaction(() => {
     db.exec(`
       CREATE TABLE sticker_packs(
@@ -929,7 +929,7 @@ function updateToSchemaVersion12(currentVersion: number, db: Database): void {
 
     db.pragma('user_version = 12');
   })();
-  console.log('updateToSchemaVersion12: success!');
+  logger.info('updateToSchemaVersion12: success!');
 }
 
 function updateToSchemaVersion13(currentVersion: number, db: Database): void {
@@ -937,7 +937,7 @@ function updateToSchemaVersion13(currentVersion: number, db: Database): void {
     return;
   }
 
-  console.log('updateToSchemaVersion13: starting...');
+  logger.info('updateToSchemaVersion13: starting...');
   db.transaction(() => {
     db.exec(`
       ALTER TABLE sticker_packs ADD COLUMN attemptedStatus STRING;
@@ -945,7 +945,7 @@ function updateToSchemaVersion13(currentVersion: number, db: Database): void {
 
     db.pragma('user_version = 13');
   })();
-  console.log('updateToSchemaVersion13: success!');
+  logger.info('updateToSchemaVersion13: success!');
 }
 
 function updateToSchemaVersion14(currentVersion: number, db: Database): void {
@@ -953,7 +953,7 @@ function updateToSchemaVersion14(currentVersion: number, db: Database): void {
     return;
   }
 
-  console.log('updateToSchemaVersion14: starting...');
+  logger.info('updateToSchemaVersion14: starting...');
   db.transaction(() => {
     db.exec(`
       CREATE TABLE emojis(
@@ -970,7 +970,7 @@ function updateToSchemaVersion14(currentVersion: number, db: Database): void {
     db.pragma('user_version = 14');
   })();
 
-  console.log('updateToSchemaVersion14: success!');
+  logger.info('updateToSchemaVersion14: success!');
 }
 
 function updateToSchemaVersion15(currentVersion: number, db: Database): void {
@@ -978,7 +978,7 @@ function updateToSchemaVersion15(currentVersion: number, db: Database): void {
     return;
   }
 
-  console.log('updateToSchemaVersion15: starting...');
+  logger.info('updateToSchemaVersion15: starting...');
   db.transaction(() => {
     db.exec(`
       -- SQLite has again coerced our STRINGs into numbers, so we force it with TEXT
@@ -1005,7 +1005,7 @@ function updateToSchemaVersion15(currentVersion: number, db: Database): void {
 
     db.pragma('user_version = 15');
   })();
-  console.log('updateToSchemaVersion15: success!');
+  logger.info('updateToSchemaVersion15: success!');
 }
 
 function updateToSchemaVersion16(currentVersion: number, db: Database): void {
@@ -1013,7 +1013,7 @@ function updateToSchemaVersion16(currentVersion: number, db: Database): void {
     return;
   }
 
-  console.log('updateToSchemaVersion16: starting...');
+  logger.info('updateToSchemaVersion16: starting...');
   db.transaction(() => {
     db.exec(`
       ALTER TABLE messages
@@ -1068,7 +1068,7 @@ function updateToSchemaVersion16(currentVersion: number, db: Database): void {
 
     db.pragma('user_version = 16');
   })();
-  console.log('updateToSchemaVersion16: success!');
+  logger.info('updateToSchemaVersion16: success!');
 }
 
 function updateToSchemaVersion17(currentVersion: number, db: Database): void {
@@ -1076,7 +1076,7 @@ function updateToSchemaVersion17(currentVersion: number, db: Database): void {
     return;
   }
 
-  console.log('updateToSchemaVersion17: starting...');
+  logger.info('updateToSchemaVersion17: starting...');
   db.transaction(() => {
     try {
       db.exec(`
@@ -1086,7 +1086,7 @@ function updateToSchemaVersion17(currentVersion: number, db: Database): void {
         DROP INDEX messages_message_timer;
       `);
     } catch (error) {
-      console.log(
+      logger.info(
         'updateToSchemaVersion17: Message table already had isViewOnce column'
       );
     }
@@ -1094,7 +1094,7 @@ function updateToSchemaVersion17(currentVersion: number, db: Database): void {
     try {
       db.exec('DROP INDEX messages_view_once;');
     } catch (error) {
-      console.log(
+      logger.info(
         'updateToSchemaVersion17: Index messages_view_once did not already exist'
       );
     }
@@ -1136,7 +1136,7 @@ function updateToSchemaVersion17(currentVersion: number, db: Database): void {
 
     db.pragma('user_version = 17');
   })();
-  console.log('updateToSchemaVersion17: success!');
+  logger.info('updateToSchemaVersion17: success!');
 }
 
 function updateToSchemaVersion18(currentVersion: number, db: Database): void {
@@ -1144,7 +1144,7 @@ function updateToSchemaVersion18(currentVersion: number, db: Database): void {
     return;
   }
 
-  console.log('updateToSchemaVersion18: starting...');
+  logger.info('updateToSchemaVersion18: starting...');
   db.transaction(() => {
     db.exec(`
       -- Delete and rebuild full-text search index to capture everything
@@ -1187,7 +1187,7 @@ function updateToSchemaVersion18(currentVersion: number, db: Database): void {
 
     db.pragma('user_version = 18');
   })();
-  console.log('updateToSchemaVersion18: success!');
+  logger.info('updateToSchemaVersion18: success!');
 }
 
 function updateToSchemaVersion19(currentVersion: number, db: Database): void {
@@ -1195,7 +1195,7 @@ function updateToSchemaVersion19(currentVersion: number, db: Database): void {
     return;
   }
 
-  console.log('updateToSchemaVersion19: starting...');
+  logger.info('updateToSchemaVersion19: starting...');
   db.transaction(() => {
     db.exec(`
       ALTER TABLE conversations
@@ -1210,7 +1210,7 @@ function updateToSchemaVersion19(currentVersion: number, db: Database): void {
     db.pragma('user_version = 19');
   })();
 
-  console.log('updateToSchemaVersion19: success!');
+  logger.info('updateToSchemaVersion19: success!');
 }
 
 function updateToSchemaVersion20(currentVersion: number, db: Database): void {
@@ -1218,7 +1218,7 @@ function updateToSchemaVersion20(currentVersion: number, db: Database): void {
     return;
   }
 
-  console.log('updateToSchemaVersion20: starting...');
+  logger.info('updateToSchemaVersion20: starting...');
   db.transaction(() => {
     // The triggers on the messages table slow down this migration
     // significantly, so we drop them and recreate them later.
@@ -1422,7 +1422,7 @@ function updateToSchemaVersion20(currentVersion: number, db: Database): void {
 
     db.pragma('user_version = 20');
   })();
-  console.log('updateToSchemaVersion20: success!');
+  logger.info('updateToSchemaVersion20: success!');
 }
 
 function updateToSchemaVersion21(currentVersion: number, db: Database): void {
@@ -1447,7 +1447,7 @@ function updateToSchemaVersion21(currentVersion: number, db: Database): void {
     `);
     db.pragma('user_version = 21');
   })();
-  console.log('updateToSchemaVersion21: success!');
+  logger.info('updateToSchemaVersion21: success!');
 }
 
 function updateToSchemaVersion22(currentVersion: number, db: Database): void {
@@ -1463,7 +1463,7 @@ function updateToSchemaVersion22(currentVersion: number, db: Database): void {
 
     db.pragma('user_version = 22');
   })();
-  console.log('updateToSchemaVersion22: success!');
+  logger.info('updateToSchemaVersion22: success!');
 }
 
 function updateToSchemaVersion23(currentVersion: number, db: Database): void {
@@ -1481,7 +1481,7 @@ function updateToSchemaVersion23(currentVersion: number, db: Database): void {
 
     db.pragma('user_version = 23');
   })();
-  console.log('updateToSchemaVersion23: success!');
+  logger.info('updateToSchemaVersion23: success!');
 }
 
 function updateToSchemaVersion24(currentVersion: number, db: Database): void {
@@ -1497,7 +1497,7 @@ function updateToSchemaVersion24(currentVersion: number, db: Database): void {
 
     db.pragma('user_version = 24');
   })();
-  console.log('updateToSchemaVersion24: success!');
+  logger.info('updateToSchemaVersion24: success!');
 }
 
 async function updateToSchemaVersion25(currentVersion: number, db: Database) {
@@ -1660,7 +1660,7 @@ async function updateToSchemaVersion25(currentVersion: number, db: Database) {
 
     db.pragma('user_version = 25');
   })();
-  console.log('updateToSchemaVersion25: success!');
+  logger.info('updateToSchemaVersion25: success!');
 }
 
 async function updateToSchemaVersion26(currentVersion: number, db: Database) {
@@ -1696,7 +1696,7 @@ async function updateToSchemaVersion26(currentVersion: number, db: Database) {
 
     db.pragma('user_version = 26');
   })();
-  console.log('updateToSchemaVersion26: success!');
+  logger.info('updateToSchemaVersion26: success!');
 }
 
 async function updateToSchemaVersion27(currentVersion: number, db: Database) {
@@ -1734,7 +1734,7 @@ async function updateToSchemaVersion27(currentVersion: number, db: Database) {
 
     db.pragma('user_version = 27');
   })();
-  console.log('updateToSchemaVersion27: success!');
+  logger.info('updateToSchemaVersion27: success!');
 }
 
 function updateToSchemaVersion28(currentVersion: number, db: Database) {
@@ -1756,7 +1756,7 @@ function updateToSchemaVersion28(currentVersion: number, db: Database) {
 
     db.pragma('user_version = 28');
   })();
-  console.log('updateToSchemaVersion28: success!');
+  logger.info('updateToSchemaVersion28: success!');
 }
 
 function updateToSchemaVersion29(currentVersion: number, db: Database) {
@@ -1790,7 +1790,7 @@ function updateToSchemaVersion29(currentVersion: number, db: Database) {
 
     db.pragma('user_version = 29');
   })();
-  console.log('updateToSchemaVersion29: success!');
+  logger.info('updateToSchemaVersion29: success!');
 }
 
 function updateToSchemaVersion30(currentVersion: number, db: Database) {
@@ -1811,14 +1811,14 @@ function updateToSchemaVersion30(currentVersion: number, db: Database) {
 
     db.pragma('user_version = 30');
   })();
-  console.log('updateToSchemaVersion30: success!');
+  logger.info('updateToSchemaVersion30: success!');
 }
 
 function updateToSchemaVersion31(currentVersion: number, db: Database): void {
   if (currentVersion >= 31) {
     return;
   }
-  console.log('updateToSchemaVersion31: starting...');
+  logger.info('updateToSchemaVersion31: starting...');
   db.transaction(() => {
     db.exec(`
       DROP INDEX unprocessed_id;
@@ -1855,7 +1855,7 @@ function updateToSchemaVersion31(currentVersion: number, db: Database): void {
 
     db.pragma('user_version = 31');
   })();
-  console.log('updateToSchemaVersion31: success!');
+  logger.info('updateToSchemaVersion31: success!');
 }
 
 function updateToSchemaVersion32(currentVersion: number, db: Database) {
@@ -1874,7 +1874,7 @@ function updateToSchemaVersion32(currentVersion: number, db: Database) {
 
     db.pragma('user_version = 32');
   })();
-  console.log('updateToSchemaVersion32: success!');
+  logger.info('updateToSchemaVersion32: success!');
 }
 
 function updateToSchemaVersion33(currentVersion: number, db: Database) {
@@ -1906,7 +1906,7 @@ function updateToSchemaVersion33(currentVersion: number, db: Database) {
 
     db.pragma('user_version = 33');
   })();
-  console.log('updateToSchemaVersion33: success!');
+  logger.info('updateToSchemaVersion33: success!');
 }
 
 function updateToSchemaVersion34(currentVersion: number, db: Database) {
@@ -1927,7 +1927,7 @@ function updateToSchemaVersion34(currentVersion: number, db: Database) {
 
     db.pragma('user_version = 34');
   })();
-  console.log('updateToSchemaVersion34: success!');
+  logger.info('updateToSchemaVersion34: success!');
 }
 
 function updateToSchemaVersion35(currentVersion: number, db: Database) {
@@ -1949,7 +1949,7 @@ function updateToSchemaVersion35(currentVersion: number, db: Database) {
 
     db.pragma('user_version = 35');
   })();
-  console.log('updateToSchemaVersion35: success!');
+  logger.info('updateToSchemaVersion35: success!');
 }
 
 // Reverted
@@ -1959,7 +1959,7 @@ function updateToSchemaVersion36(currentVersion: number, db: Database) {
   }
 
   db.pragma('user_version = 36');
-  console.log('updateToSchemaVersion36: success!');
+  logger.info('updateToSchemaVersion36: success!');
 }
 
 function updateToSchemaVersion37(currentVersion: number, db: Database) {
@@ -2037,7 +2037,7 @@ function updateToSchemaVersion37(currentVersion: number, db: Database) {
 
     db.pragma('user_version = 37');
   })();
-  console.log('updateToSchemaVersion37: success!');
+  logger.info('updateToSchemaVersion37: success!');
 }
 
 function updateToSchemaVersion38(currentVersion: number, db: Database) {
@@ -2073,7 +2073,7 @@ function updateToSchemaVersion38(currentVersion: number, db: Database) {
 
     db.pragma('user_version = 38');
   })();
-  console.log('updateToSchemaVersion38: success!');
+  logger.info('updateToSchemaVersion38: success!');
 }
 
 function updateToSchemaVersion39(currentVersion: number, db: Database) {
@@ -2086,7 +2086,7 @@ function updateToSchemaVersion39(currentVersion: number, db: Database) {
 
     db.pragma('user_version = 39');
   })();
-  console.log('updateToSchemaVersion39: success!');
+  logger.info('updateToSchemaVersion39: success!');
 }
 
 function updateToSchemaVersion40(currentVersion: number, db: Database) {
@@ -2107,7 +2107,7 @@ function updateToSchemaVersion40(currentVersion: number, db: Database) {
 
     db.pragma('user_version = 40');
   })();
-  console.log('updateToSchemaVersion40: success!');
+  logger.info('updateToSchemaVersion40: success!');
 }
 
 function updateToSchemaVersion41(currentVersion: number, db: Database) {
@@ -2259,7 +2259,7 @@ function updateToSchemaVersion41(currentVersion: number, db: Database) {
       )
       .all();
 
-    console.log(`Updating ${senderKeys.length} sender keys`);
+    logger.info(`Updating ${senderKeys.length} sender keys`);
 
     const updateSenderKey = db.prepare<Query>(
       `
@@ -2328,7 +2328,7 @@ function updateToSchemaVersion41(currentVersion: number, db: Database) {
       });
     }
 
-    console.log(
+    logger.info(
       `Updated ${senderKeys.length} sender keys: ` +
         `updated: ${updated}, deleted: ${deleted}, skipped: ${skipped}`
     );
@@ -2343,7 +2343,7 @@ function updateToSchemaVersion41(currentVersion: number, db: Database) {
       .prepare<EmptyQuery>('SELECT id, conversationId FROM SESSIONS')
       .all();
 
-    console.log(`Updating ${allSessions.length} sessions`);
+    logger.info(`Updating ${allSessions.length} sessions`);
 
     const updateSession = db.prepare<Query>(
       `
@@ -2419,7 +2419,7 @@ function updateToSchemaVersion41(currentVersion: number, db: Database) {
       });
     }
 
-    console.log(
+    logger.info(
       `Updated ${allSessions.length} sessions: ` +
         `updated: ${updated}, deleted: ${deleted}, skipped: ${skipped}`
     );
@@ -2430,7 +2430,7 @@ function updateToSchemaVersion41(currentVersion: number, db: Database) {
       id: string;
     }> = db.prepare<EmptyQuery>('SELECT id FROM identityKeys').all();
 
-    console.log(`Updating ${identityKeys.length} identity keys`);
+    logger.info(`Updating ${identityKeys.length} identity keys`);
 
     const updateIdentityKey = db.prepare<Query>(
       `
@@ -2462,7 +2462,7 @@ function updateToSchemaVersion41(currentVersion: number, db: Database) {
       updateIdentityKey.run({ id, newId });
     }
 
-    console.log(`Migrated ${migrated} identity keys`);
+    logger.info(`Migrated ${migrated} identity keys`);
   };
 
   db.transaction(() => {
@@ -2505,7 +2505,7 @@ function updateToSchemaVersion41(currentVersion: number, db: Database) {
     const ourUuid = getOurUuid(db);
 
     if (!isValidGuid(ourUuid)) {
-      console.error(
+      logger.error(
         'updateToSchemaVersion41: no uuid is available clearing sessions'
       );
 
@@ -2527,7 +2527,7 @@ function updateToSchemaVersion41(currentVersion: number, db: Database) {
 
     db.pragma('user_version = 41');
   })();
-  console.log('updateToSchemaVersion41: success!');
+  logger.info('updateToSchemaVersion41: success!');
 }
 
 export const SCHEMA_VERSIONS = [
@@ -2581,7 +2581,7 @@ export function updateSchema(db: Database) {
   const maxUserVersion = SCHEMA_VERSIONS.length;
   const schemaVersion = getSchemaVersion(db);
 
-  console.log(
+  logger.info(
     'updateSchema:\n',
     ` Current user_version: ${userVersion};\n`,
     ` Most recent db schema: ${maxUserVersion};\n`,
@@ -2622,6 +2622,28 @@ function getOurUuid(db: Database): string | undefined {
 }
 
 let globalInstance: Database | undefined;
+/* eslint-disable no-console */
+let logger: LoggerType = {
+  fatal(...args: Array<unknown>) {
+    console.error(...args);
+  },
+  error(...args: Array<unknown>) {
+    console.error(...args);
+  },
+  warn(...args: Array<unknown>) {
+    console.warn(...args);
+  },
+  info(...args: Array<unknown>) {
+    console.info(...args);
+  },
+  debug(...args: Array<unknown>) {
+    console.debug(...args);
+  },
+  trace(...args: Array<unknown>) {
+    console.log(...args);
+  },
+};
+/* eslint-enable no-console */
 let globalInstanceRenderer: Database | undefined;
 let databaseFilePath: string | undefined;
 let indexedDBPath: string | undefined;
@@ -2629,9 +2651,11 @@ let indexedDBPath: string | undefined;
 async function initialize({
   configDir,
   key,
+  logger: suppliedLogger,
 }: {
   configDir: string;
   key: string;
+  logger: LoggerType;
 }) {
   if (globalInstance) {
     throw new Error('Cannot initialize more than once!');
@@ -2643,6 +2667,8 @@ async function initialize({
   if (!isString(key)) {
     throw new Error('initialize: key is required!');
   }
+
+  logger = suppliedLogger;
 
   indexedDBPath = join(configDir, 'IndexedDB');
 
@@ -2667,7 +2693,7 @@ async function initialize({
     // test database
     await getMessageCount();
   } catch (error) {
-    console.log('Database startup error:', error.stack);
+    logger.error('Database startup error:', error.stack);
     if (db) {
       db.close();
     }
@@ -2739,7 +2765,7 @@ async function removeDB(): Promise<void> {
     try {
       globalInstance.close();
     } catch (error) {
-      console.log('removeDB: Failed to close database:', error.stack);
+      logger.error('removeDB: Failed to close database:', error.stack);
     }
     globalInstance = undefined;
   }
@@ -3162,7 +3188,7 @@ async function deleteSentProtoRecipient(
         continue;
       }
       if (rows.length > 1) {
-        console.warn(
+        logger.warn(
           'deleteSentProtoRecipient: More than one payload matches ' +
             `recipient and timestamp ${timestamp}. Using the first.`
         );
@@ -3202,7 +3228,7 @@ async function deleteSentProtoRecipient(
       }
 
       // 4. Delete the entire payload if there are no more recipients left.
-      console.info(
+      logger.info(
         'deleteSentProtoRecipient: ' +
           `Deleting proto payload for timestamp ${timestamp}`
       );
@@ -5704,7 +5730,7 @@ async function deleteStickerPackReference(
         )
         .get({ packId });
       if (!packRow) {
-        console.log('deleteStickerPackReference: did not find referenced pack');
+        logger.warn('deleteStickerPackReference: did not find referenced pack');
         return undefined;
       }
       const { status } = packRow;
@@ -6160,7 +6186,7 @@ async function removeKnownAttachments(
   const chunkSize = 50;
 
   const total = await getMessageCount();
-  console.log(
+  logger.info(
     `removeKnownAttachments: About to iterate through ${total} messages`
   );
 
@@ -6201,7 +6227,7 @@ async function removeKnownAttachments(
     count += messages.length;
   }
 
-  console.log(`removeKnownAttachments: Done processing ${count} messages`);
+  logger.info(`removeKnownAttachments: Done processing ${count} messages`);
 
   complete = false;
   count = 0;
@@ -6210,7 +6236,7 @@ async function removeKnownAttachments(
   id = 0;
 
   const conversationTotal = await getConversationCount();
-  console.log(
+  logger.info(
     `removeKnownAttachments: About to iterate through ${conversationTotal} conversations`
   );
 
@@ -6247,7 +6273,7 @@ async function removeKnownAttachments(
     count += conversations.length;
   }
 
-  console.log(`removeKnownAttachments: Done processing ${count} conversations`);
+  logger.info(`removeKnownAttachments: Done processing ${count} conversations`);
 
   return Object.keys(lookup);
 }
@@ -6262,7 +6288,7 @@ async function removeKnownStickers(
   const chunkSize = 50;
 
   const total = await getStickerCount();
-  console.log(
+  logger.info(
     `removeKnownStickers: About to iterate through ${total} stickers`
   );
 
@@ -6298,7 +6324,7 @@ async function removeKnownStickers(
     count += rows.length;
   }
 
-  console.log(`removeKnownStickers: Done processing ${count} stickers`);
+  logger.info(`removeKnownStickers: Done processing ${count} stickers`);
 
   return Object.keys(lookup);
 }
@@ -6313,7 +6339,7 @@ async function removeKnownDraftAttachments(
   const chunkSize = 50;
 
   const total = await getConversationCount();
-  console.log(
+  logger.info(
     `removeKnownDraftAttachments: About to iterate through ${total} conversations`
   );
 
@@ -6356,7 +6382,7 @@ async function removeKnownDraftAttachments(
     count += conversations.length;
   }
 
-  console.log(
+  logger.info(
     `removeKnownDraftAttachments: Done processing ${count} conversations`
   );
 

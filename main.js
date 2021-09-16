@@ -20,6 +20,7 @@ const packageJson = require('./package.json');
 const GlobalErrors = require('./app/global_errors');
 const { setup: setupSpellChecker } = require('./app/spell_check');
 const { redactAll, addSensitivePath } = require('./ts/util/privacy');
+const { strictAssert } = require('./ts/util/assert');
 const removeUserConfig = require('./app/user_config').remove;
 
 GlobalErrors.addHandler();
@@ -1155,11 +1156,14 @@ async function initializeSQL() {
     userConfig.set('key', key);
   }
 
+  strictAssert(logger !== undefined, 'Logger must be initialized before sql');
+
   sqlInitTimeStart = Date.now();
   try {
     await sql.initialize({
       configDir: userDataPath,
       key,
+      logger,
     });
   } catch (error) {
     return { ok: false, error };
@@ -1224,7 +1228,7 @@ const runSQLCorruptionHandler = async () => {
 
 runSQLCorruptionHandler();
 
-const sqlInitPromise = initializeSQL();
+let sqlInitPromise;
 
 ipc.on('database-error', (event, error) => {
   onDatabaseError(error);
@@ -1235,6 +1239,10 @@ ipc.on('database-error', (event, error) => {
 // Some APIs can only be used after this event occurs.
 let ready = false;
 app.on('ready', async () => {
+  logger = await logging.initialize(getMainWindow);
+
+  sqlInitPromise = initializeSQL();
+
   const startTime = Date.now();
 
   settingsChannel = new SettingsChannel();
@@ -1287,7 +1295,6 @@ app.on('ready', async () => {
     protocol: electronProtocol,
   });
 
-  logger = await logging.initialize(getMainWindow);
   logger.info('app ready');
   logger.info(`starting version ${packageJson.version}`);
 

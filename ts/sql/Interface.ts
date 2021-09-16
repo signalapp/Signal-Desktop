@@ -22,6 +22,7 @@ import { BodyRangesType } from '../types/Util';
 import type { QualifiedAddressStringType } from '../types/QualifiedAddress';
 import type { UUIDStringType } from '../types/UUID';
 import type { RemoveAllConfiguration } from '../types/RemoveAllConfiguration';
+import type { LoggerType } from '../types/Logging';
 
 export type AttachmentDownloadJobTypeType =
   | 'long-message'
@@ -549,7 +550,11 @@ export type ServerInterface = DataInterface & {
 
   // Server-only
 
-  initialize: (options: { configDir: string; key: string }) => Promise<void>;
+  initialize: (options: {
+    configDir: string;
+    key: string;
+    logger: LoggerType;
+  }) => Promise<void>;
 
   initializeRenderer: (options: {
     configDir: string;
