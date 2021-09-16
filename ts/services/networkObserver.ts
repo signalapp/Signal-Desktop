@@ -27,6 +27,8 @@ export function initializeNetworkObserver(
     });
   };
 
+  window.Whisper.events.on('socketStatusChange', refresh);
+
   window.addEventListener('online', refresh);
   window.addEventListener('offline', refresh);
   window.setInterval(refresh, REFRESH_INTERVAL);

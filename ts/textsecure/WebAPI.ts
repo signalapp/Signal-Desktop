@@ -1093,6 +1093,10 @@ export function initialize({
       proxyUrl,
     });
 
+    socketManager.on('statusChange', () => {
+      window.Whisper.events.trigger('socketStatusChange');
+    });
+
     socketManager.on('authError', () => {
       window.Whisper.events.trigger('unlinkAndDisconnect');
     });

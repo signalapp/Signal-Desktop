@@ -128,7 +128,7 @@ export class SocketManager extends EventListener {
 
     window.log.info('SocketManager: connecting authenticated socket');
 
-    this.status = SocketStatus.CONNECTING;
+    this.setStatus(SocketStatus.CONNECTING);
 
     const process = this.connectResource({
       path: '/v1/websocket/',
@@ -185,7 +185,7 @@ export class SocketManager extends EventListener {
     let authenticated: WebSocketResource;
     try {
       authenticated = await process.getResult();
-      this.status = SocketStatus.OPEN;
+      this.setStatus(SocketStatus.OPEN);
     } catch (error) {
       window.log.warn(
         'SocketManager: authenticated socket connection failed with ' +
@@ -407,6 +407,15 @@ export class SocketManager extends EventListener {
   // Private
   //
 
+  private setStatus(status: SocketStatus): void {
+    if (this.status === status) {
+      return;
+    }
+
+    this.status = status;
+    this.emit('statusChange');
+  }
+
   private async getUnauthenticatedResource(): Promise<WebSocketResource> {
     if (this.isOffline) {
       throw new HTTPError('SocketManager offline', {
@@ -592,7 +601,7 @@ export class SocketManager extends EventListener {
 
     this.incomingRequestQueue = [];
     this.authenticated = undefined;
-    this.status = SocketStatus.CLOSED;
+    this.setStatus(SocketStatus.CLOSED);
   }
 
   private dropUnauthenticated(
@@ -707,6 +716,7 @@ export class SocketManager extends EventListener {
   // EventEmitter types
 
   public on(type: 'authError', callback: (error: HTTPError) => void): this;
+  public on(type: 'statusChange', callback: () => void): this;
 
   public on(
     type: string | symbol,
@@ -717,6 +727,7 @@ export class SocketManager extends EventListener {
   }
 
   public emit(type: 'authError', error: HTTPError): boolean;
+  public emit(type: 'statusChange'): boolean;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public emit(type: string | symbol, ...args: Array<any>): boolean {
