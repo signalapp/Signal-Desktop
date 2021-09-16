@@ -1778,7 +1778,7 @@
         "description": "In the settings, shown next to the checkbox option for starting in the system tray"
     },
     "autoLaunchDescription": {
-        "message": "Otevřít pro přihlášení k počítači",
+        "message": "Otevřít po přihlášení k počítači",
         "description": "Description for the automatic launch setting"
     },
     "clearDataHeader": {

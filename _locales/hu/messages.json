@@ -1416,7 +1416,7 @@
         "description": "Label under the ring button"
     },
     "calling__button--ring__disabled-because-group-is-too-large": {
-        "message": "Group is too large to ring the participants.",
+        "message": "A csoport túl nagy minden tag megcsörgetéséhez.",
         "description": "Button tooltip label when you can't ring because the group is too large"
     },
     "calling__button--ring__off": {

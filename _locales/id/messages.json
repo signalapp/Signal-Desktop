@@ -1758,7 +1758,7 @@
         "description": "Header for general options on the settings screen"
     },
     "spellCheckDescription": {
-        "message": "Spell check text entered in message composition box",
+        "message": "Periksa ejaan teks yang dimasukkan ke kotak komposisi pesan",
         "description": "Description of the spell check setting"
     },
     "spellCheckWillBeEnabled": {
@@ -5206,7 +5206,7 @@
         "description": "Displayed while checking if the contact is SMS-only"
     },
     "countMutedConversationsDescription": {
-        "message": "Include muted conversations in badge count",
+        "message": "Sertakan percakapan yang dibisukan dalam jumlah lencana",
         "description": "Description for counting muted conversations in badge setting"
     },
     "ContactModal--message": {
@@ -6214,7 +6214,7 @@
         "description": "Title for the generate link previews setting"
     },
     "Preferences__link-previews--description": {
-        "message": "To change this setting, open the Signal app on your mobile device and navigate to Settings > Chats",
+        "message": "Untuk mengubah pengaturan ini, buka aplikasi Signal di perangkat seluler Anda dan arahkan ke Pengaturan > Percakapan",
         "description": "Description for the generate link previews setting"
     },
     "Preferences--advanced": {
@@ -6324,7 +6324,7 @@
         "description": "Release notes for v5.15"
     },
     "WhatsNew__v5.15--2": {
-        "message": "The calling lobby got some remodeling and renovations done and we didn't even have to refinance.",
+        "message": "Lobi panggilan mengalami perombakan dan renovasi dan kami bahkan tidak perlu membiayai kembali.",
         "description": "Release notes for v5.15"
     },
     "WhatsNew__v5.15--3": {
@@ -6332,7 +6332,7 @@
         "description": "Release notes for v5.15"
     },
     "WhatsNew__v5.15--4": {
-        "message": "You can now choose when to download and apply new updates for Signal. The dialogs got a small makeover too. Check out the setting in the new preferences window.",
+        "message": "Sekarang Anda dapat memilih kapan mengunduh dan menerapkan pembaruan baru untuk Signal. Dialog juga mendapat sedikit perubahan. Lihat pengaturan di jendela preferensi baru.",
         "description": "Release notes for v5.15"
     },
     "WhatsNew__v5.15--5": {

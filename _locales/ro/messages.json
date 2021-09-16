@@ -32,7 +32,7 @@
         "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuCreateStickers": {
-        "message": "Creeare/încărcare pachet cu autocolante",
+        "message": "Creare/încărcare pachet cu autocolante",
         "description": "The label that is used for the Create/upload sticker pack option in the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuEdit": {
@@ -180,7 +180,7 @@
         "description": "One of the menu options available in the Avatar Popup menu"
     },
     "avatarMenuChatColors": {
-        "message": "Culoare conversaţie",
+        "message": "Culoare conversație",
         "description": "One of the menu options available in the Avatar Popup menu"
     },
     "avatarMenuUpdateAvailable": {
@@ -290,7 +290,7 @@
         "description": "Header shown on the screen at the end of a successful import process"
     },
     "importCompleteStartButton": {
-        "message": "Începe să utlizezi Signal Desktop",
+        "message": "Începe să utilizezi Signal Desktop",
         "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "importCompleteLinkButton": {
@@ -324,7 +324,7 @@
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "invalidConversation": {
-        "message": "Acest grup este invalid. Te rugăm crează un nou grup.",
+        "message": "Acest grup este invalid. Te rugăm creează un nou grup.",
         "description": "Displayed when a user can't send a message because something has gone wrong in the conversation."
     },
     "scrollDown": {
@@ -470,7 +470,7 @@
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "Acest jurnal va fi publicat online pentru vizualizare de către contributori. Poţi sa-l examinezi şi să-l editezi înainte să fie publicat. ",
+        "message": "Acest jurnal va fi publicat online pentru vizualizare de către contribuitori. Poți să-l examinezi și să-l editezi înainte să fie publicat.",
         "description": ""
     },
     "debugLogError": {
@@ -494,7 +494,7 @@
         "description": "Link to open the issue tracker"
     },
     "gotIt": {
-        "message": "Am înţeles!",
+        "message": "Am înțeles!",
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "submit": {
@@ -578,7 +578,7 @@
         "description": "Section header in the media gallery"
     },
     "thisWeek": {
-        "message": "Saptamana asta",
+        "message": "Săptămâna asta",
         "description": "Section header in the media gallery"
     },
     "thisMonth": {
@@ -586,7 +586,7 @@
         "description": "Section header in the media gallery"
     },
     "unsupportedAttachment": {
-        "message": "Tipul ataşamentului nu este suportat. Click pentru a salva.",
+        "message": "Tipul atașamentului nu este suportat. Click pentru a salva.",
         "description": "Displayed for incoming unsupported attachment"
     },
     "clickToSave": {
@@ -656,7 +656,7 @@
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "fileSizeWarning": {
-        "message": "Ne pare rău, fişierul selectat depăşeşte restricţia de mărime a mesajului.",
+        "message": "Ne pare rău, fișierul selectat depășește restricția de mărime a mesajului.",
         "description": ""
     },
     "unableToLoadAttachment": {
@@ -918,7 +918,7 @@
         "description": "Shown in toast if user clicks on quote that references message no longer in database"
     },
     "messageFoundButNotLoaded": {
-        "message": "Mesaj original găsit, dar neîncărcat. Scroll-ează în sus pentru a-l încărca.",
+        "message": "Mesaj original a fost găsit, dar nu a fost încărcat. Derulați în sus pentru a-l încărca.",
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
     "voiceRecordingInterruptedMax": {
@@ -934,7 +934,7 @@
         "description": "Shown in toast to warn user about limited time and that window must be in focus"
     },
     "voiceNoteMustBeOnlyAttachment": {
-        "message": "Un mesaj vocal trebuie sa aibe doar un singur atașament.",
+        "message": "Un mesaj vocal trebuie sa aibă doar un singur atașament.",
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
     },
     "attachmentSaved": {
@@ -1168,7 +1168,7 @@
         "description": "Menu item for deleting messages, title case."
     },
     "deleteConversationConfirmation": {
-        "message": "Şterg permanent acestă conversație?",
+        "message": "Șterg permanent această conversație?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "sessionEnded": {
@@ -1822,7 +1822,7 @@
         "description": "Header for notification settings"
     },
     "notificationSettingsDialog": {
-        "message": "Când sosesc mesajele, afişează notificările care arată:",
+        "message": "Când sosesc mesajele, afișează notificările care arată:",
         "description": "Explain the purpose of the notification settings"
     },
     "disableNotifications": {
@@ -2212,7 +2212,7 @@
         "description": "Label for header when starting a new conversation"
     },
     "contactSearchPlaceholder": {
-        "message": "Cautare după nume sau număr",
+        "message": "Căutare după nume sau număr",
         "description": "Placeholder to use when searching for contacts in the composer"
     },
     "noContactsFound": {
@@ -2524,7 +2524,7 @@
         "description": "Shown in the sticker pack manager above the default sticker packs."
     },
     "stickers--StickerManager--BlessedPacks--Empty": {
-        "message": "Nu sunt disponible autocolante din seria artistică Signal",
+        "message": "Nu sunt disponibile autocolante din seria artistică Signal",
         "description": "Shown in the sticker pack manager when there are no blessed sticker packs available."
     },
     "stickers--StickerManager--ReceivedPacks": {
@@ -2830,7 +2830,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--add-newline": {
-        "message": "Adaugați o linie nouă la mesaj",
+        "message": "Adăugați o linie nouă la mesaj",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--expand-composer": {
@@ -3206,7 +3206,7 @@
         }
     },
     "MessageRequests--message-direct-blocked": {
-        "message": "Permiteţi lui $name$ să vă trimită mesaje și să vă împărtășiți numele și fotografia cu ei? Nu veți primi niciun mesaj până când nu îi deblocați.",
+        "message": "Permiteți lui $name$ să vă trimită mesaje și să vă împărtășiți numele și fotografia cu ei? Nu veți primi niciun mesaj până când nu îi deblocați.",
         "description": "Shown as the message for a message request in a direct message with a blocked account",
         "placeholders": {
             "name": {
@@ -3216,7 +3216,7 @@
         }
     },
     "MessageRequests--message-group": {
-        "message": "Vă alăturaţi acestui grup și împărtășiți numele și fotografia cu membrii săi? Nu vor ști că le-ai văzut mesajele până nu accepți.",
+        "message": "Vă alăturați acestui grup și împărtășiți numele și fotografia cu membrii săi? Nu vor ști că le-ai văzut mesajele până nu accepți.",
         "description": "Shown as the message for a message request in a group",
         "placeholders": {
             "name": {
@@ -5246,7 +5246,7 @@
         "description": "Button text for remove from group button in Group Contact Details modal"
     },
     "showChatColorEditor": {
-        "message": "Culoare conversaţie",
+        "message": "Culoare conversație",
         "description": "This is a button in the conversation context menu to show the chat color editor"
     },
     "showConversationDetails": {
@@ -5866,7 +5866,7 @@
         "description": "Modal title for the chat color picker and editor for all conversations"
     },
     "ChatColorPicker__menu-title": {
-        "message": "Culoare conversaţie",
+        "message": "Culoare conversație",
         "description": "View title for the chat color picker and editor"
     },
     "ChatColorPicker__reset": {
@@ -6184,7 +6184,7 @@
         "description": "Button to switch the settings view"
     },
     "Preferences__button--privacy": {
-        "message": "Confidenţialitate",
+        "message": "Confidențialitate",
         "description": "Button to switch the settings view"
     },
     "Preferences--lastSynced": {

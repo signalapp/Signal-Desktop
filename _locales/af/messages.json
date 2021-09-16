@@ -5930,7 +5930,7 @@
         "description": "Tab label for selecting a gradient"
     },
     "CustomColorEditor__hue": {
-        "message": "Hue",
+        "message": "Tint",
         "description": "Label for the hue slider"
     },
     "CustomColorEditor__saturation": {
@@ -5950,7 +5950,7 @@
         "description": "Text for an option in Conversation Details Disappearing Messages setting when user previously selected custom time"
     },
     "DisappearingTimeDialog__title": {
-        "message": "Custom Time",
+        "message": "Pasgemaakte tyd",
         "description": "Title for the custom disappearing message timeout dialog"
     },
     "DisappearingTimeDialog__body": {

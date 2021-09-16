@@ -5262,7 +5262,7 @@
         "description": "This is the label for the disappearing messages setting panel"
     },
     "ConversationDetails--disappearing-messages-info": {
-        "message": "Nieuwe berichten in dit gesprek zullen voor iedereen die ze heeft gezien nadat de ingestelde tijd is verlopen worden gewist. — Gebruik dit niet ter beveiliging, want Signal kan niet garanderen dat berichten op het apparaat van een ander ook daadwerkelijk worden gewist.",
+        "message": "Nieuwe berichten in dit gesprek zullen voor iedereen worden gewist nadat de ingestelde tijdspanne is verlopen. De tijdspanne begint voor iedere persoon individueel pas te lopen vanaf het moment dat hij of zij het bericht heeft gezien. — Gebruik dit niet ter beveiliging, want Signal kan niet garanderen dat berichten op het apparaat van een ander ook daadwerkelijk worden gewist.",
         "description": "This is the info about the disappearing messages setting"
     },
     "ConversationDetails--notifications": {

@@ -6302,7 +6302,7 @@
         "description": "Label for checkbox for the notifications setting"
     },
     "Preferences__devices": {
-        "message": "Dispositivos",
+        "message": "Aparelhos",
         "description": "Label for Device list in call settings pane"
     },
     "DialogUpdate--version-available": {

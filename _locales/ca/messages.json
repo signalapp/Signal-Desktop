@@ -3180,7 +3180,7 @@
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
     "Reactions--remove": {
-        "message": "Remove reaction",
+        "message": "Suprimeix la reacció",
         "description": ""
     },
     "Reactions--error": {
@@ -6298,11 +6298,11 @@
         "description": "Label for checkbox for the auto download updates setting"
     },
     "Preferences__enable-notifications": {
-        "message": "Enable notifications",
+        "message": "Habilita les notificacions",
         "description": "Label for checkbox for the notifications setting"
     },
     "Preferences__devices": {
-        "message": "Devices",
+        "message": "Dispositius",
         "description": "Label for Device list in call settings pane"
     },
     "DialogUpdate--version-available": {
@@ -6340,23 +6340,23 @@
         "description": "Release notes for v5.15"
     },
     "WhatsNew__v5.16--1": {
-        "message": "An improved media lightbox means no surprises as you progress through a gallery of images or videos, and you can pretend you’re really in a dark room by zooming to hide those pesky buttons.",
+        "message": "Una caixa de llum multimèdia millorada significa que no hi ha sorpreses a mesura que avanceu per una galeria d’imatges o vídeos i podeu fer veure que us trobeu realment en una cambra fosca fent zoom per amagar aquests botons molestos.",
         "description": "Release notes for v5.16"
     },
     "WhatsNew__v5.16--2": {
-        "message": "Fixed a bug where reacting to a message was tricky, because we put the picker off screen. That's now fixed, and you can 😮 to your ❤️'s content.",
+        "message": "S'ha corregit un error en què la reacció a un missatge era complicada, ja que deixàvem el selector fora de la pantalla. Ara això està solucionat i podeu fer 😮 al contingut del vostre ❤️.",
         "description": "Release notes for v5.16"
     },
     "WhatsNew__v5.16--3": {
-        "message": "If you hover over the buttons while on a call, they stay visible instead of disappearing. Nothing hides from your eagle eye, not even these buttons!",
+        "message": "Si passeu el cursor per sobre dels botons mentre feu una trucada, quedaran visibles en lloc de desaparèixer. Res no s’amaga del teu ull d’àguila, ni tan sols aquests botons.",
         "description": "Release notes for v5.16"
     },
     "WhatsNew__v5.17--1": {
-        "message": "Try out the new 'send messages' permission to restrict who can send messages in your groups. Great for organizing an event, making an announcement, or just shouting from the rooftops. All members must be on the latest version of Signal for the setting to appear.",
+        "message": "Proveu el nou permís \"envia missatges\" per restringir qui pot enviar missatges als vostres grups. Ideal per organitzar un esdeveniment, fer un anunci o simplement cridar des dels terrats. Per tal que aparegui la configuració, tots els membres han de tenir la versió més recent del Signal.",
         "description": "Release notes for v5.17"
     },
     "WhatsNew__v5.17--2": {
-        "message": "You can now send messages wherever and whenever you are: on a plane, in a tunnel, or that sad moment when your internet just cut out. It will eventually get through; messages now automatically retry for up to 24 hours.",
+        "message": "Ara podeu enviar missatges allà on vulgueu i quan vulgueu: en un avió, en un túnel o en aquell moment trist en què Internet s’acaba de tallar. Tard o d'hora s'enviarà; els missatges es tornen a intentar enviar automàticament fins a 24 hores.",
         "description": "Release notes for v5.17"
     }
 }
