@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { Buffer } from 'buffer';
@@ -406,11 +406,7 @@ export async function encryptAes256CbcPkcsPadding(
   const cryptoKey = await window.crypto.subtle.importKey(
     'raw',
     key,
-    // `algorithm` appears to be an instance of AesCbcParams,
-    // which is not in the param's types, so we need to pass as `any`.
-    // TODO: just pass the string "AES-CBC", per the docs?
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    algorithm as any,
+    algorithm,
     extractable,
     ['encrypt']
   );
@@ -432,11 +428,7 @@ export async function decryptAes256CbcPkcsPadding(
   const cryptoKey = await window.crypto.subtle.importKey(
     'raw',
     key,
-    // `algorithm` appears to be an instance of AesCbcParams,
-    // which is not in the param's types, so we need to pass as `any`.
-    // TODO: just pass the string "AES-CBC", per the docs?
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    algorithm as any,
+    algorithm,
     extractable,
     ['decrypt']
   );
@@ -477,11 +469,7 @@ export async function encryptAesGcm(
   const cryptoKey = await crypto.subtle.importKey(
     'raw',
     key,
-    // `algorithm` appears to be an instance of AesGcmParams,
-    // which is not in the param's types, so we need to pass as `any`.
-    // TODO: just pass the string "AES-GCM", per the docs?
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    algorithm as any,
+    algorithm,
     extractable,
     ['encrypt']
   );
@@ -506,11 +494,7 @@ export async function decryptAesGcm(
   const cryptoKey = await crypto.subtle.importKey(
     'raw',
     key,
-    // `algorithm` appears to be an instance of AesGcmParams,
-    // which is not in the param's types, so we need to pass as `any`.
-    // TODO: just pass the string "AES-GCM", per the docs?
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    algorithm as any,
+    algorithm,
     extractable,
     ['decrypt']
   );
