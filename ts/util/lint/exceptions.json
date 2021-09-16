@@ -108,46 +108,6 @@
   },
   {
     "rule": "jQuery-$(",
-    "path": "js/about_start.js",
-    "line": "$('.version').text(`v${window.getVersion()}`);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/about_start.js",
-    "line": "$('.environment').text(states.join(' - '));",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/about_start.js",
-    "line": "$(document).on('keydown', e => {",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/about_start.js",
-    "line": "$('.acknowledgments').text(window.i18n('softwareAcknowledgments'));",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-09-16T14:49:26.520Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/about_start.js",
-    "line": "$('.privacy').text(window.i18n('privacyPolicy'));",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-09-16T14:49:26.520Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
     "path": "js/debug_log_start.js",
     "line": "$(document).on('keydown', e => {",
     "reasonCategory": "usageTrusted",

@@ -1,0 +1,22 @@
+// Copyright 2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.About {
+  align-items: center;
+  background-color: $color-ultramarine-icon;
+  color: $color-white;
+  display: flex;
+  font-size: 14px;
+  height: 100vh;
+  justify-content: center;
+  overflow: hidden;
+  text-align: center;
+
+  img {
+    margin-top: 1em;
+  }
+
+  a {
+    color: $color-white;
+  }
+}

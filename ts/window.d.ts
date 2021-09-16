@@ -85,10 +85,6 @@ import { ConversationModel } from './models/conversations';
 import { combineNames } from './util';
 import { BatcherType } from './util/batcher';
 import { AttachmentList } from './components/conversation/AttachmentList';
-import {
-  CallingScreenSharingController,
-  PropsType as CallingScreenSharingControllerProps,
-} from './components/CallingScreenSharingController';
 import { CaptionEditor } from './components/CaptionEditor';
 import { ChatColorPicker } from './components/ChatColorPicker';
 import { ConfirmationDialog } from './components/ConfirmationDialog';
@@ -165,13 +161,6 @@ declare global {
     };
 
     WhatIsThis: WhatIsThis;
-
-    registerScreenShareControllerRenderer: (
-      f: (
-        component: typeof CallingScreenSharingController,
-        props: CallingScreenSharingControllerProps
-      ) => void
-    ) => void;
 
     addSetupMenuItems: () => void;
     attachmentDownloadQueue: Array<MessageModel> | undefined;
@@ -497,16 +486,14 @@ declare global {
 
     RETRY_DELAY: boolean;
 
-    // These elements are only available in the Settings window
-    SignalModule: {
-      registerReactRenderer: (
-        f: <P extends {}>(
-          component: FunctionComponent<P> | ComponentClass<P>,
-          props?: (Attributes & P) | null
-        ) => void
-      ) => void;
+    SignalWindow: {
+      config: string;
+      getAppInstance: () => string | undefined;
+      getEnvironment: () => string;
+      getVersion: () => string;
+      i18n: LocalizerType;
+      renderWindow: () => void;
     };
-    renderPreferences: () => unknown;
   }
 
   // We want to extend `Error`, so we need an interface.

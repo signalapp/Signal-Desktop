@@ -824,8 +824,14 @@ function showScreenShareWindow(sourceName) {
       ...defaultWebPrefs,
       nodeIntegration: false,
       nodeIntegrationInWorker: false,
-      contextIsolation: false,
-      preload: path.join(__dirname, 'screenShare_preload.js'),
+      contextIsolation: true,
+      preload: path.join(
+        __dirname,
+        'ts',
+        'windows',
+        'screenShare',
+        'preload.js'
+      ),
     },
     x: Math.floor(display.size.width / 2) - width / 2,
     y: 24,
@@ -847,6 +853,9 @@ function showScreenShareWindow(sourceName) {
       'render-screen-sharing-controller',
       sourceName
     );
+    if (config.get('openDevTools')) {
+      screenShareWindow.webContents.openDevTools();
+    }
   });
 }
 
@@ -869,8 +878,8 @@ function showAbout() {
       ...defaultWebPrefs,
       nodeIntegration: false,
       nodeIntegrationInWorker: false,
-      contextIsolation: false,
-      preload: path.join(__dirname, 'about_preload.js'),
+      contextIsolation: true,
+      preload: path.join(__dirname, 'ts', 'windows', 'about', 'preload.js'),
       nativeWindowOpen: true,
     },
   };
@@ -887,6 +896,9 @@ function showAbout() {
 
   aboutWindow.once('ready-to-show', () => {
     aboutWindow.show();
+    if (config.get('openDevTools')) {
+      aboutWindow.webContents.openDevTools();
+    }
   });
 }
 
@@ -911,7 +923,7 @@ function showSettingsWindow() {
       ...defaultWebPrefs,
       nodeIntegration: false,
       nodeIntegrationInWorker: false,
-      contextIsolation: false,
+      contextIsolation: true,
       enableRemoteModule: true,
       preload: path.join(__dirname, 'ts', 'windows', 'settings', 'preload.js'),
       nativeWindowOpen: true,
