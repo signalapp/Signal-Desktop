@@ -6314,7 +6314,7 @@
     }
   },
   "CustomizingPreferredReactions__title": {
-    "message": "Customize default reactions",
+    "message": "Customize reactions",
     "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
   },
   "CustomizingPreferredReactions__subtitle": {
