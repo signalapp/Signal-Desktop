@@ -1019,6 +1019,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
   ): void {
     const {
       clearChangedMessages,
+      haveOldest,
       id,
       isIncomingMessageRequest,
       items,
@@ -1029,13 +1030,18 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
       typingContact,
     } = this.props;
 
-    // Warnings can increase the size of the first row (adding padding for the floating
-    //   warning), so we recompute it when the warnings change.
+    // We recompute the hero row's height if:
+    //
+    // 1. We just started showing it (a loading row changes to a hero row)
+    // 2. Warnings were shown (they add padding to the hero for the floating warning)
+    const hadOldest = prevProps.haveOldest;
     const hadWarning = Boolean(
       prevProps.warning && !prevState.hasDismissedDirectContactSpoofingWarning
     );
-    if (hadWarning !== Boolean(this.getWarning())) {
-      this.recomputeRowHeights(0);
+    const shouldRecomputeRowHeights =
+      (!hadOldest && haveOldest) || hadWarning !== Boolean(this.getWarning());
+    if (shouldRecomputeRowHeights) {
+      this.resizeHeroRow();
     }
 
     // There are a number of situations which can necessitate that we forget about row
