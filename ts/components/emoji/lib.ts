@@ -1,4 +1,4 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 // Camelcase disabled due to emoji-datasource using snake_case
@@ -63,9 +63,7 @@ export type EmojiData = {
   has_img_apple: boolean;
   has_img_google: boolean;
   has_img_twitter: boolean;
-  has_img_emojione: boolean;
   has_img_facebook: boolean;
-  has_img_messenger: boolean;
   skin_variations?: {
     [key: string]: EmojiSkinVariation;
   };
