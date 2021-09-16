@@ -11,10 +11,7 @@ import { LocalizerType } from '../../types/Util';
 
 export type ContactType = {
   id: string;
-  phoneNumber?: string;
-  profileName?: string;
   title: string;
-  name?: string;
 };
 
 export type PropsData = {
@@ -54,12 +51,8 @@ export const SafetyNumberNotification = ({
               className="module-safety-number-notification__contact"
             >
               <ContactName
-                name={contact.name}
-                profileName={contact.profileName}
-                phoneNumber={contact.phoneNumber}
                 title={contact.title}
                 module="module-safety-number-notification__contact"
-                i18n={i18n}
               />
             </span>,
           ]}

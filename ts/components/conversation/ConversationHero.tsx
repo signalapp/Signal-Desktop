@@ -192,17 +192,7 @@ export const ConversationHero = ({
           title={title}
         />
         <h1 className="module-conversation-hero__profile-name">
-          {isMe ? (
-            i18n('noteToSelf')
-          ) : (
-            <ContactName
-              title={title}
-              name={name}
-              profileName={profileName}
-              phoneNumber={phoneNumber}
-              i18n={i18n}
-            />
-          )}
+          {isMe ? i18n('noteToSelf') : <ContactName title={title} />}
         </h1>
         {about && !isMe && (
           <div className="module-about__container">

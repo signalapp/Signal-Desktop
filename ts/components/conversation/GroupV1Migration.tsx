@@ -104,7 +104,7 @@ function renderUsers(
         <Intl
           i18n={i18n}
           id={`${keyPrefix}--one`}
-          components={[<ContactName title={members[0].title} i18n={i18n} />]}
+          components={[<ContactName title={members[0].title} />]}
         />
       </p>
     );

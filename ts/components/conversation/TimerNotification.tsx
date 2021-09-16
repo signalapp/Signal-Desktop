@@ -20,10 +20,7 @@ export type TimerNotificationType =
 /* eslint-disable react/destructuring-assignment */
 export type PropsData = {
   type: TimerNotificationType;
-  phoneNumber?: string;
-  profileName?: string;
   title: string;
-  name?: string;
 } & (
   | { disabled: true }
   | {
@@ -39,7 +36,7 @@ type PropsHousekeeping = {
 export type Props = PropsData & PropsHousekeeping;
 
 export const TimerNotification: FunctionComponent<Props> = props => {
-  const { disabled, i18n, name, phoneNumber, profileName, title, type } = props;
+  const { disabled, i18n, title, type } = props;
 
   let changeKey: string;
   let timespan: string;
@@ -59,16 +56,7 @@ export const TimerNotification: FunctionComponent<Props> = props => {
           i18n={i18n}
           id={changeKey}
           components={{
-            name: (
-              <ContactName
-                key="external-1"
-                phoneNumber={phoneNumber}
-                profileName={profileName}
-                title={title}
-                name={name}
-                i18n={i18n}
-              />
-            ),
+            name: <ContactName key="external-1" title={title} />,
             time: timespan,
           }}
         />

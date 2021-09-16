@@ -14,9 +14,8 @@ import { LocalizerType } from '../../types/Util';
 
 export type Props = {
   i18n: LocalizerType;
-  firstName?: string;
   onAccept(): unknown;
-} & Omit<ContactNameProps, 'module' | 'i18n'> &
+} & Omit<ContactNameProps, 'module'> &
   Omit<
     MessageRequestActionsConfirmationProps,
     'i18n' | 'state' | 'onChangeState'
@@ -27,14 +26,11 @@ export const MessageRequestActions = ({
   firstName,
   i18n,
   isBlocked,
-  name,
   onAccept,
   onBlock,
   onBlockAndReportSpam,
   onDelete,
   onUnblock,
-  phoneNumber,
-  profileName,
   title,
 }: Props): JSX.Element => {
   const [mrState, setMrState] = React.useState(MessageRequestState.default);
@@ -48,9 +44,6 @@ export const MessageRequestActions = ({
           onBlockAndReportSpam={onBlockAndReportSpam}
           onUnblock={onUnblock}
           onDelete={onDelete}
-          name={name}
-          profileName={profileName}
-          phoneNumber={phoneNumber}
           title={title}
           conversationType={conversationType}
           state={mrState}
@@ -70,11 +63,9 @@ export const MessageRequestActions = ({
                 className="module-message-request-actions__message__name"
               >
                 <ContactName
-                  name={name}
-                  profileName={profileName}
-                  phoneNumber={phoneNumber}
-                  title={firstName || title}
-                  i18n={i18n}
+                  firstName={firstName}
+                  title={title}
+                  preferFirstName
                 />
               </strong>,
             ]}

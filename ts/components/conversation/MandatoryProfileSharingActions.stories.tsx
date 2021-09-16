@@ -24,9 +24,6 @@ const getBaseProps = (
   title: isGroup
     ? text('title', 'NYC Rock Climbers')
     : text('title', 'Cayce Bollard'),
-  name: isGroup
-    ? text('name', 'NYC Rock Climbers')
-    : text('name', 'Cayce Bollard'),
   onBlock: action('block'),
   onBlockAndReportSpam: action('onBlockAndReportSpam'),
   onDelete: action('delete'),

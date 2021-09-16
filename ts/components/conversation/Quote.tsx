@@ -17,9 +17,6 @@ import { getCustomColorStyle } from '../../util/getCustomColorStyle';
 
 export type Props = {
   authorTitle: string;
-  authorPhoneNumber?: string;
-  authorProfileName?: string;
-  authorName?: string;
   conversationColor: ConversationColorType;
   customColor?: CustomColorType;
   bodyRanges?: BodyRangesType;
@@ -372,15 +369,7 @@ export class Quote extends React.Component<Props, State> {
   }
 
   public renderAuthor(): JSX.Element {
-    const {
-      authorProfileName,
-      authorPhoneNumber,
-      authorTitle,
-      authorName,
-      i18n,
-      isFromMe,
-      isIncoming,
-    } = this.props;
+    const { authorTitle, i18n, isFromMe, isIncoming } = this.props;
 
     return (
       <div
@@ -389,17 +378,7 @@ export class Quote extends React.Component<Props, State> {
           isIncoming ? 'module-quote__primary__author--incoming' : null
         )}
       >
-        {isFromMe ? (
-          i18n('you')
-        ) : (
-          <ContactName
-            phoneNumber={authorPhoneNumber}
-            name={authorName}
-            profileName={authorProfileName}
-            title={authorTitle}
-            i18n={i18n}
-          />
-        )}
+        {isFromMe ? i18n('you') : <ContactName title={authorTitle} />}
       </div>
     );
   }

@@ -187,14 +187,11 @@ export const CompositionArea = ({
   isMissingMandatoryProfileSharing,
   left,
   messageRequestsEnabled,
-  name,
   onAccept,
   onBlock,
   onBlockAndReportSpam,
   onDelete,
   onUnblock,
-  phoneNumber,
-  profileName,
   title,
   // GroupV1 Disabled Actions
   isGroupV1AndDisabled,
@@ -425,9 +422,6 @@ export const CompositionArea = ({
         onUnblock={onUnblock}
         onDelete={onDelete}
         onAccept={onAccept}
-        name={name}
-        profileName={profileName}
-        phoneNumber={phoneNumber}
         title={title}
       />
     );
@@ -478,9 +472,6 @@ export const CompositionArea = ({
         onBlockAndReportSpam={onBlockAndReportSpam}
         onDelete={onDelete}
         onAccept={onAccept}
-        name={name}
-        profileName={profileName}
-        phoneNumber={phoneNumber}
         title={title}
       />
     );

@@ -89,9 +89,6 @@ const defaultMessageProps: MessagesProps = {
 };
 
 const renderInMessage = ({
-  authorName,
-  authorPhoneNumber,
-  authorProfileName,
   authorTitle,
   conversationColor,
   isFromMe,
@@ -105,9 +102,6 @@ const renderInMessage = ({
     conversationColor,
     quote: {
       authorId: 'an-author',
-      authorName,
-      authorPhoneNumber,
-      authorProfileName,
       authorTitle,
       conversationColor,
       isFromMe,
@@ -129,15 +123,6 @@ const renderInMessage = ({
 };
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
-  authorName: text('authorName', overrideProps.authorName || ''),
-  authorPhoneNumber: text(
-    'authorPhoneNumber',
-    overrideProps.authorPhoneNumber || ''
-  ),
-  authorProfileName: text(
-    'authorProfileName',
-    overrideProps.authorProfileName || ''
-  ),
   authorTitle: text('authorTitle', overrideProps.authorTitle || ''),
   conversationColor: overrideProps.conversationColor || 'forest',
   doubleCheckMissingQuoteReference:

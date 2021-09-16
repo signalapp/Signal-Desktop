@@ -115,7 +115,6 @@ export const CallingParticipantsList = React.memo(
                     ) : (
                       <>
                         <ContactName
-                          i18n={i18n}
                           module="module-calling-participants-list__name"
                           title={participant.title}
                         />

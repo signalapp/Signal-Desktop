@@ -185,15 +185,7 @@ export const IncomingCallBar = (props: PropsType): JSX.Element | null => {
   switch (props.callMode) {
     case CallMode.Direct:
       ({ isVideoCall } = props);
-      headerNode = (
-        <ContactName
-          name={name}
-          phoneNumber={phoneNumber}
-          profileName={profileName}
-          title={title}
-          i18n={i18n}
-        />
-      );
+      headerNode = <ContactName title={title} />;
       messageNode = i18n(
         isVideoCall ? 'incomingVideoCall' : 'incomingAudioCall'
       );

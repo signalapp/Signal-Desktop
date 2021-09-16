@@ -168,13 +168,7 @@ export class MessageDetail extends React.Component<Props> {
         {this.renderAvatar(contact)}
         <div className="module-message-detail__contact__text">
           <div className="module-message-detail__contact__name">
-            <ContactName
-              phoneNumber={contact.phoneNumber}
-              name={contact.name}
-              profileName={contact.profileName}
-              title={contact.title}
-              i18n={i18n}
-            />
+            <ContactName title={contact.title} />
           </div>
           {errors.map(error => (
             <div

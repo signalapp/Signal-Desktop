@@ -13,8 +13,6 @@ import { missingCaseError } from '../../util/missingCaseError';
 
 type Contact = {
   phoneNumber?: string;
-  profileName?: string;
-  name?: string;
   title: string;
   isMe?: boolean;
 };
@@ -57,13 +55,7 @@ export class GroupNotification extends React.Component<Props> {
             key={`external-${contact.phoneNumber}`}
             className="module-group-notification__contact"
           >
-            <ContactName
-              title={contact.title}
-              phoneNumber={contact.phoneNumber}
-              profileName={contact.profileName}
-              name={contact.name}
-              i18n={i18n}
-            />
+            <ContactName title={contact.title} />
           </span>
         );
       })
@@ -144,20 +136,14 @@ export class GroupNotification extends React.Component<Props> {
     const firstChange: undefined | Change = changes[0];
     const isLeftOnly = changes.length === 1 && firstChange?.type === 'remove';
 
-    const fromContact = (
-      <ContactName
-        title={from.title}
-        phoneNumber={from.phoneNumber}
-        profileName={from.profileName}
-        name={from.name}
-        i18n={i18n}
-      />
-    );
-
     const fromLabel = from.isMe ? (
       <Intl i18n={i18n} id="youUpdatedTheGroup" />
     ) : (
-      <Intl i18n={i18n} id="updatedTheGroup" components={[fromContact]} />
+      <Intl
+        i18n={i18n}
+        id="updatedTheGroup"
+        components={[<ContactName title={from.title} />]}
+      />
     );
 
     let contents: ReactNode;

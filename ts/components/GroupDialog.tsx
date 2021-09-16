@@ -112,7 +112,6 @@ GroupDialog.Contacts = ({ contacts, i18n }: Readonly<ContactsPropsType>) => (
           i18n={i18n}
         />
         <ContactName
-          i18n={i18n}
           module="module-GroupDialog__contacts__contact__name"
           title={contact.title}
         />

@@ -249,14 +249,7 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
                 <Intl
                   i18n={i18n}
                   id="calling__you-have-blocked"
-                  components={[
-                    <ContactName
-                      key="name"
-                      profileName={profileName}
-                      title={title}
-                      i18n={i18n}
-                    />,
-                  ]}
+                  components={[<ContactName key="name" title={title} />]}
                 />
               </div>
             }
@@ -283,9 +276,7 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
             >
               <ContactName
                 module="module-ongoing-call__group-call-remote-participant--contact-name"
-                profileName={profileName}
                 title={title}
-                i18n={i18n}
               />
             </div>
           )}

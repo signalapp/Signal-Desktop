@@ -54,13 +54,7 @@ export const ContactListItem: FunctionComponent<PropsType> = React.memo(
     const headerName = isMe ? (
       i18n('noteToSelf')
     ) : (
-      <ContactName
-        phoneNumber={phoneNumber}
-        name={name}
-        profileName={profileName}
-        title={title}
-        i18n={i18n}
-      />
+      <ContactName title={title} />
     );
 
     const messageText =

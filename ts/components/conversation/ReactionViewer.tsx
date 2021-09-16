@@ -233,11 +233,7 @@ export const ReactionViewer = React.forwardRef<HTMLDivElement, Props>(
                 ) : (
                   <ContactName
                     module="module-reaction-viewer__body__row__name__contact-name"
-                    name={from.name}
-                    profileName={from.profileName}
-                    phoneNumber={from.phoneNumber}
                     title={from.title}
-                    i18n={i18n}
                   />
                 )}
               </div>

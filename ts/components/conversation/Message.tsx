@@ -642,7 +642,6 @@ export class Message extends React.PureComponent<Props, State> {
       contactNameColor,
       conversationType,
       direction,
-      i18n,
       isSticker,
       isTapToView,
       isTapToViewExpired,
@@ -673,11 +672,7 @@ export class Message extends React.PureComponent<Props, State> {
         <ContactName
           contactNameColor={contactNameColor}
           title={author.title}
-          phoneNumber={author.phoneNumber}
-          name={author.name}
-          profileName={author.profileName}
           module={moduleName}
-          i18n={i18n}
         />
       </div>
     );
@@ -1098,9 +1093,6 @@ export class Message extends React.PureComponent<Props, State> {
         text={quote.text}
         rawAttachment={quote.rawAttachment}
         isIncoming={direction === 'incoming'}
-        authorPhoneNumber={quote.authorPhoneNumber}
-        authorProfileName={quote.authorProfileName}
-        authorName={quote.authorName}
         authorTitle={quote.authorTitle}
         bodyRanges={quote.bodyRanges}
         conversationColor={conversationColor}

@@ -124,7 +124,6 @@ const items: Record<string, TimelineItemType> = {
     data: {
       disabled: false,
       expireTimer: moment.duration(2, 'hours').asSeconds(),
-      phoneNumber: '(202) 555-0000',
       title: '(202) 555-0000',
       type: 'fromOther',
     },
@@ -134,8 +133,6 @@ const items: Record<string, TimelineItemType> = {
     data: {
       contact: {
         id: '+1202555000',
-        phoneNumber: '(202) 555-0000',
-        profileName: 'Mr. Fire',
         title: 'Mr. Fire',
       },
       isGroup: true,
@@ -144,11 +141,7 @@ const items: Record<string, TimelineItemType> = {
   'id-7': {
     type: 'verificationNotification',
     data: {
-      contact: {
-        name: 'Mrs. Ice',
-        phoneNumber: '(202) 555-0001',
-        title: 'Mrs. Ice',
-      },
+      contact: { title: 'Mrs. Ice' },
       isLocal: true,
       type: 'markVerified',
     },
@@ -166,12 +159,10 @@ const items: Record<string, TimelineItemType> = {
           contacts: [
             {
               phoneNumber: '(202) 555-0002',
-              profileName: 'Mr. Fire',
               title: 'Mr. Fire',
             },
             {
               phoneNumber: '(202) 555-0003',
-              profileName: 'Ms. Water',
               title: 'Ms. Water',
             },
           ],
@@ -179,7 +170,6 @@ const items: Record<string, TimelineItemType> = {
       ],
       from: {
         phoneNumber: '(202) 555-0001',
-        name: 'Mrs. Ice',
         title: 'Mrs. Ice',
         isMe: false,
       },

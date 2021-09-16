@@ -10,12 +10,7 @@ import { LocalizerType } from '../../types/Util';
 
 import { missingCaseError } from '../../util/missingCaseError';
 
-type Contact = {
-  phoneNumber?: string;
-  profileName?: string;
-  name?: string;
-  title: string;
-};
+type Contact = { title: string };
 
 export type PropsData = {
   type: 'markVerified' | 'markNotVerified';
@@ -57,12 +52,8 @@ export class VerificationNotification extends React.Component<Props> {
         components={[
           <ContactName
             key="external-1"
-            name={contact.name}
-            profileName={contact.profileName}
-            phoneNumber={contact.phoneNumber}
             title={contact.title}
             module="module-verification-notification__contact"
-            i18n={i18n}
           />,
         ]}
         i18n={i18n}

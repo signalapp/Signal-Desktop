@@ -18,12 +18,7 @@ export enum AddGroupMemberErrorDialogMode {
 type PropsDataType =
   | {
       mode: AddGroupMemberErrorDialogMode.CantAddContact;
-      contact: {
-        name?: string;
-        phoneNumber?: string;
-        profileName?: string;
-        title: string;
-      };
+      contact: { title: string };
     }
   | {
       mode: AddGroupMemberErrorDialogMode.MaximumGroupSize;
@@ -52,16 +47,7 @@ export const AddGroupMemberErrorDialog: FunctionComponent<PropsType> = props => 
         <Intl
           i18n={i18n}
           id="chooseGroupMembers__cant-add-member__body"
-          components={[
-            <ContactName
-              key="name"
-              name={contact.name}
-              profileName={contact.profileName}
-              phoneNumber={contact.phoneNumber}
-              title={contact.title}
-              i18n={i18n}
-            />,
-          ]}
+          components={[<ContactName key="name" title={contact.title} />]}
         />
       );
       break;

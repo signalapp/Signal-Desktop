@@ -32,7 +32,7 @@ export const NewlyCreatedGroupInvitedContactsDialog: FunctionComponent<PropsType
           <Intl
             i18n={i18n}
             id="NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--one"
-            components={[<ContactName i18n={i18n} title={contact.title} />]}
+            components={[<ContactName title={contact.title} />]}
           />
         </GroupDialog.Paragraph>
         <GroupDialog.Paragraph>

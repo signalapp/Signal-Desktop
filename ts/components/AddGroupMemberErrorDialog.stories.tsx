@@ -26,10 +26,7 @@ story.add("Can't add a contact", () => (
   <AddGroupMemberErrorDialog
     {...defaultProps}
     mode={AddGroupMemberErrorDialogMode.CantAddContact}
-    contact={{
-      name: 'Foo Bar',
-      title: 'Foo Bar',
-    }}
+    contact={{ title: 'Foo Bar' }}
   />
 ));
 

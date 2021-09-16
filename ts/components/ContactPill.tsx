@@ -66,12 +66,8 @@ export const ContactPill: FunctionComponent<PropsType> = ({
       />
       <ContactName
         firstName={firstName}
-        i18n={i18n}
         module="module-ContactPill__contact-name"
-        name={name}
-        phoneNumber={phoneNumber}
         preferFirstName
-        profileName={profileName}
         title={title}
       />
       <button
