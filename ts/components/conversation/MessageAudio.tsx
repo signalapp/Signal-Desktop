@@ -180,7 +180,9 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
     activeAudioID === id && activeAudioContext === renderingContext;
 
   const waveformRef = useRef<HTMLDivElement | null>(null);
-  const [isPlaying, setIsPlaying] = useState(isActive && !audio.paused);
+  const [isPlaying, setIsPlaying] = useState(
+    isActive && !(audio.paused || audio.ended)
+  );
   const [currentTime, setCurrentTime] = useState(
     isActive ? audio.currentTime : 0
   );
