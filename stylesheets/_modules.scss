@@ -9175,6 +9175,7 @@ $contact-modal-padding: 18px;
   padding: 6px 0;
   opacity: 0;
   user-select: none;
+  visibility: hidden;
 
   @include light-theme {
     background-color: $color-white;
@@ -9185,8 +9186,9 @@ $contact-modal-padding: 18px;
 }
 
 .react-contextmenu--visible {
-  z-index: 1000;
   opacity: 1;
+  visibility: visible;
+  z-index: 1000;
 }
 
 .react-contextmenu-item {
