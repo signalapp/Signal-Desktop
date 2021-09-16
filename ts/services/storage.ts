@@ -400,6 +400,18 @@ async function generateManifest(
     });
 
     if (deleteKeys.length !== pendingDeletes.size) {
+      const localDeletes = deleteKeys.map(key =>
+        redactStorageID(arrayBufferToBase64(key))
+      );
+      const remoteDeletes: Array<string> = [];
+      pendingDeletes.forEach(id => remoteDeletes.push(redactStorageID(id)));
+      window.log.error(
+        'Delete key sizes do not match',
+        'local',
+        localDeletes.join(','),
+        'remote',
+        remoteDeletes.join(',')
+      );
       throw new Error('invalid write delete keys length do not match');
     }
     if (newItems.size !== pendingInserts.size) {
@@ -1035,7 +1047,9 @@ async function processRemoteRecords(
   return 0;
 }
 
-async function sync(): Promise<Proto.ManifestRecord | undefined> {
+async function sync(
+  ignoreConflicts = false
+): Promise<Proto.ManifestRecord | undefined> {
   if (!isStorageWriteFeatureEnabled()) {
     window.log.info(
       'storageService.sync: Not starting desktop.storage is falsey'
@@ -1081,7 +1095,7 @@ async function sync(): Promise<Proto.ManifestRecord | undefined> {
     window.storage.put('manifestVersion', version);
 
     const hasConflicts = await processManifest(manifest);
-    if (hasConflicts) {
+    if (hasConflicts && !ignoreConflicts) {
       await upload(true);
     }
 
@@ -1155,7 +1169,10 @@ async function upload(fromSync = false): Promise<void> {
     // Syncing before we upload so that we repair any unknown records and
     // records with errors as well as ensure that we have the latest up to date
     // manifest.
-    previousManifest = await sync();
+    // We are going to upload after this sync so we can ignore any conflicts
+    // that arise during the sync.
+    const ignoreConflicts = true;
+    previousManifest = await sync(ignoreConflicts);
   }
 
   const localManifestVersion = window.storage.get('manifestVersion', 0);
