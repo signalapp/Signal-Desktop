@@ -318,7 +318,7 @@ export async function TEST_testGuardNode(snode: Data.Snode) {
     response = await insecureNodeFetch(url, fetchOptions);
   } catch (e) {
     if (e.type === 'request-timeout') {
-      window?.log?.warn('test timeout for node,', snode);
+      window?.log?.warn('test timeout for node,', ed25519Str(snode.pubkey_ed25519));
     }
     if (e.code === 'ENETUNREACH') {
       window?.log?.warn('no network on node,', snode);
@@ -392,8 +392,7 @@ export async function selectGuardNodes(): Promise<Array<Data.Snode>> {
     attempts++;
   }
 
-  guardNodes = selectedGuardNodes;
-
+  guardNodes = selectedGuardNodes.slice(0, desiredGuardCount);
   if (guardNodes.length < desiredGuardCount) {
     window?.log?.error(`Cound't get enough guard nodes, only have: ${guardNodes.length}`);
     throw new Error(`Cound't get enough guard nodes, only have: ${guardNodes.length}`);

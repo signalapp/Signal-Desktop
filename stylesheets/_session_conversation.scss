@@ -197,6 +197,11 @@
     min-height: $composition-container-height;
     padding: $session-margin-md 0;
 
+    ul {
+      max-height: 70vh;
+      overflow: auto;
+    }
+
     textarea {
       font-family: $session-font-default;
       min-height: $composition-container-height / 3;
