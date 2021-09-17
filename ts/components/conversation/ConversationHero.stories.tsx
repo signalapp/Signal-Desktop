@@ -23,6 +23,61 @@ const getPhoneNumber = () => text('phoneNumber', '+1 (646) 327-2700');
 const updateSharedGroups = action('updateSharedGroups');
 
 storiesOf('Components/Conversation/ConversationHero', module)
+  .add('Direct (Five Other Groups)', () => {
+    return (
+      <div style={{ width: '480px' }}>
+        <ConversationHero
+          about={getAbout()}
+          acceptedMessageRequest
+          i18n={i18n}
+          isMe={false}
+          title={getTitle()}
+          avatarPath={getAvatarPath()}
+          name={getName()}
+          profileName={getProfileName()}
+          phoneNumber={getPhoneNumber()}
+          conversationType="direct"
+          updateSharedGroups={updateSharedGroups}
+          sharedGroupNames={[
+            'NYC Rock Climbers',
+            'Dinner Party',
+            'Friends 🌿',
+            'Fourth',
+            'Fifth',
+          ]}
+          unblurAvatar={action('unblurAvatar')}
+          onHeightChange={action('onHeightChange')}
+        />
+      </div>
+    );
+  })
+  .add('Direct (Four Other Groups)', () => {
+    return (
+      <div style={{ width: '480px' }}>
+        <ConversationHero
+          about={getAbout()}
+          acceptedMessageRequest
+          i18n={i18n}
+          isMe={false}
+          title={getTitle()}
+          avatarPath={getAvatarPath()}
+          name={getName()}
+          profileName={getProfileName()}
+          phoneNumber={getPhoneNumber()}
+          conversationType="direct"
+          updateSharedGroups={updateSharedGroups}
+          sharedGroupNames={[
+            'NYC Rock Climbers',
+            'Dinner Party',
+            'Friends 🌿',
+            'Fourth',
+          ]}
+          unblurAvatar={action('unblurAvatar')}
+          onHeightChange={action('onHeightChange')}
+        />
+      </div>
+    );
+  })
   .add('Direct (Three Other Groups)', () => {
     return (
       <div style={{ width: '480px' }}>

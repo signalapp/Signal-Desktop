@@ -157,22 +157,22 @@ const items: Record<string, TimelineItemType> = {
         {
           type: 'add',
           contacts: [
-            {
+            getDefaultConversation({
               phoneNumber: '(202) 555-0002',
               title: 'Mr. Fire',
-            },
-            {
+            }),
+            getDefaultConversation({
               phoneNumber: '(202) 555-0003',
               title: 'Ms. Water',
-            },
+            }),
           ],
         },
       ],
-      from: {
+      from: getDefaultConversation({
         phoneNumber: '(202) 555-0001',
         title: 'Mrs. Ice',
         isMe: false,
-      },
+      }),
     },
   },
   'id-9': {

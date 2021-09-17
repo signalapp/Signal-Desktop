@@ -27,17 +27,30 @@ export const SharedGroupNames: FunctionComponent<PropsType> = ({
     </strong>
   ));
 
-  if (sharedGroupNames.length > 3) {
+  if (sharedGroupNames.length >= 5) {
     const remainingCount = sharedGroupNames.length - 3;
     return (
       <Intl
         i18n={i18n}
-        id="member-of-more-than-3-groups"
+        id="member-of-more-than-3-groups--multiple-more"
         components={{
           group1: firstThreeGroups[0],
           group2: firstThreeGroups[1],
           group3: firstThreeGroups[2],
           remainingCount: remainingCount.toString(),
+        }}
+      />
+    );
+  }
+  if (sharedGroupNames.length === 4) {
+    return (
+      <Intl
+        i18n={i18n}
+        id="member-of-more-than-3-groups--one-more"
+        components={{
+          group1: firstThreeGroups[0],
+          group2: firstThreeGroups[1],
+          group3: firstThreeGroups[2],
         }}
       />
     );

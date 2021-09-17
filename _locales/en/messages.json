@@ -3374,7 +3374,7 @@
   },
   "member-of-2-groups": {
     "message": "Member of $group1$ and $group2$",
-    "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups",
+    "description": "Shown in the conversation hero to indicate this user is a member of two mutual groups",
     "placeholders": {
       "group1": {
         "content": "$1",
@@ -3388,7 +3388,7 @@
   },
   "member-of-3-groups": {
     "message": "Member of $group1$, $group2$, and $group3$",
-    "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
+    "description": "Shown in the conversation hero to indicate this user is a member of three mutual groups",
     "placeholders": {
       "group1": {
         "content": "$1",
@@ -3404,9 +3404,27 @@
       }
     }
   },
-  "member-of-more-than-3-groups": {
+  "member-of-more-than-3-groups--one-more": {
+    "message": "Member of $group1$, $group2$, $group3$ and one more",
+    "description": "Shown in the conversation hero to indicate this user is a member of four mutual groups",
+    "placeholders": {
+      "group1": {
+        "content": "$1",
+        "example": "NYC Rock Climbers"
+      },
+      "group2": {
+        "content": "$2",
+        "example": "Dinner Party"
+      },
+      "group3": {
+        "content": "$3",
+        "example": "Friends 🌿"
+      }
+    }
+  },
+  "member-of-more-than-3-groups--multiple-more": {
     "message": "Member of $group1$, $group2$, $group3$ and $remainingCount$ more",
-    "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
+    "description": "Shown in the conversation hero to indicate this user is a member of 5+ mutual groups.",
     "placeholders": {
       "group1": {
         "content": "$1",
@@ -3701,7 +3719,7 @@
     "description": "Title for the select your screen sharing sources modal"
   },
   "calling__SelectPresentingSourcesModal--confirm": {
-    "message": "Share screen",
+    "message": "Start sharing",
     "description": "Confirm button for sharing screen modal"
   },
   "calling__SelectPresentingSourcesModal--entireScreen": {
@@ -5230,7 +5248,7 @@
     }
   },
   "ContactModal--rm-admin-info": {
-    "message": "Remove $contact$ as group admin",
+    "message": "Remove $contact$ as group admin?",
     "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone",
     "placeholders": {
       "contact": {

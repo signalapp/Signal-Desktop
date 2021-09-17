@@ -83,6 +83,17 @@
         $color-gray-02
       );
     }
+
+    @include keyboard-mode {
+      &:focus {
+        background-color: $color-ultramarine;
+      }
+    }
+    @include dark-keyboard-mode {
+      &:focus {
+        background-color: $color-ultramarine-light;
+      }
+    }
   }
 
   &__header {
