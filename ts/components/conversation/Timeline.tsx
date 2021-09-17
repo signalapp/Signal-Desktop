@@ -1369,6 +1369,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
               scrollToIndex={scrollToIndex}
               tabIndex={-1}
               width={width}
+              style={{ overflow: 'overlay' }}
             />
           );
         }}

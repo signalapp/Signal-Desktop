@@ -572,3 +572,30 @@
     }
   }
 }
+
+@mixin scrollbar {
+  &::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    visibility: hidden;
+    width: 6px;
+
+    @include light-theme {
+      background: $color-black-alpha-40;
+    }
+    @include dark-theme {
+      background: $color-white-alpha-40;
+    }
+  }
+
+  &::-webkit-scrollbar {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &:hover::-webkit-scrollbar-thumb {
+    visibility: visible;
+  }
+}

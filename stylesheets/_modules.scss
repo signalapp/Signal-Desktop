@@ -5622,22 +5622,7 @@ button.module-image__border-overlay:focus {
 // Module: conversation list
 
 .module-conversation-list {
-  &::-webkit-scrollbar-thumb {
-    border-radius: 4px;
-    visibility: hidden;
-    width: 6px;
-
-    @include light-theme {
-      background: $color-black-alpha-40;
-    }
-    @include dark-theme {
-      background: $color-white-alpha-40;
-    }
-  }
-
-  &:hover::-webkit-scrollbar-thumb {
-    visibility: visible;
-  }
+  @include scrollbar;
 
   &--scroll-behavior {
     &-default {
@@ -6373,6 +6358,10 @@ button.module-image__border-overlay:focus {
 .module-timeline {
   height: 100%;
   overflow: hidden;
+
+  .ReactVirtualized__List {
+    @include scrollbar;
+  }
 }
 
 .module-timeline--disabled {
