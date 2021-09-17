@@ -5,6 +5,7 @@ import * as React from 'react';
 import { ActionCreatorsMapObject, bindActionCreators } from 'redux';
 import { useDispatch } from 'react-redux';
 import { first, last, noop } from 'lodash';
+import * as log from '../../logging/log';
 
 export function usePrevious<T>(initialValue: T, currentValue: T): T {
   const previousValueRef = React.useRef<T>(initialValue);
@@ -86,7 +87,7 @@ export function useIntersectionObserver(): [
 
     const observer = new IntersectionObserver(entries => {
       if (entries.length !== 1) {
-        window.log.error(
+        log.error(
           'IntersectionObserverWrapper was observing the wrong number of elements'
         );
         return;

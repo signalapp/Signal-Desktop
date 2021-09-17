@@ -5,7 +5,6 @@
 
 const { ipcRenderer } = require('electron');
 const url = require('url');
-const copyText = require('copy-text-to-clipboard');
 
 // It is important to call this as early as possible
 require('./ts/windows/context');
@@ -25,7 +24,6 @@ setEnvironment(parseEnvironment(config.environment));
 window.getVersion = () => config.version;
 window.theme = config.theme;
 window.i18n = i18n.setup(locale, localeMessages);
-window.copyText = copyText;
 
 // got.js appears to need this to successfully submit debug logs to the cloud
 window.nodeSetImmediate = setImmediate;
@@ -37,6 +35,7 @@ window.Backbone = require('backbone');
 require('./ts/backbone/views/whisper_view');
 require('./ts/backbone/views/toast_view');
 require('./ts/logging/set_up_renderer_logging').initialize();
+require('./ts/views/debug_log_view');
 
 window.closeDebugLog = () => ipcRenderer.send('close-debug-log');
 window.Backbone = require('backbone');

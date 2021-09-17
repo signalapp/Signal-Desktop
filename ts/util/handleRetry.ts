@@ -27,6 +27,7 @@ import {
 } from '../textsecure/messageReceiverEvents';
 
 import { SignalService as Proto } from '../protobuf';
+import * as log from '../logging/log';
 
 // Entrypoints
 
@@ -41,19 +42,17 @@ export async function onRetryRequest(event: RetryRequestEvent): Promise<void> {
   } = retryRequest;
   const logId = `${requesterUuid}.${requesterDevice} ${sentAt}.${senderDevice}`;
 
-  window.log.info(`onRetryRequest/${logId}: Starting...`);
+  log.info(`onRetryRequest/${logId}: Starting...`);
 
   if (!RemoteConfig.isEnabled('desktop.senderKey.retry')) {
-    window.log.warn(
+    log.warn(
       `onRetryRequest/${logId}: Feature flag disabled, returning early.`
     );
     return;
   }
 
   if (window.RETRY_DELAY) {
-    window.log.warn(
-      `onRetryRequest/${logId}: Delaying because RETRY_DELAY is set...`
-    );
+    log.warn(`onRetryRequest/${logId}: Delaying because RETRY_DELAY is set...`);
     await new Promise(resolve => setTimeout(resolve, 5000));
   }
 
@@ -66,14 +65,14 @@ export async function onRetryRequest(event: RetryRequestEvent): Promise<void> {
       'retryRespondMaxAge'
     );
   } catch (error) {
-    window.log.warn(
+    log.warn(
       `onRetryRequest/${logId}: Failed to parse integer from desktop.retryRespondMaxAge feature flag`,
       error && error.stack ? error.stack : error
     );
   }
 
   if (isOlderThan(sentAt, retryRespondMaxAge)) {
-    window.log.info(
+    log.info(
       `onRetryRequest/${logId}: Message is too old, refusing to send again.`
     );
     await sendDistributionMessageOrNullMessage(logId, retryRequest);
@@ -87,12 +86,12 @@ export async function onRetryRequest(event: RetryRequestEvent): Promise<void> {
   });
 
   if (!sentProto) {
-    window.log.info(`onRetryRequest/${logId}: Did not find sent proto`);
+    log.info(`onRetryRequest/${logId}: Did not find sent proto`);
     await sendDistributionMessageOrNullMessage(logId, retryRequest);
     return;
   }
 
-  window.log.info(`onRetryRequest/${logId}: Resending message`);
+  log.info(`onRetryRequest/${logId}: Resending message`);
   await archiveSessionOnMatch(retryRequest);
 
   const { contentHint, messageIds, proto, timestamp } = sentProto;
@@ -130,9 +129,7 @@ function maybeShowDecryptionToast(logId: string) {
     return;
   }
 
-  window.log.info(
-    `maybeShowDecryptionToast/${logId}: Showing decryption error toast`
-  );
+  log.info(`maybeShowDecryptionToast/${logId}: Showing decryption error toast`);
   window.Whisper.ToastView.show(
     window.Whisper.DecryptionErrorToast,
     document.getElementsByClassName('conversation-stack')[0]
@@ -146,7 +143,7 @@ export async function onDecryptionError(
   const { senderUuid, senderDevice, timestamp } = decryptionError;
   const logId = `${senderUuid}.${senderDevice} ${timestamp}`;
 
-  window.log.info(`onDecryptionError/${logId}: Starting...`);
+  log.info(`onDecryptionError/${logId}: Starting...`);
 
   const conversation = window.ConversationController.getOrCreate(
     senderUuid,
@@ -167,7 +164,7 @@ export async function onDecryptionError(
     await startAutomaticSessionReset(decryptionError);
   }
 
-  window.log.info(`onDecryptionError/${logId}: ...complete`);
+  log.info(`onDecryptionError/${logId}: ...complete`);
 }
 
 // Helpers
@@ -194,7 +191,7 @@ async function archiveSessionOnMatch({
   const session = await window.textsecure.storage.protocol.loadSession(address);
 
   if (session && session.currentRatchetKeyMatches(ratchetKey)) {
-    window.log.info(
+    log.info(
       'archiveSessionOnMatch: Matching device and ratchetKey, archiving session'
     );
     await window.textsecure.storage.protocol.archiveSession(address);
@@ -207,7 +204,7 @@ async function sendDistributionMessageOrNullMessage(
 ): Promise<void> {
   const { groupId, requesterUuid } = options;
   let sentDistributionMessage = false;
-  window.log.info(`sendDistributionMessageOrNullMessage/${logId}: Starting...`);
+  log.info(`sendDistributionMessageOrNullMessage/${logId}: Starting...`);
 
   await archiveSessionOnMatch(options);
 
@@ -227,7 +224,7 @@ async function sendDistributionMessageOrNullMessage(
     }
 
     if (group && distributionId) {
-      window.log.info(
+      log.info(
         `sendDistributionMessageOrNullMessage/${logId}: Found matching group, sending sender key distribution message`
       );
 
@@ -248,7 +245,7 @@ async function sendDistributionMessageOrNullMessage(
         }
         sentDistributionMessage = true;
       } catch (error) {
-        window.log.error(
+        log.error(
           `sendDistributionMessageOrNullMessage/${logId}: Failed to send sender key distribution message`,
           error && error.stack ? error.stack : error
         );
@@ -257,7 +254,7 @@ async function sendDistributionMessageOrNullMessage(
   }
 
   if (!sentDistributionMessage) {
-    window.log.info(
+    log.info(
       `sendDistributionMessageOrNullMessage/${logId}: Did not send distribution message, sending null message`
     );
 
@@ -274,7 +271,7 @@ async function sendDistributionMessageOrNullMessage(
         throw result.errors[0];
       }
     } catch (error) {
-      window.log.error(
+      log.error(
         `maybeSendDistributionMessage/${logId}: Failed to send null message`,
         error && error.stack ? error.stack : error
       );
@@ -301,7 +298,7 @@ async function getRetryConversation({
     Message: window.Whisper.Message,
   });
   if (!message) {
-    window.log.warn(
+    log.warn(
       `maybeAddSenderKeyDistributionMessage/${logId}: Unable to find message ${messageId}`
     );
     // Fail over to requested groupId
@@ -332,7 +329,7 @@ async function maybeAddSenderKeyDistributionMessage({
   });
 
   if (!conversation) {
-    window.log.warn(
+    log.warn(
       `maybeAddSenderKeyDistributionMessage/${logId}: Unable to find conversation`
     );
     return {
@@ -387,7 +384,7 @@ async function requestResend(decryptionError: DecryptionErrorEventData) {
   } = decryptionError;
   const logId = `${senderUuid}.${senderDevice} ${timestamp}`;
 
-  window.log.info(`requestResend/${logId}: Starting...`, {
+  log.info(`requestResend/${logId}: Starting...`, {
     cipherTextBytesLength: cipherTextBytes?.byteLength,
     cipherTextType,
     contentHint,
@@ -408,7 +405,7 @@ async function requestResend(decryptionError: DecryptionErrorEventData) {
   // 2. Send resend request
 
   if (!cipherTextBytes || !isNumber(cipherTextType)) {
-    window.log.warn(
+    log.warn(
       `requestResend/${logId}: Missing cipherText information, failing over to automatic reset`
     );
     startAutomaticSessionReset(decryptionError);
@@ -438,7 +435,7 @@ async function requestResend(decryptionError: DecryptionErrorEventData) {
       throw result.errors[0];
     }
   } catch (error) {
-    window.log.error(
+    log.error(
       `requestResend/${logId}: Failed to send retry request, failing over to automatic reset`,
       error && error.stack ? error.stack : error
     );
@@ -455,7 +452,7 @@ async function requestResend(decryptionError: DecryptionErrorEventData) {
     const { retryPlaceholders } = window.Signal.Services;
     strictAssert(retryPlaceholders, 'requestResend: adding placeholder');
 
-    window.log.info(`requestResend/${logId}: Adding placeholder`);
+    log.info(`requestResend/${logId}: Adding placeholder`);
 
     const state = window.reduxStore.getState();
     const selectedId = state.conversations.selectedConversationId;
@@ -476,15 +473,11 @@ async function requestResend(decryptionError: DecryptionErrorEventData) {
   // This message cannot be resent. We'll show no error and trust the other side to
   //   reset their session.
   if (contentHint === ContentHint.IMPLICIT) {
-    window.log.info(
-      `requestResend/${logId}: contentHint is IMPLICIT, doing nothing.`
-    );
+    log.info(`requestResend/${logId}: contentHint is IMPLICIT, doing nothing.`);
     return;
   }
 
-  window.log.warn(
-    `requestResend/${logId}: No content hint, adding error immediately`
-  );
+  log.warn(`requestResend/${logId}: No content hint, adding error immediately`);
   conversation.queueJob('addDeliveryIssue', async () => {
     conversation.addDeliveryIssue({
       receivedAt: receivedAtDate,
@@ -518,7 +511,7 @@ function startAutomaticSessionReset(decryptionError: DecryptionErrorEventData) {
   const { senderUuid, senderDevice, timestamp } = decryptionError;
   const logId = `${senderUuid}.${senderDevice} ${timestamp}`;
 
-  window.log.info(`startAutomaticSessionReset/${logId}: Starting...`);
+  log.info(`startAutomaticSessionReset/${logId}: Starting...`);
 
   scheduleSessionReset(senderUuid, senderDevice);
 
@@ -527,7 +520,7 @@ function startAutomaticSessionReset(decryptionError: DecryptionErrorEventData) {
   });
 
   if (!conversationId) {
-    window.log.warn(
+    log.warn(
       'onLightSessionReset: No conversation id, cannot add message to timeline'
     );
     return;
@@ -535,7 +528,7 @@ function startAutomaticSessionReset(decryptionError: DecryptionErrorEventData) {
   const conversation = window.ConversationController.get(conversationId);
 
   if (!conversation) {
-    window.log.warn(
+    log.warn(
       'onLightSessionReset: No conversation, cannot add message to timeline'
     );
     return;

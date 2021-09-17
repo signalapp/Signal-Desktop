@@ -10,6 +10,7 @@ import { ConversationType } from '../../state/ducks/conversations';
 import { Intl } from '../Intl';
 import { ContactName } from './ContactName';
 import { GroupV1MigrationDialog } from '../GroupV1MigrationDialog';
+import * as log from '../../logging/log';
 
 export type PropsDataType = {
   areWeInvited: boolean;
@@ -79,9 +80,7 @@ export function GroupV1Migration(props: PropsType): React.ReactElement {
           hasMigrated
           i18n={i18n}
           invitedMembers={invitedMembers}
-          migrate={() =>
-            window.log.warn('GroupV1Migration: Modal called migrate()')
-          }
+          migrate={() => log.warn('GroupV1Migration: Modal called migrate()')}
           onClose={dismissDialog}
         />
       ) : null}

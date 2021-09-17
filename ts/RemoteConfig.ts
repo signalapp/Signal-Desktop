@@ -4,6 +4,7 @@
 import { get, throttle } from 'lodash';
 
 import type { WebAPIType } from './textsecure/WebAPI';
+import * as log from './logging/log';
 
 export type ConfigKeyType =
   | 'desktop.announcementGroup'
@@ -92,7 +93,7 @@ export const refreshRemoteConfig = async (
     // If enablement changes at all, notify listeners
     const currentListeners = listeners[name] || [];
     if (hasChanged) {
-      window.log.info(`Remote Config: Flag ${name} has changed`);
+      log.info(`Remote Config: Flag ${name} has changed`);
       currentListeners.forEach(listener => {
         listener(configValue);
       });

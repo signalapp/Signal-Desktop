@@ -8,6 +8,7 @@ import Long from 'long';
 import { HKDF } from '@signalapp/signal-client';
 
 import { calculateAgreement, generateKeyPair } from './Curve';
+import * as log from './logging/log';
 
 import {
   CipherType,
@@ -712,7 +713,7 @@ export async function encryptCdsDiscoveryRequest(
 
 export function uuidToArrayBuffer(uuid: string): ArrayBuffer {
   if (uuid.length !== 36) {
-    window.log.warn(
+    log.warn(
       'uuidToArrayBuffer: received a string of invalid length. Returning an empty ArrayBuffer'
     );
     return new ArrayBuffer(0);
@@ -729,7 +730,7 @@ export function arrayBufferToUuid(
   arrayBuffer: ArrayBuffer
 ): undefined | string {
   if (arrayBuffer.byteLength !== 16) {
-    window.log.warn(
+    log.warn(
       'arrayBufferToUuid: received an ArrayBuffer of invalid length. Returning undefined'
     );
     return undefined;

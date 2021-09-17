@@ -34,6 +34,7 @@ import { ReactionType } from '../types/Reactions';
 import { ConversationColorType, CustomColorType } from '../types/Colors';
 import type { ProcessGroupCallRingRequestResult } from '../types/Calling';
 import type { RemoveAllConfiguration } from '../types/RemoveAllConfiguration';
+import * as log from '../logging/log';
 
 import {
   ConversationModelCollectionType,
@@ -88,7 +89,7 @@ import { ConversationModel } from '../models/conversations';
 if (ipcRenderer && ipcRenderer.setMaxListeners) {
   ipcRenderer.setMaxListeners(0);
 } else {
-  window.log.warn('sql/Client: ipcRenderer is not available!');
+  log.warn('sql/Client: ipcRenderer is not available!');
 }
 
 const DATABASE_UPDATE_TIMEOUT = 2 * durations.MINUTE;
@@ -305,14 +306,12 @@ export default dataInterface;
 
 async function goBackToMainProcess(): Promise<void> {
   if (!shouldUseRendererProcess) {
-    window.log.info(
-      'data.goBackToMainProcess: already switched to main process'
-    );
+    log.info('data.goBackToMainProcess: already switched to main process');
     return;
   }
 
   // We don't need to wait for pending queries since they are synchronous.
-  window.log.info('data.goBackToMainProcess: switching to main process');
+  log.info('data.goBackToMainProcess: switching to main process');
 
   // Close the database in the renderer process.
   const closePromise = close();
@@ -331,7 +330,7 @@ async function goBackToMainProcess(): Promise<void> {
     .sort((a, b) => b[1] - a[1])
     .filter(([_, duration]) => duration > MIN_TRACE_DURATION)
     .forEach(([query, duration]) => {
-      window.log.info(`startup query: ${query} ${duration}ms`);
+      log.info(`startup query: ${query} ${duration}ms`);
     });
 }
 
@@ -355,7 +354,7 @@ function _cleanData(
   const { cleaned, pathsChanged } = cleanDataForIpc(data);
 
   if (pathsChanged.length) {
-    window.log.info(
+    log.info(
       `_cleanData cleaned the following paths: ${pathsChanged.join(', ')}`
     );
   }
@@ -374,7 +373,7 @@ function _cleanMessageData(data: MessageType): MessageType {
 
 async function _shutdown() {
   const jobKeys = Object.keys(_jobs);
-  window.log.info(
+  log.info(
     `data.shutdown: shutdown requested. ${jobKeys.length} jobs outstanding`
   );
 
@@ -394,7 +393,7 @@ async function _shutdown() {
   // Outstanding jobs; we need to wait until the last one is done
   _shutdownPromise = new Promise<void>((resolve, reject) => {
     _shutdownCallback = (error: Error) => {
-      window.log.info('data.shutdown: process complete');
+      log.info('data.shutdown: process complete');
       if (error) {
         reject(error);
 
@@ -419,7 +418,7 @@ function _makeJob(fnName: string) {
   const id = _jobCounter;
 
   if (_DEBUG) {
-    window.log.info(`SQL channel job ${id} (${fnName}) started`);
+    log.info(`SQL channel job ${id} (${fnName}) started`);
   }
   _jobs[id] = {
     fnName,
@@ -440,7 +439,7 @@ function _updateJob(id: number, data: ClientJobUpdateType) {
       _removeJob(id);
       const end = Date.now();
       if (_DEBUG) {
-        window.log.info(
+        log.info(
           `SQL channel job ${id} (${fnName}) succeeded in ${end - start}ms`
         );
       }
@@ -450,9 +449,7 @@ function _updateJob(id: number, data: ClientJobUpdateType) {
     reject: (error: Error) => {
       _removeJob(id);
       const end = Date.now();
-      window.log.info(
-        `SQL channel job ${id} (${fnName}) failed in ${end - start}ms`
-      );
+      log.info(`SQL channel job ${id} (${fnName}) failed in ${end - start}ms`);
 
       return reject(error);
     },
@@ -511,7 +508,7 @@ if (ipcRenderer && ipcRenderer.on) {
     }
   );
 } else {
-  window.log.warn('sql/Client: ipcRenderer.on is not available!');
+  log.warn('sql/Client: ipcRenderer.on is not available!');
 }
 
 function makeChannel(fnName: string) {
@@ -531,13 +528,13 @@ function makeChannel(fnName: string) {
         return await Server[serverFnName](...args);
       } catch (error) {
         if (isCorruptionError(error)) {
-          window.log.error(
+          log.error(
             'Detected sql corruption in renderer process. ' +
               `Restarting the application immediately. Error: ${error.message}`
           );
           ipcRenderer?.send('database-error', error.stack);
         }
-        window.log.error(
+        log.error(
           `Renderer SQL channel job (${fnName}) error ${error.message}`
         );
         throw error;
@@ -550,7 +547,7 @@ function makeChannel(fnName: string) {
         );
 
         if (duration > MIN_TRACE_DURATION || _DEBUG) {
-          window.log.info(
+          log.info(
             `Renderer SQL channel job (${fnName}) completed in ${duration}ms`
           );
         }
@@ -1339,7 +1336,7 @@ async function removeAllMessagesInConversation(
   let messages;
   do {
     const chunkSize = 20;
-    window.log.info(
+    log.info(
       `removeAllMessagesInConversation/${logId}: Fetching chunk of ${chunkSize} messages`
     );
     // Yes, we really want the await in the loop. We're deleting a chunk at a
@@ -1355,7 +1352,7 @@ async function removeAllMessagesInConversation(
 
     const ids = messages.map((message: MessageModel) => message.id);
 
-    window.log.info(`removeAllMessagesInConversation/${logId}: Cleanup...`);
+    log.info(`removeAllMessagesInConversation/${logId}: Cleanup...`);
     // Note: It's very important that these models are fully hydrated because
     //   we need to delete all associated on-disk files along with the database delete.
     const queue = new window.PQueue({ concurrency: 3, timeout: 1000 * 60 * 2 });
@@ -1364,7 +1361,7 @@ async function removeAllMessagesInConversation(
     );
     await queue.onIdle();
 
-    window.log.info(`removeAllMessagesInConversation/${logId}: Deleting...`);
+    log.info(`removeAllMessagesInConversation/${logId}: Deleting...`);
     await channels.removeMessages(ids);
   } while (messages.length > 0);
 }

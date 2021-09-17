@@ -3,6 +3,7 @@
 
 import { DeleteModel } from '../messageModifiers/Deletes';
 import { MessageModel } from '../models/messages';
+import * as log from '../logging/log';
 
 const ONE_DAY = 24 * 60 * 60 * 1000;
 
@@ -19,7 +20,7 @@ export async function deleteForEveryone(
   const delta = Math.abs(doe.get('serverTimestamp') - messageTimestamp);
 
   if (delta > ONE_DAY) {
-    window.log.info('Received late DOE. Dropping.', {
+    log.info('Received late DOE. Dropping.', {
       fromId: doe.get('fromId'),
       targetSentTimestamp: doe.get('targetSentTimestamp'),
       messageServerTimestamp: message.get('serverTimestamp'),

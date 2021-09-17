@@ -4,7 +4,7 @@
 /* eslint-disable class-methods-use-this */
 
 import PQueue from 'p-queue';
-import type { LoggerType } from '../logging/log';
+import type { LoggerType } from '../types/Logging';
 import { exponentialBackoffMaxAttempts } from '../util/exponentialBackoff';
 import { commonShouldJobContinue } from './helpers/commonShouldJobContinue';
 import { sleepFor413RetryAfterTimeIfApplicable } from './helpers/sleepFor413RetryAfterTimeIfApplicable';

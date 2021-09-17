@@ -34,6 +34,7 @@ import { ourProfileKeyService } from '../services/ourProfileKey';
 import { assert, strictAssert } from '../util/assert';
 import { getProvisioningUrl } from '../util/getProvisioningUrl';
 import { SignalService as Proto } from '../protobuf';
+import * as log from '../logging/log';
 
 const DAY = 24 * 60 * 60 * 1000;
 const MINIMUM_SIGNED_PREKEYS = 5;
@@ -194,7 +195,7 @@ export default class AccountManager extends EventTarget {
   async registerSecondDevice(
     setProvisioningUrl: Function,
     confirmNumber: (number?: string) => Promise<string>,
-    progressCallback: Function
+    progressCallback?: Function
   ) {
     const createAccount = this.createAccount.bind(this);
     const clearSessionsAndPreKeys = this.clearSessionsAndPreKeys.bind(this);
@@ -246,17 +247,15 @@ export default class AccountManager extends EventTarget {
           wsr.close();
           envelopeCallbacks?.resolve(envelope);
         } else {
-          window.log.error('Unknown websocket message', request.path);
+          log.error('Unknown websocket message', request.path);
         }
       },
     });
 
-    window.log.info('provisioning socket open');
+    log.info('provisioning socket open');
 
     wsr.addEventListener('close', ({ code, reason }) => {
-      window.log.info(
-        `provisioning socket closed. Code: ${code} Reason: ${reason}`
-      );
+      log.info(`provisioning socket closed. Code: ${code} Reason: ${reason}`);
 
       // Note: if we have resolved the envelope already - this has no effect
       envelopeCallbacks?.reject(new Error('websocket closed'));
@@ -309,7 +308,7 @@ export default class AccountManager extends EventTarget {
 
     return this.queueTask(async () =>
       this.server.getMyKeys().then(async preKeyCount => {
-        window.log.info(`prekey count ${preKeyCount}`);
+        log.info(`prekey count ${preKeyCount}`);
         if (preKeyCount < 10) {
           return generateKeys().then(registerKeys);
         }
@@ -335,7 +334,7 @@ export default class AccountManager extends EventTarget {
       const mostRecent = confirmedKeys[0];
 
       if (isMoreRecentThan(mostRecent?.created_at || 0, PREKEY_ROTATION_AGE)) {
-        window.log.warn(
+        log.warn(
           `rotateSignedPreKey: ${confirmedKeys.length} confirmed keys, most recent was created ${mostRecent?.created_at}. Cancelling rotation.`
         );
         return;
@@ -354,9 +353,7 @@ export default class AccountManager extends EventTarget {
           () => {
             // We swallow any error here, because we don't want to get into
             //   a loop of repeated retries.
-            window.log.error(
-              'Failed to get identity key. Canceling key rotation.'
-            );
+            log.error('Failed to get identity key. Canceling key rotation.');
             return null;
           }
         )
@@ -364,7 +361,7 @@ export default class AccountManager extends EventTarget {
           if (!res) {
             return null;
           }
-          window.log.info('Saving new signed prekey', res.keyId);
+          log.info('Saving new signed prekey', res.keyId);
           return Promise.all([
             window.textsecure.storage.put('signedKeyId', signedKeyId + 1),
             store.storeSignedPreKey(ourUuid, res.keyId, res.keyPair),
@@ -376,7 +373,7 @@ export default class AccountManager extends EventTarget {
           ])
             .then(async () => {
               const confirmed = true;
-              window.log.info('Confirming new signed prekey', res.keyId);
+              log.info('Confirming new signed prekey', res.keyId);
               return Promise.all([
                 window.textsecure.storage.remove('signedKeyRotationRejected'),
                 store.storeSignedPreKey(
@@ -390,10 +387,7 @@ export default class AccountManager extends EventTarget {
             .then(cleanSignedPreKeys);
         })
         .catch(async (e: Error) => {
-          window.log.error(
-            'rotateSignedPrekey error:',
-            e && e.stack ? e.stack : e
-          );
+          log.error('rotateSignedPrekey error:', e && e.stack ? e.stack : e);
 
           if (
             e instanceof Error &&
@@ -408,7 +402,7 @@ export default class AccountManager extends EventTarget {
               'signedKeyRotationRejected',
               rejections
             );
-            window.log.error('Signed key rotation rejected count:', rejections);
+            log.error('Signed key rotation rejected count:', rejections);
           } else {
             throw e;
           }
@@ -435,14 +429,14 @@ export default class AccountManager extends EventTarget {
     const recent = allKeys[0] ? allKeys[0].keyId : 'none';
     const recentConfirmed = confirmed[0] ? confirmed[0].keyId : 'none';
     const recentUnconfirmed = unconfirmed[0] ? unconfirmed[0].keyId : 'none';
-    window.log.info(`cleanSignedPreKeys: Most recent signed key: ${recent}`);
-    window.log.info(
+    log.info(`cleanSignedPreKeys: Most recent signed key: ${recent}`);
+    log.info(
       `cleanSignedPreKeys: Most recent confirmed signed key: ${recentConfirmed}`
     );
-    window.log.info(
+    log.info(
       `cleanSignedPreKeys: Most recent unconfirmed signed key: ${recentUnconfirmed}`
     );
-    window.log.info(
+    log.info(
       'cleanSignedPreKeys: Total signed key count:',
       allKeys.length,
       '-',
@@ -461,7 +455,7 @@ export default class AccountManager extends EventTarget {
         if (isOlderThan(createdAt, ARCHIVE_AGE)) {
           const timestamp = new Date(createdAt).toJSON();
           const confirmedText = key.confirmed ? ' (confirmed)' : '';
-          window.log.info(
+          log.info(
             `Removing signed prekey: ${key.keyId} with timestamp ${timestamp}${confirmedText}`
           );
           await store.removeSignedPreKey(ourUuid, key.keyId);
@@ -498,7 +492,7 @@ export default class AccountManager extends EventTarget {
       await this.deviceNameIsEncrypted();
     }
 
-    window.log.info(
+    log.info(
       `createAccount: Number is ${number}, password has length: ${
         password ? password.length : 'none'
       }`
@@ -524,21 +518,21 @@ export default class AccountManager extends EventTarget {
 
     if (uuidChanged || numberChanged) {
       if (uuidChanged) {
-        window.log.warn(
+        log.warn(
           'New uuid is different from old uuid; deleting all previous data'
         );
       }
       if (numberChanged) {
-        window.log.warn(
+        log.warn(
           'New number is different from old number; deleting all previous data'
         );
       }
 
       try {
         await storage.protocol.removeAllData();
-        window.log.info('Successfully deleted previous data');
+        log.info('Successfully deleted previous data');
       } catch (error) {
-        window.log.error(
+        log.error(
           'Something went wrong deleting data from previous number',
           error && error.stack ? error.stack : error
         );
@@ -636,7 +630,7 @@ export default class AccountManager extends EventTarget {
   async clearSessionsAndPreKeys() {
     const store = window.textsecure.storage.protocol;
 
-    window.log.info('clearing all sessions, prekeys, and signed prekeys');
+    log.info('clearing all sessions, prekeys, and signed prekeys');
     await Promise.all([
       store.clearPreKeyStore(),
       store.clearSignedPreKeysStore(),
@@ -658,7 +652,7 @@ export default class AccountManager extends EventTarget {
       throw new Error('confirmKeys: signedPreKey is null');
     }
 
-    window.log.info('confirmKeys: confirming key', key.keyId);
+    log.info('confirmKeys: confirming key', key.keyId);
     const ourUuid = window.textsecure.storage.user.getCheckedUuid();
     await store.storeSignedPreKey(ourUuid, key.keyId, key.keyPair, confirmed);
   }
@@ -736,7 +730,7 @@ export default class AccountManager extends EventTarget {
   }
 
   async registrationDone() {
-    window.log.info('registration done');
+    log.info('registration done');
     this.dispatchEvent(new Event('registration'));
   }
 }

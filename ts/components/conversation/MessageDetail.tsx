@@ -18,6 +18,7 @@ import { ConversationType } from '../../state/ducks/conversations';
 import { groupBy } from '../../util/mapUtil';
 import { ContactNameColorType } from '../../types/Colors';
 import { SendStatus } from '../../messages/MessageSendState';
+import * as log from '../../logging/log';
 
 export type Contact = Pick<
   ConversationType,
@@ -292,16 +293,16 @@ export class MessageDetail extends React.Component<Props> {
             contactNameColor={contactNameColor}
             containerElementRef={this.messageContainerRef}
             deleteMessage={() =>
-              window.log.warn('MessageDetail: deleteMessage called!')
+              log.warn('MessageDetail: deleteMessage called!')
             }
             deleteMessageForEveryone={() =>
-              window.log.warn('MessageDetail: deleteMessageForEveryone called!')
+              log.warn('MessageDetail: deleteMessageForEveryone called!')
             }
             disableMenu
             disableScroll
             displayTapToViewMessage={displayTapToViewMessage}
             downloadAttachment={() =>
-              window.log.warn('MessageDetail: deleteMessageForEveryone called!')
+              log.warn('MessageDetail: deleteMessageForEveryone called!')
             }
             doubleCheckMissingQuoteReference={doubleCheckMissingQuoteReference}
             i18n={i18n}
@@ -320,7 +321,7 @@ export class MessageDetail extends React.Component<Props> {
             retrySend={retrySend}
             showForwardMessageModal={showForwardMessageModal}
             scrollToQuotedMessage={() => {
-              window.log.warn('MessageDetail: scrollToQuotedMessage called!');
+              log.warn('MessageDetail: scrollToQuotedMessage called!');
             }}
             showContactDetail={showContactDetail}
             showContactModal={showContactModal}
@@ -331,9 +332,7 @@ export class MessageDetail extends React.Component<Props> {
               showExpiredOutgoingTapToViewToast
             }
             showMessageDetail={() => {
-              window.log.warn(
-                'MessageDetail: deleteMessageForEveryone called!'
-              );
+              log.warn('MessageDetail: deleteMessageForEveryone called!');
             }}
             showVisualAttachment={showVisualAttachment}
           />

@@ -24,7 +24,6 @@ import {
   IPCRequest as IPCChallengeRequest,
 } from './challenge';
 import { WebAPIConnectType } from './textsecure/WebAPI';
-import { uploadDebugLogs } from './logging/debuglogs';
 import { CallingClass } from './services/calling';
 import * as Groups from './groups';
 import * as Crypto from './Crypto';
@@ -119,6 +118,8 @@ import { QualifiedAddress } from './types/QualifiedAddress';
 import { CI } from './CI';
 import { IPCEventsType } from './util/createIPCEvents';
 import { ConversationView } from './views/conversation_view';
+import { DebugLogView } from './views/debug_log_view';
+import { LoggerType } from './types/Logging';
 
 export { Long } from 'long';
 
@@ -143,6 +144,13 @@ declare global {
   interface Window {
     startApp: () => void;
 
+    QRCode: any;
+    WebAudioRecorder: any;
+    closeDebugLog: () => unknown;
+    removeSetupMenuItems: () => unknown;
+    showPermissionsPopup: () => unknown;
+
+    FontFace: typeof FontFace;
     _: typeof Underscore;
     $: typeof jQuery;
 
@@ -177,6 +185,7 @@ declare global {
     getEnvironment: typeof getEnvironment;
     getExpiration: () => string;
     getGuid: () => string;
+    getHostName: () => string;
     getInboxCollection: () => ConversationModelCollectionType;
     getInteractionMode: () => 'mouse' | 'keyboard';
     getLocale: () => ElectronLocaleType;
@@ -217,7 +226,6 @@ declare global {
       getRegionCodeForNumber: (number: string) => string;
       format: (number: string, format: PhoneNumberFormat) => string;
     };
-    log: LoggerType;
     nodeSetImmediate: typeof setImmediate;
     onFullScreenChange: (fullScreen: boolean) => void;
     platform: string;
@@ -486,12 +494,14 @@ declare global {
 
     RETRY_DELAY: boolean;
 
+    // Context Isolation
     SignalWindow: {
       config: string;
       getAppInstance: () => string | undefined;
       getEnvironment: () => string;
       getVersion: () => string;
       i18n: LocalizerType;
+      log: LoggerType;
       renderWindow: () => void;
     };
   }
@@ -543,19 +553,6 @@ export type DeliveryReceiptBatcherItemType = {
   timestamp: number;
 };
 
-export type LoggerType = {
-  fatal: LogFunctionType;
-  info: LogFunctionType;
-  warn: LogFunctionType;
-  error: LogFunctionType;
-  debug: LogFunctionType;
-  trace: LogFunctionType;
-  fetch: () => Promise<string>;
-  publish: typeof uploadDebugLogs;
-};
-
-export type LogFunctionType = (...args: Array<unknown>) => void;
-
 export class AnyViewClass extends window.Backbone.View<any> {
   public headerTitle?: string;
   static show(view: typeof AnyViewClass, element: Element): void;
@@ -570,6 +567,7 @@ export class BasicReactWrapperViewClass extends AnyViewClass {
 export type WhisperType = {
   Conversation: typeof ConversationModel;
   ConversationCollection: typeof ConversationModelCollectionType;
+  DebugLogView: typeof DebugLogView;
   Message: typeof MessageModel;
   MessageCollection: typeof MessageModelCollectionType;
 

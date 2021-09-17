@@ -3,9 +3,6 @@
 
 /* eslint-env node, browser */
 
-// eslint-disable-next-line no-console
-const log = typeof window !== 'undefined' ? window.log : console;
-
 exports.setup = (locale, messages) => {
   if (!locale) {
     throw new Error('i18n: locale parameter is required');
@@ -15,6 +12,10 @@ exports.setup = (locale, messages) => {
   }
 
   function getMessage(key, substitutions) {
+    // eslint-disable-next-line no-console
+    const log =
+      typeof window !== 'undefined' ? window.SignalWindow.log : console;
+
     const entry = messages[key];
     if (!entry) {
       log.error(

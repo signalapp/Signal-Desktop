@@ -7,6 +7,7 @@ import { Collection, Model } from 'backbone';
 import { MessageModel } from '../models/messages';
 import { isOutgoing } from '../state/selectors/message';
 import { ReactionAttributesType } from '../model-types.d';
+import * as log from '../logging/log';
 
 export class ReactionModel extends Model<ReactionAttributesType> {}
 
@@ -28,7 +29,7 @@ export class Reactions extends Collection {
       );
 
       if (outgoingReactions.length > 0) {
-        window.log.info('Found early reaction for outgoing message');
+        log.info('Found early reaction for outgoing message');
         this.remove(outgoingReactions);
         return outgoingReactions;
       }
@@ -45,7 +46,7 @@ export class Reactions extends Collection {
     });
 
     if (reactionsBySource.length > 0) {
-      window.log.info('Found early reaction for message');
+      log.info('Found early reaction for message');
       this.remove(reactionsBySource);
       return reactionsBySource;
     }
@@ -75,7 +76,7 @@ export class Reactions extends Collection {
         reaction.get('targetTimestamp')
       );
       if (!targetConversation) {
-        window.log.info(
+        log.info(
           'No target conversation for reaction',
           reaction.get('targetAuthorUuid'),
           reaction.get('targetTimestamp')
@@ -87,10 +88,7 @@ export class Reactions extends Collection {
       return await targetConversation.queueJob(
         'Reactions.onReaction',
         async () => {
-          window.log.info(
-            'Handling reaction for',
-            reaction.get('targetTimestamp')
-          );
+          log.info('Handling reaction for', reaction.get('targetTimestamp'));
 
           const messages = await window.Signal.Data.getMessagesBySentAt(
             reaction.get('targetTimestamp'),
@@ -115,7 +113,7 @@ export class Reactions extends Collection {
           });
 
           if (!targetMessage) {
-            window.log.info(
+            log.info(
               'No message for reaction',
               reaction.get('targetAuthorUuid'),
               reaction.get('targetTimestamp')
@@ -149,7 +147,7 @@ export class Reactions extends Collection {
         }
       );
     } catch (error) {
-      window.log.error(
+      log.error(
         'Reactions.onReaction error:',
         error && error.stack ? error.stack : error
       );

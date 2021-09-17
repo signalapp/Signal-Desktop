@@ -21,6 +21,7 @@ import Fuse from 'fuse.js';
 import PQueue from 'p-queue';
 import is from '@sindresorhus/is';
 import { getOwn } from '../../util/getOwn';
+import * as log from '../../logging/log';
 
 export const skinTones = ['1F3FB', '1F3FC', '1F3FD', '1F3FE', '1F3FF'];
 
@@ -108,7 +109,7 @@ export const preloadImages = async (): Promise<void> => {
       setTimeout(reject, 5000);
     });
 
-  window.log.info('Preloading emoji images');
+  log.info('Preloading emoji images');
   const start = Date.now();
 
   data.forEach(emoji => {
@@ -124,7 +125,7 @@ export const preloadImages = async (): Promise<void> => {
   await imageQueue.onEmpty();
 
   const end = Date.now();
-  window.log.info(`Done preloading emoji images in ${end - start}ms`);
+  log.info(`Done preloading emoji images in ${end - start}ms`);
 };
 
 const dataByShortName = keyBy(data, 'short_name');

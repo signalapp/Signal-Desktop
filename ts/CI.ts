@@ -4,6 +4,7 @@
 import { ipcRenderer } from 'electron';
 
 import { explodePromise } from './util/explodePromise';
+import * as log from './logging/log';
 
 type ResolveType = (data: unknown) => void;
 
@@ -24,7 +25,7 @@ export class CI {
     const pendingCompleted = this.completedEvents.get(event) || [];
     const pending = pendingCompleted.shift();
     if (pending) {
-      window.log.info(`CI: resolving pending result for ${event}`, pending);
+      log.info(`CI: resolving pending result for ${event}`, pending);
 
       if (pendingCompleted.length === 0) {
         this.completedEvents.delete(event);
@@ -33,7 +34,7 @@ export class CI {
       return pending;
     }
 
-    window.log.info(`CI: waiting for event ${event}`);
+    log.info(`CI: waiting for event ${event}`);
     const { resolve, promise } = explodePromise();
 
     let list = this.eventListeners.get(event);
@@ -60,12 +61,12 @@ export class CI {
         this.eventListeners.delete(event);
       }
 
-      window.log.info(`CI: got event ${event} with data`, data);
+      log.info(`CI: got event ${event} with data`, data);
       resolve(data);
       return;
     }
 
-    window.log.info(`CI: postponing event ${event}`);
+    log.info(`CI: postponing event ${event}`);
 
     let resultList = this.completedEvents.get(event);
     if (!resultList) {

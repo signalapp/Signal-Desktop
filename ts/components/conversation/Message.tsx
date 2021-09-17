@@ -34,6 +34,7 @@ import { Emoji } from '../emoji/Emoji';
 import { LinkPreviewDate } from './LinkPreviewDate';
 import { LinkPreviewType } from '../../types/message/LinkPreviews';
 import { shouldUseFullSizeLinkPreviewImage } from '../../linkPreviews/shouldUseFullSizeLinkPreviewImage';
+import * as log from '../../logging/log';
 
 import {
   AttachmentType,
@@ -386,7 +387,7 @@ export class Message extends React.PureComponent<Props, State> {
 
   public handleImageError = (): void => {
     const { id } = this.props;
-    window.log.info(
+    log.info(
       `Message ${id}: Image failed to load; failing over to placeholder`
     );
     this.setState({
@@ -492,7 +493,7 @@ export class Message extends React.PureComponent<Props, State> {
         timestamp,
         delta,
       });
-      window.log.info(
+      log.info(
         `Message.tsx: Rendered 'send complete' for message ${timestamp}; took ${delta}ms`
       );
     }
@@ -803,7 +804,7 @@ export class Message extends React.PureComponent<Props, State> {
           played = readStatus === ReadStatus.Viewed;
           break;
         default:
-          window.log.error(missingCaseError(direction));
+          log.error(missingCaseError(direction));
           played = false;
           break;
       }
@@ -2131,7 +2132,7 @@ export class Message extends React.PureComponent<Props, State> {
 
     if (isTapToView) {
       if (isAttachmentPending) {
-        window.log.info(
+        log.info(
           '<Message> handleOpen: tap-to-view attachment is pending; not showing the lightbox'
         );
         return;

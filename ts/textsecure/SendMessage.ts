@@ -67,6 +67,7 @@ import {
   SendTypesType,
 } from '../util/handleMessageSend';
 import { SignalService as Proto } from '../protobuf';
+import * as log from '../logging/log';
 
 export type SendMetadataType = {
   [identifier: string]: {
@@ -309,7 +310,7 @@ class Message {
       const mentionCount = this.mentions ? this.mentions.length : 0;
       const placeholders = this.body.match(/\uFFFC/g);
       const placeholderCount = placeholders ? placeholders.length : 0;
-      window.log.info(
+      log.info(
         `Sending a message with ${mentionCount} mentions and ${placeholderCount} placeholders`
       );
     }
@@ -1657,7 +1658,7 @@ export default class MessageSender {
     timestamp: number,
     options?: Readonly<SendOptionsType>
   ): Promise<CallbackResultType> {
-    window.log.info('resetSession: start');
+    log.info('resetSession: start');
     const proto = new Proto.DataMessage();
     proto.body = 'TERMINATE';
     proto.flags = Proto.DataMessage.Flags.END_SESSION;
@@ -1667,7 +1668,7 @@ export default class MessageSender {
     const theirUuid = uuid ? new UUID(uuid) : UUID.checkedLookup(e164);
 
     const logError = (prefix: string) => (error: Error) => {
-      window.log.error(prefix, error && error.stack ? error.stack : error);
+      log.error(prefix, error && error.stack ? error.stack : error);
       throw error;
     };
 
@@ -1677,7 +1678,7 @@ export default class MessageSender {
       .archiveAllSessions(theirUuid)
       .catch(logError('resetSession/archiveAllSessions1 error:'))
       .then(async () => {
-        window.log.info(
+        log.info(
           'resetSession: finished closing local sessions, now sending to contact'
         );
         return handleMessageSend(
@@ -1810,14 +1811,14 @@ export default class MessageSender {
 
       const conversation = window.ConversationController.get(identifier);
       if (!conversation) {
-        window.log.warn(
+        log.warn(
           `makeSendLogCallback: Unable to find conversation for identifier ${identifier}`
         );
         return;
       }
       const recipientUuid = conversation.get('uuid');
       if (!recipientUuid) {
-        window.log.warn(
+        log.warn(
           `makeSendLogCallback: Conversation ${conversation.idForLogging()} had no UUID`
         );
         return;
@@ -1955,7 +1956,7 @@ export default class MessageSender {
   ): Promise<CallbackResultType> {
     const contentMessage = new Proto.Content();
     const timestamp = Date.now();
-    window.log.info(
+    log.info(
       `sendSenderKeyDistributionMessage: Sending ${distributionId} with timestamp ${timestamp}`
     );
 

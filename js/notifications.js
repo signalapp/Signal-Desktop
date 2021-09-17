@@ -133,7 +133,7 @@
       }
 
       if (status.type !== 'ok') {
-        window.log.info(
+        window.SignalWindow.log.info(
           `Not updating notifications; notification status is ${status.type}. ${
             status.shouldClearNotifications ? 'Also clearing notifications' : ''
           }`
@@ -145,7 +145,7 @@
 
         return;
       }
-      window.log.info('Showing a notification');
+      window.SignalWindow.log.info('Showing a notification');
 
       let notificationTitle;
       let notificationMessage;
@@ -191,7 +191,7 @@
         }
       } else {
         if (userSetting !== SettingNames.NO_NAME_OR_MESSAGE) {
-          window.log.error(
+          window.SignalWindow.log.error(
             `Error: Unknown user notification setting: '${userSetting}'`
           );
         }
@@ -216,7 +216,7 @@
       );
     },
     clear() {
-      window.log.info('Removing notification');
+      window.SignalWindow.log.info('Removing notification');
       this.notificationData = null;
       this.update();
     },

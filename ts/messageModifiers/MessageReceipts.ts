@@ -21,6 +21,7 @@ import {
 } from '../messages/MessageSendState';
 import type { DeleteSentProtoRecipientOptionsType } from '../sql/Interface';
 import dataInterface from '../sql/Client';
+import * as log from '../logging/log';
 
 const { deleteSentProtoRecipient } = dataInterface;
 
@@ -47,7 +48,7 @@ const deleteSentProtoBatcher = createWaitBatcher({
   wait: 250,
   maxSize: 30,
   async processBatch(items: Array<DeleteSentProtoRecipientOptionsType>) {
-    window.log.info(
+    log.info(
       `MessageReceipts: Batching ${items.length} sent proto recipients deletes`
     );
     await deleteSentProtoRecipient(items);
@@ -125,7 +126,7 @@ export class MessageReceipts extends Collection<MessageReceiptModel> {
         ids.includes(receipt.get('sourceConversationId'))
     );
     if (receipts.length) {
-      window.log.info('Found early receipts for message');
+      log.info('Found early receipts for message');
       this.remove(receipts);
     }
     return receipts;
@@ -146,7 +147,7 @@ export class MessageReceipts extends Collection<MessageReceiptModel> {
 
       const message = await getTargetMessage(sourceConversationId, messages);
       if (!message) {
-        window.log.info(
+        log.info(
           'No message for receipt',
           type,
           sourceConversationId,
@@ -222,7 +223,7 @@ export class MessageReceipts extends Collection<MessageReceiptModel> {
             deviceId,
           });
         } else {
-          window.log.warn(
+          log.warn(
             `MessageReceipts.onReceipt: Missing uuid or deviceId for deliveredTo ${sourceConversationId}`
           );
         }
@@ -230,7 +231,7 @@ export class MessageReceipts extends Collection<MessageReceiptModel> {
 
       this.remove(receipt);
     } catch (error) {
-      window.log.error(
+      log.error(
         'MessageReceipts.onReceipt error:',
         error && error.stack ? error.stack : error
       );

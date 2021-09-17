@@ -6,6 +6,7 @@ import { ConversationAttributesType } from '../model-types.d';
 import { getSendOptions } from './getSendOptions';
 import { handleMessageSend } from './handleMessageSend';
 import { isConversationAccepted } from './isConversationAccepted';
+import * as log from '../logging/log';
 
 type ReceiptSpecType = {
   messageId: string;
@@ -27,7 +28,7 @@ export async function sendReadReceiptsFor(
     window.Events.getReadReceiptSetting() &&
     isConversationAccepted(conversationAttrs)
   ) {
-    window.log.info(`Sending ${items.length} read receipts`);
+    log.info(`Sending ${items.length} read receipts`);
     const sendOptions = await getSendOptions(conversationAttrs);
     const receiptsBySender = groupBy(items, 'senderId');
 

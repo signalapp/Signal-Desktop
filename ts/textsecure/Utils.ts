@@ -1,9 +1,11 @@
 // Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import * as log from '../logging/log';
+
 export async function handleStatusCode(status: number): Promise<void> {
   if (status === 499) {
-    window.log.error('Got 499 from Signal Server. Build is expired.');
+    log.error('Got 499 from Signal Server. Build is expired.');
     await window.storage.put('remoteBuildExpiration', Date.now());
     window.reduxActions.expiration.hydrateExpirationStatus(true);
   }

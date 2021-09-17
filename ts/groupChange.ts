@@ -8,6 +8,7 @@ import { missingCaseError } from './util/missingCaseError';
 
 import { GroupV2ChangeDetailType, GroupV2ChangeType } from './groups';
 import { SignalService as Proto } from './protobuf';
+import * as log from './logging/log';
 
 export type SmartContactRendererType = (conversationId: string) => FullJSXType;
 export type StringRendererType = (
@@ -137,7 +138,7 @@ export function renderChangeDetail(
       }
       return renderString('GroupV2--access-attributes--all--unknown', i18n);
     }
-    window.log.warn(
+    log.warn(
       `access-attributes change type, privilege ${newPrivilege} is unknown`
     );
     return '';
@@ -167,7 +168,7 @@ export function renderChangeDetail(
       }
       return renderString('GroupV2--access-members--all--unknown', i18n);
     }
-    window.log.warn(
+    log.warn(
       `access-members change type, privilege ${newPrivilege} is unknown`
     );
     return '';
@@ -207,7 +208,7 @@ export function renderChangeDetail(
         i18n
       );
     }
-    window.log.warn(
+    log.warn(
       `access-invite-link change type, privilege ${newPrivilege} is unknown`
     );
     return '';
@@ -318,7 +319,7 @@ export function renderChangeDetail(
 
     // Note: this shouldn't happen, because we only capture 'add-from-link' status
     //   from group change events, which always have a sender.
-    window.log.warn('member-add-from-link change type; we have no from!');
+    log.warn('member-add-from-link change type; we have no from!');
     return renderString('GroupV2--member-add--other--unknown', i18n, [
       renderContact(conversationId),
     ]);
@@ -338,7 +339,7 @@ export function renderChangeDetail(
 
       // Note: this shouldn't happen, because we only capture 'add-from-admin-approval'
       //   status from group change events, which always have a sender.
-      window.log.warn(
+      log.warn(
         'member-add-from-admin-approval change type; we have no from, and we are joiner!'
       );
       return renderString(
@@ -367,9 +368,7 @@ export function renderChangeDetail(
 
     // Note: this shouldn't happen, because we only capture 'add-from-admin-approval'
     //   status from group change events, which always have a sender.
-    window.log.warn(
-      'member-add-from-admin-approval change type; we have no from'
-    );
+    log.warn('member-add-from-admin-approval change type; we have no from');
     return renderString(
       'GroupV2--member-add-from-admin-approval--other--unknown',
       i18n,
@@ -493,7 +492,7 @@ export function renderChangeDetail(
         [renderContact(conversationId)]
       );
     }
-    window.log.warn(
+    log.warn(
       `member-privilege change type, privilege ${newPrivilege} is unknown`
     );
     return '';
@@ -800,9 +799,7 @@ export function renderChangeDetail(
       }
       return renderString('GroupV2--group-link-add--disabled--unknown', i18n);
     }
-    window.log.warn(
-      `group-link-add change type, privilege ${privilege} is unknown`
-    );
+    log.warn(`group-link-add change type, privilege ${privilege} is unknown`);
     return '';
   }
   if (detail.type === 'group-link-reset') {

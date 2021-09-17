@@ -19,6 +19,7 @@ import { usePrevious } from '../../util/hooks';
 import { missingCaseError } from '../../util/missingCaseError';
 import { Tooltip, TooltipPlacement } from '../Tooltip';
 import type { TimelineItemType } from './TimelineItem';
+import * as log from '../../logging/log';
 
 export type PropsActionsType = {
   messageSizeChanged: (messageId: string, conversationId: string) => void;
@@ -66,9 +67,7 @@ export const CallingNotification: React.FC<PropsType> = React.memo(props => {
       timestamp = props.startedTime;
       break;
     default:
-      window.log.error(
-        `CallingNotification missing case: ${missingCaseError(props)}`
-      );
+      log.error(`CallingNotification missing case: ${missingCaseError(props)}`);
       return null;
   }
 
@@ -79,7 +78,7 @@ export const CallingNotification: React.FC<PropsType> = React.memo(props => {
       bounds
       onResize={({ bounds }) => {
         if (!bounds) {
-          window.log.error('We should be measuring the bounds');
+          log.error('We should be measuring the bounds');
           return;
         }
         setHeight(bounds.height);
@@ -173,7 +172,7 @@ function renderCallingNotificationButton(
       break;
     }
     default:
-      window.log.error(missingCaseError(props));
+      log.error(missingCaseError(props));
       return null;
   }
 

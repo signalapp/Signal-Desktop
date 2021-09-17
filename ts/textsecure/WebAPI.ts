@@ -64,6 +64,7 @@ import { HTTPError } from './Errors';
 import MessageSender from './SendMessage';
 import { WebAPICredentials, IRequestHandler } from './Types.d';
 import { handleStatusCode, translateError } from './Utils';
+import * as log from '../logging/log';
 
 // TODO: remove once we move away from ArrayBuffers
 const FIXMEU8 = Uint8Array;
@@ -397,9 +398,9 @@ async function _promiseAjax(
 
   const unauthLabel = options.unauthenticated ? ' (unauth)' : '';
   if (options.redactUrl) {
-    window.log.info(`${options.type} ${options.redactUrl(url)}${unauthLabel}`);
+    log.info(`${options.type} ${options.redactUrl(url)}${unauthLabel}`);
   } else {
-    window.log.info(`${options.type} ${url}${unauthLabel}`);
+    log.info(`${options.type} ${url}${unauthLabel}`);
   }
 
   const timeout = typeof options.timeout === 'number' ? options.timeout : 10000;
@@ -411,7 +412,7 @@ async function _promiseAjax(
   const { timestamp } = agents[cacheKey] || { timestamp: null };
   if (!timestamp || timestamp + FIVE_MINUTES < Date.now()) {
     if (timestamp) {
-      window.log.info(`Cycling agent for type ${cacheKey}`);
+      log.info(`Cycling agent for type ${cacheKey}`);
     }
     agents[cacheKey] = {
       agent: proxyUrl
@@ -481,7 +482,7 @@ async function _promiseAjax(
       await handleStatusCode(response.status);
 
       if (!unauthenticated && response.status === 401) {
-        window.log.error('Got 401 from Signal Server. We might be unlinked.');
+        log.error('Got 401 from Signal Server. We might be unlinked.');
         window.Whisper.events.trigger('mightBeUnlinked');
       }
     }
@@ -506,9 +507,9 @@ async function _promiseAjax(
     }
   } catch (e) {
     if (options.redactUrl) {
-      window.log.error(options.type, options.redactUrl(url), 0, 'Error');
+      log.error(options.type, options.redactUrl(url), 0, 'Error');
     } else {
-      window.log.error(options.type, url, 0, 'Error');
+      log.error(options.type, url, 0, 'Error');
     }
     const stack = `${e.stack}\nInitial stack:\n${options.stack}`;
     throw makeHTTPError('promiseAjax catch', 0, {}, e.toString(), stack);
@@ -516,14 +517,9 @@ async function _promiseAjax(
 
   if (!isSuccess(response.status)) {
     if (options.redactUrl) {
-      window.log.info(
-        options.type,
-        options.redactUrl(url),
-        response.status,
-        'Error'
-      );
+      log.info(options.type, options.redactUrl(url), response.status, 'Error');
     } else {
-      window.log.error(options.type, url, response.status, 'Error');
+      log.error(options.type, url, response.status, 'Error');
     }
 
     throw makeHTTPError(
@@ -542,14 +538,14 @@ async function _promiseAjax(
     if (options.validateResponse) {
       if (!_validateResponse(result, options.validateResponse)) {
         if (options.redactUrl) {
-          window.log.info(
+          log.info(
             options.type,
             options.redactUrl(url),
             response.status,
             'Error'
           );
         } else {
-          window.log.error(options.type, url, response.status, 'Error');
+          log.error(options.type, url, response.status, 'Error');
         }
         throw makeHTTPError(
           'promiseAjax: invalid response',
@@ -563,14 +559,9 @@ async function _promiseAjax(
   }
 
   if (options.redactUrl) {
-    window.log.info(
-      options.type,
-      options.redactUrl(url),
-      response.status,
-      'Success'
-    );
+    log.info(options.type, options.redactUrl(url), response.status, 'Success');
   } else {
-    window.log.info(options.type, url, response.status, 'Success');
+    log.info(options.type, url, response.status, 'Success');
   }
 
   if (options.responseType === 'arraybufferwithdetails') {

@@ -5,7 +5,7 @@
 
 import { z } from 'zod';
 import * as durations from '../util/durations';
-import type { LoggerType } from '../logging/log';
+import type { LoggerType } from '../types/Logging';
 import { exponentialBackoffMaxAttempts } from '../util/exponentialBackoff';
 import { commonShouldJobContinue } from './helpers/commonShouldJobContinue';
 import { sendViewedReceipt } from '../util/sendViewedReceipt';

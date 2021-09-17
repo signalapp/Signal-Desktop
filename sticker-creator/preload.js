@@ -48,7 +48,7 @@ require('../ts/logging/set_up_renderer_logging').initialize();
 
 require('../ts/SignalProtocolStore');
 
-window.log.info('sticker-creator starting up...');
+window.SignalWindow.log.info('sticker-creator starting up...');
 
 const Signal = require('../js/modules/signal');
 
@@ -296,4 +296,4 @@ window.addEventListener('DOMContentLoaded', applyTheme);
 
 window.SignalContext.nativeThemeListener.subscribe(() => applyTheme());
 
-window.log.info('sticker-creator preload complete...');
+window.SignalWindow.log.info('sticker-creator preload complete...');

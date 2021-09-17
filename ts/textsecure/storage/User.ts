@@ -6,6 +6,7 @@ import { WebAPICredentials } from '../Types.d';
 import { strictAssert } from '../../util/assert';
 import { StorageInterface } from '../../types/Storage.d';
 import { UUID } from '../../types/UUID';
+import * as log from '../../logging/log';
 
 import Helpers from '../Helpers';
 
@@ -26,7 +27,7 @@ export class User {
   ): Promise<void> {
     await this.storage.put('uuid_id', `${uuid}.${deviceId}`);
 
-    window.log.info('storage.user: uuid and device id changed');
+    log.info('storage.user: uuid and device id changed');
   }
 
   public async setNumber(number: string): Promise<void> {
@@ -40,7 +41,7 @@ export class User {
       'Cannot update device number without knowing device id'
     );
 
-    window.log.info('storage.user: number changed');
+    log.info('storage.user: number changed');
 
     await Promise.all([
       this.storage.put('number_id', `${number}.${deviceId}`),
@@ -109,7 +110,7 @@ export class User {
   }
 
   public async removeCredentials(): Promise<void> {
-    window.log.info('storage.user: removeCredentials');
+    log.info('storage.user: removeCredentials');
 
     await Promise.all([
       this.storage.remove('number_id'),

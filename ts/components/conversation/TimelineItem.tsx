@@ -69,6 +69,7 @@ import {
   ProfileChangeNotification,
   PropsType as ProfileChangeNotificationPropsType,
 } from './ProfileChangeNotification';
+import * as log from '../../logging/log';
 
 type CallHistoryType = {
   type: 'callHistory';
@@ -203,7 +204,7 @@ export class TimelineItem extends React.PureComponent<PropsType> {
     } = this.props;
 
     if (!item) {
-      window.log.warn(`TimelineItem: item ${id} provided was falsey`);
+      log.warn(`TimelineItem: item ${id} provided was falsey`);
 
       return null;
     }

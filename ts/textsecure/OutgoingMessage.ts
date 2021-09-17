@@ -40,6 +40,7 @@ import { typedArrayToArrayBuffer as toArrayBuffer } from '../Crypto';
 import { updateConversationsWithUuidLookup } from '../updateConversationsWithUuidLookup';
 import { getKeysForIdentifier } from './getKeysForIdentifier';
 import { SignalService as Proto } from '../protobuf';
+import * as log from '../logging/log';
 
 export const enum SenderCertificateMode {
   WithE164,
@@ -382,7 +383,7 @@ export default class OutgoingMessage {
     const { accessKey, senderCertificate } = sendMetadata?.[identifier] || {};
 
     if (accessKey && !senderCertificate) {
-      window.log.warn(
+      log.warn(
         'OutgoingMessage.doSendMessage: accessKey was provided, but senderCertificate was not'
       );
     }
@@ -510,7 +511,7 @@ export default class OutgoingMessage {
                   deviceIds,
                 });
               } else if (this.successfulIdentifiers.length > 1) {
-                window.log.warn(
+                log.warn(
                   `OutgoingMessage.doSendMessage: no sendLogCallback provided for message ${this.timestamp}, but multiple recipients`
                 );
               }
@@ -546,7 +547,7 @@ export default class OutgoingMessage {
                 deviceIds,
               });
             } else if (this.successfulIdentifiers.length > 1) {
-              window.log.warn(
+              log.warn(
                 `OutgoingMessage.doSendMessage: no sendLogCallback provided for message ${this.timestamp}, but multiple recipients`
               );
             }
@@ -602,13 +603,13 @@ export default class OutgoingMessage {
         if (error?.message?.includes('untrusted identity for address')) {
           // eslint-disable-next-line no-param-reassign
           error.timestamp = this.timestamp;
-          window.log.error(
+          log.error(
             'Got "key changed" error from encrypt - no identityKey for application layer',
             identifier,
             deviceIds
           );
 
-          window.log.info('closing all sessions for', identifier);
+          log.info('closing all sessions for', identifier);
           window.textsecure.storage.protocol
             .archiveAllSessions(UUID.checkedLookup(identifier))
             .then(
@@ -616,7 +617,7 @@ export default class OutgoingMessage {
                 throw error;
               },
               innerError => {
-                window.log.error(
+                log.error(
                   `doSendMessage: Error closing sessions: ${innerError.stack}`
                 );
                 throw error;
@@ -682,7 +683,7 @@ export default class OutgoingMessage {
           }
           identifier = uuid;
         } catch (error) {
-          window.log.error(
+          log.error(
             `sendToIdentifier: Failed to fetch UUID for identifier ${identifier}`,
             error && error.stack ? error.stack : error
           );

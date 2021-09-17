@@ -58,6 +58,7 @@ import {
   QualifiedAddress,
   QualifiedAddressStringType,
 } from './types/QualifiedAddress';
+import * as log from './logging/log';
 
 const TIMESTAMP_THRESHOLD = 5 * 1000; // 5 seconds
 
@@ -134,7 +135,7 @@ async function _fillCaches<ID, T extends HasIdType<ID>, HydratedType>(
     });
   }
 
-  window.log.info(`SignalProtocolStore: Finished caching ${field} data`);
+  log.info(`SignalProtocolStore: Finished caching ${field} data`);
   // eslint-disable-next-line no-param-reassign, @typescript-eslint/no-explicit-any
   object[field] = cache as any;
 }
@@ -325,12 +326,12 @@ export class SignalProtocolStore extends EventsMixin {
 
     const entry = this.preKeys.get(id);
     if (!entry) {
-      window.log.error('Failed to fetch prekey:', id);
+      log.error('Failed to fetch prekey:', id);
       return undefined;
     }
 
     if (entry.hydrated) {
-      window.log.info('Successfully fetched prekey (cache hit):', id);
+      log.info('Successfully fetched prekey (cache hit):', id);
       return entry.item;
     }
 
@@ -340,7 +341,7 @@ export class SignalProtocolStore extends EventsMixin {
       fromDB: entry.fromDB,
       item,
     });
-    window.log.info('Successfully fetched prekey (cache miss):', id);
+    log.info('Successfully fetched prekey (cache miss):', id);
     return item;
   }
 
@@ -383,7 +384,7 @@ export class SignalProtocolStore extends EventsMixin {
     try {
       this.trigger('removePreKey');
     } catch (error) {
-      window.log.error(
+      log.error(
         'removePreKey error triggering removePreKey:',
         error && error.stack ? error.stack : error
       );
@@ -414,12 +415,12 @@ export class SignalProtocolStore extends EventsMixin {
 
     const entry = this.signedPreKeys.get(id);
     if (!entry) {
-      window.log.error('Failed to fetch signed prekey:', id);
+      log.error('Failed to fetch signed prekey:', id);
       return undefined;
     }
 
     if (entry.hydrated) {
-      window.log.info('Successfully fetched signed prekey (cache hit):', id);
+      log.info('Successfully fetched signed prekey (cache hit):', id);
       return entry.item;
     }
 
@@ -429,7 +430,7 @@ export class SignalProtocolStore extends EventsMixin {
       item,
       fromDB: entry.fromDB,
     });
-    window.log.info('Successfully fetched signed prekey (cache miss):', id);
+    log.info('Successfully fetched signed prekey (cache miss):', id);
     return item;
   }
 
@@ -576,7 +577,7 @@ export class SignalProtocolStore extends EventsMixin {
       });
     } catch (error) {
       const errorString = error && error.stack ? error.stack : error;
-      window.log.error(
+      log.error(
         `saveSenderKey: failed to save senderKey ${senderId}/${distributionId}: ${errorString}`
       );
     }
@@ -597,12 +598,12 @@ export class SignalProtocolStore extends EventsMixin {
 
       const entry = this.senderKeys.get(id);
       if (!entry) {
-        window.log.error('Failed to fetch sender key:', id);
+        log.error('Failed to fetch sender key:', id);
         return undefined;
       }
 
       if (entry.hydrated) {
-        window.log.info('Successfully fetched sender key (cache hit):', id);
+        log.info('Successfully fetched sender key (cache hit):', id);
         return entry.item;
       }
 
@@ -612,11 +613,11 @@ export class SignalProtocolStore extends EventsMixin {
         item,
         fromDB: entry.fromDB,
       });
-      window.log.info('Successfully fetched sender key(cache miss):', id);
+      log.info('Successfully fetched sender key(cache miss):', id);
       return item;
     } catch (error) {
       const errorString = error && error.stack ? error.stack : error;
-      window.log.error(
+      log.error(
         `getSenderKey: failed to load sender key ${senderId}/${distributionId}: ${errorString}`
       );
       return undefined;
@@ -641,7 +642,7 @@ export class SignalProtocolStore extends EventsMixin {
       this.senderKeys.delete(id);
     } catch (error) {
       const errorString = error && error.stack ? error.stack : error;
-      window.log.error(
+      log.error(
         `removeSenderKey: failed to remove senderKey ${senderId}/${distributionId}: ${errorString}`
       );
     }
@@ -709,14 +710,12 @@ export class SignalProtocolStore extends EventsMixin {
     if (this.currentZone && this.currentZone !== zone) {
       const start = Date.now();
 
-      window.log.info(
-        `${debugName}: locked by ${this.currentZone.name}, waiting`
-      );
+      log.info(`${debugName}: locked by ${this.currentZone.name}, waiting`);
 
       return new Promise<T>((resolve, reject) => {
         const callback = async () => {
           const duration = Date.now() - start;
-          window.log.info(`${debugName}: unlocked after ${duration}ms`);
+          log.info(`${debugName}: unlocked after ${duration}ms`);
 
           // Call `.withZone` synchronously from `this.zoneQueue` to avoid
           // extra in-between ticks while we are on microtasks queue.
@@ -759,7 +758,7 @@ export class SignalProtocolStore extends EventsMixin {
       return;
     }
 
-    window.log.info(
+    log.info(
       `commitZoneChanges(${name}): pending sessions ${pendingSessions.size} ` +
         `pending unprocessed ${pendingUnprocessed.size}`
     );
@@ -786,7 +785,7 @@ export class SignalProtocolStore extends EventsMixin {
   }
 
   private async revertZoneChanges(name: string, error: Error): Promise<void> {
-    window.log.info(
+    log.info(
       `revertZoneChanges(${name}): ` +
         `pending sessions size ${this.pendingSessions.size} ` +
         `pending unprocessed size ${this.pendingUnprocessed.size}`,
@@ -807,7 +806,7 @@ export class SignalProtocolStore extends EventsMixin {
       this.currentZone = zone;
 
       if (zone !== GLOBAL_ZONE) {
-        window.log.info(`SignalProtocolStore.enterZone(${zone.name}:${name})`);
+        log.info(`SignalProtocolStore.enterZone(${zone.name}:${name})`);
       }
     }
   }
@@ -826,7 +825,7 @@ export class SignalProtocolStore extends EventsMixin {
     }
 
     if (zone !== GLOBAL_ZONE) {
-      window.log.info(`SignalProtocolStore.leaveZone(${zone.name})`);
+      log.info(`SignalProtocolStore.leaveZone(${zone.name})`);
     }
 
     this.currentZone = undefined;
@@ -845,7 +844,7 @@ export class SignalProtocolStore extends EventsMixin {
       toEnter.push(elem);
     }
 
-    window.log.info(
+    log.info(
       `SignalProtocolStore: running blocked ${toEnter.length} jobs in ` +
         `zone ${next.zone.name}`
     );
@@ -888,9 +887,7 @@ export class SignalProtocolStore extends EventsMixin {
         return await this._maybeMigrateSession(entry.fromDB, { zone });
       } catch (error) {
         const errorString = error && error.stack ? error.stack : error;
-        window.log.error(
-          `loadSession: failed to load session ${id}: ${errorString}`
-        );
+        log.error(`loadSession: failed to load session ${id}: ${errorString}`);
         return undefined;
       }
     });
@@ -957,9 +954,7 @@ export class SignalProtocolStore extends EventsMixin {
       registrationId: localRegistrationId,
     };
 
-    window.log.info(
-      `_maybeMigrateSession: Migrating session with id ${session.id}`
-    );
+    log.info(`_maybeMigrateSession: Migrating session with id ${session.id}`);
     const sessionProto = sessionRecordToProtobuf(
       JSON.parse(session.record),
       localUserData
@@ -1026,7 +1021,7 @@ export class SignalProtocolStore extends EventsMixin {
         }
       } catch (error) {
         const errorString = error && error.stack ? error.stack : error;
-        window.log.error(`storeSession: Save failed for ${id}: ${errorString}`);
+        log.error(`storeSession: Save failed for ${id}: ${errorString}`);
         throw error;
       }
     });
@@ -1117,7 +1112,7 @@ export class SignalProtocolStore extends EventsMixin {
           emptyIdentifiers,
         };
       } catch (error) {
-        window.log.error(
+        log.error(
           'getOpenDevices: Failed to get devices',
           error && error.stack ? error.stack : error
         );
@@ -1144,13 +1139,13 @@ export class SignalProtocolStore extends EventsMixin {
       }
 
       const id = qualifiedAddress.toString();
-      window.log.info('removeSession: deleting session for', id);
+      log.info('removeSession: deleting session for', id);
       try {
         await window.Signal.Data.removeSessionById(id);
         this.sessions.delete(id);
         this.pendingSessions.delete(id);
       } catch (e) {
-        window.log.error(`removeSession: Failed to delete session for ${id}`);
+        log.error(`removeSession: Failed to delete session for ${id}`);
       }
     });
   }
@@ -1165,7 +1160,7 @@ export class SignalProtocolStore extends EventsMixin {
         throw new Error('removeAllSessions: identifier was undefined/null');
       }
 
-      window.log.info('removeAllSessions: deleting sessions for', identifier);
+      log.info('removeAllSessions: deleting sessions for', identifier);
 
       const id = window.ConversationController.getConversationId(identifier);
       strictAssert(
@@ -1221,7 +1216,7 @@ export class SignalProtocolStore extends EventsMixin {
 
       const id = qualifiedAddress.toString();
 
-      window.log.info(`archiveSession: session for ${id}`);
+      log.info(`archiveSession: session for ${id}`);
 
       const entry = this.pendingSessions.get(id) || this.sessions.get(id);
 
@@ -1240,7 +1235,7 @@ export class SignalProtocolStore extends EventsMixin {
         );
       }
 
-      window.log.info(
+      log.info(
         'archiveSiblingSessions: archiving sibling sessions for',
         encodedAddress.toString()
       );
@@ -1268,7 +1263,7 @@ export class SignalProtocolStore extends EventsMixin {
         throw new Error('archiveAllSessions: this.sessions not yet cached!');
       }
 
-      window.log.info(
+      log.info(
         'archiveAllSessions: archiving all sessions for',
         uuid.toString()
       );
@@ -1308,7 +1303,7 @@ export class SignalProtocolStore extends EventsMixin {
 
     const ONE_HOUR = 60 * 60 * 1000;
     if (lastReset && isMoreRecentThan(lastReset, ONE_HOUR)) {
-      window.log.warn(
+      log.warn(
         `lightSessionReset/${id}: Skipping session reset, last reset at ${lastReset}`
       );
       return;
@@ -1329,7 +1324,7 @@ export class SignalProtocolStore extends EventsMixin {
       const conversation = window.ConversationController.get(conversationId);
       assert(conversation, `lightSessionReset/${id}: missing conversation`);
 
-      window.log.warn(`lightSessionReset/${id}: Resetting session`);
+      log.warn(`lightSessionReset/${id}: Resetting session`);
 
       // Archive open session with this device
       await this.archiveSession(qualifiedAddress);
@@ -1356,10 +1351,7 @@ export class SignalProtocolStore extends EventsMixin {
       window.storage.put('sessionResets', sessionResets);
 
       const errorString = error && error.stack ? error.stack : error;
-      window.log.error(
-        `lightSessionReset/${id}: Encountered error`,
-        errorString
-      );
+      log.error(`lightSessionReset/${id}: Encountered error`, errorString);
     }
   }
 
@@ -1380,7 +1372,7 @@ export class SignalProtocolStore extends EventsMixin {
 
       return entry.fromDB;
     } catch (e) {
-      window.log.error(
+      log.error(
         `getIdentityRecord: Failed to get identity record for identifier ${id}`
       );
       return undefined;
@@ -1418,7 +1410,7 @@ export class SignalProtocolStore extends EventsMixin {
       id: newId,
     };
 
-    window.log.info(
+    log.info(
       `SignalProtocolStore: migrating identity key from ${record.fromDB.id} ` +
         `to ${newRecord.id}`
     );
@@ -1454,7 +1446,7 @@ export class SignalProtocolStore extends EventsMixin {
       if (identityRecord && identityRecord.publicKey) {
         return constantTimeEqual(identityRecord.publicKey, publicKey);
       }
-      window.log.warn(
+      log.warn(
         'isTrustedIdentity: No local record for our own identifier. Returning true.'
       );
       return true;
@@ -1475,28 +1467,26 @@ export class SignalProtocolStore extends EventsMixin {
     identityRecord?: IdentityKeyType
   ): boolean {
     if (!identityRecord) {
-      window.log.info(
-        'isTrustedForSending: No previous record, returning true...'
-      );
+      log.info('isTrustedForSending: No previous record, returning true...');
       return true;
     }
 
     const existing = identityRecord.publicKey;
 
     if (!existing) {
-      window.log.info('isTrustedForSending: Nothing here, returning true...');
+      log.info('isTrustedForSending: Nothing here, returning true...');
       return true;
     }
     if (!constantTimeEqual(existing, publicKey)) {
-      window.log.info("isTrustedForSending: Identity keys don't match...");
+      log.info("isTrustedForSending: Identity keys don't match...");
       return false;
     }
     if (identityRecord.verified === VerifiedStatus.UNVERIFIED) {
-      window.log.error('isTrustedIdentity: Needs unverified approval!');
+      log.error('isTrustedIdentity: Needs unverified approval!');
       return false;
     }
     if (this.isNonBlockingApprovalRequired(identityRecord)) {
-      window.log.error('isTrustedForSending: Needs non-blocking approval!');
+      log.error('isTrustedForSending: Needs non-blocking approval!');
       return false;
     }
 
@@ -1560,7 +1550,7 @@ export class SignalProtocolStore extends EventsMixin {
 
     if (!identityRecord || !identityRecord.publicKey) {
       // Lookup failed, or the current key was removed, so save this one.
-      window.log.info('saveIdentity: Saving new identity...');
+      log.info('saveIdentity: Saving new identity...');
       await this._saveIdentityKey({
         id,
         publicKey,
@@ -1575,7 +1565,7 @@ export class SignalProtocolStore extends EventsMixin {
 
     const oldpublicKey = identityRecord.publicKey;
     if (!constantTimeEqual(oldpublicKey, publicKey)) {
-      window.log.info('saveIdentity: Replacing existing identity...');
+      log.info('saveIdentity: Replacing existing identity...');
       const previousStatus = identityRecord.verified;
       let verifiedStatus;
       if (
@@ -1599,7 +1589,7 @@ export class SignalProtocolStore extends EventsMixin {
       try {
         this.trigger('keychange', encodedAddress.uuid);
       } catch (error) {
-        window.log.error(
+        log.error(
           'saveIdentity: error triggering keychange:',
           error && error.stack ? error.stack : error
         );
@@ -1614,7 +1604,7 @@ export class SignalProtocolStore extends EventsMixin {
       return true;
     }
     if (this.isNonBlockingApprovalRequired(identityRecord)) {
-      window.log.info('saveIdentity: Setting approval status...');
+      log.info('saveIdentity: Setting approval status...');
 
       identityRecord.nonblockingApproval = nonblockingApproval;
       await this._saveIdentityKey(identityRecord);
@@ -1703,9 +1693,7 @@ export class SignalProtocolStore extends EventsMixin {
         await this._saveIdentityKey(identityRecord);
       }
     } else {
-      window.log.info(
-        'setVerified: No identity record for specified publicKey'
-      );
+      log.info('setVerified: No identity record for specified publicKey');
     }
   }
 
@@ -1784,7 +1772,7 @@ export class SignalProtocolStore extends EventsMixin {
         try {
           this.trigger('keychange', uuid);
         } catch (error) {
-          window.log.error(
+          log.error(
             'processUnverifiedMessage: error triggering keychange:',
             error && error.stack ? error.stack : error
           );
@@ -1829,9 +1817,7 @@ export class SignalProtocolStore extends EventsMixin {
     }
 
     if (!identityRecord && verifiedStatus === VerifiedStatus.DEFAULT) {
-      window.log.info(
-        'processVerifiedMessage: No existing record for default status'
-      );
+      log.info('processVerifiedMessage: No existing record for default status');
       return false;
     }
 
@@ -1863,7 +1849,7 @@ export class SignalProtocolStore extends EventsMixin {
         try {
           this.trigger('keychange', uuid);
         } catch (error) {
-          window.log.error(
+          log.error(
             'processVerifiedMessage error triggering keychange:',
             error && error.stack ? error.stack : error
           );

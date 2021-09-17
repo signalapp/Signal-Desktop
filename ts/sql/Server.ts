@@ -48,6 +48,7 @@ import { ConversationColorType, CustomColorType } from '../types/Colors';
 import { ProcessGroupCallRingRequestResult } from '../types/Calling';
 import { RemoveAllConfiguration } from '../types/RemoveAllConfiguration';
 import type { LoggerType } from '../types/Logging';
+import * as log from '../logging/log';
 
 import {
   AllItemsType,
@@ -2742,7 +2743,7 @@ async function initializeRenderer({
     // test database
     await getMessageCount();
   } catch (error) {
-    window.log.error('Database startup error:', error.stack);
+    log.error('Database startup error:', error.stack);
     throw error;
   }
 }

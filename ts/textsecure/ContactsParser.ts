@@ -8,6 +8,7 @@ import { Reader } from 'protobufjs';
 import { SignalService as Proto } from '../protobuf';
 import { normalizeUuid } from '../util/normalizeUuid';
 import { typedArrayToArrayBuffer } from '../Crypto';
+import * as log from '../logging/log';
 
 import Avatar = Proto.ContactDetails.IAvatar;
 
@@ -77,7 +78,7 @@ class ParserBase<
         },
       };
     } catch (error) {
-      window.log.error(
+      log.error(
         'ProtoParser.next error:',
         error && error.stack ? error.stack : error
       );

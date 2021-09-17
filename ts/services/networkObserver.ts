@@ -6,6 +6,7 @@ import {
   NetworkActionType,
 } from '../state/ducks/network';
 import { getSocketStatus } from '../shims/socketStatus';
+import * as log from '../logging/log';
 
 type NetworkActions = {
   checkNetworkStatus: (x: CheckNetworkStatusPayloadType) => NetworkActionType;
@@ -17,7 +18,6 @@ const REFRESH_INTERVAL = 5000;
 export function initializeNetworkObserver(
   networkActions: NetworkActions
 ): void {
-  const { log } = window;
   log.info(`Initializing network observer every ${REFRESH_INTERVAL}ms`);
 
   const refresh = () => {

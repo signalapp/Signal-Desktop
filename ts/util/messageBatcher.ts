@@ -4,13 +4,14 @@
 import { MessageAttributesType } from '../model-types.d';
 import { createBatcher } from './batcher';
 import { createWaitBatcher } from './waitBatcher';
+import * as log from '../logging/log';
 
 const updateMessageBatcher = createBatcher<MessageAttributesType>({
   name: 'messageBatcher.updateMessageBatcher',
   wait: 75,
   maxSize: 50,
   processBatch: async (messageAttrs: Array<MessageAttributesType>) => {
-    window.log.info('updateMessageBatcher', messageAttrs.length);
+    log.info('updateMessageBatcher', messageAttrs.length);
     await window.Signal.Data.saveMessages(messageAttrs);
   },
 });
@@ -34,7 +35,7 @@ export const saveNewMessageBatcher = createWaitBatcher<MessageAttributesType>({
   wait: 75,
   maxSize: 30,
   processBatch: async (messageAttrs: Array<MessageAttributesType>) => {
-    window.log.info('saveNewMessageBatcher', messageAttrs.length);
+    log.info('saveNewMessageBatcher', messageAttrs.length);
     await window.Signal.Data.saveMessages(messageAttrs, {
       forceSave: true,
     });

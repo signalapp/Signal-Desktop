@@ -8,6 +8,7 @@ import { SystemMessage } from './SystemMessage';
 import { Intl } from '../Intl';
 import { LocalizerType } from '../../types/Util';
 import * as expirationTimer from '../../util/expirationTimer';
+import * as log from '../../logging/log';
 
 export type TimerNotificationType =
   | 'fromOther'
@@ -78,7 +79,7 @@ export const TimerNotification: FunctionComponent<Props> = props => {
         : i18n('timerSetByMember', [timespan]);
       break;
     default:
-      window.log.warn('TimerNotification: unsupported type provided:', type);
+      log.warn('TimerNotification: unsupported type provided:', type);
       break;
   }
 

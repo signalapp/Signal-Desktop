@@ -4,6 +4,7 @@
 import { without } from 'lodash';
 
 import { StorageInterface } from '../../types/Storage.d';
+import * as log from '../../logging/log';
 
 const BLOCKED_NUMBERS_ID = 'blocked';
 const BLOCKED_UUIDS_ID = 'blocked-uuids';
@@ -26,7 +27,7 @@ export class Blocked {
       return;
     }
 
-    window.log.info('adding', number, 'to blocked list');
+    log.info('adding', number, 'to blocked list');
     await this.storage.put(BLOCKED_NUMBERS_ID, numbers.concat(number));
   }
 
@@ -36,7 +37,7 @@ export class Blocked {
       return;
     }
 
-    window.log.info('removing', number, 'from blocked list');
+    log.info('removing', number, 'from blocked list');
     await this.storage.put(BLOCKED_NUMBERS_ID, without(numbers, number));
   }
 
@@ -54,7 +55,7 @@ export class Blocked {
       return;
     }
 
-    window.log.info('adding', uuid, 'to blocked list');
+    log.info('adding', uuid, 'to blocked list');
     await this.storage.put(BLOCKED_UUIDS_ID, uuids.concat(uuid));
   }
 
@@ -64,7 +65,7 @@ export class Blocked {
       return;
     }
 
-    window.log.info('removing', uuid, 'from blocked list');
+    log.info('removing', uuid, 'from blocked list');
     await this.storage.put(BLOCKED_UUIDS_ID, without(numbers, uuid));
   }
 
@@ -82,7 +83,7 @@ export class Blocked {
       return;
     }
 
-    window.log.info(`adding group(${groupId}) to blocked list`);
+    log.info(`adding group(${groupId}) to blocked list`);
     await this.storage.put(BLOCKED_GROUPS_ID, groupIds.concat(groupId));
   }
 
@@ -92,7 +93,7 @@ export class Blocked {
       return;
     }
 
-    window.log.info(`removing group(${groupId} from blocked list`);
+    log.info(`removing group(${groupId} from blocked list`);
     await this.storage.put(BLOCKED_GROUPS_ID, without(groupIds, groupId));
   }
 }

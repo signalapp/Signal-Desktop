@@ -16,7 +16,7 @@ class IdleDetector extends EventEmitter {
   }
 
   start() {
-    window.log.info('Start idle detector');
+    window.SignalWindow.log.info('Start idle detector');
     this._scheduleNextCallback();
   }
 
@@ -25,7 +25,7 @@ class IdleDetector extends EventEmitter {
       return;
     }
 
-    window.log.info('Stop idle detector');
+    window.SignalWindow.log.info('Stop idle detector');
     this._clearScheduledCallbacks();
   }
 

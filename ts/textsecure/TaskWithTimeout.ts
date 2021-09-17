@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as durations from '../util/durations';
+import * as log from '../logging/log';
 
 export default function createTaskWithTimeout<T, Args extends Array<unknown>>(
   task: (...args: Args) => Promise<T>,
@@ -23,7 +24,7 @@ export default function createTaskWithTimeout<T, Args extends Array<unknown>>(
             errorForStack.stack
           }`;
 
-          window.log.error(message);
+          log.error(message);
           reject(new Error(message));
 
           return undefined;
@@ -39,7 +40,7 @@ export default function createTaskWithTimeout<T, Args extends Array<unknown>>(
             clearTimeout(localTimer);
           }
         } catch (error) {
-          window.log.error(
+          log.error(
             id || '',
             'task ran into problem canceling timer. Calling stack:',
             errorForStack.stack

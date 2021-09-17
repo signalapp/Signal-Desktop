@@ -18,6 +18,7 @@ import { sleep } from '../util/sleep';
 import { SocketStatus } from '../types/SocketStatus';
 import * as Errors from '../types/errors';
 import * as Bytes from '../Bytes';
+import * as log from '../logging/log';
 
 import WebSocketResource, {
   WebSocketResourceOptions,
@@ -101,9 +102,7 @@ export class SocketManager extends EventListener {
 
     const { username, password } = credentials;
     if (!username && !password) {
-      window.log.warn(
-        'SocketManager authenticate was called without credentials'
-      );
+      log.warn('SocketManager authenticate was called without credentials');
       return;
     }
 
@@ -116,7 +115,7 @@ export class SocketManager extends EventListener {
       try {
         await this.authenticated.getResult();
       } catch (error) {
-        window.log.warn(
+        log.warn(
           'SocketManager: failed to wait for existing authenticated socket ' +
             ` due to error: ${Errors.toLogFormat(error)}`
         );
@@ -126,7 +125,7 @@ export class SocketManager extends EventListener {
 
     this.credentials = credentials;
 
-    window.log.info('SocketManager: connecting authenticated socket');
+    log.info('SocketManager: connecting authenticated socket');
 
     this.setStatus(SocketStatus.CONNECTING);
 
@@ -149,23 +148,19 @@ export class SocketManager extends EventListener {
     const reconnect = async (): Promise<void> => {
       const timeout = this.backOff.getAndIncrement();
 
-      window.log.info(
+      log.info(
         'SocketManager: reconnecting authenticated socket ' +
           `after ${timeout}ms`
       );
 
       await sleep(timeout);
       if (this.isOffline) {
-        window.log.info(
-          'SocketManager: cancelled reconnect because we are offline'
-        );
+        log.info('SocketManager: cancelled reconnect because we are offline');
         return;
       }
 
       if (this.authenticated) {
-        window.log.info(
-          'SocketManager: authenticated socket already reconnected'
-        );
+        log.info('SocketManager: authenticated socket already reconnected');
         return;
       }
 
@@ -174,7 +169,7 @@ export class SocketManager extends EventListener {
       try {
         await this.authenticate(this.credentials);
       } catch (error) {
-        window.log.info(
+        log.info(
           'SocketManager: authenticated socket failed to reconect ' +
             `due to error ${Errors.toLogFormat(error)}`
         );
@@ -187,7 +182,7 @@ export class SocketManager extends EventListener {
       authenticated = await process.getResult();
       this.setStatus(SocketStatus.OPEN);
     } catch (error) {
-      window.log.warn(
+      log.warn(
         'SocketManager: authenticated socket connection failed with ' +
           `error: ${Errors.toLogFormat(error)}`
       );
@@ -217,7 +212,7 @@ export class SocketManager extends EventListener {
       return;
     }
 
-    window.log.info('SocketManager: connected authenticated socket');
+    log.info('SocketManager: connected authenticated socket');
 
     window.logAuthenticatedConnect?.();
     this.backOff.reset();
@@ -227,7 +222,7 @@ export class SocketManager extends EventListener {
         return;
       }
 
-      window.log.warn(
+      log.warn(
         'SocketManager: authenticated socket closed ' +
           `with code=${code} and reason=${reason}`
       );
@@ -339,7 +334,7 @@ export class SocketManager extends EventListener {
       return;
     }
 
-    window.log.info(
+    log.info(
       `SocketManager: processing ${queue.length} queued incoming requests`
     );
     this.incomingRequestQueue = [];
@@ -358,7 +353,7 @@ export class SocketManager extends EventListener {
       return;
     }
 
-    window.log.info('SocketManager.check');
+    log.info('SocketManager.check');
     await Promise.all([
       SocketManager.checkResource(this.authenticated),
       SocketManager.checkResource(this.unauthenticated),
@@ -368,7 +363,7 @@ export class SocketManager extends EventListener {
   // Puts SocketManager into "online" state and reconnects the authenticated
   // WebSocketResource (if there are valid credentials)
   public async onOnline(): Promise<void> {
-    window.log.info('SocketManager.onOnline');
+    log.info('SocketManager.onOnline');
     this.isOffline = false;
 
     if (this.credentials) {
@@ -379,7 +374,7 @@ export class SocketManager extends EventListener {
   // Puts SocketManager into "offline" state and gracefully disconnects both
   // unauthenticated and authenticated resources.
   public async onOffline(): Promise<void> {
-    window.log.info('SocketManager.onOffline');
+    log.info('SocketManager.onOffline');
     this.isOffline = true;
 
     const { authenticated, unauthenticated } = this;
@@ -429,7 +424,7 @@ export class SocketManager extends EventListener {
       return this.unauthenticated.getResult();
     }
 
-    window.log.info('SocketManager: connecting unauthenticated socket');
+    log.info('SocketManager: connecting unauthenticated socket');
 
     const process = this.connectResource({
       path: '/v1/websocket/',
@@ -443,7 +438,7 @@ export class SocketManager extends EventListener {
     try {
       unauthenticated = await this.unauthenticated.getResult();
     } catch (error) {
-      window.log.info(
+      log.info(
         'SocketManager: failed to connect unauthenticated socket ' +
           ` due to error: ${Errors.toLogFormat(error)}`
       );
@@ -451,14 +446,14 @@ export class SocketManager extends EventListener {
       throw error;
     }
 
-    window.log.info('SocketManager: connected unauthenticated socket');
+    log.info('SocketManager: connected unauthenticated socket');
 
     unauthenticated.addEventListener('close', ({ code, reason }): void => {
       if (this.unauthenticated !== process) {
         return;
       }
 
-      window.log.warn(
+      log.warn(
         'SocketManager: unauthenticated socket closed ' +
           `with code=${code} and reason=${reason}`
       );
@@ -568,10 +563,10 @@ export class SocketManager extends EventListener {
       {
         abort() {
           if (resource) {
-            window.log.warn(`SocketManager closing socket ${path}`);
+            log.warn(`SocketManager closing socket ${path}`);
             resource.close(3000, 'aborted');
           } else {
-            window.log.warn(`SocketManager aborting connection ${path}`);
+            log.warn(`SocketManager aborting connection ${path}`);
             clearTimeout(timer);
             client.abort();
           }
@@ -638,11 +633,11 @@ export class SocketManager extends EventListener {
       return;
     }
 
-    window.log.info(
+    log.info(
       'SocketManager: starting expiration timer for unauthenticated socket'
     );
     this.unauthenticatedExpirationTimer = setTimeout(async () => {
-      window.log.info(
+      log.info(
         'SocketManager: shutting down unauthenticated socket after timeout'
       );
       unauthenticated.shutdown();
@@ -657,7 +652,7 @@ export class SocketManager extends EventListener {
       try {
         await this.getUnauthenticatedResource();
       } catch (error) {
-        window.log.warn(
+        log.warn(
           'SocketManager: failed to reconnect unauthenticated socket ' +
             `due to error: ${Errors.toLogFormat(error)}`
         );
@@ -668,7 +663,7 @@ export class SocketManager extends EventListener {
   private queueOrHandleRequest(req: IncomingWebSocketRequest): void {
     if (this.requestHandlers.size === 0) {
       this.incomingRequestQueue.push(req);
-      window.log.info(
+      log.info(
         'SocketManager: request handler unavailable, ' +
           `queued request. Queue size: ${this.incomingRequestQueue.length}`
       );
@@ -678,7 +673,7 @@ export class SocketManager extends EventListener {
       try {
         handlers.handleRequest(req);
       } catch (error) {
-        window.log.warn(
+        log.warn(
           'SocketManager: got exception while handling incoming request, ' +
             `error: ${Errors.toLogFormat(error)}`
         );

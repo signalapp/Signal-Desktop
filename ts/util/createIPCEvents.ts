@@ -32,6 +32,7 @@ import { assert } from './assert';
 import * as durations from './durations';
 import { isPhoneNumberSharingEnabled } from './isPhoneNumberSharingEnabled';
 import { parseE164FromSignalDotMeHash } from './sgnlHref';
+import * as log from '../logging/log';
 
 type ThemeType = 'light' | 'dark' | 'system';
 type NotificationSettingType = 'message' | 'name' | 'count' | 'off';
@@ -391,13 +392,11 @@ export function createIPCEvents(
     showStickerPack: (packId, key) => {
       // We can get these events even if the user has never linked this instance.
       if (!window.Signal.Util.Registration.everDone()) {
-        window.log.warn('showStickerPack: Not registered, returning early');
+        log.warn('showStickerPack: Not registered, returning early');
         return;
       }
       if (window.isShowingModal) {
-        window.log.warn(
-          'showStickerPack: Already showing modal, returning early'
-        );
+        log.warn('showStickerPack: Already showing modal, returning early');
         return;
       }
       try {
@@ -424,7 +423,7 @@ export function createIPCEvents(
         });
       } catch (error) {
         window.isShowingModal = false;
-        window.log.error(
+        log.error(
           'showStickerPack: Ran into an error!',
           error && error.stack ? error.stack : error
         );
@@ -442,19 +441,17 @@ export function createIPCEvents(
     showGroupViaLink: async hash => {
       // We can get these events even if the user has never linked this instance.
       if (!window.Signal.Util.Registration.everDone()) {
-        window.log.warn('showGroupViaLink: Not registered, returning early');
+        log.warn('showGroupViaLink: Not registered, returning early');
         return;
       }
       if (window.isShowingModal) {
-        window.log.warn(
-          'showGroupViaLink: Already showing modal, returning early'
-        );
+        log.warn('showGroupViaLink: Already showing modal, returning early');
         return;
       }
       try {
         await window.Signal.Groups.joinViaLink(hash);
       } catch (error) {
-        window.log.error(
+        log.error(
           'showGroupViaLink: Ran into an error!',
           error && error.stack ? error.stack : error
         );
@@ -474,7 +471,7 @@ export function createIPCEvents(
     },
     showConversationViaSignalDotMe(hash: string) {
       if (!window.Signal.Util.Registration.everDone()) {
-        window.log.info(
+        log.info(
           'showConversationViaSignalDotMe: Not registered, returning early'
         );
         return;
@@ -486,9 +483,9 @@ export function createIPCEvents(
         return;
       }
 
-      window.log.info('showConversationViaSignalDotMe: invalid E164');
+      log.info('showConversationViaSignalDotMe: invalid E164');
       if (window.isShowingModal) {
-        window.log.info(
+        log.info(
           'showConversationViaSignalDotMe: a modal is already showing. Doing nothing'
         );
       } else {
@@ -497,7 +494,7 @@ export function createIPCEvents(
     },
 
     unknownSignalLink: () => {
-      window.log.warn('unknownSignalLink: Showing error dialog');
+      log.warn('unknownSignalLink: Showing error dialog');
       showUnknownSgnlLinkModal();
     },
 

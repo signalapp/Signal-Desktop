@@ -7,7 +7,7 @@ import * as durations from '../util/durations';
 import { strictAssert } from '../util/assert';
 import { waitForOnline } from '../util/waitForOnline';
 import { isDone as isDeviceLinked } from '../util/registration';
-import type { LoggerType } from '../logging/log';
+import type { LoggerType } from '../types/Logging';
 import { map } from '../util/iterables';
 import { sleep } from '../util/sleep';
 

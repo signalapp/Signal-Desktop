@@ -19,6 +19,7 @@ import {
 } from './zkgroup';
 import { getSendOptions } from './getSendOptions';
 import { isMe } from './whatTypeOfConversation';
+import * as log from '../logging/log';
 
 export async function getProfile(
   providedUuid?: string,
@@ -36,7 +37,7 @@ export async function getProfile(
   });
   const c = window.ConversationController.get(id);
   if (!c) {
-    window.log.error('getProfile: failed to find conversation; doing nothing');
+    log.error('getProfile: failed to find conversation; doing nothing');
     return;
   }
 
@@ -73,7 +74,7 @@ export async function getProfile(
       profileKeyVersionHex &&
       !existingProfileKeyCredential
     ) {
-      window.log.info('Generating request...');
+      log.info('Generating request...');
       ({
         requestHex: profileKeyCredentialRequestHex,
         context: profileCredentialRequestContext,
@@ -98,7 +99,7 @@ export async function getProfile(
         });
       } catch (error) {
         if (error.code === 401 || error.code === 403) {
-          window.log.info(
+          log.info(
             `Setting sealedSender to DISABLED for conversation ${c.idForLogging()}`
           );
           c.set({ sealedSender: SEALED_SENDER.DISABLED });
@@ -134,7 +135,7 @@ export async function getProfile(
 
     const accessKey = c.get('accessKey');
     if (profile.unrestrictedUnidentifiedAccess && profile.unidentifiedAccess) {
-      window.log.info(
+      log.info(
         `Setting sealedSender to UNRESTRICTED for conversation ${c.idForLogging()}`
       );
       c.set({
@@ -147,14 +148,14 @@ export async function getProfile(
       );
 
       if (haveCorrectKey) {
-        window.log.info(
+        log.info(
           `Setting sealedSender to ENABLED for conversation ${c.idForLogging()}`
         );
         c.set({
           sealedSender: SEALED_SENDER.ENABLED,
         });
       } else {
-        window.log.info(
+        log.info(
           `Setting sealedSender to DISABLED for conversation ${c.idForLogging()}`
         );
         c.set({
@@ -162,7 +163,7 @@ export async function getProfile(
         });
       }
     } else {
-      window.log.info(
+      log.info(
         `Setting sealedSender to DISABLED for conversation ${c.idForLogging()}`
       );
       c.set({
@@ -225,14 +226,14 @@ export async function getProfile(
       case 403:
         throw error;
       case 404:
-        window.log.warn(
+        log.warn(
           `getProfile failure: failed to find a profile for ${c.idForLogging()}`,
           error && error.stack ? error.stack : error
         );
         c.setUnregistered();
         return;
       default:
-        window.log.warn(
+        log.warn(
           'getProfile failure:',
           c.idForLogging(),
           error && error.stack ? error.stack : error
@@ -244,7 +245,7 @@ export async function getProfile(
   try {
     await c.setEncryptedProfileName(profile.name);
   } catch (error) {
-    window.log.warn(
+    log.warn(
       'getProfile decryption failure:',
       c.idForLogging(),
       error && error.stack ? error.stack : error
@@ -259,9 +260,7 @@ export async function getProfile(
     await c.setProfileAvatar(profile.avatar);
   } catch (error) {
     if (error.code === 403 || error.code === 404) {
-      window.log.info(
-        `Clearing profile avatar for conversation ${c.idForLogging()}`
-      );
+      log.info(`Clearing profile avatar for conversation ${c.idForLogging()}`);
       c.set({
         profileAvatar: null,
       });

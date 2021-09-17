@@ -3,6 +3,7 @@
 
 import { ThunkAction } from 'redux-thunk';
 import { StateType as RootStateType } from '../reducer';
+import * as log from '../../logging/log';
 
 // State
 
@@ -67,7 +68,7 @@ function openInbox(): ThunkAction<
   OpenInboxActionType
 > {
   return async dispatch => {
-    window.log.info('open inbox');
+    log.info('open inbox');
 
     await window.ConversationController.loadPromise();
 

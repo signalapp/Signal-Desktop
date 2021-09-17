@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { ReactNode } from 'react';
+import * as log from '../logging/log';
 
 type InternalPropsType = Readonly<{
   id: string;
@@ -39,7 +40,7 @@ const onRender: InternalPropsType['onRender'] = (
   start,
   commit
 ) => {
-  window.log.info(
+  log.info(
     `Profiler.tsx(${id}): actual=${actual.toFixed(1)}ms phase=${phase} ` +
       `base=${base.toFixed(1)}ms start=${start.toFixed(1)}ms ` +
       `commit=${commit.toFixed(1)}ms`

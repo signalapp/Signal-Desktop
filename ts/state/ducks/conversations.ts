@@ -861,7 +861,7 @@ function deleteAvatarFromDisk(
     if (avatarData.imagePath) {
       await window.Signal.Migrations.deleteAvatar(avatarData.imagePath);
     } else {
-      window.log.info(
+      log.info(
         'No imagePath for avatarData. Removing from userAvatarData, but not disk'
       );
     }
@@ -1155,7 +1155,7 @@ function composeDeleteAvatarFromDisk(
     if (avatarData.imagePath) {
       await window.Signal.Migrations.deleteAvatar(avatarData.imagePath);
     } else {
-      window.log.info(
+      log.info(
         'No imagePath for avatarData. Removing from userAvatarData, but not disk'
       );
     }
@@ -1325,10 +1325,7 @@ function createGroup(): ThunkAction<
         switchToAssociatedView: true,
       })(dispatch, getState, ...args);
     } catch (err) {
-      window.log.error(
-        'Failed to create group',
-        err && err.stack ? err.stack : err
-      );
+      log.error('Failed to create group', err && err.stack ? err.stack : err);
       dispatch({ type: 'CREATE_GROUP_REJECTED' });
     }
   };

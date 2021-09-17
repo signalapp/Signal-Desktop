@@ -12,6 +12,7 @@ import { assert } from '../util/assert';
 import * as log from '../logging/log';
 import { JobLogger } from './JobLogger';
 import * as Errors from '../types/errors';
+import type { LoggerType } from '../types/Logging';
 
 const noopOnCompleteCallbacks = {
   resolve: noop,
@@ -39,7 +40,7 @@ type JobQueueOptions = {
   /**
    * A custom logger. Might be overwritten in test.
    */
-  logger?: log.LoggerType;
+  logger?: LoggerType;
 };
 
 export abstract class JobQueue<T> {
@@ -49,7 +50,7 @@ export abstract class JobQueue<T> {
 
   private readonly store: JobQueueStore;
 
-  private readonly logger: log.LoggerType;
+  private readonly logger: LoggerType;
 
   private readonly logPrefix: string;
 
@@ -111,7 +112,7 @@ export abstract class JobQueue<T> {
    */
   protected abstract run(
     job: Readonly<ParsedJob<T>>,
-    extra?: Readonly<{ attempt?: number; log?: log.LoggerType }>
+    extra?: Readonly<{ attempt?: number; log?: LoggerType }>
   ): Promise<void>;
 
   /**

@@ -14,6 +14,7 @@ import { Address } from '../types/Address';
 import { QualifiedAddress } from '../types/QualifiedAddress';
 import { UUID } from '../types/UUID';
 import { ServerKeysType, WebAPIType } from './WebAPI';
+import * as log from '../logging/log';
 
 export async function getKeysForIdentifier(
   identifier: string,
@@ -94,7 +95,7 @@ async function handleServerKeys(
       }
 
       if (device.registrationId === 0) {
-        window.log.info(
+        log.info(
           `handleServerKeys/${identifier}: Got device registrationId zero!`
         );
       }

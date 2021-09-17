@@ -4,7 +4,7 @@
 /* eslint-disable class-methods-use-this */
 
 import * as durations from '../util/durations';
-import type { LoggerType } from '../logging/log';
+import type { LoggerType } from '../types/Logging';
 import { exponentialBackoffMaxAttempts } from '../util/exponentialBackoff';
 import {
   SyncType,

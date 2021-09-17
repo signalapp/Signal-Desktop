@@ -7,6 +7,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import AbortController from 'abort-controller';
 import { IMAGE_JPEG, stringToMIMEType } from '../../types/MIME';
+import * as log from '../../logging/log';
 
 import { typedArrayToArrayBuffer } from '../../Crypto';
 
@@ -29,7 +30,7 @@ describe('link preview fetching', () => {
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
-    warn = sandbox.stub(window.log, 'warn');
+    warn = sandbox.stub(log, 'warn');
   });
 
   afterEach(() => {

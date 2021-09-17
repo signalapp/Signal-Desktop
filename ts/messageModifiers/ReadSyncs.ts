@@ -8,6 +8,7 @@ import { Collection, Model } from 'backbone';
 import { MessageModel } from '../models/messages';
 import { isIncoming } from '../state/selectors/message';
 import { isMessageUnread } from '../util/isMessageUnread';
+import * as log from '../logging/log';
 
 type ReadSyncAttributesType = {
   senderId: string;
@@ -28,7 +29,7 @@ async function maybeItIsAReactionReadSync(sync: ReadSyncModel): Promise<void> {
   );
 
   if (!readReaction) {
-    window.log.info(
+    log.info(
       'Nothing found for read sync',
       sync.get('senderId'),
       sync.get('sender'),
@@ -67,9 +68,7 @@ export class ReadSyncs extends Collection {
       );
     });
     if (sync) {
-      window.log.info(
-        `Found early read sync for message ${sync.get('timestamp')}`
-      );
+      log.info(`Found early read sync for message ${sync.get('timestamp')}`);
       this.remove(sync);
       return sync;
     }
@@ -145,7 +144,7 @@ export class ReadSyncs extends Collection {
 
       this.remove(sync);
     } catch (error) {
-      window.log.error(
+      log.error(
         'ReadSyncs.onSync error:',
         error && error.stack ? error.stack : error
       );

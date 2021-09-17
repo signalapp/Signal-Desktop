@@ -5,6 +5,7 @@
 
 import { Collection, Model } from 'backbone';
 import { ConversationModel } from '../models/conversations';
+import * as log from '../logging/log';
 
 type MessageRequestAttributesType = {
   threadE164?: string;
@@ -33,7 +34,7 @@ export class MessageRequests extends Collection<MessageRequestModel> {
         threadE164: conversation.get('e164'),
       });
       if (syncByE164) {
-        window.log.info(
+        log.info(
           `Found early message request response for E164 ${conversation.idForLogging()}`
         );
         this.remove(syncByE164);
@@ -46,7 +47,7 @@ export class MessageRequests extends Collection<MessageRequestModel> {
         threadUuid: conversation.get('uuid'),
       });
       if (syncByUuid) {
-        window.log.info(
+        log.info(
           `Found early message request response for UUID ${conversation.idForLogging()}`
         );
         this.remove(syncByUuid);
@@ -60,7 +61,7 @@ export class MessageRequests extends Collection<MessageRequestModel> {
         groupId: conversation.get('groupId'),
       });
       if (syncByGroupId) {
-        window.log.info(
+        log.info(
           `Found early message request response for group v1 ID ${conversation.idForLogging()}`
         );
         this.remove(syncByGroupId);
@@ -74,7 +75,7 @@ export class MessageRequests extends Collection<MessageRequestModel> {
         groupV2Id: conversation.get('groupId'),
       });
       if (syncByGroupId) {
-        window.log.info(
+        log.info(
           `Found early message request response for group v2 ID ${conversation.idForLogging()}`
         );
         this.remove(syncByGroupId);
@@ -111,7 +112,7 @@ export class MessageRequests extends Collection<MessageRequestModel> {
       }
 
       if (!conversation) {
-        window.log.warn(
+        log.warn(
           `Received message request response for unknown conversation: groupv2(${groupV2Id}) group(${groupId}) ${threadUuid} ${threadE164}`
         );
         return;
@@ -123,7 +124,7 @@ export class MessageRequests extends Collection<MessageRequestModel> {
 
       this.remove(sync);
     } catch (error) {
-      window.log.error(
+      log.error(
         'MessageRequests.onResponse error:',
         error && error.stack ? error.stack : error
       );

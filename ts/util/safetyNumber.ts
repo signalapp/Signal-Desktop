@@ -6,6 +6,7 @@ import { ConversationType } from '../state/ducks/conversations';
 import { UUID } from '../types/UUID';
 
 import { assert } from './assert';
+import * as log from '../logging/log';
 
 export async function generateSecurityNumber(
   ourNumber: string,
@@ -56,7 +57,7 @@ export async function generateSecurityNumberBlock(
   }
 
   if (!contact.e164) {
-    window.log.error(
+    log.error(
       'generateSecurityNumberBlock: Attempted to generate security number for contact with no e164'
     );
     return [];

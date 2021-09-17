@@ -97,6 +97,7 @@ import { onRetryRequest, onDecryptionError } from './util/handleRetry';
 import { themeChanged } from './shims/themeChanged';
 import { createIPCEvents } from './util/createIPCEvents';
 import { RemoveAllConfiguration } from './types/RemoveAllConfiguration';
+import * as log from './logging/log';
 
 const MAX_ATTACHMENT_DOWNLOAD_AGE = 3600 * 72 * 1000;
 
@@ -129,14 +130,11 @@ export async function startApp(): Promise<void> {
   window.startupProcessingQueue = new window.Signal.Util.StartupQueue();
   window.attachmentDownloadQueue = [];
   try {
-    window.log.info('Initializing SQL in renderer');
+    log.info('Initializing SQL in renderer');
     await window.sqlInitializer.initialize();
-    window.log.info('SQL initialized in renderer');
+    log.info('SQL initialized in renderer');
   } catch (err) {
-    window.log.error(
-      'SQL failed to initialize',
-      err && err.stack ? err.stack : err
-    );
+    log.error('SQL failed to initialize', err && err.stack ? err.stack : err);
   }
 
   await window.Signal.Util.initializeMessageCounter();
@@ -154,7 +152,7 @@ export async function startApp(): Promise<void> {
       server,
     });
 
-    window.log.info('Initializing MessageReceiver');
+    log.info('Initializing MessageReceiver');
     messageReceiver = new MessageReceiver({
       server,
       storage: window.storage,
@@ -347,7 +345,7 @@ export async function startApp(): Promise<void> {
 
           const c = window.ConversationController.get(conversationId);
           if (!c) {
-            window.log.warn(
+            log.warn(
               `deliveryReceiptBatcher: Conversation ${conversationId} does not exist! ` +
                 `Will not send delivery receipts for timestamps ${timestamps}`
             );
@@ -372,7 +370,7 @@ export async function startApp(): Promise<void> {
                 { messageIds, sendType: 'deliveryReceipt' }
               );
             } catch (error) {
-              window.log.error(
+              log.error(
                 `Failed to send delivery receipt to ${senderE164}/${senderUuid} for timestamps ${timestamps}:`,
                 error && error.stack ? error.stack : error
               );
@@ -492,8 +490,8 @@ export async function startApp(): Promise<void> {
   } = window.Signal.Migrations;
   const { Views } = window.Signal;
 
-  window.log.info('background page reloaded');
-  window.log.info('environment:', window.getEnvironment());
+  log.info('background page reloaded');
+  log.info('environment:', window.getEnvironment());
 
   let idleDetector: WhatIsThis;
   let newVersion = false;
@@ -522,7 +520,7 @@ export async function startApp(): Promise<void> {
       window.Whisper.events.trigger('userChanged', false);
 
       window.Signal.Util.Registration.markDone();
-      window.log.info('dispatching registration event');
+      log.info('dispatching registration event');
       window.Whisper.events.trigger('registration_done');
     });
     return accountManager;
@@ -534,9 +532,9 @@ export async function startApp(): Promise<void> {
   if (!version) {
     const isIndexedDBPresent = await doesDatabaseExist();
     if (isIndexedDBPresent) {
-      window.log.info('Found IndexedDB database.');
+      log.info('Found IndexedDB database.');
       try {
-        window.log.info('Confirming deletion of old data with user...');
+        log.info('Confirming deletion of old data with user...');
 
         try {
           await new Promise<void>((resolve, reject) => {
@@ -550,7 +548,7 @@ export async function startApp(): Promise<void> {
             });
           });
         } catch (error) {
-          window.log.info(
+          log.info(
             'User chose not to delete old data. Shutting down.',
             error && error.stack ? error.stack : error
           );
@@ -558,17 +556,17 @@ export async function startApp(): Promise<void> {
           return;
         }
 
-        window.log.info('Deleting all previously-migrated data in SQL...');
-        window.log.info('Deleting IndexedDB file...');
+        log.info('Deleting all previously-migrated data in SQL...');
+        log.info('Deleting IndexedDB file...');
 
         await Promise.all([
           removeIndexedDB(),
           window.Signal.Data.removeAll(),
           window.Signal.Data.removeIndexedDBFiles(),
         ]);
-        window.log.info('Done with SQL deletion and IndexedDB file deletion.');
+        log.info('Done with SQL deletion and IndexedDB file deletion.');
       } catch (error) {
-        window.log.error(
+        log.error(
           'Failed to remove IndexedDB file or remove SQL data:',
           error && error.stack ? error.stack : error
         );
@@ -583,7 +581,7 @@ export async function startApp(): Promise<void> {
     }
   }
 
-  window.log.info('Storage fetch');
+  log.info('Storage fetch');
   window.storage.fetch();
 
   function mapOldThemeToNew(
@@ -621,7 +619,7 @@ export async function startApp(): Promise<void> {
     // These make key operations available to IPC handlers created in preload.js
     window.Events = createIPCEvents({
       shutdown: async () => {
-        window.log.info('background/shutdown');
+        log.info('background/shutdown');
 
         window.Signal.Util.flushMessageCounter();
 
@@ -663,7 +661,7 @@ export async function startApp(): Promise<void> {
 
     const THIRTY_DAYS = 30 * 24 * 60 * 60 * 1000;
     if (lastHeartbeat > 0 && isOlderThan(lastHeartbeat, THIRTY_DAYS)) {
-      window.log.warn(
+      log.warn(
         `This instance has not been used for 30 days. Last heartbeat: ${lastHeartbeat}. Last startup: ${previousLastStartup}.`
       );
       await unlinkAndDisconnect(RemoveAllConfiguration.Soft);
@@ -683,13 +681,13 @@ export async function startApp(): Promise<void> {
     await window.storage.put('version', currentVersion);
 
     if (newVersion && lastVersion) {
-      window.log.info(
+      log.info(
         `New version detected: ${currentVersion}; previous: ${lastVersion}`
       );
 
       const remoteBuildExpiration = window.storage.get('remoteBuildExpiration');
       if (remoteBuildExpiration) {
-        window.log.info(
+        log.info(
           `Clearing remoteBuildExpiration. Previous value was ${remoteBuildExpiration}`
         );
         window.storage.remove('remoteBuildExpiration');
@@ -761,7 +759,7 @@ export async function startApp(): Promise<void> {
       try {
         await window.Signal.Data.cleanupOrphanedAttachments();
       } catch (error) {
-        window.log.error(
+        log.error(
           'background: Failed to cleanup orphaned attachments:',
           error && error.stack ? error.stack : error
         );
@@ -775,7 +773,7 @@ export async function startApp(): Promise<void> {
 
     idleDetector = new IdleDetector();
     let isMigrationWithIndexComplete = false;
-    window.log.info(
+    log.info(
       `Starting background data migration. Target version: ${Message.CURRENT_SCHEMA_VERSION}`
     );
     idleDetector.on('idle', async () => {
@@ -790,14 +788,12 @@ export async function startApp(): Promise<void> {
             window.Signal.Data.getMessagesNeedingUpgrade,
           saveMessage: window.Signal.Data.saveMessage,
         });
-        window.log.info('Upgrade message schema (with index):', batchWithIndex);
+        log.info('Upgrade message schema (with index):', batchWithIndex);
         isMigrationWithIndexComplete = batchWithIndex.done;
       }
 
       if (isMigrationWithIndexComplete) {
-        window.log.info(
-          'Background migration complete. Stopping idle detector.'
-        );
+        log.info('Background migration complete. Stopping idle detector.');
         idleDetector.stop();
       }
     });
@@ -814,7 +810,7 @@ export async function startApp(): Promise<void> {
         'retryReceiptLifeSpan'
       );
     } catch (error) {
-      window.log.warn(
+      log.warn(
         'Failed to parse integer out of desktop.retryReceiptLifespan feature flag',
         error && error.stack ? error.stack : error
       );
@@ -837,7 +833,7 @@ export async function startApp(): Promise<void> {
           'retryRespondMaxAge'
         );
       } catch (error) {
-        window.log.warn(
+        log.warn(
           'background/setInterval: Failed to parse integer from desktop.retryRespondMaxAge feature flag',
           error && error.stack ? error.stack : error
         );
@@ -848,7 +844,7 @@ export async function startApp(): Promise<void> {
           now - sentProtoMaxAge
         );
       } catch (error) {
-        window.log.error(
+        log.error(
           'background/onready/setInterval: Error deleting sent protos: ',
           error && error.stack ? error.stack : error
         );
@@ -856,7 +852,7 @@ export async function startApp(): Promise<void> {
 
       try {
         const expired = await retryPlaceholders.getExpiredAndRemove();
-        window.log.info(
+        log.info(
           `retryPlaceholders/interval: Found ${expired.length} expired items`
         );
         expired.forEach(item => {
@@ -878,7 +874,7 @@ export async function startApp(): Promise<void> {
           }
         });
       } catch (error) {
-        window.log.error(
+        log.error(
           'background/onready/setInterval: Error getting expired retry placeholders: ',
           error && error.stack ? error.stack : error
         );
@@ -894,7 +890,7 @@ export async function startApp(): Promise<void> {
       ]);
       await window.ConversationController.checkForConflicts();
     } catch (error) {
-      window.log.error(
+      log.error(
         'background.js: ConversationController failed to load:',
         error && error.stack ? error.stack : error
       );
@@ -1036,7 +1032,7 @@ export async function startApp(): Promise<void> {
       name: 'changedConvoBatcher',
       processBatch(batch) {
         const deduped = new Set(batch);
-        window.log.info(
+        log.info(
           'changedConvoBatcher: deduped ' +
             `${batch.length} into ${deduped.size}`
         );
@@ -1084,7 +1080,7 @@ export async function startApp(): Promise<void> {
       });
 
       if (reconnect) {
-        window.log.info('background: reconnecting websocket on user change');
+        log.info('background: reconnecting websocket on user change');
         enqueueReconnectToWebSocket();
       }
     });
@@ -1590,11 +1586,11 @@ export async function startApp(): Promise<void> {
   });
 
   window.Whisper.events.on('powerMonitorSuspend', () => {
-    window.log.info('powerMonitor: suspend');
+    log.info('powerMonitor: suspend');
   });
 
   window.Whisper.events.on('powerMonitorResume', () => {
-    window.log.info('powerMonitor: resume');
+    log.info('powerMonitor: resume');
     server?.checkSockets();
   });
 
@@ -1603,14 +1599,14 @@ export async function startApp(): Promise<void> {
   const enqueueReconnectToWebSocket = () => {
     reconnectToWebSocketQueue.add(async () => {
       if (!server) {
-        window.log.info('reconnectToWebSocket: No server. Early return.');
+        log.info('reconnectToWebSocket: No server. Early return.');
         return;
       }
 
-      window.log.info('reconnectToWebSocket starting...');
+      log.info('reconnectToWebSocket starting...');
       await server.onOffline();
       await server.onOnline();
-      window.log.info('reconnectToWebSocket complete.');
+      log.info('reconnectToWebSocket complete.');
     });
   };
 
@@ -1627,7 +1623,7 @@ export async function startApp(): Promise<void> {
     window.Signal.Services.enableStorageService();
 
     if (window.ConversationController.areWePrimaryDevice()) {
-      window.log.warn(
+      log.warn(
         'background/runStorageService: We are primary device; not sending key sync request'
       );
       return;
@@ -1695,16 +1691,16 @@ export async function startApp(): Promise<void> {
       const ourConversation = window.ConversationController.getOurConversation();
       const ourE164 = ourConversation?.get('e164');
       if (ourE164) {
-        window.log.warn('Restoring E164 from our conversation');
+        log.warn('Restoring E164 from our conversation');
         window.storage.user.setNumber(ourE164);
       }
     }
 
     window.dispatchEvent(new Event('storage_ready'));
 
-    window.log.info('Expiration start timestamp cleanup: starting...');
+    log.info('Expiration start timestamp cleanup: starting...');
     const messagesUnexpectedlyMissingExpirationStartTimestamp = await window.Signal.Data.getMessagesUnexpectedlyMissingExpirationStartTimestamp();
-    window.log.info(
+    log.info(
       `Expiration start timestamp cleanup: Found ${messagesUnexpectedlyMissingExpirationStartTimestamp.length} messages for cleanup`
     );
     if (messagesUnexpectedlyMissingExpirationStartTimestamp.length) {
@@ -1724,7 +1720,7 @@ export async function startApp(): Promise<void> {
               isNotNil
             )
           );
-          window.log.info(
+          log.info(
             `Expiration start timestamp cleanup: starting timer for ${message.type} message sent at ${message.sent_at}. Starting timer at ${message.expirationStartTimestamp}`
           );
           return {
@@ -1736,11 +1732,11 @@ export async function startApp(): Promise<void> {
 
       await window.Signal.Data.saveMessages(newMessageAttributes);
     }
-    window.log.info('Expiration start timestamp cleanup: complete');
+    log.info('Expiration start timestamp cleanup: complete');
 
-    window.log.info('listening for registration events');
+    log.info('listening for registration events');
     window.Whisper.events.on('registration_done', () => {
-      window.log.info('handling registration event');
+      log.info('handling registration event');
 
       strictAssert(server !== undefined, 'WebAPI not ready');
       server.authenticate(
@@ -1797,7 +1793,7 @@ export async function startApp(): Promise<void> {
         await window.Signal.RemoteConfig.maybeRefreshRemoteConfig(server);
       } catch (error) {
         if (error && window._.isNumber(error.code)) {
-          window.log.warn(
+          log.warn(
             `registerForActive: Failed to to refresh remote config. Code: ${error.code}`
           );
           return;
@@ -1876,7 +1872,7 @@ export async function startApp(): Promise<void> {
         await window.storage.remove('manifestVersion');
 
         if (window.ConversationController.areWePrimaryDevice()) {
-          window.log.warn(
+          log.warn(
             'onChange/desktop.storage: We are primary device; not sending key sync request'
           );
           return;
@@ -1910,7 +1906,7 @@ export async function startApp(): Promise<void> {
   let disconnectTimer: NodeJS.Timeout | undefined;
   let reconnectTimer: number | undefined;
   function onOffline() {
-    window.log.info('offline');
+    log.info('offline');
 
     window.removeEventListener('offline', onOffline);
     window.addEventListener('online', onOnline);
@@ -1926,13 +1922,13 @@ export async function startApp(): Promise<void> {
   }
 
   function onOnline() {
-    window.log.info('online');
+    log.info('online');
 
     window.removeEventListener('online', onOnline);
     window.addEventListener('offline', onOffline);
 
     if (disconnectTimer && isSocketOnline()) {
-      window.log.warn('Already online. Had a blip in online/offline status.');
+      log.warn('Already online. Had a blip in online/offline status.');
       clearTimeout(disconnectTimer);
       disconnectTimer = undefined;
       return;
@@ -1954,7 +1950,7 @@ export async function startApp(): Promise<void> {
   }
 
   async function disconnect() {
-    window.log.info('disconnect');
+    log.info('disconnect');
 
     // Clear timer, since we're only called when the timer is expired
     disconnectTimer = undefined;
@@ -1974,7 +1970,7 @@ export async function startApp(): Promise<void> {
   let connecting = false;
   async function connect(firstRun?: boolean) {
     if (connecting) {
-      window.log.warn('connect already running', { connectCount });
+      log.warn('connect already running', { connectCount });
       return;
     }
 
@@ -1983,7 +1979,7 @@ export async function startApp(): Promise<void> {
     try {
       connecting = true;
 
-      window.log.info('connect', { firstRun, connectCount });
+      log.info('connect', { firstRun, connectCount });
 
       if (reconnectTimer) {
         clearTimeout(reconnectTimer);
@@ -1995,7 +1991,7 @@ export async function startApp(): Promise<void> {
         window.addEventListener('offline', onOffline);
       }
       if (connectCount === 0 && !navigator.onLine) {
-        window.log.warn(
+        log.warn(
           'Starting up offline; will connect when we have network access'
         );
         window.addEventListener('online', onOnline);
@@ -2033,7 +2029,7 @@ export async function startApp(): Promise<void> {
             }
           }
         } catch (error) {
-          window.log.error(
+          log.error(
             'connect: Error refreshing remote config:',
             error && error.stack ? error.stack : error
           );
@@ -2056,7 +2052,7 @@ export async function startApp(): Promise<void> {
             messaging: window.textsecure.messaging,
           });
         } catch (error) {
-          window.log.error(
+          log.error(
             'connect: Error fetching UUIDs for lonely e164s:',
             error && error.stack ? error.stack : error
           );
@@ -2085,7 +2081,7 @@ export async function startApp(): Promise<void> {
       await server.onOnline();
 
       AttachmentDownloads.start({
-        logger: window.log,
+        logger: log,
       });
 
       if (connectCount === 1) {
@@ -2103,7 +2099,7 @@ export async function startApp(): Promise<void> {
         newVersion &&
         window.textsecure.storage.user.getDeviceId() !== 1
       ) {
-        window.log.info('Boot after upgrading. Requesting contact sync');
+        log.info('Boot after upgrading. Requesting contact sync');
         window.getSyncRequest();
 
         runStorageService();
@@ -2115,7 +2111,7 @@ export async function startApp(): Promise<void> {
             window.textsecure.storage.user.removeSignalingKey(),
           ]);
         } catch (e) {
-          window.log.error(
+          log.error(
             'Problem with account manager updates after starting new version: ',
             e && e.stack ? e.stack : e
           );
@@ -2128,7 +2124,7 @@ export async function startApp(): Promise<void> {
           await server.registerSupportForUnauthenticatedDelivery();
           window.storage.put(udSupportKey, true);
         } catch (error) {
-          window.log.error(
+          log.error(
             'Error: Unable to register for unauthenticated delivery support.',
             error && error.stack ? error.stack : error
           );
@@ -2138,7 +2134,7 @@ export async function startApp(): Promise<void> {
       const deviceId = window.textsecure.storage.user.getDeviceId();
 
       if (!window.textsecure.storage.user.getUuid()) {
-        window.log.error('UUID not captured during registration, unlinking');
+        log.error('UUID not captured during registration, unlinking');
         return unlinkAndDisconnect(RemoveAllConfiguration.Full);
       }
 
@@ -2154,7 +2150,7 @@ export async function startApp(): Promise<void> {
             changeNumber: true,
           });
         } catch (error) {
-          window.log.error(
+          log.error(
             'Error: Unable to register our capabilities.',
             error && error.stack ? error.stack : error
           );
@@ -2176,13 +2172,13 @@ export async function startApp(): Promise<void> {
         const syncRequest = window.getSyncRequest();
         window.Whisper.events.trigger('contactsync:begin');
         syncRequest.addEventListener('success', () => {
-          window.log.info('sync successful');
+          log.info('sync successful');
           window.storage.put('synced_at', Date.now());
           window.Whisper.events.trigger('contactsync');
           runStorageService();
         });
         syncRequest.addEventListener('timeout', () => {
-          window.log.error('sync timed out');
+          log.error('sync timed out');
           window.Whisper.events.trigger('contactsync');
           runStorageService();
         });
@@ -2201,7 +2197,7 @@ export async function startApp(): Promise<void> {
           }));
 
           if (window.ConversationController.areWePrimaryDevice()) {
-            window.log.warn(
+            log.warn(
               'background/connect: We are primary device; not sending sticker pack sync'
             );
             return;
@@ -2214,7 +2210,7 @@ export async function startApp(): Promise<void> {
             ),
             { messageIds: [], sendType: 'otherSync' }
           ).catch(error => {
-            window.log.error(
+            log.error(
               'Failed to send installed sticker packs via sync message',
               error && error.stack ? error.stack : error
             );
@@ -2263,14 +2259,14 @@ export async function startApp(): Promise<void> {
   //   a given conversation's queue. But we have processed all events from the websocket.
   async function waitForEmptyEventQueue() {
     if (!messageReceiver) {
-      window.log.info(
+      log.info(
         'waitForEmptyEventQueue: No messageReceiver available, returning early'
       );
       return;
     }
 
     if (!messageReceiver.hasEmptied()) {
-      window.log.info(
+      log.info(
         'waitForEmptyEventQueue: Waiting for MessageReceiver empty event...'
       );
       let resolve: undefined | (() => void);
@@ -2295,9 +2291,7 @@ export async function startApp(): Promise<void> {
       await promise;
     }
 
-    window.log.info(
-      'waitForEmptyEventQueue: Waiting for event handler queue idle...'
-    );
+    log.info('waitForEmptyEventQueue: Waiting for event handler queue idle...');
     await eventHandlerQueue.onIdle();
   }
 
@@ -2308,7 +2302,7 @@ export async function startApp(): Promise<void> {
       window.waitForAllBatchers(),
       window.flushAllWaitBatchers(),
     ]);
-    window.log.info('onEmpty: All outstanding database requests complete');
+    log.info('onEmpty: All outstanding database requests complete');
     window.readyForUpdates();
 
     // Start listeners here, after we get through our queue.
@@ -2333,10 +2327,7 @@ export async function startApp(): Promise<void> {
       processedCount: messageReceiver && messageReceiver.getProcessedCount(),
     });
     if (messageReceiver) {
-      window.log.info(
-        'App loaded - messages:',
-        messageReceiver.getProcessedCount()
-      );
+      log.info('App loaded - messages:', messageReceiver.getProcessedCount());
     }
 
     window.Signal.Util.setBatchingStrategy(false);
@@ -2359,7 +2350,7 @@ export async function startApp(): Promise<void> {
         // to display the message properly.
         message.hasRequiredAttachmentDownloads()
     );
-    window.log.info(
+    log.info(
       'Downloading recent attachments of total attachments',
       attachmentsToDownload.length,
       attachmentDownloadQueue.length
@@ -2403,9 +2394,7 @@ export async function startApp(): Promise<void> {
       return;
     }
 
-    window.log.info(
-      `incrementProgress: Message count is ${initialStartupCount}`
-    );
+    log.info(`incrementProgress: Message count is ${initialStartupCount}`);
 
     window.Whisper.events.trigger('loadingProgress', initialStartupCount);
   }
@@ -2413,11 +2402,11 @@ export async function startApp(): Promise<void> {
   window.Whisper.events.on('manualConnect', manualConnect);
   function manualConnect() {
     if (isSocketOnline()) {
-      window.log.info('manualConnect: already online; not connecting again');
+      log.info('manualConnect: already online; not connecting again');
       return;
     }
 
-    window.log.info('manualConnect: calling connect()');
+    log.info('manualConnect: calling connect()');
     connect();
   }
 
@@ -2486,15 +2475,15 @@ export async function startApp(): Promise<void> {
     const ourId = window.ConversationController.getOurConversationId();
 
     if (!senderId) {
-      window.log.warn('onTyping: ensureContactIds returned falsey senderId!');
+      log.warn('onTyping: ensureContactIds returned falsey senderId!');
       return;
     }
     if (!ourId) {
-      window.log.warn("onTyping: Couldn't get our own id!");
+      log.warn("onTyping: Couldn't get our own id!");
       return;
     }
     if (!conversation) {
-      window.log.warn(
+      log.warn(
         `onTyping: Did not find conversation for typing indicator (groupv2(${groupV2Id}), group(${groupId}), ${sender}, ${senderUuid})`
       );
       return;
@@ -2505,7 +2494,7 @@ export async function startApp(): Promise<void> {
       !isDirectConversation(conversation.attributes) &&
       !conversation.hasMember(ourId)
     ) {
-      window.log.warn(
+      log.warn(
         `Received typing indicator for group ${conversation.idForLogging()}, which we're not a part of. Dropping.`
       );
       return;
@@ -2528,9 +2517,7 @@ export async function startApp(): Promise<void> {
       const { id, key, isInstall, isRemove } = pack || {};
 
       if (!id || !key || (!isInstall && !isRemove)) {
-        window.log.warn(
-          'Received malformed sticker pack operation sync message'
-        );
+        log.warn('Received malformed sticker pack operation sync message');
         return;
       }
 
@@ -2556,7 +2543,7 @@ export async function startApp(): Promise<void> {
   }
 
   async function onContactSyncComplete() {
-    window.log.info('onContactSyncComplete');
+    log.info('onContactSyncComplete');
     await window.storage.put('synced_at', Date.now());
   }
 
@@ -2571,7 +2558,7 @@ export async function startApp(): Promise<void> {
     ) {
       // special case for syncing details about ourselves
       if (details.profileKey) {
-        window.log.info('Got sync message with our own profile key');
+        log.info('Got sync message with our own profile key');
         ourProfileKeyService.set(typedArrayToArrayBuffer(details.profileKey));
       }
     }
@@ -2583,7 +2570,7 @@ export async function startApp(): Promise<void> {
     } as Partial<ConversationAttributesType>) as WhatIsThis);
     const validationError = c.validate();
     if (validationError) {
-      window.log.error(
+      log.error(
         'Invalid contact received:',
         Errors.toLogFormat(validationError)
       );
@@ -2674,18 +2661,18 @@ export async function startApp(): Promise<void> {
       }
 
       if (window.Signal.Util.postLinkExperience.isActive()) {
-        window.log.info(
+        log.info(
           'onContactReceived: Adding the message history disclaimer on link'
         );
         await conversation.addMessageHistoryDisclaimer();
       }
     } catch (error) {
-      window.log.error('onContactReceived error:', Errors.toLogFormat(error));
+      log.error('onContactReceived error:', Errors.toLogFormat(error));
     }
   }
 
   async function onGroupSyncComplete() {
-    window.log.info('onGroupSyncComplete');
+    log.info('onGroupSyncComplete');
     await window.storage.put('synced_at', Date.now());
   }
 
@@ -2699,10 +2686,7 @@ export async function startApp(): Promise<void> {
       'group'
     );
     if (isGroupV2(conversation.attributes)) {
-      window.log.warn(
-        'Got group sync for v2 group: ',
-        conversation.idForLogging()
-      );
+      log.warn('Got group sync for v2 group: ', conversation.idForLogging());
       return;
     }
 
@@ -2751,7 +2735,7 @@ export async function startApp(): Promise<void> {
     window.Signal.Data.updateConversation(conversation.attributes);
 
     if (window.Signal.Util.postLinkExperience.isActive()) {
-      window.log.info(
+      log.info(
         'onGroupReceived: Adding the message history disclaimer on link'
       );
       await conversation.addMessageHistoryDisclaimer();
@@ -2808,10 +2792,7 @@ export async function startApp(): Promise<void> {
             return;
           }
         } catch (error) {
-          window.log.error(
-            'respondWithProfileKeyBatcher error',
-            error && error.stack
-          );
+          log.error('respondWithProfileKeyBatcher error', error && error.stack);
         }
 
         sender.queueJob('sendProfileKeyUpdate', () =>
@@ -2889,15 +2870,12 @@ export async function startApp(): Promise<void> {
       const { reaction } = data.message;
 
       if (!isValidReactionEmoji(reaction.emoji)) {
-        window.log.warn('Received an invalid reaction emoji. Dropping it');
+        log.warn('Received an invalid reaction emoji. Dropping it');
         confirm();
         return Promise.resolve();
       }
 
-      window.log.info(
-        'Queuing incoming reaction for',
-        reaction.targetTimestamp
-      );
+      log.info('Queuing incoming reaction for', reaction.targetTimestamp);
       const reactionModel = Reactions.getSingleton().add({
         emoji: reaction.emoji,
         remove: reaction.remove,
@@ -2917,7 +2895,7 @@ export async function startApp(): Promise<void> {
 
     if (data.message.delete) {
       const { delete: del } = data.message;
-      window.log.info('Queuing incoming DOE for', del.targetSentTimestamp);
+      log.info('Queuing incoming DOE for', del.targetSentTimestamp);
       const deleteModel = Deletes.getSingleton().add({
         targetSentTimestamp: del.targetSentTimestamp,
         serverTimestamp: data.serverTimestamp,
@@ -2951,7 +2929,7 @@ export async function startApp(): Promise<void> {
     const conversation = window.ConversationController.get(conversationId);
 
     if (!conversation) {
-      window.log.error(
+      log.error(
         'onProfileKeyUpdate: could not find conversation',
         data.source,
         data.sourceUuid
@@ -2961,15 +2939,12 @@ export async function startApp(): Promise<void> {
     }
 
     if (!data.profileKey) {
-      window.log.error(
-        'onProfileKeyUpdate: missing profileKey',
-        data.profileKey
-      );
+      log.error('onProfileKeyUpdate: missing profileKey', data.profileKey);
       confirm();
       return;
     }
 
-    window.log.info(
+    log.info(
       'onProfileKeyUpdate: updating profileKey',
       data.source,
       data.sourceUuid
@@ -3139,7 +3114,7 @@ export async function startApp(): Promise<void> {
         throw new Error('getMessageDescriptor: GroupV1 data was missing id');
       }
       if (!derivedGroupV2Id) {
-        window.log.warn(
+        log.warn(
           'getMessageDescriptor: GroupV1 data was missing derivedGroupV2Id'
         );
       } else {
@@ -3233,12 +3208,12 @@ export async function startApp(): Promise<void> {
       const { reaction } = data.message;
 
       if (!isValidReactionEmoji(reaction.emoji)) {
-        window.log.warn('Received an invalid reaction emoji. Dropping it');
+        log.warn('Received an invalid reaction emoji. Dropping it');
         event.confirm();
         return Promise.resolve();
       }
 
-      window.log.info('Queuing sent reaction for', reaction.targetTimestamp);
+      log.info('Queuing sent reaction for', reaction.targetTimestamp);
       const reactionModel = Reactions.getSingleton().add({
         emoji: reaction.emoji,
         remove: reaction.remove,
@@ -3257,7 +3232,7 @@ export async function startApp(): Promise<void> {
 
     if (data.message.delete) {
       const { delete: del } = data.message;
-      window.log.info('Queuing sent DOE for', del.targetSentTimestamp);
+      log.info('Queuing sent DOE for', del.targetSentTimestamp);
       const deleteModel = Deletes.getSingleton().add({
         targetSentTimestamp: del.targetSentTimestamp,
         serverTimestamp: data.serverTimestamp,
@@ -3324,7 +3299,7 @@ export async function startApp(): Promise<void> {
         });
         return true;
       }
-      window.log.warn(
+      log.warn(
         'Received a group call update for a conversation that is not a GV2 group. Ignoring that property and continuing.'
       );
     }
@@ -3336,13 +3311,13 @@ export async function startApp(): Promise<void> {
   ): Promise<void> {
     window.Whisper.events.trigger('unauthorized');
 
-    window.log.warn(
+    log.warn(
       'unlinkAndDisconnect: Client is no longer authorized; ' +
         'deleting local configuration'
     );
 
     if (messageReceiver) {
-      window.log.info('unlinkAndDisconnect: logging out');
+      log.info('unlinkAndDisconnect: logging out');
       strictAssert(server !== undefined, 'WebAPI not initialized');
       server.unregisterRequestHandler(messageReceiver);
       messageReceiver.stopProcessing();
@@ -3371,7 +3346,7 @@ export async function startApp(): Promise<void> {
     );
 
     try {
-      window.log.info('unlinkAndDisconnect: removing configuration');
+      log.info('unlinkAndDisconnect: removing configuration');
       await window.textsecure.storage.protocol.removeAllConfiguration(mode);
 
       // This was already done in the database with removeAllConfiguration; this does it
@@ -3406,11 +3381,9 @@ export async function startApp(): Promise<void> {
       }
       await window.textsecure.storage.put(VERSION_KEY, window.getVersion());
 
-      window.log.info(
-        'unlinkAndDisconnect: Successfully cleared local configuration'
-      );
+      log.info('unlinkAndDisconnect: Successfully cleared local configuration');
     } catch (eraseError) {
-      window.log.error(
+      log.error(
         'unlinkAndDisconnect: Something went wrong clearing ' +
           'local configuration',
         eraseError && eraseError.stack ? eraseError.stack : eraseError
@@ -3422,7 +3395,7 @@ export async function startApp(): Promise<void> {
 
   function onError(ev: ErrorEvent) {
     const { error } = ev;
-    window.log.error('background onError:', Errors.toLogFormat(error));
+    log.error('background onError:', Errors.toLogFormat(error));
 
     if (
       error &&
@@ -3442,7 +3415,7 @@ export async function startApp(): Promise<void> {
       if (navigator.onLine) {
         const timeout = reconnectBackOff.getAndIncrement();
 
-        window.log.info(`retrying in ${timeout}ms`);
+        log.info(`retrying in ${timeout}ms`);
         reconnectTimer = setTimeout(connect, timeout);
 
         window.Whisper.events.trigger('reconnectTimer');
@@ -3454,14 +3427,14 @@ export async function startApp(): Promise<void> {
       return;
     }
 
-    window.log.warn('background onError: Doing nothing with incoming error');
+    log.warn('background onError: Doing nothing with incoming error');
   }
 
   async function onViewOnceOpenSync(ev: ViewOnceOpenSyncEvent) {
     ev.confirm();
 
     const { source, sourceUuid, timestamp } = ev;
-    window.log.info(`view once open sync ${source} ${timestamp}`);
+    log.info(`view once open sync ${source} ${timestamp}`);
 
     const sync = ViewOnceOpenSyncs.getSingleton().add({
       source,
@@ -3487,13 +3460,11 @@ export async function startApp(): Promise<void> {
         break;
       }
       case FETCH_LATEST_ENUM.STORAGE_MANIFEST:
-        window.log.info('onFetchLatestSync: fetching latest manifest');
+        log.info('onFetchLatestSync: fetching latest manifest');
         await window.Signal.Services.runStorageServiceSyncJob();
         break;
       default:
-        window.log.info(
-          `onFetchLatestSync: Unknown type encountered ${eventType}`
-        );
+        log.info(`onFetchLatestSync: Unknown type encountered ${eventType}`);
     }
   }
 
@@ -3503,12 +3474,12 @@ export async function startApp(): Promise<void> {
     const { storageServiceKey } = ev;
 
     if (storageServiceKey === null) {
-      window.log.info('onKeysSync: deleting window.storageKey');
+      log.info('onKeysSync: deleting window.storageKey');
       window.storage.remove('storageKey');
     }
 
     if (storageServiceKey) {
-      window.log.info('onKeysSync: received keys');
+      log.info('onKeysSync: received keys');
       const storageServiceKeyBase64 = window.Signal.Crypto.arrayBufferToBase64(
         storageServiceKey
       );
@@ -3529,7 +3500,7 @@ export async function startApp(): Promise<void> {
       messageRequestResponseType,
     } = ev;
 
-    window.log.info('onMessageRequestResponse', {
+    log.info('onMessageRequestResponse', {
       threadE164,
       threadUuid,
       groupId: `group(${groupId})`,
@@ -3587,7 +3558,7 @@ export async function startApp(): Promise<void> {
         highTrust: true,
       }
     );
-    window.log.info(
+    log.info(
       logTitle,
       source,
       sourceUuid,
@@ -3624,7 +3595,7 @@ export async function startApp(): Promise<void> {
       uuid: senderUuid,
     });
 
-    window.log.info(
+    log.info(
       'read sync',
       sender,
       senderUuid,
@@ -3656,7 +3627,7 @@ export async function startApp(): Promise<void> {
       uuid: senderUuid,
     });
 
-    window.log.info(
+    log.info(
       'view sync',
       senderE164,
       senderUuid,
@@ -3698,7 +3669,7 @@ export async function startApp(): Promise<void> {
     } as Partial<ConversationAttributesType>) as WhatIsThis);
     const error = c.validate();
     if (error) {
-      window.log.error(
+      log.error(
         'Invalid verified sync received:',
         e164,
         uuid,
@@ -3718,10 +3689,10 @@ export async function startApp(): Promise<void> {
         state = 'UNVERIFIED';
         break;
       default:
-        window.log.error(`Got unexpected verified state: ${ev.verified.state}`);
+        log.error(`Got unexpected verified state: ${ev.verified.state}`);
     }
 
-    window.log.info(
+    log.info(
       'got verified sync for',
       e164,
       uuid,
@@ -3771,7 +3742,7 @@ export async function startApp(): Promise<void> {
       }
     );
 
-    window.log.info(
+    log.info(
       'delivery receipt from',
       source,
       sourceUuid,
@@ -3783,7 +3754,7 @@ export async function startApp(): Promise<void> {
     );
 
     if (!sourceConversationId) {
-      window.log.info('no conversation for', source, sourceUuid);
+      log.info('no conversation for', source, sourceUuid);
       return;
     }
 

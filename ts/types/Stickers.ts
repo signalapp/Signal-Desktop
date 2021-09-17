@@ -17,6 +17,7 @@ import type {
 } from '../sql/Interface';
 import Data from '../sql/Client';
 import { SignalService as Proto } from '../protobuf';
+import * as log from '../logging/log';
 
 export type RecentStickerType = Readonly<{
   stickerId: number;
@@ -390,7 +391,7 @@ export async function downloadEphemeralPack(
       existingPack.status === 'installed' ||
       existingPack.status === 'pending')
   ) {
-    window.log.warn(
+    log.warn(
       `Ephemeral download for pack ${redactPackId(
         packId
       )} requested, we already know about it. Skipping.`
@@ -488,7 +489,7 @@ export async function downloadEphemeralPack(
         status: 'error',
       });
     }
-    window.log.error(
+    log.error(
       `Ephemeral download error for sticker pack ${redactPackId(packId)}:`,
       error && error.stack ? error.stack : error
     );
@@ -511,7 +512,7 @@ export async function downloadStickerPack(
     try {
       await doDownloadStickerPack(packId, packKey, options);
     } catch (error) {
-      window.log.error(
+      log.error(
         'doDownloadStickerPack threw an error:',
         error && error.stack ? error.stack : error
       );
@@ -543,7 +544,7 @@ async function doDownloadStickerPack(
 
   const existing = getStickerPack(packId);
   if (!doesPackNeedDownload(existing)) {
-    window.log.warn(
+    log.warn(
       `Download for pack ${redactPackId(
         packId
       )} requested, but it does not need re-download. Skipping.`
@@ -556,7 +557,7 @@ async function doDownloadStickerPack(
   const downloadAttempts =
     (existing ? existing.downloadAttempts || 0 : 0) + attemptIncrement;
   if (downloadAttempts > 3) {
-    window.log.warn(
+    log.warn(
       `Refusing to attempt another download for pack ${redactPackId(
         packId
       )}, attempt number ${downloadAttempts}`
@@ -642,7 +643,7 @@ async function doDownloadStickerPack(
       await Data.addStickerPackReference(messageId, packId);
     }
   } catch (error) {
-    window.log.error(
+    log.error(
       `Error downloading manifest for sticker pack ${redactPackId(packId)}:`,
       error && error.stack ? error.stack : error
     );
@@ -702,7 +703,7 @@ async function doDownloadStickerPack(
       });
     }
   } catch (error) {
-    window.log.error(
+    log.error(
       `Error downloading stickers for sticker pack ${redactPackId(packId)}:`,
       error && error.stack ? error.stack : error
     );

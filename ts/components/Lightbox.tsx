@@ -22,6 +22,7 @@ import { LocalizerType } from '../types/Util';
 import { MediaItemType, MessageAttributesType } from '../types/MediaItem';
 import { formatDuration } from '../util/formatDuration';
 import { useRestoreFocus } from '../util/hooks/useRestoreFocus';
+import * as log from '../logging/log';
 
 export type PropsType = {
   children?: ReactNode;
@@ -294,7 +295,7 @@ export function Lightbox({
         />
       );
     } else {
-      window.log.info('Lightbox: Unexpected content type', { contentType });
+      log.info('Lightbox: Unexpected content type', { contentType });
 
       content = (
         <button

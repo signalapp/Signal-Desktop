@@ -4,6 +4,7 @@
 import { ConversationAttributesType } from '../model-types.d';
 import { ConversationType } from '../state/ducks/conversations';
 import { base64ToArrayBuffer, fromEncodedBinaryToArrayBuffer } from '../Crypto';
+import * as log from '../logging/log';
 
 export enum ConversationTypes {
   Me = 'Me',
@@ -58,7 +59,7 @@ export function isGroupV2(
       base64ToArrayBuffer(groupId).byteLength === window.Signal.Groups.ID_LENGTH
     );
   } catch (error) {
-    window.log.error('isGroupV2: Failed to process groupId in base64!');
+    log.error('isGroupV2: Failed to process groupId in base64!');
     return false;
   }
 }

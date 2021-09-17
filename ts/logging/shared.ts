@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as pino from 'pino';
+import pino from 'pino';
 import { isRecord } from '../util/isRecord';
 import { redactAll } from '../util/privacy';
 import { missingCaseError } from '../util/missingCaseError';
@@ -106,3 +106,10 @@ export function cleanArgs(args: ReadonlyArray<unknown>): string {
       .join(' ')
   );
 }
+
+// To make it easier to visually scan logs, we make all levels the same length
+const levelFromName = pino().levels.values;
+export const levelMaxLength: number = Object.keys(levelFromName).reduce(
+  (maxLength, level) => Math.max(maxLength, level.length),
+  0
+);

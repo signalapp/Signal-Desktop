@@ -854,9 +854,6 @@ function showScreenShareWindow(sourceName) {
       'render-screen-sharing-controller',
       sourceName
     );
-    if (config.get('openDevTools')) {
-      screenShareWindow.webContents.openDevTools();
-    }
   });
 }
 
@@ -897,9 +894,6 @@ function showAbout() {
 
   aboutWindow.once('ready-to-show', () => {
     aboutWindow.show();
-    if (config.get('openDevTools')) {
-      aboutWindow.webContents.openDevTools();
-    }
   });
 }
 

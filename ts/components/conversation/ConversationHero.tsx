@@ -11,6 +11,7 @@ import { LocalizerType } from '../../types/Util';
 import { ConfirmationDialog } from '../ConfirmationDialog';
 import { Button, ButtonSize, ButtonVariant } from '../Button';
 import { shouldBlurAvatar } from '../../util/shouldBlurAvatar';
+import * as log from '../../logging/log';
 
 export type Props = {
   about?: string;
@@ -133,7 +134,7 @@ export const ConversationHero = ({
       return;
     }
 
-    window.log.info('ConversationHero: calling onHeightChange');
+    log.info('ConversationHero: calling onHeightChange');
     onHeightChange();
   }, [
     about,

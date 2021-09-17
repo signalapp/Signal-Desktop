@@ -19,10 +19,12 @@ const storageMap = new Map();
 // To replicate logic we have on the client side
 global.window = {
   SignalContext: undefined,
-  log: {
-    info: (...args) => console.log(...args),
-    warn: (...args) => console.warn(...args),
-    error: (...args) => console.error(...args),
+  SignalWindow: {
+    log: {
+      info: (...args) => console.log(...args),
+      warn: (...args) => console.warn(...args),
+      error: (...args) => console.error(...args),
+    },
   },
   i18n: key => `i18n(${key})`,
   storage: {

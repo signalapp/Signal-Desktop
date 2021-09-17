@@ -5,6 +5,7 @@ import React from 'react';
 
 import { LocalizerType, RenderTextCallbackType } from '../types/Util';
 import { ReplacementValuesType } from '../types/I18N';
+import * as log from '../logging/log';
 
 export type FullJSXType = Array<JSX.Element | string> | JSX.Element | string;
 
@@ -31,7 +32,7 @@ export class Intl extends React.Component<Props> {
     const { id, components } = this.props;
 
     if (!components) {
-      window.log.error(
+      log.error(
         `Error: Intl component prop not provided; Metadata: id '${id}', index ${index}, placeholder '${placeholderName}'`
       );
       return null;
@@ -39,7 +40,7 @@ export class Intl extends React.Component<Props> {
 
     if (Array.isArray(components)) {
       if (!components || !components.length || components.length <= index) {
-        window.log.error(
+        log.error(
           `Error: Intl missing provided component for id '${id}', index ${index}`
         );
 
@@ -51,7 +52,7 @@ export class Intl extends React.Component<Props> {
 
     const value = components[placeholderName];
     if (!value) {
-      window.log.error(
+      log.error(
         `Error: Intl missing provided component for id '${id}', placeholder '${placeholderName}'`
       );
 
