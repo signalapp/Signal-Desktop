@@ -4,7 +4,8 @@
 <!-- prettier-ignore -->
 <link rel="stylesheet" href="../stylesheets/manifest.css" />
 <script>
-  window.log = {
+  window.SignalWindow = window.SignalWindow || {};
+  window.SignalWindow.log = {
     fatal: console.error.bind(console),
     error: console.error.bind(console),
     warn: console.warn.bind(console),
