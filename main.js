@@ -1340,7 +1340,7 @@ app.on('ready', async () => {
       webPreferences: {
         ...defaultWebPrefs,
         nodeIntegration: false,
-        contextIsolation: false,
+        contextIsolation: true,
         preload: path.join(__dirname, 'ts', 'windows', 'loading', 'preload.js'),
       },
       icon: windowIcon,
