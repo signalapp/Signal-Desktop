@@ -5,6 +5,8 @@ import React from 'react';
 
 import { LocalizerType } from '../types/Util';
 
+import { LeftPaneDialog } from './LeftPaneDialog';
+
 export type PropsType = {
   i18n: LocalizerType;
   isRegistrationDone: boolean;
@@ -21,20 +23,13 @@ export const DialogRelink = ({
   }
 
   return (
-    <div className="LeftPaneDialog LeftPaneDialog--warning">
-      <div className="LeftPaneDialog__icon LeftPaneDialog__icon--relink" />
-      <div className="LeftPaneDialog__message">
-        <h3>{i18n('unlinked')}</h3>
-        <div>
-          <button
-            className="LeftPaneDialog__action-text"
-            onClick={relinkDevice}
-            type="button"
-          >
-            {i18n('unlinkedWarning')}
-          </button>
-        </div>
-      </div>
-    </div>
+    <LeftPaneDialog
+      type="warning"
+      icon="relink"
+      clickLabel={i18n('unlinkedWarning')}
+      onClick={relinkDevice}
+      title={i18n('unlinked')}
+      hasAction
+    />
   );
 };

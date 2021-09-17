@@ -8,12 +8,17 @@
 }
 
 .LeftPaneDialog {
+  @include button-reset;
+
   align-items: center;
   background: $color-ultramarine;
   color: $color-white;
   display: flex;
+  width: 100%;
   min-height: 64px;
   padding: 12px 18px;
+  user-select: none;
+  cursor: inherit;
 
   &__container {
     display: flex;
@@ -46,10 +51,11 @@
   }
 
   &__icon {
-    width: 20px;
-    height: 20px;
+    width: 24px;
+    height: 24px;
     margin-right: 18px;
     background-color: $color-white;
+    -webkit-mask-size: contain;
 
     &--relink {
       -webkit-mask: url('../images/icons/v2/link-broken-16.svg') no-repeat
