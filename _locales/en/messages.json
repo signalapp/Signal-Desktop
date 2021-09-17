@@ -5677,16 +5677,34 @@
     "description": "The text of the button to create new groups"
   },
   "selectContact": {
-    "message": "Select contact",
-    "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)"
+    "message": "Select contact $name$",
+    "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "John"
+      }
+    }
   },
   "deselectContact": {
-    "message": "De-select contact",
-    "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)"
+    "message": "De-select contact $name$",
+    "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "John"
+      }
+    }
   },
   "cannotSelectContact": {
-    "message": "Cannot select contact",
-    "description": "The label for contact checkboxes that are disabled"
+    "message": "Cannot select contact $name$",
+    "description": "The label for contact checkboxes that are disabled",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "John"
+      }
+    }
   },
   "alreadyAMember": {
     "message": "Already a member",
