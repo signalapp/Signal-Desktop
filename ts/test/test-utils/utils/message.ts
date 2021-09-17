@@ -89,7 +89,7 @@ export class MockConversation {
       isKickedFromGroup: false,
       active_at: Date.now(),
       lastJoinedTimestamp: Date.now(),
-      lastMessageStatus: null,
+      lastMessageStatus: undefined,
       lastMessage: null,
       zombies: [],
       triggerNotificationsFor: 'all',

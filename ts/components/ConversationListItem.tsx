@@ -43,6 +43,7 @@ export const StyledConversationListItemIconWrapper = styled.div`
 type PropsHousekeeping = {
   style?: Object;
 };
+// tslint:disable: use-simple-attributes
 
 type Props = ConversationListItemProps & PropsHousekeeping;
 
@@ -165,7 +166,7 @@ const UserItem = (props: {
   return (
     <div className="module-conversation__user">
       <ContactName
-        phoneNumber={displayedPubkey}
+        pubkey={displayedPubkey}
         name={name}
         profileName={displayName}
         module="module-conversation__user"
@@ -258,7 +259,7 @@ const ConversationListItem = (props: Props) => {
     type,
     isPublic,
     avatarPath,
-    notificationForConvo,
+    isPrivate,
     currentNotificationSetting,
   } = props;
   const triggerId = `conversation-item-${conversationId}-ctxmenu`;
@@ -294,47 +295,53 @@ const ConversationListItem = (props: Props) => {
         style={style}
         className={classNames(
           'module-conversation-list-item',
-          unreadCount > 0 ? 'module-conversation-list-item--has-unread' : null,
-          unreadCount > 0 && mentionedUs ? 'module-conversation-list-item--mentioned-us' : null,
+          unreadCount && unreadCount > 0 ? 'module-conversation-list-item--has-unread' : null,
+          unreadCount && unreadCount > 0 && mentionedUs
+            ? 'module-conversation-list-item--mentioned-us'
+            : null,
           isSelected ? 'module-conversation-list-item--is-selected' : null,
           isBlocked ? 'module-conversation-list-item--is-blocked' : null
         )}
       >
         <AvatarItem
           conversationId={conversationId}
-          avatarPath={avatarPath}
+          avatarPath={avatarPath || null}
           memberAvatars={membersAvatar}
           profileName={profileName}
           name={name}
         />
         <div className="module-conversation-list-item__content">
           <HeaderItem
-            mentionedUs={mentionedUs}
-            unreadCount={unreadCount}
+            mentionedUs={!!mentionedUs}
+            unreadCount={unreadCount || 0}
             activeAt={activeAt}
-            isMe={isMe}
-            isPinned={isPinned}
+            isMe={!!isMe}
+            isPinned={!!isPinned}
             conversationId={conversationId}
             name={name}
             profileName={profileName}
-            currentNotificationSetting={currentNotificationSetting}
+            currentNotificationSetting={currentNotificationSetting || 'all'}
           />
-          <MessageItem isTyping={isTyping} unreadCount={unreadCount} lastMessage={lastMessage} />
+          <MessageItem
+            isTyping={!!isTyping}
+            unreadCount={unreadCount || 0}
+            lastMessage={lastMessage}
+          />
         </div>
       </div>
       <Portal>
         <MemoConversationListItemContextMenu
           triggerId={triggerId}
           conversationId={conversationId}
-          hasNickname={hasNickname}
-          isBlocked={isBlocked}
-          isKickedFromGroup={isKickedFromGroup}
-          isMe={isMe}
-          isPublic={isPublic}
-          left={left}
+          hasNickname={!!hasNickname}
+          isBlocked={!!isBlocked}
+          isPrivate={!!isPrivate}
+          isKickedFromGroup={!!isKickedFromGroup}
+          isMe={!!isMe}
+          isPublic={!!isPublic}
+          left={!!left}
           type={type}
-          notificationForConvo={notificationForConvo}
-          currentNotificationSetting={currentNotificationSetting}
+          currentNotificationSetting={currentNotificationSetting || 'all'}
         />
       </Portal>
     </div>

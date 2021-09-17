@@ -19,10 +19,10 @@ import { omit } from 'lodash';
 
 export type MessageModelPropsWithoutConvoProps = {
   propsForMessage: PropsForMessageWithoutConvoProps;
-  propsForGroupInvitation: PropsForGroupInvitation | null;
-  propsForTimerNotification: PropsForExpirationTimer | null;
-  propsForDataExtractionNotification: PropsForDataExtractionNotification | null;
-  propsForGroupNotification: PropsForGroupUpdate | null;
+  propsForGroupInvitation?: PropsForGroupInvitation;
+  propsForTimerNotification?: PropsForExpirationTimer;
+  propsForDataExtractionNotification?: PropsForDataExtractionNotification;
+  propsForGroupNotification?: PropsForGroupUpdate;
 };
 
 export type MessageModelPropsWithConvoProps = SortedMessageModelProps & {
@@ -30,8 +30,8 @@ export type MessageModelPropsWithConvoProps = SortedMessageModelProps & {
 };
 
 export type ContactPropsMessageDetail = {
-  status: string | null;
-  phoneNumber: string;
+  status: string | undefined;
+  pubkey: string;
   name?: string | null;
   profileName?: string | null;
   avatarPath?: string | null;
@@ -50,10 +50,10 @@ export type MessagePropsDetails = {
   direction: MessageModelType;
 };
 
-export type LastMessageStatusType = MessageDeliveryStatus | null;
+export type LastMessageStatusType = MessageDeliveryStatus | undefined;
 
 export type FindAndFormatContactType = {
-  phoneNumber: string;
+  pubkey: string;
   avatarPath: string | null;
   name: string | null;
   profileName: string | null;
@@ -64,7 +64,7 @@ export type FindAndFormatContactType = {
 export type PropsForExpirationTimer = {
   timespan: string;
   disabled: boolean;
-  phoneNumber: string;
+  pubkey: string;
   avatarPath: string | null;
   name: string | null;
   profileName: string | null;
@@ -157,33 +157,34 @@ export type PropsForAttachment = {
 };
 
 export type PropsForMessageWithoutConvoProps = {
-  text: string | null;
   id: string; // messageId
   direction: MessageModelType;
   timestamp: number;
-  receivedAt: number | undefined;
-  serverTimestamp: number | undefined;
-  serverId: number | undefined;
-  status: LastMessageStatusType | null;
   authorPhoneNumber: string; // this is the sender
   convoId: string; // this is the conversation in which this message was sent
-  attachments: Array<PropsForAttachment>;
-  previews: Array<any>;
+  text?: string;
+
+  receivedAt?: number;
+  serverTimestamp?: number;
+  serverId?: number;
+  status?: LastMessageStatusType;
+  attachments?: Array<PropsForAttachment>;
+  previews?: Array<any>;
   quote?: {
-    text: string | null;
+    text?: string;
     attachment?: QuotedAttachmentType;
-    isFromMe: boolean;
+    isFromMe?: boolean;
     authorPhoneNumber: string;
     authorProfileName?: string;
     authorName?: string;
     messageId?: string;
-    referencedMessageNotFound: boolean;
+    referencedMessageNotFound?: boolean;
   } | null;
-  isUnread: boolean;
-  expirationLength: number;
-  expirationTimestamp: number | null;
-  isExpired: boolean;
-  isTrustedForAttachmentDownload: boolean;
+  isUnread?: boolean;
+  expirationLength?: number;
+  expirationTimestamp?: number | null;
+  isExpired?: boolean;
+  isTrustedForAttachmentDownload?: boolean;
 };
 
 export type PropsForMessageWithConvoProps = PropsForMessageWithoutConvoProps & {
@@ -209,35 +210,36 @@ export interface ReduxConversationType {
   id: string;
   name?: string;
   profileName?: string;
-  hasNickname: boolean;
+  hasNickname?: boolean;
 
   activeAt?: number;
   lastMessage?: LastMessageType;
-  phoneNumber: string;
   type: ConversationTypeEnum;
-  isMe: boolean;
-  isPublic: boolean;
-  isGroup: boolean;
-  isPrivate: boolean;
-  weAreAdmin: boolean;
-  unreadCount: number;
-  mentionedUs: boolean;
-  isSelected: boolean;
-  expireTimer: number;
+  isMe?: boolean;
+  isPublic?: boolean;
+  isGroup?: boolean;
+  isPrivate?: boolean;
+  weAreAdmin?: boolean;
+  unreadCount?: number;
+  mentionedUs?: boolean;
+  isSelected?: boolean;
+  expireTimer?: number;
 
-  isTyping: boolean;
-  isBlocked: boolean;
-  isKickedFromGroup: boolean;
-  subscriberCount: number;
-  left: boolean;
-  avatarPath: string | null; // absolute filepath to the avatar
+  isTyping?: boolean;
+  isBlocked?: boolean;
+  isKickedFromGroup?: boolean;
+  subscriberCount?: number;
+  left?: boolean;
+  avatarPath?: string | null; // absolute filepath to the avatar
   groupAdmins?: Array<string>; // admins for closed groups and moderators for open groups
-  members: Array<string>; // members for closed groups only
+  members?: Array<string>; // members for closed groups only
 
-  currentNotificationSetting: ConversationNotificationSettingType;
-  notificationForConvo: Array<NotificationForConvoOption>;
+  /**
+   * If this is undefined, it means all notification are enabled
+   */
+  currentNotificationSetting?: ConversationNotificationSettingType;
 
-  isPinned: boolean;
+  isPinned?: boolean;
 }
 
 export interface NotificationForConvoOption {

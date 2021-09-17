@@ -1,7 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { ConversationModel } from '../../models/conversation';
 import { getConversationController } from '../../session/conversations';
 import { UserUtils } from '../../session/utils';
 import { createStore } from '../../state/createStore';
@@ -43,8 +42,10 @@ export class SessionInboxView extends React.Component<any, State> {
     this.state = {
       isInitialLoadComplete: false,
     };
+  }
 
-    void this.setupLeftPane();
+  public componentDidMount() {
+    this.setupLeftPane();
   }
 
   public render() {
@@ -72,18 +73,11 @@ export class SessionInboxView extends React.Component<any, State> {
     return <LeftPane />;
   }
 
-  private async setupLeftPane() {
+  private setupLeftPane() {
     // Here we set up a full redux store with initial state for our LeftPane Root
-    const convoCollection = getConversationController().getConversations();
-    const conversations = convoCollection.map((conversation: ConversationModel) =>
-      conversation.getConversationModelProps()
-    );
-
-    const filledConversations = conversations.map((conv: any) => {
-      return { ...conv, messages: [] };
-    });
-
-    const fullFilledConversations = await Promise.all(filledConversations);
+    const conversations = getConversationController()
+      .getConversations()
+      .map(conversation => conversation.getConversationModelProps());
 
     const timerOptions: TimerOptionsArray = window.Whisper.ExpirationTimerOptions.map(
       (item: any) => ({
@@ -95,7 +89,7 @@ export class SessionInboxView extends React.Component<any, State> {
     const initialState: StateType = {
       conversations: {
         ...getEmptyConversationState(),
-        conversationLookup: makeLookup(fullFilledConversations, 'id'),
+        conversationLookup: makeLookup(conversations, 'id'),
       },
       user: {
         ourNumber: UserUtils.getOurPubKeyStrFromCache(),

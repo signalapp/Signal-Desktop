@@ -14,7 +14,7 @@ import {
 
 import { getIntl, getOurNumber } from './user';
 import { BlockedNumberController } from '../../util';
-import { ConversationTypeEnum } from '../../models/conversation';
+import { ConversationNotificationSetting, ConversationTypeEnum } from '../../models/conversation';
 import { LocalizerType } from '../../types/Util';
 import {
   ConversationHeaderProps,
@@ -319,6 +319,7 @@ export const _getLeftPaneLists = (
 
     if (
       unreadCount < 9 &&
+      conversation.unreadCount &&
       conversation.unreadCount > 0 &&
       conversation.currentNotificationSetting !== 'disabled'
     ) {
@@ -369,11 +370,11 @@ export const getConversationHeaderTitleProps = createSelector(getSelectedConvers
     return undefined;
   }
   return {
-    isKickedFromGroup: state.isKickedFromGroup,
-    phoneNumber: state.phoneNumber,
-    isMe: state.isMe,
+    isKickedFromGroup: !!state.isKickedFromGroup,
+    conversationKey: state.id,
+    isMe: !!state.isMe,
     members: state.members || [],
-    isPublic: state.isPublic,
+    isPublic: !!state.isPublic,
     profileName: state.profileName,
     name: state.name,
     subscriberCount: state.subscriberCount,
@@ -415,25 +416,24 @@ export const getConversationHeaderProps = createSelector(getSelectedConversation
     : null;
 
   return {
-    id: state.id,
-    isPrivate: state.isPrivate,
-    notificationForConvo: state.notificationForConvo,
-    currentNotificationSetting: state.currentNotificationSetting,
-    isBlocked: state.isBlocked,
-    left: state.left,
-    avatarPath: state.avatarPath,
+    conversationKey: state.id,
+    isPrivate: !!state.isPrivate,
+    currentNotificationSetting:
+      state.currentNotificationSetting || ConversationNotificationSetting[0], // if undefined, it is 'all'
+    isBlocked: !!state.isBlocked,
+    left: !!state.left,
+    avatarPath: state.avatarPath || null,
     expirationSettingName: expirationSettingName,
-    hasNickname: state.hasNickname,
-    weAreAdmin: state.weAreAdmin,
-    isKickedFromGroup: state.isKickedFromGroup,
-    phoneNumber: state.phoneNumber,
-    isMe: state.isMe,
+    hasNickname: !!state.hasNickname,
+    weAreAdmin: !!state.weAreAdmin,
+    isKickedFromGroup: !!state.isKickedFromGroup,
+    isMe: !!state.isMe,
     members: state.members || [],
-    isPublic: state.isPublic,
+    isPublic: !!state.isPublic,
     profileName: state.profileName,
     name: state.name,
     subscriberCount: state.subscriberCount,
-    isGroup: state.isGroup,
+    isGroup: !!state.isGroup,
   };
 });
 
@@ -657,16 +657,16 @@ export const getMessagePropsByMessageId = createSelector(
       ...foundMessageProps,
       propsForMessage: {
         ...foundMessageProps.propsForMessage,
-        isBlocked: foundMessageConversation.isBlocked,
-        isPublic,
-        isOpenGroupV2: isPublic,
+        isBlocked: !!foundMessageConversation.isBlocked,
+        isPublic: !!isPublic,
+        isOpenGroupV2: !!isPublic,
         isSenderAdmin,
         isDeletable,
         weAreAdmin,
         conversationType: foundMessageConversation.type,
         authorPhoneNumber,
-        authorAvatarPath: foundSenderConversation.avatarPath,
-        isKickedFromGroup: foundMessageConversation.isKickedFromGroup,
+        authorAvatarPath: foundSenderConversation.avatarPath || null,
+        isKickedFromGroup: foundMessageConversation.isKickedFromGroup || false,
         authorProfileName,
         authorName,
       },
@@ -875,7 +875,7 @@ export const getMessageAttachmentProps = createSelector(getMessagePropsByMessage
     convoId,
   } = props.propsForMessage;
   const msgProps: MessageAttachmentSelectorProps = {
-    attachments,
+    attachments: attachments || [],
     direction,
     isTrustedForAttachmentDownload,
     timestamp,

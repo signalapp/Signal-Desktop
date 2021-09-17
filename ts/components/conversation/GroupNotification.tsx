@@ -29,11 +29,8 @@ function getPeople(change: TypeWithContacts) {
     flatten(
       (change.contacts || []).map((contact, index) => {
         const element = (
-          <span
-            key={`external-${contact.phoneNumber}`}
-            className="module-group-notification__contact"
-          >
-            {contact.profileName || contact.phoneNumber}
+          <span key={`external-${contact.pubkey}`} className="module-group-notification__contact">
+            {contact.profileName || contact.pubkey}
           </span>
         );
 

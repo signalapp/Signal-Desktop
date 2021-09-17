@@ -27,7 +27,6 @@ import { deleteMessagesById } from '../../interactions/conversationInteractions'
 import {
   closeMessageDetailsView,
   closeRightPanel,
-  NotificationForConvoOption,
   openRightPanel,
   resetSelectedMessageIds,
 } from '../../state/ducks/conversations';
@@ -38,10 +37,9 @@ export interface TimerOption {
 }
 
 export type ConversationHeaderProps = {
-  id: string;
+  conversationKey: string;
   name?: string;
 
-  phoneNumber: string;
   profileName?: string;
   avatarPath: string | null;
 
@@ -60,7 +58,6 @@ export type ConversationHeaderProps = {
   subscriberCount?: number;
 
   expirationSettingName?: string;
-  notificationForConvo: Array<NotificationForConvoOption>;
   currentNotificationSetting: ConversationNotificationSettingType;
   hasNickname: boolean;
 
@@ -138,13 +135,13 @@ const AvatarHeader = (props: {
   avatarPath: string | null;
   memberAvatars?: Array<ConversationAvatar>;
   name?: string;
-  phoneNumber: string;
+  pubkey: string;
   profileName?: string;
   showBackButton: boolean;
   onAvatarClick?: (pubkey: string) => void;
 }) => {
-  const { avatarPath, memberAvatars, name, phoneNumber, profileName } = props;
-  const userName = name || profileName || phoneNumber;
+  const { avatarPath, memberAvatars, name, pubkey, profileName } = props;
+  const userName = name || profileName || pubkey;
 
   return (
     <span className="module-conversation-header__avatar">
@@ -155,11 +152,11 @@ const AvatarHeader = (props: {
         onAvatarClick={() => {
           // do not allow right panel to appear if another button is shown on the SessionConversation
           if (props.onAvatarClick && !props.showBackButton) {
-            props.onAvatarClick(phoneNumber);
+            props.onAvatarClick(pubkey);
           }
         }}
         memberAvatars={memberAvatars}
-        pubkey={phoneNumber}
+        pubkey={pubkey}
       />
     </span>
   );
@@ -188,7 +185,7 @@ export const StyledSubtitleContainer = styled.div`
 `;
 
 export type ConversationHeaderTitleProps = {
-  phoneNumber: string;
+  conversationKey: string;
   profileName?: string;
   isMe: boolean;
   isGroup: boolean;
@@ -210,7 +207,7 @@ const ConversationHeaderTitle = () => {
   }
 
   const {
-    phoneNumber,
+    conversationKey,
     profileName,
     isGroup,
     isPublic,
@@ -249,7 +246,7 @@ const ConversationHeaderTitle = () => {
     ? `${memberCountText} ● ${notificationSubtitle}`
     : `${notificationSubtitle}`;
 
-  const title = profileName || name || phoneNumber;
+  const title = profileName || name || conversationKey;
 
   return (
     <div
@@ -301,19 +298,17 @@ export const ConversationHeaderWithDetails = () => {
   const {
     isKickedFromGroup,
     expirationSettingName,
-    phoneNumber,
     avatarPath,
     name,
     profileName,
-    id,
     isMe,
     isPublic,
-    notificationForConvo,
     currentNotificationSetting,
     hasNickname,
     weAreAdmin,
     isBlocked,
     left,
+    conversationKey,
     isPrivate,
     isGroup,
   } = headerProps;
@@ -343,7 +338,7 @@ export const ConversationHeaderWithDetails = () => {
             onAvatarClick={() => {
               dispatch(openRightPanel());
             }}
-            phoneNumber={phoneNumber}
+            pubkey={conversationKey}
             showBackButton={isMessageDetailOpened}
             avatarPath={avatarPath}
             memberAvatars={memberDetails}
@@ -353,7 +348,7 @@ export const ConversationHeaderWithDetails = () => {
         )}
 
         <MemoConversationHeaderMenu
-          conversationId={id}
+          conversationId={conversationKey}
           triggerId={triggerId}
           isMe={isMe}
           isPublic={isPublic}
@@ -364,7 +359,6 @@ export const ConversationHeaderWithDetails = () => {
           isPrivate={isPrivate}
           left={left}
           hasNickname={hasNickname}
-          notificationForConvo={notificationForConvo}
           currentNotificationSetting={currentNotificationSetting}
         />
       </div>
@@ -374,7 +368,7 @@ export const ConversationHeaderWithDetails = () => {
           isPublic={isPublic}
           onCloseOverlay={() => dispatch(resetSelectedMessageIds())}
           onDeleteSelectedMessages={() => {
-            void deleteMessagesById(selectedMessageIds, id, true);
+            void deleteMessagesById(selectedMessageIds, conversationKey, true);
           }}
         />
       )}

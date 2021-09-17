@@ -25,7 +25,6 @@ import {
   conversationChanged,
   LastMessageStatusType,
   MessageModelPropsWithoutConvoProps,
-  NotificationForConvoOption,
   ReduxConversationType,
 } from '../state/ducks/conversations';
 import { ExpirationTimerUpdateMessage } from '../session/messages/outgoing/controlMessage/ExpirationTimerUpdateMessage';
@@ -413,57 +412,136 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     return this.get('moderators');
   }
 
+  // tslint:disable-next-line: cyclomatic-complexity
   public getConversationModelProps(): ReduxConversationType {
     const groupAdmins = this.getGroupAdmins();
-    const members = this.isGroup() && !this.isPublic() ? this.get('members') : [];
-    const ourNumber = UserUtils.getOurPubKeyStrFromCache();
+    const isPublic = this.isPublic();
 
-    // isSelected is overriden by redux
-    return {
-      isSelected: false,
+    const members = this.isGroup() && !isPublic ? this.get('members') : [];
+    const ourNumber = UserUtils.getOurPubKeyStrFromCache();
+    const avatarPath = this.getAvatarPath();
+    const isPrivate = this.isPrivate();
+    const isGroup = !isPrivate;
+    const weAreAdmin = this.isAdmin(ourNumber);
+    const isMe = this.isMe();
+    const isTyping = !!this.typingTimer;
+    const name = this.getName();
+    const profileName = this.getProfileName();
+    const unreadCount = this.get('unreadCount') || undefined;
+    const mentionedUs = this.get('mentionedUs') || undefined;
+    const isBlocked = this.isBlocked();
+    const subscriberCount = this.get('subscriberCount');
+    const isPinned = this.isPinned();
+    const hasNickname = !!this.getNickname();
+    const isKickedFromGroup = !!this.get('isKickedFromGroup');
+    const left = !!this.get('left');
+    const expireTimer = this.get('expireTimer');
+    const currentNotificationSetting = this.get('triggerNotificationsFor');
+
+    // to reduce the redux store size, only set fields which cannot be undefined
+    // for instance, a boolean can usually be not set if false, etc
+    const toRet: ReduxConversationType = {
       id: this.id as string,
       activeAt: this.get('active_at'),
-      avatarPath: this.getAvatarPath() || null,
-      type: this.isPrivate() ? ConversationTypeEnum.PRIVATE : ConversationTypeEnum.GROUP,
-      weAreAdmin: this.isAdmin(ourNumber),
-      isGroup: !this.isPrivate(),
-
-      isPrivate: this.isPrivate(),
-      isMe: this.isMe(),
-      isPublic: this.isPublic(),
-      isTyping: !!this.typingTimer,
-      name: this.getName(),
-      profileName: this.getProfileName(),
-      // title: this.getTitle(),
-      unreadCount: this.get('unreadCount') || 0,
-      mentionedUs: this.get('mentionedUs') || false,
-      isBlocked: this.isBlocked(),
-      phoneNumber: this.getNumber(),
-      lastMessage: {
-        status: this.get('lastMessageStatus'),
-        text: this.get('lastMessage'),
-      },
-      hasNickname: !!this.getNickname(),
-      isKickedFromGroup: !!this.get('isKickedFromGroup'),
-      left: !!this.get('left'),
-      groupAdmins,
-      members,
-      expireTimer: this.get('expireTimer') || 0,
-      subscriberCount: this.get('subscriberCount') || 0,
-      isPinned: this.isPinned(),
-      notificationForConvo: this.getConversationNotificationSettingType(),
-      currentNotificationSetting: this.get('triggerNotificationsFor'),
+      type: isPrivate ? ConversationTypeEnum.PRIVATE : ConversationTypeEnum.GROUP,
     };
-  }
 
-  public getConversationNotificationSettingType(): Array<NotificationForConvoOption> {
-    // exclude mentions_only settings for private chats as this does not make much sense
-    return ConversationNotificationSetting.filter(n =>
-      this.isPrivate() ? n !== 'mentions_only' : true
-    ).map((n: ConversationNotificationSettingType) => {
-      // this link to the notificationForConvo_all, notificationForConvo_mentions_only, ...
-      return { value: n, name: window.i18n(`notificationForConvo_${n}`) };
-    });
+    if (isPrivate) {
+      toRet.isPrivate = true;
+    }
+
+    if (isGroup) {
+      toRet.isGroup = true;
+    }
+
+    if (weAreAdmin) {
+      toRet.weAreAdmin = true;
+    }
+
+    if (isMe) {
+      toRet.isMe = true;
+    }
+    if (isPublic) {
+      toRet.isPublic = true;
+    }
+    if (isTyping) {
+      toRet.isTyping = true;
+    }
+
+    if (isTyping) {
+      toRet.isTyping = true;
+    }
+
+    if (avatarPath) {
+      toRet.avatarPath = avatarPath;
+    }
+
+    if (name) {
+      toRet.name = name;
+    }
+
+    if (profileName) {
+      toRet.profileName = profileName;
+    }
+
+    if (unreadCount) {
+      toRet.unreadCount = unreadCount;
+    }
+
+    if (mentionedUs) {
+      toRet.mentionedUs = mentionedUs;
+    }
+
+    if (isBlocked) {
+      toRet.isBlocked = isBlocked;
+    }
+    if (hasNickname) {
+      toRet.hasNickname = hasNickname;
+    }
+    if (isKickedFromGroup) {
+      toRet.isKickedFromGroup = isKickedFromGroup;
+    }
+    if (left) {
+      toRet.left = left;
+    }
+    if (isPinned) {
+      toRet.isPinned = isPinned;
+    }
+    if (subscriberCount) {
+      toRet.subscriberCount = subscriberCount;
+    }
+    if (groupAdmins && groupAdmins.length) {
+      toRet.groupAdmins = groupAdmins;
+    }
+    if (members && members.length) {
+      toRet.members = members;
+    }
+
+    if (members && members.length) {
+      toRet.members = members;
+    }
+
+    if (expireTimer) {
+      toRet.expireTimer = expireTimer;
+    }
+
+    if (
+      currentNotificationSetting &&
+      currentNotificationSetting !== ConversationNotificationSetting[0]
+    ) {
+      toRet.currentNotificationSetting = currentNotificationSetting;
+    }
+
+    const lastMessageText = this.get('lastMessage');
+    if (lastMessageText && lastMessageText.length) {
+      const lastMessageStatus = this.get('lastMessageStatus');
+
+      toRet.lastMessage = {
+        status: lastMessageStatus,
+        text: lastMessageText,
+      };
+    }
+    return toRet;
   }
 
   public async updateGroupAdmins(groupAdmins: Array<string>) {
@@ -921,7 +999,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         id: this.id,
         data: {
           ...this.getConversationModelProps(),
-          isSelected: false,
         },
       })
     );

@@ -17,7 +17,7 @@ export enum AvatarSize {
 
 type Props = {
   avatarPath?: string | null;
-  name?: string; // display name, profileName or phoneNumber, whatever is set first
+  name?: string; // display name, profileName or pubkey, whatever is set first
   pubkey?: string;
   size: AvatarSize;
   base64Data?: string; // if this is not empty, it will be used to render the avatar with base64 encoded data
@@ -65,7 +65,7 @@ const NoImage = (props: {
 const AvatarImage = (props: {
   avatarPath?: string;
   base64Data?: string;
-  name?: string; // display name, profileName or phoneNumber, whatever is set first
+  name?: string; // display name, profileName or pubkey, whatever is set first
   imageBroken: boolean;
   handleImageError: () => any;
 }) => {

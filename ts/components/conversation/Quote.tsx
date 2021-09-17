@@ -296,7 +296,7 @@ const QuoteAuthor = (props: QuoteAuthorProps) => {
         window.i18n('you')
       ) : (
         <ContactName
-          phoneNumber={PubKey.shorten(authorPhoneNumber)}
+          pubkey={PubKey.shorten(authorPhoneNumber)}
           name={authorName}
           profileName={authorProfileName}
           compact={true}

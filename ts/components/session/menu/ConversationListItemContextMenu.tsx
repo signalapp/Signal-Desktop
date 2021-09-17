@@ -5,7 +5,6 @@ import {
   ConversationNotificationSettingType,
   ConversationTypeEnum,
 } from '../../../models/conversation';
-import { NotificationForConvoOption } from '../../../state/ducks/conversations';
 
 import {
   getBlockMenuItem,
@@ -27,12 +26,12 @@ export type PropsContextConversationItem = {
   type: ConversationTypeEnum;
   isMe: boolean;
   isPublic: boolean;
+  isPrivate: boolean;
   isBlocked: boolean;
   hasNickname: boolean;
   isKickedFromGroup: boolean;
   left: boolean;
   theme?: any;
-  notificationForConvo: Array<NotificationForConvoOption>;
   currentNotificationSetting: ConversationNotificationSettingType;
 };
 
@@ -47,21 +46,21 @@ const ConversationListItemContextMenu = (props: PropsContextConversationItem) =>
     type,
     left,
     isKickedFromGroup,
-    notificationForConvo,
     currentNotificationSetting,
+    isPrivate,
   } = props;
 
   const isGroup = type === 'group';
   return (
     <Menu id={triggerId} animation={animation.fade}>
-      {getNotificationForConvoMenuItem(
+      {getNotificationForConvoMenuItem({
+        isPrivate,
         isKickedFromGroup,
         left,
         isBlocked,
-        notificationForConvo,
         currentNotificationSetting,
-        conversationId
-      )}
+        conversationId,
+      })}
       {getPinConversationMenuItem(conversationId)}
       {getBlockMenuItem(isMe, type === ConversationTypeEnum.PRIVATE, isBlocked, conversationId)}
       {getCopyMenuItem(isPublic, isGroup, conversationId)}

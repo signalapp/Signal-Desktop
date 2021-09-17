@@ -3,7 +3,10 @@ import React from 'react';
 import { getNumberOfPinnedConversations } from '../../../state/selectors/conversations';
 import { getFocusedSection } from '../../../state/selectors/section';
 import { Item, Submenu } from 'react-contexify';
-import { ConversationNotificationSettingType } from '../../../models/conversation';
+import {
+  ConversationNotificationSetting,
+  ConversationNotificationSettingType,
+} from '../../../models/conversation';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeNickNameModal, updateConfirmModal } from '../../../state/ducks/modalDialog';
 import { SectionType } from '../../../state/ducks/section';
@@ -26,7 +29,6 @@ import {
 import { SessionButtonColor } from '../SessionButton';
 import { getTimerOptions } from '../../../state/selectors/timerOptions';
 import { ToastUtils } from '../../../session/utils';
-import { NotificationForConvoOption } from '../../../state/ducks/conversations';
 
 const maxNumberOfPinnedConversations = 5;
 
@@ -357,16 +359,31 @@ export function getDisappearingMenuItem(
   return null;
 }
 
-export function getNotificationForConvoMenuItem(
-  isKickedFromGroup: boolean | undefined,
-  left: boolean | undefined,
-  isBlocked: boolean | undefined,
-  notificationForConvoOptions: Array<NotificationForConvoOption>,
-  currentNotificationSetting: ConversationNotificationSettingType,
-  conversationId: string
-): JSX.Element | null {
+export function getNotificationForConvoMenuItem({
+  conversationId,
+  currentNotificationSetting,
+  isBlocked,
+  isKickedFromGroup,
+  left,
+  isPrivate,
+}: {
+  isKickedFromGroup: boolean | undefined;
+  left: boolean | undefined;
+  isBlocked: boolean | undefined;
+  isPrivate: boolean | undefined;
+  currentNotificationSetting: ConversationNotificationSettingType;
+  conversationId: string;
+}): JSX.Element | null {
   if (showNotificationConvo(Boolean(isKickedFromGroup), Boolean(left), Boolean(isBlocked))) {
     // const isRtlMode = isRtlBody();'
+
+    // exclude mentions_only settings for private chats as this does not make much sense
+    const notificationForConvoOptions = ConversationNotificationSetting.filter(n =>
+      isPrivate ? n !== 'mentions_only' : true
+    ).map((n: ConversationNotificationSettingType) => {
+      // this link to the notificationForConvo_all, notificationForConvo_mentions_only, ...
+      return { value: n, name: window.i18n(`notificationForConvo_${n}`) };
+    });
 
     return (
       // Remove the && false to make context menu work with RTL support

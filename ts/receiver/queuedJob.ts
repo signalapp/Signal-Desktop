@@ -354,13 +354,12 @@ async function handleExpirationTimerUpdate(
   source: string,
   expireTimer: number
 ) {
-  // TODO: if the message is an expiration timer update, it
-  // shouldn't be responsible for anything else!!!
   message.set({
     expirationTimerUpdate: {
       source,
       expireTimer,
     },
+    unread: 0, // mark the message as read.
   });
   conversation.set({ expireTimer });
 

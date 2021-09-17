@@ -43,10 +43,10 @@ export class UserSearchResults extends React.Component<Props> {
   }
 
   private renderContact(contact: ConversationListItemProps, index: Number) {
-    const { profileName, phoneNumber } = contact;
+    const { profileName, id } = contact;
     const { selectedContact } = this.props;
 
-    const shortenedPubkey = PubKey.shorten(phoneNumber);
+    const shortenedPubkey = PubKey.shorten(id);
     const rowContent = `${profileName} ${shortenedPubkey}`;
 
     return (
@@ -55,8 +55,8 @@ export class UserSearchResults extends React.Component<Props> {
           'contacts-dropdown-row',
           selectedContact === index && 'contacts-dropdown-row-selected'
         )}
-        key={contact.phoneNumber}
-        onClick={() => this.props.onContactSelected(contact.phoneNumber)}
+        key={contact.id}
+        onClick={() => this.props.onContactSelected(contact.id)}
         role="button"
       >
         {rowContent}

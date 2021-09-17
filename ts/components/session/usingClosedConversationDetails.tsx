@@ -36,10 +36,10 @@ export function usingClosedConversationDetails(WrappedComponent: any) {
     }
 
     private fetchClosedConversationDetails() {
-      const { isPublic, type, conversationType, isGroup, phoneNumber, id } = this.props;
+      const { isPublic, type, conversationType, isGroup, id } = this.props;
 
       if (!isPublic && (conversationType === 'group' || type === 'group' || isGroup)) {
-        const groupId = id || phoneNumber;
+        const groupId = id;
         const ourPrimary = UserUtils.getOurPubKeyFromCache();
         let members = GroupUtils.getGroupMembers(PubKey.cast(groupId));
 

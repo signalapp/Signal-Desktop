@@ -9,6 +9,7 @@ import {
   isMessageSelectionMode,
 } from '../../../state/selectors/conversations';
 import { Quote } from '../Quote';
+// tslint:disable: use-simple-attributes
 
 type Props = {
   onQuoteClick?: (quote: QuoteClickOptions) => void;
@@ -44,7 +45,7 @@ export const MessageQuote = (props: Props) => {
       scrollToQuote?.({
         quoteAuthor: authorPhoneNumber,
         quoteId,
-        referencedMessageNotFound,
+        referencedMessageNotFound: referencedMessageNotFound || false,
       });
     },
     [scrollToQuote, selected?.quote, multiSelectMode, props.messageId]
@@ -65,14 +66,14 @@ export const MessageQuote = (props: Props) => {
   return (
     <Quote
       onClick={onQuoteClick}
-      text={quote.text}
+      text={quote.text || ''}
       attachment={quote.attachment}
       isIncoming={direction === 'incoming'}
       authorPhoneNumber={displayedPubkey}
       authorProfileName={quote.authorProfileName}
       authorName={quote.authorName}
-      referencedMessageNotFound={quote.referencedMessageNotFound}
-      isFromMe={quote.isFromMe}
+      referencedMessageNotFound={quote.referencedMessageNotFound || false}
+      isFromMe={quote.isFromMe || false}
     />
   );
 };

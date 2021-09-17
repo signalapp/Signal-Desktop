@@ -94,6 +94,7 @@ type Props = {
   ctxMenuID: string;
   isDetailView?: boolean;
 };
+// tslint:disable: use-simple-attributes
 
 export const GenericReadableMessage = (props: Props) => {
   const msgProps = useSelector(state =>
@@ -167,14 +168,14 @@ export const GenericReadableMessage = (props: Props) => {
       )}
       onContextMenu={handleContextMenu}
       receivedAt={receivedAt}
-      isUnread={isUnread}
+      isUnread={!!isUnread}
       key={`readable-message-${messageId}`}
     >
       <MessageAvatar messageId={messageId} />
       <ExpireTimer
         isCorrectSide={!isIncoming}
-        expirationLength={expirationLength}
-        expirationTimestamp={expirationTimestamp}
+        expirationLength={expirationLength || 0}
+        expirationTimestamp={expirationTimestamp || null}
       />
       <MessageContentWithStatuses
         ctxMenuID={props.ctxMenuID}
@@ -184,8 +185,8 @@ export const GenericReadableMessage = (props: Props) => {
       />
       <ExpireTimer
         isCorrectSide={isIncoming}
-        expirationLength={expirationLength}
-        expirationTimestamp={expirationTimestamp}
+        expirationLength={expirationLength || 0}
+        expirationTimestamp={expirationTimestamp || null}
       />
     </ReadableMessage>
   );

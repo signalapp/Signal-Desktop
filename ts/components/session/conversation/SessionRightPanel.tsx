@@ -121,14 +121,13 @@ const HeaderItem = () => {
     isGroup,
     isKickedFromGroup,
     profileName,
-    phoneNumber,
     isBlocked,
     left,
     name,
   } = selectedConversation;
 
   const showInviteContacts = isGroup && !isKickedFromGroup && !isBlocked && !left;
-  const userName = name || profileName || phoneNumber;
+  const userName = name || profileName || id;
 
   return (
     <div className="group-settings-header">
