@@ -69,7 +69,7 @@ story.add('Blocked Protocols', () => {
 story.add('Missing protocols', () => {
   const props = createProps({
     text:
-      "I love example.com. I also love кц.рф. I also love مثال.تونس. But I do not love test.example.",
+      'I love example.com. I also love кц.рф. I also love مثال.تونس. But I do not love test.example.',
   });
 
   return <Linkify {...props} />;
