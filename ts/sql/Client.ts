@@ -233,7 +233,6 @@ const dataInterface: ClientInterface = {
   getUnprocessedCount,
   getAllUnprocessed,
   getUnprocessedById,
-  updateUnprocessedAttempts,
   updateUnprocessedWithData,
   updateUnprocessedsWithData,
   removeUnprocessed,
@@ -1422,9 +1421,6 @@ async function getUnprocessedById(id: string) {
   return channels.getUnprocessedById(id);
 }
 
-async function updateUnprocessedAttempts(id: string, attempts: number) {
-  await channels.updateUnprocessedAttempts(id, attempts);
-}
 async function updateUnprocessedWithData(
   id: string,
   data: UnprocessedUpdateType

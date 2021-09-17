@@ -1948,12 +1948,6 @@ export class SignalProtocolStore extends EventsMixin {
     });
   }
 
-  updateUnprocessedAttempts(id: string, attempts: number): Promise<void> {
-    return this.withZone(GLOBAL_ZONE, 'updateUnprocessedAttempts', async () => {
-      await window.Signal.Data.updateUnprocessedAttempts(id, attempts);
-    });
-  }
-
   updateUnprocessedWithData(
     id: string,
     data: UnprocessedUpdateType

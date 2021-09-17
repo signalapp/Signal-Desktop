@@ -706,30 +706,14 @@ export default class MessageReceiver
     const items = await this.storage.protocol.getAllUnprocessed();
     log.info('getAllFromCache loaded', items.length, 'saved envelopes');
 
-    return Promise.all(
-      map(items, async item => {
-        const attempts = 1 + (item.attempts || 0);
+    return items.map(item => {
+      const { attempts = 0 } = item;
 
-        try {
-          if (attempts >= 3) {
-            log.warn('getAllFromCache final attempt for envelope', item.id);
-            await this.storage.protocol.removeUnprocessed(item.id);
-          } else {
-            await this.storage.protocol.updateUnprocessedAttempts(
-              item.id,
-              attempts
-            );
-          }
-        } catch (error) {
-          log.error(
-            'getAllFromCache error updating item after load:',
-            Errors.toLogFormat(error)
-          );
-        }
-
-        return item;
-      })
-    );
+      return {
+        ...item,
+        attempts: attempts + 1,
+      };
+    });
   }
 
   private async decryptAndCacheBatch(

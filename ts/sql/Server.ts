@@ -223,7 +223,6 @@ const dataInterface: ServerInterface = {
 
   getUnprocessedCount,
   getAllUnprocessed,
-  updateUnprocessedAttempts,
   updateUnprocessedWithData,
   updateUnprocessedsWithData,
   getUnprocessedById,
@@ -5118,6 +5117,8 @@ async function getTapToViewMessagesNeedingErase(): Promise<Array<MessageType>> {
   return rows.map(row => jsonToObject(row.json));
 }
 
+const MAX_UNPROCESSED_ATTEMPTS = 3;
+
 function saveUnprocessedSync(data: UnprocessedType): string {
   const db = getInstance();
   const {
@@ -5135,6 +5136,11 @@ function saveUnprocessedSync(data: UnprocessedType): string {
   } = data;
   if (!id) {
     throw new Error('saveUnprocessedSync: id was falsey');
+  }
+
+  if (attempts >= MAX_UNPROCESSED_ATTEMPTS) {
+    removeUnprocessedSync(id);
+    return id;
   }
 
   prepare(
@@ -5181,23 +5187,6 @@ function saveUnprocessedSync(data: UnprocessedType): string {
   });
 
   return id;
-}
-
-async function updateUnprocessedAttempts(
-  id: string,
-  attempts: number
-): Promise<void> {
-  const db = getInstance();
-  db.prepare<Query>(
-    `
-    UPDATE unprocessed
-    SET attempts = $attempts
-    WHERE id = $id;
-    `
-  ).run({
-    id,
-    attempts,
-  });
 }
 
 function updateUnprocessedWithDataSync(
@@ -5299,7 +5288,7 @@ function removeUnprocessedsSync(ids: Array<string>): void {
   ).run(ids);
 }
 
-async function removeUnprocessed(id: string | Array<string>): Promise<void> {
+function removeUnprocessedSync(id: string | Array<string>): void {
   if (!Array.isArray(id)) {
     const db = getInstance();
 
@@ -5309,10 +5298,14 @@ async function removeUnprocessed(id: string | Array<string>): Promise<void> {
   }
 
   if (!id.length) {
-    throw new Error('removeUnprocessed: No ids to delete!');
+    throw new Error('removeUnprocessedSync: No ids to delete!');
   }
 
-  batchMultiVarQuery(id, removeUnprocessedsSync);
+  assertSync(batchMultiVarQuery(id, removeUnprocessedsSync));
+}
+
+async function removeUnprocessed(id: string | Array<string>): Promise<void> {
+  removeUnprocessedSync(id);
 }
 
 async function removeAllUnprocessed(): Promise<void> {
