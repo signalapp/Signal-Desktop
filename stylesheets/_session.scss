@@ -36,11 +36,11 @@ textarea {
   input,
   textarea {
     user-select: text;
-
-    &::selection {
-      background: var(--color-text-highlight);
-    }
   }
+}
+
+::selection {
+  background: var(--color-text-highlight);
 }
 
 .shadowed {

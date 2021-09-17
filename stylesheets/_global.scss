@@ -100,7 +100,8 @@ button.grey {
 }
 
 a {
-  color: $blue;
+  cursor: auto;
+  user-select: text;
 }
 
 .file-input {

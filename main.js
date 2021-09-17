@@ -535,7 +535,7 @@ function showAbout() {
     resizable: false,
     title: locale.messages.about,
     autoHideMenuBar: true,
-    backgroundColor: '#2090EA',
+    backgroundColor: '#ffffff',
     show: false,
     webPreferences: {
       nodeIntegration: false,

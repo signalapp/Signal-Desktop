@@ -50,7 +50,7 @@ const darkConversationItemSelected = '#404040';
 const darkConversationItemHasUnread = '#2c2c2c';
 const darkConversationList = '#1b1b1b';
 
-const darkTextHighlight = accentDarkTheme;
+const darkTextHighlight = `${white}88`;
 const darkForegroundPrimary = white;
 const darkBackgroundPrimary = '#474646';
 const darkButtonGreen = accentDarkTheme;
@@ -179,7 +179,7 @@ const lightConversationItemSelected = '#f0f0f0';
 const lightConversationItemHasUnread = '#fcfcfc';
 const lightConversationList = '#f9f9f9';
 
-const lightTextHighlight = accentLightTheme;
+const lightTextHighlight = `${black}88`;
 const lightForegroundPrimary = white;
 const lightBackgroundPrimary = '#272726';
 const lightButtonGreen = '#272726';
