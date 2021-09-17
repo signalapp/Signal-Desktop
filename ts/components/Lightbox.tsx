@@ -21,7 +21,7 @@ import { IMAGE_PNG, isImage, isVideo } from '../types/MIME';
 import { LocalizerType } from '../types/Util';
 import { MediaItemType, MessageAttributesType } from '../types/MediaItem';
 import { formatDuration } from '../util/formatDuration';
-import { useRestoreFocus } from '../util/hooks/useRestoreFocus';
+import { useRestoreFocus } from '../hooks/useRestoreFocus';
 import * as log from '../logging/log';
 
 export type PropsType = {

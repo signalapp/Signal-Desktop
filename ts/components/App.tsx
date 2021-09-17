@@ -9,7 +9,7 @@ import { Inbox } from './Inbox';
 import { Install } from './Install';
 import { StandaloneRegistration } from './StandaloneRegistration';
 import { ThemeType } from '../types/Util';
-import { usePageVisibility } from '../util/hooks';
+import { usePageVisibility } from '../hooks/usePageVisibility';
 
 type PropsType = {
   appView: AppViewType;

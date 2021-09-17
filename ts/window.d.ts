@@ -116,10 +116,11 @@ import { UUID } from './types/UUID';
 import { Address } from './types/Address';
 import { QualifiedAddress } from './types/QualifiedAddress';
 import { CI } from './CI';
-import { IPCEventsType } from './util/createIPCEvents';
+import { IPCEventsType, IPCEventsValuesType } from './util/createIPCEvents';
 import { ConversationView } from './views/conversation_view';
 import { DebugLogView } from './views/debug_log_view';
 import { LoggerType } from './types/Logging';
+import { SettingType } from './util/preload';
 
 export { Long } from 'long';
 
@@ -496,7 +497,11 @@ declare global {
 
     // Context Isolation
     SignalWindow: {
+      Settings: {
+        themeSetting: SettingType<IPCEventsValuesType['themeSetting']>;
+      };
       config: string;
+      context: SignalContext;
       getAppInstance: () => string | undefined;
       getEnvironment: () => string;
       getVersion: () => string;

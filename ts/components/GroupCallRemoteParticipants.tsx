@@ -16,7 +16,7 @@ import {
 } from '../types/Calling';
 import { useGetCallingFrameBuffer } from '../calling/useGetCallingFrameBuffer';
 import { LocalizerType } from '../types/Util';
-import { usePageVisibility } from '../util/hooks';
+import { usePageVisibility } from '../hooks/usePageVisibility';
 import { nonRenderedRemoteParticipant } from '../util/ringrtc/nonRenderedRemoteParticipant';
 import * as log from '../logging/log';
 

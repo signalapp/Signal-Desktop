@@ -2,7 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { Bytes } from './Bytes';
-import { NativeThemeListener, MinimalIPC } from './NativeThemeListener';
+import {
+  createNativeThemeListener,
+  MinimalIPC,
+} from './createNativeThemeListener';
 
 export class Context {
   public readonly bytes = new Bytes();
@@ -10,6 +13,6 @@ export class Context {
   public readonly nativeThemeListener;
 
   constructor(ipc: MinimalIPC) {
-    this.nativeThemeListener = new NativeThemeListener(ipc, window);
+    this.nativeThemeListener = createNativeThemeListener(ipc, window);
   }
 }

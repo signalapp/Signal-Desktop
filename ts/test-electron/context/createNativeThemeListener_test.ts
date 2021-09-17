@@ -5,10 +5,10 @@ import { assert } from 'chai';
 import { EventEmitter } from 'events';
 
 import {
-  NativeThemeListener,
+  createNativeThemeListener,
   MinimalIPC,
   SystemThemeHolder,
-} from '../../context/NativeThemeListener';
+} from '../../context/createNativeThemeListener';
 import { NativeThemeState } from '../../types/NativeThemeNotifier.d';
 
 class FakeIPC extends EventEmitter implements MinimalIPC {
@@ -26,7 +26,7 @@ describe('NativeThemeListener', () => {
   const holder: SystemThemeHolder = { systemTheme: 'dark' };
 
   it('syncs the initial native theme', () => {
-    const dark = new NativeThemeListener(
+    const dark = createNativeThemeListener(
       new FakeIPC({
         shouldUseDarkColors: true,
       }),
@@ -34,9 +34,9 @@ describe('NativeThemeListener', () => {
     );
 
     assert.strictEqual(holder.systemTheme, 'dark');
-    assert.isTrue(dark.theme.shouldUseDarkColors);
+    assert.strictEqual(dark.getSystemTheme(), 'dark');
 
-    const light = new NativeThemeListener(
+    const light = createNativeThemeListener(
       new FakeIPC({
         shouldUseDarkColors: false,
       }),
@@ -44,7 +44,7 @@ describe('NativeThemeListener', () => {
     );
 
     assert.strictEqual(holder.systemTheme, 'light');
-    assert.isFalse(light.theme.shouldUseDarkColors);
+    assert.strictEqual(light.getSystemTheme(), 'light');
   });
 
   it('should react to native theme changes', () => {
@@ -52,14 +52,14 @@ describe('NativeThemeListener', () => {
       shouldUseDarkColors: true,
     });
 
-    const listener = new NativeThemeListener(ipc, holder);
+    const listener = createNativeThemeListener(ipc, holder);
 
     ipc.emit('native-theme:changed', null, <NativeThemeState>{
       shouldUseDarkColors: false,
     });
 
     assert.strictEqual(holder.systemTheme, 'light');
-    assert.isFalse(listener.theme.shouldUseDarkColors);
+    assert.strictEqual(listener.getSystemTheme(), 'light');
   });
 
   it('should notify subscribers of native theme changes', done => {
@@ -67,7 +67,7 @@ describe('NativeThemeListener', () => {
       shouldUseDarkColors: true,
     });
 
-    const listener = new NativeThemeListener(ipc, holder);
+    const listener = createNativeThemeListener(ipc, holder);
 
     listener.subscribe(state => {
       assert.isFalse(state.shouldUseDarkColors);

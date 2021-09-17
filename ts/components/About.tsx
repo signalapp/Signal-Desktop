@@ -1,8 +1,9 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { LocalizerType } from '../types/Util';
+import { useEscapeHandling } from '../hooks/useEscapeHandling';
 
 export type PropsType = {
   closeAbout: () => unknown;
@@ -17,21 +18,7 @@ export const About = ({
   environment,
   version,
 }: PropsType): JSX.Element => {
-  useEffect(() => {
-    const handler = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        closeAbout();
-
-        event.preventDefault();
-        event.stopPropagation();
-      }
-    };
-    document.addEventListener('keydown', handler);
-
-    return () => {
-      document.removeEventListener('keydown', handler);
-    };
-  }, [closeAbout]);
+  useEscapeHandling(closeAbout);
 
   return (
     <div className="About">

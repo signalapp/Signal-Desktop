@@ -22,7 +22,7 @@ import { Avatar, AvatarSize } from './Avatar';
 import { ConfirmationDialog } from './ConfirmationDialog';
 import { Intl } from './Intl';
 import { ContactName } from './conversation/ContactName';
-import { useIntersectionObserver } from '../util/hooks';
+import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 import { MAX_FRAME_SIZE } from '../calling/constants';
 
 const MAX_TIME_TO_SHOW_STALE_VIDEO_FRAMES = 5000;

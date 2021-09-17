@@ -10,7 +10,7 @@ import { LocalizerType } from '../types/Util';
 import { ModalHost } from './ModalHost';
 import { Theme } from '../util/theme';
 import { getClassNamesFor } from '../util/getClassNamesFor';
-import { useHasWrapped } from '../util/hooks';
+import { useHasWrapped } from '../hooks/useHasWrapped';
 
 type PropsType = {
   children: ReactNode;

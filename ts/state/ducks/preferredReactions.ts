@@ -6,7 +6,7 @@ import { omit } from 'lodash';
 import * as log from '../../logging/log';
 import * as Errors from '../../types/errors';
 import { replaceIndex } from '../../util/replaceIndex';
-import { useBoundActions } from '../../util/hooks';
+import { useBoundActions } from '../../hooks/useBoundActions';
 import type { StateType as RootStateType } from '../reducer';
 import { DEFAULT_PREFERRED_REACTION_EMOJI_SHORT_NAMES } from '../../reactions/constants';
 import { getPreferredReactionEmoji } from '../../reactions/preferredReactionEmoji';

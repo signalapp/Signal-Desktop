@@ -5,7 +5,7 @@ import * as React from 'react';
 import classNames from 'classnames';
 
 import { Avatar, Props as AvatarProps } from './Avatar';
-import { useRestoreFocus } from '../util/hooks/useRestoreFocus';
+import { useRestoreFocus } from '../hooks/useRestoreFocus';
 
 import { LocalizerType } from '../types/Util';
 

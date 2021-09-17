@@ -9,7 +9,7 @@ import React, {
   ReactNode,
 } from 'react';
 
-import { usePrevious } from '../util/hooks';
+import { usePrevious } from '../hooks/usePrevious';
 import { scrollToBottom } from '../util/scrollToBottom';
 
 type PropsType = {

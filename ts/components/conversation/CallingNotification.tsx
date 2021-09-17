@@ -15,7 +15,7 @@ import {
   getCallingIcon,
   getCallingNotificationText,
 } from '../../util/callingNotification';
-import { usePrevious } from '../../util/hooks';
+import { usePrevious } from '../../hooks/usePrevious';
 import { missingCaseError } from '../../util/missingCaseError';
 import { Tooltip, TooltipPlacement } from '../Tooltip';
 import type { TimelineItemType } from './TimelineItem';

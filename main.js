@@ -1103,9 +1103,15 @@ function showPermissionsPopupWindow(forCalling, forCamera) {
         ...defaultWebPrefs,
         nodeIntegration: false,
         nodeIntegrationInWorker: false,
-        contextIsolation: false,
+        contextIsolation: true,
         enableRemoteModule: true,
-        preload: path.join(__dirname, 'permissions_popup_preload.js'),
+        preload: path.join(
+          __dirname,
+          'ts',
+          'windows',
+          'permissions',
+          'preload.js'
+        ),
         nativeWindowOpen: true,
       },
       parent: mainWindow,

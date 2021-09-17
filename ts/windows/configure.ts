@@ -11,6 +11,7 @@ import {
   setEnvironment,
 } from '../environment';
 import { strictAssert } from '../util/assert';
+import { createSetting } from '../util/preload';
 
 const config = url.parse(window.location.toString(), true).query;
 const { locale } = config;
@@ -20,8 +21,14 @@ strictAssert(typeof locale === 'string', 'locale is not a string');
 const localeMessages = ipcRenderer.sendSync('locale-data');
 setEnvironment(parseEnvironment(config.environment));
 
+strictAssert(Boolean(window.SignalContext), 'context must be defined');
+
 export const SignalWindow = {
+  Settings: {
+    themeSetting: createSetting('themeSetting', { setter: false }),
+  },
   config,
+  context: window.SignalContext,
   getAppInstance: (): string | undefined =>
     config.appInstance ? String(config.appInstance) : undefined,
   getEnvironment,
