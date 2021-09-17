@@ -6313,6 +6313,14 @@
       }
     }
   },
+  "NSIS__retry-dialog--first-line": {
+    "message": "Signal cannot be closed.",
+    "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
+  },
+  "NSIS__retry-dialog--second-line": {
+    "message": "Please close it manually and click Retry to continue.",
+    "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
+  },
   "CustomizingPreferredReactions__title": {
     "message": "Customize reactions",
     "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
