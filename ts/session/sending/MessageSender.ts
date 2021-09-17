@@ -31,6 +31,13 @@ function overwriteOutgoingTimestampWithNetworkTimestamp(message: RawMessage) {
   const contentDecoded = SignalService.Content.decode(plainTextBuffer);
   const { dataMessage, dataExtractionNotification, typingMessage } = contentDecoded;
   if (dataMessage && dataMessage.timestamp && dataMessage.timestamp > 0) {
+    // this is a sync message, do not overwrite the message timestamp
+    if (dataMessage.syncTarget) {
+      return {
+        overRiddenTimestampBuffer: plainTextBuffer,
+        diffTimestamp: _.toNumber(dataMessage.timestamp),
+      };
+    }
     dataMessage.timestamp = diffTimestamp;
   }
   if (
@@ -86,7 +93,8 @@ export async function send(
       // and the isDuplicate messages relies on sent_at timestamp to be valid.
       const found = await Data.getMessageById(message.identifier);
 
-      if (found) {
+      // make sure to not update the send timestamp if this a currently syncing message
+      if (found && !found.get('sentSync')) {
         found.set({ sent_at: diffTimestamp });
         await found.commit();
       }
