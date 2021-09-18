@@ -69,7 +69,7 @@ const OnionPathModalInner = () => {
             {nodes.map((snode: Snode | any, index: number) => {
               let labelText = snode.label
                 ? snode.label
-                : countryLookup.byIso(ip2country(snode.ip))?.country;
+                : `${countryLookup.byIso(ip2country(snode.ip))?.country} [${snode.ip}]`;
               if (!labelText) {
                 labelText = window.i18n('unknownCountry');
               }
