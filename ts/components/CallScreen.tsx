@@ -75,6 +75,41 @@ export type PropsType = {
   toggleSpeakerView: () => void;
 };
 
+type DirectCallHeaderMessagePropsType = {
+  i18n: LocalizerType;
+  callState: CallState;
+  joinedAt?: number;
+};
+
+function DirectCallHeaderMessage({
+  callState,
+  i18n,
+  joinedAt,
+}: DirectCallHeaderMessagePropsType): JSX.Element | null {
+  const [acceptedDuration, setAcceptedDuration] = useState<
+    number | undefined
+  >();
+
+  useEffect(() => {
+    if (!joinedAt) {
+      return noop;
+    }
+    // It's really jumpy with a value of 500ms.
+    const interval = setInterval(() => {
+      setAcceptedDuration(Date.now() - joinedAt);
+    }, 100);
+    return clearInterval.bind(null, interval);
+  }, [joinedAt]);
+
+  if (callState === CallState.Reconnecting) {
+    return <>{i18n('callReconnecting')}</>;
+  }
+  if (callState === CallState.Accepted && acceptedDuration) {
+    return <>{i18n('callDuration', [renderDuration(acceptedDuration)])}</>;
+  }
+  return null;
+}
+
 export const CallScreen: React.FC<PropsType> = ({
   activeCall,
   getGroupCallVideoFrameSource,
@@ -145,7 +180,6 @@ export const CallScreen: React.FC<PropsType> = ({
     setControlsHover(false);
   }, [setControlsHover]);
 
-  const [acceptedDuration, setAcceptedDuration] = useState<number | null>(null);
   const [showControls, setShowControls] = useState(true);
 
   const localVideoRef = useRef<HTMLVideoElement | null>(null);
@@ -158,24 +192,13 @@ export const CallScreen: React.FC<PropsType> = ({
   }, [setLocalPreview, setRendererCanvas]);
 
   useEffect(() => {
-    if (!joinedAt) {
-      return noop;
-    }
-    // It's really jumpy with a value of 500ms.
-    const interval = setInterval(() => {
-      setAcceptedDuration(Date.now() - joinedAt);
-    }, 100);
-    return clearInterval.bind(null, interval);
-  }, [joinedAt]);
-
-  useEffect(() => {
     if (!showControls || stickyControls || controlsHover) {
       return noop;
     }
     const timer = setTimeout(() => {
       setShowControls(false);
     }, 5000);
-    return clearInterval.bind(null, timer);
+    return clearTimeout.bind(null, timer);
   }, [showControls, stickyControls, controlsHover]);
 
   useEffect(() => {
@@ -215,7 +238,7 @@ export const CallScreen: React.FC<PropsType> = ({
 
   let isRinging: boolean;
   let hasCallStarted: boolean;
-  let headerMessage: string | undefined;
+  let headerMessage: ReactNode | undefined;
   let headerTitle: string | undefined;
   let isConnected: boolean;
   let participantCount: number;
@@ -227,10 +250,12 @@ export const CallScreen: React.FC<PropsType> = ({
         activeCall.callState === CallState.Prering ||
         activeCall.callState === CallState.Ringing;
       hasCallStarted = !isRinging;
-      headerMessage = renderDirectCallHeaderMessage(
-        i18n,
-        activeCall.callState || CallState.Prering,
-        acceptedDuration
+      headerMessage = (
+        <DirectCallHeaderMessage
+          i18n={i18n}
+          callState={activeCall.callState || CallState.Prering}
+          joinedAt={joinedAt}
+        />
       );
       headerTitle = isRinging ? undefined : conversation.title;
       isConnected = activeCall.callState === CallState.Accepted;
@@ -252,7 +277,6 @@ export const CallScreen: React.FC<PropsType> = ({
         activeCall.outgoingRing && !activeCall.remoteParticipants.length;
       hasCallStarted = activeCall.joinState !== GroupCallJoinState.NotJoined;
       participantCount = activeCall.remoteParticipants.length + 1;
-      headerMessage = undefined;
 
       if (isRinging) {
         headerTitle = undefined;
@@ -399,6 +423,9 @@ export const CallScreen: React.FC<PropsType> = ({
           hasCallStarted ? 'call-started' : 'call-not-started'
         }`
       )}
+      onFocus={() => {
+        setShowControls(true);
+      }}
       onMouseMove={() => {
         setShowControls(true);
       }}
@@ -451,27 +478,33 @@ export const CallScreen: React.FC<PropsType> = ({
             'module-ongoing-call__footer__actions',
             controlsFadeClass
           )}
-          onMouseEnter={onControlsMouseEnter}
-          onMouseLeave={onControlsMouseLeave}
         >
           <CallingButton
             buttonType={presentingButtonType}
             i18n={i18n}
+            onMouseEnter={onControlsMouseEnter}
+            onMouseLeave={onControlsMouseLeave}
             onClick={togglePresenting}
           />
           <CallingButton
             buttonType={videoButtonType}
             i18n={i18n}
+            onMouseEnter={onControlsMouseEnter}
+            onMouseLeave={onControlsMouseLeave}
             onClick={toggleVideo}
           />
           <CallingButton
             buttonType={audioButtonType}
             i18n={i18n}
+            onMouseEnter={onControlsMouseEnter}
+            onMouseLeave={onControlsMouseLeave}
             onClick={toggleAudio}
           />
           <CallingButton
             buttonType={CallingButtonType.HANG_UP}
             i18n={i18n}
+            onMouseEnter={onControlsMouseEnter}
+            onMouseLeave={onControlsMouseLeave}
             onClick={() => {
               hangUp({ conversationId: conversation.id });
             }}
@@ -500,20 +533,6 @@ function getCallModeClassSuffix(
     default:
       throw missingCaseError(callMode);
   }
-}
-
-function renderDirectCallHeaderMessage(
-  i18n: LocalizerType,
-  callState: CallState,
-  acceptedDuration: null | number
-): string | undefined {
-  if (callState === CallState.Reconnecting) {
-    return i18n('callReconnecting');
-  }
-  if (callState === CallState.Accepted && acceptedDuration) {
-    return i18n('callDuration', [renderDuration(acceptedDuration)]);
-  }
-  return undefined;
 }
 
 function renderDuration(ms: number): string {

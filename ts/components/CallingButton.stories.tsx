@@ -19,6 +19,8 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
     select('buttonType', CallingButtonType, CallingButtonType.HANG_UP),
   i18n,
   onClick: action('on-click'),
+  onMouseEnter: action('on-mouse-enter'),
+  onMouseLeave: action('on-mouse-leave'),
   tooltipDirection: select(
     'tooltipDirection',
     TooltipPlacement,
