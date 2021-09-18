@@ -12,7 +12,7 @@ import { AttachmentType } from '../types/Attachment';
 import { ForwardMessageModal, PropsType } from './ForwardMessageModal';
 import { IMAGE_JPEG, VIDEO_MP4, stringToMIMEType } from '../types/MIME';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
-import { setup as setupI18n } from '../../js/modules/i18n';
+import { setupI18n } from '../util/setupI18n';
 
 const createAttachment = (
   props: Partial<AttachmentType> = {}

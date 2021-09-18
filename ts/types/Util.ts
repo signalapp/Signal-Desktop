@@ -21,7 +21,7 @@ export type ReplacementValuesType = {
 };
 
 export type LocalizerType = {
-  (key: string, values?: Array<string | null> | ReplacementValuesType): string;
+  (key: string, values?: Array<string> | ReplacementValuesType): string;
   getLocale(): string;
 };
 

@@ -4,7 +4,7 @@
 import url from 'url';
 import { ipcRenderer } from 'electron';
 
-import i18n from '../../js/modules/i18n';
+import { setupI18n } from '../util/setupI18n';
 import {
   getEnvironment,
   parseEnvironment,
@@ -33,5 +33,5 @@ export const SignalWindow = {
     config.appInstance ? String(config.appInstance) : undefined,
   getEnvironment,
   getVersion: (): string => String(config.version),
-  i18n: i18n.setup(locale, localeMessages),
+  i18n: setupI18n(locale, localeMessages),
 };

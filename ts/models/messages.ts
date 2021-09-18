@@ -673,7 +673,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       const conversation = window.ConversationController.get(identifier);
       return {
         text: window.i18n('safetyNumberChangedGroup', [
-          conversation ? conversation.getTitle() : null,
+          conversation ? conversation.getTitle() : '',
         ]),
       };
     }

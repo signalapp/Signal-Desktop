@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 import * as sinon from 'sinon';
-import { setup as setupI18n } from '../../../js/modules/i18n';
+import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
 
 import { getMutedUntilText } from '../../util/getMutedUntilText';

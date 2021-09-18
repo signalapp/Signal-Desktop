@@ -9,7 +9,7 @@ const url = require('url');
 // It is important to call this as early as possible
 require('./ts/windows/context');
 
-const i18n = require('./js/modules/i18n');
+const { setupI18n } = require('./ts/util/setupI18n');
 const {
   getEnvironment,
   setEnvironment,
@@ -23,7 +23,7 @@ setEnvironment(parseEnvironment(config.environment));
 
 window.getVersion = () => config.version;
 window.theme = config.theme;
-window.i18n = i18n.setup(locale, localeMessages);
+window.i18n = setupI18n(locale, localeMessages);
 
 // got.js appears to need this to successfully submit debug logs to the cloud
 window.nodeSetImmediate = setImmediate;

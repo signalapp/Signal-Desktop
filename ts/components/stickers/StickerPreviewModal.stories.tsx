@@ -7,7 +7,7 @@ import { text } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
 import { StickerPreviewModal } from './StickerPreviewModal';
-import { setup as setupI18n } from '../../../js/modules/i18n';
+import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
 import {
   landscapeGreenUrl,

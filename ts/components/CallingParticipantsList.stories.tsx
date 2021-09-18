@@ -11,7 +11,7 @@ import { CallingParticipantsList, PropsType } from './CallingParticipantsList';
 import { AvatarColors } from '../types/Colors';
 import { GroupCallRemoteParticipantType } from '../types/Calling';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
-import { setup as setupI18n } from '../../js/modules/i18n';
+import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
 
 const i18n = setupI18n('en', enMessages);

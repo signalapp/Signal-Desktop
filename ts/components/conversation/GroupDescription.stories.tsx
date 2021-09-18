@@ -7,7 +7,7 @@ import { text } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
 
 import { GroupDescription, PropsType } from './GroupDescription';
-import { setup as setupI18n } from '../../../js/modules/i18n';
+import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
 
 const i18n = setupI18n('en', enMessages);

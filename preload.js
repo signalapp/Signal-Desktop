@@ -422,11 +422,11 @@ try {
   window.PQueue = require('p-queue').default;
 
   const Signal = require('./js/modules/signal');
-  const i18n = require('./js/modules/i18n');
+  const { setupI18n } = require('./ts/util/setupI18n');
   const Attachments = require('./app/attachments');
 
   const { locale } = config;
-  window.i18n = i18n.setup(locale, localeMessages);
+  window.i18n = setupI18n(locale, localeMessages);
   window.moment.updateLocale(locale, {
     relativeTime: {
       s: window.i18n('timestamp_s'),

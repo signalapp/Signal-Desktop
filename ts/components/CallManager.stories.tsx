@@ -18,7 +18,7 @@ import { ConversationTypeType } from '../state/ducks/conversations';
 import { AvatarColors, AvatarColorType } from '../types/Colors';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import { fakeGetGroupCallVideoFrameSource } from '../test-both/helpers/fakeGetGroupCallVideoFrameSource';
-import { setup as setupI18n } from '../../js/modules/i18n';
+import { setupI18n } from '../util/setupI18n';
 import { Props as SafetyNumberViewerProps } from '../state/smart/SafetyNumberViewer';
 import enMessages from '../../_locales/en/messages.json';
 

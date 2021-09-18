@@ -11,7 +11,7 @@ import { v4 as generateUuid } from 'uuid';
 import { AvatarColors } from '../types/Colors';
 import { ConversationType } from '../state/ducks/conversations';
 import { CallingLobby, PropsType } from './CallingLobby';
-import { setup as setupI18n } from '../../js/modules/i18n';
+import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 

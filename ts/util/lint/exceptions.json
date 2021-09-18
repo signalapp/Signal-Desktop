@@ -139,13 +139,6 @@
   },
   {
     "rule": "jQuery-$(",
-    "path": "js/modules/i18n.js",
-    "line": "    const FIND_REPLACEMENTS = /\\$([^$]+)\\$/g;",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-07-21T18:34:59.251Z"
-  },
-  {
-    "rule": "jQuery-$(",
     "path": "js/views/key_verification_view.js",
     "line": "      this.$('.key-verification-wrapper').append(this.view.el);",
     "reasonCategory": "usageTrusted",
@@ -13232,6 +13225,20 @@
     "reasonCategory": "usageTrusted",
     "updated": "2021-08-18T18:22:55.307Z",
     "reasonDetail": "Legacy code"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "ts/util/setupI18n.js",
+    "line": "        const FIND_REPLACEMENTS = /\\$([^$]+)\\$/g;",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-09-17T21:51:57.475Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "ts/util/setupI18n.ts",
+    "line": "    const FIND_REPLACEMENTS = /\\$([^$]+)\\$/g;",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-09-17T21:51:57.475Z"
   },
   {
     "rule": "jQuery-$(",

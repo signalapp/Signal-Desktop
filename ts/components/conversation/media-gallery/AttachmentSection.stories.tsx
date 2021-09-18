@@ -8,7 +8,7 @@ import { storiesOf } from '@storybook/react';
 import { select, text, withKnobs } from '@storybook/addon-knobs';
 import { random, range, sample, sortBy } from 'lodash';
 
-import { setup as setupI18n } from '../../../../js/modules/i18n';
+import { setupI18n } from '../../../util/setupI18n';
 import enMessages from '../../../../_locales/en/messages.json';
 import { MIMEType } from '../../../types/MIME';
 import { MediaItemType } from '../../../types/MediaItem';

@@ -23,7 +23,7 @@ import {
 import { ReadStatus } from '../../messages/MessageReadStatus';
 import { MessageAudio } from './MessageAudio';
 import { computePeaks } from '../GlobalAudioContext';
-import { setup as setupI18n } from '../../../js/modules/i18n';
+import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
 import { pngUrl } from '../../storybook/Fixtures';
 import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';

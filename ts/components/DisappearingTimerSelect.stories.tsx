@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import { storiesOf } from '@storybook/react';
 
 import { DisappearingTimerSelect } from './DisappearingTimerSelect';
-import { setup as setupI18n } from '../../js/modules/i18n';
+import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
 
 const story = storiesOf('Components/DisappearingTimerSelect', module);

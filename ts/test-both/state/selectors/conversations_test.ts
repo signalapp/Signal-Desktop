@@ -44,7 +44,7 @@ import {
 } from '../../../state/selectors/conversations';
 import { noopAction } from '../../../state/ducks/noop';
 import { StateType, reducer as rootReducer } from '../../../state/reducer';
-import { setup as setupI18n } from '../../../../js/modules/i18n';
+import { setupI18n } from '../../../util/setupI18n';
 import enMessages from '../../../../_locales/en/messages.json';
 import { getDefaultConversation } from '../../helpers/getDefaultConversation';
 import {

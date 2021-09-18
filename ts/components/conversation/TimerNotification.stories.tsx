@@ -6,7 +6,7 @@ import * as moment from 'moment';
 import { storiesOf } from '@storybook/react';
 import { boolean, number, select, text } from '@storybook/addon-knobs';
 
-import { setup as setupI18n } from '../../../js/modules/i18n';
+import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
 import { Props, TimerNotification } from './TimerNotification';
 

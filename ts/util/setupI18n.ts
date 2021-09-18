@@ -1,9 +1,13 @@
 // Copyright 2018-2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-env node, browser */
+import { LocaleMessagesType } from '../types/I18N';
+import { LocalizerType } from '../types/Util';
 
-exports.setup = (locale, messages) => {
+export function setupI18n(
+  locale: string,
+  messages: LocaleMessagesType
+): LocalizerType {
   if (!locale) {
     throw new Error('i18n: locale parameter is required');
   }
@@ -11,7 +15,7 @@ exports.setup = (locale, messages) => {
     throw new Error('i18n: messages parameter is required');
   }
 
-  function getMessage(key, substitutions) {
+  const getMessage: LocalizerType = (key, substitutions) => {
     // eslint-disable-next-line no-console
     const log =
       typeof window !== 'undefined' ? window.SignalWindow.log : console;
@@ -75,9 +79,9 @@ exports.setup = (locale, messages) => {
     }
 
     return builder;
-  }
+  };
 
   getMessage.getLocale = () => locale;
 
   return getMessage;
-};
+}
