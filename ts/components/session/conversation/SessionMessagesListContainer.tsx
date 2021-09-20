@@ -171,7 +171,6 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
     }
 
     if (
-      conversation.unreadCount ||
       (conversation.unreadCount && conversation.unreadCount <= 0) ||
       firstUnreadOnOpen === undefined
     ) {

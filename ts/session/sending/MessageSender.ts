@@ -162,8 +162,6 @@ export async function TEST_sendMessageToSnode(
   try {
     const firstSuccessSnode = await firstTrue(promises);
     snode = firstSuccessSnode;
-
-    // console.warn({successHash: });
   } catch (e) {
     const snodeStr = snode ? `${snode.ip}:${snode.port}` : 'null';
     window?.log?.warn(
