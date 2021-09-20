@@ -297,6 +297,9 @@ export const unbanUser = async (
   return isOk;
 };
 
+/**
+ * Deletes messages on open group server
+ */
 export const deleteMessageByServerIds = async (
   idsToRemove: Array<number>,
   roomInfos: OpenGroupRequestCommonType

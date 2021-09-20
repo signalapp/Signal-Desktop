@@ -17,8 +17,9 @@ import { ConversationTypeEnum } from '../models/conversation';
 import { removeMessagePadding } from '../session/crypto/BufferPadding';
 import { perfEnd, perfStart } from '../session/utils/Performance';
 import { getAllCachedECKeyPair } from './closedGroups';
+import { getMessageBySenderAndTimestamp } from '../data/data';
 
-export async function handleContentMessage(envelope: EnvelopePlus) {
+export async function handleContentMessage(envelope: EnvelopePlus, messageHash?: string) {
   try {
     const plaintext = await decrypt(envelope, envelope.content);
 
@@ -30,7 +31,7 @@ export async function handleContentMessage(envelope: EnvelopePlus) {
     }
     perfStart(`innerHandleContentMessage-${envelope.id}`);
 
-    await innerHandleContentMessage(envelope, plaintext);
+    await innerHandleContentMessage(envelope, plaintext, messageHash);
     perfEnd(`innerHandleContentMessage-${envelope.id}`, 'innerHandleContentMessage');
   } catch (e) {
     window?.log?.warn(e);
@@ -323,7 +324,8 @@ function shouldDropBlockedUserMessage(content: SignalService.Content): boolean {
 
 export async function innerHandleContentMessage(
   envelope: EnvelopePlus,
-  plaintext: ArrayBuffer
+  plaintext: ArrayBuffer,
+  messageHash?: string
 ): Promise<void> {
   try {
     perfStart(`SignalService.Content.decode-${envelope.id}`);
@@ -354,7 +356,7 @@ export async function innerHandleContentMessage(
         content.dataMessage.profileKey = null;
       }
       perfStart(`handleDataMessage-${envelope.id}`);
-      await handleDataMessage(envelope, content.dataMessage);
+      await handleDataMessage(envelope, content.dataMessage, messageHash);
       perfEnd(`handleDataMessage-${envelope.id}`, 'handleDataMessage');
       return;
     }
@@ -393,6 +395,9 @@ export async function innerHandleContentMessage(
         'handleDataExtractionNotification'
       );
       return;
+    }
+    if (content.unsendMessage && window.lokiFeatureFlags?.useUnsendRequests) {
+      await handleUnsendMessage(envelope, content.unsendMessage as SignalService.Unsend);
     }
   } catch (e) {
     window?.log?.warn(e);
@@ -479,6 +484,40 @@ async function handleTypingMessage(
       sender: source,
     });
   }
+}
+
+/**
+ * delete message from user swarm and delete locally upon receiving unsend request
+ * @param unsendMessage data required to delete message
+ */
+async function handleUnsendMessage(envelope: EnvelopePlus, unsendMessage: SignalService.Unsend) {
+  const { source: unsendSource } = envelope;
+  const { author: messageAuthor, timestamp } = unsendMessage;
+  await removeFromCache(envelope);
+
+  //#region early exit conditions
+  if (!unsendMessage || !unsendSource) {
+    window?.log?.error('UnsendMessageHandler:: Invalid parameters -- dropping message.');
+  }
+  if (!timestamp) {
+    window?.log?.error('UnsendMessageHander:: Invalid timestamp -- dropping message');
+  }
+  const conversation = getConversationController().get(unsendSource);
+  if (!conversation) {
+    return;
+  }
+  const messageToDelete = await getMessageBySenderAndTimestamp({
+    source: messageAuthor,
+    timestamp: Lodash.toNumber(timestamp),
+  });
+  const messageHash = messageToDelete?.getPropsForMessage().messageHash;
+  //#endregion
+
+  //#region executing deletion
+  if (messageHash && messageToDelete) {
+    await conversation.deleteMessage(messageToDelete);
+  }
+  //#endregion
 }
 
 /**

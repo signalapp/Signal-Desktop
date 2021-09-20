@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import { getMessageById } from '../../data/data';
+import { MessageModel } from '../../models/message';
 import { SignalService } from '../../protobuf';
 import { PnServer } from '../../pushnotification';
 import { OpenGroupVisibleMessage } from '../messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
@@ -39,13 +40,14 @@ export class MessageSentHandler {
     }
   }
 
+  // tslint:disable-next-line: cyclomatic-complexity
   public static async handleMessageSentSuccess(
     sentMessage: RawMessage,
     effectiveTimestamp: number,
     wrappedEnvelope?: Uint8Array
   ) {
     // The wrappedEnvelope will be set only if the message is not one of OpenGroupV2Message type.
-    const fetchedMessage = await MessageSentHandler.fetchHandleMessageSentData(sentMessage);
+    let fetchedMessage = await MessageSentHandler.fetchHandleMessageSentData(sentMessage);
     if (!fetchedMessage) {
       return;
     }
@@ -109,6 +111,13 @@ export class MessageSentHandler {
             dataMessage as SignalService.DataMessage,
             effectiveTimestamp
           );
+          const tempFetchMessage = await MessageSentHandler.fetchHandleMessageSentData(sentMessage);
+          if (!tempFetchMessage) {
+            window?.log?.warn(
+              'Got an error while trying to sendSyncMessage(): fetchedMessage is null'
+            );
+          }
+          fetchedMessage = tempFetchMessage as MessageModel;
         } catch (e) {
           window?.log?.warn('Got an error while trying to sendSyncMessage():', e);
         }

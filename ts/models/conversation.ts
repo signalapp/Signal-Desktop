@@ -48,7 +48,8 @@ import {
 import { ed25519Str } from '../session/onions/onionPath';
 import { getDecryptedMediaUrl } from '../session/crypto/DecryptedAttachmentsManager';
 import { IMAGE_JPEG } from '../types/MIME';
-import { getLatestTimestampOffset } from '../session/snode_api/SNodeAPI';
+import { UnsendMessage } from '../session/messages/outgoing/controlMessage/UnsendMessage';
+import { getLatestTimestampOffset, networkDeleteMessages } from '../session/snode_api/SNodeAPI';
 
 export enum ConversationTypeEnum {
   GROUP = 'group',
@@ -789,6 +790,129 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       return null;
     }
   }
+
+  /**
+   * @param messages Messages to delete
+   */
+  public async deleteMessages(messages: Array<MessageModel>) {
+    const results = await Promise.all(
+      messages.map(async message => {
+        return this.deleteMessage(message, true);
+      })
+    );
+    return _.every(results);
+  }
+
+  /**
+   * Deletes message from this device's swarm and handles local deletion of message
+   * @param message Message to delete
+   * @param removeFromDatabase delete message from the database entirely or just modify the message data
+   * @returns boolean if the deletion succeeeded
+   */
+  public async deleteMessage(message: MessageModel, removeFromDatabase = false): Promise<boolean> {
+    //#region deletion on network
+    try {
+      const deletionMessageHashes = _.compact([message.get('messageHash')]);
+      if (deletionMessageHashes.length > 0) {
+        await networkDeleteMessages(deletionMessageHashes);
+      }
+    } catch (e) {
+      window.log?.error('Error deleting message from swarm', e);
+      return false;
+    }
+    //#endregion
+
+    //#region handling database
+    if (removeFromDatabase) {
+      // remove the message from the database
+      await this.removeMessage(message.get('id'));
+    } else {
+      // just mark the message as deleted but still show in conversation
+      await message.markAsDeleted();
+      await message.markRead(Date.now());
+      this.updateLastMessage();
+    }
+    //#endregion
+    return true;
+  }
+
+  public async unsendMessages(messages: Array<MessageModel>, onlyDeleteForSender: boolean = false) {
+    const results = await Promise.all(
+      messages.map(async message => {
+        return this.unsendMessage(message, onlyDeleteForSender);
+      })
+    );
+    return _.every(results);
+  }
+
+  /**
+   * Creates an unsend request using protobuf and adds to messageQueue.
+   * @param message Message to unsend
+   */
+  public async unsendMessage(
+    message: MessageModel,
+    onlyDeleteForSender: boolean = false
+  ): Promise<boolean> {
+    if (!message.get('messageHash')) {
+      window?.log?.error(
+        `message with id ${message.get('id')} cannot find hash: ${message.get('messageHash')}`
+      );
+      return false;
+    }
+    const ownPrimaryDevicePubkey = UserUtils.getOurPubKeyFromCache();
+
+    // If deleting just for sender, set destination to sender
+    const destinationId = onlyDeleteForSender ? ownPrimaryDevicePubkey : this.id;
+    if (!destinationId) {
+      return false;
+    }
+    //#endregion
+
+    //#region building request
+    const author = message.get('source');
+
+    const timestamp = message.getPropsForMessage().timestamp;
+    if (!timestamp) {
+      window?.log?.error('cannot find timestamp - aborting unsend request');
+      return false;
+    }
+
+    const unsendParams = {
+      timestamp,
+      author,
+    };
+
+    const unsendMessage = new UnsendMessage(unsendParams);
+    //#endregion
+
+    //#region sending
+    // 1-1 Session
+    if (!this.isGroup()) {
+      // sending to recipient
+      getMessageQueue()
+        .sendToPubKey(new PubKey(destinationId), unsendMessage)
+        .catch(window?.log?.error);
+      return this.deleteMessage(message);
+    }
+
+    // closed groups
+    if (this.isClosedGroup() && this.id) {
+      getMessageQueue()
+        .sendToGroup(unsendMessage, undefined, PubKey.cast(this.id))
+        .catch(window?.log?.error);
+      // not calling deleteMessage as it'll be called by the unsend handler when it's received
+      return true;
+    }
+
+    // open groups
+    if (this.isOpenGroupV2()) {
+      window?.log?.info('Conversation is open group. Skipping unsend request.');
+    }
+
+    return true;
+    //#endregion
+  }
+
   public async sendMessage(msg: SendMessageType) {
     const { attachments, body, groupInvitation, preview, quote } = msg;
     this.clearTypingTimers();
@@ -825,6 +949,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       received_at: now,
       expireTimer,
       recipients,
+      isDeleted: false,
     });
 
     if (!this.isPublic()) {
@@ -1333,24 +1458,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public isGroup() {
     return this.get('type') === 'group';
   }
-
-  // public deleteContact() {
-  //   let title = window.i18n('delete');
-  //   let message = window.i18n('deleteContactConfirmation');
-
-  //   if (this.isGroup()) {
-  //     title = window.i18n('leaveGroup');
-  //     message = window.i18n('leaveGroupConfirmation');
-  //   }
-
-  //   window.confirmationDialog({
-  //     title,
-  //     message,
-  //     resolve: () => {
-  //       void getConversationController().deleteContact(this.id);
-  //     },
-  //   });
-  // }
 
   public async removeMessage(messageId: any) {
     await dataRemoveMessage(messageId);

@@ -38,15 +38,9 @@ interface ReqOptions {
 
 const incomingMessagePromises: Array<Promise<any>> = [];
 
-async function handleEnvelope(envelope: EnvelopePlus) {
-  // TODO: enable below
-
-  // if (this.stoppingProcessing) {
-  //   return Promise.resolve();
-  // }
-
+async function handleEnvelope(envelope: EnvelopePlus, messageHash?: string) {
   if (envelope.content && envelope.content.length > 0) {
-    return handleContentMessage(envelope);
+    return handleContentMessage(envelope, messageHash);
   }
 
   await removeFromCache(envelope);
@@ -76,11 +70,11 @@ class EnvelopeQueue {
 
 const envelopeQueue = new EnvelopeQueue();
 
-function queueEnvelope(envelope: EnvelopePlus) {
+function queueEnvelope(envelope: EnvelopePlus, messageHash?: string) {
   const id = getEnvelopeId(envelope);
   window?.log?.info('queueing envelope', id);
 
-  const task = handleEnvelope.bind(null, envelope);
+  const task = handleEnvelope.bind(null, envelope, messageHash);
   const taskWithTimeout = createTaskWithTimeout(task, `queueEnvelope ${id}`);
 
   try {
@@ -98,7 +92,8 @@ function queueEnvelope(envelope: EnvelopePlus) {
 async function handleRequestDetail(
   plaintext: Uint8Array,
   options: ReqOptions,
-  lastPromise: Promise<any>
+  lastPromise: Promise<any>,
+  messageHash: string
 ): Promise<void> {
   const envelope: any = SignalService.Envelope.decode(plaintext);
 
@@ -125,6 +120,7 @@ async function handleRequestDetail(
 
   envelope.id = envelope.serverGuid || uuidv4();
   envelope.serverTimestamp = envelope.serverTimestamp ? envelope.serverTimestamp.toNumber() : null;
+  envelope.messageHash = messageHash;
 
   try {
     // NOTE: Annoyngly we add plaintext to the cache
@@ -132,7 +128,7 @@ async function handleRequestDetail(
     // need to handle senderIdentity separately)...
     perfStart(`addToCache-${envelope.id}`);
 
-    await addToCache(envelope, plaintext);
+    await addToCache(envelope, plaintext, messageHash);
     perfEnd(`addToCache-${envelope.id}`, 'addToCache');
 
     // TODO: This is the glue between the first and the last part of the
@@ -142,7 +138,7 @@ async function handleRequestDetail(
 
     await lastPromise;
 
-    queueEnvelope(envelope);
+    queueEnvelope(envelope, messageHash);
   } catch (error) {
     window?.log?.error(
       'handleRequest error trying to add message to cache:',
@@ -151,13 +147,13 @@ async function handleRequestDetail(
   }
 }
 
-export function handleRequest(body: any, options: ReqOptions): void {
+export function handleRequest(body: any, options: ReqOptions, messageHash: string): void {
   // tslint:disable-next-line no-promise-as-boolean
   const lastPromise = _.last(incomingMessagePromises) || Promise.resolve();
 
   const plaintext = body;
 
-  const promise = handleRequestDetail(plaintext, options, lastPromise).catch(e => {
+  const promise = handleRequestDetail(plaintext, options, lastPromise, messageHash).catch(e => {
     window?.log?.error('Error handling incoming message:', e && e.stack ? e.stack : e);
 
     void onError(e);
@@ -339,6 +335,6 @@ export async function handleOpenGroupV2Message(
     const msg = createMessage(messageCreationData, !isMe);
     const ourNumber = UserUtils.getOurPubKeyStrFromCache();
 
-    await handleMessageJob(msg, conversation, decoded?.dataMessage, ourNumber, noop, sender);
+    await handleMessageJob(msg, conversation, decoded?.dataMessage, ourNumber, noop, sender, '');
   });
 }

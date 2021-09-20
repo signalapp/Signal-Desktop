@@ -17,7 +17,7 @@ import { storeOnNode } from '../snode_api/SNodeAPI';
 import { getSwarmFor } from '../snode_api/snodePool';
 import { firstTrue } from '../utils/Promise';
 import { MessageSender } from '.';
-import * as Data from '../../../ts/data/data';
+import { getConversationById, getMessageById } from '../../../ts/data/data';
 import { SNodeAPI } from '../snode_api';
 
 const DEFAULT_CONNECTIONS = 3;
@@ -67,7 +67,8 @@ export function getMinRetryTimeout() {
 export async function send(
   message: RawMessage,
   attempts: number = 3,
-  retryMinTimeout?: number // in ms
+  retryMinTimeout?: number, // in ms
+  isSyncMessage?: boolean
 ): Promise<{ wrappedEnvelope: Uint8Array; effectiveTimestamp: number }> {
   return pRetry(
     async () => {
@@ -91,14 +92,21 @@ export async function send(
       // make sure to update the local sent_at timestamp, because sometimes, we will get the just pushed message in the receiver side
       // before we return from the await below.
       // and the isDuplicate messages relies on sent_at timestamp to be valid.
-      const found = await Data.getMessageById(message.identifier);
+      const found = await getMessageById(message.identifier);
 
       // make sure to not update the send timestamp if this a currently syncing message
       if (found && !found.get('sentSync')) {
         found.set({ sent_at: diffTimestamp });
         await found.commit();
       }
-      await MessageSender.TEST_sendMessageToSnode(device.key, data, ttl, diffTimestamp);
+      await MessageSender.TEST_sendMessageToSnode(
+        device.key,
+        data,
+        ttl,
+        diffTimestamp,
+        isSyncMessage,
+        message.identifier
+      );
       return { wrappedEnvelope: data, effectiveTimestamp: diffTimestamp };
     },
     {
@@ -113,7 +121,9 @@ export async function TEST_sendMessageToSnode(
   pubKey: string,
   data: Uint8Array,
   ttl: number,
-  timestamp: number
+  timestamp: number,
+  isSyncMessage?: boolean,
+  messageId?: string
 ): Promise<void> {
   const data64 = window.dcodeIO.ByteBuffer.wrap(data).toString('base64');
   const swarm = await getSwarmFor(pubKey);
@@ -125,10 +135,13 @@ export async function TEST_sendMessageToSnode(
     ttl: `${ttl}`,
     timestamp: `${timestamp}`,
     data: data64,
+    isSyncMessage,
+    messageId,
   };
 
   const usedNodes = _.slice(swarm, 0, DEFAULT_CONNECTIONS);
 
+  let successfulSendHash: any;
   const promises = usedNodes.map(async usedNode => {
     // TODO: Revert back to using snode address instead of IP
     // No pRetry here as if this is a bad path it will be handled and retried in lokiOnionFetch.
@@ -136,6 +149,9 @@ export async function TEST_sendMessageToSnode(
     // but considering we trigger this request with a few snode in //, this should be fine.
     const successfulSend = await storeOnNode(usedNode, params);
     if (successfulSend) {
+      if (_.isString(successfulSend)) {
+        successfulSendHash = successfulSend;
+      }
       return usedNode;
     }
     // should we mark snode as bad if it can't store our message?
@@ -144,7 +160,10 @@ export async function TEST_sendMessageToSnode(
 
   let snode;
   try {
-    snode = await firstTrue(promises);
+    const firstSuccessSnode = await firstTrue(promises);
+    snode = firstSuccessSnode;
+
+    // console.warn({successHash: });
   } catch (e) {
     const snodeStr = snode ? `${snode.ip}:${snode.port}` : 'null';
     window?.log?.warn(
@@ -154,6 +173,21 @@ export async function TEST_sendMessageToSnode(
   }
   if (!usedNodes || usedNodes.length === 0) {
     throw new window.textsecure.EmptySwarmError(pubKey, 'Ran out of swarm nodes to query');
+  }
+
+  const conversation = await getConversationById(pubKey);
+  const isClosedGroup = conversation?.isClosedGroup();
+
+  // If message also has a sync message, save that hash. Otherwise save the hash from the regular message send i.e. only closed groups in this case.
+  if (messageId && (isSyncMessage || isClosedGroup)) {
+    const message = await getMessageById(messageId);
+    if (message) {
+      await message.updateMessageHash(successfulSendHash);
+      await message.commit();
+      window?.log?.info(
+        `updated message ${message.get('id')} with hash: ${message.get('messageHash')}`
+      );
+    }
   }
 
   window?.log?.info(

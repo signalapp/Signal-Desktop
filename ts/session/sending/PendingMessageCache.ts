@@ -39,12 +39,13 @@ export class PendingMessageCache {
   }
 
   public async add(
-    device: PubKey,
+    destinationPubKey: PubKey,
     message: ContentMessage,
-    sentCb?: (message: any) => Promise<void>
+    sentCb?: (message: any) => Promise<void>,
+    isGroup = false
   ): Promise<RawMessage> {
     await this.loadFromDBIfNeeded();
-    const rawMessage = await MessageUtils.toRawMessage(device, message);
+    const rawMessage = await MessageUtils.toRawMessage(destinationPubKey, message, isGroup);
 
     // Does it exist in cache already?
     if (this.find(rawMessage)) {

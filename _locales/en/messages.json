@@ -125,8 +125,11 @@
   "moreInformation": "More information",
   "resend": "Resend",
   "deleteMessage": "Delete Message",
+  "deleteMessageQuestion": "Delete message?",
+  "deleteMessagesQuestion": "Delete messages?",
   "deleteMessages": "Delete Messages",
   "deleteMessageForEveryone": "Delete Message For Everyone",
+  "deleteMessageForEveryoneLowercase": "Delete Message For Everyone",
   "deleteMessagesForEveryone": "Delete Messages For Everyone",
   "deleteForEveryone": "Delete for Everyone",
   "deleteConversationConfirmation": "Permanently delete the messages in this conversation?",
@@ -434,5 +437,9 @@
   "recoveryPhraseSecureTitle": "You're almost finished!",
   "recoveryPhraseRevealMessage": "Secure your account by saving your recovery phrase. Reveal your recovery phrase then store it safely to secure it.",
   "recoveryPhraseRevealButtonText": "Reveal Recovery Phrase",
-  "notificationSubtitle": "Notifications - $setting$"
+  "notificationSubtitle": "Notifications - $setting$",
+  "deletionTypeTitle": "Deletion Type",
+  "deleteJustForMe": "Delete just for me",
+  "messageDeletedPlaceholder": "This message has been deleted",
+  "messageDeleted": "Message deleted"
 }

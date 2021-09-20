@@ -527,6 +527,14 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       props.text = this.createNonBreakingLastSeparator(body);
     }
 
+    if (this.get('messageHash')) {
+      props.messageHash = this.get('messageHash');
+    }
+
+    if (this.get('isDeleted')) {
+      props.isDeleted = this.get('isDeleted');
+    }
+
     if (this.get('received_at')) {
       props.receivedAt = this.get('received_at');
     }
@@ -850,6 +858,26 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     };
   }
 
+  /**
+   * Marks the message as deleted to show the author has deleted this message for everyone.
+   * Sets isDeleted property to true. Set message body text to deletion placeholder for conversation list items.
+   */
+  public async markAsDeleted() {
+    this.set({
+      isDeleted: true,
+      body: window.i18n('messageDeleted'),
+      quote: undefined,
+      groupInvitation: undefined,
+      dataExtractionNotification: undefined,
+      hasAttachments: false,
+      hasVisualMediaAttachments: false,
+      attachments: undefined,
+      preview: undefined,
+    });
+    await this.markRead(Date.now());
+    await this.commit();
+  }
+
   // One caller today: event handler for the 'Retry Send' entry on right click of a failed send message
   public async retrySend() {
     if (!window.textsecure.messaging) {
@@ -1004,6 +1032,17 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     }
 
     return null;
+  }
+
+  public async updateMessageHash(messageHash: string) {
+    if (!messageHash) {
+      window?.log?.error('Message hash not provided to update message hash');
+    }
+    this.set({
+      messageHash,
+    });
+
+    await this.commit();
   }
 
   public async sendSyncMessageOnly(dataMessage: DataMessage) {

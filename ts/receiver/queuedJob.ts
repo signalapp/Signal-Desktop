@@ -252,7 +252,8 @@ async function handleRegularMessage(
   message: MessageModel,
   initialMessage: any,
   source: string,
-  ourNumber: string
+  ourNumber: string,
+  messageHash: string
 ) {
   const { upgradeMessageSchema } = window.Signal.Migrations;
 
@@ -291,6 +292,7 @@ async function handleRegularMessage(
     body: dataMessage.body,
     conversationId: conversation.id,
     decrypted_at: now,
+    messageHash,
     errors: [],
   });
 
@@ -378,7 +380,8 @@ export async function handleMessageJob(
   initialMessage: any,
   ourNumber: string,
   confirm: () => void,
-  source: string
+  source: string,
+  messageHash: string
 ) {
   window?.log?.info(
     `Starting handleDataMessage for message ${message.idForLogging()}, ${message.get(
@@ -402,7 +405,14 @@ export async function handleMessageJob(
       }
       await handleExpirationTimerUpdate(conversation, message, source, expireTimer);
     } else {
-      await handleRegularMessage(conversation, message, initialMessage, source, ourNumber);
+      await handleRegularMessage(
+        conversation,
+        message,
+        initialMessage,
+        source,
+        ourNumber,
+        messageHash
+      );
     }
 
     const id = await message.commit();

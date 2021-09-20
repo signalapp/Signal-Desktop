@@ -181,6 +181,7 @@ const MessageItem = (props: {
   lastMessage?: LastMessageType;
   isTyping: boolean;
   unreadCount: number;
+  convoId: string;
 }) => {
   const { lastMessage, isTyping, unreadCount } = props;
 
@@ -323,6 +324,7 @@ const ConversationListItem = (props: Props) => {
             currentNotificationSetting={currentNotificationSetting || 'all'}
           />
           <MessageItem
+            convoId={conversationId}
             isTyping={!!isTyping}
             unreadCount={unreadCount || 0}
             lastMessage={lastMessage}

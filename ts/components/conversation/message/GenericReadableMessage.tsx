@@ -32,6 +32,7 @@ export type GenericReadableMessageSelectorProps = Pick<
   | 'isKickedFromGroup'
   | 'isExpired'
   | 'convoId'
+  | 'isDeleted'
 >;
 
 type ExpiringProps = {

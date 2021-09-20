@@ -154,7 +154,7 @@ export const MessageContextMenu = (props: Props) => {
   }, [messageId]);
 
   const onDelete = useCallback(() => {
-    void deleteMessagesById([messageId], convoId, false);
+    void deleteMessagesById([messageId], convoId, true);
   }, [convoId, messageId]);
 
   return (

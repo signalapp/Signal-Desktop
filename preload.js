@@ -52,6 +52,7 @@ window.lokiFeatureFlags = {
   useFileOnionRequestsV2: true, // more compact encoding of files in response
   padOutgoingAttachments: true,
   enablePinConversations: true,
+  useUnsendRequests: false,
 };
 
 window.isBeforeVersion = (toCheck, baseVersion) => {
