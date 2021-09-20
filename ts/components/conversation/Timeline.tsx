@@ -756,7 +756,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
     if (haveOldest && row === 0) {
       rowContents = (
         <div data-row={row} style={styleWithWidth} role="row">
-          {this.getWarning() ? (
+          {Timeline.getWarning(this.props, this.state) ? (
             <div style={{ height: lastMeasuredWarningHeight }} />
           ) : null}
           {renderHeroRow(
@@ -1036,11 +1036,10 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
     // 1. We just started showing it (a loading row changes to a hero row)
     // 2. Warnings were shown (they add padding to the hero for the floating warning)
     const hadOldest = prevProps.haveOldest;
-    const hadWarning = Boolean(
-      prevProps.warning && !prevState.hasDismissedDirectContactSpoofingWarning
-    );
+    const hadWarning = Boolean(Timeline.getWarning(prevProps, prevState));
+    const haveWarning = Boolean(Timeline.getWarning(this.props, this.state));
     const shouldRecomputeRowHeights =
-      (!hadOldest && haveOldest) || hadWarning !== Boolean(this.getWarning());
+      (!hadOldest && haveOldest) || hadWarning !== haveWarning;
     if (shouldRecomputeRowHeights) {
       this.resizeHeroRow();
     }
@@ -1376,7 +1375,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
       </AutoSizer>
     );
 
-    const warning = this.getWarning();
+    const warning = Timeline.getWarning(this.props, this.state);
     let timelineWarning: ReactNode;
     if (warning) {
       let text: ReactChild;
@@ -1548,15 +1547,17 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
     );
   }
 
-  private getWarning(): undefined | WarningType {
-    const { warning } = this.props;
+  private static getWarning(
+    { warning }: PropsType,
+    state: StateType
+  ): undefined | WarningType {
     if (!warning) {
       return undefined;
     }
 
     switch (warning.type) {
       case ContactSpoofingType.DirectConversationWithSameTitle: {
-        const { hasDismissedDirectContactSpoofingWarning } = this.state;
+        const { hasDismissedDirectContactSpoofingWarning } = state;
         return hasDismissedDirectContactSpoofingWarning ? undefined : warning;
       }
       case ContactSpoofingType.MultipleGroupMembersWithSameTitle:
