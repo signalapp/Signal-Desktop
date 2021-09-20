@@ -131,13 +131,6 @@
     "reasonDetail": "Interacting with already-existing DOM nodes"
   },
   {
-    "rule": "jQuery-load(",
-    "path": "js/modules/emojis.js",
-    "line": "async function load() {",
-    "reasonCategory": "falseMatch",
-    "updated": "2019-10-31T17:28:08.684Z"
-  },
-  {
     "rule": "jQuery-$(",
     "path": "js/views/key_verification_view.js",
     "line": "      this.$('.key-verification-wrapper').append(this.view.el);",

@@ -98,6 +98,10 @@ import { themeChanged } from './shims/themeChanged';
 import { createIPCEvents } from './util/createIPCEvents';
 import { RemoveAllConfiguration } from './types/RemoveAllConfiguration';
 import * as log from './logging/log';
+import {
+  loadRecentEmojis,
+  getEmojiReducerState,
+} from './util/loadRecentEmojis';
 
 const MAX_ATTACHMENT_DOWNLOAD_AGE = 3600 * 72 * 1000;
 
@@ -885,7 +889,7 @@ export async function startApp(): Promise<void> {
       await Promise.all([
         window.ConversationController.load(),
         Stickers.load(),
-        window.Signal.Emojis.load(),
+        loadRecentEmojis(),
         window.textsecure.storage.protocol.hydrateCaches(),
       ]);
       await window.ConversationController.checkForConflicts();
@@ -951,7 +955,7 @@ export async function startApp(): Promise<void> {
         selectedConversationTitle: '',
         showArchived: false,
       },
-      emojis: window.Signal.Emojis.getInitialState(),
+      emojis: getEmojiReducerState(),
       items: window.storage.getItemsState(),
       preferredReactions: preferredReactions.getInitialState(),
       stickers: Stickers.getInitialState(),

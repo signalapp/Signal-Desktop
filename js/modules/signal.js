@@ -10,7 +10,6 @@ const {
   start: conversationControllerStart,
 } = require('../../ts/ConversationController');
 const Data = require('../../ts/sql/Client').default;
-const Emojis = require('./emojis');
 const EmojiLib = require('../../ts/components/emoji/lib');
 const Groups = require('../../ts/groups');
 const GroupChange = require('../../ts/groupChange');
@@ -454,7 +453,6 @@ exports.setup = (options = {}) => {
     Curve,
     conversationControllerStart,
     Data,
-    Emojis,
     EmojiLib,
     Groups,
     GroupChange,
