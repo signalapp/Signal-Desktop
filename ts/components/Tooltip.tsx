@@ -6,7 +6,6 @@ import classNames from 'classnames';
 import { noop } from 'lodash';
 import { Manager, Reference, Popper } from 'react-popper';
 import { StrictModifiers } from '@popperjs/core';
-
 import { Theme, themeClassName } from '../util/theme';
 import { multiRef } from '../util/multiRef';
 import { offsetDistanceModifier } from '../util/popperUtil';
