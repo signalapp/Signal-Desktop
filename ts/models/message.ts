@@ -526,15 +526,13 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     if (body) {
       props.text = this.createNonBreakingLastSeparator(body);
     }
-
-    if (this.get('messageHash')) {
-      props.messageHash = this.get('messageHash');
-    }
-
     if (this.get('isDeleted')) {
       props.isDeleted = this.get('isDeleted');
     }
 
+    if (this.get('messageHash')) {
+      props.messageHash = this.get('messageHash');
+    }
     if (this.get('received_at')) {
       props.receivedAt = this.get('received_at');
     }
