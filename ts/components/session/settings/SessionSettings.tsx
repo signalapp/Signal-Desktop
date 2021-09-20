@@ -464,6 +464,23 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
         },
       },
       {
+        id: 'session-survey',
+        title: window.i18n('surveyTitle'),
+        description: undefined,
+        hidden: false,
+        type: SessionSettingType.Button,
+        category: SessionSettingCategory.Appearance,
+        setFn: undefined,
+        comparisonValue: undefined,
+        onClick: () => {
+          void shell.openExternal('https://getsession.org/survey');
+        },
+        content: {
+          buttonText: window.i18n('goToOurSurvey'),
+          buttonColor: SessionButtonColor.Primary,
+        },
+      },
+      {
         id: 'help-translation',
         title: window.i18n('translation'),
         description: undefined,
