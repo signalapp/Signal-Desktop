@@ -24,9 +24,9 @@ export function useMembersAvatars(conversation: ReduxConversationType | undefine
       if (!isPublic && isGroup) {
         const ourPrimary = UserUtils.getOurPubKeyStrFromCache();
 
-        const ourself = convoMembers.find(m => m !== ourPrimary);
+        const ourself = convoMembers?.find(m => m !== ourPrimary) || undefined;
         // add ourself back at the back, so it's shown only if only 1 member and we are still a member
-        let membersFiltered = convoMembers.filter(m => m !== ourPrimary);
+        let membersFiltered = convoMembers?.filter(m => m !== ourPrimary) || [];
         membersFiltered.sort((a, b) => (a < b ? -1 : a > b ? 1 : 0));
         if (ourself) {
           membersFiltered.push(ourPrimary);

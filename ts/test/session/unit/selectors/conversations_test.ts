@@ -17,8 +17,6 @@ describe('state/selectors/conversations', () => {
           id: 'id1',
           activeAt: 0,
           name: 'No timestamp',
-          phoneNumber: 'notused',
-
           type: ConversationTypeEnum.PRIVATE,
           isMe: false,
           unreadCount: 1,
@@ -35,7 +33,7 @@ describe('state/selectors/conversations', () => {
           weAreAdmin: false,
           isGroup: false,
           isPrivate: false,
-          notificationForConvo: [{ value: 'all', name: 'all' }],
+
           avatarPath: '',
           groupAdmins: [],
           lastMessage: undefined,
@@ -48,8 +46,6 @@ describe('state/selectors/conversations', () => {
           id: 'id2',
           activeAt: 20,
           name: 'B',
-          phoneNumber: 'notused',
-
           type: ConversationTypeEnum.PRIVATE,
           isMe: false,
           unreadCount: 1,
@@ -66,7 +62,7 @@ describe('state/selectors/conversations', () => {
           weAreAdmin: false,
           isGroup: false,
           isPrivate: false,
-          notificationForConvo: [{ value: 'all', name: 'all' }],
+
           avatarPath: '',
           groupAdmins: [],
           lastMessage: undefined,
@@ -79,7 +75,6 @@ describe('state/selectors/conversations', () => {
           id: 'id3',
           activeAt: 20,
           name: 'C',
-          phoneNumber: 'notused',
           type: ConversationTypeEnum.PRIVATE,
           isMe: false,
           unreadCount: 1,
@@ -96,7 +91,7 @@ describe('state/selectors/conversations', () => {
           weAreAdmin: false,
           isGroup: false,
           isPrivate: false,
-          notificationForConvo: [{ value: 'all', name: 'all' }],
+
           avatarPath: '',
           groupAdmins: [],
           lastMessage: undefined,
@@ -109,7 +104,6 @@ describe('state/selectors/conversations', () => {
           id: 'id4',
           activeAt: 20,
           name: 'Á',
-          phoneNumber: 'notused',
           type: ConversationTypeEnum.PRIVATE,
           isMe: false,
           unreadCount: 1,
@@ -126,7 +120,7 @@ describe('state/selectors/conversations', () => {
           weAreAdmin: false,
           isGroup: false,
           isPrivate: false,
-          notificationForConvo: [{ value: 'all', name: 'all' }],
+
           avatarPath: '',
           groupAdmins: [],
           expireTimer: 0,
@@ -139,7 +133,6 @@ describe('state/selectors/conversations', () => {
           id: 'id5',
           activeAt: 30,
           name: 'First!',
-          phoneNumber: 'notused',
           type: ConversationTypeEnum.PRIVATE,
           isMe: false,
           unreadCount: 1,
@@ -157,7 +150,7 @@ describe('state/selectors/conversations', () => {
           weAreAdmin: false,
           isGroup: false,
           isPrivate: false,
-          notificationForConvo: [{ value: 'all', name: 'all' }],
+
           avatarPath: '',
           groupAdmins: [],
           lastMessage: undefined,
@@ -185,7 +178,6 @@ describe('state/selectors/conversations', () => {
           id: 'id1',
           activeAt: 0,
           name: 'No timestamp',
-          phoneNumber: 'notused',
 
           type: ConversationTypeEnum.PRIVATE,
           isMe: false,
@@ -202,7 +194,7 @@ describe('state/selectors/conversations', () => {
           weAreAdmin: false,
           isGroup: false,
           isPrivate: false,
-          notificationForConvo: [{ value: 'all', name: 'all' }],
+
           avatarPath: '',
           groupAdmins: [],
           lastMessage: undefined,
@@ -216,7 +208,6 @@ describe('state/selectors/conversations', () => {
           id: 'id2',
           activeAt: 20,
           name: 'B',
-          phoneNumber: 'notused',
 
           type: ConversationTypeEnum.PRIVATE,
           isMe: false,
@@ -233,7 +224,7 @@ describe('state/selectors/conversations', () => {
           weAreAdmin: false,
           isGroup: false,
           isPrivate: false,
-          notificationForConvo: [{ value: 'all', name: 'all' }],
+
           avatarPath: '',
           groupAdmins: [],
           lastMessage: undefined,
@@ -247,7 +238,6 @@ describe('state/selectors/conversations', () => {
           id: 'id3',
           activeAt: 20,
           name: 'C',
-          phoneNumber: 'notused',
 
           type: ConversationTypeEnum.PRIVATE,
           isMe: false,
@@ -264,7 +254,7 @@ describe('state/selectors/conversations', () => {
           weAreAdmin: false,
           isGroup: false,
           isPrivate: false,
-          notificationForConvo: [{ value: 'all', name: 'all' }],
+
           avatarPath: '',
           groupAdmins: [],
           lastMessage: undefined,
@@ -278,7 +268,6 @@ describe('state/selectors/conversations', () => {
           id: 'id4',
           activeAt: 20,
           name: 'Á',
-          phoneNumber: 'notused',
           type: ConversationTypeEnum.PRIVATE,
           isMe: false,
           unreadCount: 1,
@@ -294,7 +283,7 @@ describe('state/selectors/conversations', () => {
           weAreAdmin: false,
           isGroup: false,
           isPrivate: false,
-          notificationForConvo: [{ value: 'all', name: 'all' }],
+
           avatarPath: '',
           groupAdmins: [],
           lastMessage: undefined,
@@ -308,7 +297,6 @@ describe('state/selectors/conversations', () => {
           id: 'id5',
           activeAt: 30,
           name: 'First!',
-          phoneNumber: 'notused',
           type: ConversationTypeEnum.PRIVATE,
           isMe: false,
           unreadCount: 1,
@@ -325,7 +313,7 @@ describe('state/selectors/conversations', () => {
           weAreAdmin: false,
           isGroup: false,
           isPrivate: false,
-          notificationForConvo: [{ value: 'all', name: 'all' }],
+
           avatarPath: '',
           groupAdmins: [],
           lastMessage: undefined,

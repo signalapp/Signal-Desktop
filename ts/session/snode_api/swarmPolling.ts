@@ -30,12 +30,12 @@ interface Message {
 }
 
 // Some websocket nonsense
-export function processMessage(message: string, options: any = {}) {
+export function processMessage(message: string, options: any = {}, messageHash: string) {
   try {
     const dataPlaintext = new Uint8Array(StringUtils.encode(message, 'base64'));
     const messageBuf = SignalService.WebSocketMessage.decode(dataPlaintext);
     if (messageBuf.type === SignalService.WebSocketMessage.Type.REQUEST) {
-      Receiver.handleRequest(messageBuf.request?.body, options);
+      Receiver.handleRequest(messageBuf.request?.body, options, messageHash);
     }
   } catch (error) {
     const info = {
@@ -258,7 +258,7 @@ export class SwarmPolling {
 
     newMessages.forEach((m: Message) => {
       const options = isGroup ? { conversationId: pkStr } : {};
-      processMessage(m.data, options);
+      processMessage(m.data, options, m.hash);
     });
   }
 

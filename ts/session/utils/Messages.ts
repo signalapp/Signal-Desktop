@@ -7,7 +7,10 @@ import { ClosedGroupEncryptionPairReplyMessage } from '../messages/outgoing/cont
 import { ContentMessage } from '../messages/outgoing';
 import { ExpirationTimerUpdateMessage } from '../messages/outgoing/controlMessage/ExpirationTimerUpdateMessage';
 
-function getEncryptionTypeFromMessageType(message: ContentMessage): EncryptionType {
+function getEncryptionTypeFromMessageType(
+  message: ContentMessage,
+  isGroup = false
+): EncryptionType {
   // ClosedGroupNewMessage is sent using established channels, so using fallback
   if (
     message instanceof ClosedGroupNewMessage ||
@@ -20,7 +23,8 @@ function getEncryptionTypeFromMessageType(message: ContentMessage): EncryptionTy
   // 2. if TypingMessage or ExpirationTimer and groupId is set => must be encoded with ClosedGroup too
   if (
     message instanceof ClosedGroupMessage ||
-    (message instanceof ExpirationTimerUpdateMessage && message.groupId)
+    (message instanceof ExpirationTimerUpdateMessage && message.groupId) ||
+    isGroup
   ) {
     return EncryptionType.ClosedGroup;
   } else {
@@ -28,19 +32,21 @@ function getEncryptionTypeFromMessageType(message: ContentMessage): EncryptionTy
   }
 }
 
-export async function toRawMessage(device: PubKey, message: ContentMessage): Promise<RawMessage> {
-  const timestamp = message.timestamp;
+export async function toRawMessage(
+  destinationPubKey: PubKey,
+  message: ContentMessage,
+  isGroup = false
+): Promise<RawMessage> {
   const ttl = message.ttl();
   const plainTextBuffer = message.plainTextBuffer();
 
-  const encryption = getEncryptionTypeFromMessageType(message);
+  const encryption = getEncryptionTypeFromMessageType(message, isGroup);
 
   // tslint:disable-next-line: no-unnecessary-local-variable
   const rawMessage: RawMessage = {
     identifier: message.identifier,
     plainTextBuffer,
-    timestamp,
-    device: device.key,
+    device: destinationPubKey.key,
     ttl,
     encryption,
   };

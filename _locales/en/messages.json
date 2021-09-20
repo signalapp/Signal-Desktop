@@ -125,8 +125,11 @@
   "moreInformation": "More information",
   "resend": "Resend",
   "deleteMessage": "Delete Message",
+  "deleteMessageQuestion": "Delete message?",
+  "deleteMessagesQuestion": "Delete messages?",
   "deleteMessages": "Delete Messages",
   "deleteMessageForEveryone": "Delete Message For Everyone",
+  "deleteMessageForEveryoneLowercase": "Delete Message For Everyone",
   "deleteMessagesForEveryone": "Delete Messages For Everyone",
   "deleteForEveryone": "Delete for Everyone",
   "deleteConversationConfirmation": "Permanently delete the messages in this conversation?",
@@ -428,8 +431,15 @@
   "dialogClearAllDataDeletionQuestion": "Would you like to clear only this device, or delete your entire account?",
   "deviceOnly": "Device Only",
   "entireAccount": "Entire Account",
+  "areYouSureDeleteDeviceOnly": "Are you sure you want to delete your device data only?",
+  "areYouSureDeleteEntireAccount": "Are you sure you want to delete your entire account, including the network data?",
+  "iAmSure": "I am sure",
   "recoveryPhraseSecureTitle": "You're almost finished!",
   "recoveryPhraseRevealMessage": "Secure your account by saving your recovery phrase. Reveal your recovery phrase then store it safely to secure it.",
   "recoveryPhraseRevealButtonText": "Reveal Recovery Phrase",
-  "notificationSubtitle": "Notifications - $setting$"
+  "notificationSubtitle": "Notifications - $setting$",
+  "deletionTypeTitle": "Deletion Type",
+  "deleteJustForMe": "Delete just for me",
+  "messageDeletedPlaceholder": "This message has been deleted",
+  "messageDeleted": "Message deleted"
 }

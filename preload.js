@@ -52,6 +52,7 @@ window.lokiFeatureFlags = {
   useFileOnionRequestsV2: true, // more compact encoding of files in response
   padOutgoingAttachments: true,
   enablePinConversations: true,
+  useUnsendRequests: false,
 };
 
 window.isBeforeVersion = (toCheck, baseVersion) => {
@@ -154,11 +155,6 @@ window.setMenuBarVisibility = visibility => ipc.send('set-menu-bar-visibility', 
 window.restart = () => {
   window.log.info('restart');
   ipc.send('restart');
-};
-
-window.resetDatabase = () => {
-  window.log.info('reset database');
-  ipc.send('resetDatabase');
 };
 
 ipc.on('mediaPermissionsChanged', () => {
@@ -321,8 +317,6 @@ window.models = require('./ts/models');
 
 window.Signal = window.Signal || {};
 window.Signal.Data = require('./ts/data/data');
-
-window.getMessageController = () => window.libsession.Messages.getMessageController();
 
 window.Signal.Logs = require('./js/modules/logs');
 

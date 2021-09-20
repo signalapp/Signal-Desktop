@@ -28,6 +28,13 @@ message TypingMessage {
 }
 
 
+message Unsend {
+  // @required
+  required uint64 timestamp = 1;
+  // @required
+  required string author    = 2;
+}
+
 
 message Content {
   optional DataMessage             dataMessage                   = 1;
@@ -35,7 +42,7 @@ message Content {
   optional TypingMessage           typingMessage                 = 6;
   optional ConfigurationMessage    configurationMessage          = 7;
   optional DataExtractionNotification dataExtractionNotification = 8;
-
+  optional Unsend                     unsendMessage              = 9;
 }
 
 message KeyPair {

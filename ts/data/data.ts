@@ -113,6 +113,7 @@ const channelsToMake = {
   getMessageBySender,
   getMessageBySenderAndServerId,
   getMessageBySenderAndServerTimestamp,
+  getMessageBySenderAndTimestamp,
   getMessageIdsFromServerIds,
   getMessageById,
   getMessagesBySentAt,
@@ -726,6 +727,29 @@ export async function getMessageBySenderAndServerTimestamp({
   return new MessageModel(messages[0]);
 }
 
+/**
+ *
+ * @param source senders id
+ * @param timestamp the timestamp of the message - not to be confused with the serverTimestamp. This is equivalent to sent_at
+ */
+export async function getMessageBySenderAndTimestamp({
+  source,
+  timestamp,
+}: {
+  source: string;
+  timestamp: number;
+}): Promise<MessageModel | null> {
+  const messages = await channels.getMessageBySenderAndTimestamp({
+    source,
+    timestamp,
+  });
+  if (!messages || !messages.length) {
+    return null;
+  }
+
+  return new MessageModel(messages[0]);
+}
+
 export async function getUnreadByConversation(conversationId: string): Promise<MessageCollection> {
   const messages = await channels.getUnreadByConversation(conversationId);
   return new MessageCollection(messages);
@@ -833,6 +857,7 @@ export type UnprocessedParameter = {
   envelope: string;
   timestamp: number;
   attempts: number;
+  messageHash: string;
   senderIdentity?: string;
 };
 

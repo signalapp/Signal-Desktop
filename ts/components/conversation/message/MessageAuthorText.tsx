@@ -48,7 +48,7 @@ export const MessageAuthorText = (props: Props) => {
   return (
     <Flex container={true}>
       <ContactName
-        phoneNumber={displayedPubkey}
+        pubkey={displayedPubkey}
         name={authorName}
         profileName={authorProfileName}
         module="module-message__author"

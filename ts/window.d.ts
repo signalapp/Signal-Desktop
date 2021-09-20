@@ -47,11 +47,11 @@ declare global {
       useFileOnionRequestsV2: boolean;
       padOutgoingAttachments: boolean;
       enablePinConversations: boolean;
+      useUnsendRequests: boolean;
     };
     lokiSnodeAPI: LokiSnodeAPI;
     onLogin: any;
     persistStore?: Persistor;
-    resetDatabase: any;
     restart: any;
     getSeedNodeList: () => Array<any> | undefined;
     setPassword: any;

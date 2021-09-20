@@ -2,8 +2,7 @@
   Whisper,
   Backbone,
   _,
-  getMessageController,
-  window
+    window
 */
 
 /* eslint-disable more/no-then */
@@ -57,7 +56,7 @@
         return null;
       }
 
-      return getMessageController().register(target.id, target);
+      return target;
     },
     async onReceipt(receipt) {
       try {

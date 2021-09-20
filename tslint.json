@@ -3,6 +3,7 @@
   "extends": ["tslint:recommended", "tslint-react", "tslint-microsoft-contrib"],
   "jsRules": {},
   "rules": {
+    "use-simple-attributes": false,
     "align": false,
     "newline-per-chained-call": false,
     "array-type": [true, "generic"],

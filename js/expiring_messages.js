@@ -2,7 +2,6 @@
   _,
   Backbone,
   i18n,
-  getMessageController,
   moment,
   Whisper
 */
@@ -19,9 +18,7 @@
       const messages = await window.Signal.Data.getExpiredMessages();
 
       await Promise.all(
-        messages.map(async fromDB => {
-          const message = getMessageController().register(fromDB.id, fromDB);
-
+        messages.map(async message => {
           window.log.info('Message expired', {
             sentAt: message.get('sent_at'),
           });

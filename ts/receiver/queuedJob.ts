@@ -8,7 +8,6 @@ import { UserUtils } from '../session/utils';
 import { getConversationController } from '../session/conversations';
 import { ConversationModel, ConversationTypeEnum } from '../models/conversation';
 import { MessageModel } from '../models/message';
-import { getMessageController } from '../session/messages';
 import { getMessageById, getMessagesBySentAt } from '../../ts/data/data';
 import { MessageModelPropsWithoutConvoProps, messagesAdded } from '../state/ducks/conversations';
 import { updateProfileOneAtATime } from './dataMessage';
@@ -118,8 +117,7 @@ async function copyFromQuotedMessage(msg: MessageModel, quote?: Quote): Promise<
   window?.log?.info(`Found quoted message id: ${id}`);
   quote.referencedMessageNotFound = false;
 
-  const queryMessage = getMessageController().register(found.id, found);
-  quote.text = queryMessage.get('body') || '';
+  quote.text = found.get('body') || '';
 
   if (!firstAttachment || !contentTypeSupported(firstAttachment.contentType)) {
     return;
@@ -128,9 +126,9 @@ async function copyFromQuotedMessage(msg: MessageModel, quote?: Quote): Promise<
   firstAttachment.thumbnail = null;
 
   try {
-    if ((queryMessage.get('schemaVersion') || 0) < TypedMessage.VERSION_NEEDED_FOR_DISPLAY) {
-      const upgradedMessage = await upgradeMessageSchema(queryMessage.attributes);
-      queryMessage.set(upgradedMessage);
+    if ((found.get('schemaVersion') || 0) < TypedMessage.VERSION_NEEDED_FOR_DISPLAY) {
+      const upgradedMessage = await upgradeMessageSchema(found.attributes);
+      found.set(upgradedMessage);
       await upgradedMessage.commit();
     }
   } catch (error) {
@@ -141,7 +139,7 @@ async function copyFromQuotedMessage(msg: MessageModel, quote?: Quote): Promise<
     return;
   }
 
-  const queryAttachments = queryMessage.get('attachments') || [];
+  const queryAttachments = found.get('attachments') || [];
 
   if (queryAttachments.length > 0) {
     const queryFirst = queryAttachments[0];
@@ -155,7 +153,7 @@ async function copyFromQuotedMessage(msg: MessageModel, quote?: Quote): Promise<
     }
   }
 
-  const queryPreview = queryMessage.get('preview') || [];
+  const queryPreview = found.get('preview') || [];
   if (queryPreview.length > 0) {
     const queryFirst = queryPreview[0];
     const { image } = queryFirst;
@@ -254,7 +252,8 @@ async function handleRegularMessage(
   message: MessageModel,
   initialMessage: any,
   source: string,
-  ourNumber: string
+  ourNumber: string,
+  messageHash: string
 ) {
   const { upgradeMessageSchema } = window.Signal.Migrations;
 
@@ -293,6 +292,7 @@ async function handleRegularMessage(
     body: dataMessage.body,
     conversationId: conversation.id,
     decrypted_at: now,
+    messageHash,
     errors: [],
   });
 
@@ -356,13 +356,12 @@ async function handleExpirationTimerUpdate(
   source: string,
   expireTimer: number
 ) {
-  // TODO: if the message is an expiration timer update, it
-  // shouldn't be responsible for anything else!!!
   message.set({
     expirationTimerUpdate: {
       source,
       expireTimer,
     },
+    unread: 0, // mark the message as read.
   });
   conversation.set({ expireTimer });
 
@@ -381,7 +380,8 @@ export async function handleMessageJob(
   initialMessage: any,
   ourNumber: string,
   confirm: () => void,
-  source: string
+  source: string,
+  messageHash: string
 ) {
   window?.log?.info(
     `Starting handleDataMessage for message ${message.idForLogging()}, ${message.get(
@@ -405,14 +405,19 @@ export async function handleMessageJob(
       }
       await handleExpirationTimerUpdate(conversation, message, source, expireTimer);
     } else {
-      await handleRegularMessage(conversation, message, initialMessage, source, ourNumber);
+      await handleRegularMessage(
+        conversation,
+        message,
+        initialMessage,
+        source,
+        ourNumber,
+        messageHash
+      );
     }
 
     const id = await message.commit();
 
     message.set({ id });
-
-    getMessageController().register(message.id, message);
 
     // Note that this can save the message again, if jobs were queued. We need to
     //   call it after we have an id for this message, because the jobs refer back

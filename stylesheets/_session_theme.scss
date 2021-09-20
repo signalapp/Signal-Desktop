@@ -54,6 +54,14 @@
 
     .module-message__text {
       color: var(--color-received-message-text);
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+
+      svg {
+        margin-right: $session-margin-xs;
+      }
 
       a {
         text-decoration: underline;

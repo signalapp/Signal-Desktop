@@ -21,9 +21,6 @@ window.getEnvironment = () => config.environment;
 window.getVersion = () => config.version;
 window.getAppInstance = () => config.appInstance;
 
-const electron = require('electron');
-
-const ipc = electron.ipcRenderer;
 const { SessionPasswordPrompt } = require('./ts/components/session/SessionPasswordPrompt');
 
 window.Signal = {
@@ -34,19 +31,9 @@ window.Signal = {
 
 window.Signal.Logs = require('./js/modules/logs');
 
-window.resetDatabase = () => {
+window.clearLocalData = async () => {
   window.log.info('reset database');
   ipcRenderer.send('resetDatabase');
-};
-
-window.restart = () => {
-  window.log.info('restart');
-  ipc.send('restart');
-};
-
-window.clearLocalData = async () => {
-  window.resetDatabase();
-  window.restart();
 };
 
 window.onLogin = passPhrase =>

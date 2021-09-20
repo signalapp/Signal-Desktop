@@ -235,8 +235,8 @@ export const LightboxObject = ({
   const isVideoTypeSupported = GoogleChrome.isVideoTypeSupported(contentType);
   if (isVideoTypeSupported) {
     if (urlToLoad) {
-      if (videoRef?.current.paused) {
-        void videoRef.current.play();
+      if (videoRef?.current?.paused) {
+        void videoRef?.current?.play();
       }
     }
 

@@ -6,7 +6,7 @@ import { ConversationTypeEnum } from '../../models/conversation';
 
 interface TypingBubbleProps {
   avatarPath?: string;
-  phoneNumber: string;
+  pubkey: string;
   displayedName: string | null;
   conversationType: ConversationTypeEnum;
   isTyping: boolean;

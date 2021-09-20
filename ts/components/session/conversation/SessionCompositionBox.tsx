@@ -25,10 +25,7 @@ import { SessionQuotedMessageComposition } from './SessionQuotedMessageCompositi
 import { Mention, MentionsInput } from 'react-mentions';
 import { CaptionEditor } from '../../CaptionEditor';
 import { getConversationController } from '../../../session/conversations';
-import {
-  ReduxConversationType,
-  updateDraftForConversation,
-} from '../../../state/ducks/conversations';
+import { ReduxConversationType } from '../../../state/ducks/conversations';
 import { SessionMemberListItem } from '../SessionMemberListItem';
 import autoBind from 'auto-bind';
 import { SessionSettingCategory } from '../settings/SessionSettings';
@@ -45,7 +42,6 @@ import {
   hasLinkPreviewPopupBeenDisplayed,
 } from '../../../data/data';
 import {
-  getDraftForCurrentConversation,
   getMentionsInput,
   getQuotedMessage,
   getSelectedConversation,
@@ -142,10 +138,17 @@ const SendMessageButton = (props: { onClick: () => void }) => {
   );
 };
 
+// keep this draft state local to not have to do a redux state update (a bit slow with our large state for soem computers)
+const draftsForConversations: Array<{ conversationKey: string; draft: string }> = new Array();
+function updateDraftForConversation(action: { conversationKey: string; draft: string }) {
+  const { conversationKey, draft } = action;
+  const foundAtIndex = draftsForConversations.findIndex(c => c.conversationKey === conversationKey);
+  foundAtIndex === -1
+    ? draftsForConversations.push({ conversationKey, draft })
+    : (draftsForConversations[foundAtIndex] = action);
+}
 interface Props {
   sendMessage: (msg: SendMessageType) => void;
-  draft: string;
-
   onLoadVoiceNoteView: any;
   onExitVoiceNoteView: any;
   selectedConversationKey: string;
@@ -157,7 +160,7 @@ interface Props {
 
 interface State {
   showRecordingView: boolean;
-
+  draft: string;
   showEmojiPanel: boolean;
   voiceRecording?: Blob;
   ignoredLink?: string; // set the the ignored url when users closed the link preview
@@ -185,10 +188,11 @@ const sendMessageStyle = {
   minHeight: '24px',
   width: '100%',
 };
-
-const getDefaultState = () => {
+const getDefaultState = (newConvoId?: string) => {
   return {
-    message: '',
+    draft:
+      (newConvoId && draftsForConversations.find(c => c.conversationKey === newConvoId)?.draft) ||
+      '',
     voiceRecording: undefined,
     showRecordingView: false,
     showEmojiPanel: false,
@@ -238,7 +242,7 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
   public componentDidUpdate(prevProps: Props, _prevState: State) {
     // reset the state on new conversation key
     if (prevProps.selectedConversationKey !== this.props.selectedConversationKey) {
-      this.setState(getDefaultState(), this.focusCompositionBox);
+      this.setState(getDefaultState(this.props.selectedConversationKey), this.focusCompositionBox);
       this.lastBumpTypingMessageLength = 0;
     } else if (this.props.stagedAttachments?.length !== prevProps.stagedAttachments?.length) {
       // if number of staged attachment changed, focus the composition box for a more natural UI
@@ -433,7 +437,7 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
 
   private renderTextArea() {
     const { i18n } = window;
-    const { draft } = this.props;
+    const { draft } = this.state;
 
     if (!this.props.selectedConversation) {
       return null;
@@ -585,7 +589,7 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
       return <></>;
     }
     // we try to match the first link found in the current message
-    const links = window.Signal.LinkPreviews.findLinks(this.props.draft, undefined);
+    const links = window.Signal.LinkPreviews.findLinks(this.state.draft, undefined);
     if (!links || links.length === 0 || ignoredLink === links[0]) {
       if (this.state.stagedLinkPreview) {
         this.setState({
@@ -796,8 +800,8 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
   }
 
   private async onKeyDown(event: any) {
-    if (event.key === 'Enter' && !event.shiftKey) {
-      // If shift, newline. Else send message.
+    if (event.key === 'Enter' && !event.shiftKey && !event.nativeEvent.isComposing) {
+      // If shift, newline. If in IME composing mode, leave it to IME. Else send message.
       event.preventDefault();
       await this.onSendMessage();
     } else if (event.key === 'Escape' && this.state.showEmojiPanel) {
@@ -809,12 +813,12 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
   }
 
   private async onKeyUp() {
-    const { draft } = this.props;
+    const { draft } = this.state;
     // Called whenever the user changes the message composition field. But only
     //   fires if there's content in the message field after the change.
     // Also, check for a message length change before firing it up, to avoid
     // catching ESC, tab, or whatever which is not typing
-    if (draft.length && draft.length !== this.lastBumpTypingMessageLength) {
+    if (draft && draft.length && draft.length !== this.lastBumpTypingMessageLength) {
       const conversationModel = getConversationController().get(this.props.selectedConversationKey);
       if (!conversationModel) {
         return;
@@ -852,7 +856,7 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
       return replacedMentions;
     };
 
-    const messagePlaintext = cleanMentions(this.parseEmojis(this.props.draft));
+    const messagePlaintext = cleanMentions(this.parseEmojis(this.state.draft));
 
     const { selectedConversation } = this.props;
 
@@ -924,13 +928,12 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
         showEmojiPanel: false,
         stagedLinkPreview: undefined,
         ignoredLink: undefined,
+        draft: '',
       });
-      window.inboxStore?.dispatch(
-        updateDraftForConversation({
-          conversationKey: this.props.selectedConversationKey,
-          draft: '',
-        })
-      );
+      updateDraftForConversation({
+        conversationKey: this.props.selectedConversationKey,
+        draft: '',
+      });
     } catch (e) {
       // Message sending failed
       window?.log?.error(e);
@@ -1022,12 +1025,8 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
 
   private onChange(event: any) {
     const draft = event.target.value ?? '';
-    window.inboxStore?.dispatch(
-      updateDraftForConversation({
-        conversationKey: this.props.selectedConversationKey,
-        draft,
-      })
-    );
+    this.setState({ draft });
+    updateDraftForConversation({ conversationKey: this.props.selectedConversationKey, draft });
   }
 
   private getSelectionBasedOnMentions(index: number) {
@@ -1035,7 +1034,7 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
     // this is kind of a pain as the mentions box has two inputs, one with the real text, and one with the extracted mentions
 
     // the index shown to the user is actually just the visible part of the mentions (so the part between ￗ...ￒ
-    const matches = this.props.draft.match(this.mentionsRegex);
+    const matches = this.state.draft.match(this.mentionsRegex);
 
     let lastMatchStartIndex = 0;
     let lastMatchEndIndex = 0;
@@ -1049,7 +1048,7 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
       const displayNameEnd = match.lastIndexOf('\uFFD2');
       const displayName = match.substring(displayNameStart, displayNameEnd);
 
-      const currentMatchStartIndex = this.props.draft.indexOf(match) + lastMatchStartIndex;
+      const currentMatchStartIndex = this.state.draft.indexOf(match) + lastMatchStartIndex;
       lastMatchStartIndex = currentMatchStartIndex;
       lastMatchEndIndex = currentMatchStartIndex + match.length;
 
@@ -1093,7 +1092,7 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
       return;
     }
 
-    const { draft } = this.props;
+    const { draft } = this.state;
 
     const currentSelectionStart = Number(messageBox.selectionStart);
 
@@ -1103,12 +1102,11 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
     const end = draft.slice(realSelectionStart);
 
     const newMessage = `${before}${colons}${end}`;
-    window.inboxStore?.dispatch(
-      updateDraftForConversation({
-        conversationKey: this.props.selectedConversationKey,
-        draft: newMessage,
-      })
-    );
+    this.setState({ draft: newMessage });
+    updateDraftForConversation({
+      conversationKey: this.props.selectedConversationKey,
+      draft: newMessage,
+    });
 
     // update our selection because updating text programmatically
     // will put the selection at the end of the textarea
@@ -1138,7 +1136,6 @@ const mapStateToProps = (state: StateType) => {
     quotedMessageProps: getQuotedMessage(state),
     selectedConversation: getSelectedConversation(state),
     selectedConversationKey: getSelectedConversationKey(state),
-    draft: getDraftForCurrentConversation(state),
     theme: getTheme(state),
   };
 };

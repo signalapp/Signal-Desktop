@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { Emojify } from './Emojify';
 
 type Props = {
-  phoneNumber: string;
+  pubkey: string;
   name?: string | null;
   profileName?: string | null;
   module?: string;
@@ -14,15 +14,7 @@ type Props = {
 };
 
 export const ContactName = (props: Props) => {
-  const {
-    phoneNumber,
-    name,
-    profileName,
-    module,
-    boldProfileName,
-    compact,
-    shouldShowPubkey,
-  } = props;
+  const { pubkey, name, profileName, module, boldProfileName, compact, shouldShowPubkey } = props;
   const prefix = module ? module : 'module-contact-name';
 
   const shouldShowProfile = Boolean(profileName || name);
@@ -40,7 +32,7 @@ export const ContactName = (props: Props) => {
 
   const pubKeyElement = shouldShowPubkey ? (
     <span className={`${prefix}__profile-number`}>
-      <Emojify text={phoneNumber} />
+      <Emojify text={pubkey} />
     </span>
   ) : null;
 

@@ -19,7 +19,6 @@ import {
 } from './Menu';
 import _ from 'lodash';
 import { ConversationNotificationSettingType } from '../../../models/conversation';
-import { NotificationForConvoOption } from '../../../state/ducks/conversations';
 
 export type PropsConversationHeaderMenu = {
   conversationId: string;
@@ -30,7 +29,6 @@ export type PropsConversationHeaderMenu = {
   left: boolean;
   isGroup: boolean;
   weAreAdmin: boolean;
-  notificationForConvo: Array<NotificationForConvoOption>;
   currentNotificationSetting: ConversationNotificationSettingType;
   isPrivate: boolean;
   isBlocked: boolean;
@@ -50,21 +48,20 @@ const ConversationHeaderMenu = (props: PropsConversationHeaderMenu) => {
     isPrivate,
     left,
     hasNickname,
-    notificationForConvo,
     currentNotificationSetting,
   } = props;
 
   return (
     <Menu id={triggerId} animation={animation.fade}>
       {getDisappearingMenuItem(isPublic, isKickedFromGroup, left, isBlocked, conversationId)}
-      {getNotificationForConvoMenuItem(
+      {getNotificationForConvoMenuItem({
         isKickedFromGroup,
         left,
         isBlocked,
-        notificationForConvo,
+        isPrivate,
         currentNotificationSetting,
-        conversationId
-      )}
+        conversationId,
+      })}
       {getPinConversationMenuItem(conversationId)}
       {getBlockMenuItem(isMe, isPrivate, isBlocked, conversationId)}
       {getCopyMenuItem(isPublic, isGroup, conversationId)}

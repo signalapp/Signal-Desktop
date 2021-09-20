@@ -6,7 +6,6 @@ import { ClosedGroupVisibleMessage } from '../session/messages/outgoing/visibleM
 import { PubKey } from '../session/types';
 import { UserUtils } from '../session/utils';
 import { BlockedNumberController } from '../util';
-import { getMessageController } from '../session/messages';
 import { leaveClosedGroup } from '../session/group';
 import { SignalService } from '../protobuf';
 import { MessageModel } from './message';
@@ -26,7 +25,6 @@ import {
   conversationChanged,
   LastMessageStatusType,
   MessageModelPropsWithoutConvoProps,
-  NotificationForConvoOption,
   ReduxConversationType,
 } from '../state/ducks/conversations';
 import { ExpirationTimerUpdateMessage } from '../session/messages/outgoing/controlMessage/ExpirationTimerUpdateMessage';
@@ -50,6 +48,8 @@ import {
 import { ed25519Str } from '../session/onions/onionPath';
 import { getDecryptedMediaUrl } from '../session/crypto/DecryptedAttachmentsManager';
 import { IMAGE_JPEG } from '../types/MIME';
+import { UnsendMessage } from '../session/messages/outgoing/controlMessage/UnsendMessage';
+import { getLatestTimestampOffset, networkDeleteMessages } from '../session/snode_api/SNodeAPI';
 
 export enum ConversationTypeEnum {
   GROUP = 'group',
@@ -413,57 +413,136 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     return this.get('moderators');
   }
 
+  // tslint:disable-next-line: cyclomatic-complexity
   public getConversationModelProps(): ReduxConversationType {
     const groupAdmins = this.getGroupAdmins();
-    const members = this.isGroup() && !this.isPublic() ? this.get('members') : [];
-    const ourNumber = UserUtils.getOurPubKeyStrFromCache();
+    const isPublic = this.isPublic();
 
-    // isSelected is overriden by redux
-    return {
-      isSelected: false,
+    const members = this.isGroup() && !isPublic ? this.get('members') : [];
+    const ourNumber = UserUtils.getOurPubKeyStrFromCache();
+    const avatarPath = this.getAvatarPath();
+    const isPrivate = this.isPrivate();
+    const isGroup = !isPrivate;
+    const weAreAdmin = this.isAdmin(ourNumber);
+    const isMe = this.isMe();
+    const isTyping = !!this.typingTimer;
+    const name = this.getName();
+    const profileName = this.getProfileName();
+    const unreadCount = this.get('unreadCount') || undefined;
+    const mentionedUs = this.get('mentionedUs') || undefined;
+    const isBlocked = this.isBlocked();
+    const subscriberCount = this.get('subscriberCount');
+    const isPinned = this.isPinned();
+    const hasNickname = !!this.getNickname();
+    const isKickedFromGroup = !!this.get('isKickedFromGroup');
+    const left = !!this.get('left');
+    const expireTimer = this.get('expireTimer');
+    const currentNotificationSetting = this.get('triggerNotificationsFor');
+
+    // to reduce the redux store size, only set fields which cannot be undefined
+    // for instance, a boolean can usually be not set if false, etc
+    const toRet: ReduxConversationType = {
       id: this.id as string,
       activeAt: this.get('active_at'),
-      avatarPath: this.getAvatarPath() || null,
-      type: this.isPrivate() ? ConversationTypeEnum.PRIVATE : ConversationTypeEnum.GROUP,
-      weAreAdmin: this.isAdmin(ourNumber),
-      isGroup: !this.isPrivate(),
-
-      isPrivate: this.isPrivate(),
-      isMe: this.isMe(),
-      isPublic: this.isPublic(),
-      isTyping: !!this.typingTimer,
-      name: this.getName(),
-      profileName: this.getProfileName(),
-      // title: this.getTitle(),
-      unreadCount: this.get('unreadCount') || 0,
-      mentionedUs: this.get('mentionedUs') || false,
-      isBlocked: this.isBlocked(),
-      phoneNumber: this.getNumber(),
-      lastMessage: {
-        status: this.get('lastMessageStatus'),
-        text: this.get('lastMessage'),
-      },
-      hasNickname: !!this.getNickname(),
-      isKickedFromGroup: !!this.get('isKickedFromGroup'),
-      left: !!this.get('left'),
-      groupAdmins,
-      members,
-      expireTimer: this.get('expireTimer') || 0,
-      subscriberCount: this.get('subscriberCount') || 0,
-      isPinned: this.isPinned(),
-      notificationForConvo: this.getConversationNotificationSettingType(),
-      currentNotificationSetting: this.get('triggerNotificationsFor'),
+      type: isPrivate ? ConversationTypeEnum.PRIVATE : ConversationTypeEnum.GROUP,
     };
-  }
 
-  public getConversationNotificationSettingType(): Array<NotificationForConvoOption> {
-    // exclude mentions_only settings for private chats as this does not make much sense
-    return ConversationNotificationSetting.filter(n =>
-      this.isPrivate() ? n !== 'mentions_only' : true
-    ).map((n: ConversationNotificationSettingType) => {
-      // this link to the notificationForConvo_all, notificationForConvo_mentions_only, ...
-      return { value: n, name: window.i18n(`notificationForConvo_${n}`) };
-    });
+    if (isPrivate) {
+      toRet.isPrivate = true;
+    }
+
+    if (isGroup) {
+      toRet.isGroup = true;
+    }
+
+    if (weAreAdmin) {
+      toRet.weAreAdmin = true;
+    }
+
+    if (isMe) {
+      toRet.isMe = true;
+    }
+    if (isPublic) {
+      toRet.isPublic = true;
+    }
+    if (isTyping) {
+      toRet.isTyping = true;
+    }
+
+    if (isTyping) {
+      toRet.isTyping = true;
+    }
+
+    if (avatarPath) {
+      toRet.avatarPath = avatarPath;
+    }
+
+    if (name) {
+      toRet.name = name;
+    }
+
+    if (profileName) {
+      toRet.profileName = profileName;
+    }
+
+    if (unreadCount) {
+      toRet.unreadCount = unreadCount;
+    }
+
+    if (mentionedUs) {
+      toRet.mentionedUs = mentionedUs;
+    }
+
+    if (isBlocked) {
+      toRet.isBlocked = isBlocked;
+    }
+    if (hasNickname) {
+      toRet.hasNickname = hasNickname;
+    }
+    if (isKickedFromGroup) {
+      toRet.isKickedFromGroup = isKickedFromGroup;
+    }
+    if (left) {
+      toRet.left = left;
+    }
+    if (isPinned) {
+      toRet.isPinned = isPinned;
+    }
+    if (subscriberCount) {
+      toRet.subscriberCount = subscriberCount;
+    }
+    if (groupAdmins && groupAdmins.length) {
+      toRet.groupAdmins = groupAdmins;
+    }
+    if (members && members.length) {
+      toRet.members = members;
+    }
+
+    if (members && members.length) {
+      toRet.members = members;
+    }
+
+    if (expireTimer) {
+      toRet.expireTimer = expireTimer;
+    }
+
+    if (
+      currentNotificationSetting &&
+      currentNotificationSetting !== ConversationNotificationSetting[0]
+    ) {
+      toRet.currentNotificationSetting = currentNotificationSetting;
+    }
+
+    const lastMessageText = this.get('lastMessage');
+    if (lastMessageText && lastMessageText.length) {
+      const lastMessageStatus = this.get('lastMessageStatus');
+
+      toRet.lastMessage = {
+        status: lastMessageStatus,
+        text: lastMessageText,
+      };
+    }
+    return toRet;
   }
 
   public async updateGroupAdmins(groupAdmins: Array<string>) {
@@ -711,6 +790,129 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       return null;
     }
   }
+
+  /**
+   * @param messages Messages to delete
+   */
+  public async deleteMessages(messages: Array<MessageModel>) {
+    const results = await Promise.all(
+      messages.map(async message => {
+        return this.deleteMessage(message, true);
+      })
+    );
+    return _.every(results);
+  }
+
+  /**
+   * Deletes message from this device's swarm and handles local deletion of message
+   * @param message Message to delete
+   * @param removeFromDatabase delete message from the database entirely or just modify the message data
+   * @returns boolean if the deletion succeeeded
+   */
+  public async deleteMessage(message: MessageModel, removeFromDatabase = false): Promise<boolean> {
+    //#region deletion on network
+    try {
+      const deletionMessageHashes = _.compact([message.get('messageHash')]);
+      if (deletionMessageHashes.length > 0) {
+        await networkDeleteMessages(deletionMessageHashes);
+      }
+    } catch (e) {
+      window.log?.error('Error deleting message from swarm', e);
+      return false;
+    }
+    //#endregion
+
+    //#region handling database
+    if (removeFromDatabase) {
+      // remove the message from the database
+      await this.removeMessage(message.get('id'));
+    } else {
+      // just mark the message as deleted but still show in conversation
+      await message.markAsDeleted();
+      await message.markRead(Date.now());
+      this.updateLastMessage();
+    }
+    //#endregion
+    return true;
+  }
+
+  public async unsendMessages(messages: Array<MessageModel>, onlyDeleteForSender: boolean = false) {
+    const results = await Promise.all(
+      messages.map(async message => {
+        return this.unsendMessage(message, onlyDeleteForSender);
+      })
+    );
+    return _.every(results);
+  }
+
+  /**
+   * Creates an unsend request using protobuf and adds to messageQueue.
+   * @param message Message to unsend
+   */
+  public async unsendMessage(
+    message: MessageModel,
+    onlyDeleteForSender: boolean = false
+  ): Promise<boolean> {
+    if (!message.get('messageHash')) {
+      window?.log?.error(
+        `message with id ${message.get('id')} cannot find hash: ${message.get('messageHash')}`
+      );
+      return false;
+    }
+    const ownPrimaryDevicePubkey = UserUtils.getOurPubKeyFromCache();
+
+    // If deleting just for sender, set destination to sender
+    const destinationId = onlyDeleteForSender ? ownPrimaryDevicePubkey : this.id;
+    if (!destinationId) {
+      return false;
+    }
+    //#endregion
+
+    //#region building request
+    const author = message.get('source');
+
+    const timestamp = message.getPropsForMessage().timestamp;
+    if (!timestamp) {
+      window?.log?.error('cannot find timestamp - aborting unsend request');
+      return false;
+    }
+
+    const unsendParams = {
+      timestamp,
+      author,
+    };
+
+    const unsendMessage = new UnsendMessage(unsendParams);
+    //#endregion
+
+    //#region sending
+    // 1-1 Session
+    if (!this.isGroup()) {
+      // sending to recipient
+      getMessageQueue()
+        .sendToPubKey(new PubKey(destinationId), unsendMessage)
+        .catch(window?.log?.error);
+      return this.deleteMessage(message);
+    }
+
+    // closed groups
+    if (this.isClosedGroup() && this.id) {
+      getMessageQueue()
+        .sendToGroup(unsendMessage, undefined, PubKey.cast(this.id))
+        .catch(window?.log?.error);
+      // not calling deleteMessage as it'll be called by the unsend handler when it's received
+      return true;
+    }
+
+    // open groups
+    if (this.isOpenGroupV2()) {
+      window?.log?.info('Conversation is open group. Skipping unsend request.');
+    }
+
+    return true;
+    //#endregion
+  }
+
   public async sendMessage(msg: SendMessageType) {
     const { attachments, body, groupInvitation, preview, quote } = msg;
     this.clearTypingTimers();
@@ -734,6 +936,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const editedQuote = _.isEmpty(quote) ? undefined : quote;
     const { upgradeMessageSchema } = window.Signal.Migrations;
 
+    const diffTimestamp = Date.now() - getLatestTimestampOffset();
+
     const messageWithSchema = await upgradeMessageSchema({
       type: 'outgoing',
       body,
@@ -741,10 +945,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       quote: editedQuote,
       preview,
       attachments,
-      sent_at: now,
+      sent_at: diffTimestamp,
       received_at: now,
       expireTimer,
       recipients,
+      isDeleted: false,
     });
 
     if (!this.isPublic()) {
@@ -919,7 +1124,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         id: this.id,
         data: {
           ...this.getConversationModelProps(),
-          isSelected: false,
         },
       })
     );
@@ -943,7 +1147,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     if (setToExpire) {
       await model.setToExpire();
     }
-    getMessageController().register(messageId, model);
     window.inboxStore?.dispatch(
       conversationActions.messageAdded({
         conversationKey: this.id,
@@ -1255,24 +1458,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public isGroup() {
     return this.get('type') === 'group';
   }
-
-  // public deleteContact() {
-  //   let title = window.i18n('delete');
-  //   let message = window.i18n('deleteContactConfirmation');
-
-  //   if (this.isGroup()) {
-  //     title = window.i18n('leaveGroup');
-  //     message = window.i18n('leaveGroupConfirmation');
-  //   }
-
-  //   window.confirmationDialog({
-  //     title,
-  //     message,
-  //     resolve: () => {
-  //       void getConversationController().deleteContact(this.id);
-  //     },
-  //   });
-  // }
 
   public async removeMessage(messageId: any) {
     await dataRemoveMessage(messageId);

@@ -1,15 +1,17 @@
 import { expect } from 'chai';
 import * as crypto from 'crypto';
 import * as sinon from 'sinon';
-import { toNumber } from 'lodash';
-import { LokiMessageApi, MessageSender } from '../../../../session/sending';
+import { MessageSender } from '../../../../session/sending';
 import { TestUtils } from '../../../test-utils';
 import { MessageEncrypter } from '../../../../session/crypto';
 import { SignalService } from '../../../../protobuf';
 import { EncryptionType } from '../../../../session/types/EncryptionType';
-import { PubKey } from '../../../../session/types';
-import { UserUtils } from '../../../../session/utils';
+import { PubKey, RawMessage } from '../../../../session/types';
+import { MessageUtils, UserUtils } from '../../../../session/utils';
 import { ApiV2 } from '../../../../opengroup/opengroupV2';
+import * as Data from '../../../../../ts/data/data';
+import { SNodeAPI } from '../../../../session/snode_api';
+import _ from 'lodash';
 
 describe('MessageSender', () => {
   const sandbox = sinon.createSandbox();
@@ -19,6 +21,10 @@ describe('MessageSender', () => {
     TestUtils.restoreStubs();
   });
 
+  beforeEach(() => {
+    TestUtils.stubWindowLog();
+  });
+
   // tslint:disable-next-line: max-func-body-length
   describe('send', () => {
     const ourNumber = '0123456789abcdef';
@@ -26,7 +32,9 @@ describe('MessageSender', () => {
     let encryptStub: sinon.SinonStub<[PubKey, Uint8Array, EncryptionType]>;
 
     beforeEach(() => {
-      lokiMessageAPISendStub = sandbox.stub(LokiMessageApi, 'sendMessage').resolves();
+      lokiMessageAPISendStub = sandbox.stub(MessageSender, 'TEST_sendMessageToSnode').resolves();
+
+      sandbox.stub(Data, 'getMessageById').resolves();
 
       encryptStub = sandbox.stub(MessageEncrypter, 'encrypt').resolves({
         envelopeType: SignalService.Envelope.Type.SESSION_MESSAGE,
@@ -37,24 +45,24 @@ describe('MessageSender', () => {
     });
 
     describe('retry', () => {
-      const rawMessage = {
-        identifier: '1',
-        device: TestUtils.generateFakePubKey().key,
-        plainTextBuffer: crypto.randomBytes(10),
-        encryption: EncryptionType.Fallback,
-        timestamp: Date.now(),
-        ttl: 100,
-      };
+      let rawMessage: RawMessage;
+
+      beforeEach(async () => {
+        rawMessage = await MessageUtils.toRawMessage(
+          TestUtils.generateFakePubKey(),
+          TestUtils.generateVisibleMessage()
+        );
+      });
 
       it('should not retry if an error occurred during encryption', async () => {
         encryptStub.throws(new Error('Failed to encrypt.'));
-        const promise = MessageSender.send(rawMessage);
+        const promise = MessageSender.send(rawMessage, 3, 10);
         await expect(promise).is.rejectedWith('Failed to encrypt.');
         expect(lokiMessageAPISendStub.callCount).to.equal(0);
       });
 
       it('should only call lokiMessageAPI once if no errors occured', async () => {
-        await MessageSender.send(rawMessage);
+        await MessageSender.send(rawMessage, 3, 10);
         expect(lokiMessageAPISendStub.callCount).to.equal(1);
       });
 
@@ -87,41 +95,30 @@ describe('MessageSender', () => {
       });
 
       it('should pass the correct values to lokiMessageAPI', async () => {
-        const device = TestUtils.generateFakePubKey().key;
-        const timestamp = Date.now();
-        const ttl = 100;
+        const device = TestUtils.generateFakePubKey();
+        const visibleMessage = TestUtils.generateVisibleMessage();
 
-        await MessageSender.send({
-          identifier: '1',
-          device,
-          plainTextBuffer: crypto.randomBytes(10),
-          encryption: EncryptionType.Fallback,
-          timestamp,
-          ttl,
-        });
+        const rawMessage = await MessageUtils.toRawMessage(device, visibleMessage);
+
+        await MessageSender.send(rawMessage, 3, 10);
 
         const args = lokiMessageAPISendStub.getCall(0).args;
-        expect(args[0]).to.equal(device);
-        expect(args[2]).to.equal(timestamp);
-        expect(args[3]).to.equal(ttl);
+        expect(args[0]).to.equal(device.key);
+        // expect(args[3]).to.equal(visibleMessage.timestamp); the timestamp is overwritten on sending by the network clock offset
+        expect(args[2]).to.equal(visibleMessage.ttl());
       });
 
-      it('should correctly build the envelope', async () => {
+      it('should correctly build the envelope and override the timestamp', async () => {
         messageEncyrptReturnEnvelopeType = SignalService.Envelope.Type.SESSION_MESSAGE;
 
         // This test assumes the encryption stub returns the plainText passed into it.
-        const device = TestUtils.generateFakePubKey().key;
-        const plainTextBuffer = crypto.randomBytes(10);
-        const timestamp = Date.now();
+        const device = TestUtils.generateFakePubKey();
 
-        await MessageSender.send({
-          identifier: '1',
-          device,
-          plainTextBuffer,
-          encryption: EncryptionType.Fallback,
-          timestamp,
-          ttl: 1,
-        });
+        const visibleMessage = TestUtils.generateVisibleMessage();
+        const rawMessage = await MessageUtils.toRawMessage(device, visibleMessage);
+        const offset = 200000;
+        sandbox.stub(SNodeAPI, 'getLatestTimestampOffset').returns(offset);
+        await MessageSender.send(rawMessage, 3, 10);
 
         const data = lokiMessageAPISendStub.getCall(0).args[1];
         const webSocketMessage = SignalService.WebSocketMessage.decode(data);
@@ -139,8 +136,20 @@ describe('MessageSender', () => {
         );
         expect(envelope.type).to.equal(SignalService.Envelope.Type.SESSION_MESSAGE);
         expect(envelope.source).to.equal('');
-        expect(toNumber(envelope.timestamp)).to.equal(timestamp);
-        expect(envelope.content).to.deep.equal(plainTextBuffer);
+
+        // the timestamp is overridden on sending with the network offset
+        const expectedTimestamp = Date.now() - offset;
+        const decodedTimestampFromSending = _.toNumber(envelope.timestamp);
+        expect(decodedTimestampFromSending).to.be.above(expectedTimestamp - 10);
+        expect(decodedTimestampFromSending).to.be.below(expectedTimestamp + 10);
+
+        // then make sure the plaintextBuffer was overriden too
+        const visibleMessageExpected = TestUtils.generateVisibleMessage({
+          timestamp: decodedTimestampFromSending,
+        });
+        const rawMessageExpected = await MessageUtils.toRawMessage(device, visibleMessageExpected);
+
+        expect(envelope.content).to.deep.equal(rawMessageExpected.plainTextBuffer);
       });
 
       describe('SESSION_MESSAGE', () => {
@@ -148,18 +157,11 @@ describe('MessageSender', () => {
           messageEncyrptReturnEnvelopeType = SignalService.Envelope.Type.SESSION_MESSAGE;
 
           // This test assumes the encryption stub returns the plainText passed into it.
-          const device = TestUtils.generateFakePubKey().key;
-          const plainTextBuffer = crypto.randomBytes(10);
-          const timestamp = Date.now();
+          const device = TestUtils.generateFakePubKey();
 
-          await MessageSender.send({
-            identifier: '1',
-            device,
-            plainTextBuffer,
-            encryption: EncryptionType.Fallback,
-            timestamp,
-            ttl: 1,
-          });
+          const visibleMessage = TestUtils.generateVisibleMessage();
+          const rawMessage = await MessageUtils.toRawMessage(device, visibleMessage);
+          await MessageSender.send(rawMessage, 3, 10);
 
           const data = lokiMessageAPISendStub.getCall(0).args[1];
           const webSocketMessage = SignalService.WebSocketMessage.decode(data);

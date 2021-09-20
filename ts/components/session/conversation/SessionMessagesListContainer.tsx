@@ -140,10 +140,10 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
         ref={this.props.messageContainerRef}
       >
         <TypingBubble
-          phoneNumber={conversationKey}
+          pubkey={conversationKey}
           conversationType={conversation.type}
           displayedName={displayedName}
-          isTyping={conversation.isTyping}
+          isTyping={!!conversation.isTyping}
           key="typing-bubble"
         />
 
@@ -170,7 +170,10 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
       return;
     }
 
-    if (conversation.unreadCount <= 0 || firstUnreadOnOpen === undefined) {
+    if (
+      (conversation.unreadCount && conversation.unreadCount <= 0) ||
+      firstUnreadOnOpen === undefined
+    ) {
       this.scrollToBottom();
     } else {
       // just assume that this need to be shown by default

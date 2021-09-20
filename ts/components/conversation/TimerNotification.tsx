@@ -8,12 +8,12 @@ import { PropsForExpirationTimer } from '../../state/ducks/conversations';
 import { ReadableMessage } from './ReadableMessage';
 
 const TimerNotificationContent = (props: PropsForExpirationTimer) => {
-  const { phoneNumber, profileName, timespan, type, disabled } = props;
+  const { pubkey, profileName, timespan, type, disabled } = props;
   const changeKey = disabled ? 'disabledDisappearingMessages' : 'theyChangedTheTimer';
 
   const contact = (
-    <span key={`external-${phoneNumber}`} className="module-timer-notification__contact">
-      {profileName || phoneNumber}
+    <span key={`external-${pubkey}`} className="module-timer-notification__contact">
+      {profileName || pubkey}
     </span>
   );
 

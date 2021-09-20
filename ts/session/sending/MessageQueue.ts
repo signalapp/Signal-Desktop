@@ -20,6 +20,7 @@ import { SyncMessageType } from '../utils/syncUtils';
 
 import { OpenGroupRequestCommonType } from '../../opengroup/opengroupV2/ApiUtil';
 import { OpenGroupVisibleMessage } from '../messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
+import { UnsendMessage } from '../messages/outgoing/controlMessage/UnsendMessage';
 
 type ClosedGroupMessageType =
   | ClosedGroupVisibleMessage
@@ -29,6 +30,7 @@ type ClosedGroupMessageType =
   | ClosedGroupMemberLeftMessage
   | ExpirationTimerUpdateMessage
   | ClosedGroupEncryptionPairMessage
+  | UnsendMessage
   | ClosedGroupEncryptionPairRequestMessage;
 
 // ClosedGroupEncryptionPairReplyMessage must be sent to a user pubkey. Not a group.
@@ -43,14 +45,15 @@ export class MessageQueue {
   }
 
   public async sendToPubKey(
-    user: PubKey,
+    destinationPubKey: PubKey,
     message: ContentMessage,
-    sentCb?: (message: RawMessage) => Promise<void>
+    sentCb?: (message: RawMessage) => Promise<void>,
+    isGroup = false
   ): Promise<void> {
     if (message instanceof ConfigurationMessage || !!(message as any).syncTarget) {
       throw new Error('SyncMessage needs to be sent with sendSyncMessage');
     }
-    await this.process(user, message, sentCb);
+    await this.process(destinationPubKey, message, sentCb, isGroup);
   }
 
   /**
@@ -87,18 +90,20 @@ export class MessageQueue {
    */
   public async sendToGroup(
     message: ClosedGroupMessageType,
-    sentCb?: (message: RawMessage) => Promise<void>
+    sentCb?: (message: RawMessage) => Promise<void>,
+    groupPubKey?: PubKey
   ): Promise<void> {
-    let groupId: PubKey | undefined;
+    let destinationPubKey: PubKey | undefined = groupPubKey;
     if (message instanceof ExpirationTimerUpdateMessage || message instanceof ClosedGroupMessage) {
-      groupId = message.groupId;
+      destinationPubKey = groupPubKey ? groupPubKey : message.groupId;
     }
 
-    if (!groupId) {
+    if (!destinationPubKey) {
       throw new Error('Invalid group message passed in sendToGroup.');
     }
+
     // if groupId is set here, it means it's for a medium group. So send it as it
-    return this.sendToPubKey(PubKey.cast(groupId), message, sentCb);
+    return this.sendToPubKey(PubKey.cast(destinationPubKey), message, sentCb, true);
   }
 
   public async sendSyncMessage(
@@ -129,8 +134,12 @@ export class MessageQueue {
     let rawMessage;
     try {
       rawMessage = await MessageUtils.toRawMessage(user, message);
-      const wrappedEnvelope = await MessageSender.send(rawMessage);
-      await MessageSentHandler.handleMessageSentSuccess(rawMessage, wrappedEnvelope);
+      const { wrappedEnvelope, effectiveTimestamp } = await MessageSender.send(rawMessage);
+      await MessageSentHandler.handleMessageSentSuccess(
+        rawMessage,
+        effectiveTimestamp,
+        wrappedEnvelope
+      );
       return !!wrappedEnvelope;
     } catch (error) {
       if (rawMessage) {
@@ -140,19 +149,33 @@ export class MessageQueue {
     }
   }
 
-  public async processPending(device: PubKey) {
+  /**
+   * processes pending jobs in the message sending queue.
+   * @param device - target device to send to
+   */
+  public async processPending(device: PubKey, isSyncMessage: boolean = false) {
     const messages = await this.pendingMessageCache.getForDevice(device);
 
     const jobQueue = this.getJobQueue(device);
     messages.forEach(async message => {
-      const messageId = String(message.timestamp);
+      const messageId = message.identifier;
 
       if (!jobQueue.has(messageId)) {
         // We put the event handling inside this job to avoid sending duplicate events
         const job = async () => {
           try {
-            const wrappedEnvelope = await MessageSender.send(message);
-            await MessageSentHandler.handleMessageSentSuccess(message, wrappedEnvelope);
+            const { wrappedEnvelope, effectiveTimestamp } = await MessageSender.send(
+              message,
+              undefined,
+              undefined,
+              isSyncMessage
+            );
+
+            await MessageSentHandler.handleMessageSentSuccess(
+              message,
+              effectiveTimestamp,
+              wrappedEnvelope
+            );
 
             const cb = this.pendingMessageCache.callbacks.get(message.identifier);
 
@@ -187,29 +210,33 @@ export class MessageQueue {
    * This method should not be called directly. Only through sendToPubKey.
    */
   private async process(
-    device: PubKey,
+    destinationPk: PubKey,
     message: ContentMessage,
-    sentCb?: (message: RawMessage) => Promise<void>
+    sentCb?: (message: RawMessage) => Promise<void>,
+    isGroup = false
   ): Promise<void> {
     // Don't send to ourselves
     const currentDevice = UserUtils.getOurPubKeyFromCache();
-    if (currentDevice && device.isEqual(currentDevice)) {
+    let isSyncMessage = false;
+    if (currentDevice && destinationPk.isEqual(currentDevice)) {
       // We allow a message for ourselve only if it's a ConfigurationMessage, a ClosedGroupNewMessage,
       // or a message with a syncTarget set.
+
       if (
         message instanceof ConfigurationMessage ||
         message instanceof ClosedGroupNewMessage ||
         (message as any).syncTarget?.length > 0
       ) {
         window?.log?.warn('Processing sync message');
+        isSyncMessage = true;
       } else {
         window?.log?.warn('Dropping message in process() to be sent to ourself');
         return;
       }
     }
 
-    await this.pendingMessageCache.add(device, message, sentCb);
-    void this.processPending(device);
+    await this.pendingMessageCache.add(destinationPk, message, sentCb, isGroup);
+    void this.processPending(destinationPk, isSyncMessage);
   }
 
   private getJobQueue(device: PubKey): JobQueue {

@@ -5,7 +5,7 @@ import { Avatar, AvatarSize } from './Avatar';
 import { Emojify } from './conversation/Emojify';
 
 interface Props {
-  phoneNumber: string;
+  pubkey: string;
   isMe?: boolean;
   name?: string;
   profileName?: string;
@@ -15,26 +15,24 @@ interface Props {
 
 export class ContactListItem extends React.Component<Props> {
   public renderAvatar() {
-    const { avatarPath, name, phoneNumber, profileName } = this.props;
+    const { avatarPath, name, pubkey, profileName } = this.props;
 
-    const userName = name || profileName || phoneNumber;
+    const userName = name || profileName || pubkey;
 
-    return (
-      <Avatar avatarPath={avatarPath} name={userName} size={AvatarSize.S} pubkey={phoneNumber} />
-    );
+    return <Avatar avatarPath={avatarPath} name={userName} size={AvatarSize.S} pubkey={pubkey} />;
   }
 
   public render() {
-    const { name, onClick, isMe, phoneNumber, profileName } = this.props;
+    const { name, onClick, isMe, pubkey, profileName } = this.props;
 
-    const title = name ? name : phoneNumber;
+    const title = name ? name : pubkey;
     const displayName = isMe ? window.i18n('me') : title;
 
     const profileElement =
       !isMe && profileName && !name ? (
         <span className="module-contact-list-item__text__profile-name">
           ~
-          <Emojify text={profileName} key={`emojify-list-item-${phoneNumber}`} />
+          <Emojify text={profileName} key={`emojify-list-item-${pubkey}`} />
         </span>
       ) : null;
 

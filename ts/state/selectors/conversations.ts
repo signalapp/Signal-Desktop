@@ -14,7 +14,7 @@ import {
 
 import { getIntl, getOurNumber } from './user';
 import { BlockedNumberController } from '../../util';
-import { ConversationTypeEnum } from '../../models/conversation';
+import { ConversationNotificationSetting, ConversationTypeEnum } from '../../models/conversation';
 import { LocalizerType } from '../../types/Util';
 import {
   ConversationHeaderProps,
@@ -319,6 +319,7 @@ export const _getLeftPaneLists = (
 
     if (
       unreadCount < 9 &&
+      conversation.unreadCount &&
       conversation.unreadCount > 0 &&
       conversation.currentNotificationSetting !== 'disabled'
     ) {
@@ -369,11 +370,11 @@ export const getConversationHeaderTitleProps = createSelector(getSelectedConvers
     return undefined;
   }
   return {
-    isKickedFromGroup: state.isKickedFromGroup,
-    phoneNumber: state.phoneNumber,
-    isMe: state.isMe,
+    isKickedFromGroup: !!state.isKickedFromGroup,
+    conversationKey: state.id,
+    isMe: !!state.isMe,
     members: state.members || [],
-    isPublic: state.isPublic,
+    isPublic: !!state.isPublic,
     profileName: state.profileName,
     name: state.name,
     subscriberCount: state.subscriberCount,
@@ -415,25 +416,24 @@ export const getConversationHeaderProps = createSelector(getSelectedConversation
     : null;
 
   return {
-    id: state.id,
-    isPrivate: state.isPrivate,
-    notificationForConvo: state.notificationForConvo,
-    currentNotificationSetting: state.currentNotificationSetting,
-    isBlocked: state.isBlocked,
-    left: state.left,
-    avatarPath: state.avatarPath,
+    conversationKey: state.id,
+    isPrivate: !!state.isPrivate,
+    currentNotificationSetting:
+      state.currentNotificationSetting || ConversationNotificationSetting[0], // if undefined, it is 'all'
+    isBlocked: !!state.isBlocked,
+    left: !!state.left,
+    avatarPath: state.avatarPath || null,
     expirationSettingName: expirationSettingName,
-    hasNickname: state.hasNickname,
-    weAreAdmin: state.weAreAdmin,
-    isKickedFromGroup: state.isKickedFromGroup,
-    phoneNumber: state.phoneNumber,
-    isMe: state.isMe,
+    hasNickname: !!state.hasNickname,
+    weAreAdmin: !!state.weAreAdmin,
+    isKickedFromGroup: !!state.isKickedFromGroup,
+    isMe: !!state.isMe,
     members: state.members || [],
-    isPublic: state.isPublic,
+    isPublic: !!state.isPublic,
     profileName: state.profileName,
     name: state.name,
     subscriberCount: state.subscriberCount,
-    isGroup: state.isGroup,
+    isGroup: !!state.isGroup,
   };
 });
 
@@ -505,19 +505,6 @@ export const getNextMessageToPlayId = createSelector(
 export const getMentionsInput = createSelector(
   getConversations,
   (state: ConversationsStateType): MentionsMembersType => state.mentionMembers
-);
-
-export const getDraftForCurrentConversation = createSelector(
-  getConversations,
-  (state: ConversationsStateType): string => {
-    if (state.selectedConversation) {
-      return (
-        state.draftsForConversations.find(c => c.conversationKey === state.selectedConversation)
-          ?.draft || ''
-      );
-    }
-    return '';
-  }
 );
 
 /// Those calls are just related to ordering messages in the redux store.
@@ -670,16 +657,16 @@ export const getMessagePropsByMessageId = createSelector(
       ...foundMessageProps,
       propsForMessage: {
         ...foundMessageProps.propsForMessage,
-        isBlocked: foundMessageConversation.isBlocked,
-        isPublic,
-        isOpenGroupV2: isPublic,
+        isBlocked: !!foundMessageConversation.isBlocked,
+        isPublic: !!isPublic,
+        isOpenGroupV2: !!isPublic,
         isSenderAdmin,
         isDeletable,
         weAreAdmin,
         conversationType: foundMessageConversation.type,
         authorPhoneNumber,
-        authorAvatarPath: foundSenderConversation.avatarPath,
-        isKickedFromGroup: foundMessageConversation.isKickedFromGroup,
+        authorAvatarPath: foundSenderConversation.avatarPath || null,
+        isKickedFromGroup: foundMessageConversation.isKickedFromGroup || false,
         authorProfileName,
         authorName,
       },
@@ -782,7 +769,7 @@ export const getMessageTextProps = createSelector(getMessagePropsByMessageId, (p
     return undefined;
   }
 
-  const { conversationType, convoId, direction, status, text } = props.propsForMessage;
+  const { conversationType, convoId, direction, status, text, isDeleted } = props.propsForMessage;
 
   const msgProps: MessageTextSelectorProps = {
     conversationType,
@@ -790,6 +777,7 @@ export const getMessageTextProps = createSelector(getMessagePropsByMessageId, (p
     direction,
     status,
     text,
+    isDeleted,
   };
 
   return msgProps;
@@ -888,7 +876,7 @@ export const getMessageAttachmentProps = createSelector(getMessagePropsByMessage
     convoId,
   } = props.propsForMessage;
   const msgProps: MessageAttachmentSelectorProps = {
-    attachments,
+    attachments: attachments || [],
     direction,
     isTrustedForAttachmentDownload,
     timestamp,
@@ -954,10 +942,11 @@ export const getMessageContentWithStatusesSelectorProps = createSelector(
       return undefined;
     }
 
-    const { direction } = props.propsForMessage;
+    const { direction, isDeleted } = props.propsForMessage;
 
     const msgProps: MessageContentWithStatusSelectorProps = {
       direction,
+      isDeleted,
     };
 
     return msgProps;
@@ -980,6 +969,7 @@ export const getGenericReadableMessageSelectorProps = createSelector(
       isUnread,
       receivedAt,
       isKickedFromGroup,
+      isDeleted,
     } = props.propsForMessage;
 
     const msgProps: GenericReadableMessageSelectorProps = {
@@ -992,6 +982,7 @@ export const getGenericReadableMessageSelectorProps = createSelector(
       convoId: props.propsForMessage.convoId,
       receivedAt,
       isKickedFromGroup,
+      isDeleted,
     };
 
     return msgProps;

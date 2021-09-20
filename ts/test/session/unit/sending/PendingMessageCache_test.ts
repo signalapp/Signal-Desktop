@@ -68,7 +68,6 @@ describe('PendingMessageCache', () => {
 
     const addedMessage = finalCache[0];
     expect(addedMessage.device).to.deep.equal(rawMessage.device);
-    expect(addedMessage.timestamp).to.deep.equal(rawMessage.timestamp);
   });
 
   it('can add multiple messages belonging to the same user', async () => {
@@ -106,17 +105,14 @@ describe('PendingMessageCache', () => {
     expect(finalCache).to.have.length(0);
   });
 
-  it('should only remove messages with different timestamp and device', async () => {
+  it('should only remove messages with different identifier and device', async () => {
     const device = TestUtils.generateFakePubKey();
     const message = TestUtils.generateVisibleMessage();
     const rawMessage = await MessageUtils.toRawMessage(device, message);
 
     await pendingMessageCacheStub.add(device, message);
     await TestUtils.timeout(5);
-    const one = await pendingMessageCacheStub.add(
-      device,
-      TestUtils.generateVisibleMessage(message.identifier)
-    );
+    const one = await pendingMessageCacheStub.add(device, TestUtils.generateVisibleMessage());
     const two = await pendingMessageCacheStub.add(TestUtils.generateFakePubKey(), message);
 
     const initialCache = await pendingMessageCacheStub.getAllPending();

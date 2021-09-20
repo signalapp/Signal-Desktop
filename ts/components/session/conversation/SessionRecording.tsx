@@ -144,7 +144,7 @@ class SessionRecordingInner extends React.Component<Props, State> {
             {hasRecording && (
               <SessionIconButton
                 iconType="delete"
-                iconSize={'medium'}
+                iconSize="medium"
                 onClick={this.onDeleteVoiceMessage}
               />
             )}

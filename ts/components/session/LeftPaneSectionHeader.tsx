@@ -64,37 +64,32 @@ export const LeftPaneSectionHeader = (props: Props) => {
   );
 };
 
-export const LeftPaneBanner = () => {
+const BannerInner = () => {
   const dispatch = useDispatch();
 
-  const section = useSelector(getFocusedSection);
-
   const showRecoveryPhraseModal = () => {
-    dispatch(
-      recoveryPhraseModal({
-        onClickOk: () => {
-          dispatch(disableRecoveryPhrasePrompt());
-        },
-      })
-    );
+    dispatch(disableRecoveryPhrasePrompt());
+    dispatch(recoveryPhraseModal({}));
   };
+
+  return (
+    <StyledBannerInner>
+      <p>{window.i18n('recoveryPhraseRevealMessage')}</p>
+      <SessionButton
+        buttonType={SessionButtonType.Default}
+        text={window.i18n('recoveryPhraseRevealButtonText')}
+        onClick={showRecoveryPhraseModal}
+      />
+    </StyledBannerInner>
+  );
+};
+
+export const LeftPaneBanner = () => {
+  const section = useSelector(getFocusedSection);
 
   if (section !== SectionType.Message) {
     return null;
   }
-
-  const BannerInner = () => {
-    return (
-      <StyledBannerInner>
-        <p>{window.i18n('recoveryPhraseRevealMessage')}</p>
-        <SessionButton
-          buttonType={SessionButtonType.Default}
-          text={window.i18n('recoveryPhraseRevealButtonText')}
-          onClick={showRecoveryPhraseModal}
-        />
-      </StyledBannerInner>
-    );
-  };
 
   return (
     <StyledLeftPaneBanner>

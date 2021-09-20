@@ -28,7 +28,6 @@ import { UserUtils } from '../session/utils';
 import { ConversationModel, ConversationTypeEnum } from '../models/conversation';
 import _ from 'lodash';
 import { forceSyncConfigurationNowIfNeeded } from '../session/utils/syncUtils';
-import { getMessageController } from '../session/messages';
 import { ClosedGroupEncryptionPairReplyMessage } from '../session/messages/outgoing/controlMessage/group/ClosedGroupEncryptionPairReplyMessage';
 import { queueAllCachedFromSource } from './receiver';
 import { openConversationWithMessages } from '../state/ducks/conversations';
@@ -916,7 +915,6 @@ export async function createClosedGroup(groupName: string, members: Array<string
   };
 
   const dbMessage = await ClosedGroup.addUpdateMessage(convo, groupDiff, 'outgoing', Date.now());
-  getMessageController().register(dbMessage.id, dbMessage);
 
   // be sure to call this before sending the message.
   // the sending pipeline needs to know from GroupUtils when a message is for a medium group

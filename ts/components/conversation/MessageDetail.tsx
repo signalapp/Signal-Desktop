@@ -14,12 +14,10 @@ import {
 } from '../../state/selectors/conversations';
 
 const AvatarItem = (props: { contact: ContactPropsMessageDetail }) => {
-  const { avatarPath, phoneNumber, name, profileName } = props.contact;
-  const userName = name || profileName || phoneNumber;
+  const { avatarPath, pubkey, name, profileName } = props.contact;
+  const userName = name || profileName || pubkey;
 
-  return (
-    <Avatar avatarPath={avatarPath} name={userName} size={AvatarSize.S} pubkey={phoneNumber} />
-  );
+  return <Avatar avatarPath={avatarPath} name={userName} size={AvatarSize.S} pubkey={pubkey} />;
 };
 
 const DeleteButtonItem = (props: { messageId: string; convoId: string; isDeletable: boolean }) => {
@@ -49,7 +47,7 @@ const ContactsItem = (props: { contacts: Array<ContactPropsMessageDetail> }) => 
   return (
     <div className="module-message-detail__contact-container">
       {contacts.map(contact => (
-        <ContactItem key={contact.phoneNumber} contact={contact} />
+        <ContactItem key={contact.pubkey} contact={contact} />
       ))}
     </div>
   );
@@ -69,12 +67,12 @@ const ContactItem = (props: { contact: ContactPropsMessageDetail }) => {
   ) : null;
 
   return (
-    <div key={contact.phoneNumber} className="module-message-detail__contact">
+    <div key={contact.pubkey} className="module-message-detail__contact">
       <AvatarItem contact={contact} />
       <div className="module-message-detail__contact__text">
         <div className="module-message-detail__contact__name">
           <ContactName
-            phoneNumber={contact.phoneNumber}
+            pubkey={contact.pubkey}
             name={contact.name}
             profileName={contact.profileName}
             shouldShowPubkey={true}

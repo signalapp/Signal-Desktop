@@ -535,7 +535,7 @@ function showAbout() {
     resizable: false,
     title: locale.messages.about,
     autoHideMenuBar: true,
-    backgroundColor: '#2090EA',
+    backgroundColor: '#ffffff',
     show: false,
     webPreferences: {
       nodeIntegration: false,
@@ -662,10 +662,13 @@ function getDefaultSQLKey() {
 }
 
 async function removeDB() {
+  // this don't remove attachments and stuff like that...
   const userDir = await getRealPath(app.getPath('userData'));
   await sql.removeDB(userDir);
 
   try {
+    console.warn('Remove DB: removing.', userDir);
+
     userConfig.remove();
     ephemeralConfig.remove();
   } catch (e) {

@@ -5,7 +5,10 @@ import { InView } from 'react-intersection-observer';
 import { useSelector } from 'react-redux';
 import _ from 'underscore';
 import { MessageRenderingProps, QuoteClickOptions } from '../../../models/messageType';
-import { getMessageContentSelectorProps } from '../../../state/selectors/conversations';
+import {
+  getMessageContentSelectorProps,
+  getMessageTextProps,
+} from '../../../state/selectors/conversations';
 import {
   canDisplayImage,
   getGridDimensions,
@@ -131,6 +134,12 @@ export const MessageContent = (props: Props) => {
     attachments,
   } = contentProps;
 
+  const selectedMsg = useSelector(state => getMessageTextProps(state as any, props.messageId));
+  let isDeleted = false;
+  if (selectedMsg && selectedMsg.isDeleted !== undefined) {
+    isDeleted = selectedMsg.isDeleted;
+  }
+
   const width = getWidth({ previews, attachments });
   const isShowingImage = getIsShowingImage({ attachments, imageBroken, previews, text });
   const hasText = Boolean(text);
@@ -170,15 +179,21 @@ export const MessageContent = (props: Props) => {
         triggerOnce={false}
       >
         <IsMessageVisibleContext.Provider value={isMessageVisible}>
-          <MessageQuote messageId={props.messageId} onQuoteClick={props.onQuoteClick} />
-          <MessageAttachment
-            messageId={props.messageId}
-            imageBroken={imageBroken}
-            handleImageError={handleImageError}
-          />
+          {!isDeleted && (
+            <>
+              <MessageQuote messageId={props.messageId} onQuoteClick={props.onQuoteClick} />
+              <MessageAttachment
+                messageId={props.messageId}
+                imageBroken={imageBroken}
+                handleImageError={handleImageError}
+              />
+            </>
+          )}
           {hasContentAfterAttachmentAndQuote ? (
             <>
-              <MessagePreview messageId={props.messageId} handleImageError={handleImageError} />
+              {!isDeleted && (
+                <MessagePreview messageId={props.messageId} handleImageError={handleImageError} />
+              )}
               <Flex padding="7px" container={true} flexDirection="column">
                 <MessageText messageId={props.messageId} />
               </Flex>

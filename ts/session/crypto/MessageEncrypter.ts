@@ -1,7 +1,7 @@
 import { EncryptionType } from '../types/EncryptionType';
 import { SignalService } from '../../protobuf';
 import { PubKey } from '../types';
-import { concatUInt8Array, getSodium } from '.';
+import { concatUInt8Array, getSodium, MessageEncrypter } from '.';
 import { fromHexToArray } from '../utils/String';
 export { concatUInt8Array, getSodium };
 import { getLatestClosedGroupEncryptionKeyPair } from '../../../ts/data/data';
@@ -27,9 +27,11 @@ export async function encrypt(
   encryptionType: EncryptionType
 ): Promise<EncryptResult> {
   const { CLOSED_GROUP_MESSAGE, SESSION_MESSAGE } = SignalService.Envelope.Type;
+
   if (encryptionType !== EncryptionType.ClosedGroup && encryptionType !== EncryptionType.Fallback) {
     throw new Error(`Invalid encryption type:${encryptionType}`);
   }
+
   const encryptForClosedGroup = encryptionType === EncryptionType.ClosedGroup;
   const plainText = addMessagePadding(plainTextBuffer);
 
@@ -44,9 +46,7 @@ export async function encrypt(
     }
     const hexPubFromECKeyPair = PubKey.cast(hexEncryptionKeyPair.publicHex);
 
-    // the exports is to reference the exported function, so when we stub it during test, we stub the one called here
-
-    const cipherTextClosedGroup = await exports.encryptUsingSessionProtocol(
+    const cipherTextClosedGroup = await MessageEncrypter.encryptUsingSessionProtocol(
       hexPubFromECKeyPair,
       plainText
     );
@@ -56,8 +56,8 @@ export async function encrypt(
       cipherText: cipherTextClosedGroup,
     };
   }
+  const cipherText = await MessageEncrypter.encryptUsingSessionProtocol(device, plainText);
 
-  const cipherText = await exports.encryptUsingSessionProtocol(device, plainText);
   return { envelopeType: SESSION_MESSAGE, cipherText };
 }
 

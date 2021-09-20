@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { ed25519Str } from '../../session/onions/onionPath';
 import { forceNetworkDeletion } from '../../session/snode_api/SNodeAPI';
 import { forceSyncConfigurationNowIfNeeded } from '../../session/utils/syncUtils';
@@ -10,7 +11,7 @@ import { SessionSpinner } from '../session/SessionSpinner';
 import { SessionWrapperModal } from '../session/SessionWrapperModal';
 
 const deleteDbLocally = async () => {
-  window?.log?.info('configuration message sent successfully. Deleting everything');
+  window?.log?.info('last message sent successfully. Deleting everything');
   window.persistStore?.purge();
   await window.Signal.Logs.deleteAll();
   await window.Signal.Data.removeAll();
@@ -127,30 +128,36 @@ async function deleteEverythingAndNetworkData() {
 
 export const DeleteAccountModal = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [deleteDeviceOnly, setDeleteDeviceOnly] = useState(false);
+  const [deleteEverythingWithNetwork, setDeleteEverythingWithNetwork] = useState(false);
+
+  const dispatch = useDispatch();
 
   const onDeleteEverythingLocallyOnly = async () => {
-    setIsLoading(true);
-    try {
-      window.log.warn('Deleting everything excluding network data');
+    if (!isLoading) {
+      setIsLoading(true);
+      try {
+        window.log.warn('Deleting everything on device but keeping network data');
 
-      await sendConfigMessageAndDeleteEverything();
-    } catch (e) {
-      window.log.warn(e);
-    } finally {
-      setIsLoading(false);
+        await sendConfigMessageAndDeleteEverything();
+      } catch (e) {
+        window.log.warn(e);
+      } finally {
+        setIsLoading(false);
+      }
     }
-
-    window.inboxStore?.dispatch(updateConfirmModal(null));
   };
   const onDeleteEverythingAndNetworkData = async () => {
-    setIsLoading(true);
-    try {
-      window.log.warn('Deleting everything including network data');
-      await deleteEverythingAndNetworkData();
-    } catch (e) {
-      window.log.warn(e);
-    } finally {
-      setIsLoading(false);
+    if (!isLoading) {
+      setIsLoading(true);
+      try {
+        window.log.warn('Deleting everything including network data');
+        await deleteEverythingAndNetworkData();
+      } catch (e) {
+        window.log.warn(e);
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 
@@ -158,7 +165,7 @@ export const DeleteAccountModal = () => {
    * Performs specified on close action then removes the modal.
    */
   const onClickCancelHandler = useCallback(() => {
-    window.inboxStore?.dispatch(updateDeleteAccountModal(null));
+    dispatch(updateDeleteAccountModal(null));
   }, []);
 
   return (
@@ -185,17 +192,65 @@ export const DeleteAccountModal = () => {
           <SessionButton
             text={window.i18n('entireAccount')}
             buttonColor={SessionButtonColor.Danger}
-            onClick={onDeleteEverythingAndNetworkData}
-            disabled={isLoading}
+            onClick={() => {
+              setDeleteEverythingWithNetwork(true);
+            }}
+            disabled={deleteEverythingWithNetwork || deleteDeviceOnly}
           />
 
           <SessionButton
             text={window.i18n('deviceOnly')}
             buttonColor={SessionButtonColor.Primary}
-            onClick={onDeleteEverythingLocallyOnly}
-            disabled={isLoading}
+            onClick={() => {
+              setDeleteDeviceOnly(true);
+            }}
+            disabled={deleteEverythingWithNetwork || deleteDeviceOnly}
           />
         </div>
+        <SpacerLG />
+
+        {deleteEverythingWithNetwork && (
+          <SessionHtmlRenderer
+            tag="span"
+            className="session-confirm-main-message"
+            html={window.i18n('areYouSureDeleteEntireAccount')}
+          />
+        )}
+
+        {deleteDeviceOnly && (
+          <SessionHtmlRenderer
+            tag="span"
+            className="session-confirm-main-message"
+            html={window.i18n('areYouSureDeleteDeviceOnly')}
+          />
+        )}
+        <SpacerLG />
+
+        {(deleteDeviceOnly || deleteEverythingWithNetwork) && (
+          <div className="session-modal__button-group">
+            <SessionButton
+              text={window.i18n('iAmSure')}
+              buttonColor={SessionButtonColor.Danger}
+              onClick={() => {
+                if (deleteDeviceOnly) {
+                  void onDeleteEverythingLocallyOnly();
+                } else if (deleteEverythingWithNetwork) {
+                  void onDeleteEverythingAndNetworkData();
+                }
+              }}
+              disabled={isLoading}
+            />
+
+            <SessionButton
+              text={window.i18n('cancel')}
+              buttonColor={SessionButtonColor.Primary}
+              onClick={() => {
+                dispatch(updateDeleteAccountModal(null));
+              }}
+              disabled={isLoading}
+            />
+          </div>
+        )}
 
         <SessionSpinner loading={isLoading} />
       </div>

@@ -171,6 +171,10 @@ export function pushYouLeftTheGroup() {
   pushToastError('youLeftTheGroup', window.i18n('youLeftTheGroup'));
 }
 
+export function someDeletionsFailed() {
+  pushToastWarning('deletionError', 'Deletion error');
+}
+
 export function pushDeleted() {
   pushToastSuccess('deleted', window.i18n('deleted'), undefined, 'check');
 }
