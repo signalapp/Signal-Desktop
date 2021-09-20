@@ -11,7 +11,6 @@ import '../context';
 import { createSetting } from '../../util/preload';
 import { SignalWindow } from '../configure';
 import { PermissionsPopup } from '../../components/PermissionsPopup';
-import { initialize as initializeLogging } from '../../logging/set_up_renderer_logging';
 
 const mediaCameraPermissions = createSetting('mediaCameraPermissions', {
   getter: false,
@@ -64,5 +63,3 @@ contextBridge.exposeInMainWorld('SignalWindow', {
     );
   },
 });
-
-initializeLogging();

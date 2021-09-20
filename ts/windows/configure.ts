@@ -12,6 +12,7 @@ import {
 } from '../environment';
 import { strictAssert } from '../util/assert';
 import { createSetting } from '../util/preload';
+import { initialize as initializeLogging } from '../logging/set_up_renderer_logging';
 
 const config = url.parse(window.location.toString(), true).query;
 const { locale } = config;
@@ -22,6 +23,8 @@ const localeMessages = ipcRenderer.sendSync('locale-data');
 setEnvironment(parseEnvironment(config.environment));
 
 strictAssert(Boolean(window.SignalContext), 'context must be defined');
+
+initializeLogging();
 
 export const SignalWindow = {
   Settings: {
@@ -34,4 +37,5 @@ export const SignalWindow = {
   getEnvironment,
   getVersion: (): string => String(config.version),
   i18n: setupI18n(locale, localeMessages),
+  log: window.SignalWindow.log,
 };

@@ -4,7 +4,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { contextBridge, ipcRenderer } from 'electron';
-import { initialize as initializeLogging } from '../../logging/set_up_renderer_logging';
 
 // It is important to call this as early as possible
 import '../context';
@@ -367,5 +366,3 @@ contextBridge.exposeInMainWorld('SignalWindow', {
   ...SignalWindow,
   renderWindow: renderPreferences,
 });
-
-initializeLogging();

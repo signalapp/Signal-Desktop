@@ -17,8 +17,7 @@ export function setupI18n(
 
   const getMessage: LocalizerType = (key, substitutions) => {
     // eslint-disable-next-line no-console
-    const log =
-      typeof window !== 'undefined' ? window.SignalWindow.log : console;
+    const log = window?.SignalWindow?.log || console;
 
     const entry = messages[key];
     if (!entry) {
