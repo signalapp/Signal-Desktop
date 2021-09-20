@@ -119,8 +119,6 @@ export const GenericReadableMessage = (props: Props) => {
 
   const handleContextMenu = useCallback(
     (e: React.MouseEvent<HTMLElement>) => {
-      e.preventDefault();
-      e.stopPropagation();
       const enableContextMenu = !multiSelectMode && !msgProps?.isKickedFromGroup;
 
       if (enableContextMenu) {
