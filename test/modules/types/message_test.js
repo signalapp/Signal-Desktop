@@ -6,9 +6,7 @@ const sinon = require('sinon');
 
 const Message = require('../../../js/modules/types/message');
 const { SignalService } = require('../../../ts/protobuf');
-const {
-  stringToArrayBuffer,
-} = require('../../../js/modules/string_to_array_buffer');
+const { stringToArrayBuffer } = require('../../../ts/util/stringToArrayBuffer');
 
 describe('Message', () => {
   const logger = {

@@ -5,9 +5,7 @@ const { assert } = require('chai');
 const sinon = require('sinon');
 
 const Contact = require('../../../js/modules/types/contact');
-const {
-  stringToArrayBuffer,
-} = require('../../../js/modules/string_to_array_buffer');
+const { stringToArrayBuffer } = require('../../../ts/util/stringToArrayBuffer');
 
 describe('Contact', () => {
   const NUMBER = '+12025550099';

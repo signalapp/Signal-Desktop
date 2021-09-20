@@ -7,7 +7,7 @@ import * as Message from '../../../types/message/initializeAttachmentMetadata';
 import { IncomingMessage } from '../../../types/Message';
 import { SignalService } from '../../../protobuf';
 import * as MIME from '../../../types/MIME';
-import { stringToArrayBuffer } from '../../../../js/modules/string_to_array_buffer';
+import { stringToArrayBuffer } from '../../../util/stringToArrayBuffer';
 
 describe('Message', () => {
   describe('initializeAttachmentMetadata', () => {

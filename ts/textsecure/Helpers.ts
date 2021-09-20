@@ -1,6 +1,8 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { stringToArrayBuffer } from '../util/stringToArrayBuffer';
+
 /* eslint-disable guard-for-in */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-proto */
@@ -60,18 +62,6 @@ function ensureStringed(thing: any): any {
     return null;
   }
   throw new Error(`unsure of how to jsonify object of type ${typeof thing}`);
-}
-
-function stringToArrayBuffer(string: string): ArrayBuffer {
-  if (typeof string !== 'string') {
-    throw new TypeError("'string' must be a string");
-  }
-
-  const array = new Uint8Array(string.length);
-  for (let i = 0; i < string.length; i += 1) {
-    array[i] = string.charCodeAt(i);
-  }
-  return array.buffer;
 }
 
 // Number formatting utils

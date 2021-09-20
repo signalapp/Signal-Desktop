@@ -9,9 +9,7 @@ const { assert } = require('chai');
 const { app } = require('electron');
 
 const Attachments = require('../../app/attachments');
-const {
-  stringToArrayBuffer,
-} = require('../../js/modules/string_to_array_buffer');
+const { stringToArrayBuffer } = require('../../ts/util/stringToArrayBuffer');
 
 const PREFIX_LENGTH = 2;
 const NUM_SEPARATORS = 1;
