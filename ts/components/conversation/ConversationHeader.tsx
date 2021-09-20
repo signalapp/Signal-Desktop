@@ -580,7 +580,7 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
 
     const contents = (
       <div
-        className="module-conversation-header__title-container"
+        className="module-ConversationHeader__title-container"
         ref={this.titleContainerRef}
       >
         {this.renderAvatar()}
