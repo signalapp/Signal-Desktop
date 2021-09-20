@@ -1164,8 +1164,8 @@ export default class MessageReceiver
 
     if (envelope.serverTimestamp > certificate.expiration()) {
       throw new Error(
-        `MessageReceiver.validateUnsealedEnvelope: ' +
-        'Sender certificate is expired for envelope ${logId}`
+        'MessageReceiver.validateUnsealedEnvelope: ' +
+          `Sender certificate is expired for envelope ${logId}`
       );
     }
 

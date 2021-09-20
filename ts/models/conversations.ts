@@ -286,23 +286,28 @@ export class ConversationModel extends window.Backbone
 
     // We clear our cached props whenever we change so that the next call to format() will
     //   result in refresh via a getProps() call. See format() below.
-    this.on('change', () => {
-      const changedKeys = Object.keys(this.changed || {});
-      const isPropsCacheStillValid = Boolean(
-        changedKeys.length &&
-          changedKeys.every(key =>
-            ATTRIBUTES_THAT_DONT_INVALIDATE_PROPS_CACHE.has(key)
-          )
-      );
-      if (isPropsCacheStillValid) {
-        return;
-      }
+    this.on(
+      'change',
+      (_model: MessageModel, options: { force?: boolean } = {}) => {
+        const changedKeys = Object.keys(this.changed || {});
+        const isPropsCacheStillValid =
+          !options.force &&
+          Boolean(
+            changedKeys.length &&
+              changedKeys.every(key =>
+                ATTRIBUTES_THAT_DONT_INVALIDATE_PROPS_CACHE.has(key)
+              )
+          );
+        if (isPropsCacheStillValid) {
+          return;
+        }
 
-      if (this.cachedProps) {
-        this.oldCachedProps = this.cachedProps;
+        if (this.cachedProps) {
+          this.oldCachedProps = this.cachedProps;
+        }
+        this.cachedProps = null;
       }
-      this.cachedProps = null;
-    });
+    );
 
     // Set `isFetchingUUID` eagerly to avoid UI flicker when opening the
     // conversation for the first time.
@@ -1039,7 +1044,7 @@ export class ConversationModel extends window.Backbone
     );
 
     this.isFetchingUUID = true;
-    this.trigger('change', this);
+    this.trigger('change', this, { force: true });
 
     try {
       // Attempt to fetch UUID
@@ -1051,7 +1056,7 @@ export class ConversationModel extends window.Backbone
     } finally {
       // No redux update here
       this.isFetchingUUID = false;
-      this.trigger('change', this);
+      this.trigger('change', this, { force: true });
 
       log.info(
         `Done fetching uuid for a sms-only conversation ${this.idForLogging()}`
@@ -2449,7 +2454,7 @@ export class ConversationModel extends window.Backbone
     // If the verified state of a member changes, our aggregate state changes.
     // We trigger both events to replicate the behavior of window.Backbone.Model.set()
     this.trigger('change:verified', this);
-    this.trigger('change', this);
+    this.trigger('change', this, { force: true });
   }
 
   async toggleVerified(): Promise<unknown> {
@@ -2859,10 +2864,7 @@ export class ConversationModel extends window.Backbone
     );
   }
 
-  async onReadMessage(
-    message: MessageModel,
-    readAt?: number
-  ): Promise<WhatIsThis> {
+  async onReadMessage(message: MessageModel, readAt?: number): Promise<void> {
     // We mark as read everything older than this message - to clean up old stuff
     //   still marked unread in the database. If the user generally doesn't read in
     //   the desktop app, so the desktop app only gets read syncs, we can very
@@ -3397,7 +3399,7 @@ export class ConversationModel extends window.Backbone
       targetAuthorUuid: string;
       targetTimestamp: number;
     }
-  ): Promise<WhatIsThis> {
+  ): Promise<void> {
     const { messageId } = target;
     const timestamp = Date.now();
     const outgoingReaction = { ...reaction, ...target };
@@ -4950,13 +4952,13 @@ export class ConversationModel extends window.Backbone
       );
       if (!record) {
         // User was not previously typing before. State change!
-        this.trigger('change', this);
+        this.trigger('change', this, { force: true });
       }
     } else {
       delete this.contactTypingTimers[typingToken];
       if (record) {
         // User was previously typing, and is no longer. State change!
-        this.trigger('change', this);
+        this.trigger('change', this, { force: true });
       }
     }
   }
@@ -4970,7 +4972,7 @@ export class ConversationModel extends window.Backbone
       delete this.contactTypingTimers[typingToken];
 
       // User was previously typing, but timed out or we received message. State change!
-      this.trigger('change', this);
+      this.trigger('change', this, { force: true });
     }
   }
 
@@ -5061,7 +5063,8 @@ window.Whisper.ConversationCollection = window.Backbone.Collection.extend({
     this.eraseLookups();
     this.on(
       'idUpdated',
-      (model: WhatIsThis, idProp: string, oldValue: WhatIsThis) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (model: ConversationModel, idProp: string, oldValue: any) => {
         if (oldValue) {
           if (idProp === 'e164') {
             delete this._byE164[oldValue];
@@ -5073,14 +5076,17 @@ window.Whisper.ConversationCollection = window.Backbone.Collection.extend({
             delete this._byGroupId[oldValue];
           }
         }
-        if (model.get('e164')) {
-          this._byE164[model.get('e164')] = model;
+        const e164 = model.get('e164');
+        if (e164) {
+          this._byE164[e164] = model;
         }
-        if (model.get('uuid')) {
-          this._byUuid[model.get('uuid')] = model;
+        const uuid = model.get('uuid');
+        if (uuid) {
+          this._byUuid[uuid] = model;
         }
-        if (model.get('groupId')) {
-          this._byGroupId[model.get('groupId')] = model;
+        const groupId = model.get('groupId');
+        if (groupId) {
+          this._byGroupId[groupId] = model;
         }
       }
     );
@@ -5182,51 +5188,6 @@ window.Whisper.ConversationCollection = window.Backbone.Collection.extend({
 
   comparator(m: WhatIsThis) {
     return -m.get('timestamp');
-  },
-});
-
-// This is a wrapper model used to display group members in the member list view, within
-//   the world of backbone, but layering another bit of group-specific data top of base
-//   conversation data.
-window.Whisper.GroupMemberConversation = window.Backbone.Model.extend({
-  initialize(attributes: { conversation: boolean; isAdmin: boolean }) {
-    const { conversation, isAdmin } = attributes;
-
-    if (!conversation) {
-      throw new Error(
-        'GroupMemberConversation.initialize: conversation required!'
-      );
-    }
-    if (!window._.isBoolean(isAdmin)) {
-      throw new Error('GroupMemberConversation.initialize: isAdmin required!');
-    }
-
-    // If our underlying conversation changes, we change too
-    this.listenTo(conversation, 'change', () => {
-      this.trigger('change', this);
-    });
-
-    this.conversation = conversation;
-    this.isAdmin = isAdmin;
-  },
-
-  format() {
-    return {
-      ...this.conversation.format(),
-      isAdmin: this.isAdmin,
-    };
-  },
-
-  get(...params: Array<string>) {
-    return this.conversation.get(...params);
-  },
-
-  getTitle() {
-    return this.conversation.getTitle();
-  },
-
-  isMe() {
-    return isMe(this.conversation.attributes);
   },
 });
 

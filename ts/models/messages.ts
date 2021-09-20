@@ -1320,7 +1320,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   async send(
     promise: Promise<CallbackResultType | void | null>,
     saveErrors?: (errors: Array<Error>) => void
-  ): Promise<void | Array<void>> {
+  ): Promise<void> {
     const updateLeftPane =
       this.getConversation()?.debouncedUpdateLastMessage || noop;
 

@@ -71,6 +71,8 @@ export async function onRetryRequest(event: RetryRequestEvent): Promise<void> {
     );
   }
 
+  await archiveSessionOnMatch(retryRequest);
+
   if (isOlderThan(sentAt, retryRespondMaxAge)) {
     log.info(
       `onRetryRequest/${logId}: Message is too old, refusing to send again.`
@@ -92,7 +94,6 @@ export async function onRetryRequest(event: RetryRequestEvent): Promise<void> {
   }
 
   log.info(`onRetryRequest/${logId}: Resending message`);
-  await archiveSessionOnMatch(retryRequest);
 
   const { contentHint, messageIds, proto, timestamp } = sentProto;
 
@@ -205,8 +206,6 @@ async function sendDistributionMessageOrNullMessage(
   const { groupId, requesterUuid } = options;
   let sentDistributionMessage = false;
   log.info(`sendDistributionMessageOrNullMessage/${logId}: Starting...`);
-
-  await archiveSessionOnMatch(options);
 
   const conversation = window.ConversationController.getOrCreate(
     requesterUuid,
