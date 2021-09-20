@@ -4817,6 +4817,10 @@ function getLastConversationPreview({
       WHERE
         conversationId = $conversationId AND
         (
+          expiresAt IS NULL OR
+          (expiresAt > $now)
+        ) AND
+        (
           type IS NULL
           OR
           type NOT IN (
@@ -4841,6 +4845,7 @@ function getLastConversationPreview({
   ).get({
     conversationId,
     ourConversationId,
+    now: Date.now(),
   });
 
   if (!row) {
