@@ -116,11 +116,13 @@ export type ConversationType = {
   timestamp?: number;
   inboxPosition?: number;
   left?: boolean;
-  lastMessage?: {
-    status: LastMessageStatus;
-    text: string;
-    deletedForEveryone?: boolean;
-  };
+  lastMessage?:
+    | {
+        status?: LastMessageStatus;
+        text: string;
+        deletedForEveryone: false;
+      }
+    | { deletedForEveryone: true };
   markedUnread?: boolean;
   phoneNumber?: string;
   membersCount?: number;

@@ -7,6 +7,7 @@ import { compact } from 'lodash';
 import {
   ConversationAttributesType,
   ConversationModelCollectionType,
+  LastMessageStatus,
   MessageAttributesType,
   MessageModelCollectionType,
   QuotedMessageType,
@@ -50,6 +51,7 @@ import { BodyRangesType } from '../types/Util';
 import { getTextWithMentions } from '../util';
 import { migrateColor } from '../util/migrateColor';
 import { isNotNil } from '../util/isNotNil';
+import { dropNull } from '../util/dropNull';
 import { ourProfileKeyService } from '../services/ourProfileKey';
 import { getSendOptions } from '../util/getSendOptions';
 import { isConversationAccepted } from '../util/isConversationAccepted';
@@ -1348,6 +1350,28 @@ export class ConversationModel extends window.Backbone
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const color = this.getColor()!;
 
+    let lastMessage:
+      | undefined
+      | {
+          status?: LastMessageStatus;
+          text: string;
+          deletedForEveryone: false;
+        }
+      | { deletedForEveryone: true };
+
+    if (this.get('lastMessageDeletedForEveryone')) {
+      lastMessage = { deletedForEveryone: true };
+    } else {
+      const lastMessageText = this.get('lastMessage');
+      if (lastMessageText) {
+        lastMessage = {
+          status: dropNull(this.get('lastMessageStatus')),
+          text: lastMessageText,
+          deletedForEveryone: false,
+        };
+      }
+    }
+
     const typingValues = window._.values(this.contactTypingTimers || {});
     const typingMostRecent = window._.first(
       window._.sortBy(typingValues, 'timestamp')
@@ -1440,11 +1464,7 @@ export class ConversationModel extends window.Backbone
       isUntrusted: this.isUntrusted(),
       isVerified: this.isVerified(),
       isFetchingUUID: this.isFetchingUUID,
-      lastMessage: {
-        status: this.get('lastMessageStatus')!,
-        text: this.get('lastMessage')!,
-        deletedForEveryone: this.get('lastMessageDeletedForEveryone')!,
-      },
+      lastMessage,
       lastUpdated: this.get('timestamp')!,
       left: Boolean(this.get('left')),
       markedUnread: this.get('markedUnread')!,
