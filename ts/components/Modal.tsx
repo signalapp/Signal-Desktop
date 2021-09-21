@@ -38,6 +38,7 @@ export function Modal({
   theme,
 }: Readonly<PropsType>): ReactElement {
   const modalRef = useRef<HTMLDivElement | null>(null);
+  const bodyRef = useRef<HTMLDivElement | null>(null);
   const [scrolled, setScrolled] = useState(false);
   const [hasOverflow, setHasOverflow] = useState(false);
 
@@ -107,10 +108,14 @@ export function Modal({
                   ? getClassName('__body--overflow')
                   : null
               )}
-              onScroll={event => {
-                setScrolled((event.target as HTMLDivElement).scrollTop > 2);
+              onScroll={() => {
+                const scrollTop = bodyRef.current?.scrollTop || 0;
+                setScrolled(scrollTop > 2);
               }}
-              ref={measureRef}
+              ref={bodyEl => {
+                measureRef(bodyEl);
+                bodyRef.current = bodyEl;
+              }}
             >
               {children}
             </div>

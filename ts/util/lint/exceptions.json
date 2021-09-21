@@ -12661,6 +12661,13 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/Modal.tsx",
+    "line": "  const bodyRef = useRef<HTMLDivElement | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-09-21T01:40:08.534Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/ProfileEditor.tsx",
     "line": "  const focusInputRef = useRef<HTMLInputElement | null>(null);",
     "reasonCategory": "usageTrusted",
