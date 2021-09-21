@@ -102,6 +102,7 @@ import {
   loadRecentEmojis,
   getEmojiReducerState,
 } from './util/loadRecentEmojis';
+import { deleteAllLogs } from './util/deleteAllLogs';
 
 const MAX_ATTACHMENT_DOWNLOAD_AGE = 3600 * 72 * 1000;
 
@@ -749,7 +750,7 @@ export async function startApp(): Promise<void> {
 
       // This one should always be last - it could restart the app
       if (window.isBeforeVersion(lastVersion, 'v1.15.0-beta.5')) {
-        await window.Signal.Logs.deleteAll();
+        await deleteAllLogs();
         window.restart();
         return;
       }

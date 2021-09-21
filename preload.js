@@ -475,7 +475,6 @@ try {
 
   // Pulling these in separately since they access filesystem, electron
   window.Signal.Debug = require('./js/modules/debug');
-  window.Signal.Logs = require('./js/modules/logs');
 
   window.addEventListener('contextmenu', e => {
     const editable = e.target.closest(

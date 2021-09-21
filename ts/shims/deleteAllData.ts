@@ -2,10 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as log from '../logging/log';
+import { deleteAllLogs } from '../util/deleteAllLogs';
 
 export async function deleteAllData(): Promise<void> {
   try {
-    await window.Signal.Logs.deleteAll();
+    await deleteAllLogs();
 
     log.info('deleteAllData: deleted all logs');
 

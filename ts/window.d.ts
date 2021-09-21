@@ -461,7 +461,6 @@ declare global {
           search: typeof searchSelectors;
         };
       };
-      Logs: WhatIsThis;
       conversationControllerStart: WhatIsThis;
       Emojis: {
         getInitialState: () => WhatIsThis;
