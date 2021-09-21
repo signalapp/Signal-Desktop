@@ -21,6 +21,7 @@ import { SyncMessageType } from '../utils/syncUtils';
 import { OpenGroupRequestCommonType } from '../../opengroup/opengroupV2/ApiUtil';
 import { OpenGroupVisibleMessage } from '../messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
 import { UnsendMessage } from '../messages/outgoing/controlMessage/UnsendMessage';
+import { CallMessage } from '../messages/outgoing/controlMessage/CallMessage';
 
 type ClosedGroupMessageType =
   | ClosedGroupVisibleMessage
@@ -129,7 +130,7 @@ export class MessageQueue {
    */
   public async sendToPubKeyNonDurably(
     user: PubKey,
-    message: ClosedGroupNewMessage
+    message: ClosedGroupNewMessage | CallMessage
   ): Promise<boolean> {
     let rawMessage;
     try {

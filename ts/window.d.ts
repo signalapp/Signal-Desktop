@@ -48,6 +48,7 @@ declare global {
       padOutgoingAttachments: boolean;
       enablePinConversations: boolean;
       useUnsendRequests: boolean;
+      useCallMessage: boolean;
     };
     lokiSnodeAPI: LokiSnodeAPI;
     onLogin: any;

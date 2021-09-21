@@ -30,11 +30,11 @@ export const ERROR_CODE_NO_CONNECT = 'ENETUNREACH: No network connection.';
 
 let latestTimestampOffset = Number.MAX_SAFE_INTEGER;
 
-function handleTimestampOffset(request: string, snodeTimestamp: number) {
+function handleTimestampOffset(_request: string, snodeTimestamp: number) {
   if (snodeTimestamp && _.isNumber(snodeTimestamp) && snodeTimestamp > 1609419600 * 1000) {
     // first january 2021. Arbitrary, just want to make sure the return timestamp is somehow valid and not some crazy low value
     const now = Date.now();
-    window?.log?.info(`timestamp offset from request ${request}:  ${now - snodeTimestamp}ms`);
+    // window?.log?.info(`timestamp offset from request ${request}:  ${now - snodeTimestamp}ms`);
     latestTimestampOffset = now - snodeTimestamp;
   }
 }

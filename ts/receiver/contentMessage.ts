@@ -18,6 +18,7 @@ import { removeMessagePadding } from '../session/crypto/BufferPadding';
 import { perfEnd, perfStart } from '../session/utils/Performance';
 import { getAllCachedECKeyPair } from './closedGroups';
 import { getMessageBySenderAndTimestamp } from '../data/data';
+import { handleCallMessage } from './callMessage';
 
 export async function handleContentMessage(envelope: EnvelopePlus, messageHash?: string) {
   try {
@@ -398,6 +399,9 @@ export async function innerHandleContentMessage(
     }
     if (content.unsendMessage && window.lokiFeatureFlags?.useUnsendRequests) {
       await handleUnsendMessage(envelope, content.unsendMessage as SignalService.Unsend);
+    }
+    if (content.callMessage && window.lokiFeatureFlags?.useCallMessage) {
+      await handleCallMessage(envelope, content.callMessage as SignalService.CallMessage);
     }
   } catch (e) {
     window?.log?.warn(e);
