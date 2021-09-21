@@ -2,8 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { noop } from 'lodash';
-import { LogLevel } from './shared';
-import { LogFunction } from '../types/Logging';
+import { LogFunction, LogLevel } from '../types/Logging';
 
 type LogAtLevelFnType = (
   level: LogLevel,
