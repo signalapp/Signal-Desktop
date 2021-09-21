@@ -3811,14 +3811,7 @@ button.module-image__border-overlay:focus {
 }
 
 .module-image__close-button {
-  @include button-reset;
-
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  width: 16px;
-  height: 16px;
-  z-index: 2;
+  @include staged-attachment-close-button;
 
   background-image: url('../images/x-shadow-16.svg');
 
@@ -3989,12 +3982,34 @@ button.module-image__border-overlay:focus {
   margin-bottom: 6px;
 }
 
+.module-staged-attachment {
+  margin-right: 8px;
+
+  &.module-image::before {
+    background: linear-gradient(
+      180deg,
+      $color-black-alpha-30 0%,
+      transparent 100%
+    );
+    content: '';
+    display: block;
+    height: 40px;
+    opacity: 0;
+    position: absolute;
+    transition: opacity 0.2s ease-out;
+    width: 100%;
+  }
+
+  &.module-image:hover::before {
+    opacity: 1;
+  }
+}
+
 // Module: Staged Generic Attachment
 
 .module-staged-generic-attachment {
   height: 120px;
   width: 120px;
-  margin: 1px;
   display: inline-block;
   position: relative;
   border-radius: 4px;
@@ -4013,14 +4028,7 @@ button.module-image__border-overlay:focus {
 }
 
 .module-staged-generic-attachment__close-button {
-  @include button-reset;
-
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  width: 16px;
-  height: 16px;
-  z-index: 2;
+  @include staged-attachment-close-button;
 
   @include light-theme {
     @include color-svg('../images/icons/v2/x-24.svg', $color-black);

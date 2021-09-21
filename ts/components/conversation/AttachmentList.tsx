@@ -79,6 +79,7 @@ export const AttachmentList = ({
                 alt={i18n('stagedImageAttachment', [
                   attachment.fileName || url || index.toString(),
                 ])}
+                className="module-staged-attachment"
                 i18n={i18n}
                 attachment={attachment}
                 softCorners

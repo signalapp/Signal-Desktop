@@ -1,4 +1,4 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
@@ -18,6 +18,7 @@ export type Props = {
   attachment: AttachmentType;
   url?: string;
 
+  className?: string;
   height?: number;
   width?: number;
   cropWidth?: number;
@@ -140,6 +141,7 @@ export class Image extends React.Component<Props> {
       attachment,
       blurHash,
       bottomOverlay,
+      className,
       closeButton,
       curveBottomLeft,
       curveBottomRight,
@@ -202,6 +204,7 @@ export class Image extends React.Component<Props> {
       <div
         className={classNames(
           'module-image',
+          className,
           !noBackground ? 'module-image--with-background' : null,
           curveBottomLeft ? 'module-image--curved-bottom-left' : null,
           curveBottomRight ? 'module-image--curved-bottom-right' : null,
