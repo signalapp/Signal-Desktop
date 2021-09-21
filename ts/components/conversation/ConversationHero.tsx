@@ -12,6 +12,7 @@ import { ConfirmationDialog } from '../ConfirmationDialog';
 import { Button, ButtonSize, ButtonVariant } from '../Button';
 import { shouldBlurAvatar } from '../../util/shouldBlurAvatar';
 import * as log from '../../logging/log';
+import { openLinkInWebBrowser } from '../../util/openLinkInWebBrowser';
 
 export type Props = {
   about?: string;
@@ -237,8 +238,9 @@ export const ConversationHero = ({
             {
               text: i18n('MessageRequestWarning__dialog__learn-even-more'),
               action: () => {
-                window.location.href =
-                  'https://support.signal.org/hc/articles/360007459591';
+                openLinkInWebBrowser(
+                  'https://support.signal.org/hc/articles/360007459591'
+                );
                 closeMessageRequestWarning();
               },
             },

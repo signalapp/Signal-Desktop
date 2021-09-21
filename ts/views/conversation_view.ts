@@ -84,6 +84,7 @@ import { isNotNil } from '../util/isNotNil';
 import { dropNull } from '../util/dropNull';
 import { CompositionAPIType } from '../components/CompositionArea';
 import * as log from '../logging/log';
+import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser';
 
 type AttachmentOptions = {
   messageId: string;
@@ -1046,11 +1047,9 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     const showIdentity = (conversationId: string) => {
       this.showSafetyNumber(conversationId);
     };
-    const openLink = (url: string) => {
-      this.navigateTo(url);
-    };
+    const openLink = openLinkInWebBrowser;
     const downloadNewVersion = () => {
-      this.downloadNewVersion();
+      openLinkInWebBrowser('https://signal.org/download');
     };
     const showSafetyNumber = (contactId: string) => {
       this.showSafetyNumber(contactId);
@@ -1102,11 +1101,13 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       const supportLocale = window.Signal.Util.mapToSupportLocale(locale);
       const url = baseUrl.replace('LOCALE', supportLocale);
 
-      this.navigateTo(url);
+      openLinkInWebBrowser(url);
     };
 
     const learnMoreAboutDeliveryIssue = () => {
-      this.navigateTo('https://support.signal.org/hc/articles/4404859745690');
+      openLinkInWebBrowser(
+        'https://support.signal.org/hc/articles/4404859745690'
+      );
     };
 
     const scrollToQuotedMessage = async (
@@ -1719,15 +1720,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     this.disableLinkPreviews = true;
 
     this.remove();
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  navigateTo(url: string): void {
-    window.location.href = url;
-  }
-
-  downloadNewVersion(): void {
-    this.navigateTo('https://signal.org/download');
   }
 
   async onDrop(e: JQuery.TriggeredEvent): Promise<void> {

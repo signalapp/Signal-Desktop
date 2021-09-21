@@ -8,6 +8,7 @@ import { ConversationType } from '../state/ducks/conversations';
 import { Intl } from './Intl';
 import { ContactName } from './conversation/ContactName';
 import { GroupDialog } from './GroupDialog';
+import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser';
 
 type PropsType = {
   contacts: Array<ConversationType>;
@@ -68,8 +69,9 @@ export const NewlyCreatedGroupInvitedContactsDialog: FunctionComponent<PropsType
         'NewlyCreatedGroupInvitedContactsDialog--body--learn-more'
       )}
       onClickSecondaryButton={() => {
-        window.location.href =
-          'https://support.signal.org/hc/articles/360007319331-Group-chats';
+        openLinkInWebBrowser(
+          'https://support.signal.org/hc/articles/360007319331-Group-chats'
+        );
       }}
       onClose={onClose}
       title={title}

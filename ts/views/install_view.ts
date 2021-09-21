@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as log from '../logging/log';
+import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser';
 
 window.Whisper = window.Whisper || {};
 const { Whisper } = window;
@@ -106,7 +107,7 @@ Whisper.InstallView = Whisper.View.extend({
       this.error.name === 'HTTPError' &&
       this.error.code === TOO_OLD
     ) {
-      window.location.href = 'https://signal.org/download';
+      openLinkInWebBrowser('https://signal.org/download');
       return;
     }
 
