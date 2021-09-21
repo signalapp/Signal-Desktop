@@ -37,10 +37,11 @@ message Unsend {
 
 
 message Content {
-  optional DataMessage             dataMessage                   = 1;
-  optional ReceiptMessage          receiptMessage                = 5;
-  optional TypingMessage           typingMessage                 = 6;
-  optional ConfigurationMessage    configurationMessage          = 7;
+  optional DataMessage                dataMessage                = 1;
+  optional CallMessage                callMessage                = 3;
+  optional ReceiptMessage             receiptMessage             = 5;
+  optional TypingMessage              typingMessage              = 6;
+  optional ConfigurationMessage       configurationMessage       = 7;
   optional DataExtractionNotification dataExtractionNotification = 8;
   optional Unsend                     unsendMessage              = 9;
 }
@@ -151,6 +152,24 @@ message DataMessage {
   optional OpenGroupInvitation       openGroupInvitation       = 102;
   optional ClosedGroupControlMessage closedGroupControlMessage = 104;
   optional string                    syncTarget                = 105;
+}
+
+message CallMessage {
+
+  enum Type {
+    OFFER              = 1;
+    ANSWER             = 2;
+    PROVISIONAL_ANSWER = 3;
+    ICE_CANDIDATES     = 4;
+    END_CALL           = 5;
+  }
+
+  // @required
+  required Type type              = 1;
+  repeated string sdps            = 2;
+  repeated uint32 sdpMLineIndexes = 3;
+  repeated string sdpMids         = 4;
+
 }
 
 message ConfigurationMessage {
