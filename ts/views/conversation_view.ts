@@ -646,22 +646,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     return this;
   }
 
-  getMuteExpirationLabel(): string | undefined {
-    const muteExpiresAt = this.model.get('muteExpiresAt');
-    if (!this.model.isMuted()) {
-      return;
-    }
-
-    const today = window.moment(Date.now());
-    const expires = window.moment(muteExpiresAt);
-
-    if (today.isSame(expires, 'day')) {
-      return expires.format('hh:mm A');
-    }
-
-    return expires.format('M/D/YY, hh:mm A');
-  }
-
   setMuteExpiration(ms = 0): void {
     this.model.setMuteExpiration(
       ms >= Number.MAX_SAFE_INTEGER ? ms : Date.now() + ms
@@ -3298,81 +3282,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
   }
 
   showContactModal(contactId: string): void {
-    if (this.contactModalView) {
-      this.contactModalView.remove();
-      this.contactModalView = undefined;
-    }
-
-    this.previousFocus = document.activeElement as HTMLElement;
-
-    const hideContactModal = () => {
-      if (this.contactModalView) {
-        this.contactModalView.remove();
-        this.contactModalView = undefined;
-        if (this.previousFocus && this.previousFocus.focus) {
-          this.previousFocus.focus();
-          this.previousFocus = undefined;
-        }
-      }
-    };
-
-    this.contactModalView = new Whisper.ReactWrapperView({
-      JSX: window.Signal.State.Roots.createContactModal(window.reduxStore, {
-        contactId,
-        currentConversationId: this.model.id,
-        onClose: hideContactModal,
-        openConversation: (conversationId: string) => {
-          hideContactModal();
-          this.openConversation(conversationId);
-        },
-        removeMember: (conversationId: string) => {
-          hideContactModal();
-          this.model.removeFromGroupV2(conversationId);
-        },
-        showSafetyNumber: (conversationId: string) => {
-          hideContactModal();
-          this.showSafetyNumber(conversationId);
-        },
-        toggleAdmin: (conversationId: string) => {
-          hideContactModal();
-
-          const isAdmin = this.model.isAdmin(conversationId);
-          const conversationModel = window.ConversationController.get(
-            conversationId
-          );
-
-          if (!conversationModel) {
-            log.info(
-              'conversation_view/toggleAdmin: Could not find conversation to toggle admin privileges'
-            );
-            return;
-          }
-
-          window.showConfirmationDialog({
-            cancelText: window.i18n('cancel'),
-            message: isAdmin
-              ? window.i18n('ContactModal--rm-admin-info', [
-                  conversationModel.getTitle(),
-                ])
-              : window.i18n('ContactModal--make-admin-info', [
-                  conversationModel.getTitle(),
-                ]),
-            okText: isAdmin
-              ? window.i18n('ContactModal--rm-admin')
-              : window.i18n('ContactModal--make-admin'),
-            resolve: () => this.model.toggleAdmin(conversationId),
-          });
-        },
-        updateSharedGroups: () => {
-          const conversation = window.ConversationController.get(contactId);
-          if (conversation && conversation.throttledUpdateSharedGroups) {
-            conversation.throttledUpdateSharedGroups();
-          }
-        },
-      }),
-    });
-
-    this.contactModalView.render();
+    window.reduxActions.globalModals.showContactModal(contactId, this.model.id);
   }
 
   showGroupLinkManagement(): void {

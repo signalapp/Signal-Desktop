@@ -58,6 +58,7 @@ import {
 import { AvatarDataType, getDefaultAvatars } from '../../types/Avatar';
 import { getAvatarData } from '../../util/getAvatarData';
 import { isSameAvatarData } from '../../util/isSameAvatarData';
+import { longRunningTaskWrapper } from '../../util/longRunningTaskWrapper';
 
 import { NoopActionType } from './noop';
 
@@ -780,6 +781,7 @@ export const actions = {
   openConversationInternal,
   removeAllConversations,
   removeCustomColorOnConversations,
+  removeMemberFromGroup,
   repairNewestMessage,
   repairOldestMessage,
   replaceAvatar,
@@ -803,11 +805,14 @@ export const actions = {
   showArchivedConversations,
   showChooseGroupMembers,
   showInbox,
+  showSafetyNumberInConversation,
   startComposing,
   startNewConversationFromPhoneNumber,
   startSettingGroupMetadata,
+  toggleAdmin,
   toggleConversationInChooseMembers,
   toggleComposeEditingAvatar,
+  updateConversationModelSharedGroups,
   verifyConversationsStoppingMessageSend,
 };
 
@@ -1717,6 +1722,73 @@ function openConversationExternal(
       id,
       messageId,
     },
+  };
+}
+
+function removeMemberFromGroup(
+  conversationId: string,
+  contactId: string
+): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+  return dispatch => {
+    const conversationModel = window.ConversationController.get(conversationId);
+    if (conversationModel) {
+      const idForLogging = conversationModel.idForLogging();
+      longRunningTaskWrapper({
+        name: 'removeMemberFromGroup',
+        idForLogging,
+        task: () => conversationModel.removeFromGroupV2(contactId),
+      });
+    }
+    dispatch({
+      type: 'NOOP',
+      payload: null,
+    });
+  };
+}
+
+function toggleAdmin(
+  conversationId: string,
+  contactId: string
+): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+  return dispatch => {
+    const conversationModel = window.ConversationController.get(conversationId);
+    if (conversationModel) {
+      conversationModel.toggleAdmin(contactId);
+    }
+    dispatch({
+      type: 'NOOP',
+      payload: null,
+    });
+  };
+}
+
+function updateConversationModelSharedGroups(
+  conversationId: string
+): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+  return dispatch => {
+    const conversation = window.ConversationController.get(conversationId);
+    if (conversation && conversation.throttledUpdateSharedGroups) {
+      conversation.throttledUpdateSharedGroups();
+    }
+    dispatch({
+      type: 'NOOP',
+      payload: null,
+    });
+  };
+}
+
+function showSafetyNumberInConversation(
+  conversationId: string
+): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+  return dispatch => {
+    window.Whisper.events.trigger(
+      'showSafetyNumberInConversation',
+      conversationId
+    );
+    dispatch({
+      type: 'NOOP',
+      payload: null,
+    });
   };
 }
 

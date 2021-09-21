@@ -43,7 +43,6 @@ import { createStore } from './state/createStore';
 import { createApp } from './state/roots/createApp';
 import { createChatColorPicker } from './state/roots/createChatColorPicker';
 import { createCompositionArea } from './state/roots/createCompositionArea';
-import { createContactModal } from './state/roots/createContactModal';
 import { createConversationDetails } from './state/roots/createConversationDetails';
 import { createConversationHeader } from './state/roots/createConversationHeader';
 import { createForwardMessageModal } from './state/roots/createForwardMessageModal';
@@ -424,7 +423,6 @@ declare global {
           createApp: typeof createApp;
           createChatColorPicker: typeof createChatColorPicker;
           createCompositionArea: typeof createCompositionArea;
-          createContactModal: typeof createContactModal;
           createConversationDetails: typeof createConversationDetails;
           createConversationHeader: typeof createConversationHeader;
           createForwardMessageModal: typeof createForwardMessageModal;

@@ -44,6 +44,7 @@ const createProps = (overrideProps: Partial<Props>): Props => ({
   canAddNewMembers: isBoolean(overrideProps.canAddNewMembers)
     ? overrideProps.canAddNewMembers
     : false,
+  conversationId: '123',
   i18n,
   memberships: overrideProps.memberships || [],
   showContactModal: action('showContactModal'),

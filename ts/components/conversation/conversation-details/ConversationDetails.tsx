@@ -60,7 +60,6 @@ export type StateProps = {
   pendingMemberships: ReadonlyArray<GroupV2PendingMembership>;
   setDisappearingMessages: (seconds: number) => void;
   showAllMedia: () => void;
-  showContactModal: (conversationId: string) => void;
   showGroupChatColorEditor: () => void;
   showGroupLinkManagement: () => void;
   showGroupV2Permissions: () => void;
@@ -86,6 +85,7 @@ type ActionProps = {
   deleteAvatarFromDisk: DeleteAvatarFromDiskActionType;
   replaceAvatar: ReplaceAvatarActionType;
   saveAvatarToDisk: SaveAvatarToDiskActionType;
+  showContactModal: (contactId: string, conversationId: string) => void;
 };
 
 export type Props = StateProps & ActionProps;
@@ -329,6 +329,7 @@ export const ConversationDetails: React.ComponentType<Props> = ({
 
       <ConversationDetailsMembershipList
         canAddNewMembers={canEditGroupInfo}
+        conversationId={conversation.id}
         i18n={i18n}
         memberships={memberships}
         showContactModal={showContactModal}

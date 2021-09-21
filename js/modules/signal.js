@@ -68,9 +68,6 @@ const {
   createCompositionArea,
 } = require('../../ts/state/roots/createCompositionArea');
 const {
-  createContactModal,
-} = require('../../ts/state/roots/createContactModal');
-const {
   createConversationDetails,
 } = require('../../ts/state/roots/createConversationDetails');
 const {
@@ -363,7 +360,6 @@ exports.setup = (options = {}) => {
     createApp,
     createChatColorPicker,
     createCompositionArea,
-    createContactModal,
     createConversationDetails,
     createConversationHeader,
     createForwardMessageModal,

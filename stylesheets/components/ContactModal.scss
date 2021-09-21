@@ -1,0 +1,148 @@
+// Copyright 2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.ContactModal {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  &__name {
+    @include font-title-2;
+    margin-top: 6px;
+  }
+
+  &__info {
+    text-align: center;
+    max-width: 248px;
+    margin-top: 8px;
+  }
+
+  &__button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 12px;
+    width: 100%;
+  }
+
+  &__button {
+    @include button-reset;
+
+    display: flex;
+    align-items: center;
+    padding: 7px 16px;
+    width: 100%;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    &:hover {
+      background-color: $color-gray-02;
+
+      @include dark-theme {
+        background-color: $color-gray-80;
+      }
+    }
+
+    &:focus {
+      @include keyboard-mode {
+        background-color: $color-gray-02;
+      }
+
+      @include dark-keyboard-mode {
+        background-color: $color-gray-80;
+      }
+    }
+  }
+
+  &__bubble-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px;
+    width: 20px;
+  }
+
+  &__send-message__bubble-icon {
+    height: 16px;
+    width: 18px;
+
+    @include light-theme {
+      @include color-svg(
+        '../images/icons/v2/message-outline-24.svg',
+        $color-gray-75
+      );
+    }
+
+    @include dark-theme {
+      @include color-svg(
+        '../images/icons/v2/message-outline-24.svg',
+        $color-gray-15
+      );
+    }
+  }
+
+  &__safety-number__bubble-icon {
+    height: 18px;
+    width: 17px;
+
+    @include light-theme {
+      @include color-svg(
+        '../images/icons/v2/safety-number-outline-24.svg',
+        $color-gray-75
+      );
+    }
+
+    @include dark-theme {
+      @include color-svg(
+        '../images/icons/v2/safety-number-outline-24.svg',
+        $color-gray-15
+      );
+    }
+  }
+
+  &__make-admin__bubble-icon {
+    height: 16px;
+    width: 18px;
+
+    @include light-theme {
+      @include color-svg(
+        '../images/icons/v2/group-outline-24.svg',
+        $color-gray-75
+      );
+    }
+
+    @include dark-theme {
+      @include color-svg(
+        '../images/icons/v2/group-outline-24.svg',
+        $color-gray-15
+      );
+    }
+  }
+
+  &__remove-from-group__bubble-icon {
+    height: 16px;
+    width: 16px;
+
+    @include light-theme {
+      @include color-svg(
+        '../images/icons/v2/leave-group-outline-16.svg',
+        $color-gray-75
+      );
+    }
+
+    @include dark-theme {
+      @include color-svg(
+        '../images/icons/v2/leave-group-outline-16.svg',
+        $color-gray-15
+      );
+    }
+  }
+}
+
+.module-Modal.ContactModal__modal .ContactModal__modal__body {
+  padding-left: 0;
+  padding-right: 0;
+}

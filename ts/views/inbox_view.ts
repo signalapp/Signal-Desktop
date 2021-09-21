@@ -23,6 +23,9 @@ const ConversationStack = Whisper.View.extend({
         model: conversation,
       });
       this.listenTo(conversation, 'unload', () => this.onUnload(conversation));
+      this.listenTo(conversation, 'showSafetyNumber', () =>
+        view.showSafetyNumber()
+      );
       view.$el.appendTo(this.el);
 
       if (this.lastConversation && this.lastConversation !== conversation) {
@@ -117,6 +120,13 @@ Whisper.InboxView = Whisper.View.extend({
 
       this.conversation_stack.open(conversation, messageId);
       this.focusConversation();
+    });
+
+    window.Whisper.events.on('showSafetyNumberInConversation', id => {
+      const conversation = window.ConversationController.get(id);
+      if (conversation) {
+        conversation.trigger('showSafetyNumber');
+      }
     });
 
     window.Whisper.events.on('loadingProgress', count => {

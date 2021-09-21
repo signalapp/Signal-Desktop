@@ -7,6 +7,7 @@ import { mapDispatchToProps } from '../actions';
 import { GlobalModalContainer } from '../../components/GlobalModalContainer';
 import { StateType } from '../reducer';
 import { SmartProfileEditorModal } from './ProfileEditorModal';
+import { SmartContactModal } from './ContactModal';
 
 const FilteredSmartProfileEditorModal = SmartProfileEditorModal;
 
@@ -14,9 +15,14 @@ function renderProfileEditor(): JSX.Element {
   return <FilteredSmartProfileEditorModal />;
 }
 
+function renderContactModal(): JSX.Element {
+  return <SmartContactModal />;
+}
+
 const mapStateToProps = (state: StateType) => {
   return {
     ...state.globalModals,
+    renderContactModal,
     renderProfileEditor,
   };
 };

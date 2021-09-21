@@ -28,15 +28,17 @@ const defaultContact: ConversationType = getDefaultConversation({
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   areWeAdmin: boolean('areWeAdmin', overrideProps.areWeAdmin || false),
   contact: overrideProps.contact || defaultContact,
+  hideContactModal: action('hideContactModal'),
   i18n,
   isAdmin: boolean('isAdmin', overrideProps.isAdmin || false),
   isMember: boolean('isMember', overrideProps.isMember || true),
-  onClose: action('onClose'),
-  openConversation: action('openConversation'),
-  removeMember: action('removeMember'),
-  showSafetyNumber: action('showSafetyNumber'),
+  openConversationInternal: action('openConversationInternal'),
+  removeMemberFromGroup: action('removeMemberFromGroup'),
+  showSafetyNumberInConversation: action('showSafetyNumberInConversation'),
   toggleAdmin: action('toggleAdmin'),
-  updateSharedGroups: action('updateSharedGroups'),
+  updateConversationModelSharedGroups: action(
+    'updateConversationModelSharedGroups'
+  ),
 });
 
 story.add('As non-admin', () => {

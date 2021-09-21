@@ -87,7 +87,7 @@
       padding: 0 16px 16px 16px;
       border-top: 1px solid transparent;
       // If there's a header, just the body scrolls
-      overflow-y: scroll; // scroll so that the padding is always there
+      overflow-y: overlay;
       overflow-x: auto;
 
       &--scrolled {
@@ -105,7 +105,7 @@
   &--no-header {
     padding: 16px;
     // If there's no header, the whole thing scrolls
-    overflow-y: scroll; // scroll so that the padding is always there
+    overflow-y: overlay;
     overflow-x: auto;
   }
 
