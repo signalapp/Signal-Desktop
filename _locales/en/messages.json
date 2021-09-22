@@ -6376,26 +6376,6 @@
     "message": "What's New",
     "description": "Title for the whats new modal"
   },
-  "WhatsNew__v5.15--1": {
-    "message": "No that's not speck of dust you need to flick off your monitor, there's now a dot for unplayed incoming audio messages.",
-    "description": "Release notes for v5.15"
-  },
-  "WhatsNew__v5.15--2": {
-    "message": "The calling lobby got some remodeling and renovations done and we didn't even have to refinance.",
-    "description": "Release notes for v5.15"
-  },
-  "WhatsNew__v5.15--3": {
-    "message": "The new preferences window is better and faster. Go ahead and change your zoom level, toggle the theme, set a custom disappearing timer.",
-    "description": "Release notes for v5.15"
-  },
-  "WhatsNew__v5.15--4": {
-    "message": "You can now choose when to download and apply new updates for Signal. The dialogs got a small makeover too. Check out the setting in the new preferences window.",
-    "description": "Release notes for v5.15"
-  },
-  "WhatsNew__v5.15--5": {
-    "message": "Squashed lots of bugs and there are some performance improvements as well. Thank you all for your reports!",
-    "description": "Release notes for v5.15"
-  },
   "WhatsNew__v5.16--1": {
     "message": "An improved media lightbox means no surprises as you progress through a gallery of images or videos, and you can pretend you’re really in a dark room by zooming to hide those pesky buttons.",
     "description": "Release notes for v5.16"
@@ -6415,5 +6395,45 @@
   "WhatsNew__v5.17--2": {
     "message": "You can now send messages wherever and whenever you are: on a plane, in a tunnel, or that sad moment when your internet just cut out. It will eventually get through; messages now automatically retry for up to 24 hours.",
     "description": "Release notes for v5.17"
+  },
+  "WhatsNew__v5.18--1": {
+    "message": "Feeling ❤️‍🔥 or 😶‍🌫️? You can express yourself with a new batch of emoji, whether you're :whispering or :YELLING as you search. Thanks $hiqua$!",
+    "description": "Release notes for v5.18",
+    "placeholders": {
+      "hiqua": {
+        "content": "$1",
+        "example": "<a href='https://github.com/hiqua'>@hiqua</a>"
+      }
+    }
+  },
+  "WhatsNew__v5.18--2": {
+    "message": "If you're in Anguilla, maybe you've felt left out. We now turn all top-level domains in place since 2010 into links - so both $gov$ and $brain$ will be clickable just like $signal$. Thanks $jojomatik$!",
+    "description": "Release notes for v5.18",
+    "placeholders": {
+      "gov": {
+        "content": "$1",
+        "example": "<a href='https://gov.ai'>gov.ai</a>"
+      },
+      "brain": {
+        "content": "$2",
+        "example": "<a href='https://brain.ai'>brain.ai</a>"
+      },
+      "signal": {
+        "content": "$3",
+        "example": "<a href='https://signal.org'>signal.org</a>"
+      },
+      "jojomatik": {
+        "content": "$4",
+        "example": "<a href='https://github.com/jojomatik'>@jojomatik</a>"
+      }
+    }
+  },
+  "WhatsNew__v5.18--3": {
+    "message": "We heard you like to zoom in on images. We added oomph to your zoom, so even small images can go all the way full screen.",
+    "description": "Release notes for v5.18"
+  },
+  "WhatsNew__v5.18--4": {
+    "message": "Did you know that if disappearing messages are enabled, even the 'This message was deleted' notification will go away when it expires? It's no longer a mystery - you'll see the countdown and timestamp right on the message.",
+    "description": "Release notes for v5.18"
   }
 }

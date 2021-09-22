@@ -8,12 +8,16 @@ import { ReplacementValuesType } from '../types/I18N';
 import * as log from '../logging/log';
 
 export type FullJSXType = Array<JSX.Element | string> | JSX.Element | string;
+export type IntlComponentsType =
+  | undefined
+  | Array<FullJSXType>
+  | ReplacementValuesType<FullJSXType>;
 
 export type Props = {
   /** The translation string id */
   id: string;
   i18n: LocalizerType;
-  components?: Array<FullJSXType> | ReplacementValuesType<FullJSXType>;
+  components?: IntlComponentsType;
   renderText?: RenderTextCallbackType;
 };
 
