@@ -35,7 +35,7 @@ const CallWindowHeader = styled.div`
 `;
 
 // TODO: Add proper styling for this
-const VideoContainer = styled.div`
+const StreamContainer = styled.div`
     width: 200px;
     height: 200px;
 `;
@@ -80,9 +80,9 @@ export const CallContainer = () => {
     // const [callWindowPosition, setCallWindowPosition] = useState<WindowPositionType>(null)
 
     // picking a conversation at random to test with
-    let randConvo = _.sample(conversations) as ConversationModel;
-    randConvo.callState = 'incoming';
-    console.warn({ randConvo });
+    const randomConversation = _.sample(conversations) as ConversationModel;
+    randomConversation.callState = 'incoming';
+    console.warn({ randConvo: randomConversation });
 
     const firstCallingConvo = _.first(conversations.filter(convo => convo.callState !== undefined));
 
@@ -113,12 +113,20 @@ export const CallContainer = () => {
     const handleEndCall = () => {
         // call method to end call connection
         console.warn("ending the call");
+        if (firstCallingConvo) {
+            firstCallingConvo.callState = undefined;
+        }
+        setConnectionState(null);
     }
 
     const handleMouseDown = () => {
         // reposition call window
     }
     //#endregion
+
+    if (connectionState === null) {
+        return null;
+    }
 
     return (
         <>
@@ -130,11 +138,10 @@ export const CallContainer = () => {
                 <CallWindow onMouseDown={handleMouseDown}>
                     <CallWindowInner>
                         <CallWindowHeader>
-                            { firstCallingConvo ? firstCallingConvo.getName() : 'Group name not found'}
+                            { firstCallingConvo ? firstCallingConvo.getTitle() : 'Group name not found'}
                         </CallWindowHeader>
-                        <VideoContainer></VideoContainer>
+                        <StreamContainer></StreamContainer>
                         <CallWindowControls>
-                            <SessionButton text={'end call'} onClick={handleEndCall} />
                             <SessionButton text={'end call'} onClick={handleEndCall} />
                         </CallWindowControls>
                     </CallWindowInner>
@@ -150,7 +157,7 @@ export const CallContainer = () => {
             }
 
             {connectionState === 'incoming' ?
-                <SessionWrapperModal title={'incoming call'}>
+                <SessionWrapperModal title={`incoming call from ${firstCallingConvo?.getTitle()}`}>
                     <div className="session-modal__button-group">
                         <SessionButton text={'decline'} onClick={handleDeclineIncomingCall} />
                         <SessionButton
