@@ -415,6 +415,20 @@
         "message": "Iespējams, ka šie cilvēki ir pārinstalējuši vai mainījuši ierīces. Pārbaudiet savu drošības numuru kopā ar šiem cilvēkiem, lai nodrošinātu privātumu.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
+    "safetyNumberChangeDialog__pending-messages--1": {
+        "message": "Send pending message",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
+    },
+    "safetyNumberChangeDialog__pending-messages--many": {
+        "message": "Send $count$ pending messages",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": 123
+            }
+        }
+    },
     "identityKeyErrorOnSend": {
         "message": "Jūsu drošības kods ar $name1$ ir mainījies. Tas varētu nozīmēt vai nu to, ka kāds mēģina pārtvert jūsu saziņu, vai arī $name2$ savā ierīcē pārinstalēja Signal. Iespējams, vēlaties pārbaudīt savu drošības kodu ar šo kontaktpersonu.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
@@ -3165,11 +3179,15 @@
         "message": "Lai izmantotu uzlīmju komplekta veidotāju, iestatiet Signal savā tālrunī un datorā",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
+    "Reactions--remove": {
+        "message": "Remove reaction",
+        "description": ""
+    },
     "Reactions--error": {
         "message": "Neizdevās nosūtīt emociju izpausmi. Mēģiniet vēlreiz.",
         "description": "Shown when a reaction fails to send"
     },
-    "ReactionsViewer--more": {
+    "Reactions--more": {
         "message": "Vēl",
         "description": "Use in the reaction picker as the alt text for the 'more' button"
     },
@@ -3419,25 +3437,7 @@
     },
     "member-of-more-than-3-groups": {
         "message": "$group1$, $group2$, $group3$ dalībnieks un $remainingCount$ citi",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
-        "placeholders": {
-            "group1": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            },
-            "group2": {
-                "content": "$2",
-                "example": "Dinner Party"
-            },
-            "group3": {
-                "content": "$3",
-                "example": "Friends 🌿"
-            },
-            "remainingCount": {
-                "content": "$4",
-                "example": "3"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
     },
     "ConversationHero--membership-added": {
         "message": "$name$ pievienoja jūs grupai.",
@@ -5641,15 +5641,33 @@
     },
     "selectContact": {
         "message": "Atlasīt kontaktpersonu",
-        "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)"
+        "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "deselectContact": {
         "message": "Noņemt kontaktpersonas atlasi",
-        "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)"
+        "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "cannotSelectContact": {
         "message": "Nevar atlasīt kontaktpersonu",
-        "description": "The label for contact checkboxes that are disabled"
+        "description": "The label for contact checkboxes that are disabled",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "alreadyAMember": {
         "message": "Jau dalībnieks",
@@ -6155,7 +6173,7 @@
     },
     "Preferences__button--chats": {
         "message": "Sarunas",
-        "description": "Button to switch the settings view"
+        "description": "Button to switch the settings view (and a title of pane)"
     },
     "Preferences__button--calls": {
         "message": "Zvani",
@@ -6279,6 +6297,14 @@
         "message": "Automatically download updates",
         "description": "Label for checkbox for the auto download updates setting"
     },
+    "Preferences__enable-notifications": {
+        "message": "Enable notifications",
+        "description": "Label for checkbox for the notifications setting"
+    },
+    "Preferences__devices": {
+        "message": "Devices",
+        "description": "Label for Device list in call settings pane"
+    },
     "DialogUpdate--version-available": {
         "message": "Update to version $version$ available",
         "description": "Tooltip for new update available",
@@ -6324,5 +6350,13 @@
     "WhatsNew__v5.16--3": {
         "message": "If you hover over the buttons while on a call, they stay visible instead of disappearing. Nothing hides from your eagle eye, not even these buttons!",
         "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.17--1": {
+        "message": "Try out the new 'send messages' permission to restrict who can send messages in your groups. Great for organizing an event, making an announcement, or just shouting from the rooftops. All members must be on the latest version of Signal for the setting to appear.",
+        "description": "Release notes for v5.17"
+    },
+    "WhatsNew__v5.17--2": {
+        "message": "You can now send messages wherever and whenever you are: on a plane, in a tunnel, or that sad moment when your internet just cut out. It will eventually get through; messages now automatically retry for up to 24 hours.",
+        "description": "Release notes for v5.17"
     }
 }

@@ -415,6 +415,20 @@
         "message": "Aquesta gent podria haver reinstallar o dispositius canviats. Comproveu vostre número de seguretat amb ells, per assegurar la privadesa.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
+    "safetyNumberChangeDialog__pending-messages--1": {
+        "message": "Envia el missatge pendent",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
+    },
+    "safetyNumberChangeDialog__pending-messages--many": {
+        "message": "Envia els $count$ missatges pendents",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": 123
+            }
+        }
+    },
     "identityKeyErrorOnSend": {
         "message": "El vostre número de seguretat amb $name1$ ha canviat. Això podria significar que algú està intentant interceptar la vostra comunicació o que $name2$ ha reinstal·lat el Signal. És possible que vulgueu verificar el número de seguretat amb aquest contacte.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
@@ -3165,11 +3179,15 @@
         "message": "Configureu el Signal del telèfon i de l'escriptori perquè usi el Creador de paquets d'adhesius.",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
+    "Reactions--remove": {
+        "message": "Suprimeix la reacció",
+        "description": ""
+    },
     "Reactions--error": {
         "message": "Ha fallat enviar la reacció. Torneu-ho a provar.",
         "description": "Shown when a reaction fails to send"
     },
-    "ReactionsViewer--more": {
+    "Reactions--more": {
         "message": "Més",
         "description": "Use in the reaction picker as the alt text for the 'more' button"
     },
@@ -3419,25 +3437,7 @@
     },
     "member-of-more-than-3-groups": {
         "message": "Membre de $group1$, $group2$, $group3$ i $remainingCount$ més",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
-        "placeholders": {
-            "group1": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            },
-            "group2": {
-                "content": "$2",
-                "example": "Dinner Party"
-            },
-            "group3": {
-                "content": "$3",
-                "example": "Friends 🌿"
-            },
-            "remainingCount": {
-                "content": "$4",
-                "example": "3"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
     },
     "ConversationHero--membership-added": {
         "message": "$name$ us ha afegit al grup.",
@@ -5641,15 +5641,33 @@
     },
     "selectContact": {
         "message": "Seleccioneu el contacte",
-        "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)"
+        "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "deselectContact": {
         "message": "No seleccionis el contacte",
-        "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)"
+        "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "cannotSelectContact": {
         "message": "No es pot seleccionar el contacte",
-        "description": "The label for contact checkboxes that are disabled"
+        "description": "The label for contact checkboxes that are disabled",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "alreadyAMember": {
         "message": "Ja n'és membre",
@@ -6155,7 +6173,7 @@
     },
     "Preferences__button--chats": {
         "message": "Converses",
-        "description": "Button to switch the settings view"
+        "description": "Button to switch the settings view (and a title of pane)"
     },
     "Preferences__button--calls": {
         "message": "Trucades",
@@ -6279,6 +6297,14 @@
         "message": "Baixa les actualitzacions automàticament",
         "description": "Label for checkbox for the auto download updates setting"
     },
+    "Preferences__enable-notifications": {
+        "message": "Habilita les notificacions",
+        "description": "Label for checkbox for the notifications setting"
+    },
+    "Preferences__devices": {
+        "message": "Dispositius",
+        "description": "Label for Device list in call settings pane"
+    },
     "DialogUpdate--version-available": {
         "message": "Actualització a la versió $version$ disponible",
         "description": "Tooltip for new update available",
@@ -6314,15 +6340,23 @@
         "description": "Release notes for v5.15"
     },
     "WhatsNew__v5.16--1": {
-        "message": "An improved media lightbox means no surprises as you progress through a gallery of images or videos, and you can pretend you’re really in a dark room by zooming to hide those pesky buttons.",
+        "message": "Una caixa de llum multimèdia millorada significa que no hi ha sorpreses a mesura que avanceu per una galeria d’imatges o vídeos i podeu fer veure que us trobeu realment en una cambra fosca fent zoom per amagar aquests botons molestos.",
         "description": "Release notes for v5.16"
     },
     "WhatsNew__v5.16--2": {
-        "message": "Fixed a bug where reacting to a message was tricky, because we put the picker off screen. That's now fixed, and you can 😮 to your ❤️'s content.",
+        "message": "S'ha corregit un error en què la reacció a un missatge era complicada, ja que deixàvem el selector fora de la pantalla. Ara això està solucionat i podeu fer 😮 al contingut del vostre ❤️.",
         "description": "Release notes for v5.16"
     },
     "WhatsNew__v5.16--3": {
-        "message": "If you hover over the buttons while on a call, they stay visible instead of disappearing. Nothing hides from your eagle eye, not even these buttons!",
+        "message": "Si passeu el cursor per sobre dels botons mentre feu una trucada, quedaran visibles en lloc de desaparèixer. Res no s’amaga del teu ull d’àguila, ni tan sols aquests botons.",
         "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.17--1": {
+        "message": "Proveu el nou permís \"envia missatges\" per restringir qui pot enviar missatges als vostres grups. Ideal per organitzar un esdeveniment, fer un anunci o simplement cridar des dels terrats. Per tal que aparegui la configuració, tots els membres han de tenir la versió més recent del Signal.",
+        "description": "Release notes for v5.17"
+    },
+    "WhatsNew__v5.17--2": {
+        "message": "Ara podeu enviar missatges allà on vulgueu i quan vulgueu: en un avió, en un túnel o en aquell moment trist en què Internet s’acaba de tallar. Tard o d'hora s'enviarà; els missatges es tornen a intentar enviar automàticament fins a 24 hores.",
+        "description": "Release notes for v5.17"
     }
 }

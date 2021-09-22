@@ -415,6 +415,20 @@
         "message": "Eftirfarandi einstaklingar hafa sett Signal upp aftur eða skipt um tæki. Sannreyndu öryggisnúmer þín með þeim til að tryggja öryggi.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
+    "safetyNumberChangeDialog__pending-messages--1": {
+        "message": "Senda skilaboð í bið",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
+    },
+    "safetyNumberChangeDialog__pending-messages--many": {
+        "message": "Senda $count$ skilaboð í bið",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": 123
+            }
+        }
+    },
     "identityKeyErrorOnSend": {
         "message": "Öryggisnúmer þitt með $name1$ hefur breyst. Þetta gæti þýtt að einhver sé að reyna að komast inn í samskiptin þín, eða einfaldlega að $name2$ hefur sett Signal upp aftur. Þú gætir viljað sannreyna nýja öryggisnúmerið hér fyrir neðan.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
@@ -654,15 +668,15 @@
         "description": "Displayed when the desktop client cannot connect to the server."
     },
     "connecting": {
-        "message": "Connecting...",
+        "message": "Tengist…",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "connect": {
-        "message": "Click to reconnect.",
+        "message": "Smelltu til að endurtengjast.",
         "description": "Shown to allow the user to manually attempt a reconnect."
     },
     "connectingHangOn": {
-        "message": "Shouldn't be long",
+        "message": "Ætti ekki að taka langan tíma",
         "description": "Subtext description for when the client is connecting to the server."
     },
     "offline": {
@@ -812,7 +826,7 @@
         "description": ""
     },
     "whatsNew": {
-        "message": "See $whatsNew$ in this update",
+        "message": "Skoðaðu $whatsNew$ í þessari uppfærslu",
         "description": "Shown in the main window",
         "placeholders": {
             "name": {
@@ -822,7 +836,7 @@
         }
     },
     "viewReleaseNotes": {
-        "message": "what's new",
+        "message": "hvað er nýtt",
         "description": "Clickable link that displays the latest release notes"
     },
     "selectAContact": {
@@ -1406,11 +1420,11 @@
         "description": "Button tooltip label when you can't ring because the group is too large"
     },
     "calling__button--ring__off": {
-        "message": "Notify, don't ring",
+        "message": "Senda tilkynningu, ekki hringja",
         "description": "Button tooltip label for turning ringing off"
     },
     "calling__button--ring__on": {
-        "message": "Enable ringing",
+        "message": "Virkja hringingu",
         "description": "Button tooltip label for turning ringing on"
     },
     "calling__your-video-is-off": {
@@ -1486,7 +1500,7 @@
         }
     },
     "calling__pre-call-info--will-ring-1": {
-        "message": "Signal will ring $person$",
+        "message": "Signal mun hringja í $person$",
         "description": "Shown in the calling lobby to describe who will be rung",
         "placeholders": {
             "person": {
@@ -1496,7 +1510,7 @@
         }
     },
     "calling__pre-call-info--will-ring-2": {
-        "message": "Signal will ring $first$ and $second$",
+        "message": "Signal mun hringja í $first$ og $second$",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "first": {
@@ -1510,7 +1524,7 @@
         }
     },
     "calling__pre-call-info--will-ring-3": {
-        "message": "Signal will ring $first$, $second$, and $third$",
+        "message": "Signal mun hringja í $first$, $second$ og $third$",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "first": {
@@ -1528,7 +1542,7 @@
         }
     },
     "calling__pre-call-info--will-ring-many": {
-        "message": "Signal will ring $first$, $second$, and $others$ others",
+        "message": "Signal mun hringja í $first$, $second$ og $others$ til viðbótar",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "person": {
@@ -1546,7 +1560,7 @@
         }
     },
     "calling__pre-call-info--will-notify-1": {
-        "message": "$person$ will be notified",
+        "message": "$person$ verður látinn vita",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "person": {
@@ -1556,7 +1570,7 @@
         }
     },
     "calling__pre-call-info--will-notify-2": {
-        "message": "$first$ and $second$ will be notified",
+        "message": "$first$ og $second$ verða látnir vita",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "first": {
@@ -1570,7 +1584,7 @@
         }
     },
     "calling__pre-call-info--will-notify-3": {
-        "message": "$first$, $second$, and $third$ will be notified",
+        "message": "$first$, $second$ og $third$ verða látnir vita",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "first": {
@@ -1588,7 +1602,7 @@
         }
     },
     "calling__pre-call-info--will-notify-many": {
-        "message": "$first$, $second$, and $others$ others will be notified",
+        "message": "$first$, $second$ og $others$ til viðbótar verða látnir vita",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "person": {
@@ -1744,7 +1758,7 @@
         "description": "Header for general options on the settings screen"
     },
     "spellCheckDescription": {
-        "message": "Spell check text entered in message composition box",
+        "message": "Láta villupúka að laga texta sem er skrifaður",
         "description": "Description of the spell check setting"
     },
     "spellCheckWillBeEnabled": {
@@ -1768,7 +1782,7 @@
         "description": "Description for the automatic launch setting"
     },
     "clearDataHeader": {
-        "message": "Clear application data",
+        "message": "Hreinsa gögn forritsins",
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "clearDataExplanation": {
@@ -1906,7 +1920,7 @@
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
-        "message": "Click to go to signal.org/download",
+        "message": "Smelltu til að fara á signal.org/download",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "mediaMessage": {
@@ -1918,7 +1932,7 @@
         "description": "Error message displayed when sending to an unregistered user."
     },
     "sync": {
-        "message": "Import contacts",
+        "message": "Flytja inn tengiliði",
         "description": "Label for contact and group sync settings"
     },
     "syncExplanation": {
@@ -2078,7 +2092,7 @@
         }
     },
     "audioNotificationDescription": {
-        "message": "Play notification sounds",
+        "message": "Spila hljóð með tilkynningum",
         "description": "Description for audio notification setting"
     },
     "callRingtoneNotificationDescription": {
@@ -2316,7 +2330,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "Click to relink Signal Desktop to your mobile device to continue messaging.",
+        "message": "Smelltu til að endurtengja Signal Desktop við farsímann þinn svo hægt sé að halda áfram samskiptum.",
         "description": ""
     },
     "unlinked": {
@@ -2328,15 +2342,15 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Update available",
+        "message": "Uppfærsla er tiltæk",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "Click to restart Signal",
+        "message": "Smelltu til að endurræsa Signal",
         "description": ""
     },
     "downloadNewVersionMessage": {
-        "message": "Click to download update",
+        "message": "Smelltu til að sækja uppfærslu",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
@@ -3165,11 +3179,15 @@
         "message": "Setttu upp Signal á símanum þínum og tölvu ttil að nota Sticker Pack Creator límmerkjahönnunarforritið",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
+    "Reactions--remove": {
+        "message": "Fjarlægja viðbrögð",
+        "description": ""
+    },
     "Reactions--error": {
         "message": "Mistókst að senda viðbrögð. Prófaðu aftur síðar",
         "description": "Shown when a reaction fails to send"
     },
-    "ReactionsViewer--more": {
+    "Reactions--more": {
         "message": "Meira",
         "description": "Use in the reaction picker as the alt text for the 'more' button"
     },
@@ -3419,25 +3437,7 @@
     },
     "member-of-more-than-3-groups": {
         "message": "Meðlimur í $group1$, $group2$, $group3$ og $remainingCount$ til viðbótar",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
-        "placeholders": {
-            "group1": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            },
-            "group2": {
-                "content": "$2",
-                "example": "Dinner Party"
-            },
-            "group3": {
-                "content": "$3",
-                "example": "Friends 🌿"
-            },
-            "remainingCount": {
-                "content": "$4",
-                "example": "3"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
     },
     "ConversationHero--membership-added": {
         "message": "$name$ bætti þér í hópinn.",
@@ -3518,7 +3518,7 @@
         "description": "Shown in both the incoming call bar and notification for an incoming video call"
     },
     "incomingGroupCall__ringing-you": {
-        "message": "$ringer$ is calling you",
+        "message": "$ringer$ er að hringja í þig",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3528,7 +3528,7 @@
         }
     },
     "incomingGroupCall__ringing-1-other": {
-        "message": "$ringer$ is calling you and $otherMember$",
+        "message": "$ringer$ er að hringja í þig og $otherMember$",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3542,7 +3542,7 @@
         }
     },
     "incomingGroupCall__ringing-2-others": {
-        "message": "$ringer$ is calling you, $first$, and $second$",
+        "message": "$ringer$ er að hringja í þig, $first$ og $second$",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3560,7 +3560,7 @@
         }
     },
     "incomingGroupCall__ringing-3-others": {
-        "message": "$ringer$ is calling you, $first$, $second$, and 1 other",
+        "message": "$ringer$ er að hringja í þig, $first$, $second$ og 1 til viðbótar",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3578,7 +3578,7 @@
         }
     },
     "incomingGroupCall__ringing-many": {
-        "message": "$ringer$ is calling you, $first$, $second$, and $remaining$ others",
+        "message": "$ringer$ er að hringja í þig, $first$, $second$ og $remaining$ til viðbótar",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -5188,7 +5188,7 @@
         "description": "Displayed while checking if the contact is SMS-only"
     },
     "countMutedConversationsDescription": {
-        "message": "Include muted conversations in badge count",
+        "message": "Telja þögguð samtöl með í talningu á merki",
         "description": "Description for counting muted conversations in badge setting"
     },
     "ContactModal--message": {
@@ -5641,15 +5641,33 @@
     },
     "selectContact": {
         "message": "Velja tengilið",
-        "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)"
+        "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "deselectContact": {
         "message": "Afvelja tengilið",
-        "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)"
+        "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "cannotSelectContact": {
         "message": "Get ekki valið tengilið",
-        "description": "The label for contact checkboxes that are disabled"
+        "description": "The label for contact checkboxes that are disabled",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "alreadyAMember": {
         "message": "Nú þegar meðlimur",
@@ -5982,7 +6000,7 @@
         }
     },
     "ErrorBoundaryNotification__text": {
-        "message": "Couldn't display this message. Click to submit a debug log.",
+        "message": "Gat ekki birt þessi skilaboð. Smelltu til að senda villuskýrslu.",
         "description": "An error notification displayed when message fails to render due to an internal error"
     },
     "GroupDescription__read-more": {
@@ -6155,7 +6173,7 @@
     },
     "Preferences__button--chats": {
         "message": "Spjöll",
-        "description": "Button to switch the settings view"
+        "description": "Button to switch the settings view (and a title of pane)"
     },
     "Preferences__button--calls": {
         "message": "Símtöl",
@@ -6170,7 +6188,7 @@
         "description": "Button to switch the settings view"
     },
     "Preferences--lastSynced": {
-        "message": "Last import at $date$ $time$",
+        "message": "Síðasti innflutningur þann $date$ $time$",
         "description": "Label for date and time of last sync operation",
         "placeholders": {
             "date": {
@@ -6188,7 +6206,7 @@
         "description": "Title for system type settings"
     },
     "Preferences--zoom": {
-        "message": "Zoom level",
+        "message": "Aðdráttarstig",
         "description": "Label for changing the zoom level"
     },
     "Preferences__link-previews--title": {
@@ -6196,7 +6214,7 @@
         "description": "Title for the generate link previews setting"
     },
     "Preferences__link-previews--description": {
-        "message": "To change this setting, open the Signal app on your mobile device and navigate to Settings > Chats",
+        "message": "Til að breyta þessum stillingum skaltu opna Signal-forritið á farsímanum þínum og fara í Stillingar > Spjall",
         "description": "Description for the generate link previews setting"
     },
     "Preferences--advanced": {
@@ -6204,7 +6222,7 @@
         "description": "Title for advanced settings"
     },
     "Preferences--notification-content": {
-        "message": "Notification content",
+        "message": "Efni tilkynningar",
         "description": "Label for the notification content setting select box"
     },
     "Preferences--blocked": {
@@ -6212,7 +6230,7 @@
         "description": "Label for blocked contacts setting"
     },
     "Preferences--blocked-count-singular": {
-        "message": "$num$ contact",
+        "message": "$num$ tengiliður",
         "description": "Number of contacts blocked singular",
         "placeholders": {
             "num": {
@@ -6222,7 +6240,7 @@
         }
     },
     "Preferences--blocked-count-plural": {
-        "message": "$num$ contacts",
+        "message": "$num$ tengiliðir",
         "description": "Number of contacts blocked plural",
         "placeholders": {
             "num": {
@@ -6232,11 +6250,11 @@
         }
     },
     "Preferences__who-can--title": {
-        "message": "Who can...",
+        "message": "Hver getur…",
         "description": "Title for the 'who can do X' setting"
     },
     "Preferences__privacy--description": {
-        "message": "To change these settings, open the Signal app on your mobile device and navigate to Settings > Privacy",
+        "message": "Til að breyta þessum stillingum skaltu opna Signal-forritið á farsímanum þínum og fara í Stillingar > Gagnaleynd",
         "description": "Description for the 'who can do X' setting"
     },
     "Preferences__who-can--everybody": {
@@ -6260,7 +6278,7 @@
         "description": "Label for the see my phone number setting"
     },
     "Preferences--find-me": {
-        "message": "Find me by my phone number",
+        "message": "Fundið mig með símanúmerinu mínu",
         "description": "Label for the find me by my phone number setting"
     },
     "Preferences--read-receipts": {
@@ -6272,15 +6290,23 @@
         "description": "Label for the typing indicators setting"
     },
     "Preferences--updates": {
-        "message": "Updates",
+        "message": "Uppfærslur",
         "description": "Header for settings having to do with updates"
     },
     "Preferences__download-update": {
-        "message": "Automatically download updates",
+        "message": "Sótt uppfærslur sjálfkrafa",
         "description": "Label for checkbox for the auto download updates setting"
     },
+    "Preferences__enable-notifications": {
+        "message": "Virkja tilkynningar",
+        "description": "Label for checkbox for the notifications setting"
+    },
+    "Preferences__devices": {
+        "message": "Tæki",
+        "description": "Label for Device list in call settings pane"
+    },
     "DialogUpdate--version-available": {
-        "message": "Update to version $version$ available",
+        "message": "Uppfærsla í útgáfu $version$ er tiltæk",
         "description": "Tooltip for new update available",
         "placeholders": {
             "status": {
@@ -6290,7 +6316,7 @@
         }
     },
     "WhatsNew__modal-title": {
-        "message": "What's New",
+        "message": "Hvað er nýtt",
         "description": "Title for the whats new modal"
     },
     "WhatsNew__v5.15--1": {
@@ -6324,5 +6350,13 @@
     "WhatsNew__v5.16--3": {
         "message": "If you hover over the buttons while on a call, they stay visible instead of disappearing. Nothing hides from your eagle eye, not even these buttons!",
         "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.17--1": {
+        "message": "Prófaðu nýju 'senda skilaboð' heimildina til að takmarka hverjir geti sent skilaboð í hópunum þínum. Hentar vel við að skipuleggja atburði, við að senda út tilkynningar, nú eða til að öskra út í loftið. Allir meðlimir verða að vera með nýjustu útgáfuna af Signal ef þessi valkostur á að birtast.",
+        "description": "Release notes for v5.17"
+    },
+    "WhatsNew__v5.17--2": {
+        "message": "You can now send messages wherever and whenever you are: on a plane, in a tunnel, or that sad moment when your internet just cut out. It will eventually get through; messages now automatically retry for up to 24 hours.",
+        "description": "Release notes for v5.17"
     }
 }

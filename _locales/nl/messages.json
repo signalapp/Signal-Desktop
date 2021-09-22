@@ -415,6 +415,20 @@
         "message": "De volgende personen hebben mogelijk de app opnieuw geïnstalleerd of hebben een ander apparaat in gebruik genomen. Verifieer jullie veiligheidsnummers om zeker te zijn dat je met de juiste personen communiceert.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
+    "safetyNumberChangeDialog__pending-messages--1": {
+        "message": "Berichten die nog verzonden moeten worden",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
+    },
+    "safetyNumberChangeDialog__pending-messages--many": {
+        "message": "$count$ berichten in afwachting nu verzenden",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": 123
+            }
+        }
+    },
     "identityKeyErrorOnSend": {
         "message": "Je veiligheidsnummer met $name1$ is veranderd. Dit kan betekenen dat iemand je gesprekken probeert te onderscheppen, of gewoonweg dat $name2$ Signal opnieuw heeft geïnstalleerd. Het wordt aanbevolen om je nieuwe veiligheidsnummer met deze persoon te verifiëren.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
@@ -3165,11 +3179,15 @@
         "message": "Je moet eerst Signal in gebruik nemen op je telefoon en op je desktop voor je de stickermaker kunt gebruiken",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
+    "Reactions--remove": {
+        "message": "Reactie verwijderen",
+        "description": ""
+    },
     "Reactions--error": {
         "message": "Verzenden van reactie mislukt. Probeer het opnieuw.",
         "description": "Shown when a reaction fails to send"
     },
-    "ReactionsViewer--more": {
+    "Reactions--more": {
         "message": "Meer reacties weergeven",
         "description": "Use in the reaction picker as the alt text for the 'more' button"
     },
@@ -3419,25 +3437,7 @@
     },
     "member-of-more-than-3-groups": {
         "message": "Lid van $group1$, $group2$, $group3$ en $remainingCount$ andere groepen",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
-        "placeholders": {
-            "group1": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            },
-            "group2": {
-                "content": "$2",
-                "example": "Dinner Party"
-            },
-            "group3": {
-                "content": "$3",
-                "example": "Friends 🌿"
-            },
-            "remainingCount": {
-                "content": "$4",
-                "example": "3"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
     },
     "ConversationHero--membership-added": {
         "message": "$name$ heeft je toegevoegd aan de groep.",
@@ -5244,7 +5244,7 @@
         "description": "This is the label for the disappearing messages setting panel"
     },
     "ConversationDetails--disappearing-messages-info": {
-        "message": "Nieuwe berichten in dit gesprek zullen voor iedereen die ze heeft gezien nadat de ingestelde tijd is verlopen worden gewist. — Gebruik dit niet ter beveiliging, want Signal kan niet garanderen dat berichten op het apparaat van een ander ook daadwerkelijk worden gewist.",
+        "message": "Nieuwe berichten in dit gesprek zullen voor iedereen worden gewist nadat de ingestelde tijdspanne is verlopen. De tijdspanne begint voor iedere persoon individueel pas te lopen vanaf het moment dat hij of zij het bericht heeft gezien. — Gebruik dit niet ter beveiliging, want Signal kan niet garanderen dat berichten op het apparaat van een ander ook daadwerkelijk worden gewist.",
         "description": "This is the info about the disappearing messages setting"
     },
     "ConversationDetails--notifications": {
@@ -5641,15 +5641,33 @@
     },
     "selectContact": {
         "message": "Selecteer contact",
-        "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)"
+        "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "deselectContact": {
         "message": "Contactpersoon de-selecteren",
-        "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)"
+        "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "cannotSelectContact": {
         "message": "Kan deze contactpersoon niet selecteren",
-        "description": "The label for contact checkboxes that are disabled"
+        "description": "The label for contact checkboxes that are disabled",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "alreadyAMember": {
         "message": "Is al een groepslid",
@@ -6155,7 +6173,7 @@
     },
     "Preferences__button--chats": {
         "message": "Gesprekken",
-        "description": "Button to switch the settings view"
+        "description": "Button to switch the settings view (and a title of pane)"
     },
     "Preferences__button--calls": {
         "message": "Oproepen",
@@ -6279,6 +6297,14 @@
         "message": "Nieuwe versies automatisch downloaden",
         "description": "Label for checkbox for the auto download updates setting"
     },
+    "Preferences__enable-notifications": {
+        "message": "Meldingen inschakelen",
+        "description": "Label for checkbox for the notifications setting"
+    },
+    "Preferences__devices": {
+        "message": "Apparaten",
+        "description": "Label for Device list in call settings pane"
+    },
     "DialogUpdate--version-available": {
         "message": "Nieuwe versie $version$ is beschikbaar",
         "description": "Tooltip for new update available",
@@ -6324,5 +6350,13 @@
     "WhatsNew__v5.16--3": {
         "message": "Als je tijdens een oproep je cursor over de knoppen laat zweven dan blijven de knoppen zichtbaar.",
         "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.17--1": {
+        "message": "In deze versie voegen we een nieuwe machtiging toe aan groepen: 'berichten verzenden'. Hiermee kun je instellen wie er berichten mag verzenden aan de groep. Handig als je een evenement organiseert, als je de groep alleen wilt gebruiken voor aankondigingen of meldingen, of als je alleen je eigen mening tolereert 🤐. Alle groepsleden moeten de nieuwste versie van Signal gebruiken anders verschijnt deze instelling niet in het groepsinstellingen-menu.",
+        "description": "Release notes for v5.17"
+    },
+    "WhatsNew__v5.17--2": {
+        "message": "Je kunt vanaf nu op elk moment berichten verzenden, ook als je even geen internetverbinding hebt, want Signal zal nog 24 uur lang proberen om het bericht alsnog te verzenden.",
+        "description": "Release notes for v5.17"
     }
 }

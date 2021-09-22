@@ -415,6 +415,20 @@
         "message": "Följande personer kan ha installerat om eller bytt enheter. Verifiera ditt säkerhetsnummer med dem för att säkerställa integriteten.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
+    "safetyNumberChangeDialog__pending-messages--1": {
+        "message": "Skicka väntande meddelande",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
+    },
+    "safetyNumberChangeDialog__pending-messages--many": {
+        "message": "Skicka $count$ väntande meddelanden",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": 123
+            }
+        }
+    },
     "identityKeyErrorOnSend": {
         "message": "Ditt säkerhetsnummer med $name1$ har ändrats. Det kan antingen innebära att någon försöker avläsa din kommunikation eller att $name2$ helt enkelt har installerat om Signal. Du kanske vill verifiera ditt säkerhetsnummer med denna kontakt.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
@@ -1020,7 +1034,7 @@
         "description": ""
     },
     "discard": {
-        "message": "Släng",
+        "message": "Kassera",
         "description": ""
     },
     "failedToSend": {
@@ -3165,11 +3179,15 @@
         "message": "Vänligen ställ in Signal på din telefon och ditt skrivbord för att använda skaparen av klistermärkepaket",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
+    "Reactions--remove": {
+        "message": "Ta bort reaktionen",
+        "description": ""
+    },
     "Reactions--error": {
         "message": "Det gick inte att skicka reaktion. Vänligen försök igen.",
         "description": "Shown when a reaction fails to send"
     },
-    "ReactionsViewer--more": {
+    "Reactions--more": {
         "message": "Mer",
         "description": "Use in the reaction picker as the alt text for the 'more' button"
     },
@@ -3419,25 +3437,7 @@
     },
     "member-of-more-than-3-groups": {
         "message": "Medlem i $group1$, $group2$, $group3$ och $remainingCount$ fler",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
-        "placeholders": {
-            "group1": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            },
-            "group2": {
-                "content": "$2",
-                "example": "Dinner Party"
-            },
-            "group3": {
-                "content": "$3",
-                "example": "Friends 🌿"
-            },
-            "remainingCount": {
-                "content": "$4",
-                "example": "3"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
     },
     "ConversationHero--membership-added": {
         "message": "$name$ lade dig till gruppen.",
@@ -5256,7 +5256,7 @@
         "description": "This is the label for the 'who can edit the group' panel"
     },
     "ConversationDetails--group-info-info": {
-        "message": "Välj vem som kan redigera gruppens namn, foto, beskrivning och tidtagare för försvinnande meddelanden.",
+        "message": "Välj vem som kan redigera gruppens namn, foto, beskrivning och tidsgräns för försvinnande meddelanden.",
         "description": "This is the additional info for the 'who can edit the group' panel"
     },
     "ConversationDetails--add-members-label": {
@@ -5641,15 +5641,33 @@
     },
     "selectContact": {
         "message": "Välj kontakt",
-        "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)"
+        "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "deselectContact": {
         "message": "Avmarkera kontakt",
-        "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)"
+        "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "cannotSelectContact": {
         "message": "Det går inte att välja kontakt",
-        "description": "The label for contact checkboxes that are disabled"
+        "description": "The label for contact checkboxes that are disabled",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "alreadyAMember": {
         "message": "Redan medlem",
@@ -5964,11 +5982,11 @@
         "description": "Name of the 'weeks' unit select for the custom disappearing message timeout dialog"
     },
     "settings__DisappearingMessages__footer": {
-        "message": "Ställ in en standardtidtagare för försvinnande meddelanden för alla nya chattar som du startar.",
+        "message": "Ställ in en standardtidsgräns för försvinnande meddelanden för alla nya chattar som du startar.",
         "description": "Footer for the Disappearing Messages settings section"
     },
     "settings__DisappearingMessages__timer__label": {
-        "message": "Standard tidtagare för nya chattar",
+        "message": "Standardtidsgräns för nya chattar",
         "description": "Label for the Disapearring Messages default timer setting"
     },
     "UniversalTimerNotification__text": {
@@ -6155,7 +6173,7 @@
     },
     "Preferences__button--chats": {
         "message": "Chattar",
-        "description": "Button to switch the settings view"
+        "description": "Button to switch the settings view (and a title of pane)"
     },
     "Preferences__button--calls": {
         "message": "Samtal",
@@ -6279,6 +6297,14 @@
         "message": "Hämta uppdateringar automatiskt",
         "description": "Label for checkbox for the auto download updates setting"
     },
+    "Preferences__enable-notifications": {
+        "message": "Aktivera aviseringar",
+        "description": "Label for checkbox for the notifications setting"
+    },
+    "Preferences__devices": {
+        "message": "Enheter",
+        "description": "Label for Device list in call settings pane"
+    },
     "DialogUpdate--version-available": {
         "message": "Uppdatering till version $version$ tillgänglig",
         "description": "Tooltip for new update available",
@@ -6324,5 +6350,13 @@
     "WhatsNew__v5.16--3": {
         "message": "Om du håller muspekaren över knapparna under ett samtal förblir de synliga istället för att försvinna. Inget döljer sig för ditt örnöga, inte ens dessa knappar!",
         "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.17--1": {
+        "message": "Prova den nya behörigheten \"skicka meddelanden\" för att begränsa vem som kan skicka meddelanden i dina grupper. Perfekt för att organisera ett evenemang, göra ett tillkännagivande eller bara skrika från hustaken. Alla medlemmar måste ha den senaste versionen av Signal för att inställningen ska visas.",
+        "description": "Release notes for v5.17"
+    },
+    "WhatsNew__v5.17--2": {
+        "message": "Du kan nu skicka meddelanden var och när du är: på ett flygplan, i en tunnel, eller det sorgliga ögonblicket när ditt internet bara stängdes av. Det kommer så småningom att komma fram; meddelanden försöker nu automatiskt skicka igen i upp till 24 timmar.",
+        "description": "Release notes for v5.17"
     }
 }

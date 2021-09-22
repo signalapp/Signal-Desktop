@@ -415,6 +415,20 @@
         "message": "Следующие люди могли переустановить Signal или сменить устройства. Подтвердите ваш код безопасности с ними, чтобы обеспечить конфиденциальность.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
+    "safetyNumberChangeDialog__pending-messages--1": {
+        "message": "Отправить ожидающее сообщение",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
+    },
+    "safetyNumberChangeDialog__pending-messages--many": {
+        "message": "Отправить $count$ ожидающих сообщений",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": 123
+            }
+        }
+    },
     "identityKeyErrorOnSend": {
         "message": "Ваш код безопасности с $name1$ изменился. Это может означать, что кто-то пытается перехватить вашу переписку и звонки или что $name2$ просто переустановил(-а) Signal. Возможно, вы захотите подтвердить ваш код безопасности с этим контактом.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
@@ -3165,11 +3179,15 @@
         "message": "Пожалуйста, настройте Signal на вашем телефоне и ПК, чтобы использовать редактор наборов стикеров",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
+    "Reactions--remove": {
+        "message": "Убрать реакцию",
+        "description": ""
+    },
     "Reactions--error": {
         "message": "Не удалось отправить реакцию. Пожалуйста, попробуйте ещё раз.",
         "description": "Shown when a reaction fails to send"
     },
-    "ReactionsViewer--more": {
+    "Reactions--more": {
         "message": "Больше",
         "description": "Use in the reaction picker as the alt text for the 'more' button"
     },
@@ -3419,25 +3437,7 @@
     },
     "member-of-more-than-3-groups": {
         "message": "Состоит в $group1$, $group2$, $group3$ и ещё $remainingCount$ группах",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
-        "placeholders": {
-            "group1": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            },
-            "group2": {
-                "content": "$2",
-                "example": "Dinner Party"
-            },
-            "group3": {
-                "content": "$3",
-                "example": "Friends 🌿"
-            },
-            "remainingCount": {
-                "content": "$4",
-                "example": "3"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
     },
     "ConversationHero--membership-added": {
         "message": "$name$ добавил(-а) вас в группу.",
@@ -5641,15 +5641,33 @@
     },
     "selectContact": {
         "message": "Выбрать контакт",
-        "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)"
+        "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "deselectContact": {
         "message": "Отменить выбор контакта",
-        "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)"
+        "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "cannotSelectContact": {
         "message": "Невозможно выбрать контакт",
-        "description": "The label for contact checkboxes that are disabled"
+        "description": "The label for contact checkboxes that are disabled",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "alreadyAMember": {
         "message": "Уже является участником",
@@ -6155,7 +6173,7 @@
     },
     "Preferences__button--chats": {
         "message": "Чаты",
-        "description": "Button to switch the settings view"
+        "description": "Button to switch the settings view (and a title of pane)"
     },
     "Preferences__button--calls": {
         "message": "Звонки",
@@ -6279,6 +6297,14 @@
         "message": "Автоматически скачивать обновления",
         "description": "Label for checkbox for the auto download updates setting"
     },
+    "Preferences__enable-notifications": {
+        "message": "Включить уведомления",
+        "description": "Label for checkbox for the notifications setting"
+    },
+    "Preferences__devices": {
+        "message": "Устройства",
+        "description": "Label for Device list in call settings pane"
+    },
     "DialogUpdate--version-available": {
         "message": "Доступно обновление до версии $version$",
         "description": "Tooltip for new update available",
@@ -6324,5 +6350,13 @@
     "WhatsNew__v5.16--3": {
         "message": "Когда курсор находится над кнопками во время звонка, они остаются видимыми, вместо того чтобы исчезать.",
         "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.17--1": {
+        "message": "Попробуйте новое разрешение «отправлять сообщения», чтобы ограничить, кто может отправлять сообщения в ваших группах. Подходит для организации событий и для объявлений. Все участники должны быть на новейшей версии Signal, чтобы эта настройка появилась.",
+        "description": "Release notes for v5.17"
+    },
+    "WhatsNew__v5.17--2": {
+        "message": "Теперь вы можете отправлять сообщения где и когда угодно: на самолёте, в туннеле или в тот грустный момент, когда ваш интернет прекратил работать. Они в конце концов дойдут: отправка сообщений теперь автоматически повторяется в течении 24 часов.",
+        "description": "Release notes for v5.17"
     }
 }

@@ -415,6 +415,20 @@
         "message": "É possível que as seguintes pessoas tenham reinstalado o Signal ou mudado de aparelho. Verifique o seu número de segurança com elas para garantir a sua privacidade e a delas.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
+    "safetyNumberChangeDialog__pending-messages--1": {
+        "message": "Enviar mensagem pendente",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
+    },
+    "safetyNumberChangeDialog__pending-messages--many": {
+        "message": "Enviar $count$ mensagens pendentes",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": 123
+            }
+        }
+    },
     "identityKeyErrorOnSend": {
         "message": "Seu número de segurança com $name1$ foi alterado. Isto pode significar que alguém está tentando interceptar sua comunicação ou que $name2$ simplesmente reinstalou o Signal. Você pode querer verificar seu número de segurança com este contato.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
@@ -3165,11 +3179,15 @@
         "message": "Por favor, vincule o Signal no desktop ao seu telefone para usar o Criador de pacote de figurinhas",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
+    "Reactions--remove": {
+        "message": "Remover reação",
+        "description": ""
+    },
     "Reactions--error": {
         "message": "Falha ao enviar reação. Por favor, tente novamente.",
         "description": "Shown when a reaction fails to send"
     },
-    "ReactionsViewer--more": {
+    "Reactions--more": {
         "message": "Mais",
         "description": "Use in the reaction picker as the alt text for the 'more' button"
     },
@@ -3419,25 +3437,7 @@
     },
     "member-of-more-than-3-groups": {
         "message": "Membro de $group1$, $group2$, $group3$ e mais $remainingCount$ grupos",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
-        "placeholders": {
-            "group1": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            },
-            "group2": {
-                "content": "$2",
-                "example": "Dinner Party"
-            },
-            "group3": {
-                "content": "$3",
-                "example": "Friends 🌿"
-            },
-            "remainingCount": {
-                "content": "$4",
-                "example": "3"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
     },
     "ConversationHero--membership-added": {
         "message": "$name$ adicionou você ao grupo.",
@@ -5641,15 +5641,33 @@
     },
     "selectContact": {
         "message": "Selecionar contato",
-        "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)"
+        "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "deselectContact": {
         "message": "Desmarcar contato",
-        "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)"
+        "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "cannotSelectContact": {
         "message": "Não é possível selecionar esse contato",
-        "description": "The label for contact checkboxes that are disabled"
+        "description": "The label for contact checkboxes that are disabled",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "alreadyAMember": {
         "message": "Já é um membro",
@@ -6155,7 +6173,7 @@
     },
     "Preferences__button--chats": {
         "message": "Conversas",
-        "description": "Button to switch the settings view"
+        "description": "Button to switch the settings view (and a title of pane)"
     },
     "Preferences__button--calls": {
         "message": "Chamadas",
@@ -6279,6 +6297,14 @@
         "message": "Baixar atualizações automaticamente",
         "description": "Label for checkbox for the auto download updates setting"
     },
+    "Preferences__enable-notifications": {
+        "message": "Exibir notificações",
+        "description": "Label for checkbox for the notifications setting"
+    },
+    "Preferences__devices": {
+        "message": "Aparelhos",
+        "description": "Label for Device list in call settings pane"
+    },
     "DialogUpdate--version-available": {
         "message": "Atualização disponível para a versão $version$",
         "description": "Tooltip for new update available",
@@ -6324,5 +6350,13 @@
     "WhatsNew__v5.16--3": {
         "message": "Anteriormente, se você passasse o mouse sobre os botões durante uma chamada, eles desapareceriam. A partir de agora, esses botões permanecerão visíveis ao seu olhar!",
         "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.17--1": {
+        "message": "Conheça a nova permissão 'enviar mensagens' em um grupo. Ela existe para restringir quem pode enviar mensagens no grupo. Ótimo recurso para organizar um evento ou para criar um canal de anúncios. Lembramos que todos os membros do grupo devem atualizar o Signal para a versão mais recente, de modo a usufruírem dessa configuração.",
+        "description": "Release notes for v5.17"
+    },
+    "WhatsNew__v5.17--2": {
+        "message": "Agora você pode enviar mensagens onde e quando estiver: em um avião, em um túnel ou quando o seu aparelho estiver desconectado da internet. Assim que a conexão de internet retornar, dentro de 24 horas, as mensagens pendentes serão enviadas automaticamente.",
+        "description": "Release notes for v5.17"
     }
 }

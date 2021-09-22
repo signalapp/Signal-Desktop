@@ -415,6 +415,20 @@
         "message": "Następujące osoby mogły ponownie zainstalować aplikację lub zmienić urządzenie. Zweryfikuj wasze numery bezpieczeństwa, aby zapewnić prywatność.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
+    "safetyNumberChangeDialog__pending-messages--1": {
+        "message": "Wyślij oczekującą wiadomość",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
+    },
+    "safetyNumberChangeDialog__pending-messages--many": {
+        "message": "Wyślij $count$ oczekujących wiadomości",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": 123
+            }
+        }
+    },
     "identityKeyErrorOnSend": {
         "message": "Numer bezpieczeństwa dla $name1$ uległ zmianie. Może to oznaczać, że ktoś próbuje przechwycić Twoją komunikację albo że $name2$ po prostu przeinstalował(a) Signal. Możesz chcieć zweryfikować numer bezpieczeństwa z tym kontaktem.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
@@ -3165,11 +3179,15 @@
         "message": "Połącz Signal na swoim telefonie i komputerze, aby móc używać Kreatora pakietów naklejek",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
+    "Reactions--remove": {
+        "message": "Usuń reakcję",
+        "description": ""
+    },
     "Reactions--error": {
         "message": "Nie udało się zareagować. Spróbuj ponownie.",
         "description": "Shown when a reaction fails to send"
     },
-    "ReactionsViewer--more": {
+    "Reactions--more": {
         "message": "Więcej",
         "description": "Use in the reaction picker as the alt text for the 'more' button"
     },
@@ -3419,25 +3437,7 @@
     },
     "member-of-more-than-3-groups": {
         "message": "Członek $group1$, $group2$, $group3$ i $remainingCount$ innych",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
-        "placeholders": {
-            "group1": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            },
-            "group2": {
-                "content": "$2",
-                "example": "Dinner Party"
-            },
-            "group3": {
-                "content": "$3",
-                "example": "Friends 🌿"
-            },
-            "remainingCount": {
-                "content": "$4",
-                "example": "3"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
     },
     "ConversationHero--membership-added": {
         "message": "$name$ dodał(a) Cię do grupy.",
@@ -5180,7 +5180,7 @@
         "description": "Title for the composition area for the SMS-only contact"
     },
     "CompositionArea--sms-only__body": {
-        "message": "Signal Desktop nie obsługuje wysyłania wiadomości do kontaktów niekorzystających z Signal. Poproś tę osobę, aby zainstalowała Signal , by móc komunikować się bezpieczniej.",
+        "message": "Signal Desktop nie obsługuje wysyłania wiadomości do kontaktów niekorzystających z Signal. Poproś tę osobę, aby zainstalowała Signal, by móc komunikować się bezpieczniej.",
         "description": "Body for the composition area for the SMS-only contact"
     },
     "CompositionArea--sms-only__spinner-label": {
@@ -5641,15 +5641,33 @@
     },
     "selectContact": {
         "message": "Wybierz kontakt",
-        "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)"
+        "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "deselectContact": {
         "message": "Odznacz kontakt",
-        "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)"
+        "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "cannotSelectContact": {
         "message": "Nie można wybrać kontaktu",
-        "description": "The label for contact checkboxes that are disabled"
+        "description": "The label for contact checkboxes that are disabled",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "alreadyAMember": {
         "message": "Należy już do grupy",
@@ -6155,7 +6173,7 @@
     },
     "Preferences__button--chats": {
         "message": "Rozmowy",
-        "description": "Button to switch the settings view"
+        "description": "Button to switch the settings view (and a title of pane)"
     },
     "Preferences__button--calls": {
         "message": "Połączenia",
@@ -6279,6 +6297,14 @@
         "message": "Automatycznie pobieraj aktualizacje",
         "description": "Label for checkbox for the auto download updates setting"
     },
+    "Preferences__enable-notifications": {
+        "message": "Włącz powiadomienia",
+        "description": "Label for checkbox for the notifications setting"
+    },
+    "Preferences__devices": {
+        "message": "Urządzenia",
+        "description": "Label for Device list in call settings pane"
+    },
     "DialogUpdate--version-available": {
         "message": "Dostępna jest aktualizacja do wersji $version$",
         "description": "Tooltip for new update available",
@@ -6324,5 +6350,13 @@
     "WhatsNew__v5.16--3": {
         "message": "Jeśli, w trakcie rozmowy, zatrzymasz kursor nad przyciskami, pozostaną one widoczne, zamiast zniknąć. Nic nie skryje się przed Twoim, sokolim wzrokiem, nawet te przyciski!",
         "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.17--1": {
+        "message": "Wypróbuj nowe uprawnienie \"wysyłanie wiadomości\", aby ograniczyć, kto może wysyłać wiadomości w Twoich grupach. Świetna opcja do organizacji wydarzenia albo ogłaszania czegoś. Wszyscy członkowie grupy muszą używać najnowszej wersji aplikacji Signal, aby pojawiła się ta opcja.",
+        "description": "Release notes for v5.17"
+    },
+    "WhatsNew__v5.17--2": {
+        "message": "Teraz możesz wysyłać wiadomości kiedykolwiek zechcesz i gdziekolwiek jesteś: w samolocie, tunelu, czy w smutnej chwili, gdy Twój internet nie działa. Wiadomość zostanie w końcu wysłana, gdyż Desktop automatycznie próbuje teraz, przez 24 godziny, wysłać niewysłane wiadomości.",
+        "description": "Release notes for v5.17"
     }
 }

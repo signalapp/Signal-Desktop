@@ -415,6 +415,20 @@
         "message": "האנשים הבאים ייתכן התקינו מחדש את היישום או שינו מכשירים. וודא את מספר הביטחון שלך איתם כדי להבטיח פרטיות.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
+    "safetyNumberChangeDialog__pending-messages--1": {
+        "message": "שלח הודעה ממתינה",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
+    },
+    "safetyNumberChangeDialog__pending-messages--many": {
+        "message": "שלח $count$ הודעות ממתינות",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": 123
+            }
+        }
+    },
     "identityKeyErrorOnSend": {
         "message": "מספר הביטחון שלך עם $name1$ השתנה. זה יכול להעיד שמישהו מנסה ליירט את התקשורת שלך או כי $name2$ פשוט התקין מחדש את Signal. ייתכן שתרצה לוודא את מספר הביטחון שלך עם איש קשה זה.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
@@ -3165,11 +3179,15 @@
         "message": "אנא תצר את Signal בטלפון שלך ובשולחן העבודה כדי להשתמש ביוצר חבילות המדבקות",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
+    "Reactions--remove": {
+        "message": "הסר תגובה",
+        "description": ""
+    },
     "Reactions--error": {
         "message": "נכשל בשליחת תגובה. אנא נסה שוב.",
         "description": "Shown when a reaction fails to send"
     },
-    "ReactionsViewer--more": {
+    "Reactions--more": {
         "message": "עוד",
         "description": "Use in the reaction picker as the alt text for the 'more' button"
     },
@@ -3419,25 +3437,7 @@
     },
     "member-of-more-than-3-groups": {
         "message": "חבר קבוצה של $group1$, $group2$, $group3$ ושל עוד $remainingCount$",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
-        "placeholders": {
-            "group1": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            },
-            "group2": {
-                "content": "$2",
-                "example": "Dinner Party"
-            },
-            "group3": {
-                "content": "$3",
-                "example": "Friends 🌿"
-            },
-            "remainingCount": {
-                "content": "$4",
-                "example": "3"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
     },
     "ConversationHero--membership-added": {
         "message": "$name$ הוסיף אותך אל הקבוצה.",
@@ -5641,15 +5641,33 @@
     },
     "selectContact": {
         "message": "בחר איש קשר",
-        "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)"
+        "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "deselectContact": {
         "message": "בטל בחירת איש קשר",
-        "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)"
+        "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "cannotSelectContact": {
         "message": "לא ניתן לבחור איש קשר",
-        "description": "The label for contact checkboxes that are disabled"
+        "description": "The label for contact checkboxes that are disabled",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "alreadyAMember": {
         "message": "כבר חבר/ת קבוצה",
@@ -6155,7 +6173,7 @@
     },
     "Preferences__button--chats": {
         "message": "התכתבויות",
-        "description": "Button to switch the settings view"
+        "description": "Button to switch the settings view (and a title of pane)"
     },
     "Preferences__button--calls": {
         "message": "שיחות",
@@ -6279,6 +6297,14 @@
         "message": "הורד עדכונים באופן אוטומטי",
         "description": "Label for checkbox for the auto download updates setting"
     },
+    "Preferences__enable-notifications": {
+        "message": "אפשר התראות",
+        "description": "Label for checkbox for the notifications setting"
+    },
+    "Preferences__devices": {
+        "message": "מכשירים",
+        "description": "Label for Device list in call settings pane"
+    },
     "DialogUpdate--version-available": {
         "message": "עדכון אל גרסה $version$ זמין",
         "description": "Tooltip for new update available",
@@ -6314,7 +6340,7 @@
         "description": "Release notes for v5.15"
     },
     "WhatsNew__v5.16--1": {
-        "message": "An improved media lightbox means no surprises as you progress through a gallery of images or videos, and you can pretend you’re really in a dark room by zooming to hide those pesky buttons.",
+        "message": "תיבה משופרת של מדיה אומרת שאין הפתעות בזמן שאתה מתקדם דרך גלריה של תמונות או סרטונים, ואתה יכול להעמיד פנים שאתה באמת בחדר חשוך ע״י התקרבות כדי להסתיר את הכפתורים המעצבנים האלו.",
         "description": "Release notes for v5.16"
     },
     "WhatsNew__v5.16--2": {
@@ -6324,5 +6350,13 @@
     "WhatsNew__v5.16--3": {
         "message": "אם תרחף מעל הכפתורים בזמן שיחה, הם יישארו נראים במקום להיעלם. כלום לא מסתתר מעין הנשר שלך, אפילו לא הכפתורים האלו!",
         "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.17--1": {
+        "message": "נסה את ההרשאה 'שלח הודעות' החדשה כדי להגביל מי יכול לשלוח הודעות בקבוצות שלך. מעולה לצורך ארגון אירוע, ביצוע הכרזה, או רק צעקה מהגגות. כל חברי הקבוצה חייבים להשתמש בגרסה האחרונה של Signal כדי שההגדרה תופיע.",
+        "description": "Release notes for v5.17"
+    },
+    "WhatsNew__v5.17--2": {
+        "message": "אתה יכול עכשיו לשלוח הודעות בכל מקום ובכל זמן: במטוס, במנהרה, או ברגע העצוב הזה כשכאינטרנט שלך נפל. היא לבסוף תישלח; הודעות יקבלו ניסיונות שליחה עד 24 שעות.",
+        "description": "Release notes for v5.17"
     }
 }
