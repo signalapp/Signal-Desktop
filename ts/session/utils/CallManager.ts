@@ -138,6 +138,19 @@ const openMediaDevices = async () => {
   });
 };
 
+const findLastMessageTypeFromSender = (sender: string, msgType: SignalService.CallMessage.Type) => {
+  const msgCacheFromSender = callCache.get(sender);
+  if (!msgCacheFromSender) {
+    return undefined;
+  }
+  const lastOfferMessage = _.findLast(msgCacheFromSender, m => m.type === msgType);
+
+  if (!lastOfferMessage) {
+    return undefined;
+  }
+  return lastOfferMessage;
+};
+
 // tslint:disable-next-line: function-name
 export async function USER_acceptIncomingCallRequest(fromSender: string) {
   const msgCacheFromSender = callCache.get(fromSender);
@@ -147,9 +160,9 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
     );
     return;
   }
-  const lastOfferMessage = _.findLast(
-    msgCacheFromSender,
-    m => m.type === SignalService.CallMessage.Type.OFFER
+  const lastOfferMessage = findLastMessageTypeFromSender(
+    fromSender,
+    SignalService.CallMessage.Type.OFFER
   );
 
   if (!lastOfferMessage) {
@@ -217,6 +230,22 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
     type: SignalService.CallMessage.Type.ANSWER,
     sdps: [answerSdp],
   });
+
+  const lastCandidatesFromSender = findLastMessageTypeFromSender(
+    fromSender,
+    SignalService.CallMessage.Type.ICE_CANDIDATES
+  );
+
+  if (lastCandidatesFromSender) {
+    console.warn('found sender ice candicate message already sent. Using it');
+    for (let index = 0; index < lastCandidatesFromSender.sdps.length; index++) {
+      const sdp = lastCandidatesFromSender.sdps[index];
+      const sdpMLineIndex = lastCandidatesFromSender.sdpMLineIndexes[index];
+      const sdpMid = lastCandidatesFromSender.sdpMids[index];
+      const candicate = new RTCIceCandidate({ sdpMid, sdpMLineIndex, candidate: sdp });
+      await peerConnection.addIceCandidate(candicate);
+    }
+  }
   window.log.info('sending ANSWER MESSAGE');
 
   await getMessageQueue().sendToPubKeyNonDurably(PubKey.cast(fromSender), callAnswerMessage);
@@ -254,8 +283,6 @@ export async function handleOfferCallMessage(
   }
   callCache.get(sender)?.push(callMessage);
   window.inboxStore?.dispatch(incomingCall({ sender }));
-  //FIXME audric. thiis should not be auto accepted here
-  await USER_acceptIncomingCallRequest(sender);
 }
 
 export async function handleCallAnsweredMessage(
