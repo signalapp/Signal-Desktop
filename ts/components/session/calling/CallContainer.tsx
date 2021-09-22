@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import _ from 'underscore';
-import { ConversationModel } from '../../../models/conversation';
-// tslint:disable-next-line: no-submodule-imports
 import { getConversationController } from '../../../session/conversations/ConversationController';
+import { CallManager } from '../../../session/utils';
 import { SessionButton, SessionButtonColor } from '../SessionButton';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 
@@ -20,24 +19,24 @@ export const CallWindow = styled.div`
 
 // similar styling to modal header
 const CallWindowHeader = styled.div`
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 
-    padding: $session-margin-lg;
+  padding: $session-margin-lg;
 
-    font-family: $session-font-default;
-    text-align: center;
-    line-height: 18px;
-    font-size: $session-font-md;
-    font-weight: 700;
+  font-family: $session-font-default;
+  text-align: center;
+  line-height: 18px;
+  font-size: $session-font-md;
+  font-weight: 700;
 `;
 
 // TODO: Add proper styling for this
-const StreamContainer = styled.div`
-    width: 200px;
-    height: 200px;
+const VideoContainer = styled.video`
+  width: 200px;
+  height: 200px;
 `;
 
 const CallWindowInner = styled.div`
@@ -51,13 +50,13 @@ const CallWindowInner = styled.div`
 `;
 
 const CallWindowControls = styled.div`
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    /* background: green; */
-    padding: 5px;
-    transform: translateY(-100%);
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  /* background: green; */
+  padding: 5px;
+  transform: translateY(-100%);
 `;
 
 // type WindowPositionType = {
@@ -65,111 +64,103 @@ const CallWindowControls = styled.div`
 //     left: string;
 // } | null;
 
-type CallStateType = 'connecting' | 'ongoing' | 'incoming' | null
+type CallStateType = 'connecting' | 'ongoing' | 'incoming' | null;
+
+const fakeCaller = '054774a456f15c7aca42fe8d245983549000311aaebcf58ce246250c41fe227676';
 
 export const CallContainer = () => {
-    const conversations = getConversationController().getConversations();
+  const conversations = getConversationController().getConversations();
 
-    // TODO:
-    /**
-     * Add mute input, deafen, end call, possibly add person to call
-     * duration - look at how duration calculated for recording.
-     */
+  // TODO:
+  /**
+   * Add mute input, deafen, end call, possibly add person to call
+   * duration - look at how duration calculated for recording.
+   */
 
-    const [connectionState, setConnectionState] = useState<CallStateType>('incoming');
-    // const [callWindowPosition, setCallWindowPosition] = useState<WindowPositionType>(null)
+  const [connectionState, setConnectionState] = useState<CallStateType>('incoming');
+  // const [callWindowPosition, setCallWindowPosition] = useState<WindowPositionType>(null)
 
-    // picking a conversation at random to test with
-    const randomConversation = _.sample(conversations) as ConversationModel;
-    randomConversation.callState = 'incoming';
-    console.warn({ randConvo: randomConversation });
+  // picking a conversation at random to test with
+  const foundConvo = conversations.find(convo => convo.id === fakeCaller);
 
-    const firstCallingConvo = _.first(conversations.filter(convo => convo.callState !== undefined));
+  if (!foundConvo) {
+    throw new Error('fakeconvo not found');
+  }
+  foundConvo.callState = 'incoming';
+  console.warn('foundConvo: ', foundConvo);
 
-    //#region input handlers
-    const handleAcceptIncomingCall = () => {
-        console.warn('accept call');
+  const firstCallingConvo = _.first(conversations.filter(convo => convo.callState !== undefined));
 
-        if (firstCallingConvo) {
-            setConnectionState('connecting');
-            firstCallingConvo.callState = 'connecting';
+  //#region input handlers
+  const handleAcceptIncomingCall = async () => {
+    console.warn('accept call');
 
-            // some delay
-            setConnectionState('ongoing');
-            firstCallingConvo.callState = 'ongoing';
-        }
-        // set conversationState = setting up
+    if (firstCallingConvo) {
+      setConnectionState('connecting');
+      firstCallingConvo.callState = 'connecting';
+      await CallManager.USER_acceptIncomingCallRequest(fakeCaller);
+      // some delay
+      setConnectionState('ongoing');
+      firstCallingConvo.callState = 'ongoing';
     }
+    // set conversationState = setting up
+  };
 
-    const handleDeclineIncomingCall = () => {
-        // set conversation.callState = null or undefined
-        // close the modal
-        if (firstCallingConvo) {
-            firstCallingConvo.callState = undefined;
-        }
-        console.warn('declined call');
+  const handleDeclineIncomingCall = async () => {
+    // set conversation.callState = null or undefined
+    // close the modal
+    if (firstCallingConvo) {
+      firstCallingConvo.callState = undefined;
     }
+    console.warn('declined call');
+    await CallManager.USER_rejectIncomingCallRequest(fakeCaller);
+  };
 
-    const handleEndCall = () => {
-        // call method to end call connection
-        console.warn("ending the call");
-        if (firstCallingConvo) {
-            firstCallingConvo.callState = undefined;
-        }
-        setConnectionState(null);
-    }
+  const handleEndCall = async () => {
+    // call method to end call connection
+    console.warn('ending the call');
+    await CallManager.USER_rejectIncomingCallRequest(fakeCaller);
+  };
 
-    const handleMouseDown = () => {
-        // reposition call window
-    }
-    //#endregion
+  const handleMouseDown = () => {
+    // reposition call window
+  };
+  //#endregion
 
-    if (connectionState === null) {
-        return null;
-    }
+  return (
+    <>
+      {connectionState === 'connecting' ? 'connecting...' : null}
+      {connectionState === 'ongoing' ? (
+        <CallWindow onMouseDown={handleMouseDown}>
+          <CallWindowInner>
+            <CallWindowHeader>
+              {firstCallingConvo ? firstCallingConvo.getName() : 'Group name not found'}
+            </CallWindowHeader>
+            <VideoContainer />
+            <CallWindowControls>
+              <SessionButton text={'end call'} onClick={handleEndCall} />
+              <SessionButton text={'end call'} onClick={handleEndCall} />
+            </CallWindowControls>
+          </CallWindowInner>
+        </CallWindow>
+      ) : null}
 
-    return (
-        <>
-            {connectionState === 'connecting' ?
-                'connecting...'
-                : null
-            }
-            {connectionState === 'ongoing' ?
-                <CallWindow onMouseDown={handleMouseDown}>
-                    <CallWindowInner>
-                        <CallWindowHeader>
-                            { firstCallingConvo ? firstCallingConvo.getTitle() : 'Group name not found'}
-                        </CallWindowHeader>
-                        <StreamContainer></StreamContainer>
-                        <CallWindowControls>
-                            <SessionButton text={'end call'} onClick={handleEndCall} />
-                        </CallWindowControls>
-                    </CallWindowInner>
-                </CallWindow>
-                : null
-            }
+      {!connectionState ? (
+        <SessionWrapperModal title={'incoming call'}>'none'</SessionWrapperModal>
+      ) : null}
 
-            {!connectionState ?
-                <SessionWrapperModal title={'incoming call'}>
-                    'none'
-                </SessionWrapperModal>
-                : null
-            }
-
-            {connectionState === 'incoming' ?
-                <SessionWrapperModal title={`incoming call from ${firstCallingConvo?.getTitle()}`}>
-                    <div className="session-modal__button-group">
-                        <SessionButton text={'decline'} onClick={handleDeclineIncomingCall} />
-                        <SessionButton
-                            text={'accept'}
-                            onClick={handleAcceptIncomingCall}
-                            buttonColor={SessionButtonColor.Green}
-                        />
-                    </div>
-                </SessionWrapperModal>
-                : null
-            }
-        </>
-    );
+      {connectionState === 'incoming' ? (
+        <SessionWrapperModal title={'incoming call'}>
+          <div className="session-modal__button-group">
+            <SessionButton text={'decline'} onClick={handleDeclineIncomingCall} />
+            <SessionButton
+              text={'accept'}
+              onClick={handleAcceptIncomingCall}
+              buttonColor={SessionButtonColor.Green}
+            />
+          </div>
+        </SessionWrapperModal>
+      ) : null}
+    </>
+  );
 };
-

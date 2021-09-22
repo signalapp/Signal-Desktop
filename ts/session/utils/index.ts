@@ -9,6 +9,7 @@ import * as UserUtils from './User';
 import * as SyncUtils from './syncUtils';
 import * as AttachmentsV2Utils from './AttachmentsV2';
 import * as AttachmentDownloads from './AttachmentsDownload';
+import * as CallManager from './CallManager';
 
 export * from './Attachments';
 export * from './TypedEmitter';
@@ -26,4 +27,5 @@ export {
   SyncUtils,
   AttachmentsV2Utils,
   AttachmentDownloads,
+  CallManager,
 };
