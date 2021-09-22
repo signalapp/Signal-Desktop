@@ -4,7 +4,6 @@ import { CallMessage } from '../messages/outgoing/controlMessage/CallMessage';
 import { ed25519Str } from '../onions/onionPath';
 import { getMessageQueue } from '../sending';
 import { PubKey } from '../types';
-import { sleepFor } from './Promise';
 
 const incomingCall = ({ sender }: { sender: string }) => {
   return { type: 'incomingCall', payload: sender };
@@ -56,10 +55,10 @@ export async function USER_callRecipient(recipient: string) {
   }
   peerConnection = new RTCPeerConnection(configuration);
 
-  const mediadevices = await openMediaDevices();
-  mediadevices.getTracks().map(track => {
+  const mediaDevices = await openMediaDevices();
+  mediaDevices.getTracks().map(track => {
     window.log.info('USER_callRecipient adding track: ', track);
-    peerConnection?.addTrack(track);
+    peerConnection?.addTrack(track, mediaDevices);
   });
   peerConnection.addEventListener('connectionstatechange', _event => {
     window.log.info('peerConnection?.connectionState:', peerConnection?.connectionState);
@@ -76,6 +75,7 @@ export async function USER_callRecipient(recipient: string) {
       void iceSenderDebouncer(recipient);
     }
   });
+
   const offerDescription = await peerConnection.createOffer({
     offerToReceiveAudio: true,
     offerToReceiveVideo: ENABLE_VIDEO,
@@ -91,6 +91,7 @@ export async function USER_callRecipient(recipient: string) {
     type: SignalService.CallMessage.Type.OFFER,
     sdps: [offerDescription.sdp],
   });
+
   window.log.info('sending OFFER MESSAGE');
   await getMessageQueue().sendToPubKeyNonDurably(PubKey.cast(recipient), callOfferMessage);
   // FIXME audric dispatch UI update to show the calling UI
@@ -132,28 +133,9 @@ const iceSenderDebouncer = _.debounce(async (recipient: string) => {
 
 const openMediaDevices = async () => {
   return navigator.mediaDevices.getUserMedia({
-    // video:
-    video: ENABLE_VIDEO
-      ? {
-          width: 320,
-          height: 240,
-        }
-      : false,
+    video: ENABLE_VIDEO,
     audio: true,
   });
-};
-
-const printStatsLoop = async () => {
-  // tslint:disable-next-line: no-constant-condition
-  while (true) {
-    if (peerConnection) {
-      const stats = await peerConnection?.getStats();
-      stats.forEach(st => {
-        console.warn('stat: ', st);
-      });
-    }
-    await sleepFor(5000);
-  }
 };
 
 // tslint:disable-next-line: function-name
@@ -183,16 +165,16 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
     peerConnection = null;
   }
   peerConnection = new RTCPeerConnection(configuration);
-  const mediadevices = await openMediaDevices();
-  mediadevices.getTracks().map(track => {
+  const mediaDevices = await openMediaDevices();
+  mediaDevices.getTracks().map(track => {
     window.log.info('USER_acceptIncomingCallRequest adding track ', track);
-    peerConnection?.addTrack(track);
+    peerConnection?.addTrack(track, mediaDevices);
   });
   peerConnection.addEventListener('icecandidateerror', event => {
     console.warn('icecandidateerror:', event);
   });
 
-  peerConnection.addEventListener('negotiationneeded', event => {
+  peerConnection.addEventListener('negotiationneeded', async event => {
     console.warn('negotiationneeded:', event);
   });
   peerConnection.addEventListener('signalingstatechange', event => {
@@ -219,6 +201,7 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
   await peerConnection.setRemoteDescription(
     new RTCSessionDescription({ sdp: sdps[0], type: 'offer' })
   );
+
   const answer = await peerConnection.createAnswer({
     offerToReceiveAudio: true,
     offerToReceiveVideo: ENABLE_VIDEO,
@@ -332,4 +315,3 @@ export async function handleOtherCallMessage(
 ) {
   callCache.get(sender)?.push(callMessage);
 }
-void printStatsLoop();
