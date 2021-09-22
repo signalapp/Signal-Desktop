@@ -14,7 +14,7 @@ import {
   VerificationOptions,
   WhatIsThis,
 } from '../model-types.d';
-import { AttachmentType } from '../types/Attachment';
+import { AttachmentType, isGIF } from '../types/Attachment';
 import { CallMode, CallHistoryDetailsType } from '../types/Calling';
 import * as Stickers from '../types/Stickers';
 import { CapabilityError } from '../types/errors';
@@ -38,7 +38,7 @@ import { isConversationUnregistered } from '../util/isConversationUnregistered';
 import { missingCaseError } from '../util/missingCaseError';
 import { sniffImageMimeType } from '../util/sniffImageMimeType';
 import { isValidE164 } from '../util/isValidE164';
-import { MIMEType, IMAGE_WEBP } from '../types/MIME';
+import { MIMEType, IMAGE_JPEG, IMAGE_GIF, IMAGE_WEBP } from '../types/MIME';
 import { UUID } from '../types/UUID';
 import {
   arrayBufferToBase64,
@@ -3148,14 +3148,15 @@ export class ConversationModel extends window.Backbone
         attachments,
         attachment => attachment && !attachment.pending && !attachment.error
       );
-      const attachmentsToUse = take(validAttachments, 1);
+      const attachmentsToUse = Array.from(take(validAttachments, 1));
+      const isGIFQuote = isGIF(attachmentsToUse);
 
       return Promise.all(
         map(attachmentsToUse, async attachment => {
           const { fileName, thumbnail, contentType } = attachment;
 
           return {
-            contentType,
+            contentType: isGIFQuote ? IMAGE_GIF : contentType,
             // Our protos library complains about this field being undefined, so we force
             //   it to null
             fileName: fileName || null,
@@ -3233,7 +3234,7 @@ export class ConversationModel extends window.Backbone
     return {
       authorUuid: contact.get('uuid'),
       attachments: isTapToView(quotedMessage.attributes)
-        ? [{ contentType: 'image/jpeg', fileName: null }]
+        ? [{ contentType: IMAGE_JPEG, fileName: null }]
         : await this.getQuoteAttachment(attachments, preview, sticker),
       bodyRanges: quotedMessage.get('bodyRanges'),
       id: quotedMessage.get('sent_at'),
