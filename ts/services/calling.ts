@@ -1902,7 +1902,7 @@ export class CallingClass {
       throw new Error('getCallSettings: offline!');
     }
 
-    const iceServerJson = await window.textsecure.messaging.server.getIceServers();
+    const iceServer = await window.textsecure.messaging.server.getIceServers();
 
     const shouldRelayCalls = window.Events.getAlwaysRelayCalls();
 
@@ -1910,7 +1910,7 @@ export class CallingClass {
     const isContactUnknown = !conversation.isFromOrAddedByTrustedContact();
 
     return {
-      iceServer: JSON.parse(iceServerJson),
+      iceServer,
       hideIp: shouldRelayCalls || isContactUnknown,
       bandwidthMode: BandwidthMode.Normal,
     };

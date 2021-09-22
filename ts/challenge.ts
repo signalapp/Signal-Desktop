@@ -19,6 +19,7 @@ import { isOlderThan } from './util/timestamp';
 import { parseRetryAfter } from './util/parseRetryAfter';
 import { getEnvironment, Environment } from './environment';
 import { StorageInterface } from './types/Storage.d';
+import { HTTPError } from './textsecure/Errors';
 import * as log from './logging/log';
 
 export type ChallengeResponse = {
@@ -454,8 +455,7 @@ export class ChallengeHandler {
       await this.options.sendChallengeResponse(data);
     } catch (error) {
       if (
-        !(error instanceof Error) ||
-        error.name !== 'HTTPError' ||
+        !(error instanceof HTTPError) ||
         error.code !== 413 ||
         !error.responseHeaders
       ) {

@@ -3,6 +3,7 @@
 
 import type { LoggerType } from '../../types/Logging';
 import { parseIntWithFallback } from '../../util/parseIntWithFallback';
+import { HTTPError } from '../../textsecure/Errors';
 import { sleepFor413RetryAfterTimeIfApplicable } from './sleepFor413RetryAfterTimeIfApplicable';
 
 export async function handleCommonJobRequestError({
@@ -14,7 +15,7 @@ export async function handleCommonJobRequestError({
   log: LoggerType;
   timeRemaining: number;
 }>): Promise<void> {
-  if (!(err instanceof Error)) {
+  if (!(err instanceof HTTPError)) {
     throw err;
   }
 

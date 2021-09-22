@@ -21,7 +21,7 @@ import {
   UnidentifiedSenderMessageContent,
 } from '@signalapp/signal-client';
 
-import { WebAPIType } from './WebAPI';
+import type { WebAPIType } from './WebAPI';
 import { SendMetadataType, SendOptionsType } from './SendMessage';
 import {
   OutgoingIdentityKeyError,
@@ -29,6 +29,7 @@ import {
   SendMessageNetworkError,
   SendMessageChallengeError,
   UnregisteredUserError,
+  HTTPError,
 } from './Errors';
 import { CallbackResultType, CustomError } from './Types.d';
 import { isValidNumber } from '../types/PhoneNumber';
@@ -221,7 +222,7 @@ export default class OutgoingMessage {
   ): void {
     let error = providedError;
 
-    if (!error || (error.name === 'HTTPError' && error.code !== 404)) {
+    if (!error || (error instanceof HTTPError && error.code !== 404)) {
       if (error && error.code === 428) {
         error = new SendMessageChallengeError(identifier, error);
       } else {
@@ -313,7 +314,7 @@ export default class OutgoingMessage {
     }
 
     return promise.catch(e => {
-      if (e.name === 'HTTPError' && e.code !== 409 && e.code !== 410) {
+      if (e instanceof HTTPError && e.code !== 409 && e.code !== 410) {
         // 409 and 410 should bubble and be handled by doSendMessage
         // 404 should throw UnregisteredUserError
         // 428 should throw SendMessageChallengeError
@@ -517,7 +518,10 @@ export default class OutgoingMessage {
               }
             },
             async (error: Error) => {
-              if (error.code === 401 || error.code === 403) {
+              if (
+                error instanceof HTTPError &&
+                (error.code === 401 || error.code === 403)
+              ) {
                 if (this.failoverIdentifiers.indexOf(identifier) === -1) {
                   this.failoverIdentifiers.push(identifier);
                 }
@@ -556,8 +560,7 @@ export default class OutgoingMessage {
       })
       .catch(async error => {
         if (
-          error instanceof Error &&
-          error.name === 'HTTPError' &&
+          error instanceof HTTPError &&
           (error.code === 410 || error.code === 409)
         ) {
           if (!recurse) {
@@ -569,15 +572,20 @@ export default class OutgoingMessage {
             return undefined;
           }
 
+          const response = error.response as {
+            extraDevices?: Array<number>;
+            staleDevices?: Array<number>;
+            missingDevices?: Array<number>;
+          };
           let p: Promise<any> = Promise.resolve();
           if (error.code === 409) {
             p = this.removeDeviceIdsForIdentifier(
               identifier,
-              error.response.extraDevices || []
+              response.extraDevices || []
             );
           } else {
             p = Promise.all(
-              error.response.staleDevices.map(async (deviceId: number) => {
+              (response.staleDevices || []).map(async (deviceId: number) => {
                 await window.textsecure.storage.protocol.archiveSession(
                   new QualifiedAddress(
                     ourUuid,
@@ -591,8 +599,8 @@ export default class OutgoingMessage {
           return p.then(async () => {
             const resetDevices =
               error.code === 410
-                ? error.response.staleDevices
-                : error.response.missingDevices;
+                ? response.staleDevices
+                : response.missingDevices;
             return this.getKeysForIdentifier(identifier, resetDevices).then(
               // We continue to retry as long as the error code was 409; the assumption is
               //   that we'll request new device info and the next request will succeed.
@@ -678,7 +686,10 @@ export default class OutgoingMessage {
           if (!uuid) {
             throw new UnregisteredUserError(
               identifier,
-              new Error('User is not registered')
+              new HTTPError('User is not registered', {
+                code: -1,
+                headers: {},
+              })
             );
           }
           identifier = uuid;

@@ -5,6 +5,7 @@ import type { LoggerType } from '../../types/Logging';
 import { sleep } from '../../util/sleep';
 import { parseRetryAfter } from '../../util/parseRetryAfter';
 import { isRecord } from '../../util/isRecord';
+import { HTTPError } from '../../textsecure/Errors';
 
 export async function sleepFor413RetryAfterTimeIfApplicable({
   err,
@@ -17,7 +18,7 @@ export async function sleepFor413RetryAfterTimeIfApplicable({
 }>): Promise<void> {
   if (
     timeRemaining <= 0 ||
-    !(err instanceof Error) ||
+    !(err instanceof HTTPError) ||
     err.code !== 413 ||
     !isRecord(err.responseHeaders)
   ) {

@@ -63,6 +63,7 @@ import { IncomingWebSocketRequest } from './WebsocketResources';
 import { ContactBuffer, GroupBuffer } from './ContactsParser';
 import type { WebAPIType } from './WebAPI';
 import type { Storage } from './Storage';
+import { WarnOnlyError } from './Errors';
 import * as Bytes from '../Bytes';
 import {
   ProcessedDataMessage,
@@ -922,7 +923,7 @@ export default class MessageReceiver
         ':',
         Errors.toLogFormat(error),
       ];
-      if (error.warn) {
+      if (error instanceof WarnOnlyError) {
         log.warn(...args);
       } else {
         log.error(...args);

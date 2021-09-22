@@ -20,6 +20,7 @@ import { getSendOptions } from '../util/getSendOptions';
 import { SignalService as Proto } from '../protobuf';
 import { handleMessageSend } from '../util/handleMessageSend';
 import type { CallbackResultType } from '../textsecure/Types.d';
+import { HTTPError } from '../textsecure/Errors';
 import { isSent } from '../messages/MessageSendState';
 import { getLastChallengeError, isOutgoing } from '../state/selectors/message';
 import { parseIntWithFallback } from '../util/parseIntWithFallback';
@@ -340,7 +341,7 @@ export class NormalMessageSendJobQueue extends JobQueue<NormalMessageSendJobData
       let maybe413Error: undefined | Error;
       messageSendErrors.forEach((messageSendError: unknown) => {
         formattedMessageSendErrors.push(Errors.toLogFormat(messageSendError));
-        if (!(messageSendError instanceof Error)) {
+        if (!(messageSendError instanceof HTTPError)) {
           return;
         }
         switch (parseIntWithFallback(messageSendError.code, -1)) {

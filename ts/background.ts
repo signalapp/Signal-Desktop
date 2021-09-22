@@ -8,6 +8,7 @@ import { render, unstable_batchedUpdates as batchedUpdates } from 'react-dom';
 
 import MessageReceiver from './textsecure/MessageReceiver';
 import { SessionResetsType, ProcessedDataMessage } from './textsecure/Types.d';
+import { HTTPError } from './textsecure/Errors';
 import {
   MessageAttributesType,
   ConversationAttributesType,
@@ -1797,7 +1798,7 @@ export async function startApp(): Promise<void> {
       try {
         await window.Signal.RemoteConfig.maybeRefreshRemoteConfig(server);
       } catch (error) {
-        if (error && window._.isNumber(error.code)) {
+        if (error instanceof HTTPError) {
           log.warn(
             `registerForActive: Failed to to refresh remote config. Code: ${error.code}`
           );
@@ -3403,8 +3404,7 @@ export async function startApp(): Promise<void> {
     log.error('background onError:', Errors.toLogFormat(error));
 
     if (
-      error &&
-      error.name === 'HTTPError' &&
+      error instanceof HTTPError &&
       (error.code === 401 || error.code === 403)
     ) {
       unlinkAndDisconnect(RemoveAllConfiguration.Full);
@@ -3412,8 +3412,7 @@ export async function startApp(): Promise<void> {
     }
 
     if (
-      error &&
-      error.name === 'HTTPError' &&
+      error instanceof HTTPError &&
       (error.code === -1 || error.code === 502)
     ) {
       // Failed to connect to server

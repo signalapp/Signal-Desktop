@@ -10,7 +10,8 @@ import PQueue from 'p-queue';
 import { omit } from 'lodash';
 
 import EventTarget from './EventTarget';
-import { WebAPIType } from './WebAPI';
+import type { WebAPIType } from './WebAPI';
+import { HTTPError } from './Errors';
 import { KeyPairType, CompatSignedPreKeyType } from './Types.d';
 import utils from './Helpers';
 import ProvisioningCipher from './ProvisioningCipher';
@@ -29,6 +30,7 @@ import {
   generateSignedPreKey,
   generatePreKey,
 } from '../Curve';
+import { UUID } from '../types/UUID';
 import { isMoreRecentThan, isOlderThan } from '../util/timestamp';
 import { ourProfileKeyService } from '../services/ourProfileKey';
 import { assert, strictAssert } from '../util/assert';
@@ -390,8 +392,7 @@ export default class AccountManager extends EventTarget {
           log.error('rotateSignedPrekey error:', e && e.stack ? e.stack : e);
 
           if (
-            e instanceof Error &&
-            e.name === 'HTTPError' &&
+            e instanceof HTTPError &&
             e.code &&
             e.code >= 400 &&
             e.code <= 599
@@ -589,7 +590,7 @@ export default class AccountManager extends EventTarget {
 
     // update our own identity key, which may have changed
     // if we're relinking after a reinstall on the master device
-    await storage.protocol.saveIdentityWithAttributes(ourUuid, {
+    await storage.protocol.saveIdentityWithAttributes(new UUID(ourUuid), {
       publicKey: identityKeyPair.pubKey,
       firstUse: true,
       timestamp: Date.now(),

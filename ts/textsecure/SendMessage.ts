@@ -9,6 +9,7 @@
 /* eslint-disable max-classes-per-file */
 
 import { Dictionary } from 'lodash';
+import Long from 'long';
 import PQueue from 'p-queue';
 import {
   PlaintextContent,
@@ -54,6 +55,7 @@ import {
   MessageError,
   SignedPreKeyRotationError,
   SendMessageProtoError,
+  HTTPError,
 } from './Errors';
 import { BodyRangesType } from '../types/Util';
 import {
@@ -526,7 +528,7 @@ export default class MessageSender {
     const id = await this.server.putAttachment(result.ciphertext);
 
     const proto = new Proto.AttachmentPointer();
-    proto.cdnId = id;
+    proto.cdnId = Long.fromString(id);
     proto.contentType = attachment.contentType;
     proto.key = new FIXMEU8(key);
     proto.size = attachment.size;
@@ -563,7 +565,7 @@ export default class MessageSender {
         message.attachmentPointers = attachmentPointers;
       })
       .catch(error => {
-        if (error instanceof Error && error.name === 'HTTPError') {
+        if (error instanceof HTTPError) {
           throw new MessageError(message, error);
         } else {
           throw error;
@@ -584,7 +586,7 @@ export default class MessageSender {
       // eslint-disable-next-line no-param-reassign
       message.preview = preview;
     } catch (error) {
-      if (error instanceof Error && error.name === 'HTTPError') {
+      if (error instanceof HTTPError) {
         throw new MessageError(message, error);
       } else {
         throw error;
@@ -609,7 +611,7 @@ export default class MessageSender {
         attachmentPointer: await this.makeAttachmentPointer(sticker.data),
       };
     } catch (error) {
-      if (error instanceof Error && error.name === 'HTTPError') {
+      if (error instanceof HTTPError) {
         throw new MessageError(message, error);
       } else {
         throw error;
@@ -637,7 +639,7 @@ export default class MessageSender {
         });
       })
     ).catch(error => {
-      if (error instanceof Error && error.name === 'HTTPError') {
+      if (error instanceof HTTPError) {
         throw new MessageError(message, error);
       } else {
         throw error;

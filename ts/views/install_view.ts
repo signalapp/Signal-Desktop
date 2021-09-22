@@ -3,6 +3,7 @@
 
 import * as log from '../logging/log';
 import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser';
+import { HTTPError } from '../textsecure/Errors';
 
 window.Whisper = window.Whisper || {};
 const { Whisper } = window;
@@ -47,19 +48,19 @@ Whisper.InstallView = Whisper.View.extend({
 
     if (this.error) {
       if (
-        this.error.name === 'HTTPError' &&
+        this.error instanceof HTTPError &&
         this.error.code === TOO_MANY_DEVICES
       ) {
         errorMessage = window.i18n('installTooManyDevices');
       } else if (
-        this.error.name === 'HTTPError' &&
+        this.error instanceof HTTPError &&
         this.error.code === TOO_OLD
       ) {
         errorMessage = window.i18n('installTooOld');
         errorButton = window.i18n('upgrade');
         errorSecondButton = window.i18n('quit');
       } else if (
-        this.error.name === 'HTTPError' &&
+        this.error instanceof HTTPError &&
         this.error.code === CONNECTION_ERROR
       ) {
         errorMessage = window.i18n('installConnectionFailed');
@@ -102,11 +103,7 @@ Whisper.InstallView = Whisper.View.extend({
     window.shutdown();
   },
   async connect() {
-    if (
-      this.error &&
-      this.error.name === 'HTTPError' &&
-      this.error.code === TOO_OLD
-    ) {
+    if (this.error instanceof HTTPError && this.error.code === TOO_OLD) {
       openLinkInWebBrowser('https://signal.org/download');
       return;
     }
@@ -142,7 +139,7 @@ Whisper.InstallView = Whisper.View.extend({
     if (error.message === 'websocket closed') {
       this.trigger('disconnected');
     } else if (
-      error.name !== 'HTTPError' ||
+      !(error instanceof HTTPError) ||
       (error.code !== CONNECTION_ERROR && error.code !== TOO_MANY_DEVICES)
     ) {
       throw error;

@@ -17,6 +17,7 @@ import {
 import { AttachmentType } from '../types/Attachment';
 import { CallMode, CallHistoryDetailsType } from '../types/Calling';
 import * as Stickers from '../types/Stickers';
+import { CapabilityError } from '../types/errors';
 import type {
   GroupV1InfoType,
   GroupV2InfoType,
@@ -1889,11 +1890,9 @@ export class ConversationModel extends window.Backbone
         return Boolean(model?.get('capabilities')?.announcementGroup);
       });
       if (!isEveryMemberCapable) {
-        const error = new Error(
+        throw new CapabilityError(
           'addMembersV2: some or all members need to upgrade.'
         );
-        error.code = 'E_NO_CAPABILITY';
-        throw error;
       }
     }
 

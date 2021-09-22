@@ -23,6 +23,7 @@ import {
   ProcessedReaction,
   ProcessedDelete,
 } from './Types.d';
+import { WarnOnlyError } from './Errors';
 
 // TODO: remove once we move away from ArrayBuffers
 const FIXMEU8 = Uint8Array;
@@ -335,11 +336,9 @@ export async function processDataMessage(
         // Cleaned up in `processGroupContext`
         break;
       default: {
-        const err = new Error(
+        throw new WarnOnlyError(
           `Unknown group message type: ${result.group.type}`
         );
-        err.warn = true;
-        throw err;
       }
     }
   }

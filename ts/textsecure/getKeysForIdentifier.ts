@@ -8,7 +8,7 @@ import {
   PublicKey,
 } from '@signalapp/signal-client';
 
-import { UnregisteredUserError } from './Errors';
+import { UnregisteredUserError, HTTPError } from './Errors';
 import { Sessions, IdentityKeys } from '../LibSignalStores';
 import { Address } from '../types/Address';
 import { QualifiedAddress } from '../types/QualifiedAddress';
@@ -35,7 +35,7 @@ export async function getKeysForIdentifier(
       accessKeyFailed,
     };
   } catch (error) {
-    if (error.name === 'HTTPError' && error.code === 404) {
+    if (error instanceof HTTPError && error.code === 404) {
       const theirUuid = UUID.lookup(identifier);
 
       if (theirUuid) {

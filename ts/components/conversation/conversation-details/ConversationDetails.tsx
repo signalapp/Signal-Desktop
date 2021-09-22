@@ -9,6 +9,7 @@ import { getMutedUntilText } from '../../../util/getMutedUntilText';
 
 import { LocalizerType } from '../../../types/Util';
 import { MediaItemType } from '../../../types/MediaItem';
+import { CapabilityError } from '../../../types/errors';
 import { missingCaseError } from '../../../util/missingCaseError';
 
 import { DisappearingTimerSelect } from '../../DisappearingTimerSelect';
@@ -224,7 +225,7 @@ export const ConversationDetails: React.ComponentType<Props> = ({
               setModalState(ModalState.NothingOpen);
               setAddGroupMembersRequestState(RequestState.Inactive);
             } catch (err) {
-              if (err.code === 'E_NO_CAPABILITY') {
+              if (err instanceof CapabilityError) {
                 setMembersMissingCapability(true);
                 setAddGroupMembersRequestState(RequestState.InactiveWithError);
               } else {

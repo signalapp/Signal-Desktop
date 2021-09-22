@@ -30,6 +30,7 @@ import {
   GroupSendOptionsType,
   SendOptionsType,
 } from '../textsecure/SendMessage';
+import { HTTPError } from '../textsecure/Errors';
 import { IdentityKeys, SenderKeys, Sessions } from '../LibSignalStores';
 import { ConversationModel } from '../models/conversations';
 import { DeviceType, CallbackResultType } from '../textsecure/Types.d';
@@ -696,7 +697,7 @@ function isIdentifierRegistered(identifier: string) {
   return !isUnregistered;
 }
 
-async function handle409Response(logId: string, error: Error) {
+async function handle409Response(logId: string, error: HTTPError) {
   const parsed = multiRecipient409ResponseSchema.safeParse(error.response);
   if (parsed.success) {
     await _waitForAll({
@@ -734,7 +735,7 @@ async function handle409Response(logId: string, error: Error) {
 
 async function handle410Response(
   conversation: ConversationModel,
-  error: Error
+  error: HTTPError
 ) {
   const logId = conversation.idForLogging();
 
