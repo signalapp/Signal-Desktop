@@ -289,7 +289,7 @@ export const ActionsPanel = () => {
       <ModalContainer />
 
       <CallContainer />
-      
+
       <div className="module-left-pane__sections-container">
         <Section type={SectionType.Profile} avatarPath={ourPrimaryConversation.avatarPath} />
         <Section type={SectionType.Message} />
