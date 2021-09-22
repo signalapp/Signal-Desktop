@@ -441,5 +441,7 @@
   "deletionTypeTitle": "Deletion Type",
   "deleteJustForMe": "Delete just for me",
   "messageDeletedPlaceholder": "This message has been deleted",
-  "messageDeleted": "Message deleted"
+  "messageDeleted": "Message deleted",
+  "surveyTitle": "Take our Session Survey",
+  "goToOurSurvey": "Go to our survey"
 }

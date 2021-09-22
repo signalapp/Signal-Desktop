@@ -1094,7 +1094,8 @@ input {
   display: flex;
   flex-direction: column;
   margin: $session-margin-sm;
-  align-items: flex-start;
+  align-items: center;
+  min-width: 10vw;
   position: relative;
 
   .onion__node {
@@ -1121,6 +1122,7 @@ input {
   }
   .onion__node__country {
     margin: $session-margin-sm;
+    min-width: 150px;
   }
 
   .onion__growing-icon {
