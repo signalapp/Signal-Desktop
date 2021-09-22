@@ -4,6 +4,7 @@ import { CallMessage } from '../messages/outgoing/controlMessage/CallMessage';
 import { ed25519Str } from '../onions/onionPath';
 import { getMessageQueue } from '../sending';
 import { PubKey } from '../types';
+import { sleepFor } from './Promise';
 
 const incomingCall = ({ sender }: { sender: string }) => {
   return { type: 'incomingCall', payload: sender };
@@ -28,7 +29,7 @@ const callCache = new Map<string, Array<SignalService.CallMessage>>();
 
 let peerConnection: RTCPeerConnection | null;
 
-const ENABLE_VIDEO = false;
+const ENABLE_VIDEO = true;
 
 const configuration = {
   configuration: {
@@ -44,6 +45,7 @@ const configuration = {
   ],
 };
 
+// tslint:disable-next-line: function-name
 export async function USER_callRecipient(recipient: string) {
   window?.log?.info(`starting call with ${ed25519Str(recipient)}..`);
 
@@ -65,6 +67,7 @@ export async function USER_callRecipient(recipient: string) {
       // Peers connected!
     }
   });
+
   peerConnection.addEventListener('icecandidate', event => {
     // window.log.warn('event.candidate', event.candidate);
 
@@ -129,15 +132,31 @@ const iceSenderDebouncer = _.debounce(async (recipient: string) => {
 
 const openMediaDevices = async () => {
   return navigator.mediaDevices.getUserMedia({
-    // video: {
-    //   width: 320,
-    //   height: 240,
-    // },
-    video: ENABLE_VIDEO,
+    // video:
+    video: ENABLE_VIDEO
+      ? {
+          width: 320,
+          height: 240,
+        }
+      : false,
     audio: true,
   });
 };
 
+const printStatsLoop = async () => {
+  // tslint:disable-next-line: no-constant-condition
+  while (true) {
+    if (peerConnection) {
+      const stats = await peerConnection?.getStats();
+      stats.forEach(st => {
+        console.warn('stat: ', st);
+      });
+    }
+    await sleepFor(5000);
+  }
+};
+
+// tslint:disable-next-line: function-name
 export async function USER_acceptIncomingCallRequest(fromSender: string) {
   const msgCacheFromSender = callCache.get(fromSender);
   if (!msgCacheFromSender) {
@@ -169,8 +188,22 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
     window.log.info('USER_acceptIncomingCallRequest adding track ', track);
     peerConnection?.addTrack(track);
   });
+  peerConnection.addEventListener('icecandidateerror', event => {
+    console.warn('icecandidateerror:', event);
+  });
+
+  peerConnection.addEventListener('negotiationneeded', event => {
+    console.warn('negotiationneeded:', event);
+  });
+  peerConnection.addEventListener('signalingstatechange', event => {
+    console.warn('signalingstatechange:', event);
+  });
+
+  peerConnection.addEventListener('ontrack', event => {
+    console.warn('ontrack:', event);
+  });
   peerConnection.addEventListener('connectionstatechange', _event => {
-    window.log.info('peerConnection?.connectionState:', peerConnection?.connectionState);
+    window.log.info('peerConnection?.connectionState:', peerConnection?.connectionState, _event);
     if (peerConnection?.connectionState === 'connected') {
       // Peers connected!
     }
@@ -208,6 +241,7 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
   window.inboxStore?.dispatch(answerCall({ sender: fromSender, sdps }));
 }
 
+// tslint:disable-next-line: function-name
 export async function USER_rejectIncomingCallRequest(fromSender: string) {
   const endCallMessage = new CallMessage({
     type: SignalService.CallMessage.Type.END_CALL,
@@ -298,3 +332,4 @@ export async function handleOtherCallMessage(
 ) {
   callCache.get(sender)?.push(callMessage);
 }
+void printStatsLoop();
