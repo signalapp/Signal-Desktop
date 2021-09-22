@@ -184,6 +184,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public markRead: (newestUnreadDate: number, providedOptions?: any) => Promise<void>;
   public initialPromise: any;
 
+  public callState: 'incoming' | 'connecting' | 'ongoing' | 'none' | undefined;
+
   private typingRefreshTimer?: NodeJS.Timeout | null;
   private typingPauseTimer?: NodeJS.Timeout | null;
   private typingTimer?: NodeJS.Timeout | null;
