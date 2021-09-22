@@ -19,11 +19,32 @@ import { Flex } from '../basic/Flex';
 import { SessionIcon, SessionIconButton } from '../session/icon';
 import { SessionSpinner } from '../session/SessionSpinner';
 import { SessionWrapperModal } from '../session/SessionWrapperModal';
+// tslint:disable-next-line: no-submodule-imports
+import useHover from 'react-use/lib/useHover';
 
 export type StatusLightType = {
   glowStartDelay: number;
   glowDuration: number;
   color?: string;
+};
+
+const OnionCountryDisplay = ({
+  index,
+  labelText,
+  snodeIp,
+}: {
+  snodeIp?: string;
+  labelText: string;
+  index: number;
+}) => {
+  const element = (hovered: boolean) => (
+    <div className="onion__node__country" key={`country-${index}`}>
+      {hovered && snodeIp ? snodeIp : labelText}
+    </div>
+  );
+  const [hoverable] = useHover(element);
+
+  return hoverable;
 };
 
 const OnionPathModalInner = () => {
@@ -69,14 +90,12 @@ const OnionPathModalInner = () => {
             {nodes.map((snode: Snode | any, index: number) => {
               let labelText = snode.label
                 ? snode.label
-                : `${countryLookup.byIso(ip2country(snode.ip))?.country} [${snode.ip}]`;
+                : `${countryLookup.byIso(ip2country(snode.ip))?.country}`;
               if (!labelText) {
                 labelText = window.i18n('unknownCountry');
               }
               return labelText ? (
-                <div className="onion__node__country" key={`country-${index}`}>
-                  {labelText}
-                </div>
+                <OnionCountryDisplay index={index} labelText={labelText} snodeIp={snode.ip} />
               ) : null;
             })}
           </Flex>

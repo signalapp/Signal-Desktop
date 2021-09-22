@@ -1095,6 +1095,7 @@ input {
   flex-direction: column;
   margin: $session-margin-sm;
   align-items: flex-start;
+  min-width: 10vw;
   position: relative;
 
   .onion__node {
