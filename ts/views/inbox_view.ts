@@ -3,15 +3,11 @@
 
 import * as log from '../logging/log';
 import { ConversationModel } from '../models/conversations';
+import { showToast } from '../util/showToast';
+import { ToastStickerPackInstallFailed } from '../components/ToastStickerPackInstallFailed';
 
 window.Whisper = window.Whisper || {};
 const { Whisper } = window;
-
-const StickerPackInstallFailedToast = Whisper.ToastView.extend({
-  render_attributes() {
-    return { toastMessage: window.i18n('stickers--toast--InstallFailed') };
-  },
-});
 
 const ConversationStack = Whisper.View.extend({
   className: 'conversation-stack',
@@ -146,9 +142,7 @@ Whisper.InboxView = Whisper.View.extend({
     }
 
     Whisper.events.on('pack-install-failed', () => {
-      const toast = new StickerPackInstallFailedToast();
-      toast.$el.appendTo(this.$el);
-      toast.render();
+      showToast(ToastStickerPackInstallFailed);
     });
   },
   render_attributes: {

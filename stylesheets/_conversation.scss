@@ -209,41 +209,6 @@
   }
 }
 
-.toast {
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%, 0);
-  bottom: 62px;
-
-  text-align: center;
-  padding-left: 16px;
-  padding-right: 16px;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  border-radius: 4px;
-  z-index: 100;
-
-  font-size: 13px;
-  line-height: 18px;
-  letter-spacing: 0;
-
-  @include light-theme {
-    background-color: $color-gray-75;
-    color: $color-white;
-    box-shadow: 0 4px 16px 0 $color-black-alpha-20,
-      0 0 0 0.5px $color-black-alpha-05;
-  }
-  @include dark-theme {
-    background-color: $color-gray-45;
-    color: $color-white;
-    box-shadow: 0 4px 16px 0 $color-white-alpha-20;
-  }
-}
-
-.toast-clickable {
-  cursor: pointer;
-}
-
 .permissions-popup,
 .debug-log-window {
   .modal {

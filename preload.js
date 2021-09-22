@@ -464,7 +464,6 @@ try {
   require('./ts/models/conversations');
 
   require('./ts/backbone/views/whisper_view');
-  require('./ts/backbone/views/toast_view');
   require('./ts/views/conversation_view');
   require('./ts/views/inbox_view');
   require('./ts/views/install_view');

@@ -85,6 +85,35 @@ import { dropNull } from '../util/dropNull';
 import { CompositionAPIType } from '../components/CompositionArea';
 import * as log from '../logging/log';
 import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser';
+import { ToastCannotStartGroupCall } from '../components/ToastCannotStartGroupCall';
+import { showToast } from '../util/showToast';
+import { ToastBlocked } from '../components/ToastBlocked';
+import { ToastBlockedGroup } from '../components/ToastBlockedGroup';
+import { ToastCannotMixImageAndNonImageAttachments } from '../components/ToastCannotMixImageAndNonImageAttachments';
+import { ToastConversationArchived } from '../components/ToastConversationArchived';
+import { ToastConversationMarkedUnread } from '../components/ToastConversationMarkedUnread';
+import { ToastConversationUnarchived } from '../components/ToastConversationUnarchived';
+import { ToastDangerousFileType } from '../components/ToastDangerousFileType';
+import { ToastDeleteForEveryoneFailed } from '../components/ToastDeleteForEveryoneFailed';
+import { ToastExpired } from '../components/ToastExpired';
+import { ToastFileSaved } from '../components/ToastFileSaved';
+import { ToastFileSize } from '../components/ToastFileSize';
+import { ToastInvalidConversation } from '../components/ToastInvalidConversation';
+import { ToastLeftGroup } from '../components/ToastLeftGroup';
+import { ToastMaxAttachments } from '../components/ToastMaxAttachments';
+import { ToastMessageBodyTooLong } from '../components/ToastMessageBodyTooLong';
+import { ToastOneNonImageAtATime } from '../components/ToastOneNonImageAtATime';
+import { ToastOriginalMessageNotFound } from '../components/ToastOriginalMessageNotFound';
+import { ToastPinnedConversationsFull } from '../components/ToastPinnedConversationsFull';
+import { ToastReactionFailed } from '../components/ToastReactionFailed';
+import { ToastReportedSpamAndBlocked } from '../components/ToastReportedSpamAndBlocked';
+import { ToastTapToViewExpiredIncoming } from '../components/ToastTapToViewExpiredIncoming';
+import { ToastTapToViewExpiredOutgoing } from '../components/ToastTapToViewExpiredOutgoing';
+import { ToastUnableToLoadAttachment } from '../components/ToastUnableToLoadAttachment';
+import { ToastVoiceNoteLimit } from '../components/ToastVoiceNoteLimit';
+import { ToastVoiceNoteMustBeOnlyAttachment } from '../components/ToastVoiceNoteMustBeOnlyAttachment';
+import { copyGroupLink } from '../util/copyGroupLink';
+import { isAttachmentSizeOkay } from '../util/isAttachmentSizeOkay';
 
 type AttachmentOptions = {
   messageId: string;
@@ -186,313 +215,7 @@ type MediaType = {
   };
 };
 
-Whisper.ExpiredToast = Whisper.ToastView.extend({
-  render_attributes() {
-    return { toastMessage: window.i18n('expiredWarning') };
-  },
-});
-
-Whisper.BlockedToast = Whisper.ToastView.extend({
-  render_attributes() {
-    return { toastMessage: window.i18n('unblockToSend') };
-  },
-});
-
-Whisper.BlockedGroupToast = Whisper.ToastView.extend({
-  render_attributes() {
-    return { toastMessage: window.i18n('unblockGroupToSend') };
-  },
-});
-
-Whisper.CaptchaSolvedToast = Whisper.ToastView.extend({
-  render_attributes() {
-    return { toastMessage: window.i18n('verificationComplete') };
-  },
-});
-
-Whisper.CaptchaFailedToast = Whisper.ToastView.extend({
-  render_attributes() {
-    return { toastMessage: window.i18n('verificationFailed') };
-  },
-});
-
-Whisper.LeftGroupToast = Whisper.ToastView.extend({
-  render_attributes() {
-    return { toastMessage: window.i18n('youLeftTheGroup') };
-  },
-});
-
-Whisper.InvalidConversationToast = Whisper.ToastView.extend({
-  render_attributes() {
-    return { toastMessage: window.i18n('invalidConversation') };
-  },
-});
-
-Whisper.OriginalNotFoundToast = Whisper.ToastView.extend({
-  render_attributes() {
-    return { toastMessage: window.i18n('originalMessageNotFound') };
-  },
-});
-
-Whisper.OriginalNoLongerAvailableToast = Whisper.ToastView.extend({
-  render_attributes() {
-    return { toastMessage: window.i18n('originalMessageNotAvailable') };
-  },
-});
-
-Whisper.FoundButNotLoadedToast = Whisper.ToastView.extend({
-  render_attributes() {
-    return { toastMessage: window.i18n('messageFoundButNotLoaded') };
-  },
-});
-
-Whisper.VoiceNoteLimit = Whisper.ToastView.extend({
-  render_attributes() {
-    return { toastMessage: window.i18n('voiceNoteLimit') };
-  },
-});
-
-Whisper.VoiceNoteMustBeOnlyAttachmentToast = Whisper.ToastView.extend({
-  render_attributes() {
-    return { toastMessage: window.i18n('voiceNoteMustBeOnlyAttachment') };
-  },
-});
-
-Whisper.ConversationArchivedToast = Whisper.ToastView.extend({
-  render_attributes() {
-    return { toastMessage: window.i18n('conversationArchived') };
-  },
-});
-
-Whisper.ConversationUnarchivedToast = Whisper.ToastView.extend({
-  render_attributes() {
-    return { toastMessage: window.i18n('conversationReturnedToInbox') };
-  },
-});
-
-Whisper.ConversationMarkedUnreadToast = Whisper.ToastView.extend({
-  render_attributes() {
-    return { toastMessage: window.i18n('conversationMarkedUnread') };
-  },
-});
-
-Whisper.TapToViewExpiredIncomingToast = Whisper.ToastView.extend({
-  render_attributes() {
-    return {
-      toastMessage: window.i18n(
-        'Message--tap-to-view--incoming--expired-toast'
-      ),
-    };
-  },
-});
-
-Whisper.TapToViewExpiredOutgoingToast = Whisper.ToastView.extend({
-  render_attributes() {
-    return {
-      toastMessage: window.i18n(
-        'Message--tap-to-view--outgoing--expired-toast'
-      ),
-    };
-  },
-});
-
-Whisper.DecryptionErrorToast = Whisper.ToastView.extend({
-  className: 'toast toast-clickable decryption-error',
-  events: {
-    click: 'onClick',
-    keydown: 'onKeyDown',
-  },
-  render_attributes() {
-    return {
-      toastMessage: window.i18n('decryptionErrorToast'),
-    };
-  },
-  // Note: this is the same thing as ToastView, except it's missing the setTimeout, so it
-  //   will stick around until the user interacts with it.
-  render() {
-    const toasts = document.getElementsByClassName('decryption-error');
-    if (toasts.length > 1) {
-      log.info(
-        'DecryptionErrorToast: We are second decryption error toast. Closing.'
-      );
-      this.close();
-      return;
-    }
-
-    this.$el.html(
-      window.Mustache.render(
-        window._.result(this, 'template', ''),
-        window._.result(this, 'render_attributes', '')
-      )
-    );
-    this.$el.attr('tabIndex', 0);
-    this.$el.show();
-    if (window.getInteractionMode() === 'keyboard') {
-      setTimeout(() => {
-        this.$el.focus();
-      }, 1);
-    }
-  },
-  onClick() {
-    this.close();
-    window.showDebugLog();
-  },
-  onKeyDown(event: KeyboardEvent) {
-    if (event.key !== 'Enter' && event.key !== ' ') {
-      return;
-    }
-
-    this.onClick();
-  },
-});
-
-Whisper.FileSavedToast = Whisper.ToastView.extend({
-  className: 'toast toast-clickable',
-  initialize(options: Readonly<{ fullPath: string }>) {
-    if (!options.fullPath) {
-      throw new Error('FileSavedToast: name option was not provided!');
-    }
-    this.fullPath = options.fullPath;
-    this.timeout = 10000;
-
-    if (window.getInteractionMode() === 'keyboard') {
-      setTimeout(() => {
-        this.$el.focus();
-      }, 1);
-    }
-  },
-  events: {
-    click: 'onClick',
-    keydown: 'onKeydown',
-  },
-  onClick() {
-    openFileInFolder(this.fullPath);
-    this.close();
-  },
-  onKeydown(event: KeyboardEvent) {
-    if (event.key !== 'Enter' && event.key !== ' ') {
-      return;
-    }
-
-    event.preventDefault();
-    event.stopPropagation();
-
-    openFileInFolder(this.fullPath);
-    this.close();
-  },
-  render_attributes() {
-    return { toastMessage: window.i18n('attachmentSaved') };
-  },
-});
-
-Whisper.ReactionFailedToast = Whisper.ToastView.extend({
-  className: 'toast toast-clickable',
-  initialize() {
-    this.timeout = 4000;
-
-    if (window.getInteractionMode() === 'keyboard') {
-      setTimeout(() => {
-        this.$el.focus();
-      }, 1);
-    }
-  },
-  events: {
-    click: 'onClick',
-    keydown: 'onKeydown',
-  },
-  onClick() {
-    this.close();
-  },
-  onKeydown(event: KeyboardEvent) {
-    if (event.key !== 'Enter' && event.key !== ' ') {
-      return;
-    }
-
-    event.preventDefault();
-    event.stopPropagation();
-
-    this.close();
-  },
-  render_attributes() {
-    return { toastMessage: window.i18n('Reactions--error') };
-  },
-});
-
-Whisper.DeleteForEveryoneFailedToast = Whisper.ToastView.extend({
-  render_attributes() {
-    return { toastMessage: window.i18n('deleteForEveryoneFailed') };
-  },
-});
-
-Whisper.GroupLinkCopiedToast = Whisper.ToastView.extend({
-  render_attributes() {
-    return { toastMessage: window.i18n('GroupLinkManagement--clipboard') };
-  },
-});
-
-Whisper.PinnedConversationsFullToast = Whisper.ToastView.extend({
-  render_attributes() {
-    return { toastMessage: window.i18n('pinnedConversationsFull') };
-  },
-});
-
 const MAX_MESSAGE_BODY_LENGTH = 64 * 1024;
-
-Whisper.MessageBodyTooLongToast = Whisper.ToastView.extend({
-  render_attributes() {
-    return { toastMessage: window.i18n('messageBodyTooLong') };
-  },
-});
-
-Whisper.FileSizeToast = Whisper.ToastView.extend({
-  template: () => $('#file-size-modal').html(),
-  render_attributes() {
-    return {
-      'file-size-warning': window.i18n('fileSizeWarning'),
-      limit: this.model.limit,
-      units: this.model.units,
-    };
-  },
-});
-
-Whisper.UnableToLoadToast = Whisper.ToastView.extend({
-  render_attributes() {
-    return { toastMessage: window.i18n('unableToLoadAttachment') };
-  },
-});
-
-Whisper.CannotStartGroupCallToast = Whisper.ToastView.extend({
-  template: () => window.i18n('GroupV2--cannot-start-group-call'),
-});
-
-Whisper.DangerousFileTypeToast = Whisper.ToastView.extend({
-  template: () => window.i18n('dangerousFileType'),
-});
-
-Whisper.OneNonImageAtATimeToast = Whisper.ToastView.extend({
-  template: () => window.i18n('oneNonImageAtATimeToast'),
-});
-
-Whisper.CannotMixImageAndNonImageAttachmentsToast = Whisper.ToastView.extend({
-  template: () => window.i18n('cannotMixImageAndNonImageAttachments'),
-});
-
-Whisper.MaxAttachmentsToast = Whisper.ToastView.extend({
-  template: () => window.i18n('maximumAttachments'),
-});
-
-Whisper.AlreadyGroupMemberToast = Whisper.ToastView.extend({
-  template: () => window.i18n('GroupV2--join--already-in-group'),
-});
-
-Whisper.AlreadyRequestedToJoinToast = Whisper.ToastView.extend({
-  template: () => window.i18n('GroupV2--join--already-awaiting-approval'),
-});
-
-const ReportedSpamAndBlockedToast = Whisper.ToastView.extend({
-  template: () =>
-    window.i18n('MessageRequests--block-and-report-spam-success-toast'),
-});
 
 export class ConversationView extends window.Backbone.View<ConversationModel> {
   // Debounced functions
@@ -660,7 +383,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       );
 
       if (pinnedConversationIds.length >= 4) {
-        this.showToast(Whisper.PinnedConversationsFullToast);
+        showToast(ToastPinnedConversationsFull);
         return;
       }
       this.model.pin();
@@ -726,7 +449,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
               this.model.get('announcementsOnly') &&
               !this.model.areWeAdmin()
             ) {
-              this.showToast(Whisper.CannotStartGroupCallToast);
+              showToast(ToastCannotStartGroupCall);
               return;
             }
 
@@ -769,26 +492,17 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
             this.model.setArchived(true);
             this.model.trigger('unload', 'archive');
 
-            Whisper.ToastView.show(
-              Whisper.ConversationArchivedToast,
-              document.body
-            );
+            showToast(ToastConversationArchived);
           },
           onMarkUnread: () => {
             this.model.setMarkedUnread(true);
 
-            Whisper.ToastView.show(
-              Whisper.ConversationMarkedUnreadToast,
-              document.body
-            );
+            showToast(ToastConversationMarkedUnread);
           },
           onMoveToInbox: () => {
             this.model.setArchived(false);
 
-            Whisper.ToastView.show(
-              Whisper.ConversationUnarchivedToast,
-              document.body
-            );
+            showToast(ToastConversationUnarchived);
           },
         }
       ),
@@ -824,7 +538,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         bodyRanges: Array<BodyRangeType>,
         caretLocation?: number
       ) => this.onEditorStateChange(msg, bodyRanges, caretLocation),
-      onTextTooLong: () => this.showToast(Whisper.MessageBodyTooLongToast),
+      onTextTooLong: () => showToast(ToastMessageBodyTooLong),
       onChooseAttachment: this.onChooseAttachment.bind(this),
       getQuotedMessage: () => this.model.get('quotedMessageId'),
       clearQuotedMessage: () => this.setQuoteMessage(null),
@@ -1040,11 +754,11 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     };
     const showExpiredIncomingTapToViewToast = () => {
       log.info('Showing expired tap-to-view toast for an incoming message');
-      this.showToast(Whisper.TapToViewExpiredIncomingToast);
+      showToast(ToastTapToViewExpiredIncoming);
     };
     const showExpiredOutgoingTapToViewToast = () => {
       log.info('Showing expired tap-to-view toast for an outgoing message');
-      this.showToast(Whisper.TapToViewExpiredOutgoingToast);
+      showToast(ToastTapToViewExpiredOutgoing);
     };
 
     const showForwardMessageModal = this.showForwardMessageModal.bind(this);
@@ -1115,7 +829,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       );
 
       if (!message) {
-        this.showToast(Whisper.OriginalNotFoundToast);
+        showToast(ToastOriginalMessageNotFound);
         return;
       }
 
@@ -1317,28 +1031,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     });
 
     this.$('.timeline-placeholder').append(this.timelineView.el);
-  }
-
-  private showToast(
-    ToastView: typeof window.Whisper.ToastView,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    options?: any,
-    element?: Element
-  ): void {
-    const toast = new ToastView(options);
-
-    if (element) {
-      toast.$el.appendTo(element);
-    } else {
-      const lightboxEl = $('.Lightbox');
-      if (lightboxEl.length > 0) {
-        toast.$el.appendTo(lightboxEl);
-      } else {
-        toast.$el.appendTo(this.$el);
-      }
-    }
-
-    toast.render();
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -1785,7 +1477,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
             jobQueue: reportSpamJobQueue,
           }),
         ]);
-        this.showToast(ReportedSpamAndBlockedToast);
+        showToast(ToastReportedSpamAndBlocked);
       },
     });
   }
@@ -2031,22 +1723,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     });
   }
 
-  showFileSizeError({
-    limit,
-    units,
-    u,
-  }: Readonly<{
-    limit: number;
-    units: Array<string>;
-    u: number;
-  }>): void {
-    const toast = new Whisper.FileSizeToast({
-      model: { limit, units: units[u] },
-    });
-    toast.$el.insertAfter(this.$el);
-    toast.render();
-  }
-
   updateAttachmentsView(): void {
     const draftAttachments = this.model.get('draftAttachments') || [];
     window.reduxActions.composer.replaceAttachments(
@@ -2091,18 +1767,21 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
     const MB = 1000 * 1024;
     if (file.size > 100 * MB) {
-      this.showFileSizeError({ limit: 100, units: ['MB'], u: 0 });
+      showToast(ToastFileSize, {
+        limit: 100,
+        units: 'MB',
+      });
       return;
     }
 
     if (window.Signal.Util.isFileDangerous(file.name)) {
-      this.showToast(Whisper.DangerousFileTypeToast);
+      showToast(ToastDangerousFileType);
       return;
     }
 
     const draftAttachments = this.model.get('draftAttachments') || [];
     if (draftAttachments.length >= 32) {
-      this.showToast(Whisper.MaxAttachmentsToast);
+      showToast(ToastMaxAttachments);
       return;
     }
 
@@ -2112,7 +1791,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     );
     // You can't add another attachment if you already have a non-image staged
     if (haveNonImage) {
-      this.showToast(Whisper.OneNonImageAtATimeToast);
+      showToast(ToastOneNonImageAtATime);
       return;
     }
 
@@ -2120,7 +1799,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
     // You can't add a non-image attachment if you already have attachments staged
     if (!MIME.isImage(fileType) && draftAttachments.length > 0) {
-      this.showToast(Whisper.CannotMixImageAndNonImageAttachmentsToast);
+      showToast(ToastCannotMixImageAndNonImageAttachments);
       return;
     }
 
@@ -2191,7 +1870,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     }
 
     try {
-      if (!this.isSizeOkay(attachment)) {
+      if (!isAttachmentSizeOkay(attachment)) {
         this.removeDraftAttachment(attachment);
       }
     } catch (error) {
@@ -2201,7 +1880,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       );
 
       this.removeDraftAttachment(attachment);
-      this.showToast(Whisper.UnableToLoadToast);
+      showToast(ToastUnableToLoadAttachment);
       return;
     }
 
@@ -2213,30 +1892,8 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         error && error.stack ? error.stack : error
       );
 
-      this.showToast(Whisper.UnableToLoadToast);
+      showToast(ToastUnableToLoadAttachment);
     }
-  }
-
-  isSizeOkay(attachment: Readonly<AttachmentType>): boolean {
-    const limitKb = window.Signal.Types.Attachment.getUploadSizeLimitKb(
-      attachment.contentType
-    );
-    // this needs to be cast properly
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    if ((attachment.data.byteLength / 1024).toFixed(4) >= limitKb) {
-      const units = ['kB', 'MB', 'GB'];
-      let u = -1;
-      let limit = limitKb * 1000;
-      do {
-        limit /= 1000;
-        u += 1;
-      } while (limit >= 1000 && u < units.length - 1);
-      this.showFileSizeError({ limit, units, u });
-      return false;
-    }
-
-    return true;
   }
 
   async handleVideoAttachment(
@@ -2312,11 +1969,11 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     }
 
     if (this.hasFiles({ includePending: true })) {
-      this.showToast(Whisper.VoiceNoteMustBeOnlyAttachmentToast);
+      showToast(ToastVoiceNoteMustBeOnlyAttachment);
       return;
     }
 
-    this.showToast(Whisper.VoiceNoteLimit);
+    showToast(ToastVoiceNoteLimit);
 
     // Note - clicking anywhere will close the audio capture panel, due to
     //   the onClick handler in InboxView, which calls its closeRecording method.
@@ -2504,12 +2161,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
               this.debouncedMaybeGrabLinkPreview(messageText, caretLocation);
             }
           },
-          onTextTooLong: () =>
-            this.showToast(
-              Whisper.MessageBodyTooLongToast,
-              {},
-              document.querySelector('.module-ForwardMessageModal') || undefined
-            ),
+          onTextTooLong: () => showToast(ToastMessageBodyTooLong),
         }
       ),
     });
@@ -2787,7 +2439,11 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         });
 
         if (fullPath) {
-          this.showToast(Whisper.FileSavedToast, { fullPath });
+          showToast(ToastFileSaved, {
+            onOpenFile: () => {
+              openFileInFolder(fullPath);
+            },
+          });
         }
       };
 
@@ -2956,6 +2612,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     this.downloadAttachment({ attachment, timestamp, isDangerous });
   }
 
+  // eslint-disable-next-line class-methods-use-this
   async downloadAttachment({
     attachment,
     timestamp,
@@ -2966,7 +2623,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     isDangerous: boolean;
   }): Promise<void> {
     if (isDangerous) {
-      this.showToast(Whisper.DangerousFileTypeToast);
+      showToast(ToastDangerousFileType);
       return;
     }
 
@@ -2978,7 +2635,11 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     });
 
     if (fullPath) {
-      this.showToast(Whisper.FileSavedToast, { fullPath });
+      showToast(ToastFileSaved, {
+        onOpenFile: () => {
+          openFileInFolder(fullPath);
+        },
+      });
     }
   }
 
@@ -3132,7 +2793,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
             error && error.stack,
             messageId
           );
-          this.showToast(Whisper.DeleteForEveryoneFailedToast);
+          showToast(ToastDeleteForEveryoneFailed);
         }
         this.resetPanel();
       },
@@ -3184,7 +2845,11 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       });
 
       if (fullPath) {
-        this.showToast(Whisper.FileSavedToast, { fullPath });
+        showToast(ToastFileSaved, {
+          onOpenFile: () => {
+            openFileInFolder(fullPath);
+          },
+        });
       }
     };
 
@@ -3293,7 +2958,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         {
           changeHasGroupLink: this.changeHasGroupLink.bind(this),
           conversationId: this.model.id,
-          copyGroupLink: this.copyGroupLink.bind(this),
+          copyGroupLink,
           generateNewGroupLink: this.generateNewGroupLink.bind(this),
           setAccessControlAddFromInviteLinkSetting: this.setAccessControlAddFromInviteLinkSetting.bind(
             this
@@ -3673,11 +3338,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     });
   }
 
-  async copyGroupLink(groupLink: string): Promise<void> {
-    await navigator.clipboard.writeText(groupLink);
-    this.showToast(Whisper.GroupLinkCopiedToast);
-  }
-
   async generateNewGroupLink(): Promise<void> {
     const { model }: { model: ConversationModel } = this;
 
@@ -3820,7 +3480,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       });
     } catch (error) {
       log.error('Error sending reaction', error, messageId, reaction);
-      this.showToast(Whisper.ReactionFailedToast);
+      showToast(ToastReactionFailed);
     }
   }
 
@@ -3960,13 +3620,20 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
   showInvalidMessageToast(messageText?: string): boolean {
     const { model }: { model: ConversationModel } = this;
 
-    let ToastView: undefined | typeof window.Whisper.ToastView;
+    let toastView:
+      | undefined
+      | typeof ToastBlocked
+      | typeof ToastBlockedGroup
+      | typeof ToastExpired
+      | typeof ToastInvalidConversation
+      | typeof ToastLeftGroup
+      | typeof ToastMessageBodyTooLong;
 
     if (window.reduxStore.getState().expiration.hasExpired) {
-      ToastView = Whisper.ExpiredToast;
+      toastView = ToastExpired;
     }
     if (!model.isValid()) {
-      ToastView = Whisper.InvalidConversationToast;
+      toastView = ToastInvalidConversation;
     }
 
     const e164 = this.model.get('e164');
@@ -3976,7 +3643,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       ((e164 && window.storage.blocked.isBlocked(e164)) ||
         (uuid && window.storage.blocked.isUuidBlocked(uuid)))
     ) {
-      ToastView = Whisper.BlockedToast;
+      toastView = ToastBlocked;
     }
 
     const groupId = this.model.get('groupId');
@@ -3985,18 +3652,18 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       groupId &&
       window.storage.blocked.isGroupBlocked(groupId)
     ) {
-      ToastView = Whisper.BlockedGroupToast;
+      toastView = ToastBlockedGroup;
     }
 
     if (!isDirectConversation(model.attributes) && model.get('left')) {
-      ToastView = Whisper.LeftGroupToast;
+      toastView = ToastLeftGroup;
     }
     if (messageText && messageText.length > MAX_MESSAGE_BODY_LENGTH) {
-      ToastView = Whisper.MessageBodyTooLongToast;
+      toastView = ToastMessageBodyTooLong;
     }
 
-    if (ToastView) {
-      this.showToast(ToastView);
+    if (toastView) {
+      showToast(toastView);
       return true;
     }
 

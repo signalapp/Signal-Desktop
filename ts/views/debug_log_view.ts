@@ -4,6 +4,9 @@
 import copyText from 'copy-text-to-clipboard';
 import * as log from '../logging/log';
 import * as debugLog from '../logging/debuglogs';
+import { ToastLoadingFullLogs } from '../components/ToastLoadingFullLogs';
+import { ToastLinkCopied } from '../components/ToastLinkCopied';
+import { showToast } from '../util/showToast';
 
 window.Whisper = window.Whisper || {};
 const { Whisper } = window;
@@ -17,18 +20,6 @@ const LoadState = {
   PuttingLogsInTextarea: 3,
   LogsInTextarea: 4,
 };
-
-const LoadingFullLogsToast = Whisper.ToastView.extend({
-  render_attributes() {
-    return { toastMessage: window.i18n('loading') };
-  },
-});
-
-const LinkedCopiedToast = Whisper.ToastView.extend({
-  render_attributes() {
-    return { toastMessage: window.i18n('debugLogLinkCopied') };
-  },
-});
 
 const DebugLogLinkView = Whisper.View.extend({
   template: () => $('#debug-log-link').html(),
@@ -50,7 +41,7 @@ const DebugLogLinkView = Whisper.View.extend({
     e.preventDefault();
     const target = e.currentTarget as HTMLAnchorElement;
     copyText(target.href);
-    Whisper.ToastView.show(LinkedCopiedToast, document.body);
+    showToast(ToastLinkCopied);
   },
 });
 
@@ -137,7 +128,7 @@ export const DebugLogView = Whisper.View.extend({
           throw new Error('Expected log text to be present');
         }
         this.loadState = LoadState.PuttingLogsInTextarea;
-        Whisper.ToastView.show(LoadingFullLogsToast, document.body);
+        showToast(ToastLoadingFullLogs);
         setTimeout(() => {
           this.textarea.value = this.logText;
           this.textarea.removeAttribute('readonly');

@@ -104,6 +104,11 @@ import {
   getEmojiReducerState,
 } from './util/loadRecentEmojis';
 import { deleteAllLogs } from './util/deleteAllLogs';
+import { ToastCaptchaFailed } from './components/ToastCaptchaFailed';
+import { ToastCaptchaSolved } from './components/ToastCaptchaSolved';
+import { ToastConversationArchived } from './components/ToastConversationArchived';
+import { ToastConversationUnarchived } from './components/ToastConversationUnarchived';
+import { showToast } from './util/showToast';
 
 const MAX_ATTACHMENT_DOWNLOAD_AGE = 3600 * 72 * 1000;
 
@@ -1405,10 +1410,7 @@ export async function startApp(): Promise<void> {
       ) {
         conversation.setArchived(true);
         conversation.trigger('unload', 'keyboard shortcut archive');
-        window.Whisper.ToastView.show(
-          window.Whisper.ConversationArchivedToast,
-          document.body
-        );
+        showToast(ToastConversationArchived);
 
         // It's very likely that the act of archiving a conversation will set focus to
         //   'none,' or the top-level body element. This resets it to the left pane.
@@ -1433,10 +1435,7 @@ export async function startApp(): Promise<void> {
         (key === 'u' || key === 'U')
       ) {
         conversation.setArchived(false);
-        window.Whisper.ToastView.show(
-          window.Whisper.ConversationUnarchivedToast,
-          document.body
-        );
+        showToast(ToastConversationUnarchived);
 
         event.preventDefault();
         event.stopPropagation();
@@ -1660,19 +1659,11 @@ export async function startApp(): Promise<void> {
       onChallengeFailed() {
         // TODO: DESKTOP-1530
         // Display humanized `retryAfter`
-        window.Whisper.ToastView.show(
-          window.Whisper.CaptchaFailedToast,
-          document.getElementsByClassName('conversation-stack')[0] ||
-            document.body
-        );
+        showToast(ToastCaptchaFailed);
       },
 
       onChallengeSolved() {
-        window.Whisper.ToastView.show(
-          window.Whisper.CaptchaSolvedToast,
-          document.getElementsByClassName('conversation-stack')[0] ||
-            document.body
-        );
+        showToast(ToastCaptchaSolved);
       },
 
       setChallengeStatus(challengeStatus) {

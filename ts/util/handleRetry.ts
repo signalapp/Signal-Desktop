@@ -17,6 +17,8 @@ import { parseIntOrThrow } from './parseIntOrThrow';
 import * as RemoteConfig from '../RemoteConfig';
 import { Address } from '../types/Address';
 import { QualifiedAddress } from '../types/QualifiedAddress';
+import { ToastDecryptionError } from '../components/ToastDecryptionError';
+import { showToast } from './showToast';
 
 import { ConversationModel } from '../models/conversations';
 import {
@@ -131,10 +133,9 @@ function maybeShowDecryptionToast(logId: string) {
   }
 
   log.info(`maybeShowDecryptionToast/${logId}: Showing decryption error toast`);
-  window.Whisper.ToastView.show(
-    window.Whisper.DecryptionErrorToast,
-    document.getElementsByClassName('conversation-stack')[0]
-  );
+  showToast(ToastDecryptionError, {
+    onShowDebugLog: () => window.showDebugLog(),
+  });
 }
 
 export async function onDecryptionError(

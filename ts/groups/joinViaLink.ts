@@ -21,6 +21,9 @@ import type { ConversationModel } from '../models/conversations';
 import type { PreJoinConversationType } from '../state/ducks/conversations';
 import { SignalService as Proto } from '../protobuf';
 import * as log from '../logging/log';
+import { showToast } from '../util/showToast';
+import { ToastAlreadyGroupMember } from '../components/ToastAlreadyGroupMember';
+import { ToastAlreadyRequestedToJoin } from '../components/ToastAlreadyRequestedToJoin';
 
 export async function joinViaLink(hash: string): Promise<void> {
   let inviteLinkPassword: string;
@@ -65,10 +68,7 @@ export async function joinViaLink(hash: string): Promise<void> {
     window.reduxActions.conversations.openConversationInternal({
       conversationId: existingConversation.id,
     });
-    window.Whisper.ToastView.show(
-      window.Whisper.AlreadyGroupMemberToast,
-      document.getElementsByClassName('conversation-stack')[0]
-    );
+    showToast(ToastAlreadyGroupMember);
     return;
   }
 
@@ -144,10 +144,7 @@ export async function joinViaLink(hash: string): Promise<void> {
       conversationId: existingConversation.id,
     });
 
-    window.Whisper.ToastView.show(
-      window.Whisper.AlreadyRequestedToJoinToast,
-      document.getElementsByClassName('conversation-stack')[0]
-    );
+    showToast(ToastAlreadyRequestedToJoin);
     return;
   }
 

@@ -12077,69 +12077,6 @@
     "reasonDetail": "Hard-coded value"
   },
   {
-    "rule": "jQuery-$(",
-    "path": "ts/backbone/views/toast_view.js",
-    "line": "    template: () => $('#toast').html(),",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-02-26T19:21:25.912Z"
-  },
-  {
-    "rule": "jQuery-appendTo(",
-    "path": "ts/backbone/views/toast_view.js",
-    "line": "    toast.$el.appendTo(el);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-02-26T18:44:56.450Z",
-    "reasonDetail": "Add sub-view to DOM"
-  },
-  {
-    "rule": "jQuery-html(",
-    "path": "ts/backbone/views/toast_view.js",
-    "line": "        this.$el.html(window.Mustache.render(window._.result(this, 'template', ''), window._.result(this, 'render_attributes', '')));",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-02-26T18:44:56.450Z",
-    "reasonDetail": "Adding Mustache render to DOM"
-  },
-  {
-    "rule": "jQuery-html(",
-    "path": "ts/backbone/views/toast_view.js",
-    "line": "    template: () => $('#toast').html(),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-02-26T19:21:25.912Z",
-    "reasonDetail": "Static selector, read-only access"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/backbone/views/toast_view.ts",
-    "line": "  template: () => $('#toast').html(),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-02-26T18:44:56.450Z",
-    "reasonDetail": "Static selector, read-only access"
-  },
-  {
-    "rule": "jQuery-appendTo(",
-    "path": "ts/backbone/views/toast_view.ts",
-    "line": "  toast.$el.appendTo(el);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-02-26T18:44:56.450Z",
-    "reasonDetail": "Adding sub-view to DOM"
-  },
-  {
-    "rule": "jQuery-html(",
-    "path": "ts/backbone/views/toast_view.ts",
-    "line": "    this.$el.html(",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-02-26T18:44:56.450Z",
-    "reasonDetail": "Rendering provided template"
-  },
-  {
-    "rule": "jQuery-html(",
-    "path": "ts/backbone/views/toast_view.ts",
-    "line": "  template: () => $('#toast').html(),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-02-26T19:23:51.217Z",
-    "reasonDetail": "Static selector, read-only access"
-  },
-  {
     "rule": "jQuery-html(",
     "path": "ts/backbone/views/whisper_view.js",
     "line": "            this.$el.html(window.Mustache.render(template, attrs));",
@@ -13518,14 +13455,7 @@
     "path": "ts/views/inbox_view.js",
     "line": "            view.$el.appendTo(this.el);",
     "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-appendTo(",
-    "path": "ts/views/inbox_view.js",
-    "line": "            toast.$el.appendTo(this.$el);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
+    "updated": "2021-09-20T22:27:31.785Z"
   },
   {
     "rule": "jQuery-html(",
@@ -13643,13 +13573,6 @@
     "rule": "jQuery-appendTo(",
     "path": "ts/views/inbox_view.ts",
     "line": "      view.$el.appendTo(this.el);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-appendTo(",
-    "path": "ts/views/inbox_view.ts",
-    "line": "      toast.$el.appendTo(this.$el);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-09-15T21:07:50.995Z"
   },

@@ -8,7 +8,7 @@ import * as Backbone from 'backbone';
 import * as Underscore from 'underscore';
 import moment from 'moment';
 import PQueue from 'p-queue/dist';
-import { Attributes, ComponentClass, FunctionComponent, Ref } from 'react';
+import { Ref } from 'react';
 import { imageToBlurHash } from './util/imageToBlurHash';
 import * as Util from './util';
 import {
@@ -623,42 +623,6 @@ export type WhisperType = {
   // Note: we can no longer use 'View.extend' once we've moved to Typescript's preferred
   //   'extend View' syntax. Thus, we'll need to typescriptify most of it at once.
 
-  // Toast
-  AlreadyGroupMemberToast: typeof AnyViewClass;
-  AlreadyRequestedToJoinToast: typeof AnyViewClass;
-  BlockedGroupToast: typeof AnyViewClass;
-  BlockedToast: typeof AnyViewClass;
-  CannotMixImageAndNonImageAttachmentsToast: typeof AnyViewClass;
-  CaptchaSolvedToast: typeof AnyViewClass;
-  CaptchaFailedToast: typeof AnyViewClass;
-  CannotStartGroupCallToast: typeof AnyViewClass;
-  ConversationArchivedToast: typeof AnyViewClass;
-  ConversationUnarchivedToast: typeof AnyViewClass;
-  ConversationMarkedUnreadToast: typeof AnyViewClass;
-  DangerousFileTypeToast: typeof AnyViewClass;
-  DecryptionErrorToast: typeof AnyViewClass;
-  ExpiredToast: typeof AnyViewClass;
-  FileSavedToast: typeof AnyViewClass;
-  FileSizeToast: typeof AnyViewClass;
-  FoundButNotLoadedToast: typeof AnyViewClass;
-  GroupLinkCopiedToast: typeof AnyViewClass;
-  InvalidConversationToast: typeof AnyViewClass;
-  LeftGroupToast: typeof AnyViewClass;
-  MaxAttachmentsToast: typeof AnyViewClass;
-  MessageBodyTooLongToast: typeof AnyViewClass;
-  OneNonImageAtATimeToast: typeof AnyViewClass;
-  OriginalNoLongerAvailableToast: typeof AnyViewClass;
-  OriginalNotFoundToast: typeof AnyViewClass;
-  PinnedConversationsFullToast: typeof AnyViewClass;
-  ReactionFailedToast: typeof AnyViewClass;
-  DeleteForEveryoneFailedToast: typeof AnyViewClass;
-  TapToViewExpiredIncomingToast: typeof AnyViewClass;
-  TapToViewExpiredOutgoingToast: typeof AnyViewClass;
-  TimerConflictToast: typeof AnyViewClass;
-  UnableToLoadToast: typeof AnyViewClass;
-  VoiceNoteLimit: typeof AnyViewClass;
-  VoiceNoteMustBeOnlyAttachmentToast: typeof AnyViewClass;
-
   ClearDataView: typeof AnyViewClass;
   ConversationLoadingScreen: typeof AnyViewClass;
   GroupMemberList: typeof AnyViewClass;
@@ -669,6 +633,5 @@ export type WhisperType = {
   RecorderView: typeof AnyViewClass;
   SafetyNumberChangeDialogView: typeof AnyViewClass;
   StandaloneRegistrationView: typeof AnyViewClass;
-  ToastView: typeof AnyViewClass;
   View: typeof AnyViewClass;
 };
