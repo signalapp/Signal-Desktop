@@ -63,6 +63,7 @@ import {
 } from '../Crypto';
 import { dropNull, shallowDropNull } from '../util/dropNull';
 import { getOwn } from '../util/getOwn';
+import { isNormalNumber } from '../util/isNormalNumber';
 import * as durations from '../util/durations';
 import { handleMessageSend } from '../util/handleMessageSend';
 import {
@@ -1742,13 +1743,27 @@ export class CallingClass {
 
   private handleAutoEndedIncomingCallRequest(
     remoteUserId: UserId,
-    reason: CallEndedReason
+    reason: CallEndedReason,
+    ageInSeconds: number
   ) {
     const conversation = window.ConversationController.get(remoteUserId);
     if (!conversation) {
       return;
     }
-    this.addCallHistoryForAutoEndedIncomingCall(conversation, reason);
+
+    // This is extra defensive, just in case RingRTC passes us a bad value. (It probably
+    //   won't.)
+    const ageInMilliseconds =
+      isNormalNumber(ageInSeconds) && ageInSeconds >= 0
+        ? ageInSeconds * durations.SECOND
+        : 0;
+    const endedTime = Date.now() - ageInMilliseconds;
+
+    this.addCallHistoryForAutoEndedIncomingCall(
+      conversation,
+      reason,
+      endedTime
+    );
   }
 
   private attachToCall(conversation: ConversationModel, call: Call): void {
@@ -1966,7 +1981,8 @@ export class CallingClass {
 
   private addCallHistoryForAutoEndedIncomingCall(
     conversation: ConversationModel,
-    _reason: CallEndedReason
+    _reason: CallEndedReason,
+    endedTime: number
   ) {
     conversation.addCallHistory({
       callMode: CallMode.Direct,
@@ -1977,7 +1993,7 @@ export class CallingClass {
       // Since the user didn't decline, make sure it shows up as a missed call instead
       wasDeclined: false,
       acceptedTime: undefined,
-      endedTime: Date.now(),
+      endedTime,
     });
   }
 
