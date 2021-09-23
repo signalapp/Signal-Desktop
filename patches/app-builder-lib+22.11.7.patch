@@ -1,5 +1,5 @@
 diff --git a/node_modules/app-builder-lib/out/targets/LinuxTargetHelper.js b/node_modules/app-builder-lib/out/targets/LinuxTargetHelper.js
-index ed6b8d3..a74e35b 100644
+index ed6b8d3..98495fd 100644
 --- a/node_modules/app-builder-lib/out/targets/LinuxTargetHelper.js
 +++ b/node_modules/app-builder-lib/out/targets/LinuxTargetHelper.js
 @@ -85,7 +85,7 @@ class LinuxTargetHelper {
@@ -24,3 +24,35 @@ index 1536059..555f8f5 100644
 -
  update-mime-database /usr/share/mime || true
  update-desktop-database /usr/share/applications || true
+diff --git a/node_modules/app-builder-lib/templates/nsis/messages.yml b/node_modules/app-builder-lib/templates/nsis/messages.yml
+index 94c8e9e..e53fc9d 100644
+--- a/node_modules/app-builder-lib/templates/nsis/messages.yml
++++ b/node_modules/app-builder-lib/templates/nsis/messages.yml
+@@ -67,7 +67,26 @@ appRunning:
+   es: "${PRODUCT_NAME} se está ejecutando. Haz clic en Aceptar para cerrarlo."
+   da: "${PRODUCT_NAME} er i gang. Klik OK for at lukke."
+ appCannotBeClosed:
+-  en: "${PRODUCT_NAME} cannot be closed. \nPlease close it manually and click Retry to continue"
++  en: "${PRODUCT_NAME} cannot be closed. \nPlease close it manually and click Retry to continue."
++  ar: "‫لم يتمكن من إغلاق ${PRODUCT_NAME} \nيُرجى إغلاقه يدويا ثم الضغط مرة أخرى على إعادة المحاولة للاستمرار.‏"
++  az: "${PRODUCT_NAME}, bağlanıla bilmir. \nZəhmət olmasa əllə bağlayın və davam etmək üçün \"Yenidən sına\"ya klikləyin."
++  ca: "No es pot tancar el ${PRODUCT_NAME}. \nTanqueu-lo manualment i cliqueu a tornar-ho a provar per continuar."
++  cs: "Aplikaci ${PRODUCT_NAME} se nepodařilo zavřít. \nZavřete ji ručně a poté klikněte na Opakovat pro pokračování."
++  de: "${PRODUCT_NAME} kann nicht geschlossen werden. \nSchließ es bitte manuell und klicke auf »Wiederholen«, um fortzufahren."
++  es: "No se puede cerrar ${PRODUCT_NAME}. \nPor favor cierra la aplicación manualmente y haz clic en reintentar para continuar."
++  et: "${PRODUCT_NAME} ei saa sulgeda. \nPalun sulge see käsitsi ja klõpsa jätkamiseks \"Proovi uuesti\"."
++  fi: "${PRODUCT_NAME} ei voi sulkea. \nSulje se itse ja napsauta Yritä uudelleen jatkaaksesi."
++  it: "${PRODUCT_NAME} non può essere chiuso. \nPer favore, chiudilo manualmente e clicca su Riprova per continuare."
++  ja: "${PRODUCT_NAME}が終了できません。\n手動で閉じて、『再試行』をクリックしてください。"
++  nl_NL: "${PRODUCT_NAME} kan niet automatisch worden afgesloten. \nSluit zelf de ${PRODUCT_NAME} app en klik vervolgens op ‘Opnieuw proberen’."
++  pl: "Nie można zamknąć ${PRODUCT_NAME}. \nZamknij aplikację i kliknij Ponów, aby kontynuować."
++  ro: "${PRODUCT_NAME} nu poate fi închis. \nVă rugăm închideți-l manual și apăsați Reîncercare pentru a continua."
++  ru: "Не удалось закрыть ${PRODUCT_NAME}. \nПожалуйста закройте его вручную и нажмите Повторить, чтобы продолжить."
++  sk: "${PRODUCT_NAME} nie je možné zatvoriť. \nZatvorte ho ručne a pokračujte kliknutím na položku Opakovať."
++  sl: "${PRODUCT_NAME} se ne more zapreti. \nPoskusite ga zapreti ročno in kliknite Ponovi za nadaljevanje."
++  sq: "${PRODUCT_NAME} s’mund të mbyllet. \nQë të vazhdohet, ju lutemi, mbylleni dorazi dhe klikoni mbi Riprovo."
++  tr: "${PRODUCT_NAME} kapatılamaz. \nLütfen elle kapatın ve devam etmek için Tekrar'a tıklayın"
++  zh_TW: "${PRODUCT_NAME} 無法關閉。\n請手動關閉它，然後單擊重試以繼續。"
+ installing:
+   en: Installing, please wait...
+   de: Installation läuft, bitte warten...
