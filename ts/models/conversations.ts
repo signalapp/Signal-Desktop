@@ -63,7 +63,7 @@ import { getConversationMembers } from '../util/getConversationMembers';
 import { sendReadReceiptsFor } from '../util/sendReadReceiptsFor';
 import { updateConversationsWithUuidLookup } from '../updateConversationsWithUuidLookup';
 import { ReadStatus } from '../messages/MessageReadStatus';
-import { SendStatus } from '../messages/MessageSendState';
+import { SendState, SendStatus } from '../messages/MessageSendState';
 import * as durations from '../util/durations';
 import {
   concat,
@@ -4260,18 +4260,27 @@ export class ConversationModel extends window.Backbone
   async endSession(): Promise<void> {
     if (isDirectConversation(this.attributes)) {
       const now = Date.now();
-      const model = new window.Whisper.Message(({
+      const pendingSendState: SendState = {
+        status: SendStatus.Pending,
+        updatedAt: now,
+      };
+      const messageAttributes: Partial<MessageAttributesType> = {
         conversationId: this.id,
         type: 'outgoing',
         sent_at: now,
         received_at: window.Signal.Util.incrementMessageCounter(),
         received_at_ms: now,
-        destination: this.get('e164'),
-        destinationUuid: this.get('uuid'),
-        recipients: this.getRecipients(),
+        sendStateByConversationId: {
+          [this.id]: pendingSendState,
+          [window.ConversationController.getOurConversationIdOrThrow()]: pendingSendState,
+        },
         flags: Proto.DataMessage.Flags.END_SESSION,
-        // TODO: DESKTOP-722
-      } as unknown) as MessageAttributesType);
+      };
+
+      // TODO: DESKTOP-722
+      const model = new window.Whisper.Message(
+        messageAttributes as MessageAttributesType
+      );
 
       const id = await window.Signal.Data.saveMessage(model.attributes);
       model.set({ id });
