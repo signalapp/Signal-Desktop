@@ -1,25 +1,10 @@
 import _ from 'lodash';
 import { SignalService } from '../../protobuf';
+import { answerCall, callConnected, endCall, incomingCall } from '../../state/ducks/conversations';
 import { CallMessage } from '../messages/outgoing/controlMessage/CallMessage';
 import { ed25519Str } from '../onions/onionPath';
 import { getMessageQueue } from '../sending';
 import { PubKey } from '../types';
-
-const incomingCall = ({ sender }: { sender: string }) => {
-  return { type: 'incomingCall', payload: sender };
-};
-const endCall = ({ sender }: { sender: string }) => {
-  return { type: 'endCall', payload: sender };
-};
-const answerCall = ({ sender, sdps }: { sender: string; sdps: Array<string> }) => {
-  return {
-    type: 'answerCall',
-    payload: {
-      sender,
-      sdps,
-    },
-  };
-};
 
 /**
  * This field stores all the details received by a sender about a call in separate messages.
@@ -28,7 +13,7 @@ const callCache = new Map<string, Array<SignalService.CallMessage>>();
 
 let peerConnection: RTCPeerConnection | null;
 
-const ENABLE_VIDEO = true;
+const ENABLE_VIDEO = false;
 
 const configuration = {
   configuration: {
@@ -57,13 +42,12 @@ export async function USER_callRecipient(recipient: string) {
 
   const mediaDevices = await openMediaDevices();
   mediaDevices.getTracks().map(track => {
-    window.log.info('USER_callRecipient adding track: ', track);
     peerConnection?.addTrack(track, mediaDevices);
   });
   peerConnection.addEventListener('connectionstatechange', _event => {
-    window.log.info('peerConnection?.connectionState:', peerConnection?.connectionState);
+    window.log.info('peerConnection?.connectionState caller :', peerConnection?.connectionState);
     if (peerConnection?.connectionState === 'connected') {
-      // Peers connected!
+      window.inboxStore?.dispatch(callConnected({ pubkey: recipient }));
     }
   });
 
@@ -180,27 +164,32 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
   peerConnection = new RTCPeerConnection(configuration);
   const mediaDevices = await openMediaDevices();
   mediaDevices.getTracks().map(track => {
-    window.log.info('USER_acceptIncomingCallRequest adding track ', track);
+    // window.log.info('USER_acceptIncomingCallRequest adding track ', track);
     peerConnection?.addTrack(track, mediaDevices);
   });
   peerConnection.addEventListener('icecandidateerror', event => {
     console.warn('icecandidateerror:', event);
   });
 
-  peerConnection.addEventListener('negotiationneeded', async event => {
+  peerConnection.addEventListener('negotiationneeded', event => {
     console.warn('negotiationneeded:', event);
   });
-  peerConnection.addEventListener('signalingstatechange', event => {
-    console.warn('signalingstatechange:', event);
+  peerConnection.addEventListener('signalingstatechange', _event => {
+    // console.warn('signalingstatechange:', event);
   });
 
   peerConnection.addEventListener('ontrack', event => {
     console.warn('ontrack:', event);
   });
   peerConnection.addEventListener('connectionstatechange', _event => {
-    window.log.info('peerConnection?.connectionState:', peerConnection?.connectionState, _event);
+    window.log.info(
+      'peerConnection?.connectionState recipient:',
+      peerConnection?.connectionState,
+      'with: ',
+      fromSender
+    );
     if (peerConnection?.connectionState === 'connected') {
-      // Peers connected!
+      window.inboxStore?.dispatch(callConnected({ pubkey: fromSender }));
     }
   });
 
@@ -237,7 +226,7 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
   );
 
   if (lastCandidatesFromSender) {
-    console.warn('found sender ice candicate message already sent. Using it');
+    window.log.info('found sender ice candicate message already sent. Using it');
     for (let index = 0; index < lastCandidatesFromSender.sdps.length; index++) {
       const sdp = lastCandidatesFromSender.sdps[index];
       const sdpMLineIndex = lastCandidatesFromSender.sdpMLineIndexes[index];
@@ -250,7 +239,7 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
 
   await getMessageQueue().sendToPubKeyNonDurably(PubKey.cast(fromSender), callAnswerMessage);
 
-  window.inboxStore?.dispatch(answerCall({ sender: fromSender, sdps }));
+  window.inboxStore?.dispatch(answerCall({ pubkey: fromSender }));
 }
 
 // tslint:disable-next-line: function-name
@@ -261,7 +250,7 @@ export async function USER_rejectIncomingCallRequest(fromSender: string) {
   });
   callCache.delete(fromSender);
 
-  window.inboxStore?.dispatch(endCall({ sender: fromSender }));
+  window.inboxStore?.dispatch(endCall({ pubkey: fromSender }));
   window.log.info('sending END_CALL MESSAGE');
 
   await getMessageQueue().sendToPubKeyNonDurably(PubKey.cast(fromSender), endCallMessage);
@@ -271,18 +260,15 @@ export function handleEndCallMessage(sender: string) {
   callCache.delete(sender);
   //
   // FIXME audric trigger UI cleanup
-  window.inboxStore?.dispatch(endCall({ sender }));
+  window.inboxStore?.dispatch(endCall({ pubkey: sender }));
 }
 
-export async function handleOfferCallMessage(
-  sender: string,
-  callMessage: SignalService.CallMessage
-) {
+export function handleOfferCallMessage(sender: string, callMessage: SignalService.CallMessage) {
   if (!callCache.has(sender)) {
     callCache.set(sender, new Array());
   }
   callCache.get(sender)?.push(callMessage);
-  window.inboxStore?.dispatch(incomingCall({ sender }));
+  window.inboxStore?.dispatch(incomingCall({ pubkey: sender }));
 }
 
 export async function handleCallAnsweredMessage(
@@ -298,7 +284,7 @@ export async function handleCallAnsweredMessage(
   }
 
   callCache.get(sender)?.push(callMessage);
-  window.inboxStore?.dispatch(incomingCall({ sender }));
+  window.inboxStore?.dispatch(answerCall({ pubkey: sender }));
   const remoteDesc = new RTCSessionDescription({ type: 'answer', sdp: callMessage.sdps[0] });
   if (peerConnection) {
     await peerConnection.setRemoteDescription(remoteDesc);
@@ -320,7 +306,7 @@ export async function handleIceCandidatesMessage(
   }
 
   callCache.get(sender)?.push(callMessage);
-  window.inboxStore?.dispatch(incomingCall({ sender }));
+  // window.inboxStore?.dispatch(incomingCall({ pubkey: sender }));
   if (peerConnection) {
     // tslint:disable-next-line: prefer-for-of
     for (let index = 0; index < callMessage.sdps.length; index++) {

@@ -1,8 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import _ from 'underscore';
-import { getConversationController } from '../../../session/conversations/ConversationController';
 import { CallManager } from '../../../session/utils';
+import {
+  getHasIncomingCall,
+  getHasIncomingCallFrom,
+  getHasOngoingCall,
+  getHasOngoingCallWith,
+} from '../../../state/selectors/conversations';
 import { SessionButton, SessionButtonColor } from '../SessionButton';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 
@@ -59,108 +65,74 @@ const CallWindowControls = styled.div`
   transform: translateY(-100%);
 `;
 
-// type WindowPositionType = {
-//     top: string;
-//     left: string;
-// } | null;
-
-type CallStateType = 'connecting' | 'ongoing' | 'incoming' | null;
-
-const fakeCaller = '054774a456f15c7aca42fe8d245983549000311aaebcf58ce246250c41fe227676';
-
+// TODO:
+/**
+ * Add mute input, deafen, end call, possibly add person to call
+ * duration - look at how duration calculated for recording.
+ */
 export const CallContainer = () => {
-  const conversations = getConversationController().getConversations();
+  const hasIncomingCall = useSelector(getHasIncomingCall);
+  const incomingCallProps = useSelector(getHasIncomingCallFrom);
+  const ongoingCallProps = useSelector(getHasOngoingCallWith);
+  const hasOngoingCall = useSelector(getHasOngoingCall);
 
-  // TODO:
-  /**
-   * Add mute input, deafen, end call, possibly add person to call
-   * duration - look at how duration calculated for recording.
-   */
-
-  const [connectionState, setConnectionState] = useState<CallStateType>('incoming');
-  // const [callWindowPosition, setCallWindowPosition] = useState<WindowPositionType>(null)
-
-  // picking a conversation at random to test with
-  const foundConvo = conversations.find(convo => convo.id === fakeCaller);
-
-  if (!foundConvo) {
-    throw new Error('fakeconvo not found');
-  }
-  foundConvo.callState = 'incoming';
-  console.warn('foundConvo: ', foundConvo);
-
-  const firstCallingConvo = _.first(conversations.filter(convo => convo.callState !== undefined));
+  const ongoingOrIncomingPubkey = ongoingCallProps?.id || incomingCallProps?.id;
 
   //#region input handlers
   const handleAcceptIncomingCall = async () => {
-    console.warn('accept call');
-
-    if (firstCallingConvo) {
-      setConnectionState('connecting');
-      firstCallingConvo.callState = 'connecting';
-      await CallManager.USER_acceptIncomingCallRequest(fakeCaller);
-      // some delay
-      setConnectionState('ongoing');
-      firstCallingConvo.callState = 'ongoing';
+    if (incomingCallProps?.id) {
+      await CallManager.USER_acceptIncomingCallRequest(incomingCallProps.id);
     }
-    // set conversationState = setting up
   };
 
   const handleDeclineIncomingCall = async () => {
-    // set conversation.callState = null or undefined
     // close the modal
-    if (firstCallingConvo) {
-      firstCallingConvo.callState = undefined;
+    if (incomingCallProps?.id) {
+      await CallManager.USER_rejectIncomingCallRequest(incomingCallProps.id);
     }
-    console.warn('declined call');
-    await CallManager.USER_rejectIncomingCallRequest(fakeCaller);
   };
 
   const handleEndCall = async () => {
     // call method to end call connection
-    console.warn('ending the call');
-    await CallManager.USER_rejectIncomingCallRequest(fakeCaller);
+    if (ongoingOrIncomingPubkey) {
+      await CallManager.USER_rejectIncomingCallRequest(ongoingOrIncomingPubkey);
+    }
   };
 
-  const handleMouseDown = () => {
-    // reposition call window
-  };
   //#endregion
 
-  return (
-    <>
-      {connectionState === 'connecting' ? 'connecting...' : null}
-      {connectionState === 'ongoing' ? (
-        <CallWindow onMouseDown={handleMouseDown}>
-          <CallWindowInner>
-            <CallWindowHeader>
-              {firstCallingConvo ? firstCallingConvo.getName() : 'Group name not found'}
-            </CallWindowHeader>
-            <VideoContainer />
-            <CallWindowControls>
-              <SessionButton text={'end call'} onClick={handleEndCall} />
-              <SessionButton text={'end call'} onClick={handleEndCall} />
-            </CallWindowControls>
-          </CallWindowInner>
-        </CallWindow>
-      ) : null}
+  if (!hasOngoingCall && !hasIncomingCall) {
+    return null;
+  }
 
-      {!connectionState ? (
-        <SessionWrapperModal title={'incoming call'}>'none'</SessionWrapperModal>
-      ) : null}
+  if (hasOngoingCall && ongoingCallProps) {
+    return (
+      <CallWindow>
+        <CallWindowInner>
+          <CallWindowHeader>{ongoingCallProps.name}</CallWindowHeader>
+          <VideoContainer />
+          <CallWindowControls>
+            <SessionButton text={'end call'} onClick={handleEndCall} />
+          </CallWindowControls>
+        </CallWindowInner>
+      </CallWindow>
+    );
+  }
 
-      {connectionState === 'incoming' ? (
-        <SessionWrapperModal title={'incoming call'}>
-          <div className="session-modal__button-group">
-            <SessionButton text={'decline'} onClick={handleDeclineIncomingCall} />
-            <SessionButton
-              text={'accept'}
-              onClick={handleAcceptIncomingCall}
-              buttonColor={SessionButtonColor.Green}
-            />
-          </div>
-        </SessionWrapperModal>
-      ) : null}
-    </>
-  );
+  if (hasIncomingCall) {
+    return (
+      <SessionWrapperModal title={'incoming call'}>
+        <div className="session-modal__button-group">
+          <SessionButton text={'decline'} onClick={handleDeclineIncomingCall} />
+          <SessionButton
+            text={'accept'}
+            onClick={handleAcceptIncomingCall}
+            buttonColor={SessionButtonColor.Green}
+          />
+        </div>
+      </SessionWrapperModal>
+    );
+  }
+  // display spinner while connecting
+  return null;
 };

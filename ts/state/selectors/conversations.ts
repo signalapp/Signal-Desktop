@@ -66,6 +66,47 @@ export const getSelectedConversation = createSelector(
   }
 );
 
+export const getHasIncomingCallFrom = createSelector(
+  getConversations,
+  (state: ConversationsStateType): ReduxConversationType | undefined => {
+    const foundEntry = Object.entries(state.conversationLookup).find(
+      ([_convoKey, convo]) => convo.callState === 'incoming'
+    );
+
+    if (!foundEntry) {
+      return undefined;
+    }
+    return foundEntry[1];
+  }
+);
+
+export const getHasOngoingCallWith = createSelector(
+  getConversations,
+  (state: ConversationsStateType): ReduxConversationType | undefined => {
+    const foundEntry = Object.entries(state.conversationLookup).find(
+      ([_convoKey, convo]) =>
+        convo.callState === 'connecting' ||
+        convo.callState === 'offering' ||
+        convo.callState === 'ongoing'
+    );
+
+    if (!foundEntry) {
+      return undefined;
+    }
+    return foundEntry[1];
+  }
+);
+
+export const getHasIncomingCall = createSelector(
+  getHasIncomingCallFrom,
+  (withConvo: ReduxConversationType | undefined): boolean => !!withConvo
+);
+
+export const getHasOngoingCall = createSelector(
+  getHasOngoingCallWith,
+  (withConvo: ReduxConversationType | undefined): boolean => !!withConvo
+);
+
 /**
  * Returns true if the current conversation selected is a group conversation.
  * Returns false if the current conversation selected is not a group conversation, or none are selected
