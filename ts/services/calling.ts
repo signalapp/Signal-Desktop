@@ -80,10 +80,10 @@ import {
   REQUESTED_VIDEO_FRAMERATE,
 } from '../calling/constants';
 import { callingMessageToProto } from '../util/callingMessageToProto';
-import { notify } from './notify';
 import { getSendOptions } from '../util/getSendOptions';
 import { SignalService as Proto } from '../protobuf';
 import dataInterface from '../sql/Client';
+import { notificationService } from './notifications';
 import * as log from '../logging/log';
 
 const {
@@ -1117,7 +1117,7 @@ export class CallingClass {
 
     if (source) {
       ipcRenderer.send('show-screen-share', source.name);
-      notify({
+      notificationService.notify({
         icon: 'images/icons/v2/video-solid-24.svg',
         message: window.i18n('calling__presenting--notification-body'),
         onNotificationClick: () => {

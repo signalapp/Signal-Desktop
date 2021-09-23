@@ -112,6 +112,7 @@ import * as AttachmentDownloads from '../messageModifiers/AttachmentDownloads';
 import * as LinkPreview from '../types/LinkPreview';
 import { SignalService as Proto } from '../protobuf';
 import { normalMessageSendJobQueue } from '../jobs/normalMessageSendJobQueue';
+import { notificationService } from '../services/notifications';
 import type { PreviewType as OutgoingPreviewType } from '../textsecure/SendMessage';
 import * as log from '../logging/log';
 
@@ -3292,7 +3293,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     });
 
     // Remove any notifications for this message
-    window.Whisper.Notifications.removeBy({ messageId: this.get('id') });
+    notificationService.removeBy({ messageId: this.get('id') });
 
     // Erase the contents of this message
     await this.eraseContents(
@@ -3306,7 +3307,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   }
 
   clearNotifications(reaction: Partial<ReactionType> = {}): void {
-    window.Whisper.Notifications.removeBy({
+    notificationService.removeBy({
       ...reaction,
       messageId: this.id,
     });

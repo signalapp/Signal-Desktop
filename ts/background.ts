@@ -38,6 +38,7 @@ import { updateConversationsWithUuidLookup } from './updateConversationsWithUuid
 import { initializeAllJobQueues } from './jobs/initializeAllJobQueues';
 import { removeStorageKeyJobQueue } from './jobs/removeStorageKeyJobQueue';
 import { ourProfileKeyService } from './services/ourProfileKey';
+import { notificationService } from './services/notifications';
 import { shouldRespondWithProfileKey } from './util/shouldRespondWithProfileKey';
 import { LatestQueue } from './util/LatestQueue';
 import { parseIntOrThrow } from './util/parseIntOrThrow';
@@ -139,6 +140,10 @@ export async function startApp(): Promise<void> {
   window.Signal.Util.MessageController.install();
   window.Signal.conversationControllerStart();
   window.startupProcessingQueue = new window.Signal.Util.StartupQueue();
+  notificationService.initialize({
+    i18n: window.i18n,
+    storage: window.storage,
+  });
   window.attachmentDownloadQueue = [];
   try {
     log.info('Initializing SQL in renderer');
@@ -1768,12 +1773,10 @@ export async function startApp(): Promise<void> {
       }
     });
 
-    window.registerForActive(() => window.Whisper.Notifications.clear());
-    window.addEventListener('unload', () =>
-      window.Whisper.Notifications.fastClear()
-    );
+    window.registerForActive(() => notificationService.clear());
+    window.addEventListener('unload', () => notificationService.fastClear());
 
-    window.Whisper.Notifications.on('click', (id, messageId) => {
+    notificationService.on('click', (id, messageId) => {
       window.showWindow();
       if (id) {
         window.Whisper.events.trigger('showConversation', id, messageId);
@@ -2062,7 +2065,7 @@ export async function startApp(): Promise<void> {
       profileKeyResponseQueue.pause();
       lightSessionResetQueue.pause();
       window.Whisper.deliveryReceiptQueue.pause();
-      window.Whisper.Notifications.disable();
+      notificationService.disable();
 
       window.Signal.Services.initializeGroupCredentialFetcher();
 
@@ -2314,7 +2317,7 @@ export async function startApp(): Promise<void> {
     profileKeyResponseQueue.start();
     lightSessionResetQueue.start();
     window.Whisper.deliveryReceiptQueue.start();
-    window.Whisper.Notifications.enable();
+    notificationService.enable();
 
     await onAppView;
 
@@ -2378,7 +2381,7 @@ export async function startApp(): Promise<void> {
     profileKeyResponseQueue.pause();
     lightSessionResetQueue.pause();
     window.Whisper.deliveryReceiptQueue.pause();
-    window.Whisper.Notifications.disable();
+    notificationService.disable();
   }
 
   let initialStartupCount = 0;

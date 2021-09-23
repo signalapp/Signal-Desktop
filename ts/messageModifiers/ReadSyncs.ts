@@ -1,4 +1,4 @@
-// Copyright 2017-2020 Signal Messenger, LLC
+// Copyright 2017-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable max-classes-per-file */
@@ -8,6 +8,7 @@ import { Collection, Model } from 'backbone';
 import { MessageModel } from '../models/messages';
 import { isIncoming } from '../state/selectors/message';
 import { isMessageUnread } from '../util/isMessageUnread';
+import { notificationService } from '../services/notifications';
 import * as log from '../logging/log';
 
 type ReadSyncAttributesType = {
@@ -39,7 +40,7 @@ async function maybeItIsAReactionReadSync(sync: ReadSyncModel): Promise<void> {
     return;
   }
 
-  window.Whisper.Notifications.removeBy({
+  notificationService.removeBy({
     conversationId: readReaction.conversationId,
     emoji: readReaction.emoji,
     targetAuthorUuid: readReaction.targetAuthorUuid,
@@ -99,7 +100,7 @@ export class ReadSyncs extends Collection {
         return;
       }
 
-      window.Whisper.Notifications.removeBy({ messageId: found.id });
+      notificationService.removeBy({ messageId: found.id });
 
       const message = window.MessageController.register(found.id, found);
       const readAt = Math.min(sync.get('readAt'), Date.now());

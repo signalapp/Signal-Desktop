@@ -176,6 +176,7 @@ declare global {
     baseAttachmentsPath: string;
     baseStickersPath: string;
     baseTempPath: string;
+    drawAttention: () => void;
     enterKeyboardMode: () => void;
     enterMouseMode: () => void;
     getAccountManager: () => AccountManager;
@@ -588,20 +589,6 @@ export type WhisperType = {
       context: string,
       error: DOMException | null,
       reject: Function
-    ) => void;
-  };
-
-  Notifications: {
-    isEnabled: boolean;
-    removeBy: (filter: Partial<unknown>) => void;
-    add: (notification: unknown) => void;
-    clear: () => void;
-    disable: () => void;
-    enable: () => void;
-    fastClear: () => void;
-    on: (
-      event: string,
-      callback: (id: string, messageId: string) => void
     ) => void;
   };
 

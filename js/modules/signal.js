@@ -14,7 +14,6 @@ const EmojiLib = require('../../ts/components/emoji/lib');
 const Groups = require('../../ts/groups');
 const GroupChange = require('../../ts/groupChange');
 const IndexedDB = require('./indexeddb');
-const Notifications = require('../../ts/notifications');
 const OS = require('../../ts/OS');
 const Stickers = require('../../ts/types/Stickers');
 const Settings = require('./settings');
@@ -159,7 +158,6 @@ const {
 const {
   initializeUpdateListener,
 } = require('../../ts/services/updateListener');
-const { notify } = require('../../ts/services/notify');
 const { calling } = require('../../ts/services/calling');
 const { onTimeout, removeTimeout } = require('../../ts/services/timers');
 const {
@@ -406,7 +404,6 @@ exports.setup = (options = {}) => {
     initializeNetworkObserver,
     initializeUpdateListener,
     onTimeout,
-    notify,
     removeTimeout,
     runStorageServiceSyncJob,
     storageServiceUploadJob,
@@ -454,7 +451,6 @@ exports.setup = (options = {}) => {
     GroupChange,
     IndexedDB,
     Migrations,
-    Notifications,
     OS,
     RemoteConfig,
     Settings,
