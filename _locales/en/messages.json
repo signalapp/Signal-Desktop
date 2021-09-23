@@ -3669,7 +3669,7 @@
     "description": "Title for picture-in-picture toggle"
   },
   "calling__pip--off": {
-    "message": "Full screen call",
+    "message": "Fullscreen call",
     "description": "Title for picture-in-picture toggle"
   },
   "calling__switch-view--to-grid": {
