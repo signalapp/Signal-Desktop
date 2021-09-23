@@ -1,6 +1,12 @@
 import _ from 'lodash';
 import { SignalService } from '../../protobuf';
-import { answerCall, callConnected, endCall, incomingCall } from '../../state/ducks/conversations';
+import {
+  answerCall,
+  callConnected,
+  endCall,
+  incomingCall,
+  startingCallWith,
+} from '../../state/ducks/conversations';
 import { CallMessage } from '../messages/outgoing/controlMessage/CallMessage';
 import { ed25519Str } from '../onions/onionPath';
 import { getMessageQueue } from '../sending';
@@ -13,7 +19,7 @@ const callCache = new Map<string, Array<SignalService.CallMessage>>();
 
 let peerConnection: RTCPeerConnection | null;
 
-const ENABLE_VIDEO = false;
+const ENABLE_VIDEO = true;
 
 const configuration = {
   configuration: {
@@ -32,7 +38,7 @@ const configuration = {
 // tslint:disable-next-line: function-name
 export async function USER_callRecipient(recipient: string) {
   window?.log?.info(`starting call with ${ed25519Str(recipient)}..`);
-
+  window.inboxStore?.dispatch(startingCallWith({ pubkey: recipient }));
   if (peerConnection) {
     window.log.info('closing existing peerconnection');
     peerConnection.close();
@@ -50,7 +56,9 @@ export async function USER_callRecipient(recipient: string) {
       window.inboxStore?.dispatch(callConnected({ pubkey: recipient }));
     }
   });
-
+  peerConnection.addEventListener('ontrack', event => {
+    console.warn('ontrack:', event);
+  });
   peerConnection.addEventListener('icecandidate', event => {
     // window.log.warn('event.candidate', event.candidate);
 
@@ -58,6 +66,20 @@ export async function USER_callRecipient(recipient: string) {
       iceCandidates.push(event.candidate);
       void iceSenderDebouncer(recipient);
     }
+  });
+
+  const localVideo = document.querySelector('#video-local') as any;
+  if (localVideo) {
+    localVideo.srcObject = mediaDevices;
+  }
+  const remoteStream = new MediaStream();
+
+  peerConnection.addEventListener('track', event => {
+    const remoteVideo = document.querySelector('#video-remote') as any;
+    if (remoteVideo) {
+      remoteVideo.srcObject = remoteStream;
+    }
+    remoteStream.addTrack(event.track);
   });
 
   const offerDescription = await peerConnection.createOffer({
@@ -155,6 +177,7 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
     );
     return;
   }
+  window.inboxStore?.dispatch(answerCall({ pubkey: fromSender }));
 
   if (peerConnection) {
     window.log.info('closing existing peerconnection');
@@ -167,19 +190,20 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
     // window.log.info('USER_acceptIncomingCallRequest adding track ', track);
     peerConnection?.addTrack(track, mediaDevices);
   });
-  peerConnection.addEventListener('icecandidateerror', event => {
-    console.warn('icecandidateerror:', event);
-  });
 
-  peerConnection.addEventListener('negotiationneeded', event => {
-    console.warn('negotiationneeded:', event);
-  });
-  peerConnection.addEventListener('signalingstatechange', _event => {
-    // console.warn('signalingstatechange:', event);
-  });
+  const localVideo = document.querySelector('#video-local') as any;
+  if (localVideo) {
+    localVideo.srcObject = mediaDevices;
+  }
 
-  peerConnection.addEventListener('ontrack', event => {
-    console.warn('ontrack:', event);
+  const remoteStream = new MediaStream();
+
+  peerConnection.addEventListener('track', event => {
+    const remoteVideo = document.querySelector('#video-remote') as any;
+    if (remoteVideo) {
+      remoteVideo.srcObject = remoteStream;
+    }
+    remoteStream.addTrack(event.track);
   });
   peerConnection.addEventListener('connectionstatechange', _event => {
     window.log.info(
@@ -238,8 +262,6 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
   window.log.info('sending ANSWER MESSAGE');
 
   await getMessageQueue().sendToPubKeyNonDurably(PubKey.cast(fromSender), callAnswerMessage);
-
-  window.inboxStore?.dispatch(answerCall({ pubkey: fromSender }));
 }
 
 // tslint:disable-next-line: function-name
@@ -258,6 +280,14 @@ export async function USER_rejectIncomingCallRequest(fromSender: string) {
 
 export function handleEndCallMessage(sender: string) {
   callCache.delete(sender);
+  const remoteVideo = document.querySelector('#video-remote') as any;
+  if (remoteVideo) {
+    remoteVideo.srcObject = null;
+  }
+  const localVideo = document.querySelector('#video-local') as any;
+  if (localVideo) {
+    localVideo.srcObject = null;
+  }
   //
   // FIXME audric trigger UI cleanup
   window.inboxStore?.dispatch(endCall({ pubkey: sender }));

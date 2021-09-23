@@ -110,7 +110,8 @@ export const CallContainer = () => {
       <CallWindow>
         <CallWindowInner>
           <CallWindowHeader>{ongoingCallProps.name}</CallWindowHeader>
-          <VideoContainer />
+          <VideoContainer autoPlay={true} id="video-remote" />
+          <VideoContainer autoPlay={true} id="video-local" />
           <CallWindowControls>
             <SessionButton text={'end call'} onClick={handleEndCall} />
           </CallWindowControls>

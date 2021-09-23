@@ -824,6 +824,23 @@ const conversationsSlice = createSlice({
       void foundConvo.commit();
       return state;
     },
+    startingCallWith(state: ConversationsStateType, action: PayloadAction<{ pubkey: string }>) {
+      const callerPubkey = action.payload.pubkey;
+      const existingCallState = state.conversationLookup[callerPubkey].callState;
+      if (existingCallState && existingCallState !== 'none') {
+        return state;
+      }
+      const foundConvo = getConversationController().get(callerPubkey);
+      if (!foundConvo) {
+        return state;
+      }
+      // we have to update the model itself.
+      // not the db (as we dont want to store that field in it)
+      // and not the redux store directly as it gets overriden by the commit() of the conversationModel
+      foundConvo.callState = 'offering';
+      void foundConvo.commit();
+      return state;
+    },
   },
   extraReducers: (builder: any) => {
     // Add reducers for additional action types here, and handle loading state as needed
@@ -888,6 +905,7 @@ export const {
   endCall,
   answerCall,
   callConnected,
+  startingCallWith,
 } = actions;
 
 export async function openConversationWithMessages(args: {
