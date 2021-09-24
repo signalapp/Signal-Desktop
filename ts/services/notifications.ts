@@ -11,6 +11,7 @@ import {
 import * as OS from '../OS';
 import * as log from '../logging/log';
 import { makeEnumParser } from '../util/enum';
+import { missingCaseError } from '../util/missingCaseError';
 import type { StorageInterface } from '../types/Storage.d';
 import type { LocalizerType } from '../types/Util';
 
@@ -222,10 +223,7 @@ class NotificationService extends EventEmitter {
     // This isn't a boolean because TypeScript isn't smart enough to know that, if
     //   `Boolean(notificationData)` is true, `notificationData` is truthy.
     const shouldShowNotification =
-      this.isEnabled &&
-      !isAppFocused &&
-      notificationData &&
-      userSetting !== NotificationSetting.Off;
+      this.isEnabled && !isAppFocused && notificationData;
     if (!shouldShowNotification) {
       log.info('Not updating notifications');
       if (isAppFocused) {
@@ -234,13 +232,12 @@ class NotificationService extends EventEmitter {
       return;
     }
 
-    log.info('Showing a notification');
-
     const shouldDrawAttention = storage.get(
       'notification-draw-attention',
       true
     );
     if (shouldDrawAttention) {
+      log.info('Drawing attention');
       window.drawAttention();
     }
 
@@ -257,44 +254,51 @@ class NotificationService extends EventEmitter {
       reaction,
     } = notificationData;
 
-    if (
-      userSetting === NotificationSetting.NameOnly ||
-      userSetting === NotificationSetting.NameAndMessage
-    ) {
-      notificationTitle = senderTitle;
-      ({ notificationIconUrl } = notificationData);
+    switch (userSetting) {
+      case NotificationSetting.Off:
+        log.info('Not showing a notification because user has disabled it');
+        return;
+      case NotificationSetting.NameOnly:
+      case NotificationSetting.NameAndMessage: {
+        notificationTitle = senderTitle;
+        ({ notificationIconUrl } = notificationData);
 
-      const shouldHideExpiringMessageBody =
-        isExpiringMessage && (OS.isMacOS() || OS.isWindows());
-      if (shouldHideExpiringMessageBody) {
-        notificationMessage = i18n('newMessage');
-      } else if (userSetting === NotificationSetting.NameOnly) {
-        if (reaction) {
-          notificationMessage = i18n('notificationReaction', {
+        const shouldHideExpiringMessageBody =
+          isExpiringMessage && (OS.isMacOS() || OS.isWindows());
+        if (shouldHideExpiringMessageBody) {
+          notificationMessage = i18n('newMessage');
+        } else if (userSetting === NotificationSetting.NameOnly) {
+          if (reaction) {
+            notificationMessage = i18n('notificationReaction', {
+              sender: senderTitle,
+              emoji: reaction.emoji,
+            });
+          } else {
+            notificationMessage = i18n('newMessage');
+          }
+        } else if (reaction) {
+          notificationMessage = i18n('notificationReactionMessage', {
             sender: senderTitle,
             emoji: reaction.emoji,
+            message,
           });
         } else {
-          notificationMessage = i18n('newMessage');
+          notificationMessage = message;
         }
-      } else if (reaction) {
-        notificationMessage = i18n('notificationReactionMessage', {
-          sender: senderTitle,
-          emoji: reaction.emoji,
-          message,
-        });
-      } else {
-        notificationMessage = message;
+        break;
       }
-    } else {
-      if (userSetting !== NotificationSetting.NoNameOrMessage) {
-        window.SignalWindow.log.error(
-          `Error: Unknown user notification setting: '${userSetting}'`
-        );
-      }
-      notificationTitle = FALLBACK_NOTIFICATION_TITLE;
-      notificationMessage = i18n('newMessage');
+      case NotificationSetting.NoNameOrMessage:
+        notificationTitle = FALLBACK_NOTIFICATION_TITLE;
+        notificationMessage = i18n('newMessage');
+        break;
+      default:
+        log.error(missingCaseError(userSetting));
+        notificationTitle = FALLBACK_NOTIFICATION_TITLE;
+        notificationMessage = i18n('newMessage');
+        break;
     }
+
+    log.info('Showing a notification');
 
     this.notify({
       title: notificationTitle,
