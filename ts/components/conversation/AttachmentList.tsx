@@ -71,7 +71,7 @@ export const AttachmentList = ({
               attachments.length > 1 ? onClickAttachment : undefined;
 
             const imageUrl =
-              isVideo && !attachment.screenshot ? BLANK_VIDEO_THUMBNAIL : url;
+              url || (isVideo ? BLANK_VIDEO_THUMBNAIL : undefined);
 
             return (
               <Image
