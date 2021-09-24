@@ -3,7 +3,11 @@
 
 import { assert } from 'chai';
 
-import { isOlderThan, isMoreRecentThan } from '../../util/timestamp';
+import {
+  isOlderThan,
+  isMoreRecentThan,
+  toDayMillis,
+} from '../../util/timestamp';
 
 const ONE_HOUR = 3600 * 1000;
 const ONE_DAY = 24 * ONE_HOUR;
@@ -33,5 +37,18 @@ describe('timestamp', () => {
         isMoreRecentThan(Date.now() - ONE_DAY - ONE_HOUR, ONE_DAY)
       );
     });
+  });
+
+  describe('toDayMillis', () => {
+    const now = new Date();
+    const today = new Date(toDayMillis(now.valueOf()));
+
+    assert.strictEqual(today.getUTCMilliseconds(), 0);
+    assert.strictEqual(today.getUTCHours(), 0);
+    assert.strictEqual(today.getUTCMinutes(), 0);
+    assert.strictEqual(today.getUTCSeconds(), 0);
+    assert.strictEqual(today.getUTCDate(), now.getUTCDate());
+    assert.strictEqual(today.getUTCMonth(), now.getUTCMonth());
+    assert.strictEqual(today.getUTCFullYear(), now.getUTCFullYear());
   });
 });

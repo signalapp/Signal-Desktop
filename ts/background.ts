@@ -28,7 +28,7 @@ import { filter } from './util/iterables';
 import { isNotNil } from './util/isNotNil';
 import { senderCertificateService } from './services/senderCertificate';
 import { routineProfileRefresh } from './routineProfileRefresh';
-import { isMoreRecentThan, isOlderThan } from './util/timestamp';
+import { isMoreRecentThan, isOlderThan, toDayMillis } from './util/timestamp';
 import { isValidReactionEmoji } from './reactions/isValidReactionEmoji';
 import { ConversationModel } from './models/conversations';
 import { getMessageById } from './messages/getMessageById';
@@ -672,7 +672,7 @@ export async function startApp(): Promise<void> {
     webFrame.setZoomFactor(window.Events.getZoomFactor());
 
     // How long since we were last running?
-    const lastHeartbeat = window.storage.get('lastHeartbeat', 0);
+    const lastHeartbeat = toDayMillis(window.storage.get('lastHeartbeat', 0));
     const previousLastStartup = window.storage.get('lastStartup');
     await window.storage.put('lastStartup', Date.now());
 
@@ -685,10 +685,10 @@ export async function startApp(): Promise<void> {
     }
 
     // Start heartbeat timer
-    window.storage.put('lastHeartbeat', Date.now());
+    window.storage.put('lastHeartbeat', toDayMillis(Date.now()));
     const TWELVE_HOURS = 12 * 60 * 60 * 1000;
     setInterval(
-      () => window.storage.put('lastHeartbeat', Date.now()),
+      () => window.storage.put('lastHeartbeat', toDayMillis(Date.now())),
       TWELVE_HOURS
     );
 
