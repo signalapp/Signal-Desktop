@@ -23,7 +23,7 @@ export const Toast = ({
   disableCloseOnClick = false,
   onClick,
   onClose,
-  timeout = 2000,
+  timeout = 8000,
 }: PropsType): JSX.Element | null => {
   const [root, setRoot] = React.useState<HTMLElement | null>(null);
 

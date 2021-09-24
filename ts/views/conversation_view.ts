@@ -1,16 +1,13 @@
 // Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import nodePath from 'path';
 import { unstable_batchedUpdates as batchedUpdates } from 'react-dom';
-import { debounce, flatten, omit, pick, reject, throttle } from 'lodash';
+import { debounce, flatten, omit, throttle } from 'lodash';
 import { render } from 'mustache';
 
 import {
   AttachmentDraftType,
   AttachmentType,
-  InMemoryAttachmentDraftType,
-  OnDiskAttachmentDraftType,
   isGIF,
 } from '../types/Attachment';
 import * as Attachment from '../types/Attachment';
@@ -20,8 +17,6 @@ import { BodyRangeType, BodyRangesType } from '../types/Util';
 import {
   IMAGE_JPEG,
   IMAGE_WEBP,
-  IMAGE_PNG,
-  isHeic,
   MIMEType,
   stringToMIMEType,
 } from '../types/MIME';
@@ -41,7 +36,6 @@ import {
 import { MessageModel } from '../models/messages';
 import { strictAssert } from '../util/assert';
 import { maybeParseUrl } from '../util/url';
-import { replaceIndex } from '../util/replaceIndex';
 import { addReportSpamJob } from '../jobs/helpers/addReportSpamJob';
 import { reportSpamJobQueue } from '../jobs/reportSpamJobQueue';
 import { GroupNameCollisionsWithIdsByTitle } from '../util/groupMemberNameCollisions';
@@ -72,17 +66,13 @@ import {
 } from '../types/LinkPreview';
 import * as LinkPreview from '../types/LinkPreview';
 import { SignalService as Proto } from '../protobuf';
-import {
-  autoScale,
-  handleImageAttachment,
-} from '../util/handleImageAttachment';
+import { autoScale } from '../util/handleImageAttachment';
 import { ReadStatus } from '../messages/MessageReadStatus';
 import { markViewed } from '../services/MessageUpdater';
 import { viewedReceiptsJobQueue } from '../jobs/viewedReceiptsJobQueue';
 import { viewSyncJobQueue } from '../jobs/viewSyncJobQueue';
 import type { EmbeddedContactType } from '../types/EmbeddedContact';
 import * as VisualAttachment from '../types/VisualAttachment';
-import * as MIME from '../types/MIME';
 import type { AnyViewClass, BasicReactWrapperViewClass } from '../window.d';
 import { isNotNil } from '../util/isNotNil';
 import { dropNull } from '../util/dropNull';
@@ -93,7 +83,6 @@ import { ToastCannotStartGroupCall } from '../components/ToastCannotStartGroupCa
 import { showToast } from '../util/showToast';
 import { ToastBlocked } from '../components/ToastBlocked';
 import { ToastBlockedGroup } from '../components/ToastBlockedGroup';
-import { ToastCannotMixImageAndNonImageAttachments } from '../components/ToastCannotMixImageAndNonImageAttachments';
 import { ToastConversationArchived } from '../components/ToastConversationArchived';
 import { ToastConversationMarkedUnread } from '../components/ToastConversationMarkedUnread';
 import { ToastConversationUnarchived } from '../components/ToastConversationUnarchived';
@@ -101,23 +90,26 @@ import { ToastDangerousFileType } from '../components/ToastDangerousFileType';
 import { ToastDeleteForEveryoneFailed } from '../components/ToastDeleteForEveryoneFailed';
 import { ToastExpired } from '../components/ToastExpired';
 import { ToastFileSaved } from '../components/ToastFileSaved';
-import { ToastFileSize } from '../components/ToastFileSize';
 import { ToastInvalidConversation } from '../components/ToastInvalidConversation';
 import { ToastLeftGroup } from '../components/ToastLeftGroup';
-import { ToastMaxAttachments } from '../components/ToastMaxAttachments';
 import { ToastMessageBodyTooLong } from '../components/ToastMessageBodyTooLong';
-import { ToastOneNonImageAtATime } from '../components/ToastOneNonImageAtATime';
 import { ToastOriginalMessageNotFound } from '../components/ToastOriginalMessageNotFound';
 import { ToastPinnedConversationsFull } from '../components/ToastPinnedConversationsFull';
 import { ToastReactionFailed } from '../components/ToastReactionFailed';
 import { ToastReportedSpamAndBlocked } from '../components/ToastReportedSpamAndBlocked';
 import { ToastTapToViewExpiredIncoming } from '../components/ToastTapToViewExpiredIncoming';
 import { ToastTapToViewExpiredOutgoing } from '../components/ToastTapToViewExpiredOutgoing';
-import { ToastUnableToLoadAttachment } from '../components/ToastUnableToLoadAttachment';
 import { ToastVoiceNoteLimit } from '../components/ToastVoiceNoteLimit';
 import { ToastVoiceNoteMustBeOnlyAttachment } from '../components/ToastVoiceNoteMustBeOnlyAttachment';
 import { copyGroupLink } from '../util/copyGroupLink';
-import { isAttachmentSizeOkay } from '../util/isAttachmentSizeOkay';
+import { fileToBytes } from '../util/fileToBytes';
+import { AttachmentToastType } from '../types/AttachmentToastType';
+import { ToastCannotMixImageAndNonImageAttachments } from '../components/ToastCannotMixImageAndNonImageAttachments';
+import { ToastFileSize } from '../components/ToastFileSize';
+import { ToastMaxAttachments } from '../components/ToastMaxAttachments';
+import { ToastOneNonImageAtATime } from '../components/ToastOneNonImageAtATime';
+import { ToastUnableToLoadAttachment } from '../components/ToastUnableToLoadAttachment';
+import { deleteDraftAttachment } from '../util/deleteDraftAttachment';
 
 type AttachmentOptions = {
   messageId: string;
@@ -134,10 +126,8 @@ const { Message } = window.Signal.Types;
 
 const {
   copyIntoTempDirectory,
-  deleteDraftFile,
   deleteTempFile,
   getAbsoluteAttachmentPath,
-  getAbsoluteDraftPath,
   getAbsoluteTempPath,
   loadAttachmentData,
   loadPreviewData,
@@ -147,7 +137,6 @@ const {
   readDraftData,
   saveAttachmentToDisk,
   upgradeMessageSchema,
-  writeNewDraftData,
 } = window.Signal.Migrations;
 
 const {
@@ -543,7 +532,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         caretLocation?: number
       ) => this.onEditorStateChange(msg, bodyRanges, caretLocation),
       onTextTooLong: () => showToast(ToastMessageBodyTooLong),
-      onChooseAttachment: this.onChooseAttachment.bind(this),
       getQuotedMessage: () => this.model.get('quotedMessageId'),
       clearQuotedMessage: () => this.setQuoteMessage(null),
       micCellEl,
@@ -595,9 +583,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         });
       },
 
-      onAddAttachment: this.onChooseAttachment.bind(this),
       onClickAttachment: this.onClickAttachment.bind(this),
-      onCloseAttachment: this.removeDraftAttachment.bind(this),
       onClearAttachments: this.clearAttachments.bind(this),
       onSelectMediaQuality: (isHQ: boolean) => {
         window.reduxActions.composer.setMediaQualitySetting(isHQ);
@@ -1320,20 +1306,59 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
   }
 
   onChooseAttachment(): void {
+    // TODO: DESKTOP-2425
     this.$('input.file-input').click();
   }
+
   async onChoseAttachment(): Promise<void> {
     const fileField = this.$('input.file-input');
-    const files = fileField.prop('files');
-
-    for (let i = 0, max = files.length; i < max; i += 1) {
-      const file = files[i];
-      // eslint-disable-next-line no-await-in-loop
-      await this.maybeAddAttachment(file);
-      this.toggleMicrophone();
-    }
+    const files: Array<File> = Array.from(fileField.prop('files'));
 
     fileField.val([]);
+
+    await this.processAttachments(files);
+  }
+
+  // TODO DESKTOP-2426
+  async processAttachments(files: Array<File>): Promise<void> {
+    const {
+      addAttachment,
+      addPendingAttachment,
+      processAttachments,
+      removeAttachment,
+    } = window.reduxActions.composer;
+
+    await processAttachments({
+      addAttachment,
+      addPendingAttachment,
+      conversationId: this.model.id,
+      draftAttachments: this.model.get('draftAttachments') || [],
+      files,
+      onShowToast: (toastType: AttachmentToastType) => {
+        if (toastType === AttachmentToastType.ToastFileSize) {
+          showToast(ToastFileSize, {
+            limit: 100,
+            units: 'MB',
+          });
+        } else if (toastType === AttachmentToastType.ToastDangerousFileType) {
+          showToast(ToastDangerousFileType);
+        } else if (toastType === AttachmentToastType.ToastMaxAttachments) {
+          showToast(ToastMaxAttachments);
+        } else if (toastType === AttachmentToastType.ToastOneNonImageAtATime) {
+          showToast(ToastOneNonImageAtATime);
+        } else if (
+          toastType ===
+          AttachmentToastType.ToastCannotMixImageAndNonImageAttachments
+        ) {
+          showToast(ToastCannotMixImageAndNonImageAttachments);
+        } else if (
+          toastType === AttachmentToastType.ToastUnableToLoadAttachment
+        ) {
+          showToast(ToastUnableToLoadAttachment);
+        }
+      },
+      removeAttachment,
+    });
   }
 
   unload(reason: string): void {
@@ -1419,10 +1444,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     e.preventDefault();
 
     const { files } = event.dataTransfer;
-    for (let i = 0, max = files.length; i < max; i += 1) {
-      const file = files[i];
-      this.maybeAddAttachment(file);
-    }
+    this.processAttachments(Array.from(files));
   }
 
   onPaste(e: JQuery.TriggeredEvent): void {
@@ -1445,14 +1467,17 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     e.stopPropagation();
     e.preventDefault();
 
+    const files: Array<File> = [];
     for (let i = 0; i < items.length; i += 1) {
       if (items[i].type.split('/')[0] === 'image') {
         const file = items[i].getAsFile();
         if (file) {
-          this.maybeAddAttachment(file);
+          files.push(file);
         }
       }
     }
+
+    this.processAttachments(files);
   }
 
   syncMessageRequestResponse(
@@ -1511,7 +1536,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     const onSave = (caption?: string) => {
       const attachments = this.model.get('draftAttachments') || [];
       this.model.set({
-        draftAttachments: attachments.map((item: OnDiskAttachmentDraftType) => {
+        draftAttachments: attachments.map((item: AttachmentType) => {
           if (item.pending || attachment.pending) {
             return item;
           }
@@ -1551,96 +1576,8 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     window.Signal.Backbone.Views.Lightbox.show(this.captionEditorView.el);
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  async deleteDraftAttachment(
-    attachment: Pick<AttachmentType, 'screenshotPath' | 'path'>
-  ): Promise<void> {
-    if (attachment.screenshotPath) {
-      await deleteDraftFile(attachment.screenshotPath);
-    }
-    if (attachment.path) {
-      await deleteDraftFile(attachment.path);
-    }
-  }
-
   async saveModel(): Promise<void> {
     window.Signal.Data.updateConversation(this.model.attributes);
-  }
-
-  async addAttachment(attachment: InMemoryAttachmentDraftType): Promise<void> {
-    const onDisk = await this.writeDraftAttachment(attachment);
-
-    // Remove any pending attachments that were transcoding
-    const draftAttachments = this.model.get('draftAttachments') || [];
-    const index = draftAttachments.findIndex(
-      draftAttachment => draftAttachment.path === attachment.path
-    );
-    if (index < 0) {
-      log.warn(
-        `addAttachment: Failed to find pending attachment with path ${attachment.path}`
-      );
-      this.model.set({
-        draftAttachments: [...draftAttachments, onDisk],
-      });
-    } else {
-      this.model.set({
-        draftAttachments: replaceIndex(draftAttachments, index, onDisk),
-      });
-    }
-    this.updateAttachmentsView();
-
-    await this.saveModel();
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  resolveOnDiskAttachment(
-    attachment: OnDiskAttachmentDraftType
-  ): AttachmentDraftType {
-    let url = '';
-    if (attachment.pending) {
-      return attachment;
-    }
-
-    if (attachment.screenshotPath) {
-      url = getAbsoluteDraftPath(attachment.screenshotPath);
-    } else if (attachment.path) {
-      url = getAbsoluteDraftPath(attachment.path);
-    } else {
-      log.warn(
-        'resolveOnDiskAttachment: Attachment was missing both screenshotPath and path fields'
-      );
-    }
-    return {
-      ...pick(attachment, [
-        'blurHash',
-        'caption',
-        'contentType',
-        'fileName',
-        'path',
-        'size',
-      ]),
-      pending: false,
-      url,
-    };
-  }
-
-  async removeDraftAttachment(
-    attachment: Pick<AttachmentType, 'path' | 'screenshotPath'>
-  ): Promise<void> {
-    const draftAttachments = this.model.get('draftAttachments') || [];
-
-    this.model.set({
-      draftAttachments: reject(
-        draftAttachments,
-        item => item.path === attachment.path
-      ),
-      draftChanged: true,
-    });
-
-    this.updateAttachmentsView();
-
-    await this.saveModel();
-    await this.deleteDraftAttachment(attachment);
   }
 
   async clearAttachments(): Promise<void> {
@@ -1658,9 +1595,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     await Promise.all([
       this.saveModel(),
       Promise.all(
-        draftAttachments.map(attachment =>
-          this.deleteDraftAttachment(attachment)
-        )
+        draftAttachments.map(attachment => deleteDraftAttachment(attachment))
       ),
     ]);
   }
@@ -1690,9 +1625,13 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
   // eslint-disable-next-line class-methods-use-this
   async getFile(
-    attachment?: OnDiskAttachmentDraftType
+    attachment?: AttachmentType
   ): Promise<AttachmentType | undefined> {
     if (!attachment || attachment.pending) {
+      return;
+    }
+
+    if (!attachment.path) {
       return;
     }
 
@@ -1710,228 +1649,14 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     };
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  bytesFromFile(file: Blob): Promise<Uint8Array> {
-    return new Promise((resolve, rejectPromise) => {
-      const FR = new FileReader();
-      FR.onload = () => {
-        if (!FR.result || typeof FR.result === 'string') {
-          rejectPromise(new Error('bytesFromFile: No result!'));
-          return;
-        }
-        resolve(new Uint8Array(FR.result));
-      };
-      FR.onerror = rejectPromise;
-      FR.onabort = rejectPromise;
-      FR.readAsArrayBuffer(file);
-    });
-  }
-
   updateAttachmentsView(): void {
     const draftAttachments = this.model.get('draftAttachments') || [];
     window.reduxActions.composer.replaceAttachments(
       this.model.get('id'),
-      draftAttachments.map((att: OnDiskAttachmentDraftType) =>
-        this.resolveOnDiskAttachment(att)
-      )
+      draftAttachments
     );
-    this.toggleMicrophone();
     if (this.hasFiles({ includePending: true })) {
       this.removeLinkPreview();
-    }
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  async writeDraftAttachment(
-    attachment: InMemoryAttachmentDraftType
-  ): Promise<OnDiskAttachmentDraftType> {
-    if (attachment.pending) {
-      throw new Error('writeDraftAttachment: Cannot write pending attachment');
-    }
-
-    const result: OnDiskAttachmentDraftType = {
-      ...omit(attachment, ['data', 'screenshotData']),
-      pending: false,
-    };
-    if (attachment.data) {
-      result.path = await writeNewDraftData(attachment.data);
-    }
-    if (attachment.screenshotData) {
-      result.screenshotPath = await writeNewDraftData(
-        attachment.screenshotData
-      );
-    }
-    return result;
-  }
-
-  async maybeAddAttachment(file: File): Promise<void> {
-    if (!file) {
-      return;
-    }
-
-    const MB = 1000 * 1024;
-    if (file.size > 100 * MB) {
-      showToast(ToastFileSize, {
-        limit: 100,
-        units: 'MB',
-      });
-      return;
-    }
-
-    if (window.Signal.Util.isFileDangerous(file.name)) {
-      showToast(ToastDangerousFileType);
-      return;
-    }
-
-    const draftAttachments = this.model.get('draftAttachments') || [];
-    if (draftAttachments.length >= 32) {
-      showToast(ToastMaxAttachments);
-      return;
-    }
-
-    const haveNonImage = draftAttachments.some(
-      (attachment: OnDiskAttachmentDraftType) =>
-        !MIME.isImage(attachment.contentType)
-    );
-    // You can't add another attachment if you already have a non-image staged
-    if (haveNonImage) {
-      showToast(ToastOneNonImageAtATime);
-      return;
-    }
-
-    const fileType = stringToMIMEType(file.type);
-
-    // You can't add a non-image attachment if you already have attachments staged
-    if (!MIME.isImage(fileType) && draftAttachments.length > 0) {
-      showToast(ToastCannotMixImageAndNonImageAttachments);
-      return;
-    }
-
-    // Add a pending attachment since async processing happens below
-    const path = file.name;
-    const fileName = nodePath.parse(file.name).name;
-    this.model.set({
-      draftAttachments: [
-        ...draftAttachments,
-        {
-          contentType: fileType,
-          fileName,
-          path,
-          pending: true,
-        },
-      ],
-    });
-    this.updateAttachmentsView();
-
-    let attachment: InMemoryAttachmentDraftType;
-    try {
-      if (
-        window.Signal.Util.GoogleChrome.isImageTypeSupported(fileType) ||
-        isHeic(fileType)
-      ) {
-        attachment = await handleImageAttachment(file);
-
-        const hasDraftAttachmentPending = (
-          this.model.get('draftAttachments') || []
-        ).some(
-          draftAttachment =>
-            draftAttachment.pending && draftAttachment.path === path
-        );
-
-        // User has canceled the draft so we don't need to continue processing
-        if (!hasDraftAttachmentPending) {
-          return;
-        }
-      } else if (
-        window.Signal.Util.GoogleChrome.isVideoTypeSupported(fileType)
-      ) {
-        attachment = await this.handleVideoAttachment(file);
-      } else {
-        const data = await this.bytesFromFile(file);
-        attachment = {
-          contentType: fileType,
-          data,
-          fileName: file.name,
-          path: file.name,
-          pending: false,
-          size: data.byteLength,
-        };
-      }
-    } catch (e) {
-      log.error(
-        `Was unable to generate thumbnail for fileType ${fileType}`,
-        e && e.stack ? e.stack : e
-      );
-      const data = await this.bytesFromFile(file);
-      attachment = {
-        contentType: fileType,
-        data,
-        fileName: file.name,
-        path: file.name,
-        pending: false,
-        size: data.byteLength,
-      };
-    }
-
-    try {
-      if (!isAttachmentSizeOkay(attachment)) {
-        this.removeDraftAttachment(attachment);
-      }
-    } catch (error) {
-      log.error(
-        'Error ensuring that image is properly sized:',
-        error && error.stack ? error.stack : error
-      );
-
-      this.removeDraftAttachment(attachment);
-      showToast(ToastUnableToLoadAttachment);
-      return;
-    }
-
-    try {
-      await this.addAttachment(attachment);
-    } catch (error) {
-      log.error(
-        'Error saving draft attachment:',
-        error && error.stack ? error.stack : error
-      );
-
-      showToast(ToastUnableToLoadAttachment);
-    }
-  }
-
-  async handleVideoAttachment(
-    file: Readonly<File>
-  ): Promise<InMemoryAttachmentDraftType> {
-    const objectUrl = URL.createObjectURL(file);
-    if (!objectUrl) {
-      throw new Error('Failed to create object url for video!');
-    }
-    try {
-      const screenshotContentType = IMAGE_PNG;
-      const screenshotBlob = await VisualAttachment.makeVideoScreenshot({
-        objectUrl,
-        contentType: screenshotContentType,
-        logger: log,
-      });
-      const screenshotData = await VisualAttachment.blobToArrayBuffer(
-        screenshotBlob
-      );
-      const data = await this.bytesFromFile(file);
-
-      return {
-        contentType: stringToMIMEType(file.type),
-        data,
-        fileName: file.name,
-        path: file.name,
-        pending: false,
-        screenshotContentType,
-        screenshotData: new Uint8Array(screenshotData),
-        screenshotSize: screenshotData.byteLength,
-        size: data.byteLength,
-      };
-    } finally {
-      URL.revokeObjectURL(objectUrl);
     }
   }
 
@@ -1955,12 +1680,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     untrusted: ReadonlyArray<ConversationModel>
   ): Promise<void> {
     await Promise.all(untrusted.map(contact => contact.setApproved()));
-  }
-
-  toggleMicrophone(): void {
-    this.compositionApi.current?.setShowMic(
-      !this.hasFiles({ includePending: true })
-    );
   }
 
   captureAudio(e?: Event): void {
@@ -2019,7 +1738,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       throw new Error('A voice note cannot be sent with other attachments');
     }
 
-    const data = await this.bytesFromFile(blob);
+    const data = await fileToBytes(blob);
 
     // These aren't persisted to disk; they are meant to be sent immediately
     this.voiceNoteAttachment = {
@@ -4097,7 +3816,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
           fileName: title,
         });
 
-        const data = await this.bytesFromFile(withBlob.file);
+        const data = await fileToBytes(withBlob.file);
         objectUrl = URL.createObjectURL(withBlob.file);
 
         const blurHash = await window.imageToBlurHash(withBlob.file);

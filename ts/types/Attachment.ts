@@ -55,6 +55,7 @@ export type AttachmentType = {
     contentType: MIME.MIMEType;
     path: string;
   };
+  screenshotData?: Uint8Array;
   screenshotPath?: string;
   flags?: number;
   thumbnail?: ThumbnailType;
@@ -88,19 +89,6 @@ export type InMemoryAttachmentDraftType =
       data?: Uint8Array;
       pending: false;
       screenshotData?: Uint8Array;
-    } & BaseAttachmentDraftType)
-  | {
-      contentType: MIME.MIMEType;
-      fileName: string;
-      path: string;
-      pending: true;
-    };
-
-export type OnDiskAttachmentDraftType =
-  | ({
-      caption?: string;
-      pending: false;
-      screenshotPath?: string;
     } & BaseAttachmentDraftType)
   | {
       contentType: MIME.MIMEType;

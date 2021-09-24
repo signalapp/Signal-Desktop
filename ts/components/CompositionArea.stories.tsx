@@ -30,15 +30,19 @@ const micCellEl = new DOMParser().parseFromString(
 ).body.firstElementChild as HTMLElement;
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
+  conversationId: '123',
   i18n,
   micCellEl,
-  onChooseAttachment: action('onChooseAttachment'),
+
+  addAttachment: action('addAttachment'),
+  addPendingAttachment: action('addPendingAttachment'),
+  processAttachments: action('processAttachments'),
+  removeAttachment: action('removeAttachment'),
+
   // AttachmentList
   draftAttachments: overrideProps.draftAttachments || [],
-  onAddAttachment: action('onAddAttachment'),
   onClearAttachments: action('onClearAttachments'),
   onClickAttachment: action('onClickAttachment'),
-  onCloseAttachment: action('onCloseAttachment'),
   // StagedLinkPreview
   linkPreviewLoading: Boolean(overrideProps.linkPreviewLoading),
   linkPreviewResult: overrideProps.linkPreviewResult,

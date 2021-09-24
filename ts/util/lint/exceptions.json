@@ -12290,22 +12290,6 @@
     "reasonDetail": "Our code, no user input, only clearing out the dom"
   },
   {
-    "rule": "React-useRef",
-    "path": "ts/components/CompositionArea.js",
-    "line": "    const inputApiRef = React.useRef();",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-10-26T19:12:24.410Z",
-    "reasonDetail": "Doesn't refer to a DOM element."
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/CompositionArea.js",
-    "line": "    const micCellRef = React.useRef(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-10-26T19:12:24.410Z",
-    "reasonDetail": "Needed for the composition area."
-  },
-  {
     "rule": "DOM-innerHTML",
     "path": "ts/components/CompositionArea.tsx",
     "line": "  el.innerHTML = '';",
@@ -12316,16 +12300,23 @@
   {
     "rule": "React-useRef",
     "path": "ts/components/CompositionArea.tsx",
-    "line": "  const inputApiRef = React.useRef<InputApi | undefined>();",
+    "line": "  const micCellRef = useRef<HTMLDivElement>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-07-30T16:57:33.618Z"
   },
   {
     "rule": "React-useRef",
     "path": "ts/components/CompositionArea.tsx",
-    "line": "  const micCellRef = React.useRef<HTMLDivElement>(null);",
+    "line": "  const inputApiRef = useRef<InputApi | undefined>();",
     "reasonCategory": "usageTrusted",
-    "updated": "2021-07-30T16:57:33.618Z"
+    "updated": "2021-09-23T00:07:11.885Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CompositionArea.tsx",
+    "line": "  const fileInputRef = useRef<null | HTMLInputElement>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-09-23T00:07:11.885Z"
   },
   {
     "rule": "React-useRef",

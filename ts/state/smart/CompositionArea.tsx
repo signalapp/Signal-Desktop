@@ -78,6 +78,7 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
 
   return {
     // Base
+    conversationId: id,
     i18n: getIntl(state),
     // AttachmentsList
     draftAttachments,

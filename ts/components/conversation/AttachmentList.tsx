@@ -61,7 +61,7 @@ export const AttachmentList = ({
         {(attachments || []).map((attachment, index) => {
           const url = getUrl(attachment);
 
-          const key = url || attachment.fileName || index;
+          const key = url || attachment.path || attachment.fileName || index;
 
           const isImage = isImageAttachment(attachment);
           const isVideo = isVideoAttachment(attachment);

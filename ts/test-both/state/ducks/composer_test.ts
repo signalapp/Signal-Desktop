@@ -39,7 +39,9 @@ describe('both/state/ducks/composer', () => {
       const { replaceAttachments } = actions;
       const dispatch = sinon.spy();
 
-      const attachments: Array<AttachmentType> = [{ contentType: IMAGE_JPEG }];
+      const attachments: Array<AttachmentType> = [
+        { contentType: IMAGE_JPEG, pending: false, url: '' },
+      ];
       replaceAttachments('123', attachments)(
         dispatch,
         getRootStateFunction('123'),
