@@ -1680,14 +1680,11 @@ describe('both/state/selectors/conversations', () => {
           ...getEmptyState(),
           composer: {
             ...defaultSetGroupMetadataComposerState,
-            groupAvatar: new Uint8Array([1, 2, 3]).buffer,
+            groupAvatar: new Uint8Array([1, 2, 3]),
           },
         },
       };
-      assert.deepEqual(
-        getComposeGroupAvatar(state),
-        new Uint8Array([1, 2, 3]).buffer
-      );
+      assert.deepEqual(getComposeGroupAvatar(state), new Uint8Array([1, 2, 3]));
     });
   });
 

@@ -3,7 +3,7 @@
 
 import { AvatarColorMap, AvatarColorType } from '../types/Colors';
 import { AvatarDataType } from '../types/Avatar';
-import { canvasToArrayBuffer } from './canvasToArrayBuffer';
+import { canvasToBytes } from './canvasToBytes';
 import { getFittedFontSize } from './avatarTextSizeCalculator';
 
 const CANVAS_SIZE = 1024;
@@ -74,9 +74,9 @@ async function getFont(text: string): Promise<string> {
   return `${fontSize}px Inter`;
 }
 
-export async function avatarDataToArrayBuffer(
+export async function avatarDataToBytes(
   avatarData: AvatarDataType
-): Promise<ArrayBuffer> {
+): Promise<Uint8Array> {
   const canvas = document.createElement('canvas');
   canvas.width = CANVAS_SIZE;
   canvas.height = CANVAS_SIZE;
@@ -84,7 +84,7 @@ export async function avatarDataToArrayBuffer(
 
   if (!context) {
     throw new Error(
-      'avatarDataToArrayBuffer: could not get canvas rendering context'
+      'avatarDataToBytes: could not get canvas rendering context'
     );
   }
 
@@ -117,5 +117,5 @@ export async function avatarDataToArrayBuffer(
     setCanvasBackground(bg, context, canvas);
   }
 
-  return canvasToArrayBuffer(canvas);
+  return canvasToBytes(canvas);
 }

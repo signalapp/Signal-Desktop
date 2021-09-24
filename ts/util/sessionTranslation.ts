@@ -4,12 +4,8 @@
 import { get, isFinite, isInteger, isString } from 'lodash';
 
 import { signal } from '../protobuf/compiled';
-import {
-  bytesFromString,
-  deriveSecrets,
-  fromEncodedBinaryToArrayBuffer,
-  typedArrayToArrayBuffer,
-} from '../Crypto';
+import * as Bytes from '../Bytes';
+import { deriveSecrets } from '../Crypto';
 
 const { RecordStructure, SessionStructure } = signal.proto.storage;
 const { Chain } = SessionStructure;
@@ -75,16 +71,14 @@ type SessionRecordType = {
 };
 
 export type LocalUserDataType = {
-  identityKeyPublic: ArrayBuffer;
+  identityKeyPublic: Uint8Array;
   registrationId: number;
 };
 
-export function sessionStructureToArrayBuffer(
+export function sessionStructureToBytes(
   recordStructure: signal.proto.storage.RecordStructure
-): ArrayBuffer {
-  return typedArrayToArrayBuffer(
-    signal.proto.storage.RecordStructure.encode(recordStructure).finish()
-  );
+): Uint8Array {
+  return signal.proto.storage.RecordStructure.encode(recordStructure).finish();
 }
 
 export function sessionRecordToProtobuf(
@@ -139,7 +133,7 @@ function toProtobufSession(
   // Core Fields
 
   proto.aliceBaseKey = binaryToUint8Array(session, 'indexInfo.baseKey', 33);
-  proto.localIdentityPublic = new Uint8Array(ourData.identityKeyPublic);
+  proto.localIdentityPublic = ourData.identityKeyPublic;
   proto.localRegistrationId = ourData.registrationId;
 
   proto.previousCounter =
@@ -306,9 +300,9 @@ function toProtobufChain(
 
     const { cipherKey, macKey, iv } = translateMessageKey(key);
 
-    protoMessageKey.cipherKey = new Uint8Array(cipherKey);
-    protoMessageKey.macKey = new Uint8Array(macKey);
-    protoMessageKey.iv = new Uint8Array(iv);
+    protoMessageKey.cipherKey = cipherKey;
+    protoMessageKey.macKey = macKey;
+    protoMessageKey.iv = iv;
 
     return protoMessageKey;
   });
@@ -321,9 +315,9 @@ function toProtobufChain(
 const WHISPER_MESSAGE_KEYS = 'WhisperMessageKeys';
 
 function translateMessageKey(key: Uint8Array) {
-  const input = key.buffer;
-  const salt = new ArrayBuffer(32);
-  const info = bytesFromString(WHISPER_MESSAGE_KEYS);
+  const input = key;
+  const salt = new Uint8Array(32);
+  const info = Bytes.fromString(WHISPER_MESSAGE_KEYS);
 
   const [cipherKey, macKey, ivContainer] = deriveSecrets(input, salt, info);
 
@@ -349,14 +343,14 @@ function binaryToUint8Array(
     throw new Error(`binaryToUint8Array: String not found at path ${path}`);
   }
 
-  const buffer = fromEncodedBinaryToArrayBuffer(target);
+  const buffer = Bytes.fromBinary(target);
   if (length && buffer.byteLength !== length) {
     throw new Error(
       `binaryToUint8Array: Got unexpected length ${buffer.byteLength} instead of ${length} at path ${path}`
     );
   }
 
-  return new Uint8Array(buffer);
+  return buffer;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

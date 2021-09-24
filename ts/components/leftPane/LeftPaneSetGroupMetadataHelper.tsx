@@ -24,7 +24,7 @@ import {
 import { AvatarColors } from '../../types/Colors';
 
 export type LeftPaneSetGroupMetadataPropsType = {
-  groupAvatar: undefined | ArrayBuffer;
+  groupAvatar: undefined | Uint8Array;
   groupName: string;
   groupExpireTimer: number;
   hasError: boolean;
@@ -37,7 +37,7 @@ export type LeftPaneSetGroupMetadataPropsType = {
 /* eslint-disable class-methods-use-this */
 
 export class LeftPaneSetGroupMetadataHelper extends LeftPaneHelper<LeftPaneSetGroupMetadataPropsType> {
-  private readonly groupAvatar: undefined | ArrayBuffer;
+  private readonly groupAvatar: undefined | Uint8Array;
 
   private readonly groupName: string;
 
@@ -127,7 +127,7 @@ export class LeftPaneSetGroupMetadataHelper extends LeftPaneHelper<LeftPaneSetGr
     composeSaveAvatarToDisk: SaveAvatarToDiskActionType;
     createGroup: () => unknown;
     i18n: LocalizerType;
-    setComposeGroupAvatar: (_: undefined | ArrayBuffer) => unknown;
+    setComposeGroupAvatar: (_: undefined | Uint8Array) => unknown;
     setComposeGroupExpireTimer: (_: number) => void;
     setComposeGroupName: (_: string) => unknown;
     toggleComposeEditingAvatar: () => unknown;

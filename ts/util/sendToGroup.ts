@@ -12,7 +12,6 @@ import {
   SenderCertificate,
   UnidentifiedSenderMessageContent,
 } from '@signalapp/signal-client';
-import { typedArrayToArrayBuffer as toArrayBuffer } from '../Crypto';
 import * as Bytes from '../Bytes';
 import { senderCertificateService } from '../services/senderCertificate';
 import {
@@ -68,9 +67,6 @@ const MAX_RECURSION = 10;
 
 const ACCESS_KEY_LENGTH = 16;
 const ZERO_ACCESS_KEY = Bytes.toBase64(new Uint8Array(ACCESS_KEY_LENGTH));
-
-// TODO: remove once we move away from ArrayBuffers
-const FIXMEU8 = Uint8Array;
 
 // Public API:
 
@@ -453,16 +449,14 @@ export async function sendToGroupViaSenderKey(options: {
       contentHint,
       devices: devicesForSenderKey,
       distributionId,
-      contentMessage: toArrayBuffer(
-        Proto.Content.encode(contentMessage).finish()
-      ),
+      contentMessage: Proto.Content.encode(contentMessage).finish(),
       groupId,
     });
     const accessKeys = getXorOfAccessKeys(devicesForSenderKey);
 
     const result = await window.textsecure.messaging.sendWithSenderKey(
-      toArrayBuffer(messageBuffer),
-      toArrayBuffer(accessKeys),
+      messageBuffer,
+      accessKeys,
       timestamp,
       online
     );
@@ -554,9 +548,7 @@ export async function sendToGroupViaSenderKey(options: {
   if (normalSendRecipients.length === 0) {
     return {
       dataMessage: contentMessage.dataMessage
-        ? toArrayBuffer(
-            Proto.DataMessage.encode(contentMessage.dataMessage).finish()
-          )
+        ? Proto.DataMessage.encode(contentMessage.dataMessage).finish()
         : undefined,
       successfulIdentifiers: senderKeyRecipients,
       unidentifiedDeliveries: senderKeyRecipients,
@@ -617,9 +609,7 @@ export async function sendToGroupViaSenderKey(options: {
 
   return {
     dataMessage: contentMessage.dataMessage
-      ? toArrayBuffer(
-          Proto.DataMessage.encode(contentMessage.dataMessage).finish()
-        )
+      ? Proto.DataMessage.encode(contentMessage.dataMessage).finish()
       : undefined,
     errors: normalSendResult.errors,
     failoverIdentifiers: normalSendResult.failoverIdentifiers,
@@ -838,7 +828,7 @@ async function encryptForSenderKey({
   groupId,
 }: {
   contentHint: number;
-  contentMessage: ArrayBuffer;
+  contentMessage: Uint8Array;
   devices: Array<DeviceType>;
   distributionId: string;
   groupId: string;
@@ -857,7 +847,7 @@ async function encryptForSenderKey({
   );
   const ourAddress = getOurAddress();
   const senderKeyStore = new SenderKeys({ ourUuid });
-  const message = Buffer.from(padMessage(new FIXMEU8(contentMessage)));
+  const message = Buffer.from(padMessage(contentMessage));
 
   const ciphertextMessage = await window.textsecure.storage.protocol.enqueueSenderKeyJob(
     new QualifiedAddress(ourUuid, ourAddress),

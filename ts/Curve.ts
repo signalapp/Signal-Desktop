@@ -3,7 +3,8 @@
 
 import * as client from '@signalapp/signal-client';
 
-import { constantTimeEqual, typedArrayToArrayBuffer } from './Crypto';
+import * as Bytes from './Bytes';
+import { constantTimeEqual } from './Crypto';
 import {
   KeyPairType,
   CompatPreKeyType,
@@ -26,9 +27,9 @@ export function generateSignedPreKey(
   }
 
   if (
-    !(identityKeyPair.privKey instanceof ArrayBuffer) ||
+    !(identityKeyPair.privKey instanceof Uint8Array) ||
     identityKeyPair.privKey.byteLength !== 32 ||
-    !(identityKeyPair.pubKey instanceof ArrayBuffer) ||
+    !(identityKeyPair.pubKey instanceof Uint8Array) ||
     identityKeyPair.pubKey.byteLength !== 33
   ) {
     throw new TypeError(
@@ -63,24 +64,13 @@ export function generateKeyPair(): KeyPairType {
   const pubKey = privKey.getPublicKey();
 
   return {
-    privKey: typedArrayToArrayBuffer(privKey.serialize()),
-    pubKey: typedArrayToArrayBuffer(pubKey.serialize()),
+    privKey: privKey.serialize(),
+    pubKey: pubKey.serialize(),
   };
 }
 
-export function copyArrayBuffer(source: ArrayBuffer): ArrayBuffer {
-  const sourceArray = new Uint8Array(source);
-
-  const target = new ArrayBuffer(source.byteLength);
-  const targetArray = new Uint8Array(target);
-
-  targetArray.set(sourceArray, 0);
-
-  return target;
-}
-
-export function createKeyPair(incomingKey: ArrayBuffer): KeyPairType {
-  const copy = copyArrayBuffer(incomingKey);
+export function createKeyPair(incomingKey: Uint8Array): KeyPairType {
+  const copy = new Uint8Array(incomingKey);
   clampPrivateKey(copy);
   if (!constantTimeEqual(copy, incomingKey)) {
     log.warn('createKeyPair: incoming private key was not clamped!');
@@ -96,32 +86,31 @@ export function createKeyPair(incomingKey: ArrayBuffer): KeyPairType {
   const pubKey = privKey.getPublicKey();
 
   return {
-    privKey: typedArrayToArrayBuffer(privKey.serialize()),
-    pubKey: typedArrayToArrayBuffer(pubKey.serialize()),
+    privKey: privKey.serialize(),
+    pubKey: pubKey.serialize(),
   };
 }
 
 export function calculateAgreement(
-  pubKey: ArrayBuffer,
-  privKey: ArrayBuffer
-): ArrayBuffer {
+  pubKey: Uint8Array,
+  privKey: Uint8Array
+): Uint8Array {
   const privKeyBuffer = Buffer.from(privKey);
 
   const pubKeyObj = client.PublicKey.deserialize(
-    Buffer.concat([
-      Buffer.from([0x05]),
-      Buffer.from(validatePubKeyFormat(pubKey)),
-    ])
+    Buffer.from(
+      Bytes.concatenate([new Uint8Array([0x05]), validatePubKeyFormat(pubKey)])
+    )
   );
   const privKeyObj = client.PrivateKey.deserialize(privKeyBuffer);
   const sharedSecret = privKeyObj.agree(pubKeyObj);
-  return typedArrayToArrayBuffer(sharedSecret);
+  return sharedSecret;
 }
 
 export function verifySignature(
-  pubKey: ArrayBuffer,
-  message: ArrayBuffer,
-  signature: ArrayBuffer
+  pubKey: Uint8Array,
+  message: Uint8Array,
+  signature: Uint8Array
 ): boolean {
   const pubKeyBuffer = Buffer.from(pubKey);
   const messageBuffer = Buffer.from(message);
@@ -134,22 +123,21 @@ export function verifySignature(
 }
 
 export function calculateSignature(
-  privKey: ArrayBuffer,
-  plaintext: ArrayBuffer
-): ArrayBuffer {
+  privKey: Uint8Array,
+  plaintext: Uint8Array
+): Uint8Array {
   const privKeyBuffer = Buffer.from(privKey);
   const plaintextBuffer = Buffer.from(plaintext);
 
   const privKeyObj = client.PrivateKey.deserialize(privKeyBuffer);
   const signature = privKeyObj.sign(plaintextBuffer);
-  return typedArrayToArrayBuffer(signature);
+  return signature;
 }
 
-export function validatePubKeyFormat(pubKey: ArrayBuffer): ArrayBuffer {
+function validatePubKeyFormat(pubKey: Uint8Array): Uint8Array {
   if (
     pubKey === undefined ||
-    ((pubKey.byteLength !== 33 || new Uint8Array(pubKey)[0] !== 5) &&
-      pubKey.byteLength !== 32)
+    ((pubKey.byteLength !== 33 || pubKey[0] !== 5) && pubKey.byteLength !== 32)
   ) {
     throw new Error('Invalid public key');
   }
@@ -160,18 +148,16 @@ export function validatePubKeyFormat(pubKey: ArrayBuffer): ArrayBuffer {
   return pubKey;
 }
 
-export function setPublicKeyTypeByte(publicKey: ArrayBuffer): void {
-  const byteArray = new Uint8Array(publicKey);
-  byteArray[0] = 5;
+export function setPublicKeyTypeByte(publicKey: Uint8Array): void {
+  // eslint-disable-next-line no-param-reassign
+  publicKey[0] = 5;
 }
 
-export function clampPrivateKey(privateKey: ArrayBuffer): void {
-  const byteArray = new Uint8Array(privateKey);
-
-  // eslint-disable-next-line no-bitwise
-  byteArray[0] &= 248;
-  // eslint-disable-next-line no-bitwise
-  byteArray[31] &= 127;
-  // eslint-disable-next-line no-bitwise
-  byteArray[31] |= 64;
+export function clampPrivateKey(privateKey: Uint8Array): void {
+  // eslint-disable-next-line no-bitwise, no-param-reassign
+  privateKey[0] &= 248;
+  // eslint-disable-next-line no-bitwise, no-param-reassign
+  privateKey[31] &= 127;
+  // eslint-disable-next-line no-bitwise, no-param-reassign
+  privateKey[31] |= 64;
 }

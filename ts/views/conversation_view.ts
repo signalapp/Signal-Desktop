@@ -13,12 +13,14 @@ import {
   OnDiskAttachmentDraftType,
   isGIF,
 } from '../types/Attachment';
+import * as Attachment from '../types/Attachment';
 import type { StickerPackType as StickerPackDBType } from '../sql/Interface';
 import * as Stickers from '../types/Stickers';
 import { BodyRangeType, BodyRangesType } from '../types/Util';
 import {
   IMAGE_JPEG,
   IMAGE_WEBP,
+  IMAGE_PNG,
   isHeic,
   MIMEType,
   stringToMIMEType,
@@ -79,6 +81,8 @@ import { markViewed } from '../services/MessageUpdater';
 import { viewedReceiptsJobQueue } from '../jobs/viewedReceiptsJobQueue';
 import { viewSyncJobQueue } from '../jobs/viewSyncJobQueue';
 import type { EmbeddedContactType } from '../types/EmbeddedContact';
+import * as VisualAttachment from '../types/VisualAttachment';
+import * as MIME from '../types/MIME';
 import type { AnyViewClass, BasicReactWrapperViewClass } from '../window.d';
 import { isNotNil } from '../util/isNotNil';
 import { dropNull } from '../util/dropNull';
@@ -126,7 +130,7 @@ const LINK_PREVIEW_TIMEOUT = 60 * 1000;
 window.Whisper = window.Whisper || {};
 
 const { Whisper } = window;
-const { Message, MIME, VisualAttachment } = window.Signal.Types;
+const { Message } = window.Signal.Types;
 
 const {
   copyIntoTempDirectory,
@@ -1707,15 +1711,15 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  arrayBufferFromFile(file: Blob): Promise<ArrayBuffer> {
+  bytesFromFile(file: Blob): Promise<Uint8Array> {
     return new Promise((resolve, rejectPromise) => {
       const FR = new FileReader();
       FR.onload = () => {
         if (!FR.result || typeof FR.result === 'string') {
-          rejectPromise(new Error('arrayBufferFromFile: No result!'));
+          rejectPromise(new Error('bytesFromFile: No result!'));
           return;
         }
-        resolve(FR.result);
+        resolve(new Uint8Array(FR.result));
       };
       FR.onerror = rejectPromise;
       FR.onabort = rejectPromise;
@@ -1843,7 +1847,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       ) {
         attachment = await this.handleVideoAttachment(file);
       } else {
-        const data = await this.arrayBufferFromFile(file);
+        const data = await this.bytesFromFile(file);
         attachment = {
           contentType: fileType,
           data,
@@ -1858,7 +1862,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         `Was unable to generate thumbnail for fileType ${fileType}`,
         e && e.stack ? e.stack : e
       );
-      const data = await this.arrayBufferFromFile(file);
+      const data = await this.bytesFromFile(file);
       attachment = {
         contentType: fileType,
         data,
@@ -1904,7 +1908,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       throw new Error('Failed to create object url for video!');
     }
     try {
-      const screenshotContentType = 'image/png';
+      const screenshotContentType = IMAGE_PNG;
       const screenshotBlob = await VisualAttachment.makeVideoScreenshot({
         objectUrl,
         contentType: screenshotContentType,
@@ -1913,7 +1917,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       const screenshotData = await VisualAttachment.blobToArrayBuffer(
         screenshotBlob
       );
-      const data = await this.arrayBufferFromFile(file);
+      const data = await this.bytesFromFile(file);
 
       return {
         contentType: stringToMIMEType(file.type),
@@ -1922,7 +1926,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         path: file.name,
         pending: false,
         screenshotContentType,
-        screenshotData,
+        screenshotData: new Uint8Array(screenshotData),
         screenshotSize: screenshotData.byteLength,
         size: data.byteLength,
       };
@@ -2015,7 +2019,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       throw new Error('A voice note cannot be sent with other attachments');
     }
 
-    const data = await this.arrayBufferFromFile(blob);
+    const data = await this.bytesFromFile(blob);
 
     // These aren't persisted to disk; they are meant to be sent immediately
     this.voiceNoteAttachment = {
@@ -2431,7 +2435,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         message: Pick<MessageAttributesType, 'sent_at'>;
       }) => {
         const timestamp = message.sent_at;
-        const fullPath = await window.Signal.Types.Attachment.save({
+        const fullPath = await Attachment.save({
           attachment,
           readAttachmentData,
           saveAttachmentToDisk,
@@ -2627,7 +2631,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       return;
     }
 
-    const fullPath = await window.Signal.Types.Attachment.save({
+    const fullPath = await Attachment.save({
       attachment,
       readAttachmentData,
       saveAttachmentToDisk,
@@ -2836,7 +2840,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       message: MediaItemMessageType;
       index: number;
     }) => {
-      const fullPath = await window.Signal.Types.Attachment.save({
+      const fullPath = await Attachment.save({
         attachment,
         index: index + 1,
         readAttachmentData,
@@ -3900,8 +3904,8 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     const { id, key } = dataFromLink;
 
     try {
-      const keyBytes = window.Signal.Crypto.bytesFromHexString(key);
-      const keyBase64 = window.Signal.Crypto.arrayBufferToBase64(keyBytes);
+      const keyBytes = Bytes.fromHex(key);
+      const keyBase64 = Bytes.toBase64(keyBytes);
 
       const existing = Stickers.getStickerPack(id);
       if (!isPackDownloaded(existing)) {
@@ -4093,7 +4097,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
           fileName: title,
         });
 
-        const data = await this.arrayBufferFromFile(withBlob.file);
+        const data = await this.bytesFromFile(withBlob.file);
         objectUrl = URL.createObjectURL(withBlob.file);
 
         const blurHash = await window.imageToBlurHash(withBlob.file);
@@ -4107,7 +4111,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
           data,
           size: data.byteLength,
           ...dimensions,
-          contentType: withBlob.file.type,
+          contentType: stringToMIMEType(withBlob.file.type),
           blurHash,
         };
       } catch (error) {

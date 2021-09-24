@@ -19,7 +19,7 @@ const TEST_IMAGE = new Uint8Array(
     '89504e470d0a1a0a0000000d4948445200000008000000080103000000fec12cc800000006504c5445ff00ff00ff000c82e9800000001849444154085b633061a8638863a867f8c720c760c12000001a4302f4d81dd9870000000049454e44ae426082',
     2
   ).map(bytePair => parseInt(bytePair.join(''), 16))
-).buffer;
+);
 
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   avatarColor: overrideProps.avatarColor,

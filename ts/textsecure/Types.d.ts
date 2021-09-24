@@ -45,7 +45,7 @@ export type DeviceType = {
 export type CompatSignedPreKeyType = {
   keyId: number;
   keyPair: KeyPairType;
-  signature: ArrayBuffer;
+  signature: Uint8Array;
 };
 
 export type CompatPreKeyType = {
@@ -56,8 +56,8 @@ export type CompatPreKeyType = {
 // How we work with these types thereafter
 
 export type KeyPairType = {
-  privKey: ArrayBuffer;
-  pubKey: ArrayBuffer;
+  privKey: Uint8Array;
+  pubKey: Uint8Array;
 };
 
 export type OuterSignedPrekeyType = {
@@ -65,8 +65,8 @@ export type OuterSignedPrekeyType = {
   // eslint-disable-next-line camelcase
   created_at: number;
   keyId: number;
-  privKey: ArrayBuffer;
-  pubKey: ArrayBuffer;
+  privKey: Uint8Array;
+  pubKey: Uint8Array;
 };
 
 export type SessionResetsType = Record<string, number>;
@@ -231,7 +231,7 @@ export interface CallbackResultType {
   failoverIdentifiers?: Array<string>;
   errors?: Array<CustomError>;
   unidentifiedDeliveries?: Array<string>;
-  dataMessage?: ArrayBuffer;
+  dataMessage?: Uint8Array;
 
   // Fields necesary for send log save
   contentHint?: number;

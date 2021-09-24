@@ -6,7 +6,6 @@ import * as sinon from 'sinon';
 
 import { IMAGE_GIF, IMAGE_PNG } from '../../types/MIME';
 import { MessageAttributesType } from '../../model-types.d';
-import { stringToArrayBuffer } from '../../util/stringToArrayBuffer';
 import {
   Avatar,
   Email,
@@ -400,7 +399,7 @@ describe('Contact', () => {
               otherKey: 'otherValue',
               avatar: {
                 contentType: 'image/png',
-                data: stringToArrayBuffer('It’s easy if you try'),
+                data: Buffer.from('It’s easy if you try'),
               },
             } as unknown) as Avatar,
           },

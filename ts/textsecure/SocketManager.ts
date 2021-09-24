@@ -28,9 +28,6 @@ import { ConnectTimeoutError, HTTPError } from './Errors';
 import { handleStatusCode, translateError } from './Utils';
 import { WebAPICredentials, IRequestHandler } from './Types.d';
 
-// TODO: remove once we move away from ArrayBuffers
-const FIXMEU8 = Uint8Array;
-
 const TEN_SECONDS = 10 * durations.SECOND;
 
 const FIVE_MINUTES = 5 * durations.MINUTE;
@@ -289,7 +286,7 @@ export class SocketManager extends EventListener {
     } else if (body instanceof Uint8Array) {
       bodyBytes = body;
     } else if (body instanceof ArrayBuffer) {
-      bodyBytes = new FIXMEU8(body);
+      throw new Error('Unsupported body type: ArrayBuffer');
     } else if (typeof body === 'string') {
       bodyBytes = Bytes.fromString(body);
     } else {

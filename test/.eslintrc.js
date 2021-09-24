@@ -11,10 +11,7 @@ module.exports = {
 
   globals: {
     assert: true,
-    assertEqualArrayBuffers: true,
     getString: true,
-    hexToArrayBuffer: true,
-    stringToArrayBuffer: true,
   },
 
   parserOptions: {

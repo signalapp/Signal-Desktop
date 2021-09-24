@@ -465,7 +465,7 @@ async function getMessageSendData({
   mentions: undefined | BodyRangesType;
   messageTimestamp: number;
   preview: Array<PreviewType>;
-  profileKey: undefined | ArrayBuffer;
+  profileKey: undefined | Uint8Array;
   quote: WhatIsThis;
   sticker: WhatIsThis;
 }> {

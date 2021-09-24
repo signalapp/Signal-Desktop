@@ -42,7 +42,7 @@ export type AvatarIconType = GroupAvatarIconType | PersonalAvatarIconType;
 
 export type AvatarDataType = {
   id: number | string;
-  buffer?: ArrayBuffer;
+  buffer?: Uint8Array;
   color?: AvatarColorType;
   icon?: AvatarIconType;
   imagePath?: string;

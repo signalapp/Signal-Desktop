@@ -5,7 +5,6 @@ import { assert } from 'chai';
 import { Writer } from 'protobufjs';
 
 import * as Bytes from '../Bytes';
-import { typedArrayToArrayBuffer } from '../Crypto';
 import { SignalService as Proto } from '../protobuf';
 import { ContactBuffer, GroupBuffer } from '../textsecure/ContactsParser';
 
@@ -19,7 +18,7 @@ describe('ContactsParser', () => {
   }
 
   describe('ContactBuffer', () => {
-    function getTestBuffer(): ArrayBuffer {
+    function getTestBuffer(): Uint8Array {
       const avatarBuffer = generateAvatar();
 
       const contactInfoBuffer = Proto.ContactDetails.encode({
@@ -39,12 +38,12 @@ describe('ContactsParser', () => {
         chunks.push(avatarBuffer);
       }
 
-      return typedArrayToArrayBuffer(Bytes.concatenate(chunks));
+      return Bytes.concatenate(chunks);
     }
 
     it('parses an array buffer of contacts', () => {
-      const arrayBuffer = getTestBuffer();
-      const contactBuffer = new ContactBuffer(arrayBuffer);
+      const bytes = getTestBuffer();
+      const contactBuffer = new ContactBuffer(bytes);
       let contact = contactBuffer.next();
       let count = 0;
       while (contact !== undefined) {
@@ -59,7 +58,7 @@ describe('ContactsParser', () => {
         assert.strictEqual(contact.avatar?.length, 255);
         assert.strictEqual(contact.avatar?.data.byteLength, 255);
         const avatarBytes = new Uint8Array(
-          contact.avatar?.data || new ArrayBuffer(0)
+          contact.avatar?.data || new Uint8Array(0)
         );
         for (let j = 0; j < 255; j += 1) {
           assert.strictEqual(avatarBytes[j], j);
@@ -71,7 +70,7 @@ describe('ContactsParser', () => {
   });
 
   describe('GroupBuffer', () => {
-    function getTestBuffer(): ArrayBuffer {
+    function getTestBuffer(): Uint8Array {
       const avatarBuffer = generateAvatar();
 
       const groupInfoBuffer = Proto.GroupDetails.encode({
@@ -91,12 +90,12 @@ describe('ContactsParser', () => {
         chunks.push(avatarBuffer);
       }
 
-      return typedArrayToArrayBuffer(Bytes.concatenate(chunks));
+      return Bytes.concatenate(chunks);
     }
 
     it('parses an array buffer of groups', () => {
-      const arrayBuffer = getTestBuffer();
-      const groupBuffer = new GroupBuffer(arrayBuffer);
+      const bytes = getTestBuffer();
+      const groupBuffer = new GroupBuffer(bytes);
       let group = groupBuffer.next();
       let count = 0;
       while (group !== undefined) {
@@ -113,7 +112,7 @@ describe('ContactsParser', () => {
         assert.strictEqual(group.avatar?.length, 255);
         assert.strictEqual(group.avatar?.data.byteLength, 255);
         const avatarBytes = new Uint8Array(
-          group.avatar?.data || new ArrayBuffer(0)
+          group.avatar?.data || new Uint8Array(0)
         );
         for (let j = 0; j < 255; j += 1) {
           assert.strictEqual(avatarBytes[j], j);

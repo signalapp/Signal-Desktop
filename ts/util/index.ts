@@ -34,7 +34,7 @@ import { toWebSafeBase64, fromWebSafeBase64 } from './webSafeBase64';
 import { mapToSupportLocale } from './mapToSupportLocale';
 import {
   sessionRecordToProtobuf,
-  sessionStructureToArrayBuffer,
+  sessionStructureToBytes,
 } from './sessionTranslation';
 import * as zkgroup from './zkgroup';
 import { StartupQueue } from './StartupQueue';
@@ -78,7 +78,7 @@ export {
   sendToGroup,
   setBatchingStrategy,
   sessionRecordToProtobuf,
-  sessionStructureToArrayBuffer,
+  sessionStructureToBytes,
   sleep,
   toWebSafeBase64,
   zkgroup,

@@ -136,7 +136,7 @@ describe('Message', () => {
         },
       });
 
-      const fakeDataMessage = new ArrayBuffer(0);
+      const fakeDataMessage = new Uint8Array(0);
       const conversation1Uuid = conversation1.get('uuid');
       const ignoredUuid = window.getGuid();
 

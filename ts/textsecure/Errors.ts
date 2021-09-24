@@ -77,14 +77,14 @@ export class ReplayableError extends Error {
 export class OutgoingIdentityKeyError extends ReplayableError {
   identifier: string;
 
-  identityKey: ArrayBuffer;
+  identityKey: Uint8Array;
 
   // Note: Data to resend message is no longer captured
   constructor(
     incomingIdentifier: string,
-    _m: ArrayBuffer,
+    _m: Uint8Array,
     _t: number,
-    identityKey: ArrayBuffer
+    identityKey: Uint8Array
   ) {
     const identifier = incomingIdentifier.split('.')[0];
 
@@ -188,7 +188,7 @@ export class SendMessageProtoError extends Error implements CallbackResultType {
 
   public readonly unidentifiedDeliveries?: Array<string>;
 
-  public readonly dataMessage?: ArrayBuffer;
+  public readonly dataMessage?: Uint8Array;
 
   // Fields necesary for send log save
   public readonly contentHint?: number;

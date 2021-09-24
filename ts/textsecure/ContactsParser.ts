@@ -7,7 +7,6 @@ import { Reader } from 'protobufjs';
 
 import { SignalService as Proto } from '../protobuf';
 import { normalizeUuid } from '../util/normalizeUuid';
-import { typedArrayToArrayBuffer } from '../Crypto';
 import * as log from '../logging/log';
 
 import Avatar = Proto.ContactDetails.IAvatar;
@@ -22,15 +21,12 @@ export type MessageWithAvatar<Message extends OptionalAvatar> = Omit<
   Message,
   'avatar'
 > & {
-  avatar?: (Avatar & { data: ArrayBuffer }) | null;
+  avatar?: (Avatar & { data: Uint8Array }) | null;
 };
 
 export type ModifiedGroupDetails = MessageWithAvatar<Proto.GroupDetails>;
 
 export type ModifiedContactDetails = MessageWithAvatar<Proto.ContactDetails>;
-
-// TODO: remove once we move away from ArrayBuffers
-const FIXMEU8 = Uint8Array;
 
 class ParserBase<
   Message extends OptionalAvatar,
@@ -38,8 +34,8 @@ class ParserBase<
 > {
   protected readonly reader: Reader;
 
-  constructor(arrayBuffer: ArrayBuffer, private readonly decoder: Decoder) {
-    this.reader = new Reader(new FIXMEU8(arrayBuffer));
+  constructor(bytes: Uint8Array, private readonly decoder: Decoder) {
+    this.reader = new Reader(bytes);
   }
 
   protected decodeDelimited(): MessageWithAvatar<Message> | undefined {
@@ -74,7 +70,7 @@ class ParserBase<
         avatar: {
           ...proto.avatar,
 
-          data: typedArrayToArrayBuffer(avatarData),
+          data: avatarData,
         },
       };
     } catch (error) {
@@ -91,7 +87,7 @@ export class GroupBuffer extends ParserBase<
   Proto.GroupDetails,
   typeof Proto.GroupDetails
 > {
-  constructor(arrayBuffer: ArrayBuffer) {
+  constructor(arrayBuffer: Uint8Array) {
     super(arrayBuffer, Proto.GroupDetails);
   }
 
@@ -124,7 +120,7 @@ export class ContactBuffer extends ParserBase<
   Proto.ContactDetails,
   typeof Proto.ContactDetails
 > {
-  constructor(arrayBuffer: ArrayBuffer) {
+  constructor(arrayBuffer: Uint8Array) {
     super(arrayBuffer, Proto.ContactDetails);
   }
 

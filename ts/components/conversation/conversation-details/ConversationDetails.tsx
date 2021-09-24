@@ -72,7 +72,7 @@ export type StateProps = {
   showConversationNotificationsSettings: () => void;
   updateGroupAttributes: (
     _: Readonly<{
-      avatar?: undefined | ArrayBuffer;
+      avatar?: undefined | Uint8Array;
       description?: string;
       title?: string;
     }>
@@ -169,7 +169,7 @@ export const ConversationDetails: React.ComponentType<Props> = ({
           }
           makeRequest={async (
             options: Readonly<{
-              avatar?: undefined | ArrayBuffer;
+              avatar?: undefined | Uint8Array;
               description?: string;
               title?: string;
             }>

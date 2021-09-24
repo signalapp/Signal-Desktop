@@ -36,7 +36,7 @@ export type SmartConversationDetailsProps = {
   ) => void;
   updateGroupAttributes: (
     _: Readonly<{
-      avatar?: undefined | ArrayBuffer;
+      avatar?: undefined | Uint8Array;
       title?: string;
     }>
   ) => Promise<void>;

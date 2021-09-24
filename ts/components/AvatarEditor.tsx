@@ -17,7 +17,7 @@ import { AvatarTextEditor } from './AvatarTextEditor';
 import { AvatarUploadButton } from './AvatarUploadButton';
 import { BetterAvatar } from './BetterAvatar';
 import { LocalizerType } from '../types/Util';
-import { avatarDataToArrayBuffer } from '../util/avatarDataToArrayBuffer';
+import { avatarDataToBytes } from '../util/avatarDataToBytes';
 import { createAvatarData } from '../util/createAvatarData';
 import { isSameAvatarData } from '../util/isSameAvatarData';
 import { missingCaseError } from '../util/missingCaseError';
@@ -25,14 +25,14 @@ import { missingCaseError } from '../util/missingCaseError';
 export type PropsType = {
   avatarColor?: AvatarColorType;
   avatarPath?: string;
-  avatarValue?: ArrayBuffer;
+  avatarValue?: Uint8Array;
   conversationId?: string;
   conversationTitle?: string;
   deleteAvatarFromDisk: DeleteAvatarFromDiskActionType;
   i18n: LocalizerType;
   isGroup?: boolean;
   onCancel: () => unknown;
-  onSave: (buffer: ArrayBuffer | undefined) => unknown;
+  onSave: (buffer: Uint8Array | undefined) => unknown;
   userAvatarData: ReadonlyArray<AvatarDataType>;
   replaceAvatar: ReplaceAvatarActionType;
   saveAvatarToDisk: SaveAvatarToDiskActionType;
@@ -62,10 +62,10 @@ export const AvatarEditor = ({
   const [provisionalSelectedAvatar, setProvisionalSelectedAvatar] = useState<
     AvatarDataType | undefined
   >();
-  const [avatarPreview, setAvatarPreview] = useState<ArrayBuffer | undefined>(
+  const [avatarPreview, setAvatarPreview] = useState<Uint8Array | undefined>(
     avatarValue
   );
-  const [initialAvatar, setInitialAvatar] = useState<ArrayBuffer | undefined>(
+  const [initialAvatar, setInitialAvatar] = useState<Uint8Array | undefined>(
     avatarValue
   );
   const [localAvatarData, setLocalAvatarData] = useState<Array<AvatarDataType>>(
@@ -84,7 +84,7 @@ export const AvatarEditor = ({
 
   const selectedAvatar = getSelectedAvatar(provisionalSelectedAvatar);
 
-  // Caching the ArrayBuffer produced into avatarData as buffer because
+  // Caching the Uint8Array produced into avatarData as buffer because
   // that function is a little expensive to run and so we don't flicker the UI.
   useEffect(() => {
     let shouldCancel = false;
@@ -95,7 +95,7 @@ export const AvatarEditor = ({
           if (avatarData.buffer) {
             return avatarData;
           }
-          const buffer = await avatarDataToArrayBuffer(avatarData);
+          const buffer = await avatarDataToBytes(avatarData);
           return {
             ...avatarData,
             buffer,

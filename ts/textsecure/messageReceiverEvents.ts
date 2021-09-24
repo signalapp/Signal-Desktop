@@ -79,7 +79,7 @@ export class ErrorEvent extends Event {
 }
 
 export type DecryptionErrorEventData = Readonly<{
-  cipherTextBytes?: ArrayBuffer;
+  cipherTextBytes?: Uint8Array;
   cipherTextType?: number;
   contentHint?: number;
   groupId?: string;
@@ -342,7 +342,7 @@ export class FetchLatestEvent extends ConfirmableEvent {
 
 export class KeysEvent extends ConfirmableEvent {
   constructor(
-    public readonly storageServiceKey: ArrayBuffer,
+    public readonly storageServiceKey: Uint8Array,
     confirm: ConfirmCallback
   ) {
     super('keys', confirm);
@@ -369,7 +369,7 @@ export type VerifiedEventData = Readonly<{
   state: Proto.IVerified['state'];
   destination?: string;
   destinationUuid?: string;
-  identityKey?: ArrayBuffer;
+  identityKey?: Uint8Array;
 
   // Used in `ts/background.ts`
   viaContactSync?: boolean;

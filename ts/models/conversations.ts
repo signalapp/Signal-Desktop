@@ -16,6 +16,8 @@ import {
 } from '../model-types.d';
 import { AttachmentType, isGIF } from '../types/Attachment';
 import { CallMode, CallHistoryDetailsType } from '../types/Calling';
+import * as EmbeddedContact from '../types/EmbeddedContact';
+import * as Conversation from '../types/Conversation';
 import * as Stickers from '../types/Stickers';
 import { CapabilityError } from '../types/errors';
 import type {
@@ -40,16 +42,10 @@ import { sniffImageMimeType } from '../util/sniffImageMimeType';
 import { isValidE164 } from '../util/isValidE164';
 import { MIMEType, IMAGE_JPEG, IMAGE_GIF, IMAGE_WEBP } from '../types/MIME';
 import { UUID } from '../types/UUID';
-import {
-  arrayBufferToBase64,
-  base64ToArrayBuffer,
-  deriveAccessKey,
-  fromEncodedBinaryToArrayBuffer,
-  stringFromBytes,
-} from '../Crypto';
+import { deriveAccessKey, decryptProfileName, decryptProfile } from '../Crypto';
 import * as Bytes from '../Bytes';
 import { BodyRangesType } from '../types/Util';
-import { getTextWithMentions } from '../util';
+import { getTextWithMentions } from '../util/getTextWithMentions';
 import { migrateColor } from '../util/migrateColor';
 import { isNotNil } from '../util/isNotNil';
 import { dropNull } from '../util/dropNull';
@@ -98,14 +94,11 @@ import { getAvatarData } from '../util/getAvatarData';
 import { createIdenticon } from '../util/createIdenticon';
 import * as log from '../logging/log';
 
-// TODO: remove once we move away from ArrayBuffers
-const FIXMEU8 = Uint8Array;
-
 /* eslint-disable more/no-then */
 window.Whisper = window.Whisper || {};
 
 const { Services, Util } = window.Signal;
-const { EmbeddedContact, Message } = window.Signal.Types;
+const { Message } = window.Signal.Types;
 const {
   deleteAttachmentData,
   doesAttachmentExist,
@@ -1125,7 +1118,7 @@ export class ConversationModel extends window.Backbone
     includePendingMembers,
     extraConversationsForSend,
   }: {
-    groupChange?: ArrayBuffer;
+    groupChange?: Uint8Array;
     includePendingMembers?: boolean;
     extraConversationsForSend?: Array<string>;
   } = {}): GroupV2InfoType | undefined {
@@ -1143,7 +1136,7 @@ export class ConversationModel extends window.Backbone
         includePendingMembers,
         extraConversationsForSend,
       }),
-      groupChange: groupChange ? new FIXMEU8(groupChange) : undefined,
+      groupChange,
     };
   }
 
@@ -1165,7 +1158,7 @@ export class ConversationModel extends window.Backbone
     };
   }
 
-  getGroupIdBuffer(): ArrayBuffer | undefined {
+  getGroupIdBuffer(): Uint8Array | undefined {
     const groupIdString = this.get('groupId');
 
     if (!groupIdString) {
@@ -1173,10 +1166,10 @@ export class ConversationModel extends window.Backbone
     }
 
     if (isGroupV1(this.attributes)) {
-      return fromEncodedBinaryToArrayBuffer(groupIdString);
+      return Bytes.fromBinary(groupIdString);
     }
     if (isGroupV2(this.attributes)) {
-      return base64ToArrayBuffer(groupIdString);
+      return Bytes.fromBase64(groupIdString);
     }
 
     return undefined;
@@ -1253,12 +1246,9 @@ export class ConversationModel extends window.Backbone
   }
 
   async cleanup(): Promise<void> {
-    await window.Signal.Types.Conversation.deleteExternalFiles(
-      this.attributes,
-      {
-        deleteAttachmentData,
-      }
-    );
+    await Conversation.deleteExternalFiles(this.attributes, {
+      deleteAttachmentData,
+    });
   }
 
   async onNewMessage(message: MessageModel): Promise<void> {
@@ -1838,7 +1828,7 @@ export class ConversationModel extends window.Backbone
       if (!error.response) {
         throw error;
       } else {
-        const errorDetails = stringFromBytes(error.response);
+        const errorDetails = Bytes.toString(error.response);
         if (errorDetails !== ALREADY_REQUESTED_TO_JOIN) {
           throw error;
         } else {
@@ -1914,7 +1904,7 @@ export class ConversationModel extends window.Backbone
 
   async updateGroupAttributesV2(
     attributes: Readonly<{
-      avatar?: undefined | ArrayBuffer;
+      avatar?: undefined | Uint8Array;
       description?: string;
       title?: string;
     }>
@@ -3340,7 +3330,7 @@ export class ConversationModel extends window.Backbone
       const sendOptions = await getSendOptions(this.attributes);
 
       const promise = (async () => {
-        let profileKey: ArrayBuffer | undefined;
+        let profileKey: Uint8Array | undefined;
         if (this.get('profileSharing')) {
           profileKey = await ourProfileKeyService.get();
         }
@@ -3474,7 +3464,7 @@ export class ConversationModel extends window.Backbone
         throw new Error('Cannot send reaction while offline!');
       }
 
-      let profileKey: ArrayBuffer | undefined;
+      let profileKey: Uint8Array | undefined;
       if (this.get('profileSharing')) {
         profileKey = await ourProfileKeyService.get();
       }
@@ -3905,7 +3895,7 @@ export class ConversationModel extends window.Backbone
       return;
     }
 
-    const groupInviteLinkPassword = arrayBufferToBase64(
+    const groupInviteLinkPassword = Bytes.toBase64(
       window.Signal.Groups.generateGroupInviteLinkPassword()
     );
 
@@ -3932,9 +3922,7 @@ export class ConversationModel extends window.Backbone
       value && !this.get('groupInviteLinkPassword');
     const groupInviteLinkPassword =
       this.get('groupInviteLinkPassword') ||
-      arrayBufferToBase64(
-        window.Signal.Groups.generateGroupInviteLinkPassword()
-      );
+      Bytes.toBase64(window.Signal.Groups.generateGroupInviteLinkPassword());
 
     log.info('toggleGroupLink for conversation', this.idForLogging(), value);
 
@@ -4410,24 +4398,21 @@ export class ConversationModel extends window.Backbone
     if (!encryptedName) {
       return;
     }
-    // isn't this already an ArrayBuffer?
+    // isn't this already an Uint8Array?
     const key = (this.get('profileKey') as unknown) as string;
     if (!key) {
       return;
     }
 
     // decode
-    const keyBuffer = base64ToArrayBuffer(key);
+    const keyBuffer = Bytes.fromBase64(key);
 
     // decrypt
-    const { given, family } = await window.textsecure.crypto.decryptProfileName(
-      encryptedName,
-      keyBuffer
-    );
+    const { given, family } = decryptProfileName(encryptedName, keyBuffer);
 
     // encode
-    const profileName = given ? stringFromBytes(given) : undefined;
-    const profileFamilyName = family ? stringFromBytes(family) : undefined;
+    const profileName = given ? Bytes.toString(given) : undefined;
+    const profileFamilyName = family ? Bytes.toString(family) : undefined;
 
     // set then check for changes
     const oldName = this.getProfileName();
@@ -4467,22 +4452,19 @@ export class ConversationModel extends window.Backbone
     }
 
     const avatar = await window.textsecure.messaging.getAvatar(avatarPath);
-    // isn't this already an ArrayBuffer?
+    // isn't this already an Uint8Array?
     const key = (this.get('profileKey') as unknown) as string;
     if (!key) {
       return;
     }
-    const keyBuffer = base64ToArrayBuffer(key);
+    const keyBuffer = Bytes.fromBase64(key);
 
     // decrypt
-    const decrypted = await window.textsecure.crypto.decryptProfile(
-      avatar,
-      keyBuffer
-    );
+    const decrypted = decryptProfile(avatar, keyBuffer);
 
     // update the conversation avatar only if hash differs
     if (decrypted) {
-      const newAttributes = await window.Signal.Types.Conversation.maybeUpdateProfileAvatar(
+      const newAttributes = await Conversation.maybeUpdateProfileAvatar(
         this.attributes,
         decrypted,
         {
@@ -4540,9 +4522,9 @@ export class ConversationModel extends window.Backbone
       return;
     }
 
-    const profileKeyBuffer = base64ToArrayBuffer(profileKey);
-    const accessKeyBuffer = await deriveAccessKey(profileKeyBuffer);
-    const accessKey = arrayBufferToBase64(accessKeyBuffer);
+    const profileKeyBuffer = Bytes.fromBase64(profileKey);
+    const accessKeyBuffer = deriveAccessKey(profileKeyBuffer);
+    const accessKey = Bytes.toBase64(accessKeyBuffer);
     this.set({ accessKey });
   }
 

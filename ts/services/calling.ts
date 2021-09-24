@@ -56,11 +56,7 @@ import { LocalizerType } from '../types/Util';
 import { UUID } from '../types/UUID';
 import { ConversationModel } from '../models/conversations';
 import * as Bytes from '../Bytes';
-import {
-  uuidToArrayBuffer,
-  arrayBufferToUuid,
-  typedArrayToArrayBuffer,
-} from '../Crypto';
+import { uuidToBytes, bytesToUuid } from '../Crypto';
 import { dropNull, shallowDropNull } from '../util/dropNull';
 import { getOwn } from '../util/getOwn';
 import { isNormalNumber } from '../util/isNormalNumber';
@@ -270,7 +266,7 @@ export class CallingClass {
       return;
     }
 
-    RingRTC.setSelfUuid(Buffer.from(uuidToArrayBuffer(ourUuid)));
+    RingRTC.setSelfUuid(Buffer.from(uuidToBytes(ourUuid)));
   }
 
   async startCallingLobby(
@@ -480,7 +476,7 @@ export class CallingClass {
     return getMembershipList(conversationId).map(
       member =>
         new GroupMemberInfo(
-          Buffer.from(uuidToArrayBuffer(member.uuid)),
+          Buffer.from(uuidToBytes(member.uuid)),
           Buffer.from(member.uuidCiphertext)
         )
     );
@@ -772,18 +768,16 @@ export class CallingClass {
   ): GroupCallPeekInfoType {
     return {
       uuids: peekInfo.joinedMembers.map(uuidBuffer => {
-        let uuid = arrayBufferToUuid(typedArrayToArrayBuffer(uuidBuffer));
+        let uuid = bytesToUuid(uuidBuffer);
         if (!uuid) {
           log.error(
-            'Calling.formatGroupCallPeekInfoForRedux: could not convert peek UUID ArrayBuffer to string; using fallback UUID'
+            'Calling.formatGroupCallPeekInfoForRedux: could not convert peek UUID Uint8Array to string; using fallback UUID'
           );
           uuid = '00000000-0000-0000-0000-000000000000';
         }
         return uuid;
       }),
-      creatorUuid:
-        peekInfo.creator &&
-        arrayBufferToUuid(typedArrayToArrayBuffer(peekInfo.creator)),
+      creatorUuid: peekInfo.creator && bytesToUuid(peekInfo.creator),
       eraId: peekInfo.eraId,
       maxDevices: peekInfo.maxDevices ?? Infinity,
       deviceCount: peekInfo.deviceCount,
@@ -820,12 +814,10 @@ export class CallingClass {
         ? this.formatGroupCallPeekInfoForRedux(peekInfo)
         : undefined,
       remoteParticipants: remoteDeviceStates.map(remoteDeviceState => {
-        let uuid = arrayBufferToUuid(
-          typedArrayToArrayBuffer(remoteDeviceState.userId)
-        );
+        let uuid = bytesToUuid(remoteDeviceState.userId);
         if (!uuid) {
           log.error(
-            'Calling.formatGroupCallForRedux: could not convert remote participant UUID ArrayBuffer to string; using fallback UUID'
+            'Calling.formatGroupCallForRedux: could not convert remote participant UUID Uint8Array to string; using fallback UUID'
           );
           uuid = '00000000-0000-0000-0000-000000000000';
         }
@@ -1441,7 +1433,7 @@ export class CallingClass {
     }
 
     const sourceUuid = envelope.sourceUuid
-      ? uuidToArrayBuffer(envelope.sourceUuid)
+      ? uuidToBytes(envelope.sourceUuid)
       : null;
 
     const messageAgeSec = envelope.messageAgeSec ? envelope.messageAgeSec : 0;
@@ -1531,7 +1523,7 @@ export class CallingClass {
     data: Uint8Array,
     urgency: CallMessageUrgency
   ): Promise<boolean> {
-    const userId = arrayBufferToUuid(typedArrayToArrayBuffer(recipient));
+    const userId = bytesToUuid(recipient);
     if (!userId) {
       log.error('handleSendCallMessage(): bad recipient UUID');
       return false;
@@ -1594,7 +1586,7 @@ export class CallingClass {
 
     const groupId = groupIdBytes.toString('base64');
 
-    const ringerUuid = arrayBufferToUuid(typedArrayToArrayBuffer(ringerBytes));
+    const ringerUuid = bytesToUuid(ringerBytes);
     if (!ringerUuid) {
       log.error('handleGroupCallRingUpdate(): ringerUuid was invalid');
       return;
@@ -1862,7 +1854,7 @@ export class CallingClass {
         url,
         httpMethod,
         headers,
-        body ? typedArrayToArrayBuffer(body) : undefined
+        body
       );
     } catch (err) {
       if (err.code !== -1) {
@@ -1925,7 +1917,10 @@ export class CallingClass {
     const isContactUnknown = !conversation.isFromOrAddedByTrustedContact();
 
     return {
-      iceServer,
+      iceServer: {
+        ...iceServer,
+        urls: iceServer.urls.slice(),
+      },
       hideIp: shouldRelayCalls || isContactUnknown,
       bandwidthMode: BandwidthMode.Normal,
     };
@@ -2005,9 +2000,7 @@ export class CallingClass {
     if (!peekInfo || !peekInfo.eraId || !peekInfo.creator) {
       return;
     }
-    const creatorUuid = arrayBufferToUuid(
-      typedArrayToArrayBuffer(peekInfo.creator)
-    );
+    const creatorUuid = bytesToUuid(peekInfo.creator);
     if (!creatorUuid) {
       log.error('updateCallHistoryForGroupCall(): bad creator UUID');
       return;

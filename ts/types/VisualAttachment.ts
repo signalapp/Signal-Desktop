@@ -1,20 +1,27 @@
 // Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* global document, URL, Blob */
+import loadImage from 'blueimp-load-image';
+import { blobToArrayBuffer } from 'blob-util';
+import { toLogFormat } from './errors';
+import { MIMEType, IMAGE_PNG } from './MIME';
+import { LoggerType } from './Logging';
+import { arrayBufferToObjectURL } from '../util/arrayBufferToObjectURL';
+import { strictAssert } from '../util/assert';
+import { canvasToBlob } from '../util/canvasToBlob';
 
-const loadImage = require('blueimp-load-image');
-const { blobToArrayBuffer } = require('blob-util');
-const { toLogFormat } = require('../../../ts/types/errors');
-const {
-  arrayBufferToObjectURL,
-} = require('../../../ts/util/arrayBufferToObjectURL');
-const { canvasToBlob } = require('../../../ts/util/canvasToBlob');
+export { blobToArrayBuffer };
 
-exports.blobToArrayBuffer = blobToArrayBuffer;
+export type GetImageDimensionsOptionsType = Readonly<{
+  objectUrl: string;
+  logger: Pick<LoggerType, 'error'>;
+}>;
 
-exports.getImageDimensions = ({ objectUrl, logger }) =>
-  new Promise((resolve, reject) => {
+export function getImageDimensions({
+  objectUrl,
+  logger,
+}: GetImageDimensionsOptionsType): Promise<{ width: number; height: number }> {
+  return new Promise((resolve, reject) => {
     const image = document.createElement('img');
 
     image.addEventListener('load', () => {
@@ -30,14 +37,22 @@ exports.getImageDimensions = ({ objectUrl, logger }) =>
 
     image.src = objectUrl;
   });
+}
 
-exports.makeImageThumbnail = ({
+export type MakeImageThumbnailOptionsType = Readonly<{
+  size: number;
+  objectUrl: string;
+  contentType?: MIMEType;
+  logger: Pick<LoggerType, 'error'>;
+}>;
+
+export function makeImageThumbnail({
   size,
   objectUrl,
-  contentType = 'image/png',
+  contentType = IMAGE_PNG,
   logger,
-}) =>
-  new Promise((resolve, reject) => {
+}: MakeImageThumbnailOptionsType): Promise<Blob> {
+  return new Promise((resolve, reject) => {
     const image = document.createElement('img');
 
     image.addEventListener('load', async () => {
@@ -63,6 +78,11 @@ exports.makeImageThumbnail = ({
         minHeight: size,
       });
 
+      strictAssert(
+        canvas instanceof HTMLCanvasElement,
+        'loadImage must produce canvas'
+      );
+
       try {
         const blob = await canvasToBlob(canvas, contentType);
         resolve(blob);
@@ -78,13 +98,20 @@ exports.makeImageThumbnail = ({
 
     image.src = objectUrl;
   });
+}
 
-exports.makeVideoScreenshot = ({
+export type MakeVideoScreenshotOptionsType = Readonly<{
+  objectUrl: string;
+  contentType?: MIMEType;
+  logger: Pick<LoggerType, 'error'>;
+}>;
+
+export function makeVideoScreenshot({
   objectUrl,
-  contentType = 'image/png',
+  contentType = IMAGE_PNG,
   logger,
-}) =>
-  new Promise((resolve, reject) => {
+}: MakeVideoScreenshotOptionsType): Promise<Blob> {
+  return new Promise((resolve, reject) => {
     const video = document.createElement('video');
 
     function seek() {
@@ -95,9 +122,9 @@ exports.makeVideoScreenshot = ({
       const canvas = document.createElement('canvas');
       canvas.width = video.videoWidth;
       canvas.height = video.videoHeight;
-      canvas
-        .getContext('2d')
-        .drawImage(video, 0, 0, canvas.width, canvas.height);
+      const context = canvas.getContext('2d');
+      strictAssert(context, 'Failed to get canvas context');
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
       video.addEventListener('loadeddata', seek);
       video.removeEventListener('seeked', capture);
@@ -120,16 +147,24 @@ exports.makeVideoScreenshot = ({
 
     video.src = objectUrl;
   });
+}
 
-exports.makeVideoThumbnail = async ({
+export type MakeVideoThumbnailOptionsType = Readonly<{
+  size: number;
+  videoObjectUrl: string;
+  logger: Pick<LoggerType, 'error'>;
+  contentType: MIMEType;
+}>;
+
+export async function makeVideoThumbnail({
   size,
   videoObjectUrl,
   logger,
   contentType,
-}) => {
-  let screenshotObjectUrl;
+}: MakeVideoThumbnailOptionsType): Promise<Blob> {
+  let screenshotObjectUrl: string | undefined;
   try {
-    const blob = await exports.makeVideoScreenshot({
+    const blob = await makeVideoScreenshot({
       objectUrl: videoObjectUrl,
       contentType,
       logger,
@@ -141,7 +176,7 @@ exports.makeVideoThumbnail = async ({
     });
 
     // We need to wait for this, otherwise the finally below will run first
-    const resultBlob = await exports.makeImageThumbnail({
+    const resultBlob = await makeImageThumbnail({
       size,
       objectUrl: screenshotObjectUrl,
       contentType,
@@ -150,18 +185,23 @@ exports.makeVideoThumbnail = async ({
 
     return resultBlob;
   } finally {
-    exports.revokeObjectUrl(screenshotObjectUrl);
+    if (screenshotObjectUrl !== undefined) {
+      revokeObjectUrl(screenshotObjectUrl);
+    }
   }
-};
+}
 
-exports.makeObjectUrl = (data, contentType) => {
+export function makeObjectUrl(
+  data: Uint8Array | ArrayBuffer,
+  contentType: MIMEType
+): string {
   const blob = new Blob([data], {
     type: contentType,
   });
 
   return URL.createObjectURL(blob);
-};
+}
 
-exports.revokeObjectUrl = objectUrl => {
+export function revokeObjectUrl(objectUrl: string): void {
   URL.revokeObjectURL(objectUrl);
-};
+}

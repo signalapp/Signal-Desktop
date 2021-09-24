@@ -4,15 +4,14 @@
 import { debounce, isNumber } from 'lodash';
 import pMap from 'p-map';
 
-import Crypto from '../textsecure/Crypto';
 import dataInterface from '../sql/Client';
 import * as Bytes from '../Bytes';
 import {
-  arrayBufferToBase64,
-  base64ToArrayBuffer,
+  getRandomBytes,
   deriveStorageItemKey,
   deriveStorageManifestKey,
-  typedArrayToArrayBuffer,
+  encryptProfile,
+  decryptProfile,
 } from '../Crypto';
 import {
   mergeAccountRecord,
@@ -43,9 +42,6 @@ import { SignalService as Proto } from '../protobuf';
 import * as log from '../logging/log';
 
 type IManifestRecordIdentifier = Proto.ManifestRecord.IIdentifier;
-
-// TODO: remove once we move away from ArrayBuffers
-const FIXMEU8 = Uint8Array;
 
 const {
   eraseStorageServiceStateFromConversations,
@@ -94,32 +90,32 @@ async function encryptRecord(
   const storageItem = new Proto.StorageItem();
 
   const storageKeyBuffer = storageID
-    ? base64ToArrayBuffer(String(storageID))
+    ? Bytes.fromBase64(String(storageID))
     : generateStorageID();
 
   const storageKeyBase64 = window.storage.get('storageKey');
   if (!storageKeyBase64) {
     throw new Error('No storage key');
   }
-  const storageKey = base64ToArrayBuffer(storageKeyBase64);
-  const storageItemKey = await deriveStorageItemKey(
+  const storageKey = Bytes.fromBase64(storageKeyBase64);
+  const storageItemKey = deriveStorageItemKey(
     storageKey,
-    arrayBufferToBase64(storageKeyBuffer)
+    Bytes.toBase64(storageKeyBuffer)
   );
 
-  const encryptedRecord = await Crypto.encryptProfile(
-    typedArrayToArrayBuffer(Proto.StorageRecord.encode(storageRecord).finish()),
+  const encryptedRecord = encryptProfile(
+    Proto.StorageRecord.encode(storageRecord).finish(),
     storageItemKey
   );
 
-  storageItem.key = new FIXMEU8(storageKeyBuffer);
-  storageItem.value = new FIXMEU8(encryptedRecord);
+  storageItem.key = storageKeyBuffer;
+  storageItem.value = encryptedRecord;
 
   return storageItem;
 }
 
-function generateStorageID(): ArrayBuffer {
-  return Crypto.getRandomBytes(16);
+function generateStorageID(): Uint8Array {
+  return getRandomBytes(16);
 }
 
 type GeneratedManifestType = {
@@ -127,7 +123,7 @@ type GeneratedManifestType = {
     conversation: ConversationModel;
     storageID: string | undefined;
   }>;
-  deleteKeys: Array<ArrayBuffer>;
+  deleteKeys: Array<Uint8Array>;
   newItems: Set<Proto.IStorageItem>;
   storageManifest: Proto.IStorageManifest;
 };
@@ -149,7 +145,7 @@ async function generateManifest(
 
   const conversationsToUpdate = [];
   const insertKeys: Array<string> = [];
-  const deleteKeys: Array<ArrayBuffer> = [];
+  const deleteKeys: Array<Uint8Array> = [];
   const manifestRecordKeys: Set<IManifestRecordIdentifier> = new Set();
   const newItems: Set<Proto.IStorageItem> = new Set();
 
@@ -202,7 +198,7 @@ async function generateManifest(
         !currentStorageID;
 
       const storageID = isNewItem
-        ? arrayBufferToBase64(generateStorageID())
+        ? Bytes.toBase64(generateStorageID())
         : currentStorageID;
 
       let storageItem;
@@ -243,7 +239,7 @@ async function generateManifest(
             'storageService.generateManifest: deleting key',
             redactStorageID(oldStorageID)
           );
-          deleteKeys.push(base64ToArrayBuffer(oldStorageID));
+          deleteKeys.push(Bytes.fromBase64(oldStorageID));
         }
 
         conversationsToUpdate.push({
@@ -323,7 +319,7 @@ async function generateManifest(
 
     // Ensure all deletes are not present in the manifest
     const hasDeleteKey = deleteKeys.find(
-      key => arrayBufferToBase64(key) === storageID
+      key => Bytes.toBase64(key) === storageID
     );
     if (hasDeleteKey) {
       log.info(
@@ -400,7 +396,7 @@ async function generateManifest(
 
     if (deleteKeys.length !== pendingDeletes.size) {
       const localDeletes = deleteKeys.map(key =>
-        redactStorageID(arrayBufferToBase64(key))
+        redactStorageID(Bytes.toBase64(key))
       );
       const remoteDeletes: Array<string> = [];
       pendingDeletes.forEach(id => remoteDeletes.push(redactStorageID(id)));
@@ -417,7 +413,7 @@ async function generateManifest(
       throw new Error('invalid write insert items length do not match');
     }
     deleteKeys.forEach(key => {
-      const storageID = arrayBufferToBase64(key);
+      const storageID = Bytes.toBase64(key);
       if (!pendingDeletes.has(storageID)) {
         throw new Error(
           'invalid write delete key missing from pending deletes'
@@ -441,21 +437,16 @@ async function generateManifest(
   if (!storageKeyBase64) {
     throw new Error('No storage key');
   }
-  const storageKey = base64ToArrayBuffer(storageKeyBase64);
-  const storageManifestKey = await deriveStorageManifestKey(
-    storageKey,
-    version
-  );
-  const encryptedManifest = await Crypto.encryptProfile(
-    typedArrayToArrayBuffer(
-      Proto.ManifestRecord.encode(manifestRecord).finish()
-    ),
+  const storageKey = Bytes.fromBase64(storageKeyBase64);
+  const storageManifestKey = deriveStorageManifestKey(storageKey, version);
+  const encryptedManifest = encryptProfile(
+    Proto.ManifestRecord.encode(manifestRecord).finish(),
     storageManifestKey
   );
 
   const storageManifest = new Proto.StorageManifest();
   storageManifest.version = version;
-  storageManifest.value = new FIXMEU8(encryptedManifest);
+  storageManifest.value = encryptedManifest;
 
   return {
     conversationsToUpdate,
@@ -494,13 +485,11 @@ async function uploadManifest(
     const writeOperation = new Proto.WriteOperation();
     writeOperation.manifest = storageManifest;
     writeOperation.insertItem = Array.from(newItems);
-    writeOperation.deleteKey = deleteKeys.map(key => new FIXMEU8(key));
+    writeOperation.deleteKey = deleteKeys;
 
     log.info('storageService.uploadManifest: uploading...', version);
     await window.textsecure.messaging.modifyStorageRecords(
-      typedArrayToArrayBuffer(
-        Proto.WriteOperation.encode(writeOperation).finish()
-      ),
+      Proto.WriteOperation.encode(writeOperation).finish(),
       {
         credentials,
       }
@@ -626,19 +615,16 @@ async function decryptManifest(
   if (!storageKeyBase64) {
     throw new Error('No storage key');
   }
-  const storageKey = base64ToArrayBuffer(storageKeyBase64);
-  const storageManifestKey = await deriveStorageManifestKey(
+  const storageKey = Bytes.fromBase64(storageKeyBase64);
+  const storageManifestKey = deriveStorageManifestKey(
     storageKey,
     normalizeNumber(version ?? 0)
   );
 
   strictAssert(value, 'StorageManifest has no value field');
-  const decryptedManifest = await Crypto.decryptProfile(
-    typedArrayToArrayBuffer(value),
-    storageManifestKey
-  );
+  const decryptedManifest = decryptProfile(value, storageManifestKey);
 
-  return Proto.ManifestRecord.decode(new FIXMEU8(decryptedManifest));
+  return Proto.ManifestRecord.decode(decryptedManifest);
 }
 
 async function fetchManifest(
@@ -660,9 +646,7 @@ async function fetchManifest(
         greaterThanVersion: manifestVersion,
       }
     );
-    const encryptedManifest = Proto.StorageManifest.decode(
-      new FIXMEU8(manifestBinary)
-    );
+    const encryptedManifest = Proto.StorageManifest.decode(manifestBinary);
 
     // if we don't get a value we're assuming that there's no newer manifest
     if (!encryptedManifest.value || !encryptedManifest.version) {
@@ -855,7 +839,7 @@ async function processRemoteRecords(
   if (!storageKeyBase64) {
     throw new Error('No storage key');
   }
-  const storageKey = base64ToArrayBuffer(storageKeyBase64);
+  const storageKey = Bytes.fromBase64(storageKeyBase64);
 
   log.info(
     'storageService.processRemoteRecords: remote only keys',
@@ -869,15 +853,13 @@ async function processRemoteRecords(
 
   const credentials = window.storage.get('storageCredentials');
   const storageItemsBuffer = await window.textsecure.messaging.getStorageRecords(
-    typedArrayToArrayBuffer(Proto.ReadOperation.encode(readOperation).finish()),
+    Proto.ReadOperation.encode(readOperation).finish(),
     {
       credentials,
     }
   );
 
-  const storageItems = Proto.StorageItems.decode(
-    new FIXMEU8(storageItemsBuffer)
-  );
+  const storageItems = Proto.StorageItems.decode(storageItemsBuffer);
 
   if (!storageItems.items) {
     log.info('storageService.processRemoteRecords: No storage items retrieved');
@@ -903,15 +885,12 @@ async function processRemoteRecords(
 
       const base64ItemID = Bytes.toBase64(key);
 
-      const storageItemKey = await deriveStorageItemKey(
-        storageKey,
-        base64ItemID
-      );
+      const storageItemKey = deriveStorageItemKey(storageKey, base64ItemID);
 
       let storageItemPlaintext;
       try {
-        storageItemPlaintext = await Crypto.decryptProfile(
-          typedArrayToArrayBuffer(storageItemCiphertext),
+        storageItemPlaintext = decryptProfile(
+          storageItemCiphertext,
           storageItemKey
         );
       } catch (err) {
@@ -922,9 +901,7 @@ async function processRemoteRecords(
         throw err;
       }
 
-      const storageRecord = Proto.StorageRecord.decode(
-        new FIXMEU8(storageItemPlaintext)
-      );
+      const storageRecord = Proto.StorageRecord.decode(storageItemPlaintext);
 
       const remoteRecord = remoteOnlyRecords.get(base64ItemID);
       if (!remoteRecord) {

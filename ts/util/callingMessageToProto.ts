@@ -6,9 +6,6 @@ import { SignalService as Proto } from '../protobuf';
 import * as log from '../logging/log';
 import { missingCaseError } from './missingCaseError';
 
-// TODO: remove once we move away from ArrayBuffers
-const FIXMEU8 = Uint8Array;
-
 export function callingMessageToProto(
   {
     offer,
@@ -88,7 +85,7 @@ function bufferToProto(
     return value;
   }
 
-  return new FIXMEU8(value.toArrayBuffer());
+  return new Uint8Array(value.toArrayBuffer());
 }
 
 function urgencyToProto(

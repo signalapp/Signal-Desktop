@@ -7,7 +7,6 @@ import {
   SerializedCertificateType,
 } from '../textsecure/OutgoingMessage';
 import * as Bytes from '../Bytes';
-import { typedArrayToArrayBuffer } from '../Crypto';
 import { assert } from '../util/assert';
 import { missingCaseError } from '../util/missingCaseError';
 import { normalizeNumber } from '../util/normalizeNumber';
@@ -177,7 +176,7 @@ export class SenderCertificateService {
 
     const serializedCertificate = {
       expires: expires - CLOCK_SKEW_THRESHOLD,
-      serialized: typedArrayToArrayBuffer(certificate),
+      serialized: certificate,
     };
 
     await storage.put(modeToStorageKey(mode), serializedCertificate);

@@ -9,17 +9,17 @@ import { LocalizerType } from '../types/Util';
 import { Spinner } from './Spinner';
 import { AvatarColors, AvatarColorType } from '../types/Colors';
 import { getInitials } from '../util/getInitials';
-import { imagePathToArrayBuffer } from '../util/imagePathToArrayBuffer';
+import { imagePathToBytes } from '../util/imagePathToBytes';
 
 export type PropsType = {
   avatarColor?: AvatarColorType;
   avatarPath?: string;
-  avatarValue?: ArrayBuffer;
+  avatarValue?: Uint8Array;
   conversationTitle?: string;
   i18n: LocalizerType;
   isEditable?: boolean;
   isGroup?: boolean;
-  onAvatarLoaded?: (avatarBuffer: ArrayBuffer) => unknown;
+  onAvatarLoaded?: (avatarBuffer: Uint8Array) => unknown;
   onClear?: () => unknown;
   onClick?: () => unknown;
   style?: CSSProperties;
@@ -48,7 +48,7 @@ export const AvatarPreview = ({
     avatarValue ? undefined : avatarPath
   );
 
-  const [avatarPreview, setAvatarPreview] = useState<ArrayBuffer | undefined>();
+  const [avatarPreview, setAvatarPreview] = useState<Uint8Array | undefined>();
 
   // Loads the initial avatarPath if one is provided.
   useEffect(() => {
@@ -61,7 +61,7 @@ export const AvatarPreview = ({
 
     (async () => {
       try {
-        const buffer = await imagePathToArrayBuffer(startingAvatarPath);
+        const buffer = await imagePathToBytes(startingAvatarPath);
         if (shouldCancel) {
           return;
         }
@@ -95,7 +95,7 @@ export const AvatarPreview = ({
     }
   }, [avatarValue]);
 
-  // Creates the object URL to render the ArrayBuffer image
+  // Creates the object URL to render the Uint8Array image
   const [objectUrl, setObjectUrl] = useState<undefined | string>();
 
   useEffect(() => {

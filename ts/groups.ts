@@ -53,9 +53,7 @@ import {
 import {
   computeHash,
   deriveMasterKeyFromGroupV1,
-  fromEncodedBinaryToArrayBuffer,
   getRandomBytes,
-  typedArrayToArrayBuffer,
 } from './Crypto';
 import {
   GroupCredentialsType,
@@ -224,9 +222,6 @@ export type GroupFields = {
   readonly publicParams: Uint8Array;
 };
 
-// TODO: remove once we move away from ArrayBuffers
-const FIXMEU8 = Uint8Array;
-
 const MAX_CACHED_GROUP_FIELDS = 100;
 
 const groupFieldsCache = new LRU<string, GroupFields>({
@@ -256,7 +251,7 @@ type UpdatesResultType = {
 };
 
 type UploadedAvatarType = {
-  data: ArrayBuffer;
+  data: Uint8Array;
   hash: string;
   key: string;
 };
@@ -277,7 +272,7 @@ const GROUP_INVITE_LINK_PASSWORD_LENGTH = 16;
 
 // Group Links
 
-export function generateGroupInviteLinkPassword(): ArrayBuffer {
+export function generateGroupInviteLinkPassword(): Uint8Array {
   return getRandomBytes(GROUP_INVITE_LINK_PASSWORD_LENGTH);
 }
 
@@ -366,24 +361,24 @@ async function uploadAvatar(
     logId: string;
     publicParams: string;
     secretParams: string;
-  } & ({ path: string } | { data: ArrayBuffer })
+  } & ({ path: string } | { data: Uint8Array })
 ): Promise<UploadedAvatarType> {
   const { logId, publicParams, secretParams } = options;
 
   try {
     const clientZkGroupCipher = getClientZkGroupCipher(secretParams);
 
-    let data: ArrayBuffer;
+    let data: Uint8Array;
     if ('data' in options) {
       ({ data } = options);
     } else {
       data = await window.Signal.Migrations.readAttachmentData(options.path);
     }
 
-    const hash = await computeHash(data);
+    const hash = computeHash(data);
 
     const blobPlaintext = Proto.GroupAttributeBlob.encode({
-      avatar: new FIXMEU8(data),
+      avatar: data,
     }).finish();
     const ciphertext = encryptGroupBlob(clientZkGroupCipher, blobPlaintext);
 
@@ -731,7 +726,7 @@ export async function buildUpdateAttributesChange(
     'id' | 'revision' | 'publicParams' | 'secretParams'
   >,
   attributes: Readonly<{
-    avatar?: undefined | ArrayBuffer;
+    avatar?: undefined | Uint8Array;
     description?: string;
     title?: string;
   }>
@@ -1309,7 +1304,7 @@ export async function modifyGroupV2({
           window.Signal.Util.sendToGroup({
             groupSendOptions: {
               groupV2: conversation.getGroupV2Info({
-                groupChange: typedArrayToArrayBuffer(groupChangeBuffer),
+                groupChange: groupChangeBuffer,
                 includePendingMembers: true,
                 extraConversationsForSend,
               }),
@@ -1497,7 +1492,7 @@ export async function createGroupV2({
   avatars,
 }: Readonly<{
   name: string;
-  avatar: undefined | ArrayBuffer;
+  avatar: undefined | Uint8Array;
   expireTimer: undefined | number;
   conversationIds: Array<string>;
   avatars?: Array<AvatarDataType>;
@@ -1514,7 +1509,7 @@ export async function createGroupV2({
   const ACCESS_ENUM = Proto.AccessControl.AccessRequired;
   const MEMBER_ROLE_ENUM = Proto.Member.Role;
 
-  const masterKeyBuffer = new FIXMEU8(getRandomBytes(32));
+  const masterKeyBuffer = getRandomBytes(32);
   const fields = deriveGroupFields(masterKeyBuffer);
 
   const groupId = Bytes.toBase64(fields.id);
@@ -1763,10 +1758,8 @@ export async function hasV1GroupBeenMigrated(
     throw new Error(`checkForGV2Existence/${logId}: No groupId!`);
   }
 
-  const idBuffer = fromEncodedBinaryToArrayBuffer(groupId);
-  const masterKeyBuffer = new FIXMEU8(
-    await deriveMasterKeyFromGroupV1(idBuffer)
-  );
+  const idBuffer = Bytes.fromBinary(groupId);
+  const masterKeyBuffer = deriveMasterKeyFromGroupV1(idBuffer);
   const fields = deriveGroupFields(masterKeyBuffer);
 
   try {
@@ -1783,9 +1776,7 @@ export async function hasV1GroupBeenMigrated(
   }
 }
 
-export async function maybeDeriveGroupV2Id(
-  conversation: ConversationModel
-): Promise<boolean> {
+export function maybeDeriveGroupV2Id(conversation: ConversationModel): boolean {
   const isGroupV1 = getIsGroupV1(conversation.attributes);
   const groupV1Id = conversation.get('groupId');
   const derived = conversation.get('derivedGroupV2Id');
@@ -1794,10 +1785,8 @@ export async function maybeDeriveGroupV2Id(
     return false;
   }
 
-  const v1IdBuffer = fromEncodedBinaryToArrayBuffer(groupV1Id);
-  const masterKeyBuffer = new FIXMEU8(
-    await deriveMasterKeyFromGroupV1(v1IdBuffer)
-  );
+  const v1IdBuffer = Bytes.fromBinary(groupV1Id);
+  const masterKeyBuffer = deriveMasterKeyFromGroupV1(v1IdBuffer);
   const fields = deriveGroupFields(masterKeyBuffer);
   const derivedGroupV2Id = Bytes.toBase64(fields.id);
 
@@ -2050,10 +2039,8 @@ export async function initiateMigrationToGroupV2(
         );
       }
 
-      const groupV1IdBuffer = fromEncodedBinaryToArrayBuffer(previousGroupV1Id);
-      const masterKeyBuffer = new FIXMEU8(
-        await deriveMasterKeyFromGroupV1(groupV1IdBuffer)
-      );
+      const groupV1IdBuffer = Bytes.fromBinary(previousGroupV1Id);
+      const masterKeyBuffer = deriveMasterKeyFromGroupV1(groupV1IdBuffer);
       const fields = deriveGroupFields(masterKeyBuffer);
 
       const groupId = Bytes.toBase64(fields.id);
@@ -2219,9 +2206,7 @@ export async function initiateMigrationToGroupV2(
   const logId = conversation.idForLogging();
   const timestamp = Date.now();
 
-  const ourProfileKey:
-    | ArrayBuffer
-    | undefined = await ourProfileKeyService.get();
+  const ourProfileKey = await ourProfileKeyService.get();
 
   const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
   const sendOptions = await getSendOptions(conversation.attributes);
@@ -2408,10 +2393,8 @@ export async function joinGroupV2ViaLinkAndMigrate({
   }
 
   // Derive GroupV2 fields
-  const groupV1IdBuffer = fromEncodedBinaryToArrayBuffer(previousGroupV1Id);
-  const masterKeyBuffer = new FIXMEU8(
-    await deriveMasterKeyFromGroupV1(groupV1IdBuffer)
-  );
+  const groupV1IdBuffer = Bytes.fromBinary(previousGroupV1Id);
+  const masterKeyBuffer = deriveMasterKeyFromGroupV1(groupV1IdBuffer);
   const fields = deriveGroupFields(masterKeyBuffer);
 
   const groupId = Bytes.toBase64(fields.id);
@@ -2506,10 +2489,8 @@ export async function respondToGroupV2Migration({
     conversation.hasMember(ourConversationId);
 
   // Derive GroupV2 fields
-  const groupV1IdBuffer = fromEncodedBinaryToArrayBuffer(previousGroupV1Id);
-  const masterKeyBuffer = new FIXMEU8(
-    await deriveMasterKeyFromGroupV1(groupV1IdBuffer)
-  );
+  const groupV1IdBuffer = Bytes.fromBinary(previousGroupV1Id);
+  const masterKeyBuffer = deriveMasterKeyFromGroupV1(groupV1IdBuffer);
   const fields = deriveGroupFields(masterKeyBuffer);
 
   const groupId = Bytes.toBase64(fields.id);
@@ -3421,7 +3402,7 @@ async function integrateGroupChange({
 
   if (groupChange) {
     groupChangeActions = Proto.GroupChange.Actions.decode(
-      groupChange.actions || new FIXMEU8(0)
+      groupChange.actions || new Uint8Array(0)
     );
 
     if (
@@ -4541,7 +4522,7 @@ async function applyGroupChange({
 export async function decryptGroupAvatar(
   avatarKey: string,
   secretParamsBase64: string
-): Promise<ArrayBuffer> {
+): Promise<Uint8Array> {
   const sender = window.textsecure.messaging;
   if (!sender) {
     throw new Error(
@@ -4549,7 +4530,7 @@ export async function decryptGroupAvatar(
     );
   }
 
-  const ciphertext = new FIXMEU8(await sender.getGroupAvatar(avatarKey));
+  const ciphertext = await sender.getGroupAvatar(avatarKey);
   const clientZkGroupCipher = getClientZkGroupCipher(secretParamsBase64);
   const plaintext = decryptGroupBlob(clientZkGroupCipher, ciphertext);
   const blob = Proto.GroupAttributeBlob.decode(plaintext);
@@ -4559,7 +4540,7 @@ export async function decryptGroupAvatar(
     );
   }
 
-  return typedArrayToArrayBuffer(blob.avatar);
+  return blob.avatar;
 }
 
 // Ovewriting result.avatar as part of functionality
@@ -4583,7 +4564,7 @@ export async function applyNewAvatar(
       }
 
       const data = await decryptGroupAvatar(newAvatar, result.secretParams);
-      const hash = await computeHash(data);
+      const hash = computeHash(data);
 
       if (result.avatar && result.avatar.path && result.avatar.hash !== hash) {
         await window.Signal.Migrations.deleteAttachmentData(result.avatar.path);

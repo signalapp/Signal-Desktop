@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable no-param-reassign */
-/* eslint-disable more/no-then */
 /* eslint-disable no-bitwise */
 /* eslint-disable guard-for-in */
 /* eslint-disable no-restricted-syntax */
@@ -34,20 +33,16 @@ import * as durations from '../util/durations';
 import { getUserAgent } from '../util/getUserAgent';
 import { toWebSafeBase64 } from '../util/webSafeBase64';
 import { SocketStatus } from '../types/SocketStatus';
+import { toLogFormat } from '../types/errors';
 import { isPackIdValid, redactPackId } from '../types/Stickers';
 import * as Bytes from '../Bytes';
 import {
-  arrayBufferToBase64,
-  base64ToArrayBuffer,
-  bytesFromString,
-  concatenateBytes,
   constantTimeEqual,
   decryptAesGcm,
   deriveSecrets,
   encryptCdsDiscoveryRequest,
   getRandomValue,
   splitUuids,
-  typedArrayToArrayBuffer,
 } from '../Crypto';
 import { calculateAgreement, generateKeyPair } from '../Curve';
 import * as linkPreviewFetch from '../linkPreviews/linkPreviewFetch';
@@ -65,9 +60,6 @@ import MessageSender from './SendMessage';
 import { WebAPICredentials, IRequestHandler } from './Types.d';
 import { handleStatusCode, translateError } from './Utils';
 import * as log from '../logging/log';
-
-// TODO: remove once we move away from ArrayBuffers
-const FIXMEU8 = Uint8Array;
 
 // Note: this will break some code that expects to be able to use err.response when a
 //   web request fails, because it will force it to text. But it is very useful for
@@ -111,20 +103,9 @@ function getSgxConstants() {
   return sgxConstantCache;
 }
 
-function _btoa(str: any) {
-  let buffer;
-
-  if (str instanceof Buffer) {
-    buffer = str;
-  } else {
-    buffer = Buffer.from(str.toString(), 'binary');
-  }
-
-  return buffer.toString('base64');
-}
-
 const _call = (object: any) => Object.prototype.toString.call(object);
 
+// TODO: DESKTOP-2424
 const ArrayBufferToString = _call(new ArrayBuffer(0));
 const Uint8ArrayToString = _call(new Uint8Array());
 
@@ -139,21 +120,6 @@ function _getString(thing: any): string {
   }
 
   return thing;
-}
-
-// prettier-ignore
-function _b64ToUint6(nChr: number) {
-  return nChr > 64 && nChr < 91
-    ? nChr - 65
-    : nChr > 96 && nChr < 123
-      ? nChr - 71
-      : nChr > 47 && nChr < 58
-        ? nChr + 4
-        : nChr === 43
-          ? 62
-          : nChr === 47
-            ? 63
-            : 0;
 }
 
 function _getStringable(thing: any) {
@@ -196,40 +162,8 @@ function _ensureStringed(thing: any): any {
   throw new Error(`unsure of how to jsonify object of type ${typeof thing}`);
 }
 
-function _jsonThing(thing: any) {
+function _jsonThing(thing: any): string {
   return JSON.stringify(_ensureStringed(thing));
-}
-
-function _base64ToBytes(sBase64: string, nBlocksSize?: number) {
-  const sB64Enc = sBase64.replace(/[^A-Za-z0-9+/]/g, '');
-  const nInLen = sB64Enc.length;
-  const nOutLen = nBlocksSize
-    ? Math.ceil(((nInLen * 3 + 1) >> 2) / nBlocksSize) * nBlocksSize
-    : (nInLen * 3 + 1) >> 2;
-  const aBBytes = new ArrayBuffer(nOutLen);
-  const taBytes = new Uint8Array(aBBytes);
-
-  let nMod3 = 0;
-  let nMod4 = 0;
-  let nUint24 = 0;
-  let nOutIdx = 0;
-
-  for (let nInIdx = 0; nInIdx < nInLen; nInIdx += 1) {
-    nMod4 = nInIdx & 3;
-    nUint24 |= _b64ToUint6(sB64Enc.charCodeAt(nInIdx)) << (18 - 6 * nMod4);
-    if (nMod4 === 3 || nInLen - nInIdx === 1) {
-      for (
-        nMod3 = 0;
-        nMod3 < 3 && nOutIdx < nOutLen;
-        nMod3 += 1, nOutIdx += 1
-      ) {
-        taBytes[nOutIdx] = (nUint24 >>> ((16 >>> nMod3) & 24)) & 255;
-      }
-      nUint24 = 0;
-    }
-  }
-
-  return aBBytes;
 }
 
 function _createRedactor(
@@ -298,7 +232,7 @@ type PromiseAjaxOptionsType = {
   basicAuth?: string;
   certificateAuthority?: string;
   contentType?: string;
-  data?: ArrayBuffer | Buffer | string;
+  data?: Uint8Array | string;
   headers?: HeaderListType;
   host?: string;
   password?: string;
@@ -306,11 +240,7 @@ type PromiseAjaxOptionsType = {
   proxyUrl?: string;
   redactUrl?: RedactUrl;
   redirect?: 'error' | 'follow' | 'manual';
-  responseType?:
-    | 'json'
-    | 'jsonwithdetails'
-    | 'arraybuffer'
-    | 'arraybufferwithdetails';
+  responseType?: 'json' | 'jsonwithdetails' | 'bytes' | 'byteswithdetails';
   serverUrl?: string;
   stack?: string;
   timeout?: number;
@@ -322,12 +252,12 @@ type PromiseAjaxOptionsType = {
 };
 
 type JSONWithDetailsType = {
-  data: any;
+  data: unknown;
   contentType: string | null;
   response: Response;
 };
-type ArrayBufferWithDetailsType = {
-  data: ArrayBuffer;
+type BytesWithDetailsType = {
+  data: Uint8Array;
   contentType: string | null;
   response: Response;
 };
@@ -387,13 +317,7 @@ function getHostname(url: string): string {
 async function _promiseAjax(
   providedUrl: string | null,
   options: PromiseAjaxOptionsType
-): Promise<
-  | string
-  | ArrayBuffer
-  | unknown
-  | JSONWithDetailsType
-  | ArrayBufferWithDetailsType
-> {
+): Promise<unknown> {
   const url = providedUrl || `${options.host}/${options.path}`;
 
   const unauthLabel = options.unauthenticated ? ' (unauth)' : '';
@@ -437,8 +361,8 @@ async function _promiseAjax(
     timeout,
   };
 
-  if (fetchOptions.body instanceof ArrayBuffer) {
-    // node-fetch doesn't support ArrayBuffer, only node Buffer
+  if (fetchOptions.body instanceof Uint8Array) {
+    // node-fetch doesn't support Uint8Array, only node Buffer
     const contentLength = fetchOptions.body.byteLength;
     fetchOptions.body = Buffer.from(fetchOptions.body);
 
@@ -458,9 +382,9 @@ async function _promiseAjax(
     // Access key is already a Base64 string
     fetchOptions.headers['Unidentified-Access-Key'] = accessKey;
   } else if (options.user && options.password) {
-    const user = _getString(options.user);
-    const password = _getString(options.password);
-    const auth = _btoa(`${user}:${password}`);
+    const auth = Bytes.toBase64(
+      Bytes.fromString(`${options.user}:${options.password}`)
+    );
     fetchOptions.headers.Authorization = `Basic ${auth}`;
   }
 
@@ -469,7 +393,7 @@ async function _promiseAjax(
   }
 
   let response: Response;
-  let result: string | ArrayBuffer | unknown;
+  let result: string | Uint8Array | unknown;
   try {
     response = socketManager
       ? await socketManager.fetch(url, fetchOptions)
@@ -498,10 +422,10 @@ async function _promiseAjax(
     ) {
       result = await response.json();
     } else if (
-      options.responseType === 'arraybuffer' ||
-      options.responseType === 'arraybufferwithdetails'
+      options.responseType === 'bytes' ||
+      options.responseType === 'byteswithdetails'
     ) {
-      result = await response.arrayBuffer();
+      result = await response.buffer();
     } else {
       result = await response.textConverted();
     }
@@ -564,9 +488,9 @@ async function _promiseAjax(
     log.info(options.type, url, response.status, 'Success');
   }
 
-  if (options.responseType === 'arraybufferwithdetails') {
-    assert(result instanceof ArrayBuffer, 'Expected ArrayBuffer result');
-    const fullResult: ArrayBufferWithDetailsType = {
+  if (options.responseType === 'byteswithdetails') {
+    assert(result instanceof Uint8Array, 'Expected Uint8Array result');
+    const fullResult: BytesWithDetailsType = {
       data: result,
       contentType: getContentType(response),
       response,
@@ -593,11 +517,13 @@ async function _retryAjax(
   options: PromiseAjaxOptionsType,
   providedLimit?: number,
   providedCount?: number
-) {
+): Promise<unknown> {
   const count = (providedCount || 0) + 1;
   const limit = providedLimit || 3;
 
-  return _promiseAjax(url, options).catch(async (e: Error) => {
+  try {
+    return await _promiseAjax(url, options);
+  } catch (e) {
     if (e instanceof HTTPError && e.code === -1 && count < limit) {
       return new Promise(resolve => {
         setTimeout(() => {
@@ -606,10 +532,34 @@ async function _retryAjax(
       });
     }
     throw e;
-  });
+  }
 }
 
-async function _outerAjax(url: string | null, options: PromiseAjaxOptionsType) {
+function _outerAjax(
+  providedUrl: string | null,
+  options: PromiseAjaxOptionsType & { responseType: 'json' }
+): Promise<unknown>;
+function _outerAjax(
+  providedUrl: string | null,
+  options: PromiseAjaxOptionsType & { responseType: 'jsonwithdetails' }
+): Promise<JSONWithDetailsType>;
+function _outerAjax(
+  providedUrl: string | null,
+  options: PromiseAjaxOptionsType & { responseType?: 'bytes' }
+): Promise<Uint8Array>;
+function _outerAjax(
+  providedUrl: string | null,
+  options: PromiseAjaxOptionsType & { responseType: 'byteswithdetails' }
+): Promise<BytesWithDetailsType>;
+function _outerAjax(
+  providedUrl: string | null,
+  options: PromiseAjaxOptionsType
+): Promise<unknown>;
+
+async function _outerAjax(
+  url: string | null,
+  options: PromiseAjaxOptionsType
+): Promise<unknown> {
   options.stack = new Error().stack; // just in case, save stack here.
 
   return _retryAjax(url, options);
@@ -619,7 +569,7 @@ function makeHTTPError(
   message: string,
   providedCode: number,
   headers: HeaderListType,
-  response: any,
+  response: unknown,
   stack?: string
 ) {
   return new HTTPError(message, {
@@ -718,14 +668,14 @@ type AjaxOptionsType = {
   basicAuth?: string;
   call: keyof typeof URL_CALLS;
   contentType?: string;
-  data?: ArrayBuffer | Buffer | Uint8Array | string;
+  data?: Uint8Array | Buffer | Uint8Array | string;
   headers?: HeaderListType;
   host?: string;
   httpType: HTTPCodeType;
-  jsonData?: any;
+  jsonData?: unknown;
   password?: string;
   redactUrl?: RedactUrl;
-  responseType?: 'json' | 'arraybuffer' | 'arraybufferwithdetails';
+  responseType?: 'json' | 'bytes' | 'byteswithdetails';
   schema?: unknown;
   timeout?: number;
   unauthenticated?: boolean;
@@ -757,7 +707,7 @@ export type CapabilitiesUploadType = {
   changeNumber: true;
 };
 
-type StickerPackManifestType = ArrayBuffer;
+type StickerPackManifestType = Uint8Array;
 
 export type GroupCredentialType = {
   credential: string;
@@ -811,6 +761,35 @@ export type ProfileType = Readonly<{
   capabilities?: unknown;
 }>;
 
+export type GetIceServersResultType = Readonly<{
+  username: string;
+  password: string;
+  urls: ReadonlyArray<string>;
+}>;
+
+export type GetDevicesResultType = ReadonlyArray<
+  Readonly<{
+    id: number;
+    name: string;
+    lastSeen: number;
+    created: number;
+  }>
+>;
+
+export type GetSenderCertificateResultType = Readonly<{ certificate: string }>;
+
+export type MakeProxiedRequestResultType =
+  | Uint8Array
+  | {
+      result: BytesWithDetailsType;
+      totalSize: number;
+    };
+
+export type WhoamiResultType = Readonly<{
+  uuid?: string;
+  number?: string;
+}>;
+
 export type WebAPIType = {
   confirmCode: (
     number: string,
@@ -818,28 +797,21 @@ export type WebAPIType = {
     newPassword: string,
     registrationId: number,
     deviceName?: string | null,
-    options?: { accessKey?: ArrayBuffer; uuid?: string }
-  ) => Promise<{ uuid?: string; deviceId: number }>;
+    options?: { accessKey?: Uint8Array; uuid?: string }
+  ) => Promise<{ uuid?: string; deviceId?: number }>;
   createGroup: (
     group: Proto.IGroup,
     options: GroupCredentialsType
   ) => Promise<void>;
-  getAttachment: (cdnKey: string, cdnNumber?: number) => Promise<ArrayBuffer>;
-  getAvatar: (path: string) => Promise<ArrayBuffer>;
-  getDevices: () => Promise<
-    Array<{
-      id: number;
-      name: string;
-      lastSeen: number;
-      created: number;
-    }>
-  >;
+  getAttachment: (cdnKey: string, cdnNumber?: number) => Promise<Uint8Array>;
+  getAvatar: (path: string) => Promise<Uint8Array>;
+  getDevices: () => Promise<GetDevicesResultType>;
   getGroup: (options: GroupCredentialsType) => Promise<Proto.Group>;
   getGroupFromLink: (
     inviteLinkPassword: string,
     auth: GroupCredentialsType
   ) => Promise<Proto.GroupJoinInfo>;
-  getGroupAvatar: (key: string) => Promise<ArrayBuffer>;
+  getGroupAvatar: (key: string) => Promise<Uint8Array>;
   getGroupCredentials: (
     startDay: number,
     endDay: number
@@ -851,11 +823,7 @@ export type WebAPIType = {
     startVersion: number,
     options: GroupCredentialsType
   ) => Promise<GroupLogResponseType>;
-  getIceServers: () => Promise<{
-    username: string;
-    password: string;
-    urls: Array<string>;
-  }>;
+  getIceServers: () => Promise<GetIceServersResultType>;
   getKeysForIdentifier: (
     identifier: string,
     deviceId?: number
@@ -886,8 +854,8 @@ export type WebAPIType = {
   ) => Promise<WebSocketResource>;
   getSenderCertificate: (
     withUuid?: boolean
-  ) => Promise<{ certificate: string }>;
-  getSticker: (packId: string, stickerId: number) => Promise<any>;
+  ) => Promise<GetSenderCertificateResultType>;
+  getSticker: (packId: string, stickerId: number) => Promise<Uint8Array>;
   getStickerPackManifest: (packId: string) => Promise<StickerPackManifestType>;
   getStorageCredentials: MessageSender['getStorageCredentials'];
   getStorageManifest: MessageSender['getStorageManifest'];
@@ -906,33 +874,27 @@ export type WebAPIType = {
   makeProxiedRequest: (
     targetUrl: string,
     options?: ProxiedRequestOptionsType
-  ) => Promise<
-    | ArrayBufferWithDetailsType
-    | {
-        result: ArrayBufferWithDetailsType;
-        totalSize: number;
-      }
-  >;
+  ) => Promise<MakeProxiedRequestResultType>;
   makeSfuRequest: (
     targetUrl: string,
     type: HTTPCodeType,
     headers: HeaderListType,
-    body: ArrayBuffer | undefined
-  ) => Promise<ArrayBufferWithDetailsType>;
+    body: Uint8Array | undefined
+  ) => Promise<BytesWithDetailsType>;
   modifyGroup: (
     changes: Proto.GroupChange.IActions,
     options: GroupCredentialsType,
     inviteLinkBase64?: string
   ) => Promise<Proto.IGroupChange>;
   modifyStorageRecords: MessageSender['modifyStorageRecords'];
-  putAttachment: (encryptedBin: ArrayBuffer) => Promise<string>;
+  putAttachment: (encryptedBin: Uint8Array) => Promise<string>;
   putProfile: (
     jsonData: ProfileRequestDataType
   ) => Promise<UploadAvatarHeadersType | undefined>;
   registerCapabilities: (capabilities: CapabilitiesUploadType) => Promise<void>;
   putStickers: (
-    encryptedManifest: ArrayBuffer,
-    encryptedStickers: Array<ArrayBuffer>,
+    encryptedManifest: Uint8Array,
+    encryptedStickers: Array<Uint8Array>,
     onProgress?: () => void
   ) => Promise<string>;
   registerKeys: (genKeys: KeysType) => Promise<void>;
@@ -954,8 +916,8 @@ export type WebAPIType = {
     options?: { accessKey?: string }
   ) => Promise<void>;
   sendWithSenderKey: (
-    payload: ArrayBuffer,
-    accessKeys: ArrayBuffer,
+    payload: Uint8Array,
+    accessKeys: Uint8Array,
     timestamp: number,
     online?: boolean
   ) => Promise<MultiRecipient200ResponseType>;
@@ -963,16 +925,13 @@ export type WebAPIType = {
   updateDeviceName: (deviceName: string) => Promise<void>;
   uploadAvatar: (
     uploadAvatarRequestHeaders: UploadAvatarHeadersType,
-    avatarData: ArrayBuffer
+    avatarData: Uint8Array
   ) => Promise<string>;
   uploadGroupAvatar: (
     avatarData: Uint8Array,
     options: GroupCredentialsType
   ) => Promise<string>;
-  whoami: () => Promise<{
-    uuid?: string;
-    number?: string;
-  }>;
+  whoami: () => Promise<WhoamiResultType>;
   sendChallengeResponse: (challengeResponse: ChallengeType) => Promise<void>;
   getConfig: () => Promise<
     Array<{ name: string; enabled: boolean; value: string | null }>
@@ -989,16 +948,16 @@ export type WebAPIType = {
 
 export type SignedPreKeyType = {
   keyId: number;
-  publicKey: ArrayBuffer;
-  signature: ArrayBuffer;
+  publicKey: Uint8Array;
+  signature: Uint8Array;
 };
 
 export type KeysType = {
-  identityKey: ArrayBuffer;
+  identityKey: Uint8Array;
   signedPreKey: SignedPreKeyType;
   preKeys: Array<{
     keyId: number;
-    publicKey: ArrayBuffer;
+    publicKey: Uint8Array;
   }>;
 };
 
@@ -1008,15 +967,15 @@ export type ServerKeysType = {
     registrationId: number;
     signedPreKey: {
       keyId: number;
-      publicKey: ArrayBuffer;
-      signature: ArrayBuffer;
+      publicKey: Uint8Array;
+      signature: Uint8Array;
     };
     preKey?: {
       keyId: number;
-      publicKey: ArrayBuffer;
+      publicKey: Uint8Array;
     };
   }>;
-  identityKey: ArrayBuffer;
+  identityKey: Uint8Array;
 };
 
 export type ChallengeType = {
@@ -1026,7 +985,7 @@ export type ChallengeType = {
 };
 
 export type ProxiedRequestOptionsType = {
-  returnArrayBuffer?: boolean;
+  returnUint8Array?: boolean;
   start?: number;
   end?: number;
 };
@@ -1181,7 +1140,17 @@ export function initialize({
       sendChallengeResponse,
     };
 
-    async function _ajax(param: AjaxOptionsType): Promise<any> {
+    function _ajax(
+      param: AjaxOptionsType & { responseType?: 'bytes' }
+    ): Promise<Uint8Array>;
+    function _ajax(
+      param: AjaxOptionsType & { responseType: 'byteswithdetails' }
+    ): Promise<BytesWithDetailsType>;
+    function _ajax(
+      param: AjaxOptionsType & { responseType: 'json' }
+    ): Promise<unknown>;
+
+    async function _ajax(param: AjaxOptionsType): Promise<unknown> {
       if (!param.urlParameters) {
         param.urlParameters = '';
       }
@@ -1189,12 +1158,14 @@ export function initialize({
       const useWebSocketForEndpoint =
         useWebSocket && WEBSOCKET_CALLS.has(param.call);
 
-      return _outerAjax(null, {
+      const outerParams = {
         socketManager: useWebSocketForEndpoint ? socketManager : undefined,
         basicAuth: param.basicAuth,
         certificateAuthority,
         contentType: param.contentType || 'application/json; charset=utf-8',
-        data: param.data || (param.jsonData && _jsonThing(param.jsonData)),
+        data:
+          param.data ||
+          (param.jsonData ? _jsonThing(param.jsonData) : undefined),
         headers: param.headers,
         host: param.host || url,
         password: param.password || password,
@@ -1210,7 +1181,11 @@ export function initialize({
         version,
         unauthenticated: param.unauthenticated,
         accessKey: param.accessKey,
-      }).catch((e: Error) => {
+      };
+
+      try {
+        return await _outerAjax(null, outerParams);
+      } catch (e) {
         if (!(e instanceof HTTPError)) {
           throw e;
         }
@@ -1218,19 +1193,20 @@ export function initialize({
         if (translatedError) {
           throw translatedError;
         }
-      });
+        throw e;
+      }
     }
 
     async function whoami() {
-      return _ajax({
+      return (await _ajax({
         call: 'whoami',
         httpType: 'GET',
         responseType: 'json',
-      });
+      })) as WhoamiResultType;
     }
 
     async function sendChallengeResponse(challengeResponse: ChallengeType) {
-      return _ajax({
+      await _ajax({
         call: 'challenge',
         httpType: 'PUT',
         jsonData: challengeResponse,
@@ -1287,11 +1263,11 @@ export function initialize({
       type ResType = {
         config: Array<{ name: string; enabled: boolean; value: string | null }>;
       };
-      const res: ResType = await _ajax({
+      const res = (await _ajax({
         call: 'config',
         httpType: 'GET',
         responseType: 'json',
-      });
+      })) as ResType;
 
       return res.config.filter(
         ({ name }: { name: string }) =>
@@ -1300,27 +1276,27 @@ export function initialize({
     }
 
     async function getSenderCertificate(omitE164?: boolean) {
-      return _ajax({
+      return (await _ajax({
         call: 'deliveryCert',
         httpType: 'GET',
         responseType: 'json',
         validateResponse: { certificate: 'string' },
         ...(omitE164 ? { urlParameters: '?includeE164=false' } : {}),
-      });
+      })) as GetSenderCertificateResultType;
     }
 
     async function getStorageCredentials(): Promise<StorageServiceCredentials> {
-      return _ajax({
+      return (await _ajax({
         call: 'storageToken',
         httpType: 'GET',
         responseType: 'json',
         schema: { username: 'string', password: 'string' },
-      });
+      })) as StorageServiceCredentials;
     }
 
     async function getStorageManifest(
       options: StorageServiceCallOptionsType = {}
-    ): Promise<ArrayBuffer> {
+    ): Promise<Uint8Array> {
       const { credentials, greaterThanVersion } = options;
 
       return _ajax({
@@ -1328,7 +1304,7 @@ export function initialize({
         contentType: 'application/x-protobuf',
         host: storageUrl,
         httpType: 'GET',
-        responseType: 'arraybuffer',
+        responseType: 'bytes',
         urlParameters: greaterThanVersion
           ? `/version/${greaterThanVersion}`
           : '',
@@ -1337,9 +1313,9 @@ export function initialize({
     }
 
     async function getStorageRecords(
-      data: ArrayBuffer,
+      data: Uint8Array,
       options: StorageServiceCallOptionsType = {}
-    ): Promise<ArrayBuffer> {
+    ): Promise<Uint8Array> {
       const { credentials } = options;
 
       return _ajax({
@@ -1348,15 +1324,15 @@ export function initialize({
         data,
         host: storageUrl,
         httpType: 'PUT',
-        responseType: 'arraybuffer',
+        responseType: 'bytes',
         ...credentials,
       });
     }
 
     async function modifyStorageRecords(
-      data: ArrayBuffer,
+      data: Uint8Array,
       options: StorageServiceCallOptionsType = {}
-    ): Promise<ArrayBuffer> {
+    ): Promise<Uint8Array> {
       const { credentials } = options;
 
       return _ajax({
@@ -1366,14 +1342,14 @@ export function initialize({
         host: storageUrl,
         httpType: 'PUT',
         // If we run into a conflict, the current manifest is returned -
-        //   it will will be an ArrayBuffer at the response key on the Error
-        responseType: 'arraybuffer',
+        //   it will will be an Uint8Array at the response key on the Error
+        responseType: 'bytes',
         ...credentials,
       });
     }
 
     async function registerSupportForUnauthenticatedDelivery() {
-      return _ajax({
+      await _ajax({
         call: 'supportUnauthenticatedDelivery',
         httpType: 'PUT',
         responseType: 'json',
@@ -1381,7 +1357,7 @@ export function initialize({
     }
 
     async function registerCapabilities(capabilities: CapabilitiesUploadType) {
-      return _ajax({
+      await _ajax({
         call: 'registerCapabilities',
         httpType: 'PUT',
         jsonData: capabilities,
@@ -1414,7 +1390,7 @@ export function initialize({
     ) {
       const { profileKeyVersion, profileKeyCredentialRequest } = options;
 
-      return _ajax({
+      return (await _ajax({
         call: 'profile',
         httpType: 'GET',
         urlParameters: getProfileUrl(
@@ -1428,7 +1404,7 @@ export function initialize({
           profileKeyVersion,
           profileKeyCredentialRequest
         ),
-      });
+      })) as ProfileType;
     }
 
     async function putProfile(
@@ -1437,6 +1413,7 @@ export function initialize({
       const res = await _ajax({
         call: 'profile',
         httpType: 'PUT',
+        responseType: 'json',
         jsonData,
       });
 
@@ -1444,8 +1421,7 @@ export function initialize({
         return;
       }
 
-      const parsed = JSON.parse(res);
-      return uploadAvatarHeadersZod.parse(parsed);
+      return uploadAvatarHeadersZod.parse(res);
     }
 
     async function getProfileUnauth(
@@ -1462,7 +1438,7 @@ export function initialize({
         profileKeyCredentialRequest,
       } = options;
 
-      return _ajax({
+      return (await _ajax({
         call: 'profile',
         httpType: 'GET',
         urlParameters: getProfileUrl(
@@ -1478,17 +1454,17 @@ export function initialize({
           profileKeyVersion,
           profileKeyCredentialRequest
         ),
-      });
+      })) as ProfileType;
     }
 
     async function getAvatar(path: string) {
       // Using _outerAJAX, since it's not hardcoded to the Signal Server. Unlike our
       //   attachment CDN, it uses our self-signed certificate, so we pass it in.
-      return (await _outerAjax(`${cdnUrlObject['0']}/${path}`, {
+      return _outerAjax(`${cdnUrlObject['0']}/${path}`, {
         certificateAuthority,
         contentType: 'application/octet-stream',
         proxyUrl,
-        responseType: 'arraybuffer',
+        responseType: 'bytes',
         timeout: 0,
         type: 'GET',
         redactUrl: (href: string) => {
@@ -1496,7 +1472,7 @@ export function initialize({
           return href.replace(pattern, `[REDACTED]${path.slice(-3)}`);
         },
         version,
-      })) as ArrayBuffer;
+      });
     }
 
     async function reportMessage(
@@ -1507,12 +1483,12 @@ export function initialize({
         call: 'reportMessage',
         httpType: 'POST',
         urlParameters: `/${senderE164}/${serverGuid}`,
-        responseType: 'arraybuffer',
+        responseType: 'bytes',
       });
     }
 
     async function requestVerificationSMS(number: string) {
-      return _ajax({
+      await _ajax({
         call: 'accounts',
         httpType: 'GET',
         urlParameters: `/sms/code/${number}`,
@@ -1520,7 +1496,7 @@ export function initialize({
     }
 
     async function requestVerificationVoice(number: string) {
-      return _ajax({
+      await _ajax({
         call: 'accounts',
         httpType: 'GET',
         urlParameters: `/voice/code/${number}`,
@@ -1533,7 +1509,7 @@ export function initialize({
       newPassword: string,
       registrationId: number,
       deviceName?: string | null,
-      options: { accessKey?: ArrayBuffer; uuid?: string } = {}
+      options: { accessKey?: Uint8Array; uuid?: string } = {}
     ) {
       const capabilities: CapabilitiesUploadType = {
         announcementGroup: true,
@@ -1544,14 +1520,14 @@ export function initialize({
       };
 
       const { accessKey, uuid } = options;
-      const jsonData: any = {
+      const jsonData = {
         capabilities,
         fetchesMessages: true,
         name: deviceName || undefined,
         registrationId,
         supportsSms: false,
         unidentifiedAccessKey: accessKey
-          ? _btoa(_getString(accessKey))
+          ? Bytes.toBase64(accessKey)
           : undefined,
         unrestrictedUnidentifiedAccess: false,
       };
@@ -1568,13 +1544,13 @@ export function initialize({
       username = number;
       password = newPassword;
 
-      const response = await _ajax({
+      const response = (await _ajax({
         call,
         httpType: 'PUT',
         responseType: 'json',
         urlParameters: urlPrefix + code,
         jsonData,
-      });
+      })) as { uuid?: string; deviceId?: number };
 
       // Set final REST credentials to let `registerKeys` succeed.
       username = `${uuid || response.uuid || number}.${response.deviceId || 1}`;
@@ -1584,7 +1560,7 @@ export function initialize({
     }
 
     async function updateDeviceName(deviceName: string) {
-      return _ajax({
+      await _ajax({
         call: 'updateDeviceName',
         httpType: 'PUT',
         jsonData: {
@@ -1594,18 +1570,19 @@ export function initialize({
     }
 
     async function getIceServers() {
-      return _ajax({
+      return (await _ajax({
         call: 'getIceServers',
         httpType: 'GET',
         responseType: 'json',
-      });
+      })) as GetIceServersResultType;
     }
 
     async function getDevices() {
-      return _ajax({
+      return (await _ajax({
         call: 'devices',
         httpType: 'GET',
-      });
+        responseType: 'json',
+      })) as GetDevicesResultType;
     }
 
     type JSONSignedPreKeyType = {
@@ -1621,34 +1598,25 @@ export function initialize({
         keyId: number;
         publicKey: string;
       }>;
-      lastResortKey: {
-        keyId: number;
-        publicKey: string;
-      };
     };
 
     async function registerKeys(genKeys: KeysType) {
       const preKeys = genKeys.preKeys.map(key => ({
         keyId: key.keyId,
-        publicKey: _btoa(_getString(key.publicKey)),
+        publicKey: Bytes.toBase64(key.publicKey),
       }));
 
       const keys: JSONKeysType = {
-        identityKey: _btoa(_getString(genKeys.identityKey)),
+        identityKey: Bytes.toBase64(genKeys.identityKey),
         signedPreKey: {
           keyId: genKeys.signedPreKey.keyId,
-          publicKey: _btoa(_getString(genKeys.signedPreKey.publicKey)),
-          signature: _btoa(_getString(genKeys.signedPreKey.signature)),
+          publicKey: Bytes.toBase64(genKeys.signedPreKey.publicKey),
+          signature: Bytes.toBase64(genKeys.signedPreKey.signature),
         },
         preKeys,
-        // This is just to make the server happy (v2 clients should choke on publicKey)
-        lastResortKey: {
-          keyId: 0x7fffffff,
-          publicKey: _btoa('42'),
-        },
       };
 
-      return _ajax({
+      await _ajax({
         call: 'keys',
         httpType: 'PUT',
         jsonData: keys,
@@ -1656,13 +1624,13 @@ export function initialize({
     }
 
     async function setSignedPreKey(signedPreKey: SignedPreKeyType) {
-      return _ajax({
+      await _ajax({
         call: 'signed',
         httpType: 'PUT',
         jsonData: {
           keyId: signedPreKey.keyId,
-          publicKey: _btoa(_getString(signedPreKey.publicKey)),
-          signature: _btoa(_getString(signedPreKey.signature)),
+          publicKey: Bytes.toBase64(signedPreKey.publicKey),
+          signature: Bytes.toBase64(signedPreKey.signature),
         },
       });
     }
@@ -1672,12 +1640,12 @@ export function initialize({
     };
 
     async function getMyKeys(): Promise<number> {
-      const result: ServerKeyCountType = await _ajax({
+      const result = (await _ajax({
         call: 'keys',
         httpType: 'GET',
         responseType: 'json',
         validateResponse: { count: 'number' },
-      });
+      })) as ServerKeyCountType;
 
       return result.count;
     }
@@ -1726,7 +1694,7 @@ export function initialize({
 
           preKey = {
             keyId: device.preKey.keyId,
-            publicKey: _base64ToBytes(device.preKey.publicKey),
+            publicKey: Bytes.fromBase64(device.preKey.publicKey),
           };
         }
 
@@ -1736,26 +1704,27 @@ export function initialize({
           preKey,
           signedPreKey: {
             keyId: device.signedPreKey.keyId,
-            publicKey: _base64ToBytes(device.signedPreKey.publicKey),
-            signature: _base64ToBytes(device.signedPreKey.signature),
+            publicKey: Bytes.fromBase64(device.signedPreKey.publicKey),
+            signature: Bytes.fromBase64(device.signedPreKey.signature),
           },
         };
       });
 
       return {
         devices,
-        identityKey: _base64ToBytes(res.identityKey),
+        identityKey: Bytes.fromBase64(res.identityKey),
       };
     }
 
     async function getKeysForIdentifier(identifier: string, deviceId?: number) {
-      return _ajax({
+      const keys = (await _ajax({
         call: 'keys',
         httpType: 'GET',
         urlParameters: `/${identifier}/${deviceId || '*'}`,
         responseType: 'json',
         validateResponse: { identityKey: 'string', devices: 'object' },
-      }).then(handleKeys);
+      })) as ServerKeyResponseType;
+      return handleKeys(keys);
     }
 
     async function getKeysForIdentifierUnauth(
@@ -1763,7 +1732,7 @@ export function initialize({
       deviceId?: number,
       { accessKey }: { accessKey?: string } = {}
     ) {
-      return _ajax({
+      const keys = (await _ajax({
         call: 'keys',
         httpType: 'GET',
         urlParameters: `/${identifier}/${deviceId || '*'}`,
@@ -1771,7 +1740,8 @@ export function initialize({
         validateResponse: { identityKey: 'string', devices: 'object' },
         unauthenticated: true,
         accessKey,
-      }).then(handleKeys);
+      })) as ServerKeyResponseType;
+      return handleKeys(keys);
     }
 
     function validateMessages(messages: Array<unknown>): void {
@@ -1782,20 +1752,21 @@ export function initialize({
 
     async function sendMessagesUnauth(
       destination: string,
-      messageArray: Array<MessageType>,
+      messages: Array<MessageType>,
       timestamp: number,
       online?: boolean,
       { accessKey }: { accessKey?: string } = {}
     ) {
-      const jsonData: any = { messages: messageArray, timestamp };
-
+      let jsonData;
       if (online) {
-        jsonData.online = true;
+        jsonData = { messages, timestamp, online: true };
+      } else {
+        jsonData = { messages, timestamp };
       }
 
-      validateMessages(messageArray);
+      validateMessages(messages);
 
-      return _ajax({
+      await _ajax({
         call: 'messages',
         httpType: 'PUT',
         urlParameters: `/${destination}`,
@@ -1808,19 +1779,20 @@ export function initialize({
 
     async function sendMessages(
       destination: string,
-      messageArray: Array<MessageType>,
+      messages: Array<MessageType>,
       timestamp: number,
       online?: boolean
     ) {
-      const jsonData: any = { messages: messageArray, timestamp };
-
+      let jsonData;
       if (online) {
-        jsonData.online = true;
+        jsonData = { messages, timestamp, online: true };
+      } else {
+        jsonData = { messages, timestamp };
       }
 
-      validateMessages(messageArray);
+      validateMessages(messages);
 
-      return _ajax({
+      await _ajax({
         call: 'messages',
         httpType: 'PUT',
         urlParameters: `/${destination}`,
@@ -1830,12 +1802,12 @@ export function initialize({
     }
 
     async function sendWithSenderKey(
-      data: ArrayBuffer,
-      accessKeys: ArrayBuffer,
+      data: Uint8Array,
+      accessKeys: Uint8Array,
       timestamp: number,
       online?: boolean
     ): Promise<MultiRecipient200ResponseType> {
-      return _ajax({
+      const response = await _ajax({
         call: 'multiRecipient',
         httpType: 'PUT',
         contentType: 'application/vnd.signal-messenger.mrm',
@@ -1843,8 +1815,18 @@ export function initialize({
         urlParameters: `?ts=${timestamp}&online=${online ? 'true' : 'false'}`,
         responseType: 'json',
         unauthenticated: true,
-        accessKey: arrayBufferToBase64(accessKeys),
+        accessKey: Bytes.toBase64(accessKeys),
       });
+      const parseResult = multiRecipient200ResponseSchema.safeParse(response);
+      if (parseResult.success) {
+        return parseResult.data;
+      }
+
+      log.warn(
+        'WebAPI: invalid response from sendWithSenderKey',
+        toLogFormat(parseResult.error)
+      );
+      return response as MultiRecipient200ResponseType;
     }
 
     function redactStickerUrl(stickerUrl: string) {
@@ -1859,34 +1841,34 @@ export function initialize({
       if (!isPackIdValid(packId)) {
         throw new Error('getSticker: pack ID was invalid');
       }
-      return (await _outerAjax(
+      return _outerAjax(
         `${cdnUrlObject['0']}/stickers/${packId}/full/${stickerId}`,
         {
           certificateAuthority,
           proxyUrl,
-          responseType: 'arraybuffer',
+          responseType: 'bytes',
           type: 'GET',
           redactUrl: redactStickerUrl,
           version,
         }
-      )) as ArrayBuffer;
+      );
     }
 
     async function getStickerPackManifest(packId: string) {
       if (!isPackIdValid(packId)) {
         throw new Error('getStickerPackManifest: pack ID was invalid');
       }
-      return (await _outerAjax(
+      return _outerAjax(
         `${cdnUrlObject['0']}/stickers/${packId}/manifest.proto`,
         {
           certificateAuthority,
           proxyUrl,
-          responseType: 'arraybuffer',
+          responseType: 'bytes',
           type: 'GET',
           redactUrl: redactStickerUrl,
           version,
         }
-      )) as ArrayBuffer;
+      );
     }
 
     type ServerAttachmentType = {
@@ -1909,7 +1891,7 @@ export function initialize({
         policy,
         signature,
       }: ServerAttachmentType,
-      encryptedBin: ArrayBuffer
+      encryptedBin: Uint8Array
     ) {
       // Note: when using the boundary string in the POST body, it needs to be prefixed by
       //   an extra --, and the final boundary string at the end gets a -- prefix and a --
@@ -1959,17 +1941,21 @@ export function initialize({
     }
 
     async function putStickers(
-      encryptedManifest: ArrayBuffer,
-      encryptedStickers: Array<ArrayBuffer>,
+      encryptedManifest: Uint8Array,
+      encryptedStickers: Array<Uint8Array>,
       onProgress?: () => void
     ) {
       // Get manifest and sticker upload parameters
-      const { packId, manifest, stickers } = await _ajax({
+      const { packId, manifest, stickers } = (await _ajax({
         call: 'getStickerPackUpload',
         responseType: 'json',
         httpType: 'GET',
         urlParameters: `/${encryptedStickers.length}`,
-      });
+      })) as {
+        packId: string;
+        manifest: ServerAttachmentType;
+        stickers: ReadonlyArray<ServerAttachmentType>;
+      };
 
       // Upload manifest
       const manifestParams = makePutParams(manifest, encryptedManifest);
@@ -2016,23 +2002,27 @@ export function initialize({
         ? cdnUrlObject[cdnNumber] || cdnUrlObject['0']
         : cdnUrlObject['0'];
       // This is going to the CDN, not the service, so we use _outerAjax
-      return (await _outerAjax(`${cdnUrl}/attachments/${cdnKey}`, {
+      return _outerAjax(`${cdnUrl}/attachments/${cdnKey}`, {
         certificateAuthority,
         proxyUrl,
-        responseType: 'arraybuffer',
+        responseType: 'bytes',
         timeout: 0,
         type: 'GET',
         redactUrl: _createRedactor(cdnKey),
         version,
-      })) as ArrayBuffer;
+      });
     }
 
-    async function putAttachment(encryptedBin: ArrayBuffer) {
-      const response = await _ajax({
+    type PutAttachmentResponseType = ServerAttachmentType & {
+      attachmentIdString: string;
+    };
+
+    async function putAttachment(encryptedBin: Uint8Array) {
+      const response = (await _ajax({
         call: 'attachmentId',
         httpType: 'GET',
         responseType: 'json',
-      });
+      })) as PutAttachmentResponseType;
 
       const { attachmentIdString } = response;
 
@@ -2083,8 +2073,8 @@ export function initialize({
     async function makeProxiedRequest(
       targetUrl: string,
       options: ProxiedRequestOptionsType = {}
-    ) {
-      const { returnArrayBuffer, start, end } = options;
+    ): Promise<MakeProxiedRequestResultType> {
+      const { returnUint8Array, start, end } = options;
       const headers: HeaderListType = {
         'X-SignalPadding': getHeaderPadding(),
       };
@@ -2093,21 +2083,21 @@ export function initialize({
         headers.Range = `bytes=${start}-${end}`;
       }
 
-      const result = (await _outerAjax(targetUrl, {
-        responseType: returnArrayBuffer ? 'arraybufferwithdetails' : undefined,
+      const result = await _outerAjax(targetUrl, {
+        responseType: returnUint8Array ? 'byteswithdetails' : undefined,
         proxyUrl: contentProxyUrl,
         type: 'GET',
         redirect: 'follow',
         redactUrl: () => '[REDACTED_URL]',
         headers,
         version,
-      })) as ArrayBufferWithDetailsType;
+      });
 
-      if (!returnArrayBuffer) {
-        return result;
+      if (!returnUint8Array) {
+        return result as Uint8Array;
       }
 
-      const { response } = result as ArrayBufferWithDetailsType;
+      const { response } = result as BytesWithDetailsType;
       if (!response.headers || !response.headers.get) {
         throw new Error('makeProxiedRequest: Problem retrieving header value');
       }
@@ -2125,7 +2115,7 @@ export function initialize({
 
       return {
         totalSize,
-        result,
+        result: result as BytesWithDetailsType,
       };
     }
 
@@ -2133,18 +2123,18 @@ export function initialize({
       targetUrl: string,
       type: HTTPCodeType,
       headers: HeaderListType,
-      body: ArrayBuffer | undefined
-    ): Promise<ArrayBufferWithDetailsType> {
+      body: Uint8Array | undefined
+    ): Promise<BytesWithDetailsType> {
       return _outerAjax(targetUrl, {
         certificateAuthority,
         data: body,
         headers,
         proxyUrl,
-        responseType: 'arraybufferwithdetails',
+        responseType: 'byteswithdetails',
         timeout: 0,
         type,
         version,
-      }) as Promise<ArrayBufferWithDetailsType>;
+      });
     }
 
     // Groups
@@ -2153,7 +2143,11 @@ export function initialize({
       groupPublicParamsHex: string,
       authCredentialPresentationHex: string
     ) {
-      return _btoa(`${groupPublicParamsHex}:${authCredentialPresentationHex}`);
+      return Bytes.toBase64(
+        Bytes.fromString(
+          `${groupPublicParamsHex}:${authCredentialPresentationHex}`
+        )
+      );
     }
 
     type CredentialResponseType = {
@@ -2164,12 +2158,12 @@ export function initialize({
       startDay: number,
       endDay: number
     ): Promise<Array<GroupCredentialType>> {
-      const response: CredentialResponseType = await _ajax({
+      const response = (await _ajax({
         call: 'getGroupCredentials',
         urlParameters: `/${startDay}/${endDay}`,
         httpType: 'GET',
         responseType: 'json',
-      });
+      })) as CredentialResponseType;
 
       return response.credentials;
     }
@@ -2182,16 +2176,16 @@ export function initialize({
         options.authCredentialPresentationHex
       );
 
-      const response: ArrayBuffer = await _ajax({
+      const response = await _ajax({
         basicAuth,
         call: 'groupToken',
         httpType: 'GET',
         contentType: 'application/x-protobuf',
-        responseType: 'arraybuffer',
+        responseType: 'bytes',
         host: storageUrl,
       });
 
-      return Proto.GroupExternalCredential.decode(new FIXMEU8(response));
+      return Proto.GroupExternalCredential.decode(response);
     }
 
     function verifyAttributes(attributes: Proto.IAvatarUploadAttributes) {
@@ -2232,7 +2226,7 @@ export function initialize({
 
     async function uploadAvatar(
       uploadAvatarRequestHeaders: UploadAvatarHeadersType,
-      avatarData: ArrayBuffer
+      avatarData: Uint8Array
     ): Promise<string> {
       const verified = verifyAttributes(uploadAvatarRequestHeaders);
       const { key } = verified;
@@ -2260,24 +2254,19 @@ export function initialize({
         options.authCredentialPresentationHex
       );
 
-      const response: ArrayBuffer = await _ajax({
+      const response = await _ajax({
         basicAuth,
         call: 'getGroupAvatarUpload',
         httpType: 'GET',
-        responseType: 'arraybuffer',
+        responseType: 'bytes',
         host: storageUrl,
       });
-      const attributes = Proto.AvatarUploadAttributes.decode(
-        new FIXMEU8(response)
-      );
+      const attributes = Proto.AvatarUploadAttributes.decode(response);
 
       const verified = verifyAttributes(attributes);
       const { key } = verified;
 
-      const manifestParams = makePutParams(
-        verified,
-        typedArrayToArrayBuffer(avatarData)
-      );
+      const manifestParams = makePutParams(verified, avatarData);
 
       await _outerAjax(`${cdnUrlObject['0']}/`, {
         ...manifestParams,
@@ -2291,15 +2280,15 @@ export function initialize({
       return key;
     }
 
-    async function getGroupAvatar(key: string): Promise<ArrayBuffer> {
+    async function getGroupAvatar(key: string): Promise<Uint8Array> {
       return _outerAjax(`${cdnUrlObject['0']}/${key}`, {
         certificateAuthority,
         proxyUrl,
-        responseType: 'arraybuffer',
+        responseType: 'bytes',
         timeout: 0,
         type: 'GET',
         version,
-      }) as Promise<ArrayBuffer>;
+      });
     }
 
     async function createGroup(
@@ -2330,16 +2319,16 @@ export function initialize({
         options.authCredentialPresentationHex
       );
 
-      const response: ArrayBuffer = await _ajax({
+      const response = await _ajax({
         basicAuth,
         call: 'groups',
         contentType: 'application/x-protobuf',
         host: storageUrl,
         httpType: 'GET',
-        responseType: 'arraybuffer',
+        responseType: 'bytes',
       });
 
-      return Proto.Group.decode(new FIXMEU8(response));
+      return Proto.Group.decode(response);
     }
 
     async function getGroupFromLink(
@@ -2352,18 +2341,18 @@ export function initialize({
       );
       const safeInviteLinkPassword = toWebSafeBase64(inviteLinkPassword);
 
-      const response: ArrayBuffer = await _ajax({
+      const response = await _ajax({
         basicAuth,
         call: 'groupsViaLink',
         contentType: 'application/x-protobuf',
         host: storageUrl,
         httpType: 'GET',
-        responseType: 'arraybuffer',
+        responseType: 'bytes',
         urlParameters: `/${safeInviteLinkPassword}`,
         redactUrl: _createRedactor(safeInviteLinkPassword),
       });
 
-      return Proto.GroupJoinInfo.decode(new FIXMEU8(response));
+      return Proto.GroupJoinInfo.decode(response);
     }
 
     async function modifyGroup(
@@ -2380,14 +2369,14 @@ export function initialize({
         ? toWebSafeBase64(inviteLinkBase64)
         : undefined;
 
-      const response: ArrayBuffer = await _ajax({
+      const response = await _ajax({
         basicAuth,
         call: 'groups',
         contentType: 'application/x-protobuf',
         data,
         host: storageUrl,
         httpType: 'PATCH',
-        responseType: 'arraybuffer',
+        responseType: 'bytes',
         urlParameters: safeInviteLinkPassword
           ? `?inviteLinkPassword=${safeInviteLinkPassword}`
           : undefined,
@@ -2396,7 +2385,7 @@ export function initialize({
           : undefined,
       });
 
-      return Proto.GroupChange.decode(new FIXMEU8(response));
+      return Proto.GroupChange.decode(response);
     }
 
     async function getGroupLog(
@@ -2408,17 +2397,17 @@ export function initialize({
         options.authCredentialPresentationHex
       );
 
-      const withDetails: ArrayBufferWithDetailsType = await _ajax({
+      const withDetails = await _ajax({
         basicAuth,
         call: 'groupLog',
         contentType: 'application/x-protobuf',
         host: storageUrl,
         httpType: 'GET',
-        responseType: 'arraybufferwithdetails',
+        responseType: 'byteswithdetails',
         urlParameters: `/${startVersion}`,
       });
       const { data, response } = withDetails;
-      const changes = Proto.GroupChanges.decode(new FIXMEU8(data));
+      const changes = Proto.GroupChanges.decode(data);
 
       if (response && response.status === 206) {
         const range = response.headers.get('Content-Range');
@@ -2458,22 +2447,22 @@ export function initialize({
       username: string;
       password: string;
     }> {
-      return _ajax({
+      return (await _ajax({
         call: 'directoryAuth',
         httpType: 'GET',
         responseType: 'json',
-      });
+      })) as { username: string; password: string };
     }
 
     function validateAttestationQuote({
       serverStaticPublic,
-      quote: quoteArrayBuffer,
+      quote: quoteBytes,
     }: {
-      serverStaticPublic: ArrayBuffer;
-      quote: ArrayBuffer;
+      serverStaticPublic: Uint8Array;
+      quote: Uint8Array;
     }) {
       const SGX_CONSTANTS = getSgxConstants();
-      const quote = Buffer.from(quoteArrayBuffer);
+      const quote = Buffer.from(quoteBytes);
 
       const quoteVersion = quote.readInt16LE(0) & 0xffff;
       if (quoteVersion < 0 || quoteVersion > 2) {
@@ -2520,7 +2509,7 @@ export function initialize({
       }
 
       const reportData = quote.slice(368, 368 + 64);
-      const serverStaticPublicBytes = new Uint8Array(serverStaticPublic);
+      const serverStaticPublicBytes = serverStaticPublic;
       if (
         !reportData.every((byte, index) => {
           if (index >= 32) {
@@ -2582,7 +2571,7 @@ export function initialize({
     }
 
     async function validateAttestationSignature(
-      signature: ArrayBuffer,
+      signature: Uint8Array,
       signatureBody: string,
       certificates: string
     ) {
@@ -2603,7 +2592,7 @@ export function initialize({
       }
 
       const verify = createVerify('RSA-SHA256');
-      verify.update(Buffer.from(bytesFromString(signatureBody)));
+      verify.update(Buffer.from(Bytes.fromString(signatureBody)));
       const isValid = verify.verify(pem[0], Buffer.from(signature));
       if (!isValid) {
         throw new Error('Validation of signature across signatureBody failed!');
@@ -2650,7 +2639,7 @@ export function initialize({
       const { privKey, pubKey } = keyPair;
       // Remove first "key type" byte from public key
       const slicedPubKey = pubKey.slice(1);
-      const pubKeyBase64 = arrayBufferToBase64(slicedPubKey);
+      const pubKeyBase64 = Bytes.toBase64(slicedPubKey);
       // Do request
       const data = JSON.stringify({ clientPublic: pubKeyBase64 });
       const result: JSONWithDetailsType = (await _outerAjax(null, {
@@ -2667,7 +2656,25 @@ export function initialize({
         version,
       })) as JSONWithDetailsType;
 
-      const { data: responseBody, response } = result;
+      const { data: responseBody, response } = result as {
+        data: {
+          attestations: Record<
+            string,
+            {
+              ciphertext: string;
+              iv: string;
+              quote: string;
+              serverEphemeralPublic: string;
+              serverStaticPublic: string;
+              signature: string;
+              signatureBody: string;
+              tag: string;
+              certificates: string;
+            }
+          >;
+        };
+        response: Response;
+      };
 
       const attestationsLength = Object.keys(responseBody.attestations).length;
       if (attestationsLength > 3) {
@@ -2689,19 +2696,20 @@ export function initialize({
         attestations: await pProps(
           responseBody.attestations,
           async attestation => {
-            const decoded = { ...attestation };
-
-            [
-              'ciphertext',
-              'iv',
-              'quote',
-              'serverEphemeralPublic',
-              'serverStaticPublic',
-              'signature',
-              'tag',
-            ].forEach(prop => {
-              decoded[prop] = base64ToArrayBuffer(decoded[prop]);
-            });
+            const decoded = {
+              ...attestation,
+              ciphertext: Bytes.fromBase64(attestation.ciphertext),
+              iv: Bytes.fromBase64(attestation.iv),
+              quote: Bytes.fromBase64(attestation.quote),
+              serverEphemeralPublic: Bytes.fromBase64(
+                attestation.serverEphemeralPublic
+              ),
+              serverStaticPublic: Bytes.fromBase64(
+                attestation.serverStaticPublic
+              ),
+              signature: Bytes.fromBase64(attestation.signature),
+              tag: Bytes.fromBase64(attestation.tag),
+            };
 
             // Validate response
             validateAttestationQuote(decoded);
@@ -2724,29 +2732,33 @@ export function initialize({
               decoded.serverStaticPublic,
               privKey
             );
-            const masterSecret = concatenateBytes(
+            const masterSecret = Bytes.concatenate([
               ephemeralToEphemeral,
-              ephemeralToStatic
-            );
-            const publicKeys = concatenateBytes(
+              ephemeralToStatic,
+            ]);
+            const publicKeys = Bytes.concatenate([
               slicedPubKey,
               decoded.serverEphemeralPublic,
-              decoded.serverStaticPublic
-            );
-            const [clientKey, serverKey] = await deriveSecrets(
+              decoded.serverStaticPublic,
+            ]);
+            const [clientKey, serverKey] = deriveSecrets(
               masterSecret,
               publicKeys,
-              new ArrayBuffer(0)
+              new Uint8Array(0)
             );
 
             // Decrypt ciphertext into requestId
-            const requestId = await decryptAesGcm(
+            const requestId = decryptAesGcm(
               serverKey,
               decoded.iv,
-              concatenateBytes(decoded.ciphertext, decoded.tag)
+              Bytes.concatenate([decoded.ciphertext, decoded.tag])
             );
 
-            return { clientKey, serverKey, requestId };
+            return {
+              clientKey,
+              serverKey,
+              requestId,
+            };
           }
         ),
       };
@@ -2766,12 +2778,7 @@ export function initialize({
       const { cookie } = attestationResult;
 
       // Send discovery request
-      const discoveryResponse: {
-        requestId: string;
-        iv: string;
-        data: string;
-        mac: string;
-      } = (await _outerAjax(null, {
+      const discoveryResponse = (await _outerAjax(null, {
         certificateAuthority,
         type: 'PUT',
         headers: cookie
@@ -2788,14 +2795,19 @@ export function initialize({
         timeout: 30000,
         data: JSON.stringify(data),
         version,
-      })) as any;
+      })) as {
+        requestId: string;
+        iv: string;
+        data: string;
+        mac: string;
+      };
 
       // Decode discovery request response
-      const decodedDiscoveryResponse: {
-        [K in keyof typeof discoveryResponse]: ArrayBuffer;
-      } = mapValues(discoveryResponse, value => {
-        return base64ToArrayBuffer(value);
-      }) as any;
+      const decodedDiscoveryResponse = (mapValues(discoveryResponse, value => {
+        return Bytes.fromBase64(value);
+      }) as unknown) as {
+        [K in keyof typeof discoveryResponse]: Uint8Array;
+      };
 
       const returnedAttestation = Object.values(
         attestationResult.attestations
@@ -2807,13 +2819,13 @@ export function initialize({
       }
 
       // Decrypt discovery response
-      const decryptedDiscoveryData = await decryptAesGcm(
+      const decryptedDiscoveryData = decryptAesGcm(
         returnedAttestation.serverKey,
         decodedDiscoveryResponse.iv,
-        concatenateBytes(
+        Bytes.concatenate([
           decodedDiscoveryResponse.data,
-          decodedDiscoveryResponse.mac
-        )
+          decodedDiscoveryResponse.mac,
+        ])
       );
 
       // Process and return result

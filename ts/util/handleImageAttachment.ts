@@ -1,10 +1,11 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import path from 'path';
 import { ipcRenderer } from 'electron';
 import { v4 as genUuid } from 'uuid';
 
+import { blobToArrayBuffer } from '../types/VisualAttachment';
 import { IMAGE_JPEG, MIMEType, isHeic, stringToMIMEType } from '../types/MIME';
 import {
   InMemoryAttachmentDraftType,
@@ -20,7 +21,7 @@ export async function handleImageAttachment(
 
   if (isHeic(file.type)) {
     const uuid = genUuid();
-    const arrayBuffer = await file.arrayBuffer();
+    const bytes = new Uint8Array(await file.arrayBuffer());
 
     const convertedFile = await new Promise<File>((resolve, reject) => {
       ipcRenderer.once(`convert-image:${uuid}`, (_, { error, response }) => {
@@ -30,7 +31,7 @@ export async function handleImageAttachment(
           reject(error);
         }
       });
-      ipcRenderer.send('convert-image', uuid, arrayBuffer);
+      ipcRenderer.send('convert-image', uuid, bytes);
     });
 
     processedFile = new Blob([convertedFile]);
@@ -42,15 +43,13 @@ export async function handleImageAttachment(
     file: processedFile,
   });
 
-  const data = await window.Signal.Types.VisualAttachment.blobToArrayBuffer(
-    resizedBlob
-  );
+  const data = await blobToArrayBuffer(resizedBlob);
   const blurHash = await imageToBlurHash(resizedBlob);
 
   return {
     blurHash,
     contentType,
-    data,
+    data: new Uint8Array(data),
     fileName: fileName || file.name,
     path: file.name,
     pending: false,

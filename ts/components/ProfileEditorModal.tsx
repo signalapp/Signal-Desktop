@@ -18,7 +18,7 @@ export type PropsDataType = {
 type PropsType = {
   myProfileChanged: (
     profileData: ProfileDataType,
-    avatarBuffer?: ArrayBuffer
+    avatarBuffer?: Uint8Array
   ) => unknown;
   toggleProfileEditor: () => unknown;
   toggleProfileEditorHasError: () => unknown;

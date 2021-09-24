@@ -37,7 +37,7 @@ type CleanedDataValue =
   | boolean
   | null
   | undefined
-  | Buffer
+  | Uint8Array
   | CleanedObject
   | CleanedArray;
 /* eslint-disable no-restricted-syntax */
@@ -111,7 +111,7 @@ function cleanDataInner(
         return undefined;
       }
 
-      if (data instanceof Buffer) {
+      if (data instanceof Uint8Array) {
         return data;
       }
 

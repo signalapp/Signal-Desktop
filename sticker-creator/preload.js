@@ -9,7 +9,6 @@ const { readFile } = require('fs');
 const config = require('url').parse(window.location.toString(), true).query;
 const { noop, uniqBy } = require('lodash');
 const pMap = require('p-map');
-const client = require('@signalapp/signal-client');
 
 // It is important to call this as early as possible
 require('../ts/windows/context');
@@ -54,20 +53,6 @@ const Signal = require('../js/modules/signal');
 
 window.Signal = Signal.setup({});
 window.textsecure = require('../ts/textsecure').default;
-
-window.libsignal = window.libsignal || {};
-window.libsignal.HKDF = {};
-window.libsignal.HKDF.deriveSecrets = (input, salt, info) => {
-  const hkdf = client.HKDF.new(3);
-  const output = hkdf.deriveSecrets(
-    3 * 32,
-    Buffer.from(input),
-    Buffer.from(info),
-    Buffer.from(salt)
-  );
-  return [output.slice(0, 32), output.slice(32, 64), output.slice(64, 96)];
-};
-window.synchronousCrypto = require('../ts/util/synchronousCrypto');
 
 const { initialize: initializeWebAPI } = require('../ts/textsecure/WebAPI');
 const {
@@ -206,7 +191,7 @@ window.encryptAndUpload = async (
   const { value: password } = passwordItem;
 
   const packKey = window.Signal.Crypto.getRandomBytes(32);
-  const encryptionKey = await deriveStickerPackKey(packKey);
+  const encryptionKey = deriveStickerPackKey(packKey);
   const iv = window.Signal.Crypto.getRandomBytes(16);
 
   const server = WebAPI.connect({
@@ -265,9 +250,7 @@ window.encryptAndUpload = async (
 
 async function encrypt(data, key, iv) {
   const { ciphertext } = await window.textsecure.crypto.encryptAttachment(
-    data instanceof ArrayBuffer
-      ? data
-      : window.Signal.Crypto.typedArrayToArrayBuffer(data),
+    data,
     key,
     iv
   );

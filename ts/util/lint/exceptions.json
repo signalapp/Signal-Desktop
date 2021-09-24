@@ -13057,14 +13057,14 @@
   },
   {
     "rule": "jQuery-load(",
-    "path": "ts/util/avatarDataToArrayBuffer.js",
+    "path": "ts/util/avatarDataToBytes.js",
     "line": "    await font.load();",
     "reasonCategory": "usageTrusted",
     "updated": "2021-08-03T21:17:38.615Z"
   },
   {
     "rule": "jQuery-load(",
-    "path": "ts/util/avatarDataToArrayBuffer.ts",
+    "path": "ts/util/avatarDataToBytes.ts",
     "line": "  await font.load();",
     "reasonCategory": "usageTrusted",
     "updated": "2021-08-03T21:17:38.615Z"

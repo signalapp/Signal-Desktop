@@ -1,9 +1,9 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { ConversationController } from './ConversationController';
-import { ConversationModel } from './models/conversations';
-import SendMessage from './textsecure/SendMessage';
+import type { ConversationController } from './ConversationController';
+import type { ConversationModel } from './models/conversations';
+import type SendMessage from './textsecure/SendMessage';
 import { assert } from './util/assert';
 import { getOwn } from './util/getOwn';
 import { isNotNil } from './util/isNotNil';

@@ -1,23 +1,21 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import Crypto, { PaddedLengths } from '../textsecure/Crypto';
 import { ConversationType } from '../state/ducks/conversations';
 import { ProfileRequestDataType } from '../textsecure/WebAPI';
 import { assert } from './assert';
+import * as Bytes from '../Bytes';
 import {
-  arrayBufferToBase64,
-  base64ToArrayBuffer,
-  bytesFromString,
+  PaddedLengths,
+  encryptProfile,
+  encryptProfileItemWithPadding,
 } from '../Crypto';
 import { deriveProfileKeyCommitment, deriveProfileKeyVersion } from './zkgroup';
 
-const { encryptProfile, encryptProfileItemWithPadding } = Crypto;
-
 export async function encryptProfileData(
   conversation: ConversationType,
-  avatarBuffer?: ArrayBuffer
-): Promise<[ProfileRequestDataType, ArrayBuffer | undefined]> {
+  avatarBuffer?: Uint8Array
+): Promise<[ProfileRequestDataType, Uint8Array | undefined]> {
   const {
     aboutEmoji,
     aboutText,
@@ -30,43 +28,41 @@ export async function encryptProfileData(
   assert(profileKey, 'profileKey');
   assert(uuid, 'uuid');
 
-  const keyBuffer = base64ToArrayBuffer(profileKey);
+  const keyBuffer = Bytes.fromBase64(profileKey);
 
   const fullName = [firstName, familyName].filter(Boolean).join('\0');
 
-  const [
-    bytesName,
-    bytesAbout,
-    bytesAboutEmoji,
-    encryptedAvatarData,
-  ] = await Promise.all([
-    encryptProfileItemWithPadding(
-      bytesFromString(fullName),
-      keyBuffer,
-      PaddedLengths.Name
-    ),
-    aboutText
-      ? encryptProfileItemWithPadding(
-          bytesFromString(aboutText),
-          keyBuffer,
-          PaddedLengths.About
-        )
-      : null,
-    aboutEmoji
-      ? encryptProfileItemWithPadding(
-          bytesFromString(aboutEmoji),
-          keyBuffer,
-          PaddedLengths.AboutEmoji
-        )
-      : null,
-    avatarBuffer ? encryptProfile(avatarBuffer, keyBuffer) : undefined,
-  ]);
+  const bytesName = encryptProfileItemWithPadding(
+    Bytes.fromString(fullName),
+    keyBuffer,
+    PaddedLengths.Name
+  );
+
+  const bytesAbout = aboutText
+    ? encryptProfileItemWithPadding(
+        Bytes.fromString(aboutText),
+        keyBuffer,
+        PaddedLengths.About
+      )
+    : null;
+
+  const bytesAboutEmoji = aboutEmoji
+    ? encryptProfileItemWithPadding(
+        Bytes.fromString(aboutEmoji),
+        keyBuffer,
+        PaddedLengths.AboutEmoji
+      )
+    : null;
+
+  const encryptedAvatarData = avatarBuffer
+    ? encryptProfile(avatarBuffer, keyBuffer)
+    : undefined;
 
   const profileData = {
     version: deriveProfileKeyVersion(profileKey, uuid),
-    name: arrayBufferToBase64(bytesName),
-    about: bytesAbout ? arrayBufferToBase64(bytesAbout) : null,
-    aboutEmoji: bytesAboutEmoji ? arrayBufferToBase64(bytesAboutEmoji) : null,
+    name: Bytes.toBase64(bytesName),
+    about: bytesAbout ? Bytes.toBase64(bytesAbout) : null,
+    aboutEmoji: bytesAboutEmoji ? Bytes.toBase64(bytesAboutEmoji) : null,
     paymentAddress: window.storage.get('paymentAddress') || null,
     avatar: Boolean(avatarBuffer),
     commitment: deriveProfileKeyCommitment(profileKey, uuid),

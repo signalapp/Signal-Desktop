@@ -3,11 +3,8 @@
 
 import { assert } from 'chai';
 
-import {
-  typedArrayToArrayBuffer as toArrayBuffer,
-  arrayBufferToBase64 as toBase64,
-  constantTimeEqual,
-} from '../../Crypto';
+import { toBase64 } from '../../Bytes';
+import { constantTimeEqual } from '../../Crypto';
 import { generateKeyPair } from '../../Curve';
 import AccountManager, {
   GeneratedKeysType,
@@ -17,7 +14,7 @@ import { UUID } from '../../types/UUID';
 
 const { textsecure } = window;
 
-const assertEqualArrayBuffers = (a: ArrayBuffer, b: ArrayBuffer) => {
+const assertEqualBuffers = (a: Uint8Array, b: Uint8Array) => {
   assert.isTrue(constantTimeEqual(a, b));
 };
 
@@ -54,10 +51,7 @@ describe('Key generation', function thisNeeded() {
     if (!keyPair) {
       throw new Error(`PreKey ${resultKey.keyId} not found`);
     }
-    assertEqualArrayBuffers(
-      resultKey.publicKey,
-      toArrayBuffer(keyPair.publicKey().serialize())
-    );
+    assertEqualBuffers(resultKey.publicKey, keyPair.publicKey().serialize());
   }
   async function validateResultSignedKey(
     resultSignedKey: Pick<SignedPreKeyType, 'keyId' | 'publicKey'>
@@ -69,9 +63,9 @@ describe('Key generation', function thisNeeded() {
     if (!keyPair) {
       throw new Error(`SignedPreKey ${resultSignedKey.keyId} not found`);
     }
-    assertEqualArrayBuffers(
+    assertEqualBuffers(
       resultSignedKey.publicKey,
-      toArrayBuffer(keyPair.publicKey().serialize())
+      keyPair.publicKey().serialize()
     );
   }
 
@@ -123,7 +117,7 @@ describe('Key generation', function thisNeeded() {
     });
     it('returns a signed prekey', () => {
       assert.strictEqual(result.signedPreKey.keyId, 1);
-      assert.instanceOf(result.signedPreKey.signature, ArrayBuffer);
+      assert.instanceOf(result.signedPreKey.signature, Uint8Array);
       return validateResultSignedKey(result.signedPreKey);
     });
   });
@@ -157,7 +151,7 @@ describe('Key generation', function thisNeeded() {
     });
     it('returns a signed prekey', () => {
       assert.strictEqual(result.signedPreKey.keyId, 2);
-      assert.instanceOf(result.signedPreKey.signature, ArrayBuffer);
+      assert.instanceOf(result.signedPreKey.signature, Uint8Array);
       return validateResultSignedKey(result.signedPreKey);
     });
   });
@@ -191,7 +185,7 @@ describe('Key generation', function thisNeeded() {
     });
     it('result contains a signed prekey', () => {
       assert.strictEqual(result.signedPreKey.keyId, 3);
-      assert.instanceOf(result.signedPreKey.signature, ArrayBuffer);
+      assert.instanceOf(result.signedPreKey.signature, Uint8Array);
       return validateResultSignedKey(result.signedPreKey);
     });
   });

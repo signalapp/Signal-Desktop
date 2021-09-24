@@ -4,7 +4,7 @@
 import { isEqual, isNumber } from 'lodash';
 import Long from 'long';
 
-import { deriveMasterKeyFromGroupV1, typedArrayToArrayBuffer } from '../Crypto';
+import { deriveMasterKeyFromGroupV1 } from '../Crypto';
 import * as Bytes from '../Bytes';
 import dataInterface from '../sql/Client';
 import {
@@ -42,9 +42,6 @@ import { SignalService as Proto } from '../protobuf';
 import * as log from '../logging/log';
 
 const { updateConversation } = dataInterface;
-
-// TODO: remove once we move away from ArrayBuffers
-const FIXMEU8 = Uint8Array;
 
 type RecordClass =
   | Proto.IAccountRecord
@@ -134,7 +131,7 @@ export async function toContactRecord(
     ? await window.textsecure.storage.protocol.loadIdentityKey(maybeUuid)
     : undefined;
   if (identityKey) {
-    contactRecord.identityKey = new FIXMEU8(identityKey);
+    contactRecord.identityKey = identityKey;
   }
   const verified = conversation.get('verified');
   if (verified) {
@@ -397,13 +394,13 @@ function doRecordsConflict(
     const localValue = localRecord[key];
     const remoteValue = remoteRecord[key];
 
-    // Sometimes we have a ByteBuffer and an ArrayBuffer, this ensures that we
+    // Sometimes we have a ByteBuffer and an Uint8Array, this ensures that we
     // are comparing them both equally by converting them into base64 string.
     if (localValue instanceof Uint8Array) {
       const areEqual = Bytes.areEqual(localValue, remoteValue);
       if (!areEqual) {
         log.info(
-          'storageService.doRecordsConflict: Conflict found for ArrayBuffer',
+          'storageService.doRecordsConflict: Conflict found for Uint8Array',
           key,
           idForLogging
         );
@@ -525,10 +522,8 @@ export async function mergeGroupV1Record(
     // It's possible this group was migrated to a GV2 if so we attempt to
     // retrieve the master key and find the conversation locally. If we
     // are successful then we continue setting and applying state.
-    const masterKeyBuffer = await deriveMasterKeyFromGroupV1(
-      typedArrayToArrayBuffer(groupV1Record.id)
-    );
-    const fields = deriveGroupFields(new FIXMEU8(masterKeyBuffer));
+    const masterKeyBuffer = deriveMasterKeyFromGroupV1(groupV1Record.id);
+    const fields = deriveGroupFields(masterKeyBuffer);
     const derivedGroupV2Id = Bytes.toBase64(fields.id);
 
     log.info(
@@ -771,9 +766,7 @@ export async function mergeContactRecord(
   const storageServiceVerified = contactRecord.identityState || 0;
   if (verified !== storageServiceVerified) {
     const verifiedOptions = {
-      key: contactRecord.identityKey
-        ? typedArrayToArrayBuffer(contactRecord.identityKey)
-        : undefined,
+      key: contactRecord.identityKey,
       viaStorageServiceSync: true,
     };
     const STATE_ENUM = Proto.ContactRecord.IdentityState;
@@ -900,7 +893,7 @@ export async function mergeAccountRecord(
   window.storage.put('phoneNumberDiscoverability', discoverability);
 
   if (profileKey) {
-    ourProfileKeyService.set(typedArrayToArrayBuffer(profileKey));
+    ourProfileKeyService.set(profileKey);
   }
 
   if (pinnedConversations) {

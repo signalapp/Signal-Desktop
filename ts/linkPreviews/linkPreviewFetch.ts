@@ -64,7 +64,7 @@ export type LinkPreviewMetadata = {
 };
 
 export type LinkPreviewImage = {
-  data: ArrayBuffer;
+  data: Uint8Array;
   contentType: MIMEType;
 };
 
@@ -290,7 +290,7 @@ const getHtmlDocument = async (
   let result: HTMLDocument = emptyHtmlDocument();
 
   const maxHtmlBytesToLoad = Math.min(contentLength, MAX_HTML_BYTES_TO_LOAD);
-  const buffer = new Uint8Array(new ArrayBuffer(maxHtmlBytesToLoad));
+  const buffer = new Uint8Array(maxHtmlBytesToLoad);
   let bytesLoadedSoFar = 0;
 
   try {
@@ -578,9 +578,9 @@ export async function fetchLinkPreviewImage(
     return null;
   }
 
-  let data: ArrayBuffer;
+  let data: Uint8Array;
   try {
-    data = await response.arrayBuffer();
+    data = await response.buffer();
   } catch (err) {
     log.warn('fetchLinkPreviewImage: failed to read body; bailing');
     return null;

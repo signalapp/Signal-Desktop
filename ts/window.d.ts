@@ -33,8 +33,6 @@ import * as OS from './OS';
 import { getEnvironment } from './environment';
 import * as zkgroup from './util/zkgroup';
 import { LocalizerType, BodyRangesType, BodyRangeType } from './types/Util';
-import * as Attachment from './types/Attachment';
-import * as MIME from './types/MIME';
 import * as EmbeddedContact from './types/EmbeddedContact';
 import * as Errors from './types/errors';
 import { ConversationController } from './ConversationController';
@@ -103,7 +101,6 @@ import { ElectronLocaleType } from './util/mapToSupportLocale';
 import { SignalProtocolStore } from './SignalProtocolStore';
 import { Context as SignalContext } from './context';
 import { StartupQueue } from './util/StartupQueue';
-import * as synchronousCrypto from './util/synchronousCrypto';
 import { SocketStatus } from './types/SocketStatus';
 import SyncRequest from './textsecure/SyncRequest';
 import { ConversationColorType, CustomColorType } from './types/Colors';
@@ -250,7 +247,6 @@ declare global {
     storage: Storage;
     systemTheme: WhatIsThis;
     textsecure: TextSecureType;
-    synchronousCrypto: typeof synchronousCrypto;
     titleBarDoubleClick: () => void;
     unregisterForActive: (handler: () => void) => void;
     updateTrayIcon: (count: number) => void;
@@ -286,28 +282,28 @@ declare global {
         storageServiceUploadJob: () => void;
       };
       Migrations: {
-        readTempData: any;
+        readTempData: (path: string) => Promise<Uint8Array>;
         deleteAttachmentData: (path: string) => Promise<void>;
-        doesAttachmentExist: () => unknown;
-        writeNewAttachmentData: (data: ArrayBuffer) => Promise<string>;
+        doesAttachmentExist: (path: string) => Promise<boolean>;
+        writeNewAttachmentData: (data: Uint8Array) => Promise<string>;
         deleteExternalMessageFiles: (attributes: unknown) => Promise<void>;
         getAbsoluteAttachmentPath: (path: string) => string;
         loadAttachmentData: (attachment: WhatIsThis) => WhatIsThis;
         loadQuoteData: (quote: unknown) => WhatIsThis;
         loadPreviewData: (preview: unknown) => WhatIsThis;
         loadStickerData: (sticker: unknown) => WhatIsThis;
-        readStickerData: (path: string) => Promise<ArrayBuffer>;
+        readStickerData: (path: string) => Promise<Uint8Array>;
         deleteSticker: (path: string) => Promise<void>;
         getAbsoluteStickerPath: (path: string) => string;
         processNewEphemeralSticker: (
-          stickerData: ArrayBuffer
+          stickerData: Uint8Array
         ) => {
           path: string;
           width: number;
           height: number;
         };
         processNewSticker: (
-          stickerData: ArrayBuffer
+          stickerData: Uint8Array
         ) => {
           path: string;
           width: number;
@@ -325,36 +321,18 @@ declare global {
         getAbsoluteDraftPath: any;
         getAbsoluteTempPath: any;
         openFileInFolder: any;
-        readAttachmentData: any;
-        readDraftData: any;
-        saveAttachmentToDisk: any;
-        writeNewDraftData: any;
+        readAttachmentData: (path: string) => Promise<Uint8Array>;
+        readDraftData: (path: string) => Promise<Uint8Array>;
+        saveAttachmentToDisk: (options: {
+          data: Uint8Array;
+          name: string;
+        }) => Promise<null | { fullPath: string; name: string }>;
+        writeNewDraftData: (data: Uint8Array) => Promise<string>;
         deleteAvatar: (path: string) => Promise<void>;
         getAbsoluteAvatarPath: (src: string) => string;
-        writeNewAvatarData: (data: ArrayBuffer) => Promise<string>;
+        writeNewAvatarData: (data: Uint8Array) => Promise<string>;
       };
       Types: {
-        Attachment: typeof Attachment;
-        MIME: typeof MIME;
-        EmbeddedContact: typeof EmbeddedContact;
-        Conversation: {
-          computeHash: (data: string) => Promise<string>;
-          deleteExternalFiles: (
-            attributes: unknown,
-            options: unknown
-          ) => Promise<void>;
-          maybeUpdateProfileAvatar: (
-            attributes: unknown,
-            decrypted: unknown,
-            options: unknown
-          ) => Promise<Record<string, unknown>>;
-          maybeUpdateAvatar: (
-            attributes: unknown,
-            data: unknown,
-            options: unknown
-          ) => Promise<WhatIsThis>;
-        };
-        Errors: typeof Errors;
         Message: {
           CURRENT_SCHEMA_VERSION: number;
           VERSION_NEEDED_FOR_DISPLAY: number;
@@ -382,7 +360,6 @@ declare global {
           height: number;
           path: string;
         };
-        VisualAttachment: any;
         UUID: typeof UUID;
         Address: typeof Address;
         QualifiedAddress: typeof QualifiedAddress;

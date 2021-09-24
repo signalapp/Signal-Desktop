@@ -4,24 +4,24 @@
 import { assert } from 'chai';
 import { v4 as uuid } from 'uuid';
 
-import Crypto from '../../textsecure/Crypto';
+import * as Bytes from '../../Bytes';
 import {
-  arrayBufferToBase64,
-  base64ToArrayBuffer,
-  stringFromBytes,
   trimForDisplay,
+  getRandomBytes,
+  decryptProfileName,
+  decryptProfile,
 } from '../../Crypto';
 import { encryptProfileData } from '../../util/encryptProfileData';
 
 describe('encryptProfileData', () => {
   it('encrypts and decrypts properly', async () => {
-    const keyBuffer = Crypto.getRandomBytes(32);
+    const keyBuffer = getRandomBytes(32);
     const conversation = {
       aboutEmoji: '🐢',
       aboutText: 'I like turtles',
       familyName: 'Kid',
       firstName: 'Zombie',
-      profileKey: arrayBufferToBase64(keyBuffer),
+      profileKey: Bytes.toBase64(keyBuffer),
       uuid: uuid(),
 
       // To satisfy TS
@@ -39,17 +39,17 @@ describe('encryptProfileData', () => {
     assert.isDefined(encrypted.name);
     assert.isDefined(encrypted.commitment);
 
-    const decryptedProfileNameBytes = await Crypto.decryptProfileName(
+    const decryptedProfileNameBytes = decryptProfileName(
       encrypted.name,
       keyBuffer
     );
     assert.equal(
-      stringFromBytes(decryptedProfileNameBytes.given),
+      Bytes.toString(decryptedProfileNameBytes.given),
       conversation.firstName
     );
     if (decryptedProfileNameBytes.family) {
       assert.equal(
-        stringFromBytes(decryptedProfileNameBytes.family),
+        Bytes.toString(decryptedProfileNameBytes.family),
         conversation.familyName
       );
     } else {
@@ -57,12 +57,12 @@ describe('encryptProfileData', () => {
     }
 
     if (encrypted.about) {
-      const decryptedAboutBytes = await Crypto.decryptProfile(
-        base64ToArrayBuffer(encrypted.about),
+      const decryptedAboutBytes = decryptProfile(
+        Bytes.fromBase64(encrypted.about),
         keyBuffer
       );
       assert.equal(
-        stringFromBytes(trimForDisplay(decryptedAboutBytes)),
+        Bytes.toString(trimForDisplay(decryptedAboutBytes)),
         conversation.aboutText
       );
     } else {
@@ -70,12 +70,12 @@ describe('encryptProfileData', () => {
     }
 
     if (encrypted.aboutEmoji) {
-      const decryptedAboutEmojiBytes = await Crypto.decryptProfile(
-        base64ToArrayBuffer(encrypted.aboutEmoji),
+      const decryptedAboutEmojiBytes = await decryptProfile(
+        Bytes.fromBase64(encrypted.aboutEmoji),
         keyBuffer
       );
       assert.equal(
-        stringFromBytes(trimForDisplay(decryptedAboutEmojiBytes)),
+        Bytes.toString(trimForDisplay(decryptedAboutEmojiBytes)),
         conversation.aboutEmoji
       );
     } else {

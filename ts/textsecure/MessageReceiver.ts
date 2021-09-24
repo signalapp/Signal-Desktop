@@ -43,7 +43,7 @@ import { normalizeUuid } from '../util/normalizeUuid';
 import { normalizeNumber } from '../util/normalizeNumber';
 import { parseIntOrThrow } from '../util/parseIntOrThrow';
 import { Zone } from '../util/Zone';
-import { deriveMasterKeyFromGroupV1, typedArrayToArrayBuffer } from '../Crypto';
+import { deriveMasterKeyFromGroupV1 } from '../Crypto';
 import { DownloadedAttachmentType } from '../types/Attachment';
 import { Address } from '../types/Address';
 import { QualifiedAddress } from '../types/QualifiedAddress';
@@ -102,9 +102,6 @@ import {
   EnvelopeEvent,
 } from './messageReceiverEvents';
 import * as log from '../logging/log';
-
-// TODO: remove once we move away from ArrayBuffers
-const FIXMEU8 = Uint8Array;
 
 const GROUPV1_ID_LENGTH = 16;
 const GROUPV2_ID_LENGTH = 32;
@@ -1137,9 +1134,9 @@ export default class MessageReceiver
 
     if (
       !verifySignature(
-        typedArrayToArrayBuffer(this.serverTrustRoot),
-        typedArrayToArrayBuffer(serverCertificate.certificateData()),
-        typedArrayToArrayBuffer(serverCertificate.signature())
+        this.serverTrustRoot,
+        serverCertificate.certificateData(),
+        serverCertificate.signature()
       )
     ) {
       throw new Error(
@@ -1150,9 +1147,9 @@ export default class MessageReceiver
 
     if (
       !verifySignature(
-        typedArrayToArrayBuffer(serverCertificate.key().serialize()),
-        typedArrayToArrayBuffer(certificate.certificate()),
-        typedArrayToArrayBuffer(certificate.signature())
+        serverCertificate.key().serialize(),
+        certificate.certificate(),
+        certificate.signature()
       )
     ) {
       throw new Error(
@@ -1448,9 +1445,7 @@ export default class MessageReceiver
     ciphertext: Uint8Array
   ): Promise<Uint8Array | undefined> {
     try {
-      const plaintext = await this.innerDecrypt(stores, envelope, ciphertext);
-
-      return new FIXMEU8(plaintext);
+      return await this.innerDecrypt(stores, envelope, ciphertext);
     } catch (error) {
       this.removeFromCache(envelope);
       const uuid = envelope.sourceUuid;
@@ -1486,9 +1481,7 @@ export default class MessageReceiver
       if (uuid && deviceId) {
         const { usmc } = envelope;
         const event = new DecryptionErrorEvent({
-          cipherTextBytes: usmc
-            ? typedArrayToArrayBuffer(usmc.contents())
-            : undefined,
+          cipherTextBytes: usmc ? usmc.contents() : undefined,
           cipherTextType: usmc ? usmc.msgType() : undefined,
           contentHint: envelope.contentHint,
           groupId: envelope.groupId,
@@ -1955,7 +1948,7 @@ export default class MessageReceiver
     if (groupId && groupId.byteLength > 0) {
       if (groupId.byteLength === GROUPV1_ID_LENGTH) {
         groupIdString = Bytes.toBinary(groupId);
-        groupV2IdString = await this.deriveGroupV2FromV1(groupId);
+        groupV2IdString = this.deriveGroupV2FromV1(groupId);
       } else if (groupId.byteLength === GROUPV2_ID_LENGTH) {
         groupV2IdString = Bytes.toBase64(groupId);
       } else {
@@ -2024,16 +2017,14 @@ export default class MessageReceiver
     return false;
   }
 
-  private async deriveGroupV2FromV1(groupId: Uint8Array): Promise<string> {
+  private deriveGroupV2FromV1(groupId: Uint8Array): string {
     if (groupId.byteLength !== GROUPV1_ID_LENGTH) {
       throw new Error(
         `deriveGroupV2FromV1: had id with wrong byteLength: ${groupId.byteLength}`
       );
     }
-    const masterKey = await deriveMasterKeyFromGroupV1(
-      typedArrayToArrayBuffer(groupId)
-    );
-    const data = deriveGroupFields(new FIXMEU8(masterKey));
+    const masterKey = deriveMasterKeyFromGroupV1(groupId);
+    const data = deriveGroupFields(masterKey);
 
     return Bytes.toBase64(data.id);
   }
@@ -2246,7 +2237,7 @@ export default class MessageReceiver
     if (groupId && groupId.byteLength > 0) {
       if (groupId.byteLength === GROUPV1_ID_LENGTH) {
         groupIdString = Bytes.toBinary(groupId);
-        groupV2IdString = await this.deriveGroupV2FromV1(groupId);
+        groupV2IdString = this.deriveGroupV2FromV1(groupId);
       } else if (groupId.byteLength === GROUPV2_ID_LENGTH) {
         groupV2IdString = Bytes.toBase64(groupId);
       } else {
@@ -2300,7 +2291,7 @@ export default class MessageReceiver
     }
 
     const ev = new KeysEvent(
-      typedArrayToArrayBuffer(sync.storageService),
+      sync.storageService,
       this.removeFromCache.bind(this, envelope)
     );
 
@@ -2343,9 +2334,7 @@ export default class MessageReceiver
               'handleVerified.destinationUuid'
             )
           : undefined,
-        identityKey: verified.identityKey
-          ? typedArrayToArrayBuffer(verified.identityKey)
-          : undefined,
+        identityKey: verified.identityKey ? verified.identityKey : undefined,
       },
       this.removeFromCache.bind(this, envelope)
     );

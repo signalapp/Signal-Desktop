@@ -24,7 +24,7 @@ import {
   uniq,
 } from 'lodash';
 
-import { arrayBufferToBase64, base64ToArrayBuffer } from '../Crypto';
+import * as Bytes from '../Bytes';
 import { CURRENT_SCHEMA_VERSION } from '../../js/modules/types/message';
 import { createBatcher } from '../util/batcher';
 import { assert } from '../util/assert';
@@ -577,7 +577,7 @@ function makeChannel(fnName: string) {
   };
 }
 
-function keysToArrayBuffer(keys: Array<string>, data: any) {
+function keysToBytes(keys: Array<string>, data: any) {
   const updated = cloneDeep(data);
 
   const max = keys.length;
@@ -586,14 +586,14 @@ function keysToArrayBuffer(keys: Array<string>, data: any) {
     const value = get(data, key);
 
     if (value) {
-      set(updated, key, base64ToArrayBuffer(value));
+      set(updated, key, Bytes.fromBase64(value));
     }
   }
 
   return updated;
 }
 
-function keysFromArrayBuffer(keys: Array<string>, data: any) {
+function keysFromBytes(keys: Array<string>, data: any) {
   const updated = cloneDeep(data);
 
   const max = keys.length;
@@ -602,7 +602,7 @@ function keysFromArrayBuffer(keys: Array<string>, data: any) {
     const value = get(data, key);
 
     if (value) {
-      set(updated, key, arrayBufferToBase64(value));
+      set(updated, key, Bytes.toBase64(value));
     }
   }
 
@@ -637,18 +637,16 @@ async function removeIndexedDBFiles() {
 
 const IDENTITY_KEY_KEYS = ['publicKey'];
 async function createOrUpdateIdentityKey(data: IdentityKeyType) {
-  const updated = keysFromArrayBuffer(IDENTITY_KEY_KEYS, data);
+  const updated = keysFromBytes(IDENTITY_KEY_KEYS, data);
   await channels.createOrUpdateIdentityKey(updated);
 }
 async function getIdentityKeyById(id: IdentityKeyIdType) {
   const data = await channels.getIdentityKeyById(id);
 
-  return keysToArrayBuffer(IDENTITY_KEY_KEYS, data);
+  return keysToBytes(IDENTITY_KEY_KEYS, data);
 }
 async function bulkAddIdentityKeys(array: Array<IdentityKeyType>) {
-  const updated = map(array, data =>
-    keysFromArrayBuffer(IDENTITY_KEY_KEYS, data)
-  );
+  const updated = map(array, data => keysFromBytes(IDENTITY_KEY_KEYS, data));
   await channels.bulkAddIdentityKeys(updated);
 }
 async function removeIdentityKeyById(id: IdentityKeyIdType) {
@@ -660,22 +658,22 @@ async function removeAllIdentityKeys() {
 async function getAllIdentityKeys() {
   const keys = await channels.getAllIdentityKeys();
 
-  return keys.map(key => keysToArrayBuffer(IDENTITY_KEY_KEYS, key));
+  return keys.map(key => keysToBytes(IDENTITY_KEY_KEYS, key));
 }
 
 // Pre Keys
 
 async function createOrUpdatePreKey(data: PreKeyType) {
-  const updated = keysFromArrayBuffer(PRE_KEY_KEYS, data);
+  const updated = keysFromBytes(PRE_KEY_KEYS, data);
   await channels.createOrUpdatePreKey(updated);
 }
 async function getPreKeyById(id: PreKeyIdType) {
   const data = await channels.getPreKeyById(id);
 
-  return keysToArrayBuffer(PRE_KEY_KEYS, data);
+  return keysToBytes(PRE_KEY_KEYS, data);
 }
 async function bulkAddPreKeys(array: Array<PreKeyType>) {
-  const updated = map(array, data => keysFromArrayBuffer(PRE_KEY_KEYS, data));
+  const updated = map(array, data => keysFromBytes(PRE_KEY_KEYS, data));
   await channels.bulkAddPreKeys(updated);
 }
 async function removePreKeyById(id: PreKeyIdType) {
@@ -687,30 +685,28 @@ async function removeAllPreKeys() {
 async function getAllPreKeys() {
   const keys = await channels.getAllPreKeys();
 
-  return keys.map(key => keysToArrayBuffer(PRE_KEY_KEYS, key));
+  return keys.map(key => keysToBytes(PRE_KEY_KEYS, key));
 }
 
 // Signed Pre Keys
 
 const PRE_KEY_KEYS = ['privateKey', 'publicKey'];
 async function createOrUpdateSignedPreKey(data: SignedPreKeyType) {
-  const updated = keysFromArrayBuffer(PRE_KEY_KEYS, data);
+  const updated = keysFromBytes(PRE_KEY_KEYS, data);
   await channels.createOrUpdateSignedPreKey(updated);
 }
 async function getSignedPreKeyById(id: SignedPreKeyIdType) {
   const data = await channels.getSignedPreKeyById(id);
 
-  return keysToArrayBuffer(PRE_KEY_KEYS, data);
+  return keysToBytes(PRE_KEY_KEYS, data);
 }
 async function getAllSignedPreKeys() {
   const keys = await channels.getAllSignedPreKeys();
 
-  return keys.map((key: SignedPreKeyType) =>
-    keysToArrayBuffer(PRE_KEY_KEYS, key)
-  );
+  return keys.map((key: SignedPreKeyType) => keysToBytes(PRE_KEY_KEYS, key));
 }
 async function bulkAddSignedPreKeys(array: Array<SignedPreKeyType>) {
-  const updated = map(array, data => keysFromArrayBuffer(PRE_KEY_KEYS, data));
+  const updated = map(array, data => keysFromBytes(PRE_KEY_KEYS, data));
   await channels.bulkAddSignedPreKeys(updated);
 }
 async function removeSignedPreKeyById(id: SignedPreKeyIdType) {
@@ -736,7 +732,7 @@ async function createOrUpdateItem<K extends ItemKeyType>(data: ItemType<K>) {
   }
 
   const keys = ITEM_KEYS[id];
-  const updated = Array.isArray(keys) ? keysFromArrayBuffer(keys, data) : data;
+  const updated = Array.isArray(keys) ? keysFromBytes(keys, data) : data;
 
   await channels.createOrUpdateItem(updated);
 }
@@ -746,7 +742,7 @@ async function getItemById<K extends ItemKeyType>(
   const keys = ITEM_KEYS[id];
   const data = await channels.getItemById(id);
 
-  return Array.isArray(keys) ? keysToArrayBuffer(keys, data) : data;
+  return Array.isArray(keys) ? keysToBytes(keys, data) : data;
 }
 async function getAllItems() {
   const items = await channels.getAllItems();
@@ -760,7 +756,7 @@ async function getAllItems() {
     const keys = ITEM_KEYS[key];
 
     const deserializedValue = Array.isArray(keys)
-      ? keysToArrayBuffer(keys, { value }).value
+      ? keysToBytes(keys, { value }).value
       : value;
 
     result[key] = deserializedValue;

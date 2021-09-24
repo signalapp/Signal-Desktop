@@ -9,7 +9,7 @@ import { AvatarDataType } from '../types/Avatar';
 import { AvatarModalButtons } from './AvatarModalButtons';
 import { AvatarPreview } from './AvatarPreview';
 import { LocalizerType } from '../types/Util';
-import { avatarDataToArrayBuffer } from '../util/avatarDataToArrayBuffer';
+import { avatarDataToBytes } from '../util/avatarDataToBytes';
 
 export type PropsType = {
   avatarData: AvatarDataType;
@@ -22,7 +22,7 @@ export const AvatarIconEditor = ({
   i18n,
   onClose,
 }: PropsType): JSX.Element => {
-  const [avatarBuffer, setAvatarBuffer] = useState<ArrayBuffer | undefined>();
+  const [avatarBuffer, setAvatarBuffer] = useState<Uint8Array | undefined>();
   const [avatarData, setAvatarData] = useState<AvatarDataType>(
     initialAvatarData
   );
@@ -41,7 +41,7 @@ export const AvatarIconEditor = ({
     let shouldCancel = false;
 
     async function loadAvatar() {
-      const buffer = await avatarDataToArrayBuffer(avatarData);
+      const buffer = await avatarDataToBytes(avatarData);
       if (!shouldCancel) {
         setAvatarBuffer(buffer);
       }

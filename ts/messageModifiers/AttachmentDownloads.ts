@@ -7,7 +7,7 @@ import { v4 as getGuid } from 'uuid';
 import dataInterface from '../sql/Client';
 import * as durations from '../util/durations';
 import { downloadAttachment } from '../util/downloadAttachment';
-import { stringFromBytes } from '../Crypto';
+import * as Bytes from '../Bytes';
 import {
   AttachmentDownloadJobType,
   AttachmentDownloadJobTypeType,
@@ -319,7 +319,7 @@ async function _addAttachmentToMessage(
         attachment
       );
       message.set({
-        body: attachment.error ? message.get('body') : stringFromBytes(data),
+        body: attachment.error ? message.get('body') : Bytes.toString(data),
         bodyPending: false,
       });
     } finally {

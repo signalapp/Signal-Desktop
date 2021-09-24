@@ -6,6 +6,7 @@ import * as sinon from 'sinon';
 import { noop } from 'lodash';
 import { sleep } from '../../util/sleep';
 
+import { constantTimeEqual } from '../../Crypto';
 import { OurProfileKeyService } from '../../services/ourProfileKey';
 
 describe('"our profile key" service', () => {
@@ -18,14 +19,17 @@ describe('"our profile key" service', () => {
 
   describe('get', () => {
     it("fetches the key from storage if it's there", async () => {
-      const fakeProfileKey = new ArrayBuffer(2);
+      const fakeProfileKey = new Uint8Array(2);
       const fakeStorage = createFakeStorage();
       fakeStorage.get.withArgs('profileKey').returns(fakeProfileKey);
 
       const service = new OurProfileKeyService();
       service.initialize(fakeStorage);
 
-      assert.strictEqual(await service.get(), fakeProfileKey);
+      const profileKey = await service.get();
+      assert.isTrue(
+        profileKey && constantTimeEqual(profileKey, fakeProfileKey)
+      );
     });
 
     it('resolves with undefined if the key is not in storage', async () => {
@@ -39,7 +43,7 @@ describe('"our profile key" service', () => {
       let onReadyCallback = noop;
       const fakeStorage = {
         ...createFakeStorage(),
-        get: sinon.stub().returns(new ArrayBuffer(2)),
+        get: sinon.stub().returns(new Uint8Array(2)),
         onready: sinon.stub().callsFake(callback => {
           onReadyCallback = callback;
         }),
@@ -106,7 +110,7 @@ describe('"our profile key" service', () => {
 
     it("if there are blocking promises, doesn't grab the profile key from storage more than once (in other words, subsequent calls piggyback)", async () => {
       const fakeStorage = createFakeStorage();
-      fakeStorage.get.returns(new ArrayBuffer(2));
+      fakeStorage.get.returns(new Uint8Array(2));
 
       const service = new OurProfileKeyService();
       service.initialize(fakeStorage);
@@ -153,7 +157,7 @@ describe('"our profile key" service', () => {
 
   describe('set', () => {
     it('updates the key in storage', async () => {
-      const fakeProfileKey = new ArrayBuffer(2);
+      const fakeProfileKey = new Uint8Array(2);
       const fakeStorage = createFakeStorage();
 
       const service = new OurProfileKeyService();

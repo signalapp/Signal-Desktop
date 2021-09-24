@@ -152,7 +152,7 @@ export function parseAndWriteAvatar(
       message: MessageAttributesType;
       regionCode: string;
       logger: Pick<LoggerType, 'error'>;
-      writeNewAttachmentData: (data: ArrayBuffer) => Promise<string>;
+      writeNewAttachmentData: (data: Uint8Array) => Promise<string>;
     }
   ): Promise<EmbeddedContactType> => {
     const { message, regionCode, logger } = context;

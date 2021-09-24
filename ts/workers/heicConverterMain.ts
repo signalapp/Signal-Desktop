@@ -6,7 +6,7 @@ import { Worker } from 'worker_threads';
 
 export type WrappedWorkerRequest = {
   readonly uuid: string;
-  readonly data: ArrayBuffer;
+  readonly data: Uint8Array;
 };
 
 export type WrappedWorkerResponse = {
@@ -19,7 +19,7 @@ const ASAR_PATTERN = /app\.asar$/;
 
 export function getHeicConverter(): (
   uuid: string,
-  data: ArrayBuffer
+  data: Uint8Array
 ) => Promise<WrappedWorkerResponse> {
   let appDir = join(__dirname, '..', '..');
   let isBundled = false;

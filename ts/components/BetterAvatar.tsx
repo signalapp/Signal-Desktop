@@ -7,7 +7,7 @@ import { AvatarDataType } from '../types/Avatar';
 import { BetterAvatarBubble } from './BetterAvatarBubble';
 import { LocalizerType } from '../types/Util';
 import { Spinner } from './Spinner';
-import { avatarDataToArrayBuffer } from '../util/avatarDataToArrayBuffer';
+import { avatarDataToBytes } from '../util/avatarDataToBytes';
 
 type AvatarSize = 48 | 80;
 
@@ -15,7 +15,7 @@ export type PropsType = {
   avatarData: AvatarDataType;
   i18n: LocalizerType;
   isSelected?: boolean;
-  onClick: (avatarBuffer: ArrayBuffer | undefined) => unknown;
+  onClick: (avatarBuffer: Uint8Array | undefined) => unknown;
   onDelete: () => unknown;
   size?: AvatarSize;
 };
@@ -28,7 +28,7 @@ export const BetterAvatar = ({
   onDelete,
   size = 48,
 }: PropsType): JSX.Element => {
-  const [avatarBuffer, setAvatarBuffer] = useState<ArrayBuffer | undefined>(
+  const [avatarBuffer, setAvatarBuffer] = useState<Uint8Array | undefined>(
     avatarData.buffer
   );
   const [avatarURL, setAvatarURL] = useState<string | undefined>(undefined);
@@ -37,7 +37,7 @@ export const BetterAvatar = ({
     let shouldCancel = false;
 
     async function makeAvatar() {
-      const buffer = await avatarDataToArrayBuffer(avatarData);
+      const buffer = await avatarDataToBytes(avatarData);
       if (!shouldCancel) {
         setAvatarBuffer(buffer);
       }
@@ -56,7 +56,7 @@ export const BetterAvatar = ({
     };
   }, [avatarBuffer, avatarData]);
 
-  // Convert avatar's ArrayBuffer to a URL object
+  // Convert avatar's Uint8Array to a URL object
   useEffect(() => {
     if (avatarBuffer) {
       const url = URL.createObjectURL(new Blob([avatarBuffer]));

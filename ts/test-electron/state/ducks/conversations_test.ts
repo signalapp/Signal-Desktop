@@ -645,7 +645,7 @@ describe('both/state/ducks/conversations', () => {
           ...defaultSetGroupMetadataComposerState,
           selectedConversationIds: ['abc123'],
           groupName: 'Foo Bar Group',
-          groupAvatar: new Uint8Array([1, 2, 3]).buffer,
+          groupAvatar: new Uint8Array([1, 2, 3]),
         },
       };
 
@@ -688,7 +688,7 @@ describe('both/state/ducks/conversations', () => {
         sinon.assert.calledOnce(createGroupStub);
         sinon.assert.calledWith(createGroupStub, {
           name: 'Foo Bar Group',
-          avatar: new Uint8Array([1, 2, 3]).buffer,
+          avatar: new Uint8Array([1, 2, 3]),
           avatars: [],
           expireTimer: 0,
           conversationIds: ['abc123'],
@@ -1172,7 +1172,7 @@ describe('both/state/ducks/conversations', () => {
           ...getEmptyState(),
           composer: {
             ...defaultSetGroupMetadataComposerState,
-            groupAvatar: new ArrayBuffer(2),
+            groupAvatar: new Uint8Array(2),
           },
         };
         const action = setComposeGroupAvatar(undefined);
@@ -1185,7 +1185,7 @@ describe('both/state/ducks/conversations', () => {
       });
 
       it("can set the composer's group avatar", () => {
-        const avatar = new Uint8Array([1, 2, 3]).buffer;
+        const avatar = new Uint8Array([1, 2, 3]);
 
         const state = {
           ...getEmptyState(),
@@ -1450,7 +1450,7 @@ describe('both/state/ducks/conversations', () => {
           composer: {
             ...defaultSetGroupMetadataComposerState,
             groupName: 'Foo Bar Group',
-            groupAvatar: new Uint8Array([4, 2]).buffer,
+            groupAvatar: new Uint8Array([4, 2]),
           },
         };
         const action = showChooseGroupMembers();
@@ -1460,7 +1460,7 @@ describe('both/state/ducks/conversations', () => {
         assert.deepEqual(result.composer, {
           ...defaultChooseGroupMembersComposerState,
           groupName: 'Foo Bar Group',
-          groupAvatar: new Uint8Array([4, 2]).buffer,
+          groupAvatar: new Uint8Array([4, 2]),
         });
       });
 
@@ -1518,7 +1518,7 @@ describe('both/state/ducks/conversations', () => {
             searchTerm: 'foo bar',
             selectedConversationIds: ['abc', 'def'],
             groupName: 'Foo Bar Group',
-            groupAvatar: new Uint8Array([6, 9]).buffer,
+            groupAvatar: new Uint8Array([6, 9]),
           },
         };
         const action = startSettingGroupMetadata();
@@ -1528,7 +1528,7 @@ describe('both/state/ducks/conversations', () => {
           ...defaultSetGroupMetadataComposerState,
           selectedConversationIds: ['abc', 'def'],
           groupName: 'Foo Bar Group',
-          groupAvatar: new Uint8Array([6, 9]).buffer,
+          groupAvatar: new Uint8Array([6, 9]),
         });
       });
 

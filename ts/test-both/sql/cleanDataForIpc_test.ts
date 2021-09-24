@@ -62,7 +62,7 @@ describe('cleanDataForIpc', () => {
   });
 
   it('keeps Buffers in a field', () => {
-    const buffer = Buffer.from('AABBCC', 'hex');
+    const buffer = new Uint8Array([0xaa, 0xbb, 0xcc]);
 
     assert.deepEqual(cleanDataForIpc(buffer), {
       cleaned: buffer,
@@ -85,11 +85,6 @@ describe('cleanDataForIpc', () => {
   });
 
   it('converts other iterables to arrays', () => {
-    assert.deepEqual(cleanDataForIpc(new Uint8Array([1, 2, 3])), {
-      cleaned: [1, 2, 3],
-      pathsChanged: ['root'],
-    });
-
     assert.deepEqual(cleanDataForIpc(new Float32Array([1, 2, 3])), {
       cleaned: [1, 2, 3],
       pathsChanged: ['root'],

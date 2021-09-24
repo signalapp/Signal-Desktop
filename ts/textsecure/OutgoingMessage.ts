@@ -37,7 +37,6 @@ import { Address } from '../types/Address';
 import { QualifiedAddress } from '../types/QualifiedAddress';
 import { UUID } from '../types/UUID';
 import { Sessions, IdentityKeys } from '../LibSignalStores';
-import { typedArrayToArrayBuffer as toArrayBuffer } from '../Crypto';
 import { updateConversationsWithUuidLookup } from '../updateConversationsWithUuidLookup';
 import { getKeysForIdentifier } from './getKeysForIdentifier';
 import { SignalService as Proto } from '../protobuf';
@@ -63,7 +62,7 @@ type SendMetadata = {
 export const serializedCertificateSchema = z
   .object({
     expires: z.number().optional(),
-    serialized: z.instanceof(ArrayBuffer),
+    serialized: z.instanceof(Uint8Array),
   })
   .nonstrict();
 
@@ -331,7 +330,7 @@ export default class OutgoingMessage {
     });
   }
 
-  getPlaintext(): ArrayBuffer {
+  getPlaintext(): Uint8Array {
     if (!this.plaintext) {
       const { message } = this;
 
@@ -341,7 +340,7 @@ export default class OutgoingMessage {
         this.plaintext = message.serialize();
       }
     }
-    return toArrayBuffer(this.plaintext);
+    return this.plaintext;
   }
 
   getContentProtoBytes(): Uint8Array | undefined {
@@ -720,7 +719,7 @@ export default class OutgoingMessage {
           identifier,
           error.originalMessage,
           error.timestamp,
-          error.identityKey
+          error.identityKey && new Uint8Array(error.identityKey)
         );
         this.registerError(identifier, 'Untrusted identity', newError);
       } else {

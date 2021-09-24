@@ -2,19 +2,17 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { randomBytes } from 'crypto';
-import { basename, extname, join, normalize, relative } from 'path';
+import { basename, join, normalize, relative } from 'path';
 import { app, dialog, shell, remote } from 'electron';
 
 import fastGlob from 'fast-glob';
 import glob from 'glob';
 import pify from 'pify';
 import fse from 'fs-extra';
-import { map, isArrayBuffer, isString } from 'lodash';
+import { map, isTypedArray, isString } from 'lodash';
 import normalizePath from 'normalize-path';
-import sanitizeFilename from 'sanitize-filename';
 import getGuid from 'uuid/v4';
 
-import { typedArrayToArrayBuffer } from '../ts/Crypto';
 import { isPathInside } from '../ts/util/isPathInside';
 import { isWindows } from '../ts/OS';
 import { writeWindowsZoneIdentifier } from '../ts/util/windowsZoneIdentifier';
@@ -123,12 +121,12 @@ export const clearTempPath = (userDataPath: string): Promise<void> => {
 
 export const createReader = (
   root: string
-): ((relativePath: string) => Promise<ArrayBuffer>) => {
+): ((relativePath: string) => Promise<Uint8Array>) => {
   if (!isString(root)) {
     throw new TypeError("'root' must be a path");
   }
 
-  return async (relativePath: string): Promise<ArrayBuffer> => {
+  return async (relativePath: string): Promise<Uint8Array> => {
     if (!isString(relativePath)) {
       throw new TypeError("'relativePath' must be a string");
     }
@@ -138,8 +136,7 @@ export const createReader = (
     if (!isPathInside(normalized, root)) {
       throw new Error('Invalid relative path');
     }
-    const buffer = await fse.readFile(normalized);
-    return typedArrayToArrayBuffer(buffer);
+    return fse.readFile(normalized);
   };
 };
 
@@ -203,48 +200,9 @@ export const copyIntoAttachmentsDirectory = (
   };
 };
 
-export const writeToDownloads = async ({
-  data,
-  name,
-}: {
-  data: ArrayBuffer;
-  name: string;
-}): Promise<{ fullPath: string; name: string }> => {
-  const appToUse = getApp();
-  const downloadsPath =
-    appToUse.getPath('downloads') || appToUse.getPath('home');
-  const sanitized = sanitizeFilename(name);
-
-  const extension = extname(sanitized);
-  const fileBasename = basename(sanitized, extension);
-  const getCandidateName = (count: number) =>
-    `${fileBasename} (${count})${extension}`;
-
-  const existingFiles = await fse.readdir(downloadsPath);
-  let candidateName = sanitized;
-  let count = 0;
-  while (existingFiles.includes(candidateName)) {
-    count += 1;
-    candidateName = getCandidateName(count);
-  }
-
-  const target = join(downloadsPath, candidateName);
-  const normalized = normalize(target);
-  if (!isPathInside(normalized, downloadsPath)) {
-    throw new Error('Invalid filename!');
-  }
-
-  await writeWithAttributes(normalized, data);
-
-  return {
-    fullPath: normalized,
-    name: candidateName,
-  };
-};
-
 async function writeWithAttributes(
   target: string,
-  data: ArrayBuffer
+  data: Uint8Array
 ): Promise<void> {
   await fse.writeFile(target, Buffer.from(data));
 
@@ -292,7 +250,7 @@ export const saveAttachmentToDisk = async ({
   data,
   name,
 }: {
-  data: ArrayBuffer;
+  data: Uint8Array;
   name: string;
 }): Promise<null | { fullPath: string; name: string }> => {
   const dialogToUse = dialog || remote.dialog;
@@ -327,20 +285,20 @@ export const openFileInFolder = async (target: string): Promise<void> => {
 
 export const createWriterForNew = (
   root: string
-): ((arrayBuffer: ArrayBuffer) => Promise<string>) => {
+): ((bytes: Uint8Array) => Promise<string>) => {
   if (!isString(root)) {
     throw new TypeError("'root' must be a path");
   }
 
-  return async (arrayBuffer: ArrayBuffer) => {
-    if (!isArrayBuffer(arrayBuffer)) {
-      throw new TypeError("'arrayBuffer' must be an array buffer");
+  return async (bytes: Uint8Array) => {
+    if (!isTypedArray(bytes)) {
+      throw new TypeError("'bytes' must be a typed array");
     }
 
     const name = createName();
     const relativePath = getRelativePath(name);
     return createWriterForExisting(root)({
-      data: arrayBuffer,
+      data: bytes,
       path: relativePath,
     });
   };
@@ -348,27 +306,27 @@ export const createWriterForNew = (
 
 export const createWriterForExisting = (
   root: string
-): ((options: { data: ArrayBuffer; path: string }) => Promise<string>) => {
+): ((options: { data: Uint8Array; path: string }) => Promise<string>) => {
   if (!isString(root)) {
     throw new TypeError("'root' must be a path");
   }
 
   return async ({
-    data: arrayBuffer,
+    data: bytes,
     path: relativePath,
   }: {
-    data: ArrayBuffer;
+    data: Uint8Array;
     path: string;
   }): Promise<string> => {
     if (!isString(relativePath)) {
       throw new TypeError("'relativePath' must be a path");
     }
 
-    if (!isArrayBuffer(arrayBuffer)) {
+    if (!isTypedArray(bytes)) {
       throw new TypeError("'arrayBuffer' must be an array buffer");
     }
 
-    const buffer = Buffer.from(arrayBuffer);
+    const buffer = Buffer.from(bytes);
     const absolutePath = join(root, relativePath);
     const normalized = normalize(absolutePath);
     if (!isPathInside(normalized, root)) {

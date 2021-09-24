@@ -13,15 +13,11 @@ import {
 import { v4 as getGuid } from 'uuid';
 
 import { signal } from '../protobuf/compiled';
-import { sessionStructureToArrayBuffer } from '../util/sessionTranslation';
+import { sessionStructureToBytes } from '../util/sessionTranslation';
 import { Zone } from '../util/Zone';
 
-import {
-  getRandomBytes,
-  constantTimeEqual,
-  typedArrayToArrayBuffer as toArrayBuffer,
-  arrayBufferToBase64 as toBase64,
-} from '../Crypto';
+import * as Bytes from '../Bytes';
+import { getRandomBytes, constantTimeEqual } from '../Crypto';
 import { clampPrivateKey, setPublicKeyTypeByte } from '../Curve';
 import { GLOBAL_ZONE, SignalProtocolStore } from '../SignalProtocolStore';
 import { Address } from '../types/Address';
@@ -53,20 +49,20 @@ describe('SignalProtocolStore', () => {
     if (isOpen) {
       proto.currentSession = new SessionStructure();
 
-      proto.currentSession.aliceBaseKey = toUint8Array(getPublicKey());
-      proto.currentSession.localIdentityPublic = toUint8Array(getPublicKey());
+      proto.currentSession.aliceBaseKey = getPublicKey();
+      proto.currentSession.localIdentityPublic = getPublicKey();
       proto.currentSession.localRegistrationId = 435;
 
       proto.currentSession.previousCounter = 1;
-      proto.currentSession.remoteIdentityPublic = toUint8Array(getPublicKey());
+      proto.currentSession.remoteIdentityPublic = getPublicKey();
       proto.currentSession.remoteRegistrationId = 243;
 
-      proto.currentSession.rootKey = toUint8Array(getPrivateKey());
+      proto.currentSession.rootKey = getPrivateKey();
       proto.currentSession.sessionVersion = 3;
     }
 
     return SessionRecord.deserialize(
-      Buffer.from(sessionStructureToArrayBuffer(proto))
+      Buffer.from(sessionStructureToBytes(proto))
     );
   }
 
@@ -80,19 +76,19 @@ describe('SignalProtocolStore', () => {
     const senderChainKey = new SenderKeyStateStructure.SenderChainKey();
 
     senderChainKey.iteration = 10;
-    senderChainKey.seed = toUint8Array(getPublicKey());
+    senderChainKey.seed = getPublicKey();
     state.senderChainKey = senderChainKey;
 
     const senderSigningKey = new SenderKeyStateStructure.SenderSigningKey();
-    senderSigningKey.public = toUint8Array(getPublicKey());
-    senderSigningKey.private = toUint8Array(getPrivateKey());
+    senderSigningKey.public = getPublicKey();
+    senderSigningKey.private = getPrivateKey();
 
     state.senderSigningKey = senderSigningKey;
 
     state.senderMessageKeys = [];
     const messageKey = new SenderKeyStateStructure.SenderMessageKey();
     messageKey.iteration = 234;
-    messageKey.seed = toUint8Array(getPublicKey());
+    messageKey.seed = getPublicKey();
     state.senderMessageKeys.push(messageKey);
 
     proto.senderKeyStates = [];
@@ -103,10 +99,6 @@ describe('SignalProtocolStore', () => {
         signal.proto.storage.SenderKeyRecordStructure.encode(proto).finish()
       )
     );
-  }
-
-  function toUint8Array(buffer: ArrayBuffer): Uint8Array {
-    return new Uint8Array(buffer);
   }
 
   function getPrivateKey() {
@@ -141,8 +133,8 @@ describe('SignalProtocolStore', () => {
     window.storage.put('registrationIdMap', { [ourUuid.toString()]: 1337 });
     window.storage.put('identityKeyMap', {
       [ourUuid.toString()]: {
-        privKey: toBase64(identityKey.privKey),
-        pubKey: toBase64(identityKey.pubKey),
+        privKey: Bytes.toBase64(identityKey.privKey),
+        pubKey: Bytes.toBase64(identityKey.pubKey),
       },
     });
     await window.storage.fetch();
@@ -194,10 +186,7 @@ describe('SignalProtocolStore', () => {
       }
 
       assert.isTrue(
-        constantTimeEqual(
-          toArrayBuffer(expected.serialize()),
-          toArrayBuffer(actual.serialize())
-        )
+        constantTimeEqual(expected.serialize(), actual.serialize())
       );
 
       await store.removeSenderKey(qualifiedAddress, distributionId);
@@ -230,10 +219,7 @@ describe('SignalProtocolStore', () => {
       }
 
       assert.isTrue(
-        constantTimeEqual(
-          toArrayBuffer(expected.serialize()),
-          toArrayBuffer(actual.serialize())
-        )
+        constantTimeEqual(expected.serialize(), actual.serialize())
       );
 
       await store.removeSenderKey(qualifiedAddress, distributionId);
@@ -1254,12 +1240,8 @@ describe('SignalProtocolStore', () => {
       }
 
       const keyPair = {
-        pubKey: window.Signal.Crypto.typedArrayToArrayBuffer(
-          key.publicKey().serialize()
-        ),
-        privKey: window.Signal.Crypto.typedArrayToArrayBuffer(
-          key.privateKey().serialize()
-        ),
+        pubKey: key.publicKey().serialize(),
+        privKey: key.privateKey().serialize(),
       };
 
       assert.isTrue(constantTimeEqual(keyPair.pubKey, testKey.pubKey));
@@ -1286,12 +1268,8 @@ describe('SignalProtocolStore', () => {
       }
 
       const keyPair = {
-        pubKey: window.Signal.Crypto.typedArrayToArrayBuffer(
-          key.publicKey().serialize()
-        ),
-        privKey: window.Signal.Crypto.typedArrayToArrayBuffer(
-          key.privateKey().serialize()
-        ),
+        pubKey: key.publicKey().serialize(),
+        privKey: key.privateKey().serialize(),
       };
 
       assert.isTrue(constantTimeEqual(keyPair.pubKey, testKey.pubKey));

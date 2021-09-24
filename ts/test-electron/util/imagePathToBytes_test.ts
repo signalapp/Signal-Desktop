@@ -4,16 +4,16 @@
 import { assert } from 'chai';
 import path from 'path';
 
-import { imagePathToArrayBuffer } from '../../util/imagePathToArrayBuffer';
+import { imagePathToBytes } from '../../util/imagePathToBytes';
 
-describe('imagePathToArrayBuffer', () => {
-  it('converts an image to an ArrayBuffer', async () => {
+describe('imagePathToBytes', () => {
+  it('converts an image to an Bytes', async () => {
     const avatarPath = path.join(
       __dirname,
       '../../../fixtures/kitten-3-64-64.jpg'
     );
-    const buffer = await imagePathToArrayBuffer(avatarPath);
+    const buffer = await imagePathToBytes(avatarPath);
     assert.isDefined(buffer);
-    assert(buffer instanceof ArrayBuffer);
+    assert(buffer instanceof Uint8Array);
   });
 });

@@ -10,7 +10,7 @@ import { processImageFile } from '../util/processImageFile';
 export type PropsType = {
   className: string;
   i18n: LocalizerType;
-  onChange: (avatar: ArrayBuffer) => unknown;
+  onChange: (avatar: Uint8Array) => unknown;
 };
 
 export const AvatarUploadButton = ({
@@ -30,7 +30,7 @@ export const AvatarUploadButton = ({
     let shouldCancel = false;
 
     (async () => {
-      let newAvatar: ArrayBuffer;
+      let newAvatar: Uint8Array;
       try {
         newAvatar = await processImageFile(processingFile);
       } catch (err) {

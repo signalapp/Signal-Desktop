@@ -6,7 +6,7 @@ import { assert } from 'chai';
 import * as Attachment from '../../types/Attachment';
 import * as MIME from '../../types/MIME';
 import { SignalService } from '../../protobuf';
-import { stringToArrayBuffer } from '../../util/stringToArrayBuffer';
+import * as Bytes from '../../Bytes';
 import * as logger from '../../logging/log';
 
 describe('Attachment', () => {
@@ -38,7 +38,7 @@ describe('Attachment', () => {
   describe('getFileExtension', () => {
     it('should return file extension from content type', () => {
       const input: Attachment.AttachmentType = {
-        data: stringToArrayBuffer('foo'),
+        data: Bytes.fromString('foo'),
         contentType: MIME.IMAGE_GIF,
       };
       assert.strictEqual(Attachment.getFileExtension(input), 'gif');
@@ -46,7 +46,7 @@ describe('Attachment', () => {
 
     it('should return file extension for QuickTime videos', () => {
       const input: Attachment.AttachmentType = {
-        data: stringToArrayBuffer('foo'),
+        data: Bytes.fromString('foo'),
         contentType: MIME.VIDEO_QUICKTIME,
       };
       assert.strictEqual(Attachment.getFileExtension(input), 'mov');
@@ -58,7 +58,7 @@ describe('Attachment', () => {
       it('should return existing filename if present', () => {
         const attachment: Attachment.AttachmentType = {
           fileName: 'funny-cat.mov',
-          data: stringToArrayBuffer('foo'),
+          data: Bytes.fromString('foo'),
           contentType: MIME.VIDEO_QUICKTIME,
         };
         const actual = Attachment.getSuggestedFilename({ attachment });
@@ -69,7 +69,7 @@ describe('Attachment', () => {
     context('for attachment without filename', () => {
       it('should generate a filename based on timestamp', () => {
         const attachment: Attachment.AttachmentType = {
-          data: stringToArrayBuffer('foo'),
+          data: Bytes.fromString('foo'),
           contentType: MIME.VIDEO_QUICKTIME,
         };
         const timestamp = new Date(new Date(0).getTimezoneOffset() * 60 * 1000);
@@ -84,7 +84,7 @@ describe('Attachment', () => {
     context('for attachment with index', () => {
       it('should generate a filename based on timestamp', () => {
         const attachment: Attachment.AttachmentType = {
-          data: stringToArrayBuffer('foo'),
+          data: Bytes.fromString('foo'),
           contentType: MIME.VIDEO_QUICKTIME,
         };
         const timestamp = new Date(new Date(0).getTimezoneOffset() * 60 * 1000);
@@ -103,7 +103,7 @@ describe('Attachment', () => {
     it('should return true for images', () => {
       const attachment: Attachment.AttachmentType = {
         fileName: 'meme.gif',
-        data: stringToArrayBuffer('gif'),
+        data: Bytes.fromString('gif'),
         contentType: MIME.IMAGE_GIF,
       };
       assert.isTrue(Attachment.isVisualMedia(attachment));
@@ -112,7 +112,7 @@ describe('Attachment', () => {
     it('should return true for videos', () => {
       const attachment: Attachment.AttachmentType = {
         fileName: 'meme.mp4',
-        data: stringToArrayBuffer('mp4'),
+        data: Bytes.fromString('mp4'),
         contentType: MIME.VIDEO_MP4,
       };
       assert.isTrue(Attachment.isVisualMedia(attachment));
@@ -122,7 +122,7 @@ describe('Attachment', () => {
       const attachment: Attachment.AttachmentType = {
         fileName: 'Voice Message.aac',
         flags: SignalService.AttachmentPointer.Flags.VOICE_MESSAGE,
-        data: stringToArrayBuffer('voice message'),
+        data: Bytes.fromString('voice message'),
         contentType: MIME.AUDIO_AAC,
       };
       assert.isFalse(Attachment.isVisualMedia(attachment));
@@ -131,7 +131,7 @@ describe('Attachment', () => {
     it('should return false for other attachments', () => {
       const attachment: Attachment.AttachmentType = {
         fileName: 'foo.json',
-        data: stringToArrayBuffer('{"foo": "bar"}'),
+        data: Bytes.fromString('{"foo": "bar"}'),
         contentType: MIME.APPLICATION_JSON,
       };
       assert.isFalse(Attachment.isVisualMedia(attachment));
@@ -142,7 +142,7 @@ describe('Attachment', () => {
     it('should return true for JSON', () => {
       const attachment: Attachment.AttachmentType = {
         fileName: 'foo.json',
-        data: stringToArrayBuffer('{"foo": "bar"}'),
+        data: Bytes.fromString('{"foo": "bar"}'),
         contentType: MIME.APPLICATION_JSON,
       };
       assert.isTrue(Attachment.isFile(attachment));
@@ -151,7 +151,7 @@ describe('Attachment', () => {
     it('should return false for images', () => {
       const attachment: Attachment.AttachmentType = {
         fileName: 'meme.gif',
-        data: stringToArrayBuffer('gif'),
+        data: Bytes.fromString('gif'),
         contentType: MIME.IMAGE_GIF,
       };
       assert.isFalse(Attachment.isFile(attachment));
@@ -160,7 +160,7 @@ describe('Attachment', () => {
     it('should return false for videos', () => {
       const attachment: Attachment.AttachmentType = {
         fileName: 'meme.mp4',
-        data: stringToArrayBuffer('mp4'),
+        data: Bytes.fromString('mp4'),
         contentType: MIME.VIDEO_MP4,
       };
       assert.isFalse(Attachment.isFile(attachment));
@@ -170,7 +170,7 @@ describe('Attachment', () => {
       const attachment: Attachment.AttachmentType = {
         fileName: 'Voice Message.aac',
         flags: SignalService.AttachmentPointer.Flags.VOICE_MESSAGE,
-        data: stringToArrayBuffer('voice message'),
+        data: Bytes.fromString('voice message'),
         contentType: MIME.AUDIO_AAC,
       };
       assert.isFalse(Attachment.isFile(attachment));
@@ -182,7 +182,7 @@ describe('Attachment', () => {
       const attachment: Attachment.AttachmentType = {
         fileName: 'Voice Message.aac',
         flags: SignalService.AttachmentPointer.Flags.VOICE_MESSAGE,
-        data: stringToArrayBuffer('voice message'),
+        data: Bytes.fromString('voice message'),
         contentType: MIME.AUDIO_AAC,
       };
       assert.isTrue(Attachment.isVoiceMessage(attachment));
@@ -190,7 +190,7 @@ describe('Attachment', () => {
 
     it('should return true for legacy Android voice message attachment', () => {
       const attachment: Attachment.AttachmentType = {
-        data: stringToArrayBuffer('voice message'),
+        data: Bytes.fromString('voice message'),
         contentType: MIME.AUDIO_MP3,
       };
       assert.isTrue(Attachment.isVoiceMessage(attachment));
@@ -199,7 +199,7 @@ describe('Attachment', () => {
     it('should return false for other attachments', () => {
       const attachment: Attachment.AttachmentType = {
         fileName: 'foo.gif',
-        data: stringToArrayBuffer('foo'),
+        data: Bytes.fromString('foo'),
         contentType: MIME.IMAGE_GIF,
       };
       assert.isFalse(Attachment.isVoiceMessage(attachment));
@@ -359,7 +359,7 @@ describe('Attachment', () => {
     it('should write data to disk and store relative path to it', async () => {
       const input = {
         contentType: MIME.IMAGE_JPEG,
-        data: stringToArrayBuffer('Above us only sky'),
+        data: Bytes.fromString('Above us only sky'),
         fileName: 'foo.jpg',
         size: 1111,
       };
@@ -371,8 +371,8 @@ describe('Attachment', () => {
         size: 1111,
       };
 
-      const expectedAttachmentData = stringToArrayBuffer('Above us only sky');
-      const writeNewAttachmentData = async (attachmentData: ArrayBuffer) => {
+      const expectedAttachmentData = Bytes.fromString('Above us only sky');
+      const writeNewAttachmentData = async (attachmentData: Uint8Array) => {
         assert.deepEqual(attachmentData, expectedAttachmentData);
         return 'abc/abcdefgh123456789';
       };
@@ -419,7 +419,7 @@ describe('Attachment', () => {
         Attachment.migrateDataToFileSystem(input, {
           writeNewAttachmentData,
         }),
-        'Expected `attachment.data` to be an array buffer; got: number'
+        'Expected `attachment.data` to be a typed array; got: number'
       );
     });
   });

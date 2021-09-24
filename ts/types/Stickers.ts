@@ -9,7 +9,8 @@ import { strictAssert } from '../util/assert';
 import { dropNull } from '../util/dropNull';
 import { makeLookup } from '../util/makeLookup';
 import { maybeParseUrl } from '../util/url';
-import { base64ToArrayBuffer, deriveStickerPackKey } from '../Crypto';
+import * as Bytes from '../Bytes';
+import { deriveStickerPackKey, decryptAttachment } from '../Crypto';
 import type {
   StickerType,
   StickerPackType,
@@ -40,9 +41,6 @@ export type DownloadMap = Record<
     status?: StickerPackStatusType;
   }
 >;
-
-// TODO: remove once we move away from ArrayBuffers
-const FIXMEU8 = Uint8Array;
 
 export const BLESSED_PACKS: Record<string, BlessedType> = {
   '9acc9e8aba563d26a4994e69263e3b25': {
@@ -287,16 +285,10 @@ function getReduxStickerActions() {
   return actions.stickers;
 }
 
-async function decryptSticker(
-  packKey: string,
-  ciphertext: ArrayBuffer
-): Promise<ArrayBuffer> {
-  const binaryKey = base64ToArrayBuffer(packKey);
-  const derivedKey = await deriveStickerPackKey(binaryKey);
-  const plaintext = await window.textsecure.crypto.decryptAttachment(
-    ciphertext,
-    derivedKey
-  );
+function decryptSticker(packKey: string, ciphertext: Uint8Array): Uint8Array {
+  const binaryKey = Bytes.fromBase64(packKey);
+  const derivedKey = deriveStickerPackKey(binaryKey);
+  const plaintext = decryptAttachment(ciphertext, derivedKey);
 
   return plaintext;
 }
@@ -311,7 +303,7 @@ async function downloadSticker(
   strictAssert(id !== undefined && id !== null, "Sticker id can't be null");
 
   const ciphertext = await window.textsecure.messaging.getSticker(packId, id);
-  const plaintext = await decryptSticker(packKey, ciphertext);
+  const plaintext = decryptSticker(packKey, ciphertext);
 
   const sticker = ephemeral
     ? await window.Signal.Migrations.processNewEphemeralSticker(plaintext)
@@ -413,8 +405,8 @@ export async function downloadEphemeralPack(
     const ciphertext = await window.textsecure.messaging.getStickerPackManifest(
       packId
     );
-    const plaintext = await decryptSticker(packKey, ciphertext);
-    const proto = Proto.StickerPack.decode(new FIXMEU8(plaintext));
+    const plaintext = decryptSticker(packKey, ciphertext);
+    const proto = Proto.StickerPack.decode(plaintext);
     const firstStickerProto = proto.stickers ? proto.stickers[0] : null;
     const stickerCount = proto.stickers.length;
 
@@ -594,8 +586,8 @@ async function doDownloadStickerPack(
     const ciphertext = await window.textsecure.messaging.getStickerPackManifest(
       packId
     );
-    const plaintext = await decryptSticker(packKey, ciphertext);
-    const proto = Proto.StickerPack.decode(new FIXMEU8(plaintext));
+    const plaintext = decryptSticker(packKey, ciphertext);
+    const proto = Proto.StickerPack.decode(plaintext);
     const firstStickerProto = proto.stickers ? proto.stickers[0] : undefined;
     const stickerCount = proto.stickers.length;
 

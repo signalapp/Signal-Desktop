@@ -15,9 +15,6 @@ import { DecryptionErrorEvent } from '../textsecure/messageReceiverEvents';
 import { SignalService as Proto } from '../protobuf';
 import * as Crypto from '../Crypto';
 
-// TODO: remove once we move away from ArrayBuffers
-const FIXMEU8 = Uint8Array;
-
 describe('MessageReceiver', () => {
   const number = '+19999999999';
   const uuid = 'aaaaaaaa-bbbb-4ccc-9ddd-eeeeeeeeeeee';
@@ -54,7 +51,7 @@ describe('MessageReceiver', () => {
         sourceUuid: uuid,
         sourceDevice: deviceId,
         timestamp: Date.now(),
-        content: new FIXMEU8(Crypto.getRandomBytes(200)),
+        content: Crypto.getRandomBytes(200),
       }).finish();
 
       messageReceiver.handleRequest(

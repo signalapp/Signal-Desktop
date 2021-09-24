@@ -39,14 +39,8 @@ import OutgoingMessage, {
   SerializedCertificateType,
   SendLogCallbackType,
 } from './OutgoingMessage';
-import Crypto from './Crypto';
 import * as Bytes from '../Bytes';
-import {
-  concatenateBytes,
-  getRandomBytes,
-  getZeroes,
-  typedArrayToArrayBuffer,
-} from '../Crypto';
+import { getRandomBytes, getZeroes, encryptAttachment } from '../Crypto';
 import {
   StorageServiceCallOptionsType,
   StorageServiceCredentials,
@@ -111,7 +105,7 @@ type GroupCallUpdateType = {
 
 export type AttachmentType = {
   size: number;
-  data: ArrayBuffer;
+  data: Uint8Array;
   contentType: string;
 
   fileName: string;
@@ -137,7 +131,7 @@ export type MessageOptionsType = {
   groupV2?: GroupV2InfoType;
   needsSync?: boolean;
   preview?: ReadonlyArray<PreviewType> | null;
-  profileKey?: ArrayBuffer;
+  profileKey?: Uint8Array;
   quote?: any;
   recipients: ReadonlyArray<string>;
   sticker?: any;
@@ -154,7 +148,7 @@ export type GroupSendOptionsType = {
   groupV1?: GroupV1InfoType;
   messageText?: string;
   preview?: any;
-  profileKey?: ArrayBuffer;
+  profileKey?: Uint8Array;
   quote?: any;
   reaction?: any;
   sticker?: any;
@@ -163,9 +157,6 @@ export type GroupSendOptionsType = {
   mentions?: BodyRangesType;
   groupCallUpdate?: GroupCallUpdateType;
 };
-
-// TODO: remove once we move away from ArrayBuffers
-const FIXMEU8 = Uint8Array;
 
 class Message {
   attachments: ReadonlyArray<any>;
@@ -187,7 +178,7 @@ class Message {
 
   preview: any;
 
-  profileKey?: ArrayBuffer;
+  profileKey?: Uint8Array;
 
   quote?: {
     id?: number;
@@ -210,7 +201,7 @@ class Message {
 
   timestamp: number;
 
-  dataMessage: any;
+  dataMessage?: Proto.DataMessage;
 
   attachmentPointers: Array<Proto.IAttachmentPointer> = [];
 
@@ -298,7 +289,7 @@ class Message {
   }
 
   toProto(): Proto.DataMessage {
-    if (this.dataMessage instanceof Proto.DataMessage) {
+    if (this.dataMessage) {
       return this.dataMessage;
     }
     const proto = new Proto.DataMessage();
@@ -405,7 +396,7 @@ class Message {
       proto.expireTimer = this.expireTimer;
     }
     if (this.profileKey) {
-      proto.profileKey = new FIXMEU8(this.profileKey);
+      proto.profileKey = this.profileKey;
     }
     if (this.deletedForEveryoneTimestamp) {
       proto.delete = {
@@ -437,10 +428,8 @@ class Message {
     return proto;
   }
 
-  toArrayBuffer() {
-    return typedArrayToArrayBuffer(
-      Proto.DataMessage.encode(this.toProto()).finish()
-    );
+  encode() {
+    return Proto.DataMessage.encode(this.toProto()).finish();
   }
 }
 
@@ -489,15 +478,15 @@ export default class MessageSender {
     const paddingLength = (new Uint16Array(buffer)[0] & 0x1ff) + 1;
 
     // Generate a random padding buffer of the chosen size
-    return new FIXMEU8(getRandomBytes(paddingLength));
+    return getRandomBytes(paddingLength);
   }
 
-  getPaddedAttachment(data: Readonly<ArrayBuffer>): ArrayBuffer {
+  getPaddedAttachment(data: Readonly<Uint8Array>): Uint8Array {
     const size = data.byteLength;
     const paddedSize = this._getAttachmentSizeBucket(size);
     const padding = getZeroes(paddedSize - size);
 
-    return concatenateBytes(data, padding);
+    return Bytes.concatenate([data, padding]);
   }
 
   async makeAttachmentPointer(
@@ -509,9 +498,9 @@ export default class MessageSender {
     );
 
     const { data, size } = attachment;
-    if (!(data instanceof ArrayBuffer) && !ArrayBuffer.isView(data)) {
+    if (!(data instanceof Uint8Array)) {
       throw new Error(
-        `makeAttachmentPointer: data was a '${typeof data}' instead of ArrayBuffer/ArrayBufferView`
+        `makeAttachmentPointer: data was a '${typeof data}' instead of Uint8Array`
       );
     }
     if (data.byteLength !== size) {
@@ -524,15 +513,15 @@ export default class MessageSender {
     const key = getRandomBytes(64);
     const iv = getRandomBytes(16);
 
-    const result = await Crypto.encryptAttachment(padded, key, iv);
+    const result = encryptAttachment(padded, key, iv);
     const id = await this.server.putAttachment(result.ciphertext);
 
     const proto = new Proto.AttachmentPointer();
     proto.cdnId = Long.fromString(id);
     proto.contentType = attachment.contentType;
-    proto.key = new FIXMEU8(key);
+    proto.key = key;
     proto.size = attachment.size;
-    proto.digest = new FIXMEU8(result.digest);
+    proto.digest = result.digest;
 
     if (attachment.fileName) {
       proto.fileName = attachment.fileName;
@@ -651,9 +640,9 @@ export default class MessageSender {
 
   async getDataMessage(
     options: Readonly<MessageOptionsType>
-  ): Promise<ArrayBuffer> {
+  ): Promise<Uint8Array> {
     const message = await this.getHydratedMessage(options);
-    return message.toArrayBuffer();
+    return message.encode();
   }
 
   async getContentMessage(
@@ -685,7 +674,7 @@ export default class MessageSender {
   getTypingContentMessage(
     options: Readonly<{
       recipientId?: string;
-      groupId?: ArrayBuffer;
+      groupId?: Uint8Array;
       groupMembers: ReadonlyArray<string>;
       isTyping: boolean;
       timestamp?: number;
@@ -705,7 +694,7 @@ export default class MessageSender {
 
     const typingMessage = new Proto.TypingMessage();
     if (groupId) {
-      typingMessage.groupId = new FIXMEU8(groupId);
+      typingMessage.groupId = groupId;
     }
     typingMessage.action = action;
     typingMessage.timestamp = finalTimestamp;
@@ -823,7 +812,7 @@ export default class MessageSender {
         new Promise((resolve, reject) => {
           this.sendMessageProto({
             callback: (res: CallbackResultType) => {
-              res.dataMessage = message.toArrayBuffer();
+              res.dataMessage = message.encode();
               if (res.errors && res.errors.length > 0) {
                 reject(new SendMessageProtoError(res));
               } else {
@@ -988,7 +977,7 @@ export default class MessageSender {
     expireTimer: number | undefined;
     contentHint: number;
     groupId: string | undefined;
-    profileKey?: ArrayBuffer;
+    profileKey?: Uint8Array;
     options?: SendOptionsType;
   }>): Promise<CallbackResultType> {
     return this.sendMessage({
@@ -1026,7 +1015,7 @@ export default class MessageSender {
     isUpdate,
     options,
   }: Readonly<{
-    encodedDataMessage: ArrayBuffer;
+    encodedDataMessage: Uint8Array;
     timestamp: number;
     destination: string | undefined;
     destinationUuid: string | null | undefined;
@@ -1038,9 +1027,7 @@ export default class MessageSender {
   }>): Promise<CallbackResultType> {
     const myUuid = window.textsecure.storage.user.getCheckedUuid();
 
-    const dataMessage = Proto.DataMessage.decode(
-      new FIXMEU8(encodedDataMessage)
-    );
+    const dataMessage = Proto.DataMessage.decode(encodedDataMessage);
     const sentMessage = new Proto.SyncMessage.Sent();
     sentMessage.timestamp = timestamp;
     sentMessage.message = dataMessage;
@@ -1356,7 +1343,7 @@ export default class MessageSender {
     responseArgs: Readonly<{
       threadE164?: string;
       threadUuid?: string;
-      groupId?: ArrayBuffer;
+      groupId?: Uint8Array;
       type: number;
     }>,
     options?: Readonly<SendOptionsType>
@@ -1373,7 +1360,7 @@ export default class MessageSender {
       response.threadUuid = responseArgs.threadUuid;
     }
     if (responseArgs.groupId) {
-      response.groupId = new FIXMEU8(responseArgs.groupId);
+      response.groupId = responseArgs.groupId;
     }
     response.type = responseArgs.type;
     syncMessage.messageRequestResponse = response;
@@ -1435,7 +1422,7 @@ export default class MessageSender {
     destinationE164: string | undefined,
     destinationUuid: string | undefined,
     state: number,
-    identityKey: Readonly<ArrayBuffer>,
+    identityKey: Readonly<Uint8Array>,
     options?: Readonly<SendOptionsType>
   ): Promise<CallbackResultType> {
     const myUuid = window.textsecure.storage.user.getCheckedUuid();
@@ -1468,7 +1455,7 @@ export default class MessageSender {
     if (destinationUuid) {
       verified.destinationUuid = destinationUuid;
     }
-    verified.identityKey = new FIXMEU8(identityKey);
+    verified.identityKey = identityKey;
     verified.nullMessage = padding;
 
     const syncMessage = this.createSyncMessage();
@@ -1491,7 +1478,7 @@ export default class MessageSender {
   // Sending messages to contacts
 
   async sendProfileKeyUpdate(
-    profileKey: Readonly<ArrayBuffer>,
+    profileKey: Readonly<Uint8Array>,
     recipients: ReadonlyArray<string>,
     options: Readonly<SendOptionsType>,
     groupId?: string
@@ -1712,11 +1699,9 @@ export default class MessageSender {
       return sendToContactPromise;
     }
 
-    const buffer = typedArrayToArrayBuffer(
-      Proto.DataMessage.encode(proto).finish()
-    );
+    const encodedDataMessage = Proto.DataMessage.encode(proto).finish();
     const sendSyncPromise = this.sendSyncMessage({
-      encodedDataMessage: buffer,
+      encodedDataMessage,
       timestamp,
       destination: e164,
       destinationUuid: uuid,
@@ -1738,7 +1723,7 @@ export default class MessageSender {
     identifier: string,
     expireTimer: number | undefined,
     timestamp: number,
-    profileKey?: Readonly<ArrayBuffer>,
+    profileKey?: Readonly<Uint8Array>,
     options?: Readonly<SendOptionsType>
   ): Promise<CallbackResultType> {
     const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
@@ -1869,9 +1854,7 @@ export default class MessageSender {
     timestamp: number;
   }>): Promise<CallbackResultType> {
     const dataMessage = proto.dataMessage
-      ? typedArrayToArrayBuffer(
-          Proto.DataMessage.encode(proto.dataMessage).finish()
-        )
+      ? Proto.DataMessage.encode(proto.dataMessage).finish()
       : undefined;
 
     const myE164 = window.textsecure.storage.user.getNumber();
@@ -2034,7 +2017,7 @@ export default class MessageSender {
     groupIdentifiers: ReadonlyArray<string>,
     expireTimer: number | undefined,
     timestamp: number,
-    profileKey?: Readonly<ArrayBuffer>,
+    profileKey?: Readonly<Uint8Array>,
     options?: Readonly<SendOptionsType>
   ): Promise<CallbackResultType> {
     const myNumber = window.textsecure.storage.user.getNumber();
@@ -2163,7 +2146,7 @@ export default class MessageSender {
     return this.server.getGroupLog(startVersion, options);
   }
 
-  async getGroupAvatar(key: string): Promise<ArrayBuffer> {
+  async getGroupAvatar(key: string): Promise<Uint8Array> {
     return this.server.getGroupAvatar(key);
   }
 
@@ -2176,8 +2159,8 @@ export default class MessageSender {
   }
 
   async sendWithSenderKey(
-    data: Readonly<ArrayBuffer>,
-    accessKeys: Readonly<ArrayBuffer>,
+    data: Readonly<Uint8Array>,
+    accessKeys: Readonly<Uint8Array>,
     timestamp: number,
     online?: boolean
   ): Promise<MultiRecipient200ResponseType> {
@@ -2211,21 +2194,21 @@ export default class MessageSender {
 
   async getStorageManifest(
     options: Readonly<StorageServiceCallOptionsType>
-  ): Promise<ArrayBuffer> {
+  ): Promise<Uint8Array> {
     return this.server.getStorageManifest(options);
   }
 
   async getStorageRecords(
-    data: Readonly<ArrayBuffer>,
+    data: Readonly<Uint8Array>,
     options: Readonly<StorageServiceCallOptionsType>
-  ): Promise<ArrayBuffer> {
+  ): Promise<Uint8Array> {
     return this.server.getStorageRecords(data, options);
   }
 
   async modifyStorageRecords(
-    data: Readonly<ArrayBuffer>,
+    data: Readonly<Uint8Array>,
     options: Readonly<StorageServiceCallOptionsType>
-  ): Promise<ArrayBuffer> {
+  ): Promise<Uint8Array> {
     return this.server.modifyStorageRecords(data, options);
   }
 
@@ -2249,7 +2232,7 @@ export default class MessageSender {
 
   async uploadAvatar(
     requestHeaders: Readonly<UploadAvatarHeadersType>,
-    avatarData: Readonly<ArrayBuffer>
+    avatarData: Readonly<Uint8Array>
   ): Promise<string> {
     return this.server.uploadAvatar(requestHeaders, avatarData);
   }

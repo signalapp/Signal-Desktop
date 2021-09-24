@@ -5,20 +5,16 @@
 /* eslint-disable max-classes-per-file */
 
 import { KeyPairType } from './Types.d';
+import * as Bytes from '../Bytes';
 import {
   decryptAes256CbcPkcsPadding,
   deriveSecrets,
-  bytesFromString,
   verifyHmacSha256,
-  typedArrayToArrayBuffer,
 } from '../Crypto';
 import { calculateAgreement, createKeyPair, generateKeyPair } from '../Curve';
 import { SignalService as Proto } from '../protobuf';
 import { strictAssert } from '../util/assert';
 import { normalizeUuid } from '../util/normalizeUuid';
-
-// TODO: remove once we move away from ArrayBuffers
-const FIXMEU8 = Uint8Array;
 
 type ProvisionDecryptResult = {
   identityKeyPair: KeyPairType;
@@ -27,7 +23,7 @@ type ProvisionDecryptResult = {
   provisioningCode?: string;
   userAgent?: string;
   readReceipts?: boolean;
-  profileKey?: ArrayBuffer;
+  profileKey?: Uint8Array;
 };
 
 class ProvisioningCipherInner {
@@ -55,34 +51,20 @@ class ProvisioningCipherInner {
       throw new Error('ProvisioningCipher.decrypt: No keypair!');
     }
 
-    const ecRes = calculateAgreement(
-      typedArrayToArrayBuffer(masterEphemeral),
-      this.keyPair.privKey
-    );
+    const ecRes = calculateAgreement(masterEphemeral, this.keyPair.privKey);
     const keys = deriveSecrets(
       ecRes,
-      new ArrayBuffer(32),
-      bytesFromString('TextSecure Provisioning Message')
+      new Uint8Array(32),
+      Bytes.fromString('TextSecure Provisioning Message')
     );
-    await verifyHmacSha256(
-      typedArrayToArrayBuffer(ivAndCiphertext),
-      keys[1],
-      typedArrayToArrayBuffer(mac),
-      32
-    );
+    verifyHmacSha256(ivAndCiphertext, keys[1], mac, 32);
 
-    const plaintext = await decryptAes256CbcPkcsPadding(
-      keys[0],
-      typedArrayToArrayBuffer(ciphertext),
-      typedArrayToArrayBuffer(iv)
-    );
-    const provisionMessage = Proto.ProvisionMessage.decode(
-      new FIXMEU8(plaintext)
-    );
+    const plaintext = decryptAes256CbcPkcsPadding(keys[0], ciphertext, iv);
+    const provisionMessage = Proto.ProvisionMessage.decode(plaintext);
     const privKey = provisionMessage.identityKeyPrivate;
     strictAssert(privKey, 'Missing identityKeyPrivate in ProvisionMessage');
 
-    const keyPair = createKeyPair(typedArrayToArrayBuffer(privKey));
+    const keyPair = createKeyPair(privKey);
 
     const { uuid } = provisionMessage;
     strictAssert(uuid, 'Missing uuid in provisioning message');
@@ -96,12 +78,12 @@ class ProvisioningCipherInner {
       readReceipts: provisionMessage.readReceipts,
     };
     if (provisionMessage.profileKey) {
-      ret.profileKey = typedArrayToArrayBuffer(provisionMessage.profileKey);
+      ret.profileKey = provisionMessage.profileKey;
     }
     return ret;
   }
 
-  async getPublicKey(): Promise<ArrayBuffer> {
+  async getPublicKey(): Promise<Uint8Array> {
     if (!this.keyPair) {
       this.keyPair = generateKeyPair();
     }
@@ -126,5 +108,5 @@ export default class ProvisioningCipher {
     provisionEnvelope: Proto.ProvisionEnvelope
   ) => Promise<ProvisionDecryptResult>;
 
-  getPublicKey: () => Promise<ArrayBuffer>;
+  getPublicKey: () => Promise<Uint8Array>;
 }

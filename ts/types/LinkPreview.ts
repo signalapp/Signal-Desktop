@@ -11,7 +11,7 @@ import { replaceEmojiWithSpaces } from '../util/emoji';
 import { AttachmentType } from './Attachment';
 
 export type LinkPreviewImage = AttachmentType & {
-  data: ArrayBuffer;
+  data: Uint8Array;
 };
 
 export type LinkPreviewResult = {

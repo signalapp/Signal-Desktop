@@ -59,7 +59,7 @@ describe('AccountManager', () => {
     describe('encrypted device name', () => {
       it('roundtrips', async () => {
         const deviceName = 'v2.5.0 on Ubunto 20.04';
-        const encrypted = await accountManager.encryptDeviceName(
+        const encrypted = accountManager.encryptDeviceName(
           deviceName,
           identityKey
         );
@@ -72,11 +72,8 @@ describe('AccountManager', () => {
         assert.strictEqual(decrypted, deviceName);
       });
 
-      it('handles falsey deviceName', async () => {
-        const encrypted = await accountManager.encryptDeviceName(
-          '',
-          identityKey
-        );
+      it('handles falsey deviceName', () => {
+        const encrypted = accountManager.encryptDeviceName('', identityKey);
         assert.strictEqual(encrypted, null);
       });
     });

@@ -4,22 +4,19 @@
 import { assert } from 'chai';
 import crypto from 'crypto';
 
-import { typedArrayToArrayBuffer as toArrayBuffer } from '../../Crypto';
 import {
+  CipherType,
   HashType,
   hash,
   sign,
   encrypt,
   decrypt,
-} from '../../util/synchronousCrypto';
+} from '../../Crypto';
 
-describe('synchronousCrypto', () => {
+describe('SignalContext.Crypto', () => {
   describe('hash', () => {
     it('returns SHA512 hash of the input', () => {
-      const result = hash(
-        HashType.size512,
-        toArrayBuffer(Buffer.from('signal'))
-      );
+      const result = hash(HashType.size512, Buffer.from('signal'));
       assert.strictEqual(
         Buffer.from(result).toString('base64'),
         'WxneQjrfSlY95Bi+SAzDAr2cf3mxUXePeNYn6DILN4a8NFr9VelTbP5tGHdthi+' +
@@ -30,10 +27,7 @@ describe('synchronousCrypto', () => {
 
   describe('sign', () => {
     it('returns hmac SHA256 hash of the input', () => {
-      const result = sign(
-        toArrayBuffer(Buffer.from('secret')),
-        toArrayBuffer(Buffer.from('signal'))
-      );
+      const result = sign(Buffer.from('secret'), Buffer.from('signal'));
 
       assert.strictEqual(
         Buffer.from(result).toString('base64'),
@@ -44,12 +38,20 @@ describe('synchronousCrypto', () => {
 
   describe('encrypt+decrypt', () => {
     it('returns original input', () => {
-      const iv = toArrayBuffer(crypto.randomBytes(16));
-      const key = toArrayBuffer(crypto.randomBytes(32));
-      const input = toArrayBuffer(Buffer.from('plaintext'));
+      const iv = crypto.randomBytes(16);
+      const key = crypto.randomBytes(32);
+      const input = Buffer.from('plaintext');
 
-      const ciphertext = encrypt(key, input, iv);
-      const plaintext = decrypt(key, ciphertext, iv);
+      const ciphertext = encrypt(CipherType.AES256CBC, {
+        key,
+        iv,
+        plaintext: input,
+      });
+      const plaintext = decrypt(CipherType.AES256CBC, {
+        key,
+        iv,
+        ciphertext,
+      });
 
       assert.strictEqual(Buffer.from(plaintext).toString(), 'plaintext');
     });

@@ -37,7 +37,7 @@ type PropsExternalType = {
   onEditStateChanged: (editState: EditState) => unknown;
   onProfileChanged: (
     profileData: ProfileDataType,
-    avatarBuffer?: ArrayBuffer
+    avatarBuffer?: Uint8Array
   ) => unknown;
 };
 
@@ -126,7 +126,7 @@ export const ProfileEditor = ({
     aboutText,
   });
 
-  const [avatarBuffer, setAvatarBuffer] = useState<ArrayBuffer | undefined>(
+  const [avatarBuffer, setAvatarBuffer] = useState<Uint8Array | undefined>(
     undefined
   );
   const [stagedProfile, setStagedProfile] = useState<ProfileDataType>({
@@ -153,7 +153,7 @@ export const ProfileEditor = ({
   );
 
   const handleAvatarChanged = useCallback(
-    (avatar: ArrayBuffer | undefined) => {
+    (avatar: Uint8Array | undefined) => {
       setAvatarBuffer(avatar);
       setEditState(EditState.None);
       onProfileChanged(stagedProfile, avatar);

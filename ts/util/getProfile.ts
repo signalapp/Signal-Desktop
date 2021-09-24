@@ -6,12 +6,8 @@ import { SEALED_SENDER } from '../types/SealedSender';
 import { Address } from '../types/Address';
 import { QualifiedAddress } from '../types/QualifiedAddress';
 import { UUID } from '../types/UUID';
-import {
-  base64ToArrayBuffer,
-  stringFromBytes,
-  trimForDisplay,
-  verifyAccessKey,
-} from '../Crypto';
+import * as Bytes from '../Bytes';
+import { trimForDisplay, verifyAccessKey, decryptProfile } from '../Crypto';
 import {
   generateProfileKeyCredentialRequest,
   getClientZkProfileOperations,
@@ -118,7 +114,7 @@ export async function getProfile(
       });
     }
 
-    const identityKey = base64ToArrayBuffer(profile.identityKey);
+    const identityKey = Bytes.fromBase64(profile.identityKey);
     const changed = await window.textsecure.storage.protocol.saveIdentity(
       new Address(targetUuid, 1),
       identityKey,
@@ -142,9 +138,9 @@ export async function getProfile(
         sealedSender: SEALED_SENDER.UNRESTRICTED,
       });
     } else if (accessKey && profile.unidentifiedAccess) {
-      const haveCorrectKey = await verifyAccessKey(
-        base64ToArrayBuffer(accessKey),
-        base64ToArrayBuffer(profile.unidentifiedAccess)
+      const haveCorrectKey = verifyAccessKey(
+        Bytes.fromBase64(accessKey),
+        Bytes.fromBase64(profile.unidentifiedAccess)
       );
 
       if (haveCorrectKey) {
@@ -174,12 +170,12 @@ export async function getProfile(
     if (profile.about) {
       const key = c.get('profileKey');
       if (key) {
-        const keyBuffer = base64ToArrayBuffer(key);
-        const decrypted = await window.textsecure.crypto.decryptProfile(
-          base64ToArrayBuffer(profile.about),
+        const keyBuffer = Bytes.fromBase64(key);
+        const decrypted = decryptProfile(
+          Bytes.fromBase64(profile.about),
           keyBuffer
         );
-        c.set('about', stringFromBytes(trimForDisplay(decrypted)));
+        c.set('about', Bytes.toString(trimForDisplay(decrypted)));
       }
     } else {
       c.unset('about');
@@ -188,12 +184,12 @@ export async function getProfile(
     if (profile.aboutEmoji) {
       const key = c.get('profileKey');
       if (key) {
-        const keyBuffer = base64ToArrayBuffer(key);
-        const decrypted = await window.textsecure.crypto.decryptProfile(
-          base64ToArrayBuffer(profile.aboutEmoji),
+        const keyBuffer = Bytes.fromBase64(key);
+        const decrypted = decryptProfile(
+          Bytes.fromBase64(profile.aboutEmoji),
           keyBuffer
         );
-        c.set('aboutEmoji', stringFromBytes(trimForDisplay(decrypted)));
+        c.set('aboutEmoji', Bytes.toString(trimForDisplay(decrypted)));
       }
     } else {
       c.unset('aboutEmoji');

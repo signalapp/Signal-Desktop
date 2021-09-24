@@ -56,7 +56,7 @@ export abstract class LeftPaneHelper<T> {
       composeSaveAvatarToDisk: SaveAvatarToDiskActionType;
       createGroup: () => unknown;
       i18n: LocalizerType;
-      setComposeGroupAvatar: (_: undefined | ArrayBuffer) => unknown;
+      setComposeGroupAvatar: (_: undefined | Uint8Array) => unknown;
       setComposeGroupName: (_: string) => unknown;
       setComposeGroupExpireTimer: (_: number) => void;
       onChangeComposeSearchTerm: (

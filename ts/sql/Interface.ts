@@ -65,7 +65,7 @@ export type IdentityKeyType = {
   firstUse: boolean;
   id: UUIDStringType | `conversation:${UUIDStringType}`;
   nonblockingApproval: boolean;
-  publicKey: ArrayBuffer;
+  publicKey: Uint8Array;
   timestamp: number;
   verified: number;
 };
@@ -85,8 +85,8 @@ export type PreKeyType = {
   id: `${UUIDStringType}:${number}`;
   keyId: number;
   ourUuid: UUIDStringType;
-  privateKey: ArrayBuffer;
-  publicKey: ArrayBuffer;
+  privateKey: Uint8Array;
+  publicKey: Uint8Array;
 };
 export type PreKeyIdType = PreKeyType['id'];
 export type SearchResultMessageType = {
@@ -101,7 +101,7 @@ export type ClientSearchResultMessageType = MessageType & {
 
 export type SentProtoType = {
   contentHint: number;
-  proto: Buffer;
+  proto: Uint8Array;
   timestamp: number;
 };
 export type SentProtoWithMessageIdsType = SentProtoType & {
@@ -128,7 +128,7 @@ export type SenderKeyType = {
   senderId: string;
   distributionId: string;
   // Raw data to serialize/deserialize into signal-client SenderKeyRecord
-  data: Buffer;
+  data: Uint8Array;
   lastUpdatedDate: number;
 };
 export type SenderKeyIdType = SenderKeyType['id'];
@@ -149,8 +149,8 @@ export type SignedPreKeyType = {
   ourUuid: UUIDStringType;
   id: `${UUIDStringType}:${number}`;
   keyId: number;
-  privateKey: ArrayBuffer;
-  publicKey: ArrayBuffer;
+  privateKey: Uint8Array;
+  publicKey: Uint8Array;
 };
 export type SignedPreKeyIdType = SignedPreKeyType['id'];
 

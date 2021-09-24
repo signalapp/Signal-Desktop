@@ -1,11 +1,9 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { canvasToArrayBuffer } from './canvasToArrayBuffer';
+import { canvasToBytes } from './canvasToBytes';
 
-export async function imagePathToArrayBuffer(
-  src: string
-): Promise<ArrayBuffer> {
+export async function imagePathToBytes(src: string): Promise<Uint8Array> {
   const image = new Image();
   const canvas = document.createElement('canvas');
   const context = canvas.getContext('2d');
@@ -23,6 +21,5 @@ export async function imagePathToArrayBuffer(
 
   context.drawImage(image, 0, 0);
 
-  const result = await canvasToArrayBuffer(canvas);
-  return result;
+  return canvasToBytes(canvas);
 }

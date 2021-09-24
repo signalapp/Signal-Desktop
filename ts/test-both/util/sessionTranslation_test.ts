@@ -5,11 +5,11 @@
 
 import { assert } from 'chai';
 
+import * as Bytes from '../../Bytes';
 import {
   LocalUserDataType,
   sessionRecordToProtobuf,
 } from '../../util/sessionTranslation';
-import { base64ToArrayBuffer } from '../../Crypto';
 
 const getRecordCopy = (record: any): any => JSON.parse(JSON.stringify(record));
 
@@ -18,7 +18,7 @@ describe('sessionTranslation', () => {
 
   beforeEach(() => {
     ourData = {
-      identityKeyPublic: base64ToArrayBuffer(
+      identityKeyPublic: Bytes.fromBase64(
         'Baioqfzc/5JD6b+GNqapPouf6eHK7xr9ynLJHnvl+444'
       ),
       registrationId: 3554,

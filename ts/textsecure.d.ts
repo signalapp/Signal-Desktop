@@ -3,7 +3,6 @@
 
 import { UnidentifiedSenderMessageContent } from '@signalapp/signal-client';
 
-import Crypto from './textsecure/Crypto';
 import MessageSender from './textsecure/SendMessage';
 import SyncRequest from './textsecure/SyncRequest';
 import EventTarget from './textsecure/EventTarget';
@@ -37,7 +36,6 @@ export type UnprocessedType = {
 export { StorageServiceCallOptionsType, StorageServiceCredentials };
 
 export type TextSecureType = {
-  crypto: typeof Crypto;
   storage: Storage;
   server: WebAPIType;
   messageSender: MessageSender;

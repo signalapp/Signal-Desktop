@@ -17,12 +17,8 @@ import {
   SignedPreKeyRecord,
 } from '@signalapp/signal-client';
 
-import {
-  constantTimeEqual,
-  fromEncodedBinaryToArrayBuffer,
-  typedArrayToArrayBuffer,
-  base64ToArrayBuffer,
-} from './Crypto';
+import * as Bytes from './Bytes';
+import { constantTimeEqual } from './Crypto';
 import { assert, strictAssert } from './util/assert';
 import { handleMessageSend } from './util/handleMessageSend';
 import { isNotNil } from './util/isNotNil';
@@ -30,7 +26,7 @@ import { Zone } from './util/Zone';
 import { isMoreRecentThan } from './util/timestamp';
 import {
   sessionRecordToProtobuf,
-  sessionStructureToArrayBuffer,
+  sessionStructureToBytes,
 } from './util/sessionTranslation';
 import {
   DeviceType,
@@ -81,7 +77,7 @@ function validateVerifiedStatus(status: number): boolean {
 
 const identityKeySchema = z.object({
   id: z.string(),
-  publicKey: z.instanceof(ArrayBuffer),
+  publicKey: z.instanceof(Uint8Array),
   firstUse: z.boolean(),
   timestamp: z.number().refine((value: number) => value % 1 === 0 && value > 0),
   verified: z.number().refine(validateVerifiedStatus),
@@ -171,13 +167,13 @@ export function hydrateSignedPreKey(
 export function freezeSession(session: SessionRecord): string {
   return session.serialize().toString('base64');
 }
-export function freezePublicKey(publicKey: PublicKey): ArrayBuffer {
-  return typedArrayToArrayBuffer(publicKey.serialize());
+export function freezePublicKey(publicKey: PublicKey): Uint8Array {
+  return publicKey.serialize();
 }
 export function freezePreKey(preKey: PreKeyRecord): KeyPairType {
   const keyPair = {
-    pubKey: typedArrayToArrayBuffer(preKey.publicKey().serialize()),
-    privKey: typedArrayToArrayBuffer(preKey.privateKey().serialize()),
+    pubKey: preKey.publicKey().serialize(),
+    privKey: preKey.privateKey().serialize(),
   };
   return keyPair;
 }
@@ -185,8 +181,8 @@ export function freezeSignedPreKey(
   signedPreKey: SignedPreKeyRecord
 ): KeyPairType {
   const keyPair = {
-    pubKey: typedArrayToArrayBuffer(signedPreKey.publicKey().serialize()),
-    privKey: typedArrayToArrayBuffer(signedPreKey.privateKey().serialize()),
+    pubKey: signedPreKey.publicKey().serialize(),
+    privKey: signedPreKey.privateKey().serialize(),
   };
   return keyPair;
 }
@@ -260,8 +256,8 @@ export class SignalProtocolStore extends EventsMixin {
         for (const key of Object.keys(map.value)) {
           const { privKey, pubKey } = map.value[key];
           this.ourIdentityKeys.set(new UUID(key).toString(), {
-            privKey: base64ToArrayBuffer(privKey),
-            pubKey: base64ToArrayBuffer(pubKey),
+            privKey: Bytes.fromBase64(privKey),
+            pubKey: Bytes.fromBase64(pubKey),
           });
         }
       })(),
@@ -607,7 +603,7 @@ export class SignalProtocolStore extends EventsMixin {
         return entry.item;
       }
 
-      const item = SenderKeyRecord.deserialize(entry.fromDB.data);
+      const item = SenderKeyRecord.deserialize(Buffer.from(entry.fromDB.data));
       this.senderKeys.set(id, {
         hydrated: true,
         item,
@@ -960,7 +956,7 @@ export class SignalProtocolStore extends EventsMixin {
       localUserData
     );
     const record = SessionRecord.deserialize(
-      Buffer.from(sessionStructureToArrayBuffer(sessionProto))
+      Buffer.from(sessionStructureToBytes(sessionProto))
     );
 
     await this.storeSession(QualifiedAddress.parse(session.id), record, {
@@ -1425,7 +1421,7 @@ export class SignalProtocolStore extends EventsMixin {
 
   async isTrustedIdentity(
     encodedAddress: Address,
-    publicKey: ArrayBuffer,
+    publicKey: Uint8Array,
     direction: number
   ): Promise<boolean> {
     if (!this.identityKeys) {
@@ -1463,7 +1459,7 @@ export class SignalProtocolStore extends EventsMixin {
   }
 
   isTrustedForSending(
-    publicKey: ArrayBuffer,
+    publicKey: Uint8Array,
     identityRecord?: IdentityKeyType
   ): boolean {
     if (!identityRecord) {
@@ -1493,7 +1489,7 @@ export class SignalProtocolStore extends EventsMixin {
     return true;
   }
 
-  async loadIdentityKey(uuid: UUID): Promise<ArrayBuffer | undefined> {
+  async loadIdentityKey(uuid: UUID): Promise<Uint8Array | undefined> {
     if (uuid === null || uuid === undefined) {
       throw new Error('loadIdentityKey: uuid was undefined/null');
     }
@@ -1522,7 +1518,7 @@ export class SignalProtocolStore extends EventsMixin {
 
   async saveIdentity(
     encodedAddress: Address,
-    publicKey: ArrayBuffer,
+    publicKey: Uint8Array,
     nonblockingApproval = false,
     { zone }: SessionTransactionOptions = {}
   ): Promise<boolean> {
@@ -1533,9 +1529,9 @@ export class SignalProtocolStore extends EventsMixin {
     if (encodedAddress === null || encodedAddress === undefined) {
       throw new Error('saveIdentity: encodedAddress was undefined/null');
     }
-    if (!(publicKey instanceof ArrayBuffer)) {
+    if (!(publicKey instanceof Uint8Array)) {
       // eslint-disable-next-line no-param-reassign
-      publicKey = fromEncodedBinaryToArrayBuffer(publicKey);
+      publicKey = Bytes.fromBinary(publicKey);
     }
     if (typeof nonblockingApproval !== 'boolean') {
       // eslint-disable-next-line no-param-reassign
@@ -1668,7 +1664,7 @@ export class SignalProtocolStore extends EventsMixin {
   async setVerified(
     uuid: UUID,
     verifiedStatus: number,
-    publicKey?: ArrayBuffer
+    publicKey?: Uint8Array
   ): Promise<void> {
     if (uuid === null || uuid === undefined) {
       throw new Error('setVerified: uuid was undefined/null');
@@ -1676,7 +1672,7 @@ export class SignalProtocolStore extends EventsMixin {
     if (!validateVerifiedStatus(verifiedStatus)) {
       throw new Error('setVerified: Invalid verified status');
     }
-    if (arguments.length > 2 && !(publicKey instanceof ArrayBuffer)) {
+    if (arguments.length > 2 && !(publicKey instanceof Uint8Array)) {
       throw new Error('setVerified: Invalid public key');
     }
 
@@ -1719,7 +1715,7 @@ export class SignalProtocolStore extends EventsMixin {
   processContactSyncVerificationState(
     uuid: UUID,
     verifiedStatus: number,
-    publicKey: ArrayBuffer
+    publicKey: Uint8Array
   ): Promise<boolean> {
     if (verifiedStatus === VerifiedStatus.UNVERIFIED) {
       return this.processUnverifiedMessage(uuid, verifiedStatus, publicKey);
@@ -1733,12 +1729,12 @@ export class SignalProtocolStore extends EventsMixin {
   async processUnverifiedMessage(
     uuid: UUID,
     verifiedStatus: number,
-    publicKey?: ArrayBuffer
+    publicKey?: Uint8Array
   ): Promise<boolean> {
     if (uuid === null || uuid === undefined) {
       throw new Error('processUnverifiedMessage: uuid was undefined/null');
     }
-    if (publicKey !== undefined && !(publicKey instanceof ArrayBuffer)) {
+    if (publicKey !== undefined && !(publicKey instanceof Uint8Array)) {
       throw new Error('processUnverifiedMessage: Invalid public key');
     }
 
@@ -1796,7 +1792,7 @@ export class SignalProtocolStore extends EventsMixin {
   async processVerifiedMessage(
     uuid: UUID,
     verifiedStatus: number,
-    publicKey?: ArrayBuffer
+    publicKey?: Uint8Array
   ): Promise<boolean> {
     if (uuid === null || uuid === undefined) {
       throw new Error('processVerifiedMessage: uuid was undefined/null');
@@ -1804,7 +1800,7 @@ export class SignalProtocolStore extends EventsMixin {
     if (!validateVerifiedStatus(verifiedStatus)) {
       throw new Error('processVerifiedMessage: Invalid verified status');
     }
-    if (publicKey !== undefined && !(publicKey instanceof ArrayBuffer)) {
+    if (publicKey !== undefined && !(publicKey instanceof Uint8Array)) {
       throw new Error('processVerifiedMessage: Invalid public key');
     }
 

@@ -245,7 +245,7 @@ export class ConversationController {
 
       try {
         if (isGroupV1(conversation.attributes)) {
-          await maybeDeriveGroupV2Id(conversation);
+          maybeDeriveGroupV2Id(conversation);
         }
         await saveConversation(conversation.attributes);
       } catch (error) {
@@ -577,8 +577,7 @@ export class ConversationController {
 
       let groupV2Id: undefined | string;
       if (isGroupV1(conversation.attributes)) {
-        // eslint-disable-next-line no-await-in-loop
-        await maybeDeriveGroupV2Id(conversation);
+        maybeDeriveGroupV2Id(conversation);
         groupV2Id = conversation.get('derivedGroupV2Id');
         assert(
           groupV2Id,
@@ -836,7 +835,7 @@ export class ConversationController {
               // Hydrate contactCollection, now that initial fetch is complete
               conversation.fetchContacts();
 
-              const isChanged = await maybeDeriveGroupV2Id(conversation);
+              const isChanged = maybeDeriveGroupV2Id(conversation);
               if (isChanged) {
                 updateConversation(conversation.attributes);
               }

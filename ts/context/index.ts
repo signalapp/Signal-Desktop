@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { Bytes } from './Bytes';
+import { Crypto } from './Crypto';
 import {
   createNativeThemeListener,
   MinimalIPC,
@@ -9,6 +10,8 @@ import {
 
 export class Context {
   public readonly bytes = new Bytes();
+
+  public readonly crypto = new Crypto();
 
   public readonly nativeThemeListener;
 

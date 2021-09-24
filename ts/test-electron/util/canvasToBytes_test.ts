@@ -5,9 +5,9 @@ import { assert } from 'chai';
 import { IMAGE_JPEG, IMAGE_PNG } from '../../types/MIME';
 import { sniffImageMimeType } from '../../util/sniffImageMimeType';
 
-import { canvasToArrayBuffer } from '../../util/canvasToArrayBuffer';
+import { canvasToBytes } from '../../util/canvasToBytes';
 
-describe('canvasToArrayBuffer', () => {
+describe('canvasToBytes', () => {
   let canvas: HTMLCanvasElement;
   beforeEach(() => {
     canvas = document.createElement('canvas');
@@ -22,18 +22,18 @@ describe('canvasToArrayBuffer', () => {
     context.fillRect(10, 10, 20, 20);
   });
 
-  it('converts a canvas to an ArrayBuffer, JPEG by default', async () => {
-    const result = await canvasToArrayBuffer(canvas);
+  it('converts a canvas to an Uint8Array, JPEG by default', async () => {
+    const result = await canvasToBytes(canvas);
 
     assert.strictEqual(sniffImageMimeType(result), IMAGE_JPEG);
 
     // These are just smoke tests.
-    assert.instanceOf(result, ArrayBuffer);
+    assert.instanceOf(result, Uint8Array);
     assert.isAtLeast(result.byteLength, 50);
   });
 
-  it('can convert a canvas to a PNG ArrayBuffer', async () => {
-    const result = await canvasToArrayBuffer(canvas, IMAGE_PNG);
+  it('can convert a canvas to a PNG Uint8Array', async () => {
+    const result = await canvasToBytes(canvas, IMAGE_PNG);
 
     assert.strictEqual(sniffImageMimeType(result), IMAGE_PNG);
   });

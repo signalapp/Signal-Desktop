@@ -4,11 +4,11 @@
 import { canvasToBlob } from './canvasToBlob';
 import { MIMEType } from '../types/MIME';
 
-export async function canvasToArrayBuffer(
+export async function canvasToBytes(
   canvas: HTMLCanvasElement,
   mimeType?: MIMEType,
   quality?: number
-): Promise<ArrayBuffer> {
+): Promise<Uint8Array> {
   const blob = await canvasToBlob(canvas, mimeType, quality);
-  return blob.arrayBuffer();
+  return new Uint8Array(await blob.arrayBuffer());
 }

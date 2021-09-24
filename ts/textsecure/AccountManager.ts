@@ -13,7 +13,6 @@ import EventTarget from './EventTarget';
 import type { WebAPIType } from './WebAPI';
 import { HTTPError } from './Errors';
 import { KeyPairType, CompatSignedPreKeyType } from './Types.d';
-import utils from './Helpers';
 import ProvisioningCipher from './ProvisioningCipher';
 import { IncomingWebSocketRequest } from './WebsocketResources';
 import createTaskWithTimeout from './TaskWithTimeout';
@@ -22,8 +21,8 @@ import {
   deriveAccessKey,
   generateRegistrationId,
   getRandomBytes,
-  typedArrayToArrayBuffer,
-  arrayBufferToBase64,
+  decryptDeviceName,
+  encryptDeviceName,
 } from '../Crypto';
 import {
   generateKeyPair,
@@ -45,9 +44,6 @@ const PREKEY_ROTATION_AGE = DAY * 1.5;
 const PROFILE_KEY_LENGTH = 32;
 const SIGNED_KEY_GEN_BATCH_SIZE = 100;
 
-// TODO: remove once we move away from ArrayBuffers
-const FIXMEU8 = Uint8Array;
-
 function getIdentifier(id: string | undefined) {
   if (!id || !id.length) {
     return id;
@@ -64,15 +60,15 @@ function getIdentifier(id: string | undefined) {
 export type GeneratedKeysType = {
   preKeys: Array<{
     keyId: number;
-    publicKey: ArrayBuffer;
+    publicKey: Uint8Array;
   }>;
   signedPreKey: {
     keyId: number;
-    publicKey: ArrayBuffer;
-    signature: ArrayBuffer;
+    publicKey: Uint8Array;
+    signature: Uint8Array;
     keyPair: KeyPairType;
   };
-  identityKey: ArrayBuffer;
+  identityKey: Uint8Array;
 };
 
 export default class AccountManager extends EventTarget {
@@ -94,19 +90,16 @@ export default class AccountManager extends EventTarget {
     return this.server.requestVerificationSMS(number);
   }
 
-  async encryptDeviceName(name: string, identityKey: KeyPairType) {
+  encryptDeviceName(name: string, identityKey: KeyPairType) {
     if (!name) {
       return null;
     }
-    const encrypted = await window.Signal.Crypto.encryptDeviceName(
-      name,
-      identityKey.pubKey
-    );
+    const encrypted = encryptDeviceName(name, identityKey.pubKey);
 
     const proto = new Proto.DeviceName();
-    proto.ephemeralPublic = new FIXMEU8(encrypted.ephemeralPublic);
-    proto.syntheticIv = new FIXMEU8(encrypted.syntheticIv);
-    proto.ciphertext = new FIXMEU8(encrypted.ciphertext);
+    proto.ephemeralPublic = encrypted.ephemeralPublic;
+    proto.syntheticIv = encrypted.syntheticIv;
+    proto.ciphertext = encrypted.ciphertext;
 
     const bytes = Proto.DeviceName.encode(proto).finish();
     return Bytes.toBase64(bytes);
@@ -127,16 +120,8 @@ export default class AccountManager extends EventTarget {
       proto.ephemeralPublic && proto.syntheticIv && proto.ciphertext,
       'Missing required fields in DeviceName'
     );
-    const encrypted = {
-      ephemeralPublic: typedArrayToArrayBuffer(proto.ephemeralPublic),
-      syntheticIv: typedArrayToArrayBuffer(proto.syntheticIv),
-      ciphertext: typedArrayToArrayBuffer(proto.ciphertext),
-    };
 
-    const name = await window.Signal.Crypto.decryptDeviceName(
-      encrypted,
-      identityKey.privKey
-    );
+    const name = decryptDeviceName(proto, identityKey.privKey);
 
     return name;
   }
@@ -155,10 +140,7 @@ export default class AccountManager extends EventTarget {
       identityKeyPair !== undefined,
       "Can't encrypt device name without identity key pair"
     );
-    const base64 = await this.encryptDeviceName(
-      deviceName || '',
-      identityKeyPair
-    );
+    const base64 = this.encryptDeviceName(deviceName || '', identityKeyPair);
 
     if (base64) {
       await this.server.updateDeviceName(base64);
@@ -173,7 +155,7 @@ export default class AccountManager extends EventTarget {
     return this.queueTask(async () => {
       const identityKeyPair = generateKeyPair();
       const profileKey = getRandomBytes(PROFILE_KEY_LENGTH);
-      const accessKey = await deriveAccessKey(profileKey);
+      const accessKey = deriveAccessKey(profileKey);
 
       await this.createAccount(
         number,
@@ -469,15 +451,15 @@ export default class AccountManager extends EventTarget {
     number: string,
     verificationCode: string,
     identityKeyPair: KeyPairType,
-    profileKey: ArrayBuffer | undefined,
+    profileKey: Uint8Array | undefined,
     deviceName: string | null,
     userAgent?: string | null,
     readReceipts?: boolean | null,
-    options: { accessKey?: ArrayBuffer; uuid?: string } = {}
+    options: { accessKey?: Uint8Array; uuid?: string } = {}
   ): Promise<void> {
     const { storage } = window.textsecure;
     const { accessKey, uuid } = options;
-    let password = btoa(utils.getString(getRandomBytes(16)));
+    let password = Bytes.toBase64(getRandomBytes(16));
     password = password.substring(0, password.length - 2);
     const registrationId = generateRegistrationId();
 
@@ -486,10 +468,7 @@ export default class AccountManager extends EventTarget {
 
     let encryptedDeviceName;
     if (deviceName) {
-      encryptedDeviceName = await this.encryptDeviceName(
-        deviceName,
-        identityKeyPair
-      );
+      encryptedDeviceName = this.encryptDeviceName(deviceName, identityKeyPair);
       await this.deviceNameIsEncrypted();
     }
 
@@ -601,8 +580,8 @@ export default class AccountManager extends EventTarget {
     const identityKeyMap = {
       ...(storage.get('identityKeyMap') || {}),
       [ourUuid]: {
-        pubKey: arrayBufferToBase64(identityKeyPair.pubKey),
-        privKey: arrayBufferToBase64(identityKeyPair.privKey),
+        pubKey: Bytes.toBase64(identityKeyPair.pubKey),
+        privKey: Bytes.toBase64(identityKeyPair.privKey),
       },
     };
     const registrationIdMap = {

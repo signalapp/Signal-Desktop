@@ -9,7 +9,7 @@ const { assert } = require('chai');
 const { app } = require('electron');
 
 const Attachments = require('../../app/attachments');
-const { stringToArrayBuffer } = require('../../ts/util/stringToArrayBuffer');
+const Bytes = require('../../ts/Bytes');
 
 const PREFIX_LENGTH = 2;
 const NUM_SEPARATORS = 1;
@@ -28,7 +28,7 @@ describe('Attachments', () => {
     });
 
     it('should write file to disk and return path', async () => {
-      const input = stringToArrayBuffer('test string');
+      const input = Bytes.fromString('test string');
       const tempDirectory = path.join(
         tempRootDirectory,
         'Attachments_createWriterForNew'
@@ -57,7 +57,7 @@ describe('Attachments', () => {
     });
 
     it('should write file to disk on given path and return path', async () => {
-      const input = stringToArrayBuffer('test string');
+      const input = Bytes.fromString('test string');
       const tempDirectory = path.join(
         tempRootDirectory,
         'Attachments_createWriterForExisting'
@@ -82,7 +82,7 @@ describe('Attachments', () => {
     });
 
     it('throws if relative path goes higher than root', async () => {
-      const input = stringToArrayBuffer('test string');
+      const input = Bytes.fromString('test string');
       const tempDirectory = path.join(
         tempRootDirectory,
         'Attachments_createWriterForExisting'
@@ -124,7 +124,7 @@ describe('Attachments', () => {
         Attachments.createName()
       );
       const fullPath = path.join(tempDirectory, relativePath);
-      const input = stringToArrayBuffer('test string');
+      const input = Bytes.fromString('test string');
 
       const inputBuffer = Buffer.from(input);
       await fse.ensureFile(fullPath);
@@ -260,7 +260,7 @@ describe('Attachments', () => {
         Attachments.createName()
       );
       const fullPath = path.join(tempDirectory, relativePath);
-      const input = stringToArrayBuffer('test string');
+      const input = Bytes.fromString('test string');
 
       const inputBuffer = Buffer.from(input);
       await fse.ensureFile(fullPath);

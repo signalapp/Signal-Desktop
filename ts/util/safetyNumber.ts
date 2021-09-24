@@ -10,9 +10,9 @@ import * as log from '../logging/log';
 
 export async function generateSecurityNumber(
   ourNumber: string,
-  ourKey: ArrayBuffer,
+  ourKey: Uint8Array,
   theirNumber: string,
-  theirKey: ArrayBuffer
+  theirKey: Uint8Array
 ): Promise<string> {
   const ourNumberBuf = Buffer.from(ourNumber);
   const ourKeyObj = PublicKey.deserialize(Buffer.from(ourKey));

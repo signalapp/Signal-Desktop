@@ -41,8 +41,12 @@ import {
   getStickerPackStatus,
 } from '../types/Stickers';
 import * as Stickers from '../types/Stickers';
+import * as Errors from '../types/errors';
+import * as EmbeddedContact from '../types/EmbeddedContact';
 import { AttachmentType, isImage, isVideo } from '../types/Attachment';
+import * as Attachment from '../types/Attachment';
 import { IMAGE_WEBP, stringToMIMEType } from '../types/MIME';
+import * as MIME from '../types/MIME';
 import { ReadStatus } from '../messages/MessageReadStatus';
 import {
   SendActionType,
@@ -115,6 +119,8 @@ import { normalMessageSendJobQueue } from '../jobs/normalMessageSendJobQueue';
 import { notificationService } from '../services/notifications';
 import type { PreviewType as OutgoingPreviewType } from '../textsecure/SendMessage';
 import * as log from '../logging/log';
+import * as Bytes from '../Bytes';
+import { computeHash } from '../Crypto';
 
 /* eslint-disable camelcase */
 /* eslint-disable more/no-then */
@@ -128,13 +134,7 @@ declare const _: typeof window._;
 
 window.Whisper = window.Whisper || {};
 
-const {
-  Message: TypedMessage,
-  Attachment,
-  MIME,
-  EmbeddedContact,
-  Errors,
-} = window.Signal.Types;
+const { Message: TypedMessage } = window.Signal.Types;
 const {
   deleteExternalMessageFiles,
   upgradeMessageSchema,
@@ -142,7 +142,6 @@ const {
 const { getTextWithMentions, GoogleChrome } = window.Signal.Util;
 
 const { addStickerPackReference, getMessageBySender } = window.Signal.Data;
-const { bytesFromString } = window.Signal.Crypto;
 
 export function isQuoteAMatch(
   message: MessageModel | null | undefined,
@@ -1560,7 +1559,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   }
 
   async sendSyncMessageOnly(
-    dataMessage: ArrayBuffer,
+    dataMessage: Uint8Array,
     saveErrors?: (errors: Array<Error>) => void
   ): Promise<void> {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -2691,9 +2690,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
                       downloadedAvatar
                     );
 
-                    hash = await window.Signal.Types.Conversation.computeHash(
-                      loadedAttachment.data
-                    );
+                    hash = computeHash(loadedAttachment.data);
                   }
                 } catch (err) {
                   log.info('handleDataMessage: group avatar download failed');
@@ -2719,7 +2716,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
                 let avatar = null;
                 if (downloadedAvatar && avatarAttachment !== null) {
-                  const onDiskAttachment = await window.Signal.Types.Attachment.migrateDataToFileSystem(
+                  const onDiskAttachment = await Attachment.migrateDataToFileSystem(
                     downloadedAvatar,
                     {
                       writeNewAttachmentData:
@@ -3328,7 +3325,7 @@ window.Whisper.Message.getLongMessageAttachment = ({
     };
   }
 
-  const data = bytesFromString(body);
+  const data = Bytes.fromString(body);
   const attachment = {
     contentType: MIME.LONG_MESSAGE,
     fileName: `long-message-${now}.txt`,

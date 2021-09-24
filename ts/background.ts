@@ -14,7 +14,6 @@ import {
   ConversationAttributesType,
 } from './model-types.d';
 import * as Bytes from './Bytes';
-import { typedArrayToArrayBuffer } from './Crypto';
 import { WhatIsThis, DeliveryReceiptBatcherItemType } from './window.d';
 import { getTitleBarVisibility, TitleBarVisibility } from './types/Settings';
 import { SocketStatus } from './types/SocketStatus';
@@ -93,7 +92,9 @@ import {
 } from './messages/MessageSendState';
 import * as AttachmentDownloads from './messageModifiers/AttachmentDownloads';
 import * as preferredReactions from './state/ducks/preferredReactions';
+import * as Conversation from './types/Conversation';
 import * as Stickers from './types/Stickers';
+import * as Errors from './types/errors';
 import { SignalService as Proto } from './protobuf';
 import { onRetryRequest, onDecryptionError } from './util/handleRetry';
 import { themeChanged } from './shims/themeChanged';
@@ -497,7 +498,7 @@ export async function startApp(): Promise<void> {
     removeDatabase: removeIndexedDB,
     doesDatabaseExist,
   } = window.Signal.IndexedDB;
-  const { Errors, Message } = window.Signal.Types;
+  const { Message } = window.Signal.Types;
   const {
     upgradeMessageSchema,
     writeNewAttachmentData,
@@ -2559,7 +2560,7 @@ export async function startApp(): Promise<void> {
       // special case for syncing details about ourselves
       if (details.profileKey) {
         log.info('Got sync message with our own profile key');
-        ourProfileKeyService.set(typedArrayToArrayBuffer(details.profileKey));
+        ourProfileKeyService.set(details.profileKey);
       }
     }
 
@@ -2607,7 +2608,7 @@ export async function startApp(): Promise<void> {
       // Update the conversation avatar only if new avatar exists and hash differs
       const { avatar } = details;
       if (avatar && avatar.data) {
-        const newAttributes = await window.Signal.Types.Conversation.maybeUpdateAvatar(
+        const newAttributes = await Conversation.maybeUpdateAvatar(
           conversation.attributes,
           avatar.data,
           {
@@ -2650,9 +2651,7 @@ export async function startApp(): Promise<void> {
             state: dropNull(verified.state),
             destination: dropNull(verified.destination),
             destinationUuid: dropNull(verified.destinationUuid),
-            identityKey: verified.identityKey
-              ? typedArrayToArrayBuffer(verified.identityKey)
-              : undefined,
+            identityKey: dropNull(verified.identityKey),
             viaContactSync: true,
           },
           noop
@@ -2720,7 +2719,7 @@ export async function startApp(): Promise<void> {
     // Update the conversation avatar only if new avatar exists and hash differs
     const { avatar } = details;
     if (avatar && avatar.data) {
-      const newAttributes = await window.Signal.Types.Conversation.maybeUpdateAvatar(
+      const newAttributes = await Conversation.maybeUpdateAvatar(
         conversation.attributes,
         avatar.data,
         {
@@ -3478,9 +3477,7 @@ export async function startApp(): Promise<void> {
 
     if (storageServiceKey) {
       log.info('onKeysSync: received keys');
-      const storageServiceKeyBase64 = window.Signal.Crypto.arrayBufferToBase64(
-        storageServiceKey
-      );
+      const storageServiceKeyBase64 = Bytes.toBase64(storageServiceKey);
       window.storage.put('storageKey', storageServiceKeyBase64);
 
       await window.Signal.Services.runStorageServiceSyncJob();

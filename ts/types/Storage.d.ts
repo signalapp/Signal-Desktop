@@ -21,7 +21,7 @@ import type {
 
 export type SerializedCertificateType = {
   expires: number;
-  serialized: ArrayBuffer;
+  serialized: Uint8Array;
 };
 
 export type ZoomFactorType = 0.75 | 1 | 1.25 | 1.5 | 2 | number;
@@ -70,7 +70,7 @@ export type StorageAccessType = {
   maxPreKeyId: number;
   number_id: string;
   password: string;
-  profileKey: ArrayBuffer;
+  profileKey: Uint8Array;
   regionCode: string;
   registrationIdMap: Record<string, number>;
   remoteBuildExpiration: number;

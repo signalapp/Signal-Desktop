@@ -1,8 +1,6 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { stringToArrayBuffer } from '../util/stringToArrayBuffer';
-
 /* eslint-disable guard-for-in */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-proto */
@@ -71,7 +69,6 @@ const utils = {
     number[0] === '+' && /^[0-9]+$/.test(number.substring(1)),
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   jsonThing: (thing: unknown) => JSON.stringify(ensureStringed(thing)),
-  stringToArrayBuffer,
   unencodeNumber: (number: string): Array<string> => number.split('.'),
 };
 

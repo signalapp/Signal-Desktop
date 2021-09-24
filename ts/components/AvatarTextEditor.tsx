@@ -19,7 +19,7 @@ import { AvatarDataType } from '../types/Avatar';
 import { AvatarModalButtons } from './AvatarModalButtons';
 import { BetterAvatarBubble } from './BetterAvatarBubble';
 import { LocalizerType } from '../types/Util';
-import { avatarDataToArrayBuffer } from '../util/avatarDataToArrayBuffer';
+import { avatarDataToBytes } from '../util/avatarDataToBytes';
 import { createAvatarData } from '../util/createAvatarData';
 import {
   getFittedFontSize,
@@ -27,7 +27,7 @@ import {
 } from '../util/avatarTextSizeCalculator';
 
 type DoneHandleType = (
-  avatarBuffer: ArrayBuffer,
+  avatarBuffer: Uint8Array,
   avatarData: AvatarDataType
 ) => unknown;
 
@@ -111,7 +111,7 @@ export const AvatarTextEditor = ({
       text: inputText,
     });
 
-    const buffer = await avatarDataToArrayBuffer(newAvatarData);
+    const buffer = await avatarDataToBytes(newAvatarData);
 
     onDoneRef.current(buffer, newAvatarData);
   }, [inputText, selectedColor]);

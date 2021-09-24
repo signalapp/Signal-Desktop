@@ -7,7 +7,7 @@ import * as Message from '../../../types/message/initializeAttachmentMetadata';
 import { IncomingMessage } from '../../../types/Message';
 import { SignalService } from '../../../protobuf';
 import * as MIME from '../../../types/MIME';
-import { stringToArrayBuffer } from '../../../util/stringToArrayBuffer';
+import * as Bytes from '../../../Bytes';
 
 describe('Message', () => {
   describe('initializeAttachmentMetadata', () => {
@@ -22,7 +22,7 @@ describe('Message', () => {
         attachments: [
           {
             contentType: MIME.IMAGE_JPEG,
-            data: stringToArrayBuffer('foo'),
+            data: Bytes.fromString('foo'),
             fileName: 'foo.jpg',
             size: 1111,
           },
@@ -38,7 +38,7 @@ describe('Message', () => {
         attachments: [
           {
             contentType: MIME.IMAGE_JPEG,
-            data: stringToArrayBuffer('foo'),
+            data: Bytes.fromString('foo'),
             fileName: 'foo.jpg',
             size: 1111,
           },
@@ -63,7 +63,7 @@ describe('Message', () => {
         attachments: [
           {
             contentType: MIME.APPLICATION_OCTET_STREAM,
-            data: stringToArrayBuffer('foo'),
+            data: Bytes.fromString('foo'),
             fileName: 'foo.bin',
             size: 1111,
           },
@@ -79,7 +79,7 @@ describe('Message', () => {
         attachments: [
           {
             contentType: MIME.APPLICATION_OCTET_STREAM,
-            data: stringToArrayBuffer('foo'),
+            data: Bytes.fromString('foo'),
             fileName: 'foo.bin',
             size: 1111,
           },
@@ -105,7 +105,7 @@ describe('Message', () => {
           {
             contentType: MIME.AUDIO_AAC,
             flags: SignalService.AttachmentPointer.Flags.VOICE_MESSAGE,
-            data: stringToArrayBuffer('foo'),
+            data: Bytes.fromString('foo'),
             fileName: 'Voice Message.aac',
             size: 1111,
           },
@@ -122,7 +122,7 @@ describe('Message', () => {
           {
             contentType: MIME.AUDIO_AAC,
             flags: SignalService.AttachmentPointer.Flags.VOICE_MESSAGE,
-            data: stringToArrayBuffer('foo'),
+            data: Bytes.fromString('foo'),
             fileName: 'Voice Message.aac',
             size: 1111,
           },
@@ -147,7 +147,7 @@ describe('Message', () => {
         attachments: [
           {
             contentType: MIME.LONG_MESSAGE,
-            data: stringToArrayBuffer('foo'),
+            data: Bytes.fromString('foo'),
             fileName: 'message.txt',
             size: 1111,
           },
@@ -163,7 +163,7 @@ describe('Message', () => {
         attachments: [
           {
             contentType: MIME.LONG_MESSAGE,
-            data: stringToArrayBuffer('foo'),
+            data: Bytes.fromString('foo'),
             fileName: 'message.txt',
             size: 1111,
           },

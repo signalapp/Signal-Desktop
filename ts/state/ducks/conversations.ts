@@ -255,7 +255,7 @@ export enum OneTimeModalState {
 }
 
 type ComposerGroupCreationState = {
-  groupAvatar: undefined | ArrayBuffer;
+  groupAvatar: undefined | Uint8Array;
   groupName: string;
   groupExpireTimer: number;
   maximumGroupSizeModalState: OneTimeModalState;
@@ -632,7 +632,7 @@ export type ShowArchivedConversationsActionType = {
 };
 type SetComposeGroupAvatarActionType = {
   type: 'SET_COMPOSE_GROUP_AVATAR';
-  payload: { groupAvatar: undefined | ArrayBuffer };
+  payload: { groupAvatar: undefined | Uint8Array };
 };
 type SetComposeGroupNameActionType = {
   type: 'SET_COMPOSE_GROUP_NAME';
@@ -931,7 +931,7 @@ function saveAvatarToDisk(
 ): ThunkAction<void, RootStateType, unknown, ReplaceAvatarsActionType> {
   return async (dispatch, getState) => {
     if (!avatarData.buffer) {
-      throw new Error('No avatar ArrayBuffer provided');
+      throw new Error('No avatar Uint8Array provided');
     }
 
     strictAssert(conversationId, 'conversationId not provided');
@@ -966,7 +966,7 @@ function saveAvatarToDisk(
 
 function myProfileChanged(
   profileData: ProfileDataType,
-  avatarBuffer?: ArrayBuffer
+  avatarBuffer?: Uint8Array
 ): ThunkAction<
   void,
   RootStateType,
@@ -1138,7 +1138,7 @@ function composeSaveAvatarToDisk(
 ): ThunkAction<void, RootStateType, unknown, ComposeSaveAvatarActionType> {
   return async dispatch => {
     if (!avatarData.buffer) {
-      throw new Error('No avatar ArrayBuffer provided');
+      throw new Error('No avatar Uint8Array provided');
     }
 
     const imagePath = await window.Signal.Migrations.writeNewAvatarData(
@@ -1601,7 +1601,7 @@ function scrollToMessage(
 }
 
 function setComposeGroupAvatar(
-  groupAvatar: undefined | ArrayBuffer
+  groupAvatar: undefined | Uint8Array
 ): SetComposeGroupAvatarActionType {
   return {
     type: 'SET_COMPOSE_GROUP_AVATAR',
@@ -2884,7 +2884,7 @@ export function reducer(
     let recommendedGroupSizeModalState: OneTimeModalState;
     let maximumGroupSizeModalState: OneTimeModalState;
     let groupName: string;
-    let groupAvatar: undefined | ArrayBuffer;
+    let groupAvatar: undefined | Uint8Array;
     let groupExpireTimer: number;
     let userAvatarData = getDefaultAvatars(true);
 

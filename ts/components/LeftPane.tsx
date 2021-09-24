@@ -102,7 +102,7 @@ export type PropsType = {
     switchToAssociatedView?: boolean;
   }) => void;
   setComposeSearchTerm: (composeSearchTerm: string) => void;
-  setComposeGroupAvatar: (_: undefined | ArrayBuffer) => void;
+  setComposeGroupAvatar: (_: undefined | Uint8Array) => void;
   setComposeGroupName: (_: string) => void;
   setComposeGroupExpireTimer: (_: number) => void;
   showArchivedConversations: () => void;

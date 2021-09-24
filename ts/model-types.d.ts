@@ -94,7 +94,7 @@ export type MessageAttributesType = {
   bodyRanges?: BodyRangesType;
   callHistoryDetails?: CallHistoryDetailsFromDiskType;
   changedId?: string;
-  dataMessage?: ArrayBuffer | null;
+  dataMessage?: Uint8Array | null;
   decrypted_at?: number;
   deletedForEveryone?: boolean;
   deletedForEveryoneTimestamp?: number;
@@ -355,7 +355,7 @@ export type GroupV2PendingAdminApprovalType = {
 };
 
 export type VerificationOptions = {
-  key?: null | ArrayBuffer;
+  key?: null | Uint8Array;
   viaContactSync?: boolean;
   viaStorageServiceSync?: boolean;
   viaSyncMessage?: boolean;

@@ -130,13 +130,8 @@ const searchSelectors = require('../../ts/state/selectors/search');
 
 // Types
 const AttachmentType = require('../../ts/types/Attachment');
-const VisualAttachment = require('./types/visual_attachment');
-const EmbeddedContact = require('../../ts/types/EmbeddedContact');
-const Conversation = require('./types/conversation');
-const Errors = require('../../ts/types/errors');
+const VisualAttachment = require('../../ts/types/VisualAttachment');
 const MessageType = require('./types/message');
-const MIME = require('../../ts/types/MIME');
-const SettingsType = require('../../ts/types/Settings');
 const { UUID } = require('../../ts/types/UUID');
 const { Address } = require('../../ts/types/Address');
 const { QualifiedAddress } = require('../../ts/types/QualifiedAddress');
@@ -417,14 +412,9 @@ exports.setup = (options = {}) => {
   };
 
   const Types = {
-    Attachment: AttachmentType,
-    EmbeddedContact,
-    Conversation,
-    Errors,
     Message: MessageType,
-    MIME,
-    Settings: SettingsType,
-    VisualAttachment,
+
+    // Mostly for debugging
     UUID,
     Address,
     QualifiedAddress,

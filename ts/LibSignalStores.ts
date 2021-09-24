@@ -27,8 +27,6 @@ import { Address } from './types/Address';
 import { QualifiedAddress } from './types/QualifiedAddress';
 import type { UUID } from './types/UUID';
 
-import { typedArrayToArrayBuffer } from './Crypto';
-
 import { Zone } from './util/Zone';
 
 function encodeAddress(address: ProtocolAddress): Address {
@@ -148,7 +146,7 @@ export class IdentityKeys extends IdentityKeyStore {
 
   async saveIdentity(name: ProtocolAddress, key: PublicKey): Promise<boolean> {
     const encodedAddress = encodeAddress(name);
-    const publicKey = typedArrayToArrayBuffer(key.serialize());
+    const publicKey = key.serialize();
 
     // Pass `zone` to let `saveIdentity` archive sibling sessions when identity
     // key changes.
@@ -166,7 +164,7 @@ export class IdentityKeys extends IdentityKeyStore {
     direction: Direction
   ): Promise<boolean> {
     const encodedAddress = encodeAddress(name);
-    const publicKey = typedArrayToArrayBuffer(key.serialize());
+    const publicKey = key.serialize();
 
     return window.textsecure.storage.protocol.isTrustedIdentity(
       encodedAddress,
