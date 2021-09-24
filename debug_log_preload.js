@@ -10,6 +10,7 @@ const url = require('url');
 require('./ts/windows/context');
 
 const { setupI18n } = require('./ts/util/setupI18n');
+const { createSetting } = require('./ts/util/preload');
 const {
   getEnvironment,
   setEnvironment,
@@ -22,7 +23,7 @@ const localeMessages = ipcRenderer.sendSync('locale-data');
 setEnvironment(parseEnvironment(config.environment));
 
 window.getVersion = () => config.version;
-window.theme = config.theme;
+window.themeSetting = createSetting('themeSetting', { setter: false });
 window.i18n = setupI18n(locale, localeMessages);
 
 // got.js appears to need this to successfully submit debug logs to the cloud
