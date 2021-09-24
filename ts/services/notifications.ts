@@ -232,6 +232,10 @@ class NotificationService extends EventEmitter {
       return;
     }
 
+    const shouldPlayNotificationSound = Boolean(
+      storage.get('audio-notification')
+    );
+
     const shouldDrawAttention = storage.get(
       'notification-draw-attention',
       true
@@ -304,7 +308,7 @@ class NotificationService extends EventEmitter {
       title: notificationTitle,
       icon: notificationIconUrl,
       message: notificationMessage,
-      silent: Boolean(storage.get('audio-notification')),
+      silent: !shouldPlayNotificationSound,
       onNotificationClick: () => {
         this.emit('click', conversationId, messageId);
       },
