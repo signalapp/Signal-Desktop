@@ -23,7 +23,6 @@ export type SendTypesType =
   | 'groupChange'
   | 'legacyGroupChange'
   | 'message'
-  | 'messageRetry'
   | 'nullMessage' // excluded from send log
   | 'otherSync'
   | 'profileKeyUpdate'
