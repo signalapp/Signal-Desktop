@@ -2024,9 +2024,7 @@ export class CallingClass {
     conversationId: string,
     creatorBytes: undefined | Readonly<Uint8Array>
   ): void {
-    const creatorUuid = creatorBytes
-      ? arrayBufferToUuid(typedArrayToArrayBuffer(creatorBytes))
-      : undefined;
+    const creatorUuid = creatorBytes ? bytesToUuid(creatorBytes) : undefined;
     const creatorConversation = window.ConversationController.get(creatorUuid);
     if (creatorConversation && isMe(creatorConversation.attributes)) {
       return;
