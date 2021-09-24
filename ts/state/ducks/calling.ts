@@ -254,6 +254,28 @@ export const getActiveCall = ({
   activeCallState &&
   getOwn(callsByConversation, activeCallState.conversationId);
 
+// In theory, there could be multiple incoming calls, or an incoming call while there's
+//   an active call. In practice, the UI is not ready for this, and RingRTC doesn't
+//   support it for direct calls.
+export const getIncomingCall = (
+  callsByConversation: Readonly<CallsByConversationType>,
+  ourUuid: string
+): undefined | DirectCallStateType | GroupCallStateType =>
+  Object.values(callsByConversation).find(call => {
+    switch (call.callMode) {
+      case CallMode.Direct:
+        return call.isIncoming && call.callState === CallState.Ringing;
+      case CallMode.Group:
+        return (
+          call.ringerUuid &&
+          call.connectionState === GroupCallConnectionState.NotConnected &&
+          isAnybodyElseInGroupCall(call.peekInfo, ourUuid)
+        );
+      default:
+        throw missingCaseError(call);
+    }
+  });
+
 export const isAnybodyElseInGroupCall = (
   { uuids }: Readonly<GroupCallPeekInfoType>,
   ourUuid: string
@@ -837,6 +859,7 @@ function peekNotConnectedGroupCall(
 
     queue.add(async () => {
       const state = getState();
+      const { ourUuid } = state.user;
 
       // We make sure we're not trying to peek at a connected (or connecting, or
       //   reconnecting) call. Because this is asynchronous, it's possible that the call
@@ -872,14 +895,34 @@ function peekNotConnectedGroupCall(
 
       calling.updateCallHistoryForGroupCall(conversationId, peekInfo);
 
+      const formattedPeekInfo = calling.formatGroupCallPeekInfoForRedux(
+        peekInfo
+      );
+
       dispatch({
         type: PEEK_NOT_CONNECTED_GROUP_CALL_FULFILLED,
         payload: {
           conversationId,
-          peekInfo: calling.formatGroupCallPeekInfoForRedux(peekInfo),
+          peekInfo: formattedPeekInfo,
           ourConversationId: state.user.ourConversationId,
         },
       });
+
+      // We want to show "Alice started a group call" only if a call isn't ringing or
+      //   active. We wait a moment to make sure that we don't accidentally show a ring
+      //   notification followed swiftly by a less urgent notification.
+      if (!isAnybodyElseInGroupCall(formattedPeekInfo, ourUuid)) {
+        return;
+      }
+      await sleep(1000);
+      const newCallingState = getState().calling;
+      if (
+        getActiveCall(newCallingState)?.conversationId === conversationId ||
+        getIncomingCall(newCallingState.callsByConversation, ourUuid)
+      ) {
+        return;
+      }
+      calling.notifyForGroupCall(conversationId, peekInfo.creator);
     });
   };
 }

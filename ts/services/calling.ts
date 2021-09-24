@@ -41,6 +41,7 @@ import {
 } from '../state/ducks/calling';
 import { getConversationCallMode } from '../state/ducks/conversations';
 import { isConversationTooBigToRing } from '../conversations/isConversationTooBigToRing';
+import { isMe } from '../util/whatTypeOfConversation';
 import {
   AudioDevice,
   AvailableIODevicesType,
@@ -79,7 +80,11 @@ import { callingMessageToProto } from '../util/callingMessageToProto';
 import { getSendOptions } from '../util/getSendOptions';
 import { SignalService as Proto } from '../protobuf';
 import dataInterface from '../sql/Client';
-import { notificationService } from './notifications';
+import {
+  notificationService,
+  NotificationSetting,
+  FALLBACK_NOTIFICATION_TITLE,
+} from './notifications';
 import * as log from '../logging/log';
 
 const {
@@ -2013,6 +2018,58 @@ export class CallingClass {
     }
 
     conversation.updateCallHistoryForGroupCall(peekInfo.eraId, creatorUuid);
+  }
+
+  public notifyForGroupCall(
+    conversationId: string,
+    creatorBytes: undefined | Readonly<Uint8Array>
+  ): void {
+    const creatorUuid = creatorBytes
+      ? arrayBufferToUuid(typedArrayToArrayBuffer(creatorBytes))
+      : undefined;
+    const creatorConversation = window.ConversationController.get(creatorUuid);
+    if (creatorConversation && isMe(creatorConversation.attributes)) {
+      return;
+    }
+
+    let notificationTitle: string;
+    let notificationMessage: string;
+
+    switch (notificationService.getNotificationSetting()) {
+      case NotificationSetting.Off:
+        return;
+      case NotificationSetting.NoNameOrMessage:
+        notificationTitle = FALLBACK_NOTIFICATION_TITLE;
+        notificationMessage = window.i18n(
+          'calling__call-notification__started-by-someone'
+        );
+        break;
+      default: {
+        const conversation = window.ConversationController.get(conversationId);
+        // These fallbacks exist just in case something unexpected goes wrong.
+        notificationTitle =
+          conversation?.getTitle() || FALLBACK_NOTIFICATION_TITLE;
+        notificationMessage = creatorConversation
+          ? window.i18n('calling__call-notification__started', [
+              creatorConversation.getTitle(),
+            ])
+          : window.i18n('calling__call-notification__started-by-someone');
+        break;
+      }
+    }
+
+    notificationService.notify({
+      icon: 'images/icons/v2/video-solid-24.svg',
+      message: notificationMessage,
+      onNotificationClick: () => {
+        this.uxActions?.startCallingLobby({
+          conversationId,
+          isVideoCall: true,
+        });
+      },
+      silent: false,
+      title: notificationTitle,
+    });
   }
 
   private async cleanExpiredGroupCallRingsAndLoop(): Promise<void> {
