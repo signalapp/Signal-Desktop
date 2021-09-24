@@ -10,6 +10,7 @@ export type PropsType = {
   autoDismissDisabled?: boolean;
   children: ReactNode;
   className?: string;
+  disableCloseOnClick?: boolean;
   onClick?: () => unknown;
   onClose: () => unknown;
   timeout?: number;
@@ -19,6 +20,7 @@ export const Toast = ({
   autoDismissDisabled = false,
   children,
   className,
+  disableCloseOnClick = false,
   onClick,
   onClose,
   timeout = 2000,
@@ -56,10 +58,16 @@ export const Toast = ({
       role: 'button',
       onClick() {
         onClick();
+        if (!disableCloseOnClick) {
+          onClose();
+        }
       },
       onKeyDown(ev: KeyboardEvent<HTMLDivElement>) {
         if (ev.key === 'Enter' || ev.key === ' ') {
           onClick();
+          if (!disableCloseOnClick) {
+            onClose();
+          }
         }
       },
     };
