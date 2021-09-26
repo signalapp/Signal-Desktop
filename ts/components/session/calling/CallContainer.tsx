@@ -120,12 +120,17 @@ export const CallContainer = () => {
     // call method to end call connection
     console.warn('ending the call');
     await CallManager.USER_rejectIncomingCallRequest(fakeCaller);
+    setConnectionState(null);
   };
 
   const handleMouseDown = () => {
     // reposition call window
   };
   //#endregion
+
+  if (connectionState === null) {
+    return null;
+  }
 
   return (
     <>
@@ -138,7 +143,6 @@ export const CallContainer = () => {
             </CallWindowHeader>
             <VideoContainer />
             <CallWindowControls>
-              <SessionButton text={'end call'} onClick={handleEndCall} />
               <SessionButton text={'end call'} onClick={handleEndCall} />
             </CallWindowControls>
           </CallWindowInner>

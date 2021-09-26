@@ -30,6 +30,10 @@ let peerConnection: RTCPeerConnection | null;
 
 const ENABLE_VIDEO = true;
 
+let makingOffer = false;
+let ignoreOffer = false;
+let isSettingRemoteAnswerPending = false;
+
 const configuration = {
   configuration: {
     offerToReceiveAudio: true,
@@ -187,8 +191,23 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
     console.warn('icecandidateerror:', event);
   });
 
+  peerConnection.addEventListener('icecandidate', event => {
+    console.warn('icecandidateerror:', event);
+    // signaler.send({candidate}); // probably event.candidate
+  });
+
   peerConnection.addEventListener('negotiationneeded', async event => {
     console.warn('negotiationneeded:', event);
+    try {
+      makingOffer = true;
+      await peerConnection?.setLocalDescription();
+      // SignalService.CallMessage.Type.OFFER
+      // signaler.send({ description: pc.localDescription });
+    } catch (err) {
+      console.error(err);
+    } finally {
+      makingOffer = false;
+    }
   });
   peerConnection.addEventListener('signalingstatechange', event => {
     console.warn('signalingstatechange:', event);
@@ -211,9 +230,13 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
     );
     return;
   }
-  await peerConnection.setRemoteDescription(
-    new RTCSessionDescription({ sdp: sdps[0], type: 'offer' })
-  );
+  try {
+    await peerConnection.setRemoteDescription(
+      new RTCSessionDescription({ sdp: sdps[0], type: 'offer' })
+    );
+  } catch (e) {
+    window.log?.error(`Error setting RTC Session Description ${e}`);
+  }
 
   const answer = await peerConnection.createAnswer({
     offerToReceiveAudio: true,
@@ -278,6 +301,29 @@ export async function handleOfferCallMessage(
   sender: string,
   callMessage: SignalService.CallMessage
 ) {
+  try {
+    console.warn({ callMessage });
+    const readyForOffer =
+      !makingOffer && (peerConnection?.signalingState == 'stable' || isSettingRemoteAnswerPending);
+    // const offerCollision =
+    //   callMessage.type === SignalService.CallMessage.Type.OFFER ||
+    //   makingOffer ||
+    //   peerConnection?.signalingState != 'stable';
+
+    // TODO: How should politeness be decided between client / recipient?
+    // ignoreOffer = !polite && offerCollision;
+    ignoreOffer = !true && !readyForOffer;
+    if (ignoreOffer) {
+      window.log?.warn('Received offer when unready for offer; Ignoring offer.');
+      return;
+    }
+
+    await peerConnection?.setLocalDescription();
+    // send via our signalling with the sdp of our pc.localDescription
+  } catch (err) {
+    window.log?.error(`Error handling offer message ${err}`);
+  }
+
   if (!callCache.has(sender)) {
     callCache.set(sender, new Array());
   }
@@ -290,7 +336,7 @@ export async function handleCallAnsweredMessage(
   callMessage: SignalService.CallMessage
 ) {
   if (!callMessage.sdps || callMessage.sdps.length === 0) {
-    window.log.warn('cannot handle answered message without sdps');
+    window.log.warn('cannot handle answered message without signal description protols');
     return;
   }
   if (!callCache.has(sender)) {
@@ -301,7 +347,10 @@ export async function handleCallAnsweredMessage(
   window.inboxStore?.dispatch(incomingCall({ sender }));
   const remoteDesc = new RTCSessionDescription({ type: 'answer', sdp: callMessage.sdps[0] });
   if (peerConnection) {
+    console.warn('Setting remote answer pending');
+    isSettingRemoteAnswerPending = true;
     await peerConnection.setRemoteDescription(remoteDesc);
+    isSettingRemoteAnswerPending = false;
   } else {
     window.log.info('call answered by recipient but we do not have a peerconnection set');
   }
@@ -328,7 +377,12 @@ export async function handleIceCandidatesMessage(
       const sdpMLineIndex = callMessage.sdpMLineIndexes[index];
       const sdpMid = callMessage.sdpMids[index];
       const candicate = new RTCIceCandidate({ sdpMid, sdpMLineIndex, candidate: sdp });
-      await peerConnection.addIceCandidate(candicate);
+      try {
+        await peerConnection.addIceCandidate(candicate);
+      } catch (err) {
+        if (!ignoreOffer) {
+        }
+      }
     }
   } else {
     window.log.info('handleIceCandidatesMessage but we do not have a peerconnection set');
