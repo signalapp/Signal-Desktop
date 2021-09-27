@@ -28,12 +28,12 @@ import * as Bytes from '../Bytes';
 import { CURRENT_SCHEMA_VERSION } from '../../js/modules/types/message';
 import { createBatcher } from '../util/batcher';
 import { assert } from '../util/assert';
-import * as durations from '../util/durations';
 import { cleanDataForIpc } from './cleanDataForIpc';
 import { ReactionType } from '../types/Reactions';
 import { ConversationColorType, CustomColorType } from '../types/Colors';
 import type { ProcessGroupCallRingRequestResult } from '../types/Calling';
 import type { RemoveAllConfiguration } from '../types/RemoveAllConfiguration';
+import createTaskWithTimeout from '../textsecure/TaskWithTimeout';
 import * as log from '../logging/log';
 
 import {
@@ -91,8 +91,6 @@ if (ipcRenderer && ipcRenderer.setMaxListeners) {
 } else {
   log.warn('sql/Client: ipcRenderer is not available!');
 }
-
-const DATABASE_UPDATE_TIMEOUT = 2 * durations.MINUTE;
 
 const MIN_TRACE_DURATION = 10;
 
@@ -555,25 +553,25 @@ function makeChannel(fnName: string) {
 
     const jobId = _makeJob(fnName);
 
-    return new Promise((resolve, reject) => {
-      try {
-        ipcRenderer.send(SQL_CHANNEL_KEY, jobId, fnName, ...args);
+    return createTaskWithTimeout(
+      () =>
+        new Promise((resolve, reject) => {
+          try {
+            ipcRenderer.send(SQL_CHANNEL_KEY, jobId, fnName, ...args);
 
-        _updateJob(jobId, {
-          resolve,
-          reject,
-          args: _DEBUG ? args : undefined,
-        });
+            _updateJob(jobId, {
+              resolve,
+              reject,
+              args: _DEBUG ? args : undefined,
+            });
+          } catch (error) {
+            _removeJob(jobId);
 
-        setTimeout(() => {
-          reject(new Error(`SQL channel job ${jobId} (${fnName}) timed out`));
-        }, DATABASE_UPDATE_TIMEOUT);
-      } catch (error) {
-        _removeJob(jobId);
-
-        reject(error);
-      }
-    });
+            reject(error);
+          }
+        }),
+      `SQL channel job ${jobId} (${fnName})`
+    )();
   };
 }
 
@@ -1555,22 +1553,22 @@ async function removeOtherData() {
 }
 
 async function callChannel(name: string) {
-  return new Promise<void>((resolve, reject) => {
-    ipcRenderer.send(name);
-    ipcRenderer.once(`${name}-done`, (_, error) => {
-      if (error) {
-        reject(error);
+  return createTaskWithTimeout(
+    () =>
+      new Promise<void>((resolve, reject) => {
+        ipcRenderer.send(name);
+        ipcRenderer.once(`${name}-done`, (_, error) => {
+          if (error) {
+            reject(error);
 
-        return;
-      }
+            return;
+          }
 
-      resolve();
-    });
-
-    setTimeout(() => {
-      reject(new Error(`callChannel call to ${name} timed out`));
-    }, DATABASE_UPDATE_TIMEOUT);
-  });
+          resolve();
+        });
+      }),
+    `callChannel call to ${name}`
+  )();
 }
 
 async function getMessagesNeedingUpgrade(

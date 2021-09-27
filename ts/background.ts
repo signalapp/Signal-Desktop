@@ -10,6 +10,10 @@ import MessageReceiver from './textsecure/MessageReceiver';
 import { SessionResetsType, ProcessedDataMessage } from './textsecure/Types.d';
 import { HTTPError } from './textsecure/Errors';
 import {
+  suspendTasksWithTimeout,
+  resumeTasksWithTimeout,
+} from './textsecure/TaskWithTimeout';
+import {
   MessageAttributesType,
   ConversationAttributesType,
 } from './model-types.d';
@@ -1603,11 +1607,13 @@ export async function startApp(): Promise<void> {
 
   window.Whisper.events.on('powerMonitorSuspend', () => {
     log.info('powerMonitor: suspend');
+    suspendTasksWithTimeout();
   });
 
   window.Whisper.events.on('powerMonitorResume', () => {
     log.info('powerMonitor: resume');
     server?.checkSockets();
+    resumeTasksWithTimeout();
   });
 
   const reconnectToWebSocketQueue = new LatestQueue();
