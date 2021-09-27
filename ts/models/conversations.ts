@@ -1222,7 +1222,7 @@ export class ConversationModel extends window.Backbone
         online: true,
       };
       if (isDirectConversation(this.attributes)) {
-        handleMessageSend(
+        await handleMessageSend(
           window.textsecure.messaging.sendMessageProtoAndWait({
             timestamp,
             recipients: groupMembers,
@@ -1234,7 +1234,7 @@ export class ConversationModel extends window.Backbone
           { messageIds: [], sendType: 'typing' }
         );
       } else {
-        handleMessageSend(
+        await handleMessageSend(
           window.Signal.Util.sendContentMessageToGroup({
             contentHint: ContentHint.IMPLICIT,
             contentMessage,

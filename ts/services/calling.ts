@@ -906,14 +906,20 @@ export class CallingClass {
       logId: `sendToGroup/groupCallUpdate/${conversationId}-${eraId}`,
       messageIds: [],
       send: () =>
-        window.Signal.Util.sendToGroup({
-          groupSendOptions: { groupCallUpdate: { eraId }, groupV2, timestamp },
-          conversation,
-          contentHint: ContentHint.DEFAULT,
-          messageId: undefined,
-          sendOptions,
-          sendType: 'callingMessage',
-        }),
+        conversation.queueJob('sendGroupCallUpdateMessage', () =>
+          window.Signal.Util.sendToGroup({
+            groupSendOptions: {
+              groupCallUpdate: { eraId },
+              groupV2,
+              timestamp,
+            },
+            conversation,
+            contentHint: ContentHint.DEFAULT,
+            messageId: undefined,
+            sendOptions,
+            sendType: 'callingMessage',
+          })
+        ),
       sendType: 'callingMessage',
       timestamp,
     }).catch(err => {
@@ -1567,19 +1573,21 @@ export class CallingClass {
     // We "fire and forget" because sending this message is non-essential.
     // We also don't sync this message.
     const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
-    await handleMessageSend(
-      window.Signal.Util.sendContentMessageToGroup({
-        contentHint: ContentHint.DEFAULT,
-        contentMessage,
-        conversation,
-        isPartialSend: false,
-        messageId: undefined,
-        recipients: conversation.getRecipients(),
-        sendOptions: await getSendOptions(conversation.attributes),
-        sendType: 'callingMessage',
-        timestamp,
-      }),
-      { messageIds: [], sendType: 'callingMessage' }
+    await conversation.queueJob('handleSendCallMessageToGroup', async () =>
+      handleMessageSend(
+        window.Signal.Util.sendContentMessageToGroup({
+          contentHint: ContentHint.DEFAULT,
+          contentMessage,
+          conversation,
+          isPartialSend: false,
+          messageId: undefined,
+          recipients: conversation.getRecipients(),
+          sendOptions: await getSendOptions(conversation.attributes),
+          sendType: 'callingMessage',
+          timestamp,
+        }),
+        { messageIds: [], sendType: 'callingMessage' }
+      )
     );
   }
 
