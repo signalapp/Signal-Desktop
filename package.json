@@ -102,6 +102,7 @@
     "react": "^17.0.2",
     "react-contexify": "5.0.0",
     "react-dom": "^17.0.2",
+    "react-draggable": "^4.4.4",
     "react-emoji": "^0.5.0",
     "react-emoji-render": "^1.2.4",
     "react-h5-audio-player": "^3.2.0",

@@ -177,6 +177,8 @@ export const fillConvoAttributesWithDefaults = (
   });
 };
 
+export type CallState = 'offering' | 'incoming' | 'connecting' | 'ongoing' | 'none' | undefined;
+
 export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public updateLastMessage: () => any;
   public throttledBumpTyping: any;
@@ -184,7 +186,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public markRead: (newestUnreadDate: number, providedOptions?: any) => Promise<void>;
   public initialPromise: any;
 
-  public callState: 'offering' | 'incoming' | 'connecting' | 'ongoing' | 'none' | undefined;
+  public callState: CallState;
 
   private typingRefreshTimer?: NodeJS.Timeout | null;
   private typingPauseTimer?: NodeJS.Timeout | null;
@@ -440,6 +442,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const left = !!this.get('left');
     const expireTimer = this.get('expireTimer');
     const currentNotificationSetting = this.get('triggerNotificationsFor');
+    const callState = this.callState;
 
     // to reduce the redux store size, only set fields which cannot be undefined
     // for instance, a boolean can usually be not set if false, etc
@@ -543,6 +546,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         status: lastMessageStatus,
         text: lastMessageText,
       };
+    }
+
+    if (callState) {
+      toRet.callState = callState;
     }
     return toRet;
   }

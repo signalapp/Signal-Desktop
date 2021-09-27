@@ -1,20 +1,32 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
+import Draggable from 'react-draggable';
+
+// tslint:disable-next-line: no-submodule-imports
+import useMountedState from 'react-use/lib/useMountedState';
 import styled from 'styled-components';
 import _ from 'underscore';
-import { getConversationController } from '../../../session/conversations/ConversationController';
 import { CallManager } from '../../../session/utils';
+import {
+  getHasIncomingCall,
+  getHasIncomingCallFrom,
+  getHasOngoingCall,
+  getHasOngoingCallWith,
+} from '../../../state/selectors/conversations';
 import { SessionButton, SessionButtonColor } from '../SessionButton';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 
 export const CallWindow = styled.div`
   position: absolute;
   z-index: 9;
-  padding: 2rem;
+  padding: 1rem;
   top: 50vh;
   left: 50vw;
   transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
+  background-color: var(--color-modal-background);
+  border: var(--session-border);
 `;
 
 // similar styling to modal header
@@ -22,7 +34,7 @@ const CallWindowHeader = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: center;
+  align-self: center;
 
   padding: $session-margin-lg;
 
@@ -33,138 +45,123 @@ const CallWindowHeader = styled.div`
   font-weight: 700;
 `;
 
-// TODO: Add proper styling for this
-const VideoContainer = styled.video`
-  width: 200px;
-  height: 200px;
+const VideoContainer = styled.div`
+  position: relative;
+  max-height: 60vh;
+`;
+
+const VideoContainerRemote = styled.video`
+  max-height: inherit;
+`;
+const VideoContainerLocal = styled.video`
+  max-height: 45%;
+  max-width: 45%;
+  position: absolute;
+  bottom: 0;
+  right: 0;
 `;
 
 const CallWindowInner = styled.div`
-  position: relative;
-  background-color: pink;
-  border: 1px solid #d3d3d3;
   text-align: center;
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
+  padding: 1rem;
 `;
 
 const CallWindowControls = styled.div`
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: 100%;
-  /* background: green; */
   padding: 5px;
-  transform: translateY(-100%);
 `;
 
-// type WindowPositionType = {
-//     top: string;
-//     left: string;
-// } | null;
-
-type CallStateType = 'connecting' | 'ongoing' | 'incoming' | null;
-
-const fakeCaller = '054774a456f15c7aca42fe8d245983549000311aaebcf58ce246250c41fe227676';
-
+// TODO:
+/**
+ * Add mute input, deafen, end call, possibly add person to call
+ * duration - look at how duration calculated for recording.
+ */
 export const CallContainer = () => {
-  const conversations = getConversationController().getConversations();
+  const hasIncomingCall = useSelector(getHasIncomingCall);
+  const incomingCallProps = useSelector(getHasIncomingCallFrom);
+  const ongoingCallProps = useSelector(getHasOngoingCallWith);
+  const hasOngoingCall = useSelector(getHasOngoingCall);
 
-  // TODO:
-  /**
-   * Add mute input, deafen, end call, possibly add person to call
-   * duration - look at how duration calculated for recording.
-   */
+  const ongoingOrIncomingPubkey = ongoingCallProps?.id || incomingCallProps?.id;
+  const videoRefRemote = useRef<any>();
+  const videoRefLocal = useRef<any>();
+  const mountedState = useMountedState();
 
-  const [connectionState, setConnectionState] = useState<CallStateType>('incoming');
-  // const [callWindowPosition, setCallWindowPosition] = useState<WindowPositionType>(null)
+  useEffect(() => {
+    CallManager.setVideoEventsListener(
+      (localStream: MediaStream | null, remoteStream: MediaStream | null) => {
+        if (mountedState() && videoRefRemote?.current && videoRefLocal?.current) {
+          videoRefLocal.current.srcObject = localStream;
+          videoRefRemote.current.srcObject = remoteStream;
+        }
+      }
+    );
 
-  // picking a conversation at random to test with
-  const foundConvo = conversations.find(convo => convo.id === fakeCaller);
-
-  if (!foundConvo) {
-    throw new Error('fakeconvo not found');
-  }
-  foundConvo.callState = 'incoming';
-  console.warn('foundConvo: ', foundConvo);
-
-  const firstCallingConvo = _.first(conversations.filter(convo => convo.callState !== undefined));
+    return () => {
+      CallManager.setVideoEventsListener(null);
+    };
+  }, []);
 
   //#region input handlers
   const handleAcceptIncomingCall = async () => {
-    console.warn('accept call');
-
-    if (firstCallingConvo) {
-      setConnectionState('connecting');
-      firstCallingConvo.callState = 'connecting';
-      await CallManager.USER_acceptIncomingCallRequest(fakeCaller);
-      // some delay
-      setConnectionState('ongoing');
-      firstCallingConvo.callState = 'ongoing';
+    if (incomingCallProps?.id) {
+      await CallManager.USER_acceptIncomingCallRequest(incomingCallProps.id);
     }
-    // set conversationState = setting up
   };
 
   const handleDeclineIncomingCall = async () => {
-    // set conversation.callState = null or undefined
     // close the modal
-    if (firstCallingConvo) {
-      firstCallingConvo.callState = undefined;
+    if (incomingCallProps?.id) {
+      await CallManager.USER_rejectIncomingCallRequest(incomingCallProps.id);
     }
-    console.warn('declined call');
-    await CallManager.USER_rejectIncomingCallRequest(fakeCaller);
   };
 
   const handleEndCall = async () => {
     // call method to end call connection
-    console.warn('ending the call');
-    await CallManager.USER_rejectIncomingCallRequest(fakeCaller);
-    setConnectionState(null);
+    if (ongoingOrIncomingPubkey) {
+      await CallManager.USER_rejectIncomingCallRequest(ongoingOrIncomingPubkey);
+    }
   };
 
-  const handleMouseDown = () => {
-    // reposition call window
-  };
   //#endregion
 
-  if (connectionState === null) {
+  if (!hasOngoingCall && !hasIncomingCall) {
     return null;
   }
 
-  return (
-    <>
-      {connectionState === 'connecting' ? 'connecting...' : null}
-      {connectionState === 'ongoing' ? (
-        <CallWindow onMouseDown={handleMouseDown}>
+  if (hasOngoingCall && ongoingCallProps) {
+    return (
+      <Draggable handle=".dragHandle">
+        <CallWindow className="dragHandle">
+          <CallWindowHeader>Call with: {ongoingCallProps.name}</CallWindowHeader>
+
           <CallWindowInner>
-            <CallWindowHeader>
-              {firstCallingConvo ? firstCallingConvo.getName() : 'Group name not found'}
-            </CallWindowHeader>
-            <VideoContainer />
-            <CallWindowControls>
-              <SessionButton text={'end call'} onClick={handleEndCall} />
-            </CallWindowControls>
+            <VideoContainer>
+              <VideoContainerRemote ref={videoRefRemote} autoPlay={true} />
+              <VideoContainerLocal ref={videoRefLocal} autoPlay={true} />
+            </VideoContainer>
           </CallWindowInner>
+          <CallWindowControls>
+            <SessionButton text={window.i18n('endCall')} onClick={handleEndCall} />
+          </CallWindowControls>
         </CallWindow>
-      ) : null}
+      </Draggable>
+    );
+  }
 
-      {!connectionState ? (
-        <SessionWrapperModal title={'incoming call'}>'none'</SessionWrapperModal>
-      ) : null}
-
-      {connectionState === 'incoming' ? (
-        <SessionWrapperModal title={'incoming call'}>
-          <div className="session-modal__button-group">
-            <SessionButton text={'decline'} onClick={handleDeclineIncomingCall} />
-            <SessionButton
-              text={'accept'}
-              onClick={handleAcceptIncomingCall}
-              buttonColor={SessionButtonColor.Green}
-            />
-          </div>
-        </SessionWrapperModal>
-      ) : null}
-    </>
-  );
+  if (hasIncomingCall) {
+    return (
+      <SessionWrapperModal title={window.i18n('incomingCall')}>
+        <div className="session-modal__button-group">
+          <SessionButton text={window.i18n('decline')} onClick={handleDeclineIncomingCall} />
+          <SessionButton
+            text={window.i18n('accept')}
+            onClick={handleAcceptIncomingCall}
+            buttonColor={SessionButtonColor.Green}
+          />
+        </div>
+      </SessionWrapperModal>
+    );
+  }
+  // display spinner while connecting
+  return null;
 };

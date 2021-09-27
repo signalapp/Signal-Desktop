@@ -28,8 +28,7 @@ import {
 } from '../../../interactions/conversationInteractions';
 import { SessionButtonColor } from '../SessionButton';
 import { getTimerOptions } from '../../../state/selectors/timerOptions';
-import { ToastUtils } from '../../../session/utils';
-import { getConversationById } from '../../../data/data';
+import { CallManager, ToastUtils } from '../../../session/utils';
 
 const maxNumberOfPinnedConversations = 5;
 
@@ -321,38 +320,32 @@ export function getMarkAllReadMenuItem(conversationId: string): JSX.Element | nu
 
 export function getStartCallMenuItem(conversationId: string): JSX.Element | null {
   // TODO: possibly conditionally show options?
-  const callOptions = [
-    {
-      name: 'Video call',
-      value: 'video-call',
-    },
-    {
-      name: 'Audio call',
-      value: 'audio-call',
-    },
-  ];
+  // const callOptions = [
+  //   {
+  //     name: 'Video call',
+  //     value: 'video-call',
+  //   },
+  //   // {
+  //   //   name: 'Audio call',
+  //   //   value: 'audio-call',
+  //   // },
+  // ];
 
   return (
-    <Submenu label={'Start call'}>
-      {callOptions.map(item => (
-        <Item
-          key={item.value}
-          onClick={async () => {
-            // TODO: either pass param to callRecipient or call different call methods based on item selected.
-            const convo = await getConversationById(conversationId);
-            if (convo) {
-              // window?.libsession?.Utils.CallManager.USER_callRecipient(
-              //   '054774a456f15c7aca42fe8d245983549000311aaebcf58ce246250c41fe227676'
-              // );
-              window?.libsession?.Utils.CallManager.USER_callRecipient(convo.id);
-              convo.callState = 'connecting';
-            }
-          }}
-        >
-          {item.name}
-        </Item>
-      ))}
-    </Submenu>
+    <Item
+      onClick={async () => {
+        // TODO: either pass param to callRecipient or call different call methods based on item selected.
+        const convo = getConversationController().get(conversationId);
+        if (convo) {
+          convo.callState = 'connecting';
+          await convo.commit();
+
+          await CallManager.USER_callRecipient(convo.id);
+        }
+      }}
+    >
+      {'video call'}
+    </Item>
   );
 }
 
