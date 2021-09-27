@@ -92,28 +92,37 @@ export async function USER_callRecipient(recipient: string) {
     console.warn('negotiationneeded:', event);
     try {
       makingOffer = true;
-      const offerDescription = await peerConnection?.createOffer({
-        offerToReceiveAudio: true,
-        offerToReceiveVideo: true,
-      });
-      if (!offerDescription) {
-        console.error('Failed to create offer for negotiation');
-        return;
-      }
-      await peerConnection?.setLocalDescription(offerDescription);
-      if (!offerDescription || !offerDescription.sdp || !offerDescription.sdp.length) {
-        // window.log.warn(`failed to createOffer for recipient ${ed25519Str(recipient)}`);
-        console.warn(`failed to createOffer for recipient ${ed25519Str(recipient)}`);
-        return;
-      }
-      const callOfferMessage = new CallMessage({
-        timestamp: Date.now(),
-        type: SignalService.CallMessage.Type.OFFER,
-        sdps: [offerDescription.sdp],
-      });
+      // const offerDescription = await peerConnection?.createOffer({
+      //   offerToReceiveAudio: true,
+      //   offerToReceiveVideo: true,
+      // });
+      // if (!offerDescription) {
+      //   console.error('Failed to create offer for negotiation');
+      //   return;
+      // }
+      // await peerConnection?.setLocalDescription(offerDescription);
+      // if (!offerDescription || !offerDescription.sdp || !offerDescription.sdp.length) {
+      //   // window.log.warn(`failed to createOffer for recipient ${ed25519Str(recipient)}`);
+      //   console.warn(`failed to createOffer for recipient ${ed25519Str(recipient)}`);
+      //   return;
+      // }
 
-      window.log.info('sending OFFER MESSAGE');
-      await getMessageQueue().sendToPubKeyNonDurably(PubKey.cast(recipient), callOfferMessage);
+      // @ts-ignore
+      await peerConnection?.setLocalDescription();
+      let offer = await peerConnection?.createOffer();
+      console.warn(offer);
+
+      if (offer && offer.sdp) {
+        const callOfferMessage = new CallMessage({
+          timestamp: Date.now(),
+          type: SignalService.CallMessage.Type.OFFER,
+          // sdps: [offerDescription.sdp],
+          sdps: [offer.sdp],
+        });
+
+        window.log.info('sending OFFER MESSAGE');
+        await getMessageQueue().sendToPubKeyNonDurably(PubKey.cast(recipient), callOfferMessage);
+      }
     } catch (err) {
       console.error(err);
       window.log?.error(`Error on handling negotiation needed ${err}`);
