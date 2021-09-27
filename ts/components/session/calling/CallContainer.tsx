@@ -1,5 +1,9 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
+import Draggable from 'react-draggable';
+
+// tslint:disable-next-line: no-submodule-imports
+import useMountedState from 'react-use/lib/useMountedState';
 import styled from 'styled-components';
 import _ from 'underscore';
 import { CallManager } from '../../../session/utils';
@@ -15,12 +19,14 @@ import { SessionWrapperModal } from '../SessionWrapperModal';
 export const CallWindow = styled.div`
   position: absolute;
   z-index: 9;
-  padding: 2rem;
+  padding: 1rem;
   top: 50vh;
   left: 50vw;
   transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
+  background-color: var(--color-modal-background);
+  border: var(--session-border);
 `;
 
 // similar styling to modal header
@@ -28,7 +34,7 @@ const CallWindowHeader = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: center;
+  align-self: center;
 
   padding: $session-margin-lg;
 
@@ -39,30 +45,29 @@ const CallWindowHeader = styled.div`
   font-weight: 700;
 `;
 
-// TODO: Add proper styling for this
-const VideoContainer = styled.video`
-  width: 200px;
-  height: 200px;
+const VideoContainer = styled.div`
+  position: relative;
+  max-height: 60vh;
+`;
+
+const VideoContainerRemote = styled.video`
+  max-height: inherit;
+`;
+const VideoContainerLocal = styled.video`
+  max-height: 45%;
+  max-width: 45%;
+  position: absolute;
+  bottom: 0;
+  right: 0;
 `;
 
 const CallWindowInner = styled.div`
-  position: relative;
-  background-color: pink;
-  border: 1px solid #d3d3d3;
   text-align: center;
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
+  padding: 1rem;
 `;
 
 const CallWindowControls = styled.div`
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: 100%;
-  /* background: green; */
   padding: 5px;
-  transform: translateY(-100%);
 `;
 
 // TODO:
@@ -77,6 +82,24 @@ export const CallContainer = () => {
   const hasOngoingCall = useSelector(getHasOngoingCall);
 
   const ongoingOrIncomingPubkey = ongoingCallProps?.id || incomingCallProps?.id;
+  const videoRefRemote = useRef<any>();
+  const videoRefLocal = useRef<any>();
+  const mountedState = useMountedState();
+
+  useEffect(() => {
+    CallManager.setVideoEventsListener(
+      (localStream: MediaStream | null, remoteStream: MediaStream | null) => {
+        if (mountedState() && videoRefRemote?.current && videoRefLocal?.current) {
+          videoRefLocal.current.srcObject = localStream;
+          videoRefRemote.current.srcObject = remoteStream;
+        }
+      }
+    );
+
+    return () => {
+      CallManager.setVideoEventsListener(null);
+    };
+  }, []);
 
   //#region input handlers
   const handleAcceptIncomingCall = async () => {
@@ -107,26 +130,31 @@ export const CallContainer = () => {
 
   if (hasOngoingCall && ongoingCallProps) {
     return (
-      <CallWindow>
-        <CallWindowInner>
-          <CallWindowHeader>{ongoingCallProps.name}</CallWindowHeader>
-          <VideoContainer autoPlay={true} id="video-remote" />
-          <VideoContainer autoPlay={true} id="video-local" />
+      <Draggable handle=".dragHandle">
+        <CallWindow className="dragHandle">
+          <CallWindowHeader>Call with: {ongoingCallProps.name}</CallWindowHeader>
+
+          <CallWindowInner>
+            <VideoContainer>
+              <VideoContainerRemote ref={videoRefRemote} autoPlay={true} />
+              <VideoContainerLocal ref={videoRefLocal} autoPlay={true} />
+            </VideoContainer>
+          </CallWindowInner>
           <CallWindowControls>
-            <SessionButton text={'end call'} onClick={handleEndCall} />
+            <SessionButton text={window.i18n('endCall')} onClick={handleEndCall} />
           </CallWindowControls>
-        </CallWindowInner>
-      </CallWindow>
+        </CallWindow>
+      </Draggable>
     );
   }
 
   if (hasIncomingCall) {
     return (
-      <SessionWrapperModal title={'incoming call'}>
+      <SessionWrapperModal title={window.i18n('incomingCall')}>
         <div className="session-modal__button-group">
-          <SessionButton text={'decline'} onClick={handleDeclineIncomingCall} />
+          <SessionButton text={window.i18n('decline')} onClick={handleDeclineIncomingCall} />
           <SessionButton
-            text={'accept'}
+            text={window.i18n('accept')}
             onClick={handleAcceptIncomingCall}
             buttonColor={SessionButtonColor.Green}
           />

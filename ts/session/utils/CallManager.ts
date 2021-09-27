@@ -12,6 +12,15 @@ import { ed25519Str } from '../onions/onionPath';
 import { getMessageQueue } from '../sending';
 import { PubKey } from '../types';
 
+type CallManagerListener =
+  | ((localStream: MediaStream | null, remoteStream: MediaStream | null) => void)
+  | null;
+let videoEventsListener: CallManagerListener;
+
+export function setVideoEventsListener(listener: CallManagerListener) {
+  videoEventsListener = listener;
+}
+
 /**
  * This field stores all the details received by a sender about a call in separate messages.
  */
@@ -67,17 +76,15 @@ export async function USER_callRecipient(recipient: string) {
       void iceSenderDebouncer(recipient);
     }
   });
-
-  const localVideo = document.querySelector('#video-local') as any;
-  if (localVideo) {
-    localVideo.srcObject = mediaDevices;
-  }
   const remoteStream = new MediaStream();
 
+  if (videoEventsListener) {
+    videoEventsListener(mediaDevices, remoteStream);
+  }
+
   peerConnection.addEventListener('track', event => {
-    const remoteVideo = document.querySelector('#video-remote') as any;
-    if (remoteVideo) {
-      remoteVideo.srcObject = remoteStream;
+    if (videoEventsListener) {
+      videoEventsListener(mediaDevices, remoteStream);
     }
     remoteStream.addTrack(event.track);
   });
@@ -190,18 +197,15 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
     // window.log.info('USER_acceptIncomingCallRequest adding track ', track);
     peerConnection?.addTrack(track, mediaDevices);
   });
-
-  const localVideo = document.querySelector('#video-local') as any;
-  if (localVideo) {
-    localVideo.srcObject = mediaDevices;
-  }
-
   const remoteStream = new MediaStream();
 
+  if (videoEventsListener) {
+    videoEventsListener(mediaDevices, remoteStream);
+  }
+
   peerConnection.addEventListener('track', event => {
-    const remoteVideo = document.querySelector('#video-remote') as any;
-    if (remoteVideo) {
-      remoteVideo.srcObject = remoteStream;
+    if (videoEventsListener) {
+      videoEventsListener(mediaDevices, remoteStream);
     }
     remoteStream.addTrack(event.track);
   });
@@ -280,13 +284,8 @@ export async function USER_rejectIncomingCallRequest(fromSender: string) {
 
 export function handleEndCallMessage(sender: string) {
   callCache.delete(sender);
-  const remoteVideo = document.querySelector('#video-remote') as any;
-  if (remoteVideo) {
-    remoteVideo.srcObject = null;
-  }
-  const localVideo = document.querySelector('#video-local') as any;
-  if (localVideo) {
-    localVideo.srcObject = null;
+  if (videoEventsListener) {
+    videoEventsListener(null, null);
   }
   //
   // FIXME audric trigger UI cleanup
