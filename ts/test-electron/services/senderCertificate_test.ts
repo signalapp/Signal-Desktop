@@ -218,5 +218,32 @@ describe('SenderCertificateService', () => {
 
       assert.isUndefined(await service.get(SenderCertificateMode.WithE164));
     });
+
+    it('clear waits for any outstanding requests then erases storage', async () => {
+      let count = 0;
+
+      fakeServer = {
+        getSenderCertificate: sinon.spy(async () => {
+          await new Promise(resolve => setTimeout(resolve, 500));
+
+          count += 1;
+          return {
+            certificate: Bytes.toBase64(fakeValidEncodedCertificate),
+          };
+        }),
+      };
+
+      const service = initializeTestService();
+
+      service.get(SenderCertificateMode.WithE164);
+      service.get(SenderCertificateMode.WithoutE164);
+
+      await service.clear();
+
+      assert.equal(count, 2);
+
+      assert.isUndefined(fakeStorage.get('senderCertificate'));
+      assert.isUndefined(fakeStorage.get('senderCertificateNoE164'));
+    });
   });
 });

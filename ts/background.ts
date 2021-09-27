@@ -760,6 +760,11 @@ export async function startApp(): Promise<void> {
         });
       }
 
+      if (window.isBeforeVersion(lastVersion, 'v5.18.0')) {
+        await window.storage.remove('senderCertificate');
+        await window.storage.remove('senderCertificateNoE164');
+      }
+
       // This one should always be last - it could restart the app
       if (window.isBeforeVersion(lastVersion, 'v1.15.0-beta.5')) {
         await deleteAllLogs();
@@ -3345,7 +3350,7 @@ export async function startApp(): Promise<void> {
     );
 
     try {
-      log.info('unlinkAndDisconnect: removing configuration');
+      log.info(`unlinkAndDisconnect: removing configuration, mode ${mode}`);
       await window.textsecure.storage.protocol.removeAllConfiguration(mode);
 
       // This was already done in the database with removeAllConfiguration; this does it
