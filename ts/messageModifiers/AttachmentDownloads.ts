@@ -244,7 +244,7 @@ async function _runJob(job?: AttachmentDownloadJobType): Promise<void> {
 
     if (currentAttempt >= 3) {
       logger.error(
-        `_runJob: ${currentAttempt} failed attempts, marking attachment ${id} from message ${logId} as permament error:`,
+        `_runJob: ${currentAttempt} failed attempts, marking attachment ${id} from message ${logId} as permanent error:`,
         error && error.stack ? error.stack : error
       );
 
