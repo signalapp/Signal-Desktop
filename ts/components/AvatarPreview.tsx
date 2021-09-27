@@ -50,8 +50,14 @@ export const AvatarPreview = ({
 
   const [avatarPreview, setAvatarPreview] = useState<Uint8Array | undefined>();
 
-  // Loads the initial avatarPath if one is provided.
+  // Loads the initial avatarPath if one is provided, but only if we're in editable mode.
+  //   If we're not editable, we assume that we either have an avatarPath or we show a
+  //   default avatar.
   useEffect(() => {
+    if (!isEditable) {
+      return;
+    }
+
     const startingAvatarPath = startingAvatarPathRef.current;
     if (!startingAvatarPath) {
       return noop;
@@ -84,7 +90,7 @@ export const AvatarPreview = ({
     return () => {
       shouldCancel = true;
     };
-  }, [onAvatarLoaded]);
+  }, [onAvatarLoaded, isEditable]);
 
   // Ensures that when avatarValue changes we generate new URLs
   useEffect(() => {
@@ -115,7 +121,7 @@ export const AvatarPreview = ({
   let imageStatus: ImageStatus;
   if (avatarValue && !objectUrl) {
     imageStatus = ImageStatus.Loading;
-  } else if (objectUrl) {
+  } else if (objectUrl || avatarPath) {
     imageStatus = ImageStatus.HasImage;
   } else {
     imageStatus = ImageStatus.Nothing;
@@ -131,7 +137,7 @@ export const AvatarPreview = ({
     componentStyle.cursor = 'pointer';
   }
 
-  if (!avatarPreview) {
+  if (imageStatus === ImageStatus.Nothing) {
     return (
       <div className="AvatarPreview">
         <div
@@ -161,7 +167,7 @@ export const AvatarPreview = ({
           imageStatus === ImageStatus.HasImage
             ? {
                 ...componentStyle,
-                backgroundImage: `url(${objectUrl})`,
+                backgroundImage: `url('${objectUrl || avatarPath}')`,
               }
             : componentStyle
         }
