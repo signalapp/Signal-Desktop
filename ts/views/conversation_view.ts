@@ -110,6 +110,9 @@ import { ToastMaxAttachments } from '../components/ToastMaxAttachments';
 import { ToastOneNonImageAtATime } from '../components/ToastOneNonImageAtATime';
 import { ToastUnableToLoadAttachment } from '../components/ToastUnableToLoadAttachment';
 import { deleteDraftAttachment } from '../util/deleteDraftAttachment';
+import { markAllAsApproved } from '../util/markAllAsApproved';
+import { markAllAsVerifiedDefault } from '../util/markAllAsVerifiedDefault';
+import { retryMessageSend } from '../util/retryMessageSend';
 
 type AttachmentOptions = {
   messageId: string;
@@ -636,9 +639,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     const replyToMessage = (messageId: string) => {
       this.setQuoteMessage(messageId);
     };
-    const retrySend = (messageId: string) => {
-      this.retrySend(messageId);
-    };
+    const retrySend = retryMessageSend;
     const deleteMessage = (messageId: string) => {
       this.deleteMessage(messageId);
     };
@@ -1660,28 +1661,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     }
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  async markAllAsVerifiedDefault(
-    unverified: ReadonlyArray<ConversationModel>
-  ): Promise<void> {
-    await Promise.all(
-      unverified.map(contact => {
-        if (contact.isUnverified()) {
-          return contact.setVerifiedDefault();
-        }
-
-        return null;
-      })
-    );
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  async markAllAsApproved(
-    untrusted: ReadonlyArray<ConversationModel>
-  ): Promise<void> {
-    await Promise.all(untrusted.map(contact => contact.setApproved()));
-  }
-
   captureAudio(e?: Event): void {
     if (e) {
       e.preventDefault();
@@ -1811,15 +1790,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     await this.model.throttledGetProfiles();
 
     this.model.updateVerified();
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  async retrySend(messageId: string): Promise<void> {
-    const message = window.MessageController.getById(messageId);
-    if (!message) {
-      throw new Error(`retrySend: Message ${messageId} missing!`);
-    }
-    await message.retrySend();
   }
 
   async showForwardMessageModal(messageId: string): Promise<void> {
@@ -1968,10 +1938,10 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       let verifyPromise: Promise<void> | undefined;
       let approvePromise: Promise<void> | undefined;
       if (unverifiedContacts.length) {
-        verifyPromise = this.markAllAsVerifiedDefault(unverifiedContacts);
+        verifyPromise = markAllAsVerifiedDefault(unverifiedContacts);
       }
       if (untrustedContacts.length) {
-        approvePromise = this.markAllAsApproved(untrustedContacts);
+        approvePromise = markAllAsApproved(untrustedContacts);
       }
       await Promise.all([verifyPromise, approvePromise]);
     }
@@ -3249,7 +3219,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
     if (options.force) {
       if (unverifiedContacts.length) {
-        await this.markAllAsVerifiedDefault(unverifiedContacts.models);
+        await markAllAsVerifiedDefault(unverifiedContacts.models);
         // We only want force to break us through one layer of checks
         // eslint-disable-next-line no-param-reassign
         options.force = false;
@@ -3262,7 +3232,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
     if (options.force) {
       if (untrustedContacts.length) {
-        await this.markAllAsApproved(untrustedContacts.models);
+        await markAllAsApproved(untrustedContacts.models);
       }
     } else if (untrustedContacts.length) {
       return untrustedContacts;
