@@ -7,7 +7,7 @@ import PQueue from 'p-queue';
 import type { LoggerType } from '../types/Logging';
 import { exponentialBackoffMaxAttempts } from '../util/exponentialBackoff';
 import { commonShouldJobContinue } from './helpers/commonShouldJobContinue';
-import { sleepFor413RetryAfterTimeIfApplicable } from './helpers/sleepFor413RetryAfterTimeIfApplicable';
+import { sleepFor413RetryAfterTime } from './helpers/sleepFor413RetryAfterTime';
 import type { MessageModel } from '../models/messages';
 import { getMessageById } from '../messages/getMessageById';
 import type { ConversationModel } from '../models/conversations';
@@ -20,10 +20,8 @@ import { getSendOptions } from '../util/getSendOptions';
 import { SignalService as Proto } from '../protobuf';
 import { handleMessageSend } from '../util/handleMessageSend';
 import type { CallbackResultType } from '../textsecure/Types.d';
-import { HTTPError } from '../textsecure/Errors';
 import { isSent } from '../messages/MessageSendState';
 import { getLastChallengeError, isOutgoing } from '../state/selectors/message';
-import { parseIntWithFallback } from '../util/parseIntWithFallback';
 import * as Errors from '../types/errors';
 import type {
   AttachmentType,
@@ -38,6 +36,7 @@ import type { ParsedJob } from './types';
 import { JobQueue } from './JobQueue';
 import { jobQueueDatabaseStore } from './JobQueueDatabaseStore';
 import { Job } from './Job';
+import { getHttpErrorCode } from './helpers/getHttpErrorCode';
 
 const {
   loadAttachmentData,
@@ -338,15 +337,12 @@ export class NormalMessageSendJobQueue extends JobQueue<NormalMessageSendJobData
     } catch (err: unknown) {
       const formattedMessageSendErrors: Array<string> = [];
       let serverAskedUsToStop = false;
-      let maybe413Error: undefined | Error;
+      let retryAfterError: unknown;
       messageSendErrors.forEach((messageSendError: unknown) => {
         formattedMessageSendErrors.push(Errors.toLogFormat(messageSendError));
-        if (!(messageSendError instanceof HTTPError)) {
-          return;
-        }
-        switch (parseIntWithFallback(messageSendError.code, -1)) {
+        switch (getHttpErrorCode(messageSendError)) {
           case 413:
-            maybe413Error ||= messageSendError;
+            retryAfterError ||= messageSendError;
             break;
           case 508:
             serverAskedUsToStop = true;
@@ -370,9 +366,9 @@ export class NormalMessageSendJobQueue extends JobQueue<NormalMessageSendJobData
         return;
       }
 
-      if (!isFinalAttempt) {
-        await sleepFor413RetryAfterTimeIfApplicable({
-          err: maybe413Error,
+      if (!isFinalAttempt && retryAfterError) {
+        await sleepFor413RetryAfterTime({
+          err: retryAfterError,
           log,
           timeRemaining,
         });

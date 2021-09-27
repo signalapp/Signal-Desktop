@@ -6,7 +6,7 @@ import * as sinon from 'sinon';
 import { HTTPError } from '../../../textsecure/Errors';
 import * as durations from '../../../util/durations';
 
-import { sleepFor413RetryAfterTimeIfApplicable } from '../../../jobs/helpers/sleepFor413RetryAfterTimeIfApplicable';
+import { sleepFor413RetryAfterTime } from '../../../jobs/helpers/sleepFor413RetryAfterTime';
 
 describe('sleepFor413RetryAfterTimeIfApplicable', () => {
   const createLogger = () => ({ info: sinon.spy() });
@@ -23,39 +23,28 @@ describe('sleepFor413RetryAfterTimeIfApplicable', () => {
     sandbox.restore();
   });
 
-  it('does nothing if not passed a 413 HTTP error', async () => {
+  it('does nothing if no time remains', async () => {
     const log = createLogger();
 
-    const errors = [
-      undefined,
-      new Error('Normal error'),
-      new HTTPError('Uh oh', { code: 422, headers: {}, response: {} }),
-    ];
     await Promise.all(
-      errors.map(async err => {
-        await sleepFor413RetryAfterTimeIfApplicable({
-          err,
+      [-1, 0].map(timeRemaining =>
+        sleepFor413RetryAfterTime({
+          err: {},
           log,
-          timeRemaining: 1234,
-        });
-      })
+          timeRemaining,
+        })
+      )
     );
 
     sinon.assert.notCalled(log.info);
   });
 
-  it('waits for 1 second if receiving a 413 HTTP error without a Retry-After header', async () => {
-    const err = new HTTPError('Slow down', {
-      code: 413,
-      headers: {},
-      response: {},
-    });
-
+  it('waits for 1 second if the error lacks Retry-After info', async () => {
     let done = false;
 
     (async () => {
-      await sleepFor413RetryAfterTimeIfApplicable({
-        err,
+      await sleepFor413RetryAfterTime({
+        err: {},
         log: createLogger(),
         timeRemaining: 1234,
       });
@@ -69,7 +58,7 @@ describe('sleepFor413RetryAfterTimeIfApplicable', () => {
     assert.isTrue(done);
   });
 
-  it('waits for Retry-After seconds if receiving a 413', async () => {
+  it('finds the Retry-After header on an HTTPError', async () => {
     const err = new HTTPError('Slow down', {
       code: 413,
       headers: { 'retry-after': '200' },
@@ -79,8 +68,33 @@ describe('sleepFor413RetryAfterTimeIfApplicable', () => {
     let done = false;
 
     (async () => {
-      await sleepFor413RetryAfterTimeIfApplicable({
+      await sleepFor413RetryAfterTime({
         err,
+        log: createLogger(),
+        timeRemaining: 123456789,
+      });
+      done = true;
+    })();
+
+    await clock.tickAsync(199 * durations.SECOND);
+    assert.isFalse(done);
+
+    await clock.tickAsync(2 * durations.SECOND);
+    assert.isTrue(done);
+  });
+
+  it('finds the Retry-After on an HTTPError nested under a wrapper error', async () => {
+    const httpError = new HTTPError('Slow down', {
+      code: 413,
+      headers: { 'retry-after': '200' },
+      response: {},
+    });
+
+    let done = false;
+
+    (async () => {
+      await sleepFor413RetryAfterTime({
+        err: { httpError },
         log: createLogger(),
         timeRemaining: 123456789,
       });
@@ -104,7 +118,7 @@ describe('sleepFor413RetryAfterTimeIfApplicable', () => {
     let done = false;
 
     (async () => {
-      await sleepFor413RetryAfterTimeIfApplicable({
+      await sleepFor413RetryAfterTime({
         err,
         log: createLogger(),
         timeRemaining: 3 * durations.SECOND,
@@ -124,7 +138,7 @@ describe('sleepFor413RetryAfterTimeIfApplicable', () => {
       response: {},
     });
 
-    sleepFor413RetryAfterTimeIfApplicable({ err, log, timeRemaining: 9999999 });
+    sleepFor413RetryAfterTime({ err, log, timeRemaining: 9999999 });
     await clock.nextAsync();
 
     sinon.assert.calledOnce(log.info);

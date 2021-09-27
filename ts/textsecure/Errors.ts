@@ -99,9 +99,9 @@ export class OutgoingIdentityKeyError extends ReplayableError {
 }
 
 export class OutgoingMessageError extends ReplayableError {
-  identifier: string;
+  readonly identifier: string;
 
-  code?: number;
+  readonly httpError?: HTTPError;
 
   // Note: Data to resend message is no longer captured
   constructor(
@@ -120,18 +120,20 @@ export class OutgoingMessageError extends ReplayableError {
     this.identifier = identifier;
 
     if (httpError) {
-      this.code = httpError.code;
+      this.httpError = httpError;
       appendStack(this, httpError);
     }
+  }
+
+  get code(): undefined | number {
+    return this.httpError?.code;
   }
 }
 
 export class SendMessageNetworkError extends ReplayableError {
-  code: number;
+  readonly identifier: string;
 
-  identifier: string;
-
-  responseHeaders?: HeaderListType | undefined;
+  readonly httpError: HTTPError;
 
   constructor(identifier: string, _m: unknown, httpError: HTTPError) {
     super({
@@ -140,10 +142,17 @@ export class SendMessageNetworkError extends ReplayableError {
     });
 
     [this.identifier] = identifier.split('.');
-    this.code = httpError.code;
-    this.responseHeaders = httpError.responseHeaders;
+    this.httpError = httpError;
 
     appendStack(this, httpError);
+  }
+
+  get code(): number {
+    return this.httpError.code;
+  }
+
+  get responseHeaders(): undefined | HeaderListType {
+    return this.httpError.responseHeaders;
   }
 }
 
@@ -153,9 +162,9 @@ export type SendMessageChallengeData = {
 };
 
 export class SendMessageChallengeError extends ReplayableError {
-  public code: number;
-
   public identifier: string;
+
+  public readonly httpError: HTTPError;
 
   public readonly data: SendMessageChallengeData | undefined;
 
@@ -168,7 +177,8 @@ export class SendMessageChallengeError extends ReplayableError {
     });
 
     [this.identifier] = identifier.split('.');
-    this.code = httpError.code;
+    this.httpError = httpError;
+
     this.data = httpError.response as SendMessageChallengeData;
 
     const headers = httpError.responseHeaders || {};
@@ -176,6 +186,10 @@ export class SendMessageChallengeError extends ReplayableError {
     this.retryAfter = Date.now() + parseRetryAfter(headers['retry-after']);
 
     appendStack(this, httpError);
+  }
+
+  get code(): number {
+    return this.httpError.code;
   }
 }
 
@@ -244,7 +258,7 @@ export class SignedPreKeyRotationError extends ReplayableError {
 }
 
 export class MessageError extends ReplayableError {
-  code: number;
+  readonly httpError: HTTPError;
 
   constructor(_m: unknown, httpError: HTTPError) {
     super({
@@ -252,16 +266,20 @@ export class MessageError extends ReplayableError {
       message: httpError.message,
     });
 
-    this.code = httpError.code;
+    this.httpError = httpError;
 
     appendStack(this, httpError);
+  }
+
+  get code(): number {
+    return this.httpError.code;
   }
 }
 
 export class UnregisteredUserError extends Error {
-  identifier: string;
+  readonly identifier: string;
 
-  code: number;
+  readonly httpError: HTTPError;
 
   constructor(identifier: string, httpError: HTTPError) {
     const { message } = httpError;
@@ -278,9 +296,13 @@ export class UnregisteredUserError extends Error {
     }
 
     this.identifier = identifier;
-    this.code = httpError.code;
+    this.httpError = httpError;
 
     appendStack(this, httpError);
+  }
+
+  get code(): number {
+    return this.httpError.code;
   }
 }
 

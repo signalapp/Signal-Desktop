@@ -7,7 +7,7 @@ import { parseRetryAfter } from '../../util/parseRetryAfter';
 import { isRecord } from '../../util/isRecord';
 import { HTTPError } from '../../textsecure/Errors';
 
-export async function sleepFor413RetryAfterTimeIfApplicable({
+export async function sleepFor413RetryAfterTime({
   err,
   log,
   timeRemaining,
@@ -16,17 +16,12 @@ export async function sleepFor413RetryAfterTimeIfApplicable({
   log: Pick<LoggerType, 'info'>;
   timeRemaining: number;
 }>): Promise<void> {
-  if (
-    timeRemaining <= 0 ||
-    !(err instanceof HTTPError) ||
-    err.code !== 413 ||
-    !isRecord(err.responseHeaders)
-  ) {
+  if (timeRemaining <= 0) {
     return;
   }
 
   const retryAfter = Math.min(
-    parseRetryAfter(err.responseHeaders['retry-after']),
+    parseRetryAfter(findRetryAfterTime(err)),
     timeRemaining
   );
 
@@ -35,4 +30,20 @@ export async function sleepFor413RetryAfterTimeIfApplicable({
   );
 
   await sleep(retryAfter);
+}
+
+function findRetryAfterTime(err: unknown): unknown {
+  if (!isRecord(err)) {
+    return undefined;
+  }
+
+  if (isRecord(err.responseHeaders)) {
+    return err.responseHeaders['retry-after'];
+  }
+
+  if (err.httpError instanceof HTTPError) {
+    return err.httpError.responseHeaders?.['retry-after'];
+  }
+
+  return undefined;
 }
