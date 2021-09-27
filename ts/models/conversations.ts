@@ -54,6 +54,7 @@ import { migrateColor } from '../util/migrateColor';
 import { isNotNil } from '../util/isNotNil';
 import { dropNull } from '../util/dropNull';
 import { ourProfileKeyService } from '../services/ourProfileKey';
+import { notificationService } from '../services/notifications';
 import { getSendOptions } from '../util/getSendOptions';
 import { isConversationAccepted } from '../util/isConversationAccepted';
 import { markConversationRead } from '../util/markConversationRead';
@@ -4855,7 +4856,7 @@ export class ConversationModel extends window.Backbone
   ): Promise<void> {
     // As a performance optimization don't perform any work if notifications are
     // disabled.
-    if (!window.Whisper.Notifications.isEnabled) {
+    if (!notificationService.isEnabled) {
       return;
     }
 
@@ -4908,7 +4909,7 @@ export class ConversationModel extends window.Backbone
     const messageId = message.id;
     const isExpiringMessage = Message.hasExpiration(messageJSON);
 
-    window.Whisper.Notifications.add({
+    notificationService.add({
       senderTitle,
       conversationId,
       notificationIconUrl,

@@ -26,12 +26,16 @@ import {
   SmartSafetyNumberViewer,
   Props as SafetyNumberViewerProps,
 } from './SafetyNumberViewer';
-import { notify } from '../../services/notify';
 import { callingTones } from '../../util/callingTones';
 import {
   bounceAppIconStart,
   bounceAppIconStop,
 } from '../../shims/bounceAppIcon';
+import {
+  FALLBACK_NOTIFICATION_TITLE,
+  NotificationSetting,
+  notificationService,
+} from '../../services/notifications';
 import * as log from '../../logging/log';
 
 function renderDeviceSelection(): JSX.Element {
@@ -55,8 +59,27 @@ async function notifyForCall(
   if (!shouldNotify) {
     return;
   }
-  notify({
-    title,
+
+  let notificationTitle: string;
+
+  const notificationSetting = notificationService.getNotificationSetting();
+  switch (notificationSetting) {
+    case NotificationSetting.Off:
+    case NotificationSetting.NoNameOrMessage:
+      notificationTitle = FALLBACK_NOTIFICATION_TITLE;
+      break;
+    case NotificationSetting.NameOnly:
+    case NotificationSetting.NameAndMessage:
+      notificationTitle = title;
+      break;
+    default:
+      log.error(missingCaseError(notificationSetting));
+      notificationTitle = FALLBACK_NOTIFICATION_TITLE;
+      break;
+  }
+
+  notificationService.notify({
+    title: notificationTitle,
     icon: isVideoCall
       ? 'images/icons/v2/video-solid-24.svg'
       : 'images/icons/v2/phone-right-solid-24.svg',

@@ -9,6 +9,7 @@ import { MessageModel } from '../models/messages';
 import { ReadStatus } from '../messages/MessageReadStatus';
 import { markViewed } from '../services/MessageUpdater';
 import { isIncoming } from '../state/selectors/message';
+import { notificationService } from '../services/notifications';
 import * as log from '../logging/log';
 
 type ViewSyncAttributesType = {
@@ -83,7 +84,7 @@ export class ViewSyncs extends Collection {
         return;
       }
 
-      window.Whisper.Notifications.removeBy({ messageId: found.id });
+      notificationService.removeBy({ messageId: found.id });
 
       const message = window.MessageController.register(found.id, found);
 

@@ -5,6 +5,7 @@ import { ConversationAttributesType } from '../model-types.d';
 import { sendReadReceiptsFor } from './sendReadReceiptsFor';
 import { hasErrors } from '../state/selectors/message';
 import { readSyncJobQueue } from '../jobs/readSyncJobQueue';
+import { notificationService } from '../services/notifications';
 import * as log from '../logging/log';
 
 export async function markConversationRead(
@@ -39,7 +40,7 @@ export async function markConversationRead(
     return false;
   }
 
-  window.Whisper.Notifications.removeBy({ conversationId });
+  notificationService.removeBy({ conversationId });
 
   const unreadReactionSyncData = new Map<
     string,
