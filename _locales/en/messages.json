@@ -177,15 +177,15 @@
   },
   "avatarMenuViewArchive": {
     "message": "View Archive",
-    "description": "One of the menu options available in the Avatar Popup menu"
+    "description": "One of the menu options available in the Avatar popup menu"
   },
   "avatarMenuChatColors": {
     "message": "Chat Color",
-    "description": "One of the menu options available in the Avatar Popup menu"
+    "description": "One of the menu options available in the Avatar popup menu"
   },
   "avatarMenuUpdateAvailable": {
     "message": "Update Signal",
-    "description": "One of the menu options available in the Avatar Popup menu"
+    "description": "One of the menu options available in the Avatar popup menu"
   },
   "loading": {
     "message": "Loading...",
@@ -863,7 +863,7 @@
   },
   "mobile": {
     "message": "mobile",
-    "description": "Shown on contact detail screen as a label for aa phone or email"
+    "description": "Shown on contact detail screen as a label for a phone or email"
   },
   "email": {
     "message": "email",
@@ -1244,7 +1244,7 @@
   },
   "save": {
     "message": "Save",
-    "description": "Used on save buttons"
+    "description": "Used as a 'commit changes' button in the caption editor for outgoing image attachments"
   },
   "reset": {
     "message": "Reset",
@@ -1632,7 +1632,7 @@
   },
   "calling__block-info": {
     "message": "You won't receive their audio or video and they won't receive yours.",
-    "description": "Shown in the modal dialog to describe how blocking works in a gorup call"
+    "description": "Shown in the modal dialog to describe how blocking works in a group call"
   },
   "calling__overflow__scroll-up": {
     "message": "Scroll up",
@@ -2451,6 +2451,7 @@
   },
   "message--getNotificationText--text-with-emoji": {
     "message": "$emoji$ $text$",
+    "description": "Shown in notifications and in the left pane when text has an emoji. Probably always [emoji] [text] on LTR languages and [text] [emoji] on RTL languages.",
     "placeholders": {
       "emoji": {
         "content": "$1",
@@ -2460,8 +2461,7 @@
         "content": "$2",
         "example": "Photo"
       }
-    },
-    "description": "Shown in notifications and in the left pane when text has an emoji. Probably always [emoji] [text] on LTR languages and [text] [emoji] on RTL languages."
+    }
   },
   "message--getDescription--unsupported-message": {
     "message": "Unsupported message",
@@ -2597,13 +2597,13 @@
   },
   "EmojiPicker--skin-tone": {
     "message": "Skin tone $tone$",
+    "description": "Shown as a tooltip over the emoji tone buttons.",
     "placeholders": {
       "status": {
         "content": "$1",
         "example": "2"
       }
-    },
-    "description": "Shown as a tooltip over the emoji tone buttons."
+    }
   },
   "EmojiPicker__button--recents": {
     "message": "Recents",
@@ -3816,15 +3816,15 @@
 
   "ErrorModal--title": {
     "message": "Something went wrong!",
-    "description": "Title of pop-up dialog when user-initiated task has gone wrong"
+    "description": "Title of popup dialog when user-initiated task has gone wrong"
   },
   "ErrorModal--description": {
     "message": "Please try again or contact support.",
-    "description": "Description text in pop-up dialog when user-initiated task has gone wrong"
+    "description": "Description text in popup dialog when user-initiated task has gone wrong"
   },
   "Confirmation--confirm": {
     "message": "Okay",
-    "description": "Button to dismiss pop-up dialog when user-initiated task has gone wrong"
+    "description": "Button to dismiss popup dialog when user-initiated task has gone wrong"
   },
 
   "unknown-sgnl-link": {
@@ -4519,8 +4519,8 @@
   "GroupV2--member-privilege--demote--other--unknown": {
     "message": "An admin revoked admin privileges from $memberName$.",
     "description": "Shown in timeline or conversation preview when v2 group changes",
-    "memberName": {
-      "adminName": {
+    "placeholders": {
+      "memberName": {
         "content": "$1",
         "example": "Bob"
       }
@@ -5310,7 +5310,7 @@
   },
   "ConversationDetails--announcement-info": {
     "message": "Choose who can send messages to the group.",
-    "description": "This is the additional info for the 'who can send mesages' panel"
+    "description": "This is the additional info for the 'who can send messages' panel"
   },
   "ConversationDetails--requests-and-invites": {
     "message": "Requests & Invites",
@@ -5525,7 +5525,7 @@
     }
   },
   "PendingInvites--revoke-from-plural": {
-    "message": "Revoke $number$ invites sent by \"$name$\"",
+    "message": "Revoke $number$ invites sent by \"$name$\"?",
     "description": "This is the modal content when confirming revoking multiple invites",
     "placeholders": {
       "number": {
@@ -5552,7 +5552,7 @@
   },
   "PendingRequests--info": {
     "message": "People on this list are attempting to join \"$name$\" via the group link.",
-    "description": "Inforamtion shown below the pending admin approval list",
+    "description": "Information shown below the pending admin approval list",
     "placeholders": {
       "name": {
         "content": "$1",
@@ -5882,7 +5882,7 @@
   },
   "deleteForEveryoneFailed": {
     "message": "Failed to delete message for everyone. Please retry later.",
-    "description": "Displayed when delete-for-everyone has failed to send to all recepients"
+    "description": "Displayed when delete-for-everyone has failed to send to all recipients"
   },
   "ChatColorPicker__delete--title": {
     "message": "Delete color",
@@ -6024,7 +6024,7 @@
   },
   "settings__DisappearingMessages__timer__label": {
     "message": "Default timer for new chats",
-    "description": "Label for the Disapearring Messages default timer setting"
+    "description": "Label for the Disappearing Messages default timer setting"
   },
   "UniversalTimerNotification__text": {
     "message": "The disappearing message time will be set to $timeValue$ when you message them.",
