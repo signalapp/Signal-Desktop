@@ -259,33 +259,37 @@ export class NormalMessageSendJobQueue extends JobQueue<NormalMessageSendJobData
         let innerPromise: Promise<CallbackResultType>;
         if (conversationType === Message.GROUP) {
           log.info('sending group message');
-          innerPromise = window.Signal.Util.sendToGroup({
-            groupSendOptions: {
-              attachments,
-              deletedForEveryoneTimestamp,
-              expireTimer,
-              groupV1: updateRecipients(
-                conversation.getGroupV1Info(),
-                recipientIdentifiersWithoutMe
-              ),
-              groupV2: updateRecipients(
-                conversation.getGroupV2Info(),
-                recipientIdentifiersWithoutMe
-              ),
-              messageText: body,
-              preview,
-              profileKey,
-              quote,
-              sticker,
-              timestamp: messageTimestamp,
-              mentions,
-            },
-            conversation,
-            contentHint: ContentHint.RESENDABLE,
-            messageId,
-            sendOptions,
-            sendType: 'message',
-          });
+          innerPromise = conversation.queueJob(
+            'normalMessageSendJobQueue',
+            () =>
+              window.Signal.Util.sendToGroup({
+                groupSendOptions: {
+                  attachments,
+                  deletedForEveryoneTimestamp,
+                  expireTimer,
+                  groupV1: updateRecipients(
+                    conversation.getGroupV1Info(),
+                    recipientIdentifiersWithoutMe
+                  ),
+                  groupV2: updateRecipients(
+                    conversation.getGroupV2Info(),
+                    recipientIdentifiersWithoutMe
+                  ),
+                  messageText: body,
+                  preview,
+                  profileKey,
+                  quote,
+                  sticker,
+                  timestamp: messageTimestamp,
+                  mentions,
+                },
+                conversation,
+                contentHint: ContentHint.RESENDABLE,
+                messageId,
+                sendOptions,
+                sendType: 'message',
+              })
+          );
         } else {
           log.info('sending direct message');
           innerPromise = window.textsecure.messaging.sendMessageToIdentifier({
