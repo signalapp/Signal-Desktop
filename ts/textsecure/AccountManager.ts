@@ -18,6 +18,8 @@ import ProvisioningCipher from './ProvisioningCipher';
 import { IncomingWebSocketRequest } from './WebsocketResources';
 import createTaskWithTimeout from './TaskWithTimeout';
 import * as Bytes from '../Bytes';
+import { RemoveAllConfiguration } from '../types/RemoveAllConfiguration';
+import { senderCertificateService } from '../services/senderCertificate';
 import {
   deriveAccessKey,
   generateRegistrationId,
@@ -520,33 +522,32 @@ export default class AccountManager extends EventTarget {
     if (uuidChanged || numberChanged) {
       if (uuidChanged) {
         log.warn(
-          'New uuid is different from old uuid; deleting all previous data'
+          'createAccount: New uuid is different from old uuid; deleting all previous data'
         );
       }
       if (numberChanged) {
         log.warn(
-          'New number is different from old number; deleting all previous data'
+          'createAccount: New number is different from old number; deleting all previous data'
         );
       }
 
       try {
         await storage.protocol.removeAllData();
-        log.info('Successfully deleted previous data');
+        log.info('createAccount: Successfully deleted previous data');
       } catch (error) {
         log.error(
           'Something went wrong deleting data from previous number',
           error && error.stack ? error.stack : error
         );
       }
+    } else {
+      log.info('createAccount: Erasing configuration (soft)');
+      await storage.protocol.removeAllConfiguration(
+        RemoveAllConfiguration.Soft
+      );
     }
 
-    await Promise.all([
-      storage.user.removeCredentials(),
-      storage.remove('regionCode'),
-      storage.remove('userAgent'),
-      storage.remove('profileKey'),
-      storage.remove('read-receipt-setting'),
-    ]);
+    await senderCertificateService.clear();
 
     if (previousUuid) {
       await Promise.all([
