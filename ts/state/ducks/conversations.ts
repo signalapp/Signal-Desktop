@@ -2329,17 +2329,22 @@ export function reducer(
       : 0;
 
     const lookup = fromPairs(messages.map(message => [message.id, message]));
+    const sorted = orderBy(
+      values(lookup),
+      ['received_at', 'sent_at'],
+      ['ASC', 'ASC']
+    );
 
     let { newest, oldest } = metrics;
 
     // If our metrics are a little out of date, we'll fix them up
-    if (messages.length > 0) {
-      const first = messages[0];
+    if (sorted.length > 0) {
+      const first = sorted[0];
       if (first && (!oldest || first.received_at <= oldest.received_at)) {
         oldest = pick(first, ['id', 'received_at', 'sent_at']);
       }
 
-      const last = messages[messages.length - 1];
+      const last = sorted[sorted.length - 1];
       if (
         last &&
         (!newest || unboundedFetch || last.received_at >= newest.received_at)
@@ -2348,11 +2353,6 @@ export function reducer(
       }
     }
 
-    const sorted = orderBy(
-      values(lookup),
-      ['received_at', 'sent_at'],
-      ['ASC', 'ASC']
-    );
     const messageIds = sorted.map(message => message.id);
 
     return {
