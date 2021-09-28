@@ -72,18 +72,23 @@
     }
   }
 
+  &__shadow-container {
+    display: flex;
+    height: 100%;
+    padding: 0 16px;
+    position: absolute;
+    width: 100%;
+    z-index: 0;
+  }
+
   &__object {
     &--container {
       display: inline-flex;
       flex-grow: 1;
       justify-content: center;
-      margin: 0 40px;
       overflow: hidden;
       position: relative;
-
-      &--zoomed {
-        margin: 0;
-      }
+      z-index: 1;
     }
 
     height: auto;
@@ -92,15 +97,32 @@
     max-width: 100%;
     object-fit: contain;
     outline: none;
+    padding: 0 40px;
     position: absolute;
     top: 50%;
     transform: translate(-50%, -50%);
     width: auto;
   }
 
-  &__object--container--zoomed &__object {
-    width: 100%;
+  &__shadow-container &__object {
+    max-height: 200%;
+    max-width: 200%;
+    padding: 0;
+    visibility: hidden;
+  }
+
+  &__object--container--fill &__object {
     height: 100%;
+    padding: 0;
+    width: 100%;
+  }
+
+  &__object--container--zoom &__object {
+    left: 0;
+    max-height: 200%;
+    max-width: 200%;
+    padding: 0;
+    top: 0;
   }
 
   &__unsupported {
@@ -135,7 +157,8 @@
     cursor: zoom-in;
   }
 
-  &__object--container--zoomed {
+  &__object--container--zoom,
+  &__object--container--fill {
     .Lightbox__zoom-button {
       cursor: zoom-out;
     }
