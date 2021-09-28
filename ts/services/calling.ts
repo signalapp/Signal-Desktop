@@ -670,12 +670,12 @@ export class CallingClass {
     return outerGroupCall;
   }
 
-  public joinGroupCall(
+  public async joinGroupCall(
     conversationId: string,
     hasLocalAudio: boolean,
     hasLocalVideo: boolean,
     shouldRing: boolean
-  ): void {
+  ): Promise<void> {
     const conversation = window.ConversationController.get(
       conversationId
     )?.format();
@@ -694,6 +694,8 @@ export class CallingClass {
       );
       return;
     }
+
+    await this.startDeviceReselectionTimer();
 
     const groupCall = this.connectGroupCall(conversationId, {
       groupId: conversation.groupId,
