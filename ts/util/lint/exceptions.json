@@ -13694,6 +13694,13 @@
     "updated": "2021-09-15T21:07:50.995Z"
   },
   {
+    "rule": "jQuery-$(",
+    "path": "ts/views/install_view.js",
+    "line": "        this.$('#qr img').attr('alt', window.i18n('LinkScreen__scan-this-code'));",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-09-28T00:13:42.086Z"
+  },
+  {
     "rule": "jQuery-html(",
     "path": "ts/views/install_view.js",
     "line": "    template: () => $('#link-flow-template').html(),",
@@ -13804,6 +13811,13 @@
     "line": "          this.$(DEVICE_NAME_SELECTOR).focus();",
     "reasonCategory": "usageTrusted",
     "updated": "2021-09-15T21:07:50.995Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "ts/views/install_view.ts",
+    "line": "    this.$('#qr img').attr('alt', window.i18n('LinkScreen__scan-this-code'));",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-09-28T00:13:42.086Z"
   },
   {
     "rule": "jQuery-html(",

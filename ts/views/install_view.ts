@@ -169,6 +169,7 @@ Whisper.InstallView = Whisper.View.extend({
     this.qr = new window.QRCode(this.$('#qr')[0]).makeCode(url);
     this.$('#qr').removeAttr('title');
     this.$('#qr').addClass('ready');
+    this.$('#qr img').attr('alt', window.i18n('LinkScreen__scan-this-code'));
   },
   setDeviceNameDefault() {
     const deviceName = window.textsecure.storage.user.getDeviceName();

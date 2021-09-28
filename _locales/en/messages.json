@@ -1282,6 +1282,10 @@
     "message": "Link New Device",
     "description": "The menu option shown in Signal iOS to add a new linked device"
   },
+  "LinkScreen__scan-this-code": {
+    "message": "Scan this code in the Signal app on your phone",
+    "description": "Alt text for the QR code on the device link screen"
+  },
   "Preferences--device-name": {
     "message": "Device name",
     "description": "The label in settings panel shown for the user-provided name for this desktop instance"
