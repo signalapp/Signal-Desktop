@@ -1269,7 +1269,11 @@
     },
     "save": {
         "message": "Kaydet",
-        "description": "Used as a 'commit changes' button in the Caption Editor for outgoing image attachments"
+        "description": "Used on save buttons"
+    },
+    "reset": {
+        "message": "Sıfırla",
+        "description": "Used on reset buttons"
     },
     "fileIconAlt": {
         "message": "Dosya ikonu",
@@ -1346,6 +1350,14 @@
     "calling": {
         "message": "Arama",
         "description": "Header for calling options on the settings screen"
+    },
+    "calling__call-back": {
+        "message": "Geri Ara",
+        "description": "Button to call someone back"
+    },
+    "calling__call-again": {
+        "message": "Tekrar Ara",
+        "description": "Button to call someone again"
     },
     "calling__start": {
         "message": "Arama Başlat",
@@ -2363,6 +2375,10 @@
     },
     "autoUpdateLaterButtonLabel": {
         "message": "Sonra",
+        "description": ""
+    },
+    "autoUpdateIgnoreButtonLabel": {
+        "message": "Güncellemeyi yoksay",
         "description": ""
     },
     "leftTheGroup": {
@@ -3405,7 +3421,7 @@
     },
     "member-of-2-groups": {
         "message": "$group1$ ve $group2$ grubuna üye",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups",
+        "description": "Shown in the conversation hero to indicate this user is a member of two mutual groups",
         "placeholders": {
             "group1": {
                 "content": "$1",
@@ -3419,7 +3435,7 @@
     },
     "member-of-3-groups": {
         "message": "$group1$, $group2$ ve $group3$ grubuna üye",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
+        "description": "Shown in the conversation hero to indicate this user is a member of three mutual groups",
         "placeholders": {
             "group1": {
                 "content": "$1",
@@ -3435,9 +3451,45 @@
             }
         }
     },
-    "member-of-more-than-3-groups": {
+    "member-of-more-than-3-groups--one-more": {
+        "message": "$group1$, $group2$, $group3$ ve 1 diğer gruba üye",
+        "description": "Shown in the conversation hero to indicate this user is a member of four mutual groups",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            },
+            "group3": {
+                "content": "$3",
+                "example": "Friends 🌿"
+            }
+        }
+    },
+    "member-of-more-than-3-groups--multiple-more": {
         "message": "$group1$, $group2$, $group3$ ve $remainingCount$ diğer gruba üye",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
+        "description": "Shown in the conversation hero to indicate this user is a member of 5+ mutual groups.",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            },
+            "group3": {
+                "content": "$3",
+                "example": "Friends 🌿"
+            },
+            "remainingCount": {
+                "content": "$4",
+                "example": "3"
+            }
+        }
     },
     "ConversationHero--membership-added": {
         "message": "$name$ sizi gruba ekledi.",
@@ -3714,7 +3766,7 @@
         "description": "Title for the select your screen sharing sources modal"
     },
     "calling__SelectPresentingSourcesModal--confirm": {
-        "message": "Ekran paylaş",
+        "message": "Paylaşmaya başla",
         "description": "Confirm button for sharing screen modal"
     },
     "calling__SelectPresentingSourcesModal--entireScreen": {
@@ -5214,7 +5266,7 @@
         }
     },
     "ContactModal--rm-admin-info": {
-        "message": "$contact$ kişisini grup yöneticiliğinden çıkart",
+        "message": "$contact$ grup yöneticiliğinden çıkartılsın mı?",
         "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone",
         "placeholders": {
             "contact": {
@@ -5640,7 +5692,7 @@
         "description": "The text of the button to create new groups"
     },
     "selectContact": {
-        "message": "Kişi seç",
+        "message": "$name$ kişisini seç",
         "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)",
         "placeholders": {
             "name": {
@@ -5650,7 +5702,7 @@
         }
     },
     "deselectContact": {
-        "message": "Kişi seçimini kaldır",
+        "message": "$name$ kişisi seçimini kaldır",
         "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)",
         "placeholders": {
             "name": {
@@ -5660,7 +5712,7 @@
         }
     },
     "cannotSelectContact": {
-        "message": "Kişi seçilemiyor",
+        "message": "$name$ kişisi seçilemiyor",
         "description": "The label for contact checkboxes that are disabled",
         "placeholders": {
             "name": {
@@ -6315,29 +6367,29 @@
             }
         }
     },
+    "NSIS__retry-dialog--first-line": {
+        "message": "Signal kapatılamaz.",
+        "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
+    },
+    "NSIS__retry-dialog--second-line": {
+        "message": "Lütfen elle kapatın ve devam etmek için Tekrar'a tıklayın",
+        "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
+    },
+    "CustomizingPreferredReactions__title": {
+        "message": "Tepkileri özelleştir",
+        "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
+    },
+    "CustomizingPreferredReactions__subtitle": {
+        "message": "Emojiyi değiştirmek için tıklayın",
+        "description": "Instructions in the modal for customizing the preferred reactions."
+    },
+    "CustomizingPreferredReactions__had-save-error": {
+        "message": "Ayarlarınız kaydedilirken bir hata oluştu. Lütfen daha sonra tekrar deneyin.",
+        "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
+    },
     "WhatsNew__modal-title": {
         "message": "Neler Yeni",
         "description": "Title for the whats new modal"
-    },
-    "WhatsNew__v5.15--1": {
-        "message": "Hayır, monitörünüzde kalmış bir toz lekesi değil, artık oynatılmamış gelen sesli iletiler için küçük bir nokta var.",
-        "description": "Release notes for v5.15"
-    },
-    "WhatsNew__v5.15--2": {
-        "message": "Arama lobisinde tadilat yapıldı ve yeniden finanse etmek zorunda bile kalmadık.",
-        "description": "Release notes for v5.15"
-    },
-    "WhatsNew__v5.15--3": {
-        "message": "Yeni tercihler penceresi daha iyi ve daha hızlıdır. Devam edin ve yakınlaştırma seviyenizi değiştirin, temayı değiştirin, özel bir kaybolan ileti zamanlayıcısı ayarlayın.",
-        "description": "Release notes for v5.15"
-    },
-    "WhatsNew__v5.15--4": {
-        "message": "Artık Signal için yeni güncellemelerin ne zaman indirileceğini ve uygulanacağını seçebilirsiniz. Diyaloglar da küçük bir değişime uğradı. Yeni tercihler penceresindeki ayarı inceleyin.",
-        "description": "Release notes for v5.15"
-    },
-    "WhatsNew__v5.15--5": {
-        "message": "Bir sürü hata düzeltildi ve bazı performans iyileştirmeleri yapıldı. Raporlarınız için hepinize teşekkür ederiz!",
-        "description": "Release notes for v5.15"
     },
     "WhatsNew__v5.16--1": {
         "message": "Geliştirilmiş bir içerik kutusu sayesinde, bir resim veya video galerisinde ilerledikçe hiçbir sürpriz çıkmayacaktır ve sinir bozucu düğmeleri gizlemek için yakınlaştırarak gerçekten karanlık bir odadaymış gibi davranabilirsiniz.",
@@ -6358,5 +6410,45 @@
     "WhatsNew__v5.17--2": {
         "message": "Artık nerede ve ne zaman olursanız olun ileti gönderebilirsiniz: uçakta, tünelde veya internetinizin kesildiği o üzücü anda. Sonunda ulaşacak; mesajlar artık 24 saate kadar otomatik olarak yeniden deneniyor.",
         "description": "Release notes for v5.17"
+    },
+    "WhatsNew__v5.18--1": {
+        "message": "❤️‍🔥 veya 😶‍🌫️ mi hissediyorsunuz? Kendinizi yeni bir emoji grubuyla ifade edebilirsiniz, ararken ister :fısıldayın isterseniz :BAĞIRIN. Teşekkürler $hiqua$!",
+        "description": "Release notes for v5.18",
+        "placeholders": {
+            "hiqua": {
+                "content": "$1",
+                "example": "<a href='https://github.com/hiqua'>@hiqua</a>"
+            }
+        }
+    },
+    "WhatsNew__v5.18--2": {
+        "message": "Anguilla'daysanız, kendinizi dışlanmış hissetmiş olabilirsiniz. Şimdi 2010'dan beri mevcut tüm üst düzey alan isimlerini bağlantılara çevirdik, böylece $gov$ ve $brain$  tam da$signal$ tıklanabilir olacak. $jojomatik$, teşekkürler!",
+        "description": "Release notes for v5.18",
+        "placeholders": {
+            "gov": {
+                "content": "$1",
+                "example": "<a href='https://gov.ai'>gov.ai</a>"
+            },
+            "brain": {
+                "content": "$2",
+                "example": "<a href='https://brain.ai'>brain.ai</a>"
+            },
+            "signal": {
+                "content": "$3",
+                "example": "<a href='https://signal.org'>signal.org</a>"
+            },
+            "jojomatik": {
+                "content": "$4",
+                "example": "<a href='https://github.com/jojomatik'>@jojomatik</a>"
+            }
+        }
+    },
+    "WhatsNew__v5.18--3": {
+        "message": "Resimleri büyütmeyi sevdiğinizi duyduk. Büyütmenize bir canlılık kattık, böylece küçük resimler bile artık tam ekran olabilir.",
+        "description": "Release notes for v5.18"
+    },
+    "WhatsNew__v5.18--4": {
+        "message": "Kaybolan iletileri etkinleştirdiğinizde, \"Bu ileti silindi\" bildiriminin de süresi dolduğunda kaybolduğunu biliyor muydunuz? Bu artık bir sır değil, iletinin sağında bir geriye sayım ve tarih damgası göreceksiniz.",
+        "description": "Release notes for v5.18"
     }
 }

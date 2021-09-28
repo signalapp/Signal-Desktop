@@ -1269,7 +1269,11 @@
     },
     "save": {
         "message": "Guardar",
-        "description": "Used as a 'commit changes' button in the Caption Editor for outgoing image attachments"
+        "description": "Used on save buttons"
+    },
+    "reset": {
+        "message": "Reiniciar",
+        "description": "Used on reset buttons"
     },
     "fileIconAlt": {
         "message": "Icono de archivo",
@@ -1346,6 +1350,14 @@
     "calling": {
         "message": "Llamadas",
         "description": "Header for calling options on the settings screen"
+    },
+    "calling__call-back": {
+        "message": "Devolver llamada",
+        "description": "Button to call someone back"
+    },
+    "calling__call-again": {
+        "message": "Llamar de nuevo",
+        "description": "Button to call someone again"
     },
     "calling__start": {
         "message": "Iniciar llamada",
@@ -2363,6 +2375,10 @@
     },
     "autoUpdateLaterButtonLabel": {
         "message": "Más tarde",
+        "description": ""
+    },
+    "autoUpdateIgnoreButtonLabel": {
+        "message": "Ignorar actualización",
         "description": ""
     },
     "leftTheGroup": {
@@ -3405,7 +3421,7 @@
     },
     "member-of-2-groups": {
         "message": "Participa en «$group1$» y «$group2$»",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups",
+        "description": "Shown in the conversation hero to indicate this user is a member of two mutual groups",
         "placeholders": {
             "group1": {
                 "content": "$1",
@@ -3419,7 +3435,7 @@
     },
     "member-of-3-groups": {
         "message": "Participa en «$group1$», «$group2$» y «$group3$»",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
+        "description": "Shown in the conversation hero to indicate this user is a member of three mutual groups",
         "placeholders": {
             "group1": {
                 "content": "$1",
@@ -3435,9 +3451,45 @@
             }
         }
     },
-    "member-of-more-than-3-groups": {
+    "member-of-more-than-3-groups--one-more": {
+        "message": "Participa en $group1$, $group2$, $group3$ y en uno más",
+        "description": "Shown in the conversation hero to indicate this user is a member of four mutual groups",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            },
+            "group3": {
+                "content": "$3",
+                "example": "Friends 🌿"
+            }
+        }
+    },
+    "member-of-more-than-3-groups--multiple-more": {
         "message": "Participa en «$group1$», «$group2$», «$group3$» y $remainingCount$ más",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
+        "description": "Shown in the conversation hero to indicate this user is a member of 5+ mutual groups.",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            },
+            "group3": {
+                "content": "$3",
+                "example": "Friends 🌿"
+            },
+            "remainingCount": {
+                "content": "$4",
+                "example": "3"
+            }
+        }
     },
     "ConversationHero--membership-added": {
         "message": "$name$ te ha añadido al grupo.",
@@ -3714,7 +3766,7 @@
         "description": "Title for the select your screen sharing sources modal"
     },
     "calling__SelectPresentingSourcesModal--confirm": {
-        "message": "Compartir pantalla",
+        "message": "Comenzar a compartir",
         "description": "Confirm button for sharing screen modal"
     },
     "calling__SelectPresentingSourcesModal--entireScreen": {
@@ -5214,7 +5266,7 @@
         }
     },
     "ContactModal--rm-admin-info": {
-        "message": "Retirar los permisos de admin a $contact$",
+        "message": "¿Retirar los permisos de admin a $contact$?",
         "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone",
         "placeholders": {
             "contact": {
@@ -5640,7 +5692,7 @@
         "description": "The text of the button to create new groups"
     },
     "selectContact": {
-        "message": "Seleccionar persona",
+        "message": "Seleccionar contacto $name$",
         "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)",
         "placeholders": {
             "name": {
@@ -5650,7 +5702,7 @@
         }
     },
     "deselectContact": {
-        "message": "Descartar persona",
+        "message": "Descartar contacto $name$",
         "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)",
         "placeholders": {
             "name": {
@@ -5660,7 +5712,7 @@
         }
     },
     "cannotSelectContact": {
-        "message": "Imposible seleccionar persona",
+        "message": "Imposible seleccionar contacto $name$",
         "description": "The label for contact checkboxes that are disabled",
         "placeholders": {
             "name": {
@@ -6315,29 +6367,29 @@
             }
         }
     },
+    "NSIS__retry-dialog--first-line": {
+        "message": "No se puede cerrar Signal.",
+        "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
+    },
+    "NSIS__retry-dialog--second-line": {
+        "message": "Por favor cierra la aplicación manualmente y haz clic en reintentar para continuar.",
+        "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
+    },
+    "CustomizingPreferredReactions__title": {
+        "message": "Personalizar reacciones",
+        "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
+    },
+    "CustomizingPreferredReactions__subtitle": {
+        "message": "Haz clic para reemplazar un emoji",
+        "description": "Instructions in the modal for customizing the preferred reactions."
+    },
+    "CustomizingPreferredReactions__had-save-error": {
+        "message": "Ha ocurrido un fallo al guardar tus ajustes. Por favor, inténtalo de nuevo.",
+        "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
+    },
     "WhatsNew__modal-title": {
         "message": "Novedades",
         "description": "Title for the whats new modal"
-    },
-    "WhatsNew__v5.15--1": {
-        "message": "No, eso no es una mota de polvo. Es un pequeño punto que indica si ya has escuchado una nota de voz.",
-        "description": "Release notes for v5.15"
-    },
-    "WhatsNew__v5.15--2": {
-        "message": "Hemos renovado y dado una nueva capa de pintura a la «sala de espera» para llamadas de grupo sin necesidad de pedir un crédito.",
-        "description": "Release notes for v5.15"
-    },
-    "WhatsNew__v5.15--3": {
-        "message": "La nueva ventana de ajustes es mejor y más rápida. Échale un ojo y modifica el nivel de zoom, selecciona el tema o el tiempo de desaparición de mensajes por defecto para nuevos chats.",
-        "description": "Release notes for v5.15"
-    },
-    "WhatsNew__v5.15--4": {
-        "message": "Ahora puedes tomarte la libertad de cuándo descargar y actualizar Signal: Hemos incluido esta nueva opción en la ventana de ajustes.",
-        "description": "Release notes for v5.15"
-    },
-    "WhatsNew__v5.15--5": {
-        "message": "Nos hemos ocupado de algunos fallos y de mejorar el funcionamiento de la aplicación. ¡Gracias por las sugerencias!",
-        "description": "Release notes for v5.15"
     },
     "WhatsNew__v5.16--1": {
         "message": "Una nueva manera de mostrar todos los archivos adjuntos en la galería sin sorpresas y poder hacer zoom en esas imágenes con detalles tan pequeños.",
@@ -6358,5 +6410,45 @@
     "WhatsNew__v5.17--2": {
         "message": "Ahora puedes enviar mensajes sin importar dónde estás: En un avión, en un túnel o en ese momento en el que internet se ha cortado. El mensaje se enviará una vez que vuelvas a tener conexión: Signal hará múltiples intentos hasta un máximo de 24 horas.",
         "description": "Release notes for v5.17"
+    },
+    "WhatsNew__v5.18--1": {
+        "message": "¿Te sientes ❤️‍🔥 o 😶‍🌫️? Ahora puedes expresarte con un nuevo lote de emojis, ya sea q estés :susurrando o :GRITANDO mientras buscas. ¡Gracias $hiqua$!",
+        "description": "Release notes for v5.18",
+        "placeholders": {
+            "hiqua": {
+                "content": "$1",
+                "example": "<a href='https://github.com/hiqua'>@hiqua</a>"
+            }
+        }
+    },
+    "WhatsNew__v5.18--2": {
+        "message": "Si estás en Anguila, quizás te hayas sentido excluid@. Ahora convertimos todos los dominios bajo el nivel raíz desde 2010 en enlaces, por lo que en $gov$ como $brain$  podrás hacer clic al igual que en $signal$. ¡Gracias $jojomatik$!",
+        "description": "Release notes for v5.18",
+        "placeholders": {
+            "gov": {
+                "content": "$1",
+                "example": "<a href='https://gov.ai'>gov.ai</a>"
+            },
+            "brain": {
+                "content": "$2",
+                "example": "<a href='https://brain.ai'>brain.ai</a>"
+            },
+            "signal": {
+                "content": "$3",
+                "example": "<a href='https://signal.org'>signal.org</a>"
+            },
+            "jojomatik": {
+                "content": "$4",
+                "example": "<a href='https://github.com/jojomatik'>@jojomatik</a>"
+            }
+        }
+    },
+    "WhatsNew__v5.18--3": {
+        "message": "Hemos oído que te gusta hacer zoom en fotos. Agregamos empuje a tu zoom, por lo que incluso las imágenes pequeñas pueden verse a pantalla completa. ",
+        "description": "Release notes for v5.18"
+    },
+    "WhatsNew__v5.18--4": {
+        "message": "¿Sabías que si los mensajes que desaparecen están activados, incluso la notificación de «Mensaje eliminado» desaparecerá cuando caduque? Ya no es un misterio: Verás la cuenta atrás y la marca de tiempo en el mensaje. ",
+        "description": "Release notes for v5.18"
     }
 }

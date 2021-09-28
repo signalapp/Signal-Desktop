@@ -736,7 +736,7 @@
         "description": "Item under the Help menu, which opens a small about window"
     },
     "screenShareWindow": {
-        "message": "Compartilhamento de tela",
+        "message": "Você está apresentando",
         "description": "Title for screen sharing window"
     },
     "speech": {
@@ -1269,7 +1269,11 @@
     },
     "save": {
         "message": "Salvar",
-        "description": "Used as a 'commit changes' button in the Caption Editor for outgoing image attachments"
+        "description": "Used on save buttons"
+    },
+    "reset": {
+        "message": "Redefinir",
+        "description": "Used on reset buttons"
     },
     "fileIconAlt": {
         "message": "Ícone do arquivo",
@@ -1347,6 +1351,14 @@
         "message": "Chamadas",
         "description": "Header for calling options on the settings screen"
     },
+    "calling__call-back": {
+        "message": "Retornar a chamada",
+        "description": "Button to call someone back"
+    },
+    "calling__call-again": {
+        "message": "Ligar novamente",
+        "description": "Button to call someone again"
+    },
     "calling__start": {
         "message": "Começar a chamada",
         "description": "Button label in the call lobby for starting a call"
@@ -1396,7 +1408,7 @@
         "description": "Button tooltip label for turning on the microphone"
     },
     "calling__button--presenting__label": {
-        "message": "Compartilhar",
+        "message": "Apresentar",
         "description": "Label under the share screen button"
     },
     "calling__button--presenting-disabled": {
@@ -1404,7 +1416,7 @@
         "description": "Button tooltip label for when screen sharing is disabled"
     },
     "calling__button--presenting-on": {
-        "message": "Iniciar apresentação",
+        "message": "Apresentar agora",
         "description": "Button tooltip label for starting to share screen"
     },
     "calling__button--presenting-off": {
@@ -1436,7 +1448,7 @@
         "description": "Shown in the calling lobby to describe who is in the call"
     },
     "calling__pre-call-info--1-person-in-call": {
-        "message": "$first$ está nesta chamada",
+        "message": "$first$ está na chamada",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
@@ -1446,11 +1458,11 @@
         }
     },
     "calling__pre-call-info--another-device-in-call": {
-        "message": "Um dos seus outros aparelhos está nesta chamada",
+        "message": "Um dos seus outros aparelhos está na chamada",
         "description": "Shown in the calling lobby to describe when it is just you"
     },
     "calling__pre-call-info--2-people-in-call": {
-        "message": "$first$ e $second$ estão nesta chamada",
+        "message": "$first$ e $second$ estão na chamada",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
@@ -1464,7 +1476,7 @@
         }
     },
     "calling__pre-call-info--3-people-in-call": {
-        "message": "$first$, $second$ e $third$ estão nesta chamada",
+        "message": "$first$, $second$ e $third$ estão na chamada",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
@@ -1482,7 +1494,7 @@
         }
     },
     "calling__pre-call-info--many-people-in-call": {
-        "message": "$first$, $second$ e outros $others$ estão nesta chamada",
+        "message": "$first$, $second$ e outros $others$ estão na chamada",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
@@ -1624,11 +1636,11 @@
         "description": "Shown in the participants list to describe how many people are in the call"
     },
     "calling__in-this-call--one": {
-        "message": "Nesta chamada · 1 pessoa",
+        "message": "Na chamada · 1 pessoa",
         "description": "Shown in the participants list to describe how many people are in the call"
     },
     "calling__in-this-call--many": {
-        "message": "Nesta chamada · $people$ pessoas",
+        "message": "Na chamada · $people$ pessoas",
         "description": "Shown in the participants list to describe how many people are in the call",
         "placeholders": {
             "people": {
@@ -1668,7 +1680,7 @@
         "description": "Body text for the share screen notification"
     },
     "calling__presenting--info": {
-        "message": "Signal está compartilhando $window$.",
+        "message": "Signal está apresentando $window$.",
         "description": "Text that appears in the screen sharing controller to inform person that they are presenting",
         "placeholders": {
             "name": {
@@ -1678,7 +1690,7 @@
         }
     },
     "calling__presenting--stop": {
-        "message": "Parar compartilhamento",
+        "message": "Parar apresentação",
         "description": "Button for stopping screen sharing"
     },
     "calling__presenting--you-stopped": {
@@ -2363,6 +2375,10 @@
     },
     "autoUpdateLaterButtonLabel": {
         "message": "Mais tarde",
+        "description": ""
+    },
+    "autoUpdateIgnoreButtonLabel": {
+        "message": "Ignorar a atualização",
         "description": ""
     },
     "leftTheGroup": {
@@ -3405,7 +3421,7 @@
     },
     "member-of-2-groups": {
         "message": "Membro de $group1$ e $group2$",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups",
+        "description": "Shown in the conversation hero to indicate this user is a member of two mutual groups",
         "placeholders": {
             "group1": {
                 "content": "$1",
@@ -3419,7 +3435,7 @@
     },
     "member-of-3-groups": {
         "message": "Membro de $group1$, $group2$ e $group3$",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
+        "description": "Shown in the conversation hero to indicate this user is a member of three mutual groups",
         "placeholders": {
             "group1": {
                 "content": "$1",
@@ -3435,9 +3451,45 @@
             }
         }
     },
-    "member-of-more-than-3-groups": {
+    "member-of-more-than-3-groups--one-more": {
+        "message": "Membro de $group1$, $group2$, $group3$ e outro grupo",
+        "description": "Shown in the conversation hero to indicate this user is a member of four mutual groups",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            },
+            "group3": {
+                "content": "$3",
+                "example": "Friends 🌿"
+            }
+        }
+    },
+    "member-of-more-than-3-groups--multiple-more": {
         "message": "Membro de $group1$, $group2$, $group3$ e mais $remainingCount$ grupos",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
+        "description": "Shown in the conversation hero to indicate this user is a member of 5+ mutual groups.",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            },
+            "group3": {
+                "content": "$3",
+                "example": "Friends 🌿"
+            },
+            "remainingCount": {
+                "content": "$4",
+                "example": "3"
+            }
+        }
     },
     "ConversationHero--membership-added": {
         "message": "$name$ adicionou você ao grupo.",
@@ -3710,11 +3762,11 @@
         "description": "Title for hang up button"
     },
     "calling__SelectPresentingSourcesModal--title": {
-        "message": "Compartilhe sua tela",
+        "message": "Apresentar sua tela",
         "description": "Title for the select your screen sharing sources modal"
     },
     "calling__SelectPresentingSourcesModal--confirm": {
-        "message": "Compartilhar tela",
+        "message": "Apresentar agora",
         "description": "Confirm button for sharing screen modal"
     },
     "calling__SelectPresentingSourcesModal--entireScreen": {
@@ -5214,7 +5266,7 @@
         }
     },
     "ContactModal--rm-admin-info": {
-        "message": "Remover $contact$ da lista de admins",
+        "message": "Remover $contact$ da lista de admins?",
         "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone",
         "placeholders": {
             "contact": {
@@ -5640,7 +5692,7 @@
         "description": "The text of the button to create new groups"
     },
     "selectContact": {
-        "message": "Selecionar contato",
+        "message": "Selecionar a pessoa $name$",
         "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)",
         "placeholders": {
             "name": {
@@ -5650,7 +5702,7 @@
         }
     },
     "deselectContact": {
-        "message": "Desmarcar contato",
+        "message": "Desmarcar a pessoa $name$",
         "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)",
         "placeholders": {
             "name": {
@@ -5660,7 +5712,7 @@
         }
     },
     "cannotSelectContact": {
-        "message": "Não é possível selecionar esse contato",
+        "message": "Não é possível selecionar a pessoa $name$",
         "description": "The label for contact checkboxes that are disabled",
         "placeholders": {
             "name": {
@@ -5694,7 +5746,7 @@
         "description": "Aria label for audio attachment's playback time slider"
     },
     "emptyInboxMessage": {
-        "message": "Clique em $composeIcon$ acima para pesquisar os seus contatos ou grupos e enviar mensagens para eles.",
+        "message": "Clique no $composeIcon$ acima para pesquisar os seus contatos ou grupos e enviar mensagens para eles.",
         "description": "Shown in the left-pane when the inbox is empty",
         "placeholders": {
             "composeIcon": {
@@ -6315,29 +6367,29 @@
             }
         }
     },
+    "NSIS__retry-dialog--first-line": {
+        "message": "Não é possível fechar o Signal.",
+        "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
+    },
+    "NSIS__retry-dialog--second-line": {
+        "message": "Feche a janela do Signal e clique em Repetir para continuar.",
+        "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
+    },
+    "CustomizingPreferredReactions__title": {
+        "message": "Personalizar as reações",
+        "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
+    },
+    "CustomizingPreferredReactions__subtitle": {
+        "message": "Clique para substituir um emoji",
+        "description": "Instructions in the modal for customizing the preferred reactions."
+    },
+    "CustomizingPreferredReactions__had-save-error": {
+        "message": "Ocorreu um erro ao salvar suas configurações. Por favor, tente novamente.",
+        "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
+    },
     "WhatsNew__modal-title": {
         "message": "Novidades",
         "description": "Title for the whats new modal"
-    },
-    "WhatsNew__v5.15--1": {
-        "message": "Nas mensagens de áudio, um novo ponto significará que o áudio já foi recebido, mas ainda não foi reproduzido.",
-        "description": "Release notes for v5.15"
-    },
-    "WhatsNew__v5.15--2": {
-        "message": "A sala de espera antes de chamadas em grupo foi remodelada.",
-        "description": "Release notes for v5.15"
-    },
-    "WhatsNew__v5.15--3": {
-        "message": "A nova janela de preferências está mais organizada e rápida do que antes. Novas configurações permitem a você alterar o nível de zoom, trocar o tema e definir um cronômetro padrão de mensagens efêmeras.",
-        "description": "Release notes for v5.15"
-    },
-    "WhatsNew__v5.15--4": {
-        "message": "Os menus do aplicativo foram aprimorados, e agora você pode escolher quando baixar e aplicar novas atualizações do Signal. Observe essa possibilidade na nova janela de preferências.",
-        "description": "Release notes for v5.15"
-    },
-    "WhatsNew__v5.15--5": {
-        "message": "Consertamos muitos erros e também realizamos algumas melhorias de desempenho. Obrigado a todos que reportam erros no Signal!",
-        "description": "Release notes for v5.15"
     },
     "WhatsNew__v5.16--1": {
         "message": "Aprimoramos a galeria de imagens e de vídeos. Alternar entre fotos e vídeos recebidos agora é uma experiência mais prazerosa, porque você poderá ampliar para ver detalhes.",
@@ -6358,5 +6410,45 @@
     "WhatsNew__v5.17--2": {
         "message": "Agora você pode enviar mensagens onde e quando estiver: em um avião, em um túnel ou quando o seu aparelho estiver desconectado da internet. Assim que a conexão de internet retornar, dentro de 24 horas, as mensagens pendentes serão enviadas automaticamente.",
         "description": "Release notes for v5.17"
+    },
+    "WhatsNew__v5.18--1": {
+        "message": "Você está se sentindo ❤️‍🔥 ou 😶‍🌫️? A partir de agora você pode se expressar com novos emojis quando estiver :whispering ou :YELLING em suas conversas. Agradecemos o $hiqua$ por essa realização!",
+        "description": "Release notes for v5.18",
+        "placeholders": {
+            "hiqua": {
+                "content": "$1",
+                "example": "<a href='https://github.com/hiqua'>@hiqua</a>"
+            }
+        }
+    },
+    "WhatsNew__v5.18--2": {
+        "message": "Se você estiver em Anguilla, país na América Central, talvez esteja se sentindo uma pessoa ilhada. A partir de agora, os domínios de sites cujo final mudou em Anguilla desde 2010 serão corretamente exibidos no Signal. Desse modo, tanto $gov$ quanto $brain$ estarão acessíveis com um clique no $signal$. Agradecemos a $jojomatik$ por essa realização!",
+        "description": "Release notes for v5.18",
+        "placeholders": {
+            "gov": {
+                "content": "$1",
+                "example": "<a href='https://gov.ai'>gov.ai</a>"
+            },
+            "brain": {
+                "content": "$2",
+                "example": "<a href='https://brain.ai'>brain.ai</a>"
+            },
+            "signal": {
+                "content": "$3",
+                "example": "<a href='https://signal.org'>signal.org</a>"
+            },
+            "jojomatik": {
+                "content": "$4",
+                "example": "<a href='https://github.com/jojomatik'>@jojomatik</a>"
+            }
+        }
+    },
+    "WhatsNew__v5.18--3": {
+        "message": "Ouvimos dizer que você gosta de ampliar as imagens para enxergar detalhes. Nós aprofundamos o zoom. Desse modo, mesmo as imagens pequenas poderão ser exibidas em tela inteira.",
+        "description": "Release notes for v5.18"
+    },
+    "WhatsNew__v5.18--4": {
+        "message": "A partir de agora, quando a mensagem for efêmera, até mesmo o aviso referente à \"Esta mensagem foi excluída\" desaparecerá também. Você continuará acompanhando a contagem regressiva no balão da mensagem.",
+        "description": "Release notes for v5.18"
     }
 }

@@ -1269,7 +1269,11 @@
     },
     "save": {
         "message": "Įrašyti",
-        "description": "Used as a 'commit changes' button in the Caption Editor for outgoing image attachments"
+        "description": "Used on save buttons"
+    },
+    "reset": {
+        "message": "Atstatyti",
+        "description": "Used on reset buttons"
     },
     "fileIconAlt": {
         "message": "Failo piktograma",
@@ -1346,6 +1350,14 @@
     "calling": {
         "message": "Skambinimas",
         "description": "Header for calling options on the settings screen"
+    },
+    "calling__call-back": {
+        "message": "Atskambinti",
+        "description": "Button to call someone back"
+    },
+    "calling__call-again": {
+        "message": "Skambinti vėl",
+        "description": "Button to call someone again"
     },
     "calling__start": {
         "message": "Pradėti skambutį",
@@ -2363,6 +2375,10 @@
     },
     "autoUpdateLaterButtonLabel": {
         "message": "Vėliau",
+        "description": ""
+    },
+    "autoUpdateIgnoreButtonLabel": {
+        "message": "Nepaisyti atnaujinimo",
         "description": ""
     },
     "leftTheGroup": {
@@ -3405,7 +3421,7 @@
     },
     "member-of-2-groups": {
         "message": "$group1$ ir $group2$ grupių narys",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups",
+        "description": "Shown in the conversation hero to indicate this user is a member of two mutual groups",
         "placeholders": {
             "group1": {
                 "content": "$1",
@@ -3419,7 +3435,7 @@
     },
     "member-of-3-groups": {
         "message": "$group1$, $group2$ ir $group3$ grupių narys",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
+        "description": "Shown in the conversation hero to indicate this user is a member of three mutual groups",
         "placeholders": {
             "group1": {
                 "content": "$1",
@@ -3435,9 +3451,45 @@
             }
         }
     },
-    "member-of-more-than-3-groups": {
+    "member-of-more-than-3-groups--one-more": {
+        "message": "$group1$, $group2$, $group3$ ir dar vienos grupės narys",
+        "description": "Shown in the conversation hero to indicate this user is a member of four mutual groups",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            },
+            "group3": {
+                "content": "$3",
+                "example": "Friends 🌿"
+            }
+        }
+    },
+    "member-of-more-than-3-groups--multiple-more": {
         "message": "$group1$, $group2$, $group3$ ir dar $remainingCount$ grupių narys",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
+        "description": "Shown in the conversation hero to indicate this user is a member of 5+ mutual groups.",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            },
+            "group3": {
+                "content": "$3",
+                "example": "Friends 🌿"
+            },
+            "remainingCount": {
+                "content": "$4",
+                "example": "3"
+            }
+        }
     },
     "ConversationHero--membership-added": {
         "message": "$name$ pridėjo jus į grupę.",
@@ -3714,7 +3766,7 @@
         "description": "Title for the select your screen sharing sources modal"
     },
     "calling__SelectPresentingSourcesModal--confirm": {
-        "message": "Bendrinti ekraną",
+        "message": "Pradėti bendrinti",
         "description": "Confirm button for sharing screen modal"
     },
     "calling__SelectPresentingSourcesModal--entireScreen": {
@@ -5214,7 +5266,7 @@
         }
     },
     "ContactModal--rm-admin-info": {
-        "message": "Pašalinti $contact$ iš grupės administratorių",
+        "message": "Pašalinti $contact$ iš grupės administratorių?",
         "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone",
         "placeholders": {
             "contact": {
@@ -5640,7 +5692,7 @@
         "description": "The text of the button to create new groups"
     },
     "selectContact": {
-        "message": "Pažymėti adresatą",
+        "message": "Pasirinkti adresatą $name$",
         "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)",
         "placeholders": {
             "name": {
@@ -5650,7 +5702,7 @@
         }
     },
     "deselectContact": {
-        "message": "Nebežymėti adresato",
+        "message": "Nebepasirinkti adresato $name$",
         "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)",
         "placeholders": {
             "name": {
@@ -5660,7 +5712,7 @@
         }
     },
     "cannotSelectContact": {
-        "message": "Nepavyksta pažymėti adresato",
+        "message": "Nepavyksta pasirinkti adresato $name$",
         "description": "The label for contact checkboxes that are disabled",
         "placeholders": {
             "name": {
@@ -6315,29 +6367,29 @@
             }
         }
     },
+    "NSIS__retry-dialog--first-line": {
+        "message": "Nepavyksta užverti Signal.",
+        "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
+    },
+    "NSIS__retry-dialog--second-line": {
+        "message": "Pabandykite ją užverti rankiniu būdu ir norėdami tęsti spustelėkite „Bandyti dar kartą“.",
+        "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
+    },
+    "CustomizingPreferredReactions__title": {
+        "message": "Tinkinti reakcijas",
+        "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
+    },
+    "CustomizingPreferredReactions__subtitle": {
+        "message": "Spustelėkite norėdami pakeisti šypsenėlę",
+        "description": "Instructions in the modal for customizing the preferred reactions."
+    },
+    "CustomizingPreferredReactions__had-save-error": {
+        "message": "Įrašant jūsų nustatymus, įvyko klaida. Bandykite dar kartą.",
+        "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
+    },
     "WhatsNew__modal-title": {
         "message": "Kas naujo",
         "description": "Title for the whats new modal"
-    },
-    "WhatsNew__v5.15--1": {
-        "message": "Ne, tai ne dulkelė, kurią turite nuvalyti nuo savo monitoriaus. Dabar, ant neišklausytų gaunamųjų garso žinučių yra rodomas taškelis.",
-        "description": "Release notes for v5.15"
-    },
-    "WhatsNew__v5.15--2": {
-        "message": "Skambučių laukimo salė buvo rekonstruota ir renovuota ir mums net neprireikė imti paskolos.",
-        "description": "Release notes for v5.15"
-    },
-    "WhatsNew__v5.15--3": {
-        "message": "Naujas nuostatų langas yra geresnis ir greitesnis. Nagi, pirmyn, pasikeiskite mastelio lygį, perjunkite apipavidalinimą, nusistatykite tinkintą išnykstančių žinučių laikmatį.",
-        "description": "Release notes for v5.15"
-    },
-    "WhatsNew__v5.15--4": {
-        "message": "Dabar, galite pasirinkti kada atsisiųsti ir taikyti naujus Signal atnaujinimus. Dialogai buvo šiek tiek pagražinti. Patikrinkite nustatymą naujame nuostatų lange.",
-        "description": "Release notes for v5.15"
-    },
-    "WhatsNew__v5.15--5": {
-        "message": "Ištaisyta daugybė klaidų, o taip pat atlikta tam tikrų našumo patobulinimų. Dėkojame už visus pranešimus apie klaidas!",
-        "description": "Release notes for v5.15"
     },
     "WhatsNew__v5.16--1": {
         "message": "Patobulintas medijos langelis reiškia, jog daugiau nebebus staigmenų, kai naršysite po paveikslų ir vaizdo įrašų galeriją. Be to, galite apsimesti, jog esate tamsiame kambaryje, keisdami mastelį, kad būtų paslėpti tie įkyrūs mygtukai.",
@@ -6358,5 +6410,45 @@
     "WhatsNew__v5.17--2": {
         "message": "Dabar, galite siųsti žinutes bet kur ir bet kada: lėktuve, tunelyje, ar tą liūdną akimirką, kai dingo internetas. Galų gale jos bus išsiųstos; dabar, 24 valandų laikotarpyje bus bandoma išsiųsti žinutes.",
         "description": "Release notes for v5.17"
+    },
+    "WhatsNew__v5.18--1": {
+        "message": "Jaučiatės ❤️‍🔥 ar 😶‍🌫️? Galite išreikšti savo jausmus naudodami naują šypsenėlių rinkinį, nepaisant to, ar ieškodami šypsenėlės :šnabždate ar :ŠAUKIATE. Ačiū, $hiqua$!",
+        "description": "Release notes for v5.18",
+        "placeholders": {
+            "hiqua": {
+                "content": "$1",
+                "example": "<a href='https://github.com/hiqua'>@hiqua</a>"
+            }
+        }
+    },
+    "WhatsNew__v5.18--2": {
+        "message": "Jei gyvenate Angilijos saloje, galbūt, jautėtės palikti likimo valiai. Dabar, nuo 2010-ųjų esančias aukščiausiojo lygio sritis paverčiame nuorodomis, todėl tiek $gov$, tiek $brain$ bus tinkamos spustelėti, visai kaip $signal$. Ačiū, $jojomatik$!",
+        "description": "Release notes for v5.18",
+        "placeholders": {
+            "gov": {
+                "content": "$1",
+                "example": "<a href='https://gov.ai'>gov.ai</a>"
+            },
+            "brain": {
+                "content": "$2",
+                "example": "<a href='https://brain.ai'>brain.ai</a>"
+            },
+            "signal": {
+                "content": "$3",
+                "example": "<a href='https://signal.org'>signal.org</a>"
+            },
+            "jojomatik": {
+                "content": "$4",
+                "example": "<a href='https://github.com/jojomatik'>@jojomatik</a>"
+            }
+        }
+    },
+    "WhatsNew__v5.18--3": {
+        "message": "Girdėjome, kad jums patinka didinti paveikslus. Mastelio keitimui pridėjome patrauklumo, todėl netgi mažus paveikslus galima bus didinti per visą ekraną.",
+        "description": "Release notes for v5.18"
+    },
+    "WhatsNew__v5.18--4": {
+        "message": "Ar žinojote, kad jeigu yra įjungtos išnykstančios žinutės, tai netgi pranešimas „Ši žinutė buvo ištrinta.“ dings, kai pasibaigs jo galiojimo laikas? Tai daugiau nebe paslaptis – atvirkštinį laikmatį ir laiko žymą matysite tiesiai ant žinutės.",
+        "description": "Release notes for v5.18"
     }
 }

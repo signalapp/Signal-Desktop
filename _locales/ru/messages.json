@@ -1269,7 +1269,11 @@
     },
     "save": {
         "message": "Сохранить",
-        "description": "Used as a 'commit changes' button in the Caption Editor for outgoing image attachments"
+        "description": "Used on save buttons"
+    },
+    "reset": {
+        "message": "Сбросить",
+        "description": "Used on reset buttons"
     },
     "fileIconAlt": {
         "message": "Значок файла",
@@ -1346,6 +1350,14 @@
     "calling": {
         "message": "Звонки",
         "description": "Header for calling options on the settings screen"
+    },
+    "calling__call-back": {
+        "message": "Перезвонить",
+        "description": "Button to call someone back"
+    },
+    "calling__call-again": {
+        "message": "Позвонить снова",
+        "description": "Button to call someone again"
     },
     "calling__start": {
         "message": "Начать звонок",
@@ -2363,6 +2375,10 @@
     },
     "autoUpdateLaterButtonLabel": {
         "message": "Позже",
+        "description": ""
+    },
+    "autoUpdateIgnoreButtonLabel": {
+        "message": "Игнорировать обновление",
         "description": ""
     },
     "leftTheGroup": {
@@ -3405,7 +3421,7 @@
     },
     "member-of-2-groups": {
         "message": "Состоит в $group1$ и $group2$",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups",
+        "description": "Shown in the conversation hero to indicate this user is a member of two mutual groups",
         "placeholders": {
             "group1": {
                 "content": "$1",
@@ -3419,7 +3435,7 @@
     },
     "member-of-3-groups": {
         "message": "Состоит в $group1$, $group2$ и $group3$",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
+        "description": "Shown in the conversation hero to indicate this user is a member of three mutual groups",
         "placeholders": {
             "group1": {
                 "content": "$1",
@@ -3435,9 +3451,45 @@
             }
         }
     },
-    "member-of-more-than-3-groups": {
+    "member-of-more-than-3-groups--one-more": {
+        "message": "Состоит в $group1$, $group2$, $group3$ и ещё одной группе",
+        "description": "Shown in the conversation hero to indicate this user is a member of four mutual groups",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            },
+            "group3": {
+                "content": "$3",
+                "example": "Friends 🌿"
+            }
+        }
+    },
+    "member-of-more-than-3-groups--multiple-more": {
         "message": "Состоит в $group1$, $group2$, $group3$ и ещё $remainingCount$ группах",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
+        "description": "Shown in the conversation hero to indicate this user is a member of 5+ mutual groups.",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            },
+            "group3": {
+                "content": "$3",
+                "example": "Friends 🌿"
+            },
+            "remainingCount": {
+                "content": "$4",
+                "example": "3"
+            }
+        }
     },
     "ConversationHero--membership-added": {
         "message": "$name$ добавил(-а) вас в группу.",
@@ -3714,7 +3766,7 @@
         "description": "Title for the select your screen sharing sources modal"
     },
     "calling__SelectPresentingSourcesModal--confirm": {
-        "message": "Начать показ экрана",
+        "message": "Начать показ",
         "description": "Confirm button for sharing screen modal"
     },
     "calling__SelectPresentingSourcesModal--entireScreen": {
@@ -5214,7 +5266,7 @@
         }
     },
     "ContactModal--rm-admin-info": {
-        "message": "Удалить $contact$ как администратора группы",
+        "message": "Удалить $contact$ как администратора группы?",
         "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone",
         "placeholders": {
             "contact": {
@@ -5640,7 +5692,7 @@
         "description": "The text of the button to create new groups"
     },
     "selectContact": {
-        "message": "Выбрать контакт",
+        "message": "Выбрать контакта $name$",
         "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)",
         "placeholders": {
             "name": {
@@ -5650,7 +5702,7 @@
         }
     },
     "deselectContact": {
-        "message": "Отменить выбор контакта",
+        "message": "Отменить выбор контакта $name$",
         "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)",
         "placeholders": {
             "name": {
@@ -5660,7 +5712,7 @@
         }
     },
     "cannotSelectContact": {
-        "message": "Невозможно выбрать контакт",
+        "message": "Невозможно выбрать контакт $name$",
         "description": "The label for contact checkboxes that are disabled",
         "placeholders": {
             "name": {
@@ -6315,29 +6367,29 @@
             }
         }
     },
+    "NSIS__retry-dialog--first-line": {
+        "message": "Не удалось закрыть Signal",
+        "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
+    },
+    "NSIS__retry-dialog--second-line": {
+        "message": "Пожалуйста, закройте Signal вручную и нажмите «Повторить», чтобы продолжить.",
+        "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
+    },
+    "CustomizingPreferredReactions__title": {
+        "message": "Настроить реакции",
+        "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
+    },
+    "CustomizingPreferredReactions__subtitle": {
+        "message": "Нажмите, чтобы заменить эмодзи",
+        "description": "Instructions in the modal for customizing the preferred reactions."
+    },
+    "CustomizingPreferredReactions__had-save-error": {
+        "message": "Произошла ошибка при сохранении ваших настроек. Пожалуйста, попробуйте ещё раз.",
+        "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
+    },
     "WhatsNew__modal-title": {
         "message": "Что нового",
         "description": "Title for the whats new modal"
-    },
-    "WhatsNew__v5.15--1": {
-        "message": "Нет, это не пылинка на экране вашего монитора — теперь на входящих голосовых сообщениях, которые не были прослушаны, показывается точка.",
-        "description": "Release notes for v5.15"
-    },
-    "WhatsNew__v5.15--2": {
-        "message": "Дизайн лобби звонков был немного обновлён.",
-        "description": "Release notes for v5.15"
-    },
-    "WhatsNew__v5.15--3": {
-        "message": "Новое окно настроек лучше и быстрее. Вы можете изменить масштаб, переключить тему, установить таймер исчезающих сообщений по умолчанию и поменять другие настройки.",
-        "description": "Release notes for v5.15"
-    },
-    "WhatsNew__v5.15--4": {
-        "message": "Теперь вы можете выбирать, когда скачивать и применять новые обновления Signal. Соответствующие диалоги были также немного переделаны. Вы можете изменить эту настройку в новом окне настроек.",
-        "description": "Release notes for v5.15"
-    },
-    "WhatsNew__v5.15--5": {
-        "message": "Было исправлено много ошибок и сделано несколько улучшений производительности. Спасибо вам всем за отчёты об ошибках!",
-        "description": "Release notes for v5.15"
     },
     "WhatsNew__v5.16--1": {
         "message": "Улучшенный полноэкранный вид для медиа-файлов: меньше сюрпризов при переключении между изображениями или видео и возможность увеличить изображение, скрыв кнопки.",
@@ -6358,5 +6410,45 @@
     "WhatsNew__v5.17--2": {
         "message": "Теперь вы можете отправлять сообщения где и когда угодно: на самолёте, в туннеле или в тот грустный момент, когда ваш интернет прекратил работать. Они в конце концов дойдут: отправка сообщений теперь автоматически повторяется в течении 24 часов.",
         "description": "Release notes for v5.17"
+    },
+    "WhatsNew__v5.18--1": {
+        "message": "Чувствуете ❤️‍🔥 или 😶‍🌫️? Теперь вы можете выразить себя, используя новые эмодзи — вне зависимости от того, :шепчите вы или :КРИЧИТЕ, когда используете поиск. Спасибо, $hiqua$!",
+        "description": "Release notes for v5.18",
+        "placeholders": {
+            "hiqua": {
+                "content": "$1",
+                "example": "<a href='https://github.com/hiqua'>@hiqua</a>"
+            }
+        }
+    },
+    "WhatsNew__v5.18--2": {
+        "message": "Если вы находитесь в Ангильи, возможно, вы чувствовали себя обделённым(-ой). Теперь мы превращаем в ссылки все домены верхнего уровня, которые существовали с 2010 года — так что и $gov$, и $brain$ можно будет нажать так же, как и $signal$. Спасибо, $jojomatik$!",
+        "description": "Release notes for v5.18",
+        "placeholders": {
+            "gov": {
+                "content": "$1",
+                "example": "<a href='https://gov.ai'>gov.ai</a>"
+            },
+            "brain": {
+                "content": "$2",
+                "example": "<a href='https://brain.ai'>brain.ai</a>"
+            },
+            "signal": {
+                "content": "$3",
+                "example": "<a href='https://signal.org'>signal.org</a>"
+            },
+            "jojomatik": {
+                "content": "$4",
+                "example": "<a href='https://github.com/jojomatik'>@jojomatik</a>"
+            }
+        }
+    },
+    "WhatsNew__v5.18--3": {
+        "message": "Мы слышали, что вам нравится увеличивать изображения. Мы добавили энергии вашему увеличению, так что даже маленькие изображения смогут растянуться на полный экран.",
+        "description": "Release notes for v5.18"
+    },
+    "WhatsNew__v5.18--4": {
+        "message": "Знали ли вы, что если включены исчезающие сообщения, даже уведомления «Это сообщение было удалено» исчезают, когда истекает таймер? Теперь это не тайна — вы увидите и обратный отсчёт, и отметку времени прямо на сообщении.",
+        "description": "Release notes for v5.18"
     }
 }

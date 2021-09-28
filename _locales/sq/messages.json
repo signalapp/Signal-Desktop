@@ -1269,7 +1269,11 @@
     },
     "save": {
         "message": "Ruaje",
-        "description": "Used as a 'commit changes' button in the Caption Editor for outgoing image attachments"
+        "description": "Used on save buttons"
+    },
+    "reset": {
+        "message": "Riktheje",
+        "description": "Used on reset buttons"
     },
     "fileIconAlt": {
         "message": "Ikonë kartele",
@@ -1346,6 +1350,14 @@
     "calling": {
         "message": "Thirrje",
         "description": "Header for calling options on the settings screen"
+    },
+    "calling__call-back": {
+        "message": "Ktheji Thirrjen",
+        "description": "Button to call someone back"
+    },
+    "calling__call-again": {
+        "message": "Rithirre",
+        "description": "Button to call someone again"
     },
     "calling__start": {
         "message": "Nise Thirrjen",
@@ -2363,6 +2375,10 @@
     },
     "autoUpdateLaterButtonLabel": {
         "message": "Më vonë",
+        "description": ""
+    },
+    "autoUpdateIgnoreButtonLabel": {
+        "message": "Shpërfille përditësimin",
         "description": ""
     },
     "leftTheGroup": {
@@ -3405,7 +3421,7 @@
     },
     "member-of-2-groups": {
         "message": "Anëtar i $group1$ dhe $group2$",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups",
+        "description": "Shown in the conversation hero to indicate this user is a member of two mutual groups",
         "placeholders": {
             "group1": {
                 "content": "$1",
@@ -3419,7 +3435,7 @@
     },
     "member-of-3-groups": {
         "message": "Anëtar i $group1$, $group2$, dhe $group3$",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
+        "description": "Shown in the conversation hero to indicate this user is a member of three mutual groups",
         "placeholders": {
             "group1": {
                 "content": "$1",
@@ -3435,9 +3451,45 @@
             }
         }
     },
-    "member-of-more-than-3-groups": {
+    "member-of-more-than-3-groups--one-more": {
+        "message": "Anëtar i $group1$, $group2$, $group3$ dhe një tjetri",
+        "description": "Shown in the conversation hero to indicate this user is a member of four mutual groups",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            },
+            "group3": {
+                "content": "$3",
+                "example": "Friends 🌿"
+            }
+        }
+    },
+    "member-of-more-than-3-groups--multiple-more": {
         "message": "Anëtar i $group1$, $group2$, $group3$ dhe $remainingCount$ të tjerëve",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
+        "description": "Shown in the conversation hero to indicate this user is a member of 5+ mutual groups.",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            },
+            "group3": {
+                "content": "$3",
+                "example": "Friends 🌿"
+            },
+            "remainingCount": {
+                "content": "$4",
+                "example": "3"
+            }
+        }
     },
     "ConversationHero--membership-added": {
         "message": "$name$ ju shtoi te grupi.",
@@ -3714,7 +3766,7 @@
         "description": "Title for the select your screen sharing sources modal"
     },
     "calling__SelectPresentingSourcesModal--confirm": {
-        "message": "Ndaje ekranin",
+        "message": "Fillo ndarjen",
         "description": "Confirm button for sharing screen modal"
     },
     "calling__SelectPresentingSourcesModal--entireScreen": {
@@ -5214,7 +5266,7 @@
         }
     },
     "ContactModal--rm-admin-info": {
-        "message": "Hiqe $contact$ nga përgjegjës grupi",
+        "message": "Të hiqet $contact$ nga përgjegjës grupi?",
         "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone",
         "placeholders": {
             "contact": {
@@ -5640,7 +5692,7 @@
         "description": "The text of the button to create new groups"
     },
     "selectContact": {
-        "message": "Përzgjidhni kontakt",
+        "message": "Përzgjidhni kontaktin $name$",
         "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)",
         "placeholders": {
             "name": {
@@ -5650,7 +5702,7 @@
         }
     },
     "deselectContact": {
-        "message": "Shpërzgjidhni kontakte",
+        "message": "Shpërzgjidheni kontaktin $name$",
         "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)",
         "placeholders": {
             "name": {
@@ -5660,7 +5712,7 @@
         }
     },
     "cannotSelectContact": {
-        "message": "S’mund të përzgjidhet kontakt",
+        "message": "S’mund të përzgjidhet kontakti $name$",
         "description": "The label for contact checkboxes that are disabled",
         "placeholders": {
             "name": {
@@ -6315,29 +6367,29 @@
             }
         }
     },
+    "NSIS__retry-dialog--first-line": {
+        "message": "Signal-i s’mund të mbyllet.",
+        "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
+    },
+    "NSIS__retry-dialog--second-line": {
+        "message": "Që të vazhdohet, ju lutemi, mbylleni dorazi dhe klikoni mbi Riprovo.",
+        "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
+    },
+    "CustomizingPreferredReactions__title": {
+        "message": "Përshtatni reagime",
+        "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
+    },
+    "CustomizingPreferredReactions__subtitle": {
+        "message": "Klikoni që të zëvendësohet një emoxhi",
+        "description": "Instructions in the modal for customizing the preferred reactions."
+    },
+    "CustomizingPreferredReactions__had-save-error": {
+        "message": "Pati një gabim teksa ruheshin rregullimet tuaja. Ju lutemi, riprovoni.",
+        "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
+    },
     "WhatsNew__modal-title": {
         "message": "Ç’ka të Re",
         "description": "Title for the whats new modal"
-    },
-    "WhatsNew__v5.15--1": {
-        "message": "Jo, s’është pluhur që duhet fshirë nga monitori, tani është një pikë për mesazhe audio ardhës të padëgjuar ende.",
-        "description": "Release notes for v5.15"
-    },
-    "WhatsNew__v5.15--2": {
-        "message": "Hollit të thirrjeve iu bë ca rimodelim dhe rinovime dhe as që na u desh t’i rifinanconim.",
-        "description": "Release notes for v5.15"
-    },
-    "WhatsNew__v5.15--3": {
-        "message": "Dritarja e re e parapëlqimeve tani është më e mirë dhe më e shpejtë. Jepini dhe ndryshoni shkallën tuaj për zmadhim/zvogëlim, ndërroni temën, caktoni një kohëmatës vetjak për mesazhe që treten.",
-        "description": "Release notes for v5.15"
-    },
-    "WhatsNew__v5.15--4": {
-        "message": "Tani mund të zgjidhni kur të shkarkohet dhe të aplikohen përditësime të reja të Signal-it. Dialogëve iu bënë gjithashtu disa ndryshime të vockla. Shiheni rregullimin përkatës te dritarja e re e parapëlqimeve.",
-        "description": "Release notes for v5.15"
-    },
-    "WhatsNew__v5.15--5": {
-        "message": "U ndreqën thasë me të meta dhe ka edhe disa përmirësime të funksionimit. Faleminderit për krejt njoftimet rreth tyre!",
-        "description": "Release notes for v5.15"
     },
     "WhatsNew__v5.16--1": {
         "message": "Një “lightbox” medias i përmirësuar s’duhet të jetë surprizë, teksa përparoni nëpër një galeri figurash dhe videosh, dhe mund të pretendoni se gjendeni vërtet në një dhomë të errët duke zmadhuar  për të fshehur ata butonat e bezdisur.",
@@ -6358,5 +6410,45 @@
     "WhatsNew__v5.17--2": {
         "message": "Tani mund të dërgoni mesazhe kurdo dhe kudo që gjendeni: në avion, në tunel, ose në atë çastin e trishtuar kur interneti juaj u ndërpre. Tek e fundit do të dërgohet; për mesazhet tanimë riprovohet automatikisht deri në 24 orë.",
         "description": "Release notes for v5.17"
+    },
+    "WhatsNew__v5.18--1": {
+        "message": "Ndjeheni ❤️‍🔥 ose 😶‍🌫️? Mund të shprehni veten me një grup të ri emoji-sh, qoftë kur :whispering, qoftë kur :YELLING, teksa kërkoni. Faleminderit $hiqua$!",
+        "description": "Release notes for v5.18",
+        "placeholders": {
+            "hiqua": {
+                "content": "$1",
+                "example": "<a href='https://github.com/hiqua'>@hiqua</a>"
+            }
+        }
+    },
+    "WhatsNew__v5.18--2": {
+        "message": "Nëse gjendeni në Anguila, mbase ju duket se ju kemi lënë jashtë. Tani i shndërrojmë krejt përkatësitë e epërme, të tilla prej 2010-s, në lidhje - kështu që, si $gov$, ashtu edhe $brain$ do të jenë të klikueshme mu si $signal$. Falënderime $jojomatik$!",
+        "description": "Release notes for v5.18",
+        "placeholders": {
+            "gov": {
+                "content": "$1",
+                "example": "<a href='https://gov.ai'>gov.ai</a>"
+            },
+            "brain": {
+                "content": "$2",
+                "example": "<a href='https://brain.ai'>brain.ai</a>"
+            },
+            "signal": {
+                "content": "$3",
+                "example": "<a href='https://signal.org'>signal.org</a>"
+            },
+            "jojomatik": {
+                "content": "$4",
+                "example": "<a href='https://github.com/jojomatik'>@jojomatik</a>"
+            }
+        }
+    },
+    "WhatsNew__v5.18--3": {
+        "message": "Kemi dëgjuar se ju pëlqen të zmadhoni a zvogëloni te figura. I shtuam fuqinë zoom-it tuaj, që edhe figurat më të vogla të mund të hapen sa krejt ekrani.",
+        "description": "Release notes for v5.18"
+    },
+    "WhatsNew__v5.18--4": {
+        "message": "E dini se nëse janë të aktivizuara mesazhe që treten, edhe njoftimi 'Ky mesazh është fshirë' do të tretet, kur skadon? S’është më ndonjë mister - mu te mesazhi do të shihni numrin dhe vulën kohore.",
+        "description": "Release notes for v5.18"
     }
 }

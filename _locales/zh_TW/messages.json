@@ -676,7 +676,7 @@
         "description": "Shown to allow the user to manually attempt a reconnect."
     },
     "connectingHangOn": {
-        "message": "應該不會久",
+        "message": "很快就好…",
         "description": "Subtext description for when the client is connecting to the server."
     },
     "offline": {
@@ -1269,7 +1269,11 @@
     },
     "save": {
         "message": "儲存",
-        "description": "Used as a 'commit changes' button in the Caption Editor for outgoing image attachments"
+        "description": "Used on save buttons"
+    },
+    "reset": {
+        "message": "重設",
+        "description": "Used on reset buttons"
     },
     "fileIconAlt": {
         "message": "檔案圖示",
@@ -1346,6 +1350,14 @@
     "calling": {
         "message": "撥打中",
         "description": "Header for calling options on the settings screen"
+    },
+    "calling__call-back": {
+        "message": "回撥",
+        "description": "Button to call someone back"
+    },
+    "calling__call-again": {
+        "message": "重撥電話",
+        "description": "Button to call someone again"
     },
     "calling__start": {
         "message": "開始通話",
@@ -2363,6 +2375,10 @@
     },
     "autoUpdateLaterButtonLabel": {
         "message": "稍後",
+        "description": ""
+    },
+    "autoUpdateIgnoreButtonLabel": {
+        "message": "忽略升級",
         "description": ""
     },
     "leftTheGroup": {
@@ -3405,7 +3421,7 @@
     },
     "member-of-2-groups": {
         "message": "$group1$及$group2$的成員",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups",
+        "description": "Shown in the conversation hero to indicate this user is a member of two mutual groups",
         "placeholders": {
             "group1": {
                 "content": "$1",
@@ -3419,7 +3435,7 @@
     },
     "member-of-3-groups": {
         "message": "$group1$，$group2$，及$group3$的成員",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
+        "description": "Shown in the conversation hero to indicate this user is a member of three mutual groups",
         "placeholders": {
             "group1": {
                 "content": "$1",
@@ -3435,9 +3451,45 @@
             }
         }
     },
-    "member-of-more-than-3-groups": {
+    "member-of-more-than-3-groups--one-more": {
+        "message": "$group1$、$group2$、$group3$成員及再一位",
+        "description": "Shown in the conversation hero to indicate this user is a member of four mutual groups",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            },
+            "group3": {
+                "content": "$3",
+                "example": "Friends 🌿"
+            }
+        }
+    },
+    "member-of-more-than-3-groups--multiple-more": {
         "message": "$group1$，$group2$，$group3$及$remainingCount$或更多的成員",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
+        "description": "Shown in the conversation hero to indicate this user is a member of 5+ mutual groups.",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            },
+            "group3": {
+                "content": "$3",
+                "example": "Friends 🌿"
+            },
+            "remainingCount": {
+                "content": "$4",
+                "example": "3"
+            }
+        }
     },
     "ConversationHero--membership-added": {
         "message": "$name$已將你加入群組。",
@@ -3714,7 +3766,7 @@
         "description": "Title for the select your screen sharing sources modal"
     },
     "calling__SelectPresentingSourcesModal--confirm": {
-        "message": "分享螢幕畫面",
+        "message": "開始分享",
         "description": "Confirm button for sharing screen modal"
     },
     "calling__SelectPresentingSourcesModal--entireScreen": {
@@ -5214,7 +5266,7 @@
         }
     },
     "ContactModal--rm-admin-info": {
-        "message": "移除 $contact$ 為群組管理員",
+        "message": "以群組管理員身分移除$contact$嗎?",
         "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone",
         "placeholders": {
             "contact": {
@@ -5640,7 +5692,7 @@
         "description": "The text of the button to create new groups"
     },
     "selectContact": {
-        "message": "選擇連絡人",
+        "message": "選擇聯絡人 $name$",
         "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)",
         "placeholders": {
             "name": {
@@ -5650,7 +5702,7 @@
         }
     },
     "deselectContact": {
-        "message": "取消選擇聯絡人",
+        "message": "取消選擇聯絡人 $name$",
         "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)",
         "placeholders": {
             "name": {
@@ -5660,7 +5712,7 @@
         }
     },
     "cannotSelectContact": {
-        "message": "無法選擇聯絡人",
+        "message": "無法選擇聯絡人 $name$",
         "description": "The label for contact checkboxes that are disabled",
         "placeholders": {
             "name": {
@@ -6315,29 +6367,29 @@
             }
         }
     },
+    "NSIS__retry-dialog--first-line": {
+        "message": "Signal 無法關閉。",
+        "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
+    },
+    "NSIS__retry-dialog--second-line": {
+        "message": "請手動關閉它，然後單擊重試以繼續。",
+        "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
+    },
+    "CustomizingPreferredReactions__title": {
+        "message": "自定義回應",
+        "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
+    },
+    "CustomizingPreferredReactions__subtitle": {
+        "message": "點擊以取代一個表情符號",
+        "description": "Instructions in the modal for customizing the preferred reactions."
+    },
+    "CustomizingPreferredReactions__had-save-error": {
+        "message": "保存設定時出錯。 請再試一次。",
+        "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
+    },
     "WhatsNew__modal-title": {
         "message": "有甚麼新的",
         "description": "Title for the whats new modal"
-    },
-    "WhatsNew__v5.15--1": {
-        "message": "不，這不是你需要從顯示器上清除的灰塵，現在有一個點用於未播放的傳入與音訊息。",
-        "description": "Release notes for v5.15"
-    },
-    "WhatsNew__v5.15--2": {
-        "message": "通話大廳進行了一些改造和翻新，我們甚至不必再融資。",
-        "description": "Release notes for v5.15"
-    },
-    "WhatsNew__v5.15--3": {
-        "message": "新的設定視窗更好更快。 繼續變更縮放等級，切換主題，設定自定義自動銷毀計時器",
-        "description": "Release notes for v5.15"
-    },
-    "WhatsNew__v5.15--4": {
-        "message": "你現在可以選擇何時下載和執行 Signal 的更新。 對話也進行了小改動。 查看新設定視窗中的設定選項。",
-        "description": "Release notes for v5.15"
-    },
-    "WhatsNew__v5.15--5": {
-        "message": "更正了許多錯誤，並且還有一些性能上的改進。 謝謝大家的回報！",
-        "description": "Release notes for v5.15"
     },
     "WhatsNew__v5.16--1": {
         "message": "改善的媒體燈箱意味著你在瀏覽圖片或影片庫時不會感到詫異，而且你可以透過放大隱藏那些惱人的按鈕來假裝自己真的在暗房裡。",
@@ -6358,5 +6410,45 @@
     "WhatsNew__v5.17--2": {
         "message": "你現在可以隨時隨地傳送訊息：在飛機上、隧道中，或者網路中斷的難過時刻。它最終會過去； 訊息現在會自動重試長達 24 小時。",
         "description": "Release notes for v5.17"
+    },
+    "WhatsNew__v5.18--1": {
+        "message": "感覺❤️‍🔥還是😶‍🌫️？ 您可以使用一組新的表情符號來表達自己，無論您是在搜索時是 :呢喃 還是 :喊叫。 謝謝  $hiqua$！",
+        "description": "Release notes for v5.18",
+        "placeholders": {
+            "hiqua": {
+                "content": "$1",
+                "example": "<a href='https://github.com/hiqua'>@hiqua</a>"
+            }
+        }
+    },
+    "WhatsNew__v5.18--2": {
+        "message": "如果你在安圭拉，也許你會感到被冷落。 我們現在將自 2010 年以來的所有頂級網域都轉換為連結 - 因此兩者 $gov$和 $brain$ 都可以像 $signal$ 點擊 . 謝謝 $jojomatik$！",
+        "description": "Release notes for v5.18",
+        "placeholders": {
+            "gov": {
+                "content": "$1",
+                "example": "<a href='https://gov.ai'>gov.ai</a>"
+            },
+            "brain": {
+                "content": "$2",
+                "example": "<a href='https://brain.ai'>brain.ai</a>"
+            },
+            "signal": {
+                "content": "$3",
+                "example": "<a href='https://signal.org'>signal.org</a>"
+            },
+            "jojomatik": {
+                "content": "$4",
+                "example": "<a href='https://github.com/jojomatik'>@jojomatik</a>"
+            }
+        }
+    },
+    "WhatsNew__v5.18--3": {
+        "message": "我們聽說你喜歡放大圖像。 我們為你的縮放功能加了點魅力，因此即使是小圖像也可以全螢幕顯示。",
+        "description": "Release notes for v5.18"
+    },
+    "WhatsNew__v5.18--4": {
+        "message": "你是否知道如果啟用了自動銷毀訊息，即使“此訊息已被刪除”通知也會在到期時消失？ 這不再是一個謎 - 你會在訊息上看到倒計時和時間戳。",
+        "description": "Release notes for v5.18"
     }
 }

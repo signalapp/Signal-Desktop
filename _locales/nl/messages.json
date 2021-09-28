@@ -1269,7 +1269,11 @@
     },
     "save": {
         "message": "Opslaan",
-        "description": "Used as a 'commit changes' button in the Caption Editor for outgoing image attachments"
+        "description": "Used on save buttons"
+    },
+    "reset": {
+        "message": "Standaardinstelling herstellen",
+        "description": "Used on reset buttons"
     },
     "fileIconAlt": {
         "message": "Bestandspictogram",
@@ -1346,6 +1350,14 @@
     "calling": {
         "message": "Bellen",
         "description": "Header for calling options on the settings screen"
+    },
+    "calling__call-back": {
+        "message": "Terugbellen",
+        "description": "Button to call someone back"
+    },
+    "calling__call-again": {
+        "message": "Opnieuw bellen",
+        "description": "Button to call someone again"
     },
     "calling__start": {
         "message": "Oproep beginnen",
@@ -2363,6 +2375,10 @@
     },
     "autoUpdateLaterButtonLabel": {
         "message": "Later",
+        "description": ""
+    },
+    "autoUpdateIgnoreButtonLabel": {
+        "message": "Nieuwe versie negeren",
         "description": ""
     },
     "leftTheGroup": {
@@ -3405,7 +3421,7 @@
     },
     "member-of-2-groups": {
         "message": "Lid van $group1$ en $group2$",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups",
+        "description": "Shown in the conversation hero to indicate this user is a member of two mutual groups",
         "placeholders": {
             "group1": {
                 "content": "$1",
@@ -3419,7 +3435,7 @@
     },
     "member-of-3-groups": {
         "message": "Lid van $group1$, $group2$ en $group3$",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
+        "description": "Shown in the conversation hero to indicate this user is a member of three mutual groups",
         "placeholders": {
             "group1": {
                 "content": "$1",
@@ -3435,9 +3451,45 @@
             }
         }
     },
-    "member-of-more-than-3-groups": {
+    "member-of-more-than-3-groups--one-more": {
+        "message": "Lid van $group1$, $group2$, $group3$ en nog een groep",
+        "description": "Shown in the conversation hero to indicate this user is a member of four mutual groups",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            },
+            "group3": {
+                "content": "$3",
+                "example": "Friends 🌿"
+            }
+        }
+    },
+    "member-of-more-than-3-groups--multiple-more": {
         "message": "Lid van $group1$, $group2$, $group3$ en $remainingCount$ andere groepen",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
+        "description": "Shown in the conversation hero to indicate this user is a member of 5+ mutual groups.",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            },
+            "group3": {
+                "content": "$3",
+                "example": "Friends 🌿"
+            },
+            "remainingCount": {
+                "content": "$4",
+                "example": "3"
+            }
+        }
     },
     "ConversationHero--membership-added": {
         "message": "$name$ heeft je toegevoegd aan de groep.",
@@ -5640,7 +5692,7 @@
         "description": "The text of the button to create new groups"
     },
     "selectContact": {
-        "message": "Selecteer contact",
+        "message": "$name$ selecteren",
         "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)",
         "placeholders": {
             "name": {
@@ -5650,7 +5702,7 @@
         }
     },
     "deselectContact": {
-        "message": "Contactpersoon de-selecteren",
+        "message": "$name$ deselecteren",
         "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)",
         "placeholders": {
             "name": {
@@ -5660,7 +5712,7 @@
         }
     },
     "cannotSelectContact": {
-        "message": "Kan deze contactpersoon niet selecteren",
+        "message": "$name$ kan niet worden geselecteerd",
         "description": "The label for contact checkboxes that are disabled",
         "placeholders": {
             "name": {
@@ -6315,29 +6367,29 @@
             }
         }
     },
+    "NSIS__retry-dialog--first-line": {
+        "message": "Signal kan niet automatisch worden afgesloten.",
+        "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
+    },
+    "NSIS__retry-dialog--second-line": {
+        "message": "Sluit zelf de Signal app en klik vervolgens op ‘Opnieuw proberen’.",
+        "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
+    },
+    "CustomizingPreferredReactions__title": {
+        "message": "Reactie-balk personaliseren",
+        "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
+    },
+    "CustomizingPreferredReactions__subtitle": {
+        "message": "Klik op een emoji om die te vervangen",
+        "description": "Instructions in the modal for customizing the preferred reactions."
+    },
+    "CustomizingPreferredReactions__had-save-error": {
+        "message": "Er is een fout opgetreden bij het opslaan van je instellingen. Probeer het opnieuw.",
+        "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
+    },
     "WhatsNew__modal-title": {
         "message": "wat er nieuw is",
         "description": "Title for the whats new modal"
-    },
-    "WhatsNew__v5.15--1": {
-        "message": "Je ziet vanaf nu een stip op binnengekomen audioberichten die je nog niet hebt beluisterd.",
-        "description": "Release notes for v5.15"
-    },
-    "WhatsNew__v5.15--2": {
-        "message": "Het belscherm is vernieuwd",
-        "description": "Release notes for v5.15"
-    },
-    "WhatsNew__v5.15--3": {
-        "message": "Het voorkeurenscherm is vernieuwd en opent ook sneller. Neem een keer een kijkje om te zien of er nog iets is wat je anders wilt instellen.",
-        "description": "Release notes for v5.15"
-    },
-    "WhatsNew__v5.15--4": {
-        "message": "Je kunt vanaf nu kiezen wanneer je nieuwe versies wilt downloaden en installeren. Je vindt deze instelling in het voorkeurenmenu.",
-        "description": "Release notes for v5.15"
-    },
-    "WhatsNew__v5.15--5": {
-        "message": "Veel fouten opgelost en ook een aantal verbeteringing voor de prestaties. Bedankt voor jullie terugkoppeling!",
-        "description": "Release notes for v5.15"
     },
     "WhatsNew__v5.16--1": {
         "message": "Een verbeterde achtergrond bij get weergeven van afbeeldingen en video's waardoor je niet meer wordt verblind in een donkere kamer. En als je de media vergroot dan worden de knoppen verborgen.",
@@ -6358,5 +6410,45 @@
     "WhatsNew__v5.17--2": {
         "message": "Je kunt vanaf nu op elk moment berichten verzenden, ook als je even geen internetverbinding hebt, want Signal zal nog 24 uur lang proberen om het bericht alsnog te verzenden.",
         "description": "Release notes for v5.17"
+    },
+    "WhatsNew__v5.18--1": {
+        "message": "Voel je je ❤️‍🔥 of 😶‍🌫️? Dan kun je dat vanaf nu uitdrukken met de nieuwe emojis die we hebben toegevoegd. En het maakt niet uit of je :kleine letters of :BLOKLETTERS gebruikt wanneer je een emoji typt. Met dank voor de vrijwillige bijdrage aan $hiqua$.",
+        "description": "Release notes for v5.18",
+        "placeholders": {
+            "hiqua": {
+                "content": "$1",
+                "example": "<a href='https://github.com/hiqua'>@hiqua</a>"
+            }
+        }
+    },
+    "WhatsNew__v5.18--2": {
+        "message": "Als je op het eiland Anguilla woont dan vond je het misschien vervelend dat websites niet aanklikbaar waren. Met hulp van $jojomatik$ is dat nu opgelost voor alle domeinnamen zoals die sinds 2010 erkent worden. Dus vanaf nu werken $gov$ en $brain$ net zo goed als $signal$.",
+        "description": "Release notes for v5.18",
+        "placeholders": {
+            "gov": {
+                "content": "$1",
+                "example": "<a href='https://gov.ai'>gov.ai</a>"
+            },
+            "brain": {
+                "content": "$2",
+                "example": "<a href='https://brain.ai'>brain.ai</a>"
+            },
+            "signal": {
+                "content": "$3",
+                "example": "<a href='https://signal.org'>signal.org</a>"
+            },
+            "jojomatik": {
+                "content": "$4",
+                "example": "<a href='https://github.com/jojomatik'>@jojomatik</a>"
+            }
+        }
+    },
+    "WhatsNew__v5.18--3": {
+        "message": "Je kunt vanaf nu afbeeldingen verder vergroten.",
+        "description": "Release notes for v5.18"
+    },
+    "WhatsNew__v5.18--4": {
+        "message": "Wist je al dat als je een verlopent bericht wist dat het bericht “Dit bericht is gewist” dan ook verloopt? Vanaf nu zie je dat ook duidelijk, want het klokje wordt nu ook weergegeven op dat bericht.",
+        "description": "Release notes for v5.18"
     }
 }

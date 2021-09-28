@@ -1269,7 +1269,11 @@
     },
     "save": {
         "message": "Uložit",
-        "description": "Used as a 'commit changes' button in the Caption Editor for outgoing image attachments"
+        "description": "Used on save buttons"
+    },
+    "reset": {
+        "message": "Obnovit",
+        "description": "Used on reset buttons"
     },
     "fileIconAlt": {
         "message": "Ikona souboru",
@@ -1346,6 +1350,14 @@
     "calling": {
         "message": "Volání",
         "description": "Header for calling options on the settings screen"
+    },
+    "calling__call-back": {
+        "message": "Zavolat zpět",
+        "description": "Button to call someone back"
+    },
+    "calling__call-again": {
+        "message": "Zavolat znovu",
+        "description": "Button to call someone again"
     },
     "calling__start": {
         "message": "Zahájit hovor",
@@ -2363,6 +2375,10 @@
     },
     "autoUpdateLaterButtonLabel": {
         "message": "Později",
+        "description": ""
+    },
+    "autoUpdateIgnoreButtonLabel": {
+        "message": "Ignorovat aktualizaci",
         "description": ""
     },
     "leftTheGroup": {
@@ -3405,7 +3421,7 @@
     },
     "member-of-2-groups": {
         "message": "Člen skupin $group1$ a $group2$",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups",
+        "description": "Shown in the conversation hero to indicate this user is a member of two mutual groups",
         "placeholders": {
             "group1": {
                 "content": "$1",
@@ -3419,7 +3435,7 @@
     },
     "member-of-3-groups": {
         "message": "Člen skupin $group1$, $group2$ a $group3$",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
+        "description": "Shown in the conversation hero to indicate this user is a member of three mutual groups",
         "placeholders": {
             "group1": {
                 "content": "$1",
@@ -3435,9 +3451,45 @@
             }
         }
     },
-    "member-of-more-than-3-groups": {
+    "member-of-more-than-3-groups--one-more": {
+        "message": "Člen skupiny $group1$, $group2$, $group3$ a jedné další",
+        "description": "Shown in the conversation hero to indicate this user is a member of four mutual groups",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            },
+            "group3": {
+                "content": "$3",
+                "example": "Friends 🌿"
+            }
+        }
+    },
+    "member-of-more-than-3-groups--multiple-more": {
         "message": "Člen skupin $group1$, $group2$, $group3$ a dalších $remainingCount$ skupin",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
+        "description": "Shown in the conversation hero to indicate this user is a member of 5+ mutual groups.",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            },
+            "group3": {
+                "content": "$3",
+                "example": "Friends 🌿"
+            },
+            "remainingCount": {
+                "content": "$4",
+                "example": "3"
+            }
+        }
     },
     "ConversationHero--membership-added": {
         "message": "$name$ vás přidal(a) do skupiny.",
@@ -3714,7 +3766,7 @@
         "description": "Title for the select your screen sharing sources modal"
     },
     "calling__SelectPresentingSourcesModal--confirm": {
-        "message": "Sdílet obrazovku",
+        "message": "Začít sdílení",
         "description": "Confirm button for sharing screen modal"
     },
     "calling__SelectPresentingSourcesModal--entireScreen": {
@@ -5214,7 +5266,7 @@
         }
     },
     "ContactModal--rm-admin-info": {
-        "message": "Odstranit $contact$ jako správce skupiny",
+        "message": "Odstranit $contact$ jako správce skupiny?",
         "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone",
         "placeholders": {
             "contact": {
@@ -5640,7 +5692,7 @@
         "description": "The text of the button to create new groups"
     },
     "selectContact": {
-        "message": "Zvolit kontakt",
+        "message": "Zvolit kontakt $name$",
         "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)",
         "placeholders": {
             "name": {
@@ -5650,7 +5702,7 @@
         }
     },
     "deselectContact": {
-        "message": "Zrušit volbu kontaktu",
+        "message": "Zrušit volbu kontaktu $name$",
         "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)",
         "placeholders": {
             "name": {
@@ -5660,7 +5712,7 @@
         }
     },
     "cannotSelectContact": {
-        "message": "Nelze zvolit kontakt",
+        "message": "Nebylo možné zvolit kontakt $name$",
         "description": "The label for contact checkboxes that are disabled",
         "placeholders": {
             "name": {
@@ -6315,29 +6367,29 @@
             }
         }
     },
+    "NSIS__retry-dialog--first-line": {
+        "message": "Aplikaci Signal se nepodařilo zavřít.",
+        "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
+    },
+    "NSIS__retry-dialog--second-line": {
+        "message": "Zavřete ji ručně a poté klikněte na Opakovat pro pokračování.",
+        "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
+    },
+    "CustomizingPreferredReactions__title": {
+        "message": "Přizpůsobení reakcí",
+        "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
+    },
+    "CustomizingPreferredReactions__subtitle": {
+        "message": "Klepněte pro nahrazení smajlíka",
+        "description": "Instructions in the modal for customizing the preferred reactions."
+    },
+    "CustomizingPreferredReactions__had-save-error": {
+        "message": "Objevila se chyba při ukládání nastavení. Zkuste to prosím znovu.",
+        "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
+    },
     "WhatsNew__modal-title": {
         "message": "Co je nového",
         "description": "Title for the whats new modal"
-    },
-    "WhatsNew__v5.15--1": {
-        "message": "Ne, to není smítko prachu, které musíte z monitoru odfouknout, nyní je tam tečka pro nepřehrané příchozí zvukové zprávy.",
-        "description": "Release notes for v5.15"
-    },
-    "WhatsNew__v5.15--2": {
-        "message": "V místnosti, kde se volá, proběhla přestavba a renovace a my jsme ani nemuseli refinancovat.",
-        "description": "Release notes for v5.15"
-    },
-    "WhatsNew__v5.15--3": {
-        "message": "Nové okno předvoleb je lepší a rychlejší. Můžete si změnit úroveň přiblížení, přepnout motiv nebo nastavit vlastní časovač zmizení.",
-        "description": "Release notes for v5.15"
-    },
-    "WhatsNew__v5.15--4": {
-        "message": "Nyní si můžete zvolit, kdy se mají stáhnout a použít nové aktualizace aplikace Signal. Drobné změny se dotkly i dialogových oken. Podívejte se na nastavení v novém okně předvoleb.",
-        "description": "Release notes for v5.15"
-    },
-    "WhatsNew__v5.15--5": {
-        "message": "Bylo odstraněno mnoho chyb a došlo také k vylepšení výkonu. Děkujeme vám všem za vaši zpětnou vazbu!",
-        "description": "Release notes for v5.15"
     },
     "WhatsNew__v5.16--1": {
         "message": "Vylepšený lightbox médií znamená, že vás při procházení galerie obrázků nebo videí nečeká žádné překvapení a můžete předstírat, že jste skutečně v tmavé místnosti a přiblížením skrýt ta otravná tlačítka.",
@@ -6358,5 +6410,45 @@
     "WhatsNew__v5.17--2": {
         "message": "Nyní můžete posílat zprávy kdekoli a kdykoli: v letadle, v tunelu nebo ve smutné chvíli, kdy vám právě vypadl internet. Nakonec se to podaří; zprávy se nyní automaticky opakují až 24 hodin.",
         "description": "Release notes for v5.17"
+    },
+    "WhatsNew__v5.18--1": {
+        "message": "Cítíte ❤️‍🔥 nebo 😶‍🌫️? Nyní se můžete lépe vyjádřit s novou dávkou smajlíků. Díky $hiqua$!",
+        "description": "Release notes for v5.18",
+        "placeholders": {
+            "hiqua": {
+                "content": "$1",
+                "example": "<a href='https://github.com/hiqua'>@hiqua</a>"
+            }
+        }
+    },
+    "WhatsNew__v5.18--2": {
+        "message": "Pokud jste v Anguille, možná jste se cítili odstrčení. Nyní měníme všechny domény nejvyšší úrovně zavedené od roku 2010 na odkazy - takže jak $gov$, tak i $brain$ budou klikatelné stejně jako $signal$. Díky $jojomatik$!",
+        "description": "Release notes for v5.18",
+        "placeholders": {
+            "gov": {
+                "content": "$1",
+                "example": "<a href='https://gov.ai'>gov.ai</a>"
+            },
+            "brain": {
+                "content": "$2",
+                "example": "<a href='https://brain.ai'>brain.ai</a>"
+            },
+            "signal": {
+                "content": "$3",
+                "example": "<a href='https://signal.org'>signal.org</a>"
+            },
+            "jojomatik": {
+                "content": "$4",
+                "example": "<a href='https://github.com/jojomatik'>@jojomatik</a>"
+            }
+        }
+    },
+    "WhatsNew__v5.18--3": {
+        "message": "Slyšeli jsme, že rádi přibližujete obrázky. Přidali jsme do přiblížení sílu, takže i malé obrázky můžete zobrazit přes celou obrazovku.",
+        "description": "Release notes for v5.18"
+    },
+    "WhatsNew__v5.18--4": {
+        "message": "Věděli jste, že pokud je povoleno mizení zpráv, zmizí po vypršení platnosti i oznámení \"Tato zpráva byla smazána\"? Už to není žádná záhada - přímo na zprávě uvidíte odpočet a časové razítko.",
+        "description": "Release notes for v5.18"
     }
 }

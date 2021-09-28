@@ -1269,7 +1269,11 @@
     },
     "save": {
         "message": "保存",
-        "description": "Used as a 'commit changes' button in the Caption Editor for outgoing image attachments"
+        "description": "Used on save buttons"
+    },
+    "reset": {
+        "message": "リセット",
+        "description": "Used on reset buttons"
     },
     "fileIconAlt": {
         "message": "ファイルのアイコン",
@@ -1346,6 +1350,14 @@
     "calling": {
         "message": "通話",
         "description": "Header for calling options on the settings screen"
+    },
+    "calling__call-back": {
+        "message": "折り返す",
+        "description": "Button to call someone back"
+    },
+    "calling__call-again": {
+        "message": "リダイヤルする",
+        "description": "Button to call someone again"
     },
     "calling__start": {
         "message": "通話を開始する",
@@ -2363,6 +2375,10 @@
     },
     "autoUpdateLaterButtonLabel": {
         "message": "あとで",
+        "description": ""
+    },
+    "autoUpdateIgnoreButtonLabel": {
+        "message": "アップデートを無視",
         "description": ""
     },
     "leftTheGroup": {
@@ -3405,7 +3421,7 @@
     },
     "member-of-2-groups": {
         "message": "$group1$と$group2$のメンバー",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups",
+        "description": "Shown in the conversation hero to indicate this user is a member of two mutual groups",
         "placeholders": {
             "group1": {
                 "content": "$1",
@@ -3419,7 +3435,7 @@
     },
     "member-of-3-groups": {
         "message": "$group1$、$group2$、$group3$のメンバー",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
+        "description": "Shown in the conversation hero to indicate this user is a member of three mutual groups",
         "placeholders": {
             "group1": {
                 "content": "$1",
@@ -3435,9 +3451,45 @@
             }
         }
     },
-    "member-of-more-than-3-groups": {
+    "member-of-more-than-3-groups--one-more": {
+        "message": "$group1$、$group2$、$group3$、他１グループのメンバー",
+        "description": "Shown in the conversation hero to indicate this user is a member of four mutual groups",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            },
+            "group3": {
+                "content": "$3",
+                "example": "Friends 🌿"
+            }
+        }
+    },
+    "member-of-more-than-3-groups--multiple-more": {
         "message": "$group1$、$group2$、$group3$、他$remainingCount$グループのメンバー",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
+        "description": "Shown in the conversation hero to indicate this user is a member of 5+ mutual groups.",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            },
+            "group3": {
+                "content": "$3",
+                "example": "Friends 🌿"
+            },
+            "remainingCount": {
+                "content": "$4",
+                "example": "3"
+            }
+        }
     },
     "ConversationHero--membership-added": {
         "message": "$name$があなたをグループに追加しました。",
@@ -3714,7 +3766,7 @@
         "description": "Title for the select your screen sharing sources modal"
     },
     "calling__SelectPresentingSourcesModal--confirm": {
-        "message": "画面を共有する",
+        "message": "共有を開始",
         "description": "Confirm button for sharing screen modal"
     },
     "calling__SelectPresentingSourcesModal--entireScreen": {
@@ -5214,7 +5266,7 @@
         }
     },
     "ContactModal--rm-admin-info": {
-        "message": "$contact$ をグループ管理者から外す",
+        "message": "$contact$ をグループ管理者から外しますか？",
         "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone",
         "placeholders": {
             "contact": {
@@ -5640,7 +5692,7 @@
         "description": "The text of the button to create new groups"
     },
     "selectContact": {
-        "message": "連絡先を選択",
+        "message": "$name$ を選択",
         "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)",
         "placeholders": {
             "name": {
@@ -5650,7 +5702,7 @@
         }
     },
     "deselectContact": {
-        "message": "連絡先の選択を解除",
+        "message": "$name$ の選択を解除",
         "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)",
         "placeholders": {
             "name": {
@@ -5660,7 +5712,7 @@
         }
     },
     "cannotSelectContact": {
-        "message": "連絡先を選択できません",
+        "message": "$name$ を選択できません",
         "description": "The label for contact checkboxes that are disabled",
         "placeholders": {
             "name": {
@@ -6315,29 +6367,29 @@
             }
         }
     },
+    "NSIS__retry-dialog--first-line": {
+        "message": "Signalが終了できません。",
+        "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
+    },
+    "NSIS__retry-dialog--second-line": {
+        "message": "手動で閉じて、『再試行』をクリックしてください。",
+        "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
+    },
+    "CustomizingPreferredReactions__title": {
+        "message": "リアクションのカスタマイズ",
+        "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
+    },
+    "CustomizingPreferredReactions__subtitle": {
+        "message": "クリックして絵文字を置き換えます",
+        "description": "Instructions in the modal for customizing the preferred reactions."
+    },
+    "CustomizingPreferredReactions__had-save-error": {
+        "message": "設定の保存時にエラーが発生しました。もう一度お試しください。",
+        "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
+    },
     "WhatsNew__modal-title": {
         "message": "新機能",
         "description": "Title for the whats new modal"
-    },
-    "WhatsNew__v5.15--1": {
-        "message": "未再生の音声メッセージには、バブルの中に点が表示されるようになりました。これは、ホコリではないですよ。",
-        "description": "Release notes for v5.15"
-    },
-    "WhatsNew__v5.15--2": {
-        "message": "通話前のロビーを改装しました。",
-        "description": "Release notes for v5.15"
-    },
-    "WhatsNew__v5.15--3": {
-        "message": "新しい設定ウィンドウは、より良く、より速くなりました。ズームレベルを変更したり、テーマを切り替えたり、消えるメッセージの既定の時間を設定したりすることができます。",
-        "description": "Release notes for v5.15"
-    },
-    "WhatsNew__v5.15--4": {
-        "message": "Signal のアップデートをダウンロードするタイミングを選択できるようになりました。また、ダイアログも少し変更されました。新しい設定ウィンドウで確認してください。",
-        "description": "Release notes for v5.15"
-    },
-    "WhatsNew__v5.15--5": {
-        "message": "多くのバグを解消し、パフォーマンスも改善されました。ご報告をいただいた皆様、ありがとうございました。",
-        "description": "Release notes for v5.15"
     },
     "WhatsNew__v5.16--1": {
         "message": "改良されたメディアライトボックスでは、画像や動画のギャラリーを見ても驚くことはありません。また、ズームして厄介なボタンを隠すことで、本物の暗室にいるかのように見せることができます。",
@@ -6358,5 +6410,45 @@
     "WhatsNew__v5.17--2": {
         "message": "飛行機の中、トンネルの中、インターネットが切れてしまったときなど、いつでもどこでもメッセージを送ることができます。メッセージは最大24時間まで自動的に再試行されます。",
         "description": "Release notes for v5.17"
+    },
+    "WhatsNew__v5.18--1": {
+        "message": "新しい絵文字で自分の感情を表現できるようになりました。今日の気分は❤️‍🔥ですか？それとも、😶‍🌫️ですか？$hiqua$、ありがとう❤️",
+        "description": "Release notes for v5.18",
+        "placeholders": {
+            "hiqua": {
+                "content": "$1",
+                "example": "<a href='https://github.com/hiqua'>@hiqua</a>"
+            }
+        }
+    },
+    "WhatsNew__v5.18--2": {
+        "message": "If you're in Anguilla, maybe you've felt left out. We now turn all top-level domains in place since 2010 into links - so both $gov$ and $brain$ will be clickable just like $signal$. Thanks $jojomatik$!",
+        "description": "Release notes for v5.18",
+        "placeholders": {
+            "gov": {
+                "content": "$1",
+                "example": "<a href='https://gov.ai'>gov.ai</a>"
+            },
+            "brain": {
+                "content": "$2",
+                "example": "<a href='https://brain.ai'>brain.ai</a>"
+            },
+            "signal": {
+                "content": "$3",
+                "example": "<a href='https://signal.org'>signal.org</a>"
+            },
+            "jojomatik": {
+                "content": "$4",
+                "example": "<a href='https://github.com/jojomatik'>@jojomatik</a>"
+            }
+        }
+    },
+    "WhatsNew__v5.18--3": {
+        "message": "画像の拡大ができるようになりました。",
+        "description": "Release notes for v5.18"
+    },
+    "WhatsNew__v5.18--4": {
+        "message": "消えるメッセージを有効にすると、「このメッセージは削除されました」という通知でさえ、期限が切れると消えてしまうことをご存知ですか？メッセージの上にカウントダウンとタイムスタンプが表示されるので、もう迷うことはありません。",
+        "description": "Release notes for v5.18"
     }
 }

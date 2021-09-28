@@ -1269,7 +1269,11 @@
     },
     "save": {
         "message": "Salvează",
-        "description": "Used as a 'commit changes' button in the Caption Editor for outgoing image attachments"
+        "description": "Used on save buttons"
+    },
+    "reset": {
+        "message": "Resetare",
+        "description": "Used on reset buttons"
     },
     "fileIconAlt": {
         "message": "Icoană fișier",
@@ -1346,6 +1350,14 @@
     "calling": {
         "message": "Apel în curs",
         "description": "Header for calling options on the settings screen"
+    },
+    "calling__call-back": {
+        "message": "Apelează înapoi",
+        "description": "Button to call someone back"
+    },
+    "calling__call-again": {
+        "message": "Sună din nou",
+        "description": "Button to call someone again"
     },
     "calling__start": {
         "message": "Începeți apelul",
@@ -2363,6 +2375,10 @@
     },
     "autoUpdateLaterButtonLabel": {
         "message": "Mai târziu",
+        "description": ""
+    },
+    "autoUpdateIgnoreButtonLabel": {
+        "message": "Ignoră actualizarea",
         "description": ""
     },
     "leftTheGroup": {
@@ -3405,7 +3421,7 @@
     },
     "member-of-2-groups": {
         "message": "Membru al $group1$ și $group2$",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups",
+        "description": "Shown in the conversation hero to indicate this user is a member of two mutual groups",
         "placeholders": {
             "group1": {
                 "content": "$1",
@@ -3419,7 +3435,7 @@
     },
     "member-of-3-groups": {
         "message": "Membru al $group1$, $group2$ și $group3$",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
+        "description": "Shown in the conversation hero to indicate this user is a member of three mutual groups",
         "placeholders": {
             "group1": {
                 "content": "$1",
@@ -3435,9 +3451,45 @@
             }
         }
     },
-    "member-of-more-than-3-groups": {
+    "member-of-more-than-3-groups--one-more": {
+        "message": "Membru al $group1$, $group2$, $group3$ și încă unul",
+        "description": "Shown in the conversation hero to indicate this user is a member of four mutual groups",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            },
+            "group3": {
+                "content": "$3",
+                "example": "Friends 🌿"
+            }
+        }
+    },
+    "member-of-more-than-3-groups--multiple-more": {
         "message": "Membru al $group1$, $group2$, $group3$ și încă $remainingCount$",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
+        "description": "Shown in the conversation hero to indicate this user is a member of 5+ mutual groups.",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            },
+            "group3": {
+                "content": "$3",
+                "example": "Friends 🌿"
+            },
+            "remainingCount": {
+                "content": "$4",
+                "example": "3"
+            }
+        }
     },
     "ConversationHero--membership-added": {
         "message": "$name$ te-a adăugat la grup.",
@@ -3714,7 +3766,7 @@
         "description": "Title for the select your screen sharing sources modal"
     },
     "calling__SelectPresentingSourcesModal--confirm": {
-        "message": "Partajați ecranul",
+        "message": "Începe partajarea",
         "description": "Confirm button for sharing screen modal"
     },
     "calling__SelectPresentingSourcesModal--entireScreen": {
@@ -5214,7 +5266,7 @@
         }
     },
     "ContactModal--rm-admin-info": {
-        "message": "Eliminați pe $contact$ ca administrator de grup",
+        "message": "Eliminați pe $contact$ ca administrator de grup?",
         "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone",
         "placeholders": {
             "contact": {
@@ -5640,7 +5692,7 @@
         "description": "The text of the button to create new groups"
     },
     "selectContact": {
-        "message": "Selectează contact",
+        "message": "Selectați contactul $name$",
         "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)",
         "placeholders": {
             "name": {
@@ -5650,7 +5702,7 @@
         }
     },
     "deselectContact": {
-        "message": "Deselectați contactul",
+        "message": "Deselectați contactul $name$",
         "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)",
         "placeholders": {
             "name": {
@@ -5660,7 +5712,7 @@
         }
     },
     "cannotSelectContact": {
-        "message": "Nu se poate selecta contactul",
+        "message": "Nu se poate selecta contactul $name$",
         "description": "The label for contact checkboxes that are disabled",
         "placeholders": {
             "name": {
@@ -6315,29 +6367,29 @@
             }
         }
     },
+    "NSIS__retry-dialog--first-line": {
+        "message": "Signal nu poate fi închis",
+        "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
+    },
+    "NSIS__retry-dialog--second-line": {
+        "message": "Vă rugăm închideți-l manual și apăsați Reîncercare pentru a continua.",
+        "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
+    },
+    "CustomizingPreferredReactions__title": {
+        "message": "Personalizare reacții",
+        "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
+    },
+    "CustomizingPreferredReactions__subtitle": {
+        "message": "Apăsați pentru a înlocui un emoji",
+        "description": "Instructions in the modal for customizing the preferred reactions."
+    },
+    "CustomizingPreferredReactions__had-save-error": {
+        "message": "S-a produs o eroare la salvarea setărilor dvs. Vă rugăm să încercați din nou.",
+        "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
+    },
     "WhatsNew__modal-title": {
         "message": "Ce este nou",
         "description": "Title for the whats new modal"
-    },
-    "WhatsNew__v5.15--1": {
-        "message": "Nu, acela nu este un punct de praf pe care trebuie să-l ștergeți de pe monitor, există acum un punct pentru mesajele audio primite dar neredate.",
-        "description": "Release notes for v5.15"
-    },
-    "WhatsNew__v5.15--2": {
-        "message": "Sala de așteptare pentru apeluri a fost remodelată și renovată și nici măcar n-am fost nevoiți să refinanțăm.",
-        "description": "Release notes for v5.15"
-    },
-    "WhatsNew__v5.15--3": {
-        "message": "Noua fereastră de preferințe este mai eficientă și mai rapidă. Puteți schimba nivelul de zoom, comuta tema, sau seta un timp personalizat pentru dispariția mesajelor.",
-        "description": "Release notes for v5.15"
-    },
-    "WhatsNew__v5.15--4": {
-        "message": "Acum puteți alege când să descărcați si să instalați noile actualizări pentru Signal. Dialogurile au primit și ele o mică transformare. Încercați setarea în noua fereastră de preferințe.",
-        "description": "Release notes for v5.15"
-    },
-    "WhatsNew__v5.15--5": {
-        "message": "Am rezolvat o mulțime de erori și am făcut de asemenea și câteva îmbunătățiri de performanță. Mulțumim tuturor pentru rapoartele voastre!",
-        "description": "Release notes for v5.15"
     },
     "WhatsNew__v5.16--1": {
         "message": "Un lightbox îmbunătățit pentru fișiere media vă scutește de surprize pe măsură ce parcurgeți o galerie de imagini sau videoclipuri, puteți pretinde că vă aflați cu adevărat într-o cameră întunecată, făcând zoom pentru a ascunde acele butoane supărătoare.",
@@ -6358,5 +6410,45 @@
     "WhatsNew__v5.17--2": {
         "message": "Acum puteți trimite mesaje de oriunde și oricând: din avion, dintr-un tunel, ori în acele momente triste în care internetul este căzut. Acestea vor fi expediate până la urmă; acum mesajele se retrimit automat pe o durată de până la 24 de ore.",
         "description": "Release notes for v5.17"
+    },
+    "WhatsNew__v5.18--1": {
+        "message": "Vă simțiți ❤️‍🔥 sau 😶‍🌫️? Acum vă puteți exprima folosind un nou set de emoji, fie că :șoptiți sau :STRIGAȚI în timp ce căutați. Mulțumim $hiqua$!",
+        "description": "Release notes for v5.18",
+        "placeholders": {
+            "hiqua": {
+                "content": "$1",
+                "example": "<a href='https://github.com/hiqua'>@hiqua</a>"
+            }
+        }
+    },
+    "WhatsNew__v5.18--2": {
+        "message": "Dacă vă aflați în Anguilla, poate că v-ați simțit exclus. De acum transformăm toate domeniile de nivel superior aflate în vigoare din 2010 în linkuri, așa că veți putea face clic pe $gov$ și pe $brain$ la fel cum faceți pe $signal$. Mulțumim $jojomatik$!",
+        "description": "Release notes for v5.18",
+        "placeholders": {
+            "gov": {
+                "content": "$1",
+                "example": "<a href='https://gov.ai'>gov.ai</a>"
+            },
+            "brain": {
+                "content": "$2",
+                "example": "<a href='https://brain.ai'>brain.ai</a>"
+            },
+            "signal": {
+                "content": "$3",
+                "example": "<a href='https://signal.org'>signal.org</a>"
+            },
+            "jojomatik": {
+                "content": "$4",
+                "example": "<a href='https://github.com/jojomatik'>@jojomatik</a>"
+            }
+        }
+    },
+    "WhatsNew__v5.18--3": {
+        "message": "Am auzit că vă place să măriți imaginile. Am îmbunătățit zoom-ul astfel încât chiar și imaginile mici pot fi afișate pe tot ecranul.",
+        "description": "Release notes for v5.18"
+    },
+    "WhatsNew__v5.18--4": {
+        "message": "Știați că dacă este activată dispariția mesajelor, chiar și notificarea „Acest mesaj a fost șters” va dispărea atunci când expiră? Acum nu mai este un mister, veți vedea numărătoarea inversă și data chiar în cadrul mesajului.",
+        "description": "Release notes for v5.18"
     }
 }
