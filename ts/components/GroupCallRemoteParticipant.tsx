@@ -11,10 +11,8 @@ import React, {
 } from 'react';
 import classNames from 'classnames';
 import { noop } from 'lodash';
-import {
-  GroupCallRemoteParticipantType,
-  VideoFrameSource,
-} from '../types/Calling';
+import type { VideoFrameSource } from 'ringrtc';
+import type { GroupCallRemoteParticipantType } from '../types/Calling';
 import { LocalizerType } from '../types/Util';
 import { AvatarColors } from '../types/Colors';
 import { CallBackgroundBlur } from './CallBackgroundBlur';

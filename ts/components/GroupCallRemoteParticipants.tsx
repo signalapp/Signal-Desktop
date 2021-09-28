@@ -4,6 +4,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import Measure from 'react-measure';
 import { takeWhile, chunk, maxBy, flatten } from 'lodash';
+import type { VideoFrameSource } from 'ringrtc';
 import { GroupCallRemoteParticipant } from './GroupCallRemoteParticipant';
 import {
   GroupCallOverflowArea,
@@ -12,7 +13,6 @@ import {
 import {
   GroupCallRemoteParticipantType,
   GroupCallVideoRequest,
-  VideoFrameSource,
 } from '../types/Calling';
 import { useGetCallingFrameBuffer } from '../calling/useGetCallingFrameBuffer';
 import { LocalizerType } from '../types/Util';

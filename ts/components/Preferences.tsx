@@ -4,8 +4,9 @@
 import React, { ReactNode, useEffect, useState, useCallback } from 'react';
 import { noop } from 'lodash';
 import classNames from 'classnames';
+import type { AudioDevice } from 'ringrtc';
 
-import { AudioDevice, MediaDeviceSettings } from '../types/Calling';
+import type { MediaDeviceSettings } from '../types/Calling';
 import {
   ZoomFactorType,
   ThemeSettingType,

@@ -1,7 +1,8 @@
 // Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { ConversationType } from '../state/ducks/conversations';
+import type { AudioDevice } from 'ringrtc';
+import type { ConversationType } from '../state/ducks/conversations';
 
 // These are strings (1) for the database (2) for Storybook.
 export enum CallMode {
@@ -132,23 +133,6 @@ export type GroupCallVideoRequest = {
   demuxId: number;
   width: number;
   height: number;
-};
-
-// Should match RingRTC's VideoFrameSource
-export type VideoFrameSource = {
-  receiveVideoFrame(buffer: Buffer): [number, number] | undefined;
-};
-
-// Must be kept in sync with RingRTC.AudioDevice
-export type AudioDevice = {
-  // Device name.
-  name: string;
-  // Index of this device, starting from 0.
-  index: number;
-  // A unique and somewhat stable identifier of this device.
-  uniqueId: string;
-  // If present, the identifier of a localized string to substitute for the device name.
-  i18nKey?: string;
 };
 
 export enum CallingDeviceType {

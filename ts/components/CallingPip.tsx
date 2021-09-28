@@ -3,13 +3,10 @@
 
 import React from 'react';
 import { minBy, debounce, noop } from 'lodash';
+import type { VideoFrameSource } from 'ringrtc';
 import { CallingPipRemoteVideo } from './CallingPipRemoteVideo';
 import { LocalizerType } from '../types/Util';
-import {
-  ActiveCallType,
-  GroupCallVideoRequest,
-  VideoFrameSource,
-} from '../types/Calling';
+import type { ActiveCallType, GroupCallVideoRequest } from '../types/Calling';
 import {
   HangUpType,
   SetLocalPreviewType,

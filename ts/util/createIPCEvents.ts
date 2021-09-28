@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { webFrame } from 'electron';
+import type { AudioDevice } from 'ringrtc';
 
-import { AudioDevice } from '../types/Calling';
 import { ZoomFactorType } from '../types/Storage.d';
 import {
   DEFAULT_CONVERSATION_COLOR,

@@ -5,6 +5,7 @@
 
 import { desktopCapturer, ipcRenderer } from 'electron';
 import {
+  AudioDevice,
   Call,
   CallEndedReason,
   CallId,
@@ -43,7 +44,6 @@ import { getConversationCallMode } from '../state/ducks/conversations';
 import { isConversationTooBigToRing } from '../conversations/isConversationTooBigToRing';
 import { isMe } from '../util/whatTypeOfConversation';
 import {
-  AudioDevice,
   AvailableIODevicesType,
   CallMode,
   GroupCallConnectionState,

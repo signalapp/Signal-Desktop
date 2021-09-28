@@ -10,6 +10,7 @@ import React, {
 } from 'react';
 import { noop } from 'lodash';
 import classNames from 'classnames';
+import type { VideoFrameSource } from 'ringrtc';
 import {
   HangUpType,
   SetLocalAudioType,
@@ -30,7 +31,6 @@ import {
   GroupCallJoinState,
   GroupCallVideoRequest,
   PresentedSource,
-  VideoFrameSource,
 } from '../types/Calling';
 import { AvatarColors, AvatarColorType } from '../types/Colors';
 import type { ConversationType } from '../state/ducks/conversations';

@@ -3,6 +3,7 @@
 
 import React, { useCallback, useEffect } from 'react';
 import { noop } from 'lodash';
+import type { VideoFrameSource } from 'ringrtc';
 import { CallNeedPermissionScreen } from './CallNeedPermissionScreen';
 import { CallScreen } from './CallScreen';
 import { CallingLobby } from './CallingLobby';
@@ -23,7 +24,6 @@ import {
   GroupCallJoinState,
   GroupCallVideoRequest,
   PresentedSource,
-  VideoFrameSource,
 } from '../types/Calling';
 import { ConversationType } from '../state/ducks/conversations';
 import {

@@ -3,11 +3,9 @@
 
 import React, { useRef, useState, useEffect, FC, ReactElement } from 'react';
 import classNames from 'classnames';
+import type { VideoFrameSource } from 'ringrtc';
 import { LocalizerType } from '../types/Util';
-import {
-  GroupCallRemoteParticipantType,
-  VideoFrameSource,
-} from '../types/Calling';
+import type { GroupCallRemoteParticipantType } from '../types/Calling';
 import { GroupCallRemoteParticipant } from './GroupCallRemoteParticipant';
 
 const OVERFLOW_SCROLLED_TO_EDGE_THRESHOLD = 20;

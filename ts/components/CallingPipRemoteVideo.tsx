@@ -3,6 +3,7 @@
 
 import React, { useMemo, useEffect } from 'react';
 import { maxBy } from 'lodash';
+import type { VideoFrameSource } from 'ringrtc';
 import { Avatar } from './Avatar';
 import { CallBackgroundBlur } from './CallBackgroundBlur';
 import { DirectCallRemoteParticipant } from './DirectCallRemoteParticipant';
@@ -13,7 +14,6 @@ import {
   CallMode,
   GroupCallRemoteParticipantType,
   GroupCallVideoRequest,
-  VideoFrameSource,
 } from '../types/Calling';
 import { AvatarColors } from '../types/Colors';
 import { SetRendererCanvasType } from '../state/ducks/calling';
