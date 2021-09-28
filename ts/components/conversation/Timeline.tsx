@@ -752,7 +752,6 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
     const typingBubbleRow = this.getTypingBubbleRow();
     let rowContents: ReactNode;
 
-    let stableKey = key;
     if (haveOldest && row === 0) {
       rowContents = (
         <div data-row={row} style={styleWithWidth} role="row">
@@ -800,7 +799,6 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
       const previousMessageId: undefined | string = items[itemIndex - 1];
       const messageId = items[itemIndex];
       const nextMessageId: undefined | string = items[itemIndex + 1];
-      stableKey = messageId;
 
       const actionProps = getActions(this.props);
 
@@ -831,7 +829,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
       <CellMeasurer
         cache={this.cellSizeCache}
         columnIndex={0}
-        key={stableKey}
+        key={key}
         parent={parent}
         rowIndex={index}
         width={this.mostRecentWidth}
