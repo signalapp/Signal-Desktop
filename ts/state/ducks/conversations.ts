@@ -2328,13 +2328,6 @@ export function reducer(
       ? existingConversation.resetCounter + 1
       : 0;
 
-    const sorted = orderBy(
-      messages,
-      ['received_at', 'sent_at'],
-      ['ASC', 'ASC']
-    );
-    const messageIds = sorted.map(message => message.id);
-
     const lookup = fromPairs(messages.map(message => [message.id, message]));
 
     let { newest, oldest } = metrics;
@@ -2354,6 +2347,13 @@ export function reducer(
         newest = pick(last, ['id', 'received_at', 'sent_at']);
       }
     }
+
+    const sorted = orderBy(
+      values(lookup),
+      ['received_at', 'sent_at'],
+      ['ASC', 'ASC']
+    );
+    const messageIds = sorted.map(message => message.id);
 
     return {
       ...state,
