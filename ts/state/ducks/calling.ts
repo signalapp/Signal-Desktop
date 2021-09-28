@@ -538,7 +538,7 @@ function acceptCall(
         await calling.acceptDirectCall(conversationId, asVideoCall);
         break;
       case CallMode.Group:
-        calling.joinGroupCall(conversationId, true, asVideoCall, false);
+        await calling.joinGroupCall(conversationId, true, asVideoCall, false);
         break;
       default:
         throw missingCaseError(call);
@@ -1104,7 +1104,7 @@ function showCallLobby(payload: ShowCallLobbyType): CallLobbyActionType {
 function startCall(
   payload: StartCallType
 ): ThunkAction<void, RootStateType, unknown, StartDirectCallActionType> {
-  return (dispatch, getState) => {
+  return async (dispatch, getState) => {
     switch (payload.callMode) {
       case CallMode.Direct:
         calling.startOutgoingDirectCall(
@@ -1134,7 +1134,7 @@ function startCall(
           outgoingRing = false;
         }
 
-        calling.joinGroupCall(
+        await calling.joinGroupCall(
           payload.conversationId,
           payload.hasLocalAudio,
           payload.hasLocalVideo,

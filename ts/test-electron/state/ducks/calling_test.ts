@@ -336,10 +336,9 @@ describe('calling duck', () => {
         this.callingServiceAccept = this.sandbox
           .stub(callingService, 'acceptDirectCall')
           .resolves();
-        this.callingServiceJoin = this.sandbox.stub(
-          callingService,
-          'joinGroupCall'
-        );
+        this.callingServiceJoin = this.sandbox
+          .stub(callingService, 'joinGroupCall')
+          .resolves();
       });
 
       describe('accepting a direct call', () => {
@@ -1858,15 +1857,14 @@ describe('calling duck', () => {
           callingService,
           'startOutgoingDirectCall'
         );
-        this.callingJoinGroupCall = this.sandbox.stub(
-          callingService,
-          'joinGroupCall'
-        );
+        this.callingJoinGroupCall = this.sandbox
+          .stub(callingService, 'joinGroupCall')
+          .resolves();
       });
 
-      it('asks the calling service to start an outgoing direct call', function test() {
+      it('asks the calling service to start an outgoing direct call', async function test() {
         const dispatch = sinon.spy();
-        startCall({
+        await startCall({
           callMode: CallMode.Direct,
           conversationId: '123',
           hasLocalAudio: true,
@@ -1884,9 +1882,9 @@ describe('calling duck', () => {
         sinon.assert.notCalled(this.callingJoinGroupCall);
       });
 
-      it('asks the calling service to join a group call', function test() {
+      it('asks the calling service to join a group call', async function test() {
         const dispatch = sinon.spy();
-        startCall({
+        await startCall({
           callMode: CallMode.Group,
           conversationId: '123',
           hasLocalAudio: true,
