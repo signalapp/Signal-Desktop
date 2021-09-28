@@ -394,18 +394,17 @@ async function _promiseAjax(
   | JSONWithDetailsType
   | ArrayBufferWithDetailsType
 > {
+  const { proxyUrl, socketManager } = options;
+
   const url = providedUrl || `${options.host}/${options.path}`;
+  const logType = socketManager ? '(WS)' : '(REST)';
+  const redactedURL = options.redactUrl ? options.redactUrl(url) : url;
 
   const unauthLabel = options.unauthenticated ? ' (unauth)' : '';
-  if (options.redactUrl) {
-    log.info(`${options.type} ${options.redactUrl(url)}${unauthLabel}`);
-  } else {
-    log.info(`${options.type} ${url}${unauthLabel}`);
-  }
+  log.info(`${options.type} ${logType} ${redactedURL}${unauthLabel}`);
 
   const timeout = typeof options.timeout === 'number' ? options.timeout : 10000;
 
-  const { proxyUrl, socketManager } = options;
   const agentType = options.unauthenticated ? 'unauth' : 'auth';
   const cacheKey = `${proxyUrl}-${agentType}`;
 
@@ -506,21 +505,13 @@ async function _promiseAjax(
       result = await response.textConverted();
     }
   } catch (e) {
-    if (options.redactUrl) {
-      log.error(options.type, options.redactUrl(url), 0, 'Error');
-    } else {
-      log.error(options.type, url, 0, 'Error');
-    }
+    log.error(options.type, logType, redactedURL, 0, 'Error');
     const stack = `${e.stack}\nInitial stack:\n${options.stack}`;
     throw makeHTTPError('promiseAjax catch', 0, {}, e.toString(), stack);
   }
 
   if (!isSuccess(response.status)) {
-    if (options.redactUrl) {
-      log.info(options.type, options.redactUrl(url), response.status, 'Error');
-    } else {
-      log.error(options.type, url, response.status, 'Error');
-    }
+    log.error(options.type, logType, redactedURL, response.status, 'Error');
 
     throw makeHTTPError(
       'promiseAjax: error response',
@@ -537,16 +528,7 @@ async function _promiseAjax(
   ) {
     if (options.validateResponse) {
       if (!_validateResponse(result, options.validateResponse)) {
-        if (options.redactUrl) {
-          log.info(
-            options.type,
-            options.redactUrl(url),
-            response.status,
-            'Error'
-          );
-        } else {
-          log.error(options.type, url, response.status, 'Error');
-        }
+        log.error(options.type, logType, redactedURL, response.status, 'Error');
         throw makeHTTPError(
           'promiseAjax: invalid response',
           response.status,
@@ -558,11 +540,7 @@ async function _promiseAjax(
     }
   }
 
-  if (options.redactUrl) {
-    log.info(options.type, options.redactUrl(url), response.status, 'Success');
-  } else {
-    log.info(options.type, url, response.status, 'Success');
-  }
+  log.info(options.type, logType, redactedURL, response.status, 'Success');
 
   if (options.responseType === 'arraybufferwithdetails') {
     assert(result instanceof ArrayBuffer, 'Expected ArrayBuffer result');
