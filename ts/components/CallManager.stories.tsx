@@ -87,6 +87,7 @@ const createProps = (storyProps: Partial<PropsType> = {}): PropsType => ({
   renderDeviceSelection: () => <div />,
   renderSafetyNumberViewer: (_: SafetyNumberViewerProps) => <div />,
   setGroupCallVideoRequest: action('set-group-call-video-request'),
+  setIsCallActive: action('set-is-call-active'),
   setLocalAudio: action('set-local-audio'),
   setLocalPreview: action('set-local-preview'),
   setLocalVideo: action('set-local-video'),

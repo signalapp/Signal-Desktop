@@ -86,6 +86,7 @@ export type PropsType = {
   openSystemPreferencesAction: () => unknown;
   playRingtone: () => unknown;
   setGroupCallVideoRequest: (_: SetGroupCallVideoRequestType) => void;
+  setIsCallActive: (_: boolean) => void;
   setLocalAudio: (_: SetLocalAudioType) => void;
   setLocalVideo: (_: SetLocalVideoType) => void;
   setLocalPreview: (_: SetLocalPreviewType) => void;
@@ -366,8 +367,14 @@ export const CallManager: React.FC<PropsType> = props => {
     notifyForCall,
     playRingtone,
     stopRingtone,
+    setIsCallActive,
     setOutgoingRing,
   } = props;
+
+  const isCallActive = Boolean(activeCall);
+  useEffect(() => {
+    setIsCallActive(isCallActive);
+  }, [isCallActive, setIsCallActive]);
 
   const shouldRing = getShouldRing(props);
   useEffect(() => {

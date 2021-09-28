@@ -15,7 +15,11 @@ export class Context {
 
   public readonly nativeThemeListener;
 
-  constructor(ipc: MinimalIPC) {
+  constructor(private readonly ipc: MinimalIPC) {
     this.nativeThemeListener = createNativeThemeListener(ipc, window);
+  }
+
+  setIsCallActive(isCallActive: boolean): void {
+    this.ipc.send('set-is-call-active', isCallActive);
   }
 }

@@ -403,7 +403,10 @@ async function createWindow() {
       ),
       nativeWindowOpen: true,
       spellcheck: await getSpellCheckSetting(),
-      backgroundThrottling: false,
+      // We are evaluating background throttling in prerelease versions. If we decide to
+      //   move forward, we can remove this line (as `backgroundThrottling` is true by
+      //   default).
+      backgroundThrottling: !isProduction(app.getVersion()),
       enablePreferredSizeMode: true,
     },
     icon: windowIcon,
@@ -662,6 +665,29 @@ ipc.on('title-bar-double-click', () => {
     //   we add support for other operating systems.
     toggleMaximizedBrowserWindow(mainWindow);
   }
+});
+
+ipc.on('set-is-call-active', (_event, isCallActive) => {
+  if (!mainWindow) {
+    return;
+  }
+
+  // We are evaluating background throttling in prerelease versions. If we decide to move
+  //   forward, we can remove this check.
+  if (isProduction(app.getVersion())) {
+    return;
+  }
+
+  let backgroundThrottling;
+  if (isCallActive) {
+    console.log('Background throttling disabled because a call is active');
+    backgroundThrottling = false;
+  } else {
+    console.log('Background throttling enabled because no call is active');
+    backgroundThrottling = true;
+  }
+
+  mainWindow.webContents.setBackgroundThrottling(backgroundThrottling);
 });
 
 ipc.on('convert-image', async (event, uuid, data) => {

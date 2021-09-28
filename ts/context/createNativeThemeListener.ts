@@ -8,6 +8,9 @@ export type Callback = (change: NativeThemeState) => void;
 
 export interface MinimalIPC {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  send(channel: string, ...args: ReadonlyArray<any>): void;
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   sendSync(channel: string): any;
 
   on(

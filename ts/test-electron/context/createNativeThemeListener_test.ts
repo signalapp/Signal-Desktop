@@ -20,6 +20,13 @@ class FakeIPC extends EventEmitter implements MinimalIPC {
     assert.strictEqual(channel, 'native-theme:init');
     return this.state;
   }
+
+  // eslint-disable-next-line class-methods-use-this
+  public send() {
+    throw new Error(
+      'This should not be called. It is only here to satisfy the interface'
+    );
+  }
 }
 
 describe('NativeThemeListener', () => {

@@ -960,6 +960,14 @@ function returnToActiveCall(): ReturnToActiveCallActionType {
   };
 }
 
+function setIsCallActive(
+  isCallActive: boolean
+): ThunkAction<void, RootStateType, unknown, never> {
+  return () => {
+    window.SignalContext.setIsCallActive(isCallActive);
+  };
+}
+
 function setLocalPreview(
   payload: SetLocalPreviewType
 ): ThunkAction<void, RootStateType, unknown, never> {
@@ -1203,6 +1211,7 @@ export const actions = {
   remoteVideoChange,
   returnToActiveCall,
   setGroupCallVideoRequest,
+  setIsCallActive,
   setLocalAudio,
   setLocalPreview,
   setLocalVideo,
