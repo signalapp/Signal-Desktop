@@ -12637,6 +12637,20 @@
     "updated": "2021-08-23T18:39:37.081Z"
   },
   {
+    "rule": "React-useRef",
+    "path": "ts/components/Lightbox.tsx",
+    "line": "  const imageRef = useRef<HTMLImageElement | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-09-24T00:03:36.061Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/Lightbox.tsx",
+    "line": "  const zoomCoordsRef = useRef<",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-09-24T00:03:36.061Z"
+  },
+  {
     "rule": "React-createRef",
     "path": "ts/components/MainHeader.js",
     "line": "        this.inputRef = react_1.default.createRef();",

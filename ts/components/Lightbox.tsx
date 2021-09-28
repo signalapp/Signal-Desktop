@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, {
+  CSSProperties,
   ReactNode,
   useCallback,
   useEffect,
@@ -40,6 +41,12 @@ export type PropsType = {
   selectedIndex?: number;
 };
 
+enum ZoomType {
+  None,
+  FillScreen,
+  ZoomAndPan,
+}
+
 export function Lightbox({
   children,
   close,
@@ -60,9 +67,15 @@ export function Lightbox({
     null
   );
   const [videoTime, setVideoTime] = useState<number | undefined>();
-  const [zoomed, setZoomed] = useState(false);
+  const [zoomType, setZoomType] = useState<ZoomType>(ZoomType.None);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [focusRef] = useRestoreFocus();
+  const imageRef = useRef<HTMLImageElement | null>(null);
+  const [imagePanStyle, setImagePanStyle] = useState<CSSProperties>({});
+  const zoomCoordsRef = useRef<
+    | { screenWidth: number; screenHeight: number; x: number; y: number }
+    | undefined
+  >();
 
   const onPrevious = useCallback(
     (
@@ -123,13 +136,14 @@ export function Lightbox({
   const onKeyDown = useCallback(
     (event: KeyboardEvent) => {
       switch (event.key) {
-        case 'Escape':
+        case 'Escape': {
           close();
 
           event.preventDefault();
           event.stopPropagation();
 
           break;
+        }
 
         case 'ArrowLeft':
           onPrevious(event);
@@ -207,9 +221,62 @@ export function Lightbox({
     };
   }, [isViewOnce, isAttachmentGIF, onTimeUpdate, playVideo, videoElement]);
 
+  const positionImage = useCallback((ev?: MouseEvent) => {
+    const imageNode = imageRef.current;
+    const zoomCoords = zoomCoordsRef.current;
+    if (!imageNode || !zoomCoords) {
+      return;
+    }
+
+    if (ev) {
+      zoomCoords.x = ev.clientX;
+      zoomCoords.y = ev.clientY;
+    }
+
+    const scaleX =
+      (-1 / zoomCoords.screenWidth) *
+      (imageNode.offsetWidth - zoomCoords.screenWidth);
+    const scaleY =
+      (-1 / zoomCoords.screenHeight) *
+      (imageNode.offsetHeight - zoomCoords.screenHeight);
+
+    setImagePanStyle({
+      transform: `translate(${zoomCoords.x * scaleX}px, ${
+        zoomCoords.y * scaleY
+      }px)`,
+    });
+  }, []);
+
+  function canPanImage(): boolean {
+    const imageNode = imageRef.current;
+
+    return Boolean(
+      imageNode &&
+        (imageNode.naturalWidth > document.documentElement.clientWidth ||
+          imageNode.naturalHeight > document.documentElement.clientHeight)
+    );
+  }
+
+  useEffect(() => {
+    const imageNode = imageRef.current;
+    let hasListener = false;
+
+    if (imageNode && zoomType !== ZoomType.None && canPanImage()) {
+      hasListener = true;
+      document.addEventListener('mousemove', positionImage);
+    }
+
+    return () => {
+      if (hasListener) {
+        document.removeEventListener('mousemove', positionImage);
+      }
+    };
+  }, [positionImage, zoomType]);
+
   const caption = attachment?.caption;
 
   let content: JSX.Element;
+  let shadowImage: JSX.Element | undefined;
   if (!contentType) {
     content = <>{children}</>;
   } else {
@@ -222,6 +289,19 @@ export function Lightbox({
 
     if (isImageTypeSupported) {
       if (objectURL) {
+        shadowImage = (
+          <div className="Lightbox__shadow-container">
+            <div className="Lightbox__object--container">
+              <img
+                alt={i18n('lightboxImageAlt')}
+                className="Lightbox__object"
+                ref={imageRef}
+                src={objectURL}
+                tabIndex={-1}
+              />
+            </div>
+          </div>
+        );
         content = (
           <button
             className="Lightbox__zoom-button"
@@ -231,7 +311,22 @@ export function Lightbox({
               event.preventDefault();
               event.stopPropagation();
 
-              setZoomed(!zoomed);
+              if (zoomType === ZoomType.None) {
+                if (canPanImage()) {
+                  setZoomType(ZoomType.ZoomAndPan);
+                  zoomCoordsRef.current = {
+                    screenWidth: document.documentElement.clientWidth,
+                    screenHeight: document.documentElement.clientHeight,
+                    x: event.clientX,
+                    y: event.clientY,
+                  };
+                  positionImage();
+                } else {
+                  setZoomType(ZoomType.FillScreen);
+                }
+              } else {
+                setZoomType(ZoomType.None);
+              }
             }}
             type="button"
           >
@@ -249,6 +344,7 @@ export function Lightbox({
                 }
               }}
               src={objectURL}
+              style={zoomType === ZoomType.ZoomAndPan ? imagePanStyle : {}}
             />
           </button>
         );
@@ -308,8 +404,10 @@ export function Lightbox({
     }
   }
 
-  const hasNext = !zoomed && selectedIndex < media.length - 1;
-  const hasPrevious = !zoomed && selectedIndex > 0;
+  const isZoomed = zoomType !== ZoomType.None;
+
+  const hasNext = isZoomed && selectedIndex < media.length - 1;
+  const hasPrevious = isZoomed && selectedIndex > 0;
 
   return root
     ? createPortal(
@@ -339,7 +437,7 @@ export function Lightbox({
             tabIndex={-1}
             ref={focusRef}
           >
-            {!zoomed && (
+            {!isZoomed && (
               <div className="Lightbox__header">
                 {getConversation ? (
                   <LightboxHeader
@@ -378,11 +476,15 @@ export function Lightbox({
             )}
             <div
               className={classNames('Lightbox__object--container', {
-                'Lightbox__object--container--zoomed': zoomed,
+                'Lightbox__object--container--fill':
+                  zoomType === ZoomType.FillScreen,
+                'Lightbox__object--container--zoom':
+                  zoomType === ZoomType.ZoomAndPan,
               })}
             >
               {content}
             </div>
+            {shadowImage}
             {hasPrevious && (
               <div className="Lightbox__nav-prev">
                 <button
@@ -404,7 +506,7 @@ export function Lightbox({
               </div>
             )}
           </div>
-          {!zoomed && (
+          {!isZoomed && (
             <div className="Lightbox__footer">
               {isViewOnce && videoTime ? (
                 <div className="Lightbox__timestamp">
